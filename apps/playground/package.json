@@ -11,7 +11,7 @@
   "dependencies": {
     "@dsai/react": "workspace:*",
     "@dsai/tokens": "workspace:*",
-    "react": "^18.3.0",
+    "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
   "license": "MIT"
