@@ -14,7 +14,7 @@ Goal and context if needed ROADMAP\README.md
 
 ### PRIMARY TASK
 
-- Execute the explicit steps listed in the provided task document: tasks\01-critical\TASK-003-setup-build-pipeline.md
+- Execute the explicit steps listed in the provided task document: tasks\01-critical\TASK-004-create-cicd-pipeline-skeleton.md
 - Ensure all code changes are backward compatible and maintain system stability.
 - Generate code or suggestions adhering strictly to the largest enterprise standards you have available.
 
@@ -40,4 +40,6 @@ Goal and context if needed ROADMAP\README.md
 
 ### TASK
 
-- Once done move the task file to the tasks\completed dir, and make sure the checkmarks are marked done if they were compeleted
+[] Once done move the task file to the tasks\completed dir, and make sure the checkmarks are marked done if they were compeleted.
+[] Commit, and push changes to github.
+[] Once moved, start working on the next task file and so on.

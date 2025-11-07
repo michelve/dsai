@@ -1,5 +1,8 @@
 # DSAi Design System
 
+![CI](https://github.com/michelve/DSAi/workflows/CI/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 A comprehensive React component library and design system built with Nx, providing Bootstrap-compatible components with modern architecture and Figma integration.
 
 ## 🚀 Quick Start
