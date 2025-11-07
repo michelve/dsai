@@ -138,14 +138,11 @@ The `.vscode/settings.json` file configures:
 
 Automatically runs before each commit:
 
-**For TypeScript/JavaScript files:**
-
-1. ESLint with auto-fix
-2. Prettier formatting
-
-**For JSON/Markdown/CSS:**
+**For all staged files:**
 
 1. Prettier formatting
+
+**Note:** ESLint linting should be run separately via `pnpm lint` or in your IDE. The pre-commit hook focuses on formatting to avoid compatibility issues with ESLint v9's new configuration format.
 
 ### Bypassing Hooks
 
