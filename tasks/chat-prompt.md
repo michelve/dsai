@@ -14,7 +14,7 @@ Goal and context if needed ROADMAP\README.md
 
 ### PRIMARY TASK
 
-- Execute the explicit steps listed in the provided task document: tasks\01-critical\TASK-002-configure-typescript-eslint-prettier.md
+- Execute the explicit steps listed in the provided task document: tasks\01-critical\TASK-003-setup-build-pipeline.md
 - Ensure all code changes are backward compatible and maintain system stability.
 - Generate code or suggestions adhering strictly to the largest enterprise standards you have available.
 
