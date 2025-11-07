@@ -1,0 +1,34 @@
+{
+  "name": "@dsai/tokens",
+  "version": "0.0.1",
+  "description": "Design tokens for DSAi component library",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./css": "./dist/css/variables.css",
+    "./scss": "./dist/scss/_variables.scss"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "echo 'Build tokens'",
+    "dev": "echo 'Watch tokens'",
+    "test": "echo 'Test tokens'"
+  },
+  "keywords": [
+    "design-tokens",
+    "design-system",
+    "tokens"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

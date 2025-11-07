@@ -1,0 +1,46 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "@dsai/figma-tokens",
+  "sourceRoot": "packages/@dsai/figma-tokens/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "outputPath": "packages/@dsai/figma-tokens/dist",
+        "main": "packages/@dsai/figma-tokens/src/index.ts",
+        "tsConfig": "packages/@dsai/figma-tokens/tsconfig.json",
+        "assets": []
+      }
+    },
+    "export-tokens": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node packages/@dsai/figma-tokens/dist/export.js"
+      }
+    },
+    "sync-figma": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node packages/@dsai/figma-tokens/dist/sync.js"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{projectRoot}/coverage"],
+      "options": {
+        "jestConfig": "packages/@dsai/figma-tokens/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/@dsai/figma-tokens/**/*.ts"]
+      }
+    }
+  },
+  "tags": ["type:library", "scope:figma"]
+}

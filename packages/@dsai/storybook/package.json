@@ -1,0 +1,21 @@
+{
+  "name": "@dsai/storybook",
+  "version": "0.0.1",
+  "description": "Storybook configuration and documentation for DSAi components",
+  "private": true,
+  "scripts": {
+    "storybook": "echo 'Start Storybook dev server'",
+    "build-storybook": "echo 'Build Storybook static site'",
+    "test": "echo 'Run Storybook tests'"
+  },
+  "keywords": [
+    "storybook",
+    "documentation",
+    "design-system"
+  ],
+  "dependencies": {
+    "@dsai/react": "workspace:*",
+    "@dsai/tokens": "workspace:*"
+  },
+  "license": "MIT"
+}

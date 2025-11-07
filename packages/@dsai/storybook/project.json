@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "@dsai/storybook",
+  "sourceRoot": "packages/@dsai/storybook/.storybook",
+  "projectType": "application",
+  "targets": {
+    "storybook": {
+      "executor": "@nx/storybook:storybook",
+      "options": {
+        "port": 6006,
+        "configDir": "packages/@dsai/storybook/.storybook"
+      }
+    },
+    "build-storybook": {
+      "executor": "@nx/storybook:build",
+      "outputs": ["{projectRoot}/storybook-static"],
+      "options": {
+        "configDir": "packages/@dsai/storybook/.storybook",
+        "outputDir": "packages/@dsai/storybook/storybook-static"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{projectRoot}/coverage"],
+      "options": {
+        "jestConfig": "packages/@dsai/storybook/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["type:application", "scope:storybook"]
+}

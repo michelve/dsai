@@ -1,0 +1,6 @@
+packages:
+  - 'packages/@dsai/*'
+  - 'apps/*'
+  - 'tools/*'
+
+autoInstallPeers: true

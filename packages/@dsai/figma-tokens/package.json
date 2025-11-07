@@ -1,0 +1,37 @@
+{
+  "name": "@dsai/figma-tokens",
+  "version": "0.0.1",
+  "description": "Figma integration utilities and token synchronization for DSAi",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "echo 'Build Figma utilities'",
+    "export-tokens": "echo 'Export tokens from Figma'",
+    "sync-figma": "echo 'Sync design tokens with Figma'",
+    "test": "echo 'Test Figma integration'"
+  },
+  "keywords": [
+    "figma",
+    "design-tokens",
+    "figma-api",
+    "code-connect"
+  ],
+  "dependencies": {
+    "@dsai/tokens": "workspace:*"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

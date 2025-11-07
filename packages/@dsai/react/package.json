@@ -1,0 +1,42 @@
+{
+  "name": "@dsai/react",
+  "version": "0.0.1",
+  "description": "React component library for DSAi design system",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./styles": "./dist/styles.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "echo 'Build components'",
+    "dev": "echo 'Watch components'",
+    "test": "echo 'Test components'",
+    "lint": "echo 'Lint components'"
+  },
+  "keywords": [
+    "react",
+    "components",
+    "design-system",
+    "ui-library"
+  ],
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "@dsai/tokens": "workspace:*"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

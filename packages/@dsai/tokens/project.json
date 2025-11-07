@@ -1,0 +1,34 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "@dsai/tokens",
+  "sourceRoot": "packages/@dsai/tokens/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "outputPath": "packages/@dsai/tokens/dist",
+        "main": "packages/@dsai/tokens/src/index.ts",
+        "tsConfig": "packages/@dsai/tokens/tsconfig.json",
+        "assets": []
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{projectRoot}/coverage"],
+      "options": {
+        "jestConfig": "packages/@dsai/tokens/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/@dsai/tokens/**/*.ts"]
+      }
+    }
+  },
+  "tags": ["type:library", "scope:tokens"]
+}

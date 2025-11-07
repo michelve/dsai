@@ -1,0 +1,28 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "playground",
+  "sourceRoot": "apps/playground/src",
+  "projectType": "application",
+  "targets": {
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "echo 'Playground dev server not yet configured'"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "command": "echo 'Playground build not yet configured'"
+      }
+    },
+    "preview": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "echo 'Playground preview not yet configured'"
+      }
+    }
+  },
+  "tags": ["type:application", "scope:playground"]
+}

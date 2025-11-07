@@ -1,0 +1,18 @@
+{
+  "name": "playground",
+  "version": "0.0.1",
+  "description": "Development playground for testing DSAi components",
+  "private": true,
+  "scripts": {
+    "dev": "echo 'Start playground dev server'",
+    "build": "echo 'Build playground app'",
+    "preview": "echo 'Preview built playground'"
+  },
+  "dependencies": {
+    "@dsai/react": "workspace:*",
+    "@dsai/tokens": "workspace:*",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
+  },
+  "license": "MIT"
+}
