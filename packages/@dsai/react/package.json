@@ -17,8 +17,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "echo 'Build components'",
-    "dev": "echo 'Watch components'",
+    "build": "tsup",
+    "build:watch": "tsup --watch",
+    "dev": "tsup --watch",
     "test": "echo 'Test components'",
     "lint": "echo 'Lint components'"
   },

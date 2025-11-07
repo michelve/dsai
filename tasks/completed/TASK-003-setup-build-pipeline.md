@@ -3,12 +3,14 @@
 **Task ID:** TASK-003
 **Title:** Set up Rollup/tsup Build Pipeline
 **Priority:** Critical
-**Status:** ⚪ Not Started
+**Status:** ✅ Completed
 **Assigned To:** Developer
 **Estimated Time:** 6 hours
+**Actual Time:** 4 hours
 **Phase:** Phase 0 - Foundation (Week 1-4)
 **Created:** 2025-11-07
 **Updated:** 2025-11-07
+**Completed:** 2025-11-07
 
 ---
 
@@ -37,17 +39,17 @@ A configured build system that produces optimized, tree-shakeable bundles with T
 
 ## 🎯 Acceptance Criteria
 
-- [ ] Build tool selected (Rollup or tsup) and configured
-- [ ] Outputs ESM format (module field in package.json)
-- [ ] Outputs CJS format (main field in package.json)
-- [ ] TypeScript declaration files generated
-- [ ] CSS Modules processed and bundled
-- [ ] Source maps generated for debugging
-- [ ] Tree-shaking verified to work
-- [ ] Bundle size tracked and optimized (< 50KB gzipped target)
-- [ ] Build scripts in package.json
-- [ ] Watch mode for development
-- [ ] Production optimization enabled
+- [x] Build tool selected (Rollup or tsup) and configured
+- [x] Outputs ESM format (module field in package.json)
+- [x] Outputs CJS format (main field in package.json)
+- [x] TypeScript declaration files generated
+- [x] CSS Modules processed and bundled
+- [x] Source maps generated for debugging
+- [x] Tree-shaking verified to work
+- [x] Bundle size tracked and optimized (< 50KB gzipped target)
+- [x] Build scripts in package.json
+- [x] Watch mode for development
+- [x] Production optimization enabled
 
 ---
 
@@ -77,25 +79,25 @@ A configured build system that produces optimized, tree-shakeable bundles with T
 
 ## 🧪 Testing Requirements
 
-- [ ] Build completes without errors: `pnpm build`
-- [ ] Output files generated in `dist/` directory
-- [ ] TypeScript types can be imported by consumers
-- [ ] ESM imports work: `import { Button } from '@yourorg/react'`
-- [ ] CJS imports work: `const { Button } = require('@yourorg/react')`
-- [ ] Tree-shaking verified: importing one component doesn't bundle all
-- [ ] Source maps work in browser DevTools
-- [ ] CSS is properly bundled/extracted
-- [ ] Bundle size is acceptable (< 50KB gzipped for all components)
+- [x] Build completes without errors: `pnpm build`
+- [x] Output files generated in `dist/` directory
+- [x] TypeScript types can be imported by consumers
+- [x] ESM imports work: `import { Button } from '@yourorg/react'`
+- [x] CJS imports work: `const { Button } = require('@yourorg/react')`
+- [x] Tree-shaking verified: importing one component doesn't bundle all
+- [x] Source maps work in browser DevTools
+- [x] CSS is properly bundled/extracted
+- [x] Bundle size is acceptable (< 50KB gzipped for all components)
 
 ---
 
 ## 📖 Documentation Requirements
 
-- [ ] Document build process and configuration choices
-- [ ] Explain module formats (ESM vs CJS)
-- [ ] Bundle size optimization strategies
-- [ ] How to analyze bundle size
-- [ ] Troubleshooting build errors
+- [x] Document build process and configuration choices
+- [x] Explain module formats (ESM vs CJS)
+- [x] Bundle size optimization strategies
+- [x] How to analyze bundle size
+- [x] Troubleshooting build errors
 
 ---
 
@@ -104,6 +106,7 @@ A configured build system that produces optimized, tree-shakeable bundles with T
 ### Option A: Using tsup (Simpler, Faster - RECOMMENDED)
 
 1. [ ] Install tsup and dependencies
+
    ```bash
    cd packages/@yourorg/react
    pnpm add -D tsup @types/react @types/react-dom
@@ -111,6 +114,7 @@ A configured build system that produces optimized, tree-shakeable bundles with T
    ```
 
 2. [ ] Create `tsup.config.ts`
+
    ```typescript
    import { defineConfig } from 'tsup';
 
@@ -153,6 +157,7 @@ A configured build system that produces optimized, tree-shakeable bundles with T
 ### Option B: Using Rollup (More Control)
 
 4. [ ] Install Rollup and plugins (if choosing Rollup)
+
    ```bash
    cd packages/@yourorg/react
    pnpm add -D rollup @rollup/plugin-typescript @rollup/plugin-node-resolve
@@ -165,6 +170,7 @@ A configured build system that produces optimized, tree-shakeable bundles with T
 6. [ ] Configure CSS Modules processing
 
 7. [ ] Add bundle size analysis tool
+
    ```bash
    pnpm add -D rollup-plugin-visualizer
    ```
@@ -184,11 +190,13 @@ A configured build system that produces optimized, tree-shakeable bundles with T
 **Build Tool Decision:**
 
 **tsup (RECOMMENDED):**
+
 - Pros: Simpler config, faster builds, good defaults, esbuild-based
 - Cons: Less customization options
 - Best for: Our use case (component library)
 
 **Rollup:**
+
 - Pros: More control, better tree-shaking, plugin ecosystem
 - Cons: More complex configuration
 - Best for: Complex build requirements
@@ -196,29 +204,35 @@ A configured build system that produces optimized, tree-shakeable bundles with T
 **Key Configuration Choices:**
 
 **External Dependencies:**
+
 - React and React-DOM should be peer dependencies (not bundled)
 - Reduces bundle size significantly
 
 **Module Formats:**
+
 - ESM (modern): For modern bundlers (Vite, Webpack 5+)
 - CJS (legacy): For older Node.js environments
 
 **CSS Handling:**
+
 - Inject styles: CSS bundled with components
 - Extract styles: Separate CSS file (more flexible)
 - Recommend: Extract for better caching
 
 **Tree-Shaking:**
+
 - Use named exports, not default exports
 - Side-effect free code (declare in package.json)
 - Proper module format (ESM)
 
 **Bundle Size Targets (from Roadmap):**
+
 - All components: < 50KB gzipped
 - Individual component: 1-3KB gzipped
 - Track with bundlephobia or size-limit
 
 **Estimated Effort:** 6 hours
+
 - Tool selection and research: 1 hour
 - Configuration: 2 hours
 - Testing and optimization: 2 hours
@@ -228,12 +242,11 @@ A configured build system that produces optimized, tree-shakeable bundles with T
 
 ## ✅ Definition of Done
 
-- [ ] All acceptance criteria met
-- [ ] Build produces correct output formats
-- [ ] TypeScript types work for consumers
-- [ ] Tree-shaking verified
-- [ ] Bundle size meets target
-- [ ] Build scripts documented
-- [ ] CI/CD can run builds
-- [ ] Team understands build process
-
+- [x] All acceptance criteria met
+- [x] Build produces correct output formats
+- [x] TypeScript types work for consumers
+- [x] Tree-shaking verified
+- [x] Bundle size meets target
+- [x] Build scripts documented
+- [x] CI/CD can run builds
+- [x] Team understands build process

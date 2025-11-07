@@ -18,8 +18,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "echo 'Build tokens'",
-    "dev": "echo 'Watch tokens'",
+    "build": "tsup",
+    "build:watch": "tsup --watch",
+    "dev": "tsup --watch",
     "test": "echo 'Test tokens'"
   },
   "keywords": [

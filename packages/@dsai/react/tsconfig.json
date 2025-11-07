@@ -3,7 +3,6 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "composite": true,
     "jsx": "react-jsx"
   },
   "include": ["src/**/*"],
@@ -14,10 +13,5 @@
     "**/*.test.ts",
     "**/*.spec.tsx",
     "**/*.test.tsx"
-  ],
-  "references": [
-    {
-      "path": "../tokens/tsconfig.json"
-    }
   ]
 }

@@ -16,7 +16,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "echo 'Build Figma utilities'",
+    "build": "tsup",
+    "build:watch": "tsup --watch",
     "export-tokens": "echo 'Export tokens from Figma'",
     "sync-figma": "echo 'Sync design tokens with Figma'",
     "test": "echo 'Test Figma integration'"

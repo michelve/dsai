@@ -5,13 +5,11 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "nx:run-commands",
       "outputs": ["{projectRoot}/dist"],
       "options": {
-        "outputPath": "packages/@dsai/figma-tokens/dist",
-        "main": "packages/@dsai/figma-tokens/src/index.ts",
-        "tsConfig": "packages/@dsai/figma-tokens/tsconfig.json",
-        "assets": []
+        "command": "tsup",
+        "cwd": "packages/@dsai/figma-tokens"
       }
     },
     "export-tokens": {

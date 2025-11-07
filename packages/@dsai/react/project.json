@@ -5,13 +5,11 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "nx:run-commands",
       "outputs": ["{projectRoot}/dist"],
       "options": {
-        "outputPath": "packages/@dsai/react/dist",
-        "main": "packages/@dsai/react/src/index.ts",
-        "tsConfig": "packages/@dsai/react/tsconfig.json",
-        "assets": []
+        "command": "tsup",
+        "cwd": "packages/@dsai/react"
       }
     },
     "test": {
