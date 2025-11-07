@@ -25,27 +25,69 @@ pnpm test
 pnpm graph
 ```
 
-## 📦 Workspace Structure
-
-This is an Nx monorepo containing multiple packages and applications:
+## Repository Structure
 
 ```
-DSAi/
-├── packages/@dsai/
-│   ├── tokens/          # Design tokens (colors, typography, spacing)
-│   ├── react/           # React component library (38 components)
-│   ├── storybook/       # Component documentation and development
-│   ├── figma-tokens/    # Figma integration utilities
-│   └── docs/            # Documentation website
+├── packages/
+│   └── @dsai/
+│       ├── tokens/              # Design tokens (colors, typography, spacing)
+│       ├── react/               # React components
+│       ├── figma-tokens/        # Figma integration utilities
+│       ├── storybook/           # Component documentation
+│       └── docs/                # Documentation site
 ├── apps/
-│   └── playground/      # Development playground for testing components
-└── tools/               # Build utilities and scripts
+│   └── playground/              # Development playground
+├── .github/                     # GitHub Actions workflows
+├── tools/                       # Build and development tools
+└── docs/                        # Project documentation
 ```
+
+## Code Quality
+
+### TypeScript Configuration
+
+We use TypeScript in strict mode with comprehensive type checking:
+
+- **Strict Mode**: All strict compiler options enabled
+- **Path Mappings**: Import packages using `@dsai/*` scope
+- **Project References**: Incremental builds with composite projects
+- **Type Safety**: No implicit `any`, null checks, unused variable detection
+
+See [TYPESCRIPT-ESLINT-PRETTIER.md](./docs/TYPESCRIPT-ESLINT-PRETTIER.md) for details.
+
+### ESLint
+
+Comprehensive linting with multiple rule sets:
+
+- **TypeScript**: Best practices and type safety
+- **React**: Component patterns and JSX conventions
+- **React Hooks**: Rules of hooks and dependency checking
+- **Accessibility**: WCAG 2.1 AA compliance (jsx-a11y)
+- **Import**: Organization and circular dependency prevention
+
+### Prettier
+
+Consistent code formatting across the codebase:
+
+- 100 character line width
+- 2 space indentation
+- Single quotes for strings
+- Integrated with ESLint
+
+### Git Hooks
+
+Pre-commit hooks automatically run:
+
+- ESLint with auto-fix
+- Prettier formatting
+- Only on staged files (fast and efficient)
 
 ## 📚 Packages
 
 ### @dsai/tokens
+
 Design tokens for the component library including:
+
 - **66 color tokens** (primary, secondary, success, etc.)
 - **Typography system** (Poppins for headings, Inter for body)
 - **Spacing scale** (4px base unit)
@@ -54,7 +96,9 @@ Design tokens for the component library including:
 Export formats: CSS custom properties, SCSS variables, JavaScript/TypeScript
 
 ### @dsai/react
+
 React component library with 38 components:
+
 - **Form controls**: Button, Input, Select, Checkbox, Radio, Switch
 - **Navigation**: Navbar, Tabs, Breadcrumb, Pagination
 - **Feedback**: Alert, Toast, Modal, Tooltip, Popover
@@ -63,6 +107,7 @@ React component library with 38 components:
 - **And more...**
 
 Built with:
+
 - TypeScript (strict mode)
 - CSS Modules for styling
 - Accessible by default (WCAG 2.1 AA)
@@ -70,7 +115,9 @@ Built with:
 - 90%+ test coverage target
 
 ### @dsai/storybook
+
 Interactive component documentation powered by Storybook 7:
+
 - Visual component showcase
 - Props documentation
 - Accessibility testing
@@ -78,13 +125,17 @@ Interactive component documentation powered by Storybook 7:
 - Code examples
 
 ### @dsai/figma-tokens
+
 Figma integration utilities:
+
 - Token synchronization
 - Code Connect mappings
 - Design-to-code workflow automation
 
 ### @dsai/docs
+
 Comprehensive documentation site:
+
 - Getting started guides
 - Component API documentation
 - Design principles
@@ -107,8 +158,33 @@ pnpm --filter @dsai/react build
 # Run component tests
 pnpm --filter @dsai/react test
 
-# Lint components
-pnpm --filter @dsai/react lint
+# Lint and fix components
+pnpm --filter @dsai/react lint --fix
+
+# Format code
+pnpm prettier --write "packages/@dsai/react/**/*.{ts,tsx}"
+```
+
+### Code Quality Commands
+
+```bash
+# Lint all packages
+pnpm lint
+
+# Lint specific package
+pnpm nx lint @dsai/react
+
+# Lint with auto-fix
+pnpm nx lint @dsai/react --fix
+
+# Format all files
+pnpm format
+
+# Check formatting
+pnpm prettier --check "."
+
+# Type check (no emit)
+pnpm tsc --noEmit
 ```
 
 ### Building Everything
@@ -146,6 +222,7 @@ pnpm nx reset
 ## 🏗️ Architecture
 
 ### Monorepo Benefits
+
 - **Shared dependencies**: Single node_modules for all packages
 - **Atomic commits**: Change multiple packages in one commit
 - **Code sharing**: Easy cross-package imports
@@ -153,6 +230,7 @@ pnpm nx reset
 - **Smart caching**: Nx only rebuilds what changed
 
 ### Package Dependencies
+
 ```
 @dsai/tokens (base layer - design tokens)
     ↓
@@ -164,6 +242,7 @@ apps/playground (testing)
 ```
 
 ### Build System
+
 - **Nx**: Task orchestration and caching
 - **pnpm**: Fast, disk-efficient package manager
 - **TypeScript**: Type-safe development
@@ -220,7 +299,6 @@ MIT License - see LICENSE file for details
 **Current Status**: Phase 0 - Foundation setup complete ✅
 **Next Steps**: Configure TypeScript (TASK-002), Build pipeline (TASK-003)
 
-
 ## Run tasks
 
 To run tasks with Nx use:
@@ -244,6 +322,7 @@ These targets are either [inferred automatically](https://nx.dev/concepts/inferr
 While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
 
 To install a new plugin you can use the `nx add` command. Here's an example of adding the React plugin:
+
 ```sh
 npx nx add @nx/react
 ```
@@ -299,12 +378,13 @@ Nx Console is an editor extension that enriches your developer experience. It le
 
 Learn more:
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
+- [Learn more about this workspace setup](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
 - [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
 - [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
 - [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
 
 And join the Nx community:
+
 - [Discord](https://go.nx.dev/community)
 - [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
 - [Our Youtube channel](https://www.youtube.com/@nxdevtools)

@@ -1,0 +1,18 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./.storybook/dist",
+    "jsx": "react-jsx",
+    "moduleResolution": "bundler"
+  },
+  "include": [".storybook/**/*", "../react/src/**/*", "../tokens/src/**/*"],
+  "exclude": ["node_modules", "storybook-static"],
+  "references": [
+    {
+      "path": "../react/tsconfig.json"
+    },
+    {
+      "path": "../tokens/tsconfig.json"
+    }
+  ]
+}

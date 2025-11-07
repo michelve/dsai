@@ -1,0 +1,23 @@
+# Ignore build outputs
+dist/
+build/
+coverage/
+.nx/
+
+# Ignore dependencies
+node_modules/
+pnpm-lock.yaml
+
+# Ignore generated files
+*.log
+*.cache
+
+# Ignore config files
+.eslintcache
+
+# Ignore Storybook build
+storybook-static/
+
+# Ignore workspace graph
+workspace-graph.html
+static/
