@@ -1,0 +1,2400 @@
+[
+  {
+    "Colors": {
+      "modes": {
+        "Light": {
+          "colors": {
+            "brand": {
+              "blue": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-100)",
+                    "ANDROID": "color.blue.100",
+                    "iOS": "Color.Blue.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#cfe2ff"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-200)",
+                    "ANDROID": "color.blue.200",
+                    "iOS": "Color.Blue.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#9ec5fe"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-300)",
+                    "ANDROID": "color.blue.300",
+                    "iOS": "Color.Blue.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#6ea8fe"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-400)",
+                    "ANDROID": "color.blue.400",
+                    "iOS": "Color.Blue.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#3d8bfd"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-500)",
+                    "ANDROID": "color.blue.500",
+                    "iOS": "Color.Blue.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#0d6efd"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-600)",
+                    "ANDROID": "color.blue.600",
+                    "iOS": "Color.Blue.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#0a58ca"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-700)",
+                    "ANDROID": "color.blue.700",
+                    "iOS": "Color.Blue.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#084298"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-800)",
+                    "ANDROID": "color.blue.800",
+                    "iOS": "Color.Blue.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#052c65"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-900)",
+                    "ANDROID": "color.blue.900",
+                    "iOS": "Color.Blue.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#031633"
+                }
+              },
+              "indigo": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-100)",
+                    "ANDROID": "color.indigo.100",
+                    "iOS": "Color.Indigo.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#e0cffc"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-200)",
+                    "ANDROID": "color.indigo.200",
+                    "iOS": "Color.Indigo.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#c29ffa"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-300)",
+                    "ANDROID": "color.indigo.300",
+                    "iOS": "Color.Indigo.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#a370f7"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-400)",
+                    "ANDROID": "color.indigo.400",
+                    "iOS": "Color.Indigo.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#8540f5"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-500)",
+                    "ANDROID": "color.indigo.500",
+                    "iOS": "Color.Indigo.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#6610f2"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-600)",
+                    "ANDROID": "color.indigo.600",
+                    "iOS": "Color.Indigo.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#520dc2"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-700)",
+                    "ANDROID": "color.indigo.700",
+                    "iOS": "Color.Indigo.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#3d0a91"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-800)",
+                    "ANDROID": "color.indigo.800",
+                    "iOS": "Color.Indigo.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#290661"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-900)",
+                    "ANDROID": "color.indigo.900",
+                    "iOS": "Color.Indigo.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#140330"
+                }
+              },
+              "purple": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-100)",
+                    "ANDROID": "color.purple.100",
+                    "iOS": "Color.Purple.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#e2d9f3"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-200)",
+                    "ANDROID": "color.purple.200",
+                    "iOS": "Color.Purple.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#c5b3e6"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-300)",
+                    "ANDROID": "color.purple.300",
+                    "iOS": "Color.Purple.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#a98eda"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-400)",
+                    "ANDROID": "color.purple.400",
+                    "iOS": "Color.Purple.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#8c68cd"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-500)",
+                    "ANDROID": "color.purple.500",
+                    "iOS": "Color.Purple.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#6f42c1"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-600)",
+                    "ANDROID": "color.purple.600",
+                    "iOS": "Color.Purple.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#59359a"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-700)",
+                    "ANDROID": "color.purple.700",
+                    "iOS": "Color.Purple.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#432874"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-800)",
+                    "ANDROID": "color.purple.800",
+                    "iOS": "Color.Purple.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#2c1a4d"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-900)",
+                    "ANDROID": "color.purple.900",
+                    "iOS": "Color.Purple.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#160d27"
+                }
+              },
+              "pink": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-100)",
+                    "ANDROID": "color.pink.100",
+                    "iOS": "Color.Pink.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#f7d6e6"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-200)",
+                    "ANDROID": "color.pink.200",
+                    "iOS": "Color.Pink.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#efadce"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-300)",
+                    "ANDROID": "color.pink.300",
+                    "iOS": "Color.Pink.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#e685b5"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-400)",
+                    "ANDROID": "color.pink.400",
+                    "iOS": "Color.Pink.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#de5c9d"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-500)",
+                    "ANDROID": "color.pink.500",
+                    "iOS": "Color.Pink.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#d63384"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-600)",
+                    "ANDROID": "color.pink.600",
+                    "iOS": "Color.Pink.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ab296a"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-700)",
+                    "ANDROID": "color.pink.700",
+                    "iOS": "Color.Pink.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#801f4f"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-800)",
+                    "ANDROID": "color.pink.800",
+                    "iOS": "Color.Pink.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#561435"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-900)",
+                    "ANDROID": "color.pink.900",
+                    "iOS": "Color.Pink.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#2b0a1a"
+                }
+              },
+              "red": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-100)",
+                    "ANDROID": "color.red.100",
+                    "iOS": "Color.Red.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#f8d7da"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-200)",
+                    "ANDROID": "color.red.200",
+                    "iOS": "Color.Red.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#f1aeb5"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-300)",
+                    "ANDROID": "color.red.300",
+                    "iOS": "Color.Red.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ea868f"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-400)",
+                    "ANDROID": "color.red.400",
+                    "iOS": "Color.Red.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#e35d6a"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-500)",
+                    "ANDROID": "color.red.500",
+                    "iOS": "Color.Red.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#dc3545"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-600)",
+                    "ANDROID": "color.red.600",
+                    "iOS": "Color.Red.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#b02a37"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-700)",
+                    "ANDROID": "color.red.700",
+                    "iOS": "Color.Red.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#842029"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-800)",
+                    "ANDROID": "color.red.800",
+                    "iOS": "Color.Red.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#58151c"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-900)",
+                    "ANDROID": "color.red.900",
+                    "iOS": "Color.Red.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#2c0b0e"
+                }
+              },
+              "orange": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-100)",
+                    "ANDROID": "color.orange.100",
+                    "iOS": "Color.Orange.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffe5d0"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-200)",
+                    "ANDROID": "color.orange.200",
+                    "iOS": "Color.Orange.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#fecba1"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-300)",
+                    "ANDROID": "color.orange.300",
+                    "iOS": "Color.Orange.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#feb272"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-400)",
+                    "ANDROID": "color.orange.400",
+                    "iOS": "Color.Orange.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#fd9843"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-500)",
+                    "ANDROID": "color.orange.500",
+                    "iOS": "Color.Orange.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#fd7e14"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-600)",
+                    "ANDROID": "color.orange.600",
+                    "iOS": "Color.Orange.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ca6510"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-700)",
+                    "ANDROID": "color.orange.700",
+                    "iOS": "Color.Orange.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#984c0c"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-800)",
+                    "ANDROID": "color.orange.800",
+                    "iOS": "Color.Orange.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#653208"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-900)",
+                    "ANDROID": "color.orange.900",
+                    "iOS": "Color.Orange.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#331904"
+                }
+              },
+              "yellow": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-100)",
+                    "ANDROID": "color.yellow.100",
+                    "iOS": "Color.Yellow.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#fff3cd"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-200)",
+                    "ANDROID": "color.yellow.200",
+                    "iOS": "Color.Yellow.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffe69c"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-300)",
+                    "ANDROID": "color.yellow.300",
+                    "iOS": "Color.Yellow.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffda6a"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-400)",
+                    "ANDROID": "color.yellow.400",
+                    "iOS": "Color.Yellow.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffcd39"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-500)",
+                    "ANDROID": "color.yellow.500",
+                    "iOS": "Color.Yellow.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffc107"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-600)",
+                    "ANDROID": "color.yellow.600",
+                    "iOS": "Color.Yellow.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#cc9a06"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-700)",
+                    "ANDROID": "color.yellow.700",
+                    "iOS": "Color.Yellow.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#997404"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-800)",
+                    "ANDROID": "color.yellow.800",
+                    "iOS": "Color.Yellow.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#664d03"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-900)",
+                    "ANDROID": "color.yellow.900",
+                    "iOS": "Color.Yellow.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#332701"
+                }
+              },
+              "green": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-100)",
+                    "ANDROID": "color.green.100",
+                    "iOS": "Color.Green.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#d1e7dd"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-200)",
+                    "ANDROID": "color.green.200",
+                    "iOS": "Color.Green.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#a3cfbb"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-300)",
+                    "ANDROID": "color.green.300",
+                    "iOS": "Color.Green.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#75b798"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-400)",
+                    "ANDROID": "color.green.400",
+                    "iOS": "Color.Green.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#479f76"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-500)",
+                    "ANDROID": "color.green.500",
+                    "iOS": "Color.Green.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#198754"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-600)",
+                    "ANDROID": "color.green.600",
+                    "iOS": "Color.Green.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#146c43"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-700)",
+                    "ANDROID": "color.green.700",
+                    "iOS": "Color.Green.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#0f5132"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-800)",
+                    "ANDROID": "color.green.800",
+                    "iOS": "Color.Green.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#0a3622"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-900)",
+                    "ANDROID": "color.green.900",
+                    "iOS": "Color.Green.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#051b11"
+                }
+              },
+              "teal": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-100)",
+                    "ANDROID": "color.teal.100",
+                    "iOS": "Color.Teal.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#d2f4ea"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-200)",
+                    "ANDROID": "color.teal.200",
+                    "iOS": "Color.Teal.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#a6e9d5"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-300)",
+                    "ANDROID": "color.teal.300",
+                    "iOS": "Color.Teal.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#79dfc1"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-400)",
+                    "ANDROID": "color.teal.400",
+                    "iOS": "Color.Teal.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#4dd4ac"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-500)",
+                    "ANDROID": "color.teal.500",
+                    "iOS": "Color.Teal.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#20c997"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-600)",
+                    "ANDROID": "color.teal.600",
+                    "iOS": "Color.Teal.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#1aa179"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-700)",
+                    "ANDROID": "color.teal.700",
+                    "iOS": "Color.Teal.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#13795b"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-800)",
+                    "ANDROID": "color.teal.800",
+                    "iOS": "Color.Teal.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#0d503c"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-900)",
+                    "ANDROID": "color.teal.900",
+                    "iOS": "Color.Teal.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#06281e"
+                }
+              },
+              "cyan": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-100)",
+                    "ANDROID": "color.cyan.100",
+                    "iOS": "Color.Cyan.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#cff4fc"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-200)",
+                    "ANDROID": "color.cyan.200",
+                    "iOS": "Color.Cyan.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#9eeaf9"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-300)",
+                    "ANDROID": "color.cyan.300",
+                    "iOS": "Color.Cyan.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#6edff6"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-400)",
+                    "ANDROID": "color.cyan.400",
+                    "iOS": "Color.Cyan.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#3dd5f3"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-500)",
+                    "ANDROID": "color.cyan.500",
+                    "iOS": "Color.Cyan.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#0dcaf0"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-600)",
+                    "ANDROID": "color.cyan.600",
+                    "iOS": "Color.Cyan.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#0aa2c0"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-700)",
+                    "ANDROID": "color.cyan.700",
+                    "iOS": "Color.Cyan.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#087990"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-800)",
+                    "ANDROID": "color.cyan.800",
+                    "iOS": "Color.Cyan.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#055160"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-900)",
+                    "ANDROID": "color.cyan.900",
+                    "iOS": "Color.Cyan.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#032830"
+                }
+              },
+              "gray": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-100)",
+                    "ANDROID": "color.gray.100",
+                    "iOS": "Color.Gray.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#f8f9fa"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-200)",
+                    "ANDROID": "color.gray.200",
+                    "iOS": "Color.Gray.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#e9ecef"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-300)",
+                    "ANDROID": "color.gray.300",
+                    "iOS": "Color.Gray.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#dee2e6"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-400)",
+                    "ANDROID": "color.gray.400",
+                    "iOS": "Color.Gray.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ced4da"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-500)",
+                    "ANDROID": "color.gray.500",
+                    "iOS": "Color.Gray.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#adb5bd"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-600)",
+                    "ANDROID": "color.gray.600",
+                    "iOS": "Color.Gray.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#6c757d"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-700)",
+                    "ANDROID": "color.gray.700",
+                    "iOS": "Color.Gray.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#495057"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-800)",
+                    "ANDROID": "color.gray.800",
+                    "iOS": "Color.Gray.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#343a40"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-900)",
+                    "ANDROID": "color.gray.900",
+                    "iOS": "Color.Gray.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#212529"
+                }
+              }
+            },
+            "neutral": {
+              "white": {
+                "$codeSyntax": {
+                  "WEB": "var(--bs-white)",
+                  "ANDROID": "color.white",
+                  "iOS": "Color.White"
+                },
+                "$scopes": ["ALL_SCOPES"],
+                "$type": "color",
+                "$value": "#ffffff"
+              },
+              "black": {
+                "$scopes": ["ALL_SCOPES"],
+                "$type": "color",
+                "$value": "#000000"
+              },
+              "gray": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-100)"
+                  },
+                  "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
+                  "$type": "color",
+                  "$libraryName": "",
+                  "$collectionName": "Colors",
+                  "$value": "{colors.brand.gray.100}"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-200)"
+                  },
+                  "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
+                  "$type": "color",
+                  "$libraryName": "",
+                  "$collectionName": "Colors",
+                  "$value": "{colors.brand.gray.200}"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-300)",
+                    "ANDROID": "color.gray.300",
+                    "iOS": "Color.Gray.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "rgba(0, 0, 0, 0)"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-400)",
+                    "ANDROID": "color.gray.400",
+                    "iOS": "Color.Gray.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "rgba(0, 0, 0, 0)"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-500)",
+                    "ANDROID": "color.gray.500",
+                    "iOS": "Color.Gray.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "rgba(0, 0, 0, 0)"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-600)",
+                    "ANDROID": "color.gray.600",
+                    "iOS": "Color.Gray.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "rgba(0, 0, 0, 0)"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-700)",
+                    "ANDROID": "color.gray.700",
+                    "iOS": "Color.Gray.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "rgba(0, 0, 0, 0)"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-800)",
+                    "ANDROID": "color.gray.800",
+                    "iOS": "Color.Gray.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "rgba(0, 0, 0, 0)"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-900)",
+                    "ANDROID": "color.gray.900",
+                    "iOS": "Color.Gray.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "rgba(0, 0, 0, 0)"
+                }
+              }
+            },
+            "gradient": {
+              "$codeSyntax": {
+                "WEB": "var(--bs-gradient)"
+              },
+              "$scopes": ["ALL_SCOPES"],
+              "$type": "string",
+              "$value": "linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0))"
+            },
+            "theme": {
+              "primary": {
+                "$codeSyntax": {
+                  "WEB": "var(--bs-white)"
+                },
+                "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
+                "$type": "color",
+                "$libraryName": "",
+                "$collectionName": "Colors",
+                "$value": "{colors.brand.blue.500}"
+              },
+              "secondary": {
+                "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
+                "$type": "color",
+                "$libraryName": "",
+                "$collectionName": "Colors",
+                "$value": "{colors.brand.gray.500}"
+              },
+              "success": {
+                "$scopes": ["ALL_SCOPES"],
+                "$type": "color",
+                "$libraryName": "",
+                "$collectionName": "Colors",
+                "$value": "{colors.brand.green.500}"
+              },
+              "info": {
+                "$scopes": ["ALL_SCOPES"],
+                "$type": "color",
+                "$libraryName": "",
+                "$collectionName": "Colors",
+                "$value": "{colors.brand.blue.500}"
+              },
+              "warning": {
+                "$scopes": ["ALL_SCOPES"],
+                "$type": "color",
+                "$libraryName": "",
+                "$collectionName": "Colors",
+                "$value": "{colors.brand.yellow.500}"
+              },
+              "danger": {
+                "$scopes": ["ALL_SCOPES"],
+                "$type": "color",
+                "$libraryName": "",
+                "$collectionName": "Colors",
+                "$value": "{colors.brand.red.500}"
+              },
+              "light": {
+                "$scopes": ["ALL_SCOPES"],
+                "$type": "color",
+                "$libraryName": "",
+                "$collectionName": "Colors",
+                "$value": "{colors.brand.gray.100}"
+              },
+              "dark": {
+                "$scopes": ["ALL_SCOPES"],
+                "$type": "color",
+                "$libraryName": "",
+                "$collectionName": "Colors",
+                "$value": "{colors.brand.gray.900}"
+              }
+            }
+          }
+        },
+        "Dark": {
+          "colors": {
+            "brand": {
+              "blue": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-100)",
+                    "ANDROID": "color.blue.100",
+                    "iOS": "Color.Blue.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#cfe2ff"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-200)",
+                    "ANDROID": "color.blue.200",
+                    "iOS": "Color.Blue.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#9ec5fe"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-300)",
+                    "ANDROID": "color.blue.300",
+                    "iOS": "Color.Blue.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#6ea8fe"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-400)",
+                    "ANDROID": "color.blue.400",
+                    "iOS": "Color.Blue.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#3d8bfd"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-500)",
+                    "ANDROID": "color.blue.500",
+                    "iOS": "Color.Blue.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#0d6efd"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-600)",
+                    "ANDROID": "color.blue.600",
+                    "iOS": "Color.Blue.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#0a58ca"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-700)",
+                    "ANDROID": "color.blue.700",
+                    "iOS": "Color.Blue.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#084298"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-800)",
+                    "ANDROID": "color.blue.800",
+                    "iOS": "Color.Blue.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#052c65"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-blue-900)",
+                    "ANDROID": "color.blue.900",
+                    "iOS": "Color.Blue.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#031633"
+                }
+              },
+              "indigo": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-100)",
+                    "ANDROID": "color.indigo.100",
+                    "iOS": "Color.Indigo.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-200)",
+                    "ANDROID": "color.indigo.200",
+                    "iOS": "Color.Indigo.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-300)",
+                    "ANDROID": "color.indigo.300",
+                    "iOS": "Color.Indigo.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-400)",
+                    "ANDROID": "color.indigo.400",
+                    "iOS": "Color.Indigo.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-500)",
+                    "ANDROID": "color.indigo.500",
+                    "iOS": "Color.Indigo.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-600)",
+                    "ANDROID": "color.indigo.600",
+                    "iOS": "Color.Indigo.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-700)",
+                    "ANDROID": "color.indigo.700",
+                    "iOS": "Color.Indigo.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-800)",
+                    "ANDROID": "color.indigo.800",
+                    "iOS": "Color.Indigo.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-indigo-900)",
+                    "ANDROID": "color.indigo.900",
+                    "iOS": "Color.Indigo.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                }
+              },
+              "purple": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-100)",
+                    "ANDROID": "color.purple.100",
+                    "iOS": "Color.Purple.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-200)",
+                    "ANDROID": "color.purple.200",
+                    "iOS": "Color.Purple.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-300)",
+                    "ANDROID": "color.purple.300",
+                    "iOS": "Color.Purple.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-400)",
+                    "ANDROID": "color.purple.400",
+                    "iOS": "Color.Purple.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-500)",
+                    "ANDROID": "color.purple.500",
+                    "iOS": "Color.Purple.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-600)",
+                    "ANDROID": "color.purple.600",
+                    "iOS": "Color.Purple.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-700)",
+                    "ANDROID": "color.purple.700",
+                    "iOS": "Color.Purple.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-800)",
+                    "ANDROID": "color.purple.800",
+                    "iOS": "Color.Purple.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-purple-900)",
+                    "ANDROID": "color.purple.900",
+                    "iOS": "Color.Purple.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                }
+              },
+              "pink": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-100)",
+                    "ANDROID": "color.pink.100",
+                    "iOS": "Color.Pink.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-200)",
+                    "ANDROID": "color.pink.200",
+                    "iOS": "Color.Pink.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-300)",
+                    "ANDROID": "color.pink.300",
+                    "iOS": "Color.Pink.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-400)",
+                    "ANDROID": "color.pink.400",
+                    "iOS": "Color.Pink.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-500)",
+                    "ANDROID": "color.pink.500",
+                    "iOS": "Color.Pink.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-600)",
+                    "ANDROID": "color.pink.600",
+                    "iOS": "Color.Pink.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-700)",
+                    "ANDROID": "color.pink.700",
+                    "iOS": "Color.Pink.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-800)",
+                    "ANDROID": "color.pink.800",
+                    "iOS": "Color.Pink.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-pink-900)",
+                    "ANDROID": "color.pink.900",
+                    "iOS": "Color.Pink.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                }
+              },
+              "red": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-100)",
+                    "ANDROID": "color.red.100",
+                    "iOS": "Color.Red.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-200)",
+                    "ANDROID": "color.red.200",
+                    "iOS": "Color.Red.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-300)",
+                    "ANDROID": "color.red.300",
+                    "iOS": "Color.Red.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-400)",
+                    "ANDROID": "color.red.400",
+                    "iOS": "Color.Red.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-500)",
+                    "ANDROID": "color.red.500",
+                    "iOS": "Color.Red.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-600)",
+                    "ANDROID": "color.red.600",
+                    "iOS": "Color.Red.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-700)",
+                    "ANDROID": "color.red.700",
+                    "iOS": "Color.Red.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-800)",
+                    "ANDROID": "color.red.800",
+                    "iOS": "Color.Red.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-red-900)",
+                    "ANDROID": "color.red.900",
+                    "iOS": "Color.Red.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                }
+              },
+              "orange": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-100)",
+                    "ANDROID": "color.orange.100",
+                    "iOS": "Color.Orange.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-200)",
+                    "ANDROID": "color.orange.200",
+                    "iOS": "Color.Orange.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-300)",
+                    "ANDROID": "color.orange.300",
+                    "iOS": "Color.Orange.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-400)",
+                    "ANDROID": "color.orange.400",
+                    "iOS": "Color.Orange.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-500)",
+                    "ANDROID": "color.orange.500",
+                    "iOS": "Color.Orange.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-600)",
+                    "ANDROID": "color.orange.600",
+                    "iOS": "Color.Orange.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-700)",
+                    "ANDROID": "color.orange.700",
+                    "iOS": "Color.Orange.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-800)",
+                    "ANDROID": "color.orange.800",
+                    "iOS": "Color.Orange.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-orange-900)",
+                    "ANDROID": "color.orange.900",
+                    "iOS": "Color.Orange.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                }
+              },
+              "yellow": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-100)",
+                    "ANDROID": "color.yellow.100",
+                    "iOS": "Color.Yellow.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-200)",
+                    "ANDROID": "color.yellow.200",
+                    "iOS": "Color.Yellow.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-300)",
+                    "ANDROID": "color.yellow.300",
+                    "iOS": "Color.Yellow.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-400)",
+                    "ANDROID": "color.yellow.400",
+                    "iOS": "Color.Yellow.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-500)",
+                    "ANDROID": "color.yellow.500",
+                    "iOS": "Color.Yellow.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-600)",
+                    "ANDROID": "color.yellow.600",
+                    "iOS": "Color.Yellow.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-700)",
+                    "ANDROID": "color.yellow.700",
+                    "iOS": "Color.Yellow.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-800)",
+                    "ANDROID": "color.yellow.800",
+                    "iOS": "Color.Yellow.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-yellow-900)",
+                    "ANDROID": "color.yellow.900",
+                    "iOS": "Color.Yellow.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                }
+              },
+              "green": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-100)",
+                    "ANDROID": "color.green.100",
+                    "iOS": "Color.Green.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-200)",
+                    "ANDROID": "color.green.200",
+                    "iOS": "Color.Green.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-300)",
+                    "ANDROID": "color.green.300",
+                    "iOS": "Color.Green.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-400)",
+                    "ANDROID": "color.green.400",
+                    "iOS": "Color.Green.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-500)",
+                    "ANDROID": "color.green.500",
+                    "iOS": "Color.Green.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-600)",
+                    "ANDROID": "color.green.600",
+                    "iOS": "Color.Green.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-700)",
+                    "ANDROID": "color.green.700",
+                    "iOS": "Color.Green.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-800)",
+                    "ANDROID": "color.green.800",
+                    "iOS": "Color.Green.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-green-900)",
+                    "ANDROID": "color.green.900",
+                    "iOS": "Color.Green.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                }
+              },
+              "teal": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-100)",
+                    "ANDROID": "color.teal.100",
+                    "iOS": "Color.Teal.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-200)",
+                    "ANDROID": "color.teal.200",
+                    "iOS": "Color.Teal.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-300)",
+                    "ANDROID": "color.teal.300",
+                    "iOS": "Color.Teal.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-400)",
+                    "ANDROID": "color.teal.400",
+                    "iOS": "Color.Teal.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-500)",
+                    "ANDROID": "color.teal.500",
+                    "iOS": "Color.Teal.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-600)",
+                    "ANDROID": "color.teal.600",
+                    "iOS": "Color.Teal.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-700)",
+                    "ANDROID": "color.teal.700",
+                    "iOS": "Color.Teal.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-800)",
+                    "ANDROID": "color.teal.800",
+                    "iOS": "Color.Teal.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-teal-900)",
+                    "ANDROID": "color.teal.900",
+                    "iOS": "Color.Teal.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                }
+              },
+              "cyan": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-100)",
+                    "ANDROID": "color.cyan.100",
+                    "iOS": "Color.Cyan.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-200)",
+                    "ANDROID": "color.cyan.200",
+                    "iOS": "Color.Cyan.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-300)",
+                    "ANDROID": "color.cyan.300",
+                    "iOS": "Color.Cyan.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-400)",
+                    "ANDROID": "color.cyan.400",
+                    "iOS": "Color.Cyan.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-500)",
+                    "ANDROID": "color.cyan.500",
+                    "iOS": "Color.Cyan.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-600)",
+                    "ANDROID": "color.cyan.600",
+                    "iOS": "Color.Cyan.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-700)",
+                    "ANDROID": "color.cyan.700",
+                    "iOS": "Color.Cyan.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-800)",
+                    "ANDROID": "color.cyan.800",
+                    "iOS": "Color.Cyan.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-cyan-900)",
+                    "ANDROID": "color.cyan.900",
+                    "iOS": "Color.Cyan.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                }
+              },
+              "gray": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-100)",
+                    "ANDROID": "color.gray.100",
+                    "iOS": "Color.Gray.shade100"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-200)",
+                    "ANDROID": "color.gray.200",
+                    "iOS": "Color.Gray.shade200"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-300)",
+                    "ANDROID": "color.gray.300",
+                    "iOS": "Color.Gray.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-400)",
+                    "ANDROID": "color.gray.400",
+                    "iOS": "Color.Gray.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-500)",
+                    "ANDROID": "color.gray.500",
+                    "iOS": "Color.Gray.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-600)",
+                    "ANDROID": "color.gray.600",
+                    "iOS": "Color.Gray.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-700)",
+                    "ANDROID": "color.gray.700",
+                    "iOS": "Color.Gray.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-800)",
+                    "ANDROID": "color.gray.800",
+                    "iOS": "Color.Gray.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-900)",
+                    "ANDROID": "color.gray.900",
+                    "iOS": "Color.Gray.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                }
+              }
+            },
+            "neutral": {
+              "white": {
+                "$codeSyntax": {
+                  "WEB": "var(--bs-white)",
+                  "ANDROID": "color.white",
+                  "iOS": "Color.White"
+                },
+                "$scopes": ["ALL_SCOPES"],
+                "$type": "color",
+                "$value": "#ffffff"
+              },
+              "black": {
+                "$scopes": ["ALL_SCOPES"],
+                "$type": "color",
+                "$value": "#ffffff"
+              },
+              "gray": {
+                "100": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-100)"
+                  },
+                  "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
+                  "$type": "color",
+                  "$libraryName": "",
+                  "$collectionName": "Colors",
+                  "$value": "{colors.brand.gray.100}"
+                },
+                "200": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-200)"
+                  },
+                  "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
+                  "$type": "color",
+                  "$libraryName": "",
+                  "$collectionName": "Colors",
+                  "$value": "{colors.brand.gray.200}"
+                },
+                "300": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-300)",
+                    "ANDROID": "color.gray.300",
+                    "iOS": "Color.Gray.shade300"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "400": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-400)",
+                    "ANDROID": "color.gray.400",
+                    "iOS": "Color.Gray.shade400"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "500": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-500)",
+                    "ANDROID": "color.gray.500",
+                    "iOS": "Color.Gray.shade500"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "600": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-600)",
+                    "ANDROID": "color.gray.600",
+                    "iOS": "Color.Gray.shade600"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "700": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-700)",
+                    "ANDROID": "color.gray.700",
+                    "iOS": "Color.Gray.shade700"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "800": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-800)",
+                    "ANDROID": "color.gray.800",
+                    "iOS": "Color.Gray.shade800"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                },
+                "900": {
+                  "$codeSyntax": {
+                    "WEB": "var(--bs-gray-900)",
+                    "ANDROID": "color.gray.900",
+                    "iOS": "Color.Gray.shade900"
+                  },
+                  "$scopes": ["ALL_SCOPES"],
+                  "$type": "color",
+                  "$value": "#ffffff"
+                }
+              }
+            },
+            "gradient": {
+              "$codeSyntax": {
+                "WEB": "var(--bs-gradient)"
+              },
+              "$scopes": ["ALL_SCOPES"],
+              "$type": "string",
+              "$value": "linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0))"
+            },
+            "theme": {
+              "primary": {
+                "$codeSyntax": {
+                  "WEB": "var(--bs-white)"
+                },
+                "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
+                "$type": "color",
+                "$libraryName": "",
+                "$collectionName": "Colors",
+                "$value": "{colors.brand.blue.500}"
+              },
+              "secondary": {
+                "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
+                "$type": "color",
+                "$libraryName": "",
+                "$collectionName": "Colors",
+                "$value": "{colors.brand.gray.500}"
+              },
+              "success": {
+                "$scopes": ["ALL_SCOPES"],
+                "$type": "color",
+                "$libraryName": "",
+                "$collectionName": "Colors",
+                "$value": "{colors.brand.green.500}"
+              },
+              "info": {
+                "$scopes": ["ALL_SCOPES"],
+                "$type": "color",
+                "$libraryName": "",
+                "$collectionName": "Colors",
+                "$value": "{colors.brand.blue.500}"
+              },
+              "warning": {
+                "$scopes": ["ALL_SCOPES"],
+                "$type": "color",
+                "$libraryName": "",
+                "$collectionName": "Colors",
+                "$value": "{colors.brand.yellow.500}"
+              },
+              "danger": {
+                "$scopes": ["ALL_SCOPES"],
+                "$type": "color",
+                "$libraryName": "",
+                "$collectionName": "Colors",
+                "$value": "{colors.brand.red.500}"
+              },
+              "light": {
+                "$scopes": ["ALL_SCOPES"],
+                "$type": "color",
+                "$libraryName": "",
+                "$collectionName": "Colors",
+                "$value": "{colors.brand.gray.100}"
+              },
+              "dark": {
+                "$scopes": ["ALL_SCOPES"],
+                "$type": "color",
+                "$libraryName": "",
+                "$collectionName": "Colors",
+                "$value": "{colors.brand.gray.900}"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+]

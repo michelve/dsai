@@ -1,0 +1,35 @@
+[
+  {
+    "Components | Switch": {
+      "modes": {
+        "Light Mode": {
+          "switch": {
+            "track-bg": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.neutral.gray.400}"
+            },
+            "track-checked-bg": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.theme.primary}"
+            },
+            "thumb-bg": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.neutral.white}"
+            }
+          }
+        },
+        "Dark Mode": {
+          "switch": {
+            "$value": "{switch}",
+            "$type": "COMPOSITE",
+            "track-bg": { "$type": "color", "$value": "{colors.neutral.gray.600}" },
+            "thumb-bg": { "$type": "color", "$value": "{colors.neutral.gray.200}" }
+          }
+        }
+      }
+    }
+  }
+]

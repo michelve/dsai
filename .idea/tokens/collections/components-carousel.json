@@ -1,0 +1,35 @@
+[
+  {
+    "Components | Carousel": {
+      "modes": {
+        "Light Mode": {
+          "carousel": {
+            "control-color": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{colors.neutral.white}"
+            },
+            "control-bg": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "rgba(0,0,0,.5)"
+            },
+            "indicator-active-bg": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.neutral.white}"
+            },
+            "caption-color": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{colors.neutral.white}"
+            }
+          }
+        },
+        "Dark Mode": {
+          "carousel": { "$value": "{carousel}", "$type": "COMPOSITE" }
+        }
+      }
+    }
+  }
+]

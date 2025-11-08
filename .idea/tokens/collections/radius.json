@@ -1,0 +1,22 @@
+[
+  {
+    "Radius": {
+      "modes": {
+        "Light Mode": {
+          "radius": {
+            "none": { "$scopes": ["CORNER_RADIUS"], "$type": "float", "$value": 0 },
+            "sm": { "$scopes": ["CORNER_RADIUS"], "$type": "float", "$value": 4 },
+            "md": { "$scopes": ["CORNER_RADIUS"], "$type": "float", "$value": 6 },
+            "lg": { "$scopes": ["CORNER_RADIUS"], "$type": "float", "$value": 8 },
+            "xl": { "$scopes": ["CORNER_RADIUS"], "$type": "float", "$value": 16 },
+            "xxl": { "$scopes": ["CORNER_RADIUS"], "$type": "float", "$value": 32 },
+            "pill": { "$scopes": ["CORNER_RADIUS"], "$type": "float", "$value": 800 }
+          }
+        },
+        "Dark Mode": {
+          "radius": { "$value": "{radius}", "$type": "COMPOSITE" }
+        }
+      }
+    }
+  }
+]

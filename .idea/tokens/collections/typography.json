@@ -1,0 +1,86 @@
+[
+  {
+    "Typography": {
+      "modes": {
+        "Light Mode": {
+          "typography": {
+            "font-family": {
+              "primary": {
+                "$scopes": ["FONT_FAMILY"],
+                "$type": "string",
+                "$value": "system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+                "$codeSyntax": { "WEB": "var(--bs-body-font-family)" }
+              },
+              "mono": {
+                "$scopes": ["FONT_FAMILY"],
+                "$type": "string",
+                "$value": "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+                "$codeSyntax": { "WEB": "var(--bs-font-monospace)" }
+              }
+            },
+            "font-size": {
+              "base": {
+                "$scopes": ["FONT_SIZE"],
+                "$type": "float",
+                "$value": 16,
+                "$codeSyntax": { "WEB": "var(--bs-body-font-size)" }
+              },
+              "sm": { "$scopes": ["FONT_SIZE"], "$type": "float", "$value": 14 },
+              "lg": { "$scopes": ["FONT_SIZE"], "$type": "float", "$value": 20 },
+              "h1": { "$scopes": ["FONT_SIZE"], "$type": "float", "$value": 40 },
+              "h2": { "$scopes": ["FONT_SIZE"], "$type": "float", "$value": 32 },
+              "h3": { "$scopes": ["FONT_SIZE"], "$type": "float", "$value": 28 },
+              "h4": { "$scopes": ["FONT_SIZE"], "$type": "float", "$value": 24 },
+              "h5": { "$scopes": ["FONT_SIZE"], "$type": "float", "$value": 20 },
+              "h6": { "$scopes": ["FONT_SIZE"], "$type": "float", "$value": 16 },
+              "display-1": { "$scopes": ["FONT_SIZE"], "$type": "float", "$value": 80 },
+              "display-2": { "$scopes": ["FONT_SIZE"], "$type": "float", "$value": 72 },
+              "display-3": { "$scopes": ["FONT_SIZE"], "$type": "float", "$value": 64 },
+              "display-4": { "$scopes": ["FONT_SIZE"], "$type": "float", "$value": 56 },
+              "display-5": { "$scopes": ["FONT_SIZE"], "$type": "float", "$value": 48 },
+              "display-6": { "$scopes": ["FONT_SIZE"], "$type": "float", "$value": 40 }
+            },
+            "font-weight": {
+              "lighter": { "$scopes": ["FONT_WEIGHT"], "$type": "float", "$value": 100 },
+              "light": { "$scopes": ["FONT_WEIGHT"], "$type": "float", "$value": 300 },
+              "normal": {
+                "$scopes": ["FONT_WEIGHT"],
+                "$type": "float",
+                "$value": 400,
+                "$codeSyntax": { "WEB": "var(--bs-body-font-weight)" }
+              },
+              "medium": { "$scopes": ["FONT_WEIGHT"], "$type": "float", "$value": 500 },
+              "semibold": { "$scopes": ["FONT_WEIGHT"], "$type": "float", "$value": 600 },
+              "bold": { "$scopes": ["FONT_WEIGHT"], "$type": "float", "$value": 700 }
+            },
+            "line-height": {
+              "sm": { "$scopes": ["LINE_HEIGHT"], "$type": "float", "$value": 1.25 },
+              "base": {
+                "$scopes": ["LINE_HEIGHT"],
+                "$type": "float",
+                "$value": 1.5,
+                "$codeSyntax": { "WEB": "var(--bs-body-line-height)" }
+              },
+              "lg": { "$scopes": ["LINE_HEIGHT"], "$type": "float", "$value": 2 }
+            },
+            "headings": {
+              "font-weight": { "$scopes": ["FONT_WEIGHT"], "$type": "float", "$value": 500 },
+              "line-height": { "$scopes": ["LINE_HEIGHT"], "$type": "float", "$value": 1.2 }
+            },
+            "display": {
+              "font-weight": { "$scopes": ["FONT_WEIGHT"], "$type": "float", "$value": 300 },
+              "line-height": { "$scopes": ["LINE_HEIGHT"], "$type": "float", "$value": 1.2 }
+            },
+            "lead": {
+              "font-size": { "$scopes": ["FONT_SIZE"], "$type": "float", "$value": 20 },
+              "font-weight": { "$scopes": ["FONT_WEIGHT"], "$type": "float", "$value": 300 }
+            }
+          }
+        },
+        "Dark Mode": {
+          "typography": { "$value": "{typography}", "$type": "COMPOSITE" }
+        }
+      }
+    }
+  }
+]

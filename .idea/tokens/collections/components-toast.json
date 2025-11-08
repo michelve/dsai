@@ -1,0 +1,44 @@
+[
+  {
+    "Components | Toast": {
+      "modes": {
+        "Light Mode": {
+          "toast": {
+            "background": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "rgba(255,255,255,.85)"
+            },
+            "text": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{semantic.text.body}"
+            },
+            "border": { "$scopes": ["STROKE_COLOR"], "$type": "color", "$value": "rgba(0,0,0,.1)" },
+            "header-bg": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "rgba(255,255,255,.85)"
+            },
+            "header-color": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{semantic.text.body}"
+            }
+          }
+        },
+        "Dark Mode": {
+          "toast": {
+            "$value": "{toast}",
+            "$type": "COMPOSITE",
+            "background": { "$type": "color", "$value": "rgba(33,37,41,.85)" },
+            "text": { "$type": "color", "$value": "{semantic.text.body}" },
+            "border": { "$type": "color", "$value": "rgba(255,255,255,.1)" },
+            "header-bg": { "$type": "color", "$value": "rgba(33,37,41,.85)" },
+            "header-color": { "$type": "color", "$value": "{semantic.text.body}" }
+          }
+        }
+      }
+    }
+  }
+]

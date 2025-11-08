@@ -1,0 +1,40 @@
+[
+  {
+    "Borders": {
+      "modes": {
+        "Light Mode": {
+          "borders": {
+            "width": {
+              "default": { "$scopes": ["STROKE_FLOAT"], "$type": "float", "$value": 1 },
+              "1": { "$scopes": ["STROKE_FLOAT"], "$type": "float", "$value": 1 },
+              "2": { "$scopes": ["STROKE_FLOAT"], "$type": "float", "$value": 2 },
+              "3": { "$scopes": ["STROKE_FLOAT"], "$type": "float", "$value": 3 },
+              "4": { "$scopes": ["STROKE_FLOAT"], "$type": "float", "$value": 4 },
+              "5": { "$scopes": ["STROKE_FLOAT"], "$type": "float", "$value": 5 }
+            },
+            "color": {
+              "default": {
+                "$scopes": ["STROKE_COLOR"],
+                "$type": "color",
+                "$value": "{colors.neutral.gray.300}"
+              }
+            }
+          }
+        },
+        "Dark Mode": {
+          "borders": {
+            "$value": "{borders}",
+            "$type": "COMPOSITE",
+            "color": {
+              "default": {
+                "$scopes": ["STROKE_COLOR"],
+                "$type": "color",
+                "$value": "{colors.neutral.gray.600}"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+]

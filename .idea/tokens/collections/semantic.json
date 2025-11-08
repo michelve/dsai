@@ -1,0 +1,105 @@
+[
+  {
+    "Semantic": {
+      "modes": {
+        "Light Mode": {
+          "semantic": {
+            "text": {
+              "body": {
+                "$scopes": ["TEXT_FILL"],
+                "$type": "color",
+                "$value": "{colors.neutral.gray.900}",
+                "$codeSyntax": { "WEB": "var(--bs-body-color)" },
+                "$description": "Default body text color"
+              },
+              "muted": {
+                "$scopes": ["TEXT_FILL"],
+                "$type": "color",
+                "$value": "{colors.neutral.gray.600}",
+                "$description": "Muted/secondary text color"
+              },
+              "link": {
+                "$scopes": ["TEXT_FILL"],
+                "$type": "color",
+                "$value": "{colors.theme.primary}",
+                "$codeSyntax": { "WEB": "var(--bs-link-color)" },
+                "$description": "Default hyperlink color"
+              }
+            },
+            "background": {
+              "body": {
+                "$scopes": ["ALL_FILLS"],
+                "$type": "color",
+                "$value": "{colors.neutral.white}",
+                "$codeSyntax": { "WEB": "var(--bs-body-bg)" },
+                "$description": "Default page background color"
+              },
+              "subtle": {
+                "$scopes": ["ALL_FILLS"],
+                "$type": "color",
+                "$value": "{colors.neutral.gray.100}",
+                "$description": "Subtle background for surfaces"
+              }
+            },
+            "border": {
+              "default": {
+                "$scopes": ["STROKE_COLOR"],
+                "$type": "color",
+                "$value": "{colors.neutral.gray.300}",
+                "$description": "Default border color"
+              }
+            }
+          }
+        },
+        "Dark Mode": {
+          "semantic": {
+            "$value": "{semantic}",
+            "$type": "COMPOSITE",
+            "text": {
+              "body": {
+                "$scopes": ["TEXT_FILL"],
+                "$type": "color",
+                "$value": "{colors.neutral.gray.200}",
+                "$description": "Default body text color (Dark)"
+              },
+              "muted": {
+                "$scopes": ["TEXT_FILL"],
+                "$type": "color",
+                "$value": "{colors.neutral.gray.500}",
+                "$description": "Muted/secondary text color (Dark)"
+              },
+              "link": {
+                "$scopes": ["TEXT_FILL"],
+                "$type": "color",
+                "$value": "{colors.brand.blue}",
+                "$description": "Default hyperlink color (Dark)"
+              }
+            },
+            "background": {
+              "body": {
+                "$scopes": ["ALL_FILLS"],
+                "$type": "color",
+                "$value": "{colors.neutral.gray.900}",
+                "$description": "Default page background color (Dark)"
+              },
+              "subtle": {
+                "$scopes": ["ALL_FILLS"],
+                "$type": "color",
+                "$value": "{colors.neutral.gray.800}",
+                "$description": "Subtle background for surfaces (Dark)"
+              }
+            },
+            "border": {
+              "default": {
+                "$scopes": ["STROKE_COLOR"],
+                "$type": "color",
+                "$value": "{colors.neutral.gray.600}",
+                "$description": "Default border color (Dark)"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+]

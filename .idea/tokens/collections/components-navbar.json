@@ -1,0 +1,69 @@
+[
+  {
+    "Components | Navbar": {
+      "modes": {
+        "Light Mode": {
+          "navbar": {
+            "background": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.neutral.white}"
+            },
+            "text": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{semantic.text.body}"
+            },
+            "link": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{semantic.text.link}"
+            },
+            "link-hover": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{colors.brand.blue.scale.600}"
+            },
+            "border": {
+              "$scopes": ["STROKE_COLOR"],
+              "$type": "color",
+              "$value": "{colors.neutral.gray.200}"
+            },
+            "height": { "$scopes": ["WIDTH_HEIGHT"], "$type": "float", "$value": 56 }
+          }
+        },
+        "Dark Mode": {
+          "navbar": {
+            "$value": "{navbar}",
+            "$type": "COMPOSITE",
+            "background": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{semantic.background.body}"
+            },
+            "text": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{semantic.text.body}"
+            },
+            "link": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{semantic.text.link}"
+            },
+            "link-hover": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{colors.brand.blue.scale.300}"
+            },
+            "border": {
+              "$scopes": ["STROKE_COLOR"],
+              "$type": "color",
+              "$value": "{semantic.border.default}"
+            }
+          }
+        }
+      }
+    }
+  }
+]

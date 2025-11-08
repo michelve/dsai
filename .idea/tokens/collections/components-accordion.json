@@ -1,0 +1,58 @@
+[
+  {
+    "Components | Accordion": {
+      "modes": {
+        "Light Mode": {
+          "accordion": {
+            "background": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.neutral.white}"
+            },
+            "text": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{semantic.text.body}"
+            },
+            "border": {
+              "$scopes": ["STROKE_COLOR"],
+              "$type": "color",
+              "$value": "{colors.neutral.gray.200}"
+            },
+            "button-color": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{semantic.text.body}"
+            },
+            "button-bg": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.neutral.white}"
+            },
+            "button-active-color": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{colors.theme.primary}"
+            },
+            "button-active-bg": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.neutral.gray.100}"
+            }
+          }
+        },
+        "Dark Mode": {
+          "accordion": {
+            "$value": "{accordion}",
+            "$type": "COMPOSITE",
+            "background": { "$type": "color", "$value": "{semantic.background.body}" },
+            "text": { "$type": "color", "$value": "{semantic.text.body}" },
+            "border": { "$type": "color", "$value": "{semantic.border.default}" },
+            "button-bg": { "$type": "color", "$value": "{semantic.background.body}" },
+            "button-active-bg": { "$type": "color", "$value": "{semantic.background.subtle}" }
+          }
+        }
+      }
+    }
+  }
+]
