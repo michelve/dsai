@@ -44,7 +44,7 @@ jobs:
     name: Build Packages
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    needs: lint-and-typecheck
+    needs: main
 
     steps:
       - name: Checkout repository
@@ -83,7 +83,7 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    needs: lint-and-typecheck
+    needs: main
 
     steps:
       - name: Checkout repository
@@ -155,13 +155,13 @@ jobs:
   ci-success:
     name: CI Success
     runs-on: ubuntu-latest
-    needs: [lint-and-typecheck, build, test, compatibility]
+    needs: [main, build, test, compatibility]
     if: always()
 
     steps:
       - name: Check all jobs
         run: |
-          if [[ "${{ needs.lint-and-typecheck.result }}" == "success" ]] && \
+          if [[ "${{ needs.main.result }}" == "success" ]] && \
              [[ "${{ needs.build.result }}" == "success" ]] && \
              [[ "${{ needs.compatibility.result }}" == "success" ]]; then
             echo "✅ All CI checks passed!"
