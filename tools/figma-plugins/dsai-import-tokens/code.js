@@ -77,21 +77,24 @@ async function importTokens(data) {
       // Get updated modes after setup
       const modes = collection.modes;
 
-      // Process colors for each mode (first mode only for now)
+      // Process all token groups (colors, spacing, components, etc.) for first mode
       const firstModeName = modeNames[0];
       const firstModeData = collectionData.modes[firstModeName];
       const modeId = modes[0].modeId;
 
-      if (firstModeData.colors) {
-        await traverseTokens({
-          collection,
-          modeId,
-          type: 'color',
-          object: firstModeData.colors,
-          tokens,
-          aliases,
-          key: '',
-        });
+      // Loop through all groups in the mode (colors, spacing, components, etc.)
+      for (const [groupName, groupData] of Object.entries(firstModeData)) {
+        if (groupData && typeof groupData === 'object') {
+          await traverseTokens({
+            collection,
+            modeId,
+            type: undefined, // Don't override type - let tokens define their own $type
+            object: groupData,
+            tokens,
+            aliases,
+            key: groupName,
+          });
+        }
       }
 
       // Process aliases after all tokens are created
@@ -103,13 +106,16 @@ async function importTokens(data) {
         const modeData = collectionData.modes[modeName];
         const modeModeId = modes[modeIndex].modeId;
 
-        if (modeData.colors) {
-          await setModeValues({
-            modeId: modeModeId,
-            object: modeData.colors,
-            tokens,
-            key: '',
-          });
+        // Loop through all groups in the mode
+        for (const [groupName, groupData] of Object.entries(modeData)) {
+          if (groupData && typeof groupData === 'object') {
+            await setModeValues({
+              modeId: modeModeId,
+              object: groupData,
+              tokens,
+              key: groupName,
+            });
+          }
         }
       }
     }
@@ -119,6 +125,13 @@ async function importTokens(data) {
     type: 'import-success',
     message: `✅ Import complete! ${createdCount} created, ${updatedCount} updated`,
   });
+
+  // Auto-dismiss success message after 4 seconds
+  setTimeout(() => {
+    figma.ui.postMessage({
+      type: 'dismiss-message',
+    });
+  }, 4000);
 }
 
 async function traverseTokens({ collection, modeId, type, object, tokens, aliases, key }) {
@@ -134,19 +147,33 @@ async function traverseTokens({ collection, modeId, type, object, tokens, aliase
     if (tokenValue.$value !== undefined) {
       const tokenType = type || tokenValue.$type;
 
-      // Only process color tokens, skip string/number types
-      if (tokenType !== 'color') {
-        continue;
-      }
-
       if (isAlias(tokenValue.$value)) {
         // Handle alias reference
-        const valueKey = tokenValue.$value
+        let valueKey = tokenValue.$value
           .trim()
           .replace(/[\{\}]/g, '') // Remove braces
-          .replace(/^colors\./, '') // Remove "colors." prefix if present
-          .replace(/^colors\//, '') // Remove "colors/" prefix if present
           .replace(/\./g, '/'); // Convert dots to slashes
+
+        console.log(`🔍 Alias detected: ${fullKey} → ${tokenValue.$value} → ${valueKey}`);
+
+        // If the alias doesn't already start with a group path, prepend it from current context
+        if (
+          !valueKey.startsWith('colors/') &&
+          !valueKey.startsWith('spacing/') &&
+          !valueKey.startsWith('components/')
+        ) {
+          // Extract the group name from the current key (e.g., 'colors' from 'colors/theme/primary')
+          const groupName = key.split('/')[0];
+          if (
+            groupName &&
+            (valueKey.startsWith('brand/') ||
+              valueKey.startsWith('neutral/') ||
+              valueKey.startsWith('theme/'))
+          ) {
+            valueKey = `${groupName}/${valueKey}`;
+            console.log(`  ✏️ Prepended group: ${valueKey}`);
+          }
+        }
 
         if (tokens[valueKey]) {
           // Create alias immediately if target exists
@@ -156,7 +183,8 @@ async function traverseTokens({ collection, modeId, type, object, tokens, aliase
             fullKey,
             valueKey,
             tokens,
-            tokenValue
+            tokenValue,
+            tokenType
           );
         } else {
           // Store for later processing
@@ -169,8 +197,14 @@ async function traverseTokens({ collection, modeId, type, object, tokens, aliase
           };
         }
       } else {
-        // Create color variable with direct value
-        tokens[fullKey] = createColorVariable(collection, modeId, fullKey, tokenValue);
+        // Create variable with direct value based on type
+        console.log(`✅ Creating token: ${fullKey} (${tokenType}) = ${tokenValue.$value}`);
+        try {
+          tokens[fullKey] = createVariable(collection, modeId, fullKey, tokenValue, tokenType);
+        } catch (error) {
+          console.error(`❌ Error creating token ${fullKey}:`, error.message);
+          throw error;
+        }
       }
     } else {
       // Recurse into nested objects
@@ -187,38 +221,90 @@ async function traverseTokens({ collection, modeId, type, object, tokens, aliase
   }
 }
 
-function createColorVariable(collection, modeId, name, token) {
+function createVariable(collection, modeId, name, token, tokenType) {
+  // Map token types to Figma variable types
+  const typeMap = {
+    color: 'COLOR',
+    string: 'STRING',
+    number: 'FLOAT',
+    boolean: 'BOOLEAN',
+  };
+
+  const figmaType = typeMap[tokenType] || 'STRING';
+
   // Try to find existing variable first
-  const allVariables = figma.variables.getLocalVariables('COLOR');
+  const allVariables = figma.variables.getLocalVariables(figmaType);
   let variable = allVariables.find(
     (v) => v.name === name && v.variableCollectionId === collection.id
   );
 
   if (!variable) {
-    variable = figma.variables.createVariable(name, collection, 'COLOR');
+    try {
+      variable = figma.variables.createVariable(name, collection, figmaType);
+      console.log(`  ✨ Created variable: ${name}`);
+    } catch (error) {
+      console.error(`  ❌ Failed to create variable ${name}:`, error.message);
+      // Try to find it again - maybe it exists with a different type or was just created
+      const allTypes = ['COLOR', 'STRING', 'FLOAT', 'BOOLEAN'];
+      for (const searchType of allTypes) {
+        const variables = figma.variables.getLocalVariables(searchType);
+        variable = variables.find(
+          (v) => v.name === name && v.variableCollectionId === collection.id
+        );
+        if (variable) {
+          console.log(`  🔄 Found existing variable with type ${searchType}: ${name}`);
+          break;
+        }
+      }
+      if (!variable) {
+        throw error;
+      }
+    }
+  } else {
+    console.log(`  ♻️ Reusing existing variable: ${name}`);
   }
 
-  variable.setValueForMode(modeId, parseColor(token.$value));
+  // Set value based on type
+  let value;
+  if (tokenType === 'color') {
+    value = parseColor(token.$value);
+  } else if (tokenType === 'number') {
+    value = parseFloat(token.$value);
+  } else if (tokenType === 'boolean') {
+    value = token.$value === true || token.$value === 'true';
+  } else {
+    // string or any other type
+    value = token.$value.toString();
+  }
+
+  variable.setValueForMode(modeId, value);
 
   // Build description with extensions if available
   let description = token.$description || '';
 
   if (token.$extensions) {
     const extensionLines = [];
-    if (token.$extensions.category) {
-      extensionLines.push(`Category: ${token.$extensions.category}`);
-    }
-    if (token.$extensions['bootstrap.version']) {
-      extensionLines.push(`Bootstrap: ${token.$extensions['bootstrap.version']}`);
-    }
-    if (token.$extensions.accessibility) {
-      if (token.$extensions.accessibility.contrast) {
-        extensionLines.push(`Contrast: ${token.$extensions.accessibility.contrast}`);
+
+    // Generic handler for any nested structure
+    function processExtensions(obj, prefix = '') {
+      for (const [key, value] of Object.entries(obj)) {
+        const label = prefix ? `${prefix}.${key}` : key;
+
+        if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+          // Recursively process nested objects
+          processExtensions(value, label);
+        } else {
+          // Format the key nicely (capitalize first letter of each word)
+          const formattedKey = label
+            .split('.')
+            .map((k) => k.charAt(0).toUpperCase() + k.slice(1))
+            .join('.');
+          extensionLines.push(`${formattedKey}: ${value}`);
+        }
       }
-      if (token.$extensions.accessibility.usage) {
-        extensionLines.push(`Usage: ${token.$extensions.accessibility.usage}`);
-      }
     }
+
+    processExtensions(token.$extensions);
 
     if (extensionLines.length > 0) {
       const extensionsBlock = extensionLines.join(' • ');
@@ -250,17 +336,27 @@ function createColorVariable(collection, modeId, name, token) {
   return variable;
 }
 
-function createVariableAlias(collection, modeId, name, valueKey, tokens, token) {
+function createVariableAlias(collection, modeId, name, valueKey, tokens, token, tokenType) {
   const targetVariable = tokens[valueKey];
 
+  // Map token types to Figma variable types
+  const typeMap = {
+    color: 'COLOR',
+    string: 'STRING',
+    number: 'FLOAT',
+    boolean: 'BOOLEAN',
+  };
+
+  const figmaType = typeMap[tokenType] || targetVariable.resolvedType;
+
   // Try to find existing variable first
-  const allVariables = figma.variables.getLocalVariables('COLOR');
+  const allVariables = figma.variables.getLocalVariables(figmaType);
   let variable = allVariables.find(
     (v) => v.name === name && v.variableCollectionId === collection.id
   );
 
   if (!variable) {
-    variable = figma.variables.createVariable(name, collection, 'COLOR');
+    variable = figma.variables.createVariable(name, collection, figmaType);
   }
 
   variable.setValueForMode(modeId, {
@@ -273,20 +369,27 @@ function createVariableAlias(collection, modeId, name, valueKey, tokens, token) 
 
   if (token && token.$extensions) {
     const extensionLines = [];
-    if (token.$extensions.category) {
-      extensionLines.push(`Category: ${token.$extensions.category}`);
-    }
-    if (token.$extensions['bootstrap.version']) {
-      extensionLines.push(`Bootstrap: ${token.$extensions['bootstrap.version']}`);
-    }
-    if (token.$extensions.accessibility) {
-      if (token.$extensions.accessibility.contrast) {
-        extensionLines.push(`Contrast: ${token.$extensions.accessibility.contrast}`);
+
+    // Generic handler for any nested structure
+    function processExtensions(obj, prefix = '') {
+      for (const [key, value] of Object.entries(obj)) {
+        const label = prefix ? `${prefix}.${key}` : key;
+
+        if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+          // Recursively process nested objects
+          processExtensions(value, label);
+        } else {
+          // Format the key nicely (capitalize first letter of each word)
+          const formattedKey = label
+            .split('.')
+            .map((k) => k.charAt(0).toUpperCase() + k.slice(1))
+            .join('.');
+          extensionLines.push(`${formattedKey}: ${value}`);
+        }
       }
-      if (token.$extensions.accessibility.usage) {
-        extensionLines.push(`Usage: ${token.$extensions.accessibility.usage}`);
-      }
     }
+
+    processExtensions(token.$extensions);
 
     if (extensionLines.length > 0) {
       const extensionsBlock = extensionLines.join(' • ');
@@ -327,15 +430,44 @@ async function processAliases({ collection, modeId, aliases, tokens }) {
 
   while (aliasArray.length && generations > 0) {
     for (let i = 0; i < aliasArray.length; i++) {
-      const { key, valueKey, description, scopes } = aliasArray[i];
-      const targetVariable = tokens[valueKey];
+      const { key, type, valueKey, description, scopes } = aliasArray[i];
+      let targetVariable = tokens[valueKey];
+
+      // If not found in current collection, search across all collections
+      if (!targetVariable) {
+        console.log(`  🔎 Searching for cross-collection alias: ${valueKey} (type: ${type})`);
+        const typeMap = { color: 'COLOR', string: 'STRING', number: 'FLOAT', boolean: 'BOOLEAN' };
+        const figmaType = typeMap[type] || 'COLOR';
+        const allVariables = figma.variables.getLocalVariables(figmaType);
+        console.log(`  📋 Found ${allVariables.length} variables of type ${figmaType}`);
+        console.log(
+          `  📋 Sample variable names:`,
+          allVariables.slice(0, 5).map((v) => v.name)
+        );
+        targetVariable = allVariables.find((v) => v.name === valueKey);
+        if (targetVariable) {
+          console.log('🔗 Found cross-collection reference:', valueKey);
+          // Store it for future use
+          tokens[valueKey] = targetVariable;
+        } else {
+          console.log(`  ❌ Cross-collection alias not found: ${valueKey}`);
+        }
+      }
 
       if (targetVariable) {
         aliasArray.splice(i, 1);
-        tokens[key] = createVariableAlias(collection, modeId, key, valueKey, tokens, {
-          $description: description,
-          $scopes: scopes,
-        });
+        tokens[key] = createVariableAlias(
+          collection,
+          modeId,
+          key,
+          valueKey,
+          tokens,
+          {
+            $description: description,
+            $scopes: scopes,
+          },
+          type
+        );
         console.log('✓ Resolved alias:', key, '→', valueKey);
         i--;
       } else {
@@ -364,25 +496,80 @@ async function setModeValues({ modeId, object, tokens, key }) {
       const variable = tokens[fullKey];
 
       if (variable) {
+        const tokenType = tokenValue.$type;
+
         if (isAlias(tokenValue.$value)) {
           // Set alias for this mode
-          const valueKey = tokenValue.$value
+          let valueKey = tokenValue.$value
             .trim()
             .replace(/[\{\}]/g, '') // Remove braces
-            .replace(/^colors\./, '') // Remove "colors." prefix if present
-            .replace(/^colors\//, '') // Remove "colors/" prefix if present
             .replace(/\./g, '/'); // Convert dots to slashes
 
-          const targetVariable = tokens[valueKey];
+          // If the alias doesn't already start with a group path, prepend it from current context
+          if (
+            !valueKey.startsWith('colors/') &&
+            !valueKey.startsWith('spacing/') &&
+            !valueKey.startsWith('components/')
+          ) {
+            // Extract the group name from the current key (e.g., 'colors' from 'colors/theme/primary')
+            const groupName = key.split('/')[0];
+            if (
+              groupName &&
+              (valueKey.startsWith('brand/') ||
+                valueKey.startsWith('neutral/') ||
+                valueKey.startsWith('theme/'))
+            ) {
+              valueKey = `${groupName}/${valueKey}`;
+            }
+          }
+
+          let targetVariable = tokens[valueKey];
+
+          // If not found in current collection, search across all collections
+          if (!targetVariable) {
+            console.log(
+              `  🔎 [Dark Mode] Searching for cross-collection alias: ${valueKey} (type: ${tokenType})`
+            );
+            const typeMap = {
+              color: 'COLOR',
+              string: 'STRING',
+              number: 'FLOAT',
+              boolean: 'BOOLEAN',
+            };
+            const figmaType = typeMap[tokenType] || 'COLOR';
+            const allVariables = figma.variables.getLocalVariables(figmaType);
+            targetVariable = allVariables.find((v) => v.name === valueKey);
+            if (targetVariable) {
+              console.log(`  🔗 [Dark Mode] Found cross-collection reference: ${valueKey}`);
+              // Store it for future use
+              tokens[valueKey] = targetVariable;
+            } else {
+              console.log(`  ❌ [Dark Mode] Cross-collection alias not found: ${valueKey}`);
+            }
+          }
+
           if (targetVariable) {
             variable.setValueForMode(modeId, {
               type: 'VARIABLE_ALIAS',
               id: targetVariable.id,
             });
+          } else {
+            console.log(`  ⚠️ [Dark Mode] Cannot resolve alias for ${fullKey} → ${valueKey}`);
           }
         } else {
-          // Set direct value for this mode
-          variable.setValueForMode(modeId, parseColor(tokenValue.$value));
+          // Set direct value for this mode based on type
+          let value;
+          if (tokenType === 'color') {
+            value = parseColor(tokenValue.$value);
+          } else if (tokenType === 'number') {
+            value = parseFloat(tokenValue.$value);
+          } else if (tokenType === 'boolean') {
+            value = tokenValue.$value === true || tokenValue.$value === 'true';
+          } else {
+            // string or any other type
+            value = tokenValue.$value.toString();
+          }
+          variable.setValueForMode(modeId, value);
         }
       }
     } else {

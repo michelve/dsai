@@ -139,6 +139,8 @@
       } else if (msg.type === 'import-error') {
         showStatus('error', msg.message);
         importBtn.disabled = false;
+      } else if (msg.type === 'dismiss-message') {
+        statusDiv.style.display = 'none';
       }
     };
   </script>
