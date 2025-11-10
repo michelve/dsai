@@ -1,0 +1,42 @@
+[
+  {
+    "Components | Select": {
+      "modes": {
+        "Light": {
+          "select": {
+            "background": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.neutral.white}"
+            },
+            "text": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{semantic.text.body}"
+            },
+            "border": {
+              "$scopes": ["STROKE_COLOR"],
+              "$type": "color",
+              "$value": "{colors.neutral.gray.400}"
+            },
+            "indicator-color": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{colors.neutral.gray.700}"
+            }
+          }
+        },
+        "Dark": {
+          "select": {
+            "$value": "{select}",
+            "$type": "COMPOSITE",
+            "background": { "$type": "color", "$value": "{semantic.background.subtle}" },
+            "text": { "$type": "color", "$value": "{semantic.text.body}" },
+            "border": { "$type": "color", "$value": "{semantic.border.default}" },
+            "indicator-color": { "$type": "color", "$value": "{colors.neutral.gray.300}" }
+          }
+        }
+      }
+    }
+  }
+]

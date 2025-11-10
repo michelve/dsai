@@ -1,0 +1,49 @@
+[
+  {
+    "Components | Modal": {
+      "modes": {
+        "Light": {
+          "modal": {
+            "background": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.neutral.white}"
+            },
+            "text": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{semantic.text.body}"
+            },
+            "border": {
+              "$scopes": ["STROKE_COLOR"],
+              "$type": "color",
+              "$value": "{colors.neutral.gray.200}"
+            },
+            "header-border": {
+              "$scopes": ["STROKE_COLOR"],
+              "$type": "color",
+              "$value": "{colors.neutral.gray.200}"
+            },
+            "footer-border": {
+              "$scopes": ["STROKE_COLOR"],
+              "$type": "color",
+              "$value": "{colors.neutral.gray.200}"
+            },
+            "shadow": { "$scopes": ["EFFECT_FLOAT"], "$type": "string", "$value": "{shadows.lg}" }
+          }
+        },
+        "Dark": {
+          "modal": {
+            "$value": "{modal}",
+            "$type": "COMPOSITE",
+            "background": { "$type": "color", "$value": "{semantic.background.body}" },
+            "text": { "$type": "color", "$value": "{semantic.text.body}" },
+            "border": { "$type": "color", "$value": "{semantic.border.default}" },
+            "header-border": { "$type": "color", "$value": "{semantic.border.default}" },
+            "footer-border": { "$type": "color", "$value": "{semantic.border.default}" }
+          }
+        }
+      }
+    }
+  }
+]

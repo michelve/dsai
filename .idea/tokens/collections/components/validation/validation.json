@@ -1,0 +1,25 @@
+[
+  {
+    "Components | Validation": {
+      "modes": {
+        "Light": {
+          "validation": {
+            "valid-color": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{colors.theme.success}"
+            },
+            "invalid-color": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{colors.theme.danger}"
+            }
+          }
+        },
+        "Dark": {
+          "validation": { "$value": "{validation}", "$type": "COMPOSITE" }
+        }
+      }
+    }
+  }
+]

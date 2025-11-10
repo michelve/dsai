@@ -1,0 +1,37 @@
+[
+  {
+    "Components | Offcanvas": {
+      "modes": {
+        "Light": {
+          "offcanvas": {
+            "background": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.neutral.white}"
+            },
+            "text": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{semantic.text.body}"
+            },
+            "border": {
+              "$scopes": ["STROKE_COLOR"],
+              "$type": "color",
+              "$value": "{colors.neutral.gray.200}"
+            },
+            "shadow": { "$scopes": ["EFFECT_FLOAT"], "$type": "string", "$value": "{shadows.lg}" }
+          }
+        },
+        "Dark": {
+          "offcanvas": {
+            "$value": "{offcanvas}",
+            "$type": "COMPOSITE",
+            "background": { "$type": "color", "$value": "{semantic.background.body}" },
+            "text": { "$type": "color", "$value": "{semantic.text.body}" },
+            "border": { "$type": "color", "$value": "{semantic.border.default}" }
+          }
+        }
+      }
+    }
+  }
+]

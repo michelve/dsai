@@ -1,247 +1,113 @@
 {
   "collections": [
     {
-      "file": "colors.json",
-      "title": "Colors",
-      "description": "Primitive brand hues, neutrals, and theme aliases.",
-      "modes": ["Light Mode", "Dark Mode"],
-      "notes": ["Includes $codeSyntax.WEB for brand, gray steps, theme"]
+      "name": "Foundation",
+      "description": "Combined collection with colors, semantic tokens, and borders. Must be together due to cross-references.",
+      "files": [
+        "core/colors/colors.json",
+        "core/semantic/semantic.json",
+        "core/borders/borders.json"
+      ],
+      "modes": ["Light", "Dark"],
+      "type": "theme-based",
+      "notes": [
+        "Semantic tokens reference {colors.*}",
+        "Borders reference {colors.*}",
+        "Cannot be split - Figma requires references in same collection"
+      ]
     },
     {
-      "file": "colors-scales.json",
-      "title": "Colors | Scales",
-      "description": "Full 100..900 scales and colors.hue aliases.",
-      "modes": ["Light Mode", "Dark Mode"]
+      "name": "Layout",
+      "description": "Grid system: breakpoints, container widths, columns, and gutters.",
+      "files": ["core/layout/layout.json"],
+      "modes": ["Base"],
+      "type": "viewport-based",
+      "notes": ["No cross-references to other collections", "Viewport-based, not theme-dependent"]
     },
     {
-      "file": "semantic.json",
-      "title": "Semantic",
-      "description": "Semantic text, background, border with dark overrides.",
-      "modes": ["Light Mode", "Dark Mode"],
-      "notes": ["$codeSyntax.WEB for body color/bg and link color"]
+      "name": "Spacing",
+      "description": "Spacing scale for margins, padding, and gaps (0-192px).",
+      "files": ["core/spacing/spacing.json"],
+      "modes": ["Base"],
+      "type": "viewport-based",
+      "notes": ["No cross-references to other collections", "Same values in all themes"]
     },
     {
-      "file": "typography.json",
-      "title": "Typography",
-      "description": "Families, sizes (incl. displays), weights, line-heights, headings/display defaults.",
-      "modes": ["Light Mode", "Dark Mode"],
-      "notes": ["$codeSyntax.WEB for body family/size/weight/line-height, monospace family"]
+      "name": "Radius",
+      "description": "Border radius scale for rounded corners (0-20px).",
+      "files": ["core/radius/radius.json"],
+      "modes": ["Base"],
+      "type": "viewport-based",
+      "notes": ["No cross-references to other collections", "Same values in all themes"]
     },
     {
-      "file": "spacing.json",
-      "title": "Spacing",
-      "description": "Spacing scale 0-5.",
-      "modes": ["Light Mode", "Dark Mode"]
+      "name": "Shadows",
+      "description": "Shadow presets with component variables (offsetX/Y, blur, spread).",
+      "files": ["core/shadows/shadows.json"],
+      "modes": ["Base"],
+      "type": "viewport-based",
+      "notes": [
+        "No cross-references to other collections",
+        "Component variables use NUMBER type for Figma effects",
+        "Shadow offsets viewport-based, colors theme-based (in Foundation)"
+      ]
     },
     {
-      "file": "radius.json",
-      "title": "Radius",
-      "description": "Corner radius scale.",
-      "modes": ["Light Mode", "Dark Mode"]
+      "name": "Typography",
+      "description": "Font families, sizes, weights, line heights, and heading/display styles.",
+      "files": ["core/typography/typography.json"],
+      "modes": ["Base"],
+      "type": "viewport-based",
+      "notes": [
+        "No cross-references to other collections",
+        "Single font names for Figma (Inter, Roboto Mono)",
+        "Bootstrap RFS handles responsive scaling in CSS",
+        "Full font stacks in extensions.platform.fontStack"
+      ]
     },
     {
-      "file": "borders.json",
-      "title": "Borders",
-      "description": "Border widths and default color.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "shadows.json",
-      "title": "Shadows",
-      "description": "Shadow presets (default, sm, lg, inset).",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "layout.json",
-      "title": "Layout",
-      "description": "Breakpoints, container widths, grid columns and gutters.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-button.json",
-      "title": "Components | Button",
-      "description": "Button semantic tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-card.json",
-      "title": "Components | Card",
-      "description": "Card semantic tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-input.json",
-      "title": "Components | Input",
-      "description": "Input semantic tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-alert.json",
-      "title": "Components | Alert",
-      "description": "Alert variants.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-navbar.json",
-      "title": "Components | Navbar",
-      "description": "Navbar tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-badge.json",
-      "title": "Components | Badge",
-      "description": "Badge variants.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-dropdown.json",
-      "title": "Components | Dropdown",
-      "description": "Dropdown tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-modal.json",
-      "title": "Components | Modal",
-      "description": "Modal tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-tooltip.json",
-      "title": "Components | Tooltip",
-      "description": "Tooltip tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-popover.json",
-      "title": "Components | Popover",
-      "description": "Popover tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-pagination.json",
-      "title": "Components | Pagination",
-      "description": "Pagination tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-progress.json",
-      "title": "Components | Progress",
-      "description": "Progress bar tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-list-group.json",
-      "title": "Components | List Group",
-      "description": "List group tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-table.json",
-      "title": "Components | Table",
-      "description": "Table tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-tabs.json",
-      "title": "Components | Tabs",
-      "description": "Tabs tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-accordion.json",
-      "title": "Components | Accordion",
-      "description": "Accordion tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-toast.json",
-      "title": "Components | Toast",
-      "description": "Toast tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-breadcrumb.json",
-      "title": "Components | Breadcrumb",
-      "description": "Breadcrumb tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-nav.json",
-      "title": "Components | Nav",
-      "description": "Nav tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-close.json",
-      "title": "Components | Close",
-      "description": "Close button tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-spinner.json",
-      "title": "Components | Spinner",
-      "description": "Spinner tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-offcanvas.json",
-      "title": "Components | Offcanvas",
-      "description": "Offcanvas tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-carousel.json",
-      "title": "Components | Carousel",
-      "description": "Carousel tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-form-control.json",
-      "title": "Components | Form Control",
-      "description": "Text input tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-checkbox.json",
-      "title": "Components | Checkbox",
-      "description": "Checkbox tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-radio.json",
-      "title": "Components | Radio",
-      "description": "Radio tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-switch.json",
-      "title": "Components | Switch",
-      "description": "Switch tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-select.json",
-      "title": "Components | Select",
-      "description": "Select tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-range.json",
-      "title": "Components | Range",
-      "description": "Range slider tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-floating-label.json",
-      "title": "Components | Floating Label",
-      "description": "Floating label tokens.",
-      "modes": ["Light Mode", "Dark Mode"]
-    },
-    {
-      "file": "components-validation.json",
-      "title": "Components | Validation",
-      "description": "Validation semantic colors.",
-      "modes": ["Light Mode", "Dark Mode"]
+      "name": "Components",
+      "description": "Component-specific tokens (buttons, cards, forms, etc.). Check each file for cross-references.",
+      "files": [
+        "components/button/button.json",
+        "components/card/card.json",
+        "components/input/input.json",
+        "components/alert/alert.json",
+        "components/navbar/navbar.json",
+        "components/badge/badge.json",
+        "components/dropdown/dropdown.json",
+        "components/modal/modal.json",
+        "components/tooltip/tooltip.json",
+        "components/popover/popover.json",
+        "components/pagination/pagination.json",
+        "components/progress/progress.json",
+        "components/list-group/list-group.json",
+        "components/table/table.json",
+        "components/tabs/tabs.json",
+        "components/accordion/accordion.json",
+        "components/toast/toast.json",
+        "components/breadcrumb/breadcrumb.json",
+        "components/nav/nav.json",
+        "components/close/close.json",
+        "components/spinner/spinner.json",
+        "components/offcanvas/offcanvas.json",
+        "components/carousel/carousel.json",
+        "components/form-control/form-control.json",
+        "components/checkbox/checkbox.json",
+        "components/radio/radio.json",
+        "components/switch/switch.json",
+        "components/select/select.json",
+        "components/range/range.json",
+        "components/floating-label/floating-label.json",
+        "components/validation/validation.json"
+      ],
+      "modes": ["Light", "Dark"],
+      "type": "theme-based",
+      "notes": [
+        "Components may reference Foundation collection tokens",
+        "If components reference Foundation, they must be merged into Foundation collection",
+        "Or keep components as separate files if no cross-references needed"
+      ]
     }
   ]
 }

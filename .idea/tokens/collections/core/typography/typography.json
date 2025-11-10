@@ -1,0 +1,432 @@
+{
+  "Typography": {
+    "modes": {
+      "Base": {
+        "fontFamily": {
+          "base": {
+            "$value": "Inter",
+            "$type": "string",
+            "$description": "Primary font family for Figma (single font name). Full Bootstrap stack: system-ui, -apple-system, Segoe UI, Roboto, etc.",
+            "$scopes": ["FONT_FAMILY"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/content/reboot/#native-font-stack",
+              "platform.cssVariableName": "--bs-body-font-family",
+              "platform.scssVariableName": "$font-family-base",
+              "platform.fontStack": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", \"Noto Sans\", \"Liberation Sans\", Arial, sans-serif",
+              "platform.viewport": "all"
+            }
+          },
+          "monospace": {
+            "$value": "Roboto Mono",
+            "$type": "string",
+            "$description": "Monospace font for code (single font name). Full Bootstrap stack: SFMono-Regular, Menlo, Monaco, Consolas, etc.",
+            "$scopes": ["FONT_FAMILY"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/content/reboot/#native-font-stack",
+              "platform.cssVariableName": "--bs-font-monospace",
+              "platform.scssVariableName": "$font-family-monospace",
+              "platform.fontStack": "SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+              "platform.viewport": "all"
+            }
+          }
+        },
+        "fontSize": {
+          "base": {
+            "$value": 16,
+            "$type": "number",
+            "$description": "Root font size for all viewports (1rem = 16px)",
+            "$scopes": ["FONT_SIZE"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/",
+              "platform.cssVariableName": "--bs-body-font-size",
+              "platform.scssVariableName": "$font-size-base",
+              "platform.remValue": "1rem",
+              "platform.viewport": "all"
+            }
+          },
+          "sm": {
+            "$value": 14,
+            "$type": "number",
+            "$description": "Small font size (0.875rem = 14px)",
+            "$scopes": ["FONT_SIZE"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/",
+              "platform.scssVariableName": "$font-size-sm",
+              "platform.remValue": "0.875rem",
+              "platform.viewport": "all"
+            }
+          },
+          "lg": {
+            "$value": 20,
+            "$type": "number",
+            "$description": "Large font size (1.25rem = 20px)",
+            "$scopes": ["FONT_SIZE"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/",
+              "platform.scssVariableName": "$font-size-lg",
+              "platform.remValue": "1.25rem",
+              "platform.viewport": "all"
+            }
+          }
+        },
+        "fontWeight": {
+          "lighter": {
+            "$value": 100,
+            "$type": "number",
+            "$description": "Lighter font weight",
+            "$scopes": ["FONT_WEIGHT"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics",
+              "platform.scssVariableName": "$font-weight-lighter",
+              "platform.cssClass": "fw-lighter"
+            }
+          },
+          "light": {
+            "$value": 300,
+            "$type": "number",
+            "$description": "Light font weight",
+            "$scopes": ["FONT_WEIGHT"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics",
+              "platform.scssVariableName": "$font-weight-light",
+              "platform.cssClass": "fw-light"
+            }
+          },
+          "normal": {
+            "$value": 400,
+            "$type": "number",
+            "$description": "Normal font weight (default body weight)",
+            "$scopes": ["FONT_WEIGHT"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics",
+              "platform.cssVariableName": "--bs-body-font-weight",
+              "platform.scssVariableName": "$font-weight-normal",
+              "platform.cssClass": "fw-normal"
+            }
+          },
+          "medium": {
+            "$value": 500,
+            "$type": "number",
+            "$description": "Medium font weight",
+            "$scopes": ["FONT_WEIGHT"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics",
+              "platform.scssVariableName": "$font-weight-medium",
+              "platform.cssClass": "fw-medium"
+            }
+          },
+          "semibold": {
+            "$value": 600,
+            "$type": "number",
+            "$description": "Semibold font weight",
+            "$scopes": ["FONT_WEIGHT"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics",
+              "platform.scssVariableName": "$font-weight-semibold",
+              "platform.cssClass": "fw-semibold"
+            }
+          },
+          "bold": {
+            "$value": 700,
+            "$type": "number",
+            "$description": "Bold font weight",
+            "$scopes": ["FONT_WEIGHT"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics",
+              "platform.scssVariableName": "$font-weight-bold",
+              "platform.cssClass": "fw-bold"
+            }
+          },
+          "bolder": {
+            "$value": 900,
+            "$type": "number",
+            "$description": "Bolder font weight",
+            "$scopes": ["FONT_WEIGHT"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics",
+              "platform.scssVariableName": "$font-weight-bolder",
+              "platform.cssClass": "fw-bolder"
+            }
+          }
+        },
+        "lineHeight": {
+          "sm": {
+            "$value": 1.25,
+            "$type": "number",
+            "$description": "Small line height",
+            "$scopes": ["LINE_HEIGHT"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/",
+              "platform.scssVariableName": "$line-height-sm"
+            }
+          },
+          "base": {
+            "$value": 1.5,
+            "$type": "number",
+            "$description": "Base line height (default for body text)",
+            "$scopes": ["LINE_HEIGHT"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/",
+              "platform.cssVariableName": "--bs-body-line-height",
+              "platform.scssVariableName": "$line-height-base"
+            }
+          },
+          "lg": {
+            "$value": 2,
+            "$type": "number",
+            "$description": "Large line height",
+            "$scopes": ["LINE_HEIGHT"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/",
+              "platform.scssVariableName": "$line-height-lg"
+            }
+          }
+        },
+        "headings": {
+          "h1": {
+            "fontSize": {
+              "$value": 40,
+              "$type": "number",
+              "$description": "H1 heading font size (2.5rem = 40px)",
+              "$scopes": ["FONT_SIZE"],
+              "$extensions": {
+                "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings",
+                "platform.scssVariableName": "$h1-font-size",
+                "platform.remValue": "2.5rem"
+              }
+            }
+          },
+          "h2": {
+            "fontSize": {
+              "$value": 32,
+              "$type": "number",
+              "$description": "H2 heading font size (2rem = 32px)",
+              "$scopes": ["FONT_SIZE"],
+              "$extensions": {
+                "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings",
+                "platform.scssVariableName": "$h2-font-size",
+                "platform.remValue": "2rem"
+              }
+            }
+          },
+          "h3": {
+            "fontSize": {
+              "$value": 28,
+              "$type": "number",
+              "$description": "H3 heading font size (1.75rem = 28px)",
+              "$scopes": ["FONT_SIZE"],
+              "$extensions": {
+                "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings",
+                "platform.scssVariableName": "$h3-font-size",
+                "platform.remValue": "1.75rem"
+              }
+            }
+          },
+          "h4": {
+            "fontSize": {
+              "$value": 24,
+              "$type": "number",
+              "$description": "H4 heading font size (1.5rem = 24px)",
+              "$scopes": ["FONT_SIZE"],
+              "$extensions": {
+                "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings",
+                "platform.scssVariableName": "$h4-font-size",
+                "platform.remValue": "1.5rem"
+              }
+            }
+          },
+          "h5": {
+            "fontSize": {
+              "$value": 20,
+              "$type": "number",
+              "$description": "H5 heading font size (1.25rem = 20px)",
+              "$scopes": ["FONT_SIZE"],
+              "$extensions": {
+                "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings",
+                "platform.scssVariableName": "$h5-font-size",
+                "platform.remValue": "1.25rem"
+              }
+            }
+          },
+          "h6": {
+            "fontSize": {
+              "$value": 16,
+              "$type": "number",
+              "$description": "H6 heading font size (1rem = 16px)",
+              "$scopes": ["FONT_SIZE"],
+              "$extensions": {
+                "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings",
+                "platform.scssVariableName": "$h6-font-size",
+                "platform.remValue": "1rem"
+              }
+            }
+          },
+          "fontWeight": {
+            "$value": 500,
+            "$type": "number",
+            "$description": "Default font weight for all headings",
+            "$scopes": ["FONT_WEIGHT"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings",
+              "platform.scssVariableName": "$headings-font-weight"
+            }
+          },
+          "lineHeight": {
+            "$value": 1.2,
+            "$type": "number",
+            "$description": "Line height for all headings",
+            "$scopes": ["LINE_HEIGHT"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings",
+              "platform.scssVariableName": "$headings-line-height"
+            }
+          }
+        },
+        "display": {
+          "display1": {
+            "fontSize": {
+              "$value": 80,
+              "$type": "number",
+              "$description": "Display 1 font size (5rem = 80px)",
+              "$scopes": ["FONT_SIZE"],
+              "$extensions": {
+                "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings",
+                "platform.scssVariableName": "$display-font-sizes: (1: 5rem)",
+                "platform.cssClass": "display-1",
+                "platform.remValue": "5rem"
+              }
+            }
+          },
+          "display2": {
+            "fontSize": {
+              "$value": 72,
+              "$type": "number",
+              "$description": "Display 2 font size (4.5rem = 72px)",
+              "$scopes": ["FONT_SIZE"],
+              "$extensions": {
+                "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings",
+                "platform.scssVariableName": "$display-font-sizes: (2: 4.5rem)",
+                "platform.cssClass": "display-2",
+                "platform.remValue": "4.5rem"
+              }
+            }
+          },
+          "display3": {
+            "fontSize": {
+              "$value": 64,
+              "$type": "number",
+              "$description": "Display 3 font size (4rem = 64px)",
+              "$scopes": ["FONT_SIZE"],
+              "$extensions": {
+                "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings",
+                "platform.scssVariableName": "$display-font-sizes: (3: 4rem)",
+                "platform.cssClass": "display-3",
+                "platform.remValue": "4rem"
+              }
+            }
+          },
+          "display4": {
+            "fontSize": {
+              "$value": 56,
+              "$type": "number",
+              "$description": "Display 4 font size (3.5rem = 56px)",
+              "$scopes": ["FONT_SIZE"],
+              "$extensions": {
+                "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings",
+                "platform.scssVariableName": "$display-font-sizes: (4: 3.5rem)",
+                "platform.cssClass": "display-4",
+                "platform.remValue": "3.5rem"
+              }
+            }
+          },
+          "display5": {
+            "fontSize": {
+              "$value": 48,
+              "$type": "number",
+              "$description": "Display 5 font size (3rem = 48px)",
+              "$scopes": ["FONT_SIZE"],
+              "$extensions": {
+                "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings",
+                "platform.scssVariableName": "$display-font-sizes: (5: 3rem)",
+                "platform.cssClass": "display-5",
+                "platform.remValue": "3rem"
+              }
+            }
+          },
+          "display6": {
+            "fontSize": {
+              "$value": 40,
+              "$type": "number",
+              "$description": "Display 6 font size (2.5rem = 40px)",
+              "$scopes": ["FONT_SIZE"],
+              "$extensions": {
+                "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings",
+                "platform.scssVariableName": "$display-font-sizes: (6: 2.5rem)",
+                "platform.cssClass": "display-6",
+                "platform.remValue": "2.5rem"
+              }
+            }
+          },
+          "fontWeight": {
+            "$value": 300,
+            "$type": "number",
+            "$description": "Font weight for display headings",
+            "$scopes": ["FONT_WEIGHT"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings",
+              "platform.scssVariableName": "$display-font-weight"
+            }
+          },
+          "lineHeight": {
+            "$value": 1.2,
+            "$type": "number",
+            "$description": "Line height for display headings",
+            "$scopes": ["LINE_HEIGHT"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings",
+              "platform.scssVariableName": "$display-line-height"
+            }
+          }
+        },
+        "lead": {
+          "fontSize": {
+            "$value": 20,
+            "$type": "number",
+            "$description": "Lead paragraph font size (1.25rem = 20px)",
+            "$scopes": ["FONT_SIZE"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#lead",
+              "platform.scssVariableName": "$lead-font-size",
+              "platform.cssClass": "lead",
+              "platform.remValue": "1.25rem"
+            }
+          },
+          "fontWeight": {
+            "$value": 300,
+            "$type": "number",
+            "$description": "Lead paragraph font weight",
+            "$scopes": ["FONT_WEIGHT"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#lead",
+              "platform.scssVariableName": "$lead-font-weight"
+            }
+          }
+        },
+        "small": {
+          "fontSize": {
+            "$value": 14,
+            "$type": "number",
+            "$description": "Small text font size (0.875rem = 14px)",
+            "$scopes": ["FONT_SIZE"],
+            "$extensions": {
+              "docs.reference": "https://getbootstrap.com/docs/5.3/content/typography/#inline-text-elements",
+              "platform.scssVariableName": "$small-font-size",
+              "platform.cssClass": "small",
+              "platform.remValue": "0.875rem"
+            }
+          }
+        }
+      }
+    }
+  }
+}

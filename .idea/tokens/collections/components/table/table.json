@@ -1,0 +1,60 @@
+[
+  {
+    "Components | Table": {
+      "modes": {
+        "Light": {
+          "table": {
+            "background": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.neutral.white}"
+            },
+            "text": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{semantic.text.body}"
+            },
+            "border": {
+              "$scopes": ["STROKE_COLOR"],
+              "$type": "color",
+              "$value": "{colors.neutral.gray.300}"
+            },
+            "striped-bg": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.neutral.gray.100}"
+            },
+            "hover-bg": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.neutral.gray.100}"
+            },
+            "thead-bg": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.neutral.gray.100}"
+            },
+            "thead-color": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{semantic.text.body}"
+            }
+          }
+        },
+        "Dark": {
+          "table": {
+            "$value": "{table}",
+            "$type": "COMPOSITE",
+            "background": { "$type": "color", "$value": "{semantic.background.body}" },
+            "text": { "$type": "color", "$value": "{semantic.text.body}" },
+            "border": { "$type": "color", "$value": "{semantic.border.default}" },
+            "striped-bg": { "$type": "color", "$value": "{semantic.background.subtle}" },
+            "hover-bg": { "$type": "color", "$value": "{semantic.background.subtle}" },
+            "thead-bg": { "$type": "color", "$value": "{semantic.background.subtle}" },
+            "thead-color": { "$type": "color", "$value": "{semantic.text.body}" }
+          }
+        }
+      }
+    }
+  }
+]

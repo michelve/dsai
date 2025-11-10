@@ -1,0 +1,244 @@
+[
+  {
+    "Foundation": {
+      "modes": {
+        "Light": {
+          "borders": {
+            "width": {
+              "default": {
+                "$scopes": ["STROKE_FLOAT"],
+                "$type": "number",
+                "$value": "{borders.width.1}",
+                "$extensions": {
+                  "docs": {
+                    "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#width",
+                    "section": "Utilities",
+                    "subsection": "Borders – Border Width"
+                  },
+                  "platform": {
+                    "scssVariableName": "$border-width",
+                    "bootstrapVersion": "5.3"
+                  }
+                }
+              },
+              "1": {
+                "$scopes": ["STROKE_FLOAT"],
+                "$type": "number",
+                "$value": 1,
+                "$extensions": {
+                  "docs": {
+                    "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#width"
+                  },
+                  "platform": {
+                    "scssVariableName": "$border-widths",
+                    "bootstrapVersion": "5.3"
+                  }
+                }
+              },
+              "2": {
+                "$scopes": ["STROKE_FLOAT"],
+                "$type": "number",
+                "$value": 2,
+                "$extensions": {
+                  "docs": {
+                    "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#width"
+                  },
+                  "platform": {
+                    "scssVariableName": "$border-widths",
+                    "bootstrapVersion": "5.3"
+                  }
+                }
+              },
+              "3": {
+                "$scopes": ["STROKE_FLOAT"],
+                "$type": "number",
+                "$value": 3,
+                "$extensions": {
+                  "docs": {
+                    "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#width"
+                  },
+                  "platform": {
+                    "scssVariableName": "$border-widths",
+                    "bootstrapVersion": "5.3"
+                  }
+                }
+              },
+              "4": {
+                "$scopes": ["STROKE_FLOAT"],
+                "$type": "number",
+                "$value": 4,
+                "$extensions": {
+                  "docs": {
+                    "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#width"
+                  },
+                  "platform": {
+                    "scssVariableName": "$border-widths",
+                    "bootstrapVersion": "5.3"
+                  }
+                }
+              },
+              "5": {
+                "$scopes": ["STROKE_FLOAT"],
+                "$type": "number",
+                "$value": 5,
+                "$extensions": {
+                  "docs": {
+                    "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#width"
+                  },
+                  "platform": {
+                    "scssVariableName": "$border-widths",
+                    "bootstrapVersion": "5.3"
+                  }
+                }
+              }
+            },
+            "color": {
+              "default": {
+                "$scopes": ["STROKE_COLOR"],
+                "$type": "color",
+                "$value": "{colors.neutral.gray.300}",
+                "$extensions": {
+                  "docs": {
+                    "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#color",
+                    "section": "Utilities",
+                    "subsection": "Borders – Border Color"
+                  },
+                  "platform": {
+                    "cssVariableName": "--bs-border-color",
+                    "scssVariableName": "$border-color",
+                    "bootstrapVersion": "5.3"
+                  },
+                  "valueReference": {
+                    "gray.300": {
+                      "hex": "#dee2e6",
+                      "docs": "https://getbootstrap.com/docs/5.3/customize/color/#grays",
+                      "scssVariableName": "$gray-300"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Dark": {
+          "borders": {
+            "width": {
+              "default": {
+                "$scopes": ["STROKE_FLOAT"],
+                "$type": "number",
+                "$value": "{borders.width.1}",
+                "$extensions": {
+                  "docs": {
+                    "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#width",
+                    "section": "Utilities",
+                    "subsection": "Borders – Border Width"
+                  },
+                  "platform": {
+                    "scssVariableName": "$border-width",
+                    "bootstrapVersion": "5.3"
+                  }
+                }
+              },
+              "1": {
+                "$scopes": ["STROKE_FLOAT"],
+                "$type": "number",
+                "$value": 1,
+                "$extensions": {
+                  "docs": {
+                    "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#width"
+                  },
+                  "platform": {
+                    "scssVariableName": "$border-widths",
+                    "bootstrapVersion": "5.3"
+                  }
+                }
+              },
+              "2": {
+                "$scopes": ["STROKE_FLOAT"],
+                "$type": "number",
+                "$value": 2,
+                "$extensions": {
+                  "docs": {
+                    "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#width"
+                  },
+                  "platform": {
+                    "scssVariableName": "$border-widths",
+                    "bootstrapVersion": "5.3"
+                  }
+                }
+              },
+              "3": {
+                "$scopes": ["STROKE_FLOAT"],
+                "$type": "number",
+                "$value": 3,
+                "$extensions": {
+                  "docs": {
+                    "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#width"
+                  },
+                  "platform": {
+                    "scssVariableName": "$border-widths",
+                    "bootstrapVersion": "5.3"
+                  }
+                }
+              },
+              "4": {
+                "$scopes": ["STROKE_FLOAT"],
+                "$type": "number",
+                "$value": 4,
+                "$extensions": {
+                  "docs": {
+                    "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#width"
+                  },
+                  "platform": {
+                    "scssVariableName": "$border-widths",
+                    "bootstrapVersion": "5.3"
+                  }
+                }
+              },
+              "5": {
+                "$scopes": ["STROKE_FLOAT"],
+                "$type": "number",
+                "$value": 5,
+                "$extensions": {
+                  "docs": {
+                    "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#width"
+                  },
+                  "platform": {
+                    "scssVariableName": "$border-widths",
+                    "bootstrapVersion": "5.3"
+                  }
+                }
+              }
+            },
+            "color": {
+              "default": {
+                "$scopes": ["STROKE_COLOR"],
+                "$type": "color",
+                "$value": "{colors.neutral.gray.300}",
+                "$extensions": {
+                  "docs": {
+                    "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#color",
+                    "section": "Utilities",
+                    "subsection": "Borders – Border Color"
+                  },
+                  "platform": {
+                    "cssVariableName": "--bs-border-color",
+                    "scssVariableName": "$border-color",
+                    "bootstrapVersion": "5.3"
+                  },
+                  "valueReference": {
+                    "gray.300": {
+                      "hex": "#dee2e6",
+                      "docs": "https://getbootstrap.com/docs/5.3/customize/color/#grays",
+                      "scssVariableName": "$gray-300"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+]

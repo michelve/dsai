@@ -1,0 +1,54 @@
+[
+  {
+    "Components | Form Control": {
+      "modes": {
+        "Light": {
+          "form-control": {
+            "background": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.neutral.white}"
+            },
+            "text": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{semantic.text.body}"
+            },
+            "placeholder": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{semantic.text.muted}"
+            },
+            "border": {
+              "$scopes": ["STROKE_COLOR"],
+              "$type": "color",
+              "$value": "{colors.neutral.gray.400}"
+            },
+            "focus-border": {
+              "$scopes": ["STROKE_COLOR"],
+              "$type": "color",
+              "$value": "{colors.theme.primary}"
+            },
+            "focus-ring": {
+              "$scopes": ["EFFECT_COLOR"],
+              "$type": "color",
+              "$value": "rgba(13, 110, 253, 0.25)"
+            }
+          }
+        },
+        "Dark": {
+          "form-control": {
+            "$value": "{form-control}",
+            "$type": "COMPOSITE",
+            "background": { "$type": "color", "$value": "{semantic.background.subtle}" },
+            "text": { "$type": "color", "$value": "{semantic.text.body}" },
+            "placeholder": { "$type": "color", "$value": "{semantic.text.muted}" },
+            "border": { "$type": "color", "$value": "{semantic.border.default}" },
+            "focus-border": { "$type": "color", "$value": "{colors.brand.blue.scale.300}" },
+            "focus-ring": { "$type": "color", "$value": "rgba(110, 168, 254, 0.25)" }
+          }
+        }
+      }
+    }
+  }
+]

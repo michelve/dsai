@@ -1,0 +1,44 @@
+[
+  {
+    "Components | Popover": {
+      "modes": {
+        "Light": {
+          "popover": {
+            "background": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.neutral.white}"
+            },
+            "text": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{semantic.text.body}"
+            },
+            "border": { "$scopes": ["STROKE_COLOR"], "$type": "color", "$value": "rgba(0,0,0,.2)" },
+            "header-bg": {
+              "$scopes": ["ALL_FILLS"],
+              "$type": "color",
+              "$value": "{colors.neutral.gray.100}"
+            },
+            "header-color": {
+              "$scopes": ["TEXT_FILL"],
+              "$type": "color",
+              "$value": "{semantic.text.body}"
+            }
+          }
+        },
+        "Dark": {
+          "popover": {
+            "$value": "{popover}",
+            "$type": "COMPOSITE",
+            "background": { "$type": "color", "$value": "{semantic.background.body}" },
+            "text": { "$type": "color", "$value": "{semantic.text.body}" },
+            "border": { "$type": "color", "$value": "rgba(255,255,255,.2)" },
+            "header-bg": { "$type": "color", "$value": "{semantic.background.subtle}" },
+            "header-color": { "$type": "color", "$value": "{semantic.text.body}" }
+          }
+        }
+      }
+    }
+  }
+]
