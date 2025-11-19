@@ -34,13 +34,18 @@ function parseTaskFile(filePath, directory, filename) {
     estimate: '',
     phase: '',
     description: '',
-    taskFile: `${directory}/${filename}` // Add the file path
+    taskFile: `${directory}/${filename}`, // Add the file path
+    requires: [], // Tasks this depends on (blockers)
+    blocks: []    // Tasks this blocks
   };
 
   // Extract metadata
   let descriptionLines = [];
   let inDescription = false;
-
+  let inDependencies = false;
+  let inRequires = false;
+  let inBlocks = false;
+  
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
 
@@ -84,13 +89,55 @@ function parseTaskFile(filePath, directory, filename) {
       task.phase = phase;
       task.milestone = phase.split(' - ')[0]; // e.g., "Phase 0"
     }
-
+    
+    // Extract Dependencies
+    if (line === '## Dependencies' || line === '## 🔗 Dependencies') {
+      inDependencies = true;
+      continue;
+    }
+    
+    if (inDependencies) {
+      // End of dependencies section
+      if (line.startsWith('## ') && !line.includes('Dependencies')) {
+        inDependencies = false;
+        inRequires = false;
+        inBlocks = false;
+      }
+      
+      // Start of Requires section
+      if (line === '### Requires:' || line === '### Prerequisites') {
+        inRequires = true;
+        inBlocks = false;
+        continue;
+      }
+      
+      // Start of Blocks section
+      if (line === '### Blocks:') {
+        inBlocks = true;
+        inRequires = false;
+        continue;
+      }
+      
+      // Extract task IDs from dependency lines
+      if ((inRequires || inBlocks) && line.startsWith('-')) {
+        const taskIdMatch = line.match(/TASK-\d+/);
+        if (taskIdMatch) {
+          const depTaskId = taskIdMatch[0];
+          if (inRequires) {
+            task.requires.push(depTaskId);
+          } else if (inBlocks) {
+            task.blocks.push(depTaskId);
+          }
+        }
+      }
+    }
+    
     // Extract full description
     if (line === '## 📋 Task Description' || line === '## Description') {
       inDescription = true;
       continue;
     }
-
+    
     if (inDescription) {
       if (line.startsWith('## ') && !line.includes('Task Description')) {
         inDescription = false;
@@ -205,6 +252,11 @@ function parseTaskFile(filePath, directory, filename) {
     task.labels.push('📋 todo');
   }
   
+  // Add blocked label if has unmet dependencies
+  if (task.requires.length > 0) {
+    task.labels.push('🚧 has-dependencies');
+  }
+  
   // 7. SPECIAL CATEGORIES
   // Accessibility
   if (task.title.match(/accessibility|a11y|wcag|aria/i)) {
@@ -304,7 +356,7 @@ function main() {
 
   // Generate CSV with required columns for bulk-issue-creator
   const csvLines = [
-    'repository,title,labels,assignees,milestone,task_id,priority,estimate,phase,task_file'
+    'repository,title,labels,assignees,milestone,task_id,priority,estimate,phase,task_file,requires,blocks'
   ];
   
   for (const task of tasks) {
@@ -318,7 +370,9 @@ function main() {
       task.priority,
       escapeCsv(task.estimate),
       escapeCsv(task.phase),
-      escapeCsv(task.taskFile)
+      escapeCsv(task.taskFile),
+      escapeCsv(task.requires.join(', ')),
+      escapeCsv(task.blocks.join(', '))
     ].join(',');
     
     csvLines.push(row);
