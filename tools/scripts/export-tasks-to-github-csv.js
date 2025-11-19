@@ -19,10 +19,10 @@ const path = require('path');
 /**
  * Parse markdown task file
  */
-function parseTaskFile(filePath, directory) {
+function parseTaskFile(filePath, directory, filename) {
   const content = fs.readFileSync(filePath, 'utf-8');
   const lines = content.split('\n');
-
+  
   const task = {
     repository: 'michelve/dsai', // Change this to your repo
     title: '',
@@ -33,7 +33,8 @@ function parseTaskFile(filePath, directory) {
     priority: '',
     estimate: '',
     phase: '',
-    description: ''
+    description: '',
+    taskFile: `${directory}/${filename}` // Add the file path
   };
 
   // Extract metadata
@@ -102,28 +103,122 @@ function parseTaskFile(filePath, directory) {
   // Build full description from file
   task.description = descriptionLines.join('\n').trim();
 
-  // Add labels based on directory
-  if (directory === '01-critical') {
-    task.labels.push('critical', 'phase-0');
-  } else if (directory === '02-high') {
-    task.labels.push('high-priority');
-  } else if (directory === '03-medium') {
-    task.labels.push('medium-priority');
-  } else if (directory === 'completed') {
-    task.labels.push('completed');
+  // Clear previous labels and build proper label set
+  task.labels = [];
+  
+  // 1. ROLE-BASED LABELS
+  if (task.title.toLowerCase().includes('designer') || 
+      task.assignees === '' && task.title.match(/color|typography|figma|audit/i)) {
+    task.labels.push('👨‍🎨 designer');
+  } else if (task.assignees && task.assignees !== '') {
+    task.labels.push('👨‍💻 developer');
   }
-
-  // Add component label for component tasks
-  if (task.taskId && parseInt(task.taskId.replace('TASK-', '')) >= 21 &&
-      parseInt(task.taskId.replace('TASK-', '')) <= 45) {
-    task.labels.push('component');
+  
+  // 2. WORK TYPE LABELS
+  // Design work
+  if (task.title.match(/figma|design|color|palette|typography|audit|variable/i)) {
+    task.labels.push('🎨 design');
   }
-
-  // Add token label for token-related tasks
-  if (task.title && (task.title.toLowerCase().includes('token') ||
-      task.title.toLowerCase().includes('color') ||
-      task.title.toLowerCase().includes('typography'))) {
-    task.labels.push('design-tokens');
+  
+  // Code/Implementation
+  if (task.title.match(/setup|configure|create|build|implement|component/i) && 
+      !task.title.match(/designer|figma variable/i)) {
+    task.labels.push('💻 code');
+  }
+  
+  // Infrastructure/Tooling
+  if (task.title.match(/setup|configure|pipeline|storybook|dictionary|ci\/cd|build/i)) {
+    task.labels.push('🔧 infrastructure');
+  }
+  
+  // Documentation
+  if (task.title.match(/document|guide|readme/i)) {
+    task.labels.push('📚 documentation');
+  }
+  
+  // Testing
+  if (task.title.match(/test|coverage|audit/i)) {
+    task.labels.push('🧪 testing');
+  }
+  
+  // 3. DOMAIN LABELS
+  // Design tokens
+  if (task.title.match(/token|color|palette|typography|spacing|shadow|border|semantic/i)) {
+    task.labels.push('🎨 design-tokens');
+  }
+  
+  // Components
+  const taskNum = parseInt(task.taskId.replace('TASK-', ''));
+  if ((taskNum >= 21 && taskNum <= 45) || task.title.match(/button|badge|alert|modal|input|select/i)) {
+    task.labels.push('🧩 component');
+    
+    // Component complexity
+    if (taskNum >= 21 && taskNum <= 27) {
+      task.labels.push('simple');
+    } else if (taskNum >= 28 && taskNum <= 36) {
+      task.labels.push('medium');
+    } else if (taskNum >= 37 && taskNum <= 45) {
+      task.labels.push('complex');
+    }
+  }
+  
+  // Figma integration
+  if (task.title.match(/figma|code connect/i)) {
+    task.labels.push('🎨 figma');
+  }
+  
+  // Storybook
+  if (task.title.match(/storybook/i)) {
+    task.labels.push('📖 storybook');
+  }
+  
+  // 4. PRIORITY LABELS
+  if (task.priority === 'Critical') {
+    task.labels.push('🔴 critical');
+  } else if (task.priority === 'High') {
+    task.labels.push('🟠 high-priority');
+  } else if (task.priority === 'Medium') {
+    task.labels.push('🟡 medium-priority');
+  }
+  
+  // 5. PHASE LABELS
+  if (task.phase && task.phase.includes('Phase 0')) {
+    task.labels.push('📍 phase-0');
+  } else if (task.phase && task.phase.includes('Phase 1')) {
+    task.labels.push('📍 phase-1');
+  } else if (task.phase && task.phase.includes('Phase 2A')) {
+    task.labels.push('📍 phase-2a');
+  } else if (task.phase && task.phase.includes('Phase 2B')) {
+    task.labels.push('📍 phase-2b');
+  } else if (task.phase && task.phase.includes('Phase 2C')) {
+    task.labels.push('📍 phase-2c');
+  } else if (task.phase && task.phase.includes('Phase 3')) {
+    task.labels.push('📍 phase-3');
+  } else if (task.phase && task.phase.includes('Phase 4')) {
+    task.labels.push('📍 phase-4');
+  }
+  
+  // 6. STATUS LABELS
+  if (directory === 'completed') {
+    task.labels.push('✅ completed');
+  } else {
+    task.labels.push('📋 todo');
+  }
+  
+  // 7. SPECIAL CATEGORIES
+  // Accessibility
+  if (task.title.match(/accessibility|a11y|wcag|aria/i)) {
+    task.labels.push('♿ accessibility');
+  }
+  
+  // Performance
+  if (task.title.match(/performance|optimization|bundle/i)) {
+    task.labels.push('⚡ performance');
+  }
+  
+  // Security
+  if (task.title.match(/security|audit/i)) {
+    task.labels.push('🔒 security');
   }
 
   return task;
@@ -162,8 +257,8 @@ function scanTasksDirectory(dirPath, relativePath = '') {
     } else if (entry.isFile() && entry.name.endsWith('.md') && entry.name.startsWith('TASK-')) {
       const directory = path.basename(dirPath);
       try {
-        const task = parseTaskFile(fullPath, directory);
-
+        const task = parseTaskFile(fullPath, directory, entry.name);
+        
         // Only add if has valid title and ID
         if (task.title && task.taskId) {
           tasks.push(task);
@@ -209,9 +304,9 @@ function main() {
 
   // Generate CSV with required columns for bulk-issue-creator
   const csvLines = [
-    'repository,title,labels,assignees,milestone,task_id,priority,estimate,phase'
+    'repository,title,labels,assignees,milestone,task_id,priority,estimate,phase,task_file'
   ];
-
+  
   for (const task of tasks) {
     const row = [
       task.repository,
@@ -222,9 +317,10 @@ function main() {
       task.taskId,
       task.priority,
       escapeCsv(task.estimate),
-      escapeCsv(task.phase)
+      escapeCsv(task.phase),
+      escapeCsv(task.taskFile)
     ].join(',');
-
+    
     csvLines.push(row);
   }
 
