@@ -1,0 +1,56 @@
+{
+  "layout": {
+    "grid": {
+      "columns": {
+        "value": "12px",
+        "type": "dimension",
+        "description": "Number of columns in Bootstrap's grid system (12). Provides flexible layout options with divisible column counts.",
+        "comment": "$grid-columns"
+      },
+      "gutter-width": {
+        "value": "24px",
+        "type": "dimension",
+        "description": "Default gutter width between grid columns (1.5rem = 24px). Horizontal padding creating space between columns.",
+        "comment": "$grid-gutter-width"
+      },
+      "row-columns": {
+        "value": "6px",
+        "type": "dimension",
+        "description": "Maximum number of columns for .row-cols-* classes (6). Sets the limit for auto-layout row columns.",
+        "comment": "$grid-row-columns"
+      }
+    },
+    "gutters": {
+      "0": {
+        "value": "0px",
+        "type": "dimension",
+        "description": "No gutter spacing (0). Removes all spacing between columns with .g-0 class."
+      },
+      "1": {
+        "value": "4px",
+        "type": "dimension",
+        "description": "Extra small gutter spacing (0.25rem = 4px). Minimal spacing for tightly packed layouts."
+      },
+      "2": {
+        "value": "8px",
+        "type": "dimension",
+        "description": "Small gutter spacing (0.5rem = 8px). Compact spacing between columns."
+      },
+      "3": {
+        "value": "16px",
+        "type": "dimension",
+        "description": "Medium gutter spacing (1rem = 16px). Standard spacing for moderate column separation."
+      },
+      "4": {
+        "value": "24px",
+        "type": "dimension",
+        "description": "Default gutter spacing (1.5rem = 24px). Bootstrap's standard gutter width matching $grid-gutter-width."
+      },
+      "5": {
+        "value": "48px",
+        "type": "dimension",
+        "description": "Large gutter spacing (3rem = 48px). Wide spacing for prominent column separation."
+      }
+    }
+  }
+}

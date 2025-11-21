@@ -1,0 +1,60 @@
+{
+  "spacing": {
+    "0": {
+      "value": "0px",
+      "type": "dimension",
+      "description": "Spacing scale 0 - No spacing. Bootstrap's $spacer * 0 (0px).",
+      "comment": "$spacer * 0"
+    },
+    "1": {
+      "value": "4px",
+      "type": "dimension",
+      "description": "Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px).",
+      "comment": "$spacer * .25"
+    },
+    "2": {
+      "value": "8px",
+      "type": "dimension",
+      "description": "Spacing scale 2 - Small spacing. Bootstrap's $spacer * 0.5 (8px).",
+      "comment": "$spacer * .5"
+    },
+    "3": {
+      "value": "16px",
+      "type": "dimension",
+      "description": "Spacing scale 3 - Base spacing. Bootstrap's $spacer * 1 (16px).",
+      "comment": "$spacer"
+    },
+    "4": {
+      "value": "24px",
+      "type": "dimension",
+      "description": "Spacing scale 4 - Medium spacing. Bootstrap's $spacer * 1.5 (24px).",
+      "comment": "$spacer * 1.5"
+    },
+    "5": {
+      "value": "32px",
+      "type": "dimension",
+      "description": "Spacing scale 5 - Large spacing. Bootstrap's $spacer * 3 (48px).",
+      "comment": "$spacer * 3"
+    },
+    "6": {
+      "value": "48px",
+      "type": "dimension"
+    },
+    "7": {
+      "value": "64px",
+      "type": "dimension"
+    },
+    "8": {
+      "value": "96px",
+      "type": "dimension"
+    },
+    "9": {
+      "value": "128px",
+      "type": "dimension"
+    },
+    "10": {
+      "value": "160px",
+      "type": "dimension"
+    }
+  }
+}

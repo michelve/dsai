@@ -1,0 +1,44 @@
+{
+  "layout": {
+    "container": {
+      "max-width": {
+        "sm": {
+          "value": "540px",
+          "type": "dimension",
+          "description": "Maximum container width at small breakpoint (540px). Container width for landscape phones and small tablets.",
+          "comment": "$container-max-widths.sm"
+        },
+        "md": {
+          "value": "720px",
+          "type": "dimension",
+          "description": "Maximum container width at medium breakpoint (720px). Container width optimized for tablets.",
+          "comment": "$container-max-widths.md"
+        },
+        "lg": {
+          "value": "960px",
+          "type": "dimension",
+          "description": "Maximum container width at large breakpoint (960px). Standard desktop container width.",
+          "comment": "$container-max-widths.lg"
+        },
+        "xl": {
+          "value": "1140px",
+          "type": "dimension",
+          "description": "Maximum container width at extra large breakpoint (1140px). Wide desktop container width.",
+          "comment": "$container-max-widths.xl"
+        },
+        "xxl": {
+          "value": "1320px",
+          "type": "dimension",
+          "description": "Maximum container width at extra extra large breakpoint (1320px). Widest container for ultra-wide displays.",
+          "comment": "$container-max-widths.xxl"
+        }
+      },
+      "padding-x": {
+        "value": "12px",
+        "type": "dimension",
+        "description": "Horizontal padding for containers (12px left and right). Applied by the make-container mixin for content spacing.",
+        "comment": "$container-padding-x"
+      }
+    }
+  }
+}

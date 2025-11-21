@@ -1,0 +1,42 @@
+{
+  "layout": {
+    "breakpoints": {
+      "xs": {
+        "value": "0px",
+        "type": "dimension",
+        "description": "Extra small breakpoint for portrait phones (min-width: 0). Bootstrap's default mobile-first starting point.",
+        "comment": "$grid-breakpoints.xs"
+      },
+      "sm": {
+        "value": "576px",
+        "type": "dimension",
+        "description": "Small breakpoint for landscape phones (≥576px). First responsive breakpoint in Bootstrap's mobile-first approach.",
+        "comment": "$grid-breakpoints.sm"
+      },
+      "md": {
+        "value": "768px",
+        "type": "dimension",
+        "description": "Medium breakpoint for tablets (≥768px). Common tablet viewport size for responsive layouts.",
+        "comment": "$grid-breakpoints.md"
+      },
+      "lg": {
+        "value": "992px",
+        "type": "dimension",
+        "description": "Large breakpoint for desktops (≥992px). Standard desktop viewport size for responsive web design.",
+        "comment": "$grid-breakpoints.lg"
+      },
+      "xl": {
+        "value": "1200px",
+        "type": "dimension",
+        "description": "Extra large breakpoint for large desktops (≥1200px). Wide desktop viewport for expansive layouts.",
+        "comment": "$grid-breakpoints.xl"
+      },
+      "xxl": {
+        "value": "1400px",
+        "type": "dimension",
+        "description": "Extra extra large breakpoint for larger desktops (≥1400px). Widest default viewport for ultra-wide displays.",
+        "comment": "$grid-breakpoints.xxl"
+      }
+    }
+  }
+}

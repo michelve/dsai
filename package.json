@@ -14,7 +14,10 @@
     "affected:build": "nx affected --target=build",
     "affected:test": "nx affected --target=test",
     "graph": "nx graph",
-    "prepare": "husky"
+    "prepare": "husky",
+    "tokens:transform": "node tools/scripts/transform-figma-tokens.js",
+    "tokens:validate": "node tools/scripts/validate-tokens.js",
+    "tokens:build": "pnpm tokens:transform && pnpm tokens:validate"
   },
   "private": true,
   "devDependencies": {

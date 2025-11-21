@@ -1,0 +1,31 @@
+{
+  "border": {
+    "width": {
+      "none": {
+        "value": "0",
+        "type": "dimension",
+        "description": "No border width",
+        "comment": "$border-width (0 override)"
+      },
+      "thin": {
+        "value": "1px",
+        "type": "dimension",
+        "description": "Thin border width - 1px. Standard border for most elements.",
+        "comment": "$border-width"
+      },
+      "medium": {
+        "value": "2px",
+        "type": "dimension",
+        "description": "Medium border width - 2px. Emphasis borders for interactive states.",
+        "comment": "$border-width-medium"
+      },
+      "thick": {
+        "value": "4px",
+        "type": "dimension",
+        "description": "Thick border width - 4px. Strong emphasis, focus indicators.",
+        "comment": "$border-width-thick"
+      }
+    }
+  }
+}
+
