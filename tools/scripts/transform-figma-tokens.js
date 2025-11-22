@@ -2,15 +2,15 @@
 
 /**
  * Transform Figma Token Exports to Style Dictionary Format
- * 
+ *
  * This script converts tokens exported from Figma (via Tokens Studio plugin)
  * into Style Dictionary compatible format.
- * 
+ *
  * Input: packages/@dsai/tokens/figma-exports/*.json (Figma format)
  * Output: packages/@dsai/tokens/**\/*.json (Style Dictionary format)
- * 
+ *
  * Usage: pnpm tokens:transform
- * 
+ *
  * @see TASK-011-design-json-token-structure.md for transformation rules
  * @see packages/@dsai/tokens/README.md for workflow instructions
  */
@@ -28,34 +28,39 @@ const COLLECTIONS = {
     input: 'foundation.json',
     outputs: [
       { file: 'color/primitive.json', extractor: extractBrandColors },
+      { file: 'color/neutral.json', extractor: extractNeutralColors },
+      { file: 'color/background.json', extractor: extractBackgroundColors },
+      { file: 'color/opacity.json', extractor: extractOpacityColors },
       { file: 'color/semantic.json', extractor: extractThemeColors },
-      { file: 'color/component.json', extractor: extractSemanticColors }
-    ]
+      { file: 'color/component.json', extractor: extractSemanticColors },
+      { file: 'border/color.json', extractor: extractBorderColors },
+      { file: 'border/width-figma.json', extractor: extractBorderWidths },
+    ],
   },
   typography: {
     input: 'typography.json',
-    outputs: [{ file: 'typography/base.json', extractor: extractTypography }]
+    outputs: [{ file: 'typography/base.json', extractor: extractTypography }],
   },
   spacing: {
     input: 'spacing.json',
-    outputs: [{ file: 'spacing/base.json', extractor: extractSpacing }]
+    outputs: [{ file: 'spacing/base.json', extractor: extractSpacing }],
   },
   radius: {
     input: 'radius.json',
-    outputs: [{ file: 'border/radius.json', extractor: extractRadius }]
+    outputs: [{ file: 'border/radius.json', extractor: extractRadius }],
   },
   layout: {
     input: 'layout.json',
     outputs: [
       { file: 'layout/breakpoints.json', extractor: extractBreakpoints },
       { file: 'layout/containers.json', extractor: extractContainers },
-      { file: 'layout/grid.json', extractor: extractGrid }
-    ]
+      { file: 'layout/grid.json', extractor: extractGrid },
+    ],
   },
   shadows: {
     input: 'shadows.json',
-    outputs: [{ file: 'shadow/base.json', extractor: extractShadows }]
-  }
+    outputs: [{ file: 'shadow/base.json', extractor: extractShadows }],
+  },
 };
 
 /**
@@ -73,7 +78,7 @@ function transformToken(figmaToken, options = {}) {
 
   const token = {
     value: transformValue(figmaToken.$value, figmaToken.$type, options),
-    type: transformType(figmaToken.$type)
+    type: transformType(figmaToken.$type),
   };
 
   // Add description if present
@@ -120,9 +125,9 @@ function transformValue(value, type, options = {}) {
  */
 function transformType(figmaType) {
   const typeMap = {
-    'number': 'dimension',
-    'string': 'fontFamily', // May need context-specific mapping
-    'color': 'color'
+    number: 'dimension',
+    string: 'fontFamily', // May need context-specific mapping
+    color: 'color',
   };
 
   return typeMap[figmaType] || figmaType;
@@ -144,7 +149,7 @@ function transformTokenTree(obj, parentKey = '', options = {}) {
   for (const [key, value] of Object.entries(obj)) {
     // Try to transform as a token
     const transformed = transformToken(value, options[key] || {});
-    
+
     if (transformed) {
       result[key] = transformed;
     } else if (typeof value === 'object' && value !== null) {
@@ -164,14 +169,14 @@ function transformTokenTree(obj, parentKey = '', options = {}) {
  */
 function extractBrandColors(data) {
   const lightMode = data.Foundation?.modes?.Light?.colors?.brand;
-  
+
   if (!lightMode) {
     console.warn('No brand colors found in Light mode');
     return {};
   }
 
   return {
-    color: transformTokenTree(lightMode)
+    color: transformTokenTree(lightMode),
   };
 }
 
@@ -180,14 +185,14 @@ function extractBrandColors(data) {
  */
 function extractThemeColors(data) {
   const lightMode = data.Foundation?.modes?.Light?.colors?.theme;
-  
+
   if (!lightMode) {
     console.warn('No theme colors found in Light mode');
     return {};
   }
 
   return {
-    theme: transformTokenTree(lightMode)
+    theme: transformTokenTree(lightMode),
   };
 }
 
@@ -197,14 +202,98 @@ function extractThemeColors(data) {
  */
 function extractSemanticColors(data) {
   const semantic = data.Foundation?.modes?.Light?.semantic;
-  
+
   if (!semantic) {
     console.warn('No semantic colors found in Light mode');
     return {};
   }
 
   return {
-    semantic: transformTokenTree(semantic)
+    semantic: transformTokenTree(semantic),
+  };
+}
+
+/**
+ * Extract neutral colors (black, white, grays)
+ */
+function extractNeutralColors(data) {
+  const neutral = data.Foundation?.modes?.Light?.colors?.neutral;
+
+  if (!neutral) {
+    console.warn('No neutral colors found in Light mode');
+    return {};
+  }
+
+  return {
+    neutral: transformTokenTree(neutral),
+  };
+}
+
+/**
+ * Extract background colors
+ */
+function extractBackgroundColors(data) {
+  const background = data.Foundation?.modes?.Light?.colors?.background;
+
+  if (!background) {
+    console.warn('No background colors found in Light mode');
+    return {};
+  }
+
+  return {
+    background: transformTokenTree(background),
+  };
+}
+
+/**
+ * Extract opacity scale
+ */
+function extractOpacityColors(data) {
+  const opacity = data.Foundation?.modes?.Light?.colors?.opacity;
+
+  if (!opacity) {
+    console.warn('No opacity tokens found in Light mode');
+    return {};
+  }
+
+  return {
+    opacity: transformTokenTree(opacity),
+  };
+}
+
+/**
+ * Extract border colors
+ */
+function extractBorderColors(data) {
+  const borderColor = data.Foundation?.modes?.Light?.borders?.color;
+
+  if (!borderColor) {
+    console.warn('No border color tokens found in Light mode');
+    return {};
+  }
+
+  return {
+    border: {
+      color: transformTokenTree(borderColor),
+    },
+  };
+}
+
+/**
+ * Extract border widths from Figma
+ */
+function extractBorderWidths(data) {
+  const borderWidth = data.Foundation?.modes?.Light?.borders?.width;
+
+  if (!borderWidth) {
+    console.warn('No border width tokens found in Light mode');
+    return {};
+  }
+
+  return {
+    border: {
+      width: transformTokenTree(borderWidth),
+    },
   };
 }
 
@@ -213,7 +302,7 @@ function extractSemanticColors(data) {
  */
 function extractTypography(data) {
   const base = data.Typography?.modes?.Base;
-  
+
   if (!base) {
     console.warn('No typography tokens found');
     return {};
@@ -222,7 +311,7 @@ function extractTypography(data) {
   // Special handling for font families - use font stacks from extensions
   const options = {};
   if (base.fontFamily) {
-    Object.keys(base.fontFamily).forEach(key => {
+    Object.keys(base.fontFamily).forEach((key) => {
       const fontToken = base.fontFamily[key];
       if (fontToken.$extensions?.platform?.fontStack) {
         options[key] = { fontStack: fontToken.$extensions.platform.fontStack };
@@ -231,7 +320,7 @@ function extractTypography(data) {
   }
 
   return {
-    typography: transformTokenTree(base, '', { fontFamily: options })
+    typography: transformTokenTree(base, '', { fontFamily: options }),
   };
 }
 
@@ -240,14 +329,14 @@ function extractTypography(data) {
  */
 function extractSpacing(data) {
   const base = data.Spacing?.modes?.Base?.spacing;
-  
+
   if (!base) {
     console.warn('No spacing tokens found');
     return {};
   }
 
   return {
-    spacing: transformTokenTree(base)
+    spacing: transformTokenTree(base),
   };
 }
 
@@ -256,7 +345,7 @@ function extractSpacing(data) {
  */
 function extractRadius(data) {
   const base = data.Radius?.modes?.Base?.radius;
-  
+
   if (!base) {
     console.warn('No radius tokens found');
     return {};
@@ -265,13 +354,13 @@ function extractRadius(data) {
   // Special handling for circle and pill
   const options = {
     circle: { isCircle: true },
-    pill: { isPill: true }
+    pill: { isPill: true },
   };
 
   return {
     border: {
-      radius: transformTokenTree(base, '', options)
-    }
+      radius: transformTokenTree(base, '', options),
+    },
   };
 }
 
@@ -280,7 +369,7 @@ function extractRadius(data) {
  */
 function extractBreakpoints(data) {
   const breakpoints = data.Layout?.modes?.Base?.breakpoints;
-  
+
   if (!breakpoints) {
     console.warn('No breakpoint tokens found');
     return {};
@@ -288,8 +377,8 @@ function extractBreakpoints(data) {
 
   return {
     layout: {
-      breakpoints: transformTokenTree(breakpoints)
-    }
+      breakpoints: transformTokenTree(breakpoints),
+    },
   };
 }
 
@@ -298,7 +387,7 @@ function extractBreakpoints(data) {
  */
 function extractContainers(data) {
   const container = data.Layout?.modes?.Base?.container;
-  
+
   if (!container) {
     console.warn('No container tokens found');
     return {};
@@ -306,8 +395,8 @@ function extractContainers(data) {
 
   return {
     layout: {
-      container: transformTokenTree(container)
-    }
+      container: transformTokenTree(container),
+    },
   };
 }
 
@@ -317,7 +406,7 @@ function extractContainers(data) {
 function extractGrid(data) {
   const grid = data.Layout?.modes?.Base?.grid;
   const gutters = data.Layout?.modes?.Base?.gutters;
-  
+
   if (!grid) {
     console.warn('No grid tokens found');
     return {};
@@ -325,8 +414,8 @@ function extractGrid(data) {
 
   const result = {
     layout: {
-      grid: transformTokenTree(grid)
-    }
+      grid: transformTokenTree(grid),
+    },
   };
 
   if (gutters) {
@@ -341,7 +430,7 @@ function extractGrid(data) {
  */
 function extractShadows(data) {
   const shadows = data.Shadows?.modes?.Base?.shadows;
-  
+
   if (!shadows) {
     console.warn('No shadow tokens found');
     return {};
@@ -349,14 +438,14 @@ function extractShadows(data) {
 
   // Extract composite values for shadows
   const result = { shadow: {} };
-  
+
   for (const [key, value] of Object.entries(shadows)) {
     if (value.composite) {
       result.shadow[key] = {
         value: value.composite.$value,
         type: 'shadow',
         description: value.composite.$description,
-        comment: value.composite.$extensions?.platform?.scssVariableName
+        comment: value.composite.$extensions?.platform?.scssVariableName,
       };
     }
   }
@@ -383,9 +472,9 @@ function transformTokens() {
   // Process each collection
   for (const [collectionName, config] of Object.entries(COLLECTIONS)) {
     console.log(`Processing ${collectionName} collection...`);
-    
+
     const inputPath = path.join(FIGMA_EXPORTS, config.input);
-    
+
     // Check if input file exists
     if (!fs.existsSync(inputPath)) {
       console.warn(`⚠️  Input file not found: ${config.input}`);
@@ -398,11 +487,11 @@ function transformTokens() {
     // Process each output
     for (const output of config.outputs) {
       const outputPath = path.join(OUTPUT_DIR, output.file);
-      
+
       try {
         // Extract and transform tokens
         const tokens = output.extractor(data);
-        
+
         if (Object.keys(tokens).length === 0) {
           console.warn(`  ⚠️  No tokens extracted for ${output.file}`);
           continue;
@@ -412,12 +501,8 @@ function transformTokens() {
         ensureDir(outputPath);
 
         // Write output file
-        fs.writeFileSync(
-          outputPath,
-          JSON.stringify(tokens, null, 2) + '\n',
-          'utf8'
-        );
-        
+        fs.writeFileSync(outputPath, JSON.stringify(tokens, null, 2) + '\n', 'utf8');
+
         console.log(`  ✅ Created ${output.file}`);
       } catch (error) {
         console.error(`  ❌ Error processing ${output.file}:`, error.message);
@@ -438,6 +523,5 @@ module.exports = {
   transformTokens,
   transformToken,
   transformValue,
-  transformType
+  transformType,
 };
-

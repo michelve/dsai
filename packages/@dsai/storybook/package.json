@@ -4,9 +4,16 @@
   "description": "Storybook configuration and documentation for DSAi components",
   "private": true,
   "scripts": {
-    "storybook": "echo 'Start Storybook dev server'",
-    "build-storybook": "echo 'Build Storybook static site'",
-    "test": "echo 'Run Storybook tests'"
+    "prestorybook": "pnpm --filter @dsai/tokens build",
+    "storybook": "storybook dev -p 6006",
+    "kill": "bash ../../tools/scripts/kill-storybook.sh",
+    "stop": "pnpm kill",
+    "prebuild": "pnpm --filter @dsai/tokens build",
+    "build": "storybook build -o ./storybook-static",
+    "build-storybook": "pnpm build",
+    "verify": "bash ../../tools/scripts/verify-storybook.sh",
+    "test": "test-storybook",
+    "test-storybook": "test-storybook"
   },
   "keywords": [
     "storybook",
@@ -17,5 +24,19 @@
     "@dsai/react": "workspace:*",
     "@dsai/tokens": "workspace:*"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "storybook": "^8.6.14",
+    "@storybook/addon-a11y": "^8.6.14",
+    "@storybook/addon-designs": "^8.0.10",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-links": "^8.6.14",
+    "@storybook/blocks": "^8.6.14",
+    "@storybook/react-vite": "^8.6.14",
+    "@storybook/test": "^8.6.14",
+    "@storybook/addon-docs": "^8.6.14",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "vite": "^6.0.7"
+  }
 }

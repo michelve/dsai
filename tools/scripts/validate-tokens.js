@@ -2,14 +2,14 @@
 
 /**
  * Validate Design Tokens
- * 
+ *
  * This script validates all transformed token files to ensure:
  * - Valid JSON syntax
  * - Required properties present (value, type)
  * - Correct type values
  * - No circular references
  * - Token references resolve correctly
- * 
+ *
  * @see TASK-011-design-json-token-structure.md
  */
 
@@ -17,7 +17,15 @@ const fs = require('fs');
 const path = require('path');
 
 const TOKENS_DIR = path.join(__dirname, '../../packages/@dsai/tokens');
-const VALID_TYPES = ['color', 'dimension', 'fontFamily', 'fontWeight', 'shadow', 'number', 'string'];
+const VALID_TYPES = [
+  'color',
+  'dimension',
+  'fontFamily',
+  'fontWeight',
+  'shadow',
+  'number',
+  'string',
+];
 
 let errors = [];
 let warnings = [];
@@ -64,7 +72,9 @@ function validateToken(tokenPath, token) {
 
   // Validate type
   if (token.type && !VALID_TYPES.includes(token.type)) {
-    warnings.push(`⚠️  ${tokenPath}: Unknown type "${token.type}". Valid types: ${VALID_TYPES.join(', ')}`);
+    warnings.push(
+      `⚠️  ${tokenPath}: Unknown type "${token.type}". Valid types: ${VALID_TYPES.join(', ')}`
+    );
   }
 
   // Check for empty values
@@ -72,15 +82,23 @@ function validateToken(tokenPath, token) {
     errors.push(`❌ ${tokenPath}: Empty value`);
   }
 
+  // Check if value is a Style Dictionary reference (e.g., {colors.brand.blue.500})
+  const isStyleDictionaryReference =
+    typeof token.value === 'string' && token.value.startsWith('{') && token.value.endsWith('}');
+
   // Validate dimension units
-  if (token.type === 'dimension' && typeof token.value === 'string') {
+  if (
+    token.type === 'dimension' &&
+    typeof token.value === 'string' &&
+    !isStyleDictionaryReference
+  ) {
     if (!token.value.match(/^-?\d+(\.\d+)?(px|rem|em|%|vh|vw|vmin|vmax)?$/)) {
       warnings.push(`⚠️  ${tokenPath}: Dimension value "${token.value}" may have invalid format`);
     }
   }
 
-  // Validate color format
-  if (token.type === 'color' && typeof token.value === 'string') {
+  // Validate color format (skip Style Dictionary references)
+  if (token.type === 'color' && typeof token.value === 'string' && !isStyleDictionaryReference) {
     if (!token.value.match(/^(#[0-9a-fA-F]{3,8}|rgb\(|rgba\(|hsl\(|hsla\()/)) {
       warnings.push(`⚠️  ${tokenPath}: Color value "${token.value}" may have invalid format`);
     }
@@ -114,21 +132,26 @@ function validateAllTokens() {
 
   const tokenFiles = [
     'color/primitive.json',
+    'color/neutral.json',
+    'color/background.json',
+    'color/opacity.json',
     'color/semantic.json',
+    'color/component.json',
     'typography/base.json',
     'spacing/base.json',
+    'border/color.json',
     'border/radius.json',
     'border/width.json',
     'shadow/base.json',
     'layout/breakpoints.json',
     'layout/containers.json',
-    'layout/grid.json'
+    'layout/grid.json',
   ];
 
   // Validate each token file
   for (const file of tokenFiles) {
     const filePath = path.join(TOKENS_DIR, file);
-    
+
     if (!fileExists(filePath)) {
       errors.push(`❌ Token file not found: ${file}`);
       continue;
@@ -136,7 +159,7 @@ function validateAllTokens() {
 
     console.log(`Validating ${file}...`);
     const data = readJsonFile(filePath);
-    
+
     if (data) {
       validateTokenTree(data, path.basename(file, '.json'));
     }
@@ -149,7 +172,7 @@ function validateAllTokens() {
   } else {
     console.log('Validating index.json...');
     const indexData = readJsonFile(indexPath);
-    
+
     if (indexData) {
       // Validate that all referenced files exist
       validateIndexReferences(indexData);
@@ -193,13 +216,13 @@ function printResults() {
 
   if (errors.length > 0) {
     console.log('ERRORS:\n');
-    errors.forEach(error => console.log(error));
+    errors.forEach((error) => console.log(error));
     console.log();
   }
 
   if (warnings.length > 0) {
     console.log('WARNINGS:\n');
-    warnings.forEach(warning => console.log(warning));
+    warnings.forEach((warning) => console.log(warning));
     console.log();
   }
 
@@ -227,6 +250,5 @@ if (require.main === module) {
 module.exports = {
   validateAllTokens,
   validateToken,
-  validateTokenTree
+  validateTokenTree,
 };
-

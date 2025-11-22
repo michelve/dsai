@@ -1,0 +1,6 @@
+# Style Dictionary build output
+dist/
+
+# Build artifacts
+*.tsbuildinfo
+

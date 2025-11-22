@@ -1,12 +1,10 @@
 /**
  * DSAi Design Tokens
- * Placeholder - will be implemented in token system phase
+ * Re-exports from Style Dictionary with convenient grouped structure
  */
 
-export const tokens = {
-  colors: {},
-  typography: {},
-  spacing: {},
-} as const;
+// Re-export all flat tokens
+export * from './tokens-flat.js';
 
-export default tokens;
+// Also provide grouped structure for Storybook/React
+export { default, tokens } from './tokens-grouped.js';

@@ -3,9 +3,17 @@
   "compilerOptions": {
     "outDir": "./.storybook/dist",
     "jsx": "react-jsx",
-    "moduleResolution": "bundler"
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@dsai/tokens": ["../@dsai/tokens/src"],
+      "@dsai/tokens/css/*": ["../@dsai/tokens/dist/css/*"],
+      "@dsai/tokens/js/*": ["../@dsai/tokens/dist/js/*"]
+    }
   },
-  "include": [".storybook/**/*", "../react/src/**/*", "../tokens/src/**/*"],
+  "include": [".storybook/**/*", "docs/**/*", "../react/src/**/*", "../tokens/src/**/*"],
   "exclude": ["node_modules", "storybook-static"],
   "references": [
     {

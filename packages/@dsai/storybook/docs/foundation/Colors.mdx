@@ -1,0 +1,241 @@
+<Meta of={ColorStories} />;
+
+# Color System
+
+The DSAi color system is built on a foundation of primitive colors (11 hues × 11 steps) and semantic tokens for consistent theming across the design system.
+
+## Design Principles
+
+### Token-First Architecture
+
+All colors are defined as design tokens and transformed into multiple formats:
+
+- **CSS Variables** (`--dsai-color-blue-500`)
+- **JavaScript/TypeScript** (`tokens.color.blue[500]`)
+- **SCSS Variables** (`$dsai-color-blue-500`)
+- **JSON** (for tooling and documentation)
+
+### WCAG 2.1 AA Compliance
+
+All color combinations meet or exceed WCAG 2.1 AA contrast requirements:
+
+- Minimum 4.5:1 for normal text
+- Minimum 3:1 for large text and UI components
+- Target 7:1 for AAA compliance
+
+### Semantic Naming
+
+Colors are named by their purpose, not their appearance:
+
+- ✅ `theme.primary` (semantic - can change)
+- ❌ `blue-500` (literal - locked to appearance)
+
+## Color Scales
+
+### Eleven-Step Scale
+
+Each hue uses an eleven-step scale from 50 (lightest) to 950 (darkest):
+
+| Step        | Usage                    | Examples                       |
+| ----------- | ------------------------ | ------------------------------ |
+| **50**      | Ultra-light backgrounds  | Hover states, glass morphism   |
+| **100-200** | Light backgrounds        | Cards, panels, secondary UI    |
+| **300-400** | Borders, disabled states | Dividers, inactive elements    |
+| **500**     | Default color            | Primary usage for each hue     |
+| **600-700** | Hover/active states      | Interactive elements           |
+| **800-900** | High contrast text       | Body text, headings            |
+| **950**     | Maximum contrast         | Deep shadows, maximum emphasis |
+
+## Available Hues
+
+### Brand Colors (8 Hues)
+
+- **Blue** - Primary brand color
+- **Cyan** - Secondary accents
+- **Green** - Success states
+- **Red** - Error states
+- **Orange** - Warning states
+- **Yellow** - Caution alerts
+- **Purple** - Premium features
+- **Pink** - Special highlights
+
+### Neutral Colors
+
+- **Gray** - Text, backgrounds, borders
+- **Indigo** - Alternative neutral with blue undertone
+- **Teal** - Alternative neutral with green undertone
+
+## Usage Examples
+
+### In CSS
+
+```css
+.button-primary {
+  /* Semantic token - recommended */
+  background-color: var(--dsai-theme-primary);
+  color: var(--dsai-neutral-white);
+
+  /* Primitive token - use when semantic doesn't fit */
+  border: 1px solid var(--dsai-color-blue-600);
+}
+
+.button-primary:hover {
+  background-color: var(--dsai-theme-primary-hover);
+}
+
+.text-danger {
+  color: var(--dsai-theme-danger);
+}
+```
+
+### In JavaScript/TypeScript
+
+```typescript
+import tokens from '@dsai/tokens';
+
+const ButtonStyles = {
+  primary: {
+    backgroundColor: tokens.theme.primary.value,
+    color: tokens.neutral.white.value,
+    '&:hover': {
+      backgroundColor: tokens.color.blue['600'].value,
+    },
+  },
+};
+```
+
+### In React Components
+
+```tsx
+import tokens from '@dsai/tokens';
+
+export const Alert = ({ variant = 'info' }) => {
+  const colors = {
+    info: tokens.theme.info.value,
+    success: tokens.theme.success.value,
+    warning: tokens.theme.warning.value,
+    danger: tokens.theme.danger.value,
+  };
+
+  return <div style={{ backgroundColor: colors[variant] }}>Alert content</div>;
+};
+```
+
+## Accessibility Guidelines
+
+### Contrast Ratios
+
+Always verify contrast ratios when combining colors:
+
+| Text Size                              | WCAG AA | WCAG AAA |
+| -------------------------------------- | ------- | -------- |
+| Normal text (less than 18px)           | 4.5:1   | 7:1      |
+| Large text (18px or larger, 14px bold) | 3:1     | 4.5:1    |
+| UI components                          | 3:1     | -        |
+
+### Safe Combinations
+
+Pre-tested color combinations with WCAG AA compliance:
+
+```css
+/* Text on Light Backgrounds */
+.text-on-light {
+  color: var(--dsai-color-gray-900); /* AAA */
+  background: var(--dsai-color-gray-50);
+}
+
+/* Text on Dark Backgrounds */
+.text-on-dark {
+  color: var(--dsai-neutral-white); /* AAA */
+  background: var(--dsai-color-gray-900);
+}
+
+/* Interactive Elements */
+.button-primary {
+  color: var(--dsai-neutral-white); /* AA */
+  background: var(--dsai-color-blue-600);
+}
+```
+
+### Color Blindness Considerations
+
+Our palette is tested for:
+
+- **Protanopia** (red-blind)
+- **Deuteranopia** (green-blind)
+- **Tritanopia** (blue-blind)
+
+Guidelines:
+
+- Never rely on color alone to convey information
+- Use icons, text labels, or patterns as additional cues
+- Ensure sufficient contrast in all color vision modes
+
+## Dark Mode Support
+
+Semantic tokens automatically adapt to dark mode:
+
+```css
+/* Light mode (default) */
+--dsai-theme-primary: #0ea5e9; /* cyan-500 */
+--dsai-background-primary: #ffffff; /* white */
+--dsai-text-primary: #111827; /* gray-900 */
+
+/* Dark mode (auto-switches) */
+--dsai-theme-primary: #06b6d4; /* cyan-400 */
+--dsai-background-primary: #111827; /* gray-900 */
+--dsai-text-primary: #f9fafb; /* gray-50 */
+```
+
+Primitive tokens remain constant; semantic tokens change values.
+
+## Best Practices
+
+### ✅ Do
+
+- Use semantic tokens (`theme.primary`) for component styling
+- Maintain consistent color usage across similar components
+- Test all color combinations with accessibility tools
+- Document color choices in component stories
+- Use primitive tokens for custom one-off needs
+
+### ❌ Don't
+
+- Hardcode hex values in component styles
+- Use different colors for the same purpose
+- Create new color tokens without design approval
+- Skip contrast ratio testing
+- Override semantic tokens with primitives unless necessary
+
+## Token Structure
+
+```
+color/
+├── primitive.json      # Brand colors (11 hues × 11 steps)
+├── semantic.json       # Theme colors (primary, success, etc.)
+├── component.json      # Component-level tokens
+├── neutral.json        # Gray scale + white/black
+├── background.json     # Background tokens
+├── opacity.json        # Opacity values
+└── border/
+    └── color.json      # Border colors
+```
+
+## Related Documentation
+
+- [Typography System](/docs/foundation-typography--docs) - Text styles and scales
+- [Spacing System](/docs/foundation-spacing--docs) - Layout spacing tokens
+- [Component Library](/docs/components-button--docs) - How components use colors
+
+## Resources
+
+- [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
+- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
+- [Color Blindness Simulator](https://www.color-blindness.com/coblis-color-blindness-simulator/)
+- [Style Dictionary Documentation](https://amzn.github.io/style-dictionary/)
+
+---
+
+**Last Updated:** November 21, 2025
+**Token Version:** 1.0.0
+**Design System:** DSAi Component Library

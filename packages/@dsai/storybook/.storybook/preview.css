@@ -1,0 +1,70 @@
+/**
+ * Storybook Preview Styles
+ * Base styling for Storybook stories
+ */
+
+/* Apply design system fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+  font-family:
+    var(--dsai-typography-font-family-base),
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
+  font-size: var(--dsai-typography-font-size-base);
+  line-height: var(--dsai-typography-line-height-base);
+  color: var(--dsai-semantic-body-color);
+  background-color: var(--dsai-semantic-body-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Reset for stories */
+.sb-show-main {
+  padding: 2rem;
+}
+
+/* Code blocks */
+code,
+pre {
+  font-family: var(--dsai-typography-font-family-monospace), 'Courier New', monospace;
+}
+
+/* Links */
+a {
+  color: var(--dsai-theme-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Utility classes for spacing in stories */
+.story-spacing > * + * {
+  margin-top: 1rem;
+}
+
+.story-spacing-lg > * + * {
+  margin-top: 2rem;
+}
+
+.story-inline > * {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+/* Dark mode support */
+.dark {
+  color-scheme: dark;
+}
+
+.dark body {
+  background-color: #1a1a1a;
+  color: #f5f5f5;
+}

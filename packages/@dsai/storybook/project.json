@@ -26,6 +26,18 @@
         "jestConfig": "packages/@dsai/storybook/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "kill": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bash tools/scripts/kill-storybook.sh"
+      }
+    },
+    "stop": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bash tools/scripts/kill-storybook.sh"
+      }
     }
   },
   "tags": ["type:application", "scope:storybook"]

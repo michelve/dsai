@@ -11,11 +11,13 @@ This package contains all design tokens exported from Figma and transformed into
 ## Token Categories
 
 ### Colors (121 primitive + 88 semantic)
+
 - **Primitive**: 11 hues × 11 steps (50, 100-900, 950)
   - blue, cyan, gray, green, indigo, orange, pink, purple, red, teal, yellow
 - **Semantic**: Theme colors (primary, secondary, success, danger, warning, info, light, dark)
 
 ### Typography
+
 - Font families (base, monospace)
 - Font sizes (base, sm, lg, h1-h6, display1-6)
 - Font weights (lighter, light, normal, medium, semibold, bold, bolder)
@@ -23,18 +25,22 @@ This package contains all design tokens exported from Figma and transformed into
 - Letter spacing (tighter to widest)
 
 ### Spacing
+
 - Scale 0-10: 0px, 4px, 8px, 16px, 24px, 48px, 64px, 80px, 96px, 128px, 160px
 - Bootstrap-compatible with extensions
 
 ### Border
+
 - **Radius**: none, sm, md, lg, xl, full, circle, pill
 - **Width**: none, thin (1px), medium (2px), thick (4px)
 
 ### Shadows
+
 - Elevation levels: sm, default, lg, inset
 - Composite CSS box-shadow values
 
 ### Layout
+
 - **Breakpoints**: xs (0), sm (576px), md (768px), lg (992px), xl (1200px), xxl (1400px)
 - **Containers**: Responsive max-widths
 - **Grid**: 12 columns, 24px gutter, configurable
@@ -78,6 +84,293 @@ All tokens follow Style Dictionary format:
 }
 ```
 
+---
+
+## Building Tokens
+
+### Build Commands
+
+```bash
+# Build all tokens (transform + validate + build)
+pnpm tokens:build
+
+# Just build Style Dictionary outputs
+pnpm build:tokens
+
+# Transform Figma exports to Style Dictionary format
+pnpm tokens:transform
+
+# Validate token structure
+pnpm tokens:validate
+
+# Watch mode (rebuild on change)
+pnpm tokens:watch
+
+# Clean generated files
+pnpm tokens:clean
+```
+
+### Build Output
+
+The build process generates 5 output formats in `dist/`:
+
+```
+dist/
+├── css/
+│   └── variables.css         # CSS custom properties
+├── js/
+│   ├── tokens.js             # ES6 module
+│   └── tokens.cjs            # CommonJS module
+├── ts/
+│   ├── tokens.ts             # TypeScript module
+│   └── tokens.d.ts           # TypeScript declarations
+├── scss/
+│   └── _variables.scss       # SCSS variables
+└── json/
+    ├── tokens.json           # Flat token structure
+    └── tokens-nested.json    # Nested token structure
+```
+
+---
+
+## Using Tokens
+
+### In CSS/Vanilla JavaScript
+
+```css
+/* Import CSS variables */
+@import '@dsai/tokens/css';
+
+.button {
+  background-color: var(--dsai-theme-primary);
+  color: var(--dsai-neutral-white);
+  padding: var(--dsai-spacing-2) var(--dsai-spacing-4);
+  border-radius: var(--dsai-border-radius-md);
+  font-size: var(--dsai-typography-font-size-base);
+  box-shadow: var(--dsai-shadow-default);
+}
+
+.button:hover {
+  background-color: var(--dsai-color-blue-600);
+}
+```
+
+### In React/TypeScript
+
+```tsx
+import { tokens } from '@dsai/tokens/dist/ts/tokens';
+
+// Using typed tokens
+const Button = () => (
+  <button
+    style={{
+      backgroundColor: tokens.theme.primary,
+      color: tokens.neutral.white,
+      padding: `${tokens.spacing['2']} ${tokens.spacing['4']}`,
+      borderRadius: tokens.border.radius.md,
+      fontSize: tokens.typography.fontSize.base,
+    }}
+  >
+    Click Me
+  </button>
+);
+```
+
+### In JavaScript/ES6
+
+```javascript
+import tokens from '@dsai/tokens/dist/js/tokens.js';
+
+// Use camelCase exports
+console.log(tokens.colorBlue500); // "#0a58ca"
+console.log(tokens.themePrimary); // "#0a58ca"
+console.log(tokens.spacing2); // "8px"
+console.log(tokens.borderRadiusMd); // "8px"
+```
+
+### In SCSS
+
+```scss
+@import '@dsai/tokens/dist/scss/variables';
+
+.button {
+  background-color: $theme-primary;
+  color: $neutral-white;
+  padding: $spacing-2 $spacing-4;
+  border-radius: $border-radius-md;
+  font-size: $typography-font-size-base;
+  box-shadow: $shadow-default;
+
+  &:hover {
+    background-color: $color-blue-600;
+  }
+}
+```
+
+### In Styled Components
+
+```tsx
+import styled from 'styled-components';
+import { tokens } from '@dsai/tokens/dist/ts/tokens';
+
+const Button = styled.button`
+  background-color: ${tokens.theme.primary};
+  color: ${tokens.neutral.white};
+  padding: ${tokens.spacing['2']} ${tokens.spacing['4']};
+  border-radius: ${tokens.border.radius.md};
+  font-size: ${tokens.typography.fontSize.base};
+  box-shadow: ${tokens.shadow.default};
+
+  &:hover {
+    background-color: ${tokens.color.blue['600']};
+  }
+`;
+```
+
+### Token References
+
+Many semantic tokens reference primitive tokens using Style Dictionary's reference syntax:
+
+```json
+{
+  "theme": {
+    "primary": {
+      "value": "{color.blue.500}",
+      "type": "color"
+    }
+  }
+}
+```
+
+**These are automatically resolved** during the build process:
+
+- CSS: `var(--dsai-theme-primary)` resolves to `#0a58ca`
+- JS: `tokens.themePrimary` resolves to `"#0a58ca"`
+- SCSS: `$theme-primary` resolves to `#0a58ca`
+
+---
+
+## Transforms & Processing
+
+### Custom Transforms
+
+The Style Dictionary build includes several custom transforms:
+
+#### 1. **size/pxToRem**
+
+Converts pixel values to rem units (base: 16px):
+
+- Input: `"16px"` → Output: `"1rem"`
+- Input: `"24px"` → Output: `"1.5rem"`
+- Only applies to tokens with `type: "dimension"`
+
+#### 2. **name/kebab**
+
+Converts token paths to kebab-case for CSS:
+
+- `color.blue.500` → `color-blue-500`
+- `typography.fontSize.base` → `typography-font-size-base`
+
+#### 3. **Reference Resolution**
+
+Automatically resolves token references:
+
+- `{color.blue.500}` → `#0a58ca`
+- `{theme.primary}` → (resolved to its final value)
+
+### Preprocessors
+
+#### fix-references
+
+Handles path mismatches between Figma exports and our structure:
+
+- `{colors.brand.blue.500}` → `{color.blue.500}`
+- `{colors.neutral.white}` → `{neutral.white}`
+- `{borders.width.thin}` → `{border.width.thin}`
+
+This allows Figma references to work seamlessly with our token structure.
+
+---
+
+## Token Naming Conventions
+
+### Path Structure
+
+- Use dot notation: `color.blue.500`
+- Categories: color, typography, spacing, border, shadow, layout
+- Semantic tokens: `theme.primary`, `semantic.body-color`
+
+### CSS Variable Names
+
+- Prefix: `--dsai-`
+- Kebab-case: `--dsai-color-blue-500`
+- Semantic: `--dsai-theme-primary`
+
+### JavaScript Names
+
+- CamelCase: `colorBlue500`
+- Semantic: `themePrimary`
+
+### SCSS Variable Names
+
+- Prefix: `$`
+- Kebab-case: `$color-blue-500`
+- Semantic: `$theme-primary`
+
+---
+
+## Architecture
+
+### Token Hierarchy
+
+```
+Figma Design → Token Studio Plugin → figma-exports/*.json
+                                            ↓
+                           transform-figma-tokens.js (TASK-011)
+                                            ↓
+                                   color/*.json
+                                   typography/*.json
+                                   spacing/*.json
+                                   border/*.json
+                                   shadow/*.json
+                                   layout/*.json
+                                            ↓
+                            Style Dictionary (TASK-012)
+                                            ↓
+                                    dist/css/*.css
+                                    dist/js/*.js
+                                    dist/ts/*.ts
+                                    dist/scss/*.scss
+                                    dist/json/*.json
+                                            ↓
+                        Consumed by Components & Applications
+```
+
+### Build Process
+
+1. **Transform** (`pnpm tokens:transform`)
+   - Reads from `figma-exports/*.json`
+   - Converts Figma format to Style Dictionary format
+   - Outputs to `color/`, `typography/`, etc.
+
+2. **Validate** (`pnpm tokens:validate`)
+   - Checks token structure
+   - Validates required properties
+   - Reports errors and warnings
+
+3. **Build** (`pnpm build:tokens`)
+   - Runs Style Dictionary
+   - Applies transforms and preprocessors
+   - Generates all output formats
+
+### Integration Points
+
+- **Components**: Import CSS variables or JS/TS tokens
+- **Storybook**: Load CSS variables globally
+- **Documentation**: Use JSON exports for token browser
+- **CI/CD**: Build tokens on every commit
+- **NPM**: Publish as `@dsai/tokens` package
+
 ### Properties
 
 - **value** (required): The actual token value (hex color, px dimension, font name, etc.)
@@ -103,6 +396,7 @@ packages/@dsai/tokens/figma-exports/
 ```
 
 **Export Options:**
+
 - **Option 1** (Recommended): Export collections separately → Better git diffs, easier to debug
 - **Option 2**: Export as single `theme.json` file → Simpler file management
 
@@ -125,6 +419,7 @@ pnpm tokens:validate
 ```
 
 Checks for:
+
 - ✅ Valid JSON syntax
 - ✅ Required properties (value, type)
 - ✅ Correct type values
@@ -186,6 +481,7 @@ const spacing = tokens.spacing[4].value; // "24px"
 ## Token Naming Conventions
 
 ### Primitive Tokens
+
 ```
 {category}.{hue}.{step}
 color.blue.500
@@ -194,6 +490,7 @@ typography.fontSize.h1
 ```
 
 ### Semantic Tokens
+
 ```
 {category}.{element}.{property}.{state}
 theme.primary
@@ -202,6 +499,7 @@ input.border.color.focus
 ```
 
 ### Component Tokens
+
 ```
 {component}.{variant}.{property}.{state}
 button.primary.background.default
@@ -213,13 +511,13 @@ card.padding.vertical
 
 All tokens map to Bootstrap 5.3 variables:
 
-| Token | Bootstrap Variable |
-|-------|-------------------|
-| `color.blue.500` | `$blue` |
-| `spacing.3` | `$spacer` (1rem = 16px) |
-| `border.radius.md` | `$border-radius` |
-| `typography.fontSize.base` | `$font-size-base` |
-| `layout.breakpoints.md` | `$grid-breakpoints.md` |
+| Token                      | Bootstrap Variable      |
+| -------------------------- | ----------------------- |
+| `color.blue.500`           | `$blue`                 |
+| `spacing.3`                | `$spacer` (1rem = 16px) |
+| `border.radius.md`         | `$border-radius`        |
+| `typography.fontSize.base` | `$font-size-base`       |
+| `layout.breakpoints.md`    | `$grid-breakpoints.md`  |
 
 Bootstrap SCSS variable names are preserved in the `comment` field for reference.
 
@@ -238,6 +536,7 @@ Bootstrap SCSS variable names are preserved in the `comment` field for reference
 ### Light & Dark Modes
 
 Colors support Light and Dark modes in Figma:
+
 - **Light mode**: Default color values
 - **Dark mode**: Inverted/adjusted values (future implementation)
 
@@ -323,6 +622,7 @@ After completing this token package:
 ## Support
 
 For questions or issues:
+
 - See `ROADMAP/README.md` for project context
 - See `tasks/02-high/TASK-011-design-json-token-structure.md` for implementation details
 - Review `BUILD.md` for build system information
@@ -332,4 +632,3 @@ For questions or issues:
 **Version**: 1.0.0  
 **Status**: ✅ Production Ready  
 **Last Updated**: November 21, 2024
-

@@ -1,0 +1,211 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guides/Getting Started" />
+
+# Getting Started
+
+This guide will help you get up and running with DSAi components in your React application.
+
+## Installation
+
+### Prerequisites
+
+- Node.js 18+ or 20+
+- React 18+
+- TypeScript 5.0+ (recommended)
+
+### Install Packages
+
+```bash
+# Using pnpm (recommended)
+pnpm add @dsai/react @dsai/tokens
+
+# Using npm
+npm install @dsai/react @dsai/tokens
+
+# Using yarn
+yarn add @dsai/react @dsai/tokens
+```
+
+## Basic Setup
+
+### 1. Import Design Tokens
+
+Import the CSS variables at the root of your application:
+
+```tsx
+// In your main entry file (e.g., main.tsx or App.tsx)
+import '@dsai/tokens/dist/css/variables.css';
+```
+
+### 2. Use Components
+
+```tsx
+import { Button } from '@dsai/react';
+
+function App() {
+  return (
+    <Button variant="primary" size="md">
+      Click Me
+    </Button>
+  );
+}
+```
+
+## Using Design Tokens
+
+### CSS Variables
+
+All design tokens are available as CSS custom properties:
+
+```css
+.my-component {
+  color: var(--dsai-theme-primary);
+  padding: var(--dsai-spacing-3);
+  border-radius: var(--dsai-border-radius-md);
+  box-shadow: var(--dsai-shadow-default);
+}
+```
+
+### JavaScript/TypeScript
+
+Import tokens directly in your code:
+
+```typescript
+import tokens from '@dsai/tokens';
+
+const styles = {
+  backgroundColor: tokens.theme.primary,
+  padding: tokens.spacing['3'],
+  borderRadius: tokens.border.radius.md,
+};
+```
+
+### SCSS
+
+For SCSS projects:
+
+```scss
+@import '@dsai/tokens/dist/scss/variables';
+
+.my-component {
+  background-color: $theme-primary;
+  padding: $spacing-3;
+  border-radius: $border-radius-md;
+}
+```
+
+## TypeScript Configuration
+
+DSAi is built with TypeScript and provides full type definitions. Ensure your `tsconfig.json` includes:
+
+```json
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "moduleResolution": "bundler"
+  }
+}
+```
+
+## Tree Shaking
+
+DSAi supports tree shaking out of the box. Import only the components you need:
+
+```tsx
+// ✅ Good - Only Button is bundled
+import { Button } from '@dsai/react';
+
+// ❌ Avoid - Entire library bundled
+import * as DSAi from '@dsai/react';
+```
+
+## Styling Approach
+
+DSAi components use CSS-in-JS with design tokens. You can customize components in three ways:
+
+### 1. Props API (Recommended)
+
+```tsx
+<Button variant="primary" size="lg" fullWidth>
+  Full Width Button
+</Button>
+```
+
+### 2. CSS Variables Override
+
+```css
+.custom-button {
+  --dsai-theme-primary: #ff6b6b;
+  --dsai-border-radius-md: 12px;
+}
+```
+
+```tsx
+<Button className="custom-button">Custom Styled</Button>
+```
+
+### 3. Style Prop
+
+```tsx
+<Button style={{ backgroundColor: 'purple', color: 'white' }}>
+  Custom Button
+</Button>
+```
+
+## Accessibility
+
+All DSAi components are WCAG 2.1 AA compliant. To maintain accessibility:
+
+1. **Always provide labels**: Use `aria-label` when text content isn't visible
+2. **Keyboard navigation**: All interactive elements support keyboard
+3. **Focus management**: Components handle focus states automatically
+4. **Screen readers**: ARIA attributes are included
+
+```tsx
+// ✅ Good
+<Button aria-label="Close dialog">×</Button>
+
+// ❌ Missing label
+<Button>×</Button>
+```
+
+## Dark Mode Support
+
+DSAi includes built-in dark mode support. Toggle themes by adding a class:
+
+```tsx
+// Add to root element
+<div className="dark">
+  {/* All components automatically adjust */}
+  <Button variant="primary">Dark Mode Button</Button>
+</div>
+```
+
+Or use CSS:
+
+```css
+/* Dark mode via media query */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Tokens automatically adjust */
+  }
+}
+```
+
+## Next Steps
+
+- Explore [Component Examples](/docs/components)
+- Read about [Design Tokens](/docs/foundation-colors--docs)
+- Learn about [Theming](/docs/guides-theming--docs)
+- Check [Accessibility Guidelines](/docs/guides-accessibility--docs)
+
+## Need Help?
+
+- [GitHub Issues](https://github.com/yourusername/dsai/issues)
+- [Discussions](https://github.com/yourusername/dsai/discussions)
+- [Contributing Guide](https://github.com/yourusername/dsai/blob/main/CONTRIBUTING.md)
+

@@ -14,7 +14,7 @@ Goal and context if needed ROADMAP\README.md
 
 ### PRIMARY TASK
 
-- Execute the explicit steps listed in the provided task document: tasks\01-critical\TASK-006-designer-audit-bootstrap-components.md
+- Execute the explicit steps listed in the provided task document: tasks/02-high/TASK-013-configure-storybook-7.md
 - Ensure all code changes are backward compatible and maintain system stability.
 - Generate code or suggestions adhering strictly to the largest enterprise standards you have available.
 

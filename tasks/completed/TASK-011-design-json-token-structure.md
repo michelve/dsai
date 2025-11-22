@@ -18,20 +18,21 @@
 **Location:** `packages/@dsai/tokens/figma-exports/` (7 JSON files, ~16,721 lines total)
 
 The design tokens have been exported from Figma using the Tokens Studio plugin. The export provides **two options**:
+
 1. **Separate collections** (6 individual files) ← Current approach
 2. **Combined export** (`theme.json`) - All collections in one file
 
 **Current Structure:**
 
-| File | Size | Lines | Collection | Status |
-|------|------|-------|------------|--------|
-| `foundation.json` | 278K | 6,455 | Colors (brand, theme, neutral, opacity, background) | ✅ Complete |
-| `typography.json` | 31K | 929 | Font families, sizes, weights, line heights, letter spacing | ✅ Complete |
-| `spacing.json` | 4.3K | 154 | Spacing scale 0-10 (0-160px) | ✅ Complete & Extended |
-| `radius.json` | 5.5K | 146 | Border radius (none, sm, md, lg, xl, full, circle, pill) | ✅ Complete |
-| `layout.json` | 14K | 410 | Breakpoints, containers, grid system, gutters | ✅ Complete |
-| `shadows.json` | 7.3K | 244 | Shadow primitives (sm, default, lg, inset) | ⚠️ Figma limitation |
-| `theme.json` | 340K | 8,333 | **Combined** - All above collections in one file | ✅ Complete |
+| File              | Size | Lines | Collection                                                  | Status                 |
+| ----------------- | ---- | ----- | ----------------------------------------------------------- | ---------------------- |
+| `foundation.json` | 278K | 6,455 | Colors (brand, theme, neutral, opacity, background)         | ✅ Complete            |
+| `typography.json` | 31K  | 929   | Font families, sizes, weights, line heights, letter spacing | ✅ Complete            |
+| `spacing.json`    | 4.3K | 154   | Spacing scale 0-10 (0-160px)                                | ✅ Complete & Extended |
+| `radius.json`     | 5.5K | 146   | Border radius (none, sm, md, lg, xl, full, circle, pill)    | ✅ Complete            |
+| `layout.json`     | 14K  | 410   | Breakpoints, containers, grid system, gutters               | ✅ Complete            |
+| `shadows.json`    | 7.3K | 244   | Shadow primitives (sm, default, lg, inset)                  | ⚠️ Figma limitation    |
+| `theme.json`      | 340K | 8,333 | **Combined** - All above collections in one file            | ✅ Complete            |
 
 **Note:** Shadows are exported but Figma doesn't natively support shadow collections in variables, so they're stored as individual properties (color, offsetX/Y, blur, spread).
 
@@ -40,6 +41,7 @@ The design tokens have been exported from Figma using the Tokens Studio plugin. 
 ## What We Have
 
 ### 1. Foundation Collection (Colors)
+
 - **121 brand colors**: 11 hues × 11 steps (50, 100-900, 950)
   - Hues: blue, cyan, gray, green, indigo, orange, pink, purple, red, teal, yellow
 - **88 semantic theme colors**: primary, secondary, success, danger, warning, info, light, dark
@@ -49,6 +51,7 @@ The design tokens have been exported from Figma using the Tokens Studio plugin. 
 - **Opacity tokens**: For transparency variations
 
 ### 2. Typography Collection
+
 - **Font families**: base (Inter), monospace (Roboto Mono)
 - **Font sizes**: base (16px), sm (14px), lg (20px)
 - **Font weights**: 7 weights (100-900)
@@ -59,11 +62,13 @@ The design tokens have been exported from Figma using the Tokens Studio plugin. 
 - **Lead & small text**: Special text styles
 
 ### 3. Spacing Collection ✅ **EXTENDED**
+
 - **11 spacing steps**: 0-10 (0px, 4px, 8px, 16px, 24px, 48px, 64px, 80px, 96px, 128px, 160px)
 - **Bootstrap compatible**: Matches and extends Bootstrap spacing scale
 - Note: Step 10 is 160px (vs Bootstrap's 128px) - this is acceptable extension
 
 ### 4. Radius Collection ✅ **UPDATED NAMING**
+
 - **8 border radius values**:
   - none: 0px
   - sm: 4px
@@ -75,12 +80,14 @@ The design tokens have been exported from Figma using the Tokens Studio plugin. 
   - pill: 800px
 
 ### 5. Layout Collection
+
 - **6 breakpoints**: xs (0), sm (576px), md (768px), lg (992px), xl (1200px), xxl (1400px)
 - **Container max-widths**: Responsive widths for each breakpoint
 - **Grid system**: 12 columns, 24px gutter, 6 row columns
 - **Gutter utilities**: 0-5 spacing options
 
 ### 6. Shadows Collection ⚠️
+
 - **4 shadow levels**: sm, default, lg, inset
 - **Structure**: Individual properties (color, offsetX, offsetY, blur, spread) + composite values
 - **Issue**: Figma doesn't support shadow variables natively in the same way as colors/spacing
@@ -93,6 +100,7 @@ The design tokens have been exported from Figma using the Tokens Studio plugin. 
 ### Phase 1: Understand Export Structure ✅ COMPLETE
 
 **What we learned:**
+
 - Figma exports use `$value`, `$type`, `$description`, `$extensions`, `$scopes` format
 - Collections are wrapped in named objects: `Foundation.modes.Light`, `Typography.modes.Base`, etc.
 - Modes represent theme variations (Light/Dark for colors, Base for non-themed tokens)
@@ -109,20 +117,21 @@ The design tokens have been exported from Figma using the Tokens Studio plugin. 
 
 **Transformation Rules:**
 
-| Source (Figma) | Target (Style Dictionary) | Action |
-|---|---|---|
-| `$value` | `value` | Remove `$` prefix |
-| `$type` | `type` | Remove `$`; map types: `number`→`dimension`, `string`→`fontFamily` |
-| `$description` | `description` | Remove `$`; optionally shorten |
-| `$extensions.platform.scssVariableName` | `comment` | Extract Bootstrap variable name |
-| `$extensions.platform.fontStack` | `value` (for fonts) | Use full stack instead of single font |
-| `$extensions` | _(remove)_ | Not needed in Style Dictionary |
-| `$scopes` | _(remove)_ | Figma-specific |
-| `Foundation.modes.Light.colors` | `color` | Flatten nested structure |
-| `Typography.modes.Base` | `typography` | Flatten nested structure |
-| Number values (8, 16, 24) | Strings with units ("8px", "1rem") | Add appropriate units |
+| Source (Figma)                          | Target (Style Dictionary)          | Action                                                             |
+| --------------------------------------- | ---------------------------------- | ------------------------------------------------------------------ |
+| `$value`                                | `value`                            | Remove `$` prefix                                                  |
+| `$type`                                 | `type`                             | Remove `$`; map types: `number`→`dimension`, `string`→`fontFamily` |
+| `$description`                          | `description`                      | Remove `$`; optionally shorten                                     |
+| `$extensions.platform.scssVariableName` | `comment`                          | Extract Bootstrap variable name                                    |
+| `$extensions.platform.fontStack`        | `value` (for fonts)                | Use full stack instead of single font                              |
+| `$extensions`                           | _(remove)_                         | Not needed in Style Dictionary                                     |
+| `$scopes`                               | _(remove)_                         | Figma-specific                                                     |
+| `Foundation.modes.Light.colors`         | `color`                            | Flatten nested structure                                           |
+| `Typography.modes.Base`                 | `typography`                       | Flatten nested structure                                           |
+| Number values (8, 16, 24)               | Strings with units ("8px", "1rem") | Add appropriate units                                              |
 
 **Script Structure:**
+
 ```javascript
 // tools/scripts/transform-figma-tokens.js
 const fs = require('fs');
@@ -135,7 +144,7 @@ const collections = {
   spacing: require('../../.idea/tokens/collections/spacing.json'),
   radius: require('../../.idea/tokens/collections/radius.json'),
   layout: require('../../.idea/tokens/collections/layout.json'),
-  shadows: require('../../.idea/tokens/collections/shadows.json')
+  shadows: require('../../.idea/tokens/collections/shadows.json'),
 };
 
 // Transform each collection
@@ -146,12 +155,13 @@ function transformToken(token) {
     value: transformValue(token.$value, token.$type),
     type: transformType(token.$type),
     description: token.$description,
-    comment: token.$extensions?.platform?.scssVariableName
+    comment: token.$extensions?.platform?.scssVariableName,
   };
 }
 ```
 
 **Output Directory Structure:**
+
 ```
 packages/@dsai/tokens/
 ├── color/
@@ -176,30 +186,36 @@ packages/@dsai/tokens/
 ### Phase 3: Handle Special Cases (30 minutes) - **NEXT**
 
 **1. Font Families:**
+
 - Figma value: "Inter" (single font)
 - Use extension: `$extensions.platform.fontStack` for full stack
 - Result: "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
 
 **2. Border Radius Units:**
+
 - Convert numbers to px: 8 → "8px"
 - Special case - circle: Use "50%" not pixel value
 - Special case - pill: Use "9999px" (effectively infinite)
 
 **3. Shadow Composites:**
+
 - Use `composite` property from Figma export
 - Already in correct CSS format: "0 0.5rem 1rem rgba(0, 0, 0, 0.15)"
 
 **4. Color References:**
+
 - Semantic colors reference primitives in Figma
 - Preserve references using `{color.blue.500}` syntax
 
 **5. Dark Mode:**
+
 - Currently: `Foundation.modes.Dark`
 - Strategy: Create separate `color/dark.json` OR use conditional logic in Style Dictionary
 
 ### Phase 4: Add Missing Tokens (30 minutes) - **NEXT**
 
 **Border Widths** (create manually):
+
 ```json
 {
   "border": {
@@ -216,6 +232,7 @@ packages/@dsai/tokens/
 ### Phase 5: Create Master Index & Validation (30 minutes) - **REMAINING**
 
 **1. Master Index (`packages/@dsai/tokens/index.json`):**
+
 ```json
 {
   "color": { "$include": "./color/primitive.json" },
@@ -236,6 +253,7 @@ packages/@dsai/tokens/
 ```
 
 **2. Validation Script:**
+
 - Check JSON syntax
 - Verify required properties (value, type)
 - Validate token references resolve
@@ -243,6 +261,7 @@ packages/@dsai/tokens/
 - Ensure no duplicate tokens
 
 **3. npm Scripts:**
+
 ```json
 {
   "scripts": {
@@ -256,6 +275,7 @@ packages/@dsai/tokens/
 ### Phase 6: Documentation (30 minutes) - **REMAINING**
 
 **Create `packages/@dsai/tokens/README.md`:**
+
 - Overview of token structure
 - How to export from Figma
 - How to transform exports
@@ -268,6 +288,7 @@ packages/@dsai/tokens/
 ## Figma Export Workflow
 
 ### Option 1: Separate Collections (Recommended)
+
 ```
 Figma → Tokens Studio Plugin → Export Collections Separately
 ↓
@@ -281,6 +302,7 @@ Figma → Tokens Studio Plugin → Export Collections Separately
 ```
 
 ### Option 2: Combined Export
+
 ```
 Figma → Tokens Studio Plugin → Export All Collections
 ↓
@@ -289,6 +311,7 @@ Figma → Tokens Studio Plugin → Export All Collections
 ```
 
 **Decision:** Use **Option 1** (separate collections) because:
+
 - Easier to track changes per collection
 - Faster transformation (can process in parallel)
 - Better Git diffs (changes isolated to specific files)
@@ -301,6 +324,7 @@ Figma → Tokens Studio Plugin → Export All Collections
 ### Example 1: Color Primitive
 
 **Source (`.idea/tokens/collections/foundation.json`):**
+
 ```json
 {
   "Foundation": {
@@ -328,6 +352,7 @@ Figma → Tokens Studio Plugin → Export All Collections
 ```
 
 **Target (`packages/@dsai/tokens/color/primitive.json`):**
+
 ```json
 {
   "color": {
@@ -346,6 +371,7 @@ Figma → Tokens Studio Plugin → Export All Collections
 ### Example 2: Border Radius
 
 **Source (`.idea/tokens/collections/radius.json`):**
+
 ```json
 {
   "Radius": {
@@ -367,6 +393,7 @@ Figma → Tokens Studio Plugin → Export All Collections
 ```
 
 **Target (`packages/@dsai/tokens/border/radius.json`):**
+
 ```json
 {
   "border": {
@@ -384,6 +411,7 @@ Figma → Tokens Studio Plugin → Export All Collections
 ### Example 3: Typography (Font Family with Stack)
 
 **Source (`.idea/tokens/collections/typography.json`):**
+
 ```json
 {
   "Typography": {
@@ -407,6 +435,7 @@ Figma → Tokens Studio Plugin → Export All Collections
 ```
 
 **Target (`packages/@dsai/tokens/typography/base.json`):**
+
 ```json
 {
   "typography": {
@@ -445,12 +474,14 @@ Figma → Tokens Studio Plugin → Export All Collections
 ## Dependencies
 
 ### Requires:
+
 - **TASK-001**: Nx Monorepo Structure ✅ (packages/tokens directory exists)
 - **Figma Token Export**: ✅ COMPLETE (all collections exported)
 - Designer color palette ✅ (121 colors defined)
 - Designer typography scale ✅ (comprehensive system)
 
 ### Blocks:
+
 - **TASK-012**: Setup Style Dictionary Pipeline (needs these tokens)
 - **TASK-015**: Token-to-CSS Variable Generation (needs tokens)
 - **TASK-016**: TypeScript Types for Tokens (needs token structure)
@@ -484,6 +515,7 @@ Figma → Tokens Studio Plugin → Export All Collections
 ---
 
 **Estimated Remaining Time:**
+
 - Transformation script: 2 hours
 - Add missing tokens: 30 minutes
 - Master index & validation: 30 minutes
