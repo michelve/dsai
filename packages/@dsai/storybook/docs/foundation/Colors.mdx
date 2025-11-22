@@ -1,8 +1,331 @@
-<Meta of={ColorStories} />;
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, ColorPalette, ColorItem } from '@storybook/addon-docs/blocks';
+import * as ColorStories from './Colors.stories';
+import tokens from '@dsai/tokens';
 
-# Color System
+<Meta of={ColorStories} />
 
-The DSAi color system is built on a foundation of primitive colors (11 hues × 11 steps) and semantic tokens for consistent theming across the design system.
+<Title />
+
+<Subtitle>
+  DSAi color system with 121 primitive colors (11 hues × 11 steps) and semantic tokens for
+  consistent theming.
+</Subtitle>
+
+<Description>
+  The DSAi color system is built on a foundation of primitive colors and semantic tokens, ensuring
+  WCAG 2.1 AA compliance and consistent theming across the design system.
+</Description>
+
+## Semantic Colors
+
+<ColorPalette>
+  <ColorItem
+    title="theme.color.primary"
+    subtitle="Semantic theme colors"
+    colors={{
+      Primary: tokens.theme.primary?.value || '#0ea5e9',
+      Secondary: tokens.theme.secondary?.value || '#64748b',
+      Success: tokens.theme.success?.value || '#10b981',
+      Danger: tokens.theme.danger?.value || '#ef4444',
+      Warning: tokens.theme.warning?.value || '#f59e0b',
+      Info: tokens.theme.info?.value || '#0ea5e9',
+    }}
+  />
+</ColorPalette>
+
+## Color Scales
+
+Each hue uses an **eleven-step scale** from 50 (lightest) to 950 (darkest), providing flexibility for any design need.
+
+### Brand Colors
+
+#### Blue - Primary Brand Color
+
+<ColorPalette>
+  <ColorItem
+    title="color.blue"
+    subtitle="50: Ultra-light | 500: Default | 950: Maximum contrast"
+    colors={{
+      '50': tokens.color.blue?.['50']?.value || '#eff6ff',
+      '100': tokens.color.blue?.['100']?.value || '#dbeafe',
+      '200': tokens.color.blue?.['200']?.value || '#bfdbfe',
+      '300': tokens.color.blue?.['300']?.value || '#93c5fd',
+      '400': tokens.color.blue?.['400']?.value || '#60a5fa',
+      '500': tokens.color.blue?.['500']?.value || '#3b82f6',
+      '600': tokens.color.blue?.['600']?.value || '#2563eb',
+      '700': tokens.color.blue?.['700']?.value || '#1d4ed8',
+      '800': tokens.color.blue?.['800']?.value || '#1e40af',
+      '900': tokens.color.blue?.['900']?.value || '#1e3a8a',
+      '950': tokens.color.blue?.['950']?.value || '#172554',
+    }}
+  />
+</ColorPalette>
+
+#### Cyan - Secondary Accents
+
+<ColorPalette>
+  <ColorItem
+    title="color.cyan"
+    subtitle="Full 11-step scale"
+    colors={{
+      '50': tokens.color.cyan?.['50']?.value || '#ecfeff',
+      '100': tokens.color.cyan?.['100']?.value || '#cffafe',
+      '200': tokens.color.cyan?.['200']?.value || '#a5f3fc',
+      '300': tokens.color.cyan?.['300']?.value || '#67e8f9',
+      '400': tokens.color.cyan?.['400']?.value || '#22d3ee',
+      '500': tokens.color.cyan?.['500']?.value || '#06b6d4',
+      '600': tokens.color.cyan?.['600']?.value || '#0891b2',
+      '700': tokens.color.cyan?.['700']?.value || '#0e7490',
+      '800': tokens.color.cyan?.['800']?.value || '#155e75',
+      '900': tokens.color.cyan?.['900']?.value || '#164e63',
+      '950': tokens.color.cyan?.['950']?.value || '#083344',
+    }}
+  />
+</ColorPalette>
+
+#### Green - Success States
+
+<ColorPalette>
+  <ColorItem
+    title="color.green"
+    subtitle="Full 11-step scale"
+    colors={{
+      '50': tokens.color.green?.['50']?.value || '#f0fdf4',
+      '100': tokens.color.green?.['100']?.value || '#dcfce7',
+      '200': tokens.color.green?.['200']?.value || '#bbf7d0',
+      '300': tokens.color.green?.['300']?.value || '#86efac',
+      '400': tokens.color.green?.['400']?.value || '#4ade80',
+      '500': tokens.color.green?.['500']?.value || '#22c55e',
+      '600': tokens.color.green?.['600']?.value || '#16a34a',
+      '700': tokens.color.green?.['700']?.value || '#15803d',
+      '800': tokens.color.green?.['800']?.value || '#166534',
+      '900': tokens.color.green?.['900']?.value || '#14532d',
+      '950': tokens.color.green?.['950']?.value || '#052e16',
+    }}
+  />
+</ColorPalette>
+
+#### Red - Error States
+
+<ColorPalette>
+  <ColorItem
+    title="color.red"
+    subtitle="Full 11-step scale"
+    colors={{
+      '50': tokens.color.red?.['50']?.value || '#fef2f2',
+      '100': tokens.color.red?.['100']?.value || '#fee2e2',
+      '200': tokens.color.red?.['200']?.value || '#fecaca',
+      '300': tokens.color.red?.['300']?.value || '#fca5a5',
+      '400': tokens.color.red?.['400']?.value || '#f87171',
+      '500': tokens.color.red?.['500']?.value || '#ef4444',
+      '600': tokens.color.red?.['600']?.value || '#dc2626',
+      '700': tokens.color.red?.['700']?.value || '#b91c1c',
+      '800': tokens.color.red?.['800']?.value || '#991b1b',
+      '900': tokens.color.red?.['900']?.value || '#7f1d1d',
+      '950': tokens.color.red?.['950']?.value || '#450a0a',
+    }}
+  />
+</ColorPalette>
+
+#### Orange - Warning States
+
+<ColorPalette>
+  <ColorItem
+    title="color.orange"
+    subtitle="Full 11-step scale"
+    colors={{
+      '50': tokens.color.orange?.['50']?.value || '#fff7ed',
+      '100': tokens.color.orange?.['100']?.value || '#ffedd5',
+      '200': tokens.color.orange?.['200']?.value || '#fed7aa',
+      '300': tokens.color.orange?.['300']?.value || '#fdba74',
+      '400': tokens.color.orange?.['400']?.value || '#fb923c',
+      '500': tokens.color.orange?.['500']?.value || '#f97316',
+      '600': tokens.color.orange?.['600']?.value || '#ea580c',
+      '700': tokens.color.orange?.['700']?.value || '#c2410c',
+      '800': tokens.color.orange?.['800']?.value || '#9a3412',
+      '900': tokens.color.orange?.['900']?.value || '#7c2d12',
+      '950': tokens.color.orange?.['950']?.value || '#431407',
+    }}
+  />
+</ColorPalette>
+
+#### Yellow - Caution Alerts
+
+<ColorPalette>
+  <ColorItem
+    title="color.yellow"
+    subtitle="Full 11-step scale"
+    colors={{
+      '50': tokens.color.yellow?.['50']?.value || '#fefce8',
+      '100': tokens.color.yellow?.['100']?.value || '#fef9c3',
+      '200': tokens.color.yellow?.['200']?.value || '#fef08a',
+      '300': tokens.color.yellow?.['300']?.value || '#fde047',
+      '400': tokens.color.yellow?.['400']?.value || '#facc15',
+      '500': tokens.color.yellow?.['500']?.value || '#eab308',
+      '600': tokens.color.yellow?.['600']?.value || '#ca8a04',
+      '700': tokens.color.yellow?.['700']?.value || '#a16207',
+      '800': tokens.color.yellow?.['800']?.value || '#854d0e',
+      '900': tokens.color.yellow?.['900']?.value || '#713f12',
+      '950': tokens.color.yellow?.['950']?.value || '#422006',
+    }}
+  />
+</ColorPalette>
+
+#### Purple - Premium Features
+
+<ColorPalette>
+  <ColorItem
+    title="color.purple"
+    subtitle="Full 11-step scale"
+    colors={{
+      '50': tokens.color.purple?.['50']?.value || '#faf5ff',
+      '100': tokens.color.purple?.['100']?.value || '#f3e8ff',
+      '200': tokens.color.purple?.['200']?.value || '#e9d5ff',
+      '300': tokens.color.purple?.['300']?.value || '#d8b4fe',
+      '400': tokens.color.purple?.['400']?.value || '#c084fc',
+      '500': tokens.color.purple?.['500']?.value || '#a855f7',
+      '600': tokens.color.purple?.['600']?.value || '#9333ea',
+      '700': tokens.color.purple?.['700']?.value || '#7e22ce',
+      '800': tokens.color.purple?.['800']?.value || '#6b21a8',
+      '900': tokens.color.purple?.['900']?.value || '#581c87',
+      '950': tokens.color.purple?.['950']?.value || '#3b0764',
+    }}
+  />
+</ColorPalette>
+
+#### Pink - Special Highlights
+
+<ColorPalette>
+  <ColorItem
+    title="color.pink"
+    subtitle="Full 11-step scale"
+    colors={{
+      '50': tokens.color.pink?.['50']?.value || '#fdf2f8',
+      '100': tokens.color.pink?.['100']?.value || '#fce7f3',
+      '200': tokens.color.pink?.['200']?.value || '#fbcfe8',
+      '300': tokens.color.pink?.['300']?.value || '#f9a8d4',
+      '400': tokens.color.pink?.['400']?.value || '#f472b6',
+      '500': tokens.color.pink?.['500']?.value || '#ec4899',
+      '600': tokens.color.pink?.['600']?.value || '#db2777',
+      '700': tokens.color.pink?.['700']?.value || '#be185d',
+      '800': tokens.color.pink?.['800']?.value || '#9d174d',
+      '900': tokens.color.pink?.['900']?.value || '#831843',
+      '950': tokens.color.pink?.['950']?.value || '#500724',
+    }}
+  />
+</ColorPalette>
+
+### Neutral Colors
+
+#### Gray - Text, Backgrounds, Borders
+
+<ColorPalette>
+  <ColorItem
+    title="color.gray"
+    subtitle="Primary neutral palette"
+    colors={{
+      '50': tokens.color.gray?.['50']?.value || '#f9fafb',
+      '100': tokens.color.gray?.['100']?.value || '#f3f4f6',
+      '200': tokens.color.gray?.['200']?.value || '#e5e7eb',
+      '300': tokens.color.gray?.['300']?.value || '#d1d5db',
+      '400': tokens.color.gray?.['400']?.value || '#9ca3af',
+      '500': tokens.color.gray?.['500']?.value || '#6b7280',
+      '600': tokens.color.gray?.['600']?.value || '#4b5563',
+      '700': tokens.color.gray?.['700']?.value || '#374151',
+      '800': tokens.color.gray?.['800']?.value || '#1f2937',
+      '900': tokens.color.gray?.['900']?.value || '#111827',
+      '950': tokens.color.gray?.['950']?.value || '#030712',
+    }}
+  />
+</ColorPalette>
+
+#### Indigo - Alternative Neutral (Blue Undertone)
+
+<ColorPalette>
+  <ColorItem
+    title="color.indigo"
+    subtitle="Full 11-step scale"
+    colors={{
+      '50': tokens.color.indigo?.['50']?.value || '#eef2ff',
+      '100': tokens.color.indigo?.['100']?.value || '#e0e7ff',
+      '200': tokens.color.indigo?.['200']?.value || '#c7d2fe',
+      '300': tokens.color.indigo?.['300']?.value || '#a5b4fc',
+      '400': tokens.color.indigo?.['400']?.value || '#818cf8',
+      '500': tokens.color.indigo?.['500']?.value || '#6366f1',
+      '600': tokens.color.indigo?.['600']?.value || '#4f46e5',
+      '700': tokens.color.indigo?.['700']?.value || '#4338ca',
+      '800': tokens.color.indigo?.['800']?.value || '#3730a3',
+      '900': tokens.color.indigo?.['900']?.value || '#312e81',
+      '950': tokens.color.indigo?.['950']?.value || '#1e1b4b',
+    }}
+  />
+</ColorPalette>
+
+#### Teal - Alternative Neutral (Green Undertone)
+
+<ColorPalette>
+  <ColorItem
+    title="color.teal"
+    subtitle="Full 11-step scale"
+    colors={{
+      '50': tokens.color.teal?.['50']?.value || '#f0fdfa',
+      '100': tokens.color.teal?.['100']?.value || '#ccfbf1',
+      '200': tokens.color.teal?.['200']?.value || '#99f6e4',
+      '300': tokens.color.teal?.['300']?.value || '#5eead4',
+      '400': tokens.color.teal?.['400']?.value || '#2dd4bf',
+      '500': tokens.color.teal?.['500']?.value || '#14b8a6',
+      '600': tokens.color.teal?.['600']?.value || '#0d9488',
+      '700': tokens.color.teal?.['700']?.value || '#0f766e',
+      '800': tokens.color.teal?.['800']?.value || '#115e59',
+      '900': tokens.color.teal?.['900']?.value || '#134e4a',
+      '950': tokens.color.teal?.['950']?.value || '#042f2e',
+    }}
+  />
+</ColorPalette>
+
+### Utility Colors
+
+<ColorPalette>
+  <ColorItem
+    title="neutral"
+    subtitle="Black and white"
+    colors={{
+      White: tokens.neutral.white?.value || '#ffffff',
+      Black: tokens.neutral.black?.value || '#000000',
+    }}
+  />
+  <ColorItem
+    title="background"
+    subtitle="Surface backgrounds"
+    colors={{
+      Primary: tokens.background.primary?.value || '#ffffff',
+      Secondary: tokens.background.secondary?.value || '#f9fafb',
+      Tertiary: tokens.background.tertiary?.value || '#f3f4f6',
+      Inverse: tokens.background.inverse?.value || '#111827',
+    }}
+  />
+  <ColorItem
+    title="border.color"
+    subtitle="Element borders"
+    colors={{
+      Default: tokens.border.color.default?.value || '#e5e7eb',
+      Muted: tokens.border.color.muted?.value || '#f3f4f6',
+      Emphasis: tokens.border.color.emphasis?.value || '#d1d5db',
+    }}
+  />
+</ColorPalette>
+
+## Scale Usage Guide
+
+| Step        | Usage                    | Examples                       |
+| ----------- | ------------------------ | ------------------------------ |
+| **50**      | Ultra-light backgrounds  | Hover states, glass morphism   |
+| **100-200** | Light backgrounds        | Cards, panels, secondary UI    |
+| **300-400** | Borders, disabled states | Dividers, inactive elements    |
+| **500**     | Default color            | Primary usage for each hue     |
+| **600-700** | Hover/active states      | Interactive elements           |
+| **800-900** | High contrast text       | Body text, headings            |
+| **950**     | Maximum contrast         | Deep shadows, maximum emphasis |
 
 ## Design Principles
 
@@ -27,43 +350,8 @@ All color combinations meet or exceed WCAG 2.1 AA contrast requirements:
 
 Colors are named by their purpose, not their appearance:
 
-- ✅ `theme.primary` (semantic - can change)
-- ❌ `blue-500` (literal - locked to appearance)
-
-## Color Scales
-
-### Eleven-Step Scale
-
-Each hue uses an eleven-step scale from 50 (lightest) to 950 (darkest):
-
-| Step        | Usage                    | Examples                       |
-| ----------- | ------------------------ | ------------------------------ |
-| **50**      | Ultra-light backgrounds  | Hover states, glass morphism   |
-| **100-200** | Light backgrounds        | Cards, panels, secondary UI    |
-| **300-400** | Borders, disabled states | Dividers, inactive elements    |
-| **500**     | Default color            | Primary usage for each hue     |
-| **600-700** | Hover/active states      | Interactive elements           |
-| **800-900** | High contrast text       | Body text, headings            |
-| **950**     | Maximum contrast         | Deep shadows, maximum emphasis |
-
-## Available Hues
-
-### Brand Colors (8 Hues)
-
-- **Blue** - Primary brand color
-- **Cyan** - Secondary accents
-- **Green** - Success states
-- **Red** - Error states
-- **Orange** - Warning states
-- **Yellow** - Caution alerts
-- **Purple** - Premium features
-- **Pink** - Special highlights
-
-### Neutral Colors
-
-- **Gray** - Text, backgrounds, borders
-- **Indigo** - Alternative neutral with blue undertone
-- **Teal** - Alternative neutral with green undertone
+- **Recommended:** `theme.primary` (semantic - can change)
+- **Avoid:** `blue-500` (literal - locked to appearance)
 
 ## Usage Examples
 
@@ -191,7 +479,7 @@ Primitive tokens remain constant; semantic tokens change values.
 
 ## Best Practices
 
-### ✅ Do
+### Do
 
 - Use semantic tokens (`theme.primary`) for component styling
 - Maintain consistent color usage across similar components
@@ -199,7 +487,7 @@ Primitive tokens remain constant; semantic tokens change values.
 - Document color choices in component stories
 - Use primitive tokens for custom one-off needs
 
-### ❌ Don't
+### Don't
 
 - Hardcode hex values in component styles
 - Use different colors for the same purpose
@@ -234,8 +522,16 @@ color/
 - [Color Blindness Simulator](https://www.color-blindness.com/coblis-color-blindness-simulator/)
 - [Style Dictionary Documentation](https://amzn.github.io/style-dictionary/)
 
+## Interactive Color Stories
+
+<Primary />
+
+<Controls />
+
+<Stories />
+
 ---
 
-**Last Updated:** November 21, 2025
+**Last Updated:** November 22, 2025
 **Token Version:** 1.0.0
 **Design System:** DSAi Component Library

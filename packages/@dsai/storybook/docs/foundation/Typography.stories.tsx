@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import tokens from '@dsai/tokens';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta = {
   title: 'Foundation/Typography',
@@ -82,6 +82,123 @@ export const FontSizes: Story = {
             <code style={{ fontSize: '12px', color: '#9ca3af', marginLeft: 'auto' }}>{size}</code>
           </div>
         ))}
+      </div>
+    );
+  },
+};
+
+/**
+ * Display Typography - Large, attention-grabbing text for hero sections
+ */
+export const DisplayTypography: Story = {
+  render: () => {
+    const displays = [
+      {
+        name: 'Display 1',
+        token: 'display1',
+        size: '80px',
+        weight: '300',
+        usage: 'Hero headings, landing pages',
+      },
+      {
+        name: 'Display 2',
+        token: 'display2',
+        size: '72px',
+        weight: '300',
+        usage: 'Large marketing headers',
+      },
+      {
+        name: 'Display 3',
+        token: 'display3',
+        size: '64px',
+        weight: '300',
+        usage: 'Section heroes',
+      },
+      {
+        name: 'Display 4',
+        token: 'display4',
+        size: '56px',
+        weight: '300',
+        usage: 'Feature announcements',
+      },
+      {
+        name: 'Display 5',
+        token: 'display5',
+        size: '48px',
+        weight: '300',
+        usage: 'Page titles',
+      },
+      {
+        name: 'Display 6',
+        token: 'display6',
+        size: '40px',
+        weight: '300',
+        usage: 'Section headers',
+      },
+    ];
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
+        <div>
+          <h2>Display Typography Scale</h2>
+          <p style={{ color: '#6b7280', marginTop: '8px' }}>
+            Large, attention-grabbing typography for hero sections, landing pages, and marketing
+            content. Uses lighter font weight (300) for elegant, modern appearance.
+          </p>
+        </div>
+        {displays.map(({ name, token, size, weight, usage }) => (
+          <div key={token} style={{ borderTop: '1px solid #e5e7eb', paddingTop: '24px' }}>
+            <div style={{ marginBottom: '16px' }}>
+              <div
+                style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}
+              >
+                <span style={{ fontSize: '14px', fontWeight: 600, color: '#111827' }}>{name}</span>
+                <code style={{ fontSize: '12px', color: '#6b7280' }}>{size}</code>
+                <span style={{ fontSize: '12px', color: '#9ca3af' }}>· Weight {weight}</span>
+              </div>
+              <div style={{ fontSize: '12px', color: '#6b7280', fontStyle: 'italic' }}>{usage}</div>
+            </div>
+            <div
+              style={{
+                fontSize: size,
+                fontWeight: weight,
+                lineHeight: '1.2',
+                letterSpacing: '-0.02em',
+              }}
+            >
+              The quick brown fox
+            </div>
+            <code
+              style={{
+                fontSize: '11px',
+                color: '#9ca3af',
+                marginTop: '8px',
+                display: 'block',
+                fontFamily: 'monospace',
+              }}
+            >
+              var(--dsai-typography-display-{token}-font-size)
+            </code>
+          </div>
+        ))}
+        <div
+          style={{
+            backgroundColor: '#f0f9ff',
+            padding: '20px',
+            borderRadius: '8px',
+            borderLeft: '4px solid #0ea5e9',
+            marginTop: '24px',
+          }}
+        >
+          <h3 style={{ fontSize: '16px', fontWeight: 600, margin: '0 0 8px 0' }}>Usage Tips</h3>
+          <ul style={{ margin: 0, paddingLeft: '20px', color: '#0c4a6e' }}>
+            <li>Use display typography sparingly for maximum impact</li>
+            <li>Pair with generous white space for breathing room</li>
+            <li>Apply negative letter-spacing (-0.02em) for better visual balance</li>
+            <li>Consider responsive scaling on smaller screens</li>
+            <li>Use line-height of 1.1-1.2 for tighter, more impactful presentation</li>
+          </ul>
+        </div>
       </div>
     );
   },

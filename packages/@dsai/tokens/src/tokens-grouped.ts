@@ -13,7 +13,7 @@ interface TokenValue {
 // Group tokens by category
 const color: Record<string, Record<string, TokenValue>> = {};
 const theme: Record<string, TokenValue> = {};
-const component: { semantic: Record<string, TokenValue> } = { semantic: {} };
+const semantic: Record<string, TokenValue> = {};
 const neutral: Record<string, TokenValue> = {};
 const background: Record<string, TokenValue> = {};
 const opacity: Record<string, TokenValue> = {};
@@ -47,16 +47,16 @@ Object.entries(flat).forEach(([key, value]) => {
         .replace(/([A-Z])/g, '-$1')
         .toLowerCase();
     theme[kebab] = token;
-  } else if (key.startsWith('componentSemantic')) {
-    // componentSemanticWarningBgSubtle -> component.semantic['warning-bg-subtle']
-    const name = key.replace('componentSemantic', '');
+  } else if (key.startsWith('semantic')) {
+    // semanticBodyColor -> semantic['body-color']
+    const name = key.replace('semantic', '');
     const kebab =
       name.charAt(0).toLowerCase() +
       name
         .slice(1)
         .replace(/([A-Z])/g, '-$1')
         .toLowerCase();
-    component.semantic[kebab] = token;
+    semantic[kebab] = token;
   } else if (key.startsWith('neutral')) {
     // neutralWhite -> neutral.white
     const name = key.replace('neutral', '');
@@ -108,7 +108,7 @@ Object.entries(flat).forEach(([key, value]) => {
 export const tokens = {
   color,
   theme,
-  component,
+  semantic,
   neutral,
   background,
   opacity,

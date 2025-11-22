@@ -273,6 +273,300 @@ export const SemanticColors: Story = {
 };
 
 /**
+ * Component Semantic Colors - Bootstrap-compatible semantic tokens
+ */
+export const ComponentSemanticColors: Story = {
+  render: () => {
+    const componentSemanticColors = [
+      {
+        category: 'Body & Text',
+        colors: [
+          {
+            name: 'Body Text',
+            value: tokens.semantic?.['body-color']?.value || '#212529',
+            cssVar: '--dsai-semantic-body-color',
+            token: 'semantic.body-color',
+            description: 'Default body text color',
+            textColor: '#fff',
+          },
+          {
+            name: 'Body Background',
+            value: tokens.semantic?.['body-bg']?.value || '#ffffff',
+            cssVar: '--dsai-semantic-body-bg',
+            token: 'semantic.body-bg',
+            description: 'Default body background',
+            textColor: '#000',
+          },
+          {
+            name: 'Emphasis',
+            value: tokens.semantic?.['emphasis-color']?.value || '#000000',
+            cssVar: '--dsai-semantic-emphasis-color',
+            token: 'semantic.emphasis-color',
+            description: 'High contrast text',
+            textColor: '#fff',
+          },
+          {
+            name: 'Secondary Text',
+            value: tokens.semantic?.['secondary-color']?.value || '#6c757d',
+            cssVar: '--dsai-semantic-secondary-color',
+            token: 'semantic.secondary-color',
+            description: 'Lighter text',
+            textColor: '#fff',
+          },
+          {
+            name: 'Tertiary Text',
+            value: tokens.semantic?.['tertiary-color']?.value || '#a8adb7',
+            cssVar: '--dsai-semantic-tertiary-color',
+            token: 'semantic.tertiary-color',
+            description: 'Lightest text',
+            textColor: '#000',
+          },
+        ],
+      },
+      {
+        category: 'Links',
+        colors: [
+          {
+            name: 'Link Default',
+            value: tokens.semantic?.['link-color']?.value || '#0d6efd',
+            cssVar: '--dsai-semantic-link-color',
+            token: 'semantic.link-color',
+            description: 'Default link color',
+            textColor: '#fff',
+          },
+          {
+            name: 'Link Hover',
+            value: tokens.semantic?.['link-hover-color']?.value || '#0a58ca',
+            cssVar: '--dsai-semantic-link-hover-color',
+            token: 'semantic.link-hover-color',
+            description: 'Link hover state',
+            textColor: '#fff',
+          },
+        ],
+      },
+      {
+        category: 'Backgrounds',
+        colors: [
+          {
+            name: 'Secondary BG',
+            value: tokens.semantic?.['secondary-bg']?.value || '#e9ecef',
+            cssVar: '--dsai-semantic-secondary-bg',
+            token: 'semantic.secondary-bg',
+            description: 'Secondary surface',
+            textColor: '#000',
+          },
+          {
+            name: 'Tertiary BG',
+            value: tokens.semantic?.['tertiary-bg']?.value || '#f8f9fa',
+            cssVar: '--dsai-semantic-tertiary-bg',
+            token: 'semantic.tertiary-bg',
+            description: 'Tertiary surface',
+            textColor: '#000',
+          },
+        ],
+      },
+      {
+        category: 'Borders',
+        colors: [
+          {
+            name: 'Border',
+            value: tokens.semantic?.['border-color']?.value || '#dee2e6',
+            cssVar: '--dsai-semantic-border-color',
+            token: 'semantic.border-color',
+            description: 'Default borders',
+            textColor: '#000',
+          },
+          {
+            name: 'Border Translucent',
+            value: tokens.semantic?.['border-color-translucent']?.value || 'rgba(0,0,0,0.175)',
+            cssVar: '--dsai-semantic-border-color-translucent',
+            token: 'semantic.border-color-translucent',
+            description: 'Translucent borders',
+            textColor: '#fff',
+          },
+        ],
+      },
+      {
+        category: 'Primary Variants',
+        colors: [
+          {
+            name: 'Text Emphasis',
+            value: tokens.semantic?.['primary-text-emphasis']?.value || '#052c65',
+            cssVar: '--dsai-semantic-primary-text-emphasis',
+            token: 'semantic.primary-text-emphasis',
+            description: 'Primary text emphasis',
+            textColor: '#fff',
+          },
+          {
+            name: 'BG Subtle',
+            value: tokens.semantic?.['primary-bg-subtle']?.value || '#cfe2ff',
+            cssVar: '--dsai-semantic-primary-bg-subtle',
+            token: 'semantic.primary-bg-subtle',
+            description: 'Primary subtle background',
+            textColor: '#000',
+          },
+          {
+            name: 'Border Subtle',
+            value: tokens.semantic?.['primary-border-subtle']?.value || '#9ec5fe',
+            cssVar: '--dsai-semantic-primary-border-subtle',
+            token: 'semantic.primary-border-subtle',
+            description: 'Primary subtle border',
+            textColor: '#000',
+          },
+        ],
+      },
+      {
+        category: 'Success Variants',
+        colors: [
+          {
+            name: 'Text Emphasis',
+            value: tokens.semantic?.['success-text-emphasis']?.value || '#0a3622',
+            cssVar: '--dsai-semantic-success-text-emphasis',
+            token: 'semantic.success-text-emphasis',
+            description: 'Success text emphasis',
+            textColor: '#fff',
+          },
+          {
+            name: 'BG Subtle',
+            value: tokens.semantic?.['success-bg-subtle']?.value || '#d1e7dd',
+            cssVar: '--dsai-semantic-success-bg-subtle',
+            token: 'semantic.success-bg-subtle',
+            description: 'Success subtle background',
+            textColor: '#000',
+          },
+          {
+            name: 'Border Subtle',
+            value: tokens.semantic?.['success-border-subtle']?.value || '#a3cfbb',
+            cssVar: '--dsai-semantic-success-border-subtle',
+            token: 'semantic.success-border-subtle',
+            description: 'Success subtle border',
+            textColor: '#000',
+          },
+        ],
+      },
+      {
+        category: 'Danger Variants',
+        colors: [
+          {
+            name: 'Text Emphasis',
+            value: tokens.semantic?.['danger-text-emphasis']?.value || '#58151c',
+            cssVar: '--dsai-semantic-danger-text-emphasis',
+            token: 'semantic.danger-text-emphasis',
+            description: 'Danger text emphasis',
+            textColor: '#fff',
+          },
+          {
+            name: 'BG Subtle',
+            value: tokens.semantic?.['danger-bg-subtle']?.value || '#f8d7da',
+            cssVar: '--dsai-semantic-danger-bg-subtle',
+            token: 'semantic.danger-bg-subtle',
+            description: 'Danger subtle background',
+            textColor: '#000',
+          },
+          {
+            name: 'Border Subtle',
+            value: tokens.semantic?.['danger-border-subtle']?.value || '#f1aeb5',
+            cssVar: '--dsai-semantic-danger-border-subtle',
+            token: 'semantic.danger-border-subtle',
+            description: 'Danger subtle border',
+            textColor: '#000',
+          },
+        ],
+      },
+      {
+        category: 'Warning Variants',
+        colors: [
+          {
+            name: 'Text Emphasis',
+            value: tokens.semantic?.['warning-text-emphasis']?.value || '#664d03',
+            cssVar: '--dsai-semantic-warning-text-emphasis',
+            token: 'semantic.warning-text-emphasis',
+            description: 'Warning text emphasis',
+            textColor: '#fff',
+          },
+          {
+            name: 'BG Subtle',
+            value: tokens.semantic?.['warning-bg-subtle']?.value || '#fff3cd',
+            cssVar: '--dsai-semantic-warning-bg-subtle',
+            token: 'semantic.warning-bg-subtle',
+            description: 'Warning subtle background',
+            textColor: '#000',
+          },
+          {
+            name: 'Border Subtle',
+            value: tokens.semantic?.['warning-border-subtle']?.value || '#ffe69c',
+            cssVar: '--dsai-semantic-warning-border-subtle',
+            token: 'semantic.warning-border-subtle',
+            description: 'Warning subtle border',
+            textColor: '#000',
+          },
+        ],
+      },
+      {
+        category: 'Info Variants',
+        colors: [
+          {
+            name: 'Text Emphasis',
+            value: tokens.semantic?.['info-text-emphasis']?.value || '#055160',
+            cssVar: '--dsai-semantic-info-text-emphasis',
+            token: 'semantic.info-text-emphasis',
+            description: 'Info text emphasis',
+            textColor: '#fff',
+          },
+          {
+            name: 'BG Subtle',
+            value: tokens.semantic?.['info-bg-subtle']?.value || '#cff4fc',
+            cssVar: '--dsai-semantic-info-bg-subtle',
+            token: 'semantic.info-bg-subtle',
+            description: 'Info subtle background',
+            textColor: '#000',
+          },
+          {
+            name: 'Border Subtle',
+            value: tokens.semantic?.['info-border-subtle']?.value || '#9eeaf9',
+            cssVar: '--dsai-semantic-info-border-subtle',
+            token: 'semantic.info-border-subtle',
+            description: 'Info subtle border',
+            textColor: '#000',
+          },
+        ],
+      },
+    ];
+
+    return (
+      <div>
+        <h2>Component Semantic Tokens</h2>
+        <p>
+          Bootstrap-compatible semantic tokens for body text, links, backgrounds, borders, and
+          component variants. These 35 tokens provide consistent styling across all components.
+        </p>
+        {componentSemanticColors.map(({ category, colors }) => (
+          <div key={category} style={{ marginTop: '32px' }}>
+            <h3 style={{ marginBottom: '16px', fontSize: '18px', fontWeight: 600 }}>{category}</h3>
+            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+              {colors.map((color) => (
+                <div key={color.name} style={{ minWidth: '180px' }}>
+                  <ColorSwatch
+                    name={color.name}
+                    value={color.value}
+                    cssVariable={color.cssVar}
+                    tokenPath={color.token}
+                    textColor={color.textColor}
+                  />
+                  <p style={{ fontSize: '12px', color: '#6b7280', marginTop: '8px' }}>
+                    {color.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  },
+};
+
+/**
  * Neutral Colors - Gray scale for text, backgrounds, borders
  */
 export const NeutralColors: Story = {
