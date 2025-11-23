@@ -219,21 +219,21 @@ export default {
   
   // Source token files - include all token categories
   source: [
-    'color/primitive.json',
-    'color/neutral.json',
-    'color/background.json',
-    'color/opacity.json',
-    'color/semantic.json',
-    'color/component.json',
-    'typography/base.json',
-    'spacing/base.json',
-    'border/color.json',
-    'border/radius.json',
-    'border/width.json',
-    'shadow/base.json',
-    'layout/breakpoints.json',
-    'layout/containers.json',
-    'layout/grid.json'
+    'collections/color/primitive.json',
+    'collections/color/neutral.json',
+    'collections/color/background.json',
+    'collections/color/opacity.json',
+    'collections/color/semantic.json',
+    'collections/color/component.json',
+    'collections/typography/base.json',
+    'collections/spacing/base.json',
+    'collections/border/color.json',
+    'collections/border/radius.json',
+    'collections/border/width.json',
+    'collections/shadow/base.json',
+    'collections/layout/breakpoints.json',
+    'collections/layout/containers.json',
+    'collections/layout/grid.json'
   ],
   
   // Output platforms

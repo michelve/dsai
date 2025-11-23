@@ -27,39 +27,39 @@ const COLLECTIONS = {
   foundation: {
     input: 'foundation.json',
     outputs: [
-      { file: 'color/primitive.json', extractor: extractBrandColors },
-      { file: 'color/neutral.json', extractor: extractNeutralColors },
-      { file: 'color/background.json', extractor: extractBackgroundColors },
-      { file: 'color/opacity.json', extractor: extractOpacityColors },
-      { file: 'color/semantic.json', extractor: extractThemeColors },
-      { file: 'color/component.json', extractor: extractSemanticColors },
-      { file: 'border/color.json', extractor: extractBorderColors },
-      { file: 'border/width-figma.json', extractor: extractBorderWidths },
+      { file: 'collections/color/primitive.json', extractor: extractBrandColors },
+      { file: 'collections/color/neutral.json', extractor: extractNeutralColors },
+      { file: 'collections/color/background.json', extractor: extractBackgroundColors },
+      { file: 'collections/color/opacity.json', extractor: extractOpacityColors },
+      { file: 'collections/color/semantic.json', extractor: extractThemeColors },
+      { file: 'collections/color/component.json', extractor: extractSemanticColors },
+      { file: 'collections/border/color.json', extractor: extractBorderColors },
+      { file: 'collections/border/width-figma.json', extractor: extractBorderWidths },
     ],
   },
   typography: {
     input: 'typography.json',
-    outputs: [{ file: 'typography/base.json', extractor: extractTypography }],
+    outputs: [{ file: 'collections/typography/base.json', extractor: extractTypography }],
   },
   spacing: {
     input: 'spacing.json',
-    outputs: [{ file: 'spacing/base.json', extractor: extractSpacing }],
+    outputs: [{ file: 'collections/spacing/base.json', extractor: extractSpacing }],
   },
   radius: {
     input: 'radius.json',
-    outputs: [{ file: 'border/radius.json', extractor: extractRadius }],
+    outputs: [{ file: 'collections/border/radius.json', extractor: extractRadius }],
   },
   layout: {
     input: 'layout.json',
     outputs: [
-      { file: 'layout/breakpoints.json', extractor: extractBreakpoints },
-      { file: 'layout/containers.json', extractor: extractContainers },
-      { file: 'layout/grid.json', extractor: extractGrid },
+      { file: 'collections/layout/breakpoints.json', extractor: extractBreakpoints },
+      { file: 'collections/layout/containers.json', extractor: extractContainers },
+      { file: 'collections/layout/grid.json', extractor: extractGrid },
     ],
   },
   shadows: {
     input: 'shadows.json',
-    outputs: [{ file: 'shadow/base.json', extractor: extractShadows }],
+    outputs: [{ file: 'collections/shadow/base.json', extractor: extractShadows }],
   },
 };
 

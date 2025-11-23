@@ -351,7 +351,7 @@ Figma → Tokens Studio Plugin → Export All Collections
 }
 ```
 
-**Target (`packages/@dsai/tokens/color/primitive.json`):**
+**Target (`packages/@dsai/tokens/collections/color/primitive.json`):**
 
 ```json
 {
@@ -392,7 +392,7 @@ Figma → Tokens Studio Plugin → Export All Collections
 }
 ```
 
-**Target (`packages/@dsai/tokens/border/radius.json`):**
+**Target (`packages/@dsai/tokens/collections/border/radius.json`):**
 
 ```json
 {
@@ -434,7 +434,7 @@ Figma → Tokens Studio Plugin → Export All Collections
 }
 ```
 
-**Target (`packages/@dsai/tokens/typography/base.json`):**
+**Target (`packages/@dsai/tokens/collections/typography/base.json`):**
 
 ```json
 {

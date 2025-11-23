@@ -49,22 +49,38 @@ This package contains all design tokens exported from Figma and transformed into
 
 ```
 packages/@dsai/tokens/
-├── color/
-│   ├── primitive.json       # 121 brand colors
-│   └── semantic.json         # 88 theme colors
-├── typography/
-│   └── base.json             # Font system
-├── spacing/
-│   └── base.json             # Spacing scale
-├── border/
-│   ├── radius.json           # Border radius values
-│   └── width.json            # Border width values
-├── shadow/
-│   └── base.json             # Shadow/elevation
-├── layout/
-│   ├── breakpoints.json      # Responsive breakpoints
-│   ├── containers.json       # Container max-widths
-│   └── grid.json             # Grid system
+├── collections/              # ← Organized token collections
+│   ├── color/
+│   │   ├── primitive.json    # 121 brand colors
+│   │   ├── neutral.json      # Neutral colors (white, black, grays)
+│   │   ├── background.json   # Background utilities
+│   │   ├── opacity.json      # Opacity scale
+│   │   ├── semantic.json     # Theme colors
+│   │   └── component.json    # Component semantic tokens
+│   ├── typography/
+│   │   └── base.json         # Font system
+│   ├── spacing/
+│   │   └── base.json         # Spacing scale
+│   ├── border/
+│   │   ├── color.json        # Border colors
+│   │   ├── radius.json       # Border radius values
+│   │   └── width.json        # Border width values
+│   ├── shadow/
+│   │   └── base.json         # Shadow/elevation
+│   └── layout/
+│       ├── breakpoints.json  # Responsive breakpoints
+│       ├── containers.json   # Container max-widths
+│       └── grid.json         # Grid system
+├── figma-exports/            # ← Source of truth (Figma exports)
+│   ├── foundation.json       # Colors, borders
+│   ├── typography.json
+│   ├── spacing.json
+│   ├── radius.json
+│   ├── layout.json
+│   ├── shadows.json
+│   └── theme.json            # Master combined file
+├── src/                      # TypeScript source
+├── dist/                     # Built outputs (CSS, SCSS, JS, TS)
 ├── index.json                # Master index
 └── README.md                 # This file
 ```
@@ -328,12 +344,12 @@ Figma Design → Token Studio Plugin → figma-exports/*.json
                                             ↓
                            transform-figma-tokens.js (TASK-011)
                                             ↓
-                                   color/*.json
-                                   typography/*.json
-                                   spacing/*.json
-                                   border/*.json
-                                   shadow/*.json
-                                   layout/*.json
+                                   collections/color/*.json
+                                   collections/typography/*.json
+                                   collections/spacing/*.json
+                                   collections/border/*.json
+                                   collections/shadow/*.json
+                                   collections/layout/*.json
                                             ↓
                             Style Dictionary (TASK-012)
                                             ↓
@@ -351,7 +367,7 @@ Figma Design → Token Studio Plugin → figma-exports/*.json
 1. **Transform** (`pnpm tokens:transform`)
    - Reads from `figma-exports/*.json`
    - Converts Figma format to Style Dictionary format
-   - Outputs to `color/`, `typography/`, etc.
+   - Outputs to `collections/color/`, `collections/typography/`, etc.
 
 2. **Validate** (`pnpm tokens:validate`)
    - Checks token structure
@@ -588,19 +604,20 @@ packages/@dsai/tokens/
 │   ├── shadows.json
 │   └── theme.json (optional)
 │
-├── color/                  # ← Transformed tokens
-│   ├── primitive.json
-│   └── semantic.json
-├── typography/
-│   └── base.json
-├── spacing/
-│   └── base.json
-├── border/
-│   ├── radius.json
-│   └── width.json
-├── shadow/
-│   └── base.json
-├── layout/
+├── collections/            # ← Transformed tokens
+│   ├── color/
+│   │   ├── primitive.json
+│   │   └── semantic.json
+│   ├── typography/
+│   │   └── base.json
+│   ├── spacing/
+│   │   └── base.json
+│   ├── border/
+│   │   ├── radius.json
+│   │   └── width.json
+│   ├── shadow/
+│   │   └── base.json
+│   └── layout/
 │   ├── breakpoints.json
 │   ├── containers.json
 │   └── grid.json

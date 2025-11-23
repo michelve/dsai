@@ -25,8 +25,12 @@
     "dev": "pnpm tokens:watch & tsup --watch",
     "test": "echo 'Test tokens'",
     "tokens:validate": "node ../../../tools/scripts/validate-tokens.js",
+    "tokens:validate:figma": "node ../../../tools/scripts/validate-figma-tokens.js",
+    "tokens:validate:figma:master": "FIGMA_SOURCE=master node ../../../tools/scripts/validate-figma-tokens.js",
+    "tokens:validate:figma:collections": "FIGMA_SOURCE=collections node ../../../tools/scripts/validate-figma-tokens.js",
+    "tokens:validate:all": "pnpm tokens:validate:figma && pnpm tokens:validate",
     "tokens:transform": "node ../../../tools/scripts/transform-figma-tokens.js",
-    "tokens:build": "pnpm tokens:transform && pnpm tokens:validate && style-dictionary build --config sd.config.mjs",
+    "tokens:build": "pnpm tokens:transform && pnpm tokens:validate:all && style-dictionary build --config sd.config.mjs",
     "tokens:watch": "style-dictionary build --config sd.config.mjs --watch",
     "tokens:clean": "rm -rf dist"
   },

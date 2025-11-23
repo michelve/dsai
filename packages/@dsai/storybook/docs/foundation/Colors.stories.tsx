@@ -104,67 +104,67 @@ export const BrandColors: Story = {
     const brandColors = [
       {
         name: '50',
-        value: tokens.color?.blue?.['50']?.value || '#eff6ff',
+        value: tokens.color?.['blue']?.[50]?.value || '#eff6ff',
         cssVar: '--dsai-color-blue-50',
         token: 'color.blue.50',
       },
       {
         name: '100',
-        value: tokens.color?.blue?.['100']?.value || '#dbeafe',
+        value: tokens.color?.['blue']?.[100]?.value || '#dbeafe',
         cssVar: '--dsai-color-blue-100',
         token: 'color.blue.100',
       },
       {
         name: '200',
-        value: tokens.color?.blue?.['200']?.value || '#bfdbfe',
+        value: tokens.color?.['blue']?.[200]?.value || '#bfdbfe',
         cssVar: '--dsai-color-blue-200',
         token: 'color.blue.200',
       },
       {
         name: '300',
-        value: tokens.color?.blue?.['300']?.value || '#93c5fd',
+        value: tokens.color?.['blue']?.[300]?.value || '#93c5fd',
         cssVar: '--dsai-color-blue-300',
         token: 'color.blue.300',
       },
       {
         name: '400',
-        value: tokens.color?.blue?.['400']?.value || '#60a5fa',
+        value: tokens.color?.['blue']?.[400]?.value || '#60a5fa',
         cssVar: '--dsai-color-blue-400',
         token: 'color.blue.400',
       },
       {
         name: '500',
-        value: tokens.color?.blue?.['500']?.value || '#3b82f6',
+        value: tokens.color?.['blue']?.[500]?.value || '#3b82f6',
         cssVar: '--dsai-color-blue-500',
         token: 'color.blue.500',
       },
       {
         name: '600',
-        value: tokens.color?.blue?.['600']?.value || '#2563eb',
+        value: tokens.color?.['blue']?.[600]?.value || '#2563eb',
         cssVar: '--dsai-color-blue-600',
         token: 'color.blue.600',
       },
       {
         name: '700',
-        value: tokens.color?.blue?.['700']?.value || '#1d4ed8',
+        value: tokens.color?.['blue']?.[700]?.value || '#1d4ed8',
         cssVar: '--dsai-color-blue-700',
         token: 'color.blue.700',
       },
       {
         name: '800',
-        value: tokens.color?.blue?.['800']?.value || '#1e40af',
+        value: tokens.color?.['blue']?.[800]?.value || '#1e40af',
         cssVar: '--dsai-color-blue-800',
         token: 'color.blue.800',
       },
       {
         name: '900',
-        value: tokens.color?.blue?.['900']?.value || '#1e3a8a',
+        value: tokens.color?.['blue']?.[900]?.value || '#1e3a8a',
         cssVar: '--dsai-color-blue-900',
         token: 'color.blue.900',
       },
       {
         name: '950',
-        value: tokens.color?.blue?.['950']?.value || '#172554',
+        value: tokens.color?.['blue']?.[950]?.value || '#172554',
         cssVar: '--dsai-color-blue-950',
         token: 'color.blue.950',
       },
@@ -182,7 +182,7 @@ export const BrandColors: Story = {
               value={color.value}
               cssVariable={color.cssVar}
               tokenPath={color.token}
-              textColor={parseInt(color.name) >= 500 ? '#fff' : '#000'}
+              textColor={parseInt(color.name, 10) >= 500 ? '#fff' : '#000'}
             />
           ))}
         </div>
@@ -199,7 +199,7 @@ export const SemanticColors: Story = {
     const semanticColors = [
       {
         name: 'Primary',
-        value: tokens.theme?.primary?.value || '#0ea5e9',
+        value: tokens.theme?.['primary']?.value || '#0ea5e9',
         cssVar: '--dsai-theme-primary',
         token: 'theme.primary',
         description: 'Main brand color',
@@ -207,7 +207,7 @@ export const SemanticColors: Story = {
       },
       {
         name: 'Secondary',
-        value: tokens.theme?.secondary?.value || '#64748b',
+        value: tokens.theme?.['secondary']?.value || '#64748b',
         cssVar: '--dsai-theme-secondary',
         token: 'theme.secondary',
         description: 'Secondary actions',
@@ -215,7 +215,7 @@ export const SemanticColors: Story = {
       },
       {
         name: 'Success',
-        value: tokens.theme?.success?.value || '#10b981',
+        value: tokens.theme?.['success']?.value || '#10b981',
         cssVar: '--dsai-theme-success',
         token: 'theme.success',
         description: 'Success states',
@@ -223,7 +223,7 @@ export const SemanticColors: Story = {
       },
       {
         name: 'Danger',
-        value: tokens.theme?.danger?.value || '#ef4444',
+        value: tokens.theme?.['danger']?.value || '#ef4444',
         cssVar: '--dsai-theme-danger',
         token: 'theme.danger',
         description: 'Error states',
@@ -231,7 +231,7 @@ export const SemanticColors: Story = {
       },
       {
         name: 'Warning',
-        value: tokens.theme?.warning?.value || '#f59e0b',
+        value: tokens.theme?.['warning']?.value || '#f59e0b',
         cssVar: '--dsai-theme-warning',
         token: 'theme.warning',
         description: 'Warning states',
@@ -239,7 +239,7 @@ export const SemanticColors: Story = {
       },
       {
         name: 'Info',
-        value: tokens.theme?.info?.value || '#0ea5e9',
+        value: tokens.theme?.['info']?.value || '#0ea5e9',
         cssVar: '--dsai-theme-info',
         token: 'theme.info',
         description: 'Informational',
@@ -574,67 +574,67 @@ export const NeutralColors: Story = {
     const neutralColors = [
       {
         name: '50',
-        value: tokens.color?.gray?.['50']?.value || '#f9fafb',
+        value: tokens.color?.['gray']?.[50]?.value || '#f9fafb',
         cssVar: '--dsai-color-gray-50',
         token: 'color.gray.50',
       },
       {
         name: '100',
-        value: tokens.color?.gray?.['100']?.value || '#f3f4f6',
+        value: tokens.color?.['gray']?.[100]?.value || '#f3f4f6',
         cssVar: '--dsai-color-gray-100',
         token: 'color.gray.100',
       },
       {
         name: '200',
-        value: tokens.color?.gray?.['200']?.value || '#e5e7eb',
+        value: tokens.color?.['gray']?.[200]?.value || '#e5e7eb',
         cssVar: '--dsai-color-gray-200',
         token: 'color.gray.200',
       },
       {
         name: '300',
-        value: tokens.color?.gray?.['300']?.value || '#d1d5db',
+        value: tokens.color?.['gray']?.[300]?.value || '#d1d5db',
         cssVar: '--dsai-color-gray-300',
         token: 'color.gray.300',
       },
       {
         name: '400',
-        value: tokens.color?.gray?.['400']?.value || '#9ca3af',
+        value: tokens.color?.['gray']?.[400]?.value || '#9ca3af',
         cssVar: '--dsai-color-gray-400',
         token: 'color.gray.400',
       },
       {
         name: '500',
-        value: tokens.color?.gray?.['500']?.value || '#6b7280',
+        value: tokens.color?.['gray']?.[500]?.value || '#6b7280',
         cssVar: '--dsai-color-gray-500',
         token: 'color.gray.500',
       },
       {
         name: '600',
-        value: tokens.color?.gray?.['600']?.value || '#4b5563',
+        value: tokens.color?.['gray']?.[600]?.value || '#4b5563',
         cssVar: '--dsai-color-gray-600',
         token: 'color.gray.600',
       },
       {
         name: '700',
-        value: tokens.color?.gray?.['700']?.value || '#374151',
+        value: tokens.color?.['gray']?.[700]?.value || '#374151',
         cssVar: '--dsai-color-gray-700',
         token: 'color.gray.700',
       },
       {
         name: '800',
-        value: tokens.color?.gray?.['800']?.value || '#1f2937',
+        value: tokens.color?.['gray']?.[800]?.value || '#1f2937',
         cssVar: '--dsai-color-gray-800',
         token: 'color.gray.800',
       },
       {
         name: '900',
-        value: tokens.color?.gray?.['900']?.value || '#111827',
+        value: tokens.color?.['gray']?.[900]?.value || '#111827',
         cssVar: '--dsai-color-gray-900',
         token: 'color.gray.900',
       },
       {
         name: '950',
-        value: tokens.color?.gray?.['950']?.value || '#030712',
+        value: tokens.color?.['gray']?.[950]?.value || '#030712',
         cssVar: '--dsai-color-gray-950',
         token: 'color.gray.950',
       },
@@ -652,7 +652,7 @@ export const NeutralColors: Story = {
               value={color.value}
               cssVariable={color.cssVar}
               tokenPath={color.token}
-              textColor={parseInt(color.name) >= 500 ? '#fff' : '#000'}
+              textColor={parseInt(color.name, 10) >= 500 ? '#fff' : '#000'}
             />
           ))}
         </div>
@@ -691,10 +691,10 @@ export const AllColorHues: Story = {
               <h3 style={{ textTransform: 'capitalize', marginBottom: '16px' }}>{hue}</h3>
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                 {steps.map((step) => {
-                  const value = (tokens.color as any)?.[hue]?.[step]?.value || '#cccccc';
+                  const value = tokens.color?.[hue]?.[step]?.value || '#cccccc';
                   const cssVar = `--dsai-color-${hue}-${step}`;
                   const tokenPath = `color.${hue}.${step}`;
-                  const stepNum = parseInt(step);
+                  const stepNum = parseInt(step, 10);
                   return (
                     <ColorSwatch
                       key={`${hue}-${step}`}

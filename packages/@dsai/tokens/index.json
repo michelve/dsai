@@ -1,53 +1,53 @@
 {
   "color": {
     "primitive": {
-      "source": "./color/primitive.json"
+      "source": "./collections/color/primitive.json"
     },
     "neutral": {
-      "source": "./color/neutral.json"
+      "source": "./collections/color/neutral.json"
     },
     "background": {
-      "source": "./color/background.json"
+      "source": "./collections/color/background.json"
     },
     "opacity": {
-      "source": "./color/opacity.json"
+      "source": "./collections/color/opacity.json"
     },
     "semantic": {
-      "source": "./color/semantic.json"
+      "source": "./collections/color/semantic.json"
     },
     "component": {
-      "source": "./color/component.json"
+      "source": "./collections/color/component.json"
     }
   },
   "typography": {
-    "source": "./typography/base.json"
+    "source": "./collections/typography/base.json"
   },
   "spacing": {
-    "source": "./spacing/base.json"
+    "source": "./collections/spacing/base.json"
   },
   "border": {
     "color": {
-      "source": "./border/color.json"
+      "source": "./collections/border/color.json"
     },
     "radius": {
-      "source": "./border/radius.json"
+      "source": "./collections/border/radius.json"
     },
     "width": {
-      "source": "./border/width.json"
+      "source": "./collections/border/width.json"
     }
   },
   "shadow": {
-    "source": "./shadow/base.json"
+    "source": "./collections/shadow/base.json"
   },
   "layout": {
     "breakpoints": {
-      "source": "./layout/breakpoints.json"
+      "source": "./collections/layout/breakpoints.json"
     },
     "containers": {
-      "source": "./layout/containers.json"
+      "source": "./collections/layout/containers.json"
     },
     "grid": {
-      "source": "./layout/grid.json"
+      "source": "./collections/layout/grid.json"
     }
   }
 }
