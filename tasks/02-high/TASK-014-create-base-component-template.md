@@ -19,6 +19,7 @@ Create a standardized base component template that establishes patterns for all 
 ## Acceptance Criteria
 
 ### Component Structure
+
 - [ ] Component directory structure defined:
   ```
   packages/react/src/Button/
@@ -32,6 +33,7 @@ Create a standardized base component template that establishes patterns for all 
   ```
 
 ### TypeScript Template
+
 - [ ] Component props interface with JSDoc comments
 - [ ] Proper React.FC or function component typing
 - [ ] Generic props support where needed
@@ -39,6 +41,7 @@ Create a standardized base component template that establishes patterns for all 
 - [ ] Proper typing for children, className, style props
 
 ### Styling Template
+
 - [ ] CSS Modules configured and working
 - [ ] Design tokens imported via CSS variables
 - [ ] BEM-like naming convention for CSS classes
@@ -46,6 +49,7 @@ Create a standardized base component template that establishes patterns for all 
 - [ ] No hard-coded values (all from tokens)
 
 ### Accessibility Template
+
 - [ ] ARIA attributes where needed
 - [ ] Semantic HTML elements
 - [ ] Keyboard navigation support
@@ -53,6 +57,7 @@ Create a standardized base component template that establishes patterns for all 
 - [ ] Screen reader announcements
 
 ### Testing Template
+
 - [ ] Component renders without errors
 - [ ] Props validation tests
 - [ ] User interaction tests
@@ -61,6 +66,7 @@ Create a standardized base component template that establishes patterns for all 
 - [ ] Test coverage ≥90%
 
 ### Storybook Template
+
 - [ ] Default story
 - [ ] All variants as separate stories
 - [ ] Interactive controls (args)
@@ -69,6 +75,7 @@ Create a standardized base component template that establishes patterns for all 
 - [ ] Accessibility checks enabled
 
 ### Documentation Template
+
 - [ ] README with component overview
 - [ ] Props table (auto-generated from TypeScript)
 - [ ] Usage examples
@@ -80,6 +87,7 @@ Create a standardized base component template that establishes patterns for all 
 ## Dependencies
 
 ### Requires:
+
 - **TASK-001**: Nx Monorepo Structure
 - **TASK-002**: TypeScript/ESLint/Prettier
 - **TASK-003**: Build Pipeline
@@ -88,6 +96,7 @@ Create a standardized base component template that establishes patterns for all 
 - **TASK-013**: Configure Storybook
 
 ### Blocks:
+
 - All component development tasks (TASK-021 through TASK-045)
 
 ---
@@ -95,6 +104,7 @@ Create a standardized base component template that establishes patterns for all 
 ## Implementation Steps
 
 ### Step 1: Create Component Structure (1 hour)
+
 1. Create example Button component:
    ```
    packages/react/src/Button/
@@ -108,6 +118,7 @@ Create a standardized base component template that establishes patterns for all 
    ```
 
 ### Step 2: TypeScript Template (1 hour)
+
 ```typescript
 // Button.types.ts
 export interface ButtonProps {
@@ -135,15 +146,15 @@ import styles from './Button.module.css';
 import { ButtonProps } from './Button.types';
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ 
-    children, 
+  ({
+    children,
     variant = 'primary',
     size = 'md',
     disabled = false,
     onClick,
     className = '',
     type = 'button',
-    ...rest 
+    ...rest
   }, ref) => {
     const classNames = [
       styles.button,
@@ -172,6 +183,7 @@ Button.displayName = 'Button';
 ```
 
 ### Step 3: CSS Module Template (1 hour)
+
 ```css
 /* Button.module.css */
 .button {
@@ -179,14 +191,14 @@ Button.displayName = 'Button';
   font-family: var(--typography-font-family-body);
   font-size: var(--typography-font-size-body);
   font-weight: var(--typography-font-weight-medium);
-  
+
   padding: var(--spacing-2) var(--spacing-4);
   border-radius: var(--border-radius-md);
   border: var(--border-width-thin) solid transparent;
-  
+
   cursor: pointer;
   transition: all 0.2s ease;
-  
+
   /* Reset */
   display: inline-flex;
   align-items: center;
@@ -212,6 +224,7 @@ Button.displayName = 'Button';
 ```
 
 ### Step 4: Testing Template (1.5 hours)
+
 ```typescript
 // Button.test.tsx
 import { render, screen, fireEvent } from '@testing-library/react';
@@ -241,7 +254,7 @@ describe('Button', () => {
   it('applies variant classes', () => {
     const { rerender } = render(<Button variant="primary">Primary</Button>);
     expect(screen.getByRole('button')).toHaveClass('button--primary');
-    
+
     rerender(<Button variant="secondary">Secondary</Button>);
     expect(screen.getByRole('button')).toHaveClass('button--secondary');
   });
@@ -260,6 +273,7 @@ describe('Button', () => {
 ```
 
 ### Step 5: Storybook Template (1 hour)
+
 ```typescript
 // Button.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react';
@@ -272,24 +286,24 @@ const meta: Meta<typeof Button> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A versatile button component with multiple variants and sizes.'
-      }
-    }
+        component: 'A versatile button component with multiple variants and sizes.',
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
     variant: {
       control: 'select',
       options: ['primary', 'secondary', 'outline'],
-      description: 'Button visual style'
+      description: 'Button visual style',
     },
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
-      description: 'Button size'
+      description: 'Button size',
     },
-    onClick: { action: 'clicked' }
-  }
+    onClick: { action: 'clicked' },
+  },
 };
 
 export default meta;
@@ -298,26 +312,27 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     variant: 'primary',
-    children: 'Primary Button'
-  }
+    children: 'Primary Button',
+  },
 };
 
 export const Secondary: Story = {
   args: {
     variant: 'secondary',
-    children: 'Secondary Button'
-  }
+    children: 'Secondary Button',
+  },
 };
 
 export const Disabled: Story = {
   args: {
     disabled: true,
-    children: 'Disabled Button'
-  }
+    children: 'Disabled Button',
+  },
 };
 ```
 
 ### Step 6: Documentation Template (0.5 hours)
+
 ```markdown
 # Button
 
@@ -329,7 +344,7 @@ A versatile button component with multiple variants, sizes, and states.
 import { Button } from '@yourorg/react';
 
 function App() {
-  return <Button variant="primary">Click me</Button>;
+return <Button variant="primary">Click me</Button>;
 }
 \`\`\`
 
@@ -342,7 +357,7 @@ See TypeScript types for complete prop documentation.
 - Uses semantic `<button>` element
 - Supports keyboard navigation (Enter, Space)
 - Includes disabled state
-- WCAG 2.1 AA compliant
+- WCAG 2.2 AA compliant
 
 ## Related Components
 
@@ -351,6 +366,7 @@ See TypeScript types for complete prop documentation.
 ```
 
 ### Step 7: Create Generator Script (1 hour)
+
 1. Create Nx generator for new components
 2. Template generates all required files
 3. Script: `nx g component ComponentName`
@@ -377,6 +393,7 @@ See TypeScript types for complete prop documentation.
 ## Notes
 
 ### Component Best Practices:
+
 - Forward refs for all interactive components
 - Use semantic HTML
 - No hard-coded styles (use tokens)
@@ -384,6 +401,7 @@ See TypeScript types for complete prop documentation.
 - Test user interactions, not implementation details
 
 ### CSS Modules Benefits:
+
 - Scoped styles (no global conflicts)
 - Tree-shakeable (unused styles removed)
 - Works with design tokens
