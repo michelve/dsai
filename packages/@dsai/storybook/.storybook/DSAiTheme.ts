@@ -1,5 +1,30 @@
-import tokens from '@dsai/tokens';
-import { create } from 'storybook/theming/create';
+import { create } from 'storybook/theming';
+
+// Helper to safely extract token values
+// Tokens are DTCG format with $value property
+const getTokenValue = (token: any): string => {
+  if (!token) return '';
+  if (typeof token === 'string') return token;
+  if (token.$value) return token.$value;
+  if (token.value) return token.value;
+  return '';
+};
+
+// Import tokens dynamically to extract values safely
+let colorPrimary = '#2563eb';
+let colorSecondary = '#0891b2';
+let fontBase = 'Inter, system-ui, -apple-system, sans-serif';
+let fontCode = 'Monaco, Courier, monospace';
+
+try {
+  const tokens = require('@dsai/tokens').default;
+  colorPrimary = getTokenValue(tokens.color?.['blue']?.[600]) || '#2563eb';
+  colorSecondary = getTokenValue(tokens.color?.['cyan']?.[600]) || '#0891b2';
+  fontBase = getTokenValue(tokens.typography?.fontFamily?.base) || fontBase;
+  fontCode = getTokenValue(tokens.typography?.fontFamily?.mono) || fontCode;
+} catch (e) {
+  console.warn('Could not load tokens for theme, using defaults');
+}
 
 export default create({
   base: 'light',
@@ -7,46 +32,46 @@ export default create({
   // Brand
   brandTitle: 'DSAi Design System',
   brandUrl: 'https://github.com/michelve/dsai',
-  brandImage: '/logo.svg', // Served from /packages/@dsai/storybook/public/
+  brandImage: '/logo.svg',
   brandTarget: '_self',
 
   // Typography
-  fontBase: tokens.typography?.fontFamily?.base || 'Inter, system-ui, -apple-system, sans-serif',
-  fontCode: tokens.typography?.fontFamily?.mono || 'Monaco, Courier, monospace',
+  fontBase,
+  fontCode,
 
   // Primary colors
-  colorPrimary: tokens.color?.['blue']?.[600] || '#2563eb',
-  colorSecondary: tokens.color?.['cyan']?.[600] || '#0891b2',
+  colorPrimary,
+  colorSecondary,
 
-  // UI - Background colors from tokens
-  appBg: tokens.background?.secondary || '#f9fafb',
-  appContentBg: tokens.background?.primary || '#ffffff',
-  appPreviewBg: tokens.background?.primary || '#ffffff',
-  appBorderColor: tokens.border?.color?.default || '#e5e7eb',
-  appBorderRadius: parseInt(tokens.border?.radius?.md || '8', 10),
+  // UI - Using hardcoded values that match your tokens
+  appBg: '#f9fafb', // background.secondary
+  appContentBg: '#ffffff', // background.primary
+  appPreviewBg: '#ffffff',
+  appBorderColor: '#e5e7eb', // border.color.default
+  appBorderRadius: 8,
 
   // Text colors
-  textColor: tokens.color?.['gray']?.[900] || '#111827',
-  textInverseColor: tokens.neutral?.white || '#ffffff',
-  textMutedColor: tokens.color?.['gray']?.[600] || '#4b5563',
+  textColor: '#111827', // gray.900
+  textInverseColor: '#ffffff',
+  textMutedColor: '#4b5563', // gray.600
 
   // Toolbar colors
-  barTextColor: tokens.color?.['gray']?.[600] || '#4b5563',
-  barSelectedColor: tokens.color?.['blue']?.[600] || '#2563eb',
-  barHoverColor: tokens.color?.['blue']?.[700] || '#1d4ed8',
-  barBg: tokens.background?.primary || '#ffffff',
+  barTextColor: '#4b5563',
+  barSelectedColor: colorPrimary,
+  barHoverColor: '#1d4ed8', // blue.700
+  barBg: '#ffffff',
 
   // Form colors
-  inputBg: tokens.background?.primary || '#ffffff',
-  inputBorder: tokens.border?.color?.default || '#e5e7eb',
-  inputTextColor: tokens.color?.['gray']?.[900] || '#111827',
-  inputBorderRadius: parseInt(tokens.border?.radius?.sm || '4', 10),
+  inputBg: '#ffffff',
+  inputBorder: '#e5e7eb',
+  inputTextColor: '#111827',
+  inputBorderRadius: 4,
 
   // Button colors
-  buttonBg: tokens.background?.secondary || '#f9fafb',
-  buttonBorder: tokens.border?.color?.default || '#e5e7eb',
+  buttonBg: '#f9fafb',
+  buttonBorder: '#e5e7eb',
 
   // Boolean (toggle) colors
-  booleanBg: tokens.background?.secondary || '#f9fafb',
-  booleanSelectedBg: tokens.color?.['blue']?.[600] || '#2563eb',
+  booleanBg: '#f9fafb',
+  booleanSelectedBg: colorPrimary,
 });

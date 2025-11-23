@@ -1,10 +1,4 @@
-import "./iframe-CbxEB9Gc.js";
-import "./index-uaL0kMns.js";
-import { useMDXComponents as r } from "./index-VxI6AVLR.js";
-import { j as n } from "./jsx-runtime-D_zvdyIk.js";
-import "./preload-helper-Dp1pzeXC.js";
-import { M as t } from "./WithTooltip-SK46ZJ2J-PXF4-GGB.js";
-function s(i){const e={a:"a",blockquote:"blockquote",code:"code",h1:"h1",h2:"h2",h3:"h3",hr:"hr",li:"li",p:"p",pre:"pre",strong:"strong",ul:"ul",...r(),...i.components};return n.jsxs(n.Fragment,{children:[n.jsx(t,{title:"Introduction/Welcome"}),`
+import{j as n}from"./jsx-runtime-D_zvdyIk.js";import{useMDXComponents as t}from"./index-Bo58beip.js";import{M as r}from"./WithTooltip-SK46ZJ2J-D-ok258n.js";import"./iframe-DhOjQVIq.js";import"./preload-helper-Dp1pzeXC.js";import"./index-DMFe3QxK.js";function s(i){const e={a:"a",blockquote:"blockquote",code:"code",h1:"h1",h2:"h2",h3:"h3",hr:"hr",li:"li",p:"p",pre:"pre",strong:"strong",ul:"ul",...t(),...i.components};return n.jsxs(n.Fragment,{children:[n.jsx(r,{title:"Introduction/Welcome"}),`
 `,n.jsx(e.h1,{id:"welcome-to-dsai-component-library",children:"Welcome to DSAi Component Library"}),`
 `,n.jsxs(e.p,{children:[n.jsx(e.strong,{children:"DSAi"})," is an enterprise-grade React component library built with accessibility, performance, and developer experience as core principles."]}),`
 `,n.jsx(e.h2,{id:"vision",children:"Vision"}),`
@@ -84,5 +78,4 @@ import '@dsai/tokens/dist/css/variables.css';
 `,n.jsx(e.hr,{}),`
 `,n.jsxs(e.p,{children:[n.jsx(e.strong,{children:"Status"}),`: 🚧 Phase 1 - Active Development
 `,n.jsx(e.strong,{children:"Version"}),`: 0.0.1
-`,n.jsx(e.strong,{children:"License"}),": MIT"]})]})}function x(i={}){const{wrapper:e}={...r(),...i.components};return e?n.jsx(e,{...i,children:n.jsx(s,{...i})}):s(i)}export { x as default };
-
+`,n.jsx(e.strong,{children:"License"}),": MIT"]})]})}function x(i={}){const{wrapper:e}={...t(),...i.components};return e?n.jsx(e,{...i,children:n.jsx(s,{...i})}):s(i)}export{x as default};

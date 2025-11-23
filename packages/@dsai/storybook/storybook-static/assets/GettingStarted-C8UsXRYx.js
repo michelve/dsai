@@ -1,8 +1,4 @@
-import "./iframe-CbxEB9Gc.js";
-import { useMDXComponents as t } from "./index-VxI6AVLR.js";
-import { j as e } from "./jsx-runtime-D_zvdyIk.js";
-import "./preload-helper-Dp1pzeXC.js";
-function r(s){const n={a:"a",code:"code",h1:"h1",h2:"h2",h3:"h3",li:"li",ol:"ol",p:"p",pre:"pre",strong:"strong",ul:"ul",...t(),...s.components},{Meta:i}=n;return i||o("Meta"),e.jsxs(e.Fragment,{children:[e.jsx(i,{title:"Guides/Getting Started"}),`
+import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{useMDXComponents as t}from"./index-Bo58beip.js";import"./iframe-DhOjQVIq.js";import"./preload-helper-Dp1pzeXC.js";function r(s){const n={a:"a",code:"code",h1:"h1",h2:"h2",h3:"h3",li:"li",ol:"ol",p:"p",pre:"pre",strong:"strong",ul:"ul",...t(),...s.components},{Meta:i}=n;return i||o("Meta"),e.jsxs(e.Fragment,{children:[e.jsx(i,{title:"Guides/Getting Started"}),`
 `,e.jsx(n.h1,{id:"getting-started",children:"Getting Started"}),`
 `,e.jsx(n.p,{children:"This guide will help you get up and running with DSAi components in your React application."}),`
 `,e.jsx(n.h2,{id:"installation",children:"Installation"}),`
@@ -149,5 +145,4 @@ import * as DSAi from '@dsai/react';
 `,e.jsx(n.li,{children:e.jsx(n.a,{href:"https://github.com/michelve/dsai/issues",rel:"nofollow",children:"GitHub Issues"})}),`
 `,e.jsx(n.li,{children:e.jsx(n.a,{href:"https://github.com/michelve/dsai/discussions",rel:"nofollow",children:"Discussions"})}),`
 `,e.jsx(n.li,{children:e.jsx(n.a,{href:"https://github.com/michelve/dsai/blob/main/CONTRIBUTING.md",rel:"nofollow",children:"Contributing Guide"})}),`
-`]})]})}function h(s={}){const{wrapper:n}={...t(),...s.components};return n?e.jsx(n,{...s,children:e.jsx(r,{...s})}):r(s)}function o(s,n){throw new Error("Expected component `"+s+"` to be defined: you likely forgot to import, pass, or provide it.")}export { h as default };
-
+`]})]})}function h(s={}){const{wrapper:n}={...t(),...s.components};return n?e.jsx(n,{...s,children:e.jsx(r,{...s})}):r(s)}function o(s,n){throw new Error("Expected component `"+s+"` to be defined: you likely forgot to import, pass, or provide it.")}export{h as default};
