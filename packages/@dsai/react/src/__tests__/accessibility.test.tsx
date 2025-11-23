@@ -3,7 +3,7 @@
  * All components MUST pass accessibility tests
  */
 
-import { render, testA11y } from '@/test/utils/test-utils';
+import { render, testA11y } from '../../../../../test/utils/test-utils';
 
 // Example Link component for testing
 // TODO: Replace with actual component from your library
@@ -14,7 +14,7 @@ interface LinkProps {
   ariaLabel?: string;
 }
 
-function Link({ href, children, external, ariaLabel }: LinkProps) {
+function Link({ href, children, external, ariaLabel }: LinkProps): JSX.Element {
   return (
     <a
       href={href}

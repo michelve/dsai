@@ -24,7 +24,9 @@ const border: { color: Record<string, TokenValue>; width: Record<string, TokenVa
 
 // Parse flat tokens into nested structure
 Object.entries(flat).forEach(([key, value]) => {
-  if (typeof value !== 'string') return;
+  if (typeof value !== 'string') {
+    return;
+  }
 
   const token: TokenValue = { value };
 
@@ -34,7 +36,9 @@ Object.entries(flat).forEach(([key, value]) => {
     if (match && match[1] && match[2]) {
       const hue = match[1].toLowerCase();
       const step = match[2];
-      if (!color[hue]) color[hue] = {};
+      if (!color[hue]) {
+        color[hue] = {};
+      }
       color[hue][step] = token;
     }
   } else if (key.startsWith('theme')) {

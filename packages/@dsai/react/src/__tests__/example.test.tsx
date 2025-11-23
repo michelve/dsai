@@ -3,7 +3,7 @@
  * This shows how to test React components with user interactions
  */
 
-import { render, screen, userEvent } from '@/test/utils/test-utils';
+import { render, screen, userEvent } from '../../../../../test/utils/test-utils';
 
 // Example Button component for testing
 // TODO: Replace with actual component from your library
@@ -14,7 +14,7 @@ interface ButtonProps {
   variant?: 'primary' | 'secondary';
 }
 
-function Button({ children, onClick, disabled, variant = 'primary' }: ButtonProps) {
+function Button({ children, onClick, disabled, variant = 'primary' }: ButtonProps): JSX.Element {
   return (
     <button
       type="button"
