@@ -71,7 +71,7 @@ const ColorSwatch = ({
         <div
           style={{
             fontSize: '10px',
-            color: '#6b7280',
+            color: '#111111',
             fontFamily: 'monospace',
             wordBreak: 'break-all',
           }}
@@ -83,7 +83,7 @@ const ColorSwatch = ({
         <div
           style={{
             fontSize: '10px',
-            color: '#9ca3af',
+            color: '#111111',
             fontFamily: 'monospace',
             fontStyle: 'italic',
             wordBreak: 'break-all',
@@ -211,7 +211,7 @@ export const SemanticColors: Story = {
         cssVar: '--dsai-theme-secondary',
         token: 'theme.secondary',
         description: 'Secondary actions',
-        textColor: '#fff',
+        textColor: '#111',
       },
       {
         name: 'Success',
@@ -311,7 +311,7 @@ export const ComponentSemanticColors: Story = {
             cssVar: '--dsai-semantic-secondary-color',
             token: 'semantic.secondary-color',
             description: 'Lighter text',
-            textColor: '#fff',
+            textColor: '#111',
           },
           {
             name: 'Tertiary Text',
