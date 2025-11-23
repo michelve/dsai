@@ -1,14 +1,18 @@
 /**
- * Style Dictionary Configuration
- * 
- * Transforms design tokens from JSON to multiple output formats:
+ * Style Dictionary Configuration (DTCG-Compliant)
+ *
+ * Transforms design tokens from DTCG format to multiple output formats:
  * - CSS Variables
  * - JavaScript/ES6
  * - TypeScript
  * - SCSS Variables
  * - JSON (flattened)
- * 
- * @see https://amzn.github.io/style-dictionary/
+ *
+ * DTCG Format: Uses $ prefix for special properties ($value, $type, $description, $extensions)
+ * This aligns with W3C Design Tokens Community Group specification
+ *
+ * @see https://styledictionary.com/
+ * @see https://www.designtokens.org/
  */
 
 import StyleDictionary from 'style-dictionary';
@@ -29,7 +33,7 @@ StyleDictionary.registerPreprocessor({
     // Map colors.brand.* -> color.*
     // Map colors.neutral.* -> neutral.*
     // Map borders.width.* -> border.width.*
-    
+
     const fixValue = (value) => {
       if (typeof value === 'string' && value.startsWith('{')) {
         // Fix reference paths
@@ -44,8 +48,12 @@ StyleDictionary.registerPreprocessor({
     const processTokens = (obj) => {
       for (const key in obj) {
         if (obj[key] && typeof obj[key] === 'object') {
-          if (obj[key].value !== undefined) {
-            // This is a token
+          // Check for DTCG format ($value) or Style Dictionary format (value)
+          if (obj[key].$value !== undefined) {
+            // DTCG format - fix $value
+            obj[key].$value = fixValue(obj[key].$value);
+          } else if (obj[key].value !== undefined) {
+            // Legacy format - fix value
             obj[key].value = fixValue(obj[key].value);
           } else {
             // Recurse
@@ -57,7 +65,7 @@ StyleDictionary.registerPreprocessor({
 
     processTokens(dictionary);
     return dictionary;
-  }
+  },
 });
 
 // ============================================================================
@@ -73,15 +81,15 @@ StyleDictionary.registerTransform({
   type: 'value',
   transitive: true,
   filter: (token) => {
-    return token.type === 'dimension' && 
-           typeof token.value === 'string' &&
-           token.value.endsWith('px');
+    return (
+      token.type === 'dimension' && typeof token.value === 'string' && token.value.endsWith('px')
+    );
   },
   transform: (token) => {
     const val = parseFloat(token.value);
     if (val === 0) return '0';
     return `${val / 16}rem`;
-  }
+  },
 });
 
 /**
@@ -93,7 +101,7 @@ StyleDictionary.registerTransform({
   type: 'name',
   transform: (token) => {
     return token.path.join('-').replace(/_/g, '-').toLowerCase();
-  }
+  },
 });
 
 // ============================================================================
@@ -108,21 +116,24 @@ StyleDictionary.registerFormat({
   name: 'css/variables-with-comments',
   format: ({ dictionary, options }) => {
     const { prefix = '--' } = options;
-    
+
     return `:root {\n${dictionary.allTokens
-      .map(token => {
+      .map((token) => {
         const comment = token.comment ? `  /* ${token.comment} */\n` : '';
         const description = token.description ? `  /* ${token.description} */\n` : '';
-        const value = typeof token.value === 'string' ? token.value : JSON.stringify(token.value);
+        // Style Dictionary v5 DTCG mode: Use $value if present, fallback to value
+        const tokenValue = token.$value !== undefined ? token.$value : token.value;
+        const value = typeof tokenValue === 'string' ? tokenValue : JSON.stringify(tokenValue);
         return `${comment}${description}  ${prefix}${token.name}: ${value};`;
       })
       .join('\n')}\n}\n`;
-  }
+  },
 });
 
 /**
- * Format: typescript/declarations
+ * Format: typescript/declarations (DTCG-compatible)
  * TypeScript declarations with proper types
+ * Supports both DTCG ($value/$type) and legacy (value/type) formats
  */
 StyleDictionary.registerFormat({
   name: 'typescript/declarations',
@@ -130,39 +141,51 @@ StyleDictionary.registerFormat({
     const buildTokenInterface = (obj, indent = 0) => {
       const spaces = '  '.repeat(indent);
       let output = '{\n';
-      
+
       for (const [key, value] of Object.entries(obj)) {
+        if (!value) continue; // Skip undefined values
+
         // Quote keys that need it (contain hyphens or numbers)
         const quotedKey = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key) ? key : `"${key}"`;
-        
-        if (value.value !== undefined) {
+
+        // Check for DTCG format ($value) or legacy format (value)
+        const tokenValue = value.$value !== undefined ? value.$value : value.value;
+        const tokenType = value.$type !== undefined ? value.$type : value.type;
+
+        if (tokenValue !== undefined && tokenType !== undefined) {
           // Leaf token
-          const type = value.type === 'color' ? 'string' : 
-                      value.type === 'dimension' ? 'string' :
-                      value.type === 'number' ? 'number' : 'string';
+          const type =
+            tokenType === 'color'
+              ? 'string'
+              : tokenType === 'dimension'
+                ? 'string'
+                : tokenType === 'number'
+                  ? 'number'
+                  : 'string';
           output += `${spaces}  ${quotedKey}: ${type};\n`;
         } else {
           // Nested object
           output += `${spaces}  ${quotedKey}: ${buildTokenInterface(value, indent + 1)}\n`;
         }
       }
-      
+
       output += `${spaces}}`;
       return output;
     };
-    
+
     // Build nested structure
     const tokenTree = {};
-    dictionary.allTokens.forEach(token => {
+    dictionary.allTokens.forEach((token) => {
       let current = tokenTree;
-      token.path.slice(0, -1).forEach(key => {
+      token.path.slice(0, -1).forEach((key) => {
         if (!current[key]) current[key] = {};
         current = current[key];
       });
       const lastKey = token.path[token.path.length - 1];
+      // Style Dictionary v5+ normalizes DTCG format internally to value/type
       current[lastKey] = { value: token.value, type: token.type };
     });
-    
+
     return `/**
  * Design Tokens
  * Auto-generated from Style Dictionary
@@ -174,7 +197,7 @@ export interface DesignTokens ${buildTokenInterface(tokenTree)}
 export declare const tokens: DesignTokens;
 export default tokens;
 `;
-  }
+  },
 });
 
 // ============================================================================
@@ -183,23 +206,12 @@ export default tokens;
 
 StyleDictionary.registerTransformGroup({
   name: 'custom/css',
-  transforms: [
-    'attribute/cti',
-    'name/kebab',
-    'time/seconds',
-    'size/pxToRem',
-    'color/css'
-  ]
+  transforms: ['attribute/cti', 'name/kebab', 'time/seconds', 'size/pxToRem', 'color/css'],
 });
 
 StyleDictionary.registerTransformGroup({
   name: 'custom/js',
-  transforms: [
-    'attribute/cti',
-    'name/camel',
-    'size/pxToRem',
-    'color/css'
-  ]
+  transforms: ['attribute/cti', 'name/camel', 'size/pxToRem', 'color/css'],
 });
 
 // ============================================================================
@@ -211,12 +223,12 @@ export default {
   log: {
     verbosity: 'default',
     warnings: 'warn',
-    errors: 'error'
+    errors: 'error',
   },
-  
+
   // Preprocessing to fix reference paths
   preprocessors: ['fix-references'],
-  
+
   // Source token files - include all token categories
   source: [
     'collections/color/primitive.json',
@@ -233,9 +245,9 @@ export default {
     'collections/shadow/base.json',
     'collections/layout/breakpoints.json',
     'collections/layout/containers.json',
-    'collections/layout/grid.json'
+    'collections/layout/grid.json',
   ],
-  
+
   // Output platforms
   platforms: {
     // CSS Custom Properties
@@ -248,12 +260,12 @@ export default {
           format: 'css/variables-with-comments',
           options: {
             prefix: '--dsai-',
-            outputReferences: true
-          }
-        }
-      ]
+            outputReferences: true,
+          },
+        },
+      ],
     },
-    
+
     // JavaScript/ES6
     js: {
       transformGroup: 'custom/js',
@@ -263,19 +275,19 @@ export default {
           destination: 'tokens.js',
           format: 'javascript/es6',
           options: {
-            outputReferences: true
-          }
+            outputReferences: true,
+          },
         },
         {
           destination: 'tokens.cjs',
           format: 'javascript/module',
           options: {
-            outputReferences: true
-          }
-        }
-      ]
+            outputReferences: true,
+          },
+        },
+      ],
     },
-    
+
     // TypeScript
     ts: {
       transformGroup: 'custom/js',
@@ -285,16 +297,16 @@ export default {
           destination: 'tokens.ts',
           format: 'javascript/es6',
           options: {
-            outputReferences: true
-          }
+            outputReferences: true,
+          },
         },
         {
           destination: 'tokens.d.ts',
-          format: 'typescript/declarations'
-        }
-      ]
+          format: 'typescript/declarations',
+        },
+      ],
     },
-    
+
     // SCSS Variables
     scss: {
       transformGroup: 'scss',
@@ -304,12 +316,12 @@ export default {
           destination: '_variables.scss',
           format: 'scss/variables',
           options: {
-            outputReferences: true
-          }
-        }
-      ]
+            outputReferences: true,
+          },
+        },
+      ],
     },
-    
+
     // JSON (flattened for documentation)
     json: {
       transformGroup: 'js',
@@ -317,13 +329,13 @@ export default {
       files: [
         {
           destination: 'tokens.json',
-          format: 'json/flat'
+          format: 'json/flat',
         },
         {
           destination: 'tokens-nested.json',
-          format: 'json/nested'
-        }
-      ]
-    }
-  }
+          format: 'json/nested',
+        },
+      ],
+    },
+  },
 };

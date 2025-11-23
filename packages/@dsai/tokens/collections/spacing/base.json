@@ -1,60 +1,120 @@
 {
   "spacing": {
     "0": {
-      "value": "0px",
-      "type": "dimension",
-      "description": "Spacing scale 0 - No spacing. Bootstrap's $spacer * 0 (0px).",
+      "$value": "0px",
+      "$type": "dimension",
+      "$description": "Spacing scale 0 - No spacing. Bootstrap's $spacer * 0 (0px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacer * 0",
+          "cssClass": "m-0, p-0, g-0",
+          "remValue": "0rem"
+        }
+      },
       "comment": "$spacer * 0"
     },
     "1": {
-      "value": "4px",
-      "type": "dimension",
-      "description": "Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px).",
+      "$value": "4px",
+      "$type": "dimension",
+      "$description": "Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacer * .25",
+          "cssClass": "m-1, p-1, g-1",
+          "remValue": "0.25rem"
+        }
+      },
       "comment": "$spacer * .25"
     },
     "2": {
-      "value": "8px",
-      "type": "dimension",
-      "description": "Spacing scale 2 - Small spacing. Bootstrap's $spacer * 0.5 (8px).",
+      "$value": "8px",
+      "$type": "dimension",
+      "$description": "Spacing scale 2 - Small spacing. Bootstrap's $spacer * 0.5 (8px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacer * .5",
+          "cssClass": "m-2, p-2, g-2",
+          "remValue": "0.5rem"
+        }
+      },
       "comment": "$spacer * .5"
     },
     "3": {
-      "value": "16px",
-      "type": "dimension",
-      "description": "Spacing scale 3 - Base spacing. Bootstrap's $spacer * 1 (16px).",
+      "$value": "16px",
+      "$type": "dimension",
+      "$description": "Spacing scale 3 - Base spacing. Bootstrap's $spacer * 1 (16px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacer",
+          "cssClass": "m-3, p-3, g-3",
+          "remValue": "1rem"
+        }
+      },
       "comment": "$spacer"
     },
     "4": {
-      "value": "24px",
-      "type": "dimension",
-      "description": "Spacing scale 4 - Medium spacing. Bootstrap's $spacer * 1.5 (24px).",
+      "$value": "24px",
+      "$type": "dimension",
+      "$description": "Spacing scale 4 - Medium spacing. Bootstrap's $spacer * 1.5 (24px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacer * 1.5",
+          "cssClass": "m-4, p-4, g-4",
+          "remValue": "1.5rem"
+        }
+      },
       "comment": "$spacer * 1.5"
     },
     "5": {
-      "value": "32px",
-      "type": "dimension",
-      "description": "Spacing scale 5 - Large spacing. Bootstrap's $spacer * 3 (48px).",
+      "$value": "32px",
+      "$type": "dimension",
+      "$description": "Spacing scale 5 - Large spacing. Bootstrap's $spacer * 3 (48px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacer * 3",
+          "cssClass": "m-5, p-5, g-5",
+          "remValue": "3rem"
+        }
+      },
       "comment": "$spacer * 3"
     },
     "6": {
-      "value": "48px",
-      "type": "dimension"
+      "$value": "48px",
+      "$type": "dimension"
     },
     "7": {
-      "value": "64px",
-      "type": "dimension"
+      "$value": "64px",
+      "$type": "dimension"
     },
     "8": {
-      "value": "96px",
-      "type": "dimension"
+      "$value": "96px",
+      "$type": "dimension"
     },
     "9": {
-      "value": "128px",
-      "type": "dimension"
+      "$value": "128px",
+      "$type": "dimension"
     },
     "10": {
-      "value": "160px",
-      "type": "dimension"
+      "$value": "160px",
+      "$type": "dimension"
     }
   }
 }

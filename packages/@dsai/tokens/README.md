@@ -2,11 +2,20 @@
 
 Design tokens for the DSAi Design System - The foundation for all UI components.
 
+> **✨ DTCG Compliant**: Fully compliant with the [W3C Design Tokens Community Group (DTCG) specification](https://www.designtokens.org/) using Style Dictionary v5.1.1.
+
 ## Overview
 
-This package contains all design tokens exported from Figma and transformed into Style Dictionary-compatible format. These tokens are the **source of truth** for colors, typography, spacing, borders, shadows, and layout values used throughout the DSAi component library.
+This package contains all design tokens exported from Figma and transformed into **DTCG-compliant** Style Dictionary format. These tokens are the **source of truth** for colors, typography, spacing, borders, shadows, and layout values used throughout the DSAi component library.
 
 **Philosophy**: "Token system as foundation - Build design system from tokens up, not components down."
+
+### Standards & Tools
+
+- **Format**: [DTCG W3C Standard](https://www.designtokens.org/) (`$value`, `$type`, `$description`, `$extensions`)
+- **Build System**: [Style Dictionary v5.1.1](https://styledictionary.com/)
+- **Source**: Figma Tokens Studio plugin
+- **Validation**: 100% transformation match rate verified
 
 ## Token Categories
 

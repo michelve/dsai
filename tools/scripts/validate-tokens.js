@@ -1,16 +1,19 @@
 #!/usr/bin/env node
 
 /**
- * Validate Design Tokens
+ * Validate Design Tokens (DTCG-Compliant)
  *
  * This script validates all transformed token files to ensure:
  * - Valid JSON syntax
- * - Required properties present (value, type)
+ * - Required DTCG properties present ($value, $type) OR legacy (value, type)
  * - Correct type values
  * - No circular references
  * - Token references resolve correctly
  *
+ * Supports both DTCG format ($ prefix) and legacy Style Dictionary format
+ *
  * @see TASK-011-design-json-token-structure.md
+ * @see https://www.designtokens.org/
  */
 
 const fs = require('fs');
@@ -56,65 +59,75 @@ function readJsonFile(filePath) {
 }
 
 /**
- * Validate a single token object
+ * Validate a single token object (supports DTCG and legacy formats)
  */
 function validateToken(tokenPath, token) {
   tokenCount++;
 
+  // Check for DTCG format ($value, $type) or legacy format (value, type)
+  const isDTCG = token.hasOwnProperty('$value') || token.hasOwnProperty('$type');
+  const valueKey = isDTCG ? '$value' : 'value';
+  const typeKey = isDTCG ? '$type' : 'type';
+
   // Check required properties
-  if (!token.hasOwnProperty('value')) {
-    errors.push(`❌ ${tokenPath}: Missing required property "value"`);
+  if (!token.hasOwnProperty(valueKey)) {
+    errors.push(`❌ ${tokenPath}: Missing required property "${valueKey}"`);
   }
 
-  if (!token.hasOwnProperty('type')) {
-    errors.push(`❌ ${tokenPath}: Missing required property "type"`);
+  if (!token.hasOwnProperty(typeKey)) {
+    errors.push(`❌ ${tokenPath}: Missing required property "${typeKey}"`);
   }
 
   // Validate type
-  if (token.type && !VALID_TYPES.includes(token.type)) {
+  if (token[typeKey] && !VALID_TYPES.includes(token[typeKey])) {
     warnings.push(
-      `⚠️  ${tokenPath}: Unknown type "${token.type}". Valid types: ${VALID_TYPES.join(', ')}`
+      `⚠️  ${tokenPath}: Unknown type "${token[typeKey]}". Valid types: ${VALID_TYPES.join(', ')}`
     );
   }
 
   // Check for empty values
-  if (token.value === null || token.value === undefined || token.value === '') {
-    errors.push(`❌ ${tokenPath}: Empty value`);
+  if (token[valueKey] === null || token[valueKey] === undefined || token[valueKey] === '') {
+    errors.push(`❌ ${tokenPath}: Empty ${valueKey}`);
   }
 
-  // Check if value is a Style Dictionary reference (e.g., {colors.brand.blue.500})
-  const isStyleDictionaryReference =
-    typeof token.value === 'string' && token.value.startsWith('{') && token.value.endsWith('}');
+  // Check if value is a Style Dictionary/DTCG reference (e.g., {colors.brand.blue.500})
+  const isReference =
+    typeof token[valueKey] === 'string' && 
+    token[valueKey].startsWith('{') && 
+    token[valueKey].endsWith('}');
 
   // Validate dimension units
   if (
-    token.type === 'dimension' &&
-    typeof token.value === 'string' &&
-    !isStyleDictionaryReference
+    token[typeKey] === 'dimension' &&
+    typeof token[valueKey] === 'string' &&
+    !isReference
   ) {
-    if (!token.value.match(/^-?\d+(\.\d+)?(px|rem|em|%|vh|vw|vmin|vmax)?$/)) {
-      warnings.push(`⚠️  ${tokenPath}: Dimension value "${token.value}" may have invalid format`);
+    if (!token[valueKey].match(/^-?\d+(\.\d+)?(px|rem|em|%|vh|vw|vmin|vmax)?$/)) {
+      warnings.push(`⚠️  ${tokenPath}: Dimension value "${token[valueKey]}" may have invalid format`);
     }
   }
 
-  // Validate color format (skip Style Dictionary references)
-  if (token.type === 'color' && typeof token.value === 'string' && !isStyleDictionaryReference) {
-    if (!token.value.match(/^(#[0-9a-fA-F]{3,8}|rgb\(|rgba\(|hsl\(|hsla\()/)) {
-      warnings.push(`⚠️  ${tokenPath}: Color value "${token.value}" may have invalid format`);
+  // Validate color format (skip references)
+  if (token[typeKey] === 'color' && typeof token[valueKey] === 'string' && !isReference) {
+    if (!token[valueKey].match(/^(#[0-9a-fA-F]{3,8}|rgb\(|rgba\(|hsl\(|hsla\()/)) {
+      warnings.push(`⚠️  ${tokenPath}: Color value "${token[valueKey]}" may have invalid format`);
     }
   }
 }
 
 /**
- * Recursively validate token tree
+ * Recursively validate token tree (supports DTCG and legacy formats)
  */
 function validateTokenTree(obj, parentPath = '') {
   for (const [key, value] of Object.entries(obj)) {
     const currentPath = parentPath ? `${parentPath}.${key}` : key;
 
     if (value && typeof value === 'object') {
-      // Check if this is a token (has 'value' and 'type')
-      if (value.hasOwnProperty('value') && value.hasOwnProperty('type')) {
+      // Check if this is a token (DTCG: $value & $type, Legacy: value & type)
+      const isDTCGToken = value.hasOwnProperty('$value') && value.hasOwnProperty('$type');
+      const isLegacyToken = value.hasOwnProperty('value') && value.hasOwnProperty('type');
+      
+      if (isDTCGToken || isLegacyToken) {
         validateToken(currentPath, value);
       } else {
         // Recursively validate nested objects

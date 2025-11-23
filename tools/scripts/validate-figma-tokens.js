@@ -125,11 +125,18 @@ function isFigmaToken(obj) {
 
 /**
  * Check if object is a Style Dictionary token (has value and type)
+ * Supports both DTCG format ($value, $type) and legacy format (value, type)
  */
 function isStyleDictionaryToken(obj) {
-  return (
-    obj && typeof obj === 'object' && obj.hasOwnProperty('value') && obj.hasOwnProperty('type')
-  );
+  if (!obj || typeof obj !== 'object') return false;
+  
+  // Check for DTCG format ($value, $type)
+  const isDTCG = obj.hasOwnProperty('$value') && obj.hasOwnProperty('$type');
+  
+  // Check for legacy format (value, type)
+  const isLegacy = obj.hasOwnProperty('value') && obj.hasOwnProperty('type');
+  
+  return isDTCG || isLegacy;
 }
 
 /**
@@ -274,11 +281,22 @@ function validateExportFilesExist() {
 
 /**
  * Recursively count and validate tokens in an object tree
+ * Supports both DTCG format ($value/$type) and legacy format (value/type)
  */
 function validateTokenTree(obj, pathArray = [], parentFile = '', validationType = 'figma') {
   const tokenCheck = validationType === 'figma' ? isFigmaToken : isStyleDictionaryToken;
-  const valueKey = validationType === 'figma' ? '$value' : 'value';
-  const typeKey = validationType === 'figma' ? '$type' : 'type';
+  
+  // For Figma tokens, always use $ prefix
+  // For output tokens, check for DTCG ($value) first, then legacy (value)
+  const getValueKey = (token) => {
+    if (validationType === 'figma') return '$value';
+    return token.hasOwnProperty('$value') ? '$value' : 'value';
+  };
+  
+  const getTypeKey = (token) => {
+    if (validationType === 'figma') return '$type';
+    return token.hasOwnProperty('$type') ? '$type' : 'type';
+  };
 
   let tokenCount = 0;
   const tokens = [];
@@ -290,6 +308,9 @@ function validateTokenTree(obj, pathArray = [], parentFile = '', validationType 
     if (tokenCheck(value)) {
       // This is a token - validate it
       tokenCount++;
+      
+      const valueKey = getValueKey(value);
+      const typeKey = getTypeKey(value);
 
       // Validate required properties
       if (value[valueKey] === null || value[valueKey] === undefined || value[valueKey] === '') {

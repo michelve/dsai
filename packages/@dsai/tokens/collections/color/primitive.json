@@ -2,749 +2,1735 @@
   "color": {
     "blue": {
       "50": {
-        "value": "#ebf3fc",
-        "type": "color",
-        "description": "Ultra-light tint of blue. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$value": "#ebf3fc",
+        "$type": "color",
+        "$description": "Ultra-light tint of blue. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#blue",
+            "section": "Customization",
+            "subsection": "Colors - Brand - Blue"
+          },
+          "platform": {
+            "scssVariableName": "$blue-50",
+            "bootstrapVersion": "5.3"
+          }
+        },
         "comment": "$blue-50"
       },
       "100": {
-        "value": "#d7e6f9",
-        "type": "color",
-        "description": "Lightest tint (90% lighter) of primary brand color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$value": "#d7e6f9",
+        "$type": "color",
+        "$description": "Lightest tint (90% lighter) of primary brand color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#blue",
+            "section": "Customization",
+            "subsection": "Colors - Brand - Blue"
+          },
+          "platform": {
+            "scssVariableName": "$blue-100",
+            "bootstrapVersion": "5.3"
+          }
+        },
         "comment": "$blue-100"
       },
       "200": {
-        "value": "#aeccf3",
-        "type": "color",
-        "description": "Very light tint (75% lighter) of primary brand color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$value": "#aeccf3",
+        "$type": "color",
+        "$description": "Very light tint (75% lighter) of primary brand color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#blue"
+          },
+          "platform": {
+            "scssVariableName": "$blue-200"
+          }
+        },
         "comment": "$blue-200"
       },
       "300": {
-        "value": "#86b3ed",
-        "type": "color",
-        "description": "Light tint (60% lighter) of primary brand color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$value": "#86b3ed",
+        "$type": "color",
+        "$description": "Light tint (60% lighter) of primary brand color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#blue"
+          },
+          "platform": {
+            "scssVariableName": "$blue-300"
+          }
+        },
         "comment": "$blue-300"
       },
       "400": {
-        "value": "#5d99e7",
-        "type": "color",
-        "description": "Medium-light tint (40% lighter) of primary brand color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$value": "#5d99e7",
+        "$type": "color",
+        "$description": "Medium-light tint (40% lighter) of primary brand color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#blue"
+          },
+          "platform": {
+            "scssVariableName": "$blue-400"
+          }
+        },
         "comment": "$blue-400"
       },
       "500": {
-        "value": "#0a58ca",
-        "type": "color",
-        "description": "Base color (reference) of primary brand color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$value": "#0a58ca",
+        "$type": "color",
+        "$description": "Base color (reference) of primary brand color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#blue"
+          },
+          "platform": {
+            "scssVariableName": "$blue",
+            "isBaseColor": "true"
+          }
+        },
         "comment": "$blue"
       },
       "600": {
-        "value": "#084298",
-        "type": "color",
-        "description": "Dark shade (20% darker) of primary brand color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$value": "#084298",
+        "$type": "color",
+        "$description": "Dark shade (20% darker) of primary brand color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#blue"
+          },
+          "platform": {
+            "scssVariableName": "$blue-600",
+            "useCase": "hover"
+          }
+        },
         "comment": "$blue-600"
       },
       "700": {
-        "value": "#063166",
-        "type": "color",
-        "description": "Darker shade (40% darker) of primary brand color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$value": "#063166",
+        "$type": "color",
+        "$description": "Darker shade (40% darker) of primary brand color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#blue"
+          },
+          "platform": {
+            "scssVariableName": "$blue-700",
+            "useCase": "active"
+          }
+        },
         "comment": "$blue-700"
       },
       "800": {
-        "value": "#042144",
-        "type": "color",
-        "description": "Very dark shade (60% darker) of primary brand color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$value": "#042144",
+        "$type": "color",
+        "$description": "Very dark shade (60% darker) of primary brand color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#blue"
+          },
+          "platform": {
+            "scssVariableName": "$blue-800"
+          }
+        },
         "comment": "$blue-800"
       },
       "900": {
-        "value": "#021022",
-        "type": "color",
-        "description": "Darkest shade (80% darker) of primary brand color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$value": "#021022",
+        "$type": "color",
+        "$description": "Darkest shade (80% darker) of primary brand color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#blue"
+          },
+          "platform": {
+            "scssVariableName": "$blue-900"
+          }
+        },
         "comment": "$blue-900"
       },
       "950": {
-        "value": "#010811",
-        "type": "color",
-        "description": "Deep shadows, near-black shade of blue. Maximum depth and contrast.",
+        "$value": "#010811",
+        "$type": "color",
+        "$description": "Deep shadows, near-black shade of blue. Maximum depth and contrast.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#blue"
+          },
+          "platform": {
+            "scssVariableName": "$blue-900"
+          }
+        },
         "comment": "$blue-900"
       }
     },
     "indigo": {
       "50": {
-        "value": "#f0ebff",
-        "type": "color",
-        "description": "Ultra-light tint of indigo. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$value": "#f0ebff",
+        "$type": "color",
+        "$description": "Ultra-light tint of indigo. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#indigo"
+          },
+          "platform": {
+            "scssVariableName": "$indigo-50"
+          }
+        },
         "comment": "$indigo-50"
       },
       "100": {
-        "value": "#e0cffc",
-        "type": "color",
-        "description": "Lightest tint (90% lighter) of secondary accent color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$value": "#e0cffc",
+        "$type": "color",
+        "$description": "Lightest tint (90% lighter) of secondary accent color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#indigo"
+          },
+          "platform": {
+            "scssVariableName": "$indigo-100"
+          }
+        },
         "comment": "$indigo-100"
       },
       "200": {
-        "value": "#c29ffa",
-        "type": "color",
-        "description": "Very light tint (75% lighter) of secondary accent color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$value": "#c29ffa",
+        "$type": "color",
+        "$description": "Very light tint (75% lighter) of secondary accent color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#indigo"
+          },
+          "platform": {
+            "scssVariableName": "$indigo-200"
+          }
+        },
         "comment": "$indigo-200"
       },
       "300": {
-        "value": "#a370f7",
-        "type": "color",
-        "description": "Light tint (60% lighter) of secondary accent color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$value": "#a370f7",
+        "$type": "color",
+        "$description": "Light tint (60% lighter) of secondary accent color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#indigo"
+          },
+          "platform": {
+            "scssVariableName": "$indigo-300"
+          }
+        },
         "comment": "$indigo-300"
       },
       "400": {
-        "value": "#8540f5",
-        "type": "color",
-        "description": "Medium-light tint (40% lighter) of secondary accent color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$value": "#8540f5",
+        "$type": "color",
+        "$description": "Medium-light tint (40% lighter) of secondary accent color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#indigo"
+          },
+          "platform": {
+            "scssVariableName": "$indigo-400"
+          }
+        },
         "comment": "$indigo-400"
       },
       "500": {
-        "value": "#6610f2",
-        "type": "color",
-        "description": "Base color (reference) of secondary accent color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$value": "#6610f2",
+        "$type": "color",
+        "$description": "Base color (reference) of secondary accent color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#indigo"
+          },
+          "platform": {
+            "scssVariableName": "$indigo",
+            "isBaseColor": "true"
+          }
+        },
         "comment": "$indigo"
       },
       "600": {
-        "value": "#520dc2",
-        "type": "color",
-        "description": "Dark shade (20% darker) of secondary accent color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$value": "#520dc2",
+        "$type": "color",
+        "$description": "Dark shade (20% darker) of secondary accent color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#indigo"
+          },
+          "platform": {
+            "scssVariableName": "$indigo-600"
+          }
+        },
         "comment": "$indigo-600"
       },
       "700": {
-        "value": "#3d0a91",
-        "type": "color",
-        "description": "Darker shade (40% darker) of secondary accent color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$value": "#3d0a91",
+        "$type": "color",
+        "$description": "Darker shade (40% darker) of secondary accent color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#indigo"
+          },
+          "platform": {
+            "scssVariableName": "$indigo-700"
+          }
+        },
         "comment": "$indigo-700"
       },
       "800": {
-        "value": "#290661",
-        "type": "color",
-        "description": "Very dark shade (60% darker) of secondary accent color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$value": "#290661",
+        "$type": "color",
+        "$description": "Very dark shade (60% darker) of secondary accent color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#indigo"
+          },
+          "platform": {
+            "scssVariableName": "$indigo-800"
+          }
+        },
         "comment": "$indigo-800"
       },
       "900": {
-        "value": "#140330",
-        "type": "color",
-        "description": "Darkest shade (80% darker) of secondary accent color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$value": "#140330",
+        "$type": "color",
+        "$description": "Darkest shade (80% darker) of secondary accent color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#indigo"
+          },
+          "platform": {
+            "scssVariableName": "$indigo-900"
+          }
+        },
         "comment": "$indigo-900"
       },
       "950": {
-        "value": "#0a0416",
-        "type": "color",
-        "description": "Deep shadows, near-black shade of indigo. Maximum depth and contrast for light mode.",
+        "$value": "#0a0416",
+        "$type": "color",
+        "$description": "Deep shadows, near-black shade of indigo. Maximum depth and contrast for light mode.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#indigo"
+          },
+          "platform": {
+            "scssVariableName": "$indigo-950"
+          }
+        },
         "comment": "$indigo-950"
       }
     },
     "purple": {
       "50": {
-        "value": "#e8dff8",
-        "type": "color",
-        "description": "Ultra-light tint of purple. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$value": "#e8dff8",
+        "$type": "color",
+        "$description": "Ultra-light tint of purple. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#purple"
+          },
+          "platform": {
+            "scssVariableName": "$purple-50"
+          }
+        },
         "comment": "$purple-50"
       },
       "100": {
-        "value": "#d1bff1",
-        "type": "color",
-        "description": "Lightest tint (90% lighter) of premium and creative color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$value": "#d1bff1",
+        "$type": "color",
+        "$description": "Lightest tint (90% lighter) of premium and creative color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#purple"
+          },
+          "platform": {
+            "scssVariableName": "$purple-100"
+          }
+        },
         "comment": "$purple-100"
       },
       "200": {
-        "value": "#b39fea",
-        "type": "color",
-        "description": "Very light tint (75% lighter) of premium and creative color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$value": "#b39fea",
+        "$type": "color",
+        "$description": "Very light tint (75% lighter) of premium and creative color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#purple"
+          },
+          "platform": {
+            "scssVariableName": "$purple-200"
+          }
+        },
         "comment": "$purple-200"
       },
       "300": {
-        "value": "#957fe3",
-        "type": "color",
-        "description": "Light tint (60% lighter) of premium and creative color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$value": "#957fe3",
+        "$type": "color",
+        "$description": "Light tint (60% lighter) of premium and creative color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#purple"
+          },
+          "platform": {
+            "scssVariableName": "$purple-300"
+          }
+        },
         "comment": "$purple-300"
       },
       "400": {
-        "value": "#775fdc",
-        "type": "color",
-        "description": "Medium-light tint (40% lighter) of premium and creative color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$value": "#775fdc",
+        "$type": "color",
+        "$description": "Medium-light tint (40% lighter) of premium and creative color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#purple"
+          },
+          "platform": {
+            "scssVariableName": "$purple-400"
+          }
+        },
         "comment": "$purple-400"
       },
       "500": {
-        "value": "#432874",
-        "type": "color",
-        "description": "Base color (reference) of premium and creative color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$value": "#432874",
+        "$type": "color",
+        "$description": "Base color (reference) of premium and creative color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#purple"
+          },
+          "platform": {
+            "scssVariableName": "$purple",
+            "isBaseColor": "true"
+          }
+        },
         "comment": "$purple"
       },
       "600": {
-        "value": "#2c1a4d",
-        "type": "color",
-        "description": "Dark shade (20% darker) of premium and creative color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$value": "#2c1a4d",
+        "$type": "color",
+        "$description": "Dark shade (20% darker) of premium and creative color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#purple"
+          },
+          "platform": {
+            "scssVariableName": "$purple-600"
+          }
+        },
         "comment": "$purple-600"
       },
       "700": {
-        "value": "#1f1335",
-        "type": "color",
-        "description": "Darker shade (40% darker) of premium and creative color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$value": "#1f1335",
+        "$type": "color",
+        "$description": "Darker shade (40% darker) of premium and creative color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#purple"
+          },
+          "platform": {
+            "scssVariableName": "$purple-700"
+          }
+        },
         "comment": "$purple-700"
       },
       "800": {
-        "value": "#160d27",
-        "type": "color",
-        "description": "Very dark shade (60% darker) of premium and creative color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$value": "#160d27",
+        "$type": "color",
+        "$description": "Very dark shade (60% darker) of premium and creative color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#purple"
+          },
+          "platform": {
+            "scssVariableName": "$purple-800"
+          }
+        },
         "comment": "$purple-800"
       },
       "900": {
-        "value": "#0a0613",
-        "type": "color",
-        "description": "Darkest shade (80% darker) of premium and creative color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$value": "#0a0613",
+        "$type": "color",
+        "$description": "Darkest shade (80% darker) of premium and creative color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#purple"
+          },
+          "platform": {
+            "scssVariableName": "$purple-900"
+          }
+        },
         "comment": "$purple-900"
       },
       "950": {
-        "value": "#0a0613",
-        "type": "color",
-        "description": "Deep shadows, near-black shade of purple. Maximum depth and contrast.",
+        "$value": "#0a0613",
+        "$type": "color",
+        "$description": "Deep shadows, near-black shade of purple. Maximum depth and contrast.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#purple"
+          },
+          "platform": {
+            "scssVariableName": "$purple-900"
+          }
+        },
         "comment": "$purple-900"
       }
     },
     "pink": {
       "50": {
-        "value": "#fce4ec",
-        "type": "color",
-        "description": "Ultra-light tint of pink. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$value": "#fce4ec",
+        "$type": "color",
+        "$description": "Ultra-light tint of pink. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#pink"
+          },
+          "platform": {
+            "scssVariableName": "$pink-50"
+          }
+        },
         "comment": "$pink-50"
       },
       "100": {
-        "value": "#f7d6e6",
-        "type": "color",
-        "description": "Lightest tint (90% lighter) of friendly and approachable color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$value": "#f7d6e6",
+        "$type": "color",
+        "$description": "Lightest tint (90% lighter) of friendly and approachable color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#pink"
+          },
+          "platform": {
+            "scssVariableName": "$pink-100"
+          }
+        },
         "comment": "$pink-100"
       },
       "200": {
-        "value": "#efadce",
-        "type": "color",
-        "description": "Very light tint (75% lighter) of friendly and approachable color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$value": "#efadce",
+        "$type": "color",
+        "$description": "Very light tint (75% lighter) of friendly and approachable color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#pink"
+          },
+          "platform": {
+            "scssVariableName": "$pink-200"
+          }
+        },
         "comment": "$pink-200"
       },
       "300": {
-        "value": "#e685b5",
-        "type": "color",
-        "description": "Light tint (60% lighter) of friendly and approachable color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$value": "#e685b5",
+        "$type": "color",
+        "$description": "Light tint (60% lighter) of friendly and approachable color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#pink"
+          },
+          "platform": {
+            "scssVariableName": "$pink-300"
+          }
+        },
         "comment": "$pink-300"
       },
       "400": {
-        "value": "#de5c9d",
-        "type": "color",
-        "description": "Medium-light tint (40% lighter) of friendly and approachable color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$value": "#de5c9d",
+        "$type": "color",
+        "$description": "Medium-light tint (40% lighter) of friendly and approachable color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#pink"
+          },
+          "platform": {
+            "scssVariableName": "$pink-400"
+          }
+        },
         "comment": "$pink-400"
       },
       "500": {
-        "value": "#d63384",
-        "type": "color",
-        "description": "Base color (reference) of friendly and approachable color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$value": "#d63384",
+        "$type": "color",
+        "$description": "Base color (reference) of friendly and approachable color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#pink"
+          },
+          "platform": {
+            "scssVariableName": "$pink",
+            "isBaseColor": "true"
+          }
+        },
         "comment": "$pink"
       },
       "600": {
-        "value": "#ab296a",
-        "type": "color",
-        "description": "Dark shade (20% darker) of friendly and approachable color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$value": "#ab296a",
+        "$type": "color",
+        "$description": "Dark shade (20% darker) of friendly and approachable color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#pink"
+          },
+          "platform": {
+            "scssVariableName": "$pink-600"
+          }
+        },
         "comment": "$pink-600"
       },
       "700": {
-        "value": "#801f4f",
-        "type": "color",
-        "description": "Darker shade (40% darker) of friendly and approachable color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$value": "#801f4f",
+        "$type": "color",
+        "$description": "Darker shade (40% darker) of friendly and approachable color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#pink"
+          },
+          "platform": {
+            "scssVariableName": "$pink-700"
+          }
+        },
         "comment": "$pink-700"
       },
       "800": {
-        "value": "#561435",
-        "type": "color",
-        "description": "Very dark shade (60% darker) of friendly and approachable color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$value": "#561435",
+        "$type": "color",
+        "$description": "Very dark shade (60% darker) of friendly and approachable color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#pink"
+          },
+          "platform": {
+            "scssVariableName": "$pink-800"
+          }
+        },
         "comment": "$pink-800"
       },
       "900": {
-        "value": "#2b0a1a",
-        "type": "color",
-        "description": "Darkest shade (80% darker) of friendly and approachable color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$value": "#2b0a1a",
+        "$type": "color",
+        "$description": "Darkest shade (80% darker) of friendly and approachable color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#pink"
+          },
+          "platform": {
+            "scssVariableName": "$pink-900"
+          }
+        },
         "comment": "$pink-900"
       },
       "950": {
-        "value": "#2b0a1a",
-        "type": "color",
-        "description": "Deep shadows, near-black shade of pink. Maximum depth and contrast for light mode.",
+        "$value": "#2b0a1a",
+        "$type": "color",
+        "$description": "Deep shadows, near-black shade of pink. Maximum depth and contrast for light mode.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#pink"
+          },
+          "platform": {
+            "scssVariableName": "$pink-950"
+          }
+        },
         "comment": "$pink-950"
       }
     },
     "red": {
       "50": {
-        "value": "#f5e4e8",
-        "type": "color",
-        "description": "Ultra-light tint of red. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$value": "#f5e4e8",
+        "$type": "color",
+        "$description": "Ultra-light tint of red. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#red"
+          },
+          "platform": {
+            "scssVariableName": "$red-50"
+          }
+        },
         "comment": "$red-50"
       },
       "100": {
-        "value": "#ebc9d1",
-        "type": "color",
-        "description": "Lightest tint (90% lighter) of danger and error color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$value": "#ebc9d1",
+        "$type": "color",
+        "$description": "Lightest tint (90% lighter) of danger and error color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#red"
+          },
+          "platform": {
+            "scssVariableName": "$red-100"
+          }
+        },
         "comment": "$red-100"
       },
       "200": {
-        "value": "#e1adba",
-        "type": "color",
-        "description": "Very light tint (75% lighter) of danger and error color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$value": "#e1adba",
+        "$type": "color",
+        "$description": "Very light tint (75% lighter) of danger and error color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#red"
+          },
+          "platform": {
+            "scssVariableName": "$red-200"
+          }
+        },
         "comment": "$red-200"
       },
       "300": {
-        "value": "#d792a3",
-        "type": "color",
-        "description": "Light tint (60% lighter) of danger and error color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$value": "#d792a3",
+        "$type": "color",
+        "$description": "Light tint (60% lighter) of danger and error color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#red"
+          },
+          "platform": {
+            "scssVariableName": "$red-300"
+          }
+        },
         "comment": "$red-300"
       },
       "400": {
-        "value": "#cd7691",
-        "type": "color",
-        "description": "Medium-light tint (40% lighter) of danger and error color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$value": "#cd7691",
+        "$type": "color",
+        "$description": "Medium-light tint (40% lighter) of danger and error color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#red"
+          },
+          "platform": {
+            "scssVariableName": "$red-400"
+          }
+        },
         "comment": "$red-400"
       },
       "500": {
-        "value": "#842029",
-        "type": "color",
-        "description": "Base color (reference) of danger and error color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$value": "#842029",
+        "$type": "color",
+        "$description": "Base color (reference) of danger and error color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#red"
+          },
+          "platform": {
+            "scssVariableName": "$red",
+            "isBaseColor": "true"
+          }
+        },
         "comment": "$red"
       },
       "600": {
-        "value": "#6b1a22",
-        "type": "color",
-        "description": "Dark shade (20% darker) of danger and error color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$value": "#6b1a22",
+        "$type": "color",
+        "$description": "Dark shade (20% darker) of danger and error color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#red"
+          },
+          "platform": {
+            "scssVariableName": "$red-600"
+          }
+        },
         "comment": "$red-600"
       },
       "700": {
-        "value": "#58151c",
-        "type": "color",
-        "description": "Darker shade (40% darker) of danger and error color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$value": "#58151c",
+        "$type": "color",
+        "$description": "Darker shade (40% darker) of danger and error color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#red"
+          },
+          "platform": {
+            "scssVariableName": "$red-700"
+          }
+        },
         "comment": "$red-700"
       },
       "800": {
-        "value": "#3d0f14",
-        "type": "color",
-        "description": "Very dark shade (60% darker) of danger and error color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$value": "#3d0f14",
+        "$type": "color",
+        "$description": "Very dark shade (60% darker) of danger and error color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#red"
+          },
+          "platform": {
+            "scssVariableName": "$red-800"
+          }
+        },
         "comment": "$red-800"
       },
       "900": {
-        "value": "#2c0b0e",
-        "type": "color",
-        "description": "Darkest shade (80% darker) of danger and error color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$value": "#2c0b0e",
+        "$type": "color",
+        "$description": "Darkest shade (80% darker) of danger and error color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#red"
+          },
+          "platform": {
+            "scssVariableName": "$red-900"
+          }
+        },
         "comment": "$red-900"
       },
       "950": {
-        "value": "#2c0b0e",
-        "type": "color",
-        "description": "Deep shadows, near-black shade of red. Maximum depth and contrast.",
+        "$value": "#2c0b0e",
+        "$type": "color",
+        "$description": "Deep shadows, near-black shade of red. Maximum depth and contrast.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#red"
+          },
+          "platform": {
+            "scssVariableName": "$red-900"
+          }
+        },
         "comment": "$red-900"
       }
     },
     "orange": {
       "50": {
-        "value": "#fff4e5",
-        "type": "color",
-        "description": "Ultra-light tint of orange. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$value": "#fff4e5",
+        "$type": "color",
+        "$description": "Ultra-light tint of orange. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#orange"
+          },
+          "platform": {
+            "scssVariableName": "$orange-50"
+          }
+        },
         "comment": "$orange-50"
       },
       "100": {
-        "value": "#ffe5d0",
-        "type": "color",
-        "description": "Lightest tint (90% lighter) of energetic highlight color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$value": "#ffe5d0",
+        "$type": "color",
+        "$description": "Lightest tint (90% lighter) of energetic highlight color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#orange"
+          },
+          "platform": {
+            "scssVariableName": "$orange-100"
+          }
+        },
         "comment": "$orange-100"
       },
       "200": {
-        "value": "#fecba1",
-        "type": "color",
-        "description": "Very light tint (75% lighter) of energetic highlight color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$value": "#fecba1",
+        "$type": "color",
+        "$description": "Very light tint (75% lighter) of energetic highlight color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#orange"
+          },
+          "platform": {
+            "scssVariableName": "$orange-200"
+          }
+        },
         "comment": "$orange-200"
       },
       "300": {
-        "value": "#feb272",
-        "type": "color",
-        "description": "Light tint (60% lighter) of energetic highlight color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$value": "#feb272",
+        "$type": "color",
+        "$description": "Light tint (60% lighter) of energetic highlight color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#orange"
+          },
+          "platform": {
+            "scssVariableName": "$orange-300"
+          }
+        },
         "comment": "$orange-300"
       },
       "400": {
-        "value": "#fd9843",
-        "type": "color",
-        "description": "Medium-light tint (40% lighter) of energetic highlight color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$value": "#fd9843",
+        "$type": "color",
+        "$description": "Medium-light tint (40% lighter) of energetic highlight color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#orange"
+          },
+          "platform": {
+            "scssVariableName": "$orange-400"
+          }
+        },
         "comment": "$orange-400"
       },
       "500": {
-        "value": "#fd7e14",
-        "type": "color",
-        "description": "Base color (reference) of energetic highlight color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$value": "#fd7e14",
+        "$type": "color",
+        "$description": "Base color (reference) of energetic highlight color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#orange"
+          },
+          "platform": {
+            "scssVariableName": "$orange",
+            "isBaseColor": "true"
+          }
+        },
         "comment": "$orange"
       },
       "600": {
-        "value": "#ca6510",
-        "type": "color",
-        "description": "Dark shade (20% darker) of energetic highlight color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$value": "#ca6510",
+        "$type": "color",
+        "$description": "Dark shade (20% darker) of energetic highlight color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#orange"
+          },
+          "platform": {
+            "scssVariableName": "$orange-600"
+          }
+        },
         "comment": "$orange-600"
       },
       "700": {
-        "value": "#984c0c",
-        "type": "color",
-        "description": "Darker shade (40% darker) of energetic highlight color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$value": "#984c0c",
+        "$type": "color",
+        "$description": "Darker shade (40% darker) of energetic highlight color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#orange"
+          },
+          "platform": {
+            "scssVariableName": "$orange-700"
+          }
+        },
         "comment": "$orange-700"
       },
       "800": {
-        "value": "#653208",
-        "type": "color",
-        "description": "Very dark shade (60% darker) of energetic highlight color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$value": "#653208",
+        "$type": "color",
+        "$description": "Very dark shade (60% darker) of energetic highlight color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#orange"
+          },
+          "platform": {
+            "scssVariableName": "$orange-800"
+          }
+        },
         "comment": "$orange-800"
       },
       "900": {
-        "value": "#331904",
-        "type": "color",
-        "description": "Darkest shade (80% darker) of energetic highlight color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$value": "#331904",
+        "$type": "color",
+        "$description": "Darkest shade (80% darker) of energetic highlight color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#orange"
+          },
+          "platform": {
+            "scssVariableName": "$orange-900"
+          }
+        },
         "comment": "$orange-900"
       },
       "950": {
-        "value": "#331904",
-        "type": "color",
-        "description": "Deep shadows, near-black shade of orange. Maximum depth and contrast for light mode.",
+        "$value": "#331904",
+        "$type": "color",
+        "$description": "Deep shadows, near-black shade of orange. Maximum depth and contrast for light mode.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#orange"
+          },
+          "platform": {
+            "scssVariableName": "$orange-950"
+          }
+        },
         "comment": "$orange-950"
       }
     },
     "yellow": {
       "50": {
-        "value": "#fffaeb",
-        "type": "color",
-        "description": "Ultra-light tint of yellow. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$value": "#fffaeb",
+        "$type": "color",
+        "$description": "Ultra-light tint of yellow. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#yellow"
+          },
+          "platform": {
+            "scssVariableName": "$yellow-50"
+          }
+        },
         "comment": "$yellow-50"
       },
       "100": {
-        "value": "#fef3c7",
-        "type": "color",
-        "description": "Lightest tint (90% lighter) of warning and caution color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$value": "#fef3c7",
+        "$type": "color",
+        "$description": "Lightest tint (90% lighter) of warning and caution color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#yellow"
+          },
+          "platform": {
+            "scssVariableName": "$yellow-100"
+          }
+        },
         "comment": "$yellow-100"
       },
       "200": {
-        "value": "#fcd34d",
-        "type": "color",
-        "description": "Very light tint (75% lighter) of warning and caution color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$value": "#fcd34d",
+        "$type": "color",
+        "$description": "Very light tint (75% lighter) of warning and caution color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#yellow"
+          },
+          "platform": {
+            "scssVariableName": "$yellow-200"
+          }
+        },
         "comment": "$yellow-200"
       },
       "300": {
-        "value": "#fbbf24",
-        "type": "color",
-        "description": "Light tint (60% lighter) of warning and caution color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$value": "#fbbf24",
+        "$type": "color",
+        "$description": "Light tint (60% lighter) of warning and caution color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#yellow"
+          },
+          "platform": {
+            "scssVariableName": "$yellow-300"
+          }
+        },
         "comment": "$yellow-300"
       },
       "400": {
-        "value": "#f59e0b",
-        "type": "color",
-        "description": "Medium-light tint (40% lighter) of warning and caution color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$value": "#f59e0b",
+        "$type": "color",
+        "$description": "Medium-light tint (40% lighter) of warning and caution color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#yellow"
+          },
+          "platform": {
+            "scssVariableName": "$yellow-400"
+          }
+        },
         "comment": "$yellow-400"
       },
       "500": {
-        "value": "#f59e0b",
-        "type": "color",
-        "description": "Base color (reference) of warning and caution color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$value": "#f59e0b",
+        "$type": "color",
+        "$description": "Base color (reference) of warning and caution color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#yellow"
+          },
+          "platform": {
+            "scssVariableName": "$yellow",
+            "isBaseColor": "true"
+          }
+        },
         "comment": "$yellow"
       },
       "600": {
-        "value": "#d97706",
-        "type": "color",
-        "description": "Dark shade (20% darker) of warning and caution color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$value": "#d97706",
+        "$type": "color",
+        "$description": "Dark shade (20% darker) of warning and caution color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#yellow"
+          },
+          "platform": {
+            "scssVariableName": "$yellow-600"
+          }
+        },
         "comment": "$yellow-600"
       },
       "700": {
-        "value": "#92400e",
-        "type": "color",
-        "description": "Darker shade (40% darker) of warning and caution color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$value": "#92400e",
+        "$type": "color",
+        "$description": "Darker shade (40% darker) of warning and caution color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#yellow"
+          },
+          "platform": {
+            "scssVariableName": "$yellow-700"
+          }
+        },
         "comment": "$yellow-700"
       },
       "800": {
-        "value": "#78350f",
-        "type": "color",
-        "description": "Very dark shade (60% darker) of warning and caution color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$value": "#78350f",
+        "$type": "color",
+        "$description": "Very dark shade (60% darker) of warning and caution color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#yellow"
+          },
+          "platform": {
+            "scssVariableName": "$yellow-800"
+          }
+        },
         "comment": "$yellow-800"
       },
       "900": {
-        "value": "#451a03",
-        "type": "color",
-        "description": "Darkest shade (80% darker) of warning and caution color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$value": "#451a03",
+        "$type": "color",
+        "$description": "Darkest shade (80% darker) of warning and caution color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#yellow"
+          },
+          "platform": {
+            "scssVariableName": "$yellow-900"
+          }
+        },
         "comment": "$yellow-900"
       },
       "950": {
-        "value": "#451a03",
-        "type": "color",
-        "description": "Deep shadows, near-black shade of yellow. Maximum depth and contrast.",
+        "$value": "#451a03",
+        "$type": "color",
+        "$description": "Deep shadows, near-black shade of yellow. Maximum depth and contrast.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#yellow"
+          },
+          "platform": {
+            "scssVariableName": "$yellow-900"
+          }
+        },
         "comment": "$yellow-900"
       }
     },
     "green": {
       "50": {
-        "value": "#d9f0e9",
-        "type": "color",
-        "description": "Ultra-light tint of green. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$value": "#d9f0e9",
+        "$type": "color",
+        "$description": "Ultra-light tint of green. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#green"
+          },
+          "platform": {
+            "scssVariableName": "$green-50"
+          }
+        },
         "comment": "$green-50"
       },
       "100": {
-        "value": "#b3e1d3",
-        "type": "color",
-        "description": "Lightest tint (90% lighter) of success and positive color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$value": "#b3e1d3",
+        "$type": "color",
+        "$description": "Lightest tint (90% lighter) of success and positive color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#green"
+          },
+          "platform": {
+            "scssVariableName": "$green-100"
+          }
+        },
         "comment": "$green-100"
       },
       "200": {
-        "value": "#8dd2bd",
-        "type": "color",
-        "description": "Very light tint (75% lighter) of success and positive color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$value": "#8dd2bd",
+        "$type": "color",
+        "$description": "Very light tint (75% lighter) of success and positive color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#green"
+          },
+          "platform": {
+            "scssVariableName": "$green-200"
+          }
+        },
         "comment": "$green-200"
       },
       "300": {
-        "value": "#67c3a7",
-        "type": "color",
-        "description": "Light tint (60% lighter) of success and positive color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$value": "#67c3a7",
+        "$type": "color",
+        "$description": "Light tint (60% lighter) of success and positive color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#green"
+          },
+          "platform": {
+            "scssVariableName": "$green-300"
+          }
+        },
         "comment": "$green-300"
       },
       "400": {
-        "value": "#41b491",
-        "type": "color",
-        "description": "Medium-light tint (40% lighter) of success and positive color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$value": "#41b491",
+        "$type": "color",
+        "$description": "Medium-light tint (40% lighter) of success and positive color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#green"
+          },
+          "platform": {
+            "scssVariableName": "$green-400"
+          }
+        },
         "comment": "$green-400"
       },
       "500": {
-        "value": "#0f5132",
-        "type": "color",
-        "description": "Base color (reference) of success and positive color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$value": "#0f5132",
+        "$type": "color",
+        "$description": "Base color (reference) of success and positive color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#green"
+          },
+          "platform": {
+            "scssVariableName": "$green",
+            "isBaseColor": "true"
+          }
+        },
         "comment": "$green"
       },
       "600": {
-        "value": "#0c4229",
-        "type": "color",
-        "description": "Dark shade (20% darker) of success and positive color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$value": "#0c4229",
+        "$type": "color",
+        "$description": "Dark shade (20% darker) of success and positive color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#green"
+          },
+          "platform": {
+            "scssVariableName": "$green-600"
+          }
+        },
         "comment": "$green-600"
       },
       "700": {
-        "value": "#0a3622",
-        "type": "color",
-        "description": "Darker shade (40% darker) of success and positive color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$value": "#0a3622",
+        "$type": "color",
+        "$description": "Darker shade (40% darker) of success and positive color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#green"
+          },
+          "platform": {
+            "scssVariableName": "$green-700"
+          }
+        },
         "comment": "$green-700"
       },
       "800": {
-        "value": "#062419",
-        "type": "color",
-        "description": "Very dark shade (60% darker) of success and positive color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$value": "#062419",
+        "$type": "color",
+        "$description": "Very dark shade (60% darker) of success and positive color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#green"
+          },
+          "platform": {
+            "scssVariableName": "$green-800"
+          }
+        },
         "comment": "$green-800"
       },
       "900": {
-        "value": "#041b0f",
-        "type": "color",
-        "description": "Darkest shade (80% darker) of success and positive color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$value": "#041b0f",
+        "$type": "color",
+        "$description": "Darkest shade (80% darker) of success and positive color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#green"
+          },
+          "platform": {
+            "scssVariableName": "$green-900"
+          }
+        },
         "comment": "$green-900"
       },
       "950": {
-        "value": "#041b0f",
-        "type": "color",
-        "description": "Deep shadows, near-black shade of green. Maximum depth and contrast.",
+        "$value": "#041b0f",
+        "$type": "color",
+        "$description": "Deep shadows, near-black shade of green. Maximum depth and contrast.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#green"
+          },
+          "platform": {
+            "scssVariableName": "$green-900"
+          }
+        },
         "comment": "$green-900"
       }
     },
     "teal": {
       "50": {
-        "value": "#e0f2f1",
-        "type": "color",
-        "description": "Ultra-light tint of teal. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$value": "#e0f2f1",
+        "$type": "color",
+        "$description": "Ultra-light tint of teal. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#teal"
+          },
+          "platform": {
+            "scssVariableName": "$teal-50"
+          }
+        },
         "comment": "$teal-50"
       },
       "100": {
-        "value": "#d2f4ea",
-        "type": "color",
-        "description": "Lightest tint (90% lighter) of fresh and modern color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$value": "#d2f4ea",
+        "$type": "color",
+        "$description": "Lightest tint (90% lighter) of fresh and modern color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#teal"
+          },
+          "platform": {
+            "scssVariableName": "$teal-100"
+          }
+        },
         "comment": "$teal-100"
       },
       "200": {
-        "value": "#a6e9d5",
-        "type": "color",
-        "description": "Very light tint (75% lighter) of fresh and modern color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$value": "#a6e9d5",
+        "$type": "color",
+        "$description": "Very light tint (75% lighter) of fresh and modern color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#teal"
+          },
+          "platform": {
+            "scssVariableName": "$teal-200"
+          }
+        },
         "comment": "$teal-200"
       },
       "300": {
-        "value": "#79dfc1",
-        "type": "color",
-        "description": "Light tint (60% lighter) of fresh and modern color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$value": "#79dfc1",
+        "$type": "color",
+        "$description": "Light tint (60% lighter) of fresh and modern color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#teal"
+          },
+          "platform": {
+            "scssVariableName": "$teal-300"
+          }
+        },
         "comment": "$teal-300"
       },
       "400": {
-        "value": "#4dd4ac",
-        "type": "color",
-        "description": "Medium-light tint (40% lighter) of fresh and modern color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$value": "#4dd4ac",
+        "$type": "color",
+        "$description": "Medium-light tint (40% lighter) of fresh and modern color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#teal"
+          },
+          "platform": {
+            "scssVariableName": "$teal-400"
+          }
+        },
         "comment": "$teal-400"
       },
       "500": {
-        "value": "#20c997",
-        "type": "color",
-        "description": "Base color (reference) of fresh and modern color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$value": "#20c997",
+        "$type": "color",
+        "$description": "Base color (reference) of fresh and modern color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#teal"
+          },
+          "platform": {
+            "scssVariableName": "$teal",
+            "isBaseColor": "true"
+          }
+        },
         "comment": "$teal"
       },
       "600": {
-        "value": "#1aa179",
-        "type": "color",
-        "description": "Dark shade (20% darker) of fresh and modern color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$value": "#1aa179",
+        "$type": "color",
+        "$description": "Dark shade (20% darker) of fresh and modern color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#teal"
+          },
+          "platform": {
+            "scssVariableName": "$teal-600"
+          }
+        },
         "comment": "$teal-600"
       },
       "700": {
-        "value": "#13795b",
-        "type": "color",
-        "description": "Darker shade (40% darker) of fresh and modern color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$value": "#13795b",
+        "$type": "color",
+        "$description": "Darker shade (40% darker) of fresh and modern color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#teal"
+          },
+          "platform": {
+            "scssVariableName": "$teal-700"
+          }
+        },
         "comment": "$teal-700"
       },
       "800": {
-        "value": "#0d503c",
-        "type": "color",
-        "description": "Very dark shade (60% darker) of fresh and modern color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$value": "#0d503c",
+        "$type": "color",
+        "$description": "Very dark shade (60% darker) of fresh and modern color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#teal"
+          },
+          "platform": {
+            "scssVariableName": "$teal-800"
+          }
+        },
         "comment": "$teal-800"
       },
       "900": {
-        "value": "#06281e",
-        "type": "color",
-        "description": "Darkest shade (80% darker) of fresh and modern color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$value": "#06281e",
+        "$type": "color",
+        "$description": "Darkest shade (80% darker) of fresh and modern color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#teal"
+          },
+          "platform": {
+            "scssVariableName": "$teal-900"
+          }
+        },
         "comment": "$teal-900"
       },
       "950": {
-        "value": "#06281e",
-        "type": "color",
-        "description": "Deep shadows, near-black shade of teal. Maximum depth and contrast for light mode.",
+        "$value": "#06281e",
+        "$type": "color",
+        "$description": "Deep shadows, near-black shade of teal. Maximum depth and contrast for light mode.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#teal"
+          },
+          "platform": {
+            "scssVariableName": "$teal-950"
+          }
+        },
         "comment": "$teal-950"
       }
     },
     "cyan": {
       "50": {
-        "value": "#e0f7fa",
-        "type": "color",
-        "description": "Ultra-light tint of cyan. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$value": "#e0f7fa",
+        "$type": "color",
+        "$description": "Ultra-light tint of cyan. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#cyan"
+          },
+          "platform": {
+            "scssVariableName": "$cyan-50"
+          }
+        },
         "comment": "$cyan-50"
       },
       "100": {
-        "value": "#b2ebf2",
-        "type": "color",
-        "description": "Lightest tint (90% lighter) of informational color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$value": "#b2ebf2",
+        "$type": "color",
+        "$description": "Lightest tint (90% lighter) of informational color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#cyan"
+          },
+          "platform": {
+            "scssVariableName": "$cyan-100"
+          }
+        },
         "comment": "$cyan-100"
       },
       "200": {
-        "value": "#80deea",
-        "type": "color",
-        "description": "Very light tint (75% lighter) of informational color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$value": "#80deea",
+        "$type": "color",
+        "$description": "Very light tint (75% lighter) of informational color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#cyan"
+          },
+          "platform": {
+            "scssVariableName": "$cyan-200"
+          }
+        },
         "comment": "$cyan-200"
       },
       "300": {
-        "value": "#4dd0e1",
-        "type": "color",
-        "description": "Light tint (60% lighter) of informational color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$value": "#4dd0e1",
+        "$type": "color",
+        "$description": "Light tint (60% lighter) of informational color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#cyan"
+          },
+          "platform": {
+            "scssVariableName": "$cyan-300"
+          }
+        },
         "comment": "$cyan-300"
       },
       "400": {
-        "value": "#26c6da",
-        "type": "color",
-        "description": "Medium-light tint (40% lighter) of informational color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$value": "#26c6da",
+        "$type": "color",
+        "$description": "Medium-light tint (40% lighter) of informational color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#cyan"
+          },
+          "platform": {
+            "scssVariableName": "$cyan-400"
+          }
+        },
         "comment": "$cyan-400"
       },
       "500": {
-        "value": "#087990",
-        "type": "color",
-        "description": "Base color (reference) of informational color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$value": "#087990",
+        "$type": "color",
+        "$description": "Base color (reference) of informational color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#cyan"
+          },
+          "platform": {
+            "scssVariableName": "$cyan",
+            "isBaseColor": "true"
+          }
+        },
         "comment": "$cyan"
       },
       "600": {
-        "value": "#066570",
-        "type": "color",
-        "description": "Dark shade (20% darker) of informational color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$value": "#066570",
+        "$type": "color",
+        "$description": "Dark shade (20% darker) of informational color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#cyan"
+          },
+          "platform": {
+            "scssVariableName": "$cyan-600"
+          }
+        },
         "comment": "$cyan-600"
       },
       "700": {
-        "value": "#055160",
-        "type": "color",
-        "description": "Darker shade (40% darker) of informational color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$value": "#055160",
+        "$type": "color",
+        "$description": "Darker shade (40% darker) of informational color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#cyan"
+          },
+          "platform": {
+            "scssVariableName": "$cyan-700"
+          }
+        },
         "comment": "$cyan-700"
       },
       "800": {
-        "value": "#033a40",
-        "type": "color",
-        "description": "Very dark shade (60% darker) of informational color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$value": "#033a40",
+        "$type": "color",
+        "$description": "Very dark shade (60% darker) of informational color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#cyan"
+          },
+          "platform": {
+            "scssVariableName": "$cyan-800"
+          }
+        },
         "comment": "$cyan-800"
       },
       "900": {
-        "value": "#012320",
-        "type": "color",
-        "description": "Darkest shade (80% darker) of informational color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$value": "#012320",
+        "$type": "color",
+        "$description": "Darkest shade (80% darker) of informational color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#cyan"
+          },
+          "platform": {
+            "scssVariableName": "$cyan-900"
+          }
+        },
         "comment": "$cyan-900"
       },
       "950": {
-        "value": "#012320",
-        "type": "color",
-        "description": "Deep shadows, near-black shade of cyan. Maximum depth and contrast.",
+        "$value": "#012320",
+        "$type": "color",
+        "$description": "Deep shadows, near-black shade of cyan. Maximum depth and contrast.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#cyan"
+          },
+          "platform": {
+            "scssVariableName": "$cyan-900"
+          }
+        },
         "comment": "$cyan-900"
       }
     },
     "gray": {
       "50": {
-        "value": "#fafbfc",
-        "type": "color",
-        "description": "Ultra-light tint of gray. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$value": "#fafbfc",
+        "$type": "color",
+        "$description": "Ultra-light tint of gray. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$gray-50"
+          }
+        },
         "comment": "$gray-50"
       },
       "100": {
-        "value": "#f5f6f7",
-        "type": "color",
-        "description": "Lightest tint (90% lighter) of neutral interface color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$value": "#f5f6f7",
+        "$type": "color",
+        "$description": "Lightest tint (90% lighter) of neutral interface color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$gray-100"
+          }
+        },
         "comment": "$gray-100"
       },
       "200": {
-        "value": "#e8eaed",
-        "type": "color",
-        "description": "Very light tint (75% lighter) of neutral interface color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$value": "#e8eaed",
+        "$type": "color",
+        "$description": "Very light tint (75% lighter) of neutral interface color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$gray-200"
+          }
+        },
         "comment": "$gray-200"
       },
       "300": {
-        "value": "#dfe1e5",
-        "type": "color",
-        "description": "Light tint (60% lighter) of neutral interface color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$value": "#dfe1e5",
+        "$type": "color",
+        "$description": "Light tint (60% lighter) of neutral interface color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$gray-300"
+          }
+        },
         "comment": "$gray-300"
       },
       "400": {
-        "value": "#cbced3",
-        "type": "color",
-        "description": "Medium-light tint (40% lighter) of neutral interface color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$value": "#cbced3",
+        "$type": "color",
+        "$description": "Medium-light tint (40% lighter) of neutral interface color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$gray-400"
+          }
+        },
         "comment": "$gray-400"
       },
       "500": {
-        "value": "#a8adb7",
-        "type": "color",
-        "description": "Base color (reference) of neutral interface color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$value": "#a8adb7",
+        "$type": "color",
+        "$description": "Base color (reference) of neutral interface color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$gray-500"
+          }
+        },
         "comment": "$gray-500"
       },
       "600": {
-        "value": "#7a7f87",
-        "type": "color",
-        "description": "Dark shade (20% darker) of neutral interface color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$value": "#7a7f87",
+        "$type": "color",
+        "$description": "Dark shade (20% darker) of neutral interface color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$gray-600"
+          }
+        },
         "comment": "$gray-600"
       },
       "700": {
-        "value": "#495057",
-        "type": "color",
-        "description": "Darker shade (40% darker) of neutral interface color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$value": "#495057",
+        "$type": "color",
+        "$description": "Darker shade (40% darker) of neutral interface color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$gray-700"
+          }
+        },
         "comment": "$gray-700"
       },
       "800": {
-        "value": "#343a40",
-        "type": "color",
-        "description": "Very dark shade (60% darker) of neutral interface color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$value": "#343a40",
+        "$type": "color",
+        "$description": "Very dark shade (60% darker) of neutral interface color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$gray-800"
+          }
+        },
         "comment": "$gray-800"
       },
       "900": {
-        "value": "#212529",
-        "type": "color",
-        "description": "Darkest shade (80% darker) of neutral interface color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$value": "#212529",
+        "$type": "color",
+        "$description": "Darkest shade (80% darker) of neutral interface color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$gray-900"
+          }
+        },
         "comment": "$gray-900"
       },
       "950": {
-        "value": "#0a0d10",
-        "type": "color",
-        "description": "Deep shadows, near-black shade of gray. Maximum depth and contrast.",
+        "$value": "#0a0d10",
+        "$type": "color",
+        "$description": "Deep shadows, near-black shade of gray. Maximum depth and contrast.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$gray-900"
+          }
+        },
         "comment": "$gray-900"
       }
     }

@@ -1,180 +1,188 @@
 {
   "semantic": {
     "border-color-translucent": {
-      "value": "{colors.neutral.black}",
-      "type": "color",
-      "description": "Translucent border color that blends with backgrounds using rgba().",
+      "$value": "{colors.neutral.black}",
+      "$type": "color",
+      "$description": "Translucent border color that blends with backgrounds using rgba().",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs.5.3/customize/color/"
+        },
+        "platform": {
+          "scssVariableName": "$border-color-translucent"
+        }
+      },
       "comment": "$border-color-translucent"
     },
     "body-color": {
-      "value": "{colors.neutral.gray.900}",
-      "type": "color",
-      "description": "Default body text color. Applied to the <body> element and inherited by all text content unless overridden."
+      "$value": "{colors.neutral.gray.900}",
+      "$type": "color",
+      "$description": "Default body text color. Applied to the <body> element and inherited by all text content unless overridden."
     },
     "body-bg": {
-      "value": "{colors.neutral.white}",
-      "type": "color",
-      "description": "Default body background color. Applied to the <body> element as the base page background."
+      "$value": "{colors.neutral.white}",
+      "$type": "color",
+      "$description": "Default body background color. Applied to the <body> element as the base page background."
     },
     "emphasis-color": {
-      "value": "{colors.neutral.black}",
-      "type": "color",
-      "description": "Emphasis color for higher contrast text. Use for headings or text that needs to stand out."
+      "$value": "{colors.neutral.black}",
+      "$type": "color",
+      "$description": "Emphasis color for higher contrast text. Use for headings or text that needs to stand out."
     },
     "secondary-color": {
-      "value": "{colors.neutral.gray.600}",
-      "type": "color",
-      "description": "Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text."
+      "$value": "{colors.neutral.gray.600}",
+      "$type": "color",
+      "$description": "Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text."
     },
     "secondary-bg": {
-      "value": "{colors.neutral.gray.200}",
-      "type": "color",
-      "description": "Secondary background color. Use for dividers and to indicate disabled component states."
+      "$value": "{colors.neutral.gray.200}",
+      "$type": "color",
+      "$description": "Secondary background color. Use for dividers and to indicate disabled component states."
     },
     "tertiary-color": {
-      "value": "{colors.neutral.gray.500}",
-      "type": "color",
-      "description": "Tertiary text color for even lighter text. Use for less important supporting text."
+      "$value": "{colors.neutral.gray.500}",
+      "$type": "color",
+      "$description": "Tertiary text color for even lighter text. Use for less important supporting text."
     },
     "tertiary-bg": {
-      "value": "{colors.neutral.gray.100}",
-      "type": "color",
-      "description": "Tertiary background color. Use for hover states, accents, and wells."
+      "$value": "{colors.neutral.gray.100}",
+      "$type": "color",
+      "$description": "Tertiary background color. Use for hover states, accents, and wells."
     },
     "link-color": {
-      "value": "{colors.brand.blue.600}",
-      "type": "color",
-      "description": "Default hyperlink color. Used for all <a> elements and interactive text."
+      "$value": "{colors.brand.blue.600}",
+      "$type": "color",
+      "$description": "Default hyperlink color. Used for all <a> elements and interactive text."
     },
     "link-hover-color": {
-      "value": "{colors.brand.blue.700}",
-      "type": "color",
-      "description": "Hyperlink hover color. Applied when user hovers over a link."
+      "$value": "{colors.brand.blue.700}",
+      "$type": "color",
+      "$description": "Hyperlink hover color. Applied when user hovers over a link."
     },
     "border-color": {
-      "value": "{colors.neutral.gray.300}",
-      "type": "color",
-      "description": "Default border color for component borders, dividers, and rules."
+      "$value": "{colors.neutral.gray.300}",
+      "$type": "color",
+      "$description": "Default border color for component borders, dividers, and rules."
     },
     "primary-text-emphasis": {
-      "value": "{colors.brand.blue.700}",
-      "type": "color",
-      "description": "Primary text emphasis color - higher contrast text on light backgrounds."
+      "$value": "{colors.brand.blue.700}",
+      "$type": "color",
+      "$description": "Primary text emphasis color - higher contrast text on light backgrounds."
     },
     "primary-bg-subtle": {
-      "value": "{colors.brand.blue.100}",
-      "type": "color",
-      "description": "Primary subtle background color for non-intrusive backgrounds."
+      "$value": "{colors.brand.blue.100}",
+      "$type": "color",
+      "$description": "Primary subtle background color for non-intrusive backgrounds."
     },
     "primary-border-subtle": {
-      "value": "{colors.brand.blue.200}",
-      "type": "color",
-      "description": "Primary subtle border color for gentle borders matching primary theme."
+      "$value": "{colors.brand.blue.200}",
+      "$type": "color",
+      "$description": "Primary subtle border color for gentle borders matching primary theme."
     },
     "secondary-text-emphasis": {
-      "value": "{colors.neutral.gray.700}",
-      "type": "color",
-      "description": "Secondary theme text emphasis color - higher contrast text on light backgrounds."
+      "$value": "{colors.neutral.gray.700}",
+      "$type": "color",
+      "$description": "Secondary theme text emphasis color - higher contrast text on light backgrounds."
     },
     "secondary-bg-subtle": {
-      "value": "{colors.neutral.gray.100}",
-      "type": "color",
-      "description": "Secondary theme subtle background color for non-intrusive backgrounds."
+      "$value": "{colors.neutral.gray.100}",
+      "$type": "color",
+      "$description": "Secondary theme subtle background color for non-intrusive backgrounds."
     },
     "secondary-border-subtle": {
-      "value": "{colors.neutral.gray.200}",
-      "type": "color",
-      "description": "Secondary theme subtle border color for gentle borders matching secondary theme."
+      "$value": "{colors.neutral.gray.200}",
+      "$type": "color",
+      "$description": "Secondary theme subtle border color for gentle borders matching secondary theme."
     },
     "success-text-emphasis": {
-      "value": "{colors.brand.green.700}",
-      "type": "color",
-      "description": "Success text emphasis color - higher contrast text on light backgrounds."
+      "$value": "{colors.brand.green.700}",
+      "$type": "color",
+      "$description": "Success text emphasis color - higher contrast text on light backgrounds."
     },
     "success-bg-subtle": {
-      "value": "{colors.brand.green.100}",
-      "type": "color",
-      "description": "Success subtle background color for non-intrusive success states."
+      "$value": "{colors.brand.green.100}",
+      "$type": "color",
+      "$description": "Success subtle background color for non-intrusive success states."
     },
     "success-border-subtle": {
-      "value": "{colors.brand.green.200}",
-      "type": "color",
-      "description": "Success subtle border color for gentle borders matching success theme."
+      "$value": "{colors.brand.green.200}",
+      "$type": "color",
+      "$description": "Success subtle border color for gentle borders matching success theme."
     },
     "danger-text-emphasis": {
-      "value": "{colors.brand.red.700}",
-      "type": "color",
-      "description": "Danger text emphasis color - higher contrast text on light backgrounds."
+      "$value": "{colors.brand.red.700}",
+      "$type": "color",
+      "$description": "Danger text emphasis color - higher contrast text on light backgrounds."
     },
     "danger-bg-subtle": {
-      "value": "{colors.brand.red.100}",
-      "type": "color",
-      "description": "Danger subtle background color for non-intrusive error states."
+      "$value": "{colors.brand.red.100}",
+      "$type": "color",
+      "$description": "Danger subtle background color for non-intrusive error states."
     },
     "danger-border-subtle": {
-      "value": "{colors.brand.red.200}",
-      "type": "color",
-      "description": "Danger subtle border color for gentle borders matching danger theme."
+      "$value": "{colors.brand.red.200}",
+      "$type": "color",
+      "$description": "Danger subtle border color for gentle borders matching danger theme."
     },
     "warning-text-emphasis": {
-      "value": "{colors.brand.yellow.700}",
-      "type": "color",
-      "description": "Warning text emphasis color - higher contrast text on light backgrounds."
+      "$value": "{colors.brand.yellow.700}",
+      "$type": "color",
+      "$description": "Warning text emphasis color - higher contrast text on light backgrounds."
     },
     "warning-bg-subtle": {
-      "value": "{colors.brand.yellow.100}",
-      "type": "color",
-      "description": "Warning subtle background color for non-intrusive warning states."
+      "$value": "{colors.brand.yellow.100}",
+      "$type": "color",
+      "$description": "Warning subtle background color for non-intrusive warning states."
     },
     "warning-border-subtle": {
-      "value": "{colors.brand.yellow.200}",
-      "type": "color",
-      "description": "Warning subtle border color for gentle borders matching warning theme."
+      "$value": "{colors.brand.yellow.200}",
+      "$type": "color",
+      "$description": "Warning subtle border color for gentle borders matching warning theme."
     },
     "info-text-emphasis": {
-      "value": "{colors.brand.cyan.700}",
-      "type": "color",
-      "description": "Info text emphasis color - higher contrast text on light backgrounds."
+      "$value": "{colors.brand.cyan.700}",
+      "$type": "color",
+      "$description": "Info text emphasis color - higher contrast text on light backgrounds."
     },
     "info-bg-subtle": {
-      "value": "{colors.brand.cyan.100}",
-      "type": "color",
-      "description": "Info subtle background color for non-intrusive info states."
+      "$value": "{colors.brand.cyan.100}",
+      "$type": "color",
+      "$description": "Info subtle background color for non-intrusive info states."
     },
     "info-border-subtle": {
-      "value": "{colors.brand.cyan.200}",
-      "type": "color",
-      "description": "Info subtle border color for gentle borders matching info theme."
+      "$value": "{colors.brand.cyan.200}",
+      "$type": "color",
+      "$description": "Info subtle border color for gentle borders matching info theme."
     },
     "light-text-emphasis": {
-      "value": "{colors.neutral.gray.700}",
-      "type": "color",
-      "description": "Light text emphasis color - provides contrast on light themed components."
+      "$value": "{colors.neutral.gray.700}",
+      "$type": "color",
+      "$description": "Light text emphasis color - provides contrast on light themed components."
     },
     "light-bg-subtle": {
-      "value": "{colors.neutral.gray.100}",
-      "type": "color",
-      "description": "Light subtle background color for subtle backgrounds."
+      "$value": "{colors.neutral.gray.100}",
+      "$type": "color",
+      "$description": "Light subtle background color for subtle backgrounds."
     },
     "light-border-subtle": {
-      "value": "{colors.neutral.gray.200}",
-      "type": "color",
-      "description": "Light subtle border color for gentle borders matching light theme."
+      "$value": "{colors.neutral.gray.200}",
+      "$type": "color",
+      "$description": "Light subtle border color for gentle borders matching light theme."
     },
     "dark-text-emphasis": {
-      "value": "{colors.neutral.gray.900}",
-      "type": "color",
-      "description": "Dark text emphasis color - highest contrast text on light backgrounds."
+      "$value": "{colors.neutral.gray.900}",
+      "$type": "color",
+      "$description": "Dark text emphasis color - highest contrast text on light backgrounds."
     },
     "dark-bg-subtle": {
-      "value": "{colors.neutral.gray.400}",
-      "type": "color",
-      "description": "Dark subtle background color for darker backgrounds."
+      "$value": "{colors.neutral.gray.400}",
+      "$type": "color",
+      "$description": "Dark subtle background color for darker backgrounds."
     },
     "dark-border-subtle": {
-      "value": "{colors.neutral.gray.500}",
-      "type": "color",
-      "description": "Dark subtle border color for borders matching dark theme."
+      "$value": "{colors.neutral.gray.500}",
+      "$type": "color",
+      "$description": "Dark subtle border color for borders matching dark theme."
     }
   }
 }

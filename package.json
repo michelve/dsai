@@ -20,6 +20,10 @@
     "tokens:build": "pnpm tokens:transform && pnpm tokens:validate"
   },
   "private": true,
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=8.0.0"
+  },
   "devDependencies": {
     "@nx/eslint": "^22.0.2",
     "@nx/js": "22.0.2",

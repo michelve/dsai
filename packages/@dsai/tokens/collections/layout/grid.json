@@ -2,54 +2,147 @@
   "layout": {
     "grid": {
       "columns": {
-        "value": "12px",
-        "type": "dimension",
-        "description": "Number of columns in Bootstrap's grid system (12). Provides flexible layout options with divisible column counts.",
+        "$value": "12px",
+        "$type": "dimension",
+        "$description": "Number of columns in Bootstrap's grid system (12). Provides flexible layout options with divisible column counts.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/layout/grid/#sass-variables"
+          },
+          "platform": {
+            "scssVariableName": "$grid-columns",
+            "cssClass": ".row > .col-*",
+            "lightMode": "true",
+            "darkMode": "true"
+          }
+        },
         "comment": "$grid-columns"
       },
       "gutter-width": {
-        "value": "24px",
-        "type": "dimension",
-        "description": "Default gutter width between grid columns (1.5rem = 24px). Horizontal padding creating space between columns.",
+        "$value": "24px",
+        "$type": "dimension",
+        "$description": "Default gutter width between grid columns (1.5rem = 24px). Horizontal padding creating space between columns.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/layout/grid/#sass-variables"
+          },
+          "platform": {
+            "scssVariableName": "$grid-gutter-width",
+            "cssClass": ".row",
+            "lightMode": "true",
+            "darkMode": "true"
+          }
+        },
         "comment": "$grid-gutter-width"
       },
       "row-columns": {
-        "value": "6px",
-        "type": "dimension",
-        "description": "Maximum number of columns for .row-cols-* classes (6). Sets the limit for auto-layout row columns.",
+        "$value": "6px",
+        "$type": "dimension",
+        "$description": "Maximum number of columns for .row-cols-* classes (6). Sets the limit for auto-layout row columns.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/layout/grid/#row-columns"
+          },
+          "platform": {
+            "scssVariableName": "$grid-row-columns",
+            "cssClass": ".row-cols-*",
+            "lightMode": "true",
+            "darkMode": "true"
+          }
+        },
         "comment": "$grid-row-columns"
       }
     },
     "gutters": {
       "0": {
-        "value": "0px",
-        "type": "dimension",
-        "description": "No gutter spacing (0). Removes all spacing between columns with .g-0 class."
+        "$value": "0px",
+        "$type": "dimension",
+        "$description": "No gutter spacing (0). Removes all spacing between columns with .g-0 class.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/layout/gutters/"
+          },
+          "platform": {
+            "cssClass": ".g-0, .gx-0, .gy-0",
+            "lightMode": "true",
+            "darkMode": "true"
+          }
+        }
       },
       "1": {
-        "value": "4px",
-        "type": "dimension",
-        "description": "Extra small gutter spacing (0.25rem = 4px). Minimal spacing for tightly packed layouts."
+        "$value": "4px",
+        "$type": "dimension",
+        "$description": "Extra small gutter spacing (0.25rem = 4px). Minimal spacing for tightly packed layouts.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/layout/gutters/"
+          },
+          "platform": {
+            "cssClass": ".g-1, .gx-1, .gy-1",
+            "lightMode": "true",
+            "darkMode": "true"
+          }
+        }
       },
       "2": {
-        "value": "8px",
-        "type": "dimension",
-        "description": "Small gutter spacing (0.5rem = 8px). Compact spacing between columns."
+        "$value": "8px",
+        "$type": "dimension",
+        "$description": "Small gutter spacing (0.5rem = 8px). Compact spacing between columns.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/layout/gutters/"
+          },
+          "platform": {
+            "cssClass": ".g-2, .gx-2, .gy-2",
+            "lightMode": "true",
+            "darkMode": "true"
+          }
+        }
       },
       "3": {
-        "value": "16px",
-        "type": "dimension",
-        "description": "Medium gutter spacing (1rem = 16px). Standard spacing for moderate column separation."
+        "$value": "16px",
+        "$type": "dimension",
+        "$description": "Medium gutter spacing (1rem = 16px). Standard spacing for moderate column separation.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/layout/gutters/"
+          },
+          "platform": {
+            "cssClass": ".g-3, .gx-3, .gy-3",
+            "lightMode": "true",
+            "darkMode": "true"
+          }
+        }
       },
       "4": {
-        "value": "24px",
-        "type": "dimension",
-        "description": "Default gutter spacing (1.5rem = 24px). Bootstrap's standard gutter width matching $grid-gutter-width."
+        "$value": "24px",
+        "$type": "dimension",
+        "$description": "Default gutter spacing (1.5rem = 24px). Bootstrap's standard gutter width matching $grid-gutter-width.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/layout/gutters/"
+          },
+          "platform": {
+            "cssClass": ".g-4, .gx-4, .gy-4",
+            "lightMode": "true",
+            "darkMode": "true"
+          }
+        }
       },
       "5": {
-        "value": "48px",
-        "type": "dimension",
-        "description": "Large gutter spacing (3rem = 48px). Wide spacing for prominent column separation."
+        "$value": "48px",
+        "$type": "dimension",
+        "$description": "Large gutter spacing (3rem = 48px). Wide spacing for prominent column separation.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/layout/gutters/"
+          },
+          "platform": {
+            "cssClass": ".g-5, .gx-5, .gy-5",
+            "lightMode": "true",
+            "darkMode": "true"
+          }
+        }
       }
     }
   }

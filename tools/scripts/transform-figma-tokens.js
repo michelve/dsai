@@ -64,7 +64,14 @@ const COLLECTIONS = {
 };
 
 /**
- * Transform a single token from Figma format to Style Dictionary format
+ * Transform a single token from Figma format to DTCG-compliant format
+ * 
+ * DTCG (Design Tokens Community Group) W3C Standard Format:
+ * - Uses $ prefix for all special properties ($value, $type, $description, $extensions)
+ * - Preserves all metadata from Figma exports
+ * - Maintains interoperability with DTCG-compliant tools
+ * 
+ * @see https://www.designtokens.org/
  */
 function transformToken(figmaToken, options = {}) {
   if (!figmaToken || typeof figmaToken !== 'object') {
@@ -76,17 +83,23 @@ function transformToken(figmaToken, options = {}) {
     return null;
   }
 
+  // DTCG Format: Keep $ prefix for all properties
   const token = {
-    value: transformValue(figmaToken.$value, figmaToken.$type, options),
-    type: transformType(figmaToken.$type),
+    $value: transformValue(figmaToken.$value, figmaToken.$type, options),
+    $type: transformType(figmaToken.$type),
   };
 
-  // Add description if present
+  // Add description if present (DTCG property)
   if (figmaToken.$description) {
-    token.description = figmaToken.$description;
+    token.$description = figmaToken.$description;
   }
 
-  // Extract comment from extensions
+  // Preserve extensions (DTCG property) - keeps all metadata
+  if (figmaToken.$extensions) {
+    token.$extensions = figmaToken.$extensions;
+  }
+
+  // Also add comment for backward compatibility with Style Dictionary v3
   if (figmaToken.$extensions?.platform?.scssVariableName) {
     token.comment = figmaToken.$extensions.platform.scssVariableName;
   }
@@ -121,7 +134,10 @@ function transformValue(value, type, options = {}) {
 }
 
 /**
- * Transform type from Figma to Style Dictionary
+ * Transform type from Figma to DTCG standard
+ * 
+ * DTCG types: color, dimension, fontFamily, fontWeight, duration, cubicBezier, number, string
+ * @see https://www.designtokens.org/format/types/
  */
 function transformType(figmaType) {
   const typeMap = {
