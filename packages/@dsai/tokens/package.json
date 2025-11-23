@@ -41,13 +41,13 @@
     "dtcg",
     "w3c"
   ],
-  "license": "MIT",
+  "license": "UNLICENSED",
   "engines": {
     "node": ">=22.0.0",
     "pnpm": ">=8.0.0"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "restricted"
   },
   "devDependencies": {
     "style-dictionary": "^5.1.1"

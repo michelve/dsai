@@ -31,7 +31,7 @@
   "dependencies": {
     "@dsai/tokens": "workspace:*"
   },
-  "license": "MIT",
+  "license": "UNLICENSED",
   "publishConfig": {
     "access": "public"
   }

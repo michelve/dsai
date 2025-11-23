@@ -24,7 +24,7 @@
     "@dsai/react": "workspace:*",
     "@dsai/tokens": "workspace:*"
   },
-  "license": "MIT",
+  "license": "UNLICENSED",
   "devDependencies": {
     "@storybook/addon-a11y": "^10.0.8",
     "@storybook/addon-docs": "10.0.8",

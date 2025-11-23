@@ -18,5 +18,5 @@
     "@dsai/react": "workspace:*",
     "@dsai/tokens": "workspace:*"
   },
-  "license": "MIT"
+  "license": "UNLICENSED"
 }
