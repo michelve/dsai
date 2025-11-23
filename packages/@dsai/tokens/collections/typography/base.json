@@ -798,7 +798,7 @@
     },
     "fontFamily": {
       "base": {
-        "$value": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", \"Noto Sans\", \"Liberation Sans\", Arial, sans-serif",
+        "$value": "Inter, system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", \"Noto Sans\", \"Liberation Sans\", Arial, sans-serif",
         "$type": "fontFamily",
         "$description": "Primary font family for Figma (single font name). Full Bootstrap stack: system-ui, -apple-system, Segoe UI, Roboto, etc.",
         "$extensions": {
@@ -814,7 +814,7 @@
         "comment": "$font-family-base"
       },
       "monospace": {
-        "$value": "SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "$value": "Roboto Mono, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace",
         "$type": "fontFamily",
         "$description": "Monospace font for code (single font name). Full Bootstrap stack: SFMono-Regular, Menlo, Monaco, Consolas, etc.",
         "$extensions": {

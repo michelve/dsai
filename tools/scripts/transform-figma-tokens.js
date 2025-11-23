@@ -111,9 +111,20 @@ function transformToken(figmaToken, options = {}) {
  * Transform value based on type
  */
 function transformValue(value, type, options = {}) {
-  // Handle font family special case - use font stack from extensions
+  // Handle font family special case - prepend font name to font stack
   if (type === 'string' && options.fontStack) {
-    return options.fontStack;
+    // Prepend the actual font name (from Figma) to the fallback stack
+    // e.g., "Inter" + system font stack = "Inter, system-ui, -apple-system, ..."
+    const fontName = value; // Original font name from Figma
+    const stack = options.fontStack;
+
+    // Check if font name is already in the stack (avoid duplicates)
+    if (stack.toLowerCase().includes(fontName.toLowerCase())) {
+      return stack;
+    }
+
+    // Prepend font name to stack
+    return `${fontName}, ${stack}`;
   }
 
   // Handle numbers that should be dimensions
