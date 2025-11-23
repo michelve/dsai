@@ -7,6 +7,7 @@
     "build": {
       "executor": "nx:run-commands",
       "outputs": ["{projectRoot}/dist"],
+      "dependsOn": ["^build"],
       "options": {
         "command": "tsup",
         "cwd": "packages/@dsai/react"

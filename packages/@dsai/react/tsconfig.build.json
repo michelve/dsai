@@ -1,6 +1,9 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "paths": {}
+    "paths": {
+      "@dsai/tokens": ["../tokens/src"],
+      "@dsai/tokens/*": ["../tokens/src/*"]
+    }
   }
 }
