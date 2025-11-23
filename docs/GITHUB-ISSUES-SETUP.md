@@ -7,6 +7,7 @@ This guide shows you how to automatically create GitHub Issues from your DSAi ta
 ## 🎯 What This Does
 
 Automatically converts all your markdown task files (58 tasks) into GitHub Issues with:
+
 - ✅ Proper titles and labels
 - ✅ Priority assignments
 - ✅ Milestone grouping (Phase 0, Phase 1, etc.)
@@ -25,7 +26,7 @@ Edit `tools/scripts/export-tasks-to-github-csv.js` (line 24):
 repository: 'michelve/dsai', // ⬅️ Change this to YOUR_USERNAME/YOUR_REPO
 ```
 
-Change to your actual GitHub repository (e.g., `yourusername/dsai`).
+Change to your actual GitHub repository (e.g., `michelve/dsai`).
 
 ### Step 2: Update GitHub Username for Assignees
 
@@ -79,15 +80,15 @@ You'll see a preview of all issues that will be created. If it looks good:
 
 Your 58 tasks will become GitHub Issues (excluding 5 completed tasks):
 
-| Phase | Issues | Priority |
-|-------|--------|----------|
-| **Phase 0: Foundation** | 5 issues | Critical → Urgent |
-| **Phase 1: Tokens** | 10 issues | High |
-| **Phase 2A: Simple Components** | 7 issues | High |
-| **Phase 2B: Medium Components** | 9 issues | High |
-| **Phase 2C: Complex Components** | 9 issues | High |
-| **Phase 3: Figma Integration** | 5 issues | Medium |
-| **Phase 4: Polish & Release** | 6 issues | High |
+| Phase                            | Issues    | Priority          |
+| -------------------------------- | --------- | ----------------- |
+| **Phase 0: Foundation**          | 5 issues  | Critical → Urgent |
+| **Phase 1: Tokens**              | 10 issues | High              |
+| **Phase 2A: Simple Components**  | 7 issues  | High              |
+| **Phase 2B: Medium Components**  | 9 issues  | High              |
+| **Phase 2C: Complex Components** | 9 issues  | High              |
+| **Phase 3: Figma Integration**   | 5 issues  | Medium            |
+| **Phase 4: Polish & Release**    | 6 issues  | High              |
 
 ### Labels Automatically Added
 
@@ -103,6 +104,7 @@ Each issue gets appropriate labels:
 ### Milestones
 
 Issues are grouped into milestones:
+
 - Phase 0
 - Phase 1
 - Phase 2A
@@ -144,6 +146,7 @@ The issue body template is at `config/template.md.mustache`.
 ### Available Variables:
 
 You can use these in your template:
+
 - `{{task_id}}` - Task ID (TASK-007)
 - `{{title}}` - Task title
 - `{{priority}}` - Priority level
@@ -175,9 +178,8 @@ Edit `tools/scripts/export-tasks-to-github-csv.js` (line 137):
 
 ```javascript
 // Filter out completed tasks and Phase 4 (example)
-const tasks = allTasks.filter(task => 
-  !task.labels.includes('completed') &&
-  !task.milestone.includes('Phase 4')
+const tasks = allTasks.filter(
+  (task) => !task.labels.includes('completed') && !task.milestone.includes('Phase 4')
 );
 ```
 
@@ -185,9 +187,7 @@ const tasks = allTasks.filter(task =>
 
 ```javascript
 // Only Phase 0 tasks
-const tasks = allTasks.filter(task => 
-  task.milestone === 'Phase 0'
-);
+const tasks = allTasks.filter((task) => task.milestone === 'Phase 0');
 ```
 
 ### Change Repository Per Task
@@ -228,7 +228,7 @@ Would create issue in michelve/dsai:
   Labels: critical, phase-0, designer
   Milestone: Phase 0
   Assignee: (none)
-  
+
 Would create issue in michelve/dsai:
   Title: Design JSON Token Structure
   Labels: high-priority, design-tokens
@@ -263,10 +263,12 @@ After running with `write: true`, verify:
 If you modify task files and want to update issues:
 
 ### Option 1: Close Old, Create New
+
 1. Close all existing issues
 2. Run the workflow again
 
 ### Option 2: Manual Updates
+
 - Update issues manually in GitHub
 - Or use GitHub CLI: `gh issue edit`
 
@@ -282,7 +284,7 @@ Edit the workflow to add:
   with:
     write: ${{ github.event.inputs.write }}
     github_token: ${{ secrets.GITHUB_TOKEN }}
-    comment: true  # ⬅️ Add this to post comments instead
+    comment: true # ⬅️ Add this to post comments instead
 ```
 
 Then add an `issue_number` column to your CSV.
@@ -328,7 +330,8 @@ Or remove the milestone column from CSV.
 
 ### Issue: "CSV format error"
 
-**Solution:** 
+**Solution:**
+
 1. Open `config/data.csv` in Excel/Google Sheets
 2. Check for special characters or broken quotes
 3. Re-run: `node tools/scripts/export-tasks-to-github-csv.js`
@@ -419,9 +422,7 @@ Import one phase at a time:
 
 ```javascript
 // In export script, filter by phase
-const tasks = allTasks.filter(task => 
-  task.milestone === 'Phase 0'
-);
+const tasks = allTasks.filter((task) => task.milestone === 'Phase 0');
 ```
 
 Create Phase 0 issues, verify, then do Phase 1, etc.
@@ -460,6 +461,7 @@ gh issue close 1 2 3
 After successful setup and running the workflow with `write: true`:
 
 ✅ **53 GitHub Issues created** with:
+
 - Proper titles from task files
 - Labels (critical, high-priority, component, etc.)
 - Milestones (Phase 0-4)
@@ -478,18 +480,21 @@ After successful setup and running the workflow with `write: true`:
 Both work! Here's when to use each:
 
 **Use GitHub Issues if:**
+
 - ✅ Want everything in one place (code + issues)
 - ✅ Already use GitHub Projects
 - ✅ Free for private repos
 - ✅ Simple setup (this guide!)
 
 **Use Linear if:**
+
 - ✅ Want better UI/UX
 - ✅ Need advanced project management
 - ✅ Want keyboard shortcuts
 - ✅ Prefer Linear's workflow
 
 **Why not both?**
+
 - Use GitHub for development tracking
 - Use Linear for planning/design work
 - Keep them in sync with integrations
@@ -499,4 +504,3 @@ Both work! Here's when to use each:
 **Questions?** Check [bulk-issue-creator docs](https://github.com/benbalter/bulk-issue-creator) or review this project's task files for examples.
 
 **Ready to create issues?** Follow the 5 steps above! 🚀
-
