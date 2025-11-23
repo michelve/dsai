@@ -3,8 +3,8 @@
  * Base styling for Storybook stories
  */
 
-/* Apply design system fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+/* Apply design system fonts - loaded via preview-head.html for better performance */
+/* Fonts: Inter (base), Roboto Mono (code) */
 
 body {
   font-family:
