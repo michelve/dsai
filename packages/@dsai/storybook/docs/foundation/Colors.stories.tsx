@@ -11,6 +11,16 @@ const meta: Meta = {
           'DSAi color system with 121 primitive colors (11 hues × 11 steps) and 88 semantic colors for consistent theming.',
       },
     },
+    // Enable background testing for color contrast verification
+    backgrounds: {
+      default: 'light',
+      values: [
+        { name: 'light', value: '#ffffff' },
+        { name: 'dark', value: '#1a1a1a' },
+        { name: 'gray', value: '#f5f5f5' },
+        { name: 'brand', value: '#00b8a9' },
+      ],
+    },
   },
 };
 

@@ -14,7 +14,13 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
-  docs: {},
+  docs: {
+    defaultName: 'Documentation',
+  },
+  core: {
+    disableTelemetry: true, // Disable anonymous usage tracking
+  },
+  staticDirs: ['../public'], // Serve static assets like logo
 
   // Vite configuration for monorepo setup
   viteFinal: async (config, { configType }) => {

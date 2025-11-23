@@ -10,6 +10,19 @@ const meta: Meta = {
           'Typography system with font families, sizes, weights, and line heights for consistent text styling.',
       },
     },
+    // Enable background testing for readability verification
+    backgrounds: {
+      default: 'light',
+      values: [
+        { name: 'light', value: '#ffffff' },
+        { name: 'dark', value: '#1a1a1a' },
+        { name: 'gray', value: '#f5f5f5' },
+      ],
+    },
+    // Enable viewport testing for responsive typography
+    viewport: {
+      defaultViewport: 'responsive',
+    },
   },
 };
 

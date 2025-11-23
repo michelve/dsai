@@ -1,10 +1,14 @@
 import type { Preview } from '@storybook/react-vite';
+import DSAiTheme from './DSAiTheme';
 
 // Import design tokens CSS - use relative path for reliability
 import '../../../@dsai/tokens/dist/css/variables.css';
 import './preview.css';
 
 const preview: Preview = {
+  // Enable automatic documentation for all stories
+  tags: ['autodocs'],
+
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
@@ -16,6 +20,7 @@ const preview: Preview = {
       sort: 'requiredFirst',
     },
     docs: {
+      theme: DSAiTheme,
       toc: {
         title: 'Table of Contents',
       },
