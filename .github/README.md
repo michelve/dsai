@@ -15,6 +15,7 @@ This directory contains GitHub Actions workflows for automated testing, building
 ### 1. `ci.yml` - Continuous Integration
 
 **Triggers**:
+
 - Push to `main` or `develop` branches
 - Pull requests to `main` or `develop` branches
 - Manual trigger via `workflow_dispatch`
@@ -22,36 +23,43 @@ This directory contains GitHub Actions workflows for automated testing, building
 **Jobs**:
 
 #### Setup (Job 1)
+
 - Installs Node.js v25
 - Sets up pnpm v10
 - Caches dependencies
 - Installs packages
 
 #### Lint (Job 2)
+
 - Runs ESLint on all code
 - Checks code style and quality
 
 #### Test (Job 3)
+
 - Runs Jest tests with coverage
 - Uploads coverage to Codecov
 
 #### Validate Tokens (Job 4)
+
 - Transforms Figma exports to DTCG format
 - Validates 100% match rate between source and output
 - Checks for undefined values in outputs
 - Ensures DTCG compliance
 
 #### Build (Job 5)
+
 - Builds all packages in monorepo
 - Verifies build outputs
 - Uploads artifacts
 
 #### Build Storybook (Job 6)
+
 - Only runs on `main` branch
 - Builds Storybook static site
 - Uploads for deployment
 
 #### CI Summary (Job 7)
+
 - Generates summary of all jobs
 - Shows Node.js and pnpm versions
 - Reports success/failure status
@@ -61,12 +69,14 @@ This directory contains GitHub Actions workflows for automated testing, building
 ### 2. `publish-tokens.yml` - Package Publishing
 
 **Triggers**:
+
 - Push of version tags (e.g., `v0.1.0`)
 - Manual trigger with version input
 
 **Jobs**:
 
 #### Publish
+
 - Validates all design tokens
 - Builds @dsai/tokens package
 - Verifies outputs (no undefined values)
@@ -74,6 +84,7 @@ This directory contains GitHub Actions workflows for automated testing, building
 - Creates GitHub release with assets
 
 **Requirements**:
+
 - `NPM_TOKEN` secret must be configured in repository settings
 - Package version must be updated in `package.json`
 
@@ -82,17 +93,20 @@ This directory contains GitHub Actions workflows for automated testing, building
 ## Environment Variables
 
 ### Global
+
 ```yaml
-NODE_VERSION: '25'    # Node.js v25 for optimal performance
-PNPM_VERSION: '10'    # Latest stable pnpm
+NODE_VERSION: '25' # Node.js v25 for optimal performance
+PNPM_VERSION: '10' # Latest stable pnpm
 ```
 
 ### Secrets Required
 
 #### For Publishing
+
 - `NPM_TOKEN` - npm authentication token for publishing packages
 
 #### For Coverage (Optional)
+
 - `CODECOV_TOKEN` - Codecov.io token for coverage reports
 
 ---
@@ -100,12 +114,14 @@ PNPM_VERSION: '10'    # Latest stable pnpm
 ## Caching Strategy
 
 ### pnpm Store Cache
+
 - **Key**: `${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}`
 - **Path**: pnpm store directory
 - **Restore Keys**: OS + pnpm-store prefix
 - **Benefit**: Faster dependency installation
 
 ### Nx Cache
+
 - **Key**: OS + Nx + lockfile + source files
 - **Path**: `.nx/cache`
 - **Restore Keys**: Progressive fallback
@@ -158,6 +174,7 @@ pnpm build
 ### Manual Publishing
 
 Use the GitHub UI:
+
 1. Go to **Actions** → **Publish Tokens Package**
 2. Click **Run workflow**
 3. Enter version number
@@ -189,10 +206,12 @@ Our CI/CD uses **Node.js v25** (latest) for:
 ### Compatibility
 
 ✅ **Exceeds Requirements**:
+
 - Style Dictionary v5: requires Node.js ≥22.0.0
 - Current: Node.js v25.2.1
 
 ✅ **Future-Proof**:
+
 - Latest Node.js features
 - Long-term compatibility
 
@@ -213,7 +232,8 @@ Our CI/CD uses **Node.js v25** (latest) for:
 ### Token Validation Fails
 
 **Issue**: Match rate < 100% or undefined values found  
-**Solution**: 
+**Solution**:
+
 1. Check Figma exports in `packages/@dsai/tokens/figma-exports/`
 2. Run validation locally: `pnpm tokens:validate:all`
 3. Review transformation script for errors
@@ -222,6 +242,7 @@ Our CI/CD uses **Node.js v25** (latest) for:
 
 **Issue**: `NPM_TOKEN` not configured  
 **Solution**: Add npm token to repository secrets:
+
 1. Generate token at https://www.npmjs.com/settings/tokens
 2. Add as `NPM_TOKEN` in GitHub Settings → Secrets → Actions
 
@@ -231,15 +252,15 @@ Our CI/CD uses **Node.js v25** (latest) for:
 
 ### Typical CI Times (Node.js v25)
 
-| Job | Duration | Notes |
-|-----|----------|-------|
-| Setup | 1-2 min | With cache: 30s |
-| Lint | 1-2 min | ESLint all files |
-| Test | 2-4 min | With coverage |
-| Validate Tokens | 1-2 min | 538 tokens |
-| Build | 3-5 min | All packages |
-| Build Storybook | 2-4 min | Main branch only |
-| **Total** | **~10-15 min** | Full pipeline |
+| Job             | Duration       | Notes            |
+| --------------- | -------------- | ---------------- |
+| Setup           | 1-2 min        | With cache: 30s  |
+| Lint            | 1-2 min        | ESLint all files |
+| Test            | 2-4 min        | With coverage    |
+| Validate Tokens | 1-2 min        | 538 tokens       |
+| Build           | 3-5 min        | All packages     |
+| Build Storybook | 2-4 min        | Main branch only |
+| **Total**       | **~10-15 min** | Full pipeline    |
 
 ### With Cache Hit
 
@@ -252,9 +273,11 @@ Our CI/CD uses **Node.js v25** (latest) for:
 ## Best Practices
 
 ### 1. Keep pnpm-lock.yaml Updated
+
 Always commit `pnpm-lock.yaml` changes to ensure consistent dependencies across environments.
 
 ### 2. Use Nx Affected Commands
+
 For large monorepos, consider using Nx affected commands to only build/test changed packages:
 
 ```yaml
@@ -263,12 +286,15 @@ For large monorepos, consider using Nx affected commands to only build/test chan
 ```
 
 ### 3. Cache Strategy
+
 Our caching reduces CI time by ~40%. Keep cache keys updated with lockfile hashes.
 
 ### 4. Parallel Jobs
+
 Jobs run in parallel where possible (lint, test, validate-tokens) for faster feedback.
 
 ### 5. Artifact Retention
+
 Build artifacts retained for 7 days, Storybook for 30 days. Adjust as needed.
 
 ---
@@ -291,6 +317,7 @@ Add to README.md:
 ### Notifications
 
 Configure notifications in repository settings:
+
 - **Settings** → **Notifications** → **Actions**
 - Choose email or Slack integration
 
@@ -306,15 +333,16 @@ Consider enabling Dependabot for automatic dependency updates:
 # .github/dependabot.yml
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
 ```
 
 ### CodeQL
 
 Enable CodeQL for security scanning:
+
 - **Settings** → **Security** → **Code scanning**
 - Enable CodeQL analysis
 
@@ -332,4 +360,3 @@ Enable CodeQL for security scanning:
 **Last Updated**: November 23, 2025  
 **Node.js Version**: v25.2.1  
 **Status**: ✅ Production Ready
-

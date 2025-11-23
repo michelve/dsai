@@ -129,13 +129,13 @@ function isFigmaToken(obj) {
  */
 function isStyleDictionaryToken(obj) {
   if (!obj || typeof obj !== 'object') return false;
-  
+
   // Check for DTCG format ($value, $type)
   const isDTCG = obj.hasOwnProperty('$value') && obj.hasOwnProperty('$type');
-  
+
   // Check for legacy format (value, type)
   const isLegacy = obj.hasOwnProperty('value') && obj.hasOwnProperty('type');
-  
+
   return isDTCG || isLegacy;
 }
 
@@ -285,14 +285,14 @@ function validateExportFilesExist() {
  */
 function validateTokenTree(obj, pathArray = [], parentFile = '', validationType = 'figma') {
   const tokenCheck = validationType === 'figma' ? isFigmaToken : isStyleDictionaryToken;
-  
+
   // For Figma tokens, always use $ prefix
   // For output tokens, check for DTCG ($value) first, then legacy (value)
   const getValueKey = (token) => {
     if (validationType === 'figma') return '$value';
     return token.hasOwnProperty('$value') ? '$value' : 'value';
   };
-  
+
   const getTypeKey = (token) => {
     if (validationType === 'figma') return '$type';
     return token.hasOwnProperty('$type') ? '$type' : 'type';
@@ -308,7 +308,7 @@ function validateTokenTree(obj, pathArray = [], parentFile = '', validationType 
     if (tokenCheck(value)) {
       // This is a token - validate it
       tokenCount++;
-      
+
       const valueKey = getValueKey(value);
       const typeKey = getTypeKey(value);
 

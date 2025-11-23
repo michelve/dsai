@@ -65,12 +65,12 @@ const COLLECTIONS = {
 
 /**
  * Transform a single token from Figma format to DTCG-compliant format
- * 
+ *
  * DTCG (Design Tokens Community Group) W3C Standard Format:
  * - Uses $ prefix for all special properties ($value, $type, $description, $extensions)
  * - Preserves all metadata from Figma exports
  * - Maintains interoperability with DTCG-compliant tools
- * 
+ *
  * @see https://www.designtokens.org/
  */
 function transformToken(figmaToken, options = {}) {
@@ -135,7 +135,7 @@ function transformValue(value, type, options = {}) {
 
 /**
  * Transform type from Figma to DTCG standard
- * 
+ *
  * DTCG types: color, dimension, fontFamily, fontWeight, duration, cubicBezier, number, string
  * @see https://www.designtokens.org/format/types/
  */

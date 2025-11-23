@@ -92,18 +92,16 @@ function validateToken(tokenPath, token) {
 
   // Check if value is a Style Dictionary/DTCG reference (e.g., {colors.brand.blue.500})
   const isReference =
-    typeof token[valueKey] === 'string' && 
-    token[valueKey].startsWith('{') && 
+    typeof token[valueKey] === 'string' &&
+    token[valueKey].startsWith('{') &&
     token[valueKey].endsWith('}');
 
   // Validate dimension units
-  if (
-    token[typeKey] === 'dimension' &&
-    typeof token[valueKey] === 'string' &&
-    !isReference
-  ) {
+  if (token[typeKey] === 'dimension' && typeof token[valueKey] === 'string' && !isReference) {
     if (!token[valueKey].match(/^-?\d+(\.\d+)?(px|rem|em|%|vh|vw|vmin|vmax)?$/)) {
-      warnings.push(`⚠️  ${tokenPath}: Dimension value "${token[valueKey]}" may have invalid format`);
+      warnings.push(
+        `⚠️  ${tokenPath}: Dimension value "${token[valueKey]}" may have invalid format`
+      );
     }
   }
 
@@ -126,7 +124,7 @@ function validateTokenTree(obj, parentPath = '') {
       // Check if this is a token (DTCG: $value & $type, Legacy: value & type)
       const isDTCGToken = value.hasOwnProperty('$value') && value.hasOwnProperty('$type');
       const isLegacyToken = value.hasOwnProperty('value') && value.hasOwnProperty('type');
-      
+
       if (isDTCGToken || isLegacyToken) {
         validateToken(currentPath, value);
       } else {
