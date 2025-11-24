@@ -1,0 +1,318 @@
+<Meta title="Foundation/CSS Variables" />
+
+# CSS Variables Reference
+
+DSAi design tokens are available as CSS custom properties (CSS variables) for use in your stylesheets.
+
+## Import
+
+```tsx
+// Import CSS variables
+import '@dsai/tokens/dist/css/variables.css';
+
+// Or use the full Bootstrap theme (recommended)
+import '@dsai/tokens/dist/css/bootstrap.css';
+```
+
+## Naming Convention
+
+All CSS variables follow the pattern:
+
+```
+--dsai-{category}-{subcategory}-{property}
+```
+
+**Examples:**
+- `--dsai-color-blue-500` - Primitive color
+- `--dsai-spacing-4` - Spacing value
+- `--dsai-typography-font-size-lg` - Typography property
+- `--dsai-border-radius-md` - Border radius
+
+---
+
+## Color Variables
+
+### Primitive Colors
+
+Full color palette with 11 shades (50-950) for each color:
+
+```css
+/* Blue scale */
+--dsai-color-blue-50: #ebf3fc;
+--dsai-color-blue-100: #d7e6f9;
+--dsai-color-blue-200: #aeccf3;
+--dsai-color-blue-300: #86b3ed;
+--dsai-color-blue-400: #5d99e7;
+--dsai-color-blue-500: #0a58ca;  /* Base */
+--dsai-color-blue-600: #084298;
+--dsai-color-blue-700: #063166;
+--dsai-color-blue-800: #042144;
+--dsai-color-blue-900: #021022;
+--dsai-color-blue-950: #010811;
+
+/* Available color scales: */
+/* blue, indigo, purple, pink, red, orange, yellow, green, teal, cyan */
+```
+
+### Neutral Colors (Gray)
+
+```css
+--dsai-neutral-gray-50: #f8f9fa;
+--dsai-neutral-gray-100: #e9ecef;
+--dsai-neutral-gray-200: #dee2e6;
+--dsai-neutral-gray-300: #ced4da;
+--dsai-neutral-gray-400: #adb5bd;
+--dsai-neutral-gray-500: #6c757d;  /* Base */
+--dsai-neutral-gray-600: #495057;
+--dsai-neutral-gray-700: #343a40;
+--dsai-neutral-gray-800: #212529;
+--dsai-neutral-gray-900: #181c20;
+--dsai-neutral-gray-950: #0f1113;
+```
+
+### Semantic Colors
+
+```css
+/* Theme colors */
+--dsai-theme-primary: #0d6efd;
+--dsai-theme-secondary: #6c757d;
+--dsai-theme-success: #198754;
+--dsai-theme-danger: #dc3545;
+--dsai-theme-warning: #ffc107;
+--dsai-theme-info: #0dcaf0;
+--dsai-theme-light: #f8f9fa;
+--dsai-theme-dark: #212529;
+
+/* Semantic link colors */
+--dsai-semantic-link-color: #0d6efd;
+--dsai-semantic-link-hover-color: #0a58ca;
+```
+
+### Background Colors
+
+```css
+--dsai-background-white: #ffffff;
+--dsai-background-black: #000000;
+--dsai-background-body: #ffffff;
+--dsai-background-body-secondary: #e9ecef;
+--dsai-background-body-tertiary: #f8f9fa;
+```
+
+---
+
+## Typography Variables
+
+### Font Families
+
+```css
+--dsai-typography-font-family-base: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+--dsai-typography-font-family-monospace: Roboto Mono, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+```
+
+### Font Sizes
+
+```css
+--dsai-typography-font-size-base: 1rem;     /* 16px */
+--dsai-typography-font-size-sm: 0.875rem;   /* 14px */
+--dsai-typography-font-size-lg: 1.25rem;    /* 20px */
+```
+
+### Font Weights
+
+```css
+--dsai-typography-font-weight-lighter: 100;
+--dsai-typography-font-weight-light: 300;
+--dsai-typography-font-weight-normal: 400;
+--dsai-typography-font-weight-medium: 500;
+--dsai-typography-font-weight-semibold: 600;
+--dsai-typography-font-weight-bold: 700;
+--dsai-typography-font-weight-bolder: 900;
+```
+
+### Line Heights (Unitless)
+
+```css
+--dsai-typography-line-height-xs: 1;
+--dsai-typography-line-height-sm: 1.25;
+--dsai-typography-line-height-tight: 1.25;
+--dsai-typography-line-height-base: 1.5;
+--dsai-typography-line-height-relaxed: 1.75;
+--dsai-typography-line-height-lg: 2;
+```
+
+### Letter Spacing
+
+```css
+--dsai-typography-letter-spacing-tighter: -0.05em;
+--dsai-typography-letter-spacing-tight: -0.025em;
+--dsai-typography-letter-spacing-normal: 0;
+--dsai-typography-letter-spacing-wide: 0.025em;
+--dsai-typography-letter-spacing-wider: 0.05em;
+--dsai-typography-letter-spacing-widest: 0.1em;
+```
+
+---
+
+## Spacing Variables
+
+All spacing values use rem units for accessibility:
+
+```css
+--dsai-spacing-0: 0;
+--dsai-spacing-1: 0.25rem;   /* 4px */
+--dsai-spacing-2: 0.5rem;    /* 8px */
+--dsai-spacing-3: 1rem;      /* 16px */
+--dsai-spacing-4: 1.5rem;    /* 24px */
+--dsai-spacing-5: 2rem;      /* 32px */
+--dsai-spacing-6: 3rem;      /* 48px */
+--dsai-spacing-7: 4rem;      /* 64px */
+--dsai-spacing-8: 6rem;      /* 96px */
+--dsai-spacing-9: 8rem;      /* 128px */
+--dsai-spacing-10: 10rem;    /* 160px */
+```
+
+---
+
+## Border Variables
+
+### Border Radius
+
+```css
+--dsai-border-radius-none: 0;
+--dsai-border-radius-sm: 0.25rem;    /* 4px */
+--dsai-border-radius-md: 0.5rem;     /* 8px */
+--dsai-border-radius-lg: 1rem;       /* 16px */
+--dsai-border-radius-xl: 1.5rem;     /* 24px */
+--dsai-border-radius-xxl: 2rem;      /* 32px */
+--dsai-border-radius-circle: 50%;
+--dsai-border-radius-pill: 624.9375rem;
+```
+
+### Border Colors
+
+```css
+--dsai-border-color-default: #dfe1e5;
+```
+
+---
+
+## Layout Variables
+
+### Breakpoints
+
+```css
+--dsai-layout-breakpoints-xs: 0;
+--dsai-layout-breakpoints-sm: 36rem;     /* 576px */
+--dsai-layout-breakpoints-md: 48rem;     /* 768px */
+--dsai-layout-breakpoints-lg: 62rem;     /* 992px */
+--dsai-layout-breakpoints-xl: 75rem;     /* 1200px */
+--dsai-layout-breakpoints-xxl: 87.5rem;  /* 1400px */
+```
+
+### Container Max Widths
+
+```css
+--dsai-layout-container-max-width-sm: 33.75rem;  /* 540px */
+--dsai-layout-container-max-width-md: 45rem;     /* 720px */
+--dsai-layout-container-max-width-lg: 60rem;     /* 960px */
+--dsai-layout-container-max-width-xl: 71.25rem;  /* 1140px */
+--dsai-layout-container-max-width-xxl: 82.5rem;  /* 1320px */
+```
+
+### Grid
+
+```css
+--dsai-layout-grid-columns: 12;
+--dsai-layout-grid-gutter-width: 1.5rem;  /* 24px */
+--dsai-layout-grid-row-columns: 6;
+```
+
+---
+
+## Usage Examples
+
+### In CSS/SCSS
+
+```css
+.card {
+  background: var(--dsai-background-white);
+  border-radius: var(--dsai-border-radius-md);
+  padding: var(--dsai-spacing-4);
+  box-shadow: var(--dsai-shadow-default);
+}
+
+.card-title {
+  font-size: var(--dsai-typography-font-size-lg);
+  font-weight: var(--dsai-typography-font-weight-bold);
+  line-height: var(--dsai-typography-line-height-tight);
+  color: var(--dsai-theme-dark);
+}
+
+.button-primary {
+  background-color: var(--dsai-theme-primary);
+  color: var(--dsai-background-white);
+  padding: var(--dsai-spacing-2) var(--dsai-spacing-4);
+  border-radius: var(--dsai-border-radius-md);
+}
+```
+
+### In React Inline Styles
+
+```tsx
+const cardStyle = {
+  backgroundColor: 'var(--dsai-background-white)',
+  borderRadius: 'var(--dsai-border-radius-md)',
+  padding: 'var(--dsai-spacing-4)',
+};
+
+function Card({ children }) {
+  return <div style={cardStyle}>{children}</div>;
+}
+```
+
+### Theming with CSS Variables
+
+Override variables at any level:
+
+```css
+/* Global override */
+:root {
+  --dsai-theme-primary: #ff6b6b;
+}
+
+/* Scoped override */
+.dark-theme {
+  --dsai-background-body: #212529;
+  --dsai-theme-primary: #6ea8fe;
+}
+
+/* Component-level override */
+.special-button {
+  --dsai-theme-primary: #9c27b0;
+}
+```
+
+---
+
+## Browser Support
+
+CSS custom properties are supported in all modern browsers:
+
+| Browser | Version |
+|---------|---------|
+| Chrome | 49+ |
+| Firefox | 31+ |
+| Safari | 9.1+ |
+| Edge | 15+ |
+
+> ⚠️ **IE11**: Not supported. Use a polyfill if needed.
+
+---
+
+## Related Resources
+
+- [Colors](/docs/foundation-colors--docs) - Full color palette documentation
+- [Typography](/docs/foundation-typography--docs) - Typography scale documentation
+- [Spacing](/docs/foundation-spacing--docs) - Spacing scale documentation
+- [Getting Started](/docs/guides-getting-started--docs) - Setup guide
+
