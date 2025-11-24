@@ -13,7 +13,7 @@ Please ensure our Storybook setup is aligned with version 10. Some of our assump
 For components when building components follow Bootstrap 5 markup and architecture, this is critical.
 Also some tasks might be outdated due to scope change.
 
-Style dictionary current version is v5.1.1 - https://styledictionary.com/info/tokens/ make sure code is compliant and compatible.
+Our Style dictionary current version is v5.1.1 - https://styledictionary.com/info/tokens/ make sure code is compliant and compatible.
 
 ## CONTEXT USAGE
 
@@ -39,7 +39,7 @@ Style dictionary current version is v5.1.1 - https://styledictionary.com/info/to
 - Accessibility compliance for UI changes
 - Security best practices followed
 - Verify documentation updates relevant to the task are complete.
-- Refuse to complete task if any gatekeeping criteria are not met; provide detailed, actionable feedback.
+- Refuse to complete task if any gate-keeping criteria are not met; provide detailed, actionable feedback.
 
 ### COMMUNICATION
 
@@ -49,6 +49,6 @@ Style dictionary current version is v5.1.1 - https://styledictionary.com/info/to
 
 ### TASK
 
-[] Once done move the task file to the tasks\completed dir, and make sure the checkmarks are marked done if they were compeleted.
+[] Once done move the task file to the tasks\completed dir, and make sure the check-marks are marked done if they were completed.
 [] Commit, and push changes to github.
 [] Once moved, start working on the next task file and so on, stop and confirm with me the task?
