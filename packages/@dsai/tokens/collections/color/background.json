@@ -138,7 +138,7 @@
       "comment": "$body-bg"
     },
     "white": {
-      "$value": "{colors.neutral.white}",
+      "$value": "#ffffff",
       "$type": "color",
       "$description": "White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness.",
       "$extensions": {
@@ -153,7 +153,7 @@
       "comment": "$white"
     },
     "black": {
-      "$value": "{colors.neutral.black}",
+      "$value": "#000000",
       "$type": "color",
       "$description": "Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text.",
       "$extensions": {

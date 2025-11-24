@@ -20,9 +20,7 @@
                     "bootstrapVersion": "5.3"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#d7e6f9",
@@ -39,9 +37,7 @@
                     "bootstrapVersion": "5.3"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#aeccf3",
@@ -55,9 +51,7 @@
                     "scssVariableName": "$blue-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#86b3ed",
@@ -71,9 +65,7 @@
                     "scssVariableName": "$blue-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#5d99e7",
@@ -87,9 +79,7 @@
                     "scssVariableName": "$blue-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#0a58ca",
@@ -104,9 +94,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#084298",
@@ -121,9 +109,7 @@
                     "useCase": "hover"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#063166",
@@ -138,9 +124,7 @@
                     "useCase": "active"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#042144",
@@ -154,9 +138,7 @@
                     "scssVariableName": "$blue-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#021022",
@@ -170,9 +152,7 @@
                     "scssVariableName": "$blue-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#010811",
@@ -186,9 +166,7 @@
                     "scssVariableName": "$blue-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "indigo": {
@@ -204,9 +182,7 @@
                     "scssVariableName": "$indigo-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#e0cffc",
@@ -220,9 +196,7 @@
                     "scssVariableName": "$indigo-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#c29ffa",
@@ -236,9 +210,7 @@
                     "scssVariableName": "$indigo-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#a370f7",
@@ -252,9 +224,7 @@
                     "scssVariableName": "$indigo-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#8540f5",
@@ -268,9 +238,7 @@
                     "scssVariableName": "$indigo-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#6610f2",
@@ -285,9 +253,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#520dc2",
@@ -301,9 +267,7 @@
                     "scssVariableName": "$indigo-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#3d0a91",
@@ -317,9 +281,7 @@
                     "scssVariableName": "$indigo-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#290661",
@@ -333,9 +295,7 @@
                     "scssVariableName": "$indigo-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#140330",
@@ -349,9 +309,7 @@
                     "scssVariableName": "$indigo-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#0a0416",
@@ -365,9 +323,7 @@
                     "scssVariableName": "$indigo-950"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "purple": {
@@ -383,9 +339,7 @@
                     "scssVariableName": "$purple-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#d1bff1",
@@ -399,9 +353,7 @@
                     "scssVariableName": "$purple-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#b39fea",
@@ -415,9 +367,7 @@
                     "scssVariableName": "$purple-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#957fe3",
@@ -431,9 +381,7 @@
                     "scssVariableName": "$purple-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#775fdc",
@@ -447,9 +395,7 @@
                     "scssVariableName": "$purple-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#432874",
@@ -464,9 +410,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#2c1a4d",
@@ -480,9 +424,7 @@
                     "scssVariableName": "$purple-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#1f1335",
@@ -496,9 +438,7 @@
                     "scssVariableName": "$purple-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#160d27",
@@ -512,9 +452,7 @@
                     "scssVariableName": "$purple-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#0a0613",
@@ -528,9 +466,7 @@
                     "scssVariableName": "$purple-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#0a0613",
@@ -544,9 +480,7 @@
                     "scssVariableName": "$purple-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "pink": {
@@ -562,9 +496,7 @@
                     "scssVariableName": "$pink-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#f7d6e6",
@@ -578,9 +510,7 @@
                     "scssVariableName": "$pink-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#efadce",
@@ -594,9 +524,7 @@
                     "scssVariableName": "$pink-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#e685b5",
@@ -610,9 +538,7 @@
                     "scssVariableName": "$pink-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#de5c9d",
@@ -626,9 +552,7 @@
                     "scssVariableName": "$pink-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#d63384",
@@ -643,9 +567,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#ab296a",
@@ -659,9 +581,7 @@
                     "scssVariableName": "$pink-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#801f4f",
@@ -675,9 +595,7 @@
                     "scssVariableName": "$pink-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#561435",
@@ -691,9 +609,7 @@
                     "scssVariableName": "$pink-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#2b0a1a",
@@ -707,9 +623,7 @@
                     "scssVariableName": "$pink-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#2b0a1a",
@@ -723,9 +637,7 @@
                     "scssVariableName": "$pink-950"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "red": {
@@ -741,9 +653,7 @@
                     "scssVariableName": "$red-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#ebc9d1",
@@ -757,9 +667,7 @@
                     "scssVariableName": "$red-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#e1adba",
@@ -773,9 +681,7 @@
                     "scssVariableName": "$red-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#d792a3",
@@ -789,9 +695,7 @@
                     "scssVariableName": "$red-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#cd7691",
@@ -805,9 +709,7 @@
                     "scssVariableName": "$red-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#842029",
@@ -822,9 +724,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#6b1a22",
@@ -838,9 +738,7 @@
                     "scssVariableName": "$red-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#58151c",
@@ -854,9 +752,7 @@
                     "scssVariableName": "$red-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#3d0f14",
@@ -870,9 +766,7 @@
                     "scssVariableName": "$red-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#2c0b0e",
@@ -886,9 +780,7 @@
                     "scssVariableName": "$red-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#2c0b0e",
@@ -902,9 +794,7 @@
                     "scssVariableName": "$red-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "orange": {
@@ -920,9 +810,7 @@
                     "scssVariableName": "$orange-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#ffe5d0",
@@ -936,9 +824,7 @@
                     "scssVariableName": "$orange-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#fecba1",
@@ -952,9 +838,7 @@
                     "scssVariableName": "$orange-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#feb272",
@@ -968,9 +852,7 @@
                     "scssVariableName": "$orange-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#fd9843",
@@ -984,9 +866,7 @@
                     "scssVariableName": "$orange-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#fd7e14",
@@ -1001,9 +881,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#ca6510",
@@ -1017,9 +895,7 @@
                     "scssVariableName": "$orange-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#984c0c",
@@ -1033,9 +909,7 @@
                     "scssVariableName": "$orange-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#653208",
@@ -1049,9 +923,7 @@
                     "scssVariableName": "$orange-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#331904",
@@ -1065,9 +937,7 @@
                     "scssVariableName": "$orange-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#331904",
@@ -1081,9 +951,7 @@
                     "scssVariableName": "$orange-950"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "yellow": {
@@ -1099,9 +967,7 @@
                     "scssVariableName": "$yellow-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#fef3c7",
@@ -1115,9 +981,7 @@
                     "scssVariableName": "$yellow-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#fcd34d",
@@ -1131,9 +995,7 @@
                     "scssVariableName": "$yellow-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#fbbf24",
@@ -1147,9 +1009,7 @@
                     "scssVariableName": "$yellow-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#f59e0b",
@@ -1163,9 +1023,7 @@
                     "scssVariableName": "$yellow-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#f59e0b",
@@ -1180,9 +1038,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#d97706",
@@ -1196,9 +1052,7 @@
                     "scssVariableName": "$yellow-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#92400e",
@@ -1212,9 +1066,7 @@
                     "scssVariableName": "$yellow-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#78350f",
@@ -1228,9 +1080,7 @@
                     "scssVariableName": "$yellow-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#451a03",
@@ -1244,9 +1094,7 @@
                     "scssVariableName": "$yellow-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#451a03",
@@ -1260,9 +1108,7 @@
                     "scssVariableName": "$yellow-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "green": {
@@ -1278,9 +1124,7 @@
                     "scssVariableName": "$green-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#b3e1d3",
@@ -1294,9 +1138,7 @@
                     "scssVariableName": "$green-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#8dd2bd",
@@ -1310,9 +1152,7 @@
                     "scssVariableName": "$green-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#67c3a7",
@@ -1326,9 +1166,7 @@
                     "scssVariableName": "$green-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#41b491",
@@ -1342,9 +1180,7 @@
                     "scssVariableName": "$green-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#0f5132",
@@ -1359,9 +1195,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#0c4229",
@@ -1375,9 +1209,7 @@
                     "scssVariableName": "$green-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#0a3622",
@@ -1391,9 +1223,7 @@
                     "scssVariableName": "$green-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#062419",
@@ -1407,9 +1237,7 @@
                     "scssVariableName": "$green-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#041b0f",
@@ -1423,9 +1251,7 @@
                     "scssVariableName": "$green-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#041b0f",
@@ -1439,9 +1265,7 @@
                     "scssVariableName": "$green-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "teal": {
@@ -1457,9 +1281,7 @@
                     "scssVariableName": "$teal-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#d2f4ea",
@@ -1473,9 +1295,7 @@
                     "scssVariableName": "$teal-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#a6e9d5",
@@ -1489,9 +1309,7 @@
                     "scssVariableName": "$teal-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#79dfc1",
@@ -1505,9 +1323,7 @@
                     "scssVariableName": "$teal-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#4dd4ac",
@@ -1521,9 +1337,7 @@
                     "scssVariableName": "$teal-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#20c997",
@@ -1538,9 +1352,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#1aa179",
@@ -1554,9 +1366,7 @@
                     "scssVariableName": "$teal-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#13795b",
@@ -1570,9 +1380,7 @@
                     "scssVariableName": "$teal-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#0d503c",
@@ -1586,9 +1394,7 @@
                     "scssVariableName": "$teal-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#06281e",
@@ -1602,9 +1408,7 @@
                     "scssVariableName": "$teal-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#06281e",
@@ -1618,9 +1422,7 @@
                     "scssVariableName": "$teal-950"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "cyan": {
@@ -1636,9 +1438,7 @@
                     "scssVariableName": "$cyan-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#b2ebf2",
@@ -1652,9 +1452,7 @@
                     "scssVariableName": "$cyan-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#80deea",
@@ -1668,9 +1466,7 @@
                     "scssVariableName": "$cyan-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#4dd0e1",
@@ -1684,9 +1480,7 @@
                     "scssVariableName": "$cyan-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#26c6da",
@@ -1700,9 +1494,7 @@
                     "scssVariableName": "$cyan-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#087990",
@@ -1717,9 +1509,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#066570",
@@ -1733,9 +1523,7 @@
                     "scssVariableName": "$cyan-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#055160",
@@ -1749,9 +1537,7 @@
                     "scssVariableName": "$cyan-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#033a40",
@@ -1765,9 +1551,7 @@
                     "scssVariableName": "$cyan-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#012320",
@@ -1781,9 +1565,7 @@
                     "scssVariableName": "$cyan-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#012320",
@@ -1797,9 +1579,7 @@
                     "scssVariableName": "$cyan-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "gray": {
@@ -1815,9 +1595,7 @@
                     "scssVariableName": "$gray-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#f5f6f7",
@@ -1831,9 +1609,7 @@
                     "scssVariableName": "$gray-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#e8eaed",
@@ -1847,9 +1623,7 @@
                     "scssVariableName": "$gray-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#dfe1e5",
@@ -1863,9 +1637,7 @@
                     "scssVariableName": "$gray-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#cbced3",
@@ -1879,9 +1651,7 @@
                     "scssVariableName": "$gray-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#a8adb7",
@@ -1895,9 +1665,7 @@
                     "scssVariableName": "$gray-500"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#7a7f87",
@@ -1911,9 +1679,7 @@
                     "scssVariableName": "$gray-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#495057",
@@ -1927,9 +1693,7 @@
                     "scssVariableName": "$gray-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#343a40",
@@ -1943,9 +1707,7 @@
                     "scssVariableName": "$gray-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#212529",
@@ -1959,9 +1721,7 @@
                     "scssVariableName": "$gray-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#0a0d10",
@@ -1975,9 +1735,7 @@
                     "scssVariableName": "$gray-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             }
           },
@@ -1994,9 +1752,7 @@
                   "scssVariableName": "$white"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "black": {
               "$value": "#0a0d10",
@@ -2010,9 +1766,7 @@
                   "scssVariableName": "$black"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "gray": {
               "100": {
@@ -2027,10 +1781,7 @@
                     "scssVariableName": "$gray-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS",
-                  "STROKE_COLOR"
-                ]
+                "$scopes": ["ALL_FILLS", "STROKE_COLOR"]
               },
               "200": {
                 "$value": "{colors.brand.gray.200}",
@@ -2044,10 +1795,7 @@
                     "scssVariableName": "$gray-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS",
-                  "STROKE_COLOR"
-                ]
+                "$scopes": ["ALL_FILLS", "STROKE_COLOR"]
               },
               "300": {
                 "$value": "{colors.brand.gray.300}",
@@ -2061,9 +1809,7 @@
                     "scssVariableName": "$gray-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "{colors.brand.gray.400}",
@@ -2077,9 +1823,7 @@
                     "scssVariableName": "$gray-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "{colors.brand.gray.500}",
@@ -2093,9 +1837,7 @@
                     "scssVariableName": "$gray-500"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "{colors.brand.gray.600}",
@@ -2109,9 +1851,7 @@
                     "scssVariableName": "$gray-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "{colors.brand.gray.700}",
@@ -2125,9 +1865,7 @@
                     "scssVariableName": "$gray-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "{colors.brand.gray.800}",
@@ -2141,9 +1879,7 @@
                     "scssVariableName": "$gray-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "{colors.brand.gray.900}",
@@ -2157,9 +1893,7 @@
                     "scssVariableName": "$gray-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             }
           },
@@ -2180,10 +1914,7 @@
                   "darkMode": "false"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS",
-                "STROKE_COLOR"
-              ]
+              "$scopes": ["ALL_FILLS", "STROKE_COLOR"]
             },
             "secondary": {
               "$value": "{colors.brand.gray.500}",
@@ -2197,10 +1928,7 @@
                   "scssVariableName": "$secondary"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS",
-                "STROKE_COLOR"
-              ]
+              "$scopes": ["ALL_FILLS", "STROKE_COLOR"]
             },
             "success": {
               "$value": "{colors.brand.green.500}",
@@ -2214,9 +1942,7 @@
                   "scssVariableName": "$success"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "info": {
               "$value": "{colors.brand.blue.500}",
@@ -2230,9 +1956,7 @@
                   "scssVariableName": "$info"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "warning": {
               "$value": "{colors.brand.yellow.500}",
@@ -2246,9 +1970,7 @@
                   "scssVariableName": "$warning"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "danger": {
               "$value": "{colors.brand.red.500}",
@@ -2262,9 +1984,7 @@
                   "scssVariableName": "$danger"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "light": {
               "$value": "{colors.brand.gray.100}",
@@ -2278,9 +1998,7 @@
                   "scssVariableName": "$light"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "dark": {
               "$value": "{colors.brand.gray.900}",
@@ -2294,9 +2012,7 @@
                   "scssVariableName": "$dark"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             }
           },
           "background": {
@@ -2315,9 +2031,7 @@
                   "scssVariableName": "$primary"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "secondary": {
               "$value": "{colors.brand.gray.600}",
@@ -2332,9 +2046,7 @@
                   "scssVariableName": "$secondary"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "success": {
               "$value": "{colors.brand.green.500}",
@@ -2349,9 +2061,7 @@
                   "scssVariableName": "$success"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "danger": {
               "$value": "{colors.brand.red.500}",
@@ -2366,9 +2076,7 @@
                   "scssVariableName": "$danger"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "warning": {
               "$value": "{colors.brand.yellow.500}",
@@ -2383,9 +2091,7 @@
                   "scssVariableName": "$warning"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "info": {
               "$value": "{colors.brand.cyan.500}",
@@ -2400,9 +2106,7 @@
                   "scssVariableName": "$info"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "light": {
               "$value": "{colors.brand.gray.100}",
@@ -2417,9 +2121,7 @@
                   "scssVariableName": "$light"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "dark": {
               "$value": "{colors.brand.gray.900}",
@@ -2434,9 +2136,7 @@
                   "scssVariableName": "$dark"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "body": {
               "$value": "{colors.neutral.white}",
@@ -2451,12 +2151,10 @@
                   "scssVariableName": "$body-bg"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "white": {
-              "$value": "{colors.neutral.white}",
+              "$value": "#ffffff",
               "$type": "color",
               "$description": "White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness.",
               "$extensions": {
@@ -2468,12 +2166,10 @@
                   "scssVariableName": "$white"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "black": {
-              "$value": "{colors.neutral.black}",
+              "$value": "#000000",
               "$type": "color",
               "$description": "Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text.",
               "$extensions": {
@@ -2485,9 +2181,7 @@
                   "scssVariableName": "$black"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "transparent": {
               "$value": "#000000",
@@ -2501,9 +2195,7 @@
                   "cssClass": ".bg-transparent"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             }
           },
           "opacity": {
@@ -2521,9 +2213,7 @@
                   "cssClass": ".opacity-0"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "5": {
               "$value": 5,
@@ -2537,9 +2227,7 @@
                   "cssClass": ".opacity-5"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "10": {
               "$value": 10,
@@ -2553,9 +2241,7 @@
                   "cssClass": ".opacity-10"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "15": {
               "$value": 15,
@@ -2569,9 +2255,7 @@
                   "cssClass": ".opacity-15"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "20": {
               "$value": 20,
@@ -2585,9 +2269,7 @@
                   "cssClass": ".opacity-20"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "25": {
               "$value": 25,
@@ -2601,9 +2283,7 @@
                   "cssClass": ".opacity-25"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "30": {
               "$value": 30,
@@ -2617,9 +2297,7 @@
                   "cssClass": ".opacity-30"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "35": {
               "$value": 35,
@@ -2633,9 +2311,7 @@
                   "cssClass": ".opacity-35"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "40": {
               "$value": 40,
@@ -2649,9 +2325,7 @@
                   "cssClass": ".opacity-40"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "45": {
               "$value": 45,
@@ -2665,9 +2339,7 @@
                   "cssClass": ".opacity-45"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "50": {
               "$value": 50,
@@ -2681,9 +2353,7 @@
                   "cssClass": ".opacity-50"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "55": {
               "$value": 55,
@@ -2697,9 +2367,7 @@
                   "cssClass": ".opacity-55"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "60": {
               "$value": 60,
@@ -2713,9 +2381,7 @@
                   "cssClass": ".opacity-60"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "65": {
               "$value": 65,
@@ -2729,9 +2395,7 @@
                   "cssClass": ".opacity-65"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "70": {
               "$value": 70,
@@ -2745,9 +2409,7 @@
                   "cssClass": ".opacity-70"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "75": {
               "$value": 75,
@@ -2761,9 +2423,7 @@
                   "cssClass": ".opacity-75"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "80": {
               "$value": 80,
@@ -2777,9 +2437,7 @@
                   "cssClass": ".opacity-80"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "85": {
               "$value": 85,
@@ -2793,9 +2451,7 @@
                   "cssClass": ".opacity-85"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "90": {
               "$value": 90,
@@ -2809,9 +2465,7 @@
                   "cssClass": ".opacity-90"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "95": {
               "$value": 95,
@@ -2825,9 +2479,7 @@
                   "cssClass": ".opacity-95"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "100": {
               "$value": 100,
@@ -2841,9 +2493,7 @@
                   "cssClass": ".opacity-100"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             }
           }
         },
@@ -2860,281 +2510,211 @@
                 "scssVariableName": "$border-color-translucent"
               }
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "body-color": {
             "$value": "{colors.neutral.gray.900}",
             "$type": "color",
             "$description": "Default body text color. Applied to the <body> element and inherited by all text content unless overridden.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "body-bg": {
             "$value": "{colors.neutral.white}",
             "$type": "color",
             "$description": "Default body background color. Applied to the <body> element as the base page background.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "emphasis-color": {
             "$value": "{colors.neutral.black}",
             "$type": "color",
             "$description": "Emphasis color for higher contrast text. Use for headings or text that needs to stand out.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "secondary-color": {
             "$value": "{colors.neutral.gray.600}",
             "$type": "color",
             "$description": "Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "secondary-bg": {
             "$value": "{colors.neutral.gray.200}",
             "$type": "color",
             "$description": "Secondary background color. Use for dividers and to indicate disabled component states.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "tertiary-color": {
             "$value": "{colors.neutral.gray.500}",
             "$type": "color",
             "$description": "Tertiary text color for even lighter text. Use for less important supporting text.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "tertiary-bg": {
             "$value": "{colors.neutral.gray.100}",
             "$type": "color",
             "$description": "Tertiary background color. Use for hover states, accents, and wells.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "link-color": {
             "$value": "{colors.brand.blue.600}",
             "$type": "color",
             "$description": "Default hyperlink color. Used for all <a> elements and interactive text.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "link-hover-color": {
             "$value": "{colors.brand.blue.700}",
             "$type": "color",
             "$description": "Hyperlink hover color. Applied when user hovers over a link.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "border-color": {
             "$value": "{colors.neutral.gray.300}",
             "$type": "color",
             "$description": "Default border color for component borders, dividers, and rules.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "primary-text-emphasis": {
             "$value": "{colors.brand.blue.700}",
             "$type": "color",
             "$description": "Primary text emphasis color - higher contrast text on light backgrounds.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "primary-bg-subtle": {
             "$value": "{colors.brand.blue.100}",
             "$type": "color",
             "$description": "Primary subtle background color for non-intrusive backgrounds.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "primary-border-subtle": {
             "$value": "{colors.brand.blue.200}",
             "$type": "color",
             "$description": "Primary subtle border color for gentle borders matching primary theme.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "secondary-text-emphasis": {
             "$value": "{colors.neutral.gray.700}",
             "$type": "color",
             "$description": "Secondary theme text emphasis color - higher contrast text on light backgrounds.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "secondary-bg-subtle": {
             "$value": "{colors.neutral.gray.100}",
             "$type": "color",
             "$description": "Secondary theme subtle background color for non-intrusive backgrounds.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "secondary-border-subtle": {
             "$value": "{colors.neutral.gray.200}",
             "$type": "color",
             "$description": "Secondary theme subtle border color for gentle borders matching secondary theme.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "success-text-emphasis": {
             "$value": "{colors.brand.green.700}",
             "$type": "color",
             "$description": "Success text emphasis color - higher contrast text on light backgrounds.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "success-bg-subtle": {
             "$value": "{colors.brand.green.100}",
             "$type": "color",
             "$description": "Success subtle background color for non-intrusive success states.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "success-border-subtle": {
             "$value": "{colors.brand.green.200}",
             "$type": "color",
             "$description": "Success subtle border color for gentle borders matching success theme.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "danger-text-emphasis": {
             "$value": "{colors.brand.red.700}",
             "$type": "color",
             "$description": "Danger text emphasis color - higher contrast text on light backgrounds.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "danger-bg-subtle": {
             "$value": "{colors.brand.red.100}",
             "$type": "color",
             "$description": "Danger subtle background color for non-intrusive error states.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "danger-border-subtle": {
             "$value": "{colors.brand.red.200}",
             "$type": "color",
             "$description": "Danger subtle border color for gentle borders matching danger theme.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "warning-text-emphasis": {
             "$value": "{colors.brand.yellow.700}",
             "$type": "color",
             "$description": "Warning text emphasis color - higher contrast text on light backgrounds.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "warning-bg-subtle": {
             "$value": "{colors.brand.yellow.100}",
             "$type": "color",
             "$description": "Warning subtle background color for non-intrusive warning states.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "warning-border-subtle": {
             "$value": "{colors.brand.yellow.200}",
             "$type": "color",
             "$description": "Warning subtle border color for gentle borders matching warning theme.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "info-text-emphasis": {
             "$value": "{colors.brand.cyan.700}",
             "$type": "color",
             "$description": "Info text emphasis color - higher contrast text on light backgrounds.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "info-bg-subtle": {
             "$value": "{colors.brand.cyan.100}",
             "$type": "color",
             "$description": "Info subtle background color for non-intrusive info states.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "info-border-subtle": {
             "$value": "{colors.brand.cyan.200}",
             "$type": "color",
             "$description": "Info subtle border color for gentle borders matching info theme.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "light-text-emphasis": {
             "$value": "{colors.neutral.gray.700}",
             "$type": "color",
             "$description": "Light text emphasis color - provides contrast on light themed components.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "light-bg-subtle": {
             "$value": "{colors.neutral.gray.100}",
             "$type": "color",
             "$description": "Light subtle background color for subtle backgrounds.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "light-border-subtle": {
             "$value": "{colors.neutral.gray.200}",
             "$type": "color",
             "$description": "Light subtle border color for gentle borders matching light theme.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "dark-text-emphasis": {
             "$value": "{colors.neutral.gray.900}",
             "$type": "color",
             "$description": "Dark text emphasis color - highest contrast text on light backgrounds.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "dark-bg-subtle": {
             "$value": "{colors.neutral.gray.400}",
             "$type": "color",
             "$description": "Dark subtle background color for darker backgrounds.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "dark-border-subtle": {
             "$value": "{colors.neutral.gray.500}",
             "$type": "color",
             "$description": "Dark subtle border color for borders matching dark theme.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           }
         },
         "borders": {
@@ -3142,9 +2722,7 @@
             "default": {
               "$value": "{colors.neutral.gray.300}",
               "$type": "color",
-              "$scopes": [
-                "STROKE_COLOR"
-              ]
+              "$scopes": ["STROKE_COLOR"]
             }
           },
           "width": {
@@ -3160,9 +2738,7 @@
                   "bootstrapVersion": "5.3"
                 }
               },
-              "$scopes": [
-                "STROKE_FLOAT"
-              ]
+              "$scopes": ["STROKE_FLOAT"]
             },
             "medium": {
               "$value": 2,
@@ -3176,9 +2752,7 @@
                   "bootstrapVersion": "5.3"
                 }
               },
-              "$scopes": [
-                "STROKE_FLOAT"
-              ]
+              "$scopes": ["STROKE_FLOAT"]
             },
             "thick": {
               "$value": 4,
@@ -3192,9 +2766,7 @@
                   "bootstrapVersion": "5.3"
                 }
               },
-              "$scopes": [
-                "STROKE_FLOAT"
-              ]
+              "$scopes": ["STROKE_FLOAT"]
             },
             "default": {
               "$value": "{borders.width.thin}",
@@ -3210,18 +2782,13 @@
                   "bootstrapVersion": "5.3"
                 }
               },
-              "$scopes": [
-                "STROKE_FLOAT"
-              ]
+              "$scopes": ["STROKE_FLOAT"]
             },
             "none": {
               "$value": 0,
               "$type": "number",
               "$description": "No border",
-              "$scopes": [
-                "STROKE_FLOAT",
-                "FONT_VARIATIONS"
-              ]
+              "$scopes": ["STROKE_FLOAT", "FONT_VARIATIONS"]
             }
           }
         }
@@ -3245,9 +2812,7 @@
                     "bootstrapVersion": "5.3"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#cfe2ff",
@@ -3264,9 +2829,7 @@
                     "bootstrapVersion": "5.3"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#9ec5fe",
@@ -3280,9 +2843,7 @@
                     "scssVariableName": "$blue-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#6ea8fe",
@@ -3296,9 +2857,7 @@
                     "scssVariableName": "$blue-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#3d8bfd",
@@ -3312,9 +2871,7 @@
                     "scssVariableName": "$blue-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#0d6efd",
@@ -3329,9 +2886,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#0a58ca",
@@ -3346,9 +2901,7 @@
                     "useCase": "hover"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#084298",
@@ -3363,9 +2916,7 @@
                     "useCase": "active"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#052c65",
@@ -3379,9 +2930,7 @@
                     "scssVariableName": "$blue-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#031633",
@@ -3395,9 +2944,7 @@
                     "scssVariableName": "$blue-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#e0edfb",
@@ -3411,9 +2958,7 @@
                     "scssVariableName": "$blue-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "indigo": {
@@ -3429,9 +2974,7 @@
                     "scssVariableName": "$indigo-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#e0cffc",
@@ -3445,9 +2988,7 @@
                     "scssVariableName": "$indigo-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#c29ffa",
@@ -3461,9 +3002,7 @@
                     "scssVariableName": "$indigo-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#a370f7",
@@ -3477,9 +3016,7 @@
                     "scssVariableName": "$indigo-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#8540f5",
@@ -3493,9 +3030,7 @@
                     "scssVariableName": "$indigo-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#6610f2",
@@ -3510,9 +3045,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#520dc2",
@@ -3526,9 +3059,7 @@
                     "scssVariableName": "$indigo-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#3d0a91",
@@ -3542,9 +3073,7 @@
                     "scssVariableName": "$indigo-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#290661",
@@ -3558,9 +3087,7 @@
                     "scssVariableName": "$indigo-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#140330",
@@ -3574,9 +3101,7 @@
                     "scssVariableName": "$indigo-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#ede8ff",
@@ -3590,9 +3115,7 @@
                     "scssVariableName": "$indigo-950"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "purple": {
@@ -3608,9 +3131,7 @@
                     "scssVariableName": "$purple-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#e2d9f3",
@@ -3624,9 +3145,7 @@
                     "scssVariableName": "$purple-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#c5b3e6",
@@ -3640,9 +3159,7 @@
                     "scssVariableName": "$purple-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#a98eda",
@@ -3656,9 +3173,7 @@
                     "scssVariableName": "$purple-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#8c68cd",
@@ -3672,9 +3187,7 @@
                     "scssVariableName": "$purple-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#6f42c1",
@@ -3689,9 +3202,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#59359a",
@@ -3705,9 +3216,7 @@
                     "scssVariableName": "$purple-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#432874",
@@ -3721,9 +3230,7 @@
                     "scssVariableName": "$purple-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#2c1a4d",
@@ -3737,9 +3244,7 @@
                     "scssVariableName": "$purple-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#160d27",
@@ -3753,9 +3258,7 @@
                     "scssVariableName": "$purple-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#f0e8f8",
@@ -3769,9 +3272,7 @@
                     "scssVariableName": "$purple-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "pink": {
@@ -3787,9 +3288,7 @@
                     "scssVariableName": "$pink-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#f7d6e6",
@@ -3803,9 +3302,7 @@
                     "scssVariableName": "$pink-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#efadce",
@@ -3819,9 +3316,7 @@
                     "scssVariableName": "$pink-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#e685b5",
@@ -3835,9 +3330,7 @@
                     "scssVariableName": "$pink-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#de5c9d",
@@ -3851,9 +3344,7 @@
                     "scssVariableName": "$pink-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#d63384",
@@ -3868,9 +3359,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#ab296a",
@@ -3884,9 +3373,7 @@
                     "scssVariableName": "$pink-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#801f4f",
@@ -3900,9 +3387,7 @@
                     "scssVariableName": "$pink-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#561435",
@@ -3916,9 +3401,7 @@
                     "scssVariableName": "$pink-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#2b0a1a",
@@ -3932,9 +3415,7 @@
                     "scssVariableName": "$pink-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#fce4ec",
@@ -3948,9 +3429,7 @@
                     "scssVariableName": "$pink-950"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "red": {
@@ -3966,9 +3445,7 @@
                     "scssVariableName": "$red-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#f8d7da",
@@ -3982,9 +3459,7 @@
                     "scssVariableName": "$red-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#f1aeb5",
@@ -3998,9 +3473,7 @@
                     "scssVariableName": "$red-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#ea868f",
@@ -4014,9 +3487,7 @@
                     "scssVariableName": "$red-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#e35d6a",
@@ -4030,9 +3501,7 @@
                     "scssVariableName": "$red-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#dc3545",
@@ -4047,9 +3516,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#b02a37",
@@ -4063,9 +3530,7 @@
                     "scssVariableName": "$red-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#842029",
@@ -4079,9 +3544,7 @@
                     "scssVariableName": "$red-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#58151c",
@@ -4095,9 +3558,7 @@
                     "scssVariableName": "$red-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#2c0b0e",
@@ -4111,9 +3572,7 @@
                     "scssVariableName": "$red-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#faebec",
@@ -4127,9 +3586,7 @@
                     "scssVariableName": "$red-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "orange": {
@@ -4145,9 +3602,7 @@
                     "scssVariableName": "$orange-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#ffe5d0",
@@ -4161,9 +3616,7 @@
                     "scssVariableName": "$orange-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#fecba1",
@@ -4177,9 +3630,7 @@
                     "scssVariableName": "$orange-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#feb272",
@@ -4193,9 +3644,7 @@
                     "scssVariableName": "$orange-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#fd9843",
@@ -4209,9 +3658,7 @@
                     "scssVariableName": "$orange-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#fd7e14",
@@ -4226,9 +3673,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#ca6510",
@@ -4242,9 +3687,7 @@
                     "scssVariableName": "$orange-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#984c0c",
@@ -4258,9 +3701,7 @@
                     "scssVariableName": "$orange-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#653208",
@@ -4274,9 +3715,7 @@
                     "scssVariableName": "$orange-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#331904",
@@ -4290,9 +3729,7 @@
                     "scssVariableName": "$orange-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#fff4e5",
@@ -4306,9 +3743,7 @@
                     "scssVariableName": "$orange-950"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "yellow": {
@@ -4324,9 +3759,7 @@
                     "scssVariableName": "$yellow-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#fff3cd",
@@ -4340,9 +3773,7 @@
                     "scssVariableName": "$yellow-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#ffe69c",
@@ -4356,9 +3787,7 @@
                     "scssVariableName": "$yellow-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#ffda6a",
@@ -4372,9 +3801,7 @@
                     "scssVariableName": "$yellow-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#ffcd39",
@@ -4388,9 +3815,7 @@
                     "scssVariableName": "$yellow-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#ffc107",
@@ -4405,9 +3830,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#cc9a06",
@@ -4421,9 +3844,7 @@
                     "scssVariableName": "$yellow-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#997404",
@@ -4437,9 +3858,7 @@
                     "scssVariableName": "$yellow-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#664d03",
@@ -4453,9 +3872,7 @@
                     "scssVariableName": "$yellow-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#332701",
@@ -4469,9 +3886,7 @@
                     "scssVariableName": "$yellow-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#fffaeb",
@@ -4485,9 +3900,7 @@
                     "scssVariableName": "$yellow-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "green": {
@@ -4503,9 +3916,7 @@
                     "scssVariableName": "$green-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#d1e7dd",
@@ -4519,9 +3930,7 @@
                     "scssVariableName": "$green-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#a3cfbb",
@@ -4535,9 +3944,7 @@
                     "scssVariableName": "$green-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#75b798",
@@ -4551,9 +3958,7 @@
                     "scssVariableName": "$green-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#479f76",
@@ -4567,9 +3972,7 @@
                     "scssVariableName": "$green-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#198754",
@@ -4584,9 +3987,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#146c43",
@@ -4600,9 +4001,7 @@
                     "scssVariableName": "$green-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#0f5132",
@@ -4616,9 +4015,7 @@
                     "scssVariableName": "$green-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#0a3622",
@@ -4632,9 +4029,7 @@
                     "scssVariableName": "$green-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#051b11",
@@ -4648,9 +4043,7 @@
                     "scssVariableName": "$green-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#e0f2e9",
@@ -4664,9 +4057,7 @@
                     "scssVariableName": "$green-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "teal": {
@@ -4682,9 +4073,7 @@
                     "scssVariableName": "$teal-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#d2f4ea",
@@ -4698,9 +4087,7 @@
                     "scssVariableName": "$teal-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#a6e9d5",
@@ -4714,9 +4101,7 @@
                     "scssVariableName": "$teal-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#79dfc1",
@@ -4730,9 +4115,7 @@
                     "scssVariableName": "$teal-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#4dd4ac",
@@ -4746,9 +4129,7 @@
                     "scssVariableName": "$teal-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#20c997",
@@ -4763,9 +4144,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#1aa179",
@@ -4779,9 +4158,7 @@
                     "scssVariableName": "$teal-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#13795b",
@@ -4795,9 +4172,7 @@
                     "scssVariableName": "$teal-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#0d503c",
@@ -4811,9 +4186,7 @@
                     "scssVariableName": "$teal-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#06281e",
@@ -4827,9 +4200,7 @@
                     "scssVariableName": "$teal-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#e0f2f1",
@@ -4843,9 +4214,7 @@
                     "scssVariableName": "$teal-950"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "cyan": {
@@ -4861,9 +4230,7 @@
                     "scssVariableName": "$cyan-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#cff4fc",
@@ -4877,9 +4244,7 @@
                     "scssVariableName": "$cyan-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#9eeaf9",
@@ -4893,9 +4258,7 @@
                     "scssVariableName": "$cyan-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#6edff6",
@@ -4909,9 +4272,7 @@
                     "scssVariableName": "$cyan-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#3dd5f3",
@@ -4925,9 +4286,7 @@
                     "scssVariableName": "$cyan-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#0dcaf0",
@@ -4942,9 +4301,7 @@
                     "isBaseColor": "true"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#0aa2c0",
@@ -4958,9 +4315,7 @@
                     "scssVariableName": "$cyan-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#087990",
@@ -4974,9 +4329,7 @@
                     "scssVariableName": "$cyan-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#055160",
@@ -4990,9 +4343,7 @@
                     "scssVariableName": "$cyan-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#032830",
@@ -5006,9 +4357,7 @@
                     "scssVariableName": "$cyan-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#e0f7fa",
@@ -5022,9 +4371,7 @@
                     "scssVariableName": "$cyan-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "gray": {
@@ -5040,9 +4387,7 @@
                     "scssVariableName": "$gray-50"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#f8f9fa",
@@ -5056,9 +4401,7 @@
                     "scssVariableName": "$gray-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#e9ecef",
@@ -5072,9 +4415,7 @@
                     "scssVariableName": "$gray-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#dee2e6",
@@ -5088,9 +4429,7 @@
                     "scssVariableName": "$gray-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#ced4da",
@@ -5104,9 +4443,7 @@
                     "scssVariableName": "$gray-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#adb5bd",
@@ -5120,9 +4457,7 @@
                     "scssVariableName": "$gray-500"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#6c757d",
@@ -5136,9 +4471,7 @@
                     "scssVariableName": "$gray-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#495057",
@@ -5152,9 +4485,7 @@
                     "scssVariableName": "$gray-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#343a40",
@@ -5168,9 +4499,7 @@
                     "scssVariableName": "$gray-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#212529",
@@ -5184,9 +4513,7 @@
                     "scssVariableName": "$gray-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#fafbfc",
@@ -5200,17 +4527,15 @@
                     "scssVariableName": "$gray-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             }
           },
           "neutral": {
             "white": {
-              "$value": "#0a0d10",
+              "$value": "#ffffff",
               "$type": "color",
-              "$description": "Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text.",
+              "$description": "Pure white (#FFFFFF). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Maximum brightness. WCAG AAA compliant with gray-900 text.",
               "$extensions": {
                 "docs": {
                   "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
@@ -5219,14 +4544,12 @@
                   "scssVariableName": "$white"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "black": {
-              "$value": "#fafbfc",
+              "$value": "#000000",
               "$type": "color",
-              "$description": "Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds.",
+              "$description": "Pure black (#000000). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. WCAG AAA compliant on white backgrounds.",
               "$extensions": {
                 "docs": {
                   "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
@@ -5235,9 +4558,7 @@
                   "scssVariableName": "$black"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "gray": {
               "100": {
@@ -5252,10 +4573,7 @@
                     "scssVariableName": "$gray-100"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS",
-                  "STROKE_COLOR"
-                ]
+                "$scopes": ["ALL_FILLS", "STROKE_COLOR"]
               },
               "200": {
                 "$value": "{colors.brand.gray.200}",
@@ -5269,10 +4587,7 @@
                     "scssVariableName": "$gray-200"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS",
-                  "STROKE_COLOR"
-                ]
+                "$scopes": ["ALL_FILLS", "STROKE_COLOR"]
               },
               "300": {
                 "$value": "{colors.brand.gray.300}",
@@ -5286,9 +4601,7 @@
                     "scssVariableName": "$gray-300"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "{colors.brand.gray.400}",
@@ -5302,9 +4615,7 @@
                     "scssVariableName": "$gray-400"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "{colors.brand.gray.500}",
@@ -5318,9 +4629,7 @@
                     "scssVariableName": "$gray-500"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "{colors.brand.gray.600}",
@@ -5334,9 +4643,7 @@
                     "scssVariableName": "$gray-600"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "{colors.brand.gray.700}",
@@ -5350,9 +4657,7 @@
                     "scssVariableName": "$gray-700"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "{colors.brand.gray.800}",
@@ -5366,9 +4671,7 @@
                     "scssVariableName": "$gray-800"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "{colors.brand.gray.900}",
@@ -5382,9 +4685,7 @@
                     "scssVariableName": "$gray-900"
                   }
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             }
           },
@@ -5405,10 +4706,7 @@
                   "darkMode": "false"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS",
-                "STROKE_COLOR"
-              ]
+              "$scopes": ["ALL_FILLS", "STROKE_COLOR"]
             },
             "secondary": {
               "$value": "{colors.brand.gray.500}",
@@ -5422,10 +4720,7 @@
                   "scssVariableName": "$secondary"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS",
-                "STROKE_COLOR"
-              ]
+              "$scopes": ["ALL_FILLS", "STROKE_COLOR"]
             },
             "success": {
               "$value": "{colors.brand.green.500}",
@@ -5439,9 +4734,7 @@
                   "scssVariableName": "$success"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "info": {
               "$value": "{colors.brand.blue.500}",
@@ -5455,9 +4748,7 @@
                   "scssVariableName": "$info"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "warning": {
               "$value": "{colors.brand.yellow.500}",
@@ -5471,9 +4762,7 @@
                   "scssVariableName": "$warning"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "danger": {
               "$value": "{colors.brand.red.500}",
@@ -5487,9 +4776,7 @@
                   "scssVariableName": "$danger"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "light": {
               "$value": "{colors.brand.gray.100}",
@@ -5503,9 +4790,7 @@
                   "scssVariableName": "$light"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "dark": {
               "$value": "{colors.brand.gray.900}",
@@ -5519,9 +4804,7 @@
                   "scssVariableName": "$dark"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             }
           },
           "background": {
@@ -5540,9 +4823,7 @@
                   "scssVariableName": "$primary"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "secondary": {
               "$value": "{colors.brand.gray.600}",
@@ -5557,9 +4838,7 @@
                   "scssVariableName": "$secondary"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "success": {
               "$value": "{colors.brand.green.500}",
@@ -5574,9 +4853,7 @@
                   "scssVariableName": "$success"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "danger": {
               "$value": "{colors.brand.red.500}",
@@ -5591,9 +4868,7 @@
                   "scssVariableName": "$danger"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "warning": {
               "$value": "{colors.brand.yellow.500}",
@@ -5608,9 +4883,7 @@
                   "scssVariableName": "$warning"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "info": {
               "$value": "{colors.brand.cyan.500}",
@@ -5625,9 +4898,7 @@
                   "scssVariableName": "$info"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "light": {
               "$value": "{colors.brand.gray.100}",
@@ -5642,9 +4913,7 @@
                   "scssVariableName": "$light"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "dark": {
               "$value": "{colors.brand.gray.900}",
@@ -5659,9 +4928,7 @@
                   "scssVariableName": "$dark"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "body": {
               "$value": "{colors.neutral.black}",
@@ -5676,9 +4943,7 @@
                   "scssVariableName": "$body-bg"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "white": {
               "$value": "{colors.neutral.white}",
@@ -5693,9 +4958,7 @@
                   "scssVariableName": "$white"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "black": {
               "$value": "{colors.neutral.black}",
@@ -5710,9 +4973,7 @@
                   "scssVariableName": "$black"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "transparent": {
               "$value": "#000000",
@@ -5726,9 +4987,7 @@
                   "cssClass": ".bg-transparent"
                 }
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             }
           },
           "opacity": {
@@ -5746,9 +5005,7 @@
                   "cssClass": ".opacity-0"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "5": {
               "$value": 5,
@@ -5762,9 +5019,7 @@
                   "cssClass": ".opacity-5"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "10": {
               "$value": 10,
@@ -5778,9 +5033,7 @@
                   "cssClass": ".opacity-10"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "15": {
               "$value": 15,
@@ -5794,9 +5047,7 @@
                   "cssClass": ".opacity-15"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "20": {
               "$value": 20,
@@ -5810,9 +5061,7 @@
                   "cssClass": ".opacity-20"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "25": {
               "$value": 25,
@@ -5826,9 +5075,7 @@
                   "cssClass": ".opacity-25"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "30": {
               "$value": 30,
@@ -5842,9 +5089,7 @@
                   "cssClass": ".opacity-30"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "35": {
               "$value": 35,
@@ -5858,9 +5103,7 @@
                   "cssClass": ".opacity-35"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "40": {
               "$value": 40,
@@ -5874,9 +5117,7 @@
                   "cssClass": ".opacity-40"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "45": {
               "$value": 45,
@@ -5890,9 +5131,7 @@
                   "cssClass": ".opacity-45"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "50": {
               "$value": 50,
@@ -5906,9 +5145,7 @@
                   "cssClass": ".opacity-50"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "55": {
               "$value": 55,
@@ -5922,9 +5159,7 @@
                   "cssClass": ".opacity-55"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "60": {
               "$value": 60,
@@ -5938,9 +5173,7 @@
                   "cssClass": ".opacity-60"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "65": {
               "$value": 65,
@@ -5954,9 +5187,7 @@
                   "cssClass": ".opacity-65"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "70": {
               "$value": 70,
@@ -5970,9 +5201,7 @@
                   "cssClass": ".opacity-70"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "75": {
               "$value": 75,
@@ -5986,9 +5215,7 @@
                   "cssClass": ".opacity-75"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "80": {
               "$value": 80,
@@ -6002,9 +5229,7 @@
                   "cssClass": ".opacity-80"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "85": {
               "$value": 85,
@@ -6018,9 +5243,7 @@
                   "cssClass": ".opacity-85"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "90": {
               "$value": 90,
@@ -6034,9 +5257,7 @@
                   "cssClass": ".opacity-90"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "95": {
               "$value": 95,
@@ -6050,9 +5271,7 @@
                   "cssClass": ".opacity-95"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "100": {
               "$value": 100,
@@ -6066,9 +5285,7 @@
                   "cssClass": ".opacity-100"
                 }
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             }
           }
         },
@@ -6085,281 +5302,211 @@
                 "scssVariableName": "$border-color-translucent"
               }
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "body-color": {
             "$value": "{colors.neutral.gray.300}",
             "$type": "color",
             "$description": "Default body text color. Applied to the <body> element and inherited by all text content unless overridden.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "body-bg": {
             "$value": "{colors.neutral.gray.900}",
             "$type": "color",
             "$description": "Default body background color. Applied to the <body> element as the base page background.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "emphasis-color": {
             "$value": "{colors.neutral.white}",
             "$type": "color",
             "$description": "Emphasis color for higher contrast text. Use for headings or text that needs to stand out.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "secondary-color": {
             "$value": "{colors.neutral.gray.400}",
             "$type": "color",
             "$description": "Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "secondary-bg": {
             "$value": "{colors.neutral.gray.800}",
             "$type": "color",
             "$description": "Secondary background color. Use for dividers and to indicate disabled component states.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "tertiary-color": {
             "$value": "{colors.neutral.gray.500}",
             "$type": "color",
             "$description": "Tertiary text color for even lighter text. Use for less important supporting text.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "tertiary-bg": {
             "$value": "{colors.neutral.gray.900}",
             "$type": "color",
             "$description": "Tertiary background color. Use for hover states, accents, and wells.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "link-color": {
             "$value": "{colors.brand.blue.400}",
             "$type": "color",
             "$description": "Default hyperlink color. Used for all <a> elements and interactive text.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "link-hover-color": {
             "$value": "{colors.brand.blue.300}",
             "$type": "color",
             "$description": "Hyperlink hover color. Applied when user hovers over a link.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "border-color": {
             "$value": "{colors.neutral.gray.700}",
             "$type": "color",
             "$description": "Default border color for component borders, dividers, and rules.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "primary-text-emphasis": {
             "$value": "{colors.brand.blue.300}",
             "$type": "color",
             "$description": "Primary text emphasis color - higher contrast text on light backgrounds.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "primary-bg-subtle": {
             "$value": "{colors.brand.blue.900}",
             "$type": "color",
             "$description": "Primary subtle background color for non-intrusive backgrounds.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "primary-border-subtle": {
             "$value": "{colors.brand.blue.700}",
             "$type": "color",
             "$description": "Primary subtle border color for gentle borders matching primary theme.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "secondary-text-emphasis": {
             "$value": "{colors.neutral.gray.300}",
             "$type": "color",
             "$description": "Secondary theme text emphasis color - higher contrast text on light backgrounds.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "secondary-bg-subtle": {
             "$value": "{colors.neutral.gray.900}",
             "$type": "color",
             "$description": "Secondary theme subtle background color for non-intrusive backgrounds.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "secondary-border-subtle": {
             "$value": "{colors.neutral.gray.700}",
             "$type": "color",
             "$description": "Secondary theme subtle border color for gentle borders matching secondary theme.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "success-text-emphasis": {
             "$value": "{colors.brand.green.300}",
             "$type": "color",
             "$description": "Success text emphasis color - higher contrast text on light backgrounds.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "success-bg-subtle": {
             "$value": "{colors.brand.green.900}",
             "$type": "color",
             "$description": "Success subtle background color for non-intrusive success states.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "success-border-subtle": {
             "$value": "{colors.brand.green.700}",
             "$type": "color",
             "$description": "Success subtle border color for gentle borders matching success theme.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "danger-text-emphasis": {
             "$value": "{colors.brand.red.300}",
             "$type": "color",
             "$description": "Danger text emphasis color - higher contrast text on light backgrounds.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "danger-bg-subtle": {
             "$value": "{colors.brand.red.900}",
             "$type": "color",
             "$description": "Danger subtle background color for non-intrusive error states.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "danger-border-subtle": {
             "$value": "{colors.brand.red.700}",
             "$type": "color",
             "$description": "Danger subtle border color for gentle borders matching danger theme.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "warning-text-emphasis": {
             "$value": "{colors.brand.yellow.300}",
             "$type": "color",
             "$description": "Warning text emphasis color - higher contrast text on light backgrounds.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "warning-bg-subtle": {
             "$value": "{colors.brand.yellow.900}",
             "$type": "color",
             "$description": "Warning subtle background color for non-intrusive warning states.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "warning-border-subtle": {
             "$value": "{colors.brand.yellow.700}",
             "$type": "color",
             "$description": "Warning subtle border color for gentle borders matching warning theme.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "info-text-emphasis": {
             "$value": "{colors.brand.cyan.300}",
             "$type": "color",
             "$description": "Info text emphasis color - higher contrast text on light backgrounds.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "info-bg-subtle": {
             "$value": "{colors.brand.cyan.900}",
             "$type": "color",
             "$description": "Info subtle background color for non-intrusive info states.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "info-border-subtle": {
             "$value": "{colors.brand.cyan.700}",
             "$type": "color",
             "$description": "Info subtle border color for gentle borders matching info theme.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "light-text-emphasis": {
             "$value": "{colors.neutral.gray.100}",
             "$type": "color",
             "$description": "Light text emphasis color - provides contrast on light themed components.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "light-bg-subtle": {
             "$value": "{colors.neutral.gray.800}",
             "$type": "color",
             "$description": "Light subtle background color for subtle backgrounds.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "light-border-subtle": {
             "$value": "{colors.neutral.gray.700}",
             "$type": "color",
             "$description": "Light subtle border color for gentle borders matching light theme.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "dark-text-emphasis": {
             "$value": "{colors.neutral.gray.300}",
             "$type": "color",
             "$description": "Dark text emphasis color - highest contrast text on light backgrounds.",
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "dark-bg-subtle": {
             "$value": "{colors.neutral.gray.700}",
             "$type": "color",
             "$description": "Dark subtle background color for darker backgrounds.",
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "dark-border-subtle": {
             "$value": "{colors.neutral.gray.800}",
             "$type": "color",
             "$description": "Dark subtle border color for borders matching dark theme.",
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           }
         },
         "borders": {
@@ -6367,9 +5514,7 @@
             "default": {
               "$value": "{colors.neutral.gray.300}",
               "$type": "color",
-              "$scopes": [
-                "STROKE_COLOR"
-              ]
+              "$scopes": ["STROKE_COLOR"]
             }
           },
           "width": {
@@ -6385,9 +5530,7 @@
                   "bootstrapVersion": "5.3"
                 }
               },
-              "$scopes": [
-                "STROKE_FLOAT"
-              ]
+              "$scopes": ["STROKE_FLOAT"]
             },
             "medium": {
               "$value": 2,
@@ -6401,9 +5544,7 @@
                   "bootstrapVersion": "5.3"
                 }
               },
-              "$scopes": [
-                "STROKE_FLOAT"
-              ]
+              "$scopes": ["STROKE_FLOAT"]
             },
             "thick": {
               "$value": 4,
@@ -6417,9 +5558,7 @@
                   "bootstrapVersion": "5.3"
                 }
               },
-              "$scopes": [
-                "STROKE_FLOAT"
-              ]
+              "$scopes": ["STROKE_FLOAT"]
             },
             "default": {
               "$value": "{borders.width.thin}",
@@ -6435,18 +5574,13 @@
                   "bootstrapVersion": "5.3"
                 }
               },
-              "$scopes": [
-                "STROKE_FLOAT"
-              ]
+              "$scopes": ["STROKE_FLOAT"]
             },
             "none": {
               "$value": 0,
               "$type": "number",
               "$description": "No border",
-              "$scopes": [
-                "STROKE_FLOAT",
-                "FONT_VARIATIONS"
-              ]
+              "$scopes": ["STROKE_FLOAT", "FONT_VARIATIONS"]
             }
           }
         }

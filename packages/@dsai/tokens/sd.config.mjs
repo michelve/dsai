@@ -73,22 +73,88 @@ StyleDictionary.registerPreprocessor({
 // ============================================================================
 
 /**
- * Transform: size/pxToRem
- * Converts pixel values to rem (base 16px)
+ * Custom Transform: fontWeight/unitless
+ * Keeps font-weight as unitless numbers (300, 400, 700, etc.)
+ * DTCG-compatible: checks both $type and type
+ *
+ * Style Dictionary v5 Best Practice:
+ * Source tokens store raw numbers, transforms add units
  */
 StyleDictionary.registerTransform({
-  name: 'size/pxToRem',
+  name: 'fontWeight/unitless',
   type: 'value',
-  transitive: true,
   filter: (token) => {
-    return (
-      token.type === 'dimension' && typeof token.value === 'string' && token.value.endsWith('px')
-    );
+    const tokenType = token.$type || token.type;
+    // Match fontWeight type or check path for font-weight
+    const isFontWeight = tokenType === 'fontWeight' || tokenType === 'number';
+    const pathHasFontWeight =
+      token.path &&
+      token.path.some((part) => {
+        const lower = String(part).toLowerCase();
+        return (
+          lower === 'fontweight' || lower.includes('font-weight') || lower.includes('fontweight')
+        );
+      });
+    return isFontWeight || pathHasFontWeight;
   },
   transform: (token) => {
-    const val = parseFloat(token.value);
-    if (val === 0) return '0';
-    return `${val / 16}rem`;
+    const value = token.$value || token.value;
+    // Return unitless number (CSS font-weight must be unitless)
+    return typeof value === 'number' ? value : parseInt(String(value), 10);
+  },
+});
+
+/**
+ * Custom Transform: dimension/rem
+ * Converts number dimensions to rem (divide by basePxFontSize, default 16)
+ * Handles raw numbers from source tokens
+ * DTCG-compatible: checks both $value and value
+ *
+ * Style Dictionary v5 Best Practice:
+ * Source tokens: {"value": 16, "type": "dimension"}
+ * Output: 1rem
+ */
+StyleDictionary.registerTransform({
+  name: 'dimension/rem',
+  type: 'value',
+  filter: (token) => {
+    const tokenType = token.$type || token.type;
+    // Exclude font-weights
+    const isFontWeight = tokenType === 'fontWeight' || tokenType === 'number';
+    if (isFontWeight) return false;
+
+    const pathHasFontWeight =
+      token.path &&
+      token.path.some((part) => {
+        const lower = String(part).toLowerCase();
+        return (
+          lower === 'fontweight' || lower.includes('font-weight') || lower.includes('fontweight')
+        );
+      });
+    if (pathHasFontWeight) return false;
+
+    // Include dimensions, spacing, sizing
+    return tokenType === 'dimension' || tokenType === 'spacing' || tokenType === 'sizing';
+  },
+  transform: (token, options) => {
+    const value = token.$value || token.value;
+    const baseFontSize = options?.basePxFontSize || 16;
+
+    // Handle raw numbers (preferred approach)
+    if (typeof value === 'number') {
+      if (value === 0) return '0';
+      return `${value / baseFontSize}rem`;
+    }
+
+    // Handle string values like "16px" (legacy)
+    if (typeof value === 'string' && value.endsWith('px')) {
+      const numValue = parseFloat(value);
+      if (numValue === 0) return '0';
+      return `${numValue / baseFontSize}rem`;
+    }
+
+    // Return as-is if not a number or px value
+    return value;
   },
 });
 
@@ -206,12 +272,38 @@ export default tokens;
 
 StyleDictionary.registerTransformGroup({
   name: 'custom/css',
-  transforms: ['attribute/cti', 'name/kebab', 'time/seconds', 'size/pxToRem', 'color/css'],
+  transforms: [
+    'attribute/cti',
+    'name/kebab',
+    'time/seconds',
+    'dimension/rem',
+    'fontWeight/unitless',
+    'color/css',
+  ],
 });
 
 StyleDictionary.registerTransformGroup({
   name: 'custom/js',
-  transforms: ['attribute/cti', 'name/camel', 'size/pxToRem', 'color/css'],
+  transforms: ['attribute/cti', 'name/camel', 'dimension/rem', 'fontWeight/unitless', 'color/css'],
+});
+
+/**
+ * Custom SCSS Transform Group
+ * Uses our custom dimension/rem and fontWeight/unitless transforms
+ * This follows Style Dictionary v5 best practices:
+ * - Source tokens are raw numbers
+ * - Transforms add appropriate units
+ */
+StyleDictionary.registerTransformGroup({
+  name: 'custom/scss',
+  transforms: [
+    'attribute/cti', // Add CTI attributes
+    'name/kebab', // kebab-case names
+    'time/seconds', // Convert time to seconds
+    'fontWeight/unitless', // Font weights stay unitless (MUST run before dimension/rem)
+    'dimension/rem', // Convert dimensions to rem
+    'color/css', // Convert colors to CSS format
+  ],
 });
 
 // ============================================================================
@@ -307,9 +399,10 @@ export default {
       ],
     },
 
-    // SCSS Variables
+    // SCSS Variables with custom transforms
+    // Uses custom/scss transform group with dimension/rem and fontWeight/unitless
     scss: {
-      transformGroup: 'scss',
+      transformGroup: 'custom/scss',
       buildPath: 'dist/scss/',
       files: [
         {
@@ -317,6 +410,7 @@ export default {
           format: 'scss/variables',
           options: {
             outputReferences: true,
+            basePxFontSize: 16, // Base for rem conversion
           },
         },
       ],

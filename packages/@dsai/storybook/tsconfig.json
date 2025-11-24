@@ -13,7 +13,13 @@
       "@dsai/tokens/js/*": ["../@dsai/tokens/dist/js/*"]
     }
   },
-  "include": [".storybook/**/*", "docs/**/*", "../react/src/**/*", "../tokens/src/**/*"],
+  "include": [
+    ".storybook/**/*",
+    "docs/**/*",
+    "../react/src/**/*",
+    "../tokens/src/**/*",
+    "../tokens/bootstrap"
+  ],
   "exclude": ["node_modules", "storybook-static"],
   "references": [
     {
