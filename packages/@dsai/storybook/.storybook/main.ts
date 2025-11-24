@@ -32,6 +32,7 @@ const config: StorybookConfig = {
           '@dsai/tokens': resolve(process.cwd(), '../../@dsai/tokens/src'),
           '@dsai/tokens/css': resolve(process.cwd(), '../../@dsai/tokens/dist/css'),
           '@dsai/tokens/js': resolve(process.cwd(), '../../@dsai/tokens/dist/js'),
+          '@dsai/react': resolve(process.cwd(), '../../@dsai/react/src'),
         },
       },
     });
