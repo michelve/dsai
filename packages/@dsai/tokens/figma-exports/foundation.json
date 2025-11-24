@@ -2154,7 +2154,7 @@
               "$scopes": ["ALL_FILLS"]
             },
             "white": {
-              "$value": "#ffffff",
+              "$value": "{colors.neutral.white}",
               "$type": "color",
               "$description": "White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness.",
               "$extensions": {
@@ -2169,7 +2169,7 @@
               "$scopes": ["ALL_FILLS"]
             },
             "black": {
-              "$value": "#000000",
+              "$value": "{colors.neutral.black}",
               "$type": "color",
               "$description": "Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text.",
               "$extensions": {
@@ -2788,7 +2788,7 @@
               "$value": 0,
               "$type": "number",
               "$description": "No border",
-              "$scopes": ["STROKE_FLOAT", "FONT_VARIATIONS"]
+              "$scopes": ["STROKE_FLOAT"]
             }
           }
         }
@@ -4533,9 +4533,9 @@
           },
           "neutral": {
             "white": {
-              "$value": "#ffffff",
+              "$value": "#0a0d10",
               "$type": "color",
-              "$description": "Pure white (#FFFFFF). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Maximum brightness. WCAG AAA compliant with gray-900 text.",
+              "$description": "Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text.",
               "$extensions": {
                 "docs": {
                   "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
@@ -4547,9 +4547,9 @@
               "$scopes": ["ALL_FILLS"]
             },
             "black": {
-              "$value": "#000000",
+              "$value": "#fafbfc",
               "$type": "color",
-              "$description": "Pure black (#000000). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. WCAG AAA compliant on white backgrounds.",
+              "$description": "Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds.",
               "$extensions": {
                 "docs": {
                   "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
@@ -5580,7 +5580,7 @@
               "$value": 0,
               "$type": "number",
               "$description": "No border",
-              "$scopes": ["STROKE_FLOAT", "FONT_VARIATIONS"]
+              "$scopes": ["STROKE_FLOAT"]
             }
           }
         }
