@@ -109,7 +109,7 @@
   --bs-border-radius-sm: 0.25rem;
   --bs-border-radius-lg: 1rem;
   --bs-border-radius-xl: 1.5rem;
-  --bs-border-radius-xxl: 624.9375rem;
+  --bs-border-radius-xxl: 2rem;
   --bs-border-radius-2xl: var(--bs-border-radius-xxl);
   --bs-border-radius-pill: 624.9375rem;
   --bs-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
@@ -621,7 +621,7 @@ progress {
 .container-lg,
 .container-md,
 .container-sm {
-  --bs-gutter-x: 1.5rem;
+  --bs-gutter-x: 0.75rem;
   --bs-gutter-y: 0;
   width: 100%;
   padding-right: calc(var(--bs-gutter-x) * 0.5);
@@ -858,38 +858,6 @@ progress {
 .gy-5 {
   --bs-gutter-y: 3rem;
 }
-.g-6,
-.gx-6 {
-  --bs-gutter-x: 4rem;
-}
-.g-6,
-.gy-6 {
-  --bs-gutter-y: 4rem;
-}
-.g-7,
-.gx-7 {
-  --bs-gutter-x: 6rem;
-}
-.g-7,
-.gy-7 {
-  --bs-gutter-y: 6rem;
-}
-.g-8,
-.gx-8 {
-  --bs-gutter-x: 8rem;
-}
-.g-8,
-.gy-8 {
-  --bs-gutter-y: 8rem;
-}
-.g-9,
-.gx-9 {
-  --bs-gutter-x: 10rem;
-}
-.g-9,
-.gy-9 {
-  --bs-gutter-y: 10rem;
-}
 @media (min-width: 36rem) {
   .col-sm {
     flex: 1 0 0;
@@ -1057,38 +1025,6 @@ progress {
   .g-sm-5,
   .gy-sm-5 {
     --bs-gutter-y: 3rem;
-  }
-  .g-sm-6,
-  .gx-sm-6 {
-    --bs-gutter-x: 4rem;
-  }
-  .g-sm-6,
-  .gy-sm-6 {
-    --bs-gutter-y: 4rem;
-  }
-  .g-sm-7,
-  .gx-sm-7 {
-    --bs-gutter-x: 6rem;
-  }
-  .g-sm-7,
-  .gy-sm-7 {
-    --bs-gutter-y: 6rem;
-  }
-  .g-sm-8,
-  .gx-sm-8 {
-    --bs-gutter-x: 8rem;
-  }
-  .g-sm-8,
-  .gy-sm-8 {
-    --bs-gutter-y: 8rem;
-  }
-  .g-sm-9,
-  .gx-sm-9 {
-    --bs-gutter-x: 10rem;
-  }
-  .g-sm-9,
-  .gy-sm-9 {
-    --bs-gutter-y: 10rem;
   }
 }
 @media (min-width: 48rem) {
@@ -1259,38 +1195,6 @@ progress {
   .gy-md-5 {
     --bs-gutter-y: 3rem;
   }
-  .g-md-6,
-  .gx-md-6 {
-    --bs-gutter-x: 4rem;
-  }
-  .g-md-6,
-  .gy-md-6 {
-    --bs-gutter-y: 4rem;
-  }
-  .g-md-7,
-  .gx-md-7 {
-    --bs-gutter-x: 6rem;
-  }
-  .g-md-7,
-  .gy-md-7 {
-    --bs-gutter-y: 6rem;
-  }
-  .g-md-8,
-  .gx-md-8 {
-    --bs-gutter-x: 8rem;
-  }
-  .g-md-8,
-  .gy-md-8 {
-    --bs-gutter-y: 8rem;
-  }
-  .g-md-9,
-  .gx-md-9 {
-    --bs-gutter-x: 10rem;
-  }
-  .g-md-9,
-  .gy-md-9 {
-    --bs-gutter-y: 10rem;
-  }
 }
 @media (min-width: 62rem) {
   .col-lg {
@@ -1459,38 +1363,6 @@ progress {
   .g-lg-5,
   .gy-lg-5 {
     --bs-gutter-y: 3rem;
-  }
-  .g-lg-6,
-  .gx-lg-6 {
-    --bs-gutter-x: 4rem;
-  }
-  .g-lg-6,
-  .gy-lg-6 {
-    --bs-gutter-y: 4rem;
-  }
-  .g-lg-7,
-  .gx-lg-7 {
-    --bs-gutter-x: 6rem;
-  }
-  .g-lg-7,
-  .gy-lg-7 {
-    --bs-gutter-y: 6rem;
-  }
-  .g-lg-8,
-  .gx-lg-8 {
-    --bs-gutter-x: 8rem;
-  }
-  .g-lg-8,
-  .gy-lg-8 {
-    --bs-gutter-y: 8rem;
-  }
-  .g-lg-9,
-  .gx-lg-9 {
-    --bs-gutter-x: 10rem;
-  }
-  .g-lg-9,
-  .gy-lg-9 {
-    --bs-gutter-y: 10rem;
   }
 }
 @media (min-width: 75rem) {
@@ -1661,38 +1533,6 @@ progress {
   .gy-xl-5 {
     --bs-gutter-y: 3rem;
   }
-  .g-xl-6,
-  .gx-xl-6 {
-    --bs-gutter-x: 4rem;
-  }
-  .g-xl-6,
-  .gy-xl-6 {
-    --bs-gutter-y: 4rem;
-  }
-  .g-xl-7,
-  .gx-xl-7 {
-    --bs-gutter-x: 6rem;
-  }
-  .g-xl-7,
-  .gy-xl-7 {
-    --bs-gutter-y: 6rem;
-  }
-  .g-xl-8,
-  .gx-xl-8 {
-    --bs-gutter-x: 8rem;
-  }
-  .g-xl-8,
-  .gy-xl-8 {
-    --bs-gutter-y: 8rem;
-  }
-  .g-xl-9,
-  .gx-xl-9 {
-    --bs-gutter-x: 10rem;
-  }
-  .g-xl-9,
-  .gy-xl-9 {
-    --bs-gutter-y: 10rem;
-  }
 }
 @media (min-width: 87.5rem) {
   .col-xxl {
@@ -1861,38 +1701,6 @@ progress {
   .g-xxl-5,
   .gy-xxl-5 {
     --bs-gutter-y: 3rem;
-  }
-  .g-xxl-6,
-  .gx-xxl-6 {
-    --bs-gutter-x: 4rem;
-  }
-  .g-xxl-6,
-  .gy-xxl-6 {
-    --bs-gutter-y: 4rem;
-  }
-  .g-xxl-7,
-  .gx-xxl-7 {
-    --bs-gutter-x: 6rem;
-  }
-  .g-xxl-7,
-  .gy-xxl-7 {
-    --bs-gutter-y: 6rem;
-  }
-  .g-xxl-8,
-  .gx-xxl-8 {
-    --bs-gutter-x: 8rem;
-  }
-  .g-xxl-8,
-  .gy-xxl-8 {
-    --bs-gutter-y: 8rem;
-  }
-  .g-xxl-9,
-  .gx-xxl-9 {
-    --bs-gutter-x: 10rem;
-  }
-  .g-xxl-9,
-  .gy-xxl-9 {
-    --bs-gutter-y: 10rem;
   }
 }
 .table {
@@ -5323,7 +5131,7 @@ fieldset:disabled .btn {
   --bs-toast-zindex: 1090;
   --bs-toast-padding-x: 0.75rem;
   --bs-toast-padding-y: 0.5rem;
-  --bs-toast-spacing: 1.5rem;
+  --bs-toast-spacing: 0.75rem;
   --bs-toast-max-width: 350px;
   --bs-toast-font-size: 0.875rem;
   --bs-toast-color: ;

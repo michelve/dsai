@@ -214,6 +214,15 @@ StyleDictionary.registerTransform({
       token.$scopes && token.$scopes.includes('LINE_HEIGHT');
     if (scopeHasLineHeight) return false;
 
+    // Exclude grid configuration (should be unitless count values, not dimensions)
+    const pathHasGridConfig =
+      token.path &&
+      token.path.some((part) => {
+        const lower = String(part).toLowerCase();
+        return lower === 'columns' || lower === 'row-columns';
+      });
+    if (pathHasGridConfig) return false;
+
     // Include dimensions, spacing, sizing
     return tokenType === 'dimension' || tokenType === 'spacing' || tokenType === 'sizing';
   },

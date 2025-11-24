@@ -141,7 +141,7 @@ function transformValue(value, type, options = {}) {
   // Handle line-height: keep as unitless number (CSS best practice)
   // Line-heights should remain unitless for proper inheritance
   // @see https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
-  if (typeof value === 'number' && shouldKeepUnitless(type, options.scopes)) {
+  if (typeof value === 'number' && shouldKeepUnitless(type, options.scopes, options.tokenPath)) {
     // If it's a percentage string like "150%", convert to decimal
     if (typeof value === 'string' && value.endsWith('%')) {
       return parseFloat(value) / 100;
@@ -151,7 +151,7 @@ function transformValue(value, type, options = {}) {
   }
 
   // Handle numbers that should be dimensions
-  if (typeof value === 'number' && shouldAddUnit(type, options.scopes)) {
+  if (typeof value === 'number' && shouldAddUnit(type, options.scopes, options.tokenPath)) {
     // Special case for circle radius (percentage)
     if (options.isCircle) {
       return '50%';
@@ -188,9 +188,9 @@ function transformType(figmaType) {
  */
 /**
  * Check if a token should remain unitless
- * Font-weights and line-heights should be unitless numbers in CSS
+ * Font-weights, line-heights, and grid configuration values should be unitless numbers in CSS
  */
-function shouldKeepUnitless(type, scopes = []) {
+function shouldKeepUnitless(type, scopes = [], tokenPath = '') {
   // Font weights must be unitless (300, 400, 700, etc.)
   if (scopes.includes('FONT_WEIGHT')) {
     return true;
@@ -201,16 +201,23 @@ function shouldKeepUnitless(type, scopes = []) {
     return true;
   }
 
+  // Grid configuration values should be unitless (12 columns, 6 row-columns, etc.)
+  // These are COUNT values, not dimensions
+  const pathLower = tokenPath.toLowerCase();
+  if (pathLower.includes('columns') || pathLower.includes('row-columns')) {
+    return true;
+  }
+
   return false;
 }
 
 /**
  * Check if px units should be added to a number value
- * Excludes font-weights and line-heights which should remain unitless
+ * Excludes font-weights, line-heights, and grid configuration which should remain unitless
  */
-function shouldAddUnit(type, scopes = []) {
-  // Don't add units to font-weights or line-heights
-  if (shouldKeepUnitless(type, scopes)) {
+function shouldAddUnit(type, scopes = [], tokenPath = '') {
+  // Don't add units to font-weights, line-heights, or grid configuration
+  if (shouldKeepUnitless(type, scopes, tokenPath)) {
     return false;
   }
 
@@ -224,14 +231,21 @@ function transformTokenTree(obj, parentKey = '', options = {}) {
   const result = {};
 
   for (const [key, value] of Object.entries(obj)) {
+    // Build the full path for this token (e.g., "grid.columns")
+    const currentPath = parentKey ? `${parentKey}.${key}` : key;
+
     // Try to transform as a token
-    const transformed = transformToken(value, options[key] || {});
+    const tokenOptions = {
+      ...(options[key] || {}),
+      tokenPath: currentPath,
+    };
+    const transformed = transformToken(value, tokenOptions);
 
     if (transformed) {
       result[key] = transformed;
     } else if (typeof value === 'object' && value !== null) {
       // Recursively process nested objects
-      const nested = transformTokenTree(value, key, options[key] || {});
+      const nested = transformTokenTree(value, currentPath, options[key] || {});
       if (Object.keys(nested).length > 0) {
         result[key] = nested;
       }

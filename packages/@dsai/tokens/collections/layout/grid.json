@@ -2,7 +2,7 @@
   "layout": {
     "grid": {
       "columns": {
-        "$value": "12px",
+        "$value": 12,
         "$type": "dimension",
         "$description": "Number of columns in Bootstrap's grid system (12). Provides flexible layout options with divisible column counts.",
         "$extensions": {
@@ -38,7 +38,7 @@
         "comment": "$grid-gutter-width"
       },
       "row-columns": {
-        "$value": "6px",
+        "$value": 6,
         "$type": "dimension",
         "$description": "Maximum number of columns for .row-cols-* classes (6). Sets the limit for auto-layout row columns.",
         "$extensions": {

@@ -467,14 +467,44 @@ $container-max-widths: (
 ) !default;
 
 // ----------------------------------------------------------------------------
+// CONTAINER & GRID CONFIGURATION
+// ----------------------------------------------------------------------------
+$container-padding-x: dsai.$layout-container-padding-x !default; // 0.75rem (12px)
+$grid-columns: dsai.$layout-grid-columns !default; // 12 (unitless)
+$grid-gutter-width: dsai.$layout-grid-gutter-width !default; // 1.5rem (24px)
+$grid-row-columns: dsai.$layout-grid-row-columns !default; // 6 (unitless)
+
+// Gutters map for responsive spacing utilities (.g-*, .gx-*, .gy-*)
+$gutters: (
+  0: dsai.$layout-gutters-0,
+  // 0
+  1: dsai.$layout-gutters-1,
+  // 0.25rem (4px)
+  2: dsai.$layout-gutters-2,
+  // 0.5rem (8px)
+  3: dsai.$layout-gutters-3,
+  // 1rem (16px)
+  4: dsai.$layout-gutters-4,
+  // 1.5rem (24px)
+  5: dsai.$layout-gutters-5, // 3rem (48px)
+) !default;
+
+// ----------------------------------------------------------------------------
 // BORDERS
 // ----------------------------------------------------------------------------
-$border-radius: dsai.$border-radius-md !default; // 0.375rem
+// DSAi provides 9 border radius tokens - ALL AVAILABLE as Bootstrap variables:
+// Standard Bootstrap variables (6):
+$border-radius: dsai.$border-radius-md !default; // 0.5rem (base)
 $border-radius-sm: dsai.$border-radius-sm !default; // 0.25rem
-$border-radius-lg: dsai.$border-radius-lg !default; // 0.5rem
-$border-radius-xl: dsai.$border-radius-xl !default; // 1rem
-$border-radius-xxl: dsai.$border-radius-full !default; // 2rem
-$border-radius-pill: dsai.$border-radius-pill !default; // 50rem
+$border-radius-lg: dsai.$border-radius-lg !default; // 1rem
+$border-radius-xl: dsai.$border-radius-xl !default; // 1.5rem
+$border-radius-xxl: dsai.$border-radius-xxl !default; // 2rem
+$border-radius-pill: dsai.$border-radius-pill !default; // 624.9375rem (pill shape)
+
+// Additional DSAi radius variables (3):
+$border-radius-none: dsai.$border-radius-none !default; // 0 (square corners)
+$border-radius-circle: dsai.$border-radius-circle !default; // 50% (perfect circles)
+$border-radius-full: dsai.$border-radius-full !default; // 624.9375rem (fully rounded)
 
 // ----------------------------------------------------------------------------
 // FOCUS RING (Accessibility)
