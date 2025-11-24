@@ -51,12 +51,16 @@ export {
   Badge,
   type BadgeProps,
   type BadgeVariant,
+  Alert,
+  type AlertProps,
+  type AlertVariant,
+  type AlertLinkProps,
+  type AlertHeadingProps,
 } from './components';
 
 // Future component exports (uncomment as implemented):
 // export { Input, type InputProps } from './components';
 // export { Card, type CardProps } from './components';
-// export { Alert, type AlertProps } from './components';
 
 // ============================================================================
 // Compositions - Complex multi-component patterns
