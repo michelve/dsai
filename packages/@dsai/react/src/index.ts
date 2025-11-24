@@ -48,12 +48,14 @@ export {
   type SpinnerAnimation,
   type SpinnerSize,
   type SpinnerVariant,
+  Badge,
+  type BadgeProps,
+  type BadgeVariant,
 } from './components';
 
 // Future component exports (uncomment as implemented):
 // export { Input, type InputProps } from './components';
 // export { Card, type CardProps } from './components';
-// export { Badge, type BadgeProps } from './components';
 // export { Alert, type AlertProps } from './components';
 
 // ============================================================================

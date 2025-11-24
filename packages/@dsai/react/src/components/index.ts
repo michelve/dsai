@@ -18,15 +18,16 @@ export type { ButtonProps, ButtonVariant, ButtonSize, ButtonType } from './Butto
 export { Spinner } from './Spinner';
 export type { SpinnerProps, SpinnerAnimation, SpinnerSize, SpinnerVariant } from './Spinner';
 
+// Badge
+export { Badge } from './Badge';
+export type { BadgeProps, BadgeVariant } from './Badge';
+
 // Future components (uncomment as implemented):
 // export { Input } from './Input';
 // export type { InputProps } from './Input';
 
 // export { Card } from './Card';
 // export type { CardProps } from './Card';
-
-// export { Badge } from './Badge';
-// export type { BadgeProps } from './Badge';
 
 // export { Alert } from './Alert';
 // export type { AlertProps } from './Alert';
