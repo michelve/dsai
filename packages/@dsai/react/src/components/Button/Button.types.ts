@@ -41,8 +41,19 @@ export type ButtonType = 'button' | 'submit' | 'reset';
  *
  * @example
  * ```tsx
+ * // Basic button
  * <Button variant="primary" size="md" onClick={handleClick}>
  *   Click me
+ * </Button>
+ *
+ * // Loading button
+ * <Button variant="primary" loading>
+ *   Saving...
+ * </Button>
+ *
+ * // Button with icons
+ * <Button variant="primary" startIcon={<SaveIcon />} endIcon={<ArrowIcon />}>
+ *   Save
  * </Button>
  * ```
  */
@@ -69,6 +80,28 @@ export interface ButtonProps {
    * @default false
    */
   disabled?: boolean;
+
+  /**
+   * Loading state - shows spinner and disables button
+   * @default false
+   */
+  loading?: boolean;
+
+  /**
+   * Text to show while loading (replaces children)
+   * If not provided, children will be shown with spinner
+   */
+  loadingText?: string;
+
+  /**
+   * Icon to display before button text
+   */
+  startIcon?: ReactNode;
+
+  /**
+   * Icon to display after button text
+   */
+  endIcon?: ReactNode;
 
   /**
    * Click event handler

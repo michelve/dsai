@@ -68,7 +68,7 @@ export function mergeRefs<T>(...refs: (React.Ref<T> | undefined)[]): React.RefCa
     refs.forEach((ref) => {
       if (typeof ref === 'function') {
         ref(value);
-      } else if (ref != null) {
+      } else if (ref !== null) {
         (ref as React.MutableRefObject<T | null>).current = value;
       }
     });

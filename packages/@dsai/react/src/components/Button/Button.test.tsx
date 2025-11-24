@@ -1,7 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { createRef } from 'react';
+
 import { Button } from './Button';
+
 import type { ButtonProps } from './Button.types';
 
 expect.extend(toHaveNoViolations);
@@ -121,6 +123,19 @@ describe('Button', () => {
       expect(handleClick).not.toHaveBeenCalled();
     });
 
+    it('does not trigger onClick when loading', () => {
+      const handleClick = jest.fn();
+      render(
+        <Button onClick={handleClick} loading>
+          Loading
+        </Button>
+      );
+
+      fireEvent.click(screen.getByRole('button'));
+
+      expect(handleClick).not.toHaveBeenCalled();
+    });
+
     it('receives event object in onClick handler', () => {
       const handleClick = jest.fn();
       render(<Button onClick={handleClick}>Click</Button>);
@@ -142,6 +157,103 @@ describe('Button', () => {
 
       expect(button).toBeDisabled();
       expect(button).toHaveAttribute('aria-disabled', 'true');
+    });
+  });
+
+  describe('Loading State', () => {
+    it('shows spinner when loading', () => {
+      render(<Button loading>Loading</Button>);
+      expect(screen.getByRole('status')).toBeInTheDocument();
+    });
+
+    it('disables button when loading', () => {
+      render(<Button loading>Loading</Button>);
+      expect(screen.getByRole('button')).toBeDisabled();
+    });
+
+    it('has aria-busy when loading', () => {
+      render(<Button loading>Loading</Button>);
+      expect(screen.getByRole('button')).toHaveAttribute('aria-busy', 'true');
+    });
+
+    it('has aria-disabled when loading', () => {
+      render(<Button loading>Loading</Button>);
+      expect(screen.getByRole('button')).toHaveAttribute('aria-disabled', 'true');
+    });
+
+    it('shows loading text when provided', () => {
+      render(
+        <Button loading loadingText="Saving...">
+          Save
+        </Button>
+      );
+      expect(screen.getByText('Saving...')).toBeInTheDocument();
+      expect(screen.queryByText('Save')).not.toBeInTheDocument();
+    });
+
+    it('shows original children when no loadingText', () => {
+      render(<Button loading>Save</Button>);
+      expect(screen.getByText('Save')).toBeInTheDocument();
+    });
+
+    it('hides icons when loading', () => {
+      render(
+        <Button loading startIcon={<span data-testid="start-icon">→</span>}>
+          Loading
+        </Button>
+      );
+      expect(screen.queryByTestId('start-icon')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('Icon Support', () => {
+    it('renders start icon', () => {
+      render(<Button startIcon={<span data-testid="start-icon">→</span>}>With Icon</Button>);
+      expect(screen.getByTestId('start-icon')).toBeInTheDocument();
+    });
+
+    it('renders end icon', () => {
+      render(<Button endIcon={<span data-testid="end-icon">←</span>}>With Icon</Button>);
+      expect(screen.getByTestId('end-icon')).toBeInTheDocument();
+    });
+
+    it('renders both icons', () => {
+      render(
+        <Button
+          startIcon={<span data-testid="start-icon">→</span>}
+          endIcon={<span data-testid="end-icon">←</span>}
+        >
+          With Both Icons
+        </Button>
+      );
+      expect(screen.getByTestId('start-icon')).toBeInTheDocument();
+      expect(screen.getByTestId('end-icon')).toBeInTheDocument();
+    });
+
+    it('positions start icon before text', () => {
+      const { container } = render(
+        <Button startIcon={<span data-testid="start-icon">→</span>}>Text</Button>
+      );
+      const button = container.querySelector('button');
+      const children = Array.from(button?.children || []);
+      const iconIndex = children.findIndex((child) =>
+        child.querySelector('[data-testid="start-icon"]')
+      );
+      const textIndex = children.findIndex((child) => child.textContent === 'Text');
+      expect(iconIndex).toBeLessThan(textIndex);
+    });
+
+    it('positions end icon after text', () => {
+      const { container } = render(
+        <Button endIcon={<span data-testid="end-icon">←</span>}>Text</Button>
+      );
+      const button = container.querySelector('button');
+      const children = Array.from(button?.children || []);
+      const iconIndex = children.findIndex((child) =>
+        child.querySelector('[data-testid="end-icon"]')
+      );
+      const textIndex = children.findIndex((child) => child.textContent === 'Text');
+      expect(iconIndex).toBeGreaterThan(textIndex);
     });
   });
 
@@ -213,6 +325,7 @@ describe('Button', () => {
     });
 
     it('accepts autoFocus attribute', () => {
+      // eslint-disable-next-line jsx-a11y/no-autofocus -- Testing autoFocus functionality
       render(<Button autoFocus>Button</Button>);
       const button = screen.getByRole('button');
       expect(button).toHaveFocus(); // autoFocus will auto-focus the element
@@ -241,6 +354,24 @@ describe('Button', () => {
       expect(results).toHaveNoViolations();
     });
 
+    it('has no violations when loading', async () => {
+      const { container } = render(<Button loading>Loading</Button>);
+      const results = await axe(container);
+
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no violations with icons', async () => {
+      const { container } = render(
+        <Button startIcon={<span>→</span>} endIcon={<span>←</span>}>
+          With Icons
+        </Button>
+      );
+      const results = await axe(container);
+
+      expect(results).toHaveNoViolations();
+    });
+
     it('accepts aria-label', () => {
       render(<Button aria-label="Close dialog">×</Button>);
       expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Close dialog');
@@ -257,12 +388,12 @@ describe('Button', () => {
     });
 
     it('accepts aria-expanded', () => {
-      render(<Button aria-expanded={true}>Expand</Button>);
+      render(<Button aria-expanded>Expand</Button>);
       expect(screen.getByRole('button')).toHaveAttribute('aria-expanded', 'true');
     });
 
     it('accepts aria-pressed for toggle buttons', () => {
-      render(<Button aria-pressed={true}>Toggle</Button>);
+      render(<Button aria-pressed>Toggle</Button>);
       expect(screen.getByRole('button')).toHaveAttribute('aria-pressed', 'true');
     });
 

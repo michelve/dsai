@@ -1,6 +1,9 @@
 /* eslint jsx-a11y/no-autofocus: 0 */
 /* eslint-disable jsx-a11y/no-autofocus */
 import { forwardRef } from 'react';
+
+import { Spinner } from '../Spinner';
+
 import type { ButtonProps } from './Button.types';
 
 /**
@@ -8,7 +11,9 @@ import type { ButtonProps } from './Button.types';
  *
  * A versatile, accessible button component using Bootstrap 5 native classes.
  * DSAi design tokens are applied through the Bootstrap theme (bootstrap.css).
- * Supports multiple variants, sizes, and states with full WCAG 2.2 AA compliance.
+ * Supports multiple variants, sizes, states, icons, and loading with full WCAG 2.2 AA compliance.
+ *
+ * @see https://getbootstrap.com/docs/5.3/components/buttons/
  *
  * @example
  * ```tsx
@@ -20,6 +25,16 @@ import type { ButtonProps } from './Button.types';
  * // Outline variant
  * <Button variant="outline-secondary" size="lg">
  *   Large Outline Button
+ * </Button>
+ *
+ * // Loading state
+ * <Button variant="primary" loading>
+ *   Saving...
+ * </Button>
+ *
+ * // With icons
+ * <Button variant="success" startIcon={<CheckIcon />}>
+ *   Save
  * </Button>
  *
  * // Full width button
@@ -39,6 +54,7 @@ import type { ButtonProps } from './Button.types';
  * - Keyboard navigation (Enter, Space)
  * - Focus indicators (visible focus ring via Bootstrap)
  * - Disabled state with aria-disabled
+ * - Loading state with aria-busy
  * - Sufficient color contrast (4.5:1 for normal text, 3:1 for large text)
  * - Touch target size ≥44×44px (WCAG 2.2 2.5.8)
  * - Focus Not Obscured (WCAG 2.2 2.4.11, 2.4.12)
@@ -51,6 +67,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       variant = 'primary',
       size = 'md',
       disabled = false,
+      loading = false,
+      loadingText,
+      startIcon,
+      endIcon,
       onClick,
       className = '',
       type = 'button',
@@ -70,6 +90,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
+    // Button is disabled when explicitly disabled or loading
+    const isDisabled = disabled || loading;
+
     // Build Bootstrap class names
     // Bootstrap button classes: btn, btn-{variant}, btn-{size}
     const bootstrapClasses = [
@@ -84,12 +107,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       .filter(Boolean)
       .join(' ');
 
+    // Determine what content to show
+    const showLoadingText = loading && loadingText;
+    const displayText = showLoadingText ? loadingText : children;
+
     return (
       <button
         ref={ref}
         type={type}
         className={bootstrapClasses}
-        disabled={disabled}
+        disabled={isDisabled}
         onClick={onClick}
         style={style}
         id={id}
@@ -102,10 +129,32 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
         aria-pressed={ariaPressed}
-        aria-disabled={disabled}
+        aria-disabled={isDisabled}
+        aria-busy={loading}
         {...rest}
       >
-        {children}
+        {/* Loading spinner */}
+        {loading && (
+          <Spinner
+            as="span"
+            size="sm"
+            className={displayText ? 'me-2' : undefined}
+            label="Loading"
+          />
+        )}
+
+        {/* Start icon (not shown when loading) */}
+        {!loading && startIcon && (
+          <span className="me-2 d-inline-flex align-items-center">{startIcon}</span>
+        )}
+
+        {/* Button text content */}
+        {displayText && <span>{displayText}</span>}
+
+        {/* End icon (not shown when loading) */}
+        {!loading && endIcon && (
+          <span className="ms-2 d-inline-flex align-items-center">{endIcon}</span>
+        )}
       </button>
     );
   }

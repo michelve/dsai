@@ -14,6 +14,10 @@
 export { Button } from './Button';
 export type { ButtonProps, ButtonVariant, ButtonSize, ButtonType } from './Button';
 
+// Spinner
+export { Spinner } from './Spinner';
+export type { SpinnerProps, SpinnerAnimation, SpinnerSize, SpinnerVariant } from './Spinner';
+
 // Future components (uncomment as implemented):
 // export { Input } from './Input';
 // export type { InputProps } from './Input';
@@ -26,9 +30,6 @@ export type { ButtonProps, ButtonVariant, ButtonSize, ButtonType } from './Butto
 
 // export { Alert } from './Alert';
 // export type { AlertProps } from './Alert';
-
-// export { Spinner } from './Spinner';
-// export type { SpinnerProps } from './Spinner';
 
 // export { Avatar } from './Avatar';
 // export type { AvatarProps } from './Avatar';

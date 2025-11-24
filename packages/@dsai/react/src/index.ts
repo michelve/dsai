@@ -43,6 +43,11 @@ export {
   type ButtonSize,
   type ButtonType,
   type ButtonVariant,
+  Spinner,
+  type SpinnerProps,
+  type SpinnerAnimation,
+  type SpinnerSize,
+  type SpinnerVariant,
 } from './components';
 
 // Future component exports (uncomment as implemented):
