@@ -12,7 +12,7 @@
 // ============================================================================
 
 // 1. Import our DSAi design tokens FIRST (Sass @use must come before @import)
-@use '../dist/scss/_variables' as dsai;
+@use '../src/scss/_variables' as dsai;
 
 // 2. Include Bootstrap functions (so we can use color functions, etc.)
 @import '../node_modules/bootstrap/scss/functions';

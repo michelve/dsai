@@ -1,0 +1,418 @@
+/**
+ * DSAi Utilities Framework
+ * Lightweight utility classes powered by DSAi design tokens
+ * Alternative to Bootstrap for minimal, token-based styling
+ */
+
+// Import DSAi tokens
+@use '../src/scss/_variables' as dsai;
+
+// ============================================================================
+// CSS CUSTOM PROPERTIES (CSS Variables)
+// ============================================================================
+:root {
+  // Colors - Primitives (all color scales)
+  --dsai-color-blue-50: #{dsai.$color-blue-50};
+  --dsai-color-blue-100: #{dsai.$color-blue-100};
+  --dsai-color-blue-200: #{dsai.$color-blue-200};
+  --dsai-color-blue-300: #{dsai.$color-blue-300};
+  --dsai-color-blue-400: #{dsai.$color-blue-400};
+  --dsai-color-blue-500: #{dsai.$color-blue-500};
+  --dsai-color-blue-600: #{dsai.$color-blue-600};
+  --dsai-color-blue-700: #{dsai.$color-blue-700};
+  --dsai-color-blue-800: #{dsai.$color-blue-800};
+  --dsai-color-blue-900: #{dsai.$color-blue-900};
+  --dsai-color-blue-950: #{dsai.$color-blue-950};
+
+  // Semantic colors
+  --dsai-color-primary: #{dsai.$semantic-link-color};
+  --dsai-color-secondary: #{dsai.$semantic-secondary-color};
+  --dsai-color-success: #{dsai.$semantic-success-text-emphasis};
+  --dsai-color-danger: #{dsai.$semantic-danger-text-emphasis};
+  --dsai-color-warning: #{dsai.$semantic-warning-text-emphasis};
+  --dsai-color-info: #{dsai.$semantic-info-text-emphasis};
+
+  // Typography
+  --dsai-font-family-base: #{dsai.$typography-font-family-base};
+  --dsai-font-family-mono: #{dsai.$typography-font-family-monospace};
+  --dsai-font-size-base: #{dsai.$typography-font-size-base};
+  --dsai-font-weight-normal: #{dsai.$typography-font-weight-normal};
+  --dsai-font-weight-bold: #{dsai.$typography-font-weight-bold};
+  --dsai-line-height-base: #{dsai.$typography-line-height-base};
+
+  // Spacing
+  --dsai-spacing-0: #{dsai.$spacing-0};
+  --dsai-spacing-1: #{dsai.$spacing-1};
+  --dsai-spacing-2: #{dsai.$spacing-2};
+  --dsai-spacing-3: #{dsai.$spacing-3};
+  --dsai-spacing-4: #{dsai.$spacing-4};
+  --dsai-spacing-5: #{dsai.$spacing-5};
+  --dsai-spacing-6: #{dsai.$spacing-6};
+  --dsai-spacing-7: #{dsai.$spacing-7};
+  --dsai-spacing-8: #{dsai.$spacing-8};
+  --dsai-spacing-9: #{dsai.$spacing-9};
+  --dsai-spacing-10: #{dsai.$spacing-10};
+
+  // Border radius
+  --dsai-radius-none: #{dsai.$border-radius-none};
+  --dsai-radius-sm: #{dsai.$border-radius-sm};
+  --dsai-radius-md: #{dsai.$border-radius-md};
+  --dsai-radius-lg: #{dsai.$border-radius-lg};
+  --dsai-radius-xl: #{dsai.$border-radius-xl};
+  --dsai-radius-full: #{dsai.$border-radius-full};
+}
+
+// ============================================================================
+// BASE STYLES
+// ============================================================================
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--dsai-font-family-base);
+  font-size: var(--dsai-font-size-base);
+  font-weight: var(--dsai-font-weight-normal);
+  line-height: var(--dsai-line-height-base);
+  color: #{dsai.$semantic-body-color};
+  background-color: #{dsai.$semantic-body-bg};
+}
+
+// ============================================================================
+// COLOR UTILITIES
+// ============================================================================
+
+// Text colors
+.text-primary {
+  color: var(--dsai-color-primary) !important;
+}
+.text-secondary {
+  color: var(--dsai-color-secondary) !important;
+}
+.text-success {
+  color: var(--dsai-color-success) !important;
+}
+.text-danger {
+  color: var(--dsai-color-danger) !important;
+}
+.text-warning {
+  color: var(--dsai-color-warning) !important;
+}
+.text-info {
+  color: var(--dsai-color-info) !important;
+}
+
+// Background colors
+.bg-primary {
+  background-color: var(--dsai-color-primary) !important;
+}
+.bg-secondary {
+  background-color: var(--dsai-color-secondary) !important;
+}
+.bg-success {
+  background-color: var(--dsai-color-success) !important;
+}
+.bg-danger {
+  background-color: var(--dsai-color-danger) !important;
+}
+.bg-warning {
+  background-color: var(--dsai-color-warning) !important;
+}
+.bg-info {
+  background-color: var(--dsai-color-info) !important;
+}
+
+// Blue scale utilities
+@for $i from 0 through 10 {
+  $shade: if($i == 0, 50, $i * 100);
+  .text-blue-#{$shade} {
+    color: var(--dsai-color-blue-#{$shade}) !important;
+  }
+  .bg-blue-#{$shade} {
+    background-color: var(--dsai-color-blue-#{$shade}) !important;
+  }
+}
+
+// ============================================================================
+// SPACING UTILITIES (Margin & Padding)
+// ============================================================================
+
+// Margin utilities
+@for $i from 0 through 10 {
+  .m-#{$i} {
+    margin: var(--dsai-spacing-#{$i}) !important;
+  }
+  .mt-#{$i} {
+    margin-top: var(--dsai-spacing-#{$i}) !important;
+  }
+  .mb-#{$i} {
+    margin-bottom: var(--dsai-spacing-#{$i}) !important;
+  }
+  .ms-#{$i} {
+    margin-left: var(--dsai-spacing-#{$i}) !important;
+  }
+  .me-#{$i} {
+    margin-right: var(--dsai-spacing-#{$i}) !important;
+  }
+  .mx-#{$i} {
+    margin-left: var(--dsai-spacing-#{$i}) !important;
+    margin-right: var(--dsai-spacing-#{$i}) !important;
+  }
+  .my-#{$i} {
+    margin-top: var(--dsai-spacing-#{$i}) !important;
+    margin-bottom: var(--dsai-spacing-#{$i}) !important;
+  }
+}
+
+// Padding utilities
+@for $i from 0 through 10 {
+  .p-#{$i} {
+    padding: var(--dsai-spacing-#{$i}) !important;
+  }
+  .pt-#{$i} {
+    padding-top: var(--dsai-spacing-#{$i}) !important;
+  }
+  .pb-#{$i} {
+    padding-bottom: var(--dsai-spacing-#{$i}) !important;
+  }
+  .ps-#{$i} {
+    padding-left: var(--dsai-spacing-#{$i}) !important;
+  }
+  .pe-#{$i} {
+    padding-right: var(--dsai-spacing-#{$i}) !important;
+  }
+  .px-#{$i} {
+    padding-left: var(--dsai-spacing-#{$i}) !important;
+    padding-right: var(--dsai-spacing-#{$i}) !important;
+  }
+  .py-#{$i} {
+    padding-top: var(--dsai-spacing-#{$i}) !important;
+    padding-bottom: var(--dsai-spacing-#{$i}) !important;
+  }
+}
+
+// Gap utilities (for flexbox/grid)
+@for $i from 0 through 10 {
+  .gap-#{$i} {
+    gap: var(--dsai-spacing-#{$i}) !important;
+  }
+}
+
+// ============================================================================
+// TYPOGRAPHY UTILITIES
+// ============================================================================
+
+// Font families
+.font-base {
+  font-family: var(--dsai-font-family-base) !important;
+}
+.font-mono {
+  font-family: var(--dsai-font-family-mono) !important;
+}
+
+// Font weights
+.fw-light {
+  font-weight: #{dsai.$typography-font-weight-light} !important;
+}
+.fw-normal {
+  font-weight: #{dsai.$typography-font-weight-normal} !important;
+}
+.fw-medium {
+  font-weight: #{dsai.$typography-font-weight-medium} !important;
+}
+.fw-semibold {
+  font-weight: #{dsai.$typography-font-weight-semibold} !important;
+}
+.fw-bold {
+  font-weight: #{dsai.$typography-font-weight-bold} !important;
+}
+
+// Font sizes
+.fs-sm {
+  font-size: #{dsai.$typography-font-size-sm} !important;
+}
+.fs-base {
+  font-size: #{dsai.$typography-font-size-base} !important;
+}
+.fs-lg {
+  font-size: #{dsai.$typography-font-size-lg} !important;
+}
+
+// Text alignment
+.text-start {
+  text-align: left !important;
+}
+.text-center {
+  text-align: center !important;
+}
+.text-end {
+  text-align: right !important;
+}
+
+// ============================================================================
+// BORDER UTILITIES
+// ============================================================================
+
+// Border radius
+.rounded-none {
+  border-radius: var(--dsai-radius-none) !important;
+}
+.rounded-sm {
+  border-radius: var(--dsai-radius-sm) !important;
+}
+.rounded {
+  border-radius: var(--dsai-radius-md) !important;
+}
+.rounded-lg {
+  border-radius: var(--dsai-radius-lg) !important;
+}
+.rounded-xl {
+  border-radius: var(--dsai-radius-xl) !important;
+}
+.rounded-full {
+  border-radius: var(--dsai-radius-full) !important;
+}
+
+// Border width (using 1px as default, semantic border color)
+.border {
+  border: 1px solid #{dsai.$border-color-default} !important;
+}
+.border-0 {
+  border: 0 !important;
+}
+.border-top {
+  border-top: 1px solid #{dsai.$border-color-default} !important;
+}
+.border-bottom {
+  border-bottom: 1px solid #{dsai.$border-color-default} !important;
+}
+.border-start {
+  border-left: 1px solid #{dsai.$border-color-default} !important;
+}
+.border-end {
+  border-right: 1px solid #{dsai.$border-color-default} !important;
+}
+
+// ============================================================================
+// DISPLAY & LAYOUT UTILITIES
+// ============================================================================
+
+// Display
+.d-none {
+  display: none !important;
+}
+.d-block {
+  display: block !important;
+}
+.d-inline {
+  display: inline !important;
+}
+.d-inline-block {
+  display: inline-block !important;
+}
+.d-flex {
+  display: flex !important;
+}
+.d-inline-flex {
+  display: inline-flex !important;
+}
+.d-grid {
+  display: grid !important;
+}
+
+// Flexbox utilities
+.flex-row {
+  flex-direction: row !important;
+}
+.flex-column {
+  flex-direction: column !important;
+}
+.flex-wrap {
+  flex-wrap: wrap !important;
+}
+.flex-nowrap {
+  flex-wrap: nowrap !important;
+}
+.justify-start {
+  justify-content: flex-start !important;
+}
+.justify-center {
+  justify-content: center !important;
+}
+.justify-end {
+  justify-content: flex-end !important;
+}
+.justify-between {
+  justify-content: space-between !important;
+}
+.align-start {
+  align-items: flex-start !important;
+}
+.align-center {
+  align-items: center !important;
+}
+.align-end {
+  align-items: flex-end !important;
+}
+
+// Position
+.position-static {
+  position: static !important;
+}
+.position-relative {
+  position: relative !important;
+}
+.position-absolute {
+  position: absolute !important;
+}
+.position-fixed {
+  position: fixed !important;
+}
+.position-sticky {
+  position: sticky !important;
+}
+
+// Width & Height
+.w-25 {
+  width: 25% !important;
+}
+.w-50 {
+  width: 50% !important;
+}
+.w-75 {
+  width: 75% !important;
+}
+.w-100 {
+  width: 100% !important;
+}
+.h-25 {
+  height: 25% !important;
+}
+.h-50 {
+  height: 50% !important;
+}
+.h-75 {
+  height: 75% !important;
+}
+.h-100 {
+  height: 100% !important;
+}
+
+// ============================================================================
+// SHADOW UTILITIES (using standard shadow values)
+// ============================================================================
+.shadow-sm {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+.shadow {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+.shadow-lg {
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+.shadow-none {
+  box-shadow: none !important;
+}

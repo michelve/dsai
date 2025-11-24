@@ -500,9 +500,10 @@ export default {
 
     // SCSS Variables with custom transforms
     // Uses custom/scss transform group with dimension/rem and fontWeight/unitless
+    // NOTE: Output to src/ not dist/ - these are source files for Bootstrap & DSAi builds
     scss: {
       transformGroup: 'custom/scss',
-      buildPath: 'dist/scss/',
+      buildPath: 'src/scss/',
       files: [
         {
           destination: '_variables.scss',
