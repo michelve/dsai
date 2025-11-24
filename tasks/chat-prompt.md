@@ -15,6 +15,8 @@ Also some tasks might be outdated due to scope change.
 
 Our Style dictionary current version is v5.1.1 - https://styledictionary.com/info/tokens/ make sure code is compliant and compatible. Now it uses @storybook/addon-docs/blocks instead of @storybook/blocks.
 
+General note: dont say on story book
+
 Make sure when and where applicable use aria , tab index etc for accessability usage.
 
 ## CONTEXT USAGE
@@ -25,7 +27,7 @@ Make sure when and where applicable use aria , tab index etc for accessability u
 
 ### PRIMARY TASK
 
-- Execute the explicit steps listed in the provided task document: tasks/02-high/TASK-022-badge-component.md
+- Execute the explicit steps listed in the provided task document: tasks/02-high/TASK-023-alert-component.md
 - Ensure all code changes are backward compatible and maintain system stability.
 - Generate code or suggestions adhering strictly to the largest enterprise standards you have available.
 
