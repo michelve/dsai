@@ -1,18 +1,28 @@
 import type { Preview } from '@storybook/react-vite';
-import DSAiTheme from './DSAiTheme';
+import { lightTheme } from './DSAiTheme';
 
 // DSAi is a Bootstrap-first design system
 // Load Bootstrap theme (customized with DSAi tokens) as the primary framework
 import '../../../@dsai/tokens/dist/css/bootstrap.css';
 
+// Preview-specific styles (minimal overrides)
 import './preview.css';
 
+/**
+ * Storybook Preview Configuration
+ *
+ * Controls how stories are rendered in the canvas.
+ * Uses DSAi design tokens for consistent styling.
+ */
 const preview: Preview = {
   // Enable automatic documentation for all stories
   tags: ['autodocs'],
 
   parameters: {
+    // Actions configuration
     actions: { argTypesRegex: '^on[A-Z].*' },
+
+    // Controls configuration
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -21,33 +31,43 @@ const preview: Preview = {
       expanded: true,
       sort: 'requiredFirst',
     },
+
+    // Documentation configuration
     docs: {
-      theme: DSAiTheme,
+      theme: lightTheme,
       toc: {
         title: 'Table of Contents',
       },
     },
+
+    // Background options using DSAi tokens
     backgrounds: {
-      options: {
-        light: {
+      default: 'light',
+      values: [
+        {
           name: 'light',
-          value: '#ffffff',
+          value: '#ffffff', // backgroundWhite
         },
-
-        dark: {
-          name: 'dark',
-          value: '#1a1a1a',
-        },
-
-        gray: {
+        {
           name: 'gray',
-          value: '#f5f5f5',
+          value: '#f5f6f7', // colorGray100 / backgroundLight
         },
-      },
+        {
+          name: 'dark',
+          value: '#212529', // colorGray900 / backgroundDark
+        },
+        {
+          name: 'teal',
+          value: '#06281e', // colorTeal950 - brand dark
+        },
+      ],
     },
+
+    // Default layout
     layout: 'centered',
   },
 
+  // Global toolbar controls
   globalTypes: {
     theme: {
       name: 'Theme',
@@ -65,8 +85,10 @@ const preview: Preview = {
     },
   },
 
+  // Decorators for story rendering
   decorators: [],
 
+  // Initial global values
   initialGlobals: {
     backgrounds: {
       value: 'light',

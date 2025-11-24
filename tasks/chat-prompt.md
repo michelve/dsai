@@ -13,7 +13,7 @@ Please ensure our Storybook setup is aligned with version 10. Some of our assump
 For components when building components follow Bootstrap 5 markup and architecture, this is critical.
 Also some tasks might be outdated due to scope change.
 
-Our Style dictionary current version is v5.1.1 - https://styledictionary.com/info/tokens/ make sure code is compliant and compatible.
+Our Style dictionary current version is v5.1.1 - https://styledictionary.com/info/tokens/ make sure code is compliant and compatible. Now it uses @storybook/addon-docs/blocks instead of @storybook/blocks.
 
 ## CONTEXT USAGE
 
@@ -23,7 +23,7 @@ Our Style dictionary current version is v5.1.1 - https://styledictionary.com/inf
 
 ### PRIMARY TASK
 
-- Execute the explicit steps listed in the provided task document: tasks/02-high/TASK-016-create-typescript-types-for-tokens.md
+- Execute the explicit steps listed in the provided task document: tasks/02-high/TASK-020-design-storybook-theme.md
 - Ensure all code changes are backward compatible and maintain system stability.
 - Generate code or suggestions adhering strictly to the largest enterprise standards you have available.
 

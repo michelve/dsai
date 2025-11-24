@@ -19,6 +19,7 @@ Populate the Figma Variables Collections created in TASK-010 with actual token v
 ## Acceptance Criteria
 
 ### Color Variables Populated
+
 - [ ] All 66 color tokens entered in Figma Variables
 - [ ] 6 hue families: Teal, Blue, Green, Yellow, Orange, Red
 - [ ] 11 steps per hue: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950
@@ -26,6 +27,7 @@ Populate the Figma Variables Collections created in TASK-010 with actual token v
 - [ ] Variable naming: `color/teal/50`, `color/teal/100`, etc.
 
 ### Typography Variables Populated
+
 - [ ] Font family variables: `typography/font-family/heading` (Poppins), `typography/font-family/body` (Inter)
 - [ ] Font size variables: 9 levels (Display 48px to Caption 12px)
 - [ ] Font weight variables: Bold 700, Semi-Bold 600, Medium 500, Regular 400
@@ -33,27 +35,32 @@ Populate the Figma Variables Collections created in TASK-010 with actual token v
 - [ ] Variable naming: `typography/font-size/display`, `typography/line-height/normal`
 
 ### Spacing Variables Populated
+
 - [ ] 11 spacing tokens: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 - [ ] Values: 0px, 4px, 8px, 12px, 16px, 24px, 32px, 48px, 64px, 96px, 128px
 - [ ] Variable naming: `spacing/0`, `spacing/1`, `spacing/2`, etc.
 
 ### Shadow Variables Populated
+
 - [ ] 6 shadow levels: xs, sm, md, lg, xl, 2xl
 - [ ] Shadow values match design (box-shadow CSS)
 - [ ] Variable naming: `shadow/xs`, `shadow/sm`, `shadow/md`, etc.
 
 ### Border Variables Populated
+
 - [ ] Border width tokens: 1px, 2px, 4px
 - [ ] Border radius tokens: 0px, 2px, 4px, 8px, 16px, 24px, 9999px (full)
 - [ ] Variable naming: `border/width/1`, `border/radius/sm`
 
 ### Modes Configured
+
 - [ ] Light mode (default) configured for all color variables
 - [ ] Dark mode configured for all color variables
 - [ ] Semantic colors reference primitive colors
 - [ ] Mode switching tested in Figma components
 
 ### Variable Scoping
+
 - [ ] Color variables scoped to: Fill, Stroke, Effect
 - [ ] Typography variables scoped to: Text Content
 - [ ] Spacing variables scoped to: Gap, Padding, Minimum Width/Height
@@ -61,6 +68,7 @@ Populate the Figma Variables Collections created in TASK-010 with actual token v
 - [ ] Border variables scoped to: Stroke, Corner Radius
 
 ### Component Bindings
+
 - [ ] Update Button component from TASK-010 to use all variables
 - [ ] Test 3+ components use variables correctly
 - [ ] No hard-coded values remain in test components
@@ -70,11 +78,13 @@ Populate the Figma Variables Collections created in TASK-010 with actual token v
 ## Dependencies
 
 ### Requires:
+
 - **TASK-007**: Define Color Palette (66 colors)
 - **TASK-009**: Define Typography Scale (font sizes, weights, line heights)
 - **TASK-010**: Create Figma Variables Collection (collections structure)
 
 ### Blocks:
+
 - **TASK-011**: Design JSON Token Structure (Figma is source of truth)
 - **TASK-017**: GitHub Actions Token Sync (syncs these variables to code)
 - **TASK-019**: Create Semantic Token Definitions (semantic tokens reference these)
@@ -84,6 +94,7 @@ Populate the Figma Variables Collections created in TASK-010 with actual token v
 ## Implementation Steps
 
 ### Step 1: Populate Color Variables (2 hours)
+
 1. Open Figma file → Variables panel
 2. Select "Colors" collection
 3. Add Teal colors:
@@ -102,6 +113,7 @@ Populate the Figma Variables Collections created in TASK-010 with actual token v
 5. Add Gray scale: `color/gray/50` to `color/gray/950`
 
 ### Step 2: Populate Typography Variables (1.5 hours)
+
 1. Font Family:
    - `typography/font-family/heading` = "Poppins"
    - `typography/font-family/body` = "Inter"
@@ -125,6 +137,7 @@ Populate the Figma Variables Collections created in TASK-010 with actual token v
    - `typography/line-height/relaxed` = 1.75
 
 ### Step 3: Populate Spacing Variables (1 hour)
+
 1. Create spacing variables:
    - `spacing/0` = 0px
    - `spacing/1` = 4px
@@ -140,6 +153,7 @@ Populate the Figma Variables Collections created in TASK-010 with actual token v
 2. Set scoping: Gap, Padding, Minimum Width/Height
 
 ### Step 4: Populate Shadow Variables (1 hour)
+
 1. Create shadow variables with box-shadow values:
    - `shadow/xs` = "0px 1px 2px rgba(0, 0, 0, 0.05)"
    - `shadow/sm` = "0px 1px 3px rgba(0, 0, 0, 0.1)"
@@ -150,6 +164,7 @@ Populate the Figma Variables Collections created in TASK-010 with actual token v
 2. Set scoping: Effect (Drop Shadow)
 
 ### Step 5: Populate Border Variables (1 hour)
+
 1. Border Width:
    - `border/width/1` = 1px
    - `border/width/2` = 2px
@@ -164,6 +179,7 @@ Populate the Figma Variables Collections created in TASK-010 with actual token v
    - `border/radius/full` = 9999px
 
 ### Step 6: Configure Dark Mode (1 hour)
+
 1. Add "Dark" mode to Colors collection
 2. Update color values for dark mode:
    - Invert lightness (50 ↔ 950, 100 ↔ 900, etc.)
@@ -171,6 +187,7 @@ Populate the Figma Variables Collections created in TASK-010 with actual token v
 3. Test dark mode in components
 
 ### Step 7: Apply Variables to Components (0.5 hours)
+
 1. Update Button component:
    - Background: `{color/teal/500}` (light), `{color/teal/600}` (dark)
    - Text: `{color/white}`
@@ -179,6 +196,7 @@ Populate the Figma Variables Collections created in TASK-010 with actual token v
 2. Verify variables work in component instances
 
 ### Step 8: Documentation (0.5 hours)
+
 1. Create "Variables Guide" page in Figma
 2. Document:
    - How to use variables
@@ -207,12 +225,14 @@ Populate the Figma Variables Collections created in TASK-010 with actual token v
 ## Testing Requirements
 
 ### Variable Validation:
+
 - [ ] All variables have correct values
 - [ ] Naming follows convention: `category/subcategory/property`
 - [ ] Scoping allows use in intended contexts
 - [ ] Dark mode colors have sufficient contrast
 
 ### Component Testing:
+
 - [ ] Button component works with all variable bindings
 - [ ] Mode switching works (Light ↔ Dark)
 - [ ] Instances inherit variable values correctly
@@ -223,16 +243,19 @@ Populate the Figma Variables Collections created in TASK-010 with actual token v
 ## Notes
 
 ### Variable Organization:
+
 - Use nested structure: `category/subcategory/property`
 - Avoid overly deep nesting (max 3 levels)
 - Use consistent naming: kebab-case
 
 ### Mode Strategy:
+
 - Light mode is default (most common use case)
 - Dark mode values should maintain WCAG contrast ratios
 - Test both modes in real components
 
 ### Common Pitfalls:
+
 - Forgetting to set scoping (variables won't appear in properties)
 - Inconsistent naming (breaks automation)
 - Not testing dark mode thoroughly
