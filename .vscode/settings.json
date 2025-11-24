@@ -54,5 +54,6 @@
 
   // Nx Console settings
   "nxConsole.enableTelemetry": false,
-  "nxConsole.showNodeVersionOnStartup": false
+  "nxConsole.showNodeVersionOnStartup": false,
+  "cSpell.words": ["zindex"]
 }
