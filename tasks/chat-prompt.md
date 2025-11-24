@@ -8,7 +8,7 @@ Goal and context if needed ROADMAP\README.md
 
 **Important and critical notes:** Important and critical notes: Because our task were created before we build the tokens and figma variables names and mapping might be out dated in the task files so to make sure we are using the correct variables and definition refer to the token package that is uo to date see packages/@dsai/tokens/collections and config file at packages/@dsai/tokens/sd.config.mjs
 
-Please ensure our Storybook setup is aligned with version 10. Some of our assumptions may be outdated, since several add-ons are now included in the core. Review the latest v10 documentation to confirm we are building everything correctly.
+Please ensure our Storybook setup is aligned with version 10. Some of our assumptions may be outdated, since several add-ons are now included in the core. Review the latest v10 documentation to confirm we are building everything correctly. The better approach is to keep stories ONLY in the @dsai/storybook
 
 For components when building components follow Bootstrap 5 markup and architecture, this is critical.
 Also some tasks might be outdated due to scope change.
