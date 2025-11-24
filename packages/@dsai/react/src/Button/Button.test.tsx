@@ -28,6 +28,11 @@ describe('Button', () => {
       expect(screen.getByText('Icon')).toBeInTheDocument();
       expect(screen.getByText('Text')).toBeInTheDocument();
     });
+
+    it('has base Bootstrap btn class', () => {
+      render(<Button>Button</Button>);
+      expect(screen.getByRole('button')).toHaveClass('btn');
+    });
   });
 
   describe('Variants', () => {
@@ -52,38 +57,44 @@ describe('Button', () => {
     ];
 
     variants.forEach((variant) => {
-      it(`renders ${variant} variant correctly`, () => {
+      it(`renders ${variant} variant with Bootstrap class`, () => {
         render(<Button variant={variant}>{variant}</Button>);
         const button = screen.getByRole('button');
-        expect(button).toHaveClass(`button--${variant}`);
+        expect(button).toHaveClass('btn');
+        expect(button).toHaveClass(`btn-${variant}`);
       });
     });
 
     it('defaults to primary variant', () => {
       render(<Button>Default</Button>);
-      expect(screen.getByRole('button')).toHaveClass('button--primary');
+      expect(screen.getByRole('button')).toHaveClass('btn-primary');
     });
   });
 
   describe('Sizes', () => {
-    it('renders small size', () => {
+    it('renders small size with Bootstrap btn-sm class', () => {
       render(<Button size="sm">Small</Button>);
-      expect(screen.getByRole('button')).toHaveClass('button--sm');
+      expect(screen.getByRole('button')).toHaveClass('btn-sm');
     });
 
-    it('renders medium size (default)', () => {
+    it('renders medium size without size class (Bootstrap default)', () => {
       render(<Button size="md">Medium</Button>);
-      expect(screen.getByRole('button')).toHaveClass('button--md');
+      const button = screen.getByRole('button');
+      expect(button).toHaveClass('btn');
+      expect(button).not.toHaveClass('btn-sm');
+      expect(button).not.toHaveClass('btn-lg');
     });
 
-    it('renders large size', () => {
+    it('renders large size with Bootstrap btn-lg class', () => {
       render(<Button size="lg">Large</Button>);
-      expect(screen.getByRole('button')).toHaveClass('button--lg');
+      expect(screen.getByRole('button')).toHaveClass('btn-lg');
     });
 
-    it('defaults to medium size', () => {
+    it('defaults to medium size (no size class)', () => {
       render(<Button>Default Size</Button>);
-      expect(screen.getByRole('button')).toHaveClass('button--md');
+      const button = screen.getByRole('button');
+      expect(button).not.toHaveClass('btn-sm');
+      expect(button).not.toHaveClass('btn-lg');
     });
   });
 
@@ -130,13 +141,7 @@ describe('Button', () => {
       const button = screen.getByRole('button');
 
       expect(button).toBeDisabled();
-      expect(button).toHaveClass('button--disabled');
       expect(button).toHaveAttribute('aria-disabled', 'true');
-    });
-
-    it('does not apply disabled class when not disabled', () => {
-      render(<Button>Enabled</Button>);
-      expect(screen.getByRole('button')).not.toHaveClass('button--disabled');
     });
   });
 
@@ -158,14 +163,14 @@ describe('Button', () => {
   });
 
   describe('Full Width', () => {
-    it('applies full width class', () => {
+    it('applies Bootstrap w-100 class for full width', () => {
       render(<Button fullWidth>Full Width</Button>);
-      expect(screen.getByRole('button')).toHaveClass('button--full-width');
+      expect(screen.getByRole('button')).toHaveClass('w-100');
     });
 
-    it('does not apply full width class by default', () => {
+    it('does not apply w-100 class by default', () => {
       render(<Button>Normal</Button>);
-      expect(screen.getByRole('button')).not.toHaveClass('button--full-width');
+      expect(screen.getByRole('button')).not.toHaveClass('w-100');
     });
   });
 
@@ -175,7 +180,7 @@ describe('Button', () => {
       const button = screen.getByRole('button');
 
       expect(button).toHaveClass('custom-class');
-      expect(button).toHaveClass('button'); // Still has base class
+      expect(button).toHaveClass('btn'); // Still has base Bootstrap class
     });
 
     it('accepts inline styles', () => {

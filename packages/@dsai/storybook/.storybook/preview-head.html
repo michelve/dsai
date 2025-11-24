@@ -1,8 +1,223 @@
-<!-- Load Inter font from Google Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
-  rel="stylesheet"
-/>
+<!--
+  DSAi Smart Font Loader
+  Dynamically loads Google Fonts based on design token values.
 
+  This script:
+  1. Reads font family CSS variables from the document
+  2. Extracts the primary font name (first font in the stack)
+  3. Generates Google Fonts URL
+  4. Loads fonts automatically
+
+  If tokens change (e.g., Inter → Lato), fonts will load automatically!
+-->
+
+<script>
+  (function () {
+    // Google Fonts configuration for supported fonts
+    const GOOGLE_FONTS_CONFIG = {
+      Inter: {
+        weights: '100..900',
+        italic: true,
+        opticalSize: true,
+      },
+      'Roboto Mono': {
+        weights: '100..700',
+        italic: true,
+      },
+      Lato: {
+        weights: '100;300;400;700;900',
+        italic: true,
+      },
+      'Open Sans': {
+        weights: '300..800',
+        italic: true,
+      },
+      Poppins: {
+        weights: '100..900',
+        italic: true,
+      },
+      Montserrat: {
+        weights: '100..900',
+        italic: true,
+      },
+      'Source Sans 3': {
+        weights: '200..900',
+        italic: true,
+      },
+      'Fira Code': {
+        weights: '300..700',
+        italic: false,
+      },
+      'JetBrains Mono': {
+        weights: '100..800',
+        italic: true,
+      },
+      'Source Code Pro': {
+        weights: '200..900',
+        italic: true,
+      },
+      Roboto: {
+        weights: '100;300;400;500;700;900',
+        italic: true,
+      },
+      'Noto Sans': {
+        weights: '100..900',
+        italic: true,
+      },
+    };
+
+    /**
+     * Extract primary font name from a CSS font-family stack
+     * e.g., "Inter, system-ui, sans-serif" → "Inter"
+     */
+    function extractPrimaryFont(fontStack) {
+      if (!fontStack) return null;
+      // Split by comma and get first font, trim quotes and whitespace
+      const firstFont = fontStack.split(',')[0].trim().replace(/["']/g, '');
+      return firstFont;
+    }
+
+    /**
+     * Generate Google Fonts URL for a font
+     */
+    function generateGoogleFontSpec(fontName) {
+      const config = GOOGLE_FONTS_CONFIG[fontName];
+      if (!config) {
+        console.warn(`[DSAi Fonts] No Google Fonts config for: ${fontName}`);
+        return null;
+      }
+
+      const encodedName = fontName.replace(/ /g, '+');
+      let spec = encodedName;
+
+      // Add optical size if supported (Inter has this)
+      if (config.opticalSize) {
+        spec += ':ital,opsz,wght@';
+        if (config.italic) {
+          spec += `0,14..32,${config.weights};1,14..32,${config.weights}`;
+        } else {
+          spec += `0,14..32,${config.weights}`;
+        }
+      } else {
+        spec += ':ital,wght@';
+        if (config.italic) {
+          spec += `0,${config.weights};1,${config.weights}`;
+        } else {
+          spec += `0,${config.weights}`;
+        }
+      }
+
+      return spec;
+    }
+
+    /**
+     * Load fonts from Google Fonts
+     */
+    function loadFonts(baseFont, monoFont) {
+      const fontSpecs = [];
+
+      // Add base font
+      if (baseFont) {
+        const baseSpec = generateGoogleFontSpec(baseFont);
+        if (baseSpec) fontSpecs.push(baseSpec);
+      }
+
+      // Add mono font
+      if (monoFont) {
+        const monoSpec = generateGoogleFontSpec(monoFont);
+        if (monoSpec) fontSpecs.push(monoSpec);
+      }
+
+      if (fontSpecs.length === 0) {
+        console.warn('[DSAi Fonts] No fonts to load');
+        return;
+      }
+
+      // Create Google Fonts URL
+      const googleFontsUrl = `https://fonts.googleapis.com/css2?${fontSpecs.map((s) => 'family=' + s).join('&')}&display=swap`;
+
+      // Add preconnect hints for performance
+      const preconnectGoogle = document.createElement('link');
+      preconnectGoogle.rel = 'preconnect';
+      preconnectGoogle.href = 'https://fonts.googleapis.com';
+      document.head.appendChild(preconnectGoogle);
+
+      const preconnectGstatic = document.createElement('link');
+      preconnectGstatic.rel = 'preconnect';
+      preconnectGstatic.href = 'https://fonts.gstatic.com';
+      preconnectGstatic.crossOrigin = 'anonymous';
+      document.head.appendChild(preconnectGstatic);
+
+      // Load the fonts
+      const fontLink = document.createElement('link');
+      fontLink.rel = 'stylesheet';
+      fontLink.href = googleFontsUrl;
+      document.head.appendChild(fontLink);
+
+      console.log(`[DSAi Fonts] Loaded: ${baseFont || 'none'}, ${monoFont || 'none'}`);
+      console.log(`[DSAi Fonts] URL: ${googleFontsUrl}`);
+    }
+
+    /**
+     * Try to read font families from CSS variables or use defaults
+     */
+    function initFonts() {
+      // Default fonts (matches DSAi tokens)
+      let baseFont = 'Inter';
+      let monoFont = 'Roboto Mono';
+
+      // Try to read from CSS variables after styles are loaded
+      // This will be available after Bootstrap/DSAi CSS loads
+      const checkCSSVariables = () => {
+        const root = document.documentElement;
+        const computedStyle = getComputedStyle(root);
+
+        // Try DSAi CSS variable
+        const baseFontStack = computedStyle.getPropertyValue('--dsai-typography-font-family-base');
+        const monoFontStack = computedStyle.getPropertyValue(
+          '--dsai-typography-font-family-monospace'
+        );
+
+        // Also try Bootstrap variable
+        const bsFontStack = computedStyle.getPropertyValue('--bs-body-font-family');
+        const bsMonoStack = computedStyle.getPropertyValue('--bs-font-monospace');
+
+        // Extract primary font from stack
+        if (baseFontStack) {
+          const extracted = extractPrimaryFont(baseFontStack);
+          if (extracted && GOOGLE_FONTS_CONFIG[extracted]) {
+            baseFont = extracted;
+          }
+        } else if (bsFontStack) {
+          const extracted = extractPrimaryFont(bsFontStack);
+          if (extracted && GOOGLE_FONTS_CONFIG[extracted]) {
+            baseFont = extracted;
+          }
+        }
+
+        if (monoFontStack) {
+          const extracted = extractPrimaryFont(monoFontStack);
+          if (extracted && GOOGLE_FONTS_CONFIG[extracted]) {
+            monoFont = extracted;
+          }
+        } else if (bsMonoStack) {
+          const extracted = extractPrimaryFont(bsMonoStack);
+          if (extracted && GOOGLE_FONTS_CONFIG[extracted]) {
+            monoFont = extracted;
+          }
+        }
+
+        console.log(`[DSAi Fonts] Detected: base="${baseFont}", mono="${monoFont}"`);
+      };
+
+      // Check immediately (fonts may be in inline styles)
+      checkCSSVariables();
+
+      // Load fonts
+      loadFonts(baseFont, monoFont);
+    }
+
+    // Initialize fonts
+    initFonts();
+  })();
+</script>

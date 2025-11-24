@@ -1,30 +1,33 @@
 import { create } from 'storybook/theming';
 
-// Helper to safely extract token values
-// Tokens are DTCG format with $value property
-const getTokenValue = (token: any): string => {
-  if (!token) return '';
-  if (typeof token === 'string') return token;
-  if (token.$value) return token.$value;
-  if (token.value) return token.value;
-  return '';
-};
+// Import tokens directly - these are the flat exports with correct values
+import {
+  colorBlue600,
+  colorCyan600,
+  themePrimary,
+  themeInfo,
+  typographyFontFamilyBase,
+  typographyFontFamilyMonospace,
+} from '@dsai/tokens';
 
-// Import tokens dynamically to extract values safely
-let colorPrimary = '#2563eb';
-let colorSecondary = '#0891b2';
-let fontBase = 'Inter, system-ui, -apple-system, sans-serif';
-let fontCode = 'Monaco, Courier, monospace';
+/**
+ * DSAi Storybook Theme
+ *
+ * Uses design tokens from @dsai/tokens for consistent branding.
+ * Fonts are loaded dynamically via preview-head.html based on token values.
+ */
 
-try {
-  const tokens = require('@dsai/tokens').default;
-  colorPrimary = getTokenValue(tokens.color?.['blue']?.[600]) || '#2563eb';
-  colorSecondary = getTokenValue(tokens.color?.['cyan']?.[600]) || '#0891b2';
-  fontBase = getTokenValue(tokens.typography?.fontFamily?.base) || fontBase;
-  fontCode = getTokenValue(tokens.typography?.fontFamily?.mono) || fontCode;
-} catch (e) {
-  console.warn('Could not load tokens for theme, using defaults');
-}
+// Get colors from tokens (with fallbacks)
+const colorPrimary = colorBlue600 || themePrimary || '#2563eb';
+const colorSecondary = colorCyan600 || themeInfo || '#0891b2';
+
+// Get fonts from tokens (with fallbacks)
+// Note: These come from the flat token exports
+const fontBase = typographyFontFamilyBase || 'Inter, system-ui, -apple-system, sans-serif';
+const fontCode = typographyFontFamilyMonospace || 'Roboto Mono, Monaco, Courier, monospace';
+
+console.log('[DSAi Theme] Loaded tokens');
+console.log('[DSAi Theme] Font base:', fontBase?.substring?.(0, 50) || fontBase);
 
 export default create({
   base: 'light',
@@ -35,11 +38,11 @@ export default create({
   brandImage: '/logo.svg',
   brandTarget: '_self',
 
-  // Typography
+  // Typography (from tokens)
   fontBase,
   fontCode,
 
-  // Primary colors
+  // Primary colors (from tokens)
   colorPrimary,
   colorSecondary,
 

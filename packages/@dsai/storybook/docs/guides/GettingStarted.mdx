@@ -27,14 +27,40 @@ yarn add @dsai/react @dsai/tokens
 
 ## Basic Setup
 
-### 1. Import Design Tokens
+### 1. Import CSS Framework
 
-Import the CSS variables at the root of your application:
+DSAi is a **Bootstrap-first design system**. Import the CSS at the root of your application:
+
+**Recommended: Bootstrap + DSAi Utilities**
 
 ```tsx
 // In your main entry file (e.g., main.tsx or App.tsx)
-import '@dsai/tokens/dist/css/variables.css';
+
+// Bootstrap 5.3 theme customized with DSAi design tokens
+import '@dsai/tokens/dist/css/bootstrap.css';
+
+// DSAi utilities for accessibility and semantic patterns
+import '@dsai/tokens/dist/css/dsai.css';
 ```
+
+✅ **This gives you:**
+- Full Bootstrap 5.3 component library with DSAi colors, typography, and spacing
+- All DSAi design tokens as CSS custom properties
+- WCAG 2.2 AA accessibility utilities (`.sr-only`, `.focus-ring`, `.skip-link`)
+- Semantic patterns (`.container`, `.stack`, `.cluster`, `.status-success`)
+- Consistent styling across all components
+
+---
+
+**Alternative Options:**
+
+| CSS File | Size | Use Case |
+|----------|------|----------|
+| `bootstrap.css` | 238KB | Full Bootstrap + DSAi tokens (required for components) |
+| `dsai.css` | 34KB | DSAi utilities + accessibility (recommended addition) |
+| `variables.css` | 16KB | Just tokens, no utilities (minimal projects) |
+
+> ⚠️ **Important:** Always include `bootstrap.css` when using DSAi React components to ensure proper styling and avoid CSS conflicts
 
 ### 2. Use Components
 

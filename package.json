@@ -17,7 +17,10 @@
     "prepare": "husky",
     "tokens:transform": "node tools/scripts/transform-figma-tokens.js",
     "tokens:validate": "node tools/scripts/validate-tokens.js",
-    "tokens:build": "pnpm tokens:transform && pnpm tokens:validate"
+    "tokens:build": "pnpm tokens:transform && pnpm tokens:validate",
+    "figma:connect": "figma connect",
+    "figma:publish": "figma connect publish",
+    "figma:publish:dry": "figma connect publish --dry-run"
   },
   "private": true,
   "engines": {
@@ -25,6 +28,7 @@
     "pnpm": ">=8.0.0"
   },
   "devDependencies": {
+    "@figma/code-connect": "^1.3.0",
     "@nx/eslint": "^22.0.2",
     "@nx/js": "22.0.2",
     "@nx/storybook": "^22.1.0",

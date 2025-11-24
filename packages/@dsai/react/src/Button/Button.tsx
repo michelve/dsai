@@ -1,13 +1,13 @@
 /* eslint jsx-a11y/no-autofocus: 0 */
 /* eslint-disable jsx-a11y/no-autofocus */
 import { forwardRef } from 'react';
-import styles from './Button.module.css';
 import type { ButtonProps } from './Button.types';
 
 /**
  * Button Component
  *
- * A versatile, accessible button component built with Bootstrap 5 design tokens.
+ * A versatile, accessible button component using Bootstrap 5 native classes.
+ * DSAi design tokens are applied through the Bootstrap theme (bootstrap.css).
  * Supports multiple variants, sizes, and states with full WCAG 2.2 AA compliance.
  *
  * @example
@@ -37,7 +37,7 @@ import type { ButtonProps } from './Button.types';
  * Accessibility Features (WCAG 2.2 AA):
  * - Semantic HTML `<button>` element
  * - Keyboard navigation (Enter, Space)
- * - Focus indicators (visible focus ring)
+ * - Focus indicators (visible focus ring via Bootstrap)
  * - Disabled state with aria-disabled
  * - Sufficient color contrast (4.5:1 for normal text, 3:1 for large text)
  * - Touch target size ≥44×44px (WCAG 2.2 2.5.8)
@@ -70,14 +70,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    // Build class names
-    const classNames = [
-      styles['button'],
-      styles[`button--${variant}`],
-      styles[`button--${size}`],
-      fullWidth && styles['button--full-width'],
-      disabled && styles['button--disabled'],
-      className,
+    // Build Bootstrap class names
+    // Bootstrap button classes: btn, btn-{variant}, btn-{size}
+    const bootstrapClasses = [
+      'btn', // Base Bootstrap button class
+      `btn-${variant}`, // Variant: btn-primary, btn-outline-secondary, etc.
+      size === 'sm' && 'btn-sm',
+      size === 'lg' && 'btn-lg',
+      // Note: 'md' is the default size in Bootstrap, no class needed
+      fullWidth && 'w-100', // Bootstrap utility for full width
+      className, // Allow additional custom classes
     ]
       .filter(Boolean)
       .join(' ');
@@ -86,7 +88,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         type={type}
-        className={classNames}
+        className={bootstrapClasses}
         disabled={disabled}
         onClick={onClick}
         style={style}

@@ -21,7 +21,10 @@
     "build:watch": "tsup --watch",
     "dev": "tsup --watch",
     "test": "echo 'Test components'",
-    "lint": "echo 'Lint components'"
+    "lint": "echo 'Lint components'",
+    "figma:connect": "npx @figma/code-connect",
+    "figma:publish": "npx @figma/code-connect publish",
+    "figma:publish:dry": "npx @figma/code-connect publish --dry-run"
   },
   "keywords": [
     "react",
@@ -35,6 +38,9 @@
   },
   "dependencies": {
     "@dsai/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "@figma/code-connect": "^1.3.0"
   },
   "license": "UNLICENSED",
   "publishConfig": {

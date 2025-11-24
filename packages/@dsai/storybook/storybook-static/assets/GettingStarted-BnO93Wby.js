@@ -1,4 +1,4 @@
-import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{useMDXComponents as t}from"./index-D8Px2FF0.js";import"./iframe-BTcHudin.js";import"./preload-helper-Dp1pzeXC.js";function r(s){const n={a:"a",code:"code",h1:"h1",h2:"h2",h3:"h3",li:"li",ol:"ol",p:"p",pre:"pre",strong:"strong",ul:"ul",...t(),...s.components},{Meta:i}=n;return i||o("Meta"),e.jsxs(e.Fragment,{children:[e.jsx(i,{title:"Guides/Getting Started"}),`
+import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{useMDXComponents as t}from"./index-CnU_aFRj.js";import"./iframe-Bu7yg2lj.js";import"./preload-helper-Dp1pzeXC.js";function r(s){const n={a:"a",blockquote:"blockquote",code:"code",h1:"h1",h2:"h2",h3:"h3",hr:"hr",li:"li",ol:"ol",p:"p",pre:"pre",strong:"strong",ul:"ul",...t(),...s.components},{Meta:i}=n;return i||o("Meta"),e.jsxs(e.Fragment,{children:[e.jsx(i,{title:"Guides/Getting Started"}),`
 `,e.jsx(n.h1,{id:"getting-started",children:"Getting Started"}),`
 `,e.jsx(n.p,{children:"This guide will help you get up and running with DSAi components in your React application."}),`
 `,e.jsx(n.h2,{id:"installation",children:"Installation"}),`
@@ -19,11 +19,35 @@ npm install @dsai/react @dsai/tokens
 yarn add @dsai/react @dsai/tokens
 `})}),`
 `,e.jsx(n.h2,{id:"basic-setup",children:"Basic Setup"}),`
-`,e.jsx(n.h3,{id:"1-import-design-tokens",children:"1. Import Design Tokens"}),`
-`,e.jsx(n.p,{children:"Import the CSS variables at the root of your application:"}),`
+`,e.jsx(n.h3,{id:"1-import-css-framework",children:"1. Import CSS Framework"}),`
+`,e.jsxs(n.p,{children:["DSAi is a ",e.jsx(n.strong,{children:"Bootstrap-first design system"}),". Import the CSS at the root of your application:"]}),`
+`,e.jsx(n.p,{children:e.jsx(n.strong,{children:"Recommended: Bootstrap + DSAi Utilities"})}),`
 `,e.jsx(n.pre,{children:e.jsx(n.code,{className:"language-tsx",children:`// In your main entry file (e.g., main.tsx or App.tsx)
-import '@dsai/tokens/dist/css/variables.css';
+
+// Bootstrap 5.3 theme customized with DSAi design tokens
+import '@dsai/tokens/dist/css/bootstrap.css';
+
+// DSAi utilities for accessibility and semantic patterns
+import '@dsai/tokens/dist/css/dsai.css';
 `})}),`
+`,e.jsxs(n.p,{children:["✅ ",e.jsx(n.strong,{children:"This gives you:"})]}),`
+`,e.jsxs(n.ul,{children:[`
+`,e.jsx(n.li,{children:"Full Bootstrap 5.3 component library with DSAi colors, typography, and spacing"}),`
+`,e.jsx(n.li,{children:"All DSAi design tokens as CSS custom properties"}),`
+`,e.jsxs(n.li,{children:["WCAG 2.2 AA accessibility utilities (",e.jsx(n.code,{children:".sr-only"}),", ",e.jsx(n.code,{children:".focus-ring"}),", ",e.jsx(n.code,{children:".skip-link"}),")"]}),`
+`,e.jsxs(n.li,{children:["Semantic patterns (",e.jsx(n.code,{children:".container"}),", ",e.jsx(n.code,{children:".stack"}),", ",e.jsx(n.code,{children:".cluster"}),", ",e.jsx(n.code,{children:".status-success"}),")"]}),`
+`,e.jsx(n.li,{children:"Consistent styling across all components"}),`
+`]}),`
+`,e.jsx(n.hr,{}),`
+`,e.jsx(n.p,{children:e.jsx(n.strong,{children:"Alternative Options:"})}),`
+`,e.jsxs(n.p,{children:[`| CSS File | Size | Use Case |
+|----------|------|----------|
+| `,e.jsx(n.code,{children:"bootstrap.css"}),` | 238KB | Full Bootstrap + DSAi tokens (required for components) |
+| `,e.jsx(n.code,{children:"dsai.css"}),` | 34KB | DSAi utilities + accessibility (recommended addition) |
+| `,e.jsx(n.code,{children:"variables.css"})," | 16KB | Just tokens, no utilities (minimal projects) |"]}),`
+`,e.jsxs(n.blockquote,{children:[`
+`,e.jsxs(n.p,{children:["⚠️ ",e.jsx(n.strong,{children:"Important:"})," Always include ",e.jsx(n.code,{children:"bootstrap.css"})," when using DSAi React components to ensure proper styling and avoid CSS conflicts"]}),`
+`]}),`
 `,e.jsx(n.h3,{id:"2-use-components",children:"2. Use Components"}),`
 `,e.jsx(n.pre,{children:e.jsx(n.code,{className:"language-tsx",children:`import { Button } from '@dsai/react';
 

@@ -1,8 +1,10 @@
 import type { Preview } from '@storybook/react-vite';
 import DSAiTheme from './DSAiTheme';
 
-// Import design tokens CSS - use relative path for reliability
-import '../../../@dsai/tokens/dist/css/variables.css';
+// DSAi is a Bootstrap-first design system
+// Load Bootstrap theme (customized with DSAi tokens) as the primary framework
+import '../../../@dsai/tokens/dist/css/bootstrap.css';
+
 import './preview.css';
 
 const preview: Preview = {

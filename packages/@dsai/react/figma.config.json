@@ -1,0 +1,43 @@
+{
+  "$schema": "https://www.figma.com/developers/api/code-connect/schema",
+  "codeConnect": {
+    "include": ["src/**/*.figma.tsx"],
+    "exclude": ["**/*.test.tsx", "**/*.spec.tsx", "**/node_modules/**", "**/dist/**"],
+    "importPaths": {
+      "src": "@dsai/react"
+    },
+    "parser": "react"
+  },
+  "documentUrlSubstitutions": {
+    "<FIGMA_DSAI_BUTTON>": "https://www.figma.com/design/YOUR_FILE_ID/DSAi-Design-System?node-id=BUTTON_NODE_ID"
+  },
+  "resources": {
+    "metadata": {
+      "framework": "react",
+      "typescript": true,
+      "styling": "bootstrap",
+      "designSystem": "@dsai/react",
+      "designTokens": "@dsai/tokens",
+      "cssFramework": "bootstrap-5",
+      "componentLibrary": {
+        "name": "@dsai/react",
+        "importPath": "@dsai/react",
+        "components": ["Button"]
+      },
+      "tokenSystem": {
+        "name": "@dsai/tokens",
+        "cssImport": "@dsai/tokens/css/bootstrap.css",
+        "scssImport": "@dsai/tokens/src/scss/bootstrap-theme.scss"
+      },
+      "accessibility": {
+        "standard": "WCAG 2.2 AA",
+        "testing": "jest-axe"
+      },
+      "testing": {
+        "framework": "jest",
+        "library": "@testing-library/react",
+        "accessibility": "jest-axe"
+      }
+    }
+  }
+}

@@ -11,6 +11,7 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
+    "./dist/js/tokens.js": "./dist/js/tokens.js",
     "./css/variables.css": "./dist/css/variables.css",
     "./css/dsai.css": "./dist/css/dsai.css",
     "./css/dsai.min.css": "./dist/css/dsai.min.css",
@@ -23,9 +24,10 @@
   "scripts": {
     "prebuild": "pnpm build:tokens && pnpm build:bootstrap && pnpm build:dsai",
     "build": "tsup",
-    "build:tokens": "pnpm tokens:validate && style-dictionary build --config sd.config.mjs",
-    "build:bootstrap": "sass src/scss/bootstrap-theme.scss dist/css/bootstrap.css && sass src/scss/bootstrap-theme.scss dist/css/bootstrap.min.css --style=compressed",
-    "build:dsai": "sass src/scss/dsai-utilities.scss dist/css/dsai.css && sass src/scss/dsai-utilities.scss dist/css/dsai.min.css --style=compressed",
+    "build:tokens": "pnpm tokens:validate && style-dictionary build --config sd.config.mjs && pnpm tokens:sync",
+    "tokens:sync": "node ../../../tools/scripts/sync-tokens-flat.js",
+    "build:bootstrap": "sass --quiet-deps --silence-deprecation=import --silence-deprecation=global-builtin --silence-deprecation=color-functions src/scss/bootstrap-theme.scss dist/css/bootstrap.css && sass --quiet-deps --silence-deprecation=import --silence-deprecation=global-builtin --silence-deprecation=color-functions src/scss/bootstrap-theme.scss dist/css/bootstrap.min.css --style=compressed",
+    "build:dsai": "sass --quiet-deps --silence-deprecation=import src/scss/dsai-utilities.scss dist/css/dsai.css && sass --quiet-deps --silence-deprecation=import src/scss/dsai-utilities.scss dist/css/dsai.min.css --style=compressed",
     "build:watch": "tsup --watch",
     "dev": "pnpm tokens:watch & tsup --watch",
     "test": "echo 'Test tokens'",
@@ -35,7 +37,7 @@
     "tokens:validate:figma:collections": "FIGMA_SOURCE=collections node ../../../tools/scripts/validate-figma-tokens.js",
     "tokens:validate:all": "pnpm tokens:validate:figma && pnpm tokens:validate",
     "tokens:transform": "node ../../../tools/scripts/transform-figma-tokens.js",
-    "tokens:build": "pnpm tokens:transform && pnpm tokens:validate:all && style-dictionary build --config sd.config.mjs",
+    "tokens:build": "pnpm tokens:transform && pnpm tokens:validate:all && style-dictionary build --config sd.config.mjs && pnpm tokens:sync",
     "tokens:watch": "style-dictionary build --config sd.config.mjs --watch",
     "tokens:clean": "rm -rf dist"
   },
