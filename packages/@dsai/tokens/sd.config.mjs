@@ -289,36 +289,36 @@ StyleDictionary.registerFormat({
 /**
  * Format: typescript/declarations (DTCG-compatible)
  * TypeScript declarations with proper types
- * Supports both DTCG ($value/$type) and legacy (value/type) formats
+ * Generates:
+ * - DesignTokens interface with nested structure
+ * - String literal types for each token category
+ * - Flat token exports with proper types
  */
 StyleDictionary.registerFormat({
   name: 'typescript/declarations',
   format: ({ dictionary }) => {
+    // Helper to determine TypeScript type from token
+    const getTypeScriptType = (token) => {
+      const value = token.value;
+      if (typeof value === 'number') return 'number';
+      if (typeof value === 'boolean') return 'boolean';
+      return 'string';
+    };
+
+    // Build nested interface structure
     const buildTokenInterface = (obj, indent = 0) => {
       const spaces = '  '.repeat(indent);
       let output = '{\n';
 
       for (const [key, value] of Object.entries(obj)) {
-        if (!value) continue; // Skip undefined values
+        if (!value) continue;
 
-        // Quote keys that need it (contain hyphens or numbers)
+        // Quote keys that need it (contain hyphens or start with numbers)
         const quotedKey = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key) ? key : `"${key}"`;
 
-        // Check for DTCG format ($value) or legacy format (value)
-        const tokenValue = value.$value !== undefined ? value.$value : value.value;
-        const tokenType = value.$type !== undefined ? value.$type : value.type;
-
-        if (tokenValue !== undefined && tokenType !== undefined) {
-          // Leaf token
-          const type =
-            tokenType === 'color'
-              ? 'string'
-              : tokenType === 'dimension'
-                ? 'string'
-                : tokenType === 'number'
-                  ? 'number'
-                  : 'string';
-          output += `${spaces}  ${quotedKey}: ${type};\n`;
+        // Check if this is a leaf token (has _isToken marker)
+        if (value._isToken) {
+          output += `${spaces}  ${quotedKey}: ${value._type};\n`;
         } else {
           // Nested object
           output += `${spaces}  ${quotedKey}: ${buildTokenInterface(value, indent + 1)}\n`;
@@ -329,7 +329,7 @@ StyleDictionary.registerFormat({
       return output;
     };
 
-    // Build nested structure
+    // Build nested structure with type markers
     const tokenTree = {};
     dictionary.allTokens.forEach((token) => {
       let current = tokenTree;
@@ -338,17 +338,78 @@ StyleDictionary.registerFormat({
         current = current[key];
       });
       const lastKey = token.path[token.path.length - 1];
-      // Style Dictionary v5+ normalizes DTCG format internally to value/type
-      current[lastKey] = { value: token.value, type: token.type };
+      current[lastKey] = {
+        _isToken: true,
+        _type: getTypeScriptType(token),
+      };
+    });
+
+    // Group tokens by category for string literal types
+    const categories = {};
+    dictionary.allTokens.forEach((token) => {
+      const category = token.path[0];
+      if (!categories[category]) categories[category] = [];
+      categories[category].push(token.path.join('.'));
+    });
+
+    // Generate string literal types
+    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+    let literalTypes = '';
+    Object.keys(categories)
+      .sort()
+      .forEach((category) => {
+        const typeName = `${capitalize(category)}TokenName`;
+        literalTypes += `/**\n * All ${category} token names as string literals\n */\n`;
+        literalTypes += `export type ${typeName} =\n`;
+        literalTypes += categories[category].map((t) => `  | '${t}'`).join('\n');
+        literalTypes += ';\n\n';
+      });
+
+    // Generate all token names type
+    const allTokenNames = dictionary.allTokens.map((t) => t.path.join('.'));
+    literalTypes += `/**\n * All token names as string literals\n */\n`;
+    literalTypes += `export type TokenName =\n`;
+    literalTypes += allTokenNames.map((t) => `  | '${t}'`).join('\n');
+    literalTypes += ';\n\n';
+
+    // Generate flat token exports type
+    let flatExports = '/**\n * Flat token exports (camelCase names)\n */\n';
+    dictionary.allTokens.forEach((token) => {
+      const name = token.name;
+      const type = getTypeScriptType(token);
+      flatExports += `export declare const ${name}: ${type};\n`;
     });
 
     return `/**
- * Design Tokens
+ * Design Tokens - TypeScript Declarations
  * Auto-generated from Style Dictionary
  * DO NOT EDIT DIRECTLY
+ *
+ * @packageDocumentation
  */
 
+// ============================================================================
+// String Literal Types (for type-safe token access)
+// ============================================================================
+
+${literalTypes}
+// ============================================================================
+// Nested Token Interface
+// ============================================================================
+
+/**
+ * Design tokens organized by category
+ */
 export interface DesignTokens ${buildTokenInterface(tokenTree)}
+
+// ============================================================================
+// Flat Token Exports
+// ============================================================================
+
+${flatExports}
+// ============================================================================
+// Default Export
+// ============================================================================
 
 export declare const tokens: DesignTokens;
 export default tokens;

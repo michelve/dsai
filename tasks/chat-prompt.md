@@ -6,12 +6,14 @@ You are a meticulous and safety-first engineering assistant. Your goal is to exe
 
 Goal and context if needed ROADMAP\README.md
 
-**Important and critical notes:** Important and critical notes: Because our task were created before we build the tokens and figma variables names and mapping might be out dated in the task files so to make sure we are using the correct varaibels and fenition refer to the token package that is uo to date see packages/@dsai/tokens/collections and config file at packages/@dsai/tokens/sd.config.mjs
+**Important and critical notes:** Important and critical notes: Because our task were created before we build the tokens and figma variables names and mapping might be out dated in the task files so to make sure we are using the correct variables and definition refer to the token package that is uo to date see packages/@dsai/tokens/collections and config file at packages/@dsai/tokens/sd.config.mjs
 
 Please ensure our Storybook setup is aligned with version 10. Some of our assumptions may be outdated, since several add-ons are now included in the core. Review the latest v10 documentation to confirm we are building everything correctly.
 
 For components when building components follow Bootstrap 5 markup and architecture, this is critical.
 Also some tasks might be outdated due to scope change.
+
+Style dictionary current version is v5.1.1 - https://styledictionary.com/info/tokens/ make sure code is compliant and compatible.
 
 ## CONTEXT USAGE
 
@@ -21,7 +23,7 @@ Also some tasks might be outdated due to scope change.
 
 ### PRIMARY TASK
 
-- Execute the explicit steps listed in the provided task document: tasks/02-high/TASK-015-token-to-css-variable-generation.md
+- Execute the explicit steps listed in the provided task document: tasks/02-high/TASK-016-create-typescript-types-for-tokens.md
 - Ensure all code changes are backward compatible and maintain system stability.
 - Generate code or suggestions adhering strictly to the largest enterprise standards you have available.
 

@@ -1,0 +1,339 @@
+<Meta title="Foundation/TypeScript Types" />
+
+# TypeScript Types Reference
+
+DSAi design tokens provide full TypeScript support with type-safe access, IntelliSense, and compile-time validation.
+
+## Installation
+
+```bash
+pnpm add @dsai/tokens
+```
+
+## Import Patterns
+
+### Flat Token Imports (Recommended)
+
+```typescript
+import {
+  colorBlue500,
+  spacing4,
+  themePrimary,
+  typographyFontSizeBase,
+} from '@dsai/tokens';
+
+const styles = {
+  color: colorBlue500,        // "#0a58ca"
+  padding: spacing4,          // "1.5rem"
+  backgroundColor: themePrimary,
+};
+```
+
+### Grouped Token Access
+
+```typescript
+import { tokens } from '@dsai/tokens';
+
+// Access via nested structure
+const blue = tokens.color.blue['500'].value;
+const primary = tokens.theme.primary.value;
+```
+
+### Type-Safe Utilities
+
+```typescript
+import {
+  getToken,
+  cssVar,
+  getColorToken,
+  getSpacingToken,
+  getThemeToken,
+  getBorderRadiusToken,
+} from '@dsai/tokens';
+
+// Get token value
+const blue = getToken('colorBlue500'); // "#0a58ca"
+
+// Get CSS variable reference
+const ref = cssVar('themePrimary'); // "var(--dsai-theme-primary)"
+
+// Category-specific getters
+const red = getColorToken('red', '500');
+const space = getSpacingToken('4');
+const primary = getThemeToken('primary');
+const radius = getBorderRadiusToken('md');
+```
+
+---
+
+## String Literal Types
+
+All token names are available as string literal types for compile-time validation:
+
+```typescript
+import type {
+  ColorTokenName,
+  SpacingTokenName,
+  TypographyTokenName,
+  ThemeTokenName,
+  BorderTokenName,
+  LayoutTokenName,
+  TokenName,
+} from '@dsai/tokens/types';
+
+// Type-safe token name validation
+function useToken(name: ColorTokenName) {
+  // Only valid color token names allowed
+}
+
+useToken('color.blue.500'); // ✅ Valid
+useToken('color.invalid'); // ❌ Type error!
+```
+
+### Available Type Literals
+
+| Type | Description | Example Values |
+|------|-------------|----------------|
+| `ColorTokenName` | All color tokens | `'color.blue.500'`, `'color.red.200'` |
+| `SpacingTokenName` | Spacing scale | `'spacing.0'`, `'spacing.4'` |
+| `TypographyTokenName` | Typography tokens | `'typography.font-size.base'` |
+| `ThemeTokenName` | Theme colors | `'theme.primary'`, `'theme.danger'` |
+| `BorderTokenName` | Border tokens | `'border.radius.md'` |
+| `LayoutTokenName` | Layout tokens | `'layout.breakpoints.md'` |
+| `TokenName` | All tokens | Any valid token name |
+
+---
+
+## Utility Functions
+
+### `getToken(name)`
+
+Get a token value by its camelCase name.
+
+```typescript
+import { getToken } from '@dsai/tokens';
+
+const blue = getToken('colorBlue500');    // "#0a58ca"
+const spacing = getToken('spacing4');      // "1.5rem"
+const weight = getToken('typographyFontWeightBold'); // 700
+```
+
+### `getTokenInfo(name)`
+
+Get full token info including CSS variable reference.
+
+```typescript
+import { getTokenInfo } from '@dsai/tokens';
+
+const info = getTokenInfo('colorBlue500');
+// {
+//   value: "#0a58ca",
+//   cssVar: "--dsai-color-blue-500",
+//   cssVarRef: "var(--dsai-color-blue-500)"
+// }
+
+// Use in React
+<div style={{ backgroundColor: info.cssVarRef }} />
+```
+
+### `cssVar(name)`
+
+Get CSS variable reference string.
+
+```typescript
+import { cssVar } from '@dsai/tokens';
+
+const ref = cssVar('themePrimary');
+// "var(--dsai-theme-primary)"
+
+<div style={{ color: cssVar('themeDanger') }} />
+```
+
+### Category-Specific Getters
+
+```typescript
+import {
+  getColorToken,
+  getSpacingToken,
+  getThemeToken,
+  getBorderRadiusToken,
+} from '@dsai/tokens';
+
+// Colors (with type-safe hue and shade)
+getColorToken('blue', '500');   // "#0a58ca"
+getColorToken('red', '600');    // "#ab2346"
+
+// Spacing (0-10 scale)
+getSpacingToken('0');   // "0"
+getSpacingToken('4');   // "1.5rem"
+getSpacingToken('10');  // "10rem"
+
+// Theme colors
+getThemeToken('primary');   // "#0d6efd"
+getThemeToken('danger');    // "#dc3545"
+
+// Border radius
+getBorderRadiusToken('sm');   // "0.25rem"
+getBorderRadiusToken('md');   // "0.5rem"
+getBorderRadiusToken('full'); // "624.9375rem"
+```
+
+### Validation Functions
+
+```typescript
+import { isValidToken, getAllTokenNames, getTokensByCategory } from '@dsai/tokens';
+
+// Check if token exists
+if (isValidToken('colorBlue500')) {
+  // Token exists
+}
+
+// Get all token names
+const names = getAllTokenNames();
+// ['colorBlue50', 'colorBlue100', ...]
+
+// Get tokens by category
+const colors = getTokensByCategory('color');
+// { colorBlue50: "#ebf3fc", colorBlue100: "#d7e6f9", ... }
+```
+
+---
+
+## Nested Interface
+
+The `DesignTokens` interface provides full type information for nested access:
+
+```typescript
+import type { DesignTokens } from '@dsai/tokens/types';
+
+// Full nested structure
+interface DesignTokens {
+  color: {
+    blue: {
+      "50": string;
+      "100": string;
+      // ... all shades
+    };
+    // ... all colors
+  };
+  spacing: {
+    "0": string;
+    "1": string;
+    // ... all spacing
+  };
+  typography: {
+    "font-size": {
+      base: string;
+      sm: string;
+      lg: string;
+    };
+    "font-weight": {
+      lighter: number;
+      light: number;
+      normal: number;
+      // ...
+    };
+  };
+  // ...
+}
+```
+
+---
+
+## Usage Examples
+
+### In React Components
+
+```tsx
+import { colorBlue500, spacing4, cssVar } from '@dsai/tokens';
+
+function Card({ children }) {
+  return (
+    <div
+      style={{
+        backgroundColor: cssVar('backgroundWhite'),
+        padding: spacing4,
+        borderRadius: cssVar('borderRadiusMd'),
+        borderColor: colorBlue500,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+```
+
+### In CSS-in-JS (Emotion/styled-components)
+
+```tsx
+import styled from '@emotion/styled';
+import { cssVar, spacing4 } from '@dsai/tokens';
+
+const StyledButton = styled.button`
+  background-color: ${cssVar('themePrimary')};
+  color: ${cssVar('backgroundWhite')};
+  padding: ${spacing4};
+  border-radius: ${cssVar('borderRadiusMd')};
+
+  &:hover {
+    background-color: ${cssVar('colorBlue600')};
+  }
+`;
+```
+
+### Type-Safe Theme Objects
+
+```typescript
+import type { TokenCategory } from '@dsai/tokens';
+import { getTokensByCategory } from '@dsai/tokens';
+
+// Build theme object dynamically
+function buildTheme(categories: TokenCategory[]) {
+  const theme: Record<string, Record<string, string | number>> = {};
+
+  for (const category of categories) {
+    theme[category] = getTokensByCategory(category);
+  }
+
+  return theme;
+}
+
+const theme = buildTheme(['color', 'spacing', 'typography']);
+```
+
+---
+
+## IntelliSense Support
+
+All token imports provide full IntelliSense in VS Code and other TypeScript-aware editors:
+
+- **Autocomplete**: Type `color` and see all color tokens
+- **Hover Info**: See token values and descriptions
+- **Go to Definition**: Jump to token source
+- **Rename Symbol**: Safely rename tokens across codebase
+
+---
+
+## Migration Guide
+
+### Adding New Tokens
+
+1. Add token to JSON in `packages/@dsai/tokens/collections/`
+2. Run `pnpm build:tokens` to regenerate types
+3. Import new token in your code
+
+### Renaming Tokens
+
+1. Update token name in JSON source
+2. Run `pnpm build:tokens`
+3. TypeScript will show errors for old token names
+4. Update all usages
+
+---
+
+## Related Resources
+
+- [CSS Variables](/docs/foundation-css-variables--docs) - CSS custom properties reference
+- [Colors](/docs/foundation-colors--docs) - Color palette documentation
+- [Getting Started](/docs/guides-getting-started--docs) - Setup guide
+

@@ -11,7 +11,11 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
+    "./types": {
+      "types": "./dist/ts/tokens.d.ts"
+    },
     "./dist/js/tokens.js": "./dist/js/tokens.js",
+    "./dist/ts/tokens.d.ts": "./dist/ts/tokens.d.ts",
     "./css/variables.css": "./dist/css/variables.css",
     "./css/dsai.css": "./dist/css/dsai.css",
     "./css/dsai.min.css": "./dist/css/dsai.min.css",
