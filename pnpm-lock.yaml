@@ -20,6 +20,9 @@ importers:
       '@nx/workspace':
         specifier: 22.0.2
         version: 22.0.2
+      '@storybook/addon-actions':
+        specifier: ^9.0.8
+        version: 9.0.8
       '@storybook/addon-docs':
         specifier: ^10.0.8
         version: 10.0.8(@types/react@19.2.6)(esbuild@0.27.0)(rollup@4.53.3)(storybook@10.0.8(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@6.4.1(@types/node@24.10.1)(yaml@2.8.1)))(vite@6.4.1(@types/node@24.10.1)(yaml@2.8.1))
@@ -1750,6 +1753,9 @@ packages:
     resolution: {integrity: sha512-rXJuSfujuRqkz1v26wLttVRkXzZur3LtMTH1/K+rb1epXq305vRm/bYql0FYGvrq0idJWYo4WbU65YRig9sfuA==}
     peerDependencies:
       storybook: ^10.0.8
+
+  '@storybook/addon-actions@9.0.8':
+    resolution: {integrity: sha512-LFePu7PPnWN0Il/uoUpmA5T0J0C7d6haJIbg0pXrjxW2MQVSYXE4S4LSUz8fOImltBDV3xAl6tLPYHFj6VcrOA==}
 
   '@storybook/addon-docs@10.0.8':
     resolution: {integrity: sha512-PYuaGXGycsamK/7OrFoE4syHGy22mdqqArl67cfosRwmRxZEI9ManQK0jTjNQM9ZX14NpThMOSWNGoWLckkxog==}
@@ -6863,6 +6869,8 @@ snapshots:
       '@storybook/global': 5.0.0
       axe-core: 4.11.0
       storybook: 10.0.8(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@6.4.1(@types/node@24.10.1)(yaml@2.8.1))
+
+  '@storybook/addon-actions@9.0.8': {}
 
   '@storybook/addon-docs@10.0.8(@types/react@19.2.6)(esbuild@0.27.0)(rollup@4.53.3)(storybook@10.0.8(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@6.4.1(@types/node@24.10.1)(yaml@2.8.1)))(vite@6.4.1(@types/node@24.10.1)(yaml@2.8.1))':
     dependencies:

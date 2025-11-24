@@ -8,6 +8,8 @@ Goal and context if needed ROADMAP\README.md
 
 **Important and critical notes:** Important and critical notes: Because our task were created before we build the tokens and figma variabels names and mappign mibe be out dated in the task files so to make sure we are using the correct varaibels and fenition refer to the token package that is uo to date see packages/@dsai/tokens/collections and config file at packages/@dsai/tokens/sd.config.mjs
 
+Please ensure our Storybook setup is aligned with version 10. Some of our assumptions may be outdated, since several add-ons are now included in the core. Review the latest v10 documentation to confirm we are building everything correctly.
+
 ## CONTEXT USAGE
 
 - Use the provided roadmap or documentation files strictly as context guidance.

@@ -1,0 +1,336 @@
+/**
+ * Button Component Styles
+ * Uses design tokens from @dsai/tokens
+ * WCAG 2.2 AA Compliant
+ */
+
+/* Base button styles */
+.button {
+  /* Typography - from design tokens */
+  font-family: var(--dsai-typography-font-family-base);
+  font-size: var(--dsai-typography-font-size-base);
+  font-weight: 500;
+  line-height: 1.5;
+
+  /* Spacing - from design tokens */
+  padding: var(--dsai-spacing-2) var(--dsai-spacing-3);
+
+  /* Border - from design tokens */
+  border: 1px solid transparent;
+  border-radius: var(--dsai-border-radius-md);
+
+  /* Display & Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--dsai-spacing-1);
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+
+  /* Interaction */
+  cursor: pointer;
+  user-select: none;
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+
+  /* Reset */
+  background: none;
+
+  /* WCAG 2.2 - 2.5.8 Touch Target Size (minimum 44x44px) */
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Focus styles - WCAG 2.2 2.4.7 Focus Visible, 2.4.11 Focus Not Obscured */
+.button:focus-visible {
+  outline: 2px solid var(--dsai-theme-primary);
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+/* Hover state */
+.button:hover:not(:disabled) {
+  text-decoration: none;
+}
+
+/* Active state */
+.button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/* Disabled state - WCAG 2.2 3.2.6 Consistent Help */
+.button--disabled,
+.button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ========================================
+   Size Variants
+   ======================================== */
+
+.button--sm {
+  font-size: var(--dsai-typography-font-size-sm);
+  padding: var(--dsai-spacing-1) var(--dsai-spacing-2);
+  min-height: 38px; /* Slightly smaller but still accessible */
+}
+
+.button--md {
+  font-size: var(--dsai-typography-font-size-base);
+  padding: var(--dsai-spacing-2) var(--dsai-spacing-3);
+  min-height: 44px;
+}
+
+.button--lg {
+  font-size: var(--dsai-typography-font-size-lg);
+  padding: var(--dsai-spacing-2) var(--dsai-spacing-4);
+  min-height: 48px;
+}
+
+/* Full width */
+.button--full-width {
+  width: 100%;
+}
+
+/* ========================================
+   Color Variants - Solid
+   WCAG 2.2 AA: 4.5:1 contrast for normal text, 3:1 for large text
+   ======================================== */
+
+/* Primary */
+.button--primary {
+  color: var(--dsai-neutral-white);
+  background-color: var(--dsai-theme-primary);
+  border-color: var(--dsai-theme-primary);
+}
+
+.button--primary:hover:not(:disabled) {
+  background-color: var(--dsai-color-blue-600);
+  border-color: var(--dsai-color-blue-600);
+}
+
+.button--primary:focus-visible {
+  box-shadow: 0 0 0 0.25rem rgba(10, 88, 202, 0.5);
+}
+
+/* Secondary */
+.button--secondary {
+  color: var(--dsai-neutral-white);
+  background-color: var(--dsai-theme-secondary);
+  border-color: var(--dsai-theme-secondary);
+}
+
+.button--secondary:hover:not(:disabled) {
+  background-color: var(--dsai-color-gray-600);
+  border-color: var(--dsai-color-gray-600);
+}
+
+/* Success */
+.button--success {
+  color: var(--dsai-neutral-white);
+  background-color: var(--dsai-theme-success);
+  border-color: var(--dsai-theme-success);
+}
+
+.button--success:hover:not(:disabled) {
+  background-color: var(--dsai-color-green-600);
+  border-color: var(--dsai-color-green-600);
+}
+
+/* Danger */
+.button--danger {
+  color: var(--dsai-neutral-white);
+  background-color: var(--dsai-theme-danger);
+  border-color: var(--dsai-theme-danger);
+}
+
+.button--danger:hover:not(:disabled) {
+  background-color: var(--dsai-color-red-600);
+  border-color: var(--dsai-color-red-600);
+}
+
+/* Warning */
+.button--warning {
+  color: var(--dsai-neutral-black);
+  background-color: var(--dsai-theme-warning);
+  border-color: var(--dsai-theme-warning);
+}
+
+.button--warning:hover:not(:disabled) {
+  background-color: var(--dsai-color-yellow-600);
+  border-color: var(--dsai-color-yellow-600);
+}
+
+/* Info */
+.button--info {
+  color: var(--dsai-neutral-white);
+  background-color: var(--dsai-theme-info);
+  border-color: var(--dsai-theme-info);
+}
+
+.button--info:hover:not(:disabled) {
+  background-color: var(--dsai-color-cyan-600);
+  border-color: var(--dsai-color-cyan-600);
+}
+
+/* Light */
+.button--light {
+  color: var(--dsai-neutral-black);
+  background-color: var(--dsai-theme-light);
+  border-color: var(--dsai-theme-light);
+}
+
+.button--light:hover:not(:disabled) {
+  background-color: var(--dsai-color-gray-200);
+  border-color: var(--dsai-color-gray-200);
+}
+
+/* Dark */
+.button--dark {
+  color: var(--dsai-neutral-white);
+  background-color: var(--dsai-theme-dark);
+  border-color: var(--dsai-theme-dark);
+}
+
+.button--dark:hover:not(:disabled) {
+  background-color: var(--dsai-color-gray-900);
+  border-color: var(--dsai-color-gray-900);
+}
+
+/* ========================================
+   Color Variants - Outline
+   WCAG 2.2 AA: 3:1 contrast for UI components
+   ======================================== */
+
+/* Outline Primary */
+.button--outline-primary {
+  color: var(--dsai-theme-primary);
+  background-color: transparent;
+  border-color: var(--dsai-theme-primary);
+}
+
+.button--outline-primary:hover:not(:disabled) {
+  color: var(--dsai-neutral-white);
+  background-color: var(--dsai-theme-primary);
+  border-color: var(--dsai-theme-primary);
+}
+
+/* Outline Secondary */
+.button--outline-secondary {
+  color: var(--dsai-theme-secondary);
+  background-color: transparent;
+  border-color: var(--dsai-theme-secondary);
+}
+
+.button--outline-secondary:hover:not(:disabled) {
+  color: var(--dsai-neutral-white);
+  background-color: var(--dsai-theme-secondary);
+  border-color: var(--dsai-theme-secondary);
+}
+
+/* Outline Success */
+.button--outline-success {
+  color: var(--dsai-theme-success);
+  background-color: transparent;
+  border-color: var(--dsai-theme-success);
+}
+
+.button--outline-success:hover:not(:disabled) {
+  color: var(--dsai-neutral-white);
+  background-color: var(--dsai-theme-success);
+  border-color: var(--dsai-theme-success);
+}
+
+/* Outline Danger */
+.button--outline-danger {
+  color: var(--dsai-theme-danger);
+  background-color: transparent;
+  border-color: var(--dsai-theme-danger);
+}
+
+.button--outline-danger:hover:not(:disabled) {
+  color: var(--dsai-neutral-white);
+  background-color: var(--dsai-theme-danger);
+  border-color: var(--dsai-theme-danger);
+}
+
+/* Outline Warning */
+.button--outline-warning {
+  color: var(--dsai-theme-warning);
+  background-color: transparent;
+  border-color: var(--dsai-theme-warning);
+}
+
+.button--outline-warning:hover:not(:disabled) {
+  color: var(--dsai-neutral-black);
+  background-color: var(--dsai-theme-warning);
+  border-color: var(--dsai-theme-warning);
+}
+
+/* Outline Info */
+.button--outline-info {
+  color: var(--dsai-theme-info);
+  background-color: transparent;
+  border-color: var(--dsai-theme-info);
+}
+
+.button--outline-info:hover:not(:disabled) {
+  color: var(--dsai-neutral-white);
+  background-color: var(--dsai-theme-info);
+  border-color: var(--dsai-theme-info);
+}
+
+/* Outline Light */
+.button--outline-light {
+  color: var(--dsai-theme-light);
+  background-color: transparent;
+  border-color: var(--dsai-theme-light);
+}
+
+.button--outline-light:hover:not(:disabled) {
+  color: var(--dsai-neutral-black);
+  background-color: var(--dsai-theme-light);
+  border-color: var(--dsai-theme-light);
+}
+
+/* Outline Dark */
+.button--outline-dark {
+  color: var(--dsai-theme-dark);
+  background-color: transparent;
+  border-color: var(--dsai-theme-dark);
+}
+
+.button--outline-dark:hover:not(:disabled) {
+  color: var(--dsai-neutral-white);
+  background-color: var(--dsai-theme-dark);
+  border-color: var(--dsai-theme-dark);
+}
+
+/* ========================================
+   Link Variant
+   ======================================== */
+
+.button--link {
+  color: var(--dsai-semantic-link-color);
+  background-color: transparent;
+  border-color: transparent;
+  text-decoration: underline;
+  min-height: auto;
+  min-width: auto;
+}
+
+.button--link:hover:not(:disabled) {
+  color: var(--dsai-semantic-link-hover-color);
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.button--link:focus-visible {
+  outline-offset: 4px;
+}
