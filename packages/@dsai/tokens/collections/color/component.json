@@ -12,177 +12,212 @@
           "scssVariableName": "$border-color-translucent"
         }
       },
+      "$scopes": ["STROKE_COLOR"],
       "comment": "$border-color-translucent"
     },
     "body-color": {
       "$value": "{colors.neutral.gray.900}",
       "$type": "color",
-      "$description": "Default body text color. Applied to the <body> element and inherited by all text content unless overridden."
+      "$description": "Default body text color. Applied to the <body> element and inherited by all text content unless overridden.",
+      "$scopes": ["TEXT_FILL"]
     },
     "body-bg": {
       "$value": "{colors.neutral.white}",
       "$type": "color",
-      "$description": "Default body background color. Applied to the <body> element as the base page background."
+      "$description": "Default body background color. Applied to the <body> element as the base page background.",
+      "$scopes": ["ALL_FILLS"]
     },
     "emphasis-color": {
       "$value": "{colors.neutral.black}",
       "$type": "color",
-      "$description": "Emphasis color for higher contrast text. Use for headings or text that needs to stand out."
+      "$description": "Emphasis color for higher contrast text. Use for headings or text that needs to stand out.",
+      "$scopes": ["TEXT_FILL"]
     },
     "secondary-color": {
       "$value": "{colors.neutral.gray.600}",
       "$type": "color",
-      "$description": "Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text."
+      "$description": "Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text.",
+      "$scopes": ["TEXT_FILL"]
     },
     "secondary-bg": {
       "$value": "{colors.neutral.gray.200}",
       "$type": "color",
-      "$description": "Secondary background color. Use for dividers and to indicate disabled component states."
+      "$description": "Secondary background color. Use for dividers and to indicate disabled component states.",
+      "$scopes": ["ALL_FILLS"]
     },
     "tertiary-color": {
       "$value": "{colors.neutral.gray.500}",
       "$type": "color",
-      "$description": "Tertiary text color for even lighter text. Use for less important supporting text."
+      "$description": "Tertiary text color for even lighter text. Use for less important supporting text.",
+      "$scopes": ["TEXT_FILL"]
     },
     "tertiary-bg": {
       "$value": "{colors.neutral.gray.100}",
       "$type": "color",
-      "$description": "Tertiary background color. Use for hover states, accents, and wells."
+      "$description": "Tertiary background color. Use for hover states, accents, and wells.",
+      "$scopes": ["ALL_FILLS"]
     },
     "link-color": {
       "$value": "{colors.brand.blue.600}",
       "$type": "color",
-      "$description": "Default hyperlink color. Used for all <a> elements and interactive text."
+      "$description": "Default hyperlink color. Used for all <a> elements and interactive text.",
+      "$scopes": ["TEXT_FILL"]
     },
     "link-hover-color": {
       "$value": "{colors.brand.blue.700}",
       "$type": "color",
-      "$description": "Hyperlink hover color. Applied when user hovers over a link."
+      "$description": "Hyperlink hover color. Applied when user hovers over a link.",
+      "$scopes": ["TEXT_FILL"]
     },
     "border-color": {
       "$value": "{colors.neutral.gray.300}",
       "$type": "color",
-      "$description": "Default border color for component borders, dividers, and rules."
+      "$description": "Default border color for component borders, dividers, and rules.",
+      "$scopes": ["STROKE_COLOR"]
     },
     "primary-text-emphasis": {
       "$value": "{colors.brand.blue.700}",
       "$type": "color",
-      "$description": "Primary text emphasis color - higher contrast text on light backgrounds."
+      "$description": "Primary text emphasis color - higher contrast text on light backgrounds.",
+      "$scopes": ["TEXT_FILL"]
     },
     "primary-bg-subtle": {
       "$value": "{colors.brand.blue.100}",
       "$type": "color",
-      "$description": "Primary subtle background color for non-intrusive backgrounds."
+      "$description": "Primary subtle background color for non-intrusive backgrounds.",
+      "$scopes": ["ALL_FILLS"]
     },
     "primary-border-subtle": {
       "$value": "{colors.brand.blue.200}",
       "$type": "color",
-      "$description": "Primary subtle border color for gentle borders matching primary theme."
+      "$description": "Primary subtle border color for gentle borders matching primary theme.",
+      "$scopes": ["STROKE_COLOR"]
     },
     "secondary-text-emphasis": {
       "$value": "{colors.neutral.gray.700}",
       "$type": "color",
-      "$description": "Secondary theme text emphasis color - higher contrast text on light backgrounds."
+      "$description": "Secondary theme text emphasis color - higher contrast text on light backgrounds.",
+      "$scopes": ["TEXT_FILL"]
     },
     "secondary-bg-subtle": {
       "$value": "{colors.neutral.gray.100}",
       "$type": "color",
-      "$description": "Secondary theme subtle background color for non-intrusive backgrounds."
+      "$description": "Secondary theme subtle background color for non-intrusive backgrounds.",
+      "$scopes": ["ALL_FILLS"]
     },
     "secondary-border-subtle": {
       "$value": "{colors.neutral.gray.200}",
       "$type": "color",
-      "$description": "Secondary theme subtle border color for gentle borders matching secondary theme."
+      "$description": "Secondary theme subtle border color for gentle borders matching secondary theme.",
+      "$scopes": ["STROKE_COLOR"]
     },
     "success-text-emphasis": {
       "$value": "{colors.brand.green.700}",
       "$type": "color",
-      "$description": "Success text emphasis color - higher contrast text on light backgrounds."
+      "$description": "Success text emphasis color - higher contrast text on light backgrounds.",
+      "$scopes": ["TEXT_FILL"]
     },
     "success-bg-subtle": {
       "$value": "{colors.brand.green.100}",
       "$type": "color",
-      "$description": "Success subtle background color for non-intrusive success states."
+      "$description": "Success subtle background color for non-intrusive success states.",
+      "$scopes": ["ALL_FILLS"]
     },
     "success-border-subtle": {
       "$value": "{colors.brand.green.200}",
       "$type": "color",
-      "$description": "Success subtle border color for gentle borders matching success theme."
+      "$description": "Success subtle border color for gentle borders matching success theme.",
+      "$scopes": ["STROKE_COLOR"]
     },
     "danger-text-emphasis": {
       "$value": "{colors.brand.red.700}",
       "$type": "color",
-      "$description": "Danger text emphasis color - higher contrast text on light backgrounds."
+      "$description": "Danger text emphasis color - higher contrast text on light backgrounds.",
+      "$scopes": ["TEXT_FILL"]
     },
     "danger-bg-subtle": {
       "$value": "{colors.brand.red.100}",
       "$type": "color",
-      "$description": "Danger subtle background color for non-intrusive error states."
+      "$description": "Danger subtle background color for non-intrusive error states.",
+      "$scopes": ["ALL_FILLS"]
     },
     "danger-border-subtle": {
       "$value": "{colors.brand.red.200}",
       "$type": "color",
-      "$description": "Danger subtle border color for gentle borders matching danger theme."
+      "$description": "Danger subtle border color for gentle borders matching danger theme.",
+      "$scopes": ["STROKE_COLOR"]
     },
     "warning-text-emphasis": {
       "$value": "{colors.brand.yellow.700}",
       "$type": "color",
-      "$description": "Warning text emphasis color - higher contrast text on light backgrounds."
+      "$description": "Warning text emphasis color - higher contrast text on light backgrounds.",
+      "$scopes": ["TEXT_FILL"]
     },
     "warning-bg-subtle": {
       "$value": "{colors.brand.yellow.100}",
       "$type": "color",
-      "$description": "Warning subtle background color for non-intrusive warning states."
+      "$description": "Warning subtle background color for non-intrusive warning states.",
+      "$scopes": ["ALL_FILLS"]
     },
     "warning-border-subtle": {
       "$value": "{colors.brand.yellow.200}",
       "$type": "color",
-      "$description": "Warning subtle border color for gentle borders matching warning theme."
+      "$description": "Warning subtle border color for gentle borders matching warning theme.",
+      "$scopes": ["STROKE_COLOR"]
     },
     "info-text-emphasis": {
       "$value": "{colors.brand.cyan.700}",
       "$type": "color",
-      "$description": "Info text emphasis color - higher contrast text on light backgrounds."
+      "$description": "Info text emphasis color - higher contrast text on light backgrounds.",
+      "$scopes": ["TEXT_FILL"]
     },
     "info-bg-subtle": {
       "$value": "{colors.brand.cyan.100}",
       "$type": "color",
-      "$description": "Info subtle background color for non-intrusive info states."
+      "$description": "Info subtle background color for non-intrusive info states.",
+      "$scopes": ["ALL_FILLS"]
     },
     "info-border-subtle": {
       "$value": "{colors.brand.cyan.200}",
       "$type": "color",
-      "$description": "Info subtle border color for gentle borders matching info theme."
+      "$description": "Info subtle border color for gentle borders matching info theme.",
+      "$scopes": ["STROKE_COLOR"]
     },
     "light-text-emphasis": {
       "$value": "{colors.neutral.gray.700}",
       "$type": "color",
-      "$description": "Light text emphasis color - provides contrast on light themed components."
+      "$description": "Light text emphasis color - provides contrast on light themed components.",
+      "$scopes": ["TEXT_FILL"]
     },
     "light-bg-subtle": {
       "$value": "{colors.neutral.gray.100}",
       "$type": "color",
-      "$description": "Light subtle background color for subtle backgrounds."
+      "$description": "Light subtle background color for subtle backgrounds.",
+      "$scopes": ["ALL_FILLS"]
     },
     "light-border-subtle": {
       "$value": "{colors.neutral.gray.200}",
       "$type": "color",
-      "$description": "Light subtle border color for gentle borders matching light theme."
+      "$description": "Light subtle border color for gentle borders matching light theme.",
+      "$scopes": ["STROKE_COLOR"]
     },
     "dark-text-emphasis": {
       "$value": "{colors.neutral.gray.900}",
       "$type": "color",
-      "$description": "Dark text emphasis color - highest contrast text on light backgrounds."
+      "$description": "Dark text emphasis color - highest contrast text on light backgrounds.",
+      "$scopes": ["TEXT_FILL"]
     },
     "dark-bg-subtle": {
       "$value": "{colors.neutral.gray.400}",
       "$type": "color",
-      "$description": "Dark subtle background color for darker backgrounds."
+      "$description": "Dark subtle background color for darker backgrounds.",
+      "$scopes": ["ALL_FILLS"]
     },
     "dark-border-subtle": {
       "$value": "{colors.neutral.gray.500}",
       "$type": "color",
-      "$description": "Dark subtle border color for borders matching dark theme."
+      "$description": "Dark subtle border color for borders matching dark theme.",
+      "$scopes": ["STROKE_COLOR"]
     }
   }
 }

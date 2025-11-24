@@ -105,6 +105,70 @@ StyleDictionary.registerTransform({
 });
 
 /**
+ * Custom Transform: lineHeight/unitless
+ * Keeps line-height as unitless ratios (1, 1.5, 2, etc.)
+ * DTCG-compatible: checks both $type and type
+ *
+ * Style Dictionary v5 Best Practice:
+ * Source tokens store raw numbers or percentages, transforms normalize to unitless
+ *
+ * CSS Specification: line-height should be unitless for proper inheritance
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
+ */
+StyleDictionary.registerTransform({
+  name: 'lineHeight/unitless',
+  type: 'value',
+  filter: (token) => {
+    const tokenType = token.$type || token.type;
+    // Match lineHeight type or check path/scopes
+    const isLineHeight = tokenType === 'lineHeight' || tokenType === 'number';
+    const pathHasLineHeight =
+      token.path &&
+      token.path.some((part) => {
+        const lower = String(part).toLowerCase();
+        return lower === 'lineheight' || lower.includes('line-height') || lower.includes('lineheight');
+      });
+    const scopeHasLineHeight = 
+      token.$scopes && token.$scopes.includes('LINE_HEIGHT');
+    
+    return isLineHeight || pathHasLineHeight || scopeHasLineHeight;
+  },
+  transform: (token) => {
+    const value = token.$value || token.value;
+    
+    // If it's already a clean number (likely unitless), return it
+    if (typeof value === 'number') {
+      // If it's <= 3, it's already a multiplier (1, 1.5, 2)
+      if (value <= 3) {
+        return value;
+      }
+      // If it's > 3, it's likely px from Figma (16, 24, etc.)
+      // Convert to unitless by dividing by base font size (16px)
+      return value / 16;
+    }
+    
+    // Handle percentage strings (e.g., "150%" -> 1.5)
+    if (typeof value === 'string' && value.endsWith('%')) {
+      return parseFloat(value) / 100;
+    }
+    
+    // Handle strings with units like "1.5rem" or "24px"
+    if (typeof value === 'string') {
+      const numValue = parseFloat(value);
+      // If it was in rem (1.5rem) or small px (20px), likely already a ratio
+      if (numValue <= 3) {
+        return numValue;
+      }
+      // If large px value (24px), divide by 16
+      return numValue / 16;
+    }
+    
+    // Fallback: return as-is
+    return value;
+  },
+});
+
+/**
  * Custom Transform: dimension/rem
  * Converts number dimensions to rem (divide by basePxFontSize, default 16)
  * Handles raw numbers from source tokens
@@ -119,6 +183,7 @@ StyleDictionary.registerTransform({
   type: 'value',
   filter: (token) => {
     const tokenType = token.$type || token.type;
+    
     // Exclude font-weights
     const isFontWeight = tokenType === 'fontWeight' || tokenType === 'number';
     if (isFontWeight) return false;
@@ -132,6 +197,22 @@ StyleDictionary.registerTransform({
         );
       });
     if (pathHasFontWeight) return false;
+
+    // Exclude line-heights (they should be unitless)
+    const isLineHeight = tokenType === 'lineHeight';
+    if (isLineHeight) return false;
+    
+    const pathHasLineHeight =
+      token.path &&
+      token.path.some((part) => {
+        const lower = String(part).toLowerCase();
+        return lower === 'lineheight' || lower.includes('line-height') || lower.includes('lineheight');
+      });
+    if (pathHasLineHeight) return false;
+    
+    const scopeHasLineHeight = 
+      token.$scopes && token.$scopes.includes('LINE_HEIGHT');
+    if (scopeHasLineHeight) return false;
 
     // Include dimensions, spacing, sizing
     return tokenType === 'dimension' || tokenType === 'spacing' || tokenType === 'sizing';
@@ -276,23 +357,31 @@ StyleDictionary.registerTransformGroup({
     'attribute/cti',
     'name/kebab',
     'time/seconds',
+    'fontWeight/unitless', // Must run before dimension/rem
+    'lineHeight/unitless', // Must run before dimension/rem
     'dimension/rem',
-    'fontWeight/unitless',
     'color/css',
   ],
 });
 
 StyleDictionary.registerTransformGroup({
   name: 'custom/js',
-  transforms: ['attribute/cti', 'name/camel', 'dimension/rem', 'fontWeight/unitless', 'color/css'],
+  transforms: [
+    'attribute/cti',
+    'name/camel',
+    'fontWeight/unitless', // Must run before dimension/rem
+    'lineHeight/unitless', // Must run before dimension/rem
+    'dimension/rem',
+    'color/css',
+  ],
 });
 
 /**
  * Custom SCSS Transform Group
- * Uses our custom dimension/rem and fontWeight/unitless transforms
+ * Uses our custom dimension/rem, fontWeight/unitless, and lineHeight/unitless transforms
  * This follows Style Dictionary v5 best practices:
  * - Source tokens are raw numbers
- * - Transforms add appropriate units
+ * - Transforms add appropriate units (or keep unitless for font-weight/line-height)
  */
 StyleDictionary.registerTransformGroup({
   name: 'custom/scss',
@@ -301,6 +390,7 @@ StyleDictionary.registerTransformGroup({
     'name/kebab', // kebab-case names
     'time/seconds', // Convert time to seconds
     'fontWeight/unitless', // Font weights stay unitless (MUST run before dimension/rem)
+    'lineHeight/unitless', // Line heights stay unitless (MUST run before dimension/rem)
     'dimension/rem', // Convert dimensions to rem
     'color/css', // Convert colors to CSS format
   ],

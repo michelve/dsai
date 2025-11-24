@@ -15,6 +15,7 @@
             "viewport": "all"
           }
         },
+        "$scopes": ["FONT_SIZE"],
         "comment": "$font-size-base"
       },
       "sm": {
@@ -31,6 +32,7 @@
             "viewport": "all"
           }
         },
+        "$scopes": ["FONT_SIZE"],
         "comment": "$font-size-sm"
       },
       "lg": {
@@ -47,12 +49,13 @@
             "viewport": "all"
           }
         },
+        "$scopes": ["FONT_SIZE"],
         "comment": "$font-size-lg"
       }
     },
     "fontWeight": {
       "lighter": {
-        "$value": "100px",
+        "$value": 100,
         "$type": "dimension",
         "$description": "Lighter font weight",
         "$extensions": {
@@ -64,10 +67,11 @@
             "cssClass": "fw-lighter"
           }
         },
+        "$scopes": ["FONT_WEIGHT"],
         "comment": "$font-weight-lighter"
       },
       "light": {
-        "$value": "300px",
+        "$value": 300,
         "$type": "dimension",
         "$description": "Light font weight",
         "$extensions": {
@@ -79,10 +83,11 @@
             "cssClass": "fw-light"
           }
         },
+        "$scopes": ["FONT_WEIGHT"],
         "comment": "$font-weight-light"
       },
       "normal": {
-        "$value": "400px",
+        "$value": 400,
         "$type": "dimension",
         "$description": "Normal font weight (default body weight)",
         "$extensions": {
@@ -94,10 +99,11 @@
             "cssClass": "fw-normal"
           }
         },
+        "$scopes": ["FONT_WEIGHT"],
         "comment": "$font-weight-normal"
       },
       "medium": {
-        "$value": "500px",
+        "$value": 500,
         "$type": "dimension",
         "$description": "Medium font weight",
         "$extensions": {
@@ -109,10 +115,11 @@
             "cssClass": "fw-medium"
           }
         },
+        "$scopes": ["FONT_WEIGHT"],
         "comment": "$font-weight-medium"
       },
       "semibold": {
-        "$value": "600px",
+        "$value": 600,
         "$type": "dimension",
         "$description": "Semibold font weight",
         "$extensions": {
@@ -124,10 +131,11 @@
             "cssClass": "fw-semibold"
           }
         },
+        "$scopes": ["FONT_WEIGHT"],
         "comment": "$font-weight-semibold"
       },
       "bold": {
-        "$value": "700px",
+        "$value": 700,
         "$type": "dimension",
         "$description": "Bold font weight",
         "$extensions": {
@@ -139,10 +147,11 @@
             "cssClass": "fw-bold"
           }
         },
+        "$scopes": ["FONT_WEIGHT"],
         "comment": "$font-weight-bold"
       },
       "bolder": {
-        "$value": "900px",
+        "$value": 900,
         "$type": "dimension",
         "$description": "Bolder font weight",
         "$extensions": {
@@ -154,12 +163,13 @@
             "cssClass": "fw-bolder"
           }
         },
+        "$scopes": ["FONT_WEIGHT"],
         "comment": "$font-weight-bolder"
       }
     },
     "lineHeight": {
       "xs": {
-        "$value": "16px",
+        "$value": 16,
         "$type": "dimension",
         "$description": "Extra small line height (1.0 ratio) - Compact UI, tags, badges. Use sparingly, not for body text. 4pt scale: 16px.",
         "$extensions": {
@@ -178,10 +188,11 @@
             "unit": "4pt"
           }
         },
+        "$scopes": ["LINE_HEIGHT"],
         "comment": "$line-height-xs"
       },
       "sm": {
-        "$value": "20px",
+        "$value": 20,
         "$type": "dimension",
         "$description": "Small line height (1.25 ratio) - Bootstrap $line-height-sm. Compact text, small UI elements, tight spacing. Below WCAG AA for body text. 4pt scale: 20px.",
         "$extensions": {
@@ -200,10 +211,11 @@
             "unit": "4pt"
           }
         },
+        "$scopes": ["LINE_HEIGHT"],
         "comment": "$line-height-sm"
       },
       "tight": {
-        "$value": "20px",
+        "$value": 20,
         "$type": "dimension",
         "$description": "Tight line height (1.2-1.25 ratio) - Display fonts, headings (h1-h6). Improves readability of large text. Bootstrap heading default. 4pt scale: 20px for 16px base.",
         "$extensions": {
@@ -222,10 +234,11 @@
             "unit": "4pt"
           }
         },
+        "$scopes": ["LINE_HEIGHT"],
         "comment": "$headings-line-height"
       },
       "base": {
-        "$value": "24px",
+        "$value": 24,
         "$type": "dimension",
         "$description": "Base line height (1.5 ratio) - Bootstrap $line-height-base. Default for body text. WCAG AA compliant (1.5 minimum). 4pt scale: 24px for 16px base font.",
         "$extensions": {
@@ -244,10 +257,11 @@
             "unit": "4pt"
           }
         },
+        "$scopes": ["LINE_HEIGHT"],
         "comment": "$line-height-base"
       },
       "relaxed": {
-        "$value": "28px",
+        "$value": 28,
         "$type": "dimension",
         "$description": "Relaxed line height (1.75 ratio) - Enhanced readability for long-form content, articles, documentation. Exceeds WCAG AA. 4pt scale: 28px.",
         "$extensions": {
@@ -266,10 +280,11 @@
             "unit": "4pt"
           }
         },
+        "$scopes": ["LINE_HEIGHT"],
         "comment": "$line-height-relaxed"
       },
       "lg": {
-        "$value": "32px",
+        "$value": 32,
         "$type": "dimension",
         "$description": "Large line height (2.0 ratio) - Bootstrap $line-height-lg. Spacious text, large UI components, improved scannability. 4pt scale: 32px.",
         "$extensions": {
@@ -288,10 +303,11 @@
             "unit": "4pt"
           }
         },
+        "$scopes": ["LINE_HEIGHT"],
         "comment": "$line-height-lg"
       },
       "display-sm": {
-        "$value": "48px",
+        "$value": 48,
         "$type": "dimension",
         "$description": "Small display line height (1.2 ratio for 40px text) - Display fonts, large headings. Tighter leading for visual impact. 4pt scale: 48px.",
         "$extensions": {
@@ -311,10 +327,11 @@
             "unit": "4pt"
           }
         },
+        "$scopes": ["LINE_HEIGHT"],
         "comment": "$display-line-height"
       },
       "display-md": {
-        "$value": "60px",
+        "$value": 60,
         "$type": "dimension",
         "$description": "Medium display line height (1.2 ratio for 48-56px text) - Medium display fonts. 4pt scale: 60px.",
         "$extensions": {
@@ -334,10 +351,11 @@
             "unit": "4pt"
           }
         },
+        "$scopes": ["LINE_HEIGHT"],
         "comment": "$display-line-height-md"
       },
       "display-lg": {
-        "$value": "76px",
+        "$value": 76,
         "$type": "dimension",
         "$description": "Large display line height (1.2 ratio for 64px text) - Large display fonts, hero headings. 4pt scale: 76px (closest to 1.2 ratio).",
         "$extensions": {
@@ -357,6 +375,7 @@
             "unit": "4pt"
           }
         },
+        "$scopes": ["LINE_HEIGHT"],
         "comment": "$display-line-height-lg"
       }
     },
@@ -375,6 +394,7 @@
               "remValue": "2.5rem"
             }
           },
+          "$scopes": ["FONT_SIZE"],
           "comment": "$h1-font-size"
         }
       },
@@ -392,6 +412,7 @@
               "remValue": "2rem"
             }
           },
+          "$scopes": ["FONT_SIZE"],
           "comment": "$h2-font-size"
         }
       },
@@ -409,6 +430,7 @@
               "remValue": "1.75rem"
             }
           },
+          "$scopes": ["FONT_SIZE"],
           "comment": "$h3-font-size"
         }
       },
@@ -426,6 +448,7 @@
               "remValue": "1.5rem"
             }
           },
+          "$scopes": ["FONT_SIZE"],
           "comment": "$h4-font-size"
         }
       },
@@ -443,6 +466,7 @@
               "remValue": "1.25rem"
             }
           },
+          "$scopes": ["FONT_SIZE"],
           "comment": "$h5-font-size"
         }
       },
@@ -460,11 +484,12 @@
               "remValue": "1rem"
             }
           },
+          "$scopes": ["FONT_SIZE"],
           "comment": "$h6-font-size"
         }
       },
       "fontWeight": {
-        "$value": "500px",
+        "$value": 500,
         "$type": "dimension",
         "$description": "Default font weight for all headings",
         "$extensions": {
@@ -475,10 +500,11 @@
             "scssVariableName": "$headings-font-weight"
           }
         },
+        "$scopes": ["FONT_WEIGHT"],
         "comment": "$headings-font-weight"
       },
       "lineHeight": {
-        "$value": "1.2000000476837158px",
+        "$value": 1.2000000476837158,
         "$type": "dimension",
         "$description": "Line height for all headings",
         "$extensions": {
@@ -489,6 +515,7 @@
             "scssVariableName": "$headings-line-height"
           }
         },
+        "$scopes": ["LINE_HEIGHT"],
         "comment": "$headings-line-height"
       }
     },
@@ -508,6 +535,7 @@
               "remValue": "5rem"
             }
           },
+          "$scopes": ["FONT_SIZE"],
           "comment": "$display-font-sizes: (1: 5rem)"
         }
       },
@@ -526,6 +554,7 @@
               "remValue": "4.5rem"
             }
           },
+          "$scopes": ["FONT_SIZE"],
           "comment": "$display-font-sizes: (2: 4.5rem)"
         }
       },
@@ -544,6 +573,7 @@
               "remValue": "4rem"
             }
           },
+          "$scopes": ["FONT_SIZE"],
           "comment": "$display-font-sizes: (3: 4rem)"
         }
       },
@@ -562,6 +592,7 @@
               "remValue": "3.5rem"
             }
           },
+          "$scopes": ["FONT_SIZE"],
           "comment": "$display-font-sizes: (4: 3.5rem)"
         }
       },
@@ -580,6 +611,7 @@
               "remValue": "3rem"
             }
           },
+          "$scopes": ["FONT_SIZE"],
           "comment": "$display-font-sizes: (5: 3rem)"
         }
       },
@@ -598,11 +630,12 @@
               "remValue": "2.5rem"
             }
           },
+          "$scopes": ["FONT_SIZE"],
           "comment": "$display-font-sizes: (6: 2.5rem)"
         }
       },
       "fontWeight": {
-        "$value": "300px",
+        "$value": 300,
         "$type": "dimension",
         "$description": "Font weight for display headings",
         "$extensions": {
@@ -613,10 +646,11 @@
             "scssVariableName": "$display-font-weight"
           }
         },
+        "$scopes": ["FONT_WEIGHT"],
         "comment": "$display-font-weight"
       },
       "lineHeight": {
-        "$value": "1.2000000476837158px",
+        "$value": 1.2000000476837158,
         "$type": "dimension",
         "$description": "Line height for display headings",
         "$extensions": {
@@ -627,6 +661,7 @@
             "scssVariableName": "$display-line-height"
           }
         },
+        "$scopes": ["LINE_HEIGHT"],
         "comment": "$display-line-height"
       }
     },
@@ -645,10 +680,11 @@
             "remValue": "1.25rem"
           }
         },
+        "$scopes": ["FONT_SIZE"],
         "comment": "$lead-font-size"
       },
       "fontWeight": {
-        "$value": "300px",
+        "$value": 300,
         "$type": "dimension",
         "$description": "Lead paragraph font weight",
         "$extensions": {
@@ -659,6 +695,7 @@
             "scssVariableName": "$lead-font-weight"
           }
         },
+        "$scopes": ["FONT_WEIGHT"],
         "comment": "$lead-font-weight"
       }
     },
@@ -677,6 +714,7 @@
             "remValue": "0.875rem"
           }
         },
+        "$scopes": ["FONT_SIZE"],
         "comment": "$small-font-size"
       }
     },
@@ -698,6 +736,7 @@
             "wcag": "WCAG AA compliant - improves readability for large text"
           }
         },
+        "$scopes": ["LETTER_SPACING"],
         "comment": "$letter-spacing-tighter"
       },
       "tight": {
@@ -717,6 +756,7 @@
             "wcag": "WCAG AA compliant"
           }
         },
+        "$scopes": ["LETTER_SPACING"],
         "comment": "$letter-spacing-tight"
       },
       "normal": {
@@ -736,6 +776,7 @@
             "wcag": "WCAG AA compliant - recommended baseline"
           }
         },
+        "$scopes": ["LETTER_SPACING"],
         "comment": "$letter-spacing-normal"
       },
       "wide": {
@@ -755,6 +796,7 @@
             "wcag": "WCAG AA compliant - improves small text readability"
           }
         },
+        "$scopes": ["LETTER_SPACING"],
         "comment": "$letter-spacing-wide"
       },
       "wider": {
@@ -774,6 +816,7 @@
             "wcag": "WCAG AA compliant - recommended for uppercase"
           }
         },
+        "$scopes": ["LETTER_SPACING"],
         "comment": "$letter-spacing-wider"
       },
       "widest": {
@@ -793,6 +836,7 @@
             "wcag": "WCAG AA compliant - optimal for all-caps text"
           }
         },
+        "$scopes": ["LETTER_SPACING"],
         "comment": "$letter-spacing-widest"
       }
     },
@@ -811,6 +855,7 @@
             "viewport": "all"
           }
         },
+        "$scopes": ["FONT_FAMILY"],
         "comment": "$font-family-base"
       },
       "monospace": {
@@ -827,6 +872,7 @@
             "viewport": "all"
           }
         },
+        "$scopes": ["FONT_FAMILY"],
         "comment": "$font-family-monospace"
       }
     }

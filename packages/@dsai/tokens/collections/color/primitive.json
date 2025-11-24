@@ -16,6 +16,7 @@
             "bootstrapVersion": "5.3"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$blue-50"
       },
       "100": {
@@ -33,6 +34,7 @@
             "bootstrapVersion": "5.3"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$blue-100"
       },
       "200": {
@@ -47,6 +49,7 @@
             "scssVariableName": "$blue-200"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$blue-200"
       },
       "300": {
@@ -61,6 +64,7 @@
             "scssVariableName": "$blue-300"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$blue-300"
       },
       "400": {
@@ -75,6 +79,7 @@
             "scssVariableName": "$blue-400"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$blue-400"
       },
       "500": {
@@ -90,6 +95,7 @@
             "isBaseColor": "true"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$blue"
       },
       "600": {
@@ -105,6 +111,7 @@
             "useCase": "hover"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$blue-600"
       },
       "700": {
@@ -120,6 +127,7 @@
             "useCase": "active"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$blue-700"
       },
       "800": {
@@ -134,6 +142,7 @@
             "scssVariableName": "$blue-800"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$blue-800"
       },
       "900": {
@@ -148,6 +157,7 @@
             "scssVariableName": "$blue-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$blue-900"
       },
       "950": {
@@ -162,6 +172,7 @@
             "scssVariableName": "$blue-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$blue-900"
       }
     },
@@ -178,6 +189,7 @@
             "scssVariableName": "$indigo-50"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$indigo-50"
       },
       "100": {
@@ -192,6 +204,7 @@
             "scssVariableName": "$indigo-100"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$indigo-100"
       },
       "200": {
@@ -206,6 +219,7 @@
             "scssVariableName": "$indigo-200"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$indigo-200"
       },
       "300": {
@@ -220,6 +234,7 @@
             "scssVariableName": "$indigo-300"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$indigo-300"
       },
       "400": {
@@ -234,6 +249,7 @@
             "scssVariableName": "$indigo-400"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$indigo-400"
       },
       "500": {
@@ -249,6 +265,7 @@
             "isBaseColor": "true"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$indigo"
       },
       "600": {
@@ -263,6 +280,7 @@
             "scssVariableName": "$indigo-600"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$indigo-600"
       },
       "700": {
@@ -277,6 +295,7 @@
             "scssVariableName": "$indigo-700"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$indigo-700"
       },
       "800": {
@@ -291,6 +310,7 @@
             "scssVariableName": "$indigo-800"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$indigo-800"
       },
       "900": {
@@ -305,6 +325,7 @@
             "scssVariableName": "$indigo-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$indigo-900"
       },
       "950": {
@@ -319,6 +340,7 @@
             "scssVariableName": "$indigo-950"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$indigo-950"
       }
     },
@@ -335,6 +357,7 @@
             "scssVariableName": "$purple-50"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$purple-50"
       },
       "100": {
@@ -349,6 +372,7 @@
             "scssVariableName": "$purple-100"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$purple-100"
       },
       "200": {
@@ -363,6 +387,7 @@
             "scssVariableName": "$purple-200"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$purple-200"
       },
       "300": {
@@ -377,6 +402,7 @@
             "scssVariableName": "$purple-300"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$purple-300"
       },
       "400": {
@@ -391,6 +417,7 @@
             "scssVariableName": "$purple-400"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$purple-400"
       },
       "500": {
@@ -406,6 +433,7 @@
             "isBaseColor": "true"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$purple"
       },
       "600": {
@@ -420,6 +448,7 @@
             "scssVariableName": "$purple-600"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$purple-600"
       },
       "700": {
@@ -434,6 +463,7 @@
             "scssVariableName": "$purple-700"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$purple-700"
       },
       "800": {
@@ -448,6 +478,7 @@
             "scssVariableName": "$purple-800"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$purple-800"
       },
       "900": {
@@ -462,6 +493,7 @@
             "scssVariableName": "$purple-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$purple-900"
       },
       "950": {
@@ -476,6 +508,7 @@
             "scssVariableName": "$purple-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$purple-900"
       }
     },
@@ -492,6 +525,7 @@
             "scssVariableName": "$pink-50"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$pink-50"
       },
       "100": {
@@ -506,6 +540,7 @@
             "scssVariableName": "$pink-100"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$pink-100"
       },
       "200": {
@@ -520,6 +555,7 @@
             "scssVariableName": "$pink-200"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$pink-200"
       },
       "300": {
@@ -534,6 +570,7 @@
             "scssVariableName": "$pink-300"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$pink-300"
       },
       "400": {
@@ -548,6 +585,7 @@
             "scssVariableName": "$pink-400"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$pink-400"
       },
       "500": {
@@ -563,6 +601,7 @@
             "isBaseColor": "true"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$pink"
       },
       "600": {
@@ -577,6 +616,7 @@
             "scssVariableName": "$pink-600"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$pink-600"
       },
       "700": {
@@ -591,6 +631,7 @@
             "scssVariableName": "$pink-700"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$pink-700"
       },
       "800": {
@@ -605,6 +646,7 @@
             "scssVariableName": "$pink-800"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$pink-800"
       },
       "900": {
@@ -619,6 +661,7 @@
             "scssVariableName": "$pink-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$pink-900"
       },
       "950": {
@@ -633,6 +676,7 @@
             "scssVariableName": "$pink-950"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$pink-950"
       }
     },
@@ -649,6 +693,7 @@
             "scssVariableName": "$red-50"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$red-50"
       },
       "100": {
@@ -663,6 +708,7 @@
             "scssVariableName": "$red-100"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$red-100"
       },
       "200": {
@@ -677,6 +723,7 @@
             "scssVariableName": "$red-200"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$red-200"
       },
       "300": {
@@ -691,6 +738,7 @@
             "scssVariableName": "$red-300"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$red-300"
       },
       "400": {
@@ -705,6 +753,7 @@
             "scssVariableName": "$red-400"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$red-400"
       },
       "500": {
@@ -720,6 +769,7 @@
             "isBaseColor": "true"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$red"
       },
       "600": {
@@ -734,6 +784,7 @@
             "scssVariableName": "$red-600"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$red-600"
       },
       "700": {
@@ -748,6 +799,7 @@
             "scssVariableName": "$red-700"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$red-700"
       },
       "800": {
@@ -762,6 +814,7 @@
             "scssVariableName": "$red-800"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$red-800"
       },
       "900": {
@@ -776,6 +829,7 @@
             "scssVariableName": "$red-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$red-900"
       },
       "950": {
@@ -790,6 +844,7 @@
             "scssVariableName": "$red-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$red-900"
       }
     },
@@ -806,6 +861,7 @@
             "scssVariableName": "$orange-50"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$orange-50"
       },
       "100": {
@@ -820,6 +876,7 @@
             "scssVariableName": "$orange-100"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$orange-100"
       },
       "200": {
@@ -834,6 +891,7 @@
             "scssVariableName": "$orange-200"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$orange-200"
       },
       "300": {
@@ -848,6 +906,7 @@
             "scssVariableName": "$orange-300"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$orange-300"
       },
       "400": {
@@ -862,6 +921,7 @@
             "scssVariableName": "$orange-400"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$orange-400"
       },
       "500": {
@@ -877,6 +937,7 @@
             "isBaseColor": "true"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$orange"
       },
       "600": {
@@ -891,6 +952,7 @@
             "scssVariableName": "$orange-600"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$orange-600"
       },
       "700": {
@@ -905,6 +967,7 @@
             "scssVariableName": "$orange-700"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$orange-700"
       },
       "800": {
@@ -919,6 +982,7 @@
             "scssVariableName": "$orange-800"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$orange-800"
       },
       "900": {
@@ -933,6 +997,7 @@
             "scssVariableName": "$orange-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$orange-900"
       },
       "950": {
@@ -947,6 +1012,7 @@
             "scssVariableName": "$orange-950"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$orange-950"
       }
     },
@@ -963,6 +1029,7 @@
             "scssVariableName": "$yellow-50"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$yellow-50"
       },
       "100": {
@@ -977,6 +1044,7 @@
             "scssVariableName": "$yellow-100"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$yellow-100"
       },
       "200": {
@@ -991,6 +1059,7 @@
             "scssVariableName": "$yellow-200"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$yellow-200"
       },
       "300": {
@@ -1005,6 +1074,7 @@
             "scssVariableName": "$yellow-300"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$yellow-300"
       },
       "400": {
@@ -1019,6 +1089,7 @@
             "scssVariableName": "$yellow-400"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$yellow-400"
       },
       "500": {
@@ -1034,6 +1105,7 @@
             "isBaseColor": "true"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$yellow"
       },
       "600": {
@@ -1048,6 +1120,7 @@
             "scssVariableName": "$yellow-600"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$yellow-600"
       },
       "700": {
@@ -1062,6 +1135,7 @@
             "scssVariableName": "$yellow-700"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$yellow-700"
       },
       "800": {
@@ -1076,6 +1150,7 @@
             "scssVariableName": "$yellow-800"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$yellow-800"
       },
       "900": {
@@ -1090,6 +1165,7 @@
             "scssVariableName": "$yellow-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$yellow-900"
       },
       "950": {
@@ -1104,6 +1180,7 @@
             "scssVariableName": "$yellow-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$yellow-900"
       }
     },
@@ -1120,6 +1197,7 @@
             "scssVariableName": "$green-50"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$green-50"
       },
       "100": {
@@ -1134,6 +1212,7 @@
             "scssVariableName": "$green-100"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$green-100"
       },
       "200": {
@@ -1148,6 +1227,7 @@
             "scssVariableName": "$green-200"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$green-200"
       },
       "300": {
@@ -1162,6 +1242,7 @@
             "scssVariableName": "$green-300"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$green-300"
       },
       "400": {
@@ -1176,6 +1257,7 @@
             "scssVariableName": "$green-400"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$green-400"
       },
       "500": {
@@ -1191,6 +1273,7 @@
             "isBaseColor": "true"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$green"
       },
       "600": {
@@ -1205,6 +1288,7 @@
             "scssVariableName": "$green-600"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$green-600"
       },
       "700": {
@@ -1219,6 +1303,7 @@
             "scssVariableName": "$green-700"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$green-700"
       },
       "800": {
@@ -1233,6 +1318,7 @@
             "scssVariableName": "$green-800"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$green-800"
       },
       "900": {
@@ -1247,6 +1333,7 @@
             "scssVariableName": "$green-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$green-900"
       },
       "950": {
@@ -1261,6 +1348,7 @@
             "scssVariableName": "$green-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$green-900"
       }
     },
@@ -1277,6 +1365,7 @@
             "scssVariableName": "$teal-50"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$teal-50"
       },
       "100": {
@@ -1291,6 +1380,7 @@
             "scssVariableName": "$teal-100"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$teal-100"
       },
       "200": {
@@ -1305,6 +1395,7 @@
             "scssVariableName": "$teal-200"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$teal-200"
       },
       "300": {
@@ -1319,6 +1410,7 @@
             "scssVariableName": "$teal-300"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$teal-300"
       },
       "400": {
@@ -1333,6 +1425,7 @@
             "scssVariableName": "$teal-400"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$teal-400"
       },
       "500": {
@@ -1348,6 +1441,7 @@
             "isBaseColor": "true"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$teal"
       },
       "600": {
@@ -1362,6 +1456,7 @@
             "scssVariableName": "$teal-600"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$teal-600"
       },
       "700": {
@@ -1376,6 +1471,7 @@
             "scssVariableName": "$teal-700"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$teal-700"
       },
       "800": {
@@ -1390,6 +1486,7 @@
             "scssVariableName": "$teal-800"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$teal-800"
       },
       "900": {
@@ -1404,6 +1501,7 @@
             "scssVariableName": "$teal-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$teal-900"
       },
       "950": {
@@ -1418,6 +1516,7 @@
             "scssVariableName": "$teal-950"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$teal-950"
       }
     },
@@ -1434,6 +1533,7 @@
             "scssVariableName": "$cyan-50"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$cyan-50"
       },
       "100": {
@@ -1448,6 +1548,7 @@
             "scssVariableName": "$cyan-100"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$cyan-100"
       },
       "200": {
@@ -1462,6 +1563,7 @@
             "scssVariableName": "$cyan-200"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$cyan-200"
       },
       "300": {
@@ -1476,6 +1578,7 @@
             "scssVariableName": "$cyan-300"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$cyan-300"
       },
       "400": {
@@ -1490,6 +1593,7 @@
             "scssVariableName": "$cyan-400"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$cyan-400"
       },
       "500": {
@@ -1505,6 +1609,7 @@
             "isBaseColor": "true"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$cyan"
       },
       "600": {
@@ -1519,6 +1624,7 @@
             "scssVariableName": "$cyan-600"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$cyan-600"
       },
       "700": {
@@ -1533,6 +1639,7 @@
             "scssVariableName": "$cyan-700"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$cyan-700"
       },
       "800": {
@@ -1547,6 +1654,7 @@
             "scssVariableName": "$cyan-800"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$cyan-800"
       },
       "900": {
@@ -1561,6 +1669,7 @@
             "scssVariableName": "$cyan-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$cyan-900"
       },
       "950": {
@@ -1575,6 +1684,7 @@
             "scssVariableName": "$cyan-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$cyan-900"
       }
     },
@@ -1591,6 +1701,7 @@
             "scssVariableName": "$gray-50"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-50"
       },
       "100": {
@@ -1605,6 +1716,7 @@
             "scssVariableName": "$gray-100"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-100"
       },
       "200": {
@@ -1619,6 +1731,7 @@
             "scssVariableName": "$gray-200"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-200"
       },
       "300": {
@@ -1633,6 +1746,7 @@
             "scssVariableName": "$gray-300"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-300"
       },
       "400": {
@@ -1647,6 +1761,7 @@
             "scssVariableName": "$gray-400"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-400"
       },
       "500": {
@@ -1661,6 +1776,7 @@
             "scssVariableName": "$gray-500"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-500"
       },
       "600": {
@@ -1675,6 +1791,7 @@
             "scssVariableName": "$gray-600"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-600"
       },
       "700": {
@@ -1689,6 +1806,7 @@
             "scssVariableName": "$gray-700"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-700"
       },
       "800": {
@@ -1703,6 +1821,7 @@
             "scssVariableName": "$gray-800"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-800"
       },
       "900": {
@@ -1717,6 +1836,7 @@
             "scssVariableName": "$gray-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-900"
       },
       "950": {
@@ -1731,6 +1851,7 @@
             "scssVariableName": "$gray-900"
           }
         },
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-900"
       }
     }

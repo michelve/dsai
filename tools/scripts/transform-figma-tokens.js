@@ -83,9 +83,15 @@ function transformToken(figmaToken, options = {}) {
     return null;
   }
 
+  // Pass scopes to transformValue for type-specific handling
+  const transformOptions = {
+    ...options,
+    scopes: figmaToken.$scopes || [],
+  };
+
   // DTCG Format: Keep $ prefix for all properties
   const token = {
-    $value: transformValue(figmaToken.$value, figmaToken.$type, options),
+    $value: transformValue(figmaToken.$value, figmaToken.$type, transformOptions),
     $type: transformType(figmaToken.$type),
   };
 
@@ -97,6 +103,11 @@ function transformToken(figmaToken, options = {}) {
   // Preserve extensions (DTCG property) - keeps all metadata
   if (figmaToken.$extensions) {
     token.$extensions = figmaToken.$extensions;
+  }
+
+  // Preserve $scopes (used by Style Dictionary transforms)
+  if (figmaToken.$scopes) {
+    token.$scopes = figmaToken.$scopes;
   }
 
   // Also add comment for backward compatibility with Style Dictionary v3
@@ -127,8 +138,20 @@ function transformValue(value, type, options = {}) {
     return `${fontName}, ${stack}`;
   }
 
+  // Handle line-height: keep as unitless number (CSS best practice)
+  // Line-heights should remain unitless for proper inheritance
+  // @see https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
+  if (typeof value === 'number' && shouldKeepUnitless(type, options.scopes)) {
+    // If it's a percentage string like "150%", convert to decimal
+    if (typeof value === 'string' && value.endsWith('%')) {
+      return parseFloat(value) / 100;
+    }
+    // Return the number as-is (unitless)
+    return value;
+  }
+
   // Handle numbers that should be dimensions
-  if (typeof value === 'number' && shouldAddUnit(type)) {
+  if (typeof value === 'number' && shouldAddUnit(type, options.scopes)) {
     // Special case for circle radius (percentage)
     if (options.isCircle) {
       return '50%';
@@ -163,7 +186,34 @@ function transformType(figmaType) {
 /**
  * Check if a type should have units added
  */
-function shouldAddUnit(type) {
+/**
+ * Check if a token should remain unitless
+ * Font-weights and line-heights should be unitless numbers in CSS
+ */
+function shouldKeepUnitless(type, scopes = []) {
+  // Font weights must be unitless (300, 400, 700, etc.)
+  if (scopes.includes('FONT_WEIGHT')) {
+    return true;
+  }
+
+  // Line heights should be unitless for proper inheritance (1, 1.5, 2, etc.)
+  if (scopes.includes('LINE_HEIGHT')) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Check if px units should be added to a number value
+ * Excludes font-weights and line-heights which should remain unitless
+ */
+function shouldAddUnit(type, scopes = []) {
+  // Don't add units to font-weights or line-heights
+  if (shouldKeepUnitless(type, scopes)) {
+    return false;
+  }
+
   return type === 'number';
 }
 

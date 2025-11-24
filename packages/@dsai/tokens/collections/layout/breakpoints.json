@@ -16,6 +16,7 @@
             "darkMode": "true"
           }
         },
+        "$scopes": ["WIDTH_HEIGHT"],
         "comment": "$grid-breakpoints.xs"
       },
       "sm": {
@@ -33,6 +34,7 @@
             "darkMode": "true"
           }
         },
+        "$scopes": ["WIDTH_HEIGHT"],
         "comment": "$grid-breakpoints.sm"
       },
       "md": {
@@ -50,6 +52,7 @@
             "darkMode": "true"
           }
         },
+        "$scopes": ["WIDTH_HEIGHT"],
         "comment": "$grid-breakpoints.md"
       },
       "lg": {
@@ -67,6 +70,7 @@
             "darkMode": "true"
           }
         },
+        "$scopes": ["WIDTH_HEIGHT"],
         "comment": "$grid-breakpoints.lg"
       },
       "xl": {
@@ -84,6 +88,7 @@
             "darkMode": "true"
           }
         },
+        "$scopes": ["WIDTH_HEIGHT"],
         "comment": "$grid-breakpoints.xl"
       },
       "xxl": {
@@ -101,6 +106,7 @@
             "darkMode": "true"
           }
         },
+        "$scopes": ["WIDTH_HEIGHT"],
         "comment": "$grid-breakpoints.xxl"
       }
     }

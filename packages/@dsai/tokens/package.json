@@ -12,15 +12,18 @@
       "require": "./dist/index.js"
     },
     "./css": "./dist/css/variables.css",
-    "./scss": "./dist/scss/_variables.scss"
+    "./scss": "./dist/scss/_variables.scss",
+    "./bootstrap.css": "./dist/css/bootstrap.css",
+    "./bootstrap.min.css": "./dist/css/bootstrap.min.css"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "prebuild": "pnpm build:tokens",
+    "prebuild": "pnpm build:tokens && pnpm build:bootstrap",
     "build": "tsup",
     "build:tokens": "pnpm tokens:validate && style-dictionary build --config sd.config.mjs",
+    "build:bootstrap": "sass scss/bootstrap-theme.scss dist/css/bootstrap.css && sass scss/bootstrap-theme.scss dist/css/bootstrap.min.css --style=compressed",
     "build:watch": "tsup --watch",
     "dev": "pnpm tokens:watch & tsup --watch",
     "test": "echo 'Test tokens'",
@@ -50,6 +53,8 @@
     "access": "restricted"
   },
   "devDependencies": {
+    "bootstrap": "^5.3.8",
+    "sass": "^1.94.2",
     "style-dictionary": "^5.1.1"
   }
 }
