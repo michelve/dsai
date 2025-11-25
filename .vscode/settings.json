@@ -55,5 +55,8 @@
   // Nx Console settings
   "nxConsole.enableTelemetry": false,
   "nxConsole.showNodeVersionOnStartup": false,
-  "cSpell.words": ["zindex"]
+  "cSpell.words": ["zindex"],
+
+  // Disable Live Sass Compiler auto-compile (we use pnpm build:bootstrap instead)
+  "liveSassCompile.settings.autoCompile": false
 }

@@ -5,6 +5,10 @@ dist
 tmp
 out-tsc
 
+# SCSS auto-compiled CSS (from Live Sass Compiler or similar extensions)
+packages/@dsai/tokens/src/scss/*.css
+packages/@dsai/tokens/src/scss/*.css.map
+
 # dependencies
 node_modules
 
