@@ -162,26 +162,28 @@ function FocusButton() {
 
 ## Props
 
-| Prop               | Type                              | Default     | Description                |
-| ------------------ | --------------------------------- | ----------- | -------------------------- |
-| `children`         | `ReactNode`                       | -           | Button content             |
-| `variant`          | `ButtonVariant`                   | `'primary'` | Visual style variant       |
-| `size`             | `'sm' \| 'md' \| 'lg'`            | `'md'`      | Button size                |
-| `disabled`         | `boolean`                         | `false`     | Disabled state             |
-| `loading`          | `boolean`                         | `false`     | Loading state with spinner |
-| `loadingText`      | `string`                          | -           | Text to show while loading |
-| `startIcon`        | `ReactNode`                       | -           | Icon before text           |
-| `endIcon`          | `ReactNode`                       | -           | Icon after text            |
-| `fullWidth`        | `boolean`                         | `false`     | Full width button          |
-| `type`             | `'button' \| 'submit' \| 'reset'` | `'button'`  | HTML button type           |
-| `onClick`          | `(event) => void`                 | -           | Click handler              |
-| `className`        | `string`                          | -           | Additional CSS classes     |
-| `style`            | `CSSProperties`                   | -           | Inline styles              |
-| `aria-label`       | `string`                          | -           | Accessible label           |
-| `aria-describedby` | `string`                          | -           | ID of describing element   |
-| `aria-controls`    | `string`                          | -           | ID of controlled element   |
-| `aria-expanded`    | `boolean`                         | -           | Expanded state             |
-| `aria-pressed`     | `boolean \| 'mixed'`              | -           | Pressed state for toggles  |
+| Prop               | Type                              | Default     | Description                                                       |
+| ------------------ | --------------------------------- | ----------- | ----------------------------------------------------------------- |
+| `children`         | `ReactNode`                       | -           | Button content                                                    |
+| `variant`          | `ButtonVariant`                   | `'primary'` | Visual style variant                                              |
+| `size`             | `'sm' \| 'md' \| 'lg'`            | `'md'`      | Button size                                                       |
+| `disabled`         | `boolean`                         | `false`     | Disabled state                                                    |
+| `loading`          | `boolean`                         | `false`     | Loading state with spinner                                        |
+| `loadingText`      | `string`                          | -           | Text to show while loading                                        |
+| `startIcon`        | `ReactNode`                       | -           | Icon before text                                                  |
+| `endIcon`          | `ReactNode`                       | -           | Icon after text                                                   |
+| `fullWidth`        | `boolean`                         | `false`     | Full width button                                                 |
+| `type`             | `'button' \| 'submit' \| 'reset'` | `'button'`  | HTML button type                                                  |
+| `onClick`          | `(event) => void`                 | -           | Click handler                                                     |
+| `className`        | `string`                          | -           | Additional CSS classes                                            |
+| `style`            | `CSSProperties`                   | -           | Inline styles                                                     |
+| `aria-label`       | `string`                          | -           | Accessible label                                                  |
+| `aria-describedby` | `string`                          | -           | ID of describing element                                          |
+| `aria-controls`    | `string`                          | -           | ID of controlled element                                          |
+| `aria-expanded`    | `boolean`                         | -           | Expanded state                                                    |
+| `aria-pressed`     | `boolean \| 'mixed'`              | -           | Pressed state for toggles                                         |
+| `announceText`     | `string`                          | -           | Announcement text for screen readers (aria-live)                  |
+| `announce`         | `boolean`                         | `true`\*    | Enable/disable announcements (\*default if announceText provided) |
 
 ## Accessibility
 
@@ -195,6 +197,25 @@ The Button component is built with accessibility in mind:
 - **Touch target**: Minimum 44×44px touch target size (WCAG 2.2 2.5.8)
 - **Loading state**: Uses `aria-busy` and `aria-disabled` when loading
 - **Reduced motion**: Respects `prefers-reduced-motion` preference
+- **Decorative icons**: Icons are marked with `aria-hidden="true"` to prevent redundant screen reader announcements
+
+### Decorative vs Semantic Icons
+
+Icons rendered through `startIcon` and `endIcon` props are treated as **decorative** and automatically marked with `aria-hidden="true"`. This prevents screen readers from announcing them separately.
+
+**Example:**
+
+```tsx
+// ✅ Good - Icon is marked aria-hidden automatically
+<Button startIcon={<ArrowIcon />}>Continue</Button>
+// Screen reader announces: "button Continue"
+
+// ✅ Good - Icon with descriptive text
+<Button startIcon={<SaveIcon />} aria-label="Save document">
+  Save
+</Button>
+// Screen reader announces: "button Save document"
+```
 
 ### Icon-only Buttons
 
@@ -235,6 +256,60 @@ For buttons that control expandable content:
 </div>
 ```
 
+### Dynamic State Announcements
+
+For asynchronous operations (loading, saving, etc.), use the `announceText` prop to announce state changes to screen readers using `aria-live="polite"`:
+
+```tsx
+function SaveButton() {
+  const [status, setStatus] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSave = async () => {
+    setIsLoading(true);
+    setStatus('Saving changes...');
+
+    try {
+      await saveData();
+      setStatus('Changes saved successfully');
+      setIsLoading(false);
+    } catch (error) {
+      setStatus('Error: Failed to save changes');
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <Button loading={isLoading} loadingText="Saving..." announceText={status} onClick={handleSave}>
+      Save
+    </Button>
+  );
+}
+```
+
+**Features:**
+
+- `announceText` - Text to announce via `aria-live="polite"` (screen readers only, visually hidden)
+- `announce` - Control whether announcements are enabled (defaults to true when `announceText` is provided)
+- Hidden off-screen using sr-only technique (screen reader only)
+- Does not interfere with visual UI
+
+**Examples:**
+
+```tsx
+// Announce loading started
+<Button announceText="Processing request..." loading>Submit</Button>
+
+// Announce success
+<Button announceText="Changes saved successfully">Save</Button>
+
+// Announce error
+<Button announceText="Error: Please try again">Retry</Button>
+
+// Disable announcements if preferred
+<Button announceText="Saving..." announce={false}>Save</Button>
+```
+
 ## Bootstrap Classes
 
 The Button component uses native Bootstrap 5 classes:
@@ -244,7 +319,44 @@ The Button component uses native Bootstrap 5 classes:
 - `btn-sm`, `btn-lg` - Size classes
 - `w-100` - Full width utility
 
-## Design Tokens
+## Security
+
+The Button component implements security best practices:
+
+### Prop Spreading Restrictions
+
+The component uses a **whitelist-based approach** for prop spreading. Only safe, non-interactive HTML attributes are allowed:
+
+**Allowed attributes:**
+
+- `data-testid`, `data-test` - Testing attributes
+- `title` - Tooltip text
+- `form`, `formAction`, `formMethod`, `formNoValidate`, `formTarget` - Form-related attributes
+
+**Blocked attributes:**
+
+- Event handlers (e.g., `onMouseOver`, `onClick`, etc.) - Must use explicit `onClick` prop
+- Dangerous attributes - Any attribute not in the whitelist
+
+**Example:**
+
+```tsx
+// ✅ Good - Event handler through explicit prop
+<Button onClick={handleClick}>Click me</Button>
+
+// ✅ Good - Safe HTML attributes
+<Button data-testid="submit-btn" title="Submit form">
+  Submit
+</Button>
+
+// ❌ Bad - Event handler not allowed through spread
+// @ts-expect-error
+<Button onMouseOver={maliciousHandler}>Unsafe</Button>
+```
+
+### Performance
+
+The component uses `useMemo` to memoize class name construction, preventing unnecessary recalculations when props haven't changed. This improves performance in lists with many Button instances.
 
 The Button component uses DSAi design tokens through the Bootstrap theme:
 

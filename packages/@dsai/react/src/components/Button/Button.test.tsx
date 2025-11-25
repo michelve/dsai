@@ -1,4 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { createRef } from 'react';
 
@@ -333,6 +334,20 @@ describe('Button', () => {
   });
 
   describe('Accessibility (WCAG 2.2 AA)', () => {
+    it('marks start icon as aria-hidden for decorative use', () => {
+      render(<Button startIcon={<span data-testid="start-icon">→</span>}>With Icon</Button>);
+      const iconSpan = screen.getByTestId('start-icon').parentElement;
+
+      expect(iconSpan).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('marks end icon as aria-hidden for decorative use', () => {
+      render(<Button endIcon={<span data-testid="end-icon">←</span>}>With Icon</Button>);
+      const iconSpan = screen.getByTestId('end-icon').parentElement;
+
+      expect(iconSpan).toHaveAttribute('aria-hidden', 'true');
+    });
+
     it('has no accessibility violations', async () => {
       const { container } = render(<Button>Accessible</Button>);
       const results = await axe(container);
@@ -407,6 +422,49 @@ describe('Button', () => {
     });
   });
 
+  describe('Security (Prop Spreading Whitelist)', () => {
+    it('allows data-testid attribute through whitelisted props', () => {
+      render(<Button data-testid="test-button">Button</Button>);
+      expect(screen.getByTestId('test-button')).toBeInTheDocument();
+    });
+
+    it('allows form-related attributes', () => {
+      render(
+        <Button
+          type="submit"
+          form="my-form"
+          formAction="/submit"
+          formMethod="post"
+          formTarget="_blank"
+        >
+          Submit
+        </Button>
+      );
+      const button = screen.getByRole('button');
+
+      expect(button).toHaveAttribute('form', 'my-form');
+      expect(button).toHaveAttribute('formAction', '/submit');
+      expect(button).toHaveAttribute('formMethod', 'post');
+      expect(button).toHaveAttribute('formTarget', '_blank');
+    });
+
+    it('allows title attribute', () => {
+      render(<Button title="Click to submit">Submit</Button>);
+      expect(screen.getByRole('button')).toHaveAttribute('title', 'Click to submit');
+    });
+
+    it('does not accept arbitrary event handler props', () => {
+      const handleMouseOver = jest.fn();
+      // @ts-expect-error - intentionally testing that onMouseOver is not accepted
+      render(<Button onMouseOver={handleMouseOver}>Test</Button>);
+
+      fireEvent.mouseOver(screen.getByRole('button'));
+
+      // Event handler should not be called since it's not in the props interface
+      expect(handleMouseOver).not.toHaveBeenCalled();
+    });
+  });
+
   describe('Ref Forwarding', () => {
     it('forwards ref to button element', () => {
       const ref = createRef<HTMLButtonElement>();
@@ -429,6 +487,82 @@ describe('Button', () => {
   describe('Display Name', () => {
     it('has correct displayName', () => {
       expect(Button.displayName).toBe('Button');
+    });
+  });
+
+  describe('Aria-Live Announcements (Dynamic State Changes)', () => {
+    it('renders aria-live region when announceText is provided', () => {
+      render(<Button announceText="Saving...">Save</Button>);
+
+      const announcement = screen.getByText('Saving...');
+      expect(announcement).toBeInTheDocument();
+      expect(announcement).toHaveAttribute('role', 'status');
+      expect(announcement).toHaveAttribute('aria-live', 'polite');
+      expect(announcement).toHaveAttribute('aria-atomic', 'true');
+    });
+
+    it('does not render aria-live region when announceText is not provided', () => {
+      const { container } = render(<Button>Save</Button>);
+
+      const liveRegions = container.querySelectorAll('[aria-live="polite"]');
+      expect(liveRegions).toHaveLength(0);
+    });
+
+    it('hides aria-live region from visual display using sr-only technique', () => {
+      const { container } = render(<Button announceText="Changes saved">Save</Button>);
+
+      const announcement = screen.getByText('Changes saved');
+
+      // Announcement region should be hidden visually (off-screen)
+      // The announcement div itself has aria-live and role
+      expect(announcement).toBeInTheDocument();
+      expect(announcement).toHaveAttribute('aria-live', 'polite');
+      expect(announcement).toHaveAttribute('role', 'status');
+
+      // Check for sr-only positioning styles
+      const liveRegion = container.querySelector('[aria-live="polite"]');
+      expect(liveRegion).toHaveStyle({
+        position: 'absolute',
+      });
+    });
+
+    it('allows disabling announcements with announce={false}', () => {
+      const { container } = render(
+        <Button announceText="Saving..." announce={false}>
+          Save
+        </Button>
+      );
+
+      const liveRegions = container.querySelectorAll('[aria-live="polite"]');
+      expect(liveRegions).toHaveLength(0);
+    });
+
+    it('announces state changes during loading transition', () => {
+      const { rerender } = render(
+        <Button loading={false} announceText="Ready">
+          Save
+        </Button>
+      );
+
+      expect(screen.getByText('Ready')).toBeInTheDocument();
+
+      rerender(
+        <Button loading={true} announceText="Saving...">
+          Save
+        </Button>
+      );
+
+      expect(screen.getByText('Saving...')).toBeInTheDocument();
+    });
+
+    it('announces different messages for success and error states', () => {
+      const { rerender } = render(<Button announceText="Processing request...">Submit</Button>);
+
+      expect(screen.getByText('Processing request...')).toBeInTheDocument();
+
+      rerender(<Button announceText="Request completed successfully">Submit</Button>);
+
+      expect(screen.getByText('Request completed successfully')).toBeInTheDocument();
     });
   });
 });

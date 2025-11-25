@@ -1,10 +1,136 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@dsai/react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
 
 /**
  * Button component provides a versatile, accessible button with multiple variants and sizes.
- * Built with Bootstrap 5 design tokens and full WCAG 2.2 AA compliance.
+ * Built with Bootstrap 5 design tokens and full WCAG 2.2 AA compliance with security hardening.
+ *
+ * Features:
+ * - 17 button variants with Bootstrap 5 theming
+ * - Loading states with spinner integration
+ * - Icon support (start and end icons)
+ * - Dynamic state announcements via aria-live
+ * - Whitelist-based prop spreading for security
+ * - Full WCAG 2.2 AA accessibility compliance
  */
+
+// Helper component for loading variants showcase
+const LoadingVariantsShowcase = () => (
+  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+    <Button variant="primary" loading>
+      Saving
+    </Button>
+    <Button variant="success" loading>
+      Processing
+    </Button>
+    <Button variant="danger" loading>
+      Deleting
+    </Button>
+    <Button variant="warning" loading>
+      Loading
+    </Button>
+  </div>
+);
+
+// Helper component for icons showcase
+const IconsShowcase = () => (
+  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+    <Button variant="primary" startIcon="⬅">
+      Previous
+    </Button>
+    <Button variant="primary" endIcon="➡">
+      Next
+    </Button>
+    <Button variant="primary" startIcon="✓" endIcon="→">
+      Confirm & Continue
+    </Button>
+    <Button variant="outline-secondary" aria-label="Close dialog">
+      ×
+    </Button>
+  </div>
+);
+
+// Helper component for single announcement demo
+const AnnouncementDemo = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleClick = () => {
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 2000);
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <Button
+        variant="primary"
+        loading={isLoading}
+        loadingText="Saving..."
+        announceText={isLoading ? 'Saving your changes' : 'Changes saved successfully'}
+        announce={true}
+        onClick={handleClick}
+        disabled={isLoading}
+      >
+        {isLoading ? 'Saving...' : 'Save Changes'}
+      </Button>
+      <p style={{ fontSize: '0.875rem', color: '#666' }}>
+        Click the button and watch the screen reader announcement region
+      </p>
+    </div>
+  );
+};
+
+// Helper component for multi-state announcement demo
+const MultiStateAnnouncementDemo = () => {
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleSave = async () => {
+    setStatus('loading');
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    setStatus('success');
+    setTimeout(() => setStatus('idle'), 3000);
+  };
+
+  const handleDelete = async () => {
+    setStatus('loading');
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    setStatus('error');
+    setTimeout(() => setStatus('idle'), 3000);
+  };
+
+  const announceText = {
+    idle: '',
+    loading: 'Operation in progress...',
+    success: '✓ Operation completed successfully',
+    error: '⚠ Operation failed. Please try again.',
+  };
+
+  return (
+    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+      <Button
+        variant="success"
+        loading={status === 'loading'}
+        announceText={announceText[status]}
+        announce={true}
+        onClick={handleSave}
+        disabled={status === 'loading'}
+      >
+        {status === 'loading' ? 'Saving...' : status === 'success' ? '✓ Saved' : 'Save'}
+      </Button>
+      <Button
+        variant="danger"
+        loading={status === 'loading'}
+        announceText={announceText[status]}
+        announce={true}
+        onClick={handleDelete}
+        disabled={status === 'loading'}
+      >
+        {status === 'loading' ? 'Deleting...' : status === 'error' ? '✗ Failed' : 'Delete'}
+      </Button>
+    </div>
+  );
+};
+
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
   component: Button,
@@ -102,6 +228,50 @@ const meta: Meta<typeof Button> = {
       description: 'Button content',
       table: {
         type: { summary: 'ReactNode' },
+      },
+    },
+    loading: {
+      control: 'boolean',
+      description: 'Loading state - shows spinner and disables button',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    loadingText: {
+      control: 'text',
+      description: 'Text to show while loading (replaces children)',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    startIcon: {
+      control: false,
+      description: 'Icon to display before button text (decorative, aria-hidden)',
+      table: {
+        type: { summary: 'ReactNode' },
+      },
+    },
+    endIcon: {
+      control: false,
+      description: 'Icon to display after button text (decorative, aria-hidden)',
+      table: {
+        type: { summary: 'ReactNode' },
+      },
+    },
+    announceText: {
+      control: 'text',
+      description: 'Announcement text for screen readers (aria-live="polite")',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    announce: {
+      control: 'boolean',
+      description: 'Enable/disable announcements',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true (when announceText provided)' },
       },
     },
   },
@@ -406,6 +576,81 @@ export const AllVariants: Story = {
   parameters: {
     layout: 'padded',
   },
+};
+
+/**
+ * Loading states showcase
+ */
+export const Loading: Story = {
+  args: {
+    variant: 'primary',
+    children: 'Saving...',
+    loading: true,
+  },
+};
+
+export const LoadingWithText: Story = {
+  args: {
+    variant: 'primary',
+    children: 'Save Changes',
+    loading: true,
+    loadingText: 'Saving your changes...',
+  },
+};
+
+export const LoadingDifferentVariants: Story = {
+  render: () => <LoadingVariantsShowcase />,
+};
+
+/**
+ * Icon support with new props
+ */
+export const WithStartIcon: Story = {
+  args: {
+    variant: 'primary',
+    startIcon: '⬅',
+    children: 'Previous',
+  },
+};
+
+export const WithEndIcon: Story = {
+  args: {
+    variant: 'primary',
+    endIcon: '➡',
+    children: 'Next',
+  },
+};
+
+export const WithBothIcons: Story = {
+  args: {
+    variant: 'primary',
+    startIcon: '✓',
+    endIcon: '→',
+    children: 'Confirm & Continue',
+  },
+};
+
+export const IconOnlyButton: Story = {
+  args: {
+    variant: 'outline-secondary',
+    children: '×',
+    'aria-label': 'Close dialog',
+  },
+};
+
+export const AllIconsShowcase: Story = {
+  render: () => <IconsShowcase />,
+};
+
+/**
+ * Aria-live announcements for dynamic state changes
+ */
+export const WithAnnouncement: Story = {
+  render: () => <AnnouncementDemo />,
+};
+
+export const AnnounceDifferentStates: Story = {
+  render: () => <MultiStateAnnouncementDemo />,
 };
 
 /**

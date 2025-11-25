@@ -368,7 +368,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 
 ### Step 1: Read Task File
 
-- Parse task from `tasks/02-high/TASK-XXX-*.md`
+- Parse task from `tasks/completed/TASK-021-button-component.md`
 - Verify task is clear and complete
 - Ask clarifying questions if ambiguous
 

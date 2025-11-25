@@ -37,6 +37,21 @@ export type ButtonSize = 'sm' | 'md' | 'lg';
 export type ButtonType = 'button' | 'submit' | 'reset';
 
 /**
+ * Safe HTML attributes that can be spread onto the button element
+ * SECURITY: This whitelist prevents injection of dangerous attributes or event handlers
+ */
+export interface SafeHTMLAttributes {
+  'data-testid'?: string;
+  'data-test'?: string;
+  title?: string;
+  form?: string;
+  formAction?: string;
+  formMethod?: 'get' | 'post' | 'dialog';
+  formNoValidate?: boolean;
+  formTarget?: string;
+}
+
+/**
  * Button component props
  *
  * @example
@@ -57,7 +72,7 @@ export type ButtonType = 'button' | 'submit' | 'reset';
  * </Button>
  * ```
  */
-export interface ButtonProps {
+export interface ButtonProps extends SafeHTMLAttributes {
   /**
    * Button content
    */
@@ -94,12 +109,12 @@ export interface ButtonProps {
   loadingText?: string;
 
   /**
-   * Icon to display before button text
+   * Icon to display before button text (decorative, marked with aria-hidden)
    */
   startIcon?: ReactNode;
 
   /**
-   * Icon to display after button text
+   * Icon to display after button text (decorative, marked with aria-hidden)
    */
   endIcon?: ReactNode;
 
@@ -181,4 +196,18 @@ export interface ButtonProps {
    * @default false
    */
   autoFocus?: boolean;
+
+  /**
+   * Announcement text for dynamic state changes (shown to screen readers via aria-live)
+   * Useful for announcing loading started, completed, or error states
+   * @example "Saving changes..." or "Changes saved successfully"
+   */
+  announceText?: string;
+
+  /**
+   * Whether to announce state changes to screen readers
+   * When true, announceText is announced with aria-live="polite"
+   * @default true when announceText is provided
+   */
+  announce?: boolean;
 }
