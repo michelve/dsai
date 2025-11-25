@@ -56,11 +56,15 @@ export {
   type AlertVariant,
   type AlertLinkProps,
   type AlertHeadingProps,
+  Progress,
+  type ProgressProps,
+  type ProgressBarProps,
+  type ProgressVariant,
+  type ProgressSize,
 } from './components';
 
 // Future component exports (uncomment as implemented):
 // export { Input, type InputProps } from './components';
-// export { Card, type CardProps } from './components';
 
 // ============================================================================
 // Compositions - Complex multi-component patterns

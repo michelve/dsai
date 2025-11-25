@@ -22,4 +22,7 @@ export { Button } from './Button';
 export type { SpinnerAnimation, SpinnerProps, SpinnerSize, SpinnerVariant } from './Spinner';
 // Spinner
 export { Spinner } from './Spinner';
-//other
+
+// Progress
+export { Progress } from './Progress';
+export type { ProgressProps, ProgressBarProps, ProgressVariant, ProgressSize } from './Progress';

@@ -1,0 +1,192 @@
+import type { CSSProperties, ReactNode } from 'react';
+
+/**
+ * Progress bar color variants
+ * Maps to Bootstrap 5 progress bar background utilities
+ *
+ * @see https://getbootstrap.com/docs/5.3/components/progress/
+ */
+export type ProgressVariant =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'danger'
+  | 'warning'
+  | 'info'
+  | 'dark';
+
+/**
+ * Progress bar sizes
+ */
+export type ProgressSize = 'sm' | 'md' | 'lg';
+
+/**
+ * Progress component props
+ *
+ * @example
+ * ```tsx
+ * // Determinate progress bar
+ * <Progress value={75} variant="primary" />
+ *
+ * // Indeterminate (loading) progress bar
+ * <Progress indeterminate variant="info" />
+ *
+ * // With label
+ * <Progress value={50} label="Uploading..." showValue />
+ *
+ * // Striped and animated
+ * <Progress value={60} striped animated />
+ *
+ * // Stacked progress bars
+ * <Progress>
+ *   <Progress.Bar value={15} variant="success" />
+ *   <Progress.Bar value={30} variant="warning" />
+ *   <Progress.Bar value={20} variant="danger" />
+ * </Progress>
+ * ```
+ */
+export interface ProgressProps {
+  /**
+   * Progress value (0-100)
+   * If undefined and not indeterminate, defaults to 0
+   */
+  value?: number;
+
+  /**
+   * Progress bar color variant
+   * @default 'primary'
+   */
+  variant?: ProgressVariant;
+
+  /**
+   * Progress bar size
+   * @default 'md'
+   */
+  size?: ProgressSize;
+
+  /**
+   * Optional label displayed above the progress bar
+   */
+  label?: string;
+
+  /**
+   * Show percentage value inside the progress bar
+   * @default false
+   */
+  showValue?: boolean;
+
+  /**
+   * Custom value text (overrides percentage display)
+   */
+  valueText?: string;
+
+  /**
+   * Indeterminate mode (animated loading state)
+   * @default false
+   */
+  indeterminate?: boolean;
+
+  /**
+   * Striped pattern
+   * @default false
+   */
+  striped?: boolean;
+
+  /**
+   * Animated stripes (requires striped to be true)
+   * @default false
+   */
+  animated?: boolean;
+
+  /**
+   * Minimum value for aria-valuemin
+   * @default 0
+   */
+  min?: number;
+
+  /**
+   * Maximum value for aria-valuemax
+   * @default 100
+   */
+  max?: number;
+
+  /**
+   * Children for stacked progress bars
+   */
+  children?: ReactNode;
+
+  /**
+   * Additional CSS class names
+   */
+  className?: string;
+
+  /**
+   * Inline styles
+   */
+  style?: CSSProperties;
+
+  /**
+   * ID attribute
+   */
+  id?: string;
+
+  /**
+   * Accessible label for screen readers
+   */
+  'aria-label'?: string;
+
+  /**
+   * ID of element that labels this progress bar
+   */
+  'aria-labelledby'?: string;
+}
+
+/**
+ * Progress.Bar component props (for stacked progress bars)
+ */
+export interface ProgressBarProps {
+  /**
+   * Progress value (0-100)
+   */
+  value: number;
+
+  /**
+   * Progress bar color variant
+   * @default 'primary'
+   */
+  variant?: ProgressVariant;
+
+  /**
+   * Show percentage value inside the bar
+   * @default false
+   */
+  showValue?: boolean;
+
+  /**
+   * Custom value text
+   */
+  valueText?: string;
+
+  /**
+   * Striped pattern
+   * @default false
+   */
+  striped?: boolean;
+
+  /**
+   * Animated stripes
+   * @default false
+   */
+  animated?: boolean;
+
+  /**
+   * Additional CSS class names
+   */
+  className?: string;
+
+  /**
+   * Accessible label for screen readers
+   * Required for accessibility compliance
+   */
+  'aria-label'?: string;
+}
