@@ -63,9 +63,8 @@ const meta: Meta<typeof Card> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Placeholder image URL
-const placeholderImage = 'https://via.placeholder.com/300x180/e9ecef/495057?text=Card+Image';
-const placeholderImageWide = 'https://via.placeholder.com/400x200/e9ecef/495057?text=Card+Image';
+// Sample image from assets (Unsplash gradient)
+const sampleImage = '/assets/card-sample.jpg';
 
 // =============================================================================
 // Basic Examples
@@ -92,7 +91,7 @@ export const Default: Story = {
 export const WithImage: Story = {
   render: () => (
     <Card style={{ width: '18rem' }}>
-      <CardImage src={placeholderImage} alt="Card image cap" />
+      <CardImage src={sampleImage} alt="Colorful gradient background" />
       <CardBody>
         <CardTitle>Card Title</CardTitle>
         <CardText>Some quick example text to build on the card title and make up the bulk of the card&apos;s content.</CardText>
@@ -216,7 +215,7 @@ export const ImagePositions: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
       <Card style={{ width: '16rem' }}>
-        <CardImage src={placeholderImage} alt="Top image" position="top" />
+        <CardImage src={sampleImage} alt="Top image" position="top" />
         <CardBody>
           <CardTitle>Image Top</CardTitle>
           <CardText>Default position</CardText>
@@ -227,7 +226,7 @@ export const ImagePositions: Story = {
           <CardTitle>Image Bottom</CardTitle>
           <CardText>Image below content</CardText>
         </CardBody>
-        <CardImage src={placeholderImage} alt="Bottom image" position="bottom" />
+        <CardImage src={sampleImage} alt="Bottom image" position="bottom" />
       </Card>
     </div>
   ),
@@ -243,7 +242,7 @@ export const ImagePositions: Story = {
 export const ImageOverlay: Story = {
   render: () => (
     <Card style={{ width: '20rem' }}>
-      <CardImage src={placeholderImageWide} alt="Card background" position="overlay" height="200px" />
+      <CardImage src={sampleImage} alt="Card background" position="overlay" height="200px" />
       <CardImgOverlay className="d-flex flex-column justify-content-end text-white">
         <CardTitle>Card Title</CardTitle>
         <CardText>This is a wider card with supporting text below.</CardText>
@@ -264,7 +263,7 @@ export const Horizontal: Story = {
   render: () => (
     <Card horizontal style={{ maxWidth: '540px' }}>
       <CardImage
-        src="https://via.placeholder.com/180x180/e9ecef/495057?text=Image"
+        src={sampleImage}
         alt="Side image"
         style={{ width: '180px', objectFit: 'cover' }}
       />
@@ -309,7 +308,7 @@ export const CardGrid: Story = {
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
       {[1, 2, 3].map((i) => (
         <Card key={i}>
-          <CardImage src={placeholderImage} alt={`Card ${i} image`} />
+          <CardImage src={sampleImage} alt={`Card ${i} image`} />
           <CardBody>
             <CardTitle>Card {i}</CardTitle>
             <CardText>Some quick example text.</CardText>
