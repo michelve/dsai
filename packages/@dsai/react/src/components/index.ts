@@ -13,6 +13,10 @@
 export type { AlertHeadingProps, AlertLinkProps, AlertProps, AlertVariant } from './Alert';
 // Alert
 export { Alert } from './Alert';
+
+// Breadcrumb
+export { Breadcrumb, BreadcrumbItem } from './Breadcrumb';
+export type { BreadcrumbItemData, BreadcrumbItemProps, BreadcrumbProps } from './Breadcrumb';
 export type { BadgeProps, BadgeVariant } from './Badge';
 // Badge
 export { Badge } from './Badge';
