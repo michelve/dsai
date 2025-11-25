@@ -59,6 +59,12 @@ describe('Spinner', () => {
       expect(spinner).not.toHaveClass('spinner-border-sm');
     });
 
+    it('renders extra small (xs) spinner with custom size', () => {
+      render(<Spinner size="xs" />);
+      const spinner = screen.getByRole('status');
+      expect(spinner).toHaveStyle({ width: '0.75rem', height: '0.75rem' });
+    });
+
     it('renders small border spinner', () => {
       render(<Spinner size="sm" />);
       expect(screen.getByRole('status')).toHaveClass('spinner-border-sm');
@@ -74,6 +80,18 @@ describe('Spinner', () => {
       const spinner = screen.getByRole('status');
       expect(spinner).not.toHaveClass('spinner-border-sm');
       expect(spinner).not.toHaveClass('spinner-border-md');
+    });
+
+    it('renders large (lg) spinner with custom size', () => {
+      render(<Spinner size="lg" />);
+      const spinner = screen.getByRole('status');
+      expect(spinner).toHaveStyle({ width: '3rem', height: '3rem' });
+    });
+
+    it('renders extra large (xl) spinner with custom size', () => {
+      render(<Spinner size="xl" />);
+      const spinner = screen.getByRole('status');
+      expect(spinner).toHaveStyle({ width: '4rem', height: '4rem' });
     });
   });
 
@@ -103,6 +121,26 @@ describe('Spinner', () => {
     });
   });
 
+  describe('Centered', () => {
+    it('renders without centering wrapper by default', () => {
+      const { container } = render(<Spinner />);
+      expect(container.querySelector('.d-flex.justify-content-center')).not.toBeInTheDocument();
+    });
+
+    it('renders with centering wrapper when centered is true', () => {
+      const { container } = render(<Spinner centered />);
+      const wrapper = container.querySelector('.d-flex.justify-content-center.align-items-center');
+      expect(wrapper).toBeInTheDocument();
+      expect(wrapper?.querySelector('.spinner-border')).toBeInTheDocument();
+    });
+
+    it('centered wrapper has full width', () => {
+      const { container } = render(<Spinner centered />);
+      const wrapper = container.querySelector('.d-flex');
+      expect(wrapper).toHaveClass('w-100');
+    });
+  });
+
   describe('Custom Styling', () => {
     it('accepts custom className', () => {
       render(<Spinner className="custom-class" />);
@@ -112,11 +150,16 @@ describe('Spinner', () => {
     });
 
     it('accepts inline styles', () => {
-      render(<Spinner style={{ width: '3rem', height: '3rem' }} />);
+      render(<Spinner style={{ borderWidth: '0.25rem' }} />);
       expect(screen.getByRole('status')).toHaveStyle({
-        width: '3rem',
-        height: '3rem',
+        borderWidth: '0.25rem',
       });
+    });
+
+    it('custom styles override size styles', () => {
+      render(<Spinner size="lg" style={{ width: '5rem' }} />);
+      const spinner = screen.getByRole('status');
+      expect(spinner).toHaveStyle({ width: '5rem' });
     });
   });
 
@@ -133,6 +176,26 @@ describe('Spinner', () => {
           <Spinner variant="primary" />
           <Spinner variant="secondary" />
           <Spinner animation="grow" variant="success" />
+        </>
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no violations when centered', async () => {
+      const { container } = render(<Spinner centered variant="primary" />);
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no violations with all sizes', async () => {
+      const { container } = render(
+        <>
+          <Spinner size="xs" />
+          <Spinner size="sm" />
+          <Spinner size="md" />
+          <Spinner size="lg" />
+          <Spinner size="xl" />
         </>
       );
       const results = await axe(container);

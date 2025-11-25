@@ -1,6 +1,17 @@
 import type { SpinnerProps } from './Spinner.types';
 
 /**
+ * Size map for custom spinner sizes
+ * Bootstrap only provides 'sm', we extend with xs, lg, xl
+ */
+const SIZE_STYLES: Record<string, { width: string; height: string }> = {
+  xs: { width: '0.75rem', height: '0.75rem' },
+  // sm uses Bootstrap's native spinner-*-sm class
+  lg: { width: '3rem', height: '3rem' },
+  xl: { width: '4rem', height: '4rem' },
+};
+
+/**
  * Spinner Component
  *
  * A Bootstrap 5 spinner component for indicating loading states.
@@ -18,6 +29,12 @@ import type { SpinnerProps } from './Spinner.types';
  *
  * // Small spinner for buttons
  * <Spinner size="sm" as="span" />
+ *
+ * // Extra large spinner
+ * <Spinner size="xl" variant="primary" />
+ *
+ * // Centered spinner
+ * <Spinner centered variant="primary" />
  *
  * // In a button
  * <Button disabled>
@@ -39,6 +56,7 @@ export function Spinner({
   style,
   label = 'Loading...',
   as: Component = 'div',
+  centered = false,
   ...rest
 }: SpinnerProps): JSX.Element {
   // Build Bootstrap class names
@@ -52,17 +70,27 @@ export function Spinner({
     .filter(Boolean)
     .join(' ');
 
-  return (
+  // Custom size styles for xs, lg, xl (Bootstrap only has sm)
+  const customSizeStyle = size && SIZE_STYLES[size] ? SIZE_STYLES[size] : undefined;
+
+  const spinner = (
     <Component
       className={bootstrapClasses}
       role="status"
-      style={style}
+      style={{ ...customSizeStyle, ...style }}
       aria-label={label}
       {...rest}
     >
       <span className="visually-hidden">{label}</span>
     </Component>
   );
+
+  // Wrap in centering container if centered prop is true
+  if (centered) {
+    return <div className="d-flex justify-content-center align-items-center w-100">{spinner}</div>;
+  }
+
+  return spinner;
 }
 
 Spinner.displayName = 'Spinner';

@@ -34,7 +34,7 @@ const meta: Meta<typeof Spinner> = {
     },
     size: {
       control: 'select',
-      options: ['sm', 'md'],
+      options: ['xs', 'sm', 'md', 'lg', 'xl'],
       description: 'Spinner size',
       table: {
         type: { summary: 'SpinnerSize' },
@@ -68,6 +68,14 @@ const meta: Meta<typeof Spinner> = {
         defaultValue: { summary: 'Loading...' },
       },
     },
+    centered: {
+      control: 'boolean',
+      description: 'Center the spinner in its container',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
     as: {
       control: 'select',
       options: ['div', 'span'],
@@ -82,6 +90,10 @@ const meta: Meta<typeof Spinner> = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+// =============================================================================
+// Basic Examples
+// =============================================================================
 
 /**
  * Default border spinner
@@ -108,6 +120,50 @@ export const Grow: Story = {
   },
 };
 
+// =============================================================================
+// Sizes
+// =============================================================================
+
+/**
+ * All available sizes
+ */
+export const Sizes: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+      <div style={{ textAlign: 'center' }}>
+        <Spinner size="xs" variant="primary" />
+        <div className="small text-muted mt-1">xs (12px)</div>
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <Spinner size="sm" variant="primary" />
+        <div className="small text-muted mt-1">sm (16px)</div>
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <Spinner size="md" variant="primary" />
+        <div className="small text-muted mt-1">md (32px)</div>
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <Spinner size="lg" variant="primary" />
+        <div className="small text-muted mt-1">lg (48px)</div>
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <Spinner size="xl" variant="primary" />
+        <div className="small text-muted mt-1">xl (64px)</div>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * Extra small spinner
+ */
+export const ExtraSmall: Story = {
+  args: {
+    size: 'xs',
+    variant: 'primary',
+  },
+};
+
 /**
  * Small spinner - useful for buttons and inline loading
  */
@@ -118,14 +174,43 @@ export const Small: Story = {
 };
 
 /**
- * Small growing spinner
+ * Large spinner
  */
-export const SmallGrow: Story = {
+export const Large: Story = {
   args: {
-    animation: 'grow',
-    size: 'sm',
+    size: 'lg',
+    variant: 'primary',
   },
 };
+
+/**
+ * Extra large spinner
+ */
+export const ExtraLarge: Story = {
+  args: {
+    size: 'xl',
+    variant: 'primary',
+  },
+};
+
+/**
+ * Grow animation sizes
+ */
+export const GrowSizes: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+      <Spinner animation="grow" size="xs" variant="primary" />
+      <Spinner animation="grow" size="sm" variant="primary" />
+      <Spinner animation="grow" size="md" variant="primary" />
+      <Spinner animation="grow" size="lg" variant="primary" />
+      <Spinner animation="grow" size="xl" variant="primary" />
+    </div>
+  ),
+};
+
+// =============================================================================
+// Color Variants
+// =============================================================================
 
 /**
  * Primary colored spinner
@@ -199,6 +284,63 @@ export const AllGrowColors: Story = {
   ),
 };
 
+// =============================================================================
+// Centered
+// =============================================================================
+
+/**
+ * Centered spinner in container
+ */
+export const Centered: Story = {
+  args: {
+    centered: true,
+    variant: 'primary',
+    size: 'lg',
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          height: '200px',
+          width: '300px',
+          border: '1px dashed #ccc',
+          borderRadius: '8px',
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
+};
+
+/**
+ * Centered loading pattern with text
+ */
+export const CenteredWithText: Story = {
+  render: () => (
+    <div
+      style={{
+        height: '200px',
+        width: '300px',
+        border: '1px dashed #ccc',
+        borderRadius: '8px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '1rem',
+      }}
+    >
+      <Spinner variant="primary" size="lg" />
+      <span className="text-muted">Loading content...</span>
+    </div>
+  ),
+};
+
+// =============================================================================
+// In Buttons
+// =============================================================================
+
 /**
  * Spinner inside a button - loading state
  */
@@ -254,49 +396,85 @@ export const SpinnerOnlyButton: Story = {
 };
 
 /**
- * Custom sized spinner using inline styles
+ * Extra small spinner in compact button
  */
-export const CustomSize: Story = {
+export const ExtraSmallInButton: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-      <Spinner style={{ width: '1rem', height: '1rem' }} />
-      <Spinner style={{ width: '2rem', height: '2rem' }} />
-      <Spinner style={{ width: '3rem', height: '3rem' }} />
-      <Spinner style={{ width: '4rem', height: '4rem' }} />
-    </div>
+    <Button variant="primary" size="sm" disabled>
+      <Spinner as="span" size="xs" className="me-1" />
+      Loading
+    </Button>
   ),
 };
 
+// =============================================================================
+// Showcase
+// =============================================================================
+
 /**
- * Centered loading state pattern
+ * Complete spinner showcase
  */
-export const CenteredLoading: Story = {
+export const CompleteShowcase: Story = {
   render: () => (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '1rem',
-        padding: '2rem',
-      }}
-    >
-      <Spinner variant="primary" />
-      <span>Loading content...</span>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      {/* Sizes */}
+      <div>
+        <h4 style={{ marginBottom: '0.5rem' }}>Sizes</h4>
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <Spinner size="xs" variant="primary" />
+          <Spinner size="sm" variant="primary" />
+          <Spinner size="md" variant="primary" />
+          <Spinner size="lg" variant="primary" />
+          <Spinner size="xl" variant="primary" />
+        </div>
+      </div>
+
+      {/* Animation Types */}
+      <div>
+        <h4 style={{ marginBottom: '0.5rem' }}>Animation Types</h4>
+        <div style={{ display: 'flex', gap: '2rem' }}>
+          <div style={{ textAlign: 'center' }}>
+            <Spinner animation="border" variant="primary" />
+            <div className="small text-muted mt-1">Border</div>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <Spinner animation="grow" variant="primary" />
+            <div className="small text-muted mt-1">Grow</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Colors */}
+      <div>
+        <h4 style={{ marginBottom: '0.5rem' }}>Color Variants</h4>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+          <Spinner variant="primary" />
+          <Spinner variant="secondary" />
+          <Spinner variant="success" />
+          <Spinner variant="danger" />
+          <Spinner variant="warning" />
+          <Spinner variant="info" />
+          <Spinner variant="dark" />
+        </div>
+      </div>
+
+      {/* In Buttons */}
+      <div>
+        <h4 style={{ marginBottom: '0.5rem' }}>In Buttons</h4>
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          <Button variant="primary" disabled>
+            <Spinner as="span" size="sm" className="me-2" />
+            Loading...
+          </Button>
+          <Button variant="outline-secondary" disabled>
+            <Spinner as="span" size="sm" className="me-2" />
+            Processing
+          </Button>
+        </div>
+      </div>
     </div>
   ),
   parameters: {
     layout: 'padded',
   },
-};
-
-/**
- * Flex utilities for alignment
- */
-export const FlexAlignment: Story = {
-  render: () => (
-    <div className="d-flex justify-content-center" style={{ width: '200px' }}>
-      <Spinner variant="primary" />
-    </div>
-  ),
 };

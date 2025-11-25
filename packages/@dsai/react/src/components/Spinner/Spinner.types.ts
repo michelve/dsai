@@ -8,9 +8,13 @@ export type SpinnerAnimation = 'border' | 'grow';
 
 /**
  * Spinner size
- * Maps to Bootstrap 5 spinner sizes
+ * - `xs`: Extra small (0.75rem)
+ * - `sm`: Small (1rem) - Bootstrap native
+ * - `md`: Medium (2rem) - Bootstrap default
+ * - `lg`: Large (3rem)
+ * - `xl`: Extra large (4rem)
  */
-export type SpinnerSize = 'sm' | 'md';
+export type SpinnerSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 /**
  * Spinner variant (color)
@@ -57,11 +61,21 @@ export interface SpinnerProps extends HTMLAttributes<HTMLElement> {
 
   /**
    * Spinner size
-   * - `sm`: Small spinner (1rem)
-   * - `md`: Medium spinner (2rem) - default
+   * - `xs`: Extra small (0.75rem)
+   * - `sm`: Small (1rem)
+   * - `md`: Medium (2rem) - default
+   * - `lg`: Large (3rem)
+   * - `xl`: Extra large (4rem)
    * @default 'md'
    */
   size?: SpinnerSize;
+
+  /**
+   * Center the spinner in its container
+   * Wraps spinner in a flex container with centering
+   * @default false
+   */
+  centered?: boolean;
 
   /**
    * Spinner color variant
