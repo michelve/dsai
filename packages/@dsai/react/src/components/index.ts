@@ -30,3 +30,7 @@ export type { ProgressProps, ProgressBarProps, ProgressVariant, ProgressSize } f
 // Checkbox
 export { Checkbox } from './Checkbox';
 export type { CheckboxProps } from './Checkbox';
+
+// Radio
+export { Radio, RadioGroup } from './Radio';
+export type { RadioProps, RadioGroupProps } from './Radio';
