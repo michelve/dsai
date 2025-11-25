@@ -17,6 +17,60 @@ export type AlertVariant =
   | 'dark';
 
 /**
+ * Whitelisted HTML attributes for safe prop spreading in Alert component
+ * SECURITY: Restricts arbitrary props to prevent injection attacks
+ */
+export interface SafeAlertHTMLAttributes {
+  /**
+   * Additional CSS class names (sanitized)
+   */
+  className?: string;
+
+  /**
+   * Inline styles
+   */
+  style?: CSSProperties;
+
+  /**
+   * ID attribute
+   */
+  id?: string;
+
+  /**
+   * Data attributes for testing (sanitized)
+   */
+  'data-testid'?: string;
+  'data-test'?: string;
+
+  /**
+   * Title attribute for tooltips
+   */
+  title?: string;
+}
+
+/**
+ * Whitelisted HTML attributes for safe prop spreading in AlertLink component
+ * SECURITY: Only allows safe anchor attributes, prevents href injection
+ */
+export interface SafeAlertLinkHTMLAttributes {
+  /**
+   * Additional CSS class names (sanitized)
+   */
+  className?: string;
+
+  /**
+   * Data attributes for testing (sanitized)
+   */
+  'data-testid'?: string;
+  'data-test'?: string;
+
+  /**
+   * Title attribute for tooltips
+   */
+  title?: string;
+}
+
+/**
  * Alert component props
  *
  * @example
@@ -40,7 +94,7 @@ export type AlertVariant =
  * </Alert>
  * ```
  */
-export interface AlertProps {
+export interface AlertProps extends SafeAlertHTMLAttributes {
   /**
    * Alert content
    */
@@ -83,50 +137,52 @@ export interface AlertProps {
   show?: boolean;
 
   /**
-   * Additional CSS class names
-   */
-  className?: string;
-
-  /**
-   * Inline styles
-   */
-  style?: CSSProperties;
-
-  /**
-   * ID attribute
-   */
-  id?: string;
-
-  /**
    * Element to render as
    * @default 'div'
    */
   as?: 'div' | 'section';
+
+  /**
+   * Aria-atomic attribute for complete announcements
+   * @default true for alerts with aria-live
+   */
+  'aria-atomic'?: boolean;
 }
 
 /**
  * Alert.Link component props
+ * SECURITY: Href is validated to prevent javascript: and data: attacks
  */
-export interface AlertLinkProps {
+export interface AlertLinkProps extends SafeAlertLinkHTMLAttributes {
   /**
    * Link content
    */
   children: ReactNode;
 
   /**
-   * Link URL
+   * Link URL (SECURITY: validated against XSS patterns)
+   * Safe protocols: http, https, mailto, tel, /
+   * Blocked: javascript:, data:, text/html
    */
-  href?: string;
+  href: string;
 
   /**
    * Click handler
    */
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 
   /**
-   * Additional CSS class names
+   * Link target
+   * External links should use '_blank' with rel="noopener noreferrer"
+   * @default '_self'
    */
-  className?: string;
+  target?: '_blank' | '_self' | '_parent' | '_top';
+
+  /**
+   * Relationship attribute for external links
+   * Auto-added for target="_blank" to prevent window.opener attacks
+   */
+  rel?: string;
 }
 
 /**

@@ -1,15 +1,80 @@
-import { useState } from 'react';
-
 import { Alert, Button } from '@dsai/react';
-
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useState } from 'react';
 
 /**
  * Alert component for displaying important messages to users.
  * Built with Bootstrap 5 design tokens and full WCAG 2.2 AA compliance.
  *
+ * Features:
+ * - 8 color variants with Bootstrap 5 theming
+ * - Dismissible functionality with Escape key support
+ * - Compound components (Alert.Link, Alert.Heading)
+ * - Security hardening: href validation, external link protection
+ * - Accessibility: aria-live, aria-atomic, proper ARIA roles
+ * - Performance: memoized subcomponents and class construction
+ *
  * @see https://getbootstrap.com/docs/5.3/components/alerts/
  */
+
+// Helper component for secure external link example
+const SecureExternalLinkExample = () => (
+  <Alert variant="info">
+    Visit our{' '}
+    <Alert.Link href="https://example.com" target="_blank">
+      secure external link
+    </Alert.Link>{' '}
+    (automatically adds rel="noopener noreferrer" for security).
+  </Alert>
+);
+
+// Helper component for XSS prevention example
+const XSSPreventionExample = () => (
+  <Alert variant="warning">
+    <strong>Security Protected:</strong> Dangerous URLs like <code>javascript:alert('XSS')</code>{' '}
+    are automatically blocked and converted to safe fallback.
+    <Alert.Link href="javascript:alert('XSS')">Click here (safe, blocked dangerous URL)</Alert.Link>
+  </Alert>
+);
+
+// Helper component for aria-atomic example
+const AriaAtomicExample = () => {
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+
+  const handleSave = async () => {
+    setStatus('loading');
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    setStatus('success');
+    setTimeout(() => setStatus('idle'), 3000);
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <Alert
+        variant={status === 'success' ? 'success' : 'info'}
+        aria-atomic={true}
+        role="status"
+        aria-live="polite"
+      >
+        {status === 'idle' && 'Ready to save. Click button to start.'}
+        {status === 'loading' && 'Saving your changes...'}
+        {status === 'success' && '✓ Changes saved successfully!'}
+      </Alert>
+      <Button
+        variant="primary"
+        onClick={handleSave}
+        disabled={status === 'loading'}
+        loading={status === 'loading'}
+      >
+        Save Changes
+      </Button>
+      <p style={{ fontSize: '0.875rem', color: '#666' }}>
+        With aria-atomic="true", screen readers announce the complete alert content on updates.
+      </p>
+    </div>
+  );
+};
+
 const meta: Meta<typeof Alert> = {
   title: 'Components/Alert',
   component: Alert,
@@ -18,9 +83,9 @@ const meta: Meta<typeof Alert> = {
     docs: {
       description: {
         component:
-          'A Bootstrap 5 alert component for displaying important messages. ' +
+          'A Bootstrap 5 alert component for displaying important messages with security hardening. ' +
           'Supports 8 color variants, dismissible functionality, compound components (Alert.Link, Alert.Heading), ' +
-          'and proper ARIA attributes for accessibility.',
+          'aria-live/aria-atomic for accessibility, and XSS-protected href validation.',
       },
     },
   },
@@ -58,6 +123,14 @@ const meta: Meta<typeof Alert> = {
         defaultValue: { summary: 'true' },
       },
     },
+    'aria-atomic': {
+      control: 'boolean',
+      description: 'Announces complete alert content on updates (for aria-live)',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
+      },
+    },
     children: {
       control: 'text',
       description: 'Alert content',
@@ -70,10 +143,6 @@ const meta: Meta<typeof Alert> = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-// =============================================================================
-// Basic Variants
-// =============================================================================
 
 /**
  * Primary alert - default variant
@@ -309,6 +378,85 @@ export const WithIcon: Story = {
 };
 
 // =============================================================================
+// Security Features
+// =============================================================================
+
+/**
+ * Secure external links with automatic rel="noopener noreferrer"
+ */
+export const SecureExternalLinks: Story = {
+  render: () => <SecureExternalLinkExample />,
+};
+
+/**
+ * XSS Protection - dangerous URLs are automatically blocked
+ */
+export const XSSPrevention: Story = {
+  render: () => <XSSPreventionExample />,
+};
+
+/**
+ * Multiple security-hardened links
+ */
+export const SecurityShowcase: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <Alert variant="success">
+        <strong>✓ Safe:</strong> <Alert.Link href="https://example.com">HTTPS link</Alert.Link>
+      </Alert>
+      <Alert variant="success">
+        <strong>✓ Safe:</strong> <Alert.Link href="/docs">Relative link</Alert.Link>
+      </Alert>
+      <Alert variant="success">
+        <strong>✓ Safe:</strong> <Alert.Link href="mailto:test@example.com">Email link</Alert.Link>
+      </Alert>
+      <Alert variant="danger">
+        <strong>✗ Blocked:</strong>{' '}
+        <Alert.Link href="javascript:alert('XSS')">javascript: protocol</Alert.Link>
+      </Alert>
+      <Alert variant="danger">
+        <strong>✗ Blocked:</strong>{' '}
+        <Alert.Link href="data:text/html,<script>">data: protocol</Alert.Link>
+      </Alert>
+    </div>
+  ),
+};
+
+// =============================================================================
+// Accessibility Features
+// =============================================================================
+
+/**
+ * aria-atomic for complete announcements
+ */
+export const AriaAtomic: Story = {
+  render: () => <AriaAtomicExample />,
+};
+
+/**
+ * Alert with appropriate aria-live for severity
+ */
+export const AccessibilityRoles: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <Alert variant="danger" aria-atomic={true}>
+        <strong>Critical:</strong> Uses role="alert" and aria-live="assertive" for immediate
+        announcement.
+      </Alert>
+      <Alert variant="warning" aria-atomic={true}>
+        <strong>Warning:</strong> Uses role="alert" and aria-live="assertive".
+      </Alert>
+      <Alert variant="success" aria-atomic={true}>
+        <strong>Success:</strong> Uses role="status" and aria-live="polite" for non-urgent updates.
+      </Alert>
+      <Alert variant="info" aria-atomic={true}>
+        <strong>Info:</strong> Uses role="status" and aria-live="polite".
+      </Alert>
+    </div>
+  ),
+};
+
+// =============================================================================
 // Use Cases
 // =============================================================================
 
@@ -434,6 +582,26 @@ export const CompleteShowcase: Story = {
           <h4 style={{ marginBottom: '0.5rem' }}>With Icon</h4>
           <Alert variant="success" icon={<span>✓</span>}>
             Operation completed successfully.
+          </Alert>
+        </div>
+
+        {/* Security */}
+        <div>
+          <h4 style={{ marginBottom: '0.5rem' }}>Security Features</h4>
+          <Alert variant="info">
+            Safe links:{' '}
+            <Alert.Link href="https://example.com" target="_blank">
+              external
+            </Alert.Link>{' '}
+            and <Alert.Link href="/docs">internal</Alert.Link>
+          </Alert>
+        </div>
+
+        {/* Accessibility */}
+        <div>
+          <h4 style={{ marginBottom: '0.5rem' }}>Accessibility</h4>
+          <Alert variant="success" aria-atomic={true}>
+            Complete alert content announced to screen readers with aria-atomic=true
           </Alert>
         </div>
       </div>

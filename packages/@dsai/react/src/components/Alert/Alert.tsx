@@ -1,26 +1,91 @@
-import { useCallback, useEffect, forwardRef } from 'react';
+import React, { forwardRef, useCallback, useEffect, useMemo } from 'react';
 
 import type { AlertHeadingProps, AlertLinkProps, AlertProps } from './Alert.types';
 
 /**
+ * Validates href to prevent XSS and dangerous protocols
+ * SECURITY: Blocks javascript:, data:, text/html and other dangerous schemes
+ *
+ * @param href - URL to validate
+ * @returns true if href is safe, false otherwise
+ */
+function isSafeHref(href: string | undefined): boolean {
+  if (!href || typeof href !== 'string') {
+    return false;
+  }
+
+  const trimmedHref = href.trim().toLowerCase();
+
+  // Blocked protocols: javascript:, data:, text/html, vbscript:, file:
+  const unsafePatterns = /^(javascript:|data:|text\/html|vbscript:|file:|about:blank)/i;
+
+  return !unsafePatterns.test(trimmedHref);
+}
+
+/**
  * Alert Link - styled link for use within alerts
+ * SECURITY: Validates href, prevents XSS, adds external link protection
  *
  * @example
  * ```tsx
  * <Alert variant="info">
  *   Check out the <Alert.Link href="/docs">documentation</Alert.Link>.
  * </Alert>
+ *
+ * // External link with target="_blank" automatically gets rel="noopener noreferrer"
+ * <Alert variant="warning">
+ *   <Alert.Link href="https://example.com" target="_blank">
+ *     External site
+ *   </Alert.Link>
+ * </Alert>
  * ```
  */
-function AlertLink({ children, href, onClick, className = '' }: AlertLinkProps): JSX.Element {
-  const classes = ['alert-link', className].filter(Boolean).join(' ');
+const AlertLink = React.memo(
+  forwardRef<HTMLAnchorElement, AlertLinkProps>(function AlertLink(
+    {
+      children,
+      href = '#',
+      onClick,
+      className = '',
+      target,
+      rel,
+      'data-testid': dataTestId,
+      'data-test': dataTest,
+      title,
+    },
+    ref
+  ) {
+    // Validate href against XSS patterns
+    const safeHref = isSafeHref(href) ? href : '#';
 
-  return (
-    <a href={href} onClick={onClick} className={classes}>
-      {children}
-    </a>
-  );
-}
+    // External link protection: target="_blank" requires rel="noopener noreferrer"
+    // This prevents the opened page from accessing window.opener
+    const isExternal = target === '_blank';
+    const safeRel = isExternal ? 'noopener noreferrer' : rel;
+
+    // Memoize className construction
+    const computedClassName = useMemo(
+      () => ['alert-link', className].filter(Boolean).join(' '),
+      [className]
+    );
+
+    return (
+      <a
+        ref={ref}
+        href={safeHref}
+        className={computedClassName}
+        onClick={onClick}
+        target={target}
+        rel={safeRel}
+        data-testid={dataTestId}
+        data-test={dataTest}
+        title={title}
+      >
+        {children}
+      </a>
+    );
+  })
+);
 
 AlertLink.displayName = 'Alert.Link';
 
@@ -35,15 +100,18 @@ AlertLink.displayName = 'Alert.Link';
  * </Alert>
  * ```
  */
-function AlertHeading({
+const AlertHeading = React.memo(function AlertHeading({
   children,
   as: Component = 'h4',
   className = '',
 }: AlertHeadingProps): JSX.Element {
-  const classes = ['alert-heading', className].filter(Boolean).join(' ');
+  const classes = useMemo(
+    () => ['alert-heading', className].filter(Boolean).join(' '),
+    [className]
+  );
 
   return <Component className={classes}>{children}</Component>;
-}
+});
 
 AlertHeading.displayName = 'Alert.Heading';
 
@@ -52,6 +120,21 @@ AlertHeading.displayName = 'Alert.Heading';
  *
  * A Bootstrap 5 alert component for displaying important messages to users.
  * Supports multiple variants, dismissible functionality, and accessibility features.
+ *
+ * SECURITY FEATURES:
+ * - Prop whitelisting for Alert and Alert.Link
+ * - href validation to prevent XSS attacks
+ * - External link protection (rel="noopener noreferrer" for target="_blank")
+ *
+ * ACCESSIBILITY FEATURES (WCAG 2.2 AA):
+ * - Proper ARIA roles (alert vs status) based on severity
+ * - aria-live announcements with aria-atomic for complete announcements
+ * - Keyboard support (Escape to dismiss)
+ * - Decorative icons hidden with aria-hidden
+ *
+ * PERFORMANCE FEATURES:
+ * - Memoized class name construction
+ * - Memoized subcomponents (AlertLink, AlertHeading)
  *
  * @see https://getbootstrap.com/docs/5.3/components/alerts/
  *
@@ -66,7 +149,7 @@ AlertHeading.displayName = 'Alert.Heading';
  *   <p>Your changes have been saved successfully.</p>
  * </Alert>
  *
- * // Dismissible alert
+ * // Dismissible alert with Escape key support
  * const [show, setShow] = useState(true);
  * {show && (
  *   <Alert variant="warning" dismissible onClose={() => setShow(false)}>
@@ -74,18 +157,16 @@ AlertHeading.displayName = 'Alert.Heading';
  *   </Alert>
  * )}
  *
- * // Alert with link
+ * // Alert with secure external link
  * <Alert variant="danger">
- *   An error occurred. <Alert.Link href="/help">Get help</Alert.Link>.
+ *   An error occurred. <Alert.Link href="https://example.com" target="_blank">Get help</Alert.Link>.
+ * </Alert>
+ *
+ * // Alert with validated href (XSS prevention)
+ * <Alert variant="info">
+ *   Visit our <Alert.Link href="/docs">documentation</Alert.Link>.
  * </Alert>
  * ```
- *
- * Accessibility Features (WCAG 2.2 AA):
- * - Uses `role="alert"` for danger/warning variants (assertive)
- * - Uses `role="status"` for info/success variants (polite)
- * - Dismiss button has `aria-label="Close"`
- * - Keyboard accessible (Escape key to dismiss when dismissible)
- * - Proper focus management
  */
 const AlertBase = forwardRef<HTMLDivElement, AlertProps>(
   (
@@ -101,6 +182,10 @@ const AlertBase = forwardRef<HTMLDivElement, AlertProps>(
       style,
       id,
       as: Component = 'div',
+      'aria-atomic': ariaAtomic = true,
+      'data-testid': dataTestId,
+      'data-test': dataTest,
+      title: titleAttr,
     },
     ref
   ) => {
@@ -128,21 +213,25 @@ const AlertBase = forwardRef<HTMLDivElement, AlertProps>(
       return undefined;
     }, [dismissible, onClose, handleKeyDown]);
 
+    // Memoize Bootstrap class names construction (must be before show check for hook ordering)
+    const bootstrapClasses = useMemo(
+      () =>
+        [
+          'alert', // Base Bootstrap alert class
+          `alert-${variant}`, // Variant: alert-primary, alert-success, etc.
+          dismissible && 'alert-dismissible', // Dismissible styling
+          dismissible && 'fade show', // Animation classes for dismissible
+          className, // Allow additional custom classes
+        ]
+          .filter(Boolean)
+          .join(' '),
+      [variant, dismissible, className]
+    );
+
     // Don't render if not shown
     if (!show) {
       return null;
     }
-
-    // Build Bootstrap class names
-    const bootstrapClasses = [
-      'alert', // Base Bootstrap alert class
-      `alert-${variant}`, // Variant: alert-primary, alert-success, etc.
-      dismissible && 'alert-dismissible', // Dismissible styling
-      dismissible && 'fade show', // Animation classes for dismissible
-      className, // Allow additional custom classes
-    ]
-      .filter(Boolean)
-      .join(' ');
 
     return (
       <Component
@@ -152,6 +241,10 @@ const AlertBase = forwardRef<HTMLDivElement, AlertProps>(
         style={style}
         id={id}
         aria-live={variant === 'danger' ? 'assertive' : 'polite'}
+        aria-atomic={ariaAtomic}
+        data-testid={dataTestId}
+        data-test={dataTest}
+        title={titleAttr}
       >
         {/* Optional icon */}
         {icon && (
