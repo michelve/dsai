@@ -11,6 +11,44 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
+    "./compositions": {
+      "types": "./dist/compositions/index.d.ts",
+      "import": "./dist/compositions/index.mjs",
+      "require": "./dist/compositions/index.js"
+    },
+    "./compositions/*": {
+      "types": "./dist/compositions/*.d.ts",
+      "import": "./dist/compositions/*.mjs",
+      "require": "./dist/compositions/*.js"
+    },
+    "./patterns": {
+      "types": "./dist/patterns/index.d.ts",
+      "import": "./dist/patterns/index.mjs",
+      "require": "./dist/patterns/index.js"
+    },
+    "./patterns/*": {
+      "types": "./dist/patterns/*.d.ts",
+      "import": "./dist/patterns/*.mjs",
+      "require": "./dist/patterns/*.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.mjs",
+      "require": "./dist/hooks/index.js"
+    },
+    "./hooks/*": {
+      "types": "./dist/hooks/*.d.ts",
+      "import": "./dist/hooks/*.mjs",
+      "require": "./dist/hooks/*.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.mjs",
+      "require": "./dist/utils/index.js"
+    },
     "./styles": "./dist/styles.css"
   },
   "files": [
@@ -22,9 +60,10 @@
     "dev": "tsup --watch",
     "test": "echo 'Test components'",
     "lint": "echo 'Lint components'",
-    "figma:connect": "npx @figma/code-connect",
-    "figma:publish": "npx @figma/code-connect publish",
-    "figma:publish:dry": "npx @figma/code-connect publish --dry-run"
+    "figma:connect": "figma connect",
+    "figma:validate": "figma connect validate",
+    "figma:publish": "figma connect publish",
+    "figma:publish:dry": "figma connect publish --dry-run"
   },
   "keywords": [
     "react",

@@ -1,43 +1,53 @@
 {
-  "$schema": "https://www.figma.com/developers/api/code-connect/schema",
   "codeConnect": {
-    "include": ["src/**/*.figma.tsx"],
-    "exclude": ["**/*.test.tsx", "**/*.spec.tsx", "**/node_modules/**", "**/dist/**"],
+    "interactiveSetupFigmaFileUrl": "https://www.figma.com/design/abc123/my-design-system",
+    "include": [
+      "src/components/**/*.figma.tsx",
+      "src/components/**/*.figma.ts",
+      ".figma/**/*.figma.tsx",
+      ".figma/**/*.figma.ts"
+    ],
+    "label": "@dsai/react",
+    "parser": "react",
+    "exclude": [
+      "**/*.test.tsx",
+      "**/*.test.ts",
+      "**/*.spec.tsx",
+      "**/*.spec.ts",
+      "**/*.stories.tsx",
+      "**/*.stories.ts",
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/coverage/**",
+      "**/.storybook/**",
+      "**/temp/**",
+      "**/__tests__/**",
+      "**/__mocks__/**",
+      "**/e2e/**",
+      "**/.turbo/**",
+      "**/.next/**",
+      "**/.cache/**"
+    ],
     "importPaths": {
-      "src": "@dsai/react"
+      "src/components/**/*": "@dsai/react",
+      "src/compositions/**/*": "@dsai/react/compositions",
+      "src/patterns/**/*": "@dsai/react/patterns",
+      "src/hooks/**/*": "@dsai/react/hooks",
+      "src/types/**/*": "@dsai/react/types",
+      "src/utils/**/*": "@dsai/react/utils"
     },
-    "parser": "react"
+    "paths": {
+      "@dsai/react": ["src"],
+      "@dsai/react/components": ["src/components"],
+      "@dsai/react/compositions": ["src/compositions"],
+      "@dsai/react/patterns": ["src/patterns"],
+      "@dsai/react/hooks": ["src/hooks"],
+      "@dsai/react/types": ["src/types"],
+      "@dsai/react/utils": ["src/utils"]
+    }
   },
   "documentUrlSubstitutions": {
-    "<FIGMA_DSAI_BUTTON>": "https://www.figma.com/design/YOUR_FILE_ID/DSAi-Design-System?node-id=BUTTON_NODE_ID"
-  },
-  "resources": {
-    "metadata": {
-      "framework": "react",
-      "typescript": true,
-      "styling": "bootstrap",
-      "designSystem": "@dsai/react",
-      "designTokens": "@dsai/tokens",
-      "cssFramework": "bootstrap-5",
-      "componentLibrary": {
-        "name": "@dsai/react",
-        "importPath": "@dsai/react",
-        "components": ["Button"]
-      },
-      "tokenSystem": {
-        "name": "@dsai/tokens",
-        "cssImport": "@dsai/tokens/css/bootstrap.css",
-        "scssImport": "@dsai/tokens/src/scss/dsai-theme-bs.scss"
-      },
-      "accessibility": {
-        "standard": "WCAG 2.2 AA",
-        "testing": "jest-axe"
-      },
-      "testing": {
-        "framework": "jest",
-        "library": "@testing-library/react",
-        "accessibility": "jest-axe"
-      }
-    }
+    "<FIGMA_ICONS_BASE>": "https://figma.com/design/ZjZrrJoBgkA9qozUtAH1to"
   }
 }

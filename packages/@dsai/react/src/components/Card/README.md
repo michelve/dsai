@@ -153,76 +153,76 @@ function Example() {
 
 ### Card
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | Card content |
-| `variant` | `'elevated' \| 'outlined' \| 'ghost'` | `'elevated'` | Card variant |
-| `color` | `CardColor` | - | Background color |
-| `horizontal` | `boolean` | `false` | Horizontal layout |
-| `interactive` | `boolean` | `false` | Make card clickable |
-| `href` | `string` | - | Link URL |
-| `onClick` | `() => void` | - | Click handler |
-| `linkAs` | `ElementType` | - | Custom link component |
-| `className` | `string` | - | Additional classes |
-| `style` | `CSSProperties` | - | Inline styles |
-| `id` | `string` | - | Element ID |
-| `aria-label` | `string` | - | Accessible label |
-| `aria-labelledby` | `string` | - | ID of labelling element |
+| Prop              | Type                                  | Default      | Description             |
+| ----------------- | ------------------------------------- | ------------ | ----------------------- |
+| `children`        | `ReactNode`                           | -            | Card content            |
+| `variant`         | `'elevated' \| 'outlined' \| 'ghost'` | `'elevated'` | Card variant            |
+| `color`           | `CardColor`                           | -            | Background color        |
+| `horizontal`      | `boolean`                             | `false`      | Horizontal layout       |
+| `interactive`     | `boolean`                             | `false`      | Make card clickable     |
+| `href`            | `string`                              | -            | Link URL                |
+| `onClick`         | `() => void`                          | -            | Click handler           |
+| `linkAs`          | `ElementType`                         | -            | Custom link component   |
+| `className`       | `string`                              | -            | Additional classes      |
+| `style`           | `CSSProperties`                       | -            | Inline styles           |
+| `id`              | `string`                              | -            | Element ID              |
+| `aria-label`      | `string`                              | -            | Accessible label        |
+| `aria-labelledby` | `string`                              | -            | ID of labelling element |
 
 ### CardHeader, CardBody, CardFooter
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `children` | `ReactNode` | Content |
-| `className` | `string` | Additional classes |
-| `style` | `CSSProperties` | Inline styles |
+| Prop        | Type            | Description        |
+| ----------- | --------------- | ------------------ |
+| `children`  | `ReactNode`     | Content            |
+| `className` | `string`        | Additional classes |
+| `style`     | `CSSProperties` | Inline styles      |
 
 ### CardImage
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `src` | `string` | - | Image source URL |
-| `alt` | `string` | - | Alt text (required) |
-| `position` | `'top' \| 'bottom' \| 'overlay'` | `'top'` | Image position |
-| `height` | `string \| number` | - | Image height |
-| `loading` | `'lazy' \| 'eager'` | `'lazy'` | Loading strategy |
-| `className` | `string` | - | Additional classes |
-| `style` | `CSSProperties` | - | Inline styles |
+| Prop        | Type                             | Default  | Description         |
+| ----------- | -------------------------------- | -------- | ------------------- |
+| `src`       | `string`                         | -        | Image source URL    |
+| `alt`       | `string`                         | -        | Alt text (required) |
+| `position`  | `'top' \| 'bottom' \| 'overlay'` | `'top'`  | Image position      |
+| `height`    | `string \| number`               | -        | Image height        |
+| `loading`   | `'lazy' \| 'eager'`              | `'lazy'` | Loading strategy    |
+| `className` | `string`                         | -        | Additional classes  |
+| `style`     | `CSSProperties`                  | -        | Inline styles       |
 
 ### CardTitle
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | Title content |
-| `as` | `'h1' - 'h6'` | `'h5'` | Heading level |
-| `className` | `string` | - | Additional classes |
-| `style` | `CSSProperties` | - | Inline styles |
+| Prop        | Type            | Default | Description        |
+| ----------- | --------------- | ------- | ------------------ |
+| `children`  | `ReactNode`     | -       | Title content      |
+| `as`        | `'h1' - 'h6'`   | `'h5'`  | Heading level      |
+| `className` | `string`        | -       | Additional classes |
+| `style`     | `CSSProperties` | -       | Inline styles      |
 
 ### CardText
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | Text content |
-| `muted` | `boolean` | `false` | Muted text style |
-| `className` | `string` | - | Additional classes |
-| `style` | `CSSProperties` | - | Inline styles |
+| Prop        | Type            | Default | Description        |
+| ----------- | --------------- | ------- | ------------------ |
+| `children`  | `ReactNode`     | -       | Text content       |
+| `muted`     | `boolean`       | `false` | Muted text style   |
+| `className` | `string`        | -       | Additional classes |
+| `style`     | `CSSProperties` | -       | Inline styles      |
 
 ### CardLink
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `children` | `ReactNode` | Link content |
-| `href` | `string` | Link URL |
-| `className` | `string` | Additional classes |
-| `style` | `CSSProperties` | Inline styles |
+| Prop        | Type            | Description        |
+| ----------- | --------------- | ------------------ |
+| `children`  | `ReactNode`     | Link content       |
+| `href`      | `string`        | Link URL           |
+| `className` | `string`        | Additional classes |
+| `style`     | `CSSProperties` | Inline styles      |
 
 ### CardImgOverlay
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `children` | `ReactNode` | Overlay content |
-| `className` | `string` | Additional classes |
-| `style` | `CSSProperties` | Inline styles |
+| Prop        | Type            | Description        |
+| ----------- | --------------- | ------------------ |
+| `children`  | `ReactNode`     | Overlay content    |
+| `className` | `string`        | Additional classes |
+| `style`     | `CSSProperties` | Inline styles      |
 
 ## Accessibility
 
@@ -257,4 +257,3 @@ The component uses Bootstrap 5 card classes:
 - [Button](../Button/README.md) - For card actions
 - [Badge](../Badge/README.md) - For card badges
 - [ListGroup](../ListGroup/README.md) - For card lists
-
