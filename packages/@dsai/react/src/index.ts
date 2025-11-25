@@ -79,6 +79,17 @@ export {
   Switch,
   type SwitchProps,
   type SwitchSize,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
+  type TabItem,
+  type TabListProps,
+  type TabPanelProps,
+  type TabProps,
+  type TabsOrientation,
+  type TabsProps,
+  type TabsVariant,
 } from './components';
 
 // ============================================================================

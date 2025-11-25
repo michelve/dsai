@@ -46,3 +46,15 @@ export type { SelectOption, SelectOptionGroup, SelectProps, SelectSize } from '.
 // Switch
 export { Switch } from './Switch';
 export type { SwitchProps, SwitchSize } from './Switch';
+
+// Tabs
+export { Tab, TabList, TabPanel, Tabs } from './Tabs';
+export type {
+  TabItem,
+  TabListProps,
+  TabPanelProps,
+  TabProps,
+  TabsOrientation,
+  TabsProps,
+  TabsVariant,
+} from './Tabs';
