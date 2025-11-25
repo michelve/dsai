@@ -71,6 +71,11 @@ export {
   type InputProps,
   type InputSize,
   type InputType,
+  Select,
+  type SelectOption,
+  type SelectOptionGroup,
+  type SelectProps,
+  type SelectSize,
 } from './components';
 
 // ============================================================================

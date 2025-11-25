@@ -38,3 +38,7 @@ export type { RadioProps, RadioGroupProps } from './Radio';
 // Input
 export { Input } from './Input';
 export type { InputProps, InputSize, InputType } from './Input';
+
+// Select
+export { Select } from './Select';
+export type { SelectOption, SelectOptionGroup, SelectProps, SelectSize } from './Select';
