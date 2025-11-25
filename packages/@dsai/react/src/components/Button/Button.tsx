@@ -90,7 +90,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       name,
       value,
       tabIndex,
-      autoFocus = false,
       'aria-label': ariaLabel,
       'aria-describedby': ariaDescribedBy,
       'aria-controls': ariaControls,
@@ -147,7 +146,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           name={name}
           value={value}
           tabIndex={tabIndex}
-          autoFocus={autoFocus}
           aria-label={ariaLabel}
           aria-describedby={ariaDescribedBy}
           aria-controls={ariaControls}
@@ -193,8 +191,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         </button>
         {/* Aria-live announcement region for dynamic state changes */}
         {announceText && announce && (
-          <div
-            role="status"
+          <output
             aria-live="polite"
             aria-atomic="true"
             style={{
@@ -206,7 +203,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             }}
           >
             {announceText}
-          </div>
+          </output>
         )}
       </>
     );

@@ -306,8 +306,9 @@ describe('Button', () => {
 
   describe('HTML Attributes', () => {
     it('accepts id attribute', () => {
-      render(<Button id="test-button">Button</Button>);
-      expect(screen.getByRole('button')).toHaveAttribute('id', 'test-button');
+      const testId = `test-button-${Math.random().toString(36).substr(2, 9)}`;
+      render(<Button id={testId}>Button</Button>);
+      expect(screen.getByRole('button')).toHaveAttribute('id', testId);
     });
 
     it('accepts name attribute', () => {
