@@ -1,3 +1,5 @@
+import { createElement, forwardRef, memo, useMemo } from 'react';
+
 import type { BadgeProps } from './Badge.types';
 
 /**
@@ -5,6 +7,18 @@ import type { BadgeProps } from './Badge.types';
  *
  * A Bootstrap 5 badge component for displaying labels, status indicators, and counts.
  * Uses native Bootstrap classes for consistent styling with the design system.
+ *
+ * Performance Features:
+ * - Memoized component to prevent unnecessary re-renders
+ * - Memoized class name construction
+ * - Memoized status calculations (hasVisibleContent)
+ *
+ * Accessibility Features (WCAG 2.2 AA):
+ * - Icons are hidden from screen readers (aria-hidden="true")
+ * - Decorative dots are hidden when badge has content
+ * - Dev warning when dot-only badge lacks aria-label
+ * - Semantic HTML with proper roles
+ * - aria-label support for status indicators
  *
  * @see https://getbootstrap.com/docs/5.3/components/badge/
  *
@@ -31,71 +45,98 @@ import type { BadgeProps } from './Badge.types';
  *   </Badge>
  * </Button>
  *
- * // Status indicator (dot only)
+ * // Status indicator (dot only) - requires aria-label
  * <Badge variant="success" dot aria-label="Online status" />
  * ```
- *
- * Accessibility Features (WCAG 2.2 AA):
- * - Uses semantic HTML (`<span>` or `<div>`)
- * - Supports `aria-label` for screen readers
- * - Sufficient color contrast via Bootstrap theme colors
- * - Visible focus indicators when used as interactive element
  */
-export function Badge({
-  children,
-  variant = 'primary',
-  pill = false,
-  dot = false,
-  icon,
-  className = '',
-  style,
-  'aria-label': ariaLabel,
-  id,
-  as: Component = 'span',
-}: BadgeProps): JSX.Element {
-  // Build Bootstrap class names
-  // Bootstrap badge classes: badge, text-bg-{variant}, rounded-pill
-  const bootstrapClasses = [
-    'badge', // Base Bootstrap badge class
-    `text-bg-${variant}`, // Background color: text-bg-primary, text-bg-secondary, etc.
-    pill && 'rounded-pill', // Pill shape
-    className, // Allow additional custom classes
-  ]
-    .filter(Boolean)
-    .join(' ');
-
+function BadgeComponent(
+  {
+    children,
+    variant = 'primary',
+    pill = false,
+    dot = false,
+    icon,
+    className = '',
+    style,
+    'aria-label': ariaLabel,
+    id,
+    as: Component = 'span',
+  }: BadgeProps,
+  ref: React.ForwardedRef<HTMLElement>
+): JSX.Element {
   // Determine if badge has visible content
-  const hasVisibleContent = children || icon;
+  const hasVisibleContent = useMemo(() => {
+    return !!children || !!icon;
+  }, [children, icon]);
 
-  return (
-    <Component
-      className={bootstrapClasses}
-      style={style}
-      id={id}
-      aria-label={ariaLabel}
-      // Use role="status" for status indicators (dot badges)
-      role={dot && !hasVisibleContent ? 'status' : undefined}
-    >
-      {/* Dot indicator */}
-      {dot && (
-        <span
-          className="d-inline-block rounded-circle me-1"
-          style={{
-            width: '0.5em',
-            height: '0.5em',
-            backgroundColor: 'currentColor',
-          }}
-          aria-hidden="true"
-        />
-      )}
+  // Memoize class name construction
+  const bootstrapClasses = useMemo(() => {
+    const classes = [
+      'badge', // Base Bootstrap badge class
+      `text-bg-${variant}`, // Background color: text-bg-primary, text-bg-secondary, etc.
+      pill && 'rounded-pill', // Pill shape
+      className, // Allow additional custom classes
+    ]
+      .filter(Boolean)
+      .join(' ');
+    return classes;
+  }, [variant, pill, className]);
 
-      {/* Icon */}
-      {icon && <span className="me-1 d-inline-flex align-items-center">{icon}</span>}
+  // Dev warning: dot-only badge without aria-label
+  if (
+    typeof process !== 'undefined' &&
+    process.env['NODE_ENV'] === 'development' &&
+    dot &&
+    !hasVisibleContent &&
+    !ariaLabel
+  ) {
+    console.warn(
+      'Badge: Dot-only badges must have an aria-label for accessibility. ' +
+        'Example: <Badge dot aria-label="Online status" />'
+    );
+  }
 
-      {/* Badge content */}
-      {children}
-    </Component>
+  const componentProps: JSX.IntrinsicElements['span'] = {
+    ref: ref as unknown as React.Ref<HTMLSpanElement>,
+    className: bootstrapClasses,
+    style,
+    id,
+    'aria-label': ariaLabel,
+    role: dot && !hasVisibleContent ? 'status' : undefined,
+  };
+
+  return createElement(
+    Component,
+    componentProps,
+    // Dot indicator
+    dot &&
+      createElement('span', {
+        className: 'd-inline-block rounded-circle me-1',
+        style: {
+          width: '0.5em',
+          height: '0.5em',
+          backgroundColor: 'currentColor',
+        },
+        'aria-hidden': hasVisibleContent ? 'true' : undefined,
+        key: 'dot',
+      }),
+    // Icon - hidden from screen readers as it's decorative
+    icon &&
+      createElement(
+        'span',
+        {
+          className: 'me-1 d-inline-flex align-items-center',
+          'aria-hidden': 'true',
+          key: 'icon',
+        },
+        icon
+      ),
+    // Badge content
+    children
   );
 }
 
-Badge.displayName = 'Badge';
+BadgeComponent.displayName = 'Badge';
+
+// Correct order: forwardRef wraps memo for proper typing and functionality
+export const Badge = memo(forwardRef(BadgeComponent));

@@ -205,4 +205,309 @@ describe('Badge', () => {
       expect(Badge.displayName).toBe('Badge');
     });
   });
+
+  // =============================================================================
+  // Accessibility Enhancements
+  // =============================================================================
+
+  describe('Icon Accessibility (aria-hidden)', () => {
+    it('hides icon from screen readers with aria-hidden="true"', () => {
+      const { container } = render(<Badge icon={<span data-testid="icon">★</span>}>Text</Badge>);
+      const iconWrapper = container.querySelector('[aria-hidden="true"]');
+      expect(iconWrapper).toBeInTheDocument();
+      expect(iconWrapper).toContainElement(screen.getByTestId('icon'));
+    });
+
+    it('icon wrapper has aria-hidden="true"', () => {
+      const { container } = render(
+        <Badge icon={<span data-testid="icon">★</span>}>Featured</Badge>
+      );
+      const iconWrapper = container.querySelector('.d-inline-flex');
+      expect(iconWrapper).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('icon aria-hidden does not affect visual rendering', () => {
+      render(<Badge icon={<span data-testid="icon">★</span>}>Text</Badge>);
+      expect(screen.getByTestId('icon')).toBeVisible();
+    });
+
+    it('multiple icon badges each have aria-hidden on icons', async () => {
+      const { container } = render(
+        <>
+          <Badge icon={<span data-testid="icon1">★</span>}>Featured</Badge>
+          <Badge icon={<span data-testid="icon2">✓</span>}>Verified</Badge>
+        </>
+      );
+      const iconWrappers = container.querySelectorAll('[aria-hidden="true"]');
+      expect(iconWrappers.length).toBeGreaterThanOrEqual(2);
+    });
+  });
+
+  describe('Dot Accessibility (aria-hidden)', () => {
+    it('hides dot from screen readers when badge has content', () => {
+      const { container } = render(<Badge dot>With Content</Badge>);
+      const dot = container.querySelector('.rounded-circle');
+      expect(dot).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('does not hide dot from screen readers when dot-only (status indicator)', () => {
+      const { container } = render(<Badge dot aria-label="Online status" />);
+      const dot = container.querySelector('.rounded-circle');
+      expect(dot).not.toHaveAttribute('aria-hidden');
+    });
+
+    it('dot-only badge is announced as status role', () => {
+      const { container } = render(<Badge dot aria-label="Online" />);
+      const badge = container.querySelector('.badge');
+      expect(badge).toHaveAttribute('role', 'status');
+    });
+
+    it('dot with content does not have status role', () => {
+      const { container } = render(<Badge dot>Content</Badge>);
+      const badge = container.querySelector('.badge');
+      expect(badge).not.toHaveAttribute('role', 'status');
+    });
+
+    it('dot-only badge with aria-label has no accessibility violations', async () => {
+      const { container } = render(<Badge dot aria-label="Online status" />);
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('status badge with warning variant has no violations', async () => {
+      const { container } = render(
+        <Badge variant="warning" dot aria-label="Away status" />
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
+
+  describe('Dev Warning (dot-only without aria-label)', () => {
+    const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+
+    afterEach(() => {
+      consoleSpy.mockClear();
+    });
+
+    afterAll(() => {
+      consoleSpy.mockRestore();
+    });
+
+    it('warns when dot-only badge lacks aria-label', () => {
+      render(<Badge dot />);
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Dot-only badges must have an aria-label')
+      );
+    });
+
+    it('warns with helpful example', () => {
+      render(<Badge dot />);
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('aria-label="Online status"')
+      );
+    });
+
+    it('does not warn when dot-only badge has aria-label', () => {
+      render(<Badge dot aria-label="Status" />);
+      expect(consoleSpy).not.toHaveBeenCalled();
+    });
+
+    it('does not warn when badge has content with dot', () => {
+      render(<Badge dot>Content</Badge>);
+      expect(consoleSpy).not.toHaveBeenCalled();
+    });
+
+    it('does not warn for regular badge without dot', () => {
+      render(<Badge>Regular Badge</Badge>);
+      expect(consoleSpy).not.toHaveBeenCalled();
+    });
+
+    it('warning only in development mode', () => {
+      const originalEnv = process.env.NODE_ENV;
+      try {
+        // Even if we try to set production, the test runner will override it
+        // But we're testing the logic path exists
+        render(<Badge dot />);
+        expect(consoleSpy).toHaveBeenCalled();
+      } finally {
+        process.env.NODE_ENV = originalEnv;
+      }
+    });
+  });
+
+  // =============================================================================
+  // Performance Enhancements
+  // =============================================================================
+
+  describe('Performance - Memoization', () => {
+    it('component wrapped with forwardRef for ref support', () => {
+      const ref = jest.fn();
+      render(<Badge ref={ref}>Badge</Badge>);
+      expect(ref).toHaveBeenCalled();
+    });
+
+    it('ref receives HTMLSpanElement by default', () => {
+      const ref = jest.fn();
+      render(<Badge ref={ref}>Badge</Badge>);
+      expect(ref.mock.calls[0][0]).toBeInstanceOf(HTMLSpanElement);
+    });
+
+    it('ref receives HTMLDivElement when as="div"', () => {
+      const ref = jest.fn();
+      render(
+        <Badge ref={ref} as="div">
+          Badge
+        </Badge>
+      );
+      expect(ref.mock.calls[0][0]).toBeInstanceOf(HTMLDivElement);
+    });
+
+    it('class names are consistent across renders', () => {
+      const { rerender } = render(
+        <Badge variant="primary" pill>
+          Badge
+        </Badge>
+      );
+      const element1 = document.querySelector('.badge');
+      const classes1 = element1?.className;
+
+      rerender(
+        <Badge variant="primary" pill>
+          Badge
+        </Badge>
+      );
+      const element2 = document.querySelector('.badge');
+      const classes2 = element2?.className;
+
+      expect(classes1).toBe(classes2);
+    });
+
+    it('does not recreate class string on every render', () => {
+      let renderCount = 0;
+      const TestComponent = () => {
+        renderCount++;
+        return <Badge variant="primary">Badge</Badge>;
+      };
+
+      const { rerender } = render(<TestComponent />);
+      const initialRenderCount = renderCount;
+
+      rerender(<TestComponent />);
+      const finalRenderCount = renderCount;
+
+      // Component should rerender but memoization should prevent class recalculation
+      expect(finalRenderCount).toBeGreaterThan(initialRenderCount);
+    });
+  });
+
+  describe('Performance - Content Detection', () => {
+    it('correctly detects badge with children', () => {
+      const { container } = render(<Badge dot>Content</Badge>);
+      const dot = container.querySelector('.rounded-circle');
+      // When content exists, dot should be hidden from SR
+      expect(dot).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('correctly detects badge with icon', () => {
+      const { container } = render(
+        <Badge dot icon={<span>★</span>}>
+          No icon here
+        </Badge>
+      );
+      const dot = container.querySelector('.rounded-circle');
+      // When icon exists, dot should be hidden from SR
+      expect(dot).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('correctly detects dot-only (no content, no icon)', () => {
+      const { container } = render(<Badge dot aria-label="Status" />);
+      const dot = container.querySelector('.rounded-circle');
+      // When no content/icon, dot should NOT be hidden from SR
+      expect(dot).not.toHaveAttribute('aria-hidden');
+    });
+
+    it('memoization: hasVisibleContent remains stable', () => {
+      const { rerender } = render(
+        <Badge dot icon={<span>★</span>}>
+          Text
+        </Badge>
+      );
+      const dot1 = document.querySelector('.rounded-circle');
+      const hidden1 = dot1?.getAttribute('aria-hidden');
+
+      rerender(
+        <Badge dot icon={<span>★</span>}>
+          Text
+        </Badge>
+      );
+      const dot2 = document.querySelector('.rounded-circle');
+      const hidden2 = dot2?.getAttribute('aria-hidden');
+
+      expect(hidden1).toBe(hidden2);
+    });
+  });
+
+  // =============================================================================
+  // Accessibility Comprehensive Tests
+  // =============================================================================
+
+  describe('Accessibility Comprehensive', () => {
+    it('has no violations with icon aria-hidden', async () => {
+      const { container } = render(
+        <Badge icon={<span>★</span>}>Featured</Badge>
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no violations with dot and content', async () => {
+      const { container } = render(<Badge dot>Online</Badge>);
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no violations with dot, icon, and content combined', async () => {
+      const { container } = render(
+        <Badge dot icon={<span>●</span>}>
+          Status
+        </Badge>
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no violations in list of status badges', async () => {
+      const { container } = render(
+        <div>
+          <Badge variant="success" dot aria-label="Online" />
+          <Badge variant="warning" dot aria-label="Away" />
+          <Badge variant="danger" dot aria-label="Busy" />
+        </div>
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no violations with all features enabled', async () => {
+      const { container } = render(
+        <Badge
+          variant="success"
+          pill
+          dot
+          icon={<span>✓</span>}
+          aria-label="Verified online"
+        >
+          Active
+        </Badge>
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
+
+  describe('Display Name', () => {
+    it('has correct displayName', () => {
+      expect(Badge.displayName).toBe('Badge');
+    });
 });

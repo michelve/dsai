@@ -15,6 +15,31 @@ export type BadgeVariant =
   | 'dark';
 
 /**
+ * Safe HTML attributes for Badge component
+ * Whitelists allowed HTML attributes to prevent unrestricted prop spreading
+ * Blocks dangerous attributes like 'onclick', 'onchange', etc.
+ */
+export interface SafeBadgeHTMLAttributes {
+  /**
+   * Standard HTML attributes
+   */
+  id?: string;
+  className?: string;
+  style?: CSSProperties;
+  title?: string;
+  'data-testid'?: string;
+  'data-test'?: string;
+
+  /**
+   * ARIA attributes
+   */
+  'aria-label'?: string;
+  'aria-hidden'?: 'true' | 'false';
+  'aria-atomic'?: boolean;
+  role?: string;
+}
+
+/**
  * Badge component props
  *
  * @see https://getbootstrap.com/docs/5.3/components/badge/
@@ -39,7 +64,7 @@ export type BadgeVariant =
  * </Button>
  * ```
  */
-export interface BadgeProps {
+export interface BadgeProps extends SafeBadgeHTMLAttributes {
   /**
    * Badge content
    */
@@ -60,35 +85,16 @@ export interface BadgeProps {
   /**
    * Show dot indicator instead of/before content
    * Useful for status indicators
+   * NOTE: Requires aria-label when used without visible text
    * @default false
    */
   dot?: boolean;
 
   /**
    * Icon to display before badge text
+   * Will be hidden from screen readers (aria-hidden="true")
    */
   icon?: ReactNode;
-
-  /**
-   * Additional CSS class names
-   */
-  className?: string;
-
-  /**
-   * Inline styles
-   */
-  style?: CSSProperties;
-
-  /**
-   * ARIA label for accessibility
-   * Required when badge has no visible text (e.g., dot-only badges)
-   */
-  'aria-label'?: string;
-
-  /**
-   * ID attribute
-   */
-  id?: string;
 
   /**
    * Element to render as
