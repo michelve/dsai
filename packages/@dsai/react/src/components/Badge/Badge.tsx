@@ -83,7 +83,7 @@ function BadgeComponent(
   }, [variant, pill, className]);
 
   // Dev warning: dot-only badge without aria-label
-  const isDevelopment = typeof process !== 'undefined' && process.env.NODE_ENV === 'development';
+  const isDevelopment = typeof process !== 'undefined' && process.env['NODE_ENV'] === 'development';
   if (isDevelopment && dot && !hasVisibleContent && !ariaLabel) {
     console.warn(
       'Badge: Dot-only badges must have an aria-label for accessibility. ' +

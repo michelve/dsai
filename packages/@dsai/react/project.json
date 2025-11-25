@@ -9,7 +9,7 @@
       "outputs": ["{projectRoot}/dist"],
       "dependsOn": ["^build"],
       "options": {
-        "command": "tsup",
+        "command": "tsup && tsc --emitDeclarationOnly --outDir dist",
         "cwd": "packages/@dsai/react"
       }
     },
