@@ -124,8 +124,6 @@ $color-gray-900: #212529; // Darkest shade (80% darker) of neutral interface col
 $color-gray-950: #0a0d10; // Deep shadows, near-black shade of gray. Maximum depth and contrast.
 $neutral-white: #fafbfc; // Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text.
 $neutral-black: #0a0d10; // Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds.
-$background-white: #ffffff; // White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness.
-$background-black: #000000; // Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text.
 $background-transparent: #000000; // Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class.
 $opacity-0: 0; // 0% opacity. Completely transparent, invisible element.
 $opacity-5: 0.3125rem; // 5% opacity. Use for very subtle overlays or hover states.
@@ -253,6 +251,8 @@ $background-info: $color-cyan-500; // Info background color utility. Applies inf
 $background-light: $color-gray-100; // Light background color utility. Applies light gray as background. Use for subtle surfaces and page backgrounds. Maps to Bootstrap's .bg-light utility class. Requires dark text for contrast.
 $background-dark: $color-gray-900; // Dark background color utility. Applies dark gray as background. Use for high-contrast surfaces and footers. Maps to Bootstrap's .bg-dark utility class. Requires light text for contrast.
 $background-body: $neutral-white; // Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background.
+$background-white: $neutral-white; // White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness.
+$background-black: $neutral-black; // Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text.
 $theme-primary: $color-blue-500; // Primary theme color. Main brand color for primary CTAs, links, and key interactive elements. Use for primary buttons, active navigation, focus states. Bootstrap's --bs-primary maps to blue-500. Ensures consistent brand expression across all touchpoints. Verify 4.5:1 contrast on backgrounds.
 $theme-secondary: $color-gray-500; // Secondary theme color. Supporting UI elements, secondary actions, and muted emphasis. Use for secondary buttons, subtle badges, disabled state text. Bootstrap's --bs-secondary maps to gray-600. Provides visual hierarchy below primary actions. Meets WCAG AA for text.
 $theme-success: $color-green-500; // Success theme color. Positive feedback, confirmations, and successful operations. Use for success messages, checkmarks, positive badges, form validation. Bootstrap's --bs-success maps to green-500. Universal indicator of positive outcomes. Ensure 4.5:1 with backgrounds.

@@ -67,7 +67,7 @@
         "$value": "0px",
         "$type": "dimension",
         "$description": "No border",
-        "$scopes": ["STROKE_FLOAT", "FONT_VARIATIONS"]
+        "$scopes": ["STROKE_FLOAT"]
       }
     }
   }

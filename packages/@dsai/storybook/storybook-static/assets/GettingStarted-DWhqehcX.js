@@ -1,4 +1,4 @@
-import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{useMDXComponents as t}from"./index-BaV9jfJZ.js";import"./iframe-B6jdSucc.js";import"./preload-helper-Dp1pzeXC.js";function r(s){const n={a:"a",blockquote:"blockquote",code:"code",h1:"h1",h2:"h2",h3:"h3",hr:"hr",li:"li",ol:"ol",p:"p",pre:"pre",strong:"strong",ul:"ul",...t(),...s.components},{Meta:i}=n;return i||o("Meta"),e.jsxs(e.Fragment,{children:[e.jsx(i,{title:"Guides/Getting Started"}),`
+import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{useMDXComponents as t}from"./index-DPD-ykCE.js";import"./iframe-D3xv28qw.js";import"./preload-helper-Dp1pzeXC.js";function r(s){const n={a:"a",blockquote:"blockquote",code:"code",h1:"h1",h2:"h2",h3:"h3",hr:"hr",li:"li",ol:"ol",p:"p",pre:"pre",strong:"strong",ul:"ul",...t(),...s.components},{Meta:i}=n;return i||o("Meta"),e.jsxs(e.Fragment,{children:[e.jsx(i,{title:"Guides/Getting Started"}),`
 `,e.jsx(n.h1,{id:"getting-started",children:"Getting Started"}),`
 `,e.jsx(n.p,{children:"This guide will help you get up and running with DSAi components in your React application."}),`
 `,e.jsx(n.h2,{id:"installation",children:"Installation"}),`
