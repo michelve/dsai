@@ -17,6 +17,32 @@ export { Alert } from './Alert';
 // Breadcrumb
 export { Breadcrumb, BreadcrumbItem } from './Breadcrumb';
 export type { BreadcrumbItemData, BreadcrumbItemProps, BreadcrumbProps } from './Breadcrumb';
+
+// Card
+export {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  CardImage,
+  CardImgOverlay,
+  CardLink,
+  CardText,
+  CardTitle,
+} from './Card';
+export type {
+  CardBodyProps,
+  CardColor,
+  CardFooterProps,
+  CardHeaderProps,
+  CardImageProps,
+  CardImgOverlayProps,
+  CardLinkProps,
+  CardProps,
+  CardTextProps,
+  CardTitleProps,
+  CardVariant,
+} from './Card';
 export type { BadgeProps, BadgeVariant } from './Badge';
 // Badge
 export { Badge } from './Badge';
