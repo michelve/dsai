@@ -50,7 +50,7 @@ describe('Badge', () => {
     variants.forEach((variant) => {
       it(`renders ${variant} variant with Bootstrap text-bg class`, () => {
         render(<Badge variant={variant}>{variant}</Badge>);
-        const badge = screen.getByText(variant);
+        const badge = screen.getByText(variant as string);
         expect(badge).toHaveClass('badge');
         expect(badge).toHaveClass(`text-bg-${variant}`);
       });
@@ -145,8 +145,9 @@ describe('Badge', () => {
 
   describe('HTML Attributes', () => {
     it('accepts id attribute', () => {
-      render(<Badge id="test-badge">Badge</Badge>);
-      expect(screen.getByText('Badge')).toHaveAttribute('id', 'test-badge');
+      const testId = 'test-badge-' + Math.random().toString(36).substr(2, 9);
+      render(<Badge id={testId}>Badge</Badge>);
+      expect(screen.getByText('Badge')).toHaveAttribute('id', testId);
     });
 
     it('accepts aria-label', () => {
@@ -197,12 +198,6 @@ describe('Badge', () => {
       const { container } = render(<Badge icon={<span>★</span>}>Featured</Badge>);
       const results = await axe(container);
       expect(results).toHaveNoViolations();
-    });
-  });
-
-  describe('Display Name', () => {
-    it('has correct displayName', () => {
-      expect(Badge.displayName).toBe('Badge');
     });
   });
 
@@ -275,9 +270,7 @@ describe('Badge', () => {
     });
 
     it('status badge with warning variant has no violations', async () => {
-      const { container } = render(
-        <Badge variant="warning" dot aria-label="Away status" />
-      );
+      const { container } = render(<Badge variant="warning" dot aria-label="Away status" />);
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     });
@@ -324,14 +317,14 @@ describe('Badge', () => {
     });
 
     it('warning only in development mode', () => {
-      const originalEnv = process.env.NODE_ENV;
+      const originalEnv = process.env['NODE_ENV'];
       try {
         // Even if we try to set production, the test runner will override it
         // But we're testing the logic path exists
         render(<Badge dot />);
         expect(consoleSpy).toHaveBeenCalled();
       } finally {
-        process.env.NODE_ENV = originalEnv;
+        process.env['NODE_ENV'] = originalEnv;
       }
     });
   });
@@ -454,9 +447,7 @@ describe('Badge', () => {
 
   describe('Accessibility Comprehensive', () => {
     it('has no violations with icon aria-hidden', async () => {
-      const { container } = render(
-        <Badge icon={<span>★</span>}>Featured</Badge>
-      );
+      const { container } = render(<Badge icon={<span>★</span>}>Featured</Badge>);
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     });
@@ -491,13 +482,7 @@ describe('Badge', () => {
 
     it('has no violations with all features enabled', async () => {
       const { container } = render(
-        <Badge
-          variant="success"
-          pill
-          dot
-          icon={<span>✓</span>}
-          aria-label="Verified online"
-        >
+        <Badge variant="success" pill dot icon={<span>✓</span>} aria-label="Verified online">
           Active
         </Badge>
       );
@@ -510,4 +495,5 @@ describe('Badge', () => {
     it('has correct displayName', () => {
       expect(Badge.displayName).toBe('Badge');
     });
+  });
 });
