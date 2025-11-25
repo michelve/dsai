@@ -42,3 +42,7 @@ export type { InputProps, InputSize, InputType } from './Input';
 // Select
 export { Select } from './Select';
 export type { SelectOption, SelectOptionGroup, SelectProps, SelectSize } from './Select';
+
+// Switch
+export { Switch } from './Switch';
+export type { SwitchProps, SwitchSize } from './Switch';

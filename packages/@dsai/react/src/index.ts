@@ -76,6 +76,9 @@ export {
   type SelectOptionGroup,
   type SelectProps,
   type SelectSize,
+  Switch,
+  type SwitchProps,
+  type SwitchSize,
 } from './components';
 
 // ============================================================================
