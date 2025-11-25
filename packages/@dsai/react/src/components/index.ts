@@ -34,3 +34,7 @@ export type { CheckboxProps } from './Checkbox';
 // Radio
 export { Radio, RadioGroup } from './Radio';
 export type { RadioProps, RadioGroupProps } from './Radio';
+
+// Input
+export { Input } from './Input';
+export type { InputProps, InputSize, InputType } from './Input';

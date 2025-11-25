@@ -67,6 +67,10 @@ export {
   RadioGroup,
   type RadioProps,
   type RadioGroupProps,
+  Input,
+  type InputProps,
+  type InputSize,
+  type InputType,
 } from './components';
 
 // ============================================================================

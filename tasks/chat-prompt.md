@@ -15,7 +15,7 @@ Also some tasks might be outdated due to scope change.
 
 Our Style dictionary current version is v5.1.1 - https://styledictionary.com/info/tokens/ make sure code is compliant and compatible. Now it uses @storybook/addon-docs/blocks instead of @storybook/blocks.
 
-General note: don't say on story book
+General note: don't say on story book Bootstrap v5 say Instead DS AI, no version.
 
 Make sure when and where applicable use aria , tab index etc for accessability usage.
 
