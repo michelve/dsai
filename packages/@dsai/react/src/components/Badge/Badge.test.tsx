@@ -92,7 +92,7 @@ describe('Badge', () => {
       const badge = container.querySelector('.badge');
       const dot = container.querySelector('.rounded-circle');
       const children = Array.from(badge?.childNodes || []);
-      const dotIndex = children.findIndex((child) => child === dot);
+      const dotIndex = children.indexOf(dot as ChildNode);
       expect(dotIndex).toBe(0);
     });
 
@@ -145,7 +145,7 @@ describe('Badge', () => {
 
   describe('HTML Attributes', () => {
     it('accepts id attribute', () => {
-      const testId = 'test-badge-' + Math.random().toString(36).substr(2, 9);
+      const testId = `test-badge-${Math.random().toString(36).substr(2, 9)}`;
       render(<Badge id={testId}>Badge</Badge>);
       expect(screen.getByText('Badge')).toHaveAttribute('id', testId);
     });
@@ -317,14 +317,14 @@ describe('Badge', () => {
     });
 
     it('warning only in development mode', () => {
-      const originalEnv = process.env['NODE_ENV'];
+      const nodeEnv = process.env.NODE_ENV;
       try {
         // Even if we try to set production, the test runner will override it
         // But we're testing the logic path exists
         render(<Badge dot />);
         expect(consoleSpy).toHaveBeenCalled();
       } finally {
-        process.env['NODE_ENV'] = originalEnv;
+        process.env.NODE_ENV = nodeEnv;
       }
     });
   });

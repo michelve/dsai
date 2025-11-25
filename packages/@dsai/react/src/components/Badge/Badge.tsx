@@ -83,13 +83,8 @@ function BadgeComponent(
   }, [variant, pill, className]);
 
   // Dev warning: dot-only badge without aria-label
-  if (
-    typeof process !== 'undefined' &&
-    process.env['NODE_ENV'] === 'development' &&
-    dot &&
-    !hasVisibleContent &&
-    !ariaLabel
-  ) {
+  const isDevelopment = typeof process !== 'undefined' && process.env.NODE_ENV === 'development';
+  if (isDevelopment && dot && !hasVisibleContent && !ariaLabel) {
     console.warn(
       'Badge: Dot-only badges must have an aria-label for accessibility. ' +
         'Example: <Badge dot aria-label="Online status" />'
