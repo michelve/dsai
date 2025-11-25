@@ -61,10 +61,9 @@ export {
   type ProgressBarProps,
   type ProgressVariant,
   type ProgressSize,
+  Checkbox,
+  type CheckboxProps,
 } from './components';
-
-// Future component exports (uncomment as implemented):
-// export { Input, type InputProps } from './components';
 
 // ============================================================================
 // Compositions - Complex multi-component patterns

@@ -26,3 +26,7 @@ export { Spinner } from './Spinner';
 // Progress
 export { Progress } from './Progress';
 export type { ProgressProps, ProgressBarProps, ProgressVariant, ProgressSize } from './Progress';
+
+// Checkbox
+export { Checkbox } from './Checkbox';
+export type { CheckboxProps } from './Checkbox';
