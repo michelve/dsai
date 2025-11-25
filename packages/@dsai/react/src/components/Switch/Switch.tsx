@@ -3,21 +3,15 @@ import { forwardRef, useId, useState, type KeyboardEvent } from 'react';
 import type { SwitchProps, SwitchSize } from './Switch.types';
 
 /**
- * Size styles for the switch
+ * Size dimensions for the switch (in pixels)
  */
-const sizeStyles: Record<SwitchSize, { track: React.CSSProperties; thumb: React.CSSProperties }> = {
-  sm: {
-    track: { width: '32px', height: '18px' },
-    thumb: { width: '14px', height: '14px' },
-  },
-  md: {
-    track: { width: '44px', height: '24px' },
-    thumb: { width: '20px', height: '20px' },
-  },
-  lg: {
-    track: { width: '56px', height: '30px' },
-    thumb: { width: '26px', height: '26px' },
-  },
+const sizeDimensions: Record<
+  SwitchSize,
+  { trackWidth: number; trackHeight: number; thumbSize: number }
+> = {
+  sm: { trackWidth: 32, trackHeight: 18, thumbSize: 14 },
+  md: { trackWidth: 44, trackHeight: 24, thumbSize: 20 },
+  lg: { trackWidth: 56, trackHeight: 30, thumbSize: 26 },
 };
 
 /**
@@ -112,15 +106,12 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
     }
   };
 
-  // Get size styles
-  const trackStyle = sizeStyles[size].track;
-  const thumbStyle = sizeStyles[size].thumb;
+  // Get size dimensions
+  const { trackWidth, trackHeight, thumbSize } = sizeDimensions[size];
 
   // Calculate thumb position
   const thumbOffset = 2; // padding inside track
-  const thumbTranslate = isChecked
-    ? `translateX(${(trackStyle.width as number) - (thumbStyle.width as number) - thumbOffset * 2}px)`
-    : 'translateX(0)';
+  const thumbTranslateX = isChecked ? trackWidth - thumbSize - thumbOffset * 2 : 0;
 
   // Build track classes
   const trackClasses = [
@@ -147,12 +138,12 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
   // Render loading spinner
   const renderSpinner = (): React.JSX.Element => (
     <span
-      className="spinner-border spinner-border-sm text-white"
+      className="spinner-border spinner-border-sm text-primary"
       role="status"
       aria-hidden="true"
       style={{
-        width: `${(thumbStyle.width as number) - 4}px`,
-        height: `${(thumbStyle.height as number) - 4}px`,
+        width: `${thumbSize - 6}px`,
+        height: `${thumbSize - 6}px`,
       }}
     />
   );
@@ -194,7 +185,8 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
           onKeyDown={handleKeyDown}
           className={trackClasses}
           style={{
-            ...trackStyle,
+            width: `${trackWidth}px`,
+            height: `${trackHeight}px`,
             cursor: disabled || loading ? 'not-allowed' : 'pointer',
             border: 'none',
             padding: `${thumbOffset}px`,
@@ -210,6 +202,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
                 right: isChecked ? 'auto' : `${thumbOffset + 4}px`,
                 fontSize: size === 'sm' ? '8px' : size === 'lg' ? '11px' : '9px',
                 userSelect: 'none',
+                lineHeight: 1,
               }}
               aria-hidden="true"
             >
@@ -221,9 +214,11 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
           <span
             className="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm"
             style={{
-              ...thumbStyle,
-              transform: thumbTranslate,
+              width: `${thumbSize}px`,
+              height: `${thumbSize}px`,
+              transform: `translateX(${thumbTranslateX}px)`,
               transition: 'transform 0.15s ease-in-out',
+              flexShrink: 0,
             }}
             aria-hidden="true"
           >
@@ -262,7 +257,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
           id={helperId}
           className={error ? 'invalid-feedback d-block' : 'form-text'}
           style={{
-            marginLeft: labelPosition === 'end' ? `calc(${trackStyle.width}px + 0.5rem)` : 0,
+            marginLeft: labelPosition === 'end' ? `calc(${trackWidth}px + 0.5rem)` : 0,
           }}
         >
           {helperText}
