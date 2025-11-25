@@ -278,6 +278,7 @@ $theme-colors: (
 // ----------------------------------------------------------------------------
 $font-family-sans-serif: dsai.$typography-font-family-base !default;
 $font-family-monospace: dsai.$typography-font-family-monospace !default;
+$btn-font-family: $font-family-sans-serif !default;
 
 $font-size-base: dsai.$typography-font-size-base !default; // 1rem
 $font-size-sm: dsai.$typography-font-size-sm !default; // 0.875rem

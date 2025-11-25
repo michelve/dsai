@@ -27,7 +27,7 @@
       "tokenSystem": {
         "name": "@dsai/tokens",
         "cssImport": "@dsai/tokens/css/bootstrap.css",
-        "scssImport": "@dsai/tokens/src/scss/bootstrap-theme.scss"
+        "scssImport": "@dsai/tokens/src/scss/dsai-theme-bs.scss"
       },
       "accessibility": {
         "standard": "WCAG 2.2 AA",

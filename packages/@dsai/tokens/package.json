@@ -30,7 +30,7 @@
     "build": "tsup",
     "build:tokens": "pnpm tokens:validate && style-dictionary build --config sd.config.mjs && pnpm tokens:sync",
     "tokens:sync": "node ../../../tools/scripts/sync-tokens-flat.js",
-    "build:bootstrap": "sass --quiet-deps --silence-deprecation=import --silence-deprecation=global-builtin --silence-deprecation=color-functions src/scss/bootstrap-theme.scss dist/css/bootstrap.css && sass --quiet-deps --silence-deprecation=import --silence-deprecation=global-builtin --silence-deprecation=color-functions src/scss/bootstrap-theme.scss dist/css/bootstrap.min.css --style=compressed",
+    "build:bootstrap": "sass --quiet-deps --silence-deprecation=import --silence-deprecation=global-builtin --silence-deprecation=color-functions src/scss/dsai-theme-bs.scss dist/css/bootstrap.css && sass --quiet-deps --silence-deprecation=import --silence-deprecation=global-builtin --silence-deprecation=color-functions src/scss/dsai-theme-bs.scss dist/css/bootstrap.min.css --style=compressed",
     "build:dsai": "sass --quiet-deps --silence-deprecation=import src/scss/dsai-utilities.scss dist/css/dsai.css && sass --quiet-deps --silence-deprecation=import src/scss/dsai-utilities.scss dist/css/dsai.min.css --style=compressed",
     "build:watch": "tsup --watch",
     "dev": "pnpm tokens:watch & tsup --watch",
