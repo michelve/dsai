@@ -103,6 +103,12 @@ export interface ButtonProps extends SafeHTMLAttributes {
   loading?: boolean;
 
   /**
+   * Error state - visual indicator for error state (new in FSM version)
+   * @default false
+   */
+  error?: boolean;
+
+  /**
    * Text to show while loading (replaces children)
    * If not provided, children will be shown with spinner
    */

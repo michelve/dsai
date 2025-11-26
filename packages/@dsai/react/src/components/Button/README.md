@@ -1,21 +1,64 @@
 # Button Component
 
-A versatile, accessible button component using Bootstrap 5 native classes with DSAi design tokens.
+A versatile, accessible button component using Bootstrap 5 native classes with DSAi design tokens, powered by a deterministic Finite State Machine (FSM) for robust visual state management.
 
 ## Features
 
+- **FSM Architecture**: Deterministic visual state management with clear state transitions
 - **17 variants**: primary, secondary, success, danger, warning, info, light, dark, outline-\*, link
 - **3 sizes**: sm (small), md (medium), lg (large)
-- **States**: default, hover, active, focus, disabled, loading
+- **Visual States**: idle, hovered, focused, pressed, disabled, loading, error
 - **Icons**: Support for start and end icons
 - **Loading**: Built-in spinner with customizable loading text
+- **Error State**: New `error` prop for error feedback (NEW)
 - **Full width**: Option to span full container width
 - **Accessible**: WCAG 2.2 AA compliant
+- **Fully Backward Compatible**: All existing code continues to work
 
 ## Installation
 
 ```bash
 pnpm add @dsai/react @dsai/tokens
+```
+
+## FSM Architecture
+
+The Button component uses a **Finite State Machine (FSM)** for deterministic visual state management:
+
+### Visual States
+
+- **Interactive States**: `idle`, `hovered`, `focused`, `pressed`
+- **Override States**: `disabled`, `loading`, `error`
+- **State Priority**: `disabled` > `loading` > `error` > interactive states
+
+### State Transitions
+
+The FSM responds to user interactions and prop changes:
+
+| Event     | Trigger                       | Result                                                  |
+| --------- | ----------------------------- | ------------------------------------------------------- |
+| `HOVER`   | Mouse enters button           | Transitions to `hovered` state                          |
+| `BLUR`    | Mouse leaves / loses focus    | Transitions to `idle` (or error/disabled if applicable) |
+| `FOCUS`   | Focus received                | Transitions to `focused` state                          |
+| `PRESS`   | Left mouse button down        | Transitions to `pressed` state                          |
+| `RELEASE` | Mouse button released         | Transitions based on hover/focus                        |
+| `DISABLE` | `disabled` prop becomes true  | Forces `disabled` state                                 |
+| `ENABLE`  | `disabled` prop becomes false | Clears `disabled` override                              |
+| `LOADING` | `loading` prop becomes true   | Forces `loading` state                                  |
+| `ERROR`   | `error` prop becomes true     | Forces `error` state                                    |
+
+### Data Attribute
+
+The FSM state is exposed via `data-visual-state` attribute for CSS targeting and testing:
+
+```tsx
+// In tests
+expect(button).toHaveAttribute('data-visual-state', 'pressed');
+
+// In CSS
+button[data-visual-state="pressed"] {
+  transform: scale(0.98);
+}
 ```
 
 ## Usage
@@ -98,6 +141,45 @@ function SaveButton() {
 }
 ```
 
+### Error State
+
+```tsx
+// Basic error
+<Button error onClick={handleRetry}>Failed - Retry?</Button>
+
+// Error with custom variant
+<Button variant="danger" error onClick={handleRetry}>
+  Error occurred
+</Button>
+
+// Practical example with error recovery
+function SubmitButton() {
+  const [state, setState] = useState('idle'); // 'idle' | 'loading' | 'error'
+
+  const handleSubmit = async () => {
+    setState('loading');
+    try {
+      await submitForm();
+      setState('idle');
+    } catch (error) {
+      setState('error');
+    }
+  };
+
+  return (
+    <Button
+      loading={state === 'loading'}
+      error={state === 'error'}
+      onClick={handleSubmit}
+    >
+      {state === 'loading' && 'Submitting...'}
+      {state === 'error' && 'Failed - Try again'}
+      {state === 'idle' && 'Submit'}
+    </Button>
+  );
+}
+```
+
 ### Icons
 
 ```tsx
@@ -169,6 +251,7 @@ function FocusButton() {
 | `size`             | `'sm' \| 'md' \| 'lg'`            | `'md'`      | Button size                                                       |
 | `disabled`         | `boolean`                         | `false`     | Disabled state                                                    |
 | `loading`          | `boolean`                         | `false`     | Loading state with spinner                                        |
+| `error`            | `boolean`                         | `false`     | Error state (NEW) - visual feedback for failed operations         |
 | `loadingText`      | `string`                          | -           | Text to show while loading                                        |
 | `startIcon`        | `ReactNode`                       | -           | Icon before text                                                  |
 | `endIcon`          | `ReactNode`                       | -           | Icon after text                                                   |
@@ -365,6 +448,71 @@ The Button component uses DSAi design tokens through the Bootstrap theme:
 - Spacing: `--bs-btn-padding-x`, `--bs-btn-padding-y`
 - Border: `--bs-btn-border-radius`, `--bs-btn-border-width`
 - Focus: `--bs-btn-focus-box-shadow`
+
+## Testing FSM States
+
+The Button component exposes FSM states via `data-visual-state` attribute for testing:
+
+```tsx
+import { render, fireEvent } from '@testing-library/react';
+
+describe('Button FSM States', () => {
+  it('transitions through FSM states on user interaction', () => {
+    const { container } = render(<Button>Click me</Button>);
+    const button = container.querySelector('button');
+
+    // Initial state
+    expect(button).toHaveAttribute('data-visual-state', 'idle');
+
+    // Mouse hover
+    fireEvent.mouseEnter(button);
+    expect(button).toHaveAttribute('data-visual-state', 'hovered');
+
+    // Mouse leave
+    fireEvent.mouseLeave(button);
+    expect(button).toHaveAttribute('data-visual-state', 'idle');
+
+    // Focus
+    fireEvent.focus(button);
+    expect(button).toHaveAttribute('data-visual-state', 'focused');
+
+    // Mouse press
+    fireEvent.mouseDown(button, { button: 0 });
+    expect(button).toHaveAttribute('data-visual-state', 'pressed');
+
+    // Mouse release
+    fireEvent.mouseUp(button);
+    expect(button).toHaveAttribute('data-visual-state', 'hovered');
+  });
+
+  it('respects error state priority', () => {
+    const { container } = render(<Button error>Error</Button>);
+    const button = container.querySelector('button');
+
+    // Error state is maintained even with hover/focus
+    fireEvent.mouseEnter(button);
+    fireEvent.focus(button);
+    expect(button).toHaveAttribute('data-visual-state', 'error');
+  });
+
+  it('respects disabled state priority', () => {
+    const { container } = render(<Button disabled>Disabled</Button>);
+    const button = container.querySelector('button');
+
+    // Disabled state overrides all other states
+    fireEvent.mouseEnter(button);
+    fireEvent.focus(button);
+    expect(button).toHaveAttribute('data-visual-state', 'disabled');
+    expect(button).toBeDisabled();
+  });
+});
+```
+
+For comprehensive FSM test coverage, see:
+
+- `Button.fsm.test.ts` - FSM reducer unit tests (36 tests)
+- `Button.integration.test.tsx` - Component integration tests (30 tests)
+- `Button.stories.tsx` - Storybook FSM showcase stories
 
 ## Related Components
 

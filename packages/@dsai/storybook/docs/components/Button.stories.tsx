@@ -671,3 +671,268 @@ export const AllSizes: Story = {
     </div>
   ),
 };
+
+/**
+ * FSM Visual States Showcase
+ *
+ * The Button component uses a Finite State Machine (FSM) to manage visual states.
+ * These stories demonstrate the FSM behavior and state transitions.
+ *
+ * FSM States:
+ * - idle: default state, no interaction
+ * - hovered: mouse over the button (auto via CSS :hover)
+ * - focused: keyboard focus (auto via CSS :focus-visible)
+ * - pressed: mouse down state
+ * - disabled: disabled prop = true (prop-driven)
+ * - loading: loading prop = true (prop-driven)
+ * - error: error prop = true (prop-driven)
+ */
+
+/**
+ * Error State - New FSM capability
+ * Demonstrates the error visual state (red tint, alert styling)
+ */
+export const ErrorState: Story = {
+  args: {
+    variant: 'danger',
+    children: 'Error State',
+    error: true,
+  },
+};
+
+export const ErrorWithRecovery: Story = {
+  render: () => {
+    const [hasError, setHasError] = useState(false);
+
+    const handleClick = async () => {
+      setHasError(true);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setHasError(false);
+    };
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <Button variant="primary" error={hasError} onClick={handleClick} disabled={hasError}>
+          {hasError ? 'Error - Retry' : 'Click Me'}
+        </Button>
+        <p style={{ fontSize: '0.875rem', color: '#666' }}>
+          Click the button to trigger error state. After 2 seconds, error clears automatically.
+        </p>
+      </div>
+    );
+  },
+};
+
+/**
+ * FSM State Priority Demonstration
+ *
+ * Shows how FSM handles state precedence:
+ * disabled > loading > error > interactive states
+ */
+export const FSMStatePriority: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          Idle State (default)
+        </h3>
+        <Button variant="primary">Idle State</Button>
+      </div>
+
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          Loading State (prop-driven)
+        </h3>
+        <Button variant="primary" loading>
+          Loading...
+        </Button>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+          Loading overrides interactive states. FSM ignores hover/press/focus events.
+        </p>
+      </div>
+
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          Error State (prop-driven)
+        </h3>
+        <Button variant="danger" error>
+          Error Occurred
+        </Button>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+          Error state visually indicates a problem. FSM prevents interaction.
+        </p>
+      </div>
+
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          Disabled State (highest priority)
+        </h3>
+        <Button variant="primary" disabled>
+          Disabled State
+        </Button>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+          Disabled takes precedence over all other states. No interaction possible.
+        </p>
+      </div>
+
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          Disabled Loading (disabled wins)
+        </h3>
+        <Button variant="primary" disabled loading>
+          Disabled & Loading
+        </Button>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+          When both disabled and loading, disabled takes precedence (FSM priority rule).
+        </p>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * FSM Interactive States with Focus/Hover
+ *
+ * Demonstrates FSM state transitions during user interaction.
+ * Try hovering, focusing, or pressing the button to see state changes
+ * reflected in the data-visual-state attribute.
+ */
+export const FSMInteractiveStates: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          Interactive States Demo
+        </h3>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginBottom: '1rem' }}>
+          Try these interactions and observe the button behavior:
+        </p>
+        <ul
+          style={{
+            fontSize: '0.75rem',
+            color: '#666',
+            marginBottom: '1rem',
+            paddingLeft: '1.5rem',
+          }}
+        >
+          <li>Hover over the button → hovered state</li>
+          <li>Focus with keyboard (Tab) → focused state</li>
+          <li>Press mouse down → pressed state</li>
+          <li>Release → returns to previous state (idle, hovered, or focused)</li>
+          <li>Blur (click away) → idle state</li>
+        </ul>
+      </div>
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+        <Button variant="primary">Primary Button</Button>
+        <Button variant="success">Success Button</Button>
+        <Button variant="outline-secondary">Outline Button</Button>
+      </div>
+
+      <div>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '1rem' }}>
+          <strong>FSM State Tracking:</strong> The button element includes a{' '}
+          <code>data-visual-state</code> attribute that changes as you interact with it. Open
+          browser DevTools Inspector to see the attribute updates in real-time.
+        </p>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * FSM State Transitions Under Async Operations
+ *
+ * Shows realistic use case: button transitions between idle → loading → error/success
+ */
+export const FSMAsyncOperations: Story = {
+  render: () => {
+    const [states, setStates] = useState<Record<string, { isLoading: boolean; isError: boolean }>>({
+      success: { isLoading: false, isError: false },
+      failure: { isLoading: false, isError: false },
+      mixed: { isLoading: false, isError: false },
+    });
+
+    const handleAsyncOperation = async (key: string, shouldFail: boolean) => {
+      setStates((prev) => ({
+        ...prev,
+        [key]: { isLoading: true, isError: false },
+      }));
+
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      setStates((prev) => ({
+        ...prev,
+        [key]: { isLoading: false, isError: shouldFail },
+      }));
+
+      setTimeout(() => {
+        setStates((prev) => ({
+          ...prev,
+          [key]: { isLoading: false, isError: false },
+        }));
+      }, 2000);
+    };
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <div>
+          <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+            Successful Operation
+          </h3>
+          <Button
+            variant="success"
+            loading={states.success.isLoading}
+            onClick={() => handleAsyncOperation('success', false)}
+          >
+            {states.success.isLoading ? 'Processing...' : 'Save Successfully'}
+          </Button>
+        </div>
+
+        <div>
+          <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+            Failed Operation
+          </h3>
+          <Button
+            variant="danger"
+            error={states.failure.isError}
+            loading={states.failure.isLoading}
+            onClick={() => handleAsyncOperation('failure', true)}
+          >
+            {states.failure.isLoading
+              ? 'Processing...'
+              : states.failure.isError
+                ? 'Failed - Retry'
+                : 'Delete Item'}
+          </Button>
+        </div>
+
+        <div>
+          <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+            Confirm Action Flow
+          </h3>
+          <Button
+            variant="warning"
+            loading={states.mixed.isLoading}
+            error={states.mixed.isError}
+            onClick={() => handleAsyncOperation('mixed', false)}
+          >
+            {states.mixed.isLoading ? 'Processing...' : 'Confirm Action'}
+          </Button>
+        </div>
+
+        <div style={{ backgroundColor: '#f5f5f5', padding: '1rem', borderRadius: '4px' }}>
+          <p style={{ fontSize: '0.75rem', color: '#666', margin: 0 }}>
+            <strong>FSM Transition Flow:</strong>
+          </p>
+          <p style={{ fontSize: '0.75rem', color: '#666', margin: '0.5rem 0 0 0' }}>
+            idle → loading → (success: idle) or (error: error state)
+          </p>
+          <p style={{ fontSize: '0.75rem', color: '#666', margin: '0.5rem 0 0 0' }}>
+            Each button manages its own FSM state independently.
+          </p>
+        </div>
+      </div>
+    );
+  },
+};
