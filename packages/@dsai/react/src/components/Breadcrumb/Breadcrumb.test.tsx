@@ -372,8 +372,9 @@ describe('Breadcrumb', () => {
     });
 
     it('accepts custom id', () => {
-      render(<Breadcrumb items={sampleItems} id="my-breadcrumb" />);
-      expect(document.getElementById('my-breadcrumb')).toBeInTheDocument();
+      const testId = 'breadcrumb-' + Math.random().toString(36).substr(2, 9);
+      render(<Breadcrumb items={sampleItems} id={testId} />);
+      expect(document.getElementById(testId)).toBeInTheDocument();
     });
   });
 
