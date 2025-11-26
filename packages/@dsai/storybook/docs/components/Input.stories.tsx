@@ -1,6 +1,7 @@
 import { Input } from '@dsai/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+import { screen } from 'storybook/test';
 
 /**
  * Input component for text entry.
@@ -164,6 +165,10 @@ export const Default: Story = {
     type: 'email',
     placeholder: 'Enter your email',
   },
+  play: async ({ userEvent }) => {
+    const input = screen.getByLabelText('Email address');
+    await userEvent.type(input, 'user@example.com');
+  },
 };
 
 /**
@@ -174,6 +179,10 @@ export const WithoutLabel: Story = {
     'aria-label': 'Search',
     placeholder: 'Search...',
     type: 'search',
+  },
+  play: async ({ userEvent }) => {
+    const input = screen.getByLabelText('Search');
+    await userEvent.type(input, 'storybook');
   },
 };
 
@@ -273,6 +282,10 @@ export const WithPrefix: Story = {
     prefix: '$',
     placeholder: '0.00',
   },
+  play: async ({ userEvent }) => {
+    const input = screen.getByLabelText('Price');
+    await userEvent.type(input, '99.99');
+  },
 };
 
 /**
@@ -283,6 +296,10 @@ export const WithSuffix: Story = {
     label: 'Email',
     suffix: '@company.com',
     placeholder: 'username',
+  },
+  play: async ({ userEvent }) => {
+    const input = screen.getByLabelText('Email');
+    await userEvent.type(input, 'john.doe');
   },
 };
 
@@ -296,6 +313,10 @@ export const WithPrefixAndSuffix: Story = {
     prefix: '$',
     suffix: '.00',
     placeholder: '0',
+  },
+  play: async ({ userEvent }) => {
+    const input = screen.getByLabelText('Amount');
+    await userEvent.type(input, '150');
   },
 };
 
@@ -317,6 +338,10 @@ export const WithIconPrefix: Story = {
     );
 
     return <Input label="Search" type="search" prefix={<SearchIcon />} placeholder="Search..." />;
+  },
+  play: async ({ userEvent }) => {
+    const input = screen.getByLabelText('Search');
+    await userEvent.type(input, 'components');
   },
 };
 
@@ -342,6 +367,10 @@ export const Clearable: Story = {
       />
     );
   },
+  play: async ({ userEvent }) => {
+    const clearButton = screen.getByRole('button');
+    await userEvent.click(clearButton);
+  },
 };
 
 // =============================================================================
@@ -358,6 +387,13 @@ export const CharacterCounter: Story = {
     showCount: true,
     helperText: 'Brief description about yourself',
     placeholder: 'Tell us about yourself...',
+  },
+  play: async ({ userEvent }) => {
+    const input = screen.getByPlaceholderText('Tell us about yourself...');
+    await userEvent.type(
+      input,
+      'I am a developer interested in design systems and component libraries.'
+    );
   },
 };
 
@@ -386,6 +422,10 @@ export const FloatingLabel: Story = {
     floating: true,
     placeholder: 'name@example.com',
     type: 'email',
+  },
+  play: async ({ userEvent }) => {
+    const input = screen.getByPlaceholderText('name@example.com');
+    await userEvent.type(input, 'user@example.com');
   },
 };
 
@@ -432,6 +472,10 @@ export const Required: Story = {
     required: true,
     placeholder: 'Required field',
   },
+  play: async ({ userEvent }) => {
+    const input = screen.getByLabelText('Email');
+    await userEvent.type(input, 'required@example.com');
+  },
 };
 
 // =============================================================================
@@ -446,6 +490,10 @@ export const WithHelperText: Story = {
     label: 'Password',
     type: 'password',
     helperText: 'Must be at least 8 characters long',
+  },
+  play: async ({ userEvent }) => {
+    const input = screen.getByLabelText('Password');
+    await userEvent.type(input, 'SecurePassword123');
   },
 };
 
@@ -471,6 +519,10 @@ export const Controlled: Story = {
         <p className="mt-2 text-muted small">Value: {value || '(empty)'}</p>
       </div>
     );
+  },
+  play: async ({ userEvent }) => {
+    const input = screen.getByPlaceholderText('Type something...');
+    await userEvent.type(input, 'Controlled component');
   },
 };
 
@@ -537,6 +589,14 @@ export const LoginForm: Story = {
         </div>
       </form>
     );
+  },
+  play: async ({ userEvent }) => {
+    const emailInputs = screen.getAllByDisplayValue('');
+    const emailInput = emailInputs[0] as HTMLInputElement;
+    const passwordInput = emailInputs[1] as HTMLInputElement;
+
+    await userEvent.type(emailInput, 'user@example.com');
+    await userEvent.type(passwordInput, 'password123');
   },
 };
 
