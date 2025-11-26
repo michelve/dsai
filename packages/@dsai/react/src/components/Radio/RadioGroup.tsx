@@ -1,4 +1,4 @@
-import { Children, cloneElement, isValidElement, useId, useState, type ReactElement } from 'react';
+import { Children, cloneElement, isValidElement, type ReactElement, useId, useState } from 'react';
 
 import { Radio } from './Radio';
 
@@ -58,7 +58,7 @@ export function RadioGroup({
   style,
   required = false,
   id: providedId,
-}: RadioGroupProps): JSX.Element {
+}: RadioGroupProps): React.JSX.Element {
   // Generate unique IDs
   const generatedId = useId();
   const groupId = providedId || generatedId;

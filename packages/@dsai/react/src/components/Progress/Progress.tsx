@@ -21,7 +21,7 @@ function ProgressBar({
   animated = false,
   className = '',
   'aria-label': ariaLabel,
-}: ProgressBarProps): JSX.Element {
+}: ProgressBarProps): React.JSX.Element {
   const percentage = Math.min(100, Math.max(0, value));
 
   const barClasses = [
@@ -113,7 +113,7 @@ function ProgressBase({
   id,
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledBy,
-}: ProgressProps): JSX.Element {
+}: ProgressProps): React.JSX.Element {
   const percentage = indeterminate ? 0 : Math.min(100, Math.max(0, value ?? 0));
   const hasChildren = Boolean(children);
 

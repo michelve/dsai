@@ -58,7 +58,7 @@ export function Spinner({
   as: Component = 'div',
   centered = false,
   ...rest
-}: SpinnerProps): JSX.Element {
+}: SpinnerProps): React.JSX.Element {
   // Build Bootstrap class names
   // Bootstrap spinner classes: spinner-border, spinner-grow, spinner-border-sm, text-{color}
   const bootstrapClasses = [

@@ -105,7 +105,7 @@ const AlertHeading = React.memo(function AlertHeading({
   children,
   as: Component = 'h4',
   className = '',
-}: AlertHeadingProps): JSX.Element {
+}: AlertHeadingProps): React.JSX.Element {
   const classes = useMemo(
     () => ['alert-heading', className].filter(Boolean).join(' '),
     [className]

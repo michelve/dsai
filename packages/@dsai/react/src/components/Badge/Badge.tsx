@@ -63,7 +63,7 @@ function BadgeComponent(
     as: Component = 'span',
   }: BadgeProps,
   ref: React.ForwardedRef<HTMLElement>
-): JSX.Element {
+): React.JSX.Element {
   // Determine if badge has visible content
   const hasVisibleContent = useMemo(() => {
     return !!children || !!icon;
@@ -91,7 +91,7 @@ function BadgeComponent(
     );
   }
 
-  const componentProps: JSX.IntrinsicElements['span'] = {
+  const componentProps: React.JSX.IntrinsicElements['span'] = {
     ref: ref as unknown as React.Ref<HTMLSpanElement>,
     className: bootstrapClasses,
     style,
