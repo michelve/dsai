@@ -1,0 +1,280 @@
+{/* @meta title: Guides/CLI Tools */}
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guides/CLI Tools" />
+
+# CLI Tools Guide
+
+DSAi provides command-line tools to help maintain code quality, accessibility compliance, and design consistency across your project.
+
+## Button Usage Analyzer
+
+The Button Usage Analyzer scans your codebase for Button component usage and validates accessibility patterns, FSM usage, and best practices.
+
+### Installation
+
+The analyzer is included in the DSAi monorepo. No additional installation needed.
+
+### Quick Start
+
+```bash
+# From workspace root
+pnpm analyze:buttons
+
+# Or run directly
+node tools/scripts/analysis/analyze-button-usage.js
+```
+
+### Usage
+
+```bash
+# Scan all packages (default)
+pnpm analyze:buttons
+
+# Scan specific directory
+pnpm analyze:buttons packages/@dsai/react
+
+# Scan specific file
+pnpm analyze:buttons src/components/MyComponent.tsx
+
+# Output as JSON
+pnpm analyze:buttons --json
+
+# Verbose mode (show all files scanned)
+pnpm analyze:buttons --verbose
+```
+
+### What It Checks
+
+The analyzer validates several categories of Button usage:
+
+#### 🔴 Errors (Must Fix)
+
+| Rule                         | Description                              | Example                                                        |
+| ---------------------------- | ---------------------------------------- | -------------------------------------------------------------- |
+| Icon-only missing aria-label | Icon-only buttons must have `aria-label` | `<Button>×</Button>` → `<Button aria-label="Close">×</Button>` |
+
+#### 🟡 Warnings (Should Fix)
+
+| Rule                                | Description                                           |
+| ----------------------------------- | ----------------------------------------------------- |
+| `onError` without error handler     | Using `onError` callback but not handling error state |
+| `onLoadingComplete` without loading | Using completion callback without loading state       |
+| `onClick` on disabled               | Passing event handler to disabled button              |
+
+#### 🔵 Info (Suggestions)
+
+| Rule                                    | Description                                      |
+| --------------------------------------- | ------------------------------------------------ |
+| `aria-expanded` without `aria-controls` | Toggle buttons should link to controlled element |
+| Missing loading state                   | Async operations should show loading feedback    |
+
+### Output Example
+
+```plaintext
+🔍 Button Usage Analyzer
+═══════════════════════════════════════════════════════
+
+Scanning: packages/@dsai
+
+📊 Results
+───────────────────────────────────────────────────────
+Files scanned:  22
+Buttons found:  227
+Total issues:   52
+
+Issue Summary:
+  ● Errors:     0 (must fix)
+  ● Warnings:   14 (should fix)
+  ● Info:       38 (suggestions)
+
+By Category:
+  ● Accessibility:  0
+  ● FSM Pattern:    14
+  ● Best Practice:  38
+
+═══════════════════════════════════════════════════════
+```
+
+### Issue Details
+
+When issues are found, you'll see detailed output:
+
+```plaintext
+⚠  WARNING in packages/@dsai/storybook/docs/components/Button.stories.tsx
+   Line 142: FSM Pattern - Button has onLoadingComplete but verify loading
+   state is being used
+
+   Context: <Button onLoadingComplete={() => setStatus('success')}>
+
+ℹ  INFO in packages/@dsai/react/src/Button/Button.tsx
+   Line 89: Best Practice - Button has aria-expanded without aria-controls
+
+   Context: <Button aria-expanded={isOpen}>Toggle</Button>
+```
+
+### Fixing Issues
+
+#### Icon-Only Buttons
+
+```tsx
+// ❌ Before - Error
+<Button variant="outline-secondary">×</Button>
+
+// ✅ After - Fixed
+<Button variant="outline-secondary" aria-label="Close dialog">×</Button>
+```
+
+#### FSM Pattern Warnings
+
+```tsx
+// ❌ Before - Warning (onLoadingComplete without loading)
+<Button onLoadingComplete={() => toast('Done!')}>
+  Submit
+</Button>
+
+// ✅ After - Fixed
+<Button
+  loading={isLoading}
+  onLoadingComplete={() => toast('Done!')}
+>
+  Submit
+</Button>
+```
+
+#### ARIA Best Practices
+
+```tsx
+// ❌ Before - Info (aria-expanded without aria-controls)
+<Button aria-expanded={isOpen}>Menu</Button>
+
+// ✅ After - Fixed
+<Button aria-expanded={isOpen} aria-controls="menu-panel">
+  Menu
+</Button>
+```
+
+### CI Integration
+
+Add the analyzer to your CI pipeline:
+
+```yaml
+# .github/workflows/ci.yml
+jobs:
+  lint:
+    steps:
+      - name: Analyze Button Usage
+        run: pnpm analyze:buttons --json > button-report.json
+
+      - name: Check for Errors
+        run: |
+          errors=$(jq '.summary.errors' button-report.json)
+          if [ "$errors" -gt 0 ]; then
+            echo "❌ Found $errors button accessibility errors"
+            exit 1
+          fi
+```
+
+### Configuration
+
+The analyzer respects these patterns:
+
+**Scanned:**
+
+- `.tsx`, `.jsx`, `.ts`, `.js` files
+- Files importing `Button` from `@dsai/react`
+
+**Skipped:**
+
+- `node_modules/`
+- `*.test.tsx`, `*.spec.tsx`
+- `*.d.ts` (type definitions)
+- JSDoc comment blocks (`/** */`)
+
+### Meaningful Short Words
+
+The analyzer recognizes these short words as valid button content (not icon-only):
+
+- `Go`, `OK`, `No`, `Yes`
+- `On`, `Off`
+- `Add`, `New`, `Edit`, `Save`, `Send`, `Copy`, `Cut`, `Run`
+- `Log`, `Map`, `Set`, `Get`, `Put`, `Zip`
+
+## Token Scripts
+
+DSAi includes several scripts for managing design tokens:
+
+### Transform Tokens
+
+Convert Figma exports to DTCG format:
+
+```bash
+pnpm tokens:transform
+```
+
+### Validate Tokens
+
+Check token structure and values:
+
+```bash
+pnpm tokens:validate
+```
+
+### Build Tokens
+
+Transform and validate in one step:
+
+```bash
+pnpm tokens:build
+```
+
+## Script Locations
+
+All scripts are organized in `tools/scripts/`:
+
+```plaintext
+tools/scripts/
+├── analysis/           # Code analysis tools
+│   └── analyze-button-usage.js
+├── github/             # GitHub automation
+│   ├── export-tasks-to-github-csv.js
+│   └── update-issue-labels.js
+├── storybook/          # Storybook utilities
+│   ├── kill-storybook.sh
+│   └── verify-storybook.sh
+└── tokens/             # Token transformation
+    ├── transform-figma-tokens.js
+    ├── validate-tokens.js
+    └── ... (more utilities)
+```
+
+## NPM Scripts Reference
+
+### Root Workspace
+
+| Script                  | Description                 |
+| ----------------------- | --------------------------- |
+| `pnpm analyze:buttons`  | Run Button usage analyzer   |
+| `pnpm tokens:transform` | Transform Figma tokens      |
+| `pnpm tokens:validate`  | Validate token structure    |
+| `pnpm tokens:build`     | Transform + validate tokens |
+
+### @dsai/tokens
+
+| Script                                             | Description            |
+| -------------------------------------------------- | ---------------------- |
+| `pnpm --filter @dsai/tokens tokens:validate:figma` | Validate Figma exports |
+| `pnpm --filter @dsai/tokens tokens:build`          | Full token build       |
+
+### @dsai/storybook
+
+| Script                                 | Description              |
+| -------------------------------------- | ------------------------ |
+| `pnpm --filter @dsai/storybook kill`   | Kill Storybook processes |
+| `pnpm --filter @dsai/storybook verify` | Verify Storybook build   |
+
+## Related
+
+- [Button Component Guide](/docs/guides-button-component--docs)
+- [Getting Started](/docs/guides-getting-started--docs)
+- [Design Tokens](/docs/foundation-colors--docs)
