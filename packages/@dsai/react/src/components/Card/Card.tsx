@@ -1,4 +1,4 @@
-import { forwardRef, type KeyboardEvent } from 'react';
+import { forwardRef, type KeyboardEvent, memo, useCallback, useMemo } from 'react';
 
 import type {
   CardBodyProps,
@@ -15,17 +15,61 @@ import type {
 } from './Card.types';
 
 // =============================================================================
+// Security: HREF Validation
+// =============================================================================
+
+/**
+ * Validates if an href is safe to use
+ * Blocks dangerous protocols like javascript:, data:, vbscript:
+ * @param href - The href to validate
+ * @returns true if the href is safe, false otherwise
+ */
+function isSafeHref(href?: string): boolean {
+  if (!href || typeof href !== 'string') {
+    return true; // undefined/null is safe (will default to #)
+  }
+
+  // Trim whitespace for validation
+  const trimmed = href.trim().toLowerCase();
+
+  // Block dangerous protocols
+  const dangerousProtocols = ['javascript:', 'data:', 'vbscript:', 'file:'];
+  for (const protocol of dangerousProtocols) {
+    if (trimmed.startsWith(protocol)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/**
+ * Detects if a URL is external
+ * @param href - The href to check
+ * @returns true if the href is external, false otherwise
+ */
+function isExternalUrl(href?: string): boolean {
+  if (!href || typeof href !== 'string') {
+    return false;
+  }
+
+  return href.startsWith('http://') || href.startsWith('https://');
+}
+
+// =============================================================================
 // CardHeader Component
 // =============================================================================
 
 /**
  * CardHeader component - card header section
  */
-export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(function CardHeader(
+const CardHeaderComponent = forwardRef<HTMLDivElement, CardHeaderProps>(function CardHeader(
   { children, className = '', style },
   ref
 ) {
-  const classes = ['card-header', className].filter(Boolean).join(' ');
+  const classes = useMemo(() => {
+    return ['card-header', className].filter(Boolean).join(' ');
+  }, [className]);
 
   return (
     <div ref={ref} className={classes} style={style}>
@@ -34,7 +78,8 @@ export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(function C
   );
 });
 
-CardHeader.displayName = 'CardHeader';
+CardHeaderComponent.displayName = 'CardHeader';
+export const CardHeader = memo(CardHeaderComponent);
 
 // =============================================================================
 // CardBody Component
@@ -43,11 +88,13 @@ CardHeader.displayName = 'CardHeader';
 /**
  * CardBody component - card body section
  */
-export const CardBody = forwardRef<HTMLDivElement, CardBodyProps>(function CardBody(
+const CardBodyComponent = forwardRef<HTMLDivElement, CardBodyProps>(function CardBody(
   { children, className = '', style },
   ref
 ) {
-  const classes = ['card-body', className].filter(Boolean).join(' ');
+  const classes = useMemo(() => {
+    return ['card-body', className].filter(Boolean).join(' ');
+  }, [className]);
 
   return (
     <div ref={ref} className={classes} style={style}>
@@ -56,7 +103,8 @@ export const CardBody = forwardRef<HTMLDivElement, CardBodyProps>(function CardB
   );
 });
 
-CardBody.displayName = 'CardBody';
+CardBodyComponent.displayName = 'CardBody';
+export const CardBody = memo(CardBodyComponent);
 
 // =============================================================================
 // CardFooter Component
@@ -65,11 +113,13 @@ CardBody.displayName = 'CardBody';
 /**
  * CardFooter component - card footer section
  */
-export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(function CardFooter(
+const CardFooterComponent = forwardRef<HTMLDivElement, CardFooterProps>(function CardFooter(
   { children, className = '', style },
   ref
 ) {
-  const classes = ['card-footer', className].filter(Boolean).join(' ');
+  const classes = useMemo(() => {
+    return ['card-footer', className].filter(Boolean).join(' ');
+  }, [className]);
 
   return (
     <div ref={ref} className={classes} style={style}>
@@ -78,7 +128,8 @@ export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(function C
   );
 });
 
-CardFooter.displayName = 'CardFooter';
+CardFooterComponent.displayName = 'CardFooter';
+export const CardFooter = memo(CardFooterComponent);
 
 // =============================================================================
 // CardImage Component
@@ -87,27 +138,37 @@ CardFooter.displayName = 'CardFooter';
 /**
  * CardImage component - card image
  */
-export const CardImage = forwardRef<HTMLImageElement, CardImageProps>(function CardImage(
+const CardImageComponent = forwardRef<HTMLImageElement, CardImageProps>(function CardImage(
   { src, alt, position = 'top', height, className = '', style, loading = 'lazy' },
   ref
 ) {
-  const positionClass =
-    position === 'top' ? 'card-img-top' : position === 'bottom' ? 'card-img-bottom' : 'card-img';
+  const positionClass = useMemo(() => {
+    return position === 'top'
+      ? 'card-img-top'
+      : position === 'bottom'
+        ? 'card-img-bottom'
+        : 'card-img';
+  }, [position]);
 
-  const classes = [positionClass, className].filter(Boolean).join(' ');
+  const classes = useMemo(() => {
+    return [positionClass, className].filter(Boolean).join(' ');
+  }, [positionClass, className]);
 
-  const imgStyle: React.CSSProperties = {
-    ...style,
-    height: height ?? undefined,
-    objectFit: height ? 'cover' : undefined,
-  };
+  const imgStyle = useMemo<React.CSSProperties>(() => {
+    return {
+      ...style,
+      height: height ?? undefined,
+      objectFit: height ? 'cover' : undefined,
+    };
+  }, [style, height]);
 
   return (
     <img ref={ref} src={src} alt={alt} className={classes} style={imgStyle} loading={loading} />
   );
 });
 
-CardImage.displayName = 'CardImage';
+CardImageComponent.displayName = 'CardImage';
+export const CardImage = memo(CardImageComponent);
 
 // =============================================================================
 // CardTitle Component
@@ -116,11 +177,13 @@ CardImage.displayName = 'CardImage';
 /**
  * CardTitle component - card title heading
  */
-export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(function CardTitle(
+const CardTitleComponent = forwardRef<HTMLHeadingElement, CardTitleProps>(function CardTitle(
   { children, as: Component = 'h5', className = '', style },
   ref
 ) {
-  const classes = ['card-title', className].filter(Boolean).join(' ');
+  const classes = useMemo(() => {
+    return ['card-title', className].filter(Boolean).join(' ');
+  }, [className]);
 
   return (
     <Component ref={ref} className={classes} style={style}>
@@ -129,7 +192,8 @@ export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(function
   );
 });
 
-CardTitle.displayName = 'CardTitle';
+CardTitleComponent.displayName = 'CardTitle';
+export const CardTitle = memo(CardTitleComponent);
 
 // =============================================================================
 // CardText Component
@@ -138,13 +202,13 @@ CardTitle.displayName = 'CardTitle';
 /**
  * CardText component - card text paragraph
  */
-export const CardText = forwardRef<HTMLParagraphElement, CardTextProps>(function CardText(
+const CardTextComponent = forwardRef<HTMLParagraphElement, CardTextProps>(function CardText(
   { children, muted = false, className = '', style },
   ref
 ) {
-  const classes = ['card-text', muted && 'text-body-secondary', className]
-    .filter(Boolean)
-    .join(' ');
+  const classes = useMemo(() => {
+    return ['card-text', muted && 'text-body-secondary', className].filter(Boolean).join(' ');
+  }, [muted, className]);
 
   return (
     <p ref={ref} className={classes} style={style}>
@@ -153,7 +217,8 @@ export const CardText = forwardRef<HTMLParagraphElement, CardTextProps>(function
   );
 });
 
-CardText.displayName = 'CardText';
+CardTextComponent.displayName = 'CardText';
+export const CardText = memo(CardTextComponent);
 
 // =============================================================================
 // CardLink Component
@@ -162,20 +227,28 @@ CardText.displayName = 'CardText';
 /**
  * CardLink component - card link
  */
-export const CardLink = forwardRef<HTMLAnchorElement, CardLinkProps>(function CardLink(
+const CardLinkComponent = forwardRef<HTMLAnchorElement, CardLinkProps>(function CardLink(
   { children, href, className = '', style },
   ref
 ) {
-  const classes = ['card-link', className].filter(Boolean).join(' ');
+  // Validate href for security
+  const safeHref = isSafeHref(href) ? href : '#';
+  const isExternal = isExternalUrl(safeHref);
+  const relAttribute = isExternal ? 'noopener noreferrer' : undefined;
+
+  const classes = useMemo(() => {
+    return ['card-link', className].filter(Boolean).join(' ');
+  }, [className]);
 
   return (
-    <a ref={ref} href={href} className={classes} style={style}>
+    <a ref={ref} href={safeHref} className={classes} style={style} rel={relAttribute}>
       {children}
     </a>
   );
 });
 
-CardLink.displayName = 'CardLink';
+CardLinkComponent.displayName = 'CardLink';
+export const CardLink = memo(CardLinkComponent);
 
 // =============================================================================
 // CardImgOverlay Component
@@ -184,9 +257,11 @@ CardLink.displayName = 'CardLink';
 /**
  * CardImgOverlay component - overlay content on card image
  */
-export const CardImgOverlay = forwardRef<HTMLDivElement, CardImgOverlayProps>(
+const CardImgOverlayComponent = forwardRef<HTMLDivElement, CardImgOverlayProps>(
   function CardImgOverlay({ children, className = '', style }, ref) {
-    const classes = ['card-img-overlay', className].filter(Boolean).join(' ');
+    const classes = useMemo(() => {
+      return ['card-img-overlay', className].filter(Boolean).join(' ');
+    }, [className]);
 
     return (
       <div ref={ref} className={classes} style={style}>
@@ -196,7 +271,8 @@ export const CardImgOverlay = forwardRef<HTMLDivElement, CardImgOverlayProps>(
   }
 );
 
-CardImgOverlay.displayName = 'CardImgOverlay';
+CardImgOverlayComponent.displayName = 'CardImgOverlay';
+export const CardImgOverlay = memo(CardImgOverlayComponent);
 
 // =============================================================================
 // Card Component
@@ -228,6 +304,7 @@ const getColorClass = (color: CardColor): string => {
  * Card component - flexible content container
  *
  * A Bootstrap 5 card component with subcomponents for flexible layouts.
+ * Includes security validation, accessibility features, and performance optimizations.
  *
  * @see https://getbootstrap.com/docs/5.3/components/card/
  *
@@ -242,121 +319,139 @@ const getColorClass = (color: CardColor): string => {
  * </Card>
  * ```
  */
-export const Card = forwardRef<HTMLElement, CardProps>(function Card(
-  {
-    children,
-    variant = 'elevated',
-    color,
-    horizontal = false,
-    interactive = false,
-    href,
-    onClick,
-    linkAs: LinkComponent,
-    className = '',
-    style,
-    id,
-    'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledBy,
-  },
-  ref
-) {
-  const isInteractive = interactive || Boolean(href) || Boolean(onClick);
+export const Card = memo(
+  forwardRef<HTMLElement, CardProps>(function Card(
+    {
+      children,
+      variant = 'elevated',
+      color,
+      horizontal = false,
+      interactive = false,
+      href,
+      onClick,
+      linkAs: LinkComponent,
+      className = '',
+      style,
+      id,
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledBy,
+    },
+    ref
+  ) {
+    const isInteractive = interactive || Boolean(href) || Boolean(onClick);
 
-  // Build card classes
-  const cardClasses = [
-    'card',
-    getVariantClass(variant),
-    color && getColorClass(color),
-    horizontal && 'flex-row',
-    isInteractive && 'card-interactive',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+    // Build card classes with memoization
+    const cardClasses = useMemo(() => {
+      return [
+        'card',
+        getVariantClass(variant),
+        color && getColorClass(color),
+        horizontal && 'flex-row',
+        isInteractive && 'card-interactive',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ');
+    }, [variant, color, horizontal, isInteractive, className]);
 
-  // Interactive card styles
-  const interactiveStyle: React.CSSProperties | undefined = isInteractive
-    ? {
-        cursor: 'pointer',
-        transition: 'transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out',
-        ...style,
+    // Interactive card styles with memoization
+    const interactiveStyle = useMemo<React.CSSProperties | undefined>(() => {
+      return isInteractive
+        ? {
+            cursor: 'pointer',
+            transition: 'transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out',
+            ...style,
+          }
+        : style;
+    }, [isInteractive, style]);
+
+    // Handle click with useCallback
+    const handleClick = useCallback((): void => {
+      onClick?.();
+    }, [onClick]);
+
+    // Handle keyboard with useCallback
+    const handleKeyDown = useCallback(
+      (e: KeyboardEvent<HTMLElement>): void => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          if (!href) {
+            e.preventDefault();
+            handleClick();
+          }
+        }
+      },
+      [href, handleClick]
+    );
+
+    // Validate href for security
+    const safeHref = isSafeHref(href) ? href : '#';
+    const isExternal = isExternalUrl(safeHref);
+    const relAttribute = isExternal ? 'noopener noreferrer' : undefined;
+
+    // Common props with memoization
+    const commonProps = useMemo(
+      () => ({
+        className: cardClasses,
+        style: interactiveStyle,
+        id,
+        'aria-label': ariaLabel,
+        'aria-labelledby': ariaLabelledBy,
+      }),
+      [cardClasses, interactiveStyle, id, ariaLabel, ariaLabelledBy]
+    );
+
+    // Render as link
+    if (safeHref) {
+      if (LinkComponent) {
+        return (
+          <LinkComponent
+            ref={ref}
+            href={safeHref}
+            {...commonProps}
+            style={{ ...interactiveStyle, textDecoration: 'none', color: 'inherit' }}
+            rel={relAttribute}
+          >
+            {children}
+          </LinkComponent>
+        );
       }
-    : style;
 
-  // Handle click
-  const handleClick = (): void => {
-    onClick?.();
-  };
-
-  // Handle keyboard
-  const handleKeyDown = (e: KeyboardEvent<HTMLElement>): void => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      if (!href) {
-        e.preventDefault();
-        onClick?.();
-      }
-    }
-  };
-
-  // Common props
-  const commonProps = {
-    className: cardClasses,
-    style: interactiveStyle,
-    id,
-    'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledBy,
-  };
-
-  // Render as link
-  if (href) {
-    if (LinkComponent) {
       return (
-        <LinkComponent
-          ref={ref}
-          href={href}
+        <a
+          ref={ref as React.Ref<HTMLAnchorElement>}
+          href={safeHref}
           {...commonProps}
           style={{ ...interactiveStyle, textDecoration: 'none', color: 'inherit' }}
+          rel={relAttribute}
         >
           {children}
-        </LinkComponent>
+        </a>
       );
     }
 
-    return (
-      <a
-        ref={ref as React.Ref<HTMLAnchorElement>}
-        href={href}
-        {...commonProps}
-        style={{ ...interactiveStyle, textDecoration: 'none', color: 'inherit' }}
-      >
-        {children}
-      </a>
-    );
-  }
+    // Render as button (interactive without href)
+    if (onClick && !safeHref) {
+      return (
+        <button
+          ref={ref as React.Ref<HTMLButtonElement>}
+          type="button"
+          {...commonProps}
+          onClick={handleClick}
+          onKeyDown={handleKeyDown}
+        >
+          {children}
+        </button>
+      );
+    }
 
-  // Render as clickable div (interactive without href)
-  if (onClick && !href) {
+    // Render as article (default)
     return (
-      <div
-        ref={ref as React.Ref<HTMLDivElement>}
-        role="button"
-        tabIndex={0}
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
-        {...commonProps}
-      >
+      <article ref={ref as React.Ref<HTMLElement>} {...commonProps}>
         {children}
-      </div>
+      </article>
     );
-  }
-
-  // Render as article (default)
-  return (
-    <article ref={ref as React.Ref<HTMLElement>} {...commonProps}>
-      {children}
-    </article>
-  );
-});
+  })
+);
 
 Card.displayName = 'Card';
 
