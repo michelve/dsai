@@ -13,6 +13,13 @@ import { useState } from 'react';
  * - Dynamic state announcements via aria-live
  * - Whitelist-based prop spreading for security
  * - Full WCAG 2.2 AA accessibility compliance
+ * - FSM-driven visual state management
+ *
+ * Test Coverage: 151 tests across 4 test files
+ * - Button.test.tsx: Core unit tests (85 tests)
+ * - Button.a11y.test.tsx: Accessibility tests (24 tests)
+ * - Button.fsm.test.ts: FSM reducer tests (36 tests)
+ * - Button.integration.test.tsx: Integration tests (6 tests)
  */
 
 // Helper component for loading variants showcase
@@ -141,7 +148,8 @@ const meta: Meta<typeof Button> = {
         component:
           'A versatile button component with multiple variants, sizes, and states. ' +
           'Fully accessible (WCAG 2.2 AA compliant) with keyboard navigation, focus management, ' +
-          'and proper color contrast ratios. Uses design tokens for consistent theming.',
+          'and proper color contrast ratios. Uses design tokens for consistent theming. ' +
+          '**Test Coverage:** 151 tests across 4 test files ensuring reliability and accessibility.',
       },
     },
     backgrounds: {
@@ -935,4 +943,202 @@ export const FSMAsyncOperations: Story = {
       </div>
     );
   },
+};
+
+/**
+ * Accessibility Features Showcase
+ *
+ * The Button component is fully WCAG 2.2 AA compliant with comprehensive
+ * accessibility features tested by 24 dedicated accessibility tests.
+ *
+ * Features demonstrated:
+ * - Proper ARIA attributes (aria-label, aria-describedby, aria-controls, etc.)
+ * - Keyboard navigation (Tab, Enter, Space)
+ * - Screen reader support
+ * - Icon-only button accessibility guards
+ * - Focus visibility
+ */
+
+/**
+ * Icon-only buttons MUST have aria-label for accessibility
+ */
+export const AccessibleIconOnlyButton: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          ✅ Accessible Icon-only Buttons
+        </h3>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <Button variant="outline-secondary" aria-label="Close dialog" startIcon="×">
+            {''}
+          </Button>
+          <Button variant="outline-primary" aria-label="Settings" startIcon="⚙️">
+            {''}
+          </Button>
+          <Button variant="outline-danger" aria-label="Delete item" startIcon="🗑️">
+            {''}
+          </Button>
+          <Button variant="outline-success" aria-label="Add item" startIcon="➕">
+            {''}
+          </Button>
+        </div>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+          Each icon-only button has an <code>aria-label</code> for screen readers.
+        </p>
+      </div>
+
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          ✅ Icon + Text (no aria-label needed)
+        </h3>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <Button variant="primary" startIcon="💾">
+            Save
+          </Button>
+          <Button variant="success" startIcon="✓">
+            Confirm
+          </Button>
+          <Button variant="secondary" endIcon="→">
+            Next
+          </Button>
+        </div>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+          Buttons with visible text content automatically have accessible names.
+        </p>
+      </div>
+
+      <div
+        style={{
+          backgroundColor: '#fff3cd',
+          padding: '1rem',
+          borderRadius: '4px',
+          border: '1px solid #ffc107',
+        }}
+      >
+        <p style={{ fontSize: '0.75rem', color: '#856404', margin: 0 }}>
+          <strong>⚠️ Accessibility Note:</strong> Icon-only buttons without <code>aria-label</code>{' '}
+          will fail WCAG 2.2 AA compliance. Our test suite includes guards that verify this
+          requirement.
+        </p>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * Keyboard Navigation Demo
+ * Tests verify Enter, Space, Tab navigation work correctly
+ */
+export const KeyboardNavigationDemo: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+          Keyboard Navigation Test
+        </h3>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginBottom: '1rem' }}>
+          Use Tab to navigate between buttons. Press Enter or Space to activate.
+        </p>
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+          <Button variant="primary">First Button</Button>
+          <Button variant="secondary">Second Button</Button>
+          <Button variant="success" disabled>
+            Disabled (Skip)
+          </Button>
+          <Button variant="info">Third Button</Button>
+        </div>
+      </div>
+
+      <div
+        style={{
+          backgroundColor: '#d1ecf1',
+          padding: '1rem',
+          borderRadius: '4px',
+          border: '1px solid #bee5eb',
+        }}
+      >
+        <p style={{ fontSize: '0.75rem', color: '#0c5460', margin: 0 }}>
+          <strong>Test Coverage:</strong> The Button.a11y.test.tsx file includes 6 keyboard
+          interaction tests verifying:
+        </p>
+        <ul
+          style={{
+            fontSize: '0.75rem',
+            color: '#0c5460',
+            marginTop: '0.5rem',
+            paddingLeft: '1rem',
+          }}
+        >
+          <li>Enter key triggers onClick</li>
+          <li>Space key triggers onClick</li>
+          <li>Disabled buttons block keyboard interaction</li>
+          <li>Loading buttons block keyboard interaction</li>
+          <li>Tab navigation works between buttons</li>
+          <li>Disabled buttons are not focusable via Tab</li>
+        </ul>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * ARIA Attributes Demo
+ * Shows all supported ARIA attributes for accessibility
+ */
+export const ARIAAttributesDemo: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          aria-expanded (Expandable)
+        </h3>
+        <Button variant="outline-secondary" aria-expanded={false} aria-controls="dropdown-menu">
+          Dropdown Menu ▼
+        </Button>
+      </div>
+
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          aria-pressed (Toggle)
+        </h3>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <Button variant="outline-primary" aria-pressed={false}>
+            Off
+          </Button>
+          <Button variant="primary" aria-pressed={true}>
+            On
+          </Button>
+        </div>
+      </div>
+
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          aria-describedby (Additional description)
+        </h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <Button variant="danger" aria-label="Delete Account - This action cannot be undone">
+            Delete Account
+          </Button>
+          <span style={{ fontSize: '0.75rem', color: '#dc3545' }}>
+            This action cannot be undone.
+          </span>
+        </div>
+      </div>
+
+      <div
+        style={{
+          backgroundColor: '#e7f3e7',
+          padding: '1rem',
+          borderRadius: '4px',
+          border: '1px solid #28a745',
+        }}
+      >
+        <p style={{ fontSize: '0.75rem', color: '#155724', margin: 0 }}>
+          <strong>✅ All ARIA attributes tested:</strong> aria-label, aria-describedby,
+          aria-controls, aria-expanded, aria-pressed, aria-busy
+        </p>
+      </div>
+    </div>
+  ),
 };

@@ -508,11 +508,54 @@ describe('Button FSM States', () => {
 });
 ```
 
-For comprehensive FSM test coverage, see:
+For comprehensive test coverage, see:
 
-- `Button.fsm.test.ts` - FSM reducer unit tests (36 tests)
-- `Button.integration.test.tsx` - Component integration tests (30 tests)
-- `Button.stories.tsx` - Storybook FSM showcase stories
+- `Button.test.tsx` - Core unit tests (85 tests): rendering, props, variants, sizes, states, interactions
+- `Button.a11y.test.tsx` - Accessibility tests (24 tests): ARIA attributes, WCAG compliance, keyboard navigation, icon-only guards
+- `Button.fsm.test.ts` - FSM reducer unit tests (36 tests): state transitions, event handling, priority rules
+- `Button.integration.test.tsx` - Integration tests (6 tests): FSM + component interaction, state visualization
+- `Button.stories.tsx` - Storybook interactive documentation
+
+> **Total: 151 tests across 4 test files**
+
+## Test Coverage
+
+The Button component has comprehensive test coverage organized into specialized test files:
+
+### Test File Structure
+
+| File                          | Purpose                                             | Test Count |
+| ----------------------------- | --------------------------------------------------- | ---------- |
+| `Button.test.tsx`             | Core functionality, props, variants, event handling | 85         |
+| `Button.a11y.test.tsx`        | WCAG 2.2 AA compliance, ARIA, keyboard a11y         | 24         |
+| `Button.fsm.test.ts`          | FSM reducer unit tests, state transitions           | 36         |
+| `Button.integration.test.tsx` | FSM + component integration, visual states          | 6          |
+| **Total**                     |                                                     | **151**    |
+
+### Accessibility Test Categories
+
+The `Button.a11y.test.tsx` file covers:
+
+1. **ARIA Attributes** - aria-label, aria-describedby, aria-controls, aria-expanded, aria-pressed
+2. **WCAG Compliance** - axe-core automated testing for all variants and states
+3. **Keyboard Interactions** - Enter/Space key handling, tab navigation, disabled focus prevention
+4. **Icon-only Accessibility Guards** - Tests that verify icon-only buttons require accessible names
+
+### Running Tests
+
+```bash
+# Run all Button tests
+pnpm test -- --testPathPattern="Button"
+
+# Run only accessibility tests
+pnpm test -- --testPathPattern="Button.a11y"
+
+# Run only FSM unit tests
+pnpm test -- --testPathPattern="Button.fsm"
+
+# Run with coverage
+pnpm test -- --testPathPattern="Button" --coverage
+```
 
 ## Related Components
 

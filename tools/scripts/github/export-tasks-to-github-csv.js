@@ -7,7 +7,7 @@
  * benbalter/bulk-issue-creator GitHub Action
  *
  * Usage:
- *   node tools/scripts/export-tasks-to-github-csv.js
+ *   node tools/scripts/github/export-tasks-to-github-csv.js
  *
  * Output:
  *   config/data.csv (for bulk-issue-creator)
@@ -22,7 +22,7 @@ const path = require('path');
 function parseTaskFile(filePath, directory, filename) {
   const content = fs.readFileSync(filePath, 'utf-8');
   const lines = content.split('\n');
-  
+
   const task = {
     repository: 'michelve/dsai', // Change this to your repo
     title: '',
@@ -36,7 +36,7 @@ function parseTaskFile(filePath, directory, filename) {
     description: '',
     taskFile: `${directory}/${filename}`, // Add the file path
     requires: [], // Tasks this depends on (blockers)
-    blocks: []    // Tasks this blocks
+    blocks: [], // Tasks this blocks
   };
 
   // Extract metadata
@@ -45,7 +45,7 @@ function parseTaskFile(filePath, directory, filename) {
   let inDependencies = false;
   let inRequires = false;
   let inBlocks = false;
-  
+
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
 
@@ -89,13 +89,13 @@ function parseTaskFile(filePath, directory, filename) {
       task.phase = phase;
       task.milestone = phase.split(' - ')[0]; // e.g., "Phase 0"
     }
-    
+
     // Extract Dependencies
     if (line === '## Dependencies' || line === '## 🔗 Dependencies') {
       inDependencies = true;
       continue;
     }
-    
+
     if (inDependencies) {
       // End of dependencies section
       if (line.startsWith('## ') && !line.includes('Dependencies')) {
@@ -103,21 +103,21 @@ function parseTaskFile(filePath, directory, filename) {
         inRequires = false;
         inBlocks = false;
       }
-      
+
       // Start of Requires section
       if (line === '### Requires:' || line === '### Prerequisites') {
         inRequires = true;
         inBlocks = false;
         continue;
       }
-      
+
       // Start of Blocks section
       if (line === '### Blocks:') {
         inBlocks = true;
         inRequires = false;
         continue;
       }
-      
+
       // Extract task IDs from dependency lines
       if ((inRequires || inBlocks) && line.startsWith('-')) {
         const taskIdMatch = line.match(/TASK-\d+/);
@@ -131,13 +131,13 @@ function parseTaskFile(filePath, directory, filename) {
         }
       }
     }
-    
+
     // Extract full description
     if (line === '## 📋 Task Description' || line === '## Description') {
       inDescription = true;
       continue;
     }
-    
+
     if (inDescription) {
       if (line.startsWith('## ') && !line.includes('Task Description')) {
         inDescription = false;
@@ -152,53 +152,60 @@ function parseTaskFile(filePath, directory, filename) {
 
   // Clear previous labels and build proper label set
   task.labels = [];
-  
+
   // 1. ROLE-BASED LABELS
-  if (task.title.toLowerCase().includes('designer') || 
-      task.assignees === '' && task.title.match(/color|typography|figma|audit/i)) {
+  if (
+    task.title.toLowerCase().includes('designer') ||
+    (task.assignees === '' && task.title.match(/color|typography|figma|audit/i))
+  ) {
     task.labels.push('👨‍🎨 designer');
   } else if (task.assignees && task.assignees !== '') {
     task.labels.push('👨‍💻 developer');
   }
-  
+
   // 2. WORK TYPE LABELS
   // Design work
   if (task.title.match(/figma|design|color|palette|typography|audit|variable/i)) {
     task.labels.push('🎨 design');
   }
-  
+
   // Code/Implementation
-  if (task.title.match(/setup|configure|create|build|implement|component/i) && 
-      !task.title.match(/designer|figma variable/i)) {
+  if (
+    task.title.match(/setup|configure|create|build|implement|component/i) &&
+    !task.title.match(/designer|figma variable/i)
+  ) {
     task.labels.push('💻 code');
   }
-  
+
   // Infrastructure/Tooling
   if (task.title.match(/setup|configure|pipeline|storybook|dictionary|ci\/cd|build/i)) {
     task.labels.push('🔧 infrastructure');
   }
-  
+
   // Documentation
   if (task.title.match(/document|guide|readme/i)) {
     task.labels.push('📚 documentation');
   }
-  
+
   // Testing
   if (task.title.match(/test|coverage|audit/i)) {
     task.labels.push('🧪 testing');
   }
-  
+
   // 3. DOMAIN LABELS
   // Design tokens
   if (task.title.match(/token|color|palette|typography|spacing|shadow|border|semantic/i)) {
     task.labels.push('🎨 design-tokens');
   }
-  
+
   // Components
   const taskNum = parseInt(task.taskId.replace('TASK-', ''));
-  if ((taskNum >= 21 && taskNum <= 45) || task.title.match(/button|badge|alert|modal|input|select/i)) {
+  if (
+    (taskNum >= 21 && taskNum <= 45) ||
+    task.title.match(/button|badge|alert|modal|input|select/i)
+  ) {
     task.labels.push('🧩 component');
-    
+
     // Component complexity
     if (taskNum >= 21 && taskNum <= 27) {
       task.labels.push('simple');
@@ -208,17 +215,17 @@ function parseTaskFile(filePath, directory, filename) {
       task.labels.push('complex');
     }
   }
-  
+
   // Figma integration
   if (task.title.match(/figma|code connect/i)) {
     task.labels.push('🎨 figma');
   }
-  
+
   // Storybook
   if (task.title.match(/storybook/i)) {
     task.labels.push('📖 storybook');
   }
-  
+
   // 4. PRIORITY LABELS
   if (task.priority === 'Critical') {
     task.labels.push('🔴 critical');
@@ -227,7 +234,7 @@ function parseTaskFile(filePath, directory, filename) {
   } else if (task.priority === 'Medium') {
     task.labels.push('🟡 medium-priority');
   }
-  
+
   // 5. PHASE LABELS
   if (task.phase && task.phase.includes('Phase 0')) {
     task.labels.push('📍 phase-0');
@@ -244,30 +251,30 @@ function parseTaskFile(filePath, directory, filename) {
   } else if (task.phase && task.phase.includes('Phase 4')) {
     task.labels.push('📍 phase-4');
   }
-  
+
   // 6. STATUS LABELS
   if (directory === 'completed') {
     task.labels.push('✅ completed');
   } else {
     task.labels.push('📋 todo');
   }
-  
+
   // Add blocked label if has unmet dependencies
   if (task.requires.length > 0) {
     task.labels.push('🚧 has-dependencies');
   }
-  
+
   // 7. SPECIAL CATEGORIES
   // Accessibility
   if (task.title.match(/accessibility|a11y|wcag|aria/i)) {
     task.labels.push('♿ accessibility');
   }
-  
+
   // Performance
   if (task.title.match(/performance|optimization|bundle/i)) {
     task.labels.push('⚡ performance');
   }
-  
+
   // Security
   if (task.title.match(/security|audit/i)) {
     task.labels.push('🔒 security');
@@ -310,7 +317,7 @@ function scanTasksDirectory(dirPath, relativePath = '') {
       const directory = path.basename(dirPath);
       try {
         const task = parseTaskFile(fullPath, directory, entry.name);
-        
+
         // Only add if has valid title and ID
         if (task.title && task.taskId) {
           tasks.push(task);
@@ -343,9 +350,11 @@ function main() {
   const allTasks = scanTasksDirectory(tasksDir);
 
   // Filter out completed tasks (you can change this)
-  const tasks = allTasks.filter(task => !task.labels.includes('completed'));
+  const tasks = allTasks.filter((task) => !task.labels.includes('completed'));
 
-  console.log(`📋 Found ${tasks.length} tasks (${allTasks.length - tasks.length} completed tasks excluded)`);
+  console.log(
+    `📋 Found ${tasks.length} tasks (${allTasks.length - tasks.length} completed tasks excluded)`
+  );
 
   // Sort by task ID
   tasks.sort((a, b) => {
@@ -356,9 +365,9 @@ function main() {
 
   // Generate CSV with required columns for bulk-issue-creator
   const csvLines = [
-    'repository,title,labels,assignees,milestone,task_id,priority,estimate,phase,task_file,requires,blocks'
+    'repository,title,labels,assignees,milestone,task_id,priority,estimate,phase,task_file,requires,blocks',
   ];
-  
+
   for (const task of tasks) {
     const row = [
       task.repository,
@@ -372,9 +381,9 @@ function main() {
       escapeCsv(task.phase),
       escapeCsv(task.taskFile),
       escapeCsv(task.requires.join(', ')),
-      escapeCsv(task.blocks.join(', '))
+      escapeCsv(task.blocks.join(', ')),
     ].join(',');
-    
+
     csvLines.push(row);
   }
 
@@ -389,10 +398,10 @@ function main() {
   // Show statistics
   const stats = {
     byPriority: {},
-    byPhase: {}
+    byPhase: {},
   };
 
-  tasks.forEach(task => {
+  tasks.forEach((task) => {
     stats.byPriority[task.priority] = (stats.byPriority[task.priority] || 0) + 1;
     if (task.milestone) {
       stats.byPhase[task.milestone] = (stats.byPhase[task.milestone] || 0) + 1;
@@ -418,4 +427,3 @@ function main() {
 
 // Run the script
 main();
-

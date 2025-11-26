@@ -6,12 +6,12 @@
   "scripts": {
     "prestorybook": "pnpm --filter @dsai/tokens build",
     "storybook": "storybook dev -p 6006",
-    "kill": "bash ../../tools/scripts/kill-storybook.sh",
+    "kill": "bash ../../tools/scripts/storybook/kill-storybook.sh",
     "stop": "pnpm kill",
     "prebuild": "pnpm --filter @dsai/tokens build",
     "build": "storybook build -o ./storybook-static",
     "build-storybook": "pnpm build",
-    "verify": "bash ../../tools/scripts/verify-storybook.sh",
+    "verify": "bash ../../tools/scripts/storybook/verify-storybook.sh",
     "test": "test-storybook",
     "test-storybook": "test-storybook"
   },

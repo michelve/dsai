@@ -20,7 +20,7 @@
  *
  * TODO: Add dark mode validation when dark mode is implemented
  *
- * Usage: node tools/scripts/validate-figma-tokens.js
+ * Usage: node tools/scripts/tokens/validate-figma-tokens.js
  *
  * @see TASK-011-design-json-token-structure.md
  */

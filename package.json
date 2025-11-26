@@ -15,9 +15,10 @@
     "affected:test": "nx affected --target=test",
     "graph": "nx graph",
     "prepare": "husky",
-    "tokens:transform": "node tools/scripts/transform-figma-tokens.js",
-    "tokens:validate": "node tools/scripts/validate-tokens.js",
+    "tokens:transform": "node tools/scripts/tokens/transform-figma-tokens.js",
+    "tokens:validate": "node tools/scripts/tokens/validate-tokens.js",
     "tokens:build": "pnpm tokens:transform && pnpm tokens:validate",
+    "analyze:buttons": "node tools/scripts/analysis/analyze-button-usage.js",
     "figma:connect": "figma connect",
     "figma:publish": "figma connect publish",
     "figma:publish:dry": "figma connect publish --dry-run"

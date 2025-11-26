@@ -385,7 +385,7 @@ For issues or questions:
 
 1. Check this documentation
 2. Review validation error messages
-3. Check `tools/scripts/validate-figma-tokens.js` comments
+3. Check `tools/scripts/tokens/validate-figma-tokens.js` comments
 4. Create an issue in the repository
 
 ---
