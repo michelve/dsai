@@ -1,5 +1,20 @@
-import { forwardRef, memo, useCallback, useMemo, useState, type MouseEvent } from 'react';
+import {
+  forwardRef,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  type MouseEvent,
+} from 'react';
 
+import {
+  breadcrumbFSMReducer,
+  createInitialBreadcrumbFSMState,
+  expandEvent,
+  isExpanded as isFSMExpanded,
+  resetFromPropsEvent,
+} from './Breadcrumb.fsm';
 import type { BreadcrumbItemData, BreadcrumbItemProps, BreadcrumbProps } from './Breadcrumb.types';
 
 // =============================================================================
@@ -138,6 +153,9 @@ BreadcrumbItemComponent.displayName = 'BreadcrumbItem';
 // Memoize BreadcrumbItem for performance
 export const BreadcrumbItem = memo(BreadcrumbItemComponent);
 
+// Set displayName on the memoized component for DevTools
+BreadcrumbItem.displayName = 'BreadcrumbItem';
+
 // =============================================================================
 // Breadcrumb Component
 // =============================================================================
@@ -161,17 +179,26 @@ export const Breadcrumb = memo(
     },
     ref
   ) {
-    // Internal expanded state for uncontrolled mode
-    const [internalExpanded, setInternalExpanded] = useState(false);
-    const isExpanded = controlledExpanded ?? internalExpanded;
+    // FSM-based state management for expand/collapse behavior
+    const [fsmState, dispatch] = useReducer(
+      breadcrumbFSMReducer,
+      controlledExpanded,
+      createInitialBreadcrumbFSMState
+    );
 
-    // Handle ellipsis click with memoization
+    // Sync FSM state when controlled prop changes
+    useEffect(() => {
+      dispatch(resetFromPropsEvent(controlledExpanded));
+    }, [controlledExpanded]);
+
+    // Derive isExpanded from FSM state
+    const isExpanded = isFSMExpanded(fsmState);
+
+    // Handle ellipsis click - dispatch EXPAND event to FSM
     const handleEllipsisClick = useCallback((): void => {
-      if (controlledExpanded === undefined) {
-        setInternalExpanded(true);
-      }
+      dispatch(expandEvent());
       onExpand?.();
-    }, [controlledExpanded, onExpand]);
+    }, [onExpand]);
 
     // Build nav classes with memoization
     const navClasses = useMemo(() => {
@@ -272,6 +299,7 @@ export const Breadcrumb = memo(
         className={navClasses || undefined}
         style={style}
         id={id}
+        data-visual-state={fsmState.expandState}
       >
         {items ? renderWithItems() : renderWithChildren()}
       </nav>

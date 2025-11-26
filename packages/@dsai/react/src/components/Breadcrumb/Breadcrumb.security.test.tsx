@@ -18,7 +18,11 @@ describe('Breadcrumb - Security (HREF Validation & XSS Prevention)', () => {
     });
 
     it('blocks javascript: protocol in items mode', () => {
-      const items = [{ id: 'danger', label: 'Danger', href: 'javascript:alert("XSS")' }];
+      // Use two items so the first one is rendered as a link (not active)
+      const items = [
+        { id: 'danger', label: 'Danger', href: 'javascript:alert("XSS")' },
+        { id: 'current', label: 'Current' },
+      ];
       render(<Breadcrumb items={items} />);
       expect(screen.getByText('Danger').closest('a')).toHaveAttribute('href', '#');
     });
@@ -67,8 +71,10 @@ describe('Breadcrumb - Security (HREF Validation & XSS Prevention)', () => {
     });
 
     it('blocks data: protocol in items mode', () => {
+      // Use two items so the first one is rendered as a link (not active)
       const items = [
         { id: 'data', label: 'Data', href: 'data:text/html,<script>alert("XSS")</script>' },
+        { id: 'current', label: 'Current' },
       ];
       render(<Breadcrumb items={items} />);
       expect(screen.getByText('Data').closest('a')).toHaveAttribute('href', '#');
@@ -235,7 +241,11 @@ describe('Breadcrumb - Security (HREF Validation & XSS Prevention)', () => {
     });
 
     it('adds rel to external links in items mode', () => {
-      const items = [{ id: 'external', label: 'External', href: 'https://example.com' }];
+      // Use two items so the first one is rendered as a link (not active)
+      const items = [
+        { id: 'external', label: 'External', href: 'https://example.com' },
+        { id: 'current', label: 'Current' },
+      ];
       render(<Breadcrumb items={items} />);
       expect(screen.getByText('External').closest('a')).toHaveAttribute(
         'rel',
@@ -292,7 +302,8 @@ describe('Breadcrumb - Security (HREF Validation & XSS Prevention)', () => {
           </BreadcrumbItem>
         </Breadcrumb>
       );
-      const iconSpan = screen.getByText('🏠').parentElement;
+      // getByText returns the span that directly contains the icon text
+      const iconSpan = screen.getByText('🏠');
       expect(iconSpan).toHaveAttribute('aria-hidden', 'true');
     });
 
@@ -304,7 +315,8 @@ describe('Breadcrumb - Security (HREF Validation & XSS Prevention)', () => {
           </BreadcrumbItem>
         </Breadcrumb>
       );
-      const iconSpan = screen.getByText('📦').parentElement;
+      // getByText returns the span that directly contains the icon text
+      const iconSpan = screen.getByText('📦');
       expect(iconSpan).toHaveClass('me-1');
     });
 
