@@ -1,0 +1,97 @@
+/**
+ * FiletypeGifIcon
+ *
+ * Bootstrap Icons - React Component
+ * @see https://icons.getbootstrap.com/
+ *
+ * @accessibility
+ * - Decorative (default): No aria-label or title → aria-hidden="true"
+ * - Semantic: Pass aria-label for screen reader announcement
+ * - With title: Renders <title> element inside SVG
+ *
+ * @example Decorative (inside Button)
+ * ```tsx
+ * <Button startIcon={<FiletypeGifIcon />}>Click me</Button>
+ * ```
+ *
+ * @example Semantic (standalone)
+ * ```tsx
+ * <FiletypeGifIcon aria-label="Activity indicator" />
+ * ```
+ */
+import { forwardRef, useMemo } from 'react';
+import type { IconProps } from '../types';
+
+const ALLOWED_PROPS = [
+  'id',
+  'data-testid',
+  'data-icon',
+  'focusable',
+  'preserveAspectRatio',
+  'transform',
+  'opacity',
+] as const;
+
+export const FiletypeGifIcon = forwardRef<SVGSVGElement, IconProps>(
+  (
+    {
+      size = 16,
+      color = 'currentColor',
+      className,
+      title,
+      style: propStyle,
+      'aria-label': ariaLabel,
+      'aria-hidden': ariaHidden,
+      ...rest
+    },
+    ref
+  ) => {
+    const isDecorative = !ariaLabel && !title;
+
+    // Improved A11y: Prevent contradictory aria-hidden when labelled
+    // - Decorative → always hidden
+    // - With aria-label → never hidden (ignore user's aria-hidden)
+    // - With title only → respect user's aria-hidden
+    const computedAriaHidden = isDecorative ? true : ariaLabel ? undefined : ariaHidden;
+
+    const style = useMemo(
+      () => ({
+        width: typeof size === 'number' ? `${size}px` : size,
+        height: typeof size === 'number' ? `${size}px` : size,
+        ...propStyle,
+      }),
+      [size, propStyle]
+    );
+
+    const allowedProps: Record<string, unknown> = {};
+    for (const key of ALLOWED_PROPS) {
+      if (key in rest) {
+        allowedProps[key] = rest[key as keyof typeof rest];
+      }
+    }
+
+    return (
+      <svg
+        ref={ref}
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 16 16"
+        fill={color}
+        className={className}
+        style={style}
+        aria-hidden={computedAriaHidden}
+        aria-label={ariaLabel}
+        role={ariaLabel ? 'img' : undefined}
+        focusable="false"
+        {...allowedProps}
+      >
+        {title && <title>{title}</title>}
+        <path
+          fillRule="evenodd"
+          d="M14 4.5V14a2 2 0 0 1-2 2H9v-1h3a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM3.278 13.124a1.4 1.4 0 0 0-.14-.492 1.3 1.3 0 0 0-.314-.407 1.5 1.5 0 0 0-.48-.275 1.9 1.9 0 0 0-.636-.1q-.542 0-.926.229a1.5 1.5 0 0 0-.583.632 2.1 2.1 0 0 0-.199.95v.506q0 .408.105.745.105.336.32.58.213.243.533.377.323.132.753.132.402 0 .697-.111a1.29 1.29 0 0 0 .788-.77q.097-.261.097-.551v-.797H1.717v.589h.823v.255q0 .199-.09.363a.67.67 0 0 1-.273.264 1 1 0 0 1-.457.096.87.87 0 0 1-.519-.146.9.9 0 0 1-.305-.413 1.8 1.8 0 0 1-.096-.615v-.499q0-.547.234-.85.237-.3.665-.301a1 1 0 0 1 .3.044q.136.044.236.126a.7.7 0 0 1 .17.19.8.8 0 0 1 .097.25zm1.353 2.801v-3.999H3.84v4h.79Zm1.493-1.59v1.59h-.791v-3.999H7.88v.653H6.124v1.117h1.605v.638z"
+        />
+      </svg>
+    );
+  }
+);
+
+FiletypeGifIcon.displayName = 'FiletypeGifIcon';

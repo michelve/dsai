@@ -1,458 +1,411 @@
-Role
-
-You are a senior React + TypeScript + Design System engineer.
+ou are a senior React + TypeScript + Design System engineer.
 You have full read/write access to my monorepo.
 
-Your task is to:
+Your job is to:
 
-Scan the codebase and understand the current design system structure.
+Analyze the existing Alert implementation and its tests.
 
-Design and implement a Button component that uses:
+Introduce a small, explicit Finite State Machine (FSM) for alert visibility/dismissal that reflects the existing behavior (show, dismissible, onClose, Escape).
 
-a finite state machine (FSM) for visual states
+Preserve all current semantics:
 
-design tokens for styling
+Bootstrap 5 styling (alert-\*).
 
-my existing patterns (tokens, CSS, Bootstrap, etc.)
+Security guarantees (href validation, external link protection, prop whitelisting).
 
-Keep the existing API compatible (or provide a clear migration path).
+Accessibility (roles, aria-live, aria-atomic, icon handling, keyboard behavior).
 
-Add tests and stories following the current project standards.
+Keep the public API compatible (or provide a clear migration note).
 
-Do not invent fake tokens or patterns. Reuse what exists.
+Do not invent new features such as auto-dismiss timers unless the codebase already uses them. FSM is for structuring the existing behavior, not adding speculative behavior.
 
-Phase 1 – Discover the Current Design System
+Phase 1 – Discover and Summarize the Current Alert
 
-Find the design system packages and components
+Locate the Alert files (in the DS package):
 
-Search the repo for:
+Alert.tsx (core implementation).
 
-Button.tsx, button.tsx, Button/index.tsx
+Alert.types.ts (types).
 
-Checkbox.tsx, Input.tsx, Switch.tsx
+Alert.test.tsx (behavior + a11y tests for Alert, Alert.Link, Alert.Heading).
 
-@dsai/ packages or any DS packages
+Alert.security.test.tsx (href + title security tests).
 
-Identify:
+index.ts where Alert is exported (if applicable).
 
-the main React DS package (for example packages/dsai-react or similar)
+Any README or docs for Alert; if none exist, note that.
 
-the main tokens package (for example packages/@dsai/tokens or similar)
+Summarize current props and behavior
 
-Inspect the existing Button (if present)
+From Alert.types.ts and tests, identify:
 
-For each Button component you find:
+AlertProps:
 
-Record:
+children (content).
 
-file path
+variant (primary | secondary | success | danger | warning | info | light | dark).
 
-current props interface
+title (string, rendered as heading using Alert.Heading).
 
-supported variants, sizes, and states (disabled, loading, etc.)
+dismissible (boolean).
 
-how CSS classes are applied (Bootstrap, utility classes, custom CSS)
+onClose (required when dismissible is true).
 
-how tokens or CSS variables are used
+icon (ReactNode, optional).
 
-Check for:
+show (boolean, controls whether the alert is rendered).
 
-tests (_.test.tsx / _.spec.tsx)
+as (element type, defaults to div).
 
-Storybook stories (\*.stories.tsx)
+aria-atomic (defaults to true).
 
-MD/MDX docs for the Button
+id, className, style, data-testid, data-test, title attribute, and other safe HTML attributes from SafeAlertHTMLAttributes.
 
-Inspect token structure
+Alert.Link props:
 
-Search for the tokens package, likely in:
+href (validated URL).
 
-packages/@dsai/tokens/
+onClick, className, target, rel, data-testid, data-test, title.
 
-or any tokens directory
+Alert.Heading props:
 
-Identify:
+children.
 
-global color tokens
+as (h1–h6, default h4).
 
-component tokens (especially for button, if any)
+className.
 
-how tokens are exported (TS, JSON, CSS variables)
+Summarize current behavior (from Alert.tsx and tests)
 
-Note:
+Confirm:
 
-if there is a useTokens, useTheme, or similar hook/context in the React DS package
+Rendering:
 
-any existing button token definitions (names, shape, variants, sizes, motion)
+Default: <div class="alert alert-primary" role="status" aria-live="polite" aria-atomic="true">.
 
-Inspect DS patterns via another component
+show={false} → returns null (no DOM).
 
-Pick one or two components as a reference, for example:
+as="section" → <section class="alert …">.
 
-Checkbox
+Variants:
 
-Input
+All 8 variants map to alert-{variant} and base alert class.
 
-Switch
+Default variant is primary.
 
-Extract:
+Dismissible:
 
-how props are defined and typed
+dismissible + onClose:
 
-how error, helper text, disabled states are handled
+adds alert-dismissible, fade, show classes.
 
-how tokens are integrated (CSS variables, classes, inline styles)
+renders a close button with class="btn-close" and aria-label="Close".
 
-how testing and stories are structured for these components
+clicking close calls onClose once.
 
-Use these as conventions to follow for the new Button.
+Escape key:
 
-Report
+when dismissible && onClose, keydown on document with key === 'Escape' calls onClose.
 
-Produce a short internal summary (not for docs) that includes:
+when not dismissible, Escape does not call onClose.
 
-main DS package path
+Title & Heading:
 
-tokens package path
+title prop renders an AlertHeading with alert-heading class and default heading level.
 
-current Button component path and API (if exists)
+<Alert.Heading> can override as.
 
-token shape for buttons (if exists)
+If no title, no .alert-heading exists.
 
-common patterns used in other components (Checkbox/Input)
+Icons:
 
-Use this summary to drive the next phases.
+When icon is provided: wrapper <span class="me-2 d-inline-flex align-items-center" aria-hidden="true">.
 
-Phase 2 – Design the Button API and FSM
+When no icon, no [aria-hidden="true"] wrapper.
 
-Based on the existing codebase and patterns, do NOT invent new naming schemes.
-Follow the current conventions as much as possible.
+ARIA:
 
-Define visual states for the button
+role is:
 
-Use a union type similar to:
+'alert' for danger and warning.
 
-type ButtonVisualState =
-| "idle"
-| "hovered"
-| "focused"
-| "pressed"
-| "disabled"
-| "loading"
-| "error";
+'status' for other variants.
 
-Adjust the exact values to match any existing state naming patterns if they exist.
+aria-live is:
 
-Define Button props
+'assertive' for danger.
 
-Extend the existing Button props if a Button already exists.
+'polite' for others.
 
-Otherwise, create ButtonProps and BaseButtonProps that follow:
+aria-atomic defaults to true, can be overridden via aria-atomic={false}.
 
-existing design system prop naming
+Summarize security behavior
 
-existing variant and size names
+From Alert.tsx and Alert.security.test.tsx:
 
-Include at least:
+isSafeHref:
 
-variant (e.g. primary, secondary, ghost, danger or the existing ones)
+blocks javascript:, data:, text/html, vbscript:, file:, about:blank, etc.
 
-size (e.g. sm, md, lg or the existing ones)
+Alert.Link:
 
-disabled
+invalid or unsafe href → uses '#'.
 
-loading
+target="\_blank" → forces rel="noopener noreferrer".
 
-error
+Title attribute:
 
-type ("button" | "submit" | "reset")
+Alert and Alert.Link titles are independent: alert title attr does not override link title, and vice versa.
 
-children
+Produce a short internal summary for yourself and use it as the source of truth before introducing an FSM.
 
-Design the FSM reducer
+Phase 2 – Design the Alert FSM (Visibility / Dismissal)
 
-Create a pure reducer that manages ButtonVisualState based on events:
+Introduce a minimal FSM that models the visibility lifecycle of an alert, respecting the existing show, dismissible, and onClose semantics.
 
-Events: HOVER, BLUR, FOCUS, PRESS, RELEASE, DISABLE, ENABLE, LOADING, ERROR.
+Define state type
 
-Rules:
+Start with something like:
 
-DISABLE → always “disabled”
+type AlertVisibilityState = "visible" | "hidden";
 
-LOADING(true) → “loading”
+You may optionally add dismissing if you need a future animation hook, but do not change external behavior while introducing it.
 
-ERROR(true) → “error”
+Define events
 
-Hover/press/focus do nothing when disabled or loading
+Map events directly from current behavior:
 
-Keep the reducer small, deterministic, and fully tested.
+SHOW – external request to show (e.g. show prop becomes true).
 
-Phase 3 – Implement BaseButton (Presentational, Token-Driven)
+HIDE – external request to hide (e.g. show prop becomes false).
 
-Location and file structure
+DISMISS_CLICK – close button click.
 
-In the React DS package (the one you identified), create or update:
+DISMISS_ESCAPE – Escape key press when dismissible.
 
-src/button/button.types.ts
+Define transitions
 
-src/button/button.fsm.ts
+Start from the current logic:
 
-src/button/BaseButton.tsx
+From "visible":
 
-src/button/Button.tsx
+HIDE → "hidden".
 
-Adjust paths to match the repo’s existing patterns.
+DISMISS_CLICK → "hidden".
 
-BaseButton responsibilities
+DISMISS_ESCAPE (only when dismissible) → "hidden".
 
-Receives:
+From "hidden":
 
-layout and styling props
+SHOW → "visible".
 
-data-visual-state (the visual state from the FSM)
+Dismiss events → stay "hidden" (no-op).
 
-Uses:
+The FSM should not attempt to manage variant or icons; only visibility/dismissal, because that is what exists today.
 
-design tokens from the existing tokens package or theme context
+FSM shape
 
-Applies:
+In a new module Alert.fsm.ts:
 
-background color, text color, border color
+export type AlertFSMState = { visibility: AlertVisibilityState }.
 
-height, padding, radius, font size
+export type AlertFSMEvent = { type: "SHOW" | "HIDE" | "DISMISS_CLICK" | "DISMISS_ESCAPE" }.
 
-transitions and press scale based on tokens
+export function createInitialAlertFSMState(show: boolean): AlertFSMState.
 
-Renders:
+export function alertFSMReducer(state: AlertFSMState, event: AlertFSMEvent): AlertFSMState.
 
-a native <button> element
+Phase 3 – Implement and Test the FSM in Isolation
 
-a spinner element when loading is true (use existing spinner if available)
+FSM tests
 
-a label wrapper around children
+Create Alert.fsm.test.ts:
 
-Token integration
+Initial state:
 
-Do NOT invent new token names if button tokens already exist. Use them.
+createInitialAlertFSMState(true) → visibility: "visible".
 
-If button tokens do not exist:
+createInitialAlertFSMState(false) → visibility: "hidden".
 
-create a minimal button token entry that fits the current token design
+Transitions:
 
-expose it from the tokens package
+visible + HIDE → hidden.
 
-Use tokens through:
+visible + DISMISS_CLICK → hidden.
 
-an existing token hook/context (for example useTokens, useTheme, useDsaiTokens)
+visible + DISMISS_ESCAPE (dismissible) → hidden; for FSM, you can treat this as just a DISMISS event.
 
-or direct imports if that’s how the repo works
+hidden + SHOW → visible.
 
-CSS / class handling
+Idempotency:
 
-Reuse the existing class naming scheme (e.g. btn, dsai-btn, etc.).
+hidden + DISMISS\_\* → stays hidden.
 
-If Bootstrap is used:
+visible + SHOW → stays visible.
 
-combine tokens with Bootstrap classes instead of replacing them.
+Keep it pure and well-typed.
 
-Ensure:
+Phase 4 – Integrate FSM into Alert.tsx
 
-focus-visible is styled according to a11y expectations
+Adapt the existing AlertBase to use the FSM for visibility, without changing the public API.
 
-disabled state uses the correct cursor and visual style
+Introduce useReducer
 
-Phase 4 – Implement Button (FSM + Events)
+Inside AlertBase:
 
-Button responsibilities
+Initialize FSM state from show prop:
 
-Wraps BaseButton.
+const [fsmState, dispatch] = useReducer(
+alertFSMReducer,
+createInitialAlertFSMState(show)
+);
 
-Owns the FSM state (ButtonVisualState).
+Synchronize external show prop with FSM:
 
-Syncs FSM with external props:
+useEffect(() => {
+dispatch({ type: show ? "SHOW" : "HIDE" });
+}, [show]);
 
-when disabled changes, dispatch DISABLE/ENABLE
+Wire dismiss triggers to FSM
 
-when loading changes, dispatch LOADING
+Close button onClick:
 
-when error changes, dispatch ERROR
+Dispatch DISMISS_CLICK.
 
-Hooks DOM events:
+Call onClose if provided (to keep current behavior).
 
-onMouseEnter → HOVER
+Escape key handler:
 
-onMouseLeave → BLUR
+When dismissible && onClose:
 
-onMouseDown → PRESS (for left click)
+Dispatch DISMISS_ESCAPE.
 
-onMouseUp → RELEASE
+Call onClose.
 
-onFocus → FOCUS
+Preserve the existing document-level keydown registration pattern, but move the visibility decision through the FSM instead of directly.
 
-onBlur → BLUR
+Rendering based on FSM
 
-For each event:
+Replace if (!show) return null; with:
 
-dispatch the FSM event
+if (fsmState.visibility === "hidden") {
+return null;
+}
 
-call the user’s original handler (if provided)
+This ensures all visibility/dismiss logic flows through the FSM.
 
-Click behavior
+Optional: data-visual-state attribute
 
-If disabled or loading is true, prevent click (do nothing).
+For debugging and analytics (similar to Button), you may add:
 
-Otherwise, call onClick normally.
+data-visual-state={fsmState.visibility}
 
-Prop compatibility
+to the root <Component> so tests or consumers can inspect the state. Use a non-breaking default.
 
-Preserve the existing Button API as much as possible.
+Keep everything else as-is
 
-If you need to rename or add props:
+Do not change:
 
-maintain backward compatibility where reasonable
+role / aria-live / aria-atomic logic.
 
-or note the required changes clearly in JSDoc or comments
+icon wrapper behavior.
 
-Exports
+Alert.Link and Alert.Heading implementations and memoization.
 
-Ensure that the main DS entry point continues to export Button in the same way as before.
+Bootstrap classes computation (alert, alert-${variant}, alert-dismissible, fade show).
 
-If you introduce Button and BaseButton, decide:
+prop whitelist and security behavior.
 
-which one is the default export for external consumers (most likely Button)
+Phase 5 – Re-run and Extend Tests
 
-how to expose BaseButton for advanced internal use, if needed.
+Existing tests must pass untouched
 
-Phase 5 – Tests and Stories
+All of Alert.test.tsx must still pass without modification, including:
 
-Unit tests
+variants, titles, dismissible behavior, Escape key behavior, icons, Alert.Link, Alert.Heading, custom styling, HTML attributes, aria-live, aria-atomic, ref forwarding.
 
-Add or update tests under the existing test directory, for example:
+All of Alert.security.test.tsx must still pass unchanged.
 
-tests/button/Button.test.tsx
+If any tests break after FSM integration, fix the implementation first rather than relaxing tests.
 
-Use the same test framework (Jest / Vitest) and helpers (RTL) already used.
+Add FSM-specific integration tests
 
-Cover at least:
+Extend Alert.test.tsx minimally:
 
-renders with children
+Confirm that show={false} → DOM is empty, both initially and after toggling.
 
-disabled prevents onClick
+Confirm that:
 
-loading shows spinner and sets aria-busy="true"
+initial show={true}, click close → no alert in DOM.
 
-FSM updates data-visual-state for hover, press, etc. (smoke tests)
+initial show={true}, Escape → no alert in DOM when dismissible.
 
-tokens are applied (basic assertion on style or className)
+show toggled from false to true after mount → alert appears (FSM handles SHOW).
 
-Storybook stories (if used)
+If you added data-visual-state, you can assert:
 
-Add or update stories, e.g. Button.stories.tsx.
+visible → data-visual-state="visible".
 
-Provide stories for:
+after dismissal → no element or data-visual-state="hidden" if you choose to keep the node for animations later.
 
-primary/secondary variants
+Phase 6 – Documentation and Exports
 
-sizes
+Export FSM utilities (optional but preferred)
 
-disabled
+In the Alert module index (e.g. index.ts under the Alert folder, or the central DS index if that’s where you aggregate):
 
-loading
+Export alertFSMReducer, createInitialAlertFSMState, AlertFSMState, AlertFSMEvent, to align with how Button FSM utilities are exported.
 
-with icon, with only icon (ensure a11y label)
+Documentation
 
-error state (if visually distinct)
+If there is an Alert README already:
 
-A11y checks
+Add a short “Internal FSM” section explaining that:
 
-Ensure:
+visibility is modeled as an FSM,
 
-Button has type default set sensibly (usually "button").
+show, dismissible, and Escape/close integrate with it.
 
-Icon-only buttons require aria-label or aria-labelledby.
+If no Alert README exists:
 
-Loading state uses aria-busy and does not break screen readers.
+Create README.md for Alert with:
 
-Phase 6 – Optional: AI/Analyzer Integration (Lint-Style)
+props table (Alert, Alert.Link, Alert.Heading),
 
-If the repo already has tooling (Node scripts, CLI, ESLint rules), do this:
+behavior descriptions (variants, role/aria-live, dismissible, Escape),
 
-Create a small analyzer utility
+security guarantees (href validation, external link protection),
 
-New folder, e.g. tools/dsai-analyzer/.
+one short paragraph about FSM-based visibility.
 
-Implement a script that:
+Phase 7 – Final Validation
 
-scans TSX files
-
-finds <Button /> / <Button /> usages
-
-extracts props (variant, size, disabled, loading, children)
-
-prints warnings for:
-
-icon-only buttons without accessible name
-
-buttons using “danger” variant without clear copy (e.g. “Delete”)
-
-missing type on form buttons if that’s a rule
-
-No magic
-
-This analyzer can be simple at first.
-
-Later, I will connect it to an LLM, but for now, just structure the code and CLI.
-
-Add a package.json script
-
-Add something like:
-
-"dsai:analyze:buttons": "node tools/dsai-analyzer/dist/cli.js"
-
-Phase 7 – Validation and Summary
-
-Run the existing project checks:
+Run the usual project checks:
 
 lint
 
 typecheck
 
-tests
+unit tests
 
-Storybook build (if configured)
+any a11y tests (jest-axe) if configured at the suite level
 
-Fix any regressions or type issues.
+Output a short summary with:
 
-Produce a short summary in a Markdown file inside the repo, e.g.:
+Files created/modified (Alert.fsm.ts, Alert.fsm.test.ts, updated Alert.tsx, index/docs).
 
-docs/design-system/button-smart-fsm.md
+Final AlertFSMState and AlertFSMEvent shapes.
 
-Summarize:
+Confirmation that existing tests passed unchanged.
 
-where the new Button lives
+New tests added and what they guarantee.
 
-how its API looks (props table)
+Important constraints
 
-how the FSM works
+Do not add speculative features (auto-dismiss timers, new props) unless they already exist.
 
-how tokens are applied
+Do not change public Alert props shape without a clear migration note.
 
-how to migrate from old Button usage (if needed)
+Use tests and current behavior as the canonical spec.
 
-Very Important Constraints
-
-Do not invent fake token names or random design decisions.
-
-Always read the existing code and follow its patterns.
-
-Keep changes minimal and aligned with the current design system.
-
-If there are multiple button implementations, pick the main shared design system one, not random app-local buttons.
-
-When you finish, output:
-
-A list of files you created or modified.
-
-The final Button API (props list).
-
-Any breaking changes or migration notes in clear, concise bullet points.
+Keep Alert’s FSM as focused and small as possible: it is there for predictability and testability, not to complicate the API.

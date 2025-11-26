@@ -13,23 +13,15 @@
 export type { AlertHeadingProps, AlertLinkProps, AlertProps, AlertVariant } from './Alert';
 // Alert
 export { Alert } from './Alert';
-
+export type { BadgeProps, BadgeVariant } from './Badge';
+// Badge
+export { Badge } from './Badge';
+export type { BreadcrumbItemData, BreadcrumbItemProps, BreadcrumbProps } from './Breadcrumb';
 // Breadcrumb
 export { Breadcrumb, BreadcrumbItem } from './Breadcrumb';
-export type { BreadcrumbItemData, BreadcrumbItemProps, BreadcrumbProps } from './Breadcrumb';
-
-// Card
-export {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  CardImage,
-  CardImgOverlay,
-  CardLink,
-  CardText,
-  CardTitle,
-} from './Card';
+export type { ButtonProps, ButtonSize, ButtonType, ButtonVariant } from './Button';
+// Button
+export { Button } from './Button';
 export type {
   CardBodyProps,
   CardColor,
@@ -43,34 +35,28 @@ export type {
   CardTitleProps,
   CardVariant,
 } from './Card';
-export type { BadgeProps, BadgeVariant } from './Badge';
-// Badge
-export { Badge } from './Badge';
-export type { ButtonProps, ButtonSize, ButtonType, ButtonVariant } from './Button';
-// Button
-export { Button } from './Button';
-export type { SpinnerAnimation, SpinnerProps, SpinnerSize, SpinnerVariant } from './Spinner';
-// Spinner
-export { Spinner } from './Spinner';
-
-// Progress
-export { Progress } from './Progress';
-export type { ProgressProps, ProgressBarProps, ProgressVariant, ProgressSize } from './Progress';
-
+// Card
+export {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  CardImage,
+  CardImgOverlay,
+  CardLink,
+  CardText,
+  CardTitle,
+} from './Card';
+export type { CheckboxProps } from './Checkbox';
 // Checkbox
 export { Checkbox } from './Checkbox';
-export type { CheckboxProps } from './Checkbox';
-
-// Radio
-export { Radio, RadioGroup } from './Radio';
-export type { RadioProps, RadioGroupProps } from './Radio';
-
+// Icons - Bootstrap Icons as React components
+// Re-export all icons and types from the Icon folder
+export * from './Icon';
+export type { IconComponent, IconProps } from './Icon/types';
+export type { InputProps, InputSize, InputType } from './Input';
 // Input
 export { Input } from './Input';
-export type { InputProps, InputSize, InputType } from './Input';
-
-// ListGroup
-export { ListGroup, ListGroupItem } from './ListGroup';
 export type {
   ListGroupItemData,
   ListGroupItemProps,
@@ -78,17 +64,23 @@ export type {
   ListGroupProps,
   ListGroupVariant,
 } from './ListGroup';
-
+// ListGroup
+export { ListGroup, ListGroupItem } from './ListGroup';
+export type { ProgressBarProps, ProgressProps, ProgressSize, ProgressVariant } from './Progress';
+// Progress
+export { Progress } from './Progress';
+export type { RadioGroupProps, RadioProps } from './Radio';
+// Radio
+export { Radio, RadioGroup } from './Radio';
+export type { SelectOption, SelectOptionGroup, SelectProps, SelectSize } from './Select';
 // Select
 export { Select } from './Select';
-export type { SelectOption, SelectOptionGroup, SelectProps, SelectSize } from './Select';
-
+export type { SpinnerAnimation, SpinnerProps, SpinnerSize, SpinnerVariant } from './Spinner';
+// Spinner
+export { Spinner } from './Spinner';
+export type { SwitchProps, SwitchSize } from './Switch';
 // Switch
 export { Switch } from './Switch';
-export type { SwitchProps, SwitchSize } from './Switch';
-
-// Tabs
-export { Tab, TabList, TabPanel, Tabs } from './Tabs';
 export type {
   TabItem,
   TabListProps,
@@ -98,3 +90,5 @@ export type {
   TabsProps,
   TabsVariant,
 } from './Tabs';
+// Tabs
+export { Tab, TabList, TabPanel, Tabs } from './Tabs';

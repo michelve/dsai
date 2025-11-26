@@ -1,0 +1,94 @@
+/**
+ * HighlightsIcon
+ *
+ * Bootstrap Icons - React Component
+ * @see https://icons.getbootstrap.com/
+ *
+ * @accessibility
+ * - Decorative (default): No aria-label or title → aria-hidden="true"
+ * - Semantic: Pass aria-label for screen reader announcement
+ * - With title: Renders <title> element inside SVG
+ *
+ * @example Decorative (inside Button)
+ * ```tsx
+ * <Button startIcon={<HighlightsIcon />}>Click me</Button>
+ * ```
+ *
+ * @example Semantic (standalone)
+ * ```tsx
+ * <HighlightsIcon aria-label="Activity indicator" />
+ * ```
+ */
+import { forwardRef, useMemo } from 'react';
+import type { IconProps } from '../types';
+
+const ALLOWED_PROPS = [
+  'id',
+  'data-testid',
+  'data-icon',
+  'focusable',
+  'preserveAspectRatio',
+  'transform',
+  'opacity',
+] as const;
+
+export const HighlightsIcon = forwardRef<SVGSVGElement, IconProps>(
+  (
+    {
+      size = 16,
+      color = 'currentColor',
+      className,
+      title,
+      style: propStyle,
+      'aria-label': ariaLabel,
+      'aria-hidden': ariaHidden,
+      ...rest
+    },
+    ref
+  ) => {
+    const isDecorative = !ariaLabel && !title;
+
+    // Improved A11y: Prevent contradictory aria-hidden when labelled
+    // - Decorative → always hidden
+    // - With aria-label → never hidden (ignore user's aria-hidden)
+    // - With title only → respect user's aria-hidden
+    const computedAriaHidden = isDecorative ? true : ariaLabel ? undefined : ariaHidden;
+
+    const style = useMemo(
+      () => ({
+        width: typeof size === 'number' ? `${size}px` : size,
+        height: typeof size === 'number' ? `${size}px` : size,
+        ...propStyle,
+      }),
+      [size, propStyle]
+    );
+
+    const allowedProps: Record<string, unknown> = {};
+    for (const key of ALLOWED_PROPS) {
+      if (key in rest) {
+        allowedProps[key] = rest[key as keyof typeof rest];
+      }
+    }
+
+    return (
+      <svg
+        ref={ref}
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 16 16"
+        fill={color}
+        className={className}
+        style={style}
+        aria-hidden={computedAriaHidden}
+        aria-label={ariaLabel}
+        role={ariaLabel ? 'img' : undefined}
+        focusable="false"
+        {...allowedProps}
+      >
+        {title && <title>{title}</title>}
+        <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0m-8 5v1H4.5a.5.5 0 0 0-.093.009A7 7 0 0 1 3.1 13zm0-1H2.255a7 7 0 0 1-.581-1H8zm-6.71-2a7 7 0 0 1-.22-1H8v1zM1 8q0-.51.07-1H8v1zm.29-2q.155-.519.384-1H8v1zm.965-2q.377-.54.846-1H8v1zm2.137-2A6.97 6.97 0 0 1 8 1v1z" />
+      </svg>
+    );
+  }
+);
+
+HighlightsIcon.displayName = 'HighlightsIcon';

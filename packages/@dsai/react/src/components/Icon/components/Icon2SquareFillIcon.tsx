@@ -1,0 +1,94 @@
+/**
+ * Icon2SquareFillIcon
+ *
+ * Bootstrap Icons - React Component
+ * @see https://icons.getbootstrap.com/
+ *
+ * @accessibility
+ * - Decorative (default): No aria-label or title → aria-hidden="true"
+ * - Semantic: Pass aria-label for screen reader announcement
+ * - With title: Renders <title> element inside SVG
+ *
+ * @example Decorative (inside Button)
+ * ```tsx
+ * <Button startIcon={<Icon2SquareFillIcon />}>Click me</Button>
+ * ```
+ *
+ * @example Semantic (standalone)
+ * ```tsx
+ * <Icon2SquareFillIcon aria-label="Activity indicator" />
+ * ```
+ */
+import { forwardRef, useMemo } from 'react';
+import type { IconProps } from '../types';
+
+const ALLOWED_PROPS = [
+  'id',
+  'data-testid',
+  'data-icon',
+  'focusable',
+  'preserveAspectRatio',
+  'transform',
+  'opacity',
+] as const;
+
+export const Icon2SquareFillIcon = forwardRef<SVGSVGElement, IconProps>(
+  (
+    {
+      size = 16,
+      color = 'currentColor',
+      className,
+      title,
+      style: propStyle,
+      'aria-label': ariaLabel,
+      'aria-hidden': ariaHidden,
+      ...rest
+    },
+    ref
+  ) => {
+    const isDecorative = !ariaLabel && !title;
+
+    // Improved A11y: Prevent contradictory aria-hidden when labelled
+    // - Decorative → always hidden
+    // - With aria-label → never hidden (ignore user's aria-hidden)
+    // - With title only → respect user's aria-hidden
+    const computedAriaHidden = isDecorative ? true : ariaLabel ? undefined : ariaHidden;
+
+    const style = useMemo(
+      () => ({
+        width: typeof size === 'number' ? `${size}px` : size,
+        height: typeof size === 'number' ? `${size}px` : size,
+        ...propStyle,
+      }),
+      [size, propStyle]
+    );
+
+    const allowedProps: Record<string, unknown> = {};
+    for (const key of ALLOWED_PROPS) {
+      if (key in rest) {
+        allowedProps[key] = rest[key as keyof typeof rest];
+      }
+    }
+
+    return (
+      <svg
+        ref={ref}
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 16 16"
+        fill={color}
+        className={className}
+        style={style}
+        aria-hidden={computedAriaHidden}
+        aria-label={ariaLabel}
+        role={ariaLabel ? 'img' : undefined}
+        focusable="false"
+        {...allowedProps}
+      >
+        {title && <title>{title}</title>}
+        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm4.646 6.24v.07H5.375v-.064c0-1.213.879-2.402 2.637-2.402 1.582 0 2.613.949 2.613 2.215 0 1.002-.6 1.667-1.287 2.43l-.096.107-1.974 2.22v.077h3.498V12H5.422v-.832l2.97-3.293c.434-.475.903-1.008.903-1.705 0-.744-.557-1.236-1.313-1.236-.843 0-1.336.615-1.336 1.306" />
+      </svg>
+    );
+  }
+);
+
+Icon2SquareFillIcon.displayName = 'Icon2SquareFillIcon';
