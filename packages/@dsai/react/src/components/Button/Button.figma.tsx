@@ -105,29 +105,3 @@ figma.connect(Button, '<FIGMA_DSAI_BUTTON>', {
     </Button>
   ),
 });
-
-/**
- * TODO: Icon Button mapping
- *
- * When Icon Button component is implemented, add a second figma.connect() call:
- *
- * figma.connect(Button, '<FIGMA_DSAI_ICON_BUTTON>', {
- *   props: {
- *     variant: figma.enum('Variant', { Primary: 'primary', ... }),
- *     icon: figma.instance('Icon'),
- *     iconPosition: figma.enum('Icon Position', {
- *       'Leading': 'leading',
- *       'Trailing': 'trailing',
- *       'Icon Only': 'icon-only',
- *     }),
- *     children: figma.string('Label'),
- *   },
- *   example: ({ variant, icon, iconPosition, children }) => (
- *     <Button variant={variant}>
- *       {iconPosition === 'leading' && icon}
- *       {children}
- *       {iconPosition === 'trailing' && icon}
- *     </Button>
- *   ),
- * });
- */
