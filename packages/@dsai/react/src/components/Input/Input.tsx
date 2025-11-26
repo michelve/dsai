@@ -1,4 +1,13 @@
-import { forwardRef, useId, useState, type ChangeEvent, type FocusEvent } from 'react';
+import {
+  type ChangeEvent,
+  type FocusEvent,
+  forwardRef,
+  memo,
+  useCallback,
+  useId,
+  useMemo,
+  useState,
+} from 'react';
 
 import type { InputProps, InputSize } from './Input.types';
 
@@ -10,6 +19,123 @@ const sizeClassMap: Record<InputSize, string> = {
   md: '',
   lg: 'form-control-lg',
 };
+
+/**
+ * Safe whitelist of HTML attributes allowed on input element
+ * Blocks all event handlers and dangerous attributes
+ */
+const SAFE_INPUT_ATTRIBUTES = {
+  accept: true,
+  acceptCharset: true,
+  alt: true,
+  autoComplete: true,
+  autoFocus: true,
+  capture: true,
+  contentEditable: true,
+  crossOrigin: true,
+  data: true,
+  datatype: true,
+  defaultValue: true,
+  dir: true,
+  disabled: true,
+  draggable: true,
+  form: true,
+  formEncType: true,
+  formMethod: true,
+  formNoValidate: true,
+  formTarget: true,
+  height: true,
+  hidden: true,
+  lang: true,
+  list: true,
+  max: true,
+  maxLength: true,
+  min: true,
+  minLength: true,
+  multiple: true,
+  name: true,
+  pattern: true,
+  placeholder: true,
+  prefix: true,
+  property: true,
+  readOnly: true,
+  required: true,
+  resource: true,
+  rev: true,
+  role: true,
+  spellCheck: true,
+  step: true,
+  style: true,
+  tabIndex: true,
+  title: true,
+  translate: true,
+  typeof: true,
+  value: true,
+  vocab: true,
+  width: true,
+  // ARIA attributes
+  'aria-activedescendant': true,
+  'aria-atomic': true,
+  'aria-autocomplete': true,
+  'aria-busy': true,
+  'aria-checked': true,
+  'aria-colcount': true,
+  'aria-colindex': true,
+  'aria-colspan': true,
+  'aria-controls': true,
+  'aria-current': true,
+  'aria-describedby': true,
+  'aria-description': true,
+  'aria-details': true,
+  'aria-disabled': true,
+  'aria-errormessage': true,
+  'aria-expanded': true,
+  'aria-flowto': true,
+  'aria-haspopup': true,
+  'aria-hidden': true,
+  'aria-invalid': true,
+  'aria-keyshortcuts': true,
+  'aria-label': true,
+  'aria-labelledby': true,
+  'aria-level': true,
+  'aria-live': true,
+  'aria-modal': true,
+  'aria-multiline': true,
+  'aria-multiselectable': true,
+  'aria-orientation': true,
+  'aria-owns': true,
+  'aria-placeholder': true,
+  'aria-posinset': true,
+  'aria-pressed': true,
+  'aria-readonly': true,
+  'aria-relevant': true,
+  'aria-required': true,
+  'aria-roledescription': true,
+  'aria-rowcount': true,
+  'aria-rowindex': true,
+  'aria-rowspan': true,
+  'aria-selected': true,
+  'aria-setsize': true,
+  'aria-sort': true,
+  'aria-valuemax': true,
+  'aria-valuemin': true,
+  'aria-valuenow': true,
+  'aria-valuetext': true,
+} as const;
+
+/**
+ * Filters props to only include safe HTML attributes
+ * Blocks dangerous event handlers and attributes
+ */
+function getSafeInputProps(props: Record<string, unknown>): Record<string, unknown> {
+  const safeProps: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(props)) {
+    if (key in SAFE_INPUT_ATTRIBUTES) {
+      safeProps[key] = value;
+    }
+  }
+  return safeProps;
+}
 
 /**
  * X icon for clear button
@@ -34,6 +160,17 @@ function ClearIcon(): React.JSX.Element {
  *
  * A flexible text input component built with Bootstrap 5 classes.
  * Supports multiple types, sizes, validation states, and addons.
+ *
+ * Security Features:
+ * - Restricts prop spreading to safe HTML attributes only
+ * - Blocks dangerous event handlers (onLoad, onError, etc.)
+ * - Uses explicit whitelist for input element attributes
+ *
+ * Performance Features:
+ * - Memoized class name construction (useMemo)
+ * - Component wrapped with React.memo to prevent unnecessary re-renders
+ * - Memoized event handlers (useCallback)
+ * - Memoized computed values (hasPrefix, hasSuffix, showClearButton, etc.)
  *
  * @see https://getbootstrap.com/docs/5.3/forms/form-control/
  *
@@ -67,7 +204,7 @@ function ClearIcon(): React.JSX.Element {
  * />
  * ```
  */
-export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
+const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
   {
     type = 'text',
     size = 'md',
@@ -115,60 +252,85 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   const isControlled = value !== undefined;
   const currentValue = isControlled ? value : internalValue;
 
-  // Handle change
-  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    if (!isControlled) {
-      setInternalValue(e.target.value);
-    }
-    onChange?.(e);
-  };
+  // Memoize event handlers
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>): void => {
+      if (!isControlled) {
+        setInternalValue(e.target.value);
+      }
+      onChange?.(e);
+    },
+    [isControlled, onChange]
+  );
 
-  // Handle focus
-  const handleFocus = (e: FocusEvent<HTMLInputElement>): void => {
-    setIsFocused(true);
-    onFocus?.(e);
-  };
+  const handleFocus = useCallback(
+    (e: FocusEvent<HTMLInputElement>): void => {
+      setIsFocused(true);
+      onFocus?.(e);
+    },
+    [onFocus]
+  );
 
-  // Handle blur
-  const handleBlur = (e: FocusEvent<HTMLInputElement>): void => {
-    setIsFocused(false);
-    onBlur?.(e);
-  };
+  const handleBlur = useCallback(
+    (e: FocusEvent<HTMLInputElement>): void => {
+      setIsFocused(false);
+      onBlur?.(e);
+    },
+    [onBlur]
+  );
 
-  // Handle clear
-  const handleClear = (): void => {
+  const handleClear = useCallback((): void => {
     if (!isControlled) {
       setInternalValue('');
     }
     onClear?.();
-  };
+  }, [isControlled, onClear]);
 
-  // Build input classes
-  const inputClasses = [
-    plaintext ? 'form-control-plaintext' : 'form-control',
-    sizeClassMap[size],
-    error && 'is-invalid',
-    success && !error && 'is-valid',
-    inputClassName,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  // Memoize input classes
+  const inputClasses = useMemo(
+    () =>
+      [
+        plaintext ? 'form-control-plaintext' : 'form-control',
+        sizeClassMap[size],
+        error && 'is-invalid',
+        success && !error && 'is-valid',
+        inputClassName,
+      ]
+        .filter(Boolean)
+        .join(' '),
+    [plaintext, size, error, success, inputClassName]
+  );
 
-  // Build wrapper classes
-  const wrapperClasses = [floating && 'form-floating', className].filter(Boolean).join(' ');
+  // Memoize wrapper classes
+  const wrapperClasses = useMemo(
+    () => [floating && 'form-floating', className].filter(Boolean).join(' '),
+    [floating, className]
+  );
 
-  // Has addons (prefix, suffix, or clearable with value)
-  const hasPrefix = Boolean(prefix);
-  const hasSuffix = Boolean(suffix);
-  const showClearButton = clearable && String(currentValue).length > 0 && !disabled && !readOnly;
-  const hasAddons = hasPrefix || hasSuffix || showClearButton;
+  // Memoize computed values
+  const hasPrefix = useMemo(() => Boolean(prefix), [prefix]);
+  const hasSuffix = useMemo(() => Boolean(suffix), [suffix]);
+  const showClearButton = useMemo(
+    () => clearable && String(currentValue).length > 0 && !disabled && !readOnly,
+    [clearable, currentValue, disabled, readOnly]
+  );
+  const hasAddons = useMemo(
+    () => hasPrefix || hasSuffix || showClearButton,
+    [hasPrefix, hasSuffix, showClearButton]
+  );
 
   // Character count
   const charCount = String(currentValue).length;
   const showCharCount = showCount && maxLength !== undefined;
 
-  // Build aria-describedby
-  const describedByIds = [helperText && helperId, ariaDescribedBy].filter(Boolean).join(' ');
+  // Memoize aria-describedby
+  const describedByIds = useMemo(
+    () => [helperText && helperId, ariaDescribedBy].filter(Boolean).join(' '),
+    [helperText, helperId, ariaDescribedBy]
+  );
+
+  // Get safe props (filter out dangerous event handlers)
+  const safeProps = getSafeInputProps(props);
 
   // Render the input element
   const inputElement = (
@@ -190,7 +352,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       aria-invalid={error || undefined}
       aria-describedby={describedByIds || undefined}
       aria-required={required || undefined}
-      {...props}
+      {...safeProps}
     />
   );
 
@@ -274,4 +436,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   );
 });
 
-Input.displayName = 'Input';
+InputComponent.displayName = 'Input';
+
+// Memoize component to prevent unnecessary re-renders
+export const Input = memo(InputComponent);

@@ -1,12 +1,28 @@
-import { useState } from 'react';
-
 import { Input } from '@dsai/react';
-
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useState } from 'react';
 
 /**
  * Input component for text entry.
  * Built with Bootstrap 5 design tokens and WCAG 2.2 AA compliance.
+ *
+ * Security Features:
+ * - Restricts prop spreading to safe HTML attributes only
+ * - Blocks dangerous event handlers (onLoad, onError, etc.)
+ * - Uses explicit whitelist for input element attributes
+ *
+ * Accessibility Features (WCAG 2.2 AA):
+ * - Native `<input>` element for full keyboard support
+ * - Proper `<label>` association with input
+ * - `aria-invalid`, `aria-describedby`, `aria-label` support
+ * - Error messages linked to input via aria-describedby
+ * - Minimum 44×44px touch target via Bootstrap styling
+ *
+ * Performance Features:
+ * - Component wrapped with React.memo to prevent unnecessary re-renders
+ * - Class names computed with useMemo for efficient rendering
+ * - Event handlers memoized with useCallback
+ * - Computed values (hasPrefix, hasSuffix, etc.) memoized
  *
  * @see https://getbootstrap.com/docs/5.3/forms/form-control/
  */
@@ -221,7 +237,7 @@ export const ValidationStates: Story = {
 /**
  * Error state with message
  */
-export const Error: Story = {
+export const ErrorState: Story = {
   args: {
     label: 'Email',
     type: 'email',
@@ -593,60 +609,203 @@ export const SearchInput: Story = {
 };
 
 // =============================================================================
-// Complete Showcase
+// Security Features
 // =============================================================================
 
 /**
- * Complete input showcase
+ * Security: Event Handler Validation
+ *
+ * The Input component uses a whitelist of safe HTML attributes to prevent
+ * dangerous event handlers from being injected via props. All dangerously
+ * event handlers (onLoad, onError, etc.) are blocked at the input element level.
+ *
+ * This protects against XSS vulnerabilities through prop spreading.
  */
-export const CompleteShowcase: Story = {
+export const SecurityEventHandlerValidation: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxWidth: '500px' }}>
-      {/* Basic */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Basic Input</h4>
-        <Input label="Name" placeholder="Enter your name" />
-      </div>
-
-      {/* Sizes */}
-      <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Sizes</h4>
+        <h5>Safe Attributes Allowed</h5>
+        <p className="text-muted small">
+          These standard form attributes are safely passed through:
+        </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <Input size="sm" aria-label="Small" placeholder="Small" />
-          <Input size="md" aria-label="Medium" placeholder="Medium" />
-          <Input size="lg" aria-label="Large" placeholder="Large" />
+          <Input label="With name attribute" name="demo-1" />
+          <Input label="With required" required />
+          <Input label="With title" title="This is a tooltip" />
+          <Input label="With aria-label" aria-label="Custom accessible label" />
         </div>
       </div>
-
-      {/* States */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>States</h4>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <Input label="Error" error helperText="This field has an error" />
-          <Input label="Success" success defaultValue="Valid" />
-          <Input label="Disabled" disabled placeholder="Disabled" />
-        </div>
-      </div>
-
-      {/* Addons */}
-      <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Addons</h4>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <Input label="Price" prefix="$" type="number" placeholder="0.00" />
-          <Input label="Domain" suffix=".com" placeholder="example" />
-        </div>
-      </div>
-
-      {/* Features */}
-      <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Features</h4>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <Input label="Clearable" clearable defaultValue="Clear me" />
-          <Input label="Character Count" maxLength={50} showCount />
-          <Input label="Floating Label" floating placeholder="Floating" />
-          <Input label="Required" required placeholder="Required field" />
-        </div>
+        <h5>Dangerous Event Handlers Blocked</h5>
+        <p className="text-muted small">
+          Event handlers like onLoad, onError, etc. are automatically filtered out to prevent XSS
+          attacks.
+        </p>
       </div>
     </div>
   ),
+};
+
+/**
+ * Security: Prop Whitelist Protection
+ *
+ * Only explicitly whitelisted HTML attributes are allowed on the input element.
+ * This prevents injection of dangerous attributes and event handlers through
+ * the `rest` props parameter.
+ */
+export const SecurityPropWhitelist: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div>
+        <h5>Protected Against Prop Injection</h5>
+        <p className="text-muted small">
+          Only safe HTML attributes are rendered to the DOM. Dangerous props are silently filtered.
+        </p>
+      </div>
+      <div>
+        <h5>Whitelisted Categories</h5>
+        <ul className="text-muted small">
+          <li>✓ Standard HTML attributes (name, value, disabled, required, etc.)</li>
+          <li>✓ All ARIA attributes (aria-label, aria-describedby, etc.)</li>
+          <li>✓ Input-specific attributes (autoComplete, tabIndex, etc.)</li>
+          <li>✗ All event handlers (onClick, onLoad, onError, etc.)</li>
+          <li>✗ Dangerous properties (innerHTML, dangerouslySetInnerHTML, etc.)</li>
+        </ul>
+      </div>
+      <div>
+        <Input
+          label="Example: Safe and protected"
+          name="security-demo"
+          title="This input is protected against prop injection attacks"
+          required
+        />
+      </div>
+    </div>
+  ),
+};
+
+// =============================================================================
+// Accessibility Features
+// =============================================================================
+
+/**
+ * Accessibility: Full Keyboard Support
+ *
+ * The Input component provides full keyboard support for all interactions:
+ * - Tab/Shift+Tab: Navigate to/from input
+ * - Type: Enter text into input
+ * - All states remain accessible: disabled, error, clearable
+ */
+export const AccessibilityKeyboardNavigation: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div>
+        <h5>Keyboard Navigation Demo</h5>
+        <p className="text-muted small">
+          Use Tab to navigate and type to enter text. All inputs have proper keyboard support.
+        </p>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <Input label="Focus here and type" />
+        <Input label="Second input" />
+        <Input label="With error" error helperText="Also fully keyboard accessible" />
+        <Input label="Disabled input (not in tab order)" disabled />
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * Accessibility: Screen Reader Support
+ *
+ * Proper semantic markup and ARIA attributes ensure screen reader compatibility:
+ * - Native `<input>` element for full semantic meaning
+ * - `<label>` properly associated via `htmlFor`
+ * - `aria-describedby` links to helper text and error messages
+ * - `aria-invalid` indicates error state
+ * - Error/helper messages associated with `id`
+ */
+export const AccessibilityScreenReaderSupport: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div>
+        <h5>Screen Reader Friendly</h5>
+        <p className="text-muted small">
+          Semantic HTML and ARIA attributes provide full accessibility.
+        </p>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <Input label="Basic input" />
+        <Input label="Required field" required />
+        <Input label="With helper text" helperText="This field helps you understand context" />
+        <Input label="With error" error helperText="This field is required and has an error" />
+        <Input aria-label="Input without visible label" />
+      </div>
+    </div>
+  ),
+};
+
+// =============================================================================
+// Performance Features
+// =============================================================================
+
+/**
+ * Performance: Memoization
+ *
+ * The Input component is optimized with React.memo and useMemo:
+ * - React.memo prevents re-renders when parent props don't change
+ * - useMemo caches computed class names
+ * - useCallback memoizes event handlers
+ * - Computed values (hasPrefix, hasSuffix, etc.) are memoized
+ *
+ * This ensures efficient rendering in complex forms with many inputs.
+ */
+export const PerformanceMemoization: Story = {
+  render: function PerformanceDemo() {
+    const [counter, setCounter] = useState(0);
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div>
+          <h5>Memoization Performance Demo</h5>
+          <p className="text-muted small">
+            The inputs won't re-render unnecessarily when you increment the counter below. Check
+            your browser DevTools to see component renders.
+          </p>
+        </div>
+
+        <div>
+          <button
+            type="button"
+            className="btn btn-sm btn-outline-primary"
+            onClick={() => setCounter(counter + 1)}
+          >
+            Increment Counter: {counter}
+          </button>
+          <p className="text-muted small mt-2">Parent re-renders: {counter} times</p>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <Input label="Memoized input 1" placeholder="Stays efficient" />
+          <Input label="Memoized input 2" placeholder="No unnecessary renders" />
+          <Input
+            label="With performance optimizations"
+            helperText="All class names and event handlers are memoized"
+          />
+        </div>
+
+        <div className="alert alert-info small">
+          <strong>Performance Benefits:</strong>
+          <ul className="mb-0 mt-2">
+            <li>✓ Component wrapped with React.memo</li>
+            <li>✓ Class names memoized with useMemo</li>
+            <li>✓ Event handlers memoized with useCallback</li>
+            <li>✓ Computed values cached for efficient rendering</li>
+            <li>✓ Efficient re-render only when actual props change</li>
+          </ul>
+        </div>
+      </div>
+    );
+  },
 };
