@@ -108,11 +108,12 @@ export const BaseButton = forwardRef<
           size === 'lg' && 'btn-lg',
           // Note: 'md' is the default size in Bootstrap, no class needed
           fullWidth && 'w-100', // Bootstrap utility for full width
+          error && 'btn-error', // Error state class for styling
           className, // Allow additional custom classes
         ]
           .filter(Boolean)
           .join(' '),
-      [variant, size, fullWidth, className]
+      [variant, size, fullWidth, error, className]
     );
 
     // Determine what content to show

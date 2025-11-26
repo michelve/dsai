@@ -1,4 +1,13 @@
-import { Badge, Button } from '@dsai/react';
+import {
+  Badge,
+  Button,
+  CheckCircleFillIcon,
+  CheckIcon,
+  ExclamationTriangleFillIcon,
+  InfoCircleFillIcon,
+  StarFillIcon,
+  XLgIcon,
+} from '@dsai/react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
@@ -28,16 +37,16 @@ import { useState } from 'react';
 // Helper: Icon badge example
 const IconBadgeExample = () => (
   <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-    <Badge variant="primary" icon={<span>★</span>}>
+    <Badge variant="primary" icon={<StarFillIcon size={12} />}>
       Featured
     </Badge>
-    <Badge variant="success" icon={<span>✓</span>}>
+    <Badge variant="success" icon={<CheckCircleFillIcon size={12} />}>
       Verified
     </Badge>
-    <Badge variant="danger" icon={<span>!</span>}>
+    <Badge variant="danger" icon={<ExclamationTriangleFillIcon size={12} />}>
       Alert
     </Badge>
-    <Badge variant="info" icon={<span>ℹ</span>}>
+    <Badge variant="info" icon={<InfoCircleFillIcon size={12} />}>
       Info
     </Badge>
   </div>
@@ -48,12 +57,16 @@ const DotAccessibilityExample = () => (
   <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
     <div>
       <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem' }}>
-        ✓ Dot-only (requires aria-label):
+        <CheckIcon size={14} className="text-success me-1" />
+        Dot-only (requires aria-label):
       </p>
       <Badge variant="success" dot aria-label="Online status" />
     </div>
     <div>
-      <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem' }}>✓ Dot + content:</p>
+      <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem' }}>
+        <CheckIcon size={14} className="text-success me-1" />
+        Dot + content:
+      </p>
       <Badge variant="success" dot>
         Online
       </Badge>
@@ -380,7 +393,7 @@ export const StatusIndicators: Story = {
 export const WithIcon: Story = {
   args: {
     variant: 'primary',
-    icon: <span>★</span>,
+    icon: <StarFillIcon size={12} />,
     children: 'Featured',
   },
 };
@@ -414,13 +427,15 @@ export const ProperDotOnlyUsage: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
         <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem' }}>
-          ✓ Correct: Dot-only with aria-label
+          <CheckIcon size={14} className="text-success me-1" />
+          Correct: Dot-only with aria-label
         </p>
         <Badge variant="success" dot aria-label="Online" />
       </div>
       <div>
         <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem' }}>
-          ✗ Incorrect: Dot-only without aria-label (check console for warning)
+          <XLgIcon size={14} className="text-danger me-1" />
+          Incorrect: Dot-only without aria-label (check console for warning)
         </p>
         <Badge variant="danger" dot />
       </div>
@@ -607,13 +622,13 @@ export const CompleteShowcase: Story = {
       <div>
         <h4 style={{ marginBottom: '0.5rem' }}>With Icons</h4>
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-          <Badge variant="primary" icon={<span>★</span>}>
+          <Badge variant="primary" icon={<StarFillIcon size={12} />}>
             Featured
           </Badge>
-          <Badge variant="success" icon={<span>✓</span>}>
+          <Badge variant="success" icon={<CheckCircleFillIcon size={12} />}>
             Verified
           </Badge>
-          <Badge variant="danger" icon={<span>!</span>}>
+          <Badge variant="danger" icon={<ExclamationTriangleFillIcon size={12} />}>
             Alert
           </Badge>
         </div>

@@ -1,4 +1,4 @@
-import { Checkbox } from '@dsai/react';
+import { Checkbox, CheckIcon, XLgIcon } from '@dsai/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
@@ -523,11 +523,26 @@ export const SecurityPropWhitelist: Story = {
       <div>
         <h5>Whitelisted Categories</h5>
         <ul className="text-muted small">
-          <li>✓ Standard HTML attributes (name, value, disabled, required, etc.)</li>
-          <li>✓ All ARIA attributes (aria-label, aria-describedby, etc.)</li>
-          <li>✓ Input-specific attributes (autoComplete, tabIndex, etc.)</li>
-          <li>✗ All event handlers (onClick, onLoad, onError, etc.)</li>
-          <li>✗ Dangerous properties (innerHTML, dangerouslySetInnerHTML, etc.)</li>
+          <li>
+            <CheckIcon size={14} className="text-success me-1" />
+            Standard HTML attributes (name, value, disabled, required, etc.)
+          </li>
+          <li>
+            <CheckIcon size={14} className="text-success me-1" />
+            All ARIA attributes (aria-label, aria-describedby, etc.)
+          </li>
+          <li>
+            <CheckIcon size={14} className="text-success me-1" />
+            Input-specific attributes (autoComplete, tabIndex, etc.)
+          </li>
+          <li>
+            <XLgIcon size={14} className="text-danger me-1" />
+            All event handlers (onClick, onLoad, onError, etc.)
+          </li>
+          <li>
+            <XLgIcon size={14} className="text-danger me-1" />
+            Dangerous properties (innerHTML, dangerouslySetInnerHTML, etc.)
+          </li>
         </ul>
       </div>
       <div>
@@ -655,10 +670,22 @@ export const PerformanceMemoization: Story = {
         <div className="alert alert-info small">
           <strong>Performance Benefits:</strong>
           <ul className="mb-0 mt-2">
-            <li>✓ Component wrapped with React.memo</li>
-            <li>✓ Class names memoized with useMemo</li>
-            <li>✓ Helper text ID computed once and cached</li>
-            <li>✓ Efficient re-render only when actual props change</li>
+            <li>
+              <CheckIcon size={14} className="text-success me-1" />
+              Component wrapped with React.memo
+            </li>
+            <li>
+              <CheckIcon size={14} className="text-success me-1" />
+              Class names memoized with useMemo
+            </li>
+            <li>
+              <CheckIcon size={14} className="text-success me-1" />
+              Helper text ID computed once and cached
+            </li>
+            <li>
+              <CheckIcon size={14} className="text-success me-1" />
+              Efficient re-render only when actual props change
+            </li>
           </ul>
         </div>
       </div>

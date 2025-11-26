@@ -1,4 +1,16 @@
-import { Button } from '@dsai/react';
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  Button,
+  CheckIcon,
+  ChevronDownIcon,
+  ExclamationTriangleIcon,
+  GearIcon,
+  PlusIcon,
+  SaveIcon,
+  Trash3Icon,
+  XLgIcon,
+} from '@dsai/react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
@@ -43,17 +55,17 @@ const LoadingVariantsShowcase = () => (
 // Helper component for icons showcase
 const IconsShowcase = () => (
   <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-    <Button variant="primary" startIcon="⬅">
+    <Button variant="primary" startIcon={<ArrowLeftIcon />}>
       Previous
     </Button>
-    <Button variant="primary" endIcon="➡">
+    <Button variant="primary" endIcon={<ArrowRightIcon />}>
       Next
     </Button>
-    <Button variant="primary" startIcon="✓" endIcon="→">
+    <Button variant="primary" startIcon={<CheckIcon />} endIcon={<ArrowRightIcon />}>
       Confirm & Continue
     </Button>
     <Button variant="outline-secondary" aria-label="Close dialog">
-      ×
+      <XLgIcon />
     </Button>
   </div>
 );
@@ -108,8 +120,8 @@ const MultiStateAnnouncementDemo = () => {
   const announceText = {
     idle: '',
     loading: 'Operation in progress...',
-    success: '✓ Operation completed successfully',
-    error: '⚠ Operation failed. Please try again.',
+    success: 'Operation completed successfully',
+    error: 'Operation failed. Please try again.',
   };
 
   return (
@@ -122,7 +134,15 @@ const MultiStateAnnouncementDemo = () => {
         onClick={handleSave}
         disabled={status === 'loading'}
       >
-        {status === 'loading' ? 'Saving...' : status === 'success' ? '✓ Saved' : 'Save'}
+        {status === 'loading' ? (
+          'Saving...'
+        ) : status === 'success' ? (
+          <>
+            <CheckIcon size={14} /> Saved
+          </>
+        ) : (
+          'Save'
+        )}
       </Button>
       <Button
         variant="danger"
@@ -132,7 +152,15 @@ const MultiStateAnnouncementDemo = () => {
         onClick={handleDelete}
         disabled={status === 'loading'}
       >
-        {status === 'loading' ? 'Deleting...' : status === 'error' ? '✗ Failed' : 'Delete'}
+        {status === 'loading' ? (
+          'Deleting...'
+        ) : status === 'error' ? (
+          <>
+            <XLgIcon size={14} /> Failed
+          </>
+        ) : (
+          'Delete'
+        )}
       </Button>
     </div>
   );
@@ -497,26 +525,29 @@ export const ResetButton: Story = {
 };
 
 /**
- * Buttons with icons (example using emoji)
+ * Buttons with icons
  */
 export const WithIconLeft: Story = {
   args: {
     variant: 'primary',
-    children: <>✓ Save Changes</>,
+    startIcon: <CheckIcon />,
+    children: 'Save Changes',
   },
 };
 
 export const WithIconRight: Story = {
   args: {
     variant: 'primary',
-    children: <>Next →</>,
+    endIcon: <ArrowRightIcon />,
+    children: 'Next',
   },
 };
 
 export const IconOnly: Story = {
   args: {
     variant: 'primary',
-    children: '×',
+    startIcon: <XLgIcon />,
+    children: '',
     'aria-label': 'Close',
   },
 };
@@ -527,7 +558,8 @@ export const IconOnly: Story = {
 export const WithAriaLabel: Story = {
   args: {
     variant: 'primary',
-    children: '×',
+    startIcon: <XLgIcon />,
+    children: '',
     'aria-label': 'Close dialog',
   },
 };
@@ -535,7 +567,8 @@ export const WithAriaLabel: Story = {
 export const WithAriaExpanded: Story = {
   args: {
     variant: 'secondary',
-    children: 'Toggle Menu ▼',
+    endIcon: <ChevronDownIcon />,
+    children: 'Toggle Menu',
     'aria-expanded': false,
     'aria-controls': 'menu',
   },
@@ -616,7 +649,7 @@ export const LoadingDifferentVariants: Story = {
 export const WithStartIcon: Story = {
   args: {
     variant: 'primary',
-    startIcon: '⬅',
+    startIcon: <ArrowLeftIcon />,
     children: 'Previous',
   },
 };
@@ -624,7 +657,7 @@ export const WithStartIcon: Story = {
 export const WithEndIcon: Story = {
   args: {
     variant: 'primary',
-    endIcon: '➡',
+    endIcon: <ArrowRightIcon />,
     children: 'Next',
   },
 };
@@ -632,8 +665,8 @@ export const WithEndIcon: Story = {
 export const WithBothIcons: Story = {
   args: {
     variant: 'primary',
-    startIcon: '✓',
-    endIcon: '→',
+    startIcon: <CheckIcon />,
+    endIcon: <ArrowRightIcon />,
     children: 'Confirm & Continue',
   },
 };
@@ -641,7 +674,8 @@ export const WithBothIcons: Story = {
 export const IconOnlyButton: Story = {
   args: {
     variant: 'outline-secondary',
-    children: '×',
+    startIcon: <XLgIcon />,
+    children: '',
     'aria-label': 'Close dialog',
   },
 };
@@ -970,16 +1004,16 @@ export const AccessibleIconOnlyButton: Story = {
           ✅ Accessible Icon-only Buttons
         </h3>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <Button variant="outline-secondary" aria-label="Close dialog" startIcon="×">
+          <Button variant="outline-secondary" aria-label="Close dialog" startIcon={<XLgIcon />}>
             {''}
           </Button>
-          <Button variant="outline-primary" aria-label="Settings" startIcon="⚙️">
+          <Button variant="outline-primary" aria-label="Settings" startIcon={<GearIcon />}>
             {''}
           </Button>
-          <Button variant="outline-danger" aria-label="Delete item" startIcon="🗑️">
+          <Button variant="outline-danger" aria-label="Delete item" startIcon={<Trash3Icon />}>
             {''}
           </Button>
-          <Button variant="outline-success" aria-label="Add item" startIcon="➕">
+          <Button variant="outline-success" aria-label="Add item" startIcon={<PlusIcon />}>
             {''}
           </Button>
         </div>
@@ -993,13 +1027,13 @@ export const AccessibleIconOnlyButton: Story = {
           ✅ Icon + Text (no aria-label needed)
         </h3>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <Button variant="primary" startIcon="💾">
+          <Button variant="primary" startIcon={<SaveIcon />}>
             Save
           </Button>
-          <Button variant="success" startIcon="✓">
+          <Button variant="success" startIcon={<CheckIcon />}>
             Confirm
           </Button>
-          <Button variant="secondary" endIcon="→">
+          <Button variant="secondary" endIcon={<ArrowRightIcon />}>
             Next
           </Button>
         </div>
@@ -1017,9 +1051,12 @@ export const AccessibleIconOnlyButton: Story = {
         }}
       >
         <p style={{ fontSize: '0.75rem', color: '#856404', margin: 0 }}>
-          <strong>⚠️ Accessibility Note:</strong> Icon-only buttons without <code>aria-label</code>{' '}
-          will fail WCAG 2.2 AA compliance. Our test suite includes guards that verify this
-          requirement.
+          <strong>
+            <ExclamationTriangleIcon size={14} style={{ marginRight: '4px' }} />
+            Accessibility Note:
+          </strong>{' '}
+          Icon-only buttons without <code>aria-label</code> will fail WCAG 2.2 AA compliance. Our
+          test suite includes guards that verify this requirement.
         </p>
       </div>
     </div>
@@ -1093,8 +1130,13 @@ export const ARIAAttributesDemo: Story = {
         <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
           aria-expanded (Expandable)
         </h3>
-        <Button variant="outline-secondary" aria-expanded={false} aria-controls="dropdown-menu">
-          Dropdown Menu ▼
+        <Button
+          variant="outline-secondary"
+          aria-expanded={false}
+          aria-controls="dropdown-menu"
+          endIcon={<ChevronDownIcon />}
+        >
+          Dropdown Menu
         </Button>
       </div>
 

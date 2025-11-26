@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
-
-import { Progress } from '@dsai/react';
-
+import { CheckIcon, Progress } from '@dsai/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useEffect, useState } from 'react';
 
 /**
  * Progress bar component for showing progress or loading states.
@@ -410,7 +408,7 @@ export const FileUploadSimulation: Story = {
           <div className="d-flex flex-column gap-2">
             <Progress value={100} variant="success" aria-label="Upload complete" />
             <div className="d-flex align-items-center gap-2">
-              <span className="text-success">✓</span>
+              <CheckIcon className="text-success" size={16} />
               <span>Upload complete!</span>
               <button className="btn btn-sm btn-outline-primary ms-auto" onClick={startUpload}>
                 Upload Another

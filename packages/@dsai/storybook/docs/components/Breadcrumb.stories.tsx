@@ -1,4 +1,11 @@
-import { Breadcrumb, BreadcrumbItem } from '@dsai/react';
+import {
+  BoxIcon,
+  Breadcrumb,
+  BreadcrumbItem,
+  HouseIcon,
+  SearchIcon,
+  StarFillIcon,
+} from '@dsai/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
@@ -413,25 +420,25 @@ export const AccessibilityIcons: Story = {
             id: 'home',
             label: 'Home',
             href: '#',
-            icon: '🏠',
+            icon: <HouseIcon size={16} />,
           },
           {
             id: 'products',
             label: 'Products',
             href: '#',
-            icon: '📦',
+            icon: <BoxIcon size={16} />,
           },
           {
             id: 'details',
             label: 'Product Details',
             href: '#',
-            icon: '🔍',
+            icon: <SearchIcon size={16} />,
           },
           {
             id: 'reviews',
             label: 'Customer Reviews',
             active: true,
-            icon: '⭐',
+            icon: <StarFillIcon size={16} />,
           },
         ]}
       />

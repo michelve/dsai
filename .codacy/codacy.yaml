@@ -1,6 +1,9 @@
 runtimes:
-    - python@3.11.11
-    - go@1.22.3
+  - python@3.11.11
+  - go@1.22.3
+  - node@22.2.0
 tools:
-    - semgrep@1.78.0
-    - revive@1.7.0
+  - semgrep@1.78.0
+  - revive@1.7.0
+  - eslint@8.57.0
+  - lizard@1.17.31

@@ -1,14 +1,14 @@
 import {
   forwardRef,
+  type KeyboardEvent,
+  type MouseEvent,
+  type ReactNode,
   useCallback,
   useEffect,
   useId,
   useMemo,
   useRef,
   useState,
-  type KeyboardEvent,
-  type MouseEvent,
-  type ReactNode,
 } from 'react';
 
 import type { SelectOption, SelectOptionGroup, SelectProps, SelectSize } from './Select.types';
@@ -39,28 +39,6 @@ function flattenOptions<T>(options: SelectOption<T>[] | SelectOptionGroup<T>[]):
     return options.flatMap((group) => group.options);
   }
   return options;
-}
-
-/**
- * Chevron down icon
- */
-function ChevronIcon({ className }: { className?: string }): React.JSX.Element {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      fill="currentColor"
-      viewBox="0 0 16 16"
-      className={className}
-      aria-hidden="true"
-    >
-      <path
-        fillRule="evenodd"
-        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-      />
-    </svg>
-  );
 }
 
 /**
@@ -582,14 +560,16 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
           aria-labelledby={label ? labelId : undefined}
           aria-label={!label ? ariaLabel : undefined}
           aria-describedby={describedByIds || undefined}
-          aria-controls={listboxId}
+          aria-controls={isOpen ? listboxId : undefined}
           data-required={required || undefined}
           data-invalid={error || undefined}
           tabIndex={tabIndex}
-          style={{ textAlign: 'left', paddingRight: showClearButton ? '4rem' : '2rem' }}
+          style={{
+            textAlign: 'left',
+            paddingRight: showClearButton ? '4rem' : undefined,
+          }}
         >
           <span className="flex-grow-1 text-truncate">{renderDisplayValue()}</span>
-          <ChevronIcon className={`ms-2 transition ${isOpen ? 'rotate-180' : ''}`} />
         </button>
 
         {/* Clear button */}
