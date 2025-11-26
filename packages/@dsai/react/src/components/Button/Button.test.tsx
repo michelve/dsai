@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { createRef } from 'react';
 
@@ -417,7 +417,9 @@ describe('Button', () => {
       render(<Button>Focusable</Button>);
       const button = screen.getByRole('button');
 
-      button.focus();
+      act(() => {
+        button.focus();
+      });
 
       expect(button).toHaveFocus();
     });
@@ -479,7 +481,9 @@ describe('Button', () => {
       const ref = createRef<HTMLButtonElement>();
       render(<Button ref={ref}>Focusable</Button>);
 
-      ref.current?.focus();
+      act(() => {
+        ref.current?.focus();
+      });
 
       expect(ref.current).toHaveFocus();
     });
