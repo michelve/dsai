@@ -193,12 +193,12 @@ The CheckboxGroup component is built with accessibility in mind:
 ### Semantic Structure
 
 ```html
-<fieldset aria-describedby="helper-id" aria-required="true">
-  <legend>Notification Preferences</legend>
+<fieldset aria-describedby="helper-id">
+  <legend>Notification Preferences *</legend>
   <div id="helper-id">Choose your preferences</div>
   <div data-visual-state="some">
-    <input type="checkbox" /> Select all <input type="checkbox" /> Email
-    <input type="checkbox" /> SMS <input type="checkbox" /> Push
+    <input type="checkbox" /> Select all <input type="checkbox" required /> Email
+    <input type="checkbox" required /> SMS <input type="checkbox" required /> Push
   </div>
 </fieldset>
 ```
@@ -207,10 +207,11 @@ The CheckboxGroup component is built with accessibility in mind:
 
 - **Fieldset/Legend**: Semantic grouping for screen readers
 - **aria-describedby**: Links to helper/error text
-- **aria-required**: Indicates required groups
-- **aria-invalid**: Indicates error state
+- **required**: Native HTML required attribute on checkbox inputs (when `required` prop is set)
+- **aria-invalid**: Indicates error state on fieldset
 - **aria-checked="mixed"**: On select all when indeterminate
 - **data-visual-state**: FSM state exposed for testing/styling
+- **Visual indicator**: `*` shown in legend when required
 
 ### Best Practices
 

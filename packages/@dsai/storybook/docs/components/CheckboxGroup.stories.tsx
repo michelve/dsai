@@ -24,8 +24,8 @@ import { useState } from 'react';
  *
  * Accessibility Features (WCAG 2.2 AA):
  * - `<fieldset>` + `<legend>` for semantic grouping
- * - Optional `role="group"` with `aria-labelledby` when using div
- * - `aria-required` and `aria-invalid` support
+ * - Native `required` attribute on checkbox inputs
+ * - `aria-invalid` for error state on fieldset
  * - `aria-describedby` for helper/error text
  * - Select all checkbox uses `aria-checked="mixed"` for indeterminate
  * - Development warning when no accessible label provided
@@ -569,7 +569,8 @@ export const FormExample: Story = {
  * - `<fieldset>` groups related checkboxes
  * - `<legend>` provides the group label
  * - `aria-describedby` links to helper/error text
- * - `aria-required` and `aria-invalid` for form states
+ * - `aria-invalid` for error state
+ * - Native `required` on checkbox inputs when `required` prop is set
  */
 export const AccessibilityFieldsetLegend: Story = {
   render: () => (

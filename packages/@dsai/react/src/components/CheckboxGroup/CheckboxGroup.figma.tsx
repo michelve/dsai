@@ -25,7 +25,8 @@ import { CheckboxGroup } from './CheckboxGroup';
  * Accessibility goals:
  * - Semantic fieldset/legend grouping
  * - aria-describedby for helper/error text
- * - aria-required and aria-invalid support
+ * - Native required attribute on checkbox inputs
+ * - aria-invalid for error state on fieldset
  * - Indeterminate state on select all checkbox
  */
 figma.connect(CheckboxGroup, '<FIGMA_DSAI_CHECKBOX_GROUP>', {
