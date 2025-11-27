@@ -50,6 +50,14 @@ export {
 export type { CheckboxProps } from './Checkbox';
 // Checkbox
 export { Checkbox } from './Checkbox';
+export type {
+  CheckboxGroupFSMState,
+  CheckboxGroupOption,
+  CheckboxGroupProps,
+  GroupSelectionState,
+} from './CheckboxGroup';
+// CheckboxGroup
+export { CheckboxGroup } from './CheckboxGroup';
 // Icons - Bootstrap Icons as React components
 // Re-export all icons and types from the Icon folder
 export * from './Icon';
