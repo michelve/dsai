@@ -94,6 +94,18 @@ describe('Checkbox', () => {
       expect(checkbox.indeterminate).toBe(true);
     });
 
+    it('sets aria-checked="mixed" when indeterminate', () => {
+      render(<Checkbox indeterminate label="Indeterminate" />);
+      const checkbox = screen.getByRole('checkbox');
+      expect(checkbox).toHaveAttribute('aria-checked', 'mixed');
+    });
+
+    it('does not set aria-checked when not indeterminate', () => {
+      render(<Checkbox label="Normal" />);
+      const checkbox = screen.getByRole('checkbox');
+      expect(checkbox).not.toHaveAttribute('aria-checked');
+    });
+
     it('updates indeterminate when prop changes', () => {
       const { rerender } = render(<Checkbox indeterminate={false} label="Test" />);
       const checkbox = screen.getByRole('checkbox') as HTMLInputElement;
@@ -150,9 +162,14 @@ describe('Checkbox', () => {
     });
 
     it('associates helper text with input via aria-describedby', () => {
-      render(<Checkbox helperText="Helper" label="Test" id="test-checkbox" />);
+      render(<Checkbox helperText="Helper" label="Test" />);
       const checkbox = screen.getByRole('checkbox');
-      expect(checkbox).toHaveAttribute('aria-describedby', 'test-checkbox-helper');
+      // aria-describedby should be set and reference the helper text element
+      const describedBy = checkbox.getAttribute('aria-describedby');
+      expect(describedBy).toBeTruthy();
+      if (describedBy) {
+        expect(document.getElementById(describedBy)).toHaveTextContent('Helper');
+      }
     });
 
     it('applies invalid-feedback class when error with helper text', () => {
@@ -247,8 +264,9 @@ describe('Checkbox', () => {
     });
 
     it('accepts custom id', () => {
-      render(<Checkbox id="custom-id" label="Test" />);
-      expect(screen.getByRole('checkbox')).toHaveAttribute('id', 'custom-id');
+      const testId = `test-id-${Date.now()}`;
+      render(<Checkbox id={testId} label="Test" />);
+      expect(screen.getByRole('checkbox')).toHaveAttribute('id', testId);
     });
   });
 
@@ -280,9 +298,9 @@ describe('Checkbox', () => {
     it('is focusable with Tab', async () => {
       render(
         <>
-          <button>Before</button>
+          <button type="button">Before</button>
           <Checkbox label="Test" />
-          <button>After</button>
+          <button type="button">After</button>
         </>
       );
 
@@ -338,6 +356,39 @@ describe('Checkbox', () => {
       expect(checkbox).not.toBeChecked();
       await userEvent.click(screen.getByText('Click me'));
       expect(checkbox).toBeChecked();
+    });
+
+    it('warns in development when no accessible name is provided', () => {
+      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+
+      // Render without label or aria-label
+      render(<Checkbox data-testid="no-label-checkbox" />);
+
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('[DSAi Checkbox] Missing accessible name')
+      );
+
+      consoleSpy.mockRestore();
+    });
+
+    it('does not warn when label is provided', () => {
+      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+
+      render(<Checkbox label="Has label" />);
+
+      expect(consoleSpy).not.toHaveBeenCalled();
+
+      consoleSpy.mockRestore();
+    });
+
+    it('does not warn when aria-label is provided', () => {
+      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+
+      render(<Checkbox aria-label="Has aria-label" />);
+
+      expect(consoleSpy).not.toHaveBeenCalled();
+
+      consoleSpy.mockRestore();
     });
   });
 

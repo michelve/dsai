@@ -2,6 +2,20 @@ import { forwardRef, memo, useEffect, useId, useMemo, useRef } from 'react';
 
 import type { CheckboxProps } from './Checkbox.types';
 
+// Development-only warning for accessibility issues
+const warnedComponents = new Set<string>();
+
+function warnMissingAccessibleName(componentId: string, componentName: string): void {
+  if (process.env['NODE_ENV'] !== 'production' && !warnedComponents.has(componentId)) {
+    warnedComponents.add(componentId);
+    console.warn(
+      `[DSAi ${componentName}] Missing accessible name. ` +
+        `Provide either a "label" prop or an "aria-label" attribute for screen reader users. ` +
+        `This warning will only appear in development mode.`
+    );
+  }
+}
+
 /**
  * Checkbox Component
  *
@@ -220,6 +234,13 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
       }
     }, [indeterminate, inputRef]);
 
+    // Development-only warning for missing accessible name
+    useEffect(() => {
+      if (!label && !ariaLabel) {
+        warnMissingAccessibleName(id, 'Checkbox');
+      }
+    }, [label, ariaLabel, id]);
+
     // Memoize wrapper classes
     const wrapperClasses = useMemo(
       () =>
@@ -270,6 +291,7 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
           aria-invalid={error || undefined}
           aria-describedby={helperId}
           aria-label={!label ? ariaLabel : undefined}
+          aria-checked={indeterminate ? 'mixed' : undefined}
           {...safeProps}
         />
         {label && (
@@ -292,3 +314,6 @@ CheckboxComponent.displayName = 'Checkbox';
 
 // Memoize component to prevent unnecessary re-renders
 export const Checkbox = memo(CheckboxComponent);
+
+// Preserve displayName through memo wrapper for DevTools
+Checkbox.displayName = 'Checkbox';
