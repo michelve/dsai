@@ -567,6 +567,18 @@ describe('CheckboxGroup', () => {
       expect(screen.getByText('*')).toBeInTheDocument();
     });
 
+    it('passes required to child checkboxes when required', () => {
+      const { container } = render(
+        <CheckboxGroup label="Notifications" options={defaultOptions} required />
+      );
+
+      // All checkbox inputs should have required attribute for native validation
+      const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach((checkbox) => {
+        expect(checkbox).toHaveAttribute('required');
+      });
+    });
+
     it('sets aria-invalid when error', () => {
       const { container } = render(
         <CheckboxGroup label="Notifications" options={defaultOptions} error />

@@ -133,8 +133,8 @@ const CheckboxGroupComponent = forwardRef<HTMLFieldSetElement, CheckboxGroupProp
 
     // Sync FSM with controlled value prop
     useEffect(() => {
-      if (isControlled && value) {
-        dispatch(resetFromPropsEvent(value, totalEnabled));
+      if (isControlled) {
+        dispatch(resetFromPropsEvent(value ?? [], totalEnabled));
       }
     }, [isControlled, value, totalEnabled]);
 
@@ -263,6 +263,7 @@ const CheckboxGroupComponent = forwardRef<HTMLFieldSetElement, CheckboxGroupProp
                 checked={isSelected}
                 onChange={() => handleToggleItem(option.value)}
                 disabled={isDisabled}
+                required={required}
                 helperText={option.helperText}
                 inline={orientation === 'horizontal'}
               />
