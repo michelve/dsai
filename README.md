@@ -1,5 +1,7 @@
 # DSAi Design System
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1180f39c3f7647dab2b4b09b3a569fee)](https://app.codacy.com?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
 ![CI](https://github.com/michelve/DSAi/workflows/CI/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
