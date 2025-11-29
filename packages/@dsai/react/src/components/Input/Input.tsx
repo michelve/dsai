@@ -440,3 +440,4 @@ InputComponent.displayName = 'Input';
 
 // Memoize component to prevent unnecessary re-renders
 export const Input = memo(InputComponent);
+Input.displayName = 'Input';

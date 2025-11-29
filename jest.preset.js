@@ -61,7 +61,7 @@ module.exports = {
   ],
 
   // Coverage thresholds (80% minimum as per roadmap)
-  coverageThresholds: {
+  coverageThreshold: {
     global: {
       branches: 80,
       functions: 80,
@@ -84,5 +84,29 @@ module.exports = {
 
   // Performance
   maxWorkers: '50%', // Use half of available CPU cores
-  bail: false, // Don't stop on first test failure
+
+  // === Quality & Isolation Settings ===
+
+  // Better test isolation - reset state between tests
+  clearMocks: true,
+  resetMocks: true,
+  restoreMocks: true,
+
+  // Catch deprecated Jest APIs early
+  errorOnDeprecated: true,
+
+  // Reasonable timeout (10s) - fails slow tests early
+  testTimeout: 10000,
+
+  // Verbose output shows each test name
+  verbose: true,
+
+  // Don't stop on first failure - see all issues at once
+  bail: false,
+
+  // Randomize test order to catch hidden dependencies (optional)
+  // randomize: true,
+
+  // Detect open handles in CI (slower, but catches leaks)
+  // detectOpenHandles: true,
 };

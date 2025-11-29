@@ -65,7 +65,9 @@ describe('CheckboxGroup', () => {
     it('renders required indicator', () => {
       render(<CheckboxGroup label="Notifications" options={defaultOptions} required />);
 
-      expect(screen.getByText('*')).toBeInTheDocument();
+      // Multiple * indicators appear: one in legend, one per checkbox label
+      const indicators = screen.getAllByText('*');
+      expect(indicators.length).toBeGreaterThan(0);
     });
 
     it('renders error message', () => {
@@ -563,8 +565,9 @@ describe('CheckboxGroup', () => {
     it('shows required indicator when required', () => {
       render(<CheckboxGroup label="Notifications" options={defaultOptions} required />);
 
-      // Required indicator (*) should be shown in legend
-      expect(screen.getByText('*')).toBeInTheDocument();
+      // Required indicator (*) should be shown - multiple appear (legend + each checkbox)
+      const indicators = screen.getAllByText('*');
+      expect(indicators.length).toBeGreaterThan(0);
     });
 
     it('passes required to child checkboxes when required', () => {
