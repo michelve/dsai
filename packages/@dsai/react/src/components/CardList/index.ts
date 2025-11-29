@@ -8,9 +8,9 @@ export { CardList } from './CardList';
 export {
   cardListFSMReducer,
   clearAllEvent,
-  // Utility functions
-  computeVisualState,
   createInitialCardListFSMState,
+  // Utility functions
+  deriveVisualState,
   // Event creators
   resetFromPropsEvent,
   selectAllEvent,

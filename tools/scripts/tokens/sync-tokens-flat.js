@@ -15,7 +15,7 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const tokensDir = join(__dirname, '../../packages/@dsai/tokens');
+const tokensDir = join(__dirname, '../../../packages/@dsai/tokens');
 
 const sourceFile = join(tokensDir, 'dist/js/tokens.js');
 const targetFile = join(tokensDir, 'src/tokens-flat.ts');
@@ -30,7 +30,7 @@ try {
   const tsContent = `/**
  * Do not edit directly, this file was auto-generated.
  * Generated from Style Dictionary output (dist/js/tokens.js)
- * 
+ *
  * To update: run \`pnpm tokens:build\` which will:
  * 1. Transform Figma tokens
  * 2. Build with Style Dictionary

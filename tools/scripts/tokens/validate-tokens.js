@@ -19,7 +19,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const TOKENS_DIR = path.join(__dirname, '../../packages/@dsai/tokens');
+const TOKENS_DIR = path.join(__dirname, '../../../packages/@dsai/tokens');
 const VALID_TYPES = [
   'color',
   'dimension',

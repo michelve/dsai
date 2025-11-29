@@ -39,7 +39,7 @@ const warnedGroups = new Set<string>();
 function warnMissingGroupLabel(groupId: string): void {
   if (
     typeof process !== 'undefined' &&
-    process.env['NODE_ENV'] !== 'production' &&
+    process.env?.['NODE_ENV'] !== 'production' &&
     !warnedGroups.has(groupId)
   ) {
     warnedGroups.add(groupId);

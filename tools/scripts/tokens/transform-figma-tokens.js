@@ -19,8 +19,8 @@ const fs = require('fs');
 const path = require('path');
 
 // Paths
-const FIGMA_EXPORTS = path.join(__dirname, '../../packages/@dsai/tokens/figma-exports');
-const OUTPUT_DIR = path.join(__dirname, '../../packages/@dsai/tokens');
+const FIGMA_EXPORTS = path.join(__dirname, '../../../packages/@dsai/tokens/figma-exports');
+const OUTPUT_DIR = path.join(__dirname, '../../../packages/@dsai/tokens');
 
 // Transformation configuration
 const COLLECTIONS = {

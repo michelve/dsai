@@ -32,8 +32,8 @@ const path = require('path');
 // CONFIGURATION
 // ============================================================================
 
-const FIGMA_EXPORTS_DIR = path.join(__dirname, '../../packages/@dsai/tokens/figma-exports');
-const TOKENS_DIR = path.join(__dirname, '../../packages/@dsai/tokens');
+const FIGMA_EXPORTS_DIR = path.join(__dirname, '../../../packages/@dsai/tokens/figma-exports');
+const TOKENS_DIR = path.join(__dirname, '../../../packages/@dsai/tokens');
 
 // Master combined file (contains all tokens)
 const MASTER_FILE = 'theme.json';

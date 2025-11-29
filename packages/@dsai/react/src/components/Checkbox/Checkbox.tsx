@@ -6,7 +6,11 @@ import type { CheckboxProps } from './Checkbox.types';
 const warnedComponents = new Set<string>();
 
 function warnMissingAccessibleName(componentId: string, componentName: string): void {
-  if (process.env['NODE_ENV'] !== 'production' && !warnedComponents.has(componentId)) {
+  if (
+    typeof process !== 'undefined' &&
+    process.env?.['NODE_ENV'] !== 'production' &&
+    !warnedComponents.has(componentId)
+  ) {
     warnedComponents.add(componentId);
     console.warn(
       `[DSAi ${componentName}] Missing accessible name. ` +

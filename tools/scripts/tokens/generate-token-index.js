@@ -7,8 +7,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const tokensPath = path.join(__dirname, '../../packages/@dsai/tokens/dist/ts/tokens.ts');
-const outputPath = path.join(__dirname, '../../packages/@dsai/tokens/src/index.ts');
+const tokensPath = path.join(__dirname, '../../../packages/@dsai/tokens/dist/ts/tokens.ts');
+const outputPath = path.join(__dirname, '../../../packages/@dsai/tokens/src/index.ts');
 
 // Read the generated tokens file
 if (!fs.existsSync(tokensPath)) {

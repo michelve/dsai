@@ -87,6 +87,12 @@ function warnMissingName(id: string): void {
  * - Card click forwards to the control (like clicking a label)
  * - Proper focus management and keyboard support
  * - Minimum touch target via Bootstrap styling
+ *
+ * @important When selectionMode is "checkbox" or "radio", the entire card is
+ * wrapped in a `<label>` element. Avoid placing nested interactive elements
+ * (buttons, links, other inputs) inside the card content, as this creates
+ * invalid HTML and may cause double-activation issues in some browsers.
+ * Use selectionMode="none" if you need interactive elements inside the card.
  */
 const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
   function SelectableCard(
