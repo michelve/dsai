@@ -1,4 +1,4 @@
-import { CheckIcon, Progress } from '@dsai/react';
+import { Button, CheckIcon, Progress } from '@dsai/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
 
@@ -445,9 +445,9 @@ export const FileUploadSimulation: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         {status === 'idle' && (
-          <button className="btn btn-primary" onClick={startUpload}>
+          <Button variant="primary" onClick={startUpload}>
             Start Upload
-          </button>
+          </Button>
         )}
 
         {status === 'uploading' && (
@@ -468,9 +468,9 @@ export const FileUploadSimulation: Story = {
             <div className="d-flex align-items-center gap-2">
               <CheckIcon className="text-success" size={16} />
               <span>Upload complete!</span>
-              <button className="btn btn-sm btn-outline-primary ms-auto" onClick={startUpload}>
+              <Button size="sm" variant="outline-primary" className="ms-auto" onClick={startUpload}>
                 Upload Another
-              </button>
+              </Button>
             </div>
           </div>
         )}
