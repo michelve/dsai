@@ -26,13 +26,7 @@ import { ListGroup } from '@dsai/react';
 
 function Example() {
   return (
-    <ListGroup
-      items={[
-        { content: 'Item 1' },
-        { content: 'Item 2' },
-        { content: 'Item 3' },
-      ]}
-    />
+    <ListGroup items={[{ content: 'Item 1' }, { content: 'Item 2' }, { content: 'Item 3' }]} />
   );
 }
 ```
@@ -121,16 +115,10 @@ function Example() {
 import { Badge } from '@dsai/react';
 
 <ListGroup>
-  <ListGroupItem badge={<Badge variant="primary">14</Badge>}>
-    Inbox
-  </ListGroupItem>
-  <ListGroupItem badge={<Badge variant="primary">3</Badge>}>
-    Drafts
-  </ListGroupItem>
-  <ListGroupItem badge={<Badge variant="primary">99+</Badge>}>
-    Spam
-  </ListGroupItem>
-</ListGroup>
+  <ListGroupItem badge={<Badge variant="primary">14</Badge>}>Inbox</ListGroupItem>
+  <ListGroupItem badge={<Badge variant="primary">3</Badge>}>Drafts</ListGroupItem>
+  <ListGroupItem badge={<Badge variant="primary">99+</Badge>}>Spam</ListGroupItem>
+</ListGroup>;
 ```
 
 ### With Icons
@@ -165,49 +153,49 @@ import { Badge } from '@dsai/react';
 
 ### ListGroup
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `items` | `ListGroupItemData[]` | - | List items |
-| `children` | `ReactNode` | - | Compound components |
-| `variant` | `'default' \| 'flush' \| 'numbered'` | `'default'` | List variant |
-| `horizontal` | `boolean \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl'` | `false` | Horizontal layout |
-| `ordered` | `boolean` | `false` | Render as `<ol>` |
-| `className` | `string` | - | Additional classes |
-| `style` | `CSSProperties` | - | Inline styles |
-| `id` | `string` | - | Element ID |
-| `aria-label` | `string` | - | Accessible label |
-| `aria-labelledby` | `string` | - | ID of labelling element |
+| Prop              | Type                                               | Default     | Description             |
+| ----------------- | -------------------------------------------------- | ----------- | ----------------------- |
+| `items`           | `ListGroupItemData[]`                              | -           | List items              |
+| `children`        | `ReactNode`                                        | -           | Compound components     |
+| `variant`         | `'default' \| 'flush' \| 'numbered'`               | `'default'` | List variant            |
+| `horizontal`      | `boolean \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl'` | `false`     | Horizontal layout       |
+| `ordered`         | `boolean`                                          | `false`     | Render as `<ol>`        |
+| `className`       | `string`                                           | -           | Additional classes      |
+| `style`           | `CSSProperties`                                    | -           | Inline styles           |
+| `id`              | `string`                                           | -           | Element ID              |
+| `aria-label`      | `string`                                           | -           | Accessible label        |
+| `aria-labelledby` | `string`                                           | -           | ID of labelling element |
 
 ### ListGroupItemData
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `id` | `string` | Unique identifier |
-| `content` | `ReactNode` | Item content |
-| `variant` | `ListGroupItemVariant` | Color variant |
-| `active` | `boolean` | Active/selected state |
-| `disabled` | `boolean` | Disabled state |
-| `badge` | `ReactNode` | Badge content |
-| `icon` | `ReactNode` | Icon content |
-| `href` | `string` | Link URL |
-| `onClick` | `() => void` | Click handler |
+| Property   | Type                   | Description           |
+| ---------- | ---------------------- | --------------------- |
+| `id`       | `string`               | Unique identifier     |
+| `content`  | `ReactNode`            | Item content          |
+| `variant`  | `ListGroupItemVariant` | Color variant         |
+| `active`   | `boolean`              | Active/selected state |
+| `disabled` | `boolean`              | Disabled state        |
+| `badge`    | `ReactNode`            | Badge content         |
+| `icon`     | `ReactNode`            | Icon content          |
+| `href`     | `string`               | Link URL              |
+| `onClick`  | `() => void`           | Click handler         |
 
 ### ListGroupItem
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | - | Item content |
-| `variant` | `ListGroupItemVariant` | - | Color variant |
-| `active` | `boolean` | `false` | Active state |
-| `disabled` | `boolean` | `false` | Disabled state |
-| `badge` | `ReactNode` | - | Badge content |
-| `icon` | `ReactNode` | - | Icon content |
-| `href` | `string` | - | Link URL |
-| `onClick` | `() => void` | - | Click handler |
-| `as` | `'li' \| 'a' \| 'button' \| 'div'` | auto | Element type |
-| `className` | `string` | - | Additional classes |
-| `style` | `CSSProperties` | - | Inline styles |
-| `tabIndex` | `number` | - | Tab index |
+| Prop        | Type                               | Default | Description        |
+| ----------- | ---------------------------------- | ------- | ------------------ |
+| `children`  | `ReactNode`                        | -       | Item content       |
+| `variant`   | `ListGroupItemVariant`             | -       | Color variant      |
+| `active`    | `boolean`                          | `false` | Active state       |
+| `disabled`  | `boolean`                          | `false` | Disabled state     |
+| `badge`     | `ReactNode`                        | -       | Badge content      |
+| `icon`      | `ReactNode`                        | -       | Icon content       |
+| `href`      | `string`                           | -       | Link URL           |
+| `onClick`   | `() => void`                       | -       | Click handler      |
+| `as`        | `'li' \| 'a' \| 'button' \| 'div'` | auto    | Element type       |
+| `className` | `string`                           | -       | Additional classes |
+| `style`     | `CSSProperties`                    | -       | Inline styles      |
+| `tabIndex`  | `number`                           | -       | Tab index          |
 
 ### ListGroupItemVariant
 
@@ -225,11 +213,11 @@ type ListGroupItemVariant =
 
 ## Keyboard Navigation
 
-| Key | Action |
-|-----|--------|
-| `Tab` | Move focus between items |
-| `Enter` | Activate focused item |
-| `Space` | Activate focused item |
+| Key     | Action                   |
+| ------- | ------------------------ |
+| `Tab`   | Move focus between items |
+| `Enter` | Activate focused item    |
+| `Space` | Activate focused item    |
 
 ## Accessibility
 
@@ -241,6 +229,26 @@ The ListGroup component follows WCAG 2.2 AA guidelines:
 - `aria-disabled` on disabled items
 - `role="button"` for clickable non-button items
 - Full keyboard navigation support
+
+## Security
+
+The ListGroup component implements security hardening for link items:
+
+- **Href Sanitization**: Blocks dangerous URL protocols (`javascript:`, `data:`, `vbscript:`, `file:`)
+- **External Link Protection**: Automatically adds `rel="noopener noreferrer"` to external links (`http://` and `https://`)
+- **XSS Prevention**: Dangerous hrefs are replaced with `#` to prevent script injection
+
+```tsx
+// Dangerous URLs are automatically blocked
+<ListGroupItem href="javascript:alert('XSS')">
+  This will render with href="#"
+</ListGroupItem>
+
+// External links get rel="noopener noreferrer" automatically
+<ListGroupItem href="https://external.com">
+  External Link (automatically secured)
+</ListGroupItem>
+```
 
 ## Styling
 
@@ -260,4 +268,3 @@ The component uses Bootstrap 5 list group classes:
 
 - [Badge](../Badge/README.md) - For item badges
 - [Button](../Button/README.md) - For actions
-

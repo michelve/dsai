@@ -276,14 +276,97 @@ describe('ListGroup', () => {
   // Custom Element
   // ===========================================================================
   describe('Custom Element', () => {
-    it('renders as specified element type', () => {
+    it('renders as specified element type wrapped in li', () => {
       const { container } = render(
         <ListGroup>
           <ListGroupItem as="div">Div Item</ListGroupItem>
         </ListGroup>
       );
 
-      expect(container.querySelector('div.list-group-item')).toBeInTheDocument();
+      // div is wrapped in li for list semantics
+      const li = container.querySelector('li');
+      expect(li).toBeInTheDocument();
+      expect(li?.querySelector('div.list-group-item')).toBeInTheDocument();
+    });
+
+    it('renders interactive div with role="button" and keyboard support', async () => {
+      const handleClick = jest.fn();
+      render(
+        <ListGroup>
+          <ListGroupItem as="div" onClick={handleClick}>
+            Interactive Div
+          </ListGroupItem>
+        </ListGroup>
+      );
+
+      const div = screen.getByRole('button', { name: 'Interactive Div' });
+      expect(div).toHaveAttribute('tabindex', '0');
+      expect(div.tagName).toBe('DIV');
+    });
+
+    it('triggers onClick on Enter key for interactive div', async () => {
+      const handleClick = jest.fn();
+      render(
+        <ListGroup>
+          <ListGroupItem as="div" onClick={handleClick}>
+            Interactive Div
+          </ListGroupItem>
+        </ListGroup>
+      );
+
+      const div = screen.getByRole('button', { name: 'Interactive Div' });
+      div.focus();
+      await userEvent.keyboard('{Enter}');
+
+      expect(handleClick).toHaveBeenCalledTimes(1);
+    });
+
+    it('triggers onClick on Space key for interactive div', async () => {
+      const handleClick = jest.fn();
+      render(
+        <ListGroup>
+          <ListGroupItem as="div" onClick={handleClick}>
+            Interactive Div
+          </ListGroupItem>
+        </ListGroup>
+      );
+
+      const div = screen.getByRole('button', { name: 'Interactive Div' });
+      div.focus();
+      await userEvent.keyboard(' ');
+
+      expect(handleClick).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not trigger onClick on disabled interactive div', async () => {
+      const handleClick = jest.fn();
+      render(
+        <ListGroup>
+          <ListGroupItem as="div" onClick={handleClick} disabled>
+            Disabled Div
+          </ListGroupItem>
+        </ListGroup>
+      );
+
+      const div = screen.getByText('Disabled Div').closest('div') as HTMLDivElement;
+      expect(div).toHaveAttribute('tabindex', '-1');
+      expect(div).toHaveAttribute('aria-disabled', 'true');
+
+      // Click should not work
+      await userEvent.click(div);
+      expect(handleClick).not.toHaveBeenCalled();
+    });
+
+    it('has no a11y violations for interactive div', async () => {
+      const { container } = render(
+        <ListGroup>
+          <ListGroupItem as="div" onClick={jest.fn()}>
+            Interactive Div
+          </ListGroupItem>
+        </ListGroup>
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
     });
   });
 
