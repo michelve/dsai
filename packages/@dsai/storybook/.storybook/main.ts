@@ -10,6 +10,7 @@ const config: StorybookConfig = {
     // Tracking issue: https://github.com/storybookjs/addon-designs/issues
     '@storybook/addon-a11y',
     '@storybook/addon-designs',
+    '@chromatic-com/storybook',
   ],
   framework: {
     name: '@storybook/react-vite',
