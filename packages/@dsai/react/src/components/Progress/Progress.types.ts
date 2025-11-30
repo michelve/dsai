@@ -99,13 +99,25 @@ export interface ProgressProps {
   animated?: boolean;
 
   /**
-   * Minimum value for aria-valuemin
+   * Minimum value for aria-valuemin.
+   *
+   * **Note**: `min` and `max` control ARIA semantics only, not the visual range.
+   * The visual width is always calculated as a percentage of 0-100.
+   *
+   * For example, with `min=10, max=20, value=15`:
+   * - Visual width = 50% (since 15 is halfway between 0 and 100 as a percentage)
+   * - `aria-valuenow=15`, `aria-valuemin=10`, `aria-valuemax=20`
+   *
    * @default 0
    */
   min?: number;
 
   /**
-   * Maximum value for aria-valuemax
+   * Maximum value for aria-valuemax.
+   *
+   * **Note**: `min` and `max` control ARIA semantics only, not the visual range.
+   * The visual width is always calculated as a percentage of 0-100.
+   *
    * @default 100
    */
   max?: number;
@@ -185,8 +197,17 @@ export interface ProgressBarProps {
   className?: string;
 
   /**
-   * Accessible label for screen readers
-   * Required for accessibility compliance
+   * Accessible label for screen readers.
+   * If not provided, defaults to "{variant} progress: {percentage}%".
    */
   'aria-label'?: string;
+
+  /**
+   * Mark this progress bar as decorative (hidden from assistive technology).
+   * Use this for purely decorative stacked bars where the parent Progress
+   * component provides the accessible label.
+   *
+   * @default false
+   */
+  'aria-hidden'?: boolean;
 }
