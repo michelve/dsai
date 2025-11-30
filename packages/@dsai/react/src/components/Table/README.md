@@ -158,6 +158,70 @@ const columns: TableColumn<User>[] = [
 <Table columns={columns} data={longUserList} stickyHeader maxHeight={400} />
 ```
 
+### Sticky Columns
+
+Freeze columns to the left or right for wide tables with horizontal scrolling:
+
+```tsx
+const columns: TableColumn<User>[] = [
+  // Sticky to the left - stays visible while scrolling right
+  { id: 'id', header: 'ID', accessor: 'id', sticky: 'left', width: 80 },
+  { id: 'name', header: 'Name', accessor: 'name' },
+  { id: 'email', header: 'Email', accessor: 'email' },
+  { id: 'department', header: 'Department', accessor: 'department' },
+  // ... more columns
+  // Sticky to the right - stays visible while scrolling left
+  {
+    id: 'actions',
+    header: 'Actions',
+    accessor: () => null,
+    sticky: 'right',
+    width: 120,
+    cell: (_, row) => (
+      <div className="d-flex gap-1">
+        <Button size="sm" variant="outline-primary">
+          Edit
+        </Button>
+        <Button size="sm" variant="outline-danger">
+          Delete
+        </Button>
+      </div>
+    ),
+  },
+];
+
+<Table columns={columns} data={users} responsive />;
+```
+
+### Action Column
+
+Create an actions column using the `cell` renderer. Set `accessor` to a dummy value since actions don't map to data:
+
+```tsx
+const columns: TableColumn<User>[] = [
+  { id: 'name', header: 'Name', accessor: 'name' },
+  { id: 'email', header: 'Email', accessor: 'email' },
+  {
+    id: 'actions',
+    header: 'Actions',
+    accessor: () => null, // No data to access
+    align: 'right',
+    cell: (_, row, index) => (
+      <div className="d-flex gap-1 justify-content-end">
+        <Button size="sm" variant="outline-primary" onClick={() => handleEdit(row)}>
+          Edit
+        </Button>
+        <Button size="sm" variant="outline-danger" onClick={() => handleDelete(row.id)}>
+          Delete
+        </Button>
+      </div>
+    ),
+  },
+];
+```
+
+**Tip**: Use `sticky: 'right'` to keep the actions column visible while scrolling horizontally.
+
 ### With Caption and Footer
 
 ```tsx

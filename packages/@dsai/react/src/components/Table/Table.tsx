@@ -511,10 +511,12 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
               if (column.width) headerStyle.width = column.width;
               if (column.minWidth) headerStyle.minWidth = column.minWidth;
               if (column.maxWidth) headerStyle.maxWidth = column.maxWidth;
-              if (stickyHeader && column.sticky) {
+              // Sticky columns (left/right) work independently
+              if (column.sticky) {
                 headerStyle.position = 'sticky';
                 headerStyle[column.sticky] = 0;
-                headerStyle.zIndex = 2;
+                headerStyle.zIndex = stickyHeader ? 3 : 2; // Higher z-index if also sticky header
+                headerStyle.backgroundColor = 'var(--bs-table-bg, #fff)';
               }
 
               const alignClass = getAlignClass(column.align);
@@ -625,7 +627,11 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
                     if (column.sticky) {
                       cellStyle.position = 'sticky';
                       cellStyle[column.sticky] = 0;
-                      cellStyle.backgroundColor = 'inherit';
+                      cellStyle.zIndex = 1;
+                      // Use solid background to prevent content showing through
+                      cellStyle.backgroundColor = isSelected
+                        ? 'var(--bs-table-active-bg, rgba(0, 0, 0, 0.075))'
+                        : 'var(--bs-table-bg, var(--bs-body-bg, #fff))';
                     }
 
                     const cellClasses = [alignClass, column.cellClassName]

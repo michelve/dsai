@@ -575,6 +575,140 @@ export const StickyHeader: Story = {
 };
 
 // =============================================================================
+// Sticky Columns Stories
+// =============================================================================
+
+/**
+ * Table with sticky columns that stay visible during horizontal scroll.
+ * The ID column is sticky to the left, and the Actions column is sticky to the right.
+ */
+export const StickyColumns: Story = {
+  render: function StickyColumnsStory() {
+    const wideColumns: TableColumn<User>[] = [
+      {
+        id: 'id',
+        header: 'ID',
+        accessor: 'id',
+        sticky: 'left',
+        width: 60,
+      },
+      { id: 'name', header: 'Name', accessor: 'name', minWidth: 150 },
+      { id: 'email', header: 'Email', accessor: 'email', minWidth: 200 },
+      { id: 'role', header: 'Role', accessor: 'role', minWidth: 120 },
+      { id: 'department', header: 'Department', accessor: 'department', minWidth: 150 },
+      {
+        id: 'salary',
+        header: 'Salary',
+        accessor: 'salary',
+        minWidth: 120,
+        align: 'right',
+        cell: (value) => `$${Number(value).toLocaleString()}`,
+      },
+      { id: 'joinDate', header: 'Join Date', accessor: 'joinDate', minWidth: 120 },
+      {
+        id: 'status',
+        header: 'Status',
+        accessor: 'status',
+        minWidth: 100,
+        cell: (value) => {
+          const variant =
+            value === 'active' ? 'success' : value === 'pending' ? 'warning' : 'secondary';
+          return <Badge variant={variant}>{String(value)}</Badge>;
+        },
+      },
+      {
+        id: 'actions',
+        header: 'Actions',
+        accessor: () => null,
+        sticky: 'right',
+        width: 100,
+        align: 'center',
+        cell: () => (
+          <button type="button" className="btn btn-sm btn-outline-primary">
+            Edit
+          </button>
+        ),
+      },
+    ];
+
+    return (
+      <div style={{ maxWidth: 600 }}>
+        <p className="text-muted small mb-2">
+          Scroll horizontally to see sticky columns (ID on left, Actions on right).
+        </p>
+        <Table
+          columns={wideColumns}
+          data={users}
+          responsive
+          aria-label="Table with sticky columns"
+        />
+      </div>
+    );
+  },
+};
+
+// =============================================================================
+// Action Column Stories
+// =============================================================================
+
+/**
+ * Table with an actions column containing edit/delete buttons.
+ * Action columns use a cell renderer since they don't map to data.
+ */
+export const ActionColumn: Story = {
+  render: function ActionColumnStory() {
+    const [lastAction, setLastAction] = useState<string | null>(null);
+
+    const actionColumns: TableColumn<User>[] = [
+      { id: 'name', header: 'Name', accessor: 'name' },
+      { id: 'email', header: 'Email', accessor: 'email' },
+      { id: 'role', header: 'Role', accessor: 'role' },
+      {
+        id: 'actions',
+        header: 'Actions',
+        accessor: () => null, // No data to access for actions
+        align: 'right',
+        cell: (_, row) => (
+          <div className="d-flex gap-1 justify-content-end">
+            <button
+              type="button"
+              className="btn btn-sm btn-outline-primary"
+              onClick={(e) => {
+                e.stopPropagation();
+                setLastAction(`Edit: ${(row as User).name}`);
+              }}
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              className="btn btn-sm btn-outline-danger"
+              onClick={(e) => {
+                e.stopPropagation();
+                setLastAction(`Delete: ${(row as User).name}`);
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        ),
+      },
+    ];
+
+    return (
+      <div>
+        {lastAction && (
+          <div className="alert alert-info mb-3">
+            Last action: <strong>{lastAction}</strong>
+          </div>
+        )}
+        <Table columns={actionColumns} data={users} aria-label="Table with action buttons" />
+      </div>
+    );
+  },
+};
+
+// =============================================================================
 // Row Click Stories
 // =============================================================================
 
