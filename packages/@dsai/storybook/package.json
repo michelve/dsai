@@ -13,7 +13,8 @@
     "build-storybook": "pnpm build",
     "verify": "bash ../../tools/scripts/storybook/verify-storybook.sh",
     "test": "test-storybook",
-    "test-storybook": "test-storybook"
+    "test-storybook": "test-storybook",
+    "chromatic": "npx chromatic --project-token=chpt_d2e59f6da7c3b1c"
   },
   "keywords": [
     "storybook",
