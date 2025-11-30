@@ -102,6 +102,23 @@ export type { SwitchProps, SwitchSize } from './Switch';
 // Switch
 export { Switch } from './Switch';
 export type {
+  CellAlign,
+  RowId,
+  RowIdAccessor,
+  SortConfig,
+  SortDirection,
+  TableColor,
+  TableColumn,
+  TableFSMState,
+  TableProps,
+  TableSelectionMode,
+  TableSize,
+  TableVariant,
+  TableVisualState,
+} from './Table';
+// Table
+export { Table } from './Table';
+export type {
   TabItem,
   TabListProps,
   TabPanelProps,
