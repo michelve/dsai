@@ -196,6 +196,9 @@ importers:
       '@storybook/addon-a11y':
         specifier: ^10.0.8
         version: 10.0.8(storybook@10.0.8(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@6.4.1(@types/node@24.10.1)(sass@1.94.2)(yaml@2.8.1)))
+      '@storybook/addon-designs':
+        specifier: ^11.0.3
+        version: 11.0.3(@storybook/addon-docs@10.0.8(@types/react@19.2.6)(esbuild@0.27.0)(rollup@4.53.3)(storybook@10.0.8(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@6.4.1(@types/node@24.10.1)(sass@1.94.2)(yaml@2.8.1)))(vite@6.4.1(@types/node@24.10.1)(sass@1.94.2)(yaml@2.8.1)))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(storybook@10.0.8(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@6.4.1(@types/node@24.10.1)(sass@1.94.2)(yaml@2.8.1)))
       '@storybook/addon-docs':
         specifier: 10.0.8
         version: 10.0.8(@types/react@19.2.6)(esbuild@0.27.0)(rollup@4.53.3)(storybook@10.0.8(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@6.4.1(@types/node@24.10.1)(sass@1.94.2)(yaml@2.8.1)))(vite@6.4.1(@types/node@24.10.1)(sass@1.94.2)(yaml@2.8.1))
@@ -205,6 +208,9 @@ importers:
       '@storybook/react-vite':
         specifier: ^10.0.8
         version: 10.0.8(esbuild@0.27.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(rollup@4.53.3)(storybook@10.0.8(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@6.4.1(@types/node@24.10.1)(sass@1.94.2)(yaml@2.8.1)))(typescript@5.9.3)(vite@6.4.1(@types/node@24.10.1)(sass@1.94.2)(yaml@2.8.1))
+      chromatic:
+        specifier: ^13.3.4
+        version: 13.3.4
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -1256,6 +1262,14 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
+  '@figspec/components@1.0.3':
+    resolution: {integrity: sha512-fBwHzJ4ouuOUJEi+yBZIrOy+0/fAjB3AeTcIHTT1PRxLz8P63xwC7R0EsIJXhScIcc+PljGmqbbVJCjLsnaGYA==}
+
+  '@figspec/react@1.0.4':
+    resolution: {integrity: sha512-jaPvkIef4d6NjsRiw91OZabrfdPH9FtoPGYcY5mpXjYEcdUqIq1aHtLq3SkMVyVysEapTEJ6yS8amy93MyXBEQ==}
+    peerDependencies:
+      react: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
     engines: {node: '>=18.18.0'}
@@ -1448,6 +1462,15 @@ packages:
     engines: {node: '>=10.0'}
     peerDependencies:
       tslib: '2'
+
+  '@lit-labs/react@1.2.1':
+    resolution: {integrity: sha512-DiZdJYFU0tBbdQkfwwRSwYyI/mcWkg3sWesKRsHUd4G+NekTmmeq9fzsurvcKTNVa0comNljwtg4Hvi1ds3V+A==}
+
+  '@lit-labs/ssr-dom-shim@1.4.0':
+    resolution: {integrity: sha512-ficsEARKnmmW5njugNYKipTm4SFnbik7CXtoencDZzmzo/dQ+2Q0bgkzJuoJP20Aj0F+izzJjOqsnkd6F/o1bw==}
+
+  '@lit/reactive-element@1.6.3':
+    resolution: {integrity: sha512-QuTgnG52Poic7uM1AN5yJ09QMe0O28e10XzSvWDz02TJiiKee4stsiownEIadWm8nYzyDAyT+gKzUoZmiWQtsQ==}
 
   '@mdx-js/react@3.1.1':
     resolution: {integrity: sha512-f++rKLQgUVYDAtECQ6fn/is15GkEH9+nZPM3MS0RcxVqoTfawHvDlSCH7JbMhAM6uJ32v3eXLvLmLvjGu7PTQw==}
@@ -1870,6 +1893,21 @@ packages:
   '@storybook/addon-actions@9.0.8':
     resolution: {integrity: sha512-LFePu7PPnWN0Il/uoUpmA5T0J0C7d6haJIbg0pXrjxW2MQVSYXE4S4LSUz8fOImltBDV3xAl6tLPYHFj6VcrOA==}
 
+  '@storybook/addon-designs@11.0.3':
+    resolution: {integrity: sha512-L2gdnIJIJMmfhW1OBZaxIjLMlBwFLBnXbhbkINGM//ahCCSLwj6A/lzIhWELEOaz63dV2PNr4w7jvQkOw23T+A==}
+    peerDependencies:
+      '@storybook/addon-docs': ^10.0.0 || ^10.0.0-0 || ^10.1.0-0 || ^10.2.0-0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      storybook: ^10.0.0 || ^10.0.0-0 || ^10.1.0-0 || ^10.2.0-0
+    peerDependenciesMeta:
+      '@storybook/addon-docs':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+
   '@storybook/addon-docs@10.0.8':
     resolution: {integrity: sha512-PYuaGXGycsamK/7OrFoE4syHGy22mdqqArl67cfosRwmRxZEI9ManQK0jTjNQM9ZX14NpThMOSWNGoWLckkxog==}
     peerDependencies:
@@ -2064,6 +2102,9 @@ packages:
 
   '@types/tough-cookie@4.0.5':
     resolution: {integrity: sha512-/Ad8+nIOV7Rl++6f1BdKxFSMgmoqEoYbHRpPcx3JEfv8VRsQe9Z4mCXeJBzxs7mbHY/XOZZuXlRNfhpVPbs6ZA==}
+
+  '@types/trusted-types@2.0.7':
+    resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -2610,6 +2651,18 @@ packages:
   chokidar@4.0.3:
     resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
     engines: {node: '>= 14.16.0'}
+
+  chromatic@13.3.4:
+    resolution: {integrity: sha512-TR5rvyH0ESXobBB3bV8jc87AEAFQC7/n+Eb4XWhJz6hW3YNxIQPVjcbgLv+a4oKHEl1dUBueWSoIQsOVGTd+RQ==}
+    hasBin: true
+    peerDependencies:
+      '@chromatic-com/cypress': ^0.*.* || ^1.0.0
+      '@chromatic-com/playwright': ^0.*.* || ^1.0.0
+    peerDependenciesMeta:
+      '@chromatic-com/cypress':
+        optional: true
+      '@chromatic-com/playwright':
+        optional: true
 
   ci-info@4.3.1:
     resolution: {integrity: sha512-Wdy2Igu8OcBpI2pZePZ5oWjPC38tmDVx5WKUXKwlLYkA0ozo85sLsLvkBbBn/sZaSCMFOGZJ14fvW9t5/d7kdA==}
@@ -3973,6 +4026,15 @@ packages:
   listr2@9.0.5:
     resolution: {integrity: sha512-ME4Fb83LgEgwNw96RKNvKV4VTLuXfoKudAmm2lP8Kk87KaMK0/Xrx/aAkMWmT8mDb+3MlFDspfbCs7adjRxA2g==}
     engines: {node: '>=20.0.0'}
+
+  lit-element@3.3.3:
+    resolution: {integrity: sha512-XbeRxmTHubXENkV4h8RIPyr8lXc+Ff28rkcQzw3G6up2xg5E8Zu1IgOWIwBLEQsu3cOVFqdYwiVi0hv0SlpqUA==}
+
+  lit-html@2.8.0:
+    resolution: {integrity: sha512-o9t+MQM3P4y7M7yNzqAyjp7z+mQGa4NS4CxiyLqFPyFWyc4O+nodLrkrxSaCTrla6M5YOLaT3RpbbqjszB5g3Q==}
+
+  lit@2.8.0:
+    resolution: {integrity: sha512-4Sc3OFX9QHOJaHbmTMk28SYgVxLN3ePDjg7hofEft2zWlehFL3LiAuapWc4U/kYwMYJSh2hTCPZ6/LIC7ii0MA==}
 
   load-tsconfig@0.2.5:
     resolution: {integrity: sha512-IXO6OCs9yg8tMKzfPZ1YmheJbZCiEsnBdcB03l0OcfK9prKnJb96siuHCr5Fl37/yo9DnKU+TLpxzTUspw9shg==}
@@ -6470,6 +6532,16 @@ snapshots:
       - supports-color
       - utf-8-validate
 
+  '@figspec/components@1.0.3':
+    dependencies:
+      lit: 2.8.0
+
+  '@figspec/react@1.0.4(react@19.2.0)':
+    dependencies:
+      '@figspec/components': 1.0.3
+      '@lit-labs/react': 1.2.1
+      react: 19.2.0
+
   '@humanfs/core@0.19.1': {}
 
   '@humanfs/node@0.16.7':
@@ -6763,6 +6835,14 @@ snapshots:
       '@jsonjoy.com/buffers': 1.2.1(tslib@2.8.1)
       '@jsonjoy.com/codegen': 1.0.0(tslib@2.8.1)
       tslib: 2.8.1
+
+  '@lit-labs/react@1.2.1': {}
+
+  '@lit-labs/ssr-dom-shim@1.4.0': {}
+
+  '@lit/reactive-element@1.6.3':
+    dependencies:
+      '@lit-labs/ssr-dom-shim': 1.4.0
 
   '@mdx-js/react@3.1.1(@types/react@19.2.6)(react@19.2.0)':
     dependencies:
@@ -7257,6 +7337,15 @@ snapshots:
 
   '@storybook/addon-actions@9.0.8': {}
 
+  '@storybook/addon-designs@11.0.3(@storybook/addon-docs@10.0.8(@types/react@19.2.6)(esbuild@0.27.0)(rollup@4.53.3)(storybook@10.0.8(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@6.4.1(@types/node@24.10.1)(sass@1.94.2)(yaml@2.8.1)))(vite@6.4.1(@types/node@24.10.1)(sass@1.94.2)(yaml@2.8.1)))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(storybook@10.0.8(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@6.4.1(@types/node@24.10.1)(sass@1.94.2)(yaml@2.8.1)))':
+    dependencies:
+      '@figspec/react': 1.0.4(react@19.2.0)
+      storybook: 10.0.8(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@6.4.1(@types/node@24.10.1)(sass@1.94.2)(yaml@2.8.1))
+    optionalDependencies:
+      '@storybook/addon-docs': 10.0.8(@types/react@19.2.6)(esbuild@0.27.0)(rollup@4.53.3)(storybook@10.0.8(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@6.4.1(@types/node@24.10.1)(sass@1.94.2)(yaml@2.8.1)))(vite@6.4.1(@types/node@24.10.1)(sass@1.94.2)(yaml@2.8.1))
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
+
   '@storybook/addon-docs@10.0.8(@types/react@19.2.6)(esbuild@0.27.0)(rollup@4.53.3)(storybook@10.0.8(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@6.4.1(@types/node@24.10.1)(sass@1.94.2)(yaml@2.8.1)))(vite@6.4.1(@types/node@24.10.1)(sass@1.94.2)(yaml@2.8.1))':
     dependencies:
       '@mdx-js/react': 3.1.1(@types/react@19.2.6)(react@19.2.0)
@@ -7484,6 +7573,8 @@ snapshots:
   '@types/stack-utils@2.0.3': {}
 
   '@types/tough-cookie@4.0.5': {}
+
+  '@types/trusted-types@2.0.7': {}
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -8100,6 +8191,8 @@ snapshots:
   chokidar@4.0.3:
     dependencies:
       readdirp: 4.1.2
+
+  chromatic@13.3.4: {}
 
   ci-info@4.3.1: {}
 
@@ -9816,6 +9909,22 @@ snapshots:
       log-update: 6.1.0
       rfdc: 1.4.1
       wrap-ansi: 9.0.2
+
+  lit-element@3.3.3:
+    dependencies:
+      '@lit-labs/ssr-dom-shim': 1.4.0
+      '@lit/reactive-element': 1.6.3
+      lit-html: 2.8.0
+
+  lit-html@2.8.0:
+    dependencies:
+      '@types/trusted-types': 2.0.7
+
+  lit@2.8.0:
+    dependencies:
+      '@lit/reactive-element': 1.6.3
+      lit-element: 3.3.3
+      lit-html: 2.8.0
 
   load-tsconfig@0.2.5: {}
 

@@ -6,9 +6,10 @@ const config: StorybookConfig = {
   addons: [
     '@storybook/addon-docs',
     '@storybook/addon-links',
-    '@storybook/addon-a11y',
     // Note: @storybook/addon-designs temporarily removed - not compatible with Storybook 9+
     // Tracking issue: https://github.com/storybookjs/addon-designs/issues
+    '@storybook/addon-a11y',
+    '@storybook/addon-designs',
   ],
   framework: {
     name: '@storybook/react-vite',
