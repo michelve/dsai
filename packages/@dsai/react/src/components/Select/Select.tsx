@@ -135,6 +135,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
   const labelId = `${selectId}-label`;
   const helperId = `${selectId}-helper`;
   const listboxId = `${selectId}-listbox`;
+  const optionIdPrefix = `${selectId}-option`;
 
   // Refs
   const containerRef = useRef<HTMLDivElement>(null);
@@ -191,6 +192,12 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
       return currentValue === optionValue;
     },
     [currentValue]
+  );
+
+  // Generate option ID for a given index
+  const getOptionId = useCallback(
+    (index: number): string => `${optionIdPrefix}-${index}`,
+    [optionIdPrefix]
   );
 
   // Handle value change
@@ -415,6 +422,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
     return (
       <li
         key={String(option.value)}
+        id={getOptionId(index)}
         role="option"
         aria-selected={selected}
         aria-disabled={option.disabled}
@@ -551,6 +559,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
           ref={ref}
           type="button"
           id={selectId}
+          role="combobox"
           className={buttonClasses}
           onClick={toggleDropdown}
           onKeyDown={handleKeyDown}
@@ -560,7 +569,10 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
           aria-labelledby={label ? labelId : undefined}
           aria-label={!label ? ariaLabel : undefined}
           aria-describedby={describedByIds || undefined}
-          aria-controls={isOpen ? listboxId : undefined}
+          aria-controls={listboxId}
+          aria-activedescendant={
+            isOpen && focusedIndex >= 0 ? getOptionId(focusedIndex) : undefined
+          }
           data-required={required || undefined}
           data-invalid={error || undefined}
           tabIndex={tabIndex}
