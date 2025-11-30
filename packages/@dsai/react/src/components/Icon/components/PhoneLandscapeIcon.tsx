@@ -1,8 +1,10 @@
 /**
  * PhoneLandscapeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Phone landscape
+ * @category Devices
+ * @tags mobile
+ * @see https://icons.getbootstrap.com/icons/phone-landscape/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PhoneLandscapeIcon aria-label="Activity indicator" />
+ * <PhoneLandscapeIcon aria-label="Phone landscape" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

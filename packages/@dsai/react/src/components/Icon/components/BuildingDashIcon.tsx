@@ -1,8 +1,10 @@
 /**
  * BuildingDashIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Building dash
+ * @category Buildings
+ * @tags company
+ * @see https://icons.getbootstrap.com/icons/building-dash/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BuildingDashIcon aria-label="Activity indicator" />
+ * <BuildingDashIcon aria-label="Building dash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * BricksIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bricks
+ * @category Real world
+ * @tags wall
+ * @see https://icons.getbootstrap.com/icons/bricks/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BricksIcon aria-label="Activity indicator" />
+ * <BricksIcon aria-label="Bricks" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

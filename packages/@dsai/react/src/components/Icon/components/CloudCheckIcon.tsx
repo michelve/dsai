@@ -1,8 +1,10 @@
 /**
  * CloudCheckIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cloud check
+ * @category Clouds
+ * @tags checkmark
+ * @see https://icons.getbootstrap.com/icons/cloud-check/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CloudCheckIcon aria-label="Activity indicator" />
+ * <CloudCheckIcon aria-label="Cloud check" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

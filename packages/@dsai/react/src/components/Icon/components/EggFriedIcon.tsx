@@ -1,8 +1,10 @@
 /**
  * EggFriedIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Egg fried
+ * @category Real world
+ * @tags food
+ * @see https://icons.getbootstrap.com/icons/egg-fried/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EggFriedIcon aria-label="Activity indicator" />
+ * <EggFriedIcon aria-label="Egg fried" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

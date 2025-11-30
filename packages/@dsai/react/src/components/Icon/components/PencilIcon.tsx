@@ -1,8 +1,10 @@
 /**
  * PencilIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Pencil
+ * @category Tools
+ * @tags edit
+ * @see https://icons.getbootstrap.com/icons/pencil/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PencilIcon aria-label="Activity indicator" />
+ * <PencilIcon aria-label="Pencil" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

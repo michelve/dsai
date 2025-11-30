@@ -1,8 +1,10 @@
 /**
  * EnvelopeArrowUpIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Envelope arrow up
+ * @category Communications
+ * @tags email
+ * @see https://icons.getbootstrap.com/icons/envelope-arrow-up/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EnvelopeArrowUpIcon aria-label="Activity indicator" />
+ * <EnvelopeArrowUpIcon aria-label="Envelope arrow up" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

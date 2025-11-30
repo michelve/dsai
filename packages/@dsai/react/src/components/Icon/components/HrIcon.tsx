@@ -1,8 +1,10 @@
 /**
  * HrIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - HR
+ * @category Typography
+ * @tags divider
+ * @see https://icons.getbootstrap.com/icons/hr/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HrIcon aria-label="Activity indicator" />
+ * <HrIcon aria-label="HR" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

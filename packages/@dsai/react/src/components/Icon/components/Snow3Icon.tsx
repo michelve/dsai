@@ -1,8 +1,10 @@
 /**
  * Snow3Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Snow3
+ * @category Weather
+ * @tags blizzard
+ * @see https://icons.getbootstrap.com/icons/snow3/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Snow3Icon aria-label="Activity indicator" />
+ * <Snow3Icon aria-label="Snow3" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

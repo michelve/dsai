@@ -1,8 +1,10 @@
 /**
  * NodePlusIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Node plus
+ * @category Graphics
+ * @tags add
+ * @see https://icons.getbootstrap.com/icons/node-plus/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <NodePlusIcon aria-label="Activity indicator" />
+ * <NodePlusIcon aria-label="Node plus" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

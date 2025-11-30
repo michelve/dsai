@@ -1,8 +1,10 @@
 /**
  * JustifyRightIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Justify right
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/justify-right/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <JustifyRightIcon aria-label="Activity indicator" />
+ * <JustifyRightIcon aria-label="Justify right" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * TableIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Table
+ * @category Files and folders
+ * @tags spreadsheet
+ * @see https://icons.getbootstrap.com/icons/table/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TableIcon aria-label="Activity indicator" />
+ * <TableIcon aria-label="Table" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * LinkIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Link
+ * @category UI and keyboard
+ * @tags anchor
+ * @see https://icons.getbootstrap.com/icons/link/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LinkIcon aria-label="Activity indicator" />
+ * <LinkIcon aria-label="Link" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

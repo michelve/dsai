@@ -1,8 +1,10 @@
 /**
  * TabletFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Tablet fill
+ * @category Devices
+ * @tags mobile
+ * @see https://icons.getbootstrap.com/icons/tablet-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TabletFillIcon aria-label="Activity indicator" />
+ * <TabletFillIcon aria-label="Tablet fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

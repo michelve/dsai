@@ -1,8 +1,10 @@
 /**
  * GenderTransIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Gender trans
+ * @category People
+ * @tags gender
+ * @see https://icons.getbootstrap.com/icons/gender-trans/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GenderTransIcon aria-label="Activity indicator" />
+ * <GenderTransIcon aria-label="Gender trans" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

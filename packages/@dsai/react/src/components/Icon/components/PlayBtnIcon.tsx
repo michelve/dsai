@@ -1,8 +1,10 @@
 /**
  * PlayBtnIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Play btn
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/play-btn/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PlayBtnIcon aria-label="Activity indicator" />
+ * <PlayBtnIcon aria-label="Play btn" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

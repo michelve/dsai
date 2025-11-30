@@ -1,8 +1,10 @@
 /**
  * PuzzleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Puzzle
+ * @category Miscellaneous
+ * @tags puzzle
+ * @see https://icons.getbootstrap.com/icons/puzzle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PuzzleIcon aria-label="Activity indicator" />
+ * <PuzzleIcon aria-label="Puzzle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

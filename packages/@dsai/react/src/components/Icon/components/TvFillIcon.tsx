@@ -1,8 +1,10 @@
 /**
  * TvFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - TV fill
+ * @category Devices
+ * @tags television
+ * @see https://icons.getbootstrap.com/icons/tv-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TvFillIcon aria-label="Activity indicator" />
+ * <TvFillIcon aria-label="TV fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

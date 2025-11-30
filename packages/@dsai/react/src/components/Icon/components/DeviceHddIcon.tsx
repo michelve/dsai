@@ -1,8 +1,10 @@
 /**
  * DeviceHddIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Device HDD
+ * @category Devices
+ * @tags drive
+ * @see https://icons.getbootstrap.com/icons/device-hdd/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DeviceHddIcon aria-label="Activity indicator" />
+ * <DeviceHddIcon aria-label="Device HDD" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

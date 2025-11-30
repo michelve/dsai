@@ -1,8 +1,10 @@
 /**
  * CloudPlusFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cloud plus fill
+ * @category Clouds
+ * @tags add
+ * @see https://icons.getbootstrap.com/icons/cloud-plus-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CloudPlusFillIcon aria-label="Activity indicator" />
+ * <CloudPlusFillIcon aria-label="Cloud plus fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

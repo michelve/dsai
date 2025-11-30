@@ -1,8 +1,10 @@
 /**
  * CalendarWeekIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Calendar week
+ * @category Date and time
+ * @tags dates
+ * @see https://icons.getbootstrap.com/icons/calendar-week/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CalendarWeekIcon aria-label="Activity indicator" />
+ * <CalendarWeekIcon aria-label="Calendar week" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

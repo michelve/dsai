@@ -1,8 +1,10 @@
 /**
  * SunriseFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sunrise fill
+ * @category Weather
+ * @tags dawn
+ * @see https://icons.getbootstrap.com/icons/sunrise-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SunriseFillIcon aria-label="Activity indicator" />
+ * <SunriseFillIcon aria-label="Sunrise fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

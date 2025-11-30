@@ -1,8 +1,10 @@
 /**
  * HddRackIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Hdd rack
+ * @category Devices
+ * @tags "hard drive"
+ * @see https://icons.getbootstrap.com/icons/hdd-rack/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HddRackIcon aria-label="Activity indicator" />
+ * <HddRackIcon aria-label="Hdd rack" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * HouseDoorFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - House door fill
+ * @category Real world
+ * @tags home
+ * @see https://icons.getbootstrap.com/icons/house-door-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HouseDoorFillIcon aria-label="Activity indicator" />
+ * <HouseDoorFillIcon aria-label="House door fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

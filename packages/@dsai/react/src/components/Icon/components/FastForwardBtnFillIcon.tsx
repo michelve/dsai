@@ -1,8 +1,10 @@
 /**
  * FastForwardBtnFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Fast forward btn fill
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/fast-forward-btn-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FastForwardBtnFillIcon aria-label="Activity indicator" />
+ * <FastForwardBtnFillIcon aria-label="Fast forward btn fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

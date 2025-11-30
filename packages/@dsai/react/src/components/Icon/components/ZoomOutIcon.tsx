@@ -1,8 +1,10 @@
 /**
  * ZoomOutIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Zoom out
+ * @category Graphics
+ * @tags minify
+ * @see https://icons.getbootstrap.com/icons/zoom-out/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ZoomOutIcon aria-label="Activity indicator" />
+ * <ZoomOutIcon aria-label="Zoom out" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

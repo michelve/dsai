@@ -1,8 +1,10 @@
 /**
  * HouseSlashIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - House slash
+ * @category Real world
+ * @tags home
+ * @see https://icons.getbootstrap.com/icons/house-slash/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HouseSlashIcon aria-label="Activity indicator" />
+ * <HouseSlashIcon aria-label="House slash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

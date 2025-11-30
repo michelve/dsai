@@ -1,8 +1,10 @@
 /**
  * EyeglassesIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Eyeglasses
+ * @category Real world
+ * @tags eyeball
+ * @see https://icons.getbootstrap.com/icons/eyeglasses/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EyeglassesIcon aria-label="Activity indicator" />
+ * <EyeglassesIcon aria-label="Eyeglasses" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

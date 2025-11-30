@@ -1,8 +1,10 @@
 /**
  * OpencollectiveIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Opencollective
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/opencollective/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <OpencollectiveIcon aria-label="Activity indicator" />
+ * <OpencollectiveIcon aria-label="Opencollective" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

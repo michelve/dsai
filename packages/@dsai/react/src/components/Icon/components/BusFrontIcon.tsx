@@ -1,8 +1,10 @@
 /**
  * BusFrontIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bus front
+ * @category Transportation
+ * @tags "public transit"
+ * @see https://icons.getbootstrap.com/icons/bus-front/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BusFrontIcon aria-label="Activity indicator" />
+ * <BusFrontIcon aria-label="Bus front" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

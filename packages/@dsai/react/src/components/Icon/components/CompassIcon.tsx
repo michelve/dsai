@@ -1,8 +1,10 @@
 /**
  * CompassIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Compass
+ * @category Geo
+ * @tags direction
+ * @see https://icons.getbootstrap.com/icons/compass/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CompassIcon aria-label="Activity indicator" />
+ * <CompassIcon aria-label="Compass" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

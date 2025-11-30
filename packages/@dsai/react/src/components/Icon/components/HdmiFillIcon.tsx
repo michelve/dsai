@@ -1,8 +1,10 @@
 /**
  * HdmiFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - HDMI fill
+ * @category Devices
+ * @tags video
+ * @see https://icons.getbootstrap.com/icons/hdmi-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HdmiFillIcon aria-label="Activity indicator" />
+ * <HdmiFillIcon aria-label="HDMI fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * EmojiAstonishedFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji astonished fill
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-astonished-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiAstonishedFillIcon aria-label="Activity indicator" />
+ * <EmojiAstonishedFillIcon aria-label="Emoji astonished fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

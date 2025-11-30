@@ -1,8 +1,10 @@
 /**
  * RCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - R circle
+ * @category Shapes
+ * @tags registered
+ * @see https://icons.getbootstrap.com/icons/r-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <RCircleIcon aria-label="Activity indicator" />
+ * <RCircleIcon aria-label="R circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

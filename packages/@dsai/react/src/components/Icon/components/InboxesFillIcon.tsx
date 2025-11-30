@@ -1,8 +1,10 @@
 /**
  * InboxesFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Inboxes fill
+ * @category Communications
+ * @tags mail
+ * @see https://icons.getbootstrap.com/icons/inboxes-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <InboxesFillIcon aria-label="Activity indicator" />
+ * <InboxesFillIcon aria-label="Inboxes fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

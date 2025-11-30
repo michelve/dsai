@@ -1,8 +1,10 @@
 /**
  * HouseXIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - House x
+ * @category Real world
+ * @tags home
+ * @see https://icons.getbootstrap.com/icons/house-x/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HouseXIcon aria-label="Activity indicator" />
+ * <HouseXIcon aria-label="House x" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

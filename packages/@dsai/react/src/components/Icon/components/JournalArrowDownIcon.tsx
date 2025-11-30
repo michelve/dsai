@@ -1,8 +1,10 @@
 /**
  * JournalArrowDownIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Journal arrow down
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/journal-arrow-down/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <JournalArrowDownIcon aria-label="Activity indicator" />
+ * <JournalArrowDownIcon aria-label="Journal arrow down" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

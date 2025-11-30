@@ -1,8 +1,10 @@
 /**
  * Record2FillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Record2 fill
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/record2-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Record2FillIcon aria-label="Activity indicator" />
+ * <Record2FillIcon aria-label="Record2 fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

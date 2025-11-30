@@ -1,8 +1,10 @@
 /**
  * FiletypeBmpIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype bmp
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-bmp/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeBmpIcon aria-label="Activity indicator" />
+ * <FiletypeBmpIcon aria-label="Filetype bmp" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

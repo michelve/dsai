@@ -1,8 +1,10 @@
 /**
  * BrillianceIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Brilliance
+ * @category Graphics
+ * @tags photo
+ * @see https://icons.getbootstrap.com/icons/brilliance/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BrillianceIcon aria-label="Activity indicator" />
+ * <BrillianceIcon aria-label="Brilliance" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

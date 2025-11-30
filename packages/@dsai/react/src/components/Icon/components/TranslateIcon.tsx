@@ -1,8 +1,10 @@
 /**
  * TranslateIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Translate
+ * @category Communications
+ * @tags translation
+ * @see https://icons.getbootstrap.com/icons/translate/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TranslateIcon aria-label="Activity indicator" />
+ * <TranslateIcon aria-label="Translate" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

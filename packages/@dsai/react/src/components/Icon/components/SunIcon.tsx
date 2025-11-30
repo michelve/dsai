@@ -1,8 +1,10 @@
 /**
  * SunIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sun
+ * @category Weather
+ * @tags solar
+ * @see https://icons.getbootstrap.com/icons/sun/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SunIcon aria-label="Activity indicator" />
+ * <SunIcon aria-label="Sun" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

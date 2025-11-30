@@ -1,8 +1,10 @@
 /**
  * UiChecksIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - UI checks
+ * @category Controls
+ * @tags checkbox
+ * @see https://icons.getbootstrap.com/icons/ui-checks/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <UiChecksIcon aria-label="Activity indicator" />
+ * <UiChecksIcon aria-label="UI checks" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * DistributeHorizontalIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Distribute horizontal
+ * @category Graphics
+ * @tags space
+ * @see https://icons.getbootstrap.com/icons/distribute-horizontal/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DistributeHorizontalIcon aria-label="Activity indicator" />
+ * <DistributeHorizontalIcon aria-label="Distribute horizontal" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

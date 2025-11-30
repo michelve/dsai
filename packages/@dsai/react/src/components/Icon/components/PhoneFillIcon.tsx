@@ -1,8 +1,10 @@
 /**
  * PhoneFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Phone fill
+ * @category Devices
+ * @tags mobile
+ * @see https://icons.getbootstrap.com/icons/phone-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PhoneFillIcon aria-label="Activity indicator" />
+ * <PhoneFillIcon aria-label="Phone fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

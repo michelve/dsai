@@ -1,8 +1,10 @@
 /**
  * DeviceSsdFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Device SSD fill
+ * @category Devices
+ * @tags "solid state"
+ * @see https://icons.getbootstrap.com/icons/device-ssd-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DeviceSsdFillIcon aria-label="Activity indicator" />
+ * <DeviceSsdFillIcon aria-label="Device SSD fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

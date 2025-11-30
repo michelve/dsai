@@ -1,8 +1,10 @@
 /**
  * HCircleFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - H circle fill
+ * @category Shapes
+ * @tags hospital
+ * @see https://icons.getbootstrap.com/icons/h-circle-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HCircleFillIcon aria-label="Activity indicator" />
+ * <HCircleFillIcon aria-label="H circle fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

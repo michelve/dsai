@@ -1,8 +1,10 @@
 /**
  * FileBarGraphIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File bar graph
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-bar-graph/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileBarGraphIcon aria-label="Activity indicator" />
+ * <FileBarGraphIcon aria-label="File bar graph" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

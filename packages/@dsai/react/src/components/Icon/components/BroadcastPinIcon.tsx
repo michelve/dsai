@@ -1,8 +1,10 @@
 /**
  * BroadcastPinIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Broadcast pin
+ * @category Communications
+ * @tags radio
+ * @see https://icons.getbootstrap.com/icons/broadcast-pin/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BroadcastPinIcon aria-label="Activity indicator" />
+ * <BroadcastPinIcon aria-label="Broadcast pin" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

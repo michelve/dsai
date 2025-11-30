@@ -1,8 +1,10 @@
 /**
  * HeartArrowIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Heart arrow
+ * @category Love
+ * @tags romance
+ * @see https://icons.getbootstrap.com/icons/heart-arrow/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HeartArrowIcon aria-label="Activity indicator" />
+ * <HeartArrowIcon aria-label="Heart arrow" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

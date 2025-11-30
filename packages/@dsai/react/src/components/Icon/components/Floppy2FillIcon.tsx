@@ -1,8 +1,10 @@
 /**
  * Floppy2FillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Floppy2 fill
+ * @category Devices
+ * @tags save
+ * @see https://icons.getbootstrap.com/icons/floppy2-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Floppy2FillIcon aria-label="Activity indicator" />
+ * <Floppy2FillIcon aria-label="Floppy2 fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

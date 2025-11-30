@@ -1,8 +1,10 @@
 /**
  * StackIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Stack
+ * @category Graphics
+ * @tags layers
+ * @see https://icons.getbootstrap.com/icons/stack/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <StackIcon aria-label="Activity indicator" />
+ * <StackIcon aria-label="Stack" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

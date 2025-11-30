@@ -1,8 +1,10 @@
 /**
  * BadgeVoFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Badge vo fill
+ * @category Badges
+ * @tags voiceover
+ * @see https://icons.getbootstrap.com/icons/badge-vo-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BadgeVoFillIcon aria-label="Activity indicator" />
+ * <BadgeVoFillIcon aria-label="Badge vo fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

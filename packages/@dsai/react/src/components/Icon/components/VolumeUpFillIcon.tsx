@@ -1,8 +1,10 @@
 /**
  * VolumeUpFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Volume up fill
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/volume-up-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <VolumeUpFillIcon aria-label="Activity indicator" />
+ * <VolumeUpFillIcon aria-label="Volume up fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

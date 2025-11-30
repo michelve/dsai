@@ -1,8 +1,10 @@
 /**
  * ShieldFillCheckIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Shield fill check
+ * @category Security
+ * @tags privacy
+ * @see https://icons.getbootstrap.com/icons/shield-fill-check/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ShieldFillCheckIcon aria-label="Activity indicator" />
+ * <ShieldFillCheckIcon aria-label="Shield fill check" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

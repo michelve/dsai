@@ -1,8 +1,10 @@
 /**
  * FiletypeDocIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype doc
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-doc/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeDocIcon aria-label="Activity indicator" />
+ * <FiletypeDocIcon aria-label="Filetype doc" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

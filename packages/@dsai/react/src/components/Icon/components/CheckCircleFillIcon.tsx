@@ -1,8 +1,10 @@
 /**
  * CheckCircleFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Check circle fill
+ * @category Alerts, warnings, and signs
+ * @tags checkmark
+ * @see https://icons.getbootstrap.com/icons/check-circle-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CheckCircleFillIcon aria-label="Activity indicator" />
+ * <CheckCircleFillIcon aria-label="Check circle fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

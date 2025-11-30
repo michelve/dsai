@@ -1,8 +1,10 @@
 /**
  * SaveIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Save
+ * @category UI and keyboard
+ * @tags save
+ * @see https://icons.getbootstrap.com/icons/save/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SaveIcon aria-label="Activity indicator" />
+ * <SaveIcon aria-label="Save" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

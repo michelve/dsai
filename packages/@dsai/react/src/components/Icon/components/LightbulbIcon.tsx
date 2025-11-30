@@ -1,8 +1,10 @@
 /**
  * LightbulbIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Lightbulb
+ * @category Real world
+ * @tags lights
+ * @see https://icons.getbootstrap.com/icons/lightbulb/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LightbulbIcon aria-label="Activity indicator" />
+ * <LightbulbIcon aria-label="Lightbulb" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

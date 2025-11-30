@@ -1,8 +1,10 @@
 /**
  * HeadsetVrIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Headset VR
+ * @category Devices
+ * @tags "virual reality"
+ * @see https://icons.getbootstrap.com/icons/headset-vr/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HeadsetVrIcon aria-label="Activity indicator" />
+ * <HeadsetVrIcon aria-label="Headset VR" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

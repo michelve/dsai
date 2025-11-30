@@ -1,8 +1,10 @@
 /**
  * RewindBtnFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Rewind btn fill
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/rewind-btn-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <RewindBtnFillIcon aria-label="Activity indicator" />
+ * <RewindBtnFillIcon aria-label="Rewind btn fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

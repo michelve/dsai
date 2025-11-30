@@ -1,8 +1,10 @@
 /**
  * HourglassIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Hourglass
+ * @category Real world
+ * @tags time
+ * @see https://icons.getbootstrap.com/icons/hourglass/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HourglassIcon aria-label="Activity indicator" />
+ * <HourglassIcon aria-label="Hourglass" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

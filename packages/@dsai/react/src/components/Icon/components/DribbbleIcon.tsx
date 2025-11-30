@@ -1,8 +1,10 @@
 /**
  * DribbbleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Dribbble
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/dribbble/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DribbbleIcon aria-label="Activity indicator" />
+ * <DribbbleIcon aria-label="Dribbble" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

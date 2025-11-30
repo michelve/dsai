@@ -1,8 +1,10 @@
 /**
  * FilterIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filter
+ * @category UI and keyboard
+ * @tags sort
+ * @see https://icons.getbootstrap.com/icons/filter/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FilterIcon aria-label="Activity indicator" />
+ * <FilterIcon aria-label="Filter" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

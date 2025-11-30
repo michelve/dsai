@@ -1,8 +1,10 @@
 /**
  * TropicalStormIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Tropical storm
+ * @category Weather
+ * @tags hurricane
+ * @see https://icons.getbootstrap.com/icons/tropical-storm/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TropicalStormIcon aria-label="Activity indicator" />
+ * <TropicalStormIcon aria-label="Tropical storm" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

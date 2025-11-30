@@ -1,8 +1,10 @@
 /**
  * LayoutThreeColumnsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Layout three columns
+ * @category Layout
+ * @tags layout
+ * @see https://icons.getbootstrap.com/icons/layout-three-columns/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LayoutThreeColumnsIcon aria-label="Activity indicator" />
+ * <LayoutThreeColumnsIcon aria-label="Layout three columns" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

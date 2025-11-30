@@ -1,8 +1,10 @@
 /**
  * PinIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Pin
+ * @category Real world
+ * @tags pushpin
+ * @see https://icons.getbootstrap.com/icons/pin/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PinIcon aria-label="Activity indicator" />
+ * <PinIcon aria-label="Pin" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

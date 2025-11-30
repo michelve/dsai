@@ -1,8 +1,10 @@
 /**
  * GooglePlayIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Google Play
+ * @category Brand
+ * @tags "app store"
+ * @see https://icons.getbootstrap.com/icons/google-play/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GooglePlayIcon aria-label="Activity indicator" />
+ * <GooglePlayIcon aria-label="Google Play" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

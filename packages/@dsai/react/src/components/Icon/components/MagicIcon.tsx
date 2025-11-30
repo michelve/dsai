@@ -1,8 +1,10 @@
 /**
  * MagicIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Magic
+ * @category Real world
+ * @tags "magic stick"
+ * @see https://icons.getbootstrap.com/icons/magic/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MagicIcon aria-label="Activity indicator" />
+ * <MagicIcon aria-label="Magic" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

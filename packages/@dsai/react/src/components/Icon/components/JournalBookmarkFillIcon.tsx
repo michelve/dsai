@@ -1,8 +1,10 @@
 /**
  * JournalBookmarkFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Journal bookmark fill
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/journal-bookmark-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <JournalBookmarkFillIcon aria-label="Activity indicator" />
+ * <JournalBookmarkFillIcon aria-label="Journal bookmark fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

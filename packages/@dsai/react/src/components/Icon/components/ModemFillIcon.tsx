@@ -1,8 +1,10 @@
 /**
  * ModemFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Modem fill
+ * @category Devices
+ * @tags internet
+ * @see https://icons.getbootstrap.com/icons/modem-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ModemFillIcon aria-label="Activity indicator" />
+ * <ModemFillIcon aria-label="Modem fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

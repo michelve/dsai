@@ -1,7 +1,7 @@
 /**
  * Dice3FillIcon
  *
- * Bootstrap Icons - React Component
+ * Bootstrap Icons - Dice3Fill
  * @see https://icons.getbootstrap.com/
  *
  * @accessibility
@@ -16,7 +16,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Dice3FillIcon aria-label="Activity indicator" />
+ * <Dice3FillIcon aria-label="Dice3Fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

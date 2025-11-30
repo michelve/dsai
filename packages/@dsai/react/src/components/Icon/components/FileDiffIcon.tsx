@@ -1,8 +1,10 @@
 /**
  * FileDiffIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File diff
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-diff/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileDiffIcon aria-label="Activity indicator" />
+ * <FileDiffIcon aria-label="File diff" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

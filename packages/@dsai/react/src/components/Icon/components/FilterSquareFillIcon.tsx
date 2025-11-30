@@ -1,8 +1,10 @@
 /**
  * FilterSquareFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filter square fill
+ * @category Sort and filter
+ * @tags sort
+ * @see https://icons.getbootstrap.com/icons/filter-square-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FilterSquareFillIcon aria-label="Activity indicator" />
+ * <FilterSquareFillIcon aria-label="Filter square fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

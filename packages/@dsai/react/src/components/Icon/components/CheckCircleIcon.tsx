@@ -1,8 +1,10 @@
 /**
  * CheckCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Check circle
+ * @category Alerts, warnings, and signs
+ * @tags checkmark
+ * @see https://icons.getbootstrap.com/icons/check-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CheckCircleIcon aria-label="Activity indicator" />
+ * <CheckCircleIcon aria-label="Check circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

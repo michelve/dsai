@@ -1,8 +1,10 @@
 /**
  * FolderPlusIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Folder plus
+ * @category Files and folders
+ * @tags directory
+ * @see https://icons.getbootstrap.com/icons/folder-plus/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FolderPlusIcon aria-label="Activity indicator" />
+ * <FolderPlusIcon aria-label="Folder plus" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

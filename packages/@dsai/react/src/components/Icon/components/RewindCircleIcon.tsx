@@ -1,8 +1,10 @@
 /**
  * RewindCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Rewind circle
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/rewind-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <RewindCircleIcon aria-label="Activity indicator" />
+ * <RewindCircleIcon aria-label="Rewind circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

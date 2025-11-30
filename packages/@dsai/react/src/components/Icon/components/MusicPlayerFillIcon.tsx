@@ -1,8 +1,10 @@
 /**
  * MusicPlayerFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Music player fill
+ * @category Devices
+ * @tags ipod
+ * @see https://icons.getbootstrap.com/icons/music-player-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MusicPlayerFillIcon aria-label="Activity indicator" />
+ * <MusicPlayerFillIcon aria-label="Music player fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

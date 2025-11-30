@@ -1,8 +1,10 @@
 /**
  * UniversalAccessIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Universal Access
+ * @category UI and Keyboard
+ * @tags accessibility
+ * @see https://icons.getbootstrap.com/icons/universal-access/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <UniversalAccessIcon aria-label="Activity indicator" />
+ * <UniversalAccessIcon aria-label="Universal Access" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

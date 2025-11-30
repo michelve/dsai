@@ -1,8 +1,10 @@
 /**
  * LayerForwardIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Layer forward
+ * @category Graphics
+ * @tags arrange
+ * @see https://icons.getbootstrap.com/icons/layer-forward/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LayerForwardIcon aria-label="Activity indicator" />
+ * <LayerForwardIcon aria-label="Layer forward" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

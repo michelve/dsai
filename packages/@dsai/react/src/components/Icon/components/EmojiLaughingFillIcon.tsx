@@ -1,8 +1,10 @@
 /**
  * EmojiLaughingFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji laughing fill
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-laughing-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiLaughingFillIcon aria-label="Activity indicator" />
+ * <EmojiLaughingFillIcon aria-label="Emoji laughing fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

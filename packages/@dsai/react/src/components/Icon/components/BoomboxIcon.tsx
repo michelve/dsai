@@ -1,8 +1,10 @@
 /**
  * BoomboxIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Boombox
+ * @category Real world
+ * @tags music
+ * @see https://icons.getbootstrap.com/icons/boombox/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BoomboxIcon aria-label="Activity indicator" />
+ * <BoomboxIcon aria-label="Boombox" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

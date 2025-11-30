@@ -1,8 +1,10 @@
 /**
  * LaptopFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Laptop fill
+ * @category Devices
+ * @tags computer
+ * @see https://icons.getbootstrap.com/icons/laptop-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LaptopFillIcon aria-label="Activity indicator" />
+ * <LaptopFillIcon aria-label="Laptop fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

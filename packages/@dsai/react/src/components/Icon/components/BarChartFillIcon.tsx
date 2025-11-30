@@ -1,8 +1,10 @@
 /**
  * BarChartFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bar chart fill
+ * @category Data
+ * @tags chart
+ * @see https://icons.getbootstrap.com/icons/bar-chart-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BarChartFillIcon aria-label="Activity indicator" />
+ * <BarChartFillIcon aria-label="Bar chart fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

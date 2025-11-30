@@ -1,8 +1,10 @@
 /**
  * MediumIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Medium
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/medium/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MediumIcon aria-label="Activity indicator" />
+ * <MediumIcon aria-label="Medium" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

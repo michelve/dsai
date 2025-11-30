@@ -1,8 +1,10 @@
 /**
  * ShadowsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Shadows
+ * @category Graphics
+ * @tags photo
+ * @see https://icons.getbootstrap.com/icons/shadows/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ShadowsIcon aria-label="Activity indicator" />
+ * <ShadowsIcon aria-label="Shadows" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

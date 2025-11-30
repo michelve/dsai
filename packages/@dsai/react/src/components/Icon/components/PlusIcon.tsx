@@ -1,8 +1,10 @@
 /**
  * PlusIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Plus
+ * @category Alerts, warnings, and signs
+ * @tags add
+ * @see https://icons.getbootstrap.com/icons/plus/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PlusIcon aria-label="Activity indicator" />
+ * <PlusIcon aria-label="Plus" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

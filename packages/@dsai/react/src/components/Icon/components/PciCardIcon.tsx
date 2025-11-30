@@ -1,8 +1,10 @@
 /**
  * PciCardIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - PCI card
+ * @category Devices
+ * @tags card
+ * @see https://icons.getbootstrap.com/icons/pci-card/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PciCardIcon aria-label="Activity indicator" />
+ * <PciCardIcon aria-label="PCI card" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * ThreeDotsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Three dots
+ * @category Controls
+ * @tags meatballs
+ * @see https://icons.getbootstrap.com/icons/three-dots/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ThreeDotsIcon aria-label="Activity indicator" />
+ * <ThreeDotsIcon aria-label="Three dots" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

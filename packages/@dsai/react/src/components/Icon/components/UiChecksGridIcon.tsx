@@ -1,8 +1,10 @@
 /**
  * UiChecksGridIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - UI checks grid
+ * @category Controls
+ * @tags checkbox
+ * @see https://icons.getbootstrap.com/icons/ui-checks-grid/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <UiChecksGridIcon aria-label="Activity indicator" />
+ * <UiChecksGridIcon aria-label="UI checks grid" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

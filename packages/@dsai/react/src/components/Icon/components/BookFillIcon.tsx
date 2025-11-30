@@ -1,8 +1,10 @@
 /**
  * BookFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Book fill
+ * @category Real world
+ * @tags novel
+ * @see https://icons.getbootstrap.com/icons/book-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BookFillIcon aria-label="Activity indicator" />
+ * <BookFillIcon aria-label="Book fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * FiletypePptIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype ppt
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-ppt/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypePptIcon aria-label="Activity indicator" />
+ * <FiletypePptIcon aria-label="Filetype ppt" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * CalendarMinusFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Calendar minus fill
+ * @category Date and time
+ * @tags date
+ * @see https://icons.getbootstrap.com/icons/calendar-minus-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CalendarMinusFillIcon aria-label="Activity indicator" />
+ * <CalendarMinusFillIcon aria-label="Calendar minus fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

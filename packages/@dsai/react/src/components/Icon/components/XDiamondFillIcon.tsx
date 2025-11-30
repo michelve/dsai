@@ -1,8 +1,10 @@
 /**
  * XDiamondFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - X diamond fill
+ * @category Alerts, warnings, and signs
+ * @tags x
+ * @see https://icons.getbootstrap.com/icons/x-diamond-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <XDiamondFillIcon aria-label="Activity indicator" />
+ * <XDiamondFillIcon aria-label="X diamond fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

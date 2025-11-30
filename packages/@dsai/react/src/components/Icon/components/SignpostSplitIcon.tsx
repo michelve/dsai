@@ -1,8 +1,10 @@
 /**
  * SignpostSplitIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Signpost split
+ * @category Real world
+ * @tags milestone
+ * @see https://icons.getbootstrap.com/icons/signpost-split/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SignpostSplitIcon aria-label="Activity indicator" />
+ * <SignpostSplitIcon aria-label="Signpost split" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * AnthropicIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Anthropic
+ * @category Brand
+ * @tags ai
+ * @see https://icons.getbootstrap.com/icons/anthropic/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AnthropicIcon aria-label="Activity indicator" />
+ * <AnthropicIcon aria-label="Anthropic" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

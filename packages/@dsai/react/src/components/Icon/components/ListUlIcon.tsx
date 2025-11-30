@@ -1,8 +1,10 @@
 /**
  * ListUlIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - List UL
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/list-ul/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ListUlIcon aria-label="Activity indicator" />
+ * <ListUlIcon aria-label="List UL" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

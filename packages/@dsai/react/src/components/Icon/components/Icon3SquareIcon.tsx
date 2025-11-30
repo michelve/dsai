@@ -1,8 +1,10 @@
 /**
  * Icon3SquareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - 3 square
+ * @category Shapes
+ * @tags number
+ * @see https://icons.getbootstrap.com/icons/3-square/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Icon3SquareIcon aria-label="Activity indicator" />
+ * <Icon3SquareIcon aria-label="3 square" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

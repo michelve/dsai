@@ -1,8 +1,10 @@
 /**
  * PaintBucketIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Paint bucket
+ * @category Graphics
+ * @tags color
+ * @see https://icons.getbootstrap.com/icons/paint-bucket/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PaintBucketIcon aria-label="Activity indicator" />
+ * <PaintBucketIcon aria-label="Paint bucket" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

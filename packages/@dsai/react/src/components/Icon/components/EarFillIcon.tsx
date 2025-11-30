@@ -1,8 +1,10 @@
 /**
  * EarFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Ear fill
+ * @category Real world
+ * @tags hearing
+ * @see https://icons.getbootstrap.com/icons/ear-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EarFillIcon aria-label="Activity indicator" />
+ * <EarFillIcon aria-label="Ear fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

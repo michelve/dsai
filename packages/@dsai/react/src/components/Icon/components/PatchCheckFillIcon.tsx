@@ -1,8 +1,10 @@
 /**
  * PatchCheckFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Patch check fill
+ * @category Badges
+ * @tags verified
+ * @see https://icons.getbootstrap.com/icons/patch-check-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PatchCheckFillIcon aria-label="Activity indicator" />
+ * <PatchCheckFillIcon aria-label="Patch check fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

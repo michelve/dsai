@@ -1,8 +1,10 @@
 /**
  * SpellcheckIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Spellcheck
+ * @category Typography
+ * @tags spelling
+ * @see https://icons.getbootstrap.com/icons/spellcheck/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SpellcheckIcon aria-label="Activity indicator" />
+ * <SpellcheckIcon aria-label="Spellcheck" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

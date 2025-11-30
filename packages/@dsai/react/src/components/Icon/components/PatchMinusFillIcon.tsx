@@ -1,8 +1,10 @@
 /**
  * PatchMinusFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Patch minus fill
+ * @category Badges
+ * @tags subtract
+ * @see https://icons.getbootstrap.com/icons/patch-minus-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PatchMinusFillIcon aria-label="Activity indicator" />
+ * <PatchMinusFillIcon aria-label="Patch minus fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

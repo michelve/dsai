@@ -1,8 +1,10 @@
 /**
  * FiletypeSqlIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype SQL
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-sql/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeSqlIcon aria-label="Activity indicator" />
+ * <FiletypeSqlIcon aria-label="Filetype SQL" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

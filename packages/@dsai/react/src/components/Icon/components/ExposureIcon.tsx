@@ -1,8 +1,10 @@
 /**
  * ExposureIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Exposure
+ * @category Graphics
+ * @tags photo
+ * @see https://icons.getbootstrap.com/icons/exposure/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ExposureIcon aria-label="Activity indicator" />
+ * <ExposureIcon aria-label="Exposure" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

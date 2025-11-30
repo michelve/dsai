@@ -1,8 +1,10 @@
 /**
  * VirusIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Virus
+ * @category Medical
+ * @tags covid
+ * @see https://icons.getbootstrap.com/icons/virus/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <VirusIcon aria-label="Activity indicator" />
+ * <VirusIcon aria-label="Virus" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

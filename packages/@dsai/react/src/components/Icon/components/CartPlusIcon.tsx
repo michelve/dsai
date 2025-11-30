@@ -1,8 +1,10 @@
 /**
  * CartPlusIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cart plus
+ * @category Commerce
+ * @tags shopping
+ * @see https://icons.getbootstrap.com/icons/cart-plus/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CartPlusIcon aria-label="Activity indicator" />
+ * <CartPlusIcon aria-label="Cart plus" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

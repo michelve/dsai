@@ -1,8 +1,10 @@
 /**
  * EggIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Egg
+ * @category Real world
+ * @tags food
+ * @see https://icons.getbootstrap.com/icons/egg/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EggIcon aria-label="Activity indicator" />
+ * <EggIcon aria-label="Egg" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

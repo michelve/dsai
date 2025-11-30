@@ -1,8 +1,10 @@
 /**
  * NodeMinusFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Node minus fill
+ * @category Graphics
+ * @tags add
+ * @see https://icons.getbootstrap.com/icons/node-minus-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <NodeMinusFillIcon aria-label="Activity indicator" />
+ * <NodeMinusFillIcon aria-label="Node minus fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

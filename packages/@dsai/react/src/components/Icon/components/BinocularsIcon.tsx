@@ -1,8 +1,10 @@
 /**
  * BinocularsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Binoculars
+ * @category Real world
+ * @tags distance
+ * @see https://icons.getbootstrap.com/icons/binoculars/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BinocularsIcon aria-label="Activity indicator" />
+ * <BinocularsIcon aria-label="Binoculars" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

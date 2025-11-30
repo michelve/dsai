@@ -1,8 +1,10 @@
 /**
  * CropIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Crop
+ * @category Graphics
+ * @tags crop
+ * @see https://icons.getbootstrap.com/icons/crop/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CropIcon aria-label="Activity indicator" />
+ * <CropIcon aria-label="Crop" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * PersonHeartIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person heart
+ * @category People
+ * @tags member
+ * @see https://icons.getbootstrap.com/icons/person-heart/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonHeartIcon aria-label="Activity indicator" />
+ * <PersonHeartIcon aria-label="Person heart" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

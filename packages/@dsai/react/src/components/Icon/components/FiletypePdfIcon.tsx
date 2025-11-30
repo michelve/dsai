@@ -1,8 +1,10 @@
 /**
  * FiletypePdfIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype pdf
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-pdf/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypePdfIcon aria-label="Activity indicator" />
+ * <FiletypePdfIcon aria-label="Filetype pdf" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

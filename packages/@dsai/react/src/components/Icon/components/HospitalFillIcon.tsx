@@ -1,8 +1,10 @@
 /**
  * HospitalFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Hospital fill
+ * @category Medical
+ * @tags health
+ * @see https://icons.getbootstrap.com/icons/hospital-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HospitalFillIcon aria-label="Activity indicator" />
+ * <HospitalFillIcon aria-label="Hospital fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

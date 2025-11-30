@@ -1,8 +1,10 @@
 /**
  * PersonBadgeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person badge
+ * @category People
+ * @tags member
+ * @see https://icons.getbootstrap.com/icons/person-badge/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonBadgeIcon aria-label="Activity indicator" />
+ * <PersonBadgeIcon aria-label="Person badge" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

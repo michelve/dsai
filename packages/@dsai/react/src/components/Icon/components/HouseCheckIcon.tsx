@@ -1,8 +1,10 @@
 /**
  * HouseCheckIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - House check
+ * @category Real world
+ * @tags home
+ * @see https://icons.getbootstrap.com/icons/house-check/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HouseCheckIcon aria-label="Activity indicator" />
+ * <HouseCheckIcon aria-label="House check" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

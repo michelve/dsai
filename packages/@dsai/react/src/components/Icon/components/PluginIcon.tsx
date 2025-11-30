@@ -1,8 +1,10 @@
 /**
  * PluginIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Plugin
+ * @category UI and Keyboard
+ * @tags addon
+ * @see https://icons.getbootstrap.com/icons/plugin/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PluginIcon aria-label="Activity indicator" />
+ * <PluginIcon aria-label="Plugin" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

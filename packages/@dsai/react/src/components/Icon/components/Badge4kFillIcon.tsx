@@ -1,7 +1,7 @@
 /**
  * Badge4kFillIcon
  *
- * Bootstrap Icons - React Component
+ * Bootstrap Icons - Badge4kFill
  * @see https://icons.getbootstrap.com/
  *
  * @accessibility
@@ -16,7 +16,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Badge4kFillIcon aria-label="Activity indicator" />
+ * <Badge4kFillIcon aria-label="Badge4kFill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

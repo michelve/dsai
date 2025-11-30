@@ -1,8 +1,10 @@
 /**
  * BellSlashIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bell slash
+ * @category Communications
+ * @tags notification
+ * @see https://icons.getbootstrap.com/icons/bell-slash/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BellSlashIcon aria-label="Activity indicator" />
+ * <BellSlashIcon aria-label="Bell slash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

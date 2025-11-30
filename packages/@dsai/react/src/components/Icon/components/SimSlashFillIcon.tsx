@@ -1,8 +1,10 @@
 /**
  * SimSlashFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sim slash fill
+ * @category Devices
+ * @tags mobile
+ * @see https://icons.getbootstrap.com/icons/sim-slash-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SimSlashFillIcon aria-label="Activity indicator" />
+ * <SimSlashFillIcon aria-label="Sim slash fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

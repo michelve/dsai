@@ -1,8 +1,10 @@
 /**
  * TypeH5Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Type h5
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/type-h5/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TypeH5Icon aria-label="Activity indicator" />
+ * <TypeH5Icon aria-label="Type h5" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * FilePlayFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File play fill
+ * @category Files and folders
+ * @tags video
+ * @see https://icons.getbootstrap.com/icons/file-play-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FilePlayFillIcon aria-label="Activity indicator" />
+ * <FilePlayFillIcon aria-label="File play fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

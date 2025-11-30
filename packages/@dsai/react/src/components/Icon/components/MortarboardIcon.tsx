@@ -1,8 +1,10 @@
 /**
  * MortarboardIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Mortarboard
+ * @category Real world
+ * @tags graduation
+ * @see https://icons.getbootstrap.com/icons/mortarboard/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MortarboardIcon aria-label="Activity indicator" />
+ * <MortarboardIcon aria-label="Mortarboard" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * BackspaceReverseIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Backspace reverse
+ * @category UI and keyboard
+ * @tags key
+ * @see https://icons.getbootstrap.com/icons/backspace-reverse/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BackspaceReverseIcon aria-label="Activity indicator" />
+ * <BackspaceReverseIcon aria-label="Backspace reverse" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

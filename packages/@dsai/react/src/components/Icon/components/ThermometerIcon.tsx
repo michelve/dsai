@@ -1,8 +1,10 @@
 /**
  * ThermometerIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Thermometer
+ * @category Real world
+ * @tags temperature
+ * @see https://icons.getbootstrap.com/icons/thermometer/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ThermometerIcon aria-label="Activity indicator" />
+ * <ThermometerIcon aria-label="Thermometer" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

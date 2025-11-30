@@ -1,8 +1,10 @@
 /**
  * InfinityIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Infinity
+ * @category Typography
+ * @tags math
+ * @see https://icons.getbootstrap.com/icons/infinity/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <InfinityIcon aria-label="Activity indicator" />
+ * <InfinityIcon aria-label="Infinity" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * XSquareFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - X square fill
+ * @category Alerts, warnings, and signs
+ * @tags x
+ * @see https://icons.getbootstrap.com/icons/x-square-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <XSquareFillIcon aria-label="Activity indicator" />
+ * <XSquareFillIcon aria-label="X square fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * EmojiTearIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji tear
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-tear/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiTearIcon aria-label="Activity indicator" />
+ * <EmojiTearIcon aria-label="Emoji tear" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

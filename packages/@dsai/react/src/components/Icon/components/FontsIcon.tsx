@@ -1,8 +1,10 @@
 /**
  * FontsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Fonts
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/fonts/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FontsIcon aria-label="Activity indicator" />
+ * <FontsIcon aria-label="Fonts" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

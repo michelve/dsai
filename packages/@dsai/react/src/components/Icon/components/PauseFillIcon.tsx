@@ -1,8 +1,10 @@
 /**
  * PauseFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Pause fill
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/pause-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PauseFillIcon aria-label="Activity indicator" />
+ * <PauseFillIcon aria-label="Pause fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

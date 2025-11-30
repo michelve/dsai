@@ -1,8 +1,10 @@
 /**
  * LayoutSidebarInsetIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Layout sidebar nested
+ * @category Layout
+ * @tags layout
+ * @see https://icons.getbootstrap.com/icons/layout-sidebar-inset/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LayoutSidebarInsetIcon aria-label="Activity indicator" />
+ * <LayoutSidebarInsetIcon aria-label="Layout sidebar nested" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

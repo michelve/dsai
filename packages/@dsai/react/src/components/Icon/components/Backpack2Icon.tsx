@@ -1,8 +1,10 @@
 /**
  * Backpack2Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Backpack2
+ * @category Travel
+ * @tags luggage
+ * @see https://icons.getbootstrap.com/icons/backpack2/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Backpack2Icon aria-label="Activity indicator" />
+ * <Backpack2Icon aria-label="Backpack2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

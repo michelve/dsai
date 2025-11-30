@@ -1,8 +1,10 @@
 /**
  * InputCursorIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Input cursor
+ * @category Graphics
+ * @tags textarea
+ * @see https://icons.getbootstrap.com/icons/input-cursor/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <InputCursorIcon aria-label="Activity indicator" />
+ * <InputCursorIcon aria-label="Input cursor" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

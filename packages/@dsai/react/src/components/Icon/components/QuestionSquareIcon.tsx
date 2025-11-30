@@ -1,8 +1,10 @@
 /**
  * QuestionSquareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Question square
+ * @category Alerts, warnings, and signs
+ * @tags help
+ * @see https://icons.getbootstrap.com/icons/question-square/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <QuestionSquareIcon aria-label="Activity indicator" />
+ * <QuestionSquareIcon aria-label="Question square" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * SunsetIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sunset
+ * @category Weather
+ * @tags dusk
+ * @see https://icons.getbootstrap.com/icons/sunset/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SunsetIcon aria-label="Activity indicator" />
+ * <SunsetIcon aria-label="Sunset" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

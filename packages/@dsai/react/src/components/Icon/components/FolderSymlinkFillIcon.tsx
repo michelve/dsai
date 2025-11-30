@@ -1,8 +1,10 @@
 /**
  * FolderSymlinkFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Folder symlink fill
+ * @category Files and folders
+ * @tags directory
+ * @see https://icons.getbootstrap.com/icons/folder-symlink-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FolderSymlinkFillIcon aria-label="Activity indicator" />
+ * <FolderSymlinkFillIcon aria-label="Folder symlink fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

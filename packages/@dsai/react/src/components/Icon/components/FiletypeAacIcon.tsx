@@ -1,8 +1,10 @@
 /**
  * FiletypeAacIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype aac
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-aac/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeAacIcon aria-label="Activity indicator" />
+ * <FiletypeAacIcon aria-label="Filetype aac" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * MeasuringCupFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Measuring cup fill
+ * @category Real world
+ * @tags baking
+ * @see https://icons.getbootstrap.com/icons/measuring-cup-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MeasuringCupFillIcon aria-label="Activity indicator" />
+ * <MeasuringCupFillIcon aria-label="Measuring cup fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * CheckLgIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Check lg
+ * @category Alerts, warnings, and signs
+ * @tags checkmark
+ * @see https://icons.getbootstrap.com/icons/check-lg/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CheckLgIcon aria-label="Activity indicator" />
+ * <CheckLgIcon aria-label="Check lg" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

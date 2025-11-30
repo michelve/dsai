@@ -1,8 +1,10 @@
 /**
  * OpenaiIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - OpenAI
+ * @category Brand
+ * @tags ai
+ * @see https://icons.getbootstrap.com/icons/openai/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <OpenaiIcon aria-label="Activity indicator" />
+ * <OpenaiIcon aria-label="OpenAI" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

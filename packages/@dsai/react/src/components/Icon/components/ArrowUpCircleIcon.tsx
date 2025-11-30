@@ -1,8 +1,10 @@
 /**
  * ArrowUpCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrow up circle
+ * @category Shape arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrow-up-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowUpCircleIcon aria-label="Activity indicator" />
+ * <ArrowUpCircleIcon aria-label="Arrow up circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

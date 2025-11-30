@@ -1,8 +1,10 @@
 /**
  * EmojiNeutralFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji neutral fill
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-neutral-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiNeutralFillIcon aria-label="Activity indicator" />
+ * <EmojiNeutralFillIcon aria-label="Emoji neutral fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

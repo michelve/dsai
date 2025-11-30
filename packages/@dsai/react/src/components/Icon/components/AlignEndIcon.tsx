@@ -1,8 +1,10 @@
 /**
  * AlignEndIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Align end
+ * @category Graphics
+ * @tags space
+ * @see https://icons.getbootstrap.com/icons/align-end/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AlignEndIcon aria-label="Activity indicator" />
+ * <AlignEndIcon aria-label="Align end" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

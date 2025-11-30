@@ -1,8 +1,10 @@
 /**
  * FiletypeJpgIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype jpg
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-jpg/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeJpgIcon aria-label="Activity indicator" />
+ * <FiletypeJpgIcon aria-label="Filetype jpg" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

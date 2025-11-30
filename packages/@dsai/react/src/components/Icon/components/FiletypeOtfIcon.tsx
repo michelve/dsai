@@ -1,8 +1,10 @@
 /**
  * FiletypeOtfIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype otf
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-otf/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeOtfIcon aria-label="Activity indicator" />
+ * <FiletypeOtfIcon aria-label="Filetype otf" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

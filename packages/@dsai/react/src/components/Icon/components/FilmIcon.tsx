@@ -1,8 +1,10 @@
 /**
  * FilmIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Film
+ * @category Media
+ * @tags video
+ * @see https://icons.getbootstrap.com/icons/film/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FilmIcon aria-label="Activity indicator" />
+ * <FilmIcon aria-label="Film" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

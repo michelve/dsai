@@ -1,8 +1,10 @@
 /**
  * WindowSidebarIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Window sidebar
+ * @category Apps
+ * @tags application
+ * @see https://icons.getbootstrap.com/icons/window-sidebar/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WindowSidebarIcon aria-label="Activity indicator" />
+ * <WindowSidebarIcon aria-label="Window sidebar" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

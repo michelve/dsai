@@ -1,8 +1,10 @@
 /**
  * SlashLgIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Slash lg
+ * @category Alerts, warnings, and signs
+ * @tags shape
+ * @see https://icons.getbootstrap.com/icons/slash-lg/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SlashLgIcon aria-label="Activity indicator" />
+ * <SlashLgIcon aria-label="Slash lg" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

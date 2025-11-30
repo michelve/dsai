@@ -1,8 +1,10 @@
 /**
  * UmbrellaFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Umbrella fill
+ * @category Weather
+ * @tags rain
+ * @see https://icons.getbootstrap.com/icons/umbrella-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <UmbrellaFillIcon aria-label="Activity indicator" />
+ * <UmbrellaFillIcon aria-label="Umbrella fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

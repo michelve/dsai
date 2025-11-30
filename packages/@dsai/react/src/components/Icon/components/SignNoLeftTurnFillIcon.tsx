@@ -1,8 +1,10 @@
 /**
  * SignNoLeftTurnFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sign no left turn fill
+ * @category Transportation
+ * @tags road
+ * @see https://icons.getbootstrap.com/icons/sign-no-left-turn-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SignNoLeftTurnFillIcon aria-label="Activity indicator" />
+ * <SignNoLeftTurnFillIcon aria-label="Sign no left turn fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

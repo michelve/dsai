@@ -1,8 +1,10 @@
 /**
  * TelephoneFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Telephone fill
+ * @category Communications
+ * @tags telephone
+ * @see https://icons.getbootstrap.com/icons/telephone-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TelephoneFillIcon aria-label="Activity indicator" />
+ * <TelephoneFillIcon aria-label="Telephone fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

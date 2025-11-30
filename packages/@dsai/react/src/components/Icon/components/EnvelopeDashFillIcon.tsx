@@ -1,8 +1,10 @@
 /**
  * EnvelopeDashFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Envelope dash fill
+ * @category Communications
+ * @tags email
+ * @see https://icons.getbootstrap.com/icons/envelope-dash-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EnvelopeDashFillIcon aria-label="Activity indicator" />
+ * <EnvelopeDashFillIcon aria-label="Envelope dash fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

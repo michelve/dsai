@@ -1,8 +1,10 @@
 /**
  * DatabaseCheckIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Database check
+ * @category Devices
+ * @tags server
+ * @see https://icons.getbootstrap.com/icons/database-check/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DatabaseCheckIcon aria-label="Activity indicator" />
+ * <DatabaseCheckIcon aria-label="Database check" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,7 +1,7 @@
 /**
  * Repeat1Icon
  *
- * Bootstrap Icons - React Component
+ * Bootstrap Icons - Repeat1
  * @see https://icons.getbootstrap.com/
  *
  * @accessibility
@@ -16,7 +16,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Repeat1Icon aria-label="Activity indicator" />
+ * <Repeat1Icon aria-label="Repeat1" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

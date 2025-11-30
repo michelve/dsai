@@ -1,8 +1,10 @@
 /**
  * Box2HeartIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Box2 heart
+ * @category Real world
+ * @tags cardboard
+ * @see https://icons.getbootstrap.com/icons/box2-heart/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Box2HeartIcon aria-label="Activity indicator" />
+ * <Box2HeartIcon aria-label="Box2 heart" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

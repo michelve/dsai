@@ -1,8 +1,10 @@
 /**
  * SortAlphaUpAltIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sort alpha up alt
+ * @category Sort and filter
+ * @tags sort
+ * @see https://icons.getbootstrap.com/icons/sort-alpha-up-alt/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SortAlphaUpAltIcon aria-label="Activity indicator" />
+ * <SortAlphaUpAltIcon aria-label="Sort alpha up alt" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

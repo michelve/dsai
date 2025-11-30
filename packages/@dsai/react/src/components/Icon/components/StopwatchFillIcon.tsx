@@ -1,8 +1,10 @@
 /**
  * StopwatchFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Stopwatch fill
+ * @category Devices
+ * @tags time
+ * @see https://icons.getbootstrap.com/icons/stopwatch-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <StopwatchFillIcon aria-label="Activity indicator" />
+ * <StopwatchFillIcon aria-label="Stopwatch fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

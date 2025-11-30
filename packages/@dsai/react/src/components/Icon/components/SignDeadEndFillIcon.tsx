@@ -1,8 +1,10 @@
 /**
  * SignDeadEndFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sign dead end fill
+ * @category Transportation
+ * @tags road
+ * @see https://icons.getbootstrap.com/icons/sign-dead-end-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SignDeadEndFillIcon aria-label="Activity indicator" />
+ * <SignDeadEndFillIcon aria-label="Sign dead end fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * AlexaIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Alexa
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/alexa/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AlexaIcon aria-label="Activity indicator" />
+ * <AlexaIcon aria-label="Alexa" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

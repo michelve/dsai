@@ -1,8 +1,10 @@
 /**
  * FileEaselIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File easel
+ * @category Files and folders
+ * @tags slides
+ * @see https://icons.getbootstrap.com/icons/file-easel/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileEaselIcon aria-label="Activity indicator" />
+ * <FileEaselIcon aria-label="File easel" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

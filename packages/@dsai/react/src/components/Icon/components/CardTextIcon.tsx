@@ -1,8 +1,10 @@
 /**
  * CardTextIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Card text
+ * @category Files and folders
+ * @tags note
+ * @see https://icons.getbootstrap.com/icons/card-text/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CardTextIcon aria-label="Activity indicator" />
+ * <CardTextIcon aria-label="Card text" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

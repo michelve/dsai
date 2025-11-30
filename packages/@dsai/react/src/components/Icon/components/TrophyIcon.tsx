@@ -1,8 +1,10 @@
 /**
  * TrophyIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Trophy
+ * @category Real world
+ * @tags prize
+ * @see https://icons.getbootstrap.com/icons/trophy/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TrophyIcon aria-label="Activity indicator" />
+ * <TrophyIcon aria-label="Trophy" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

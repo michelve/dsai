@@ -1,8 +1,10 @@
 /**
  * BatteryChargingIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Battery charging
+ * @category Devices
+ * @tags power
+ * @see https://icons.getbootstrap.com/icons/battery-charging/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BatteryChargingIcon aria-label="Activity indicator" />
+ * <BatteryChargingIcon aria-label="Battery charging" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

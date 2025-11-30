@@ -1,8 +1,10 @@
 /**
  * BoxSeamFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Box seam fill
+ * @category Real world
+ * @tags cardboard
+ * @see https://icons.getbootstrap.com/icons/box-seam-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BoxSeamFillIcon aria-label="Activity indicator" />
+ * <BoxSeamFillIcon aria-label="Box seam fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * MouseIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Mouse
+ * @category Devices
+ * @tags mice
+ * @see https://icons.getbootstrap.com/icons/mouse/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MouseIcon aria-label="Activity indicator" />
+ * <MouseIcon aria-label="Mouse" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

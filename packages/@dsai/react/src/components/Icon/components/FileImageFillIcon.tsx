@@ -1,8 +1,10 @@
 /**
  * FileImageFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File image fill
+ * @category Files and folders
+ * @tags photo
+ * @see https://icons.getbootstrap.com/icons/file-image-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileImageFillIcon aria-label="Activity indicator" />
+ * <FileImageFillIcon aria-label="File image fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

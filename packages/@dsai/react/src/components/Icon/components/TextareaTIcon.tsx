@@ -1,8 +1,10 @@
 /**
  * TextareaTIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Textarea t
+ * @category Graphics
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/textarea-t/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TextareaTIcon aria-label="Activity indicator" />
+ * <TextareaTIcon aria-label="Textarea t" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

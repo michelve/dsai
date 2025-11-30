@@ -1,8 +1,10 @@
 /**
  * SkipStartCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Skip start circle
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/skip-start-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SkipStartCircleIcon aria-label="Activity indicator" />
+ * <SkipStartCircleIcon aria-label="Skip start circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

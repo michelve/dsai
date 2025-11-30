@@ -1,8 +1,10 @@
 /**
  * CurrencyDollarIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Currency dollar
+ * @category Commerce
+ * @tags money
+ * @see https://icons.getbootstrap.com/icons/currency-dollar/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CurrencyDollarIcon aria-label="Activity indicator" />
+ * <CurrencyDollarIcon aria-label="Currency dollar" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

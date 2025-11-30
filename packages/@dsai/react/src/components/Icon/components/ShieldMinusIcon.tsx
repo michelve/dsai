@@ -1,8 +1,10 @@
 /**
  * ShieldMinusIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Shield minus
+ * @category Security
+ * @tags privacy
+ * @see https://icons.getbootstrap.com/icons/shield-minus/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ShieldMinusIcon aria-label="Activity indicator" />
+ * <ShieldMinusIcon aria-label="Shield minus" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

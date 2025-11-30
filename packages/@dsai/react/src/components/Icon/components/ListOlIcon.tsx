@@ -1,8 +1,10 @@
 /**
  * ListOlIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - List OL
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/list-ol/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ListOlIcon aria-label="Activity indicator" />
+ * <ListOlIcon aria-label="List OL" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

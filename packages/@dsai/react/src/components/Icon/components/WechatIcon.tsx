@@ -1,8 +1,10 @@
 /**
  * WechatIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Wechat
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/wechat/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WechatIcon aria-label="Activity indicator" />
+ * <WechatIcon aria-label="Wechat" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

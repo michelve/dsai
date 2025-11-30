@@ -1,8 +1,10 @@
 /**
  * ZoomInIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Zoom in
+ * @category Graphics
+ * @tags magnify
+ * @see https://icons.getbootstrap.com/icons/zoom-in/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ZoomInIcon aria-label="Activity indicator" />
+ * <ZoomInIcon aria-label="Zoom in" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

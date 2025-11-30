@@ -1,8 +1,10 @@
 /**
  * PipIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Pip
+ * @category Media
+ * @tags picture
+ * @see https://icons.getbootstrap.com/icons/pip/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PipIcon aria-label="Activity indicator" />
+ * <PipIcon aria-label="Pip" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

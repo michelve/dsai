@@ -1,8 +1,10 @@
 /**
  * VimeoIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Vimeo
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/vimeo/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <VimeoIcon aria-label="Activity indicator" />
+ * <VimeoIcon aria-label="Vimeo" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

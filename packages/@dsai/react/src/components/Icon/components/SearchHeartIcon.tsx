@@ -1,8 +1,10 @@
 /**
  * SearchHeartIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Search heart
+ * @category Communications
+ * @tags magnifying-glass
+ * @see https://icons.getbootstrap.com/icons/search-heart/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SearchHeartIcon aria-label="Activity indicator" />
+ * <SearchHeartIcon aria-label="Search heart" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

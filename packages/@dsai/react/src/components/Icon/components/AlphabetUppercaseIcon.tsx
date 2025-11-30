@@ -1,8 +1,10 @@
 /**
  * AlphabetUppercaseIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Alphabet uppercase
+ * @category Typography
+ * @tags letters
+ * @see https://icons.getbootstrap.com/icons/alphabet-uppercase/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AlphabetUppercaseIcon aria-label="Activity indicator" />
+ * <AlphabetUppercaseIcon aria-label="Alphabet uppercase" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

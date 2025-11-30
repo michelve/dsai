@@ -1,8 +1,10 @@
 /**
  * GeoFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Geo fill
+ * @category Geo
+ * @tags geography
+ * @see https://icons.getbootstrap.com/icons/geo-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GeoFillIcon aria-label="Activity indicator" />
+ * <GeoFillIcon aria-label="Geo fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

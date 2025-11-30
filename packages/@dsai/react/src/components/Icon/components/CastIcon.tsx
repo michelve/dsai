@@ -1,8 +1,10 @@
 /**
  * CastIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cast
+ * @category Media
+ * @tags airplay
+ * @see https://icons.getbootstrap.com/icons/cast/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CastIcon aria-label="Activity indicator" />
+ * <CastIcon aria-label="Cast" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

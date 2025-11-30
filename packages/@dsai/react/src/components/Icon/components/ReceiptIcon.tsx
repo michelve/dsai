@@ -1,8 +1,10 @@
 /**
  * ReceiptIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Receipt
+ * @category Commerce
+ * @tags receipt
+ * @see https://icons.getbootstrap.com/icons/receipt/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ReceiptIcon aria-label="Activity indicator" />
+ * <ReceiptIcon aria-label="Receipt" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

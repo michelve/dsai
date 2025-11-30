@@ -1,8 +1,10 @@
 /**
  * ThunderboltFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Thunderbolt fill
+ * @category Devices
+ * @tags plug
+ * @see https://icons.getbootstrap.com/icons/thunderbolt-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ThunderboltFillIcon aria-label="Activity indicator" />
+ * <ThunderboltFillIcon aria-label="Thunderbolt fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

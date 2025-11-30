@@ -1,8 +1,10 @@
 /**
  * PersonFillSlashIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person fill slash
+ * @category People
+ * @tags member
+ * @see https://icons.getbootstrap.com/icons/person-fill-slash/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonFillSlashIcon aria-label="Activity indicator" />
+ * <PersonFillSlashIcon aria-label="Person fill slash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

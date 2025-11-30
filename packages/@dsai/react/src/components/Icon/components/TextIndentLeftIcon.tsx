@@ -1,8 +1,10 @@
 /**
  * TextIndentLeftIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Text indent left
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/text-indent-left/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TextIndentLeftIcon aria-label="Activity indicator" />
+ * <TextIndentLeftIcon aria-label="Text indent left" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

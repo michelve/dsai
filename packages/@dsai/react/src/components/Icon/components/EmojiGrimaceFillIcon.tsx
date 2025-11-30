@@ -1,8 +1,10 @@
 /**
  * EmojiGrimaceFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji grimace fill
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-grimace-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiGrimaceFillIcon aria-label="Activity indicator" />
+ * <EmojiGrimaceFillIcon aria-label="Emoji grimace fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

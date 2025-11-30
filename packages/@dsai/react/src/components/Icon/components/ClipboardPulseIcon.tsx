@@ -1,8 +1,10 @@
 /**
  * ClipboardPulseIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Clipboard pulse
+ * @category Real world
+ * @tags copy
+ * @see https://icons.getbootstrap.com/icons/clipboard-pulse/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ClipboardPulseIcon aria-label="Activity indicator" />
+ * <ClipboardPulseIcon aria-label="Clipboard pulse" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * UsbCIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - USB C
+ * @category Devices
+ * @tags port
+ * @see https://icons.getbootstrap.com/icons/usb-c/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <UsbCIcon aria-label="Activity indicator" />
+ * <UsbCIcon aria-label="USB C" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

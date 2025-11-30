@@ -1,8 +1,10 @@
 /**
  * CircleSquareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Circle square
+ * @category Graphics
+ * @tags graphics
+ * @see https://icons.getbootstrap.com/icons/circle-square/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CircleSquareIcon aria-label="Activity indicator" />
+ * <CircleSquareIcon aria-label="Circle square" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

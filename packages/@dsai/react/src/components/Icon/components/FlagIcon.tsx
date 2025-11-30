@@ -1,8 +1,10 @@
 /**
  * FlagIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Flag
+ * @category Communications
+ * @tags report
+ * @see https://icons.getbootstrap.com/icons/flag/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FlagIcon aria-label="Activity indicator" />
+ * <FlagIcon aria-label="Flag" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

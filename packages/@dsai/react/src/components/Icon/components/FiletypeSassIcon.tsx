@@ -1,8 +1,10 @@
 /**
  * FiletypeSassIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype sass
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-sass/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeSassIcon aria-label="Activity indicator" />
+ * <FiletypeSassIcon aria-label="Filetype sass" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

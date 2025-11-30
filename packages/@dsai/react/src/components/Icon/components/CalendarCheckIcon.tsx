@@ -1,8 +1,10 @@
 /**
  * CalendarCheckIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Calendar check
+ * @category Date and time
+ * @tags date
+ * @see https://icons.getbootstrap.com/icons/calendar-check/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CalendarCheckIcon aria-label="Activity indicator" />
+ * <CalendarCheckIcon aria-label="Calendar check" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

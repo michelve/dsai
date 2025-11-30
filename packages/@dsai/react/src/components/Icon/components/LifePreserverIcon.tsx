@@ -1,8 +1,10 @@
 /**
  * LifePreserverIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Life preserver
+ * @category Real world
+ * @tags lifesaver
+ * @see https://icons.getbootstrap.com/icons/life-preserver/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LifePreserverIcon aria-label="Activity indicator" />
+ * <LifePreserverIcon aria-label="Life preserver" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * FullscreenExitIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Fullscreen exit
+ * @category UI and keyboard
+ * @tags window
+ * @see https://icons.getbootstrap.com/icons/fullscreen-exit/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FullscreenExitIcon aria-label="Activity indicator" />
+ * <FullscreenExitIcon aria-label="Fullscreen exit" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

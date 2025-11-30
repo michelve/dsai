@@ -1,8 +1,10 @@
 /**
  * SignTurnSlightLeftFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sign turn slight left fill
+ * @category Transportation
+ * @tags road
+ * @see https://icons.getbootstrap.com/icons/sign-turn-slight-left-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SignTurnSlightLeftFillIcon aria-label="Activity indicator" />
+ * <SignTurnSlightLeftFillIcon aria-label="Sign turn slight left fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

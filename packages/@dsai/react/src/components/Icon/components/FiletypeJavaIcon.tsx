@@ -1,8 +1,10 @@
 /**
  * FiletypeJavaIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype java
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-java/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeJavaIcon aria-label="Activity indicator" />
+ * <FiletypeJavaIcon aria-label="Filetype java" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

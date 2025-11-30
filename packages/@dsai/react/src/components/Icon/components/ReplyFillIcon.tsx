@@ -1,8 +1,10 @@
 /**
  * ReplyFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Reply fill
+ * @category Communications
+ * @tags mail
+ * @see https://icons.getbootstrap.com/icons/reply-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ReplyFillIcon aria-label="Activity indicator" />
+ * <ReplyFillIcon aria-label="Reply fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

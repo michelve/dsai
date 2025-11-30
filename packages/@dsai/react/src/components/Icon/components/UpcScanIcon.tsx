@@ -1,8 +1,10 @@
 /**
  * UpcScanIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Upc scan
+ * @category Commerce
+ * @tags purchase
+ * @see https://icons.getbootstrap.com/icons/upc-scan/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <UpcScanIcon aria-label="Activity indicator" />
+ * <UpcScanIcon aria-label="Upc scan" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

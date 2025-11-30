@@ -1,8 +1,10 @@
 /**
  * MapFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Map fill
+ * @category Geo
+ * @tags geography
+ * @see https://icons.getbootstrap.com/icons/map-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MapFillIcon aria-label="Activity indicator" />
+ * <MapFillIcon aria-label="Map fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

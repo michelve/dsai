@@ -1,8 +1,10 @@
 /**
  * SlashSquareFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Slash square fill
+ * @category Alerts, warnings, and signs
+ * @tags shape
+ * @see https://icons.getbootstrap.com/icons/slash-square-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SlashSquareFillIcon aria-label="Activity indicator" />
+ * <SlashSquareFillIcon aria-label="Slash square fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

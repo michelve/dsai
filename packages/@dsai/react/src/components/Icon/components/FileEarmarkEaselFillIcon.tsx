@@ -1,8 +1,10 @@
 /**
  * FileEarmarkEaselFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File earmark easel fill
+ * @category Files and folders
+ * @tags slides
+ * @see https://icons.getbootstrap.com/icons/file-earmark-easel-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileEarmarkEaselFillIcon aria-label="Activity indicator" />
+ * <FileEarmarkEaselFillIcon aria-label="File earmark easel fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

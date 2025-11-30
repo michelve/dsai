@@ -1,8 +1,10 @@
 /**
  * SkipEndCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Skip end circle
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/skip-end-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SkipEndCircleIcon aria-label="Activity indicator" />
+ * <SkipEndCircleIcon aria-label="Skip end circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

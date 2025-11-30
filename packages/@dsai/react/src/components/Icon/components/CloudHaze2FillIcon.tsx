@@ -1,8 +1,10 @@
 /**
  * CloudHaze2FillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cloud haze2 fill
+ * @category Weather
+ * @tags smog
+ * @see https://icons.getbootstrap.com/icons/cloud-haze2-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CloudHaze2FillIcon aria-label="Activity indicator" />
+ * <CloudHaze2FillIcon aria-label="Cloud haze2 fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

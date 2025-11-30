@@ -1,8 +1,10 @@
 /**
  * ThermometerSnowIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Thermometer snow
+ * @category Weather
+ * @tags temperature
+ * @see https://icons.getbootstrap.com/icons/thermometer-snow/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ThermometerSnowIcon aria-label="Activity indicator" />
+ * <ThermometerSnowIcon aria-label="Thermometer snow" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * XOctagonFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - X octagon fill
+ * @category Alerts, warnings, and signs
+ * @tags x
+ * @see https://icons.getbootstrap.com/icons/x-octagon-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <XOctagonFillIcon aria-label="Activity indicator" />
+ * <XOctagonFillIcon aria-label="X octagon fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

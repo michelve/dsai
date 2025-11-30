@@ -1,8 +1,10 @@
 /**
  * BellFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bell fill
+ * @category Communications
+ * @tags notification
+ * @see https://icons.getbootstrap.com/icons/bell-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BellFillIcon aria-label="Activity indicator" />
+ * <BellFillIcon aria-label="Bell fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

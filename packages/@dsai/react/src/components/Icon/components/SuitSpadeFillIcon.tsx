@@ -1,8 +1,10 @@
 /**
  * SuitSpadeFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Suit spade fill
+ * @category Entertainment
+ * @tags card
+ * @see https://icons.getbootstrap.com/icons/suit-spade-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SuitSpadeFillIcon aria-label="Activity indicator" />
+ * <SuitSpadeFillIcon aria-label="Suit spade fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

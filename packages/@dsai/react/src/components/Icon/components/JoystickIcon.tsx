@@ -1,8 +1,10 @@
 /**
  * JoystickIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Joystick
+ * @category Entertainment
+ * @tags gaming
+ * @see https://icons.getbootstrap.com/icons/joystick/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <JoystickIcon aria-label="Activity indicator" />
+ * <JoystickIcon aria-label="Joystick" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

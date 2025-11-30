@@ -1,8 +1,10 @@
 /**
  * ArrowLeftIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrow left
+ * @category Arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrow-left/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowLeftIcon aria-label="Activity indicator" />
+ * <ArrowLeftIcon aria-label="Arrow left" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

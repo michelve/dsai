@@ -1,8 +1,10 @@
 /**
  * VoicemailIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Voicemail
+ * @category Communications
+ * @tags voicemail
+ * @see https://icons.getbootstrap.com/icons/voicemail/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <VoicemailIcon aria-label="Activity indicator" />
+ * <VoicemailIcon aria-label="Voicemail" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

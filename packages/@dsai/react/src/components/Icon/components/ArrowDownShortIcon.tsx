@@ -1,8 +1,10 @@
 /**
  * ArrowDownShortIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrow down-short
+ * @category Arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrow-down-short/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowDownShortIcon aria-label="Activity indicator" />
+ * <ArrowDownShortIcon aria-label="Arrow down-short" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

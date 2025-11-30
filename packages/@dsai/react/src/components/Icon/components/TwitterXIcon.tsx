@@ -1,8 +1,10 @@
 /**
  * TwitterXIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Twitter X
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/twitter-x/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TwitterXIcon aria-label="Activity indicator" />
+ * <TwitterXIcon aria-label="Twitter X" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

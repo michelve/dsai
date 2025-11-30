@@ -1,8 +1,10 @@
 /**
  * CcSquareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - CC square
+ * @category Shapes
+ * @tags "creative commons"
+ * @see https://icons.getbootstrap.com/icons/cc-square/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CcSquareIcon aria-label="Activity indicator" />
+ * <CcSquareIcon aria-label="CC square" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

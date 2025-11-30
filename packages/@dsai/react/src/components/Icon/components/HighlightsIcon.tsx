@@ -1,8 +1,10 @@
 /**
  * HighlightsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Highlights
+ * @category Graphics
+ * @tags photo
+ * @see https://icons.getbootstrap.com/icons/highlights/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HighlightsIcon aria-label="Activity indicator" />
+ * <HighlightsIcon aria-label="Highlights" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

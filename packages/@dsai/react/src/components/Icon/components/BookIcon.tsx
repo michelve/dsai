@@ -1,8 +1,10 @@
 /**
  * BookIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Book
+ * @category Real world
+ * @tags novel
+ * @see https://icons.getbootstrap.com/icons/book/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BookIcon aria-label="Activity indicator" />
+ * <BookIcon aria-label="Book" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

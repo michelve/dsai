@@ -1,8 +1,10 @@
 /**
  * BingIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bing
+ * @category Brand
+ * @tags search
+ * @see https://icons.getbootstrap.com/icons/bing/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BingIcon aria-label="Activity indicator" />
+ * <BingIcon aria-label="Bing" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

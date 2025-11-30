@@ -669,6 +669,48 @@ export const SearchInput: Story = {
 };
 
 // =============================================================================
+// Focus State
+// =============================================================================
+
+/**
+ * Focus State: data-focused Attribute
+ *
+ * The Input component exposes a `data-focused` attribute on the input element
+ * when it has focus. This enables custom CSS styling for focus states beyond
+ * the default browser outline.
+ *
+ * The attribute is:
+ * - `data-focused="true"` when the input is focused
+ * - Removed (undefined) when the input loses focus
+ */
+export const FocusState: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div>
+        <h5>Focus State with data-focused Attribute</h5>
+        <p className="text-muted small">
+          Click on the input below to see the focus state. The <code>data-focused</code> attribute
+          is set to <code>true</code> when focused.
+        </p>
+      </div>
+      <Input
+        label="Focus me"
+        placeholder="Click to focus..."
+        helperText="Watch the data-focused attribute change"
+      />
+      <div className="alert alert-info small">
+        <strong>Custom Focus Styling:</strong>
+        <pre className="mb-0 mt-2">
+          {`input[data-focused='true'] {
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}`}
+        </pre>
+      </div>
+    </div>
+  ),
+};
+
+// =============================================================================
 // Security Features
 // =============================================================================
 

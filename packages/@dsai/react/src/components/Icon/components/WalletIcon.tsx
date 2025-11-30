@@ -1,8 +1,10 @@
 /**
  * WalletIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Wallet
+ * @category Commerce
+ * @tags cards
+ * @see https://icons.getbootstrap.com/icons/wallet/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WalletIcon aria-label="Activity indicator" />
+ * <WalletIcon aria-label="Wallet" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

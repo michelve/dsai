@@ -1,8 +1,10 @@
 /**
  * BalloonFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Balloon fill
+ * @category Real world
+ * @tags birthday
+ * @see https://icons.getbootstrap.com/icons/balloon-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BalloonFillIcon aria-label="Activity indicator" />
+ * <BalloonFillIcon aria-label="Balloon fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

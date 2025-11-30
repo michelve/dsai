@@ -1,8 +1,10 @@
 /**
  * LeafIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Leaf
+ * @category Real world
+ * @tags nature
+ * @see https://icons.getbootstrap.com/icons/leaf/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LeafIcon aria-label="Activity indicator" />
+ * <LeafIcon aria-label="Leaf" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

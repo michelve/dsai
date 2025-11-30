@@ -1,8 +1,10 @@
 /**
  * OutletIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Outlet
+ * @category Real world
+ * @tags plug
+ * @see https://icons.getbootstrap.com/icons/outlet/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <OutletIcon aria-label="Activity indicator" />
+ * <OutletIcon aria-label="Outlet" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

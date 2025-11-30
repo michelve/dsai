@@ -1,8 +1,10 @@
 /**
  * VignetteIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Vignette
+ * @category Graphics
+ * @tags photo
+ * @see https://icons.getbootstrap.com/icons/vignette/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <VignetteIcon aria-label="Activity indicator" />
+ * <VignetteIcon aria-label="Vignette" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

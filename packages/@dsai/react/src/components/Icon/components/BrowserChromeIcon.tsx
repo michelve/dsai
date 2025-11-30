@@ -1,8 +1,10 @@
 /**
  * BrowserChromeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Browser Chrome
+ * @category Brand
+ * @tags google
+ * @see https://icons.getbootstrap.com/icons/browser-chrome/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BrowserChromeIcon aria-label="Activity indicator" />
+ * <BrowserChromeIcon aria-label="Browser Chrome" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

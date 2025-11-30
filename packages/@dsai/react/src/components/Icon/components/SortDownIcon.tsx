@@ -1,8 +1,10 @@
 /**
  * SortDownIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sort down
+ * @category Sort and filter
+ * @tags sort
+ * @see https://icons.getbootstrap.com/icons/sort-down/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SortDownIcon aria-label="Activity indicator" />
+ * <SortDownIcon aria-label="Sort down" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

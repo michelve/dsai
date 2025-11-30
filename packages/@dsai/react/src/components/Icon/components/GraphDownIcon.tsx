@@ -1,8 +1,10 @@
 /**
  * GraphDownIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Graph down
+ * @category Data
+ * @tags chart
+ * @see https://icons.getbootstrap.com/icons/graph-down/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GraphDownIcon aria-label="Activity indicator" />
+ * <GraphDownIcon aria-label="Graph down" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

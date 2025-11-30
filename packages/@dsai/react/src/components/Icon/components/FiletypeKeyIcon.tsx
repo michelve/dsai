@@ -1,8 +1,10 @@
 /**
  * FiletypeKeyIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype key
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-key/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeKeyIcon aria-label="Activity indicator" />
+ * <FiletypeKeyIcon aria-label="Filetype key" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

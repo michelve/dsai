@@ -1,8 +1,10 @@
 /**
  * SignStopIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sign stop
+ * @category Transportation
+ * @tags "stop sign"
+ * @see https://icons.getbootstrap.com/icons/sign-stop/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SignStopIcon aria-label="Activity indicator" />
+ * <SignStopIcon aria-label="Sign stop" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

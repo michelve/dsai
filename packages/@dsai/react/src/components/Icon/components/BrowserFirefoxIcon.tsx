@@ -1,8 +1,10 @@
 /**
  * BrowserFirefoxIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Browser Firefox
+ * @category Brand
+ * @tags gecko
+ * @see https://icons.getbootstrap.com/icons/browser-firefox/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BrowserFirefoxIcon aria-label="Activity indicator" />
+ * <BrowserFirefoxIcon aria-label="Browser Firefox" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

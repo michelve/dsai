@@ -1,8 +1,10 @@
 /**
  * BadgeSdIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Badge Sd
+ * @category Badges
+ * @tags display
+ * @see https://icons.getbootstrap.com/icons/badge-sd/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BadgeSdIcon aria-label="Activity indicator" />
+ * <BadgeSdIcon aria-label="Badge Sd" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

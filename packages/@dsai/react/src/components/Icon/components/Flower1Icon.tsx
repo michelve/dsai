@@ -1,8 +1,10 @@
 /**
  * Flower1Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Flower1
+ * @category Real world
+ * @tags plant
+ * @see https://icons.getbootstrap.com/icons/flower1/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Flower1Icon aria-label="Activity indicator" />
+ * <Flower1Icon aria-label="Flower1" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

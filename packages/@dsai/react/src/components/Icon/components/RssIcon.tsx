@@ -1,8 +1,10 @@
 /**
  * RssIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - RSS
+ * @category Communications
+ * @tags atom
+ * @see https://icons.getbootstrap.com/icons/rss/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <RssIcon aria-label="Activity indicator" />
+ * <RssIcon aria-label="RSS" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

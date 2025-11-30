@@ -1,8 +1,10 @@
 /**
  * ListCheckIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - List checked
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/list-check/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ListCheckIcon aria-label="Activity indicator" />
+ * <ListCheckIcon aria-label="List checked" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

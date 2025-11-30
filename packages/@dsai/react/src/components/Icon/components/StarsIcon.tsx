@@ -1,8 +1,10 @@
 /**
  * StarsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Stars
+ * @category Weather
+ * @tags clear
+ * @see https://icons.getbootstrap.com/icons/stars/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <StarsIcon aria-label="Activity indicator" />
+ * <StarsIcon aria-label="Stars" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

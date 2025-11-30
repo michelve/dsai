@@ -1,8 +1,10 @@
 /**
  * ArchiveIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Archive
+ * @category Files and folders
+ * @tags box
+ * @see https://icons.getbootstrap.com/icons/archive/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArchiveIcon aria-label="Activity indicator" />
+ * <ArchiveIcon aria-label="Archive" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

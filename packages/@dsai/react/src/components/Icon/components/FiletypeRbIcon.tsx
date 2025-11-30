@@ -1,8 +1,10 @@
 /**
  * FiletypeRbIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype rb
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-rb/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeRbIcon aria-label="Activity indicator" />
+ * <FiletypeRbIcon aria-label="Filetype rb" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

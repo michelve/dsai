@@ -1,8 +1,10 @@
 /**
  * TuxIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Tux
+ * @category Brand
+ * @tags linux
+ * @see https://icons.getbootstrap.com/icons/tux/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TuxIcon aria-label="Activity indicator" />
+ * <TuxIcon aria-label="Tux" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

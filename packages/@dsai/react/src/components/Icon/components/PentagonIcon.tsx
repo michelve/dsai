@@ -1,8 +1,10 @@
 /**
  * PentagonIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Pentagon
+ * @category Shapes
+ * @tags shape
+ * @see https://icons.getbootstrap.com/icons/pentagon/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PentagonIcon aria-label="Activity indicator" />
+ * <PentagonIcon aria-label="Pentagon" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

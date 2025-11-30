@@ -1,8 +1,10 @@
 /**
  * TabletLandscapeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Tablet landscape
+ * @category Devices
+ * @tags mobile
+ * @see https://icons.getbootstrap.com/icons/tablet-landscape/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TabletLandscapeIcon aria-label="Activity indicator" />
+ * <TabletLandscapeIcon aria-label="Tablet landscape" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * FileBreakFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File break fill
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-break-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileBreakFillIcon aria-label="Activity indicator" />
+ * <FileBreakFillIcon aria-label="File break fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

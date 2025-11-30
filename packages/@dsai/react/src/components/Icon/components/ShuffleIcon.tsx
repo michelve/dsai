@@ -1,8 +1,10 @@
 /**
  * ShuffleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Shuffle
+ * @category Arrows
+ * @tags shuffle
+ * @see https://icons.getbootstrap.com/icons/shuffle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ShuffleIcon aria-label="Activity indicator" />
+ * <ShuffleIcon aria-label="Shuffle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * FilterLeftIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filter left
+ * @category Sort and filter
+ * @tags sort
+ * @see https://icons.getbootstrap.com/icons/filter-left/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FilterLeftIcon aria-label="Activity indicator" />
+ * <FilterLeftIcon aria-label="Filter left" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

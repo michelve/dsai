@@ -1,8 +1,10 @@
 /**
  * TextRightIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Text right
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/text-right/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TextRightIcon aria-label="Activity indicator" />
+ * <TextRightIcon aria-label="Text right" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

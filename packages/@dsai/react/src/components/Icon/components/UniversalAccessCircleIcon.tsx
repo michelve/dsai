@@ -1,8 +1,10 @@
 /**
  * UniversalAccessCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Universal access circle
+ * @category UI and Keyboard
+ * @tags accessibility
+ * @see https://icons.getbootstrap.com/icons/universal-access-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <UniversalAccessCircleIcon aria-label="Activity indicator" />
+ * <UniversalAccessCircleIcon aria-label="Universal access circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

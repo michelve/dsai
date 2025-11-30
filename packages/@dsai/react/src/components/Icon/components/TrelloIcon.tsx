@@ -1,8 +1,10 @@
 /**
  * TrelloIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Trello
+ * @category Brand
+ * @tags kanban
+ * @see https://icons.getbootstrap.com/icons/trello/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TrelloIcon aria-label="Activity indicator" />
+ * <TrelloIcon aria-label="Trello" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

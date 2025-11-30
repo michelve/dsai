@@ -1,8 +1,10 @@
 /**
  * PiggyBankFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Piggy bank fill
+ * @category Commerce
+ * @tags money
+ * @see https://icons.getbootstrap.com/icons/piggy-bank-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PiggyBankFillIcon aria-label="Activity indicator" />
+ * <PiggyBankFillIcon aria-label="Piggy bank fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

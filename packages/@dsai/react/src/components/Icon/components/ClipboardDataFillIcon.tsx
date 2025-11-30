@@ -1,8 +1,10 @@
 /**
  * ClipboardDataFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Clipboard data fill
+ * @category Real world
+ * @tags copy
+ * @see https://icons.getbootstrap.com/icons/clipboard-data-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ClipboardDataFillIcon aria-label="Activity indicator" />
+ * <ClipboardDataFillIcon aria-label="Clipboard data fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

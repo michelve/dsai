@@ -1,8 +1,10 @@
 /**
  * MegaphoneFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Megaphone fill
+ * @category Real world
+ * @tags loudspeaker
+ * @see https://icons.getbootstrap.com/icons/megaphone-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MegaphoneFillIcon aria-label="Activity indicator" />
+ * <MegaphoneFillIcon aria-label="Megaphone fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

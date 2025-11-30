@@ -1,8 +1,10 @@
 /**
  * HammerIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Hammer
+ * @category Tools
+ * @tags tool
+ * @see https://icons.getbootstrap.com/icons/hammer/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HammerIcon aria-label="Activity indicator" />
+ * <HammerIcon aria-label="Hammer" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

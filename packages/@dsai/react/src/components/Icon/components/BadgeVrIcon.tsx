@@ -1,8 +1,10 @@
 /**
  * BadgeVrIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Badge vr
+ * @category Badges
+ * @tags virtual
+ * @see https://icons.getbootstrap.com/icons/badge-vr/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BadgeVrIcon aria-label="Activity indicator" />
+ * <BadgeVrIcon aria-label="Badge vr" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

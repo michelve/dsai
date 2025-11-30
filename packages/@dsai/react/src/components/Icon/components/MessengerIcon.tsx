@@ -1,8 +1,10 @@
 /**
  * MessengerIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Messenger
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/messenger/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MessengerIcon aria-label="Activity indicator" />
+ * <MessengerIcon aria-label="Messenger" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

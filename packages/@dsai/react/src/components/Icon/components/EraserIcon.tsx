@@ -1,8 +1,10 @@
 /**
  * EraserIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Eraser
+ * @category Graphics
+ * @tags erase
+ * @see https://icons.getbootstrap.com/icons/eraser/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EraserIcon aria-label="Activity indicator" />
+ * <EraserIcon aria-label="Eraser" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

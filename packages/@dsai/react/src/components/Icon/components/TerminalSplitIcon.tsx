@@ -1,8 +1,10 @@
 /**
  * TerminalSplitIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Terminal split
+ * @category Apps
+ * @tags command-line
+ * @see https://icons.getbootstrap.com/icons/terminal-split/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TerminalSplitIcon aria-label="Activity indicator" />
+ * <TerminalSplitIcon aria-label="Terminal split" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

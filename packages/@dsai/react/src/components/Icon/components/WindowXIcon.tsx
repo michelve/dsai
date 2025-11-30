@@ -1,8 +1,10 @@
 /**
  * WindowXIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Window x
+ * @category Apps
+ * @tags application
+ * @see https://icons.getbootstrap.com/icons/window-x/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WindowXIcon aria-label="Activity indicator" />
+ * <WindowXIcon aria-label="Window x" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

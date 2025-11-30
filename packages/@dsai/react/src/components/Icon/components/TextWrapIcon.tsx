@@ -1,8 +1,10 @@
 /**
  * TextWrapIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Text wrap
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/text-wrap/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TextWrapIcon aria-label="Activity indicator" />
+ * <TextWrapIcon aria-label="Text wrap" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

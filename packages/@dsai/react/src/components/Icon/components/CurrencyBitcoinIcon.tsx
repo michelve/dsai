@@ -1,8 +1,10 @@
 /**
  * CurrencyBitcoinIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Currency bitcoin
+ * @category Commerce
+ * @tags money
+ * @see https://icons.getbootstrap.com/icons/currency-bitcoin/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CurrencyBitcoinIcon aria-label="Activity indicator" />
+ * <CurrencyBitcoinIcon aria-label="Currency bitcoin" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

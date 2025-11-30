@@ -1,8 +1,10 @@
 /**
  * SignNoParkingIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sign no parking
+ * @category Transportation
+ * @tags road
+ * @see https://icons.getbootstrap.com/icons/sign-no-parking/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SignNoParkingIcon aria-label="Activity indicator" />
+ * <SignNoParkingIcon aria-label="Sign no parking" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

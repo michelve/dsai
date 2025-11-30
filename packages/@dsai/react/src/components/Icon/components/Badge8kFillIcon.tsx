@@ -1,7 +1,7 @@
 /**
  * Badge8kFillIcon
  *
- * Bootstrap Icons - React Component
+ * Bootstrap Icons - Badge8kFill
  * @see https://icons.getbootstrap.com/
  *
  * @accessibility
@@ -16,7 +16,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Badge8kFillIcon aria-label="Activity indicator" />
+ * <Badge8kFillIcon aria-label="Badge8kFill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

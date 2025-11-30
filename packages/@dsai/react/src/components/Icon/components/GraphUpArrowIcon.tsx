@@ -1,8 +1,10 @@
 /**
  * GraphUpArrowIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Graph up arrow
+ * @category Data
+ * @tags chart
+ * @see https://icons.getbootstrap.com/icons/graph-up-arrow/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GraphUpArrowIcon aria-label="Activity indicator" />
+ * <GraphUpArrowIcon aria-label="Graph up arrow" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

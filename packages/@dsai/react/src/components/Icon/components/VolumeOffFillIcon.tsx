@@ -1,8 +1,10 @@
 /**
  * VolumeOffFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Volume off fill
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/volume-off-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <VolumeOffFillIcon aria-label="Activity indicator" />
+ * <VolumeOffFillIcon aria-label="Volume off fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

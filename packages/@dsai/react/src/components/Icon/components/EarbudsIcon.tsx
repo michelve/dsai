@@ -1,8 +1,10 @@
 /**
  * EarbudsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Earbuds
+ * @category Devices
+ * @tags headphones
+ * @see https://icons.getbootstrap.com/icons/earbuds/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EarbudsIcon aria-label="Activity indicator" />
+ * <EarbudsIcon aria-label="Earbuds" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

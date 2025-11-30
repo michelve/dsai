@@ -1,8 +1,10 @@
 /**
  * Icon2SquareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - 2 square
+ * @category Shapes
+ * @tags number
+ * @see https://icons.getbootstrap.com/icons/2-square/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Icon2SquareIcon aria-label="Activity indicator" />
+ * <Icon2SquareIcon aria-label="2 square" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * TencentQqIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Tencent QQ
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/tencent-qq/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TencentQqIcon aria-label="Activity indicator" />
+ * <TencentQqIcon aria-label="Tencent QQ" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * CloudFog2FillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cloud fog2 fill
+ * @category Weather
+ * @tags foggy
+ * @see https://icons.getbootstrap.com/icons/cloud-fog2-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CloudFog2FillIcon aria-label="Activity indicator" />
+ * <CloudFog2FillIcon aria-label="Cloud fog2 fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

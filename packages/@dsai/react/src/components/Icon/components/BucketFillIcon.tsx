@@ -1,8 +1,10 @@
 /**
  * BucketFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bucket fill
+ * @category Tools
+ * @tags tool
+ * @see https://icons.getbootstrap.com/icons/bucket-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BucketFillIcon aria-label="Activity indicator" />
+ * <BucketFillIcon aria-label="Bucket fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

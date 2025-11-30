@@ -1,8 +1,10 @@
 /**
  * HouseAddIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - House add
+ * @category Real world
+ * @tags home
+ * @see https://icons.getbootstrap.com/icons/house-add/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HouseAddIcon aria-label="Activity indicator" />
+ * <HouseAddIcon aria-label="House add" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

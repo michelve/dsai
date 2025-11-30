@@ -1,8 +1,10 @@
 /**
  * UbuntuIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Ubuntu
+ * @category Brand
+ * @tags linux
+ * @see https://icons.getbootstrap.com/icons/ubuntu/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <UbuntuIcon aria-label="Activity indicator" />
+ * <UbuntuIcon aria-label="Ubuntu" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

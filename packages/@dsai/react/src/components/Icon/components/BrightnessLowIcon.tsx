@@ -1,8 +1,10 @@
 /**
  * BrightnessLowIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Brightness low
+ * @category UI and keyboard
+ * @tags brightness
+ * @see https://icons.getbootstrap.com/icons/brightness-low/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BrightnessLowIcon aria-label="Activity indicator" />
+ * <BrightnessLowIcon aria-label="Brightness low" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

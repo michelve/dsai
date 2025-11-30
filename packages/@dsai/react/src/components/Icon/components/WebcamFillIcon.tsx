@@ -1,8 +1,10 @@
 /**
  * WebcamFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Webcam fill
+ * @category Devices
+ * @tags camera
+ * @see https://icons.getbootstrap.com/icons/webcam-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WebcamFillIcon aria-label="Activity indicator" />
+ * <WebcamFillIcon aria-label="Webcam fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

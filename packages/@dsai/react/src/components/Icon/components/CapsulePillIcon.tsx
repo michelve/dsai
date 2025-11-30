@@ -1,8 +1,10 @@
 /**
  * CapsulePillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Capsule pill
+ * @category Medical
+ * @tags rx
+ * @see https://icons.getbootstrap.com/icons/capsule-pill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CapsulePillIcon aria-label="Activity indicator" />
+ * <CapsulePillIcon aria-label="Capsule pill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

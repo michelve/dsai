@@ -1,8 +1,10 @@
 /**
  * TelephoneXIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Telephone x
+ * @category Communications
+ * @tags telephone
+ * @see https://icons.getbootstrap.com/icons/telephone-x/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TelephoneXIcon aria-label="Activity indicator" />
+ * <TelephoneXIcon aria-label="Telephone x" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

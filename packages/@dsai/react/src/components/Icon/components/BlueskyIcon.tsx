@@ -1,8 +1,10 @@
 /**
  * BlueskyIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bluesky
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/bluesky/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BlueskyIcon aria-label="Activity indicator" />
+ * <BlueskyIcon aria-label="Bluesky" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

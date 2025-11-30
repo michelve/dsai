@@ -1,8 +1,10 @@
 /**
  * CashCoinIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cash coin
+ * @category Commerce
+ * @tags money
+ * @see https://icons.getbootstrap.com/icons/cash-coin/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CashCoinIcon aria-label="Activity indicator" />
+ * <CashCoinIcon aria-label="Cash coin" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

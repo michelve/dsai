@@ -1,8 +1,10 @@
 /**
  * DotIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Dot
+ * @category UI and keyboard
+ * @tags middot
+ * @see https://icons.getbootstrap.com/icons/dot/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DotIcon aria-label="Activity indicator" />
+ * <DotIcon aria-label="Dot" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

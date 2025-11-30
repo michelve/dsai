@@ -352,6 +352,7 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
       aria-invalid={error || undefined}
       aria-describedby={describedByIds || undefined}
       aria-required={required || undefined}
+      data-focused={_isFocused || undefined}
       {...safeProps}
     />
   );
@@ -417,7 +418,11 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
             </button>
           )}
           {hasSuffix && <span className="input-group-text">{suffix}</span>}
-          {error && helperText && <div className="invalid-feedback">{helperText}</div>}
+          {error && helperText && (
+            <div id={helperId} className="invalid-feedback">
+              {helperText}
+            </div>
+          )}
         </div>
         {!error && helperElement}
         {counterElement}

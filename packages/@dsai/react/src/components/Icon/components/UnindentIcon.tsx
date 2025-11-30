@@ -1,8 +1,10 @@
 /**
  * UnindentIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Unindent
+ * @category UI and Keyboard
+ * @tags tab
+ * @see https://icons.getbootstrap.com/icons/unindent/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <UnindentIcon aria-label="Activity indicator" />
+ * <UnindentIcon aria-label="Unindent" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

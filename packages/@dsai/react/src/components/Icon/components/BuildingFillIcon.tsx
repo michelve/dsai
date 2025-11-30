@@ -1,8 +1,10 @@
 /**
  * BuildingFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Building fill
+ * @category Buildings
+ * @tags company
+ * @see https://icons.getbootstrap.com/icons/building-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BuildingFillIcon aria-label="Activity indicator" />
+ * <BuildingFillIcon aria-label="Building fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

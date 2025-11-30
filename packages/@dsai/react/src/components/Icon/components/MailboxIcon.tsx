@@ -1,8 +1,10 @@
 /**
  * MailboxIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Mailbox
+ * @category Real world
+ * @tags post
+ * @see https://icons.getbootstrap.com/icons/mailbox/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MailboxIcon aria-label="Activity indicator" />
+ * <MailboxIcon aria-label="Mailbox" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

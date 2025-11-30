@@ -1,8 +1,10 @@
 /**
  * IntersectIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Intersect
+ * @category Graphics
+ * @tags graphics
+ * @see https://icons.getbootstrap.com/icons/intersect/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <IntersectIcon aria-label="Activity indicator" />
+ * <IntersectIcon aria-label="Intersect" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

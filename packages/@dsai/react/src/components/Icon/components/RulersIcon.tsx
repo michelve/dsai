@@ -1,8 +1,10 @@
 /**
  * RulersIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Rulers
+ * @category Graphics
+ * @tags measure
+ * @see https://icons.getbootstrap.com/icons/rulers/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <RulersIcon aria-label="Activity indicator" />
+ * <RulersIcon aria-label="Rulers" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

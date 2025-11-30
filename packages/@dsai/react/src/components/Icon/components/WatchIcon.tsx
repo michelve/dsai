@@ -1,8 +1,10 @@
 /**
  * WatchIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Watch
+ * @category Devices
+ * @tags wearables
+ * @see https://icons.getbootstrap.com/icons/watch/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WatchIcon aria-label="Activity indicator" />
+ * <WatchIcon aria-label="Watch" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

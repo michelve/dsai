@@ -1,8 +1,10 @@
 /**
  * TicketPerforatedIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Ticket perforated
+ * @category Real world
+ * @tags tickets
+ * @see https://icons.getbootstrap.com/icons/ticket-perforated/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TicketPerforatedIcon aria-label="Activity indicator" />
+ * <TicketPerforatedIcon aria-label="Ticket perforated" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * TelephoneOutboundIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Telephone outbound
+ * @category Communications
+ * @tags telephone
+ * @see https://icons.getbootstrap.com/icons/telephone-outbound/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TelephoneOutboundIcon aria-label="Activity indicator" />
+ * <TelephoneOutboundIcon aria-label="Telephone outbound" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

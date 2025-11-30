@@ -1,8 +1,10 @@
 /**
  * BandaidIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bandaid
+ * @category Real world
+ * @tags bandage
+ * @see https://icons.getbootstrap.com/icons/bandaid/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BandaidIcon aria-label="Activity indicator" />
+ * <BandaidIcon aria-label="Bandaid" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * SegmentedNavIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Segmented nav
+ * @category Controls
+ * @tags nav
+ * @see https://icons.getbootstrap.com/icons/segmented-nav/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SegmentedNavIcon aria-label="Activity indicator" />
+ * <SegmentedNavIcon aria-label="Segmented nav" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

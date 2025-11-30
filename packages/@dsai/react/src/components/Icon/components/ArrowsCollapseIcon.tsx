@@ -1,8 +1,10 @@
 /**
  * ArrowsCollapseIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrows collapse
+ * @category Arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrows-collapse/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowsCollapseIcon aria-label="Activity indicator" />
+ * <ArrowsCollapseIcon aria-label="Arrows collapse" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * CloudRainHeavyIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cloud rain heavy
+ * @category Weather
+ * @tags cloud
+ * @see https://icons.getbootstrap.com/icons/cloud-rain-heavy/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CloudRainHeavyIcon aria-label="Activity indicator" />
+ * <CloudRainHeavyIcon aria-label="Cloud rain heavy" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * FileEarmarkArrowUpFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File earmark arrow up fill
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-earmark-arrow-up-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileEarmarkArrowUpFillIcon aria-label="Activity indicator" />
+ * <FileEarmarkArrowUpFillIcon aria-label="File earmark arrow up fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

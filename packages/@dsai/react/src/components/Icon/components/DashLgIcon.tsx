@@ -1,8 +1,10 @@
 /**
  * DashLgIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Dash lg
+ * @category Alerts, warnings, and signs
+ * @tags minus
+ * @see https://icons.getbootstrap.com/icons/dash-lg/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DashLgIcon aria-label="Activity indicator" />
+ * <DashLgIcon aria-label="Dash lg" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

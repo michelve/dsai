@@ -1,8 +1,10 @@
 /**
  * DistributeVerticalIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Distribute vertical
+ * @category Graphics
+ * @tags space
+ * @see https://icons.getbootstrap.com/icons/distribute-vertical/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DistributeVerticalIcon aria-label="Activity indicator" />
+ * <DistributeVerticalIcon aria-label="Distribute vertical" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

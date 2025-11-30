@@ -1,8 +1,10 @@
 /**
  * DisplayIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Display
+ * @category Devices
+ * @tags monitor
+ * @see https://icons.getbootstrap.com/icons/display/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DisplayIcon aria-label="Activity indicator" />
+ * <DisplayIcon aria-label="Display" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

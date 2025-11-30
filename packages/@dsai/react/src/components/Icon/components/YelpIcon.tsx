@@ -1,8 +1,10 @@
 /**
  * YelpIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Yelp
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/yelp/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <YelpIcon aria-label="Activity indicator" />
+ * <YelpIcon aria-label="Yelp" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

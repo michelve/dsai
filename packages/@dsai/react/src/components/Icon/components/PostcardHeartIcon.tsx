@@ -1,8 +1,10 @@
 /**
  * PostcardHeartIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Postcard heart
+ * @category Real world
+ * @tags mail
+ * @see https://icons.getbootstrap.com/icons/postcard-heart/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PostcardHeartIcon aria-label="Activity indicator" />
+ * <PostcardHeartIcon aria-label="Postcard heart" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

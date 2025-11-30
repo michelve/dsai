@@ -1,8 +1,10 @@
 /**
  * OctagonIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Octagon
+ * @category Shapes
+ * @tags shape
+ * @see https://icons.getbootstrap.com/icons/octagon/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <OctagonIcon aria-label="Activity indicator" />
+ * <OctagonIcon aria-label="Octagon" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

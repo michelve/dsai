@@ -1,8 +1,10 @@
 /**
  * CupStrawIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cup straw
+ * @category Real world
+ * @tags mug
+ * @see https://icons.getbootstrap.com/icons/cup-straw/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CupStrawIcon aria-label="Activity indicator" />
+ * <CupStrawIcon aria-label="Cup straw" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

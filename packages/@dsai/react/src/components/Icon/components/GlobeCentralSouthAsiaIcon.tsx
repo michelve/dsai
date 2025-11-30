@@ -1,8 +1,10 @@
 /**
  * GlobeCentralSouthAsiaIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Globe Central South Asia
+ * @category Geo
+ * @tags geography
+ * @see https://icons.getbootstrap.com/icons/globe-central-south-asia/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GlobeCentralSouthAsiaIcon aria-label="Activity indicator" />
+ * <GlobeCentralSouthAsiaIcon aria-label="Globe Central South Asia" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

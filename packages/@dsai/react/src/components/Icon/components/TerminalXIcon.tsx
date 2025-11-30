@@ -1,8 +1,10 @@
 /**
  * TerminalXIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Terminal x
+ * @category Apps
+ * @tags command-line
+ * @see https://icons.getbootstrap.com/icons/terminal-x/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TerminalXIcon aria-label="Activity indicator" />
+ * <TerminalXIcon aria-label="Terminal x" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

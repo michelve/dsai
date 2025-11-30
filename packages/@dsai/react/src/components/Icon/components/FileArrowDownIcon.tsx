@@ -1,8 +1,10 @@
 /**
  * FileArrowDownIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File arrow down
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-arrow-down/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileArrowDownIcon aria-label="Activity indicator" />
+ * <FileArrowDownIcon aria-label="File arrow down" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

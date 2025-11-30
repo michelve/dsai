@@ -1,8 +1,10 @@
 /**
  * TypeBoldIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Type bold
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/type-bold/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TypeBoldIcon aria-label="Activity indicator" />
+ * <TypeBoldIcon aria-label="Type bold" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

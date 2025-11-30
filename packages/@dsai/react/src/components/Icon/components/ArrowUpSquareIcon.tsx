@@ -1,8 +1,10 @@
 /**
  * ArrowUpSquareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrow up square
+ * @category Shape arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrow-up-square/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowUpSquareIcon aria-label="Activity indicator" />
+ * <ArrowUpSquareIcon aria-label="Arrow up square" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

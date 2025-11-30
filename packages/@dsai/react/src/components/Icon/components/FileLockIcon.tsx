@@ -1,8 +1,10 @@
 /**
  * FileLockIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File lock
+ * @category Files and folders
+ * @tags lock
+ * @see https://icons.getbootstrap.com/icons/file-lock/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileLockIcon aria-label="Activity indicator" />
+ * <FileLockIcon aria-label="File lock" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

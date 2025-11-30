@@ -1,7 +1,7 @@
 /**
  * Link45degIcon
  *
- * Bootstrap Icons - React Component
+ * Bootstrap Icons - Link45deg
  * @see https://icons.getbootstrap.com/
  *
  * @accessibility
@@ -16,7 +16,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Link45degIcon aria-label="Activity indicator" />
+ * <Link45degIcon aria-label="Link45deg" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

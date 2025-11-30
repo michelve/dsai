@@ -1,8 +1,10 @@
 /**
  * PlugIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Plug
+ * @category Real world
+ * @tags power
+ * @see https://icons.getbootstrap.com/icons/plug/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PlugIcon aria-label="Activity indicator" />
+ * <PlugIcon aria-label="Plug" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

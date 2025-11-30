@@ -1,8 +1,10 @@
 /**
  * CSquareFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - C square fill
+ * @category Shapes
+ * @tags copyright
+ * @see https://icons.getbootstrap.com/icons/c-square-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CSquareFillIcon aria-label="Activity indicator" />
+ * <CSquareFillIcon aria-label="C square fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

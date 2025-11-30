@@ -1,8 +1,10 @@
 /**
  * TypeUnderlineIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Type underline
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/type-underline/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TypeUnderlineIcon aria-label="Activity indicator" />
+ * <TypeUnderlineIcon aria-label="Type underline" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

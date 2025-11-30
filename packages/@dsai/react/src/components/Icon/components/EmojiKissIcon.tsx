@@ -1,8 +1,10 @@
 /**
  * EmojiKissIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji kiss
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-kiss/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiKissIcon aria-label="Activity indicator" />
+ * <EmojiKissIcon aria-label="Emoji kiss" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

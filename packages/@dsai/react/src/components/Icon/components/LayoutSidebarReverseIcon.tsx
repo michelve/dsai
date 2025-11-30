@@ -1,8 +1,10 @@
 /**
  * LayoutSidebarReverseIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Layout sidebar reverse
+ * @category Layout
+ * @tags grid
+ * @see https://icons.getbootstrap.com/icons/layout-sidebar-reverse/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LayoutSidebarReverseIcon aria-label="Activity indicator" />
+ * <LayoutSidebarReverseIcon aria-label="Layout sidebar reverse" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * LockFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Lock fill
+ * @category Security
+ * @tags privacy
+ * @see https://icons.getbootstrap.com/icons/lock-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LockFillIcon aria-label="Activity indicator" />
+ * <LockFillIcon aria-label="Lock fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

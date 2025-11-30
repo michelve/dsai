@@ -1,8 +1,10 @@
 /**
  * FileEarmarkWordFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File earmark word fill
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-earmark-word-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileEarmarkWordFillIcon aria-label="Activity indicator" />
+ * <FileEarmarkWordFillIcon aria-label="File earmark word fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * PenIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Pen
+ * @category Tools
+ * @tags edit
+ * @see https://icons.getbootstrap.com/icons/pen/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PenIcon aria-label="Activity indicator" />
+ * <PenIcon aria-label="Pen" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

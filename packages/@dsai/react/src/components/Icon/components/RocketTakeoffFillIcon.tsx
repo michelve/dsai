@@ -1,8 +1,10 @@
 /**
  * RocketTakeoffFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Rocket takeoff fill
+ * @category Real world
+ * @tags ship
+ * @see https://icons.getbootstrap.com/icons/rocket-takeoff-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <RocketTakeoffFillIcon aria-label="Activity indicator" />
+ * <RocketTakeoffFillIcon aria-label="Rocket takeoff fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

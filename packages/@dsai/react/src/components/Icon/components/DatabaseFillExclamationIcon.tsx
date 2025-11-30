@@ -1,8 +1,10 @@
 /**
  * DatabaseFillExclamationIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Database fill exclamation
+ * @category Devices
+ * @tags server
+ * @see https://icons.getbootstrap.com/icons/database-fill-exclamation/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DatabaseFillExclamationIcon aria-label="Activity indicator" />
+ * <DatabaseFillExclamationIcon aria-label="Database fill exclamation" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

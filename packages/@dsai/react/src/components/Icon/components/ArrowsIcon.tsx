@@ -1,8 +1,10 @@
 /**
  * ArrowsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrows
+ * @category Arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrows/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowsIcon aria-label="Activity indicator" />
+ * <ArrowsIcon aria-label="Arrows" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

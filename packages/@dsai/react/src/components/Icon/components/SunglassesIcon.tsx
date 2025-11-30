@@ -1,8 +1,10 @@
 /**
  * SunglassesIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sunglasses
+ * @category Real world
+ * @tags shades
+ * @see https://icons.getbootstrap.com/icons/sunglasses/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SunglassesIcon aria-label="Activity indicator" />
+ * <SunglassesIcon aria-label="Sunglasses" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * LayoutTextWindowReverseIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Layout text window reverse
+ * @category Layout
+ * @tags layout
+ * @see https://icons.getbootstrap.com/icons/layout-text-window-reverse/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LayoutTextWindowReverseIcon aria-label="Activity indicator" />
+ * <LayoutTextWindowReverseIcon aria-label="Layout text window reverse" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

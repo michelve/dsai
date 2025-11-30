@@ -1,8 +1,10 @@
 /**
  * MenuAppFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Menu app fill
+ * @category Controls
+ * @tags dropdown
+ * @see https://icons.getbootstrap.com/icons/menu-app-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MenuAppFillIcon aria-label="Activity indicator" />
+ * <MenuAppFillIcon aria-label="Menu app fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

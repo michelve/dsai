@@ -1,8 +1,10 @@
 /**
  * FileEarmarkPostIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File earmark post
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-earmark-post/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileEarmarkPostIcon aria-label="Activity indicator" />
+ * <FileEarmarkPostIcon aria-label="File earmark post" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

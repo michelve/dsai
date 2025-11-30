@@ -1,8 +1,10 @@
 /**
  * LightbulbOffFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Lightbulb off fill
+ * @category Real world
+ * @tags lights
+ * @see https://icons.getbootstrap.com/icons/lightbulb-off-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LightbulbOffFillIcon aria-label="Activity indicator" />
+ * <LightbulbOffFillIcon aria-label="Lightbulb off fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * Box2FillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Box2 fill
+ * @category Real world
+ * @tags cardboard
+ * @see https://icons.getbootstrap.com/icons/box2-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Box2FillIcon aria-label="Activity indicator" />
+ * <Box2FillIcon aria-label="Box2 fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

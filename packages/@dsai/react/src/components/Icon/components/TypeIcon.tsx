@@ -1,8 +1,10 @@
 /**
  * TypeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Type
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/type/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TypeIcon aria-label="Activity indicator" />
+ * <TypeIcon aria-label="Type" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

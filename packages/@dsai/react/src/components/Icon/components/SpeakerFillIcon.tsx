@@ -1,8 +1,10 @@
 /**
  * SpeakerFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Speaker fill
+ * @category Devices
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/speaker-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SpeakerFillIcon aria-label="Activity indicator" />
+ * <SpeakerFillIcon aria-label="Speaker fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

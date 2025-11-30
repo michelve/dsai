@@ -1,8 +1,10 @@
 /**
  * Mouse2Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Mouse2
+ * @category Devices
+ * @tags mice
+ * @see https://icons.getbootstrap.com/icons/mouse2/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Mouse2Icon aria-label="Activity indicator" />
+ * <Mouse2Icon aria-label="Mouse2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

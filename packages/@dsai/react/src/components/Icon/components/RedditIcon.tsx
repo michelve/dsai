@@ -1,8 +1,10 @@
 /**
  * RedditIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Reddit
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/reddit/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <RedditIcon aria-label="Activity indicator" />
+ * <RedditIcon aria-label="Reddit" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

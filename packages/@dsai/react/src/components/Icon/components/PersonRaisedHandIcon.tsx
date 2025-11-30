@@ -1,8 +1,10 @@
 /**
  * PersonRaisedHandIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person raised hand
+ * @category People
+ * @tags human
+ * @see https://icons.getbootstrap.com/icons/person-raised-hand/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonRaisedHandIcon aria-label="Activity indicator" />
+ * <PersonRaisedHandIcon aria-label="Person raised hand" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

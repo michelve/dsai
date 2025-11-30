@@ -1,8 +1,10 @@
 /**
  * TrainFreightFrontFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Train freight front fill
+ * @category Transportation
+ * @tags transit
+ * @see https://icons.getbootstrap.com/icons/train-freight-front-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TrainFreightFrontFillIcon aria-label="Activity indicator" />
+ * <TrainFreightFrontFillIcon aria-label="Train freight front fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

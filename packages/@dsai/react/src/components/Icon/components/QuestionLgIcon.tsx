@@ -1,8 +1,10 @@
 /**
  * QuestionLgIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Question lg
+ * @category Alerts, warnings, and signs
+ * @tags help
+ * @see https://icons.getbootstrap.com/icons/question-lg/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <QuestionLgIcon aria-label="Activity indicator" />
+ * <QuestionLgIcon aria-label="Question lg" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

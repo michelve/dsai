@@ -1,8 +1,10 @@
 /**
  * BadgeTmFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Badge tm fill
+ * @category Badges
+ * @tags trademark
+ * @see https://icons.getbootstrap.com/icons/badge-tm-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BadgeTmFillIcon aria-label="Activity indicator" />
+ * <BadgeTmFillIcon aria-label="Badge tm fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

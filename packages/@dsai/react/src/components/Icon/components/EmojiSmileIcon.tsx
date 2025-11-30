@@ -1,8 +1,10 @@
 /**
  * EmojiSmileIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji smile
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-smile/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiSmileIcon aria-label="Activity indicator" />
+ * <EmojiSmileIcon aria-label="Emoji smile" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

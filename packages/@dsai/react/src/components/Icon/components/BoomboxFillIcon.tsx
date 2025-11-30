@@ -1,8 +1,10 @@
 /**
  * BoomboxFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Boombox fill
+ * @category Real world
+ * @tags music
+ * @see https://icons.getbootstrap.com/icons/boombox-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BoomboxFillIcon aria-label="Activity indicator" />
+ * <BoomboxFillIcon aria-label="Boombox fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

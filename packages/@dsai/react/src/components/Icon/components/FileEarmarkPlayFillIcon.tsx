@@ -1,8 +1,10 @@
 /**
  * FileEarmarkPlayFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File earmark play fill
+ * @category Files and folders
+ * @tags video
+ * @see https://icons.getbootstrap.com/icons/file-earmark-play-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileEarmarkPlayFillIcon aria-label="Activity indicator" />
+ * <FileEarmarkPlayFillIcon aria-label="File earmark play fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

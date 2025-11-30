@@ -1,8 +1,10 @@
 /**
  * SpeedometerIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Speedometer
+ * @category Real world
+ * @tags speed
+ * @see https://icons.getbootstrap.com/icons/speedometer/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SpeedometerIcon aria-label="Activity indicator" />
+ * <SpeedometerIcon aria-label="Speedometer" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

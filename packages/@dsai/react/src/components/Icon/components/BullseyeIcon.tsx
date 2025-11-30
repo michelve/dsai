@@ -1,8 +1,10 @@
 /**
  * BullseyeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bullseye
+ * @category Geo
+ * @tags target
+ * @see https://icons.getbootstrap.com/icons/bullseye/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BullseyeIcon aria-label="Activity indicator" />
+ * <BullseyeIcon aria-label="Bullseye" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

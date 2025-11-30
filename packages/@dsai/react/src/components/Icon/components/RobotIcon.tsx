@@ -1,8 +1,10 @@
 /**
  * RobotIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Robot
+ * @category Devices
+ * @tags bot
+ * @see https://icons.getbootstrap.com/icons/robot/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <RobotIcon aria-label="Activity indicator" />
+ * <RobotIcon aria-label="Robot" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

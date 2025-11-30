@@ -1,8 +1,10 @@
 /**
  * CupFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cup fill
+ * @category Real world
+ * @tags mug
+ * @see https://icons.getbootstrap.com/icons/cup-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CupFillIcon aria-label="Activity indicator" />
+ * <CupFillIcon aria-label="Cup fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

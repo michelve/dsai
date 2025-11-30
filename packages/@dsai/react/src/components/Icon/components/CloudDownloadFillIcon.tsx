@@ -1,8 +1,10 @@
 /**
  * CloudDownloadFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cloud download fill
+ * @category Clouds
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/cloud-download-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CloudDownloadFillIcon aria-label="Activity indicator" />
+ * <CloudDownloadFillIcon aria-label="Cloud download fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

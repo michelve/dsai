@@ -1,8 +1,10 @@
 /**
  * HouseDashFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - House dash fill
+ * @category Real world
+ * @tags home
+ * @see https://icons.getbootstrap.com/icons/house-dash-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HouseDashFillIcon aria-label="Activity indicator" />
+ * <HouseDashFillIcon aria-label="House dash fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * QuestionCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Question circle
+ * @category Alerts, warnings, and signs
+ * @tags help
+ * @see https://icons.getbootstrap.com/icons/question-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <QuestionCircleIcon aria-label="Activity indicator" />
+ * <QuestionCircleIcon aria-label="Question circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

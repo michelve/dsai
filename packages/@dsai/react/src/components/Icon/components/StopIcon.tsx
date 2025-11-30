@@ -1,8 +1,10 @@
 /**
  * StopIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Stop
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/stop/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <StopIcon aria-label="Activity indicator" />
+ * <StopIcon aria-label="Stop" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

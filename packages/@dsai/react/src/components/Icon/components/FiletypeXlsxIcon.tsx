@@ -1,8 +1,10 @@
 /**
  * FiletypeXlsxIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype xlsx
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-xlsx/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeXlsxIcon aria-label="Activity indicator" />
+ * <FiletypeXlsxIcon aria-label="Filetype xlsx" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

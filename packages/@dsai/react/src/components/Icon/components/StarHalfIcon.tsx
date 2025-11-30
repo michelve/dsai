@@ -1,8 +1,10 @@
 /**
  * StarHalfIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Star half fill
+ * @category Shapes
+ * @tags shape
+ * @see https://icons.getbootstrap.com/icons/star-half/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <StarHalfIcon aria-label="Activity indicator" />
+ * <StarHalfIcon aria-label="Star half fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

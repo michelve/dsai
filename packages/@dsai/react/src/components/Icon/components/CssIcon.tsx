@@ -1,8 +1,10 @@
 /**
  * CssIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - CSS
+ * @category Brand
+ * @tags frontend
+ * @see https://icons.getbootstrap.com/icons/css/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CssIcon aria-label="Activity indicator" />
+ * <CssIcon aria-label="CSS" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

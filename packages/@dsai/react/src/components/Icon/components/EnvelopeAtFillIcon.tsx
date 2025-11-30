@@ -1,8 +1,10 @@
 /**
  * EnvelopeAtFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Envelope at fill
+ * @category Communications
+ * @tags email
+ * @see https://icons.getbootstrap.com/icons/envelope-at-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EnvelopeAtFillIcon aria-label="Activity indicator" />
+ * <EnvelopeAtFillIcon aria-label="Envelope at fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

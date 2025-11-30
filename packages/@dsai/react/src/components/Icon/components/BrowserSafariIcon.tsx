@@ -1,8 +1,10 @@
 /**
  * BrowserSafariIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Browser Safari
+ * @category Brand
+ * @tags webkit
+ * @see https://icons.getbootstrap.com/icons/browser-safari/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BrowserSafariIcon aria-label="Activity indicator" />
+ * <BrowserSafariIcon aria-label="Browser Safari" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

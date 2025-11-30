@@ -1,7 +1,7 @@
 /**
  * Dice1Icon
  *
- * Bootstrap Icons - React Component
+ * Bootstrap Icons - Dice1
  * @see https://icons.getbootstrap.com/
  *
  * @accessibility
@@ -16,7 +16,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Dice1Icon aria-label="Activity indicator" />
+ * <Dice1Icon aria-label="Dice1" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

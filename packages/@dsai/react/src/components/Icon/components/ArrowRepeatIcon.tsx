@@ -1,8 +1,10 @@
 /**
  * ArrowRepeatIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrow repeat
+ * @category Arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrow-repeat/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowRepeatIcon aria-label="Activity indicator" />
+ * <ArrowRepeatIcon aria-label="Arrow repeat" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

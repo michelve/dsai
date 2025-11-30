@@ -1,8 +1,10 @@
 /**
  * AmazonIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Amazon
+ * @category Brand
+ * @tags aws
+ * @see https://icons.getbootstrap.com/icons/amazon/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AmazonIcon aria-label="Activity indicator" />
+ * <AmazonIcon aria-label="Amazon" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

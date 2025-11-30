@@ -1,8 +1,10 @@
 /**
  * LungsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Lungs
+ * @category Medical
+ * @tags medicine
+ * @see https://icons.getbootstrap.com/icons/lungs/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LungsIcon aria-label="Activity indicator" />
+ * <LungsIcon aria-label="Lungs" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

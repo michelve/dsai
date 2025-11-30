@@ -1,8 +1,10 @@
 /**
  * NewspaperIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Newspaper
+ * @category Real world
+ * @tags news
+ * @see https://icons.getbootstrap.com/icons/newspaper/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <NewspaperIcon aria-label="Activity indicator" />
+ * <NewspaperIcon aria-label="Newspaper" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

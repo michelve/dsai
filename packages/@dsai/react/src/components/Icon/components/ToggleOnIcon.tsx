@@ -1,8 +1,10 @@
 /**
  * ToggleOnIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Toggle on
+ * @category Controls
+ * @tags toggle
+ * @see https://icons.getbootstrap.com/icons/toggle-on/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ToggleOnIcon aria-label="Activity indicator" />
+ * <ToggleOnIcon aria-label="Toggle on" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

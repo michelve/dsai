@@ -1,8 +1,10 @@
 /**
  * SubtractIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Subtract
+ * @category Graphics
+ * @tags graphics
+ * @see https://icons.getbootstrap.com/icons/subtract/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SubtractIcon aria-label="Activity indicator" />
+ * <SubtractIcon aria-label="Subtract" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

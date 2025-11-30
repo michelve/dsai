@@ -1,8 +1,10 @@
 /**
  * DatabaseFillSlashIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Database fill slash
+ * @category Devices
+ * @tags server
+ * @see https://icons.getbootstrap.com/icons/database-fill-slash/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DatabaseFillSlashIcon aria-label="Activity indicator" />
+ * <DatabaseFillSlashIcon aria-label="Database fill slash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

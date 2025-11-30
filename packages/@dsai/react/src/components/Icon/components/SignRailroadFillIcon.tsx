@@ -1,8 +1,10 @@
 /**
  * SignRailroadFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sign railroad fill
+ * @category Transportation
+ * @tags road
+ * @see https://icons.getbootstrap.com/icons/sign-railroad-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SignRailroadFillIcon aria-label="Activity indicator" />
+ * <SignRailroadFillIcon aria-label="Sign railroad fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

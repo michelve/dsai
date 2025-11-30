@@ -1,8 +1,10 @@
 /**
  * BrightnessAltHighFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Brightness alt high fill
+ * @category UI and keyboard
+ * @tags brightness
+ * @see https://icons.getbootstrap.com/icons/brightness-alt-high-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BrightnessAltHighFillIcon aria-label="Activity indicator" />
+ * <BrightnessAltHighFillIcon aria-label="Brightness alt high fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

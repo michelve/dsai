@@ -1,8 +1,10 @@
 /**
  * StravaIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Strava
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/strava/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <StravaIcon aria-label="Activity indicator" />
+ * <StravaIcon aria-label="Strava" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

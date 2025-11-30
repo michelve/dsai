@@ -1,8 +1,10 @@
 /**
  * Clipboard2CheckIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Clipboard2 check
+ * @category Real world
+ * @tags copy
+ * @see https://icons.getbootstrap.com/icons/clipboard2-check/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Clipboard2CheckIcon aria-label="Activity indicator" />
+ * <Clipboard2CheckIcon aria-label="Clipboard2 check" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

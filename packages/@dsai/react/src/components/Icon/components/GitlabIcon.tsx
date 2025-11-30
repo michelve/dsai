@@ -1,8 +1,10 @@
 /**
  * GitlabIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Gitlab
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/gitlab/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GitlabIcon aria-label="Activity indicator" />
+ * <GitlabIcon aria-label="Gitlab" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

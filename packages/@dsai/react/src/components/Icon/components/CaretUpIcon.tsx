@@ -1,8 +1,10 @@
 /**
  * CaretUpIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Caret up
+ * @category Carets
+ * @tags caret
+ * @see https://icons.getbootstrap.com/icons/caret-up/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CaretUpIcon aria-label="Activity indicator" />
+ * <CaretUpIcon aria-label="Caret up" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

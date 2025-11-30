@@ -1,8 +1,10 @@
 /**
  * OptionIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Option
+ * @category UI and keyboard
+ * @tags key
+ * @see https://icons.getbootstrap.com/icons/option/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <OptionIcon aria-label="Activity indicator" />
+ * <OptionIcon aria-label="Option" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

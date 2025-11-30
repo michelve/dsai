@@ -1,8 +1,10 @@
 /**
  * PeaceFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Peace fill
+ * @category Miscellaneous
+ * @tags peace
+ * @see https://icons.getbootstrap.com/icons/peace-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PeaceFillIcon aria-label="Activity indicator" />
+ * <PeaceFillIcon aria-label="Peace fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

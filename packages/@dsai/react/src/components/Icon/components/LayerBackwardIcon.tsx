@@ -1,8 +1,10 @@
 /**
  * LayerBackwardIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Layer backward
+ * @category Graphics
+ * @tags arrange
+ * @see https://icons.getbootstrap.com/icons/layer-backward/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LayerBackwardIcon aria-label="Activity indicator" />
+ * <LayerBackwardIcon aria-label="Layer backward" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

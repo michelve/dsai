@@ -1,8 +1,10 @@
 /**
  * CloudSnowFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cloud snow fill
+ * @category Weather
+ * @tags cloud
+ * @see https://icons.getbootstrap.com/icons/cloud-snow-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CloudSnowFillIcon aria-label="Activity indicator" />
+ * <CloudSnowFillIcon aria-label="Cloud snow fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

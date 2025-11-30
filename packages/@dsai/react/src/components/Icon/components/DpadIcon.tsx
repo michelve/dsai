@@ -1,8 +1,10 @@
 /**
  * DpadIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Dpad
+ * @category Entertainment
+ * @tags gaming
+ * @see https://icons.getbootstrap.com/icons/dpad/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DpadIcon aria-label="Activity indicator" />
+ * <DpadIcon aria-label="Dpad" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

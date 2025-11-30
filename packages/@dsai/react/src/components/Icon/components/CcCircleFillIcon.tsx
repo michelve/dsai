@@ -1,8 +1,10 @@
 /**
  * CcCircleFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - CC circle fill
+ * @category Shapes
+ * @tags "creative commons"
+ * @see https://icons.getbootstrap.com/icons/cc-circle-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CcCircleFillIcon aria-label="Activity indicator" />
+ * <CcCircleFillIcon aria-label="CC circle fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

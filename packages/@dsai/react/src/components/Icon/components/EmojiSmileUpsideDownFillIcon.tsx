@@ -1,8 +1,10 @@
 /**
  * EmojiSmileUpsideDownFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji smile upside down fill
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-smile-upside-down-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiSmileUpsideDownFillIcon aria-label="Activity indicator" />
+ * <EmojiSmileUpsideDownFillIcon aria-label="Emoji smile upside down fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * EarIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Ear
+ * @category Real world
+ * @tags hearing
+ * @see https://icons.getbootstrap.com/icons/ear/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EarIcon aria-label="Activity indicator" />
+ * <EarIcon aria-label="Ear" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

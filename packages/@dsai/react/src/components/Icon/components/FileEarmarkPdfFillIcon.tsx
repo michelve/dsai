@@ -1,8 +1,10 @@
 /**
  * FileEarmarkPdfFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File earmark PDF fill
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-earmark-pdf-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileEarmarkPdfFillIcon aria-label="Activity indicator" />
+ * <FileEarmarkPdfFillIcon aria-label="File earmark PDF fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

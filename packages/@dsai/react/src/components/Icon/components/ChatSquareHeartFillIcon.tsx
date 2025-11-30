@@ -1,8 +1,10 @@
 /**
  * ChatSquareHeartFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Chat square heart fill
+ * @category Communications
+ * @tags chat bubble
+ * @see https://icons.getbootstrap.com/icons/chat-square-heart-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ChatSquareHeartFillIcon aria-label="Activity indicator" />
+ * <ChatSquareHeartFillIcon aria-label="Chat square heart fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

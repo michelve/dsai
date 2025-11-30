@@ -1,8 +1,10 @@
 /**
  * CpuFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cpu fill
+ * @category Devices
+ * @tags processor
+ * @see https://icons.getbootstrap.com/icons/cpu-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CpuFillIcon aria-label="Activity indicator" />
+ * <CpuFillIcon aria-label="Cpu fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

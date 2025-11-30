@@ -1,8 +1,10 @@
 /**
  * AppIndicatorIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - App indicator
+ * @category Apps
+ * @tags app
+ * @see https://icons.getbootstrap.com/icons/app-indicator/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AppIndicatorIcon aria-label="Activity indicator" />
+ * <AppIndicatorIcon aria-label="App indicator" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

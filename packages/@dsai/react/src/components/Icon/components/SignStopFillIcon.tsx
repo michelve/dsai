@@ -1,8 +1,10 @@
 /**
  * SignStopFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sign stop fill
+ * @category Transportation
+ * @tags "stop sign"
+ * @see https://icons.getbootstrap.com/icons/sign-stop-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SignStopFillIcon aria-label="Activity indicator" />
+ * <SignStopFillIcon aria-label="Sign stop fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

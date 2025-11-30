@@ -1,8 +1,10 @@
 /**
  * KeyboardFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Keyboard fill
+ * @category Devices
+ * @tags keyboard
+ * @see https://icons.getbootstrap.com/icons/keyboard-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <KeyboardFillIcon aria-label="Activity indicator" />
+ * <KeyboardFillIcon aria-label="Keyboard fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

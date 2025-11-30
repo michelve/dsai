@@ -1,8 +1,10 @@
 /**
  * ArrowDownRightCircleFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrow down right circle fill
+ * @category Shape arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrow-down-right-circle-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowDownRightCircleFillIcon aria-label="Activity indicator" />
+ * <ArrowDownRightCircleFillIcon aria-label="Arrow down right circle fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

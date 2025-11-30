@@ -1,8 +1,10 @@
 /**
  * Calendar2MonthIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Calendar2 month
+ * @category Date and time
+ * @tags date
+ * @see https://icons.getbootstrap.com/icons/calendar2-month/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Calendar2MonthIcon aria-label="Activity indicator" />
+ * <Calendar2MonthIcon aria-label="Calendar2 month" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

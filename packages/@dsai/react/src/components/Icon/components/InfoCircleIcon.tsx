@@ -1,8 +1,10 @@
 /**
  * InfoCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Info circle
+ * @category Alerts, warnings, and signs
+ * @tags information
+ * @see https://icons.getbootstrap.com/icons/info-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <InfoCircleIcon aria-label="Activity indicator" />
+ * <InfoCircleIcon aria-label="Info circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

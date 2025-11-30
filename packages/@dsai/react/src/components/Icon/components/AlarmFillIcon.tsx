@@ -1,8 +1,10 @@
 /**
  * AlarmFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Alarm Fill
+ * @category Devices
+ * @tags alarm
+ * @see https://icons.getbootstrap.com/icons/alarm-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AlarmFillIcon aria-label="Activity indicator" />
+ * <AlarmFillIcon aria-label="Alarm Fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * ExcludeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Exclude
+ * @category Graphics
+ * @tags graphics
+ * @see https://icons.getbootstrap.com/icons/exclude/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ExcludeIcon aria-label="Activity indicator" />
+ * <ExcludeIcon aria-label="Exclude" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

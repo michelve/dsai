@@ -1,8 +1,10 @@
 /**
  * BanIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Ban
+ * @category Real world
+ * @tags no
+ * @see https://icons.getbootstrap.com/icons/ban/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BanIcon aria-label="Activity indicator" />
+ * <BanIcon aria-label="Ban" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * CollectionFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Collection fill
+ * @category Media
+ * @tags library
+ * @see https://icons.getbootstrap.com/icons/collection-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CollectionFillIcon aria-label="Activity indicator" />
+ * <CollectionFillIcon aria-label="Collection fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

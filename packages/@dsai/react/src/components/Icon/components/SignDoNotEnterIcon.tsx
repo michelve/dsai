@@ -1,8 +1,10 @@
 /**
  * SignDoNotEnterIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sign do not enter
+ * @category Transportation
+ * @tags road
+ * @see https://icons.getbootstrap.com/icons/sign-do-not-enter/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SignDoNotEnterIcon aria-label="Activity indicator" />
+ * <SignDoNotEnterIcon aria-label="Sign do not enter" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

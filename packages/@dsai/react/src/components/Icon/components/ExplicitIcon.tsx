@@ -1,8 +1,10 @@
 /**
  * ExplicitIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Explicit
+ * @category Badges
+ * @tags r18
+ * @see https://icons.getbootstrap.com/icons/explicit/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ExplicitIcon aria-label="Activity indicator" />
+ * <ExplicitIcon aria-label="Explicit" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

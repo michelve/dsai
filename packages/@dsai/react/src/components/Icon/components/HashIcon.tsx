@@ -1,8 +1,10 @@
 /**
  * HashIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Hash
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/hash/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HashIcon aria-label="Activity indicator" />
+ * <HashIcon aria-label="Hash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

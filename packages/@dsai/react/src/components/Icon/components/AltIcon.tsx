@@ -1,8 +1,10 @@
 /**
  * AltIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Alt
+ * @category UI and keyboard
+ * @tags key
+ * @see https://icons.getbootstrap.com/icons/alt/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AltIcon aria-label="Activity indicator" />
+ * <AltIcon aria-label="Alt" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

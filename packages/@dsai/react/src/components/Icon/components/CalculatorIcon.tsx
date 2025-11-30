@@ -1,8 +1,10 @@
 /**
  * CalculatorIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Calculator
+ * @category Devices
+ * @tags calculator
+ * @see https://icons.getbootstrap.com/icons/calculator/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CalculatorIcon aria-label="Activity indicator" />
+ * <CalculatorIcon aria-label="Calculator" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

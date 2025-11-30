@@ -1,8 +1,10 @@
 /**
  * UnlockIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Unlock
+ * @category Security
+ * @tags privacy
+ * @see https://icons.getbootstrap.com/icons/unlock/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <UnlockIcon aria-label="Activity indicator" />
+ * <UnlockIcon aria-label="Unlock" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * DatabaseGearIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Database gear
+ * @category Devices
+ * @tags server
+ * @see https://icons.getbootstrap.com/icons/database-gear/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DatabaseGearIcon aria-label="Activity indicator" />
+ * <DatabaseGearIcon aria-label="Database gear" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

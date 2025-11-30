@@ -1,8 +1,10 @@
 /**
  * BadgeAdFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Badge ad fill
+ * @category Badges
+ * @tags advertisement
+ * @see https://icons.getbootstrap.com/icons/badge-ad-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BadgeAdFillIcon aria-label="Activity indicator" />
+ * <BadgeAdFillIcon aria-label="Badge ad fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

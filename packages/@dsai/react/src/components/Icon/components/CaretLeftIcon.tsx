@@ -1,8 +1,10 @@
 /**
  * CaretLeftIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Caret left
+ * @category Carets
+ * @tags caret
+ * @see https://icons.getbootstrap.com/icons/caret-left/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CaretLeftIcon aria-label="Activity indicator" />
+ * <CaretLeftIcon aria-label="Caret left" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

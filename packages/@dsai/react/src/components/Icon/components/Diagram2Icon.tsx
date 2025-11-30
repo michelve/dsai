@@ -1,7 +1,7 @@
 /**
  * Diagram2Icon
  *
- * Bootstrap Icons - React Component
+ * Bootstrap Icons - Diagram2
  * @see https://icons.getbootstrap.com/
  *
  * @accessibility
@@ -16,7 +16,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Diagram2Icon aria-label="Activity indicator" />
+ * <Diagram2Icon aria-label="Diagram2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

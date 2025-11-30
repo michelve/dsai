@@ -1,8 +1,10 @@
 /**
  * PersonLockIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person lock
+ * @category People
+ * @tags member
+ * @see https://icons.getbootstrap.com/icons/person-lock/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonLockIcon aria-label="Activity indicator" />
+ * <PersonLockIcon aria-label="Person lock" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

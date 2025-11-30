@@ -1,8 +1,10 @@
 /**
  * RadioactiveIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Radioactive
+ * @category Real world
+ * @tags radiation
+ * @see https://icons.getbootstrap.com/icons/radioactive/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <RadioactiveIcon aria-label="Activity indicator" />
+ * <RadioactiveIcon aria-label="Radioactive" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

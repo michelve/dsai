@@ -1,8 +1,10 @@
 /**
  * ShiftFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Shift fill
+ * @category UI and keyboard
+ * @tags key
+ * @see https://icons.getbootstrap.com/icons/shift-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ShiftFillIcon aria-label="Activity indicator" />
+ * <ShiftFillIcon aria-label="Shift fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

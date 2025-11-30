@@ -1,8 +1,10 @@
 /**
  * PostageIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Postage
+ * @category Real world
+ * @tags stamp
+ * @see https://icons.getbootstrap.com/icons/postage/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PostageIcon aria-label="Activity indicator" />
+ * <PostageIcon aria-label="Postage" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

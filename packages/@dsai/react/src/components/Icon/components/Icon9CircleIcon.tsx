@@ -1,8 +1,10 @@
 /**
  * Icon9CircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - 9 circle
+ * @category Shapes
+ * @tags number
+ * @see https://icons.getbootstrap.com/icons/9-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Icon9CircleIcon aria-label="Activity indicator" />
+ * <Icon9CircleIcon aria-label="9 circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

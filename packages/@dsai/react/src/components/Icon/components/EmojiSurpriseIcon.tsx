@@ -1,8 +1,10 @@
 /**
  * EmojiSurpriseIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji surprise
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-surprise/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiSurpriseIcon aria-label="Activity indicator" />
+ * <EmojiSurpriseIcon aria-label="Emoji surprise" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

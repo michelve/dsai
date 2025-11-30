@@ -1,8 +1,10 @@
 /**
  * MicIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Mic
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/mic/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MicIcon aria-label="Activity indicator" />
+ * <MicIcon aria-label="Mic" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

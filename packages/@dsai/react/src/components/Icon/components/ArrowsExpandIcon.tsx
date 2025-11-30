@@ -1,8 +1,10 @@
 /**
  * ArrowsExpandIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrows expand
+ * @category Arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrows-expand/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowsExpandIcon aria-label="Activity indicator" />
+ * <ArrowsExpandIcon aria-label="Arrows expand" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

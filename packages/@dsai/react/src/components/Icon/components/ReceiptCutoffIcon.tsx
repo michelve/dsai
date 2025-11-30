@@ -1,8 +1,10 @@
 /**
  * ReceiptCutoffIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Receipt cutoff
+ * @category Commerce
+ * @tags receipt
+ * @see https://icons.getbootstrap.com/icons/receipt-cutoff/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ReceiptCutoffIcon aria-label="Activity indicator" />
+ * <ReceiptCutoffIcon aria-label="Receipt cutoff" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

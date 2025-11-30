@@ -1,8 +1,10 @@
 /**
  * ShieldSlashFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Shield slash fill
+ * @category Security
+ * @tags shield
+ * @see https://icons.getbootstrap.com/icons/shield-slash-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ShieldSlashFillIcon aria-label="Activity indicator" />
+ * <ShieldSlashFillIcon aria-label="Shield slash fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

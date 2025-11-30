@@ -1,8 +1,10 @@
 /**
  * SkypeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Skype
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/skype/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SkypeIcon aria-label="Activity indicator" />
+ * <SkypeIcon aria-label="Skype" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

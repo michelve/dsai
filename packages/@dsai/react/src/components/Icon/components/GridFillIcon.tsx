@@ -1,8 +1,10 @@
 /**
  * GridFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Grid fill
+ * @category Layout
+ * @tags grid
+ * @see https://icons.getbootstrap.com/icons/grid-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GridFillIcon aria-label="Activity indicator" />
+ * <GridFillIcon aria-label="Grid fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

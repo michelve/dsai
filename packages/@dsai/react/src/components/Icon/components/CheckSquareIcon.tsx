@@ -1,8 +1,10 @@
 /**
  * CheckSquareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Check square
+ * @category Alerts, warnings, and signs
+ * @tags checkmark
+ * @see https://icons.getbootstrap.com/icons/check-square/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CheckSquareIcon aria-label="Activity indicator" />
+ * <CheckSquareIcon aria-label="Check square" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

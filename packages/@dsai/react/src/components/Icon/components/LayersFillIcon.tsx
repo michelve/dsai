@@ -1,8 +1,10 @@
 /**
  * LayersFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Layers fill
+ * @category Graphics
+ * @tags perspective
+ * @see https://icons.getbootstrap.com/icons/layers-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LayersFillIcon aria-label="Activity indicator" />
+ * <LayersFillIcon aria-label="Layers fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

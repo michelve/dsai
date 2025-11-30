@@ -1,8 +1,10 @@
 /**
  * FastForwardCircleFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Fast forward circle fill
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/fast-forward-circle-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FastForwardCircleFillIcon aria-label="Activity indicator" />
+ * <FastForwardCircleFillIcon aria-label="Fast forward circle fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

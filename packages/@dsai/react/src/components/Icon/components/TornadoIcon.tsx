@@ -1,8 +1,10 @@
 /**
  * TornadoIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Tornado
+ * @category Weather
+ * @tags wind
+ * @see https://icons.getbootstrap.com/icons/tornado/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TornadoIcon aria-label="Activity indicator" />
+ * <TornadoIcon aria-label="Tornado" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

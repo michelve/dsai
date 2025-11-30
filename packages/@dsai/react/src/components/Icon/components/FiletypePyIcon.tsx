@@ -1,8 +1,10 @@
 /**
  * FiletypePyIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype py
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-py/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypePyIcon aria-label="Activity indicator" />
+ * <FiletypePyIcon aria-label="Filetype py" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

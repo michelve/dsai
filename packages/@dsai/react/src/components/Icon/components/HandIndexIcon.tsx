@@ -1,8 +1,10 @@
 /**
  * HandIndexIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Hand index
+ * @category Hands
+ * @tags hand
+ * @see https://icons.getbootstrap.com/icons/hand-index/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HandIndexIcon aria-label="Activity indicator" />
+ * <HandIndexIcon aria-label="Hand index" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * ShieldXIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Shield x
+ * @category Security
+ * @tags privacy
+ * @see https://icons.getbootstrap.com/icons/shield-x/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ShieldXIcon aria-label="Activity indicator" />
+ * <ShieldXIcon aria-label="Shield x" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

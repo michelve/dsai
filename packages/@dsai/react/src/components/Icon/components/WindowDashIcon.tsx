@@ -1,8 +1,10 @@
 /**
  * WindowDashIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Window dash
+ * @category Apps
+ * @tags application
+ * @see https://icons.getbootstrap.com/icons/window-dash/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WindowDashIcon aria-label="Activity indicator" />
+ * <WindowDashIcon aria-label="Window dash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

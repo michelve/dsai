@@ -1,8 +1,10 @@
 /**
  * SpotifyIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Spotify
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/spotify/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SpotifyIcon aria-label="Activity indicator" />
+ * <SpotifyIcon aria-label="Spotify" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

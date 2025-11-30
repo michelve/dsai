@@ -1,8 +1,10 @@
 /**
  * RouterFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Router fill
+ * @category Devices
+ * @tags wifi
+ * @see https://icons.getbootstrap.com/icons/router-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <RouterFillIcon aria-label="Activity indicator" />
+ * <RouterFillIcon aria-label="Router fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

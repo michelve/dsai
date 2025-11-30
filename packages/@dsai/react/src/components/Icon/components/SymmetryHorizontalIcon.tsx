@@ -1,8 +1,10 @@
 /**
  * SymmetryHorizontalIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Symmetry horizontal
+ * @category Graphics
+ * @tags align
+ * @see https://icons.getbootstrap.com/icons/symmetry-horizontal/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SymmetryHorizontalIcon aria-label="Activity indicator" />
+ * <SymmetryHorizontalIcon aria-label="Symmetry horizontal" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

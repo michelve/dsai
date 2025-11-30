@@ -1,8 +1,10 @@
 /**
  * QuestionOctagonIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Question octagon
+ * @category Alerts, warnings, and signs
+ * @tags help
+ * @see https://icons.getbootstrap.com/icons/question-octagon/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <QuestionOctagonIcon aria-label="Activity indicator" />
+ * <QuestionOctagonIcon aria-label="Question octagon" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

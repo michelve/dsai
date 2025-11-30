@@ -1,8 +1,10 @@
 /**
  * IndentIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Indent
+ * @category UI and Keyboard
+ * @tags tab
+ * @see https://icons.getbootstrap.com/icons/indent/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <IndentIcon aria-label="Activity indicator" />
+ * <IndentIcon aria-label="Indent" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

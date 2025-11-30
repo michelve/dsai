@@ -1,8 +1,10 @@
 /**
  * WindowsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Windows
+ * @category Brand
+ * @tags microsoft
+ * @see https://icons.getbootstrap.com/icons/windows/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WindowsIcon aria-label="Activity indicator" />
+ * <WindowsIcon aria-label="Windows" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

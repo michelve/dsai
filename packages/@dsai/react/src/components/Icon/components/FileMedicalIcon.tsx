@@ -1,8 +1,10 @@
 /**
  * FileMedicalIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File medical
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-medical/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileMedicalIcon aria-label="Activity indicator" />
+ * <FileMedicalIcon aria-label="File medical" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

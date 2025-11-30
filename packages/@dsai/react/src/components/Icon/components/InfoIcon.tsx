@@ -1,8 +1,10 @@
 /**
  * InfoIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Info
+ * @category Alerts, warnings, and signs
+ * @tags information
+ * @see https://icons.getbootstrap.com/icons/info/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <InfoIcon aria-label="Activity indicator" />
+ * <InfoIcon aria-label="Info" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

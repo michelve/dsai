@@ -1,8 +1,10 @@
 /**
  * CpuIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - CPU
+ * @category Devices
+ * @tags processor
+ * @see https://icons.getbootstrap.com/icons/cpu/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CpuIcon aria-label="Activity indicator" />
+ * <CpuIcon aria-label="CPU" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

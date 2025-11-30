@@ -1,8 +1,10 @@
 /**
  * HouseGearIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - House gear
+ * @category Real world
+ * @tags home
+ * @see https://icons.getbootstrap.com/icons/house-gear/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HouseGearIcon aria-label="Activity indicator" />
+ * <HouseGearIcon aria-label="House gear" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

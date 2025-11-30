@@ -1,7 +1,7 @@
 /**
  * Diagram3FillIcon
  *
- * Bootstrap Icons - React Component
+ * Bootstrap Icons - Diagram3Fill
  * @see https://icons.getbootstrap.com/
  *
  * @accessibility
@@ -16,7 +16,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Diagram3FillIcon aria-label="Activity indicator" />
+ * <Diagram3FillIcon aria-label="Diagram3Fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

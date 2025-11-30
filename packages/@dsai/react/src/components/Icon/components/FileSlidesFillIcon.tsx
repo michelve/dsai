@@ -1,8 +1,10 @@
 /**
  * FileSlidesFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File slides fill
+ * @category Files and folders
+ * @tags presentation
+ * @see https://icons.getbootstrap.com/icons/file-slides-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileSlidesFillIcon aria-label="Activity indicator" />
+ * <FileSlidesFillIcon aria-label="File slides fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

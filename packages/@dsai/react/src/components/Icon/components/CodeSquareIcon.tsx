@@ -1,8 +1,10 @@
 /**
  * CodeSquareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Code square
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/code-square/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CodeSquareIcon aria-label="Activity indicator" />
+ * <CodeSquareIcon aria-label="Code square" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * ConeStripedIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cone striped
+ * @category Real world
+ * @tags construction
+ * @see https://icons.getbootstrap.com/icons/cone-striped/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ConeStripedIcon aria-label="Activity indicator" />
+ * <ConeStripedIcon aria-label="Cone striped" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

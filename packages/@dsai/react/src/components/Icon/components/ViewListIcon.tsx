@@ -1,8 +1,10 @@
 /**
  * ViewListIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - View list
+ * @category UI and keyboard
+ * @tags view
+ * @see https://icons.getbootstrap.com/icons/view-list/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ViewListIcon aria-label="Activity indicator" />
+ * <ViewListIcon aria-label="View list" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

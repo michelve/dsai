@@ -1,8 +1,10 @@
 /**
  * ListNestedIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - List nested
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/list-nested/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ListNestedIcon aria-label="Activity indicator" />
+ * <ListNestedIcon aria-label="List nested" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

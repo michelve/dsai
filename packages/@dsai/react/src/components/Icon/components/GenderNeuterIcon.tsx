@@ -1,8 +1,10 @@
 /**
  * GenderNeuterIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Gender neuter
+ * @category People
+ * @tags gender
+ * @see https://icons.getbootstrap.com/icons/gender-neuter/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GenderNeuterIcon aria-label="Activity indicator" />
+ * <GenderNeuterIcon aria-label="Gender neuter" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

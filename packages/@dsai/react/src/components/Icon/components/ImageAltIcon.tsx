@@ -1,8 +1,10 @@
 /**
  * ImageAltIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Image alt
+ * @category Files and folders
+ * @tags picture
+ * @see https://icons.getbootstrap.com/icons/image-alt/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ImageAltIcon aria-label="Activity indicator" />
+ * <ImageAltIcon aria-label="Image alt" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

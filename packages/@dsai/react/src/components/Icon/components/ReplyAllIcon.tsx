@@ -1,8 +1,10 @@
 /**
  * ReplyAllIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Reply all
+ * @category Communications
+ * @tags mail
+ * @see https://icons.getbootstrap.com/icons/reply-all/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ReplyAllIcon aria-label="Activity indicator" />
+ * <ReplyAllIcon aria-label="Reply all" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

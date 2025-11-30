@@ -1,8 +1,10 @@
 /**
  * QuoteIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Quote
+ * @category Typography
+ * @tags blockquote
+ * @see https://icons.getbootstrap.com/icons/quote/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <QuoteIcon aria-label="Activity indicator" />
+ * <QuoteIcon aria-label="Quote" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

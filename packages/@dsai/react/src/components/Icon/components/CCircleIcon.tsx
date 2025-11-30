@@ -1,8 +1,10 @@
 /**
  * CCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - C circle
+ * @category Shapes
+ * @tags copyright
+ * @see https://icons.getbootstrap.com/icons/c-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CCircleIcon aria-label="Activity indicator" />
+ * <CCircleIcon aria-label="C circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * CupHotFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cup hot fill
+ * @category Real world
+ * @tags mug
+ * @see https://icons.getbootstrap.com/icons/cup-hot-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CupHotFillIcon aria-label="Activity indicator" />
+ * <CupHotFillIcon aria-label="Cup hot fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

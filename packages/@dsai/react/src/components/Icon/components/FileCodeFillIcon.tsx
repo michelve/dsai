@@ -1,8 +1,10 @@
 /**
  * FileCodeFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File code fill
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-code-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileCodeFillIcon aria-label="Activity indicator" />
+ * <FileCodeFillIcon aria-label="File code fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

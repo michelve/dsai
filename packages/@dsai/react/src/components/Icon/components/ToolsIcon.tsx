@@ -1,8 +1,10 @@
 /**
  * ToolsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Tools
+ * @category Tools
+ * @tags tool
+ * @see https://icons.getbootstrap.com/icons/tools/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ToolsIcon aria-label="Activity indicator" />
+ * <ToolsIcon aria-label="Tools" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

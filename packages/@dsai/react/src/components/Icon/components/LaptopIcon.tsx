@@ -1,8 +1,10 @@
 /**
  * LaptopIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Laptop
+ * @category Devices
+ * @tags computer
+ * @see https://icons.getbootstrap.com/icons/laptop/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LaptopIcon aria-label="Activity indicator" />
+ * <LaptopIcon aria-label="Laptop" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

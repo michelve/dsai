@@ -1,8 +1,10 @@
 /**
  * TwitchIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Twitch
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/twitch/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TwitchIcon aria-label="Activity indicator" />
+ * <TwitchIcon aria-label="Twitch" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

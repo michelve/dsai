@@ -1,8 +1,10 @@
 /**
  * ExclamationSquareFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Exclamation square fill
+ * @category Alerts, warnings, and signs
+ * @tags alert
+ * @see https://icons.getbootstrap.com/icons/exclamation-square-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ExclamationSquareFillIcon aria-label="Activity indicator" />
+ * <ExclamationSquareFillIcon aria-label="Exclamation square fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

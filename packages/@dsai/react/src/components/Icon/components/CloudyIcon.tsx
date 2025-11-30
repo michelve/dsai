@@ -1,8 +1,10 @@
 /**
  * CloudyIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cloudy
+ * @category Weather
+ * @tags clouds
+ * @see https://icons.getbootstrap.com/icons/cloudy/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CloudyIcon aria-label="Activity indicator" />
+ * <CloudyIcon aria-label="Cloudy" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

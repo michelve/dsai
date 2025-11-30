@@ -1,8 +1,10 @@
 /**
  * XboxIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Xbox
+ * @category Brand
+ * @tags microsoft
+ * @see https://icons.getbootstrap.com/icons/xbox/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <XboxIcon aria-label="Activity indicator" />
+ * <XboxIcon aria-label="Xbox" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

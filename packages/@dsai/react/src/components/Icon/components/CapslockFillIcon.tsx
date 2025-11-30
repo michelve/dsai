@@ -1,8 +1,10 @@
 /**
  * CapslockFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Capslock fill
+ * @category UI and keyboard
+ * @tags key
+ * @see https://icons.getbootstrap.com/icons/capslock-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CapslockFillIcon aria-label="Activity indicator" />
+ * <CapslockFillIcon aria-label="Capslock fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

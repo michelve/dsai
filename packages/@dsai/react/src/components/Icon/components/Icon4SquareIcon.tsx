@@ -1,8 +1,10 @@
 /**
  * Icon4SquareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - 4 square
+ * @category Shapes
+ * @tags number
+ * @see https://icons.getbootstrap.com/icons/4-square/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Icon4SquareIcon aria-label="Activity indicator" />
+ * <Icon4SquareIcon aria-label="4 square" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

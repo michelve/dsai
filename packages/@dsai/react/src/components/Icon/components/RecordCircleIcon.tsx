@@ -1,8 +1,10 @@
 /**
  * RecordCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Record circle
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/record-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <RecordCircleIcon aria-label="Activity indicator" />
+ * <RecordCircleIcon aria-label="Record circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * TypeH3Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Type H3
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/type-h3/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TypeH3Icon aria-label="Activity indicator" />
+ * <TypeH3Icon aria-label="Type H3" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

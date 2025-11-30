@@ -1,8 +1,10 @@
 /**
  * BrushFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Brush fill
+ * @category Tools
+ * @tags paint
+ * @see https://icons.getbootstrap.com/icons/brush-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BrushFillIcon aria-label="Activity indicator" />
+ * <BrushFillIcon aria-label="Brush fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

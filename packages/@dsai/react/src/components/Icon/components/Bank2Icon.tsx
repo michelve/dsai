@@ -1,8 +1,10 @@
 /**
  * Bank2Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bank2
+ * @category Commerce
+ * @tags money
+ * @see https://icons.getbootstrap.com/icons/bank2/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Bank2Icon aria-label="Activity indicator" />
+ * <Bank2Icon aria-label="Bank2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

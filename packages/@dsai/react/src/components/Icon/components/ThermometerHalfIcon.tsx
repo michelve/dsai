@@ -1,8 +1,10 @@
 /**
  * ThermometerHalfIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Thermometer half
+ * @category Weather
+ * @tags temperature
+ * @see https://icons.getbootstrap.com/icons/thermometer-half/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ThermometerHalfIcon aria-label="Activity indicator" />
+ * <ThermometerHalfIcon aria-label="Thermometer half" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

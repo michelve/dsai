@@ -1,8 +1,10 @@
 /**
  * ArrowThroughHeartFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrow through heart fill
+ * @category Arrows
+ * @tags cupid
+ * @see https://icons.getbootstrap.com/icons/arrow-through-heart-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowThroughHeartFillIcon aria-label="Activity indicator" />
+ * <ArrowThroughHeartFillIcon aria-label="Arrow through heart fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

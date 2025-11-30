@@ -1,8 +1,10 @@
 /**
  * AppleMusicIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Apple Music
+ * @category Brand
+ * @tags itunes
+ * @see https://icons.getbootstrap.com/icons/apple-music/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AppleMusicIcon aria-label="Activity indicator" />
+ * <AppleMusicIcon aria-label="Apple Music" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * FileSpreadsheetIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File spreadsheet
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-spreadsheet/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileSpreadsheetIcon aria-label="Activity indicator" />
+ * <FileSpreadsheetIcon aria-label="File spreadsheet" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

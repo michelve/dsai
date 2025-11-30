@@ -1,8 +1,10 @@
 /**
  * AlignCenterIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Align center
+ * @category Graphics
+ * @tags space
+ * @see https://icons.getbootstrap.com/icons/align-center/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AlignCenterIcon aria-label="Activity indicator" />
+ * <AlignCenterIcon aria-label="Align center" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

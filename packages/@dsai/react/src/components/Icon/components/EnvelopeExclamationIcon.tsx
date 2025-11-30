@@ -1,8 +1,10 @@
 /**
  * EnvelopeExclamationIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Envelope exclamation
+ * @category Communications
+ * @tags email
+ * @see https://icons.getbootstrap.com/icons/envelope-exclamation/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EnvelopeExclamationIcon aria-label="Activity indicator" />
+ * <EnvelopeExclamationIcon aria-label="Envelope exclamation" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

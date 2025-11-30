@@ -1,8 +1,10 @@
 /**
  * AspectRatioFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Aspect ratio fill
+ * @category Media
+ * @tags size
+ * @see https://icons.getbootstrap.com/icons/aspect-ratio-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AspectRatioFillIcon aria-label="Activity indicator" />
+ * <AspectRatioFillIcon aria-label="Aspect ratio fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

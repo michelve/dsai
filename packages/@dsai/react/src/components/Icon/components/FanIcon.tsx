@@ -1,8 +1,10 @@
 /**
  * FanIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Fan
+ * @category Real world
+ * @tags fan
+ * @see https://icons.getbootstrap.com/icons/fan/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FanIcon aria-label="Activity indicator" />
+ * <FanIcon aria-label="Fan" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

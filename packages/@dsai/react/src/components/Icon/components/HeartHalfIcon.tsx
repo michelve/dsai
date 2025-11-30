@@ -1,8 +1,10 @@
 /**
  * HeartHalfIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Heart half
+ * @category Shapes
+ * @tags love
+ * @see https://icons.getbootstrap.com/icons/heart-half/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HeartHalfIcon aria-label="Activity indicator" />
+ * <HeartHalfIcon aria-label="Heart half" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

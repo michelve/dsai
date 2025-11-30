@@ -1,8 +1,10 @@
 /**
  * WindowDockIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Window dock
+ * @category Apps
+ * @tags application
+ * @see https://icons.getbootstrap.com/icons/window-dock/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WindowDockIcon aria-label="Activity indicator" />
+ * <WindowDockIcon aria-label="Window dock" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

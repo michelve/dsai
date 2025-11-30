@@ -1,8 +1,10 @@
 /**
  * FullscreenIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Fullscreen
+ * @category UI and keyboard
+ * @tags window
+ * @see https://icons.getbootstrap.com/icons/fullscreen/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FullscreenIcon aria-label="Activity indicator" />
+ * <FullscreenIcon aria-label="Fullscreen" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

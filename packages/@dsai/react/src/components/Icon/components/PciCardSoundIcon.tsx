@@ -1,8 +1,10 @@
 /**
  * PciCardSoundIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - PCI card sound
+ * @category Devices
+ * @tags card
+ * @see https://icons.getbootstrap.com/icons/pci-card-sound/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PciCardSoundIcon aria-label="Activity indicator" />
+ * <PciCardSoundIcon aria-label="PCI card sound" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

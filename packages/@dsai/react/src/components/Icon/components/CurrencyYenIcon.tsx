@@ -1,8 +1,10 @@
 /**
  * CurrencyYenIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Currency yen
+ * @category Commerce
+ * @tags money
+ * @see https://icons.getbootstrap.com/icons/currency-yen/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CurrencyYenIcon aria-label="Activity indicator" />
+ * <CurrencyYenIcon aria-label="Currency yen" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

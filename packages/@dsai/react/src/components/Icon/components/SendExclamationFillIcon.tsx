@@ -1,8 +1,10 @@
 /**
  * SendExclamationFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Send exclamation fill
+ * @category Communications
+ * @tags message
+ * @see https://icons.getbootstrap.com/icons/send-exclamation-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SendExclamationFillIcon aria-label="Activity indicator" />
+ * <SendExclamationFillIcon aria-label="Send exclamation fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

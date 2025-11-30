@@ -1,8 +1,10 @@
 /**
  * HSquareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - H square
+ * @category Shapes
+ * @tags hospital
+ * @see https://icons.getbootstrap.com/icons/h-square/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HSquareIcon aria-label="Activity indicator" />
+ * <HSquareIcon aria-label="H square" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

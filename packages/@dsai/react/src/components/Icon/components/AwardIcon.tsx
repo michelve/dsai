@@ -1,8 +1,10 @@
 /**
  * AwardIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Award
+ * @category Real world
+ * @tags prize
+ * @see https://icons.getbootstrap.com/icons/award/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AwardIcon aria-label="Activity indicator" />
+ * <AwardIcon aria-label="Award" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

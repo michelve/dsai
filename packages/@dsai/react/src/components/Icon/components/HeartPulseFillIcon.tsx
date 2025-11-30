@@ -1,8 +1,10 @@
 /**
  * HeartPulseFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Heart pulse fill
+ * @category Medical
+ * @tags heartbeat
+ * @see https://icons.getbootstrap.com/icons/heart-pulse-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HeartPulseFillIcon aria-label="Activity indicator" />
+ * <HeartPulseFillIcon aria-label="Heart pulse fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

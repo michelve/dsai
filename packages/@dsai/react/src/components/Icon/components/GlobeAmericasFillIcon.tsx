@@ -1,8 +1,10 @@
 /**
  * GlobeAmericasFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Globe Americas fill
+ * @category Geo
+ * @tags geography
+ * @see https://icons.getbootstrap.com/icons/globe-americas-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GlobeAmericasFillIcon aria-label="Activity indicator" />
+ * <GlobeAmericasFillIcon aria-label="Globe Americas fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

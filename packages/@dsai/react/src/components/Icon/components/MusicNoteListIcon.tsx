@@ -1,8 +1,10 @@
 /**
  * MusicNoteListIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Music note list
+ * @category Media
+ * @tags music
+ * @see https://icons.getbootstrap.com/icons/music-note-list/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MusicNoteListIcon aria-label="Activity indicator" />
+ * <MusicNoteListIcon aria-label="Music note list" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

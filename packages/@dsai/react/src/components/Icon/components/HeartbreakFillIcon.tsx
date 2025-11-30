@@ -1,8 +1,10 @@
 /**
  * HeartbreakFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Heartbreak fill
+ * @category Emoji
+ * @tags love
+ * @see https://icons.getbootstrap.com/icons/heartbreak-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HeartbreakFillIcon aria-label="Activity indicator" />
+ * <HeartbreakFillIcon aria-label="Heartbreak fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

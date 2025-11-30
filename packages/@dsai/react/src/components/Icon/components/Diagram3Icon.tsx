@@ -1,7 +1,7 @@
 /**
  * Diagram3Icon
  *
- * Bootstrap Icons - React Component
+ * Bootstrap Icons - Diagram3
  * @see https://icons.getbootstrap.com/
  *
  * @accessibility
@@ -16,7 +16,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Diagram3Icon aria-label="Activity indicator" />
+ * <Diagram3Icon aria-label="Diagram3" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

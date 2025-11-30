@@ -1,8 +1,10 @@
 /**
  * IncognitoIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Incognito
+ * @category Miscellaneous
+ * @tags private
+ * @see https://icons.getbootstrap.com/icons/incognito/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <IncognitoIcon aria-label="Activity indicator" />
+ * <IncognitoIcon aria-label="Incognito" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

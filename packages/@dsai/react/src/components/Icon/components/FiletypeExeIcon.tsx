@@ -1,8 +1,10 @@
 /**
  * FiletypeExeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype exe
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-exe/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeExeIcon aria-label="Activity indicator" />
+ * <FiletypeExeIcon aria-label="Filetype exe" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * GlobeAsiaAustraliaIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Globe Asia Australia
+ * @category Geo
+ * @tags geography
+ * @see https://icons.getbootstrap.com/icons/globe-asia-australia/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GlobeAsiaAustraliaIcon aria-label="Activity indicator" />
+ * <GlobeAsiaAustraliaIcon aria-label="Globe Asia Australia" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

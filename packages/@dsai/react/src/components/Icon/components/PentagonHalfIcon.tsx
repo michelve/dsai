@@ -1,8 +1,10 @@
 /**
  * PentagonHalfIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Pentagon half
+ * @category Shapes
+ * @tags shape
+ * @see https://icons.getbootstrap.com/icons/pentagon-half/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PentagonHalfIcon aria-label="Activity indicator" />
+ * <PentagonHalfIcon aria-label="Pentagon half" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

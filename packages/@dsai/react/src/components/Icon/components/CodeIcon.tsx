@@ -1,8 +1,10 @@
 /**
  * CodeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Code
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/code/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CodeIcon aria-label="Activity indicator" />
+ * <CodeIcon aria-label="Code" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * SignYieldFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sign yield fill
+ * @category Transportation
+ * @tags road
+ * @see https://icons.getbootstrap.com/icons/sign-yield-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SignYieldFillIcon aria-label="Activity indicator" />
+ * <SignYieldFillIcon aria-label="Sign yield fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

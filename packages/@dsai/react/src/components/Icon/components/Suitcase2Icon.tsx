@@ -1,8 +1,10 @@
 /**
  * Suitcase2Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Suitcase2
+ * @category Travel
+ * @tags luggage
+ * @see https://icons.getbootstrap.com/icons/suitcase2/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Suitcase2Icon aria-label="Activity indicator" />
+ * <Suitcase2Icon aria-label="Suitcase2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

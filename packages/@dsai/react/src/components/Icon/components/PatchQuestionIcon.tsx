@@ -1,8 +1,10 @@
 /**
  * PatchQuestionIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Patch question
+ * @category Badges
+ * @tags help
+ * @see https://icons.getbootstrap.com/icons/patch-question/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PatchQuestionIcon aria-label="Activity indicator" />
+ * <PatchQuestionIcon aria-label="Patch question" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

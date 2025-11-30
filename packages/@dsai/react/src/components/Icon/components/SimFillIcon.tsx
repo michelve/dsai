@@ -1,8 +1,10 @@
 /**
  * SimFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sim fill
+ * @category Devices
+ * @tags mobile
+ * @see https://icons.getbootstrap.com/icons/sim-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SimFillIcon aria-label="Activity indicator" />
+ * <SimFillIcon aria-label="Sim fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

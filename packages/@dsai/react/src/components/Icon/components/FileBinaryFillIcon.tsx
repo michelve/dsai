@@ -1,8 +1,10 @@
 /**
  * FileBinaryFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File binary fill
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-binary-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileBinaryFillIcon aria-label="Activity indicator" />
+ * <FileBinaryFillIcon aria-label="File binary fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

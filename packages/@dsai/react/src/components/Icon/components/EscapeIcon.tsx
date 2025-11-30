@@ -1,8 +1,10 @@
 /**
  * EscapeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Escape
+ * @category UI and Keyboard
+ * @tags esc
+ * @see https://icons.getbootstrap.com/icons/escape/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EscapeIcon aria-label="Activity indicator" />
+ * <EscapeIcon aria-label="Escape" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

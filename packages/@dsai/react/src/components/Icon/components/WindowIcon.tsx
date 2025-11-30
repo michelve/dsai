@@ -1,8 +1,10 @@
 /**
  * WindowIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Window
+ * @category Layout
+ * @tags app
+ * @see https://icons.getbootstrap.com/icons/window/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WindowIcon aria-label="Activity indicator" />
+ * <WindowIcon aria-label="Window" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * EyedropperIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Eyedropper
+ * @category Graphics
+ * @tags color
+ * @see https://icons.getbootstrap.com/icons/eyedropper/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EyedropperIcon aria-label="Activity indicator" />
+ * <EyedropperIcon aria-label="Eyedropper" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

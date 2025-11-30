@@ -1,8 +1,10 @@
 /**
  * SendArrowDownIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Send arrow down
+ * @category Communications
+ * @tags message
+ * @see https://icons.getbootstrap.com/icons/send-arrow-down/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SendArrowDownIcon aria-label="Activity indicator" />
+ * <SendArrowDownIcon aria-label="Send arrow down" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

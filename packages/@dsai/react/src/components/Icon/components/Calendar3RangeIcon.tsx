@@ -1,8 +1,10 @@
 /**
  * Calendar3RangeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Calendar3 range
+ * @category Date and time
+ * @tags dates
+ * @see https://icons.getbootstrap.com/icons/calendar3-range/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Calendar3RangeIcon aria-label="Activity indicator" />
+ * <Calendar3RangeIcon aria-label="Calendar3 range" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

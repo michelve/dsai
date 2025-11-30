@@ -1,8 +1,10 @@
 /**
  * ClaudeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Claude
+ * @category Brand
+ * @tags ai
+ * @see https://icons.getbootstrap.com/icons/claude/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ClaudeIcon aria-label="Activity indicator" />
+ * <ClaudeIcon aria-label="Claude" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

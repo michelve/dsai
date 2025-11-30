@@ -1,8 +1,10 @@
 /**
  * SkipForwardCircleFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Skip forward circle fill
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/skip-forward-circle-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SkipForwardCircleFillIcon aria-label="Activity indicator" />
+ * <SkipForwardCircleFillIcon aria-label="Skip forward circle fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

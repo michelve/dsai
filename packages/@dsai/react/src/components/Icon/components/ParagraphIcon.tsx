@@ -1,8 +1,10 @@
 /**
  * ParagraphIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Paragraph
+ * @category Typography
+ * @tags paragraph
+ * @see https://icons.getbootstrap.com/icons/paragraph/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ParagraphIcon aria-label="Activity indicator" />
+ * <ParagraphIcon aria-label="Paragraph" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * FileEarmarkBinaryFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File earmark binary fill
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-earmark-binary-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileEarmarkBinaryFillIcon aria-label="Activity indicator" />
+ * <FileEarmarkBinaryFillIcon aria-label="File earmark binary fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * DashCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Dash circle
+ * @category Alerts, warnings, and signs
+ * @tags minus
+ * @see https://icons.getbootstrap.com/icons/dash-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DashCircleIcon aria-label="Activity indicator" />
+ * <DashCircleIcon aria-label="Dash circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

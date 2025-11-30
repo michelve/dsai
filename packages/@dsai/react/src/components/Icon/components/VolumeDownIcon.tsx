@@ -1,8 +1,10 @@
 /**
  * VolumeDownIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Volume down
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/volume-down/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <VolumeDownIcon aria-label="Activity indicator" />
+ * <VolumeDownIcon aria-label="Volume down" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * ScrewdriverIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Screwdriver
+ * @category Tools
+ * @tags tool
+ * @see https://icons.getbootstrap.com/icons/screwdriver/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ScrewdriverIcon aria-label="Activity indicator" />
+ * <ScrewdriverIcon aria-label="Screwdriver" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

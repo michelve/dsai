@@ -1,8 +1,10 @@
 /**
  * BagFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bag fill
+ * @category Commerce
+ * @tags shopping
+ * @see https://icons.getbootstrap.com/icons/bag-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BagFillIcon aria-label="Activity indicator" />
+ * <BagFillIcon aria-label="Bag fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

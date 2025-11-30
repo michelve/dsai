@@ -1,8 +1,10 @@
 /**
  * PersonBoundingBoxIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person bounding box
+ * @category People
+ * @tags member
+ * @see https://icons.getbootstrap.com/icons/person-bounding-box/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonBoundingBoxIcon aria-label="Activity indicator" />
+ * <PersonBoundingBoxIcon aria-label="Person bounding box" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * Unlock2FillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Unlock2 fill
+ * @category Security
+ * @tags privacy
+ * @see https://icons.getbootstrap.com/icons/unlock2-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Unlock2FillIcon aria-label="Activity indicator" />
+ * <Unlock2FillIcon aria-label="Unlock2 fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

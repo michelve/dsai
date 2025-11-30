@@ -1,8 +1,10 @@
 /**
  * FileExcelFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File excel fill
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-excel-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileExcelFillIcon aria-label="Activity indicator" />
+ * <FileExcelFillIcon aria-label="File excel fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

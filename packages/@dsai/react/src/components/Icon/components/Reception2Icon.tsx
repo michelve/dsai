@@ -1,7 +1,7 @@
 /**
  * Reception2Icon
  *
- * Bootstrap Icons - React Component
+ * Bootstrap Icons - Reception2
  * @see https://icons.getbootstrap.com/
  *
  * @accessibility
@@ -16,7 +16,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Reception2Icon aria-label="Activity indicator" />
+ * <Reception2Icon aria-label="Reception2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

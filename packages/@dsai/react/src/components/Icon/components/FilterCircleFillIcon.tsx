@@ -1,8 +1,10 @@
 /**
  * FilterCircleFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filter circle fill
+ * @category Sort and filter
+ * @tags sort
+ * @see https://icons.getbootstrap.com/icons/filter-circle-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FilterCircleFillIcon aria-label="Activity indicator" />
+ * <FilterCircleFillIcon aria-label="Filter circle fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

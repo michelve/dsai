@@ -1,8 +1,10 @@
 /**
  * RainbowIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Rainbow
+ * @category Weather
+ * @tags colors
+ * @see https://icons.getbootstrap.com/icons/rainbow/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <RainbowIcon aria-label="Activity indicator" />
+ * <RainbowIcon aria-label="Rainbow" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

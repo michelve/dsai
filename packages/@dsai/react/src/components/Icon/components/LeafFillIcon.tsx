@@ -1,8 +1,9 @@
 /**
  * LeafFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Leaf fill
+ * @tags nature
+ * @see https://icons.getbootstrap.com/icons/leaf-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +17,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LeafFillIcon aria-label="Activity indicator" />
+ * <LeafFillIcon aria-label="Leaf fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * TypeStrikethroughIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Type strikethrough
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/type-strikethrough/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TypeStrikethroughIcon aria-label="Activity indicator" />
+ * <TypeStrikethroughIcon aria-label="Type strikethrough" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

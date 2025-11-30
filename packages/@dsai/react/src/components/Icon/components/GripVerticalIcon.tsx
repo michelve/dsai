@@ -1,8 +1,10 @@
 /**
  * GripVerticalIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Grip vertical
+ * @category UI and keyboard
+ * @tags drag
+ * @see https://icons.getbootstrap.com/icons/grip-vertical/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GripVerticalIcon aria-label="Activity indicator" />
+ * <GripVerticalIcon aria-label="Grip vertical" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

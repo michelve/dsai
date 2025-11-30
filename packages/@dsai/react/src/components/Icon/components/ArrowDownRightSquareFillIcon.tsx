@@ -1,8 +1,10 @@
 /**
  * ArrowDownRightSquareFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrow down right square fill
+ * @category Shape arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrow-down-right-square-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowDownRightSquareFillIcon aria-label="Activity indicator" />
+ * <ArrowDownRightSquareFillIcon aria-label="Arrow down right square fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

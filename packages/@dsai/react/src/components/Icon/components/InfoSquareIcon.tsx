@@ -1,8 +1,10 @@
 /**
  * InfoSquareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Info square
+ * @category Alerts, warnings, and signs
+ * @tags information
+ * @see https://icons.getbootstrap.com/icons/info-square/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <InfoSquareIcon aria-label="Activity indicator" />
+ * <InfoSquareIcon aria-label="Info square" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

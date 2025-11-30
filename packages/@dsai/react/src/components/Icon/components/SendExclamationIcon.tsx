@@ -1,8 +1,10 @@
 /**
  * SendExclamationIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Send exclamation
+ * @category Communications
+ * @tags message
+ * @see https://icons.getbootstrap.com/icons/send-exclamation/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SendExclamationIcon aria-label="Activity indicator" />
+ * <SendExclamationIcon aria-label="Send exclamation" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

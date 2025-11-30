@@ -1,8 +1,10 @@
 /**
  * SuitHeartIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Suit heart
+ * @category Entertainment
+ * @tags card
+ * @see https://icons.getbootstrap.com/icons/suit-heart/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SuitHeartIcon aria-label="Activity indicator" />
+ * <SuitHeartIcon aria-label="Suit heart" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

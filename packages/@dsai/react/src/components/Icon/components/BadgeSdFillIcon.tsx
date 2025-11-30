@@ -1,8 +1,10 @@
 /**
  * BadgeSdFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Badge SD fill
+ * @category Badges
+ * @tags display
+ * @see https://icons.getbootstrap.com/icons/badge-sd-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BadgeSdFillIcon aria-label="Activity indicator" />
+ * <BadgeSdFillIcon aria-label="Badge SD fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

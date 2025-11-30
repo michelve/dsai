@@ -1,8 +1,10 @@
 /**
  * FilePostIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File post
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-post/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FilePostIcon aria-label="Activity indicator" />
+ * <FilePostIcon aria-label="File post" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * ListStarsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - List stars
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/list-stars/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ListStarsIcon aria-label="Activity indicator" />
+ * <ListStarsIcon aria-label="List stars" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

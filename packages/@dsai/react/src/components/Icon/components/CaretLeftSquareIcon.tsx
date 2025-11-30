@@ -1,8 +1,10 @@
 /**
  * CaretLeftSquareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Caret left square
+ * @category Carets
+ * @tags caret
+ * @see https://icons.getbootstrap.com/icons/caret-left-square/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CaretLeftSquareIcon aria-label="Activity indicator" />
+ * <CaretLeftSquareIcon aria-label="Caret left square" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

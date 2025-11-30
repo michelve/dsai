@@ -1,8 +1,10 @@
 /**
  * StickiesIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Stickies
+ * @category Real world
+ * @tags postit
+ * @see https://icons.getbootstrap.com/icons/stickies/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <StickiesIcon aria-label="Activity indicator" />
+ * <StickiesIcon aria-label="Stickies" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

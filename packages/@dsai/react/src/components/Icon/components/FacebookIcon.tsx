@@ -1,8 +1,10 @@
 /**
  * FacebookIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Facebook
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/facebook/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FacebookIcon aria-label="Activity indicator" />
+ * <FacebookIcon aria-label="Facebook" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

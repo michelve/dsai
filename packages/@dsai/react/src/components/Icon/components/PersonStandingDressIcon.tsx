@@ -1,8 +1,10 @@
 /**
  * PersonStandingDressIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person standing dress
+ * @category People
+ * @tags human
+ * @see https://icons.getbootstrap.com/icons/person-standing-dress/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonStandingDressIcon aria-label="Activity indicator" />
+ * <PersonStandingDressIcon aria-label="Person standing dress" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

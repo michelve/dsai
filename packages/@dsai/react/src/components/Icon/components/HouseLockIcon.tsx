@@ -1,8 +1,10 @@
 /**
  * HouseLockIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - House lock
+ * @category Real world
+ * @tags home
+ * @see https://icons.getbootstrap.com/icons/house-lock/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HouseLockIcon aria-label="Activity indicator" />
+ * <HouseLockIcon aria-label="House lock" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

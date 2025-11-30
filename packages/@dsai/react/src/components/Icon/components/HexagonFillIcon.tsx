@@ -1,8 +1,10 @@
 /**
  * HexagonFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Hexagon fill
+ * @category Shapes
+ * @tags shape
+ * @see https://icons.getbootstrap.com/icons/hexagon-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HexagonFillIcon aria-label="Activity indicator" />
+ * <HexagonFillIcon aria-label="Hexagon fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

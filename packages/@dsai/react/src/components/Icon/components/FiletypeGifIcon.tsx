@@ -1,8 +1,10 @@
 /**
  * FiletypeGifIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype gif
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-gif/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeGifIcon aria-label="Activity indicator" />
+ * <FiletypeGifIcon aria-label="Filetype gif" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

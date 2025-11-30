@@ -1,8 +1,10 @@
 /**
  * LuggageFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Luggage fill
+ * @category Travel
+ * @tags luggage
+ * @see https://icons.getbootstrap.com/icons/luggage-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LuggageFillIcon aria-label="Activity indicator" />
+ * <LuggageFillIcon aria-label="Luggage fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

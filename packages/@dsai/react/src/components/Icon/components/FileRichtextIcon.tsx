@@ -1,8 +1,10 @@
 /**
  * FileRichtextIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File rich text
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-richtext/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileRichtextIcon aria-label="Activity indicator" />
+ * <FileRichtextIcon aria-label="File rich text" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

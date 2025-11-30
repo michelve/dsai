@@ -1,8 +1,10 @@
 /**
  * TextareaResizeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Textarea resize
+ * @category Graphics
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/textarea-resize/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TextareaResizeIcon aria-label="Activity indicator" />
+ * <TextareaResizeIcon aria-label="Textarea resize" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

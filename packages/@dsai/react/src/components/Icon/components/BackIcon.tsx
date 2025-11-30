@@ -1,8 +1,10 @@
 /**
  * BackIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Back
+ * @category Graphics
+ * @tags backward
+ * @see https://icons.getbootstrap.com/icons/back/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BackIcon aria-label="Activity indicator" />
+ * <BackIcon aria-label="Back" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

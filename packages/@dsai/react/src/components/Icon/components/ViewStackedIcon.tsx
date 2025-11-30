@@ -1,8 +1,10 @@
 /**
  * ViewStackedIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - View stacked
+ * @category UI and keyboard
+ * @tags view
+ * @see https://icons.getbootstrap.com/icons/view-stacked/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ViewStackedIcon aria-label="Activity indicator" />
+ * <ViewStackedIcon aria-label="View stacked" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

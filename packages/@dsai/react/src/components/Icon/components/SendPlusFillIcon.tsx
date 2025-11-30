@@ -1,8 +1,10 @@
 /**
  * SendPlusFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Send plus fill
+ * @category Communications
+ * @tags message
+ * @see https://icons.getbootstrap.com/icons/send-plus-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SendPlusFillIcon aria-label="Activity indicator" />
+ * <SendPlusFillIcon aria-label="Send plus fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

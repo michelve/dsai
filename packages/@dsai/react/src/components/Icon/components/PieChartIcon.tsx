@@ -1,8 +1,10 @@
 /**
  * PieChartIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Pie chart
+ * @category Data
+ * @tags chart
+ * @see https://icons.getbootstrap.com/icons/pie-chart/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PieChartIcon aria-label="Activity indicator" />
+ * <PieChartIcon aria-label="Pie chart" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

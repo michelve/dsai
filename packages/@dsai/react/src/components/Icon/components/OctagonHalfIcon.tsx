@@ -1,8 +1,10 @@
 /**
  * OctagonHalfIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Octagon half
+ * @category Shapes
+ * @tags shape
+ * @see https://icons.getbootstrap.com/icons/octagon-half/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <OctagonHalfIcon aria-label="Activity indicator" />
+ * <OctagonHalfIcon aria-label="Octagon half" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

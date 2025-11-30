@@ -1,8 +1,10 @@
 /**
  * CakeFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cake fill
+ * @category Real world
+ * @tags birthday
+ * @see https://icons.getbootstrap.com/icons/cake-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CakeFillIcon aria-label="Activity indicator" />
+ * <CakeFillIcon aria-label="Cake fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

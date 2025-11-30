@@ -1,8 +1,10 @@
 /**
  * AlipayIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Alipay
+ * @category Brand
+ * @tags payments
+ * @see https://icons.getbootstrap.com/icons/alipay/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AlipayIcon aria-label="Activity indicator" />
+ * <AlipayIcon aria-label="Alipay" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

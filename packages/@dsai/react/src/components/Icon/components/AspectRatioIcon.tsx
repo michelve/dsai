@@ -1,8 +1,10 @@
 /**
  * AspectRatioIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Aspect ratio
+ * @category Media
+ * @tags size
+ * @see https://icons.getbootstrap.com/icons/aspect-ratio/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AspectRatioIcon aria-label="Activity indicator" />
+ * <AspectRatioIcon aria-label="Aspect ratio" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * StripeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Stripe
+ * @category Brand
+ * @tags payments
+ * @see https://icons.getbootstrap.com/icons/stripe/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <StripeIcon aria-label="Activity indicator" />
+ * <StripeIcon aria-label="Stripe" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * ArrowUpLeftCircleFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrow up left circle fill
+ * @category Shape arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrow-up-left-circle-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowUpLeftCircleFillIcon aria-label="Activity indicator" />
+ * <ArrowUpLeftCircleFillIcon aria-label="Arrow up left circle fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

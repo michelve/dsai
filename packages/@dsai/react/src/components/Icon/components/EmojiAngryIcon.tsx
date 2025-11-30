@@ -1,8 +1,10 @@
 /**
  * EmojiAngryIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji angry
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-angry/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiAngryIcon aria-label="Activity indicator" />
+ * <EmojiAngryIcon aria-label="Emoji angry" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

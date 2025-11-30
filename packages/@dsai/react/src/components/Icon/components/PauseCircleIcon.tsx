@@ -1,8 +1,10 @@
 /**
  * PauseCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Pause circle
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/pause-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PauseCircleIcon aria-label="Activity indicator" />
+ * <PauseCircleIcon aria-label="Pause circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

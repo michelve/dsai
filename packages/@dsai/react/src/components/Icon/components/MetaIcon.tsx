@@ -1,8 +1,10 @@
 /**
  * MetaIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Meta
+ * @category Brand
+ * @tags facebook
+ * @see https://icons.getbootstrap.com/icons/meta/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MetaIcon aria-label="Activity indicator" />
+ * <MetaIcon aria-label="Meta" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

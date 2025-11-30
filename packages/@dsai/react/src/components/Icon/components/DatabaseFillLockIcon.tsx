@@ -1,8 +1,10 @@
 /**
  * DatabaseFillLockIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Database fill lock
+ * @category Devices
+ * @tags server
+ * @see https://icons.getbootstrap.com/icons/database-fill-lock/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DatabaseFillLockIcon aria-label="Activity indicator" />
+ * <DatabaseFillLockIcon aria-label="Database fill lock" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

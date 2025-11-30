@@ -1,8 +1,10 @@
 /**
  * ClockIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Clock
+ * @category Miscellaneous
+ * @tags time
+ * @see https://icons.getbootstrap.com/icons/clock/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ClockIcon aria-label="Activity indicator" />
+ * <ClockIcon aria-label="Clock" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

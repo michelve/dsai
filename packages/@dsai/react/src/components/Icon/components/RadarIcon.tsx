@@ -1,8 +1,10 @@
 /**
  * RadarIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Radar
+ * @category Geo
+ * @tags geography
+ * @see https://icons.getbootstrap.com/icons/radar/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <RadarIcon aria-label="Activity indicator" />
+ * <RadarIcon aria-label="Radar" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

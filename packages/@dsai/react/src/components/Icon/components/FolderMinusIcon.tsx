@@ -1,8 +1,10 @@
 /**
  * FolderMinusIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Folder minus
+ * @category Files and folders
+ * @tags directory
+ * @see https://icons.getbootstrap.com/icons/folder-minus/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FolderMinusIcon aria-label="Activity indicator" />
+ * <FolderMinusIcon aria-label="Folder minus" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

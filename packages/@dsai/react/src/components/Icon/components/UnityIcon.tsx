@@ -1,8 +1,10 @@
 /**
  * UnityIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Unity
+ * @category Brand
+ * @tags gaming
+ * @see https://icons.getbootstrap.com/icons/unity/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <UnityIcon aria-label="Activity indicator" />
+ * <UnityIcon aria-label="Unity" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

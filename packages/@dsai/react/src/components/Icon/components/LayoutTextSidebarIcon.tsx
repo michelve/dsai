@@ -1,8 +1,10 @@
 /**
  * LayoutTextSidebarIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Layout text sidebar
+ * @category Layout
+ * @tags layout
+ * @see https://icons.getbootstrap.com/icons/layout-text-sidebar/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LayoutTextSidebarIcon aria-label="Activity indicator" />
+ * <LayoutTextSidebarIcon aria-label="Layout text sidebar" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * BriefcaseFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Briefcase fill
+ * @category Real world
+ * @tags business
+ * @see https://icons.getbootstrap.com/icons/briefcase-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BriefcaseFillIcon aria-label="Activity indicator" />
+ * <BriefcaseFillIcon aria-label="Briefcase fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * PassportFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Passport fill
+ * @category Travel
+ * @tags visa
+ * @see https://icons.getbootstrap.com/icons/passport-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PassportFillIcon aria-label="Activity indicator" />
+ * <PassportFillIcon aria-label="Passport fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

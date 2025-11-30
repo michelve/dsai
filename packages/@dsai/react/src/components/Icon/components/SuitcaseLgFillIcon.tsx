@@ -1,8 +1,10 @@
 /**
  * SuitcaseLgFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Suitcase lg fill
+ * @category Travel
+ * @tags luggage
+ * @see https://icons.getbootstrap.com/icons/suitcase-lg-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SuitcaseLgFillIcon aria-label="Activity indicator" />
+ * <SuitcaseLgFillIcon aria-label="Suitcase lg fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

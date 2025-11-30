@@ -1,8 +1,10 @@
 /**
  * ScooterIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Scooter
+ * @category Transportation
+ * @tags riding
+ * @see https://icons.getbootstrap.com/icons/scooter/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ScooterIcon aria-label="Activity indicator" />
+ * <ScooterIcon aria-label="Scooter" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * BookshelfIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bookshelf
+ * @category Real world
+ * @tags shelf
+ * @see https://icons.getbootstrap.com/icons/bookshelf/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BookshelfIcon aria-label="Activity indicator" />
+ * <BookshelfIcon aria-label="Bookshelf" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

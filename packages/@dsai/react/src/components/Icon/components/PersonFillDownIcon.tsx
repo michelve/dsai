@@ -1,8 +1,10 @@
 /**
  * PersonFillDownIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person fill down
+ * @category People
+ * @tags member
+ * @see https://icons.getbootstrap.com/icons/person-fill-down/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonFillDownIcon aria-label="Activity indicator" />
+ * <PersonFillDownIcon aria-label="Person fill down" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

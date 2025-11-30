@@ -1,8 +1,10 @@
 /**
  * Record2Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Record2
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/record2/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Record2Icon aria-label="Activity indicator" />
+ * <Record2Icon aria-label="Record2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

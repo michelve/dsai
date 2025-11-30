@@ -1,8 +1,10 @@
 /**
  * XIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - X
+ * @category Alerts, warnings, and signs
+ * @tags x
+ * @see https://icons.getbootstrap.com/icons/x/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <XIcon aria-label="Activity indicator" />
+ * <XIcon aria-label="X" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

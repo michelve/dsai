@@ -1,8 +1,10 @@
 /**
  * WifiOffIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Wifi off
+ * @category Communications
+ * @tags internet
+ * @see https://icons.getbootstrap.com/icons/wifi-off/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WifiOffIcon aria-label="Activity indicator" />
+ * <WifiOffIcon aria-label="Wifi off" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

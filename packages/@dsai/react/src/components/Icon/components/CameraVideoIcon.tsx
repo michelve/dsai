@@ -1,8 +1,10 @@
 /**
  * CameraVideoIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Camera video
+ * @category Devices
+ * @tags av
+ * @see https://icons.getbootstrap.com/icons/camera-video/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CameraVideoIcon aria-label="Activity indicator" />
+ * <CameraVideoIcon aria-label="Camera video" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

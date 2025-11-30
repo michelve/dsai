@@ -1,8 +1,10 @@
 /**
  * BlockquoteLeftIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Blockquote left
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/blockquote-left/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BlockquoteLeftIcon aria-label="Activity indicator" />
+ * <BlockquoteLeftIcon aria-label="Blockquote left" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

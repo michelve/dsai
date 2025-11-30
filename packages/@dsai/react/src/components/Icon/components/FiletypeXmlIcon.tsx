@@ -1,8 +1,10 @@
 /**
  * FiletypeXmlIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype xml
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-xml/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeXmlIcon aria-label="Activity indicator" />
+ * <FiletypeXmlIcon aria-label="Filetype xml" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

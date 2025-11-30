@@ -1,8 +1,10 @@
 /**
  * EaselFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Easel fill
+ * @category Graphics
+ * @tags paint
+ * @see https://icons.getbootstrap.com/icons/easel-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EaselFillIcon aria-label="Activity indicator" />
+ * <EaselFillIcon aria-label="Easel fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * FileEarmarkPptFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File earmark ppt fill
+ * @category Files and folders
+ * @tags slides
+ * @see https://icons.getbootstrap.com/icons/file-earmark-ppt-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileEarmarkPptFillIcon aria-label="Activity indicator" />
+ * <FileEarmarkPptFillIcon aria-label="File earmark ppt fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

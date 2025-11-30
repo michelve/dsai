@@ -1,8 +1,10 @@
 /**
  * PinAngleFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Pin angle fill
+ * @category Real world
+ * @tags pushpin
+ * @see https://icons.getbootstrap.com/icons/pin-angle-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PinAngleFillIcon aria-label="Activity indicator" />
+ * <PinAngleFillIcon aria-label="Pin angle fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * FileWordIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File word
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-word/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileWordIcon aria-label="Activity indicator" />
+ * <FileWordIcon aria-label="File word" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

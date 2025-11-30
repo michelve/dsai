@@ -1,8 +1,10 @@
 /**
  * SkipEndBtnIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Skip end btn
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/skip-end-btn/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SkipEndBtnIcon aria-label="Activity indicator" />
+ * <SkipEndBtnIcon aria-label="Skip end btn" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

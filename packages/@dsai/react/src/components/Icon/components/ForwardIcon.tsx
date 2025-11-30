@@ -1,8 +1,10 @@
 /**
  * ForwardIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Forward
+ * @category Communications
+ * @tags mail
+ * @see https://icons.getbootstrap.com/icons/forward/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ForwardIcon aria-label="Activity indicator" />
+ * <ForwardIcon aria-label="Forward" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

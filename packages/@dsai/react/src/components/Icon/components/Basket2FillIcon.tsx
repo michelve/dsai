@@ -1,8 +1,10 @@
 /**
  * Basket2FillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Basket2 fill
+ * @category Commerce
+ * @tags shopping
+ * @see https://icons.getbootstrap.com/icons/basket2-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Basket2FillIcon aria-label="Activity indicator" />
+ * <Basket2FillIcon aria-label="Basket2 fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

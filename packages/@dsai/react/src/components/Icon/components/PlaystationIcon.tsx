@@ -1,8 +1,10 @@
 /**
  * PlaystationIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Playstation
+ * @category Brand
+ * @tags sony
+ * @see https://icons.getbootstrap.com/icons/playstation/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PlaystationIcon aria-label="Activity indicator" />
+ * <PlaystationIcon aria-label="Playstation" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

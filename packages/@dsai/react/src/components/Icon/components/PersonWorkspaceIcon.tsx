@@ -1,8 +1,10 @@
 /**
  * PersonWorkspaceIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person workspace
+ * @category People
+ * @tags human
+ * @see https://icons.getbootstrap.com/icons/person-workspace/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonWorkspaceIcon aria-label="Activity indicator" />
+ * <PersonWorkspaceIcon aria-label="Person workspace" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

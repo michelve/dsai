@@ -1,8 +1,10 @@
 /**
  * PersonExclamationIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person exclamation
+ * @category People
+ * @tags member
+ * @see https://icons.getbootstrap.com/icons/person-exclamation/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonExclamationIcon aria-label="Activity indicator" />
+ * <PersonExclamationIcon aria-label="Person exclamation" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

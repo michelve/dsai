@@ -1,8 +1,10 @@
 /**
  * PSquareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - P square
+ * @category Shapes
+ * @tags parking
+ * @see https://icons.getbootstrap.com/icons/p-square/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PSquareIcon aria-label="Activity indicator" />
+ * <PSquareIcon aria-label="P square" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

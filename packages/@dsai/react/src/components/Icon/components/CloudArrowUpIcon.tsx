@@ -1,8 +1,10 @@
 /**
  * CloudArrowUpIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cloud arrow up
+ * @category Clouds
+ * @tags upload
+ * @see https://icons.getbootstrap.com/icons/cloud-arrow-up/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CloudArrowUpIcon aria-label="Activity indicator" />
+ * <CloudArrowUpIcon aria-label="Cloud arrow up" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * RepeatIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Repeat
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/repeat/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <RepeatIcon aria-label="Activity indicator" />
+ * <RepeatIcon aria-label="Repeat" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

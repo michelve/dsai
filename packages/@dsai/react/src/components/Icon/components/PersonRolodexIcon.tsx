@@ -1,8 +1,10 @@
 /**
  * PersonRolodexIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person rolodex
+ * @category People
+ * @tags member
+ * @see https://icons.getbootstrap.com/icons/person-rolodex/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonRolodexIcon aria-label="Activity indicator" />
+ * <PersonRolodexIcon aria-label="Person rolodex" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

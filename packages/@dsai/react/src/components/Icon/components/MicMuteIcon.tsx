@@ -1,8 +1,10 @@
 /**
  * MicMuteIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Mic mute
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/mic-mute/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MicMuteIcon aria-label="Activity indicator" />
+ * <MicMuteIcon aria-label="Mic mute" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

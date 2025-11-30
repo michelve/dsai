@@ -1,8 +1,10 @@
 /**
  * UsbMicroFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - USB micro fill
+ * @category Devices
+ * @tags port
+ * @see https://icons.getbootstrap.com/icons/usb-micro-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <UsbMicroFillIcon aria-label="Activity indicator" />
+ * <UsbMicroFillIcon aria-label="USB micro fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

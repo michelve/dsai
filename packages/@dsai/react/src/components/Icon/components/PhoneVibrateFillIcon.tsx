@@ -1,8 +1,10 @@
 /**
  * PhoneVibrateFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Phone vibrate fill
+ * @category Devices
+ * @tags mobile
+ * @see https://icons.getbootstrap.com/icons/phone-vibrate-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PhoneVibrateFillIcon aria-label="Activity indicator" />
+ * <PhoneVibrateFillIcon aria-label="Phone vibrate fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * TypescriptIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - TypeScript
+ * @category Brand
+ * @tags frontend
+ * @see https://icons.getbootstrap.com/icons/typescript/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TypescriptIcon aria-label="Activity indicator" />
+ * <TypescriptIcon aria-label="TypeScript" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

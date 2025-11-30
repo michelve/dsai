@@ -1,8 +1,10 @@
 /**
  * HeartFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Heart fill
+ * @category Shapes
+ * @tags love
+ * @see https://icons.getbootstrap.com/icons/heart-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HeartFillIcon aria-label="Activity indicator" />
+ * <HeartFillIcon aria-label="Heart fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

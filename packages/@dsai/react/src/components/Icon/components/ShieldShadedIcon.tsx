@@ -1,8 +1,10 @@
 /**
  * ShieldShadedIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Shield shaded
+ * @category Security
+ * @tags privacy
+ * @see https://icons.getbootstrap.com/icons/shield-shaded/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ShieldShadedIcon aria-label="Activity indicator" />
+ * <ShieldShadedIcon aria-label="Shield shaded" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

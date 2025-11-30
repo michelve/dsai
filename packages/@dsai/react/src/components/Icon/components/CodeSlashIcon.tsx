@@ -1,8 +1,10 @@
 /**
  * CodeSlashIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Code slash
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/code-slash/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CodeSlashIcon aria-label="Activity indicator" />
+ * <CodeSlashIcon aria-label="Code slash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

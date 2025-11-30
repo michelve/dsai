@@ -1,8 +1,10 @@
 /**
  * HeptagonFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Heptagon fill
+ * @category Shapes
+ * @tags shape
+ * @see https://icons.getbootstrap.com/icons/heptagon-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HeptagonFillIcon aria-label="Activity indicator" />
+ * <HeptagonFillIcon aria-label="Heptagon fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

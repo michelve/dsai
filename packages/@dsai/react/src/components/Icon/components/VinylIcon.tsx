@@ -1,8 +1,10 @@
 /**
  * VinylIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Vinyl
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/vinyl/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <VinylIcon aria-label="Activity indicator" />
+ * <VinylIcon aria-label="Vinyl" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

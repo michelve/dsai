@@ -1,8 +1,10 @@
 /**
  * Icon3CircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - 3 circle
+ * @category Shapes
+ * @tags number
+ * @see https://icons.getbootstrap.com/icons/3-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Icon3CircleIcon aria-label="Activity indicator" />
+ * <Icon3CircleIcon aria-label="3 circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

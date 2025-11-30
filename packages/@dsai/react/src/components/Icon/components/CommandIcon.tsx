@@ -1,8 +1,10 @@
 /**
  * CommandIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Command
+ * @category UI and keyboard
+ * @tags key
+ * @see https://icons.getbootstrap.com/icons/command/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CommandIcon aria-label="Activity indicator" />
+ * <CommandIcon aria-label="Command" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

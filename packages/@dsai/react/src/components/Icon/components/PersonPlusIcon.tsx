@@ -1,8 +1,10 @@
 /**
  * PersonPlusIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person plus
+ * @category People
+ * @tags member
+ * @see https://icons.getbootstrap.com/icons/person-plus/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonPlusIcon aria-label="Activity indicator" />
+ * <PersonPlusIcon aria-label="Person plus" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

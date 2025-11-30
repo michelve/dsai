@@ -1,8 +1,10 @@
 /**
  * BatteryHalfIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Battery half
+ * @category Devices
+ * @tags power
+ * @see https://icons.getbootstrap.com/icons/battery-half/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BatteryHalfIcon aria-label="Activity indicator" />
+ * <BatteryHalfIcon aria-label="Battery half" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

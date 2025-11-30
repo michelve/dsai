@@ -1,8 +1,10 @@
 /**
  * QrCodeScanIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - QR code scan
+ * @category Communications
+ * @tags scan
+ * @see https://icons.getbootstrap.com/icons/qr-code-scan/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <QrCodeScanIcon aria-label="Activity indicator" />
+ * <QrCodeScanIcon aria-label="QR code scan" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

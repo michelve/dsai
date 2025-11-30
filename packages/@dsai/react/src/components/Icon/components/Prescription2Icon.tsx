@@ -1,8 +1,10 @@
 /**
  * Prescription2Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Prescription2
+ * @category Medical
+ * @tags rx
+ * @see https://icons.getbootstrap.com/icons/prescription2/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Prescription2Icon aria-label="Activity indicator" />
+ * <Prescription2Icon aria-label="Prescription2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

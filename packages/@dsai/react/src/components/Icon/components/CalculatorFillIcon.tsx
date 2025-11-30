@@ -1,8 +1,10 @@
 /**
  * CalculatorFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Calculator fill
+ * @category Devices
+ * @tags calculator
+ * @see https://icons.getbootstrap.com/icons/calculator-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CalculatorFillIcon aria-label="Activity indicator" />
+ * <CalculatorFillIcon aria-label="Calculator fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

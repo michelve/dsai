@@ -1,8 +1,10 @@
 /**
  * ArrowsAngleContractIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrows angle contract
+ * @category Arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrows-angle-contract/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowsAngleContractIcon aria-label="Activity indicator" />
+ * <ArrowsAngleContractIcon aria-label="Arrows angle contract" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

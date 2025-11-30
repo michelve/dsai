@@ -1,8 +1,10 @@
 /**
  * Icon0SquareFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - 0 square fill
+ * @category Shapes
+ * @tags number
+ * @see https://icons.getbootstrap.com/icons/0-square-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Icon0SquareFillIcon aria-label="Activity indicator" />
+ * <Icon0SquareFillIcon aria-label="0 square fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * CloudLightningIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cloud lightning
+ * @category Weather
+ * @tags thunder
+ * @see https://icons.getbootstrap.com/icons/cloud-lightning/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CloudLightningIcon aria-label="Activity indicator" />
+ * <CloudLightningIcon aria-label="Cloud lightning" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

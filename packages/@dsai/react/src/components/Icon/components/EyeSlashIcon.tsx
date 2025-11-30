@@ -1,8 +1,10 @@
 /**
  * EyeSlashIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Eye slash
+ * @category Real world
+ * @tags eyeball
+ * @see https://icons.getbootstrap.com/icons/eye-slash/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EyeSlashIcon aria-label="Activity indicator" />
+ * <EyeSlashIcon aria-label="Eye slash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

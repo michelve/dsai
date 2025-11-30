@@ -1,8 +1,10 @@
 /**
  * WrenchAdjustableCircleFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Wrench adjustable circle fill
+ * @category Tools
+ * @tags tool
+ * @see https://icons.getbootstrap.com/icons/wrench-adjustable-circle-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WrenchAdjustableCircleFillIcon aria-label="Activity indicator" />
+ * <WrenchAdjustableCircleFillIcon aria-label="Wrench adjustable circle fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

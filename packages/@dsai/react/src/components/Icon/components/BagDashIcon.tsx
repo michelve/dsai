@@ -1,8 +1,10 @@
 /**
  * BagDashIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bag dash
+ * @category Commerce
+ * @tags shopping
+ * @see https://icons.getbootstrap.com/icons/bag-dash/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BagDashIcon aria-label="Activity indicator" />
+ * <BagDashIcon aria-label="Bag dash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

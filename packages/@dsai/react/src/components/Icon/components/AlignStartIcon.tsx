@@ -1,8 +1,10 @@
 /**
  * AlignStartIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Align start
+ * @category Graphics
+ * @tags space
+ * @see https://icons.getbootstrap.com/icons/align-start/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AlignStartIcon aria-label="Activity indicator" />
+ * <AlignStartIcon aria-label="Align start" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

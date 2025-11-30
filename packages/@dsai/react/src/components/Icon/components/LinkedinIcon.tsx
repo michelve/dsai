@@ -1,8 +1,10 @@
 /**
  * LinkedinIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Linkedin
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/linkedin/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LinkedinIcon aria-label="Activity indicator" />
+ * <LinkedinIcon aria-label="Linkedin" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

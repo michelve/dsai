@@ -1,8 +1,10 @@
 /**
  * FiletypeWoffIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype woff
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-woff/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeWoffIcon aria-label="Activity indicator" />
+ * <FiletypeWoffIcon aria-label="Filetype woff" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

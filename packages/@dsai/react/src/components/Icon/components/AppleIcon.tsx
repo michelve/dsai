@@ -1,8 +1,10 @@
 /**
  * AppleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Apple
+ * @category Brand
+ * @tags aapl
+ * @see https://icons.getbootstrap.com/icons/apple/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AppleIcon aria-label="Activity indicator" />
+ * <AppleIcon aria-label="Apple" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

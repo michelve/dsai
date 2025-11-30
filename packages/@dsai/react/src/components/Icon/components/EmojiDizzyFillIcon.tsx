@@ -1,8 +1,10 @@
 /**
  * EmojiDizzyFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji dizzy fill
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-dizzy-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiDizzyFillIcon aria-label="Activity indicator" />
+ * <EmojiDizzyFillIcon aria-label="Emoji dizzy fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

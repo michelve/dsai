@@ -1,8 +1,10 @@
 /**
  * PowerIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Power
+ * @category UI and keyboard
+ * @tags off
+ * @see https://icons.getbootstrap.com/icons/power/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PowerIcon aria-label="Activity indicator" />
+ * <PowerIcon aria-label="Power" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

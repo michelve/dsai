@@ -1,8 +1,10 @@
 /**
  * PlusCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Plus circle
+ * @category Alerts, warnings, and signs
+ * @tags add
+ * @see https://icons.getbootstrap.com/icons/plus-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PlusCircleIcon aria-label="Activity indicator" />
+ * <PlusCircleIcon aria-label="Plus circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

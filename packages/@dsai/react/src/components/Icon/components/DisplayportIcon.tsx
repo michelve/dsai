@@ -1,8 +1,10 @@
 /**
  * DisplayportIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - DisplayPort
+ * @category Devices
+ * @tags video
+ * @see https://icons.getbootstrap.com/icons/displayport/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DisplayportIcon aria-label="Activity indicator" />
+ * <DisplayportIcon aria-label="DisplayPort" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

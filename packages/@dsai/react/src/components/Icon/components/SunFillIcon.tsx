@@ -1,8 +1,10 @@
 /**
  * SunFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sun fill
+ * @category Weather
+ * @tags solar
+ * @see https://icons.getbootstrap.com/icons/sun-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SunFillIcon aria-label="Activity indicator" />
+ * <SunFillIcon aria-label="Sun fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

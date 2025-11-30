@@ -1,8 +1,10 @@
 /**
  * TriangleHalfIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Triangle half fill
+ * @category Shapes
+ * @tags shape
+ * @see https://icons.getbootstrap.com/icons/triangle-half/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TriangleHalfIcon aria-label="Activity indicator" />
+ * <TriangleHalfIcon aria-label="Triangle half fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

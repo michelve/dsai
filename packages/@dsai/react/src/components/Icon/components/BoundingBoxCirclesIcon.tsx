@@ -1,8 +1,10 @@
 /**
  * BoundingBoxCirclesIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bounding box circles
+ * @category Graphics
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/bounding-box-circles/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BoundingBoxCirclesIcon aria-label="Activity indicator" />
+ * <BoundingBoxCirclesIcon aria-label="Bounding box circles" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

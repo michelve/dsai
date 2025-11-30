@@ -1,8 +1,10 @@
 /**
  * SubstackIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Substack
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/substack/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SubstackIcon aria-label="Activity indicator" />
+ * <SubstackIcon aria-label="Substack" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

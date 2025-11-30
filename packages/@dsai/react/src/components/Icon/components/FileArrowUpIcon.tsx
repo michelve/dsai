@@ -1,8 +1,10 @@
 /**
  * FileArrowUpIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File arrow up
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-arrow-up/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileArrowUpIcon aria-label="Activity indicator" />
+ * <FileArrowUpIcon aria-label="File arrow up" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

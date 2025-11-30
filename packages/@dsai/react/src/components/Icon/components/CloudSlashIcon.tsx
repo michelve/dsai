@@ -1,8 +1,10 @@
 /**
  * CloudSlashIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cloud slash
+ * @category Clouds
+ * @tags cloud
+ * @see https://icons.getbootstrap.com/icons/cloud-slash/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CloudSlashIcon aria-label="Activity indicator" />
+ * <CloudSlashIcon aria-label="Cloud slash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

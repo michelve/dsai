@@ -1,8 +1,10 @@
 /**
  * ControllerIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Controller
+ * @category Devices
+ * @tags game
+ * @see https://icons.getbootstrap.com/icons/controller/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ControllerIcon aria-label="Activity indicator" />
+ * <ControllerIcon aria-label="Controller" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

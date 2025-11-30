@@ -1,8 +1,10 @@
 /**
  * RecycleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Recycle
+ * @category Arrows
+ * @tags recyling
+ * @see https://icons.getbootstrap.com/icons/recycle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <RecycleIcon aria-label="Activity indicator" />
+ * <RecycleIcon aria-label="Recycle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

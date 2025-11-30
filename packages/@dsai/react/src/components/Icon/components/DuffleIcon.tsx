@@ -1,8 +1,10 @@
 /**
  * DuffleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Duffle
+ * @category Travel
+ * @tags luggage
+ * @see https://icons.getbootstrap.com/icons/duffle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DuffleIcon aria-label="Activity indicator" />
+ * <DuffleIcon aria-label="Duffle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

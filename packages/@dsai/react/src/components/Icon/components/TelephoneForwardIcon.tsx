@@ -1,8 +1,10 @@
 /**
  * TelephoneForwardIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Telephone forward
+ * @category Communications
+ * @tags telephone
+ * @see https://icons.getbootstrap.com/icons/telephone-forward/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TelephoneForwardIcon aria-label="Activity indicator" />
+ * <TelephoneForwardIcon aria-label="Telephone forward" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

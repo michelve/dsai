@@ -1,8 +1,10 @@
 /**
  * Sliders2Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sliders2
+ * @category Graphics
+ * @tags equalizer
+ * @see https://icons.getbootstrap.com/icons/sliders2/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Sliders2Icon aria-label="Activity indicator" />
+ * <Sliders2Icon aria-label="Sliders2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

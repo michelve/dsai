@@ -1,8 +1,10 @@
 /**
  * LineIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Line
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/line/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LineIcon aria-label="Activity indicator" />
+ * <LineIcon aria-label="Line" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

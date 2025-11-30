@@ -1,8 +1,10 @@
 /**
  * ArrowReturnLeftIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrow return left
+ * @category Arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrow-return-left/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowReturnLeftIcon aria-label="Activity indicator" />
+ * <ArrowReturnLeftIcon aria-label="Arrow return left" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

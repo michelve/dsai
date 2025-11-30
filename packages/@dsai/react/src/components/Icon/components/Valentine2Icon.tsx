@@ -1,8 +1,10 @@
 /**
  * Valentine2Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Valentine2
+ * @category Love
+ * @tags love
+ * @see https://icons.getbootstrap.com/icons/valentine2/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Valentine2Icon aria-label="Activity indicator" />
+ * <Valentine2Icon aria-label="Valentine2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

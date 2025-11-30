@@ -1,8 +1,10 @@
 /**
  * BookmarkCheckIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bookmark check
+ * @category Miscellaneous
+ * @tags reading
+ * @see https://icons.getbootstrap.com/icons/bookmark-check/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BookmarkCheckIcon aria-label="Activity indicator" />
+ * <BookmarkCheckIcon aria-label="Bookmark check" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

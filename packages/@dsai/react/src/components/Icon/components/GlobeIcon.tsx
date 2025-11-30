@@ -1,8 +1,10 @@
 /**
  * GlobeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Globe
+ * @category Communications
+ * @tags world
+ * @see https://icons.getbootstrap.com/icons/globe/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GlobeIcon aria-label="Activity indicator" />
+ * <GlobeIcon aria-label="Globe" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

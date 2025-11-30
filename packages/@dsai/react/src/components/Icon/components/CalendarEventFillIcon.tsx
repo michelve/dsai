@@ -1,8 +1,10 @@
 /**
  * CalendarEventFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Calendar event fill
+ * @category Date and time
+ * @tags date
+ * @see https://icons.getbootstrap.com/icons/calendar-event-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CalendarEventFillIcon aria-label="Activity indicator" />
+ * <CalendarEventFillIcon aria-label="Calendar event fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

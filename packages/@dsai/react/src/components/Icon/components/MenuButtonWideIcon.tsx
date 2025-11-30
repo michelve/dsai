@@ -1,8 +1,10 @@
 /**
  * MenuButtonWideIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Menu button wide
+ * @category Controls
+ * @tags dropdown
+ * @see https://icons.getbootstrap.com/icons/menu-button-wide/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MenuButtonWideIcon aria-label="Activity indicator" />
+ * <MenuButtonWideIcon aria-label="Menu button wide" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * SymmetryVerticalIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Symmetry vertical
+ * @category Graphics
+ * @tags align
+ * @see https://icons.getbootstrap.com/icons/symmetry-vertical/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SymmetryVerticalIcon aria-label="Activity indicator" />
+ * <SymmetryVerticalIcon aria-label="Symmetry vertical" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

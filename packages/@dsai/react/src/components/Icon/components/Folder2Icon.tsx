@@ -1,8 +1,10 @@
 /**
  * Folder2Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Folder2
+ * @category Files and folders
+ * @tags directory
+ * @see https://icons.getbootstrap.com/icons/folder2/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Folder2Icon aria-label="Activity indicator" />
+ * <Folder2Icon aria-label="Folder2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

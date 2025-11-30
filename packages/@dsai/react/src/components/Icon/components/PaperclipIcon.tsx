@@ -1,8 +1,10 @@
 /**
  * PaperclipIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Paperclip
+ * @category Real world
+ * @tags attachment
+ * @see https://icons.getbootstrap.com/icons/paperclip/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PaperclipIcon aria-label="Activity indicator" />
+ * <PaperclipIcon aria-label="Paperclip" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

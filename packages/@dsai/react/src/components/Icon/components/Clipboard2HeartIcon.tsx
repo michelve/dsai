@@ -1,8 +1,10 @@
 /**
  * Clipboard2HeartIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Clipboard2 heart
+ * @category Real world
+ * @tags copy
+ * @see https://icons.getbootstrap.com/icons/clipboard2-heart/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Clipboard2HeartIcon aria-label="Activity indicator" />
+ * <Clipboard2HeartIcon aria-label="Clipboard2 heart" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

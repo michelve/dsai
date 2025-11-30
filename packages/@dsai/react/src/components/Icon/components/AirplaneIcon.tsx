@@ -1,8 +1,10 @@
 /**
  * AirplaneIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Airplane
+ * @category Transportation
+ * @tags flight
+ * @see https://icons.getbootstrap.com/icons/airplane/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AirplaneIcon aria-label="Activity indicator" />
+ * <AirplaneIcon aria-label="Airplane" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

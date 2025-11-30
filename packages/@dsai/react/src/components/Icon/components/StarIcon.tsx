@@ -1,8 +1,10 @@
 /**
  * StarIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Star
+ * @category Shapes
+ * @tags shape
+ * @see https://icons.getbootstrap.com/icons/star/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <StarIcon aria-label="Activity indicator" />
+ * <StarIcon aria-label="Star" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

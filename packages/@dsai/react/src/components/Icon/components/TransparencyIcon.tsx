@@ -1,8 +1,10 @@
 /**
  * TransparencyIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Transparency
+ * @category Graphics
+ * @tags photo
+ * @see https://icons.getbootstrap.com/icons/transparency/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TransparencyIcon aria-label="Activity indicator" />
+ * <TransparencyIcon aria-label="Transparency" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

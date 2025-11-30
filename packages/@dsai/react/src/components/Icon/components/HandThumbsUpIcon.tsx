@@ -1,8 +1,10 @@
 /**
  * HandThumbsUpIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Hand thumbs up
+ * @category Hands
+ * @tags hand
+ * @see https://icons.getbootstrap.com/icons/hand-thumbs-up/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HandThumbsUpIcon aria-label="Activity indicator" />
+ * <HandThumbsUpIcon aria-label="Hand thumbs up" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

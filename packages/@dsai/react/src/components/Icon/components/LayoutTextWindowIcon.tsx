@@ -1,8 +1,10 @@
 /**
  * LayoutTextWindowIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Layout text window
+ * @category Layout
+ * @tags layout
+ * @see https://icons.getbootstrap.com/icons/layout-text-window/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LayoutTextWindowIcon aria-label="Activity indicator" />
+ * <LayoutTextWindowIcon aria-label="Layout text window" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

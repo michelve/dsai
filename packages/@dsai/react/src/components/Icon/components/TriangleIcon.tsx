@@ -1,8 +1,10 @@
 /**
  * TriangleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Triangle
+ * @category Shapes
+ * @tags shape
+ * @see https://icons.getbootstrap.com/icons/triangle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TriangleIcon aria-label="Activity indicator" />
+ * <TriangleIcon aria-label="Triangle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

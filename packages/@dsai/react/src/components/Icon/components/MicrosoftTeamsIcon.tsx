@@ -1,8 +1,10 @@
 /**
  * MicrosoftTeamsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Microsoft Teams
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/microsoft-teams/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MicrosoftTeamsIcon aria-label="Activity indicator" />
+ * <MicrosoftTeamsIcon aria-label="Microsoft Teams" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

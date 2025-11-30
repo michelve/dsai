@@ -1,8 +1,10 @@
 /**
  * BadgeCcIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Badge cc
+ * @category Badges
+ * @tags "closed captioning"
+ * @see https://icons.getbootstrap.com/icons/badge-cc/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BadgeCcIcon aria-label="Activity indicator" />
+ * <BadgeCcIcon aria-label="Badge cc" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * CassetteFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cassette fill
+ * @category Media
+ * @tags tape
+ * @see https://icons.getbootstrap.com/icons/cassette-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CassetteFillIcon aria-label="Activity indicator" />
+ * <CassetteFillIcon aria-label="Cassette fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * SendDashFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Send dash fill
+ * @category Communications
+ * @tags message
+ * @see https://icons.getbootstrap.com/icons/send-dash-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SendDashFillIcon aria-label="Activity indicator" />
+ * <SendDashFillIcon aria-label="Send dash fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

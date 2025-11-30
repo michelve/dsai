@@ -1,8 +1,10 @@
 /**
  * AsteriskIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Asterisk
+ * @category Typography
+ * @tags asterisks
+ * @see https://icons.getbootstrap.com/icons/asterisk/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AsteriskIcon aria-label="Activity indicator" />
+ * <AsteriskIcon aria-label="Asterisk" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

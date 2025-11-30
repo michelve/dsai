@@ -1,8 +1,10 @@
 /**
  * CookieIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cookie
+ * @category Real world
+ * @tags dessert
+ * @see https://icons.getbootstrap.com/icons/cookie/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CookieIcon aria-label="Activity indicator" />
+ * <CookieIcon aria-label="Cookie" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * TerminalPlusIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Terminal plus
+ * @category Apps
+ * @tags command-line
+ * @see https://icons.getbootstrap.com/icons/terminal-plus/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TerminalPlusIcon aria-label="Activity indicator" />
+ * <TerminalPlusIcon aria-label="Terminal plus" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

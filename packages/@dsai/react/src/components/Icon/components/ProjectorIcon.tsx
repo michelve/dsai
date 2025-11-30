@@ -1,8 +1,10 @@
 /**
  * ProjectorIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Projector
+ * @category Devices
+ * @tags projection
+ * @see https://icons.getbootstrap.com/icons/projector/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ProjectorIcon aria-label="Activity indicator" />
+ * <ProjectorIcon aria-label="Projector" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

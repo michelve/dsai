@@ -1,8 +1,10 @@
 /**
  * SkipStartFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Skip start fill
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/skip-start-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SkipStartFillIcon aria-label="Activity indicator" />
+ * <SkipStartFillIcon aria-label="Skip start fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

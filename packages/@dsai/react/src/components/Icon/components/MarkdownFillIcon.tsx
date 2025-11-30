@@ -1,8 +1,10 @@
 /**
  * MarkdownFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Markdown fill
+ * @category Badges
+ * @tags markdown
+ * @see https://icons.getbootstrap.com/icons/markdown-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MarkdownFillIcon aria-label="Activity indicator" />
+ * <MarkdownFillIcon aria-label="Markdown fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

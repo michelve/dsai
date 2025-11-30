@@ -1,8 +1,10 @@
 /**
  * SortNumericDownIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sort numeric down
+ * @category Sort and filter
+ * @tags sort
+ * @see https://icons.getbootstrap.com/icons/sort-numeric-down/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SortNumericDownIcon aria-label="Activity indicator" />
+ * <SortNumericDownIcon aria-label="Sort numeric down" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

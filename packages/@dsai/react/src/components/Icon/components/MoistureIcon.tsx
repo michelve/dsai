@@ -1,8 +1,10 @@
 /**
  * MoistureIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Moisture
+ * @category Weather
+ * @tags water
+ * @see https://icons.getbootstrap.com/icons/moisture/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MoistureIcon aria-label="Activity indicator" />
+ * <MoistureIcon aria-label="Moisture" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

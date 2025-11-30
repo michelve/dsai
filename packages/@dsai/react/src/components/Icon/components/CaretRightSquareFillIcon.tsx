@@ -1,8 +1,10 @@
 /**
  * CaretRightSquareFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Caret right square fill
+ * @category Carets
+ * @tags caret
+ * @see https://icons.getbootstrap.com/icons/caret-right-square-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CaretRightSquareFillIcon aria-label="Activity indicator" />
+ * <CaretRightSquareFillIcon aria-label="Caret right square fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

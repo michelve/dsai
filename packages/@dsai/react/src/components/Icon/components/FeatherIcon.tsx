@@ -1,8 +1,10 @@
 /**
  * FeatherIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Feather
+ * @category Real world
+ * @tags bird
+ * @see https://icons.getbootstrap.com/icons/feather/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FeatherIcon aria-label="Activity indicator" />
+ * <FeatherIcon aria-label="Feather" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

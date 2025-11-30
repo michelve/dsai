@@ -1,8 +1,10 @@
 /**
  * ShieldExclamationIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Shield exclamation
+ * @category Security
+ * @tags privacy
+ * @see https://icons.getbootstrap.com/icons/shield-exclamation/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ShieldExclamationIcon aria-label="Activity indicator" />
+ * <ShieldExclamationIcon aria-label="Shield exclamation" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * VolumeMuteFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Volume mute fill
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/volume-mute-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <VolumeMuteFillIcon aria-label="Activity indicator" />
+ * <VolumeMuteFillIcon aria-label="Volume mute fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

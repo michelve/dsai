@@ -1,8 +1,10 @@
 /**
  * HourglassSplitIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Hourglass split
+ * @category Real world
+ * @tags time
+ * @see https://icons.getbootstrap.com/icons/hourglass-split/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HourglassSplitIcon aria-label="Activity indicator" />
+ * <HourglassSplitIcon aria-label="Hourglass split" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

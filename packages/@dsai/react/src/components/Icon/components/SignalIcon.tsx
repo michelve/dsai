@@ -1,8 +1,10 @@
 /**
  * SignalIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Signal
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/signal/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SignalIcon aria-label="Activity indicator" />
+ * <SignalIcon aria-label="Signal" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

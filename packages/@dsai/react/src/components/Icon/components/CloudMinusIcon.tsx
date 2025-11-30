@@ -1,8 +1,10 @@
 /**
  * CloudMinusIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cloud minus
+ * @category Clouds
+ * @tags subtract
+ * @see https://icons.getbootstrap.com/icons/cloud-minus/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CloudMinusIcon aria-label="Activity indicator" />
+ * <CloudMinusIcon aria-label="Cloud minus" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

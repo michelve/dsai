@@ -1,8 +1,10 @@
 /**
  * WaterIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Water
+ * @category Weather
+ * @tags waves
+ * @see https://icons.getbootstrap.com/icons/water/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WaterIcon aria-label="Activity indicator" />
+ * <WaterIcon aria-label="Water" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

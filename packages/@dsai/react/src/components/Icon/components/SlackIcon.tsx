@@ -1,8 +1,10 @@
 /**
  * SlackIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Slack
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/slack/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SlackIcon aria-label="Activity indicator" />
+ * <SlackIcon aria-label="Slack" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

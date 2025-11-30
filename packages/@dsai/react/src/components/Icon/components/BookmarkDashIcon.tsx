@@ -1,8 +1,10 @@
 /**
  * BookmarkDashIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bookmark dash
+ * @category Miscellaneous
+ * @tags reading
+ * @see https://icons.getbootstrap.com/icons/bookmark-dash/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BookmarkDashIcon aria-label="Activity indicator" />
+ * <BookmarkDashIcon aria-label="Bookmark dash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

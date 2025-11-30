@@ -1,8 +1,10 @@
 /**
  * BuildingGearIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Building gear
+ * @category Buildings
+ * @tags company
+ * @see https://icons.getbootstrap.com/icons/building-gear/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BuildingGearIcon aria-label="Activity indicator" />
+ * <BuildingGearIcon aria-label="Building gear" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

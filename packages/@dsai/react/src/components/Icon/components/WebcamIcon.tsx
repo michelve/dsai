@@ -1,8 +1,10 @@
 /**
  * WebcamIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Webcam
+ * @category Devices
+ * @tags camera
+ * @see https://icons.getbootstrap.com/icons/webcam/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WebcamIcon aria-label="Activity indicator" />
+ * <WebcamIcon aria-label="Webcam" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

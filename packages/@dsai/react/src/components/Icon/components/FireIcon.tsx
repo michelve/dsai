@@ -1,8 +1,10 @@
 /**
  * FireIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Fire
+ * @category Real world
+ * @tags burning
+ * @see https://icons.getbootstrap.com/icons/fire/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FireIcon aria-label="Activity indicator" />
+ * <FireIcon aria-label="Fire" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

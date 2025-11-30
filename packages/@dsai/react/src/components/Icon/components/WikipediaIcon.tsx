@@ -1,8 +1,10 @@
 /**
  * WikipediaIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Wikipedia
+ * @category Brand
+ * @tags encyclopedia
+ * @see https://icons.getbootstrap.com/icons/wikipedia/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WikipediaIcon aria-label="Activity indicator" />
+ * <WikipediaIcon aria-label="Wikipedia" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

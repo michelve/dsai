@@ -1,8 +1,10 @@
 /**
  * CartFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cart fill
+ * @category Commerce
+ * @tags shopping
+ * @see https://icons.getbootstrap.com/icons/cart-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CartFillIcon aria-label="Activity indicator" />
+ * <CartFillIcon aria-label="Cart fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

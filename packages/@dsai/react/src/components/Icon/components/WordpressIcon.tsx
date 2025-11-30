@@ -1,8 +1,10 @@
 /**
  * WordpressIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Wordpress
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/wordpress/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WordpressIcon aria-label="Activity indicator" />
+ * <WordpressIcon aria-label="Wordpress" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

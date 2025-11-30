@@ -1,8 +1,10 @@
 /**
  * BasketIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Basket
+ * @category Commerce
+ * @tags shopping
+ * @see https://icons.getbootstrap.com/icons/basket/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BasketIcon aria-label="Activity indicator" />
+ * <BasketIcon aria-label="Basket" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

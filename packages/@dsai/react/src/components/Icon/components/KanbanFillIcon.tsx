@@ -1,8 +1,10 @@
 /**
  * KanbanFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Kanban fill
+ * @category Miscellaneous
+ * @tags board
+ * @see https://icons.getbootstrap.com/icons/kanban-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <KanbanFillIcon aria-label="Activity indicator" />
+ * <KanbanFillIcon aria-label="Kanban fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

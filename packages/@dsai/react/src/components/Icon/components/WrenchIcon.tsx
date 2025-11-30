@@ -1,8 +1,10 @@
 /**
  * WrenchIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Wrench
+ * @category Tools
+ * @tags tool
+ * @see https://icons.getbootstrap.com/icons/wrench/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WrenchIcon aria-label="Activity indicator" />
+ * <WrenchIcon aria-label="Wrench" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

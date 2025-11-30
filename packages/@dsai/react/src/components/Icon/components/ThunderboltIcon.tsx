@@ -1,8 +1,10 @@
 /**
  * ThunderboltIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Thunderbolt
+ * @category Devices
+ * @tags plug
+ * @see https://icons.getbootstrap.com/icons/thunderbolt/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ThunderboltIcon aria-label="Activity indicator" />
+ * <ThunderboltIcon aria-label="Thunderbolt" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

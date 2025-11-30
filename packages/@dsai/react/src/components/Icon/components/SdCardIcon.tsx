@@ -1,8 +1,10 @@
 /**
  * SdCardIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - SD card
+ * @category Devices
+ * @tags storage
+ * @see https://icons.getbootstrap.com/icons/sd-card/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SdCardIcon aria-label="Activity indicator" />
+ * <SdCardIcon aria-label="SD card" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

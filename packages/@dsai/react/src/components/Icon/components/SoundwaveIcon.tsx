@@ -1,8 +1,10 @@
 /**
  * SoundwaveIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Soundwave
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/soundwave/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SoundwaveIcon aria-label="Activity indicator" />
+ * <SoundwaveIcon aria-label="Soundwave" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

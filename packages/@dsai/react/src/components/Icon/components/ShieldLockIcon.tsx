@@ -1,8 +1,10 @@
 /**
  * ShieldLockIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Shield lock
+ * @category Security
+ * @tags privacy
+ * @see https://icons.getbootstrap.com/icons/shield-lock/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ShieldLockIcon aria-label="Activity indicator" />
+ * <ShieldLockIcon aria-label="Shield lock" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

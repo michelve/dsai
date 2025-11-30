@@ -1,8 +1,10 @@
 /**
  * MagnetIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Magnet
+ * @category Real world
+ * @tags magnetic
+ * @see https://icons.getbootstrap.com/icons/magnet/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MagnetIcon aria-label="Activity indicator" />
+ * <MagnetIcon aria-label="Magnet" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * DownloadIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Download
+ * @category Miscellaneous
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/download/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DownloadIcon aria-label="Activity indicator" />
+ * <DownloadIcon aria-label="Download" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

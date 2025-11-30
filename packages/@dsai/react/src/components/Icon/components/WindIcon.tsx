@@ -1,8 +1,10 @@
 /**
  * WindIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Wind
+ * @category Weather
+ * @tags windy
+ * @see https://icons.getbootstrap.com/icons/wind/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WindIcon aria-label="Activity indicator" />
+ * <WindIcon aria-label="Wind" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

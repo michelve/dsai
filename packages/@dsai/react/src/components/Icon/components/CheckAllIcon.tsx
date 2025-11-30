@@ -1,8 +1,10 @@
 /**
  * CheckAllIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Check all
+ * @category UI and keyboard
+ * @tags checkmark
+ * @see https://icons.getbootstrap.com/icons/check-all/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CheckAllIcon aria-label="Activity indicator" />
+ * <CheckAllIcon aria-label="Check all" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

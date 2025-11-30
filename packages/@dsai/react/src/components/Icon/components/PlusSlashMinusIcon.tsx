@@ -1,8 +1,10 @@
 /**
  * PlusSlashMinusIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Plus slash minus
+ * @category Typography
+ * @tags difference
+ * @see https://icons.getbootstrap.com/icons/plus-slash-minus/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PlusSlashMinusIcon aria-label="Activity indicator" />
+ * <PlusSlashMinusIcon aria-label="Plus slash minus" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

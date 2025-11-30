@@ -1,8 +1,10 @@
 /**
  * GenderAmbiguousIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Gender ambiguous
+ * @category People
+ * @tags gender
+ * @see https://icons.getbootstrap.com/icons/gender-ambiguous/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GenderAmbiguousIcon aria-label="Activity indicator" />
+ * <GenderAmbiguousIcon aria-label="Gender ambiguous" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

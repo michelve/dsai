@@ -1,8 +1,10 @@
 /**
  * FolderXIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Folder x
+ * @category Files and folders
+ * @tags directory
+ * @see https://icons.getbootstrap.com/icons/folder-x/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FolderXIcon aria-label="Activity indicator" />
+ * <FolderXIcon aria-label="Folder x" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * DatabaseXIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Database x
+ * @category Devices
+ * @tags server
+ * @see https://icons.getbootstrap.com/icons/database-x/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DatabaseXIcon aria-label="Activity indicator" />
+ * <DatabaseXIcon aria-label="Database x" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

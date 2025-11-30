@@ -1,8 +1,10 @@
 /**
  * ChatTextFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Chat text fill
+ * @category Communications
+ * @tags chat bubble
+ * @see https://icons.getbootstrap.com/icons/chat-text-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ChatTextFillIcon aria-label="Activity indicator" />
+ * <ChatTextFillIcon aria-label="Chat text fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

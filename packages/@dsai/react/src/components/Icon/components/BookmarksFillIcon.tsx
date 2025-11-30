@@ -1,8 +1,10 @@
 /**
  * BookmarksFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bookmarks fill
+ * @category Miscellaneous
+ * @tags reading
+ * @see https://icons.getbootstrap.com/icons/bookmarks-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BookmarksFillIcon aria-label="Activity indicator" />
+ * <BookmarksFillIcon aria-label="Bookmarks fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

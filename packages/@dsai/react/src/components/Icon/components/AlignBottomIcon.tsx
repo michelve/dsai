@@ -1,8 +1,10 @@
 /**
  * AlignBottomIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Align bottom
+ * @category Graphics
+ * @tags space
+ * @see https://icons.getbootstrap.com/icons/align-bottom/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AlignBottomIcon aria-label="Activity indicator" />
+ * <AlignBottomIcon aria-label="Align bottom" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

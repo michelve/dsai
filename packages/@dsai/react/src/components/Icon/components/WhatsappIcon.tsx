@@ -1,8 +1,10 @@
 /**
  * WhatsappIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Whatsapp
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/whatsapp/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WhatsappIcon aria-label="Activity indicator" />
+ * <WhatsappIcon aria-label="Whatsapp" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

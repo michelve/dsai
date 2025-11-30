@@ -1,8 +1,10 @@
 /**
  * BeakerFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Beaker fill
+ * @category Real world
+ * @tags beaker
+ * @see https://icons.getbootstrap.com/icons/beaker-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BeakerFillIcon aria-label="Activity indicator" />
+ * <BeakerFillIcon aria-label="Beaker fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

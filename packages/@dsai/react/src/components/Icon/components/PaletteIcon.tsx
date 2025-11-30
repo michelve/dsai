@@ -1,8 +1,10 @@
 /**
  * PaletteIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Palette
+ * @category Graphics
+ * @tags color
+ * @see https://icons.getbootstrap.com/icons/palette/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PaletteIcon aria-label="Activity indicator" />
+ * <PaletteIcon aria-label="Palette" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

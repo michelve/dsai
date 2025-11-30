@@ -1,8 +1,10 @@
 /**
  * ConeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cone
+ * @category Real world
+ * @tags construction
+ * @see https://icons.getbootstrap.com/icons/cone/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ConeIcon aria-label="Activity indicator" />
+ * <ConeIcon aria-label="Cone" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

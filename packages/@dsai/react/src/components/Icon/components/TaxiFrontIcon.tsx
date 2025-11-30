@@ -1,8 +1,10 @@
 /**
  * TaxiFrontIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Taxi front
+ * @category Transportation
+ * @tags cab
+ * @see https://icons.getbootstrap.com/icons/taxi-front/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TaxiFrontIcon aria-label="Activity indicator" />
+ * <TaxiFrontIcon aria-label="Taxi front" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

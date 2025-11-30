@@ -1,8 +1,10 @@
 /**
  * UiRadiosGridIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - UI radios grid
+ * @category Controls
+ * @tags radio
+ * @see https://icons.getbootstrap.com/icons/ui-radios-grid/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <UiRadiosGridIcon aria-label="Activity indicator" />
+ * <UiRadiosGridIcon aria-label="UI radios grid" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

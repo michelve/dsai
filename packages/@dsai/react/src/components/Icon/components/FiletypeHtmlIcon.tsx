@@ -1,8 +1,10 @@
 /**
  * FiletypeHtmlIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype html
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-html/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeHtmlIcon aria-label="Activity indicator" />
+ * <FiletypeHtmlIcon aria-label="Filetype html" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

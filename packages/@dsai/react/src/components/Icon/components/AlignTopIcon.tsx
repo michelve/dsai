@@ -1,8 +1,10 @@
 /**
  * AlignTopIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Align top
+ * @category Graphics
+ * @tags space
+ * @see https://icons.getbootstrap.com/icons/align-top/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AlignTopIcon aria-label="Activity indicator" />
+ * <AlignTopIcon aria-label="Align top" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * MemoryIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Memory
+ * @category Devices
+ * @tags ram
+ * @see https://icons.getbootstrap.com/icons/memory/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MemoryIcon aria-label="Activity indicator" />
+ * <MemoryIcon aria-label="Memory" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

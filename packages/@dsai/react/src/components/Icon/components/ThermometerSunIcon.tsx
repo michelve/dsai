@@ -1,8 +1,10 @@
 /**
  * ThermometerSunIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Thermometer sun
+ * @category Weather
+ * @tags temperature
+ * @see https://icons.getbootstrap.com/icons/thermometer-sun/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ThermometerSunIcon aria-label="Activity indicator" />
+ * <ThermometerSunIcon aria-label="Thermometer sun" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

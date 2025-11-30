@@ -1,8 +1,10 @@
 /**
  * ExclamationLgIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Exclamation lg
+ * @category Alerts, warnings, and signs
+ * @tags alert
+ * @see https://icons.getbootstrap.com/icons/exclamation-lg/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ExclamationLgIcon aria-label="Activity indicator" />
+ * <ExclamationLgIcon aria-label="Exclamation lg" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

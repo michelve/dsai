@@ -1,8 +1,10 @@
 /**
  * BuildingSlashIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Building slash
+ * @category Buildings
+ * @tags company
+ * @see https://icons.getbootstrap.com/icons/building-slash/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BuildingSlashIcon aria-label="Activity indicator" />
+ * <BuildingSlashIcon aria-label="Building slash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

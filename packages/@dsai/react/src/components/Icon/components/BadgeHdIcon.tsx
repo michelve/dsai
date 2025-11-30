@@ -1,8 +1,10 @@
 /**
  * BadgeHdIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Badge hd
+ * @category Badges
+ * @tags display
+ * @see https://icons.getbootstrap.com/icons/badge-hd/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BadgeHdIcon aria-label="Activity indicator" />
+ * <BadgeHdIcon aria-label="Badge hd" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

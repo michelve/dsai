@@ -1,8 +1,10 @@
 /**
  * AlphabetIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Alphabet
+ * @category Typography
+ * @tags letters
+ * @see https://icons.getbootstrap.com/icons/alphabet/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AlphabetIcon aria-label="Activity indicator" />
+ * <AlphabetIcon aria-label="Alphabet" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

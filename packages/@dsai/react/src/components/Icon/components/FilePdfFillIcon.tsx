@@ -1,8 +1,10 @@
 /**
  * FilePdfFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File PDF fill
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-pdf-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FilePdfFillIcon aria-label="Activity indicator" />
+ * <FilePdfFillIcon aria-label="File PDF fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * SignIntersectionSideIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sign intersection side
+ * @category Transportation
+ * @tags road
+ * @see https://icons.getbootstrap.com/icons/sign-intersection-side/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SignIntersectionSideIcon aria-label="Activity indicator" />
+ * <SignIntersectionSideIcon aria-label="Sign intersection side" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

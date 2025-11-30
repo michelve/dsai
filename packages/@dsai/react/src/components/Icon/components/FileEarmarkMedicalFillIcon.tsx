@@ -1,8 +1,10 @@
 /**
  * FileEarmarkMedicalFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File earmark medical fill
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-earmark-medical-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileEarmarkMedicalFillIcon aria-label="Activity indicator" />
+ * <FileEarmarkMedicalFillIcon aria-label="File earmark medical fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

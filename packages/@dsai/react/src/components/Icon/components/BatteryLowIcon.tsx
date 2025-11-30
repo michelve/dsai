@@ -1,8 +1,10 @@
 /**
  * BatteryLowIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Battery low
+ * @category Devices
+ * @tags power
+ * @see https://icons.getbootstrap.com/icons/battery-low/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BatteryLowIcon aria-label="Activity indicator" />
+ * <BatteryLowIcon aria-label="Battery low" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

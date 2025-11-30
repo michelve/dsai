@@ -1,8 +1,10 @@
 /**
  * CopyIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Copy
+ * @category UI and keyboard
+ * @tags paste
+ * @see https://icons.getbootstrap.com/icons/copy/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CopyIcon aria-label="Activity indicator" />
+ * <CopyIcon aria-label="Copy" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

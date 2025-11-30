@@ -1,8 +1,10 @@
 /**
  * StickyFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sticky fill
+ * @category Real world
+ * @tags postit
+ * @see https://icons.getbootstrap.com/icons/sticky-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <StickyFillIcon aria-label="Activity indicator" />
+ * <StickyFillIcon aria-label="Sticky fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

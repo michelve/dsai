@@ -1,8 +1,10 @@
 /**
  * NoiseReductionIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Noise reduction
+ * @category Graphics
+ * @tags photo
+ * @see https://icons.getbootstrap.com/icons/noise-reduction/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <NoiseReductionIcon aria-label="Activity indicator" />
+ * <NoiseReductionIcon aria-label="Noise reduction" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

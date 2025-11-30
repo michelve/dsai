@@ -1,8 +1,10 @@
 /**
  * Android2Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Android2
+ * @category Brand
+ * @tags google
+ * @see https://icons.getbootstrap.com/icons/android2/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Android2Icon aria-label="Activity indicator" />
+ * <Android2Icon aria-label="Android2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

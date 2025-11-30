@@ -1,8 +1,10 @@
 /**
  * ActivityIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Activity
+ * @category Data
+ * @tags pulse
+ * @see https://icons.getbootstrap.com/icons/activity/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ActivityIcon aria-label="Activity indicator" />
+ * <ActivityIcon aria-label="Activity" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

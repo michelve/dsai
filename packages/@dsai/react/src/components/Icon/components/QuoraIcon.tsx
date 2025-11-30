@@ -1,8 +1,10 @@
 /**
  * QuoraIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Quora
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/quora/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <QuoraIcon aria-label="Activity indicator" />
+ * <QuoraIcon aria-label="Quora" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

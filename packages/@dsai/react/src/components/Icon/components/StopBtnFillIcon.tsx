@@ -1,8 +1,10 @@
 /**
  * StopBtnFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Stop btn fill
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/stop-btn-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <StopBtnFillIcon aria-label="Activity indicator" />
+ * <StopBtnFillIcon aria-label="Stop btn fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * ArrowsCollapseVerticalIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrows collapse vertical
+ * @category Arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrows-collapse-vertical/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowsCollapseVerticalIcon aria-label="Activity indicator" />
+ * <ArrowsCollapseVerticalIcon aria-label="Arrows collapse vertical" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

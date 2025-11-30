@@ -1,8 +1,10 @@
 /**
  * SendCheckFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Send check fill
+ * @category Communications
+ * @tags message
+ * @see https://icons.getbootstrap.com/icons/send-check-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SendCheckFillIcon aria-label="Activity indicator" />
+ * <SendCheckFillIcon aria-label="Send check fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

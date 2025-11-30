@@ -1,8 +1,10 @@
 /**
  * ListColumnsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - List columns
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/list-columns/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ListColumnsIcon aria-label="Activity indicator" />
+ * <ListColumnsIcon aria-label="List columns" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * ShopIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Shop
+ * @category Commerce
+ * @tags shop
+ * @see https://icons.getbootstrap.com/icons/shop/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ShopIcon aria-label="Activity indicator" />
+ * <ShopIcon aria-label="Shop" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * EmojiAstonishedIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji astonished
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-astonished/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiAstonishedIcon aria-label="Activity indicator" />
+ * <EmojiAstonishedIcon aria-label="Emoji astonished" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

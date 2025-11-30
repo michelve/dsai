@@ -1,8 +1,10 @@
 /**
  * Trash2Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Trash2
+ * @category UI and keyboard
+ * @tags trash-can
+ * @see https://icons.getbootstrap.com/icons/trash2/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Trash2Icon aria-label="Activity indicator" />
+ * <Trash2Icon aria-label="Trash2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

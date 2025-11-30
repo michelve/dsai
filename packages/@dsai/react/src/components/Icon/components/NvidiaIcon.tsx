@@ -1,8 +1,10 @@
 /**
  * NvidiaIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Nvidia
+ * @category Brand
+ * @tags gpu
+ * @see https://icons.getbootstrap.com/icons/nvidia/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <NvidiaIcon aria-label="Activity indicator" />
+ * <NvidiaIcon aria-label="Nvidia" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

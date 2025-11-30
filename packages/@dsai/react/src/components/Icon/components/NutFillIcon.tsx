@@ -1,8 +1,10 @@
 /**
  * NutFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Nut fill
+ * @category Tools
+ * @tags nut
+ * @see https://icons.getbootstrap.com/icons/nut-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <NutFillIcon aria-label="Activity indicator" />
+ * <NutFillIcon aria-label="Nut fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

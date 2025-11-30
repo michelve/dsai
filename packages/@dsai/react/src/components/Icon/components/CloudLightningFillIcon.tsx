@@ -1,8 +1,10 @@
 /**
  * CloudLightningFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cloud lightning fill
+ * @category Weather
+ * @tags thunder
+ * @see https://icons.getbootstrap.com/icons/cloud-lightning-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CloudLightningFillIcon aria-label="Activity indicator" />
+ * <CloudLightningFillIcon aria-label="Cloud lightning fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

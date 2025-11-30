@@ -1,8 +1,10 @@
 /**
  * BodyTextIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Body text
+ * @category Typography
+ * @tags content
+ * @see https://icons.getbootstrap.com/icons/body-text/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BodyTextIcon aria-label="Activity indicator" />
+ * <BodyTextIcon aria-label="Body text" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

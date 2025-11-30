@@ -1,8 +1,10 @@
 /**
  * SinaWeiboIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sina Weibo
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/sina-weibo/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SinaWeiboIcon aria-label="Activity indicator" />
+ * <SinaWeiboIcon aria-label="Sina Weibo" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * FolderCheckIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Folder check
+ * @category Files and folders
+ * @tags directory
+ * @see https://icons.getbootstrap.com/icons/folder-check/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FolderCheckIcon aria-label="Activity indicator" />
+ * <FolderCheckIcon aria-label="Folder check" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

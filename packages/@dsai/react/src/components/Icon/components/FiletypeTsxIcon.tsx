@@ -1,8 +1,10 @@
 /**
  * FiletypeTsxIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype tsx
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-tsx/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeTsxIcon aria-label="Activity indicator" />
+ * <FiletypeTsxIcon aria-label="Filetype tsx" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

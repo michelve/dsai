@@ -1,8 +1,10 @@
 /**
  * EmojiFrownFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji frown fill
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-frown-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiFrownFillIcon aria-label="Activity indicator" />
+ * <EmojiFrownFillIcon aria-label="Emoji frown fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

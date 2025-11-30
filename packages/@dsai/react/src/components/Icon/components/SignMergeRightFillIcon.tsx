@@ -1,8 +1,10 @@
 /**
  * SignMergeRightFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sign merge right fill
+ * @category Transportation
+ * @tags road
+ * @see https://icons.getbootstrap.com/icons/sign-merge-right-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SignMergeRightFillIcon aria-label="Activity indicator" />
+ * <SignMergeRightFillIcon aria-label="Sign merge right fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

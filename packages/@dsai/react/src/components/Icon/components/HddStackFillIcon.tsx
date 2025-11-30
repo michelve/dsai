@@ -1,8 +1,10 @@
 /**
  * HddStackFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Hdd stack fill
+ * @category Devices
+ * @tags "hard drive"
+ * @see https://icons.getbootstrap.com/icons/hdd-stack-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HddStackFillIcon aria-label="Activity indicator" />
+ * <HddStackFillIcon aria-label="Hdd stack fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

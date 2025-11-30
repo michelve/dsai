@@ -1,8 +1,10 @@
 /**
  * DiamondHalfIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Diamond half fill
+ * @category Shapes
+ * @tags shape
+ * @see https://icons.getbootstrap.com/icons/diamond-half/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DiamondHalfIcon aria-label="Activity indicator" />
+ * <DiamondHalfIcon aria-label="Diamond half fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * PcDisplayHorizontalIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - PC display horizontal
+ * @category Devices
+ * @tags computer
+ * @see https://icons.getbootstrap.com/icons/pc-display-horizontal/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PcDisplayHorizontalIcon aria-label="Activity indicator" />
+ * <PcDisplayHorizontalIcon aria-label="PC display horizontal" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

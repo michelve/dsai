@@ -1,8 +1,10 @@
 /**
  * BorderWidthIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Border width
+ * @category Typography
+ * @tags borders
+ * @see https://icons.getbootstrap.com/icons/border-width/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BorderWidthIcon aria-label="Activity indicator" />
+ * <BorderWidthIcon aria-label="Border width" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

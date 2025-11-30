@@ -1,8 +1,10 @@
 /**
  * EmojiSunglassesFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji sunglasses fill
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-sunglasses-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiSunglassesFillIcon aria-label="Activity indicator" />
+ * <EmojiSunglassesFillIcon aria-label="Emoji sunglasses fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

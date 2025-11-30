@@ -1,8 +1,10 @@
 /**
  * ListTaskIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - List task
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/list-task/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ListTaskIcon aria-label="Activity indicator" />
+ * <ListTaskIcon aria-label="List task" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

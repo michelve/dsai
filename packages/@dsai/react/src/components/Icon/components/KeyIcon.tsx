@@ -1,8 +1,10 @@
 /**
  * KeyIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Key
+ * @category Real world
+ * @tags lock
+ * @see https://icons.getbootstrap.com/icons/key/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <KeyIcon aria-label="Activity indicator" />
+ * <KeyIcon aria-label="Key" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

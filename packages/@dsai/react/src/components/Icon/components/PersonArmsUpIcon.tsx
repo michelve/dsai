@@ -1,8 +1,10 @@
 /**
  * PersonArmsUpIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person arms up
+ * @category People
+ * @tags human
+ * @see https://icons.getbootstrap.com/icons/person-arms-up/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonArmsUpIcon aria-label="Activity indicator" />
+ * <PersonArmsUpIcon aria-label="Person arms up" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

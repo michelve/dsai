@@ -1,8 +1,10 @@
 /**
  * PinMapFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Pin map fill
+ * @category Geo
+ * @tags geography
+ * @see https://icons.getbootstrap.com/icons/pin-map-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PinMapFillIcon aria-label="Activity indicator" />
+ * <PinMapFillIcon aria-label="Pin map fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

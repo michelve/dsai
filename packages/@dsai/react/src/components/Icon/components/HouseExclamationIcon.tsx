@@ -1,8 +1,10 @@
 /**
  * HouseExclamationIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - House exclamation
+ * @category Real world
+ * @tags home
+ * @see https://icons.getbootstrap.com/icons/house-exclamation/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HouseExclamationIcon aria-label="Activity indicator" />
+ * <HouseExclamationIcon aria-label="House exclamation" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

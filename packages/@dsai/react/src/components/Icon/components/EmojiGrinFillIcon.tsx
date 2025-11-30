@@ -1,8 +1,10 @@
 /**
  * EmojiGrinFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji grin fill
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-grin-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiGrinFillIcon aria-label="Activity indicator" />
+ * <EmojiGrinFillIcon aria-label="Emoji grin fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

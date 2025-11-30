@@ -1,8 +1,10 @@
 /**
  * SignpostFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Signpost fill
+ * @category Real world
+ * @tags milestone
+ * @see https://icons.getbootstrap.com/icons/signpost-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SignpostFillIcon aria-label="Activity indicator" />
+ * <SignpostFillIcon aria-label="Signpost fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

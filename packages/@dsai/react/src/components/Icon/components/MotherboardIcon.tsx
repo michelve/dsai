@@ -1,8 +1,10 @@
 /**
  * MotherboardIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Motherboard
+ * @category Devices
+ * @tags mobo
+ * @see https://icons.getbootstrap.com/icons/motherboard/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MotherboardIcon aria-label="Activity indicator" />
+ * <MotherboardIcon aria-label="Motherboard" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

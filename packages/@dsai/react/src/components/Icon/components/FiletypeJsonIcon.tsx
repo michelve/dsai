@@ -1,8 +1,10 @@
 /**
  * FiletypeJsonIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype json
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-json/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeJsonIcon aria-label="Activity indicator" />
+ * <FiletypeJsonIcon aria-label="Filetype json" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

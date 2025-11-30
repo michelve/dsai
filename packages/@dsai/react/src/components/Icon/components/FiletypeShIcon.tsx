@@ -1,8 +1,10 @@
 /**
  * FiletypeShIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype sh
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-sh/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeShIcon aria-label="Activity indicator" />
+ * <FiletypeShIcon aria-label="Filetype sh" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

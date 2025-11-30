@@ -1,8 +1,10 @@
 /**
  * StackOverflowIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Stack overflow
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/stack-overflow/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <StackOverflowIcon aria-label="Activity indicator" />
+ * <StackOverflowIcon aria-label="Stack overflow" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

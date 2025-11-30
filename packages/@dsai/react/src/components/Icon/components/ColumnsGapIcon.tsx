@@ -1,8 +1,10 @@
 /**
  * ColumnsGapIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Columns gap
+ * @category Layout
+ * @tags grid
+ * @see https://icons.getbootstrap.com/icons/columns-gap/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ColumnsGapIcon aria-label="Activity indicator" />
+ * <ColumnsGapIcon aria-label="Columns gap" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * EvFrontIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Ev front
+ * @category Transportation
+ * @tags car
+ * @see https://icons.getbootstrap.com/icons/ev-front/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EvFrontIcon aria-label="Activity indicator" />
+ * <EvFrontIcon aria-label="Ev front" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

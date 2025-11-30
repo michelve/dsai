@@ -1,8 +1,10 @@
 /**
  * Safe2Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Safe2
+ * @category Real world
+ * @tags vault
+ * @see https://icons.getbootstrap.com/icons/safe2/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Safe2Icon aria-label="Activity indicator" />
+ * <Safe2Icon aria-label="Safe2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

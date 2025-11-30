@@ -1,8 +1,10 @@
 /**
  * CloudHailFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cloud hail fill
+ * @category Weather
+ * @tags storm
+ * @see https://icons.getbootstrap.com/icons/cloud-hail-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CloudHailFillIcon aria-label="Activity indicator" />
+ * <CloudHailFillIcon aria-label="Cloud hail fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

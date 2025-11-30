@@ -1,8 +1,10 @@
 /**
  * Crosshair2Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Crosshair2
+ * @category Geo
+ * @tags geography
+ * @see https://icons.getbootstrap.com/icons/crosshair2/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Crosshair2Icon aria-label="Activity indicator" />
+ * <Crosshair2Icon aria-label="Crosshair2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

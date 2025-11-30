@@ -1,8 +1,10 @@
 /**
  * SendIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Send
+ * @category Communications
+ * @tags message
+ * @see https://icons.getbootstrap.com/icons/send/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SendIcon aria-label="Activity indicator" />
+ * <SendIcon aria-label="Send" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * EmojiHeartEyesIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji heart eyes
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-heart-eyes/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiHeartEyesIcon aria-label="Activity indicator" />
+ * <EmojiHeartEyesIcon aria-label="Emoji heart eyes" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

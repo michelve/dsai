@@ -1,8 +1,10 @@
 /**
  * RegexIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Regex
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/regex/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <RegexIcon aria-label="Activity indicator" />
+ * <RegexIcon aria-label="Regex" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

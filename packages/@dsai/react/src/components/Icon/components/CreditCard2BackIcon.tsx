@@ -1,7 +1,7 @@
 /**
  * CreditCard2BackIcon
  *
- * Bootstrap Icons - React Component
+ * Bootstrap Icons - CreditCard2Back
  * @see https://icons.getbootstrap.com/
  *
  * @accessibility
@@ -16,7 +16,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CreditCard2BackIcon aria-label="Activity indicator" />
+ * <CreditCard2BackIcon aria-label="CreditCard2Back" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

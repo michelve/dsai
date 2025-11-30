@@ -1,8 +1,10 @@
 /**
  * ArrowsAngleExpandIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrows angle expand
+ * @category Arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrows-angle-expand/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowsAngleExpandIcon aria-label="Activity indicator" />
+ * <ArrowsAngleExpandIcon aria-label="Arrows angle expand" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

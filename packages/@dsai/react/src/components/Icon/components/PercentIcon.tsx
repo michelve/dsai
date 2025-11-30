@@ -1,8 +1,10 @@
 /**
  * PercentIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Percent
+ * @category Typography
+ * @tags percentage
+ * @see https://icons.getbootstrap.com/icons/percent/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PercentIcon aria-label="Activity indicator" />
+ * <PercentIcon aria-label="Percent" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

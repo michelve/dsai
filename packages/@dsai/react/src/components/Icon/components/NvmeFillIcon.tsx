@@ -1,8 +1,10 @@
 /**
  * NvmeFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Nvme fill
+ * @category Devices
+ * @tags ssd
+ * @see https://icons.getbootstrap.com/icons/nvme-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <NvmeFillIcon aria-label="Activity indicator" />
+ * <NvmeFillIcon aria-label="Nvme fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

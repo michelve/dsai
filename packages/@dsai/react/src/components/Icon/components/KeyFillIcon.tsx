@@ -1,8 +1,10 @@
 /**
  * KeyFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Key fill
+ * @category Real world
+ * @tags lock
+ * @see https://icons.getbootstrap.com/icons/key-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <KeyFillIcon aria-label="Activity indicator" />
+ * <KeyFillIcon aria-label="Key fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

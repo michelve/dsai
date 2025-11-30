@@ -1,8 +1,10 @@
 /**
  * ChevronCompactRightIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Chevron compact right
+ * @category Chevrons
+ * @tags chevron
+ * @see https://icons.getbootstrap.com/icons/chevron-compact-right/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ChevronCompactRightIcon aria-label="Activity indicator" />
+ * <ChevronCompactRightIcon aria-label="Chevron compact right" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

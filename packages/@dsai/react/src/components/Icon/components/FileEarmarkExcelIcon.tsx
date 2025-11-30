@@ -1,8 +1,10 @@
 /**
  * FileEarmarkExcelIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File earmark excel
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-earmark-excel/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileEarmarkExcelIcon aria-label="Activity indicator" />
+ * <FileEarmarkExcelIcon aria-label="File earmark excel" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

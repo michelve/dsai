@@ -1,8 +1,10 @@
 /**
  * WindowStackIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Window stack
+ * @category Apps
+ * @tags application
+ * @see https://icons.getbootstrap.com/icons/window-stack/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WindowStackIcon aria-label="Activity indicator" />
+ * <WindowStackIcon aria-label="Window stack" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

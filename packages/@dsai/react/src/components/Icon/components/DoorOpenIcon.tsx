@@ -1,8 +1,10 @@
 /**
  * DoorOpenIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Door open
+ * @category Real world
+ * @tags door
+ * @see https://icons.getbootstrap.com/icons/door-open/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DoorOpenIcon aria-label="Activity indicator" />
+ * <DoorOpenIcon aria-label="Door open" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

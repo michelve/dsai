@@ -1,8 +1,10 @@
 /**
  * PinterestIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Pinterest
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/pinterest/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PinterestIcon aria-label="Activity indicator" />
+ * <PinterestIcon aria-label="Pinterest" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * SuitClubIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Suit club
+ * @category Entertainment
+ * @tags card
+ * @see https://icons.getbootstrap.com/icons/suit-club/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SuitClubIcon aria-label="Activity indicator" />
+ * <SuitClubIcon aria-label="Suit club" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

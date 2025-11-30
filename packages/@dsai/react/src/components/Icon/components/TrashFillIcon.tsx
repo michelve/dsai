@@ -1,8 +1,10 @@
 /**
  * TrashFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Trash fill
+ * @category UI and keyboard
+ * @tags trash-can
+ * @see https://icons.getbootstrap.com/icons/trash-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TrashFillIcon aria-label="Activity indicator" />
+ * <TrashFillIcon aria-label="Trash fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

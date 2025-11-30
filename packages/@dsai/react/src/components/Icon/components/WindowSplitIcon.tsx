@@ -1,8 +1,10 @@
 /**
  * WindowSplitIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Window split
+ * @category Apps
+ * @tags application
+ * @see https://icons.getbootstrap.com/icons/window-split/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <WindowSplitIcon aria-label="Activity indicator" />
+ * <WindowSplitIcon aria-label="Window split" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

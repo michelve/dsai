@@ -1,8 +1,10 @@
 /**
  * BroadcastIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Broadcast
+ * @category Communications
+ * @tags radio
+ * @see https://icons.getbootstrap.com/icons/broadcast/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BroadcastIcon aria-label="Activity indicator" />
+ * <BroadcastIcon aria-label="Broadcast" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

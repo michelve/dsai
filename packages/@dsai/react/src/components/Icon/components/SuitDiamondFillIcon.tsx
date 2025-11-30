@@ -1,8 +1,10 @@
 /**
  * SuitDiamondFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Suit diamond fill
+ * @category Entertainment
+ * @tags card
+ * @see https://icons.getbootstrap.com/icons/suit-diamond-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SuitDiamondFillIcon aria-label="Activity indicator" />
+ * <SuitDiamondFillIcon aria-label="Suit diamond fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

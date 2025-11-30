@@ -1,8 +1,10 @@
 /**
  * FlaskFlorenceFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Flask florence fill
+ * @category Real world
+ * @tags beaker
+ * @see https://icons.getbootstrap.com/icons/flask-florence-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FlaskFlorenceFillIcon aria-label="Activity indicator" />
+ * <FlaskFlorenceFillIcon aria-label="Flask florence fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

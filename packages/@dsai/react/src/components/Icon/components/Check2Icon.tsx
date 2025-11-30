@@ -1,8 +1,10 @@
 /**
  * Check2Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Check2
+ * @category UI and keyboard
+ * @tags checkmark
+ * @see https://icons.getbootstrap.com/icons/check2/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Check2Icon aria-label="Activity indicator" />
+ * <Check2Icon aria-label="Check2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

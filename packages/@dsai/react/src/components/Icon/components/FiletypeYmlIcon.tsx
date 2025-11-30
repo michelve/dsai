@@ -1,8 +1,10 @@
 /**
  * FiletypeYmlIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype yml
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-yml/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeYmlIcon aria-label="Activity indicator" />
+ * <FiletypeYmlIcon aria-label="Filetype yml" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

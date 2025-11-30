@@ -1,8 +1,10 @@
 /**
  * ForkKnifeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Fork knife
+ * @category Real world
+ * @tags food
+ * @see https://icons.getbootstrap.com/icons/fork-knife/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ForkKnifeIcon aria-label="Activity indicator" />
+ * <ForkKnifeIcon aria-label="Fork knife" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

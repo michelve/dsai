@@ -1,8 +1,10 @@
 /**
  * AmdIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Amd
+ * @category Brand
+ * @tags radeon
+ * @see https://icons.getbootstrap.com/icons/amd/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AmdIcon aria-label="Activity indicator" />
+ * <AmdIcon aria-label="Amd" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

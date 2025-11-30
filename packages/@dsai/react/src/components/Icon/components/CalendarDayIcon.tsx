@@ -1,8 +1,10 @@
 /**
  * CalendarDayIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Calendar day
+ * @category Date and time
+ * @tags date
+ * @see https://icons.getbootstrap.com/icons/calendar-day/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CalendarDayIcon aria-label="Activity indicator" />
+ * <CalendarDayIcon aria-label="Calendar day" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * BadgeWcIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Badge wc
+ * @category Badges
+ * @tags wash closet
+ * @see https://icons.getbootstrap.com/icons/badge-wc/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BadgeWcIcon aria-label="Activity indicator" />
+ * <BadgeWcIcon aria-label="Badge wc" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

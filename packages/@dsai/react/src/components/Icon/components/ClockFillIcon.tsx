@@ -1,8 +1,10 @@
 /**
  * ClockFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Clock fill
+ * @category Miscellaneous
+ * @tags time
+ * @see https://icons.getbootstrap.com/icons/clock-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ClockFillIcon aria-label="Activity indicator" />
+ * <ClockFillIcon aria-label="Clock fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

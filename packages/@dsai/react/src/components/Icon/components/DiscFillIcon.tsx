@@ -1,8 +1,10 @@
 /**
  * DiscFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Disc fill
+ * @category Media
+ * @tags cd
+ * @see https://icons.getbootstrap.com/icons/disc-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DiscFillIcon aria-label="Activity indicator" />
+ * <DiscFillIcon aria-label="Disc fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

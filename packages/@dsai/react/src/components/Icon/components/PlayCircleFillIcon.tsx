@@ -1,8 +1,10 @@
 /**
  * PlayCircleFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Play circle fill
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/play-circle-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PlayCircleFillIcon aria-label="Activity indicator" />
+ * <PlayCircleFillIcon aria-label="Play circle fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

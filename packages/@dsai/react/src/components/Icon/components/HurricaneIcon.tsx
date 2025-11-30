@@ -1,8 +1,10 @@
 /**
  * HurricaneIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Hurricane
+ * @category Weather
+ * @tags storm
+ * @see https://icons.getbootstrap.com/icons/hurricane/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HurricaneIcon aria-label="Activity indicator" />
+ * <HurricaneIcon aria-label="Hurricane" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

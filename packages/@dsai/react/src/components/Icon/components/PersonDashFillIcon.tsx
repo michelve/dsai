@@ -1,8 +1,10 @@
 /**
  * PersonDashFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person dash fill
+ * @category People
+ * @tags member
+ * @see https://icons.getbootstrap.com/icons/person-dash-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonDashFillIcon aria-label="Activity indicator" />
+ * <PersonDashFillIcon aria-label="Person dash fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

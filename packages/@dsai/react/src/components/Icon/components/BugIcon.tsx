@@ -1,8 +1,10 @@
 /**
  * BugIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bug
+ * @category Real world
+ * @tags insect
+ * @see https://icons.getbootstrap.com/icons/bug/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BugIcon aria-label="Activity indicator" />
+ * <BugIcon aria-label="Bug" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

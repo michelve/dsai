@@ -1,8 +1,10 @@
 /**
  * DropboxIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Dropbox
+ * @category Brand
+ * @tags dropbox
+ * @see https://icons.getbootstrap.com/icons/dropbox/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DropboxIcon aria-label="Activity indicator" />
+ * <DropboxIcon aria-label="Dropbox" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

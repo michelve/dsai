@@ -1,8 +1,10 @@
 /**
  * Cart4Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cart4
+ * @category Commerce
+ * @tags shopping
+ * @see https://icons.getbootstrap.com/icons/cart4/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Cart4Icon aria-label="Activity indicator" />
+ * <Cart4Icon aria-label="Cart4" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

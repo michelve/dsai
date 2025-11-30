@@ -1,7 +1,7 @@
 /**
  * Arrow90degUpIcon
  *
- * Bootstrap Icons - React Component
+ * Bootstrap Icons - Arrow90degUp
  * @see https://icons.getbootstrap.com/
  *
  * @accessibility
@@ -16,7 +16,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Arrow90degUpIcon aria-label="Activity indicator" />
+ * <Arrow90degUpIcon aria-label="Arrow90degUp" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

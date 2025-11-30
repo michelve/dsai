@@ -1,8 +1,10 @@
 /**
  * StoplightsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Stoplights
+ * @category Real world
+ * @tags traffic
+ * @see https://icons.getbootstrap.com/icons/stoplights/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <StoplightsIcon aria-label="Activity indicator" />
+ * <StoplightsIcon aria-label="Stoplights" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

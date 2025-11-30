@@ -1,8 +1,10 @@
 /**
  * HouseUpFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - House up fill
+ * @category Real world
+ * @tags home
+ * @see https://icons.getbootstrap.com/icons/house-up-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HouseUpFillIcon aria-label="Activity indicator" />
+ * <HouseUpFillIcon aria-label="House up fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

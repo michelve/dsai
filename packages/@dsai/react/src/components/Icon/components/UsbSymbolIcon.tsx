@@ -1,8 +1,10 @@
 /**
  * UsbSymbolIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - USB symbol
+ * @category Devices
+ * @tags port
+ * @see https://icons.getbootstrap.com/icons/usb-symbol/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <UsbSymbolIcon aria-label="Activity indicator" />
+ * <UsbSymbolIcon aria-label="USB symbol" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * MoonStarsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Moon stars
+ * @category Weather
+ * @tags night
+ * @see https://icons.getbootstrap.com/icons/moon-stars/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MoonStarsIcon aria-label="Activity indicator" />
+ * <MoonStarsIcon aria-label="Moon stars" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

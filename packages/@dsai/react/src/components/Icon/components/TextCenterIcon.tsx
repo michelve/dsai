@@ -1,8 +1,10 @@
 /**
  * TextCenterIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Text center
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/text-center/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TextCenterIcon aria-label="Activity indicator" />
+ * <TextCenterIcon aria-label="Text center" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

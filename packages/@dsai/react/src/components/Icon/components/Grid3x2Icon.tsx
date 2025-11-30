@@ -1,7 +1,7 @@
 /**
  * Grid3x2Icon
  *
- * Bootstrap Icons - React Component
+ * Bootstrap Icons - Grid3x2
  * @see https://icons.getbootstrap.com/
  *
  * @accessibility
@@ -16,7 +16,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Grid3x2Icon aria-label="Activity indicator" />
+ * <Grid3x2Icon aria-label="Grid3x2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

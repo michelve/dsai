@@ -1,8 +1,10 @@
 /**
  * SteamIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Steam
+ * @category Brand
+ * @tags gaming
+ * @see https://icons.getbootstrap.com/icons/steam/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SteamIcon aria-label="Activity indicator" />
+ * <SteamIcon aria-label="Steam" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * MotherboardFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Motherboard fill
+ * @category Devices
+ * @tags mobo
+ * @see https://icons.getbootstrap.com/icons/motherboard-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MotherboardFillIcon aria-label="Activity indicator" />
+ * <MotherboardFillIcon aria-label="Motherboard fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * StopwatchIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Stopwatch
+ * @category Devices
+ * @tags time
+ * @see https://icons.getbootstrap.com/icons/stopwatch/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <StopwatchIcon aria-label="Activity indicator" />
+ * <StopwatchIcon aria-label="Stopwatch" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

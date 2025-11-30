@@ -1,8 +1,10 @@
 /**
  * FiletypePsdIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype psd
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-psd/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypePsdIcon aria-label="Activity indicator" />
+ * <FiletypePsdIcon aria-label="Filetype psd" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

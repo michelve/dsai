@@ -1,8 +1,10 @@
 /**
  * EnvelopePaperHeartFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Envelope paper heart fill
+ * @category Communications
+ * @tags email
+ * @see https://icons.getbootstrap.com/icons/envelope-paper-heart-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EnvelopePaperHeartFillIcon aria-label="Activity indicator" />
+ * <EnvelopePaperHeartFillIcon aria-label="Envelope paper heart fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

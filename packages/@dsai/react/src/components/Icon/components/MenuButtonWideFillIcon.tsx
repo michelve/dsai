@@ -1,8 +1,10 @@
 /**
  * MenuButtonWideFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Menu button wide fill
+ * @category Controls
+ * @tags dropdown
+ * @see https://icons.getbootstrap.com/icons/menu-button-wide-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MenuButtonWideFillIcon aria-label="Activity indicator" />
+ * <MenuButtonWideFillIcon aria-label="Menu button wide fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

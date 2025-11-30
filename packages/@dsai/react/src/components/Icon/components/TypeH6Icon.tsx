@@ -1,8 +1,10 @@
 /**
  * TypeH6Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Type h6
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/type-h6/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TypeH6Icon aria-label="Activity indicator" />
+ * <TypeH6Icon aria-label="Type h6" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

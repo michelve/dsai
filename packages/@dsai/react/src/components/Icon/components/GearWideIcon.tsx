@@ -1,8 +1,10 @@
 /**
  * GearWideIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Gear wide
+ * @category Tools
+ * @tags tool
+ * @see https://icons.getbootstrap.com/icons/gear-wide/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GearWideIcon aria-label="Activity indicator" />
+ * <GearWideIcon aria-label="Gear wide" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

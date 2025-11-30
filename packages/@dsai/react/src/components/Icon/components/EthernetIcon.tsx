@@ -1,8 +1,10 @@
 /**
  * EthernetIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Ethernet
+ * @category Devices
+ * @tags internet
+ * @see https://icons.getbootstrap.com/icons/ethernet/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EthernetIcon aria-label="Activity indicator" />
+ * <EthernetIcon aria-label="Ethernet" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

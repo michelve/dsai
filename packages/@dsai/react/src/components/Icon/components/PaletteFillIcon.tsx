@@ -1,8 +1,10 @@
 /**
  * PaletteFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Palette fill
+ * @category Graphics
+ * @tags color
+ * @see https://icons.getbootstrap.com/icons/palette-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PaletteFillIcon aria-label="Activity indicator" />
+ * <PaletteFillIcon aria-label="Palette fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

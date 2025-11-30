@@ -1,8 +1,10 @@
 /**
  * TypeH2Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Type H2
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/type-h2/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TypeH2Icon aria-label="Activity indicator" />
+ * <TypeH2Icon aria-label="Type H2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

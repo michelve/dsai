@@ -1,8 +1,10 @@
 /**
  * BoxesIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Boxes
+ * @category Real world
+ * @tags cardboard
+ * @see https://icons.getbootstrap.com/icons/boxes/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BoxesIcon aria-label="Activity indicator" />
+ * <BoxesIcon aria-label="Boxes" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

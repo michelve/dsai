@@ -1,8 +1,10 @@
 /**
  * TruckFlatbedIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Truck flatbed
+ * @category Commerce
+ * @tags trucking
+ * @see https://icons.getbootstrap.com/icons/truck-flatbed/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TruckFlatbedIcon aria-label="Activity indicator" />
+ * <TruckFlatbedIcon aria-label="Truck flatbed" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

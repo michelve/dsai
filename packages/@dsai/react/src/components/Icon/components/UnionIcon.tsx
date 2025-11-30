@@ -1,8 +1,10 @@
 /**
  * UnionIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Union
+ * @category Graphics
+ * @tags graphics
+ * @see https://icons.getbootstrap.com/icons/union/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <UnionIcon aria-label="Activity indicator" />
+ * <UnionIcon aria-label="Union" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * SourceforgeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sourceforge
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/sourceforge/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SourceforgeIcon aria-label="Activity indicator" />
+ * <SourceforgeIcon aria-label="Sourceforge" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

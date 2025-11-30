@@ -1,8 +1,10 @@
 /**
  * SlashCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Circle slash
+ * @category Alerts, warnings, and signs
+ * @tags shape
+ * @see https://icons.getbootstrap.com/icons/slash-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SlashCircleIcon aria-label="Activity indicator" />
+ * <SlashCircleIcon aria-label="Circle slash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

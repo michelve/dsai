@@ -1,8 +1,10 @@
 /**
  * EyeSlashFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Eye slash fill
+ * @category Real world
+ * @tags eyeball
+ * @see https://icons.getbootstrap.com/icons/eye-slash-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EyeSlashFillIcon aria-label="Activity indicator" />
+ * <EyeSlashFillIcon aria-label="Eye slash fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

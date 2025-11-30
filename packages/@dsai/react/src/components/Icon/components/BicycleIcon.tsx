@@ -1,8 +1,10 @@
 /**
  * BicycleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bicycle
+ * @category Real world
+ * @tags bike
+ * @see https://icons.getbootstrap.com/icons/bicycle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BicycleIcon aria-label="Activity indicator" />
+ * <BicycleIcon aria-label="Bicycle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

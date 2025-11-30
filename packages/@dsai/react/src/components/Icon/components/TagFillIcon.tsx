@@ -1,8 +1,10 @@
 /**
  * TagFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Tag fill
+ * @category Real world
+ * @tags price
+ * @see https://icons.getbootstrap.com/icons/tag-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TagFillIcon aria-label="Activity indicator" />
+ * <TagFillIcon aria-label="Tag fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

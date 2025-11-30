@@ -1,8 +1,10 @@
 /**
  * FrontIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Front
+ * @category Graphics
+ * @tags forward
+ * @see https://icons.getbootstrap.com/icons/front/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FrontIcon aria-label="Activity indicator" />
+ * <FrontIcon aria-label="Front" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

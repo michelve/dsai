@@ -1,8 +1,10 @@
 /**
  * Bezier2Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bezier2
+ * @category Graphics
+ * @tags graphics
+ * @see https://icons.getbootstrap.com/icons/bezier2/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Bezier2Icon aria-label="Activity indicator" />
+ * <Bezier2Icon aria-label="Bezier2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

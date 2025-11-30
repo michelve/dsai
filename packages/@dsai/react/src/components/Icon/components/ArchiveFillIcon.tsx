@@ -1,8 +1,10 @@
 /**
  * ArchiveFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Archive fill
+ * @category Files and folders
+ * @tags box
+ * @see https://icons.getbootstrap.com/icons/archive-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArchiveFillIcon aria-label="Activity indicator" />
+ * <ArchiveFillIcon aria-label="Archive fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

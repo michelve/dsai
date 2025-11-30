@@ -1,8 +1,10 @@
 /**
  * BarChartStepsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bar chart steps
+ * @category Data
+ * @tags chart
+ * @see https://icons.getbootstrap.com/icons/bar-chart-steps/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BarChartStepsIcon aria-label="Activity indicator" />
+ * <BarChartStepsIcon aria-label="Bar chart steps" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

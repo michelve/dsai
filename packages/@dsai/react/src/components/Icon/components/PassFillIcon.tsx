@@ -1,8 +1,10 @@
 /**
  * PassFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Pass fill
+ * @category Real world
+ * @tags pass
+ * @see https://icons.getbootstrap.com/icons/pass-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PassFillIcon aria-label="Activity indicator" />
+ * <PassFillIcon aria-label="Pass fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

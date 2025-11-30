@@ -1,8 +1,10 @@
 /**
  * PersonWheelchairIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person wheelchair
+ * @category People
+ * @tags human
+ * @see https://icons.getbootstrap.com/icons/person-wheelchair/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonWheelchairIcon aria-label="Activity indicator" />
+ * <PersonWheelchairIcon aria-label="Person wheelchair" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

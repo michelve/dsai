@@ -1,8 +1,10 @@
 /**
  * GearFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Gear fill
+ * @category Tools
+ * @tags tool
+ * @see https://icons.getbootstrap.com/icons/gear-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GearFillIcon aria-label="Activity indicator" />
+ * <GearFillIcon aria-label="Gear fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

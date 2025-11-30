@@ -1,8 +1,10 @@
 /**
  * HeadphonesIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Headphones
+ * @category Devices
+ * @tags headphones
+ * @see https://icons.getbootstrap.com/icons/headphones/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HeadphonesIcon aria-label="Activity indicator" />
+ * <HeadphonesIcon aria-label="Headphones" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

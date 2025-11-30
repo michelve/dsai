@@ -1,8 +1,10 @@
 /**
  * BuildingFillExclamationIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Building fill exclamation
+ * @category Buildings
+ * @tags company
+ * @see https://icons.getbootstrap.com/icons/building-fill-exclamation/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BuildingFillExclamationIcon aria-label="Activity indicator" />
+ * <BuildingFillExclamationIcon aria-label="Building fill exclamation" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

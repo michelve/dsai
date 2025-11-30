@@ -1,8 +1,10 @@
 /**
  * DiscIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Disc
+ * @category Media
+ * @tags cd
+ * @see https://icons.getbootstrap.com/icons/disc/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DiscIcon aria-label="Activity indicator" />
+ * <DiscIcon aria-label="Disc" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

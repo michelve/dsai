@@ -1,8 +1,10 @@
 /**
  * DatabaseFillGearIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Database fill gear
+ * @category Devices
+ * @tags server
+ * @see https://icons.getbootstrap.com/icons/database-fill-gear/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DatabaseFillGearIcon aria-label="Activity indicator" />
+ * <DatabaseFillGearIcon aria-label="Database fill gear" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * VrIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - VR
+ * @category Typography
+ * @tags divider
+ * @see https://icons.getbootstrap.com/icons/vr/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <VrIcon aria-label="Activity indicator" />
+ * <VrIcon aria-label="VR" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * FileXIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File x
+ * @category Files and folders
+ * @tags document
+ * @see https://icons.getbootstrap.com/icons/file-x/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileXIcon aria-label="Activity indicator" />
+ * <FileXIcon aria-label="File x" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

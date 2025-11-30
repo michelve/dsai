@@ -1,8 +1,10 @@
 /**
  * JournalRichtextIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Journal richtext
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/journal-richtext/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <JournalRichtextIcon aria-label="Activity indicator" />
+ * <JournalRichtextIcon aria-label="Journal richtext" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

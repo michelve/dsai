@@ -1,8 +1,10 @@
 /**
  * FileMusicIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File music
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-music/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileMusicIcon aria-label="Activity indicator" />
+ * <FileMusicIcon aria-label="File music" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

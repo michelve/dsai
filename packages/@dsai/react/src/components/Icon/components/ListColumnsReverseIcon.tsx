@@ -1,8 +1,10 @@
 /**
  * ListColumnsReverseIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - List columns reverse
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/list-columns-reverse/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ListColumnsReverseIcon aria-label="Activity indicator" />
+ * <ListColumnsReverseIcon aria-label="List columns reverse" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

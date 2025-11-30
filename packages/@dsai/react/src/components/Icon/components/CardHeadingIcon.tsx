@@ -1,8 +1,10 @@
 /**
  * CardHeadingIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Card heading
+ * @category Files and folders
+ * @tags note
+ * @see https://icons.getbootstrap.com/icons/card-heading/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CardHeadingIcon aria-label="Activity indicator" />
+ * <CardHeadingIcon aria-label="Card heading" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

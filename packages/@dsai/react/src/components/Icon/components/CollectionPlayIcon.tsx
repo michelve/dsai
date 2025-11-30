@@ -1,8 +1,10 @@
 /**
  * CollectionPlayIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Collection play
+ * @category Media
+ * @tags library
+ * @see https://icons.getbootstrap.com/icons/collection-play/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CollectionPlayIcon aria-label="Activity indicator" />
+ * <CollectionPlayIcon aria-label="Collection play" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

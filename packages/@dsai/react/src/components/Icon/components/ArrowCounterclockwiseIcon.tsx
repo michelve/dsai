@@ -1,8 +1,10 @@
 /**
  * ArrowCounterclockwiseIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrow counterclockwise
+ * @category Arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrow-counterclockwise/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowCounterclockwiseIcon aria-label="Activity indicator" />
+ * <ArrowCounterclockwiseIcon aria-label="Arrow counterclockwise" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

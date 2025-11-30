@@ -1,8 +1,10 @@
 /**
  * DropletFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Droplet fill
+ * @category Graphics
+ * @tags water-drop
+ * @see https://icons.getbootstrap.com/icons/droplet-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DropletFillIcon aria-label="Activity indicator" />
+ * <DropletFillIcon aria-label="Droplet fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

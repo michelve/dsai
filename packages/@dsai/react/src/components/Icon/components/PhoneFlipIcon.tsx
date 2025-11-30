@@ -1,8 +1,10 @@
 /**
  * PhoneFlipIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Phone flip
+ * @category Devices
+ * @tags mobile
+ * @see https://icons.getbootstrap.com/icons/phone-flip/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PhoneFlipIcon aria-label="Activity indicator" />
+ * <PhoneFlipIcon aria-label="Phone flip" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

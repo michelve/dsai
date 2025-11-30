@@ -1,8 +1,10 @@
 /**
  * DiscordIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Discord
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/discord/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DiscordIcon aria-label="Activity indicator" />
+ * <DiscordIcon aria-label="Discord" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

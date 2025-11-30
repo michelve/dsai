@@ -1,8 +1,10 @@
 /**
  * CardListIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Card list
+ * @category Files and folders
+ * @tags note
+ * @see https://icons.getbootstrap.com/icons/card-list/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CardListIcon aria-label="Activity indicator" />
+ * <CardListIcon aria-label="Card list" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

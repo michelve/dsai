@@ -1,8 +1,10 @@
 /**
  * XSquareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - X square
+ * @category Alerts, warnings, and signs
+ * @tags x
+ * @see https://icons.getbootstrap.com/icons/x-square/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <XSquareIcon aria-label="Activity indicator" />
+ * <XSquareIcon aria-label="X square" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

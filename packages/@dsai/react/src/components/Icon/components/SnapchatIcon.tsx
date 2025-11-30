@@ -1,8 +1,10 @@
 /**
  * SnapchatIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Snapchat
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/snapchat/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SnapchatIcon aria-label="Activity indicator" />
+ * <SnapchatIcon aria-label="Snapchat" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

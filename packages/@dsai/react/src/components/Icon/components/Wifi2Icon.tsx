@@ -1,7 +1,7 @@
 /**
  * Wifi2Icon
  *
- * Bootstrap Icons - React Component
+ * Bootstrap Icons - Wifi2
  * @see https://icons.getbootstrap.com/
  *
  * @accessibility
@@ -16,7 +16,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Wifi2Icon aria-label="Activity indicator" />
+ * <Wifi2Icon aria-label="Wifi2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

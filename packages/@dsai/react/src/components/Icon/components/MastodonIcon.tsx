@@ -1,8 +1,10 @@
 /**
  * MastodonIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Mastodon
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/mastodon/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MastodonIcon aria-label="Activity indicator" />
+ * <MastodonIcon aria-label="Mastodon" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

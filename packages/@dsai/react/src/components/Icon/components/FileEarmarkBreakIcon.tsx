@@ -1,8 +1,10 @@
 /**
  * FileEarmarkBreakIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File earmark break
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-earmark-break/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileEarmarkBreakIcon aria-label="Activity indicator" />
+ * <FileEarmarkBreakIcon aria-label="File earmark break" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

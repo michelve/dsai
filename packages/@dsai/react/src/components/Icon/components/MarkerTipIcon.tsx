@@ -1,8 +1,10 @@
 /**
  * MarkerTipIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Marker tip
+ * @category Tools
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/marker-tip/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MarkerTipIcon aria-label="Activity indicator" />
+ * <MarkerTipIcon aria-label="Marker tip" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * ThreeDotsVerticalIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Three dots vertical
+ * @category Controls
+ * @tags kebab
+ * @see https://icons.getbootstrap.com/icons/three-dots-vertical/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ThreeDotsVerticalIcon aria-label="Activity indicator" />
+ * <ThreeDotsVerticalIcon aria-label="Three dots vertical" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

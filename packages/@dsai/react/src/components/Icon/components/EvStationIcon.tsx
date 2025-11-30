@@ -1,8 +1,10 @@
 /**
  * EvStationIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - EV station
+ * @category Transportation
+ * @tags charging
+ * @see https://icons.getbootstrap.com/icons/ev-station/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EvStationIcon aria-label="Activity indicator" />
+ * <EvStationIcon aria-label="EV station" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

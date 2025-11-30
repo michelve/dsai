@@ -1,8 +1,10 @@
 /**
  * DashSquareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Dash square
+ * @category Alerts, warnings, and signs
+ * @tags minus
+ * @see https://icons.getbootstrap.com/icons/dash-square/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DashSquareIcon aria-label="Activity indicator" />
+ * <DashSquareIcon aria-label="Dash square" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

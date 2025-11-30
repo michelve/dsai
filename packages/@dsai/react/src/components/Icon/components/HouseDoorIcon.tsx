@@ -1,8 +1,10 @@
 /**
  * HouseDoorIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - House door
+ * @category Real world
+ * @tags home
+ * @see https://icons.getbootstrap.com/icons/house-door/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HouseDoorIcon aria-label="Activity indicator" />
+ * <HouseDoorIcon aria-label="House door" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

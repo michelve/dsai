@@ -1,8 +1,10 @@
 /**
  * TextLeftIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Text left
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/text-left/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TextLeftIcon aria-label="Activity indicator" />
+ * <TextLeftIcon aria-label="Text left" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

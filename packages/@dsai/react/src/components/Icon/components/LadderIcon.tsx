@@ -1,8 +1,10 @@
 /**
  * LadderIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Ladder
+ * @category Real world
+ * @tags climb
+ * @see https://icons.getbootstrap.com/icons/ladder/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LadderIcon aria-label="Activity indicator" />
+ * <LadderIcon aria-label="Ladder" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * SmartwatchIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Smartwatch
+ * @category Devices
+ * @tags watch
+ * @see https://icons.getbootstrap.com/icons/smartwatch/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SmartwatchIcon aria-label="Activity indicator" />
+ * <SmartwatchIcon aria-label="Smartwatch" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

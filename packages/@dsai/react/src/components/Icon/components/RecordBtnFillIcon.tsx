@@ -1,8 +1,10 @@
 /**
  * RecordBtnFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Record btn fill
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/record-btn-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <RecordBtnFillIcon aria-label="Activity indicator" />
+ * <RecordBtnFillIcon aria-label="Record btn fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * ArrowDownSquareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrow down square
+ * @category Shape arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrow-down-square/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowDownSquareIcon aria-label="Activity indicator" />
+ * <ArrowDownSquareIcon aria-label="Arrow down square" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

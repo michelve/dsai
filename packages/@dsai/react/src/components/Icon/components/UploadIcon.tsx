@@ -1,8 +1,10 @@
 /**
  * UploadIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Upload
+ * @category Miscellaneous
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/upload/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <UploadIcon aria-label="Activity indicator" />
+ * <UploadIcon aria-label="Upload" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * PcIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - PC
+ * @category Devices
+ * @tags computer
+ * @see https://icons.getbootstrap.com/icons/pc/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PcIcon aria-label="Activity indicator" />
+ * <PcIcon aria-label="PC" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

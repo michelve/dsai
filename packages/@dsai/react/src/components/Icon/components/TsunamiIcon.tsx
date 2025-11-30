@@ -1,8 +1,10 @@
 /**
  * TsunamiIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Tsunami
+ * @category Weather
+ * @tags wave
+ * @see https://icons.getbootstrap.com/icons/tsunami/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TsunamiIcon aria-label="Activity indicator" />
+ * <TsunamiIcon aria-label="Tsunami" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

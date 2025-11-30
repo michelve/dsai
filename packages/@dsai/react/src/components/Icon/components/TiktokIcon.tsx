@@ -1,8 +1,10 @@
 /**
  * TiktokIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Tiktok
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/tiktok/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TiktokIcon aria-label="Activity indicator" />
+ * <TiktokIcon aria-label="Tiktok" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

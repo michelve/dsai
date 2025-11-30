@@ -1,8 +1,10 @@
 /**
  * EnvelopeSlashIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Envelope slash
+ * @category Communications
+ * @tags email
+ * @see https://icons.getbootstrap.com/icons/envelope-slash/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EnvelopeSlashIcon aria-label="Activity indicator" />
+ * <EnvelopeSlashIcon aria-label="Envelope slash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * GitIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Git
+ * @category Brand
+ * @tags "version control"
+ * @see https://icons.getbootstrap.com/icons/git/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GitIcon aria-label="Activity indicator" />
+ * <GitIcon aria-label="Git" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

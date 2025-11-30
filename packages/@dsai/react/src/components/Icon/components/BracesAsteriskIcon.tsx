@@ -1,8 +1,10 @@
 /**
  * BracesAsteriskIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Braces asterisk
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/braces-asterisk/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BracesAsteriskIcon aria-label="Activity indicator" />
+ * <BracesAsteriskIcon aria-label="Braces asterisk" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * CursorTextIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cursor text
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/cursor-text/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CursorTextIcon aria-label="Activity indicator" />
+ * <CursorTextIcon aria-label="Cursor text" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

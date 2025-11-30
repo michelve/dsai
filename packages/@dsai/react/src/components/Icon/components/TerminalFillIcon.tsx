@@ -1,8 +1,10 @@
 /**
  * TerminalFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Terminal fill
+ * @category Apps
+ * @tags command-line
+ * @see https://icons.getbootstrap.com/icons/terminal-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TerminalFillIcon aria-label="Activity indicator" />
+ * <TerminalFillIcon aria-label="Terminal fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * CarFrontFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Car front fill
+ * @category Transportation
+ * @tags automobile
+ * @see https://icons.getbootstrap.com/icons/car-front-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CarFrontFillIcon aria-label="Activity indicator" />
+ * <CarFrontFillIcon aria-label="Car front fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * TruckIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Truck
+ * @category Commerce
+ * @tags trucking
+ * @see https://icons.getbootstrap.com/icons/truck/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TruckIcon aria-label="Activity indicator" />
+ * <TruckIcon aria-label="Truck" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

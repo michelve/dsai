@@ -1,8 +1,10 @@
 /**
  * PerplexityIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Perplexity
+ * @category Brand
+ * @tags ai
+ * @see https://icons.getbootstrap.com/icons/perplexity/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PerplexityIcon aria-label="Activity indicator" />
+ * <PerplexityIcon aria-label="Perplexity" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * PrinterFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Printer fill
+ * @category Devices
+ * @tags print
+ * @see https://icons.getbootstrap.com/icons/printer-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PrinterFillIcon aria-label="Activity indicator" />
+ * <PrinterFillIcon aria-label="Printer fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * CloudUploadFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cloud upload fill
+ * @category Clouds
+ * @tags cloud
+ * @see https://icons.getbootstrap.com/icons/cloud-upload-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CloudUploadFillIcon aria-label="Activity indicator" />
+ * <CloudUploadFillIcon aria-label="Cloud upload fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

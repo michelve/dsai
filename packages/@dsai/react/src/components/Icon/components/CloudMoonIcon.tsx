@@ -1,8 +1,10 @@
 /**
  * CloudMoonIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cloud moon
+ * @category Weather
+ * @tags cloudy
+ * @see https://icons.getbootstrap.com/icons/cloud-moon/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CloudMoonIcon aria-label="Activity indicator" />
+ * <CloudMoonIcon aria-label="Cloud moon" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

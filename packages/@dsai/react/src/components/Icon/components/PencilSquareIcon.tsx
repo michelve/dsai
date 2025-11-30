@@ -1,8 +1,10 @@
 /**
  * PencilSquareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Pencil square
+ * @category Tools
+ * @tags edit
+ * @see https://icons.getbootstrap.com/icons/pencil-square/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PencilSquareIcon aria-label="Activity indicator" />
+ * <PencilSquareIcon aria-label="Pencil square" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

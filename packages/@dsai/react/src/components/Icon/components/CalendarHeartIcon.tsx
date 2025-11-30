@@ -1,8 +1,10 @@
 /**
  * CalendarHeartIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Calendar heart
+ * @category Date and time
+ * @tags date
+ * @see https://icons.getbootstrap.com/icons/calendar-heart/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CalendarHeartIcon aria-label="Activity indicator" />
+ * <CalendarHeartIcon aria-label="Calendar heart" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

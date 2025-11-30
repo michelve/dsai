@@ -1,8 +1,10 @@
 /**
  * LayoutWtfIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Layout WTF
+ * @category Layout
+ * @tags layout
+ * @see https://icons.getbootstrap.com/icons/layout-wtf/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LayoutWtfIcon aria-label="Activity indicator" />
+ * <LayoutWtfIcon aria-label="Layout WTF" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

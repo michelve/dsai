@@ -1,8 +1,10 @@
 /**
  * BoxArrowDownLeftIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Box arrow bottom-left
+ * @category Box arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/box-arrow-down-left/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BoxArrowDownLeftIcon aria-label="Activity indicator" />
+ * <BoxArrowDownLeftIcon aria-label="Box arrow bottom-left" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

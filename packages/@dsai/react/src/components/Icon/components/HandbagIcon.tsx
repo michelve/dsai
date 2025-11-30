@@ -1,8 +1,10 @@
 /**
  * HandbagIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Handbag
+ * @category Real world
+ * @tags purse
+ * @see https://icons.getbootstrap.com/icons/handbag/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HandbagIcon aria-label="Activity indicator" />
+ * <HandbagIcon aria-label="Handbag" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

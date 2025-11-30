@@ -1,8 +1,10 @@
 /**
  * BorderStyleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Border style
+ * @category Typography
+ * @tags borders
+ * @see https://icons.getbootstrap.com/icons/border-style/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BorderStyleIcon aria-label="Activity indicator" />
+ * <BorderStyleIcon aria-label="Border style" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

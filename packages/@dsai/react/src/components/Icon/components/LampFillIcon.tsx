@@ -1,8 +1,10 @@
 /**
  * LampFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Lamp fill
+ * @category Real world
+ * @tags light
+ * @see https://icons.getbootstrap.com/icons/lamp-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LampFillIcon aria-label="Activity indicator" />
+ * <LampFillIcon aria-label="Lamp fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

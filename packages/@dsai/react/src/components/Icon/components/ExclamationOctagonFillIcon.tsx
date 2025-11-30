@@ -1,8 +1,10 @@
 /**
  * ExclamationOctagonFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Exclamation octagon fill
+ * @category Alerts, warnings, and signs
+ * @tags alert
+ * @see https://icons.getbootstrap.com/icons/exclamation-octagon-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ExclamationOctagonFillIcon aria-label="Activity indicator" />
+ * <ExclamationOctagonFillIcon aria-label="Exclamation octagon fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

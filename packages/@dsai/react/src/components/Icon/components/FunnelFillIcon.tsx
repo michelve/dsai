@@ -1,8 +1,10 @@
 /**
  * FunnelFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Funnel fill
+ * @category Real world
+ * @tags sort
+ * @see https://icons.getbootstrap.com/icons/funnel-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FunnelFillIcon aria-label="Activity indicator" />
+ * <FunnelFillIcon aria-label="Funnel fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

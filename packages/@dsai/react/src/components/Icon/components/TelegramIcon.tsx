@@ -1,8 +1,10 @@
 /**
  * TelegramIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Telegram
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/telegram/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TelegramIcon aria-label="Activity indicator" />
+ * <TelegramIcon aria-label="Telegram" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

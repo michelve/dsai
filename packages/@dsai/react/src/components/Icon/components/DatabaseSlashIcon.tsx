@@ -1,8 +1,10 @@
 /**
  * DatabaseSlashIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Database slash
+ * @category Devices
+ * @tags server
+ * @see https://icons.getbootstrap.com/icons/database-slash/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <DatabaseSlashIcon aria-label="Activity indicator" />
+ * <DatabaseSlashIcon aria-label="Database slash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

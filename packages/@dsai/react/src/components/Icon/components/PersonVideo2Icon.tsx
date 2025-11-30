@@ -1,8 +1,10 @@
 /**
  * PersonVideo2Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person video2
+ * @category People
+ * @tags human
+ * @see https://icons.getbootstrap.com/icons/person-video2/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonVideo2Icon aria-label="Activity indicator" />
+ * <PersonVideo2Icon aria-label="Person video2" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

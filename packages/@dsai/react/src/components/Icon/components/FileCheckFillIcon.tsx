@@ -1,8 +1,10 @@
 /**
  * FileCheckFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File check fill
+ * @category Files and folders
+ * @tags doc
+ * @see https://icons.getbootstrap.com/icons/file-check-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileCheckFillIcon aria-label="Activity indicator" />
+ * <FileCheckFillIcon aria-label="File check fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

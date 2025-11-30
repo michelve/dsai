@@ -1,8 +1,10 @@
 /**
  * PlusSquareFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Plus square fill
+ * @category Alerts, warnings, and signs
+ * @tags add
+ * @see https://icons.getbootstrap.com/icons/plus-square-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PlusSquareFillIcon aria-label="Activity indicator" />
+ * <PlusSquareFillIcon aria-label="Plus square fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

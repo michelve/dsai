@@ -1,8 +1,10 @@
 /**
  * HddNetworkFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Hdd network fill
+ * @category Devices
+ * @tags "hard drive"
+ * @see https://icons.getbootstrap.com/icons/hdd-network-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HddNetworkFillIcon aria-label="Activity indicator" />
+ * <HddNetworkFillIcon aria-label="Hdd network fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

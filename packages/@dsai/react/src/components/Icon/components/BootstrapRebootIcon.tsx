@@ -1,8 +1,10 @@
 /**
  * BootstrapRebootIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bootstrap Reboot
+ * @category Bootstrap
+ * @tags bootstrap
+ * @see https://icons.getbootstrap.com/icons/bootstrap-reboot/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BootstrapRebootIcon aria-label="Activity indicator" />
+ * <BootstrapRebootIcon aria-label="Bootstrap Reboot" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

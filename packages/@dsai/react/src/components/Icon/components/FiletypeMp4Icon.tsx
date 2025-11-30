@@ -1,8 +1,10 @@
 /**
  * FiletypeMp4Icon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype mp4
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-mp4/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeMp4Icon aria-label="Activity indicator" />
+ * <FiletypeMp4Icon aria-label="Filetype mp4" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

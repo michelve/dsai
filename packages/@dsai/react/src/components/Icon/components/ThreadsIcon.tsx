@@ -1,8 +1,10 @@
 /**
  * ThreadsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Threads
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/threads/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ThreadsIcon aria-label="Activity indicator" />
+ * <ThreadsIcon aria-label="Threads" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

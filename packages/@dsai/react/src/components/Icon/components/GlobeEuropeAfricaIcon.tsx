@@ -1,8 +1,10 @@
 /**
  * GlobeEuropeAfricaIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Globe Europe Africa
+ * @category Geo
+ * @tags geography
+ * @see https://icons.getbootstrap.com/icons/globe-europe-africa/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GlobeEuropeAfricaIcon aria-label="Activity indicator" />
+ * <GlobeEuropeAfricaIcon aria-label="Globe Europe Africa" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

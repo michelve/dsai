@@ -1,8 +1,10 @@
 /**
  * BookmarkIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bookmark
+ * @category Miscellaneous
+ * @tags reading
+ * @see https://icons.getbootstrap.com/icons/bookmark/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BookmarkIcon aria-label="Activity indicator" />
+ * <BookmarkIcon aria-label="Bookmark" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * UsbDriveFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - USB drive fill
+ * @category Devices
+ * @tags thumb-drive
+ * @see https://icons.getbootstrap.com/icons/usb-drive-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <UsbDriveFillIcon aria-label="Activity indicator" />
+ * <UsbDriveFillIcon aria-label="USB drive fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * FiletypeMdxIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype mdx
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-mdx/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeMdxIcon aria-label="Activity indicator" />
+ * <FiletypeMdxIcon aria-label="Filetype mdx" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

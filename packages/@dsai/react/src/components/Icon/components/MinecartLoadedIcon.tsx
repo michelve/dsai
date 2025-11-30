@@ -1,8 +1,10 @@
 /**
  * MinecartLoadedIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Minecart loaded
+ * @category Real world
+ * @tags mining
+ * @see https://icons.getbootstrap.com/icons/minecart-loaded/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MinecartLoadedIcon aria-label="Activity indicator" />
+ * <MinecartLoadedIcon aria-label="Minecart loaded" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

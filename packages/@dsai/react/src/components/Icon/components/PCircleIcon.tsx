@@ -1,8 +1,10 @@
 /**
  * PCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - P circle
+ * @category Shapes
+ * @tags parking
+ * @see https://icons.getbootstrap.com/icons/p-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PCircleIcon aria-label="Activity indicator" />
+ * <PCircleIcon aria-label="P circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

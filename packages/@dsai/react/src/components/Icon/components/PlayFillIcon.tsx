@@ -1,8 +1,10 @@
 /**
  * PlayFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Play fill
+ * @category Media
+ * @tags audio
+ * @see https://icons.getbootstrap.com/icons/play-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PlayFillIcon aria-label="Activity indicator" />
+ * <PlayFillIcon aria-label="Play fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

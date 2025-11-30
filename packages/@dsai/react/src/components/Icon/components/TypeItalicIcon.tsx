@@ -1,8 +1,10 @@
 /**
  * TypeItalicIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Type italic
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/type-italic/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TypeItalicIcon aria-label="Activity indicator" />
+ * <TypeItalicIcon aria-label="Type italic" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

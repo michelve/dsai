@@ -1,8 +1,10 @@
 /**
  * EmojiWinkIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji wink
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-wink/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiWinkIcon aria-label="Activity indicator" />
+ * <EmojiWinkIcon aria-label="Emoji wink" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

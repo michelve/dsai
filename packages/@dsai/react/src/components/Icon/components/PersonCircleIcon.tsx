@@ -1,8 +1,10 @@
 /**
  * PersonCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - People circle
+ * @category People
+ * @tags member
+ * @see https://icons.getbootstrap.com/icons/person-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonCircleIcon aria-label="Activity indicator" />
+ * <PersonCircleIcon aria-label="People circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

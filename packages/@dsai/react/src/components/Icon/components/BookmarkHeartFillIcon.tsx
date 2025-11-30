@@ -1,8 +1,10 @@
 /**
  * BookmarkHeartFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bookmark heart fill
+ * @category Miscellaneous
+ * @tags reading
+ * @see https://icons.getbootstrap.com/icons/bookmark-heart-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BookmarkHeartFillIcon aria-label="Activity indicator" />
+ * <BookmarkHeartFillIcon aria-label="Bookmark heart fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

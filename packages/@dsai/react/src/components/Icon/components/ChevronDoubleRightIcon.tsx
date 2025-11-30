@@ -1,8 +1,10 @@
 /**
  * ChevronDoubleRightIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Chevron double right
+ * @category Chevrons
+ * @tags chevron
+ * @see https://icons.getbootstrap.com/icons/chevron-double-right/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ChevronDoubleRightIcon aria-label="Activity indicator" />
+ * <ChevronDoubleRightIcon aria-label="Chevron double right" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

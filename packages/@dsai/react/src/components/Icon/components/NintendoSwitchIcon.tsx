@@ -1,8 +1,10 @@
 /**
  * NintendoSwitchIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Nintendo Switch
+ * @category Brand
+ * @tags gaming
+ * @see https://icons.getbootstrap.com/icons/nintendo-switch/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <NintendoSwitchIcon aria-label="Activity indicator" />
+ * <NintendoSwitchIcon aria-label="Nintendo Switch" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

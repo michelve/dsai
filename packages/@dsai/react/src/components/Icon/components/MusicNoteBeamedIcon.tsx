@@ -1,8 +1,10 @@
 /**
  * MusicNoteBeamedIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Music note beamed
+ * @category Media
+ * @tags music
+ * @see https://icons.getbootstrap.com/icons/music-note-beamed/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <MusicNoteBeamedIcon aria-label="Activity indicator" />
+ * <MusicNoteBeamedIcon aria-label="Music note beamed" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

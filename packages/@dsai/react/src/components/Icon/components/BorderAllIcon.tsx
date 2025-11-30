@@ -1,8 +1,10 @@
 /**
  * BorderAllIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Border all
+ * @category UI and keyboard
+ * @tags borders
+ * @see https://icons.getbootstrap.com/icons/border-all/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BorderAllIcon aria-label="Activity indicator" />
+ * <BorderAllIcon aria-label="Border all" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

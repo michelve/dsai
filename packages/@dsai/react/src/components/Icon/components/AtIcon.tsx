@@ -1,8 +1,10 @@
 /**
  * AtIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - At
+ * @category Communications
+ * @tags mention
+ * @see https://icons.getbootstrap.com/icons/at/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <AtIcon aria-label="Activity indicator" />
+ * <AtIcon aria-label="At" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

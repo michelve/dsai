@@ -1,8 +1,10 @@
 /**
  * TreeFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Tree fill
+ * @category Real world
+ * @tags tree
+ * @see https://icons.getbootstrap.com/icons/tree-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TreeFillIcon aria-label="Activity indicator" />
+ * <TreeFillIcon aria-label="Tree fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

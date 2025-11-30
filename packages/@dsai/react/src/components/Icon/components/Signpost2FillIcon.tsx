@@ -1,7 +1,7 @@
 /**
  * Signpost2FillIcon
  *
- * Bootstrap Icons - React Component
+ * Bootstrap Icons - Signpost2Fill
  * @see https://icons.getbootstrap.com/
  *
  * @accessibility
@@ -16,7 +16,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Signpost2FillIcon aria-label="Activity indicator" />
+ * <Signpost2FillIcon aria-label="Signpost2Fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

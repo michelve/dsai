@@ -1,8 +1,10 @@
 /**
  * TicketDetailedIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Ticket detailed
+ * @category Real world
+ * @tags tickets
+ * @see https://icons.getbootstrap.com/icons/ticket-detailed/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TicketDetailedIcon aria-label="Activity indicator" />
+ * <TicketDetailedIcon aria-label="Ticket detailed" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

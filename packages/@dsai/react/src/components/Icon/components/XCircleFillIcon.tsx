@@ -1,8 +1,10 @@
 /**
  * XCircleFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - X circle fill
+ * @category Alerts, warnings, and signs
+ * @tags x
+ * @see https://icons.getbootstrap.com/icons/x-circle-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <XCircleFillIcon aria-label="Activity indicator" />
+ * <XCircleFillIcon aria-label="X circle fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

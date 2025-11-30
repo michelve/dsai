@@ -1,8 +1,10 @@
 /**
  * KeyboardIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Keyboard
+ * @category Devices
+ * @tags keyboard
+ * @see https://icons.getbootstrap.com/icons/keyboard/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <KeyboardIcon aria-label="Activity indicator" />
+ * <KeyboardIcon aria-label="Keyboard" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

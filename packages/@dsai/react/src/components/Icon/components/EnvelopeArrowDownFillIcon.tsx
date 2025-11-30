@@ -1,8 +1,10 @@
 /**
  * EnvelopeArrowDownFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Envelope arrow down fill
+ * @category Communications
+ * @tags email
+ * @see https://icons.getbootstrap.com/icons/envelope-arrow-down-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EnvelopeArrowDownFillIcon aria-label="Activity indicator" />
+ * <EnvelopeArrowDownFillIcon aria-label="Envelope arrow down fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

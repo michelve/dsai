@@ -1,8 +1,10 @@
 /**
  * BoundingBoxIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Bounding box
+ * @category Graphics
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/bounding-box/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BoundingBoxIcon aria-label="Activity indicator" />
+ * <BoundingBoxIcon aria-label="Bounding box" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

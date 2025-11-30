@@ -1,8 +1,10 @@
 /**
  * LightningIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Lightning
+ * @category Weather
+ * @tags storm
+ * @see https://icons.getbootstrap.com/icons/lightning/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LightningIcon aria-label="Activity indicator" />
+ * <LightningIcon aria-label="Lightning" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

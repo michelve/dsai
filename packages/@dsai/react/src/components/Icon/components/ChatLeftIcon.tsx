@@ -1,8 +1,10 @@
 /**
  * ChatLeftIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Chat left
+ * @category Communications
+ * @tags chat bubble
+ * @see https://icons.getbootstrap.com/icons/chat-left/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ChatLeftIcon aria-label="Activity indicator" />
+ * <ChatLeftIcon aria-label="Chat left" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

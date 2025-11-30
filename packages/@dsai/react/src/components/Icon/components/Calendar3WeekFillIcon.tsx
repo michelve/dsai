@@ -1,8 +1,10 @@
 /**
  * Calendar3WeekFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Calendar3 week fill
+ * @category Date and time
+ * @tags dates
+ * @see https://icons.getbootstrap.com/icons/calendar3-week-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <Calendar3WeekFillIcon aria-label="Activity indicator" />
+ * <Calendar3WeekFillIcon aria-label="Calendar3 week fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

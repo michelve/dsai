@@ -1,8 +1,10 @@
 /**
  * FileFontIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File font
+ * @category Files and folders
+ * @tags ttf
+ * @see https://icons.getbootstrap.com/icons/file-font/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileFontIcon aria-label="Activity indicator" />
+ * <FileFontIcon aria-label="File font" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

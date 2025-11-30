@@ -1,8 +1,10 @@
 /**
  * EjectFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Eject fill
+ * @category UI and keyboard
+ * @tags disc
+ * @see https://icons.getbootstrap.com/icons/eject-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EjectFillIcon aria-label="Activity indicator" />
+ * <EjectFillIcon aria-label="Eject fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

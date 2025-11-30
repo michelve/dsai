@@ -1,8 +1,10 @@
 /**
  * PatchExclamationIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Patch exclamation
+ * @category Badges
+ * @tags excited
+ * @see https://icons.getbootstrap.com/icons/patch-exclamation/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PatchExclamationIcon aria-label="Activity indicator" />
+ * <PatchExclamationIcon aria-label="Patch exclamation" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

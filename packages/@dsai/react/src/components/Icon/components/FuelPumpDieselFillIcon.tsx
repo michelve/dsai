@@ -1,8 +1,10 @@
 /**
  * FuelPumpDieselFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Fuel pump diesel fill
+ * @category Transportation
+ * @tags gas
+ * @see https://icons.getbootstrap.com/icons/fuel-pump-diesel-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FuelPumpDieselFillIcon aria-label="Activity indicator" />
+ * <FuelPumpDieselFillIcon aria-label="Fuel pump diesel fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

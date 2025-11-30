@@ -1,8 +1,10 @@
 /**
  * LayersHalfIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Layers half
+ * @category Graphics
+ * @tags perspective
+ * @see https://icons.getbootstrap.com/icons/layers-half/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LayersHalfIcon aria-label="Activity indicator" />
+ * <LayersHalfIcon aria-label="Layers half" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

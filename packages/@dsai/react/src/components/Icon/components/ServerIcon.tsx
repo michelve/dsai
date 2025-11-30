@@ -1,8 +1,10 @@
 /**
  * ServerIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Server
+ * @category Devices
+ * @tags server
+ * @see https://icons.getbootstrap.com/icons/server/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ServerIcon aria-label="Activity indicator" />
+ * <ServerIcon aria-label="Server" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

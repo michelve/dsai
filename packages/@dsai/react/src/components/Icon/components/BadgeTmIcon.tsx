@@ -1,8 +1,10 @@
 /**
  * BadgeTmIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Badge tm
+ * @category Badges
+ * @tags trademark
+ * @see https://icons.getbootstrap.com/icons/badge-tm/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BadgeTmIcon aria-label="Activity indicator" />
+ * <BadgeTmIcon aria-label="Badge tm" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * PersonFillGearIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person fill gear
+ * @category People
+ * @tags member
+ * @see https://icons.getbootstrap.com/icons/person-fill-gear/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonFillGearIcon aria-label="Activity indicator" />
+ * <PersonFillGearIcon aria-label="Person fill gear" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

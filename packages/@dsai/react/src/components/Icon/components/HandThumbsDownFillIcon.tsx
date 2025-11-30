@@ -1,8 +1,10 @@
 /**
  * HandThumbsDownFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Hand thumbs down fill
+ * @category Hands
+ * @tags hand
+ * @see https://icons.getbootstrap.com/icons/hand-thumbs-down-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <HandThumbsDownFillIcon aria-label="Activity indicator" />
+ * <HandThumbsDownFillIcon aria-label="Hand thumbs down fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

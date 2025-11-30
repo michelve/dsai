@@ -1,8 +1,10 @@
 /**
  * ScissorsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Scissors
+ * @category Real world
+ * @tags cut
+ * @see https://icons.getbootstrap.com/icons/scissors/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ScissorsIcon aria-label="Activity indicator" />
+ * <ScissorsIcon aria-label="Scissors" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

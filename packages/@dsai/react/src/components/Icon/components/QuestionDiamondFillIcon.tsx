@@ -1,8 +1,10 @@
 /**
  * QuestionDiamondFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Question diamond fill
+ * @category Alerts, warnings, and signs
+ * @tags help
+ * @see https://icons.getbootstrap.com/icons/question-diamond-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <QuestionDiamondFillIcon aria-label="Activity indicator" />
+ * <QuestionDiamondFillIcon aria-label="Question diamond fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

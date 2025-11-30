@@ -1,8 +1,10 @@
 /**
  * JavascriptIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - JavaScript
+ * @category Brand
+ * @tags frontend
+ * @see https://icons.getbootstrap.com/icons/javascript/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <JavascriptIcon aria-label="Activity indicator" />
+ * <JavascriptIcon aria-label="JavaScript" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

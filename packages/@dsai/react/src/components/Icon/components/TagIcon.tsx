@@ -1,8 +1,10 @@
 /**
  * TagIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Tag
+ * @category Real world
+ * @tags price
+ * @see https://icons.getbootstrap.com/icons/tag/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <TagIcon aria-label="Activity indicator" />
+ * <TagIcon aria-label="Tag" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

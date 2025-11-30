@@ -1,8 +1,10 @@
 /**
  * ShareIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Share
+ * @category Communications
+ * @tags share
+ * @see https://icons.getbootstrap.com/icons/share/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ShareIcon aria-label="Activity indicator" />
+ * <ShareIcon aria-label="Share" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

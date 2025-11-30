@@ -1,8 +1,10 @@
 /**
  * YoutubeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Youtube
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/youtube/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <YoutubeIcon aria-label="Activity indicator" />
+ * <YoutubeIcon aria-label="Youtube" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

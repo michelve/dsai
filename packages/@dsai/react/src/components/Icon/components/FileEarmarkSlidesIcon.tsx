@@ -1,8 +1,10 @@
 /**
  * FileEarmarkSlidesIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - File earmark slides
+ * @category Files and folders
+ * @tags presentation
+ * @see https://icons.getbootstrap.com/icons/file-earmark-slides/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FileEarmarkSlidesIcon aria-label="Activity indicator" />
+ * <FileEarmarkSlidesIcon aria-label="File earmark slides" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

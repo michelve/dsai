@@ -1,8 +1,10 @@
 /**
  * FiletypeSvgIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype svg
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-svg/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeSvgIcon aria-label="Activity indicator" />
+ * <FiletypeSvgIcon aria-label="Filetype svg" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

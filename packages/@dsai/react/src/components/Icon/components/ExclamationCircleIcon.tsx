@@ -1,8 +1,10 @@
 /**
  * ExclamationCircleIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Exclamation circle
+ * @category Alerts, warnings, and signs
+ * @tags alert
+ * @see https://icons.getbootstrap.com/icons/exclamation-circle/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ExclamationCircleIcon aria-label="Activity indicator" />
+ * <ExclamationCircleIcon aria-label="Exclamation circle" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

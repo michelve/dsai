@@ -1,8 +1,10 @@
 /**
  * EyeIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Eye
+ * @category Real world
+ * @tags eyeball
+ * @see https://icons.getbootstrap.com/icons/eye/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EyeIcon aria-label="Activity indicator" />
+ * <EyeIcon aria-label="Eye" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

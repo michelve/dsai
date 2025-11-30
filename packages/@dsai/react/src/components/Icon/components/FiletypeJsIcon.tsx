@@ -1,8 +1,10 @@
 /**
  * FiletypeJsIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype js
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-js/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeJsIcon aria-label="Activity indicator" />
+ * <FiletypeJsIcon aria-label="Filetype js" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

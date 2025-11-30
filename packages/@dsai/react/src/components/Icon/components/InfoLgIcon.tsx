@@ -1,8 +1,10 @@
 /**
  * InfoLgIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Info lg
+ * @category Alerts, warnings, and signs
+ * @tags information
+ * @see https://icons.getbootstrap.com/icons/info-lg/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <InfoLgIcon aria-label="Activity indicator" />
+ * <InfoLgIcon aria-label="Info lg" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

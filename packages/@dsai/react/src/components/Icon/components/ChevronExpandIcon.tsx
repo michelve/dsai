@@ -1,8 +1,10 @@
 /**
  * ChevronExpandIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Chevron expand
+ * @category Chevrons
+ * @tags chevron
+ * @see https://icons.getbootstrap.com/icons/chevron-expand/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ChevronExpandIcon aria-label="Activity indicator" />
+ * <ChevronExpandIcon aria-label="Chevron expand" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

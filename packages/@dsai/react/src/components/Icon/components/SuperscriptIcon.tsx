@@ -1,8 +1,10 @@
 /**
  * SuperscriptIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Superscript
+ * @category Typography
+ * @tags text
+ * @see https://icons.getbootstrap.com/icons/superscript/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SuperscriptIcon aria-label="Activity indicator" />
+ * <SuperscriptIcon aria-label="Superscript" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

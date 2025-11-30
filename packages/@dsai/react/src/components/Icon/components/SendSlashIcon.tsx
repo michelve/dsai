@@ -1,8 +1,10 @@
 /**
  * SendSlashIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Send slash
+ * @category Communications
+ * @tags message
+ * @see https://icons.getbootstrap.com/icons/send-slash/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SendSlashIcon aria-label="Activity indicator" />
+ * <SendSlashIcon aria-label="Send slash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

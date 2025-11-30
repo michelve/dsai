@@ -1,8 +1,10 @@
 /**
  * FingerprintIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Fingerprint
+ * @category Security
+ * @tags "touch ID"
+ * @see https://icons.getbootstrap.com/icons/fingerprint/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FingerprintIcon aria-label="Activity indicator" />
+ * <FingerprintIcon aria-label="Fingerprint" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

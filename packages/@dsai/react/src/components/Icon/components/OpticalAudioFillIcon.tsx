@@ -1,8 +1,10 @@
 /**
  * OpticalAudioFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Optical audio fill
+ * @category Devices
+ * @tags port
+ * @see https://icons.getbootstrap.com/icons/optical-audio-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <OpticalAudioFillIcon aria-label="Activity indicator" />
+ * <OpticalAudioFillIcon aria-label="Optical audio fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

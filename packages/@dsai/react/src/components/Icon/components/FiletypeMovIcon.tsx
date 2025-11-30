@@ -1,8 +1,10 @@
 /**
  * FiletypeMovIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Filetype mov
+ * @category Files and folders
+ * @tags file
+ * @see https://icons.getbootstrap.com/icons/filetype-mov/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <FiletypeMovIcon aria-label="Activity indicator" />
+ * <FiletypeMovIcon aria-label="Filetype mov" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

@@ -1,8 +1,10 @@
 /**
  * SignTurnSlightRightIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Sign turn slight right
+ * @category Transportation
+ * @tags road
+ * @see https://icons.getbootstrap.com/icons/sign-turn-slight-right/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SignTurnSlightRightIcon aria-label="Activity indicator" />
+ * <SignTurnSlightRightIcon aria-label="Sign turn slight right" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

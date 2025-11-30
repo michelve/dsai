@@ -1,8 +1,10 @@
 /**
  * EmojiExpressionlessFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Emoji expressionless fill
+ * @category Emoji
+ * @tags emoticon
+ * @see https://icons.getbootstrap.com/icons/emoji-expressionless-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EmojiExpressionlessFillIcon aria-label="Activity indicator" />
+ * <EmojiExpressionlessFillIcon aria-label="Emoji expressionless fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

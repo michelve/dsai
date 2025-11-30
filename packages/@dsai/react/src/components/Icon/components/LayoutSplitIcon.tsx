@@ -1,8 +1,10 @@
 /**
  * LayoutSplitIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Layout split
+ * @category Layout
+ * @tags grid
+ * @see https://icons.getbootstrap.com/icons/layout-split/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <LayoutSplitIcon aria-label="Activity indicator" />
+ * <LayoutSplitIcon aria-label="Layout split" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

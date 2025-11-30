@@ -1,8 +1,10 @@
 /**
  * ArrowsFullscreenIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Arrows fullscreen
+ * @category Arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/arrows-fullscreen/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <ArrowsFullscreenIcon aria-label="Activity indicator" />
+ * <ArrowsFullscreenIcon aria-label="Arrows fullscreen" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

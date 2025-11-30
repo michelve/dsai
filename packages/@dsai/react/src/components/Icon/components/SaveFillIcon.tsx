@@ -1,8 +1,10 @@
 /**
  * SaveFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Save fill
+ * @category UI and keyboard
+ * @tags save
+ * @see https://icons.getbootstrap.com/icons/save-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <SaveFillIcon aria-label="Activity indicator" />
+ * <SaveFillIcon aria-label="Save fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

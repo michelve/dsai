@@ -1,8 +1,10 @@
 /**
  * PersonVcardIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Person vcard
+ * @category People
+ * @tags human
+ * @see https://icons.getbootstrap.com/icons/person-vcard/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PersonVcardIcon aria-label="Activity indicator" />
+ * <PersonVcardIcon aria-label="Person vcard" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

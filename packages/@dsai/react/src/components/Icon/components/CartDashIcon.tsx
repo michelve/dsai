@@ -1,8 +1,10 @@
 /**
  * CartDashIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Cart dash
+ * @category Commerce
+ * @tags shopping
+ * @see https://icons.getbootstrap.com/icons/cart-dash/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <CartDashIcon aria-label="Activity indicator" />
+ * <CartDashIcon aria-label="Cart dash" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

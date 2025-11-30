@@ -1,8 +1,10 @@
 /**
  * BoxArrowUpLeftIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Box arrow up-left
+ * @category Box arrows
+ * @tags arrow
+ * @see https://icons.getbootstrap.com/icons/box-arrow-up-left/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <BoxArrowUpLeftIcon aria-label="Activity indicator" />
+ * <BoxArrowUpLeftIcon aria-label="Box arrow up-left" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

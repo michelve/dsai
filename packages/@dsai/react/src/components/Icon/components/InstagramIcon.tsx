@@ -1,8 +1,10 @@
 /**
  * InstagramIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Instagram
+ * @category Brand
+ * @tags social
+ * @see https://icons.getbootstrap.com/icons/instagram/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <InstagramIcon aria-label="Activity indicator" />
+ * <InstagramIcon aria-label="Instagram" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

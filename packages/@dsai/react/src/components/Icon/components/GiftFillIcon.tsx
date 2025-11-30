@@ -1,8 +1,10 @@
 /**
  * GiftFillIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Gift fill
+ * @category Real world
+ * @tags present
+ * @see https://icons.getbootstrap.com/icons/gift-fill/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <GiftFillIcon aria-label="Activity indicator" />
+ * <GiftFillIcon aria-label="Gift fill" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

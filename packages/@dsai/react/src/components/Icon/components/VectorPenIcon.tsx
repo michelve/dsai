@@ -1,8 +1,10 @@
 /**
  * VectorPenIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Vector pen
+ * @category Graphics
+ * @tags graphics
+ * @see https://icons.getbootstrap.com/icons/vector-pen/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <VectorPenIcon aria-label="Activity indicator" />
+ * <VectorPenIcon aria-label="Vector pen" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

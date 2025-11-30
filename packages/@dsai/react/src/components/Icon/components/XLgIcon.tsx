@@ -1,8 +1,10 @@
 /**
  * XLgIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - X lg
+ * @category Alerts, warnings, and signs
+ * @tags x
+ * @see https://icons.getbootstrap.com/icons/x-lg/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <XLgIcon aria-label="Activity indicator" />
+ * <XLgIcon aria-label="X lg" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

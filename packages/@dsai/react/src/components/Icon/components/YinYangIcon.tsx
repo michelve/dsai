@@ -1,8 +1,10 @@
 /**
  * YinYangIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Yin yang
+ * @category Real world
+ * @tags peace
+ * @see https://icons.getbootstrap.com/icons/yin-yang/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <YinYangIcon aria-label="Activity indicator" />
+ * <YinYangIcon aria-label="Yin yang" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

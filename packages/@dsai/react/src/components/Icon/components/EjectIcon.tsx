@@ -1,8 +1,10 @@
 /**
  * EjectIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Eject
+ * @category UI and keyboard
+ * @tags disc
+ * @see https://icons.getbootstrap.com/icons/eject/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <EjectIcon aria-label="Activity indicator" />
+ * <EjectIcon aria-label="Eject" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';

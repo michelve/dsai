@@ -1,8 +1,10 @@
 /**
  * PlusLgIcon
  *
- * Bootstrap Icons - React Component
- * @see https://icons.getbootstrap.com/
+ * Bootstrap Icons - Plus lg
+ * @category Alerts, warnings, and signs
+ * @tags add
+ * @see https://icons.getbootstrap.com/icons/plus-lg/
  *
  * @accessibility
  * - Decorative (default): No aria-label or title → aria-hidden="true"
@@ -16,7 +18,7 @@
  *
  * @example Semantic (standalone)
  * ```tsx
- * <PlusLgIcon aria-label="Activity indicator" />
+ * <PlusLgIcon aria-label="Plus lg" />
  * ```
  */
 import { forwardRef, useMemo } from 'react';
