@@ -234,18 +234,19 @@ interface SelectOptionGroup<T = string> {
 
 The Select component follows WCAG 2.2 AA guidelines:
 
-- Uses `role="button"` on trigger
+- Uses `role="combobox"` on trigger with `aria-haspopup="listbox"`
 - Uses `role="listbox"` on dropdown
-- Uses `role="option"` on options
-- `aria-haspopup="listbox"` on trigger
+- Uses `role="option"` on options with unique IDs
 - `aria-expanded` reflects open state
+- `aria-controls` links trigger to listbox
+- `aria-activedescendant` tracks keyboard-focused option for screen readers
 - `aria-selected` on selected options
 - `aria-disabled` on disabled options
 - `aria-invalid` when error
 - `aria-describedby` links to helper text
-- `aria-required` when required
-- Full keyboard navigation
-- Focus management
+- `aria-labelledby` or `aria-label` for accessible name
+- Full keyboard navigation with focus indication
+- Focus management between trigger and dropdown
 
 ## Bootstrap Classes Used
 
