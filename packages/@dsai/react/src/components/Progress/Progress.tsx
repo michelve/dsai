@@ -1,5 +1,15 @@
 import type { ProgressBarProps, ProgressProps } from './Progress.types';
 
+const resolveHeightForSize = (size: ProgressProps['size'] = 'md'): string => {
+  if (size === 'sm') {
+    return '0.5rem';
+  }
+  if (size === 'lg') {
+    return '1.5rem';
+  }
+  return '1rem';
+};
+
 /**
  * Progress Bar - individual bar for stacked progress
  *
@@ -129,13 +139,6 @@ function ProgressBase({
   const percentage = indeterminate ? 0 : Math.min(100, Math.max(0, value ?? 0));
   const hasChildren = Boolean(children);
 
-  // Height classes for different sizes
-  const heightStyle: Record<string, string> = {
-    sm: '0.5rem', // 8px
-    md: '1rem', // 16px (Bootstrap default)
-    lg: '1.5rem', // 24px
-  };
-
   // Build progress container classes
   const progressClasses = ['progress', className].filter(Boolean).join(' ');
 
@@ -168,7 +171,7 @@ function ProgressBase({
       {/* Progress bar container */}
       <div
         className={progressClasses}
-        style={{ height: heightStyle[size], ...style }}
+        style={{ height: resolveHeightForSize(size), ...style }}
         id={id}
         role={hasChildren ? 'group' : 'progressbar'}
         aria-label={ariaLabel}

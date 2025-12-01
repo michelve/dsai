@@ -367,7 +367,7 @@ describe('Breadcrumb FSM', () => {
       expect(state.isControlled).toBe(true);
 
       // User clicks ellipsis - no state change (controlled)
-      let newState = breadcrumbFSMReducer(state, expandEvent());
+      const newState = breadcrumbFSMReducer(state, expandEvent());
       expect(newState).toBe(state); // Same reference
 
       // Parent expands via prop

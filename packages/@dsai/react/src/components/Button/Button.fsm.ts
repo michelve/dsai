@@ -290,9 +290,13 @@ export function createInitialButtonFSMState(
   const isError = error;
 
   let visualState: ButtonVisualState = 'idle';
-  if (isDisabled) visualState = 'disabled';
-  else if (isLoading) visualState = 'loading';
-  else if (isError) visualState = 'error';
+  if (isDisabled) {
+    visualState = 'disabled';
+  } else if (isLoading) {
+    visualState = 'loading';
+  } else if (isError) {
+    visualState = 'error';
+  }
 
   return {
     visualState,

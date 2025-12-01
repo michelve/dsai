@@ -195,7 +195,7 @@ figma.connect(Pagination, '<FIGMA_DSAI_PAGINATION>', {
         lastContent={normalizedLastContent}
         previousContent={normalizedPreviousContent}
         nextContent={normalizedNextContent}
-        onPageChange={(newPage) => console.log('Page changed to:', newPage)}
+        onPageChange={(newPage) => console.warn('Pagination page changed:', newPage)}
       />
     );
   },
@@ -227,9 +227,9 @@ figma.connect(Pagination, '<FIGMA_DSAI_PAGINATION_CONTROLLED>', {
     // Note: In actual use, currentPage would come from React.useState
     // and handlePageChange would update state and potentially fetch data
     const currentPage = 1;
-    const handlePageChange = (page: number) => {
+    const handlePageChange = (page: number): void => {
       // Update state and fetch data for new page
-      console.log('Navigating to page:', page);
+      console.warn('Navigating to page:', page);
     };
 
     return (

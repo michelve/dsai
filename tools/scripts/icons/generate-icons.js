@@ -53,7 +53,9 @@ function loadMetadata() {
  * @returns {{title: string, categories: string[], tags: string[], url: string} | null}
  */
 function getIconMetadata(filename, metadata) {
-  if (!metadata || !metadata.icons) return null;
+  if (!metadata || !metadata.icons) {
+    return null;
+  }
   const iconName = filename.replace('.svg', '');
   return metadata.icons[iconName] || null;
 }
@@ -228,6 +230,8 @@ export const ${componentName} = forwardRef<SVGSVGElement, IconProps>(
     const allowedProps: Record<string, unknown> = {};
     for (const key of ALLOWED_PROPS) {
       if (key in rest) {
+        // Dynamic access is safe here because key comes from ALLOWED_PROPS.
+        // eslint-disable-next-line security/detect-object-injection
         allowedProps[key] = rest[key as keyof typeof rest];
       }
     }
@@ -305,6 +309,8 @@ export const ${componentName} = forwardRef<SVGSVGElement, IconProps>(
     const allowedProps: Record<string, unknown> = {};
     for (const key of ALLOWED_PROPS) {
       if (key in rest) {
+        // Dynamic access is safe here because key comes from ALLOWED_PROPS.
+        // eslint-disable-next-line security/detect-object-injection
         allowedProps[key] = rest[key as keyof typeof rest];
       }
     }

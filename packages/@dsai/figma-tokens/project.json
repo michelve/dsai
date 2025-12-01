@@ -6,22 +6,27 @@
   "targets": {
     "build": {
       "executor": "nx:run-commands",
+      "dependsOn": ["^build"],
       "outputs": ["{projectRoot}/dist"],
       "options": {
-        "command": "tsup",
-        "cwd": "packages/@dsai/figma-tokens"
+        "cwd": "packages/@dsai/figma-tokens",
+        "command": "tsup && tsc --emitDeclarationOnly --outDir dist"
       }
     },
     "export-tokens": {
       "executor": "nx:run-commands",
+      "dependsOn": ["build"],
       "options": {
-        "command": "node packages/@dsai/figma-tokens/dist/export.js"
+        "cwd": "packages/@dsai/figma-tokens",
+        "command": "node dist/export.js"
       }
     },
     "sync-figma": {
       "executor": "nx:run-commands",
+      "dependsOn": ["build"],
       "options": {
-        "command": "node packages/@dsai/figma-tokens/dist/sync.js"
+        "cwd": "packages/@dsai/figma-tokens",
+        "command": "node dist/sync.js"
       }
     },
     "test": {
@@ -36,8 +41,7 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/@dsai/figma-tokens/src/**/*.ts"],
-        "eslintConfig": ".eslintrc.json"
+        "lintFilePatterns": ["packages/@dsai/figma-tokens/src/**/*.ts"]
       }
     }
   },

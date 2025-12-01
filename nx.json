@@ -1,10 +1,126 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+
+  // The branch used for affected calculations in CI
   "defaultBase": "master",
+
+  // ============ Named Inputs (Enterprise Level) ============
   "namedInputs": {
+    // Input set used by nearly all executors
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "production": ["default"],
-    "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
+
+    // Inputs considered part of global workspace state
+    "sharedGlobals": [
+      "{workspaceRoot}/package.json",
+      "{workspaceRoot}/pnpm-lock.yaml",
+      "{workspaceRoot}/nx.json",
+      "{workspaceRoot}/tsconfig.base.json",
+      "{workspaceRoot}/.eslintrc.cjs",
+      "{workspaceRoot}/.prettierrc",
+      "{workspaceRoot}/.prettierignore",
+      "{workspaceRoot}/.lintstagedrc",
+      "{workspaceRoot}/.github/workflows/ci.yml"
+    ],
+
+    // Inputs for production builds (no dev/test files)
+    "prod": [
+      "default",
+      "!{projectRoot}/**/*.test.*",
+      "!{projectRoot}/**/*.spec.*",
+      "!{projectRoot}/**/*.stories.*",
+      "!{projectRoot}/test/**"
+    ],
+
+    // Inputs for lint (only source files + config files)
+    "lintInputs": ["{projectRoot}/src/**/*", "{projectRoot}/.eslintrc.*", "sharedGlobals"],
+
+    // Inputs for tests (include mocks + config)
+    "testInputs": [
+      "{projectRoot}/src/**/*",
+      "{projectRoot}/test/**/*",
+      "{projectRoot}/jest.config.ts",
+      "{projectRoot}/jest.config.js",
+      "{workspaceRoot}/jest.preset.js",
+      "sharedGlobals"
+    ],
+
+    // Inputs for token scripts (your custom pipeline)
+    "tokenInputs": [
+      "{projectRoot}/src/**/*",
+      "sharedGlobals",
+      "{workspaceRoot}/tools/scripts/tokens/**/*",
+      "{workspaceRoot}/tools/scripts/analysis/**/*"
+    ]
   },
-  "nxCloudId": "690e71cbdeb0dc6d6da9bffb"
+
+  // ============ Target Defaults (Enterprise Level) ============
+  "targetDefaults": {
+    // BUILD
+    "build": {
+      "inputs": ["prod"],
+      "dependsOn": ["^build"],
+      "cache": true
+    },
+
+    // LINT
+    "lint": {
+      "inputs": ["lintInputs"],
+      "cache": true
+    },
+
+    // TEST
+    "test": {
+      "inputs": ["testInputs"],
+      "cache": true,
+      "dependsOn": ["^build"]
+    },
+
+    // STORYBOOK
+    "storybook": {
+      "inputs": ["default"],
+      "cache": true,
+      "dependsOn": ["^build"]
+    },
+
+    // STORYBOOK BUILD
+    "build-storybook": {
+      "inputs": ["default"],
+      "cache": true,
+      "dependsOn": ["^build"]
+    },
+
+    // TOKENS (your custom pipelines)
+    "tokens:transform": {
+      "inputs": ["tokenInputs"],
+      "cache": true
+    },
+    "tokens:validate": {
+      "inputs": ["tokenInputs"],
+      "cache": true
+    },
+    "tokens:build": {
+      "inputs": ["tokenInputs"],
+      "cache": true,
+      "dependsOn": ["tokens:transform", "tokens:validate"]
+    },
+
+    // FIGMA CONNECT
+    "figma:connect": {
+      "inputs": ["default"],
+      "cache": false
+    },
+    "figma:publish": {
+      "inputs": ["default"],
+      "cache": false
+    }
+  },
+
+  // ============ Depth Rules (Enterprise Governance) ============
+  "workspaceLayout": {
+    "libsDir": "packages",
+    "appsDir": "apps"
+  },
+
+  // Optionally enforce boundaries:
+  "plugins": ["@nx/js", "@nx/eslint", "@nx/storybook", "@nx/jest"]
 }

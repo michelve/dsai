@@ -1,15 +1,16 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "name": "@dsai/tokens",
   "sourceRoot": "packages/@dsai/tokens/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "nx:run-commands",
+      "dependsOn": ["^build"],
       "outputs": ["{projectRoot}/dist"],
       "options": {
-        "command": "tsup && tsc --emitDeclarationOnly --outDir dist",
-        "cwd": "packages/@dsai/tokens"
+        "cwd": "packages/@dsai/tokens",
+        "command": "tsup && tsc --emitDeclarationOnly --outDir dist"
       }
     },
     "test": {
@@ -24,8 +25,7 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/@dsai/tokens/src/**/*.ts"],
-        "eslintConfig": ".eslintrc.json"
+        "lintFilePatterns": ["packages/@dsai/tokens/src/**/*.ts"]
       }
     }
   },

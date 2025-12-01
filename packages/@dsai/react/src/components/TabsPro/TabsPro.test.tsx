@@ -7,6 +7,7 @@ import userEvent from '@testing-library/user-event';
 import { createRef } from 'react';
 
 import { TabsPro } from './TabsPro';
+
 import type { GuardResult, TabsProItem } from './TabsPro.types';
 
 // =============================================================================

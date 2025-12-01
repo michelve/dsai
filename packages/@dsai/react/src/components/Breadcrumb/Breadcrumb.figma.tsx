@@ -9,7 +9,9 @@
  */
 
 import figma from '@figma/code-connect';
+
 import { Breadcrumb, BreadcrumbItem } from './Breadcrumb';
+
 import type { BreadcrumbItemProps } from './Breadcrumb.types';
 
 /**

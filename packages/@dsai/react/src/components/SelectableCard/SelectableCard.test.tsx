@@ -30,11 +30,15 @@ expect.extend(toHaveNoViolations);
 function getCard(container: HTMLElement): HTMLElement {
   // First try to find the article (selectionMode='none')
   const article = container.querySelector('article');
-  if (article) return article;
+  if (article) {
+    return article;
+  }
 
   // Otherwise find the label (selectionMode='checkbox' or 'radio')
   const label = container.querySelector('label.card');
-  if (label) return label as HTMLElement;
+  if (label) {
+    return label as HTMLElement;
+  }
 
   throw new Error('Could not find card element');
 }

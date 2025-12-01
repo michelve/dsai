@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 
-import type { CardListFSMState } from './CardList.fsm';
 import {
   cardListFSMReducer,
   clearAllEvent,
@@ -19,6 +18,8 @@ import {
   selectItemEvent,
   toggleItemEvent,
 } from './CardList.fsm';
+
+import type { CardListFSMState } from './CardList.fsm';
 
 describe('CardList FSM', () => {
   // =============================================================================

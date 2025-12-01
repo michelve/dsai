@@ -7,9 +7,8 @@
  * @module TabsPro/types
  */
 
-import type { CSSProperties, ReactNode } from 'react';
-
 import type { TabsOrientation, TabsVariant } from '../Tabs/Tabs.types';
+import type { CSSProperties, ReactNode } from 'react';
 
 // =============================================================================
 // Guard Types

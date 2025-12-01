@@ -8,6 +8,7 @@ import { axe, toHaveNoViolations } from 'jest-axe';
 import { createRef, useState } from 'react';
 
 import { CardList } from './CardList';
+
 import type { CardListItem } from './CardList.types';
 
 expect.extend(toHaveNoViolations);

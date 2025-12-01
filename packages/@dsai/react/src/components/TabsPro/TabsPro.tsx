@@ -26,8 +26,7 @@ import {
 } from 'react';
 
 import { Tabs } from '../Tabs/Tabs';
-import type { TabItem } from '../Tabs/Tabs.types';
-import type { GuardResult } from './TabsPro.fsm';
+
 import {
   activateTabEvent,
   createInitialTabsProFSMState,
@@ -43,6 +42,8 @@ import {
   retryEvent,
   tabsProFSMReducer,
 } from './TabsPro.fsm';
+
+import type { GuardResult } from './TabsPro.fsm';
 import type {
   DefaultBlockedProps,
   DefaultErrorProps,
@@ -51,6 +52,7 @@ import type {
   TabsProItem,
   TabsProProps,
 } from './TabsPro.types';
+import type { TabItem } from '../Tabs/Tabs.types';
 
 // =============================================================================
 // Default Fallback Components
@@ -256,7 +258,7 @@ export const TabsPro = memo(
       activeId: controlledActiveId,
       defaultActiveId,
       onActiveChange,
-      keepMounted = false,
+      _keepMounted = false,
       variant = 'tabs',
       orientation = 'horizontal',
       fill = false,
@@ -335,7 +337,7 @@ export const TabsPro = memo(
             }
 
             dispatch(guardOkEvent(tabId));
-          } catch (error) {
+          } catch {
             // Guard threw an error - treat as blocked
             const guardResult: GuardResult = {
               allowed: false,
@@ -406,7 +408,10 @@ export const TabsPro = memo(
         onActiveChange?.(newTabId);
 
         // Start guard/load process
-        const tabState = fsmState.tabs[newTabId];
+        // Safe access using Object.hasOwn pattern
+        const tabState = Object.hasOwn(fsmState.tabs, newTabId)
+          ? fsmState.tabs[newTabId as keyof typeof fsmState.tabs]
+          : undefined;
         if (tabState && (tabState.status === 'idle' || tabState.status === 'checkingGuard')) {
           executeGuardAndLoad(newTabId);
         }
@@ -460,17 +465,20 @@ export const TabsPro = memo(
     // Preload Handler (hover intent)
     // =========================================================================
 
-    const handlePreload = useCallback(
+    const _handlePreload = useCallback(
       (tabId: string) => {
         const item = itemsMap.get(tabId);
-        const tabState = fsmState.tabs[tabId];
+        // Safe access using Object.hasOwn pattern
+        const tabState = Object.hasOwn(fsmState.tabs, tabId)
+          ? fsmState.tabs[tabId as keyof typeof fsmState.tabs]
+          : undefined;
 
         if (item?.preloadOnHover && tabState?.status === 'idle') {
           dispatch(preloadTabEvent(tabId));
           executeGuardAndLoad(tabId);
         }
       },
-      [itemsMap, fsmState.tabs, executeGuardAndLoad]
+      [itemsMap, fsmState, executeGuardAndLoad]
     );
 
     // =========================================================================
@@ -500,7 +508,10 @@ export const TabsPro = memo(
 
     const resolvedItems = useMemo<ResolvedTabItem[]>(() => {
       return items.map((item) => {
-        const tabState = fsmState.tabs[item.id];
+        // Safe access - item.id is a validated string from items array
+        const tabState = Object.hasOwn(fsmState.tabs, item.id)
+          ? fsmState.tabs[item.id as keyof typeof fsmState.tabs]
+          : undefined;
         const status = tabState?.status ?? 'idle';
 
         let content: React.ReactNode;
@@ -541,7 +552,7 @@ export const TabsPro = memo(
 
           case 'error': {
             const error = tabState?.error;
-            const retry = () => handleRetry(item.id);
+            const retry = (): void => handleRetry(item.id);
 
             if (item.errorFallback) {
               content = item.errorFallback(error, retry);
@@ -592,8 +603,7 @@ export const TabsPro = memo(
       });
     }, [
       items,
-      fsmState.tabs,
-      fsmState.activeTabId,
+      fsmState,
       handleRetry,
       defaultLoadingFallback,
       defaultBlockedFallback,

@@ -107,7 +107,11 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
   };
 
   // Get size dimensions
-  const { trackWidth, trackHeight, thumbSize } = sizeDimensions[size];
+  const dimensions =
+    size in sizeDimensions
+      ? sizeDimensions[size as keyof typeof sizeDimensions]
+      : sizeDimensions.md;
+  const { trackWidth, trackHeight, thumbSize } = dimensions;
 
   // Calculate thumb position
   const thumbOffset = 2; // padding inside track
@@ -155,7 +159,9 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
    * This ensures one interactive element with consistent hit area.
    */
   const renderLabelContent = (): React.JSX.Element | null => {
-    if (!label) return null;
+    if (!label) {
+      return null;
+    }
 
     return (
       <span id={labelId} className="form-label mb-0 ms-2">

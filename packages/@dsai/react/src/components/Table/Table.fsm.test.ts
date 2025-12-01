@@ -24,6 +24,7 @@ import {
   toggleAllEvent,
   toggleRowEvent,
 } from './Table.fsm';
+
 import type { TableFSMState } from './Table.types';
 
 // =============================================================================

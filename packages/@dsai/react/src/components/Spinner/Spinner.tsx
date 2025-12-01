@@ -4,11 +4,26 @@ import type { SpinnerProps } from './Spinner.types';
  * Size map for custom spinner sizes
  * Bootstrap only provides 'sm', we extend with xs, lg, xl
  */
-const SIZE_STYLES: Record<string, { width: string; height: string }> = {
+const SIZE_STYLES = {
   xs: { width: '0.75rem', height: '0.75rem' },
   // sm uses Bootstrap's native spinner-*-sm class
   lg: { width: '3rem', height: '3rem' },
   xl: { width: '4rem', height: '4rem' },
+};
+
+const resolveCustomSizeStyle = (
+  size?: SpinnerProps['size']
+): { width: string; height: string } | undefined => {
+  switch (size) {
+    case 'xs':
+      return SIZE_STYLES.xs;
+    case 'lg':
+      return SIZE_STYLES.lg;
+    case 'xl':
+      return SIZE_STYLES.xl;
+    default:
+      return undefined;
+  }
 };
 
 /**
@@ -71,7 +86,7 @@ export function Spinner({
     .join(' ');
 
   // Custom size styles for xs, lg, xl (Bootstrap only has sm)
-  const customSizeStyle = size && SIZE_STYLES[size] ? SIZE_STYLES[size] : undefined;
+  const customSizeStyle = resolveCustomSizeStyle(size);
 
   const spinner = (
     <Component

@@ -369,7 +369,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 
 ### Step 1: Read Task File
 
-- Parse task from `tasks/02-high/TASK-036-pagination-component.md`
+- Parse task from `tasks/02-high/TASK-037-modal-component.md`
 - Verify task is clear and complete
 - Ask clarifying questions if ambiguous
 

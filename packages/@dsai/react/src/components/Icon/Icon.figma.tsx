@@ -11,6 +11,7 @@
  */
 
 import figma from '@figma/code-connect';
+
 import {
   ActivityIcon,
   AirplaneEnginesFillIcon,

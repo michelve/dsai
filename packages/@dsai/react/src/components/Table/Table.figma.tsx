@@ -11,6 +11,7 @@
 import figma from '@figma/code-connect';
 
 import { Table } from './Table';
+
 import type { TableColumn } from './Table.types';
 
 /**

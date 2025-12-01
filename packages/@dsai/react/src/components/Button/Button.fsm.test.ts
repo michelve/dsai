@@ -1,5 +1,6 @@
-import type { ButtonFSMState } from './Button.fsm';
 import { buttonFSMReducer, createInitialButtonFSMState } from './Button.fsm';
+
+import type { ButtonFSMState } from './Button.fsm';
 
 describe('Button FSM', () => {
   describe('createInitialButtonFSMState', () => {
