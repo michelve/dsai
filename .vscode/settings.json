@@ -5,8 +5,8 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-    // Runs ESLint + Prettier as the final authority
-    "source.fixAll": "explicit",
+    // Use explicit so fixes only run when you trigger "Format Document" or similar.
+    // If you want auto-fix on every save, change "explicit" → true.
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit"
   },
@@ -14,7 +14,7 @@
   "editor.insertSpaces": true,
   "editor.detectIndentation": false,
 
-  // Strong recommendations to prevent Codacy issues
+  // Strong recommendations to prevent noisy suggestions
   "editor.quickSuggestions": {
     "other": true,
     "comments": false,
@@ -32,14 +32,16 @@
   "typescript.validate.enable": true,
 
   // ============================
-  // ESLint
+  // ESLint (v9 + flat config)
   // ============================
+  "eslint.useFlatConfig": true,
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
-  // Makes ESLint work properly in Nx monorepos
   "eslint.workingDirectories": [{ "mode": "auto" }],
   "eslint.probe": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
 
-  // Required to ensure ESLint + Prettier combo works
+  // ============================
+  // Prettier
+  // ============================
   "prettier.requireConfig": true,
   "prettier.useEditorConfig": false,
 
@@ -54,7 +56,7 @@
     "*.cjs": "javascript"
   },
 
-  // Prevent VS Code from choking on Nx monorepo output
+  // Hide generated / heavy folders
   "files.exclude": {
     "**/.nx": true
   },
