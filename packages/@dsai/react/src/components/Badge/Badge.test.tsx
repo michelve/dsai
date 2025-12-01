@@ -277,13 +277,14 @@ describe('Badge', () => {
   });
 
   describe('Dev Warning (dot-only without aria-label)', () => {
-    const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+    let consoleSpy: jest.SpyInstance;
 
-    afterEach(() => {
-      consoleSpy.mockClear();
+    beforeEach(() => {
+      // Spy on the actual console.warn - must be done in beforeEach after global setup
+      consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
     });
 
-    afterAll(() => {
+    afterEach(() => {
       consoleSpy.mockRestore();
     });
 

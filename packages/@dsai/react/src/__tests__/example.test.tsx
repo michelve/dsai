@@ -14,7 +14,12 @@ interface ButtonProps {
   variant?: 'primary' | 'secondary';
 }
 
-function Button({ children, onClick, disabled, variant = 'primary' }: ButtonProps): JSX.Element {
+function Button({
+  children,
+  onClick,
+  disabled,
+  variant = 'primary',
+}: ButtonProps): React.JSX.Element {
   return (
     <button
       type="button"

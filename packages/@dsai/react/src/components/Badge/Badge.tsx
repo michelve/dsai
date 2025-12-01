@@ -59,11 +59,14 @@ function BadgeComponent(
     className = '',
     style,
     'aria-label': ariaLabel,
+    'data-testid': dataTestId,
+    'data-test': dataTest,
+    title,
     id,
     as: Component = 'span',
   }: BadgeProps,
   ref: React.ForwardedRef<HTMLElement>
-): JSX.Element {
+): React.JSX.Element {
   // Determine if badge has visible content
   const hasVisibleContent = useMemo(() => {
     return !!children || !!icon;
@@ -83,21 +86,31 @@ function BadgeComponent(
   }, [variant, pill, className]);
 
   // Dev warning: dot-only badge without aria-label
-  const isDevelopment = typeof process !== 'undefined' && process.env['NODE_ENV'] === 'development';
-  if (isDevelopment && dot && !hasVisibleContent && !ariaLabel) {
+  // Shows in development and test environments
+  const isDevelopmentOrTest =
+    typeof process !== 'undefined' &&
+    (process.env?.['NODE_ENV'] === 'development' || process.env?.['NODE_ENV'] === 'test');
+  if (isDevelopmentOrTest && dot && !hasVisibleContent && !ariaLabel) {
     console.warn(
       'Badge: Dot-only badges must have an aria-label for accessibility. ' +
         'Example: <Badge dot aria-label="Online status" />'
     );
   }
 
-  const componentProps: JSX.IntrinsicElements['span'] = {
+  const componentProps = {
     ref: ref as unknown as React.Ref<HTMLSpanElement>,
     className: bootstrapClasses,
     style,
     id,
+    title,
     'aria-label': ariaLabel,
+    'data-testid': dataTestId,
+    'data-test': dataTest,
     role: dot && !hasVisibleContent ? 'status' : undefined,
+  } satisfies React.HTMLAttributes<HTMLSpanElement> & {
+    'data-testid'?: string;
+    'data-test'?: string;
+    ref?: React.Ref<HTMLSpanElement>;
   };
 
   return createElement(
@@ -133,5 +146,9 @@ function BadgeComponent(
 
 BadgeComponent.displayName = 'Badge';
 
-// Correct order: forwardRef wraps memo for proper typing and functionality
-export const Badge = memo(forwardRef(BadgeComponent));
+// Create the Badge component with forwardRef and memo
+const BadgeWithRef = forwardRef(BadgeComponent);
+BadgeWithRef.displayName = 'Badge';
+
+export const Badge = memo(BadgeWithRef);
+Badge.displayName = 'Badge';

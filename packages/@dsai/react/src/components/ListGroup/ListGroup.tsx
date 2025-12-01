@@ -3,6 +3,48 @@ import { forwardRef, type KeyboardEvent, type MouseEvent } from 'react';
 import type { ListGroupItemData, ListGroupItemProps, ListGroupProps } from './ListGroup.types';
 
 // =============================================================================
+// Security: HREF Validation
+// =============================================================================
+
+/**
+ * Validates if an href is safe to use
+ * Blocks dangerous protocols like javascript:, data:, vbscript:
+ * @param href - The href to validate
+ * @returns true if the href is safe, false otherwise
+ */
+function isSafeHref(href?: string): boolean {
+  if (!href || typeof href !== 'string') {
+    return true; // undefined/null is safe (will default to #)
+  }
+
+  // Trim whitespace for validation
+  const trimmed = href.trim().toLowerCase();
+
+  // Block dangerous protocols
+  const dangerousProtocols = ['javascript:', 'data:', 'vbscript:', 'file:'];
+  for (const protocol of dangerousProtocols) {
+    if (trimmed.startsWith(protocol)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/**
+ * Detects if a URL is external
+ * @param href - The href to check
+ * @returns true if the href is external, false otherwise
+ */
+function isExternalUrl(href?: string): boolean {
+  if (!href || typeof href !== 'string') {
+    return false;
+  }
+
+  return href.startsWith('http://') || href.startsWith('https://');
+}
+
+// =============================================================================
 // ListGroupItem Component
 // =============================================================================
 
@@ -93,13 +135,18 @@ export const ListGroupItem = forwardRef<HTMLElement, ListGroupItemProps>(functio
   // Render based on element type
   // Links are wrapped in li for proper list semantics
   if (Element === 'a') {
+    // Sanitize href to prevent XSS
+    const safeHref = isSafeHref(href) ? href : '#';
+    const isExternal = isExternalUrl(safeHref);
+
     return (
       <li className="p-0 border-0 bg-transparent">
         <a
           ref={ref as React.Ref<HTMLAnchorElement>}
-          href={disabled ? undefined : href}
+          href={disabled ? undefined : safeHref}
           onClick={onClick ? handleClick : undefined}
           tabIndex={disabled ? -1 : tabIndex}
+          rel={isExternal ? 'noopener noreferrer' : undefined}
           {...commonProps}
           className={`${itemClasses} d-block`}
         >
@@ -129,27 +176,33 @@ export const ListGroupItem = forwardRef<HTMLElement, ListGroupItemProps>(functio
   }
 
   // For div with onClick, use button semantics
+  // Wrap in li for proper list semantics when used within ListGroup
   if (isInteractive && as === 'div') {
     return (
-      <div
-        ref={ref as React.Ref<HTMLDivElement>}
-        role="button"
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
-        tabIndex={disabled ? -1 : (tabIndex ?? 0)}
-        {...commonProps}
-      >
-        {content}
-      </div>
+      <li className="p-0 border-0 bg-transparent">
+        <div
+          ref={ref as React.Ref<HTMLDivElement>}
+          role="button"
+          onClick={handleClick}
+          onKeyDown={handleKeyDown}
+          tabIndex={disabled ? -1 : (tabIndex ?? 0)}
+          {...commonProps}
+          className={`${itemClasses} d-block`}
+        >
+          {content}
+        </div>
+      </li>
     );
   }
 
   // Default: non-interactive li or div
   if (Element === 'div') {
     return (
-      <div ref={ref as React.Ref<HTMLDivElement>} {...commonProps}>
-        {content}
-      </div>
+      <li className="p-0 border-0 bg-transparent">
+        <div ref={ref as React.Ref<HTMLDivElement>} {...commonProps} className={`${itemClasses}`}>
+          {content}
+        </div>
+      </li>
     );
   }
 

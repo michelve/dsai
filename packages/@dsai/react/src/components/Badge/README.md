@@ -113,6 +113,15 @@ The Badge component is built with accessibility in mind:
 - **Status role**: Dot-only badges have `role="status"` for screen reader announcement
 - **Color contrast**: Meets WCAG 2.2 AA contrast requirements via Bootstrap theme
 
+### Status vs Decorative Badges
+
+| Badge Type                 | Example                                   | Role            | Screen Reader Behavior         |
+| -------------------------- | ----------------------------------------- | --------------- | ------------------------------ |
+| **Decorative** (with text) | `<Badge>New</Badge>`                      | None            | Reads text content             |
+| **Status** (dot-only)      | `<Badge dot aria-label="Online" />`       | `role="status"` | Announces aria-label           |
+| **Status with text**       | `<Badge dot>Online</Badge>`               | None            | Reads text; dot is decorative  |
+| **Icon badge**             | `<Badge icon={<Star />}>Featured</Badge>` | None            | Reads text; icon is decorative |
+
 ### Dot-only Badges
 
 When using dot-only badges (no visible text), always provide an `aria-label`:

@@ -211,8 +211,33 @@ The Input component follows WCAG 2.2 AA guidelines:
 - Keyboard navigable (Tab, Enter)
 - Focus ring visible
 - Color contrast compliant
+- `data-focused` attribute exposes focus state for custom styling
 
-## Bootstrap Classes Used
+## Security
+
+The Input component implements enterprise-grade security hardening:
+
+- **Attribute Whitelist**: Only explicitly whitelisted HTML attributes are passed to the DOM
+- **Event Handler Blocking**: Dangerous event handlers (`onLoad`, `onError`, `onAbort`, etc.) are filtered out
+- **No `dangerouslySetInnerHTML`**: Component never uses dangerous React patterns
+- **Safe ARIA Support**: All ARIA attributes are whitelisted for accessibility
+
+This protects against XSS vulnerabilities through prop spreading attacks.
+
+## Styling
+
+### Focus State
+
+The input exposes a `data-focused` attribute when focused, enabling custom CSS styling:
+
+```css
+/* Custom focus styling */
+input[data-focused='true'] {
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+```
+
+### Bootstrap Classes Used
 
 - `form-control` - Base input styling
 - `form-control-sm` - Small size

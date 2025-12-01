@@ -1,12 +1,21 @@
-import { useState } from 'react';
-
-import { Badge, ListGroup, ListGroupItem } from '@dsai/react';
-
+import { Badge, CheckCircleFillIcon, ListGroup, ListGroupItem, XCircleFillIcon } from '@dsai/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useState } from 'react';
 
 /**
  * ListGroup component for displaying lists of content.
  * Built with Bootstrap 5 design tokens and WCAG 2.2 AA compliance.
+ *
+ * Security Features:
+ * - Href sanitization: Blocks dangerous URL protocols (javascript:, data:, vbscript:, file:)
+ * - External link protection: Automatically adds rel="noopener noreferrer" to external links
+ * - XSS prevention: Dangerous hrefs are replaced with # to prevent script injection
+ *
+ * Accessibility Features (WCAG 2.2 AA):
+ * - Semantic list structure (ul/ol with li elements)
+ * - aria-current on active items
+ * - aria-disabled on disabled items
+ * - role="button" for interactive div items with full keyboard support
  */
 const meta: Meta<typeof ListGroup> = {
   title: 'Components/ListGroup',
@@ -171,11 +180,7 @@ export const ClickableItems: Story = {
     return (
       <ListGroup>
         {['Item 1', 'Item 2', 'Item 3', 'Item 4'].map((item) => (
-          <ListGroupItem
-            key={item}
-            active={selected === item}
-            onClick={() => setSelected(item)}
-          >
+          <ListGroupItem key={item} active={selected === item} onClick={() => setSelected(item)}>
             {item}
           </ListGroupItem>
         ))}
@@ -212,13 +217,31 @@ export const LinkItems: Story = {
 export const WithBadges: Story = {
   render: () => (
     <ListGroup>
-      <ListGroupItem badge={<Badge variant="primary" pill>14</Badge>}>
+      <ListGroupItem
+        badge={
+          <Badge variant="primary" pill>
+            14
+          </Badge>
+        }
+      >
         Inbox
       </ListGroupItem>
-      <ListGroupItem badge={<Badge variant="primary" pill>3</Badge>}>
+      <ListGroupItem
+        badge={
+          <Badge variant="primary" pill>
+            3
+          </Badge>
+        }
+      >
         Drafts
       </ListGroupItem>
-      <ListGroupItem badge={<Badge variant="primary" pill>99+</Badge>}>
+      <ListGroupItem
+        badge={
+          <Badge variant="primary" pill>
+            99+
+          </Badge>
+        }
+      >
         Spam
       </ListGroupItem>
     </ListGroup>
@@ -452,10 +475,22 @@ export const CompleteShowcase: Story = {
       <section>
         <h5 className="mb-2">With Badges</h5>
         <ListGroup>
-          <ListGroupItem badge={<Badge variant="primary" pill>14</Badge>}>
+          <ListGroupItem
+            badge={
+              <Badge variant="primary" pill>
+                14
+              </Badge>
+            }
+          >
             Inbox
           </ListGroupItem>
-          <ListGroupItem badge={<Badge variant="primary" pill>3</Badge>}>
+          <ListGroupItem
+            badge={
+              <Badge variant="primary" pill>
+                3
+              </Badge>
+            }
+          >
             Drafts
           </ListGroupItem>
         </ListGroup>
@@ -477,3 +512,128 @@ export const CompleteShowcase: Story = {
   ),
 };
 
+// =============================================================================
+// Security Features
+// =============================================================================
+
+/**
+ * Security: Href Sanitization
+ *
+ * The ListGroup component blocks dangerous URL protocols to prevent XSS attacks.
+ * Dangerous protocols (javascript:, data:, vbscript:, file:) are replaced with #.
+ */
+export const SecurityHrefSanitization: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div>
+        <h5>Href Sanitization</h5>
+        <p className="text-muted small">
+          Dangerous URL protocols are automatically blocked and replaced with #.
+        </p>
+      </div>
+      <ListGroup>
+        <ListGroupItem href="https://example.com">
+          <CheckCircleFillIcon className="text-success me-2" size={16} />
+          Safe: HTTPS link
+        </ListGroupItem>
+        <ListGroupItem href="/internal/path">
+          <CheckCircleFillIcon className="text-success me-2" size={16} />
+          Safe: Relative link
+        </ListGroupItem>
+        <ListGroupItem href="mailto:test@example.com">
+          <CheckCircleFillIcon className="text-success me-2" size={16} />
+          Safe: Email link
+        </ListGroupItem>
+        <ListGroupItem href="javascript:alert('XSS')">
+          <XCircleFillIcon className="text-danger me-2" size={16} />
+          Blocked: javascript: protocol (renders as #)
+        </ListGroupItem>
+        <ListGroupItem href="data:text/html,<script>alert('XSS')</script>">
+          <XCircleFillIcon className="text-danger me-2" size={16} />
+          Blocked: data: protocol (renders as #)
+        </ListGroupItem>
+      </ListGroup>
+    </div>
+  ),
+};
+
+/**
+ * Security: External Link Protection
+ *
+ * External links automatically receive rel="noopener noreferrer" to prevent
+ * tabnabbing attacks and referrer leakage.
+ */
+export const SecurityExternalLinks: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div>
+        <h5>External Link Protection</h5>
+        <p className="text-muted small">
+          External links (http:// and https://) automatically get rel="noopener noreferrer".
+        </p>
+      </div>
+      <ListGroup>
+        <ListGroupItem href="https://external.com">
+          External HTTPS link (has rel="noopener noreferrer")
+        </ListGroupItem>
+        <ListGroupItem href="http://external.com">
+          External HTTP link (has rel="noopener noreferrer")
+        </ListGroupItem>
+        <ListGroupItem href="/internal">Internal link (no rel attribute)</ListGroupItem>
+        <ListGroupItem href="#section">Anchor link (no rel attribute)</ListGroupItem>
+      </ListGroup>
+      <div className="alert alert-info small">
+        <strong>Why this matters:</strong> The <code>rel="noopener noreferrer"</code> attribute
+        prevents the linked page from accessing <code>window.opener</code>, protecting against
+        tabnabbing attacks and preventing referrer information leakage.
+      </div>
+    </div>
+  ),
+};
+
+// =============================================================================
+// Accessibility Features
+// =============================================================================
+
+/**
+ * Accessibility: Interactive Div with Keyboard Support
+ *
+ * When using as="div" with onClick, the component provides full keyboard
+ * accessibility with role="button", tabIndex, and Enter/Space key support.
+ */
+export const AccessibilityInteractiveDiv: Story = {
+  render: function InteractiveDivExample() {
+    const [clicked, setClicked] = useState<string | null>(null);
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div>
+          <h5>Interactive Div with Keyboard Support</h5>
+          <p className="text-muted small">
+            Use Tab to navigate and Enter/Space to activate. The div has role="button".
+          </p>
+        </div>
+        <ListGroup>
+          <ListGroupItem
+            as="div"
+            onClick={() => setClicked('Item 1')}
+            active={clicked === 'Item 1'}
+          >
+            Div Item 1 (click or press Enter/Space)
+          </ListGroupItem>
+          <ListGroupItem
+            as="div"
+            onClick={() => setClicked('Item 2')}
+            active={clicked === 'Item 2'}
+          >
+            Div Item 2 (click or press Enter/Space)
+          </ListGroupItem>
+          <ListGroupItem as="div" onClick={() => setClicked('Item 3')} disabled>
+            Disabled Div Item (not focusable)
+          </ListGroupItem>
+        </ListGroup>
+        {clicked && <p className="text-muted small">Last clicked: {clicked}</p>}
+      </div>
+    );
+  },
+};

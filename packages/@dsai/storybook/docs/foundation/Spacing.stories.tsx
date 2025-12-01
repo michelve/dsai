@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import tokens from '@dsai/tokens';
 
 const meta: Meta = {
   title: 'Foundation/Spacing',
@@ -7,7 +6,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'Consistent spacing scale (0-10) for margins, padding, and gaps. Base unit: 4px, Bootstrap-compatible. 💡 Tip: Use the Measure & Outline tool in the toolbar to see actual spacing values.',
+          'Consistent spacing scale (0-10) for margins, padding, and gaps. Base unit: 4px, Bootstrap-compatible. Tip: Use the Measure & Outline tool in the toolbar to see actual spacing values.',
       },
     },
     // Encourage use of Measure & Outline tools for precise spacing verification

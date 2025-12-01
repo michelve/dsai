@@ -1,4 +1,16 @@
-import { Button } from '@dsai/react';
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  Button,
+  CheckIcon,
+  ChevronDownIcon,
+  ExclamationTriangleIcon,
+  GearIcon,
+  PlusIcon,
+  SaveIcon,
+  Trash3Icon,
+  XLgIcon,
+} from '@dsai/react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
@@ -13,6 +25,13 @@ import { useState } from 'react';
  * - Dynamic state announcements via aria-live
  * - Whitelist-based prop spreading for security
  * - Full WCAG 2.2 AA accessibility compliance
+ * - FSM-driven visual state management
+ *
+ * Test Coverage: 151 tests across 4 test files
+ * - Button.test.tsx: Core unit tests (85 tests)
+ * - Button.a11y.test.tsx: Accessibility tests (24 tests)
+ * - Button.fsm.test.ts: FSM reducer tests (36 tests)
+ * - Button.integration.test.tsx: Integration tests (6 tests)
  */
 
 // Helper component for loading variants showcase
@@ -36,17 +55,17 @@ const LoadingVariantsShowcase = () => (
 // Helper component for icons showcase
 const IconsShowcase = () => (
   <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-    <Button variant="primary" startIcon="⬅">
+    <Button variant="primary" startIcon={<ArrowLeftIcon />}>
       Previous
     </Button>
-    <Button variant="primary" endIcon="➡">
+    <Button variant="primary" endIcon={<ArrowRightIcon />}>
       Next
     </Button>
-    <Button variant="primary" startIcon="✓" endIcon="→">
+    <Button variant="primary" startIcon={<CheckIcon />} endIcon={<ArrowRightIcon />}>
       Confirm & Continue
     </Button>
     <Button variant="outline-secondary" aria-label="Close dialog">
-      ×
+      <XLgIcon />
     </Button>
   </div>
 );
@@ -101,8 +120,8 @@ const MultiStateAnnouncementDemo = () => {
   const announceText = {
     idle: '',
     loading: 'Operation in progress...',
-    success: '✓ Operation completed successfully',
-    error: '⚠ Operation failed. Please try again.',
+    success: 'Operation completed successfully',
+    error: 'Operation failed. Please try again.',
   };
 
   return (
@@ -115,7 +134,15 @@ const MultiStateAnnouncementDemo = () => {
         onClick={handleSave}
         disabled={status === 'loading'}
       >
-        {status === 'loading' ? 'Saving...' : status === 'success' ? '✓ Saved' : 'Save'}
+        {status === 'loading' ? (
+          'Saving...'
+        ) : status === 'success' ? (
+          <>
+            <CheckIcon size={14} /> Saved
+          </>
+        ) : (
+          'Save'
+        )}
       </Button>
       <Button
         variant="danger"
@@ -125,7 +152,15 @@ const MultiStateAnnouncementDemo = () => {
         onClick={handleDelete}
         disabled={status === 'loading'}
       >
-        {status === 'loading' ? 'Deleting...' : status === 'error' ? '✗ Failed' : 'Delete'}
+        {status === 'loading' ? (
+          'Deleting...'
+        ) : status === 'error' ? (
+          <>
+            <XLgIcon size={14} /> Failed
+          </>
+        ) : (
+          'Delete'
+        )}
       </Button>
     </div>
   );
@@ -141,7 +176,8 @@ const meta: Meta<typeof Button> = {
         component:
           'A versatile button component with multiple variants, sizes, and states. ' +
           'Fully accessible (WCAG 2.2 AA compliant) with keyboard navigation, focus management, ' +
-          'and proper color contrast ratios. Uses design tokens for consistent theming.',
+          'and proper color contrast ratios. Uses design tokens for consistent theming. ' +
+          '**Test Coverage:** 151 tests across 4 test files ensuring reliability and accessibility.',
       },
     },
     backgrounds: {
@@ -348,8 +384,10 @@ export const Light: Story = {
     variant: 'light',
     children: 'Light Button',
   },
-  parameters: {
-    backgrounds: { default: 'dark' },
+  globals: {
+    backgrounds: {
+      value: 'dark',
+    },
   },
 };
 
@@ -489,26 +527,29 @@ export const ResetButton: Story = {
 };
 
 /**
- * Buttons with icons (example using emoji)
+ * Buttons with icons
  */
 export const WithIconLeft: Story = {
   args: {
     variant: 'primary',
-    children: <>✓ Save Changes</>,
+    startIcon: <CheckIcon />,
+    children: 'Save Changes',
   },
 };
 
 export const WithIconRight: Story = {
   args: {
     variant: 'primary',
-    children: <>Next →</>,
+    endIcon: <ArrowRightIcon />,
+    children: 'Next',
   },
 };
 
 export const IconOnly: Story = {
   args: {
     variant: 'primary',
-    children: '×',
+    startIcon: <XLgIcon />,
+    children: '',
     'aria-label': 'Close',
   },
 };
@@ -519,7 +560,8 @@ export const IconOnly: Story = {
 export const WithAriaLabel: Story = {
   args: {
     variant: 'primary',
-    children: '×',
+    startIcon: <XLgIcon />,
+    children: '',
     'aria-label': 'Close dialog',
   },
 };
@@ -527,7 +569,8 @@ export const WithAriaLabel: Story = {
 export const WithAriaExpanded: Story = {
   args: {
     variant: 'secondary',
-    children: 'Toggle Menu ▼',
+    endIcon: <ChevronDownIcon />,
+    children: 'Toggle Menu',
     'aria-expanded': false,
     'aria-controls': 'menu',
   },
@@ -608,7 +651,7 @@ export const LoadingDifferentVariants: Story = {
 export const WithStartIcon: Story = {
   args: {
     variant: 'primary',
-    startIcon: '⬅',
+    startIcon: <ArrowLeftIcon />,
     children: 'Previous',
   },
 };
@@ -616,7 +659,7 @@ export const WithStartIcon: Story = {
 export const WithEndIcon: Story = {
   args: {
     variant: 'primary',
-    endIcon: '➡',
+    endIcon: <ArrowRightIcon />,
     children: 'Next',
   },
 };
@@ -624,8 +667,8 @@ export const WithEndIcon: Story = {
 export const WithBothIcons: Story = {
   args: {
     variant: 'primary',
-    startIcon: '✓',
-    endIcon: '→',
+    startIcon: <CheckIcon />,
+    endIcon: <ArrowRightIcon />,
     children: 'Confirm & Continue',
   },
 };
@@ -633,7 +676,8 @@ export const WithBothIcons: Story = {
 export const IconOnlyButton: Story = {
   args: {
     variant: 'outline-secondary',
-    children: '×',
+    startIcon: <XLgIcon />,
+    children: '',
     'aria-label': 'Close dialog',
   },
 };
@@ -668,6 +712,477 @@ export const AllSizes: Story = {
       <Button variant="primary" size="lg">
         Large
       </Button>
+    </div>
+  ),
+};
+
+/**
+ * FSM Visual States Showcase
+ *
+ * The Button component uses a Finite State Machine (FSM) to manage visual states.
+ * These stories demonstrate the FSM behavior and state transitions.
+ *
+ * FSM States:
+ * - idle: default state, no interaction
+ * - hovered: mouse over the button (auto via CSS :hover)
+ * - focused: keyboard focus (auto via CSS :focus-visible)
+ * - pressed: mouse down state
+ * - disabled: disabled prop = true (prop-driven)
+ * - loading: loading prop = true (prop-driven)
+ * - error: error prop = true (prop-driven)
+ */
+
+/**
+ * Error State - New FSM capability
+ * Demonstrates the error visual state (red tint, alert styling)
+ */
+export const ErrorState: Story = {
+  args: {
+    variant: 'danger',
+    children: 'Error State',
+    error: true,
+  },
+};
+
+export const ErrorWithRecovery: Story = {
+  render: () => {
+    const [hasError, setHasError] = useState(false);
+
+    const handleClick = async () => {
+      setHasError(true);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setHasError(false);
+    };
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <Button variant="primary" error={hasError} onClick={handleClick} disabled={hasError}>
+          {hasError ? 'Error - Retry' : 'Click Me'}
+        </Button>
+        <p style={{ fontSize: '0.875rem', color: '#666' }}>
+          Click the button to trigger error state. After 2 seconds, error clears automatically.
+        </p>
+      </div>
+    );
+  },
+};
+
+/**
+ * FSM State Priority Demonstration
+ *
+ * Shows how FSM handles state precedence:
+ * disabled > loading > error > interactive states
+ */
+export const FSMStatePriority: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          Idle State (default)
+        </h3>
+        <Button variant="primary">Idle State</Button>
+      </div>
+
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          Loading State (prop-driven)
+        </h3>
+        <Button variant="primary" loading>
+          Loading...
+        </Button>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+          Loading overrides interactive states. FSM ignores hover/press/focus events.
+        </p>
+      </div>
+
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          Error State (prop-driven)
+        </h3>
+        <Button variant="danger" error>
+          Error Occurred
+        </Button>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+          Error state visually indicates a problem. FSM prevents interaction.
+        </p>
+      </div>
+
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          Disabled State (highest priority)
+        </h3>
+        <Button variant="primary" disabled>
+          Disabled State
+        </Button>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+          Disabled takes precedence over all other states. No interaction possible.
+        </p>
+      </div>
+
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          Disabled Loading (disabled wins)
+        </h3>
+        <Button variant="primary" disabled loading>
+          Disabled & Loading
+        </Button>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+          When both disabled and loading, disabled takes precedence (FSM priority rule).
+        </p>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * FSM Interactive States with Focus/Hover
+ *
+ * Demonstrates FSM state transitions during user interaction.
+ * Try hovering, focusing, or pressing the button to see state changes
+ * reflected in the data-visual-state attribute.
+ */
+export const FSMInteractiveStates: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          Interactive States Demo
+        </h3>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginBottom: '1rem' }}>
+          Try these interactions and observe the button behavior:
+        </p>
+        <ul
+          style={{
+            fontSize: '0.75rem',
+            color: '#666',
+            marginBottom: '1rem',
+            paddingLeft: '1.5rem',
+          }}
+        >
+          <li>Hover over the button → hovered state</li>
+          <li>Focus with keyboard (Tab) → focused state</li>
+          <li>Press mouse down → pressed state</li>
+          <li>Release → returns to previous state (idle, hovered, or focused)</li>
+          <li>Blur (click away) → idle state</li>
+        </ul>
+      </div>
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+        <Button variant="primary">Primary Button</Button>
+        <Button variant="success">Success Button</Button>
+        <Button variant="outline-secondary">Outline Button</Button>
+      </div>
+
+      <div>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '1rem' }}>
+          <strong>FSM State Tracking:</strong> The button element includes a{' '}
+          <code>data-visual-state</code> attribute that changes as you interact with it. Open
+          browser DevTools Inspector to see the attribute updates in real-time.
+        </p>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * FSM State Transitions Under Async Operations
+ *
+ * Shows realistic use case: button transitions between idle → loading → error/success
+ */
+export const FSMAsyncOperations: Story = {
+  render: () => {
+    const [states, setStates] = useState<Record<string, { isLoading: boolean; isError: boolean }>>({
+      success: { isLoading: false, isError: false },
+      failure: { isLoading: false, isError: false },
+      mixed: { isLoading: false, isError: false },
+    });
+
+    const handleAsyncOperation = async (key: string, shouldFail: boolean) => {
+      setStates((prev) => ({
+        ...prev,
+        [key]: { isLoading: true, isError: false },
+      }));
+
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      setStates((prev) => ({
+        ...prev,
+        [key]: { isLoading: false, isError: shouldFail },
+      }));
+
+      setTimeout(() => {
+        setStates((prev) => ({
+          ...prev,
+          [key]: { isLoading: false, isError: false },
+        }));
+      }, 2000);
+    };
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <div>
+          <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+            Successful Operation
+          </h3>
+          <Button
+            variant="success"
+            loading={states.success.isLoading}
+            onClick={() => handleAsyncOperation('success', false)}
+          >
+            {states.success.isLoading ? 'Processing...' : 'Save Successfully'}
+          </Button>
+        </div>
+
+        <div>
+          <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+            Failed Operation
+          </h3>
+          <Button
+            variant="danger"
+            error={states.failure.isError}
+            loading={states.failure.isLoading}
+            onClick={() => handleAsyncOperation('failure', true)}
+          >
+            {states.failure.isLoading
+              ? 'Processing...'
+              : states.failure.isError
+                ? 'Failed - Retry'
+                : 'Delete Item'}
+          </Button>
+        </div>
+
+        <div>
+          <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+            Confirm Action Flow
+          </h3>
+          <Button
+            variant="warning"
+            loading={states.mixed.isLoading}
+            error={states.mixed.isError}
+            onClick={() => handleAsyncOperation('mixed', false)}
+          >
+            {states.mixed.isLoading ? 'Processing...' : 'Confirm Action'}
+          </Button>
+        </div>
+
+        <div style={{ backgroundColor: '#f5f5f5', padding: '1rem', borderRadius: '4px' }}>
+          <p style={{ fontSize: '0.75rem', color: '#666', margin: 0 }}>
+            <strong>FSM Transition Flow:</strong>
+          </p>
+          <p style={{ fontSize: '0.75rem', color: '#666', margin: '0.5rem 0 0 0' }}>
+            idle → loading → (success: idle) or (error: error state)
+          </p>
+          <p style={{ fontSize: '0.75rem', color: '#666', margin: '0.5rem 0 0 0' }}>
+            Each button manages its own FSM state independently.
+          </p>
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * Accessibility Features Showcase
+ *
+ * The Button component is fully WCAG 2.2 AA compliant with comprehensive
+ * accessibility features tested by 24 dedicated accessibility tests.
+ *
+ * Features demonstrated:
+ * - Proper ARIA attributes (aria-label, aria-describedby, aria-controls, etc.)
+ * - Keyboard navigation (Tab, Enter, Space)
+ * - Screen reader support
+ * - Icon-only button accessibility guards
+ * - Focus visibility
+ */
+
+/**
+ * Icon-only buttons MUST have aria-label for accessibility
+ */
+export const AccessibleIconOnlyButton: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          ✅ Accessible Icon-only Buttons
+        </h3>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <Button variant="outline-secondary" aria-label="Close dialog" startIcon={<XLgIcon />}>
+            {''}
+          </Button>
+          <Button variant="outline-primary" aria-label="Settings" startIcon={<GearIcon />}>
+            {''}
+          </Button>
+          <Button variant="outline-danger" aria-label="Delete item" startIcon={<Trash3Icon />}>
+            {''}
+          </Button>
+          <Button variant="outline-success" aria-label="Add item" startIcon={<PlusIcon />}>
+            {''}
+          </Button>
+        </div>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+          Each icon-only button has an <code>aria-label</code> for screen readers.
+        </p>
+      </div>
+
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          ✅ Icon + Text (no aria-label needed)
+        </h3>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <Button variant="primary" startIcon={<SaveIcon />}>
+            Save
+          </Button>
+          <Button variant="success" startIcon={<CheckIcon />}>
+            Confirm
+          </Button>
+          <Button variant="secondary" endIcon={<ArrowRightIcon />}>
+            Next
+          </Button>
+        </div>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+          Buttons with visible text content automatically have accessible names.
+        </p>
+      </div>
+
+      <div
+        style={{
+          backgroundColor: '#fff3cd',
+          padding: '1rem',
+          borderRadius: '4px',
+          border: '1px solid #ffc107',
+        }}
+      >
+        <p style={{ fontSize: '0.75rem', color: '#856404', margin: 0 }}>
+          <strong>
+            <ExclamationTriangleIcon size={14} style={{ marginRight: '4px' }} />
+            Accessibility Note:
+          </strong>{' '}
+          Icon-only buttons without <code>aria-label</code> will fail WCAG 2.2 AA compliance. Our
+          test suite includes guards that verify this requirement.
+        </p>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * Keyboard Navigation Demo
+ * Tests verify Enter, Space, Tab navigation work correctly
+ */
+export const KeyboardNavigationDemo: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+          Keyboard Navigation Test
+        </h3>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginBottom: '1rem' }}>
+          Use Tab to navigate between buttons. Press Enter or Space to activate.
+        </p>
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+          <Button variant="primary">First Button</Button>
+          <Button variant="secondary">Second Button</Button>
+          <Button variant="success" disabled>
+            Disabled (Skip)
+          </Button>
+          <Button variant="info">Third Button</Button>
+        </div>
+      </div>
+
+      <div
+        style={{
+          backgroundColor: '#d1ecf1',
+          padding: '1rem',
+          borderRadius: '4px',
+          border: '1px solid #bee5eb',
+        }}
+      >
+        <p style={{ fontSize: '0.75rem', color: '#0c5460', margin: 0 }}>
+          <strong>Test Coverage:</strong> The Button.a11y.test.tsx file includes 6 keyboard
+          interaction tests verifying:
+        </p>
+        <ul
+          style={{
+            fontSize: '0.75rem',
+            color: '#0c5460',
+            marginTop: '0.5rem',
+            paddingLeft: '1rem',
+          }}
+        >
+          <li>Enter key triggers onClick</li>
+          <li>Space key triggers onClick</li>
+          <li>Disabled buttons block keyboard interaction</li>
+          <li>Loading buttons block keyboard interaction</li>
+          <li>Tab navigation works between buttons</li>
+          <li>Disabled buttons are not focusable via Tab</li>
+        </ul>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * ARIA Attributes Demo
+ * Shows all supported ARIA attributes for accessibility
+ */
+export const ARIAAttributesDemo: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          aria-expanded (Expandable)
+        </h3>
+        <Button
+          variant="outline-secondary"
+          aria-expanded={false}
+          aria-controls="dropdown-menu"
+          endIcon={<ChevronDownIcon />}
+        >
+          Dropdown Menu
+        </Button>
+      </div>
+
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          aria-pressed (Toggle)
+        </h3>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <Button variant="outline-primary" aria-pressed={false}>
+            Off
+          </Button>
+          <Button variant="primary" aria-pressed={true}>
+            On
+          </Button>
+        </div>
+      </div>
+
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+          aria-describedby (Additional description)
+        </h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <Button variant="danger" aria-label="Delete Account - This action cannot be undone">
+            Delete Account
+          </Button>
+          <span style={{ fontSize: '0.75rem', color: '#dc3545' }}>
+            This action cannot be undone.
+          </span>
+        </div>
+      </div>
+
+      <div
+        style={{
+          backgroundColor: '#e7f3e7',
+          padding: '1rem',
+          borderRadius: '4px',
+          border: '1px solid #28a745',
+        }}
+      >
+        <p style={{ fontSize: '0.75rem', color: '#155724', margin: 0 }}>
+          <strong>✅ All ARIA attributes tested:</strong> aria-label, aria-describedby,
+          aria-controls, aria-expanded, aria-pressed, aria-busy
+        </p>
+      </div>
     </div>
   ),
 };

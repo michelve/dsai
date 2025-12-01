@@ -1,15 +1,28 @@
 /* eslint jsx-a11y/no-autofocus: 0 */
 /* eslint-disable jsx-a11y/no-autofocus */
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useEffect, useReducer } from 'react';
 
-import { Spinner } from '../Spinner';
-
+import { BaseButton } from './BaseButton';
+import { type ButtonFSMEvent, buttonFSMReducer, createInitialButtonFSMState } from './Button.fsm';
 import type { ButtonProps } from './Button.types';
 
 /**
- * Button Component
+ * Button Component with FSM State Management
  *
- * A versatile, accessible button component using Bootstrap 5 native classes.
+ * A versatile, accessible button component using Bootstrap 5 native classes
+ * enhanced with Finite State Machine for visual state management.
+ *
+ * FSM manages visual states based on user interactions:
+ * - idle: default state
+ * - hovered: mouse over
+ * - focused: keyboard focus
+ * - pressed: mouse down
+ * - disabled: disabled state (prop-driven)
+ * - loading: loading state (prop-driven)
+ * - error: error state (prop-driven)
+ *
+ * The FSM ensures predictable, consistent visual feedback for all interactions.
+ *
  * DSAi design tokens are applied through the Bootstrap theme (bootstrap.css).
  * Supports multiple variants, sizes, states, icons, and loading with full WCAG 2.2 AA compliance.
  *
@@ -38,6 +51,11 @@ import type { ButtonProps } from './Button.types';
  * // With icons
  * <Button variant="success" startIcon={<CheckIcon />}>
  *   Save
+ * </Button>
+ *
+ * // Error state
+ * <Button variant="primary" error>
+ *   Error occurred
  * </Button>
  *
  * // Full width button
@@ -71,141 +89,91 @@ import type { ButtonProps } from './Button.types';
  * - Consistent Help (WCAG 2.2 3.2.6)
  */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      children,
-      variant = 'primary',
-      size = 'md',
-      disabled = false,
-      loading = false,
-      loadingText,
-      startIcon,
-      endIcon,
-      onClick,
-      className = '',
-      type = 'button',
-      fullWidth = false,
-      style,
-      id,
-      name,
-      value,
-      tabIndex,
-      'aria-label': ariaLabel,
-      'aria-describedby': ariaDescribedBy,
-      'aria-controls': ariaControls,
-      'aria-expanded': ariaExpanded,
-      'aria-pressed': ariaPressed,
-      'data-testid': dataTestId,
-      'data-test': dataTest,
-      title,
-      form,
-      formAction,
-      formMethod,
-      formNoValidate,
-      formTarget,
-      announceText,
-      announce = !!announceText,
-    },
-    ref
-  ) => {
-    // Button is disabled when explicitly disabled or loading
-    const isDisabled = disabled || loading;
-
-    // Build Bootstrap class names - memoized to prevent unnecessary recalculation
-    // This prevents performance overhead when props haven't changed
-    const bootstrapClasses = useMemo(
-      () =>
-        [
-          'btn', // Base Bootstrap button class
-          `btn-${variant}`, // Variant: btn-primary, btn-outline-secondary, etc.
-          size === 'sm' && 'btn-sm',
-          size === 'lg' && 'btn-lg',
-          // Note: 'md' is the default size in Bootstrap, no class needed
-          fullWidth && 'w-100', // Bootstrap utility for full width
-          className, // Allow additional custom classes
-        ]
-          .filter(Boolean)
-          .join(' '),
-      [variant, size, fullWidth, className]
+  ({ disabled = false, loading = false, error = false, onClick, ...restProps }, ref) => {
+    // Initialize FSM with current state
+    const [fsmState, dispatch] = useReducer(
+      buttonFSMReducer,
+      { disabled, loading, error },
+      (initialState) =>
+        createInitialButtonFSMState(initialState.disabled, initialState.loading, initialState.error)
     );
 
-    // Determine what content to show
-    const showLoadingText = loading && loadingText;
-    const displayText = showLoadingText ? loadingText : children;
+    // Sync FSM with external prop changes
+    useEffect(() => {
+      if (disabled && !fsmState.isDisabled) {
+        dispatch({ type: 'DISABLE' });
+      } else if (!disabled && fsmState.isDisabled) {
+        dispatch({ type: 'ENABLE' });
+      }
+    }, [disabled, fsmState.isDisabled]);
+
+    useEffect(() => {
+      dispatch({ type: 'LOADING', payload: loading });
+    }, [loading]);
+
+    useEffect(() => {
+      dispatch({ type: 'ERROR', payload: error });
+    }, [error]);
+
+    // FSM event handlers
+    const dispatchFSMEvent = (event: ButtonFSMEvent) => {
+      dispatch(event);
+    };
+
+    // Create wrapper handlers that dispatch FSM events and call user handlers
+    const handleMouseEnter = () => {
+      dispatchFSMEvent({ type: 'HOVER' });
+    };
+
+    const handleMouseLeave = () => {
+      dispatchFSMEvent({ type: 'BLUR' });
+    };
+
+    const handleFocus = () => {
+      dispatchFSMEvent({ type: 'FOCUS' });
+    };
+
+    const handleBlur = () => {
+      dispatchFSMEvent({ type: 'BLUR' });
+    };
+
+    const handleMouseUp = () => {
+      dispatchFSMEvent({ type: 'RELEASE' });
+    };
+
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      // Prevent click if disabled or loading
+      if (disabled || loading) {
+        e.preventDefault();
+        return;
+      }
+      onClick?.(e);
+    };
+
+    // Note: onMouseDown for FSM - only respond to left button (button 0)
+    const handleMouseDownFSM = (e: React.MouseEvent<HTMLButtonElement>) => {
+      // Only dispatch PRESS for left mouse button
+      if (e.button === 0) {
+        dispatchFSMEvent({ type: 'PRESS' });
+      }
+    };
 
     return (
-      <>
-        <button
-          ref={ref}
-          type={type}
-          className={bootstrapClasses}
-          disabled={isDisabled}
-          onClick={onClick}
-          style={style}
-          id={id}
-          name={name}
-          value={value}
-          tabIndex={tabIndex}
-          aria-label={ariaLabel}
-          aria-describedby={ariaDescribedBy}
-          aria-controls={ariaControls}
-          aria-expanded={ariaExpanded}
-          aria-pressed={ariaPressed}
-          aria-disabled={isDisabled}
-          aria-busy={loading}
-          data-testid={dataTestId}
-          data-test={dataTest}
-          title={title}
-          form={form}
-          formAction={formAction}
-          formMethod={formMethod}
-          formNoValidate={formNoValidate}
-          formTarget={formTarget}
-        >
-          {/* Loading spinner */}
-          {loading && (
-            <Spinner
-              as="span"
-              size="sm"
-              className={displayText ? 'me-2' : undefined}
-              label="Loading"
-            />
-          )}
-
-          {/* Start icon (decorative, hidden from screen readers) */}
-          {!loading && startIcon && (
-            <span className="me-2 d-inline-flex align-items-center" aria-hidden="true">
-              {startIcon}
-            </span>
-          )}
-
-          {/* Button text content */}
-          {displayText && <span>{displayText}</span>}
-
-          {/* End icon (decorative, hidden from screen readers) */}
-          {!loading && endIcon && (
-            <span className="ms-2 d-inline-flex align-items-center" aria-hidden="true">
-              {endIcon}
-            </span>
-          )}
-        </button>
-        {/* Aria-live announcement region for dynamic state changes */}
-        {announceText && announce && (
-          <output
-            aria-live="polite"
-            aria-atomic="true"
-            style={{
-              position: 'absolute',
-              left: '-10000px',
-              width: '1px',
-              height: '1px',
-              overflow: 'hidden',
-            }}
-          >
-            {announceText}
-          </output>
-        )}
-      </>
+      <BaseButton
+        ref={ref}
+        {...restProps}
+        disabled={disabled}
+        loading={loading}
+        error={error}
+        onClick={handleClick}
+        fsmState={fsmState}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onMouseDown={handleMouseDownFSM}
+        onMouseUp={handleMouseUp}
+      />
     );
   }
 );

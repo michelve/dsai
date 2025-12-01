@@ -450,4 +450,52 @@ describe('Alert', () => {
       expect(screen.getByRole('status')).toHaveAttribute('aria-atomic', 'true');
     });
   });
+
+  describe('FSM Integration', () => {
+    it('exposes data-visual-state="visible" when shown', () => {
+      render(<Alert>Visible</Alert>);
+      expect(screen.getByRole('status')).toHaveAttribute('data-visual-state', 'visible');
+    });
+
+    it('removes element from DOM when dismissed via click', () => {
+      const handleClose = jest.fn();
+      render(
+        <Alert dismissible onClose={handleClose}>
+          Dismissible
+        </Alert>
+      );
+      fireEvent.click(screen.getByRole('button', { name: /close/i }));
+      expect(screen.queryByText('Dismissible')).not.toBeInTheDocument();
+      expect(handleClose).toHaveBeenCalledTimes(1);
+    });
+
+    it('removes element from DOM when dismissed via Escape', () => {
+      const handleClose = jest.fn();
+      render(
+        <Alert dismissible onClose={handleClose}>
+          Dismissible
+        </Alert>
+      );
+      fireEvent.keyDown(document, { key: 'Escape' });
+      expect(screen.queryByText('Dismissible')).not.toBeInTheDocument();
+      expect(handleClose).toHaveBeenCalledTimes(1);
+    });
+
+    it('shows alert when show prop changes from false to true', () => {
+      const { rerender } = render(<Alert show={false}>Toggle Alert</Alert>);
+      expect(screen.queryByText('Toggle Alert')).not.toBeInTheDocument();
+
+      rerender(<Alert show={true}>Toggle Alert</Alert>);
+      expect(screen.getByText('Toggle Alert')).toBeInTheDocument();
+      expect(screen.getByRole('status')).toHaveAttribute('data-visual-state', 'visible');
+    });
+
+    it('hides alert when show prop changes from true to false', () => {
+      const { rerender } = render(<Alert show={true}>Toggle Alert</Alert>);
+      expect(screen.getByText('Toggle Alert')).toBeInTheDocument();
+
+      rerender(<Alert show={false}>Toggle Alert</Alert>);
+      expect(screen.queryByText('Toggle Alert')).not.toBeInTheDocument();
+    });
+  });
 });

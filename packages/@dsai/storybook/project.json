@@ -30,13 +30,13 @@
     "kill": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "bash tools/scripts/kill-storybook.sh"
+        "command": "bash tools/scripts/storybook/kill-storybook.sh"
       }
     },
     "stop": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "bash tools/scripts/kill-storybook.sh"
+        "command": "bash tools/scripts/storybook/kill-storybook.sh"
       }
     }
   },

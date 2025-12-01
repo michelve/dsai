@@ -1,7 +1,7 @@
-import { Input } from '@dsai/react';
+import { CheckIcon, Input, XLgIcon } from '@dsai/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { screen } from 'storybook/test';
+import { userEvent, within } from 'storybook/test';
 
 /**
  * Input component for text entry.
@@ -165,8 +165,9 @@ export const Default: Story = {
     type: 'email',
     placeholder: 'Enter your email',
   },
-  play: async ({ userEvent }) => {
-    const input = screen.getByLabelText('Email address');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByLabelText('Email address');
     await userEvent.type(input, 'user@example.com');
   },
 };
@@ -180,8 +181,9 @@ export const WithoutLabel: Story = {
     placeholder: 'Search...',
     type: 'search',
   },
-  play: async ({ userEvent }) => {
-    const input = screen.getByLabelText('Search');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByLabelText('Search');
     await userEvent.type(input, 'storybook');
   },
 };
@@ -282,8 +284,9 @@ export const WithPrefix: Story = {
     prefix: '$',
     placeholder: '0.00',
   },
-  play: async ({ userEvent }) => {
-    const input = screen.getByLabelText('Price');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByLabelText('Price');
     await userEvent.type(input, '99.99');
   },
 };
@@ -297,8 +300,9 @@ export const WithSuffix: Story = {
     suffix: '@company.com',
     placeholder: 'username',
   },
-  play: async ({ userEvent }) => {
-    const input = screen.getByLabelText('Email');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByLabelText('Email');
     await userEvent.type(input, 'john.doe');
   },
 };
@@ -314,8 +318,9 @@ export const WithPrefixAndSuffix: Story = {
     suffix: '.00',
     placeholder: '0',
   },
-  play: async ({ userEvent }) => {
-    const input = screen.getByLabelText('Amount');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByLabelText('Amount');
     await userEvent.type(input, '150');
   },
 };
@@ -339,8 +344,9 @@ export const WithIconPrefix: Story = {
 
     return <Input label="Search" type="search" prefix={<SearchIcon />} placeholder="Search..." />;
   },
-  play: async ({ userEvent }) => {
-    const input = screen.getByLabelText('Search');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByLabelText('Search');
     await userEvent.type(input, 'components');
   },
 };
@@ -367,8 +373,9 @@ export const Clearable: Story = {
       />
     );
   },
-  play: async ({ userEvent }) => {
-    const clearButton = screen.getByRole('button');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const clearButton = canvas.getByRole('button');
     await userEvent.click(clearButton);
   },
 };
@@ -388,8 +395,9 @@ export const CharacterCounter: Story = {
     helperText: 'Brief description about yourself',
     placeholder: 'Tell us about yourself...',
   },
-  play: async ({ userEvent }) => {
-    const input = screen.getByPlaceholderText('Tell us about yourself...');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByPlaceholderText('Tell us about yourself...');
     await userEvent.type(
       input,
       'I am a developer interested in design systems and component libraries.'
@@ -405,7 +413,7 @@ export const CharacterCounterWithValue: Story = {
     label: 'Tweet',
     maxLength: 280,
     showCount: true,
-    defaultValue: 'Just shipped a new feature! 🚀',
+    defaultValue: 'Just shipped a new feature!',
   },
 };
 
@@ -423,8 +431,9 @@ export const FloatingLabel: Story = {
     placeholder: 'name@example.com',
     type: 'email',
   },
-  play: async ({ userEvent }) => {
-    const input = screen.getByPlaceholderText('name@example.com');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByPlaceholderText('name@example.com');
     await userEvent.type(input, 'user@example.com');
   },
 };
@@ -472,8 +481,9 @@ export const Required: Story = {
     required: true,
     placeholder: 'Required field',
   },
-  play: async ({ userEvent }) => {
-    const input = screen.getByLabelText('Email');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByLabelText(/Email/i);
     await userEvent.type(input, 'required@example.com');
   },
 };
@@ -491,8 +501,9 @@ export const WithHelperText: Story = {
     type: 'password',
     helperText: 'Must be at least 8 characters long',
   },
-  play: async ({ userEvent }) => {
-    const input = screen.getByLabelText('Password');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByLabelText('Password');
     await userEvent.type(input, 'SecurePassword123');
   },
 };
@@ -520,8 +531,9 @@ export const Controlled: Story = {
       </div>
     );
   },
-  play: async ({ userEvent }) => {
-    const input = screen.getByPlaceholderText('Type something...');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByPlaceholderText('Type something...');
     await userEvent.type(input, 'Controlled component');
   },
 };
@@ -590,8 +602,9 @@ export const LoginForm: Story = {
       </form>
     );
   },
-  play: async ({ userEvent }) => {
-    const emailInputs = screen.getAllByDisplayValue('');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const emailInputs = canvas.getAllByDisplayValue('');
     const emailInput = emailInputs[0] as HTMLInputElement;
     const passwordInput = emailInputs[1] as HTMLInputElement;
 
@@ -669,6 +682,48 @@ export const SearchInput: Story = {
 };
 
 // =============================================================================
+// Focus State
+// =============================================================================
+
+/**
+ * Focus State: data-focused Attribute
+ *
+ * The Input component exposes a `data-focused` attribute on the input element
+ * when it has focus. This enables custom CSS styling for focus states beyond
+ * the default browser outline.
+ *
+ * The attribute is:
+ * - `data-focused="true"` when the input is focused
+ * - Removed (undefined) when the input loses focus
+ */
+export const FocusState: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div>
+        <h5>Focus State with data-focused Attribute</h5>
+        <p className="text-muted small">
+          Click on the input below to see the focus state. The <code>data-focused</code> attribute
+          is set to <code>true</code> when focused.
+        </p>
+      </div>
+      <Input
+        label="Focus me"
+        placeholder="Click to focus..."
+        helperText="Watch the data-focused attribute change"
+      />
+      <div className="alert alert-info small">
+        <strong>Custom Focus Styling:</strong>
+        <pre className="mb-0 mt-2">
+          {`input[data-focused='true'] {
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}`}
+        </pre>
+      </div>
+    </div>
+  ),
+};
+
+// =============================================================================
 // Security Features
 // =============================================================================
 
@@ -726,11 +781,26 @@ export const SecurityPropWhitelist: Story = {
       <div>
         <h5>Whitelisted Categories</h5>
         <ul className="text-muted small">
-          <li>✓ Standard HTML attributes (name, value, disabled, required, etc.)</li>
-          <li>✓ All ARIA attributes (aria-label, aria-describedby, etc.)</li>
-          <li>✓ Input-specific attributes (autoComplete, tabIndex, etc.)</li>
-          <li>✗ All event handlers (onClick, onLoad, onError, etc.)</li>
-          <li>✗ Dangerous properties (innerHTML, dangerouslySetInnerHTML, etc.)</li>
+          <li>
+            <CheckIcon size={14} className="text-success me-1" />
+            Standard HTML attributes (name, value, disabled, required, etc.)
+          </li>
+          <li>
+            <CheckIcon size={14} className="text-success me-1" />
+            All ARIA attributes (aria-label, aria-describedby, etc.)
+          </li>
+          <li>
+            <CheckIcon size={14} className="text-success me-1" />
+            Input-specific attributes (autoComplete, tabIndex, etc.)
+          </li>
+          <li>
+            <XLgIcon size={14} className="text-danger me-1" />
+            All event handlers (onClick, onLoad, onError, etc.)
+          </li>
+          <li>
+            <XLgIcon size={14} className="text-danger me-1" />
+            Dangerous properties (innerHTML, dangerouslySetInnerHTML, etc.)
+          </li>
         </ul>
       </div>
       <div>
@@ -858,11 +928,26 @@ export const PerformanceMemoization: Story = {
         <div className="alert alert-info small">
           <strong>Performance Benefits:</strong>
           <ul className="mb-0 mt-2">
-            <li>✓ Component wrapped with React.memo</li>
-            <li>✓ Class names memoized with useMemo</li>
-            <li>✓ Event handlers memoized with useCallback</li>
-            <li>✓ Computed values cached for efficient rendering</li>
-            <li>✓ Efficient re-render only when actual props change</li>
+            <li>
+              <CheckIcon size={14} className="text-success me-1" />
+              Component wrapped with React.memo
+            </li>
+            <li>
+              <CheckIcon size={14} className="text-success me-1" />
+              Class names memoized with useMemo
+            </li>
+            <li>
+              <CheckIcon size={14} className="text-success me-1" />
+              Event handlers memoized with useCallback
+            </li>
+            <li>
+              <CheckIcon size={14} className="text-success me-1" />
+              Computed values cached for efficient rendering
+            </li>
+            <li>
+              <CheckIcon size={14} className="text-success me-1" />
+              Efficient re-render only when actual props change
+            </li>
           </ul>
         </div>
       </div>

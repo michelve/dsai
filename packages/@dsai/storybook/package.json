@@ -6,14 +6,15 @@
   "scripts": {
     "prestorybook": "pnpm --filter @dsai/tokens build",
     "storybook": "storybook dev -p 6006",
-    "kill": "bash ../../tools/scripts/kill-storybook.sh",
+    "kill": "bash ../../tools/scripts/storybook/kill-storybook.sh",
     "stop": "pnpm kill",
     "prebuild": "pnpm --filter @dsai/tokens build",
     "build": "storybook build -o ./storybook-static",
     "build-storybook": "pnpm build",
-    "verify": "bash ../../tools/scripts/verify-storybook.sh",
+    "verify": "bash ../../tools/scripts/storybook/verify-storybook.sh",
     "test": "test-storybook",
-    "test-storybook": "test-storybook"
+    "test-storybook": "test-storybook",
+    "chromatic": "npx chromatic --project-token=chpt_d2e59f6da7c3b1c"
   },
   "keywords": [
     "storybook",
@@ -26,13 +27,16 @@
   },
   "license": "UNLICENSED",
   "devDependencies": {
-    "@storybook/addon-a11y": "^10.0.8",
-    "@storybook/addon-docs": "10.0.8",
-    "@storybook/addon-links": "^10.0.8",
-    "@storybook/react-vite": "^10.0.8",
+    "@chromatic-com/storybook": "^4.1.3",
+    "@storybook/addon-a11y": "^10.1.2",
+    "@storybook/addon-designs": "^11.0.3",
+    "@storybook/addon-docs": "10.1.2",
+    "@storybook/addon-links": "^10.1.2",
+    "@storybook/react-vite": "^10.1.2",
+    "chromatic": "^13.3.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "storybook": "^10.0.8",
+    "storybook": "^10.1.2",
     "vite": "^6.4.1"
   }
 }

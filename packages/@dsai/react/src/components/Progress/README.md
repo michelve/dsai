@@ -77,9 +77,21 @@ function App() {
 
 ```tsx
 <Progress aria-label="Multi-part progress">
-  <Progress.Bar value={15} variant="success" />
-  <Progress.Bar value={30} variant="warning" />
-  <Progress.Bar value={20} variant="danger" />
+  <Progress.Bar value={15} variant="success" aria-label="Completed tasks" />
+  <Progress.Bar value={30} variant="warning" aria-label="In progress tasks" />
+  <Progress.Bar value={20} variant="danger" aria-label="Blocked tasks" />
+</Progress>
+```
+
+### Decorative Stacked Bars
+
+For purely decorative stacked bars where the parent provides the accessible label:
+
+```tsx
+<Progress aria-label="Project status: 65% complete">
+  <Progress.Bar value={15} variant="success" aria-hidden />
+  <Progress.Bar value={30} variant="warning" aria-hidden />
+  <Progress.Bar value={20} variant="danger" aria-hidden />
 </Progress>
 ```
 
@@ -98,8 +110,8 @@ function App() {
 | `indeterminate`   | `boolean`         | `false`     | Indeterminate loading mode      |
 | `striped`         | `boolean`         | `false`     | Striped pattern                 |
 | `animated`        | `boolean`         | `false`     | Animated stripes                |
-| `min`             | `number`          | `0`         | Minimum value (aria-valuemin)   |
-| `max`             | `number`          | `100`       | Maximum value (aria-valuemax)   |
+| `min`             | `number`          | `0`         | Minimum value (aria-valuemin)¹  |
+| `max`             | `number`          | `100`       | Maximum value (aria-valuemax)¹  |
 | `children`        | `ReactNode`       | -           | Progress.Bar children (stacked) |
 | `className`       | `string`          | -           | Additional CSS classes          |
 | `style`           | `CSSProperties`   | -           | Inline styles                   |
@@ -107,17 +119,23 @@ function App() {
 | `aria-label`      | `string`          | -           | Accessible label                |
 | `aria-labelledby` | `string`          | -           | ID of labelling element         |
 
+¹ **Note**: `min` and `max` control ARIA semantics only, not the visual range. The visual width is always calculated as a percentage (0-100). For example, `min=10, max=20, value=15` results in a 15% visual width, but `aria-valuenow=15, aria-valuemin=10, aria-valuemax=20`.
+
 ### Progress.Bar
 
-| Prop        | Type              | Default      | Description            |
-| ----------- | ----------------- | ------------ | ---------------------- |
-| `value`     | `number`          | **required** | Progress value (0-100) |
-| `variant`   | `ProgressVariant` | `'primary'`  | Color variant          |
-| `showValue` | `boolean`         | `false`      | Show percentage        |
-| `valueText` | `string`          | -            | Custom value text      |
-| `striped`   | `boolean`         | `false`      | Striped pattern        |
-| `animated`  | `boolean`         | `false`      | Animated stripes       |
-| `className` | `string`          | -            | Additional CSS classes |
+| Prop          | Type              | Default      | Description                       |
+| ------------- | ----------------- | ------------ | --------------------------------- |
+| `value`       | `number`          | **required** | Progress value (0-100)            |
+| `variant`     | `ProgressVariant` | `'primary'`  | Color variant                     |
+| `showValue`   | `boolean`         | `false`      | Show percentage                   |
+| `valueText`   | `string`          | -            | Custom value text                 |
+| `striped`     | `boolean`         | `false`      | Striped pattern                   |
+| `animated`    | `boolean`         | `false`      | Animated stripes                  |
+| `className`   | `string`          | -            | Additional CSS classes            |
+| `aria-label`  | `string`          | auto²        | Accessible label                  |
+| `aria-hidden` | `boolean`         | `false`      | Mark as decorative (hide from AT) |
+
+² If `aria-label` is not provided and `aria-hidden` is false, defaults to `"{variant} progress: {percentage}%"`.
 
 ## Accessibility
 

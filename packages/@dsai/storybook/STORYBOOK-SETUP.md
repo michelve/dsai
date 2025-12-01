@@ -238,8 +238,8 @@ Our color palette follows WCAG 2.1 AA guidelines...
 
 - Token Configuration: `packages/@dsai/tokens/sd.config.mjs`
 - Token Package: `packages/@dsai/tokens/package.json`
-- Transform Script: `tools/scripts/transform-figma-tokens.js`
-- Validation Script: `tools/scripts/validate-tokens.js`
+- Transform Script: `tools/scripts/tokens/transform-figma-tokens.js`
+- Validation Script: `tools/scripts/tokens/validate-tokens.js`
 
 ## 📊 Current Status
 

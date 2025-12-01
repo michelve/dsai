@@ -1,0 +1,9 @@
+{
+  "name": "DSAi - Figma Icons TSX",
+  "api": "1.0.0",
+  "editorType": ["figma"],
+  "capabilities": [],
+  "permissions": [],
+  "main": "code.js",
+  "networkAccess": { "allowedDomains": ["none"] }
+}

@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
-
-import { Progress } from '@dsai/react';
-
+import { Button, CheckIcon, Progress } from '@dsai/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useEffect, useState } from 'react';
 
 /**
  * Progress bar component for showing progress or loading states.
@@ -228,6 +226,43 @@ export const CustomValueText: Story = {
   },
 };
 
+/**
+ * Custom min/max for ARIA semantics.
+ *
+ * **Note:** `min` and `max` control ARIA semantics only, not the visual range.
+ * The visual width is always calculated as a percentage (0-100).
+ *
+ * For example, with `min=10, max=20, value=15`:
+ * - Visual width = 15% (value is used directly as percentage)
+ * - `aria-valuenow=15`, `aria-valuemin=10`, `aria-valuemax=20`
+ */
+export const CustomMinMax: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <p className="text-muted small">
+        <code>min</code> and <code>max</code> control ARIA semantics only. The visual width is
+        always 0-100%.
+      </p>
+      <div>
+        <p className="small mb-1">Temperature: 15°C (min: 10°C, max: 20°C) - Visual: 15% width</p>
+        <Progress value={15} min={10} max={20} variant="info" aria-label="Temperature reading" />
+      </div>
+      <div>
+        <p className="small mb-1">Steps: 3 of 5 complete - Visual: 60% width</p>
+        <Progress
+          value={60}
+          min={0}
+          max={5}
+          showValue
+          valueText="Step 3 of 5"
+          variant="primary"
+          aria-label="Wizard progress"
+        />
+      </div>
+    </div>
+  ),
+};
+
 // =============================================================================
 // Indeterminate (Loading)
 // =============================================================================
@@ -306,9 +341,9 @@ export const StripedVariants: Story = {
 export const Stacked: Story = {
   render: () => (
     <Progress aria-label="Multi-part progress">
-      <Progress.Bar value={15} variant="success" />
-      <Progress.Bar value={30} variant="warning" />
-      <Progress.Bar value={20} variant="danger" />
+      <Progress.Bar value={15} variant="success" aria-label="Completed tasks" />
+      <Progress.Bar value={30} variant="warning" aria-label="In progress tasks" />
+      <Progress.Bar value={20} variant="danger" aria-label="Blocked tasks" />
     </Progress>
   ),
 };
@@ -319,10 +354,31 @@ export const Stacked: Story = {
 export const StackedWithValues: Story = {
   render: () => (
     <Progress aria-label="Multi-part progress with values">
-      <Progress.Bar value={15} variant="success" showValue />
-      <Progress.Bar value={30} variant="warning" showValue />
-      <Progress.Bar value={20} variant="danger" showValue />
+      <Progress.Bar value={15} variant="success" showValue aria-label="Success portion" />
+      <Progress.Bar value={30} variant="warning" showValue aria-label="Warning portion" />
+      <Progress.Bar value={20} variant="danger" showValue aria-label="Danger portion" />
     </Progress>
+  ),
+};
+
+/**
+ * Decorative stacked bars using aria-hidden.
+ * When the parent Progress provides the full accessible description,
+ * individual bars can be marked as decorative to avoid repetitive announcements.
+ */
+export const DecorativeStackedBars: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <p className="text-muted small">
+        Use <code>aria-hidden</code> on Progress.Bar for purely decorative stacked bars where the
+        parent provides the accessible label.
+      </p>
+      <Progress aria-label="Project status: 65% complete (15% done, 30% in progress, 20% blocked)">
+        <Progress.Bar value={15} variant="success" aria-hidden />
+        <Progress.Bar value={30} variant="warning" aria-hidden />
+        <Progress.Bar value={20} variant="danger" aria-hidden />
+      </Progress>
+    </div>
   ),
 };
 
@@ -389,9 +445,9 @@ export const FileUploadSimulation: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         {status === 'idle' && (
-          <button className="btn btn-primary" onClick={startUpload}>
+          <Button variant="primary" onClick={startUpload}>
             Start Upload
-          </button>
+          </Button>
         )}
 
         {status === 'uploading' && (
@@ -410,11 +466,11 @@ export const FileUploadSimulation: Story = {
           <div className="d-flex flex-column gap-2">
             <Progress value={100} variant="success" aria-label="Upload complete" />
             <div className="d-flex align-items-center gap-2">
-              <span className="text-success">✓</span>
+              <CheckIcon className="text-success" size={16} />
               <span>Upload complete!</span>
-              <button className="btn btn-sm btn-outline-primary ms-auto" onClick={startUpload}>
+              <Button size="sm" variant="outline-primary" className="ms-auto" onClick={startUpload}>
                 Upload Another
-              </button>
+              </Button>
             </div>
           </div>
         )}

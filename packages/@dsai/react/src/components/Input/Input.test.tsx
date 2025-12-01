@@ -359,6 +359,23 @@ describe('Input', () => {
 
       expect(input).toHaveAttribute('aria-describedby', helper.id);
     });
+
+    it('links error message with aria-describedby in addons layout', () => {
+      render(<Input label="Price" prefix="$" error helperText="Required field" />);
+      const input = screen.getByRole('textbox');
+      const helper = screen.getByText('Required field');
+
+      expect(helper).toHaveAttribute('id');
+      expect(input).toHaveAttribute('aria-describedby', helper.id);
+    });
+
+    it('has no a11y violations with prefix + error + helperText', async () => {
+      const { container } = render(
+        <Input label="Price" prefix="$" error helperText="Price is required" />
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
   });
 
   // ===========================================================================
@@ -428,6 +445,19 @@ describe('Input', () => {
       fireEvent.blur(input);
 
       expect(handleBlur).toHaveBeenCalled();
+    });
+
+    it('sets data-focused attribute when focused', () => {
+      render(<Input label="Test" />);
+      const input = screen.getByRole('textbox');
+
+      expect(input).not.toHaveAttribute('data-focused');
+
+      fireEvent.focus(input);
+      expect(input).toHaveAttribute('data-focused', 'true');
+
+      fireEvent.blur(input);
+      expect(input).not.toHaveAttribute('data-focused');
     });
   });
 

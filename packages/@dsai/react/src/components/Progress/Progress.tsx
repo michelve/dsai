@@ -21,7 +21,8 @@ function ProgressBar({
   animated = false,
   className = '',
   'aria-label': ariaLabel,
-}: ProgressBarProps): JSX.Element {
+  'aria-hidden': ariaHidden = false,
+}: ProgressBarProps): React.JSX.Element {
   const percentage = Math.min(100, Math.max(0, value));
 
   const barClasses = [
@@ -34,8 +35,19 @@ function ProgressBar({
     .filter(Boolean)
     .join(' ');
 
-  // Generate default aria-label from variant if not provided
-  const computedAriaLabel = ariaLabel || `${variant} progress: ${percentage}%`;
+  // Generate default aria-label from variant if not provided (and not hidden)
+  const computedAriaLabel = ariaHidden
+    ? undefined
+    : ariaLabel || `${variant} progress: ${percentage}%`;
+
+  // If aria-hidden, render as purely decorative (no ARIA attributes)
+  if (ariaHidden) {
+    return (
+      <div className={barClasses} style={{ width: `${percentage}%` }} aria-hidden="true">
+        {showValue && (valueText || `${percentage}%`)}
+      </div>
+    );
+  }
 
   return (
     <div
@@ -113,7 +125,7 @@ function ProgressBase({
   id,
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledBy,
-}: ProgressProps): JSX.Element {
+}: ProgressProps): React.JSX.Element {
   const percentage = indeterminate ? 0 : Math.min(100, Math.max(0, value ?? 0));
   const hasChildren = Boolean(children);
 

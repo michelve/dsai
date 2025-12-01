@@ -80,6 +80,7 @@ const CardHeaderComponent = forwardRef<HTMLDivElement, CardHeaderProps>(function
 
 CardHeaderComponent.displayName = 'CardHeader';
 export const CardHeader = memo(CardHeaderComponent);
+CardHeader.displayName = 'CardHeader';
 
 // =============================================================================
 // CardBody Component
@@ -105,6 +106,7 @@ const CardBodyComponent = forwardRef<HTMLDivElement, CardBodyProps>(function Car
 
 CardBodyComponent.displayName = 'CardBody';
 export const CardBody = memo(CardBodyComponent);
+CardBody.displayName = 'CardBody';
 
 // =============================================================================
 // CardFooter Component
@@ -130,6 +132,7 @@ const CardFooterComponent = forwardRef<HTMLDivElement, CardFooterProps>(function
 
 CardFooterComponent.displayName = 'CardFooter';
 export const CardFooter = memo(CardFooterComponent);
+CardFooter.displayName = 'CardFooter';
 
 // =============================================================================
 // CardImage Component
@@ -169,6 +172,7 @@ const CardImageComponent = forwardRef<HTMLImageElement, CardImageProps>(function
 
 CardImageComponent.displayName = 'CardImage';
 export const CardImage = memo(CardImageComponent);
+CardImage.displayName = 'CardImage';
 
 // =============================================================================
 // CardTitle Component
@@ -194,6 +198,7 @@ const CardTitleComponent = forwardRef<HTMLHeadingElement, CardTitleProps>(functi
 
 CardTitleComponent.displayName = 'CardTitle';
 export const CardTitle = memo(CardTitleComponent);
+CardTitle.displayName = 'CardTitle';
 
 // =============================================================================
 // CardText Component
@@ -219,6 +224,7 @@ const CardTextComponent = forwardRef<HTMLParagraphElement, CardTextProps>(functi
 
 CardTextComponent.displayName = 'CardText';
 export const CardText = memo(CardTextComponent);
+CardText.displayName = 'CardText';
 
 // =============================================================================
 // CardLink Component
@@ -249,6 +255,7 @@ const CardLinkComponent = forwardRef<HTMLAnchorElement, CardLinkProps>(function 
 
 CardLinkComponent.displayName = 'CardLink';
 export const CardLink = memo(CardLinkComponent);
+CardLink.displayName = 'CardLink';
 
 // =============================================================================
 // CardImgOverlay Component
@@ -273,6 +280,7 @@ const CardImgOverlayComponent = forwardRef<HTMLDivElement, CardImgOverlayProps>(
 
 CardImgOverlayComponent.displayName = 'CardImgOverlay';
 export const CardImgOverlay = memo(CardImgOverlayComponent);
+CardImgOverlay.displayName = 'CardImgOverlay';
 
 // =============================================================================
 // Card Component

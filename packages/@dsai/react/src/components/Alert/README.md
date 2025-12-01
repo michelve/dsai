@@ -162,6 +162,48 @@ The Alert component uses native Bootstrap 5 classes:
 - `btn-close` - Close button styling
 - `fade show` - Animation classes
 
+## Internal FSM
+
+The Alert component uses a finite state machine (FSM) to manage visibility and dismissal behavior:
+
+### States
+
+- `visible` - Alert is rendered and displayed
+- `hidden` - Alert is not rendered (returns null)
+
+### Events
+
+- `SHOW` - External request to show (when `show` prop becomes `true`)
+- `HIDE` - External request to hide (when `show` prop becomes `false`)
+- `DISMISS_CLICK` - User clicked the close button
+- `DISMISS_ESCAPE` - User pressed Escape key (when dismissible)
+
+### FSM Exports
+
+For advanced use cases, the FSM utilities are exported:
+
+```tsx
+import {
+  alertFSMReducer,
+  createInitialAlertFSMState,
+  type AlertFSMState,
+  type AlertFSMEvent,
+  type AlertVisibilityState,
+} from '@dsai/react';
+```
+
+### Visual State Debugging
+
+The Alert component exposes its FSM state via the `data-visual-state` attribute for debugging and testing purposes.
+
+## Security
+
+The Alert.Link component includes security features:
+
+- **XSS Prevention**: Validates `href` to block dangerous protocols (`javascript:`, `data:`, `vbscript:`, etc.)
+- **External Link Protection**: Automatically adds `rel="noopener noreferrer"` for `target="_blank"` links
+- **Prop Whitelisting**: Only safe HTML attributes are passed through
+
 ## Related Components
 
 - [Badge](../Badge/README.md) - For inline status indicators

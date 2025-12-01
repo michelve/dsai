@@ -1,4 +1,11 @@
-import { Alert, Button } from '@dsai/react';
+import {
+  Alert,
+  Button,
+  CheckCircleFillIcon,
+  ExclamationTriangleFillIcon,
+  InfoCircleFillIcon,
+  XCircleFillIcon,
+} from '@dsai/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
@@ -55,10 +62,11 @@ const AriaAtomicExample = () => {
         aria-atomic={true}
         role="status"
         aria-live="polite"
+        icon={status === 'success' ? <CheckCircleFillIcon /> : undefined}
       >
         {status === 'idle' && 'Ready to save. Click button to start.'}
         {status === 'loading' && 'Saving your changes...'}
-        {status === 'success' && '✓ Changes saved successfully!'}
+        {status === 'success' && 'Changes saved successfully!'}
       </Alert>
       <Button
         variant="primary"
@@ -361,16 +369,16 @@ export const MultipleDismissible: Story = {
 export const WithIcon: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <Alert variant="success" icon={<span style={{ fontSize: '1.25rem' }}>✓</span>}>
+      <Alert variant="success" icon={<CheckCircleFillIcon />}>
         Your changes have been saved successfully.
       </Alert>
-      <Alert variant="danger" icon={<span style={{ fontSize: '1.25rem' }}>✕</span>}>
+      <Alert variant="danger" icon={<XCircleFillIcon />}>
         An error occurred. Please try again.
       </Alert>
-      <Alert variant="warning" icon={<span style={{ fontSize: '1.25rem' }}>⚠</span>}>
+      <Alert variant="warning" icon={<ExclamationTriangleFillIcon />}>
         Please review your input before submitting.
       </Alert>
-      <Alert variant="info" icon={<span style={{ fontSize: '1.25rem' }}>ℹ</span>}>
+      <Alert variant="info" icon={<InfoCircleFillIcon />}>
         New features are available in this version.
       </Alert>
     </div>
@@ -401,21 +409,21 @@ export const XSSPrevention: Story = {
 export const SecurityShowcase: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <Alert variant="success">
-        <strong>✓ Safe:</strong> <Alert.Link href="https://example.com">HTTPS link</Alert.Link>
+      <Alert variant="success" icon={<CheckCircleFillIcon />}>
+        <strong>Safe:</strong> <Alert.Link href="https://example.com">HTTPS link</Alert.Link>
       </Alert>
-      <Alert variant="success">
-        <strong>✓ Safe:</strong> <Alert.Link href="/docs">Relative link</Alert.Link>
+      <Alert variant="success" icon={<CheckCircleFillIcon />}>
+        <strong>Safe:</strong> <Alert.Link href="/docs">Relative link</Alert.Link>
       </Alert>
-      <Alert variant="success">
-        <strong>✓ Safe:</strong> <Alert.Link href="mailto:test@example.com">Email link</Alert.Link>
+      <Alert variant="success" icon={<CheckCircleFillIcon />}>
+        <strong>Safe:</strong> <Alert.Link href="mailto:test@example.com">Email link</Alert.Link>
       </Alert>
-      <Alert variant="danger">
-        <strong>✗ Blocked:</strong>{' '}
+      <Alert variant="danger" icon={<XCircleFillIcon />}>
+        <strong>Blocked:</strong>{' '}
         <Alert.Link href="javascript:alert('XSS')">javascript: protocol</Alert.Link>
       </Alert>
-      <Alert variant="danger">
-        <strong>✗ Blocked:</strong>{' '}
+      <Alert variant="danger" icon={<XCircleFillIcon />}>
+        <strong>Blocked:</strong>{' '}
         <Alert.Link href="data:text/html,<script>">data: protocol</Alert.Link>
       </Alert>
     </div>
@@ -580,7 +588,7 @@ export const CompleteShowcase: Story = {
         {/* With Icon */}
         <div>
           <h4 style={{ marginBottom: '0.5rem' }}>With Icon</h4>
-          <Alert variant="success" icon={<span>✓</span>}>
+          <Alert variant="success" icon={<CheckCircleFillIcon />}>
             Operation completed successfully.
           </Alert>
         </div>

@@ -14,7 +14,7 @@ interface LinkProps {
   ariaLabel?: string;
 }
 
-function Link({ href, children, external, ariaLabel }: LinkProps): JSX.Element {
+function Link({ href, children, external, ariaLabel }: LinkProps): React.JSX.Element {
   return (
     <a
       href={href}

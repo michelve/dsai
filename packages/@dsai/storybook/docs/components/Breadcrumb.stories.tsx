@@ -1,10 +1,23 @@
-import { Breadcrumb, BreadcrumbItem } from '@dsai/react';
+import {
+  BoxIcon,
+  Breadcrumb,
+  BreadcrumbItem,
+  HouseIcon,
+  SearchIcon,
+  StarFillIcon,
+} from '@dsai/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 /**
  * Breadcrumb navigation component for hierarchical page structure.
  * Built with Bootstrap 5 design tokens and WCAG 2.2 AA compliance.
+ *
+ * **State Machine (FSM):**
+ * - Uses finite state machine for expand/collapse behavior
+ * - States: `collapsed` | `expanded`
+ * - Events: `EXPAND` (ellipsis click), `RESET_FROM_PROPS` (controlled sync)
+ * - `data-visual-state` attribute exposes current state for testing
  *
  * **Security Features:**
  * - Automatic HREF validation blocks dangerous protocols (javascript:, data:, vbscript:, file:)
@@ -15,11 +28,13 @@ import { useState } from 'react';
  * - React.memo wrapper prevents unnecessary re-renders
  * - useMemo caching for classes, styles, and render functions
  * - useCallback for event handlers to prevent child re-renders
+ * - useReducer FSM ensures predictable state transitions
  *
  * **Accessibility:**
  * - WCAG 2.2 AA compliant navigation
  * - Icons automatically hidden from screen readers (aria-hidden="true")
  * - Proper aria-current="page" on active items
+ * - Ellipsis button has aria-expanded state
  * - Semantic HTML with proper ARIA labels
  */
 const meta: Meta<typeof Breadcrumb> = {
@@ -32,6 +47,7 @@ const meta: Meta<typeof Breadcrumb> = {
         component:
           'An accessible breadcrumb navigation component supporting custom separators, ' +
           'collapsible items for long paths, and router integration. ' +
+          'Uses a finite state machine (FSM) for expand/collapse behavior. ' +
           'Features automatic security validation, performance optimizations, and WCAG 2.2 AA compliance.',
       },
     },
@@ -67,6 +83,14 @@ const meta: Meta<typeof Breadcrumb> = {
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '1' },
+      },
+    },
+    expanded: {
+      control: 'boolean',
+      description: 'Controlled expanded state (triggers FSM RESET_FROM_PROPS event)',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
       },
     },
   },
@@ -182,15 +206,133 @@ export const CollapsibleInteractive: Story = {
           expanded={expanded}
           onExpand={() => setExpanded(true)}
         />
-        {expanded && (
-          <button
-            type="button"
-            className="btn btn-sm btn-link mt-2"
-            onClick={() => setExpanded(false)}
-          >
-            Collapse
-          </button>
-        )}
+        <div className="mt-2 d-flex gap-2 align-items-center">
+          <span className="badge bg-secondary">
+            FSM State: {expanded ? 'expanded' : 'collapsed'}
+          </span>
+          {expanded && (
+            <button
+              type="button"
+              className="btn btn-sm btn-outline-secondary"
+              onClick={() => setExpanded(false)}
+            >
+              Collapse
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  },
+};
+
+// =============================================================================
+// FSM State Machine
+// =============================================================================
+
+/**
+ * Demonstrates the FSM-based expand/collapse behavior.
+ * The `data-visual-state` attribute reflects the current FSM state.
+ */
+export const FSMStateMachine: Story = {
+  render: function FSMBreadcrumb() {
+    const [expanded, setExpanded] = useState(false);
+    const [mode, setMode] = useState<'uncontrolled' | 'controlled'>('uncontrolled');
+
+    const handleExpand = useCallback(() => {
+      if (mode === 'controlled') {
+        setExpanded(true);
+      }
+      // In uncontrolled mode, FSM handles state internally
+    }, [mode]);
+
+    return (
+      <div>
+        <div className="mb-3">
+          <div className="btn-group" role="group" aria-label="Mode selection">
+            <button
+              type="button"
+              className={`btn btn-sm ${mode === 'uncontrolled' ? 'btn-primary' : 'btn-outline-primary'}`}
+              onClick={() => {
+                setMode('uncontrolled');
+                setExpanded(false);
+              }}
+            >
+              Uncontrolled
+            </button>
+            <button
+              type="button"
+              className={`btn btn-sm ${mode === 'controlled' ? 'btn-primary' : 'btn-outline-primary'}`}
+              onClick={() => {
+                setMode('controlled');
+                setExpanded(false);
+              }}
+            >
+              Controlled
+            </button>
+          </div>
+        </div>
+
+        <Breadcrumb
+          items={longPathItems}
+          maxItems={4}
+          expanded={mode === 'controlled' ? expanded : undefined}
+          onExpand={handleExpand}
+        />
+
+        <div className="mt-3 p-3 bg-light rounded">
+          <h6 className="mb-2">FSM State Debug</h6>
+          <div className="d-flex flex-column gap-1">
+            <small>
+              <strong>Mode:</strong> {mode}
+            </small>
+            <small>
+              <strong>Controlled expanded prop:</strong>{' '}
+              {mode === 'controlled' ? String(expanded) : 'undefined (uncontrolled)'}
+            </small>
+            <small>
+              <code>data-visual-state</code> attribute shows current FSM state
+            </small>
+          </div>
+          {mode === 'controlled' && (
+            <div className="mt-2">
+              <button
+                type="button"
+                className="btn btn-sm btn-outline-primary me-2"
+                onClick={() => setExpanded(true)}
+              >
+                Set expanded=true
+              </button>
+              <button
+                type="button"
+                className="btn btn-sm btn-outline-secondary"
+                onClick={() => setExpanded(false)}
+              >
+                Set expanded=false
+              </button>
+            </div>
+          )}
+        </div>
+
+        <div className="alert alert-info mt-3 mb-0">
+          <small>
+            <strong>FSM State Machine:</strong>
+            <ul className="mb-0 mt-1">
+              <li>
+                <strong>States:</strong> <code>collapsed</code> | <code>expanded</code>
+              </li>
+              <li>
+                <strong>EXPAND event:</strong> Ellipsis click (only works in uncontrolled mode)
+              </li>
+              <li>
+                <strong>RESET_FROM_PROPS event:</strong> Syncs with controlled <code>expanded</code>{' '}
+                prop
+              </li>
+              <li>
+                <strong>data-visual-state:</strong> Attribute on nav for testing/styling
+              </li>
+            </ul>
+          </small>
+        </div>
       </div>
     );
   },
@@ -413,25 +555,25 @@ export const AccessibilityIcons: Story = {
             id: 'home',
             label: 'Home',
             href: '#',
-            icon: '🏠',
+            icon: <HouseIcon size={16} />,
           },
           {
             id: 'products',
             label: 'Products',
             href: '#',
-            icon: '📦',
+            icon: <BoxIcon size={16} />,
           },
           {
             id: 'details',
             label: 'Product Details',
             href: '#',
-            icon: '🔍',
+            icon: <SearchIcon size={16} />,
           },
           {
             id: 'reviews',
             label: 'Customer Reviews',
             active: true,
-            icon: '⭐',
+            icon: <StarFillIcon size={16} />,
           },
         ]}
       />

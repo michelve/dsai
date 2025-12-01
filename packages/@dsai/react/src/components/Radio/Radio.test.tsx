@@ -499,7 +499,7 @@ describe('RadioGroup', () => {
   });
 
   describe('Integration with React state', () => {
-    function ControlledRadioGroup(): JSX.Element {
+    function ControlledRadioGroup(): React.JSX.Element {
       const [value, setValue] = useState('1');
       return (
         <RadioGroup

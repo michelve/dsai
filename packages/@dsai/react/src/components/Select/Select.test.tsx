@@ -41,7 +41,7 @@ describe('Select', () => {
   describe('Rendering', () => {
     it('renders without crashing', () => {
       render(<Select options={options} aria-label="Test select" />);
-      expect(screen.getByRole('button')).toBeInTheDocument();
+      expect(screen.getByRole('combobox')).toBeInTheDocument();
     });
 
     it('renders with label', () => {
@@ -61,7 +61,7 @@ describe('Select', () => {
 
     it('has Bootstrap form-select class', () => {
       render(<Select options={options} aria-label="Test" />);
-      expect(screen.getByRole('button')).toHaveClass('form-select');
+      expect(screen.getByRole('combobox')).toHaveClass('form-select');
     });
   });
 
@@ -71,19 +71,19 @@ describe('Select', () => {
   describe('Sizes', () => {
     it('renders medium size by default', () => {
       render(<Select options={options} aria-label="Test" />);
-      const button = screen.getByRole('button');
+      const button = screen.getByRole('combobox');
       expect(button).not.toHaveClass('form-select-sm');
       expect(button).not.toHaveClass('form-select-lg');
     });
 
     it('renders small size', () => {
       render(<Select options={options} size="sm" aria-label="Test" />);
-      expect(screen.getByRole('button')).toHaveClass('form-select-sm');
+      expect(screen.getByRole('combobox')).toHaveClass('form-select-sm');
     });
 
     it('renders large size', () => {
       render(<Select options={options} size="lg" aria-label="Test" />);
-      expect(screen.getByRole('button')).toHaveClass('form-select-lg');
+      expect(screen.getByRole('combobox')).toHaveClass('form-select-lg');
     });
   });
 
@@ -93,22 +93,22 @@ describe('Select', () => {
   describe('States', () => {
     it('renders disabled state', () => {
       render(<Select options={options} label="Test" disabled />);
-      expect(screen.getByRole('button')).toBeDisabled();
+      expect(screen.getByRole('combobox')).toBeDisabled();
     });
 
     it('renders error state', () => {
       render(<Select options={options} label="Test" error />);
-      expect(screen.getByRole('button')).toHaveClass('is-invalid');
+      expect(screen.getByRole('combobox')).toHaveClass('is-invalid');
     });
 
     it('renders success state', () => {
       render(<Select options={options} label="Test" success />);
-      expect(screen.getByRole('button')).toHaveClass('is-valid');
+      expect(screen.getByRole('combobox')).toHaveClass('is-valid');
     });
 
     it('error takes precedence over success', () => {
       render(<Select options={options} label="Test" error success />);
-      const button = screen.getByRole('button');
+      const button = screen.getByRole('combobox');
       expect(button).toHaveClass('is-invalid');
       expect(button).not.toHaveClass('is-valid');
     });
@@ -116,7 +116,7 @@ describe('Select', () => {
     it('does not open dropdown when loading', () => {
       render(<Select options={options} label="Test" loading />);
 
-      const button = screen.getByRole('button');
+      const button = screen.getByRole('combobox');
       fireEvent.click(button);
 
       // Dropdown should not open when loading
@@ -130,7 +130,7 @@ describe('Select', () => {
   describe('Dropdown Behavior', () => {
     it('opens dropdown on click', async () => {
       render(<Select options={options} aria-label="Test" />);
-      const button = screen.getByRole('button');
+      const button = screen.getByRole('combobox');
 
       expect(button).toHaveAttribute('aria-expanded', 'false');
 
@@ -142,7 +142,7 @@ describe('Select', () => {
 
     it('closes dropdown on second click', async () => {
       render(<Select options={options} aria-label="Test" />);
-      const button = screen.getByRole('button');
+      const button = screen.getByRole('combobox');
 
       await userEvent.click(button);
       expect(button).toHaveAttribute('aria-expanded', 'true');
@@ -159,7 +159,7 @@ describe('Select', () => {
         </div>
       );
 
-      await userEvent.click(screen.getByRole('button', { name: /test/i }));
+      await userEvent.click(screen.getByRole('combobox', { name: /test/i }));
       expect(screen.getByRole('listbox')).toBeInTheDocument();
 
       await userEvent.click(screen.getByRole('button', { name: 'Outside' }));
@@ -171,7 +171,7 @@ describe('Select', () => {
     it('displays all options when open', async () => {
       render(<Select options={options} aria-label="Test" />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
 
       options.forEach((opt) => {
         expect(screen.getByText(opt.label)).toBeInTheDocument();
@@ -182,7 +182,7 @@ describe('Select', () => {
       const handleOpen = jest.fn();
       render(<Select options={options} aria-label="Test" onOpen={handleOpen} />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
 
       expect(handleOpen).toHaveBeenCalled();
     });
@@ -191,8 +191,8 @@ describe('Select', () => {
       const handleClose = jest.fn();
       render(<Select options={options} aria-label="Test" onClose={handleClose} />);
 
-      await userEvent.click(screen.getByRole('button'));
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
+      await userEvent.click(screen.getByRole('combobox'));
 
       expect(handleClose).toHaveBeenCalled();
     });
@@ -206,7 +206,7 @@ describe('Select', () => {
       const handleChange = jest.fn();
       render(<Select options={options} aria-label="Test" onChange={handleChange} />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
       await userEvent.click(screen.getByText('Apple'));
 
       expect(handleChange).toHaveBeenCalledWith('apple');
@@ -221,7 +221,7 @@ describe('Select', () => {
     it('closes dropdown after selection in single mode', async () => {
       render(<Select options={options} aria-label="Test" />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
       await userEvent.click(screen.getByText('Apple'));
 
       expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
@@ -236,7 +236,7 @@ describe('Select', () => {
       const handleChange = jest.fn();
       render(<Select options={options} aria-label="Test" multiple onChange={handleChange} />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
       await userEvent.click(screen.getByText('Apple'));
 
       expect(handleChange).toHaveBeenCalledWith(['apple']);
@@ -251,7 +251,7 @@ describe('Select', () => {
     it('keeps dropdown open after selection in multiple mode', async () => {
       render(<Select options={options} aria-label="Test" multiple />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
       await userEvent.click(screen.getByText('Apple'));
 
       expect(screen.getByRole('listbox')).toBeInTheDocument();
@@ -269,7 +269,7 @@ describe('Select', () => {
         />
       );
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
       // Find the Apple option in the listbox (not the display value)
       const optionElements = screen.getAllByRole('option');
       const appleOption = optionElements.find((el) => el.textContent?.includes('Apple'));
@@ -286,7 +286,7 @@ describe('Select', () => {
     it('shows search input when searchable', async () => {
       render(<Select options={options} aria-label="Test" searchable />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
 
       expect(screen.getByPlaceholderText('Search...')).toBeInTheDocument();
     });
@@ -294,7 +294,7 @@ describe('Select', () => {
     it('filters options based on search', async () => {
       render(<Select options={options} aria-label="Test" searchable />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
       await userEvent.type(screen.getByPlaceholderText('Search...'), 'app');
 
       expect(screen.getByText('Apple')).toBeInTheDocument();
@@ -304,7 +304,7 @@ describe('Select', () => {
     it('shows no options message when search has no results', async () => {
       render(<Select options={options} aria-label="Test" searchable />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
       await userEvent.type(screen.getByPlaceholderText('Search...'), 'xyz');
 
       expect(screen.getByText('No options')).toBeInTheDocument();
@@ -321,7 +321,7 @@ describe('Select', () => {
         />
       );
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
       await userEvent.type(screen.getByPlaceholderText('Search...'), 'app');
 
       expect(handleSearchChange).toHaveBeenCalledWith('a');
@@ -337,7 +337,7 @@ describe('Select', () => {
     it('renders option groups', async () => {
       render(<Select options={groupedOptions} aria-label="Test" />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
 
       expect(screen.getByText('Fruits')).toBeInTheDocument();
       expect(screen.getByText('Vegetables')).toBeInTheDocument();
@@ -346,7 +346,7 @@ describe('Select', () => {
     it('renders options within groups', async () => {
       render(<Select options={groupedOptions} aria-label="Test" />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
 
       expect(screen.getByText('Apple')).toBeInTheDocument();
       expect(screen.getByText('Carrot')).toBeInTheDocument();
@@ -365,7 +365,7 @@ describe('Select', () => {
 
       render(<Select options={optionsWithDisabled} aria-label="Test" />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
 
       const disabledOption = screen.getByText('Banana').closest('li');
       expect(disabledOption).toHaveClass('disabled');
@@ -381,7 +381,7 @@ describe('Select', () => {
 
       render(<Select options={optionsWithDisabled} aria-label="Test" onChange={handleChange} />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
       await userEvent.click(screen.getByText('Banana'));
 
       expect(handleChange).not.toHaveBeenCalled();
@@ -439,7 +439,7 @@ describe('Select', () => {
   describe('Keyboard Navigation', () => {
     it('opens dropdown on Enter', async () => {
       render(<Select options={options} aria-label="Test" />);
-      const button = screen.getByRole('button');
+      const button = screen.getByRole('combobox');
 
       button.focus();
       fireEvent.keyDown(button, { key: 'Enter' });
@@ -449,7 +449,7 @@ describe('Select', () => {
 
     it('opens dropdown on Space', async () => {
       render(<Select options={options} aria-label="Test" />);
-      const button = screen.getByRole('button');
+      const button = screen.getByRole('combobox');
 
       button.focus();
       fireEvent.keyDown(button, { key: ' ' });
@@ -459,7 +459,7 @@ describe('Select', () => {
 
     it('opens dropdown on ArrowDown', async () => {
       render(<Select options={options} aria-label="Test" />);
-      const button = screen.getByRole('button');
+      const button = screen.getByRole('combobox');
 
       button.focus();
       fireEvent.keyDown(button, { key: 'ArrowDown' });
@@ -469,7 +469,7 @@ describe('Select', () => {
 
     it('closes dropdown on Escape', async () => {
       render(<Select options={options} aria-label="Test" />);
-      const button = screen.getByRole('button');
+      const button = screen.getByRole('combobox');
 
       await userEvent.click(button);
       expect(button).toHaveAttribute('aria-expanded', 'true');
@@ -480,7 +480,7 @@ describe('Select', () => {
 
     it('navigates options with ArrowDown', async () => {
       render(<Select options={options} aria-label="Test" />);
-      const button = screen.getByRole('button');
+      const button = screen.getByRole('combobox');
 
       await userEvent.click(button);
 
@@ -492,7 +492,7 @@ describe('Select', () => {
 
     it('navigates options with ArrowUp', async () => {
       render(<Select options={options} aria-label="Test" />);
-      const button = screen.getByRole('button');
+      const button = screen.getByRole('combobox');
 
       await userEvent.click(button);
 
@@ -510,7 +510,7 @@ describe('Select', () => {
     it('selects focused option on Enter', async () => {
       const handleChange = jest.fn();
       render(<Select options={options} aria-label="Test" onChange={handleChange} />);
-      const button = screen.getByRole('button');
+      const button = screen.getByRole('combobox');
 
       await userEvent.click(button);
       fireEvent.keyDown(button, { key: 'ArrowDown' });
@@ -521,7 +521,7 @@ describe('Select', () => {
 
     it('jumps to first option on Home', async () => {
       render(<Select options={options} aria-label="Test" />);
-      const button = screen.getByRole('button');
+      const button = screen.getByRole('combobox');
 
       await userEvent.click(button);
 
@@ -538,7 +538,7 @@ describe('Select', () => {
 
     it('jumps to last option on End', async () => {
       render(<Select options={options} aria-label="Test" />);
-      const button = screen.getByRole('button');
+      const button = screen.getByRole('combobox');
 
       await userEvent.click(button);
       fireEvent.keyDown(button, { key: 'End' });
@@ -578,7 +578,7 @@ describe('Select', () => {
     it('updates selection internally', async () => {
       render(<Select options={options} aria-label="Test" />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
       await userEvent.click(screen.getByText('Cherry'));
 
       expect(screen.getByText('Cherry')).toBeInTheDocument();
@@ -596,7 +596,7 @@ describe('Select', () => {
 
     it('sets data-required attribute', () => {
       render(<Select options={options} label="Fruit" required />);
-      expect(screen.getByRole('button')).toHaveAttribute('data-required', 'true');
+      expect(screen.getByRole('combobox')).toHaveAttribute('data-required', 'true');
     });
   });
 
@@ -613,7 +613,7 @@ describe('Select', () => {
         />
       );
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
 
       expect(screen.getAllByTestId('custom')).toHaveLength(options.length);
       expect(screen.getByText('Apple - Custom')).toBeInTheDocument();
@@ -668,7 +668,7 @@ describe('Select', () => {
     it('has no violations when open', async () => {
       const { container } = render(<Select options={options} label="Fruit" />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
 
       const results = await axe(container);
       expect(results).toHaveNoViolations();
@@ -688,25 +688,25 @@ describe('Select', () => {
       expect(results).toHaveNoViolations();
     });
 
-    it('has role="button" on trigger', () => {
+    it('has role="combobox" on trigger', () => {
       render(<Select options={options} aria-label="Test" />);
-      expect(screen.getByRole('button')).toBeInTheDocument();
+      expect(screen.getByRole('combobox')).toBeInTheDocument();
     });
 
     it('has aria-haspopup="listbox"', () => {
       render(<Select options={options} aria-label="Test" />);
-      expect(screen.getByRole('button')).toHaveAttribute('aria-haspopup', 'listbox');
+      expect(screen.getByRole('combobox')).toHaveAttribute('aria-haspopup', 'listbox');
     });
 
     it('has aria-expanded attribute', () => {
       render(<Select options={options} aria-label="Test" />);
-      expect(screen.getByRole('button')).toHaveAttribute('aria-expanded');
+      expect(screen.getByRole('combobox')).toHaveAttribute('aria-expanded');
     });
 
     it('has role="listbox" on dropdown', async () => {
       render(<Select options={options} aria-label="Test" />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
 
       expect(screen.getByRole('listbox')).toBeInTheDocument();
     });
@@ -714,7 +714,7 @@ describe('Select', () => {
     it('has role="option" on options', async () => {
       render(<Select options={options} aria-label="Test" />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
 
       expect(screen.getAllByRole('option')).toHaveLength(options.length);
     });
@@ -722,7 +722,7 @@ describe('Select', () => {
     it('sets aria-selected on selected option', async () => {
       render(<Select options={options} aria-label="Test" value="apple" />);
 
-      await userEvent.click(screen.getByRole('button'));
+      await userEvent.click(screen.getByRole('combobox'));
 
       const optionElements = screen.getAllByRole('option');
       const selectedOption = optionElements.find((el) => el.textContent?.includes('Apple'));
@@ -731,15 +731,99 @@ describe('Select', () => {
 
     it('sets data-invalid when error', () => {
       render(<Select options={options} label="Test" error />);
-      expect(screen.getByRole('button')).toHaveAttribute('data-invalid', 'true');
+      expect(screen.getByRole('combobox')).toHaveAttribute('data-invalid', 'true');
     });
 
     it('has aria-describedby for helper text', () => {
       render(<Select options={options} label="Test" helperText="Help" />);
-      const button = screen.getByRole('button');
+      const button = screen.getByRole('combobox');
       const helper = screen.getByText('Help');
 
       expect(button).toHaveAttribute('aria-describedby', helper.id);
+    });
+
+    it('has no aria-activedescendant when closed', () => {
+      render(<Select options={options} aria-label="Test" />);
+      const button = screen.getByRole('combobox');
+
+      expect(button).not.toHaveAttribute('aria-activedescendant');
+    });
+
+    it('has aria-activedescendant when open and option is focused', async () => {
+      render(<Select options={options} aria-label="Test" id="test-select" />);
+      const button = screen.getByRole('combobox');
+
+      await userEvent.click(button);
+
+      // First option should be focused by default (index 0)
+      expect(button).toHaveAttribute('aria-activedescendant', 'test-select-option-0');
+    });
+
+    it('aria-activedescendant updates with keyboard navigation', async () => {
+      render(<Select options={options} aria-label="Test" id="test-select" />);
+      const button = screen.getByRole('combobox');
+
+      await userEvent.click(button);
+      expect(button).toHaveAttribute('aria-activedescendant', 'test-select-option-0');
+
+      // Navigate down
+      fireEvent.keyDown(button, { key: 'ArrowDown' });
+      expect(button).toHaveAttribute('aria-activedescendant', 'test-select-option-1');
+
+      // Navigate down again
+      fireEvent.keyDown(button, { key: 'ArrowDown' });
+      expect(button).toHaveAttribute('aria-activedescendant', 'test-select-option-2');
+
+      // Navigate up
+      fireEvent.keyDown(button, { key: 'ArrowUp' });
+      expect(button).toHaveAttribute('aria-activedescendant', 'test-select-option-1');
+    });
+
+    it('aria-activedescendant matches focused option id', async () => {
+      render(<Select options={options} aria-label="Test" id="test-select" />);
+      const button = screen.getByRole('combobox');
+
+      await userEvent.click(button);
+
+      // Get the activedescendant id from button
+      const activeDescendantId = button.getAttribute('aria-activedescendant');
+      expect(activeDescendantId).toBeTruthy();
+
+      // Verify the option with that id exists and has bg-light (focused) class
+      const focusedOption = document.getElementById(activeDescendantId as string);
+      expect(focusedOption).toBeInTheDocument();
+      expect(focusedOption).toHaveClass('bg-light');
+    });
+
+    it('options have unique ids', async () => {
+      render(<Select options={options} aria-label="Test" id="test-select" />);
+
+      await userEvent.click(screen.getByRole('combobox'));
+
+      const optionElements = screen.getAllByRole('option');
+      const ids = optionElements.map((el) => el.id);
+
+      // All ids should be unique
+      const uniqueIds = new Set(ids);
+      expect(uniqueIds.size).toBe(ids.length);
+
+      // All ids should follow the pattern
+      ids.forEach((id, index) => {
+        expect(id).toBe(`test-select-option-${index}`);
+      });
+    });
+
+    it('aria-activedescendant clears when dropdown closes', async () => {
+      render(<Select options={options} aria-label="Test" id="test-select" />);
+      const button = screen.getByRole('combobox');
+
+      // Open dropdown
+      await userEvent.click(button);
+      expect(button).toHaveAttribute('aria-activedescendant');
+
+      // Close dropdown
+      fireEvent.keyDown(button, { key: 'Escape' });
+      expect(button).not.toHaveAttribute('aria-activedescendant');
     });
   });
 

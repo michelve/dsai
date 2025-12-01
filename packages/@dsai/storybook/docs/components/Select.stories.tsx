@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import type { SelectOption } from '@dsai/react';
 
-import { Select } from '@dsai/react';
+import { Button, Select } from '@dsai/react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { SelectOption } from '@dsai/react';
+import { useState } from 'react';
 
 // Sample options
 const fruitOptions: SelectOption[] = [
@@ -548,9 +548,9 @@ export const FormExample: Story = {
             placeholder="Select your interests..."
           />
 
-          <button type="submit" className="btn btn-primary">
+          <Button type="submit" variant="primary">
             Submit
-          </button>
+          </Button>
         </div>
       </form>
     );

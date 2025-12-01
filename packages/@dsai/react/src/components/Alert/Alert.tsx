@@ -1,5 +1,6 @@
-import React, { forwardRef, useCallback, useEffect, useMemo } from 'react';
+import React, { forwardRef, useCallback, useEffect, useMemo, useReducer } from 'react';
 
+import { alertFSMReducer, createInitialAlertFSMState } from './Alert.fsm';
 import type { AlertHeadingProps, AlertLinkProps, AlertProps } from './Alert.types';
 
 /**
@@ -104,7 +105,7 @@ const AlertHeading = React.memo(function AlertHeading({
   children,
   as: Component = 'h4',
   className = '',
-}: AlertHeadingProps): JSX.Element {
+}: AlertHeadingProps): React.JSX.Element {
   const classes = useMemo(
     () => ['alert-heading', className].filter(Boolean).join(' '),
     [className]
@@ -189,14 +190,29 @@ const AlertBase = forwardRef<HTMLDivElement, AlertProps>(
     },
     ref
   ) => {
+    // Initialize FSM state from show prop
+    const [fsmState, dispatch] = useReducer(alertFSMReducer, show, createInitialAlertFSMState);
+
+    // Synchronize external show prop with FSM
+    useEffect(() => {
+      dispatch({ type: show ? 'SHOW' : 'HIDE' });
+    }, [show]);
+
     // Determine ARIA role based on variant
     // danger/warning are assertive (role="alert"), others are polite (role="status")
     const role = variant === 'danger' || variant === 'warning' ? 'alert' : 'status';
 
-    // Handle Escape key to dismiss
+    // Handle close button click - dispatch FSM event and call onClose
+    const handleClose = useCallback(() => {
+      dispatch({ type: 'DISMISS_CLICK' });
+      onClose?.();
+    }, [onClose]);
+
+    // Handle Escape key to dismiss - dispatch FSM event and call onClose
     const handleKeyDown = useCallback(
       (event: KeyboardEvent) => {
         if (dismissible && onClose && event.key === 'Escape') {
+          dispatch({ type: 'DISMISS_ESCAPE' });
           onClose();
         }
       },
@@ -213,7 +229,7 @@ const AlertBase = forwardRef<HTMLDivElement, AlertProps>(
       return undefined;
     }, [dismissible, onClose, handleKeyDown]);
 
-    // Memoize Bootstrap class names construction (must be before show check for hook ordering)
+    // Memoize Bootstrap class names construction (must be before visibility check for hook ordering)
     const bootstrapClasses = useMemo(
       () =>
         [
@@ -228,8 +244,8 @@ const AlertBase = forwardRef<HTMLDivElement, AlertProps>(
       [variant, dismissible, className]
     );
 
-    // Don't render if not shown
-    if (!show) {
+    // Don't render if FSM state is hidden
+    if (fsmState.visibility === 'hidden') {
       return null;
     }
 
@@ -245,6 +261,7 @@ const AlertBase = forwardRef<HTMLDivElement, AlertProps>(
         data-testid={dataTestId}
         data-test={dataTest}
         title={titleAttr}
+        data-visual-state={fsmState.visibility}
       >
         {/* Optional icon */}
         {icon && (
@@ -261,7 +278,7 @@ const AlertBase = forwardRef<HTMLDivElement, AlertProps>(
 
         {/* Dismiss button */}
         {dismissible && onClose && (
-          <button type="button" className="btn-close" aria-label="Close" onClick={onClose} />
+          <button type="button" className="btn-close" aria-label="Close" onClick={handleClose} />
         )}
       </Component>
     );

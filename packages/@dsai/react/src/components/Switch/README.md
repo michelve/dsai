@@ -145,12 +145,13 @@ The Switch component follows WCAG 2.2 AA guidelines:
 
 - Uses `role="switch"` for proper semantics
 - `aria-checked` reflects current state
-- `aria-labelledby` links to label
+- Label is placed inside the button for single-control pattern (one interactive element)
 - `aria-describedby` links to helper text
 - `aria-busy` during loading
 - Keyboard accessible (Space/Enter to toggle)
 - Minimum 44×44px touch target
 - Focus ring visible
+- Clicking anywhere on the switch (track or label) toggles it
 
 ## Styling
 

@@ -1,4 +1,4 @@
-import { Checkbox } from '@dsai/react';
+import { Checkbox, CheckIcon, XLgIcon } from '@dsai/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
@@ -15,8 +15,10 @@ import { useState } from 'react';
  * - Native `<input type="checkbox">` element for full keyboard support
  * - Proper `<label>` association for all states
  * - `aria-invalid`, `aria-describedby`, `aria-label` support
+ * - `aria-checked="mixed"` for indeterminate state (assistive tech explicit)
  * - Space key toggles checkbox state
  * - Minimum 44×44px touch target via Bootstrap styling
+ * - Development warning when no accessible name (label or aria-label) is provided
  *
  * Performance Features:
  * - Component wrapped with React.memo to prevent unnecessary re-renders
@@ -190,7 +192,13 @@ export const Controlled: Story = {
 // =============================================================================
 
 /**
- * Indeterminate state for parent checkboxes
+ * Indeterminate state for parent checkboxes.
+ *
+ * When `indeterminate` is true:
+ * - The DOM `indeterminate` property is set via JavaScript (no HTML attribute exists)
+ * - `aria-checked="mixed"` is added for assistive technology support
+ *
+ * This is commonly used for "select all" parent checkboxes.
  */
 export const Indeterminate: Story = {
   args: {
@@ -523,11 +531,26 @@ export const SecurityPropWhitelist: Story = {
       <div>
         <h5>Whitelisted Categories</h5>
         <ul className="text-muted small">
-          <li>✓ Standard HTML attributes (name, value, disabled, required, etc.)</li>
-          <li>✓ All ARIA attributes (aria-label, aria-describedby, etc.)</li>
-          <li>✓ Input-specific attributes (autoComplete, tabIndex, etc.)</li>
-          <li>✗ All event handlers (onClick, onLoad, onError, etc.)</li>
-          <li>✗ Dangerous properties (innerHTML, dangerouslySetInnerHTML, etc.)</li>
+          <li>
+            <CheckIcon size={14} className="text-success me-1" />
+            Standard HTML attributes (name, value, disabled, required, etc.)
+          </li>
+          <li>
+            <CheckIcon size={14} className="text-success me-1" />
+            All ARIA attributes (aria-label, aria-describedby, etc.)
+          </li>
+          <li>
+            <CheckIcon size={14} className="text-success me-1" />
+            Input-specific attributes (autoComplete, tabIndex, etc.)
+          </li>
+          <li>
+            <XLgIcon size={14} className="text-danger me-1" />
+            All event handlers (onClick, onLoad, onError, etc.)
+          </li>
+          <li>
+            <XLgIcon size={14} className="text-danger me-1" />
+            Dangerous properties (innerHTML, dangerouslySetInnerHTML, etc.)
+          </li>
         </ul>
       </div>
       <div>
@@ -581,6 +604,7 @@ export const AccessibilityKeyboardNavigation: Story = {
  * - `<label>` properly associated via `htmlFor`
  * - `aria-describedby` links to helper text
  * - `aria-invalid` indicates error state
+ * - `aria-checked="mixed"` for indeterminate state
  * - Error/helper messages associated with `id`
  */
 export const AccessibilityScreenReaderSupport: Story = {
@@ -597,7 +621,63 @@ export const AccessibilityScreenReaderSupport: Story = {
         <Checkbox label="Required field" required />
         <Checkbox label="With helper text" helperText="This field helps you understand context" />
         <Checkbox label="With error" error helperText="This field is required and has an error" />
+        <Checkbox indeterminate label="Indeterminate (aria-checked=mixed)" />
         <Checkbox aria-label="Checkbox without visible label" />
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * Accessibility: Development Warnings
+ *
+ * The Checkbox component includes development-time warnings to catch accessibility issues early:
+ * - Warns when neither `label` nor `aria-label` is provided
+ * - Warning only appears once per component instance
+ * - Only in development mode (not in production builds)
+ *
+ * This helps developers catch missing accessible names before deployment.
+ */
+export const AccessibilityDevWarnings: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div>
+        <h5>Development-Time Accessibility Warnings</h5>
+        <p className="text-muted small">
+          The Checkbox component warns in development when accessibility best practices are not
+          followed.
+        </p>
+      </div>
+
+      <div className="alert alert-warning small">
+        <strong>⚠️ Dev Warning Example</strong>
+        <p className="mb-0 mt-2">
+          Open your browser's console. A checkbox without `label` or `aria-label` will log:
+        </p>
+        <code className="d-block mt-2 p-2 bg-dark text-light rounded">
+          [DSAi Checkbox] Missing accessible name. Provide either a "label" prop or an "aria-label"
+          attribute for screen reader users.
+        </code>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <div>
+          <h6 className="text-success">
+            <CheckIcon size={14} className="me-1" />
+            Correct Usage
+          </h6>
+          <Checkbox label="With visible label" />
+          <Checkbox aria-label="With aria-label for screen readers" />
+        </div>
+      </div>
+
+      <div className="alert alert-info small">
+        <strong>Why This Matters:</strong>
+        <ul className="mb-0 mt-2">
+          <li>Screen readers need text to announce the checkbox purpose</li>
+          <li>WCAG 2.2 requires all form controls to have accessible names</li>
+          <li>Early warnings prevent accessibility issues in production</li>
+        </ul>
       </div>
     </div>
   ),
@@ -655,10 +735,22 @@ export const PerformanceMemoization: Story = {
         <div className="alert alert-info small">
           <strong>Performance Benefits:</strong>
           <ul className="mb-0 mt-2">
-            <li>✓ Component wrapped with React.memo</li>
-            <li>✓ Class names memoized with useMemo</li>
-            <li>✓ Helper text ID computed once and cached</li>
-            <li>✓ Efficient re-render only when actual props change</li>
+            <li>
+              <CheckIcon size={14} className="text-success me-1" />
+              Component wrapped with React.memo
+            </li>
+            <li>
+              <CheckIcon size={14} className="text-success me-1" />
+              Class names memoized with useMemo
+            </li>
+            <li>
+              <CheckIcon size={14} className="text-success me-1" />
+              Helper text ID computed once and cached
+            </li>
+            <li>
+              <CheckIcon size={14} className="text-success me-1" />
+              Efficient re-render only when actual props change
+            </li>
           </ul>
         </div>
       </div>

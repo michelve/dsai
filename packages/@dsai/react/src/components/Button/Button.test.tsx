@@ -1,13 +1,10 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { createRef } from 'react';
 
 import { Button } from './Button';
 
 import type { ButtonProps } from './Button.types';
-
-expect.extend(toHaveNoViolations);
 
 describe('Button', () => {
   describe('Rendering', () => {
@@ -334,95 +331,6 @@ describe('Button', () => {
     });
   });
 
-  describe('Accessibility (WCAG 2.2 AA)', () => {
-    it('marks start icon as aria-hidden for decorative use', () => {
-      render(<Button startIcon={<span data-testid="start-icon">→</span>}>With Icon</Button>);
-      const iconSpan = screen.getByTestId('start-icon').parentElement;
-
-      expect(iconSpan).toHaveAttribute('aria-hidden', 'true');
-    });
-
-    it('marks end icon as aria-hidden for decorative use', () => {
-      render(<Button endIcon={<span data-testid="end-icon">←</span>}>With Icon</Button>);
-      const iconSpan = screen.getByTestId('end-icon').parentElement;
-
-      expect(iconSpan).toHaveAttribute('aria-hidden', 'true');
-    });
-
-    it('has no accessibility violations', async () => {
-      const { container } = render(<Button>Accessible</Button>);
-      const results = await axe(container);
-
-      expect(results).toHaveNoViolations();
-    });
-
-    it('has no violations with all variants', async () => {
-      const { container } = render(
-        <>
-          <Button variant="primary">Primary</Button>
-          <Button variant="secondary">Secondary</Button>
-          <Button variant="outline-primary">Outline</Button>
-          <Button variant="link">Link</Button>
-        </>
-      );
-      const results = await axe(container);
-
-      expect(results).toHaveNoViolations();
-    });
-
-    it('has no violations when loading', async () => {
-      const { container } = render(<Button loading>Loading</Button>);
-      const results = await axe(container);
-
-      expect(results).toHaveNoViolations();
-    });
-
-    it('has no violations with icons', async () => {
-      const { container } = render(
-        <Button startIcon={<span>→</span>} endIcon={<span>←</span>}>
-          With Icons
-        </Button>
-      );
-      const results = await axe(container);
-
-      expect(results).toHaveNoViolations();
-    });
-
-    it('accepts aria-label', () => {
-      render(<Button aria-label="Close dialog">×</Button>);
-      expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Close dialog');
-    });
-
-    it('accepts aria-describedby', () => {
-      render(<Button aria-describedby="help-text">Button</Button>);
-      expect(screen.getByRole('button')).toHaveAttribute('aria-describedby', 'help-text');
-    });
-
-    it('accepts aria-controls', () => {
-      render(<Button aria-controls="menu">Toggle Menu</Button>);
-      expect(screen.getByRole('button')).toHaveAttribute('aria-controls', 'menu');
-    });
-
-    it('accepts aria-expanded', () => {
-      render(<Button aria-expanded>Expand</Button>);
-      expect(screen.getByRole('button')).toHaveAttribute('aria-expanded', 'true');
-    });
-
-    it('accepts aria-pressed for toggle buttons', () => {
-      render(<Button aria-pressed>Toggle</Button>);
-      expect(screen.getByRole('button')).toHaveAttribute('aria-pressed', 'true');
-    });
-
-    it('has visible focus indicator', () => {
-      render(<Button>Focusable</Button>);
-      const button = screen.getByRole('button');
-
-      button.focus();
-
-      expect(button).toHaveFocus();
-    });
-  });
-
   describe('Security (Prop Spreading Whitelist)', () => {
     it('allows data-testid attribute through whitelisted props', () => {
       render(<Button data-testid="test-button">Button</Button>);
@@ -479,7 +387,9 @@ describe('Button', () => {
       const ref = createRef<HTMLButtonElement>();
       render(<Button ref={ref}>Focusable</Button>);
 
-      ref.current?.focus();
+      act(() => {
+        ref.current?.focus();
+      });
 
       expect(ref.current).toHaveFocus();
     });
