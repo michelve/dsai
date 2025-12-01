@@ -1,8 +1,8 @@
-import type { GuardResult, TabsProItem } from '@dsai/react';
-
 import { TabsPro } from '@dsai/react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useCallback, useState } from 'react';
+
+import type { GuardResult, TabsProItem } from '@dsai/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 /**
  * TabsPro - Advanced tabs with FSM-based state management.
@@ -13,6 +13,11 @@ import { useCallback, useState } from 'react';
  * - **Error states** with retry functionality
  * - **Dirty state handling** with leave confirmation
  * - **Analytics hooks** for tracking tab interactions
+ *
+ * Security Guardrails:
+ * - Tab IDs must match `/^[A-Za-z0-9._:-]+$/`; invalid IDs are ignored before reaching the DOM
+ * - All per-tab state writes run through a sanitizer that clones the tab map and blocks prototype
+ *   pollution / object-injection attempts
  *
  * Built on top of the base Tabs component with Bootstrap 5 styling and WCAG 2.2 AA compliance.
  */
@@ -25,7 +30,9 @@ const meta: Meta<typeof TabsPro> = {
       description: {
         component:
           'Advanced tab system with FSM-based async loading, permission gating, ' +
-          'error handling, and analytics hooks. Wraps the base Tabs component.',
+          'error handling, and analytics hooks. Tab IDs must use safe characters ' +
+          '(letters, numbers, dot, underscore, colon, or hyphen) so the FSM can ' +
+          'enforce the new state sanitization guardrails.',
       },
     },
   },
@@ -84,10 +91,10 @@ type Story = StoryObj<typeof meta>;
 // =============================================================================
 
 /** Simulates an async operation with configurable delay */
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
 /** Simulates a failing async operation */
-const failAfterDelay = (ms: number, message: string) =>
+const failAfterDelay = (ms: number, message: string): Promise<never> =>
   new Promise<never>((_, reject) => setTimeout(() => reject(new Error(message)), ms));
 
 // =============================================================================
@@ -185,7 +192,7 @@ export const AsyncLoading: Story = {
             </div>
           );
         },
-        onViewed: () => console.log('[Analytics] Dashboard viewed'),
+        onViewed: () => console.warn('[Analytics] Dashboard viewed'),
       },
       {
         id: 'reports',
@@ -224,7 +231,7 @@ export const AsyncLoading: Story = {
             </div>
           );
         },
-        onViewed: () => console.log('[Analytics] Reports viewed'),
+        onViewed: () => console.warn('[Analytics] Reports viewed'),
       },
       {
         id: 'analytics',
@@ -248,7 +255,7 @@ export const AsyncLoading: Story = {
             </div>
           );
         },
-        onViewed: () => console.log('[Analytics] Analytics tab viewed'),
+        onViewed: () => console.warn('[Analytics] Analytics tab viewed'),
       },
     ];
 
@@ -350,7 +357,7 @@ export const PermissionGating: Story = {
             </div>
           );
         },
-        onGuardFail: ({ reason }) => console.log(`Admin access denied: ${reason}`),
+        onGuardFail: ({ reason }) => console.warn(`Admin access denied: ${reason}`),
       },
       {
         id: 'premium',
@@ -378,7 +385,7 @@ export const PermissionGating: Story = {
             </div>
           );
         },
-        onGuardFail: ({ reason }) => console.log(`Premium access denied: ${reason}`),
+        onGuardFail: ({ reason }) => console.warn(`Premium access denied: ${reason}`),
       },
     ];
 
@@ -526,7 +533,8 @@ export const ErrorHandling: Story = {
       <div>
         <div className="mb-3">
           <small className="text-muted">
-            "Unstable" tab fails twice before succeeding. "Always Fails" never succeeds.
+            &ldquo;Unstable&rdquo; tab fails twice before succeeding. &ldquo;Always Fails&rdquo;
+            never succeeds.
           </small>
         </div>
         <TabsPro items={items} />
@@ -692,8 +700,8 @@ export const DirtyStateHandling: Story = {
           items={items}
           isDirty={isDirty}
           dirtyConfirmMessage="You have unsaved profile changes. Leave without saving?"
-          onDirtyLeave={(from, to) => console.log(`Left dirty tab ${from} for ${to}`)}
-          onDirtyStay={(tabId) => console.log(`Stayed on dirty tab ${tabId}`)}
+          onDirtyLeave={(from, to) => console.warn(`Left dirty tab ${from} for ${to}`)}
+          onDirtyStay={(tabId) => console.warn(`Stayed on dirty tab ${tabId}`)}
         />
       </div>
     );
@@ -715,8 +723,8 @@ export const AnalyticsHooks: Story = {
         id: 'overview',
         label: 'Overview',
         content: <div className="p-3">Overview content</div>,
-        onActivate: () => console.log('[Analytics] Tab activation started: overview'),
-        onViewed: () => console.log('[Analytics] Tab viewed: overview'),
+        onActivate: () => console.warn('[Analytics] Tab activation started: overview'),
+        onViewed: () => console.warn('[Analytics] Tab viewed: overview'),
       },
       {
         id: 'metrics',
@@ -725,17 +733,17 @@ export const AnalyticsHooks: Story = {
           await delay(1000);
           return <div className="p-3">Metrics data loaded</div>;
         },
-        onActivate: () => console.log('[Analytics] Tab activation started: metrics'),
-        onViewed: () => console.log('[Analytics] Tab viewed after load: metrics'),
-        onError: (error) => console.log('[Analytics] Tab error: metrics', error),
+        onActivate: () => console.warn('[Analytics] Tab activation started: metrics'),
+        onViewed: () => console.warn('[Analytics] Tab viewed after load: metrics'),
+        onError: (error) => console.warn('[Analytics] Tab error: metrics', error),
       },
       {
         id: 'restricted',
         label: 'Restricted',
         guard: async () => ({ allowed: false, reason: 'subscription-required' }),
         content: <div className="p-3">Restricted content</div>,
-        onActivate: () => console.log('[Analytics] Tab activation started: restricted'),
-        onGuardFail: ({ reason }) => console.log(`[Analytics] Guard failed: ${reason}`),
+        onActivate: () => console.warn('[Analytics] Tab activation started: restricted'),
+        onGuardFail: ({ reason }) => console.warn(`[Analytics] Guard failed: ${reason}`),
       },
     ];
 
@@ -957,7 +965,7 @@ export const CompleteShowcase: Story = {
             </ul>
           </div>
         ),
-        onViewed: () => console.log('Overview viewed'),
+        onViewed: () => console.warn('Overview viewed'),
       },
       {
         id: 'data',
@@ -989,7 +997,7 @@ export const CompleteShowcase: Story = {
             </div>
           );
         },
-        onViewed: () => console.log('Data viewed'),
+        onViewed: () => console.warn('Data viewed'),
       },
       {
         id: 'admin',
@@ -1017,7 +1025,7 @@ export const CompleteShowcase: Story = {
             </div>
           );
         },
-        onGuardFail: () => console.log('Admin guard failed'),
+        onGuardFail: () => console.warn('Admin guard failed'),
       },
       {
         id: 'flaky',
@@ -1028,7 +1036,7 @@ export const CompleteShowcase: Story = {
           </svg>
         ),
         loadContent: () => failAfterDelay(1500, 'Random network failure'),
-        onError: (error) => console.log('Flaky tab error:', error),
+        onError: (error) => console.warn('Flaky tab error:', error),
       },
     ];
 
