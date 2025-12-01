@@ -6,8 +6,10 @@ import {
   InfoCircleFillIcon,
   XCircleFillIcon,
 } from '@dsai/react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { JSX } from 'react';
 
 /**
  * Alert component for displaying important messages to users.
@@ -25,30 +27,31 @@ import { useState } from 'react';
  */
 
 // Helper component for secure external link example
-const SecureExternalLinkExample = () => (
+const SecureExternalLinkExample = (): JSX.Element => (
   <Alert variant="info">
     Visit our{' '}
     <Alert.Link href="https://example.com" target="_blank">
       secure external link
     </Alert.Link>{' '}
-    (automatically adds rel="noopener noreferrer" for security).
+    (automatically adds rel=&quot;noopener noreferrer&quot; for security).
   </Alert>
 );
 
 // Helper component for XSS prevention example
-const XSSPreventionExample = () => (
+const XSSPreventionExample = (): JSX.Element => (
   <Alert variant="warning">
-    <strong>Security Protected:</strong> Dangerous URLs like <code>javascript:alert('XSS')</code>{' '}
-    are automatically blocked and converted to safe fallback.
+    <strong>Security Protected:</strong> Dangerous URLs like{' '}
+    <code>javascript:alert(&apos;XSS&apos;)</code> are automatically blocked and converted to safe
+    fallback.
     <Alert.Link href="javascript:alert('XSS')">Click here (safe, blocked dangerous URL)</Alert.Link>
   </Alert>
 );
 
 // Helper component for aria-atomic example
-const AriaAtomicExample = () => {
+const AriaAtomicExample = (): JSX.Element => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
 
-  const handleSave = async () => {
+  const handleSave = async (): Promise<void> => {
     setStatus('loading');
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setStatus('success');
@@ -59,7 +62,7 @@ const AriaAtomicExample = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <Alert
         variant={status === 'success' ? 'success' : 'info'}
-        aria-atomic={true}
+        aria-atomic
         role="status"
         aria-live="polite"
         icon={status === 'success' ? <CheckCircleFillIcon /> : undefined}
@@ -77,7 +80,8 @@ const AriaAtomicExample = () => {
         Save Changes
       </Button>
       <p style={{ fontSize: '0.875rem', color: '#666' }}>
-        With aria-atomic="true", screen readers announce the complete alert content on updates.
+        With aria-atomic=&quot;true&quot;, screen readers announce the complete alert content on
+        updates.
       </p>
     </div>
   );
@@ -335,7 +339,7 @@ export const MultipleDismissible: Story = {
       { id: 3, variant: 'warning' as const, message: 'Warning: Your session will expire soon.' },
     ]);
 
-    const dismissAlert = (id: number) => {
+    const dismissAlert = (id: number): void => {
       setAlerts(alerts.filter((alert) => alert.id !== id));
     };
 
@@ -447,18 +451,19 @@ export const AriaAtomic: Story = {
 export const AccessibilityRoles: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <Alert variant="danger" aria-atomic={true}>
-        <strong>Critical:</strong> Uses role="alert" and aria-live="assertive" for immediate
-        announcement.
+      <Alert variant="danger" aria-atomic>
+        <strong>Critical:</strong> Uses role=&quot;alert&quot; and aria-live=&quot;assertive&quot;
+        for immediate announcement.
       </Alert>
-      <Alert variant="warning" aria-atomic={true}>
-        <strong>Warning:</strong> Uses role="alert" and aria-live="assertive".
+      <Alert variant="warning" aria-atomic>
+        <strong>Warning:</strong> Uses role=&quot;alert&quot; and aria-live=&quot;assertive&quot;.
       </Alert>
-      <Alert variant="success" aria-atomic={true}>
-        <strong>Success:</strong> Uses role="status" and aria-live="polite" for non-urgent updates.
+      <Alert variant="success" aria-atomic>
+        <strong>Success:</strong> Uses role=&quot;status&quot; and aria-live=&quot;polite&quot; for
+        non-urgent updates.
       </Alert>
-      <Alert variant="info" aria-atomic={true}>
-        <strong>Info:</strong> Uses role="status" and aria-live="polite".
+      <Alert variant="info" aria-atomic>
+        <strong>Info:</strong> Uses role=&quot;status&quot; and aria-live=&quot;polite&quot;.
       </Alert>
     </div>
   ),
@@ -608,7 +613,7 @@ export const CompleteShowcase: Story = {
         {/* Accessibility */}
         <div>
           <h4 style={{ marginBottom: '0.5rem' }}>Accessibility</h4>
-          <Alert variant="success" aria-atomic={true}>
+          <Alert variant="success" aria-atomic>
             Complete alert content announced to screen readers with aria-atomic=true
           </Alert>
         </div>
