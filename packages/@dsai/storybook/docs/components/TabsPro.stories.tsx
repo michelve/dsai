@@ -1,4 +1,13 @@
-import { TabsPro } from '@dsai/react';
+import {
+  Button,
+  BuildingFillIcon,
+  DatabaseFillIcon,
+  ExclamationTriangleFillIcon,
+  HouseFillIcon,
+  ShieldLockFillIcon,
+  Spinner,
+  TabsPro,
+} from '@dsai/react';
 import { useCallback, useId, useState } from 'react';
 
 import type { GuardResult, TabsProItem } from '@dsai/react';
@@ -270,15 +279,21 @@ export const CustomLoadingIndicator: Story = {
   render: () => {
     const customLoader = (
       <div className="p-4 text-center">
-        <div className="spinner-grow text-primary me-2" aria-live="polite" aria-busy="true">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-        <div className="spinner-grow text-secondary me-2" aria-live="polite" aria-busy="true">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-        <div className="spinner-grow text-success" aria-live="polite" aria-busy="true">
-          <span className="visually-hidden">Loading...</span>
-        </div>
+        <Spinner
+          animation="grow"
+          variant="primary"
+          className="me-2"
+          as="span"
+          label="Loading dashboards"
+        />
+        <Spinner
+          animation="grow"
+          variant="secondary"
+          className="me-2"
+          as="span"
+          label="Loading reports"
+        />
+        <Spinner animation="grow" variant="success" as="span" label="Loading analytics" />
         <p className="mt-3 text-muted">Fetching data from server...</p>
       </div>
     );
@@ -452,18 +467,7 @@ export const CustomBlockedFallback: Story = {
         blockedFallback: (
           <div className="p-4 text-center">
             <div className="mb-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="64"
-                height="64"
-                fill="currentColor"
-                className="text-primary"
-                viewBox="0 0 16 16"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-              </svg>
+              <BuildingFillIcon size={64} className="text-primary" aria-hidden="true" />
             </div>
             <h4 className="text-primary">Enterprise Feature</h4>
             <p className="text-muted mb-4">
@@ -471,12 +475,10 @@ export const CustomBlockedFallback: Story = {
               <br />
               Contact our sales team to learn more.
             </p>
-            <button type="button" className="btn btn-primary me-2">
+            <Button variant="primary" className="me-2">
               Contact Sales
-            </button>
-            <button type="button" className="btn btn-outline-secondary">
-              View Plans
-            </button>
+            </Button>
+            <Button variant="outline-secondary">View Plans</Button>
           </div>
         ),
       },
@@ -570,18 +572,7 @@ export const CustomErrorFallback: Story = {
           <div className="p-4">
             <div className="alert alert-danger">
               <h5 className="alert-heading">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="currentColor"
-                  className="me-2"
-                  viewBox="0 0 16 16"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                </svg>
+                <ExclamationTriangleFillIcon size={20} className="me-2" aria-hidden="true" />
                 Connection Error
               </h5>
               <p className="mb-0">
@@ -589,12 +580,10 @@ export const CustomErrorFallback: Story = {
               </p>
             </div>
             <div className="d-flex gap-2">
-              <button type="button" className="btn btn-danger" onClick={retry}>
+              <Button variant="danger" onClick={retry}>
                 Retry Connection
-              </button>
-              <button type="button" className="btn btn-outline-secondary">
-                Report Issue
-              </button>
+              </Button>
+              <Button variant="outline-secondary">Report Issue</Button>
             </div>
           </div>
         ),
@@ -662,13 +651,9 @@ export const DirtyStateHandling: Story = {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
               </div>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => setSavedData(formData)}
-              >
+              <Button variant="primary" onClick={() => setSavedData(formData)}>
                 Save Changes
-              </button>
+              </Button>
             </form>
             {isDirty('form') && (
               <div className="alert alert-warning mt-3 mb-0">You have unsaved changes!</div>
@@ -887,27 +872,15 @@ export const ControlledMode: Story = {
         <div className="mt-3 p-3 bg-light rounded">
           <strong>Current tab:</strong> {activeId}
           <div className="btn-group ms-3">
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-primary"
-              onClick={() => setActiveId('home')}
-            >
+            <Button size="sm" variant="outline-primary" onClick={() => setActiveId('home')}>
               Go to Home
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-primary"
-              onClick={() => setActiveId('profile')}
-            >
+            </Button>
+            <Button size="sm" variant="outline-primary" onClick={() => setActiveId('profile')}>
               Go to Profile
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-primary"
-              onClick={() => setActiveId('settings')}
-            >
+            </Button>
+            <Button size="sm" variant="outline-primary" onClick={() => setActiveId('settings')}>
               Go to Settings
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -961,12 +934,7 @@ export const CompleteShowcase: Story = {
       {
         id: 'overview',
         label: 'Overview',
-        icon: (
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-            <title>Overview icon</title>
-            <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z" />
-          </svg>
-        ),
+        icon: <HouseFillIcon aria-hidden="true" />,
         content: (
           <div className="p-3">
             <h5>Welcome to TabsPro</h5>
@@ -992,12 +960,7 @@ export const CompleteShowcase: Story = {
       {
         id: 'data',
         label: 'Data',
-        icon: (
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-            <title>Data icon</title>
-            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z" />
-          </svg>
-        ),
+        icon: <DatabaseFillIcon aria-hidden="true" />,
         loadContent: async () => {
           await delay(2000);
           return (
@@ -1025,12 +988,7 @@ export const CompleteShowcase: Story = {
       {
         id: 'admin',
         label: 'Admin',
-        icon: (
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-            <title>Admin icon</title>
-            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
-          </svg>
-        ),
+        icon: <ShieldLockFillIcon aria-hidden="true" />,
         guard: async () => {
           await delay(500);
           return {
@@ -1054,12 +1012,7 @@ export const CompleteShowcase: Story = {
       {
         id: 'flaky',
         label: 'Flaky',
-        icon: (
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-            <title>Warning icon</title>
-            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-          </svg>
-        ),
+        icon: <ExclamationTriangleFillIcon aria-hidden="true" />,
         loadContent: () => failAfterDelay(1500, 'Random network failure'),
         onError: (error) => console.warn('Flaky tab error:', error),
       },
