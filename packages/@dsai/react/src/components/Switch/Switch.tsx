@@ -1,4 +1,4 @@
-import { forwardRef, useId, useState, type KeyboardEvent } from 'react';
+import { forwardRef, type KeyboardEvent, useId, useState } from 'react';
 
 import type { SwitchProps, SwitchSize } from './Switch.types';
 
@@ -113,33 +113,21 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
   const thumbOffset = 2; // padding inside track
   const thumbTranslateX = isChecked ? trackWidth - thumbSize - thumbOffset * 2 : 0;
 
-  // Build track classes
-  const trackClasses = [
-    'position-relative d-inline-flex align-items-center rounded-pill',
-    isChecked ? 'bg-primary' : 'bg-secondary',
-    (disabled || loading) && 'opacity-50',
-    error && 'border border-danger',
-  ]
+  // Build button classes (single control containing track + label)
+  const buttonClasses = ['d-inline-flex align-items-center border-0', className]
     .filter(Boolean)
     .join(' ');
 
   // Build wrapper classes
-  const wrapperClasses = [
-    'd-inline-flex align-items-center gap-2',
-    labelPosition === 'start' && 'flex-row-reverse',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  const wrapperClasses = ['d-inline-flex align-items-center'].filter(Boolean).join(' ');
 
   // Build aria-describedby
   const describedByIds = [helperText && helperId, ariaDescribedBy].filter(Boolean).join(' ');
 
-  // Render loading spinner
+  // Render loading spinner (purely visual; aria-busy on button signals loading state)
   const renderSpinner = (): React.JSX.Element => (
     <span
       className="spinner-border spinner-border-sm text-primary"
-      role="status"
       aria-hidden="true"
       style={{
         width: `${thumbSize - 6}px`,
@@ -162,93 +150,100 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
     return null;
   };
 
+  /**
+   * Render label content (inside button for single-control pattern).
+   * This ensures one interactive element with consistent hit area.
+   */
+  const renderLabelContent = (): React.JSX.Element | null => {
+    if (!label) return null;
+
+    return (
+      <span id={labelId} className="form-label mb-0 ms-2">
+        {label}
+        {required && (
+          <span className="text-danger ms-1" aria-hidden="true">
+            *
+          </span>
+        )}
+      </span>
+    );
+  };
+
   return (
     <div style={style}>
       <div className={wrapperClasses}>
         {/* Hidden input for form submission */}
         {name && <input type="hidden" name={name} value={isChecked ? (value ?? 'on') : ''} />}
 
-        {/* Switch button */}
+        {/* Switch button - single control containing track, thumb, and label */}
         <button
           ref={ref}
           type="button"
           id={switchId}
           role="switch"
           aria-checked={isChecked}
-          aria-labelledby={label ? labelId : undefined}
-          aria-label={!label ? ariaLabel : undefined}
+          aria-label={ariaLabel ?? (label ? undefined : 'Toggle switch')}
           aria-describedby={describedByIds || undefined}
           aria-busy={loading || undefined}
           disabled={disabled || loading}
           tabIndex={disabled ? -1 : tabIndex}
           onClick={handleToggle}
           onKeyDown={handleKeyDown}
-          className={trackClasses}
+          className={`${buttonClasses} ${labelPosition === 'start' ? 'flex-row-reverse' : ''}`}
           style={{
-            width: `${trackWidth}px`,
-            height: `${trackHeight}px`,
+            minHeight: '44px', // WCAG touch target
             cursor: disabled || loading ? 'not-allowed' : 'pointer',
-            border: 'none',
+            border: error ? undefined : 'none', // Allow border-danger when error
             padding: `${thumbOffset}px`,
             transition: 'background-color 0.15s ease-in-out',
+            background: 'transparent',
           }}
         >
-          {/* On/Off text inside track */}
-          {(onText || offText) && (
-            <span
-              className="position-absolute text-white small fw-bold"
-              style={{
-                left: isChecked ? `${thumbOffset + 4}px` : 'auto',
-                right: isChecked ? 'auto' : `${thumbOffset + 4}px`,
-                fontSize: size === 'sm' ? '8px' : size === 'lg' ? '11px' : '9px',
-                userSelect: 'none',
-                lineHeight: 1,
-              }}
-              aria-hidden="true"
-            >
-              {isChecked ? onText : offText}
-            </span>
-          )}
-
-          {/* Thumb */}
+          {/* Track (visual container) */}
           <span
-            className="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm"
+            className={`position-relative d-inline-flex align-items-center rounded-pill ${isChecked ? 'bg-primary' : 'bg-secondary'} ${disabled || loading ? 'opacity-50' : ''} ${error ? 'border border-danger' : ''}`}
             style={{
-              width: `${thumbSize}px`,
-              height: `${thumbSize}px`,
-              transform: `translateX(${thumbTranslateX}px)`,
-              transition: 'transform 0.15s ease-in-out',
+              width: `${trackWidth}px`,
+              height: `${trackHeight}px`,
+              padding: `${thumbOffset}px`,
               flexShrink: 0,
             }}
             aria-hidden="true"
           >
-            {renderThumbContent()}
-          </span>
-        </button>
-
-        {/* Label */}
-        {label && (
-          <span
-            id={labelId}
-            className="form-label mb-0"
-            style={{ cursor: disabled || loading ? 'not-allowed' : 'pointer' }}
-            onClick={handleToggle}
-            onKeyDown={(e) => {
-              if (e.key === ' ' || e.key === 'Enter') {
-                e.preventDefault();
-                handleToggle();
-              }
-            }}
-            role="presentation"
-          >
-            {label}
-            {required && (
-              <span className="text-danger ms-1" aria-hidden="true">
-                *
+            {/* On/Off text inside track */}
+            {(onText || offText) && (
+              <span
+                className="position-absolute text-white small fw-bold"
+                style={{
+                  left: isChecked ? `${thumbOffset + 4}px` : 'auto',
+                  right: isChecked ? 'auto' : `${thumbOffset + 4}px`,
+                  fontSize: size === 'sm' ? '8px' : size === 'lg' ? '11px' : '9px',
+                  userSelect: 'none',
+                  lineHeight: 1,
+                }}
+              >
+                {isChecked ? onText : offText}
               </span>
             )}
+
+            {/* Thumb */}
+            <span
+              className="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm"
+              style={{
+                width: `${thumbSize}px`,
+                height: `${thumbSize}px`,
+                transform: `translateX(${thumbTranslateX}px)`,
+                transition: 'transform 0.15s ease-in-out',
+                flexShrink: 0,
+              }}
+            >
+              {renderThumbContent()}
+            </span>
           </span>
-        )}
+
+          {/* Label inside button */}
+          {renderLabelContent()}
+        </button>
       </div>
 
       {/* Helper text */}

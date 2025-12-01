@@ -40,19 +40,23 @@ describe('Switch', () => {
     it('renders small size', () => {
       render(<Switch size="sm" aria-label="Small" />);
       const switchEl = screen.getByRole('switch');
-      expect(switchEl).toHaveStyle({ width: '32px', height: '18px' });
+      // Track is the first child span inside button
+      const track = switchEl.querySelector('span[aria-hidden="true"]');
+      expect(track).toHaveStyle({ width: '32px', height: '18px' });
     });
 
     it('renders medium size by default', () => {
       render(<Switch aria-label="Medium" />);
       const switchEl = screen.getByRole('switch');
-      expect(switchEl).toHaveStyle({ width: '44px', height: '24px' });
+      const track = switchEl.querySelector('span[aria-hidden="true"]');
+      expect(track).toHaveStyle({ width: '44px', height: '24px' });
     });
 
     it('renders large size', () => {
       render(<Switch size="lg" aria-label="Large" />);
       const switchEl = screen.getByRole('switch');
-      expect(switchEl).toHaveStyle({ width: '56px', height: '30px' });
+      const track = switchEl.querySelector('span[aria-hidden="true"]');
+      expect(track).toHaveStyle({ width: '56px', height: '30px' });
     });
   });
 
@@ -140,7 +144,8 @@ describe('Switch', () => {
 
     it('has reduced opacity when disabled', () => {
       render(<Switch aria-label="Test" disabled />);
-      expect(screen.getByRole('switch')).toHaveClass('opacity-50');
+      const track = screen.getByRole('switch').querySelector('span[aria-hidden="true"]');
+      expect(track).toHaveClass('opacity-50');
     });
   });
 
@@ -150,7 +155,7 @@ describe('Switch', () => {
   describe('Loading State', () => {
     it('renders loading state', () => {
       const { container } = render(<Switch aria-label="Test" loading />);
-      // Spinner has aria-hidden but still has role="status" for assistive tech
+      // Spinner is purely visual; aria-busy on button signals loading state to AT
       expect(container.querySelector('.spinner-border')).toBeInTheDocument();
     });
 
@@ -180,7 +185,8 @@ describe('Switch', () => {
   describe('Error State', () => {
     it('renders error state', () => {
       render(<Switch aria-label="Test" error />);
-      expect(screen.getByRole('switch')).toHaveClass('border-danger');
+      const track = screen.getByRole('switch').querySelector('span[aria-hidden="true"]');
+      expect(track).toHaveClass('border-danger');
     });
 
     it('shows error helper text', () => {
@@ -195,15 +201,13 @@ describe('Switch', () => {
   // ===========================================================================
   describe('Label Position', () => {
     it('renders label at end by default', () => {
-      const { container } = render(<Switch label="Test" />);
-      const wrapper = container.querySelector('.d-inline-flex');
-      expect(wrapper).not.toHaveClass('flex-row-reverse');
+      render(<Switch label="Test" />);
+      expect(screen.getByRole('switch')).not.toHaveClass('flex-row-reverse');
     });
 
     it('renders label at start', () => {
-      const { container } = render(<Switch label="Test" labelPosition="start" />);
-      const wrapper = container.querySelector('.d-inline-flex');
-      expect(wrapper).toHaveClass('flex-row-reverse');
+      render(<Switch label="Test" labelPosition="start" />);
+      expect(screen.getByRole('switch')).toHaveClass('flex-row-reverse');
     });
   });
 
@@ -453,10 +457,14 @@ describe('Switch', () => {
       expect(screen.getByRole('switch')).toHaveAttribute('aria-checked');
     });
 
-    it('has aria-labelledby when label provided', () => {
+    it('has accessible name from label content', () => {
       render(<Switch label="Test Label" />);
       const switchEl = screen.getByRole('switch');
-      expect(switchEl).toHaveAttribute('aria-labelledby');
+      // Label is now inside the button, so it gets its accessible name from content
+      expect(screen.getByRole('switch', { name: /Test Label/ })).toBeInTheDocument();
+      // The label span still has an id for potential external reference
+      const labelSpan = switchEl.querySelector('#' + switchEl.id + '-label');
+      expect(labelSpan).toHaveTextContent('Test Label');
     });
 
     it('has aria-describedby for helper text', () => {
