@@ -1,9 +1,8 @@
-import { useState, useCallback } from 'react';
+import type { GuardResult, TabsProItem } from '@dsai/react';
 
 import { TabsPro } from '@dsai/react';
-import type { TabsProItem, GuardResult } from '@dsai/react';
-
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useCallback, useState } from 'react';
 
 /**
  * TabsPro - Advanced tabs with FSM-based state management.

@@ -384,8 +384,10 @@ export const Light: Story = {
     variant: 'light',
     children: 'Light Button',
   },
-  parameters: {
-    backgrounds: { default: 'dark' },
+  globals: {
+    backgrounds: {
+      value: 'dark',
+    },
   },
 };
 

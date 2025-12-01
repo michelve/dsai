@@ -151,3 +151,13 @@ export type {
 } from './TabsPro';
 // TabsPro
 export { TabsPro } from './TabsPro';
+export type {
+  DisplayProps,
+  DisplaySize,
+  HeadingLevel,
+  HeadingProps,
+  TextProps,
+  TextVariant,
+} from './Typography';
+// Typography
+export { Display, Heading, Text, Typography } from './Typography';

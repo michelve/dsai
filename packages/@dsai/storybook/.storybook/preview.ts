@@ -42,25 +42,27 @@ const preview: Preview = {
 
     // Background options using DSAi tokens
     backgrounds: {
-      default: 'light',
-      values: [
-        {
+      options: {
+        light: {
           name: 'light',
           value: '#ffffff', // backgroundWhite
         },
-        {
+
+        gray: {
           name: 'gray',
           value: '#f5f6f7', // colorGray100 / backgroundLight
         },
-        {
+
+        dark: {
           name: 'dark',
           value: '#212529', // colorGray900 / backgroundDark
         },
-        {
+
+        teal: {
           name: 'teal',
           value: '#06281e', // colorTeal950 - brand dark
         },
-      ],
+      },
     },
 
     // Default layout

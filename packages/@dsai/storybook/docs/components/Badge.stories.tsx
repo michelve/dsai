@@ -277,8 +277,10 @@ export const Light: Story = {
     variant: 'light',
     children: 'Light',
   },
-  parameters: {
-    backgrounds: { default: 'dark' },
+  globals: {
+    backgrounds: {
+      value: 'dark',
+    },
   },
 };
 
