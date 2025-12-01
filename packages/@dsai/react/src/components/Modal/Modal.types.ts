@@ -1,0 +1,447 @@
+import type { CSSProperties, ReactNode } from 'react';
+
+/**
+ * Modal size variants
+ * Maps to Bootstrap 5 modal size classes
+ *
+ * @see https://getbootstrap.com/docs/5.3/components/modal/#optional-sizes
+ */
+export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'fullscreen';
+
+/**
+ * Modal fullscreen breakpoint variants
+ * Only applies when size is 'fullscreen'
+ *
+ * @see https://getbootstrap.com/docs/5.3/components/modal/#fullscreen-modal
+ */
+export type ModalFullscreenBreakpoint =
+  | 'always'
+  | 'sm-down'
+  | 'md-down'
+  | 'lg-down'
+  | 'xl-down'
+  | 'xxl-down';
+
+/**
+ * Whitelisted HTML attributes for safe prop spreading in Modal component
+ * SECURITY: Restricts arbitrary props to prevent injection attacks
+ */
+export interface SafeModalHTMLAttributes {
+  /**
+   * Additional CSS class names (sanitized)
+   */
+  className?: string;
+
+  /**
+   * Inline styles
+   */
+  style?: CSSProperties;
+
+  /**
+   * ID attribute
+   */
+  id?: string;
+
+  /**
+   * Data attributes for testing (sanitized)
+   */
+  'data-testid'?: string;
+  'data-test'?: string;
+}
+
+/**
+ * Modal component props
+ *
+ * ACCESSIBILITY FEATURES (WCAG 2.2 AA):
+ * - role="dialog" for screen readers
+ * - aria-modal="true" to indicate modal context
+ * - aria-labelledby pointing to header
+ * - aria-describedby pointing to body
+ * - Focus trap within modal
+ * - ESC key to close
+ * - Scroll lock when open
+ *
+ * SECURITY FEATURES:
+ * - Prop whitelisting (no unrestricted spread)
+ * - Explicit event handlers only
+ *
+ * @example
+ * ```tsx
+ * // Basic modal
+ * const [isOpen, setIsOpen] = useState(false);
+ *
+ * <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+ *   <Modal.Header>Modal Title</Modal.Header>
+ *   <Modal.Body>Modal content goes here.</Modal.Body>
+ *   <Modal.Footer>
+ *     <Button variant="secondary" onClick={() => setIsOpen(false)}>
+ *       Cancel
+ *     </Button>
+ *     <Button variant="primary" onClick={handleSave}>
+ *       Save
+ *     </Button>
+ *   </Modal.Footer>
+ * </Modal>
+ *
+ * // Large modal with custom title ID
+ * <Modal
+ *   isOpen={isOpen}
+ *   onClose={handleClose}
+ *   size="lg"
+ *   titleId="custom-title"
+ * >
+ *   <Modal.Header>Large Modal</Modal.Header>
+ *   <Modal.Body>Content here...</Modal.Body>
+ * </Modal>
+ *
+ * // Fullscreen modal
+ * <Modal isOpen={isOpen} onClose={handleClose} size="fullscreen">
+ *   <Modal.Header>Fullscreen Modal</Modal.Header>
+ *   <Modal.Body>Full screen content...</Modal.Body>
+ * </Modal>
+ *
+ * // Modal without backdrop close
+ * <Modal isOpen={isOpen} onClose={handleClose} closeOnBackdropClick={false}>
+ *   <Modal.Header>Click backdrop won't close</Modal.Header>
+ *   <Modal.Body>Must use close button or ESC key.</Modal.Body>
+ * </Modal>
+ * ```
+ */
+export interface ModalProps extends SafeModalHTMLAttributes {
+  /**
+   * Modal content (typically Modal.Header, Modal.Body, Modal.Footer)
+   */
+  children: ReactNode;
+
+  /**
+   * Whether the modal is open (controlled)
+   */
+  isOpen: boolean;
+
+  /**
+   * Callback when the modal should close
+   * Called on:
+   * - Close button click
+   * - Backdrop click (if closeOnBackdropClick is true)
+   * - ESC key press (if closeOnEscape is true)
+   */
+  onClose: () => void;
+
+  /**
+   * Modal size variant
+   * @default 'md'
+   */
+  size?: ModalSize;
+
+  /**
+   * Fullscreen breakpoint (only applies when size is 'fullscreen')
+   * @default 'always'
+   */
+  fullscreenBreakpoint?: ModalFullscreenBreakpoint;
+
+  /**
+   * Whether to center the modal vertically
+   * @default false
+   */
+  centered?: boolean;
+
+  /**
+   * Whether to enable scrollable body when content overflows
+   * @default false
+   */
+  scrollable?: boolean;
+
+  /**
+   * Whether clicking the backdrop closes the modal
+   * @default true
+   */
+  closeOnBackdropClick?: boolean;
+
+  /**
+   * Whether pressing ESC key closes the modal
+   * @default true
+   */
+  closeOnEscape?: boolean;
+
+  /**
+   * Whether to show the backdrop
+   * @default true
+   */
+  backdrop?: boolean;
+
+  /**
+   * Whether backdrop should be static (doesn't close on click but highlights)
+   * @default false
+   */
+  staticBackdrop?: boolean;
+
+  /**
+   * ID for the modal title element (for aria-labelledby)
+   * Auto-generated if not provided
+   */
+  titleId?: string;
+
+  /**
+   * ID for the modal body element (for aria-describedby)
+   * Auto-generated if not provided
+   */
+  bodyId?: string;
+
+  /**
+   * Container element for the portal
+   * @default document.body
+   */
+  container?: HTMLElement | null;
+
+  /**
+   * Callback when the modal has fully opened (after animation)
+   */
+  onOpened?: () => void;
+
+  /**
+   * Callback when the modal has fully closed (after animation)
+   */
+  onClosed?: () => void;
+
+  /**
+   * Initial element to focus when modal opens
+   * If not provided, focuses first focusable element
+   */
+  initialFocusRef?: React.RefObject<HTMLElement>;
+
+  /**
+   * Element to return focus to when modal closes
+   * If not provided, returns focus to element that triggered the modal
+   */
+  returnFocusRef?: React.RefObject<HTMLElement>;
+
+  /**
+   * Z-index for the modal (useful for nested modals)
+   * @default 1055 (Bootstrap default)
+   */
+  zIndex?: number;
+
+  /**
+   * Whether to enable animations
+   * @default true
+   */
+  animated?: boolean;
+}
+
+/**
+ * Whitelisted HTML attributes for safe prop spreading in Modal.Header
+ * SECURITY: Restricts arbitrary props to prevent injection attacks
+ */
+export interface SafeModalHeaderHTMLAttributes {
+  /**
+   * Additional CSS class names (sanitized)
+   */
+  className?: string;
+
+  /**
+   * Inline styles
+   */
+  style?: CSSProperties;
+
+  /**
+   * Data attributes for testing (sanitized)
+   */
+  'data-testid'?: string;
+  'data-test'?: string;
+}
+
+/**
+ * Modal.Header component props
+ *
+ * @example
+ * ```tsx
+ * // Basic header with close button
+ * <Modal.Header onClose={handleClose}>
+ *   Modal Title
+ * </Modal.Header>
+ *
+ * // Header without close button
+ * <Modal.Header closeButton={false}>
+ *   Modal Title (no close button)
+ * </Modal.Header>
+ *
+ * // Header with custom title element
+ * <Modal.Header>
+ *   <h4 id="custom-title">Custom Title</h4>
+ * </Modal.Header>
+ * ```
+ */
+export interface ModalHeaderProps extends SafeModalHeaderHTMLAttributes {
+  /**
+   * Header content (typically the modal title)
+   */
+  children: ReactNode;
+
+  /**
+   * Whether to show the close button
+   * @default true
+   */
+  closeButton?: boolean;
+
+  /**
+   * Close button click handler
+   * Inherited from Modal context if not provided
+   */
+  onClose?: () => void;
+}
+
+/**
+ * Whitelisted HTML attributes for safe prop spreading in Modal.Body
+ * SECURITY: Restricts arbitrary props to prevent injection attacks
+ */
+export interface SafeModalBodyHTMLAttributes {
+  /**
+   * Additional CSS class names (sanitized)
+   */
+  className?: string;
+
+  /**
+   * Inline styles
+   */
+  style?: CSSProperties;
+
+  /**
+   * Data attributes for testing (sanitized)
+   */
+  'data-testid'?: string;
+  'data-test'?: string;
+}
+
+/**
+ * Modal.Body component props
+ *
+ * @example
+ * ```tsx
+ * // Basic body
+ * <Modal.Body>
+ *   <p>Modal content goes here.</p>
+ * </Modal.Body>
+ *
+ * // Body with custom styling
+ * <Modal.Body className="p-4">
+ *   <form>
+ *     <input type="text" />
+ *   </form>
+ * </Modal.Body>
+ * ```
+ */
+export interface ModalBodyProps extends SafeModalBodyHTMLAttributes {
+  /**
+   * Body content
+   */
+  children: ReactNode;
+}
+
+/**
+ * Whitelisted HTML attributes for safe prop spreading in Modal.Footer
+ * SECURITY: Restricts arbitrary props to prevent injection attacks
+ */
+export interface SafeModalFooterHTMLAttributes {
+  /**
+   * Additional CSS class names (sanitized)
+   */
+  className?: string;
+
+  /**
+   * Inline styles
+   */
+  style?: CSSProperties;
+
+  /**
+   * Data attributes for testing (sanitized)
+   */
+  'data-testid'?: string;
+  'data-test'?: string;
+}
+
+/**
+ * Modal.Footer component props
+ *
+ * @example
+ * ```tsx
+ * // Basic footer with buttons
+ * <Modal.Footer>
+ *   <Button variant="secondary" onClick={handleCancel}>
+ *     Cancel
+ *   </Button>
+ *   <Button variant="primary" onClick={handleSave}>
+ *     Save
+ *   </Button>
+ * </Modal.Footer>
+ *
+ * // Footer with custom alignment
+ * <Modal.Footer className="justify-content-start">
+ *   <Button variant="primary">Left-aligned button</Button>
+ * </Modal.Footer>
+ * ```
+ */
+export interface ModalFooterProps extends SafeModalFooterHTMLAttributes {
+  /**
+   * Footer content (typically action buttons)
+   */
+  children: ReactNode;
+}
+
+/**
+ * Modal.Title component props
+ *
+ * @example
+ * ```tsx
+ * <Modal.Header>
+ *   <Modal.Title>Modal Title</Modal.Title>
+ * </Modal.Header>
+ * ```
+ */
+export interface ModalTitleProps {
+  /**
+   * Title content
+   */
+  children: ReactNode;
+
+  /**
+   * HTML heading element to render
+   * @default 'h5'
+   */
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
+  /**
+   * Additional CSS class names
+   */
+  className?: string;
+
+  /**
+   * ID for the title (used by aria-labelledby)
+   * Auto-generated from Modal context if not provided
+   */
+  id?: string;
+}
+
+/**
+ * Modal context value for sharing state between Modal and subcomponents
+ */
+export interface ModalContextValue {
+  /**
+   * Close handler from Modal
+   */
+  onClose: () => void;
+
+  /**
+   * Title ID for aria-labelledby
+   */
+  titleId: string;
+
+  /**
+   * Body ID for aria-describedby
+   */
+  bodyId: string;
+
+  /**
+   * Whether the modal content is scrollable
+   */
+  scrollable: boolean;
+}

@@ -84,6 +84,18 @@ export type {
 // ListGroup
 export { ListGroup, ListGroupItem } from './ListGroup';
 export type {
+  ModalBodyProps,
+  ModalFooterProps,
+  ModalFullscreenBreakpoint,
+  ModalHeaderProps,
+  ModalProps,
+  ModalSize,
+  ModalTitleProps,
+  ModalVisualState,
+} from './Modal';
+// Modal
+export { Modal } from './Modal';
+export type {
   PaginationAlignment,
   PaginationItemData,
   PaginationItemProps,
