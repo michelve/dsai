@@ -347,6 +347,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 - [ ] ESLint/Prettier passing
 - [ ] No console warnings
 - [ ] Bootstrap 5 markup correct
+- [ ] Use correct icon component, no emojis or text icons allowed
 
 **Documentation Gates:**
 
@@ -368,7 +369,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 
 ### Step 1: Read Task File
 
-- Parse task from `tasks/completed/TASK-021-button-component.md`
+- Parse task from `tasks/02-high/TASK-036-pagination-component.md`
 - Verify task is clear and complete
 - Ask clarifying questions if ambiguous
 

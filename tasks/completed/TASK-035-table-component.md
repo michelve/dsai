@@ -19,6 +19,7 @@ Create accessible Table component with sorting, row selection, responsive behavi
 ## Acceptance Criteria
 
 ### Component Implementation
+
 - [ ] Table container component
 - [ ] Column definitions with types
 - [ ] Sortable columns (optional)
@@ -29,6 +30,7 @@ Create accessible Table component with sorting, row selection, responsive behavi
 - [ ] Loading state with skeleton
 
 ### Styling
+
 - [ ] Responsive: horizontal scroll on mobile
 - [ ] Sticky header (optional)
 - [ ] Cell padding using tokens
@@ -36,6 +38,7 @@ Create accessible Table component with sorting, row selection, responsive behavi
 - [ ] Zebra striping option
 
 ### Accessibility
+
 - [ ] Semantic `<table>`, `<thead>`, `<tbody>`, `<tfoot>`
 - [ ] `<th scope="col">` for headers
 - [ ] `aria-sort` for sortable columns
@@ -43,6 +46,7 @@ Create accessible Table component with sorting, row selection, responsive behavi
 - [ ] Caption for table description
 
 ### Testing
+
 - [ ] Unit tests 90%+
 - [ ] Sorting tests
 - [ ] Selection tests
@@ -53,6 +57,7 @@ Create accessible Table component with sorting, row selection, responsive behavi
 ## Dependencies
 
 ### Requires:
+
 - **TASK-014**: Base Component Template
 - **TASK-026**: Checkbox Component
 

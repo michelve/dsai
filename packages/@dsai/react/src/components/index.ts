@@ -83,6 +83,15 @@ export type {
 } from './ListGroup';
 // ListGroup
 export { ListGroup, ListGroupItem } from './ListGroup';
+export type {
+  PaginationAlignment,
+  PaginationItemData,
+  PaginationItemProps,
+  PaginationProps,
+  PaginationSize,
+} from './Pagination';
+// Pagination
+export { Pagination } from './Pagination';
 export type { ProgressBarProps, ProgressProps, ProgressSize, ProgressVariant } from './Progress';
 // Progress
 export { Progress } from './Progress';
