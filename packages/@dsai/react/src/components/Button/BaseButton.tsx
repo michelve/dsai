@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import { forwardRef, useMemo } from 'react';
+
 import { Spinner } from '../Spinner';
+
 import type { ButtonFSMState } from './Button.fsm';
 import type { ButtonProps } from './Button.types';
 
@@ -135,7 +137,7 @@ export const BaseButton = forwardRef<
     ) : null;
 
     // Handle click - prevent if disabled or loading
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
       if (isDisabled) {
         e.preventDefault();
         return;
@@ -197,7 +199,6 @@ export const BaseButton = forwardRef<
         {/* Announce state changes to screen readers (e.g., "Saving changes...") */}
         {announce && announceText && (
           <output
-            role="status"
             aria-live="polite"
             aria-atomic="true"
             style={{
@@ -218,7 +219,6 @@ export const BaseButton = forwardRef<
         {/* Spinner status region for screen readers (present whenever loading) */}
         {loading && !announceText && (
           <output
-            role="status"
             aria-live="polite"
             aria-atomic="true"
             style={{

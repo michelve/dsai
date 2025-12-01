@@ -77,7 +77,8 @@ function getValue<T>(row: T, accessor: TableColumn<T>['accessor']): unknown {
   if (typeof accessor === 'function') {
     return accessor(row);
   }
-  return row[accessor];
+  // Safe property access - accessor is validated by TypeScript as keyof T
+  return (row as Record<string, unknown>)[accessor as string];
 }
 
 /**
@@ -90,7 +91,8 @@ function getRowId<T>(row: T, index: number, rowIdAccessor?: RowIdAccessor<T>): R
   if (typeof rowIdAccessor === 'function') {
     return rowIdAccessor(row, index);
   }
-  return row[rowIdAccessor] as RowId;
+  // Safe property access - rowIdAccessor is validated by TypeScript as keyof T
+  return (row as Record<string, unknown>)[rowIdAccessor as string] as RowId;
 }
 
 /**
@@ -106,9 +108,15 @@ function defaultSortFn<T>(
   const bVal = getValue(b, accessor);
 
   // Handle null/undefined
-  if (aVal == null && bVal == null) return 0;
-  if (aVal == null) return direction === 'asc' ? -1 : 1;
-  if (bVal == null) return direction === 'asc' ? 1 : -1;
+  if (aVal === null || aVal === undefined) {
+    if (bVal === null || bVal === undefined) {
+      return 0;
+    }
+    return direction === 'asc' ? -1 : 1;
+  }
+  if (bVal === null || bVal === undefined) {
+    return direction === 'asc' ? 1 : -1;
+  }
 
   // Compare based on type
   if (typeof aVal === 'number' && typeof bVal === 'number') {
@@ -146,7 +154,9 @@ interface SortIconProps {
 }
 
 const SortIcon = memo(function SortIcon({ direction, sortable }: SortIconProps) {
-  if (!sortable) return null;
+  if (!sortable) {
+    return null;
+  }
 
   return (
     <span className="table-sort-icon ms-1" aria-hidden="true">
@@ -265,8 +275,12 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
 
     // Normalize selection value to array
     const normalizeSelectedRows = useCallback((val: RowId | RowId[] | undefined): RowId[] => {
-      if (val === undefined) return [];
-      if (Array.isArray(val)) return val;
+      if (val === undefined) {
+        return [];
+      }
+      if (Array.isArray(val)) {
+        return val;
+      }
       return [val];
     }, []);
 
@@ -347,7 +361,9 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     // Handle row click for selection
     const handleRowSelectionClick = useCallback(
       (rowId: RowId, isDisabled: boolean) => {
-        if (isDisabled) return;
+        if (isDisabled) {
+          return;
+        }
 
         if (selectionMode === 'single') {
           handleSelectRow(rowId);
@@ -361,8 +377,12 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     // Handle keyboard navigation for selection
     const handleRowKeyDown = useCallback(
       (e: React.KeyboardEvent, rowId: RowId, isDisabled: boolean) => {
-        if (isDisabled) return;
-        if (selectionMode === 'none') return;
+        if (isDisabled) {
+          return;
+        }
+        if (selectionMode === 'none') {
+          return;
+        }
 
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
@@ -377,10 +397,14 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     // ==========================================================================
 
     const sortedData = useMemo(() => {
-      if (!currentSortConfig) return data;
+      if (!currentSortConfig) {
+        return data;
+      }
 
       const column = columns.find((col) => col.id === currentSortConfig.columnId);
-      if (!column) return data;
+      if (!column) {
+        return data;
+      }
 
       return [...data].sort((a, b) => {
         if (column.sortFn) {
@@ -398,31 +422,49 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
       const classes = ['table'];
 
       // Variant classes
-      if (variant === 'striped') classes.push('table-striped');
-      if (variant === 'bordered') classes.push('table-bordered');
-      if (variant === 'borderless') classes.push('table-borderless');
+      if (variant === 'striped') {
+        classes.push('table-striped');
+      }
+      if (variant === 'bordered') {
+        classes.push('table-bordered');
+      }
+      if (variant === 'borderless') {
+        classes.push('table-borderless');
+      }
 
       // Size
-      if (size === 'sm') classes.push('table-sm');
+      if (size === 'sm') {
+        classes.push('table-sm');
+      }
 
       // Hover
-      if (hover) classes.push('table-hover');
+      if (hover) {
+        classes.push('table-hover');
+      }
 
       // Custom class
-      if (className) classes.push(className);
+      if (className) {
+        classes.push(className);
+      }
 
       return classes.join(' ');
     }, [variant, size, hover, className]);
 
     const headerClasses = useMemo(() => {
-      if (headerColor) return `table-${headerColor}`;
+      if (headerColor) {
+        return `table-${headerColor}`;
+      }
       return '';
     }, [headerColor]);
 
     const wrapperClasses = useMemo(() => {
       const classes: string[] = [];
-      if (responsive) classes.push('table-responsive');
-      if (wrapperClassName) classes.push(wrapperClassName);
+      if (responsive) {
+        classes.push('table-responsive');
+      }
+      if (wrapperClassName) {
+        classes.push(wrapperClassName);
+      }
       return classes.join(' ');
     }, [responsive, wrapperClassName]);
 
@@ -442,7 +484,9 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     }, [stickyHeader, maxHeight, wrapperStyle]);
 
     const stickyHeaderStyle = useMemo<React.CSSProperties | undefined>(() => {
-      if (!stickyHeader) return undefined;
+      if (!stickyHeader) {
+        return undefined;
+      }
       return {
         position: 'sticky',
         top: 0,
@@ -508,9 +552,15 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
                   : undefined;
 
               const headerStyle: React.CSSProperties = {};
-              if (column.width) headerStyle.width = column.width;
-              if (column.minWidth) headerStyle.minWidth = column.minWidth;
-              if (column.maxWidth) headerStyle.maxWidth = column.maxWidth;
+              if (column.width) {
+                headerStyle.width = column.width;
+              }
+              if (column.minWidth) {
+                headerStyle.minWidth = column.minWidth;
+              }
+              if (column.maxWidth) {
+                headerStyle.maxWidth = column.maxWidth;
+              }
               // Sticky columns (left/right) work independently
               if (column.sticky) {
                 headerStyle.position = 'sticky';

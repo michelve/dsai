@@ -15,6 +15,7 @@ import {
   isExpanded as isFSMExpanded,
   resetFromPropsEvent,
 } from './Breadcrumb.fsm';
+
 import type { BreadcrumbItemData, BreadcrumbItemProps, BreadcrumbProps } from './Breadcrumb.types';
 
 // =============================================================================
@@ -214,7 +215,7 @@ export const Breadcrumb = memo(
 
     // Render using items prop with memoization
     const renderWithItems = useMemo(() => {
-      return (): React.ReactNode => {
+      const renderItems = (): React.ReactNode => {
         if (!items || items.length === 0) {
           return null;
         }
@@ -270,6 +271,7 @@ export const Breadcrumb = memo(
           </ol>
         );
       };
+      return renderItems;
     }, [
       items,
       maxItems,
@@ -283,13 +285,14 @@ export const Breadcrumb = memo(
 
     // Render using children with memoization
     const renderWithChildren = useMemo(() => {
-      return (): React.ReactNode => {
+      const renderChildren = (): React.ReactNode => {
         return (
           <ol className="breadcrumb mb-0" style={separatorStyle}>
             {children}
           </ol>
         );
       };
+      return renderChildren;
     }, [children, separatorStyle]);
 
     return (

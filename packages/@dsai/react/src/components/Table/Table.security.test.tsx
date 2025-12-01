@@ -11,6 +11,7 @@
 import { render, screen } from '@testing-library/react';
 
 import { Table } from './Table';
+
 import type { TableColumn } from './Table.types';
 
 // =============================================================================

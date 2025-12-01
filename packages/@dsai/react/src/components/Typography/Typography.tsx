@@ -19,6 +19,7 @@
 import { forwardRef, memo, useMemo } from 'react';
 
 import { cn } from '../../utils';
+
 import type {
   DisplayProps,
   DisplaySize,
@@ -28,6 +29,7 @@ import type {
   TextVariant,
   TypographyNamespace,
 } from './Typography.types';
+import type React from 'react';
 
 // =============================================================================
 // Utility Functions
@@ -37,7 +39,9 @@ import type {
  * Maps font weight prop to Bootstrap class
  */
 function getFontWeightClass(weight: HeadingProps['weight']): string | undefined {
-  if (!weight) return undefined;
+  if (!weight) {
+    return undefined;
+  }
 
   const weightMap: Record<NonNullable<typeof weight>, string> = {
     light: 'fw-light',
@@ -48,6 +52,9 @@ function getFontWeightClass(weight: HeadingProps['weight']): string | undefined 
     semibold: 'fw-semibold',
   };
 
+  // Safe access - weight is validated as keyof weightMap by TypeScript
+  // The weight parameter is typed as a union of valid keys
+  // eslint-disable-next-line security/detect-object-injection
   return weightMap[weight];
 }
 
@@ -55,11 +62,17 @@ function getFontWeightClass(weight: HeadingProps['weight']): string | undefined 
  * Maps text color prop to Bootstrap class
  */
 function getTextColorClass(color: HeadingProps['color']): string | undefined {
-  if (!color) return undefined;
+  if (!color) {
+    return undefined;
+  }
 
   // Handle special cases
-  if (color === 'body-secondary') return 'text-body-secondary';
-  if (color === 'body-tertiary') return 'text-body-tertiary';
+  if (color === 'body-secondary') {
+    return 'text-body-secondary';
+  }
+  if (color === 'body-tertiary') {
+    return 'text-body-tertiary';
+  }
 
   return `text-${color}`;
 }
@@ -68,7 +81,9 @@ function getTextColorClass(color: HeadingProps['color']): string | undefined {
  * Maps text alignment prop to Bootstrap class
  */
 function getTextAlignClass(align: HeadingProps['align']): string | undefined {
-  if (!align) return undefined;
+  if (!align) {
+    return undefined;
+  }
   return `text-${align}`;
 }
 
@@ -76,7 +91,9 @@ function getTextAlignClass(align: HeadingProps['align']): string | undefined {
  * Maps text transform prop to Bootstrap class
  */
 function getTextTransformClass(transform: HeadingProps['transform']): string | undefined {
-  if (!transform || transform === 'none') return undefined;
+  if (!transform || transform === 'none') {
+    return undefined;
+  }
   return `text-${transform}`;
 }
 
@@ -179,8 +196,12 @@ Heading.displayName = 'Heading';
  */
 function getDefaultLevelForDisplay(size: DisplaySize): HeadingLevel {
   // Display 1 → h1, Display 2-3 → h2, Display 4-6 → h3
-  if (size === 1) return 1;
-  if (size <= 3) return 2;
+  if (size === 1) {
+    return 1;
+  }
+  if (size <= 3) {
+    return 2;
+  }
   return 3;
 }
 
@@ -277,8 +298,8 @@ Display.displayName = 'Display';
 /**
  * Maps text variant to default HTML element
  */
-function getElementForVariant(variant: TextVariant): keyof JSX.IntrinsicElements {
-  const elementMap: Record<TextVariant, keyof JSX.IntrinsicElements> = {
+function getElementForVariant(variant: TextVariant): React.ElementType {
+  const elementMap: Record<TextVariant, React.ElementType> = {
     body: 'p',
     lead: 'p',
     small: 'small',
@@ -293,6 +314,9 @@ function getElementForVariant(variant: TextVariant): keyof JSX.IntrinsicElements
     kbd: 'kbd',
     pre: 'pre',
   };
+  // Safe access - variant is validated as keyof elementMap by TypeScript
+  // The variant parameter is typed as TextVariant union
+  // eslint-disable-next-line security/detect-object-injection
   return elementMap[variant];
 }
 
@@ -350,20 +374,25 @@ export const Text = memo(
     },
     ref
   ) {
-    // Determine the HTML element
-    const Tag = as ?? getElementForVariant(variant);
-
     // Build size class
     const sizeClass = useMemo(() => {
-      if (!size || variant === 'lead') return undefined;
-      if (size === 'sm') return 'small';
-      if (size === 'lg') return 'fs-5';
+      if (!size || variant === 'lead') {
+        return undefined;
+      }
+      if (size === 'sm') {
+        return 'small';
+      }
+      if (size === 'lg') {
+        return 'fs-5';
+      }
       return undefined;
     }, [size, variant]);
 
     // Build truncate styles for multi-line
     const truncateStyles = useMemo(() => {
-      if (!truncate || !lines || lines <= 1) return undefined;
+      if (!truncate || !lines || lines <= 1) {
+        return undefined;
+      }
       return {
         display: '-webkit-box',
         WebkitLineClamp: lines,
@@ -423,7 +452,7 @@ export const Text = memo(
           {citeAuthor && (
             <figcaption className="blockquote-footer">
               {citeAuthor}
-              {cite && <cite title={cite}></cite>}
+              {cite && <cite title={cite} />}
             </figcaption>
           )}
         </figure>
@@ -447,19 +476,106 @@ export const Text = memo(
       );
     }
 
-    return (
-      <Tag
-        ref={ref}
-        id={id}
-        className={classes || undefined}
-        style={combinedStyle}
-        title={title}
-        data-testid={dataTestId}
-        data-test={dataTest}
-      >
-        {children}
-      </Tag>
-    );
+    // Common props for all variants
+    const commonProps = {
+      id,
+      className: classes || undefined,
+      style: combinedStyle,
+      title,
+      'data-testid': dataTestId,
+      'data-test': dataTest,
+    };
+
+    // Render based on final tag (as prop takes precedence)
+    const finalTag = as ?? getElementForVariant(variant);
+
+    switch (finalTag) {
+      case 'p':
+        return (
+          <p ref={ref as React.Ref<HTMLParagraphElement>} {...commonProps}>
+            {children}
+          </p>
+        );
+      case 'span':
+        return (
+          <span ref={ref as React.Ref<HTMLSpanElement>} {...commonProps}>
+            {children}
+          </span>
+        );
+      case 'small':
+        return (
+          <small ref={ref as React.Ref<HTMLElement>} {...commonProps}>
+            {children}
+          </small>
+        );
+      case 'mark':
+        return (
+          <mark ref={ref as React.Ref<HTMLElement>} {...commonProps}>
+            {children}
+          </mark>
+        );
+      case 'del':
+        return (
+          <del ref={ref as React.Ref<HTMLModElement>} {...commonProps}>
+            {children}
+          </del>
+        );
+      case 'ins':
+        return (
+          <ins ref={ref as React.Ref<HTMLModElement>} {...commonProps}>
+            {children}
+          </ins>
+        );
+      case 'strong':
+        return (
+          <strong ref={ref as React.Ref<HTMLElement>} {...commonProps}>
+            {children}
+          </strong>
+        );
+      case 'em':
+        return (
+          <em ref={ref as React.Ref<HTMLElement>} {...commonProps}>
+            {children}
+          </em>
+        );
+      case 'code':
+        return (
+          <code ref={ref as React.Ref<HTMLElement>} {...commonProps}>
+            {children}
+          </code>
+        );
+      case 'kbd':
+        return (
+          <kbd ref={ref as React.Ref<HTMLElement>} {...commonProps}>
+            {children}
+          </kbd>
+        );
+      case 'pre':
+        return (
+          <pre ref={ref as React.Ref<HTMLPreElement>} {...commonProps}>
+            {children}
+          </pre>
+        );
+      case 'blockquote':
+        return (
+          <blockquote ref={ref as React.Ref<HTMLQuoteElement>} {...commonProps}>
+            {children}
+          </blockquote>
+        );
+      case 'div':
+        return (
+          <div ref={ref as React.Ref<HTMLDivElement>} {...commonProps}>
+            {children}
+          </div>
+        );
+      default:
+        // Fallback to paragraph
+        return (
+          <p ref={ref as React.Ref<HTMLParagraphElement>} {...commonProps}>
+            {children}
+          </p>
+        );
+    }
   })
 );
 

@@ -260,6 +260,18 @@ module.exports = [
   },
 
   // =========================
+  // Icon components – safe dynamic prop filtering
+  // =========================
+  {
+    files: ['packages/@dsai/react/src/components/Icon/components/**/*.tsx'],
+    rules: {
+      // Icon components use a controlled allow-list (ALLOWED_PROPS) to filter
+      // SVG props, so this rule is too noisy here.
+      'security/detect-object-injection': 'off',
+    },
+  },
+
+  // =========================
   // Node-only scripts (tools, scripts)
   // =========================
   {
@@ -277,6 +289,18 @@ module.exports = [
       globals: {
         ...globals.node,
       },
+    },
+    rules: {
+      // Allow require() in Node.js scripts
+      '@typescript-eslint/no-require-imports': 'off',
+      // Relax return type requirements for scripts
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      // Allow console.log in scripts
+      'no-console': 'off',
+      // Security: These scripts are build tools, not user-facing code
+      // They operate on known, trusted file paths
+      'security/detect-non-literal-fs-filename': 'off',
+      'security/detect-object-injection': 'off',
     },
   },
 ];

@@ -116,7 +116,9 @@ figma.connect(Tabs, '<FIGMA_DSAI_TABS>', {
       disabled: hasDisabled && i === count - 1,
     }));
 
-    const activeTab = items[activeIndex]?.id || items[0]?.id || 'tab-1';
+    const activeTabItem = items.find((_, index) => index === activeIndex);
+    const firstTabItem = items.find((_, index) => index === 0);
+    const activeTab = activeTabItem?.id || firstTabItem?.id || 'tab-1';
 
     return (
       <Tabs

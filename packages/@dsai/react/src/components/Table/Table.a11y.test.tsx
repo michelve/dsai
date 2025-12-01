@@ -13,6 +13,7 @@ import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
 
 import { Table } from './Table';
+
 import type { TableColumn } from './Table.types';
 
 expect.extend(toHaveNoViolations);

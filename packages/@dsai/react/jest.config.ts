@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { pathsToModuleNameMapper } from 'ts-jest';
 
 // Manual path mapping from tsconfig.base.json

@@ -16,6 +16,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from '../Icon';
+
 import type {
   PaginationAlignment,
   PaginationItemData,
@@ -489,9 +490,13 @@ export const Pagination = memo(
     }, [className]);
 
     const ulClasses = useMemo(() => {
-      return ['pagination', 'mb-0', SIZE_CLASSES[size], ALIGNMENT_CLASSES[alignment]]
-        .filter(Boolean)
-        .join(' ');
+      const sizeClass =
+        size in SIZE_CLASSES ? SIZE_CLASSES[size as keyof typeof SIZE_CLASSES] : undefined;
+      const alignClass =
+        alignment in ALIGNMENT_CLASSES
+          ? ALIGNMENT_CLASSES[alignment as keyof typeof ALIGNMENT_CLASSES]
+          : undefined;
+      return ['pagination', 'mb-0', sizeClass, alignClass].filter(Boolean).join(' ');
     }, [size, alignment]);
 
     return (

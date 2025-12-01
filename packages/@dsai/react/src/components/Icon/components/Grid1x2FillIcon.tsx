@@ -20,6 +20,7 @@
  * ```
  */
 import { forwardRef, useMemo } from 'react';
+
 import type { IconProps } from '../types';
 
 const ALLOWED_PROPS = [

@@ -1,5 +1,6 @@
-import type { AlertFSMEvent, AlertFSMState } from './Alert.fsm';
 import { alertFSMReducer, createInitialAlertFSMState } from './Alert.fsm';
+
+import type { AlertFSMEvent, AlertFSMState } from './Alert.fsm';
 
 describe('Alert FSM', () => {
   describe('createInitialAlertFSMState', () => {
@@ -102,7 +103,7 @@ describe('Alert FSM', () => {
       });
 
       it('handles multiple show events gracefully', () => {
-        let state = createInitialAlertFSMState(true);
+        const state = createInitialAlertFSMState(true);
 
         // First show (already visible)
         const stateAfterFirstShow = alertFSMReducer(state, { type: 'SHOW' });

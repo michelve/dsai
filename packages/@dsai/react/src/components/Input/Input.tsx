@@ -11,13 +11,15 @@ import {
 
 import type { InputProps, InputSize } from './Input.types';
 
-/**
- * Map input sizes to Bootstrap classes
- */
-const sizeClassMap: Record<InputSize, string> = {
-  sm: 'form-control-sm',
-  md: '',
-  lg: 'form-control-lg',
+const resolveInputSizeClass = (size: InputSize): string => {
+  switch (size) {
+    case 'sm':
+      return 'form-control-sm';
+    case 'lg':
+      return 'form-control-lg';
+    default:
+      return '';
+  }
 };
 
 /**
@@ -127,14 +129,21 @@ const SAFE_INPUT_ATTRIBUTES = {
  * Filters props to only include safe HTML attributes
  * Blocks dangerous event handlers and attributes
  */
-function getSafeInputProps(props: Record<string, unknown>): Record<string, unknown> {
-  const safeProps: Record<string, unknown> = {};
-  for (const [key, value] of Object.entries(props)) {
-    if (key in SAFE_INPUT_ATTRIBUTES) {
-      safeProps[key] = value;
+type SafeInputAttribute = keyof typeof SAFE_INPUT_ATTRIBUTES;
+
+const SAFE_INPUT_ATTRIBUTE_KEYS = Object.keys(SAFE_INPUT_ATTRIBUTES) as SafeInputAttribute[];
+
+function getSafeInputProps(
+  props: Record<string, unknown>
+): Partial<Record<SafeInputAttribute, unknown>> {
+  const safeEntries: Array<[SafeInputAttribute, unknown]> = [];
+  for (const safeKey of SAFE_INPUT_ATTRIBUTE_KEYS) {
+    const descriptor = Object.getOwnPropertyDescriptor(props, safeKey);
+    if (descriptor) {
+      safeEntries.push([safeKey, descriptor.value]);
     }
   }
-  return safeProps;
+  return Object.fromEntries(safeEntries) as Partial<Record<SafeInputAttribute, unknown>>;
 }
 
 /**
@@ -291,7 +300,7 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
     () =>
       [
         plaintext ? 'form-control-plaintext' : 'form-control',
-        sizeClassMap[size],
+        resolveInputSizeClass(size),
         error && 'is-invalid',
         success && !error && 'is-valid',
         inputClassName,

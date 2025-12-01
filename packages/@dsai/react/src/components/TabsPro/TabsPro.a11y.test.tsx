@@ -7,6 +7,7 @@ import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
 
 import { TabsPro } from './TabsPro';
+
 import type { TabsProItem } from './TabsPro.types';
 
 expect.extend(toHaveNoViolations);

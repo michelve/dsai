@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 
-import type { GuardResult, TabsProFSMState } from './TabsPro.fsm';
 import {
   activateTabEvent,
   createInitialTabState,
@@ -34,6 +33,8 @@ import {
   retryEvent,
   tabsProFSMReducer,
 } from './TabsPro.fsm';
+
+import type { GuardResult, TabsProFSMState } from './TabsPro.fsm';
 
 describe('TabsPro FSM', () => {
   // ===========================================================================

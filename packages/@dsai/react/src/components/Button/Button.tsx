@@ -1,9 +1,10 @@
 /* eslint jsx-a11y/no-autofocus: 0 */
-/* eslint-disable jsx-a11y/no-autofocus */
+
 import { forwardRef, useEffect, useReducer } from 'react';
 
 import { BaseButton } from './BaseButton';
 import { type ButtonFSMEvent, buttonFSMReducer, createInitialButtonFSMState } from './Button.fsm';
+
 import type { ButtonProps } from './Button.types';
 
 /**
@@ -116,32 +117,32 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     }, [error]);
 
     // FSM event handlers
-    const dispatchFSMEvent = (event: ButtonFSMEvent) => {
+    const dispatchFSMEvent = (event: ButtonFSMEvent): void => {
       dispatch(event);
     };
 
     // Create wrapper handlers that dispatch FSM events and call user handlers
-    const handleMouseEnter = () => {
+    const handleMouseEnter = (): void => {
       dispatchFSMEvent({ type: 'HOVER' });
     };
 
-    const handleMouseLeave = () => {
+    const handleMouseLeave = (): void => {
       dispatchFSMEvent({ type: 'BLUR' });
     };
 
-    const handleFocus = () => {
+    const handleFocus = (): void => {
       dispatchFSMEvent({ type: 'FOCUS' });
     };
 
-    const handleBlur = () => {
+    const handleBlur = (): void => {
       dispatchFSMEvent({ type: 'BLUR' });
     };
 
-    const handleMouseUp = () => {
+    const handleMouseUp = (): void => {
       dispatchFSMEvent({ type: 'RELEASE' });
     };
 
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
       // Prevent click if disabled or loading
       if (disabled || loading) {
         e.preventDefault();
@@ -151,7 +152,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     // Note: onMouseDown for FSM - only respond to left button (button 0)
-    const handleMouseDownFSM = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleMouseDownFSM = (e: React.MouseEvent<HTMLButtonElement>): void => {
       // Only dispatch PRESS for left mouse button
       if (e.button === 0) {
         dispatchFSMEvent({ type: 'PRESS' });

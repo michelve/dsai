@@ -187,7 +187,9 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
     // Handle checkbox/radio input change
     const handleInputChange = useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (disabled) return;
+        if (disabled) {
+          return;
+        }
 
         // For radio, only trigger change if not already checked
         if (selectionMode === 'radio' && isChecked) {
@@ -234,22 +236,32 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
 
     // Compute aria-labelledby
     const computedLabelledby = useMemo(() => {
-      if (ariaLabelledby) return ariaLabelledby;
-      if (titleId) return titleId;
+      if (ariaLabelledby) {
+        return ariaLabelledby;
+      }
+      if (titleId) {
+        return titleId;
+      }
       return undefined;
     }, [ariaLabelledby, titleId]);
 
     // Compute aria-describedby
     const computedDescribedby = useMemo(() => {
       const ids: string[] = [];
-      if (ariaDescribedby) ids.push(ariaDescribedby);
-      if (descriptionId) ids.push(descriptionId);
+      if (ariaDescribedby) {
+        ids.push(ariaDescribedby);
+      }
+      if (descriptionId) {
+        ids.push(descriptionId);
+      }
       return ids.length > 0 ? ids.join(' ') : undefined;
     }, [ariaDescribedby, descriptionId]);
 
     // Render the selection control
-    const renderControl = () => {
-      if (selectionMode === 'none') return null;
+    const renderControl = (): React.ReactNode => {
+      if (selectionMode === 'none') {
+        return null;
+      }
 
       const controlProps = {
         ref: inputRef,
@@ -276,7 +288,7 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
     };
 
     // Render card content
-    const renderContent = () => {
+    const renderContent = (): React.ReactNode => {
       // If children are provided, render them directly
       if (children) {
         return (

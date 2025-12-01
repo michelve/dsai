@@ -1,6 +1,7 @@
 import React, { forwardRef, useCallback, useEffect, useMemo, useReducer } from 'react';
 
 import { alertFSMReducer, createInitialAlertFSMState } from './Alert.fsm';
+
 import type { AlertHeadingProps, AlertLinkProps, AlertProps } from './Alert.types';
 
 /**

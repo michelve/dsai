@@ -22,6 +22,34 @@ const sizeClassMap: Record<SelectSize, string> = {
   lg: 'form-select-lg',
 };
 
+const resolveSizeClass = (size: SelectSize): string => {
+  switch (size) {
+    case 'sm':
+      return sizeClassMap.sm;
+    case 'lg':
+      return sizeClassMap.lg;
+    default:
+      return sizeClassMap.md;
+  }
+};
+
+const getOptionByIndex = <TOption,>(
+  optionsList: TOption[],
+  targetIndex: number
+): TOption | undefined => {
+  if (targetIndex < 0) {
+    return undefined;
+  }
+  let currentIndex = 0;
+  for (const option of optionsList) {
+    if (currentIndex === targetIndex) {
+      return option;
+    }
+    currentIndex += 1;
+  }
+  return undefined;
+};
+
 /**
  * Check if options are grouped
  */
@@ -280,7 +308,10 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
         case ' ':
           e.preventDefault();
           if (isOpen && focusedIndex >= 0 && focusedIndex < filteredOptions.length) {
-            handleSelect(filteredOptions[focusedIndex]);
+            const focusedOption = getOptionByIndex(filteredOptions, focusedIndex);
+            if (focusedOption) {
+              handleSelect(focusedOption);
+            }
           } else if (!isOpen) {
             toggleDropdown();
           }
@@ -376,7 +407,10 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
   // Scroll focused option into view
   useEffect(() => {
     if (isOpen && focusedIndex >= 0 && listboxRef.current) {
-      const focusedElement = listboxRef.current.children[focusedIndex] as HTMLElement;
+      const children = Array.from(listboxRef.current.children);
+      const focusedElement = children.find((_, index) => index === focusedIndex) as
+        | HTMLElement
+        | undefined;
       if (focusedElement && typeof focusedElement.scrollIntoView === 'function') {
         focusedElement.scrollIntoView({ block: 'nearest' });
       }
@@ -386,7 +420,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
   // Build button classes
   const buttonClasses = [
     'form-select',
-    sizeClassMap[size],
+    resolveSizeClass(size),
     error && 'is-invalid',
     success && !error && 'is-valid',
     'd-flex align-items-center justify-content-between',
@@ -575,7 +609,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
           }
           data-required={required || undefined}
           data-invalid={error || undefined}
-          tabIndex={tabIndex}
+          tabIndex={disabled ? -1 : (tabIndex ?? 0)}
           style={{
             textAlign: 'left',
             paddingRight: showClearButton ? '4rem' : undefined,

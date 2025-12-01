@@ -24,9 +24,9 @@
  * @module CardList/Types
  */
 
-import type { ReactNode } from 'react';
-import type { CardColor, CardVariant } from '../Card/Card.types';
 import type { CardListSelectionMode, CardListVisualState } from './CardList.fsm';
+import type { CardColor, CardVariant } from '../Card/Card.types';
+import type { ReactNode } from 'react';
 
 // =============================================================================
 // CardListItem - Option type for CardList items

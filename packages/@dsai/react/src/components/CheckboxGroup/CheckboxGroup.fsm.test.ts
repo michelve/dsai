@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 
-import type { CheckboxGroupFSMState } from './CheckboxGroup.fsm';
 import {
   checkboxGroupFSMReducer,
   createInitialCheckboxGroupFSMState,
@@ -15,6 +14,8 @@ import {
   toggleAllEvent,
   toggleItemEvent,
 } from './CheckboxGroup.fsm';
+
+import type { CheckboxGroupFSMState } from './CheckboxGroup.fsm';
 
 describe('CheckboxGroup FSM', () => {
   // =============================================================================

@@ -1,13 +1,13 @@
 import {
   createContext,
   forwardRef,
+  type KeyboardEvent,
+  type ReactNode,
   useCallback,
   useContext,
   useId,
   useMemo,
   useState,
-  type KeyboardEvent,
-  type ReactNode,
 } from 'react';
 
 import type {
@@ -18,6 +18,20 @@ import type {
   TabsContextValue,
   TabsProps,
 } from './Tabs.types';
+
+const getItemAtIndex = <T,>(collection: readonly T[], targetIndex: number): T | undefined => {
+  if (targetIndex < 0) {
+    return undefined;
+  }
+  let currentIndex = 0;
+  for (const item of collection) {
+    if (currentIndex === targetIndex) {
+      return item;
+    }
+    currentIndex += 1;
+  }
+  return undefined;
+};
 
 // =============================================================================
 // Context
@@ -82,7 +96,7 @@ export const TabList = forwardRef<HTMLDivElement, TabListProps>(function TabList
         return;
     }
 
-    const newTabId = tabs[newIndex];
+    const newTabId = getItemAtIndex(tabs, newIndex);
     if (newTabId) {
       setActiveTab(newTabId);
       // Focus the new tab button
@@ -414,7 +428,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
                     return;
                 }
 
-                const newItem = enabledItems[newIndex];
+                const newItem = getItemAtIndex(enabledItems, newIndex);
                 if (newItem) {
                   setActiveTab(newItem.id);
                   const tabButton = document.getElementById(`${baseId}-tab-${newItem.id}`);

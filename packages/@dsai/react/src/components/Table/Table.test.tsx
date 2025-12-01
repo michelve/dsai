@@ -8,6 +8,7 @@ import { axe, toHaveNoViolations } from 'jest-axe';
 import { createRef, useState } from 'react';
 
 import { Table } from './Table';
+
 import type { RowId, SortConfig, TableColumn } from './Table.types';
 
 expect.extend(toHaveNoViolations);

@@ -204,7 +204,7 @@ figma.connect(CardList, '<FIGMA_DSAI_CARDLIST>', {
           error={error}
           errorMessage={normalizedErrorMessage}
           required={required}
-          onChange={(value) => console.log('Selected:', value)}
+          onChange={(value) => console.warn('CardList selection changed:', value)}
         />
       );
     }
@@ -227,7 +227,7 @@ figma.connect(CardList, '<FIGMA_DSAI_CARDLIST>', {
           error={error}
           errorMessage={normalizedErrorMessage}
           required={required}
-          onChange={(values) => console.log('Selected:', values)}
+          onChange={(values) => console.warn('CardList selection changed:', values)}
         />
       );
     }

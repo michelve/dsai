@@ -1,6 +1,5 @@
-import type { CSSProperties, ReactNode } from 'react';
-
 import type { CardColor, CardVariant } from '../Card';
+import type { CSSProperties, ReactNode } from 'react';
 
 // =============================================================================
 // Selection Mode

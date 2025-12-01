@@ -1,4 +1,4 @@
-import { createElement, forwardRef, memo, useMemo } from 'react';
+import { forwardRef, memo, useMemo } from 'react';
 
 import type { BadgeProps } from './Badge.types';
 
@@ -97,50 +97,43 @@ function BadgeComponent(
     );
   }
 
-  const componentProps = {
-    ref: ref as unknown as React.Ref<HTMLSpanElement>,
-    className: bootstrapClasses,
-    style,
-    id,
-    title,
-    'aria-label': ariaLabel,
-    'data-testid': dataTestId,
-    'data-test': dataTest,
-    role: dot && !hasVisibleContent ? 'status' : undefined,
-  } satisfies React.HTMLAttributes<HTMLSpanElement> & {
-    'data-testid'?: string;
-    'data-test'?: string;
-    ref?: React.Ref<HTMLSpanElement>;
-  };
+  const role = dot && !hasVisibleContent ? 'status' : undefined;
 
-  return createElement(
-    Component,
-    componentProps,
-    // Dot indicator
-    dot &&
-      createElement('span', {
-        className: 'd-inline-block rounded-circle me-1',
-        style: {
-          width: '0.5em',
-          height: '0.5em',
-          backgroundColor: 'currentColor',
-        },
-        'aria-hidden': hasVisibleContent ? 'true' : undefined,
-        key: 'dot',
-      }),
-    // Icon - hidden from screen readers as it's decorative
-    icon &&
-      createElement(
-        'span',
-        {
-          className: 'me-1 d-inline-flex align-items-center',
-          'aria-hidden': 'true',
-          key: 'icon',
-        },
-        icon
-      ),
-    // Badge content
-    children
+  const ComponentTag = Component;
+
+  return (
+    <ComponentTag
+      ref={ref as React.Ref<HTMLSpanElement>}
+      className={bootstrapClasses}
+      style={style}
+      id={id}
+      title={title}
+      aria-label={ariaLabel}
+      data-testid={dataTestId}
+      data-test={dataTest}
+      role={role}
+    >
+      {/* Dot indicator */}
+      {dot && (
+        <span
+          className="d-inline-block rounded-circle me-1"
+          style={{
+            width: '0.5em',
+            height: '0.5em',
+            backgroundColor: 'currentColor',
+          }}
+          aria-hidden={hasVisibleContent ? 'true' : undefined}
+        />
+      )}
+      {/* Icon - hidden from screen readers as it's decorative */}
+      {icon && (
+        <span className="me-1 d-inline-flex align-items-center" aria-hidden="true">
+          {icon}
+        </span>
+      )}
+      {/* Badge content */}
+      {children}
+    </ComponentTag>
   );
 }
 

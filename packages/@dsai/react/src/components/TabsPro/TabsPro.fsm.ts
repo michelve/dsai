@@ -15,6 +15,30 @@
 
 import type { ReactNode } from 'react';
 
+const TAB_ID_PATTERN = /^[A-Za-z0-9._:-]+$/;
+
+const isSafeTabId = (tabId: string): boolean => TAB_ID_PATTERN.test(tabId);
+
+const getSafeTabState = (tabs: TabsProFSMStateMap, tabId: string): TabProFSMState | undefined => {
+  if (!isSafeTabId(tabId)) {
+    return undefined;
+  }
+  // eslint-disable-next-line security/detect-object-injection -- tabId validated via isSafeTabId
+  return tabs[tabId];
+};
+
+const assignSafeTabState = (
+  target: TabsProFSMStateMap,
+  tabId: string,
+  tabState: TabProFSMState
+): void => {
+  if (!isSafeTabId(tabId)) {
+    return;
+  }
+  // eslint-disable-next-line security/detect-object-injection -- tabId validated via isSafeTabId
+  target[tabId] = tabState;
+};
+
 // =============================================================================
 // Types
 // =============================================================================
@@ -245,7 +269,7 @@ export function createInitialTabsProFSMState(
   const tabs: TabsProFSMStateMap = {};
 
   for (const id of tabIds) {
-    tabs[id] = createInitialTabState();
+    assignSafeTabState(tabs, id, createInitialTabState());
   }
 
   return {
@@ -276,7 +300,8 @@ export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent
 
       for (const id of tabIds) {
         // Preserve existing tab state if it exists
-        tabs[id] = state.tabs[id] ?? createInitialTabState();
+        const existingState = getSafeTabState(state.tabs, id);
+        assignSafeTabState(tabs, id, existingState ?? createInitialTabState());
       }
 
       return {
@@ -288,7 +313,7 @@ export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent
 
     case 'ACTIVATE_TAB': {
       const { tabId, skipGuard } = event;
-      const tabState = state.tabs[tabId];
+      const tabState = getSafeTabState(state.tabs, tabId);
 
       // Tab doesn't exist
       if (!tabState) {
@@ -308,12 +333,12 @@ export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent
       const now = Date.now();
 
       // Move to checkingGuard (or loading if skipGuard)
-      newTabs[tabId] = {
+      assignSafeTabState(newTabs, tabId, {
         ...tabState,
         status: skipGuard ? 'loading' : 'checkingGuard',
         hasBeenActivated: true,
         lastActivatedAt: now,
-      };
+      });
 
       return {
         ...state,
@@ -325,7 +350,7 @@ export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent
 
     case 'GUARD_OK': {
       const { tabId } = event;
-      const tabState = state.tabs[tabId];
+      const tabState = getSafeTabState(state.tabs, tabId);
 
       // Accept from idle or checkingGuard (idle happens when executeGuardAndLoad runs before ACTIVATE_TAB)
       if (!tabState || (tabState.status !== 'checkingGuard' && tabState.status !== 'idle')) {
@@ -333,18 +358,18 @@ export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent
       }
 
       const newTabs = { ...state.tabs };
-      newTabs[tabId] = {
+      assignSafeTabState(newTabs, tabId, {
         ...tabState,
         status: 'loading',
         guardResult: null,
-      };
+      });
 
       return { ...state, tabs: newTabs };
     }
 
     case 'GUARD_FAIL': {
       const { tabId, result } = event;
-      const tabState = state.tabs[tabId];
+      const tabState = getSafeTabState(state.tabs, tabId);
 
       // Accept from idle or checkingGuard (idle happens when executeGuardAndLoad runs before ACTIVATE_TAB)
       if (!tabState || (tabState.status !== 'checkingGuard' && tabState.status !== 'idle')) {
@@ -352,36 +377,36 @@ export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent
       }
 
       const newTabs = { ...state.tabs };
-      newTabs[tabId] = {
+      assignSafeTabState(newTabs, tabId, {
         ...tabState,
         status: 'blocked',
         guardResult: result,
-      };
+      });
 
       return { ...state, tabs: newTabs };
     }
 
     case 'LOAD_START': {
       const { tabId } = event;
-      const tabState = state.tabs[tabId];
+      const tabState = getSafeTabState(state.tabs, tabId);
 
       if (!tabState) {
         return state;
       }
 
       const newTabs = { ...state.tabs };
-      newTabs[tabId] = {
+      assignSafeTabState(newTabs, tabId, {
         ...tabState,
         status: 'loading',
         loadAttempts: tabState.loadAttempts + 1,
-      };
+      });
 
       return { ...state, tabs: newTabs };
     }
 
     case 'LOAD_SUCCESS': {
       const { tabId, content } = event;
-      const tabState = state.tabs[tabId];
+      const tabState = getSafeTabState(state.tabs, tabId);
 
       // Accept from loading state; also allow from idle/checkingGuard for sync content paths
       if (!tabState) {
@@ -395,19 +420,19 @@ export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent
       }
 
       const newTabs = { ...state.tabs };
-      newTabs[tabId] = {
+      assignSafeTabState(newTabs, tabId, {
         ...tabState,
         status: 'ready',
         loadedContent: content,
         error: null,
-      };
+      });
 
       return { ...state, tabs: newTabs };
     }
 
     case 'LOAD_ERROR': {
       const { tabId, error } = event;
-      const tabState = state.tabs[tabId];
+      const tabState = getSafeTabState(state.tabs, tabId);
 
       // Accept from loading state; also allow from idle/checkingGuard for edge cases
       if (!tabState) {
@@ -421,29 +446,29 @@ export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent
       }
 
       const newTabs = { ...state.tabs };
-      newTabs[tabId] = {
+      assignSafeTabState(newTabs, tabId, {
         ...tabState,
         status: 'error',
         error,
-      };
+      });
 
       return { ...state, tabs: newTabs };
     }
 
     case 'RETRY': {
       const { tabId } = event;
-      const tabState = state.tabs[tabId];
+      const tabState = getSafeTabState(state.tabs, tabId);
 
       if (!tabState || tabState.status !== 'error') {
         return state;
       }
 
       const newTabs = { ...state.tabs };
-      newTabs[tabId] = {
+      assignSafeTabState(newTabs, tabId, {
         ...tabState,
         status: 'loading',
         error: null,
-      };
+      });
 
       return { ...state, tabs: newTabs };
     }
@@ -471,7 +496,7 @@ export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent
       }
 
       // Activate the pending tab
-      const tabState = state.tabs[pendingId];
+      const tabState = pendingId ? getSafeTabState(state.tabs, pendingId) : undefined;
       if (!tabState) {
         return {
           ...state,
@@ -483,12 +508,12 @@ export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent
       const newTabs = { ...state.tabs };
       const now = Date.now();
 
-      newTabs[pendingId] = {
+      assignSafeTabState(newTabs, pendingId, {
         ...tabState,
         status: 'checkingGuard',
         hasBeenActivated: true,
         lastActivatedAt: now,
-      };
+      });
 
       return {
         ...state,
@@ -509,21 +534,21 @@ export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent
 
     case 'RESET_TAB': {
       const { tabId } = event;
-      const tabState = state.tabs[tabId];
+      const tabState = getSafeTabState(state.tabs, tabId);
 
       if (!tabState) {
         return state;
       }
 
       const newTabs = { ...state.tabs };
-      newTabs[tabId] = createInitialTabState();
+      assignSafeTabState(newTabs, tabId, createInitialTabState());
 
       return { ...state, tabs: newTabs };
     }
 
     case 'PRELOAD_TAB': {
       const { tabId } = event;
-      const tabState = state.tabs[tabId];
+      const tabState = getSafeTabState(state.tabs, tabId);
 
       // Only preload if tab is idle
       if (!tabState || tabState.status !== 'idle') {
@@ -531,34 +556,17 @@ export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent
       }
 
       const newTabs = { ...state.tabs };
-      newTabs[tabId] = {
+      assignSafeTabState(newTabs, tabId, {
         ...tabState,
         status: 'checkingGuard',
-      };
+      });
 
       return { ...state, tabs: newTabs };
     }
 
-    default: {
-      // TypeScript exhaustiveness check
-      const _exhaustive: never = event;
-      return _exhaustive;
-    }
+    default:
+      return state;
   }
-}
-
-// =============================================================================
-// Event Creators
-// =============================================================================
-
-/**
- * Creates an INITIALIZE_TABS event
- */
-export function initializeTabsEvent(
-  tabIds: string[],
-  defaultActiveId?: string
-): InitializeTabsEvent {
-  return { type: 'INITIALIZE_TABS', tabIds, defaultActiveId };
 }
 
 /**
@@ -653,42 +661,42 @@ export function preloadTabEvent(tabId: string): PreloadTabEvent {
  * Check if a tab is in idle state
  */
 export function isTabIdle(state: TabsProFSMState, tabId: string): boolean {
-  return state.tabs[tabId]?.status === 'idle';
+  return getSafeTabState(state.tabs, tabId)?.status === 'idle';
 }
 
 /**
  * Check if a tab is checking guard
  */
 export function isTabCheckingGuard(state: TabsProFSMState, tabId: string): boolean {
-  return state.tabs[tabId]?.status === 'checkingGuard';
+  return getSafeTabState(state.tabs, tabId)?.status === 'checkingGuard';
 }
 
 /**
  * Check if a tab is blocked
  */
 export function isTabBlocked(state: TabsProFSMState, tabId: string): boolean {
-  return state.tabs[tabId]?.status === 'blocked';
+  return getSafeTabState(state.tabs, tabId)?.status === 'blocked';
 }
 
 /**
  * Check if a tab is loading
  */
 export function isTabLoading(state: TabsProFSMState, tabId: string): boolean {
-  return state.tabs[tabId]?.status === 'loading';
+  return getSafeTabState(state.tabs, tabId)?.status === 'loading';
 }
 
 /**
  * Check if a tab is ready
  */
 export function isTabReady(state: TabsProFSMState, tabId: string): boolean {
-  return state.tabs[tabId]?.status === 'ready';
+  return getSafeTabState(state.tabs, tabId)?.status === 'ready';
 }
 
 /**
  * Check if a tab has error
  */
 export function isTabError(state: TabsProFSMState, tabId: string): boolean {
-  return state.tabs[tabId]?.status === 'error';
+  return getSafeTabState(state.tabs, tabId)?.status === 'error';
 }
 
 /**
@@ -709,7 +717,7 @@ export function isLeaveConfirmationPending(state: TabsProFSMState): boolean {
  * Get the tab state for a specific tab
  */
 export function getTabState(state: TabsProFSMState, tabId: string): TabProFSMState | undefined {
-  return state.tabs[tabId];
+  return getSafeTabState(state.tabs, tabId);
 }
 
 /**
@@ -719,26 +727,26 @@ export function getActiveTabState(state: TabsProFSMState): TabProFSMState | unde
   if (!state.activeTabId) {
     return undefined;
   }
-  return state.tabs[state.activeTabId];
+  return getSafeTabState(state.tabs, state.activeTabId);
 }
 
 /**
  * Get the loaded content for a tab
  */
 export function getTabContent(state: TabsProFSMState, tabId: string): ReactNode | null {
-  return state.tabs[tabId]?.loadedContent ?? null;
+  return getSafeTabState(state.tabs, tabId)?.loadedContent ?? null;
 }
 
 /**
  * Get the error for a tab
  */
 export function getTabError(state: TabsProFSMState, tabId: string): unknown | null {
-  return state.tabs[tabId]?.error ?? null;
+  return getSafeTabState(state.tabs, tabId)?.error ?? null;
 }
 
 /**
  * Get the guard result for a tab
  */
 export function getTabGuardResult(state: TabsProFSMState, tabId: string): GuardResult | null {
-  return state.tabs[tabId]?.guardResult ?? null;
+  return getSafeTabState(state.tabs, tabId)?.guardResult ?? null;
 }
