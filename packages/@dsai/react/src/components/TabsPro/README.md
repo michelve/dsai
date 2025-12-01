@@ -230,6 +230,24 @@ TabsPro maintains full WCAG 2.2 AA compliance:
 - ✅ `aria-live` regions for dynamic content
 - ✅ Disabled state properly communicated
 
+## Security & Guardrails
+
+Because TabsPro often powers admin panels with untrusted configuration, the FSM layer now enforces a
+few safety guarantees:
+
+- **Tab ID validation** – Item IDs must match the pattern `^[A-Za-z0-9._:-]+$`. Any ID that falls
+  outside the allowlist is ignored before state is created, preventing object/DOM injection through
+  crafted keys.
+- **Safe state updates** – All tab state mutations run through a helper that clones and validates
+  the `tabs` map. This stops prototype pollution attempts where an attacker might try to set
+  `__proto__` or similar special keys.
+- **No dangerous HTML APIs** – Loading, guard, and error fallbacks render regular React nodes;
+  `dangerouslySetInnerHTML` is never used inside the FSM-controlled surfaces.
+
+If you currently generate tab IDs dynamically, ensure they comply with the pattern above (letters,
+numbers, dot, underscore, colon, or hyphen). IDs generated from UUIDs, database primary keys, or
+slugs already satisfy the requirement in most cases.
+
 ## Examples
 
 ### With Icons
