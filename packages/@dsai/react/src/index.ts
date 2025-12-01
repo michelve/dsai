@@ -70,6 +70,7 @@ export {
   TabPanel,
   Table,
   Tabs,
+  TabsPro,
   type AlertHeadingProps,
   type AlertLinkProps,
   type AlertProps,
@@ -149,7 +150,12 @@ export {
   type TableVisualState,
   type TabsOrientation,
   type TabsProps,
+  type TabsProItem,
+  type TabsProProps,
   type TabsVariant,
+  type AsyncLoader,
+  type GuardFn,
+  type GuardResult,
 } from './components';
 
 // ============================================================================

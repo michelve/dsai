@@ -138,3 +138,16 @@ export type {
 } from './Tabs';
 // Tabs
 export { Tab, TabList, TabPanel, Tabs } from './Tabs';
+export type {
+  AsyncLoader,
+  DefaultBlockedProps,
+  DefaultErrorProps,
+  DefaultLoadingProps,
+  GuardFn,
+  GuardResult,
+  ResolvedTabItem,
+  TabsProItem,
+  TabsProProps,
+} from './TabsPro';
+// TabsPro
+export { TabsPro } from './TabsPro';

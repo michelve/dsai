@@ -19,6 +19,7 @@ Create accessible Pagination component for navigating through pages of content. 
 ## Acceptance Criteria
 
 ### Component Implementation
+
 - [ ] Pagination component
 - [ ] Controlled: `page` + `onChange` props
 - [ ] Total pages: `count` prop
@@ -30,6 +31,7 @@ Create accessible Pagination component for navigating through pages of content. 
 - [ ] Disabled state
 
 ### Styling
+
 - [ ] Button styling for pages
 - [ ] Active page highlighting
 - [ ] Sizes: sm, md, lg
@@ -37,6 +39,7 @@ Create accessible Pagination component for navigating through pages of content. 
 - [ ] Responsive: fewer pages on mobile
 
 ### Accessibility
+
 - [ ] `<nav aria-label="pagination">`
 - [ ] `aria-current="page"` on active
 - [ ] `aria-label` for prev/next buttons
@@ -44,6 +47,7 @@ Create accessible Pagination component for navigating through pages of content. 
 - [ ] Keyboard navigation (Tab, Enter)
 
 ### Testing
+
 - [ ] Unit tests 90%+
 - [ ] Page change tests
 - [ ] Boundary/sibling logic tests
@@ -54,6 +58,7 @@ Create accessible Pagination component for navigating through pages of content. 
 ## Dependencies
 
 ### Requires:
+
 - **TASK-014**: Base Component Template
 - **TASK-021**: Button Component
 
