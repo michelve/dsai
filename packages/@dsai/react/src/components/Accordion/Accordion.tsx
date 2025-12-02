@@ -116,6 +116,7 @@ const AccordionRoot = forwardRef<HTMLDivElement, AccordionProps>(
       flush = false,
       onItemExpand,
       onItemCollapse,
+      onItemToggle,
       className = '',
       style,
       id,
@@ -137,6 +138,51 @@ const AccordionRoot = forwardRef<HTMLDivElement, AccordionProps>(
     // Track previous active keys for expand/collapse callbacks
     const prevActiveKeysRef = useRef<Set<string>>(new Set(fsmState.activeKeys));
 
+    // Track button refs for arrow-key navigation
+    const buttonRefsRef = useRef<Map<string, HTMLButtonElement>>(new Map());
+    const buttonOrderRef = useRef<string[]>([]);
+
+    // Register button ref for arrow-key navigation
+    const registerButtonRef = useCallback(
+      (eventKey: string, buttonRef: HTMLButtonElement | null) => {
+        if (buttonRef) {
+          buttonRefsRef.current.set(eventKey, buttonRef);
+          // Maintain order based on DOM position
+          if (!buttonOrderRef.current.includes(eventKey)) {
+            buttonOrderRef.current.push(eventKey);
+          }
+        } else {
+          buttonRefsRef.current.delete(eventKey);
+          buttonOrderRef.current = buttonOrderRef.current.filter((k) => k !== eventKey);
+        }
+      },
+      []
+    );
+
+    // Navigate to next/previous button using arrow keys
+    const navigateToButton = useCallback((eventKey: string, direction: 'next' | 'prev') => {
+      const order = buttonOrderRef.current;
+      const currentIndex = order.indexOf(eventKey);
+      if (currentIndex === -1 || order.length === 0) {
+        return;
+      }
+
+      // Build a rotated list starting from next/prev position to enable wrapping
+      const rotatedKeys =
+        direction === 'next'
+          ? [...order.slice(currentIndex + 1), ...order.slice(0, currentIndex)]
+          : [...order.slice(0, currentIndex).reverse(), ...order.slice(currentIndex + 1).reverse()];
+
+      // Find the first focusable (non-disabled) button
+      for (const key of rotatedKeys) {
+        const button = buttonRefsRef.current.get(key);
+        if (button && !button.disabled) {
+          button.focus();
+          return;
+        }
+      }
+    }, []);
+
     // Sync with controlled props when they change
     useEffect(() => {
       if (isControlled) {
@@ -153,6 +199,7 @@ const AccordionRoot = forwardRef<HTMLDivElement, AccordionProps>(
       currentKeys.forEach((key) => {
         if (!prevKeys.has(key)) {
           onItemExpand?.(key);
+          onItemToggle?.(key, { expanded: true });
         }
       });
 
@@ -160,11 +207,12 @@ const AccordionRoot = forwardRef<HTMLDivElement, AccordionProps>(
       prevKeys.forEach((key) => {
         if (!currentKeys.has(key)) {
           onItemCollapse?.(key);
+          onItemToggle?.(key, { expanded: false });
         }
       });
 
       prevActiveKeysRef.current = new Set(currentKeys);
-    }, [fsmState.activeKeys, onItemExpand, onItemCollapse]);
+    }, [fsmState.activeKeys, onItemExpand, onItemCollapse, onItemToggle]);
 
     // Toggle item handler
     const toggleItem = useCallback(
@@ -200,8 +248,10 @@ const AccordionRoot = forwardRef<HTMLDivElement, AccordionProps>(
         toggleItem,
         selectionMode,
         flush,
+        registerButtonRef,
+        navigateToButton,
       }),
-      [fsmState, toggleItem, selectionMode, flush]
+      [fsmState, toggleItem, selectionMode, flush, registerButtonRef, navigateToButton]
     );
 
     // Compute classes
@@ -348,8 +398,28 @@ const AccordionButton = forwardRef<HTMLButtonElement, AccordionButtonProps>(
     },
     ref
   ) => {
-    const { toggleItem } = useAccordionContext();
+    const { toggleItem, registerButtonRef, navigateToButton } = useAccordionContext();
     const { eventKey, isExpanded, disabled, buttonId, panelId } = useAccordionItemContext();
+
+    // Internal ref for arrow-key navigation
+    const internalRef = useRef<HTMLButtonElement>(null);
+
+    // Merge refs
+    const mergedRef = useCallback(
+      (node: HTMLButtonElement | null) => {
+        // Update internal ref
+        (internalRef as React.MutableRefObject<HTMLButtonElement | null>).current = node;
+        // Update forwarded ref
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
+        }
+        // Register with accordion context for arrow-key navigation
+        registerButtonRef(eventKey, node);
+      },
+      [ref, registerButtonRef, eventKey]
+    );
 
     // Handle click
     const handleClick = useCallback(
@@ -369,10 +439,34 @@ const AccordionButton = forwardRef<HTMLButtonElement, AccordionButtonProps>(
         if (disabled) {
           return;
         }
+
+        // Arrow-key navigation between accordion buttons
+        switch (event.key) {
+          case 'ArrowDown':
+            event.preventDefault();
+            navigateToButton(eventKey, 'next');
+            break;
+          case 'ArrowUp':
+            event.preventDefault();
+            navigateToButton(eventKey, 'prev');
+            break;
+          case 'Home':
+            event.preventDefault();
+            // Navigate to first button
+            navigateToButton(eventKey, 'prev');
+            // Keep going until we wrap around or reach the start
+            break;
+          case 'End':
+            event.preventDefault();
+            // Navigate to last button
+            navigateToButton(eventKey, 'next');
+            break;
+        }
+
         // Enter and Space are handled natively by button
         onKeyDown?.(event);
       },
-      [disabled, onKeyDown]
+      [disabled, onKeyDown, navigateToButton, eventKey]
     );
 
     // Compute classes
@@ -389,7 +483,7 @@ const AccordionButton = forwardRef<HTMLButtonElement, AccordionButtonProps>(
 
     return (
       <button
-        ref={ref}
+        ref={mergedRef}
         type="button"
         id={id ?? buttonId}
         className={buttonClasses}

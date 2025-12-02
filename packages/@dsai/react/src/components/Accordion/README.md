@@ -191,6 +191,30 @@ import { ChevronRightIcon, StarIcon, GearIcon } from '@dsai/react';
 </Accordion>
 ```
 
+### Analytics with onItemToggle
+
+```tsx
+// Use onItemToggle for per-interaction analytics logging
+<Accordion
+  onItemToggle={(eventKey, { expanded }) => {
+    analytics.track('accordion_toggle', {
+      section: eventKey,
+      action: expanded ? 'expand' : 'collapse',
+      timestamp: Date.now(),
+    });
+  }}
+>
+  <Accordion.Item eventKey="pricing">
+    <Accordion.Button>Pricing Details</Accordion.Button>
+    <Accordion.Panel>...</Accordion.Panel>
+  </Accordion.Item>
+  <Accordion.Item eventKey="features">
+    <Accordion.Button>Feature List</Accordion.Button>
+    <Accordion.Panel>...</Accordion.Panel>
+  </Accordion.Item>
+</Accordion>
+```
+
 ### Nested Content
 
 ```tsx
@@ -215,20 +239,21 @@ import { ChevronRightIcon, StarIcon, GearIcon } from '@dsai/react';
 
 ### Accordion Props
 
-| Prop                 | Type                             | Default    | Description                        |
-| -------------------- | -------------------------------- | ---------- | ---------------------------------- |
-| `children`           | `ReactNode`                      | -          | AccordionItem components           |
-| `selectionMode`      | `'single' \| 'multiple'`         | `'single'` | Selection behavior                 |
-| `activeKeys`         | `string[]`                       | -          | Controlled active keys             |
-| `onActiveKeysChange` | `(activeKeys: string[]) => void` | -          | Callback when active keys change   |
-| `defaultActiveKeys`  | `string[]`                       | `[]`       | Default active keys (uncontrolled) |
-| `flush`              | `boolean`                        | `false`    | Edge-to-edge variant               |
-| `onItemExpand`       | `(eventKey: string) => void`     | -          | Callback when an item is expanded  |
-| `onItemCollapse`     | `(eventKey: string) => void`     | -          | Callback when an item is collapsed |
-| `className`          | `string`                         | -          | Additional class name              |
-| `style`              | `CSSProperties`                  | -          | Inline styles                      |
-| `id`                 | `string`                         | -          | Container ID                       |
-| `data-testid`        | `string`                         | -          | Test ID                            |
+| Prop                 | Type                                                         | Default    | Description                        |
+| -------------------- | ------------------------------------------------------------ | ---------- | ---------------------------------- |
+| `children`           | `ReactNode`                                                  | -          | AccordionItem components           |
+| `selectionMode`      | `'single' \| 'multiple'`                                     | `'single'` | Selection behavior                 |
+| `activeKeys`         | `string[]`                                                   | -          | Controlled active keys             |
+| `onActiveKeysChange` | `(activeKeys: string[]) => void`                             | -          | Callback when active keys change   |
+| `defaultActiveKeys`  | `string[]`                                                   | `[]`       | Default active keys (uncontrolled) |
+| `flush`              | `boolean`                                                    | `false`    | Edge-to-edge variant               |
+| `onItemExpand`       | `(eventKey: string) => void`                                 | -          | Callback when an item is expanded  |
+| `onItemCollapse`     | `(eventKey: string) => void`                                 | -          | Callback when an item is collapsed |
+| `onItemToggle`       | `(eventKey: string, details: { expanded: boolean }) => void` | -          | Callback for analytics/logging     |
+| `className`          | `string`                                                     | -          | Additional class name              |
+| `style`              | `CSSProperties`                                              | -          | Inline styles                      |
+| `id`                 | `string`                                                     | -          | Container ID                       |
+| `data-testid`        | `string`                                                     | -          | Test ID                            |
 
 ### Accordion.Item Props
 
@@ -278,12 +303,14 @@ The Accordion component follows WAI-ARIA Accordion pattern (WCAG 2.2 AA):
 
 ### Keyboard Shortcuts
 
-| Key               | Action                             |
-| ----------------- | ---------------------------------- |
-| `Tab`             | Move focus between buttons         |
-| `Enter` / `Space` | Toggle current panel               |
-| `Arrow Down`      | (Optional) Move to next button     |
-| `Arrow Up`        | (Optional) Move to previous button |
+| Key               | Action                                |
+| ----------------- | ------------------------------------- |
+| `Tab`             | Move focus between buttons            |
+| `Enter` / `Space` | Toggle current panel                  |
+| `Arrow Down`      | Move focus to next button (wraps)     |
+| `Arrow Up`        | Move focus to previous button (wraps) |
+| `Home`            | Move focus to first button            |
+| `End`             | Move focus to last button             |
 
 ### Screen Reader Announcements
 
@@ -332,12 +359,38 @@ Each item exposes its visual state via `data-visual-state`:
 <div class="accordion-item" data-visual-state="expanded">...</div>
 ```
 
-This can be used for custom styling or testing:
+This is a first-class styling hook for custom animations, testing, and analytics:
 
 ```css
+/* Custom animation overrides */
 [data-visual-state='expanding'] .accordion-body {
-  /* Custom animation overrides */
+  animation: custom-expand 0.3s ease-out;
 }
+
+[data-visual-state='collapsing'] .accordion-body {
+  animation: custom-collapse 0.3s ease-in;
+}
+
+/* Highlight expanded items */
+[data-visual-state='expanded'] {
+  border-left: 3px solid var(--bs-primary);
+}
+
+/* Dim collapsed items */
+[data-visual-state='collapsed'] .accordion-button {
+  opacity: 0.8;
+}
+```
+
+You can also use it for testing and analytics:
+
+```tsx
+// In tests
+expect(screen.getByTestId('item-1')).toHaveAttribute('data-visual-state', 'expanded');
+
+// For analytics
+const expandedItems = document.querySelectorAll('[data-visual-state="expanded"]');
+console.log(`${expandedItems.length} items currently expanded`);
 ```
 
 ## Performance

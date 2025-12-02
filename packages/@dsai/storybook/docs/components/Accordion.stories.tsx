@@ -458,6 +458,9 @@ export const WithCallbacks: Story = {
         <Accordion
           onItemExpand={(key: string) => addEvent(`Expanded: ${key}`)}
           onItemCollapse={(key: string) => addEvent(`Collapsed: ${key}`)}
+          onItemToggle={(key: string, { expanded }: { expanded: boolean }) =>
+            addEvent(`Toggle: ${key} → ${expanded ? 'open' : 'closed'}`)
+          }
         >
           <Accordion.Item eventKey="1">
             <h2 className="accordion-header">
@@ -563,10 +566,16 @@ export const KeyboardNavigation: Story = {
           <strong>Keyboard Navigation:</strong>
           <ul className="mb-0">
             <li>
-              <kbd>Tab</kbd> - Navigate between accordion buttons
+              <kbd>Tab</kbd> / <kbd>Shift+Tab</kbd> - Navigate between accordion buttons
             </li>
             <li>
               <kbd>Enter</kbd> or <kbd>Space</kbd> - Toggle accordion item
+            </li>
+            <li>
+              <kbd>↓</kbd> / <kbd>↑</kbd> - Move focus to next/previous button (wraps)
+            </li>
+            <li>
+              <kbd>Home</kbd> / <kbd>End</kbd> - Move focus to first/last button
             </li>
           </ul>
         </div>

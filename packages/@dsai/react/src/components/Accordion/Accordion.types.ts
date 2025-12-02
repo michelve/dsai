@@ -133,6 +133,14 @@ export interface AccordionProps extends SafeAccordionHTMLAttributes {
    * @param eventKey - The eventKey of the collapsed item
    */
   onItemCollapse?: (eventKey: string) => void;
+
+  /**
+   * Callback when an item is toggled (expanded or collapsed)
+   * Useful for analytics and per-interaction logging
+   * @param eventKey - The eventKey of the toggled item
+   * @param details - Object containing { expanded: boolean }
+   */
+  onItemToggle?: (eventKey: string, details: { expanded: boolean }) => void;
 }
 
 /**
@@ -238,6 +246,10 @@ export interface AccordionContextValue {
   selectionMode: AccordionSelectionMode;
   /** Whether accordion is in flush mode */
   flush: boolean;
+  /** Register a button ref for arrow-key navigation */
+  registerButtonRef: (eventKey: string, ref: HTMLButtonElement | null) => void;
+  /** Navigate to next/previous button using arrow keys */
+  navigateToButton: (eventKey: string, direction: 'next' | 'prev') => void;
 }
 
 /**

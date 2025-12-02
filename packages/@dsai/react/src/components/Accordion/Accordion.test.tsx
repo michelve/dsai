@@ -665,6 +665,184 @@ describe('Accordion', () => {
 
       expect(handleCollapse).toHaveBeenCalledWith('1');
     });
+
+    it('calls onItemToggle with expanded: true when expanding', async () => {
+      const handleToggle = jest.fn();
+      const user = userEvent.setup();
+      render(
+        <Accordion onItemToggle={handleToggle}>
+          <Accordion.Item eventKey="1">
+            <Accordion.Button>Item 1</Accordion.Button>
+            <Accordion.Panel>Content 1</Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+      );
+
+      await user.click(screen.getByText('Item 1'));
+
+      expect(handleToggle).toHaveBeenCalledWith('1', { expanded: true });
+    });
+
+    it('calls onItemToggle with expanded: false when collapsing', async () => {
+      const handleToggle = jest.fn();
+      const user = userEvent.setup();
+      render(
+        <Accordion onItemToggle={handleToggle} defaultActiveKeys={['1']}>
+          <Accordion.Item eventKey="1">
+            <Accordion.Button>Item 1</Accordion.Button>
+            <Accordion.Panel>Content 1</Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+      );
+
+      await user.click(screen.getByText('Item 1'));
+
+      expect(handleToggle).toHaveBeenCalledWith('1', { expanded: false });
+    });
+
+    it('calls onItemToggle alongside onItemExpand and onItemCollapse', async () => {
+      const handleExpand = jest.fn();
+      const handleCollapse = jest.fn();
+      const handleToggle = jest.fn();
+      const user = userEvent.setup();
+      render(
+        <Accordion
+          onItemExpand={handleExpand}
+          onItemCollapse={handleCollapse}
+          onItemToggle={handleToggle}
+        >
+          <Accordion.Item eventKey="1">
+            <Accordion.Button>Item 1</Accordion.Button>
+            <Accordion.Panel>Content 1</Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+      );
+
+      // Expand
+      await user.click(screen.getByText('Item 1'));
+      expect(handleExpand).toHaveBeenCalledWith('1');
+      expect(handleToggle).toHaveBeenCalledWith('1', { expanded: true });
+
+      // Collapse
+      await user.click(screen.getByText('Item 1'));
+      expect(handleCollapse).toHaveBeenCalledWith('1');
+      expect(handleToggle).toHaveBeenCalledWith('1', { expanded: false });
+    });
+  });
+
+  // ===========================================================================
+  // Arrow Key Navigation Tests
+  // ===========================================================================
+
+  describe('Arrow Key Navigation', () => {
+    it('moves focus to next button on ArrowDown', async () => {
+      const user = userEvent.setup();
+      renderAccordion();
+
+      const buttons = screen.getAllByRole('button');
+      buttons[0].focus();
+      expect(buttons[0]).toHaveFocus();
+
+      await user.keyboard('{ArrowDown}');
+      expect(buttons[1]).toHaveFocus();
+    });
+
+    it('moves focus to previous button on ArrowUp', async () => {
+      const user = userEvent.setup();
+      renderAccordion();
+
+      const buttons = screen.getAllByRole('button');
+      buttons[1].focus();
+      expect(buttons[1]).toHaveFocus();
+
+      await user.keyboard('{ArrowUp}');
+      expect(buttons[0]).toHaveFocus();
+    });
+
+    it('wraps focus from last to first on ArrowDown', async () => {
+      const user = userEvent.setup();
+      renderAccordion();
+
+      const buttons = screen.getAllByRole('button');
+      buttons[2].focus();
+      expect(buttons[2]).toHaveFocus();
+
+      await user.keyboard('{ArrowDown}');
+      expect(buttons[0]).toHaveFocus();
+    });
+
+    it('wraps focus from first to last on ArrowUp', async () => {
+      const user = userEvent.setup();
+      renderAccordion();
+
+      const buttons = screen.getAllByRole('button');
+      buttons[0].focus();
+      expect(buttons[0]).toHaveFocus();
+
+      await user.keyboard('{ArrowUp}');
+      expect(buttons[2]).toHaveFocus();
+    });
+
+    it('skips disabled buttons when navigating', async () => {
+      const user = userEvent.setup();
+      render(
+        <Accordion>
+          <Accordion.Item eventKey="1">
+            <Accordion.Button>Item 1</Accordion.Button>
+            <Accordion.Panel>Content 1</Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item eventKey="2" disabled>
+            <Accordion.Button>Item 2 (Disabled)</Accordion.Button>
+            <Accordion.Panel>Content 2</Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item eventKey="3">
+            <Accordion.Button>Item 3</Accordion.Button>
+            <Accordion.Panel>Content 3</Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+      );
+
+      const buttons = screen.getAllByRole('button');
+      buttons[0].focus();
+      expect(buttons[0]).toHaveFocus();
+
+      // Should skip disabled button and go to Item 3
+      await user.keyboard('{ArrowDown}');
+      expect(buttons[2]).toHaveFocus();
+    });
+
+    it('does not respond to arrow keys when button is disabled', async () => {
+      const user = userEvent.setup();
+      render(
+        <Accordion>
+          <Accordion.Item eventKey="1">
+            <Accordion.Button>Item 1</Accordion.Button>
+            <Accordion.Panel>Content 1</Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item eventKey="2" disabled>
+            <Accordion.Button>Item 2 (Disabled)</Accordion.Button>
+            <Accordion.Panel>Content 2</Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item eventKey="3">
+            <Accordion.Button>Item 3</Accordion.Button>
+            <Accordion.Panel>Content 3</Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+      );
+
+      const buttons = screen.getAllByRole('button');
+      // Focus first non-disabled button
+      buttons[0].focus();
+      expect(buttons[0]).toHaveFocus();
+
+      // Navigate down - should skip disabled and go to Item 3
+      await user.keyboard('{ArrowDown}');
+      expect(buttons[2]).toHaveFocus();
+
+      // Navigate up from Item 3 - should skip disabled and go back to Item 1
+      await user.keyboard('{ArrowUp}');
+      expect(buttons[0]).toHaveFocus();
+    });
   });
 
   // ===========================================================================
