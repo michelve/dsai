@@ -6,8 +6,9 @@ import {
   SearchIcon,
   StarFillIcon,
 } from '@dsai/react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useCallback, useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 /**
  * Breadcrumb navigation component for hierarchical page structure.
@@ -32,7 +33,7 @@ import { useCallback, useState } from 'react';
  *
  * **Accessibility:**
  * - WCAG 2.2 AA compliant navigation
- * - Icons automatically hidden from screen readers (aria-hidden="true")
+ * - Icons automatically hidden from screen readers (aria-hidden=&quot;true&quot;)
  * - Proper aria-current="page" on active items
  * - Ellipsis button has aria-expanded state
  * - Semantic HTML with proper ARIA labels
@@ -489,7 +490,7 @@ export const SecurityHREFValidation: Story = {
       <div>
         <small className="text-muted d-block mb-1">
           🛡️ Blocked: Dangerous protocols (javascript:, data:, vbscript:) are safely converted to
-          '#'
+          &apos;#&apos;
         </small>
         <Breadcrumb
           items={[
@@ -511,7 +512,7 @@ export const SecurityExternalLinks: Story = {
   render: () => (
     <div>
       <small className="text-muted d-block mb-2">
-        External links automatically get rel="noopener noreferrer" for security
+        External links automatically get rel=&quot;noopener noreferrer&quot; for security
       </small>
       <Breadcrumb
         items={[
@@ -523,8 +524,8 @@ export const SecurityExternalLinks: Story = {
       />
       <div className="alert alert-info mt-3 mb-0">
         <small>
-          <strong>Security:</strong> All external links include rel="noopener noreferrer" to
-          prevent:
+          <strong>Security:</strong> All external links include rel=&quot;noopener noreferrer&quot;
+          to prevent:
           <ul className="mb-0 mt-1">
             <li>window.opener access from target page</li>
             <li>Referrer information leakage</li>
@@ -547,7 +548,7 @@ export const AccessibilityIcons: Story = {
   render: () => (
     <div>
       <small className="text-muted d-block mb-2">
-        Icons are visually displayed but hidden from screen readers (aria-hidden="true")
+        Icons are visually displayed but hidden from screen readers (aria-hidden=&quot;true&quot;)
       </small>
       <Breadcrumb
         items={[
@@ -593,7 +594,7 @@ export const AccessibilityIcons: Story = {
 
 /**
  * Demonstrates performance optimizations through memoization
- * In real usage, parent re-renders won't trigger child re-renders
+ * In real usage, parent re-renders won&rsquo;t trigger child re-renders
  */
 export const PerformanceMemoization: Story = {
   render: function PerformanceBreadcrumb() {
@@ -625,7 +626,7 @@ export const PerformanceMemoization: Story = {
             <strong>Performance:</strong> The breadcrumb component uses React.memo and useMemo hooks
             to:
             <ul className="mb-0 mt-1">
-              <li>Skip re-renders when props haven't changed</li>
+              <li>Skip re-renders when props haven&apos;t changed</li>
               <li>Cache className and style computations</li>
               <li>Memoize render functions with useCallback</li>
               <li>Optimize for re-render-heavy parent components</li>

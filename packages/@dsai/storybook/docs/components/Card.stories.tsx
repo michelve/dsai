@@ -10,8 +10,9 @@ import {
   CardText,
   CardTitle,
 } from '@dsai/react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 /**
  * Card component for displaying content in a flexible container.
@@ -19,11 +20,11 @@ import { useState } from 'react';
  *
  * **Security Features:**
  * - Automatic HREF validation blocks dangerous protocols (javascript:, data:, vbscript:, file:)
- * - External links automatically get rel="noopener noreferrer" for protection
+ * - External links automatically get rel=&quot;noopener noreferrer&quot; for protection
  * - XSS-safe rendering with protocol validation
  *
  * **Accessibility:**
- * - Interactive cards without href render as semantic buttons (not div with role="button")
+ * - Interactive cards without href render as semantic buttons (not div with role=&quot;button&quot;)
  * - Keyboard navigation support with Enter/Space keys
  * - WCAG 2.2 AA compliant
  *
@@ -383,7 +384,7 @@ export const SecurityHREFValidation: Story = {
       <div>
         <small className="text-muted d-block mb-1">
           🛡️ Blocked: Dangerous protocols (javascript:, data:, vbscript:) are safely converted to
-          '#'
+          &apos;#&apos;
         </small>
         <Card href="#" style={{ width: '18rem' }}>
           <CardBody>
@@ -403,7 +404,7 @@ export const SecurityExternalLinks: Story = {
   render: () => (
     <div>
       <small className="text-muted d-block mb-2">
-        External links automatically get rel="noopener noreferrer" for security
+        External links automatically get rel=&quot;noopener noreferrer&quot; for security
       </small>
       <div style={{ display: 'flex', gap: '1rem' }}>
         <Card href="https://external.com" style={{ width: '18rem' }}>
@@ -421,8 +422,8 @@ export const SecurityExternalLinks: Story = {
       </div>
       <div className="alert alert-info mt-3">
         <small>
-          <strong>Security:</strong> All external links automatically include rel="noopener
-          noreferrer" to prevent:
+          <strong>Security:</strong> All external links automatically include rel=&quot;noopener
+          noreferrer&quot; to prevent:
           <ul className="mb-0 mt-1">
             <li>window.opener access from target page</li>
             <li>Referrer information leakage</li>

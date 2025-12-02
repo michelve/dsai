@@ -11,8 +11,10 @@ import {
   Trash3Icon,
   XLgIcon,
 } from '@dsai/react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react';
+import type { JSX } from 'react';
 
 /**
  * Button component provides a versatile, accessible button with multiple variants and sizes.
@@ -34,8 +36,24 @@ import { useState } from 'react';
  * - Button.integration.test.tsx: Integration tests (6 tests)
  */
 
+type AnnouncementStatus = 'idle' | 'loading' | 'success' | 'error';
+
+const getAnnouncementMessage = (state: AnnouncementStatus): string => {
+  switch (state) {
+    case 'loading':
+      return 'Operation in progress...';
+    case 'success':
+      return 'Operation completed successfully';
+    case 'error':
+      return 'Operation failed. Please try again.';
+    case 'idle':
+    default:
+      return '';
+  }
+};
+
 // Helper component for loading variants showcase
-const LoadingVariantsShowcase = () => (
+const LoadingVariantsShowcase = (): JSX.Element => (
   <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
     <Button variant="primary" loading>
       Saving
@@ -53,7 +71,7 @@ const LoadingVariantsShowcase = () => (
 );
 
 // Helper component for icons showcase
-const IconsShowcase = () => (
+const IconsShowcase = (): JSX.Element => (
   <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
     <Button variant="primary" startIcon={<ArrowLeftIcon />}>
       Previous
@@ -71,10 +89,10 @@ const IconsShowcase = () => (
 );
 
 // Helper component for single announcement demo
-const AnnouncementDemo = () => {
+const AnnouncementDemo = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     setIsLoading(true);
     setTimeout(() => setIsLoading(false), 2000);
   };
@@ -86,7 +104,7 @@ const AnnouncementDemo = () => {
         loading={isLoading}
         loadingText="Saving..."
         announceText={isLoading ? 'Saving your changes' : 'Changes saved successfully'}
-        announce={true}
+        announce
         onClick={handleClick}
         disabled={isLoading}
       >
@@ -100,37 +118,32 @@ const AnnouncementDemo = () => {
 };
 
 // Helper component for multi-state announcement demo
-const MultiStateAnnouncementDemo = () => {
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+const MultiStateAnnouncementDemo = (): JSX.Element => {
+  const [status, setStatus] = useState<AnnouncementStatus>('idle');
 
-  const handleSave = async () => {
+  const handleSave = async (): Promise<void> => {
     setStatus('loading');
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setStatus('success');
     setTimeout(() => setStatus('idle'), 3000);
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (): Promise<void> => {
     setStatus('loading');
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setStatus('error');
     setTimeout(() => setStatus('idle'), 3000);
   };
 
-  const announceText = {
-    idle: '',
-    loading: 'Operation in progress...',
-    success: 'Operation completed successfully',
-    error: 'Operation failed. Please try again.',
-  };
+  const announceMessage = getAnnouncementMessage(status);
 
   return (
     <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
       <Button
         variant="success"
         loading={status === 'loading'}
-        announceText={announceText[status]}
-        announce={true}
+        announceText={announceMessage}
+        announce
         onClick={handleSave}
         disabled={status === 'loading'}
       >
@@ -147,8 +160,8 @@ const MultiStateAnnouncementDemo = () => {
       <Button
         variant="danger"
         loading={status === 'loading'}
-        announceText={announceText[status]}
-        announce={true}
+        announceText={announceMessage}
+        announce
         onClick={handleDelete}
         disabled={status === 'loading'}
       >
@@ -571,7 +584,7 @@ export const WithAriaExpanded: Story = {
     variant: 'secondary',
     endIcon: <ChevronDownIcon />,
     children: 'Toggle Menu',
-    'aria-expanded': false,
+    'aria-expanded': 'false',
     'aria-controls': 'menu',
   },
 };
@@ -580,7 +593,7 @@ export const WithAriaPressed: Story = {
   args: {
     variant: 'outline-primary',
     children: 'Toggle Option',
-    'aria-pressed': false,
+    'aria-pressed': 'false',
   },
 };
 
@@ -744,27 +757,29 @@ export const ErrorState: Story = {
   },
 };
 
+const ErrorWithRecoveryExample = (): JSX.Element => {
+  const [hasError, setHasError] = useState(false);
+
+  const handleClick = async (): Promise<void> => {
+    setHasError(true);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    setHasError(false);
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <Button variant="primary" error={hasError} onClick={handleClick} disabled={hasError}>
+        {hasError ? 'Error - Retry' : 'Click Me'}
+      </Button>
+      <p style={{ fontSize: '0.875rem', color: '#666' }}>
+        Click the button to trigger error state. After 2 seconds, error clears automatically.
+      </p>
+    </div>
+  );
+};
+
 export const ErrorWithRecovery: Story = {
-  render: () => {
-    const [hasError, setHasError] = useState(false);
-
-    const handleClick = async () => {
-      setHasError(true);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      setHasError(false);
-    };
-
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <Button variant="primary" error={hasError} onClick={handleClick} disabled={hasError}>
-          {hasError ? 'Error - Retry' : 'Click Me'}
-        </Button>
-        <p style={{ fontSize: '0.875rem', color: '#666' }}>
-          Click the button to trigger error state. After 2 seconds, error clears automatically.
-        </p>
-      </div>
-    );
-  },
+  render: () => <ErrorWithRecoveryExample />,
 };
 
 /**
@@ -889,96 +904,98 @@ export const FSMInteractiveStates: Story = {
  *
  * Shows realistic use case: button transitions between idle → loading → error/success
  */
-export const FSMAsyncOperations: Story = {
-  render: () => {
-    const [states, setStates] = useState<Record<string, { isLoading: boolean; isError: boolean }>>({
-      success: { isLoading: false, isError: false },
-      failure: { isLoading: false, isError: false },
-      mixed: { isLoading: false, isError: false },
-    });
+const FSMAsyncOperationsExample = (): JSX.Element => {
+  const [states, setStates] = useState<Record<string, { isLoading: boolean; isError: boolean }>>({
+    success: { isLoading: false, isError: false },
+    failure: { isLoading: false, isError: false },
+    mixed: { isLoading: false, isError: false },
+  });
 
-    const handleAsyncOperation = async (key: string, shouldFail: boolean) => {
+  const handleAsyncOperation = async (key: string, shouldFail: boolean): Promise<void> => {
+    setStates((prev) => ({
+      ...prev,
+      [key]: { isLoading: true, isError: false },
+    }));
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    setStates((prev) => ({
+      ...prev,
+      [key]: { isLoading: false, isError: shouldFail },
+    }));
+
+    setTimeout(() => {
       setStates((prev) => ({
         ...prev,
-        [key]: { isLoading: true, isError: false },
+        [key]: { isLoading: false, isError: false },
       }));
+    }, 2000);
+  };
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      setStates((prev) => ({
-        ...prev,
-        [key]: { isLoading: false, isError: shouldFail },
-      }));
-
-      setTimeout(() => {
-        setStates((prev) => ({
-          ...prev,
-          [key]: { isLoading: false, isError: false },
-        }));
-      }, 2000);
-    };
-
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-        <div>
-          <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
-            Successful Operation
-          </h3>
-          <Button
-            variant="success"
-            loading={states.success.isLoading}
-            onClick={() => handleAsyncOperation('success', false)}
-          >
-            {states.success.isLoading ? 'Processing...' : 'Save Successfully'}
-          </Button>
-        </div>
-
-        <div>
-          <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
-            Failed Operation
-          </h3>
-          <Button
-            variant="danger"
-            error={states.failure.isError}
-            loading={states.failure.isLoading}
-            onClick={() => handleAsyncOperation('failure', true)}
-          >
-            {states.failure.isLoading
-              ? 'Processing...'
-              : states.failure.isError
-                ? 'Failed - Retry'
-                : 'Delete Item'}
-          </Button>
-        </div>
-
-        <div>
-          <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
-            Confirm Action Flow
-          </h3>
-          <Button
-            variant="warning"
-            loading={states.mixed.isLoading}
-            error={states.mixed.isError}
-            onClick={() => handleAsyncOperation('mixed', false)}
-          >
-            {states.mixed.isLoading ? 'Processing...' : 'Confirm Action'}
-          </Button>
-        </div>
-
-        <div style={{ backgroundColor: '#f5f5f5', padding: '1rem', borderRadius: '4px' }}>
-          <p style={{ fontSize: '0.75rem', color: '#666', margin: 0 }}>
-            <strong>FSM Transition Flow:</strong>
-          </p>
-          <p style={{ fontSize: '0.75rem', color: '#666', margin: '0.5rem 0 0 0' }}>
-            idle → loading → (success: idle) or (error: error state)
-          </p>
-          <p style={{ fontSize: '0.75rem', color: '#666', margin: '0.5rem 0 0 0' }}>
-            Each button manages its own FSM state independently.
-          </p>
-        </div>
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+          Successful Operation
+        </h3>
+        <Button
+          variant="success"
+          loading={states.success.isLoading}
+          onClick={() => handleAsyncOperation('success', false)}
+        >
+          {states.success.isLoading ? 'Processing...' : 'Save Successfully'}
+        </Button>
       </div>
-    );
-  },
+
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+          Failed Operation
+        </h3>
+        <Button
+          variant="danger"
+          error={states.failure.isError}
+          loading={states.failure.isLoading}
+          onClick={() => handleAsyncOperation('failure', true)}
+        >
+          {states.failure.isLoading
+            ? 'Processing...'
+            : states.failure.isError
+              ? 'Failed - Retry'
+              : 'Delete Item'}
+        </Button>
+      </div>
+
+      <div>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+          Confirm Action Flow
+        </h3>
+        <Button
+          variant="warning"
+          loading={states.mixed.isLoading}
+          error={states.mixed.isError}
+          onClick={() => handleAsyncOperation('mixed', false)}
+        >
+          {states.mixed.isLoading ? 'Processing...' : 'Confirm Action'}
+        </Button>
+      </div>
+
+      <div style={{ backgroundColor: '#f5f5f5', padding: '1rem', borderRadius: '4px' }}>
+        <p style={{ fontSize: '0.75rem', color: '#666', margin: 0 }}>
+          <strong>FSM Transition Flow:</strong>
+        </p>
+        <p style={{ fontSize: '0.75rem', color: '#666', margin: '0.5rem 0 0 0' }}>
+          idle → loading → (success: idle) or (error: error state)
+        </p>
+        <p style={{ fontSize: '0.75rem', color: '#666', margin: '0.5rem 0 0 0' }}>
+          Each button manages its own FSM state independently.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export const FSMAsyncOperations: Story = {
+  render: () => <FSMAsyncOperationsExample />,
 };
 
 /**
@@ -1134,7 +1151,7 @@ export const ARIAAttributesDemo: Story = {
         </h3>
         <Button
           variant="outline-secondary"
-          aria-expanded={false}
+          aria-expanded="false"
           aria-controls="dropdown-menu"
           endIcon={<ChevronDownIcon />}
         >
@@ -1147,10 +1164,10 @@ export const ARIAAttributesDemo: Story = {
           aria-pressed (Toggle)
         </h3>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <Button variant="outline-primary" aria-pressed={false}>
+          <Button variant="outline-primary" aria-pressed="false">
             Off
           </Button>
-          <Button variant="primary" aria-pressed={true}>
+          <Button variant="primary" aria-pressed="true">
             On
           </Button>
         </div>

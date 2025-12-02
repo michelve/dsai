@@ -1,7 +1,8 @@
-import type { CardListItem } from '@dsai/react';
 import { CardList, CheckIcon, XLgIcon } from '@dsai/react';
+import { type ReactElement, useState } from 'react';
+
+import type { CardListItem } from '@dsai/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
 
 // Define a simplified props type for Storybook since CardListProps is a discriminated union
 // that doesn't work well with Storybook's type inference
@@ -653,10 +654,10 @@ export const Required: Story = {
  * This demo visualizes the current FSM visual state.
  */
 export const FSMStateVisualization: Story = {
-  render: function FSMDemo() {
+  render: function FSMDemo(): ReactElement {
     const [selected, setSelected] = useState<string[]>([]);
 
-    const getVisualState = () => {
+    const getVisualState = (): 'none' | 'one' | 'some' | 'all' => {
       if (selected.length === 0) {
         return 'none';
       }
@@ -736,13 +737,13 @@ export const FSMStateVisualization: Story = {
  * Form submission example
  */
 export const FormExample: Story = {
-  render: function FormDemo() {
+  render: function FormDemo(): ReactElement {
     const [plan, setPlan] = useState<string | undefined>('pro');
     const [features, setFeatures] = useState<string[]>(['analytics']);
     const [submitted, setSubmitted] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+      event.preventDefault();
       setSubmitted(true);
     };
 
@@ -1102,17 +1103,18 @@ export const FeatureSelectionExample: Story = {
     ];
 
     const basePrice = 29;
-    const featurePrices: Record<string, number> = {
-      analytics: 0,
-      automation: 10,
-      integrations: 5,
-      support: 15,
-      api: 20,
-      'white-label': 50,
-    };
+    const featurePriceMap = new Map<string, number>([
+      ['analytics', 0],
+      ['automation', 10],
+      ['integrations', 5],
+      ['support', 15],
+      ['api', 20],
+      ['white-label', 50],
+    ]);
 
     const totalPrice =
-      basePrice + selectedFeatures.reduce((sum, f) => sum + (featurePrices[f] || 0), 0);
+      basePrice +
+      selectedFeatures.reduce((sum, featureKey) => sum + (featurePriceMap.get(featureKey) ?? 0), 0);
 
     return (
       <div className="card" style={{ maxWidth: '700px' }}>
