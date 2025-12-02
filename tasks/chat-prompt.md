@@ -369,7 +369,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 
 ### Step 1: Read Task File
 
-- Parse task from `tasks/02-high/TASK-037-modal-component.md`
+- Parse task from `tasks/02-high/TASK-038-dropdown-component.md`
 - Verify task is clear and complete
 - Ask clarifying questions if ambiguous
 
@@ -389,6 +389,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 ### Step 4: Quality Validation
 
 - Run ALL quality gate checks listed above
+- Run lint validation
 - Fix any violations (do not proceed with violations)
 - Document any intentional exceptions with rationale
 

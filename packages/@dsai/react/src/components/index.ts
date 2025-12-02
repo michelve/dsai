@@ -60,11 +60,24 @@ export type { CheckboxProps } from './Checkbox';
 // Checkbox
 export { Checkbox } from './Checkbox';
 export type {
+  DropdownAutoClose,
+  DropdownDividerProps,
+  DropdownHeaderProps,
+  DropdownItemProps,
+  DropdownItemTextProps,
+  DropdownMenuProps,
+  DropdownPlacement,
+  DropdownProps,
+  DropdownToggleProps,
+} from './Dropdown';
+// Dropdown
+export type {
   CheckboxGroupFSMState,
   CheckboxGroupOption,
   CheckboxGroupProps,
   GroupSelectionState,
 } from './CheckboxGroup';
+export { Dropdown } from './Dropdown';
 // CheckboxGroup
 export { CheckboxGroup } from './CheckboxGroup';
 // Icons - Bootstrap Icons as React components

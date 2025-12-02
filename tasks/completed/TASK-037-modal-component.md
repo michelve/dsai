@@ -19,6 +19,7 @@ Create accessible Modal (dialog) component with backdrop, animations, focus mana
 ## Acceptance Criteria
 
 ### Component Implementation
+
 - [ ] Modal component with portal (ReactDOM.createPortal)
 - [ ] ModalHeader, ModalBody, ModalFooter subcomponents
 - [ ] Sizes: sm, md, lg, xl, fullscreen
@@ -29,12 +30,14 @@ Create accessible Modal (dialog) component with backdrop, animations, focus mana
 - [ ] Animations: fade in/out, slide in/out
 
 ### Focus Management
+
 - [ ] Focus trap using `focus-trap-react` or similar
 - [ ] Focus first focusable element on open
 - [ ] Restore focus to trigger on close
 - [ ] Tab cycles within modal
 
 ### Styling
+
 - [ ] Backdrop with opacity
 - [ ] Centered modal positioning
 - [ ] Scrollable body if content overflows
@@ -42,6 +45,7 @@ Create accessible Modal (dialog) component with backdrop, animations, focus mana
 - [ ] Z-index management
 
 ### Accessibility
+
 - [ ] `role="dialog"`
 - [ ] `aria-modal="true"`
 - [ ] `aria-labelledby` pointing to header
@@ -50,6 +54,7 @@ Create accessible Modal (dialog) component with backdrop, animations, focus mana
 - [ ] ESC key handler
 
 ### Testing
+
 - [ ] Unit tests 90%+
 - [ ] Focus management tests
 - [ ] Keyboard interaction tests
@@ -60,6 +65,7 @@ Create accessible Modal (dialog) component with backdrop, animations, focus mana
 ## Dependencies
 
 ### Requires:
+
 - **TASK-014**: Base Component Template
 - **TASK-021**: Button Component (close button)
 
