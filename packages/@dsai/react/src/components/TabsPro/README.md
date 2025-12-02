@@ -160,7 +160,6 @@ import type { TabsProItem } from '@dsai/react';
 | `blockedFallback` | `ReactNode`                                 | -        | Custom blocked UI             |
 | `loadingFallback` | `ReactNode`                                 | -        | Custom loading UI             |
 | `errorFallback`   | `(error, retry) => ReactNode`               | -        | Custom error UI               |
-| `preloadOnHover`  | `boolean`                                   | `false`  | Preload on hover              |
 | `onViewed`        | `() => void`                                | -        | Called when tab is viewed     |
 | `onError`         | `(error: unknown) => void`                  | -        | Called on load error          |
 | `onActivate`      | `() => void`                                | -        | Called when activation starts |
@@ -181,7 +180,7 @@ interface GuardResult {
 
 TabsPro uses a finite state machine for predictable state management:
 
-```
+```text
                     ┌──────────────────────────────────────────┐
                     │                                          │
                     ▼                                          │
@@ -217,7 +216,6 @@ TabsPro uses a finite state machine for predictable state management:
 | `LOAD_SUCCESS` | Content loaded successfully |
 | `LOAD_ERROR`   | Content loading failed      |
 | `RETRY`        | Retry after error           |
-| `PRELOAD_TAB`  | Hover-triggered preload     |
 
 ## Accessibility
 
