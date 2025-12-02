@@ -96,7 +96,16 @@
   // ============================
   // Spelling
   // ============================
-  "cSpell.words": ["dsai", "subcomponents", "zindex", "storybook", "tokens", "eslint", "pnpm"],
+  "cSpell.words": [
+    "dsai",
+    "eslint",
+    "Noninteractive",
+    "pnpm",
+    "storybook",
+    "subcomponents",
+    "tokens",
+    "zindex"
+  ],
 
   // ============================
   // Sass Compiler (disabled – build uses pnpm)
