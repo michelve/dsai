@@ -631,6 +631,36 @@ describe('Modal', () => {
         expect(screen.getByRole('dialog')).not.toHaveClass('fade');
       });
     });
+
+    it('has show class when mounted with isOpen={true} and animated={true}', async () => {
+      // This tests the fix for the edge case where modal starts open with animation
+      // The modal should have both 'fade' and 'show' classes
+      render(
+        <Modal isOpen={true} onClose={() => {}} animated={true}>
+          <Modal.Header>Title</Modal.Header>
+          <Modal.Body>Content</Modal.Body>
+        </Modal>
+      );
+      await waitFor(() => {
+        const dialog = screen.getByRole('dialog');
+        expect(dialog).toHaveClass('fade');
+        expect(dialog).toHaveClass('show');
+      });
+    });
+
+    it('backdrop has show class when mounted with isOpen={true} and animated={true}', async () => {
+      const { baseElement } = render(
+        <Modal isOpen={true} onClose={() => {}} animated={true}>
+          <Modal.Header>Title</Modal.Header>
+          <Modal.Body>Content</Modal.Body>
+        </Modal>
+      );
+      await waitFor(() => {
+        const backdrop = baseElement.querySelector('.modal-backdrop');
+        expect(backdrop).toHaveClass('fade');
+        expect(backdrop).toHaveClass('show');
+      });
+    });
   });
 
   describe('Callbacks', () => {

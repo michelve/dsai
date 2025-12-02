@@ -445,7 +445,9 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
     // 1. First render modal with 'fade' class (opacity: 0)
     // 2. Force a browser repaint
     // 3. Add 'show' class to trigger transition to opacity: 1
-    const [animatedShowClass, setAnimatedShowClass] = useState(false);
+    // Fix: If isOpen is true on initial mount with animated, start with show class
+    // to avoid the "logically open but visually hidden" bug
+    const [animatedShowClass, setAnimatedShowClass] = useState(() => isOpen && animated);
 
     // For non-animated modals, derive showClass directly from FSM state
     // For animated modals, use the delayed state that triggers CSS transitions
