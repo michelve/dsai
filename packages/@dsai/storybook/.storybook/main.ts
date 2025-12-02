@@ -1,6 +1,7 @@
 import { fileURLToPath } from 'node:url';
+import { dirname, resolve } from 'path';
+
 import type { StorybookConfig } from '@storybook/react-vite';
-import { resolve, dirname } from 'path';
 
 const config: StorybookConfig = {
   stories: ['../docs/**/*.mdx', '../docs/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -24,7 +25,7 @@ const config: StorybookConfig = {
   staticDirs: ['../public'], // Serve static assets like logo
 
   // Vite configuration for monorepo setup
-  viteFinal: async (config, { configType }) => {
+  viteFinal: async (config) => {
     const { mergeConfig } = await import('vite');
 
     return mergeConfig(config, {
@@ -35,6 +36,10 @@ const config: StorybookConfig = {
           '@dsai/tokens/js': resolve(process.cwd(), '../../@dsai/tokens/dist/js'),
           '@dsai/react': resolve(process.cwd(), '../../@dsai/react/src'),
         },
+      },
+      build: {
+        // Storybook bundles are larger due to docs/examples - suppress warning
+        chunkSizeWarningLimit: 3000,
       },
     });
   },
@@ -60,6 +65,6 @@ const config: StorybookConfig = {
 
 export default config;
 
-function getAbsolutePath(value: string): any {
+function getAbsolutePath(value: string): string {
   return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
 }
