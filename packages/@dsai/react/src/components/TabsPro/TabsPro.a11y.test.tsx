@@ -420,7 +420,13 @@ describe('TabsPro Accessibility', () => {
       await waitFor(
         () => {
           const dialog = screen.getByRole('dialog');
-          expect(dialog).toHaveAttribute('aria-labelledby', 'leave-confirm-title');
+          // Modal should have aria-labelledby pointing to the modal title
+          expect(dialog).toHaveAttribute('aria-labelledby');
+          const titleId = dialog.getAttribute('aria-labelledby');
+          // Verify the referenced element exists and contains the expected text
+          const titleElement = document.getElementById(titleId!);
+          expect(titleElement).toBeInTheDocument();
+          expect(titleElement).toHaveTextContent('Unsaved Changes');
         },
         { timeout: 3000 }
       );

@@ -198,7 +198,8 @@ export const BaseButton = forwardRef<
 
         {/* Announce state changes to screen readers (e.g., "Saving changes...") */}
         {announce && announceText && (
-          <output
+          <div
+            role="status"
             aria-live="polite"
             aria-atomic="true"
             style={{
@@ -213,12 +214,13 @@ export const BaseButton = forwardRef<
             }}
           >
             {announceText}
-          </output>
+          </div>
         )}
 
         {/* Spinner status region for screen readers (present whenever loading) */}
         {loading && !announceText && (
-          <output
+          <div
+            role="status"
             aria-live="polite"
             aria-atomic="true"
             style={{
@@ -233,7 +235,7 @@ export const BaseButton = forwardRef<
             }}
           >
             Loading
-          </output>
+          </div>
         )}
       </>
     );

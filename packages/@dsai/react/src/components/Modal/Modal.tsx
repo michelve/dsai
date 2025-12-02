@@ -8,6 +8,7 @@ import React, {
   useMemo,
   useReducer,
   useRef,
+  useState,
 } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -439,6 +440,58 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
     // Initialize FSM
     const [fsmState, dispatch] = useReducer(modalFSMReducer, isOpen, createInitialModalFSMState);
 
+    // Local state to trigger CSS transition for animated modals
+    // For CSS transitions to work with Bootstrap's fade class, we need to:
+    // 1. First render modal with 'fade' class (opacity: 0)
+    // 2. Force a browser repaint
+    // 3. Add 'show' class to trigger transition to opacity: 1
+    const [animatedShowClass, setAnimatedShowClass] = useState(false);
+
+    // For non-animated modals, derive showClass directly from FSM state
+    // For animated modals, use the delayed state that triggers CSS transitions
+    // When closing/closed, always false to trigger fade-out
+    const showClass = animated
+      ? fsmState.visibility === 'closing' || fsmState.visibility === 'closed'
+        ? false
+        : animatedShowClass
+      : fsmState.visibility === 'opening' || fsmState.visibility === 'open';
+
+    // Handle adding 'show' class after repaint for CSS transitions (animated modals only)
+    useEffect(() => {
+      if (!animated) {
+        // Non-animated modals derive showClass from FSM state, no effect needed
+        return undefined;
+      }
+
+      if (fsmState.visibility === 'opening' && !animatedShowClass) {
+        // Wait for browser to paint modal in initial state (opacity: 0)
+        // Then add 'show' class to trigger CSS transition
+        let innerFrameId: number | undefined;
+        const frameId = requestAnimationFrame(() => {
+          // Double rAF ensures browser has painted before we add 'show'
+          innerFrameId = requestAnimationFrame(() => {
+            setAnimatedShowClass(true);
+          });
+        });
+        return () => {
+          cancelAnimationFrame(frameId);
+          if (innerFrameId !== undefined) {
+            cancelAnimationFrame(innerFrameId);
+          }
+        };
+      }
+
+      // Reset animatedShowClass when fully closed (via setTimeout to avoid sync setState)
+      if (fsmState.visibility === 'closed' && animatedShowClass) {
+        const timeoutId = setTimeout(() => {
+          setAnimatedShowClass(false);
+        }, 0);
+        return () => clearTimeout(timeoutId);
+      }
+
+      return undefined;
+    }, [animated, fsmState.visibility, animatedShowClass]);
+
     // Sync FSM with isOpen prop
     useEffect(() => {
       if (isOpen && fsmState.visibility === 'closed') {
@@ -584,11 +637,11 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
 
     // Compute modal classes
     const modalClasses = useMemo(() => {
-      const classes = ['modal', animated && 'fade', fsmState.shouldShow && 'show', className]
+      const classes = ['modal', animated && 'fade', showClass && 'show', className]
         .filter(Boolean)
         .join(' ');
       return classes;
-    }, [animated, fsmState.shouldShow, className]);
+    }, [animated, showClass, className]);
 
     // Compute dialog classes
     const dialogClasses = useMemo(() => {
@@ -657,7 +710,7 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
         {/* Backdrop */}
         {backdrop && (
           <div
-            className={`modal-backdrop fade ${fsmState.shouldShow ? 'show' : ''}`}
+            className={`modal-backdrop fade ${showClass ? 'show' : ''}`}
             style={backdropStyles}
             aria-hidden="true"
           />
