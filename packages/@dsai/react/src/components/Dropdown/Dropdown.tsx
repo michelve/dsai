@@ -467,6 +467,14 @@ const DropdownToggle = forwardRef<HTMLButtonElement, DropdownToggleProps>(
 
     const isDisabled = toggleDisabled || contextDisabled;
 
+    // Development warning for split toggles without explicit aria-label
+    if (process.env.NODE_ENV !== 'production' && split && !ariaLabel) {
+      console.warn(
+        'Dropdown.Toggle: Split toggles should have an explicit aria-label for accessibility. ' +
+          'Falling back to "Toggle Dropdown".'
+      );
+    }
+
     // Compute Bootstrap button classes
     const buttonClassName = useMemo(() => {
       const classes = ['btn', `btn-${variant}`];

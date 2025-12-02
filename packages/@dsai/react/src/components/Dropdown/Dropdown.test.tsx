@@ -217,6 +217,25 @@ describe('Dropdown', () => {
       expect(toggle).toHaveClass('dropdown-toggle-split');
     });
 
+    it('warns when split toggle lacks aria-label', () => {
+      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+      render(
+        <Dropdown>
+          <Dropdown.Toggle split />
+          <Dropdown.Menu portal={false}>
+            <Dropdown.Item>Action</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Split toggles should have an explicit aria-label')
+      );
+
+      consoleSpy.mockRestore();
+    });
+
     it('is disabled when dropdown is disabled', () => {
       render(
         <Dropdown disabled>

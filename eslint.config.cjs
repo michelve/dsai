@@ -51,6 +51,7 @@ module.exports = [
       '**/.nx/**',
       '**/coverage/**',
       '**/storybook-static/**',
+      '**/*.md',
     ],
   },
 
