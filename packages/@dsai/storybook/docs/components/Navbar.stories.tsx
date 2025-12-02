@@ -107,7 +107,7 @@ type Story = StoryObj<typeof meta>;
 export const Basic: Story = {
   render: function BasicNavbar() {
     return (
-      <Navbar>
+      <Navbar aria-label="Basic navigation example">
         <Navbar.Brand href="#">Navbar</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
@@ -137,7 +137,7 @@ export const Basic: Story = {
 export const WithLogo: Story = {
   render: function LogoNavbar() {
     return (
-      <Navbar>
+      <Navbar aria-label="Logo navigation example">
         <Navbar.Brand href="#">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -177,7 +177,7 @@ export const WithLogo: Story = {
 export const DarkVariant: Story = {
   render: function DarkNavbar() {
     return (
-      <Navbar variant="dark" bg="dark">
+      <Navbar variant="dark" bg="dark" aria-label="Dark theme navigation example">
         <Navbar.Brand href="#">Dark Navbar</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
@@ -208,7 +208,7 @@ export const ColorVariants: Story = {
   render: function ColorVariantsNavbar() {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <Navbar bg="primary" variant="dark">
+        <Navbar bg="primary" variant="dark" aria-label="Primary color navigation">
           <Navbar.Brand href="#">Primary</Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
@@ -221,7 +221,7 @@ export const ColorVariants: Story = {
           </Navbar.Collapse>
         </Navbar>
 
-        <Navbar bg="success" variant="dark">
+        <Navbar bg="success" variant="dark" aria-label="Success color navigation">
           <Navbar.Brand href="#">Success</Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
@@ -234,7 +234,7 @@ export const ColorVariants: Story = {
           </Navbar.Collapse>
         </Navbar>
 
-        <Navbar bg="warning" variant="light">
+        <Navbar bg="warning" variant="light" aria-label="Warning color navigation">
           <Navbar.Brand href="#">Warning</Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
@@ -247,7 +247,7 @@ export const ColorVariants: Story = {
           </Navbar.Collapse>
         </Navbar>
 
-        <Navbar bg="info" variant="dark">
+        <Navbar bg="info" variant="dark" aria-label="Info color navigation">
           <Navbar.Brand href="#">Info</Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
@@ -260,7 +260,7 @@ export const ColorVariants: Story = {
           </Navbar.Collapse>
         </Navbar>
 
-        <Navbar bg="danger" variant="dark">
+        <Navbar bg="danger" variant="dark" aria-label="Danger color navigation">
           <Navbar.Brand href="#">Danger</Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
@@ -288,7 +288,7 @@ export const ResponsiveBreakpoints: Story = {
   render: function BreakpointsNavbar() {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <Navbar expand="sm">
+        <Navbar expand="sm" aria-label="Small breakpoint navigation">
           <Navbar.Brand href="#">expand=&quot;sm&quot;</Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
@@ -302,7 +302,7 @@ export const ResponsiveBreakpoints: Story = {
           </Navbar.Collapse>
         </Navbar>
 
-        <Navbar expand="md">
+        <Navbar expand="md" aria-label="Medium breakpoint navigation">
           <Navbar.Brand href="#">expand=&quot;md&quot;</Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
@@ -316,7 +316,7 @@ export const ResponsiveBreakpoints: Story = {
           </Navbar.Collapse>
         </Navbar>
 
-        <Navbar expand="lg">
+        <Navbar expand="lg" aria-label="Large breakpoint navigation">
           <Navbar.Brand href="#">expand=&quot;lg&quot; (default)</Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
@@ -330,7 +330,7 @@ export const ResponsiveBreakpoints: Story = {
           </Navbar.Collapse>
         </Navbar>
 
-        <Navbar expand={false}>
+        <Navbar expand={false} aria-label="Always collapsed navigation">
           <Navbar.Brand href="#">expand=false (always collapsed)</Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
@@ -390,7 +390,12 @@ export const Controlled: Story = {
             <strong>State:</strong> {expanded ? 'Expanded' : 'Collapsed'}
           </div>
         </div>
-        <Navbar expand="lg" expanded={expanded} onExpandedChange={setExpanded}>
+        <Navbar
+          expand="lg"
+          expanded={expanded}
+          onExpandedChange={setExpanded}
+          aria-label="Controlled navigation example"
+        >
           <Navbar.Brand href="#">Controlled</Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
@@ -418,7 +423,7 @@ export const Controlled: Story = {
 export const DefaultExpanded: Story = {
   render: function DefaultExpandedNavbar() {
     return (
-      <Navbar expand="lg" defaultExpanded>
+      <Navbar expand="lg" defaultExpanded aria-label="Default expanded navigation example">
         <Navbar.Brand href="#">Default Expanded</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
@@ -445,7 +450,7 @@ export const DefaultExpanded: Story = {
 export const WithSearchForm: Story = {
   render: function SearchNavbar() {
     return (
-      <Navbar>
+      <Navbar aria-label="Navigation with search form">
         <Navbar.Brand href="#">Navbar</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
@@ -482,7 +487,7 @@ export const WithSearchForm: Story = {
 export const WithText: Story = {
   render: function TextNavbar() {
     return (
-      <Navbar>
+      <Navbar aria-label="Navigation with user info">
         <Navbar.Brand href="#">Navbar</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
@@ -511,7 +516,7 @@ export const WithText: Story = {
 export const WithBadges: Story = {
   render: function BadgeNavbar() {
     return (
-      <Navbar>
+      <Navbar aria-label="Navigation with notification badges">
         <Navbar.Brand href="#">DSAi</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
@@ -543,7 +548,7 @@ export const WithBadges: Story = {
 export const WithDropdown: Story = {
   render: function DropdownNavbar() {
     return (
-      <Navbar>
+      <Navbar aria-label="Navigation with dropdown menu">
         <Navbar.Brand href="#">Navbar</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
@@ -587,7 +592,7 @@ export const ContainerOptions: Story = {
           <p className="mb-2 px-3">
             <strong>fluid=true</strong> (default - full width)
           </p>
-          <Navbar fluid>
+          <Navbar fluid aria-label="Fluid container navigation">
             <Navbar.Brand href="#">Fluid Container</Navbar.Brand>
             <Navbar.Toggle />
             <Navbar.Collapse>
@@ -605,7 +610,7 @@ export const ContainerOptions: Story = {
           <p className="mb-2 px-3">
             <strong>fluid=false</strong> (uses .container)
           </p>
-          <Navbar fluid={false}>
+          <Navbar fluid={false} aria-label="Fixed container navigation">
             <Navbar.Brand href="#">Fixed Container</Navbar.Brand>
             <Navbar.Toggle />
             <Navbar.Collapse>
@@ -623,7 +628,7 @@ export const ContainerOptions: Story = {
           <p className="mb-2 px-3">
             <strong>container=&quot;md&quot;</strong> (uses .container-md)
           </p>
-          <Navbar fluid={false} container="md">
+          <Navbar fluid={false} container="md" aria-label="Medium container navigation">
             <Navbar.Brand href="#">MD Container</Navbar.Brand>
             <Navbar.Toggle />
             <Navbar.Collapse>
@@ -651,7 +656,7 @@ export const ContainerOptions: Story = {
 export const ExternalLinks: Story = {
   render: function ExternalLinksNavbar() {
     return (
-      <Navbar>
+      <Navbar aria-label="Navigation with external links">
         <Navbar.Brand href="#">DSAi</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
@@ -700,7 +705,7 @@ export const KeyboardNavigation: Story = {
             </li>
           </ul>
         </div>
-        <Navbar>
+        <Navbar aria-label="Keyboard navigation demo">
           <Navbar.Brand href="#">Keyboard Demo</Navbar.Brand>
           <Navbar.Toggle aria-label="Toggle navigation menu" />
           <Navbar.Collapse>
@@ -738,7 +743,7 @@ export const VisualStates: Story = {
           <code>collapsed</code>, <code>expanding</code>, <code>expanded</code>,{' '}
           <code>collapsing</code>
         </div>
-        <Navbar expand="lg">
+        <Navbar expand="lg" aria-label="Visual states demo navigation">
           <Navbar.Brand href="#">Visual States Demo</Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
@@ -769,7 +774,7 @@ export const VisualStates: Story = {
 export const LinkStates: Story = {
   render: function LinkStatesNavbar() {
     return (
-      <Navbar>
+      <Navbar aria-label="Link states demo navigation">
         <Navbar.Brand href="#">Link States</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
@@ -799,7 +804,7 @@ export const LinkStates: Story = {
 export const ComplexLayout: Story = {
   render: function ComplexNavbar() {
     return (
-      <Navbar variant="dark" bg="dark">
+      <Navbar variant="dark" bg="dark" aria-label="Complex layout navigation">
         <Navbar.Brand href="#">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -865,7 +870,7 @@ export const ComplexLayout: Story = {
 export const ScrollingNav: Story = {
   render: function ScrollingNavbar() {
     return (
-      <Navbar>
+      <Navbar aria-label="Scrolling navigation example">
         <Navbar.Brand href="#">Scrolling Nav</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
@@ -906,7 +911,7 @@ export const CustomBrandClick: Story = {
 
     return (
       <div>
-        <Navbar>
+        <Navbar aria-label="Custom brand click navigation">
           <Navbar.Brand onClick={() => setClicks((c) => c + 1)} style={{ cursor: 'pointer' }}>
             Click Me Brand
           </Navbar.Brand>
@@ -954,6 +959,7 @@ export const WithCallback: Story = {
           onExpandedChange={(expanded: boolean) =>
             addEvent(`Menu: ${expanded ? 'opened' : 'closed'}`)
           }
+          aria-label="Callback demo navigation"
         >
           <Navbar.Brand href="#">Callback Demo</Navbar.Brand>
           <Navbar.Toggle />
