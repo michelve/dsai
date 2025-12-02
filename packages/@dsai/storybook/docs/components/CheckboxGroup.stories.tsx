@@ -1,7 +1,8 @@
-import type { CheckboxGroupOption } from '@dsai/react';
 import { CheckboxGroup, CheckIcon, XLgIcon } from '@dsai/react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+
+import type { CheckboxGroupOption } from '@dsai/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 /**
  * CheckboxGroup is a high-level component that manages a group of Checkbox components
@@ -371,8 +372,8 @@ export const SelectAllWithDisabled: Story = {
           onChange={setSelected}
         />
         <div className="alert alert-info mt-3 small">
-          <strong>Note:</strong> The "Delete" option is disabled and won't be affected by "Select
-          all". Select all will toggle: Read, Write, Admin.
+          <strong>Note:</strong> The &quot;Delete&quot; option is disabled and won&apos;t be
+          affected by &quot;Select all&quot;. Select all will toggle: Read, Write, Admin.
         </div>
         <p className="text-muted small">
           Selected: {selected.length > 0 ? selected.join(', ') : 'None'}
@@ -445,9 +446,13 @@ export const FSMStateVisualization: Story = {
   render: function FSMDemo() {
     const [selected, setSelected] = useState<string[]>([]);
 
-    const getState = () => {
-      if (selected.length === 0) return 'none';
-      if (selected.length === interestOptions.length) return 'all';
+    const getState = (): string => {
+      if (selected.length === 0) {
+        return 'none';
+      }
+      if (selected.length === interestOptions.length) {
+        return 'all';
+      }
       return 'some';
     };
 
@@ -513,7 +518,7 @@ export const FormExample: Story = {
     const [interests, setInterests] = useState<string[]>([]);
     const [submitted, setSubmitted] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent): void => {
       e.preventDefault();
       setSubmitted(true);
     };
@@ -630,7 +635,7 @@ export const AccessibilityScreenReader: Story = {
           </li>
           <li>
             <CheckIcon size={14} className="text-success me-1" />
-            Select all announces "mixed" when indeterminate
+            Select all announces &quot;mixed&quot; when indeterminate
           </li>
         </ul>
       </div>
@@ -674,8 +679,8 @@ export const AccessibilityDevWarnings: Story = {
         <strong>⚠️ Dev Warning</strong>
         <p className="mb-0 mt-2">A CheckboxGroup without `label` or `aria-label` will log:</p>
         <code className="d-block mt-2 p-2 bg-dark text-light rounded">
-          [DSAi CheckboxGroup] Missing accessible label. Provide either a "label" prop or an
-          "aria-label" attribute.
+          [DSAi CheckboxGroup] Missing accessible label. Provide either a &quot;label&quot; prop or
+          an &quot;aria-label&quot; attribute.
         </code>
       </div>
 

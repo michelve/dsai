@@ -1,6 +1,7 @@
 import { Checkbox, CheckIcon, XLgIcon } from '@dsai/react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 /**
  * Checkbox component for form inputs with full accessibility support.
@@ -222,12 +223,12 @@ export const ParentChildPattern: Story = {
     const someChecked = items.some((item) => item.checked);
     const isIndeterminate = someChecked && !allChecked;
 
-    const handleParentChange = () => {
+    const handleParentChange = (): void => {
       const newChecked = !allChecked;
       setItems(items.map((item) => ({ ...item, checked: newChecked })));
     };
 
-    const handleChildChange = (id: number) => {
+    const handleChildChange = (id: number): void => {
       setItems(items.map((item) => (item.id === id ? { ...item, checked: !item.checked } : item)));
     };
 
@@ -419,7 +420,7 @@ export const FormExample: Story = {
       marketing: false,
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent): void => {
       e.preventDefault();
       alert(JSON.stringify(formData, null, 2));
     };
@@ -652,11 +653,11 @@ export const AccessibilityDevWarnings: Story = {
       <div className="alert alert-warning small">
         <strong>⚠️ Dev Warning Example</strong>
         <p className="mb-0 mt-2">
-          Open your browser's console. A checkbox without `label` or `aria-label` will log:
+          Open your browser&apos;s console. A checkbox without `label` or `aria-label` will log:
         </p>
         <code className="d-block mt-2 p-2 bg-dark text-light rounded">
-          [DSAi Checkbox] Missing accessible name. Provide either a "label" prop or an "aria-label"
-          attribute for screen reader users.
+          [DSAi Checkbox] Missing accessible name. Provide either a &quot;label&quot; prop or an
+          &quot;aria-label&quot; attribute for screen reader users.
         </code>
       </div>
 
@@ -706,8 +707,8 @@ export const PerformanceMemoization: Story = {
         <div>
           <h5>Memoization Performance Demo</h5>
           <p className="text-muted small">
-            The checkboxes won't re-render unnecessarily when you increment the counter below. Check
-            your browser DevTools to see component renders.
+            The checkboxes won&apos;t re-render unnecessarily when you increment the counter below.
+            Check your browser DevTools to see component renders.
           </p>
         </div>
 

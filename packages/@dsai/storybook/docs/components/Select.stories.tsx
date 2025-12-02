@@ -1,9 +1,8 @@
-import type { SelectOption } from '@dsai/react';
-
 import { Button, Select } from '@dsai/react';
-
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+
+import type { SelectOption } from '@dsai/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 // Sample options
 const fruitOptions: SelectOption[] = [

@@ -1,7 +1,8 @@
-import type { RowId, SortConfig, TableColumn } from '@dsai/react';
 import { Badge, Table } from '@dsai/react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+
+import type { RowId, SortConfig, TableColumn } from '@dsai/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 // =============================================================================
 // Test Data Types
@@ -883,7 +884,7 @@ export const VisualStates: Story = {
           </button>
         </div>
         <p className="small text-muted mb-3">
-          Current visual state: <code>data-visual-state="{state}"</code>
+          Current visual state: <code>data-visual-state=&quot;{state}&quot;</code>
         </p>
         <Table
           columns={basicColumns}

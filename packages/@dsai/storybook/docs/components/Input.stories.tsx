@@ -1,7 +1,8 @@
 import { CheckIcon, Input, XLgIcon } from '@dsai/react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { userEvent, within } from 'storybook/test';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 /**
  * Input component for text entry.
@@ -900,8 +901,8 @@ export const PerformanceMemoization: Story = {
         <div>
           <h5>Memoization Performance Demo</h5>
           <p className="text-muted small">
-            The inputs won't re-render unnecessarily when you increment the counter below. Check
-            your browser DevTools to see component renders.
+            The inputs won&apos;t re-render unnecessarily when you increment the counter below.
+            Check your browser DevTools to see component renders.
           </p>
         </div>
 

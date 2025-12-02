@@ -1,6 +1,7 @@
 import { Pagination } from '@dsai/react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useCallback, useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 /**
  * Pagination component for navigating through pages of content.

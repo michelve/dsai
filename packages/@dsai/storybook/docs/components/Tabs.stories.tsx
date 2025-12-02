@@ -1,6 +1,5 @@
-import { useState } from 'react';
-
 import { Tab, TabList, TabPanel, Tabs } from '@dsai/react';
+import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -484,4 +483,3 @@ export const CompleteShowcase: Story = {
     </div>
   ),
 };
-
