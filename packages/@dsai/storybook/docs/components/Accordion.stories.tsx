@@ -185,7 +185,7 @@ export const MultipleMode: Story = {
           </h2>
           <Accordion.Panel>
             <strong>This panel is also open by default.</strong> Each panel operates independently -
-            opening or closing one doesn&apos;t affect the others.
+            opening or closing one does not affect the others.
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item eventKey="3">

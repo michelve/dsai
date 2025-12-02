@@ -97,12 +97,15 @@
   // Spelling
   // ============================
   "cSpell.words": [
+    "autodocs",
+    "Codacy",
     "dsai",
     "eslint",
     "labelledby",
     "Noninteractive",
     "pnpm",
     "storybook",
+    "subcomponent",
     "subcomponents",
     "tokens",
     "WCAG",

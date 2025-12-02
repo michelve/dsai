@@ -119,7 +119,6 @@ export type {
   ModalProps,
   ModalSize,
   ModalTitleProps,
-  ModalVisualState,
 } from './Modal';
 // Modal
 export { Modal } from './Modal';
