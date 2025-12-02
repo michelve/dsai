@@ -845,7 +845,8 @@ describe('Dropdown', () => {
 
       const header = screen.getByText('Section Title');
       expect(header).toHaveClass('dropdown-header');
-      expect(header.tagName).toBe('H6');
+      // Header renders as <span> for ARIA compliance (not <h6> which violates role="menu" requirements)
+      expect(header.tagName).toBe('SPAN');
     });
   });
 

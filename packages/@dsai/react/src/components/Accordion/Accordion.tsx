@@ -1,0 +1,503 @@
+/**
+ * Accordion Component
+ *
+ * A fully accessible accordion component following Bootstrap 5 patterns
+ * with FSM-driven state management for expand/collapse behavior.
+ *
+ * @module Accordion
+ * @see https://getbootstrap.com/docs/5.3/components/accordion/
+ */
+
+import {
+  createContext,
+  forwardRef,
+  useCallback,
+  useContext,
+  useEffect,
+  useId,
+  useMemo,
+  useReducer,
+  useRef,
+} from 'react';
+
+import {
+  accordionFSMReducer,
+  createInitialAccordionFSMState,
+  getAccordionItemVisualState,
+  getActiveKeysArray,
+} from './Accordion.fsm';
+
+import type {
+  AccordionButtonProps,
+  AccordionContextValue,
+  AccordionItemContextValue,
+  AccordionItemProps,
+  AccordionPanelProps,
+  AccordionProps,
+} from './Accordion.types';
+
+// =============================================================================
+// Contexts
+// =============================================================================
+
+/**
+ * Accordion context for sharing state between components
+ */
+const AccordionContext = createContext<AccordionContextValue | null>(null);
+
+/**
+ * AccordionItem context for sharing item-level state
+ */
+const AccordionItemContext = createContext<AccordionItemContextValue | null>(null);
+
+/**
+ * Hook to access accordion context
+ */
+function useAccordionContext(): AccordionContextValue {
+  const context = useContext(AccordionContext);
+  if (!context) {
+    throw new Error('Accordion components must be used within an Accordion component');
+  }
+  return context;
+}
+
+/**
+ * Hook to access accordion item context
+ */
+function useAccordionItemContext(): AccordionItemContextValue {
+  const context = useContext(AccordionItemContext);
+  if (!context) {
+    throw new Error('AccordionButton and AccordionPanel must be used within an Accordion.Item');
+  }
+  return context;
+}
+
+// =============================================================================
+// Accordion Root Component
+// =============================================================================
+
+/**
+ * Accordion Component
+ *
+ * A container for accordion items that manages expansion state.
+ * Supports single (one at a time) or multiple (many open) selection modes.
+ *
+ * ACCESSIBILITY FEATURES (WCAG 2.2 AA):
+ * - Semantic structure with proper heading hierarchy
+ * - Keyboard navigation (Tab, Enter, Space)
+ * - ARIA attributes on buttons and panels
+ *
+ * SECURITY FEATURES:
+ * - Prop whitelisting (no unrestricted spread)
+ * - Explicit event handlers only
+ *
+ * @example
+ * ```tsx
+ * <Accordion>
+ *   <Accordion.Item eventKey="0">
+ *     <Accordion.Button>Section 1</Accordion.Button>
+ *     <Accordion.Panel>Content 1</Accordion.Panel>
+ *   </Accordion.Item>
+ *   <Accordion.Item eventKey="1">
+ *     <Accordion.Button>Section 2</Accordion.Button>
+ *     <Accordion.Panel>Content 2</Accordion.Panel>
+ *   </Accordion.Item>
+ * </Accordion>
+ * ```
+ */
+const AccordionRoot = forwardRef<HTMLDivElement, AccordionProps>(
+  (
+    {
+      children,
+      selectionMode = 'single',
+      activeKeys: controlledActiveKeys,
+      onActiveKeysChange,
+      defaultActiveKeys = [],
+      flush = false,
+      onItemExpand,
+      onItemCollapse,
+      className = '',
+      style,
+      id,
+      'data-testid': dataTestId,
+      'data-test': dataTest,
+    },
+    ref
+  ) => {
+    // Determine if controlled
+    const isControlled = controlledActiveKeys !== undefined;
+
+    // Initialize FSM state
+    const [fsmState, dispatch] = useReducer(
+      accordionFSMReducer,
+      { activeKeys: isControlled ? controlledActiveKeys : defaultActiveKeys, selectionMode },
+      ({ activeKeys, selectionMode: mode }) => createInitialAccordionFSMState(activeKeys, mode)
+    );
+
+    // Track previous active keys for expand/collapse callbacks
+    const prevActiveKeysRef = useRef<Set<string>>(new Set(fsmState.activeKeys));
+
+    // Sync with controlled props when they change
+    useEffect(() => {
+      if (isControlled) {
+        dispatch({ type: 'RESET_FROM_PROPS', activeKeys: controlledActiveKeys });
+      }
+    }, [isControlled, controlledActiveKeys]);
+
+    // Fire expand/collapse callbacks when activeKeys change
+    useEffect(() => {
+      const prevKeys = prevActiveKeysRef.current;
+      const currentKeys = fsmState.activeKeys;
+
+      // Find newly expanded items
+      currentKeys.forEach((key) => {
+        if (!prevKeys.has(key)) {
+          onItemExpand?.(key);
+        }
+      });
+
+      // Find newly collapsed items
+      prevKeys.forEach((key) => {
+        if (!currentKeys.has(key)) {
+          onItemCollapse?.(key);
+        }
+      });
+
+      prevActiveKeysRef.current = new Set(currentKeys);
+    }, [fsmState.activeKeys, onItemExpand, onItemCollapse]);
+
+    // Toggle item handler
+    const toggleItem = useCallback(
+      (eventKey: string) => {
+        if (isControlled) {
+          // In controlled mode, compute next state and call callback
+          const wasExpanded = fsmState.activeKeys.has(eventKey);
+          let newKeys: string[];
+
+          if (wasExpanded) {
+            newKeys = getActiveKeysArray(fsmState).filter((k) => k !== eventKey);
+          } else {
+            if (selectionMode === 'single') {
+              newKeys = [eventKey];
+            } else {
+              newKeys = [...getActiveKeysArray(fsmState), eventKey];
+            }
+          }
+
+          onActiveKeysChange?.(newKeys);
+        } else {
+          // In uncontrolled mode, update internal state
+          dispatch({ type: 'TOGGLE', eventKey });
+        }
+      },
+      [isControlled, fsmState, selectionMode, onActiveKeysChange]
+    );
+
+    // Memoize context value
+    const contextValue = useMemo<AccordionContextValue>(
+      () => ({
+        activeKeys: getActiveKeysArray(fsmState),
+        toggleItem,
+        selectionMode,
+        flush,
+      }),
+      [fsmState, toggleItem, selectionMode, flush]
+    );
+
+    // Compute classes
+    const accordionClasses = useMemo(() => {
+      const classes = ['accordion'];
+      if (flush) {
+        classes.push('accordion-flush');
+      }
+      if (className) {
+        classes.push(className);
+      }
+      return classes.join(' ');
+    }, [flush, className]);
+
+    return (
+      <AccordionContext.Provider value={contextValue}>
+        <div
+          ref={ref}
+          id={id}
+          className={accordionClasses}
+          style={style}
+          data-testid={dataTestId}
+          data-test={dataTest}
+        >
+          {children}
+        </div>
+      </AccordionContext.Provider>
+    );
+  }
+);
+
+AccordionRoot.displayName = 'Accordion';
+
+// =============================================================================
+// Accordion.Item Component
+// =============================================================================
+
+/**
+ * Accordion.Item Component
+ *
+ * Container for a single accordion section including button and panel.
+ *
+ * @example
+ * ```tsx
+ * <Accordion.Item eventKey="0">
+ *   <Accordion.Button>Section Title</Accordion.Button>
+ *   <Accordion.Panel>Section Content</Accordion.Panel>
+ * </Accordion.Item>
+ * ```
+ */
+const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(
+  (
+    {
+      children,
+      eventKey,
+      disabled = false,
+      className = '',
+      style,
+      id,
+      'data-testid': dataTestId,
+      'data-test': dataTest,
+    },
+    ref
+  ) => {
+    const { activeKeys } = useAccordionContext();
+    const generatedId = useId();
+    const itemId = id ?? `accordion-item-${generatedId}`;
+    const buttonId = `${itemId}-button`;
+    const panelId = `${itemId}-panel`;
+
+    const isExpanded = activeKeys.includes(eventKey);
+
+    // Create FSM state for visual state attribute
+    const fsmState = createInitialAccordionFSMState(isExpanded ? [eventKey] : [], 'single');
+    const visualState = getAccordionItemVisualState(fsmState, eventKey);
+
+    // Memoize context value
+    const itemContextValue = useMemo<AccordionItemContextValue>(
+      () => ({
+        eventKey,
+        isExpanded,
+        disabled,
+        buttonId,
+        panelId,
+      }),
+      [eventKey, isExpanded, disabled, buttonId, panelId]
+    );
+
+    // Compute classes
+    const itemClasses = useMemo(() => {
+      const classes = ['accordion-item'];
+      if (className) {
+        classes.push(className);
+      }
+      return classes.join(' ');
+    }, [className]);
+
+    return (
+      <AccordionItemContext.Provider value={itemContextValue}>
+        <div
+          ref={ref}
+          id={itemId}
+          className={itemClasses}
+          style={style}
+          data-testid={dataTestId}
+          data-test={dataTest}
+          data-visual-state={visualState}
+        >
+          {children}
+        </div>
+      </AccordionItemContext.Provider>
+    );
+  }
+);
+
+AccordionItem.displayName = 'Accordion.Item';
+
+// =============================================================================
+// Accordion.Button Component
+// =============================================================================
+
+/**
+ * Accordion.Button Component
+ *
+ * The clickable button that triggers expand/collapse.
+ * Renders as a semantic `<button>` element with proper ARIA attributes.
+ *
+ * @example
+ * ```tsx
+ * <Accordion.Button>Section Title</Accordion.Button>
+ * ```
+ */
+const AccordionButton = forwardRef<HTMLButtonElement, AccordionButtonProps>(
+  (
+    {
+      children,
+      onClick,
+      onKeyDown,
+      className = '',
+      style,
+      id,
+      'data-testid': dataTestId,
+      'data-test': dataTest,
+    },
+    ref
+  ) => {
+    const { toggleItem } = useAccordionContext();
+    const { eventKey, isExpanded, disabled, buttonId, panelId } = useAccordionItemContext();
+
+    // Handle click
+    const handleClick = useCallback(
+      (event: React.MouseEvent<HTMLButtonElement>) => {
+        if (disabled) {
+          return;
+        }
+        toggleItem(eventKey);
+        onClick?.(event);
+      },
+      [disabled, toggleItem, eventKey, onClick]
+    );
+
+    // Handle keyboard
+    const handleKeyDown = useCallback(
+      (event: React.KeyboardEvent<HTMLButtonElement>) => {
+        if (disabled) {
+          return;
+        }
+        // Enter and Space are handled natively by button
+        onKeyDown?.(event);
+      },
+      [disabled, onKeyDown]
+    );
+
+    // Compute classes
+    const buttonClasses = useMemo(() => {
+      const classes = ['accordion-button'];
+      if (!isExpanded) {
+        classes.push('collapsed');
+      }
+      if (className) {
+        classes.push(className);
+      }
+      return classes.join(' ');
+    }, [isExpanded, className]);
+
+    return (
+      <button
+        ref={ref}
+        type="button"
+        id={id ?? buttonId}
+        className={buttonClasses}
+        style={style}
+        aria-expanded={isExpanded}
+        aria-controls={panelId}
+        disabled={disabled}
+        aria-disabled={disabled ? 'true' : undefined}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        data-testid={dataTestId}
+        data-test={dataTest}
+      >
+        {children}
+      </button>
+    );
+  }
+);
+
+AccordionButton.displayName = 'Accordion.Button';
+
+// =============================================================================
+// Accordion.Panel Component
+// =============================================================================
+
+/**
+ * Accordion.Panel Component
+ *
+ * The collapsible content panel of an accordion item.
+ * Uses CSS transitions for smooth expand/collapse animations.
+ *
+ * @example
+ * ```tsx
+ * <Accordion.Panel>
+ *   <p>This content will be shown when expanded.</p>
+ * </Accordion.Panel>
+ * ```
+ */
+const AccordionPanel = forwardRef<HTMLDivElement, AccordionPanelProps>(
+  (
+    { children, className = '', style, id, 'data-testid': dataTestId, 'data-test': dataTest },
+    ref
+  ) => {
+    const { isExpanded, buttonId, panelId } = useAccordionItemContext();
+
+    // Compute collapse classes based on current expansion state
+    // Bootstrap CSS handles the collapse animation
+    const collapseClasses = useMemo(() => {
+      const classes = ['accordion-collapse', 'collapse'];
+      if (isExpanded) {
+        classes.push('show');
+      }
+      if (className) {
+        classes.push(className);
+      }
+      return classes.join(' ');
+    }, [isExpanded, className]);
+
+    return (
+      <div
+        ref={ref}
+        id={id ?? panelId}
+        className={collapseClasses}
+        style={style}
+        role="region"
+        aria-labelledby={buttonId}
+        data-testid={dataTestId}
+        data-test={dataTest}
+      >
+        <div className="accordion-body">{children}</div>
+      </div>
+    );
+  }
+);
+
+AccordionPanel.displayName = 'Accordion.Panel';
+
+// =============================================================================
+// Compound Component Export
+// =============================================================================
+
+/**
+ * Accordion compound component with subcomponents
+ */
+export const Accordion = Object.assign(AccordionRoot, {
+  Item: AccordionItem,
+  Button: AccordionButton,
+  Panel: AccordionPanel,
+});
+
+// Re-export types
+export type {
+  AccordionButtonProps,
+  AccordionContextValue,
+  AccordionItemContextValue,
+  AccordionItemProps,
+  AccordionItemVisualState,
+  AccordionPanelProps,
+  AccordionProps,
+  AccordionSelectionMode,
+} from './Accordion.types';
+
+// Re-export FSM utilities
+export {
+  accordionFSMReducer,
+  createInitialAccordionFSMState,
+  getAccordionItemVisualState,
+  getActiveKeysArray,
+  isItemExpanded,
+} from './Accordion.fsm';
+export type { AccordionFSMEvent, AccordionFSMState } from './Accordion.fsm';

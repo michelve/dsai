@@ -178,14 +178,12 @@ const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
         }
         if (open) {
           dispatch({ type: 'OPEN' });
-          if (isControlled && onOpenChange) {
-            onOpenChange(true);
-          }
+          // Always call onOpenChange callback if provided
+          onOpenChange?.(true);
         } else {
           dispatch({ type: 'CLOSE' });
-          if (isControlled && onOpenChange) {
-            onOpenChange(false);
-          }
+          // Always call onOpenChange callback if provided
+          onOpenChange?.(false);
         }
       },
       placement: mapPlacement(placement),
@@ -502,6 +500,7 @@ const DropdownToggle = forwardRef<HTMLButtonElement, DropdownToggleProps>(
       <button
         ref={mergedRef}
         type="button"
+        {...getReferenceProps()}
         id={id ?? toggleId}
         className={buttonClassName}
         style={style}
@@ -512,7 +511,6 @@ const DropdownToggle = forwardRef<HTMLButtonElement, DropdownToggleProps>(
         aria-label={ariaLabel}
         data-testid={dataTestId}
         data-test={dataTest}
-        {...getReferenceProps()}
       >
         {split ? (
           <span className="visually-hidden">{ariaLabel ?? 'Toggle Dropdown'}</span>
@@ -807,7 +805,7 @@ DropdownDivider.displayName = 'Dropdown.Divider';
  *
  * A non-interactive header to label sections within the menu.
  */
-const DropdownHeader = forwardRef<HTMLHeadingElement, DropdownHeaderProps>(
+const DropdownHeader = forwardRef<HTMLSpanElement, DropdownHeaderProps>(
   (
     { children, className = '', style, id, 'data-testid': dataTestId, 'data-test': dataTest },
     ref
@@ -822,7 +820,7 @@ const DropdownHeader = forwardRef<HTMLHeadingElement, DropdownHeaderProps>(
 
     return (
       <li role="none">
-        <h6
+        <span
           ref={ref}
           id={id}
           className={headerClassName}
@@ -831,7 +829,7 @@ const DropdownHeader = forwardRef<HTMLHeadingElement, DropdownHeaderProps>(
           data-test={dataTest}
         >
           {children}
-        </h6>
+        </span>
       </li>
     );
   }

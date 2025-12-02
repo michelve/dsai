@@ -10,9 +10,24 @@
  * ```
  */
 
-export type { AlertHeadingProps, AlertLinkProps, AlertProps, AlertVariant } from './Alert';
+// Accordion
+export { Accordion } from './Accordion';
+export type {
+  AccordionButtonProps,
+  AccordionContextValue,
+  AccordionFSMEvent,
+  AccordionFSMState,
+  AccordionItemContextValue,
+  AccordionItemProps,
+  AccordionItemVisualState,
+  AccordionPanelProps,
+  AccordionProps,
+  AccordionSelectionMode,
+} from './Accordion';
+
 // Alert
 export { Alert } from './Alert';
+export type { AlertHeadingProps, AlertLinkProps, AlertProps, AlertVariant } from './Alert';
 export type { BadgeProps, BadgeVariant } from './Badge';
 // Badge
 export { Badge } from './Badge';

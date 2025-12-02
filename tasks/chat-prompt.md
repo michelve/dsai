@@ -13,7 +13,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 **Framework Versions:**
 
 - Storybook: v10 (verify core add-ons, avoid deprecated packages)
-- Style Dictionary: v5.1.1 - https://styledictionary.com/info/tokens/
+- Style Dictionary: v5.1.1 - <https://styledictionary.com/info/tokens/>
 - Bootstrap: v5 (follow native markup and architecture - CRITICAL)
 - Storybook Blocks: Use `@storybook/addon-docs/blocks` (NOT `@storybook/blocks`)
 
