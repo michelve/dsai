@@ -19,6 +19,7 @@ Create accessible Dropdown menu component with trigger button, positioning (Floa
 ## Acceptance Criteria
 
 ### Component Implementation
+
 - [ ] Dropdown container component
 - [ ] DropdownTrigger (button)
 - [ ] DropdownMenu (portal-rendered)
@@ -30,18 +31,21 @@ Create accessible Dropdown menu component with trigger button, positioning (Floa
 - [ ] Click outside to close
 
 ### Positioning
+
 - [ ] Floating UI for positioning
 - [ ] Placement: top, bottom, left, right
 - [ ] Auto-flip on viewport edge
 - [ ] Arrow pointer (optional)
 
 ### Styling
+
 - [ ] Menu shadow and border
 - [ ] Item hover states
 - [ ] Active item highlighting
 - [ ] Icon support in items
 
 ### Accessibility
+
 - [ ] `role="menu"` on menu
 - [ ] `role="menuitem"` on items
 - [ ] `aria-haspopup="true"` on trigger
@@ -49,6 +53,7 @@ Create accessible Dropdown menu component with trigger button, positioning (Floa
 - [ ] Keyboard navigation (Arrow keys, Enter, ESC)
 
 ### Testing
+
 - [ ] Unit tests 90%+
 - [ ] Positioning tests
 - [ ] Keyboard navigation tests
@@ -59,6 +64,7 @@ Create accessible Dropdown menu component with trigger button, positioning (Floa
 ## Dependencies
 
 ### Requires:
+
 - **TASK-014**: Base Component Template
 - **TASK-021**: Button Component
 
