@@ -8,7 +8,8 @@
       "!**/build/**",
       "!**/coverage/**",
       "!**/storybook-static/**",
-      "!**/*.figma.tsx"
+      "!**/*.figma.tsx",
+      "!.github/workflows/**"
     ],
     "ignoreUnknown": false
   },
