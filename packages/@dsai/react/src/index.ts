@@ -38,6 +38,7 @@
 // Components - Atomic UI building blocks
 // ============================================================================
 export {
+  Accordion,
   Alert,
   Badge,
   Breadcrumb,
@@ -78,6 +79,16 @@ export {
   TabsPro,
   Text,
   Typography,
+  type AccordionButtonProps,
+  type AccordionContextValue,
+  type AccordionFSMEvent,
+  type AccordionFSMState,
+  type AccordionItemContextValue,
+  type AccordionItemProps,
+  type AccordionItemVisualState,
+  type AccordionPanelProps,
+  type AccordionProps,
+  type AccordionSelectionMode,
   type AlertHeadingProps,
   type AlertLinkProps,
   type AlertProps,
