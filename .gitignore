@@ -4,6 +4,12 @@
 dist
 tmp
 out-tsc
+*.tsbuildinfo
+
+# Storybook build output
+storybook-static
+**/storybook-static
+*.log
 
 # SCSS auto-compiled CSS (from Live Sass Compiler or similar extensions)
 packages/@dsai/tokens/src/scss/*.css
@@ -19,6 +25,22 @@ node_modules
 *.launch
 .settings/
 *.sublime-workspace
+.idea
+*.swp
+*.swo
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Caches
+.cache
+.turbo
+.vite
+.parcel-cache
+.eslintcache
+.stylelintcache
 
 # misc
 /.sass-cache
@@ -27,6 +49,7 @@ node_modules
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
+pnpm-debug.log
 testem.log
 /typings
 
@@ -43,3 +66,5 @@ Thumbs.db
 #Ignore cursor AI rules
 .cursor/rules/codacy.mdc
 .env
+.env.*
+!.env.example

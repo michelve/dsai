@@ -1,7 +1,8 @@
-import type { CheckboxGroupOption } from '@dsai/react';
-import { CheckboxGroup, CheckIcon, XLgIcon } from '@dsai/react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Button, CheckboxGroup, CheckIcon, XLgIcon } from '@dsai/react';
 import { useState } from 'react';
+
+import type { CheckboxGroupOption } from '@dsai/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 /**
  * CheckboxGroup is a high-level component that manages a group of Checkbox components
@@ -299,20 +300,21 @@ export const Controlled: Story = {
           onChange={setSelected}
         />
         <div className="mt-3">
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-secondary me-2"
+          <Button
+            size="sm"
+            variant="outline-secondary"
+            className="me-2"
             onClick={() => setSelected([])}
           >
             Clear All
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-primary"
+          </Button>
+          <Button
+            size="sm"
+            variant="outline-primary"
             onClick={() => setSelected(['email', 'sms', 'push'])}
           >
             Select All
-          </button>
+          </Button>
         </div>
         <p className="mt-2 text-muted small">
           Selected: {selected.length > 0 ? selected.join(', ') : 'None'}
@@ -371,8 +373,8 @@ export const SelectAllWithDisabled: Story = {
           onChange={setSelected}
         />
         <div className="alert alert-info mt-3 small">
-          <strong>Note:</strong> The "Delete" option is disabled and won't be affected by "Select
-          all". Select all will toggle: Read, Write, Admin.
+          <strong>Note:</strong> The &quot;Delete&quot; option is disabled and won&apos;t be
+          affected by &quot;Select all&quot;. Select all will toggle: Read, Write, Admin.
         </div>
         <p className="text-muted small">
           Selected: {selected.length > 0 ? selected.join(', ') : 'None'}
@@ -445,9 +447,13 @@ export const FSMStateVisualization: Story = {
   render: function FSMDemo() {
     const [selected, setSelected] = useState<string[]>([]);
 
-    const getState = () => {
-      if (selected.length === 0) return 'none';
-      if (selected.length === interestOptions.length) return 'all';
+    const getState = (): string => {
+      if (selected.length === 0) {
+        return 'none';
+      }
+      if (selected.length === interestOptions.length) {
+        return 'all';
+      }
       return 'some';
     };
 
@@ -513,7 +519,7 @@ export const FormExample: Story = {
     const [interests, setInterests] = useState<string[]>([]);
     const [submitted, setSubmitted] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent): void => {
       e.preventDefault();
       setSubmitted(true);
     };
@@ -543,9 +549,9 @@ export const FormExample: Story = {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary">
+        <Button type="submit" variant="primary">
           Submit
-        </button>
+        </Button>
 
         {submitted && (
           <div className="alert alert-success mt-3">
@@ -630,7 +636,7 @@ export const AccessibilityScreenReader: Story = {
           </li>
           <li>
             <CheckIcon size={14} className="text-success me-1" />
-            Select all announces "mixed" when indeterminate
+            Select all announces &quot;mixed&quot; when indeterminate
           </li>
         </ul>
       </div>
@@ -674,8 +680,8 @@ export const AccessibilityDevWarnings: Story = {
         <strong>⚠️ Dev Warning</strong>
         <p className="mb-0 mt-2">A CheckboxGroup without `label` or `aria-label` will log:</p>
         <code className="d-block mt-2 p-2 bg-dark text-light rounded">
-          [DSAi CheckboxGroup] Missing accessible label. Provide either a "label" prop or an
-          "aria-label" attribute.
+          [DSAi CheckboxGroup] Missing accessible label. Provide either a &quot;label&quot; prop or
+          an &quot;aria-label&quot; attribute.
         </code>
       </div>
 
@@ -781,9 +787,7 @@ export const SettingsPageExample: Story = {
           </div>
         </div>
         <div className="card-footer">
-          <button type="button" className="btn btn-primary">
-            Save Settings
-          </button>
+          <Button variant="primary">Save Settings</Button>
         </div>
       </div>
     );
@@ -853,9 +857,9 @@ export const FilterPanelExample: Story = {
           </div>
         </div>
         <div className="card-footer">
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-secondary"
+          <Button
+            size="sm"
+            variant="outline-secondary"
             onClick={() => {
               setCategories([]);
               setStatus(['active']);
@@ -863,7 +867,7 @@ export const FilterPanelExample: Story = {
             }}
           >
             Reset Filters
-          </button>
+          </Button>
         </div>
       </div>
     );

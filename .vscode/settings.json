@@ -62,6 +62,13 @@
   },
 
   // ============================
+  // Problems Panel
+  // ============================
+  "problems.excludePatterns": {
+    "**/node_modules/**": true
+  },
+
+  // ============================
   // File Watching / Search
   // ============================
   "search.exclude": {
@@ -89,7 +96,22 @@
   // ============================
   // Spelling
   // ============================
-  "cSpell.words": ["dsai", "subcomponents", "zindex", "storybook", "tokens", "eslint", "pnpm"],
+  "cSpell.words": [
+    "autodocs",
+    "circlehollow",
+    "Codacy",
+    "dsai",
+    "eslint",
+    "labelledby",
+    "Noninteractive",
+    "pnpm",
+    "storybook",
+    "subcomponent",
+    "subcomponents",
+    "tokens",
+    "WCAG",
+    "zindex"
+  ],
 
   // ============================
   // Sass Compiler (disabled – build uses pnpm)

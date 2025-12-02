@@ -8,9 +8,10 @@ import {
   StarFillIcon,
   XLgIcon,
 } from '@dsai/react';
+import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
+import type { JSX } from 'react';
 
 /**
  * Badge component for displaying labels, status indicators, and counts.
@@ -35,7 +36,7 @@ import { useState } from 'react';
  */
 
 // Helper: Icon badge example
-const IconBadgeExample = () => (
+const IconBadgeExample = (): JSX.Element => (
   <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
     <Badge variant="primary" icon={<StarFillIcon size={12} />}>
       Featured
@@ -53,7 +54,7 @@ const IconBadgeExample = () => (
 );
 
 // Helper: Accessibility - Dot indicators
-const DotAccessibilityExample = () => (
+const DotAccessibilityExample = (): JSX.Element => (
   <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
     <div>
       <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem' }}>
@@ -83,12 +84,12 @@ const DotAccessibilityExample = () => (
 );
 
 // Helper: Accessibility - All features combined
-const AccessibilityShowcaseExample = () => (
+const AccessibilityShowcaseExample = (): JSX.Element => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
     <div>
       <h4 style={{ marginBottom: '0.5rem' }}>Icon Accessibility</h4>
       <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem' }}>
-        Icons are hidden from screen readers (aria-hidden="true"), preventing redundant
+        Icons are hidden from screen readers (aria-hidden=&quot;true&quot;), preventing redundant
         announcements:
       </p>
       <IconBadgeExample />
@@ -115,7 +116,7 @@ const AccessibilityShowcaseExample = () => (
 );
 
 // Helper: Performance story
-const PerformanceShowcaseExample = () => {
+const PerformanceShowcaseExample = (): JSX.Element => {
   const [count, setCount] = useState(0);
 
   return (

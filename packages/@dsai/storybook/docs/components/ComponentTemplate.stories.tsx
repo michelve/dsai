@@ -11,7 +11,12 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 // import { YourComponent } from '@dsai/react';
 
 // Placeholder component for template
-const PlaceholderComponent = ({ children, ...props }: { children?: React.ReactNode }) => (
+const PlaceholderComponent = ({
+  children,
+  ...props
+}: {
+  children?: React.ReactNode;
+}): React.ReactElement => (
   <div style={{ padding: '16px', backgroundColor: '#f3f4f6', borderRadius: '8px' }} {...props}>
     {children || 'Component Placeholder'}
   </div>

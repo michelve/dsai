@@ -570,6 +570,16 @@ export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent
 }
 
 /**
+ * Creates an INITIALIZE_TABS event
+ */
+export function initializeTabsEvent(
+  tabIds: string[],
+  defaultActiveId?: string
+): InitializeTabsEvent {
+  return { type: 'INITIALIZE_TABS', tabIds, defaultActiveId };
+}
+
+/**
  * Creates an ACTIVATE_TAB event
  */
 export function activateTabEvent(tabId: string, skipGuard = false): ActivateTabEvent {

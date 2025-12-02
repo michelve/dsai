@@ -1,0 +1,24 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
+  "files": {
+    "includes": [
+      "**",
+      "!**/node_modules/**",
+      "!**/dist/**",
+      "!**/build/**",
+      "!**/coverage/**",
+      "!**/storybook-static/**",
+      "!**/*.figma.tsx"
+    ],
+    "ignoreUnknown": false
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "correctness": "warn", // all correctness rules as warnings
+      "a11y": {
+        "noNoninteractiveTabindex": "off"
+      }
+    }
+  }
+}

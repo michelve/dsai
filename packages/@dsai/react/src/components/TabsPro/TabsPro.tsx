@@ -19,6 +19,7 @@ import {
   memo,
   useCallback,
   useEffect,
+  useId,
   useMemo,
   useReducer,
   useRef,
@@ -38,7 +39,6 @@ import {
   leaveRequestEvent,
   loadErrorEvent,
   loadSuccessEvent,
-  preloadTabEvent,
   retryEvent,
   tabsProFSMReducer,
 } from './TabsPro.fsm';
@@ -65,16 +65,15 @@ const DefaultLoading = memo(function DefaultLoading({
   message = 'Loading...',
 }: DefaultLoadingProps) {
   return (
-    <div
+    <output
       className="d-flex flex-column align-items-center justify-content-center p-4"
-      role="status"
       aria-live="polite"
     >
       <div className="spinner-border text-primary mb-2" aria-hidden="true">
         <span className="visually-hidden">Loading</span>
       </div>
       <span className="text-muted">{message}</span>
-    </div>
+    </output>
   );
 });
 
@@ -168,7 +167,8 @@ const LeaveConfirmModal = memo(function LeaveConfirmModal({
   message,
   onConfirm,
   onCancel,
-}: LeaveConfirmModalProps) {
+  titleId,
+}: LeaveConfirmModalProps & { titleId: string }) {
   if (!show) {
     return null;
   }
@@ -179,12 +179,12 @@ const LeaveConfirmModal = memo(function LeaveConfirmModal({
       style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
       role="dialog"
       aria-modal="true"
-      aria-labelledby="leave-confirm-title"
+      aria-labelledby={titleId}
     >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title" id="leave-confirm-title">
+            <h5 className="modal-title" id={titleId}>
               Unsaved Changes
             </h5>
             <button type="button" className="btn-close" aria-label="Close" onClick={onCancel} />
@@ -258,7 +258,7 @@ export const TabsPro = memo(
       activeId: controlledActiveId,
       defaultActiveId,
       onActiveChange,
-      _keepMounted = false,
+      keepMounted: _keepMounted = false,
       variant = 'tabs',
       orientation = 'horizontal',
       fill = false,
@@ -305,6 +305,9 @@ export const TabsPro = memo(
 
     // Ref to track loading promises to avoid race conditions
     const loadingPromises = useRef<Map<string, Promise<void>>>(new Map());
+
+    // Generate unique ID for modal title
+    const leaveConfirmTitleId = useId();
 
     // =========================================================================
     // Sync FSM with tab changes
@@ -353,7 +356,8 @@ export const TabsPro = memo(
         }
 
         // Load content
-        if (item.loadContent) {
+        const loader = item.loadContent;
+        if (loader) {
           // Check if already loading
           if (loadingPromises.current.has(tabId)) {
             return;
@@ -361,7 +365,7 @@ export const TabsPro = memo(
 
           const loadPromise = (async () => {
             try {
-              const content = await item.loadContent!();
+              const content = await loader();
               dispatch(loadSuccessEvent(tabId, content));
               item.onViewed?.();
             } catch (error) {
@@ -381,6 +385,16 @@ export const TabsPro = memo(
       },
       [itemsMap]
     );
+
+    // Create a Map for safe tab state lookup
+    const tabsStateMap = useMemo(() => {
+      const tabs = fsmState.tabs;
+      const map = new Map<string, (typeof tabs)[string]>();
+      for (const [key, value] of Object.entries(tabs)) {
+        map.set(key, value);
+      }
+      return map;
+    }, [fsmState.tabs]);
 
     // =========================================================================
     // Tab Change Handler
@@ -408,15 +422,21 @@ export const TabsPro = memo(
         onActiveChange?.(newTabId);
 
         // Start guard/load process
-        // Safe access using Object.hasOwn pattern
-        const tabState = Object.hasOwn(fsmState.tabs, newTabId)
-          ? fsmState.tabs[newTabId as keyof typeof fsmState.tabs]
-          : undefined;
+        // Safe access using Map
+        const tabState = tabsStateMap.get(newTabId);
         if (tabState && (tabState.status === 'idle' || tabState.status === 'checkingGuard')) {
           executeGuardAndLoad(newTabId);
         }
       },
-      [fsmState, isDirty, itemsMap, isControlled, onActiveChange, executeGuardAndLoad]
+      [
+        fsmState.activeTabId,
+        isDirty,
+        itemsMap,
+        isControlled,
+        onActiveChange,
+        executeGuardAndLoad,
+        tabsStateMap,
+      ]
     );
 
     // =========================================================================
@@ -462,26 +482,6 @@ export const TabsPro = memo(
     );
 
     // =========================================================================
-    // Preload Handler (hover intent)
-    // =========================================================================
-
-    const _handlePreload = useCallback(
-      (tabId: string) => {
-        const item = itemsMap.get(tabId);
-        // Safe access using Object.hasOwn pattern
-        const tabState = Object.hasOwn(fsmState.tabs, tabId)
-          ? fsmState.tabs[tabId as keyof typeof fsmState.tabs]
-          : undefined;
-
-        if (item?.preloadOnHover && tabState?.status === 'idle') {
-          dispatch(preloadTabEvent(tabId));
-          executeGuardAndLoad(tabId);
-        }
-      },
-      [itemsMap, fsmState, executeGuardAndLoad]
-    );
-
-    // =========================================================================
     // Initial Load Effect - Run once after mount
     // =========================================================================
 
@@ -498,9 +498,7 @@ export const TabsPro = memo(
       if (activeId) {
         executeGuardAndLoad(activeId);
       }
-      // Intentionally only depend on activeId and executeGuardAndLoad at mount time
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [activeId, executeGuardAndLoad]);
 
     // =========================================================================
     // Resolve Tab Content Based on FSM State
@@ -508,10 +506,8 @@ export const TabsPro = memo(
 
     const resolvedItems = useMemo<ResolvedTabItem[]>(() => {
       return items.map((item) => {
-        // Safe access - item.id is a validated string from items array
-        const tabState = Object.hasOwn(fsmState.tabs, item.id)
-          ? fsmState.tabs[item.id as keyof typeof fsmState.tabs]
-          : undefined;
+        // Safe access using Map
+        const tabState = tabsStateMap.get(item.id);
         const status = tabState?.status ?? 'idle';
 
         let content: React.ReactNode;
@@ -603,6 +599,7 @@ export const TabsPro = memo(
       });
     }, [
       items,
+      tabsStateMap,
       fsmState,
       handleRetry,
       defaultLoadingFallback,
@@ -649,6 +646,7 @@ export const TabsPro = memo(
           message={dirtyConfirmMessage}
           onConfirm={handleLeaveConfirm}
           onCancel={handleLeaveCancel}
+          titleId={leaveConfirmTitleId}
         />
       </>
     );

@@ -1,6 +1,7 @@
 import { SelectableCard } from '@dsai/react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 /**
  * SelectableCard is a card component that can behave like a checkbox or radio option.
@@ -293,7 +294,7 @@ export const Uncontrolled: Story = {
  * Controlled SelectableCard where parent manages state.
  */
 export const Controlled: Story = {
-  render: () => {
+  render: function ControlledStory() {
     const [isChecked, setIsChecked] = useState(false);
 
     return (
@@ -345,7 +346,7 @@ export const Controlled: Story = {
  * Only one can be selected at a time.
  */
 export const RadioGroup: Story = {
-  render: () => {
+  render: function RadioGroupStory() {
     const [selected, setSelected] = useState<string | null>('basic');
 
     const plans = [
@@ -381,7 +382,9 @@ export const RadioGroup: Story = {
               value={plan.value}
               checked={selected === plan.value}
               onChange={(checked) => {
-                if (checked) setSelected(plan.value);
+                if (checked) {
+                  setSelected(plan.value);
+                }
               }}
               title={plan.title}
               subtitle={plan.price}
@@ -412,7 +415,7 @@ export const RadioGroup: Story = {
  * Multiple checkbox cards for multi-selection.
  */
 export const CheckboxGroup: Story = {
-  render: () => {
+  render: function CheckboxGroupStory() {
     const [selected, setSelected] = useState<Set<string>>(new Set(['notifications']));
 
     const features = [
@@ -433,7 +436,7 @@ export const CheckboxGroup: Story = {
       },
     ];
 
-    const toggleFeature = (value: string, checked: boolean) => {
+    const toggleFeature = (value: string, checked: boolean): void => {
       setSelected((prev) => {
         const next = new Set(prev);
         if (checked) {
@@ -786,7 +789,7 @@ export const HorizontalLayout: Story = {
  * Interactive demo with state display and controls.
  */
 export const InteractiveDemo: Story = {
-  render: () => {
+  render: function InteractiveDemoStory() {
     const [state, setState] = useState<{
       selectionMode: 'none' | 'checkbox' | 'radio';
       checked: boolean;
@@ -928,7 +931,7 @@ export const InteractiveDemo: Story = {
  * Pricing tier selection (common use case).
  */
 export const PricingTierSelection: Story = {
-  render: () => {
+  render: function PricingTierSelectionStory() {
     const [selectedTier, setSelectedTier] = useState('pro');
 
     const tiers = [
@@ -973,7 +976,9 @@ export const PricingTierSelection: Story = {
               value={tier.value}
               checked={selectedTier === tier.value}
               onChange={(checked) => {
-                if (checked) setSelectedTier(tier.value);
+                if (checked) {
+                  setSelectedTier(tier.value);
+                }
               }}
               selectedColor={selectedTier === tier.value ? 'primary' : undefined}
             >
@@ -1009,7 +1014,7 @@ export const PricingTierSelection: Story = {
  * Feature toggles with checkbox cards.
  */
 export const FeatureToggles: Story = {
-  render: () => {
+  render: function FeatureTogglesStory() {
     const [features, setFeatures] = useState<Set<string>>(new Set(['dark-mode', 'notifications']));
 
     const featureList = [
@@ -1039,11 +1044,14 @@ export const FeatureToggles: Story = {
       },
     ];
 
-    const toggleFeature = (value: string, checked: boolean) => {
+    const toggleFeature = (value: string, checked: boolean): void => {
       setFeatures((prev) => {
         const next = new Set(prev);
-        if (checked) next.add(value);
-        else next.delete(value);
+        if (checked) {
+          next.add(value);
+        } else {
+          next.delete(value);
+        }
         return next;
       });
     };
@@ -1094,7 +1102,7 @@ export const FeatureToggles: Story = {
  * Survey/quiz question with single selection.
  */
 export const SurveyQuestion: Story = {
-  render: () => {
+  render: function SurveyQuestionStory() {
     const [answer, setAnswer] = useState<string | null>(null);
 
     const options = [
@@ -1118,7 +1126,9 @@ export const SurveyQuestion: Story = {
               value={option.value}
               checked={answer === option.value}
               onChange={(checked) => {
-                if (checked) setAnswer(option.value);
+                if (checked) {
+                  setAnswer(option.value);
+                }
               }}
               selectedColor="primary"
             >
@@ -1214,7 +1224,7 @@ export const AccessibilityDemo: Story = {
  * Complete showcase demonstrating all features.
  */
 export const CompleteShowcase: Story = {
-  render: () => {
+  render: function CompleteShowcaseStory() {
     const [selectedPlan, setSelectedPlan] = useState('basic');
     const [addOns, setAddOns] = useState<Set<string>>(new Set());
 
@@ -1230,11 +1240,14 @@ export const CompleteShowcase: Story = {
       { value: 'analytics', title: 'Advanced Analytics', price: '+$15/mo' },
     ];
 
-    const toggleAddOn = (value: string, checked: boolean) => {
+    const toggleAddOn = (value: string, checked: boolean): void => {
       setAddOns((prev) => {
         const next = new Set(prev);
-        if (checked) next.add(value);
-        else next.delete(value);
+        if (checked) {
+          next.add(value);
+        } else {
+          next.delete(value);
+        }
         return next;
       });
     };
@@ -1252,7 +1265,9 @@ export const CompleteShowcase: Story = {
                 value={plan.value}
                 checked={selectedPlan === plan.value}
                 onChange={(checked) => {
-                  if (checked) setSelectedPlan(plan.value);
+                  if (checked) {
+                    setSelectedPlan(plan.value);
+                  }
                 }}
                 title={plan.title}
                 subtitle={plan.price}

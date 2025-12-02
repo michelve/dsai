@@ -1,6 +1,7 @@
 import { Button, CheckIcon, Progress } from '@dsai/react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 /**
  * Progress bar component for showing progress or loading states.
@@ -437,7 +438,7 @@ export const FileUploadSimulation: Story = {
       }
     }, [status, progress]);
 
-    const startUpload = () => {
+    const startUpload = (): void => {
       setProgress(0);
       setStatus('uploading');
     };

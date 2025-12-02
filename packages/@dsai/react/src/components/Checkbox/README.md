@@ -174,6 +174,21 @@ Group related checkboxes:
 </fieldset>
 ```
 
+## Security
+
+The Checkbox component filters every forwarded prop through a strict allowlist before it reaches the
+native `<input>` element. Only standard HTML and ARIA attributes make it through, which means:
+
+- 🔐 Arbitrary event handlers (`onLoad`, `onError`, etc.) are stripped to eliminate XSS vectors when
+  spreading unknown props (for example, form builder metadata).
+- 🧼 Prototype pollution/object injection attempts that rely on `__proto__` style keys are ignored
+  because only known-safe attribute names are evaluated.
+- 🛡️ The component never calls `dangerouslySetInnerHTML`; label, helper text, and status content are
+  always rendered as React nodes you control.
+
+These hardening steps let you safely pass user-generated configuration into the checkbox without
+introducing DOM clobbering or script injection risk.
+
 ## Bootstrap Classes
 
 The Checkbox component uses native Bootstrap 5 classes:

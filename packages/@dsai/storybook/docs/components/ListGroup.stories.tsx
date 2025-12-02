@@ -1,6 +1,7 @@
 import { Badge, CheckCircleFillIcon, ListGroup, ListGroupItem, XCircleFillIcon } from '@dsai/react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 /**
  * ListGroup component for displaying lists of content.
@@ -315,7 +316,7 @@ export const ResponsiveHorizontal: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <small className="text-muted d-block mb-1">horizontal="sm"</small>
+        <small className="text-muted d-block mb-1">horizontal=&quot;sm&quot;</small>
         <ListGroup
           horizontal="sm"
           items={[
@@ -326,7 +327,7 @@ export const ResponsiveHorizontal: Story = {
         />
       </div>
       <div>
-        <small className="text-muted d-block mb-1">horizontal="md"</small>
+        <small className="text-muted d-block mb-1">horizontal=&quot;md&quot;</small>
         <ListGroup
           horizontal="md"
           items={[
@@ -337,7 +338,7 @@ export const ResponsiveHorizontal: Story = {
         />
       </div>
       <div>
-        <small className="text-muted d-block mb-1">horizontal="lg"</small>
+        <small className="text-muted d-block mb-1">horizontal=&quot;lg&quot;</small>
         <ListGroup
           horizontal="lg"
           items={[
@@ -569,23 +570,24 @@ export const SecurityExternalLinks: Story = {
       <div>
         <h5>External Link Protection</h5>
         <p className="text-muted small">
-          External links (http:// and https://) automatically get rel="noopener noreferrer".
+          External links (http:// and https://) automatically get rel=&quot;noopener
+          noreferrer&quot;.
         </p>
       </div>
       <ListGroup>
         <ListGroupItem href="https://external.com">
-          External HTTPS link (has rel="noopener noreferrer")
+          External HTTPS link (has rel=&quot;noopener noreferrer&quot;)
         </ListGroupItem>
         <ListGroupItem href="http://external.com">
-          External HTTP link (has rel="noopener noreferrer")
+          External HTTP link (has rel=&quot;noopener noreferrer&quot;)
         </ListGroupItem>
         <ListGroupItem href="/internal">Internal link (no rel attribute)</ListGroupItem>
         <ListGroupItem href="#section">Anchor link (no rel attribute)</ListGroupItem>
       </ListGroup>
       <div className="alert alert-info small">
-        <strong>Why this matters:</strong> The <code>rel="noopener noreferrer"</code> attribute
-        prevents the linked page from accessing <code>window.opener</code>, protecting against
-        tabnabbing attacks and preventing referrer information leakage.
+        <strong>Why this matters:</strong> The <code>rel=&quot;noopener noreferrer&quot;</code>{' '}
+        attribute prevents the linked page from accessing <code>window.opener</code>, protecting
+        against tabnabbing attacks and preventing referrer information leakage.
       </div>
     </div>
   ),
@@ -610,7 +612,7 @@ export const AccessibilityInteractiveDiv: Story = {
         <div>
           <h5>Interactive Div with Keyboard Support</h5>
           <p className="text-muted small">
-            Use Tab to navigate and Enter/Space to activate. The div has role="button".
+            Use Tab to navigate and Enter/Space to activate. The div has role=&quot;button&quot;.
           </p>
         </div>
         <ListGroup>

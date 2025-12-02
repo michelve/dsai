@@ -1,7 +1,8 @@
-import { CheckIcon, Input, XLgIcon } from '@dsai/react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Button, CheckIcon, Input, XLgIcon } from '@dsai/react';
 import { useState } from 'react';
 import { userEvent, within } from 'storybook/test';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 /**
  * Input component for text entry.
@@ -595,9 +596,9 @@ export const LoginForm: Story = {
             helperText={errors.password || 'Must be at least 8 characters'}
             required
           />
-          <button type="submit" className="btn btn-primary">
+          <Button type="submit" variant="primary">
             Sign In
-          </button>
+          </Button>
         </div>
       </form>
     );
@@ -634,9 +635,9 @@ export const RegistrationForm: Story = {
             helperText="At least 8 characters with a number"
           />
           <Input label="Confirm Password" type="password" required />
-          <button type="submit" className="btn btn-primary">
+          <Button type="submit" variant="primary">
             Create Account
-          </button>
+          </Button>
         </div>
       </form>
     );
@@ -900,19 +901,15 @@ export const PerformanceMemoization: Story = {
         <div>
           <h5>Memoization Performance Demo</h5>
           <p className="text-muted small">
-            The inputs won't re-render unnecessarily when you increment the counter below. Check
-            your browser DevTools to see component renders.
+            The inputs won&apos;t re-render unnecessarily when you increment the counter below.
+            Check your browser DevTools to see component renders.
           </p>
         </div>
 
         <div>
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-primary"
-            onClick={() => setCounter(counter + 1)}
-          >
+          <Button size="sm" variant="outline-primary" onClick={() => setCounter(counter + 1)}>
             Increment Counter: {counter}
-          </button>
+          </Button>
           <p className="text-muted small mt-2">Parent re-renders: {counter} times</p>
         </div>
 

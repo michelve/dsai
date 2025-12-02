@@ -4,13 +4,13 @@ A container component that manages groups of SelectableCards with FSM-based sele
 
 ## Features
 
-- 🎯 Three selection modes: none, single, multiple
-- 🔄 FSM-based state management (predictable selection logic)
-- 📊 Visual state tracking (none, one, some, all selected)
-- ✅ Controlled and uncontrolled patterns
-- 🏷️ Automatic name generation for radio groups
-- 🎨 Consistent styling and layout options
-- ♿ WCAG 2.2 AA compliant with native inputs
+- Three selection modes: none, single, multiple
+- FSM-based state management (predictable selection logic)
+- Visual state tracking (none, one, some, all selected)
+- Controlled and uncontrolled patterns
+- Automatic name generation for radio groups
+- Consistent styling and layout options
+- WCAG 2.2 AA compliant with native inputs
 
 ## Installation
 

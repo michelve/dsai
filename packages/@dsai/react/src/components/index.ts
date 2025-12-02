@@ -10,9 +10,24 @@
  * ```
  */
 
-export type { AlertHeadingProps, AlertLinkProps, AlertProps, AlertVariant } from './Alert';
+// Accordion
+export { Accordion } from './Accordion';
+export type {
+  AccordionButtonProps,
+  AccordionContextValue,
+  AccordionFSMEvent,
+  AccordionFSMState,
+  AccordionItemContextValue,
+  AccordionItemProps,
+  AccordionItemVisualState,
+  AccordionPanelProps,
+  AccordionProps,
+  AccordionSelectionMode,
+} from './Accordion';
+
 // Alert
 export { Alert } from './Alert';
+export type { AlertHeadingProps, AlertLinkProps, AlertProps, AlertVariant } from './Alert';
 export type { BadgeProps, BadgeVariant } from './Badge';
 // Badge
 export { Badge } from './Badge';
@@ -60,11 +75,24 @@ export type { CheckboxProps } from './Checkbox';
 // Checkbox
 export { Checkbox } from './Checkbox';
 export type {
+  DropdownAutoClose,
+  DropdownDividerProps,
+  DropdownHeaderProps,
+  DropdownItemProps,
+  DropdownItemTextProps,
+  DropdownMenuProps,
+  DropdownPlacement,
+  DropdownProps,
+  DropdownToggleProps,
+} from './Dropdown';
+// Dropdown
+export type {
   CheckboxGroupFSMState,
   CheckboxGroupOption,
   CheckboxGroupProps,
   GroupSelectionState,
 } from './CheckboxGroup';
+export { Dropdown } from './Dropdown';
 // CheckboxGroup
 export { CheckboxGroup } from './CheckboxGroup';
 // Icons - Bootstrap Icons as React components
@@ -91,7 +119,6 @@ export type {
   ModalProps,
   ModalSize,
   ModalTitleProps,
-  ModalVisualState,
 } from './Modal';
 // Modal
 export { Modal } from './Modal';

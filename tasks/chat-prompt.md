@@ -13,7 +13,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 **Framework Versions:**
 
 - Storybook: v10 (verify core add-ons, avoid deprecated packages)
-- Style Dictionary: v5.1.1 - https://styledictionary.com/info/tokens/
+- Style Dictionary: v5.1.1 - <https://styledictionary.com/info/tokens/>
 - Bootstrap: v5 (follow native markup and architecture - CRITICAL)
 - Storybook Blocks: Use `@storybook/addon-docs/blocks` (NOT `@storybook/blocks`)
 
@@ -369,7 +369,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 
 ### Step 1: Read Task File
 
-- Parse task from `tasks/02-high/TASK-037-modal-component.md`
+- Parse task from `tasks/02-high/TASK-039-accordion-component.md`
 - Verify task is clear and complete
 - Ask clarifying questions if ambiguous
 
@@ -389,6 +389,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 ### Step 4: Quality Validation
 
 - Run ALL quality gate checks listed above
+- Run lint validation
 - Fix any violations (do not proceed with violations)
 - Document any intentional exceptions with rationale
 

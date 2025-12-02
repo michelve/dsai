@@ -105,28 +105,38 @@ function DismissibleAlert() {
 
 ### Alert
 
-| Prop          | Type                 | Default     | Description            |
-| ------------- | -------------------- | ----------- | ---------------------- |
-| `children`    | `ReactNode`          | -           | Alert content          |
-| `variant`     | `AlertVariant`       | `'primary'` | Color variant          |
-| `title`       | `string`             | -           | Optional alert title   |
-| `dismissible` | `boolean`            | `false`     | Show close button      |
-| `onClose`     | `() => void`         | -           | Close callback         |
-| `icon`        | `ReactNode`          | -           | Custom icon            |
-| `show`        | `boolean`            | `true`      | Control visibility     |
-| `className`   | `string`             | -           | Additional CSS classes |
-| `style`       | `CSSProperties`      | -           | Inline styles          |
-| `id`          | `string`             | -           | ID attribute           |
-| `as`          | `'div' \| 'section'` | `'div'`     | Element to render as   |
+| Prop          | Type                 | Default     | Description                                                               |
+| ------------- | -------------------- | ----------- | ------------------------------------------------------------------------- |
+| `children`    | `ReactNode`          | -           | Alert content                                                             |
+| `variant`     | `AlertVariant`       | `'primary'` | Color variant                                                             |
+| `title`       | `string`             | -           | Optional alert heading; also populates the root `title` tooltip attribute |
+| `dismissible` | `boolean`            | `false`     | Show close button and enable Escape-to-dismiss                            |
+| `onClose`     | `() => void`         | -           | Close callback, required when `dismissible` is `true`                     |
+| `icon`        | `ReactNode`          | -           | Custom icon (wrapped in an `aria-hidden` container)                       |
+| `show`        | `boolean`            | `true`      | Control visibility (FSM syncs with prop changes)                          |
+| `className`   | `string`             | -           | Additional CSS classes                                                    |
+| `style`       | `CSSProperties`      | -           | Inline styles                                                             |
+| `id`          | `string`             | -           | ID attribute                                                              |
+| `as`          | `'div' \| 'section'` | `'div'`     | Element to render as                                                      |
+| `aria-atomic` | `boolean`            | `true`      | Announces the entire alert when content changes                           |
+| `data-testid` | `string`             | -           | Testing hook (sanitized)                                                  |
+| `data-test`   | `string`             | -           | Alternate testing hook (sanitized)                                        |
+
+> ℹ️ The tooltip-style `title` attribute currently mirrors the heading text. If you need different tooltip copy, compose your own heading with `Alert.Heading` and pass the desired `title` attribute to the root element.
 
 ### Alert.Link
 
-| Prop        | Type         | Default | Description            |
-| ----------- | ------------ | ------- | ---------------------- |
-| `children`  | `ReactNode`  | -       | Link content           |
-| `href`      | `string`     | -       | Link URL               |
-| `onClick`   | `() => void` | -       | Click handler          |
-| `className` | `string`     | -       | Additional CSS classes |
+| Prop          | Type                                         | Default   | Description                                                                                 |
+| ------------- | -------------------------------------------- | --------- | ------------------------------------------------------------------------------------------- |
+| `children`    | `ReactNode`                                  | -         | Link content                                                                                |
+| `href`        | `string`                                     | -         | Link URL (validated against `javascript:`, `data:`, etc. and falls back to `#` when unsafe) |
+| `onClick`     | `(event: React.MouseEvent)`                  | -         | Click handler                                                                               |
+| `className`   | `string`                                     | -         | Additional CSS classes                                                                      |
+| `target`      | `'_blank' \| '_self' \| '_parent' \| '_top'` | `'_self'` | Browser target; `_blank` automatically adds `rel="noopener noreferrer"` for security        |
+| `rel`         | `string`                                     | -         | Relationship attribute; ignored when `target="_blank"` to enforce `noopener noreferrer`     |
+| `title`       | `string`                                     | -         | Tooltip text                                                                                |
+| `data-testid` | `string`                                     | -         | Testing hook (sanitized)                                                                    |
+| `data-test`   | `string`                                     | -         | Alternate testing hook (sanitized)                                                          |
 
 ### Alert.Heading
 
