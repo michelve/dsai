@@ -1,4 +1,4 @@
-import { Tab, TabList, TabPanel, Tabs } from '@dsai/react';
+import { Button, Tab, TabList, TabPanel, Tabs } from '@dsai/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -255,21 +255,15 @@ export const Controlled: Story = {
         <Tabs activeTab={activeTab} onTabChange={setActiveTab} items={sampleItems} />
         <p className="mt-3 text-muted small">Active tab: {activeTab}</p>
         <div className="btn-group mt-2">
-          <button className="btn btn-sm btn-outline-primary" onClick={() => setActiveTab('home')}>
+          <Button size="sm" variant="outline-primary" onClick={() => setActiveTab('home')}>
             Go to Home
-          </button>
-          <button
-            className="btn btn-sm btn-outline-primary"
-            onClick={() => setActiveTab('profile')}
-          >
+          </Button>
+          <Button size="sm" variant="outline-primary" onClick={() => setActiveTab('profile')}>
             Go to Profile
-          </button>
-          <button
-            className="btn btn-sm btn-outline-primary"
-            onClick={() => setActiveTab('settings')}
-          >
+          </Button>
+          <Button size="sm" variant="outline-primary" onClick={() => setActiveTab('settings')}>
             Go to Settings
-          </button>
+          </Button>
         </div>
       </div>
     );

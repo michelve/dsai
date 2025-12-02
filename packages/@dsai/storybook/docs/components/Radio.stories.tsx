@@ -1,4 +1,4 @@
-import { Radio, RadioGroup } from '@dsai/react';
+import { Button, Radio, RadioGroup } from '@dsai/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -333,9 +333,9 @@ export const FormExample: Story = {
           </RadioGroup>
         </div>
 
-        <button type="submit" className="btn btn-primary mt-4">
+        <Button type="submit" variant="primary" className="mt-4">
           Submit Order
-        </button>
+        </Button>
       </form>
     );
   },
@@ -367,13 +367,14 @@ export const SurveyQuestion: Story = {
           <Radio value="2" label="Dissatisfied" />
           <Radio value="1" label="Very dissatisfied" />
         </RadioGroup>
-        <button
-          className="btn btn-primary mt-3"
+        <Button
+          variant="primary"
+          className="mt-3"
           disabled={!answer}
           onClick={() => alert(`You selected: ${answer}`)}
         >
           Submit
-        </button>
+        </Button>
       </div>
     );
   },

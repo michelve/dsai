@@ -1,4 +1,4 @@
-import { Checkbox, CheckIcon, XLgIcon } from '@dsai/react';
+import { Button, Checkbox, CheckIcon, XLgIcon } from '@dsai/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -449,9 +449,9 @@ export const FormExample: Story = {
             label="Receive marketing emails"
           />
         </div>
-        <button type="submit" className="btn btn-primary mt-3">
+        <Button type="submit" variant="primary" className="mt-3">
           Submit
-        </button>
+        </Button>
       </form>
     );
   },

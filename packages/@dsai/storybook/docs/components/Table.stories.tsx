@@ -1,4 +1,4 @@
-import { Badge, Table } from '@dsai/react';
+import { Badge, Button, Table } from '@dsai/react';
 import { useState } from 'react';
 
 import type { RowId, SortConfig, TableColumn } from '@dsai/react';
@@ -331,13 +331,14 @@ export const ControlledSorting: Story = {
         <div className="mb-3">
           <strong>Current sort:</strong>{' '}
           {sortConfig ? `${sortConfig.columnId} (${sortConfig.direction})` : 'None'}
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-secondary ms-2"
+          <Button
+            size="sm"
+            variant="outline-secondary"
+            className="ms-2"
             onClick={() => setSortConfig(undefined)}
           >
             Clear sort
-          </button>
+          </Button>
         </div>
         <Table
           columns={sortableColumns}
@@ -508,9 +509,9 @@ export const CustomEmptyContent: Story = {
           <div className="text-center py-4">
             <div className="fs-4 text-muted mb-2">📋</div>
             <p className="mb-2">No data available</p>
-            <button type="button" className="btn btn-primary btn-sm">
+            <Button size="sm" variant="primary">
               Add New User
-            </button>
+            </Button>
           </div>
         }
         aria-label="Table with custom empty state"
@@ -625,9 +626,9 @@ export const StickyColumns: Story = {
         width: 100,
         align: 'center',
         cell: () => (
-          <button type="button" className="btn btn-sm btn-outline-primary">
+          <Button size="sm" variant="outline-primary">
             Edit
-          </button>
+          </Button>
         ),
       },
     ];
@@ -671,26 +672,26 @@ export const ActionColumn: Story = {
         align: 'right',
         cell: (_, row) => (
           <div className="d-flex gap-1 justify-content-end">
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-primary"
+            <Button
+              size="sm"
+              variant="outline-primary"
               onClick={(e) => {
                 e.stopPropagation();
                 setLastAction(`Edit: ${(row as User).name}`);
               }}
             >
               Edit
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-danger"
+            </Button>
+            <Button
+              size="sm"
+              variant="outline-danger"
               onClick={(e) => {
                 e.stopPropagation();
                 setLastAction(`Delete: ${(row as User).name}`);
               }}
             >
               Delete
-            </button>
+            </Button>
           </div>
         ),
       },
@@ -854,34 +855,34 @@ export const VisualStates: Story = {
     return (
       <div>
         <div className="mb-3 btn-group">
-          <button
-            type="button"
-            className={`btn btn-sm ${state === 'none' ? 'btn-primary' : 'btn-outline-primary'}`}
+          <Button
+            size="sm"
+            variant={state === 'none' ? 'primary' : 'outline-primary'}
             onClick={() => setState('none')}
           >
             None
-          </button>
-          <button
-            type="button"
-            className={`btn btn-sm ${state === 'one' ? 'btn-primary' : 'btn-outline-primary'}`}
+          </Button>
+          <Button
+            size="sm"
+            variant={state === 'one' ? 'primary' : 'outline-primary'}
             onClick={() => setState('one')}
           >
             One
-          </button>
-          <button
-            type="button"
-            className={`btn btn-sm ${state === 'some' ? 'btn-primary' : 'btn-outline-primary'}`}
+          </Button>
+          <Button
+            size="sm"
+            variant={state === 'some' ? 'primary' : 'outline-primary'}
             onClick={() => setState('some')}
           >
             Some
-          </button>
-          <button
-            type="button"
-            className={`btn btn-sm ${state === 'all' ? 'btn-primary' : 'btn-outline-primary'}`}
+          </Button>
+          <Button
+            size="sm"
+            variant={state === 'all' ? 'primary' : 'outline-primary'}
             onClick={() => setState('all')}
           >
             All
-          </button>
+          </Button>
         </div>
         <p className="small text-muted mb-3">
           Current visual state: <code>data-visual-state=&quot;{state}&quot;</code>

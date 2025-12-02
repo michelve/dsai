@@ -1,4 +1,4 @@
-import { CheckboxGroup, CheckIcon, XLgIcon } from '@dsai/react';
+import { Button, CheckboxGroup, CheckIcon, XLgIcon } from '@dsai/react';
 import { useState } from 'react';
 
 import type { CheckboxGroupOption } from '@dsai/react';
@@ -300,20 +300,21 @@ export const Controlled: Story = {
           onChange={setSelected}
         />
         <div className="mt-3">
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-secondary me-2"
+          <Button
+            size="sm"
+            variant="outline-secondary"
+            className="me-2"
             onClick={() => setSelected([])}
           >
             Clear All
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-primary"
+          </Button>
+          <Button
+            size="sm"
+            variant="outline-primary"
             onClick={() => setSelected(['email', 'sms', 'push'])}
           >
             Select All
-          </button>
+          </Button>
         </div>
         <p className="mt-2 text-muted small">
           Selected: {selected.length > 0 ? selected.join(', ') : 'None'}
@@ -548,9 +549,9 @@ export const FormExample: Story = {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary">
+        <Button type="submit" variant="primary">
           Submit
-        </button>
+        </Button>
 
         {submitted && (
           <div className="alert alert-success mt-3">
@@ -786,9 +787,7 @@ export const SettingsPageExample: Story = {
           </div>
         </div>
         <div className="card-footer">
-          <button type="button" className="btn btn-primary">
-            Save Settings
-          </button>
+          <Button variant="primary">Save Settings</Button>
         </div>
       </div>
     );
@@ -858,9 +857,9 @@ export const FilterPanelExample: Story = {
           </div>
         </div>
         <div className="card-footer">
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-secondary"
+          <Button
+            size="sm"
+            variant="outline-secondary"
             onClick={() => {
               setCategories([]);
               setStatus(['active']);
@@ -868,7 +867,7 @@ export const FilterPanelExample: Story = {
             }}
           >
             Reset Filters
-          </button>
+          </Button>
         </div>
       </div>
     );

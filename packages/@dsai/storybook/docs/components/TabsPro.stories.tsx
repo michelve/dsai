@@ -4,11 +4,13 @@ import {
   DatabaseFillIcon,
   ExclamationTriangleFillIcon,
   HouseFillIcon,
+  Input,
   ShieldLockFillIcon,
   Spinner,
+  Switch,
   TabsPro,
 } from '@dsai/react';
-import { useCallback, useId, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import type { GuardResult, TabsProItem } from '@dsai/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -336,8 +338,6 @@ export const PermissionGating: Story = {
   render: function PermissionGatingStory() {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isPremium, setIsPremium] = useState(false);
-    const adminToggleId = useId();
-    const premiumToggleId = useId();
 
     const items: TabsProItem[] = [
       {
@@ -410,29 +410,9 @@ export const PermissionGating: Story = {
       <div>
         <div className="mb-3 p-3 bg-light rounded">
           <strong>Toggle Permissions:</strong>
-          <div className="form-check form-check-inline ms-3">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id={adminToggleId}
-              checked={isAdmin}
-              onChange={(e) => setIsAdmin(e.target.checked)}
-            />
-            <label className="form-check-label" htmlFor={adminToggleId}>
-              Admin Access
-            </label>
-          </div>
-          <div className="form-check form-check-inline">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id={premiumToggleId}
-              checked={isPremium}
-              onChange={(e) => setIsPremium(e.target.checked)}
-            />
-            <label className="form-check-label" htmlFor={premiumToggleId}>
-              Premium Access
-            </label>
+          <div className="d-flex gap-3 mt-2">
+            <Switch label="Admin Access" checked={isAdmin} onChange={setIsAdmin} />
+            <Switch label="Premium Access" checked={isPremium} onChange={setIsPremium} />
           </div>
           <small className="text-muted d-block mt-2">
             Toggle permissions and click the tabs to see guard behavior.
@@ -606,8 +586,6 @@ export const DirtyStateHandling: Story = {
   render: function DirtyStateStory() {
     const [formData, setFormData] = useState({ name: '', email: '' });
     const [savedData, setSavedData] = useState({ name: '', email: '' });
-    const nameInputId = useId();
-    const emailInputId = useId();
 
     const isDirty = useCallback(
       (tabId: string) => {
@@ -628,25 +606,16 @@ export const DirtyStateHandling: Story = {
             <h5>Edit Profile</h5>
             <form>
               <div className="mb-3">
-                <label htmlFor={nameInputId} className="form-label">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id={nameInputId}
+                <Input
+                  label="Name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor={emailInputId} className="form-label">
-                  Email
-                </label>
-                <input
+                <Input
+                  label="Email"
                   type="email"
-                  className="form-control"
-                  id={emailInputId}
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
@@ -928,7 +897,6 @@ export const DisabledTabs: Story = {
 export const CompleteShowcase: Story = {
   render: function ShowcaseStory() {
     const [hasPermission, setHasPermission] = useState(false);
-    const permissionToggleId = useId();
 
     const items: TabsProItem[] = [
       {
@@ -1021,18 +989,11 @@ export const CompleteShowcase: Story = {
     return (
       <div>
         <div className="mb-3">
-          <div className="form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id={permissionToggleId}
-              checked={hasPermission}
-              onChange={(e) => setHasPermission(e.target.checked)}
-            />
-            <label className="form-check-label" htmlFor={permissionToggleId}>
-              Grant admin permission
-            </label>
-          </div>
+          <Switch
+            label="Grant admin permission"
+            checked={hasPermission}
+            onChange={setHasPermission}
+          />
         </div>
         <TabsPro items={items} />
       </div>
