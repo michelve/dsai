@@ -1,5 +1,6 @@
-import type { Preview } from '@storybook/react-vite';
 import { lightTheme } from './DSAiTheme';
+
+import type { Preview } from '@storybook/react-vite';
 
 // DSAi is a Bootstrap-first design system
 // Load Bootstrap theme (customized with DSAi tokens) as the primary framework
@@ -19,6 +20,14 @@ const preview: Preview = {
   tags: ['autodocs'],
 
   parameters: {
+    // Sort stories alphabetically in the sidebar
+    options: {
+      storySort: {
+        method: 'alphabetical',
+        order: ['Introduction', 'Foundation', 'Components', '*'],
+      },
+    },
+
     // Actions configuration
     actions: { argTypesRegex: '^on[A-Z].*' },
 
