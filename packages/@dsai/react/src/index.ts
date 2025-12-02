@@ -79,6 +79,7 @@ export {
   Tabs,
   TabsPro,
   Text,
+  Tooltip,
   Typography,
   type AccordionButtonProps,
   type AccordionContextValue,
@@ -220,6 +221,12 @@ export {
   type TabsVariant,
   type TextProps,
   type TextVariant,
+  type TooltipFSMEvent,
+  type TooltipFSMState,
+  type TooltipPlacement,
+  type TooltipProps,
+  type TooltipTrigger,
+  type TooltipVisualState,
 } from './components';
 
 // ============================================================================

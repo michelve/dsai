@@ -213,6 +213,16 @@ export type {
 // TabsPro
 export { TabsPro } from './TabsPro';
 export type {
+  TooltipFSMEvent,
+  TooltipFSMState,
+  TooltipPlacement,
+  TooltipProps,
+  TooltipTrigger,
+  TooltipVisualState,
+} from './Tooltip';
+// Tooltip
+export { Tooltip } from './Tooltip';
+export type {
   DisplayProps,
   DisplaySize,
   HeadingLevel,

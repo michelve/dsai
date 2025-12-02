@@ -1506,21 +1506,48 @@ describe('Edge Cases', () => {
   });
 
   it('handles rapid toggling by ignoring clicks during animation', async () => {
-    const user = userEvent.setup();
-    renderNavbar();
+    // Mock requestAnimationFrame to queue callbacks instead of running immediately
+    const rafCallbacks: FrameRequestCallback[] = [];
+    const originalRaf = window.requestAnimationFrame;
+    const originalCancelRaf = window.cancelAnimationFrame;
 
-    const toggle = screen.getByRole('button', { name: /toggle/i });
+    window.requestAnimationFrame = jest.fn((callback: FrameRequestCallback) => {
+      rafCallbacks.push(callback);
+      return rafCallbacks.length;
+    }) as typeof window.requestAnimationFrame;
+    window.cancelAnimationFrame = jest.fn();
 
-    // Rapid clicks - FSM ignores clicks during animation state
-    await user.click(toggle);
-    await user.click(toggle);
-    await user.click(toggle);
+    try {
+      const user = userEvent.setup();
+      renderNavbar();
 
-    // First click starts expanding, subsequent clicks are ignored during animation
-    // After animation ends, should be expanded
-    await waitFor(() => {
+      const toggle = screen.getByRole('button', { name: /toggle/i });
+
+      // First click: collapsed → expanding
+      await user.click(toggle);
+      // FSM is now in 'expanding' state, RAF callback is queued but not run
+      expect(toggle).toHaveAttribute('aria-expanded', 'true'); // isExpanded returns true for 'expanding'
+
+      // Second click: ignored because we're in 'expanding' state
+      await user.click(toggle);
       expect(toggle).toHaveAttribute('aria-expanded', 'true');
-    });
+
+      // Third click: also ignored because still in 'expanding' state
+      await user.click(toggle);
+      expect(toggle).toHaveAttribute('aria-expanded', 'true');
+
+      // Now run the RAF callback to complete animation
+      rafCallbacks.forEach((cb) => cb(performance.now()));
+
+      // After animation ends, should be expanded (not collapsed)
+      await waitFor(() => {
+        expect(toggle).toHaveAttribute('aria-expanded', 'true');
+      });
+    } finally {
+      // Restore original functions
+      window.requestAnimationFrame = originalRaf;
+      window.cancelAnimationFrame = originalCancelRaf;
+    }
   });
 
   it('handles switching from uncontrolled to controlled', () => {
