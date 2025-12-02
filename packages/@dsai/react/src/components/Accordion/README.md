@@ -32,21 +32,29 @@ function Example() {
   return (
     <Accordion>
       <Accordion.Item eventKey="0">
-        <Accordion.Button>Section 1</Accordion.Button>
+        <h2 className="accordion-header">
+          <Accordion.Button>Section 1</Accordion.Button>
+        </h2>
         <Accordion.Panel>Content for section 1</Accordion.Panel>
       </Accordion.Item>
       <Accordion.Item eventKey="1">
-        <Accordion.Button>Section 2</Accordion.Button>
+        <h2 className="accordion-header">
+          <Accordion.Button>Section 2</Accordion.Button>
+        </h2>
         <Accordion.Panel>Content for section 2</Accordion.Panel>
       </Accordion.Item>
       <Accordion.Item eventKey="2">
-        <Accordion.Button>Section 3</Accordion.Button>
+        <h2 className="accordion-header">
+          <Accordion.Button>Section 3</Accordion.Button>
+        </h2>
         <Accordion.Panel>Content for section 3</Accordion.Panel>
       </Accordion.Item>
     </Accordion>
   );
 }
 ```
+
+> **Note:** For semantic HTML structure, wrap `Accordion.Button` in a heading element (`<h2>`, `<h3>`, etc.) with `className="accordion-header"`. The heading level should match your document outline.
 
 ### Default Expanded
 

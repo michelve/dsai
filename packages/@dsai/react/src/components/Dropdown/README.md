@@ -360,6 +360,8 @@ function ControlledDropdown() {
 | `children`  | `ReactNode` | -       | Header content        |
 | `className` | `string`    | -       | Additional class name |
 
+> **Note:** Header renders as a `<span>` element (with `dropdown-header` class) for ARIA compliance within `role="menu"`. Use CSS to style it appropriately.
+
 ### Dropdown.Divider Props
 
 | Prop        | Type     | Default | Description           |
