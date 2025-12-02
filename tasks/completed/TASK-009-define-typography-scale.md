@@ -21,6 +21,7 @@ The typography system will use Poppins for headings and Inter for body text, wit
 ## Acceptance Criteria
 
 ### Font Families
+
 - [ ] Primary heading font: Poppins (all weights: 400, 500, 600, 700)
 - [ ] Body text font: Inter (all weights: 400, 500, 600, 700)
 - [ ] Monospace font: Fira Code or JetBrains Mono (for code samples)
@@ -28,6 +29,7 @@ The typography system will use Poppins for headings and Inter for body text, wit
 - [ ] Fallback stack defined for each font family
 
 ### Type Scale Definition
+
 - [ ] Minimum 8 type scale levels defined:
   - [ ] **Display**: 48px / 60px line-height (1.25 ratio)
   - [ ] **Heading 1**: 40px / 52px line-height
@@ -40,12 +42,14 @@ The typography system will use Poppins for headings and Inter for body text, wit
   - [ ] **Caption**: 12px / 20px line-height
 
 ### Responsive Typography
+
 - [ ] Mobile scale defined (14px base, adjusted sizes)
 - [ ] Tablet scale defined (15px base, adjusted sizes)
 - [ ] Desktop scale defined (16px base, adjusted sizes)
 - [ ] Fluid typography approach documented (optional clamp() values)
 
 ### Typography Tokens
+
 - [ ] Font family tokens created
 - [ ] Font size tokens created (px and rem values)
 - [ ] Line height tokens created (relative values)
@@ -53,6 +57,7 @@ The typography system will use Poppins for headings and Inter for body text, wit
 - [ ] Letter spacing tokens created (if needed)
 
 ### Accessibility Compliance
+
 - [ ] All body text is minimum 16px on desktop
 - [ ] Minimum contrast ratio 4.5:1 for body text
 - [ ] Minimum contrast ratio 3:1 for large text (18px+ or 14px bold)
@@ -60,6 +65,7 @@ The typography system will use Poppins for headings and Inter for body text, wit
 - [ ] Paragraph spacing is adequate (0.5-1em)
 
 ### Figma Implementation
+
 - [ ] Text styles created in Figma for each scale level
 - [ ] Text styles named following convention: `Typography/Heading/H1`
 - [ ] Responsive styles created for mobile/tablet/desktop
@@ -67,6 +73,7 @@ The typography system will use Poppins for headings and Inter for body text, wit
 - [ ] Text style descriptions added in Figma
 
 ### Documentation
+
 - [ ] Typography usage guidelines created:
   - [ ] When to use each heading level (semantic HTML)
   - [ ] Maximum line length (45-75 characters)
@@ -81,10 +88,12 @@ The typography system will use Poppins for headings and Inter for body text, wit
 ## Dependencies
 
 ### Requires:
+
 - **TASK-007**: Designer Define Color Palette (for contrast testing)
 - **TASK-008**: Create Figma File Structure (to add text styles)
 
 ### Blocks:
+
 - **TASK-010**: Create Figma Variables Collection (typography variables)
 - **TASK-011**: Design JSON Token Structure (typography tokens)
 - **TASK-019**: Create Semantic Token Definitions (semantic typography)
@@ -95,6 +104,7 @@ The typography system will use Poppins for headings and Inter for body text, wit
 ## Testing Requirements
 
 ### Design Review Checklist:
+
 - [ ] Type scale is visually harmonious (good proportion between levels)
 - [ ] Scale works well at all viewport sizes
 - [ ] Font pairing (Poppins + Inter) looks cohesive
@@ -102,12 +112,14 @@ The typography system will use Poppins for headings and Inter for body text, wit
 - [ ] Letter spacing is appropriate (not too tight/loose)
 
 ### Accessibility Testing:
+
 - [ ] Test with contrast checker (WebAIM, Stark)
 - [ ] Verify minimum font sizes meet WCAG guidelines
 - [ ] Test readability with different zoom levels (200% zoom)
 - [ ] Review with screen reader to ensure semantic structure
 
 ### Technical Validation:
+
 - [ ] Font files are licensed appropriately (check Google Fonts license)
 - [ ] Font loading performance is acceptable (<100KB total)
 - [ ] Fallback fonts are appropriate (similar x-height, width)
@@ -118,6 +130,7 @@ The typography system will use Poppins for headings and Inter for body text, wit
 ## Implementation Steps
 
 ### Step 1: Research and Planning (1 hour)
+
 1. Review Bootstrap 5 typography system for reference
 2. Analyze competitor design systems (Material, Ant Design, Chakra)
 3. Research modular scale approaches (1.25 ratio, 1.333 ratio)
@@ -125,6 +138,7 @@ The typography system will use Poppins for headings and Inter for body text, wit
 5. Document typography requirements from roadmap
 
 ### Step 2: Define Font Families and Weights (1 hour)
+
 1. Select Poppins for headings:
    - Regular (400) for default
    - Medium (500) for emphasis
@@ -142,6 +156,7 @@ The typography system will use Poppins for headings and Inter for body text, wit
    - Mono: `'Fira Code', 'Courier New', monospace`
 
 ### Step 3: Create Desktop Type Scale (1 hour)
+
 1. Define base size: 16px (1rem)
 2. Create scale using 1.25 ratio (major third):
    - Display: 48px (3rem) / 60px line-height
@@ -157,6 +172,7 @@ The typography system will use Poppins for headings and Inter for body text, wit
 4. Assign font weights (default weights for each level)
 
 ### Step 4: Create Responsive Scales (1 hour)
+
 1. Define mobile scale (base: 14px):
    - Reduce heading sizes by ~10-20%
    - Keep body text at 14px minimum
@@ -170,6 +186,7 @@ The typography system will use Poppins for headings and Inter for body text, wit
    - Desktop: 1024px+
 
 ### Step 5: Test Accessibility and Readability (1 hour)
+
 1. Test all text colors against background colors:
    - Body text (teal-950) on white: verify 4.5:1 minimum
    - Body text on teal-50 background: verify 4.5:1 minimum
@@ -182,6 +199,7 @@ The typography system will use Poppins for headings and Inter for body text, wit
 4. Document all test results
 
 ### Step 6: Implement in Figma (1 hour)
+
 1. Open Figma file (from TASK-008)
 2. Navigate to Foundation page
 3. Create text style for each scale level:
@@ -195,6 +213,7 @@ The typography system will use Poppins for headings and Inter for body text, wit
 6. Create character styles for inline formatting
 
 ### Step 7: Document Typography System (1 hour)
+
 1. Create typography showcase in Figma:
    - Display all scale levels side by side
    - Show font families, sizes, line heights, weights
@@ -228,28 +247,33 @@ The typography system will use Poppins for headings and Inter for body text, wit
 ## Notes
 
 ### Modular Scale Approach:
+
 - Using 1.25 ratio (major third) for harmonious progression
 - Base size: 16px aligns with browser defaults
 - All sizes are divisible by 4px for 8px grid system
 
 ### Font Loading Strategy:
+
 - Use Google Fonts for easy integration
 - Implement font-display: swap for better performance
 - Subset fonts to include only needed weights/characters
 - Consider self-hosting for production (better caching)
 
 ### Responsive Typography:
+
 - Fluid typography (clamp) can smooth responsive transitions
 - Consider using CSS custom properties for easy theme switching
 - Test on real devices (not just browser resize)
 
 ### Semantic HTML:
+
 - H1 should be used once per page (page title)
 - Heading hierarchy should not skip levels (no H1 → H3)
 - Body text should use <p> tags
 - Display text is for marketing/hero sections (not semantic)
 
 ### Integration with Tokens:
+
 - Typography tokens will be exported to Style Dictionary
 - Token names: `typography.heading.h1.fontSize`, etc.
 - Figma text styles should match token names for easy sync
@@ -269,20 +293,25 @@ The typography system will use Poppins for headings and Inter for body text, wit
 ## Risks and Mitigations
 
 **Risk:** Type scale doesn't work well across all viewport sizes
+
 - **Mitigation:** Test early on real devices, use fluid typography if needed
 
 **Risk:** Font files are too large (slow loading)
+
 - **Mitigation:** Subset fonts, use font-display: swap, consider variable fonts
 
 **Risk:** Contrast ratios fail accessibility standards
+
 - **Mitigation:** Test early with contrast checker, adjust colors if needed
 
 **Risk:** Font pairing (Poppins + Inter) doesn't look cohesive
+
 - **Mitigation:** Create mockups early, get design team feedback
 
 ---
 
 **Estimated Effort Breakdown:**
+
 - Research and planning: 1 hour
 - Font families and weights: 1 hour
 - Desktop type scale: 1 hour
