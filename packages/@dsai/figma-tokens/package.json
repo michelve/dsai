@@ -1,6 +1,6 @@
 {
   "name": "@dsai/figma-tokens",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "Figma integration utilities and token synchronization for DSAi",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
