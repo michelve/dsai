@@ -5,7 +5,7 @@ on:
     inputs:
       write:
         description: "Change to 'true' to create issues, leave as 'false' to preview output"
-        default: 'false'
+        default: false
         type: boolean
         required: true
 
@@ -30,7 +30,7 @@ jobs:
       - name: Generate CSV from tasks
         run: |
           echo "📋 Generating CSV from task files..."
-          node tools/scripts/github/export-tasks-to-github-csv.js
+          node tools/scripts/github/export-tasks-to-github-csv.cjs
           echo "✅ CSV generated at config/data.csv"
           echo ""
           echo "Preview of generated CSV:"

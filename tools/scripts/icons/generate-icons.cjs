@@ -7,10 +7,10 @@
  * Output is Figma-compatible (inline SVG, no npm dependencies).
  *
  * Usage:
- *   node tools/scripts/icons/generate-icons.js
+ *   node tools/scripts/icons/generate-icons.cjs
  *
  * Prerequisites:
- *   Run `node tools/scripts/icons/fetch-icon-metadata.js` first to fetch metadata.
+ *   Run `node tools/scripts/icons/fetch-icon-metadata.cjs` first to fetch metadata.
  *
  * @packageDocumentation
  */

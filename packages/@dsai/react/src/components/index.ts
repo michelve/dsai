@@ -123,6 +123,28 @@ export type {
 // Modal
 export { Modal } from './Modal';
 export type {
+  NavbarBackground,
+  NavbarBrandProps,
+  NavbarCollapseProps,
+  NavbarContextValue,
+  NavbarExpandBreakpoint,
+  NavbarFSMEvent,
+  NavbarFSMState,
+  NavbarItemProps,
+  NavbarLinkProps,
+  NavbarNavProps,
+  NavbarOrientation,
+  NavbarPlacement,
+  NavbarProps,
+  NavbarTextProps,
+  NavbarToggleProps,
+  NavbarVariant,
+  NavbarVisibility,
+  NavbarVisualState,
+} from './Navbar';
+// Navbar
+export { Navbar } from './Navbar';
+export type {
   PaginationAlignment,
   PaginationItemData,
   PaginationItemProps,
@@ -190,6 +212,16 @@ export type {
 } from './TabsPro';
 // TabsPro
 export { TabsPro } from './TabsPro';
+export type {
+  TooltipFSMEvent,
+  TooltipFSMState,
+  TooltipPlacement,
+  TooltipProps,
+  TooltipTrigger,
+  TooltipVisualState,
+} from './Tooltip';
+// Tooltip
+export { Tooltip } from './Tooltip';
 export type {
   DisplayProps,
   DisplaySize,

@@ -68,3 +68,4 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+/packages/@dsai/storybook/storybook-static

@@ -7,7 +7,7 @@
  * Outputs a JSON file that can be used by the icon generator to enrich JSDoc comments.
  *
  * Usage:
- *   node tools/scripts/icons/fetch-icon-metadata.js
+ *   node tools/scripts/icons/fetch-icon-metadata.cjs
  *
  * Output:
  *   tools/scripts/icons/icon-metadata.json

@@ -48,6 +48,10 @@
     }
   },
   "documentUrlSubstitutions": {
-    "<FIGMA_ICONS_BASE>": "https://figma.com/design/ZjZrrJoBgkA9qozUtAH1to"
+    "<FIGMA_ICONS_BASE>": "https://figma.com/design/ZjZrrJoBgkA9qozUtAH1to",
+    "<FIGMA_DSAI_TOOLTIP>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=TOOLTIP_NODE_ID",
+    "<FIGMA_DSAI_TOOLTIP_BUTTON>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=TOOLTIP_BUTTON_NODE_ID",
+    "<FIGMA_DSAI_TOOLTIP_ICON>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=TOOLTIP_ICON_NODE_ID",
+    "<FIGMA_DSAI_TOOLTIP_LINK>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=TOOLTIP_LINK_NODE_ID"
   }
 }

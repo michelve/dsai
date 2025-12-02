@@ -11,7 +11,7 @@
  * - Anti-patterns: event handlers on disabled buttons, missing accessible names
  *
  * Usage:
- *   node tools/scripts/analysis/analyze-button-usage.js [path]
+ *   node tools/scripts/analysis/analyze-button-usage.cjs [path]
  *   pnpm analyze:buttons [path]
  *
  * Options:

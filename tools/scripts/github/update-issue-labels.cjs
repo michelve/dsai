@@ -8,7 +8,7 @@
  *
  * Usage:
  *   export GITHUB_TOKEN=your_token
- *   node tools/scripts/github/update-issue-labels.js
+ *   node tools/scripts/github/update-issue-labels.cjs
  *
  * Prerequisites:
  *   npm install @octokit/rest csv-parse

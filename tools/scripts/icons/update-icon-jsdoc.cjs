@@ -7,10 +7,10 @@
  * including categories, tags, and direct links from Bootstrap Icons.
  *
  * Usage:
- *   node tools/scripts/icons/update-icon-jsdoc.js
+ *   node tools/scripts/icons/update-icon-jsdoc.cjs
  *
  * Prerequisites:
- *   Run `node tools/scripts/icons/fetch-icon-metadata.js` first to fetch metadata.
+ *   Run `node tools/scripts/icons/fetch-icon-metadata.cjs` first to fetch metadata.
  *
  * @packageDocumentation
  */

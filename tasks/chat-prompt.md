@@ -17,7 +17,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 - Bootstrap: v5 (follow native markup and architecture - CRITICAL)
 - Storybook Blocks: Use `@storybook/addon-docs/blocks` (NOT `@storybook/blocks`)
 
-**Story Organization:** Keep stories ONLY in `@dsai/storybook`. Reference "DSAI" (no version numbers) in story titles, not "Bootstrap v5".
+**Story Organization:** Keep stories ONLY in `@dsai/storybook`. Reference "DSAI" (no version numbers) in story titles, not "Bootstrap v5". Verify you have correctly imported the component and story.
 
 **Component Updates:** When creating new components, update all related stories to use real components (remove mocks).
 
@@ -349,6 +349,12 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 - [ ] Bootstrap 5 markup correct
 - [ ] Use correct icon component, no emojis or text icons allowed
 
+Notes:
+
+eslint: npx eslint packages/@dsai/storybook/docs/components/
+How to test component: npm test -- Accordion
+eslint: npx eslint packages/@dsai/react/src/components/Accordion
+
 **Documentation Gates:**
 
 - [ ] Component README complete
@@ -369,7 +375,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 
 ### Step 1: Read Task File
 
-- Parse task from `tasks/02-high/TASK-039-accordion-component.md`
+- Parse task from `tasks/02-high/TASK-042-tooltip-component.md`
 - Verify task is clear and complete
 - Ask clarifying questions if ambiguous
 
@@ -384,7 +390,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 - Follow all security, accessibility, performance, and quality rules above
 - Use Bootstrap 5 native markup
 - Implement with TypeScript strict mode
-- Add comprehensive tests (95%+ coverage)
+- Add comprehensive tests (96%+ coverage)
 
 ### Step 4: Quality Validation
 
@@ -413,6 +419,12 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 - Identify next task in priority order
 - Confirm task with human before starting
 - Wait for approval to proceed
+
+---
+
+### Step 8: Figma Config File
+
+- Create figma config file see button component for sample
 
 ---
 
