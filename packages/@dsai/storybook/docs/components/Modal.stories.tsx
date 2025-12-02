@@ -1,4 +1,4 @@
-import { Button, Modal } from '@dsai/react';
+import { Button, Input, Modal } from '@dsai/react';
 import { useRef, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -469,12 +469,7 @@ export const CustomInitialFocus: Story = {
           <Modal.Header>Custom Initial Focus</Modal.Header>
           <Modal.Body>
             <p>The input below receives focus when the modal opens:</p>
-            <input
-              ref={inputRef}
-              type="text"
-              className="form-control"
-              placeholder="I get focused first!"
-            />
+            <Input ref={inputRef} placeholder="I get focused first!" />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => setIsOpen(false)}>
@@ -548,32 +543,22 @@ export const FormModal: Story = {
           <form onSubmit={handleSubmit}>
             <Modal.Header>Contact Form</Modal.Header>
             <Modal.Body>
-              <div className="mb-3">
-                <label htmlFor="name" className="form-label">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="email" className="form-label">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  required
-                />
-              </div>
+              <Input
+                id="name"
+                label="Name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                required
+                className="mb-3"
+              />
+              <Input
+                id="email"
+                type="email"
+                label="Email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                required
+              />
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" type="button" onClick={() => setIsOpen(false)}>
