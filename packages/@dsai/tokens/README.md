@@ -56,7 +56,7 @@ This package contains all design tokens exported from Figma and transformed into
 
 ## Directory Structure
 
-```
+```plaintext
 packages/@dsai/tokens/
 ├── collections/              # ← Organized token collections
 │   ├── color/
@@ -139,7 +139,7 @@ pnpm tokens:clean
 
 The build process generates 5 output formats in `dist/`:
 
-```
+```plaintext
 dist/
 ├── css/
 │   └── variables.css         # CSS custom properties
@@ -348,7 +348,7 @@ This allows Figma references to work seamlessly with our token structure.
 
 ### Token Hierarchy
 
-```
+```plaintext
 Figma Design → Token Studio Plugin → figma-exports/*.json
                                             ↓
                            transform-figma-tokens.js (TASK-011)
@@ -409,7 +409,7 @@ Figma Design → Token Studio Plugin → figma-exports/*.json
 
 Tokens are created in Figma using the **Tokens Studio plugin** and exported to `packages/@dsai/tokens/figma-exports/`:
 
-```
+```plaintext
 packages/@dsai/tokens/figma-exports/
 ├── foundation.json    # Colors
 ├── typography.json    # Typography system
@@ -503,11 +503,11 @@ const spacing = tokens.spacing[4].value; // "24px"
 3. Run `pnpm tokens:validate` to check
 4. Commit changes
 
-## Token Naming Conventions
+## Token Naming Patterns
 
 ### Primitive Tokens
 
-```
+```plaintext
 {category}.{hue}.{step}
 color.blue.500
 spacing.4
@@ -516,7 +516,7 @@ typography.fontSize.h1
 
 ### Semantic Tokens
 
-```
+```plaintext
 {category}.{element}.{property}.{state}
 theme.primary
 button.primary.background.hover
@@ -525,7 +525,7 @@ input.border.color.focus
 
 ### Component Tokens
 
-```
+```plaintext
 {component}.{variant}.{property}.{state}
 button.primary.background.default
 button.primary.background.hover
@@ -600,9 +600,9 @@ pnpm tokens:build
 - **Transform script**: `tools/scripts/tokens/transform-figma-tokens.cjs`
 - **Validation script**: `tools/scripts/tokens/validate-tokens.cjs`
 
-### Directory Structure
+### Project Layout
 
-```
+```plaintext
 packages/@dsai/tokens/
 ├── figma-exports/          # ← Figma plugin exports (source files)
 │   ├── foundation.json

@@ -5,7 +5,7 @@ on:
     inputs:
       write:
         description: "Change to 'true' to create issues, leave as 'false' to preview output"
-        default: 'false'
+        default: false
         type: boolean
         required: true
 

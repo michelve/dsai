@@ -57,7 +57,7 @@ CI=true pnpm tokens:validate:figma
 
 Validates the transformed output files after Style Dictionary processing.
 
-#### Usage
+#### Running Validation
 
 ```bash
 pnpm tokens:validate
@@ -122,7 +122,7 @@ Use **whichever works best for your workflow**. The validator supports both and 
 
 The validator provides a comprehensive report:
 
-```
+```plaintext
 ================================================================================
 FIGMA TOKEN VALIDATION REPORT
 ================================================================================
@@ -157,7 +157,7 @@ FIGMA TOKEN VALIDATION REPORT
 
 ## Transformation Pipeline
 
-```
+```plaintext
 ┌─────────────────────────────────────────┐
 │  Figma (Design Tool)                    │
 └─────────────────┬───────────────────────┘
