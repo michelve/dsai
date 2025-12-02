@@ -7,7 +7,7 @@
  * benbalter/bulk-issue-creator GitHub Action
  *
  * Usage:
- *   node tools/scripts/github/export-tasks-to-github-csv.js
+ *   node tools/scripts/github/export-tasks-to-github-csv.cjs
  *
  * Output:
  *   config/data.csv (for bulk-issue-creator)

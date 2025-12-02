@@ -7,7 +7,7 @@
  * to their React components for Figma Code Connect.
  *
  * Usage:
- *   node tools/scripts/icons/generate-figma-code-connect.js
+ *   node tools/scripts/icons/generate-figma-code-connect.cjs
  *
  * This script:
  * 1. Reads all generated icon components from the components directory

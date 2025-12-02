@@ -1,6 +1,6 @@
 {
   "name": "@dsai/storybook",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "Storybook configuration and documentation for DSAi components",
   "private": true,
   "scripts": {
@@ -32,11 +32,11 @@
     "@storybook/addon-designs": "^11.0.3",
     "@storybook/addon-docs": "10.1.2",
     "@storybook/addon-links": "^10.1.2",
+    "@storybook/react": "^10.1.2",
     "@storybook/react-vite": "^10.1.2",
     "chromatic": "^13.3.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "storybook": "^10.1.2",
-    "vite": "^6.4.1"
+    "vite": "^7.2.6"
   }
 }

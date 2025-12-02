@@ -130,10 +130,10 @@ Icons are auto-generated from Bootstrap Icons SVG files using:
 
 ```bash
 # First, fetch icon metadata (optional, for enriched JSDoc)
-node tools/scripts/icons/fetch-icon-metadata.js
+node tools/scripts/icons/fetch-icon-metadata.cjs
 
 # Generate React components
-node tools/scripts/icons/generate-icons.js
+node tools/scripts/icons/generate-icons.cjs
 ```
 
 The generator script outputs:

@@ -597,8 +597,8 @@ pnpm tokens:build
 
 - **Figma exports**: `packages/@dsai/tokens/figma-exports/*.json` ← **Export here from Figma**
 - **Transformed tokens**: `packages/@dsai/tokens/**/*.json`
-- **Transform script**: `tools/scripts/tokens/transform-figma-tokens.js`
-- **Validation script**: `tools/scripts/tokens/validate-tokens.js`
+- **Transform script**: `tools/scripts/tokens/transform-figma-tokens.cjs`
+- **Validation script**: `tools/scripts/tokens/validate-tokens.cjs`
 
 ### Directory Structure
 

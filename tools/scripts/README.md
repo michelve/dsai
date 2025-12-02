@@ -16,16 +16,16 @@ tools/scripts/
 
 ### 📊 Analysis (`analysis/`)
 
-| Script                    | Description                                                           | Usage                         |
-| ------------------------- | --------------------------------------------------------------------- | ----------------------------- |
-| `analyze-button-usage.js` | Scans for Button component usage and validates accessibility patterns | `pnpm analyze:buttons [path]` |
+| Script                     | Description                                                           | Usage                         |
+| -------------------------- | --------------------------------------------------------------------- | ----------------------------- |
+| `analyze-button-usage.cjs` | Scans for Button component usage and validates accessibility patterns | `pnpm analyze:buttons [path]` |
 
 ### 🐙 GitHub (`github/`)
 
-| Script                          | Description                                       | Usage                                              |
-| ------------------------------- | ------------------------------------------------- | -------------------------------------------------- |
-| `export-tasks-to-github-csv.js` | Exports task files to CSV for bulk issue creation | Used by GitHub Actions                             |
-| `update-issue-labels.js`        | Updates GitHub issue labels from CSV              | `node tools/scripts/github/update-issue-labels.js` |
+| Script                           | Description                                       | Usage                                               |
+| -------------------------------- | ------------------------------------------------- | --------------------------------------------------- |
+| `export-tasks-to-github-csv.cjs` | Exports task files to CSV for bulk issue creation | Used by GitHub Actions                              |
+| `update-issue-labels.cjs`        | Updates GitHub issue labels from CSV              | `node tools/scripts/github/update-issue-labels.cjs` |
 
 ### 📖 Storybook (`storybook/`)
 
