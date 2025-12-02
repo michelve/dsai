@@ -133,6 +133,7 @@ export type {
   NavbarItemProps,
   NavbarLinkProps,
   NavbarNavProps,
+  NavbarOrientation,
   NavbarPlacement,
   NavbarProps,
   NavbarTextProps,

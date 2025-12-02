@@ -106,6 +106,29 @@ describe('Navbar', () => {
       expect(screen.getByRole('navigation')).toHaveAttribute('aria-label', 'Site navigation');
     });
 
+    it('renders with custom role override', () => {
+      const { container } = renderNavbar({ role: 'menubar' });
+      const nav = container.querySelector('nav');
+      expect(nav).toHaveAttribute('role', 'menubar');
+    });
+
+    it('removes role when role is none', () => {
+      const { container } = renderNavbar({ role: 'none' });
+      const nav = container.querySelector('nav');
+      expect(nav).not.toHaveAttribute('role');
+    });
+
+    it('renders with horizontal orientation by default', () => {
+      renderNavbar();
+      // horizontal is default, so no aria-orientation should be present
+      expect(screen.getByRole('navigation')).not.toHaveAttribute('aria-orientation');
+    });
+
+    it('renders with vertical orientation when specified', () => {
+      renderNavbar({ orientation: 'vertical' });
+      expect(screen.getByRole('navigation')).toHaveAttribute('aria-orientation', 'vertical');
+    });
+
     it('renders children inside container', () => {
       const { container } = renderNavbar();
       expect(container.querySelector('.container-fluid')).toBeInTheDocument();
@@ -728,6 +751,149 @@ describe('Navbar.Toggle', () => {
         expect(container.querySelector('.collapse.show')).toBeInTheDocument();
       });
     });
+
+    it('closes on Escape key and returns focus to toggle', async () => {
+      const user = userEvent.setup();
+      renderNavbar({ defaultExpanded: true });
+
+      // Verify menu is open
+      expect(screen.getByRole('navigation')).toHaveAttribute('data-visual-state', 'expanded');
+
+      // Focus on a link inside the navbar first (Escape must be pressed while focus is within navbar)
+      const links = screen.getAllByRole('menuitem');
+      links[0]?.focus();
+
+      // Press Escape
+      await user.keyboard('{Escape}');
+
+      await waitFor(() => {
+        expect(screen.getByRole('navigation')).toHaveAttribute('data-visual-state', 'collapsed');
+      });
+
+      // Focus should return to toggle button
+      expect(screen.getByRole('button', { name: /toggle/i })).toHaveFocus();
+    });
+
+    it('navigates links with Arrow Down key', async () => {
+      const user = userEvent.setup();
+      renderNavbar({ expanded: true });
+
+      // Focus on first link
+      const links = screen.getAllByRole('menuitem');
+      const firstLink = links[0];
+      const secondLink = links[1];
+      if (!firstLink || !secondLink) {
+        throw new Error('Links not found');
+      }
+
+      firstLink.focus();
+      expect(firstLink).toHaveFocus();
+
+      // Press Arrow Down
+      await user.keyboard('{ArrowDown}');
+      expect(secondLink).toHaveFocus();
+
+      // Press Arrow Down again (wraps to first)
+      await user.keyboard('{ArrowDown}');
+      expect(firstLink).toHaveFocus();
+    });
+
+    it('navigates links with Arrow Up key', async () => {
+      const user = userEvent.setup();
+      renderNavbar({ expanded: true });
+
+      // Focus on second link
+      const links = screen.getAllByRole('menuitem');
+      const firstLink = links[0];
+      const secondLink = links[1];
+      if (!firstLink || !secondLink) {
+        throw new Error('Links not found');
+      }
+
+      secondLink.focus();
+      expect(secondLink).toHaveFocus();
+
+      // Press Arrow Up
+      await user.keyboard('{ArrowUp}');
+      expect(firstLink).toHaveFocus();
+    });
+
+    it('navigates to first link with Home key', async () => {
+      const user = userEvent.setup();
+      renderNavbar({ expanded: true });
+
+      // Focus on second link
+      const links = screen.getAllByRole('menuitem');
+      const firstLink = links[0];
+      const secondLink = links[1];
+      if (!firstLink || !secondLink) {
+        throw new Error('Links not found');
+      }
+
+      secondLink.focus();
+
+      // Press Home
+      await user.keyboard('{Home}');
+      expect(firstLink).toHaveFocus();
+    });
+
+    it('navigates to last link with End key', async () => {
+      const user = userEvent.setup();
+      renderNavbar({ expanded: true });
+
+      // Focus on first link
+      const links = screen.getAllByRole('menuitem');
+      const firstLink = links[0];
+      const secondLink = links[1];
+      if (!firstLink || !secondLink) {
+        throw new Error('Links not found');
+      }
+
+      firstLink.focus();
+
+      // Press End
+      await user.keyboard('{End}');
+      // Last non-disabled link
+      expect(secondLink).toHaveFocus();
+    });
+
+    it('wraps around on Arrow Down at last item', async () => {
+      const user = userEvent.setup();
+      renderNavbar({ expanded: true });
+
+      // Focus on last enabled link
+      const links = screen.getAllByRole('menuitem');
+      const firstLink = links[0];
+      const secondLink = links[1];
+      if (!firstLink || !secondLink) {
+        throw new Error('Links not found');
+      }
+
+      secondLink.focus();
+
+      // Press Arrow Down should wrap to first
+      await user.keyboard('{ArrowDown}');
+      expect(firstLink).toHaveFocus();
+    });
+
+    it('wraps around on Arrow Up at first item', async () => {
+      const user = userEvent.setup();
+      renderNavbar({ expanded: true });
+
+      // Focus on first link
+      const links = screen.getAllByRole('menuitem');
+      const firstLink = links[0];
+      const secondLink = links[1];
+      if (!firstLink || !secondLink) {
+        throw new Error('Links not found');
+      }
+
+      firstLink.focus();
+
+      // Press Arrow Up should wrap to last
+      await user.keyboard('{ArrowUp}');
+      expect(secondLink).toHaveFocus();
+    });
   });
 });
 
@@ -894,6 +1060,23 @@ describe('Navbar.Nav', () => {
       expect(nav).toHaveStyle({ '--bs-scroll-height': '200px' });
     });
   });
+
+  describe('ARIA & Roles', () => {
+    it('renders with menubar role', () => {
+      renderNavbar({ expanded: true });
+      expect(screen.getByRole('menubar')).toBeInTheDocument();
+    });
+
+    it('renders with horizontal aria-orientation by default', () => {
+      renderNavbar({ expanded: true });
+      expect(screen.getByRole('menubar')).toHaveAttribute('aria-orientation', 'horizontal');
+    });
+
+    it('renders with vertical aria-orientation when navbar orientation is vertical', () => {
+      renderNavbar({ expanded: true, orientation: 'vertical' });
+      expect(screen.getByRole('menubar')).toHaveAttribute('aria-orientation', 'vertical');
+    });
+  });
 });
 
 // =============================================================================
@@ -910,6 +1093,12 @@ describe('Navbar.Item', () => {
     it('renders with nav-item class', () => {
       renderNavbar();
       expect(document.querySelector('.nav-item')).toBeInTheDocument();
+    });
+
+    it('renders with role="none" to pass through to child link', () => {
+      renderNavbar({ expanded: true });
+      const item = document.querySelector('.nav-item');
+      expect(item).toHaveAttribute('role', 'none');
     });
 
     it('applies dropdown class when dropdown is true', () => {
@@ -989,6 +1178,12 @@ describe('Navbar.Link', () => {
     it('renders with nav-link class', () => {
       renderNavbar();
       expect(document.querySelector('.nav-link')).toBeInTheDocument();
+    });
+
+    it('renders with role="menuitem" for accessibility', () => {
+      renderNavbar({ expanded: true });
+      const links = screen.getAllByRole('menuitem');
+      expect(links.length).toBeGreaterThan(0);
     });
 
     it('renders with active class when active', () => {

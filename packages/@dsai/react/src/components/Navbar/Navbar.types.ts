@@ -62,6 +62,13 @@ export type NavbarPlacement =
   | 'sticky-bottom';
 
 /**
+ * Navbar orientation for ARIA
+ * - 'horizontal': Standard navbar layout (default)
+ * - 'vertical': Sidebar-style navigation
+ */
+export type NavbarOrientation = 'horizontal' | 'vertical';
+
+/**
  * Navbar background colors (Bootstrap background utilities)
  */
 export type NavbarBackground =
@@ -93,6 +100,8 @@ export interface NavbarContextValue {
   open: () => void;
   /** Close the collapse menu */
   close: () => void;
+  /** Handle Escape key - closes menu and returns focus to toggle */
+  handleEscapeKey: (event: React.KeyboardEvent<HTMLElement>) => void;
   /** Current variant for theming */
   variant: NavbarVariant;
   /** Expand breakpoint */
@@ -101,6 +110,8 @@ export interface NavbarContextValue {
   collapseId: string;
   /** Register a toggle button ref for keyboard navigation */
   registerToggleRef: (ref: HTMLButtonElement | null) => void;
+  /** Orientation for keyboard navigation */
+  orientation: NavbarOrientation;
 }
 
 // =============================================================================
@@ -171,6 +182,20 @@ export interface NavbarProps extends SafeNavbarHTMLAttributes {
    * @default 'Main navigation'
    */
   'aria-label'?: string;
+
+  /**
+   * Override the default role of the navigation element.
+   * Use 'none' to remove the role entirely.
+   * @default undefined (uses implicit 'navigation' role from <nav>)
+   */
+  role?: 'navigation' | 'menubar' | 'none';
+
+  /**
+   * ARIA orientation for the navigation.
+   * Useful for vertical sidebars or advanced nav structures.
+   * @default 'horizontal'
+   */
+  orientation?: NavbarOrientation;
 }
 
 /**

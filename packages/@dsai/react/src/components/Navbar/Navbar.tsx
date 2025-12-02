@@ -128,6 +128,8 @@ const NavbarRoot = forwardRef<HTMLElement, NavbarProps>(
       'data-testid': dataTestId,
       'data-test': dataTest,
       'aria-label': ariaLabel = 'Main navigation',
+      role,
+      orientation = 'horizontal',
     },
     ref
   ) => {
@@ -202,6 +204,17 @@ const NavbarRoot = forwardRef<HTMLElement, NavbarProps>(
       toggleRef.current = buttonRef;
     }, []);
 
+    // Handle Escape key - closes menu and returns focus to toggle
+    const handleEscapeKey = useCallback(
+      (event: React.KeyboardEvent<HTMLElement>) => {
+        if (event.key === 'Escape' && isNavbarExpanded(fsmState)) {
+          close();
+          toggleRef.current?.focus();
+        }
+      },
+      [fsmState, close]
+    );
+
     // Memoize context value
     const contextValue = useMemo<NavbarContextValue>(
       () => ({
@@ -209,12 +222,25 @@ const NavbarRoot = forwardRef<HTMLElement, NavbarProps>(
         toggle,
         open,
         close,
+        handleEscapeKey,
         variant,
         expand,
         collapseId,
         registerToggleRef,
+        orientation,
       }),
-      [fsmState, toggle, open, close, variant, expand, collapseId, registerToggleRef]
+      [
+        fsmState,
+        toggle,
+        open,
+        close,
+        handleEscapeKey,
+        variant,
+        expand,
+        collapseId,
+        registerToggleRef,
+        orientation,
+      ]
     );
 
     // Compute navbar classes
@@ -266,6 +292,9 @@ const NavbarRoot = forwardRef<HTMLElement, NavbarProps>(
     // Data theme attribute for dark variant
     const dataTheme = variant === 'dark' ? 'dark' : undefined;
 
+    // Compute role - 'none' removes the role, undefined uses implicit nav role
+    const computedRole = role === 'none' ? undefined : role;
+
     return (
       <NavbarContext.Provider value={contextValue}>
         <nav
@@ -273,7 +302,9 @@ const NavbarRoot = forwardRef<HTMLElement, NavbarProps>(
           id={id}
           className={navbarClasses}
           style={style}
+          role={computedRole}
           aria-label={ariaLabel}
+          aria-orientation={orientation !== 'horizontal' ? orientation : undefined}
           data-bs-theme={dataTheme}
           data-visual-state={getNavbarVisualState(fsmState)}
           data-testid={dataTestId}
@@ -549,7 +580,13 @@ NavbarCollapse.displayName = 'Navbar.Collapse';
 /**
  * Navbar.Nav Component
  *
- * Container for navigation links.
+ * Container for navigation links with keyboard navigation support.
+ *
+ * KEYBOARD NAVIGATION (enhanced a11y):
+ * - Arrow Down/Right: Move focus to next link
+ * - Arrow Up/Left: Move focus to previous link
+ * - Home: Move focus to first link
+ * - End: Move focus to last link
  *
  * @example
  * ```tsx
@@ -573,6 +610,80 @@ const NavbarNav = forwardRef<HTMLUListElement, NavbarNavProps>(
     },
     ref
   ) => {
+    const { orientation, handleEscapeKey } = useNavbarContext();
+    const navRef = useRef<HTMLUListElement | null>(null);
+
+    // Merge refs
+    const mergedRef = useCallback(
+      (node: HTMLUListElement | null) => {
+        navRef.current = node;
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          (ref as React.RefObject<HTMLUListElement | null>).current = node;
+        }
+      },
+      [ref]
+    );
+
+    // Get focusable nav links
+    const getFocusableLinks = useCallback((): HTMLAnchorElement[] => {
+      if (!navRef.current) {
+        return [];
+      }
+      return Array.from(
+        navRef.current.querySelectorAll<HTMLAnchorElement>(
+          '.nav-link:not([disabled]):not([aria-disabled="true"]):not([tabindex="-1"])'
+        )
+      );
+    }, []);
+
+    // Handle keyboard navigation
+    const handleKeyDown = useCallback(
+      (event: React.KeyboardEvent<HTMLUListElement>) => {
+        // Handle Escape to close menu
+        if (event.key === 'Escape') {
+          handleEscapeKey(event);
+          return;
+        }
+
+        const links = getFocusableLinks();
+        if (links.length === 0) {
+          return;
+        }
+
+        const currentIndex = links.findIndex((link) => link === document.activeElement);
+        let nextIndex = -1;
+
+        // Determine navigation keys based on orientation
+        const isVertical = orientation === 'vertical';
+        const nextKeys = isVertical ? ['ArrowDown'] : ['ArrowDown', 'ArrowRight'];
+        const prevKeys = isVertical ? ['ArrowUp'] : ['ArrowUp', 'ArrowLeft'];
+
+        if (nextKeys.includes(event.key)) {
+          event.preventDefault();
+          nextIndex = currentIndex < links.length - 1 ? currentIndex + 1 : 0;
+        } else if (prevKeys.includes(event.key)) {
+          event.preventDefault();
+          nextIndex = currentIndex > 0 ? currentIndex - 1 : links.length - 1;
+        } else if (event.key === 'Home') {
+          event.preventDefault();
+          nextIndex = 0;
+        } else if (event.key === 'End') {
+          event.preventDefault();
+          nextIndex = links.length - 1;
+        }
+
+        if (nextIndex >= 0 && nextIndex < links.length) {
+          const targetLink = links.find((_, idx) => idx === nextIndex);
+          if (targetLink) {
+            targetLink.focus();
+          }
+        }
+      },
+      [getFocusableLinks, orientation, handleEscapeKey]
+    );
+
     // Compute classes
     const navClasses = useMemo(() => {
       const classes = ['navbar-nav'];
@@ -598,10 +709,13 @@ const NavbarNav = forwardRef<HTMLUListElement, NavbarNavProps>(
 
     return (
       <ul
-        ref={ref}
+        ref={mergedRef}
         id={id}
         className={navClasses}
         style={computedStyle}
+        role="menubar"
+        aria-orientation={orientation}
+        onKeyDown={handleKeyDown}
         data-testid={dataTestId}
         data-test={dataTest}
       >
@@ -660,6 +774,7 @@ const NavbarItem = forwardRef<HTMLLIElement, NavbarItemProps>(
         id={id}
         className={itemClasses}
         style={style}
+        role="none"
         data-testid={dataTestId}
         data-test={dataTest}
       >
@@ -756,6 +871,7 @@ const NavbarLink = forwardRef<HTMLAnchorElement, NavbarLinkProps>(
       href: safeHref,
       target,
       rel: computedRel,
+      role: 'menuitem' as const,
       'aria-current': active ? ('page' as const) : undefined,
       'aria-disabled': disabled || undefined,
       tabIndex: disabled ? -1 : undefined,
@@ -849,6 +965,7 @@ export type {
   NavbarItemProps,
   NavbarLinkProps,
   NavbarNavProps,
+  NavbarOrientation,
   NavbarPlacement,
   NavbarProps,
   NavbarTextProps,
