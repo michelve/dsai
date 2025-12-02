@@ -349,6 +349,12 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 - [ ] Bootstrap 5 markup correct
 - [ ] Use correct icon component, no emojis or text icons allowed
 
+Notes:
+
+eslint: npx eslint packages/@dsai/storybook/docs/components/
+How to test component: npm test -- Accordion
+eslint: npx eslint packages/@dsai/react/src/components/Accordion
+
 **Documentation Gates:**
 
 - [ ] Component README complete
@@ -369,7 +375,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 
 ### Step 1: Read Task File
 
-- Parse task from `tasks/02-high/TASK-039-accordion-component.md`
+- Parse task from `tasks/02-high/TASK-040-navbar-component.md`
 - Verify task is clear and complete
 - Ask clarifying questions if ambiguous
 

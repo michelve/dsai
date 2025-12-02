@@ -123,6 +123,27 @@ export type {
 // Modal
 export { Modal } from './Modal';
 export type {
+  NavbarBackground,
+  NavbarBrandProps,
+  NavbarCollapseProps,
+  NavbarContextValue,
+  NavbarExpandBreakpoint,
+  NavbarFSMEvent,
+  NavbarFSMState,
+  NavbarItemProps,
+  NavbarLinkProps,
+  NavbarNavProps,
+  NavbarPlacement,
+  NavbarProps,
+  NavbarTextProps,
+  NavbarToggleProps,
+  NavbarVariant,
+  NavbarVisibility,
+  NavbarVisualState,
+} from './Navbar';
+// Navbar
+export { Navbar } from './Navbar';
+export type {
   PaginationAlignment,
   PaginationItemData,
   PaginationItemProps,

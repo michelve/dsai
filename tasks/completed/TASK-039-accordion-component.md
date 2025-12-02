@@ -70,7 +70,7 @@ Create accessible Accordion component with expand/collapse animation, single or 
 
 ## Files Created/Modified
 
-### New Files:
+### New Files
 
 - `packages/@dsai/react/src/components/Accordion/Accordion.tsx`
 - `packages/@dsai/react/src/components/Accordion/Accordion.types.ts`
@@ -84,7 +84,7 @@ Create accessible Accordion component with expand/collapse animation, single or 
 - `packages/@dsai/react/src/components/Accordion/index.ts`
 - `packages/@dsai/storybook/docs/components/Accordion.stories.tsx`
 
-### Modified Files:
+### Modified Files
 
 - `packages/@dsai/react/src/components/index.ts` (added Accordion export)
 
@@ -92,7 +92,7 @@ Create accessible Accordion component with expand/collapse animation, single or 
 
 ## Dependencies
 
-### Requires:
+### Requires
 
 - **TASK-014**: Base Component Template ✅
 
