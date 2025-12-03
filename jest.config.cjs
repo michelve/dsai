@@ -1,4 +1,4 @@
 /** @type {import('jest').Config} */
 module.exports = {
-  preset: './jest.preset.js',
+  preset: './jest.preset.cjs',
 };

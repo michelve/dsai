@@ -11,6 +11,7 @@ A fully accessible tooltip component for displaying contextual information on ho
 - **Controlled and uncontrolled modes**: Full state control when needed
 - **Portal rendering**: Renders outside parent DOM for proper stacking
 - **Keyboard accessible**: Visible on focus, ESC to dismiss
+- **Polished visuals**: Built-in fade/scale transitions and themable arrow surface
 
 ## Installation
 
@@ -28,23 +29,24 @@ import { Tooltip } from '@dsai/react';
 
 ## Props
 
-| Prop           | Type                                 | Default              | Description                  |
-| -------------- | ------------------------------------ | -------------------- | ---------------------------- |
-| `children`     | `ReactElement`                       | Required             | The trigger element          |
-| `content`      | `ReactNode`                          | Required             | Tooltip content to display   |
-| `placement`    | `TooltipPlacement`                   | `'top'`              | Position relative to trigger |
-| `trigger`      | `TooltipTrigger \| TooltipTrigger[]` | `['hover', 'focus']` | How to trigger visibility    |
-| `showDelay`    | `number`                             | `0`                  | Delay before showing (ms)    |
-| `hideDelay`    | `number`                             | `0`                  | Delay before hiding (ms)     |
-| `arrow`        | `boolean`                            | `true`               | Show arrow pointer           |
-| `offset`       | `number`                             | `8`                  | Distance from trigger (px)   |
-| `maxWidth`     | `number \| string`                   | `undefined`          | Max width for text wrapping  |
-| `isOpen`       | `boolean`                            | `undefined`          | Controlled open state        |
-| `onOpenChange` | `(isOpen: boolean) => void`          | `undefined`          | Open state change callback   |
-| `defaultOpen`  | `boolean`                            | `false`              | Initial open state           |
-| `disabled`     | `boolean`                            | `false`              | Disable tooltip              |
-| `portal`       | `boolean`                            | `true`               | Render in portal             |
-| `container`    | `HTMLElement`                        | `document.body`      | Portal container             |
+| Prop           | Type                                 | Default              | Description                                                   |
+| -------------- | ------------------------------------ | -------------------- | ------------------------------------------------------------- |
+| `children`     | `ReactElement`                       | Required             | The trigger element                                           |
+| `content`      | `ReactNode`                          | Required             | Tooltip content to display                                    |
+| `placement`    | `TooltipPlacement`                   | `'top'`              | Position relative to trigger                                  |
+| `trigger`      | `TooltipTrigger \| TooltipTrigger[]` | `['hover', 'focus']` | How to trigger visibility                                     |
+| `showDelay`    | `number`                             | `0`                  | Delay before showing (ms)                                     |
+| `hideDelay`    | `number`                             | `0`                  | Delay before hiding (ms)                                      |
+| `arrow`        | `boolean`                            | `true`               | Show arrow pointer                                            |
+| `offset`       | `number`                             | `8`                  | Distance from trigger (px)                                    |
+| `maxWidth`     | `number \| string`                   | `undefined`          | Max width for text wrapping                                   |
+| `isOpen`       | `boolean`                            | `undefined`          | Controlled open state                                         |
+| `onOpenChange` | `(isOpen: boolean) => void`          | `undefined`          | Open state change callback                                    |
+| `defaultOpen`  | `boolean`                            | `false`              | Initial open state                                            |
+| `disabled`     | `boolean`                            | `false`              | Disable tooltip                                               |
+| `portal`       | `boolean`                            | `true`               | Render in portal                                              |
+| `container`    | `HTMLElement`                        | `document.body`      | Portal container                                              |
+| `aria-label`   | `string`                             | `undefined`          | Accessible label for screen readers when `content` is complex |
 
 ### Placement Values
 
@@ -254,6 +256,7 @@ Only safe HTML attributes are accepted:
 - Portal rendering prevents layout thrashing
 - Animation transitions use CSS transforms for GPU acceleration
 - Component renders only when visible (via FSM `shouldRender`)
+- RequestAnimationFrame-based measurements prevent the tooltip from flashing at `(0, 0)` before positioning completes
 
 ### Bundle Size
 
@@ -271,3 +274,30 @@ Only safe HTML attributes are accepted:
 
 - [Popover](./Popover.md) - For interactive content with more complex layouts
 - [Dropdown](./Dropdown.md) - For menus and selectable options
+
+## Styling the Arrow and Visual States
+
+The tooltip arrow now renders with the dedicated `.dsai-tooltip-arrow` class so you can synchronize its color with custom surfaces:
+
+```css
+.custom-tooltip.tooltip .tooltip-inner {
+  background: #1b1d3a;
+  color: #f8f9ff;
+}
+
+.custom-tooltip .dsai-tooltip-arrow {
+  fill: #1b1d3a;
+}
+```
+
+You can also hook into the `data-visual-state` attribute to align bespoke animations with the Tooltip FSM transitions (150ms by default):
+
+```css
+.custom-tooltip[data-visual-state='showing'] {
+  animation: tooltip-pop-in 150ms ease-out;
+}
+
+.custom-tooltip[data-visual-state='hiding'] {
+  animation: tooltip-pop-out 150ms ease-in;
+}
+```

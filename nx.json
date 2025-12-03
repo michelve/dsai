@@ -40,7 +40,7 @@
       "{projectRoot}/test/**/*",
       "{projectRoot}/jest.config.ts",
       "{projectRoot}/jest.config.js",
-      "{workspaceRoot}/jest.preset.js",
+      "{workspaceRoot}/jest.preset.cjs",
       "sharedGlobals"
     ],
 

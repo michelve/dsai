@@ -28,6 +28,11 @@ import type { TooltipPlacement, TooltipProps, TooltipTrigger } from './Tooltip.t
 import type { Placement } from '@floating-ui/react';
 import type { ReactElement } from 'react';
 
+const TOOLTIP_ARROW_GAP_PX = 6;
+const TOOLTIP_ARROW_WIDTH_PX = 12;
+const TOOLTIP_ARROW_HEIGHT_PX = 6;
+const TOOLTIP_TRANSITION_MS = 150;
+
 /**
  * Map DSAi placement to Floating UI placement
  */
@@ -60,7 +65,8 @@ function normalizeTriggers(trigger: TooltipTrigger | TooltipTrigger[]): TooltipT
  * - No dangerouslySetInnerHTML
  * - Explicit event handlers only
  *
- * @example
+ * @exampleclear
+ *
  * ```tsx
  * // Basic tooltip
  * <Tooltip content="Helpful information">
@@ -136,7 +142,7 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
     // to avoid React hooks ordering issues. FloatingArrow handles visibility.
     const middleware = useMemo(
       () => [
-        offset(offsetValue + (showArrow ? 4 : 0)),
+        offset(offsetValue + (showArrow ? TOOLTIP_ARROW_GAP_PX : 0)),
         flip({ fallbackAxisSideDirection: 'start' }),
         shift({ padding: 5 }),
         // eslint-disable-next-line react-hooks/refs -- Floating UI documented pattern: arrow middleware requires ref object
@@ -201,18 +207,15 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
 
     // Transition styles for animation
     const { isMounted, styles: transitionStyles } = useTransitionStyles(context, {
-      duration: 150,
+      duration: TOOLTIP_TRANSITION_MS,
       initial: {
         opacity: 0,
-        transform: 'scale(0.95)',
       },
       open: {
         opacity: 1,
-        transform: 'scale(1)',
       },
       close: {
         opacity: 0,
-        transform: 'scale(0.95)',
       },
     });
 
@@ -244,22 +247,27 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
       if (fsmState.visibility === 'closing') {
         const timeoutId = setTimeout(() => {
           dispatch({ type: 'ANIMATION_END' });
-        }, 150); // Match transition duration
+        }, TOOLTIP_TRANSITION_MS); // Match transition duration
         return () => clearTimeout(timeoutId);
       }
 
       return undefined;
     }, [fsmState.visibility]);
 
-    // Force position update on every render when tooltip is visible
-    // This pattern is used by MUI's Popper to handle positioning race conditions
-    // where the floating element computes position before the reference element is measurable.
-    // Running without dependency array ensures position is always up-to-date.
+    // Force a Floating UI re-measure right after paint whenever the tooltip should render.
+    // Using requestAnimationFrame ensures the reference element has a layout box before measuring,
+    // preventing the tooltip from briefly appearing at (0, 0).
     useEffect(() => {
-      if (fsmState.shouldRender) {
-        update();
+      if (!fsmState.shouldRender) {
+        return undefined;
       }
-    });
+
+      const frameId = requestAnimationFrame(() => {
+        update();
+      });
+
+      return () => cancelAnimationFrame(frameId);
+    }, [fsmState.shouldRender, update]);
 
     const child = children as ReactElement<{ ref?: React.Ref<HTMLElement> }>;
     const childRef = child?.props?.ref;
@@ -282,12 +290,21 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
 
     // Compute tooltip styles
     const tooltipStyles = useMemo(() => {
+      const { transform: floatingTransform, ...floatingRest } = floatingStyles;
+      const { transform: transitionTransform, ...transitionRest } = transitionStyles;
+
+      const combinedTransform = [floatingTransform, transitionTransform].filter(Boolean).join(' ');
+
       const baseStyles: React.CSSProperties = {
-        ...floatingStyles,
-        ...transitionStyles,
+        ...floatingRest,
+        ...transitionRest,
         ...style,
         zIndex: 1080, // Bootstrap tooltip z-index
       };
+
+      if (combinedTransform) {
+        baseStyles.transform = combinedTransform;
+      }
 
       if (maxWidth !== undefined) {
         baseStyles.maxWidth = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
@@ -323,9 +340,13 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
           <FloatingArrow
             ref={arrowRef}
             context={context}
-            className="tooltip-arrow"
+            className="dsai-tooltip-arrow"
+            width={TOOLTIP_ARROW_WIDTH_PX}
+            height={TOOLTIP_ARROW_HEIGHT_PX}
+            tipRadius={0}
             style={{
               fill: 'var(--bs-tooltip-bg, #212529)',
+              pointerEvents: 'none',
             }}
           />
         )}

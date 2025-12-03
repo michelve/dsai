@@ -723,3 +723,82 @@ export const WithLoadingButton: Story = {
     );
   },
 };
+
+// =============================================================================
+// Custom Theming & Visual States
+// =============================================================================
+
+/**
+ * Demonstrates theming the tooltip surface and arrow along with
+ * using the `data-visual-state` attribute to hook into transitions.
+ */
+export const ThemedWithVisualStates: Story = {
+  render: function ThemedWithVisualStatesTooltip() {
+    return (
+      <>
+        <style>
+          {`
+            .custom-tooltip-surface.tooltip {
+              --tooltip-bg: #1b1d3a;
+            }
+
+            .custom-tooltip-surface .tooltip-inner {
+              background-color: var(--tooltip-bg);
+              color: #f8f9ff;
+              font-weight: 500;
+              letter-spacing: 0.01em;
+            }
+
+            .custom-tooltip-surface .dsai-tooltip-arrow {
+              fill: var(--tooltip-bg);
+            }
+
+            .custom-tooltip-surface[data-visual-state='showing'],
+            .custom-tooltip-surface[data-visual-state='visible'] {
+              box-shadow: 0 10px 25px rgba(9, 12, 61, 0.35);
+            }
+
+            .custom-tooltip-surface[data-visual-state='showing'] {
+              animation: tooltip-pop-in 150ms ease-out;
+            }
+
+            .custom-tooltip-surface[data-visual-state='hiding'] {
+              animation: tooltip-pop-out 150ms ease-in;
+            }
+
+            @keyframes tooltip-pop-in {
+              from {
+                opacity: 0;
+                transform: translateY(4px) scale(0.96);
+              }
+              to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+              }
+            }
+
+            @keyframes tooltip-pop-out {
+              from {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+              }
+              to {
+                opacity: 0;
+                transform: translateY(4px) scale(0.96);
+              }
+            }
+          `}
+        </style>
+
+        <Tooltip
+          content="Custom themed tooltip with synced arrow"
+          className="custom-tooltip-surface"
+          placement="bottom"
+          showDelay={150}
+        >
+          <button className="btn btn-dark">Hover to see theme</button>
+        </Tooltip>
+      </>
+    );
+  },
+};

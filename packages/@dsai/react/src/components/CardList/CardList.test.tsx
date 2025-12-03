@@ -232,6 +232,18 @@ describe('CardList', () => {
         expect(radio).toHaveAttribute('name', 'selected-plan');
       });
     });
+
+    it('derives a radio name when none is provided', () => {
+      const { container } = render(
+        <CardList id="pricing" label="Plans" items={defaultItems} selectionMode="single" />
+      );
+
+      const radios = container.querySelectorAll('input[type="radio"]');
+      expect(radios).toHaveLength(3);
+      radios.forEach((radio) => {
+        expect(radio).toHaveAttribute('name', 'pricing-group');
+      });
+    });
   });
 
   // ===========================================================================
