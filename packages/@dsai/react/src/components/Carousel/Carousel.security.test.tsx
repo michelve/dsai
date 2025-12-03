@@ -36,6 +36,7 @@ describe('Carousel Security', () => {
           data-testid="item"
           // @ts-expect-error - testing security
           onLoad={() => alert('XSS')}
+          // nosemgrep: react-dangerouslysetinnerhtml - This tests that the component REJECTS dangerouslySetInnerHTML
           dangerouslySetInnerHTML={{ __html: '<script>alert("XSS")</script>' }}
         >
           <div>Slide</div>

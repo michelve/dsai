@@ -246,6 +246,30 @@ export type {
 } from './Tooltip';
 // Tooltip
 export { Tooltip } from './Tooltip';
+
+// Popover
+export {
+  Popover,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverHeader,
+  createInitialPopoverFSMState,
+  getPopoverVisualState,
+  popoverFSMReducer,
+} from './Popover';
+export type {
+  PopoverBodyProps,
+  PopoverCloseButtonProps,
+  PopoverContextValue,
+  PopoverFSMEvent,
+  PopoverFSMState,
+  PopoverHeaderProps,
+  PopoverPlacement,
+  PopoverProps,
+  PopoverTrigger,
+  PopoverVisualState,
+  SafePopoverHTMLAttributes,
+} from './Popover';
 export type {
   DisplayProps,
   DisplaySize,

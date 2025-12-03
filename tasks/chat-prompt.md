@@ -375,7 +375,7 @@ eslint: npx eslint packages/@dsai/react/src/components/Accordion
 
 ### Step 1: Read Task File
 
-- Parse task from `tasks/02-high/TASK-041-carousel-component.md`
+- Parse task from `tasks/02-high/TASK-043-popover-component.md`
 - Verify task is clear and complete
 - Ask clarifying questions if ambiguous
 
@@ -467,3 +467,4 @@ eslint: npx eslint packages/@dsai/react/src/components/Accordion
 - Breaking change required without migration path
 - Third-party dependency has known CVE
 - Test suite failures in unrelated components
+  s

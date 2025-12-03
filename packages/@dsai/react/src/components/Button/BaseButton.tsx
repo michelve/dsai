@@ -76,6 +76,7 @@ export const BaseButton = forwardRef<
       'aria-controls': ariaControls,
       'aria-expanded': ariaExpanded,
       'aria-pressed': ariaPressed,
+      'aria-haspopup': ariaHasPopup,
       'data-testid': dataTestId,
       'data-test': dataTest,
       title,
@@ -170,6 +171,7 @@ export const BaseButton = forwardRef<
           aria-controls={ariaControls}
           aria-expanded={ariaExpanded}
           aria-pressed={ariaPressed}
+          aria-haspopup={ariaHasPopup}
           aria-busy={loading}
           aria-disabled={isDisabled ? true : undefined}
           data-testid={dataTestId}
