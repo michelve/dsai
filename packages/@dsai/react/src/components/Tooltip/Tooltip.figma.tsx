@@ -12,6 +12,8 @@ import figma from '@figma/code-connect';
 
 import { Tooltip } from './Tooltip';
 
+import type { TooltipTrigger } from './Tooltip.types';
+
 /**
  * DSAi Tooltip - Code Connect Mapping
  *
@@ -48,12 +50,13 @@ figma.connect(Tooltip, '<FIGMA_DSAI_TOOLTIP>', {
     /**
      * Tooltip trigger behavior
      * Maps Figma "Trigger" property to React trigger prop
+     * Cast needed because figma.enum returns string[] for arrays
      */
     trigger: figma.enum('Trigger', {
-      Hover: 'hover',
-      Focus: 'focus',
-      Click: 'click',
-      'Hover & Focus': ['hover', 'focus'],
+      Hover: 'hover' as const,
+      Focus: 'focus' as const,
+      Click: 'click' as const,
+      'Hover & Focus': ['hover', 'focus'] as const,
     }),
 
     /**
@@ -132,7 +135,7 @@ figma.connect(Tooltip, '<FIGMA_DSAI_TOOLTIP>', {
     <Tooltip
       content={content}
       placement={placement}
-      trigger={trigger}
+      trigger={trigger as TooltipTrigger | TooltipTrigger[]}
       arrow={arrow}
       disabled={disabled}
       showDelay={showDelay}

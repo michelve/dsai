@@ -146,7 +146,7 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
     );
 
     // Floating UI setup
-    const { refs, floatingStyles, context } = useFloating({
+    const { refs, floatingStyles, context, update } = useFloating({
       open: fsmState.shouldRender,
       onOpenChange: (openState) => {
         if (disabled) {
@@ -250,6 +250,16 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
 
       return undefined;
     }, [fsmState.visibility]);
+
+    // Force position update on every render when tooltip is visible
+    // This pattern is used by MUI's Popper to handle positioning race conditions
+    // where the floating element computes position before the reference element is measurable.
+    // Running without dependency array ensures position is always up-to-date.
+    useEffect(() => {
+      if (fsmState.shouldRender) {
+        update();
+      }
+    });
 
     const child = children as ReactElement<{ ref?: React.Ref<HTMLElement> }>;
     const childRef = child?.props?.ref;
