@@ -19,11 +19,13 @@ Map Figma components to React components using Figma's Code Connect feature. Cre
 ## Acceptance Criteria
 
 ### Code Connect Setup
+
 - [ ] Install `@figma/code-connect` package
 - [ ] Configure Code Connect in package.json
 - [ ] Authentication with Figma API token
 
 ### Component Mappings (5 priority components)
+
 - [ ] Button.figma.tsx: Map all variants, sizes, states
 - [ ] Alert.figma.tsx: Map variants, icon, closeable
 - [ ] Badge.figma.tsx: Map variants, sizes, dot, pill
@@ -31,17 +33,20 @@ Map Figma components to React components using Figma's Code Connect feature. Cre
 - [ ] Modal.figma.tsx: Map sizes, header/body/footer
 
 ### Variant Mappings
+
 - [ ] Map Figma component properties to React props
 - [ ] Map Figma variants to prop values
 - [ ] Map boolean properties correctly
 - [ ] Handle nested instances
 
 ### Documentation Links
+
 - [ ] Add Storybook links in Code Connect files
 - [ ] Add component README links
 - [ ] Test in Figma Dev Mode (Inspect panel shows code)
 
 ### Testing
+
 - [ ] Verify mappings in Figma Dev Mode
 - [ ] Test code generation accuracy
 - [ ] Validate prop values match
@@ -51,6 +56,7 @@ Map Figma components to React components using Figma's Code Connect feature. Cre
 ## Dependencies
 
 ### Requires:
+
 - **TASK-018**: Populate Figma Variables
 - **TASK-021**: Button Component
 - **TASK-022**: Badge Component

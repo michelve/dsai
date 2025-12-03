@@ -62,6 +62,30 @@ export {
   CardText,
   CardTitle,
 } from './Card';
+
+// Carousel
+export {
+  Carousel,
+  CarouselCaption,
+  CarouselControl,
+  CarouselIndicators,
+  CarouselItem,
+  CarouselPauseButton,
+} from './Carousel';
+export type {
+  CarouselAnimation,
+  CarouselCaptionProps,
+  CarouselControlDirection,
+  CarouselControlProps,
+  CarouselFSMEvent,
+  CarouselFSMState,
+  CarouselIndicatorsProps,
+  CarouselItemProps,
+  CarouselPauseButtonProps,
+  CarouselProps,
+  CarouselVisualState,
+} from './Carousel';
+
 export type {
   CardListFSMState,
   CardListItem,

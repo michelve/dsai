@@ -19,6 +19,7 @@ Create accessible Carousel component for cycling through images or content. Supp
 ## Acceptance Criteria
 
 ### Component Implementation
+
 - [ ] Carousel container component
 - [ ] CarouselItem (slide)
 - [ ] CarouselControl (prev/next buttons)
@@ -29,12 +30,14 @@ Create accessible Carousel component for cycling through images or content. Supp
 - [ ] Touch/swipe support (react-swipeable or similar)
 
 ### Styling
+
 - [ ] Slide animations (slide, fade, custom)
 - [ ] Control button styling
 - [ ] Indicator dots styling
 - [ ] Responsive sizing
 
 ### Accessibility
+
 - [ ] `role="region"` on container
 - [ ] `aria-label="carousel"`
 - [ ] `aria-live="polite"` for announcements
@@ -44,6 +47,7 @@ Create accessible Carousel component for cycling through images or content. Supp
 - [ ] Pause button for autoplay (required for WCAG)
 
 ### Testing
+
 - [ ] Unit tests 90%+
 - [ ] Autoplay tests
 - [ ] Swipe gesture tests
@@ -54,6 +58,7 @@ Create accessible Carousel component for cycling through images or content. Supp
 ## Dependencies
 
 ### Requires:
+
 - **TASK-014**: Base Component Template
 - **TASK-021**: Button Component
 
