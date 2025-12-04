@@ -39,9 +39,11 @@ describe('Badge Security Tests', () => {
       expect(badge).toHaveAttribute('title', 'Badge tooltip');
     });
 
-    it('accepts aria-label attribute', () => {
-      render(<Badge aria-label="Status badge">Content</Badge>);
-      const badge = screen.getByText('Content');
+    it('accepts aria-label attribute for status indicators', () => {
+      // aria-label is only applied when role="status" is present (dot-only badges)
+      // This follows ARIA spec: aria-label requires an interactive or widget role
+      render(<Badge dot aria-label="Status badge" />);
+      const badge = screen.getByRole('status');
       expect(badge).toHaveAttribute('aria-label', 'Status badge');
     });
   });

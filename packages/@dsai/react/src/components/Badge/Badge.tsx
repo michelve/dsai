@@ -1,5 +1,7 @@
 import { forwardRef, memo, useMemo } from 'react';
 
+import { cn } from '../../utils';
+
 import type { BadgeProps } from './Badge.types';
 
 /**
@@ -73,17 +75,16 @@ function BadgeComponent(
   }, [children, icon]);
 
   // Memoize class name construction
-  const bootstrapClasses = useMemo(() => {
-    const classes = [
-      'badge', // Base Bootstrap badge class
-      `text-bg-${variant}`, // Background color: text-bg-primary, text-bg-secondary, etc.
-      pill && 'rounded-pill', // Pill shape
-      className, // Allow additional custom classes
-    ]
-      .filter(Boolean)
-      .join(' ');
-    return classes;
-  }, [variant, pill, className]);
+  const bootstrapClasses = useMemo(
+    () =>
+      cn(
+        'badge', // Base Bootstrap badge class
+        `text-bg-${variant}`, // Background color: text-bg-primary, text-bg-secondary, etc.
+        pill && 'rounded-pill', // Pill shape
+        className // Allow additional custom classes
+      ),
+    [variant, pill, className]
+  );
 
   // Dev warning: dot-only badge without aria-label
   // Shows in development and test environments
@@ -124,9 +125,12 @@ function BadgeComponent(
     </>
   );
 
-  // Build aria props object - only include aria-label when role is present
-  // (ARIA spec: aria-label requires an interactive or widget role)
-  const ariaProps = role ? { role, 'aria-label': ariaLabel } : {};
+  // Build aria props object - always pass aria-label when provided; include role for status badges
+  const ariaProps = role
+    ? { role, 'aria-label': ariaLabel }
+    : ariaLabel
+      ? { 'aria-label': ariaLabel }
+      : {};
 
   if (Component === 'div') {
     return (
