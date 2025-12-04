@@ -13,7 +13,7 @@ import {
   ThreeDotsVerticalIcon,
   TrashIcon,
 } from '@dsai/react';
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -683,14 +683,24 @@ export const KeyboardNavigation: Story = {
   render: function KeyboardDemo() {
     return (
       <div>
-        <p style={{ marginBottom: '1rem' }}>
+        <div className="mb-3">
           <strong>Keyboard shortcuts:</strong>
-          <br />• <code>Enter</code> or <code>Space</code>: Open/close dropdown
-          <br />• <code>↑</code> / <code>↓</code>: Navigate items
-          <br />• <code>Home</code> / <code>End</code>: Jump to first/last item
-          <br />• <code>Escape</code>: Close dropdown
-          <br />• Type characters to search (type-ahead)
-        </p>
+          <ul className="mt-2 ms-3">
+            <li>
+              <code>Enter</code> or <code>Space</code>: Open/close dropdown
+            </li>
+            <li>
+              <code>Arrow Up</code> / <code>Arrow Down</code>: Navigate items
+            </li>
+            <li>
+              <code>Home</code> / <code>End</code>: Jump to first/last item
+            </li>
+            <li>
+              <code>Escape</code>: Close dropdown
+            </li>
+            <li>Type characters to search (type-ahead)</li>
+          </ul>
+        </div>
         <Dropdown>
           <Dropdown.Toggle>Try keyboard navigation</Dropdown.Toggle>
           <Dropdown.Menu>
@@ -718,10 +728,15 @@ export const KeyboardNavigation: Story = {
 export const Callbacks: Story = {
   render: function CallbacksDropdown() {
     const [events, setEvents] = useState<string[]>([]);
+    const lastEventRef = useRef<string | null>(null);
 
-    const addEvent = (event: string): void => {
+    const addEvent = useCallback((event: string): void => {
+      if (lastEventRef.current === event) {
+        return;
+      }
+      lastEventRef.current = event;
       setEvents((prev) => [...prev.slice(-4), event]);
-    };
+    }, []);
 
     return (
       <div>
