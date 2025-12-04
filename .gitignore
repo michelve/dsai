@@ -70,3 +70,4 @@ Thumbs.db
 .env.*
 !.env.example
 /packages/@dsai/storybook/storybook-static
+pnpm-lock.yaml
