@@ -316,7 +316,9 @@ describe('ToastProvider Security Tests', () => {
         const { success, toasts } = useToast();
         return (
           <div>
-            <button onClick={() => success('<script>alert("xss")</script>')}>Create Toast</button>
+            <button type="button" onClick={() => success('<script>alert("xss")</script>')}>
+              Create Toast
+            </button>
             {toasts.map((t) => (
               <div key={t.id} data-testid="toast-message">
                 {t.message}

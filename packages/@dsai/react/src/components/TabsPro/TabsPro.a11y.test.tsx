@@ -424,9 +424,11 @@ describe('TabsPro Accessibility', () => {
           expect(dialog).toHaveAttribute('aria-labelledby');
           const titleId = dialog.getAttribute('aria-labelledby');
           // Verify the referenced element exists and contains the expected text
-          const titleElement = document.getElementById(titleId!);
-          expect(titleElement).toBeInTheDocument();
-          expect(titleElement).toHaveTextContent('Unsaved Changes');
+          if (titleId) {
+            const titleElement = document.getElementById(titleId);
+            expect(titleElement).toBeInTheDocument();
+            expect(titleElement).toHaveTextContent('Unsaved Changes');
+          }
         },
         { timeout: 3000 }
       );

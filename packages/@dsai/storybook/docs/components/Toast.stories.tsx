@@ -302,7 +302,7 @@ export const Success: Story = {
 /**
  * Error toast
  */
-export const Error: Story = {
+export const ErrorToast: Story = {
   args: {
     variant: 'error',
     message: 'An error occurred. Please try again.',
@@ -538,11 +538,14 @@ export const AriaRoles: Story = {
 export const FormSubmission: Story = {
   render: function FormSubmissionRender() {
     const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+    const [submitCount, setSubmitCount] = useState(0);
 
     const handleSubmit = async (): Promise<void> => {
       setStatus('saving');
+      setSubmitCount((c) => c + 1);
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      setStatus(Math.random() > 0.3 ? 'saved' : 'error');
+      // Demo: alternate between success and error to show both states
+      setStatus(submitCount % 3 === 2 ? 'error' : 'saved');
       setTimeout(() => setStatus('idle'), 3000);
     };
 

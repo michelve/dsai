@@ -441,16 +441,18 @@ export const Scrollspy = forwardRef<HTMLElement, ScrollspyProps>(
       dispatch({ type: 'START_OBSERVING' });
 
       // Observe all target sections
-      for (const target of targets) {
-        const element = document.getElementById(target);
-        if (element) {
-          observer.observe(element);
+      if (typeof observer.observe === 'function') {
+        for (const target of targets) {
+          const element = document.getElementById(target);
+          if (element) {
+            observer.observe(element);
+          }
         }
       }
 
       // Cleanup
       return () => {
-        if (observerRef.current) {
+        if (observerRef.current && typeof observerRef.current.disconnect === 'function') {
           observerRef.current.disconnect();
         }
         observerRef.current = null;
@@ -652,16 +654,18 @@ export function ScrollspyProvider({
     dispatch({ type: 'START_OBSERVING' });
 
     // Observe all target sections
-    for (const target of targets) {
-      const element = document.getElementById(target);
-      if (element) {
-        observer.observe(element);
+    if (typeof observer.observe === 'function') {
+      for (const target of targets) {
+        const element = document.getElementById(target);
+        if (element) {
+          observer.observe(element);
+        }
       }
     }
 
     // Cleanup
     return () => {
-      if (observerRef.current) {
+      if (observerRef.current && typeof observerRef.current.disconnect === 'function') {
         observerRef.current.disconnect();
       }
       observerRef.current = null;
@@ -688,6 +692,13 @@ export function ScrollspyProvider({
 // Exports
 // =============================================================================
 
+export {
+  createInitialScrollspyFSMState,
+  getScrollspyVisualState,
+  isScrollspySectionActive,
+  isScrollspySectionVisible,
+  scrollspyFSMReducer,
+} from './Scrollspy.fsm';
 export type {
   SafeScrollspyHTMLAttributes,
   ScrollspyContextValue,
@@ -698,11 +709,3 @@ export type {
   ScrollspyProps,
   ScrollspyVisualState,
 } from './Scrollspy.types';
-
-export {
-  createInitialScrollspyFSMState,
-  getScrollspyVisualState,
-  isScrollspySectionActive,
-  isScrollspySectionVisible,
-  scrollspyFSMReducer,
-} from './Scrollspy.fsm';

@@ -1,4 +1,3 @@
-export { Accordion } from './Accordion';
 export type {
   AccordionButtonProps,
   AccordionContextValue,
@@ -9,6 +8,8 @@ export type {
   AccordionProps,
   AccordionSelectionMode,
 } from './Accordion';
+export { Accordion } from './Accordion';
+export type { AccordionFSMEvent, AccordionFSMState } from './Accordion.fsm';
 export {
   accordionFSMReducer,
   createInitialAccordionFSMState,
@@ -16,4 +17,3 @@ export {
   getActiveKeysArray,
   isItemExpanded,
 } from './Accordion.fsm';
-export type { AccordionFSMEvent, AccordionFSMState } from './Accordion.fsm';

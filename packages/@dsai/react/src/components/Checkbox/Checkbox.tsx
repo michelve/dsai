@@ -1,4 +1,14 @@
-import { forwardRef, memo, useEffect, useId, useMemo, useRef } from 'react';
+import {
+  forwardRef,
+  type InputHTMLAttributes,
+  memo,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+} from 'react';
+
+import { getSafeInputProps } from '../../utils/misc';
 
 import type { CheckboxProps } from './Checkbox.types';
 
@@ -8,7 +18,7 @@ const warnedComponents = new Set<string>();
 function warnMissingAccessibleName(componentId: string, componentName: string): void {
   if (
     typeof process !== 'undefined' &&
-    process.env?.['NODE_ENV'] !== 'production' &&
+    process.env?.NODE_ENV !== 'production' &&
     !warnedComponents.has(componentId)
   ) {
     warnedComponents.add(componentId);
@@ -74,132 +84,6 @@ function warnMissingAccessibleName(componentId: string, componentName: string): 
  * - Space key toggles checkbox
  * - Minimum 44×44px touch target via Bootstrap styling
  */
-
-// Safe whitelist of HTML attributes allowed on input element
-// Blocks all event handlers and dangerous attributes
-const SAFE_INPUT_ATTRIBUTES = {
-  accept: true,
-  acceptCharset: true,
-  alt: true,
-  autoComplete: true,
-  autoFocus: true,
-  capture: true,
-  className: true,
-  contentEditable: true,
-  crossOrigin: true,
-  data: true,
-  datatype: true,
-  defaultChecked: true,
-  defaultValue: true,
-  dir: true,
-  disabled: true,
-  draggable: true,
-  form: true,
-  formAction: true,
-  formEncType: true,
-  formMethod: true,
-  formNoValidate: true,
-  formTarget: true,
-  height: true,
-  hidden: true,
-  id: true,
-  lang: true,
-  list: true,
-  max: true,
-  maxLength: true,
-  min: true,
-  minLength: true,
-  multiple: true,
-  name: true,
-  pattern: true,
-  placeholder: true,
-  prefix: true,
-  property: true,
-  readOnly: true,
-  required: true,
-  resource: true,
-  rev: true,
-  role: true,
-  spellCheck: true,
-  step: true,
-  style: true,
-  tabIndex: true,
-  title: true,
-  translate: true,
-  typeof: true,
-  value: true,
-  vocab: true,
-  width: true,
-  // ARIA attributes
-  'aria-activedescendant': true,
-  'aria-atomic': true,
-  'aria-autocomplete': true,
-  'aria-busy': true,
-  'aria-checked': true,
-  'aria-colcount': true,
-  'aria-colindex': true,
-  'aria-colspan': true,
-  'aria-controls': true,
-  'aria-current': true,
-  'aria-describedby': true,
-  'aria-description': true,
-  'aria-details': true,
-  'aria-disabled': true,
-  'aria-errormessage': true,
-  'aria-expanded': true,
-  'aria-flowto': true,
-  'aria-haspopup': true,
-  'aria-hidden': true,
-  'aria-invalid': true,
-  'aria-keyshortcuts': true,
-  'aria-label': true,
-  'aria-labelledby': true,
-  'aria-level': true,
-  'aria-live': true,
-  'aria-modal': true,
-  'aria-multiline': true,
-  'aria-multiselectable': true,
-  'aria-orientation': true,
-  'aria-owns': true,
-  'aria-placeholder': true,
-  'aria-posinset': true,
-  'aria-pressed': true,
-  'aria-readonly': true,
-  'aria-relevant': true,
-  'aria-required': true,
-  'aria-roledescription': true,
-  'aria-rowcount': true,
-  'aria-rowindex': true,
-  'aria-rowspan': true,
-  'aria-selected': true,
-  'aria-setsize': true,
-  'aria-sort': true,
-  'aria-valuemax': true,
-  'aria-valuemin': true,
-  'aria-valuenow': true,
-  'aria-valuetext': true,
-} as const;
-
-/**
- * Filters props to only include safe HTML attributes
- * Blocks dangerous event handlers and attributes
- */
-type SafeInputAttribute = keyof typeof SAFE_INPUT_ATTRIBUTES;
-
-const SAFE_INPUT_ATTRIBUTE_KEYS = Object.keys(SAFE_INPUT_ATTRIBUTES) as SafeInputAttribute[];
-
-function getSafeInputProps(
-  props: Record<string, unknown>
-): Partial<Record<SafeInputAttribute, unknown>> {
-  const safeEntries: Array<[SafeInputAttribute, unknown]> = [];
-  for (const safeKey of SAFE_INPUT_ATTRIBUTE_KEYS) {
-    const descriptor = Object.getOwnPropertyDescriptor(props, safeKey);
-    if (descriptor) {
-      safeEntries.push([safeKey, descriptor.value]);
-    }
-  }
-  return Object.fromEntries(safeEntries) as Partial<Record<SafeInputAttribute, unknown>>;
-}
 
 const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
   (
@@ -283,7 +167,7 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
     );
 
     // Get safe props (filter out dangerous event handlers)
-    const safeProps = getSafeInputProps(rest);
+    const safeProps = getSafeInputProps(rest) as InputHTMLAttributes<HTMLInputElement>;
 
     return (
       <div className={wrapperClasses} style={style}>

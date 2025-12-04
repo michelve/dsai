@@ -5,7 +5,14 @@
  */
 
 export { Scrollspy, ScrollspyProvider, useScrollspy } from './Scrollspy';
-
+export {
+  createInitialScrollspyFSMState,
+  getScrollspyVisualState,
+  isScrollspyObserving,
+  isScrollspySectionActive,
+  isScrollspySectionVisible,
+  scrollspyFSMReducer,
+} from './Scrollspy.fsm';
 export type {
   SafeScrollspyHTMLAttributes,
   ScrollspyContextValue,
@@ -20,12 +27,3 @@ export type {
   ScrollspyVariant,
   ScrollspyVisualState,
 } from './Scrollspy.types';
-
-export {
-  createInitialScrollspyFSMState,
-  getScrollspyVisualState,
-  isScrollspyObserving,
-  isScrollspySectionActive,
-  isScrollspySectionVisible,
-  scrollspyFSMReducer,
-} from './Scrollspy.fsm';

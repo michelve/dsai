@@ -4,8 +4,6 @@
  * @module Navbar
  */
 
-export { Navbar } from './Navbar';
-
 export type {
   NavbarBackground,
   NavbarBrandProps,
@@ -26,11 +24,11 @@ export type {
   NavbarVisibility,
   NavbarVisualState,
 } from './Navbar';
-
 export {
   createInitialNavbarFSMState,
   getNavbarVisualState,
   isNavbarAnimating,
   isNavbarExpanded,
+  Navbar,
   navbarFSMReducer,
 } from './Navbar';

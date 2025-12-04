@@ -1537,7 +1537,9 @@ describe('Edge Cases', () => {
       expect(toggle).toHaveAttribute('aria-expanded', 'true');
 
       // Now run the RAF callback to complete animation
-      rafCallbacks.forEach((cb) => cb(performance.now()));
+      for (const cb of rafCallbacks) {
+        cb(performance.now());
+      }
 
       // After animation ends, should be expanded (not collapsed)
       await waitFor(() => {

@@ -3,7 +3,7 @@
  * Re-exports everything from React Testing Library for convenience
  */
 
-import { render as rtlRender, type RenderOptions, type RenderResult } from '@testing-library/react';
+import { type RenderOptions, type RenderResult, render as rtlRender } from '@testing-library/react';
 import { axe, type JestAxeConfigureOptions } from 'jest-axe';
 
 import type { ReactElement } from 'react';

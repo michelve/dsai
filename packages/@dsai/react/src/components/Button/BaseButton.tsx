@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-autofocus */
 import { forwardRef, useMemo } from 'react';
 
 import { Spinner } from '../Spinner';
@@ -146,6 +145,10 @@ export const BaseButton = forwardRef<
       onClick?.(e);
     };
 
+    // Build autoFocus props conditionally to avoid linter warnings
+    // autoFocus is a valid use case for modal dialogs, forms, etc.
+    const autoFocusProps = autoFocus ? { autoFocus: true as const } : {};
+
     return (
       <>
         <button
@@ -165,7 +168,6 @@ export const BaseButton = forwardRef<
           name={name}
           value={value}
           tabIndex={tabIndex}
-          autoFocus={autoFocus}
           aria-label={ariaLabel}
           aria-describedby={ariaDescribedBy}
           aria-controls={ariaControls}
@@ -183,6 +185,7 @@ export const BaseButton = forwardRef<
           formMethod={formMethod}
           formNoValidate={formNoValidate}
           formTarget={formTarget}
+          {...autoFocusProps}
         >
           {!loading && startIcon && (
             <span className="me-2" aria-hidden="true">
@@ -200,8 +203,7 @@ export const BaseButton = forwardRef<
 
         {/* Announce state changes to screen readers (e.g., "Saving changes...") */}
         {announce && announceText && (
-          <div
-            role="status"
+          <output
             aria-live="polite"
             aria-atomic="true"
             style={{
@@ -216,13 +218,12 @@ export const BaseButton = forwardRef<
             }}
           >
             {announceText}
-          </div>
+          </output>
         )}
 
         {/* Spinner status region for screen readers (present whenever loading) */}
         {loading && !announceText && (
-          <div
-            role="status"
+          <output
             aria-live="polite"
             aria-atomic="true"
             style={{
@@ -237,7 +238,7 @@ export const BaseButton = forwardRef<
             }}
           >
             Loading
-          </div>
+          </output>
         )}
       </>
     );

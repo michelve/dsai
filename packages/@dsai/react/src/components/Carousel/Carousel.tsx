@@ -40,7 +40,7 @@ const DEFAULT_SWIPE_THRESHOLD = 50;
  * Supports autoplay, touch gestures, keyboard navigation, and custom indicators.
  *
  * ACCESSIBILITY FEATURES (WCAG 2.2 AA):
- * - role="region" on the carousel container
+ * - Semantic section element for the carousel container
  * - aria-label for screen reader identification
  * - aria-live="polite" for slide change announcements
  * - Keyboard navigation (Arrow keys)
@@ -396,8 +396,12 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
           .filter(Boolean)
           .join(' ');
 
+        // Use the item's existing key if provided, otherwise use index
+        // Carousel items are static and don't reorder, so index is acceptable
+        const itemKey = item.key ?? `carousel-slide-${index}`;
+
         return cloneElement(item, {
-          key: index,
+          key: itemKey,
           className: itemClassName,
         });
       });
@@ -420,13 +424,12 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     );
 
     return (
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Carousel with role="region" requires keyboard navigation per WCAG for slide control
-      <div
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Carousel with section element requires keyboard navigation per WCAG for slide control
+      <section
         ref={combinedRef}
         id={carouselId}
         className={carouselClassName}
         style={style}
-        role="region"
         aria-roledescription="carousel"
         aria-label={ariaLabelledBy ? undefined : ariaLabel}
         aria-labelledby={ariaLabelledBy}
@@ -441,19 +444,13 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- tabIndex required for keyboard navigation on carousel region
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- tabIndex required for keyboard navigation on carousel section
         tabIndex={keyboard ? 0 : undefined}
       >
         {/* Live region for announcements */}
-        <div
-          id={liveRegionId}
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-          className="visually-hidden"
-        >
+        <output id={liveRegionId} aria-live="polite" aria-atomic="true" className="visually-hidden">
           {announcementText}
-        </div>
+        </output>
 
         {/* Indicators */}
         {indicators && slideCount > 1 && (
@@ -485,12 +482,12 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         )}
 
         {/* Pause/Play button for autoplay (WCAG requirement) */}
+        {/* Pause/Play button for autoplay (WCAG requirement) */}
         {shouldShowPauseButton && (
           <CarouselPauseButton isPaused={fsmState.isPaused} onToggle={handleTogglePause} />
         )}
-      </div>
+      </section>
     );
   }
 );
-
 Carousel.displayName = 'Carousel';

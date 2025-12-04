@@ -1,18 +1,18 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "files": {
     "includes": [
       "**",
-      "!**/node_modules/**",
-      "!**/dist/**",
-      "!**/build/**",
-      "!**/coverage/**",
-      "!**/storybook-static/**",
+      "!node_modules",
+      "!dist",
+      "!build",
+      "!coverage",
+      "!storybook-static",
       "!**/*.figma.tsx",
-      "!.github/workflows/**",
-      "!.temp/**",
-      "!.nx/**",
-      "!static/**"
+      "!.github/workflows",
+      "!.temp",
+      "!.nx",
+      "!static"
     ],
     "ignoreUnknown": true
   },

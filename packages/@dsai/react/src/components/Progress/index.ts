@@ -1,7 +1,7 @@
 export { Progress } from './Progress';
 export type {
-  ProgressProps,
   ProgressBarProps,
-  ProgressVariant,
+  ProgressProps,
   ProgressSize,
+  ProgressVariant,
 } from './Progress.types';

@@ -283,9 +283,13 @@ describe('Toast Accessibility Tests', () => {
     it('toast does not trap focus', () => {
       render(
         <div>
-          <button data-testid="before">Before</button>
+          <button type="button" data-testid="before">
+            Before
+          </button>
           <Toast message="Test" data-testid="toast" />
-          <button data-testid="after">After</button>
+          <button type="button" data-testid="after">
+            After
+          </button>
         </div>
       );
 

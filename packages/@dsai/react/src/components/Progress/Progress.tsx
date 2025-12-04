@@ -174,9 +174,9 @@ function ProgressBase({
         style={{ height: resolveHeightForSize(size), ...style }}
         id={id}
         role={hasChildren ? 'group' : 'progressbar'}
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledBy}
         {...(!hasChildren && {
+          'aria-label': ariaLabel,
+          'aria-labelledby': ariaLabelledBy,
           'aria-valuenow': indeterminate ? undefined : percentage,
           'aria-valuemin': min,
           'aria-valuemax': max,

@@ -31,7 +31,7 @@ describe('Tooltip', () => {
     it('renders the trigger element', () => {
       render(
         <Tooltip content="Test tooltip">
-          <button>Hover me</button>
+          <button type="button">Hover me</button>
         </Tooltip>
       );
 
@@ -41,7 +41,7 @@ describe('Tooltip', () => {
     it('does not render tooltip content initially', () => {
       render(
         <Tooltip content="Test tooltip">
-          <button>Hover me</button>
+          <button type="button">Hover me</button>
         </Tooltip>
       );
 
@@ -51,7 +51,7 @@ describe('Tooltip', () => {
     it('renders tooltip with custom id', async () => {
       render(
         <Tooltip content="Test tooltip" id="custom-tooltip" defaultOpen>
-          <button>Hover me</button>
+          <button type="button">Hover me</button>
         </Tooltip>
       );
 
@@ -63,7 +63,7 @@ describe('Tooltip', () => {
     it('renders tooltip with data-testid', async () => {
       render(
         <Tooltip content="Test tooltip" data-testid="test-tooltip" defaultOpen>
-          <button>Hover me</button>
+          <button type="button">Hover me</button>
         </Tooltip>
       );
 
@@ -75,7 +75,7 @@ describe('Tooltip', () => {
     it('renders tooltip with custom className', async () => {
       render(
         <Tooltip content="Test tooltip" className="custom-class" defaultOpen>
-          <button>Hover me</button>
+          <button type="button">Hover me</button>
         </Tooltip>
       );
 
@@ -87,7 +87,7 @@ describe('Tooltip', () => {
     it('renders tooltip content correctly', async () => {
       render(
         <Tooltip content="Test tooltip content" defaultOpen>
-          <button>Hover me</button>
+          <button type="button">Hover me</button>
         </Tooltip>
       );
 
@@ -107,7 +107,7 @@ describe('Tooltip', () => {
           }
           defaultOpen
         >
-          <button>Hover me</button>
+          <button type="button">Hover me</button>
         </Tooltip>
       );
 
@@ -128,7 +128,7 @@ describe('Tooltip', () => {
 
         render(
           <Tooltip content="Hover tooltip" trigger="hover">
-            <button>Hover me</button>
+            <button type="button">Hover me</button>
           </Tooltip>
         );
 
@@ -149,7 +149,7 @@ describe('Tooltip', () => {
 
         render(
           <Tooltip content="Hover tooltip" trigger="hover">
-            <button>Hover me</button>
+            <button type="button">Hover me</button>
           </Tooltip>
         );
 
@@ -180,7 +180,7 @@ describe('Tooltip', () => {
 
         render(
           <Tooltip content="Delayed tooltip" trigger="hover" showDelay={500}>
-            <button>Hover me</button>
+            <button type="button">Hover me</button>
           </Tooltip>
         );
 
@@ -208,7 +208,7 @@ describe('Tooltip', () => {
 
         render(
           <Tooltip content="Delayed hide tooltip" trigger="hover" hideDelay={500}>
-            <button>Hover me</button>
+            <button type="button">Hover me</button>
           </Tooltip>
         );
 
@@ -246,7 +246,7 @@ describe('Tooltip', () => {
       it('shows tooltip on focus', async () => {
         render(
           <Tooltip content="Focus tooltip" trigger="focus">
-            <button>Focus me</button>
+            <button type="button">Focus me</button>
           </Tooltip>
         );
 
@@ -265,7 +265,7 @@ describe('Tooltip', () => {
       it('hides tooltip on blur', async () => {
         render(
           <Tooltip content="Focus tooltip" trigger="focus">
-            <button>Focus me</button>
+            <button type="button">Focus me</button>
           </Tooltip>
         );
 
@@ -298,7 +298,7 @@ describe('Tooltip', () => {
 
         render(
           <Tooltip content="Click tooltip" trigger="click">
-            <button>Click me</button>
+            <button type="button">Click me</button>
           </Tooltip>
         );
 
@@ -319,7 +319,7 @@ describe('Tooltip', () => {
 
         render(
           <Tooltip content="Click tooltip" trigger="click">
-            <button>Click me</button>
+            <button type="button">Click me</button>
           </Tooltip>
         );
 
@@ -350,7 +350,7 @@ describe('Tooltip', () => {
 
         render(
           <Tooltip content="Click tooltip" trigger="click">
-            <button>Click me</button>
+            <button type="button">Click me</button>
           </Tooltip>
         );
 
@@ -383,7 +383,7 @@ describe('Tooltip', () => {
 
         render(
           <Tooltip content="Multi trigger tooltip" trigger={['hover', 'focus']}>
-            <button>Interact with me</button>
+            <button type="button">Interact with me</button>
           </Tooltip>
         );
 
@@ -425,7 +425,7 @@ describe('Tooltip', () => {
     it('respects isOpen prop', async () => {
       const { rerender } = render(
         <Tooltip content="Controlled tooltip" isOpen={false}>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -433,7 +433,7 @@ describe('Tooltip', () => {
 
       rerender(
         <Tooltip content="Controlled tooltip" isOpen={true}>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -452,7 +452,7 @@ describe('Tooltip', () => {
 
       render(
         <Tooltip content="Test tooltip" onOpenChange={onOpenChange}>
-          <button>Hover me</button>
+          <button type="button">Hover me</button>
         </Tooltip>
       );
 
@@ -474,7 +474,7 @@ describe('Tooltip', () => {
 
       render(
         <Tooltip content="Test tooltip" onOpenChange={onOpenChange}>
-          <button>Hover me</button>
+          <button type="button">Hover me</button>
         </Tooltip>
       );
 
@@ -499,7 +499,7 @@ describe('Tooltip', () => {
     it('respects defaultOpen prop', async () => {
       render(
         <Tooltip content="Default open tooltip" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -518,7 +518,7 @@ describe('Tooltip', () => {
 
       render(
         <Tooltip content="Disabled tooltip" disabled>
-          <button>Hover me</button>
+          <button type="button">Hover me</button>
         </Tooltip>
       );
 
@@ -538,7 +538,7 @@ describe('Tooltip', () => {
 
       render(
         <Tooltip content="Disabled tooltip" disabled onOpenChange={onOpenChange}>
-          <button>Hover me</button>
+          <button type="button">Hover me</button>
         </Tooltip>
       );
 
@@ -576,7 +576,7 @@ describe('Tooltip', () => {
       it(`renders tooltip with ${placement} placement`, async () => {
         render(
           <Tooltip content="Placement test" placement={placement} defaultOpen>
-            <button>Trigger</button>
+            <button type="button">Trigger</button>
           </Tooltip>
         );
 
@@ -594,7 +594,7 @@ describe('Tooltip', () => {
     it('renders with arrow by default', async () => {
       render(
         <Tooltip content="Arrow tooltip" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -607,7 +607,7 @@ describe('Tooltip', () => {
     it('renders without arrow when arrow={false}', async () => {
       render(
         <Tooltip content="No arrow tooltip" arrow={false} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -625,7 +625,7 @@ describe('Tooltip', () => {
     it('applies maxWidth as number', async () => {
       render(
         <Tooltip content="Long tooltip content" maxWidth={200} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -638,7 +638,7 @@ describe('Tooltip', () => {
     it('applies maxWidth as string', async () => {
       render(
         <Tooltip content="Long tooltip content" maxWidth="20rem" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -658,7 +658,9 @@ describe('Tooltip', () => {
 
       render(
         <Tooltip content="Test tooltip">
-          <button ref={ref}>Trigger</button>
+          <button type="button" ref={ref}>
+            Trigger
+          </button>
         </Tooltip>
       );
 
@@ -673,7 +675,7 @@ describe('Tooltip', () => {
     it('has data-visual-state="visible" when open', async () => {
       render(
         <Tooltip content="Test tooltip" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -696,7 +698,7 @@ describe('Tooltip', () => {
       render(
         <div data-testid="parent">
           <Tooltip content="Portal tooltip" defaultOpen>
-            <button>Trigger</button>
+            <button type="button">Trigger</button>
           </Tooltip>
         </div>
       );
@@ -712,7 +714,7 @@ describe('Tooltip', () => {
       const { container } = render(
         <div data-testid="parent">
           <Tooltip content="Inline tooltip" portal={false} defaultOpen>
-            <button>Trigger</button>
+            <button type="button">Trigger</button>
           </Tooltip>
         </div>
       );

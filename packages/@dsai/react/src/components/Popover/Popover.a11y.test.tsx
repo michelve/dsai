@@ -33,7 +33,7 @@ describe('Popover Accessibility', () => {
     it('has role="dialog" when visible', async () => {
       render(
         <Popover content="Accessible popover" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -45,7 +45,7 @@ describe('Popover Accessibility', () => {
     it('sets aria-haspopup="dialog" on trigger', async () => {
       render(
         <Popover content="Test popover">
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -56,7 +56,7 @@ describe('Popover Accessibility', () => {
     it('sets aria-expanded on trigger when popover is visible', async () => {
       render(
         <Popover content="Accessible popover" id="test-popover" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -69,7 +69,7 @@ describe('Popover Accessibility', () => {
     it('sets aria-expanded=false when popover is hidden', () => {
       render(
         <Popover content="Test popover">
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -80,7 +80,7 @@ describe('Popover Accessibility', () => {
     it('sets aria-controls on trigger when popover is visible', async () => {
       render(
         <Popover content="Accessible popover" id="test-popover" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -93,7 +93,7 @@ describe('Popover Accessibility', () => {
     it('sets aria-labelledby when header is present', async () => {
       render(
         <Popover header="Popover Title" content="Content" id="test-popover" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -106,7 +106,7 @@ describe('Popover Accessibility', () => {
     it('sets aria-label when no header is present', async () => {
       render(
         <Popover content="Content" aria-label="Popover description" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -119,7 +119,7 @@ describe('Popover Accessibility', () => {
     it('sets aria-describedby to body id', async () => {
       render(
         <Popover content="Body content" id="test-popover" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -132,7 +132,7 @@ describe('Popover Accessibility', () => {
     it('sets aria-modal when trapFocus is true', async () => {
       render(
         <Popover content="Modal popover" trapFocus defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -150,7 +150,7 @@ describe('Popover Accessibility', () => {
     it('shows popover on focus trigger', async () => {
       render(
         <Popover content="Focus popover" trigger="focus">
-          <button>Focus me</button>
+          <button type="button">Focus me</button>
         </Popover>
       );
 
@@ -171,9 +171,9 @@ describe('Popover Accessibility', () => {
 
       render(
         <div>
-          <button>First button</button>
+          <button type="button">First button</button>
           <Popover content="Second button popover" trigger="focus">
-            <button>Second button</button>
+            <button type="button">Second button</button>
           </Popover>
         </div>
       );
@@ -195,7 +195,7 @@ describe('Popover Accessibility', () => {
 
       render(
         <Popover content="Click popover" defaultOpen>
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -219,7 +219,7 @@ describe('Popover Accessibility', () => {
 
       render(
         <Popover content="Closeable popover" showCloseButton defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -245,7 +245,7 @@ describe('Popover Accessibility', () => {
 
       render(
         <Popover content="Closeable popover" showCloseButton defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -274,7 +274,7 @@ describe('Popover Accessibility', () => {
     it('close button has accessible name', async () => {
       render(
         <Popover content="Test content" showCloseButton defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -292,7 +292,7 @@ describe('Popover Accessibility', () => {
           closeButtonLabel="Dismiss notification"
           defaultOpen
         >
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -305,7 +305,7 @@ describe('Popover Accessibility', () => {
     it('close button is type="button"', async () => {
       render(
         <Popover content="Test content" showCloseButton defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -331,7 +331,7 @@ describe('Popover Accessibility', () => {
     it('has no accessibility violations when hidden', async () => {
       const { container } = render(
         <Popover content="Test popover">
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -342,7 +342,7 @@ describe('Popover Accessibility', () => {
     it('has no accessibility violations when visible with header', async () => {
       const { container } = render(
         <Popover header="Title" content="Visible popover" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -357,7 +357,7 @@ describe('Popover Accessibility', () => {
     it('has no accessibility violations when visible without header (uses aria-label)', async () => {
       const { container } = render(
         <Popover content="Visible popover" aria-label="Information" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -372,7 +372,7 @@ describe('Popover Accessibility', () => {
     it('has no accessibility violations with close button', async () => {
       const { container } = render(
         <Popover header="Title" content="Content" showCloseButton defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -395,7 +395,7 @@ describe('Popover Accessibility', () => {
             placement={placement}
             defaultOpen
           >
-            <button>Trigger</button>
+            <button type="button">Trigger</button>
           </Popover>
         );
 
@@ -413,7 +413,7 @@ describe('Popover Accessibility', () => {
     it('has no accessibility violations with disabled popover', async () => {
       const { container } = render(
         <Popover content="Disabled popover" disabled>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -428,13 +428,13 @@ describe('Popover Accessibility', () => {
           content={
             <div>
               <p>Configure your preferences:</p>
-              <button>Save</button>
-              <button>Cancel</button>
+              <button type="button">Save</button>
+              <button type="button">Cancel</button>
             </div>
           }
           defaultOpen
         >
-          <button>Open Settings</button>
+          <button type="button">Open Settings</button>
         </Popover>
       );
 
@@ -451,7 +451,7 @@ describe('Popover Accessibility', () => {
 
       const { container } = render(
         <Popover header="Info" content="Click popover" trigger="click">
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -471,7 +471,7 @@ describe('Popover Accessibility', () => {
 
       const { container } = render(
         <Popover header="Info" content="Hover popover" trigger="hover">
-          <button>Hover me</button>
+          <button type="button">Hover me</button>
         </Popover>
       );
 
@@ -489,7 +489,7 @@ describe('Popover Accessibility', () => {
     it('has no accessibility violations with focus trigger', async () => {
       const { container } = render(
         <Popover header="Info" content="Focus popover" trigger="focus">
-          <button>Focus me</button>
+          <button type="button">Focus me</button>
         </Popover>
       );
 
@@ -507,7 +507,7 @@ describe('Popover Accessibility', () => {
     it('has no accessibility violations without arrow', async () => {
       const { container } = render(
         <Popover header="No Arrow" content="No arrow popover" arrow={false} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -522,7 +522,7 @@ describe('Popover Accessibility', () => {
     it('has no accessibility violations with trapFocus', async () => {
       const { container } = render(
         <Popover header="Modal" content="Focus trapped" trapFocus defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -542,7 +542,7 @@ describe('Popover Accessibility', () => {
     it('popover header is accessible via aria-labelledby', async () => {
       render(
         <Popover header="Important Info" content="Details here" id="sr-popover" defaultOpen>
-          <button>Learn more</button>
+          <button type="button">Learn more</button>
         </Popover>
       );
 
@@ -558,7 +558,7 @@ describe('Popover Accessibility', () => {
     it('popover body is accessible via aria-describedby', async () => {
       render(
         <Popover content="Detailed description" id="sr-popover" defaultOpen>
-          <button>Learn more</button>
+          <button type="button">Learn more</button>
         </Popover>
       );
 
@@ -574,7 +574,7 @@ describe('Popover Accessibility', () => {
     it('maintains proper ID relationships', async () => {
       render(
         <Popover header="Title" content="Content" id="test-popover" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -589,8 +589,13 @@ describe('Popover Accessibility', () => {
         expect(labelledbyId).toBe('test-popover-header');
         expect(describedbyId).toBe('test-popover-body');
 
-        const header = document.getElementById(labelledbyId!);
-        const body = document.getElementById(describedbyId!);
+        // Type guard: ensure IDs exist before querying
+        if (!labelledbyId || !describedbyId) {
+          throw new Error('Expected aria-labelledby and aria-describedby IDs to be present');
+        }
+
+        const header = document.getElementById(labelledbyId);
+        const body = document.getElementById(describedbyId);
 
         expect(header).toHaveTextContent('Title');
         expect(body).toHaveTextContent('Content');
@@ -605,7 +610,7 @@ describe('Popover Accessibility', () => {
     it('does not trap focus by default', async () => {
       render(
         <Popover content="Non-modal popover" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -618,7 +623,7 @@ describe('Popover Accessibility', () => {
     it('indicates modal behavior when trapFocus is enabled', async () => {
       render(
         <Popover content="Modal popover" trapFocus defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 

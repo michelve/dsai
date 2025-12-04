@@ -46,12 +46,10 @@ describe('Modal Accessibility', () => {
 
     it('has no violations with different sizes', async () => {
       const { baseElement } = render(
-        <>
-          <Modal isOpen={true} onClose={() => {}} size="sm" animated={false} id="modal-sm">
-            <Modal.Header>Small Modal</Modal.Header>
-            <Modal.Body>Content</Modal.Body>
-          </Modal>
-        </>
+        <Modal isOpen={true} onClose={() => {}} size="sm" animated={false} id="modal-sm">
+          <Modal.Header>Small Modal</Modal.Header>
+          <Modal.Body>Content</Modal.Body>
+        </Modal>
       );
 
       await waitFor(() => {
@@ -425,8 +423,10 @@ describe('Modal Accessibility', () => {
         const dialog = screen.getByRole('dialog');
         const labelledById = dialog.getAttribute('aria-labelledby');
         expect(labelledById).toBeTruthy();
-        const titleElement = document.getElementById(labelledById!);
-        expect(titleElement).toHaveTextContent('Accessible Modal Title');
+        if (labelledById) {
+          const titleElement = document.getElementById(labelledById);
+          expect(titleElement).toHaveTextContent('Accessible Modal Title');
+        }
       });
     });
 
@@ -442,10 +442,12 @@ describe('Modal Accessibility', () => {
         const dialog = screen.getByRole('dialog');
         const describedById = dialog.getAttribute('aria-describedby');
         expect(describedById).toBeTruthy();
-        const bodyElement = document.getElementById(describedById!);
-        expect(bodyElement).toHaveTextContent(
-          'This is the modal description that screen readers will announce.'
-        );
+        if (describedById) {
+          const bodyElement = document.getElementById(describedById);
+          expect(bodyElement).toHaveTextContent(
+            'This is the modal description that screen readers will announce.'
+          );
+        }
       });
     });
   });

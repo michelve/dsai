@@ -8,19 +8,12 @@
 
 // Main component exports
 export { Carousel } from './Carousel';
-export { CarouselCaption } from './CarouselCaption';
-export { CarouselControl } from './CarouselControl';
-export { CarouselIndicators } from './CarouselIndicators';
-export { CarouselItem } from './CarouselItem';
-export { CarouselPauseButton } from './CarouselPauseButton';
-
 // FSM exports
 export {
   carouselFSMReducer,
   createInitialCarouselFSMState,
   getCarouselVisualState,
 } from './Carousel.fsm';
-
 // Type exports
 export type {
   CarouselAnimation,
@@ -35,3 +28,8 @@ export type {
   CarouselProps,
   CarouselVisualState,
 } from './Carousel.types';
+export { CarouselCaption } from './CarouselCaption';
+export { CarouselControl } from './CarouselControl';
+export { CarouselIndicators } from './CarouselIndicators';
+export { CarouselItem } from './CarouselItem';
+export { CarouselPauseButton } from './CarouselPauseButton';

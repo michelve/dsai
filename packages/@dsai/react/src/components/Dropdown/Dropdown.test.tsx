@@ -582,7 +582,9 @@ describe('Dropdown', () => {
         const [isOpen, setIsOpen] = useState(false);
         return (
           <>
-            <button onClick={() => setIsOpen(!isOpen)}>External Toggle</button>
+            <button type="button" onClick={() => setIsOpen(!isOpen)}>
+              External Toggle
+            </button>
             <Dropdown isOpen={isOpen} onOpenChange={setIsOpen}>
               <Dropdown.Toggle>Options</Dropdown.Toggle>
               <Dropdown.Menu portal={false}>

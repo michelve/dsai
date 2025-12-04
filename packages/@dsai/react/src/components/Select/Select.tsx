@@ -11,6 +11,8 @@ import {
   useState,
 } from 'react';
 
+import { ClearIcon } from '../../utils/misc';
+
 import type { SelectOption, SelectOptionGroup, SelectProps, SelectSize } from './Select.types';
 
 /**
@@ -72,20 +74,6 @@ function flattenOptions<T>(options: SelectOption<T>[] | SelectOptionGroup<T>[]):
 /**
  * X icon for clear button
  */
-function ClearIcon(): React.JSX.Element {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="14"
-      height="14"
-      fill="currentColor"
-      viewBox="0 0 16 16"
-      aria-hidden="true"
-    >
-      <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-    </svg>
-  );
-}
 
 /**
  * Check icon for selected options
@@ -109,7 +97,7 @@ function CheckIcon(): React.JSX.Element {
  * Spinner icon for loading state
  */
 function SpinnerIcon(): React.JSX.Element {
-  return <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />;
+  return <output className="spinner-border spinner-border-sm" aria-hidden="true" />;
 }
 
 /**
@@ -454,10 +442,11 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
     const focused = index === focusedIndex;
 
     return (
-      <li
+      <div
         key={String(option.value)}
         id={getOptionId(index)}
         role="option"
+        tabIndex={option.disabled ? -1 : 0}
         aria-selected={selected}
         aria-disabled={option.disabled}
         className={[
@@ -489,7 +478,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
         )}
         {renderOption ? renderOption(option, selected) : option.label}
         {!multiple && selected && <CheckIcon />}
-      </li>
+      </div>
     );
   };
 
@@ -497,15 +486,15 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
   const renderOptions = (): React.JSX.Element => {
     if (loading) {
       return (
-        <li className="dropdown-item text-muted d-flex align-items-center gap-2">
+        <div className="dropdown-item text-muted d-flex align-items-center gap-2">
           <SpinnerIcon />
           {loadingMessage}
-        </li>
+        </div>
       );
     }
 
     if (filteredOptions.length === 0) {
-      return <li className="dropdown-item text-muted">{noOptionsMessage}</li>;
+      return <div className="dropdown-item text-muted">{noOptionsMessage}</div>;
     }
 
     if (isGroupedOptions(options)) {
@@ -513,8 +502,8 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
       return (
         <>
           {options.map((group) => (
-            <div key={group.label}>
-              <li className="dropdown-header">{group.label}</li>
+            <fieldset key={group.label} className="border-0 p-0 m-0">
+              <legend className="dropdown-header">{group.label}</legend>
               {group.options
                 .filter((opt) => {
                   if (!searchable || !searchValue) {
@@ -531,7 +520,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
                   globalIndex++;
                   return element;
                 })}
-            </div>
+            </fieldset>
           ))}
         </>
       );
@@ -660,8 +649,8 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
             )}
 
             {/* Options list */}
-            <ul
-              ref={listboxRef}
+            <div
+              ref={listboxRef as React.RefObject<HTMLDivElement>}
               id={listboxId}
               role="listbox"
               aria-multiselectable={multiple}
@@ -669,7 +658,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
               className="list-unstyled mb-0"
             >
               {renderOptions()}
-            </ul>
+            </div>
           </div>
         )}
       </div>

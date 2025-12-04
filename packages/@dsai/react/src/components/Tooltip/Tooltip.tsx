@@ -1,9 +1,9 @@
 import {
   arrow,
   autoUpdate,
-  flip,
   FloatingArrow,
   FloatingPortal,
+  flip,
   offset,
   shift,
   useClick,
@@ -18,14 +18,15 @@ import {
 } from '@floating-ui/react';
 import { cloneElement, forwardRef, useEffect, useId, useMemo, useReducer, useRef } from 'react';
 
+import { mapPlacement, normalizeTriggers } from '../../utils/misc';
+
 import {
   createInitialTooltipFSMState,
   getTooltipVisualState,
   tooltipFSMReducer,
 } from './Tooltip.fsm';
 
-import type { TooltipPlacement, TooltipProps, TooltipTrigger } from './Tooltip.types';
-import type { Placement } from '@floating-ui/react';
+import type { TooltipProps } from './Tooltip.types';
 import type { ReactElement } from 'react';
 
 const TOOLTIP_ARROW_GAP_PX = 6;
@@ -36,16 +37,10 @@ const TOOLTIP_TRANSITION_MS = 150;
 /**
  * Map DSAi placement to Floating UI placement
  */
-function mapPlacement(placement: TooltipPlacement): Placement {
-  return placement as Placement;
-}
 
 /**
  * Normalize trigger prop to array
  */
-function normalizeTriggers(trigger: TooltipTrigger | TooltipTrigger[]): TooltipTrigger[] {
-  return Array.isArray(trigger) ? trigger : [trigger];
-}
 
 /**
  * Tooltip Component

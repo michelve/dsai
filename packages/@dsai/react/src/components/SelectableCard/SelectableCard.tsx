@@ -18,7 +18,7 @@ const warnedIds = new Set<string>();
 function warnMissingValue(id: string, selectionMode: string): void {
   if (
     typeof process !== 'undefined' &&
-    process.env?.['NODE_ENV'] !== 'production' &&
+    process.env?.NODE_ENV !== 'production' &&
     !warnedIds.has(id)
   ) {
     warnedIds.add(id);
@@ -35,7 +35,7 @@ function warnMissingValue(id: string, selectionMode: string): void {
 function warnMissingName(id: string): void {
   if (
     typeof process !== 'undefined' &&
-    process.env?.['NODE_ENV'] !== 'production' &&
+    process.env?.NODE_ENV !== 'production' &&
     !warnedIds.has(`${id}-name`)
   ) {
     warnedIds.add(`${id}-name`);
@@ -45,6 +45,13 @@ function warnMissingName(id: string): void {
     );
   }
 }
+
+const textFromReactNode = (node: React.ReactNode | undefined): string | undefined => {
+  if (typeof node === 'string' || typeof node === 'number') {
+    return String(node);
+  }
+  return undefined;
+};
 
 // =============================================================================
 // SelectableCard Component
@@ -258,22 +265,14 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
     }, [ariaDescribedby, descriptionId]);
 
     const controlAriaLabel = useMemo(() => {
-      if (ariaLabel) {
-        return ariaLabel;
-      }
-      if (title) {
-        return title;
-      }
-      if (subtitle) {
-        return subtitle;
-      }
-      if (description) {
-        return description;
-      }
-      if (value) {
-        return `${value}`;
-      }
-      return selectionMode !== 'none' ? 'Selectable option' : undefined;
+      return (
+        ariaLabel ??
+        textFromReactNode(title) ??
+        textFromReactNode(subtitle) ??
+        textFromReactNode(description) ??
+        value ??
+        (selectionMode !== 'none' ? 'Selectable option' : undefined)
+      );
     }, [ariaLabel, title, subtitle, description, value, selectionMode]);
 
     // Render the selection control

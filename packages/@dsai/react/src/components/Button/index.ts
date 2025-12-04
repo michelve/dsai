@@ -19,10 +19,10 @@ export { Button } from './Button';
 
 // FSM exports for advanced use cases (internal state management, testing, extensions)
 export {
-  buttonFSMReducer,
-  createInitialButtonFSMState,
   type ButtonFSMEvent,
   type ButtonFSMState,
   type ButtonVisualState,
+  buttonFSMReducer,
+  createInitialButtonFSMState,
 } from './Button.fsm';
 export type { ButtonProps, ButtonSize, ButtonType, ButtonVariant } from './Button.types';

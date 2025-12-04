@@ -1,10 +1,10 @@
 import {
   arrow,
   autoUpdate,
-  flip,
   FloatingArrow,
   FloatingFocusManager,
   FloatingPortal,
+  flip,
   offset,
   shift,
   useClick,
@@ -28,6 +28,8 @@ import {
   useRef,
 } from 'react';
 
+import { mapPlacement, normalizeTriggers } from '../../utils/misc';
+
 import {
   createInitialPopoverFSMState,
   getPopoverVisualState,
@@ -37,8 +39,7 @@ import { PopoverBody } from './PopoverBody';
 import { PopoverCloseButton } from './PopoverCloseButton';
 import { PopoverHeader } from './PopoverHeader';
 
-import type { PopoverPlacement, PopoverProps, PopoverTrigger } from './Popover.types';
-import type { Placement } from '@floating-ui/react';
+import type { PopoverProps } from './Popover.types';
 import type { ReactElement } from 'react';
 
 const POPOVER_ARROW_GAP_PX = 8;
@@ -50,19 +51,10 @@ const DEFAULT_MAX_WIDTH = 276; // Bootstrap default
 /**
  * Map DSAi placement to Floating UI placement
  */
-function mapPlacement(placement: PopoverPlacement): Placement {
-  return placement as Placement;
-}
 
 /**
  * Normalize trigger prop to array
  */
-function normalizeTriggers(trigger: PopoverTrigger | PopoverTrigger[]): PopoverTrigger[] {
-  if (Array.isArray(trigger)) {
-    return trigger;
-  }
-  return [trigger];
-}
 
 /**
  * Popover Component
@@ -445,7 +437,6 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
       dataTest,
       getFloatingProps,
       showArrow,
-      arrowRef,
       context,
       showCloseButton,
       handleClose,

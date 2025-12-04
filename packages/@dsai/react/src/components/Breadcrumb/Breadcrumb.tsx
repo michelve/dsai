@@ -1,12 +1,15 @@
 import {
   forwardRef,
+  type MouseEvent,
   memo,
   useCallback,
   useEffect,
   useMemo,
   useReducer,
-  type MouseEvent,
 } from 'react';
+
+import { isExternalUrl } from '../../utils/types';
+import { isSafeHref } from '../../utils/validation';
 
 import {
   breadcrumbFSMReducer,
@@ -28,37 +31,12 @@ import type { BreadcrumbItemData, BreadcrumbItemProps, BreadcrumbProps } from '.
  * @param href - The href to validate
  * @returns true if the href is safe, false otherwise
  */
-function isSafeHref(href?: string): boolean {
-  if (!href || typeof href !== 'string') {
-    return true; // undefined/null is safe (will default to #)
-  }
-
-  // Trim whitespace for validation
-  const trimmed = href.trim().toLowerCase();
-
-  // Block dangerous protocols
-  const dangerousProtocols = ['javascript:', 'data:', 'vbscript:', 'file:'];
-  for (const protocol of dangerousProtocols) {
-    if (trimmed.startsWith(protocol)) {
-      return false;
-    }
-  }
-
-  return true;
-}
 
 /**
  * Detects if a URL is external
  * @param href - The href to check
  * @returns true if the href is external, false otherwise
  */
-function isExternalUrl(href?: string): boolean {
-  if (!href || typeof href !== 'string') {
-    return false;
-  }
-
-  return href.startsWith('http://') || href.startsWith('https://');
-}
 
 // =============================================================================
 // BreadcrumbItem Component

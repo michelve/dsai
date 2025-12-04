@@ -414,7 +414,7 @@ describe('Navbar Accessibility', () => {
       const user = userEvent.setup();
       render(
         <div>
-          <button>Before</button>
+          <button type="button">Before</button>
           <Navbar>
             <Navbar.Brand href="/">Brand</Navbar.Brand>
             <Navbar.Toggle />
@@ -426,7 +426,7 @@ describe('Navbar Accessibility', () => {
               </Navbar.Nav>
             </Navbar.Collapse>
           </Navbar>
-          <button>After</button>
+          <button type="button">After</button>
         </div>
       );
 

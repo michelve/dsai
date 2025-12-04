@@ -40,7 +40,7 @@ const warnedLists = new Set<string>();
 function warnMissingListLabel(listId: string): void {
   if (
     typeof process !== 'undefined' &&
-    process.env?.['NODE_ENV'] !== 'production' &&
+    process.env?.NODE_ENV !== 'production' &&
     !warnedLists.has(listId)
   ) {
     warnedLists.add(listId);

@@ -122,18 +122,21 @@ type Story = StoryObj<typeof meta>;
 // Sample slide images (using placeholder)
 const slides = [
   {
+    id: 'slide-1',
     src: 'https://picsum.photos/seed/slide1/800/400',
     alt: 'First slide - Mountain landscape',
     title: 'First Slide Label',
     description: 'Some representative placeholder content for the first slide.',
   },
   {
+    id: 'slide-2',
     src: 'https://picsum.photos/seed/slide2/800/400',
     alt: 'Second slide - Ocean view',
     title: 'Second Slide Label',
     description: 'Some representative placeholder content for the second slide.',
   },
   {
+    id: 'slide-3',
     src: 'https://picsum.photos/seed/slide3/800/400',
     alt: 'Third slide - Forest path',
     title: 'Third Slide Label',
@@ -152,8 +155,8 @@ export const SlidesOnly: Story = {
   render: function SlidesOnlyCarousel() {
     return (
       <Carousel controls={false} indicators={false} aria-label="Basic carousel">
-        {slides.map((slide, index) => (
-          <CarouselItem key={index}>
+        {slides.map((slide) => (
+          <CarouselItem key={slide.id}>
             <img src={slide.src} alt={slide.alt} className="d-block w-100" />
           </CarouselItem>
         ))}
@@ -173,8 +176,8 @@ export const WithControls: Story = {
   render: function WithControlsCarousel() {
     return (
       <Carousel indicators={false} aria-label="Carousel with controls">
-        {slides.map((slide, index) => (
-          <CarouselItem key={index}>
+        {slides.map((slide) => (
+          <CarouselItem key={slide.id}>
             <img src={slide.src} alt={slide.alt} className="d-block w-100" />
           </CarouselItem>
         ))}
@@ -194,8 +197,8 @@ export const WithIndicators: Story = {
   render: function WithIndicatorsCarousel() {
     return (
       <Carousel aria-label="Carousel with indicators">
-        {slides.map((slide, index) => (
-          <CarouselItem key={index}>
+        {slides.map((slide) => (
+          <CarouselItem key={slide.id}>
             <img src={slide.src} alt={slide.alt} className="d-block w-100" />
           </CarouselItem>
         ))}
@@ -215,8 +218,8 @@ export const WithCaptions: Story = {
   render: function WithCaptionsCarousel() {
     return (
       <Carousel aria-label="Carousel with captions">
-        {slides.map((slide, index) => (
-          <CarouselItem key={index}>
+        {slides.map((slide) => (
+          <CarouselItem key={slide.id}>
             <img src={slide.src} alt={slide.alt} className="d-block w-100" />
             <CarouselCaption heading={slide.title} description={slide.description} />
           </CarouselItem>
@@ -237,8 +240,8 @@ export const FadeAnimation: Story = {
   render: function FadeCarousel() {
     return (
       <Carousel animation="fade" aria-label="Carousel with fade animation">
-        {slides.map((slide, index) => (
-          <CarouselItem key={index}>
+        {slides.map((slide) => (
+          <CarouselItem key={slide.id}>
             <img src={slide.src} alt={slide.alt} className="d-block w-100" />
           </CarouselItem>
         ))}
@@ -259,8 +262,8 @@ export const DarkVariant: Story = {
     return (
       <div style={{ backgroundColor: '#f8f9fa', padding: '2rem' }}>
         <Carousel dark aria-label="Dark carousel variant">
-          {slides.map((slide, index) => (
-            <CarouselItem key={index}>
+          {slides.map((slide) => (
+            <CarouselItem key={slide.id}>
               <img src={slide.src} alt={slide.alt} className="d-block w-100" />
               <CarouselCaption heading={slide.title} description={slide.description} />
             </CarouselItem>
@@ -282,8 +285,8 @@ export const Autoplay: Story = {
   render: function AutoplayCarousel() {
     return (
       <Carousel autoPlay interval={3000} aria-label="Auto-playing carousel">
-        {slides.map((slide, index) => (
-          <CarouselItem key={index}>
+        {slides.map((slide) => (
+          <CarouselItem key={slide.id}>
             <img src={slide.src} alt={slide.alt} className="d-block w-100" />
           </CarouselItem>
         ))}
@@ -334,9 +337,10 @@ export const Controlled: Story = {
     return (
       <div>
         <div className="mb-3 d-flex gap-2 justify-content-center">
-          {slides.map((_, index) => (
+          {slides.map((slide, index) => (
             <button
-              key={index}
+              type="button"
+              key={slide.id}
               className={`btn btn-sm ${activeIndex === index ? 'btn-primary' : 'btn-outline-primary'}`}
               onClick={() => setActiveIndex(index)}
             >
@@ -350,8 +354,8 @@ export const Controlled: Story = {
           onSelect={setActiveIndex}
           aria-label="Controlled carousel"
         >
-          {slides.map((slide, index) => (
-            <CarouselItem key={index}>
+          {slides.map((slide) => (
+            <CarouselItem key={slide.id}>
               <img src={slide.src} alt={slide.alt} className="d-block w-100" />
             </CarouselItem>
           ))}
@@ -376,8 +380,8 @@ export const NoWrap: Story = {
   render: function NoWrapCarousel() {
     return (
       <Carousel wrap={false} aria-label="Carousel without wrap">
-        {slides.map((slide, index) => (
-          <CarouselItem key={index}>
+        {slides.map((slide) => (
+          <CarouselItem key={slide.id}>
             <img src={slide.src} alt={slide.alt} className="d-block w-100" />
           </CarouselItem>
         ))}
@@ -397,8 +401,8 @@ export const CustomLabels: Story = {
   render: function CustomLabelsCarousel() {
     return (
       <Carousel slideLabels={['Mountains', 'Ocean', 'Forest']} aria-label="Nature gallery">
-        {slides.map((slide, index) => (
-          <CarouselItem key={index}>
+        {slides.map((slide) => (
+          <CarouselItem key={slide.id}>
             <img src={slide.src} alt={slide.alt} className="d-block w-100" />
           </CarouselItem>
         ))}
@@ -418,8 +422,8 @@ export const TouchDisabled: Story = {
   render: function TouchDisabledCarousel() {
     return (
       <Carousel touch={false} aria-label="Carousel without touch">
-        {slides.map((slide, index) => (
-          <CarouselItem key={index}>
+        {slides.map((slide) => (
+          <CarouselItem key={slide.id}>
             <img src={slide.src} alt={slide.alt} className="d-block w-100" />
           </CarouselItem>
         ))}
@@ -464,8 +468,8 @@ export const AccessibilityDemo: Story = {
           aria-label="Accessible image gallery"
           slideLabels={['Mountain landscape', 'Ocean sunset', 'Forest trail']}
         >
-          {slides.map((slide, index) => (
-            <CarouselItem key={index}>
+          {slides.map((slide) => (
+            <CarouselItem key={slide.id}>
               <img src={slide.src} alt={slide.alt} className="d-block w-100" />
               <CarouselCaption heading={slide.title} description={slide.description} />
             </CarouselItem>

@@ -117,6 +117,7 @@ function calculatePaginationItems(
 
   // End boundary pages: [count - boundaryCount + 1, ..., count]
   const endBoundary = range(Math.max(count - boundaryCount + 1, boundaryCount + 1), count);
+  const firstEndPage = endBoundary[0];
 
   // Sibling pages around current: [page - siblingCount, ..., page, ..., page + siblingCount]
   const siblingStart = Math.max(
@@ -125,7 +126,7 @@ function calculatePaginationItems(
   );
   const siblingEnd = Math.min(
     Math.max(page + siblingCount, boundaryCount + siblingCount * 2 + 2),
-    endBoundary.length > 0 ? endBoundary[0] - 2 : count - 1
+    firstEndPage !== undefined ? firstEndPage - 2 : count - 1
   );
 
   // Build the final page list with ellipsis
@@ -152,12 +153,13 @@ function calculatePaginationItems(
   }
 
   // Add end ellipsis if needed
-  const lastPageBeforeEndBoundary = endBoundary.length > 0 ? endBoundary[0] - 1 : count;
+  const lastPageBeforeEndBoundary = firstEndPage !== undefined ? firstEndPage - 1 : count;
+  const endBoundaryLimit = (firstEndPage ?? count) + 1;
   if (siblingEnd < lastPageBeforeEndBoundary - 1) {
     pageNumbers.push('ellipsis');
   } else if (siblingEnd < lastPageBeforeEndBoundary) {
     // Add the page between siblings and end boundary
-    for (let i = siblingEnd + 1; i < (endBoundary[0] ?? count + 1); i++) {
+    for (let i = siblingEnd + 1; i < endBoundaryLimit; i++) {
       if (!pageNumbers.includes(i)) {
         pageNumbers.push(i);
       }
@@ -264,7 +266,6 @@ const PaginationItemComponent = memo(function PaginationItem({
         return lastContent;
       case 'ellipsis':
         return '…';
-      case 'page':
       default:
         return item.page;
     }
@@ -281,7 +282,7 @@ const PaginationItemComponent = memo(function PaginationItem({
       case 'last':
         return lastLabel;
       case 'page':
-        return getPageAriaLabel(item.page!);
+        return getPageAriaLabel(item.page ?? 0);
       default:
         return '';
     }
@@ -425,10 +426,10 @@ export const Pagination = memo(
       firstLabel = 'Go to first page',
       lastLabel = 'Go to last page',
       getPageAriaLabel = (p: number): string => `Go to page ${p}`,
-      previousContent = <ChevronLeftIcon aria-hidden="true" />,
-      nextContent = <ChevronRightIcon aria-hidden="true" />,
-      firstContent = <ChevronDoubleLeftIcon aria-hidden="true" />,
-      lastContent = <ChevronDoubleRightIcon aria-hidden="true" />,
+      previousContent = <ChevronLeftIcon aria-hidden />,
+      nextContent = <ChevronRightIcon aria-hidden />,
+      firstContent = <ChevronDoubleLeftIcon aria-hidden />,
+      lastContent = <ChevronDoubleRightIcon aria-hidden />,
       className = '',
       style,
       id,

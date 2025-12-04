@@ -1,4 +1,13 @@
 export { Table } from './Table';
+export type {
+  ClearAllEvent,
+  ResetFromPropsEvent,
+  SelectAllEvent,
+  SelectRowEvent,
+  TableFSMEvent,
+  ToggleAllEvent,
+  ToggleRowEvent,
+} from './Table.fsm';
 export {
   clearAllEvent,
   createInitialTableFSMState,
@@ -19,15 +28,6 @@ export {
   toggleRowEvent,
 } from './Table.fsm';
 export type {
-  ClearAllEvent,
-  ResetFromPropsEvent,
-  SelectAllEvent,
-  SelectRowEvent,
-  TableFSMEvent,
-  ToggleAllEvent,
-  ToggleRowEvent,
-} from './Table.fsm';
-export type {
   CellAlign,
   RowId,
   RowIdAccessor,
@@ -37,8 +37,8 @@ export type {
   TableCellProps,
   TableColor,
   TableColumn,
-  TableFSMState,
   TableFooterProps,
+  TableFSMState,
   TableHeaderCellProps,
   TableHeaderProps,
   TableProps,

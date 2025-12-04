@@ -1,5 +1,9 @@
 import { forwardRef, type KeyboardEvent, memo, useCallback, useMemo } from 'react';
 
+import { getVariantClass } from '../../utils/string';
+import { isExternalUrl } from '../../utils/types';
+import { isSafeHref } from '../../utils/validation';
+
 import type {
   CardBodyProps,
   CardColor,
@@ -24,37 +28,12 @@ import type {
  * @param href - The href to validate
  * @returns true if the href is safe, false otherwise
  */
-function isSafeHref(href?: string): boolean {
-  if (!href || typeof href !== 'string') {
-    return true; // undefined/null is safe (will default to #)
-  }
-
-  // Trim whitespace for validation
-  const trimmed = href.trim().toLowerCase();
-
-  // Block dangerous protocols
-  const dangerousProtocols = ['javascript:', 'data:', 'vbscript:', 'file:'];
-  for (const protocol of dangerousProtocols) {
-    if (trimmed.startsWith(protocol)) {
-      return false;
-    }
-  }
-
-  return true;
-}
 
 /**
  * Detects if a URL is external
  * @param href - The href to check
  * @returns true if the href is external, false otherwise
  */
-function isExternalUrl(href?: string): boolean {
-  if (!href || typeof href !== 'string') {
-    return false;
-  }
-
-  return href.startsWith('http://') || href.startsWith('https://');
-}
 
 // =============================================================================
 // CardHeader Component
@@ -289,17 +268,6 @@ CardImgOverlay.displayName = 'CardImgOverlay';
 /**
  * Get variant class
  */
-const getVariantClass = (variant: CardVariant): string => {
-  switch (variant) {
-    case 'outlined':
-      return 'border';
-    case 'ghost':
-      return 'bg-transparent border-0 shadow-none';
-    case 'elevated':
-    default:
-      return 'shadow-sm';
-  }
-};
 
 /**
  * Get color class
@@ -350,12 +318,19 @@ export const Card = memo(
 
     // Build card classes with memoization
     const cardClasses = useMemo(() => {
+      const variantClasses: Array<string | false> = [
+        variant === 'elevated' && 'shadow-sm',
+        variant === 'outlined' && 'border',
+        variant === 'ghost' && 'bg-transparent',
+        variant === 'ghost' && 'border-0',
+      ];
       return [
         'card',
-        getVariantClass(variant),
+        getVariantClass(variant, { prefix: 'card' }),
         color && getColorClass(color),
         horizontal && 'flex-row',
         isInteractive && 'card-interactive',
+        ...variantClasses,
         className,
       ]
         .filter(Boolean)

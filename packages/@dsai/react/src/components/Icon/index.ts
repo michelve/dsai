@@ -7,8 +7,7 @@
  * @packageDocumentation
  */
 
-// Re-export types
-export type { IconComponent, IconProps } from './types';
-
 // Re-export all icon components
 export * from './components';
+// Re-export types
+export type { IconComponent, IconProps } from './types';

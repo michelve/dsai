@@ -719,7 +719,7 @@ describe('Table', () => {
     });
 
     it('passes row data to cell renderer', () => {
-      const cellRenderer = jest.fn((value, row, index) => <span>{`${row.name} - ${index}`}</span>);
+      const cellRenderer = jest.fn((_value, row, index) => <span>{`${row.name} - ${index}`}</span>);
 
       const customColumns: TableColumn<User>[] = [
         { id: 'name', header: 'Name', accessor: 'name', cell: cellRenderer },

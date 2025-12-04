@@ -1,5 +1,6 @@
 import { forwardRef, useCallback, useEffect, useId, useMemo, useReducer, useRef } from 'react';
 
+import { getVariantClass } from '../../utils/string';
 import {
   CheckCircleFillIcon,
   ExclamationTriangleFillIcon,
@@ -54,20 +55,6 @@ function getAriaLive(variant: ToastVariant): 'assertive' | 'polite' {
  * @param variant - Toast variant
  * @returns Bootstrap text-bg-* class or empty string for default
  */
-function getVariantClass(variant: ToastVariant): string {
-  switch (variant) {
-    case 'success':
-      return 'text-bg-success';
-    case 'error':
-      return 'text-bg-danger';
-    case 'warning':
-      return 'text-bg-warning';
-    case 'info':
-      return 'text-bg-info';
-    default:
-      return '';
-  }
-}
 
 /**
  * Get default icon for variant
@@ -150,7 +137,6 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       className,
       style,
       id,
-      'aria-label': ariaLabel,
       'data-testid': dataTestId,
       'data-test': dataTest,
     },
@@ -284,9 +270,14 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
     // Memoize class names
     const toastClassName = useMemo(() => {
       const classes = ['toast', 'show'];
-      const variantClass = getVariantClass(variant);
-      if (variantClass) {
-        classes.push(variantClass, 'border-0');
+      if (variant !== 'default') {
+        const variantClass = getVariantClass(variant, {
+          prefix: 'text-bg',
+          map: { error: 'danger' },
+        });
+        if (variantClass) {
+          classes.push(variantClass, 'border-0');
+        }
       }
       if (className) {
         classes.push(className);
@@ -340,8 +331,6 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
           role={getAriaRole(variant)}
           aria-live={getAriaLive(variant)}
           aria-atomic="true"
-          aria-labelledby={titleId}
-          aria-describedby={bodyId}
           data-visual-state={getToastVisualState(fsmState)}
           data-testid={dataTestId}
           data-test={dataTest}
@@ -396,7 +385,6 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
         role={getAriaRole(variant)}
         aria-live={getAriaLive(variant)}
         aria-atomic="true"
-        aria-label={ariaLabel}
         data-visual-state={getToastVisualState(fsmState)}
         data-testid={dataTestId}
         data-test={dataTest}

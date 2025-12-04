@@ -569,8 +569,6 @@ export const TabsPro = memo(
             content = tabState?.loadedContent ?? item.content ?? null;
             break;
           }
-
-          case 'idle':
           default: {
             // Show loading for idle tabs when active (will trigger load)
             if (fsmState.activeTabId === item.id) {

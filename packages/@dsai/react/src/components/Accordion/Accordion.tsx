@@ -543,18 +543,17 @@ const AccordionPanel = forwardRef<HTMLDivElement, AccordionPanelProps>(
     }, [isExpanded, className]);
 
     return (
-      <div
+      <section
         ref={ref}
         id={id ?? panelId}
         className={collapseClasses}
         style={style}
-        role="region"
         aria-labelledby={buttonId}
         data-testid={dataTestId}
         data-test={dataTest}
       >
         <div className="accordion-body">{children}</div>
-      </div>
+      </section>
     );
   }
 );
@@ -574,6 +573,16 @@ export const Accordion = Object.assign(AccordionRoot, {
   Panel: AccordionPanel,
 });
 
+export type { AccordionFSMEvent, AccordionFSMState } from './Accordion.fsm';
+
+// Re-export FSM utilities
+export {
+  accordionFSMReducer,
+  createInitialAccordionFSMState,
+  getAccordionItemVisualState,
+  getActiveKeysArray,
+  isItemExpanded,
+} from './Accordion.fsm';
 // Re-export types
 export type {
   AccordionButtonProps,
@@ -585,13 +594,3 @@ export type {
   AccordionProps,
   AccordionSelectionMode,
 } from './Accordion.types';
-
-// Re-export FSM utilities
-export {
-  accordionFSMReducer,
-  createInitialAccordionFSMState,
-  getAccordionItemVisualState,
-  getActiveKeysArray,
-  isItemExpanded,
-} from './Accordion.fsm';
-export type { AccordionFSMEvent, AccordionFSMState } from './Accordion.fsm';

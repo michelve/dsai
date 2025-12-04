@@ -65,7 +65,7 @@ function BadgeComponent(
     id,
     as: Component = 'span',
   }: BadgeProps,
-  ref: React.ForwardedRef<HTMLElement>
+  ref: React.ForwardedRef<HTMLSpanElement | HTMLDivElement>
 ): React.JSX.Element {
   // Determine if badge has visible content
   const hasVisibleContent = useMemo(() => {
@@ -89,7 +89,7 @@ function BadgeComponent(
   // Shows in development and test environments
   const isDevelopmentOrTest =
     typeof process !== 'undefined' &&
-    (process.env?.['NODE_ENV'] === 'development' || process.env?.['NODE_ENV'] === 'test');
+    (process.env?.NODE_ENV === 'development' || process.env?.NODE_ENV === 'test');
   if (isDevelopmentOrTest && dot && !hasVisibleContent && !ariaLabel) {
     console.warn(
       'Badge: Dot-only badges must have an aria-label for accessibility. ' +
@@ -99,20 +99,8 @@ function BadgeComponent(
 
   const role = dot && !hasVisibleContent ? 'status' : undefined;
 
-  const ComponentTag = Component;
-
-  return (
-    <ComponentTag
-      ref={ref as React.Ref<HTMLSpanElement>}
-      className={bootstrapClasses}
-      style={style}
-      id={id}
-      title={title}
-      aria-label={ariaLabel}
-      data-testid={dataTestId}
-      data-test={dataTest}
-      role={role}
-    >
+  const badgeContent = (
+    <>
       {/* Dot indicator */}
       {dot && (
         <span
@@ -133,7 +121,43 @@ function BadgeComponent(
       )}
       {/* Badge content */}
       {children}
-    </ComponentTag>
+    </>
+  );
+
+  // Build aria props object - only include aria-label when role is present
+  // (ARIA spec: aria-label requires an interactive or widget role)
+  const ariaProps = role ? { role, 'aria-label': ariaLabel } : {};
+
+  if (Component === 'div') {
+    return (
+      <div
+        ref={ref as React.Ref<HTMLDivElement>}
+        className={bootstrapClasses}
+        style={style}
+        id={id}
+        title={title}
+        data-testid={dataTestId}
+        data-test={dataTest}
+        {...ariaProps}
+      >
+        {badgeContent}
+      </div>
+    );
+  }
+
+  return (
+    <span
+      ref={ref as React.Ref<HTMLSpanElement>}
+      className={bootstrapClasses}
+      style={style}
+      id={id}
+      title={title}
+      data-testid={dataTestId}
+      data-test={dataTest}
+      {...ariaProps}
+    >
+      {badgeContent}
+    </span>
   );
 }
 

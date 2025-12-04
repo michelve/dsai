@@ -337,7 +337,9 @@ describe('Scrollspy Component', () => {
       for (const item of sampleItems) {
         const element = document.getElementById(item.target);
         expect(element).not.toBeNull();
-        expect(mockObservers.has(element!)).toBe(true);
+        if (element) {
+          expect(mockObservers.has(element)).toBe(true);
+        }
       }
     });
 

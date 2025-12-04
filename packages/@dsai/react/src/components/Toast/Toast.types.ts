@@ -248,12 +248,6 @@ export interface ToastProps extends SafeToastHTMLAttributes {
    * @default 150
    */
   animationDuration?: number;
-
-  /**
-   * Accessible label for the toast
-   * Used when no title is provided
-   */
-  'aria-label'?: string;
 }
 
 /**

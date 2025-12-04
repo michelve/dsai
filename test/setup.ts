@@ -38,7 +38,6 @@ Object.defineProperty(window, 'scrollTo', {
     scrollMargin = '';
     thresholds = [];
 
-    constructor() {}
     disconnect(): void {}
     observe(): void {}
     takeRecords(): IntersectionObserverEntry[] {
@@ -49,7 +48,6 @@ Object.defineProperty(window, 'scrollTo', {
 
 // Mock ResizeObserver (not implemented in jsdom)
 (global as typeof globalThis & { ResizeObserver: unknown }).ResizeObserver = class ResizeObserver {
-  constructor() {}
   disconnect(): void {}
   observe(): void {}
   unobserve(): void {}

@@ -20,6 +20,8 @@ import {
   useRef,
 } from 'react';
 
+import { isValidHref } from '../../utils/validation';
+
 import {
   createInitialNavbarFSMState,
   getNavbarVisualState,
@@ -38,23 +40,6 @@ import type {
   NavbarTextProps,
   NavbarToggleProps,
 } from './Navbar.types';
-
-// =============================================================================
-// Security: Blocked protocols for href validation
-// =============================================================================
-
-const BLOCKED_PROTOCOLS = ['javascript:', 'data:', 'vbscript:', 'file:'];
-
-/**
- * Validates href to prevent XSS attacks
- */
-function isValidHref(href: string | undefined): boolean {
-  if (!href) {
-    return true;
-  }
-  const lowerHref = href.toLowerCase().trim();
-  return !BLOCKED_PROTOCOLS.some((protocol) => lowerHref.startsWith(protocol));
-}
 
 // =============================================================================
 // Context
@@ -304,7 +289,6 @@ const NavbarRoot = forwardRef<HTMLElement, NavbarProps>(
           style={style}
           role={computedRole}
           aria-label={ariaLabel}
-          aria-orientation={orientation !== 'horizontal' ? orientation : undefined}
           data-bs-theme={dataTheme}
           data-visual-state={getNavbarVisualState(fsmState)}
           data-testid={dataTestId}
@@ -640,7 +624,7 @@ const NavbarNav = forwardRef<HTMLUListElement, NavbarNavProps>(
 
     // Handle keyboard navigation
     const handleKeyDown = useCallback(
-      (event: React.KeyboardEvent<HTMLUListElement>) => {
+      (event: React.KeyboardEvent<HTMLElement>) => {
         // Handle Escape to close menu
         if (event.key === 'Escape') {
           handleEscapeKey(event);
@@ -652,7 +636,9 @@ const NavbarNav = forwardRef<HTMLUListElement, NavbarNavProps>(
           return;
         }
 
-        const currentIndex = links.findIndex((link) => link === document.activeElement);
+        const activeElement = document.activeElement;
+        const currentIndex =
+          activeElement instanceof HTMLAnchorElement ? links.indexOf(activeElement) : -1;
         let nextIndex = -1;
 
         // Determine navigation keys based on orientation
@@ -708,19 +694,19 @@ const NavbarNav = forwardRef<HTMLUListElement, NavbarNavProps>(
     }, [scroll, scrollHeight, style]);
 
     return (
-      <ul
-        ref={mergedRef}
-        id={id}
-        className={navClasses}
-        style={computedStyle}
-        role="menubar"
-        aria-orientation={orientation}
-        onKeyDown={handleKeyDown}
-        data-testid={dataTestId}
-        data-test={dataTest}
-      >
-        {children}
-      </ul>
+      <div role="menubar" aria-orientation={orientation} tabIndex={0} onKeyDown={handleKeyDown}>
+        <ul
+          ref={mergedRef}
+          id={id}
+          className={navClasses}
+          style={computedStyle}
+          data-testid={dataTestId}
+          data-test={dataTest}
+          data-orientation={orientation}
+        >
+          {children}
+        </ul>
+      </div>
     );
   }
 );
@@ -953,6 +939,14 @@ export const Navbar = Object.assign(NavbarRoot, {
   Text: NavbarText,
 });
 
+// Re-export FSM utilities
+export {
+  createInitialNavbarFSMState,
+  getNavbarVisualState,
+  isNavbarAnimating,
+  isNavbarExpanded,
+  navbarFSMReducer,
+} from './Navbar.fsm';
 // Re-export types
 export type {
   NavbarBackground,
@@ -974,12 +968,3 @@ export type {
   NavbarVisibility,
   NavbarVisualState,
 } from './Navbar.types';
-
-// Re-export FSM utilities
-export {
-  createInitialNavbarFSMState,
-  getNavbarVisualState,
-  isNavbarAnimating,
-  isNavbarExpanded,
-  navbarFSMReducer,
-} from './Navbar.fsm';

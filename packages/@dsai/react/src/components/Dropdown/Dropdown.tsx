@@ -29,6 +29,9 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 
+import { mapPlacement } from '../../utils/misc';
+import { isValidHref } from '../../utils/validation';
+
 import {
   createInitialDropdownFSMState,
   dropdownFSMReducer,
@@ -50,22 +53,6 @@ import type {
 import type { FloatingContext } from '@floating-ui/react';
 
 /**
- * Blocked protocols for href validation (security)
- */
-const BLOCKED_PROTOCOLS = ['javascript:', 'data:', 'vbscript:', 'file:'];
-
-/**
- * Validates href to prevent XSS attacks
- */
-function isValidHref(href: string | undefined): boolean {
-  if (!href) {
-    return true;
-  }
-  const lowerHref = href.toLowerCase().trim();
-  return !BLOCKED_PROTOCOLS.some((protocol) => lowerHref.startsWith(protocol));
-}
-
-/**
  * Dropdown context for sharing state between components
  */
 const DropdownContext = createContext<DropdownContextValue | null>(null);
@@ -84,10 +71,6 @@ function useDropdownContext(): DropdownContextValue {
 /**
  * Map DSAi placement to Floating UI placement
  */
-function mapPlacement(placement: DropdownPlacement): DropdownPlacement {
-  // Our placements are already compatible with Floating UI
-  return placement;
-}
 
 /**
  * Dropdown Component
@@ -309,8 +292,8 @@ const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
       }
     }, [fsmState.visibility, onClosed]);
 
-    // Context actions
-    const toggle = useCallback(() => {
+    // Context actions - let React Compiler handle memoization
+    const toggle = (): void => {
       if (disabled) {
         return;
       }
@@ -318,9 +301,9 @@ const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
       if (isControlled && onOpenChange) {
         onOpenChange(!isOpen);
       }
-    }, [disabled, dispatch, isControlled, onOpenChange, isOpen]);
+    };
 
-    const open = useCallback(() => {
+    const open = (): void => {
       if (disabled) {
         return;
       }
@@ -328,61 +311,39 @@ const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
       if (isControlled && onOpenChange) {
         onOpenChange(true);
       }
-    }, [disabled, dispatch, isControlled, onOpenChange]);
+    };
 
-    const close = useCallback(() => {
+    const close = (): void => {
       dispatch({ type: 'CLOSE' });
       if (isControlled && onOpenChange) {
         onOpenChange(false);
       }
-    }, [dispatch, isControlled, onOpenChange]);
+    };
 
-    // Memoize context value
-    const contextValue = useMemo<DropdownContextValue>(
-      () => ({
-        isOpen,
-        toggle,
-        open,
-        close,
-        disabled,
-        placement,
-        autoClose,
-        toggleId,
-        menuId,
-        activeIndex,
-        setActiveIndex,
-        listRef,
-        getItemProps,
-        refs: {
-          setReference: refs.setReference,
-          setFloating: refs.setFloating,
-        },
-        floatingStyles,
-        getReferenceProps,
-        getFloatingProps,
-        floatingContext: context,
-      }),
-      [
-        isOpen,
-        toggle,
-        open,
-        close,
-        disabled,
-        placement,
-        autoClose,
-        toggleId,
-        menuId,
-        activeIndex,
-        setActiveIndex,
-        getItemProps,
-        refs.setReference,
-        refs.setFloating,
-        floatingStyles,
-        getReferenceProps,
-        getFloatingProps,
-        context,
-      ]
-    );
+    // Context value - React Compiler handles memoization
+    const contextValue: DropdownContextValue = {
+      isOpen,
+      toggle,
+      open,
+      close,
+      disabled,
+      placement,
+      autoClose,
+      toggleId,
+      menuId,
+      activeIndex,
+      setActiveIndex,
+      listRef,
+      getItemProps,
+      refs: {
+        setReference: refs.setReference,
+        setFloating: refs.setFloating,
+      },
+      floatingStyles,
+      getReferenceProps,
+      getFloatingProps,
+      floatingContext: context,
+    };
 
     // Compute direction class for Bootstrap
     const directionClass = useMemo(() => {
@@ -466,7 +427,7 @@ const DropdownToggle = forwardRef<HTMLButtonElement, DropdownToggleProps>(
     const isDisabled = toggleDisabled || contextDisabled;
 
     // Development warning for split toggles without explicit aria-label
-    if (process.env.NODE_ENV !== 'production' && split && !ariaLabel) {
+    if (process.env?.NODE_ENV !== 'production' && split && !ariaLabel) {
       console.warn(
         'Dropdown.Toggle: Split toggles should have an explicit aria-label for accessibility. ' +
           'Falling back to "Toggle Dropdown".'
@@ -584,7 +545,6 @@ const DropdownMenu = forwardRef<HTMLUListElement, DropdownMenuProps>(
           id={id ?? menuId}
           className={menuClassName}
           style={combinedStyle}
-          role="menu"
           aria-labelledby={toggleId}
           data-testid={dataTestId}
           data-test={dataTest}

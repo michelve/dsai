@@ -1,5 +1,7 @@
 import React, { forwardRef, useCallback, useEffect, useMemo, useReducer } from 'react';
 
+import { isSafeHref } from '../../utils/validation';
+
 import { alertFSMReducer, createInitialAlertFSMState } from './Alert.fsm';
 
 import type { AlertHeadingProps, AlertLinkProps, AlertProps } from './Alert.types';
@@ -11,18 +13,6 @@ import type { AlertHeadingProps, AlertLinkProps, AlertProps } from './Alert.type
  * @param href - URL to validate
  * @returns true if href is safe, false otherwise
  */
-function isSafeHref(href: string | undefined): boolean {
-  if (!href || typeof href !== 'string') {
-    return false;
-  }
-
-  const trimmedHref = href.trim().toLowerCase();
-
-  // Blocked protocols: javascript:, data:, text/html, vbscript:, file:
-  const unsafePatterns = /^(javascript:|data:|text\/html|vbscript:|file:|about:blank)/i;
-
-  return !unsafePatterns.test(trimmedHref);
-}
 
 /**
  * Alert Link - styled link for use within alerts
@@ -58,7 +48,7 @@ const AlertLink = React.memo(
     ref
   ) {
     // Validate href against XSS patterns
-    const safeHref = isSafeHref(href) ? href : '#';
+    const safeHref = isSafeHref(href, { undefinedBehavior: 'unsafe' }) ? href : '#';
 
     // External link protection: target="_blank" requires rel="noopener noreferrer"
     // This prevents the opened page from accessing window.opener
