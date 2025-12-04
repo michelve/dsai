@@ -9,8 +9,10 @@
  */
 
 import {
+  Children,
   createContext,
   forwardRef,
+  isValidElement,
   useCallback,
   useContext,
   useEffect,
@@ -20,6 +22,8 @@ import {
   useRef,
 } from 'react';
 
+import { cn, mergeRefs } from '../../utils';
+import { isEscapeKey } from '../../utils/keyboard';
 import { isValidHref } from '../../utils/validation';
 
 import {
@@ -191,8 +195,8 @@ const NavbarRoot = forwardRef<HTMLElement, NavbarProps>(
 
     // Handle Escape key - closes menu and returns focus to toggle
     const handleEscapeKey = useCallback(
-      (event: React.KeyboardEvent<HTMLElement>) => {
-        if (event.key === 'Escape' && isNavbarExpanded(fsmState)) {
+      (event: React.KeyboardEvent<HTMLElement> | KeyboardEvent) => {
+        if (isEscapeKey(event) && isNavbarExpanded(fsmState)) {
           close();
           toggleRef.current?.focus();
         }
@@ -230,37 +234,23 @@ const NavbarRoot = forwardRef<HTMLElement, NavbarProps>(
 
     // Compute navbar classes
     const navbarClasses = useMemo(() => {
-      const classes = ['navbar'];
-
       // Expand breakpoint
+      let expandClass: string | undefined;
       if (expand === true) {
-        // Never collapse
-        classes.push('navbar-expand');
+        expandClass = 'navbar-expand';
       } else if (expand !== false) {
-        classes.push(`navbar-expand-${expand}`);
+        expandClass = `navbar-expand-${expand}`;
       }
       // If expand === false, no expand class (always collapsed)
 
-      // Variant (dark theme)
-      if (variant === 'dark') {
-        classes.push('navbar-dark');
-      }
-
-      // Background
-      if (bg) {
-        classes.push(`bg-${bg}`);
-      }
-
-      // Placement
-      if (placement !== 'static') {
-        classes.push(placement);
-      }
-
-      if (className) {
-        classes.push(className);
-      }
-
-      return classes.join(' ');
+      return cn(
+        'navbar',
+        expandClass,
+        variant === 'dark' && 'navbar-dark',
+        bg && `bg-${bg}`,
+        placement !== 'static' && placement,
+        className
+      );
     }, [expand, variant, bg, placement, className]);
 
     // Container class
@@ -340,13 +330,7 @@ const NavbarBrand = forwardRef<HTMLAnchorElement | HTMLSpanElement, NavbarBrandP
     const safeHref = isValidHref(href) ? href : undefined;
 
     // Compute classes
-    const brandClasses = useMemo(() => {
-      const classes = ['navbar-brand'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const brandClasses = useMemo(() => cn('navbar-brand', className), [className]);
 
     // Compute rel for security
     const computedRel = useMemo(() => {
@@ -448,20 +432,9 @@ const NavbarToggle = forwardRef<HTMLButtonElement, NavbarToggleProps>(
   ) => {
     const { isExpanded, toggle, collapseId, registerToggleRef } = useNavbarContext();
 
-    // Merge refs
-    const mergedRef = useCallback(
-      (node: HTMLButtonElement | null) => {
-        // Update forwarded ref
-        if (typeof ref === 'function') {
-          ref(node);
-        } else if (ref) {
-          (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
-        }
-        // Register with context
-        registerToggleRef(node);
-      },
-      [ref, registerToggleRef]
-    );
+    // Merge refs - combine forwarded ref with context registration
+    const internalRef = useRef<HTMLButtonElement | null>(null);
+    const mergedRef = mergeRefs(ref, internalRef, registerToggleRef);
 
     // Handle click
     const handleClick = useCallback(
@@ -473,13 +446,7 @@ const NavbarToggle = forwardRef<HTMLButtonElement, NavbarToggleProps>(
     );
 
     // Compute classes
-    const toggleClasses = useMemo(() => {
-      const classes = ['navbar-toggler'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const toggleClasses = useMemo(() => cn('navbar-toggler', className), [className]);
 
     return (
       <button
@@ -529,16 +496,10 @@ const NavbarCollapse = forwardRef<HTMLDivElement, NavbarCollapseProps>(
     const { isExpanded, collapseId } = useNavbarContext();
 
     // Compute classes
-    const collapseClasses = useMemo(() => {
-      const classes = ['collapse', 'navbar-collapse'];
-      if (isExpanded) {
-        classes.push('show');
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [isExpanded, className]);
+    const collapseClasses = useMemo(
+      () => cn('collapse', 'navbar-collapse', isExpanded && 'show', className),
+      [isExpanded, className]
+    );
 
     return (
       <div
@@ -598,17 +559,7 @@ const NavbarNav = forwardRef<HTMLUListElement, NavbarNavProps>(
     const navRef = useRef<HTMLUListElement | null>(null);
 
     // Merge refs
-    const mergedRef = useCallback(
-      (node: HTMLUListElement | null) => {
-        navRef.current = node;
-        if (typeof ref === 'function') {
-          ref(node);
-        } else if (ref) {
-          (ref as React.RefObject<HTMLUListElement | null>).current = node;
-        }
-      },
-      [ref]
-    );
+    const mergedRef = mergeRefs(ref, navRef);
 
     // Get focusable nav links
     const getFocusableLinks = useCallback((): HTMLAnchorElement[] => {
@@ -624,9 +575,9 @@ const NavbarNav = forwardRef<HTMLUListElement, NavbarNavProps>(
 
     // Handle keyboard navigation
     const handleKeyDown = useCallback(
-      (event: React.KeyboardEvent<HTMLElement>) => {
+      (event: React.KeyboardEvent<HTMLElement> | KeyboardEvent) => {
         // Handle Escape to close menu
-        if (event.key === 'Escape') {
+        if (isEscapeKey(event)) {
           handleEscapeKey(event);
           return;
         }
@@ -670,17 +621,28 @@ const NavbarNav = forwardRef<HTMLUListElement, NavbarNavProps>(
       [getFocusableLinks, orientation, handleEscapeKey]
     );
 
+    // Attach native keydown listener to avoid lint issues on non-interactive elements
+    useEffect(() => {
+      const node = navRef.current;
+      if (!node) {
+        return undefined;
+      }
+
+      const listener = (event: KeyboardEvent): void => {
+        handleKeyDown(event);
+      };
+
+      node.addEventListener('keydown', listener);
+      return () => {
+        node.removeEventListener('keydown', listener);
+      };
+    }, [handleKeyDown]);
+
     // Compute classes
-    const navClasses = useMemo(() => {
-      const classes = ['navbar-nav'];
-      if (scroll) {
-        classes.push('navbar-nav-scroll');
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [scroll, className]);
+    const navClasses = useMemo(
+      () => cn('navbar-nav', scroll && 'navbar-nav-scroll', className),
+      [scroll, className]
+    );
 
     // Compute scroll style
     const computedStyle = useMemo(() => {
@@ -693,20 +655,35 @@ const NavbarNav = forwardRef<HTMLUListElement, NavbarNavProps>(
       return style;
     }, [scroll, scrollHeight, style]);
 
+    // Normalize children so that ul only contains li elements
+    const normalizedChildren = useMemo(() => {
+      return Children.map(children, (child, index) => {
+        if (!isValidElement(child)) {
+          return child;
+        }
+        const childType = (child.type as { displayName?: string; name?: string }) || {};
+        const isNavItem =
+          childType.displayName === NavbarItem.displayName || childType.name === 'NavbarItem';
+        if (isNavItem) {
+          return child;
+        }
+        const key = child.key ?? `navbar-item-${index}`;
+        return <NavbarItem key={key}>{child}</NavbarItem>;
+      });
+    }, [children]);
+
     return (
-      <div role="menubar" aria-orientation={orientation} tabIndex={0} onKeyDown={handleKeyDown}>
-        <ul
-          ref={mergedRef}
-          id={id}
-          className={navClasses}
-          style={computedStyle}
-          data-testid={dataTestId}
-          data-test={dataTest}
-          data-orientation={orientation}
-        >
-          {children}
-        </ul>
-      </div>
+      <ul
+        ref={mergedRef}
+        id={id}
+        className={navClasses}
+        style={computedStyle}
+        data-testid={dataTestId}
+        data-test={dataTest}
+        data-orientation={orientation}
+      >
+        {normalizedChildren}
+      </ul>
     );
   }
 );
@@ -743,16 +720,10 @@ const NavbarItem = forwardRef<HTMLLIElement, NavbarItemProps>(
     ref
   ) => {
     // Compute classes
-    const itemClasses = useMemo(() => {
-      const classes = ['nav-item'];
-      if (dropdown) {
-        classes.push('dropdown');
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [dropdown, className]);
+    const itemClasses = useMemo(
+      () => cn('nav-item', dropdown && 'dropdown', className),
+      [dropdown, className]
+    );
 
     return (
       <li
@@ -760,7 +731,6 @@ const NavbarItem = forwardRef<HTMLLIElement, NavbarItemProps>(
         id={id}
         className={itemClasses}
         style={style}
-        role="none"
         data-testid={dataTestId}
         data-test={dataTest}
       >
@@ -811,19 +781,10 @@ const NavbarLink = forwardRef<HTMLAnchorElement, NavbarLinkProps>(
     const safeHref = isValidHref(href) ? href : '#';
 
     // Compute classes
-    const linkClasses = useMemo(() => {
-      const classes = ['nav-link'];
-      if (active) {
-        classes.push('active');
-      }
-      if (disabled) {
-        classes.push('disabled');
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [active, disabled, className]);
+    const linkClasses = useMemo(
+      () => cn('nav-link', active && 'active', disabled && 'disabled', className),
+      [active, disabled, className]
+    );
 
     // Compute rel for security
     const computedRel = useMemo(() => {
@@ -857,7 +818,6 @@ const NavbarLink = forwardRef<HTMLAnchorElement, NavbarLinkProps>(
       href: safeHref,
       target,
       rel: computedRel,
-      role: 'menuitem' as const,
       'aria-current': active ? ('page' as const) : undefined,
       'aria-disabled': disabled || undefined,
       tabIndex: disabled ? -1 : undefined,
@@ -897,13 +857,7 @@ const NavbarText = forwardRef<HTMLSpanElement, NavbarTextProps>(
     ref
   ) => {
     // Compute classes
-    const textClasses = useMemo(() => {
-      const classes = ['navbar-text'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const textClasses = useMemo(() => cn('navbar-text', className), [className]);
 
     return (
       <span

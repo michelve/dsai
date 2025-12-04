@@ -11,7 +11,7 @@
  * - All subcomponents (Brand, Toggle, Collapse, Nav, Item, Link, Text)
  */
 
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createRef } from 'react';
 
@@ -125,8 +125,9 @@ describe('Navbar', () => {
     });
 
     it('renders with vertical orientation when specified', () => {
-      renderNavbar({ orientation: 'vertical' });
-      expect(screen.getByRole('navigation')).toHaveAttribute('aria-orientation', 'vertical');
+      renderNavbar({ orientation: 'vertical', expanded: true });
+      const navList = screen.getByRole('list');
+      expect(navList).toHaveAttribute('data-orientation', 'vertical');
     });
 
     it('renders children inside container', () => {
@@ -760,7 +761,7 @@ describe('Navbar.Toggle', () => {
       expect(screen.getByRole('navigation')).toHaveAttribute('data-visual-state', 'expanded');
 
       // Focus on a link inside the navbar first (Escape must be pressed while focus is within navbar)
-      const links = screen.getAllByRole('menuitem');
+      const links = within(screen.getByRole('list')).getAllByRole('link');
       links[0]?.focus();
 
       // Press Escape
@@ -779,7 +780,7 @@ describe('Navbar.Toggle', () => {
       renderNavbar({ expanded: true });
 
       // Focus on first link
-      const links = screen.getAllByRole('menuitem');
+      const links = within(screen.getByRole('list')).getAllByRole('link');
       const firstLink = links[0];
       const secondLink = links[1];
       if (!firstLink || !secondLink) {
@@ -803,7 +804,7 @@ describe('Navbar.Toggle', () => {
       renderNavbar({ expanded: true });
 
       // Focus on second link
-      const links = screen.getAllByRole('menuitem');
+      const links = within(screen.getByRole('list')).getAllByRole('link');
       const firstLink = links[0];
       const secondLink = links[1];
       if (!firstLink || !secondLink) {
@@ -823,7 +824,7 @@ describe('Navbar.Toggle', () => {
       renderNavbar({ expanded: true });
 
       // Focus on second link
-      const links = screen.getAllByRole('menuitem');
+      const links = within(screen.getByRole('list')).getAllByRole('link');
       const firstLink = links[0];
       const secondLink = links[1];
       if (!firstLink || !secondLink) {
@@ -842,7 +843,7 @@ describe('Navbar.Toggle', () => {
       renderNavbar({ expanded: true });
 
       // Focus on first link
-      const links = screen.getAllByRole('menuitem');
+      const links = within(screen.getByRole('list')).getAllByRole('link');
       const firstLink = links[0];
       const secondLink = links[1];
       if (!firstLink || !secondLink) {
@@ -862,7 +863,7 @@ describe('Navbar.Toggle', () => {
       renderNavbar({ expanded: true });
 
       // Focus on last enabled link
-      const links = screen.getAllByRole('menuitem');
+      const links = within(screen.getByRole('list')).getAllByRole('link');
       const firstLink = links[0];
       const secondLink = links[1];
       if (!firstLink || !secondLink) {
@@ -881,7 +882,7 @@ describe('Navbar.Toggle', () => {
       renderNavbar({ expanded: true });
 
       // Focus on first link
-      const links = screen.getAllByRole('menuitem');
+      const links = within(screen.getByRole('list')).getAllByRole('link');
       const firstLink = links[0];
       const secondLink = links[1];
       if (!firstLink || !secondLink) {
@@ -1062,19 +1063,21 @@ describe('Navbar.Nav', () => {
   });
 
   describe('ARIA & Roles', () => {
-    it('renders with menubar role', () => {
+    it('renders with list role for navigation semantics', () => {
       renderNavbar({ expanded: true });
-      expect(screen.getByRole('menubar')).toBeInTheDocument();
+      expect(screen.getByRole('list')).toBeInTheDocument();
     });
 
-    it('renders with horizontal aria-orientation by default', () => {
+    it('renders with horizontal data-orientation by default', () => {
       renderNavbar({ expanded: true });
-      expect(screen.getByRole('menubar')).toHaveAttribute('aria-orientation', 'horizontal');
+      const nav = screen.getByRole('list');
+      expect(nav).toHaveAttribute('data-orientation', 'horizontal');
     });
 
-    it('renders with vertical aria-orientation when navbar orientation is vertical', () => {
+    it('renders with vertical data-orientation when navbar orientation is vertical', () => {
       renderNavbar({ expanded: true, orientation: 'vertical' });
-      expect(screen.getByRole('menubar')).toHaveAttribute('aria-orientation', 'vertical');
+      const nav = screen.getByRole('list');
+      expect(nav).toHaveAttribute('data-orientation', 'vertical');
     });
   });
 });
@@ -1095,10 +1098,10 @@ describe('Navbar.Item', () => {
       expect(document.querySelector('.nav-item')).toBeInTheDocument();
     });
 
-    it('renders with role="none" to pass through to child link', () => {
+    it('renders as standard listitem for navigation semantics', () => {
       renderNavbar({ expanded: true });
-      const item = document.querySelector('.nav-item');
-      expect(item).toHaveAttribute('role', 'none');
+      const items = screen.getAllByRole('listitem');
+      expect(items.length).toBeGreaterThan(0);
     });
 
     it('applies dropdown class when dropdown is true', () => {
@@ -1180,10 +1183,10 @@ describe('Navbar.Link', () => {
       expect(document.querySelector('.nav-link')).toBeInTheDocument();
     });
 
-    it('renders with role="menuitem" for accessibility', () => {
+    it('renders as links for standard navigation semantics', () => {
       renderNavbar({ expanded: true });
-      const links = screen.getAllByRole('menuitem');
-      expect(links.length).toBeGreaterThan(0);
+      const navLinks = within(screen.getByRole('list')).getAllByRole('link');
+      expect(navLinks.length).toBeGreaterThan(0);
     });
 
     it('renders with active class when active', () => {
