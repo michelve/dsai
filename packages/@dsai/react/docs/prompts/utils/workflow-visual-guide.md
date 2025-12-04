@@ -35,7 +35,7 @@
 
 ┌──────────────────────────────────────────────────────────────────────────┐
 │                        UTILITY INVENTORY REPORT                          │
-│                    (/tmp/utils-inventory.txt)                            │
+│                    (/tmp/utils-inventory.json)                           │
 │                                                                           │
 │  REAL (Found in components):                                             │
 │  ├── cn (12 usages)           [HIGH]                                     │
@@ -291,8 +291,8 @@ IMPACT:
 ✓ Faster development
 
 NEXT STEP:
-Run: chmod +x scripts/scan-utils-usage.sh
-     ./scripts/scan-utils-usage.sh
+Run: chmod +x tools/scripts/react-utils/scan-utils-usage.sh
+     ./tools/scripts/react-utils/scan-utils-usage.sh
 ```
 
 ---
@@ -351,22 +351,22 @@ Bundle impact:      ~10-15% smaller (tree-shaking removes unused)
 
 ## Questions?
 
-| Question                                         | Answer                                         |
-| ------------------------------------------------ | ---------------------------------------------- |
-| Where do I start?                                | Run `scan-utils-usage.sh`                      |
-| How long will this take?                         | 1-7 days (pick your pace)                      |
-| Do I need all 37 utilities?                      | Start with real ones, add enterprise as needed |
-| What if my components don't have many utilities? | Enterprise gaps fill the need                  |
-| Can I do this incrementally?                     | Yes! Implement as you go                       |
-| Will this break my components?                   | No, it's a refactor with full testing          |
+| Question                                         | Answer                                              |
+| ------------------------------------------------ | --------------------------------------------------- |
+| Where do I start?                                | Run `tools/scripts/react-utils/scan-utils-usage.sh` |
+| How long will this take?                         | 1-7 days (pick your pace)                           |
+| Do I need all 37 utilities?                      | Start with real ones, add enterprise as needed      |
+| What if my components don't have many utilities? | Enterprise gaps fill the need                       |
+| Can I do this incrementally?                     | Yes! Implement as you go                            |
+| Will this break my components?                   | No, it's a refactor with full testing               |
 
 ---
 
 **Ready? Start here:**
 
 ```bash
-chmod +x scripts/scan-utils-usage.sh
-./scripts/scan-utils-usage.sh
+chmod +x tools/scripts/react-utils/scan-utils-usage.sh
+./tools/scripts/react-utils/scan-utils-usage.sh
 ```
 
 **Then open: `quick-start-guide.md`**
