@@ -3,15 +3,16 @@
  * Re-exports everything from React Testing Library for convenience
  */
 
-import { render as rtlRender, type RenderOptions } from '@testing-library/react';
+import { render as rtlRender, type RenderOptions, type RenderResult } from '@testing-library/react';
 import { axe, type JestAxeConfigureOptions } from 'jest-axe';
+
 import type { ReactElement } from 'react';
 
 /**
  * Custom render function that wraps components with necessary providers
  * Add your app's providers here (Theme, Router, Redux, etc.)
  */
-export function render(ui: ReactElement, options?: RenderOptions) {
+export function render(ui: ReactElement, options?: RenderOptions): RenderResult {
   // TODO: Add your providers as needed
   // const AllProviders = ({ children }: { children: React.ReactNode }) => {
   //   return (
@@ -39,7 +40,10 @@ export function render(ui: ReactElement, options?: RenderOptions) {
  *   expect(await testA11y(container)).toHaveNoViolations();
  * });
  */
-export async function testA11y(container: Element, options?: JestAxeConfigureOptions) {
+export async function testA11y(
+  container: Element,
+  options?: JestAxeConfigureOptions
+): Promise<ReturnType<typeof axe>> {
   return axe(container, options);
 }
 
