@@ -29,6 +29,7 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 
+import { cn } from '../../utils';
 import { mapPlacement } from '../../utils/misc';
 import { isValidHref } from '../../utils/validation';
 
@@ -362,13 +363,10 @@ const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
       return 'dropdown';
     }, [placement]);
 
-    const containerClassName = useMemo(() => {
-      const classes = ['btn-group', directionClass];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [directionClass, className]);
+    const containerClassName = useMemo(
+      () => cn('btn-group', directionClass, className),
+      [directionClass, className]
+    );
 
     return (
       <DropdownContext.Provider value={contextValue}>
@@ -426,8 +424,13 @@ const DropdownToggle = forwardRef<HTMLButtonElement, DropdownToggleProps>(
 
     const isDisabled = toggleDisabled || contextDisabled;
 
-    // Development warning for split toggles without explicit aria-label
-    if (process.env?.NODE_ENV !== 'production' && split && !ariaLabel) {
+    // Development warning for split toggles without explicit aria-label (guarded for browser envs)
+    if (
+      typeof process !== 'undefined' &&
+      process.env?.NODE_ENV !== 'production' &&
+      split &&
+      !ariaLabel
+    ) {
       console.warn(
         'Dropdown.Toggle: Split toggles should have an explicit aria-label for accessibility. ' +
           'Falling back to "Toggle Dropdown".'
@@ -435,25 +438,19 @@ const DropdownToggle = forwardRef<HTMLButtonElement, DropdownToggleProps>(
     }
 
     // Compute Bootstrap button classes
-    const buttonClassName = useMemo(() => {
-      const classes = ['btn', `btn-${variant}`];
-      if (size === 'sm') {
-        classes.push('btn-sm');
-      }
-      if (size === 'lg') {
-        classes.push('btn-lg');
-      }
-      if (caret) {
-        classes.push('dropdown-toggle');
-      }
-      if (split) {
-        classes.push('dropdown-toggle-split');
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [variant, size, caret, split, className]);
+    const buttonClassName = useMemo(
+      () =>
+        cn(
+          'btn',
+          `btn-${variant}`,
+          size === 'sm' && 'btn-sm',
+          size === 'lg' && 'btn-lg',
+          caret && 'dropdown-toggle',
+          split && 'dropdown-toggle-split',
+          className
+        ),
+      [variant, size, caret, split, className]
+    );
 
     const mergedRef = useMergeRefs([ref, refs.setReference]);
 
@@ -509,19 +506,11 @@ const DropdownMenu = forwardRef<HTMLUListElement, DropdownMenuProps>(
       useDropdownContext();
 
     // Compute menu classes
-    const menuClassName = useMemo(() => {
-      const classes = ['dropdown-menu'];
-      if (isOpen) {
-        classes.push('show');
-      }
-      if (align === 'end') {
-        classes.push('dropdown-menu-end');
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [isOpen, align, className]);
+    const menuClassName = useMemo(
+      () =>
+        cn('dropdown-menu', isOpen && 'show', align === 'end' && 'dropdown-menu-end', className),
+      [isOpen, align, className]
+    );
 
     const mergedRef = useMergeRefs([ref, refs.setFloating]);
 
@@ -602,19 +591,10 @@ const DropdownItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, DropdownI
     const ElementType = as ?? (safeHref ? 'a' : 'button');
 
     // Compute item classes
-    const itemClassName = useMemo(() => {
-      const classes = ['dropdown-item'];
-      if (active) {
-        classes.push('active');
-      }
-      if (disabled) {
-        classes.push('disabled');
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [active, disabled, className]);
+    const itemClassName = useMemo(
+      () => cn('dropdown-item', active && 'active', disabled && 'disabled', className),
+      [active, disabled, className]
+    );
 
     // Handle click
     const handleClick = useCallback(
@@ -735,13 +715,7 @@ DropdownItem.displayName = 'Dropdown.Item';
  */
 const DropdownDivider = forwardRef<HTMLHRElement, DropdownDividerProps>(
   ({ className = '', style, id, 'data-testid': dataTestId, 'data-test': dataTest }, ref) => {
-    const dividerClassName = useMemo(() => {
-      const classes = ['dropdown-divider'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const dividerClassName = useMemo(() => cn('dropdown-divider', className), [className]);
 
     return (
       <li role="none">
@@ -770,13 +744,7 @@ const DropdownHeader = forwardRef<HTMLSpanElement, DropdownHeaderProps>(
     { children, className = '', style, id, 'data-testid': dataTestId, 'data-test': dataTest },
     ref
   ) => {
-    const headerClassName = useMemo(() => {
-      const classes = ['dropdown-header'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const headerClassName = useMemo(() => cn('dropdown-header', className), [className]);
 
     return (
       <li role="none">
@@ -807,13 +775,7 @@ const DropdownItemText = forwardRef<HTMLSpanElement, DropdownItemTextProps>(
     { children, className = '', style, id, 'data-testid': dataTestId, 'data-test': dataTest },
     ref
   ) => {
-    const textClassName = useMemo(() => {
-      const classes = ['dropdown-item-text'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const textClassName = useMemo(() => cn('dropdown-item-text', className), [className]);
 
     return (
       <li role="none">
