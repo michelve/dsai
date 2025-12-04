@@ -1,34 +1,23 @@
-// eslint.config.cjs
-const js = require('@eslint/js');
-const globals = require('globals');
+// eslint.config.mjs - Flat config format (ESM)
+import js from '@eslint/js';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
+import importPlugin from 'eslint-plugin-import';
+import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
+import reactPlugin from 'eslint-plugin-react';
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import securityPlugin from 'eslint-plugin-security';
+import storybookPlugin from 'eslint-plugin-storybook';
+import globals from 'globals';
 
-const tsParser = require('@typescript-eslint/parser');
-const tsPlugin = require('@typescript-eslint/eslint-plugin');
-const reactPlugin = require('eslint-plugin-react');
-const reactHooksPlugin = require('eslint-plugin-react-hooks');
-const jsxA11yPlugin = require('eslint-plugin-jsx-a11y');
-const importPlugin = require('eslint-plugin-import');
-const securityPlugin = require('eslint-plugin-security');
-const storybookPlugin = require('eslint-plugin-storybook');
-
-// Recommended configs (we'll reuse just their rules)
-const tsRecommended = tsPlugin.configs.recommended;
-const reactRecommended = reactPlugin.configs.recommended;
-const reactHooksRecommended = reactHooksPlugin.configs.recommended;
-const jsxA11yRecommended = jsxA11yPlugin.configs.recommended;
-const importRecommended = importPlugin.configs.recommended;
-const securityRecommended = securityPlugin.configs.recommended;
-const storybookRecommended = storybookPlugin.configs.recommended;
-
-// Stub "dsai" plugin so dsai/prefer-use-id doesn't blow up
+// Stub "dsai" plugin for custom rules (placeholder for future implementation)
 const dsaiPlugin = {
   rules: {
     'prefer-use-id': {
       meta: {
         type: 'suggestion',
         docs: {
-          description:
-            'Temporary no-op rule for dsai/prefer-use-id until a real implementation exists.',
+          description: 'Prefer useId() hook for generating unique IDs in components',
         },
         schema: [],
       },
@@ -39,7 +28,7 @@ const dsaiPlugin = {
   },
 };
 
-module.exports = [
+export default [
   // =========================
   // Global ignores
   // =========================
@@ -49,14 +38,17 @@ module.exports = [
       '**/dist/**',
       '**/build/**',
       '**/.nx/**',
+      '**/.temp/**',
       '**/coverage/**',
       '**/storybook-static/**',
+      '**/static/**',
       '**/*.md',
+      '**/*.snap',
     ],
   },
 
   // =========================
-  // Base JS recommended (eslint:recommended)
+  // Base JS recommended
   // =========================
   js.configs.recommended,
 
@@ -64,7 +56,7 @@ module.exports = [
   // Main config – TS + React + A11y + Import + Security + Storybook
   // =========================
   {
-    files: ['**/*.{js,jsx,ts,tsx}'],
+    files: ['**/*.{js,jsx,ts,tsx,mjs,cjs}'],
 
     languageOptions: {
       ecmaVersion: 'latest',
@@ -102,20 +94,20 @@ module.exports = [
           project: './tsconfig.base.json',
         },
         node: {
-          extensions: ['.js', '.jsx', '.ts', '.tsx'],
+          extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.cjs'],
         },
       },
     },
 
     rules: {
       // Bring in recommended rules from each plugin
-      ...(tsRecommended?.rules ?? {}),
-      ...(reactRecommended?.rules ?? {}),
-      ...(reactHooksRecommended?.rules ?? {}),
-      ...(jsxA11yRecommended?.rules ?? {}),
-      ...(importRecommended?.rules ?? {}),
-      ...(securityRecommended?.rules ?? {}),
-      ...(storybookRecommended?.rules ?? {}),
+      ...tsPlugin.configs.recommended?.rules,
+      ...reactPlugin.configs.recommended?.rules,
+      ...reactHooksPlugin.configs.recommended?.rules,
+      ...jsxA11yPlugin.configs.recommended?.rules,
+      ...importPlugin.configs.recommended?.rules,
+      ...securityPlugin.configs.recommended?.rules,
+      ...storybookPlugin.configs.recommended?.rules,
 
       // ======================
       // TypeScript
@@ -146,18 +138,14 @@ module.exports = [
       // ======================
       // React
       // ======================
-      'react/prop-types': 'off',
-      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off', // Using TypeScript for prop validation
+      'react/react-in-jsx-scope': 'off', // Not needed with React 17+ JSX transform
       'react/jsx-uses-react': 'off',
       'react/jsx-no-target-blank': 'error',
-      'react/jsx-key': [
-        'error',
-        {
-          checkFragmentShorthand: true,
-        },
-      ],
+      'react/jsx-key': ['error', { checkFragmentShorthand: true }],
       'react/self-closing-comp': 'error',
       'react/jsx-boolean-value': ['error', 'never'],
+      'react/no-array-index-key': 'warn',
 
       // ======================
       // React Hooks
@@ -177,34 +165,28 @@ module.exports = [
       'jsx-a11y/anchor-is-valid': 'error',
       'jsx-a11y/click-events-have-key-events': 'warn',
       'jsx-a11y/no-static-element-interactions': 'warn',
+      'jsx-a11y/no-noninteractive-element-interactions': 'warn',
 
       // ======================
-      // Imports
+      // Imports (handled by biome, but keep for editor integration)
       // ======================
       'import/order': [
         'error',
         {
           groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'type'],
           'newlines-between': 'always',
-          alphabetize: {
-            order: 'asc',
-            caseInsensitive: true,
-          },
+          alphabetize: { order: 'asc', caseInsensitive: true },
         },
       ],
       'import/no-unresolved': 'error',
       'import/no-cycle': 'error',
       'import/no-duplicates': 'error',
+      'import/no-self-import': 'error',
 
       // ======================
       // General code quality
       // ======================
-      'no-console': [
-        'warn',
-        {
-          allow: ['warn', 'error'],
-        },
-      ],
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
       'no-debugger': 'error',
       'prefer-const': 'error',
       'no-var': 'error',
@@ -212,7 +194,7 @@ module.exports = [
       curly: ['error', 'all'],
 
       // ======================
-      // Security – strict for Codacy-style checks
+      // Security
       // ======================
       'security/detect-non-literal-fs-filename': 'error',
       'security/detect-non-literal-regexp': 'error',
@@ -221,7 +203,7 @@ module.exports = [
   },
 
   // =========================
-  // TS-only override – avoid false "no-undef" on types / React namespace
+  // TS-only override – avoid false "no-undef" on types
   // =========================
   {
     files: ['**/*.{ts,tsx}'],
@@ -231,18 +213,15 @@ module.exports = [
   },
 
   // =========================
-  // Tests – add Jest globals and relax some rules
+  // Tests – Jest globals and relaxed rules
   // =========================
   {
     files: [
-      '**/*.test.ts',
-      '**/*.test.tsx',
-      '**/*.test.js',
-      '**/*.test.jsx',
-      '**/*.spec.ts',
-      '**/*.spec.tsx',
-      '**/*.spec.js',
-      '**/*.spec.jsx',
+      '**/*.test.{ts,tsx,js,jsx}',
+      '**/*.spec.{ts,tsx,js,jsx}',
+      '**/test/**/*',
+      '**/__tests__/**/*',
+      '**/__mocks__/**/*',
     ],
     languageOptions: {
       globals: {
@@ -254,20 +233,31 @@ module.exports = [
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',
-      '@typescript-eslint/explicit-function-return-type': 'off', // ← add this
-      // Don't enforce JSX boolean style inside tests
+      '@typescript-eslint/explicit-function-return-type': 'off',
       'react/jsx-boolean-value': 'off',
+      'security/detect-object-injection': 'off',
     },
   },
 
   // =========================
-  // Icon components – safe dynamic prop filtering
+  // Storybook stories
+  // =========================
+  {
+    files: ['**/*.stories.{ts,tsx,js,jsx}'],
+    rules: {
+      'jsx-a11y/anchor-is-valid': 'off',
+      'jsx-a11y/anchor-has-content': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      'react/no-array-index-key': 'off',
+    },
+  },
+
+  // =========================
+  // Icon components – dynamic prop filtering
   // =========================
   {
     files: ['packages/@dsai/react/src/components/Icon/components/**/*.tsx'],
     rules: {
-      // Icon components use a controlled allow-list (ALLOWED_PROPS) to filter
-      // SVG props, so this rule is too noisy here.
       'security/detect-object-injection': 'off',
     },
   },
@@ -276,32 +266,29 @@ module.exports = [
   // Node-only scripts (tools, scripts)
   // =========================
   {
-    files: [
-      'tools/**/*.js',
-      'tools/**/*.ts',
-      'tools/**/*.mjs',
-      'tools/**/*.cjs',
-      'scripts/**/*.js',
-      'scripts/**/*.ts',
-      'scripts/**/*.mjs',
-      'scripts/**/*.cjs',
-    ],
+    files: ['tools/**/*.{js,ts,mjs,cjs}', 'scripts/**/*.{js,ts,mjs,cjs}'],
     languageOptions: {
       globals: {
         ...globals.node,
       },
     },
     rules: {
-      // Allow require() in Node.js scripts
       '@typescript-eslint/no-require-imports': 'off',
-      // Relax return type requirements for scripts
       '@typescript-eslint/explicit-function-return-type': 'off',
-      // Allow console.log in scripts
       'no-console': 'off',
-      // Security: These scripts are build tools, not user-facing code
-      // They operate on known, trusted file paths
       'security/detect-non-literal-fs-filename': 'off',
       'security/detect-object-injection': 'off',
+    },
+  },
+
+  // =========================
+  // Figma code connect files
+  // =========================
+  {
+    files: ['**/*.figma.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      'react/jsx-key': 'off',
     },
   },
 ];
