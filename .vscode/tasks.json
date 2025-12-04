@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "test cardlist",
+      "type": "shell",
+      "command": "pnpm nx test @dsai/react --testPathPattern=CardList",
+      "group": "test"
+    },
+    {
+      "label": "test selectablecard",
+      "type": "shell",
+      "command": "pnpm nx test @dsai/react --testPathPattern=SelectableCard",
+      "group": "test"
+    }
+  ]
+}

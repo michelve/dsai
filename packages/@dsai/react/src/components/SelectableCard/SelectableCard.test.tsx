@@ -229,6 +229,18 @@ describe('SelectableCard', () => {
 
       expect(handleChange).toHaveBeenCalledWith(true);
     });
+
+    it('derives an aria-label for the checkbox from the title', () => {
+      render(<SelectableCard selectionMode="checkbox" value="plan1" title="Premium Plan" />);
+
+      expect(screen.getByRole('checkbox')).toHaveAttribute('aria-label', 'Premium Plan');
+    });
+
+    it('respects custom aria-label when provided', () => {
+      render(<SelectableCard selectionMode="checkbox" value="plan1" aria-label="Custom label" />);
+
+      expect(screen.getByRole('checkbox')).toHaveAttribute('aria-label', 'Custom label');
+    });
   });
 
   // ===========================================================================

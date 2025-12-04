@@ -124,6 +124,14 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListPropsInternal>
     const helperId = `${id}-helper`;
     const errorId = `${id}-error`;
 
+    // Ensure radio groups always have a stable name for accessibility
+    const computedName = useMemo(() => {
+      if (selectionMode === 'single') {
+        return name ?? `${id}-group`;
+      }
+      return name;
+    }, [selectionMode, name, id]);
+
     // Compute enabled items
     const enabledItems = useMemo(
       () => items.filter((item) => !item.disabled && !disabled),
@@ -314,7 +322,7 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListPropsInternal>
                 key={item.value}
                 id={itemId}
                 value={item.value}
-                name={name}
+                name={selectionMode === 'none' ? undefined : computedName}
                 selectionMode={cardSelectionMode}
                 checked={isSelected}
                 onChange={(checked) => handleCardChange(item.value, checked)}

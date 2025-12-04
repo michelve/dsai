@@ -42,6 +42,35 @@ export interface TokenInfo {
 }
 
 // ============================================================================
+// Safe Property Access Helpers
+// ============================================================================
+
+/**
+ * Type guard to check if a key exists in the tokens object
+ * Uses Object.prototype.hasOwnProperty.call for safe property checking
+ * (ES2020 compatible - Object.hasOwn requires ES2022)
+ */
+function hasToken(key: string): key is keyof typeof tokens {
+  return Object.prototype.hasOwnProperty.call(tokens, key);
+}
+
+/**
+ * Pre-built lookup Map for O(1) token access without bracket notation
+ * This avoids security/detect-object-injection while maintaining performance
+ */
+const tokenLookup = new Map<string, string | number>(
+  Object.entries(tokens) as [string, string | number][]
+);
+
+/**
+ * Safely access a token value using Map lookup
+ * This wrapper ensures we only access properties that exist
+ */
+function safeGetTokenValue(key: keyof typeof tokens): string | number | undefined {
+  return tokenLookup.get(key);
+}
+
+// ============================================================================
 // Token Lookup Functions
 // ============================================================================
 
@@ -58,7 +87,10 @@ export interface TokenInfo {
  * ```
  */
 export function getToken(name: keyof typeof tokens): string | number | undefined {
-  return tokens[name] as string | number | undefined;
+  if (!hasToken(name)) {
+    return undefined;
+  }
+  return safeGetTokenValue(name);
 }
 
 /**
@@ -77,8 +109,10 @@ export function getToken(name: keyof typeof tokens): string | number | undefined
  * ```
  */
 export function getTokenInfo(name: keyof typeof tokens): TokenInfo | undefined {
-  const value = tokens[name];
-  if (value === undefined) return undefined;
+  if (!hasToken(name)) {
+    return undefined;
+  }
+  const value = safeGetTokenValue(name);
 
   // Convert camelCase to kebab-case for CSS variable
   const cssVarName = name
@@ -141,8 +175,11 @@ export function getColorToken(
     | 'cyan',
   shade: '50' | '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900' | '950'
 ): string {
-  const key = `color${hue.charAt(0).toUpperCase() + hue.slice(1)}${shade}` as keyof typeof tokens;
-  return String(tokens[key] ?? '');
+  const key = `color${hue.charAt(0).toUpperCase() + hue.slice(1)}${shade}`;
+  if (!hasToken(key)) {
+    return '';
+  }
+  return String(safeGetTokenValue(key as keyof typeof tokens) ?? '');
 }
 
 /**
@@ -156,8 +193,11 @@ export function getColorToken(
 export function getSpacingToken(
   scale: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10'
 ): string {
-  const key = `spacing${scale}` as keyof typeof tokens;
-  return String(tokens[key] ?? '');
+  const key = `spacing${scale}`;
+  if (!hasToken(key)) {
+    return '';
+  }
+  return String(safeGetTokenValue(key as keyof typeof tokens) ?? '');
 }
 
 /**
@@ -172,8 +212,11 @@ export function getSpacingToken(
 export function getThemeToken(
   name: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark'
 ): string {
-  const key = `theme${name.charAt(0).toUpperCase() + name.slice(1)}` as keyof typeof tokens;
-  return String(tokens[key] ?? '');
+  const key = `theme${name.charAt(0).toUpperCase() + name.slice(1)}`;
+  if (!hasToken(key)) {
+    return '';
+  }
+  return String(safeGetTokenValue(key as keyof typeof tokens) ?? '');
 }
 
 /**
@@ -187,8 +230,11 @@ export function getThemeToken(
 export function getBorderRadiusToken(
   size: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'full' | 'circle' | 'pill'
 ): string {
-  const key = `borderRadius${size.charAt(0).toUpperCase() + size.slice(1)}` as keyof typeof tokens;
-  return String(tokens[key] ?? '');
+  const key = `borderRadius${size.charAt(0).toUpperCase() + size.slice(1)}`;
+  if (!hasToken(key)) {
+    return '';
+  }
+  return String(safeGetTokenValue(key as keyof typeof tokens) ?? '');
 }
 
 // ============================================================================
@@ -221,15 +267,14 @@ export function getAllTokenNames(): (keyof typeof tokens)[] {
  * @returns Object with token names and values
  */
 export function getTokensByCategory(category: TokenCategory): Record<string, string | number> {
-  const result: Record<string, string | number> = {};
+  const categoryLower = category.toLowerCase();
 
-  for (const [key, value] of Object.entries(tokens)) {
-    if (key.toLowerCase().startsWith(category.toLowerCase())) {
-      result[key] = value as string | number;
-    }
-  }
+  // Filter entries and build object with Object.fromEntries - no dynamic assignment
+  const filtered = Object.entries(tokens).filter(([key]) =>
+    key.toLowerCase().startsWith(categoryLower)
+  ) as [string, string | number][];
 
-  return result;
+  return Object.fromEntries(filtered);
 }
 
 // ============================================================================

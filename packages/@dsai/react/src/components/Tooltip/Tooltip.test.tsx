@@ -600,7 +600,7 @@ describe('Tooltip', () => {
 
       await waitFor(() => {
         const tooltip = screen.getByRole('tooltip');
-        expect(tooltip.querySelector('.tooltip-arrow')).toBeInTheDocument();
+        expect(tooltip.querySelector('.dsai-tooltip-arrow')).toBeInTheDocument();
       });
     });
 
@@ -613,7 +613,7 @@ describe('Tooltip', () => {
 
       await waitFor(() => {
         const tooltip = screen.getByRole('tooltip');
-        expect(tooltip.querySelector('.tooltip-arrow')).not.toBeInTheDocument();
+        expect(tooltip.querySelector('.dsai-tooltip-arrow')).not.toBeInTheDocument();
       });
     });
   });

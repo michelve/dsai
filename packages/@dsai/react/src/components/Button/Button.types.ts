@@ -178,6 +178,12 @@ export interface ButtonProps extends SafeHTMLAttributes {
   'aria-pressed'?: boolean | 'mixed';
 
   /**
+   * ARIA haspopup - indicates the button opens a popup element
+   * Use 'menu' for dropdown menus, 'dialog' for popovers/modals, 'listbox' for select-like popups
+   */
+  'aria-haspopup'?: boolean | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
+
+  /**
    * ID attribute
    */
   id?: string;

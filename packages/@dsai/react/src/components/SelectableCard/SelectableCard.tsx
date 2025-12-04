@@ -257,6 +257,25 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
       return ids.length > 0 ? ids.join(' ') : undefined;
     }, [ariaDescribedby, descriptionId]);
 
+    const controlAriaLabel = useMemo(() => {
+      if (ariaLabel) {
+        return ariaLabel;
+      }
+      if (title) {
+        return title;
+      }
+      if (subtitle) {
+        return subtitle;
+      }
+      if (description) {
+        return description;
+      }
+      if (value) {
+        return `${value}`;
+      }
+      return selectionMode !== 'none' ? 'Selectable option' : undefined;
+    }, [ariaLabel, title, subtitle, description, value, selectionMode]);
+
     // Render the selection control
     const renderControl = (): React.ReactNode => {
       if (selectionMode === 'none') {
@@ -272,7 +291,7 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
         required,
         name,
         value: value || '',
-        'aria-label': !title ? ariaLabel : undefined,
+        'aria-label': controlAriaLabel,
         className: 'selectable-card__control',
       };
 

@@ -62,6 +62,30 @@ export {
   CardText,
   CardTitle,
 } from './Card';
+
+// Carousel
+export {
+  Carousel,
+  CarouselCaption,
+  CarouselControl,
+  CarouselIndicators,
+  CarouselItem,
+  CarouselPauseButton,
+} from './Carousel';
+export type {
+  CarouselAnimation,
+  CarouselCaptionProps,
+  CarouselControlDirection,
+  CarouselControlProps,
+  CarouselFSMEvent,
+  CarouselFSMState,
+  CarouselIndicatorsProps,
+  CarouselItemProps,
+  CarouselPauseButtonProps,
+  CarouselProps,
+  CarouselVisualState,
+} from './Carousel';
+
 export type {
   CardListFSMState,
   CardListItem,
@@ -222,6 +246,55 @@ export type {
 } from './Tooltip';
 // Tooltip
 export { Tooltip } from './Tooltip';
+
+// Popover
+export {
+  Popover,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverHeader,
+  createInitialPopoverFSMState,
+  getPopoverVisualState,
+  popoverFSMReducer,
+} from './Popover';
+export type {
+  PopoverBodyProps,
+  PopoverCloseButtonProps,
+  PopoverContextValue,
+  PopoverFSMEvent,
+  PopoverFSMState,
+  PopoverHeaderProps,
+  PopoverPlacement,
+  PopoverProps,
+  PopoverTrigger,
+  PopoverVisualState,
+  SafePopoverHTMLAttributes,
+} from './Popover';
+
+// Toast
+export {
+  Toast,
+  ToastContainer,
+  ToastProvider,
+  createInitialToastFSMState,
+  getToastVisualState,
+  toastFSMReducer,
+  useToast,
+} from './Toast';
+export type {
+  ToastContainerProps,
+  ToastContextValue,
+  ToastData,
+  ToastFSMEvent,
+  ToastFSMState,
+  ToastOptions,
+  ToastPosition,
+  ToastProps,
+  ToastProviderProps,
+  ToastVariant,
+  ToastVisualState,
+} from './Toast';
+
 export type {
   DisplayProps,
   DisplaySize,
