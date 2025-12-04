@@ -5,6 +5,7 @@ dist
 tmp
 out-tsc
 *.tsbuildinfo
+.temp
 
 # Storybook build output
 storybook-static
