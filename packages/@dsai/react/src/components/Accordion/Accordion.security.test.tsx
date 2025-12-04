@@ -438,11 +438,12 @@ describe('Accordion - Security (Prop Whitelisting & XSS Prevention)', () => {
 
       // Button should control the panel
       const panelId = button.getAttribute('aria-controls');
-      expect(panel.closest('[role="region"]')).toHaveAttribute('id', panelId);
+      // Panel uses <section> element which has implicit region role
+      expect(panel.closest('section')).toHaveAttribute('id', panelId);
 
       // Panel should be labeled by the button
       const buttonId = button.getAttribute('id');
-      expect(panel.closest('[role="region"]')).toHaveAttribute('aria-labelledby', buttonId);
+      expect(panel.closest('section')).toHaveAttribute('aria-labelledby', buttonId);
     });
   });
 });

@@ -20,6 +20,9 @@ import {
   useRef,
 } from 'react';
 
+import { cn } from '../../utils';
+import { mergeRefs } from '../../utils/dom/mergeRefs';
+
 import {
   accordionFSMReducer,
   createInitialAccordionFSMState,
@@ -255,16 +258,10 @@ const AccordionRoot = forwardRef<HTMLDivElement, AccordionProps>(
     );
 
     // Compute classes
-    const accordionClasses = useMemo(() => {
-      const classes = ['accordion'];
-      if (flush) {
-        classes.push('accordion-flush');
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [flush, className]);
+    const accordionClasses = useMemo(
+      () => cn('accordion', flush && 'accordion-flush', className),
+      [flush, className]
+    );
 
     return (
       <AccordionContext.Provider value={contextValue}>
@@ -341,13 +338,7 @@ const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(
     );
 
     // Compute classes
-    const itemClasses = useMemo(() => {
-      const classes = ['accordion-item'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const itemClasses = useMemo(() => cn('accordion-item', className), [className]);
 
     return (
       <AccordionItemContext.Provider value={itemContextValue}>
@@ -404,22 +395,12 @@ const AccordionButton = forwardRef<HTMLButtonElement, AccordionButtonProps>(
     // Internal ref for arrow-key navigation
     const internalRef = useRef<HTMLButtonElement>(null);
 
-    // Merge refs
-    const mergedRef = useCallback(
-      (node: HTMLButtonElement | null) => {
-        // Update internal ref
-        (internalRef as React.MutableRefObject<HTMLButtonElement | null>).current = node;
-        // Update forwarded ref
-        if (typeof ref === 'function') {
-          ref(node);
-        } else if (ref) {
-          (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
-        }
-        // Register with accordion context for arrow-key navigation
-        registerButtonRef(eventKey, node);
-      },
-      [ref, registerButtonRef, eventKey]
-    );
+    // Merge refs: combines forwarded ref, internal ref, and registration callback
+    const combinedRef = mergeRefs([
+      ref,
+      internalRef,
+      (node: HTMLButtonElement | null) => registerButtonRef(eventKey, node),
+    ]);
 
     // Handle click
     const handleClick = useCallback(
@@ -470,20 +451,14 @@ const AccordionButton = forwardRef<HTMLButtonElement, AccordionButtonProps>(
     );
 
     // Compute classes
-    const buttonClasses = useMemo(() => {
-      const classes = ['accordion-button'];
-      if (!isExpanded) {
-        classes.push('collapsed');
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [isExpanded, className]);
+    const buttonClasses = useMemo(
+      () => cn('accordion-button', !isExpanded && 'collapsed', className),
+      [isExpanded, className]
+    );
 
     return (
       <button
-        ref={mergedRef}
+        ref={combinedRef}
         type="button"
         id={id ?? buttonId}
         className={buttonClasses}
@@ -531,16 +506,10 @@ const AccordionPanel = forwardRef<HTMLDivElement, AccordionPanelProps>(
 
     // Compute collapse classes based on current expansion state
     // Bootstrap CSS handles the collapse animation
-    const collapseClasses = useMemo(() => {
-      const classes = ['accordion-collapse', 'collapse'];
-      if (isExpanded) {
-        classes.push('show');
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [isExpanded, className]);
+    const collapseClasses = useMemo(
+      () => cn('accordion-collapse', 'collapse', isExpanded && 'show', className),
+      [isExpanded, className]
+    );
 
     return (
       <section
