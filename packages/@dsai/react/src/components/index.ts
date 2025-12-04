@@ -271,6 +271,31 @@ export type {
   SafePopoverHTMLAttributes,
 } from './Popover';
 
+// Scrollspy
+export {
+  Scrollspy,
+  ScrollspyProvider,
+  createInitialScrollspyFSMState,
+  getScrollspyVisualState,
+  isScrollspyObserving,
+  scrollspyFSMReducer,
+  useScrollspy,
+} from './Scrollspy';
+export type {
+  SafeScrollspyHTMLAttributes,
+  ScrollspyContextValue,
+  ScrollspyFSMEvent,
+  ScrollspyFSMState,
+  ScrollspyItem,
+  ScrollspyLinkProps,
+  ScrollspyOrientation,
+  ScrollspyPosition,
+  ScrollspyProps,
+  ScrollspyProviderProps,
+  ScrollspyVariant,
+  ScrollspyVisualState,
+} from './Scrollspy';
+
 // Toast
 export {
   Toast,

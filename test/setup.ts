@@ -24,6 +24,12 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
+// Mock window.scrollTo (not implemented in jsdom)
+Object.defineProperty(window, 'scrollTo', {
+  writable: true,
+  value: jest.fn(),
+});
+
 // Mock IntersectionObserver (not implemented in jsdom)
 (global as typeof globalThis & { IntersectionObserver: unknown }).IntersectionObserver =
   class IntersectionObserver {
@@ -33,20 +39,20 @@ Object.defineProperty(window, 'matchMedia', {
     thresholds = [];
 
     constructor() {}
-    disconnect() {}
-    observe() {}
-    takeRecords() {
+    disconnect(): void {}
+    observe(): void {}
+    takeRecords(): IntersectionObserverEntry[] {
       return [];
     }
-    unobserve() {}
+    unobserve(): void {}
   };
 
 // Mock ResizeObserver (not implemented in jsdom)
 (global as typeof globalThis & { ResizeObserver: unknown }).ResizeObserver = class ResizeObserver {
   constructor() {}
-  disconnect() {}
-  observe() {}
-  unobserve() {}
+  disconnect(): void {}
+  observe(): void {}
+  unobserve(): void {}
 };
 
 // Suppress console errors/warnings in tests (optional - remove if you want to see them)
