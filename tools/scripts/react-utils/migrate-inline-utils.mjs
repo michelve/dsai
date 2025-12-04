@@ -2,13 +2,13 @@
 
 /**
  * migrate-inline-utils.mjs
- * 
+ *
  * Migrates components from inline utility functions to centralized imports.
  * Reads the generated-utils.json and applies transformations to source files.
- * 
+ *
  * Usage:
  *   node tools/scripts/react-utils/migrate-inline-utils.mjs [options]
- * 
+ *
  * Options:
  *   --dry-run       Preview changes without writing files
  *   --only=<name>   Migrate only the specified utility
@@ -30,7 +30,7 @@ const flags = {
   dryRun: args.includes('--dry-run'),
   verbose: args.includes('--verbose'),
   backup: args.includes('--backup'),
-  only: args.find(a => a.startsWith('--only='))?.split('=')[1],
+  only: args.find((a) => a.startsWith('--only='))?.split('=')[1],
   help: args.includes('--help') || args.includes('-h'),
 };
 
@@ -68,7 +68,9 @@ const inventoryPath = path.join(REPO_ROOT, '.temp', 'utils-inventory.json');
 
 if (!fs.existsSync(generatedUtilsPath)) {
   console.error(`❌ Generated utilities data not found at ${generatedUtilsPath}`);
-  console.error('   Run the generator first: node tools/scripts/react-utils/generate-utils-from-analysis.mjs');
+  console.error(
+    '   Run the generator first: node tools/scripts/react-utils/generate-utils-from-analysis.mjs'
+  );
   process.exit(1);
 }
 
@@ -88,7 +90,7 @@ function findInlineFunction(source, functionName) {
   // Match: function functionName(...) { ... }
   // Match: const functionName = (...) => { ... }
   // Match: const functionName = function(...) { ... }
-  
+
   const patterns = [
     // Regular function declaration
     new RegExp(
@@ -106,23 +108,23 @@ function findInlineFunction(source, functionName) {
       'm'
     ),
   ];
-  
+
   for (const pattern of patterns) {
     const match = source.match(pattern);
     if (match) {
       const startIndex = match.index + match[1].length;
       const indent = match[2];
-      
+
       // Find the matching closing brace
       let depth = 0;
       let inString = false;
       let stringChar = '';
       let endIndex = startIndex;
-      
+
       for (let i = startIndex; i < source.length; i++) {
         const char = source[i];
         const prevChar = source[i - 1];
-        
+
         // Track string boundaries
         if ((char === '"' || char === "'" || char === '`') && prevChar !== '\\') {
           if (!inString) {
@@ -133,9 +135,9 @@ function findInlineFunction(source, functionName) {
           }
           continue;
         }
-        
+
         if (inString) continue;
-        
+
         if (char === '{') depth++;
         if (char === '}') {
           depth--;
@@ -145,11 +147,11 @@ function findInlineFunction(source, functionName) {
           }
         }
       }
-      
+
       // Include trailing semicolon and newline if present
       if (source[endIndex] === ';') endIndex++;
       if (source[endIndex] === '\n') endIndex++;
-      
+
       return {
         start: startIndex,
         end: endIndex,
@@ -158,7 +160,7 @@ function findInlineFunction(source, functionName) {
       };
     }
   }
-  
+
   return null;
 }
 
@@ -171,17 +173,20 @@ function findImportStatement(source, modulePath) {
     `import\\s*\\{([^}]+)\\}\\s*from\\s*['"]${escapeRegex(modulePath)}['"]`,
     'm'
   );
-  
+
   const match = source.match(pattern);
   if (match) {
     return {
       full: match[0],
-      imports: match[1].split(',').map(s => s.trim()).filter(Boolean),
+      imports: match[1]
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean),
       start: match.index,
       end: match.index + match[0].length,
     };
   }
-  
+
   return null;
 }
 
@@ -198,12 +203,12 @@ function escapeRegex(str) {
 function findImportInsertPosition(source) {
   // Find the last import statement
   const importMatches = [...source.matchAll(/import\s+.*?from\s+['"][^'"]+['"]\s*;?\n?/g)];
-  
+
   if (importMatches.length > 0) {
     const lastMatch = importMatches[importMatches.length - 1];
     return lastMatch.index + lastMatch[0].length;
   }
-  
+
   // If no imports, find the position after initial comments/docstrings
   const firstCodeMatch = source.match(/^(?:\/\*[\s\S]*?\*\/\s*|\/\/.*\n)*\s*/);
   return firstCodeMatch ? firstCodeMatch[0].length : 0;
@@ -214,52 +219,49 @@ function findImportInsertPosition(source) {
  */
 function migrateFile(filePath, functionName, importStatement) {
   const fullPath = path.join(REPO_ROOT, filePath);
-  
+
   if (!fs.existsSync(fullPath)) {
     return { success: false, reason: 'File not found' };
   }
-  
+
   let source = fs.readFileSync(fullPath, 'utf-8');
   const originalSource = source;
-  
+
   // Find the inline function
   const inlineFunc = findInlineFunction(source, functionName);
   if (!inlineFunc) {
     return { success: false, reason: 'Inline function not found' };
   }
-  
+
   // Extract the module path from the import statement
   const importMatch = importStatement.match(/from\s+['"]([^'"]+)['"]/);
   if (!importMatch) {
     return { success: false, reason: 'Invalid import statement' };
   }
   const modulePath = importMatch[1];
-  
+
   // Check if import already exists
   const existingImport = findImportStatement(source, modulePath);
-  
+
   // Remove the inline function
   source = source.slice(0, inlineFunc.start) + source.slice(inlineFunc.end);
-  
+
   // Add or update import
   if (existingImport) {
     // Add to existing import if not already present
     if (!existingImport.imports.includes(functionName)) {
       const newImports = [...existingImport.imports, functionName].sort().join(', ');
-      source = source.replace(
-        existingImport.full,
-        `import { ${newImports} } from '${modulePath}'`
-      );
+      source = source.replace(existingImport.full, `import { ${newImports} } from '${modulePath}'`);
     }
   } else {
     // Add new import
     const insertPos = findImportInsertPosition(source);
     source = source.slice(0, insertPos) + importStatement + '\n' + source.slice(insertPos);
   }
-  
+
   // Clean up extra blank lines
   source = source.replace(/\n{3,}/g, '\n\n');
-  
+
   return {
     success: true,
     originalSource,
@@ -275,72 +277,74 @@ function migrateFile(filePath, functionName, importStatement) {
 async function main() {
   console.log('🔄 Utility Migration Tool');
   console.log('=========================\n');
-  
+
   if (flags.dryRun) {
     console.log('🔍 DRY RUN MODE - No files will be modified\n');
   }
-  
+
   const { generated } = generatedUtils;
-  
+
   if (!generated || generated.length === 0) {
     console.log('❌ No generated utilities found.');
-    console.log('   Run the generator first: node tools/scripts/react-utils/generate-utils-from-analysis.mjs');
+    console.log(
+      '   Run the generator first: node tools/scripts/react-utils/generate-utils-from-analysis.mjs'
+    );
     process.exit(1);
   }
-  
+
   // Filter by --only flag
-  const toMigrate = flags.only 
-    ? generated.filter(g => g.name === flags.only)
-    : generated;
-  
+  const toMigrate = flags.only ? generated.filter((g) => g.name === flags.only) : generated;
+
   if (toMigrate.length === 0) {
     console.log(`❌ No utility named '${flags.only}' found.`);
-    console.log('   Available utilities:', generated.map(g => g.name).join(', '));
+    console.log('   Available utilities:', generated.map((g) => g.name).join(', '));
     process.exit(1);
   }
-  
+
   console.log(`📦 Migrating ${toMigrate.length} utilities:\n`);
-  
+
   const results = {
     success: [],
     skipped: [],
     failed: [],
   };
-  
+
   for (const util of toMigrate) {
     console.log(`\n📄 ${util.name}`);
     console.log(`   Utility path: ${util.path}`);
-    
+
     for (const step of util.migrationSteps) {
       const { file, importStatement } = step;
-      
+
       if (flags.verbose) {
         console.log(`\n   📁 ${file}`);
         console.log(`      Import: ${importStatement}`);
       }
-      
+
       const result = migrateFile(file, util.name, importStatement);
-      
+
       if (result.success) {
         if (flags.verbose) {
           console.log(`      ✅ Removed ${result.removed}`);
-          console.log(`      ${result.importAdded ? '📥 Added import' : '📝 Updated existing import'}`);
+          console.log(
+            `      ${result.importAdded ? '📥 Added import' : '📝 Updated existing import'}`
+          );
         } else {
           console.log(`   ✅ ${path.basename(file)}`);
         }
-        
+
         if (!flags.dryRun) {
           const fullPath = path.join(REPO_ROOT, file);
-          
+
           // Create backup if requested
           if (flags.backup) {
             fs.writeFileSync(fullPath + '.bak', result.originalSource);
           }
-          
+
           // Write the modified file
           fs.writeFileSync(fullPath, result.newSource, 'utf-8');
         }
-        
+
         results.success.push({ util: util.name, file });
       } else {
         if (flags.verbose) {
@@ -348,23 +352,23 @@ async function main() {
         } else {
           console.log(`   ⏭️  ${path.basename(file)} (${result.reason})`);
         }
-        
+
         results.skipped.push({ util: util.name, file, reason: result.reason });
       }
     }
   }
-  
+
   // Summary
   console.log('\n\n📊 Migration Summary');
   console.log('====================');
   console.log(`✅ Migrated: ${results.success.length} files`);
   console.log(`⏭️  Skipped: ${results.skipped.length} files`);
   console.log(`❌ Failed: ${results.failed.length} files`);
-  
+
   if (flags.dryRun) {
     console.log('\n💡 Run without --dry-run to apply the migrations.');
   }
-  
+
   if (!flags.dryRun && results.success.length > 0) {
     console.log('\n📋 Next Steps');
     console.log('=============');
@@ -373,19 +377,26 @@ async function main() {
     console.log('3. Run tests: pnpm test');
     console.log('4. Run linter: pnpm lint');
   }
-  
+
   // Write migration report
   const reportPath = path.join(REPO_ROOT, '.temp', 'migration-report.json');
-  fs.writeFileSync(reportPath, JSON.stringify({
-    timestamp: new Date().toISOString(),
-    dryRun: flags.dryRun,
-    results,
-  }, null, 2));
-  
+  fs.writeFileSync(
+    reportPath,
+    JSON.stringify(
+      {
+        timestamp: new Date().toISOString(),
+        dryRun: flags.dryRun,
+        results,
+      },
+      null,
+      2
+    )
+  );
+
   console.log(`\n📝 Report written to: .temp/migration-report.json`);
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('❌ Error:', err.message);
   if (flags.verbose) {
     console.error(err.stack);
