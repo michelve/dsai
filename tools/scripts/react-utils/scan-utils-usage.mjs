@@ -14,6 +14,7 @@ const DEFAULT_COMPONENT_DIR = 'packages/@dsai/react/src/components';
 const DEFAULT_OUTPUT = path.join(DEFAULT_TEMP_DIR, 'utils-inventory.json');
 const DEFAULT_TSCONFIG = 'tsconfig.base.json';
 let aliasPrefixes = [];
+let compilerOptions = {};
 
 function parseArgs(argv) {
   const opts = {
@@ -81,6 +82,8 @@ const DIR_BLOCKLIST = new Set([
   'mocks',
   'tests',
   'stories',
+  '__playwright__',
+  '__snapshots__',
 ]);
 
 const FILE_BLOCKLIST = [
@@ -184,6 +187,21 @@ const UTILITY_PATTERNS = [
     regex: /JSON\.stringify\s*\([^)]+\)\s*===\s*JSON\.stringify/g,
     category: 'object',
   },
+  {
+    name: 'dangerouslySetInnerHTML',
+    regex: /dangerouslySetInnerHTML\s*=\s*\{/g,
+    category: 'a11y',
+  },
+  {
+    name: 'innerHTML-assignment',
+    regex: /(\.innerHTML\s*=|setInnerHTML\s*\()/g,
+    category: 'validation',
+  },
+  {
+    name: 'tabindex-negative',
+    regex: /tabIndex\s*=\s*\{\s*-1\s*\}/gi,
+    category: 'a11y',
+  },
 ];
 
 function collectComponentFiles(rootDir) {
@@ -255,7 +273,7 @@ function isImportBindingNode(node) {
   return kinds.has(node.kind);
 }
 
-function collectUtilityImports(sourceFile) {
+function collectUtilityImports(sourceFile, filePath) {
   const bindings = [];
   sourceFile.forEachChild((node) => {
     if (!ts.isImportDeclaration(node) || !node.importClause) {
@@ -263,7 +281,11 @@ function collectUtilityImports(sourceFile) {
     }
 
     const moduleSpecifier = node.moduleSpecifier.getText(sourceFile).slice(1, -1);
-    if (!isUtilityImportPath(moduleSpecifier)) {
+    const resolvedPath =
+      ts.resolveModuleName(moduleSpecifier, filePath, compilerOptions, ts.sys).resolvedModule
+        ?.resolvedFileName || '';
+
+    if (!isUtilityImportPath(moduleSpecifier) && !resolvedPath.includes(`${path.sep}utils${path.sep}`)) {
       return;
     }
 
@@ -410,6 +432,19 @@ function categorizeFunctionName(name) {
 }
 
 /**
+ * Normalize a type string for structural comparison
+ */
+function normalizeType(typeText) {
+  if (!typeText) return 'any';
+  return typeText
+    .replace(/\s+/g, '')
+    .replace(/Array<([^>]+)>/g, '$1[]')
+    .replace(/ReadonlyArray<([^>]+)>/g, 'readonly$1[]')
+    .replace(/string\|undefined/g, 'string|undefined')
+    .replace(/undefined\|string/g, 'string|undefined');
+}
+
+/**
  * Check if a function looks like a utility (pure, reusable)
  */
 function looksLikeUtility(node, sourceFile) {
@@ -520,13 +555,13 @@ function extractSignature(node, sourceFile) {
   const params =
     node.parameters?.map((p) => {
       const name = p.name.getText(sourceFile);
-      const type = p.type ? p.type.getText(sourceFile) : 'any';
-      const optional = p.questionToken ? true : false;
+      const type = p.type ? normalizeType(p.type.getText(sourceFile)) : 'any';
+      const optional = p.questionToken ? true : type.includes('undefined');
       const defaultValue = p.initializer ? p.initializer.getText(sourceFile) : undefined;
       return { name, type, optional, defaultValue };
     }) || [];
 
-  const returnType = node.type ? node.type.getText(sourceFile) : 'unknown';
+  const returnType = node.type ? normalizeType(node.type.getText(sourceFile)) : 'unknown';
 
   return { params, returnType };
 }
@@ -539,8 +574,8 @@ function extractArrowSignature(decl, sourceFile) {
   const params =
     fn.parameters?.map((p) => {
       const name = p.name.getText(sourceFile);
-      const type = p.type ? p.type.getText(sourceFile) : 'any';
-      const optional = p.questionToken ? true : false;
+      const type = p.type ? normalizeType(p.type.getText(sourceFile)) : 'any';
+      const optional = p.questionToken ? true : type.includes('undefined');
       const defaultValue = p.initializer ? p.initializer.getText(sourceFile) : undefined;
       return { name, type, optional, defaultValue };
     }) || [];
@@ -549,9 +584,9 @@ function extractArrowSignature(decl, sourceFile) {
   let returnType = 'unknown';
   if (decl.type) {
     // const foo: () => boolean = ...
-    returnType = decl.type.getText(sourceFile);
+    returnType = normalizeType(decl.type.getText(sourceFile));
   } else if (fn.type) {
-    returnType = fn.type.getText(sourceFile);
+    returnType = normalizeType(fn.type.getText(sourceFile));
   }
 
   return { params, returnType };
@@ -604,7 +639,7 @@ function analyzeFile(filePath, repoRoot) {
     true,
     getScriptKind(filePath)
   );
-  const bindings = collectUtilityImports(sourceFile);
+  const bindings = collectUtilityImports(sourceFile, filePath);
   const relativeFile = path.relative(repoRoot, filePath) || filePath;
 
   // Collect inline helper functions (with source code)
@@ -778,6 +813,8 @@ function aggregateHelpersByName(helpers) {
  */
 function analyzeDuplicateDifferences(duplicates) {
   const analyzed = [];
+  const manualOnly = new Set(['deriveVisualState', 'resetFromPropsEvent']);
+  const allowReturnVariations = new Set(['mapPlacement', 'normalizeTriggers']);
 
   for (const dup of duplicates) {
     if (dup.occurrences.length < 2) continue;
@@ -849,8 +886,23 @@ function analyzeDuplicateDifferences(duplicates) {
       }
     }
 
-    // Generate unified proposal
-    analysis.unifiedProposal = generateUnifiedProposal(dup, analysis.differences);
+    let unsupportedReason = null;
+    if (
+      analysis.differences.returnTypeVariations.length > 1 &&
+      !allowReturnVariations.has(analysis.name)
+    ) {
+      unsupportedReason = 'Incompatible return types across occurrences';
+    }
+    if (manualOnly.has(analysis.name)) {
+      unsupportedReason = 'Marked manual-only to avoid cross-domain coupling';
+    }
+
+    analysis.unifiedProposal = unsupportedReason
+      ? null
+      : generateUnifiedProposal(dup, analysis.differences);
+    if (unsupportedReason) {
+      analysis.unsupportedReason = unsupportedReason;
+    }
 
     analyzed.push(analysis);
   }
@@ -1042,6 +1094,12 @@ function printSummary(aggregated, filesScanned, outputFile, duplicateAnalysis) {
     console.log('');
     console.log('🔧 Unification proposals generated:');
     for (const analysis of duplicateAnalysis.slice(0, 5)) {
+      if (analysis.unsupportedReason) {
+        console.log(
+          `  ${analysis.name} (${analysis.occurrenceCount} files) - 🚧 manual-only: ${analysis.unsupportedReason}`
+        );
+        continue;
+      }
       const hasDiffs =
         analysis.differences.parameterVariations.length > 0 ||
         analysis.differences.returnTypeVariations.length > 0 ||
@@ -1109,6 +1167,17 @@ function loadUtilityAliasPrefixes(tsconfigPath) {
 async function main() {
   const options = parseArgs(process.argv.slice(2));
   aliasPrefixes = loadUtilityAliasPrefixes(options.tsconfig);
+  const configFile = ts.readConfigFile(options.tsconfig, (file) => fs.readFileSync(file, 'utf8'));
+  if (!configFile.error) {
+    const parsedConfig = ts.parseJsonConfigFileContent(
+      configFile.config,
+      ts.sys,
+      path.dirname(options.tsconfig)
+    );
+    compilerOptions = parsedConfig.options || {};
+  } else {
+    compilerOptions = {};
+  }
   const componentDir = options.components;
   /* eslint-disable no-console */
   console.log('🔍 Scanning components for utility usage...');
@@ -1126,7 +1195,11 @@ async function main() {
 
   const perFileResults = [];
   for (const filePath of files) {
-    perFileResults.push(analyzeFile(filePath, REPO_ROOT));
+    try {
+      perFileResults.push(analyzeFile(filePath, REPO_ROOT));
+    } catch (err) {
+      console.warn(`⚠️  Skipping ${filePath}: ${(err && err.message) || err}`);
+    }
   }
 
   const aggregated = aggregateResults(perFileResults);
