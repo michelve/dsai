@@ -375,7 +375,7 @@ eslint: npx eslint packages/@dsai/react/src/components/Accordion
 
 ### Step 1: Read Task File
 
-- Parse task from `tasks/02-high/TASK-043-popover-component.md`
+- Parse task from `tasks/02-high/TASK-045-toast-component.md`
 - Verify task is clear and complete
 - Ask clarifying questions if ambiguous
 

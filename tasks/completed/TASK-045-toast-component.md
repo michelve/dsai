@@ -19,6 +19,7 @@ Create accessible Toast notification component with queue management, auto-dismi
 ## Acceptance Criteria
 
 ### Component Implementation
+
 - [ ] Toast component (individual notification)
 - [ ] ToastContainer (manages multiple toasts)
 - [ ] ToastProvider context component
@@ -29,17 +30,20 @@ Create accessible Toast notification component with queue management, auto-dismi
 - [ ] Queue management (max toasts, stacking)
 
 ### Positioning
+
 - [ ] Position options: top-right, top-left, bottom-right, bottom-left, top-center, bottom-center
 - [ ] Portal rendering
 - [ ] Stacking with proper spacing
 
 ### Styling
+
 - [ ] Slide/fade animations (enter/exit)
 - [ ] Icon per variant
 - [ ] Close button styling
 - [ ] Progress bar for auto-dismiss (optional)
 
 ### Accessibility
+
 - [ ] `role="alert"` for error/warning
 - [ ] `role="status"` for success/info
 - [ ] `aria-live="assertive"` for errors
@@ -47,6 +51,7 @@ Create accessible Toast notification component with queue management, auto-dismi
 - [ ] Close button: `aria-label="Close"`
 
 ### Testing
+
 - [ ] Unit tests 90%+
 - [ ] Queue management tests
 - [ ] Auto-dismiss timer tests
@@ -57,6 +62,7 @@ Create accessible Toast notification component with queue management, auto-dismi
 ## Dependencies
 
 ### Requires:
+
 - **TASK-014**: Base Component Template
 - **TASK-021**: Button Component
 
