@@ -1,4 +1,6 @@
+import { Display, Heading, Text } from '@dsai/react';
 import tokens from '@dsai/tokens';
+
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta = {
@@ -36,35 +38,39 @@ export const FontFamilies: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       <div>
-        <h3>Base Font (Inter)</h3>
-        <p
+        <Heading level={3} noMargin>
+          Base Font (Inter)
+        </Heading>
+        <Text
+          noMargin
           style={{
             fontFamily: tokens.typography?.fontFamily?.base || 'Inter, sans-serif',
-            fontSize: '16px',
             marginTop: '8px',
           }}
         >
           The quick brown fox jumps over the lazy dog. 0123456789
-        </p>
-        <code style={{ fontSize: '12px', color: '#6b7280' }}>
+        </Text>
+        <Text variant="code" style={{ color: '#6b7280' }}>
           var(--dsai-typography-font-family-base)
-        </code>
+        </Text>
       </div>
 
       <div>
-        <h3>Monospace Font (Fira Code)</h3>
-        <p
+        <Heading level={3} noMargin>
+          Monospace Font (Fira Code)
+        </Heading>
+        <Text
+          noMargin
           style={{
             fontFamily: tokens.typography?.fontFamily?.monospace || '"Fira Code", monospace',
-            fontSize: '16px',
             marginTop: '8px',
           }}
         >
-          const greeting = "Hello, World!"; // Code example
-        </p>
-        <code style={{ fontSize: '12px', color: '#6b7280' }}>
+          {`const greeting = "Hello, World!"; // Code example`}
+        </Text>
+        <Text variant="code" style={{ color: '#6b7280' }}>
           var(--dsai-typography-font-family-monospace)
-        </code>
+        </Text>
       </div>
     </div>
   ),
@@ -87,12 +93,18 @@ export const FontSizes: Story = {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <h2>Font Size Scale</h2>
+        <Heading level={2}>Font Size Scale</Heading>
         {sizes.map(({ name, token, size }) => (
           <div key={token} style={{ display: 'flex', alignItems: 'baseline', gap: '16px' }}>
-            <div style={{ minWidth: '120px', fontSize: '14px', color: '#6b7280' }}>{name}</div>
-            <div style={{ fontSize: size }}>The quick brown fox jumps over the lazy dog</div>
-            <code style={{ fontSize: '12px', color: '#9ca3af', marginLeft: 'auto' }}>{size}</code>
+            <Text as="span" color="muted" style={{ minWidth: '120px' }}>
+              {name}
+            </Text>
+            <Text as="span" noMargin style={{ fontSize: size }}>
+              The quick brown fox jumps over the lazy dog
+            </Text>
+            <Text variant="code" style={{ color: '#9ca3af', marginLeft: 'auto' }}>
+              {size}
+            </Text>
           </div>
         ))}
       </div>
@@ -108,43 +120,43 @@ export const DisplayTypography: Story = {
     const displays = [
       {
         name: 'Display 1',
-        token: 'display1',
-        size: '80px',
+        size: 1 as const,
+        sizeStr: '80px',
         weight: '300',
         usage: 'Hero headings, landing pages',
       },
       {
         name: 'Display 2',
-        token: 'display2',
-        size: '72px',
+        size: 2 as const,
+        sizeStr: '72px',
         weight: '300',
         usage: 'Large marketing headers',
       },
       {
         name: 'Display 3',
-        token: 'display3',
-        size: '64px',
+        size: 3 as const,
+        sizeStr: '64px',
         weight: '300',
         usage: 'Section heroes',
       },
       {
         name: 'Display 4',
-        token: 'display4',
-        size: '56px',
+        size: 4 as const,
+        sizeStr: '56px',
         weight: '300',
         usage: 'Feature announcements',
       },
       {
         name: 'Display 5',
-        token: 'display5',
-        size: '48px',
+        size: 5 as const,
+        sizeStr: '48px',
         weight: '300',
         usage: 'Page titles',
       },
       {
         name: 'Display 6',
-        token: 'display6',
-        size: '40px',
+        size: 6 as const,
+        sizeStr: '40px',
         weight: '300',
         usage: 'Section headers',
       },
@@ -153,45 +165,45 @@ export const DisplayTypography: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
         <div>
-          <h2>Display Typography Scale</h2>
-          <p style={{ color: '#6b7280', marginTop: '8px' }}>
+          <Heading level={2}>Display Typography Scale</Heading>
+          <Text color="muted" style={{ marginTop: '8px' }}>
             Large, attention-grabbing typography for hero sections, landing pages, and marketing
             content. Uses lighter font weight (300) for elegant, modern appearance.
-          </p>
+          </Text>
         </div>
-        {displays.map(({ name, token, size, weight, usage }) => (
-          <div key={token} style={{ borderTop: '1px solid #e5e7eb', paddingTop: '24px' }}>
+        {displays.map(({ name, size, sizeStr, weight, usage }) => (
+          <div key={size} style={{ borderTop: '1px solid #e5e7eb', paddingTop: '24px' }}>
             <div style={{ marginBottom: '16px' }}>
               <div
                 style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}
               >
-                <span style={{ fontSize: '14px', fontWeight: 600, color: '#111827' }}>{name}</span>
-                <code style={{ fontSize: '12px', color: '#6b7280' }}>{size}</code>
-                <span style={{ fontSize: '12px', color: '#9ca3af' }}>· Weight {weight}</span>
+                <Text as="span" weight="semibold">
+                  {name}
+                </Text>
+                <Text variant="code" style={{ color: '#6b7280' }}>
+                  {sizeStr}
+                </Text>
+                <Text as="span" color="muted" size="sm">
+                  · Weight {weight}
+                </Text>
               </div>
-              <div style={{ fontSize: '12px', color: '#6b7280', fontStyle: 'italic' }}>{usage}</div>
+              <Text as="span" color="muted" size="sm" style={{ fontStyle: 'italic' }}>
+                {usage}
+              </Text>
             </div>
-            <div
-              style={{
-                fontSize: size,
-                fontWeight: weight,
-                lineHeight: '1.2',
-                letterSpacing: '-0.02em',
-              }}
-            >
+            <Display size={size} noMargin>
               The quick brown fox
-            </div>
-            <code
+            </Display>
+            <Text
+              variant="code"
               style={{
-                fontSize: '11px',
                 color: '#9ca3af',
                 marginTop: '8px',
                 display: 'block',
-                fontFamily: 'monospace',
               }}
             >
-              var(--dsai-typography-display-{token}-font-size)
-            </code>
+              {`var(--dsai-typography-display-display${size}-font-size)`}
+            </Text>
           </div>
         ))}
         <div
@@ -203,7 +215,9 @@ export const DisplayTypography: Story = {
             marginTop: '24px',
           }}
         >
-          <h3 style={{ fontSize: '16px', fontWeight: 600, margin: '0 0 8px 0' }}>Usage Tips</h3>
+          <Heading level={3} noMargin style={{ marginBottom: '8px' }}>
+            Usage Tips
+          </Heading>
           <ul style={{ margin: 0, paddingLeft: '20px', color: '#0c4a6e' }}>
             <li>Use display typography sparingly for maximum impact</li>
             <li>Pair with generous white space for breathing room</li>
@@ -223,30 +237,27 @@ export const DisplayTypography: Story = {
 export const Headings: Story = {
   render: () => {
     const headings = [
-      { tag: 'h1', size: '48px', weight: '700' },
-      { tag: 'h2', size: '40px', weight: '700' },
-      { tag: 'h3', size: '32px', weight: '600' },
-      { tag: 'h4', size: '24px', weight: '600' },
-      { tag: 'h5', size: '20px', weight: '600' },
-      { tag: 'h6', size: '16px', weight: '600' },
+      { level: 1 as const, size: '48px', weight: '700' },
+      { level: 2 as const, size: '40px', weight: '700' },
+      { level: 3 as const, size: '32px', weight: '600' },
+      { level: 4 as const, size: '24px', weight: '600' },
+      { level: 5 as const, size: '20px', weight: '600' },
+      { level: 6 as const, size: '16px', weight: '600' },
     ];
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        <h2>Heading Scale</h2>
-        {headings.map(({ tag, size, weight }) => {
-          const Tag = tag as keyof JSX.IntrinsicElements;
-          return (
-            <div key={tag}>
-              <Tag style={{ fontSize: size, fontWeight: weight, margin: 0 }}>
-                {tag.toUpperCase()}: The quick brown fox
-              </Tag>
-              <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '4px' }}>
-                {size} · Font Weight {weight}
-              </div>
-            </div>
-          );
-        })}
+        <Heading level={2}>Heading Scale</Heading>
+        {headings.map(({ level, size, weight }) => (
+          <div key={level}>
+            <Heading level={level} noMargin>
+              H{level}: The quick brown fox
+            </Heading>
+            <Text color="muted" size="sm" style={{ marginTop: '4px' }}>
+              {size} · Font Weight {weight}
+            </Text>
+          </div>
+        ))}
       </div>
     );
   },
@@ -258,22 +269,26 @@ export const Headings: Story = {
 export const FontWeights: Story = {
   render: () => {
     const weights = [
-      { name: 'Regular', value: '400' },
-      { name: 'Medium', value: '500' },
-      { name: 'Semibold', value: '600' },
-      { name: 'Bold', value: '700' },
+      { name: 'Light', value: 'light' as const },
+      { name: 'Normal', value: 'normal' as const },
+      { name: 'Semibold', value: 'semibold' as const },
+      { name: 'Bold', value: 'bold' as const },
     ];
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <h2>Font Weights</h2>
+        <Heading level={2}>Font Weights</Heading>
         {weights.map(({ name, value }) => (
           <div key={value} style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-            <div style={{ minWidth: '120px', fontSize: '14px', color: '#6b7280' }}>{name}</div>
-            <div style={{ fontSize: '18px', fontWeight: value }}>
+            <Text as="span" color="muted" style={{ minWidth: '120px' }}>
+              {name}
+            </Text>
+            <Text as="span" weight={value} size="lg" noMargin>
               The quick brown fox jumps over the lazy dog
-            </div>
-            <code style={{ fontSize: '12px', color: '#9ca3af', marginLeft: 'auto' }}>{value}</code>
+            </Text>
+            <Text variant="code" style={{ color: '#9ca3af', marginLeft: 'auto' }}>
+              fw-{value}
+            </Text>
           </div>
         ))}
       </div>
@@ -295,30 +310,35 @@ export const LineHeights: Story = {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-        <h2>Line Height Scale</h2>
+        <Heading level={2}>Line Height Scale</Heading>
         {lineHeights.map(({ name, value, description }) => (
           <div key={value}>
             <div
               style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px' }}
             >
-              <strong>{name}</strong>
-              <code style={{ fontSize: '12px', color: '#6b7280' }}>{value}</code>
-              <span style={{ fontSize: '14px', color: '#6b7280' }}>· {description}</span>
+              <Text as="span" weight="bold">
+                {name}
+              </Text>
+              <Text variant="code" style={{ color: '#6b7280' }}>
+                {value}
+              </Text>
+              <Text as="span" color="muted">
+                · {description}
+              </Text>
             </div>
-            <p
+            <Text
+              noMargin
               style={{
                 lineHeight: value,
-                fontSize: '16px',
                 backgroundColor: '#f3f4f6',
                 padding: '16px',
                 borderRadius: '8px',
-                margin: 0,
               }}
             >
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
               incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
               exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </p>
+            </Text>
           </div>
         ))}
       </div>
@@ -332,17 +352,10 @@ export const LineHeights: Story = {
 export const Usage: Story = {
   render: () => (
     <div style={{ maxWidth: '800px' }}>
-      <h2>Typography Usage</h2>
+      <Heading level={2}>Typography Usage</Heading>
 
-      <h3>CSS Variables</h3>
-      <pre
-        style={{
-          backgroundColor: '#f3f4f6',
-          padding: '16px',
-          borderRadius: '8px',
-          overflow: 'auto',
-        }}
-      >
+      <Heading level={3}>CSS Variables</Heading>
+      <Text variant="pre">
         {`.heading {
   font-family: var(--dsai-typography-font-family-base);
   font-size: var(--dsai-typography-font-size-2xl);
@@ -359,17 +372,10 @@ export const Usage: Story = {
   font-family: var(--dsai-typography-font-family-monospace);
   font-size: var(--dsai-typography-font-size-sm);
 }`}
-      </pre>
+      </Text>
 
-      <h3>JavaScript/TypeScript</h3>
-      <pre
-        style={{
-          backgroundColor: '#f3f4f6',
-          padding: '16px',
-          borderRadius: '8px',
-          overflow: 'auto',
-        }}
-      >
+      <Heading level={3}>JavaScript/TypeScript</Heading>
+      <Text variant="pre">
         {`import tokens from '@dsai/tokens';
 
 const styles = {
@@ -378,26 +384,57 @@ const styles = {
   fontWeight: tokens.typography.fontWeight.semibold,
   lineHeight: tokens.typography.lineHeight.normal,
 };`}
-      </pre>
+      </Text>
 
-      <h3>Best Practices</h3>
+      <Heading level={3}>Using Typography Components</Heading>
+      <Text variant="pre">
+        {`import { Heading, Display, Text } from '@dsai/react';
+
+// Semantic heading with visual override
+<Heading level={2} visualSize="h4">Section Title</Heading>
+
+// Display heading for hero sections
+<Display size={1} color="primary">Welcome</Display>
+
+// Body text with variants
+<Text variant="lead">Lead paragraph</Text>
+<Text>Regular body text</Text>
+<Text variant="code">Inline code</Text>`}
+      </Text>
+
+      <Heading level={3}>Best Practices</Heading>
       <ul>
         <li>
-          <strong>Use semantic HTML:</strong> Use proper heading hierarchy (h1-h6)
+          <Text as="span" weight="bold">
+            Use semantic HTML:
+          </Text>{' '}
+          <Text as="span">Use proper heading hierarchy (h1-h6)</Text>
         </li>
         <li>
-          <strong>Maintain contrast:</strong> Ensure text meets WCAG 2.1 AA standards (4.5:1 for
-          body, 3:1 for headings)
+          <Text as="span" weight="bold">
+            Maintain contrast:
+          </Text>{' '}
+          <Text as="span">
+            Ensure text meets WCAG 2.1 AA standards (4.5:1 for body, 3:1 for headings)
+          </Text>
         </li>
         <li>
-          <strong>Optimize line length:</strong> Keep lines between 45-75 characters for readability
+          <Text as="span" weight="bold">
+            Optimize line length:
+          </Text>{' '}
+          <Text as="span">Keep lines between 45-75 characters for readability</Text>
         </li>
         <li>
-          <strong>Use relative units:</strong> Typography tokens use rem for scalability
+          <Text as="span" weight="bold">
+            Use relative units:
+          </Text>{' '}
+          <Text as="span">Typography tokens use rem for scalability</Text>
         </li>
         <li>
-          <strong>Consider context:</strong> Use tighter line-height for headings, relaxed for body
-          text
+          <Text as="span" weight="bold">
+            Consider context:
+          </Text>{' '}
+          <Text as="span">Use tighter line-height for headings, relaxed for body text</Text>
         </li>
       </ul>
     </div>
