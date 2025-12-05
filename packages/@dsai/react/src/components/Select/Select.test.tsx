@@ -370,7 +370,7 @@ describe('Select', () => {
 
       await userEvent.click(screen.getByRole('combobox'));
 
-      const disabledOption = screen.getByText('Banana').closest('li');
+      const disabledOption = screen.getByRole('option', { name: 'Banana' });
       expect(disabledOption).toHaveClass('disabled');
       expect(disabledOption).toHaveAttribute('aria-disabled', 'true');
     });

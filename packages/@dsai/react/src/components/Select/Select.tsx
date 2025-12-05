@@ -11,6 +11,8 @@ import {
   useState,
 } from 'react';
 
+import { cn } from '../../utils';
+import { isEnterKey, isEscapeKey } from '../../utils/keyboard';
 import { ClearIcon } from '../../utils/misc';
 
 import type { SelectOption, SelectOptionGroup, SelectProps, SelectSize } from './Select.types';
@@ -291,66 +293,69 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
         return;
       }
 
-      switch (e.key) {
-        case 'Enter':
-        case ' ':
-          e.preventDefault();
-          if (isOpen && focusedIndex >= 0 && focusedIndex < filteredOptions.length) {
-            const focusedOption = getOptionByIndex(filteredOptions, focusedIndex);
-            if (focusedOption) {
-              handleSelect(focusedOption);
-            }
-          } else if (!isOpen) {
-            toggleDropdown();
+      if (isEnterKey(e) || e.key === ' ') {
+        e.preventDefault();
+        if (isOpen && focusedIndex >= 0 && focusedIndex < filteredOptions.length) {
+          const focusedOption = getOptionByIndex(filteredOptions, focusedIndex);
+          if (focusedOption) {
+            handleSelect(focusedOption);
           }
-          break;
+        } else if (!isOpen) {
+          toggleDropdown();
+        }
+        return;
+      }
 
-        case 'ArrowDown':
-          e.preventDefault();
-          if (!isOpen) {
-            toggleDropdown();
-          } else {
-            setFocusedIndex((prev) => (prev < filteredOptions.length - 1 ? prev + 1 : prev));
-          }
-          break;
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!isOpen) {
+          toggleDropdown();
+        } else {
+          setFocusedIndex((prev) => (prev < filteredOptions.length - 1 ? prev + 1 : prev));
+        }
+        return;
+      }
 
-        case 'ArrowUp':
-          e.preventDefault();
-          if (isOpen) {
-            setFocusedIndex((prev) => (prev > 0 ? prev - 1 : prev));
-          }
-          break;
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (isOpen) {
+          setFocusedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+        }
+        return;
+      }
 
-        case 'Home':
-          e.preventDefault();
-          if (isOpen) {
-            setFocusedIndex(0);
-          }
-          break;
+      if (e.key === 'Home') {
+        e.preventDefault();
+        if (isOpen) {
+          setFocusedIndex(0);
+        }
+        return;
+      }
 
-        case 'End':
-          e.preventDefault();
-          if (isOpen) {
-            setFocusedIndex(filteredOptions.length - 1);
-          }
-          break;
+      if (e.key === 'End') {
+        e.preventDefault();
+        if (isOpen) {
+          setFocusedIndex(filteredOptions.length - 1);
+        }
+        return;
+      }
 
-        case 'Escape':
-          e.preventDefault();
-          if (isOpen) {
-            setIsOpen(false);
-            onClose?.();
-            setSearchValue('');
-          }
-          break;
+      if (isEscapeKey(e)) {
+        e.preventDefault();
+        if (isOpen) {
+          setIsOpen(false);
+          onClose?.();
+          setSearchValue('');
+        }
+        return;
+      }
 
-        case 'Tab':
-          if (isOpen) {
-            setIsOpen(false);
-            onClose?.();
-            setSearchValue('');
-          }
-          break;
+      if (e.key === 'Tab') {
+        if (isOpen) {
+          setIsOpen(false);
+          onClose?.();
+          setSearchValue('');
+        }
       }
     },
     [
@@ -406,20 +411,18 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
   }, [isOpen, focusedIndex]);
 
   // Build button classes
-  const buttonClasses = [
+  const buttonClasses = cn(
     'form-select',
     resolveSizeClass(size),
     error && 'is-invalid',
     success && !error && 'is-valid',
-    'd-flex align-items-center justify-content-between',
-  ]
-    .filter(Boolean)
-    .join(' ');
+    'd-flex align-items-center justify-content-between'
+  );
 
   // Render display value
   const renderDisplayValue = (): ReactNode => {
     if (selectedOptions.length === 0) {
-      return <span className="text-muted">{placeholder}</span>;
+      return <span className="text-body-secondary">{placeholder}</span>;
     }
 
     if (renderValue) {
@@ -449,18 +452,16 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
         tabIndex={option.disabled ? -1 : 0}
         aria-selected={selected}
         aria-disabled={option.disabled}
-        className={[
+        className={cn(
           'dropdown-item',
           'd-flex align-items-center gap-2',
           selected && 'active',
           focused && 'bg-light',
-          option.disabled && 'disabled',
-        ]
-          .filter(Boolean)
-          .join(' ')}
+          option.disabled && 'disabled'
+        )}
         onClick={() => handleSelect(option)}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
+          if (isEnterKey(e) || e.key === ' ') {
             e.preventDefault();
             handleSelect(option);
           }
@@ -530,7 +531,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
   };
 
   // Build aria-describedby
-  const describedByIds = [helperText && helperId].filter(Boolean).join(' ');
+  const describedByIds = cn(helperText && helperId);
 
   // Has value for clear button
   const hasValue = selectedOptions.length > 0;
@@ -592,7 +593,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
           aria-labelledby={label ? labelId : undefined}
           aria-label={!label ? ariaLabel : undefined}
           aria-describedby={describedByIds || undefined}
-          aria-controls={listboxId}
+          aria-controls={isOpen ? listboxId : undefined}
           aria-activedescendant={
             isOpen && focusedIndex >= 0 ? getOptionId(focusedIndex) : undefined
           }
