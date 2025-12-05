@@ -8,6 +8,7 @@ import {
   useRef,
 } from 'react';
 
+import { cn } from '../../utils';
 import { getSafeInputProps } from '../../utils/misc';
 
 import type { CheckboxProps } from './Checkbox.types';
@@ -139,32 +140,24 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
     // Memoize wrapper classes
     const wrapperClasses = useMemo(
       () =>
-        [
+        cn(
           'form-check',
           isSwitch && 'form-switch',
           inline && 'form-check-inline',
           reverse && 'form-check-reverse',
-          className,
-        ]
-          .filter(Boolean)
-          .join(' '),
+          className
+        ),
       [isSwitch, inline, reverse, className]
     );
 
     // Memoize input classes
-    const inputClasses = useMemo(
-      () => ['form-check-input', error && 'is-invalid'].filter(Boolean).join(' '),
-      [error]
-    );
+    const inputClasses = useMemo(() => cn('form-check-input', error && 'is-invalid'), [error]);
 
     // Memoize label classes
-    const labelClasses = useMemo(() => ['form-check-label'].filter(Boolean).join(' '), []);
+    const labelClasses = useMemo(() => cn('form-check-label'), []);
 
     // Memoize helper text classes
-    const helperClasses = useMemo(
-      () => [error ? 'invalid-feedback' : 'form-text'].filter(Boolean).join(' '),
-      [error]
-    );
+    const helperClasses = useMemo(() => cn(error ? 'invalid-feedback' : 'form-text'), [error]);
 
     // Get safe props (filter out dangerous event handlers)
     const safeProps = getSafeInputProps(rest) as InputHTMLAttributes<HTMLInputElement>;
