@@ -1,6 +1,8 @@
 import { forwardRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 
+import { cn } from '../../utils';
+
 import type { ToastContainerProps, ToastPosition } from './Toast.types';
 
 /**
@@ -88,11 +90,7 @@ export const ToastContainer = forwardRef<HTMLDivElement, ToastContainerProps>(
   ) => {
     // Memoize container class names
     const containerClassName = useMemo(() => {
-      const classes = ['toast-container', getPositionClasses(position)];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
+      return cn('toast-container', getPositionClasses(position), className);
     }, [position, className]);
 
     // Memoize container styles

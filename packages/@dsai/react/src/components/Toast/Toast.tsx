@@ -141,6 +141,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       id,
       'data-testid': dataTestId,
       'data-test': dataTest,
+      'aria-label': ariaLabel,
     },
     ref
   ) => {
@@ -326,6 +327,8 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
           role={getAriaRole(variant)}
           aria-live={getAriaLive(variant)}
           aria-atomic="true"
+          aria-labelledby={title ? titleId : undefined}
+          aria-label={!title && ariaLabel ? ariaLabel : undefined}
           data-visual-state={getToastVisualState(fsmState)}
           data-testid={dataTestId}
           data-test={dataTest}
@@ -380,6 +383,8 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
         role={getAriaRole(variant)}
         aria-live={getAriaLive(variant)}
         aria-atomic="true"
+        aria-labelledby={title ? titleId : undefined}
+        aria-label={!title && ariaLabel ? ariaLabel : undefined}
         data-visual-state={getToastVisualState(fsmState)}
         data-testid={dataTestId}
         data-test={dataTest}

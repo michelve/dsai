@@ -81,6 +81,11 @@ export interface SafeToastHTMLAttributes {
    */
   'data-testid'?: string;
   'data-test'?: string;
+
+  /**
+   * Custom accessible label (only forwarded when no title is present)
+   */
+  'aria-label'?: string;
 }
 
 /**
