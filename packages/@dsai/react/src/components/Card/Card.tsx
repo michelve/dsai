@@ -1,5 +1,7 @@
 import { forwardRef, type KeyboardEvent, memo, useCallback, useMemo } from 'react';
 
+import { cn } from '../../utils';
+import { isEnterKey } from '../../utils/keyboard';
 import { getVariantClass } from '../../utils/string';
 import { isExternalUrl } from '../../utils/types';
 import { isSafeHref } from '../../utils/validation';
@@ -46,9 +48,7 @@ const CardHeaderComponent = forwardRef<HTMLDivElement, CardHeaderProps>(function
   { children, className = '', style },
   ref
 ) {
-  const classes = useMemo(() => {
-    return ['card-header', className].filter(Boolean).join(' ');
-  }, [className]);
+  const classes = useMemo(() => cn('card-header', className), [className]);
 
   return (
     <div ref={ref} className={classes} style={style}>
@@ -72,9 +72,7 @@ const CardBodyComponent = forwardRef<HTMLDivElement, CardBodyProps>(function Car
   { children, className = '', style },
   ref
 ) {
-  const classes = useMemo(() => {
-    return ['card-body', className].filter(Boolean).join(' ');
-  }, [className]);
+  const classes = useMemo(() => cn('card-body', className), [className]);
 
   return (
     <div ref={ref} className={classes} style={style}>
@@ -98,9 +96,7 @@ const CardFooterComponent = forwardRef<HTMLDivElement, CardFooterProps>(function
   { children, className = '', style },
   ref
 ) {
-  const classes = useMemo(() => {
-    return ['card-footer', className].filter(Boolean).join(' ');
-  }, [className]);
+  const classes = useMemo(() => cn('card-footer', className), [className]);
 
   return (
     <div ref={ref} className={classes} style={style}>
@@ -132,9 +128,7 @@ const CardImageComponent = forwardRef<HTMLImageElement, CardImageProps>(function
         : 'card-img';
   }, [position]);
 
-  const classes = useMemo(() => {
-    return [positionClass, className].filter(Boolean).join(' ');
-  }, [positionClass, className]);
+  const classes = useMemo(() => cn(positionClass, className), [positionClass, className]);
 
   const imgStyle = useMemo<React.CSSProperties>(() => {
     return {
@@ -164,9 +158,7 @@ const CardTitleComponent = forwardRef<HTMLHeadingElement, CardTitleProps>(functi
   { children, as: Component = 'h5', className = '', style },
   ref
 ) {
-  const classes = useMemo(() => {
-    return ['card-title', className].filter(Boolean).join(' ');
-  }, [className]);
+  const classes = useMemo(() => cn('card-title', className), [className]);
 
   return (
     <Component ref={ref} className={classes} style={style}>
@@ -190,9 +182,10 @@ const CardTextComponent = forwardRef<HTMLParagraphElement, CardTextProps>(functi
   { children, muted = false, className = '', style },
   ref
 ) {
-  const classes = useMemo(() => {
-    return ['card-text', muted && 'text-body-secondary', className].filter(Boolean).join(' ');
-  }, [muted, className]);
+  const classes = useMemo(
+    () => cn('card-text', muted && 'text-body-secondary', className),
+    [muted, className]
+  );
 
   return (
     <p ref={ref} className={classes} style={style}>
@@ -221,9 +214,7 @@ const CardLinkComponent = forwardRef<HTMLAnchorElement, CardLinkProps>(function 
   const isExternal = isExternalUrl(safeHref);
   const relAttribute = isExternal ? 'noopener noreferrer' : undefined;
 
-  const classes = useMemo(() => {
-    return ['card-link', className].filter(Boolean).join(' ');
-  }, [className]);
+  const classes = useMemo(() => cn('card-link', className), [className]);
 
   return (
     <a ref={ref} href={safeHref} className={classes} style={style} rel={relAttribute}>
@@ -245,9 +236,7 @@ CardLink.displayName = 'CardLink';
  */
 const CardImgOverlayComponent = forwardRef<HTMLDivElement, CardImgOverlayProps>(
   function CardImgOverlay({ children, className = '', style }, ref) {
-    const classes = useMemo(() => {
-      return ['card-img-overlay', className].filter(Boolean).join(' ');
-    }, [className]);
+    const classes = useMemo(() => cn('card-img-overlay', className), [className]);
 
     return (
       <div ref={ref} className={classes} style={style}>
@@ -318,23 +307,18 @@ export const Card = memo(
 
     // Build card classes with memoization
     const cardClasses = useMemo(() => {
-      const variantClasses: Array<string | false> = [
-        variant === 'elevated' && 'shadow-sm',
-        variant === 'outlined' && 'border',
-        variant === 'ghost' && 'bg-transparent',
-        variant === 'ghost' && 'border-0',
-      ];
-      return [
+      return cn(
         'card',
         getVariantClass(variant, { prefix: 'card' }),
         color && getColorClass(color),
         horizontal && 'flex-row',
         isInteractive && 'card-interactive',
-        ...variantClasses,
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ');
+        variant === 'elevated' && 'shadow-sm',
+        variant === 'outlined' && 'border',
+        variant === 'ghost' && 'bg-transparent',
+        variant === 'ghost' && 'border-0',
+        className
+      );
     }, [variant, color, horizontal, isInteractive, className]);
 
     // Interactive card styles with memoization
@@ -356,7 +340,7 @@ export const Card = memo(
     // Handle keyboard with useCallback
     const handleKeyDown = useCallback(
       (e: KeyboardEvent<HTMLElement>): void => {
-        if (e.key === 'Enter' || e.key === ' ') {
+        if (isEnterKey(e) || e.key === ' ') {
           if (!href) {
             e.preventDefault();
             handleClick();
