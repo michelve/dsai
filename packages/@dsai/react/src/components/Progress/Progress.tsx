@@ -1,3 +1,5 @@
+import { cn } from '../../utils';
+
 import type { ProgressBarProps, ProgressProps } from './Progress.types';
 
 const resolveHeightForSize = (size: ProgressProps['size'] = 'md'): string => {
@@ -34,16 +36,16 @@ function ProgressBar({
   'aria-hidden': ariaHidden = false,
 }: ProgressBarProps): React.JSX.Element {
   const percentage = Math.min(100, Math.max(0, value));
+  const isWarning = variant === 'warning';
 
-  const barClasses = [
+  const barClasses = cn(
     'progress-bar',
     `bg-${variant}`,
+    isWarning && 'text-dark',
     striped && 'progress-bar-striped',
     animated && 'progress-bar-animated',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+    className
+  );
 
   // Generate default aria-label from variant if not provided (and not hidden)
   const computedAriaLabel = ariaHidden
@@ -140,18 +142,16 @@ function ProgressBase({
   const hasChildren = Boolean(children);
 
   // Build progress container classes
-  const progressClasses = ['progress', className].filter(Boolean).join(' ');
+  const progressClasses = cn('progress', className);
 
   // Build progress bar classes (for single bar mode)
-  const barClasses = [
+  const barClasses = cn(
     'progress-bar',
     `bg-${variant}`,
     striped && 'progress-bar-striped',
     (animated || indeterminate) && 'progress-bar-animated',
-    indeterminate && 'progress-bar-striped', // Indeterminate uses striped animation
-  ]
-    .filter(Boolean)
-    .join(' ');
+    indeterminate && 'progress-bar-striped' // Indeterminate uses striped animation
+  );
 
   // Calculate aria-valuetext
   const computedValueText = indeterminate ? 'Loading' : valueText || `${percentage}%`;
