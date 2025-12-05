@@ -97,6 +97,12 @@ $danger: dsai.$color-red-500 !default;
 $light: dsai.$color-gray-100 !default;
 $dark: dsai.$color-gray-900 !default;
 
+// Body text colors (ensure AA contrast for placeholders and helper text)
+$body-bg: dsai.$semantic-body-bg !default;
+$body-color: dsai.$semantic-body-color !default;
+$body-secondary-color: dsai.$semantic-secondary-text-emphasis !default;
+$body-tertiary-color: dsai.$neutral-gray-600 !default;
+
 // Buttons (improve contrast for outline variants)
 $btn-outline-secondary-color: dsai.$color-gray-800 !default;
 $btn-outline-secondary-border: dsai.$color-gray-800 !default;
