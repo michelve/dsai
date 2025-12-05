@@ -35,13 +35,9 @@ export function trapFocus(container: HTMLElement, options: TrapFocusOptions = {}
   }
 
   // Safe to access since we checked length > 0
-  const firstEl = focusable[0];
-  if (!firstEl) {
-    return () => {};
-  }
-
-  const lastEl = focusable[focusable.length - 1];
-  if (!lastEl) {
+  const firstEl = focusable[0] as HTMLElement;
+  const lastEl = focusable[focusable.length - 1] as HTMLElement;
+  if (!firstEl || !lastEl) {
     return () => {};
   }
 
