@@ -594,7 +594,7 @@ export const WithoutCaret: Story = {
   render: function NoCaretDropdown() {
     return (
       <Dropdown>
-        <Dropdown.Toggle caret={false}>
+        <Dropdown.Toggle caret={false} aria-label="More options">
           <ThreeDotsVerticalIcon />
         </Dropdown.Toggle>
         <Dropdown.Menu>

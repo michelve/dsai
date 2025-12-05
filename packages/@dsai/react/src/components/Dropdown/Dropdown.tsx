@@ -18,6 +18,7 @@ import {
 import {
   createContext,
   forwardRef,
+  isValidElement,
   useCallback,
   useContext,
   useEffect,
@@ -52,6 +53,7 @@ import type {
   DropdownToggleProps,
 } from './Dropdown.types';
 import type { FloatingContext } from '@floating-ui/react';
+import type { ReactNode } from 'react';
 
 /**
  * Dropdown context for sharing state between components
@@ -67,6 +69,38 @@ function useDropdownContext(): DropdownContextValue {
     throw new Error('Dropdown components must be used within a Dropdown component');
   }
   return context;
+}
+
+function extractTextContent(node: ReactNode): string {
+  if (typeof node === 'string' || typeof node === 'number') {
+    return String(node).trim();
+  }
+
+  if (Array.isArray(node)) {
+    return node
+      .map((child) => extractTextContent(child))
+      .filter(Boolean)
+      .join(' ')
+      .trim();
+  }
+
+  if (isValidElement(node)) {
+    const ariaLabel =
+      typeof node.props?.['aria-label'] === 'string' ? node.props['aria-label'].trim() : '';
+    const title = typeof node.props?.title === 'string' ? node.props.title.trim() : '';
+
+    if (ariaLabel) {
+      return ariaLabel;
+    }
+
+    if (title) {
+      return title;
+    }
+
+    return extractTextContent(node.props.children);
+  }
+
+  return '';
 }
 
 /**
@@ -423,6 +457,17 @@ const DropdownToggle = forwardRef<HTMLButtonElement, DropdownToggleProps>(
     } = useDropdownContext();
 
     const isDisabled = toggleDisabled || contextDisabled;
+    const derivedLabel = useMemo(() => extractTextContent(children), [children]);
+    const computedAriaLabel = useMemo(() => {
+      const normalizedAriaLabel = ariaLabel?.trim();
+      if (normalizedAriaLabel) {
+        return normalizedAriaLabel;
+      }
+      if (derivedLabel) {
+        return derivedLabel;
+      }
+      return 'Toggle Dropdown';
+    }, [ariaLabel, derivedLabel]);
 
     // Development warning for split toggles without explicit aria-label (guarded for browser envs)
     if (
@@ -466,15 +511,11 @@ const DropdownToggle = forwardRef<HTMLButtonElement, DropdownToggleProps>(
         aria-haspopup="menu"
         aria-expanded={isOpen}
         aria-controls={isOpen ? menuId : undefined}
-        aria-label={ariaLabel}
+        aria-label={computedAriaLabel}
         data-testid={dataTestId}
         data-test={dataTest}
       >
-        {split ? (
-          <span className="visually-hidden">{ariaLabel ?? 'Toggle Dropdown'}</span>
-        ) : (
-          children
-        )}
+        {split ? <span className="visually-hidden">{computedAriaLabel}</span> : children}
       </button>
     );
   }

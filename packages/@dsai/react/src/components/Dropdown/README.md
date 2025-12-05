@@ -288,9 +288,13 @@ function ControlledDropdown() {
 
 ### Without Caret
 
+For icon-only toggles, always provide an `aria-label` so the control has a readable name.
+
 ```tsx
 <Dropdown>
-  <Dropdown.Toggle caret={false}>⋮</Dropdown.Toggle>
+  <Dropdown.Toggle caret={false} aria-label="More options">
+    ⋮
+  </Dropdown.Toggle>
   <Dropdown.Menu>
     <Dropdown.Item>Edit</Dropdown.Item>
     <Dropdown.Item>Delete</Dropdown.Item>
@@ -319,15 +323,15 @@ function ControlledDropdown() {
 
 ### Dropdown.Toggle Props
 
-| Prop         | Type                   | Default       | Description                           |
-| ------------ | ---------------------- | ------------- | ------------------------------------- |
-| `variant`    | `ButtonVariant`        | `'secondary'` | Button variant                        |
-| `size`       | `'sm' \| 'md' \| 'lg'` | `'md'`        | Button size                           |
-| `split`      | `boolean`              | `false`       | Split button mode                     |
-| `caret`      | `boolean`              | `true`        | Show caret arrow                      |
-| `disabled`   | `boolean`              | `false`       | Disable toggle                        |
-| `className`  | `string`               | -             | Additional class name                 |
-| `aria-label` | `string`               | -             | Accessible label (required for split) |
+| Prop         | Type                   | Default       | Description                                                |
+| ------------ | ---------------------- | ------------- | ---------------------------------------------------------- |
+| `variant`    | `ButtonVariant`        | `'secondary'` | Button variant                                             |
+| `size`       | `'sm' \| 'md' \| 'lg'` | `'md'`        | Button size                                                |
+| `split`      | `boolean`              | `false`       | Split button mode                                          |
+| `caret`      | `boolean`              | `true`        | Show caret arrow                                           |
+| `disabled`   | `boolean`              | `false`       | Disable toggle                                             |
+| `className`  | `string`               | -             | Additional class name                                      |
+| `aria-label` | `string`               | -             | Accessible label (required for split or icon-only toggles) |
 
 ### Dropdown.Menu Props
 

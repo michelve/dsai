@@ -1,5 +1,3 @@
-TODO: avatar
-
 # TASK-061: Avatar Component
 
 **Task ID:** TASK-061
@@ -14,7 +12,7 @@ TODO: avatar
 
 ## Description
 
-Build an enterprise-ready Avatar component set (Avatar + AvatarGroup) for the React design system. Support images, initials, icons, status indicators, badges, stacked groups, accessibility, and robust fallbacks inspired by—but not copied from—PrimeReact Avatar capabilities.
+Build an enterprise-ready Avatar component set (Avatar + AvatarGroup) follow bootstrap classes when possible. Support images, initials, icons, status indicators, badges, stacked groups, accessibility, and robust fallbacks inspired by—but not copied from—PrimeReact Avatar or Ant Design system capabilities.
 
 ---
 
@@ -79,6 +77,31 @@ Build an enterprise-ready Avatar component set (Avatar + AvatarGroup) for the Re
 
 ---
 
+## Context
+
+Utilities live in `packages/@dsai/react/src/utils` and sub-folders:
+
+- **Core:**  
+  `cn`, `clamp`, `generateId` (SSR-safe), `isBrowser`, `prefersReducedMotion`, `mergeRefs`
+- **a11y:**  
+  `focusableSelectors`, `focusableSelectorString`, `trapFocus`, `announceToScreenReader`, `generateId`
+- **keyboard:**  
+  `isEnterKey`, `isEscapeKey`
+- **validation:**  
+  `isSafeHref`, `isValidHref`, `isValidUrl`, `isValidEmail`
+- **types:**  
+  `isExternalUrl`
+- **string:**  
+  `getVariantClass`
+- **misc:**  
+  `getSafeInputProps`, `normalizeTriggers`, `mapPlacement`,  
+  `toggleItemEvent`, `toggleAllEvent`, `selectAllEvent`, `clearAllEvent`, `ClearIcon`
+
+Components live under:  
+`packages/@dsai/react/src/components`.
+
+---
+
 ## Files to Modify
 
 - `packages/@dsai/react/src/components/Avatar/Avatar.tsx` — main component implementation.
@@ -87,20 +110,6 @@ Build an enterprise-ready Avatar component set (Avatar + AvatarGroup) for the Re
 - `packages/@dsai/react/src/components/Avatar/Avatar.test.tsx` — unit + accessibility tests.
 - `packages/@dsai/storybook/docs/components/Avatar.stories.tsx` — stories and controls.
 - `packages/@dsai/react/src/components/Avatar/index.ts` — barrel export.
-
----
-
-## Dependencies
-
-### Requires:
-
-- **TASK-014**: Base Component Template
-- **TASK-013**: Configure Storybook 7
-- **TASK-016**: Create TypeScript Types for Tokens (token access)
-
-### Blocks:
-
-- Future people-picker/mentions components needing avatars (TBD)
 
 ---
 
