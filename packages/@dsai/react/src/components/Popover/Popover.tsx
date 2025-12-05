@@ -1,10 +1,10 @@
 import {
   arrow,
   autoUpdate,
+  flip,
   FloatingArrow,
   FloatingFocusManager,
   FloatingPortal,
-  flip,
   offset,
   shift,
   useClick,
@@ -28,6 +28,7 @@ import {
   useRef,
 } from 'react';
 
+import { cn } from '../../utils';
 import { mapPlacement, normalizeTriggers } from '../../utils/misc';
 
 import {
@@ -312,13 +313,10 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
     const triggerRef = useMergeRefs([ref, refs.setReference, childRef]);
 
     // Memoize popover class names
-    const popoverClassName = useMemo(() => {
-      const classes = ['popover', `bs-popover-auto`, 'show'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const popoverClassName = useMemo(
+      () => cn('popover', 'bs-popover-auto', 'show', className),
+      [className]
+    );
 
     // Compute popover styles - properly combine transforms from floating and transition styles
     const popoverStyles = useMemo(() => {
