@@ -1,55 +1,77 @@
-import { Button } from '@dsai/react';
+import { Alert, Badge, Button, Card, CardBody, CardText, CardTitle, Spinner } from '@dsai/react';
 
 import type { JSX } from 'react';
 
-
-const highlights = [
-  'Vite 7 + SWC dev server with warmup for @dsai packages',
-  'Shared security defaults (allowed hosts, CORS, fs deny)',
-  'Design tokens loaded via CSS variables',
-];
-
 /**
- * Playground landing view showcasing DSAi components and token styling.
+ * Playground welcome page showcasing DSAi components.
  */
 export function App(): JSX.Element {
   return (
-    <main className="app">
-      <section className="app-card">
-        <div className="app-header">
-          <div>
-            <span className="eyebrow">DSAi Playground</span>
-            <h1 className="title">Preview components with the shared Vite config</h1>
-            <p className="lead">
-              React 19 + SWC with hardened dev-server defaults and optimized dependency caching.
-              Edit a component and watch HMR respond instantly.
-            </p>
-          </div>
-          <div className="cta">
-            <Button variant="primary" type="button">
-              Open Storybook
-            </Button>
-            <Button variant="secondary" type="button">
-              View tokens
-            </Button>
-          </div>
+    <main className="container py-5">
+      <div className="text-center mb-5">
+        <Badge variant="primary" className="mb-3">
+          DSAi Playground
+        </Badge>
+        <h1 className="display-4 fw-bold">Welcome to DSAi</h1>
+        <p className="lead text-muted">
+          A design system built with React, Bootstrap 5, and WCAG 2.2 AA accessibility.
+        </p>
+      </div>
+
+      <Alert variant="info" className="mb-4">
+        <strong>Getting Started:</strong> Edit <code>src/App.tsx</code> to explore DSAi components.
+      </Alert>
+
+      <div className="row g-4">
+        <div className="col-md-4">
+          <Card>
+            <CardBody>
+              <CardTitle>Buttons</CardTitle>
+              <CardText>Interactive button components with multiple variants.</CardText>
+              <div className="d-flex gap-2 flex-wrap">
+                <Button variant="primary">Primary</Button>
+                <Button variant="secondary">Secondary</Button>
+                <Button variant="outline-primary">Outline</Button>
+              </div>
+            </CardBody>
+          </Card>
         </div>
 
-        <div className="pill-row">
-          <span className="pill">Shared aliases</span>
-          <span className="pill">Warmup: @dsai/react + @dsai/tokens</span>
-          <span className="pill">License reporting enabled</span>
+        <div className="col-md-4">
+          <Card>
+            <CardBody>
+              <CardTitle>Badges</CardTitle>
+              <CardText>Labels and status indicators for your UI.</CardText>
+              <div className="d-flex gap-2 flex-wrap">
+                <Badge variant="primary">Primary</Badge>
+                <Badge variant="success">Success</Badge>
+                <Badge variant="warning">Warning</Badge>
+                <Badge variant="danger">Danger</Badge>
+              </div>
+            </CardBody>
+          </Card>
         </div>
 
-        <ul className="highlights">
-          {highlights.map((item) => (
-            <li key={item} className="highlight">
-              <span className="dot" aria-hidden />
-              {item}
-            </li>
-          ))}
-        </ul>
-      </section>
+        <div className="col-md-4">
+          <Card>
+            <CardBody>
+              <CardTitle>Loading States</CardTitle>
+              <CardText>Spinner components for async operations.</CardText>
+              <div className="d-flex gap-3 align-items-center">
+                <Spinner size="sm" />
+                <Spinner />
+                <Spinner variant="secondary" />
+              </div>
+            </CardBody>
+          </Card>
+        </div>
+      </div>
+
+      <div className="text-center mt-5">
+        <p className="text-muted small">
+          Built with <code>@dsai/react</code> and <code>@dsai/tokens</code>
+        </p>
+      </div>
     </main>
   );
 }

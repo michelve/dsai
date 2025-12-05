@@ -67,7 +67,7 @@ button[data-visual-state="pressed"] {
 
 ```tsx
 import { Button } from '@dsai/react';
-import '@dsai/tokens/css/bootstrap.css';
+import '@dsai/tokens/css/dsai-theme-bs.css';
 
 function App() {
   return (

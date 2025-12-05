@@ -24,7 +24,7 @@ import type { ButtonProps } from './Button.types';
  *
  * The FSM ensures predictable, consistent visual feedback for all interactions.
  *
- * DSAi design tokens are applied through the Bootstrap theme (bootstrap.css).
+ * DSAi design tokens are applied through the Bootstrap theme (dsai-theme-bs.css).
  * Supports multiple variants, sizes, states, icons, and loading with full WCAG 2.2 AA compliance.
  *
  * SECURITY: Prop spreading is restricted to a whitelist of safe HTML attributes only.

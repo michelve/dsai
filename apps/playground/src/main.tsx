@@ -1,8 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import '@dsai/tokens/css/variables.css';
-import './App.css';
+import '@dsai/tokens/css/dsai-theme-bs.css';
 
 import App from './App';
 

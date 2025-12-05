@@ -8,7 +8,7 @@
 // 1. Import Bootstrap functions
 // 2. Override default Bootstrap variables with DSAi tokens
 // 3. Import rest of Bootstrap
-// 4. Compile to CSS: sass scss/bootstrap-theme.scss dist/css/bootstrap.css
+// 4. Compile to CSS: sass dsai-theme-bs.scss dist/css/dsai-theme-bs.css
 // ============================================================================
 
 // 1. Import our DSAi design tokens FIRST (Sass @use must come before @import)
