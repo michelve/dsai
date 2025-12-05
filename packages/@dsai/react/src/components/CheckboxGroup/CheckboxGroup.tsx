@@ -22,6 +22,7 @@
 
 import { forwardRef, memo, useCallback, useEffect, useId, useMemo, useReducer } from 'react';
 
+import { cn } from '../../utils';
 import { Checkbox } from '../Checkbox/Checkbox';
 
 import {
@@ -194,15 +195,12 @@ const CheckboxGroupComponent = forwardRef<HTMLFieldSetElement, CheckboxGroupProp
 
     // Build class names
     const wrapperClasses = useMemo(
-      () => ['checkbox-group', error && 'has-error', className].filter(Boolean).join(' '),
+      () => cn('checkbox-group', error && 'has-error', className),
       [error, className]
     );
 
     const optionsClasses = useMemo(
-      () =>
-        ['checkbox-group-options', orientation === 'horizontal' && 'd-flex flex-wrap gap-3']
-          .filter(Boolean)
-          .join(' '),
+      () => cn('checkbox-group-options', orientation === 'horizontal' && 'd-flex flex-wrap gap-3'),
       [orientation]
     );
 
