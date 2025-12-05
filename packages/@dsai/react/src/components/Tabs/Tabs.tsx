@@ -10,6 +10,8 @@ import {
   useState,
 } from 'react';
 
+import { cn } from '../../utils';
+
 import type {
   TabItem,
   TabListProps,
@@ -106,16 +108,14 @@ export const TabList = forwardRef<HTMLDivElement, TabListProps>(function TabList
   };
 
   // Build nav classes based on variant
-  const navClasses = [
+  const navClasses = cn(
     'nav',
     variant === 'tabs' && 'nav-tabs',
     variant === 'pills' && 'nav-pills',
     variant === 'underline' && 'nav-underline',
     orientation === 'vertical' && 'flex-column',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+    className
+  );
 
   return (
     // eslint-disable-next-line jsx-a11y/interactive-supports-focus
@@ -161,9 +161,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(function Tab(
   };
 
   // Build button classes
-  const buttonClasses = ['nav-link', isActive && 'active', disabled && 'disabled', className]
-    .filter(Boolean)
-    .join(' ');
+  const buttonClasses = cn('nav-link', isActive && 'active', disabled && 'disabled', className);
 
   return (
     <button
@@ -213,9 +211,7 @@ export const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(function TabPa
   }
 
   // Build panel classes
-  const panelClasses = ['tab-pane', 'fade', isActive && 'show active', className]
-    .filter(Boolean)
-    .join(' ');
+  const panelClasses = cn('tab-pane', 'fade', isActive && 'show active', className);
 
   return (
     <div
@@ -356,22 +352,18 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
   );
 
   // Build wrapper classes
-  const wrapperClasses = [orientation === 'vertical' && 'd-flex', className]
-    .filter(Boolean)
-    .join(' ');
+  const wrapperClasses = cn(orientation === 'vertical' && 'd-flex', className);
 
   // Build nav classes for items mode
-  const navClasses = [
+  const navClasses = cn(
     'nav',
     variant === 'tabs' && 'nav-tabs',
     variant === 'pills' && 'nav-pills',
     variant === 'underline' && 'nav-underline',
     fill && 'nav-fill',
     justified && 'nav-justified',
-    orientation === 'vertical' && 'flex-column me-3',
-  ]
-    .filter(Boolean)
-    .join(' ');
+    orientation === 'vertical' && 'flex-column me-3'
+  );
 
   // Render using items prop
   const renderWithItems = (): ReactNode => {
