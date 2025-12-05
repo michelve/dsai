@@ -1,5 +1,7 @@
 import { forwardRef, type KeyboardEvent, type MouseEvent } from 'react';
 
+import { cn } from '../../utils';
+import { isEnterKey } from '../../utils/keyboard';
 import { isExternalUrl } from '../../utils/types';
 import { isSafeHref } from '../../utils/validation';
 
@@ -61,17 +63,15 @@ export const ListGroupItem = forwardRef<HTMLElement, ListGroupItemProps>(functio
   }
 
   // Build item classes
-  const itemClasses = [
+  const itemClasses = cn(
     'list-group-item',
     isInteractive && 'list-group-item-action',
     active && 'active',
     disabled && 'disabled',
     variant && `list-group-item-${variant}`,
     badge && 'd-flex justify-content-between align-items-center',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+    className
+  );
 
   // Handle click
   const handleClick = (e: MouseEvent<HTMLElement>): void => {
@@ -87,7 +87,7 @@ export const ListGroupItem = forwardRef<HTMLElement, ListGroupItemProps>(functio
     if (disabled) {
       return;
     }
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (isEnterKey(e) || e.key === ' ') {
       e.preventDefault();
       onClick?.();
     }
@@ -255,15 +255,13 @@ export const ListGroup = forwardRef<HTMLUListElement | HTMLOListElement, ListGro
     };
 
     // Build list classes
-    const listClasses = [
+    const listClasses = cn(
       'list-group',
       variant === 'flush' && 'list-group-flush',
       variant === 'numbered' && 'list-group-numbered',
       getHorizontalClass(),
-      className,
-    ]
-      .filter(Boolean)
-      .join(' ');
+      className
+    );
 
     // Render using items prop
     const renderWithItems = (): React.ReactNode => {
