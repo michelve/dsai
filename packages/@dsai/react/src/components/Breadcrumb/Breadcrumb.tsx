@@ -8,6 +8,7 @@ import {
   useReducer,
 } from 'react';
 
+import { cn } from '../../utils';
 import { isExternalUrl } from '../../utils/types';
 import { isSafeHref } from '../../utils/validation';
 
@@ -53,9 +54,10 @@ const BreadcrumbItemComponent = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
     ref
   ) {
     // Build item classes with memoization
-    const itemClasses = useMemo(() => {
-      return ['breadcrumb-item', active && 'active', className].filter(Boolean).join(' ');
-    }, [active, className]);
+    const itemClasses = useMemo(
+      () => cn('breadcrumb-item', active && 'active', className),
+      [active, className]
+    );
 
     // Validate and sanitize href
     const safeHref = isSafeHref(href) ? href : '#';
@@ -180,9 +182,7 @@ export const Breadcrumb = memo(
     }, [onExpand]);
 
     // Build nav classes with memoization
-    const navClasses = useMemo(() => {
-      return [className].filter(Boolean).join(' ');
-    }, [className]);
+    const navClasses = useMemo(() => cn(className), [className]);
 
     // Custom separator style with memoization
     const separatorStyle = useMemo<React.CSSProperties | undefined>(() => {
