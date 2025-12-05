@@ -10,6 +10,7 @@ import {
   useState,
 } from 'react';
 
+import { cn } from '../../utils';
 import { ClearIcon, getSafeInputProps } from '../../utils/misc';
 
 import type { InputProps, InputSize } from './Input.types';
@@ -163,21 +164,19 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
   // Memoize input classes
   const inputClasses = useMemo(
     () =>
-      [
+      cn(
         plaintext ? 'form-control-plaintext' : 'form-control',
         resolveInputSizeClass(size),
         error && 'is-invalid',
         success && !error && 'is-valid',
-        inputClassName,
-      ]
-        .filter(Boolean)
-        .join(' '),
+        inputClassName
+      ),
     [plaintext, size, error, success, inputClassName]
   );
 
   // Memoize wrapper classes
   const wrapperClasses = useMemo(
-    () => [floating && 'form-floating', className].filter(Boolean).join(' '),
+    () => cn(floating && 'form-floating', className),
     [floating, className]
   );
 
@@ -199,7 +198,7 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
 
   // Memoize aria-describedby
   const describedByIds = useMemo(
-    () => [helperText && helperId, ariaDescribedBy].filter(Boolean).join(' '),
+    () => cn(helperText && helperId, ariaDescribedBy),
     [helperText, helperId, ariaDescribedBy]
   );
 
