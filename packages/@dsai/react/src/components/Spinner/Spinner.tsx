@@ -1,3 +1,5 @@
+import { cn } from '../../utils';
+
 import type { SpinnerProps } from './Spinner.types';
 
 /**
@@ -76,14 +78,12 @@ export function Spinner({
 }: SpinnerProps): React.JSX.Element {
   // Build Bootstrap class names
   // Bootstrap spinner classes: spinner-border, spinner-grow, spinner-border-sm, text-{color}
-  const bootstrapClasses = [
+  const bootstrapClasses = cn(
     `spinner-${animation}`, // spinner-border or spinner-grow
     size === 'sm' && `spinner-${animation}-sm`, // spinner-border-sm or spinner-grow-sm
     variant && `text-${variant}`, // text-primary, text-secondary, etc.
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+    className
+  );
 
   // Custom size styles for xs, lg, xl (Bootstrap only has sm)
   const customSizeStyle = resolveCustomSizeStyle(size);
