@@ -1,5 +1,7 @@
 import { forwardRef, useId } from 'react';
 
+import { cn } from '../../utils';
+
 import type { RadioProps } from './Radio.types';
 
 /**
@@ -55,17 +57,15 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
     const id = providedId || generatedId;
 
     // Build wrapper classes
-    const wrapperClasses = [
+    const wrapperClasses = cn(
       'form-check',
       inline && 'form-check-inline',
       reverse && 'form-check-reverse',
-      className,
-    ]
-      .filter(Boolean)
-      .join(' ');
+      className
+    );
 
     // Build input classes
-    const inputClasses = ['form-check-input', error && 'is-invalid'].filter(Boolean).join(' ');
+    const inputClasses = cn('form-check-input', error && 'is-invalid');
 
     return (
       <div className={wrapperClasses} style={style}>
