@@ -27,6 +27,19 @@ export { Accordion } from './Accordion';
 export type { AlertHeadingProps, AlertLinkProps, AlertProps, AlertVariant } from './Alert';
 // Alert
 export { Alert } from './Alert';
+export type {
+  AvatarGroupLayout,
+  AvatarGroupProps,
+  AvatarGroupSpacing,
+  AvatarProps,
+  AvatarShape,
+  AvatarSize,
+  AvatarStatus,
+  AvatarStatusPosition,
+  AvatarTone,
+} from './Avatar';
+// Avatar
+export { Avatar, AvatarGroup } from './Avatar';
 export type { BadgeProps, BadgeVariant } from './Badge';
 // Badge
 export { Badge } from './Badge';
@@ -104,6 +117,7 @@ export type {
 } from './CheckboxGroup';
 // CheckboxGroup
 export { CheckboxGroup } from './CheckboxGroup';
+export { Dropdown } from './Dropdown';
 export type {
   DropdownAutoClose,
   DropdownDividerProps,
@@ -115,7 +129,6 @@ export type {
   DropdownProps,
   DropdownToggleProps,
 } from './Dropdown';
-export { Dropdown } from './Dropdown';
 // Icons - Bootstrap Icons as React components
 // Re-export all icons and types from the Icon folder
 export * from './Icon';
@@ -189,12 +202,12 @@ export type {
 } from './Popover';
 // Popover
 export {
-  createInitialPopoverFSMState,
-  getPopoverVisualState,
   Popover,
   PopoverBody,
   PopoverCloseButton,
   PopoverHeader,
+  createInitialPopoverFSMState,
+  getPopoverVisualState,
   popoverFSMReducer,
 } from './Popover';
 export type { ProgressBarProps, ProgressProps, ProgressSize, ProgressVariant } from './Progress';
@@ -219,11 +232,11 @@ export type {
 } from './Scrollspy';
 // Scrollspy
 export {
+  Scrollspy,
+  ScrollspyProvider,
   createInitialScrollspyFSMState,
   getScrollspyVisualState,
   isScrollspyObserving,
-  Scrollspy,
-  ScrollspyProvider,
   scrollspyFSMReducer,
   useScrollspy,
 } from './Scrollspy';
@@ -295,11 +308,11 @@ export type {
 } from './Toast';
 // Toast
 export {
-  createInitialToastFSMState,
-  getToastVisualState,
   Toast,
   ToastContainer,
   ToastProvider,
+  createInitialToastFSMState,
+  getToastVisualState,
   toastFSMReducer,
   useToast,
 } from './Toast';
