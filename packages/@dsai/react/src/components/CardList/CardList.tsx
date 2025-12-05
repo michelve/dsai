@@ -22,6 +22,7 @@
 
 import { forwardRef, memo, useCallback, useEffect, useId, useMemo, useReducer } from 'react';
 
+import { cn } from '../../utils';
 import { SelectableCard } from '../SelectableCard';
 
 import {
@@ -252,7 +253,7 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListPropsInternal>
 
     // Build class names
     const wrapperClasses = useMemo(
-      () => ['card-list', error && 'has-error', className].filter(Boolean).join(' '),
+      () => cn('card-list', error && 'has-error', className),
       [error, className]
     );
 
