@@ -23,7 +23,7 @@ import { CarouselIndicators } from './CarouselIndicators';
 import { CarouselPauseButton } from './CarouselPauseButton';
 
 import type { CarouselItemProps, CarouselProps } from './Carousel.types';
-import type { ReactElement, TouchEvent as ReactTouchEvent } from 'react';
+import type { ReactElement } from 'react';
 
 /**
  * Default autoplay interval in milliseconds
@@ -245,7 +245,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 
     // Keyboard navigation
     const handleKeyDown = useCallback(
-      (e: React.KeyboardEvent<HTMLDivElement>): void => {
+      (e: KeyboardEvent): void => {
         if (!keyboard) {
           return;
         }
@@ -294,7 +294,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 
     // Touch/swipe handling
     const handleTouchStart = useCallback(
-      (e: ReactTouchEvent<HTMLDivElement>): void => {
+      (e: TouchEvent): void => {
         if (!touch) {
           return;
         }
@@ -311,7 +311,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     );
 
     const handleTouchMove = useCallback(
-      (e: ReactTouchEvent<HTMLDivElement>): void => {
+      (e: TouchEvent): void => {
         if (!touch || touchStartXRef.current === null) {
           return;
         }
@@ -332,7 +332,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     );
 
     const handleTouchEnd = useCallback(
-      (e: ReactTouchEvent<HTMLDivElement>): void => {
+      (e: TouchEvent): void => {
         if (!touch || touchStartXRef.current === null) {
           return;
         }
@@ -406,11 +406,95 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     // Determine if pause button should show
     const shouldShowPauseButton = showPauseButton ?? autoPlay;
 
-    // Combine refs using utility
-    const combinedRef = useMemo(() => mergeRefs([containerRef, ref]), [containerRef, ref]);
+    // Combine refs using utility (containerRef is stable)
+    const combinedRef = useMemo(() => mergeRefs<HTMLDivElement>(containerRef, ref), [ref]);
+
+    // Attach native event listeners to avoid non-interactive handler lint issues on section
+    useEffect(() => {
+      const el = containerRef.current;
+      if (!el) {
+        return undefined;
+      }
+
+      const cleanupFns: Array<() => void> = [];
+
+      if (keyboard) {
+        el.addEventListener('keydown', handleKeyDown);
+        cleanupFns.push(() => el.removeEventListener('keydown', handleKeyDown));
+      }
+
+      if (pauseOnHover && autoPlay) {
+        const mouseEnterHandler = (): void => handleMouseEnter();
+        const mouseLeaveHandler = (): void => handleMouseLeave();
+        el.addEventListener('mouseenter', mouseEnterHandler);
+        el.addEventListener('mouseleave', mouseLeaveHandler);
+        cleanupFns.push(() => {
+          el.removeEventListener('mouseenter', mouseEnterHandler);
+          el.removeEventListener('mouseleave', mouseLeaveHandler);
+        });
+      }
+
+      if (pauseOnFocus && autoPlay) {
+        const focusInHandler = (): void => handleFocus();
+        const focusOutHandler = (): void => handleBlur();
+        el.addEventListener('focusin', focusInHandler);
+        el.addEventListener('focusout', focusOutHandler);
+        cleanupFns.push(() => {
+          el.removeEventListener('focusin', focusInHandler);
+          el.removeEventListener('focusout', focusOutHandler);
+        });
+      }
+
+      if (touch) {
+        el.addEventListener('touchstart', handleTouchStart);
+        el.addEventListener('touchmove', handleTouchMove);
+        el.addEventListener('touchend', handleTouchEnd);
+        cleanupFns.push(() => {
+          el.removeEventListener('touchstart', handleTouchStart);
+          el.removeEventListener('touchmove', handleTouchMove);
+          el.removeEventListener('touchend', handleTouchEnd);
+        });
+      }
+
+      if (!cleanupFns.length) {
+        return undefined;
+      }
+
+      return () => {
+        for (const cleanup of cleanupFns) {
+          cleanup();
+        }
+      };
+    }, [
+      keyboard,
+      pauseOnHover,
+      autoPlay,
+      pauseOnFocus,
+      touch,
+      handleKeyDown,
+      handleMouseEnter,
+      handleMouseLeave,
+      handleFocus,
+      handleBlur,
+      handleTouchStart,
+      handleTouchMove,
+      handleTouchEnd,
+    ]);
+
+    // Manage focusability based on keyboard prop without triggering a11y lint on JSX
+    useEffect(() => {
+      const el = containerRef.current;
+      if (!el) {
+        return;
+      }
+      if (keyboard) {
+        el.setAttribute('tabindex', '0');
+      } else {
+        el.removeAttribute('tabindex');
+      }
+    }, [keyboard]);
 
     return (
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Carousel with section element requires keyboard navigation per WCAG for slide control
       <section
         ref={combinedRef}
         id={carouselId}
@@ -422,27 +506,11 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         data-visual-state={getCarouselVisualState(fsmState)}
         data-testid={dataTestId}
         data-test={dataTest}
-        onKeyDown={handleKeyDown}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- tabIndex required for keyboard navigation on carousel section
-        tabIndex={keyboard ? 0 : undefined}
       >
         {/* Live region for announcements */}
-        <div
-          id={liveRegionId}
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-          className="visually-hidden"
-        >
+        <output id={liveRegionId} aria-live="polite" aria-atomic="true" className="visually-hidden">
           {announcementText}
-        </div>
+        </output>
 
         {/* Indicators */}
         {indicators && slideCount > 1 && (

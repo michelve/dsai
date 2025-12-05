@@ -102,7 +102,7 @@ describe('Carousel Accessibility', () => {
 
     it('has aria-live region for announcements', () => {
       const { container } = renderAccessibleCarousel();
-      const liveRegion = container.querySelector('[role="status"]');
+      const liveRegion = container.querySelector('[aria-live="polite"]');
       expect(liveRegion).toBeInTheDocument();
       expect(liveRegion).toHaveAttribute('aria-live', 'polite');
       expect(liveRegion).toHaveAttribute('aria-atomic', 'true');
@@ -110,13 +110,13 @@ describe('Carousel Accessibility', () => {
 
     it('has visually hidden live region', () => {
       const { container } = renderAccessibleCarousel();
-      const liveRegion = container.querySelector('[role="status"]');
+      const liveRegion = container.querySelector('[aria-live="polite"]');
       expect(liveRegion).toHaveClass('visually-hidden');
     });
 
     it('announces current slide', () => {
       const { container } = renderAccessibleCarousel({ defaultActiveIndex: 1 });
-      const liveRegion = container.querySelector('[role="status"]');
+      const liveRegion = container.querySelector('[aria-live="polite"]');
       expect(liveRegion?.textContent).toContain('Slide 2');
       expect(liveRegion?.textContent).toContain('of 3');
     });

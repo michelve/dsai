@@ -316,6 +316,13 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       return null;
     }
 
+    const labelingProps =
+      title && titleId
+        ? { 'aria-labelledby': titleId }
+        : ariaLabel
+          ? { 'aria-label': ariaLabel }
+          : {};
+
     // Render toast with header if title exists
     if (title) {
       return (
@@ -327,11 +334,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
           role={getAriaRole(variant)}
           aria-live={getAriaLive(variant)}
           aria-atomic="true"
-          aria-labelledby={title ? titleId : undefined}
-          aria-label={!title && ariaLabel ? ariaLabel : undefined}
           data-visual-state={getToastVisualState(fsmState)}
           data-testid={dataTestId}
           data-test={dataTest}
+          {...labelingProps}
         >
           <div className="toast-header">
             {displayIcon && (
@@ -383,11 +389,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
         role={getAriaRole(variant)}
         aria-live={getAriaLive(variant)}
         aria-atomic="true"
-        aria-labelledby={title ? titleId : undefined}
-        aria-label={!title && ariaLabel ? ariaLabel : undefined}
         data-visual-state={getToastVisualState(fsmState)}
         data-testid={dataTestId}
         data-test={dataTest}
+        {...labelingProps}
       >
         <div className="d-flex">
           {displayIcon && (
