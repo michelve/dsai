@@ -50,7 +50,15 @@ export function prefersReducedMotion(): boolean {
   if (!isBrowser()) {
     return false;
   }
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  try {
+    const query =
+      typeof window.matchMedia === 'function'
+        ? window.matchMedia('(prefers-reduced-motion: reduce)')
+        : undefined;
+    return Boolean(query?.matches);
+  } catch {
+    return false;
+  }
 }
 
 /**

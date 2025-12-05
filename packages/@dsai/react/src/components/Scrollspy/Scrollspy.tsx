@@ -28,6 +28,9 @@ import {
   useRef,
 } from 'react';
 
+import { cn, isBrowser, prefersReducedMotion } from '../../utils';
+import { isEnterKey } from '../../utils/keyboard';
+
 import {
   createInitialScrollspyFSMState,
   getScrollspyVisualState,
@@ -98,6 +101,60 @@ function sanitizeTarget(target: string): string {
   return sanitized;
 }
 
+function getScrollableContainer(element: HTMLElement): HTMLElement | null {
+  if (!isBrowser()) {
+    return null;
+  }
+
+  let node: HTMLElement | null = element.parentElement;
+  while (node) {
+    const style = window.getComputedStyle(node);
+    const overflowY = style.overflowY;
+    const isScrollable =
+      (overflowY === 'auto' || overflowY === 'scroll') && node.scrollHeight > node.clientHeight;
+    if (isScrollable) {
+      return node;
+    }
+    node = node.parentElement;
+  }
+  return null;
+}
+
+function scrollElementIntoView(
+  element: HTMLElement,
+  behavior: ScrollBehavior,
+  offset: number,
+  stickyTop: number | string
+): void {
+  const scrollContainer = getScrollableContainer(element);
+
+  // Scroll inside nearest scrollable container
+  if (scrollContainer) {
+    const containerRect = scrollContainer.getBoundingClientRect();
+    const elementRect = element.getBoundingClientRect();
+    const offsetTop = elementRect.top - containerRect.top + scrollContainer.scrollTop - offset;
+    scrollContainer.scrollTo({
+      top: offsetTop,
+      behavior,
+    });
+    return;
+  }
+
+  // Fallback to window scroll
+  const topOffset = typeof stickyTop === 'number' ? stickyTop : parseInt(stickyTop, 10) || 0;
+  const elementPosition = element.getBoundingClientRect().top;
+  const offsetPosition = elementPosition + window.scrollY - offset - topOffset;
+
+  if (typeof window.scrollTo === 'function') {
+    window.scrollTo({
+      top: offsetPosition,
+      behavior,
+    });
+  } else {
+    element.scrollIntoView({ behavior });
+  }
+}
+
 // =============================================================================
 // Scrollspy Link Component
 // =============================================================================
@@ -153,7 +210,8 @@ const ScrollspyLink = forwardRef<HTMLAnchorElement, ScrollspyLinkProps>(
           // Fallback if not in context
           const element = document.getElementById(safeTarget);
           if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+            const behavior = prefersReducedMotion() ? 'auto' : 'smooth';
+            scrollElementIntoView(element, behavior, 0, 0);
           }
         }
 
@@ -166,7 +224,7 @@ const ScrollspyLink = forwardRef<HTMLAnchorElement, ScrollspyLinkProps>(
     // Handle keyboard navigation
     const handleKeyDown = useCallback(
       (event: React.KeyboardEvent<HTMLAnchorElement>): void => {
-        if (event.key === 'Enter' || event.key === ' ') {
+        if (isEnterKey(event) || event.key === ' ') {
           event.preventDefault();
           if (!safeTarget) {
             return;
@@ -174,11 +232,9 @@ const ScrollspyLink = forwardRef<HTMLAnchorElement, ScrollspyLinkProps>(
 
           const element = document.getElementById(safeTarget);
           if (element) {
-            if (context?.smoothScroll) {
-              element.scrollIntoView({ behavior: 'smooth' });
-            } else {
-              element.scrollIntoView();
-            }
+            const behavior =
+              context?.smoothScroll && !prefersReducedMotion() ? ('smooth' as const) : 'auto';
+            scrollElementIntoView(element, behavior, 0, 0);
           }
         }
       },
@@ -186,16 +242,10 @@ const ScrollspyLink = forwardRef<HTMLAnchorElement, ScrollspyLinkProps>(
     );
 
     // Compute class names
-    const linkClassName = useMemo(() => {
-      const classes = ['nav-link'];
-      if (isActive) {
-        classes.push('active');
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [isActive, className]);
+    const linkClassName = useMemo(
+      () => cn('nav-link', isActive && 'active', className),
+      [isActive, className]
+    );
 
     // Build safe href
     const safeHref = safeTarget ? `#${safeTarget}` : '#';
@@ -370,20 +420,15 @@ export const Scrollspy = forwardRef<HTMLElement, ScrollspyProps>(
     // Scroll to section
     const scrollToSection = useCallback(
       (sectionId: string): void => {
+        if (!isBrowser()) {
+          return;
+        }
+
         const element = document.getElementById(sectionId);
         if (element) {
-          const behavior = smoothScroll ? 'smooth' : 'auto';
-          const topOffset =
-            typeof stickyTop === 'number' ? stickyTop : parseInt(stickyTop, 10) || 0;
-
-          // Calculate position with offset
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.scrollY - offset - topOffset;
-
-          window.scrollTo({
-            top: offsetPosition,
-            behavior,
-          });
+          const behavior =
+            smoothScroll && !prefersReducedMotion() ? ('smooth' as const) : ('auto' as const);
+          scrollElementIntoView(element, behavior, offset, stickyTop);
         }
       },
       [smoothScroll, offset, stickyTop]
@@ -427,6 +472,10 @@ export const Scrollspy = forwardRef<HTMLElement, ScrollspyProps>(
 
     // Set up IntersectionObserver
     useEffect(() => {
+      if (!isBrowser()) {
+        return;
+      }
+
       // Get all target IDs
       const targets = getAllTargets(items);
       sectionOrderRef.current = targets;
@@ -474,16 +523,10 @@ export const Scrollspy = forwardRef<HTMLElement, ScrollspyProps>(
     );
 
     // Compute nav classes
-    const navClassName = useMemo(() => {
-      const classes = ['nav', 'nav-pills', 'flex-column'];
-      if (sticky) {
-        classes.push('position-sticky');
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [sticky, className]);
+    const navClassName = useMemo(
+      () => cn('nav', 'nav-pills', 'flex-column', sticky && 'position-sticky', className),
+      [sticky, className]
+    );
 
     // Compute nav styles
     const navStyle = useMemo(() => {

@@ -9,6 +9,7 @@ An accessible table-of-contents style navigation that highlights the section tha
 - **Controlled or uncontrolled**: pass `activeId` or let the FSM manage active state with `defaultActiveId`.
 - **Composable API**: use `Scrollspy.Link` or provide your own children; consume state via `useScrollspy` or `ScrollspyProvider`.
 - **Security & a11y baked in**: target IDs are sanitized and links announce the current section with `aria-current="location"`.
+- **Respects user motion prefs**: smooth scrolling is disabled when `prefers-reduced-motion` is on.
 
 ## Installation
 
@@ -174,7 +175,8 @@ Accepts the safe HTML attributes plus:
 
 - Renders a semantic `<nav>` landmark with either `aria-label` or `aria-labelledby`.
 - Active links receive `aria-current="location"` so screen readers announce the current section.
-- Keyboard behavior mirrors native anchors (`Enter`/`Space` scroll the document).
+- Keyboard behavior mirrors native anchors (`Enter`/`Space` scroll the document) and scrolls the nearest scrollable container (or the window).
+- Smooth scrolling is automatically downgraded to instant when the user prefers reduced motion.
 - Developers are warned (in dev) when no accessible name is provided.
 
 ## Security

@@ -104,6 +104,20 @@ function simulateIntersection(elementId: string, isIntersecting: boolean): void 
 // Test Data
 // =============================================================================
 
+beforeEach(() => {
+  if (typeof window.matchMedia !== 'function') {
+    (window as any).matchMedia = jest.fn(() => ({
+      matches: false,
+      media: '(prefers-reduced-motion: reduce)',
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    }));
+  }
+});
+
 const sampleItems: ScrollspyItem[] = [
   { id: '1', label: 'Introduction', target: 'intro' },
   { id: '2', label: 'Features', target: 'features' },
@@ -507,7 +521,9 @@ describe('Scrollspy Component', () => {
     });
 
     it('scrolls to section on link click', () => {
+      const scrollToMock = jest.fn();
       const scrollIntoViewMock = jest.fn();
+      window.scrollTo = scrollToMock;
       Element.prototype.scrollIntoView = scrollIntoViewMock;
 
       renderWithSections(sampleItems, { smoothScroll: true });
@@ -516,10 +532,14 @@ describe('Scrollspy Component', () => {
 
       // The component uses window.scrollTo, but we can verify the section exists
       expect(document.getElementById('features')).toBeInTheDocument();
+      expect(scrollToMock).toHaveBeenCalledTimes(1);
+      expect(scrollIntoViewMock).not.toHaveBeenCalled();
     });
 
     it('handles keyboard Enter on link', () => {
+      const scrollToMock = jest.fn();
       const scrollIntoViewMock = jest.fn();
+      window.scrollTo = scrollToMock;
       Element.prototype.scrollIntoView = scrollIntoViewMock;
 
       renderWithSections(sampleItems);
@@ -527,11 +547,14 @@ describe('Scrollspy Component', () => {
       const link = screen.getByRole('link', { name: 'Features' });
       fireEvent.keyDown(link, { key: 'Enter' });
 
-      expect(scrollIntoViewMock).toHaveBeenCalled();
+      expect(scrollToMock).toHaveBeenCalledTimes(1);
+      expect(scrollIntoViewMock).not.toHaveBeenCalled();
     });
 
     it('handles keyboard Space on link', () => {
+      const scrollToMock = jest.fn();
       const scrollIntoViewMock = jest.fn();
+      window.scrollTo = scrollToMock;
       Element.prototype.scrollIntoView = scrollIntoViewMock;
 
       renderWithSections(sampleItems);
@@ -539,7 +562,8 @@ describe('Scrollspy Component', () => {
       const link = screen.getByRole('link', { name: 'Features' });
       fireEvent.keyDown(link, { key: ' ' });
 
-      expect(scrollIntoViewMock).toHaveBeenCalled();
+      expect(scrollToMock).toHaveBeenCalledTimes(1);
+      expect(scrollIntoViewMock).not.toHaveBeenCalled();
     });
   });
 
@@ -548,7 +572,9 @@ describe('Scrollspy Component', () => {
   // ===========================================================================
   describe('Smooth Scroll', () => {
     it('uses smooth behavior by default', () => {
+      const scrollToMock = jest.fn();
       const scrollIntoViewMock = jest.fn();
+      window.scrollTo = scrollToMock;
       Element.prototype.scrollIntoView = scrollIntoViewMock;
 
       renderWithSections(sampleItems);
@@ -556,11 +582,14 @@ describe('Scrollspy Component', () => {
       const link = screen.getByRole('link', { name: 'Features' });
       fireEvent.keyDown(link, { key: 'Enter' });
 
-      expect(scrollIntoViewMock).toHaveBeenCalledWith({ behavior: 'smooth' });
+      expect(scrollToMock).toHaveBeenCalledWith(expect.objectContaining({ behavior: 'smooth' }));
+      expect(scrollIntoViewMock).not.toHaveBeenCalled();
     });
 
     it('uses auto behavior when smoothScroll is false', () => {
+      const scrollToMock = jest.fn();
       const scrollIntoViewMock = jest.fn();
+      window.scrollTo = scrollToMock;
       Element.prototype.scrollIntoView = scrollIntoViewMock;
 
       renderWithSections(sampleItems, { smoothScroll: false });
@@ -568,7 +597,8 @@ describe('Scrollspy Component', () => {
       const link = screen.getByRole('link', { name: 'Features' });
       fireEvent.keyDown(link, { key: 'Enter' });
 
-      expect(scrollIntoViewMock).toHaveBeenCalledWith();
+      expect(scrollToMock).toHaveBeenCalledWith(expect.objectContaining({ behavior: 'auto' }));
+      expect(scrollIntoViewMock).not.toHaveBeenCalled();
     });
   });
 

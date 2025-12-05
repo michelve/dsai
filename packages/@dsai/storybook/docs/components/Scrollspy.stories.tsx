@@ -1,4 +1,4 @@
-import { Scrollspy, ScrollspyProvider, useScrollspy } from '@dsai/react';
+import { Heading, Scrollspy, ScrollspyProvider, useScrollspy } from '@dsai/react';
 import { Fragment, type ReactElement, useMemo, useState } from 'react';
 
 import type { ScrollspyItem } from '@dsai/react';
@@ -58,36 +58,74 @@ interface DemoPageProps {
   scrollspy?: ScrollspyStoryProps;
 }
 
-const SectionList = ({ items }: { items: ScrollspyItem[] }): ReactElement => (
-  <div className="ps-lg-4" style={{ maxHeight: '70vh', overflowY: 'auto' }}>
-    {items.map((item) => (
-      <Fragment key={item.target}>
-        <article
-          id={item.target}
-          style={{
-            padding: '2rem 0',
-            borderBottom: '1px solid var(--bs-border-color, #e2e5e9)',
-            minHeight: '30vh',
-          }}
-        >
-          <h2 className="h4 mb-2">{item.label}</h2>
-          <p className="text-muted mb-0">
-            Placeholder content for <code>#{item.target}</code>. Scroll to watch the navigation
-            update.
-          </p>
-        </article>
-        {item.children && <SectionList items={item.children} />}
-      </Fragment>
-    ))}
-  </div>
-);
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+const SectionList = ({
+  items,
+  regionLabel = 'Scrollable sections',
+  nested = false,
+}: {
+  items: ScrollspyItem[];
+  regionLabel?: string;
+  nested?: boolean;
+}): ReactElement => {
+  const content = (
+    <>
+      {items.map((item) => (
+        <Fragment key={item.target}>
+          <article
+            id={item.target}
+            style={{
+              padding: '2rem 0',
+              borderBottom: '1px solid var(--bs-border-color, #e2e5e9)',
+              minHeight: '30vh',
+            }}
+          >
+            <Heading level={2} visualSize="h4" className="mb-2 text-body">
+              {item.label}
+            </Heading>
+            <p className="text-muted mb-0">
+              Placeholder content for <code>#{item.target}</code>. Scroll to watch the navigation
+              update.
+            </p>
+          </article>
+          {item.children && <SectionList items={item.children} nested />}
+        </Fragment>
+      ))}
+    </>
+  );
 
-const DemoPage = ({ items, scrollspy }: DemoPageProps): ReactElement => (
-  <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '2.5rem' }}>
-    <Scrollspy items={items} {...scrollspy} />
-    <SectionList items={items} />
-  </div>
-);
+  if (nested) {
+    return content;
+  }
+
+  return (
+    <div
+      className="ps-lg-4"
+      style={{ maxHeight: '70vh', overflowY: 'auto', backgroundColor: 'var(--bs-body-bg, #fff)' }}
+      tabIndex={0}
+      role="region"
+      aria-label={regionLabel}
+    >
+      {content}
+    </div>
+  );
+};
+/* eslint-enable jsx-a11y/no-noninteractive-tabindex */
+
+const DemoPage = ({ items, scrollspy }: DemoPageProps): ReactElement => {
+  const regionLabel =
+    (scrollspy &&
+      (scrollspy as Record<string, unknown>)['aria-label'] &&
+      `${(scrollspy as Record<string, string>)['aria-label']} content`) ||
+    'Content sections';
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '2.5rem' }}>
+      <Scrollspy items={items} {...scrollspy} />
+      <SectionList items={items} regionLabel={regionLabel} />
+    </div>
+  );
+};
 
 const ControlledStory = (): ReactElement => {
   const [activeId, setActiveId] = useState<string | null>('intro');
@@ -174,6 +212,7 @@ export const CustomChildren: Story = {
           { id: 'architecture', label: 'Architecture', target: 'architecture' },
           { id: 'faq', label: 'FAQ', target: 'faq' },
         ]}
+        regionLabel="Custom markup sections"
       />
     </div>
   ),
@@ -225,13 +264,18 @@ export const SecurityAndA11y: Story = {
     },
   },
   render: () => (
-    <DemoPage
-      items={baseItems}
-      scrollspy={{
-        'aria-labelledby': 'toc-heading',
-        id: 'scrollspy-story',
-        'data-testid': 'scrollspy-demo',
-      }}
-    />
+    <div className="d-grid gap-3">
+      <Heading id="toc-heading" level={2} visualSize="h4" className="mb-1">
+        Table of contents
+      </Heading>
+      <DemoPage
+        items={baseItems}
+        scrollspy={{
+          'aria-labelledby': 'toc-heading',
+          id: 'scrollspy-story',
+          'data-testid': 'scrollspy-demo',
+        }}
+      />
+    </div>
   ),
 };
