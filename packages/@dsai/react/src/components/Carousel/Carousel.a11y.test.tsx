@@ -66,10 +66,11 @@ describe('Carousel Accessibility', () => {
   });
 
   describe('ARIA Attributes', () => {
-    it('has role="region" on container', () => {
+    it('uses section element which has implicit role="region"', () => {
       const { container } = renderAccessibleCarousel();
       const carousel = container.querySelector('.carousel');
-      expect(carousel).toHaveAttribute('role', 'region');
+      // Section element has implicit role="region", so no explicit role attribute needed
+      expect(carousel?.tagName).toBe('SECTION');
     });
 
     it('has aria-roledescription="carousel"', () => {

@@ -1,5 +1,7 @@
 import { forwardRef, useMemo } from 'react';
 
+import { cn } from '../../utils';
+
 import type { CarouselCaptionProps } from './Carousel.types';
 
 /**
@@ -40,13 +42,10 @@ export const CarouselCaption = forwardRef<HTMLDivElement, CarouselCaptionProps>(
     ref
   ) => {
     // Memoize class name computation
-    const captionClassName = useMemo(() => {
-      const classes = ['carousel-caption', 'd-none', 'd-md-block'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const captionClassName = useMemo(
+      () => cn('carousel-caption', 'd-none', 'd-md-block', className),
+      [className]
+    );
 
     // Don't render if no content
     if (!heading && !description) {

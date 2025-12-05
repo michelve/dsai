@@ -1,5 +1,7 @@
 import { forwardRef, useMemo } from 'react';
 
+import { cn } from '../../utils';
+
 import type { CarouselItemProps } from './Carousel.types';
 
 /**
@@ -38,13 +40,7 @@ export const CarouselItem = forwardRef<HTMLDivElement, CarouselItemProps>(
     ref
   ) => {
     // Memoize class name computation
-    const itemClassName = useMemo(() => {
-      const classes = ['carousel-item'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const itemClassName = useMemo(() => cn('carousel-item', className), [className]);
 
     return (
       <div

@@ -48,7 +48,9 @@ describe('Carousel Security', () => {
       expect(item).toHaveClass('carousel-item');
       expect(item).toHaveClass('custom-class');
       expect(item).toHaveAttribute('id', 'slide-1');
-      expect(item).toHaveStyle({ backgroundColor: 'red' });
+      // Check style attribute is present (toHaveStyle can be flaky with inline styles)
+      expect(item).toHaveAttribute('style');
+      expect(item.style.backgroundColor).toBe('red');
       // Verify no extra attributes beyond the whitelisted ones
       const allowedAttributes = [
         'class',

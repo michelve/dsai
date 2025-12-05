@@ -1,5 +1,7 @@
 import { forwardRef, useCallback, useId, useMemo } from 'react';
 
+import { cn } from '../../utils';
+
 import type { CarouselIndicatorsProps } from './Carousel.types';
 
 /**
@@ -68,13 +70,7 @@ export const CarouselIndicators = forwardRef<HTMLDivElement, CarouselIndicatorsP
     const indicatorData = useMemo(() => generateIndicatorData(count, baseId), [count, baseId]);
 
     // Memoize class name computation
-    const containerClassName = useMemo(() => {
-      const classes = ['carousel-indicators'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const containerClassName = useMemo(() => cn('carousel-indicators', className), [className]);
 
     // Memoize labels
     const slideLabels = useMemo(() => {

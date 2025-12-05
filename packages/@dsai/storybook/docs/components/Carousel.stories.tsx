@@ -447,6 +447,7 @@ export const AccessibilityDemo: Story = {
           <strong>Accessibility Features:</strong>
           <ul className="mb-0">
             <li>
+              <code>&lt;section&gt;</code> element provides implicit{' '}
               <code>role=&quot;region&quot;</code> with{' '}
               <code>aria-roledescription=&quot;carousel&quot;</code>
             </li>

@@ -11,6 +11,8 @@ import {
   useRef,
 } from 'react';
 
+import { cn, mergeRefs } from '../../utils';
+
 import {
   carouselFSMReducer,
   createInitialCarouselFSMState,
@@ -358,16 +360,16 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     );
 
     // Memoize carousel class names
-    const carouselClassName = useMemo(() => {
-      const classes = ['carousel', animation === 'fade' ? 'carousel-fade' : 'slide'];
-      if (dark) {
-        classes.push('carousel-dark');
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [animation, dark, className]);
+    const carouselClassName = useMemo(
+      () =>
+        cn(
+          'carousel',
+          animation === 'fade' ? 'carousel-fade' : 'slide',
+          dark && 'carousel-dark',
+          className
+        ),
+      [animation, dark, className]
+    );
 
     // Memoize slide labels
     const computedSlideLabels = useMemo(() => {
@@ -388,13 +390,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     const renderedSlides = useMemo(() => {
       return items.map((item, index) => {
         const isActive = index === fsmState.activeIndex;
-        const itemClassName = [
-          'carousel-item',
-          isActive ? 'active' : '',
-          item.props.className ?? '',
-        ]
-          .filter(Boolean)
-          .join(' ');
+        const itemClassName = cn('carousel-item', isActive && 'active', item.props.className);
 
         // Use the item's existing key if provided, otherwise use index
         // Carousel items are static and don't reorder, so index is acceptable
@@ -410,18 +406,8 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     // Determine if pause button should show
     const shouldShowPauseButton = showPauseButton ?? autoPlay;
 
-    // Combine refs
-    const combinedRef = useCallback(
-      (node: HTMLDivElement | null) => {
-        containerRef.current = node;
-        if (typeof ref === 'function') {
-          ref(node);
-        } else if (ref) {
-          ref.current = node;
-        }
-      },
-      [ref]
-    );
+    // Combine refs using utility
+    const combinedRef = useMemo(() => mergeRefs([containerRef, ref]), [containerRef, ref]);
 
     return (
       // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Carousel with section element requires keyboard navigation per WCAG for slide control
@@ -448,9 +434,15 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         tabIndex={keyboard ? 0 : undefined}
       >
         {/* Live region for announcements */}
-        <output id={liveRegionId} aria-live="polite" aria-atomic="true" className="visually-hidden">
+        <div
+          id={liveRegionId}
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          className="visually-hidden"
+        >
           {announcementText}
-        </output>
+        </div>
 
         {/* Indicators */}
         {indicators && slideCount > 1 && (
