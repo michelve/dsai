@@ -459,12 +459,24 @@ describe('ToastProvider and useToast', () => {
 
     return (
       <div>
-        <button onClick={() => toast.success('Success!')}>Success</button>
-        <button onClick={() => toast.error('Error!')}>Error</button>
-        <button onClick={() => toast.warning('Warning!')}>Warning</button>
-        <button onClick={() => toast.info('Info!')}>Info</button>
-        <button onClick={() => toast.toast('Default!')}>Default</button>
-        <button onClick={() => toast.dismissAll()}>Dismiss All</button>
+        <button type="button" onClick={() => toast.success('Success!')}>
+          Success
+        </button>
+        <button type="button" onClick={() => toast.error('Error!')}>
+          Error
+        </button>
+        <button type="button" onClick={() => toast.warning('Warning!')}>
+          Warning
+        </button>
+        <button type="button" onClick={() => toast.info('Info!')}>
+          Info
+        </button>
+        <button type="button" onClick={() => toast.toast('Default!')}>
+          Default
+        </button>
+        <button type="button" onClick={() => toast.dismissAll()}>
+          Dismiss All
+        </button>
         <div data-testid="toast-count">{toast.toasts.length}</div>
       </div>
     );

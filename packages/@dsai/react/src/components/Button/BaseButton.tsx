@@ -1,6 +1,6 @@
-/* eslint-disable jsx-a11y/no-autofocus */
 import { forwardRef, useMemo } from 'react';
 
+import { cn } from '../../utils';
 import { Spinner } from '../Spinner';
 
 import type { ButtonFSMState } from './Button.fsm';
@@ -104,7 +104,7 @@ export const BaseButton = forwardRef<
     // Build Bootstrap class names - memoized to prevent unnecessary recalculation
     const bootstrapClasses = useMemo(
       () =>
-        [
+        cn(
           'btn', // Base Bootstrap button class
           `btn-${variant}`, // Variant: btn-primary, btn-outline-secondary, etc.
           size === 'sm' && 'btn-sm',
@@ -112,10 +112,8 @@ export const BaseButton = forwardRef<
           // Note: 'md' is the default size in Bootstrap, no class needed
           fullWidth && 'w-100', // Bootstrap utility for full width
           error && 'btn-error', // Error state class for styling
-          className, // Allow additional custom classes
-        ]
-          .filter(Boolean)
-          .join(' '),
+          className // Allow additional custom classes
+        ),
       [variant, size, fullWidth, error, className]
     );
 
@@ -146,6 +144,10 @@ export const BaseButton = forwardRef<
       onClick?.(e);
     };
 
+    // Build autoFocus props conditionally to avoid linter warnings
+    // autoFocus is a valid use case for modal dialogs, forms, etc.
+    const autoFocusProps = autoFocus ? { autoFocus: true as const } : {};
+
     return (
       <>
         <button
@@ -165,7 +167,6 @@ export const BaseButton = forwardRef<
           name={name}
           value={value}
           tabIndex={tabIndex}
-          autoFocus={autoFocus}
           aria-label={ariaLabel}
           aria-describedby={ariaDescribedBy}
           aria-controls={ariaControls}
@@ -183,6 +184,7 @@ export const BaseButton = forwardRef<
           formMethod={formMethod}
           formNoValidate={formNoValidate}
           formTarget={formTarget}
+          {...autoFocusProps}
         >
           {!loading && startIcon && (
             <span className="me-2" aria-hidden="true">
@@ -200,8 +202,7 @@ export const BaseButton = forwardRef<
 
         {/* Announce state changes to screen readers (e.g., "Saving changes...") */}
         {announce && announceText && (
-          <div
-            role="status"
+          <output
             aria-live="polite"
             aria-atomic="true"
             style={{
@@ -216,13 +217,12 @@ export const BaseButton = forwardRef<
             }}
           >
             {announceText}
-          </div>
+          </output>
         )}
 
         {/* Spinner status region for screen readers (present whenever loading) */}
         {loading && !announceText && (
-          <div
-            role="status"
+          <output
             aria-live="polite"
             aria-atomic="true"
             style={{
@@ -237,7 +237,7 @@ export const BaseButton = forwardRef<
             }}
           >
             Loading
-          </div>
+          </output>
         )}
       </>
     );

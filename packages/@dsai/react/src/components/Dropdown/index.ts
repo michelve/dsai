@@ -1,4 +1,3 @@
-export { Dropdown } from './Dropdown';
 export type {
   DropdownAutoClose,
   DropdownContextValue,
@@ -11,9 +10,10 @@ export type {
   DropdownProps,
   DropdownToggleProps,
 } from './Dropdown';
+export { Dropdown } from './Dropdown';
+export type { DropdownFSMEvent, DropdownFSMState, DropdownVisibilityState } from './Dropdown.fsm';
 export {
   createInitialDropdownFSMState,
   dropdownFSMReducer,
   getDropdownVisualState,
 } from './Dropdown.fsm';
-export type { DropdownFSMEvent, DropdownFSMState, DropdownVisibilityState } from './Dropdown.fsm';

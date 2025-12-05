@@ -5,6 +5,7 @@
  */
 
 export { CardList } from './CardList';
+export type { CardListFSMState, CardListSelectionMode, CardListVisualState } from './CardList.fsm';
 export {
   cardListFSMReducer,
   clearAllEvent,
@@ -17,5 +18,4 @@ export {
   selectItemEvent,
   toggleItemEvent,
 } from './CardList.fsm';
-export type { CardListFSMState, CardListSelectionMode, CardListVisualState } from './CardList.fsm';
 export type { CardListItem, CardListProps } from './CardList.types';

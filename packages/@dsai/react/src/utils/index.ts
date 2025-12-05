@@ -33,7 +33,41 @@ export function cn(...classes: (string | boolean | undefined | null)[]): string 
  * ```
  */
 export function generateId(prefix = 'dsai'): string {
-  return `${prefix}-${Math.random().toString(36).substring(2, 9)}`;
+  const cryptoObj =
+    typeof globalThis !== 'undefined' && 'crypto' in globalThis
+      ? (globalThis as typeof globalThis & { crypto?: Crypto }).crypto
+      : undefined;
+
+  const secureRandomString = (length: number): string | undefined => {
+    if (cryptoObj?.randomUUID) {
+      return cryptoObj.randomUUID().replace(/-/g, '').slice(0, length);
+    }
+
+    if (cryptoObj?.getRandomValues) {
+      const bytes = new Uint8Array(length);
+      cryptoObj.getRandomValues(bytes);
+      return Array.from(bytes, (b) => b.toString(36).padStart(2, '0'))
+        .join('')
+        .slice(0, length);
+    }
+
+    return undefined;
+  };
+
+  const fallbackSequence = (() => {
+    let counter = 0;
+    return (length: number): string => {
+      counter = (counter + 1) % Number.MAX_SAFE_INTEGER;
+      const timePart = Date.now().toString(36);
+      const counterPart = counter.toString(36).padStart(6, '0');
+      const combined = `${timePart}${counterPart}`;
+      return combined.slice(-length).padStart(length, '0');
+    };
+  })();
+
+  const randomPart = secureRandomString(12) ?? fallbackSequence(12);
+
+  return `${prefix}-${randomPart}`;
 }
 
 /**
@@ -50,7 +84,15 @@ export function prefersReducedMotion(): boolean {
   if (!isBrowser()) {
     return false;
   }
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  try {
+    const query =
+      typeof window.matchMedia === 'function'
+        ? window.matchMedia('(prefers-reduced-motion: reduce)')
+        : undefined;
+    return Boolean(query?.matches);
+  } catch {
+    return false;
+  }
 }
 
 /**

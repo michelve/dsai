@@ -1,5 +1,8 @@
 import { forwardRef, type KeyboardEvent, useId, useState } from 'react';
 
+import { cn } from '../../utils';
+import { isEnterKey } from '../../utils/keyboard';
+
 import type { SwitchProps, SwitchSize } from './Switch.types';
 
 /**
@@ -100,7 +103,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
 
   // Handle keyboard
   const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>): void => {
-    if (e.key === ' ' || e.key === 'Enter') {
+    if (e.key === ' ' || isEnterKey(e)) {
       e.preventDefault();
       handleToggle();
     }
@@ -118,15 +121,13 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
   const thumbTranslateX = isChecked ? trackWidth - thumbSize - thumbOffset * 2 : 0;
 
   // Build button classes (single control containing track + label)
-  const buttonClasses = ['d-inline-flex align-items-center border-0', className]
-    .filter(Boolean)
-    .join(' ');
+  const buttonClasses = cn('d-inline-flex align-items-center border-0', className);
 
   // Build wrapper classes
-  const wrapperClasses = ['d-inline-flex align-items-center'].filter(Boolean).join(' ');
+  const wrapperClasses = 'd-inline-flex align-items-center';
 
   // Build aria-describedby
-  const describedByIds = [helperText && helperId, ariaDescribedBy].filter(Boolean).join(' ');
+  const describedByIds = cn(helperText && helperId, ariaDescribedBy);
 
   // Render loading spinner (purely visual; aria-busy on button signals loading state)
   const renderSpinner = (): React.JSX.Element => (

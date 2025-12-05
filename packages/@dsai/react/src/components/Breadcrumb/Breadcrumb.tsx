@@ -1,12 +1,16 @@
 import {
   forwardRef,
+  type MouseEvent,
   memo,
   useCallback,
   useEffect,
   useMemo,
   useReducer,
-  type MouseEvent,
 } from 'react';
+
+import { cn } from '../../utils';
+import { isExternalUrl } from '../../utils/types';
+import { isSafeHref } from '../../utils/validation';
 
 import {
   breadcrumbFSMReducer,
@@ -28,37 +32,12 @@ import type { BreadcrumbItemData, BreadcrumbItemProps, BreadcrumbProps } from '.
  * @param href - The href to validate
  * @returns true if the href is safe, false otherwise
  */
-function isSafeHref(href?: string): boolean {
-  if (!href || typeof href !== 'string') {
-    return true; // undefined/null is safe (will default to #)
-  }
-
-  // Trim whitespace for validation
-  const trimmed = href.trim().toLowerCase();
-
-  // Block dangerous protocols
-  const dangerousProtocols = ['javascript:', 'data:', 'vbscript:', 'file:'];
-  for (const protocol of dangerousProtocols) {
-    if (trimmed.startsWith(protocol)) {
-      return false;
-    }
-  }
-
-  return true;
-}
 
 /**
  * Detects if a URL is external
  * @param href - The href to check
  * @returns true if the href is external, false otherwise
  */
-function isExternalUrl(href?: string): boolean {
-  if (!href || typeof href !== 'string') {
-    return false;
-  }
-
-  return href.startsWith('http://') || href.startsWith('https://');
-}
 
 // =============================================================================
 // BreadcrumbItem Component
@@ -75,9 +54,10 @@ const BreadcrumbItemComponent = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
     ref
   ) {
     // Build item classes with memoization
-    const itemClasses = useMemo(() => {
-      return ['breadcrumb-item', active && 'active', className].filter(Boolean).join(' ');
-    }, [active, className]);
+    const itemClasses = useMemo(
+      () => cn('breadcrumb-item', active && 'active', className),
+      [active, className]
+    );
 
     // Validate and sanitize href
     const safeHref = isSafeHref(href) ? href : '#';
@@ -173,7 +153,8 @@ export const Breadcrumb = memo(
       onExpand,
       expanded: controlledExpanded,
       linkAs,
-      'aria-label': ariaLabel = 'Breadcrumb',
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledBy,
       className = '',
       style,
       id,
@@ -202,9 +183,24 @@ export const Breadcrumb = memo(
     }, [onExpand]);
 
     // Build nav classes with memoization
-    const navClasses = useMemo(() => {
-      return [className].filter(Boolean).join(' ');
-    }, [className]);
+    const navClasses = useMemo(() => cn(className), [className]);
+
+    // Derive accessible label with fallback and support for aria-labelledby
+    const navAriaLabel = useMemo(() => {
+      if (ariaLabelledBy) {
+        return undefined;
+      }
+
+      if (ariaLabel) {
+        return ariaLabel;
+      }
+
+      if (id) {
+        return `Breadcrumb ${id}`;
+      }
+
+      return 'Breadcrumb';
+    }, [ariaLabel, ariaLabelledBy, id]);
 
     // Custom separator style with memoization
     const separatorStyle = useMemo<React.CSSProperties | undefined>(() => {
@@ -298,7 +294,8 @@ export const Breadcrumb = memo(
     return (
       <nav
         ref={ref}
-        aria-label={ariaLabel}
+        aria-label={navAriaLabel}
+        aria-labelledby={ariaLabelledBy}
         className={navClasses || undefined}
         style={style}
         id={id}

@@ -8,8 +8,9 @@
  * @packageDocumentation
  */
 
-import { forwardRef, memo, useCallback, useMemo, useState } from 'react';
+import { forwardRef, memo, useCallback, useId, useMemo, useState } from 'react';
 
+import { cn } from '../../utils';
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
@@ -117,6 +118,7 @@ function calculatePaginationItems(
 
   // End boundary pages: [count - boundaryCount + 1, ..., count]
   const endBoundary = range(Math.max(count - boundaryCount + 1, boundaryCount + 1), count);
+  const firstEndPage = endBoundary[0];
 
   // Sibling pages around current: [page - siblingCount, ..., page, ..., page + siblingCount]
   const siblingStart = Math.max(
@@ -125,7 +127,7 @@ function calculatePaginationItems(
   );
   const siblingEnd = Math.min(
     Math.max(page + siblingCount, boundaryCount + siblingCount * 2 + 2),
-    endBoundary.length > 0 ? endBoundary[0] - 2 : count - 1
+    firstEndPage !== undefined ? firstEndPage - 2 : count - 1
   );
 
   // Build the final page list with ellipsis
@@ -152,12 +154,13 @@ function calculatePaginationItems(
   }
 
   // Add end ellipsis if needed
-  const lastPageBeforeEndBoundary = endBoundary.length > 0 ? endBoundary[0] - 1 : count;
+  const lastPageBeforeEndBoundary = firstEndPage !== undefined ? firstEndPage - 1 : count;
+  const endBoundaryLimit = (firstEndPage ?? count) + 1;
   if (siblingEnd < lastPageBeforeEndBoundary - 1) {
     pageNumbers.push('ellipsis');
   } else if (siblingEnd < lastPageBeforeEndBoundary) {
     // Add the page between siblings and end boundary
-    for (let i = siblingEnd + 1; i < (endBoundary[0] ?? count + 1); i++) {
+    for (let i = siblingEnd + 1; i < endBoundaryLimit; i++) {
       if (!pageNumbers.includes(i)) {
         pageNumbers.push(i);
       }
@@ -264,7 +267,6 @@ const PaginationItemComponent = memo(function PaginationItem({
         return lastContent;
       case 'ellipsis':
         return '…';
-      case 'page':
       default:
         return item.page;
     }
@@ -281,7 +283,7 @@ const PaginationItemComponent = memo(function PaginationItem({
       case 'last':
         return lastLabel;
       case 'page':
-        return getPageAriaLabel(item.page!);
+        return getPageAriaLabel(item.page ?? 0);
       default:
         return '';
     }
@@ -289,9 +291,7 @@ const PaginationItemComponent = memo(function PaginationItem({
 
   // Build class names
   const itemClasses = useMemo(() => {
-    return ['page-item', item.active && 'active', isDisabled && 'disabled']
-      .filter(Boolean)
-      .join(' ');
+    return cn('page-item', item.active && 'active', isDisabled && 'disabled');
   }, [item.active, isDisabled]);
 
   // Handle click
@@ -419,22 +419,31 @@ export const Pagination = memo(
       disabled = false,
       size = 'md',
       alignment = 'start',
-      'aria-label': ariaLabel = 'Pagination',
+      'aria-label': ariaLabel,
       previousLabel = 'Go to previous page',
       nextLabel = 'Go to next page',
       firstLabel = 'Go to first page',
       lastLabel = 'Go to last page',
       getPageAriaLabel = (p: number): string => `Go to page ${p}`,
-      previousContent = <ChevronLeftIcon aria-hidden="true" />,
-      nextContent = <ChevronRightIcon aria-hidden="true" />,
-      firstContent = <ChevronDoubleLeftIcon aria-hidden="true" />,
-      lastContent = <ChevronDoubleRightIcon aria-hidden="true" />,
+      previousContent = <ChevronLeftIcon aria-hidden />,
+      nextContent = <ChevronRightIcon aria-hidden />,
+      firstContent = <ChevronDoubleLeftIcon aria-hidden />,
+      lastContent = <ChevronDoubleRightIcon aria-hidden />,
       className = '',
       style,
       id,
     },
     ref
   ) {
+    const generatedLabelId = useId();
+    const resolvedAriaLabel = useMemo(() => {
+      const trimmed = ariaLabel?.trim();
+      if (trimmed) {
+        return trimmed;
+      }
+      return `Pagination navigation ${generatedLabelId}`;
+    }, [ariaLabel, generatedLabelId]);
+
     // Internal state for uncontrolled mode
     const [internalPage, setInternalPage] = useState(defaultPage);
 
@@ -496,11 +505,11 @@ export const Pagination = memo(
         alignment in ALIGNMENT_CLASSES
           ? ALIGNMENT_CLASSES[alignment as keyof typeof ALIGNMENT_CLASSES]
           : undefined;
-      return ['pagination', 'mb-0', sizeClass, alignClass].filter(Boolean).join(' ');
+      return cn('pagination', 'mb-0', sizeClass, alignClass);
     }, [size, alignment]);
 
     return (
-      <nav ref={ref} aria-label={ariaLabel} className={navClasses} style={style} id={id}>
+      <nav ref={ref} aria-label={resolvedAriaLabel} className={navClasses} style={style} id={id}>
         <ul className={ulClasses}>
           {paginationItems.map((item) => (
             <PaginationItemComponent

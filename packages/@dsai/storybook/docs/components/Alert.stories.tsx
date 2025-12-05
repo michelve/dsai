@@ -373,16 +373,16 @@ export const MultipleDismissible: Story = {
 export const WithIcon: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <Alert variant="success" icon={<CheckCircleFillIcon />}>
+      <Alert variant="success" icon={<CheckCircleFillIcon />} iconLabel="Success">
         Your changes have been saved successfully.
       </Alert>
-      <Alert variant="danger" icon={<XCircleFillIcon />}>
+      <Alert variant="danger" icon={<XCircleFillIcon />} iconLabel="Error">
         An error occurred. Please try again.
       </Alert>
-      <Alert variant="warning" icon={<ExclamationTriangleFillIcon />}>
+      <Alert variant="warning" icon={<ExclamationTriangleFillIcon />} iconLabel="Warning">
         Please review your input before submitting.
       </Alert>
-      <Alert variant="info" icon={<InfoCircleFillIcon />}>
+      <Alert variant="info" icon={<InfoCircleFillIcon />} iconLabel="Information">
         New features are available in this version.
       </Alert>
     </div>

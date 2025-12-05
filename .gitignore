@@ -5,6 +5,7 @@ dist
 tmp
 out-tsc
 *.tsbuildinfo
+.temp
 
 # Storybook build output
 storybook-static
@@ -69,3 +70,5 @@ Thumbs.db
 .env.*
 !.env.example
 /packages/@dsai/storybook/storybook-static
+pnpm-lock.yaml
+tasks/01-critical/check.md

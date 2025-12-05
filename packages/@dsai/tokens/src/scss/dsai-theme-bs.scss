@@ -89,13 +89,44 @@ $cyan: dsai.$color-cyan-500 !default;
 
 // Theme colors (Bootstrap semantic colors)
 $primary: dsai.$color-blue-500 !default;
-$secondary: dsai.$color-gray-600 !default;
+$secondary: dsai.$color-gray-700 !default;
 $success: dsai.$color-green-500 !default;
 $info: dsai.$color-cyan-500 !default;
 $warning: dsai.$color-yellow-500 !default;
 $danger: dsai.$color-red-500 !default;
 $light: dsai.$color-gray-100 !default;
 $dark: dsai.$color-gray-900 !default;
+
+// Body text colors (ensure AA contrast for placeholders and helper text)
+$body-bg: dsai.$semantic-body-bg !default;
+$body-color: dsai.$semantic-body-color !default;
+$body-secondary-color: dsai.$semantic-secondary-text-emphasis !default;
+$body-tertiary-color: dsai.$neutral-gray-600 !default;
+
+// Buttons (improve contrast for outline variants)
+$btn-outline-secondary-color: dsai.$color-gray-800 !default;
+$btn-outline-secondary-border: dsai.$color-gray-800 !default;
+$btn-outline-secondary-hover-color: dsai.$color-gray-900 !default;
+$btn-outline-secondary-hover-bg: rgba(dsai.$color-gray-900, 0.08) !default;
+$btn-outline-secondary-active-color: dsai.$color-gray-900 !default;
+$btn-outline-secondary-active-bg: rgba(dsai.$color-gray-900, 0.16) !default;
+
+// Navbar colors (ensure AA contrast across backgrounds)
+$navbar-light-color: dsai.$color-gray-900 !default;
+$navbar-light-hover-color: dsai.$color-gray-800 !default;
+$navbar-light-active-color: dsai.$color-gray-900 !default;
+$navbar-light-brand-color: dsai.$color-gray-900 !default;
+$navbar-light-brand-hover-color: dsai.$color-gray-800 !default;
+
+$navbar-dark-color: dsai.$neutral-white !default;
+$navbar-dark-hover-color: dsai.$neutral-white !default;
+$navbar-dark-active-color: dsai.$neutral-white !default;
+$navbar-dark-brand-color: dsai.$neutral-white !default;
+$navbar-dark-brand-hover-color: dsai.$neutral-white !default;
+
+// Code colors (ensure contrast on alert backgrounds)
+$code-color: dsai.$color-gray-900 !default;
+$code-bg: dsai.$color-gray-100 !default;
 
 // ----------------------------------------------------------------------------
 // COLOR MAPS - Full Color Palettes (50-950 scales)

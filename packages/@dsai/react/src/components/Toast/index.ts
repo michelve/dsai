@@ -1,8 +1,7 @@
 // Toast component exports
 export { Toast } from './Toast';
-export { ToastContainer } from './ToastContainer';
-export { ToastProvider, useToast } from './ToastProvider';
-
+// FSM exports (for testing and advanced usage)
+export { createInitialToastFSMState, getToastVisualState, toastFSMReducer } from './Toast.fsm';
 // Type exports
 export type {
   ToastContainerProps,
@@ -18,6 +17,5 @@ export type {
   ToastVisibility,
   ToastVisualState,
 } from './Toast.types';
-
-// FSM exports (for testing and advanced usage)
-export { createInitialToastFSMState, getToastVisualState, toastFSMReducer } from './Toast.fsm';
+export { ToastContainer } from './ToastContainer';
+export { ToastProvider, useToast } from './ToastProvider';

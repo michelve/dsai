@@ -1,5 +1,8 @@
 import { forwardRef, useCallback, useEffect, useId, useMemo, useReducer, useRef } from 'react';
 
+import { cn } from '../../utils';
+import { isEnterKey } from '../../utils/keyboard';
+import { getVariantClass } from '../../utils/string';
 import {
   CheckCircleFillIcon,
   ExclamationTriangleFillIcon,
@@ -54,20 +57,6 @@ function getAriaLive(variant: ToastVariant): 'assertive' | 'polite' {
  * @param variant - Toast variant
  * @returns Bootstrap text-bg-* class or empty string for default
  */
-function getVariantClass(variant: ToastVariant): string {
-  switch (variant) {
-    case 'success':
-      return 'text-bg-success';
-    case 'error':
-      return 'text-bg-danger';
-    case 'warning':
-      return 'text-bg-warning';
-    case 'info':
-      return 'text-bg-info';
-    default:
-      return '';
-  }
-}
 
 /**
  * Get default icon for variant
@@ -150,9 +139,9 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       className,
       style,
       id,
-      'aria-label': ariaLabel,
       'data-testid': dataTestId,
       'data-test': dataTest,
+      'aria-label': ariaLabel,
     },
     ref
   ) => {
@@ -195,7 +184,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
     // Handle keyboard events on close button
     const handleCloseKeyDown = useCallback(
       (event: React.KeyboardEvent<HTMLButtonElement>): void => {
-        if (event.key === 'Enter' || event.key === ' ') {
+        if (isEnterKey(event) || event.key === ' ') {
           event.preventDefault();
           handleDismiss();
         }
@@ -283,15 +272,14 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
 
     // Memoize class names
     const toastClassName = useMemo(() => {
-      const classes = ['toast', 'show'];
-      const variantClass = getVariantClass(variant);
-      if (variantClass) {
-        classes.push(variantClass, 'border-0');
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
+      const variantClass =
+        variant !== 'default'
+          ? getVariantClass(variant, {
+              prefix: 'text-bg',
+              map: { error: 'danger' },
+            })
+          : null;
+      return cn('toast', 'show', variantClass, variantClass && 'border-0', className);
     }, [variant, className]);
 
     // Memoize styles with animation
@@ -314,11 +302,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
 
     // Determine close button class
     const closeButtonClass = useMemo(() => {
-      const classes = ['btn-close'];
-      if (variant === 'success' || variant === 'error' || variant === 'info') {
-        classes.push('btn-close-white');
-      }
-      return classes.join(' ');
+      return cn(
+        'btn-close',
+        (variant === 'success' || variant === 'error' || variant === 'info') && 'btn-close-white'
+      );
     }, [variant]);
 
     // Get the icon to display
@@ -328,6 +315,13 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
     if (!fsmState.shouldRender) {
       return null;
     }
+
+    const labelingProps =
+      title && titleId
+        ? { 'aria-labelledby': titleId }
+        : ariaLabel
+          ? { 'aria-label': ariaLabel }
+          : {};
 
     // Render toast with header if title exists
     if (title) {
@@ -340,11 +334,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
           role={getAriaRole(variant)}
           aria-live={getAriaLive(variant)}
           aria-atomic="true"
-          aria-labelledby={titleId}
-          aria-describedby={bodyId}
           data-visual-state={getToastVisualState(fsmState)}
           data-testid={dataTestId}
           data-test={dataTest}
+          {...labelingProps}
         >
           <div className="toast-header">
             {displayIcon && (
@@ -396,10 +389,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
         role={getAriaRole(variant)}
         aria-live={getAriaLive(variant)}
         aria-atomic="true"
-        aria-label={ariaLabel}
         data-visual-state={getToastVisualState(fsmState)}
         data-testid={dataTestId}
         data-test={dataTest}
+        {...labelingProps}
       >
         <div className="d-flex">
           {displayIcon && (

@@ -12,6 +12,9 @@ import figma from '@figma/code-connect';
 
 import { Pagination } from './Pagination';
 
+// figma.number is available at runtime but missing in the current type defs.
+const figmaApi = figma as typeof figma & { number: (prop: string) => number };
+
 /**
  * DSAi Pagination - Code Connect Mapping
  *
@@ -29,13 +32,13 @@ figma.connect(Pagination, '<FIGMA_DSAI_PAGINATION>', {
      * Total number of pages
      * Maps Figma "Total Pages" property to React totalPages prop
      */
-    totalPages: figma.number('Total Pages'),
+    count: figmaApi.number('Total Pages'),
 
     /**
      * Current active page (1-indexed)
      * Maps Figma "Current Page" property to React page prop
      */
-    page: figma.number('Current Page'),
+    page: figmaApi.number('Current Page'),
 
     /**
      * Pagination size variant
@@ -85,13 +88,13 @@ figma.connect(Pagination, '<FIGMA_DSAI_PAGINATION>', {
      * Number of pages at boundaries
      * Maps Figma "Boundary Count" property to React boundaryCount prop
      */
-    boundaryCount: figma.number('Boundary Count'),
+    boundaryCount: figmaApi.number('Boundary Count'),
 
     /**
      * Number of pages around current page
      * Maps Figma "Sibling Count" property to React siblingCount prop
      */
-    siblingCount: figma.number('Sibling Count'),
+    siblingCount: figmaApi.number('Sibling Count'),
 
     /**
      * Disabled state
@@ -143,7 +146,7 @@ figma.connect(Pagination, '<FIGMA_DSAI_PAGINATION>', {
    * - Default values are omitted for cleaner generated code.
    */
   example: ({
-    totalPages,
+    count,
     page,
     size,
     alignment,
@@ -164,6 +167,11 @@ figma.connect(Pagination, '<FIGMA_DSAI_PAGINATION>', {
     const normalizedAriaLabel =
       ariaLabel && ariaLabel.trim().length > 0 ? ariaLabel.trim() : 'Pagination';
 
+    const showPrevNormalized = showPrevious ?? true;
+    const showNextNormalized = showNext ?? true;
+    const showFirstButton = showFirst ?? false;
+    const showLastButton = showLast ?? false;
+
     // Normalize custom content - only pass when non-empty
     const normalizedFirstContent =
       firstContent && firstContent.trim().length > 0 ? firstContent.trim() : undefined;
@@ -179,14 +187,14 @@ figma.connect(Pagination, '<FIGMA_DSAI_PAGINATION>', {
 
     return (
       <Pagination
-        totalPages={totalPages}
+        count={count}
         page={page}
         size={size}
         alignment={alignment}
-        showFirst={showFirst}
-        showLast={showLast}
-        showPrevious={showPrevious}
-        showNext={showNext}
+        showFirstButton={showFirstButton}
+        showLastButton={showLastButton}
+        hidePrevButton={!showPrevNormalized}
+        hideNextButton={!showNextNormalized}
         boundaryCount={boundaryCount}
         siblingCount={siblingCount}
         disabled={disabled}
@@ -195,7 +203,7 @@ figma.connect(Pagination, '<FIGMA_DSAI_PAGINATION>', {
         lastContent={normalizedLastContent}
         previousContent={normalizedPreviousContent}
         nextContent={normalizedNextContent}
-        onPageChange={(newPage) => console.warn('Pagination page changed:', newPage)}
+        onChange={(newPage: number) => console.warn('Pagination page changed:', newPage)}
       />
     );
   },
@@ -211,7 +219,7 @@ figma.connect(Pagination, '<FIGMA_DSAI_PAGINATION_CONTROLLED>', {
   variant: { Mode: 'Controlled' },
 
   props: {
-    totalPages: figma.number('Total Pages'),
+    count: figmaApi.number('Total Pages'),
     size: figma.enum('Size', {
       Small: 'sm',
       Medium: 'md',
@@ -220,7 +228,7 @@ figma.connect(Pagination, '<FIGMA_DSAI_PAGINATION_CONTROLLED>', {
     ariaLabel: figma.string('Aria Label'),
   },
 
-  example: ({ totalPages, size, ariaLabel }) => {
+  example: ({ count, size, ariaLabel }) => {
     const normalizedAriaLabel =
       ariaLabel && ariaLabel.trim().length > 0 ? ariaLabel.trim() : 'Pagination';
 
@@ -234,11 +242,11 @@ figma.connect(Pagination, '<FIGMA_DSAI_PAGINATION_CONTROLLED>', {
 
     return (
       <Pagination
-        totalPages={totalPages}
+        count={count}
         page={currentPage}
         size={size}
         aria-label={normalizedAriaLabel}
-        onPageChange={handlePageChange}
+        onChange={handlePageChange}
       />
     );
   },

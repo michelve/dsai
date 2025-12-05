@@ -155,7 +155,7 @@ describe('Select', () => {
       render(
         <div>
           <Select options={options} aria-label="Test" />
-          <button>Outside</button>
+          <button type="button">Outside</button>
         </div>
       );
 
@@ -273,7 +273,10 @@ describe('Select', () => {
       // Find the Apple option in the listbox (not the display value)
       const optionElements = screen.getAllByRole('option');
       const appleOption = optionElements.find((el) => el.textContent?.includes('Apple'));
-      await userEvent.click(appleOption!);
+      expect(appleOption).toBeDefined();
+      if (appleOption) {
+        await userEvent.click(appleOption);
+      }
 
       expect(handleChange).toHaveBeenCalledWith([]);
     });
@@ -367,7 +370,7 @@ describe('Select', () => {
 
       await userEvent.click(screen.getByRole('combobox'));
 
-      const disabledOption = screen.getByText('Banana').closest('li');
+      const disabledOption = screen.getByRole('option', { name: 'Banana' });
       expect(disabledOption).toHaveClass('disabled');
       expect(disabledOption).toHaveAttribute('aria-disabled', 'true');
     });

@@ -217,6 +217,36 @@ describe('Dropdown', () => {
       expect(toggle).toHaveClass('dropdown-toggle-split');
     });
 
+    it('derives aria-label from nested text content', () => {
+      render(
+        <Dropdown>
+          <Dropdown.Toggle>
+            <span>Nested Options</span>
+          </Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.Item>Action</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Nested Options');
+    });
+
+    it('falls back to default aria-label when children have no text', () => {
+      render(
+        <Dropdown>
+          <Dropdown.Toggle caret={false}>
+            <span data-testid="icon" aria-hidden="true" />
+          </Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.Item>Action</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(screen.getByRole('button')).toHaveAttribute('aria-label', 'Toggle Dropdown');
+    });
+
     it('warns when split toggle lacks aria-label', () => {
       const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
@@ -582,7 +612,9 @@ describe('Dropdown', () => {
         const [isOpen, setIsOpen] = useState(false);
         return (
           <>
-            <button onClick={() => setIsOpen(!isOpen)}>External Toggle</button>
+            <button type="button" onClick={() => setIsOpen(!isOpen)}>
+              External Toggle
+            </button>
             <Dropdown isOpen={isOpen} onOpenChange={setIsOpen}>
               <Dropdown.Toggle>Options</Dropdown.Toggle>
               <Dropdown.Menu portal={false}>

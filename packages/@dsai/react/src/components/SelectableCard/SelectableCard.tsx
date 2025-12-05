@@ -1,5 +1,6 @@
 import { forwardRef, memo, useCallback, useId, useMemo, useRef, useState } from 'react';
 
+import { cn } from '../../utils';
 import { Card, CardBody, CardFooter, CardText, CardTitle } from '../Card';
 import { Checkbox } from '../Checkbox';
 import { Radio } from '../Radio';
@@ -18,7 +19,7 @@ const warnedIds = new Set<string>();
 function warnMissingValue(id: string, selectionMode: string): void {
   if (
     typeof process !== 'undefined' &&
-    process.env?.['NODE_ENV'] !== 'production' &&
+    process.env?.NODE_ENV !== 'production' &&
     !warnedIds.has(id)
   ) {
     warnedIds.add(id);
@@ -35,7 +36,7 @@ function warnMissingValue(id: string, selectionMode: string): void {
 function warnMissingName(id: string): void {
   if (
     typeof process !== 'undefined' &&
-    process.env?.['NODE_ENV'] !== 'production' &&
+    process.env?.NODE_ENV !== 'production' &&
     !warnedIds.has(`${id}-name`)
   ) {
     warnedIds.add(`${id}-name`);
@@ -45,6 +46,13 @@ function warnMissingName(id: string): void {
     );
   }
 }
+
+const textFromReactNode = (node: React.ReactNode | undefined): string | undefined => {
+  if (typeof node === 'string' || typeof node === 'number') {
+    return String(node);
+  }
+  return undefined;
+};
 
 // =============================================================================
 // SelectableCard Component
@@ -203,16 +211,14 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
 
     // Build card classes
     const cardClasses = useMemo(() => {
-      return [
+      return cn(
         'selectable-card',
         selectionMode !== 'none' && 'selectable-card--interactive',
         isChecked && 'selectable-card--selected',
         disabled && 'selectable-card--disabled',
         error && 'selectable-card--error',
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ');
+        className
+      );
     }, [selectionMode, isChecked, disabled, error, className]);
 
     // Build card style with selection highlight
@@ -247,33 +253,18 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
 
     // Compute aria-describedby
     const computedDescribedby = useMemo(() => {
-      const ids: string[] = [];
-      if (ariaDescribedby) {
-        ids.push(ariaDescribedby);
-      }
-      if (descriptionId) {
-        ids.push(descriptionId);
-      }
-      return ids.length > 0 ? ids.join(' ') : undefined;
+      return cn(ariaDescribedby, descriptionId) || undefined;
     }, [ariaDescribedby, descriptionId]);
 
     const controlAriaLabel = useMemo(() => {
-      if (ariaLabel) {
-        return ariaLabel;
-      }
-      if (title) {
-        return title;
-      }
-      if (subtitle) {
-        return subtitle;
-      }
-      if (description) {
-        return description;
-      }
-      if (value) {
-        return `${value}`;
-      }
-      return selectionMode !== 'none' ? 'Selectable option' : undefined;
+      return (
+        ariaLabel ??
+        textFromReactNode(title) ??
+        textFromReactNode(subtitle) ??
+        textFromReactNode(description) ??
+        value ??
+        (selectionMode !== 'none' ? 'Selectable option' : undefined)
+      );
     }, [ariaLabel, title, subtitle, description, value, selectionMode]);
 
     // Render the selection control

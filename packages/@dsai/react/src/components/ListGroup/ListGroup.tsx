@@ -1,5 +1,10 @@
 import { forwardRef, type KeyboardEvent, type MouseEvent } from 'react';
 
+import { cn } from '../../utils';
+import { isEnterKey } from '../../utils/keyboard';
+import { isExternalUrl } from '../../utils/types';
+import { isSafeHref } from '../../utils/validation';
+
 import type { ListGroupItemData, ListGroupItemProps, ListGroupProps } from './ListGroup.types';
 
 // =============================================================================
@@ -12,37 +17,12 @@ import type { ListGroupItemData, ListGroupItemProps, ListGroupProps } from './Li
  * @param href - The href to validate
  * @returns true if the href is safe, false otherwise
  */
-function isSafeHref(href?: string): boolean {
-  if (!href || typeof href !== 'string') {
-    return true; // undefined/null is safe (will default to #)
-  }
-
-  // Trim whitespace for validation
-  const trimmed = href.trim().toLowerCase();
-
-  // Block dangerous protocols
-  const dangerousProtocols = ['javascript:', 'data:', 'vbscript:', 'file:'];
-  for (const protocol of dangerousProtocols) {
-    if (trimmed.startsWith(protocol)) {
-      return false;
-    }
-  }
-
-  return true;
-}
 
 /**
  * Detects if a URL is external
  * @param href - The href to check
  * @returns true if the href is external, false otherwise
  */
-function isExternalUrl(href?: string): boolean {
-  if (!href || typeof href !== 'string') {
-    return false;
-  }
-
-  return href.startsWith('http://') || href.startsWith('https://');
-}
 
 // =============================================================================
 // ListGroupItem Component
@@ -83,17 +63,15 @@ export const ListGroupItem = forwardRef<HTMLElement, ListGroupItemProps>(functio
   }
 
   // Build item classes
-  const itemClasses = [
+  const itemClasses = cn(
     'list-group-item',
     isInteractive && 'list-group-item-action',
     active && 'active',
     disabled && 'disabled',
     variant && `list-group-item-${variant}`,
     badge && 'd-flex justify-content-between align-items-center',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+    className
+  );
 
   // Handle click
   const handleClick = (e: MouseEvent<HTMLElement>): void => {
@@ -109,7 +87,7 @@ export const ListGroupItem = forwardRef<HTMLElement, ListGroupItemProps>(functio
     if (disabled) {
       return;
     }
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (isEnterKey(e) || e.key === ' ') {
       e.preventDefault();
       onClick?.();
     }
@@ -180,17 +158,17 @@ export const ListGroupItem = forwardRef<HTMLElement, ListGroupItemProps>(functio
   if (isInteractive && as === 'div') {
     return (
       <li className="p-0 border-0 bg-transparent">
-        <div
-          ref={ref as React.Ref<HTMLDivElement>}
-          role="button"
+        <button
+          ref={ref as React.Ref<HTMLButtonElement>}
+          type="button"
           onClick={handleClick}
           onKeyDown={handleKeyDown}
           tabIndex={disabled ? -1 : (tabIndex ?? 0)}
           {...commonProps}
-          className={`${itemClasses} d-block`}
+          className={`${itemClasses} d-block w-100 text-start border-0`}
         >
           {content}
-        </div>
+        </button>
       </li>
     );
   }
@@ -277,15 +255,13 @@ export const ListGroup = forwardRef<HTMLUListElement | HTMLOListElement, ListGro
     };
 
     // Build list classes
-    const listClasses = [
+    const listClasses = cn(
       'list-group',
       variant === 'flush' && 'list-group-flush',
       variant === 'numbered' && 'list-group-numbered',
       getHorizontalClass(),
-      className,
-    ]
-      .filter(Boolean)
-      .join(' ');
+      className
+    );
 
     // Render using items prop
     const renderWithItems = (): React.ReactNode => {

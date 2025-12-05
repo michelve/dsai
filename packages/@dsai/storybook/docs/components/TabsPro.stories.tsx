@@ -3,12 +3,14 @@ import {
   Button,
   DatabaseFillIcon,
   ExclamationTriangleFillIcon,
+  Heading,
   HouseFillIcon,
   Input,
   ShieldLockFillIcon,
   Spinner,
   Switch,
   TabsPro,
+  Text,
 } from '@dsai/react';
 import { useCallback, useState } from 'react';
 
@@ -108,6 +110,17 @@ const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout
 const failAfterDelay = (ms: number, message: string): Promise<never> =>
   new Promise<never>((_, reject) => setTimeout(() => reject(new Error(message)), ms));
 
+// Deterministic metric value generator for showcase cards (avoids random in stories)
+const metricValueFromName = (name: string): number => {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = (hash << 5) - hash + name.charCodeAt(i);
+    hash |= 0;
+  }
+  const value = Math.abs(hash % 900);
+  return 100 + value; // 100-999
+};
+
 // =============================================================================
 // Basic Examples
 // =============================================================================
@@ -123,10 +136,12 @@ export const Default: Story = {
         label: 'Home',
         content: (
           <div className="p-3">
-            <h5>Home</h5>
-            <p>
+            <Heading level={5} className="mb-1">
+              Home
+            </Heading>
+            <Text as="p">
               Welcome to the home tab. This is where you can find an overview of your dashboard.
-            </p>
+            </Text>
           </div>
         ),
       },
@@ -135,8 +150,10 @@ export const Default: Story = {
         label: 'Profile',
         content: (
           <div className="p-3">
-            <h5>Profile</h5>
-            <p>Manage your profile settings and personal information here.</p>
+            <Heading level={5} className="mb-1">
+              Profile
+            </Heading>
+            <Text as="p">Manage your profile settings and personal information here.</Text>
           </div>
         ),
       },
@@ -145,8 +162,10 @@ export const Default: Story = {
         label: 'Settings',
         content: (
           <div className="p-3">
-            <h5>Settings</h5>
-            <p>Configure your application preferences and account settings.</p>
+            <Heading level={5} className="mb-1">
+              Settings
+            </Heading>
+            <Text as="p">Configure your application preferences and account settings.</Text>
           </div>
         ),
       },
@@ -172,30 +191,44 @@ export const AsyncLoading: Story = {
           await delay(1500);
           return (
             <div className="p-3">
-              <h5>Dashboard</h5>
-              <p>Dashboard content loaded asynchronously after 1.5 seconds.</p>
+              <Heading level={5} className="mb-1">
+                Dashboard
+              </Heading>
+              <Text as="p">Dashboard content loaded asynchronously after 1.5 seconds.</Text>
               <div className="row">
                 <div className="col-md-4">
                   <div className="card">
                     <div className="card-body">
-                      <h6 className="card-title">Users</h6>
-                      <p className="card-text display-6">1,234</p>
+                      <Heading level={6} className="card-title">
+                        Users
+                      </Heading>
+                      <Heading level={3} className="card-text display-6" visualSize="h4">
+                        1,234
+                      </Heading>
                     </div>
                   </div>
                 </div>
                 <div className="col-md-4">
                   <div className="card">
                     <div className="card-body">
-                      <h6 className="card-title">Revenue</h6>
-                      <p className="card-text display-6">$45K</p>
+                      <Heading level={6} className="card-title">
+                        Revenue
+                      </Heading>
+                      <Heading level={3} className="card-text display-6" visualSize="h4">
+                        $45K
+                      </Heading>
                     </div>
                   </div>
                 </div>
                 <div className="col-md-4">
                   <div className="card">
                     <div className="card-body">
-                      <h6 className="card-title">Orders</h6>
-                      <p className="card-text display-6">567</p>
+                      <Heading level={6} className="card-title">
+                        Orders
+                      </Heading>
+                      <Heading level={3} className="card-text display-6" visualSize="h4">
+                        567
+                      </Heading>
                     </div>
                   </div>
                 </div>
@@ -212,8 +245,10 @@ export const AsyncLoading: Story = {
           await delay(2000);
           return (
             <div className="p-3">
-              <h5>Reports</h5>
-              <p>Reports loaded after 2 seconds.</p>
+              <Heading level={5} className="mb-1">
+                Reports
+              </Heading>
+              <Text as="p">Reports loaded after 2 seconds.</Text>
               <table className="table">
                 <thead>
                   <tr>
@@ -251,8 +286,10 @@ export const AsyncLoading: Story = {
           await delay(1000);
           return (
             <div className="p-3">
-              <h5>Analytics</h5>
-              <p>Analytics content loaded after 1 second.</p>
+              <Heading level={5} className="mb-1">
+                Analytics
+              </Heading>
+              <Text as="p">Analytics content loaded after 1 second.</Text>
               <div className="progress mb-3">
                 <div className="progress-bar" style={{ width: '75%' }}>
                   75%
@@ -296,7 +333,9 @@ export const CustomLoadingIndicator: Story = {
           label="Loading reports"
         />
         <Spinner animation="grow" variant="success" as="span" label="Loading analytics" />
-        <p className="mt-3 text-muted">Fetching data from server...</p>
+        <Text as="p" size="sm" color="muted" className="mt-3">
+          Fetching data from server...
+        </Text>
       </div>
     );
 
@@ -309,8 +348,10 @@ export const CustomLoadingIndicator: Story = {
           await delay(3000);
           return (
             <div className="p-3">
-              <h5>Data Loaded!</h5>
-              <p>Custom loading indicator was shown for 3 seconds.</p>
+              <Heading level={5} className="mb-1">
+                Data Loaded!
+              </Heading>
+              <Text as="p">Custom loading indicator was shown for 3 seconds.</Text>
             </div>
           );
         },
@@ -345,8 +386,10 @@ export const PermissionGating: Story = {
         label: 'Public',
         content: (
           <div className="p-3">
-            <h5>Public Content</h5>
-            <p>This tab is accessible to everyone.</p>
+            <Heading level={5} className="mb-1">
+              Public Content
+            </Heading>
+            <Text as="p">This tab is accessible to everyone.</Text>
           </div>
         ),
       },
@@ -366,10 +409,15 @@ export const PermissionGating: Story = {
           await delay(1000);
           return (
             <div className="p-3">
-              <h5>Admin Panel</h5>
-              <p>Welcome, Administrator! You have full access.</p>
+              <Heading level={5} className="mb-1">
+                Admin Panel
+              </Heading>
+              <Text as="p">Welcome, Administrator! You have full access.</Text>
               <div className="alert alert-info">
-                <strong>Admin Actions:</strong> Manage users, configure settings, view logs.
+                <Text as="span" weight="semibold" className="me-1">
+                  Admin Actions:
+                </Text>
+                <Text as="span">Manage users, configure settings, view logs.</Text>
               </div>
             </div>
           );
@@ -392,8 +440,10 @@ export const PermissionGating: Story = {
           await delay(800);
           return (
             <div className="p-3">
-              <h5>Premium Features</h5>
-              <p>Exclusive content for premium subscribers.</p>
+              <Heading level={5} className="mb-1">
+                Premium Features
+              </Heading>
+              <Text as="p">Exclusive content for premium subscribers.</Text>
               <ul>
                 <li>Advanced analytics</li>
                 <li>Priority support</li>
@@ -409,14 +459,16 @@ export const PermissionGating: Story = {
     return (
       <div>
         <div className="mb-3 p-3 bg-light rounded">
-          <strong>Toggle Permissions:</strong>
+          <Heading level={6} className="mb-1">
+            Toggle Permissions:
+          </Heading>
           <div className="d-flex gap-3 mt-2">
             <Switch label="Admin Access" checked={isAdmin} onChange={setIsAdmin} />
             <Switch label="Premium Access" checked={isPremium} onChange={setIsPremium} />
           </div>
-          <small className="text-muted d-block mt-2">
+          <Text as="span" size="sm" color="muted" className="d-block mt-2">
             Toggle permissions and click the tabs to see guard behavior.
-          </small>
+          </Text>
         </div>
         <TabsPro items={items} />
       </div>
@@ -435,8 +487,10 @@ export const CustomBlockedFallback: Story = {
         label: 'Free Tier',
         content: (
           <div className="p-3">
-            <h5>Free Features</h5>
-            <p>Basic features available to all users.</p>
+            <Heading level={5} className="mb-1">
+              Free Features
+            </Heading>
+            <Text as="p">Basic features available to all users.</Text>
           </div>
         ),
       },
@@ -447,14 +501,16 @@ export const CustomBlockedFallback: Story = {
         blockedFallback: (
           <div className="p-4 text-center">
             <div className="mb-3">
-              <BuildingFillIcon size={64} className="text-primary" aria-hidden="true" />
+              <BuildingFillIcon size={64} className="text-primary" aria-hidden />
             </div>
-            <h4 className="text-primary">Enterprise Feature</h4>
-            <p className="text-muted mb-4">
+            <Heading level={4} className="text-primary">
+              Enterprise Feature
+            </Heading>
+            <Text as="p" color="muted" className="mb-4">
               This feature requires an Enterprise subscription.
               <br />
               Contact our sales team to learn more.
-            </p>
+            </Text>
             <Button variant="primary" className="me-2">
               Contact Sales
             </Button>
@@ -486,8 +542,10 @@ export const ErrorHandling: Story = {
         label: 'Stable',
         content: (
           <div className="p-3">
-            <h5>Stable Content</h5>
-            <p>This tab always loads successfully.</p>
+            <Heading level={5} className="mb-1">
+              Stable Content
+            </Heading>
+            <Text as="p">This tab always loads successfully.</Text>
           </div>
         ),
       },
@@ -503,8 +561,10 @@ export const ErrorHandling: Story = {
           return (
             <div className="p-3">
               <div className="alert alert-success">
-                <h5 className="alert-heading">Success!</h5>
-                <p>Content loaded successfully after {failureCount} retries.</p>
+                <Heading level={5} className="alert-heading mb-1">
+                  Success!
+                </Heading>
+                <Text as="p">Content loaded successfully after {failureCount} retries.</Text>
               </div>
             </div>
           );
@@ -522,10 +582,10 @@ export const ErrorHandling: Story = {
     return (
       <div>
         <div className="mb-3">
-          <small className="text-muted">
+          <Text as="span" size="sm" color="muted">
             &ldquo;Unstable&rdquo; tab fails twice before succeeding. &ldquo;Always Fails&rdquo;
             never succeeds.
-          </small>
+          </Text>
         </div>
         <TabsPro items={items} />
       </div>
@@ -551,13 +611,13 @@ export const CustomErrorFallback: Story = {
         errorFallback: (error, retry) => (
           <div className="p-4">
             <div className="alert alert-danger">
-              <h5 className="alert-heading">
-                <ExclamationTriangleFillIcon size={20} className="me-2" aria-hidden="true" />
+              <Heading level={5} className="alert-heading">
+                <ExclamationTriangleFillIcon size={20} className="me-2" aria-hidden />
                 Connection Error
-              </h5>
-              <p className="mb-0">
+              </Heading>
+              <Text as="p">
                 {error instanceof Error ? error.message : 'An unknown error occurred'}
-              </p>
+              </Text>
             </div>
             <div className="d-flex gap-2">
               <Button variant="danger" onClick={retry}>
@@ -603,7 +663,9 @@ export const DirtyStateHandling: Story = {
         label: 'Edit Profile',
         content: (
           <div className="p-3">
-            <h5>Edit Profile</h5>
+            <Heading level={5} className="mb-2">
+              Edit Profile
+            </Heading>
             <form>
               <div className="mb-3">
                 <Input
@@ -635,13 +697,15 @@ export const DirtyStateHandling: Story = {
         label: 'Preview',
         content: (
           <div className="p-3">
-            <h5>Profile Preview</h5>
-            <p>
+            <Heading level={5} className="mb-2">
+              Profile Preview
+            </Heading>
+            <Text as="p">
               <strong>Name:</strong> {savedData.name || '(not set)'}
-            </p>
-            <p>
+            </Text>
+            <Text as="p">
               <strong>Email:</strong> {savedData.email || '(not set)'}
-            </p>
+            </Text>
           </div>
         ),
       },
@@ -650,8 +714,10 @@ export const DirtyStateHandling: Story = {
         label: 'Settings',
         content: (
           <div className="p-3">
-            <h5>Account Settings</h5>
-            <p>Configure your account preferences here.</p>
+            <Heading level={5} className="mb-1">
+              Account Settings
+            </Heading>
+            <Text as="p">Configure your account preferences here.</Text>
           </div>
         ),
       },
@@ -660,9 +726,9 @@ export const DirtyStateHandling: Story = {
     return (
       <div>
         <div className="mb-3">
-          <small className="text-muted">
+          <Text as="span" size="sm" color="muted">
             Make changes in the form, then try switching tabs without saving.
-          </small>
+          </Text>
         </div>
         <TabsPro
           items={items}
@@ -744,15 +810,21 @@ export const Variants: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
         <div>
-          <h6 className="mb-2">Tabs (default)</h6>
+          <Heading level={6} className="mb-2">
+            Tabs (default)
+          </Heading>
           <TabsPro variant="tabs" items={items} />
         </div>
         <div>
-          <h6 className="mb-2">Pills</h6>
+          <Heading level={6} className="mb-2">
+            Pills
+          </Heading>
           <TabsPro variant="pills" items={items} />
         </div>
         <div>
-          <h6 className="mb-2">Underline</h6>
+          <Heading level={6} className="mb-2">
+            Underline
+          </Heading>
           <TabsPro variant="underline" items={items} />
         </div>
       </div>
@@ -902,11 +974,13 @@ export const CompleteShowcase: Story = {
       {
         id: 'overview',
         label: 'Overview',
-        icon: <HouseFillIcon aria-hidden="true" />,
+        icon: <HouseFillIcon aria-hidden />,
         content: (
           <div className="p-3">
-            <h5>Welcome to TabsPro</h5>
-            <p>This showcase demonstrates all the advanced features of TabsPro:</p>
+            <Heading level={5} className="mb-1">
+              Welcome to TabsPro
+            </Heading>
+            <Text as="p">This showcase demonstrates all the advanced features of TabsPro:</Text>
             <ul>
               <li>
                 <strong>Static content</strong> - This tab
@@ -928,21 +1002,25 @@ export const CompleteShowcase: Story = {
       {
         id: 'data',
         label: 'Data',
-        icon: <DatabaseFillIcon aria-hidden="true" />,
+        icon: <DatabaseFillIcon aria-hidden />,
         loadContent: async () => {
           await delay(2000);
           return (
             <div className="p-3">
-              <h5>Data Dashboard</h5>
+              <Heading level={5} className="mb-2">
+                Data Dashboard
+              </Heading>
               <div className="row g-3">
                 {['Sales', 'Orders', 'Users'].map((metric) => (
                   <div className="col-md-4" key={metric}>
                     <div className="card">
                       <div className="card-body text-center">
-                        <h6>{metric}</h6>
-                        <div className="display-6 text-primary">
-                          {Math.floor(Math.random() * 1000)}
-                        </div>
+                        <Heading level={6} className="mb-1">
+                          {metric}
+                        </Heading>
+                        <Heading level={3} className="display-6 text-primary" visualSize="h4">
+                          {metricValueFromName(metric)}
+                        </Heading>
                       </div>
                     </div>
                   </div>
@@ -956,7 +1034,7 @@ export const CompleteShowcase: Story = {
       {
         id: 'admin',
         label: 'Admin',
-        icon: <ShieldLockFillIcon aria-hidden="true" />,
+        icon: <ShieldLockFillIcon aria-hidden />,
         guard: async () => {
           await delay(500);
           return {
@@ -970,7 +1048,9 @@ export const CompleteShowcase: Story = {
           await delay(1000);
           return (
             <div className="p-3">
-              <h5>Admin Panel</h5>
+              <Heading level={5} className="mb-1">
+                Admin Panel
+              </Heading>
               <div className="alert alert-success">Access granted!</div>
             </div>
           );
@@ -980,7 +1060,7 @@ export const CompleteShowcase: Story = {
       {
         id: 'flaky',
         label: 'Flaky',
-        icon: <ExclamationTriangleFillIcon aria-hidden="true" />,
+        icon: <ExclamationTriangleFillIcon aria-hidden />,
         loadContent: () => failAfterDelay(1500, 'Random network failure'),
         onError: (error) => console.warn('Flaky tab error:', error),
       },

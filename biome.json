@@ -1,25 +1,110 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "files": {
     "includes": [
       "**",
-      "!**/node_modules/**",
-      "!**/dist/**",
-      "!**/build/**",
-      "!**/coverage/**",
-      "!**/storybook-static/**",
+      "!node_modules",
+      "!dist",
+      "!build",
+      "!coverage",
+      "!storybook-static",
       "!**/*.figma.tsx",
-      "!.github/workflows/**"
+      "!.github/workflows",
+      "!.temp",
+      "!.nx",
+      "!static"
     ],
-    "ignoreUnknown": false
+    "ignoreUnknown": true
+  },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "trailingCommas": "es5",
+      "semicolons": "always"
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "off"
+      }
+    }
+  },
+  "json": {
+    "formatter": {
+      "trailingCommas": "none"
+    }
   },
   "linter": {
     "enabled": true,
     "rules": {
-      "correctness": "warn", // all correctness rules as warnings
+      "recommended": true,
+      "correctness": {
+        "recommended": true,
+        "noUnusedImports": "warn",
+        "noUnusedVariables": "warn"
+      },
+      "suspicious": {
+        "noExplicitAny": "warn",
+        "noArrayIndexKey": "warn"
+      },
       "a11y": {
-        "noNoninteractiveTabindex": "off"
+        "recommended": true,
+        "noNoninteractiveTabindex": "off",
+        "useValidAnchor": "warn",
+        "useAnchorContent": "warn"
+      },
+      "complexity": {
+        "noUselessFragments": "warn"
+      },
+      "style": {
+        "useImportType": "warn",
+        "noNonNullAssertion": "warn"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["**/__tests__/**", "**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["tools/**/*.{js,mjs,cjs}", "scripts/**/*"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["**/*.stories.{ts,tsx}"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "useValidAnchor": "off",
+            "useAnchorContent": "off"
+          }
+        }
+      }
+    }
+  ]
 }

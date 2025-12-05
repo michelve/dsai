@@ -406,12 +406,12 @@ describe('RadioGroup', () => {
     it('is focusable with Tab', async () => {
       render(
         <>
-          <button>Before</button>
+          <button type="button">Before</button>
           <RadioGroup name="test" defaultValue="1" label="Test">
             <Radio value="1" label="Option 1" />
             <Radio value="2" label="Option 2" />
           </RadioGroup>
-          <button>After</button>
+          <button type="button">After</button>
         </>
       );
 

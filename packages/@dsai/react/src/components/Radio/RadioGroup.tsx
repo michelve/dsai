@@ -1,5 +1,7 @@
 import { Children, cloneElement, isValidElement, type ReactElement, useId, useState } from 'react';
 
+import { cn } from '../../utils';
+
 import { Radio } from './Radio';
 
 import type { RadioGroupProps, RadioProps } from './Radio.types';
@@ -81,7 +83,7 @@ export function RadioGroup({
   };
 
   // Build wrapper classes
-  const wrapperClasses = [inline && 'd-flex flex-wrap gap-3', className].filter(Boolean).join(' ');
+  const wrapperClasses = cn(inline && 'd-flex flex-wrap gap-3', className);
 
   // Clone children and inject props
   const enhancedChildren = Children.map(children, (child) => {
@@ -100,9 +102,7 @@ export function RadioGroup({
   });
 
   // Build helper text classes
-  const helperClasses = [error ? 'invalid-feedback d-block' : 'form-text']
-    .filter(Boolean)
-    .join(' ');
+  const helperClasses = cn(error ? 'invalid-feedback d-block' : 'form-text');
 
   return (
     <fieldset className={className} style={style} id={groupId}>

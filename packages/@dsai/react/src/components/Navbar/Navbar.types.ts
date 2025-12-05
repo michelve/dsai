@@ -101,7 +101,7 @@ export interface NavbarContextValue {
   /** Close the collapse menu */
   close: () => void;
   /** Handle Escape key - closes menu and returns focus to toggle */
-  handleEscapeKey: (event: React.KeyboardEvent<HTMLElement>) => void;
+  handleEscapeKey: (event: React.KeyboardEvent<HTMLElement> | KeyboardEvent) => void;
   /** Current variant for theming */
   variant: NavbarVariant;
   /** Expand breakpoint */

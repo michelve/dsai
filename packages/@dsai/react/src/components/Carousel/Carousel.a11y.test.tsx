@@ -66,10 +66,11 @@ describe('Carousel Accessibility', () => {
   });
 
   describe('ARIA Attributes', () => {
-    it('has role="region" on container', () => {
+    it('uses section element which has implicit role="region"', () => {
       const { container } = renderAccessibleCarousel();
       const carousel = container.querySelector('.carousel');
-      expect(carousel).toHaveAttribute('role', 'region');
+      // Section element has implicit role="region", so no explicit role attribute needed
+      expect(carousel?.tagName).toBe('SECTION');
     });
 
     it('has aria-roledescription="carousel"', () => {
@@ -101,7 +102,7 @@ describe('Carousel Accessibility', () => {
 
     it('has aria-live region for announcements', () => {
       const { container } = renderAccessibleCarousel();
-      const liveRegion = container.querySelector('[role="status"]');
+      const liveRegion = container.querySelector('[aria-live="polite"]');
       expect(liveRegion).toBeInTheDocument();
       expect(liveRegion).toHaveAttribute('aria-live', 'polite');
       expect(liveRegion).toHaveAttribute('aria-atomic', 'true');
@@ -109,13 +110,13 @@ describe('Carousel Accessibility', () => {
 
     it('has visually hidden live region', () => {
       const { container } = renderAccessibleCarousel();
-      const liveRegion = container.querySelector('[role="status"]');
+      const liveRegion = container.querySelector('[aria-live="polite"]');
       expect(liveRegion).toHaveClass('visually-hidden');
     });
 
     it('announces current slide', () => {
       const { container } = renderAccessibleCarousel({ defaultActiveIndex: 1 });
-      const liveRegion = container.querySelector('[role="status"]');
+      const liveRegion = container.querySelector('[aria-live="polite"]');
       expect(liveRegion?.textContent).toContain('Slide 2');
       expect(liveRegion?.textContent).toContain('of 3');
     });

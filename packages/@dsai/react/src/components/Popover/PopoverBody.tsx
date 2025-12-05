@@ -1,5 +1,7 @@
 import { forwardRef, useMemo } from 'react';
 
+import { cn } from '../../utils';
+
 import type { PopoverBodyProps } from './Popover.types';
 
 /**
@@ -27,13 +29,7 @@ export const PopoverBody = forwardRef<HTMLDivElement, PopoverBodyProps>(
     ref
   ) => {
     // Memoize class name computation
-    const bodyClassName = useMemo(() => {
-      const classes = ['popover-body'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const bodyClassName = useMemo(() => cn('popover-body', className), [className]);
 
     return (
       <div

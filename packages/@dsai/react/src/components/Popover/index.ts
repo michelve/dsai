@@ -16,19 +16,12 @@
 
 // Main component
 export { Popover } from './Popover';
-
-// Subcomponents
-export { PopoverBody } from './PopoverBody';
-export { PopoverCloseButton } from './PopoverCloseButton';
-export { PopoverHeader } from './PopoverHeader';
-
 // FSM exports
 export {
   createInitialPopoverFSMState,
   getPopoverVisualState,
   popoverFSMReducer,
 } from './Popover.fsm';
-
 // Types
 export type {
   PopoverBodyProps,
@@ -43,3 +36,7 @@ export type {
   PopoverVisualState,
   SafePopoverHTMLAttributes,
 } from './Popover.types';
+// Subcomponents
+export { PopoverBody } from './PopoverBody';
+export { PopoverCloseButton } from './PopoverCloseButton';
+export { PopoverHeader } from './PopoverHeader';

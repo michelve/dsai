@@ -1,4 +1,16 @@
-import React, { forwardRef, useCallback, useEffect, useMemo, useReducer } from 'react';
+import React, {
+  cloneElement,
+  forwardRef,
+  isValidElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+} from 'react';
+
+import { cn } from '../../utils';
+import { isEscapeKey } from '../../utils/keyboard';
+import { isSafeHref } from '../../utils/validation';
 
 import { alertFSMReducer, createInitialAlertFSMState } from './Alert.fsm';
 
@@ -11,18 +23,6 @@ import type { AlertHeadingProps, AlertLinkProps, AlertProps } from './Alert.type
  * @param href - URL to validate
  * @returns true if href is safe, false otherwise
  */
-function isSafeHref(href: string | undefined): boolean {
-  if (!href || typeof href !== 'string') {
-    return false;
-  }
-
-  const trimmedHref = href.trim().toLowerCase();
-
-  // Blocked protocols: javascript:, data:, text/html, vbscript:, file:
-  const unsafePatterns = /^(javascript:|data:|text\/html|vbscript:|file:|about:blank)/i;
-
-  return !unsafePatterns.test(trimmedHref);
-}
 
 /**
  * Alert Link - styled link for use within alerts
@@ -58,7 +58,7 @@ const AlertLink = React.memo(
     ref
   ) {
     // Validate href against XSS patterns
-    const safeHref = isSafeHref(href) ? href : '#';
+    const safeHref = isSafeHref(href, { undefinedBehavior: 'unsafe' }) ? href : '#';
 
     // External link protection: target="_blank" requires rel="noopener noreferrer"
     // This prevents the opened page from accessing window.opener
@@ -66,10 +66,7 @@ const AlertLink = React.memo(
     const safeRel = isExternal ? 'noopener noreferrer' : rel;
 
     // Memoize className construction
-    const computedClassName = useMemo(
-      () => ['alert-link', className].filter(Boolean).join(' '),
-      [className]
-    );
+    const computedClassName = useMemo(() => cn('alert-link', className), [className]);
 
     return (
       <a
@@ -107,10 +104,7 @@ const AlertHeading = React.memo(function AlertHeading({
   as: Component = 'h4',
   className = '',
 }: AlertHeadingProps): React.JSX.Element {
-  const classes = useMemo(
-    () => ['alert-heading', className].filter(Boolean).join(' '),
-    [className]
-  );
+  const classes = useMemo(() => cn('alert-heading', className), [className]);
 
   return <Component className={classes}>{children}</Component>;
 });
@@ -188,6 +182,7 @@ const AlertBase = forwardRef<HTMLDivElement, AlertProps>(
       'data-testid': dataTestId,
       'data-test': dataTest,
       title: titleAttr,
+      iconLabel,
     },
     ref
   ) => {
@@ -212,7 +207,7 @@ const AlertBase = forwardRef<HTMLDivElement, AlertProps>(
     // Handle Escape key to dismiss - dispatch FSM event and call onClose
     const handleKeyDown = useCallback(
       (event: KeyboardEvent) => {
-        if (dismissible && onClose && event.key === 'Escape') {
+        if (dismissible && onClose && isEscapeKey(event)) {
           dispatch({ type: 'DISMISS_ESCAPE' });
           onClose();
         }
@@ -233,17 +228,44 @@ const AlertBase = forwardRef<HTMLDivElement, AlertProps>(
     // Memoize Bootstrap class names construction (must be before visibility check for hook ordering)
     const bootstrapClasses = useMemo(
       () =>
-        [
+        cn(
           'alert', // Base Bootstrap alert class
           `alert-${variant}`, // Variant: alert-primary, alert-success, etc.
           dismissible && 'alert-dismissible', // Dismissible styling
           dismissible && 'fade show', // Animation classes for dismissible
-          className, // Allow additional custom classes
-        ]
-          .filter(Boolean)
-          .join(' '),
+          className // Allow additional custom classes
+        ),
       [variant, dismissible, className]
     );
+
+    const iconClasses = 'd-inline-flex align-items-center flex-shrink-0 me-2';
+
+    const renderedIcon = useMemo(() => {
+      if (!icon) {
+        return null;
+      }
+
+      if (isValidElement(icon)) {
+        const existingClassName = (icon.props as { className?: string }).className;
+        const existingAriaLabel = (icon.props as { 'aria-label'?: string })['aria-label'];
+        const existingAriaHidden = (icon.props as { 'aria-hidden'?: boolean })['aria-hidden'];
+        const ariaLabel = iconLabel ?? existingAriaLabel;
+        const ariaHidden = iconLabel ? undefined : (existingAriaHidden ?? true);
+
+        return cloneElement(icon, {
+          className: cn(iconClasses, existingClassName),
+          'aria-label': ariaLabel,
+          'aria-hidden': ariaHidden,
+          role: ariaLabel ? 'img' : (icon.props as { role?: string }).role,
+        });
+      }
+
+      return (
+        <span className={iconClasses} aria-hidden="true">
+          {icon}
+        </span>
+      );
+    }, [icon, iconLabel]);
 
     // Don't render if FSM state is hidden
     if (fsmState.visibility === 'hidden') {
@@ -265,11 +287,7 @@ const AlertBase = forwardRef<HTMLDivElement, AlertProps>(
         data-visual-state={fsmState.visibility}
       >
         {/* Optional icon */}
-        {icon && (
-          <span className="me-2 d-inline-flex align-items-center" aria-hidden="true">
-            {icon}
-          </span>
-        )}
+        {renderedIcon}
 
         {/* Optional title using Alert.Heading */}
         {title && <AlertHeading>{title}</AlertHeading>}

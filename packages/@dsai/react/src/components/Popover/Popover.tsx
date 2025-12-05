@@ -28,6 +28,9 @@ import {
   useRef,
 } from 'react';
 
+import { cn } from '../../utils';
+import { mapPlacement, normalizeTriggers } from '../../utils/misc';
+
 import {
   createInitialPopoverFSMState,
   getPopoverVisualState,
@@ -37,8 +40,7 @@ import { PopoverBody } from './PopoverBody';
 import { PopoverCloseButton } from './PopoverCloseButton';
 import { PopoverHeader } from './PopoverHeader';
 
-import type { PopoverPlacement, PopoverProps, PopoverTrigger } from './Popover.types';
-import type { Placement } from '@floating-ui/react';
+import type { PopoverProps } from './Popover.types';
 import type { ReactElement } from 'react';
 
 const POPOVER_ARROW_GAP_PX = 8;
@@ -50,19 +52,10 @@ const DEFAULT_MAX_WIDTH = 276; // Bootstrap default
 /**
  * Map DSAi placement to Floating UI placement
  */
-function mapPlacement(placement: PopoverPlacement): Placement {
-  return placement as Placement;
-}
 
 /**
  * Normalize trigger prop to array
  */
-function normalizeTriggers(trigger: PopoverTrigger | PopoverTrigger[]): PopoverTrigger[] {
-  if (Array.isArray(trigger)) {
-    return trigger;
-  }
-  return [trigger];
-}
 
 /**
  * Popover Component
@@ -320,13 +313,10 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
     const triggerRef = useMergeRefs([ref, refs.setReference, childRef]);
 
     // Memoize popover class names
-    const popoverClassName = useMemo(() => {
-      const classes = ['popover', `bs-popover-auto`, 'show'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const popoverClassName = useMemo(
+      () => cn('popover', 'bs-popover-auto', 'show', className),
+      [className]
+    );
 
     // Compute popover styles - properly combine transforms from floating and transition styles
     const popoverStyles = useMemo(() => {
@@ -445,7 +435,6 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
       dataTest,
       getFloatingProps,
       showArrow,
-      arrowRef,
       context,
       showCloseButton,
       handleClose,

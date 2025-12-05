@@ -33,7 +33,7 @@ describe('Tooltip Accessibility', () => {
     it('has role="tooltip" when visible', async () => {
       render(
         <Tooltip content="Accessible tooltip" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -45,7 +45,7 @@ describe('Tooltip Accessibility', () => {
     it('sets aria-describedby on trigger when tooltip is visible', async () => {
       render(
         <Tooltip content="Accessible tooltip" id="test-tooltip" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -60,7 +60,7 @@ describe('Tooltip Accessibility', () => {
 
       render(
         <Tooltip content="Test tooltip" id="test-tooltip">
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -101,7 +101,7 @@ describe('Tooltip Accessibility', () => {
           aria-label="Complex tooltip description"
           defaultOpen
         >
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -119,7 +119,7 @@ describe('Tooltip Accessibility', () => {
     it('shows tooltip on focus', async () => {
       render(
         <Tooltip content="Focus tooltip" trigger="focus">
-          <button>Focus me</button>
+          <button type="button">Focus me</button>
         </Tooltip>
       );
 
@@ -140,9 +140,9 @@ describe('Tooltip Accessibility', () => {
 
       render(
         <div>
-          <button>First button</button>
+          <button type="button">First button</button>
           <Tooltip content="Second button tooltip" trigger="focus">
-            <button>Second button</button>
+            <button type="button">Second button</button>
           </Tooltip>
         </div>
       );
@@ -165,9 +165,9 @@ describe('Tooltip Accessibility', () => {
       render(
         <div>
           <Tooltip content="Tooltip" trigger="focus">
-            <button>First button</button>
+            <button type="button">First button</button>
           </Tooltip>
-          <button>Second button</button>
+          <button type="button">Second button</button>
         </div>
       );
 
@@ -197,7 +197,7 @@ describe('Tooltip Accessibility', () => {
 
       render(
         <Tooltip content="Click tooltip" trigger="click">
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Tooltip>
       );
 
@@ -240,7 +240,7 @@ describe('Tooltip Accessibility', () => {
     it('has no accessibility violations when hidden', async () => {
       const { container } = render(
         <Tooltip content="Test tooltip">
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -251,7 +251,7 @@ describe('Tooltip Accessibility', () => {
     it('has no accessibility violations when visible', async () => {
       const { container } = render(
         <Tooltip content="Visible tooltip" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -269,7 +269,7 @@ describe('Tooltip Accessibility', () => {
       for (const placement of placements) {
         const { container, unmount } = render(
           <Tooltip content={`${placement} tooltip`} placement={placement} defaultOpen>
-            <button>Trigger</button>
+            <button type="button">Trigger</button>
           </Tooltip>
         );
 
@@ -287,7 +287,7 @@ describe('Tooltip Accessibility', () => {
     it('has no accessibility violations with disabled tooltip', async () => {
       const { container } = render(
         <Tooltip content="Disabled tooltip" disabled>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -306,7 +306,7 @@ describe('Tooltip Accessibility', () => {
           }
           defaultOpen
         >
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -323,7 +323,7 @@ describe('Tooltip Accessibility', () => {
 
       const { container } = render(
         <Tooltip content="Hover tooltip" trigger="hover">
-          <button>Hover me</button>
+          <button type="button">Hover me</button>
         </Tooltip>
       );
 
@@ -341,7 +341,7 @@ describe('Tooltip Accessibility', () => {
     it('has no accessibility violations with focus trigger', async () => {
       const { container } = render(
         <Tooltip content="Focus tooltip" trigger="focus">
-          <button>Focus me</button>
+          <button type="button">Focus me</button>
         </Tooltip>
       );
 
@@ -361,7 +361,7 @@ describe('Tooltip Accessibility', () => {
 
       const { container } = render(
         <Tooltip content="Click tooltip" trigger="click">
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Tooltip>
       );
 
@@ -379,7 +379,7 @@ describe('Tooltip Accessibility', () => {
     it('has no accessibility violations without arrow', async () => {
       const { container } = render(
         <Tooltip content="No arrow tooltip" arrow={false} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -399,7 +399,7 @@ describe('Tooltip Accessibility', () => {
     it('tooltip content is accessible to screen readers via aria-describedby', async () => {
       render(
         <Tooltip content="Helpful description" id="sr-tooltip" defaultOpen>
-          <button>Learn more</button>
+          <button type="button">Learn more</button>
         </Tooltip>
       );
 
@@ -416,7 +416,7 @@ describe('Tooltip Accessibility', () => {
     it('maintains proper ID relationship between trigger and tooltip', async () => {
       render(
         <Tooltip content="Related content" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 

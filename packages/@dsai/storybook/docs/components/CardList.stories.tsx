@@ -908,7 +908,7 @@ export const AccessibilityDevWarnings: Story = {
       </div>
 
       <div className="alert alert-warning small">
-        <strong>⚠️ Dev Warning</strong>
+        <strong> Dev Warning</strong>
         <p className="mb-0 mt-2">A CardList without `label` or `aria-label` will log:</p>
         <code className="d-block mt-2 p-2 bg-dark text-light rounded">
           [DSAi CardList] Missing accessible label. Provide a &quot;label&quot; prop or
@@ -998,9 +998,9 @@ export const PricingPageExample: Story = {
         description: 'For individuals exploring the platform.',
         footer: (
           <ul className="list-unstyled small mb-0">
-            <li>✓ 5 projects</li>
-            <li>✓ Basic analytics</li>
-            <li>✓ Community support</li>
+            <li> 5 projects</li>
+            <li> Basic analytics</li>
+            <li> Community support</li>
           </ul>
         ),
       },
@@ -1011,10 +1011,10 @@ export const PricingPageExample: Story = {
         description: 'For professionals and growing teams.',
         footer: (
           <ul className="list-unstyled small mb-0">
-            <li>✓ Unlimited projects</li>
-            <li>✓ Advanced analytics</li>
-            <li>✓ Priority support</li>
-            <li>✓ API access</li>
+            <li> Unlimited projects</li>
+            <li> Advanced analytics</li>
+            <li> Priority support</li>
+            <li> API access</li>
           </ul>
         ),
       },
@@ -1025,10 +1025,10 @@ export const PricingPageExample: Story = {
         description: 'For large organizations with custom needs.',
         footer: (
           <ul className="list-unstyled small mb-0">
-            <li>✓ Everything in Pro</li>
-            <li>✓ SSO & SAML</li>
-            <li>✓ Dedicated support</li>
-            <li>✓ Custom integrations</li>
+            <li> Everything in Pro</li>
+            <li> SSO & SAML</li>
+            <li> Dedicated support</li>
+            <li> Custom integrations</li>
           </ul>
         ),
       },
@@ -1071,32 +1071,32 @@ export const FeatureSelectionExample: Story = {
     const features: CardListItem[] = [
       {
         value: 'analytics',
-        title: '📊 Analytics',
+        title: ' Analytics',
         description: 'Track user behavior, page views, and conversion rates.',
       },
       {
         value: 'automation',
-        title: '⚡ Automation',
+        title: ' Automation',
         description: 'Automate workflows with triggers and actions.',
       },
       {
         value: 'integrations',
-        title: '🔗 Integrations',
+        title: ' Integrations',
         description: 'Connect with Slack, Zapier, and 100+ apps.',
       },
       {
         value: 'support',
-        title: '💬 Priority Support',
+        title: ' Priority Support',
         description: 'Get help within 4 hours from our team.',
       },
       {
         value: 'api',
-        title: '🔧 API Access',
+        title: 'API Access',
         description: 'Build custom solutions with our REST API.',
       },
       {
         value: 'white-label',
-        title: '🏷️ White Label',
+        title: ' White Label',
         description: 'Remove branding and use your own domain.',
         disabled: true,
       },
@@ -1159,22 +1159,22 @@ export const OnboardingWizardExample: Story = {
     const roles: CardListItem[] = [
       {
         value: 'developer',
-        title: '👩‍💻 Developer',
+        title: 'Developer',
         description: "I build software and want to improve my team's workflow.",
       },
       {
         value: 'designer',
-        title: '🎨 Designer',
+        title: ' Designer',
         description: 'I design interfaces and want to collaborate better.',
       },
       {
         value: 'manager',
-        title: '📋 Manager',
+        title: ' Manager',
         description: 'I lead teams and want to track progress effectively.',
       },
       {
         value: 'other',
-        title: '🌟 Other',
+        title: ' Other',
         description: "I'm exploring what this platform can do for me.",
       },
     ];

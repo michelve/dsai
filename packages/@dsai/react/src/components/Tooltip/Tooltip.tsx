@@ -18,14 +18,16 @@ import {
 } from '@floating-ui/react';
 import { cloneElement, forwardRef, useEffect, useId, useMemo, useReducer, useRef } from 'react';
 
+import { cn } from '../../utils';
+import { mapPlacement, normalizeTriggers } from '../../utils/misc';
+
 import {
   createInitialTooltipFSMState,
   getTooltipVisualState,
   tooltipFSMReducer,
 } from './Tooltip.fsm';
 
-import type { TooltipPlacement, TooltipProps, TooltipTrigger } from './Tooltip.types';
-import type { Placement } from '@floating-ui/react';
+import type { TooltipProps } from './Tooltip.types';
 import type { ReactElement } from 'react';
 
 const TOOLTIP_ARROW_GAP_PX = 6;
@@ -36,16 +38,10 @@ const TOOLTIP_TRANSITION_MS = 150;
 /**
  * Map DSAi placement to Floating UI placement
  */
-function mapPlacement(placement: TooltipPlacement): Placement {
-  return placement as Placement;
-}
 
 /**
  * Normalize trigger prop to array
  */
-function normalizeTriggers(trigger: TooltipTrigger | TooltipTrigger[]): TooltipTrigger[] {
-  return Array.isArray(trigger) ? trigger : [trigger];
-}
 
 /**
  * Tooltip Component
@@ -293,7 +289,7 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
       const { transform: floatingTransform, ...floatingRest } = floatingStyles;
       const { transform: transitionTransform, ...transitionRest } = transitionStyles;
 
-      const combinedTransform = [floatingTransform, transitionTransform].filter(Boolean).join(' ');
+      const combinedTransform = cn(floatingTransform, transitionTransform);
 
       const baseStyles: React.CSSProperties = {
         ...floatingRest,
@@ -315,11 +311,7 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
 
     // Compute tooltip class names
     const tooltipClassName = useMemo(() => {
-      const classes = ['tooltip', 'bs-tooltip-auto', 'show'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
+      return cn('tooltip', 'bs-tooltip-auto', 'show', className);
     }, [className]);
 
     // Tooltip content

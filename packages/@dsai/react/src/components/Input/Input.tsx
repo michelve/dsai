@@ -2,12 +2,16 @@ import {
   type ChangeEvent,
   type FocusEvent,
   forwardRef,
+  type InputHTMLAttributes,
   memo,
   useCallback,
   useId,
   useMemo,
   useState,
 } from 'react';
+
+import { cn } from '../../utils';
+import { ClearIcon, getSafeInputProps } from '../../utils/misc';
 
 import type { InputProps, InputSize } from './Input.types';
 
@@ -23,146 +27,8 @@ const resolveInputSizeClass = (size: InputSize): string => {
 };
 
 /**
- * Safe whitelist of HTML attributes allowed on input element
- * Blocks all event handlers and dangerous attributes
- */
-const SAFE_INPUT_ATTRIBUTES = {
-  accept: true,
-  acceptCharset: true,
-  alt: true,
-  autoComplete: true,
-  autoFocus: true,
-  capture: true,
-  contentEditable: true,
-  crossOrigin: true,
-  data: true,
-  datatype: true,
-  defaultValue: true,
-  dir: true,
-  disabled: true,
-  draggable: true,
-  form: true,
-  formEncType: true,
-  formMethod: true,
-  formNoValidate: true,
-  formTarget: true,
-  height: true,
-  hidden: true,
-  lang: true,
-  list: true,
-  max: true,
-  maxLength: true,
-  min: true,
-  minLength: true,
-  multiple: true,
-  name: true,
-  pattern: true,
-  placeholder: true,
-  prefix: true,
-  property: true,
-  readOnly: true,
-  required: true,
-  resource: true,
-  rev: true,
-  role: true,
-  spellCheck: true,
-  step: true,
-  style: true,
-  tabIndex: true,
-  title: true,
-  translate: true,
-  typeof: true,
-  value: true,
-  vocab: true,
-  width: true,
-  // ARIA attributes
-  'aria-activedescendant': true,
-  'aria-atomic': true,
-  'aria-autocomplete': true,
-  'aria-busy': true,
-  'aria-checked': true,
-  'aria-colcount': true,
-  'aria-colindex': true,
-  'aria-colspan': true,
-  'aria-controls': true,
-  'aria-current': true,
-  'aria-describedby': true,
-  'aria-description': true,
-  'aria-details': true,
-  'aria-disabled': true,
-  'aria-errormessage': true,
-  'aria-expanded': true,
-  'aria-flowto': true,
-  'aria-haspopup': true,
-  'aria-hidden': true,
-  'aria-invalid': true,
-  'aria-keyshortcuts': true,
-  'aria-label': true,
-  'aria-labelledby': true,
-  'aria-level': true,
-  'aria-live': true,
-  'aria-modal': true,
-  'aria-multiline': true,
-  'aria-multiselectable': true,
-  'aria-orientation': true,
-  'aria-owns': true,
-  'aria-placeholder': true,
-  'aria-posinset': true,
-  'aria-pressed': true,
-  'aria-readonly': true,
-  'aria-relevant': true,
-  'aria-required': true,
-  'aria-roledescription': true,
-  'aria-rowcount': true,
-  'aria-rowindex': true,
-  'aria-rowspan': true,
-  'aria-selected': true,
-  'aria-setsize': true,
-  'aria-sort': true,
-  'aria-valuemax': true,
-  'aria-valuemin': true,
-  'aria-valuenow': true,
-  'aria-valuetext': true,
-} as const;
-
-/**
- * Filters props to only include safe HTML attributes
- * Blocks dangerous event handlers and attributes
- */
-type SafeInputAttribute = keyof typeof SAFE_INPUT_ATTRIBUTES;
-
-const SAFE_INPUT_ATTRIBUTE_KEYS = Object.keys(SAFE_INPUT_ATTRIBUTES) as SafeInputAttribute[];
-
-function getSafeInputProps(
-  props: Record<string, unknown>
-): Partial<Record<SafeInputAttribute, unknown>> {
-  const safeEntries: Array<[SafeInputAttribute, unknown]> = [];
-  for (const safeKey of SAFE_INPUT_ATTRIBUTE_KEYS) {
-    const descriptor = Object.getOwnPropertyDescriptor(props, safeKey);
-    if (descriptor) {
-      safeEntries.push([safeKey, descriptor.value]);
-    }
-  }
-  return Object.fromEntries(safeEntries) as Partial<Record<SafeInputAttribute, unknown>>;
-}
-
-/**
  * X icon for clear button
  */
-function ClearIcon(): React.JSX.Element {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      fill="currentColor"
-      viewBox="0 0 16 16"
-      aria-hidden="true"
-    >
-      <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-    </svg>
-  );
-}
 
 /**
  * Input component for text entry
@@ -298,21 +164,19 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
   // Memoize input classes
   const inputClasses = useMemo(
     () =>
-      [
+      cn(
         plaintext ? 'form-control-plaintext' : 'form-control',
         resolveInputSizeClass(size),
         error && 'is-invalid',
         success && !error && 'is-valid',
-        inputClassName,
-      ]
-        .filter(Boolean)
-        .join(' '),
+        inputClassName
+      ),
     [plaintext, size, error, success, inputClassName]
   );
 
   // Memoize wrapper classes
   const wrapperClasses = useMemo(
-    () => [floating && 'form-floating', className].filter(Boolean).join(' '),
+    () => cn(floating && 'form-floating', className),
     [floating, className]
   );
 
@@ -334,12 +198,12 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
 
   // Memoize aria-describedby
   const describedByIds = useMemo(
-    () => [helperText && helperId, ariaDescribedBy].filter(Boolean).join(' '),
+    () => cn(helperText && helperId, ariaDescribedBy),
     [helperText, helperId, ariaDescribedBy]
   );
 
   // Get safe props (filter out dangerous event handlers)
-  const safeProps = getSafeInputProps(props);
+  const safeProps = getSafeInputProps(props) as InputHTMLAttributes<HTMLInputElement>;
 
   // Render the input element
   const inputElement = (

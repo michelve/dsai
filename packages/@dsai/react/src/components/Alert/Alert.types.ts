@@ -130,6 +130,12 @@ export interface AlertProps extends SafeAlertHTMLAttributes {
   icon?: ReactNode;
 
   /**
+   * Optional accessible label for the icon
+   * When provided, the icon is treated as semantic (role="img"); otherwise it is decorative
+   */
+  iconLabel?: string;
+
+  /**
    * Whether to show the alert
    * Useful for controlled visibility
    * @default true

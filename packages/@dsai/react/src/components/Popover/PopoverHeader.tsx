@@ -1,5 +1,7 @@
 import { forwardRef, useMemo } from 'react';
 
+import { cn } from '../../utils';
+
 import type { PopoverHeaderProps } from './Popover.types';
 
 /**
@@ -26,13 +28,7 @@ export const PopoverHeader = forwardRef<HTMLHeadingElement, PopoverHeaderProps>(
     ref
   ) => {
     // Memoize class name computation
-    const headerClassName = useMemo(() => {
-      const classes = ['popover-header'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const headerClassName = useMemo(() => cn('popover-header', className), [className]);
 
     return (
       <h3

@@ -10,7 +10,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
  * Features:
  * - Responsive design with configurable breakpoints
  * - Smooth collapse/expand animations via CSS transitions
- * - Full keyboard navigation (Tab, Enter, Space, Arrows)
+ * - Full keyboard navigation (Tab, Enter, Space, Escape, Arrow/Home/End within nav)
  * - FSM state management for visual states
  * - Controlled and uncontrolled modes
  * - Light and dark color schemes
@@ -80,6 +80,15 @@ const meta: Meta<typeof Navbar> = {
       table: {
         type: { summary: 'NavbarPlacement' },
         defaultValue: { summary: 'static' },
+      },
+    },
+    orientation: {
+      control: 'radio',
+      options: ['horizontal', 'vertical'],
+      description: 'Orientation hint for keyboard navigation (affects arrow key directions)',
+      table: {
+        type: { summary: "'horizontal' | 'vertical'" },
+        defaultValue: { summary: 'horizontal' },
       },
     },
     fluid: {
@@ -701,7 +710,11 @@ export const KeyboardNavigation: Story = {
               <kbd>Enter</kbd> or <kbd>Space</kbd> - Activate links or toggle menu
             </li>
             <li>
-              <kbd>Escape</kbd> - Close expanded menu (when supported)
+              <kbd>Escape</kbd> - Close expanded menu when focus is inside the navbar
+            </li>
+            <li>
+              <kbd>Arrow</kbd>, <kbd>Home</kbd>, <kbd>End</kbd> - Move focus between links inside
+              the nav list (wraps)
             </li>
           </ul>
         </div>
@@ -1024,7 +1037,7 @@ export const AccessibilityDemo: Story = {
               <code>aria-current=&quot;page&quot;</code> on active links
             </li>
             <li>Disabled links are not in tab order</li>
-            <li>Semantic HTML structure (nav, button, ul, li, a)</li>
+            <li>Semantic HTML structure (nav, ul/li/a) instead of menubar roles</li>
           </ul>
         </div>
         <Navbar aria-label="Main site navigation">

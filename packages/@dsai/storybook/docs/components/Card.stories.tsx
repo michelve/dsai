@@ -9,6 +9,8 @@ import {
   CardLink,
   CardText,
   CardTitle,
+  ListGroup,
+  ListGroupItem,
 } from '@dsai/react';
 import { useState } from 'react';
 
@@ -322,6 +324,38 @@ export const WithLinks: Story = {
       <CardBody>
         <CardTitle>Card Title</CardTitle>
         <CardText>Some example text to build on the card title.</CardText>
+        <CardLink href="#">Card link</CardLink>
+        <CardLink href="#">Another link</CardLink>
+      </CardBody>
+    </Card>
+  ),
+};
+
+// =============================================================================
+// Kitchen Sink (Bootstrap parity)
+// =============================================================================
+
+/**
+ * Kitchen sink card layout matching Bootstrap example:
+ * image, body, flush list group, and link section.
+ */
+export const KitchenSink: Story = {
+  render: () => (
+    <Card style={{ width: '18rem' }}>
+      <CardImage src={sampleImage} alt="Card top" />
+      <CardBody>
+        <CardTitle>Kitchen Sink</CardTitle>
+        <CardText>
+          Some quick example text to build on the card title and make up the bulk of the card&apos;s
+          content.
+        </CardText>
+      </CardBody>
+      <ListGroup variant="flush">
+        <ListGroupItem>First item</ListGroupItem>
+        <ListGroupItem>Second item</ListGroupItem>
+        <ListGroupItem>Third item</ListGroupItem>
+      </ListGroup>
+      <CardBody>
         <CardLink href="#">Card link</CardLink>
         <CardLink href="#">Another link</CardLink>
       </CardBody>

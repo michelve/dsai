@@ -468,9 +468,9 @@ describe('Input', () => {
     it('is focusable with Tab', async () => {
       render(
         <>
-          <button>Before</button>
+          <button type="button">Before</button>
           <Input label="Test" />
-          <button>After</button>
+          <button type="button">After</button>
         </>
       );
 

@@ -7,7 +7,7 @@ A fully accessible responsive navigation header component using Bootstrap 5 nati
 - **Native Bootstrap 5 Classes**: Uses standard Bootstrap navbar styling
 - **Responsive Design**: Configurable breakpoint for mobile/desktop layouts
 - **Smooth Animations**: CSS transitions for collapse/expand with FSM states
-- **Keyboard Navigation**: Tab, Enter, Space support for accessibility
+- **Keyboard Navigation**: Tab/Shift+Tab plus Enter, Space, Arrow, Home/End, and Escape support within the nav
 - **Color Variants**: Light and dark color schemes with customizable backgrounds
 - **Compound Components**: Navbar.Brand, Navbar.Toggle, Navbar.Collapse, Navbar.Nav, Navbar.Link, Navbar.Item, Navbar.Text
 - **FSM State Management**: Predictable state transitions for animations
@@ -344,6 +344,7 @@ import { Navbar, Dropdown } from '@dsai/react';
 | `placement`        | `NavbarPlacement`                                  | `'static'`          | Navbar positioning                             |
 | `fluid`            | `boolean`                                          | `true`              | Use container-fluid (full-width)               |
 | `container`        | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl'`            | -                   | Container breakpoint (when fluid=false)        |
+| `orientation`      | `'horizontal' \| 'vertical'`                       | `'horizontal'`      | Orientation hint for keyboard navigation       |
 | `expanded`         | `boolean`                                          | -                   | Controlled expanded state                      |
 | `onExpandedChange` | `(expanded: boolean) => void`                      | -                   | Callback when expanded state changes           |
 | `defaultExpanded`  | `boolean`                                          | `false`             | Default expanded state (uncontrolled)          |
@@ -388,14 +389,15 @@ import { Navbar, Dropdown } from '@dsai/react';
 
 ### Navbar.Nav Props
 
-| Prop           | Type            | Default   | Description                          |
-| -------------- | --------------- | --------- | ------------------------------------ |
-| `children`     | `ReactNode`     | -         | Navigation items                     |
-| `scroll`       | `boolean`       | `false`   | Use scroll container with max height |
-| `scrollHeight` | `string`        | `'100px'` | Max height for scroll container      |
-| `className`    | `string`        | -         | Additional class name                |
-| `style`        | `CSSProperties` | -         | Inline styles                        |
-| `data-testid`  | `string`        | -         | Test ID                              |
+| Prop             | Type            | Default   | Description                                                                 |
+| ---------------- | --------------- | --------- | --------------------------------------------------------------------------- |
+| `children`       | `ReactNode`     | -         | Navigation items                                                            |
+| `scroll`         | `boolean`       | `false`   | Use scroll container with max height                                        |
+| `scrollHeight`   | `string`        | `'100px'` | Max height for scroll container                                             |
+| `className`      | `string`        | -         | Additional class name                                                       |
+| `style`          | `CSSProperties` | -         | Inline styles                                                               |
+| `data-testid`    | `string`        | -         | Test ID                                                                     |
+| _data attribute_ | -               | -         | `data-orientation` is set to `horizontal` or `vertical` for styling/testing |
 
 ### Navbar.Link Props
 
@@ -434,25 +436,28 @@ import { Navbar, Dropdown } from '@dsai/react';
 
 ## Accessibility
 
-The Navbar component follows WAI-ARIA Navigation pattern (WCAG 2.2 AA):
+The Navbar component follows the WAI-ARIA navigation landmark pattern (WCAG 2.2 AA) using native list/link semantics (not the application menubar pattern):
 
-- **Semantic Structure**: Uses native `<nav>`, `<button>`, and `<a>` elements
+- **Semantic Structure**: Uses `<nav>` with `<ul>`, `<li>`, and `<a>` elements for standard site navigation
 - **ARIA Attributes**:
   - Navigation has `aria-label` for screen readers
   - Toggle button has `aria-expanded` to indicate collapse state
   - Toggle button has `aria-controls` pointing to collapse element
   - Active links have `aria-current="page"`
+  - `Navbar.Nav` exposes `data-orientation` (`horizontal` | `vertical`) for styling/testing
 - **Disabled State**: Disabled links have `tabindex="-1"` and `aria-disabled="true"`
 - **Visual State**: `data-visual-state` attribute reflects FSM state
 - **External Links**: Automatically get `rel="noopener noreferrer"` for security
 
 ### Keyboard Shortcuts
 
-| Key               | Action                                  |
-| ----------------- | --------------------------------------- |
-| `Tab`             | Move focus between interactive elements |
-| `Shift+Tab`       | Move focus backwards                    |
-| `Enter` / `Space` | Activate links or toggle menu           |
+| Key                            | Action                                                                                   |
+| ------------------------------ | ---------------------------------------------------------------------------------------- |
+| `Tab` / `Shift+Tab`            | Move focus between interactive elements (toggle, links, form controls)                   |
+| `Enter` / `Space`              | Activate links or toggle the menu                                                        |
+| `Escape`                       | Close the expanded menu and return focus to the toggle (when focus is inside the navbar) |
+| `Arrow Up/Down` / `Left/Right` | Cycle focus between links inside `Navbar.Nav` (horizontal vs. vertical respect layout)   |
+| `Home` / `End`                 | Jump focus to the first/last link inside `Navbar.Nav`                                    |
 
 ### Screen Reader Announcements
 
@@ -467,7 +472,7 @@ The Navbar component includes comprehensive security features:
 
 ### Href Validation
 
-Dangerous protocols are blocked to prevent XSS attacks:
+Dangerous protocols are blocked to prevent XSS attacks (via the shared `isValidHref` utility):
 
 ```tsx
 // These are blocked and will not render as links:

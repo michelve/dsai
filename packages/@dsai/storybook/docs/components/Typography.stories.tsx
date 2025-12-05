@@ -244,9 +244,9 @@ export const DisplaySemanticLevel: Story = {
       <Display size={2} level={3}>
         Display 2 with h3 semantic
       </Display>
-      <p className="text-muted">
+      <Text color="muted">
         Use level prop to control accessibility hierarchy while maintaining visual size.
-      </p>
+      </Text>
     </div>
   ),
 };

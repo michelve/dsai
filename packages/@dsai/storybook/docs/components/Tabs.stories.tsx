@@ -1,4 +1,4 @@
-import { Button, Tab, TabList, TabPanel, Tabs } from '@dsai/react';
+import { Button, Heading, Tab, TabList, TabPanel, Tabs, Text } from '@dsai/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -69,8 +69,12 @@ const sampleItems = [
     label: 'Home',
     content: (
       <div className="p-3">
-        <h5>Home</h5>
-        <p>Welcome to the home tab. This is where you can find an overview of your dashboard.</p>
+        <Heading level={5} className="mb-1">
+          Home
+        </Heading>
+        <Text as="p" noMargin>
+          Welcome to the home tab. This is where you can find an overview of your dashboard.
+        </Text>
       </div>
     ),
   },
@@ -79,8 +83,12 @@ const sampleItems = [
     label: 'Profile',
     content: (
       <div className="p-3">
-        <h5>Profile</h5>
-        <p>Manage your profile settings and personal information here.</p>
+        <Heading level={5} className="mb-1">
+          Profile
+        </Heading>
+        <Text as="p" noMargin>
+          Manage your profile settings and personal information here.
+        </Text>
       </div>
     ),
   },
@@ -89,8 +97,12 @@ const sampleItems = [
     label: 'Settings',
     content: (
       <div className="p-3">
-        <h5>Settings</h5>
-        <p>Configure your application preferences and account settings.</p>
+        <Heading level={5} className="mb-1">
+          Settings
+        </Heading>
+        <Text as="p" noMargin>
+          Configure your application preferences and account settings.
+        </Text>
       </div>
     ),
   },
@@ -123,20 +135,32 @@ export const CompoundComponents: Story = {
       <div className="tab-content mt-3">
         <TabPanel id="home">
           <div className="p-3 border rounded">
-            <h5>Home Content</h5>
-            <p>This is the home panel content using compound components.</p>
+            <Heading level={5} className="mb-1">
+              Home Content
+            </Heading>
+            <Text as="p" noMargin>
+              This is the home panel content using compound components.
+            </Text>
           </div>
         </TabPanel>
         <TabPanel id="profile">
           <div className="p-3 border rounded">
-            <h5>Profile Content</h5>
-            <p>This is the profile panel content.</p>
+            <Heading level={5} className="mb-1">
+              Profile Content
+            </Heading>
+            <Text as="p" noMargin>
+              This is the profile panel content.
+            </Text>
           </div>
         </TabPanel>
         <TabPanel id="settings">
           <div className="p-3 border rounded">
-            <h5>Settings Content</h5>
-            <p>This is the settings panel content.</p>
+            <Heading level={5} className="mb-1">
+              Settings Content
+            </Heading>
+            <Text as="p" noMargin>
+              This is the settings panel content.
+            </Text>
           </div>
         </TabPanel>
       </div>
@@ -155,15 +179,21 @@ export const Variants: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
-        <h6 className="mb-2">Tabs (default)</h6>
+        <Heading level={6} className="mb-2">
+          Tabs (default)
+        </Heading>
         <Tabs variant="tabs" items={sampleItems} />
       </div>
       <div>
-        <h6 className="mb-2">Pills</h6>
+        <Heading level={6} className="mb-2">
+          Pills
+        </Heading>
         <Tabs variant="pills" items={sampleItems} />
       </div>
       <div>
-        <h6 className="mb-2">Underline</h6>
+        <Heading level={6} className="mb-2">
+          Underline
+        </Heading>
         <Tabs variant="underline" items={sampleItems} />
       </div>
     </div>
@@ -253,7 +283,9 @@ export const Controlled: Story = {
     return (
       <div>
         <Tabs activeTab={activeTab} onTabChange={setActiveTab} items={sampleItems} />
-        <p className="mt-3 text-muted small">Active tab: {activeTab}</p>
+        <Text as="p" size="sm" color="muted" className="mt-3" noMargin>
+          Active tab: {activeTab}
+        </Text>
         <div className="btn-group mt-2">
           <Button size="sm" variant="outline-primary" onClick={() => setActiveTab('home')}>
             Go to Home
@@ -420,18 +452,26 @@ export const CompleteShowcase: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
       {/* Variants */}
       <section>
-        <h4 className="mb-3">Variants</h4>
+        <Heading level={4} className="mb-3">
+          Variants
+        </Heading>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           <div>
-            <small className="text-muted d-block mb-1">Tabs</small>
+            <Text as="span" size="sm" color="muted" className="d-block mb-1" noMargin>
+              Tabs
+            </Text>
             <Tabs variant="tabs" items={sampleItems.slice(0, 3)} />
           </div>
           <div>
-            <small className="text-muted d-block mb-1">Pills</small>
+            <Text as="span" size="sm" color="muted" className="d-block mb-1" noMargin>
+              Pills
+            </Text>
             <Tabs variant="pills" items={sampleItems.slice(0, 3)} />
           </div>
           <div>
-            <small className="text-muted d-block mb-1">Underline</small>
+            <Text as="span" size="sm" color="muted" className="d-block mb-1" noMargin>
+              Underline
+            </Text>
             <Tabs variant="underline" items={sampleItems.slice(0, 3)} />
           </div>
         </div>
@@ -439,20 +479,28 @@ export const CompleteShowcase: Story = {
 
       {/* Vertical */}
       <section>
-        <h4 className="mb-3">Vertical Orientation</h4>
+        <Heading level={4} className="mb-3">
+          Vertical Orientation
+        </Heading>
         <Tabs orientation="vertical" variant="pills" items={sampleItems.slice(0, 3)} />
       </section>
 
       {/* Fill and Justified */}
       <section>
-        <h4 className="mb-3">Fill & Justified</h4>
+        <Heading level={4} className="mb-3">
+          Fill &amp; Justified
+        </Heading>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           <div>
-            <small className="text-muted d-block mb-1">Fill</small>
+            <Text as="span" size="sm" color="muted" className="d-block mb-1" noMargin>
+              Fill
+            </Text>
             <Tabs fill items={sampleItems.slice(0, 3)} />
           </div>
           <div>
-            <small className="text-muted d-block mb-1">Justified</small>
+            <Text as="span" size="sm" color="muted" className="d-block mb-1" noMargin>
+              Justified
+            </Text>
             <Tabs justified items={sampleItems.slice(0, 3)} />
           </div>
         </div>
@@ -460,7 +508,9 @@ export const CompleteShowcase: Story = {
 
       {/* States */}
       <section>
-        <h4 className="mb-3">States</h4>
+        <Heading level={4} className="mb-3">
+          States
+        </Heading>
         <Tabs
           items={[
             { id: 'active', label: 'Active', content: <div className="p-3">Active tab</div> },

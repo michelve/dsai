@@ -202,9 +202,23 @@ describe('Dropdown Accessibility', () => {
       expect(toggle).toHaveAttribute('aria-expanded', 'true');
     });
 
-    it('toggle has aria-controls pointing to menu id', () => {
+    it('toggle omits aria-controls when menu is closed', () => {
       render(
         <Dropdown id="test-dropdown">
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.Item>Action</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      const toggle = screen.getByRole('button', { name: 'Options' });
+      expect(toggle).not.toHaveAttribute('aria-controls');
+    });
+
+    it('toggle has aria-controls pointing to menu id when open', () => {
+      render(
+        <Dropdown id="test-dropdown" isOpen>
           <Dropdown.Toggle>Options</Dropdown.Toggle>
           <Dropdown.Menu portal={false}>
             <Dropdown.Item>Action</Dropdown.Item>

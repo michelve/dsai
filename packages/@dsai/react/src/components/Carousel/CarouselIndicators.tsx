@@ -1,6 +1,21 @@
-import { forwardRef, useCallback, useMemo } from 'react';
+import { forwardRef, useCallback, useId, useMemo } from 'react';
+
+import { cn } from '../../utils';
 
 import type { CarouselIndicatorsProps } from './Carousel.types';
+
+/**
+ * Generate indicator data with stable keys
+ */
+function generateIndicatorData(
+  count: number,
+  baseId: string
+): Array<{ key: string; index: number }> {
+  return Array.from({ length: count }, (_, i) => ({
+    key: `${baseId}-indicator-${i}`,
+    index: i,
+  }));
+}
 
 /**
  * Generate default slide labels
@@ -48,14 +63,14 @@ export const CarouselIndicators = forwardRef<HTMLDivElement, CarouselIndicatorsP
     },
     ref
   ) => {
+    // Generate stable base ID for this component instance
+    const baseId = useId();
+
+    // Generate indicator data with stable keys
+    const indicatorData = useMemo(() => generateIndicatorData(count, baseId), [count, baseId]);
+
     // Memoize class name computation
-    const containerClassName = useMemo(() => {
-      const classes = ['carousel-indicators'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const containerClassName = useMemo(() => cn('carousel-indicators', className), [className]);
 
     // Memoize labels
     const slideLabels = useMemo(() => {
@@ -85,15 +100,15 @@ export const CarouselIndicators = forwardRef<HTMLDivElement, CarouselIndicatorsP
       [slideLabels]
     );
 
-    // Memoize indicators array
+    // Memoize indicators array using pre-generated stable keys
     const indicators = useMemo(() => {
-      return Array.from({ length: count }, (_, index) => {
+      return indicatorData.map(({ key, index }) => {
         const isActive = index === activeIndex;
         const label = getLabelAtIndex(index);
 
         return (
           <button
-            key={index}
+            key={key}
             type="button"
             className={isActive ? 'active' : undefined}
             onClick={createClickHandler(index)}
@@ -103,7 +118,7 @@ export const CarouselIndicators = forwardRef<HTMLDivElement, CarouselIndicatorsP
           />
         );
       });
-    }, [count, activeIndex, getLabelAtIndex, createClickHandler]);
+    }, [indicatorData, activeIndex, getLabelAtIndex, createClickHandler]);
 
     if (count <= 0) {
       return null;

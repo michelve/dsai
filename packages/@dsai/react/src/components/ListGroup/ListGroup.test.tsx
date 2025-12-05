@@ -299,9 +299,10 @@ describe('ListGroup', () => {
         </ListGroup>
       );
 
-      const div = screen.getByRole('button', { name: 'Interactive Div' });
-      expect(div).toHaveAttribute('tabindex', '0');
-      expect(div.tagName).toBe('DIV');
+      // Component uses native button for better accessibility instead of div with role="button"
+      const button = screen.getByRole('button', { name: 'Interactive Div' });
+      expect(button).toHaveAttribute('tabindex', '0');
+      expect(button.tagName).toBe('BUTTON');
     });
 
     it('triggers onClick on Enter key for interactive div', async () => {
@@ -348,12 +349,15 @@ describe('ListGroup', () => {
         </ListGroup>
       );
 
-      const div = screen.getByText('Disabled Div').closest('div') as HTMLDivElement;
-      expect(div).toHaveAttribute('tabindex', '-1');
-      expect(div).toHaveAttribute('aria-disabled', 'true');
+      // Component uses native button for better accessibility
+      // Disabled state is communicated via aria-disabled and tabindex
+      const button = screen.getByRole('button', { name: 'Disabled Div' });
+      expect(button).toHaveAttribute('aria-disabled', 'true');
+      expect(button).toHaveAttribute('tabindex', '-1');
+      expect(button).toHaveClass('disabled');
 
-      // Click should not work
-      await userEvent.click(div);
+      // Click should not work (prevented in handleClick)
+      await userEvent.click(button);
       expect(handleClick).not.toHaveBeenCalled();
     });
 

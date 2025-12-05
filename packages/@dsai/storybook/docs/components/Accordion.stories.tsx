@@ -1,4 +1,4 @@
-import { Accordion, Badge } from '@dsai/react';
+import { Accordion, Badge, Heading } from '@dsai/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -84,9 +84,9 @@ export const Basic: Story = {
     return (
       <Accordion>
         <Accordion.Item eventKey="1">
-          <h2 className="accordion-header">
+          <Heading level={2} className="accordion-header">
             <Accordion.Button>Accordion Item #1</Accordion.Button>
-          </h2>
+          </Heading>
           <Accordion.Panel>
             <strong>This is the first item&apos;s accordion body.</strong> It is shown by default,
             until the collapse plugin adds the appropriate classes that we use to style each
@@ -95,9 +95,9 @@ export const Basic: Story = {
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item eventKey="2">
-          <h2 className="accordion-header">
+          <Heading level={2} className="accordion-header">
             <Accordion.Button>Accordion Item #2</Accordion.Button>
-          </h2>
+          </Heading>
           <Accordion.Panel>
             <strong>This is the second item&apos;s accordion body.</strong> It is hidden by default,
             until the collapse plugin adds the appropriate classes that we use to style each
@@ -106,9 +106,9 @@ export const Basic: Story = {
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item eventKey="3">
-          <h2 className="accordion-header">
+          <Heading level={2} className="accordion-header">
             <Accordion.Button>Accordion Item #3</Accordion.Button>
-          </h2>
+          </Heading>
           <Accordion.Panel>
             <strong>This is the third item&apos;s accordion body.</strong> It is hidden by default,
             until the collapse plugin adds the appropriate classes that we use to style each
@@ -133,24 +133,24 @@ export const DefaultExpanded: Story = {
     return (
       <Accordion defaultActiveKeys={['1']}>
         <Accordion.Item eventKey="1">
-          <h2 className="accordion-header">
+          <Heading level={2} className="accordion-header">
             <Accordion.Button>Accordion Item #1 (Expanded by default)</Accordion.Button>
-          </h2>
+          </Heading>
           <Accordion.Panel>
             This panel is expanded by default because we passed{' '}
             <code>defaultActiveKeys={`['1']`}</code> to the Accordion.
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item eventKey="2">
-          <h2 className="accordion-header">
+          <Heading level={2} className="accordion-header">
             <Accordion.Button>Accordion Item #2</Accordion.Button>
-          </h2>
+          </Heading>
           <Accordion.Panel>This panel starts collapsed.</Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item eventKey="3">
-          <h2 className="accordion-header">
+          <Heading level={2} className="accordion-header">
             <Accordion.Button>Accordion Item #3</Accordion.Button>
-          </h2>
+          </Heading>
           <Accordion.Panel>This panel also starts collapsed.</Accordion.Panel>
         </Accordion.Item>
       </Accordion>
@@ -170,9 +170,9 @@ export const MultipleMode: Story = {
     return (
       <Accordion selectionMode="multiple" defaultActiveKeys={['1', '2']}>
         <Accordion.Item eventKey="1">
-          <h2 className="accordion-header">
+          <Heading level={2} className="accordion-header">
             <Accordion.Button>Accordion Item #1</Accordion.Button>
-          </h2>
+          </Heading>
           <Accordion.Panel>
             <strong>Multiple panels can be open at once.</strong> This accordion uses{' '}
             <code>selectionMode=&quot;multiple&quot;</code> which is equivalent to Bootstrap&apos;s
@@ -180,18 +180,18 @@ export const MultipleMode: Story = {
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item eventKey="2">
-          <h2 className="accordion-header">
+          <Heading level={2} className="accordion-header">
             <Accordion.Button>Accordion Item #2</Accordion.Button>
-          </h2>
+          </Heading>
           <Accordion.Panel>
             <strong>This panel is also open by default.</strong> Each panel operates independently -
             opening or closing one does not affect the others.
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item eventKey="3">
-          <h2 className="accordion-header">
+          <Heading level={2} className="accordion-header">
             <Accordion.Button>Accordion Item #3</Accordion.Button>
-          </h2>
+          </Heading>
           <Accordion.Panel>
             This panel starts collapsed but can be opened without closing the others.
           </Accordion.Panel>
@@ -214,27 +214,27 @@ export const Flush: Story = {
       <div style={{ backgroundColor: '#f8f9fa', padding: '1rem' }}>
         <Accordion flush>
           <Accordion.Item eventKey="1">
-            <h2 className="accordion-header">
+            <Heading level={2} className="accordion-header">
               <Accordion.Button>Accordion Item #1</Accordion.Button>
-            </h2>
+            </Heading>
             <Accordion.Panel>
               <strong>This is the flush variant.</strong> It removes borders and rounded corners to
               render edge-to-edge with the parent container.
             </Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item eventKey="2">
-            <h2 className="accordion-header">
+            <Heading level={2} className="accordion-header">
               <Accordion.Button>Accordion Item #2</Accordion.Button>
-            </h2>
+            </Heading>
             <Accordion.Panel>
               The flush variant is useful when embedding accordions in cards or other containers
               where you want seamless integration.
             </Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item eventKey="3">
-            <h2 className="accordion-header">
+            <Heading level={2} className="accordion-header">
               <Accordion.Button>Accordion Item #3</Accordion.Button>
-            </h2>
+            </Heading>
             <Accordion.Panel>
               Use the <code>flush</code> prop to enable this variant.
             </Accordion.Panel>
@@ -297,21 +297,21 @@ export const Controlled: Story = {
           onActiveKeysChange={setActiveKeys}
         >
           <Accordion.Item eventKey="1">
-            <h2 className="accordion-header">
+            <Heading level={2} className="accordion-header">
               <Accordion.Button>Accordion Item #1</Accordion.Button>
-            </h2>
+            </Heading>
             <Accordion.Panel>Content for section 1</Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item eventKey="2">
-            <h2 className="accordion-header">
+            <Heading level={2} className="accordion-header">
               <Accordion.Button>Accordion Item #2</Accordion.Button>
-            </h2>
+            </Heading>
             <Accordion.Panel>Content for section 2</Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item eventKey="3">
-            <h2 className="accordion-header">
+            <Heading level={2} className="accordion-header">
               <Accordion.Button>Accordion Item #3</Accordion.Button>
-            </h2>
+            </Heading>
             <Accordion.Panel>Content for section 3</Accordion.Panel>
           </Accordion.Item>
         </Accordion>
@@ -332,21 +332,21 @@ export const DisabledItems: Story = {
     return (
       <Accordion defaultActiveKeys={['1']}>
         <Accordion.Item eventKey="1">
-          <h2 className="accordion-header">
+          <Heading level={2} className="accordion-header">
             <Accordion.Button>Accordion Item #1 (Enabled)</Accordion.Button>
-          </h2>
+          </Heading>
           <Accordion.Panel>This item is enabled and can be toggled.</Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item eventKey="2" disabled>
-          <h2 className="accordion-header">
+          <Heading level={2} className="accordion-header">
             <Accordion.Button>Accordion Item #2 (Disabled)</Accordion.Button>
-          </h2>
+          </Heading>
           <Accordion.Panel>This item is disabled and cannot be expanded.</Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item eventKey="3">
-          <h2 className="accordion-header">
+          <Heading level={2} className="accordion-header">
             <Accordion.Button>Accordion Item #3 (Enabled)</Accordion.Button>
-          </h2>
+          </Heading>
           <Accordion.Panel>This item is also enabled.</Accordion.Panel>
         </Accordion.Item>
       </Accordion>
@@ -366,11 +366,11 @@ export const WithRichContent: Story = {
     return (
       <Accordion defaultActiveKeys={['features']}>
         <Accordion.Item eventKey="features">
-          <h2 className="accordion-header">
+          <Heading level={2} className="accordion-header">
             <Accordion.Button>
               Features <Badge variant="primary">New</Badge>
             </Accordion.Button>
-          </h2>
+          </Heading>
           <Accordion.Panel>
             <h5>Key Features</h5>
             <ul>
@@ -382,11 +382,11 @@ export const WithRichContent: Story = {
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item eventKey="pricing">
-          <h2 className="accordion-header">
+          <Heading level={2} className="accordion-header">
             <Accordion.Button>
               Pricing <Badge variant="success">Free</Badge>
             </Accordion.Button>
-          </h2>
+          </Heading>
           <Accordion.Panel>
             <table className="table table-sm">
               <thead>
@@ -417,9 +417,9 @@ export const WithRichContent: Story = {
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item eventKey="faq">
-          <h2 className="accordion-header">
+          <Heading level={2} className="accordion-header">
             <Accordion.Button>FAQ</Accordion.Button>
-          </h2>
+          </Heading>
           <Accordion.Panel>
             <div className="accordion-body">
               <p>
@@ -463,21 +463,21 @@ export const WithCallbacks: Story = {
           }
         >
           <Accordion.Item eventKey="1">
-            <h2 className="accordion-header">
+            <Heading level={2} className="accordion-header">
               <Accordion.Button>Accordion Item #1</Accordion.Button>
-            </h2>
+            </Heading>
             <Accordion.Panel>Click to expand/collapse and see events logged below.</Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item eventKey="2">
-            <h2 className="accordion-header">
+            <Heading level={2} className="accordion-header">
               <Accordion.Button>Accordion Item #2</Accordion.Button>
-            </h2>
+            </Heading>
             <Accordion.Panel>Each expansion and collapse fires a callback.</Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item eventKey="3">
-            <h2 className="accordion-header">
+            <Heading level={2} className="accordion-header">
               <Accordion.Button>Accordion Item #3</Accordion.Button>
-            </h2>
+            </Heading>
             <Accordion.Panel>
               Use <code>onItemExpand</code> and <code>onItemCollapse</code> to track changes.
             </Accordion.Panel>
@@ -519,9 +519,9 @@ export const NestedAccordions: Story = {
     return (
       <Accordion defaultActiveKeys={['outer-1']}>
         <Accordion.Item eventKey="outer-1">
-          <h2 className="accordion-header">
+          <Heading level={2} className="accordion-header">
             <Accordion.Button>Parent Accordion #1</Accordion.Button>
-          </h2>
+          </Heading>
           <Accordion.Panel>
             <p>This panel contains a nested accordion:</p>
             <Accordion flush>
@@ -541,9 +541,9 @@ export const NestedAccordions: Story = {
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item eventKey="outer-2">
-          <h2 className="accordion-header">
+          <Heading level={2} className="accordion-header">
             <Accordion.Button>Parent Accordion #2</Accordion.Button>
-          </h2>
+          </Heading>
           <Accordion.Panel>Regular content without nested accordion.</Accordion.Panel>
         </Accordion.Item>
       </Accordion>
@@ -581,23 +581,23 @@ export const KeyboardNavigation: Story = {
         </div>
         <Accordion>
           <Accordion.Item eventKey="1">
-            <h2 className="accordion-header">
+            <Heading level={2} className="accordion-header">
               <Accordion.Button>Press Tab to navigate here</Accordion.Button>
-            </h2>
+            </Heading>
             <Accordion.Panel>
               Use Enter or Space to toggle. The focus remains on the button after toggling.
             </Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item eventKey="2">
-            <h2 className="accordion-header">
+            <Heading level={2} className="accordion-header">
               <Accordion.Button>Tab again to reach this button</Accordion.Button>
-            </h2>
+            </Heading>
             <Accordion.Panel>Each button is a focusable element in the tab order.</Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item eventKey="3">
-            <h2 className="accordion-header">
+            <Heading level={2} className="accordion-header">
               <Accordion.Button>And one more Tab to reach this one</Accordion.Button>
-            </h2>
+            </Heading>
             <Accordion.Panel>
               All interactions are fully keyboard accessible for WCAG 2.2 AA compliance.
             </Accordion.Panel>
@@ -626,18 +626,18 @@ export const VisualStates: Story = {
         </div>
         <Accordion defaultActiveKeys={['1']}>
           <Accordion.Item eventKey="1" data-testid="item-1">
-            <h2 className="accordion-header">
+            <Heading level={2} className="accordion-header">
               <Accordion.Button>Expanded Item (check data-visual-state)</Accordion.Button>
-            </h2>
+            </Heading>
             <Accordion.Panel>
               This item is expanded. Inspect the accordion-item element to see{' '}
               <code>data-visual-state=&quot;expanded&quot;</code>.
             </Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item eventKey="2" data-testid="item-2">
-            <h2 className="accordion-header">
+            <Heading level={2} className="accordion-header">
               <Accordion.Button>Collapsed Item</Accordion.Button>
-            </h2>
+            </Heading>
             <Accordion.Panel>
               This item is collapsed. It has <code>data-visual-state=&quot;collapsed&quot;</code>.
             </Accordion.Panel>

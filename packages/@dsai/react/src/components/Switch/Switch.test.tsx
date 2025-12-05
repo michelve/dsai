@@ -292,9 +292,9 @@ describe('Switch', () => {
     it('is focusable with Tab', async () => {
       render(
         <>
-          <button>Before</button>
+          <button type="button">Before</button>
           <Switch aria-label="Test" />
-          <button>After</button>
+          <button type="button">After</button>
         </>
       );
 
@@ -311,9 +311,9 @@ describe('Switch', () => {
     it('is not focusable when disabled', async () => {
       render(
         <>
-          <button>Before</button>
+          <button type="button">Before</button>
           <Switch aria-label="Test" disabled />
-          <button>After</button>
+          <button type="button">After</button>
         </>
       );
 
@@ -463,7 +463,7 @@ describe('Switch', () => {
       // Label is now inside the button, so it gets its accessible name from content
       expect(screen.getByRole('switch', { name: /Test Label/ })).toBeInTheDocument();
       // The label span still has an id for potential external reference
-      const labelSpan = switchEl.querySelector('#' + switchEl.id + '-label');
+      const labelSpan = switchEl.querySelector(`#${switchEl.id}-label`);
       expect(labelSpan).toHaveTextContent('Test Label');
     });
 

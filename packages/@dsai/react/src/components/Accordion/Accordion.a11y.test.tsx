@@ -368,14 +368,14 @@ describe('Accordion Accessibility', () => {
       const user = userEvent.setup();
       render(
         <div>
-          <button>Before</button>
+          <button type="button">Before</button>
           <Accordion>
             <Accordion.Item eventKey="1">
               <Accordion.Button>Section 1</Accordion.Button>
               <Accordion.Panel>Content</Accordion.Panel>
             </Accordion.Item>
           </Accordion>
-          <button>After</button>
+          <button type="button">After</button>
         </div>
       );
 
@@ -394,7 +394,7 @@ describe('Accordion Accessibility', () => {
           <Accordion.Item eventKey="1">
             <Accordion.Button>Section 1</Accordion.Button>
             <Accordion.Panel>
-              <button>Inner Button</button>
+              <button type="button">Inner Button</button>
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>

@@ -1,5 +1,7 @@
 import { forwardRef, useMemo } from 'react';
 
+import { cn } from '../../utils';
+
 import type { CarouselControlDirection, CarouselControlProps } from './Carousel.types';
 
 /**
@@ -51,13 +53,10 @@ export const CarouselControl = forwardRef<HTMLButtonElement, CarouselControlProp
     ref
   ) => {
     // Memoize class name computation
-    const controlClassName = useMemo(() => {
-      const classes = [`carousel-control-${direction}`];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [direction, className]);
+    const controlClassName = useMemo(
+      () => cn(`carousel-control-${direction}`, className),
+      [direction, className]
+    );
 
     // Memoize icon class
     const iconClassName = useMemo(() => `carousel-control-${direction}-icon`, [direction]);

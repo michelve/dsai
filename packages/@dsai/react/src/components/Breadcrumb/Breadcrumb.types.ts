@@ -149,6 +149,11 @@ export interface BreadcrumbProps {
   'aria-label'?: string;
 
   /**
+   * ID reference to an element that labels the navigation
+   */
+  'aria-labelledby'?: string;
+
+  /**
    * Additional CSS class names
    */
   className?: string;

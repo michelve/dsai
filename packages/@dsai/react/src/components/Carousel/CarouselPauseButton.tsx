@@ -1,5 +1,6 @@
 import { forwardRef, useMemo } from 'react';
 
+import { cn } from '../../utils';
 import { PauseFillIcon, PlayFillIcon } from '../Icon';
 
 import type { CarouselPauseButtonProps } from './Carousel.types';
@@ -43,13 +44,10 @@ export const CarouselPauseButton = forwardRef<HTMLButtonElement, CarouselPauseBu
     ref
   ) => {
     // Memoize class name computation
-    const buttonClassName = useMemo(() => {
-      const classes = ['carousel-pause-button', 'btn', 'btn-sm', 'btn-light'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const buttonClassName = useMemo(
+      () => cn('carousel-pause-button', 'btn', 'btn-sm', 'btn-light', className),
+      [className]
+    );
 
     // Current label based on state
     const currentLabel = isPaused ? playLabel : pauseLabel;

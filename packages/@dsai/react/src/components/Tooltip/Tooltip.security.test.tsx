@@ -26,7 +26,7 @@ describe('Tooltip Security', () => {
           data-test="safe-test"
           defaultOpen
         >
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -49,7 +49,7 @@ describe('Tooltip Security', () => {
 
       render(
         <DangerousTooltip content="Test tooltip" onError={onError} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </DangerousTooltip>
       );
 
@@ -67,7 +67,7 @@ describe('Tooltip Security', () => {
 
       render(
         <DangerousTooltip content="Test tooltip" formAction="https://evil.com/steal" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </DangerousTooltip>
       );
 
@@ -87,7 +87,7 @@ describe('Tooltip Security', () => {
 
       render(
         <Tooltip content={xssAttempt} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -104,7 +104,7 @@ describe('Tooltip Security', () => {
 
       render(
         <Tooltip content={xssAttempt} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -122,7 +122,7 @@ describe('Tooltip Security', () => {
 
       render(
         <Tooltip content={xssAttempt} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -147,7 +147,7 @@ describe('Tooltip Security', () => {
           }
           defaultOpen
         >
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -165,7 +165,7 @@ describe('Tooltip Security', () => {
     it('tooltip does not use dangerouslySetInnerHTML', async () => {
       render(
         <Tooltip content="Safe content" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -190,7 +190,7 @@ describe('Tooltip Security', () => {
 
       render(
         <Tooltip content="Test tooltip" onOpenChange={onOpenChange} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -203,7 +203,7 @@ describe('Tooltip Security', () => {
     it('does not expose internal handlers through props', () => {
       // This test verifies the component interface
       const props: React.ComponentProps<typeof Tooltip> = {
-        children: <button>Trigger</button>,
+        children: <button type="button">Trigger</button>,
         content: 'Test',
       };
 
@@ -212,7 +212,7 @@ describe('Tooltip Security', () => {
       expect(() => {
         render(
           <Tooltip {...props}>
-            <button>Trigger</button>
+            <button type="button">Trigger</button>
           </Tooltip>
         );
       }).not.toThrow();
@@ -230,7 +230,7 @@ describe('Tooltip Security', () => {
 
       render(
         <Tooltip content="Portal tooltip" container={container} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -250,7 +250,7 @@ describe('Tooltip Security', () => {
       const { container } = render(
         <div data-testid="wrapper">
           <Tooltip content="Inline tooltip" portal={false} defaultOpen>
-            <button>Trigger</button>
+            <button type="button">Trigger</button>
           </Tooltip>
         </div>
       );
@@ -271,7 +271,7 @@ describe('Tooltip Security', () => {
 
       render(
         <Tooltip content="Test" id={suspiciousId} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -301,7 +301,7 @@ describe('Tooltip Security', () => {
 
       render(
         <Tooltip content="Test" style={style} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 
@@ -322,7 +322,7 @@ describe('Tooltip Security', () => {
 
       render(
         <Tooltip content="Test" style={style} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Tooltip>
       );
 

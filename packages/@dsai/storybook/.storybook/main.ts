@@ -1,12 +1,26 @@
+import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { dirname, resolve } from 'path';
+
+import remarkGfm from 'remark-gfm';
 
 import type { StorybookConfig } from '@storybook/react-vite';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const config: StorybookConfig = {
   stories: ['../docs/**/*.mdx', '../docs/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: [
-    getAbsolutePath('@storybook/addon-docs'),
+    {
+      name: getAbsolutePath('@storybook/addon-docs'),
+      options: {
+        mdxPluginOptions: {
+          mdxCompileOptions: {
+            remarkPlugins: [remarkGfm],
+          },
+        },
+      },
+    },
     getAbsolutePath('@storybook/addon-links'),
     getAbsolutePath('@storybook/addon-a11y'),
     getAbsolutePath('@storybook/addon-designs'),
@@ -31,10 +45,10 @@ const config: StorybookConfig = {
     return mergeConfig(config, {
       resolve: {
         alias: {
-          '@dsai/tokens': resolve(process.cwd(), '../../@dsai/tokens/src'),
-          '@dsai/tokens/css': resolve(process.cwd(), '../../@dsai/tokens/dist/css'),
-          '@dsai/tokens/js': resolve(process.cwd(), '../../@dsai/tokens/dist/js'),
-          '@dsai/react': resolve(process.cwd(), '../../@dsai/react/src'),
+          '@dsai/tokens': resolve(__dirname, '../../tokens/src'),
+          '@dsai/tokens/css': resolve(__dirname, '../../tokens/dist/css'),
+          '@dsai/tokens/js': resolve(__dirname, '../../tokens/dist/js'),
+          '@dsai/react': resolve(__dirname, '../../react/src/components'),
         },
       },
       build: {

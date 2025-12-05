@@ -210,7 +210,7 @@ function ControlledCarousel() {
 
 The Carousel component is fully accessible:
 
-- **role="region"** with **aria-roledescription="carousel"** on container
+- **`<section>` element** provides implicit `role="region"` with **aria-roledescription="carousel"**
 - **aria-label** for screen reader identification
 - **aria-live="polite"** announces slide changes
 - **Keyboard navigation** with Arrow keys

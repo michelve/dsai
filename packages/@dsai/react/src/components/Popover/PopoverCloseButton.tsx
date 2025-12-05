@@ -1,5 +1,7 @@
 import { forwardRef, useMemo } from 'react';
 
+import { cn } from '../../utils';
+
 import type { PopoverCloseButtonProps } from './Popover.types';
 
 /**
@@ -33,13 +35,7 @@ export const PopoverCloseButton = forwardRef<HTMLButtonElement, PopoverCloseButt
     ref
   ) => {
     // Memoize class name computation
-    const buttonClassName = useMemo(() => {
-      const classes = ['btn-close'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const buttonClassName = useMemo(() => cn('btn-close', className), [className]);
 
     return (
       <button

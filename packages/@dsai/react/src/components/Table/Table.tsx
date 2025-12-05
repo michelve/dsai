@@ -41,6 +41,8 @@ import {
   useState,
 } from 'react';
 
+import { cn } from '../../utils';
+import { isEnterKey } from '../../utils/keyboard';
 import { Checkbox } from '../Checkbox';
 
 import {
@@ -384,7 +386,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
           return;
         }
 
-        if (e.key === 'Enter' || e.key === ' ') {
+        if (isEnterKey(e) || e.key === ' ') {
           e.preventDefault();
           handleRowSelectionClick(rowId, isDisabled);
         }
@@ -419,35 +421,15 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     // ==========================================================================
 
     const tableClasses = useMemo(() => {
-      const classes = ['table'];
-
-      // Variant classes
-      if (variant === 'striped') {
-        classes.push('table-striped');
-      }
-      if (variant === 'bordered') {
-        classes.push('table-bordered');
-      }
-      if (variant === 'borderless') {
-        classes.push('table-borderless');
-      }
-
-      // Size
-      if (size === 'sm') {
-        classes.push('table-sm');
-      }
-
-      // Hover
-      if (hover) {
-        classes.push('table-hover');
-      }
-
-      // Custom class
-      if (className) {
-        classes.push(className);
-      }
-
-      return classes.join(' ');
+      return cn(
+        'table',
+        variant === 'striped' && 'table-striped',
+        variant === 'bordered' && 'table-bordered',
+        variant === 'borderless' && 'table-borderless',
+        size === 'sm' && 'table-sm',
+        hover && 'table-hover',
+        className
+      );
     }, [variant, size, hover, className]);
 
     const headerClasses = useMemo(() => {
@@ -458,14 +440,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     }, [headerColor]);
 
     const wrapperClasses = useMemo(() => {
-      const classes: string[] = [];
-      if (responsive) {
-        classes.push('table-responsive');
-      }
-      if (wrapperClassName) {
-        classes.push(wrapperClassName);
-      }
-      return classes.join(' ');
+      return cn(responsive && 'table-responsive', wrapperClassName);
     }, [responsive, wrapperClassName]);
 
     // ==========================================================================
@@ -570,14 +545,12 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
               }
 
               const alignClass = getAlignClass(column.align);
-              const headerCellClasses = [
+              const headerCellClasses = cn(
                 alignClass,
                 column.headerClassName,
                 column.sortable && 'table-sortable-header',
-                isSorted && 'table-sorted',
-              ]
-                .filter(Boolean)
-                .join(' ');
+                isSorted && 'table-sorted'
+              );
 
               return (
                 <th
@@ -590,7 +563,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
                   onKeyDown={
                     column.sortable
                       ? (e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
+                          if (isEnterKey(e) || e.key === ' ') {
                             e.preventDefault();
                             handleSortClick(column.id);
                           }
@@ -622,9 +595,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
               const isDisabled = disabledRowSet.has(rowIdValue);
               const isInteractive = selectionMode !== 'none' || onRowClick;
 
-              const rowClasses = [isSelected && 'table-active', isDisabled && 'table-disabled']
-                .filter(Boolean)
-                .join(' ');
+              const rowClasses = cn(isSelected && 'table-active', isDisabled && 'table-disabled');
 
               return (
                 <tr
@@ -684,9 +655,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
                         : 'var(--bs-table-bg, var(--bs-body-bg, #fff))';
                     }
 
-                    const cellClasses = [alignClass, column.cellClassName]
-                      .filter(Boolean)
-                      .join(' ');
+                    const cellClasses = cn(alignClass, column.cellClassName);
 
                     return (
                       <td key={column.id} className={cellClasses || undefined} style={cellStyle}>

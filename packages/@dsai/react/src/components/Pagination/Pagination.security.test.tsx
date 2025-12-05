@@ -59,7 +59,7 @@ describe('Pagination - Security Tests', () => {
       );
       // React escapes the content so it's displayed as text, not executable
       // The innerHTML contains HTML-encoded entities (e.g., &lt;button onclick=...)
-      // Verify no actual <button> element was created inside the pagination button
+      // Verify no actual <button type="button"> element was created inside the pagination button
       const paginationButtons = container.querySelectorAll('button.page-link');
       const prevButton = Array.from(paginationButtons).find((btn) =>
         btn.textContent?.includes('onclick')
@@ -184,7 +184,7 @@ describe('Pagination - Security Tests', () => {
       };
       render(<Pagination count={5} {...maliciousProps} />);
       // Ensure Object prototype is not polluted
-      expect(({} as Record<string, unknown>)['polluted']).toBeUndefined();
+      expect(({} as Record<string, unknown>).polluted).toBeUndefined();
     });
   });
 

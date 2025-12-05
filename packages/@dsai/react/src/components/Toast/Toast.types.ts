@@ -81,6 +81,11 @@ export interface SafeToastHTMLAttributes {
    */
   'data-testid'?: string;
   'data-test'?: string;
+
+  /**
+   * Custom accessible label (only forwarded when no title is present)
+   */
+  'aria-label'?: string;
 }
 
 /**
@@ -248,12 +253,6 @@ export interface ToastProps extends SafeToastHTMLAttributes {
    * @default 150
    */
   animationDuration?: number;
-
-  /**
-   * Accessible label for the toast
-   * Used when no title is provided
-   */
-  'aria-label'?: string;
 }
 
 /**

@@ -10,8 +10,6 @@
  * ```
  */
 
-// Accordion
-export { Accordion } from './Accordion';
 export type {
   AccordionButtonProps,
   AccordionContextValue,
@@ -24,10 +22,24 @@ export type {
   AccordionProps,
   AccordionSelectionMode,
 } from './Accordion';
-
+// Accordion
+export { Accordion } from './Accordion';
+export type { AlertHeadingProps, AlertLinkProps, AlertProps, AlertVariant } from './Alert';
 // Alert
 export { Alert } from './Alert';
-export type { AlertHeadingProps, AlertLinkProps, AlertProps, AlertVariant } from './Alert';
+export type {
+  AvatarGroupLayout,
+  AvatarGroupProps,
+  AvatarGroupSpacing,
+  AvatarProps,
+  AvatarShape,
+  AvatarSize,
+  AvatarStatus,
+  AvatarStatusPosition,
+  AvatarTone,
+} from './Avatar';
+// Avatar
+export { Avatar, AvatarGroup } from './Avatar';
 export type { BadgeProps, BadgeVariant } from './Badge';
 // Badge
 export { Badge } from './Badge';
@@ -62,16 +74,15 @@ export {
   CardText,
   CardTitle,
 } from './Card';
-
-// Carousel
-export {
-  Carousel,
-  CarouselCaption,
-  CarouselControl,
-  CarouselIndicators,
-  CarouselItem,
-  CarouselPauseButton,
-} from './Carousel';
+export type {
+  CardListFSMState,
+  CardListItem,
+  CardListProps,
+  CardListSelectionMode,
+  CardListVisualState,
+} from './CardList';
+// CardList
+export { CardList } from './CardList';
 export type {
   CarouselAnimation,
   CarouselCaptionProps,
@@ -85,19 +96,28 @@ export type {
   CarouselProps,
   CarouselVisualState,
 } from './Carousel';
-
-export type {
-  CardListFSMState,
-  CardListItem,
-  CardListProps,
-  CardListSelectionMode,
-  CardListVisualState,
-} from './CardList';
-// CardList
-export { CardList } from './CardList';
+// Carousel
+export {
+  Carousel,
+  CarouselCaption,
+  CarouselControl,
+  CarouselIndicators,
+  CarouselItem,
+  CarouselPauseButton,
+} from './Carousel';
 export type { CheckboxProps } from './Checkbox';
 // Checkbox
 export { Checkbox } from './Checkbox';
+// Dropdown
+export type {
+  CheckboxGroupFSMState,
+  CheckboxGroupOption,
+  CheckboxGroupProps,
+  GroupSelectionState,
+} from './CheckboxGroup';
+// CheckboxGroup
+export { CheckboxGroup } from './CheckboxGroup';
+export { Dropdown } from './Dropdown';
 export type {
   DropdownAutoClose,
   DropdownDividerProps,
@@ -109,16 +129,6 @@ export type {
   DropdownProps,
   DropdownToggleProps,
 } from './Dropdown';
-// Dropdown
-export type {
-  CheckboxGroupFSMState,
-  CheckboxGroupOption,
-  CheckboxGroupProps,
-  GroupSelectionState,
-} from './CheckboxGroup';
-export { Dropdown } from './Dropdown';
-// CheckboxGroup
-export { CheckboxGroup } from './CheckboxGroup';
 // Icons - Bootstrap Icons as React components
 // Re-export all icons and types from the Icon folder
 export * from './Icon';
@@ -177,12 +187,59 @@ export type {
 } from './Pagination';
 // Pagination
 export { Pagination } from './Pagination';
+export type {
+  PopoverBodyProps,
+  PopoverCloseButtonProps,
+  PopoverContextValue,
+  PopoverFSMEvent,
+  PopoverFSMState,
+  PopoverHeaderProps,
+  PopoverPlacement,
+  PopoverProps,
+  PopoverTrigger,
+  PopoverVisualState,
+  SafePopoverHTMLAttributes,
+} from './Popover';
+// Popover
+export {
+  Popover,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverHeader,
+  createInitialPopoverFSMState,
+  getPopoverVisualState,
+  popoverFSMReducer,
+} from './Popover';
 export type { ProgressBarProps, ProgressProps, ProgressSize, ProgressVariant } from './Progress';
 // Progress
 export { Progress } from './Progress';
 export type { RadioGroupProps, RadioProps } from './Radio';
 // Radio
 export { Radio, RadioGroup } from './Radio';
+export type {
+  SafeScrollspyHTMLAttributes,
+  ScrollspyContextValue,
+  ScrollspyFSMEvent,
+  ScrollspyFSMState,
+  ScrollspyItem,
+  ScrollspyLinkProps,
+  ScrollspyOrientation,
+  ScrollspyPosition,
+  ScrollspyProps,
+  ScrollspyProviderProps,
+  ScrollspyVariant,
+  ScrollspyVisualState,
+} from './Scrollspy';
+// Scrollspy
+export {
+  Scrollspy,
+  ScrollspyProvider,
+  createInitialScrollspyFSMState,
+  getScrollspyVisualState,
+  isScrollspyObserving,
+  scrollspyFSMReducer,
+  useScrollspy,
+} from './Scrollspy';
 export type { SelectOption, SelectOptionGroup, SelectProps, SelectSize } from './Select';
 // Select
 export { Select } from './Select';
@@ -237,51 +294,6 @@ export type {
 // TabsPro
 export { TabsPro } from './TabsPro';
 export type {
-  TooltipFSMEvent,
-  TooltipFSMState,
-  TooltipPlacement,
-  TooltipProps,
-  TooltipTrigger,
-  TooltipVisualState,
-} from './Tooltip';
-// Tooltip
-export { Tooltip } from './Tooltip';
-
-// Popover
-export {
-  Popover,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverHeader,
-  createInitialPopoverFSMState,
-  getPopoverVisualState,
-  popoverFSMReducer,
-} from './Popover';
-export type {
-  PopoverBodyProps,
-  PopoverCloseButtonProps,
-  PopoverContextValue,
-  PopoverFSMEvent,
-  PopoverFSMState,
-  PopoverHeaderProps,
-  PopoverPlacement,
-  PopoverProps,
-  PopoverTrigger,
-  PopoverVisualState,
-  SafePopoverHTMLAttributes,
-} from './Popover';
-
-// Toast
-export {
-  Toast,
-  ToastContainer,
-  ToastProvider,
-  createInitialToastFSMState,
-  getToastVisualState,
-  toastFSMReducer,
-  useToast,
-} from './Toast';
-export type {
   ToastContainerProps,
   ToastContextValue,
   ToastData,
@@ -294,6 +306,26 @@ export type {
   ToastVariant,
   ToastVisualState,
 } from './Toast';
+// Toast
+export {
+  Toast,
+  ToastContainer,
+  ToastProvider,
+  createInitialToastFSMState,
+  getToastVisualState,
+  toastFSMReducer,
+  useToast,
+} from './Toast';
+export type {
+  TooltipFSMEvent,
+  TooltipFSMState,
+  TooltipPlacement,
+  TooltipProps,
+  TooltipTrigger,
+  TooltipVisualState,
+} from './Tooltip';
+// Tooltip
+export { Tooltip } from './Tooltip';
 
 export type {
   DisplayProps,

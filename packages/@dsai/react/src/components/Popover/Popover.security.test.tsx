@@ -27,7 +27,7 @@ describe('Popover Security', () => {
           data-test="safe-test"
           defaultOpen
         >
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -49,7 +49,7 @@ describe('Popover Security', () => {
 
       render(
         <DangerousPopover content="Test popover" onError={onError} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </DangerousPopover>
       );
 
@@ -66,7 +66,7 @@ describe('Popover Security', () => {
 
       render(
         <DangerousPopover content="Test popover" formAction="https://evil.com/steal" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </DangerousPopover>
       );
 
@@ -86,7 +86,7 @@ describe('Popover Security', () => {
 
       render(
         <Popover content={xssAttempt} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -102,7 +102,7 @@ describe('Popover Security', () => {
 
       render(
         <Popover header={xssAttempt} content="Safe content" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -118,7 +118,7 @@ describe('Popover Security', () => {
 
       render(
         <Popover content={xssAttempt} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -134,7 +134,7 @@ describe('Popover Security', () => {
 
       render(
         <Popover content={xssAttempt} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -157,7 +157,7 @@ describe('Popover Security', () => {
           }
           defaultOpen
         >
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -176,7 +176,7 @@ describe('Popover Security', () => {
     it('popover body does not use dangerouslySetInnerHTML', async () => {
       render(
         <Popover content="Safe content" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -190,7 +190,7 @@ describe('Popover Security', () => {
     it('popover header does not use dangerouslySetInnerHTML', async () => {
       render(
         <Popover header="Safe header" content="Content" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -211,7 +211,7 @@ describe('Popover Security', () => {
 
       render(
         <Popover content="Test popover" onOpenChange={onOpenChange} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -222,14 +222,14 @@ describe('Popover Security', () => {
 
     it('does not expose internal handlers through props', () => {
       const props: React.ComponentProps<typeof Popover> = {
-        children: <button>Trigger</button>,
+        children: <button type="button">Trigger</button>,
         content: 'Test',
       };
 
       expect(() => {
         render(
           <Popover {...props}>
-            <button>Trigger</button>
+            <button type="button">Trigger</button>
           </Popover>
         );
       }).not.toThrow();
@@ -247,7 +247,7 @@ describe('Popover Security', () => {
 
       render(
         <Popover content="Portal popover" container={container} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -266,7 +266,7 @@ describe('Popover Security', () => {
       const { container } = render(
         <div data-testid="wrapper">
           <Popover content="Inline popover" portal={false} defaultOpen>
-            <button>Trigger</button>
+            <button type="button">Trigger</button>
           </Popover>
         </div>
       );
@@ -287,7 +287,7 @@ describe('Popover Security', () => {
 
       render(
         <Popover content="Test" id={suspiciousId} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -314,7 +314,7 @@ describe('Popover Security', () => {
 
       render(
         <Popover content="Test" style={style} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -333,7 +333,7 @@ describe('Popover Security', () => {
 
       render(
         <Popover content="Test" style={style} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -351,7 +351,7 @@ describe('Popover Security', () => {
     it('close button has type="button" to prevent form submission', async () => {
       render(
         <Popover content="Test" showCloseButton defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -366,7 +366,7 @@ describe('Popover Security', () => {
 
       render(
         <Popover content="Test" showCloseButton closeButtonLabel={suspiciousLabel} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -385,7 +385,7 @@ describe('Popover Security', () => {
     it('generates safe header and body IDs', async () => {
       render(
         <Popover header="Title" content="Body" id="test-popover" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -403,7 +403,7 @@ describe('Popover Security', () => {
 
       render(
         <Popover header="Title" content="Body" id={maliciousId} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 

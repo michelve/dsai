@@ -18,6 +18,7 @@ import {
 import {
   createContext,
   forwardRef,
+  isValidElement,
   useCallback,
   useContext,
   useEffect,
@@ -28,6 +29,10 @@ import {
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
+
+import { cn } from '../../utils';
+import { mapPlacement } from '../../utils/misc';
+import { isValidHref } from '../../utils/validation';
 
 import {
   createInitialDropdownFSMState,
@@ -48,22 +53,7 @@ import type {
   DropdownToggleProps,
 } from './Dropdown.types';
 import type { FloatingContext } from '@floating-ui/react';
-
-/**
- * Blocked protocols for href validation (security)
- */
-const BLOCKED_PROTOCOLS = ['javascript:', 'data:', 'vbscript:', 'file:'];
-
-/**
- * Validates href to prevent XSS attacks
- */
-function isValidHref(href: string | undefined): boolean {
-  if (!href) {
-    return true;
-  }
-  const lowerHref = href.toLowerCase().trim();
-  return !BLOCKED_PROTOCOLS.some((protocol) => lowerHref.startsWith(protocol));
-}
+import type { ReactNode } from 'react';
 
 /**
  * Dropdown context for sharing state between components
@@ -81,13 +71,41 @@ function useDropdownContext(): DropdownContextValue {
   return context;
 }
 
+function extractTextContent(node: ReactNode): string {
+  if (typeof node === 'string' || typeof node === 'number') {
+    return String(node).trim();
+  }
+
+  if (Array.isArray(node)) {
+    return node
+      .map((child) => extractTextContent(child))
+      .filter(Boolean)
+      .join(' ')
+      .trim();
+  }
+
+  if (isValidElement(node)) {
+    const ariaLabel =
+      typeof node.props?.['aria-label'] === 'string' ? node.props['aria-label'].trim() : '';
+    const title = typeof node.props?.title === 'string' ? node.props.title.trim() : '';
+
+    if (ariaLabel) {
+      return ariaLabel;
+    }
+
+    if (title) {
+      return title;
+    }
+
+    return extractTextContent(node.props.children);
+  }
+
+  return '';
+}
+
 /**
  * Map DSAi placement to Floating UI placement
  */
-function mapPlacement(placement: DropdownPlacement): DropdownPlacement {
-  // Our placements are already compatible with Floating UI
-  return placement;
-}
 
 /**
  * Dropdown Component
@@ -309,8 +327,8 @@ const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
       }
     }, [fsmState.visibility, onClosed]);
 
-    // Context actions
-    const toggle = useCallback(() => {
+    // Context actions - let React Compiler handle memoization
+    const toggle = (): void => {
       if (disabled) {
         return;
       }
@@ -318,9 +336,9 @@ const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
       if (isControlled && onOpenChange) {
         onOpenChange(!isOpen);
       }
-    }, [disabled, dispatch, isControlled, onOpenChange, isOpen]);
+    };
 
-    const open = useCallback(() => {
+    const open = (): void => {
       if (disabled) {
         return;
       }
@@ -328,61 +346,39 @@ const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
       if (isControlled && onOpenChange) {
         onOpenChange(true);
       }
-    }, [disabled, dispatch, isControlled, onOpenChange]);
+    };
 
-    const close = useCallback(() => {
+    const close = (): void => {
       dispatch({ type: 'CLOSE' });
       if (isControlled && onOpenChange) {
         onOpenChange(false);
       }
-    }, [dispatch, isControlled, onOpenChange]);
+    };
 
-    // Memoize context value
-    const contextValue = useMemo<DropdownContextValue>(
-      () => ({
-        isOpen,
-        toggle,
-        open,
-        close,
-        disabled,
-        placement,
-        autoClose,
-        toggleId,
-        menuId,
-        activeIndex,
-        setActiveIndex,
-        listRef,
-        getItemProps,
-        refs: {
-          setReference: refs.setReference,
-          setFloating: refs.setFloating,
-        },
-        floatingStyles,
-        getReferenceProps,
-        getFloatingProps,
-        floatingContext: context,
-      }),
-      [
-        isOpen,
-        toggle,
-        open,
-        close,
-        disabled,
-        placement,
-        autoClose,
-        toggleId,
-        menuId,
-        activeIndex,
-        setActiveIndex,
-        getItemProps,
-        refs.setReference,
-        refs.setFloating,
-        floatingStyles,
-        getReferenceProps,
-        getFloatingProps,
-        context,
-      ]
-    );
+    // Context value - React Compiler handles memoization
+    const contextValue: DropdownContextValue = {
+      isOpen,
+      toggle,
+      open,
+      close,
+      disabled,
+      placement,
+      autoClose,
+      toggleId,
+      menuId,
+      activeIndex,
+      setActiveIndex,
+      listRef,
+      getItemProps,
+      refs: {
+        setReference: refs.setReference,
+        setFloating: refs.setFloating,
+      },
+      floatingStyles,
+      getReferenceProps,
+      getFloatingProps,
+      floatingContext: context,
+    };
 
     // Compute direction class for Bootstrap
     const directionClass = useMemo(() => {
@@ -401,13 +397,10 @@ const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
       return 'dropdown';
     }, [placement]);
 
-    const containerClassName = useMemo(() => {
-      const classes = ['btn-group', directionClass];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [directionClass, className]);
+    const containerClassName = useMemo(
+      () => cn('btn-group', directionClass, className),
+      [directionClass, className]
+    );
 
     return (
       <DropdownContext.Provider value={contextValue}>
@@ -464,9 +457,25 @@ const DropdownToggle = forwardRef<HTMLButtonElement, DropdownToggleProps>(
     } = useDropdownContext();
 
     const isDisabled = toggleDisabled || contextDisabled;
+    const derivedLabel = useMemo(() => extractTextContent(children), [children]);
+    const computedAriaLabel = useMemo(() => {
+      const normalizedAriaLabel = ariaLabel?.trim();
+      if (normalizedAriaLabel) {
+        return normalizedAriaLabel;
+      }
+      if (derivedLabel) {
+        return derivedLabel;
+      }
+      return 'Toggle Dropdown';
+    }, [ariaLabel, derivedLabel]);
 
-    // Development warning for split toggles without explicit aria-label
-    if (process.env.NODE_ENV !== 'production' && split && !ariaLabel) {
+    // Development warning for split toggles without explicit aria-label (guarded for browser envs)
+    if (
+      typeof process !== 'undefined' &&
+      process.env?.NODE_ENV !== 'production' &&
+      split &&
+      !ariaLabel
+    ) {
       console.warn(
         'Dropdown.Toggle: Split toggles should have an explicit aria-label for accessibility. ' +
           'Falling back to "Toggle Dropdown".'
@@ -474,25 +483,19 @@ const DropdownToggle = forwardRef<HTMLButtonElement, DropdownToggleProps>(
     }
 
     // Compute Bootstrap button classes
-    const buttonClassName = useMemo(() => {
-      const classes = ['btn', `btn-${variant}`];
-      if (size === 'sm') {
-        classes.push('btn-sm');
-      }
-      if (size === 'lg') {
-        classes.push('btn-lg');
-      }
-      if (caret) {
-        classes.push('dropdown-toggle');
-      }
-      if (split) {
-        classes.push('dropdown-toggle-split');
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [variant, size, caret, split, className]);
+    const buttonClassName = useMemo(
+      () =>
+        cn(
+          'btn',
+          `btn-${variant}`,
+          size === 'sm' && 'btn-sm',
+          size === 'lg' && 'btn-lg',
+          caret && 'dropdown-toggle',
+          split && 'dropdown-toggle-split',
+          className
+        ),
+      [variant, size, caret, split, className]
+    );
 
     const mergedRef = useMergeRefs([ref, refs.setReference]);
 
@@ -507,16 +510,12 @@ const DropdownToggle = forwardRef<HTMLButtonElement, DropdownToggleProps>(
         disabled={isDisabled}
         aria-haspopup="menu"
         aria-expanded={isOpen}
-        aria-controls={menuId}
-        aria-label={ariaLabel}
+        aria-controls={isOpen ? menuId : undefined}
+        aria-label={computedAriaLabel}
         data-testid={dataTestId}
         data-test={dataTest}
       >
-        {split ? (
-          <span className="visually-hidden">{ariaLabel ?? 'Toggle Dropdown'}</span>
-        ) : (
-          children
-        )}
+        {split ? <span className="visually-hidden">{computedAriaLabel}</span> : children}
       </button>
     );
   }
@@ -548,19 +547,11 @@ const DropdownMenu = forwardRef<HTMLUListElement, DropdownMenuProps>(
       useDropdownContext();
 
     // Compute menu classes
-    const menuClassName = useMemo(() => {
-      const classes = ['dropdown-menu'];
-      if (isOpen) {
-        classes.push('show');
-      }
-      if (align === 'end') {
-        classes.push('dropdown-menu-end');
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [isOpen, align, className]);
+    const menuClassName = useMemo(
+      () =>
+        cn('dropdown-menu', isOpen && 'show', align === 'end' && 'dropdown-menu-end', className),
+      [isOpen, align, className]
+    );
 
     const mergedRef = useMergeRefs([ref, refs.setFloating]);
 
@@ -584,7 +575,6 @@ const DropdownMenu = forwardRef<HTMLUListElement, DropdownMenuProps>(
           id={id ?? menuId}
           className={menuClassName}
           style={combinedStyle}
-          role="menu"
           aria-labelledby={toggleId}
           data-testid={dataTestId}
           data-test={dataTest}
@@ -642,19 +632,10 @@ const DropdownItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, DropdownI
     const ElementType = as ?? (safeHref ? 'a' : 'button');
 
     // Compute item classes
-    const itemClassName = useMemo(() => {
-      const classes = ['dropdown-item'];
-      if (active) {
-        classes.push('active');
-      }
-      if (disabled) {
-        classes.push('disabled');
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [active, disabled, className]);
+    const itemClassName = useMemo(
+      () => cn('dropdown-item', active && 'active', disabled && 'disabled', className),
+      [active, disabled, className]
+    );
 
     // Handle click
     const handleClick = useCallback(
@@ -775,13 +756,7 @@ DropdownItem.displayName = 'Dropdown.Item';
  */
 const DropdownDivider = forwardRef<HTMLHRElement, DropdownDividerProps>(
   ({ className = '', style, id, 'data-testid': dataTestId, 'data-test': dataTest }, ref) => {
-    const dividerClassName = useMemo(() => {
-      const classes = ['dropdown-divider'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const dividerClassName = useMemo(() => cn('dropdown-divider', className), [className]);
 
     return (
       <li role="none">
@@ -810,13 +785,7 @@ const DropdownHeader = forwardRef<HTMLSpanElement, DropdownHeaderProps>(
     { children, className = '', style, id, 'data-testid': dataTestId, 'data-test': dataTest },
     ref
   ) => {
-    const headerClassName = useMemo(() => {
-      const classes = ['dropdown-header'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const headerClassName = useMemo(() => cn('dropdown-header', className), [className]);
 
     return (
       <li role="none">
@@ -847,13 +816,7 @@ const DropdownItemText = forwardRef<HTMLSpanElement, DropdownItemTextProps>(
     { children, className = '', style, id, 'data-testid': dataTestId, 'data-test': dataTest },
     ref
   ) => {
-    const textClassName = useMemo(() => {
-      const classes = ['dropdown-item-text'];
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
-    }, [className]);
+    const textClassName = useMemo(() => cn('dropdown-item-text', className), [className]);
 
     return (
       <li role="none">

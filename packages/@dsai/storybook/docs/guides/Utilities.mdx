@@ -1,0 +1,526 @@
+{/* @meta title: Guides/Utilities */}
+import { Meta, Source } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guides/Utilities" />
+
+# Utilities
+
+DSAi provides a comprehensive set of utility functions to ensure **consistency**, **security**, and **accessibility** across all components. These utilities are battle-tested, tree-shakeable, and designed for both internal component use and application-level development.
+
+## Installation
+
+All utilities are exported from the main `@dsai/react` package:
+
+```tsx
+import { cn, mergeRefs, isEnterKey, isSafeHref } from '@dsai/react';
+```
+
+Or import from specific modules for more granular control:
+
+```tsx
+import { cn } from '@dsai/react/utils';
+import { isEnterKey } from '@dsai/react/utils/keyboard';
+import { isSafeHref } from '@dsai/react/utils/validation';
+```
+
+---
+
+## Categories
+
+| Category                                  | Utilities                                                                 | Purpose                        |
+| ----------------------------------------- | ------------------------------------------------------------------------- | ------------------------------ |
+| [Class Names](#class-names)               | `cn`                                                                      | Conditional class composition  |
+| [DOM](#dom-utilities)                     | `mergeRefs`                                                               | Ref composition for forwarding |
+| [Keyboard](#keyboard-utilities)           | `isEnterKey`, `isEscapeKey`                                               | Keyboard event detection       |
+| [Validation](#validation-utilities)       | `isSafeHref`, `isValidHref`                                               | XSS prevention                 |
+| [Accessibility](#accessibility-utilities) | `generateId`, `trapFocus`, `announceToScreenReader`, `focusableSelectors` | a11y helpers                   |
+| [Browser](#browser-utilities)             | `isBrowser`, `prefersReducedMotion`                                       | Environment detection          |
+| [String](#string-utilities)               | `getVariantClass`                                                         | CSS class generation           |
+| [Misc](#miscellaneous-utilities)          | `getSafeInputProps`                                                       | Security filtering             |
+
+---
+
+## Class Names
+
+### `cn(...classes)`
+
+Combines class names conditionally, similar to `clsx` or `classnames`, but zero-dependency.
+
+```tsx
+import { cn } from '@dsai/react';
+
+// Basic usage
+cn('btn', 'btn-primary');
+// => 'btn btn-primary'
+
+// Conditional classes
+cn('btn', isActive && 'btn-active', size === 'lg' && 'btn-lg');
+// => 'btn btn-active btn-lg' (when conditions are true)
+// => 'btn' (when conditions are false)
+
+// Handles falsy values gracefully
+cn('base', undefined, null, false, '', 'valid');
+// => 'base valid'
+```
+
+**Use Cases:**
+
+- Building component class names with conditional modifiers
+- Merging user-provided `className` with internal classes
+- Replacing `filter(Boolean).join(' ')` patterns
+
+**Example in Component:**
+
+```tsx
+const buttonClassName = useMemo(
+  () =>
+    cn(
+      'btn',
+      `btn-${variant}`,
+      `btn-${size}`,
+      isLoading && 'btn-loading',
+      disabled && 'btn-disabled',
+      className
+    ),
+  [variant, size, isLoading, disabled, className]
+);
+```
+
+---
+
+## DOM Utilities
+
+### `mergeRefs(refs)`
+
+Safely composes multiple React refs into a single callback ref. Essential for components that need to forward refs while also using internal refs.
+
+```tsx
+import { mergeRefs } from '@dsai/react';
+
+const MyInput = forwardRef<HTMLInputElement, Props>((props, forwardedRef) => {
+  const internalRef = useRef<HTMLInputElement>(null);
+
+  return <input ref={mergeRefs([forwardedRef, internalRef])} {...props} />;
+});
+```
+
+**Handles:**
+
+- Function refs
+- Object refs (`useRef` results)
+- `null` and `undefined` refs (no-ops)
+
+**Use Cases:**
+
+- Forwarding refs in wrapper components
+- Combining multiple ref hooks (e.g., for focus management + measurements)
+- Integration with third-party libraries that need refs
+
+---
+
+## Keyboard Utilities
+
+### `isEnterKey(event)`
+
+Detects Enter key press. Supports both `KeyboardEvent.key` (modern) and `keyCode` (legacy).
+
+```tsx
+import { isEnterKey } from '@dsai/react';
+
+const handleKeyDown = (event: React.KeyboardEvent) => {
+  if (isEnterKey(event)) {
+    event.preventDefault();
+    onActivate();
+  }
+};
+```
+
+### `isEscapeKey(event)`
+
+Detects Escape key press. Handles browser variations (`Escape` vs `Esc`).
+
+```tsx
+import { isEscapeKey } from '@dsai/react';
+
+const handleKeyDown = (event: React.KeyboardEvent) => {
+  if (isEscapeKey(event)) {
+    onClose();
+  }
+};
+```
+
+**Why use these?**
+
+- Consistent cross-browser detection
+- Handles legacy `keyCode` for older browsers
+- Type-safe with proper TypeScript support
+- Self-documenting code
+
+---
+
+## Validation Utilities
+
+### `isSafeHref(href, options?)`
+
+Validates that a URL is safe to use in `href` attributes. **Blocks XSS attack vectors** via dangerous protocols.
+
+```tsx
+import { isSafeHref } from '@dsai/react';
+
+// Safe URLs
+isSafeHref('https://example.com'); // true
+isSafeHref('/about'); // true
+isSafeHref('#section'); // true
+isSafeHref(undefined); // true (default behavior)
+
+// Blocked protocols (XSS vectors)
+isSafeHref('javascript:alert(1)'); // false
+isSafeHref('data:text/html,<script>'); // false
+isSafeHref('vbscript:msgbox(1)'); // false
+isSafeHref('file:///etc/passwd'); // false
+
+// Handles encoded attacks
+isSafeHref('java%73cript:alert(1)'); // false (decoded and checked)
+```
+
+**Options:**
+
+```tsx
+interface IsSafeHrefOptions {
+  undefinedBehavior?: 'safe' | 'unsafe'; // default: 'safe'
+}
+
+// Strict mode - require explicit href
+isSafeHref(undefined, { undefinedBehavior: 'unsafe' }); // false
+isSafeHref('', { undefinedBehavior: 'unsafe' }); // false
+```
+
+**Blocked Protocols:**
+
+- `javascript:` - Script execution
+- `data:` - Data URLs (can contain scripts)
+- `vbscript:` - VBScript (IE legacy)
+- `file:` - Local file access
+- `about:blank` - Blank pages
+- `text/html` - HTML content type
+
+### `isValidHref(href, options?)`
+
+Alias for `isSafeHref` with identical behavior. Use based on semantic preference.
+
+---
+
+## Accessibility Utilities
+
+### `generateId(prefix?)`
+
+Generates unique IDs for ARIA attributes. SSR-safe with deterministic output.
+
+```tsx
+import { generateId } from '@dsai/react';
+
+const id = generateId('input'); // 'input-1'
+const id2 = generateId('input'); // 'input-2'
+const id3 = generateId(); // 'id-3'
+```
+
+**Use Cases:**
+
+- Linking labels to inputs (`htmlFor` / `id`)
+- ARIA relationships (`aria-labelledby`, `aria-describedby`)
+- Unique keys in dynamic lists
+
+> **Note:** For React 18+, prefer `useId()` hook for SSR hydration safety. Use `generateId` for non-React contexts or legacy compatibility.
+
+### `trapFocus(container, options?)`
+
+Creates a keyboard focus trap within a container element. Essential for modals, dialogs, and popovers.
+
+```tsx
+import { trapFocus } from '@dsai/react';
+
+useEffect(() => {
+  if (isOpen && containerRef.current) {
+    const cleanup = trapFocus(containerRef.current, {
+      onWrap: () => console.log('Focus wrapped'),
+    });
+    return cleanup;
+  }
+}, [isOpen]);
+```
+
+**Options:**
+
+```tsx
+interface TrapFocusOptions {
+  focusableSelectors?: string[]; // Custom focusable element selectors
+  onWrap?: () => void; // Callback when focus wraps around
+}
+```
+
+**Default Focusable Selectors:**
+
+- `a[href]`
+- `button:not([disabled])`
+- `input:not([disabled])`
+- `select:not([disabled])`
+- `textarea:not([disabled])`
+- `[tabindex]:not([tabindex="-1"])`
+
+### `announceToScreenReader(message, options?)`
+
+Announces messages to screen readers via ARIA live regions.
+
+```tsx
+import { announceToScreenReader } from '@dsai/react';
+
+// Polite announcement (default)
+announceToScreenReader('Item added to cart');
+
+// Assertive announcement (interrupts current speech)
+announceToScreenReader('Error: Form submission failed', {
+  politeness: 'assertive',
+});
+
+// Custom timeout
+announceToScreenReader('Loading complete', {
+  timeoutMs: 5000,
+});
+```
+
+**Options:**
+
+```tsx
+interface AnnounceOptions {
+  politeness?: 'polite' | 'assertive'; // default: 'polite'
+  id?: string; // Live region element ID
+  timeoutMs?: number; // Clear message after (default: 2000)
+}
+```
+
+### `focusableSelectors` / `focusableSelectorString`
+
+Curated list of selectors for keyboard-focusable elements.
+
+```tsx
+import { focusableSelectors, focusableSelectorString } from '@dsai/react';
+
+// Array of selectors
+focusableSelectors;
+// ['a[href]', 'button:not([disabled])', 'input:not([disabled])', ...]
+
+// Joined string for querySelectorAll
+focusableSelectorString;
+// 'a[href],button:not([disabled]),input:not([disabled]),...'
+
+// Usage
+const focusable = container.querySelectorAll(focusableSelectorString);
+```
+
+---
+
+## Browser Utilities
+
+### `isBrowser()`
+
+Detects if code is running in a browser environment. SSR-safe.
+
+```tsx
+import { isBrowser } from '@dsai/react';
+
+if (isBrowser()) {
+  // Safe to access window, document, localStorage, etc.
+  window.addEventListener('resize', handleResize);
+}
+```
+
+### `prefersReducedMotion()`
+
+Detects user's reduced motion preference. SSR-safe (returns `false` on server).
+
+```tsx
+import { prefersReducedMotion } from '@dsai/react';
+
+const animationDuration = prefersReducedMotion() ? 0 : 300;
+
+// Or conditionally apply animations
+const motionStyles = prefersReducedMotion() ? {} : { transition: 'transform 0.3s ease' };
+```
+
+**WCAG Compliance:**
+This utility helps meet [WCAG 2.1 SC 2.3.3 (Animation from Interactions)](https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html) by respecting user preferences.
+
+---
+
+## String Utilities
+
+### `getVariantClass(variant, options?)`
+
+Generates Bootstrap-style CSS classes for component variants.
+
+```tsx
+import { getVariantClass } from '@dsai/react';
+
+// Default prefix: 'text-bg'
+getVariantClass('success'); // 'text-bg-success'
+getVariantClass('primary'); // 'text-bg-primary'
+
+// Custom prefix
+getVariantClass('primary', { prefix: 'btn' }); // 'btn-primary'
+getVariantClass('warning', { prefix: 'alert' }); // 'alert-warning'
+
+// Variant mapping (normalize aliases)
+getVariantClass('error', {
+  map: { error: 'danger' },
+}); // 'text-bg-danger'
+```
+
+**Options:**
+
+```tsx
+interface VariantClassOptions {
+  prefix?: string; // default: 'text-bg'
+  map?: Record<string, string>; // Variant name mapping
+}
+```
+
+---
+
+## Miscellaneous Utilities
+
+### `getSafeInputProps(props)`
+
+Filters props to only include safe HTML attributes for input elements. **Blocks XSS vectors** through event handlers.
+
+```tsx
+import { getSafeInputProps } from '@dsai/react';
+
+// Dangerous props are filtered out
+const userProps = {
+  id: 'email',
+  type: 'email',
+  placeholder: 'Enter email',
+  onLoad: 'alert(1)', // BLOCKED
+  onError: 'alert(1)', // BLOCKED
+  onClick: handleClick, // BLOCKED (unless explicitly allowed)
+};
+
+const safeProps = getSafeInputProps(userProps);
+// { id: 'email', type: 'email', placeholder: 'Enter email' }
+```
+
+**Allowed Attributes:**
+
+- Standard HTML attributes (`id`, `name`, `type`, `placeholder`, etc.)
+- ARIA attributes (`aria-*`, `role`)
+- Data attributes (`data-*`)
+- Form attributes (`required`, `disabled`, `readOnly`, etc.)
+
+**Blocked:**
+
+- Event handlers (`onClick`, `onLoad`, `onError`, `onFocus`, etc.)
+- Dangerous attributes (`innerHTML`, `dangerouslySetInnerHTML`)
+
+---
+
+## Best Practices
+
+### 1. Use `cn` for All Class Composition
+
+```tsx
+// ❌ Avoid
+const className = ['base', isActive ? 'active' : '', size && `size-${size}`]
+  .filter(Boolean)
+  .join(' ');
+
+// ✅ Prefer
+const className = cn('base', isActive && 'active', size && `size-${size}`);
+```
+
+### 2. Always Validate User-Provided URLs
+
+```tsx
+// ❌ Dangerous
+<a href={userProvidedUrl}>Click</a>;
+
+// ✅ Safe
+{
+  isSafeHref(userProvidedUrl) && <a href={userProvidedUrl}>Click</a>;
+}
+```
+
+### 3. Use Keyboard Utilities for Consistency
+
+```tsx
+// ❌ Inconsistent
+if (e.key === 'Enter' || e.keyCode === 13) { ... }
+
+// ✅ Consistent
+if (isEnterKey(e)) { ... }
+```
+
+### 4. Respect Motion Preferences
+
+```tsx
+// ❌ Ignores user preference
+const transition = 'transform 0.3s ease';
+
+// ✅ Respects preference
+const transition = prefersReducedMotion() ? 'none' : 'transform 0.3s ease';
+```
+
+### 5. Merge Refs Properly
+
+```tsx
+// ❌ Overwrites forwarded ref
+const MyComponent = forwardRef((props, ref) => {
+  const internalRef = useRef();
+  return <div ref={internalRef} />; // ref is lost!
+});
+
+// ✅ Combines both refs
+const MyComponent = forwardRef((props, ref) => {
+  const internalRef = useRef();
+  return <div ref={mergeRefs([ref, internalRef])} />;
+});
+```
+
+---
+
+## TypeScript Support
+
+All utilities are fully typed. Import types when needed:
+
+```tsx
+import type {
+  IsSafeHrefOptions,
+  VariantClassOptions,
+  TrapFocusOptions,
+  AnnounceOptions,
+} from '@dsai/react';
+```
+
+---
+
+## Tree Shaking
+
+All utilities support tree shaking. Only imported functions are included in the final bundle:
+
+```tsx
+// Only cn is included in bundle
+import { cn } from '@dsai/react';
+```
+
+---
+
+## Migration from Common Patterns
+
+| Old Pattern                        | New Pattern               |
+| ---------------------------------- | ------------------------- |
+| `[...].filter(Boolean).join(' ')`  | `cn(...)`                 |
+| `e.key === 'Enter'`                | `isEnterKey(e)`           |
+| `e.key === 'Escape'`               | `isEscapeKey(e)`          |
+| `typeof window !== 'undefined'`    | `isBrowser()`             |
+| `window.matchMedia('...').matches` | `prefersReducedMotion()`  |
+| Manual ref callback composition    | `mergeRefs([ref1, ref2])` |
+| Inline URL validation              | `isSafeHref(url)`         |

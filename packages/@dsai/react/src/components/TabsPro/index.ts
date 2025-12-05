@@ -9,10 +9,13 @@
 export { TabsPro } from './TabsPro';
 // FSM exports for advanced usage
 export {
+  type ActivateTabEvent,
   activateTabEvent,
   // Initial state factory
   createInitialTabState,
   createInitialTabsProFSMState,
+  type GuardFailEvent,
+  type GuardOkEvent,
   getActiveTabState,
   getTabContent,
   getTabError,
@@ -20,6 +23,7 @@ export {
   getTabState,
   guardFailEvent,
   guardOkEvent,
+  type InitializeTabsEvent,
   // Event creators
   initializeTabsEvent,
   isLeaveConfirmationPending,
@@ -31,30 +35,24 @@ export {
   isTabIdle,
   isTabLoading,
   isTabReady,
-  leaveCancelledEvent,
-  leaveConfirmedEvent,
-  leaveRequestEvent,
-  loadErrorEvent,
-  loadStartEvent,
-  loadSuccessEvent,
-  preloadTabEvent,
-  resetTabEvent,
-  retryEvent,
-  // Reducer
-  tabsProFSMReducer,
-  type ActivateTabEvent,
-  type GuardFailEvent,
-  type GuardOkEvent,
-  type InitializeTabsEvent,
   type LeaveCancelledEvent,
   type LeaveConfirmedEvent,
   type LeaveRequestEvent,
   type LoadErrorEvent,
   type LoadStartEvent,
   type LoadSuccessEvent,
+  leaveCancelledEvent,
+  leaveConfirmedEvent,
+  leaveRequestEvent,
+  loadErrorEvent,
+  loadStartEvent,
+  loadSuccessEvent,
   type PreloadTabEvent,
+  preloadTabEvent,
   type ResetTabEvent,
   type RetryEvent,
+  resetTabEvent,
+  retryEvent,
   type TabProFSMState,
   // State types
   type TabProStatus,
@@ -62,6 +60,8 @@ export {
   type TabsProFSMEvent,
   type TabsProFSMState,
   type TabsProFSMStateMap,
+  // Reducer
+  tabsProFSMReducer,
 } from './TabsPro.fsm';
 export type {
   AsyncLoader,

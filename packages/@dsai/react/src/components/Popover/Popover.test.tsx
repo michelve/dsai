@@ -31,7 +31,7 @@ describe('Popover', () => {
     it('renders the trigger element', () => {
       render(
         <Popover content="Test content">
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -41,7 +41,7 @@ describe('Popover', () => {
     it('does not render popover content initially', () => {
       render(
         <Popover content="Test content">
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -51,7 +51,7 @@ describe('Popover', () => {
     it('renders popover with custom id', async () => {
       render(
         <Popover content="Test content" id="custom-popover" defaultOpen>
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -63,7 +63,7 @@ describe('Popover', () => {
     it('renders popover with data-testid', async () => {
       render(
         <Popover content="Test content" data-testid="test-popover" defaultOpen>
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -75,7 +75,7 @@ describe('Popover', () => {
     it('renders popover with custom className', async () => {
       render(
         <Popover content="Test content" className="custom-class" defaultOpen>
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -87,7 +87,7 @@ describe('Popover', () => {
     it('renders popover content correctly', async () => {
       render(
         <Popover content="Test popover content" defaultOpen>
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -99,7 +99,7 @@ describe('Popover', () => {
     it('renders popover with header', async () => {
       render(
         <Popover header="Popover Title" content="Test content" defaultOpen>
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -120,7 +120,7 @@ describe('Popover', () => {
           }
           defaultOpen
         >
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -133,7 +133,7 @@ describe('Popover', () => {
     it('renders with close button when showCloseButton is true', async () => {
       render(
         <Popover content="Test content" showCloseButton defaultOpen>
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -145,7 +145,7 @@ describe('Popover', () => {
     it('renders with custom close button label', async () => {
       render(
         <Popover content="Test content" showCloseButton closeButtonLabel="Dismiss" defaultOpen>
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -165,7 +165,7 @@ describe('Popover', () => {
 
         render(
           <Popover content="Click popover">
-            <button>Click me</button>
+            <button type="button">Click me</button>
           </Popover>
         );
 
@@ -186,7 +186,7 @@ describe('Popover', () => {
 
         render(
           <Popover content="Click popover">
-            <button>Click me</button>
+            <button type="button">Click me</button>
           </Popover>
         );
 
@@ -217,7 +217,7 @@ describe('Popover', () => {
 
         render(
           <Popover content="Click popover">
-            <button>Click me</button>
+            <button type="button">Click me</button>
           </Popover>
         );
 
@@ -248,7 +248,7 @@ describe('Popover', () => {
 
         render(
           <Popover content="Click popover" closeOnEscape={false}>
-            <button>Click me</button>
+            <button type="button">Click me</button>
           </Popover>
         );
 
@@ -280,7 +280,7 @@ describe('Popover', () => {
 
         render(
           <Popover content="Hover popover" trigger="hover">
-            <button>Hover me</button>
+            <button type="button">Hover me</button>
           </Popover>
         );
 
@@ -301,7 +301,7 @@ describe('Popover', () => {
 
         render(
           <Popover content="Hover popover" trigger="hover">
-            <button>Hover me</button>
+            <button type="button">Hover me</button>
           </Popover>
         );
 
@@ -332,7 +332,7 @@ describe('Popover', () => {
 
         render(
           <Popover content="Delayed popover" trigger="hover" showDelay={500}>
-            <button>Hover me</button>
+            <button type="button">Hover me</button>
           </Popover>
         );
 
@@ -360,7 +360,7 @@ describe('Popover', () => {
 
         render(
           <Popover content="Delayed hide popover" trigger="hover" hideDelay={500}>
-            <button>Hover me</button>
+            <button type="button">Hover me</button>
           </Popover>
         );
 
@@ -398,7 +398,7 @@ describe('Popover', () => {
       it('shows popover on focus', async () => {
         render(
           <Popover content="Focus popover" trigger="focus">
-            <button>Focus me</button>
+            <button type="button">Focus me</button>
           </Popover>
         );
 
@@ -417,7 +417,7 @@ describe('Popover', () => {
       it('hides popover on blur', async () => {
         render(
           <Popover content="Focus popover" trigger="focus">
-            <button>Focus me</button>
+            <button type="button">Focus me</button>
           </Popover>
         );
 
@@ -450,7 +450,7 @@ describe('Popover', () => {
 
         render(
           <Popover content="Multi trigger popover" trigger={['hover', 'focus']}>
-            <button>Interact with me</button>
+            <button type="button">Interact with me</button>
           </Popover>
         );
 
@@ -494,7 +494,7 @@ describe('Popover', () => {
 
       render(
         <Popover content="Closeable popover" showCloseButton defaultOpen>
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -525,7 +525,7 @@ describe('Popover', () => {
           defaultOpen
           onOpenChange={onOpenChange}
         >
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -547,7 +547,7 @@ describe('Popover', () => {
     it('respects isOpen prop', async () => {
       const { rerender } = render(
         <Popover content="Controlled popover" isOpen={false}>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -555,7 +555,7 @@ describe('Popover', () => {
 
       rerender(
         <Popover content="Controlled popover" isOpen={true}>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -574,7 +574,7 @@ describe('Popover', () => {
 
       render(
         <Popover content="Test popover" onOpenChange={onOpenChange}>
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -596,7 +596,7 @@ describe('Popover', () => {
 
       render(
         <Popover content="Test popover" onOpenChange={onOpenChange}>
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -621,7 +621,7 @@ describe('Popover', () => {
     it('respects defaultOpen prop', async () => {
       render(
         <Popover content="Default open popover" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -640,7 +640,7 @@ describe('Popover', () => {
 
       render(
         <Popover content="Disabled popover" disabled>
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -660,7 +660,7 @@ describe('Popover', () => {
 
       render(
         <Popover content="Disabled popover" disabled onOpenChange={onOpenChange}>
-          <button>Click me</button>
+          <button type="button">Click me</button>
         </Popover>
       );
 
@@ -698,7 +698,7 @@ describe('Popover', () => {
       it(`renders popover with ${placement} placement`, async () => {
         render(
           <Popover content="Placement test" placement={placement} defaultOpen>
-            <button>Trigger</button>
+            <button type="button">Trigger</button>
           </Popover>
         );
 
@@ -716,7 +716,7 @@ describe('Popover', () => {
     it('renders with arrow by default', async () => {
       render(
         <Popover content="Arrow popover" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -729,7 +729,7 @@ describe('Popover', () => {
     it('renders without arrow when arrow={false}', async () => {
       render(
         <Popover content="No arrow popover" arrow={false} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -747,7 +747,7 @@ describe('Popover', () => {
     it('applies maxWidth as number', async () => {
       render(
         <Popover content="Long popover content" maxWidth={300} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -760,7 +760,7 @@ describe('Popover', () => {
     it('applies maxWidth as string', async () => {
       render(
         <Popover content="Long popover content" maxWidth="25rem" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -780,7 +780,9 @@ describe('Popover', () => {
 
       render(
         <Popover content="Test popover">
-          <button ref={ref}>Trigger</button>
+          <button type="button" ref={ref}>
+            Trigger
+          </button>
         </Popover>
       );
 
@@ -795,7 +797,7 @@ describe('Popover', () => {
     it('has data-visual-state="visible" when fully open', async () => {
       render(
         <Popover content="Test popover" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -818,7 +820,7 @@ describe('Popover', () => {
       render(
         <div data-testid="parent">
           <Popover content="Portal popover" defaultOpen>
-            <button>Trigger</button>
+            <button type="button">Trigger</button>
           </Popover>
         </div>
       );
@@ -834,7 +836,7 @@ describe('Popover', () => {
       const { container } = render(
         <div data-testid="parent">
           <Popover content="Inline popover" portal={false} defaultOpen>
-            <button>Trigger</button>
+            <button type="button">Trigger</button>
           </Popover>
         </div>
       );
@@ -856,9 +858,11 @@ describe('Popover', () => {
       render(
         <div>
           <Popover content="Click outside popover" defaultOpen>
-            <button>Trigger</button>
+            <button type="button">Trigger</button>
           </Popover>
-          <button data-testid="outside">Outside</button>
+          <button type="button" data-testid="outside">
+            Outside
+          </button>
         </div>
       );
 
@@ -884,9 +888,11 @@ describe('Popover', () => {
       render(
         <div>
           <Popover content="No close on outside" closeOnClickOutside={false} defaultOpen>
-            <button>Trigger</button>
+            <button type="button">Trigger</button>
           </Popover>
-          <button data-testid="outside">Outside</button>
+          <button type="button" data-testid="outside">
+            Outside
+          </button>
         </div>
       );
 
@@ -913,7 +919,7 @@ describe('Popover', () => {
     it('applies popover class', async () => {
       render(
         <Popover content="Test content" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -925,7 +931,7 @@ describe('Popover', () => {
     it('applies bs-popover-auto class', async () => {
       render(
         <Popover content="Test content" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -937,7 +943,7 @@ describe('Popover', () => {
     it('header has popover-header class', async () => {
       render(
         <Popover header="Title" content="Content" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -949,7 +955,7 @@ describe('Popover', () => {
     it('body has popover-body class', async () => {
       render(
         <Popover content="Body content" defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -1032,7 +1038,7 @@ describe('Popover', () => {
     it('applies aria-modal when trapFocus is true', async () => {
       render(
         <Popover content="Modal popover" trapFocus defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
@@ -1045,7 +1051,7 @@ describe('Popover', () => {
     it('does not apply aria-modal when trapFocus is false', async () => {
       render(
         <Popover content="Non-modal popover" trapFocus={false} defaultOpen>
-          <button>Trigger</button>
+          <button type="button">Trigger</button>
         </Popover>
       );
 
