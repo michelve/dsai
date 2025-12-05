@@ -88,8 +88,18 @@ function DismissibleAlert() {
 ### With Icon
 
 ```tsx
-<Alert variant="danger" icon={<ErrorIcon />}>
+<Alert variant="danger" icon={<ErrorIcon />} iconLabel="Error">
   Something went wrong. Please try again.
+</Alert>
+
+// Bootstrap-style alignment (optional)
+<Alert
+  variant="warning"
+  icon={<WarningIcon />}
+  iconLabel="Warning"
+  className="d-flex align-items-center"
+>
+  An example alert with an icon.
 </Alert>
 ```
 
@@ -113,6 +123,7 @@ function DismissibleAlert() {
 | `dismissible` | `boolean`            | `false`     | Show close button and enable Escape-to-dismiss                            |
 | `onClose`     | `() => void`         | -           | Close callback, required when `dismissible` is `true`                     |
 | `icon`        | `ReactNode`          | -           | Custom icon (wrapped in an `aria-hidden` container)                       |
+| `iconLabel`   | `string`             | -           | Accessible label for the icon (sets `role="img"`); omit for decorative    |
 | `show`        | `boolean`            | `true`      | Control visibility (FSM syncs with prop changes)                          |
 | `className`   | `string`             | -           | Additional CSS classes                                                    |
 | `style`       | `CSSProperties`      | -           | Inline styles                                                             |
