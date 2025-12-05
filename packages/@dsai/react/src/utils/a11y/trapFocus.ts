@@ -35,11 +35,13 @@ export function trapFocus(container: HTMLElement, options: TrapFocusOptions = {}
   }
 
   // Safe to access since we checked length > 0
-  const first = focusable[0];
-  const last = focusable[focusable.length - 1];
+  const firstEl = focusable[0];
+  if (!firstEl) {
+    return () => {};
+  }
 
-  // Guard against undefined (should not happen after length check)
-  if (!first || !last) {
+  const lastEl = focusable[focusable.length - 1];
+  if (!lastEl) {
     return () => {};
   }
 
@@ -49,18 +51,18 @@ export function trapFocus(container: HTMLElement, options: TrapFocusOptions = {}
     }
     if (focusable.length === 1) {
       event.preventDefault();
-      first.focus();
+      firstEl.focus();
       options.onWrap?.();
       return;
     }
 
-    if (event.shiftKey && document.activeElement === first) {
+    if (event.shiftKey && document.activeElement === firstEl) {
       event.preventDefault();
-      last.focus();
+      lastEl.focus();
       options.onWrap?.();
-    } else if (!event.shiftKey && document.activeElement === last) {
+    } else if (!event.shiftKey && document.activeElement === lastEl) {
       event.preventDefault();
-      first.focus();
+      firstEl.focus();
       options.onWrap?.();
     }
   }

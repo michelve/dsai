@@ -90,7 +90,8 @@ function BadgeComponent(
   // Shows in development and test environments
   const isDevelopmentOrTest =
     typeof process !== 'undefined' &&
-    (process.env?.NODE_ENV === 'development' || process.env?.NODE_ENV === 'test');
+    // biome-ignore lint/complexity/useLiteralKeys: noPropertyAccessFromIndexSignature requires bracket access
+    (process.env?.['NODE_ENV'] === 'development' || process.env?.['NODE_ENV'] === 'test');
   if (isDevelopmentOrTest && dot && !hasVisibleContent && !ariaLabel) {
     console.warn(
       'Badge: Dot-only badges must have an aria-label for accessibility. ' +

@@ -158,7 +158,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
   // Refs
   const containerRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const listboxRef = useRef<HTMLUListElement>(null);
+  const listboxRef = useRef<HTMLDivElement>(null);
 
   // State
   const [isOpen, setIsOpen] = useState(false);
@@ -651,7 +651,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
 
             {/* Options list */}
             <div
-              ref={listboxRef as React.RefObject<HTMLDivElement>}
+              ref={listboxRef}
               id={listboxId}
               role="listbox"
               aria-multiselectable={multiple}

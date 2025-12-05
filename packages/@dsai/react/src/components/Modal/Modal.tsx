@@ -89,7 +89,7 @@ function useFocusTrap(
       return;
     }
 
-    const cleanupTrap = trapFocus(container, { focusableSelectors });
+    const cleanupTrap = trapFocus(container, { focusableSelectors: [...focusableSelectors] });
 
     // Use a small delay to ensure the modal is fully rendered and ref is set
     const timeoutId = window.setTimeout(() => {

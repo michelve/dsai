@@ -1,0 +1,18 @@
+# Build and cache outputs
+**/dist/**
+**/build/**
+**/coverage/**
+**/.nx/**
+**/.turbo/**
+**/.cache/**
+
+# Dependencies
+**/node_modules/**
+
+# Generated docs/assets
+**/storybook-static/**
+static/
+workspace-graph.html
+
+# Editor/OS noise
+.DS_Store

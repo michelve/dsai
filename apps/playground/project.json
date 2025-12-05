@@ -5,22 +5,30 @@
   "projectType": "application",
   "targets": {
     "dev": {
-      "executor": "nx:run-commands",
+      "executor": "@nx/vite:dev-server",
+      "outputs": ["{projectRoot}/node_modules/.vite"],
       "options": {
-        "command": "echo 'Playground dev server not yet configured'"
+        "root": "apps/playground",
+        "configFile": "apps/playground/vite.config.ts",
+        "buildTarget": "playground:build"
       }
     },
     "build": {
-      "executor": "nx:run-commands",
-      "outputs": ["{projectRoot}/dist"],
+      "executor": "@nx/vite:build",
+      "outputs": ["{projectRoot}/dist", "{projectRoot}/node_modules/.vite"],
       "options": {
-        "command": "echo 'Playground build not yet configured'"
+        "root": "apps/playground",
+        "configFile": "apps/playground/vite.config.ts",
+        "outputPath": "dist/apps/playground"
       }
     },
     "preview": {
-      "executor": "nx:run-commands",
+      "executor": "@nx/vite:preview",
+      "dependsOn": ["build"],
       "options": {
-        "command": "echo 'Playground preview not yet configured'"
+        "root": "apps/playground",
+        "configFile": "apps/playground/vite.config.ts",
+        "buildTarget": "playground:build"
       }
     }
   },

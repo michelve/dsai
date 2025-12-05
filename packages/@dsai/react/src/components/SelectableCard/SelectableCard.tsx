@@ -19,7 +19,8 @@ const warnedIds = new Set<string>();
 function warnMissingValue(id: string, selectionMode: string): void {
   if (
     typeof process !== 'undefined' &&
-    process.env?.NODE_ENV !== 'production' &&
+    // biome-ignore lint/complexity/useLiteralKeys: noPropertyAccessFromIndexSignature requires bracket access
+    process.env?.['NODE_ENV'] !== 'production' &&
     !warnedIds.has(id)
   ) {
     warnedIds.add(id);
@@ -36,7 +37,8 @@ function warnMissingValue(id: string, selectionMode: string): void {
 function warnMissingName(id: string): void {
   if (
     typeof process !== 'undefined' &&
-    process.env?.NODE_ENV !== 'production' &&
+    // biome-ignore lint/complexity/useLiteralKeys: noPropertyAccessFromIndexSignature requires bracket access
+    process.env?.['NODE_ENV'] !== 'production' &&
     !warnedIds.has(`${id}-name`)
   ) {
     warnedIds.add(`${id}-name`);

@@ -85,9 +85,14 @@ function extractTextContent(node: ReactNode): string {
   }
 
   if (isValidElement(node)) {
+    const elementProps = node.props as Record<string, unknown> & {
+      children?: ReactNode;
+      title?: string;
+      'aria-label'?: string;
+    };
     const ariaLabel =
-      typeof node.props?.['aria-label'] === 'string' ? node.props['aria-label'].trim() : '';
-    const title = typeof node.props?.title === 'string' ? node.props.title.trim() : '';
+      typeof elementProps['aria-label'] === 'string' ? elementProps['aria-label'].trim() : '';
+    const title = typeof elementProps.title === 'string' ? elementProps.title.trim() : '';
 
     if (ariaLabel) {
       return ariaLabel;
@@ -97,7 +102,7 @@ function extractTextContent(node: ReactNode): string {
       return title;
     }
 
-    return extractTextContent(node.props.children);
+    return extractTextContent(elementProps.children);
   }
 
   return '';
@@ -472,7 +477,7 @@ const DropdownToggle = forwardRef<HTMLButtonElement, DropdownToggleProps>(
     // Development warning for split toggles without explicit aria-label (guarded for browser envs)
     if (
       typeof process !== 'undefined' &&
-      process.env?.NODE_ENV !== 'production' &&
+      process.env?.['NODE_ENV'] !== 'production' &&
       split &&
       !ariaLabel
     ) {

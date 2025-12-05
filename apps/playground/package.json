@@ -4,15 +4,19 @@
   "description": "Development playground for testing DSAi components",
   "private": true,
   "scripts": {
-    "dev": "echo 'Start playground dev server'",
-    "build": "echo 'Build playground app'",
-    "preview": "echo 'Preview built playground'"
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@dsai/react": "workspace:*",
     "@dsai/tokens": "workspace:*",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.1.1",
+    "vite": "^7.2.6"
   },
   "license": "UNLICENSED"
 }

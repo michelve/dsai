@@ -72,3 +72,5 @@ Thumbs.db
 /packages/@dsai/storybook/storybook-static
 pnpm-lock.yaml
 tasks/01-critical/check.md
+migrations.json
+pnpm-lock.yaml

@@ -1,23 +1,28 @@
-# Ignore build outputs
+# Build & cache outputs
 dist/
 build/
 coverage/
+apps/**/dist/
+packages/**/dist/
 .nx/
+.turbo/
+.cache
+workspace-graph.html
 
-# Ignore dependencies
+# Dependency dirs / stores
 node_modules/
+.pnpm-store/
+
+# Generated artifacts we do not format
+storybook-static/
+static/
 pnpm-lock.yaml
-
-# Ignore generated files
 *.log
-*.cache
-
-# Ignore config files
 .eslintcache
 
-# Ignore Storybook build
-storybook-static/
+# OS/editor noise
+.DS_Store
 
-# Ignore workspace graph
-workspace-graph.html
-static/
+# Env secrets / runtime configs
+.env
+.env.*

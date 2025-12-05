@@ -41,7 +41,8 @@ const warnedGroups = new Set<string>();
 function warnMissingGroupLabel(groupId: string): void {
   if (
     typeof process !== 'undefined' &&
-    process.env?.NODE_ENV !== 'production' &&
+    // biome-ignore lint/complexity/useLiteralKeys: noPropertyAccessFromIndexSignature requires bracket access
+    process.env?.['NODE_ENV'] !== 'production' &&
     !warnedGroups.has(groupId)
   ) {
     warnedGroups.add(groupId);
