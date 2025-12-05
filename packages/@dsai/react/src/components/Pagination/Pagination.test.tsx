@@ -19,7 +19,9 @@ describe('Pagination', () => {
 
     it('renders with default aria-label', () => {
       render(<Pagination count={10} />);
-      expect(screen.getByRole('navigation')).toHaveAttribute('aria-label', 'Pagination');
+      expect(screen.getByRole('navigation').getAttribute('aria-label')).toMatch(
+        /^Pagination navigation /
+      );
     });
 
     it('renders with custom aria-label', () => {

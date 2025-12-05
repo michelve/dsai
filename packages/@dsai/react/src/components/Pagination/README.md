@@ -143,36 +143,38 @@ Control how many page buttons appear at the boundaries and around the current pa
 <Pagination count={10} aria-label="Search results pagination" />
 ```
 
+If you render multiple paginations on the same view, provide a descriptive `aria-label` for each (e.g., "Orders pagination" vs. "Invoices pagination"). When omitted, a unique label is auto-generated to keep landmarks distinct.
+
 ## Props
 
-| Prop               | Type                           | Default                 | Description                          |
-| ------------------ | ------------------------------ | ----------------------- | ------------------------------------ |
-| `count`            | `number`                       | **required**            | Total number of pages                |
-| `page`             | `number`                       | -                       | Current page (controlled mode)       |
-| `defaultPage`      | `number`                       | `1`                     | Initial page (uncontrolled mode)     |
-| `onChange`         | `(page: number) => void`       | -                       | Called when page changes             |
-| `disabled`         | `boolean`                      | `false`                 | Disable all pagination items         |
-| `size`             | `'sm' \| 'md' \| 'lg'`         | `'md'`                  | Size variant                         |
-| `alignment`        | `'start' \| 'center' \| 'end'` | `'start'`               | Horizontal alignment                 |
-| `boundaryCount`    | `number`                       | `1`                     | Pages shown at start and end         |
-| `siblingCount`     | `number`                       | `1`                     | Pages shown around current page      |
-| `showFirstButton`  | `boolean`                      | `false`                 | Show first page button               |
-| `showLastButton`   | `boolean`                      | `false`                 | Show last page button                |
-| `hidePrevButton`   | `boolean`                      | `false`                 | Hide previous button                 |
-| `hideNextButton`   | `boolean`                      | `false`                 | Hide next button                     |
-| `previousLabel`    | `string`                       | `'Go to previous page'` | ARIA label for previous button       |
-| `nextLabel`        | `string`                       | `'Go to next page'`     | ARIA label for next button           |
-| `firstLabel`       | `string`                       | `'Go to first page'`    | ARIA label for first button          |
-| `lastLabel`        | `string`                       | `'Go to last page'`     | ARIA label for last button           |
-| `getPageAriaLabel` | `(page: number) => string`     | -                       | Custom function for page ARIA labels |
-| `previousContent`  | `ReactNode`                    | `'‹'`                   | Content for previous button          |
-| `nextContent`      | `ReactNode`                    | `'›'`                   | Content for next button              |
-| `firstContent`     | `ReactNode`                    | `'«'`                   | Content for first button             |
-| `lastContent`      | `ReactNode`                    | `'»'`                   | Content for last button              |
-| `className`        | `string`                       | -                       | Additional CSS classes               |
-| `style`            | `CSSProperties`                | -                       | Inline styles                        |
-| `id`               | `string`                       | -                       | HTML id attribute                    |
-| `aria-label`       | `string`                       | `'Pagination'`          | ARIA label for navigation            |
+| Prop               | Type                           | Default                     | Description                          |
+| ------------------ | ------------------------------ | --------------------------- | ------------------------------------ |
+| `count`            | `number`                       | **required**                | Total number of pages                |
+| `page`             | `number`                       | -                           | Current page (controlled mode)       |
+| `defaultPage`      | `number`                       | `1`                         | Initial page (uncontrolled mode)     |
+| `onChange`         | `(page: number) => void`       | -                           | Called when page changes             |
+| `disabled`         | `boolean`                      | `false`                     | Disable all pagination items         |
+| `size`             | `'sm' \| 'md' \| 'lg'`         | `'md'`                      | Size variant                         |
+| `alignment`        | `'start' \| 'center' \| 'end'` | `'start'`                   | Horizontal alignment                 |
+| `boundaryCount`    | `number`                       | `1`                         | Pages shown at start and end         |
+| `siblingCount`     | `number`                       | `1`                         | Pages shown around current page      |
+| `showFirstButton`  | `boolean`                      | `false`                     | Show first page button               |
+| `showLastButton`   | `boolean`                      | `false`                     | Show last page button                |
+| `hidePrevButton`   | `boolean`                      | `false`                     | Hide previous button                 |
+| `hideNextButton`   | `boolean`                      | `false`                     | Hide next button                     |
+| `previousLabel`    | `string`                       | `'Go to previous page'`     | ARIA label for previous button       |
+| `nextLabel`        | `string`                       | `'Go to next page'`         | ARIA label for next button           |
+| `firstLabel`       | `string`                       | `'Go to first page'`        | ARIA label for first button          |
+| `lastLabel`        | `string`                       | `'Go to last page'`         | ARIA label for last button           |
+| `getPageAriaLabel` | `(page: number) => string`     | -                           | Custom function for page ARIA labels |
+| `previousContent`  | `ReactNode`                    | `'‹'`                       | Content for previous button          |
+| `nextContent`      | `ReactNode`                    | `'›'`                       | Content for next button              |
+| `firstContent`     | `ReactNode`                    | `'«'`                       | Content for first button             |
+| `lastContent`      | `ReactNode`                    | `'»'`                       | Content for last button              |
+| `className`        | `string`                       | -                           | Additional CSS classes               |
+| `style`            | `CSSProperties`                | -                           | Inline styles                        |
+| `id`               | `string`                       | -                           | HTML id attribute                    |
+| `aria-label`       | `string`                       | Auto-generated unique label | ARIA label for navigation landmark   |
 
 ## Accessibility
 

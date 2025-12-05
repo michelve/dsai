@@ -205,15 +205,15 @@ export const SizeComparison: Story = {
     <div className="d-flex flex-column gap-4">
       <div>
         <p className="text-muted mb-2">Small</p>
-        <Pagination count={5} size="sm" />
+        <Pagination count={5} size="sm" aria-label="Small size pagination" />
       </div>
       <div>
         <p className="text-muted mb-2">Medium (default)</p>
-        <Pagination count={5} size="md" />
+        <Pagination count={5} size="md" aria-label="Medium size pagination" />
       </div>
       <div>
         <p className="text-muted mb-2">Large</p>
-        <Pagination count={5} size="lg" />
+        <Pagination count={5} size="lg" aria-label="Large size pagination" />
       </div>
     </div>
   ),
@@ -261,15 +261,15 @@ export const AlignmentComparison: Story = {
     <div className="d-flex flex-column gap-4">
       <div className="border p-3">
         <p className="text-muted mb-2">Start</p>
-        <Pagination count={5} alignment="start" />
+        <Pagination count={5} alignment="start" aria-label="Start aligned pagination" />
       </div>
       <div className="border p-3">
         <p className="text-muted mb-2">Center</p>
-        <Pagination count={5} alignment="center" />
+        <Pagination count={5} alignment="center" aria-label="Center aligned pagination" />
       </div>
       <div className="border p-3">
         <p className="text-muted mb-2">End</p>
-        <Pagination count={5} alignment="end" />
+        <Pagination count={5} alignment="end" aria-label="End aligned pagination" />
       </div>
     </div>
   ),

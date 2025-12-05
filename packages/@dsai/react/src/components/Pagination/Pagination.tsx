@@ -8,8 +8,9 @@
  * @packageDocumentation
  */
 
-import { forwardRef, memo, useCallback, useMemo, useState } from 'react';
+import { forwardRef, memo, useCallback, useId, useMemo, useState } from 'react';
 
+import { cn } from '../../utils';
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
@@ -290,9 +291,7 @@ const PaginationItemComponent = memo(function PaginationItem({
 
   // Build class names
   const itemClasses = useMemo(() => {
-    return ['page-item', item.active && 'active', isDisabled && 'disabled']
-      .filter(Boolean)
-      .join(' ');
+    return cn('page-item', item.active && 'active', isDisabled && 'disabled');
   }, [item.active, isDisabled]);
 
   // Handle click
@@ -420,7 +419,7 @@ export const Pagination = memo(
       disabled = false,
       size = 'md',
       alignment = 'start',
-      'aria-label': ariaLabel = 'Pagination',
+      'aria-label': ariaLabel,
       previousLabel = 'Go to previous page',
       nextLabel = 'Go to next page',
       firstLabel = 'Go to first page',
@@ -436,6 +435,15 @@ export const Pagination = memo(
     },
     ref
   ) {
+    const generatedLabelId = useId();
+    const resolvedAriaLabel = useMemo(() => {
+      const trimmed = ariaLabel?.trim();
+      if (trimmed) {
+        return trimmed;
+      }
+      return `Pagination navigation ${generatedLabelId}`;
+    }, [ariaLabel, generatedLabelId]);
+
     // Internal state for uncontrolled mode
     const [internalPage, setInternalPage] = useState(defaultPage);
 
@@ -497,11 +505,11 @@ export const Pagination = memo(
         alignment in ALIGNMENT_CLASSES
           ? ALIGNMENT_CLASSES[alignment as keyof typeof ALIGNMENT_CLASSES]
           : undefined;
-      return ['pagination', 'mb-0', sizeClass, alignClass].filter(Boolean).join(' ');
+      return cn('pagination', 'mb-0', sizeClass, alignClass);
     }, [size, alignment]);
 
     return (
-      <nav ref={ref} aria-label={ariaLabel} className={navClasses} style={style} id={id}>
+      <nav ref={ref} aria-label={resolvedAriaLabel} className={navClasses} style={style} id={id}>
         <ul className={ulClasses}>
           {paginationItems.map((item) => (
             <PaginationItemComponent
