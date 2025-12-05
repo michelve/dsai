@@ -26,27 +26,27 @@ import { Accordion } from '@dsai/react';
 ### Basic Accordion
 
 ```tsx
-import { Accordion } from '@dsai/react';
+import { Accordion, Heading } from '@dsai/react';
 
 function Example() {
   return (
     <Accordion>
       <Accordion.Item eventKey="0">
-        <h2 className="accordion-header">
+        <Heading level={2} className="accordion-header">
           <Accordion.Button>Section 1</Accordion.Button>
-        </h2>
+        </Heading>
         <Accordion.Panel>Content for section 1</Accordion.Panel>
       </Accordion.Item>
       <Accordion.Item eventKey="1">
-        <h2 className="accordion-header">
+        <Heading level={2} className="accordion-header">
           <Accordion.Button>Section 2</Accordion.Button>
-        </h2>
+        </Heading>
         <Accordion.Panel>Content for section 2</Accordion.Panel>
       </Accordion.Item>
       <Accordion.Item eventKey="2">
-        <h2 className="accordion-header">
+        <Heading level={2} className="accordion-header">
           <Accordion.Button>Section 3</Accordion.Button>
-        </h2>
+        </Heading>
         <Accordion.Panel>Content for section 3</Accordion.Panel>
       </Accordion.Item>
     </Accordion>
@@ -54,7 +54,7 @@ function Example() {
 }
 ```
 
-> **Note:** For semantic HTML structure, wrap `Accordion.Button` in a heading element (`<h2>`, `<h3>`, etc.) with `className="accordion-header"`. The heading level should match your document outline.
+> **Note:** For semantic HTML structure, wrap `Accordion.Button` in a heading element (e.g., `Heading level={2}`) with `className="accordion-header"`. The heading level should match your document outline.
 
 ### Default Expanded
 
