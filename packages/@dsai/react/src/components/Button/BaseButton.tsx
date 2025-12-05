@@ -1,5 +1,6 @@
 import { forwardRef, useMemo } from 'react';
 
+import { cn } from '../../utils';
 import { Spinner } from '../Spinner';
 
 import type { ButtonFSMState } from './Button.fsm';
@@ -103,7 +104,7 @@ export const BaseButton = forwardRef<
     // Build Bootstrap class names - memoized to prevent unnecessary recalculation
     const bootstrapClasses = useMemo(
       () =>
-        [
+        cn(
           'btn', // Base Bootstrap button class
           `btn-${variant}`, // Variant: btn-primary, btn-outline-secondary, etc.
           size === 'sm' && 'btn-sm',
@@ -111,10 +112,8 @@ export const BaseButton = forwardRef<
           // Note: 'md' is the default size in Bootstrap, no class needed
           fullWidth && 'w-100', // Bootstrap utility for full width
           error && 'btn-error', // Error state class for styling
-          className, // Allow additional custom classes
-        ]
-          .filter(Boolean)
-          .join(' '),
+          className // Allow additional custom classes
+        ),
       [variant, size, fullWidth, error, className]
     );
 
@@ -203,9 +202,10 @@ export const BaseButton = forwardRef<
 
         {/* Announce state changes to screen readers (e.g., "Saving changes...") */}
         {announce && announceText && (
-          <output
+          <div
             aria-live="polite"
             aria-atomic="true"
+            role="status"
             style={{
               position: 'absolute',
               width: '1px',
@@ -218,14 +218,15 @@ export const BaseButton = forwardRef<
             }}
           >
             {announceText}
-          </output>
+          </div>
         )}
 
         {/* Spinner status region for screen readers (present whenever loading) */}
         {loading && !announceText && (
-          <output
+          <div
             aria-live="polite"
             aria-atomic="true"
+            role="status"
             style={{
               position: 'absolute',
               width: '1px',
@@ -238,7 +239,7 @@ export const BaseButton = forwardRef<
             }}
           >
             Loading
-          </output>
+          </div>
         )}
       </>
     );
