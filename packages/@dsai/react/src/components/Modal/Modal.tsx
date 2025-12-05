@@ -12,6 +12,11 @@ import React, {
 } from 'react';
 import { createPortal } from 'react-dom';
 
+import { cn, isBrowser, mergeRefs } from '../../utils';
+import { focusableSelectorString, focusableSelectors } from '../../utils/a11y/focusableSelectors';
+import { trapFocus } from '../../utils/a11y/trapFocus';
+import { isEscapeKey } from '../../utils/keyboard';
+
 import { createInitialModalFSMState, getModalVisualState, modalFSMReducer } from './Modal.fsm';
 
 import type {
@@ -45,23 +50,11 @@ function useModalContext(): ModalContextValue {
 // Focus Trap Utilities
 // ============================================================================
 
-const FOCUSABLE_SELECTOR = [
-  'a[href]',
-  'button:not([disabled])',
-  'input:not([disabled])',
-  'select:not([disabled])',
-  'textarea:not([disabled])',
-  '[tabindex]:not([tabindex="-1"])',
-  'audio[controls]',
-  'video[controls]',
-  '[contenteditable]:not([contenteditable="false"])',
-].join(', ');
-
 /**
  * Get all focusable elements within a container
  */
 function getFocusableElements(container: HTMLElement): HTMLElement[] {
-  const elements = container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
+  const elements = container.querySelectorAll<HTMLElement>(focusableSelectorString);
   return Array.from(elements).filter(
     (el) => el.offsetParent !== null && getComputedStyle(el).visibility !== 'hidden'
   );
@@ -80,87 +73,51 @@ function useFocusTrap(
 
   // Store the previously focused element when trap activates
   useEffect(() => {
-    if (isActive) {
+    if (isActive && isBrowser()) {
       previousActiveElement.current = document.activeElement as HTMLElement;
     }
   }, [isActive]);
 
   // Set initial focus when trap activates
   useEffect(() => {
-    if (!isActive) {
+    if (!isActive || !isBrowser()) {
       return;
     }
 
+    const container = containerRef.current;
+    if (!container) {
+      return;
+    }
+
+    const cleanupTrap = trapFocus(container, { focusableSelectors });
+
     // Use a small delay to ensure the modal is fully rendered and ref is set
-    const timeoutId = setTimeout(() => {
-      const container = containerRef.current;
-      if (!container) {
+    const timeoutId = window.setTimeout(() => {
+      if (initialFocusRef?.current) {
+        initialFocusRef.current.focus();
         return;
       }
 
-      if (initialFocusRef?.current) {
-        initialFocusRef.current.focus();
+      const focusableElements = getFocusableElements(container);
+      const firstFocusable = focusableElements[0];
+
+      if (firstFocusable) {
+        firstFocusable.focus();
       } else {
-        const focusableElements = getFocusableElements(container);
-        const firstFocusable = focusableElements[0];
-        if (firstFocusable) {
-          firstFocusable.focus();
-        } else {
-          // If no focusable elements, focus the container itself
-          container.focus();
-        }
+        // If no focusable elements, focus the container itself
+        container.focus();
       }
     }, 50);
 
-    return () => clearTimeout(timeoutId);
-  }, [isActive, containerRef, initialFocusRef]);
-
-  // Handle Tab key for focus trapping
-  useEffect(() => {
-    if (!isActive || !containerRef.current) {
-      return;
-    }
-
-    const handleKeyDown = (event: KeyboardEvent): void => {
-      if (event.key !== 'Tab' || !containerRef.current) {
-        return;
-      }
-
-      const focusableElements = getFocusableElements(containerRef.current);
-      if (focusableElements.length === 0) {
-        return;
-      }
-
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
-
-      // Type guard - elements are guaranteed to exist since length > 0
-      if (!firstElement || !lastElement) {
-        return;
-      }
-
-      if (event.shiftKey) {
-        // Shift + Tab: if on first element, wrap to last
-        if (document.activeElement === firstElement) {
-          event.preventDefault();
-          lastElement.focus();
-        }
-      } else {
-        // Tab: if on last element, wrap to first
-        if (document.activeElement === lastElement) {
-          event.preventDefault();
-          firstElement.focus();
-        }
-      }
+    return () => {
+      cleanupTrap();
+      clearTimeout(timeoutId);
     };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isActive, containerRef]);
+  }, [isActive, containerRef, initialFocusRef]);
 
   // Return focus when trap deactivates
   useEffect(() => {
-    if (isActive) {
+    if (isActive || !isBrowser()) {
       return;
     }
 
@@ -177,7 +134,7 @@ function useFocusTrap(
  */
 function useScrollLock(isActive: boolean): void {
   useEffect(() => {
-    if (!isActive) {
+    if (!isActive || !isBrowser()) {
       return;
     }
 
@@ -212,7 +169,7 @@ const ModalTitle = React.memo(function ModalTitle({
   const context = useModalContext();
   const titleId = id || context.titleId;
 
-  const classes = useMemo(() => ['modal-title', className].filter(Boolean).join(' '), [className]);
+  const classes = useMemo(() => cn('modal-title', className), [className]);
 
   return (
     <Component id={titleId} className={classes}>
@@ -243,10 +200,7 @@ const ModalHeader = React.memo(
     const context = useModalContext();
     const handleClose = onClose || context.onClose;
 
-    const classes = useMemo(
-      () => ['modal-header', className].filter(Boolean).join(' '),
-      [className]
-    );
+    const classes = useMemo(() => cn('modal-header', className), [className]);
 
     // Determine if children is a string (needs wrapping in Modal.Title)
     const isStringChild = typeof children === 'string';
@@ -292,7 +246,7 @@ const ModalBody = React.memo(
   ) {
     const context = useModalContext();
 
-    const classes = useMemo(() => ['modal-body', className].filter(Boolean).join(' '), [className]);
+    const classes = useMemo(() => cn('modal-body', className), [className]);
 
     return (
       <div
@@ -320,10 +274,7 @@ const ModalFooter = React.memo(
     { children, className = '', style, 'data-testid': dataTestId, 'data-test': dataTest },
     ref
   ) {
-    const classes = useMemo(
-      () => ['modal-footer', className].filter(Boolean).join(' '),
-      [className]
-    );
+    const classes = useMemo(() => cn('modal-footer', className), [className]);
 
     return (
       <div
@@ -516,7 +467,7 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
       }
 
       const handleKeyDown = (event: KeyboardEvent): void => {
-        if (event.key === 'Escape') {
+        if (isEscapeKey(event)) {
           event.preventDefault();
           onClose();
         }
@@ -555,7 +506,7 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
       (event: React.KeyboardEvent<HTMLDivElement>) => {
         // ESC key is handled via document listener, but we need a keyboard handler
         // to pair with onClick for accessibility compliance
-        if (event.key === 'Escape' && closeOnEscape && fsmState.visibility === 'open') {
+        if (isEscapeKey(event) && closeOnEscape && fsmState.visibility === 'open') {
           event.preventDefault();
           onClose();
         }
@@ -638,12 +589,10 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
     }, [animated, fsmState.visibility, onOpened]);
 
     // Compute modal classes
-    const modalClasses = useMemo(() => {
-      const classes = ['modal', animated && 'fade', showClass && 'show', className]
-        .filter(Boolean)
-        .join(' ');
-      return classes;
-    }, [animated, showClass, className]);
+    const modalClasses = useMemo(
+      () => cn('modal', animated && 'fade', showClass && 'show', className),
+      [animated, showClass, className]
+    );
 
     // Compute dialog classes
     const dialogClasses = useMemo(() => {
@@ -656,14 +605,12 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
             ? `modal-${size}`
             : '';
 
-      return [
+      return cn(
         'modal-dialog',
         sizeClass,
         centered && 'modal-dialog-centered',
-        scrollable && 'modal-dialog-scrollable',
-      ]
-        .filter(Boolean)
-        .join(' ');
+        scrollable && 'modal-dialog-scrollable'
+      );
     }, [size, fullscreenBreakpoint, centered, scrollable]);
 
     // Compute modal styles
@@ -701,7 +648,7 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
     }
 
     // Get portal container
-    const portalContainer = container || (typeof document !== 'undefined' ? document.body : null);
+    const portalContainer = container || (isBrowser() ? document.body : null);
 
     if (!portalContainer) {
       return null;
@@ -721,15 +668,7 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
         {/* Modal */}
         {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Dialog backdrop click is a standard modal pattern per Bootstrap 5 and ARIA APG */}
         <div
-          ref={(node) => {
-            // Handle both refs
-            modalRef.current = node;
-            if (typeof ref === 'function') {
-              ref(node);
-            } else if (ref) {
-              ref.current = node;
-            }
-          }}
+          ref={mergeRefs(modalRef, ref)}
           className={modalClasses}
           style={modalStyles}
           id={id}
