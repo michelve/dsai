@@ -405,11 +405,11 @@ describe('Button', () => {
     it('renders aria-live region when announceText is provided', () => {
       render(<Button announceText="Saving...">Save</Button>);
 
-      const announcement = screen.getByText('Saving...');
+      const announcement = screen.getByRole('status', { hidden: true });
       expect(announcement).toBeInTheDocument();
-      expect(announcement).toHaveAttribute('role', 'status');
       expect(announcement).toHaveAttribute('aria-live', 'polite');
       expect(announcement).toHaveAttribute('aria-atomic', 'true');
+      expect(announcement).toHaveTextContent('Saving...');
     });
 
     it('does not render aria-live region when announceText is not provided', () => {
@@ -422,13 +422,12 @@ describe('Button', () => {
     it('hides aria-live region from visual display using sr-only technique', () => {
       const { container } = render(<Button announceText="Changes saved">Save</Button>);
 
-      const announcement = screen.getByText('Changes saved');
+      const announcement = screen.getByRole('status', { hidden: true });
 
       // Announcement region should be hidden visually (off-screen)
-      // The announcement div itself has aria-live and role
+      // The announcement element has aria-live and implicit status role
       expect(announcement).toBeInTheDocument();
       expect(announcement).toHaveAttribute('aria-live', 'polite');
-      expect(announcement).toHaveAttribute('role', 'status');
 
       // Check for sr-only positioning styles
       const liveRegion = container.querySelector('[aria-live="polite"]');

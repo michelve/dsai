@@ -491,7 +491,7 @@ export const Avatar = memo(
       }
       const defaultIconSize = Math.floor(sizeValue * 0.5);
       return (
-        <span className="dsai-avatar__icon" aria-hidden="true">
+        <span className="dsai-avatar__icon" role="img" aria-label="Default avatar icon">
           <PersonIcon size={defaultIconSize} aria-hidden />
         </span>
       );
