@@ -153,7 +153,8 @@ export const Breadcrumb = memo(
       onExpand,
       expanded: controlledExpanded,
       linkAs,
-      'aria-label': ariaLabel = 'Breadcrumb',
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledBy,
       className = '',
       style,
       id,
@@ -183,6 +184,23 @@ export const Breadcrumb = memo(
 
     // Build nav classes with memoization
     const navClasses = useMemo(() => cn(className), [className]);
+
+    // Derive accessible label with fallback and support for aria-labelledby
+    const navAriaLabel = useMemo(() => {
+      if (ariaLabelledBy) {
+        return undefined;
+      }
+
+      if (ariaLabel) {
+        return ariaLabel;
+      }
+
+      if (id) {
+        return `Breadcrumb ${id}`;
+      }
+
+      return 'Breadcrumb';
+    }, [ariaLabel, ariaLabelledBy, id]);
 
     // Custom separator style with memoization
     const separatorStyle = useMemo<React.CSSProperties | undefined>(() => {
@@ -276,7 +294,8 @@ export const Breadcrumb = memo(
     return (
       <nav
         ref={ref}
-        aria-label={ariaLabel}
+        aria-label={navAriaLabel}
+        aria-labelledby={ariaLabelledBy}
         className={navClasses || undefined}
         style={style}
         id={id}

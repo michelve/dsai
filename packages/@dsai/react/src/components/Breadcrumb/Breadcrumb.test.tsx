@@ -405,9 +405,30 @@ describe('Breadcrumb', () => {
       expect(screen.getByRole('navigation')).toHaveAttribute('aria-label', 'Breadcrumb');
     });
 
+    it('derives aria-label from id when provided without explicit label', () => {
+      render(<Breadcrumb items={sampleItems} id="primary-breadcrumb" />);
+      expect(screen.getByRole('navigation')).toHaveAttribute(
+        'aria-label',
+        'Breadcrumb primary-breadcrumb'
+      );
+    });
+
     it('accepts custom aria-label', () => {
       render(<Breadcrumb items={sampleItems} aria-label="Site navigation" />);
       expect(screen.getByRole('navigation')).toHaveAttribute('aria-label', 'Site navigation');
+    });
+
+    it('accepts aria-labelledby to describe the navigation', () => {
+      render(
+        <>
+          <h2 id="breadcrumb-heading">Page trail</h2>
+          <Breadcrumb items={sampleItems} aria-labelledby="breadcrumb-heading" />
+        </>
+      );
+
+      const nav = screen.getByRole('navigation');
+      expect(nav).toHaveAttribute('aria-labelledby', 'breadcrumb-heading');
+      expect(nav).not.toHaveAttribute('aria-label');
     });
 
     it('uses ol list structure', () => {

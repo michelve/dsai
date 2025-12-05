@@ -144,21 +144,22 @@ function ControlledBreadcrumb() {
 
 ### Breadcrumb
 
-| Prop                  | Type                   | Default        | Description               |
-| --------------------- | ---------------------- | -------------- | ------------------------- |
-| `items`               | `BreadcrumbItemData[]` | -              | Breadcrumb items          |
-| `children`            | `ReactNode`            | -              | Compound components       |
-| `separator`           | `ReactNode`            | `'/'`          | Custom separator          |
-| `maxItems`            | `number`               | -              | Max items before collapse |
-| `itemsBeforeCollapse` | `number`               | `1`            | Items before ellipsis     |
-| `itemsAfterCollapse`  | `number`               | `1`            | Items after ellipsis      |
-| `expanded`            | `boolean`              | `false`        | Controlled expand state   |
-| `onExpand`            | `() => void`           | -              | Expand callback           |
-| `linkAs`              | `ElementType`          | `'a'`          | Custom link component     |
-| `aria-label`          | `string`               | `'Breadcrumb'` | Accessible label          |
-| `className`           | `string`               | -              | Additional classes        |
-| `style`               | `CSSProperties`        | -              | Inline styles             |
-| `id`                  | `string`               | -              | Element ID                |
+| Prop                  | Type                   | Default        | Description                                               |
+| --------------------- | ---------------------- | -------------- | --------------------------------------------------------- |
+| `items`               | `BreadcrumbItemData[]` | -              | Breadcrumb items                                          |
+| `children`            | `ReactNode`            | -              | Compound components                                       |
+| `separator`           | `ReactNode`            | `'/'`          | Custom separator                                          |
+| `maxItems`            | `number`               | -              | Max items before collapse                                 |
+| `itemsBeforeCollapse` | `number`               | `1`            | Items before ellipsis                                     |
+| `itemsAfterCollapse`  | `number`               | `1`            | Items after ellipsis                                      |
+| `expanded`            | `boolean`              | `false`        | Controlled expand state                                   |
+| `onExpand`            | `() => void`           | -              | Expand callback                                           |
+| `linkAs`              | `ElementType`          | `'a'`          | Custom link component                                     |
+| `aria-label`          | `string`               | `'Breadcrumb'` | Accessible label (defaults to component ID when provided) |
+| `aria-labelledby`     | `string`               | -              | ID of element labeling the nav                            |
+| `className`           | `string`               | -              | Additional classes                                        |
+| `style`               | `CSSProperties`        | -              | Inline styles                                             |
+| `id`                  | `string`               | -              | Element ID                                                |
 
 ### BreadcrumbItemData
 
@@ -188,13 +189,17 @@ function ControlledBreadcrumb() {
 
 The Breadcrumb component follows WCAG 2.2 AA guidelines:
 
-- `<nav aria-label="breadcrumb">` wrapper
+- `<nav aria-label="...">` wrapper with optional `aria-labelledby`
 - `<ol>` ordered list structure
 - `aria-current="page"` on active item
 - Semantic `<a>` elements for links
 - Keyboard navigable
 - Ellipsis button has accessible label and `aria-expanded`
 - `data-visual-state` attribute reflects `collapsed` or `expanded` state
+
+When rendering multiple breadcrumbs on the same page, provide unique `aria-label` or
+`aria-labelledby` values (or unique `id` values to use the default `Breadcrumb <id>` label) so
+navigation landmarks remain distinguishable.
 
 ## State Machine (FSM)
 
