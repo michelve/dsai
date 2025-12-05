@@ -113,6 +113,14 @@ const meta: Meta<typeof Carousel> = {
         defaultValue: { summary: 'true' },
       },
     },
+    pauseOnFocus: {
+      control: 'boolean',
+      description: 'Pause autoplay when carousel receives keyboard focus',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
+      },
+    },
   },
 };
 
@@ -291,6 +299,48 @@ export const Autoplay: Story = {
           </CarouselItem>
         ))}
       </Carousel>
+    );
+  },
+};
+
+// =============================================================================
+// Pause on Focus
+// =============================================================================
+
+/**
+ * Carousel that pauses autoplay when it receives keyboard focus.
+ * This is important for keyboard users who need time to interact with the content.
+ * Tab into the carousel to pause, tab away to resume.
+ */
+export const PauseOnFocus: Story = {
+  render: function PauseOnFocusCarousel() {
+    return (
+      <div>
+        <div className="alert alert-info mb-3" role="alert">
+          <strong>Focus Behavior:</strong> Tab into the carousel to pause autoplay. When you tab
+          away, autoplay will resume. This ensures keyboard users have time to interact with the
+          content.
+        </div>
+
+        <Carousel
+          autoPlay
+          interval={2000}
+          pauseOnFocus
+          pauseOnHover={false}
+          aria-label="Carousel with pause on focus"
+        >
+          {slides.map((slide) => (
+            <CarouselItem key={slide.id}>
+              <img src={slide.src} alt={slide.alt} className="d-block w-100" />
+              <CarouselCaption heading={slide.title} description={slide.description} />
+            </CarouselItem>
+          ))}
+        </Carousel>
+
+        <p className="text-muted text-center mt-2">
+          <kbd>Tab</kbd> to focus carousel and pause • <kbd>Tab</kbd> away to resume
+        </p>
+      </div>
     );
   },
 };

@@ -110,6 +110,17 @@ const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout
 const failAfterDelay = (ms: number, message: string): Promise<never> =>
   new Promise<never>((_, reject) => setTimeout(() => reject(new Error(message)), ms));
 
+// Deterministic metric value generator for showcase cards (avoids random in stories)
+const metricValueFromName = (name: string): number => {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = (hash << 5) - hash + name.charCodeAt(i);
+    hash |= 0;
+  }
+  const value = Math.abs(hash % 900);
+  return 100 + value; // 100-999
+};
+
 // =============================================================================
 // Basic Examples
 // =============================================================================
@@ -490,7 +501,7 @@ export const CustomBlockedFallback: Story = {
         blockedFallback: (
           <div className="p-4 text-center">
             <div className="mb-3">
-              <BuildingFillIcon size={64} className="text-primary" aria-hidden="true" />
+              <BuildingFillIcon size={64} className="text-primary" aria-hidden />
             </div>
             <Heading level={4} className="text-primary">
               Enterprise Feature
@@ -601,7 +612,7 @@ export const CustomErrorFallback: Story = {
           <div className="p-4">
             <div className="alert alert-danger">
               <Heading level={5} className="alert-heading">
-                <ExclamationTriangleFillIcon size={20} className="me-2" aria-hidden="true" />
+                <ExclamationTriangleFillIcon size={20} className="me-2" aria-hidden />
                 Connection Error
               </Heading>
               <Text as="p">
@@ -963,7 +974,7 @@ export const CompleteShowcase: Story = {
       {
         id: 'overview',
         label: 'Overview',
-        icon: <HouseFillIcon aria-hidden="true" />,
+        icon: <HouseFillIcon aria-hidden />,
         content: (
           <div className="p-3">
             <Heading level={5} className="mb-1">
@@ -991,7 +1002,7 @@ export const CompleteShowcase: Story = {
       {
         id: 'data',
         label: 'Data',
-        icon: <DatabaseFillIcon aria-hidden="true" />,
+        icon: <DatabaseFillIcon aria-hidden />,
         loadContent: async () => {
           await delay(2000);
           return (
@@ -1008,7 +1019,7 @@ export const CompleteShowcase: Story = {
                           {metric}
                         </Heading>
                         <Heading level={3} className="display-6 text-primary" visualSize="h4">
-                          {Math.floor(Math.random() * 1000)}
+                          {metricValueFromName(metric)}
                         </Heading>
                       </div>
                     </div>
@@ -1023,7 +1034,7 @@ export const CompleteShowcase: Story = {
       {
         id: 'admin',
         label: 'Admin',
-        icon: <ShieldLockFillIcon aria-hidden="true" />,
+        icon: <ShieldLockFillIcon aria-hidden />,
         guard: async () => {
           await delay(500);
           return {
@@ -1049,7 +1060,7 @@ export const CompleteShowcase: Story = {
       {
         id: 'flaky',
         label: 'Flaky',
-        icon: <ExclamationTriangleFillIcon aria-hidden="true" />,
+        icon: <ExclamationTriangleFillIcon aria-hidden />,
         loadContent: () => failAfterDelay(1500, 'Random network failure'),
         onError: (error) => console.warn('Flaky tab error:', error),
       },
