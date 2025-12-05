@@ -1,5 +1,7 @@
 import { forwardRef, useCallback, useEffect, useId, useMemo, useReducer, useRef } from 'react';
 
+import { cn } from '../../utils';
+import { isEnterKey } from '../../utils/keyboard';
 import { getVariantClass } from '../../utils/string';
 import {
   CheckCircleFillIcon,
@@ -181,7 +183,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
     // Handle keyboard events on close button
     const handleCloseKeyDown = useCallback(
       (event: React.KeyboardEvent<HTMLButtonElement>): void => {
-        if (event.key === 'Enter' || event.key === ' ') {
+        if (isEnterKey(event) || event.key === ' ') {
           event.preventDefault();
           handleDismiss();
         }
@@ -269,20 +271,14 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
 
     // Memoize class names
     const toastClassName = useMemo(() => {
-      const classes = ['toast', 'show'];
-      if (variant !== 'default') {
-        const variantClass = getVariantClass(variant, {
-          prefix: 'text-bg',
-          map: { error: 'danger' },
-        });
-        if (variantClass) {
-          classes.push(variantClass, 'border-0');
-        }
-      }
-      if (className) {
-        classes.push(className);
-      }
-      return classes.join(' ');
+      const variantClass =
+        variant !== 'default'
+          ? getVariantClass(variant, {
+              prefix: 'text-bg',
+              map: { error: 'danger' },
+            })
+          : null;
+      return cn('toast', 'show', variantClass, variantClass && 'border-0', className);
     }, [variant, className]);
 
     // Memoize styles with animation
@@ -305,11 +301,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
 
     // Determine close button class
     const closeButtonClass = useMemo(() => {
-      const classes = ['btn-close'];
-      if (variant === 'success' || variant === 'error' || variant === 'info') {
-        classes.push('btn-close-white');
-      }
-      return classes.join(' ');
+      return cn(
+        'btn-close',
+        (variant === 'success' || variant === 'error' || variant === 'info') && 'btn-close-white'
+      );
     }, [variant]);
 
     // Get the icon to display
