@@ -1,4 +1,4 @@
-import { Button, Checkbox, CheckIcon, XLgIcon } from '@dsai/react';
+import { Button, Checkbox, CheckIcon, Heading, XLgIcon } from '@dsai/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -491,7 +491,7 @@ export const SecurityEventHandlerValidation: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <h5>Safe Attributes Allowed</h5>
+        <Heading level={5}>Safe Attributes Allowed</Heading>
         <p className="text-muted small">
           These standard form attributes are safely passed through:
         </p>
@@ -503,7 +503,7 @@ export const SecurityEventHandlerValidation: Story = {
         </div>
       </div>
       <div>
-        <h5>Dangerous Event Handlers Blocked</h5>
+        <Heading level={5}>Dangerous Event Handlers Blocked</Heading>
         <p className="text-muted small">
           Event handlers like onLoad, onError, etc. are automatically filtered out to prevent XSS
           attacks.
@@ -524,13 +524,13 @@ export const SecurityPropWhitelist: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <h5>Protected Against Prop Injection</h5>
+        <Heading level={5}>Protected Against Prop Injection</Heading>
         <p className="text-muted small">
           Only safe HTML attributes are rendered to the DOM. Dangerous props are silently filtered.
         </p>
       </div>
       <div>
-        <h5>Whitelisted Categories</h5>
+        <Heading level={5}>Whitelisted Categories</Heading>
         <ul className="text-muted small">
           <li>
             <CheckIcon size={14} className="text-success me-1" />
@@ -582,7 +582,7 @@ export const AccessibilityKeyboardNavigation: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <h5>Keyboard Navigation Demo</h5>
+        <Heading level={5}>Keyboard Navigation Demo</Heading>
         <p className="text-muted small">
           Use Tab to navigate and Space to toggle. All checkboxes have proper keyboard support.
         </p>
@@ -612,7 +612,7 @@ export const AccessibilityScreenReaderSupport: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <h5>Screen Reader Friendly</h5>
+        <Heading level={5}>Screen Reader Friendly</Heading>
         <p className="text-muted small">
           Semantic HTML and ARIA attributes provide full accessibility.
         </p>
@@ -643,7 +643,7 @@ export const AccessibilityDevWarnings: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <h5>Development-Time Accessibility Warnings</h5>
+        <Heading level={5}>Development-Time Accessibility Warnings</Heading>
         <p className="text-muted small">
           The Checkbox component warns in development when accessibility best practices are not
           followed.
@@ -663,10 +663,10 @@ export const AccessibilityDevWarnings: Story = {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         <div>
-          <h6 className="text-success">
+          <Heading level={6} className="text-success">
             <CheckIcon size={14} className="me-1" />
             Correct Usage
-          </h6>
+          </Heading>
           <Checkbox label="With visible label" />
           <Checkbox aria-label="With aria-label for screen readers" />
         </div>
@@ -705,7 +705,7 @@ export const PerformanceMemoization: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <div>
-          <h5>Memoization Performance Demo</h5>
+          <Heading level={5}>Memoization Performance Demo</Heading>
           <p className="text-muted small">
             The checkboxes won&apos;t re-render unnecessarily when you increment the counter below.
             Check your browser DevTools to see component renders.
@@ -713,13 +713,9 @@ export const PerformanceMemoization: Story = {
         </div>
 
         <div>
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-primary"
-            onClick={() => setCounter(counter + 1)}
-          >
+          <Button size="sm" variant="outline-primary" onClick={() => setCounter(counter + 1)}>
             Increment Counter: {counter}
-          </button>
+          </Button>
           <p className="text-muted small mt-2">Parent re-renders: {counter} times</p>
         </div>
 

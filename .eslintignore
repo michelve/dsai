@@ -6,6 +6,10 @@
 **/.turbo/**
 **/.cache/**
 
+# Markdown and task docs
+**/*.md
+tasks/**
+
 # Dependencies
 **/node_modules/**
 

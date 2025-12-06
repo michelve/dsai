@@ -1,4 +1,4 @@
-import { Button, CheckIcon, Input, XLgIcon } from '@dsai/react';
+import { Button, CheckIcon, Heading, Input, SearchIcon, XLgIcon } from '@dsai/react';
 import { useState } from 'react';
 import { userEvent, within } from 'storybook/test';
 
@@ -331,19 +331,14 @@ export const WithPrefixAndSuffix: Story = {
  */
 export const WithIconPrefix: Story = {
   render: () => {
-    const SearchIcon = (): React.JSX.Element => (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        viewBox="0 0 16 16"
-      >
-        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-      </svg>
+    return (
+      <Input
+        label="Search"
+        type="search"
+        prefix={<SearchIcon size={16} />}
+        placeholder="Search..."
+      />
     );
-
-    return <Input label="Search" type="search" prefix={<SearchIcon />} placeholder="Search..." />;
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -655,23 +650,11 @@ export const SearchInput: Story = {
   render: function SearchInputExample() {
     const [query, setQuery] = useState('');
 
-    const SearchIcon = (): React.JSX.Element => (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        viewBox="0 0 16 16"
-      >
-        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-      </svg>
-    );
-
     return (
       <Input
         type="search"
         aria-label="Search"
-        prefix={<SearchIcon />}
+        prefix={<SearchIcon size={16} />}
         placeholder="Search..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
@@ -701,7 +684,7 @@ export const FocusState: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <h5>Focus State with data-focused Attribute</h5>
+        <Heading level={5}>Focus State with data-focused Attribute</Heading>
         <p className="text-muted small">
           Click on the input below to see the focus state. The <code>data-focused</code> attribute
           is set to <code>true</code> when focused.
@@ -741,7 +724,7 @@ export const SecurityEventHandlerValidation: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <h5>Safe Attributes Allowed</h5>
+        <Heading level={5}>Safe Attributes Allowed</Heading>
         <p className="text-muted small">
           These standard form attributes are safely passed through:
         </p>
@@ -753,7 +736,7 @@ export const SecurityEventHandlerValidation: Story = {
         </div>
       </div>
       <div>
-        <h5>Dangerous Event Handlers Blocked</h5>
+        <Heading level={5}>Dangerous Event Handlers Blocked</Heading>
         <p className="text-muted small">
           Event handlers like onLoad, onError, etc. are automatically filtered out to prevent XSS
           attacks.
@@ -774,13 +757,13 @@ export const SecurityPropWhitelist: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <h5>Protected Against Prop Injection</h5>
+        <Heading level={5}>Protected Against Prop Injection</Heading>
         <p className="text-muted small">
           Only safe HTML attributes are rendered to the DOM. Dangerous props are silently filtered.
         </p>
       </div>
       <div>
-        <h5>Whitelisted Categories</h5>
+        <Heading level={5}>Whitelisted Categories</Heading>
         <ul className="text-muted small">
           <li>
             <CheckIcon size={14} className="text-success me-1" />
@@ -832,7 +815,7 @@ export const AccessibilityKeyboardNavigation: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <h5>Keyboard Navigation Demo</h5>
+        <Heading level={5}>Keyboard Navigation Demo</Heading>
         <p className="text-muted small">
           Use Tab to navigate and type to enter text. All inputs have proper keyboard support.
         </p>
@@ -861,7 +844,7 @@ export const AccessibilityScreenReaderSupport: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <h5>Screen Reader Friendly</h5>
+        <Heading level={5}>Screen Reader Friendly</Heading>
         <p className="text-muted small">
           Semantic HTML and ARIA attributes provide full accessibility.
         </p>
@@ -899,7 +882,7 @@ export const PerformanceMemoization: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <div>
-          <h5>Memoization Performance Demo</h5>
+          <Heading level={5}>Memoization Performance Demo</Heading>
           <p className="text-muted small">
             The inputs won&apos;t re-render unnecessarily when you increment the counter below.
             Check your browser DevTools to see component renders.

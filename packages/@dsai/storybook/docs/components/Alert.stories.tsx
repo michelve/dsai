@@ -3,6 +3,7 @@ import {
   Button,
   CheckCircleFillIcon,
   ExclamationTriangleFillIcon,
+  Heading,
   InfoCircleFillIcon,
   XCircleFillIcon,
 } from '@dsai/react';
@@ -549,7 +550,9 @@ export const CompleteShowcase: Story = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
         {/* Basic Variants */}
         <div>
-          <h4 style={{ marginBottom: '0.5rem' }}>Basic Variants</h4>
+          <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+            Basic Variants
+          </Heading>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <Alert variant="primary">Primary alert</Alert>
             <Alert variant="success">Success alert</Alert>
@@ -561,7 +564,9 @@ export const CompleteShowcase: Story = {
 
         {/* With Heading */}
         <div>
-          <h4 style={{ marginBottom: '0.5rem' }}>With Heading</h4>
+          <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+            With Heading
+          </Heading>
           <Alert variant="success">
             <Alert.Heading>Success!</Alert.Heading>
             <p className="mb-0">Your operation completed successfully.</p>
@@ -570,7 +575,9 @@ export const CompleteShowcase: Story = {
 
         {/* With Link */}
         <div>
-          <h4 style={{ marginBottom: '0.5rem' }}>With Link</h4>
+          <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+            With Link
+          </Heading>
           <Alert variant="info">
             Learn more in our <Alert.Link href="#">documentation</Alert.Link>.
           </Alert>
@@ -578,7 +585,9 @@ export const CompleteShowcase: Story = {
 
         {/* Dismissible */}
         <div>
-          <h4 style={{ marginBottom: '0.5rem' }}>Dismissible</h4>
+          <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+            Dismissible
+          </Heading>
           {showDismissible ? (
             <Alert variant="warning" dismissible onClose={() => setShowDismissible(false)}>
               This alert can be dismissed.
@@ -592,7 +601,9 @@ export const CompleteShowcase: Story = {
 
         {/* With Icon */}
         <div>
-          <h4 style={{ marginBottom: '0.5rem' }}>With Icon</h4>
+          <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+            With Icon
+          </Heading>
           <Alert variant="success" icon={<CheckCircleFillIcon />}>
             Operation completed successfully.
           </Alert>
@@ -600,7 +611,9 @@ export const CompleteShowcase: Story = {
 
         {/* Security */}
         <div>
-          <h4 style={{ marginBottom: '0.5rem' }}>Security Features</h4>
+          <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+            Security Features
+          </Heading>
           <Alert variant="info">
             Safe links:{' '}
             <Alert.Link href="https://example.com" target="_blank">
@@ -612,7 +625,9 @@ export const CompleteShowcase: Story = {
 
         {/* Accessibility */}
         <div>
-          <h4 style={{ marginBottom: '0.5rem' }}>Accessibility</h4>
+          <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+            Accessibility
+          </Heading>
           <Alert variant="success" aria-atomic>
             Complete alert content announced to screen readers with aria-atomic=true
           </Alert>

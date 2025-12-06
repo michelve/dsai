@@ -1,4 +1,4 @@
-import { SelectableCard } from '@dsai/react';
+import { Button, Heading, SelectableCard } from '@dsai/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -226,7 +226,9 @@ export const SelectionModes: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
       <div style={{ flex: '1', minWidth: '250px' }}>
-        <h6 className="mb-2">None (Display Only)</h6>
+        <Heading level={6} className="mb-2">
+          None (Display Only)
+        </Heading>
         <SelectableCard
           selectionMode="none"
           title="Display Card"
@@ -234,7 +236,9 @@ export const SelectionModes: Story = {
         />
       </div>
       <div style={{ flex: '1', minWidth: '250px' }}>
-        <h6 className="mb-2">Checkbox</h6>
+        <Heading level={6} className="mb-2">
+          Checkbox
+        </Heading>
         <SelectableCard
           selectionMode="checkbox"
           value="checkbox"
@@ -243,7 +247,9 @@ export const SelectionModes: Story = {
         />
       </div>
       <div style={{ flex: '1', minWidth: '250px' }}>
-        <h6 className="mb-2">Radio</h6>
+        <Heading level={6} className="mb-2">
+          Radio
+        </Heading>
         <SelectableCard
           selectionMode="radio"
           value="radio"
@@ -308,20 +314,17 @@ export const Controlled: Story = {
           onChange={setIsChecked}
         />
         <div className="mt-3">
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-primary me-2"
+          <Button
+            size="sm"
+            variant="outline-primary"
+            className="me-2"
             onClick={() => setIsChecked(true)}
           >
             Select
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-secondary"
-            onClick={() => setIsChecked(false)}
-          >
+          </Button>
+          <Button size="sm" variant="outline-secondary" onClick={() => setIsChecked(false)}>
             Deselect
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -727,7 +730,9 @@ export const WithChildren: Story = {
   render: () => (
     <SelectableCard selectionMode="checkbox" value="custom-children" defaultChecked>
       <div>
-        <h5 className="card-title">Custom Content</h5>
+        <Heading level={5} className="card-title">
+          Custom Content
+        </Heading>
         <p className="card-text">
           Use <code>children</code> for completely custom card content.
         </p>
@@ -811,7 +816,7 @@ export const InteractiveDemo: Story = {
     return (
       <div className="row">
         <div className="col-md-6 mb-4">
-          <h6>Preview</h6>
+          <Heading level={6}>Preview</Heading>
           <SelectableCard
             selectionMode={state.selectionMode}
             value="demo"
@@ -829,7 +834,7 @@ export const InteractiveDemo: Story = {
           />
         </div>
         <div className="col-md-6">
-          <h6>Controls</h6>
+          <Heading level={6}>Controls</Heading>
           <div className="d-flex flex-column gap-2">
             <label className="form-check">
               <input
@@ -960,7 +965,9 @@ export const PricingTierSelection: Story = {
 
     return (
       <div>
-        <h5 className="mb-4">Choose Your Plan</h5>
+        <Heading level={5} className="mb-4">
+          Choose Your Plan
+        </Heading>
         <div
           style={{
             display: 'grid',
@@ -984,7 +991,9 @@ export const PricingTierSelection: Story = {
             >
               <div className="text-center py-2">
                 {tier.badge && <span className="badge bg-primary mb-2">{tier.badge}</span>}
-                <h4 className="mb-1">{tier.name}</h4>
+                <Heading level={4} className="mb-1">
+                  {tier.name}
+                </Heading>
                 <p className="h3 mb-3">{tier.price}</p>
                 <ul className="list-unstyled text-start small">
                   {tier.features.map((feature) => (
@@ -1058,7 +1067,9 @@ export const FeatureToggles: Story = {
 
     return (
       <div>
-        <h5 className="mb-4">Customize Your Experience</h5>
+        <Heading level={5} className="mb-4">
+          Customize Your Experience
+        </Heading>
         <div
           style={{
             display: 'grid',
@@ -1077,7 +1088,9 @@ export const FeatureToggles: Story = {
             >
               <div className="text-center">
                 <div style={{ fontSize: '2rem' }}>{feature.icon}</div>
-                <h6 className="mt-2 mb-1">{feature.title}</h6>
+                <Heading level={6} className="mt-2 mb-1">
+                  {feature.title}
+                </Heading>
                 <p className="small text-muted mb-0">{feature.description}</p>
               </div>
             </SelectableCard>
@@ -1115,7 +1128,9 @@ export const SurveyQuestion: Story = {
 
     return (
       <div style={{ maxWidth: '600px' }}>
-        <h5 className="mb-2">How satisfied are you with our service?</h5>
+        <Heading level={5} className="mb-2">
+          How satisfied are you with our service?
+        </Heading>
         <p className="text-muted small mb-4">Select one option</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           {options.map((option) => (
@@ -1166,7 +1181,9 @@ export const SurveyQuestion: Story = {
 export const AccessibilityDemo: Story = {
   render: () => (
     <div>
-      <h5 className="mb-3">Accessibility Features</h5>
+      <Heading level={5} className="mb-3">
+        Accessibility Features
+      </Heading>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <SelectableCard
           selectionMode="checkbox"
@@ -1255,7 +1272,9 @@ export const CompleteShowcase: Story = {
     return (
       <div>
         <div className="mb-5">
-          <h5 className="mb-3">1. Choose Your Plan (Radio)</h5>
+          <Heading level={5} className="mb-3">
+            1. Choose Your Plan (Radio)
+          </Heading>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
             {plans.map((plan) => (
               <SelectableCard
@@ -1279,7 +1298,9 @@ export const CompleteShowcase: Story = {
         </div>
 
         <div className="mb-5">
-          <h5 className="mb-3">2. Select Add-ons (Checkbox)</h5>
+          <Heading level={5} className="mb-3">
+            2. Select Add-ons (Checkbox)
+          </Heading>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {addOnsList.map((addOn) => (
               <SelectableCard
@@ -1298,7 +1319,9 @@ export const CompleteShowcase: Story = {
 
         <div className="card bg-light">
           <div className="card-body">
-            <h6 className="card-title">Your Selection</h6>
+            <Heading level={6} className="card-title">
+              Your Selection
+            </Heading>
             <p className="mb-1">
               <strong>Plan:</strong> {plans.find((p) => p.value === selectedPlan)?.title}
             </p>

@@ -25,6 +25,13 @@ const config: StorybookConfig = {
     getAbsolutePath('@storybook/addon-links'),
     getAbsolutePath('@storybook/addon-a11y'),
     getAbsolutePath('@storybook/addon-designs'),
+    {
+      name: getAbsolutePath('@storybook/addon-vitest'),
+      options: {
+        // CLI testing is enabled; browser UI integration is experimental
+        // Run tests with: cd packages/@dsai/storybook && pnpm vitest --run
+      },
+    },
     getAbsolutePath('@chromatic-com/storybook'),
   ],
   framework: {

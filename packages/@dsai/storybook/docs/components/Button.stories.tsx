@@ -6,6 +6,7 @@ import {
   ChevronDownIcon,
   ExclamationTriangleIcon,
   GearIcon,
+  Heading,
   PlusIcon,
   SaveIcon,
   Trash3Icon,
@@ -46,7 +47,6 @@ const getAnnouncementMessage = (state: AnnouncementStatus): string => {
       return 'Operation completed successfully';
     case 'error':
       return 'Operation failed. Please try again.';
-    case 'idle':
     default:
       return '';
   }
@@ -792,16 +792,22 @@ export const FSMStatePriority: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
-        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+        <Heading
+          level={3}
+          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+        >
           Idle State (default)
-        </h3>
+        </Heading>
         <Button variant="primary">Idle State</Button>
       </div>
 
       <div>
-        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+        <Heading
+          level={3}
+          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+        >
           Loading State (prop-driven)
-        </h3>
+        </Heading>
         <Button variant="primary" loading>
           Loading...
         </Button>
@@ -811,9 +817,12 @@ export const FSMStatePriority: Story = {
       </div>
 
       <div>
-        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+        <Heading
+          level={3}
+          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+        >
           Error State (prop-driven)
-        </h3>
+        </Heading>
         <Button variant="danger" error>
           Error Occurred
         </Button>
@@ -823,9 +832,12 @@ export const FSMStatePriority: Story = {
       </div>
 
       <div>
-        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+        <Heading
+          level={3}
+          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+        >
           Disabled State (highest priority)
-        </h3>
+        </Heading>
         <Button variant="primary" disabled>
           Disabled State
         </Button>
@@ -835,9 +847,12 @@ export const FSMStatePriority: Story = {
       </div>
 
       <div>
-        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+        <Heading
+          level={3}
+          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+        >
           Disabled Loading (disabled wins)
-        </h3>
+        </Heading>
         <Button variant="primary" disabled loading>
           Disabled & Loading
         </Button>
@@ -860,9 +875,12 @@ export const FSMInteractiveStates: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
-        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+        <Heading
+          level={3}
+          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+        >
           Interactive States Demo
-        </h3>
+        </Heading>
         <p style={{ fontSize: '0.75rem', color: '#666', marginBottom: '1rem' }}>
           Try these interactions and observe the button behavior:
         </p>
@@ -935,9 +953,12 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
-        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+        <Heading
+          level={3}
+          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}
+        >
           Successful Operation
-        </h3>
+        </Heading>
         <Button
           variant="success"
           loading={states.success.isLoading}
@@ -948,9 +969,12 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
       </div>
 
       <div>
-        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+        <Heading
+          level={3}
+          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}
+        >
           Failed Operation
-        </h3>
+        </Heading>
         <Button
           variant="danger"
           error={states.failure.isError}
@@ -966,9 +990,12 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
       </div>
 
       <div>
-        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+        <Heading
+          level={3}
+          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}
+        >
           Confirm Action Flow
-        </h3>
+        </Heading>
         <Button
           variant="warning"
           loading={states.mixed.isLoading}
@@ -1019,9 +1046,12 @@ export const AccessibleIconOnlyButton: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
-        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-          ✅ Accessible Icon-only Buttons
-        </h3>
+        <Heading
+          level={3}
+          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+        >
+          Accessible Icon-only Buttons
+        </Heading>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           <Button variant="outline-secondary" aria-label="Close dialog" startIcon={<XLgIcon />}>
             {''}
@@ -1042,9 +1072,12 @@ export const AccessibleIconOnlyButton: Story = {
       </div>
 
       <div>
-        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-          ✅ Icon + Text (no aria-label needed)
-        </h3>
+        <Heading
+          level={3}
+          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+        >
+          Icon + Text (no aria-label needed)
+        </Heading>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           <Button variant="primary" startIcon={<SaveIcon />}>
             Save
@@ -1090,9 +1123,12 @@ export const KeyboardNavigationDemo: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
-        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}>
+        <Heading
+          level={3}
+          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}
+        >
           Keyboard Navigation Test
-        </h3>
+        </Heading>
         <p style={{ fontSize: '0.75rem', color: '#666', marginBottom: '1rem' }}>
           Use Tab to navigate between buttons. Press Enter or Space to activate.
         </p>
@@ -1146,9 +1182,12 @@ export const ARIAAttributesDemo: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
-        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+        <Heading
+          level={3}
+          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+        >
           aria-expanded (Expandable)
-        </h3>
+        </Heading>
         <Button
           variant="outline-secondary"
           aria-expanded="false"
@@ -1160,9 +1199,12 @@ export const ARIAAttributesDemo: Story = {
       </div>
 
       <div>
-        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+        <Heading
+          level={3}
+          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+        >
           aria-pressed (Toggle)
-        </h3>
+        </Heading>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           <Button variant="outline-primary" aria-pressed="false">
             Off
@@ -1174,9 +1216,12 @@ export const ARIAAttributesDemo: Story = {
       </div>
 
       <div>
-        <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+        <Heading
+          level={3}
+          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+        >
           aria-describedby (Additional description)
-        </h3>
+        </Heading>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <Button variant="danger" aria-label="Delete Account - This action cannot be undone">
             Delete Account

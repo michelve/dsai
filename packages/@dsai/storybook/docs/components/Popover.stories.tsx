@@ -622,23 +622,9 @@ export const FormFieldHelp: Story = {
             trigger={['hover', 'focus']}
             placement="right"
           >
-            <button
-              type="button"
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '2px 6px',
-                borderRadius: '50%',
-                backgroundColor: '#6c757d',
-                color: 'white',
-                fontSize: '12px',
-                lineHeight: 1,
-              }}
-              aria-label="Password requirements help"
-            >
+            <Button variant="secondary" size="sm" aria-label="Password requirements help">
               ?
-            </button>
+            </Button>
           </Popover>
         </label>
         <input
@@ -697,17 +683,13 @@ export const UserProfileCard: Story = {
       placement="bottom-start"
       maxWidth={320}
     >
-      <button
-        type="button"
+      <Button
+        variant="outline-secondary"
         style={{
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
           padding: '8px 12px',
-          border: '1px solid #dee2e6',
-          borderRadius: '4px',
-          background: 'white',
-          cursor: 'pointer',
         }}
       >
         <div
@@ -727,7 +709,7 @@ export const UserProfileCard: Story = {
           JD
         </div>
         <span>John Doe</span>
-      </button>
+      </Button>
     </Popover>
   ),
 };

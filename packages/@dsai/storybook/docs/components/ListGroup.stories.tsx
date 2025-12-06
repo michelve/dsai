@@ -1,4 +1,14 @@
-import { Badge, CheckCircleFillIcon, ListGroup, ListGroupItem, XCircleFillIcon } from '@dsai/react';
+import {
+  Badge,
+  CheckCircleFillIcon,
+  EnvelopeIcon,
+  Heading,
+  ListGroup,
+  ListGroupItem,
+  StarIcon,
+  TrashIcon,
+  XCircleFillIcon,
+} from '@dsai/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -259,34 +269,9 @@ export const WithBadges: Story = {
 export const WithIcons: Story = {
   render: () => (
     <ListGroup>
-      <ListGroupItem
-        icon={
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
-          </svg>
-        }
-      >
-        Inbox
-      </ListGroupItem>
-      <ListGroupItem
-        icon={
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-          </svg>
-        }
-      >
-        Starred
-      </ListGroupItem>
-      <ListGroupItem
-        icon={
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
-            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
-          </svg>
-        }
-      >
-        Trash
-      </ListGroupItem>
+      <ListGroupItem icon={<EnvelopeIcon size={16} />}>Inbox</ListGroupItem>
+      <ListGroupItem icon={<StarIcon size={16} />}>Starred</ListGroupItem>
+      <ListGroupItem icon={<TrashIcon size={16} />}>Trash</ListGroupItem>
     </ListGroup>
   ),
 };
@@ -364,7 +349,9 @@ export const CustomContent: Story = {
     <ListGroup>
       <ListGroupItem href="#" active>
         <div className="d-flex w-100 justify-content-between">
-          <h5 className="mb-1">List group item heading</h5>
+          <Heading level={5} className="mb-1">
+            List group item heading
+          </Heading>
           <small>3 days ago</small>
         </div>
         <p className="mb-1">Some placeholder content in a paragraph.</p>
@@ -372,7 +359,9 @@ export const CustomContent: Story = {
       </ListGroupItem>
       <ListGroupItem href="#">
         <div className="d-flex w-100 justify-content-between">
-          <h5 className="mb-1">List group item heading</h5>
+          <Heading level={5} className="mb-1">
+            List group item heading
+          </Heading>
           <small className="text-body-secondary">3 days ago</small>
         </div>
         <p className="mb-1">Some placeholder content in a paragraph.</p>
@@ -380,7 +369,9 @@ export const CustomContent: Story = {
       </ListGroupItem>
       <ListGroupItem href="#">
         <div className="d-flex w-100 justify-content-between">
-          <h5 className="mb-1">List group item heading</h5>
+          <Heading level={5} className="mb-1">
+            List group item heading
+          </Heading>
           <small className="text-body-secondary">3 days ago</small>
         </div>
         <p className="mb-1">Some placeholder content in a paragraph.</p>
@@ -422,13 +413,17 @@ export const CompleteShowcase: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       {/* Basic */}
       <section>
-        <h5 className="mb-2">Basic</h5>
+        <Heading level={5} className="mb-2">
+          Basic
+        </Heading>
         <ListGroup items={basicItems} />
       </section>
 
       {/* States */}
       <section>
-        <h5 className="mb-2">States</h5>
+        <Heading level={5} className="mb-2">
+          States
+        </Heading>
         <ListGroup>
           <ListGroupItem active>Active</ListGroupItem>
           <ListGroupItem>Normal</ListGroupItem>
@@ -438,7 +433,9 @@ export const CompleteShowcase: Story = {
 
       {/* Variants */}
       <section>
-        <h5 className="mb-2">Variants</h5>
+        <Heading level={5} className="mb-2">
+          Variants
+        </Heading>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
           <div>
             <small className="text-muted d-block mb-1">Default</small>
@@ -474,7 +471,9 @@ export const CompleteShowcase: Story = {
 
       {/* With Badges */}
       <section>
-        <h5 className="mb-2">With Badges</h5>
+        <Heading level={5} className="mb-2">
+          With Badges
+        </Heading>
         <ListGroup>
           <ListGroupItem
             badge={
@@ -499,7 +498,9 @@ export const CompleteShowcase: Story = {
 
       {/* Horizontal */}
       <section>
-        <h5 className="mb-2">Horizontal</h5>
+        <Heading level={5} className="mb-2">
+          Horizontal
+        </Heading>
         <ListGroup
           horizontal
           items={[
@@ -527,7 +528,7 @@ export const SecurityHrefSanitization: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <h5>Href Sanitization</h5>
+        <Heading level={5}>Href Sanitization</Heading>
         <p className="text-muted small">
           Dangerous URL protocols are automatically blocked and replaced with #.
         </p>
@@ -568,7 +569,7 @@ export const SecurityExternalLinks: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <h5>External Link Protection</h5>
+        <Heading level={5}>External Link Protection</Heading>
         <p className="text-muted small">
           External links (http:// and https://) automatically get rel=&quot;noopener
           noreferrer&quot;.
@@ -610,7 +611,7 @@ export const AccessibilityInteractiveDiv: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <div>
-          <h5>Interactive Div with Keyboard Support</h5>
+          <Heading level={5}>Interactive Div with Keyboard Support</Heading>
           <p className="text-muted small">
             Use Tab to navigate and Enter/Space to activate. The div has role=&quot;button&quot;.
           </p>

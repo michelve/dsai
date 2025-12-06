@@ -9,9 +9,11 @@
       "!coverage",
       "!storybook-static",
       "!**/*.figma.tsx",
+      "!**/*.md",
       "!.github/workflows",
       "!.temp",
       "!.nx",
+      "!tasks",
       "!static"
     ],
     "ignoreUnknown": true

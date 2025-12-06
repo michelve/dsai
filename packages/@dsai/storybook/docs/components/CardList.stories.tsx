@@ -1,4 +1,4 @@
-import { CardList, CheckIcon, XLgIcon } from '@dsai/react';
+import { Button, CardList, CheckIcon, Heading, XLgIcon } from '@dsai/react';
 import { type ReactElement, useState } from 'react';
 
 import type { CardListItem } from '@dsai/react';
@@ -337,11 +337,15 @@ export const SelectionModes: Story = {
   render: () => (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
       <div>
-        <h6 className="mb-2">None (Display Only)</h6>
+        <Heading level={6} className="mb-2">
+          None (Display Only)
+        </Heading>
         <CardList label="Plans" items={showcaseCards} selectionMode="none" />
       </div>
       <div>
-        <h6 className="mb-2">Single (Radio)</h6>
+        <Heading level={6} className="mb-2">
+          Single (Radio)
+        </Heading>
         <CardList
           label="Select One"
           items={showcaseCards}
@@ -350,7 +354,9 @@ export const SelectionModes: Story = {
         />
       </div>
       <div>
-        <h6 className="mb-2">Multiple (Checkbox)</h6>
+        <Heading level={6} className="mb-2">
+          Multiple (Checkbox)
+        </Heading>
         <CardList
           label="Select Many"
           items={showcaseCards}
@@ -383,20 +389,17 @@ export const ControlledSingle: Story = {
           onChange={setSelected}
         />
         <div className="mt-3">
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-secondary me-2"
+          <Button
+            size="sm"
+            variant="outline-secondary"
+            className="me-2"
             onClick={() => setSelected(undefined)}
           >
             Clear
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-primary"
-            onClick={() => setSelected('enterprise')}
-          >
+          </Button>
+          <Button size="sm" variant="outline-primary" onClick={() => setSelected('enterprise')}>
             Select Enterprise
-          </button>
+          </Button>
         </div>
         <p className="mt-2 text-muted small">Selected: {selected || 'None'}</p>
       </div>
@@ -421,20 +424,21 @@ export const ControlledMultiple: Story = {
           onChange={setSelected}
         />
         <div className="mt-3">
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-secondary me-2"
+          <Button
+            size="sm"
+            variant="outline-secondary"
+            className="me-2"
             onClick={() => setSelected([])}
           >
             Clear All
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-primary"
+          </Button>
+          <Button
+            size="sm"
+            variant="outline-primary"
             onClick={() => setSelected(featureOptions.map((f) => f.value))}
           >
             Select All
-          </button>
+          </Button>
         </div>
         <p className="mt-2 text-muted small">
           Selected: {selected.length > 0 ? selected.join(', ') : 'None'}
@@ -455,7 +459,9 @@ export const CardVariants: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
-        <h6 className="mb-2">Elevated</h6>
+        <Heading level={6} className="mb-2">
+          Elevated
+        </Heading>
         <CardList
           label="Elevated Cards"
           items={showcaseCards}
@@ -465,7 +471,9 @@ export const CardVariants: Story = {
         />
       </div>
       <div>
-        <h6 className="mb-2">Outlined (Default)</h6>
+        <Heading level={6} className="mb-2">
+          Outlined (Default)
+        </Heading>
         <CardList
           label="Outlined Cards"
           items={showcaseCards}
@@ -475,7 +483,9 @@ export const CardVariants: Story = {
         />
       </div>
       <div>
-        <h6 className="mb-2">Ghost</h6>
+        <Heading level={6} className="mb-2">
+          Ghost
+        </Heading>
         <CardList
           label="Ghost Cards"
           items={showcaseCards}
@@ -496,7 +506,9 @@ export const SelectedColors: Story = {
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2rem' }}>
       {(['primary', 'success', 'warning', 'info'] as const).map((color) => (
         <div key={color}>
-          <h6 className="mb-2 text-capitalize">{color}</h6>
+          <Heading level={6} className="mb-2 text-capitalize">
+            {color}
+          </Heading>
           <CardList
             label={`${color} Selection`}
             items={showcaseCards.slice(0, 2)}
@@ -548,7 +560,9 @@ export const CustomGap: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
-        <h6 className="mb-2">Small Gap (0.25rem)</h6>
+        <Heading level={6} className="mb-2">
+          Small Gap (0.25rem)
+        </Heading>
         <CardList
           label="Compact"
           items={showcaseCards}
@@ -558,7 +572,9 @@ export const CustomGap: Story = {
         />
       </div>
       <div>
-        <h6 className="mb-2">Large Gap (1.5rem)</h6>
+        <Heading level={6} className="mb-2">
+          Large Gap (1.5rem)
+        </Heading>
         <CardList
           label="Spacious"
           items={showcaseCards}
@@ -675,7 +691,7 @@ export const FSMStateVisualization: Story = {
     return (
       <div>
         <div className="mb-4">
-          <h5>FSM Visual State Machine</h5>
+          <Heading level={5}>FSM Visual State Machine</Heading>
           <div className="d-flex gap-2 align-items-center mb-3 flex-wrap">
             <div
               className={`p-2 rounded ${visualState === 'none' ? 'bg-secondary text-white' : 'bg-light'}`}
@@ -775,9 +791,9 @@ export const FormExample: Story = {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary">
+        <Button type="submit" variant="primary">
           Submit
-        </button>
+        </Button>
 
         {submitted && (
           <div className="alert alert-success mt-3">
@@ -808,7 +824,7 @@ export const AccessibilityFieldsetLegend: Story = {
   render: () => (
     <div className="d-flex flex-column gap-4">
       <div>
-        <h5>Semantic HTML Structure</h5>
+        <Heading level={5}>Semantic HTML Structure</Heading>
         <p className="text-muted small">
           CardList renders as fieldset/legend with native inputs for proper screen reader support.
         </p>
@@ -850,7 +866,7 @@ export const AccessibilityScreenReader: Story = {
   render: () => (
     <div className="d-flex flex-column gap-4">
       <div>
-        <h5>Screen Reader Features</h5>
+        <Heading level={5}>Screen Reader Features</Heading>
         <ul className="text-muted small">
           <li>
             <CheckIcon size={14} className="text-success me-1" />
@@ -901,7 +917,7 @@ export const AccessibilityDevWarnings: Story = {
   render: () => (
     <div className="d-flex flex-column gap-4">
       <div>
-        <h5>Development-Time Accessibility Warnings</h5>
+        <Heading level={5}>Development-Time Accessibility Warnings</Heading>
         <p className="text-muted small">
           Open browser console to see warnings for missing accessible names.
         </p>
@@ -917,10 +933,10 @@ export const AccessibilityDevWarnings: Story = {
       </div>
 
       <div>
-        <h6 className="text-success">
+        <Heading level={6} className="text-success">
           <CheckIcon size={14} className="me-1" />
           Correct Usage
-        </h6>
+        </Heading>
         <CardList label="With visible label" items={showcaseCards.slice(0, 2)} />
         <div className="mt-3">
           <CardList aria-label="With aria-label" items={showcaseCards.slice(0, 2)} />
@@ -943,7 +959,7 @@ export const SecuritySafeAttributes: Story = {
   render: () => (
     <div className="d-flex flex-column gap-4">
       <div>
-        <h5>Security Features</h5>
+        <Heading level={5}>Security Features</Heading>
         <p className="text-muted small">
           CardList inherits security features from underlying components.
         </p>
@@ -1037,7 +1053,7 @@ export const PricingPageExample: Story = {
     return (
       <div style={{ maxWidth: '800px' }}>
         <div className="text-center mb-4">
-          <h4>Choose Your Plan</h4>
+          <Heading level={4}>Choose Your Plan</Heading>
           <p className="text-muted">Select the plan that best fits your needs</p>
         </div>
         <CardList
@@ -1051,10 +1067,10 @@ export const PricingPageExample: Story = {
           selectedColor="primary"
         />
         <div className="text-center mt-4">
-          <button type="button" className="btn btn-primary btn-lg" disabled={!selectedPlan}>
+          <Button size="lg" variant="primary" disabled={!selectedPlan}>
             Continue with{' '}
             {selectedPlan ? plans.find((p) => p.value === selectedPlan)?.title : '...'}
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -1119,7 +1135,9 @@ export const FeatureSelectionExample: Story = {
     return (
       <div className="card" style={{ maxWidth: '700px' }}>
         <div className="card-header">
-          <h5 className="mb-0">Customize Your Plan</h5>
+          <Heading level={5} noMargin>
+            Customize Your Plan
+          </Heading>
         </div>
         <div className="card-body">
           <CardList
@@ -1138,9 +1156,7 @@ export const FeatureSelectionExample: Story = {
             <span className="text-muted">Monthly total:</span>
             <strong className="ms-2 fs-4">${totalPrice}/mo</strong>
           </div>
-          <button type="button" className="btn btn-primary">
-            Upgrade Plan
-          </button>
+          <Button variant="primary">Upgrade Plan</Button>
         </div>
       </div>
     );
@@ -1192,7 +1208,9 @@ export const OnboardingWizardExample: Story = {
       <div className="card" style={{ maxWidth: '600px' }}>
         <div className="card-header">
           <div className="d-flex justify-content-between align-items-center">
-            <h5 className="mb-0">Welcome! Let&apos;s personalize your experience</h5>
+            <Heading level={5} noMargin>
+              Welcome! Let&apos;s personalize your experience
+            </Heading>
             <span className="badge bg-secondary">Step {step} of 2</span>
           </div>
         </div>
@@ -1220,34 +1238,23 @@ export const OnboardingWizardExample: Story = {
           )}
         </div>
         <div className="card-footer d-flex justify-content-between">
-          <button
-            type="button"
-            className="btn btn-outline-secondary"
-            onClick={() => setStep(1)}
-            disabled={step === 1}
-          >
+          <Button variant="outline-secondary" onClick={() => setStep(1)} disabled={step === 1}>
             Back
-          </button>
+          </Button>
           {step === 1 ? (
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => setStep(2)}
-              disabled={!role}
-            >
+            <Button variant="primary" onClick={() => setStep(2)} disabled={!role}>
               Continue
-            </button>
+            </Button>
           ) : (
-            <button
-              type="button"
-              className="btn btn-success"
+            <Button
+              variant="success"
               disabled={interests.length === 0}
               onClick={() =>
                 alert(`Setup complete!\nRole: ${role}\nInterests: ${interests.join(', ')}`)
               }
             >
               Complete Setup
-            </button>
+            </Button>
           )}
         </div>
       </div>
@@ -1263,7 +1270,9 @@ export const CompleteShowcase: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       {/* Selection Modes */}
       <section>
-        <h5 className="mb-3">Selection Modes</h5>
+        <Heading level={5} className="mb-3">
+          Selection Modes
+        </Heading>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
           <CardList label="None" items={showcaseCards.slice(0, 2)} selectionMode="none" />
           <CardList
@@ -1283,7 +1292,9 @@ export const CompleteShowcase: Story = {
 
       {/* Variants */}
       <section>
-        <h5 className="mb-3">Card Variants</h5>
+        <Heading level={5} className="mb-3">
+          Card Variants
+        </Heading>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
           <CardList
             label="Elevated"
@@ -1311,7 +1322,9 @@ export const CompleteShowcase: Story = {
 
       {/* States */}
       <section>
-        <h5 className="mb-3">States</h5>
+        <Heading level={5} className="mb-3">
+          States
+        </Heading>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
           <CardList
             label="Disabled"
@@ -1338,9 +1351,11 @@ export const CompleteShowcase: Story = {
 
       {/* Layout */}
       <section>
-        <h5 className="mb-3">Layout Options</h5>
+        <Heading level={5} className="mb-3">
+          Layout Options
+        </Heading>
         <div className="mb-3">
-          <h6>Horizontal Orientation</h6>
+          <Heading level={6}>Horizontal Orientation</Heading>
           <CardList
             label="Quick Select"
             items={showcaseCards}
@@ -1350,7 +1365,7 @@ export const CompleteShowcase: Story = {
           />
         </div>
         <div>
-          <h6>Grid (3 columns)</h6>
+          <Heading level={6}>Grid (3 columns)</Heading>
           <CardList
             label="Features"
             items={featureOptions.slice(0, 6)}
