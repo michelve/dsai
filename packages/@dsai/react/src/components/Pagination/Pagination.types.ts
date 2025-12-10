@@ -8,12 +8,14 @@
  */
 
 import type { CSSProperties, ReactNode } from 'react';
+import type { ComponentSize } from '../../types';
 
 /**
  * Pagination size variants
  * Maps to Bootstrap's pagination sizing classes
+ * @see ComponentSize
  */
-export type PaginationSize = 'sm' | 'md' | 'lg';
+export type PaginationSize = ComponentSize;
 
 /**
  * Pagination alignment options

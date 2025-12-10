@@ -1,43 +1,20 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import type { SafeHTMLAttributes, SemanticColorVariant } from '../../types';
 
 /**
  * Badge component variants
  * Maps to Bootstrap 5 badge background utilities (text-bg-*)
+ * @see SemanticColorVariant
  */
-export type BadgeVariant =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'danger'
-  | 'warning'
-  | 'info'
-  | 'light'
-  | 'dark';
+export type BadgeVariant = SemanticColorVariant;
 
 /**
  * Safe HTML attributes for Badge component
  * Whitelists allowed HTML attributes to prevent unrestricted prop spreading
  * Blocks dangerous attributes like 'onclick', 'onchange', etc.
+ * @see SafeHTMLAttributes
  */
-export interface SafeBadgeHTMLAttributes {
-  /**
-   * Standard HTML attributes
-   */
-  id?: string;
-  className?: string;
-  style?: CSSProperties;
-  title?: string;
-  'data-testid'?: string;
-  'data-test'?: string;
-
-  /**
-   * ARIA attributes
-   */
-  'aria-label'?: string;
-  'aria-hidden'?: 'true' | 'false';
-  'aria-atomic'?: boolean;
-  role?: string;
-}
+export type SafeBadgeHTMLAttributes = SafeHTMLAttributes<HTMLSpanElement>;
 
 /**
  * Badge component props

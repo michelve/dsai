@@ -430,7 +430,9 @@ export const FileUploadSimulation: Story = {
     useEffect(() => {
       if (status === 'uploading' && progress < 100) {
         const timeout = setTimeout(() => {
-          setProgress((prev) => Math.min(prev + Math.random() * 15, 100));
+          // Use deterministic increment for UI simulation (not cryptographic)
+          const increment = ((progress * 31 + 7) % 12) + 3; // Pseudo-random but deterministic
+          setProgress((prev) => Math.min(prev + increment, 100));
         }, 300);
         return () => clearTimeout(timeout);
       } else if (progress >= 100) {

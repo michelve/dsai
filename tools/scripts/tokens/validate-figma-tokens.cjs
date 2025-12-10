@@ -25,8 +25,8 @@
  * @see TASK-011-design-json-token-structure.md
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 // ============================================================================
 // CONFIGURATION
@@ -119,7 +119,7 @@ function readJsonFile(filePath) {
  */
 function isFigmaToken(obj) {
   return (
-    obj && typeof obj === 'object' && obj.hasOwnProperty('$value') && obj.hasOwnProperty('$type')
+    obj && typeof obj === 'object' && Object.hasOwn(obj, '$value') && Object.hasOwn(obj, '$type')
   );
 }
 
@@ -131,10 +131,10 @@ function isStyleDictionaryToken(obj) {
   if (!obj || typeof obj !== 'object') return false;
 
   // Check for DTCG format ($value, $type)
-  const isDTCG = obj.hasOwnProperty('$value') && obj.hasOwnProperty('$type');
+  const isDTCG = Object.hasOwn(obj, '$value') && Object.hasOwn(obj, '$type');
 
   // Check for legacy format (value, type)
-  const isLegacy = obj.hasOwnProperty('value') && obj.hasOwnProperty('type');
+  const isLegacy = Object.hasOwn(obj, 'value') && Object.hasOwn(obj, 'type');
 
   return isDTCG || isLegacy;
 }
@@ -154,7 +154,7 @@ function generatePath(pathArray) {
  * Prompt user for input (synchronous)
  */
 function promptUser(question) {
-  const readline = require('readline');
+  const readline = require('node:readline');
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -290,12 +290,12 @@ function validateTokenTree(obj, pathArray = [], parentFile = '', validationType 
   // For output tokens, check for DTCG ($value) first, then legacy (value)
   const getValueKey = (token) => {
     if (validationType === 'figma') return '$value';
-    return token.hasOwnProperty('$value') ? '$value' : 'value';
+    return Object.hasOwn(token, '$value') ? '$value' : 'value';
   };
 
   const getTypeKey = (token) => {
     if (validationType === 'figma') return '$type';
-    return token.hasOwnProperty('$type') ? '$type' : 'type';
+    return Object.hasOwn(token, '$type') ? '$type' : 'type';
   };
 
   let tokenCount = 0;
@@ -799,7 +799,7 @@ function validateTransformationCompleteness() {
  * Print comprehensive validation report
  */
 function printReport() {
-  console.log('\n' + '='.repeat(80));
+  console.log(`\n${'='.repeat(80)}`);
   console.log('FIGMA TOKEN VALIDATION REPORT');
   console.log('='.repeat(80));
 
@@ -860,7 +860,7 @@ function printReport() {
   }
 
   // Summary
-  console.log('\n' + '='.repeat(80));
+  console.log(`\n${'='.repeat(80)}`);
 
   const criticalErrorCount = results.errors.filter((e) => e.severity === 'CRITICAL').length;
   const hasErrors = results.errors.length > 0;
@@ -869,27 +869,27 @@ function printReport() {
   if (criticalErrorCount > 0) {
     console.log('❌ VALIDATION FAILED - CRITICAL ERRORS FOUND');
     console.log('   Source of truth (Figma exports) has critical issues!');
-    console.log('='.repeat(80) + '\n');
+    console.log(`${'='.repeat(80)}\n`);
     return 2; // Exit code 2 for critical errors
   }
 
   if (hasErrors) {
     console.log('❌ VALIDATION FAILED - Errors found');
     console.log('   Some tokens may be missing or invalid');
-    console.log('='.repeat(80) + '\n');
+    console.log(`${'='.repeat(80)}\n`);
     return 1; // Exit code 1 for errors
   }
 
   if (hasWarnings) {
     console.log('⚠️  VALIDATION PASSED WITH WARNINGS');
     console.log('   All tokens are valid but some best practices not followed');
-    console.log('='.repeat(80) + '\n');
+    console.log(`${'='.repeat(80)}\n`);
     return 0; // Exit code 0 for warnings only
   }
 
   console.log('✨ VALIDATION PASSED - All tokens are valid!');
   console.log('   Source of truth is complete and all tokens transformed correctly');
-  console.log('='.repeat(80) + '\n');
+  console.log(`${'='.repeat(80)}\n`);
   return 0;
 }
 

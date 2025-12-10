@@ -15,8 +15,8 @@
  * @packageDocumentation
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 // Paths
 const ICONS_DIR = path.join(
@@ -185,7 +185,7 @@ async function main() {
       // Try alternative name formats
       const altNames = [
         iconName.replace(/-fill$/, ''),
-        iconName.replace(/-fill$/, '') + '-fill',
+        `${iconName.replace(/-fill$/, '')}-fill`,
         iconName.replace(/^icon-?/, ''),
       ];
 
@@ -199,7 +199,6 @@ async function main() {
           } else {
             skippedCount++;
           }
-          continue;
         }
       }
     }

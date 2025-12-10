@@ -12,9 +12,9 @@ import React, {
 } from 'react';
 import { createPortal } from 'react-dom';
 
+import { useFocusTrap } from '../../hooks/useFocusTrap';
+import { useScrollLock } from '../../hooks/useScrollLock';
 import { cn, isBrowser, mergeRefs } from '../../utils';
-import { focusableSelectorString, focusableSelectors } from '../../utils/a11y/focusableSelectors';
-import { trapFocus } from '../../utils/a11y/trapFocus';
 import { isEscapeKey } from '../../utils/keyboard';
 
 import { createInitialModalFSMState, getModalVisualState, modalFSMReducer } from './Modal.fsm';
@@ -44,116 +44,6 @@ function useModalContext(): ModalContextValue {
     throw new Error('Modal compound components must be used within a Modal');
   }
   return context;
-}
-
-// ============================================================================
-// Focus Trap Utilities
-// ============================================================================
-
-/**
- * Get all focusable elements within a container
- */
-function getFocusableElements(container: HTMLElement): HTMLElement[] {
-  const elements = container.querySelectorAll<HTMLElement>(focusableSelectorString);
-  return Array.from(elements).filter(
-    (el) => el.offsetParent !== null && getComputedStyle(el).visibility !== 'hidden'
-  );
-}
-
-/**
- * Focus trap hook for modal accessibility
- */
-function useFocusTrap(
-  isActive: boolean,
-  containerRef: React.RefObject<HTMLElement | null>,
-  initialFocusRef?: React.RefObject<HTMLElement>,
-  returnFocusRef?: React.RefObject<HTMLElement>
-): void {
-  const previousActiveElement = useRef<HTMLElement | null>(null);
-
-  // Store the previously focused element when trap activates
-  useEffect(() => {
-    if (isActive && isBrowser()) {
-      previousActiveElement.current = document.activeElement as HTMLElement;
-    }
-  }, [isActive]);
-
-  // Set initial focus when trap activates
-  useEffect(() => {
-    if (!isActive || !isBrowser()) {
-      return;
-    }
-
-    const container = containerRef.current;
-    if (!container) {
-      return;
-    }
-
-    const cleanupTrap = trapFocus(container, { focusableSelectors: [...focusableSelectors] });
-
-    // Use a small delay to ensure the modal is fully rendered and ref is set
-    const timeoutId = window.setTimeout(() => {
-      if (initialFocusRef?.current) {
-        initialFocusRef.current.focus();
-        return;
-      }
-
-      const focusableElements = getFocusableElements(container);
-      const firstFocusable = focusableElements[0];
-
-      if (firstFocusable) {
-        firstFocusable.focus();
-      } else {
-        // If no focusable elements, focus the container itself
-        container.focus();
-      }
-    }, 50);
-
-    return () => {
-      cleanupTrap();
-      clearTimeout(timeoutId);
-    };
-  }, [isActive, containerRef, initialFocusRef]);
-
-  // Return focus when trap deactivates
-  useEffect(() => {
-    if (isActive || !isBrowser()) {
-      return;
-    }
-
-    // Return focus to the specified element or previous element
-    const elementToFocus = returnFocusRef?.current || previousActiveElement.current;
-    if (elementToFocus && typeof elementToFocus.focus === 'function') {
-      elementToFocus.focus();
-    }
-  }, [isActive, returnFocusRef]);
-}
-
-/**
- * Scroll lock hook to prevent body scrolling when modal is open
- */
-function useScrollLock(isActive: boolean): void {
-  useEffect(() => {
-    if (!isActive || !isBrowser()) {
-      return;
-    }
-
-    const originalStyle = window.getComputedStyle(document.body).overflow;
-    const originalPaddingRight = window.getComputedStyle(document.body).paddingRight;
-
-    // Calculate scrollbar width to prevent layout shift
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-
-    document.body.style.overflow = 'hidden';
-    if (scrollbarWidth > 0) {
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    }
-
-    return () => {
-      document.body.style.overflow = originalStyle;
-      document.body.style.paddingRight = originalPaddingRight;
-    };
-  }, [isActive]);
 }
 
 // ============================================================================
@@ -454,11 +344,17 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
       }
     }, [isOpen, fsmState.visibility]);
 
-    // Focus trap
-    useFocusTrap(fsmState.focusTrapActive, dialogRef, initialFocusRef, returnFocusRef);
+    // Focus trap - uses the extracted reusable hook
+    useFocusTrap({
+      enabled: fsmState.focusTrapActive,
+      containerRef: dialogRef,
+      initialFocusRef,
+      finalFocusRef: returnFocusRef,
+      initialFocusDelay: 50, // Delay to ensure modal is fully rendered
+    });
 
-    // Scroll lock
-    useScrollLock(fsmState.scrollLockActive);
+    // Scroll lock (with scrollbar compensation to prevent layout shift)
+    useScrollLock({ enabled: fsmState.scrollLockActive });
 
     // Handle ESC key
     useEffect(() => {

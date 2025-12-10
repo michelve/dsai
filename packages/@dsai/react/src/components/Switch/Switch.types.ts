@@ -1,9 +1,11 @@
 import type { CSSProperties, ReactNode } from 'react';
+import type { ComponentSize } from '../../types';
 
 /**
  * Switch sizes matching DS AI design tokens
+ * @see ComponentSize
  */
-export type SwitchSize = 'sm' | 'md' | 'lg';
+export type SwitchSize = ComponentSize;
 
 /**
  * Switch component props

@@ -311,6 +311,55 @@ export {
 } from './components';
 
 // ============================================================================
+// Centralized Type Primitives
+// ============================================================================
+
+/**
+ * Design system primitive types.
+ * Use these to build custom components that align with the design system.
+ *
+ * @example
+ * ```typescript
+ * import type { SemanticColorVariant, ComponentSize } from '@dsai/react';
+ *
+ * interface CustomAlertProps {
+ *   variant?: SemanticColorVariant;
+ *   size?: ComponentSize;
+ * }
+ * ```
+ */
+export type {
+  // Accessibility & Security - WCAG 2.2 AA compliant attributes
+  ARIAProps,
+  // Core primitives - Design system vocabulary
+  Alignment,
+  // Responsive values - Breakpoint-aware props (Bootstrap 5 breakpoints: xs/sm/md/lg/xl/xxl)
+  // Note: Breakpoint is also exported from './hooks' - both use same Bootstrap 5 values
+  Breakpoint,
+  ComponentSize,
+  ExtendedSize,
+  // State machines - FSM primitives for component state management
+  FSMConfig,
+  FSMEventBase,
+  FSMReducer,
+  FSMStateBase,
+  FeedbackVariant,
+  Orientation,
+  // Polymorphic components - Type-safe "as" prop support
+  PolymorphicComponentProps,
+  PolymorphicProps,
+  PolymorphicRef,
+  ResponsiveProp,
+  ResponsiveValue,
+  SafeHTMLAttributes,
+  SemanticColorVariant,
+  VisualStateBase,
+} from './types';
+
+// Responsive utilities (runtime)
+export { getResponsiveValue, isResponsiveValue } from './types';
+
+// ============================================================================
 // Compositions - Complex multi-component patterns
 // ============================================================================
 // Future composition exports (uncomment as implemented):
@@ -328,10 +377,31 @@ export {
 // ============================================================================
 // Hooks - Reusable stateful logic
 // ============================================================================
-// Future hook exports (uncomment as implemented):
-// export { useMediaQuery } from './hooks';
-// export { useDebounce } from './hooks';
-// export { useLocalStorage } from './hooks';
+export { useClickOutside } from './hooks';
+export type { UseClickOutsideCallback, UseClickOutsideOptions, UseClickOutsideRefs } from './hooks';
+
+export { useFocusTrap } from './hooks';
+export type { UseFocusTrapOptions, UseFocusTrapReturn } from './hooks';
+
+export {
+  BREAKPOINTS,
+  breakpointBetween,
+  breakpointDown,
+  breakpointUp,
+  getBreakpointValue,
+  useIsDesktop,
+  useIsLargeDesktop,
+  useIsMobile,
+  useIsTablet,
+  useMediaQuery,
+} from './hooks';
+export type { Breakpoint, UseMediaQueryOptions } from './hooks';
+
+export { useReducedMotion } from './hooks';
+export type { UseReducedMotionOptions } from './hooks';
+
+export { useScrollLock } from './hooks';
+export type { UseScrollLockOptions, UseScrollLockReturn, UseScrollLockTarget } from './hooks';
 
 // ============================================================================
 // Tokens - Import from @dsai/tokens directly
@@ -352,7 +422,42 @@ export * from './components/Icon';
 // ============================================================================
 // Utils - Pure utility functions
 // ============================================================================
+// Core utilities (convenience re-exports from utils/index.ts)
 export { clamp, cn, generateId, isBrowser, mergeRefs, prefersReducedMotion } from './utils';
+
+// Accessibility utilities
+export {
+  announceToScreenReader,
+  focusableSelectorString,
+  focusableSelectors,
+  trapFocus,
+  type AnnounceOptions,
+  type TrapFocusOptions,
+} from './utils/a11y';
+
+// Keyboard utilities
+export { isEnterKey, isEscapeKey } from './utils/keyboard';
+
+// Misc utilities
+export {
+  ClearIcon,
+  clearAllEvent,
+  getSafeInputProps,
+  mapPlacement,
+  normalizeTriggers,
+  selectAllEvent,
+  toggleAllEvent,
+  toggleItemEvent,
+} from './utils/misc';
+
+// String utilities
+export { getVariantClass } from './utils/string';
+
+// Type utilities
+export { isExternalUrl } from './utils/types';
+
+// Validation utilities
+export { isSafeHref, isValidEmail, isValidHref, isValidUrl } from './utils/validation';
 
 // ============================================================================
 // Version

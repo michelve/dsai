@@ -21,7 +21,7 @@
 
 ## TEMPLATE: Component Task
 
-```markdown
+````markdown
 # Task Template
 
 **Task ID:** TASK-[XXX]
@@ -29,7 +29,6 @@
 **Priority:** High
 **Status:** ⚪ Not Started
 **Assigned To:** Developer
-**Estimated Time:** [6h/8h/12h]
 **Phase:** Phase 2[A/B/C] - [Simple/Medium/Complex] Components (Week XX-XX)
 **Created:** 2025-11-07
 **Updated:** 2025-11-07
@@ -250,6 +249,7 @@ Run: `pnpm test [ComponentName].a11y`
    ```bash
    pnpm generate:component [ComponentName]
    ```
+````
 
 2. [ ] Review generated files
 3. [ ] Plan component structure
@@ -257,6 +257,7 @@ Run: `pnpm test [ComponentName].a11y`
 ### Step 2: Component Implementation (2-5 hours depending on complexity)
 
 4. [ ] Define TypeScript Props interface
+
    ```typescript
    export interface [ComponentName]Props {
      variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
@@ -336,10 +337,12 @@ Run: `pnpm test [ComponentName].a11y`
 **Complexity:** [Simple/Medium/Complex]
 
 **Key Challenges:**
+
 - [Challenge 1]
 - [Challenge 2]
 
 **Design Tokens Used:**
+
 - Colors: [list relevant token categories]
 - Spacing: [list relevant token categories]
 - Typography: [list relevant token categories]
@@ -348,17 +351,20 @@ Run: `pnpm test [ComponentName].a11y`
 ### Common Patterns
 
 **Simple Components (6 hours):**
+
 - Minimal interactivity
 - Few variants
 - Example: Badge, Alert, Progress
 
 **Medium Components (8 hours):**
+
 - Moderate interactivity
 - Multiple variants and sizes
 - Form elements
 - Example: Input, Select, Tabs
 
 **Complex Components (12 hours):**
+
 - Heavy interactivity
 - Complex state management
 - Accessibility challenges
@@ -394,6 +400,7 @@ For interactive overlays (Modal, Dropdown, Tooltip):
 ### Testing Best Practices
 
 **What to test:**
+
 - Component renders with various props
 - User interactions (clicks, key presses)
 - State changes
@@ -401,12 +408,14 @@ For interactive overlays (Modal, Dropdown, Tooltip):
 - Error handling
 
 **What NOT to test:**
+
 - Implementation details
 - Internal state (test behavior)
 - Third-party library internals
 - CSS styles (test presence of class names)
 
 **Testing Library Philosophy:**
+
 - Query by accessible labels (not test IDs)
 - Interact as users would (click, type)
 - Assert on what users see
@@ -415,6 +424,7 @@ For interactive overlays (Modal, Dropdown, Tooltip):
 ### Estimated Effort Breakdown
 
 **Simple Component (6 hours total):**
+
 - Setup: 0.25h
 - Implementation: 2h
 - Styling: 1h
@@ -423,6 +433,7 @@ For interactive overlays (Modal, Dropdown, Tooltip):
 - Documentation: 0.5h
 
 **Medium Component (8 hours total):**
+
 - Setup: 0.25h
 - Implementation: 3h
 - Styling: 1.5h
@@ -431,6 +442,7 @@ For interactive overlays (Modal, Dropdown, Tooltip):
 - Documentation: 0.75h
 
 **Complex Component (12 hours total):**
+
 - Setup: 0.5h
 - Implementation: 5h
 - Styling: 2h
@@ -528,3 +540,4 @@ When creating a new component task from this template:
 
 **This template ensures consistency across all 25 component tasks!**
 
+```

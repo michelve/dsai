@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 /**
  * Parse markdown file to extract token descriptions
@@ -53,7 +53,7 @@ function getByPath(obj, path) {
 /**
  * Set value in nested object by dot-notation path
  */
-function setByPath(obj, path, value) {
+function _setByPath(obj, path, value) {
   const parts = path.split('.');
   let current = obj;
 
@@ -96,9 +96,9 @@ function updateDescriptionsFromMarkdown(jsonPath, mdPath) {
 
     // Handle mode prefix (light/dark -> Light/Dark)
     if (mdPath.startsWith('light.')) {
-      jsonPath = 'Colors.modes.Light.' + mdPath.substring(6);
+      jsonPath = `Colors.modes.Light.${mdPath.substring(6)}`;
     } else if (mdPath.startsWith('dark.')) {
-      jsonPath = 'Colors.modes.Dark.' + mdPath.substring(5);
+      jsonPath = `Colors.modes.Dark.${mdPath.substring(5)}`;
     }
 
     // Handle array-wrapped JSON (like colors.json)
@@ -189,7 +189,7 @@ function processAllCollections() {
     }
   }
 
-  console.log('\n' + '='.repeat(50));
+  console.log(`\n${'='.repeat(50)}`);
   console.log(`Processed ${successCount}/${mdFiles.length} collections successfully`);
 }
 

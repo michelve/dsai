@@ -2,18 +2,20 @@
  * announceToScreenReader - Send a message to a live region for screen readers.
  *
  * Uses an offscreen aria-live container. Supports polite (default) and assertive.
- * Cleans up the node automatically after the message is announced.
+ * Returns a cleanup function to remove the announcement.
  */
 export interface AnnounceOptions {
-  politeness?: 'polite' | 'assertive';
-  id?: string;
-  timeoutMs?: number;
+  readonly politeness?: 'polite' | 'assertive';
+  readonly id?: string;
+  readonly timeoutMs?: number;
 }
 
-export function announceToScreenReader(message: string, options: AnnounceOptions = {}): void {
+export function announceToScreenReader(message: string, options: AnnounceOptions = {}): () => void {
+  // SSR safety: early return if no document
   if (typeof document === 'undefined') {
-    return;
+    return () => {};
   }
+
   const { politeness = 'polite', id = 'dsai-live-region', timeoutMs = 2000 } = options;
 
   let container = document.getElementById(id);
@@ -35,11 +37,21 @@ export function announceToScreenReader(message: string, options: AnnounceOptions
 
   container.textContent = message;
 
-  window.setTimeout(() => {
+  const timeoutId = window.setTimeout(() => {
     if (container?.parentNode) {
       container.textContent = '';
     }
   }, timeoutMs);
+
+  // Return cleanup function
+  return () => {
+    if (timeoutId) {
+      window.clearTimeout(timeoutId);
+    }
+    if (container?.parentNode) {
+      container.textContent = '';
+    }
+  };
 }
 
 export default announceToScreenReader;

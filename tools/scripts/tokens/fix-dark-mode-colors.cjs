@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 // Read the colors.json file
 const colorsPath = path.join(__dirname, '..', 'collections', 'colors.json');
@@ -184,7 +184,7 @@ if (darkModeColors.theme) {
 colorsArray[0] = colorsData;
 fs.writeFileSync(colorsPath, JSON.stringify(colorsArray, null, 2));
 
-console.log('\n' + '='.repeat(60));
+console.log(`\n${'='.repeat(60)}`);
 console.log(`✅ Dark Mode fix complete!`);
 console.log(`📊 Fixed: ${fixedCount} colors`);
 console.log(`ℹ️  Unchanged (intentionally different): ${unchangedCount} colors`);

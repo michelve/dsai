@@ -20,8 +20,8 @@
  *   --verbose Show all files scanned
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 // ANSI color codes for terminal output
 const colors = {
@@ -601,7 +601,7 @@ class ButtonUsageAnalyzer {
         colors.reset
     );
     console.log(
-      colors.bold + '                           Issues                              ' + colors.reset
+      `${colors.bold}                           Issues                              ${colors.reset}`
     );
     console.log(
       colors.bold +
@@ -622,7 +622,7 @@ class ButtonUsageAnalyzer {
 
     // Exit code
     console.log(
-      colors.bold + '───────────────────────────────────────────────────────────────' + colors.reset
+      `${colors.bold}───────────────────────────────────────────────────────────────${colors.reset}`
     );
     if (summary.errors > 0) {
       console.log(

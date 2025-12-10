@@ -298,7 +298,9 @@ describe('Input - Security', () => {
       render(<Input label="Keyboard test" onChange={onChange} />);
 
       const input = screen.getByDisplayValue('') as HTMLInputElement;
-      input.focus();
+
+      // Use userEvent.click to properly focus the input within act()
+      await user.click(input);
 
       await user.keyboard('test');
 

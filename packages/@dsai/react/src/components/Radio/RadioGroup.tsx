@@ -1,5 +1,6 @@
-import { Children, cloneElement, isValidElement, type ReactElement, useId, useState } from 'react';
+import { Children, cloneElement, isValidElement, type ReactElement, useId } from 'react';
 
+import { useControllableState } from '../../hooks';
 import { cn } from '../../utils';
 
 import { Radio } from './Radio';
@@ -67,19 +68,22 @@ export function RadioGroup({
   const labelId = label ? `${groupId}-label` : undefined;
   const helperId = helperText ? `${groupId}-helper` : undefined;
 
-  // Internal state for uncontrolled mode
-  const [internalValue, setInternalValue] = useState(defaultValue);
+  // Controllable state - wrap onChange to handle ChangeEvent
+  const [currentValue, setCurrentValue] = useControllableState({
+    value,
+    defaultValue,
+    onChange: onChange
+      ? (_newValue: string, event?: React.ChangeEvent<HTMLInputElement>) => {
+          if (event) {
+            onChange(event);
+          }
+        }
+      : undefined,
+  });
 
-  // Determine if controlled or uncontrolled
-  const isControlled = value !== undefined;
-  const currentValue = isControlled ? value : internalValue;
-
-  // Handle change for both controlled and uncontrolled modes
+  // Handle change - pass both value and event to setCurrentValue
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    if (!isControlled) {
-      setInternalValue(event.target.value);
-    }
-    onChange?.(event);
+    setCurrentValue(event.target.value, event);
   };
 
   // Build wrapper classes

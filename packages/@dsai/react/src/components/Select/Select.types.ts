@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react';
+import type { ComponentSize } from '../../types';
 
 /**
  * Option item for the Select component
@@ -48,14 +49,14 @@ export interface SelectOptionGroup<T = string> {
 
 /**
  * Select sizes matching DS AI design tokens
+ * @see ComponentSize
  */
-export type SelectSize = 'sm' | 'md' | 'lg';
+export type SelectSize = ComponentSize;
 
 /**
  * Select component props
  *
- * @see https://getbootstrap.com/docs/5.3/forms/select/
- *
+ * @see https://getbootstrap.com/docs/5.3/forms/select/\n *
  * @example
  * ```tsx
  * // Basic select

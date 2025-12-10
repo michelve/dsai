@@ -4,6 +4,11 @@
   // The branch used for affected calculations in CI
   "defaultBase": "master",
 
+  "tui": {
+    "enabled": false,
+    "autoExit": true
+  },
+
   // ============ Named Inputs (Enterprise Level) ============
   "namedInputs": {
     // Input set used by nearly all executors

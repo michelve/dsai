@@ -1,4 +1,5 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import type { SemanticColorVariant } from '../../types';
 
 /**
  * Card variant styling
@@ -7,16 +8,9 @@ export type CardVariant = 'elevated' | 'outlined' | 'ghost';
 
 /**
  * Card color variant (background color)
+ * @see SemanticColorVariant
  */
-export type CardColor =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'danger'
-  | 'warning'
-  | 'info'
-  | 'light'
-  | 'dark';
+export type CardColor = SemanticColorVariant;
 
 /**
  * Card container props

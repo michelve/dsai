@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const colorsPath = path.join(__dirname, '..', 'collections', 'colors.json');
 const colorsArray = JSON.parse(fs.readFileSync(colorsPath, 'utf8'));
@@ -49,7 +49,7 @@ hues.forEach((hue) => {
 colorsArray[0] = colorsData;
 fs.writeFileSync(colorsPath, JSON.stringify(colorsArray, null, 2));
 
-console.log('\n' + '='.repeat(60));
+console.log(`\n${'='.repeat(60)}`);
 console.log(`✅ Fixed ${fixedCount} Dark mode colors`);
 console.log(`💾 Updated: ${colorsPath}`);
 console.log('='.repeat(60));

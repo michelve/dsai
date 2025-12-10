@@ -18,9 +18,7 @@
                 "darkMode": "true"
               }
             },
-            "$scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            "$scopes": ["WIDTH_HEIGHT"]
           },
           "sm": {
             "$value": 576,
@@ -37,9 +35,7 @@
                 "darkMode": "true"
               }
             },
-            "$scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            "$scopes": ["WIDTH_HEIGHT"]
           },
           "md": {
             "$value": 768,
@@ -56,9 +52,7 @@
                 "darkMode": "true"
               }
             },
-            "$scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            "$scopes": ["WIDTH_HEIGHT"]
           },
           "lg": {
             "$value": 992,
@@ -75,9 +69,7 @@
                 "darkMode": "true"
               }
             },
-            "$scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            "$scopes": ["WIDTH_HEIGHT"]
           },
           "xl": {
             "$value": 1200,
@@ -94,9 +86,7 @@
                 "darkMode": "true"
               }
             },
-            "$scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            "$scopes": ["WIDTH_HEIGHT"]
           },
           "xxl": {
             "$value": 1400,
@@ -113,9 +103,7 @@
                 "darkMode": "true"
               }
             },
-            "$scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            "$scopes": ["WIDTH_HEIGHT"]
           }
         },
         "container": {
@@ -135,9 +123,7 @@
                   "darkMode": "true"
                 }
               },
-              "$scopes": [
-                "WIDTH_HEIGHT"
-              ]
+              "$scopes": ["WIDTH_HEIGHT"]
             },
             "md": {
               "$value": 720,
@@ -154,9 +140,7 @@
                   "darkMode": "true"
                 }
               },
-              "$scopes": [
-                "WIDTH_HEIGHT"
-              ]
+              "$scopes": ["WIDTH_HEIGHT"]
             },
             "lg": {
               "$value": 960,
@@ -173,9 +157,7 @@
                   "darkMode": "true"
                 }
               },
-              "$scopes": [
-                "WIDTH_HEIGHT"
-              ]
+              "$scopes": ["WIDTH_HEIGHT"]
             },
             "xl": {
               "$value": 1140,
@@ -192,9 +174,7 @@
                   "darkMode": "true"
                 }
               },
-              "$scopes": [
-                "WIDTH_HEIGHT"
-              ]
+              "$scopes": ["WIDTH_HEIGHT"]
             },
             "xxl": {
               "$value": 1320,
@@ -211,9 +191,7 @@
                   "darkMode": "true"
                 }
               },
-              "$scopes": [
-                "WIDTH_HEIGHT"
-              ]
+              "$scopes": ["WIDTH_HEIGHT"]
             }
           },
           "padding-x": {
@@ -231,9 +209,7 @@
                 "darkMode": "true"
               }
             },
-            "$scopes": [
-              "GAP"
-            ]
+            "$scopes": ["GAP"]
           }
         },
         "grid": {
@@ -252,9 +228,7 @@
                 "darkMode": "true"
               }
             },
-            "$scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            "$scopes": ["WIDTH_HEIGHT"]
           },
           "gutter-width": {
             "$value": 24,
@@ -271,9 +245,7 @@
                 "darkMode": "true"
               }
             },
-            "$scopes": [
-              "GAP"
-            ]
+            "$scopes": ["GAP"]
           },
           "row-columns": {
             "$value": 6,
@@ -290,9 +262,7 @@
                 "darkMode": "true"
               }
             },
-            "$scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            "$scopes": ["WIDTH_HEIGHT"]
           }
         },
         "gutters": {
@@ -310,9 +280,7 @@
                 "darkMode": "true"
               }
             },
-            "$scopes": [
-              "GAP"
-            ]
+            "$scopes": ["GAP"]
           },
           "1": {
             "$value": 4,
@@ -328,9 +296,7 @@
                 "darkMode": "true"
               }
             },
-            "$scopes": [
-              "GAP"
-            ]
+            "$scopes": ["GAP"]
           },
           "2": {
             "$value": 8,
@@ -346,9 +312,7 @@
                 "darkMode": "true"
               }
             },
-            "$scopes": [
-              "GAP"
-            ]
+            "$scopes": ["GAP"]
           },
           "3": {
             "$value": 16,
@@ -364,9 +328,7 @@
                 "darkMode": "true"
               }
             },
-            "$scopes": [
-              "GAP"
-            ]
+            "$scopes": ["GAP"]
           },
           "4": {
             "$value": 24,
@@ -382,9 +344,7 @@
                 "darkMode": "true"
               }
             },
-            "$scopes": [
-              "GAP"
-            ]
+            "$scopes": ["GAP"]
           },
           "5": {
             "$value": 48,
@@ -400,9 +360,7 @@
                 "darkMode": "true"
               }
             },
-            "$scopes": [
-              "GAP"
-            ]
+            "$scopes": ["GAP"]
           }
         }
       }

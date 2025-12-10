@@ -1,4 +1,5 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import type { ExtendedSize, SafeHTMLAttributes } from '../../types';
 
 // =============================================================================
 // Size Types
@@ -7,8 +8,9 @@ import type { CSSProperties, ReactNode } from 'react';
 /**
  * Avatar size variants
  * Maps to Bootstrap 5 sizing scale with design tokens
+ * @see ExtendedSize
  */
-export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+export type AvatarSize = ExtendedSize;
 
 /**
  * Avatar size mappings in pixels
@@ -135,19 +137,9 @@ export const AVATAR_STATUS_LABEL_MAP: Record<AvatarStatus, string> = {
 /**
  * Safe HTML attributes for Avatar component
  * Whitelists allowed HTML attributes to prevent unrestricted prop spreading
+ * @see {@link SafeHTMLAttributes}
  */
-export interface SafeAvatarHTMLAttributes {
-  id?: string;
-  className?: string;
-  style?: CSSProperties;
-  title?: string;
-  'data-testid'?: string;
-  'data-test'?: string;
-  'aria-label'?: string;
-  'aria-hidden'?: boolean | 'true' | 'false';
-  'aria-describedby'?: string;
-  tabIndex?: number;
-}
+export type SafeAvatarHTMLAttributes = SafeHTMLAttributes<HTMLDivElement>;
 
 // =============================================================================
 // Avatar Props

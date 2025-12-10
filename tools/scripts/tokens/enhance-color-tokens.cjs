@@ -3,8 +3,8 @@
  * Based on Bootstrap documentation and usage patterns
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 // Color descriptions based on Bootstrap docs
 const colorDescriptions = {

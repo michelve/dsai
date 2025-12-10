@@ -22,6 +22,7 @@
 
 import { forwardRef, memo, useCallback, useEffect, useId, useMemo, useReducer } from 'react';
 
+import { useControllableState } from '../../hooks';
 import { cn } from '../../utils';
 import { SelectableCard } from '../SelectableCard';
 
@@ -153,23 +154,34 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListPropsInternal>
       return [val];
     }, []);
 
-    // Determine if controlled
-    const isControlled = value !== undefined;
+    // Use centralized hook for controlled/uncontrolled state management
+    const [selectedValues, setSelectedValues] = useControllableState<string[]>({
+      value: value !== undefined ? normalizeValue(value) : undefined,
+      defaultValue: normalizeValue(defaultValue),
+      onChange: (newValues) => {
+        if (onChange) {
+          // For single mode, return single value or undefined
+          if (selectionMode === 'single') {
+            onChange(newValues.length > 0 ? newValues[0] : undefined);
+          } else {
+            // For multiple mode, return array
+            onChange(newValues);
+          }
+        }
+      },
+    });
 
-    // Initialize FSM state
-    const initialValues = normalizeValue(isControlled ? value : defaultValue);
+    // Initialize FSM state with current selected values
     const [fsmState, dispatch] = useReducer(
       cardListFSMReducer,
-      { values: initialValues, mode: selectionMode, totalEnabled },
+      { values: selectedValues, mode: selectionMode, totalEnabled },
       (init) => createInitialCardListFSMState(init.values, init.mode, init.totalEnabled)
     );
 
-    // Sync FSM with controlled value prop
+    // Sync FSM with current selected values (controlled or uncontrolled)
     useEffect(() => {
-      if (isControlled) {
-        dispatch(resetFromPropsEvent(normalizeValue(value), selectionMode, totalEnabled));
-      }
-    }, [isControlled, value, selectionMode, totalEnabled, normalizeValue]);
+      dispatch(resetFromPropsEvent(selectedValues, selectionMode, totalEnabled));
+    }, [selectedValues, selectionMode, totalEnabled]);
 
     // Dev warning for missing accessible label
     useEffect(() => {
@@ -183,21 +195,10 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListPropsInternal>
       (itemValue: string) => {
         // Compute next state
         const nextState = cardListFSMReducer(fsmState, selectItemEvent(itemValue, totalEnabled));
-
-        // Dispatch to update internal state (for uncontrolled mode)
-        if (!isControlled) {
-          dispatch(selectItemEvent(itemValue, totalEnabled));
-        }
-
-        // Call onChange with new value
-        if (onChange) {
-          // For single mode, return single value or undefined
-          const newValue =
-            nextState.selectedValues.length > 0 ? nextState.selectedValues[0] : undefined;
-          onChange(newValue);
-        }
+        // Update selected values via hook (handles both controlled and uncontrolled)
+        setSelectedValues(nextState.selectedValues);
       },
-      [fsmState, totalEnabled, isControlled, onChange]
+      [fsmState, totalEnabled, setSelectedValues]
     );
 
     // Handle card toggle for multiple mode
@@ -205,19 +206,10 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListPropsInternal>
       (itemValue: string) => {
         // Compute next state
         const nextState = cardListFSMReducer(fsmState, toggleItemEvent(itemValue, totalEnabled));
-
-        // Dispatch to update internal state (for uncontrolled mode)
-        if (!isControlled) {
-          dispatch(toggleItemEvent(itemValue, totalEnabled));
-        }
-
-        // Call onChange with new values
-        if (onChange) {
-          // For multiple mode, return array
-          onChange(nextState.selectedValues);
-        }
+        // Update selected values via hook (handles both controlled and uncontrolled)
+        setSelectedValues(nextState.selectedValues);
       },
-      [fsmState, totalEnabled, isControlled, onChange]
+      [fsmState, totalEnabled, setSelectedValues]
     );
 
     // Handle card selection based on mode
@@ -235,8 +227,9 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListPropsInternal>
       [selectionMode, handleSelectItem, handleToggleItem]
     );
 
-    // Derive selection state for rendering
-    const { selectedValues, visualState } = fsmState;
+    // Derive visual state for rendering (selectedValues comes from useControllableState)
+    const { visualState } = fsmState;
+    const renderSelectedValues = fsmState.selectedValues;
 
     // Determine selection mode for SelectableCard
     const cardSelectionMode = useMemo(() => {
@@ -316,7 +309,7 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListPropsInternal>
         <div className="card-list-container" style={containerStyle} data-visual-state={visualState}>
           {items.map((item) => {
             const itemId = `${id}-item-${item.value}`;
-            const isSelected = selectedValues.includes(item.value);
+            const isSelected = renderSelectedValues.includes(item.value);
             const isDisabled = disabled || item.disabled;
 
             return (

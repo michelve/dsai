@@ -1,4 +1,5 @@
-import type { CSSProperties, ReactElement, ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
+import type { SafeHTMLAttributes } from '../../types';
 
 /**
  * Tooltip placement options
@@ -26,19 +27,9 @@ export type TooltipTrigger = 'hover' | 'focus' | 'click';
 /**
  * Safe HTML attributes that can be spread onto tooltip elements
  * SECURITY: This whitelist prevents injection of dangerous attributes or event handlers
+ * @see {@link SafeHTMLAttributes}
  */
-export interface SafeTooltipHTMLAttributes {
-  /** Additional CSS class names */
-  className?: string;
-  /** Inline styles */
-  style?: CSSProperties;
-  /** ID attribute */
-  id?: string;
-  /** Data attribute for testing */
-  'data-testid'?: string;
-  /** Data attribute for testing */
-  'data-test'?: string;
-}
+export type SafeTooltipHTMLAttributes = SafeHTMLAttributes<HTMLDivElement>;
 
 /**
  * Tooltip component props

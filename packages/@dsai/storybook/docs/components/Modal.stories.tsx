@@ -466,7 +466,11 @@ export const CustomInitialFocus: Story = {
     return (
       <>
         <Button onClick={() => setIsOpen(true)}>Custom Focus</Button>
-        <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} initialFocusRef={inputRef}>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          initialFocusRef={inputRef as React.RefObject<HTMLElement>}
+        >
           <Modal.Header>Custom Initial Focus</Modal.Header>
           <Modal.Body>
             <p>The input below receives focus when the modal opens:</p>
@@ -503,7 +507,11 @@ export const ReturnFocus: Story = {
         <Button ref={triggerRef} onClick={() => setIsOpen(true)}>
           Return Focus Modal
         </Button>
-        <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} returnFocusRef={triggerRef}>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          returnFocusRef={triggerRef as React.RefObject<HTMLElement>}
+        >
           <Modal.Header>Return Focus</Modal.Header>
           <Modal.Body>
             <p>When this modal closes, focus will return to the trigger button.</p>

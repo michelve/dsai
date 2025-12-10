@@ -51,7 +51,7 @@ export interface TokenInfo {
  * (ES2020 compatible - Object.hasOwn requires ES2022)
  */
 function hasToken(key: string): key is keyof typeof tokens {
-  return Object.prototype.hasOwnProperty.call(tokens, key);
+  return Object.hasOwn(tokens, key);
 }
 
 /**

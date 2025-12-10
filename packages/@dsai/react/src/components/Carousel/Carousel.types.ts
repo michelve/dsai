@@ -1,4 +1,5 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import type { SafeHTMLAttributes } from '../../types';
 
 /**
  * Carousel animation types
@@ -15,12 +16,9 @@ export type CarouselControlDirection = 'prev' | 'next';
 /**
  * Safe HTML attributes that can be spread onto carousel elements
  * SECURITY: This whitelist prevents injection of dangerous attributes or event handlers
+ * @see SafeHTMLAttributes
  */
-export interface SafeCarouselHTMLAttributes {
-  'data-testid'?: string;
-  'data-test'?: string;
-  title?: string;
-}
+export type SafeCarouselHTMLAttributes = SafeHTMLAttributes<HTMLDivElement>;
 
 /**
  * CarouselItem component props

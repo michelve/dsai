@@ -36,7 +36,18 @@ export default {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
-  setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],
+  setupFilesAfterEnv: [
+    '<rootDir>/test/setup.ts',
+    '<rootDir>/packages/@dsai/react/src/hooks/__tests__/setup.ts',
+  ],
   coverageDirectory: '<rootDir>/coverage/packages/@dsai/react',
+  coverageThreshold: {
+    'packages/@dsai/react/src/hooks/**/*.ts': {
+      branches: 100,
+      functions: 100,
+      lines: 100,
+      statements: 100,
+    },
+  },
   testMatch: ['<rootDir>/packages/@dsai/react/**/*.(test|spec).(ts|tsx)'],
 };

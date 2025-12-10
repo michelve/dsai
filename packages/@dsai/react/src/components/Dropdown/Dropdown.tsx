@@ -477,7 +477,7 @@ const DropdownToggle = forwardRef<HTMLButtonElement, DropdownToggleProps>(
     // Development warning for split toggles without explicit aria-label (guarded for browser envs)
     if (
       typeof process !== 'undefined' &&
-      process.env?.['NODE_ENV'] !== 'production' &&
+      process.env?.NODE_ENV !== 'production' &&
       split &&
       !ariaLabel
     ) {

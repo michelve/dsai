@@ -1,24 +1,21 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import type { ComponentSize, SemanticColorVariant } from '../../types';
 
 /**
  * Progress bar color variants
  * Maps to Bootstrap 5 progress bar background utilities
+ * Note: Excludes 'light' variant as it's not visible on light backgrounds
  *
  * @see https://getbootstrap.com/docs/5.3/components/progress/
+ * @see SemanticColorVariant
  */
-export type ProgressVariant =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'danger'
-  | 'warning'
-  | 'info'
-  | 'dark';
+export type ProgressVariant = Exclude<SemanticColorVariant, 'light'>;
 
 /**
  * Progress bar sizes
+ * @see ComponentSize
  */
-export type ProgressSize = 'sm' | 'md' | 'lg';
+export type ProgressSize = ComponentSize;
 
 /**
  * Progress component props

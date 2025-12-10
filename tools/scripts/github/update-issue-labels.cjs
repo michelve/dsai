@@ -14,8 +14,8 @@
  *   npm install @octokit/rest csv-parse
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 const { parse } = require('csv-parse/sync');
 
 // Check if @octokit/rest is available
@@ -23,7 +23,7 @@ let Octokit;
 try {
   const octokitModule = require('@octokit/rest');
   Octokit = octokitModule.Octokit;
-} catch (error) {
+} catch (_error) {
   console.error('❌ @octokit/rest not installed');
   console.error('Run: npm install @octokit/rest csv-parse');
   process.exit(1);
@@ -87,8 +87,7 @@ async function updateIssueLabels() {
 
   for (const issue of issues) {
     // Try to find task_id in issue title or body
-    const taskIdMatch =
-      issue.title.match(/TASK-\d+/) || (issue.body && issue.body.match(/TASK-\d+/));
+    const taskIdMatch = issue.title.match(/TASK-\d+/) || issue.body?.match(/TASK-\d+/);
 
     if (taskIdMatch) {
       const taskId = taskIdMatch[0];

@@ -1,5 +1,6 @@
-import { forwardRef, type KeyboardEvent, useId, useState } from 'react';
+import { forwardRef, type KeyboardEvent, useId } from 'react';
 
+import { useControllableState } from '../../hooks';
 import { cn } from '../../utils';
 import { isEnterKey } from '../../utils/keyboard';
 
@@ -79,12 +80,12 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
   const labelId = `${switchId}-label`;
   const helperId = `${switchId}-helper`;
 
-  // Internal state for uncontrolled mode
-  const [internalChecked, setInternalChecked] = useState(defaultChecked);
-
-  // Determine if controlled
-  const isControlled = checked !== undefined;
-  const isChecked = isControlled ? checked : internalChecked;
+  // Controllable state
+  const [isChecked, setIsChecked] = useControllableState({
+    value: checked,
+    defaultValue: defaultChecked ?? false,
+    onChange,
+  });
 
   // Handle toggle
   const handleToggle = (): void => {
@@ -92,13 +93,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
       return;
     }
 
-    const newValue = !isChecked;
-
-    if (!isControlled) {
-      setInternalChecked(newValue);
-    }
-
-    onChange?.(newValue);
+    setIsChecked(!isChecked);
   };
 
   // Handle keyboard

@@ -1,4 +1,5 @@
-import type { CSSProperties, ReactElement, ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
+import type { SafeHTMLAttributes } from '../../types';
 
 /**
  * Popover placement options
@@ -26,19 +27,9 @@ export type PopoverTrigger = 'click' | 'hover' | 'focus';
 /**
  * Safe HTML attributes that can be spread onto popover elements
  * SECURITY: This whitelist prevents injection of dangerous attributes or event handlers
+ * @see {@link SafeHTMLAttributes}
  */
-export interface SafePopoverHTMLAttributes {
-  /** Additional CSS class names */
-  className?: string;
-  /** Inline styles */
-  style?: CSSProperties;
-  /** ID attribute */
-  id?: string;
-  /** Data attribute for testing */
-  'data-testid'?: string;
-  /** Data attribute for testing */
-  'data-test'?: string;
-}
+export type SafePopoverHTMLAttributes = SafeHTMLAttributes<HTMLDivElement>;
 
 /**
  * PopoverHeader component props

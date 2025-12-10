@@ -4,8 +4,8 @@
  * Run AFTER Style Dictionary build
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const tokensPath = path.join(__dirname, '../../../packages/@dsai/tokens/dist/ts/tokens.ts');
 const outputPath = path.join(__dirname, '../../../packages/@dsai/tokens/src/index.ts');

@@ -9,8 +9,8 @@
     node scripts/merge-tokens.js
 */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const ROOT = path.resolve(__dirname, '..');
 const COLLECTIONS_DIR = path.join(ROOT, 'collections');
@@ -177,7 +177,7 @@ function main() {
           `#${i + 1} @ ${c.path}\n  kept: ${JSON.stringify(c.kept)}\n  skipped: ${JSON.stringify(c.skipped)}`
       ),
     ].join('\n');
-    fs.writeFileSync(logFile, log + '\n', 'utf8');
+    fs.writeFileSync(logFile, `${log}\n`, 'utf8');
     console.warn(`Merge completed with conflicts. See log: ${path.relative(ROOT, logFile)}`);
   } else {
     fs.writeFileSync(logFile, 'Merge completed with 0 conflicts.\n', 'utf8');

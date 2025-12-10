@@ -1,4 +1,5 @@
-import type { CSSProperties, KeyboardEvent, MouseEvent, ReactNode } from 'react';
+import type { KeyboardEvent, MouseEvent, ReactNode } from 'react';
+import type { SafeHTMLAttributes } from '../../types';
 
 /**
  * Accordion selection mode
@@ -17,19 +18,9 @@ export type AccordionFlush = boolean;
 /**
  * Safe HTML attributes that can be spread onto accordion elements
  * SECURITY: This whitelist prevents injection of dangerous attributes or event handlers
+ * @see SafeHTMLAttributes
  */
-export interface SafeAccordionHTMLAttributes {
-  /** Additional CSS class names */
-  className?: string;
-  /** Inline styles */
-  style?: CSSProperties;
-  /** ID attribute */
-  id?: string;
-  /** Data attribute for testing */
-  'data-testid'?: string;
-  /** Data attribute for testing */
-  'data-test'?: string;
-}
+export type SafeAccordionHTMLAttributes = SafeHTMLAttributes<HTMLDivElement>;
 
 /**
  * Accordion component props

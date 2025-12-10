@@ -1,0 +1,85 @@
+/**
+ * Breakpoint Constants and Utilities
+ *
+ * These breakpoint values align with DSAi design tokens and match Bootstrap 5 defaults.
+ * Use these constants to ensure consistency between CSS media queries and JavaScript logic.
+ */
+
+/**
+ * DSAi breakpoint constants aligned with design tokens.
+ * These match the SCSS breakpoint variables in @dsai/tokens.
+ */
+export const BREAKPOINTS = {
+  /** Extra small: 0px and up */
+  xs: 0,
+  /** Small: 576px and up */
+  sm: 576,
+  /** Medium: 768px and up (tablets) */
+  md: 768,
+  /** Large: 992px and up (desktops) */
+  lg: 992,
+  /** Extra large: 1200px and up (large desktops) */
+  xl: 1200,
+  /** Extra extra large: 1400px and up (wide screens) */
+  xxl: 1400,
+} as const;
+
+export type Breakpoint = keyof typeof BREAKPOINTS;
+
+/**
+ * Generate a min-width media query for a breakpoint.
+ *
+ * @example
+ * ```ts
+ * breakpointUp('md') // "(min-width: 768px)"
+ * ```
+ *
+ * @param breakpoint - The breakpoint key (xs, sm, md, lg, xl, xxl)
+ * @returns CSS media query string for min-width
+ */
+export function breakpointUp(breakpoint: Breakpoint): string {
+  return `(min-width: ${BREAKPOINTS[breakpoint]}px)`;
+}
+
+/**
+ * Generate a max-width media query for a breakpoint.
+ * Uses breakpoint - 0.02px to avoid overlap with min-width queries.
+ *
+ * @example
+ * ```ts
+ * breakpointDown('md') // "(max-width: 767.98px)"
+ * ```
+ *
+ * @param breakpoint - The breakpoint key (xs, sm, md, lg, xl, xxl)
+ * @returns CSS media query string for max-width
+ */
+export function breakpointDown(breakpoint: Breakpoint): string {
+  const value = BREAKPOINTS[breakpoint] - 0.02;
+  return `(max-width: ${value}px)`;
+}
+
+/**
+ * Generate a media query for a range between two breakpoints.
+ *
+ * @example
+ * ```ts
+ * breakpointBetween('sm', 'lg') // "(min-width: 576px) and (max-width: 991.98px)"
+ * ```
+ *
+ * @param min - The minimum breakpoint (inclusive)
+ * @param max - The maximum breakpoint (exclusive)
+ * @returns CSS media query string for the range
+ */
+export function breakpointBetween(min: Breakpoint, max: Breakpoint): string {
+  return `${breakpointUp(min)} and ${breakpointDown(max)}`;
+}
+
+/**
+ * Get the pixel value for a breakpoint.
+ *
+ * @param breakpoint - The breakpoint key
+ * @returns The pixel value as a number
+ */
+export function getBreakpointValue(breakpoint: Breakpoint): number {
+  return BREAKPOINTS[breakpoint];
+}

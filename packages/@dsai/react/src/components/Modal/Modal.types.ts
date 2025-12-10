@@ -1,12 +1,15 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import type { ComponentSize, SafeHTMLAttributes } from '../../types';
 
 /**
  * Modal size variants
  * Maps to Bootstrap 5 modal size classes
+ * Combines ComponentSize (sm/md/lg) with modal-specific sizes (xl/fullscreen)
  *
  * @see https://getbootstrap.com/docs/5.3/components/modal/#optional-sizes
+ * @see ComponentSize
  */
-export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'fullscreen';
+export type ModalSize = ComponentSize | 'xl' | 'fullscreen';
 
 /**
  * Modal fullscreen breakpoint variants
@@ -25,29 +28,9 @@ export type ModalFullscreenBreakpoint =
 /**
  * Whitelisted HTML attributes for safe prop spreading in Modal component
  * SECURITY: Restricts arbitrary props to prevent injection attacks
+ * @see {@link SafeHTMLAttributes}
  */
-export interface SafeModalHTMLAttributes {
-  /**
-   * Additional CSS class names (sanitized)
-   */
-  className?: string;
-
-  /**
-   * Inline styles
-   */
-  style?: CSSProperties;
-
-  /**
-   * ID attribute
-   */
-  id?: string;
-
-  /**
-   * Data attributes for testing (sanitized)
-   */
-  'data-testid'?: string;
-  'data-test'?: string;
-}
+export type SafeModalHTMLAttributes = SafeHTMLAttributes<HTMLDivElement>;
 
 /**
  * Modal component props
@@ -231,24 +214,9 @@ export interface ModalProps extends SafeModalHTMLAttributes {
 /**
  * Whitelisted HTML attributes for safe prop spreading in Modal.Header
  * SECURITY: Restricts arbitrary props to prevent injection attacks
+ * @see {@link SafeHTMLAttributes}
  */
-export interface SafeModalHeaderHTMLAttributes {
-  /**
-   * Additional CSS class names (sanitized)
-   */
-  className?: string;
-
-  /**
-   * Inline styles
-   */
-  style?: CSSProperties;
-
-  /**
-   * Data attributes for testing (sanitized)
-   */
-  'data-testid'?: string;
-  'data-test'?: string;
-}
+export type SafeModalHeaderHTMLAttributes = SafeHTMLAttributes<HTMLDivElement>;
 
 /**
  * Modal.Header component props
@@ -293,24 +261,9 @@ export interface ModalHeaderProps extends SafeModalHeaderHTMLAttributes {
 /**
  * Whitelisted HTML attributes for safe prop spreading in Modal.Body
  * SECURITY: Restricts arbitrary props to prevent injection attacks
+ * @see {@link SafeHTMLAttributes}
  */
-export interface SafeModalBodyHTMLAttributes {
-  /**
-   * Additional CSS class names (sanitized)
-   */
-  className?: string;
-
-  /**
-   * Inline styles
-   */
-  style?: CSSProperties;
-
-  /**
-   * Data attributes for testing (sanitized)
-   */
-  'data-testid'?: string;
-  'data-test'?: string;
-}
+export type SafeModalBodyHTMLAttributes = SafeHTMLAttributes<HTMLDivElement>;
 
 /**
  * Modal.Body component props
@@ -340,24 +293,9 @@ export interface ModalBodyProps extends SafeModalBodyHTMLAttributes {
 /**
  * Whitelisted HTML attributes for safe prop spreading in Modal.Footer
  * SECURITY: Restricts arbitrary props to prevent injection attacks
+ * @see {@link SafeHTMLAttributes}
  */
-export interface SafeModalFooterHTMLAttributes {
-  /**
-   * Additional CSS class names (sanitized)
-   */
-  className?: string;
-
-  /**
-   * Inline styles
-   */
-  style?: CSSProperties;
-
-  /**
-   * Data attributes for testing (sanitized)
-   */
-  'data-testid'?: string;
-  'data-test'?: string;
-}
+export type SafeModalFooterHTMLAttributes = SafeHTMLAttributes<HTMLDivElement>;
 
 /**
  * Modal.Footer component props

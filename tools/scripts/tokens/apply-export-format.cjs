@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 // Read the main colors file
 const colorsPath = path.join(__dirname, '..', 'collections', 'colors.json');
@@ -49,10 +49,10 @@ const lightMode = colorsData.Colors.modes['Light Mode'];
 const darkMode = colorsData.Colors.modes['Dark Mode'];
 
 // Process all colors to match export format BEFORE changing mode names
-if (lightMode && lightMode.colors) {
+if (lightMode?.colors) {
   lightMode.colors = processColors(lightMode.colors);
 }
-if (darkMode && darkMode.colors) {
+if (darkMode?.colors) {
   darkMode.colors = processColors(darkMode.colors);
 }
 
@@ -73,5 +73,5 @@ console.log('✅ Kept hex values and code syntax\n');
 colorsArray[0] = colorsData;
 fs.writeFileSync(colorsPath, JSON.stringify(colorsArray, null, 2));
 
-console.log('💾 Updated: ' + colorsPath);
+console.log(`💾 Updated: ${colorsPath}`);
 console.log('✅ colors.json now matches Figma export format!');

@@ -1,4 +1,5 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import type { FeedbackVariant, SafeHTMLAttributes } from '../../types';
 
 /**
  * Toast position options
@@ -20,8 +21,9 @@ export type ToastPosition =
 /**
  * Toast variant types
  * Maps to Bootstrap contextual classes for visual differentiation
+ * @see FeedbackVariant
  */
-export type ToastVariant = 'success' | 'error' | 'warning' | 'info' | 'default';
+export type ToastVariant = FeedbackVariant;
 
 /**
  * Toast visibility states for FSM
@@ -59,34 +61,9 @@ export type ToastFSMEvent =
 /**
  * Whitelisted HTML attributes for safe prop spreading in Toast component
  * SECURITY: Restricts arbitrary props to prevent injection attacks
+ * @see {@link SafeHTMLAttributes}
  */
-export interface SafeToastHTMLAttributes {
-  /**
-   * Additional CSS class names (sanitized)
-   */
-  className?: string;
-
-  /**
-   * Inline styles
-   */
-  style?: CSSProperties;
-
-  /**
-   * ID attribute
-   */
-  id?: string;
-
-  /**
-   * Data attributes for testing (sanitized)
-   */
-  'data-testid'?: string;
-  'data-test'?: string;
-
-  /**
-   * Custom accessible label (only forwarded when no title is present)
-   */
-  'aria-label'?: string;
-}
+export type SafeToastHTMLAttributes = SafeHTMLAttributes<HTMLDivElement>;
 
 /**
  * Individual toast data structure
