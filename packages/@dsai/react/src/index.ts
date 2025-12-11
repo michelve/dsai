@@ -430,6 +430,8 @@ export {
   announceToScreenReader,
   focusableSelectorString,
   focusableSelectors,
+  getAnimationDuration,
+  shouldAnimate,
   trapFocus,
   type AnnounceOptions,
   type TrapFocusOptions,
@@ -450,14 +452,46 @@ export {
   toggleItemEvent,
 } from './utils/misc';
 
+// Object utilities
+export { deepMerge, omit, pick } from './utils/object';
+
 // String utilities
 export { getVariantClass } from './utils/string';
+
+// Timing utilities
+export { debounce, throttle } from './utils/timing';
 
 // Type utilities
 export { isExternalUrl } from './utils/types';
 
 // Validation utilities
 export { isSafeHref, isValidEmail, isValidHref, isValidUrl } from './utils/validation';
+
+// Async utilities
+export {
+  TimeoutError,
+  createAbortable,
+  createTaskQueue,
+  exponentialBackoff,
+  queueTask,
+  retryWithBackoff,
+  withTimeout,
+} from './utils/async';
+export type {
+  AbortablePromise,
+  ExponentialBackoffOptions,
+  QueueTaskOptions,
+  QueuedTask,
+  QueuedTaskHandle,
+  RetryResult,
+  RetryWithBackoffOptions,
+  TaskFunction,
+  TaskQueue,
+  TaskQueueOptions,
+  TaskQueueState,
+  TaskSchedule,
+  WithTimeoutOptions,
+} from './utils/async';
 
 // ============================================================================
 // Version

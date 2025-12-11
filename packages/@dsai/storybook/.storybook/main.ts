@@ -57,6 +57,11 @@ const config: StorybookConfig = {
 
     return mergeConfig(withShared, {
       plugins: [react()],
+      // Disable Vite cache in development for faster dependency updates
+      cacheDir: undefined,
+      optimizeDeps: {
+        force: true, // Force re-optimization on every dev server start
+      },
     });
   },
 

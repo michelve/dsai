@@ -44,6 +44,7 @@ const preview: Preview = {
     // Documentation configuration
     docs: {
       theme: lightTheme,
+      codePanel: true,
       toc: {
         title: 'Table of Contents',
       },
