@@ -1,4 +1,4 @@
-import { Heading, Scrollspy, ScrollspyProvider, useScrollspy } from '@dsai/react';
+import { Button, Heading, Scrollspy, ScrollspyProvider, useScrollspy } from '@dsai/react';
 import { Fragment, type ReactElement, useMemo, useState } from 'react';
 
 import type { ScrollspyItem } from '@dsai/react';
@@ -99,15 +99,14 @@ const SectionList = ({
   }
 
   return (
-    <div
+    <section
       className="ps-lg-4"
       style={{ maxHeight: '70vh', overflowY: 'auto', backgroundColor: 'var(--bs-body-bg, #fff)' }}
       tabIndex={0}
-      role="region"
       aria-label={regionLabel}
     >
       {content}
-    </div>
+    </section>
   );
 };
 /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
@@ -135,13 +134,9 @@ const ControlledStory = (): ReactElement => {
       <div className="d-flex gap-2 align-items-center">
         <span className="text-muted">Active section:</span>
         <code>{activeId ?? 'none'}</code>
-        <button
-          type="button"
-          className="btn btn-sm btn-outline-primary"
-          onClick={() => setActiveId('api')}
-        >
+        <Button size="sm" variant="outline-primary" onClick={() => setActiveId('api')}>
           Jump to API
-        </button>
+        </Button>
       </div>
       <DemoPage
         items={baseItems}
@@ -230,13 +225,9 @@ const ProviderDemo = (): ReactElement => {
       <div>
         <strong>Visible IDs:</strong> {visible}
       </div>
-      <button
-        type="button"
-        className="btn btn-sm btn-outline-secondary"
-        onClick={() => scrollToSection('examples')}
-      >
+      <Button size="sm" variant="outline-secondary" onClick={() => scrollToSection('examples')}>
         Scroll to Examples
-      </button>
+      </Button>
     </div>
   );
 };

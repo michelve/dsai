@@ -1,3 +1,5 @@
+import { Heading } from '@dsai/react';
+
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta = {
@@ -40,7 +42,7 @@ export const SpacingScale: Story = {
 
     return (
       <div>
-        <h2>Spacing Scale</h2>
+        <Heading level={2}>Spacing Scale</Heading>
         <p>Base 4px scale for consistent spacing throughout the design system.</p>
         <div style={{ marginTop: '24px' }}>
           {spacingValues.map(({ token, value, rem }) => (
@@ -103,7 +105,7 @@ export const PaddingExamples: Story = {
 
     return (
       <div>
-        <h2>Padding Examples</h2>
+        <Heading level={2}>Padding Examples</Heading>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '24px' }}>
           {paddingExamples.map(({ name, token, value }) => (
             <div key={token}>
@@ -144,7 +146,7 @@ export const PaddingExamples: Story = {
 export const MarginExamples: Story = {
   render: () => (
     <div>
-      <h2>Margin Examples</h2>
+      <Heading level={2}>Margin Examples</Heading>
       <p>Consistent vertical rhythm using margin tokens.</p>
       <div
         style={{
@@ -154,7 +156,9 @@ export const MarginExamples: Story = {
           borderRadius: '8px',
         }}
       >
-        <h3 style={{ margin: 0 }}>Heading</h3>
+        <Heading level={3} noMargin>
+          Heading
+        </Heading>
         <p style={{ marginTop: '8px', marginBottom: '0', color: '#6b7280' }}>
           margin-top: spacing-2 (8px)
         </p>
@@ -205,7 +209,7 @@ export const MarginExamples: Story = {
 export const GapExamples: Story = {
   render: () => (
     <div>
-      <h2>Gap Examples (Flexbox/Grid)</h2>
+      <Heading level={2}>Gap Examples (Flexbox/Grid)</Heading>
       <p>Using spacing tokens for gap in flex and grid layouts.</p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginTop: '24px' }}>
         <div>
@@ -286,9 +290,9 @@ export const GapExamples: Story = {
 export const Usage: Story = {
   render: () => (
     <div style={{ maxWidth: '800px' }}>
-      <h2>Spacing Usage Guidelines</h2>
+      <Heading level={2}>Spacing Usage Guidelines</Heading>
 
-      <h3>CSS Variables</h3>
+      <Heading level={3}>CSS Variables</Heading>
       <pre
         style={{
           backgroundColor: '#f3f4f6',
@@ -309,7 +313,7 @@ export const Usage: Story = {
 }`}
       </pre>
 
-      <h3>JavaScript/TypeScript</h3>
+      <Heading level={3}>JavaScript/TypeScript</Heading>
       <pre
         style={{
           backgroundColor: '#f3f4f6',
@@ -327,7 +331,7 @@ const styles = {
 };`}
       </pre>
 
-      <h3>Best Practices</h3>
+      <Heading level={3}>Best Practices</Heading>
       <ul>
         <li>
           <strong>Use spacing scale consistently:</strong> Stick to the defined tokens for
@@ -349,8 +353,8 @@ const styles = {
         </li>
       </ul>
 
-      <h3>Bootstrap Compatibility</h3>
-      <p>DSAi spacing tokens align with Bootstrap's spacing utilities:</p>
+      <Heading level={3}>Bootstrap Compatibility</Heading>
+      <p>DSAi spacing tokens align with Bootstrap&apos;s spacing utilities:</p>
       <ul>
         <li>
           <code>spacing-0</code> = Bootstrap <code>$spacer * 0</code>

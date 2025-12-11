@@ -1,35 +1,25 @@
-import type { CSSProperties, MouseEvent, ReactNode } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
+import type {
+  SafeHTMLAttributes as BaseSafeHTMLAttributes,
+  ComponentSize,
+  SemanticColorVariant,
+} from '../../types';
 
 /**
  * Button component variants
  * Maps to Bootstrap 5 button styles using design tokens
+ * @see SemanticColorVariant
  */
-export type ButtonVariant =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'danger'
-  | 'warning'
-  | 'info'
-  | 'light'
-  | 'dark'
-  | 'outline-primary'
-  | 'outline-secondary'
-  | 'outline-success'
-  | 'outline-danger'
-  | 'outline-warning'
-  | 'outline-info'
-  | 'outline-light'
-  | 'outline-dark'
-  | 'link';
+export type ButtonVariant = SemanticColorVariant | `outline-${SemanticColorVariant}` | 'link';
 
 /**
  * Button component sizes
  * sm: Small button (0.875rem font size)
  * md: Medium button (1rem font size) - default
  * lg: Large button (1.25rem font size)
+ * @see ComponentSize
  */
-export type ButtonSize = 'sm' | 'md' | 'lg';
+export type ButtonSize = ComponentSize;
 
 /**
  * Button HTML type attribute
@@ -39,15 +29,18 @@ export type ButtonType = 'button' | 'submit' | 'reset';
 /**
  * Safe HTML attributes that can be spread onto the button element
  * SECURITY: This whitelist prevents injection of dangerous attributes or event handlers
+ * @see BaseSafeHTMLAttributes
  */
-export interface SafeHTMLAttributes {
-  'data-testid'?: string;
-  'data-test'?: string;
-  title?: string;
+export interface SafeHTMLAttributes extends BaseSafeHTMLAttributes<HTMLButtonElement> {
+  /** Associate button with a form by ID */
   form?: string;
+  /** Override form action URL */
   formAction?: string;
+  /** Override form HTTP method */
   formMethod?: 'get' | 'post' | 'dialog';
+  /** Bypass form validation */
   formNoValidate?: boolean;
+  /** Override form target */
   formTarget?: string;
 }
 

@@ -22,6 +22,7 @@ import {
   useRef,
 } from 'react';
 
+import { useClickOutside } from '../../hooks';
 import { cn, mergeRefs } from '../../utils';
 import { isEscapeKey } from '../../utils/keyboard';
 import { isValidHref } from '../../utils/validation';
@@ -204,6 +205,20 @@ const NavbarRoot = forwardRef<HTMLElement, NavbarProps>(
       [fsmState, close]
     );
 
+    // Ref for navbar element (for click outside detection)
+    const navbarRef = useRef<HTMLElement>(null);
+
+    // Close navbar when clicking outside (only when expanded)
+    useClickOutside(
+      navbarRef,
+      () => {
+        if (isNavbarExpanded(fsmState)) {
+          close();
+        }
+      },
+      { enabled: isNavbarExpanded(fsmState) }
+    );
+
     // Memoize context value
     const contextValue = useMemo<NavbarContextValue>(
       () => ({
@@ -273,7 +288,7 @@ const NavbarRoot = forwardRef<HTMLElement, NavbarProps>(
     return (
       <NavbarContext.Provider value={contextValue}>
         <nav
-          ref={ref}
+          ref={mergeRefs([ref, navbarRef])}
           id={id}
           className={navbarClasses}
           style={style}

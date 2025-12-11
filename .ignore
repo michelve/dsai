@@ -1,0 +1,33 @@
+# Biome ignore file
+# This file is read when vcs.useIgnoreFile is enabled
+
+# Markdown files
+**/*.md
+**/*.mdx
+**/README.md
+
+# Tasks directory
+tasks/
+tasks/**
+**/tasks/**
+
+# Figma code connect
+**/*.figma.tsx
+
+# Build outputs
+dist/
+build/
+coverage/
+storybook-static/
+
+# Cache and temp
+.nx/
+.temp/
+.cache/
+.turbo/
+
+# Static assets
+static/
+
+# Workflows
+.github/workflows/

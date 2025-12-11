@@ -15,12 +15,12 @@
  * @packageDocumentation
  */
 
-const fs = require('fs');
-const path = require('path');
-const https = require('https');
+const fs = require('node:fs');
+const path = require('node:path');
+const https = require('node:https');
 
 // Configuration
-const GITHUB_API_BASE = 'https://api.github.com';
+const _GITHUB_API_BASE = 'https://api.github.com';
 const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/twbs/icons/main';
 const ICONS_CONTENT_PATH = '/docs/content/icons';
 const OUTPUT_FILE = path.join(__dirname, 'icon-metadata.json');

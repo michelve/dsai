@@ -1,4 +1,5 @@
 import type { CSSProperties, KeyboardEvent, MouseEvent, ReactNode } from 'react';
+import type { SafeHTMLAttributes } from '../../types';
 
 /**
  * Dropdown placement options
@@ -30,19 +31,9 @@ export type DropdownAutoClose = boolean | 'inside' | 'outside';
 /**
  * Safe HTML attributes that can be spread onto dropdown elements
  * SECURITY: This whitelist prevents injection of dangerous attributes or event handlers
+ * @see {@link SafeHTMLAttributes}
  */
-export interface SafeDropdownHTMLAttributes {
-  /** Additional CSS class names */
-  className?: string;
-  /** Inline styles */
-  style?: CSSProperties;
-  /** ID attribute */
-  id?: string;
-  /** Data attribute for testing */
-  'data-testid'?: string;
-  /** Data attribute for testing */
-  'data-test'?: string;
-}
+export type SafeDropdownHTMLAttributes = SafeHTMLAttributes<HTMLDivElement>;
 
 /**
  * Dropdown component props

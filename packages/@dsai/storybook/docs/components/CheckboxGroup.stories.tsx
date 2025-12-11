@@ -1,4 +1,4 @@
-import { Button, CheckboxGroup, CheckIcon, XLgIcon } from '@dsai/react';
+import { Button, CheckboxGroup, CheckIcon, Heading, XLgIcon } from '@dsai/react';
 import { useState } from 'react';
 
 import type { CheckboxGroupOption } from '@dsai/react';
@@ -462,7 +462,7 @@ export const FSMStateVisualization: Story = {
     return (
       <div>
         <div className="mb-4">
-          <h5>FSM State Machine</h5>
+          <Heading level={5}>FSM State Machine</Heading>
           <div className="d-flex gap-3 align-items-center mb-3">
             <div
               className={`p-2 rounded ${state === 'none' ? 'bg-warning text-dark' : 'bg-light'}`}
@@ -582,7 +582,7 @@ export const AccessibilityFieldsetLegend: Story = {
   render: () => (
     <div className="d-flex flex-column gap-4">
       <div>
-        <h5>Semantic HTML Structure</h5>
+        <Heading level={5}>Semantic HTML Structure</Heading>
         <p className="text-muted small">
           CheckboxGroup renders as fieldset/legend for proper screen reader support.
         </p>
@@ -620,7 +620,7 @@ export const AccessibilityScreenReader: Story = {
   render: () => (
     <div className="d-flex flex-column gap-4">
       <div>
-        <h5>Screen Reader Features</h5>
+        <Heading level={5}>Screen Reader Features</Heading>
         <ul className="text-muted small">
           <li>
             <CheckIcon size={14} className="text-success me-1" />
@@ -670,7 +670,7 @@ export const AccessibilityDevWarnings: Story = {
   render: () => (
     <div className="d-flex flex-column gap-4">
       <div>
-        <h5>Development-Time Accessibility Warnings</h5>
+        <Heading level={5}>Development-Time Accessibility Warnings</Heading>
         <p className="text-muted small">
           Open browser console to see warnings for missing accessible names.
         </p>
@@ -686,10 +686,10 @@ export const AccessibilityDevWarnings: Story = {
       </div>
 
       <div>
-        <h6 className="text-success">
+        <Heading level={6} className="text-success">
           <CheckIcon size={14} className="me-1" />
           Correct Usage
-        </h6>
+        </Heading>
         <CheckboxGroup label="With visible label" options={defaultOptions} />
         <CheckboxGroup aria-label="With aria-label" options={defaultOptions} />
       </div>
@@ -711,7 +711,7 @@ export const SecuritySafeAttributes: Story = {
   render: () => (
     <div className="d-flex flex-column gap-4">
       <div>
-        <h5>Security Features</h5>
+        <Heading level={5}>Security Features</Heading>
         <p className="text-muted small">
           CheckboxGroup inherits security features from the Checkbox component.
         </p>
@@ -752,7 +752,9 @@ export const SettingsPageExample: Story = {
     return (
       <div className="card" style={{ maxWidth: '500px' }}>
         <div className="card-header">
-          <h5 className="mb-0">Account Settings</h5>
+          <Heading level={5} className="mb-0">
+            Account Settings
+          </Heading>
         </div>
         <div className="card-body">
           <div className="mb-4">

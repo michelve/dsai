@@ -26,7 +26,7 @@ Configure and optimize the Style Dictionary pipeline to generate CSS custom prop
 - [x] Variable naming follows convention: `--dsai-{category}-{subcategory}-{property}`
 - [x] Examples: `--dsai-color-blue-500`, `--dsai-spacing-4`, `--dsai-typography-font-size-lg`
 - [x] Variables organized in single `variables.css` file (modular files not needed)
-- [x] Master CSS files available: `bootstrap.css`, `dsai.css`, `variables.css`
+- [x] Master CSS files available: `dsai-theme-bs.css`, `dsai.css`, `variables.css`
 
 ### Variable Scoping
 
@@ -127,7 +127,7 @@ Configure and optimize the Style Dictionary pipeline to generate CSS custom prop
 **Output Files:**
 
 - `dist/css/variables.css` - 296 CSS custom properties
-- `dist/css/bootstrap.css` - Full Bootstrap theme with DSAi tokens
+- `dist/css/dsai-theme-bs.css` - Full Bootstrap theme with DSAi tokens
 - `dist/css/dsai.css` - DSAi utilities framework
 - `dist/js/tokens.js` - JavaScript ES6 module
 - `dist/ts/tokens.ts` - TypeScript module

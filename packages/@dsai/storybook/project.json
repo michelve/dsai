@@ -8,6 +8,7 @@
     // ========= STORYBOOK SERVE =========
     "storybook": {
       "executor": "@nx/storybook:storybook",
+      "outputs": ["{projectRoot}/node_modules/.vite"],
       "options": {
         "port": 6006,
         "configDir": "packages/@dsai/storybook/.storybook"
@@ -17,7 +18,7 @@
     // ========= STORYBOOK BUILD =========
     "build-storybook": {
       "executor": "@nx/storybook:build",
-      "outputs": ["{projectRoot}/storybook-static"],
+      "outputs": ["{projectRoot}/storybook-static", "{projectRoot}/node_modules/.vite"],
       "options": {
         "configDir": "packages/@dsai/storybook/.storybook",
         "outputDir": "packages/@dsai/storybook/storybook-static"

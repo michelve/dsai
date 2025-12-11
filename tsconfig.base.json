@@ -52,8 +52,10 @@
     // Path Mappings (for monorepo packages)
     "baseUrl": ".",
     "paths": {
-      "@dsai/tokens": ["packages/@dsai/tokens/src"],
-      "@dsai/tokens/*": ["packages/@dsai/tokens/src/*"],
+      "@dsai/tokens": ["packages/@dsai/tokens/dist"],
+      "@dsai/tokens/*": ["packages/@dsai/tokens/dist/*"],
+      "@dsai/tokens/css": ["packages/@dsai/tokens/dist/css"],
+      "@dsai/tokens/css/*": ["packages/@dsai/tokens/dist/css/*"],
       "@dsai/react": ["packages/@dsai/react/src"],
       "@dsai/react/*": ["packages/@dsai/react/src/*"],
       "@dsai/figma-tokens": ["packages/@dsai/figma-tokens/src"],

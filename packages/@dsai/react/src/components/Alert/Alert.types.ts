@@ -1,74 +1,28 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import type { SafeHTMLAttributes, SemanticColorVariant } from '../../types';
 
 /**
  * Alert component variants
  * Maps to Bootstrap 5 alert contextual classes
  *
  * @see https://getbootstrap.com/docs/5.3/components/alerts/
+ * @see SemanticColorVariant
  */
-export type AlertVariant =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'danger'
-  | 'warning'
-  | 'info'
-  | 'light'
-  | 'dark';
+export type AlertVariant = SemanticColorVariant;
 
 /**
  * Whitelisted HTML attributes for safe prop spreading in Alert component
  * SECURITY: Restricts arbitrary props to prevent injection attacks
+ * @see SafeHTMLAttributes
  */
-export interface SafeAlertHTMLAttributes {
-  /**
-   * Additional CSS class names (sanitized)
-   */
-  className?: string;
-
-  /**
-   * Inline styles
-   */
-  style?: CSSProperties;
-
-  /**
-   * ID attribute
-   */
-  id?: string;
-
-  /**
-   * Data attributes for testing (sanitized)
-   */
-  'data-testid'?: string;
-  'data-test'?: string;
-
-  /**
-   * Title attribute for tooltips
-   */
-  title?: string;
-}
+export type SafeAlertHTMLAttributes = SafeHTMLAttributes<HTMLDivElement>;
 
 /**
  * Whitelisted HTML attributes for safe prop spreading in AlertLink component
  * SECURITY: Only allows safe anchor attributes, prevents href injection
+ * @see SafeHTMLAttributes
  */
-export interface SafeAlertLinkHTMLAttributes {
-  /**
-   * Additional CSS class names (sanitized)
-   */
-  className?: string;
-
-  /**
-   * Data attributes for testing (sanitized)
-   */
-  'data-testid'?: string;
-  'data-test'?: string;
-
-  /**
-   * Title attribute for tooltips
-   */
-  title?: string;
-}
+export type SafeAlertLinkHTMLAttributes = SafeHTMLAttributes<HTMLAnchorElement>;
 
 /**
  * Alert component props

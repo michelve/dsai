@@ -12,7 +12,7 @@
 -->
 
 <script>
-  (function () {
+  (() => {
     // Google Fonts configuration for supported fonts
     const GOOGLE_FONTS_CONFIG = {
       Inter: {
@@ -134,7 +134,7 @@
       }
 
       // Create Google Fonts URL
-      const googleFontsUrl = `https://fonts.googleapis.com/css2?${fontSpecs.map((s) => 'family=' + s).join('&')}&display=swap`;
+      const googleFontsUrl = `https://fonts.googleapis.com/css2?${fontSpecs.map((s) => `family=${s}`).join('&')}&display=swap`;
 
       // Add preconnect hints for performance
       const preconnectGoogle = document.createElement('link');

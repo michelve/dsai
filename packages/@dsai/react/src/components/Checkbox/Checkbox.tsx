@@ -19,7 +19,8 @@ const warnedComponents = new Set<string>();
 function warnMissingAccessibleName(componentId: string, componentName: string): void {
   if (
     typeof process !== 'undefined' &&
-    process.env?.NODE_ENV !== 'production' &&
+    // biome-ignore lint/complexity/useLiteralKeys: noPropertyAccessFromIndexSignature requires bracket access
+    process.env?.['NODE_ENV'] !== 'production' &&
     !warnedComponents.has(componentId)
   ) {
     warnedComponents.add(componentId);

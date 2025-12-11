@@ -22,7 +22,7 @@ pnpm add @dsai/react @dsai/tokens
 
 ```tsx
 import { Alert } from '@dsai/react';
-import '@dsai/tokens/css/bootstrap.css';
+import '@dsai/tokens/css/dsai-theme-bs.css';
 
 function App() {
   return <Alert variant="info">This is an informational message.</Alert>;

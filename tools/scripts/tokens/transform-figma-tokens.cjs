@@ -15,8 +15,8 @@
  * @see packages/@dsai/tokens/README.md for workflow instructions
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 // Paths
 const FIGMA_EXPORTS = path.join(__dirname, '../../../packages/@dsai/tokens/figma-exports');
@@ -79,7 +79,7 @@ function transformToken(figmaToken, options = {}) {
   }
 
   // Skip if this is not a leaf token (no $value property)
-  if (!figmaToken.hasOwnProperty('$value')) {
+  if (!Object.hasOwn(figmaToken, '$value')) {
     return null;
   }
 
@@ -190,7 +190,7 @@ function transformType(figmaType) {
  * Check if a token should remain unitless
  * Font-weights, line-heights, and grid configuration values should be unitless numbers in CSS
  */
-function shouldKeepUnitless(type, scopes = [], tokenPath = '') {
+function shouldKeepUnitless(_type, scopes = [], tokenPath = '') {
   // Font weights must be unitless (300, 400, 700, etc.)
   if (scopes.includes('FONT_WEIGHT')) {
     return true;
@@ -592,7 +592,7 @@ function transformTokens() {
         ensureDir(outputPath);
 
         // Write output file
-        fs.writeFileSync(outputPath, JSON.stringify(tokens, null, 2) + '\n', 'utf8');
+        fs.writeFileSync(outputPath, `${JSON.stringify(tokens, null, 2)}\n`, 'utf8');
 
         console.log(`  ✅ Created ${output.file}`);
       } catch (error) {

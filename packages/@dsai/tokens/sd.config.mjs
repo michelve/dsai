@@ -87,14 +87,12 @@ StyleDictionary.registerTransform({
     const tokenType = token.$type || token.type;
     // Match fontWeight type or check path for font-weight
     const isFontWeight = tokenType === 'fontWeight' || tokenType === 'number';
-    const pathHasFontWeight =
-      token.path &&
-      token.path.some((part) => {
-        const lower = String(part).toLowerCase();
-        return (
-          lower === 'fontweight' || lower.includes('font-weight') || lower.includes('fontweight')
-        );
-      });
+    const pathHasFontWeight = token.path?.some((part) => {
+      const lower = String(part).toLowerCase();
+      return (
+        lower === 'fontweight' || lower.includes('font-weight') || lower.includes('fontweight')
+      );
+    });
     return isFontWeight || pathHasFontWeight;
   },
   transform: (token) => {
@@ -122,20 +120,19 @@ StyleDictionary.registerTransform({
     const tokenType = token.$type || token.type;
     // Match lineHeight type or check path/scopes
     const isLineHeight = tokenType === 'lineHeight' || tokenType === 'number';
-    const pathHasLineHeight =
-      token.path &&
-      token.path.some((part) => {
-        const lower = String(part).toLowerCase();
-        return lower === 'lineheight' || lower.includes('line-height') || lower.includes('lineheight');
-      });
-    const scopeHasLineHeight = 
-      token.$scopes && token.$scopes.includes('LINE_HEIGHT');
-    
+    const pathHasLineHeight = token.path?.some((part) => {
+      const lower = String(part).toLowerCase();
+      return (
+        lower === 'lineheight' || lower.includes('line-height') || lower.includes('lineheight')
+      );
+    });
+    const scopeHasLineHeight = token.$scopes?.includes('LINE_HEIGHT');
+
     return isLineHeight || pathHasLineHeight || scopeHasLineHeight;
   },
   transform: (token) => {
     const value = token.$value || token.value;
-    
+
     // If it's already a clean number (likely unitless), return it
     if (typeof value === 'number') {
       // If it's <= 3, it's already a multiplier (1, 1.5, 2)
@@ -146,12 +143,12 @@ StyleDictionary.registerTransform({
       // Convert to unitless by dividing by base font size (16px)
       return value / 16;
     }
-    
+
     // Handle percentage strings (e.g., "150%" -> 1.5)
     if (typeof value === 'string' && value.endsWith('%')) {
       return parseFloat(value) / 100;
     }
-    
+
     // Handle strings with units like "1.5rem" or "24px"
     if (typeof value === 'string') {
       const numValue = parseFloat(value);
@@ -162,7 +159,7 @@ StyleDictionary.registerTransform({
       // If large px value (24px), divide by 16
       return numValue / 16;
     }
-    
+
     // Fallback: return as-is
     return value;
   },
@@ -183,44 +180,39 @@ StyleDictionary.registerTransform({
   type: 'value',
   filter: (token) => {
     const tokenType = token.$type || token.type;
-    
+
     // Exclude font-weights
     const isFontWeight = tokenType === 'fontWeight' || tokenType === 'number';
     if (isFontWeight) return false;
 
-    const pathHasFontWeight =
-      token.path &&
-      token.path.some((part) => {
-        const lower = String(part).toLowerCase();
-        return (
-          lower === 'fontweight' || lower.includes('font-weight') || lower.includes('fontweight')
-        );
-      });
+    const pathHasFontWeight = token.path?.some((part) => {
+      const lower = String(part).toLowerCase();
+      return (
+        lower === 'fontweight' || lower.includes('font-weight') || lower.includes('fontweight')
+      );
+    });
     if (pathHasFontWeight) return false;
 
     // Exclude line-heights (they should be unitless)
     const isLineHeight = tokenType === 'lineHeight';
     if (isLineHeight) return false;
-    
-    const pathHasLineHeight =
-      token.path &&
-      token.path.some((part) => {
-        const lower = String(part).toLowerCase();
-        return lower === 'lineheight' || lower.includes('line-height') || lower.includes('lineheight');
-      });
+
+    const pathHasLineHeight = token.path?.some((part) => {
+      const lower = String(part).toLowerCase();
+      return (
+        lower === 'lineheight' || lower.includes('line-height') || lower.includes('lineheight')
+      );
+    });
     if (pathHasLineHeight) return false;
-    
-    const scopeHasLineHeight = 
-      token.$scopes && token.$scopes.includes('LINE_HEIGHT');
+
+    const scopeHasLineHeight = token.$scopes?.includes('LINE_HEIGHT');
     if (scopeHasLineHeight) return false;
 
     // Exclude grid configuration (should be unitless count values, not dimensions)
-    const pathHasGridConfig =
-      token.path &&
-      token.path.some((part) => {
-        const lower = String(part).toLowerCase();
-        return lower === 'columns' || lower === 'row-columns';
-      });
+    const pathHasGridConfig = token.path?.some((part) => {
+      const lower = String(part).toLowerCase();
+      return lower === 'columns' || lower === 'row-columns';
+    });
     if (pathHasGridConfig) return false;
 
     // Include dimensions, spacing, sizing

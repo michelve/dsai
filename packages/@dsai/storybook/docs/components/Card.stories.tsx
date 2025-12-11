@@ -9,6 +9,7 @@ import {
   CardLink,
   CardText,
   CardTitle,
+  Heading,
   ListGroup,
   ListGroupItem,
 } from '@dsai/react';
@@ -558,7 +559,9 @@ export const CompleteShowcase: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       {/* Basic */}
       <section>
-        <h5 className="mb-2">Basic Card</h5>
+        <Heading level={5} className="mb-2">
+          Basic Card
+        </Heading>
         <Card style={{ width: '18rem' }}>
           <CardBody>
             <CardTitle>Card Title</CardTitle>
@@ -569,7 +572,9 @@ export const CompleteShowcase: Story = {
 
       {/* Variants */}
       <section>
-        <h5 className="mb-2">Variants</h5>
+        <Heading level={5} className="mb-2">
+          Variants
+        </Heading>
         <div style={{ display: 'flex', gap: '1rem' }}>
           <Card variant="elevated" style={{ width: '14rem' }}>
             <CardBody>
@@ -591,7 +596,9 @@ export const CompleteShowcase: Story = {
 
       {/* With Header/Footer */}
       <section>
-        <h5 className="mb-2">With Header and Footer</h5>
+        <Heading level={5} className="mb-2">
+          With Header and Footer
+        </Heading>
         <Card style={{ width: '18rem' }}>
           <CardHeader>Header</CardHeader>
           <CardBody>
@@ -604,7 +611,9 @@ export const CompleteShowcase: Story = {
 
       {/* Colors */}
       <section>
-        <h5 className="mb-2">Color Variants</h5>
+        <Heading level={5} className="mb-2">
+          Color Variants
+        </Heading>
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
           {(['primary', 'success', 'danger', 'warning'] as const).map((color) => (
             <Card key={color} color={color} style={{ width: '10rem' }}>

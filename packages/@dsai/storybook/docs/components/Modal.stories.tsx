@@ -1,4 +1,4 @@
-import { Button, Input, Modal } from '@dsai/react';
+import { Button, Heading, Input, Modal } from '@dsai/react';
 import { useRef, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -331,6 +331,7 @@ export const Centered: Story = {
 export const Scrollable: Story = {
   render: function ScrollableModal() {
     const [isOpen, setIsOpen] = useState(false);
+    const paragraphs = Array.from({ length: 20 }, (_, index) => index + 1);
 
     return (
       <>
@@ -338,10 +339,10 @@ export const Scrollable: Story = {
         <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} scrollable>
           <Modal.Header>Scrollable Modal</Modal.Header>
           <Modal.Body>
-            {Array.from({ length: 20 }, (_, i) => (
-              <p key={i}>
-                Paragraph {i + 1}: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            {paragraphs.map((paragraphNumber) => (
+              <p key={`paragraph-${paragraphNumber}`}>
+                Paragraph {paragraphNumber}: Lorem ipsum dolor sit amet, consectetur adipiscing
+                elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </p>
             ))}
           </Modal.Body>
@@ -465,7 +466,11 @@ export const CustomInitialFocus: Story = {
     return (
       <>
         <Button onClick={() => setIsOpen(true)}>Custom Focus</Button>
-        <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} initialFocusRef={inputRef}>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          initialFocusRef={inputRef as React.RefObject<HTMLElement>}
+        >
           <Modal.Header>Custom Initial Focus</Modal.Header>
           <Modal.Body>
             <p>The input below receives focus when the modal opens:</p>
@@ -502,7 +507,11 @@ export const ReturnFocus: Story = {
         <Button ref={triggerRef} onClick={() => setIsOpen(true)}>
           Return Focus Modal
         </Button>
-        <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} returnFocusRef={triggerRef}>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          returnFocusRef={triggerRef as React.RefObject<HTMLElement>}
+        >
           <Modal.Header>Return Focus</Modal.Header>
           <Modal.Body>
             <p>When this modal closes, focus will return to the trigger button.</p>
@@ -727,7 +736,7 @@ export const AccessibilityDemo: Story = {
             <Modal.Title>Accessibility Features</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h6>ARIA Attributes</h6>
+            <Heading level={6}>ARIA Attributes</Heading>
             <ul>
               <li>
                 <code>role=&quot;dialog&quot;</code> - Identifies as dialog
@@ -743,7 +752,7 @@ export const AccessibilityDemo: Story = {
               </li>
             </ul>
 
-            <h6>Keyboard Navigation</h6>
+            <Heading level={6}>Keyboard Navigation</Heading>
             <ul>
               <li>
                 <kbd>Tab</kbd> - Move to next focusable element
@@ -756,7 +765,7 @@ export const AccessibilityDemo: Story = {
               </li>
             </ul>
 
-            <h6>Focus Management</h6>
+            <Heading level={6}>Focus Management</Heading>
             <ul>
               <li>Focus trap keeps Tab cycling within modal</li>
               <li>First focusable element receives initial focus</li>

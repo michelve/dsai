@@ -129,9 +129,7 @@ export const Basic: Story = {
   render: function BasicTooltip() {
     return (
       <Tooltip content="This is a helpful tooltip">
-        <button type="button" className="btn btn-primary">
-          Hover me
-        </button>
+        <Button variant="primary">Hover me</Button>
       </Tooltip>
     );
   },
@@ -157,29 +155,21 @@ export const Placements: Story = {
         }}
       >
         <Tooltip content="Top tooltip" placement="top">
-          <button type="button" className="btn btn-secondary">
-            Top
-          </button>
+          <Button variant="secondary">Top</Button>
         </Tooltip>
 
         <div style={{ display: 'flex', gap: '3rem' }}>
           <Tooltip content="Left tooltip" placement="left">
-            <button type="button" className="btn btn-secondary">
-              Left
-            </button>
+            <Button variant="secondary">Left</Button>
           </Tooltip>
 
           <Tooltip content="Right tooltip" placement="right">
-            <button type="button" className="btn btn-secondary">
-              Right
-            </button>
+            <Button variant="secondary">Right</Button>
           </Tooltip>
         </div>
 
         <Tooltip content="Bottom tooltip" placement="bottom">
-          <button type="button" className="btn btn-secondary">
-            Bottom
-          </button>
+          <Button variant="secondary">Bottom</Button>
         </Tooltip>
       </div>
     );
@@ -199,37 +189,25 @@ export const StartEndPlacements: Story = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', padding: '2rem' }}>
         <div style={{ display: 'flex', gap: '1rem' }}>
           <Tooltip content="Top start" placement="top-start">
-            <button type="button" className="btn btn-outline-primary">
-              Top Start
-            </button>
+            <Button variant="outline-primary">Top Start</Button>
           </Tooltip>
           <Tooltip content="Top center" placement="top">
-            <button type="button" className="btn btn-outline-primary">
-              Top
-            </button>
+            <Button variant="outline-primary">Top</Button>
           </Tooltip>
           <Tooltip content="Top end" placement="top-end">
-            <button type="button" className="btn btn-outline-primary">
-              Top End
-            </button>
+            <Button variant="outline-primary">Top End</Button>
           </Tooltip>
         </div>
 
         <div style={{ display: 'flex', gap: '1rem' }}>
           <Tooltip content="Bottom start" placement="bottom-start">
-            <button type="button" className="btn btn-outline-primary">
-              Bottom Start
-            </button>
+            <Button variant="outline-primary">Bottom Start</Button>
           </Tooltip>
           <Tooltip content="Bottom center" placement="bottom">
-            <button type="button" className="btn btn-outline-primary">
-              Bottom
-            </button>
+            <Button variant="outline-primary">Bottom</Button>
           </Tooltip>
           <Tooltip content="Bottom end" placement="bottom-end">
-            <button type="button" className="btn btn-outline-primary">
-              Bottom End
-            </button>
+            <Button variant="outline-primary">Bottom End</Button>
           </Tooltip>
         </div>
       </div>
@@ -249,27 +227,19 @@ export const TriggerTypes: Story = {
     return (
       <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
         <Tooltip content="Hover tooltip" trigger="hover">
-          <button type="button" className="btn btn-primary">
-            Hover
-          </button>
+          <Button variant="primary">Hover</Button>
         </Tooltip>
 
         <Tooltip content="Focus tooltip (Tab to me)" trigger="focus">
-          <button type="button" className="btn btn-info">
-            Focus
-          </button>
+          <Button variant="info">Focus</Button>
         </Tooltip>
 
         <Tooltip content="Click tooltip" trigger="click">
-          <button type="button" className="btn btn-warning">
-            Click
-          </button>
+          <Button variant="warning">Click</Button>
         </Tooltip>
 
         <Tooltip content="Hover or focus tooltip" trigger={['hover', 'focus']}>
-          <button type="button" className="btn btn-success">
-            Hover/Focus
-          </button>
+          <Button variant="success">Hover/Focus</Button>
         </Tooltip>
       </div>
     );
@@ -288,21 +258,15 @@ export const WithDelay: Story = {
     return (
       <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
         <Tooltip content="Appears after 500ms" showDelay={500}>
-          <button type="button" className="btn btn-primary">
-            500ms Show Delay
-          </button>
+          <Button variant="primary">500ms Show Delay</Button>
         </Tooltip>
 
         <Tooltip content="Stays for 500ms after hover ends" hideDelay={500}>
-          <button type="button" className="btn btn-secondary">
-            500ms Hide Delay
-          </button>
+          <Button variant="secondary">500ms Hide Delay</Button>
         </Tooltip>
 
         <Tooltip content="Slow tooltip" showDelay={1000} hideDelay={500}>
-          <button type="button" className="btn btn-info">
-            1s Show, 500ms Hide
-          </button>
+          <Button variant="info">1s Show, 500ms Hide</Button>
         </Tooltip>
       </div>
     );
@@ -321,15 +285,11 @@ export const WithoutArrow: Story = {
     return (
       <div style={{ display: 'flex', gap: '1rem' }}>
         <Tooltip content="Tooltip with arrow" arrow>
-          <button type="button" className="btn btn-primary">
-            With Arrow
-          </button>
+          <Button variant="primary">With Arrow</Button>
         </Tooltip>
 
         <Tooltip content="Tooltip without arrow" arrow={false}>
-          <button type="button" className="btn btn-secondary">
-            Without Arrow
-          </button>
+          <Button variant="secondary">Without Arrow</Button>
         </Tooltip>
       </div>
     );
@@ -351,24 +311,18 @@ export const LongContent: Story = {
           content="This is a tooltip with a lot of content that will wrap to multiple lines when it exceeds the maximum width setting."
           maxWidth={200}
         >
-          <button type="button" className="btn btn-primary">
-            200px Max Width
-          </button>
+          <Button variant="primary">200px Max Width</Button>
         </Tooltip>
 
         <Tooltip
           content="This is a tooltip with a lot of content that will wrap to multiple lines when it exceeds the maximum width setting."
           maxWidth={300}
         >
-          <button type="button" className="btn btn-secondary">
-            300px Max Width
-          </button>
+          <Button variant="secondary">300px Max Width</Button>
         </Tooltip>
 
         <Tooltip content="This is a tooltip with a lot of content that has no max width constraint so it may get very long on a single line.">
-          <button type="button" className="btn btn-info">
-            No Max Width
-          </button>
+          <Button variant="info">No Max Width</Button>
         </Tooltip>
       </div>
     );
@@ -395,9 +349,7 @@ export const RichContent: Story = {
         }
         maxWidth={200}
       >
-        <button type="button" className="btn btn-primary">
-          Rich Content
-        </button>
+        <Button variant="primary">Rich Content</Button>
       </Tooltip>
     );
   },
@@ -417,33 +369,19 @@ export const Controlled: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center' }}>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-primary"
-            onClick={() => setIsOpen(true)}
-          >
+          <Button size="sm" variant="outline-primary" onClick={() => setIsOpen(true)}>
             Show
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-secondary"
-            onClick={() => setIsOpen(false)}
-          >
+          </Button>
+          <Button size="sm" variant="outline-secondary" onClick={() => setIsOpen(false)}>
             Hide
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-info"
-            onClick={() => setIsOpen((prev) => !prev)}
-          >
+          </Button>
+          <Button size="sm" variant="outline-info" onClick={() => setIsOpen((prev) => !prev)}>
             Toggle
-          </button>
+          </Button>
         </div>
 
         <Tooltip content="Controlled tooltip" isOpen={isOpen} onOpenChange={setIsOpen}>
-          <button type="button" className="btn btn-primary">
-            Controlled Target
-          </button>
+          <Button variant="primary">Controlled Target</Button>
         </Tooltip>
 
         <span className="text-muted">State: {isOpen ? 'Open' : 'Closed'}</span>
@@ -475,9 +413,7 @@ export const Disabled: Story = {
         </label>
 
         <Tooltip content="This tooltip can be disabled" disabled={disabled}>
-          <button type="button" className="btn btn-primary">
-            {disabled ? 'Tooltip Disabled' : 'Tooltip Enabled'}
-          </button>
+          <Button variant="primary">{disabled ? 'Tooltip Disabled' : 'Tooltip Enabled'}</Button>
         </Tooltip>
       </div>
     );
@@ -496,9 +432,7 @@ export const OnDifferentElements: Story = {
     return (
       <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
         <Tooltip content="Button tooltip">
-          <button type="button" className="btn btn-primary">
-            Button
-          </button>
+          <Button variant="primary">Button</Button>
         </Tooltip>
 
         <Tooltip content="Link tooltip">
@@ -537,9 +471,7 @@ export const ClickToDismiss: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center' }}>
         <Tooltip content="Click again or press ESC to dismiss" trigger="click">
-          <button type="button" className="btn btn-primary">
-            Click to Toggle
-          </button>
+          <Button variant="primary">Click to Toggle</Button>
         </Tooltip>
         <span className="text-muted">Press ESC to dismiss when open</span>
       </div>
@@ -567,45 +499,45 @@ export const AutoPositioning: Story = {
         }}
       >
         <Tooltip content="Auto-flips if too close to edge" placement="top">
-          <button type="button" className="btn btn-sm btn-outline-secondary w-100">
+          <Button size="sm" variant="outline-secondary" className="w-100">
             Top Left
-          </button>
+          </Button>
         </Tooltip>
         <Tooltip content="Centered tooltip" placement="top">
-          <button type="button" className="btn btn-sm btn-outline-secondary w-100">
+          <Button size="sm" variant="outline-secondary" className="w-100">
             Top Center
-          </button>
+          </Button>
         </Tooltip>
         <Tooltip content="Auto-flips if too close to edge" placement="top">
-          <button type="button" className="btn btn-sm btn-outline-secondary w-100">
+          <Button size="sm" variant="outline-secondary" className="w-100">
             Top Right
-          </button>
+          </Button>
         </Tooltip>
         <Tooltip content="Left tooltip" placement="left">
-          <button type="button" className="btn btn-sm btn-outline-secondary w-100">
+          <Button size="sm" variant="outline-secondary" className="w-100">
             Left
-          </button>
+          </Button>
         </Tooltip>
         <div />
         <Tooltip content="Right tooltip" placement="right">
-          <button type="button" className="btn btn-sm btn-outline-secondary w-100">
+          <Button size="sm" variant="outline-secondary" className="w-100">
             Right
-          </button>
+          </Button>
         </Tooltip>
         <Tooltip content="Auto-flips if too close to edge" placement="bottom">
-          <button type="button" className="btn btn-sm btn-outline-secondary w-100">
+          <Button size="sm" variant="outline-secondary" className="w-100">
             Bottom Left
-          </button>
+          </Button>
         </Tooltip>
         <Tooltip content="Centered tooltip" placement="bottom">
-          <button type="button" className="btn btn-sm btn-outline-secondary w-100">
+          <Button size="sm" variant="outline-secondary" className="w-100">
             Bottom Center
-          </button>
+          </Button>
         </Tooltip>
         <Tooltip content="Auto-flips if too close to edge" placement="bottom">
-          <button type="button" className="btn btn-sm btn-outline-secondary w-100">
+          <Button size="sm" variant="outline-secondary" className="w-100">
             Bottom Right
-          </button>
+          </Button>
         </Tooltip>
       </div>
     );
@@ -640,15 +572,11 @@ export const AccessibilityDemo: Story = {
 
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
           <Tooltip content="Use Tab key to focus this button and see the tooltip" trigger="focus">
-            <button type="button" className="btn btn-primary">
-              Tab to me
-            </button>
+            <Button variant="primary">Tab to me</Button>
           </Tooltip>
 
           <Tooltip content="This tooltip also appears on hover" trigger={['hover', 'focus']}>
-            <button type="button" className="btn btn-secondary">
-              Hover or Focus
-            </button>
+            <Button variant="secondary">Hover or Focus</Button>
           </Tooltip>
         </div>
       </div>
@@ -708,9 +636,9 @@ export const WithFormFields: Story = {
           </Tooltip>
         </div>
 
-        <button type="submit" className="btn btn-primary">
+        <Button type="submit" variant="primary">
           Submit
-        </button>
+        </Button>
       </form>
     );
   },
@@ -728,21 +656,15 @@ export const CustomOffset: Story = {
     return (
       <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
         <Tooltip content="Default offset (8px)" offset={8}>
-          <button type="button" className="btn btn-primary">
-            8px Offset
-          </button>
+          <Button variant="primary">8px Offset</Button>
         </Tooltip>
 
         <Tooltip content="Close offset (4px)" offset={4}>
-          <button type="button" className="btn btn-secondary">
-            4px Offset
-          </button>
+          <Button variant="secondary">4px Offset</Button>
         </Tooltip>
 
         <Tooltip content="Far offset (20px)" offset={20}>
-          <button type="button" className="btn btn-info">
-            20px Offset
-          </button>
+          <Button variant="info">20px Offset</Button>
         </Tooltip>
       </div>
     );
@@ -885,9 +807,7 @@ export const ThemedWithVisualStates: Story = {
           placement="bottom"
           showDelay={150}
         >
-          <button type="button" className="btn btn-dark">
-            Hover to see theme
-          </button>
+          <Button variant="dark">Hover to see theme</Button>
         </Tooltip>
       </>
     );

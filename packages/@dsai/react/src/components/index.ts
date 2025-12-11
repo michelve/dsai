@@ -237,6 +237,8 @@ export {
   createInitialScrollspyFSMState,
   getScrollspyVisualState,
   isScrollspyObserving,
+  isScrollspySectionActive,
+  isScrollspySectionVisible,
   scrollspyFSMReducer,
   useScrollspy,
 } from './Scrollspy';

@@ -1,3 +1,5 @@
+import { Heading } from '@dsai/react';
+
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 /**
@@ -87,7 +89,7 @@ export const Playground: Story = {
 export const Usage: Story = {
   render: () => (
     <div style={{ maxWidth: '800px' }}>
-      <h2>Usage</h2>
+      <Heading level={2}>Usage</Heading>
       <pre
         style={{
           backgroundColor: '#f3f4f6',

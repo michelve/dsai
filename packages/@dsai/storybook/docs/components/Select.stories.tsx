@@ -1,4 +1,4 @@
-import { Button, Select } from '@dsai/react';
+import { Button, Heading, Select } from '@dsai/react';
 import { useState } from 'react';
 
 import type { SelectOption } from '@dsai/react';
@@ -208,7 +208,8 @@ export const ValidationStates: Story = {
 /**
  * Error state
  */
-export const Error: Story = {
+export const ErrorState: Story = {
+  name: 'Error',
   args: {
     label: 'Country',
     options: countryOptions,
@@ -568,13 +569,17 @@ export const CompleteShowcase: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxWidth: '500px' }}>
       {/* Basic */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Basic Select</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Basic Select
+        </Heading>
         <Select label="Fruit" options={fruitOptions} placeholder="Select..." />
       </div>
 
       {/* Sizes */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Sizes</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Sizes
+        </Heading>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <Select size="sm" aria-label="Small" options={fruitOptions} placeholder="Small" />
           <Select size="md" aria-label="Medium" options={fruitOptions} placeholder="Medium" />
@@ -584,7 +589,9 @@ export const CompleteShowcase: Story = {
 
       {/* States */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>States</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          States
+        </Heading>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <Select label="Error" options={fruitOptions} error helperText="Selection required" />
           <Select label="Success" options={fruitOptions} success value="apple" />
@@ -594,7 +601,9 @@ export const CompleteShowcase: Story = {
 
       {/* Features */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Features</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Features
+        </Heading>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <Select label="Searchable" options={countryOptions} searchable placeholder="Search..." />
           <Select label="Clearable" options={fruitOptions} clearable defaultValue="apple" />
@@ -605,7 +614,9 @@ export const CompleteShowcase: Story = {
 
       {/* Grouped */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Grouped Options</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Grouped Options
+        </Heading>
         <Select label="Food" options={groupedOptions} placeholder="Select food..." />
       </div>
     </div>

@@ -9,7 +9,7 @@
  * @example Basic Usage
  * ```tsx
  * import { Button } from '@dsai/react';
- * import '@dsai/tokens/css/bootstrap.css';
+ * import '@dsai/tokens/css/dsai-theme-bs.css';
  *
  * function App() {
  *   return <Button variant="primary">Click me</Button>;
@@ -39,6 +39,76 @@
 // ============================================================================
 export {
   Accordion,
+  Alert,
+  Avatar,
+  AvatarGroup,
+  Badge,
+  Breadcrumb,
+  BreadcrumbItem,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  CardImage,
+  CardImgOverlay,
+  CardLink,
+  CardList,
+  CardText,
+  CardTitle,
+  Carousel,
+  CarouselCaption,
+  CarouselControl,
+  CarouselIndicators,
+  CarouselItem,
+  CarouselPauseButton,
+  Checkbox,
+  CheckboxGroup,
+  Display,
+  Dropdown,
+  Heading,
+  Input,
+  ListGroup,
+  ListGroupItem,
+  Modal,
+  Navbar,
+  Pagination,
+  Popover,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverHeader,
+  Progress,
+  Radio,
+  RadioGroup,
+  Scrollspy,
+  ScrollspyProvider,
+  Select,
+  SelectableCard,
+  Spinner,
+  Switch,
+  Tab,
+  TabList,
+  TabPanel,
+  Table,
+  Tabs,
+  TabsPro,
+  Text,
+  Toast,
+  ToastContainer,
+  ToastProvider,
+  Tooltip,
+  Typography,
+  createInitialPopoverFSMState,
+  createInitialToastFSMState,
+  getPopoverVisualState,
+  getToastVisualState,
+  isScrollspyObserving,
+  isScrollspySectionActive,
+  isScrollspySectionVisible,
+  popoverFSMReducer,
+  toastFSMReducer,
+  useScrollspy,
+  useToast,
   type AccordionButtonProps,
   type AccordionContextValue,
   type AccordionFSMEvent,
@@ -49,14 +119,11 @@ export {
   type AccordionPanelProps,
   type AccordionProps,
   type AccordionSelectionMode,
-  Alert,
   type AlertHeadingProps,
   type AlertLinkProps,
   type AlertProps,
   type AlertVariant,
   type AsyncLoader,
-  Avatar,
-  AvatarGroup,
   type AvatarGroupLayout,
   type AvatarGroupProps,
   type AvatarGroupSpacing,
@@ -66,34 +133,22 @@ export {
   type AvatarStatus,
   type AvatarStatusPosition,
   type AvatarTone,
-  Badge,
   type BadgeProps,
   type BadgeVariant,
-  Breadcrumb,
-  BreadcrumbItem,
   type BreadcrumbItemData,
   type BreadcrumbItemProps,
   type BreadcrumbProps,
-  Button,
   type ButtonProps,
   type ButtonSize,
   type ButtonType,
   type ButtonVariant,
-  Card,
-  CardBody,
   type CardBodyProps,
   type CardColor,
-  CardFooter,
   type CardFooterProps,
-  CardHeader,
   type CardHeaderProps,
-  CardImage,
   type CardImageProps,
-  CardImgOverlay,
   type CardImgOverlayProps,
-  CardLink,
   type CardLinkProps,
-  CardList,
   type CardListFSMState,
   type CardListItem,
   type CardListProps,
@@ -101,41 +156,27 @@ export {
   type CardListVisualState,
   type CardProps,
   type CardSelectionMode,
-  CardText,
   type CardTextProps,
-  CardTitle,
   type CardTitleProps,
   type CardVariant,
-  Carousel,
   type CarouselAnimation,
-  CarouselCaption,
   type CarouselCaptionProps,
-  CarouselControl,
   type CarouselControlDirection,
   type CarouselControlProps,
   type CarouselFSMEvent,
   type CarouselFSMState,
-  CarouselIndicators,
   type CarouselIndicatorsProps,
-  CarouselItem,
   type CarouselItemProps,
-  CarouselPauseButton,
   type CarouselPauseButtonProps,
   type CarouselProps,
   type CarouselVisualState,
   type CellAlign,
-  Checkbox,
-  CheckboxGroup,
   type CheckboxGroupFSMState,
   type CheckboxGroupOption,
   type CheckboxGroupProps,
   type CheckboxProps,
-  createInitialPopoverFSMState,
-  createInitialToastFSMState,
-  Display,
   type DisplayProps,
   type DisplaySize,
-  Dropdown,
   type DropdownAutoClose,
   type DropdownDividerProps,
   type DropdownHeaderProps,
@@ -148,23 +189,16 @@ export {
   type GroupSelectionState,
   type GuardFn,
   type GuardResult,
-  getPopoverVisualState,
-  getToastVisualState,
-  Heading,
   type HeadingLevel,
   type HeadingProps,
-  Input,
   type InputProps,
   type InputSize,
   type InputType,
-  ListGroup,
-  ListGroupItem,
   type ListGroupItemData,
   type ListGroupItemProps,
   type ListGroupItemVariant,
   type ListGroupProps,
   type ListGroupVariant,
-  Modal,
   type ModalBodyProps,
   type ModalFooterProps,
   type ModalFullscreenBreakpoint,
@@ -172,7 +206,6 @@ export {
   type ModalProps,
   type ModalSize,
   type ModalTitleProps,
-  Navbar,
   type NavbarBackground,
   type NavbarBrandProps,
   type NavbarCollapseProps,
@@ -191,61 +224,58 @@ export {
   type NavbarVariant,
   type NavbarVisibility,
   type NavbarVisualState,
-  Pagination,
   type PaginationAlignment,
   type PaginationItemData,
   type PaginationItemProps,
   type PaginationProps,
   type PaginationSize,
-  Popover,
-  PopoverBody,
   type PopoverBodyProps,
-  PopoverCloseButton,
   type PopoverCloseButtonProps,
   type PopoverContextValue,
   type PopoverFSMEvent,
   type PopoverFSMState,
-  PopoverHeader,
   type PopoverHeaderProps,
   type PopoverPlacement,
   type PopoverProps,
   type PopoverTrigger,
   type PopoverVisualState,
-  Progress,
   type ProgressBarProps,
   type ProgressProps,
   type ProgressSize,
   type ProgressVariant,
-  popoverFSMReducer,
-  Radio,
-  RadioGroup,
   type RadioGroupProps,
   type RadioProps,
   type RowId,
   type RowIdAccessor,
   type SafePopoverHTMLAttributes,
-  Select,
-  SelectableCard,
-  type SelectableCardProps,
+  type ScrollspyContextValue,
+  type ScrollspyFSMEvent,
+  type ScrollspyFSMState,
+  type ScrollspyItem,
+  type ScrollspyLinkProps,
+  type ScrollspyOrientation,
+  type ScrollspyPosition,
+  type ScrollspyProps,
+  type ScrollspyProviderProps,
+  type ScrollspyVariant,
+  type ScrollspyVisualState,
   type SelectOption,
   type SelectOptionGroup,
   type SelectProps,
   type SelectSize,
+  type SelectableCardProps,
   type SortConfig,
   type SortDirection,
-  Spinner,
   type SpinnerAnimation,
   type SpinnerProps,
   type SpinnerSize,
   type SpinnerVariant,
-  Switch,
   type SwitchProps,
   type SwitchSize,
-  Tab,
   type TabItem,
-  TabList,
   type TabListProps,
-  Table,
+  type TabPanelProps,
+  type TabProps,
   type TableColor,
   type TableColumn,
   type TableFSMState,
@@ -254,21 +284,13 @@ export {
   type TableSize,
   type TableVariant,
   type TableVisualState,
-  TabPanel,
-  type TabPanelProps,
-  type TabProps,
-  Tabs,
   type TabsOrientation,
-  TabsPro,
   type TabsProItem,
   type TabsProProps,
   type TabsProps,
   type TabsVariant,
-  Text,
   type TextProps,
   type TextVariant,
-  Toast,
-  ToastContainer,
   type ToastContainerProps,
   type ToastContextValue,
   type ToastData,
@@ -277,21 +299,65 @@ export {
   type ToastOptions,
   type ToastPosition,
   type ToastProps,
-  ToastProvider,
   type ToastProviderProps,
   type ToastVariant,
   type ToastVisualState,
-  Tooltip,
   type TooltipFSMEvent,
   type TooltipFSMState,
   type TooltipPlacement,
   type TooltipProps,
   type TooltipTrigger,
   type TooltipVisualState,
-  Typography,
-  toastFSMReducer,
-  useToast,
 } from './components';
+
+// ============================================================================
+// Centralized Type Primitives
+// ============================================================================
+
+/**
+ * Design system primitive types.
+ * Use these to build custom components that align with the design system.
+ *
+ * @example
+ * ```typescript
+ * import type { SemanticColorVariant, ComponentSize } from '@dsai/react';
+ *
+ * interface CustomAlertProps {
+ *   variant?: SemanticColorVariant;
+ *   size?: ComponentSize;
+ * }
+ * ```
+ */
+export type {
+  // Accessibility & Security - WCAG 2.2 AA compliant attributes
+  ARIAProps,
+  // Core primitives - Design system vocabulary
+  Alignment,
+  // Responsive values - Breakpoint-aware props (Bootstrap 5 breakpoints: xs/sm/md/lg/xl/xxl)
+  // Note: Breakpoint is also exported from './hooks' - both use same Bootstrap 5 values
+  Breakpoint,
+  ComponentSize,
+  ExtendedSize,
+  // State machines - FSM primitives for component state management
+  FSMConfig,
+  FSMEventBase,
+  FSMReducer,
+  FSMStateBase,
+  FeedbackVariant,
+  Orientation,
+  // Polymorphic components - Type-safe "as" prop support
+  PolymorphicComponentProps,
+  PolymorphicProps,
+  PolymorphicRef,
+  ResponsiveProp,
+  ResponsiveValue,
+  SafeHTMLAttributes,
+  SemanticColorVariant,
+  VisualStateBase,
+} from './types';
+
+// Responsive utilities (runtime)
+export { getResponsiveValue, isResponsiveValue } from './types';
 
 // ============================================================================
 // Compositions - Complex multi-component patterns
@@ -311,10 +377,31 @@ export {
 // ============================================================================
 // Hooks - Reusable stateful logic
 // ============================================================================
-// Future hook exports (uncomment as implemented):
-// export { useMediaQuery } from './hooks';
-// export { useDebounce } from './hooks';
-// export { useLocalStorage } from './hooks';
+export { useClickOutside } from './hooks';
+export type { UseClickOutsideCallback, UseClickOutsideOptions, UseClickOutsideRefs } from './hooks';
+
+export { useFocusTrap } from './hooks';
+export type { UseFocusTrapOptions, UseFocusTrapReturn } from './hooks';
+
+export {
+  BREAKPOINTS,
+  breakpointBetween,
+  breakpointDown,
+  breakpointUp,
+  getBreakpointValue,
+  useIsDesktop,
+  useIsLargeDesktop,
+  useIsMobile,
+  useIsTablet,
+  useMediaQuery,
+} from './hooks';
+export type { Breakpoint, UseMediaQueryOptions } from './hooks';
+
+export { useReducedMotion } from './hooks';
+export type { UseReducedMotionOptions } from './hooks';
+
+export { useScrollLock } from './hooks';
+export type { UseScrollLockOptions, UseScrollLockReturn, UseScrollLockTarget } from './hooks';
 
 // ============================================================================
 // Tokens - Import from @dsai/tokens directly
@@ -335,7 +422,76 @@ export * from './components/Icon';
 // ============================================================================
 // Utils - Pure utility functions
 // ============================================================================
+// Core utilities (convenience re-exports from utils/index.ts)
 export { clamp, cn, generateId, isBrowser, mergeRefs, prefersReducedMotion } from './utils';
+
+// Accessibility utilities
+export {
+  announceToScreenReader,
+  focusableSelectorString,
+  focusableSelectors,
+  getAnimationDuration,
+  shouldAnimate,
+  trapFocus,
+  type AnnounceOptions,
+  type TrapFocusOptions,
+} from './utils/a11y';
+
+// Keyboard utilities
+export { isEnterKey, isEscapeKey } from './utils/keyboard';
+
+// Misc utilities
+export {
+  ClearIcon,
+  clearAllEvent,
+  getSafeInputProps,
+  mapPlacement,
+  normalizeTriggers,
+  selectAllEvent,
+  toggleAllEvent,
+  toggleItemEvent,
+} from './utils/misc';
+
+// Object utilities
+export { deepMerge, omit, pick } from './utils/object';
+
+// String utilities
+export { getVariantClass } from './utils/string';
+
+// Timing utilities
+export { debounce, throttle } from './utils/timing';
+
+// Type utilities
+export { isExternalUrl } from './utils/types';
+
+// Validation utilities
+export { isSafeHref, isValidEmail, isValidHref, isValidUrl } from './utils/validation';
+
+// Async utilities
+export {
+  TimeoutError,
+  createAbortable,
+  createTaskQueue,
+  exponentialBackoff,
+  queueTask,
+  retryWithBackoff,
+  withTimeout,
+} from './utils/async';
+export type {
+  AbortablePromise,
+  ExponentialBackoffOptions,
+  QueueTaskOptions,
+  QueuedTask,
+  QueuedTaskHandle,
+  RetryResult,
+  RetryWithBackoffOptions,
+  TaskFunction,
+  TaskQueue,
+  TaskQueueOptions,
+  TaskQueueState,
+  TaskSchedule,
+  WithTimeoutOptions,
+} from './utils/async';
 
 // ============================================================================
 // Version

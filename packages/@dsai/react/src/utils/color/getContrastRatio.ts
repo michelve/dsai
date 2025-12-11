@@ -1,0 +1,65 @@
+/**
+ * @file getContrastRatio - Calculate WCAG contrast ratio
+ * @module @dsai/react/utils/color
+ *
+ * Enterprise-grade contrast ratio calculator with:
+ * - WCAG 2.1 compliant formula
+ * - RGB color support
+ * - Range validation
+ */
+
+import { getRelativeLuminance } from './getRelativeLuminance';
+
+/**
+ * Calculate contrast ratio between two RGB colors per WCAG 2.1
+ * Formula: (L1 + 0.05) / (L2 + 0.05)
+ * Where L1 is lighter color, L2 is darker color
+ *
+ * @param rgb1 - First color [r, g, b] (0-255 each)
+ * @param rgb2 - Second color [r, g, b] (0-255 each)
+ * @returns Contrast ratio (1-21)
+ *
+ * @example
+ * ```tsx
+ * // Black on white
+ * getContrastRatio([0, 0, 0], [255, 255, 255]); // 21
+ *
+ * // White on white
+ * getContrastRatio([255, 255, 255], [255, 255, 255]); // 1
+ *
+ * // Dark gray on light gray
+ * getContrastRatio([68, 68, 68], [238, 238, 238]); // ~12.6
+ *
+ * // Blue on white
+ * getContrastRatio([0, 0, 255], [255, 255, 255]); // ~8.6
+ * ```
+ */
+export function getContrastRatio(
+  rgb1: readonly [number, number, number],
+  rgb2: readonly [number, number, number]
+): number {
+  // Validate inputs
+  if (!Array.isArray(rgb1) || rgb1.length !== 3) {
+    console.warn('[getContrastRatio] First color must be [r, g, b] array');
+    return 1;
+  }
+
+  if (!Array.isArray(rgb2) || rgb2.length !== 3) {
+    console.warn('[getContrastRatio] Second color must be [r, g, b] array');
+    return 1;
+  }
+
+  // Calculate relative luminance for both colors
+  const l1 = getRelativeLuminance(rgb1[0], rgb1[1], rgb1[2]);
+  const l2 = getRelativeLuminance(rgb2[0], rgb2[1], rgb2[2]);
+
+  // Determine lighter and darker
+  const lighter = Math.max(l1, l2);
+  const darker = Math.min(l1, l2);
+
+  // Calculate contrast ratio
+  const ratio = (lighter + 0.05) / (darker + 0.05);
+
+  // Round to 2 decimal places for readability
+  return Math.round(ratio * 100) / 100;
+}

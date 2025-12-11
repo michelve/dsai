@@ -22,7 +22,7 @@ pnpm add @dsai/react @dsai/tokens
 
 ```tsx
 import { Badge } from '@dsai/react';
-import '@dsai/tokens/css/bootstrap.css';
+import '@dsai/tokens/css/dsai-theme-bs.css';
 
 function App() {
   return <Badge variant="primary">New</Badge>;

@@ -12,6 +12,51 @@
       "type": "shell",
       "command": "pnpm nx test @dsai/react --testPathPattern=SelectableCard",
       "group": "test"
+    },
+    {
+      "label": "test all react",
+      "type": "shell",
+      "command": "pnpm nx test @dsai/react --no-coverage",
+      "isBackground": false,
+      "group": "test"
+    },
+    {
+      "label": "test react layout",
+      "type": "shell",
+      "command": "pnpm nx test @dsai/react --testPathPattern=layout-m2 --no-coverage",
+      "isBackground": false
+    },
+    {
+      "label": "test telemetry",
+      "type": "shell",
+      "command": "pnpm nx test @dsai/react --testPathPattern=telemetry --no-coverage",
+      "isBackground": false,
+      "group": "test"
+    },
+    {
+      "label": "test telemetry now",
+      "type": "shell",
+      "command": "pnpm nx test @dsai/react --testPathPattern=telemetry --no-coverage 2>&1 | head -100",
+      "isBackground": false,
+      "group": "test"
+    },
+    {
+      "label": "telemetry-test",
+      "type": "shell",
+      "command": "pnpm nx test @dsai/react --testPathPattern=telemetry --no-coverage",
+      "isBackground": false,
+      "group": "test"
+    },
+    {
+      "label": "test Input component",
+      "type": "shell",
+      "command": "pnpm nx test @dsai/react --testPathPattern=Input --no-coverage"
+    },
+    {
+      "label": "test RadioGroup",
+      "type": "shell",
+      "command": "pnpm nx test @dsai/react --testPathPattern=Radio --no-coverage",
+      "group": "test"
     }
   ]
 }

@@ -1,4 +1,5 @@
 import type { CSSProperties, InputHTMLAttributes, ReactNode } from 'react';
+import type { ComponentSize } from '../../types';
 
 /**
  * Input types supported by the component
@@ -7,8 +8,9 @@ export type InputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url'
 
 /**
  * Input sizes matching DS AI design tokens
+ * @see ComponentSize
  */
-export type InputSize = 'sm' | 'md' | 'lg';
+export type InputSize = ComponentSize;
 
 /**
  * Input component props

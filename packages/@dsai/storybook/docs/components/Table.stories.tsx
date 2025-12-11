@@ -1,4 +1,4 @@
-import { Badge, Button, Table } from '@dsai/react';
+import { Badge, Button, Heading, Table } from '@dsai/react';
 import { useState } from 'react';
 
 import type { RowId, SortConfig, TableColumn } from '@dsai/react';
@@ -813,9 +813,9 @@ export const AccessibilityShowcase: Story = {
   render: function AccessibilityStory() {
     return (
       <div>
-        <h2 id="employees-heading" className="h5 mb-3">
+        <Heading level={2} id="employees-heading" className="h5 mb-3">
           Employee List
-        </h2>
+        </Heading>
         <p id="employees-desc" className="text-muted small mb-3">
           This table shows all employees with their roles and departments.
         </p>

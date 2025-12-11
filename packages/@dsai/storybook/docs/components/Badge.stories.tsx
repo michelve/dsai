@@ -4,6 +4,7 @@ import {
   CheckCircleFillIcon,
   CheckIcon,
   ExclamationTriangleFillIcon,
+  Heading,
   InfoCircleFillIcon,
   StarFillIcon,
   XLgIcon,
@@ -87,7 +88,9 @@ const DotAccessibilityExample = (): JSX.Element => (
 const AccessibilityShowcaseExample = (): JSX.Element => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
     <div>
-      <h4 style={{ marginBottom: '0.5rem' }}>Icon Accessibility</h4>
+      <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+        Icon Accessibility
+      </Heading>
       <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem' }}>
         Icons are hidden from screen readers (aria-hidden=&quot;true&quot;), preventing redundant
         announcements:
@@ -96,7 +99,9 @@ const AccessibilityShowcaseExample = (): JSX.Element => (
     </div>
 
     <div>
-      <h4 style={{ marginBottom: '0.5rem' }}>Dot Indicator Accessibility</h4>
+      <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+        Dot Indicator Accessibility
+      </Heading>
       <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem' }}>
         Dots are hidden when badge has content, but visible to screen readers when dot-only:
       </p>
@@ -104,7 +109,9 @@ const AccessibilityShowcaseExample = (): JSX.Element => (
     </div>
 
     <div>
-      <h4 style={{ marginBottom: '0.5rem' }}>Dev Warning Example</h4>
+      <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+        Dev Warning Example
+      </Heading>
       <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem' }}>
         Check browser console - dot-only without aria-label shows a helpful warning in development:
       </p>
@@ -473,15 +480,15 @@ export const PerformanceDemo: Story = {
 export const InHeading: Story = {
   render: () => (
     <div>
-      <h1>
+      <Heading level={1}>
         Example heading <Badge variant="secondary">New</Badge>
-      </h1>
-      <h2>
+      </Heading>
+      <Heading level={2}>
         Example heading <Badge variant="secondary">New</Badge>
-      </h2>
-      <h3>
+      </Heading>
+      <Heading level={3}>
         Example heading <Badge variant="secondary">New</Badge>
-      </h3>
+      </Heading>
     </div>
   ),
   parameters: {
@@ -572,7 +579,9 @@ export const CompleteShowcase: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       {/* Variants */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Variants</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Variants
+        </Heading>
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
           <Badge variant="primary">Primary</Badge>
           <Badge variant="secondary">Secondary</Badge>
@@ -585,7 +594,9 @@ export const CompleteShowcase: Story = {
 
       {/* Pill */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Pill Shape</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Pill Shape
+        </Heading>
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
           <Badge variant="primary" pill>
             Primary
@@ -604,7 +615,9 @@ export const CompleteShowcase: Story = {
 
       {/* Dot */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Status Indicators</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Status Indicators
+        </Heading>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
           <Badge variant="success" dot>
             Online
@@ -623,7 +636,9 @@ export const CompleteShowcase: Story = {
 
       {/* With Icons */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>With Icons</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          With Icons
+        </Heading>
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
           <Badge variant="primary" icon={<StarFillIcon size={12} />}>
             Featured
@@ -639,7 +654,9 @@ export const CompleteShowcase: Story = {
 
       {/* On Buttons */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>On Buttons</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          On Buttons
+        </Heading>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
           <Button variant="primary" className="position-relative">
             Inbox
@@ -662,7 +679,9 @@ export const CompleteShowcase: Story = {
 
       {/* Accessibility */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Accessibility & Performance (A Grade)</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Accessibility & Performance (A Grade)
+        </Heading>
         <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem' }}>
           Icons are hidden from screen readers. Dots are smart: hidden when content exists, but
           visible for dot-only indicators. Component uses React.memo + memoized class construction

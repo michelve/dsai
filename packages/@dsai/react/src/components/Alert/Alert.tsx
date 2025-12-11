@@ -245,18 +245,27 @@ const AlertBase = forwardRef<HTMLDivElement, AlertProps>(
         return null;
       }
 
-      if (isValidElement(icon)) {
-        const existingClassName = (icon.props as { className?: string }).className;
-        const existingAriaLabel = (icon.props as { 'aria-label'?: string })['aria-label'];
-        const existingAriaHidden = (icon.props as { 'aria-hidden'?: boolean })['aria-hidden'];
+      if (
+        isValidElement<{
+          className?: string;
+          'aria-label'?: string;
+          'aria-hidden'?: boolean;
+          role?: string;
+          children?: React.ReactNode;
+        }>(icon)
+      ) {
+        const iconElement = icon;
+        const existingClassName = iconElement.props.className;
+        const existingAriaLabel = iconElement.props['aria-label'];
+        const existingAriaHidden = iconElement.props['aria-hidden'];
         const ariaLabel = iconLabel ?? existingAriaLabel;
         const ariaHidden = iconLabel ? undefined : (existingAriaHidden ?? true);
 
-        return cloneElement(icon, {
+        return cloneElement(iconElement, {
           className: cn(iconClasses, existingClassName),
           'aria-label': ariaLabel,
           'aria-hidden': ariaHidden,
-          role: ariaLabel ? 'img' : (icon.props as { role?: string }).role,
+          role: ariaLabel ? 'img' : iconElement.props.role,
         });
       }
 

@@ -4,7 +4,7 @@ import type { Preview } from '@storybook/react-vite';
 
 // DSAi is a Bootstrap-first design system
 // Load Bootstrap theme (customized with DSAi tokens) as the primary framework
-import '../../../@dsai/tokens/dist/css/bootstrap.css';
+import '../../../@dsai/tokens/dist/css/dsai-theme-bs.css';
 
 // Preview-specific styles (minimal overrides)
 import './preview.css';
@@ -44,6 +44,7 @@ const preview: Preview = {
     // Documentation configuration
     docs: {
       theme: lightTheme,
+      codePanel: true,
       toc: {
         title: 'Table of Contents',
       },
@@ -76,6 +77,13 @@ const preview: Preview = {
 
     // Default layout
     layout: 'centered',
+
+    a11y: {
+      // 'todo' - show a11y violations in the test UI only
+      // 'error' - fail CI on a11y violations
+      // 'off' - skip a11y checks entirely
+      test: 'todo',
+    },
   },
 
   // Global toolbar controls

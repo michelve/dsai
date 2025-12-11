@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
 /**
  * DSAi Icon Generator - REST API Version
@@ -208,12 +208,10 @@ function extractViewBox(svg) {
  * Convert Figma component name to PascalCase icon name
  */
 function toIconName(name) {
-  return (
-    name
-      .split(/[^a-zA-Z0-9]+/)
-      .map((part) => part.charAt(0).toUpperCase() + part.substring(1).toLowerCase())
-      .join('') + 'Icon'
-  );
+  return `${name
+    .split(/[^a-zA-Z0-9]+/)
+    .map((part) => part.charAt(0).toUpperCase() + part.substring(1).toLowerCase())
+    .join('')}Icon`;
 }
 
 /**

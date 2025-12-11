@@ -5,7 +5,7 @@
 **Priority:** [Critical/High/Medium/Low]
 **Status:** [🔴 Blocked/🟠 In Progress/🟡 Ready/🟢 Completed/⚪ Not Started]
 **Assigned To:** [Developer name]
-**Estimated Time:** [Hours/Days]
+**Blocked by Task:** TASK-XXXX
 **Created:** [Date]
 **Updated:** [Date]
 

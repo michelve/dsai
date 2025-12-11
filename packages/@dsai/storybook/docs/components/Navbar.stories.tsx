@@ -1,4 +1,4 @@
-import { Badge, Dropdown, Navbar } from '@dsai/react';
+import { Badge, Button, Dropdown, Navbar, PlusSquareIcon, Text } from '@dsai/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -148,17 +148,10 @@ export const WithLogo: Story = {
     return (
       <Navbar aria-label="Logo navigation example">
         <Navbar.Brand href="#">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="30"
-            height="24"
-            fill="currentColor"
-            viewBox="0 0 16 16"
+          <PlusSquareIcon
+            size={24}
             style={{ marginRight: '0.5rem', verticalAlign: 'text-bottom' }}
-          >
-            <path d="M0 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3zm2-1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2z" />
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-          </svg>
+          />
           DSAi
         </Navbar.Brand>
         <Navbar.Toggle />
@@ -365,6 +358,18 @@ export const ResponsiveBreakpoints: Story = {
  * Controlled navbar with external state management
  */
 export const Controlled: Story = {
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobile1',
+    },
+    docs: {
+      description: {
+        story:
+          'Controlled navbar with external state management. ' +
+          'Resize viewport to mobile to see the collapse behavior, or use the viewport control.',
+      },
+    },
+  },
   render: function ControlledNavbar() {
     const [expanded, setExpanded] = useState(false);
 
@@ -372,32 +377,24 @@ export const Controlled: Story = {
       <div>
         <div style={{ padding: '1rem', background: '#f8f9fa', marginBottom: '0' }}>
           <strong>External Controls:</strong>
-          <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem' }}>
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-primary"
-              onClick={() => setExpanded(true)}
-            >
+          <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <Button size="sm" variant="outline-primary" onClick={() => setExpanded(true)}>
               Open Menu
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-secondary"
-              onClick={() => setExpanded(false)}
-            >
+            </Button>
+            <Button size="sm" variant="outline-secondary" onClick={() => setExpanded(false)}>
               Close Menu
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-info"
-              onClick={() => setExpanded((prev) => !prev)}
-            >
+            </Button>
+            <Button size="sm" variant="outline-info" onClick={() => setExpanded((prev) => !prev)}>
               Toggle
-            </button>
+            </Button>
           </div>
           <div style={{ marginTop: '0.5rem' }}>
             <strong>State:</strong> {expanded ? 'Expanded' : 'Collapsed'}
           </div>
+          <Text size="sm" color="muted">
+            Use the viewport control in the toolbar to switch to mobile view and see the collapse
+            behavior.
+          </Text>
         </div>
         <Navbar
           expand="lg"
@@ -469,16 +466,16 @@ export const WithSearchForm: Story = {
             </Navbar.Link>
             <Navbar.Link href="#">Link</Navbar.Link>
           </Navbar.Nav>
-          <form className="d-flex ms-auto" role="search">
+          <form className="d-flex ms-auto" aria-label="Search">
             <input
               className="form-control me-2"
               type="search"
               placeholder="Search"
               aria-label="Search"
             />
-            <button className="btn btn-outline-success" type="submit">
+            <Button type="submit" variant="outline-success">
               Search
-            </button>
+            </Button>
           </form>
         </Navbar.Collapse>
       </Navbar>
@@ -819,16 +816,7 @@ export const ComplexLayout: Story = {
     return (
       <Navbar variant="dark" bg="dark" aria-label="Complex layout navigation">
         <Navbar.Brand href="#">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="30"
-            height="24"
-            fill="currentColor"
-            viewBox="0 0 16 16"
-            style={{ marginRight: '0.5rem' }}
-          >
-            <path d="M0 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3zm2-1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2z" />
-          </svg>
+          <PlusSquareIcon size={24} style={{ marginRight: '0.5rem' }} />
           Company
         </Navbar.Brand>
         <Navbar.Toggle />
@@ -853,16 +841,16 @@ export const ComplexLayout: Story = {
               </Dropdown>
             </Navbar.Item>
           </Navbar.Nav>
-          <form className="d-flex ms-auto me-3" role="search">
+          <form className="d-flex ms-auto me-3" aria-label="Search">
             <input
               className="form-control form-control-sm me-2"
               type="search"
               placeholder="Search..."
               aria-label="Search"
             />
-            <button className="btn btn-sm btn-outline-light" type="submit">
+            <Button type="submit" size="sm" variant="outline-light">
               Go
-            </button>
+            </Button>
           </form>
           <Navbar.Text>
             <Badge variant="success">Online</Badge>

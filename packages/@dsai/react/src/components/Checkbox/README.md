@@ -24,7 +24,7 @@ pnpm add @dsai/react @dsai/tokens
 
 ```tsx
 import { Checkbox } from '@dsai/react';
-import '@dsai/tokens/css/bootstrap.css';
+import '@dsai/tokens/css/dsai-theme-bs.css';
 
 function App() {
   return <Checkbox label="Accept terms and conditions" />;

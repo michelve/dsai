@@ -24,7 +24,7 @@ pnpm add @dsai/react @dsai/tokens
 
 ```tsx
 import { Progress } from '@dsai/react';
-import '@dsai/tokens/css/bootstrap.css';
+import '@dsai/tokens/css/dsai-theme-bs.css';
 
 function App() {
   return <Progress value={75} aria-label="Task progress" />;

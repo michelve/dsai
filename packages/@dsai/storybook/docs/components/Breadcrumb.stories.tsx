@@ -2,8 +2,9 @@ import {
   BoxIcon,
   Breadcrumb,
   BreadcrumbItem,
-  HouseIcon,
+  Button,
   Heading,
+  HouseIcon,
   SearchIcon,
   StarFillIcon,
 } from '@dsai/react';
@@ -223,13 +224,9 @@ export const CollapsibleInteractive: Story = {
             FSM State: {expanded ? 'expanded' : 'collapsed'}
           </span>
           {expanded && (
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-secondary"
-              onClick={() => setExpanded(false)}
-            >
+            <Button size="sm" variant="outline-secondary" onClick={() => setExpanded(false)}>
               Collapse
-            </button>
+            </Button>
           )}
         </div>
       </div>
@@ -260,28 +257,33 @@ export const FSMStateMachine: Story = {
     return (
       <div>
         <div className="mb-3">
-          <div className="btn-group" role="group" aria-label="Mode selection">
-            <button
-              type="button"
-              className={`btn btn-sm ${mode === 'uncontrolled' ? 'btn-primary' : 'btn-outline-primary'}`}
+          <fieldset
+            className="btn-group"
+            aria-label="Mode selection"
+            style={{ border: 0, padding: 0, margin: 0 }}
+          >
+            <legend className="visually-hidden">Mode selection</legend>
+            <Button
+              size="sm"
+              variant={mode === 'uncontrolled' ? 'primary' : 'outline-primary'}
               onClick={() => {
                 setMode('uncontrolled');
                 setExpanded(false);
               }}
             >
               Uncontrolled
-            </button>
-            <button
-              type="button"
-              className={`btn btn-sm ${mode === 'controlled' ? 'btn-primary' : 'btn-outline-primary'}`}
+            </Button>
+            <Button
+              size="sm"
+              variant={mode === 'controlled' ? 'primary' : 'outline-primary'}
               onClick={() => {
                 setMode('controlled');
                 setExpanded(false);
               }}
             >
               Controlled
-            </button>
-          </div>
+            </Button>
+          </fieldset>
         </div>
 
         <StoryBreadcrumb
@@ -292,7 +294,9 @@ export const FSMStateMachine: Story = {
         />
 
         <div className="mt-3 p-3 bg-light rounded">
-          <h6 className="mb-2">FSM State Debug</h6>
+          <Heading level={6} className="mb-2">
+            FSM State Debug
+          </Heading>
           <div className="d-flex flex-column gap-1">
             <small>
               <strong>Mode:</strong> {mode}
@@ -307,20 +311,17 @@ export const FSMStateMachine: Story = {
           </div>
           {mode === 'controlled' && (
             <div className="mt-2">
-              <button
-                type="button"
-                className="btn btn-sm btn-outline-primary me-2"
+              <Button
+                size="sm"
+                variant="outline-primary"
+                className="me-2"
                 onClick={() => setExpanded(true)}
               >
                 Set expanded=true
-              </button>
-              <button
-                type="button"
-                className="btn btn-sm btn-outline-secondary"
-                onClick={() => setExpanded(false)}
-              >
+              </Button>
+              <Button size="sm" variant="outline-secondary" onClick={() => setExpanded(false)}>
                 Set expanded=false
-              </button>
+              </Button>
             </div>
           )}
         </div>
@@ -616,13 +617,14 @@ export const PerformanceMemoization: Story = {
             { id: 'current', label: 'Current Page', active: true },
           ]}
         />
-        <button
-          type="button"
-          className="btn btn-sm btn-outline-primary mt-3"
+        <Button
+          size="sm"
+          variant="outline-primary"
+          className="mt-3"
           onClick={() => setCounter(counter + 1)}
         >
           Force Parent Re-render ({counter})
-        </button>
+        </Button>
         <div className="alert alert-info mt-3 mb-0">
           <small>
             <strong>Performance:</strong> The breadcrumb component uses React.memo and useMemo hooks
@@ -689,18 +691,7 @@ export const CompleteShowcase: Story = {
               id: 'home',
               label: 'Home',
               href: '#',
-              icon: (
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <title>Home</title>
-                  <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z" />
-                </svg>
-              ),
+              icon: <HouseIcon size={14} aria-hidden="true" />,
             },
             { id: 'library', label: 'Library', href: '#' },
             { id: 'data', label: 'Data', active: true },

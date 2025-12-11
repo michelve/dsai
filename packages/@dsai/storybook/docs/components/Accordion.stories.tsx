@@ -1,4 +1,4 @@
-import { Accordion, Badge, Heading } from '@dsai/react';
+import { Accordion, Badge, Button, Heading } from '@dsai/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -261,34 +261,22 @@ export const Controlled: Story = {
         <div style={{ marginBottom: '1rem' }}>
           <strong>Active Keys:</strong> {activeKeys.length > 0 ? activeKeys.join(', ') : '(none)'}
           <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem' }}>
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-primary"
-              onClick={() => setActiveKeys(['1'])}
-            >
+            <Button size="sm" variant="outline-primary" onClick={() => setActiveKeys(['1'])}>
               Open #1
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-primary"
-              onClick={() => setActiveKeys(['2'])}
-            >
+            </Button>
+            <Button size="sm" variant="outline-primary" onClick={() => setActiveKeys(['2'])}>
               Open #2
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-primary"
+            </Button>
+            <Button
+              size="sm"
+              variant="outline-primary"
               onClick={() => setActiveKeys(['1', '2', '3'])}
             >
               Open All
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-secondary"
-              onClick={() => setActiveKeys([])}
-            >
+            </Button>
+            <Button size="sm" variant="outline-secondary" onClick={() => setActiveKeys([])}>
               Close All
-            </button>
+            </Button>
           </div>
         </div>
         <Accordion
@@ -372,7 +360,7 @@ export const WithRichContent: Story = {
             </Accordion.Button>
           </Heading>
           <Accordion.Panel>
-            <h5>Key Features</h5>
+            <Heading level={5}>Key Features</Heading>
             <ul>
               <li>Fully accessible with WCAG 2.2 AA compliance</li>
               <li>Keyboard navigation support</li>
@@ -526,15 +514,15 @@ export const NestedAccordions: Story = {
             <p>This panel contains a nested accordion:</p>
             <Accordion flush>
               <Accordion.Item eventKey="inner-1">
-                <h3 className="accordion-header">
+                <Heading level={3} className="accordion-header">
                   <Accordion.Button>Nested Item #1</Accordion.Button>
-                </h3>
+                </Heading>
                 <Accordion.Panel>Nested content 1</Accordion.Panel>
               </Accordion.Item>
               <Accordion.Item eventKey="inner-2">
-                <h3 className="accordion-header">
+                <Heading level={3} className="accordion-header">
                   <Accordion.Button>Nested Item #2</Accordion.Button>
-                </h3>
+                </Heading>
                 <Accordion.Panel>Nested content 2</Accordion.Panel>
               </Accordion.Item>
             </Accordion>

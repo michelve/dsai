@@ -18,7 +18,6 @@ import {
   colorGray900,
   // Background colors
   backgroundWhite,
-  backgroundBody,
   // Semantic colors
   semanticBorderColor,
   // Typography

@@ -634,7 +634,10 @@ describe('Dropdown', () => {
       expect(screen.getByRole('menu')).toBeInTheDocument();
 
       await user.click(screen.getByRole('button', { name: 'External Toggle' }));
-      expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+      // Wait for the closing animation (RAF-based transitions) to complete
+      await waitFor(() => {
+        expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+      });
     });
   });
 

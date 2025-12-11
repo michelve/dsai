@@ -61,6 +61,7 @@ import {
   GearIcon,
   // Social & Brands
   GithubIcon,
+  Heading,
   HeartFillIcon,
   HeartIcon,
   HouseFillIcon,
@@ -114,8 +115,9 @@ import {
   XIcon,
   YoutubeIcon,
 } from '@dsai/react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useId, useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta = {
   title: 'Foundation/Icons',
@@ -203,7 +205,9 @@ interface IconGridProps {
 const IconGrid = ({ children, title, description }: IconGridProps) => (
   <div style={{ marginBottom: '2rem' }}>
     {title && (
-      <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.5rem' }}>{title}</h3>
+      <Heading level={3} style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.5rem' }}>
+        {title}
+      </Heading>
     )}
     {description && (
       <p style={{ fontSize: '0.875rem', color: '#6b7280', marginBottom: '1rem' }}>{description}</p>
@@ -300,7 +304,9 @@ export const Sizes: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
-        <h3 style={{ marginBottom: '1rem' }}>Size prop (number = pixels)</h3>
+        <Heading level={3} style={{ marginBottom: '1rem' }}>
+          Size prop (number = pixels)
+        </Heading>
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-end' }}>
           <div style={{ textAlign: 'center' }}>
             <CheckCircleFillIcon size={12} />
@@ -330,7 +336,9 @@ export const Sizes: Story = {
       </div>
 
       <div>
-        <h3 style={{ marginBottom: '1rem' }}>Size prop (string = CSS value)</h3>
+        <Heading level={3} style={{ marginBottom: '1rem' }}>
+          Size prop (string = CSS value)
+        </Heading>
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-end' }}>
           <div style={{ textAlign: 'center' }}>
             <CheckCircleFillIcon size="1rem" />
@@ -368,7 +376,9 @@ export const Colors: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
-        <h3 style={{ marginBottom: '1rem' }}>Semantic Colors</h3>
+        <Heading level={3} style={{ marginBottom: '1rem' }}>
+          Semantic Colors
+        </Heading>
         <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           <div style={{ textAlign: 'center' }}>
             <CheckCircleFillIcon size={32} color="var(--bs-success)" />
@@ -394,7 +404,9 @@ export const Colors: Story = {
       </div>
 
       <div>
-        <h3 style={{ marginBottom: '1rem' }}>Custom Colors</h3>
+        <Heading level={3} style={{ marginBottom: '1rem' }}>
+          Custom Colors
+        </Heading>
         <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           <div style={{ textAlign: 'center' }}>
             <HeartFillIcon size={32} color="#e91e63" />
@@ -416,7 +428,9 @@ export const Colors: Story = {
       </div>
 
       <div>
-        <h3 style={{ marginBottom: '1rem' }}>Inheriting Text Color (default)</h3>
+        <Heading level={3} style={{ marginBottom: '1rem' }}>
+          Inheriting Text Color (default)
+        </Heading>
         <div style={{ display: 'flex', gap: '2rem' }}>
           <div style={{ color: '#1f2937' }}>
             <SearchIcon size={24} /> Dark text
@@ -553,7 +567,7 @@ export const Accessibility: Story = {
           {`<Button startIcon={<ArrowLeftIcon />}>Go Back</Button>`}
         </code>
         <p style={{ fontSize: '12px', color: '#166534', marginTop: '8px' }}>
-          The icon will have <code>aria-hidden="true"</code> automatically.
+          The icon will have <code>aria-hidden=&quot;true&quot;</code> automatically.
         </p>
       </div>
 
@@ -592,7 +606,7 @@ export const Accessibility: Story = {
           {`<CheckCircleFillIcon aria-label="Task completed" color="green" />`}
         </code>
         <p style={{ fontSize: '12px', color: '#1e40af', marginTop: '8px' }}>
-          The icon will have <code>role="img"</code> and the label will be announced.
+          The icon will have <code>role=&quot;img&quot;</code> and the label will be announced.
         </p>
       </div>
 
@@ -630,7 +644,8 @@ export const Accessibility: Story = {
           {`<Button aria-label="Close dialog" startIcon={<XIcon />} />`}
         </code>
         <p style={{ fontSize: '12px', color: '#92400e', marginTop: '8px' }}>
-          The button wrapper hides the icon; the button's <code>aria-label</code> provides the name.
+          The button wrapper hides the icon; the button&apos;s <code>aria-label</code> provides the
+          name.
         </p>
       </div>
     </div>

@@ -34,16 +34,32 @@ export default [
   // =========================
   {
     ignores: [
+      // Dependencies
       '**/node_modules/**',
+
+      // Build and cache outputs
       '**/dist/**',
       '**/build/**',
       '**/.nx/**',
+      '**/.turbo/**',
+      '**/.cache/**',
       '**/.temp/**',
       '**/coverage/**',
+
+      // Generated docs/assets
       '**/storybook-static/**',
       '**/static/**',
+      'workspace-graph.html',
+
+      // Markdown and task docs
       '**/*.md',
+      '**/tasks/**',
+
+      // Test snapshots
       '**/*.snap',
+
+      // Editor/OS
+      '.DS_Store',
     ],
   },
 

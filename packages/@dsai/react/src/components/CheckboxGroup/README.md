@@ -24,7 +24,7 @@ pnpm add @dsai/react @dsai/tokens
 
 ```tsx
 import { CheckboxGroup } from '@dsai/react';
-import '@dsai/tokens/css/bootstrap.css';
+import '@dsai/tokens/css/dsai-theme-bs.css';
 
 const options = [
   { value: 'email', label: 'Email notifications' },

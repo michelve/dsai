@@ -16,8 +16,8 @@
  * @see https://www.designtokens.org/
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const TOKENS_DIR = path.join(__dirname, '../../../packages/@dsai/tokens');
 const VALID_TYPES = [
@@ -30,8 +30,8 @@ const VALID_TYPES = [
   'string',
 ];
 
-let errors = [];
-let warnings = [];
+const errors = [];
+const warnings = [];
 let tokenCount = 0;
 
 /**
@@ -65,16 +65,16 @@ function validateToken(tokenPath, token) {
   tokenCount++;
 
   // Check for DTCG format ($value, $type) or legacy format (value, type)
-  const isDTCG = token.hasOwnProperty('$value') || token.hasOwnProperty('$type');
+  const isDTCG = Object.hasOwn(token, '$value') || Object.hasOwn(token, '$type');
   const valueKey = isDTCG ? '$value' : 'value';
   const typeKey = isDTCG ? '$type' : 'type';
 
   // Check required properties
-  if (!token.hasOwnProperty(valueKey)) {
+  if (!Object.hasOwn(token, valueKey)) {
     errors.push(`❌ ${tokenPath}: Missing required property "${valueKey}"`);
   }
 
-  if (!token.hasOwnProperty(typeKey)) {
+  if (!Object.hasOwn(token, typeKey)) {
     errors.push(`❌ ${tokenPath}: Missing required property "${typeKey}"`);
   }
 
@@ -122,8 +122,8 @@ function validateTokenTree(obj, parentPath = '') {
 
     if (value && typeof value === 'object') {
       // Check if this is a token (DTCG: $value & $type, Legacy: value & type)
-      const isDTCGToken = value.hasOwnProperty('$value') && value.hasOwnProperty('$type');
-      const isLegacyToken = value.hasOwnProperty('value') && value.hasOwnProperty('type');
+      const isDTCGToken = Object.hasOwn(value, '$value') && Object.hasOwn(value, '$type');
+      const isLegacyToken = Object.hasOwn(value, 'value') && Object.hasOwn(value, 'type');
 
       if (isDTCGToken || isLegacyToken) {
         validateToken(currentPath, value);
@@ -217,9 +217,9 @@ function validateIndexReferences(indexData, parentPath = '') {
  * Print validation results
  */
 function printResults() {
-  console.log('\n' + '='.repeat(60));
+  console.log(`\n${'='.repeat(60)}`);
   console.log('VALIDATION RESULTS');
-  console.log('='.repeat(60) + '\n');
+  console.log(`${'='.repeat(60)}\n`);
 
   console.log(`📊 Total tokens validated: ${tokenCount}`);
   console.log(`✅ Errors: ${errors.length}`);

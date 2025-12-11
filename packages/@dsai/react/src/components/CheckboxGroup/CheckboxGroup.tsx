@@ -22,6 +22,7 @@
 
 import { forwardRef, memo, useCallback, useEffect, useId, useMemo, useReducer } from 'react';
 
+import { useControllableState } from '../../hooks';
 import { cn } from '../../utils';
 import { Checkbox } from '../Checkbox/Checkbox';
 
@@ -41,7 +42,8 @@ const warnedGroups = new Set<string>();
 function warnMissingGroupLabel(groupId: string): void {
   if (
     typeof process !== 'undefined' &&
-    process.env?.NODE_ENV !== 'production' &&
+    // biome-ignore lint/complexity/useLiteralKeys: noPropertyAccessFromIndexSignature requires bracket access
+    process.env?.['NODE_ENV'] !== 'production' &&
     !warnedGroups.has(groupId)
   ) {
     warnedGroups.add(groupId);
@@ -122,23 +124,24 @@ const CheckboxGroupComponent = forwardRef<HTMLFieldSetElement, CheckboxGroupProp
     const enabledValues = useMemo(() => enabledOptions.map((opt) => opt.value), [enabledOptions]);
     const totalEnabled = enabledValues.length;
 
-    // Determine if controlled
-    const isControlled = value !== undefined;
+    // Use centralized hook for controlled/uncontrolled state management
+    const [selectedValues, setSelectedValues] = useControllableState<string[]>({
+      value,
+      defaultValue: defaultValue ?? [],
+      onChange,
+    });
 
-    // Initialize FSM state
-    const initialValues = isControlled ? value : defaultValue || [];
+    // Initialize FSM state with current selected values
     const [fsmState, dispatch] = useReducer(
       checkboxGroupFSMReducer,
-      { values: initialValues, totalEnabled },
+      { values: selectedValues, totalEnabled },
       (init) => createInitialCheckboxGroupFSMState(init.values, init.totalEnabled)
     );
 
-    // Sync FSM with controlled value prop
+    // Sync FSM with current selected values (controlled or uncontrolled)
     useEffect(() => {
-      if (isControlled) {
-        dispatch(resetFromPropsEvent(value ?? [], totalEnabled));
-      }
-    }, [isControlled, value, totalEnabled]);
+      dispatch(resetFromPropsEvent(selectedValues, totalEnabled));
+    }, [selectedValues, totalEnabled]);
 
     // Dev warning for missing accessible label
     useEffect(() => {
@@ -155,18 +158,10 @@ const CheckboxGroupComponent = forwardRef<HTMLFieldSetElement, CheckboxGroupProp
           fsmState,
           toggleItemEvent(optionValue, totalEnabled)
         );
-
-        // Dispatch to update internal state (for uncontrolled mode)
-        if (!isControlled) {
-          dispatch(toggleItemEvent(optionValue, totalEnabled));
-        }
-
-        // Call onChange with new values
-        if (onChange) {
-          onChange(nextState.selectedValues);
-        }
+        // Update selected values via hook (handles both controlled and uncontrolled)
+        setSelectedValues(nextState.selectedValues);
       },
-      [fsmState, totalEnabled, isControlled, onChange]
+      [fsmState, totalEnabled, setSelectedValues]
     );
 
     // Handle "select all" toggle
@@ -176,20 +171,13 @@ const CheckboxGroupComponent = forwardRef<HTMLFieldSetElement, CheckboxGroupProp
         fsmState,
         toggleAllEvent(enabledValues, totalEnabled)
       );
+      // Update selected values via hook (handles both controlled and uncontrolled)
+      setSelectedValues(nextState.selectedValues);
+    }, [fsmState, enabledValues, totalEnabled, setSelectedValues]);
 
-      // Dispatch to update internal state (for uncontrolled mode)
-      if (!isControlled) {
-        dispatch(toggleAllEvent(enabledValues, totalEnabled));
-      }
-
-      // Call onChange with new values
-      if (onChange) {
-        onChange(nextState.selectedValues);
-      }
-    }, [fsmState, enabledValues, totalEnabled, isControlled, onChange]);
-
-    // Derive selection state for rendering
-    const { selectedValues, selectionState } = fsmState;
+    // Derive selection state for rendering (selectedValues managed by useControllableState)
+    const { selectionState } = fsmState;
+    const renderSelectedValues = fsmState.selectedValues;
     const selectAllChecked = selectionState === 'all';
     const selectAllIndeterminate = selectionState === 'some';
 
@@ -255,7 +243,7 @@ const CheckboxGroupComponent = forwardRef<HTMLFieldSetElement, CheckboxGroupProp
         <div className={optionsClasses} data-visual-state={selectionState}>
           {options.map((option) => {
             const optionId = `${id}-option-${option.value}`;
-            const isSelected = selectedValues.includes(option.value);
+            const isSelected = renderSelectedValues.includes(option.value);
             const isDisabled = disabled || option.disabled;
 
             return (

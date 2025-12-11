@@ -1,4 +1,4 @@
-import { Switch } from '@dsai/react';
+import { Button, CheckIcon, Heading, Switch, XIcon } from '@dsai/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -175,7 +175,8 @@ export const Loading: Story = {
 /**
  * Error state
  */
-export const Error: Story = {
+export const ErrorState: Story = {
+  name: 'Error',
   args: {
     label: 'Required setting',
     error: true,
@@ -257,32 +258,20 @@ export const WithIcons: Story = {
   render: function IconSwitch() {
     const [checked, setChecked] = useState(false);
 
-    const CheckIcon = (): React.JSX.Element => (
-      <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
-        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
-      </svg>
-    );
-
-    const XIcon = (): React.JSX.Element => (
-      <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
-        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
-      </svg>
-    );
-
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <Switch
           label="With icons"
-          onIcon={<CheckIcon />}
-          offIcon={<XIcon />}
+          onIcon={<CheckIcon size={12} />}
+          offIcon={<XIcon size={12} />}
           checked={checked}
           onChange={setChecked}
         />
         <Switch
           label="Large with icons"
           size="lg"
-          onIcon={<CheckIcon />}
-          offIcon={<XIcon />}
+          onIcon={<CheckIcon size={12} />}
+          offIcon={<XIcon size={12} />}
           checked={checked}
           onChange={setChecked}
         />
@@ -375,7 +364,9 @@ export const SettingsPanel: Story = {
         className="card p-4"
         style={{ maxWidth: '400px', display: 'flex', flexDirection: 'column', gap: '1rem' }}
       >
-        <h5 className="mb-3">Settings</h5>
+        <Heading level={5} className="mb-3">
+          Settings
+        </Heading>
         <Switch
           label="Push notifications"
           checked={settings.notifications}
@@ -427,9 +418,9 @@ export const FormExample: Story = {
           <Switch name="marketing" label="Marketing emails" defaultChecked />
           <Switch name="updates" label="Product updates" />
           <Switch name="newsletter" label="Weekly newsletter" defaultChecked />
-          <button type="submit" className="btn btn-primary mt-2">
+          <Button type="submit" variant="primary" className="mt-2">
             Save Preferences
-          </button>
+          </Button>
         </div>
       </form>
     );
@@ -448,13 +439,17 @@ export const CompleteShowcase: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxWidth: '500px' }}>
       {/* Basic */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Basic Switch</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Basic Switch
+        </Heading>
         <Switch label="Enable feature" />
       </div>
 
       {/* Sizes */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Sizes</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Sizes
+        </Heading>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <Switch size="sm" label="Small" />
           <Switch size="md" label="Medium" />
@@ -464,7 +459,9 @@ export const CompleteShowcase: Story = {
 
       {/* States */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>States</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          States
+        </Heading>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <Switch label="Disabled" disabled />
           <Switch label="Loading" loading />
@@ -475,7 +472,9 @@ export const CompleteShowcase: Story = {
 
       {/* Features */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Features</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Features
+        </Heading>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <Switch label="With on/off text" onText="ON" offText="OFF" />
           <Switch label="Label at start" labelPosition="start" />

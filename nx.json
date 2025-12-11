@@ -4,6 +4,11 @@
   // The branch used for affected calculations in CI
   "defaultBase": "master",
 
+  "tui": {
+    "enabled": false,
+    "autoExit": true
+  },
+
   // ============ Named Inputs (Enterprise Level) ============
   "namedInputs": {
     // Input set used by nearly all executors
@@ -15,7 +20,8 @@
       "{workspaceRoot}/pnpm-lock.yaml",
       "{workspaceRoot}/nx.json",
       "{workspaceRoot}/tsconfig.base.json",
-      "{workspaceRoot}/.eslintrc.cjs",
+      "{workspaceRoot}/eslint.config.mjs",
+      "{workspaceRoot}/biome.json",
       "{workspaceRoot}/.prettierrc",
       "{workspaceRoot}/.prettierignore",
       "{workspaceRoot}/.lintstagedrc",
@@ -78,7 +84,7 @@
     // STORYBOOK
     "storybook": {
       "inputs": ["default"],
-      "cache": true,
+      "cache": false,
       "dependsOn": ["^build"]
     },
 
@@ -122,5 +128,5 @@
   },
 
   // Optionally enforce boundaries:
-  "plugins": ["@nx/js", "@nx/eslint", "@nx/storybook", "@nx/jest"]
+  "plugins": ["@nx/js", "@nx/eslint", "@nx/storybook", "@nx/jest", "@nx/vite"]
 }

@@ -15,8 +15,8 @@
  * @packageDocumentation
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 // Paths - Icons now live under components/Icon
 const ICONS_DIR = path.join(__dirname, '../../../packages/@dsai/react/src/components/Icon');
@@ -36,9 +36,7 @@ function loadMetadata() {
       const data = fs.readFileSync(METADATA_FILE, 'utf-8');
       return JSON.parse(data);
     }
-    console.warn(
-      '⚠️  No metadata file found. Run fetch-icon-metadata.js first for enriched JSDoc.'
-    );
+    console.warn('⚠️  No metadata file found. Run fetch-icon-metadata.js first for enriched JSDoc.');
     return null;
   } catch (error) {
     console.warn(`⚠️  Error loading metadata: ${error.message}`);
@@ -85,10 +83,10 @@ function getComponentName(filename) {
 
   // If starts with number, prefix with 'Icon'
   if (/^\d/.test(pascalName)) {
-    pascalName = 'Icon' + pascalName;
+    pascalName = `Icon${pascalName}`;
   }
 
-  return pascalName + 'Icon';
+  return `${pascalName}Icon`;
 }
 
 /**

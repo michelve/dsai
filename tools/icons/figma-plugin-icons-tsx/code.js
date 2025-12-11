@@ -181,12 +181,10 @@ function cleanSvgContent(svg) {
  * Convert Figma component name to PascalCase icon name
  */
 function toIconName(name) {
-  return (
-    name
-      .split(/[^a-zA-Z0-9]+/)
-      .map((part) => part.charAt(0).toUpperCase() + part.substring(1).toLowerCase())
-      .join('') + 'Icon'
-  );
+  return `${name
+    .split(/[^a-zA-Z0-9]+/)
+    .map((part) => part.charAt(0).toUpperCase() + part.substring(1).toLowerCase())
+    .join('')}Icon`;
 }
 
 /**
@@ -332,15 +330,15 @@ ${codeConnects.join('\n\n')}
         ' (children: ' +
         cs.children.length +
         ', sizes: ' +
-        cs.children.map((c) => c.width + 'px').join(', ') +
+        cs.children.map((c) => `${c.width}px`).join(', ') +
         ')'
     )
     .join('\n');
   const standaloneList = standaloneComponents
-    .map((c) => '  - ' + c.name + ' (' + c.width + 'x' + c.height + 'px)')
+    .map((c) => `  - ${c.name} (${c.width}x${c.height}px)`)
     .join('\n');
   const skippedInfo =
-    skipped.length > 0 ? '\n\nSkipped (' + skipped.length + '):\n' + skipped.join('\n') : '';
+    skipped.length > 0 ? `\n\nSkipped (${skipped.length}):\n${skipped.join('\n')}` : '';
 
   const debugContent = `Configuration:
 - ICON_VARIANT_SIZE: ${ICON_VARIANT_SIZE}px

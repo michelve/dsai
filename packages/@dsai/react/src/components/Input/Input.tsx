@@ -10,6 +10,7 @@ import {
   useState,
 } from 'react';
 
+import { useControllableState } from '../../hooks';
 import { cn } from '../../utils';
 import { ClearIcon, getSafeInputProps } from '../../utils/misc';
 
@@ -119,23 +120,31 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
   const helperId = `${inputId}-helper`;
   const labelId = `${inputId}-label`;
 
-  // Track internal value for character count and clear button
-  const [internalValue, setInternalValue] = useState(defaultValue ?? '');
+  // Track focus state
   const [_isFocused, setIsFocused] = useState(false);
 
-  // Determine if controlled or uncontrolled
-  const isControlled = value !== undefined;
-  const currentValue = isControlled ? value : internalValue;
+  // Controlled/uncontrolled state management with centralized hook
+  const [currentValue, setCurrentValue] = useControllableState<string>({
+    value: value !== undefined ? String(value) : undefined,
+    defaultValue: String(defaultValue ?? ''),
+    onChange: (newValue) => {
+      // For backward compatibility, create a synthetic event when calling onChange
+      if (onChange) {
+        const syntheticEvent = {
+          target: { value: newValue },
+          currentTarget: { value: newValue },
+        } as ChangeEvent<HTMLInputElement>;
+        onChange(syntheticEvent);
+      }
+    },
+  });
 
   // Memoize event handlers
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
-      if (!isControlled) {
-        setInternalValue(e.target.value);
-      }
-      onChange?.(e);
+      setCurrentValue(e.target.value);
     },
-    [isControlled, onChange]
+    [setCurrentValue]
   );
 
   const handleFocus = useCallback(
@@ -155,11 +164,9 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
   );
 
   const handleClear = useCallback((): void => {
-    if (!isControlled) {
-      setInternalValue('');
-    }
+    setCurrentValue('');
     onClear?.();
-  }, [isControlled, onClear]);
+  }, [setCurrentValue, onClear]);
 
   // Memoize input classes
   const inputClasses = useMemo(
@@ -216,8 +223,7 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
       readOnly={readOnly}
       required={required}
       maxLength={maxLength}
-      value={isControlled ? value : undefined}
-      defaultValue={!isControlled ? defaultValue : undefined}
+      value={currentValue}
       onChange={handleChange}
       onFocus={handleFocus}
       onBlur={handleBlur}

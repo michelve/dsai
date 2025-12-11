@@ -2,6 +2,7 @@ import {
   Button,
   CheckCircleFillIcon,
   ExclamationTriangleFillIcon,
+  Heading,
   InfoCircleFillIcon,
   Toast,
   ToastContainer,
@@ -637,7 +638,9 @@ export const CompleteShowcase: Story = {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           {/* Basic Variants */}
           <section>
-            <h4 style={{ marginBottom: '0.5rem' }}>Basic Variants</h4>
+            <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+              Basic Variants
+            </Heading>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <Toast variant="success" message="Success notification" />
               <Toast variant="error" message="Error notification" />
@@ -648,19 +651,25 @@ export const CompleteShowcase: Story = {
 
           {/* With Title */}
           <section>
-            <h4 style={{ marginBottom: '0.5rem' }}>With Title</h4>
+            <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+              With Title
+            </Heading>
             <Toast variant="success" title="Success" message="Your changes have been saved." />
           </section>
 
           {/* With Progress */}
           <section>
-            <h4 style={{ marginBottom: '0.5rem' }}>With Progress Bar</h4>
+            <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+              With Progress Bar
+            </Heading>
             <Toast variant="info" message="Processing..." showProgress duration={5000} />
           </section>
 
           {/* Interactive Demo */}
           <section>
-            <h4 style={{ marginBottom: '0.5rem' }}>Interactive Demo</h4>
+            <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+              Interactive Demo
+            </Heading>
             <ToastHookDemo />
           </section>
         </div>

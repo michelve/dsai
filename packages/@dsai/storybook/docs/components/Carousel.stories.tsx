@@ -1,4 +1,4 @@
-import { Carousel, CarouselCaption, CarouselItem } from '@dsai/react';
+import { Button, Carousel, CarouselCaption, CarouselItem } from '@dsai/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -388,14 +388,14 @@ export const Controlled: Story = {
       <div>
         <div className="mb-3 d-flex gap-2 justify-content-center">
           {slides.map((slide, index) => (
-            <button
-              type="button"
+            <Button
               key={slide.id}
-              className={`btn btn-sm ${activeIndex === index ? 'btn-primary' : 'btn-outline-primary'}`}
+              size="sm"
+              variant={activeIndex === index ? 'primary' : 'outline-primary'}
               onClick={() => setActiveIndex(index)}
             >
               Slide {index + 1}
-            </button>
+            </Button>
           ))}
         </div>
 

@@ -1,6 +1,7 @@
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import react from '@vitejs/plugin-react';
 import remarkGfm from 'remark-gfm';
 
 import type { StorybookConfig } from '@storybook/react-vite';
@@ -24,6 +25,13 @@ const config: StorybookConfig = {
     getAbsolutePath('@storybook/addon-links'),
     getAbsolutePath('@storybook/addon-a11y'),
     getAbsolutePath('@storybook/addon-designs'),
+    {
+      name: getAbsolutePath('@storybook/addon-vitest'),
+      options: {
+        // CLI testing is enabled; browser UI integration is experimental
+        // Run tests with: cd packages/@dsai/storybook && pnpm vitest --run
+      },
+    },
     getAbsolutePath('@chromatic-com/storybook'),
   ],
   framework: {
@@ -41,19 +49,18 @@ const config: StorybookConfig = {
   // Vite configuration for monorepo setup
   viteFinal: async (config) => {
     const { mergeConfig } = await import('vite');
+    const { sharedViteConfig } = await import(
+      resolve(__dirname, '../../../../config/vite.shared.ts')
+    );
 
-    return mergeConfig(config, {
-      resolve: {
-        alias: {
-          '@dsai/tokens': resolve(__dirname, '../../tokens/src'),
-          '@dsai/tokens/css': resolve(__dirname, '../../tokens/dist/css'),
-          '@dsai/tokens/js': resolve(__dirname, '../../tokens/dist/js'),
-          '@dsai/react': resolve(__dirname, '../../react/src/components'),
-        },
-      },
-      build: {
-        // Storybook bundles are larger due to docs/examples - suppress warning
-        chunkSizeWarningLimit: 3000,
+    const withShared = mergeConfig(config, sharedViteConfig);
+
+    return mergeConfig(withShared, {
+      plugins: [react()],
+      // Disable Vite cache in development for faster dependency updates
+      cacheDir: undefined,
+      optimizeDeps: {
+        force: true, // Force re-optimization on every dev server start
       },
     });
   },

@@ -49,7 +49,7 @@
           "name": "@dsai/tokens",
           "version": "0.0.1",
           "imports": {
-            "css": "@dsai/tokens/css/bootstrap.css",
+            "css": "@dsai/tokens/css/dsai-theme-bs.css",
             "cssUtilities": "@dsai/tokens/css/dsai.css",
             "scss": "@dsai/tokens/src/scss/bootstrap-theme.scss"
           },
@@ -95,7 +95,7 @@
       "metadata": {
         "component": "Button",
         "import": "import { Button } from '@dsai/react';",
-        "cssRequired": "@dsai/tokens/css/bootstrap.css",
+        "cssRequired": "@dsai/tokens/css/dsai-theme-bs.css",
         "props": {
           "variant": {
             "type": "ButtonVariant",

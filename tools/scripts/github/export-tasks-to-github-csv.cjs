@@ -13,8 +13,8 @@
  *   config/data.csv (for bulk-issue-creator)
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 /**
  * Parse markdown task file
@@ -40,7 +40,7 @@ function parseTaskFile(filePath, directory, filename) {
   };
 
   // Extract metadata
-  let descriptionLines = [];
+  const descriptionLines = [];
   let inDescription = false;
   let inDependencies = false;
   let inRequires = false;
@@ -199,7 +199,7 @@ function parseTaskFile(filePath, directory, filename) {
   }
 
   // Components
-  const taskNum = parseInt(task.taskId.replace('TASK-', ''));
+  const taskNum = parseInt(task.taskId.replace('TASK-', ''), 10);
   if (
     (taskNum >= 21 && taskNum <= 45) ||
     task.title.match(/button|badge|alert|modal|input|select/i)
@@ -236,19 +236,19 @@ function parseTaskFile(filePath, directory, filename) {
   }
 
   // 5. PHASE LABELS
-  if (task.phase && task.phase.includes('Phase 0')) {
+  if (task.phase?.includes('Phase 0')) {
     task.labels.push('📍 phase-0');
-  } else if (task.phase && task.phase.includes('Phase 1')) {
+  } else if (task.phase?.includes('Phase 1')) {
     task.labels.push('📍 phase-1');
-  } else if (task.phase && task.phase.includes('Phase 2A')) {
+  } else if (task.phase?.includes('Phase 2A')) {
     task.labels.push('📍 phase-2a');
-  } else if (task.phase && task.phase.includes('Phase 2B')) {
+  } else if (task.phase?.includes('Phase 2B')) {
     task.labels.push('📍 phase-2b');
-  } else if (task.phase && task.phase.includes('Phase 2C')) {
+  } else if (task.phase?.includes('Phase 2C')) {
     task.labels.push('📍 phase-2c');
-  } else if (task.phase && task.phase.includes('Phase 3')) {
+  } else if (task.phase?.includes('Phase 3')) {
     task.labels.push('📍 phase-3');
-  } else if (task.phase && task.phase.includes('Phase 4')) {
+  } else if (task.phase?.includes('Phase 4')) {
     task.labels.push('📍 phase-4');
   }
 
@@ -358,8 +358,8 @@ function main() {
 
   // Sort by task ID
   tasks.sort((a, b) => {
-    const idA = parseInt(a.taskId.replace('TASK-', ''));
-    const idB = parseInt(b.taskId.replace('TASK-', ''));
+    const idA = parseInt(a.taskId.replace('TASK-', ''), 10);
+    const idB = parseInt(b.taskId.replace('TASK-', ''), 10);
     return idA - idB;
   });
 

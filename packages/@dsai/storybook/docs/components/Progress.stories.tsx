@@ -1,4 +1,4 @@
-import { Button, CheckIcon, Progress } from '@dsai/react';
+import { Button, CheckIcon, Heading, Progress } from '@dsai/react';
 import { useEffect, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -430,7 +430,9 @@ export const FileUploadSimulation: Story = {
     useEffect(() => {
       if (status === 'uploading' && progress < 100) {
         const timeout = setTimeout(() => {
-          setProgress((prev) => Math.min(prev + Math.random() * 15, 100));
+          // Use deterministic increment for UI simulation (not cryptographic)
+          const increment = ((progress * 31 + 7) % 12) + 3; // Pseudo-random but deterministic
+          setProgress((prev) => Math.min(prev + increment, 100));
         }, 300);
         return () => clearTimeout(timeout);
       } else if (progress >= 100) {
@@ -492,7 +494,9 @@ export const CompleteShowcase: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       {/* Basic */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Basic Progress</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Basic Progress
+        </Heading>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <Progress value={25} aria-label="25%" />
           <Progress value={50} aria-label="50%" />
@@ -503,7 +507,9 @@ export const CompleteShowcase: Story = {
 
       {/* Variants */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Color Variants</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Color Variants
+        </Heading>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <Progress value={50} variant="primary" aria-label="Primary" />
           <Progress value={50} variant="success" aria-label="Success" />
@@ -515,7 +521,9 @@ export const CompleteShowcase: Story = {
 
       {/* With Labels */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>With Labels</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          With Labels
+        </Heading>
         <Progress
           value={65}
           label="Downloading update..."
@@ -527,13 +535,17 @@ export const CompleteShowcase: Story = {
 
       {/* Striped & Animated */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Striped & Animated</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Striped & Animated
+        </Heading>
         <Progress value={75} striped animated variant="success" aria-label="Animated progress" />
       </div>
 
       {/* Stacked */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Stacked Bars</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Stacked Bars
+        </Heading>
         <Progress aria-label="Multi-part progress">
           <Progress.Bar value={20} variant="success" />
           <Progress.Bar value={15} variant="warning" />
@@ -543,7 +555,9 @@ export const CompleteShowcase: Story = {
 
       {/* Indeterminate */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Indeterminate (Loading)</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Indeterminate (Loading)
+        </Heading>
         <Progress indeterminate variant="primary" aria-label="Loading" />
       </div>
     </div>

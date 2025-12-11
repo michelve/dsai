@@ -1,4 +1,5 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import type { SemanticColorVariant } from '../../types';
 
 /**
  * ListGroup variant styling
@@ -7,16 +8,9 @@ export type ListGroupVariant = 'default' | 'flush' | 'numbered';
 
 /**
  * ListGroupItem color variant
+ * @see SemanticColorVariant
  */
-export type ListGroupItemVariant =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'danger'
-  | 'warning'
-  | 'info'
-  | 'light'
-  | 'dark';
+export type ListGroupItemVariant = SemanticColorVariant;
 
 /**
  * ListGroupItem data for items prop

@@ -1,9 +1,9 @@
 /**
  * Storybook Preview Styles
- * 
+ *
  * Minimal overrides for Storybook. All styling should come from Bootstrap.
  * Fonts are loaded via preview-head.html (Google Fonts based on tokens).
- * 
+ *
  * IMPORTANT: Avoid hardcoding values - use Bootstrap CSS variables or classes.
  */
 

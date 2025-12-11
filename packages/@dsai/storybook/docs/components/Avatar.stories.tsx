@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, PersonFillIcon } from '@dsai/react';
+import { Avatar, AvatarGroup, Heading, PersonFillIcon } from '@dsai/react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { JSX } from 'react';
@@ -482,7 +482,9 @@ export const LoadingState: Story = {
 const AvatarGroupExample = (): JSX.Element => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
     <div>
-      <h4 style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Stacked Layout (Default)</h4>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Stacked Layout (Default)
+      </Heading>
       <AvatarGroup>
         <Avatar name="Alice Johnson" />
         <Avatar name="Bob Smith" />
@@ -492,7 +494,9 @@ const AvatarGroupExample = (): JSX.Element => (
     </div>
 
     <div>
-      <h4 style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Inline Layout</h4>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Inline Layout
+      </Heading>
       <AvatarGroup layout="inline">
         <Avatar name="Alice Johnson" />
         <Avatar name="Bob Smith" />
@@ -526,7 +530,9 @@ export const GroupBasic: Story = {
 const AvatarGroupOverflowExample = (): JSX.Element => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
     <div>
-      <h4 style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Max 3 Visible</h4>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Max 3 Visible
+      </Heading>
       <AvatarGroup maxVisible={3}>
         <Avatar name="Alice Johnson" />
         <Avatar name="Bob Smith" />
@@ -538,7 +544,9 @@ const AvatarGroupOverflowExample = (): JSX.Element => (
     </div>
 
     <div>
-      <h4 style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Max 5 Visible</h4>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Max 5 Visible
+      </Heading>
       <AvatarGroup maxVisible={5}>
         <Avatar name="Alice Johnson" />
         <Avatar name="Bob Smith" />
@@ -576,7 +584,9 @@ export const GroupOverflow: Story = {
 const AvatarGroupSpacingExample = (): JSX.Element => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
     <div>
-      <h4 style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Compact Spacing</h4>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Compact Spacing
+      </Heading>
       <AvatarGroup spacing="compact">
         <Avatar name="Alice" />
         <Avatar name="Bob" />
@@ -586,7 +596,9 @@ const AvatarGroupSpacingExample = (): JSX.Element => (
     </div>
 
     <div>
-      <h4 style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Normal Spacing (Default)</h4>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Normal Spacing (Default)
+      </Heading>
       <AvatarGroup spacing="normal">
         <Avatar name="Alice" />
         <Avatar name="Bob" />
@@ -596,7 +608,9 @@ const AvatarGroupSpacingExample = (): JSX.Element => (
     </div>
 
     <div>
-      <h4 style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Loose Spacing</h4>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Loose Spacing
+      </Heading>
       <AvatarGroup spacing="loose">
         <Avatar name="Alice" />
         <Avatar name="Bob" />
@@ -629,7 +643,9 @@ export const GroupSpacing: Story = {
 const AvatarGroupInheritedExample = (): JSX.Element => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
     <div>
-      <h4 style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Large Size, Rounded Shape</h4>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Large Size, Rounded Shape
+      </Heading>
       <AvatarGroup size="lg" shape="rounded">
         <Avatar name="Alice" />
         <Avatar name="Bob" />
@@ -638,7 +654,9 @@ const AvatarGroupInheritedExample = (): JSX.Element => (
     </div>
 
     <div>
-      <h4 style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Small Size, Square Shape</h4>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Small Size, Square Shape
+      </Heading>
       <AvatarGroup size="sm" shape="square">
         <Avatar name="Diana" />
         <Avatar name="Edward" />
@@ -647,9 +665,9 @@ const AvatarGroupInheritedExample = (): JSX.Element => (
     </div>
 
     <div>
-      <h4 style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
         Override: Child Props Take Priority
-      </h4>
+      </Heading>
       <AvatarGroup size="md" shape="circle">
         <Avatar name="Group Size" />
         <Avatar name="Large Override" size="lg" />
@@ -682,7 +700,9 @@ export const GroupInherited: Story = {
 const AccessibilityExample = (): JSX.Element => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
     <div>
-      <h4 style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Semantic Labeling</h4>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Semantic Labeling
+      </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar name="John Doe" status="online" />
         <span style={{ fontSize: '0.875rem', color: '#666' }}>
@@ -692,7 +712,9 @@ const AccessibilityExample = (): JSX.Element => (
     </div>
 
     <div>
-      <h4 style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Custom ARIA Label</h4>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Custom ARIA Label
+      </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar name="Jane Smith" aria-label="Jane Smith, Team Lead, Available" />
         <span style={{ fontSize: '0.875rem', color: '#666' }}>Custom label overrides default</span>
@@ -700,7 +722,9 @@ const AccessibilityExample = (): JSX.Element => (
     </div>
 
     <div>
-      <h4 style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Decorative Avatar</h4>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Decorative Avatar
+      </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar name="Hidden from SR" decorative />
         <span style={{ fontSize: '0.875rem', color: '#666' }}>
@@ -710,7 +734,9 @@ const AccessibilityExample = (): JSX.Element => (
     </div>
 
     <div>
-      <h4 style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Interactive with Button Role</h4>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Interactive with Button Role
+      </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar name="Interactive User" interactive onClick={() => alert('Clicked!')} />
         <span style={{ fontSize: '0.875rem', color: '#666' }}>
@@ -720,7 +746,9 @@ const AccessibilityExample = (): JSX.Element => (
     </div>
 
     <div>
-      <h4 style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>Group Accessibility</h4>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Group Accessibility
+      </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <AvatarGroup maxVisible={2} aria-label="Project team members">
           <Avatar name="Alice" />

@@ -1,4 +1,4 @@
-import { Button, Spinner } from '@dsai/react';
+import { Button, Heading, Spinner } from '@dsai/react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -419,7 +419,9 @@ export const CompleteShowcase: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       {/* Sizes */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Sizes</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Sizes
+        </Heading>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <Spinner size="xs" variant="primary" />
           <Spinner size="sm" variant="primary" />
@@ -431,7 +433,9 @@ export const CompleteShowcase: Story = {
 
       {/* Animation Types */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Animation Types</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Animation Types
+        </Heading>
         <div style={{ display: 'flex', gap: '2rem' }}>
           <div style={{ textAlign: 'center' }}>
             <Spinner animation="border" variant="primary" />
@@ -446,7 +450,9 @@ export const CompleteShowcase: Story = {
 
       {/* Colors */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Color Variants</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Color Variants
+        </Heading>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
           <Spinner variant="primary" />
           <Spinner variant="secondary" />
@@ -460,7 +466,9 @@ export const CompleteShowcase: Story = {
 
       {/* In Buttons */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>In Buttons</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          In Buttons
+        </Heading>
         <div style={{ display: 'flex', gap: '1rem' }}>
           <Button variant="primary" disabled>
             <Spinner as="span" size="sm" className="me-2" />

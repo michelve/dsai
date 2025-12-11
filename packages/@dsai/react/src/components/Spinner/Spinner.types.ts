@@ -1,4 +1,5 @@
 import type { CSSProperties, HTMLAttributes } from 'react';
+import type { ExtendedSize, SemanticColorVariant } from '../../types';
 
 /**
  * Spinner animation type
@@ -13,22 +14,17 @@ export type SpinnerAnimation = 'border' | 'grow';
  * - `md`: Medium (2rem) - Bootstrap default
  * - `lg`: Large (3rem)
  * - `xl`: Extra large (4rem)
+ * Note: Excludes '2xl' as it's too large for spinner use cases
+ * @see ExtendedSize
  */
-export type SpinnerSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type SpinnerSize = Exclude<ExtendedSize, '2xl'>;
 
 /**
  * Spinner variant (color)
  * Maps to Bootstrap 5 text color utilities
+ * @see SemanticColorVariant
  */
-export type SpinnerVariant =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'danger'
-  | 'warning'
-  | 'info'
-  | 'light'
-  | 'dark';
+export type SpinnerVariant = SemanticColorVariant;
 
 /**
  * Spinner component props

@@ -27,6 +27,7 @@
  */
 
 import type { CSSProperties, ReactNode } from 'react';
+import type { ComponentSize, SemanticColorVariant } from '../../types';
 
 // =============================================================================
 // Sorting Types
@@ -186,21 +187,15 @@ export type TableVariant = 'default' | 'striped' | 'bordered' | 'borderless';
 
 /**
  * Table size
+ * @see ComponentSize
  */
-export type TableSize = 'sm' | 'md' | 'lg';
+export type TableSize = ComponentSize;
 
 /**
  * Table color scheme (for header or accents)
+ * @see SemanticColorVariant
  */
-export type TableColor =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'danger'
-  | 'warning'
-  | 'info'
-  | 'light'
-  | 'dark';
+export type TableColor = SemanticColorVariant;
 
 // =============================================================================
 // Table Props - Base

@@ -16,8 +16,8 @@
  * - Removes duplicate sections (like "hue" that duplicates "brand")
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 // Parse command line arguments
 const args = process.argv.slice(2);
@@ -231,14 +231,14 @@ function validateReferences(obj, collectionData, path = []) {
 
       // Navigate through collection to check if reference exists
       let target = collectionData;
-      let foundToken = true;
+      let _foundToken = true;
 
       for (let i = 1; i < refPath.length; i++) {
         // Skip first part (collection name)
-        if (target && target[refPath[i]]) {
+        if (target?.[refPath[i]]) {
           target = target[refPath[i]];
         } else {
-          foundToken = false;
+          _foundToken = false;
           break;
         }
       }

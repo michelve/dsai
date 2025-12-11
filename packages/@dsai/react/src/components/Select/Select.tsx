@@ -11,6 +11,7 @@ import {
   useState,
 } from 'react';
 
+import { useClickOutside } from '../../hooks';
 import { cn } from '../../utils';
 import { isEnterKey, isEscapeKey } from '../../utils/keyboard';
 import { ClearIcon } from '../../utils/misc';
@@ -158,7 +159,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
   // Refs
   const containerRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const listboxRef = useRef<HTMLUListElement>(null);
+  const listboxRef = useRef<HTMLDivElement>(null);
 
   // State
   const [isOpen, setIsOpen] = useState(false);
@@ -381,21 +382,18 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
     [onSearchChange]
   );
 
-  // Close dropdown on outside click
-  useEffect(() => {
-    const handleClickOutside = (e: globalThis.MouseEvent): void => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        if (isOpen) {
-          setIsOpen(false);
-          onClose?.();
-          setSearchValue('');
-        }
+  // Close dropdown on outside click (using centralized hook)
+  useClickOutside(
+    containerRef,
+    () => {
+      if (isOpen) {
+        setIsOpen(false);
+        onClose?.();
+        setSearchValue('');
       }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isOpen, onClose]);
+    },
+    { enabled: isOpen }
+  );
 
   // Scroll focused option into view
   useEffect(() => {
@@ -651,7 +649,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
 
             {/* Options list */}
             <div
-              ref={listboxRef as React.RefObject<HTMLDivElement>}
+              ref={listboxRef}
               id={listboxId}
               role="listbox"
               aria-multiselectable={multiple}

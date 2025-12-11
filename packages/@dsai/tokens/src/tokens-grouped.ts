@@ -96,7 +96,7 @@ Object.entries(flat).forEach(([key, value]) => {
   if (key.startsWith('color')) {
     // colorBlue50 -> color.blue['50']
     const match = key.match(/^color([A-Z][a-z]+)(\d+)$/);
-    if (match && match[1] && match[2]) {
+    if (match?.[1] && match[2]) {
       const hue = match[1].toLowerCase();
       const step = match[2];
       setNestedMapValue(colorMap, hue, step, token);

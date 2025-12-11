@@ -69,7 +69,7 @@ export const ListGroupItem = forwardRef<HTMLElement, ListGroupItemProps>(functio
     active && 'active',
     disabled && 'disabled',
     variant && `list-group-item-${variant}`,
-    badge && 'd-flex justify-content-between align-items-center',
+    !!badge && 'd-flex justify-content-between align-items-center',
     className
   );
 

@@ -8,41 +8,31 @@
               "$value": "{semantic.emphasis-color}",
               "$type": "color",
               "$description": "Shadow color for default elevation",
-              "$scopes": [
-                "EFFECT_COLOR"
-              ]
+              "$scopes": ["EFFECT_COLOR"]
             },
             "offsetX": {
               "$value": 0,
               "$type": "number",
               "$description": "Shadow horizontal offset",
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "offsetY": {
               "$value": 8,
               "$type": "number",
               "$description": "Shadow vertical offset (0.5rem = 8px)",
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "blur": {
               "$value": 16,
               "$type": "number",
               "$description": "Shadow blur radius (1rem = 16px)",
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "spread": {
               "$value": 0,
               "$type": "number",
               "$description": "Shadow spread radius",
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "composite": {
               "$value": "0 0.5rem 1rem rgba(0, 0, 0, 0.15)",
@@ -57,9 +47,7 @@
                   "scssVariableName": "$box-shadow"
                 }
               },
-              "$scopes": [
-                "TEXT_CONTENT"
-              ]
+              "$scopes": ["TEXT_CONTENT"]
             }
           },
           "sm": {
@@ -67,41 +55,31 @@
               "$value": "{semantic.emphasis-color}",
               "$type": "color",
               "$description": "Shadow color for small elevation",
-              "$scopes": [
-                "EFFECT_COLOR"
-              ]
+              "$scopes": ["EFFECT_COLOR"]
             },
             "offsetX": {
               "$value": 0,
               "$type": "number",
               "$description": "Shadow horizontal offset",
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "offsetY": {
               "$value": 2,
               "$type": "number",
               "$description": "Shadow vertical offset (0.125rem = 2px)",
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "blur": {
               "$value": 4,
               "$type": "number",
               "$description": "Shadow blur radius (0.25rem = 4px)",
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "spread": {
               "$value": 0,
               "$type": "number",
               "$description": "Shadow spread radius",
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "composite": {
               "$value": "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)",
@@ -116,9 +94,7 @@
                   "scssVariableName": "$box-shadow-sm"
                 }
               },
-              "$scopes": [
-                "TEXT_CONTENT"
-              ]
+              "$scopes": ["TEXT_CONTENT"]
             }
           },
           "lg": {
@@ -126,41 +102,31 @@
               "$value": "#000000",
               "$type": "color",
               "$description": "Shadow color for large elevation",
-              "$scopes": [
-                "EFFECT_COLOR"
-              ]
+              "$scopes": ["EFFECT_COLOR"]
             },
             "offsetX": {
               "$value": 0,
               "$type": "number",
               "$description": "Shadow horizontal offset",
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "offsetY": {
               "$value": 16,
               "$type": "number",
               "$description": "Shadow vertical offset (1rem = 16px)",
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "blur": {
               "$value": 48,
               "$type": "number",
               "$description": "Shadow blur radius (3rem = 48px)",
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "spread": {
               "$value": 0,
               "$type": "number",
               "$description": "Shadow spread radius",
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "composite": {
               "$value": "0 1rem 3rem rgba(0, 0, 0, 0.175)",
@@ -175,9 +141,7 @@
                   "scssVariableName": "$box-shadow-lg"
                 }
               },
-              "$scopes": [
-                "TEXT_CONTENT"
-              ]
+              "$scopes": ["TEXT_CONTENT"]
             }
           },
           "inset": {
@@ -185,41 +149,31 @@
               "$value": "#000000",
               "$type": "color",
               "$description": "Shadow color for inset effect",
-              "$scopes": [
-                "EFFECT_COLOR"
-              ]
+              "$scopes": ["EFFECT_COLOR"]
             },
             "offsetX": {
               "$value": 0,
               "$type": "number",
               "$description": "Shadow horizontal offset",
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "offsetY": {
               "$value": 1,
               "$type": "number",
               "$description": "Shadow vertical offset (1px)",
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "blur": {
               "$value": 2,
               "$type": "number",
               "$description": "Shadow blur radius (2px)",
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "spread": {
               "$value": 0,
               "$type": "number",
               "$description": "Shadow spread radius",
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "composite": {
               "$value": "inset 0 1px 2px rgba(0, 0, 0, 0.075)",
@@ -233,9 +187,7 @@
                   "scssVariableName": "$box-shadow-inset"
                 }
               },
-              "$scopes": [
-                "TEXT_CONTENT"
-              ]
+              "$scopes": ["TEXT_CONTENT"]
             }
           }
         }

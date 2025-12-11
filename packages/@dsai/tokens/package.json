@@ -19,18 +19,18 @@
     "./css/variables.css": "./dist/css/variables.css",
     "./css/dsai.css": "./dist/css/dsai.css",
     "./css/dsai.min.css": "./dist/css/dsai.min.css",
-    "./css/bootstrap.css": "./dist/css/bootstrap.css",
-    "./css/bootstrap.min.css": "./dist/css/bootstrap.min.css"
+    "./css/dsai-theme-bs.css": "./dist/css/dsai-theme-bs.css",
+    "./css/dsai-theme-bs.min.css": "./dist/css/dsai-theme-bs.min.css"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "prebuild": "pnpm build:tokens && pnpm build:bootstrap && pnpm build:dsai",
+    "prebuild": "pnpm build:tokens && pnpm build:theme && pnpm build:dsai",
     "build": "tsup",
     "build:tokens": "pnpm tokens:validate && style-dictionary build --config sd.config.mjs && pnpm tokens:sync",
     "tokens:sync": "node ../../../tools/scripts/tokens/sync-tokens-flat.js",
-    "build:bootstrap": "sass --quiet-deps --silence-deprecation=import --silence-deprecation=global-builtin --silence-deprecation=color-functions src/scss/dsai-theme-bs.scss dist/css/bootstrap.css && sass --quiet-deps --silence-deprecation=import --silence-deprecation=global-builtin --silence-deprecation=color-functions src/scss/dsai-theme-bs.scss dist/css/bootstrap.min.css --style=compressed",
+    "build:theme": "sass --quiet-deps --silence-deprecation=import --silence-deprecation=global-builtin --silence-deprecation=color-functions src/scss/dsai-theme-bs.scss dist/css/dsai-theme-bs.css && sass --quiet-deps --silence-deprecation=import --silence-deprecation=global-builtin --silence-deprecation=color-functions src/scss/dsai-theme-bs.scss dist/css/dsai-theme-bs.min.css --style=compressed",
     "build:dsai": "sass --quiet-deps --silence-deprecation=import src/scss/dsai-utilities.scss dist/css/dsai.css && sass --quiet-deps --silence-deprecation=import src/scss/dsai-utilities.scss dist/css/dsai.min.css --style=compressed",
     "build:watch": "tsup --watch",
     "dev": "pnpm tokens:watch & tsup --watch",

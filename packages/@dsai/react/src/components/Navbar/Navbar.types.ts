@@ -7,7 +7,8 @@
  * @module Navbar
  */
 
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import type { SafeHTMLAttributes } from '../../types';
 
 // =============================================================================
 // Common Safe Attribute Interface
@@ -16,19 +17,9 @@ import type { CSSProperties, ReactNode } from 'react';
 /**
  * Safe HTML attributes allowed on Navbar components.
  * Security: Explicit whitelist prevents dangerous prop injection.
+ * @see {@link SafeHTMLAttributes}
  */
-export interface SafeNavbarHTMLAttributes {
-  /** Additional CSS class name */
-  className?: string;
-  /** Inline styles */
-  style?: CSSProperties;
-  /** Element ID */
-  id?: string;
-  /** Test ID for testing frameworks */
-  'data-testid'?: string;
-  /** Alternative test attribute */
-  'data-test'?: string;
-}
+export type SafeNavbarHTMLAttributes = SafeHTMLAttributes<HTMLElement>;
 
 // =============================================================================
 // Navbar Expand Breakpoints

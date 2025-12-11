@@ -1,4 +1,4 @@
-import { Button, Radio, RadioGroup } from '@dsai/react';
+import { Button, Heading, Radio, RadioGroup } from '@dsai/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -226,7 +226,8 @@ export const PartiallyDisabled: Story = {
 /**
  * Error state
  */
-export const Error: Story = {
+export const ErrorState: Story = {
+  name: 'Error',
   render: () => (
     <RadioGroup
       name="error"
@@ -429,7 +430,9 @@ export const CompleteShowcase: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       {/* Basic */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Basic Radio Group</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Basic Radio Group
+        </Heading>
         <RadioGroup name="basic" label="Select option" defaultValue="1">
           <Radio value="1" label="Option 1" />
           <Radio value="2" label="Option 2" />
@@ -439,7 +442,9 @@ export const CompleteShowcase: Story = {
 
       {/* Inline */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>Inline Layout</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Inline Layout
+        </Heading>
         <RadioGroup name="inline-showcase" inline defaultValue="b">
           <Radio value="a" label="A" />
           <Radio value="b" label="B" />
@@ -449,7 +454,9 @@ export const CompleteShowcase: Story = {
 
       {/* States */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>States</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          States
+        </Heading>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <RadioGroup name="disabled-showcase" label="Disabled" disabled defaultValue="1">
             <Radio value="1" label="Option 1" />
@@ -475,7 +482,9 @@ export const CompleteShowcase: Story = {
 
       {/* With Helper */}
       <div>
-        <h4 style={{ marginBottom: '0.5rem' }}>With Helper Text</h4>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          With Helper Text
+        </Heading>
         <RadioGroup
           name="helper-showcase"
           label="Delivery speed"
