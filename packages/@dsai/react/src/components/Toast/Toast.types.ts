@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
 import type { FeedbackVariant, SafeHTMLAttributes } from '../../types';
+import type { ReactNode } from 'react';
 
 /**
  * Toast position options

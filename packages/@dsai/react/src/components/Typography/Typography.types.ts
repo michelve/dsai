@@ -9,8 +9,8 @@
  * @module Typography/types
  */
 
-import type { CSSProperties, ReactNode } from 'react';
 import type { PolymorphicComponentProps } from '../../types';
+import type { CSSProperties, ReactNode } from 'react';
 
 // =============================================================================
 // Shared Types

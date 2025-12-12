@@ -13,7 +13,6 @@ import {
   useFocus,
   useHover,
   useInteractions,
-  useMergeRefs,
   useRole,
   useTransitionStyles,
 } from '@floating-ui/react';
@@ -25,7 +24,7 @@ import {
   useId,
   useMemo,
   useReducer,
-  useRef,
+  useState,
 } from 'react';
 
 import { cn } from '../../utils';
@@ -41,13 +40,26 @@ import { PopoverCloseButton } from './PopoverCloseButton';
 import { PopoverHeader } from './PopoverHeader';
 
 import type { PopoverProps } from './Popover.types';
-import type { ReactElement } from 'react';
+import type { MutableRefObject, ReactElement, Ref } from 'react';
 
 const POPOVER_ARROW_GAP_PX = 8;
 const POPOVER_ARROW_WIDTH_PX = 16;
 const POPOVER_ARROW_HEIGHT_PX = 8;
 const POPOVER_TRANSITION_MS = 150;
 const DEFAULT_MAX_WIDTH = 276; // Bootstrap default
+
+function assignNodeToRef<T>(refTarget: Ref<T> | undefined, node: T | null): void {
+  if (!refTarget) {
+    return;
+  }
+  if (typeof refTarget === 'function') {
+    refTarget(node);
+    return;
+  }
+  if ('current' in (refTarget as Record<string, unknown>)) {
+    (refTarget as MutableRefObject<T | null>).current = node;
+  }
+}
 
 /**
  * Map DSAi placement to Floating UI placement
@@ -149,8 +161,7 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
       createInitialPopoverFSMState(isControlled ? controlledIsOpen : defaultOpen)
     );
 
-    // Arrow ref
-    const arrowRef = useRef<SVGSVGElement>(null);
+    const [arrowElement, setArrowElement] = useState<SVGSVGElement | null>(null);
 
     // Normalize triggers
     const triggers = useMemo(() => normalizeTriggers(trigger), [trigger]);
@@ -169,13 +180,13 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
         offset(offsetValue + (showArrow ? POPOVER_ARROW_GAP_PX : 0)),
         flip({ fallbackAxisSideDirection: 'start', padding: 8 }),
         shift({ padding: 8 }),
-        arrow({ element: arrowRef, padding: 8 }),
+        arrow({ element: arrowElement, padding: 8 }),
       ],
-      [offsetValue, showArrow, arrowRef]
+      [offsetValue, showArrow, arrowElement]
     );
 
     // Floating UI setup
-    const { refs, floatingStyles, context, update } = useFloating({
+    const { refs: floatingRefs, floatingStyles, context, update } = useFloating({
       open: fsmState.shouldRender,
       onOpenChange: (open) => {
         if (disabled) {
@@ -308,8 +319,15 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
     const child = children as ReactElement<{ ref?: React.Ref<HTMLElement> }>;
     const childRef = child?.props?.ref;
 
-    // Merge refs for trigger element
-    const triggerRef = useMergeRefs([ref, refs.setReference, childRef]);
+    // Merge refs for trigger element via callback to avoid ref reads during render
+    const triggerRef = useCallback(
+      (node: HTMLElement | null) => {
+        floatingRefs.setReference(node);
+        assignNodeToRef(childRef, node);
+        assignNodeToRef(ref, node);
+      },
+      [childRef, ref, floatingRefs]
+    );
 
     // Memoize popover class names
     const popoverClassName = useMemo(
@@ -342,7 +360,18 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
       return baseStyles;
     }, [floatingStyles, transitionStyles, style, maxWidth]);
 
+    const referenceProps = useMemo(
+      () =>
+        getReferenceProps({
+          'aria-haspopup': 'dialog',
+          'aria-expanded': isOpen,
+          'aria-controls': isOpen ? popoverId : undefined,
+        }),
+      [getReferenceProps, isOpen, popoverId]
+    );
+
     // Clone trigger element with ref and props
+    /* eslint-disable react-hooks/refs */
     const triggerElement = useMemo(() => {
       if (!children) {
         return null;
@@ -350,14 +379,13 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
 
       return cloneElement(
         child,
-        getReferenceProps({
+        {
+          ...referenceProps,
           ref: triggerRef,
-          'aria-haspopup': 'dialog',
-          'aria-expanded': isOpen,
-          'aria-controls': isOpen ? popoverId : undefined,
-        })
+        }
       );
-    }, [children, child, triggerRef, getReferenceProps, isOpen, popoverId]);
+    }, [children, child, triggerRef, referenceProps]);
+    /* eslint-enable react-hooks/refs */
 
     // Render popover content
     const popoverContent = useMemo(() => {
@@ -367,7 +395,7 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
 
       const content_element = (
         <div
-          ref={refs.setFloating}
+          ref={floatingRefs.setFloating}
           {...getFloatingProps()}
           id={popoverId}
           className={popoverClassName}
@@ -384,7 +412,7 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
           {/* Arrow */}
           {showArrow && (
             <FloatingArrow
-              ref={arrowRef}
+              ref={setArrowElement}
               context={context}
               width={POPOVER_ARROW_WIDTH_PX}
               height={POPOVER_ARROW_HEIGHT_PX}
@@ -418,13 +446,12 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
       }
 
       return content_element;
-    }, [
-      isMounted,
-      refs.setFloating,
-      popoverId,
-      popoverClassName,
-      popoverStyles,
-      trapFocus,
+  }, [
+    isMounted,
+    popoverId,
+    popoverClassName,
+    popoverStyles,
+    trapFocus,
       header,
       headerId,
       ariaLabel,
@@ -439,6 +466,7 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
       handleClose,
       closeButtonLabel,
       content,
+      floatingRefs.setFloating,
     ]);
 
     return (

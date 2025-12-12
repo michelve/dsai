@@ -48,6 +48,27 @@ const AVATAR_SIZE_FALLBACK_NUMBERS: Record<AvatarSize, number> = {
   xxl: 96,
 };
 
+function getNumericSize(size: AvatarSize): number {
+  switch (size) {
+    case 'xs':
+      return AVATAR_SIZE_FALLBACK_NUMBERS.xs;
+    case 'sm':
+      return AVATAR_SIZE_FALLBACK_NUMBERS.sm;
+    case 'md':
+      return AVATAR_SIZE_FALLBACK_NUMBERS.md;
+    case 'lg':
+      return AVATAR_SIZE_FALLBACK_NUMBERS.lg;
+    case 'xl':
+      return AVATAR_SIZE_FALLBACK_NUMBERS.xl;
+    case '2xl':
+      return AVATAR_SIZE_FALLBACK_NUMBERS['2xl'];
+    case 'xxl':
+      return AVATAR_SIZE_FALLBACK_NUMBERS.xxl;
+    default:
+      return AVATAR_SIZE_FALLBACK_NUMBERS.md;
+  }
+}
+
 // =============================================================================
 // Utility Functions
 // =============================================================================
@@ -509,7 +530,7 @@ export const Avatar = memo(
           </span>
         );
       }
-      const defaultIconSize = Math.floor((AVATAR_SIZE_FALLBACK_NUMBERS[size] ?? 40) * 0.5);
+      const defaultIconSize = Math.floor(getNumericSize(size) * 0.5);
       return (
         <span className="dsai-avatar__icon" role="img" aria-label="Default avatar icon">
           <PersonIcon size={defaultIconSize} aria-hidden />

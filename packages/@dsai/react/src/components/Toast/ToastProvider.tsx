@@ -25,15 +25,7 @@ function generateToastId(): string {
   const cryptoUUID =
     typeof globalThis.crypto !== 'undefined' && typeof globalThis.crypto.randomUUID === 'function'
       ? globalThis.crypto.randomUUID()
-      : (() => {
-          try {
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            const { randomUUID } = require('node:crypto') as typeof import('node:crypto');
-            return typeof randomUUID === 'function' ? randomUUID() : null;
-          } catch {
-            return null;
-          }
-        })();
+      : null;
 
   if (cryptoUUID) {
     return `toast-${cryptoUUID}`;
