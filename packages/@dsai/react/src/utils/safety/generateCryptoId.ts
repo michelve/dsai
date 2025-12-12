@@ -48,16 +48,22 @@ const ALPHANUMERIC_ALPHABET = 'abcdefghijklmnopqrstuvwxyz0123456789';
 function getRandomValues(length: number): Uint8Array {
   const bytes = new Uint8Array(length);
 
-  // Use Web Crypto API if available
-  if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
-    crypto.getRandomValues(bytes);
+  // Prefer Web Crypto where available (browsers, Node 19+)
+  if (typeof globalThis.crypto !== 'undefined' && typeof globalThis.crypto.getRandomValues === 'function') {
+    globalThis.crypto.getRandomValues(bytes);
     return bytes;
   }
 
-  // Fallback for environments without Web Crypto
-  const randomBytes = Array.from({ length }, () => Math.floor(Math.random() * 256));
-  bytes.set(randomBytes);
-  return bytes;
+  // Node fallback using crypto.randomBytes for secure entropy
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { randomBytes } = require('node:crypto') as typeof import('node:crypto');
+    const nodeBytes = randomBytes(length);
+    bytes.set(nodeBytes);
+    return bytes;
+  } catch (error) {
+    throw new Error('Secure random generator is not available in this environment');
+  }
 }
 
 /**

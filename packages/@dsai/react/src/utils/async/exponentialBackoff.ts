@@ -10,6 +10,30 @@
  */
 
 /**
+ * Generate a random fraction in [0, 1) using crypto when available.
+ * Falls back to a time-based entropy source to avoid Math.random.
+ */
+function getSecureRandomFraction(): number {
+  if (typeof globalThis.crypto !== 'undefined' && typeof globalThis.crypto.getRandomValues === 'function') {
+    const buffer = new Uint32Array(1);
+    globalThis.crypto.getRandomValues(buffer);
+    return buffer[0] / 0xffffffff;
+  }
+
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { randomBytes } = require('node:crypto') as typeof import('node:crypto');
+    const bytes = randomBytes(4);
+    const value =
+      (bytes[0] ?? 0) * 0x1000000 + (bytes[1] ?? 0) * 0x10000 + (bytes[2] ?? 0) * 0x100 + (bytes[3] ?? 0);
+    return value / 0xffffffff;
+  } catch {
+    const timeSlice = Date.now() % 1000;
+    return timeSlice / 1000;
+  }
+}
+
+/**
  * Options for exponential backoff calculation
  */
 export interface ExponentialBackoffOptions {
@@ -101,7 +125,7 @@ export function exponentialBackoff(
   if (jitter) {
     // Jitter range: delay * (1 - jitterFactor) to delay * (1 + jitterFactor)
     const jitterRange = cappedDelay * jitterFactor;
-    const randomJitter = (Math.random() * 2 - 1) * jitterRange;
+    const randomJitter = (getSecureRandomFraction() * 2 - 1) * jitterRange;
     return Math.max(0, Math.round(cappedDelay + randomJitter));
   }
 

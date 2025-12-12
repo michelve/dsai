@@ -18,9 +18,29 @@ const DEFAULT_DURATION_MS = 5000;
 
 /**
  * Generate a unique ID for a toast
+ * Prefers crypto-backed UUID; falls back to monotonic counter for deterministic uniqueness.
  */
+let toastCounter = 0;
 function generateToastId(): string {
-  return `toast-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+  const cryptoUUID =
+    typeof globalThis.crypto !== 'undefined' && typeof globalThis.crypto.randomUUID === 'function'
+      ? globalThis.crypto.randomUUID()
+      : (() => {
+          try {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
+            const { randomUUID } = require('node:crypto') as typeof import('node:crypto');
+            return typeof randomUUID === 'function' ? randomUUID() : null;
+          } catch {
+            return null;
+          }
+        })();
+
+  if (cryptoUUID) {
+    return `toast-${cryptoUUID}`;
+  }
+
+  toastCounter += 1;
+  return `toast-${Date.now()}-${toastCounter}`;
 }
 
 /**

@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { randomUUID } from 'crypto';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { createRef } from 'react';
 
@@ -280,7 +281,7 @@ describe('Alert', () => {
 
   describe('HTML Attributes', () => {
     it('accepts id attribute', () => {
-      const testId = `test-alert-${Math.random().toString(36).substr(2, 9)}`;
+      const testId = `test-alert-${randomUUID()}`;
       render(<Alert id={testId}>Alert</Alert>);
       expect(screen.getByRole('status')).toHaveAttribute('id', testId);
     });

@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { randomUUID } from 'crypto';
 import { axe, toHaveNoViolations } from 'jest-axe';
 
 import { Badge } from './Badge';
@@ -145,7 +146,7 @@ describe('Badge', () => {
 
   describe('HTML Attributes', () => {
     it('accepts id attribute', () => {
-      const testId = `test-badge-${Math.random().toString(36).substr(2, 9)}`;
+      const testId = `test-badge-${randomUUID()}`;
       render(<Badge id={testId}>Badge</Badge>);
       expect(screen.getByText('Badge')).toHaveAttribute('id', testId);
     });

@@ -74,17 +74,18 @@ export function isFormDirty(
   // Check if keys are different
   const currentKeys = Object.keys(current);
   const initialKeys = Object.keys(initial);
+  const initialEntries = new Map<string, unknown>(Object.entries(initial));
 
   if (currentKeys.length !== initialKeys.length) {
     return true;
   }
 
   // Deep comparison
-  for (const key of currentKeys) {
-    // eslint-disable-next-line security/detect-object-injection
-    const currentValue = current[key];
-    // eslint-disable-next-line security/detect-object-injection
-    const initialValue = initial[key];
+  for (const [key, currentValue] of Object.entries(current)) {
+    if (!initialEntries.has(key)) {
+      return true;
+    }
+    const initialValue = initialEntries.get(key);
 
     // Check if both are objects (but not null, File, or Array)
     if (
@@ -114,9 +115,10 @@ export function isFormDirty(
         return true;
       }
 
-      for (let i = 0; i < currentValue.length; i++) {
-        // eslint-disable-next-line security/detect-object-injection
-        if (currentValue[i] !== initialValue[i]) {
+      const initialIterator = initialValue[Symbol.iterator]();
+      for (const currentItem of currentValue) {
+        const { value: initialItem, done } = initialIterator.next();
+        if (done || currentItem !== initialItem) {
           return true;
         }
       }

@@ -169,10 +169,9 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
         offset(offsetValue + (showArrow ? POPOVER_ARROW_GAP_PX : 0)),
         flip({ fallbackAxisSideDirection: 'start', padding: 8 }),
         shift({ padding: 8 }),
-        // eslint-disable-next-line react-hooks/refs -- Floating UI documented pattern: arrow middleware requires ref object
         arrow({ element: arrowRef, padding: 8 }),
       ],
-      [offsetValue, showArrow]
+      [offsetValue, showArrow, arrowRef]
     );
 
     // Floating UI setup

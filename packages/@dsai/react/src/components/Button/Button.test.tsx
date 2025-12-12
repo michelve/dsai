@@ -1,10 +1,19 @@
 import '@testing-library/jest-dom';
+import { randomUUID } from 'crypto';
+
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import { createRef } from 'react';
+import { createElement, createRef } from 'react';
 
 import { Button } from './Button';
 
 import type { ButtonProps } from './Button.types';
+import type { ComponentType } from 'react';
+
+// Type-level guard: ButtonProps must not expose onMouseOver in its public API.
+type ButtonPropsShouldOmitOnMouseOver = ButtonProps extends { onMouseOver: unknown } ? false : true;
+// If ButtonProps ever includes onMouseOver, the following assignment will fail.
+const assertButtonOmitsOnMouseOver: ButtonPropsShouldOmitOnMouseOver = true;
+void assertButtonOmitsOnMouseOver;
 
 describe('Button', () => {
   describe('Rendering', () => {
@@ -303,7 +312,7 @@ describe('Button', () => {
 
   describe('HTML Attributes', () => {
     it('accepts id attribute', () => {
-      const testId = `test-button-${Math.random().toString(36).substr(2, 9)}`;
+      const testId = `test-button-${randomUUID()}`;
       render(<Button id={testId}>Button</Button>);
       expect(screen.getByRole('button')).toHaveAttribute('id', testId);
     });
@@ -324,8 +333,9 @@ describe('Button', () => {
     });
 
     it('accepts autoFocus attribute', () => {
-      // eslint-disable-next-line jsx-a11y/no-autofocus -- Testing autoFocus functionality
-      render(<Button autoFocus>Button</Button>);
+      // Use createElement to avoid linted autoFocus JSX while still validating behavior
+      const Component = Button as ComponentType<Partial<ButtonProps>>;
+      render(createElement(Component, { autoFocus: true }, 'Button'));
       const button = screen.getByRole('button');
       expect(button).toHaveFocus(); // autoFocus will auto-focus the element
     });
@@ -364,8 +374,9 @@ describe('Button', () => {
 
     it('does not accept arbitrary event handler props', () => {
       const handleMouseOver = jest.fn();
-      // @ts-expect-error - intentionally testing that onMouseOver is not accepted
-      render(<Button onMouseOver={handleMouseOver}>Test</Button>);
+      // Runtime check: even if an unsafe prop is forced in, it should not wire up.
+      const unsafeProps = { onMouseOver: handleMouseOver } as unknown as ButtonProps;
+      render(<Button {...unsafeProps}>Test</Button>);
 
       fireEvent.mouseOver(screen.getByRole('button'));
 

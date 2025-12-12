@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { randomUUID } from 'crypto';
 import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { createRef } from 'react';
@@ -372,7 +373,7 @@ describe('Breadcrumb', () => {
     });
 
     it('accepts custom id', () => {
-      const testId = `breadcrumb-${Math.random().toString(36).substr(2, 9)}`;
+      const testId = `breadcrumb-${randomUUID()}`;
       render(<Breadcrumb items={sampleItems} id={testId} />);
       expect(document.getElementById(testId)).toBeInTheDocument();
     });
