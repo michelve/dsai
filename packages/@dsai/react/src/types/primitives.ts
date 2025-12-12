@@ -50,14 +50,14 @@ export type ComponentSize = 'sm' | 'md' | 'lg';
  * // Full extended size
  * type AvatarSize = ExtendedSize;
  *
- * // Subset without '2xl'
- * type SpinnerSize = Exclude<ExtendedSize, '2xl'>;
+ * // Subset without '2xl' or 'xxl'
+ * type SpinnerSize = Exclude<ExtendedSize, '2xl' | 'xxl'>;
  *
  * // Extended with custom sizes
  * type ModalSize = ComponentSize | 'xl' | 'fullscreen';
  * ```
  */
-export type ExtendedSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+export type ExtendedSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'xxl';
 
 /**
  * Feedback/notification variants

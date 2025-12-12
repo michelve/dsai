@@ -395,7 +395,8 @@ export {
   useIsTablet,
   useMediaQuery,
 } from './hooks';
-export type { Breakpoint, UseMediaQueryOptions } from './hooks';
+// Note: Breakpoint type is exported from './types' above to avoid duplicate identifier
+export type { UseMediaQueryOptions } from './hooks';
 
 export { useReducedMotion } from './hooks';
 export type { UseReducedMotionOptions } from './hooks';

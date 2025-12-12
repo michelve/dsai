@@ -39,6 +39,7 @@ export * from './motion';
 export * from './number';
 export * from './object';
 export * from './platform';
+export * from './responsive';
 export * from './safety';
 export * from './string';
 export * from './telemetry';

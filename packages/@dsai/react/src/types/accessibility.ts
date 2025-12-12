@@ -61,6 +61,12 @@ export interface SafeHTMLAttributes<_T extends HTMLElement = HTMLElement> {
   'aria-disabled'?: boolean | 'true' | 'false';
   'aria-pressed'?: boolean | 'true' | 'false' | 'mixed';
   'aria-current'?: boolean | 'true' | 'false' | 'page' | 'step' | 'location' | 'date' | 'time';
+  'aria-busy'?: boolean | 'true' | 'false';
+
+  // ARIA - Form validation (WCAG 2.2 AA)
+  'aria-invalid'?: boolean | 'true' | 'false' | 'grammar' | 'spelling';
+  'aria-required'?: boolean | 'true' | 'false';
+  'aria-errormessage'?: string;
 
   // ARIA - Relationships
   'aria-controls'?: string;

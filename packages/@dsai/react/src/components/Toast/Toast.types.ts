@@ -1,5 +1,5 @@
-import type { FeedbackVariant, SafeHTMLAttributes } from '../../types';
 import type { ReactNode } from 'react';
+import type { FeedbackVariant, SafeHTMLAttributes } from '../../types';
 
 /**
  * Toast position options
@@ -61,9 +61,13 @@ export type ToastFSMEvent =
 /**
  * Whitelisted HTML attributes for safe prop spreading in Toast component
  * SECURITY: Restricts arbitrary props to prevent injection attacks
+ *
+ * Note: Omits 'title' from SafeHTMLAttributes because Toast uses title as ReactNode
+ * (for toast header) rather than string (for HTML title tooltip attribute)
+ *
  * @see {@link SafeHTMLAttributes}
  */
-export type SafeToastHTMLAttributes = SafeHTMLAttributes<HTMLDivElement>;
+export type SafeToastHTMLAttributes = Omit<SafeHTMLAttributes<HTMLDivElement>, 'title'>;
 
 /**
  * Individual toast data structure
