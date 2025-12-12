@@ -1,2 +1,8 @@
-# Temporarily disabled - run tests manually before pushing
+# TODO: Re-enable pre-commit tests once test suite is optimized
+# Disabled on 2025-01-21 - tests were running too long on every commit
+# Options to consider:
+#   1. Run only lint: pnpm lint
+#   2. Run only affected tests: pnpm nx affected:test
+#   3. Run quick subset: pnpm nx test @dsai/react --testPathPattern=types --no-coverage
+#
 # pnpm test
