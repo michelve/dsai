@@ -7,9 +7,8 @@
  * @module @dsai/react/types/types.test
  */
 
-import { getResponsiveValue, isResponsiveValue } from './index';
+import { getResponsiveValue, isResponsiveValue } from '../index';
 
-import type { CSSProperties } from 'react';
 import type {
   ARIAProps,
   Breakpoint,
@@ -25,7 +24,8 @@ import type {
   SafeHTMLAttributes,
   SemanticColorVariant,
   VisualStateBase,
-} from './index';
+} from '../index';
+import type { CSSProperties } from 'react';
 
 // =============================================================================
 // SafeHTMLAttributes Tests
@@ -246,6 +246,40 @@ describe('FSM type constraints', () => {
     expect(config.initialState).toBeDefined();
   });
 
+  it('enforces event discriminants and reducer signatures', () => {
+    interface State extends FSMStateBase {
+      status: 'idle' | 'active';
+    }
+
+    type Event =
+      | (FSMEventBase & { type: 'START' })
+      | (FSMEventBase & { type: 'STOP'; reason?: string });
+
+    const reducer: FSMReducer<State, Event> = (state, event) => {
+      switch (event.type) {
+        case 'START':
+          return { ...state, status: 'active' };
+        case 'STOP':
+          return { ...state, status: 'idle' };
+        default:
+          return state;
+      }
+    };
+
+    // @ts-expect-error - missing discriminant
+    const invalidEvent: Event = { reason: 'no type' };
+    void invalidEvent;
+
+    // @ts-expect-error - reducer must accept only allowed events
+    const invalidReducer: FSMReducer<State, Event> = (_s, e: { type: 'UNKNOWN' }) => ({
+      ..._s,
+      status: e.type,
+    });
+    void invalidReducer;
+
+    expect(reducer({ status: 'idle' }, { type: 'START' } as Event).status).toBe('active');
+  });
+
   it('should accept valid VisualStateBase structure', () => {
     const visualState: VisualStateBase = {
       state: 'idle',
@@ -315,6 +349,11 @@ describe('Responsive type constraints', () => {
     const prop: ResponsiveProp<string> = { xs: 'small', lg: 'large' };
     expect(isResponsiveValue(prop)).toBe(true);
   });
+
+  it('returns undefined when breakpoint is missing and no base value is provided', () => {
+    const responsive: ResponsiveValue<number> = { lg: 3 };
+    expect(getResponsiveValue(responsive, 'xs')).toBeUndefined();
+  });
 });
 
 // =============================================================================
@@ -322,6 +361,18 @@ describe('Responsive type constraints', () => {
 // =============================================================================
 
 describe('Polymorphic type constraints', () => {
+  it('supports refs for a given element type', () => {
+    type ButtonRef = PolymorphicRef<'button'>;
+
+    const ref: ButtonRef = (el) => {
+      if (el) {
+        el.focus();
+      }
+    };
+
+    expect(ref).toBeDefined();
+  });
+
   it('should accept component props with as prop', () => {
     interface ButtonOwnProps {
       variant?: 'primary' | 'secondary';
@@ -352,5 +403,20 @@ describe('Polymorphic type constraints', () => {
     };
 
     expect(props.href).toBe('/path');
+  });
+
+  it('narrows element-specific props per base element type', () => {
+    type AnchorProps = PolymorphicComponentProps<'a', { custom?: string }>;
+    type ButtonProps = PolymorphicComponentProps<'button', { custom?: boolean }>;
+
+    const anchorOk: AnchorProps = { href: '/home', custom: 'x' };
+    expect(anchorOk.href).toBe('/home');
+
+    const buttonOk: ButtonProps = { type: 'submit', custom: true };
+    expect(buttonOk.type).toBe('submit');
+
+    // @ts-expect-error - href is not a valid prop on button element
+    const buttonWithHref: ButtonProps = { href: '/bad' };
+    void buttonWithHref;
   });
 });

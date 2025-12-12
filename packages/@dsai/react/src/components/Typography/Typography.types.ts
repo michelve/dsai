@@ -9,7 +9,8 @@
  * @module Typography/types
  */
 
-import type { CSSProperties, ElementType, ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
+import type { PolymorphicComponentProps } from '../../types';
 
 // =============================================================================
 // Shared Types
@@ -271,6 +272,25 @@ export type TextVariant =
 export type TextSize = 'sm' | 'base' | 'lg';
 
 /**
+ * Supported element types for Text polymorphism
+ */
+export type TextElement =
+  | 'p'
+  | 'span'
+  | 'small'
+  | 'mark'
+  | 'del'
+  | 'ins'
+  | 'strong'
+  | 'em'
+  | 'code'
+  | 'kbd'
+  | 'pre'
+  | 'blockquote'
+  | 'div'
+  | 'abbr';
+
+/**
  * Props for the Text component
  *
  * @example
@@ -292,7 +312,7 @@ export type TextSize = 'sm' | 'base' | 'lg';
  * <Text as="span" variant="strong">Bold inline text</Text>
  * ```
  */
-export interface TextProps extends TypographySafeHTMLAttributes {
+export interface TextOwnProps extends TypographySafeHTMLAttributes {
   /**
    * Text content
    */
@@ -309,12 +329,6 @@ export interface TextProps extends TypographySafeHTMLAttributes {
    * @default 'base'
    */
   size?: TextSize;
-
-  /**
-   * Custom element type - overrides variant's default element
-   * Useful for rendering as span, div, etc.
-   */
-  as?: ElementType;
 
   /**
    * Text color
@@ -384,6 +398,8 @@ export interface TextProps extends TypographySafeHTMLAttributes {
    */
   citeAuthor?: string;
 }
+
+export type TextProps = PolymorphicComponentProps<TextElement, TextOwnProps>;
 
 // =============================================================================
 // Compound Component Types

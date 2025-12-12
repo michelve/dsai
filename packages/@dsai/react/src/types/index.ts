@@ -63,4 +63,7 @@ export type { PolymorphicComponentProps, PolymorphicProps, PolymorphicRef } from
 
 export type { Breakpoint, ResponsiveProp, ResponsiveValue } from './responsive';
 
+/**
+ * @deprecated Import runtime helpers from `@dsai/react/utils/responsive` to keep the types barrel type-only.
+ */
 export { getResponsiveValue, isResponsiveValue } from './responsive';

@@ -85,5 +85,6 @@ export type ResponsiveProp<T> = ResponsiveValue<T>;
  * for backward compatibility. New code should import from utils/responsive.
  *
  * @see {@link module:@dsai/react/utils/responsive}
+ * @deprecated Import from `@dsai/react/utils/responsive` to keep type modules type-only.
  */
 export { getResponsiveValue, isResponsiveValue } from '../utils/responsive';

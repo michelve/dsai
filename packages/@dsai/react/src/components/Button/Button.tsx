@@ -90,7 +90,7 @@ import type { ButtonProps } from './Button.types';
  * - Consistent Help (WCAG 2.2 3.2.6)
  */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ disabled = false, loading = false, error = false, onClick, ...restProps }, ref) => {
+  ({ disabled = false, loading = false, error = false, onClick, as, ...restProps }, ref) => {
     // Initialize FSM with current state
     const [fsmState, dispatch] = useReducer(
       buttonFSMReducer,
@@ -142,7 +142,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       dispatchFSMEvent({ type: 'RELEASE' });
     };
 
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>): void => {
       // Prevent click if disabled or loading
       if (disabled || loading) {
         e.preventDefault();
@@ -163,6 +163,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <BaseButton
         ref={ref}
         {...restProps}
+        as={as}
         disabled={disabled}
         loading={loading}
         error={error}

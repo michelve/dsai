@@ -2,6 +2,7 @@ import type {
   SafeHTMLAttributes as BaseSafeHTMLAttributes,
   ComponentSize,
   SemanticColorVariant,
+  PolymorphicComponentProps,
 } from '../../types';
 import type { MouseEvent, ReactNode } from 'react';
 
@@ -65,7 +66,9 @@ export interface SafeHTMLAttributes extends BaseSafeHTMLAttributes<HTMLButtonEle
  * </Button>
  * ```
  */
-export interface ButtonProps extends SafeHTMLAttributes {
+export type ButtonElement = 'button';
+
+export interface ButtonOwnProps extends SafeHTMLAttributes {
   /**
    * Button content
    */
@@ -216,3 +219,5 @@ export interface ButtonProps extends SafeHTMLAttributes {
    */
   announce?: boolean;
 }
+
+export type ButtonProps = PolymorphicComponentProps<ButtonElement, ButtonOwnProps>;
