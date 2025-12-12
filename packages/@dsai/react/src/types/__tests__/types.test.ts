@@ -9,6 +9,7 @@
 
 import { getResponsiveValue, isResponsiveValue } from '../index';
 
+import type { CSSProperties } from 'react';
 import type {
   ARIAProps,
   Breakpoint,
@@ -19,13 +20,13 @@ import type {
   FSMReducer,
   FSMStateBase,
   PolymorphicComponentProps,
+  PolymorphicRef,
   ResponsiveProp,
   ResponsiveValue,
   SafeHTMLAttributes,
   SemanticColorVariant,
   VisualStateBase,
 } from '../index';
-import type { CSSProperties } from 'react';
 
 // =============================================================================
 // SafeHTMLAttributes Tests
