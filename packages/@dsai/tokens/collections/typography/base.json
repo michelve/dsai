@@ -15,7 +15,9 @@
             "viewport": "all"
           }
         },
-        "$scopes": ["FONT_SIZE"],
+        "$scopes": [
+          "FONT_SIZE"
+        ],
         "comment": "$font-size-base"
       },
       "sm": {
@@ -32,7 +34,9 @@
             "viewport": "all"
           }
         },
-        "$scopes": ["FONT_SIZE"],
+        "$scopes": [
+          "FONT_SIZE"
+        ],
         "comment": "$font-size-sm"
       },
       "lg": {
@@ -49,7 +53,9 @@
             "viewport": "all"
           }
         },
-        "$scopes": ["FONT_SIZE"],
+        "$scopes": [
+          "FONT_SIZE"
+        ],
         "comment": "$font-size-lg"
       }
     },
@@ -67,7 +73,9 @@
             "cssClass": "fw-lighter"
           }
         },
-        "$scopes": ["FONT_WEIGHT"],
+        "$scopes": [
+          "FONT_WEIGHT"
+        ],
         "comment": "$font-weight-lighter"
       },
       "light": {
@@ -83,7 +91,9 @@
             "cssClass": "fw-light"
           }
         },
-        "$scopes": ["FONT_WEIGHT"],
+        "$scopes": [
+          "FONT_WEIGHT"
+        ],
         "comment": "$font-weight-light"
       },
       "normal": {
@@ -99,7 +109,9 @@
             "cssClass": "fw-normal"
           }
         },
-        "$scopes": ["FONT_WEIGHT"],
+        "$scopes": [
+          "FONT_WEIGHT"
+        ],
         "comment": "$font-weight-normal"
       },
       "medium": {
@@ -115,7 +127,9 @@
             "cssClass": "fw-medium"
           }
         },
-        "$scopes": ["FONT_WEIGHT"],
+        "$scopes": [
+          "FONT_WEIGHT"
+        ],
         "comment": "$font-weight-medium"
       },
       "semibold": {
@@ -131,7 +145,9 @@
             "cssClass": "fw-semibold"
           }
         },
-        "$scopes": ["FONT_WEIGHT"],
+        "$scopes": [
+          "FONT_WEIGHT"
+        ],
         "comment": "$font-weight-semibold"
       },
       "bold": {
@@ -147,7 +163,9 @@
             "cssClass": "fw-bold"
           }
         },
-        "$scopes": ["FONT_WEIGHT"],
+        "$scopes": [
+          "FONT_WEIGHT"
+        ],
         "comment": "$font-weight-bold"
       },
       "bolder": {
@@ -163,7 +181,9 @@
             "cssClass": "fw-bolder"
           }
         },
-        "$scopes": ["FONT_WEIGHT"],
+        "$scopes": [
+          "FONT_WEIGHT"
+        ],
         "comment": "$font-weight-bolder"
       }
     },
@@ -188,7 +208,9 @@
             "unit": "4pt"
           }
         },
-        "$scopes": ["LINE_HEIGHT"],
+        "$scopes": [
+          "LINE_HEIGHT"
+        ],
         "comment": "$line-height-xs"
       },
       "sm": {
@@ -211,7 +233,9 @@
             "unit": "4pt"
           }
         },
-        "$scopes": ["LINE_HEIGHT"],
+        "$scopes": [
+          "LINE_HEIGHT"
+        ],
         "comment": "$line-height-sm"
       },
       "tight": {
@@ -234,7 +258,9 @@
             "unit": "4pt"
           }
         },
-        "$scopes": ["LINE_HEIGHT"],
+        "$scopes": [
+          "LINE_HEIGHT"
+        ],
         "comment": "$headings-line-height"
       },
       "base": {
@@ -257,7 +283,9 @@
             "unit": "4pt"
           }
         },
-        "$scopes": ["LINE_HEIGHT"],
+        "$scopes": [
+          "LINE_HEIGHT"
+        ],
         "comment": "$line-height-base"
       },
       "relaxed": {
@@ -280,7 +308,9 @@
             "unit": "4pt"
           }
         },
-        "$scopes": ["LINE_HEIGHT"],
+        "$scopes": [
+          "LINE_HEIGHT"
+        ],
         "comment": "$line-height-relaxed"
       },
       "lg": {
@@ -303,7 +333,9 @@
             "unit": "4pt"
           }
         },
-        "$scopes": ["LINE_HEIGHT"],
+        "$scopes": [
+          "LINE_HEIGHT"
+        ],
         "comment": "$line-height-lg"
       },
       "display-sm": {
@@ -327,7 +359,9 @@
             "unit": "4pt"
           }
         },
-        "$scopes": ["LINE_HEIGHT"],
+        "$scopes": [
+          "LINE_HEIGHT"
+        ],
         "comment": "$display-line-height"
       },
       "display-md": {
@@ -351,7 +385,9 @@
             "unit": "4pt"
           }
         },
-        "$scopes": ["LINE_HEIGHT"],
+        "$scopes": [
+          "LINE_HEIGHT"
+        ],
         "comment": "$display-line-height-md"
       },
       "display-lg": {
@@ -375,7 +411,9 @@
             "unit": "4pt"
           }
         },
-        "$scopes": ["LINE_HEIGHT"],
+        "$scopes": [
+          "LINE_HEIGHT"
+        ],
         "comment": "$display-line-height-lg"
       }
     },
@@ -394,7 +432,9 @@
               "remValue": "2.5rem"
             }
           },
-          "$scopes": ["FONT_SIZE"],
+          "$scopes": [
+            "FONT_SIZE"
+          ],
           "comment": "$h1-font-size"
         }
       },
@@ -412,7 +452,9 @@
               "remValue": "2rem"
             }
           },
-          "$scopes": ["FONT_SIZE"],
+          "$scopes": [
+            "FONT_SIZE"
+          ],
           "comment": "$h2-font-size"
         }
       },
@@ -430,7 +472,9 @@
               "remValue": "1.75rem"
             }
           },
-          "$scopes": ["FONT_SIZE"],
+          "$scopes": [
+            "FONT_SIZE"
+          ],
           "comment": "$h3-font-size"
         }
       },
@@ -448,7 +492,9 @@
               "remValue": "1.5rem"
             }
           },
-          "$scopes": ["FONT_SIZE"],
+          "$scopes": [
+            "FONT_SIZE"
+          ],
           "comment": "$h4-font-size"
         }
       },
@@ -466,7 +512,9 @@
               "remValue": "1.25rem"
             }
           },
-          "$scopes": ["FONT_SIZE"],
+          "$scopes": [
+            "FONT_SIZE"
+          ],
           "comment": "$h5-font-size"
         }
       },
@@ -484,7 +532,9 @@
               "remValue": "1rem"
             }
           },
-          "$scopes": ["FONT_SIZE"],
+          "$scopes": [
+            "FONT_SIZE"
+          ],
           "comment": "$h6-font-size"
         }
       },
@@ -500,7 +550,9 @@
             "scssVariableName": "$headings-font-weight"
           }
         },
-        "$scopes": ["FONT_WEIGHT"],
+        "$scopes": [
+          "FONT_WEIGHT"
+        ],
         "comment": "$headings-font-weight"
       },
       "lineHeight": {
@@ -515,7 +567,9 @@
             "scssVariableName": "$headings-line-height"
           }
         },
-        "$scopes": ["LINE_HEIGHT"],
+        "$scopes": [
+          "LINE_HEIGHT"
+        ],
         "comment": "$headings-line-height"
       }
     },
@@ -535,7 +589,9 @@
               "remValue": "5rem"
             }
           },
-          "$scopes": ["FONT_SIZE"],
+          "$scopes": [
+            "FONT_SIZE"
+          ],
           "comment": "$display-font-sizes: (1: 5rem)"
         }
       },
@@ -554,7 +610,9 @@
               "remValue": "4.5rem"
             }
           },
-          "$scopes": ["FONT_SIZE"],
+          "$scopes": [
+            "FONT_SIZE"
+          ],
           "comment": "$display-font-sizes: (2: 4.5rem)"
         }
       },
@@ -573,7 +631,9 @@
               "remValue": "4rem"
             }
           },
-          "$scopes": ["FONT_SIZE"],
+          "$scopes": [
+            "FONT_SIZE"
+          ],
           "comment": "$display-font-sizes: (3: 4rem)"
         }
       },
@@ -592,7 +652,9 @@
               "remValue": "3.5rem"
             }
           },
-          "$scopes": ["FONT_SIZE"],
+          "$scopes": [
+            "FONT_SIZE"
+          ],
           "comment": "$display-font-sizes: (4: 3.5rem)"
         }
       },
@@ -611,7 +673,9 @@
               "remValue": "3rem"
             }
           },
-          "$scopes": ["FONT_SIZE"],
+          "$scopes": [
+            "FONT_SIZE"
+          ],
           "comment": "$display-font-sizes: (5: 3rem)"
         }
       },
@@ -630,7 +694,9 @@
               "remValue": "2.5rem"
             }
           },
-          "$scopes": ["FONT_SIZE"],
+          "$scopes": [
+            "FONT_SIZE"
+          ],
           "comment": "$display-font-sizes: (6: 2.5rem)"
         }
       },
@@ -646,7 +712,9 @@
             "scssVariableName": "$display-font-weight"
           }
         },
-        "$scopes": ["FONT_WEIGHT"],
+        "$scopes": [
+          "FONT_WEIGHT"
+        ],
         "comment": "$display-font-weight"
       },
       "lineHeight": {
@@ -661,7 +729,9 @@
             "scssVariableName": "$display-line-height"
           }
         },
-        "$scopes": ["LINE_HEIGHT"],
+        "$scopes": [
+          "LINE_HEIGHT"
+        ],
         "comment": "$display-line-height"
       }
     },
@@ -680,7 +750,9 @@
             "remValue": "1.25rem"
           }
         },
-        "$scopes": ["FONT_SIZE"],
+        "$scopes": [
+          "FONT_SIZE"
+        ],
         "comment": "$lead-font-size"
       },
       "fontWeight": {
@@ -695,7 +767,9 @@
             "scssVariableName": "$lead-font-weight"
           }
         },
-        "$scopes": ["FONT_WEIGHT"],
+        "$scopes": [
+          "FONT_WEIGHT"
+        ],
         "comment": "$lead-font-weight"
       }
     },
@@ -714,7 +788,9 @@
             "remValue": "0.875rem"
           }
         },
-        "$scopes": ["FONT_SIZE"],
+        "$scopes": [
+          "FONT_SIZE"
+        ],
         "comment": "$small-font-size"
       }
     },
@@ -736,7 +812,9 @@
             "wcag": "WCAG AA compliant - improves readability for large text"
           }
         },
-        "$scopes": ["LETTER_SPACING"],
+        "$scopes": [
+          "LETTER_SPACING"
+        ],
         "comment": "$letter-spacing-tighter"
       },
       "tight": {
@@ -756,7 +834,9 @@
             "wcag": "WCAG AA compliant"
           }
         },
-        "$scopes": ["LETTER_SPACING"],
+        "$scopes": [
+          "LETTER_SPACING"
+        ],
         "comment": "$letter-spacing-tight"
       },
       "normal": {
@@ -776,7 +856,9 @@
             "wcag": "WCAG AA compliant - recommended baseline"
           }
         },
-        "$scopes": ["LETTER_SPACING"],
+        "$scopes": [
+          "LETTER_SPACING"
+        ],
         "comment": "$letter-spacing-normal"
       },
       "wide": {
@@ -796,7 +878,9 @@
             "wcag": "WCAG AA compliant - improves small text readability"
           }
         },
-        "$scopes": ["LETTER_SPACING"],
+        "$scopes": [
+          "LETTER_SPACING"
+        ],
         "comment": "$letter-spacing-wide"
       },
       "wider": {
@@ -816,7 +900,9 @@
             "wcag": "WCAG AA compliant - recommended for uppercase"
           }
         },
-        "$scopes": ["LETTER_SPACING"],
+        "$scopes": [
+          "LETTER_SPACING"
+        ],
         "comment": "$letter-spacing-wider"
       },
       "widest": {
@@ -836,7 +922,9 @@
             "wcag": "WCAG AA compliant - optimal for all-caps text"
           }
         },
-        "$scopes": ["LETTER_SPACING"],
+        "$scopes": [
+          "LETTER_SPACING"
+        ],
         "comment": "$letter-spacing-widest"
       }
     },
@@ -855,7 +943,9 @@
             "viewport": "all"
           }
         },
-        "$scopes": ["FONT_FAMILY"],
+        "$scopes": [
+          "FONT_FAMILY"
+        ],
         "comment": "$font-family-base"
       },
       "monospace": {
@@ -872,7 +962,9 @@
             "viewport": "all"
           }
         },
-        "$scopes": ["FONT_FAMILY"],
+        "$scopes": [
+          "FONT_FAMILY"
+        ],
         "comment": "$font-family-monospace"
       }
     }

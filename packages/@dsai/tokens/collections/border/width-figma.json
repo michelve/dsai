@@ -13,7 +13,9 @@
             "bootstrapVersion": "5.3"
           }
         },
-        "$scopes": ["STROKE_FLOAT"],
+        "$scopes": [
+          "STROKE_FLOAT"
+        ],
         "comment": "$border-widths"
       },
       "medium": {
@@ -28,7 +30,9 @@
             "bootstrapVersion": "5.3"
           }
         },
-        "$scopes": ["STROKE_FLOAT"],
+        "$scopes": [
+          "STROKE_FLOAT"
+        ],
         "comment": "$border-widths"
       },
       "thick": {
@@ -43,7 +47,9 @@
             "bootstrapVersion": "5.3"
           }
         },
-        "$scopes": ["STROKE_FLOAT"],
+        "$scopes": [
+          "STROKE_FLOAT"
+        ],
         "comment": "$border-widths"
       },
       "default": {
@@ -60,14 +66,18 @@
             "bootstrapVersion": "5.3"
           }
         },
-        "$scopes": ["STROKE_FLOAT"],
+        "$scopes": [
+          "STROKE_FLOAT"
+        ],
         "comment": "$border-width"
       },
       "none": {
         "$value": "0px",
         "$type": "dimension",
         "$description": "No border",
-        "$scopes": ["STROKE_FLOAT"]
+        "$scopes": [
+          "STROKE_FLOAT"
+        ]
       }
     }
   }

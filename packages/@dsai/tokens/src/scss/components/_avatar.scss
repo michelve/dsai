@@ -19,6 +19,7 @@ $dsai-avatar-size-md: 2.5rem !default; // 40px (no exact token match)
 $dsai-avatar-size-lg: dsai.$spacing-6 !default; // 3rem (48px)
 $dsai-avatar-size-xl: dsai.$spacing-7 !default; // 4rem (64px)
 $dsai-avatar-size-2xl: 5rem !default; // 80px (no exact token match)
+$dsai-avatar-size-xxl: 6rem !default; // 96px (extended scale)
 
 // ----------------------------------------------------------------------------
 // Font Sizes (for initials)
@@ -30,6 +31,7 @@ $dsai-avatar-font-size-md: dsai.$typography-font-size-sm !default; // 0.875rem (
 $dsai-avatar-font-size-lg: dsai.$typography-font-size-base !default; // 1rem (16px)
 $dsai-avatar-font-size-xl: dsai.$typography-font-size-lg !default; // 1.25rem (20px)
 $dsai-avatar-font-size-2xl: dsai.$typography-headings-h4-font-size !default; // 1.5rem (24px)
+$dsai-avatar-font-size-xxl: 1.75rem !default; // 28px (extended scale)
 
 // ----------------------------------------------------------------------------
 // Status Indicator Sizes
@@ -41,6 +43,7 @@ $dsai-avatar-status-size-md: 0.625rem !default; // 10px (no token match)
 $dsai-avatar-status-size-lg: 0.75rem !default; // 12px (no token match)
 $dsai-avatar-status-size-xl: 0.875rem !default; // 14px (no token match)
 $dsai-avatar-status-size-2xl: dsai.$spacing-3 !default; // 1rem (16px)
+$dsai-avatar-status-size-xxl: 1.125rem !default; // 18px (extended scale)
 
 // ----------------------------------------------------------------------------
 // AvatarGroup Overlap Ratios
@@ -69,6 +72,7 @@ $dsai-avatar-gap-loose: 0.75rem !default; // 12px (midpoint, no exact token)
   --dsai-avatar-size-lg: #{$dsai-avatar-size-lg};
   --dsai-avatar-size-xl: #{$dsai-avatar-size-xl};
   --dsai-avatar-size-2xl: #{$dsai-avatar-size-2xl};
+  --dsai-avatar-size-xxl: #{$dsai-avatar-size-xxl};
 
   // Font sizes
   --dsai-avatar-font-size-xs: #{$dsai-avatar-font-size-xs};
@@ -77,6 +81,7 @@ $dsai-avatar-gap-loose: 0.75rem !default; // 12px (midpoint, no exact token)
   --dsai-avatar-font-size-lg: #{$dsai-avatar-font-size-lg};
   --dsai-avatar-font-size-xl: #{$dsai-avatar-font-size-xl};
   --dsai-avatar-font-size-2xl: #{$dsai-avatar-font-size-2xl};
+  --dsai-avatar-font-size-xxl: #{$dsai-avatar-font-size-xxl};
 
   // Status sizes
   --dsai-avatar-status-size-xs: #{$dsai-avatar-status-size-xs};
@@ -85,6 +90,7 @@ $dsai-avatar-gap-loose: 0.75rem !default; // 12px (midpoint, no exact token)
   --dsai-avatar-status-size-lg: #{$dsai-avatar-status-size-lg};
   --dsai-avatar-status-size-xl: #{$dsai-avatar-status-size-xl};
   --dsai-avatar-status-size-2xl: #{$dsai-avatar-status-size-2xl};
+  --dsai-avatar-status-size-xxl: #{$dsai-avatar-status-size-xxl};
 
   // Overlap ratios
   --dsai-avatar-overlap-compact: #{$dsai-avatar-overlap-compact};

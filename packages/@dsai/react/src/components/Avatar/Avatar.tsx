@@ -37,6 +37,17 @@ import type React from 'react';
 
 type AvatarElement = HTMLSpanElement | HTMLDivElement | HTMLButtonElement | HTMLAnchorElement;
 
+// Numeric fallbacks for calculations (e.g., default icon size)
+const AVATAR_SIZE_FALLBACK_NUMBERS: Record<AvatarSize, number> = {
+  xs: 24,
+  sm: 32,
+  md: 40,
+  lg: 48,
+  xl: 64,
+  '2xl': 80,
+  xxl: 96,
+};
+
 // =============================================================================
 // Utility Functions
 // =============================================================================
@@ -130,7 +141,7 @@ function getShapeClass(shape: AvatarProps['shape']): string {
 /**
  * Safe lookup helpers to avoid object injection lint warnings
  */
-function getSizeValue(size: AvatarSize): number {
+function getSizeValue(size: AvatarSize): string {
   if (size === 'xs') {
     return AVATAR_SIZE_MAP.xs;
   }
@@ -146,7 +157,10 @@ function getSizeValue(size: AvatarSize): number {
   if (size === 'xl') {
     return AVATAR_SIZE_MAP.xl;
   }
-  return AVATAR_SIZE_MAP['2xl'];
+  if (size === '2xl') {
+    return AVATAR_SIZE_MAP['2xl'];
+  }
+  return AVATAR_SIZE_MAP.xxl;
 }
 
 function getFontSize(size: AvatarSize): string {
@@ -165,10 +179,13 @@ function getFontSize(size: AvatarSize): string {
   if (size === 'xl') {
     return AVATAR_FONT_SIZE_MAP.xl;
   }
-  return AVATAR_FONT_SIZE_MAP['2xl'];
+  if (size === '2xl') {
+    return AVATAR_FONT_SIZE_MAP['2xl'];
+  }
+  return AVATAR_FONT_SIZE_MAP.xxl;
 }
 
-function getStatusSize(size: AvatarSize): number {
+function getStatusSize(size: AvatarSize): string {
   if (size === 'xs') {
     return AVATAR_STATUS_SIZE_MAP.xs;
   }
@@ -184,7 +201,10 @@ function getStatusSize(size: AvatarSize): number {
   if (size === 'xl') {
     return AVATAR_STATUS_SIZE_MAP.xl;
   }
-  return AVATAR_STATUS_SIZE_MAP['2xl'];
+  if (size === '2xl') {
+    return AVATAR_STATUS_SIZE_MAP['2xl'];
+  }
+  return AVATAR_STATUS_SIZE_MAP.xxl;
 }
 
 function getToneClasses(tone: AvatarTone): { bg: string; text: string } {
@@ -368,8 +388,8 @@ export const Avatar = memo(
     // Memoize container styles
     const containerStyle = useMemo(
       () => ({
-        width: `${sizeValue}px`,
-        height: `${sizeValue}px`,
+        width: sizeValue,
+        height: sizeValue,
         fontSize,
         ...style,
       }),
@@ -489,7 +509,7 @@ export const Avatar = memo(
           </span>
         );
       }
-      const defaultIconSize = Math.floor(sizeValue * 0.5);
+      const defaultIconSize = Math.floor((AVATAR_SIZE_FALLBACK_NUMBERS[size] ?? 40) * 0.5);
       return (
         <span className="dsai-avatar__icon" role="img" aria-label="Default avatar icon">
           <PersonIcon size={defaultIconSize} aria-hidden />
@@ -516,8 +536,8 @@ export const Avatar = memo(
       );
 
       const statusStyle = {
-        width: `${statusSize}px`,
-        height: `${statusSize}px`,
+        width: statusSize,
+        height: statusSize,
         zIndex: 1,
         transform:
           statusPosition === 'bottom-left' ? 'translate(-25%, 25%)' : 'translate(25%, 25%)',

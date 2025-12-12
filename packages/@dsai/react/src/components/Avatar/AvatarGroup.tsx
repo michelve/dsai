@@ -19,54 +19,63 @@ import { Children, cloneElement, forwardRef, isValidElement, memo, useMemo } fro
 
 import { cn } from '../../utils';
 
-import type { AvatarGroupProps, AvatarGroupSpacing, AvatarSize } from './Avatar.types';
+import {
+  AVATAR_GROUP_GAP_MAP,
+  AVATAR_GROUP_OVERLAP_MAP,
+  AVATAR_SIZE_MAP,
+  type AvatarGroupProps,
+  type AvatarGroupSpacing,
+  type AvatarSize,
+} from './Avatar.types';
 
 // =============================================================================
 // Spacing Constants
 // =============================================================================
 
-function resolveAvatarSize(size: AvatarSize): number {
+function resolveAvatarSize(size: AvatarSize): string {
   switch (size) {
     case 'xs':
-      return 24;
+      return AVATAR_SIZE_MAP.xs;
     case 'sm':
-      return 32;
+      return AVATAR_SIZE_MAP.sm;
     case 'md':
-      return 40;
+      return AVATAR_SIZE_MAP.md;
     case 'lg':
-      return 48;
+      return AVATAR_SIZE_MAP.lg;
     case 'xl':
-      return 64;
+      return AVATAR_SIZE_MAP.xl;
     case '2xl':
-      return 80;
+      return AVATAR_SIZE_MAP['2xl'];
+    case 'xxl':
+      return AVATAR_SIZE_MAP.xxl;
     default:
-      return 40;
+      return AVATAR_SIZE_MAP.md;
   }
 }
 
-function resolveOverlap(spacing: AvatarGroupSpacing): number {
+function resolveOverlap(spacing: AvatarGroupSpacing): string {
   switch (spacing) {
     case 'compact':
-      return 0.4;
+      return AVATAR_GROUP_OVERLAP_MAP.compact;
     case 'normal':
-      return 0.3;
+      return AVATAR_GROUP_OVERLAP_MAP.normal;
     case 'loose':
-      return 0.2;
+      return AVATAR_GROUP_OVERLAP_MAP.loose;
     default:
-      return 0.3;
+      return AVATAR_GROUP_OVERLAP_MAP.normal;
   }
 }
 
 function resolveInlineGap(spacing: AvatarGroupSpacing): string {
   switch (spacing) {
     case 'compact':
-      return '0.25rem';
+      return AVATAR_GROUP_GAP_MAP.compact;
     case 'normal':
-      return '0.5rem';
+      return AVATAR_GROUP_GAP_MAP.normal;
     case 'loose':
-      return '0.75rem';
+      return AVATAR_GROUP_GAP_MAP.loose;
     default:
-      return '0.5rem';
+      return AVATAR_GROUP_GAP_MAP.normal;
   }
 }
 
@@ -176,8 +185,8 @@ export const AvatarGroup = memo(
 
     // Calculate sizing - safe object access with validated enum types
     const avatarSize = resolveAvatarSize(size);
-    const overlap = layout === 'stacked' ? resolveOverlap(spacing) : 0;
-    const marginLeft = layout === 'stacked' ? `-${avatarSize * overlap}px` : '0';
+    const overlap = layout === 'stacked' ? resolveOverlap(spacing) : '0';
+    const marginLeft = layout === 'stacked' ? `calc(${avatarSize} * -1 * ${overlap})` : '0';
     const gap = layout === 'inline' ? resolveInlineGap(spacing) : '0';
 
     // Memoize container classes
@@ -263,9 +272,9 @@ export const AvatarGroup = memo(
       );
 
       const chipStyle: React.CSSProperties = {
-        width: `${avatarSize}px`,
-        height: `${avatarSize}px`,
-        fontSize: `${avatarSize * 0.35}px`,
+        width: avatarSize,
+        height: avatarSize,
+        fontSize: `calc(${avatarSize} * 0.35)`,
         marginLeft: layout === 'stacked' ? marginLeft : undefined,
         zIndex: 0,
       };

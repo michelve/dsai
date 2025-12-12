@@ -4,7 +4,9 @@
       "default": {
         "$value": "{colors.neutral.gray.300}",
         "$type": "color",
-        "$scopes": ["STROKE_COLOR"]
+        "$scopes": [
+          "STROKE_COLOR"
+        ]
       }
     }
   }

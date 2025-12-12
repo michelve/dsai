@@ -13,40 +13,43 @@ import type { ReactNode } from 'react';
 export type AvatarSize = ExtendedSize;
 
 /**
- * Avatar size mappings in pixels
- * Used for consistent sizing across avatars and groups
+ * Avatar size mappings (CSS vars with fallback) for consistent sizing.
+ * Values prefer CSS custom properties from the design tokens theme and fall back to px/rem literals.
  */
-export const AVATAR_SIZE_MAP: Record<AvatarSize, number> = {
-  xs: 24,
-  sm: 32,
-  md: 40,
-  lg: 48,
-  xl: 64,
-  '2xl': 80,
+export const AVATAR_SIZE_MAP: Record<AvatarSize, string> = {
+  xs: 'var(--dsai-avatar-size-xs, 24px)',
+  sm: 'var(--dsai-avatar-size-sm, 32px)',
+  md: 'var(--dsai-avatar-size-md, 40px)',
+  lg: 'var(--dsai-avatar-size-lg, 48px)',
+  xl: 'var(--dsai-avatar-size-xl, 64px)',
+  '2xl': 'var(--dsai-avatar-size-2xl, 80px)',
+  xxl: 'var(--dsai-avatar-size-xxl, 96px)',
 };
 
 /**
- * Font size mappings for initials based on avatar size
+ * Font size mappings for initials (CSS vars with fallback)
  */
 export const AVATAR_FONT_SIZE_MAP: Record<AvatarSize, string> = {
-  xs: '0.625rem', // 10px
-  sm: '0.75rem', // 12px
-  md: '0.875rem', // 14px
-  lg: '1rem', // 16px
-  xl: '1.25rem', // 20px
-  '2xl': '1.5rem', // 24px
+  xs: 'var(--dsai-avatar-font-size-xs, 0.625rem)', // 10px
+  sm: 'var(--dsai-avatar-font-size-sm, 0.75rem)', // 12px
+  md: 'var(--dsai-avatar-font-size-md, 0.875rem)', // 14px
+  lg: 'var(--dsai-avatar-font-size-lg, 1rem)', // 16px
+  xl: 'var(--dsai-avatar-font-size-xl, 1.25rem)', // 20px
+  '2xl': 'var(--dsai-avatar-font-size-2xl, 1.5rem)', // 24px
+  xxl: 'var(--dsai-avatar-font-size-xxl, 1.75rem)', // 28px
 };
 
 /**
- * Status indicator size mappings
+ * Status indicator size mappings (CSS vars with fallback)
  */
-export const AVATAR_STATUS_SIZE_MAP: Record<AvatarSize, number> = {
-  xs: 6,
-  sm: 8,
-  md: 10,
-  lg: 12,
-  xl: 14,
-  '2xl': 16,
+export const AVATAR_STATUS_SIZE_MAP: Record<AvatarSize, string> = {
+  xs: 'var(--dsai-avatar-status-size-xs, 6px)',
+  sm: 'var(--dsai-avatar-status-size-sm, 8px)',
+  md: 'var(--dsai-avatar-status-size-md, 10px)',
+  lg: 'var(--dsai-avatar-status-size-lg, 12px)',
+  xl: 'var(--dsai-avatar-status-size-xl, 14px)',
+  '2xl': 'var(--dsai-avatar-status-size-2xl, 16px)',
+  xxl: 'var(--dsai-avatar-status-size-xxl, 18px)',
 };
 
 // =============================================================================
@@ -322,6 +325,24 @@ export type AvatarGroupLayout = 'stacked' | 'inline';
  * Spacing between avatars in group
  */
 export type AvatarGroupSpacing = 'compact' | 'normal' | 'loose';
+
+/**
+ * Default overlap ratios for stacked layout (percentage of avatar size)
+ */
+export const AVATAR_GROUP_OVERLAP_MAP: Record<AvatarGroupSpacing, string> = {
+  compact: 'var(--dsai-avatar-overlap-compact, 0.4)',
+  normal: 'var(--dsai-avatar-overlap-normal, 0.3)',
+  loose: 'var(--dsai-avatar-overlap-loose, 0.2)',
+};
+
+/**
+ * Default gaps for inline layout (rem units)
+ */
+export const AVATAR_GROUP_GAP_MAP: Record<AvatarGroupSpacing, string> = {
+  compact: 'var(--dsai-avatar-gap-compact, 0.25rem)',
+  normal: 'var(--dsai-avatar-gap-normal, 0.5rem)',
+  loose: 'var(--dsai-avatar-gap-loose, 0.75rem)',
+};
 
 /**
  * Avatar group props
