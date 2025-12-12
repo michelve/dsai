@@ -1,6 +1,6 @@
 # Task: Audit Utility – `announceToScreenReader`
 
-Note: Duplicate this file with util name append to it. ex: TASK-XXXX-util-utilName.md
+Note: Duplicate this file with util name append to it. ex: TASK-XXXX-util-utilName.md save it on 02-high task dir.
 
 **Task ID:** TASK-77  
 **Title:** Audit and harden utility `announceToScreenReader` in `packages/@dsai/react/src/utils/a11y/announceToScreenReader.ts`  
