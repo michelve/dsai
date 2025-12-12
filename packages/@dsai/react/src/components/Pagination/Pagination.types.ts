@@ -7,8 +7,8 @@
  * @packageDocumentation
  */
 
-import type { CSSProperties, ReactNode } from 'react';
 import type { ComponentSize } from '../../types';
+import type { CSSProperties, ReactNode } from 'react';
 
 /**
  * Pagination size variants

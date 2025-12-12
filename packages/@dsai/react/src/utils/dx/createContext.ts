@@ -5,7 +5,7 @@ import { invariant } from './invariant';
 /**
  * Options for creating a context.
  */
-export interface CreateContextOptions<T> {
+export interface StrictContextOptions<T> {
   /** Name of the context for debugging */
   name: string;
   /** Default value (optional) */
@@ -13,8 +13,21 @@ export interface CreateContextOptions<T> {
   /** Error message when context is used outside provider */
   errorMessage?: string;
   /** Whether to allow usage outside provider (requires defaultValue) */
-  strict?: boolean;
+  strict?: true;
 }
+
+export interface NonStrictContextOptions<T> {
+  /** Name of the context for debugging */
+  name: string;
+  /** Default value (required when strict is false) */
+  defaultValue: T;
+  /** Error message when context is used outside provider */
+  errorMessage?: string;
+  /** Whether to allow usage outside provider (requires defaultValue) */
+  strict: false;
+}
+
+export type CreateContextOptions<T> = StrictContextOptions<T> | NonStrictContextOptions<T>;
 
 /**
  * Return type of createContext.

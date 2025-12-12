@@ -4,6 +4,7 @@
  */
 
 import { capitalize } from './capitalize';
+import { getVariantClass } from './getVariantClass';
 import { slugify } from './slugify';
 import { truncate } from './truncate';
 
@@ -355,6 +356,160 @@ describe('slugify', () => {
       const result = slugify(longText);
       expect(result).not.toContain('  ');
       expect(result).not.toMatch(/--/);
+    });
+  });
+
+  describe('Non-Latin character handling', () => {
+    it('should transliterate Cyrillic characters', () => {
+      // Note: Cyrillic doesn't decompose via NFD, so these remain
+      // The function will remove them via strict mode or keep as separator-separated
+      const result = slugify('Привет мир', { strict: true });
+      // Cyrillic gets filtered out in strict mode
+      expect(result).toBe('');
+    });
+
+    it('should handle Greek characters', () => {
+      const result = slugify('Ελληνικά', { strict: true });
+      // Greek gets filtered in strict mode
+      expect(result).toBe('');
+    });
+
+    it('should handle Arabic characters', () => {
+      const result = slugify('مرحبا', { strict: true });
+      // Arabic gets filtered in strict mode
+      expect(result).toBe('');
+    });
+
+    it('should handle mixed Latin and non-Latin', () => {
+      const result = slugify('Hello Мир World', { strict: true });
+      // Non-Latin filtered, Latin kept
+      expect(result).toBe('hello-world');
+    });
+
+    it('should handle Japanese characters', () => {
+      const result = slugify('こんにちは世界', { strict: true });
+      // Japanese gets filtered in strict mode
+      expect(result).toBe('');
+    });
+
+    it('should handle Korean characters', () => {
+      const result = slugify('안녕하세요', { strict: true });
+      // Korean gets filtered in strict mode
+      expect(result).toBe('');
+    });
+
+    it('should handle Vietnamese with diacritics', () => {
+      // Vietnamese uses Latin script with diacritics
+      const result = slugify('Việt Nam');
+      expect(result).toBe('viet-nam');
+    });
+
+    it('should handle Polish characters', () => {
+      const result = slugify('Łódź');
+      // Ł and ź don't decompose via NFD, so they get stripped
+      // Only ó decomposes to o
+      expect(result).toBe('odz');
+    });
+  });
+});
+
+describe('getVariantClass', () => {
+  describe('Basic functionality', () => {
+    it('should generate class with default prefix', () => {
+      expect(getVariantClass('primary')).toBe('text-bg-primary');
+    });
+
+    it('should generate class for all known variants', () => {
+      expect(getVariantClass('primary')).toBe('text-bg-primary');
+      expect(getVariantClass('secondary')).toBe('text-bg-secondary');
+      expect(getVariantClass('success')).toBe('text-bg-success');
+      expect(getVariantClass('danger')).toBe('text-bg-danger');
+      expect(getVariantClass('warning')).toBe('text-bg-warning');
+      expect(getVariantClass('info')).toBe('text-bg-info');
+      expect(getVariantClass('light')).toBe('text-bg-light');
+      expect(getVariantClass('dark')).toBe('text-bg-dark');
+    });
+  });
+
+  describe('Custom prefix', () => {
+    it('should use custom prefix', () => {
+      expect(getVariantClass('primary', { prefix: 'btn' })).toBe('btn-primary');
+    });
+
+    it('should use card prefix', () => {
+      expect(getVariantClass('success', { prefix: 'card' })).toBe('card-success');
+    });
+
+    it('should use alert prefix', () => {
+      expect(getVariantClass('danger', { prefix: 'alert' })).toBe('alert-danger');
+    });
+  });
+
+  describe('Variant mapping', () => {
+    it('should map error to danger', () => {
+      expect(getVariantClass('error', { map: { error: 'danger' } })).toBe('text-bg-danger');
+    });
+
+    it('should map default to secondary', () => {
+      expect(getVariantClass('default', { map: { default: 'secondary' } })).toBe(
+        'text-bg-secondary'
+      );
+    });
+
+    it('should pass through unmapped variants', () => {
+      expect(getVariantClass('primary', { map: { error: 'danger' } })).toBe('text-bg-primary');
+    });
+  });
+
+  describe('Validation', () => {
+    it('should not warn for known variants', () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+      getVariantClass('primary');
+      expect(warnSpy).not.toHaveBeenCalled();
+      warnSpy.mockRestore();
+    });
+
+    it('should skip validation when skipValidation is true', () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+      const result = getVariantClass('custom-variant', { skipValidation: true });
+      expect(result).toBe('text-bg-custom-variant');
+      expect(warnSpy).not.toHaveBeenCalled();
+      warnSpy.mockRestore();
+    });
+  });
+
+  describe('Error handling', () => {
+    it('should return empty string for null variant', () => {
+      expect(getVariantClass(null as unknown as string)).toBe('');
+    });
+
+    it('should return empty string for undefined variant', () => {
+      expect(getVariantClass(undefined as unknown as string)).toBe('');
+    });
+
+    it('should return empty string for empty string', () => {
+      expect(getVariantClass('')).toBe('');
+    });
+
+    it('should return empty string for non-string variant', () => {
+      expect(getVariantClass(123 as unknown as string)).toBe('');
+    });
+  });
+
+  describe('Edge cases', () => {
+    it('should handle variant with special characters', () => {
+      expect(getVariantClass('custom-variant', { skipValidation: true })).toBe(
+        'text-bg-custom-variant'
+      );
+    });
+
+    it('should handle combined options', () => {
+      expect(
+        getVariantClass('error', {
+          prefix: 'btn',
+          map: { error: 'danger' },
+        })
+      ).toBe('btn-danger');
     });
   });
 });

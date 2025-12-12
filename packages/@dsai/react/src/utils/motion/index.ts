@@ -12,6 +12,7 @@ export { easeInOut } from './easeInOut';
 export { easeOut } from './easeOut';
 export { interpolate } from './interpolate';
 
+export type { InterpolateOptions } from './interpolate';
 export type {
   EasingFunction,
   InterpolationRange,

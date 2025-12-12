@@ -144,10 +144,12 @@ export function memoize<T extends (...args: unknown[]) => unknown>(
     throw new TypeError('memoize: Expected a function');
   }
 
-  const { cacheKeyFn = defaultCacheKey, maxSize = Infinity, ttl = Infinity } = options;
+  const { cacheKeyFn = defaultCacheKey, maxSize = Infinity, ttl = Infinity, weakMap = false } =
+    options;
 
   // Use Map for cache (maintains insertion order for LRU)
   const cache = new Map<string, CacheEntry<ReturnType<T>>>();
+  const weakCache = weakMap ? new WeakMap<object, CacheEntry<ReturnType<T>>>() : null;
 
   // Statistics
   let hits = 0;
@@ -185,6 +187,25 @@ export function memoize<T extends (...args: unknown[]) => unknown>(
   }
 
   const memoized = function (this: unknown, ...args: Parameters<T>): ReturnType<T> {
+    // WeakMap path: only when enabled, single object/function first arg, and key function not needed
+    if (weakCache && args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
+      const target = args[0] as object;
+      const existing = weakCache.get(target);
+      if (existing && !isExpired(existing)) {
+        hits++;
+        return existing.value;
+      }
+
+      // Cache miss on weak path
+      misses++;
+      const value = fn.apply(this, args) as ReturnType<T>;
+      weakCache.set(target, {
+        value,
+        timestamp: Date.now(),
+      });
+      return value;
+    }
+
     const key = cacheKeyFn(...args);
 
     // Check cache
@@ -229,11 +250,25 @@ export function memoize<T extends (...args: unknown[]) => unknown>(
   };
 
   memoized.delete = (...args: Parameters<T>): boolean => {
+    if (weakCache && args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
+      return weakCache.delete(args[0] as object);
+    }
     const key = cacheKeyFn(...args);
     return cache.delete(key);
   };
 
   memoized.has = (...args: Parameters<T>): boolean => {
+    if (weakCache && args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
+      const entry = weakCache.get(args[0] as object);
+      if (!entry) {
+        return false;
+      }
+      if (isExpired(entry)) {
+        weakCache.delete(args[0] as object);
+        return false;
+      }
+      return true;
+    }
     const key = cacheKeyFn(...args);
     const entry = cache.get(key);
     if (!entry) {

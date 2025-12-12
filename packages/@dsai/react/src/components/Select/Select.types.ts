@@ -1,5 +1,5 @@
-import type { CSSProperties, ReactNode } from 'react';
 import type { ComponentSize } from '../../types';
+import type { CSSProperties, ReactNode } from 'react';
 
 /**
  * Option item for the Select component

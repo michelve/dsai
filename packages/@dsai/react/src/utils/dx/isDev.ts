@@ -40,9 +40,14 @@ interface GlobalWithDev {
 }
 
 export function isDev(): boolean {
-  // Check NODE_ENV
-  if (typeof process !== 'undefined' && process.env?.NODE_ENV) {
-    return process.env.NODE_ENV === 'development';
+  try {
+    // Check NODE_ENV
+    if (typeof process !== 'undefined' && process?.env?.NODE_ENV) {
+      return process.env.NODE_ENV === 'development';
+    }
+  } catch {
+    // Guard against ReferenceError in runtimes without process
+    return false;
   }
 
   // Check __DEV__ global (used by React Native and some bundlers)

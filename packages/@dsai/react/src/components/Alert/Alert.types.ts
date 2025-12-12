@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
 import type { SafeHTMLAttributes, SemanticColorVariant } from '../../types';
+import type { ReactNode } from 'react';
 
 /**
  * Alert component variants

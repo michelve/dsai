@@ -1,5 +1,5 @@
-import type { CSSProperties, HTMLAttributes } from 'react';
 import type { ExtendedSize, SemanticColorVariant } from '../../types';
+import type { CSSProperties, HTMLAttributes } from 'react';
 
 /**
  * Spinner animation type

@@ -13,10 +13,28 @@
 import { exponentialBackoff, type ExponentialBackoffOptions } from './exponentialBackoff';
 
 /**
+ * Creates a portable abort error that works in both browser and Node.js environments.
+ * Falls back to a standard Error with 'AbortError' name when DOMException is unavailable.
+ */
+function createAbortError(message: string = 'Retry aborted'): Error {
+  // Check if DOMException is available (browser or Node 17+)
+  if (typeof DOMException !== 'undefined') {
+    return new DOMException(message, 'AbortError');
+  }
+  // Fallback for older Node.js environments
+  const error = new Error(message);
+  error.name = 'AbortError';
+  return error;
+}
+
+/**
  * Options for retry with backoff
  */
 export interface RetryWithBackoffOptions extends ExponentialBackoffOptions {
-  /** Maximum number of attempts (default: 3) */
+  /**
+   * Maximum number of attempts (default: 3).
+   * Must be at least 1. Values less than 1 will be clamped to 1.
+   */
   maxAttempts?: number;
   /** Custom function to determine if error is retryable (default: all errors) */
   shouldRetry?: (error: unknown, attempt: number) => boolean;
@@ -36,10 +54,19 @@ export interface RetryResult<T> {
   data?: T;
   /** The last error if failed */
   error?: unknown;
-  /** Total number of attempts made */
+  /**
+   * Total number of attempts actually made.
+   * For success: the attempt number that succeeded (1-indexed).
+   * For failure: the number of attempts before giving up or being aborted.
+   */
   attempts: number;
   /** Total time spent in milliseconds */
   totalTime: number;
+  /**
+   * Whether the operation was aborted via AbortSignal.
+   * When true, the error will be an AbortError.
+   */
+  aborted?: boolean;
 }
 
 /**
@@ -47,7 +74,13 @@ export interface RetryResult<T> {
  *
  * @param fn - Async function to retry
  * @param options - Retry configuration options
- * @returns Promise resolving to retry result
+ * @returns Promise resolving to retry result (never rejects)
+ *
+ * @remarks
+ * - The function always returns a structured `RetryResult`, even on abort.
+ * - When aborted, `result.aborted` is `true` and `result.error` is an `AbortError`.
+ * - The `attempts` field reflects actual attempts made, not the configured maximum.
+ * - `maxAttempts` is clamped to at least 1 to prevent misconfiguration.
  *
  * @example
  * ```tsx
@@ -85,6 +118,11 @@ export interface RetryResult<T> {
  * // Cancel after 5 seconds
  * setTimeout(() => controller.abort(), 5000);
  *
+ * // Check if aborted
+ * if (result.aborted) {
+ *   console.log('Operation was cancelled');
+ * }
+ *
  * // Component usage with cleanup
  * useEffect(() => {
  *   const controller = new AbortController();
@@ -104,28 +142,41 @@ export async function retryWithBackoff<T>(
   fn: () => Promise<T>,
   options: RetryWithBackoffOptions = {}
 ): Promise<RetryResult<T>> {
-  const { maxAttempts = 3, shouldRetry = () => true, onRetry, signal, ...backoffOptions } = options;
+  const {
+    maxAttempts: rawMaxAttempts = 3,
+    shouldRetry = () => true,
+    onRetry,
+    signal,
+    ...backoffOptions
+  } = options;
+
+  // Clamp maxAttempts to at least 1 to prevent misconfiguration
+  const maxAttempts = Math.max(1, rawMaxAttempts);
 
   const startTime = Date.now();
   let lastError: unknown;
+  let attemptsMade = 0;
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    // Check for abort
+    // Check for abort before attempt
     if (signal?.aborted) {
       return {
         success: false,
-        error: new DOMException('Retry aborted', 'AbortError'),
-        attempts: attempt,
+        error: createAbortError(),
+        attempts: attemptsMade,
         totalTime: Date.now() - startTime,
+        aborted: true,
       };
     }
+
+    attemptsMade++;
 
     try {
       const data = await fn();
       return {
         success: true,
         data,
-        attempts: attempt + 1,
+        attempts: attemptsMade,
         totalTime: Date.now() - startTime,
       };
     } catch (error) {
@@ -143,31 +194,54 @@ export async function retryWithBackoff<T>(
       // Notify about retry
       onRetry?.(error, attempt + 1, delay);
 
-      // Wait with abort support
-      await new Promise<void>((resolve, reject) => {
-        const timeoutId = setTimeout(resolve, delay);
-
-        if (signal) {
-          const abortHandler = (): void => {
-            clearTimeout(timeoutId);
-            reject(new DOMException('Retry aborted', 'AbortError'));
-          };
-
-          signal.addEventListener('abort', abortHandler, { once: true });
-
-          // Clean up abort listener after timeout
-          setTimeout(() => {
-            signal.removeEventListener('abort', abortHandler);
-          }, delay);
-        }
-      });
+      // Wait with abort support - returns structured result on abort instead of rejecting
+      const aborted = await waitWithAbort(delay, signal);
+      if (aborted) {
+        return {
+          success: false,
+          error: createAbortError(),
+          attempts: attemptsMade,
+          totalTime: Date.now() - startTime,
+          aborted: true,
+        };
+      }
     }
   }
 
   return {
     success: false,
     error: lastError,
-    attempts: maxAttempts,
+    attempts: attemptsMade,
     totalTime: Date.now() - startTime,
   };
+}
+
+/**
+ * Wait for a specified delay with abort support.
+ * Returns true if aborted, false if completed normally.
+ */
+async function waitWithAbort(delayMs: number, signal?: AbortSignal): Promise<boolean> {
+  return new Promise<boolean>((resolve) => {
+    // If already aborted, resolve immediately
+    if (signal?.aborted) {
+      resolve(true);
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      if (signal) {
+        signal.removeEventListener('abort', abortHandler);
+      }
+      resolve(false);
+    }, delayMs);
+
+    const abortHandler = (): void => {
+      clearTimeout(timeoutId);
+      resolve(true);
+    };
+
+    if (signal) {
+      signal.addEventListener('abort', abortHandler, { once: true });
+    }
+  });
 }

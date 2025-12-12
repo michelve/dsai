@@ -1,5 +1,5 @@
-import type { CSSProperties, KeyboardEvent, MouseEvent, ReactNode } from 'react';
 import type { SafeHTMLAttributes } from '../../types';
+import type { CSSProperties, KeyboardEvent, MouseEvent, ReactNode } from 'react';
 
 /**
  * Dropdown placement options

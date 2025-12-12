@@ -11,6 +11,7 @@ import type { FieldValidationResult, ValidationRule } from './types';
  * - Async validation support
  * - Short-circuit on first error
  * - Type-safe validators
+ * - **Error handling**: Gracefully handles validators that throw exceptions
  *
  * @param value - Field value to validate
  * @param rules - Array of validation rules
@@ -61,8 +62,22 @@ export async function validateField<T = unknown>(
   rules: ValidationRule<T>[]
 ): Promise<FieldValidationResult> {
   for (const rule of rules) {
-    const isValid = await rule.validate(value);
-    if (!isValid) {
+    try {
+      const isValid = await rule.validate(value);
+      if (!isValid) {
+        return {
+          valid: false,
+          error: rule.message,
+        };
+      }
+    } catch (error) {
+      // Handle validators that throw exceptions
+      // Treat as validation failure and use the rule's message
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(
+          `[validateField] Validator threw an exception: ${error instanceof Error ? error.message : String(error)}`
+        );
+      }
       return {
         valid: false,
         error: rule.message,

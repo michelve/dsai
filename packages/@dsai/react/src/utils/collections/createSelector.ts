@@ -190,14 +190,13 @@ export interface MemoizedSelector<S, R> extends Selector<S, R> {
 function createSelectorInternal<S, Result>(
   selectors: ReadonlyArray<Selector<S, unknown>>,
   combiner: (...inputs: unknown[]) => Result,
-  _options?: CreateSelectorOptions<Result>
+  options?: CreateSelectorOptions<Result>
 ): MemoizedSelector<S, Result> {
   if (selectors.length === 0) {
     throw new Error('createSelector requires at least one input selector');
   }
 
-  // Unused for now, reserved for future equalityFn support
-  void _options;
+  const equalityFn = options?.equalityFn;
 
   // Cache state
   let lastInputs: unknown[] | undefined;
@@ -233,6 +232,12 @@ function createSelectorInternal<S, Result>(
     // Recompute
     recomputationCount++;
     const result = combiner(...currentInputs);
+
+    if (hasCache && lastResult !== undefined && equalityFn && equalityFn(lastResult, result)) {
+      // Inputs changed but result is considered equal; keep prior result reference
+      lastInputs = currentInputs;
+      return lastResult;
+    }
 
     // Update cache
     lastInputs = currentInputs;
@@ -457,8 +462,7 @@ export function createSelectorFromArray<S, Results extends unknown[], Result>(
     throw new Error('createSelectorFromArray requires a non-empty array of selectors');
   }
 
-  // Unused for now, reserved for future equalityFn support
-  void options;
+  const equalityFn = options?.equalityFn;
 
   let lastInputs: Results | undefined;
   let lastResult: Result | undefined;
@@ -484,6 +488,11 @@ export function createSelectorFromArray<S, Results extends unknown[], Result>(
 
     recomputationCount++;
     const result = combiner(currentInputs);
+
+    if (hasCache && lastResult !== undefined && equalityFn && equalityFn(lastResult, result)) {
+      lastInputs = currentInputs;
+      return lastResult;
+    }
 
     lastInputs = currentInputs;
     lastResult = result;

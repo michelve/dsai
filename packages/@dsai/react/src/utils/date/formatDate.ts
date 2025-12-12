@@ -262,8 +262,13 @@ export function formatDate(
     }
   }
 
-  // Add time zone (default to UTC for deterministic output in tests/SSR)
-  intlOptions.timeZone = options.timeZone ?? 'UTC';
+  // Add time zone:
+  // - honor explicit timeZone
+  // - default to UTC for deterministic output unless useLocalTimeZone is true
+  const resolvedTimeZone = options.timeZone ?? (options.useLocalTimeZone ? undefined : 'UTC');
+  if (resolvedTimeZone) {
+    intlOptions.timeZone = resolvedTimeZone;
+  }
 
   // Try to get or create formatter
   const formatter = getOrCreateFormatter(locale, intlOptions);

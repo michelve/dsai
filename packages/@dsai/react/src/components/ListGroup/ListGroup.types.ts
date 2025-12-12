@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
 import type { SemanticColorVariant } from '../../types';
+import type { ReactNode } from 'react';
 
 /**
  * ListGroup variant styling

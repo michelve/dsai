@@ -1,5 +1,5 @@
-import type { KeyboardEvent, MouseEvent, ReactNode } from 'react';
 import type { SafeHTMLAttributes } from '../../types';
+import type { KeyboardEvent, MouseEvent, ReactNode } from 'react';
 
 /**
  * Accordion selection mode

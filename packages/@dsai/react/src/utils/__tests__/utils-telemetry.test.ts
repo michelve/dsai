@@ -28,41 +28,44 @@ import {
 // 3) Make a typed reference to the mocked function
 const mockedIsBrowser = isBrowser as jest.MockedFunction<typeof isBrowser>;
 
-// 4) Enterprise-grade Performance API mock setup
-let originalPerformance: Performance | undefined;
-
-let mockNow: jest.Mock<number, []>;
-let mockMark: jest.Mock<void, [string]>;
-let mockMeasure: jest.Mock<void, [string, string, string]>;
-let mockClearMarks: jest.Mock<void, [string]>;
-let mockClearMeasures: jest.Mock<void, [string]>;
+// 4) Performance API spies
+let originalPerformance: Performance;
+let nowSpy: jest.SpyInstance<number, []>;
+let markSpy: jest.SpyInstance<void, [string]>;
+let measureSpy: jest.SpyInstance<void, [string, string?, string?]>;
+let clearMarksSpy: jest.SpyInstance<void, [string]>;
+let clearMeasuresSpy: jest.SpyInstance<void, [string]>;
 
 beforeAll(() => {
-  originalPerformance = (globalThis as any).performance;
+  originalPerformance = (globalThis as any).performance as Performance;
 });
 
 beforeEach(() => {
-  mockNow = jest.fn(() => 1000);
-  mockMark = jest.fn();
-  mockMeasure = jest.fn();
-  mockClearMarks = jest.fn();
-  mockClearMeasures = jest.fn();
+  // Ensure performance exists and has the methods we need for spying
+  const perf = ((globalThis as any).performance ||
+    ((globalThis as any).performance = {})) as Performance & {
+    mark?: Performance['mark'];
+    measure?: Performance['measure'];
+    clearMarks?: Performance['clearMarks'];
+    clearMeasures?: Performance['clearMeasures'];
+    now?: Performance['now'];
+  };
 
-  const mockPerf: Performance = {
-    ...(originalPerformance ?? {}),
-    now: mockNow,
-    mark: mockMark,
-    // Cast to satisfy TS overloads for Performance['measure']
-    measure: mockMeasure as unknown as Performance['measure'],
-    clearMarks: mockClearMarks,
-    clearMeasures: mockClearMeasures,
-  } as Performance;
+  if (typeof perf.now !== 'function') perf.now = Date.now;
+  if (typeof perf.mark !== 'function') perf.mark = () => undefined;
+  if (typeof perf.measure !== 'function') perf.measure = () => undefined;
+  if (typeof perf.clearMarks !== 'function') perf.clearMarks = () => undefined;
+  if (typeof perf.clearMeasures !== 'function') perf.clearMeasures = () => undefined;
 
-  // Set both globalThis and window to ensure jsdom compatibility
-  (globalThis as any).performance = mockPerf;
+  nowSpy = jest.spyOn(perf, 'now').mockReturnValue(1000);
+  markSpy = jest.spyOn(perf, 'mark').mockImplementation(() => undefined);
+  measureSpy = jest.spyOn(perf, 'measure').mockImplementation(() => undefined);
+  clearMarksSpy = jest.spyOn(perf, 'clearMarks').mockImplementation(() => undefined);
+  clearMeasuresSpy = jest.spyOn(perf, 'clearMeasures').mockImplementation(() => undefined);
 
+  // Keep window.performance in sync
   if (typeof window !== 'undefined') {
-    (window as any).performance = mockPerf;
+    (window as any).performance = perf;
   }
 
   // Default to "browser" mode for all tests unless a test overrides it
@@ -71,14 +74,15 @@ beforeEach(() => {
 
 afterEach(() => {
   jest.clearAllMocks();
+  nowSpy.mockRestore();
+  markSpy.mockRestore();
+  measureSpy.mockRestore();
+  clearMarksSpy.mockRestore();
+  clearMeasuresSpy.mockRestore();
 });
 
 afterAll(() => {
-  if (originalPerformance) {
-    (globalThis as any).performance = originalPerformance;
-  } else {
-    delete (globalThis as any).performance;
-  }
+  (globalThis as any).performance = originalPerformance;
 });
 
 describe('Telemetry Utilities', () => {
@@ -113,37 +117,31 @@ describe('Telemetry Utilities', () => {
       );
     });
 
-    // TODO: Re-enable after resolving jsdom Performance API mocking issue
-    // The mock object is set on both globalThis.performance and window.performance,
-    // but measurePerformance is not calling the mocked methods. Need to investigate
-    // if there's a module boundary or timing issue with the Performance API in jsdom.
-    it.skip('creates performance marks when available', () => {
+    it('creates performance marks when available', () => {
       measurePerformance(() => 'test', { name: 'op', useMarks: true });
 
-      expect(mockMark).toHaveBeenCalledWith('op-start');
-      expect(mockMark).toHaveBeenCalledWith('op-end');
-      expect(mockMeasure).toHaveBeenCalledWith('op', 'op-start', 'op-end');
+      expect(markSpy).toHaveBeenCalledWith('op-start');
+      expect(markSpy).toHaveBeenCalledWith('op-end');
+      expect(measureSpy).toHaveBeenCalledWith('op', 'op-start', 'op-end');
     });
 
-    // TODO: Re-enable after resolving jsdom Performance API mocking issue
-    // Same root cause as 'creates performance marks when available' test above.
-    it.skip('cleans up performance marks', () => {
+    it('cleans up performance marks', () => {
       measurePerformance(() => 'test', { name: 'op' });
 
-      expect(mockClearMarks).toHaveBeenCalledWith('op-start');
-      expect(mockClearMarks).toHaveBeenCalledWith('op-end');
-      expect(mockClearMeasures).toHaveBeenCalledWith('op');
+      expect(clearMarksSpy).toHaveBeenCalledWith('op-start');
+      expect(clearMarksSpy).toHaveBeenCalledWith('op-end');
+      expect(clearMeasuresSpy).toHaveBeenCalledWith('op');
     });
 
     it('skips marks when useMarks is false', () => {
       measurePerformance(() => 'test', { name: 'op', useMarks: false });
 
-      expect(mockMark).not.toHaveBeenCalled();
-      expect(mockMeasure).not.toHaveBeenCalled();
+      expect(markSpy).not.toHaveBeenCalled();
+      expect(measureSpy).not.toHaveBeenCalled();
     });
 
     it('handles mark errors gracefully', () => {
-      mockMark.mockImplementation(() => {
+      markSpy.mockImplementation(() => {
         throw new Error('Quota exceeded');
       });
 
@@ -171,8 +169,8 @@ describe('Telemetry Utilities', () => {
       expect(result.duration).toBeGreaterThanOrEqual(0);
 
       // No marks or measures should be used in SSR
-      expect(mockMark).not.toHaveBeenCalled();
-      expect(mockMeasure).not.toHaveBeenCalled();
+      expect(markSpy).not.toHaveBeenCalled();
+      expect(measureSpy).not.toHaveBeenCalled();
 
       // Restore environment
       (globalThis as any).performance = savedPerformance;
@@ -214,9 +212,9 @@ describe('Telemetry Utilities', () => {
     it('creates performance marks for async operations', async () => {
       await measurePerformanceAsync(async () => 'test', { name: 'async-op', useMarks: true });
 
-      expect(mockMark).toHaveBeenCalledWith('async-op-start');
-      expect(mockMark).toHaveBeenCalledWith('async-op-end');
-      expect(mockMeasure).toHaveBeenCalledWith('async-op', 'async-op-start', 'async-op-end');
+      expect(markSpy).toHaveBeenCalledWith('async-op-start');
+      expect(markSpy).toHaveBeenCalledWith('async-op-end');
+      expect(measureSpy).toHaveBeenCalledWith('async-op', 'async-op-start', 'async-op-end');
     });
   });
 
@@ -263,12 +261,12 @@ describe('Telemetry Utilities', () => {
     it('creates performance marks', () => {
       const session = startTiming('marked-session');
 
-      expect(mockMark).toHaveBeenCalledWith('marked-session-start');
+      expect(markSpy).toHaveBeenCalledWith('marked-session-start');
 
       session.end();
 
-      expect(mockMark).toHaveBeenCalledWith('marked-session-end');
-      expect(mockMeasure).toHaveBeenCalledWith(
+      expect(markSpy).toHaveBeenCalledWith('marked-session-end');
+      expect(measureSpy).toHaveBeenCalledWith(
         'marked-session',
         'marked-session-start',
         'marked-session-end'
@@ -282,16 +280,16 @@ describe('Telemetry Utilities', () => {
       const session = startTiming('cleanup');
 
       // Verify start mark was created
-      expect(mockMark).toHaveBeenCalledWith('cleanup-start');
+      expect(markSpy).toHaveBeenCalledWith('cleanup-start');
 
       session.end();
 
       // Verify end mark and cleanup
-      expect(mockMark).toHaveBeenCalledWith('cleanup-end');
-      expect(mockMeasure).toHaveBeenCalledWith('cleanup', 'cleanup-start', 'cleanup-end');
-      expect(mockClearMarks).toHaveBeenCalledWith('cleanup-start');
-      expect(mockClearMarks).toHaveBeenCalledWith('cleanup-end');
-      expect(mockClearMeasures).toHaveBeenCalledWith('cleanup');
+      expect(markSpy).toHaveBeenCalledWith('cleanup-end');
+      expect(measureSpy).toHaveBeenCalledWith('cleanup', 'cleanup-start', 'cleanup-end');
+      expect(clearMarksSpy).toHaveBeenCalledWith('cleanup-start');
+      expect(clearMarksSpy).toHaveBeenCalledWith('cleanup-end');
+      expect(clearMeasuresSpy).toHaveBeenCalledWith('cleanup');
     });
   });
 

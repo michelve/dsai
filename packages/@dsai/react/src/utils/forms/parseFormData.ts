@@ -10,6 +10,7 @@
  * - Multiple values for same key (converted to array)
  * - File upload handling
  * - Type-safe output
+ * - **Security**: Guards against prototype pollution (rejects dangerous keys)
  *
  * @param formData - FormData instance to parse
  * @returns Plain object with nested structure
@@ -43,10 +44,63 @@
  * // { avatar: File, name: 'Jane' }
  * ```
  */
+
+/**
+ * Set of keys that could be used for prototype pollution attacks.
+ * These are always rejected when parsing FormData.
+ */
+const DANGEROUS_KEYS = new Set([
+  '__proto__',
+  'constructor',
+  'prototype',
+  '__defineGetter__',
+  '__defineSetter__',
+  '__lookupGetter__',
+  '__lookupSetter__',
+]);
+
+/**
+ * Check if a key or any of its parts is dangerous (prototype pollution risk)
+ */
+function isDangerousKey(key: string): boolean {
+  // Check if the full key matches
+  if (DANGEROUS_KEYS.has(key)) {
+    return true;
+  }
+
+  // Check array notation base key
+  const arrayMatch = key.match(/^(.+)\[\d+\]$/);
+  if (arrayMatch?.[1] && DANGEROUS_KEYS.has(arrayMatch[1])) {
+    return true;
+  }
+
+  // Check each part of dot-notation keys
+  if (key.includes('.')) {
+    const parts = key.split('.');
+    for (const part of parts) {
+      if (DANGEROUS_KEYS.has(part)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
 export function parseFormData(formData: FormData): Record<string, unknown> {
   const result: Record<string, unknown> = {};
 
   formData.forEach((value, key) => {
+    // Security: Skip dangerous keys that could cause prototype pollution
+    if (isDangerousKey(key)) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(
+          `[parseFormData] Skipping dangerous key "${key}" (prototype pollution protection)`
+        );
+      }
+      return;
+    }
+
     // Handle array notation: key[index]
     const arrayMatch = key.match(/^(.+)\[(\d+)\]$/);
     if (arrayMatch) {

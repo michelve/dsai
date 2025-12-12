@@ -39,7 +39,11 @@ import type { ComponentType } from 'react';
  * }
  * ```
  */
-export function getDisplayName<P = Record<string, unknown>>(Component: ComponentType<P>): string {
+export function getDisplayName<P = Record<string, unknown>>(Component: ComponentType<P> | null | undefined): string {
+  if (!Component) {
+    return 'Component';
+  }
+
   // Check displayName property (manually set)
   if (Component.displayName) {
     return Component.displayName;

@@ -26,8 +26,8 @@
  * @module Table/Types
  */
 
-import type { CSSProperties, ReactNode } from 'react';
 import type { ComponentSize, SemanticColorVariant } from '../../types';
+import type { CSSProperties, ReactNode } from 'react';
 
 // =============================================================================
 // Sorting Types

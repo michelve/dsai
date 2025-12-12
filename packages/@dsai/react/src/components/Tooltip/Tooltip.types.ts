@@ -1,5 +1,5 @@
-import type { ReactElement, ReactNode } from 'react';
 import type { SafeHTMLAttributes } from '../../types';
+import type { ReactElement, ReactNode } from 'react';
 
 /**
  * Tooltip placement options

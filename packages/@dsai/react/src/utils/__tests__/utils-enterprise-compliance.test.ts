@@ -79,6 +79,55 @@ describe('Enterprise Criteria: SSR Safety', () => {
 
       window.matchMedia = originalMatchMedia;
     });
+
+    it('returns true when user prefers reduced motion', () => {
+      const originalMatchMedia = window.matchMedia;
+      window.matchMedia = jest.fn().mockReturnValue({
+        matches: true,
+        media: '(prefers-reduced-motion: reduce)',
+      }) as unknown as typeof window.matchMedia;
+
+      const result = prefersReducedMotion();
+      expect(result).toBe(true);
+
+      window.matchMedia = originalMatchMedia;
+    });
+
+    it('respects defaultValue option when matchMedia returns null', () => {
+      // Use injectable matchMedia to simulate unavailable detection
+      const nullMatchMedia = () => null;
+
+      expect(prefersReducedMotion({ matchMedia: nullMatchMedia, defaultValue: true })).toBe(true);
+      expect(prefersReducedMotion({ matchMedia: nullMatchMedia, defaultValue: false })).toBe(false);
+    });
+
+    it('uses custom matchMedia function when provided', () => {
+      const customMatchMedia = jest.fn().mockReturnValue({ matches: true });
+
+      const result = prefersReducedMotion({ matchMedia: customMatchMedia });
+
+      expect(result).toBe(true);
+      expect(customMatchMedia).toHaveBeenCalledWith('(prefers-reduced-motion: reduce)');
+    });
+
+    it('uses custom query when provided', () => {
+      const customMatchMedia = jest.fn().mockReturnValue({ matches: false });
+      const customQuery = '(prefers-reduced-motion: no-preference)';
+
+      prefersReducedMotion({ matchMedia: customMatchMedia, query: customQuery });
+
+      expect(customMatchMedia).toHaveBeenCalledWith(customQuery);
+    });
+
+    it('returns defaultValue when custom matchMedia throws', () => {
+      const throwingMatchMedia = () => {
+        throw new Error('Custom error');
+      };
+
+      expect(prefersReducedMotion({ matchMedia: throwingMatchMedia, defaultValue: true })).toBe(
+        true
+      );
+    });
   });
 });
 
@@ -228,8 +277,63 @@ describe('Enterprise Criteria: Accessibility', () => {
 
       const liveRegion = document.getElementById('dsai-live-region');
       expect(liveRegion?.getAttribute('aria-live')).toBe('assertive');
+      expect(liveRegion?.getAttribute('role')).toBe('alert');
 
       cleanup();
+    });
+
+    it('supports assertive boolean alias', () => {
+      const cleanup = announceToScreenReader('Urgent message', { assertive: true });
+
+      const liveRegion = document.getElementById('dsai-live-region');
+      expect(liveRegion?.getAttribute('aria-live')).toBe('assertive');
+      expect(liveRegion?.getAttribute('role')).toBe('alert');
+
+      cleanup();
+    });
+
+    it('politeness takes precedence over assertive boolean', () => {
+      const cleanup = announceToScreenReader('Conflicting options', {
+        politeness: 'polite',
+        assertive: true,
+      });
+
+      const liveRegion = document.getElementById('dsai-live-region');
+      // politeness should win
+      expect(liveRegion?.getAttribute('aria-live')).toBe('polite');
+      expect(liveRegion?.getAttribute('role')).toBe('status');
+
+      cleanup();
+    });
+
+    it('sets role="status" for polite announcements', () => {
+      const cleanup = announceToScreenReader('Status update');
+
+      const liveRegion = document.getElementById('dsai-live-region');
+      expect(liveRegion?.getAttribute('role')).toBe('status');
+
+      cleanup();
+    });
+
+    it('updates aria-live and role when reusing container with different politeness', () => {
+      // First call with polite
+      const cleanup1 = announceToScreenReader('Polite message', { politeness: 'polite' });
+      const liveRegion = document.getElementById('dsai-live-region');
+      expect(liveRegion?.getAttribute('aria-live')).toBe('polite');
+      expect(liveRegion?.getAttribute('role')).toBe('status');
+      cleanup1();
+
+      // Second call with assertive - should update the same container
+      const cleanup2 = announceToScreenReader('Assertive message', { politeness: 'assertive' });
+      expect(liveRegion?.getAttribute('aria-live')).toBe('assertive');
+      expect(liveRegion?.getAttribute('role')).toBe('alert');
+      cleanup2();
+
+      // Third call back to polite - should update again
+      const cleanup3 = announceToScreenReader('Polite again', { politeness: 'polite' });
+      expect(liveRegion?.getAttribute('aria-live')).toBe('polite');
+      expect(liveRegion?.getAttribute('role')).toBe('status');
+      cleanup3();
     });
 
     it('cleans up announcement when cleanup is called', () => {

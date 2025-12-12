@@ -11,6 +11,7 @@
 
 // WCAG Compliance
 export { getContrastRatio } from './getContrastRatio';
+export type { ContrastRatioOptions } from './getContrastRatio';
 export { getRelativeLuminance } from './getRelativeLuminance';
 export { meetsWCAG } from './meetsWCAG';
 export type { TextSize, WCAGLevel, WCAGOptions } from './meetsWCAG';

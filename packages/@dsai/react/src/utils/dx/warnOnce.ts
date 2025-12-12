@@ -47,16 +47,38 @@ const warnedMessages = new Set<string>();
  * }
  * ```
  */
-export function warnOnce(key: string, message: string, component?: string): void {
+export function warnOnce(
+  key: string,
+  message: string,
+  componentOrOptions?: string | { namespace?: string }
+): void {
   if (!isDev()) {
     return;
   }
 
-  if (warnedMessages.has(key)) {
+  // Empty keys: treat as always warn (no dedup) to avoid silent suppression
+  if (key === '') {
+    const prefix = typeof componentOrOptions === 'string' ? `[${componentOrOptions}]` : '[Warning]';
+    console.warn(`${prefix} ${message}`);
     return;
   }
 
-  warnedMessages.add(key);
+  let component: string | undefined;
+  let namespace = '';
+
+  if (typeof componentOrOptions === 'string') {
+    component = componentOrOptions;
+  } else if (componentOrOptions?.namespace) {
+    namespace = componentOrOptions.namespace;
+  }
+
+  const cacheKey = namespace ? `${namespace}:${key}` : key;
+
+  if (warnedMessages.has(cacheKey)) {
+    return;
+  }
+
+  warnedMessages.add(cacheKey);
 
   const prefix = component ? `[${component}]` : '[Warning]';
 

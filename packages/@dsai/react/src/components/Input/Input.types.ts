@@ -1,5 +1,5 @@
-import type { CSSProperties, InputHTMLAttributes, ReactNode } from 'react';
 import type { ComponentSize } from '../../types';
+import type { CSSProperties, InputHTMLAttributes, ReactNode } from 'react';
 
 /**
  * Input types supported by the component

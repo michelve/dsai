@@ -34,6 +34,38 @@ describe('Basic Utility Functions', () => {
       expect(funcRefCalls).toEqual([node]);
       expect(objRef.current).toBe(node);
     });
+
+    it('supports variadic refs and skips nullish', () => {
+      const funcRefCalls: unknown[] = [];
+      const funcRef = (v: unknown) => funcRefCalls.push(v);
+      const objRef: { current: unknown } = { current: null };
+      const merged = mergeRefs(funcRef, null, undefined, objRef);
+      const node = { foo: 'bar' };
+      merged(node);
+      expect(funcRefCalls).toEqual([node]);
+      expect(objRef.current).toBe(node);
+    });
+
+    it('warns but does not throw when ref assignment fails in dev', () => {
+      const originalWarn = console.warn;
+      const originalEnv = process.env.NODE_ENV;
+      console.warn = jest.fn();
+      process.env.NODE_ENV = 'development';
+
+      const failingRef = {} as { current: unknown };
+      Object.defineProperty(failingRef, 'current', {
+        set() {
+          throw new Error('assign failed');
+        },
+      });
+
+      const merged = mergeRefs(failingRef);
+      expect(() => merged({})).not.toThrow();
+      expect(console.warn).toHaveBeenCalled();
+
+      console.warn = originalWarn;
+      process.env.NODE_ENV = originalEnv;
+    });
   });
 
   describe('generateId', () => {
@@ -97,8 +129,13 @@ describe('Basic Utility Functions', () => {
     it('detects Enter and Escape keys', () => {
       expect(isEnterKey({ key: 'Enter' })).toBe(true);
       expect(isEnterKey({ keyCode: 13 })).toBe(true);
+      expect(isEnterKey({ code: 'NumpadEnter' })).toBe(true);
+      expect(isEnterKey({ key: 'Enter', isComposing: true })).toBe(false);
       expect(isEscapeKey({ key: 'Escape' })).toBe(true);
       expect(isEscapeKey({ keyCode: 27 })).toBe(true);
+      expect(isEscapeKey({ code: 'Escape' })).toBe(true);
+      expect(isEscapeKey({ key: 'Esc' })).toBe(true);
+      expect(isEscapeKey({ key: 'Escape', isComposing: true })).toBe(false);
     });
   });
 });

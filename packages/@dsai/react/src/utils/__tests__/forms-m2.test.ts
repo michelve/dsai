@@ -627,4 +627,224 @@ describe('M2.11 Form Utilities', () => {
       expect(onError).toHaveBeenCalled();
     });
   });
+
+  // ========================================
+  // Security Tests - Prototype Pollution
+  // ========================================
+  describe('parseFormData - Security', () => {
+    it('should reject __proto__ key (prototype pollution protection)', () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+      const formData = new FormData();
+      formData.append('__proto__', 'polluted');
+      formData.append('name', 'John');
+
+      const result = parseFormData(formData);
+
+      expect(result).toEqual({ name: 'John' });
+      expect(result).not.toHaveProperty('__proto__', 'polluted');
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Skipping dangerous key "__proto__"')
+      );
+      warnSpy.mockRestore();
+    });
+
+    it('should reject constructor key', () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+      const formData = new FormData();
+      formData.append('constructor', 'polluted');
+      formData.append('valid', 'value');
+
+      const result = parseFormData(formData);
+
+      expect(result).toEqual({ valid: 'value' });
+      expect(warnSpy).toHaveBeenCalled();
+      warnSpy.mockRestore();
+    });
+
+    it('should reject prototype key', () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+      const formData = new FormData();
+      formData.append('prototype', 'polluted');
+
+      const result = parseFormData(formData);
+
+      expect(result).toEqual({});
+      warnSpy.mockRestore();
+    });
+
+    it('should reject dangerous keys in nested notation', () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+      const formData = new FormData();
+      formData.append('user.__proto__.admin', 'true');
+      formData.append('user.constructor.polluted', 'value');
+      formData.append('user.name', 'John');
+
+      const result = parseFormData(formData);
+
+      expect(result).toEqual({
+        user: { name: 'John' },
+      });
+      expect(warnSpy).toHaveBeenCalled();
+      warnSpy.mockRestore();
+    });
+
+    it('should reject dangerous keys in array notation', () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+      const formData = new FormData();
+      formData.append('__proto__[0]', 'polluted');
+      formData.append('items[0]', 'valid');
+
+      const result = parseFormData(formData);
+
+      expect(result).toEqual({ items: ['valid'] });
+      warnSpy.mockRestore();
+    });
+
+    it('should reject __defineGetter__ and similar keys', () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+      const formData = new FormData();
+      formData.append('__defineGetter__', 'polluted');
+      formData.append('__defineSetter__', 'polluted');
+      formData.append('__lookupGetter__', 'polluted');
+      formData.append('safe', 'value');
+
+      const result = parseFormData(formData);
+
+      expect(result).toEqual({ safe: 'value' });
+      warnSpy.mockRestore();
+    });
+  });
+
+  // ========================================
+  // Async Validation Error Handling
+  // ========================================
+  describe('validateField - Error Handling', () => {
+    it('should handle async validators that throw exceptions', async () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+      const rules = [
+        {
+          validate: async () => {
+            throw new Error('Network error');
+          },
+          message: 'Validation failed',
+        },
+      ];
+
+      const result = await validateField('test', rules);
+
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Validation failed');
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Validator threw an exception'));
+      warnSpy.mockRestore();
+    });
+
+    it('should handle sync validators that throw exceptions', async () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+      const rules = [
+        {
+          validate: () => {
+            throw new TypeError('Cannot read property');
+          },
+          message: 'Field error',
+        },
+      ];
+
+      const result = await validateField(null, rules);
+
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Field error');
+      warnSpy.mockRestore();
+    });
+
+    it('should continue processing after catching exception', async () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+      // First rule throws, validation should stop at first error
+      const rules = [
+        {
+          validate: () => {
+            throw new Error('First rule throws');
+          },
+          message: 'First rule failed',
+        },
+        {
+          validate: () => true,
+          message: 'Second rule message',
+        },
+      ];
+
+      const result = await validateField('test', rules);
+
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('First rule failed');
+      warnSpy.mockRestore();
+    });
+
+    it('should handle non-Error objects thrown', async () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+      const rules = [
+        {
+          validate: () => {
+            throw 'string error'; // Non-Error throw
+          },
+          message: 'Validation error',
+        },
+      ];
+
+      const result = await validateField('test', rules);
+
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Validation error');
+      warnSpy.mockRestore();
+    });
+  });
+
+  // ========================================
+  // validateForm - Edge Cases
+  // ========================================
+  describe('validateForm - Edge Cases', () => {
+    it('should handle schema fields not present in data', async () => {
+      const data = { email: 'test@example.com' };
+      const schema = {
+        email: [{ validate: (v: string) => v.includes('@'), message: 'Invalid email' }],
+        password: [{ validate: (v: string) => v?.length >= 8, message: 'Password required' }],
+      };
+
+      // Password is undefined in data but has schema rules
+      const result = await validateForm(data as { email: string; password: string }, schema);
+
+      expect(result.valid).toBe(false);
+      expect(result.errors.password).toBe('Password required');
+    });
+
+    it('should handle empty schema', async () => {
+      const data = { email: 'test@example.com' };
+      const schema = {};
+
+      const result = await validateForm(data, schema);
+
+      expect(result.valid).toBe(true);
+      expect(result.errors).toEqual({});
+    });
+
+    it('should handle async validator rejection in form validation', async () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+      const data = { username: 'test' };
+      const schema = {
+        username: [
+          {
+            validate: async () => {
+              throw new Error('API error');
+            },
+            message: 'Username check failed',
+          },
+        ],
+      };
+
+      const result = await validateForm(data, schema);
+
+      expect(result.valid).toBe(false);
+      expect(result.errors.username).toBe('Username check failed');
+      warnSpy.mockRestore();
+    });
+  });
 });

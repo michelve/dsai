@@ -43,6 +43,7 @@ describe('Jest-Axe A11y Tests: Screen Reader Utilities', () => {
 
       const liveRegion = document.querySelector('[aria-live="assertive"]');
       expect(liveRegion).toBeTruthy();
+      expect(liveRegion?.getAttribute('role')).toBe('alert');
 
       const results = await axe(document.body);
       expect(results).toHaveNoViolations();
@@ -55,6 +56,7 @@ describe('Jest-Axe A11y Tests: Screen Reader Utilities', () => {
 
       const liveRegion = document.querySelector('[aria-live="polite"]');
       expect(liveRegion).toBeTruthy();
+      expect(liveRegion?.getAttribute('role')).toBe('status');
 
       const results = await axe(document.body);
       expect(results).toHaveNoViolations();

@@ -43,6 +43,12 @@ export interface DateFormatterOptions extends FormatterOptions {
   readonly timeZone?: string;
 
   /**
+   * Use local/system time zone instead of the default UTC fallback when timeZone is not provided.
+   * Defaults to false to preserve deterministic output in tests/SSR.
+   */
+  readonly useLocalTimeZone?: boolean;
+
+  /**
    * Custom format options (overrides dateStyle/timeStyle)
    */
   readonly options?: Intl.DateTimeFormatOptions;

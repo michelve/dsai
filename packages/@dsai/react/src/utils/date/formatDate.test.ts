@@ -145,6 +145,41 @@ describe('formatDate', () => {
       });
       expect(result).toBeTruthy();
     });
+
+    describe('defaults and overrides', () => {
+      const originalDateTimeFormat = Intl.DateTimeFormat;
+      let capturedOptions: Intl.DateTimeFormatOptions | undefined;
+
+      beforeEach(() => {
+        capturedOptions = undefined;
+        // @ts-expect-error - mocking Intl for tests
+        Intl.DateTimeFormat = jest.fn((locale: string, opts?: Intl.DateTimeFormatOptions) => {
+          capturedOptions = opts;
+          return {
+            format: jest.fn().mockReturnValue(`mock-${locale}`),
+          };
+        });
+      });
+
+      afterEach(() => {
+        Intl.DateTimeFormat = originalDateTimeFormat;
+      });
+
+      it('defaults to UTC when no timeZone provided', () => {
+        formatDate(testDate, { locale: 'en-US' });
+        expect(capturedOptions?.timeZone).toBe('UTC');
+      });
+
+      it('omits timeZone when useLocalTimeZone is true', () => {
+        formatDate(testDate, { locale: 'en-US', useLocalTimeZone: true });
+        expect(capturedOptions && 'timeZone' in capturedOptions ? capturedOptions.timeZone : undefined).toBeUndefined();
+      });
+
+      it('passes through explicit timeZone', () => {
+        formatDate(testDate, { locale: 'en-US', timeZone: 'America/New_York' });
+        expect(capturedOptions?.timeZone).toBe('America/New_York');
+      });
+    });
   });
 
   describe('custom options', () => {

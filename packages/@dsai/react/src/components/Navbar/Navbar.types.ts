@@ -7,8 +7,8 @@
  * @module Navbar
  */
 
-import type { ReactNode } from 'react';
 import type { SafeHTMLAttributes } from '../../types';
+import type { ReactNode } from 'react';
 
 // =============================================================================
 // Common Safe Attribute Interface

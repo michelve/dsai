@@ -259,6 +259,43 @@ describe('uniqueBy', () => {
     });
   });
 
+  describe('advanced options', () => {
+    it('should keep last occurrence with keepStrategy', () => {
+      const items = [
+        { id: 1, value: 'first' },
+        { id: 2, value: 'middle' },
+        { id: 1, value: 'second' },
+      ];
+
+      const result = uniqueBy(items, (i) => i.id, { keepStrategy: 'last' });
+      expect(result).toEqual([
+        { id: 2, value: 'middle' },
+        { id: 1, value: 'second' },
+      ]);
+    });
+
+    it('should use keySerializer for non-primitive keys', () => {
+      const keyA = { id: 'a' };
+      const keyB = { id: 'b' };
+      const items = [
+        { key: keyA, value: 1 },
+        { key: keyB, value: 2 },
+        { key: { id: 'a' }, value: 3 },
+      ];
+
+      const result = uniqueBy(
+        items,
+        (i) => i.key,
+        { keySerializer: (k: any) => k?.id ?? String(k) }
+      );
+
+      expect(result).toEqual([
+        { key: keyA, value: 1 },
+        { key: keyB, value: 2 },
+      ]);
+    });
+  });
+
   describe('error handling', () => {
     it('should throw for non-array input', () => {
       expect(() => uniqueBy('not an array' as unknown as unknown[], (x) => x)).toThrow(
@@ -493,6 +530,15 @@ describe('paginate', () => {
       expect(result.totalPages).toBe(1);
       expect(result.hasNextPage).toBe(false);
     });
+
+    it('should allow totalPages to be 0 when configured', () => {
+      const result = paginate([], { pageSize: 10, page: 1, allowZeroTotalPages: true });
+      expect(result.totalPages).toBe(0);
+      expect(result.items).toEqual([]);
+      expect(result.pageNumbers).toEqual([]);
+      expect(result.hasNextPage).toBe(false);
+      expect(result.hasPreviousPage).toBe(false);
+    });
   });
 });
 
@@ -696,6 +742,28 @@ describe('memoize', () => {
     });
   });
 
+  describe('weakMap option', () => {
+    it('should cache by object reference when weakMap is enabled', () => {
+      let callCount = 0;
+      const fn = memoize(
+        (obj: { id: number }) => {
+          callCount++;
+          return obj.id;
+        },
+        { weakMap: true }
+      );
+
+      const ref = { id: 1 };
+      expect(fn(ref)).toBe(1);
+      expect(fn(ref)).toBe(1);
+      expect(callCount).toBe(1);
+
+      const other = { id: 1 };
+      expect(fn(other)).toBe(1);
+      expect(callCount).toBe(2); // Different object reference
+    });
+  });
+
   describe('custom cache key', () => {
     it('should use custom cache key function', () => {
       let callCount = 0;
@@ -796,6 +864,30 @@ describe('createSelector', () => {
       getFilteredUsers(state2);
 
       expect(computeCount).toBe(2);
+    });
+
+    it('should honor equalityFn to preserve result reference', () => {
+      const selector = createSelector(
+        getUsers,
+        (users) => {
+          return users.map((u) => ({ ...u }));
+        },
+        { equalityFn: shallowEqual }
+      );
+
+      const state: State = {
+        users: [
+          { id: 1, name: 'Alice' },
+          { id: 2, name: 'Bob' },
+        ],
+        filter: '',
+      };
+
+      const first = selector(state);
+      const second = selector({ ...state });
+
+      // equalityFn should keep the previous result reference
+      expect(second).toBe(first);
     });
   });
 

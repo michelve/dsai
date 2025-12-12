@@ -24,6 +24,13 @@ export interface PaginateOptions extends PaginationOptions {
    * @default false
    */
   zeroBased?: boolean;
+
+  /**
+   * Allow totalPages to be 0 when there are no items.
+   * Defaults to false to preserve prior behavior.
+   * @default false
+   */
+  allowZeroTotalPages?: boolean;
 }
 
 /**
@@ -131,14 +138,31 @@ export function paginate<T>(
     throw new TypeError('paginate: Expected an array');
   }
 
-  const { pageSize, page = 1, zeroBased = false } = options;
+  const { pageSize, page = 1, zeroBased = false, allowZeroTotalPages = false } = options;
 
   if (!Number.isInteger(pageSize) || pageSize <= 0) {
     throw new RangeError('paginate: pageSize must be a positive integer');
   }
 
   const totalItems = array.length;
-  const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+  const totalPages = allowZeroTotalPages ? Math.ceil(totalItems / pageSize) : Math.max(1, Math.ceil(totalItems / pageSize));
+
+  if (allowZeroTotalPages && totalPages === 0) {
+    return {
+      items: [],
+      totalItems,
+      totalPages,
+      currentPage: zeroBased ? 0 : 1,
+      pageSize,
+      hasNextPage: false,
+      hasPreviousPage: false,
+      startIndex: 0,
+      endIndex: 0,
+      isFirstPage: true,
+      isLastPage: true,
+      pageNumbers: [],
+    };
+  }
 
   // Normalize page number
   const minPage = zeroBased ? 0 : 1;

@@ -25,6 +25,12 @@ export interface UniqueByOptions {
    * - 'last': Keep the last occurrence
    */
   keepStrategy?: 'first' | 'last';
+
+  /**
+   * Optional key serializer to control how keys are compared.
+   * Default behavior coerces to string/number which can collide for non-primitive keys.
+   */
+  keySerializer?: (key: unknown) => string | number;
 }
 
 /**
@@ -85,7 +91,17 @@ export function uniqueBy<T>(
     return [];
   }
 
-  const { keepStrategy = 'first' } = options;
+  const { keepStrategy = 'first', keySerializer } = options;
+
+  const serialize = (key: unknown): string | number => {
+    if (keySerializer) {
+      return keySerializer(key);
+    }
+    if (typeof key === 'string' || typeof key === 'number') {
+      return key;
+    }
+    return String(key);
+  };
 
   if (keepStrategy === 'last') {
     // For 'last' strategy, iterate from end and reverse at the end
@@ -94,7 +110,7 @@ export function uniqueBy<T>(
     // Iterate in reverse by creating a reversed copy
     const reversed = [...array].reverse();
     for (const item of reversed) {
-      const key = keyFn(item);
+      const key = serialize(keyFn(item));
       if (!seen.has(key)) {
         seen.set(key, item);
       }
@@ -109,7 +125,7 @@ export function uniqueBy<T>(
   const result: T[] = [];
 
   for (const item of array) {
-    const key = keyFn(item);
+    const key = serialize(keyFn(item));
 
     if (!seen.has(key)) {
       seen.add(key);
@@ -147,16 +163,7 @@ export function uniqueByKey<T extends Record<string, unknown>, K extends keyof T
 ): T[] {
   return uniqueBy(
     array,
-    (item) => {
-      // Use Reflect.get for safe property access
-      const value = Reflect.get(item, key);
-      // Ensure we return string | number for Map/Set compatibility
-      if (typeof value === 'string' || typeof value === 'number') {
-        return value;
-      }
-      // For other types, stringify
-      return String(value);
-    },
+    (item) => Reflect.get(item, key),
     options
   );
 }

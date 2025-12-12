@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
 import type { ComponentSize, SemanticColorVariant } from '../../types';
+import type { ReactNode } from 'react';
 
 /**
  * Progress bar color variants

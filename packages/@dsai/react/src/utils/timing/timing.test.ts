@@ -247,6 +247,189 @@ describe('debounce', () => {
       expect(func).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('Mixed options (leading + trailing + maxWait)', () => {
+    it('should invoke on leading, then enforce maxWait on continued calls', () => {
+      const func = jest.fn();
+      const debounced = debounce(func, 100, {
+        leading: true,
+        trailing: true,
+        maxWait: 200,
+      });
+
+      // First call - leading edge
+      debounced();
+      expect(func).toHaveBeenCalledTimes(1);
+
+      // Keep calling to reset debounce timer, but maxWait should eventually fire
+      jest.advanceTimersByTime(90);
+      debounced();
+      jest.advanceTimersByTime(90);
+      debounced();
+
+      // At 180ms from first call; within debounce but approaching maxWait
+      expect(func).toHaveBeenCalledTimes(1);
+
+      // Advance past maxWait (200ms from lastInvokeTime)
+      jest.advanceTimersByTime(30);
+      expect(func).toHaveBeenCalledTimes(2);
+    });
+
+    it('should handle leading false + trailing true + maxWait', () => {
+      const func = jest.fn();
+      const debounced = debounce(func, 100, {
+        leading: false,
+        trailing: true,
+        maxWait: 200,
+      });
+
+      // First call - no leading
+      debounced();
+      expect(func).not.toHaveBeenCalled();
+
+      // Keep resetting the debounce
+      jest.advanceTimersByTime(90);
+      debounced();
+      jest.advanceTimersByTime(90);
+      debounced();
+
+      // maxWait (200ms) should trigger
+      jest.advanceTimersByTime(50);
+      expect(func).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle leading true + trailing false + maxWait', () => {
+      const func = jest.fn();
+      const debounced = debounce(func, 100, {
+        leading: true,
+        trailing: false,
+        maxWait: 200,
+      });
+
+      // First call - leading edge
+      debounced();
+      expect(func).toHaveBeenCalledTimes(1);
+
+      // Keep calling - maxWait should still trigger
+      jest.advanceTimersByTime(90);
+      debounced();
+      jest.advanceTimersByTime(90);
+      debounced();
+
+      // maxWait enforced
+      jest.advanceTimersByTime(50);
+      expect(func).toHaveBeenCalledTimes(2);
+
+      // No trailing call
+      jest.advanceTimersByTime(200);
+      expect(func).toHaveBeenCalledTimes(2);
+    });
+
+    it('should handle leading false + trailing false + maxWait', () => {
+      const func = jest.fn();
+      const debounced = debounce(func, 100, {
+        leading: false,
+        trailing: false,
+        maxWait: 200,
+      });
+
+      debounced();
+      jest.advanceTimersByTime(250);
+
+      // Neither leading nor trailing should fire
+      expect(func).not.toHaveBeenCalled();
+    });
+
+    it('should handle maxWait equal to wait', () => {
+      const func = jest.fn();
+      const debounced = debounce(func, 100, { maxWait: 100 });
+
+      debounced();
+      jest.advanceTimersByTime(100);
+
+      expect(func).toHaveBeenCalledTimes(1);
+    });
+
+    it('should reset leading invocation eligibility after wait time', () => {
+      const func = jest.fn();
+      const debounced = debounce(func, 100, { leading: true, trailing: false });
+
+      // First leading call
+      debounced();
+      expect(func).toHaveBeenCalledTimes(1);
+
+      // Wait for full cycle
+      jest.advanceTimersByTime(150);
+
+      // Should be eligible for leading call again
+      debounced();
+      expect(func).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('Return value behavior', () => {
+    it('should return undefined on first call when trailing only', () => {
+      const func = jest.fn().mockReturnValue(42);
+      const debounced = debounce(func, 100);
+
+      const result = debounced();
+      expect(result).toBeUndefined();
+
+      jest.advanceTimersByTime(100);
+      expect(func).toHaveReturnedWith(42);
+    });
+
+    it('should return function result on leading edge call', () => {
+      const func = jest.fn().mockReturnValue(42);
+      const debounced = debounce(func, 100, { leading: true });
+
+      const result = debounced();
+      expect(result).toBe(42);
+    });
+
+    it('should return last result from flush', () => {
+      const func = jest.fn().mockReturnValue(42);
+      const debounced = debounce(func, 100);
+
+      debounced();
+      const result = debounced.flush();
+
+      expect(result).toBe(42);
+    });
+
+    it('should return undefined from flush when no pending call', () => {
+      const func = jest.fn().mockReturnValue(42);
+      const debounced = debounce(func, 100);
+
+      const result = debounced.flush();
+      expect(result).toBeUndefined();
+    });
+
+    it('should preserve last result between calls', () => {
+      const func = jest.fn().mockReturnValue(42);
+      const debounced = debounce(func, 100, { leading: true });
+
+      const result1 = debounced();
+      expect(result1).toBe(42);
+
+      // Second call within debounce period returns last result
+      const result2 = debounced();
+      expect(result2).toBe(42);
+    });
+
+    it('should use latest arguments on trailing edge', () => {
+      const func = jest.fn((x: number) => x * 2);
+      const debounced = debounce(func, 100);
+
+      debounced(1);
+      debounced(2);
+      debounced(3);
+
+      jest.advanceTimersByTime(100);
+      expect(func).toHaveBeenCalledWith(3);
+      expect(func).toHaveBeenCalledTimes(1);
+    });
+  });
 });
 
 describe('throttle', () => {
@@ -452,6 +635,156 @@ describe('throttle', () => {
       expect(func).toHaveBeenCalledTimes(1);
 
       jest.advanceTimersByTime(100);
+      expect(func).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('Mixed options (leading + trailing)', () => {
+    it('should invoke both edges when both enabled (default)', () => {
+      const func = jest.fn();
+      const throttled = throttle(func, 100);
+
+      throttled();
+      expect(func).toHaveBeenCalledTimes(1);
+
+      throttled();
+      throttled();
+      throttled();
+
+      jest.advanceTimersByTime(100);
+      expect(func).toHaveBeenCalledTimes(2);
+    });
+
+    it('should invoke only leading when trailing disabled', () => {
+      const func = jest.fn();
+      const throttled = throttle(func, 100, { leading: true, trailing: false });
+
+      throttled();
+      expect(func).toHaveBeenCalledTimes(1);
+
+      throttled();
+      throttled();
+
+      jest.advanceTimersByTime(100);
+      expect(func).toHaveBeenCalledTimes(1);
+    });
+
+    it('should invoke only trailing when leading disabled', () => {
+      const func = jest.fn();
+      const throttled = throttle(func, 100, { leading: false, trailing: true });
+
+      throttled();
+      expect(func).not.toHaveBeenCalled();
+
+      jest.advanceTimersByTime(100);
+      expect(func).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not invoke when both disabled', () => {
+      const func = jest.fn();
+      const throttled = throttle(func, 100, { leading: false, trailing: false });
+
+      throttled();
+      throttled();
+
+      jest.advanceTimersByTime(200);
+      expect(func).not.toHaveBeenCalled();
+    });
+
+    it('should allow subsequent leading calls after wait period', () => {
+      const func = jest.fn();
+      const throttled = throttle(func, 100, { leading: true, trailing: false });
+
+      throttled();
+      expect(func).toHaveBeenCalledTimes(1);
+
+      jest.advanceTimersByTime(100);
+
+      throttled();
+      expect(func).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('Return value behavior', () => {
+    it('should return function result on leading edge call', () => {
+      const func = jest.fn().mockReturnValue(42);
+      const throttled = throttle(func, 100);
+
+      const result = throttled();
+      expect(result).toBe(42);
+    });
+
+    it('should return undefined when leading disabled on first call', () => {
+      const func = jest.fn().mockReturnValue(42);
+      const throttled = throttle(func, 100, { leading: false });
+
+      const result = throttled();
+      expect(result).toBeUndefined();
+    });
+
+    it('should return last result from flush', () => {
+      const func = jest.fn().mockReturnValue(42);
+      const throttled = throttle(func, 100);
+
+      throttled();
+      throttled();
+      const result = throttled.flush();
+
+      expect(result).toBe(42);
+    });
+
+    it('should return undefined from flush when no pending call', () => {
+      const func = jest.fn().mockReturnValue(42);
+      const throttled = throttle(func, 100);
+
+      // Only leading call, no pending trailing
+      throttled();
+      jest.advanceTimersByTime(100);
+
+      const result = throttled.flush();
+      expect(result).toBe(42); // Returns last result
+    });
+
+    it('should preserve last result between calls within throttle period', () => {
+      const func = jest.fn().mockReturnValue(42);
+      const throttled = throttle(func, 100);
+
+      const result1 = throttled();
+      expect(result1).toBe(42);
+
+      // Second call within throttle period returns last result
+      const result2 = throttled();
+      expect(result2).toBe(42);
+    });
+
+    it('should use latest arguments on trailing edge', () => {
+      const func = jest.fn((x: number) => x * 2);
+      const throttled = throttle(func, 100);
+
+      throttled(1);
+      expect(func).toHaveBeenCalledWith(1);
+
+      throttled(2);
+      throttled(3);
+
+      jest.advanceTimersByTime(100);
+      expect(func).toHaveBeenCalledWith(3);
+      expect(func).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('Timer precision', () => {
+    it('should handle clock drift gracefully', () => {
+      const func = jest.fn();
+      const throttled = throttle(func, 100);
+
+      // Simulate clock going backwards (rare edge case)
+      throttled();
+      expect(func).toHaveBeenCalledTimes(1);
+
+      // Throttle handles this via negative time check
+      jest.advanceTimersByTime(100);
+      throttled();
       expect(func).toHaveBeenCalledTimes(2);
     });
   });

@@ -1,6 +1,14 @@
 import type { Point2D } from './types';
 
 /**
+ * Validate that a Point2D has finite coordinates
+ * @internal
+ */
+function isValidPoint(point: Point2D): boolean {
+  return Number.isFinite(point.x) && Number.isFinite(point.y);
+}
+
+/**
  * Calculate angle between two points in radians
  *
  * Returns the angle from p1 to p2, measured counter-clockwise from the positive x-axis.
@@ -9,6 +17,7 @@ import type { Point2D } from './types';
  * @param p1 - Starting point
  * @param p2 - Ending point
  * @returns Angle in radians
+ * @throws Error if any coordinate is NaN or Infinity
  *
  * @example
  * ```typescript
@@ -20,6 +29,10 @@ import type { Point2D } from './types';
  * ```
  */
 export function angle(p1: Point2D, p2: Point2D): number {
+  if (!isValidPoint(p1) || !isValidPoint(p2)) {
+    throw new Error('Point coordinates must be finite numbers');
+  }
+
   const dx = p2.x - p1.x;
   const dy = p2.y - p1.y;
   return Math.atan2(dy, dx);

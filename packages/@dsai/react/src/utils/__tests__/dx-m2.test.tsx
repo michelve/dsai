@@ -12,8 +12,10 @@
  */
 
 import React from 'react';
+import { render } from '@testing-library/react';
 
 import {
+  clearWarnings,
   createComponent,
   createContext,
   createPolymorphic,
@@ -101,6 +103,10 @@ describe('M2.10 Developer Experience Utilities', () => {
   });
 
   describe('warnOnce', () => {
+    beforeEach(() => {
+      clearWarnings();
+    });
+
     it('should log warning only once', () => {
       process.env.NODE_ENV = 'development';
 
@@ -126,6 +132,25 @@ describe('M2.10 Developer Experience Utilities', () => {
       warnOnce('test-key', 'Test warning');
 
       expect(console.warn).not.toHaveBeenCalled();
+    });
+
+    it('should clear warning cache', () => {
+      process.env.NODE_ENV = 'development';
+
+      warnOnce('test-key', 'Test warning');
+      expect(console.warn).toHaveBeenCalledTimes(1);
+
+      clearWarnings();
+      warnOnce('test-key', 'Test warning');
+      expect(console.warn).toHaveBeenCalledTimes(2);
+    });
+
+    it('should namespace keys when provided', () => {
+      process.env.NODE_ENV = 'development';
+
+      warnOnce('dup-key', 'Message A', { namespace: 'a' });
+      warnOnce('dup-key', 'Message B', { namespace: 'b' });
+      expect(console.warn).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -226,14 +251,12 @@ describe('M2.10 Developer Experience Utilities', () => {
         return <div>{value}</div>;
       };
 
-      expect(() => {
-        const { container } = require('@testing-library/react').render(
-          <Provider value="test">
-            <TestComponent />
-          </Provider>
-        );
-        expect(container.textContent).toBe('test');
-      }).not.toThrow();
+      const { container } = render(
+        <Provider value="test">
+          <TestComponent />
+        </Provider>
+      );
+      expect(container.textContent).toBe('test');
     });
 
     it('should throw error when used outside Provider in strict mode', () => {
@@ -247,7 +270,7 @@ describe('M2.10 Developer Experience Utilities', () => {
       };
 
       expect(() => {
-        require('@testing-library/react').render(<TestComponent />);
+        render(<TestComponent />);
       }).toThrow('Must use within provider');
     });
 
@@ -258,6 +281,20 @@ describe('M2.10 Developer Experience Utilities', () => {
       });
 
       expect(Context.displayName).toBe('MyContext');
+    });
+
+    it('should throw when strict is false and defaultValue is missing', () => {
+      // @ts-expect-error - testing runtime guard for missing defaultValue in non-strict mode
+      const { Provider, useContext: useCtx } = createContext<string>({
+        name: 'BadContext',
+        strict: false,
+      });
+
+      const Broken = () => <div>{useCtx()}</div>;
+
+      expect(() => render(<Provider value={undefined as any}><Broken /></Provider>)).toThrow(
+        'BadContext context: defaultValue must be provided when strict is false'
+      );
     });
   });
 

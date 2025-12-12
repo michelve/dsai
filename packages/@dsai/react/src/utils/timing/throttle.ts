@@ -87,21 +87,19 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
   let timeoutId: ReturnType<typeof setTimeout> | undefined;
   let lastCallTime: number | undefined;
   let lastInvokeTime = 0;
-  let lastArgs: unknown[] | undefined;
-  let lastThis: unknown;
+  let pendingCall: { thisArg: unknown; args: unknown[] } | undefined;
   let result: unknown;
 
   /**
    * Invoke the function
    */
   function invokeFunc(time: number): unknown {
-    const args = lastArgs;
-    const thisArg = lastThis;
-
-    lastArgs = undefined;
-    lastThis = undefined;
+    const call = pendingCall;
+    pendingCall = undefined;
     lastInvokeTime = time;
-    result = func.apply(thisArg as ThisParameterType<T>, args as Parameters<T>);
+    if (call) {
+      result = func.apply(call.thisArg as ThisParameterType<T>, call.args as Parameters<T>);
+    }
     return result;
   }
 
@@ -125,14 +123,13 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
     const time = Date.now();
     timeoutId = undefined;
 
-    // If we should invoke on trailing edge and we have pending args
-    if (trailing && lastArgs !== undefined) {
+    // If we should invoke on trailing edge and we have pending call
+    if (trailing && pendingCall !== undefined) {
       return invokeFunc(time);
     }
 
     // Clean up
-    lastArgs = undefined;
-    lastThis = undefined;
+    pendingCall = undefined;
     return result;
   }
 
@@ -161,8 +158,7 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
     const time = Date.now();
     const isInvoking = shouldInvoke(time);
 
-    lastArgs = args;
-    lastThis = this;
+    pendingCall = { thisArg: this, args };
     lastCallTime = time;
 
     // Leading edge
@@ -195,8 +191,7 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
   throttled.cancel = (): void => {
     cancelTimer();
     lastInvokeTime = 0;
-    lastArgs = undefined;
-    lastThis = undefined;
+    pendingCall = undefined;
     lastCallTime = undefined;
   };
 
@@ -211,7 +206,7 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
     const time = Date.now();
     cancelTimer();
 
-    if (lastArgs !== undefined) {
+    if (pendingCall !== undefined) {
       return invokeFunc(time);
     }
 

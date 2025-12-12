@@ -1,9 +1,9 @@
-import type { MouseEvent, ReactNode } from 'react';
 import type {
   SafeHTMLAttributes as BaseSafeHTMLAttributes,
   ComponentSize,
   SemanticColorVariant,
 } from '../../types';
+import type { MouseEvent, ReactNode } from 'react';
 
 /**
  * Button component variants

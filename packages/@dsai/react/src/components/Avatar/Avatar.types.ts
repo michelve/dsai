@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
 import type { ExtendedSize, SafeHTMLAttributes } from '../../types';
+import type { ReactNode } from 'react';
 
 // =============================================================================
 // Size Types

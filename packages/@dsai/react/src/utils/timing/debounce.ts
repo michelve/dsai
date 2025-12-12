@@ -90,21 +90,19 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
   let maxWaitTimeoutId: ReturnType<typeof setTimeout> | undefined;
   let lastCallTime: number | undefined;
   let lastInvokeTime: number | undefined;
-  let lastArgs: unknown[] | undefined;
-  let lastThis: unknown;
+  let pendingCall: { thisArg: unknown; args: unknown[] } | undefined;
   let result: unknown;
 
   /**
    * Invoke the function
    */
   function invokeFunc(time: number): unknown {
-    const args = lastArgs;
-    const thisArg = lastThis;
-
-    lastArgs = undefined;
-    lastThis = undefined;
+    const call = pendingCall;
+    pendingCall = undefined;
     lastInvokeTime = time;
-    result = func.apply(thisArg as ThisParameterType<T>, args as Parameters<T>);
+    if (call) {
+      result = func.apply(call.thisArg as ThisParameterType<T>, call.args as Parameters<T>);
+    }
     return result;
   }
 
@@ -168,14 +166,13 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
       maxWaitTimeoutId = undefined;
     }
 
-    // Only invoke if we have args (maxWait might have already cleared them)
-    if (trailing && lastArgs !== undefined) {
+    // Only invoke if we have pending call (maxWait might have already cleared it)
+    if (trailing && pendingCall !== undefined) {
       return invokeFunc(time);
     }
 
     // Clean up
-    lastArgs = undefined;
-    lastThis = undefined;
+    pendingCall = undefined;
     return result;
   }
 
@@ -192,8 +189,8 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
       timeoutId = undefined;
     }
 
-    // Only invoke if we have args
-    if (lastArgs !== undefined) {
+    // Only invoke if we have pending call
+    if (pendingCall !== undefined) {
       return invokeFunc(time);
     }
 
@@ -222,8 +219,7 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
     const time = Date.now();
     const isInvoking = shouldInvokeLeading(time);
 
-    lastArgs = args;
-    lastThis = this;
+    pendingCall = { thisArg: this, args };
     lastCallTime = time;
 
     // Leading edge
@@ -267,8 +263,7 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
   debounced.cancel = (): void => {
     cancelTimers();
     lastInvokeTime = undefined;
-    lastArgs = undefined;
-    lastThis = undefined;
+    pendingCall = undefined;
     lastCallTime = undefined;
   };
 
@@ -283,7 +278,7 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
     const time = Date.now();
     cancelTimers();
 
-    if (lastArgs !== undefined) {
+    if (pendingCall !== undefined) {
       return invokeFunc(time);
     }
 

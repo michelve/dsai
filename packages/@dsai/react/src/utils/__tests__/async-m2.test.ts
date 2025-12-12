@@ -214,6 +214,108 @@ describe('M2.3 Async & Control Flow Utilities', () => {
       expect(result.totalTime).toBeGreaterThanOrEqual(0);
       expect(typeof result.totalTime).toBe('number');
     });
+
+    it('should return aborted flag when aborted before first attempt', async () => {
+      const controller = new AbortController();
+      controller.abort();
+
+      const fn = jest.fn().mockResolvedValue('success');
+      const result = await retryWithBackoff(fn, { signal: controller.signal });
+
+      expect(result.success).toBe(false);
+      expect(result.aborted).toBe(true);
+      expect((result.error as Error).name).toBe('AbortError');
+      expect(result.attempts).toBe(0);
+      expect(fn).not.toHaveBeenCalled();
+    });
+
+    it('should return structured result when aborted during backoff wait', async () => {
+      const controller = new AbortController();
+      const fn = jest.fn().mockRejectedValueOnce(new Error('fail1')).mockResolvedValue('success');
+
+      const resultPromise = retryWithBackoff(fn, {
+        maxAttempts: 3,
+        baseDelay: 200, // Long enough to abort during wait
+        jitter: false,
+        signal: controller.signal,
+      });
+
+      // Wait a bit for first attempt to fail and backoff to start
+      await delay(50);
+      controller.abort();
+
+      const result = await resultPromise;
+
+      expect(result.success).toBe(false);
+      expect(result.aborted).toBe(true);
+      expect((result.error as Error).name).toBe('AbortError');
+      expect(result.attempts).toBe(1); // Only 1 attempt was made before abort
+      expect(fn).toHaveBeenCalledTimes(1);
+    });
+
+    it('should clamp maxAttempts to at least 1 when given 0', async () => {
+      const fn = jest.fn().mockResolvedValue('success');
+
+      const result = await retryWithBackoff(fn, { maxAttempts: 0 });
+
+      expect(result.success).toBe(true);
+      expect(result.attempts).toBe(1);
+      expect(fn).toHaveBeenCalledTimes(1);
+    });
+
+    it('should clamp maxAttempts to at least 1 when given negative value', async () => {
+      const fn = jest.fn().mockRejectedValue(new Error('fail'));
+
+      const result = await retryWithBackoff(fn, { maxAttempts: -5 });
+
+      expect(result.success).toBe(false);
+      expect(result.attempts).toBe(1);
+      expect(fn).toHaveBeenCalledTimes(1);
+    });
+
+    it('should track actual attempts when shouldRetry stops early', async () => {
+      const error = new Error('non-retryable');
+      const fn = jest.fn().mockRejectedValue(error);
+
+      const result = await retryWithBackoff(fn, {
+        maxAttempts: 10,
+        baseDelay: 10,
+        shouldRetry: () => false, // Never retry
+      });
+
+      expect(result.success).toBe(false);
+      expect(result.attempts).toBe(1); // Only 1 attempt, not 10
+      expect(result.error).toBe(error);
+      expect(fn).toHaveBeenCalledTimes(1);
+    });
+
+    it('should track correct attempts when shouldRetry stops after some retries', async () => {
+      let attemptCount = 0;
+      const fn = jest.fn().mockImplementation(() => {
+        attemptCount++;
+        return Promise.reject(new Error(`fail ${attemptCount}`));
+      });
+
+      const result = await retryWithBackoff(fn, {
+        maxAttempts: 10,
+        baseDelay: 10,
+        jitter: false,
+        shouldRetry: (_error, attempt) => attempt < 2, // Stop after 3 attempts (0, 1, 2)
+      });
+
+      expect(result.success).toBe(false);
+      expect(result.attempts).toBe(3);
+      expect(fn).toHaveBeenCalledTimes(3);
+    });
+
+    it('should not have aborted flag when failing normally', async () => {
+      const fn = jest.fn().mockRejectedValue(new Error('fail'));
+
+      const result = await retryWithBackoff(fn, { maxAttempts: 2, baseDelay: 10 });
+
+      expect(result.success).toBe(false);
+      expect(result.aborted).toBeUndefined();
+    });
   });
 
   // ========================================

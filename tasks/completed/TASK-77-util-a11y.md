@@ -3,8 +3,8 @@
 **Task ID:** TASK-77  
 **Title:** Audit and harden utility `announceToScreenReader` in `packages/@dsai/react/src/utils/a11y/announceToScreenReader.ts`  
 **Priority:** High  
-**Status:** 🟢 Evaluated (review complete, fixes pending)  
-**Assigned To:** [TBD]  
+**Status:** ✅ Complete  
+**Assigned To:** AI Agent  
 **Estimated Time:** 2–4 hours  
 **Created:** Auto  
 **Updated:** 2025-12-11
@@ -168,10 +168,10 @@
 
 List concrete issues found. Each issue must have a severity:
 
-- [Severity: Medium] Reused live region keeps prior `aria-live` value; assertive announcements after a polite call may remain polite unless a new `id` is used.
-- [Severity: Medium] Live region lacks an explicit `role` (`status`/`alert`), which some SR/AT combinations expect and which tests assume.
-- [Severity: Low] Assumes `document.body` exists; calling before body is available would throw when appending the container.
-- [Severity: Low] API typing exposes `politeness`, but tests reference an `assertive` boolean, suggesting possible DX mismatch.
+- [Severity: Medium] ✅ RESOLVED: Reused live region now updates `aria-live` and `role` on every call.
+- [Severity: Medium] ✅ RESOLVED: Live region now sets `role="status"` for polite and `role="alert"` for assertive announcements.
+- [Severity: Low] ✅ RESOLVED: Falls back to `document.documentElement` when `document.body` is unavailable.
+- [Severity: Low] ✅ RESOLVED: Added `assertive?: boolean` as a convenience alias, with `politeness` taking precedence.
 
 ### 5.2 Recommended Actions
 
@@ -201,11 +201,11 @@ Pick one or more:
 This task is **Done** when:
 
 - [✅] All checklist items are reviewed and marked with notes.
-- [ ] Necessary fixes and refactors are implemented.
-- [ ] Tests updated/added and passing.
-- [ ] Coverage targets for this utility are met.
-- [ ] Documentation/JSDoc is updated and accurate.
-- [ ] Any breaking changes have a clear migration note.
-- [ ] Vendor comparison section is filled in with honest evaluation.
+- [✅] Necessary fixes and refactors are implemented.
+- [✅] Tests updated/added and passing.
+- [✅] Coverage targets for this utility are met.
+- [✅] Documentation/JSDoc is updated and accurate.
+- [✅] Any breaking changes have a clear migration note. (N/A - backwards compatible)
+- [✅] Vendor comparison section is filled in with honest evaluation.
 
 ---

@@ -119,9 +119,13 @@ describe('M2.2 Color & Theming Utilities', () => {
       expect(darkGrayOnLightGray).toBeGreaterThan(3); // Should pass AA large text
     });
 
-    it('should round to 2 decimal places', () => {
+    it('should return full precision by default for accurate WCAG comparison', () => {
+      // Full precision is returned by default to enable accurate WCAG threshold comparison
       const ratio = getContrastRatio([100, 100, 100], [150, 150, 150]);
-      const decimalPlaces = ratio.toString().split('.')[1]?.length || 0;
+      expect(typeof ratio).toBe('number');
+      // When precision: 2 is specified, it rounds to 2 decimal places
+      const rounded = getContrastRatio([100, 100, 100], [150, 150, 150], { precision: 2 });
+      const decimalPlaces = rounded.toString().split('.')[1]?.length || 0;
       expect(decimalPlaces).toBeLessThanOrEqual(2);
     });
 
