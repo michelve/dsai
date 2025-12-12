@@ -59,6 +59,9 @@ const DANGEROUS_KEYS = new Set([
   '__lookupSetter__',
 ]);
 
+// Only allow alphanumeric keys with common separators
+const SAFE_KEY_PATTERN = /^[a-zA-Z0-9_.\[\]-]+$/;
+
 /**
  * Check if a key or any of its parts is dangerous (prototype pollution risk)
  */
@@ -87,13 +90,35 @@ function isDangerousKey(key: string): boolean {
   return false;
 }
 
+function createSafeObject(): Record<string, unknown> {
+  // Null-prototype object to avoid prototype pollution and inherited props
+  return Object.create(null) as Record<string, unknown>;
+}
+
+function isSafeKey(key: string): boolean {
+  return SAFE_KEY_PATTERN.test(key) && !DANGEROUS_KEYS.has(key);
+}
+
+function getProperty<T = unknown>(obj: Record<string, unknown>, key: string): T | undefined {
+  if (!isSafeKey(key)) {
+    return undefined;
+  }
+  return Reflect.get(obj, key) as T | undefined;
+}
+
+function setProperty(obj: Record<string, unknown>, key: string, value: unknown): void {
+  if (!isSafeKey(key)) {
+    return;
+  }
+  Reflect.set(obj, key, value);
+}
+
 export function parseFormData(formData: FormData): Record<string, unknown> {
-  const result: Record<string, unknown> = {};
+  const result: Record<string, unknown> = createSafeObject();
 
   formData.forEach((value, key) => {
-    // Security: Skip dangerous keys that could cause prototype pollution
-    if (isDangerousKey(key)) {
-      if (process.env.NODE_ENV !== 'production') {
+    if (!isSafeKey(key) || isDangerousKey(key)) {
+      if (process.env['NODE_ENV'] !== 'production') {
         console.warn(
           `[parseFormData] Skipping dangerous key "${key}" (prototype pollution protection)`
         );
@@ -106,65 +131,61 @@ export function parseFormData(formData: FormData): Record<string, unknown> {
     if (arrayMatch) {
       const arrayKey = arrayMatch[1];
       const index = arrayMatch[2];
-      if (!arrayKey || !index) {
+      if (!arrayKey || !index || !isSafeKey(arrayKey)) {
         return;
       }
 
-      // eslint-disable-next-line security/detect-object-injection
-      if (!result[arrayKey]) {
-        // eslint-disable-next-line security/detect-object-injection
-        result[arrayKey] = [];
-      }
-      // eslint-disable-next-line security/detect-object-injection
-      (result[arrayKey] as unknown[])[Number.parseInt(index, 10)] = value;
+      const existing = getProperty<unknown[]>(result, arrayKey);
+      const arr = Array.isArray(existing) ? existing : [];
+      setProperty(result, arrayKey, arr);
+      arr[Number.parseInt(index, 10)] = value;
       return;
     }
 
     // Handle nested object notation: key.subkey
     if (key.includes('.')) {
-      const parts = key.split('.');
+      const parts = key.split('.').filter((part) => part && isSafeKey(part));
+      if (parts.length === 0) {
+        return;
+      }
       let current = result;
 
       for (let i = 0; i < parts.length - 1; i++) {
-        // eslint-disable-next-line security/detect-object-injection
         const part = parts[i];
-        if (!part) {
+        if (typeof part !== 'string' || part.length === 0 || !isSafeKey(part)) {
           continue;
         }
 
-        // eslint-disable-next-line security/detect-object-injection
-        if (!current[part] || typeof current[part] !== 'object') {
-          // eslint-disable-next-line security/detect-object-injection
-          current[part] = {};
+        const existing = getProperty<Record<string, unknown>>(current, part);
+        if (!existing || typeof existing !== 'object') {
+          setProperty(current, part, createSafeObject());
         }
-        // eslint-disable-next-line security/detect-object-injection
-        current = current[part] as Record<string, unknown>;
+        current = getProperty<Record<string, unknown>>(current, part) ?? createSafeObject();
       }
 
       const lastPart = parts[parts.length - 1];
-      if (lastPart) {
-        // eslint-disable-next-line security/detect-object-injection
-        current[lastPart] = value;
+      if (typeof lastPart !== 'string' || lastPart.length === 0) {
+        return;
+      }
+      if (isSafeKey(lastPart)) {
+        setProperty(current, lastPart, value);
       }
       return;
     }
 
     // Handle multiple values for same key
     if (key in result) {
-      // eslint-disable-next-line security/detect-object-injection
-      const existing = result[key];
+      const existing = getProperty<unknown>(result, key);
       if (Array.isArray(existing)) {
         existing.push(value);
       } else {
-        // eslint-disable-next-line security/detect-object-injection
-        result[key] = [existing, value];
+        setProperty(result, key, [existing, value]);
       }
       return;
     }
 
     // Simple key-value
-    // eslint-disable-next-line security/detect-object-injection
-    result[key] = value;
+    setProperty(result, key, value);
   });
 
   return result;
