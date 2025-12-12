@@ -737,3 +737,13 @@ $colors: map-merge($colors, $custom-colors) !default;
 // ============================================================================
 // (This is where you'd add component-specific customizations if needed)
 // ============================================================================
+
+// 9. Component-specific tokens
+// ============================================================================
+// Import component token files - these extend core tokens with component-specific values
+@import 'components/avatar';
+
+// Future component imports:
+// @import 'components/button';
+// @import 'components/card';
+// etc.
