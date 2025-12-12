@@ -19,31 +19,56 @@ import { Children, cloneElement, forwardRef, isValidElement, memo, useMemo } fro
 
 import { cn } from '../../utils';
 
-import { AVATAR_SIZE_MAP } from './Avatar.types';
-
-import type { AvatarGroupProps, AvatarSize } from './Avatar.types';
+import type { AvatarGroupProps, AvatarGroupSpacing, AvatarSize } from './Avatar.types';
 
 // =============================================================================
 // Spacing Constants
 // =============================================================================
 
-/**
- * Overlap values for stacked layout (percentage of avatar size)
- */
-const STACKED_OVERLAP: Record<string, number> = {
-  compact: 0.4, // 40% overlap
-  normal: 0.3, // 30% overlap
-  loose: 0.2, // 20% overlap
-};
+function resolveAvatarSize(size: AvatarSize): number {
+  switch (size) {
+    case 'xs':
+      return 24;
+    case 'sm':
+      return 32;
+    case 'md':
+      return 40;
+    case 'lg':
+      return 48;
+    case 'xl':
+      return 64;
+    case '2xl':
+      return 80;
+    default:
+      return 40;
+  }
+}
 
-/**
- * Gap values for inline layout (in rem)
- */
-const INLINE_GAP: Record<string, string> = {
-  compact: '0.25rem',
-  normal: '0.5rem',
-  loose: '0.75rem',
-};
+function resolveOverlap(spacing: AvatarGroupSpacing): number {
+  switch (spacing) {
+    case 'compact':
+      return 0.4;
+    case 'normal':
+      return 0.3;
+    case 'loose':
+      return 0.2;
+    default:
+      return 0.3;
+  }
+}
+
+function resolveInlineGap(spacing: AvatarGroupSpacing): string {
+  switch (spacing) {
+    case 'compact':
+      return '0.25rem';
+    case 'normal':
+      return '0.5rem';
+    case 'loose':
+      return '0.75rem';
+    default:
+      return '0.5rem';
+  }
+}
 
 // =============================================================================
 // Utility Functions
@@ -150,15 +175,10 @@ export const AvatarGroup = memo(
     }, [overflowLabel, hiddenNames, hiddenCount]);
 
     // Calculate sizing - safe object access with validated enum types
-    // Size is typed as AvatarSize union, guaranteed to exist in map
-    // eslint-disable-next-line security/detect-object-injection
-    const avatarSize = AVATAR_SIZE_MAP[size];
-    // Spacing is typed as AvatarGroupSpacing union, guaranteed to exist in maps
-    // eslint-disable-next-line security/detect-object-injection
-    const overlap = layout === 'stacked' ? (STACKED_OVERLAP[spacing] ?? 0.3) : 0;
+    const avatarSize = resolveAvatarSize(size);
+    const overlap = layout === 'stacked' ? resolveOverlap(spacing) : 0;
     const marginLeft = layout === 'stacked' ? `-${avatarSize * overlap}px` : '0';
-    // eslint-disable-next-line security/detect-object-injection
-    const gap = layout === 'inline' ? (INLINE_GAP[spacing] ?? '0.5rem') : '0';
+    const gap = layout === 'inline' ? resolveInlineGap(spacing) : '0';
 
     // Memoize container classes
     const containerClasses = useMemo(
@@ -276,7 +296,6 @@ export const AvatarGroup = memo(
     }, [ariaLabel, hasOverflow, visibleCount, totalCount]);
 
     return (
-      /* biome-ignore lint/a11y/useSemanticElements: role="group" is correct for grouped avatars */
       <div
         ref={ref}
         id={id}
