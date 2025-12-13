@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 
 import { useAsync } from './useAsync';
 
@@ -33,20 +33,27 @@ describe('useAsync', () => {
       );
       const { result } = renderHook(() => useAsync(asyncFn));
 
-      const executePromise = result.current.execute();
+      let executePromise: Promise<unknown>;
+      act(() => {
+        executePromise = result.current.execute();
+      });
 
-      expect(result.current.status).toBe('loading');
-      expect(result.current.isLoading).toBe(true);
-      expect(result.current.isIdle).toBe(false);
+      await waitFor(() => {
+        expect(result.current.status).toBe('loading');
+        expect(result.current.isLoading).toBe(true);
+        expect(result.current.isIdle).toBe(false);
+      });
 
-      await executePromise;
+      await executePromise!;
     });
 
     it('should transition to success state when promise resolves', async () => {
       const asyncFn = jest.fn(() => Promise.resolve('success data'));
       const { result } = renderHook(() => useAsync(asyncFn));
 
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
 
       expect(result.current.status).toBe('success');
       expect(result.current.data).toBe('success data');
@@ -62,7 +69,9 @@ describe('useAsync', () => {
       const asyncFn = jest.fn(() => Promise.reject(testError));
       const { result } = renderHook(() => useAsync(asyncFn));
 
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
 
       expect(result.current.status).toBe('error');
       expect(result.current.data).toBeNull();
@@ -107,10 +116,14 @@ describe('useAsync', () => {
       const asyncFn = jest.fn(() => Promise.resolve('data'));
       const { result } = renderHook(() => useAsync(asyncFn));
 
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
       expect(result.current.isSuccess).toBe(true);
 
-      result.current.reset();
+      act(() => {
+        result.current.reset();
+      });
 
       expect(result.current.status).toBe('idle');
       expect(result.current.data).toBeNull();
@@ -123,10 +136,14 @@ describe('useAsync', () => {
       const asyncFn = jest.fn(() => Promise.reject(new Error('Error')));
       const { result } = renderHook(() => useAsync(asyncFn));
 
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
       expect(result.current.isError).toBe(true);
 
-      result.current.reset();
+      act(() => {
+        result.current.reset();
+      });
 
       expect(result.current.status).toBe('idle');
       expect(result.current.error).toBeNull();
@@ -145,17 +162,27 @@ describe('useAsync', () => {
       const { result } = renderHook(() => useAsync(asyncFn));
 
       // Start execution
-      const executePromise = result.current.execute();
-      expect(result.current.isLoading).toBe(true);
+      let executePromise: Promise<unknown>;
+      act(() => {
+        executePromise = result.current.execute();
+      });
+      
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(true);
+      });
 
       // Reset while loading
-      result.current.reset();
+      act(() => {
+        result.current.reset();
+      });
       expect(result.current.isIdle).toBe(true);
       expect(result.current.isLoading).toBe(false);
 
       // Resolve the promise - state should not update
-      resolvePromise?.('data');
-      await executePromise;
+      await act(async () => {
+        resolvePromise!('data');
+        await executePromise!;
+      });
 
       // Should still be idle after promise resolves
       expect(result.current.status).toBe('idle');
@@ -168,7 +195,9 @@ describe('useAsync', () => {
       const asyncFn = jest.fn(() => Promise.resolve('data'));
       const { result } = renderHook(() => useAsync(asyncFn));
 
-      result.current.setData('manual data');
+      act(() => {
+        result.current.setData('manual data');
+      });
 
       expect(result.current.data).toBe('manual data');
       expect(result.current.status).toBe('success');
@@ -181,7 +210,9 @@ describe('useAsync', () => {
       const { result } = renderHook(() => useAsync(asyncFn));
 
       const manualError = new Error('Manual error');
-      result.current.setError(manualError);
+      act(() => {
+        result.current.setError(manualError);
+      });
 
       expect(result.current.error).toBe(manualError);
       expect(result.current.status).toBe('error');
@@ -193,10 +224,14 @@ describe('useAsync', () => {
       const asyncFn = jest.fn(() => Promise.resolve('data'));
       const { result } = renderHook(() => useAsync(asyncFn));
 
-      result.current.setData('some data');
+      act(() => {
+        result.current.setData('some data');
+      });
       expect(result.current.isSuccess).toBe(true);
 
-      result.current.setData(null);
+      act(() => {
+        result.current.setData(null);
+      });
       expect(result.current.status).toBe('idle');
       expect(result.current.data).toBeNull();
       expect(result.current.isIdle).toBe(true);
@@ -206,10 +241,14 @@ describe('useAsync', () => {
       const asyncFn = jest.fn(() => Promise.resolve('data'));
       const { result } = renderHook(() => useAsync(asyncFn));
 
-      result.current.setError(new Error('error'));
+      act(() => {
+        result.current.setError(new Error('error'));
+      });
       expect(result.current.isError).toBe(true);
 
-      result.current.setError(null);
+      act(() => {
+        result.current.setError(null);
+      });
       expect(result.current.status).toBe('idle');
       expect(result.current.error).toBeNull();
       expect(result.current.isIdle).toBe(true);
@@ -229,21 +268,32 @@ describe('useAsync', () => {
       const { result } = renderHook(() => useAsync(asyncFn));
 
       // Start first execution
-      const promise1 = result.current.execute();
+      let promise1: Promise<unknown>;
+      let promise2: Promise<unknown>;
+      
+      act(() => {
+        promise1 = result.current.execute();
+      });
 
       // Start second execution
-      const promise2 = result.current.execute();
+      act(() => {
+        promise2 = result.current.execute();
+      });
 
       // Resolve first execution (should be ignored)
-      resolvers[0]?.('first');
-      await promise1;
+      await act(async () => {
+        resolvers[0]!('first');
+        await promise1!;
+      });
 
       // Should not have data from first execution
       expect(result.current.data).toBeNull();
 
       // Resolve second execution
-      resolvers[1]?.('second');
-      await promise2;
+      await act(async () => {
+        resolvers[1]!('second');
+        await promise2!;
+      });
 
       // Should have data from second execution
       expect(result.current.data).toBe('second');
@@ -262,21 +312,32 @@ describe('useAsync', () => {
       const { result } = renderHook(() => useAsync(asyncFn));
 
       // Start first execution
-      const promise1 = result.current.execute();
+      let promise1: Promise<unknown>;
+      let promise2: Promise<unknown>;
+      
+      act(() => {
+        promise1 = result.current.execute();
+      });
 
       // Start second execution
-      const promise2 = result.current.execute();
+      act(() => {
+        promise2 = result.current.execute();
+      });
 
       // First execution errors (should be ignored)
-      resolvers[0]?.reject(new Error('first error'));
-      await promise1;
+      await act(async () => {
+        resolvers[0]!.reject(new Error('first error'));
+        await promise1!;
+      });
 
       // Should not have error from first execution
       expect(result.current.error).toBeNull();
 
       // Second execution succeeds
-      resolvers[1]?.resolve('second');
-      await promise2;
+      await act(async () => {
+        resolvers[1]!.resolve('second');
+        await promise2!;
+      });
 
       // Should have success state
       expect(result.current.isSuccess).toBe(true);
@@ -297,15 +358,23 @@ describe('useAsync', () => {
       const { result, unmount } = renderHook(() => useAsync(asyncFn));
 
       // Start execution
-      const executePromise = result.current.execute();
-      expect(result.current.isLoading).toBe(true);
+      let executePromise: Promise<unknown>;
+      act(() => {
+        executePromise = result.current.execute();
+      });
+      
+      await waitFor(() => {
+        expect(result.current.isLoading).toBe(true);
+      });
 
       // Unmount while loading
       unmount();
 
       // Resolve promise after unmount
-      resolvePromise?.('data');
-      await executePromise;
+      await act(async () => {
+        resolvePromise!('data');
+        await executePromise!;
+      });
 
       // State should not update after unmount (no error should be thrown)
       expect(() => {
@@ -331,8 +400,10 @@ describe('useAsync', () => {
       unmount();
 
       // Reject promise after unmount
-      rejectPromise?.(new Error('error'));
-      await executePromise;
+      await act(async () => {
+        rejectPromise!(new Error('error'));
+        await executePromise;
+      });
 
       // Should not throw error when updating state after unmount
       expect(() => {
@@ -347,13 +418,19 @@ describe('useAsync', () => {
       const asyncFn = jest.fn(() => Promise.resolve(`data-${++counter}`));
       const { result } = renderHook(() => useAsync(asyncFn));
 
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
       expect(result.current.data).toBe('data-1');
 
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
       expect(result.current.data).toBe('data-2');
 
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
       expect(result.current.data).toBe('data-3');
 
       expect(asyncFn).toHaveBeenCalledTimes(3);
@@ -368,20 +445,26 @@ describe('useAsync', () => {
       const { result } = renderHook(() => useAsync(asyncFn));
 
       // First execution - success
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
       expect(result.current.isSuccess).toBe(true);
       expect(result.current.data).toBe('success');
 
       // Second execution - error
       shouldError = true;
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
       expect(result.current.isError).toBe(true);
       expect(result.current.error?.message).toBe('error');
       expect(result.current.data).toBeNull(); // Data should be cleared on error
 
       // Third execution - success again
       shouldError = false;
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
       expect(result.current.isSuccess).toBe(true);
       expect(result.current.data).toBe('success');
       expect(result.current.error).toBeNull(); // Error should be cleared on success
@@ -398,7 +481,9 @@ describe('useAsync', () => {
       const asyncFn = jest.fn(() => Promise.resolve<User>({ id: 1, name: 'Test' }));
       const { result } = renderHook(() => useAsync(asyncFn));
 
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
 
       expect(result.current.data).toEqual({ id: 1, name: 'Test' });
     });
@@ -413,7 +498,9 @@ describe('useAsync', () => {
       const asyncFn = jest.fn(() => Promise.reject(customError));
       const { result } = renderHook(() => useAsync<string, CustomError>(asyncFn));
 
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
 
       expect(result.current.error).toEqual(customError);
       expect(result.current.error?.code).toBe('ERR_001');
@@ -423,7 +510,9 @@ describe('useAsync', () => {
       const asyncFn = jest.fn(() => Promise.resolve([1, 2, 3, 4, 5]));
       const { result } = renderHook(() => useAsync(asyncFn));
 
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
 
       expect(result.current.data).toEqual([1, 2, 3, 4, 5]);
       expect(Array.isArray(result.current.data)).toBe(true);
@@ -439,13 +528,17 @@ describe('useAsync', () => {
         initialProps: { fn: asyncFn1 },
       });
 
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
       expect(result.current.data).toBe('data1');
 
       // Change async function
       rerender({ fn: asyncFn2 });
 
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
       expect(result.current.data).toBe('data2');
     });
 
@@ -453,7 +546,9 @@ describe('useAsync', () => {
       const asyncFn = jest.fn(() => Promise.resolve(null));
       const { result } = renderHook(() => useAsync(asyncFn));
 
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
 
       expect(result.current.data).toBeNull();
       expect(result.current.status).toBe('success');
@@ -464,7 +559,9 @@ describe('useAsync', () => {
       const asyncFn = jest.fn(() => Promise.resolve(undefined as unknown as string));
       const { result } = renderHook(() => useAsync(asyncFn));
 
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
 
       expect(result.current.data).toBeUndefined();
       expect(result.current.isSuccess).toBe(true);
@@ -474,7 +571,9 @@ describe('useAsync', () => {
       const asyncFn = jest.fn(() => Promise.resolve(0));
       const { result } = renderHook(() => useAsync(asyncFn));
 
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
 
       expect(result.current.data).toBe(0);
       expect(result.current.isSuccess).toBe(true);
@@ -484,7 +583,9 @@ describe('useAsync', () => {
       const asyncFn = jest.fn(() => Promise.resolve(''));
       const { result } = renderHook(() => useAsync(asyncFn));
 
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
 
       expect(result.current.data).toBe('');
       expect(result.current.isSuccess).toBe(true);
@@ -494,7 +595,9 @@ describe('useAsync', () => {
       const asyncFn = jest.fn(() => Promise.resolve(false));
       const { result } = renderHook(() => useAsync(asyncFn));
 
-      await result.current.execute();
+      await act(async () => {
+        await result.current.execute();
+      });
 
       expect(result.current.data).toBe(false);
       expect(result.current.isSuccess).toBe(true);
