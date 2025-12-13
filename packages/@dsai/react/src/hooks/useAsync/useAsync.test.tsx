@@ -166,7 +166,7 @@ describe('useAsync', () => {
       act(() => {
         executePromise = result.current.execute();
       });
-      
+
       await waitFor(() => {
         expect(result.current.isLoading).toBe(true);
       });
@@ -270,7 +270,7 @@ describe('useAsync', () => {
       // Start first execution
       let promise1: Promise<unknown>;
       let promise2: Promise<unknown>;
-      
+
       act(() => {
         promise1 = result.current.execute();
       });
@@ -314,7 +314,7 @@ describe('useAsync', () => {
       // Start first execution
       let promise1: Promise<unknown>;
       let promise2: Promise<unknown>;
-      
+
       act(() => {
         promise1 = result.current.execute();
       });
@@ -362,7 +362,7 @@ describe('useAsync', () => {
       act(() => {
         executePromise = result.current.execute();
       });
-      
+
       await waitFor(() => {
         expect(result.current.isLoading).toBe(true);
       });

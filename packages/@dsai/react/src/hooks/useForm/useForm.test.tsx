@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 
 import { useForm } from './useForm';
 
@@ -91,7 +91,9 @@ describe('useForm', () => {
     it('should update field value with setFieldValue', () => {
       const { result } = renderHook(() => useForm({ initialValues }));
 
-      result.current.actions.setFieldValue('email', 'test@example.com');
+      act(() => {
+        result.current.actions.setFieldValue('email', 'test@example.com');
+      });
 
       expect(result.current.state.values.email).toBe('test@example.com');
       expect(result.current.state.fields.email.value).toBe('test@example.com');
@@ -102,7 +104,9 @@ describe('useForm', () => {
 
       expect(result.current.state.dirty).toBe(false);
 
-      result.current.actions.setFieldValue('email', 'test@example.com');
+      act(() => {
+        result.current.actions.setFieldValue('email', 'test@example.com');
+      });
 
       expect(result.current.state.dirty).toBe(true);
     });
@@ -110,8 +114,10 @@ describe('useForm', () => {
     it('should update multiple fields independently', () => {
       const { result } = renderHook(() => useForm({ initialValues }));
 
-      result.current.actions.setFieldValue('email', 'test@example.com');
-      result.current.actions.setFieldValue('password', 'password123');
+      act(() => {
+        result.current.actions.setFieldValue('email', 'test@example.com');
+        result.current.actions.setFieldValue('password', 'password123');
+      });
 
       expect(result.current.state.values.email).toBe('test@example.com');
       expect(result.current.state.values.password).toBe('password123');
@@ -124,7 +130,9 @@ describe('useForm', () => {
 
       expect(result.current.state.fields.email.touched).toBe(false);
 
-      result.current.actions.setFieldTouched('email');
+      act(() => {
+        result.current.actions.setFieldTouched('email');
+      });
 
       expect(result.current.state.fields.email.touched).toBe(true);
     });
@@ -132,10 +140,14 @@ describe('useForm', () => {
     it('should mark field as untouched when false is passed', () => {
       const { result } = renderHook(() => useForm({ initialValues }));
 
-      result.current.actions.setFieldTouched('email', true);
+      act(() => {
+        result.current.actions.setFieldTouched('email', true);
+      });
       expect(result.current.state.fields.email.touched).toBe(true);
 
-      result.current.actions.setFieldTouched('email', false);
+      act(() => {
+        result.current.actions.setFieldTouched('email', false);
+      });
       expect(result.current.state.fields.email.touched).toBe(false);
     });
   });
@@ -144,7 +156,9 @@ describe('useForm', () => {
     it('should set field error with setFieldError', () => {
       const { result } = renderHook(() => useForm({ initialValues }));
 
-      result.current.actions.setFieldError('email', 'Invalid email');
+      act(() => {
+        result.current.actions.setFieldError('email', 'Invalid email');
+      });
 
       expect(result.current.state.fields.email.error).toBe('Invalid email');
       expect(result.current.state.valid).toBe(false);
@@ -153,10 +167,14 @@ describe('useForm', () => {
     it('should clear field error when undefined is passed', () => {
       const { result } = renderHook(() => useForm({ initialValues }));
 
-      result.current.actions.setFieldError('email', 'Invalid email');
+      act(() => {
+        result.current.actions.setFieldError('email', 'Invalid email');
+      });
       expect(result.current.state.fields.email.error).toBe('Invalid email');
 
-      result.current.actions.setFieldError('email', undefined);
+      act(() => {
+        result.current.actions.setFieldError('email', undefined);
+      });
       expect(result.current.state.fields.email.error).toBeUndefined();
     });
 
@@ -165,7 +183,9 @@ describe('useForm', () => {
 
       expect(result.current.state.valid).toBe(true);
 
-      result.current.actions.setFieldError('password', 'Too short');
+      act(() => {
+        result.current.actions.setFieldError('password', 'Too short');
+      });
 
       expect(result.current.state.valid).toBe(false);
     });
@@ -176,9 +196,12 @@ describe('useForm', () => {
       const { result } = renderHook(() => useForm({ initialValues, validationSchema }));
 
       // Empty email should fail validation
-      const isValid = await result.current.actions.validateField('email');
+      let isValid: boolean;
+      await act(async () => {
+        isValid = await result.current.actions.validateField('email');
+      });
 
-      expect(isValid).toBe(false);
+      expect(isValid!).toBe(false);
       await waitFor(() => {
         expect(result.current.state.fields.email.error).toBe('Email required');
       });
@@ -187,11 +210,16 @@ describe('useForm', () => {
     it('should validate successfully when field is valid', async () => {
       const { result } = renderHook(() => useForm({ initialValues, validationSchema }));
 
-      result.current.actions.setFieldValue('email', 'test@example.com');
+      act(() => {
+        result.current.actions.setFieldValue('email', 'test@example.com');
+      });
 
-      const isValid = await result.current.actions.validateField('email');
+      let isValid: boolean;
+      await act(async () => {
+        isValid = await result.current.actions.validateField('email');
+      });
 
-      expect(isValid).toBe(true);
+      expect(isValid!).toBe(true);
       await waitFor(() => {
         expect(result.current.state.fields.email.error).toBeUndefined();
       });
@@ -200,9 +228,12 @@ describe('useForm', () => {
     it('should validate entire form with validateForm', async () => {
       const { result } = renderHook(() => useForm({ initialValues, validationSchema }));
 
-      const isValid = await result.current.actions.validateForm();
+      let isValid: boolean;
+      await act(async () => {
+        isValid = await result.current.actions.validateForm();
+      });
 
-      expect(isValid).toBe(false);
+      expect(isValid!).toBe(false);
       await waitFor(() => {
         expect(result.current.state.fields.email.error).toBe('Email required');
         expect(result.current.state.fields.password.error).toBe('Min 8 characters');
@@ -214,7 +245,9 @@ describe('useForm', () => {
         useForm({ initialValues, validationSchema, validateOnChange: true })
       );
 
-      result.current.actions.setFieldValue('email', '');
+      await act(async () => {
+        result.current.actions.setFieldValue('email', '');
+      });
 
       await waitFor(() => {
         expect(result.current.state.fields.email.error).toBe('Email required');
@@ -226,7 +259,9 @@ describe('useForm', () => {
         useForm({ initialValues, validationSchema, validateOnChange: false })
       );
 
-      result.current.actions.setFieldValue('email', '');
+      act(() => {
+        result.current.actions.setFieldValue('email', '');
+      });
 
       // Wait to ensure validation doesn't run
       await new Promise((resolve) => setTimeout(resolve, 50));
@@ -239,7 +274,9 @@ describe('useForm', () => {
         useForm({ initialValues, validationSchema, validateOnBlur: true })
       );
 
-      result.current.actions.setFieldTouched('email', true);
+      await act(async () => {
+        result.current.actions.setFieldTouched('email', true);
+      });
 
       await waitFor(() => {
         expect(result.current.state.fields.email.error).toBe('Email required');
@@ -289,7 +326,9 @@ describe('useForm', () => {
         })
       );
 
-      await result.current.actions.submitForm();
+      await act(async () => {
+        await result.current.actions.submitForm();
+      });
 
       expect(onSubmit).toHaveBeenCalledWith(validValues);
     });
@@ -298,7 +337,9 @@ describe('useForm', () => {
       const onSubmit = jest.fn();
       const { result } = renderHook(() => useForm({ initialValues, validationSchema, onSubmit }));
 
-      await result.current.actions.submitForm();
+      await act(async () => {
+        await result.current.actions.submitForm();
+      });
 
       expect(onSubmit).not.toHaveBeenCalled();
     });
@@ -315,13 +356,18 @@ describe('useForm', () => {
         useForm({ initialValues: validValues, validationSchema, onSubmit })
       );
 
-      const submitPromise = result.current.actions.submitForm();
+      let submitPromise: Promise<void>;
+      act(() => {
+        submitPromise = result.current.actions.submitForm();
+      });
 
       await waitFor(() => {
         expect(result.current.state.submitting).toBe(true);
       });
 
-      await submitPromise;
+      await act(async () => {
+        await submitPromise!;
+      });
 
       expect(result.current.state.submitting).toBe(false);
     });
@@ -340,7 +386,9 @@ describe('useForm', () => {
 
       expect(result.current.state.submitted).toBe(false);
 
-      await result.current.actions.submitForm();
+      await act(async () => {
+        await result.current.actions.submitForm();
+      });
 
       expect(result.current.state.submitted).toBe(true);
     });
@@ -351,7 +399,9 @@ describe('useForm', () => {
       expect(result.current.state.fields.email.touched).toBe(false);
       expect(result.current.state.fields.password.touched).toBe(false);
 
-      await result.current.actions.submitForm();
+      await act(async () => {
+        await result.current.actions.submitForm();
+      });
 
       expect(result.current.state.fields.email.touched).toBe(true);
       expect(result.current.state.fields.password.touched).toBe(true);
@@ -371,7 +421,9 @@ describe('useForm', () => {
         useForm({ initialValues: validValues, validationSchema, onSubmit })
       );
 
-      await result.current.actions.submitForm();
+      await act(async () => {
+        await result.current.actions.submitForm();
+      });
 
       expect(result.current.state.submitting).toBe(false);
       expect(consoleError).toHaveBeenCalled();
@@ -385,12 +437,16 @@ describe('useForm', () => {
       const { result } = renderHook(() => useForm({ initialValues }));
 
       // Modify form
-      result.current.actions.setFieldValue('email', 'test@example.com');
-      result.current.actions.setFieldError('password', 'Error');
-      result.current.actions.setFieldTouched('email', true);
+      act(() => {
+        result.current.actions.setFieldValue('email', 'test@example.com');
+        result.current.actions.setFieldError('password', 'Error');
+        result.current.actions.setFieldTouched('email', true);
+      });
 
       // Reset
-      result.current.actions.resetForm();
+      act(() => {
+        result.current.actions.resetForm();
+      });
 
       expect(result.current.state.values).toEqual(initialValues);
       expect(result.current.state.fields.email.touched).toBe(false);
@@ -410,10 +466,14 @@ describe('useForm', () => {
         useForm({ initialValues: validValues, validationSchema, onSubmit })
       );
 
-      await result.current.actions.submitForm();
+      await act(async () => {
+        await result.current.actions.submitForm();
+      });
       expect(result.current.state.submitted).toBe(true);
 
-      result.current.actions.resetForm();
+      act(() => {
+        result.current.actions.resetForm();
+      });
 
       expect(result.current.state.submitted).toBe(false);
       expect(result.current.state.submitting).toBe(false);
@@ -434,7 +494,9 @@ describe('useForm', () => {
       const { result } = renderHook(() => useForm({ initialValues }));
 
       const handlers = result.current.actions.getFieldHandlers('email');
-      handlers.onChange('test@example.com');
+      act(() => {
+        handlers.onChange('test@example.com');
+      });
 
       expect(result.current.state.values.email).toBe('test@example.com');
     });
@@ -443,7 +505,9 @@ describe('useForm', () => {
       const { result } = renderHook(() => useForm({ initialValues }));
 
       const handlers = result.current.actions.getFieldHandlers('email');
-      handlers.onBlur();
+      act(() => {
+        handlers.onBlur();
+      });
 
       expect(result.current.state.fields.email.touched).toBe(true);
     });
@@ -465,7 +529,9 @@ describe('useForm', () => {
     it('should return current field value', () => {
       const { result } = renderHook(() => useForm({ initialValues }));
 
-      result.current.actions.setFieldValue('email', 'test@example.com');
+      act(() => {
+        result.current.actions.setFieldValue('email', 'test@example.com');
+      });
 
       const props = result.current.getFieldProps('email');
 
@@ -475,8 +541,10 @@ describe('useForm', () => {
     it('should include error and touched state', () => {
       const { result } = renderHook(() => useForm({ initialValues }));
 
-      result.current.actions.setFieldError('email', 'Invalid');
-      result.current.actions.setFieldTouched('email', true);
+      act(() => {
+        result.current.actions.setFieldError('email', 'Invalid');
+        result.current.actions.setFieldTouched('email', true);
+      });
 
       const props = result.current.getFieldProps('email');
 
@@ -503,10 +571,12 @@ describe('useForm', () => {
 
       const { result } = renderHook(() => useForm({ initialValues: complexInitialValues }));
 
-      result.current.actions.setFieldValue('name', 'John');
-      result.current.actions.setFieldValue('age', 30);
-      result.current.actions.setFieldValue('active', true);
-      result.current.actions.setFieldValue('tags', ['typescript', 'react']);
+      act(() => {
+        result.current.actions.setFieldValue('name', 'John');
+        result.current.actions.setFieldValue('age', 30);
+        result.current.actions.setFieldValue('active', true);
+        result.current.actions.setFieldValue('tags', ['typescript', 'react']);
+      });
 
       expect(result.current.state.values.name).toBe('John');
       expect(result.current.state.values.age).toBe(30);
@@ -520,7 +590,9 @@ describe('useForm', () => {
       const { result } = renderHook(() => useForm({ initialValues, validationSchema: {} }));
 
       expect(() => {
-        result.current.actions.setFieldValue('email', 'test@example.com');
+        act(() => {
+          result.current.actions.setFieldValue('email', 'test@example.com');
+        });
       }).not.toThrow();
     });
 
