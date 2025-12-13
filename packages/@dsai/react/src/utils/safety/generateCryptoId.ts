@@ -49,7 +49,10 @@ function getRandomValues(length: number): Uint8Array {
   const bytes = new Uint8Array(length);
 
   // Prefer Web Crypto where available (browsers, Node 19+)
-  if (typeof globalThis.crypto !== 'undefined' && typeof globalThis.crypto.getRandomValues === 'function') {
+  if (
+    typeof globalThis.crypto !== 'undefined' &&
+    typeof globalThis.crypto.getRandomValues === 'function'
+  ) {
     globalThis.crypto.getRandomValues(bytes);
     return bytes;
   }
@@ -61,7 +64,7 @@ function getRandomValues(length: number): Uint8Array {
     const nodeBytes = randomBytes(length);
     bytes.set(nodeBytes);
     return bytes;
-  } catch (error) {
+  } catch (_error) {
     throw new Error('Secure random generator is not available in this environment');
   }
 }

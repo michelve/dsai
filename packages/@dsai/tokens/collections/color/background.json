@@ -15,9 +15,7 @@
           "scssVariableName": "$primary"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$primary"
     },
     "secondary": {
@@ -33,9 +31,7 @@
           "scssVariableName": "$secondary"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$secondary"
     },
     "success": {
@@ -51,9 +47,7 @@
           "scssVariableName": "$success"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$success"
     },
     "danger": {
@@ -69,9 +63,7 @@
           "scssVariableName": "$danger"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$danger"
     },
     "warning": {
@@ -87,9 +79,7 @@
           "scssVariableName": "$warning"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$warning"
     },
     "info": {
@@ -105,9 +95,7 @@
           "scssVariableName": "$info"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$info"
     },
     "light": {
@@ -123,9 +111,7 @@
           "scssVariableName": "$light"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$light"
     },
     "dark": {
@@ -141,9 +127,7 @@
           "scssVariableName": "$dark"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$dark"
     },
     "body": {
@@ -159,9 +143,7 @@
           "scssVariableName": "$body-bg"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$body-bg"
     },
     "white": {
@@ -177,9 +159,7 @@
           "scssVariableName": "$white"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$white"
     },
     "black": {
@@ -195,9 +175,7 @@
           "scssVariableName": "$black"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$black"
     },
     "transparent": {
@@ -212,9 +190,7 @@
           "cssClass": ".bg-transparent"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ]
+      "$scopes": ["ALL_FILLS"]
     }
   }
 }

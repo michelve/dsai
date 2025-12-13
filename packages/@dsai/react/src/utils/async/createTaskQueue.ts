@@ -150,7 +150,9 @@ export function createTaskQueue(options: TaskQueueOptions = {}): TaskQueue {
     if (paused || running >= concurrency || queue.length === 0) {
       // Check if we should resolve drain promises
       if (running === 0 && queue.length === 0) {
-        drainResolvers.forEach((resolve) => resolve());
+        drainResolvers.forEach((resolve) => {
+          resolve();
+        });
         drainResolvers = [];
       }
       return;

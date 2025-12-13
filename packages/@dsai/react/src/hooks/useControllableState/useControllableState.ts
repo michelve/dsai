@@ -103,7 +103,7 @@ export function useControllableState<T>({
 
   // Stable setValue function
   const setValue = useCallback(
-    (nextValue: T | ((prev: T) => T)) => {
+    (nextValue: T | ((prev: T) => T), event?: unknown) => {
       const resolvedValue =
         typeof nextValue === 'function' ? (nextValue as (prev: T) => T)(value) : nextValue;
 
@@ -113,7 +113,7 @@ export function useControllableState<T>({
       }
 
       // Always call onChange if provided
-      onChange?.(resolvedValue);
+      onChange?.(resolvedValue, event);
     },
     [value, onChange, isControlled]
   );

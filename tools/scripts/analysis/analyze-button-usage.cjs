@@ -166,16 +166,15 @@ class ButtonUsageAnalyzer {
 
     // Match Button component usages (both self-closing and with children)
     // Handles: <Button ...>, <Button>...</Button>
-    const buttonRegex = /<Button\s+([^>]*?)(?:\/>|>([^]*?)<\/Button>)/g;
+    const buttonRegex = /<Button\s+([^>]*?)(?:\/>|>([\s\S]*?)<\/Button>)/g;
 
-    let match;
-    while ((match = buttonRegex.exec(content)) !== null) {
-      const props = match[1] || '';
-      const children = match[2] || '';
-      const fullMatch = match[0];
+    for (const match of content.matchAll(buttonRegex)) {
+      const props = match[1] ?? '';
+      const children = match[2] ?? '';
+      const fullMatch = match[0] ?? '';
 
       // Calculate line number
-      const linesBefore = content.substring(0, match.index).split('\n');
+      const linesBefore = content.substring(0, match.index ?? 0).split('\n');
       const line = linesBefore.length;
 
       // Skip if inside JSDoc comment or multiline comment
@@ -222,14 +221,15 @@ class ButtonUsageAnalyzer {
     ];
 
     // Extract string props
-    let match;
-    while ((match = propPatterns[0].exec(propsString)) !== null) {
-      props[match[1]] = match[2];
+    for (const match of propsString.matchAll(propPatterns[0])) {
+      const [, key, value] = match;
+      props[key] = value;
     }
 
     // Extract JSX expression props
-    while ((match = propPatterns[1].exec(propsString)) !== null) {
-      props[match[1]] = match[2];
+    for (const match of propsString.matchAll(propPatterns[1])) {
+      const [, key, value] = match;
+      props[key] = value;
     }
 
     // Extract boolean shorthand props

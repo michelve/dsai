@@ -21,9 +21,9 @@ const tokensContent = fs.readFileSync(tokensPath, 'utf-8');
 // Extract all exported token names
 const exportRegex = /export const (\w+) = /g;
 const tokenNames = [];
-let match;
-while ((match = exportRegex.exec(tokensContent)) !== null) {
-  tokenNames.push(match[1]);
+for (const match of tokensContent.matchAll(exportRegex)) {
+  const [, tokenName] = match;
+  tokenNames.push(tokenName);
 }
 
 console.log(`📦 Found ${tokenNames.length} tokens`);

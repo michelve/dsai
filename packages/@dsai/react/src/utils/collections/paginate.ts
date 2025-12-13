@@ -145,7 +145,9 @@ export function paginate<T>(
   }
 
   const totalItems = array.length;
-  const totalPages = allowZeroTotalPages ? Math.ceil(totalItems / pageSize) : Math.max(1, Math.ceil(totalItems / pageSize));
+  const totalPages = allowZeroTotalPages
+    ? Math.ceil(totalItems / pageSize)
+    : Math.max(1, Math.ceil(totalItems / pageSize));
 
   if (allowZeroTotalPages && totalPages === 0) {
     return {

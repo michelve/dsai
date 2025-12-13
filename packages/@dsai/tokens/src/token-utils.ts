@@ -45,13 +45,8 @@ export interface TokenInfo {
 // Safe Property Access Helpers
 // ============================================================================
 
-/**
- * Type guard to check if a key exists in the tokens object
- * Uses Object.prototype.hasOwnProperty.call for safe property checking
- * (ES2020 compatible - Object.hasOwn requires ES2022)
- */
 function hasToken(key: string): key is keyof typeof tokens {
-  return Object.prototype.hasOwnProperty.call(tokens, key);
+  return Object.getOwnPropertyDescriptor(tokens, key) !== undefined;
 }
 
 /**

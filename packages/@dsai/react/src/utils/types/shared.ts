@@ -181,7 +181,7 @@ export interface ThrottleOptions {
 /**
  * Debounced or throttled function with cancel method
  */
-export interface DebouncedFunction<T extends (...args: any[]) => any> {
+export interface DebouncedFunction<T extends (...args: unknown[]) => unknown> {
   /**
    * Call the debounced/throttled function
    */
@@ -206,7 +206,7 @@ export interface DebouncedFunction<T extends (...args: any[]) => any> {
 /**
  * Throttled function type (alias for DebouncedFunction)
  */
-export type ThrottledFunction<T extends (...args: any[]) => any> = DebouncedFunction<T>;
+export type ThrottledFunction<T extends (...args: unknown[]) => unknown> = DebouncedFunction<T>;
 
 // =============================================================================
 // Object Manipulation Options

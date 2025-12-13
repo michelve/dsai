@@ -292,16 +292,22 @@ describe('M2.10 Developer Experience Utilities', () => {
 
       const Broken = () => <div>{useCtx()}</div>;
 
-      expect(() => render(<Provider value={undefined as any}><Broken /></Provider>)).toThrow(
-        'BadContext context: defaultValue must be provided when strict is false'
-      );
+      expect(() =>
+        render(
+          <Provider value={undefined as any}>
+            <Broken />
+          </Provider>
+        )
+      ).toThrow('BadContext context: defaultValue must be provided when strict is false');
     });
   });
 
   describe('createComponent', () => {
     it('should create component with default props', () => {
       const BaseButton = ({ label, disabled = false }: { label: string; disabled?: boolean }) => (
-        <button disabled={disabled}>{label}</button>
+        <button type="button" disabled={disabled}>
+          {label}
+        </button>
       );
 
       const Button = createComponent({
@@ -404,7 +410,7 @@ describe('M2.10 Developer Experience Utilities', () => {
     });
 
     it('should have correct display name', () => {
-      const Polymorphic = createPolymorphic<'div', {}>(
+      const Polymorphic = createPolymorphic<'div', Record<string, unknown>>(
         'div',
         'Polymorphic'
       )(({ as: Component = 'div', ...props }) => <Component {...props} />);
@@ -443,8 +449,18 @@ describe('M2.10 Developer Experience Utilities', () => {
       const BaseList = ({ data, onSelect, render }: ComplexProps) => (
         <ul>
           {data.map((item) => (
-            <li key={item.id} onClick={() => onSelect(item.id)}>
-              {render ? render(item) : item.name}
+            <li key={item.id}>
+              <button
+                type="button"
+                onClick={() => onSelect(item.id)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    onSelect(item.id);
+                  }
+                }}
+              >
+                {render ? render(item) : item.name}
+              </button>
             </li>
           ))}
         </ul>

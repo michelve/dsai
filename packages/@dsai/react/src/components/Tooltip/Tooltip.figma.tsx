@@ -194,7 +194,9 @@ figma.connect(Tooltip, '<FIGMA_DSAI_TOOLTIP_BUTTON>', {
 
   example: ({ placement, content, arrow, buttonLabel, buttonVariant }) => (
     <Tooltip content={content} placement={placement} arrow={arrow}>
-      <button className={`btn btn-${buttonVariant}`}>{buttonLabel}</button>
+      <button type="button" className={`btn btn-${buttonVariant}`}>
+        {buttonLabel}
+      </button>
     </Tooltip>
   ),
 });

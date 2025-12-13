@@ -18,7 +18,7 @@ export interface UseControllableStateOptions<T> {
    * Callback invoked when the value changes.
    * Called in both controlled and uncontrolled modes.
    */
-  onChange?: (value: T) => void;
+  onChange?: (value: T, event?: unknown) => void;
 }
 
 /**
@@ -26,5 +26,5 @@ export interface UseControllableStateOptions<T> {
  */
 export type UseControllableStateReturn<T> = [
   value: T,
-  setValue: (value: T | ((prev: T) => T)) => void,
+  setValue: (value: T | ((prev: T) => T), event?: unknown) => void,
 ];

@@ -502,15 +502,18 @@ export const DataTableExample: Story = {
             </tr>
           </thead>
           <tbody>
-            {Array.from({ length: Math.min(itemsPerPage, totalItems - startItem + 1) }, (_, i) => (
-              <tr key={i}>
-                <td>{startItem + i}</td>
-                <td>Item {startItem + i}</td>
-                <td>
-                  <span className="badge bg-success">Active</span>
-                </td>
-              </tr>
-            ))}
+            {Array.from({ length: Math.min(itemsPerPage, totalItems - startItem + 1) }, (_, i) => {
+              const itemNumber = startItem + i;
+              return (
+                <tr key={itemNumber}>
+                  <td>{itemNumber}</td>
+                  <td>Item {itemNumber}</td>
+                  <td>
+                    <span className="badge bg-success">Active</span>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         <div className="d-flex justify-content-center">

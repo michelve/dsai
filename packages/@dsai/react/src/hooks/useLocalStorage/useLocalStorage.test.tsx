@@ -430,7 +430,9 @@ describe('useLocalStorage', () => {
         renderHook(() => useLocalStorage(`key-${i}`, i))
       );
 
-      hooks.forEach(({ unmount }) => unmount());
+      hooks.forEach(({ unmount }) => {
+        unmount();
+      });
 
       // No assertion needed - just ensuring no errors
       expect(true).toBe(true);

@@ -283,11 +283,9 @@ describe('uniqueBy', () => {
         { key: { id: 'a' }, value: 3 },
       ];
 
-      const result = uniqueBy(
-        items,
-        (i) => i.key,
-        { keySerializer: (k: any) => k?.id ?? String(k) }
-      );
+      const result = uniqueBy(items, (i) => i.key, {
+        keySerializer: (k: any) => k?.id ?? String(k),
+      });
 
       expect(result).toEqual([
         { key: keyA, value: 1 },

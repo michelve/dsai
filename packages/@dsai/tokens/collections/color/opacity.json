@@ -14,9 +14,7 @@
           "cssClass": ".opacity-0"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "5": {
       "$value": "5px",
@@ -30,9 +28,7 @@
           "cssClass": ".opacity-5"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "10": {
       "$value": "10px",
@@ -46,9 +42,7 @@
           "cssClass": ".opacity-10"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "15": {
       "$value": "15px",
@@ -62,9 +56,7 @@
           "cssClass": ".opacity-15"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "20": {
       "$value": "20px",
@@ -78,9 +70,7 @@
           "cssClass": ".opacity-20"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "25": {
       "$value": "25px",
@@ -94,9 +84,7 @@
           "cssClass": ".opacity-25"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "30": {
       "$value": "30px",
@@ -110,9 +98,7 @@
           "cssClass": ".opacity-30"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "35": {
       "$value": "35px",
@@ -126,9 +112,7 @@
           "cssClass": ".opacity-35"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "40": {
       "$value": "40px",
@@ -142,9 +126,7 @@
           "cssClass": ".opacity-40"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "45": {
       "$value": "45px",
@@ -158,9 +140,7 @@
           "cssClass": ".opacity-45"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "50": {
       "$value": "50px",
@@ -174,9 +154,7 @@
           "cssClass": ".opacity-50"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "55": {
       "$value": "55px",
@@ -190,9 +168,7 @@
           "cssClass": ".opacity-55"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "60": {
       "$value": "60px",
@@ -206,9 +182,7 @@
           "cssClass": ".opacity-60"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "65": {
       "$value": "65px",
@@ -222,9 +196,7 @@
           "cssClass": ".opacity-65"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "70": {
       "$value": "70px",
@@ -238,9 +210,7 @@
           "cssClass": ".opacity-70"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "75": {
       "$value": "75px",
@@ -254,9 +224,7 @@
           "cssClass": ".opacity-75"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "80": {
       "$value": "80px",
@@ -270,9 +238,7 @@
           "cssClass": ".opacity-80"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "85": {
       "$value": "85px",
@@ -286,9 +252,7 @@
           "cssClass": ".opacity-85"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "90": {
       "$value": "90px",
@@ -302,9 +266,7 @@
           "cssClass": ".opacity-90"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "95": {
       "$value": "95px",
@@ -318,9 +280,7 @@
           "cssClass": ".opacity-95"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     },
     "100": {
       "$value": "100px",
@@ -334,9 +294,7 @@
           "cssClass": ".opacity-100"
         }
       },
-      "$scopes": [
-        "OPACITY"
-      ]
+      "$scopes": ["OPACITY"]
     }
   }
 }

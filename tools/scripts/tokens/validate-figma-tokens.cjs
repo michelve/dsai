@@ -193,7 +193,9 @@ async function determineSourceFiles() {
       fileExists(path.join(FIGMA_EXPORTS_DIR, file))
     );
     console.log(`✓ Found ${existingFiles.length} collection files`);
-    existingFiles.forEach((file) => console.log(`  - ${file}`));
+    existingFiles.forEach((file) => {
+      console.log(`  - ${file}`);
+    });
     console.log('  Using collection files as SOURCE OF TRUTH\n');
     return existingFiles;
   }
@@ -207,7 +209,9 @@ async function determineSourceFiles() {
     console.log('✓ Found BOTH master file AND collection files:\n');
     console.log(`  Master file: ${MASTER_FILE}`);
     console.log(`  Collection files: ${existingCollections.length}`);
-    existingCollections.forEach((file) => console.log(`    - ${file}`));
+    existingCollections.forEach((file) => {
+      console.log(`    - ${file}`);
+    });
     console.log();
 
     // Check if running in CI or non-interactive mode

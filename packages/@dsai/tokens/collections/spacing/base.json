@@ -14,9 +14,7 @@
           "remValue": "0rem"
         }
       },
-      "$scopes": [
-        "GAP"
-      ],
+      "$scopes": ["GAP"],
       "comment": "$spacer * 0"
     },
     "1": {
@@ -33,9 +31,7 @@
           "remValue": "0.25rem"
         }
       },
-      "$scopes": [
-        "GAP"
-      ],
+      "$scopes": ["GAP"],
       "comment": "$spacer * .25"
     },
     "2": {
@@ -52,9 +48,7 @@
           "remValue": "0.5rem"
         }
       },
-      "$scopes": [
-        "GAP"
-      ],
+      "$scopes": ["GAP"],
       "comment": "$spacer * .5"
     },
     "3": {
@@ -71,9 +65,7 @@
           "remValue": "1rem"
         }
       },
-      "$scopes": [
-        "GAP"
-      ],
+      "$scopes": ["GAP"],
       "comment": "$spacer"
     },
     "4": {
@@ -90,9 +82,7 @@
           "remValue": "1.5rem"
         }
       },
-      "$scopes": [
-        "GAP"
-      ],
+      "$scopes": ["GAP"],
       "comment": "$spacer * 1.5"
     },
     "5": {
@@ -109,47 +99,33 @@
           "remValue": "3rem"
         }
       },
-      "$scopes": [
-        "GAP"
-      ],
+      "$scopes": ["GAP"],
       "comment": "$spacer * 3"
     },
     "6": {
       "$value": "48px",
       "$type": "dimension",
-      "$scopes": [
-        "GAP",
-        "FONT_VARIATIONS"
-      ]
+      "$scopes": ["GAP", "FONT_VARIATIONS"]
     },
     "7": {
       "$value": "64px",
       "$type": "dimension",
-      "$scopes": [
-        "GAP",
-        "FONT_VARIATIONS"
-      ]
+      "$scopes": ["GAP", "FONT_VARIATIONS"]
     },
     "8": {
       "$value": "96px",
       "$type": "dimension",
-      "$scopes": [
-        "GAP"
-      ]
+      "$scopes": ["GAP"]
     },
     "9": {
       "$value": "128px",
       "$type": "dimension",
-      "$scopes": [
-        "GAP"
-      ]
+      "$scopes": ["GAP"]
     },
     "10": {
       "$value": "160px",
       "$type": "dimension",
-      "$scopes": [
-        "GAP"
-      ]
+      "$scopes": ["GAP"]
     }
   }
 }

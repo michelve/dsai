@@ -144,8 +144,12 @@ export function memoize<T extends (...args: unknown[]) => unknown>(
     throw new TypeError('memoize: Expected a function');
   }
 
-  const { cacheKeyFn = defaultCacheKey, maxSize = Infinity, ttl = Infinity, weakMap = false } =
-    options;
+  const {
+    cacheKeyFn = defaultCacheKey,
+    maxSize = Infinity,
+    ttl = Infinity,
+    weakMap = false,
+  } = options;
 
   // Use Map for cache (maintains insertion order for LRU)
   const cache = new Map<string, CacheEntry<ReturnType<T>>>();
@@ -209,15 +213,14 @@ export function memoize<T extends (...args: unknown[]) => unknown>(
     const key = cacheKeyFn(...args);
 
     // Check cache
-    if (cache.has(key)) {
-      const entry = cache.get(key)!;
-
+    const cachedEntry = cache.get(key);
+    if (cachedEntry) {
       // Check expiration
-      if (!isExpired(entry)) {
+      if (!isExpired(cachedEntry)) {
         hits++;
         // Update access order for LRU
-        touchEntry(key, entry);
-        return entry.value;
+        touchEntry(key, cachedEntry);
+        return cachedEntry.value;
       }
 
       // Remove expired entry

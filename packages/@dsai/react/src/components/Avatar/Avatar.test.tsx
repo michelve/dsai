@@ -587,13 +587,15 @@ describe('AvatarGroup', () => {
       expect(screen.getByTestId('charlie')).toBeInTheDocument();
     });
 
-    it('applies role="group"', () => {
+    it('renders semantic fieldset with accessible label', () => {
       render(
         <AvatarGroup data-testid="group">
           <Avatar name="Alice" />
         </AvatarGroup>
       );
-      expect(screen.getByTestId('group')).toHaveAttribute('role', 'group');
+      const group = screen.getByTestId('group');
+      expect(group.tagName).toBe('FIELDSET');
+      expect(group).toHaveAttribute('aria-label', '1 users');
     });
   });
 
@@ -828,7 +830,7 @@ describe('AvatarGroup', () => {
           <Avatar name="Alice" />
         </AvatarGroup>
       );
-      expect(ref.current).toBeInstanceOf(HTMLDivElement);
+      expect(ref.current).toBeInstanceOf(HTMLFieldSetElement);
     });
   });
 });

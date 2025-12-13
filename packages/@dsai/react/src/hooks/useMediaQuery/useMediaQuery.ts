@@ -81,11 +81,11 @@ export function useMediaQuery(query: string, options: UseMediaQueryOptions = {})
   };
   const supportsMatchMedia = canUseMatchMedia();
 
-  if (!supportsMatchMedia) {
-    return defaultValue;
-  }
-
   const subscribe = (callback: () => void): (() => void) => {
+    if (!supportsMatchMedia) {
+      return () => {};
+    }
+
     const mediaQueryList = window.matchMedia(query);
 
     // Modern browsers use addEventListener
@@ -97,6 +97,9 @@ export function useMediaQuery(query: string, options: UseMediaQueryOptions = {})
   };
 
   const getSnapshot = (): boolean => {
+    if (!supportsMatchMedia) {
+      return defaultValue;
+    }
     return window.matchMedia(query).matches;
   };
 

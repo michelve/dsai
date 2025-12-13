@@ -118,6 +118,8 @@ export function createContext<T>(options: CreateContextOptions<T>): ContextRetur
 
     if (strict && context === undefined) {
       invariant(false, errorMessage);
+      // Fallback return to satisfy TypeScript after invariant throws
+      return defaultValue as T;
     }
 
     // If not strict and context is undefined, use default value
@@ -126,10 +128,12 @@ export function createContext<T>(options: CreateContextOptions<T>): ContextRetur
         defaultValue !== undefined,
         `${name} context: defaultValue must be provided when strict is false`
       );
-      return defaultValue!;
+      return defaultValue as T;
     }
 
-    return context!;
+    // Non-strict path or provided context value
+    invariant(context !== undefined, errorMessage);
+    return context;
   }
 
   return {

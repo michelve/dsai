@@ -72,13 +72,11 @@ export function RadioGroup({
   const [currentValue, setCurrentValue] = useControllableState({
     value,
     defaultValue,
-    onChange: onChange
-      ? (_newValue: string, event?: React.ChangeEvent<HTMLInputElement>) => {
-          if (event) {
-            onChange(event);
-          }
-        }
-      : undefined,
+    onChange: (_newValue: string, event?: React.ChangeEvent<HTMLInputElement>) => {
+      if (event && onChange) {
+        onChange(event);
+      }
+    },
   });
 
   // Handle change - pass both value and event to setCurrentValue

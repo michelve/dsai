@@ -445,7 +445,9 @@ describe('useSessionStorage', () => {
         renderHook(() => useSessionStorage(`key-${i}`, i))
       );
 
-      hooks.forEach(({ unmount }) => unmount());
+      hooks.forEach(({ unmount }) => {
+        unmount();
+      });
 
       expect(true).toBe(true);
     });

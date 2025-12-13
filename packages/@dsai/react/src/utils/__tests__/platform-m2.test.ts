@@ -76,11 +76,11 @@ describe('Platform utilities', () => {
     expect(isDesktop()).toBe(false);
   });
 
-    it('handles touch and hover detection', () => {
-      Object.defineProperty(navigator, 'userAgent', {
-        value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-        configurable: true,
-      });
+  it('handles touch and hover detection', () => {
+    Object.defineProperty(navigator, 'userAgent', {
+      value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+      configurable: true,
+    });
     // Simulate matchMedia
     (window as any).matchMedia = jest.fn().mockImplementation((query: string) => {
       return {

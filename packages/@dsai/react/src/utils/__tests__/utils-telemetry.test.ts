@@ -42,8 +42,11 @@ beforeAll(() => {
 
 beforeEach(() => {
   // Ensure performance exists and has the methods we need for spying
-  const perf = ((globalThis as any).performance ||
-    ((globalThis as any).performance = {})) as Performance & {
+  const existingPerf = (globalThis as any).performance as Performance | undefined;
+  if (!existingPerf) {
+    (globalThis as any).performance = {} as Performance;
+  }
+  const perf = (globalThis as any).performance as Performance & {
     mark?: Performance['mark'];
     measure?: Performance['measure'];
     clearMarks?: Performance['clearMarks'];

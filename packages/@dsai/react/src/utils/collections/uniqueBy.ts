@@ -161,11 +161,7 @@ export function uniqueByKey<T extends Record<string, unknown>, K extends keyof T
   key: K,
   options: UniqueByOptions = {}
 ): T[] {
-  return uniqueBy(
-    array,
-    (item) => Reflect.get(item, key),
-    options
-  );
+  return uniqueBy(array, (item) => Reflect.get(item, key), options);
 }
 
 export type { KeyExtractor };
