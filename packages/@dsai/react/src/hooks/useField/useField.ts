@@ -148,16 +148,32 @@ export function useField<T = unknown>({
 
     setValidating(true);
 
+    const runRules = async (): Promise<{ valid: boolean; error?: string }> => {
+      for (const rule of validationRules) {
+        try {
+          const isValid = await rule.validate(value);
+          if (!isValid) {
+            return { valid: false, error: rule.message };
+          }
+        } catch {
+          return { valid: false, error: rule.message };
+        }
+      }
+      return { valid: true };
+    };
+
     try {
       const result = await validateFieldUtil(value, validationRules);
-      setError(result.error);
+      const finalResult = !result || (!result.valid && !result.error) ? await runRules() : result;
+      setError(finalResult.error);
       setValidating(false);
-      return result.valid;
+      return finalResult.valid;
     } catch {
       // Handle validation errors
-      setError('Validation error');
+      const fallback = await runRules();
+      setError(fallback.error ?? 'Validation error');
       setValidating(false);
-      return false;
+      return fallback.valid;
     }
   }, [value, validationRules]);
 
