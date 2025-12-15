@@ -48,6 +48,18 @@ describe('Accordion Accessibility', () => {
       expect(results).toHaveNoViolations();
     });
 
+    it('has no accessibility violations when fully collapsed', async () => {
+      const { container } = renderAccordion();
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+
+      // Verify all buttons have aria-expanded="false"
+      const buttons = screen.getAllByRole('button');
+      buttons.forEach((button) => {
+        expect(button).toHaveAttribute('aria-expanded', 'false');
+      });
+    });
+
     it('has no accessibility violations with one item expanded', async () => {
       const { container } = renderAccordion({ defaultActiveKeys: ['1'] });
       const results = await axe(container);

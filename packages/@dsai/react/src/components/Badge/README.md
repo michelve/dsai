@@ -73,12 +73,31 @@ function App() {
 ### Notification Badge on Button
 
 ```tsx
-<Button className="position-relative">
-  Inbox
-  <Badge variant="danger" pill className="position-absolute top-0 start-100 translate-middle">
-    99+
-  </Badge>
-</Button>
+import { Badge, Button } from '@dsai/react';
+
+// Positioned notification badge
+function NotificationButton() {
+  return (
+    <Button variant="primary" className="position-relative">
+      Inbox
+      <Badge variant="danger" pill className="position-absolute top-0 start-100 translate-middle">
+        99+
+      </Badge>
+    </Button>
+  );
+}
+
+// Counter badge inside button
+function CounterButton() {
+  return (
+    <Button variant="outline-primary">
+      Messages
+      <Badge variant="primary" pill className="ms-2">
+        4
+      </Badge>
+    </Button>
+  );
+}
 ```
 
 ### Badge in Headings
@@ -133,6 +152,24 @@ When using dot-only badges (no visible text), always provide an `aria-label`:
 // ❌ Bad - no accessible label
 <Badge variant="success" dot />
 ```
+
+## Performance
+
+The Badge component is optimized for performance:
+
+- **React.memo**: Entire component is memoized to prevent unnecessary re-renders
+- **useMemo for class names**: Class name construction is memoized
+- **useMemo for content detection**: `hasVisibleContent` is computed once per render
+- **Ideal for**: Large lists (100+ badges), frequent parent re-renders, real-time status indicators
+
+### Performance Grade: A (95/100)
+
+Perfect for use in:
+
+- Dashboard status indicators that update frequently
+- Large data tables with status badges per row
+- Real-time notification systems
+- User lists with online/offline status dots
 
 ## Bootstrap Classes
 

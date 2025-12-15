@@ -235,6 +235,41 @@ import { ChevronRightIcon, StarIcon, GearIcon } from '@dsai/react';
 </Accordion>
 ```
 
+### Nested Accordions
+
+Accordions can be nested within panels for hierarchical content:
+
+```tsx
+import { Accordion, Heading } from '@dsai/react';
+
+<Accordion>
+  <Accordion.Item eventKey="0">
+    <Heading level={2} className="accordion-header">
+      <Accordion.Button>Parent Section</Accordion.Button>
+    </Heading>
+    <Accordion.Panel>
+      <p>This panel contains a nested accordion:</p>
+      <Accordion flush>
+        <Accordion.Item eventKey="child-0">
+          <Heading level={3} className="accordion-header">
+            <Accordion.Button>Child Section 1</Accordion.Button>
+          </Heading>
+          <Accordion.Panel>Nested content 1</Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item eventKey="child-1">
+          <Heading level={3} className="accordion-header">
+            <Accordion.Button>Child Section 2</Accordion.Button>
+          </Heading>
+          <Accordion.Panel>Nested content 2</Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
+    </Accordion.Panel>
+  </Accordion.Item>
+</Accordion>;
+```
+
+> **Note**: Use `flush` variant for nested accordions to avoid double borders. Increment heading levels (`level={3}`) for proper document outline.
+
 ## API Reference
 
 ### Accordion Props
@@ -342,18 +377,18 @@ interface SafeAccordionHTMLAttributes {
 
 ## FSM States
 
-The Accordion uses a finite state machine for predictable panel transitions:
+The Accordion uses a finite state machine for predictable panel state management:
 
-| State        | Description                              |
-| ------------ | ---------------------------------------- |
-| `collapsed`  | Panel is fully hidden                    |
-| `expanding`  | Panel is animating open (CSS transition) |
-| `expanded`   | Panel is fully visible                   |
-| `collapsing` | Panel is animating closed                |
+| State       | Description            |
+| ----------- | ---------------------- |
+| `collapsed` | Panel is fully hidden  |
+| `expanded`  | Panel is fully visible |
+
+> **Note**: Animation states (expanding/collapsing transitions) are handled by CSS transitions using Bootstrap's `.collapsing` class, not by the FSM. The FSM tracks only the logical state (expanded/collapsed).
 
 ### Visual State Attribute
 
-Each item exposes its visual state via `data-visual-state`:
+Each item exposes its logical state via `data-visual-state`:
 
 ```html
 <div class="accordion-item" data-visual-state="expanded">...</div>
@@ -362,15 +397,6 @@ Each item exposes its visual state via `data-visual-state`:
 This is a first-class styling hook for custom animations, testing, and analytics:
 
 ```css
-/* Custom animation overrides */
-[data-visual-state='expanding'] .accordion-body {
-  animation: custom-expand 0.3s ease-out;
-}
-
-[data-visual-state='collapsing'] .accordion-body {
-  animation: custom-collapse 0.3s ease-in;
-}
-
 /* Highlight expanded items */
 [data-visual-state='expanded'] {
   border-left: 3px solid var(--bs-primary);
@@ -379,6 +405,11 @@ This is a first-class styling hook for custom animations, testing, and analytics
 /* Dim collapsed items */
 [data-visual-state='collapsed'] .accordion-button {
   opacity: 0.8;
+}
+
+/* Custom animations using CSS transitions */
+.accordion-collapse {
+  transition: height 0.35s ease;
 }
 ```
 
