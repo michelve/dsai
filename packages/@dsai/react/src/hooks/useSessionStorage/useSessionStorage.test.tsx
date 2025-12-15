@@ -8,6 +8,8 @@
 import '@testing-library/jest-dom';
 import { act, renderHook } from '@testing-library/react';
 
+import * as browserUtils from '../../utils/browser/isBrowser';
+
 import { useSessionStorage } from './useSessionStorage';
 
 describe('useSessionStorage', () => {
@@ -278,7 +280,7 @@ describe('useSessionStorage', () => {
       // @ts-expect-error - Testing SSR scenario
       delete global.window;
 
-      const isBrowserSpy = jest.spyOn(require('../../utils/browser/isBrowser'), 'isBrowser');
+      const isBrowserSpy = jest.spyOn(browserUtils, 'isBrowser');
       isBrowserSpy.mockReturnValue(false);
       const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
 

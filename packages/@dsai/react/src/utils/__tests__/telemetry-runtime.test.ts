@@ -2,10 +2,10 @@
  * @file Telemetry runtime guards test suite
  */
 
-import { measurePerformance } from '../telemetry/measurePerformance';
-import { startTiming } from '../telemetry/startTiming';
 import { catchErrors } from '../telemetry/catchErrors';
 import { getTelemetryClient, setTelemetryClient, resetTelemetryConfig } from '../telemetry/config';
+import { measurePerformance } from '../telemetry/measurePerformance';
+import { startTiming } from '../telemetry/startTiming';
 
 describe('Telemetry runtime guards', () => {
   afterEach(() => {

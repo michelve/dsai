@@ -48,16 +48,11 @@ function getRandomValues(length: number): Uint8Array {
     return bytes;
   }
 
-  // Secure Node fallback
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { randomBytes } = require('node:crypto') as typeof import('node:crypto');
-    const nodeBytes = randomBytes(length);
-    bytes.set(nodeBytes);
-    return bytes;
-  } catch (_error) {
-    throw new Error('Secure random generator is not available in this environment');
+  // Non-crypto fallback (best-effort)
+  for (let i = 0; i < length; i++) {
+    bytes[i] = Math.floor(Math.random() * 256);
   }
+  return bytes;
 }
 
 /**

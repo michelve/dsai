@@ -574,7 +574,11 @@ const DropdownMenu = forwardRef<HTMLUListElement, DropdownMenuProps>(
     }
 
     const menuContent = (
-      <FloatingFocusManager context={floatingContext as FloatingContext} modal={false}>
+      <FloatingFocusManager
+        context={floatingContext as FloatingContext}
+        modal={false}
+        inert={false}
+      >
         <ul
           ref={mergedRef}
           id={id ?? menuId}

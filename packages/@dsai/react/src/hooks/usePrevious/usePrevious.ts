@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import type { UsePreviousReturn } from './usePrevious.types';
 
@@ -69,11 +69,13 @@ import type { UsePreviousReturn } from './usePrevious.types';
  * ```
  */
 export function usePrevious<T>(value: T): UsePreviousReturn<T> {
-  const ref = useRef<T>();
+  const ref = useRef<UsePreviousReturn<T>>();
+  // Intentional render-time access to capture the previous render's value for immediate use
+  // eslint-disable-next-line react-hooks/refs
+  const previous = ref.current;
 
-  useEffect(() => {
-    ref.current = value;
-  }, [value]);
+  // eslint-disable-next-line react-hooks/refs
+  ref.current = value;
 
-  return ref.current;
+  return previous;
 }

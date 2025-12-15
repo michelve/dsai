@@ -54,11 +54,21 @@ beforeEach(() => {
     now?: Performance['now'];
   };
 
-  if (typeof perf.now !== 'function') perf.now = Date.now;
-  if (typeof perf.mark !== 'function') perf.mark = () => undefined;
-  if (typeof perf.measure !== 'function') perf.measure = () => undefined;
-  if (typeof perf.clearMarks !== 'function') perf.clearMarks = () => undefined;
-  if (typeof perf.clearMeasures !== 'function') perf.clearMeasures = () => undefined;
+  if (typeof perf.now !== 'function') {
+    perf.now = Date.now;
+  }
+  if (typeof perf.mark !== 'function') {
+    perf.mark = () => undefined;
+  }
+  if (typeof perf.measure !== 'function') {
+    perf.measure = () => undefined;
+  }
+  if (typeof perf.clearMarks !== 'function') {
+    perf.clearMarks = () => undefined;
+  }
+  if (typeof perf.clearMeasures !== 'function') {
+    perf.clearMeasures = () => undefined;
+  }
 
   nowSpy = jest.spyOn(perf, 'now').mockReturnValue(1000);
   markSpy = jest.spyOn(perf, 'mark').mockImplementation(() => undefined);

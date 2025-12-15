@@ -103,11 +103,13 @@ export function useDebounce<T>(
     }
     const timeSinceLastInvoke = now - lastInvokeTimeRef.current;
 
-    // Leading edge execution
+    let leadingTimeout: ReturnType<typeof setTimeout> | undefined;
     const shouldInvokeLeading = leading && timeSinceLastInvoke >= delay;
     if (shouldInvokeLeading) {
-      setDebouncedValue(value);
       lastInvokeTimeRef.current = now;
+      leadingTimeout = setTimeout(() => {
+        setDebouncedValue(value);
+      }, 0);
     }
 
     // Clear existing timeout
@@ -134,6 +136,9 @@ export function useDebounce<T>(
 
     // Cleanup on unmount or value change
     return () => {
+      if (leadingTimeout) {
+        clearTimeout(leadingTimeout);
+      }
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }

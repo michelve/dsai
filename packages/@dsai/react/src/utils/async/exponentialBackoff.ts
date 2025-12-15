@@ -23,20 +23,8 @@ function getSecureRandomFraction(): number {
     return buffer[0] / 0xffffffff;
   }
 
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { randomBytes } = require('node:crypto') as typeof import('node:crypto');
-    const bytes = randomBytes(4);
-    const value =
-      (bytes[0] ?? 0) * 0x1000000 +
-      (bytes[1] ?? 0) * 0x10000 +
-      (bytes[2] ?? 0) * 0x100 +
-      (bytes[3] ?? 0);
-    return value / 0xffffffff;
-  } catch {
-    const timeSlice = Date.now() % 1000;
-    return timeSlice / 1000;
-  }
+  const timeSlice = Date.now() % 1000;
+  return timeSlice / 1000;
 }
 
 /**

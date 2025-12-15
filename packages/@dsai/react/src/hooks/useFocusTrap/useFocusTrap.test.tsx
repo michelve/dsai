@@ -8,12 +8,12 @@
 import '@testing-library/jest-dom';
 import { act, fireEvent, render, renderHook, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import type React from 'react';
 import { useRef } from 'react';
 
 import { useFocusTrap } from './useFocusTrap';
 
 import type { UseFocusTrapOptions } from './useFocusTrap.types';
+import type React from 'react';
 
 // Test component that uses the hook
 function TestContainer({

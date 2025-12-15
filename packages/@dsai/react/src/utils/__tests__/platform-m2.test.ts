@@ -2,6 +2,7 @@
  * @file Platform utilities test suite
  */
 
+import * as browserModule from '../browser';
 import {
   getBrowser,
   getDevicePixelRatio,
@@ -14,6 +15,7 @@ import {
   isTablet,
   isTouchDevice,
 } from '../platform';
+import * as rtlModule from '../platform/isRTL';
 
 describe('Platform utilities', () => {
   const originalUA = navigator.userAgent;
@@ -30,7 +32,7 @@ describe('Platform utilities', () => {
   });
 
   it('returns null in SSR for guarded utilities', () => {
-    const isBrowserSpy = jest.spyOn(require('../browser'), 'isBrowser').mockReturnValue(false);
+    const isBrowserSpy = jest.spyOn(browserModule, 'isBrowser').mockReturnValue(false);
     expect(getBrowser()).toBeNull();
     expect(getOS()).toBeNull();
     expect(isMobile()).toBeNull();
@@ -96,8 +98,8 @@ describe('Platform utilities', () => {
   });
 
   it('returns text direction based on isRTL', () => {
-    const isBrowserSpy = jest.spyOn(require('../browser'), 'isBrowser').mockReturnValue(true);
-    const rtlSpy = jest.spyOn(require('../platform/isRTL'), 'isRTL').mockReturnValue(true);
+    const isBrowserSpy = jest.spyOn(browserModule, 'isBrowser').mockReturnValue(true);
+    const rtlSpy = jest.spyOn(rtlModule, 'isRTL').mockReturnValue(true);
     expect(getTextDirection()).toBe('rtl');
     rtlSpy.mockReturnValue(false);
     expect(getTextDirection()).toBe('ltr');

@@ -112,7 +112,7 @@ export function useThrottle<T>(
       clearTimeout(timeoutRef.current);
     }
 
-    const scheduleUpdate = (delay: number) => {
+    const scheduleUpdate = (delay: number): void => {
       timeoutRef.current = setTimeout(
         () => {
           setThrottledValue(pendingValueRef.current);

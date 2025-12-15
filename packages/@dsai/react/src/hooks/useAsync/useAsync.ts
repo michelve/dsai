@@ -291,7 +291,13 @@ export function useAsync<T, E = Error>(
   // Execute immediately on mount if requested
   useEffect(() => {
     if (immediate) {
-      void execute();
+      const timeoutId = setTimeout(() => {
+        void execute();
+      }, 0);
+
+      return () => {
+        clearTimeout(timeoutId);
+      };
     }
   }, [immediate, execute]);
 

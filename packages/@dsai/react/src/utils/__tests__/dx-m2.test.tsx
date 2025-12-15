@@ -11,8 +11,8 @@
  * Target: 100% code coverage for development tooling
  */
 
-import React from 'react';
 import { render } from '@testing-library/react';
+import React from 'react';
 
 import {
   clearWarnings,
@@ -328,7 +328,7 @@ describe('M2.10 Developer Experience Utilities', () => {
         displayName: 'Greeting',
       });
 
-      const { container } = require('@testing-library/react').render(<Greeting name="World" />);
+      const { container } = render(<Greeting name="World" />);
 
       expect(container.textContent).toBe('Hello World');
     });
@@ -347,7 +347,7 @@ describe('M2.10 Developer Experience Utilities', () => {
       });
 
       expect(() => {
-        require('@testing-library/react').render(<Card title="Test" />);
+        render(<Card title="Test" />);
       }).not.toThrow();
     });
   });
@@ -361,9 +361,7 @@ describe('M2.10 Developer Experience Utilities', () => {
         <Component style={{ padding }} {...props} />
       ));
 
-      const { container } = require('@testing-library/react').render(
-        <Box padding="20px">Content</Box>
-      );
+      const { container } = render(<Box padding="20px">Content</Box>);
 
       expect(container.querySelector('div')).toBeTruthy();
     });
@@ -376,7 +374,7 @@ describe('M2.10 Developer Experience Utilities', () => {
         <Component style={{ fontWeight: bold ? 'bold' : 'normal' }} {...props} />
       ));
 
-      const { container } = require('@testing-library/react').render(
+      const { container } = render(
         <Text as="p" bold>
           Bold text
         </Text>
@@ -398,7 +396,7 @@ describe('M2.10 Developer Experience Utilities', () => {
         />
       ));
 
-      const { container } = require('@testing-library/react').render(
+      const { container } = render(
         <Link href="https://example.com" external>
           Link
         </Link>
