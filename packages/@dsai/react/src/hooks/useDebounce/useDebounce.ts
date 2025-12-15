@@ -97,14 +97,17 @@ export function useDebounce<T>(
   const lastInvokeTimeRef = useRef<number>(0);
 
   useEffect(() => {
-    const currentTime = Date.now();
-    const timeSinceLastInvoke = currentTime - lastInvokeTimeRef.current;
+    const now = Date.now();
+    if (lastInvokeTimeRef.current === 0) {
+      lastInvokeTimeRef.current = now;
+    }
+    const timeSinceLastInvoke = now - lastInvokeTimeRef.current;
 
-    // Determine if we should invoke on leading edge
+    // Leading edge execution
     const shouldInvokeLeading = leading && timeSinceLastInvoke >= delay;
-
     if (shouldInvokeLeading) {
-      lastInvokeTimeRef.current = currentTime;
+      setDebouncedValue(value);
+      lastInvokeTimeRef.current = now;
     }
 
     // Clear existing timeout
@@ -114,20 +117,19 @@ export function useDebounce<T>(
 
     // Calculate wait time
     let waitTime = delay;
-    if (maxWait !== undefined && timeSinceLastInvoke < maxWait) {
-      waitTime = Math.min(delay, maxWait - timeSinceLastInvoke);
+    if (maxWait !== undefined) {
+      const timeUntilMax = maxWait - timeSinceLastInvoke;
+      waitTime = Math.min(delay, Math.max(0, timeUntilMax));
     }
 
     // Set new timeout for trailing edge
     timeoutRef.current = setTimeout(() => {
-      const invokeTime = Date.now();
-      const timeSinceInvoke = invokeTime - lastInvokeTimeRef.current;
-
-      // Only invoke if enough time has passed or maxWait is exceeded
-      if (trailing && (timeSinceInvoke >= delay || (maxWait && timeSinceInvoke >= maxWait))) {
-        setDebouncedValue(value);
-        lastInvokeTimeRef.current = invokeTime;
+      if (!trailing) {
+        return;
       }
+
+      setDebouncedValue(value);
+      lastInvokeTimeRef.current = Date.now();
     }, waitTime);
 
     // Cleanup on unmount or value change
