@@ -124,15 +124,18 @@ export function useForm<T extends Record<string, unknown>>({
   const initialFieldStates = useMemo(() => {
     const entries = Object.entries(initialValues) as Array<[keyof T, T[keyof T]]>;
 
-    return entries.reduce((acc, [key, value]) => {
-      setFieldState(acc, key, {
-        value,
-        touched: false,
-        error: undefined,
-        validating: false,
-      });
-      return acc;
-    }, {} as { [K in keyof T]: FieldState<T[K]> });
+    return entries.reduce(
+      (acc, [key, value]) => {
+        setFieldState(acc, key, {
+          value,
+          touched: false,
+          error: undefined,
+          validating: false,
+        });
+        return acc;
+      },
+      {} as { [K in keyof T]: FieldState<T[K]> }
+    );
   }, [initialValues, setFieldState]);
 
   const [fields, setFields] = useState<{ [K in keyof T]: FieldState<T[K]> }>(initialFieldStates);
@@ -167,7 +170,7 @@ export function useForm<T extends Record<string, unknown>>({
   // Validate a single field
   const validateField = useCallback(
     async <K extends keyof T>(name: K): Promise<boolean> => {
-      const rules = Reflect.get(validationSchema, name) as typeof validationSchema[K];
+      const rules = Reflect.get(validationSchema, name) as (typeof validationSchema)[K];
       if (!rules || rules.length === 0) {
         return true;
       }

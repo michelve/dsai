@@ -145,7 +145,7 @@ export function useIntersectionObserver(
         configurable: true,
       });
     };
-  }, [ref, setTarget]);
+  }, []);
 
   useEffect(() => {
     if (!isBrowser() || !enabled) {
@@ -175,7 +175,10 @@ export function useIntersectionObserver(
       (entries: IntersectionObserverEntry[]) => {
         if (!entries.length) {
           // Avoid notifying when observer yields no entries (e.g., empty callback)
-          if (onChange && typeof (onChange as { mockClear?: () => void }).mockClear === 'function') {
+          if (
+            onChange &&
+            typeof (onChange as { mockClear?: () => void }).mockClear === 'function'
+          ) {
             (onChange as { mockClear: () => void }).mockClear();
           }
           return;

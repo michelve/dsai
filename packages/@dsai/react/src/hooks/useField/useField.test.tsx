@@ -307,9 +307,9 @@ describe('useField', () => {
       );
 
       await act(async () => {
-      await act(async () => {
-        result.current.actions.handleChange('ab');
-      });
+        await act(async () => {
+          result.current.actions.handleChange('ab');
+        });
       });
 
       await waitFor(() => {

@@ -138,7 +138,8 @@ export function useHover<T extends HTMLElement = HTMLElement>(
 
   const handleMouseEnter = useCallback((): void => {
     clearLeaveTimeout();
-    const { enterDelay: currentEnterDelay, onHoverChange: currentOnHoverChange } = optionsRef.current;
+    const { enterDelay: currentEnterDelay, onHoverChange: currentOnHoverChange } =
+      optionsRef.current;
 
     if (currentEnterDelay > 0) {
       const setFn =
@@ -238,7 +239,7 @@ export function useHover<T extends HTMLElement = HTMLElement>(
         configurable: true,
       });
     };
-  }, [attachListeners, detachListeners, ref]);
+  }, [attachListeners, detachListeners]);
 
   return [ref, isHovered];
 }

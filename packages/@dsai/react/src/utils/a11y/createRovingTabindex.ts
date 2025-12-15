@@ -60,19 +60,14 @@ export function createRovingTabindex(
   options: RovingTabindexOptions = { itemSelector: '[data-roving-item]' }
 ): RovingTabindexManager {
   const isElementArray = Array.isArray(target);
-  const container = isElementArray ? target[0]?.parentElement ?? document.body : target;
+  const container = isElementArray ? (target[0]?.parentElement ?? document.body) : target;
 
   // Validate container
   if (!(container instanceof Element)) {
     throw new TypeError('createRovingTabindex expects an Element as container');
   }
 
-  const {
-    itemSelector,
-    enableKeyboard = true,
-    loop = true,
-    orientation = 'horizontal',
-  } = options;
+  const { itemSelector, enableKeyboard = true, loop = true, orientation = 'horizontal' } = options;
 
   let currentIndex = 0;
   let items: Element[] = [];

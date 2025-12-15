@@ -130,7 +130,7 @@ export function useResizeObserver<T extends HTMLElement = HTMLElement>(
         configurable: true,
       });
     };
-  }, [ref, setTarget]);
+  }, []);
 
   useEffect(() => {
     if (!isBrowser() || !enabled) {

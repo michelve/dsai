@@ -58,8 +58,9 @@ beforeEach(() => {
 
   global.IntersectionObserver = observerFactory;
   // Ensure window has the mock so the hook's feature detection passes
-  (window as unknown as { IntersectionObserver: typeof IntersectionObserver }).IntersectionObserver =
-    observerFactory;
+  (
+    window as unknown as { IntersectionObserver: typeof IntersectionObserver }
+  ).IntersectionObserver = observerFactory;
 });
 
 afterEach(() => {
@@ -185,9 +186,7 @@ describe('useIntersectionObserver', () => {
   describe('Root and RootMargin Options', () => {
     it('should pass root to IntersectionObserver', () => {
       const rootElement = document.createElement('div');
-      const { result, rerender } = renderHook(() =>
-        useIntersectionObserver({ root: rootElement })
-      );
+      const { result, rerender } = renderHook(() => useIntersectionObserver({ root: rootElement }));
 
       const element = document.createElement('div');
       act(() => {

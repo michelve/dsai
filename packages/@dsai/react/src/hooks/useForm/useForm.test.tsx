@@ -196,12 +196,15 @@ describe('useForm', () => {
       const { result } = renderHook(() => useForm({ initialValues, validationSchema }));
 
       // Empty email should fail validation
-      let isValid: boolean;
+      let isValid: boolean | undefined;
       await act(async () => {
         isValid = await result.current.actions.validateField('email');
       });
 
-      expect(isValid!).toBe(false);
+      if (isValid === undefined) {
+        throw new Error('Expected validateField to return a result');
+      }
+      expect(isValid).toBe(false);
       await waitFor(() => {
         expect(result.current.state.fields.email.error).toBe('Email required');
       });
@@ -214,12 +217,15 @@ describe('useForm', () => {
         result.current.actions.setFieldValue('email', 'test@example.com');
       });
 
-      let isValid: boolean;
+      let isValid: boolean | undefined;
       await act(async () => {
         isValid = await result.current.actions.validateField('email');
       });
 
-      expect(isValid!).toBe(true);
+      if (isValid === undefined) {
+        throw new Error('Expected validateField to return a result');
+      }
+      expect(isValid).toBe(true);
       await waitFor(() => {
         expect(result.current.state.fields.email.error).toBeUndefined();
       });
@@ -228,12 +234,15 @@ describe('useForm', () => {
     it('should validate entire form with validateForm', async () => {
       const { result } = renderHook(() => useForm({ initialValues, validationSchema }));
 
-      let isValid: boolean;
+      let isValid: boolean | undefined;
       await act(async () => {
         isValid = await result.current.actions.validateForm();
       });
 
-      expect(isValid!).toBe(false);
+      if (isValid === undefined) {
+        throw new Error('Expected validateForm to return a result');
+      }
+      expect(isValid).toBe(false);
       await waitFor(() => {
         expect(result.current.state.fields.email.error).toBe('Email required');
         expect(result.current.state.fields.password.error).toBe('Min 8 characters');
@@ -356,7 +365,7 @@ describe('useForm', () => {
         useForm({ initialValues: validValues, validationSchema, onSubmit })
       );
 
-      let submitPromise: Promise<void>;
+      let submitPromise: Promise<void> | undefined;
       act(() => {
         submitPromise = result.current.actions.submitForm();
       });
@@ -365,8 +374,13 @@ describe('useForm', () => {
         expect(result.current.state.submitting).toBe(true);
       });
 
+      const currentSubmitPromise = submitPromise;
+      if (!currentSubmitPromise) {
+        throw new Error('Expected submit promise to be initialized');
+      }
+
       await act(async () => {
-        await submitPromise!;
+        await currentSubmitPromise;
       });
 
       expect(result.current.state.submitting).toBe(false);

@@ -33,7 +33,7 @@ describe('useAsync', () => {
       );
       const { result } = renderHook(() => useAsync(asyncFn));
 
-      let executePromise: Promise<unknown>;
+      let executePromise: Promise<unknown> | undefined;
       act(() => {
         executePromise = result.current.execute();
       });
@@ -44,7 +44,10 @@ describe('useAsync', () => {
         expect(result.current.isIdle).toBe(false);
       });
 
-      await executePromise!;
+      if (!executePromise) {
+        throw new Error('Expected execute to return a promise');
+      }
+      await executePromise;
     });
 
     it('should transition to success state when promise resolves', async () => {
@@ -151,7 +154,7 @@ describe('useAsync', () => {
     });
 
     it('should cancel pending operations when reset is called', async () => {
-      let resolvePromise: (value: string) => void;
+      let resolvePromise: ((value: string) => void) | undefined;
       const asyncFn = jest.fn(
         () =>
           new Promise<string>((resolve) => {
@@ -162,7 +165,7 @@ describe('useAsync', () => {
       const { result } = renderHook(() => useAsync(asyncFn));
 
       // Start execution
-      let executePromise: Promise<unknown>;
+      let executePromise: Promise<unknown> | undefined;
       act(() => {
         executePromise = result.current.execute();
       });
@@ -180,8 +183,11 @@ describe('useAsync', () => {
 
       // Resolve the promise - state should not update
       await act(async () => {
-        resolvePromise!('data');
-        await executePromise!;
+        if (!resolvePromise || !executePromise) {
+          throw new Error('Expected reset to set resolve and execute promise');
+        }
+        resolvePromise('data');
+        await executePromise;
       });
 
       // Should still be idle after promise resolves
@@ -268,8 +274,8 @@ describe('useAsync', () => {
       const { result } = renderHook(() => useAsync(asyncFn));
 
       // Start first execution
-      let promise1: Promise<unknown>;
-      let promise2: Promise<unknown>;
+      let promise1: Promise<unknown> | undefined;
+      let promise2: Promise<unknown> | undefined;
 
       act(() => {
         promise1 = result.current.execute();
@@ -281,18 +287,28 @@ describe('useAsync', () => {
       });
 
       // Resolve first execution (should be ignored)
+      const firstResolver = resolvers[0];
+      const firstPromise = promise1;
+      if (!firstResolver || !firstPromise) {
+        throw new Error('First execution was not initialized');
+      }
       await act(async () => {
-        resolvers[0]!('first');
-        await promise1!;
+        firstResolver('first');
+        await firstPromise;
       });
 
       // Should not have data from first execution
       expect(result.current.data).toBeNull();
 
       // Resolve second execution
+      const secondResolver = resolvers[1];
+      const secondPromise = promise2;
+      if (!secondResolver || !secondPromise) {
+        throw new Error('Second execution was not initialized');
+      }
       await act(async () => {
-        resolvers[1]!('second');
-        await promise2!;
+        secondResolver('second');
+        await secondPromise;
       });
 
       // Should have data from second execution
@@ -312,8 +328,8 @@ describe('useAsync', () => {
       const { result } = renderHook(() => useAsync(asyncFn));
 
       // Start first execution
-      let promise1: Promise<unknown>;
-      let promise2: Promise<unknown>;
+      let promise1: Promise<unknown> | undefined;
+      let promise2: Promise<unknown> | undefined;
 
       act(() => {
         promise1 = result.current.execute();
@@ -325,18 +341,28 @@ describe('useAsync', () => {
       });
 
       // First execution errors (should be ignored)
+      const firstResolver = resolvers[0];
+      const firstPromise = promise1;
+      if (!firstResolver || !firstPromise) {
+        throw new Error('First execution was not initialized');
+      }
       await act(async () => {
-        resolvers[0]!.reject(new Error('first error'));
-        await promise1!;
+        firstResolver.reject(new Error('first error'));
+        await firstPromise;
       });
 
       // Should not have error from first execution
       expect(result.current.error).toBeNull();
 
       // Second execution succeeds
+      const secondResolver = resolvers[1];
+      const secondPromise = promise2;
+      if (!secondResolver || !secondPromise) {
+        throw new Error('Second execution was not initialized');
+      }
       await act(async () => {
-        resolvers[1]!.resolve('second');
-        await promise2!;
+        secondResolver.resolve('second');
+        await secondPromise;
       });
 
       // Should have success state
@@ -347,7 +373,7 @@ describe('useAsync', () => {
 
   describe('Memory Leak Prevention', () => {
     it('should not update state after unmount', async () => {
-      let resolvePromise: (value: string) => void;
+      let resolvePromise: ((value: string) => void) | undefined;
       const asyncFn = jest.fn(
         () =>
           new Promise<string>((resolve) => {
@@ -358,7 +384,7 @@ describe('useAsync', () => {
       const { result, unmount } = renderHook(() => useAsync(asyncFn));
 
       // Start execution
-      let executePromise: Promise<unknown>;
+      let executePromise: Promise<unknown> | undefined;
       act(() => {
         executePromise = result.current.execute();
       });
@@ -372,8 +398,11 @@ describe('useAsync', () => {
 
       // Resolve promise after unmount
       await act(async () => {
-        resolvePromise!('data');
-        await executePromise!;
+        if (!resolvePromise || !executePromise) {
+          throw new Error('Expected unmounted execution to be initialized');
+        }
+        resolvePromise('data');
+        await executePromise;
       });
 
       // State should not update after unmount (no error should be thrown)
@@ -383,7 +412,7 @@ describe('useAsync', () => {
     });
 
     it('should not update state on error after unmount', async () => {
-      let rejectPromise: (error: Error) => void;
+      let rejectPromise: ((error: Error) => void) | undefined;
       const asyncFn = jest.fn(
         () =>
           new Promise<string>((_, reject) => {
@@ -401,7 +430,10 @@ describe('useAsync', () => {
 
       // Reject promise after unmount
       await act(async () => {
-        rejectPromise!(new Error('error'));
+        if (!rejectPromise) {
+          throw new Error('Expected rejection handler to be initialized');
+        }
+        rejectPromise(new Error('error'));
         await executePromise;
       });
 

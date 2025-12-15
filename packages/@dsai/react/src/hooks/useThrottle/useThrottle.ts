@@ -113,14 +113,18 @@ export function useThrottle<T>(
     }
 
     const scheduleUpdate = (delay: number) => {
-      timeoutRef.current = setTimeout(() => {
-        setThrottledValue(pendingValueRef.current);
-        lastInvokeTimeRef.current = Date.now();
-        timeoutRef.current = undefined;
-      }, Math.max(0, delay));
+      timeoutRef.current = setTimeout(
+        () => {
+          setThrottledValue(pendingValueRef.current);
+          lastInvokeTimeRef.current = Date.now();
+          timeoutRef.current = undefined;
+        },
+        Math.max(0, delay)
+      );
     };
 
-    const canInvokeLeading = leading && (lastInvokeTimeRef.current === 0 || timeSinceLastInvoke >= interval);
+    const canInvokeLeading =
+      leading && (lastInvokeTimeRef.current === 0 || timeSinceLastInvoke >= interval);
     if (canInvokeLeading) {
       scheduleUpdate(0);
     } else if (trailing) {
