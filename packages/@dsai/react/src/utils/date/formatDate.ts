@@ -65,7 +65,10 @@ function evictOldestCacheEntries(): void {
     const keys = Array.from(formattersCache.keys());
 
     for (let i = 0; i < entriesToRemove; i++) {
-      formattersCache.delete(keys[i]);
+      const keyToDelete = keys[i];
+      if (keyToDelete !== undefined) {
+        formattersCache.delete(keyToDelete);
+      }
     }
   }
 }
@@ -99,7 +102,7 @@ function getOrCreateFormatter(
       formattersCache.set(cacheKey, formatter);
     } catch (error) {
       // Invalid locale or options, return null to trigger fallback
-      if (process.env.NODE_ENV === 'development') {
+      if (process.env['NODE_ENV'] === 'development') {
         console.warn(`[formatDate] Failed to create formatter: ${error}`);
       }
       return null;
@@ -278,7 +281,7 @@ export function formatDate(
       return formatter.format(dateObj);
     } catch (error) {
       // Format failed, fall back to basic formatting
-      if (process.env.NODE_ENV === 'development') {
+      if (process.env['NODE_ENV'] === 'development') {
         console.warn(`[formatDate] Formatter failed, using fallback: ${error}`);
       }
     }

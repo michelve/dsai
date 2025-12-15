@@ -56,7 +56,7 @@ function assignNodeToRef<T>(refTarget: Ref<T> | undefined, node: T | null): void
     refTarget(node);
     return;
   }
-  if ('current' in (refTarget as Record<string, unknown>)) {
+  if (typeof refTarget === 'object' && refTarget !== null && 'current' in refTarget) {
     (refTarget as MutableRefObject<T | null>).current = node;
   }
 }

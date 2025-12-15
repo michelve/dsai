@@ -59,13 +59,6 @@ export interface CatchErrorsOptions {
 }
 
 /**
- * Default sensitive keys to redact (deprecated - use global config)
- * @deprecated Use setTelemetryConfig({ defaultRedactKeys: [...] }) instead
- * @internal
- */
-const _DEFAULT_REDACT_KEYS = ['password', 'token', 'secret', 'apiKey', 'accessToken', 'auth'];
-
-/**
  * Redact sensitive values from context
  *
  * @param context - Context object to redact

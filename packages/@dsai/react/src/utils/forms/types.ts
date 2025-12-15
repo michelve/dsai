@@ -43,4 +43,10 @@ export type FormFieldValue = string | number | boolean | File | null | undefined
 /**
  * Form data type (nested objects and arrays supported).
  */
-export type FormData = Record<string, FormFieldValue | FormFieldValue[] | FormData>;
+export interface FormDataMap {
+  [key: string]: FormDataValue;
+}
+
+export type FormDataValue = FormFieldValue | FormFieldValue[] | FormDataMap;
+
+export type FormData = FormDataMap;

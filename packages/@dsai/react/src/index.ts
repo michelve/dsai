@@ -402,7 +402,7 @@ export { useReducedMotion } from './hooks';
 export type { UseReducedMotionOptions } from './hooks';
 
 export { useScrollLock } from './hooks';
-export type { UseScrollLockOptions, UseScrollLockReturn, UseScrollLockTarget } from './hooks';
+export type { UseScrollLockOptions, UseScrollLockReturn } from './hooks';
 
 // ============================================================================
 // Tokens - Import from @dsai/tokens directly

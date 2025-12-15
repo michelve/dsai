@@ -133,7 +133,7 @@ function getHiddenAvatarNames(children: React.ReactNode, startIndex: number): st
  * ```
  */
 export const AvatarGroup = memo(
-  forwardRef<HTMLDivElement, AvatarGroupProps>(function AvatarGroup(
+  forwardRef<HTMLFieldSetElement, AvatarGroupProps>(function AvatarGroup(
     {
       children,
       maxVisible,

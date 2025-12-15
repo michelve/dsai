@@ -14,13 +14,12 @@ import type { PerformanceMeasurement } from './measurePerformance';
  * Falls back to time-based entropy to avoid Math.random for security scanners.
  */
 function getSecureRandomFraction(): number {
-  if (
-    typeof globalThis.crypto !== 'undefined' &&
-    typeof globalThis.crypto.getRandomValues === 'function'
-  ) {
+  const cryptoObj = typeof globalThis.crypto !== 'undefined' ? globalThis.crypto : undefined;
+  if (cryptoObj && typeof cryptoObj.getRandomValues === 'function') {
     const buffer = new Uint32Array(1);
-    globalThis.crypto.getRandomValues(buffer);
-    return buffer[0] / 0xffffffff;
+    cryptoObj.getRandomValues(buffer);
+    const value = buffer[0];
+    return (value ?? 0) / 0xffffffff;
   }
 
   // Deterministic fallback: use time-based entropy

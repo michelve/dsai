@@ -82,7 +82,7 @@ export function getVariantClass(
 
   // Input validation
   if (!variant || typeof variant !== 'string') {
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env['NODE_ENV'] !== 'production') {
       console.warn('[getVariantClass] Invalid variant provided:', variant);
     }
     return '';
@@ -95,7 +95,7 @@ export function getVariantClass(
   }
 
   // Runtime validation: warn if variant is not in known set
-  if (!skipValidation && process.env.NODE_ENV !== 'production') {
+  if (!skipValidation && process.env['NODE_ENV'] !== 'production') {
     if (!KNOWN_VARIANTS.has(normalizedVariant)) {
       console.warn(
         `[getVariantClass] Unknown variant '${normalizedVariant}'. Known variants:`,

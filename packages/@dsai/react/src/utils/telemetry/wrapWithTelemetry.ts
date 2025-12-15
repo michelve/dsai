@@ -9,6 +9,8 @@
 
 import type { PerformanceMeasurement } from './measurePerformance';
 
+type TelemetryMeasurement = PerformanceMeasurement & { result?: unknown };
+
 /**
  * Telemetry hooks for wrapped functions
  */
@@ -24,7 +26,7 @@ export interface TelemetryHooks {
    * Called after successful execution
    * @param measurement - Performance measurement
    */
-  readonly onSuccess?: (measurement: PerformanceMeasurement) => void;
+  readonly onSuccess?: (measurement: TelemetryMeasurement) => void;
 
   /**
    * Called when function throws error

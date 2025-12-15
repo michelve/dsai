@@ -1,5 +1,5 @@
 import type { SafeHTMLAttributes } from '../../types';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 /**
  * Carousel animation types

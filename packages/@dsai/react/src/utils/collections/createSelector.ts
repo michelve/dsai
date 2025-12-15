@@ -84,7 +84,7 @@ export function shallowEqual<T>(a: T, b: T): boolean {
   for (const key of keysA) {
     const aVal = Reflect.get(a as object, key);
     const bVal = Reflect.get(b as object, key);
-    if (!Object.hasOwn(b, key) || aVal !== bVal) {
+    if (!Object.prototype.hasOwnProperty.call(b, key) || aVal !== bVal) {
       return false;
     }
   }
@@ -151,7 +151,7 @@ export function deepEqual<T>(a: T, b: T): boolean {
   for (const key of keysA) {
     const aVal = Reflect.get(a as object, key);
     const bVal = Reflect.get(b as object, key);
-    if (!Object.hasOwn(b, key) || !deepEqual(aVal, bVal)) {
+    if (!Object.prototype.hasOwnProperty.call(b, key) || !deepEqual(aVal, bVal)) {
       return false;
     }
   }

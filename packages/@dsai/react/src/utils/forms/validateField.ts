@@ -73,7 +73,7 @@ export async function validateField<T = unknown>(
     } catch (error) {
       // Handle validators that throw exceptions
       // Treat as validation failure and use the rule's message
-      if (process.env.NODE_ENV !== 'production') {
+      if (process.env['NODE_ENV'] !== 'production') {
         console.warn(
           `[validateField] Validator threw an exception: ${error instanceof Error ? error.message : String(error)}`
         );

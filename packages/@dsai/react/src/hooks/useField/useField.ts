@@ -183,6 +183,9 @@ export function useField<T = unknown>({
       setValidating(false);
     }
 
+    // Allow state updates to flush before resolving
+    await Promise.resolve();
+
     return result.valid;
   }, [value, validationRules]);
 

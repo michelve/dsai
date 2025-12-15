@@ -118,7 +118,7 @@ export function parseFormData(formData: FormData): Record<string, unknown> {
 
   formData.forEach((value, key) => {
     if (!isSafeKey(key) || isDangerousKey(key)) {
-      if (process.env.NODE_ENV !== 'production') {
+      if (process.env['NODE_ENV'] !== 'production') {
         console.warn(
           `[parseFormData] Skipping dangerous key "${key}" (prototype pollution protection)`
         );

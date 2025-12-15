@@ -161,7 +161,17 @@ export function uniqueByKey<T extends Record<string, unknown>, K extends keyof T
   key: K,
   options: UniqueByOptions = {}
 ): T[] {
-  return uniqueBy(array, (item) => Reflect.get(item, key), options);
+  return uniqueBy(
+    array,
+    (item) => {
+      const value = Reflect.get(item, key) as unknown;
+      if (typeof value === 'string' || typeof value === 'number') {
+        return value;
+      }
+      return String(value);
+    },
+    options
+  );
 }
 
 export type { KeyExtractor };

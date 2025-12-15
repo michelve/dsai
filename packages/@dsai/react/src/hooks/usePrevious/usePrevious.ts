@@ -69,7 +69,7 @@ import type { UsePreviousReturn } from './usePrevious.types';
  * ```
  */
 export function usePrevious<T>(value: T): UsePreviousReturn<T> {
-  const ref = useRef<UsePreviousReturn<T>>();
+  const ref = useRef<UsePreviousReturn<T>>(undefined);
   // Intentional render-time access to capture the previous render's value for immediate use
   // eslint-disable-next-line react-hooks/refs
   const previous = ref.current;

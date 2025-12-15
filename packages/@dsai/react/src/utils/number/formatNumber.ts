@@ -205,7 +205,7 @@ export function formatNumber(value: number, options: NumberFormatterOptions = {}
     return formatter.format(normalizedValue);
   } catch (error) {
     // Fallback if formatter fails (e.g., invalid options)
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env['NODE_ENV'] !== 'production') {
       console.warn('formatNumber: Intl.NumberFormat failed, using fallback', error);
     }
     return fallbackFormat(normalizedValue, intlOptions);

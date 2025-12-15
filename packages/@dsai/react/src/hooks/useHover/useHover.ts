@@ -105,8 +105,8 @@ export function useHover<T extends HTMLElement = HTMLElement>(
   const ref = useRef<T | null>(null);
   const internalRef = useRef<T | null>(null);
   const attachedElementRef = useRef<T | null>(null);
-  const enterTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
-  const leaveTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const enterTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const leaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const isMounted = useRef(true);
   const optionsRef = useRef({
     enterDelay,

@@ -299,6 +299,8 @@ export function useAsync<T, E = Error>(
         clearTimeout(timeoutId);
       };
     }
+
+    return undefined;
   }, [immediate, execute]);
 
   return {

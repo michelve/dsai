@@ -4,7 +4,7 @@ import type {
   SemanticColorVariant,
   PolymorphicComponentProps,
 } from '../../types';
-import type { MouseEvent, ReactNode } from 'react';
+import type { CSSProperties, MouseEvent, ReactNode } from 'react';
 
 /**
  * Button component variants
