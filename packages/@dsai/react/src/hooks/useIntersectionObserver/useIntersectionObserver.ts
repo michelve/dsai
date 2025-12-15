@@ -107,18 +107,53 @@ export function useIntersectionObserver(
   } = options;
 
   const ref = useRef<Element | null>(null);
+  const internalRef = useRef<Element | null>(null);
+  const isMounted = useRef(true);
   const [entry, setEntry] = useState<IntersectionObserverEntry>();
   const frozen = useRef(false);
+  const lastObservedElement = useRef<Element | null>(null);
+  const [target, setTarget] = useState<Element | null>(null);
 
   const isIntersecting = entry?.isIntersecting ?? false;
+
+  useEffect(
+    () => () => {
+      isMounted.current = false;
+    },
+    []
+  );
+
+  useEffect(() => {
+    internalRef.current = ref.current;
+    setTarget(ref.current);
+
+    Object.defineProperty(ref, 'current', {
+      get: () => internalRef.current,
+      set: (value: Element | null) => {
+        internalRef.current = value;
+        if (isMounted.current) {
+          setTarget(value);
+        }
+      },
+      configurable: true,
+    });
+
+    return () => {
+      Object.defineProperty(ref, 'current', {
+        value: internalRef.current,
+        writable: true,
+        configurable: true,
+      });
+    };
+  }, [ref, setTarget]);
 
   useEffect(() => {
     if (!isBrowser() || !enabled) {
       return;
     }
 
-    const element = ref.current;
-    if (!element) {
+    if (!target) {
+      lastObservedElement.current = null;
       return;
     }
 
@@ -128,8 +163,11 @@ export function useIntersectionObserver(
       return;
     }
 
-    // Don't observe if already frozen
-    if (frozen.current) {
+    // Reset freeze state when observing a new element
+    if (lastObservedElement.current !== target) {
+      lastObservedElement.current = target;
+      frozen.current = false;
+    } else if (frozen.current) {
       return;
     }
 
@@ -152,12 +190,12 @@ export function useIntersectionObserver(
       { threshold, root, rootMargin }
     );
 
-    observer.observe(element);
+    observer.observe(target);
 
     return () => {
       observer.disconnect();
     };
-  }, [threshold, root, rootMargin, freezeOnceVisible, onChange, enabled]);
+  }, [target, threshold, root, rootMargin, freezeOnceVisible, onChange, enabled]);
 
   return { ref, entry, isIntersecting };
 }
