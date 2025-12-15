@@ -81,5 +81,14 @@
     "vitest": "^4.0.15",
     "@storybook/addon-vitest": "^10.1.4",
     "@vitest/browser-playwright": "^4.0.15"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
   }
 }
