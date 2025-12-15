@@ -113,7 +113,11 @@ export function useControllableState<T>({
       }
 
       // Always call onChange if provided
-      onChange?.(resolvedValue, event);
+      if (event === undefined) {
+        onChange?.(resolvedValue);
+      } else {
+        onChange?.(resolvedValue, event);
+      }
     },
     [value, onChange, isControlled]
   );

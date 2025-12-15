@@ -609,7 +609,7 @@ export interface RovingTabindexOptions {
   /**
    * Selector for focusable items
    */
-  readonly itemSelector: string;
+  readonly itemSelector?: string;
 
   /**
    * Enable keyboard navigation

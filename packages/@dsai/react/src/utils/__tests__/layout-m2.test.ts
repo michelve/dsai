@@ -2,12 +2,8 @@
  * @file Layout utilities test suite
  */
 
-import {
-  getDocumentSize,
-  getElementBounds,
-  getScrollProgress,
-  getViewportSize,
-} from '../layout/getViewportSize';
+import { getDocumentSize, getScrollProgress, getViewportSize } from '../layout/getViewportSize';
+import { getElementBounds } from '../layout/getElementBounds';
 import { observeResize, observeResizeMany } from '../layout/observeResize';
 import { scheduleFrame, startLoop } from '../layout/scheduleFrame';
 import { throttleFrame } from '../layout/throttleFrame';

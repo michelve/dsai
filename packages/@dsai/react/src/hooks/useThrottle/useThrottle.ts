@@ -98,40 +98,34 @@ export function useThrottle<T>(
 
   const [throttledValue, setThrottledValue] = useState<T>(value);
   const lastInvokeTimeRef = useRef<number>(0);
-  const leadingInvokedRef = useRef<boolean>(false);
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const pendingValueRef = useRef<T>(value);
 
   useEffect(() => {
-    const currentTime = Date.now();
-    const timeSinceLastInvoke = currentTime - lastInvokeTimeRef.current;
+    pendingValueRef.current = value;
 
-    // Check if we can invoke on leading edge
-    const canInvokeLeading = leading && timeSinceLastInvoke >= interval;
+    const now = Date.now();
+    const lastTime = lastInvokeTimeRef.current === 0 ? now : lastInvokeTimeRef.current;
+    const timeSinceLastInvoke = now - lastTime;
 
-    // Clear existing timeout
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
 
-    // Calculate when to invoke
-    if (canInvokeLeading && !leadingInvokedRef.current) {
-      // Invoke immediately on leading edge via timeout
+    const scheduleUpdate = (delay: number) => {
       timeoutRef.current = setTimeout(() => {
-        setThrottledValue(value);
+        setThrottledValue(pendingValueRef.current);
         lastInvokeTimeRef.current = Date.now();
-        leadingInvokedRef.current = true;
-      }, 0);
+        timeoutRef.current = undefined;
+      }, Math.max(0, delay));
+    };
+
+    const canInvokeLeading = leading && (lastInvokeTimeRef.current === 0 || timeSinceLastInvoke >= interval);
+    if (canInvokeLeading) {
+      scheduleUpdate(0);
     } else if (trailing) {
-      // Schedule trailing edge invocation
       const remainingTime = interval - timeSinceLastInvoke;
-      timeoutRef.current = setTimeout(
-        () => {
-          setThrottledValue(value);
-          lastInvokeTimeRef.current = Date.now();
-          leadingInvokedRef.current = false;
-        },
-        Math.max(0, remainingTime)
-      );
+      scheduleUpdate(remainingTime);
     }
 
     // Cleanup on unmount

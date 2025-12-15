@@ -16,7 +16,9 @@ describe('useHover', () => {
   });
 
   afterEach(() => {
-    jest.runOnlyPendingTimers();
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
     jest.useRealTimers();
   });
 
@@ -333,7 +335,8 @@ describe('useHover', () => {
 
       result.current[0].current = element;
 
-      const { unmount: unmount2 } = renderHook(() => useHover<HTMLDivElement>());
+      const { result: result2, unmount: unmount2 } = renderHook(() => useHover<HTMLDivElement>());
+      result2.current[0].current = element;
 
       unmount2();
 

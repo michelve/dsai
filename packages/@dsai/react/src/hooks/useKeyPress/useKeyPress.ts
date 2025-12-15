@@ -107,10 +107,19 @@ export function useKeyPress(
     }
 
     const keysArray = Array.isArray(keys) ? keys : [keys];
-    const keysLower = keysArray.map((key) => key.toLowerCase());
+    const keysLower = keysArray
+      .map((key) => key?.toLowerCase?.())
+      .filter((key): key is string => Boolean(key));
+
+    if (keysLower.length === 0) {
+      return;
+    }
 
     const handleKeyEvent = (e: KeyboardEvent): void => {
-      const keyLower = e.key.toLowerCase();
+      const keyLower = e.key?.toLowerCase?.();
+      if (!keyLower) {
+        return;
+      }
 
       // Check if pressed key matches any of the target keys
       if (!keysLower.includes(keyLower)) {
@@ -119,9 +128,9 @@ export function useKeyPress(
 
       // Filter form tags unless explicitly enabled
       if (!enableOnFormTags) {
-        const targetElement = e.target as HTMLElement;
-        const tagName = targetElement.tagName.toLowerCase();
-        if (['input', 'textarea', 'select'].includes(tagName)) {
+        const targetElement = e.target as HTMLElement | null;
+        const tagName = targetElement?.tagName?.toLowerCase();
+        if (tagName && ['input', 'textarea', 'select'].includes(tagName)) {
           return;
         }
       }

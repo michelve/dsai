@@ -56,15 +56,23 @@ import type { RovingTabindexManager, RovingTabindexOptions } from '../types/shar
  * ```
  */
 export function createRovingTabindex(
-  container: Element,
-  options: RovingTabindexOptions
+  target: Element | Element[],
+  options: RovingTabindexOptions = { itemSelector: '[data-roving-item]' }
 ): RovingTabindexManager {
+  const isElementArray = Array.isArray(target);
+  const container = isElementArray ? target[0]?.parentElement ?? document.body : target;
+
   // Validate container
   if (!(container instanceof Element)) {
     throw new TypeError('createRovingTabindex expects an Element as container');
   }
 
-  const { itemSelector, enableKeyboard = true, loop = true, orientation = 'horizontal' } = options;
+  const {
+    itemSelector,
+    enableKeyboard = true,
+    loop = true,
+    orientation = 'horizontal',
+  } = options;
 
   let currentIndex = 0;
   let items: Element[] = [];
@@ -73,6 +81,14 @@ export function createRovingTabindex(
    * Get all focusable items
    */
   function getItems(): Element[] {
+    if (isElementArray) {
+      return [...(target as Element[])];
+    }
+
+    if (!itemSelector) {
+      throw new TypeError('createRovingTabindex requires itemSelector when container is used');
+    }
+
     return Array.from(container.querySelectorAll(itemSelector));
   }
 

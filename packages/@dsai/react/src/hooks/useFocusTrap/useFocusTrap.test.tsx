@@ -113,8 +113,12 @@ describe('useFocusTrap', () => {
   });
 
   afterEach(() => {
-    jest.runOnlyPendingTimers();
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
     jest.useRealTimers();
+
+    document.body.innerHTML = '';
   });
 
   describe('basic functionality', () => {

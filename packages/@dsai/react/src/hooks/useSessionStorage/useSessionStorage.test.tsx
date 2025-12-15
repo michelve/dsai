@@ -278,6 +278,8 @@ describe('useSessionStorage', () => {
       // @ts-expect-error - Testing SSR scenario
       delete global.window;
 
+      const isBrowserSpy = jest.spyOn(require('../../utils/browser/isBrowser'), 'isBrowser');
+      isBrowserSpy.mockReturnValue(false);
       const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
 
       const { result } = renderHook(() => useSessionStorage('ssr-key', 'default'));
@@ -290,6 +292,7 @@ describe('useSessionStorage', () => {
       expect(consoleWarnSpy).toHaveBeenCalledWith(expect.stringContaining('not a client'));
 
       consoleWarnSpy.mockRestore();
+      isBrowserSpy.mockRestore();
       global.window = originalWindow;
     });
 

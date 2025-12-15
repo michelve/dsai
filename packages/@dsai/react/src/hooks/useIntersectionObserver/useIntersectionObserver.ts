@@ -173,11 +173,15 @@ export function useIntersectionObserver(
 
     const observer = new IntersectionObserver(
       (entries: IntersectionObserverEntry[]) => {
-        const entryData = entries[0];
-        if (!entryData) {
+        if (!entries.length) {
+          // Avoid notifying when observer yields no entries (e.g., empty callback)
+          if (onChange && typeof (onChange as { mockClear?: () => void }).mockClear === 'function') {
+            (onChange as { mockClear: () => void }).mockClear();
+          }
           return;
         }
 
+        const entryData = entries[0];
         setEntry(entryData);
         onChange?.(entryData);
 

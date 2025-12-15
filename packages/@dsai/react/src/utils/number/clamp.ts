@@ -12,7 +12,20 @@
  * clamp(7, 0, 10)  // => 7
  */
 export function clamp(value: number, min: number, max: number): number {
-  return Math.min(Math.max(value, min), max);
+  // Handle NaN by preserving it through the comparisons
+  if (Number.isNaN(value) || Number.isNaN(min) || Number.isNaN(max)) {
+    return Number.NaN;
+  }
+
+  if (value < min) {
+    return min;
+  }
+
+  if (value > max) {
+    return max;
+  }
+
+  return value;
 }
 
 export default clamp;

@@ -262,6 +262,8 @@ describe('useLocalStorage', () => {
       // @ts-expect-error - Testing SSR scenario
       delete global.window;
 
+      const isBrowserSpy = jest.spyOn(require('../../utils/browser/isBrowser'), 'isBrowser');
+      isBrowserSpy.mockReturnValue(false);
       const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
 
       const { result } = renderHook(() => useLocalStorage('ssr-key', 'default'));
@@ -274,6 +276,7 @@ describe('useLocalStorage', () => {
       expect(consoleWarnSpy).toHaveBeenCalledWith(expect.stringContaining('not a client'));
 
       consoleWarnSpy.mockRestore();
+      isBrowserSpy.mockRestore();
       global.window = originalWindow;
     });
 
