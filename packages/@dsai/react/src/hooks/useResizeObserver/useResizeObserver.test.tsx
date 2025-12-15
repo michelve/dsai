@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 
 import { useResizeObserver } from './useResizeObserver';
 
@@ -9,28 +9,7 @@ class MockResizeObserver implements ResizeObserver {
     public options?: ResizeObserverOptions
   ) {}
 
-  observe = jest.fn((target: Element, _options?: ResizeObserverOptions) => {
-    // Automatically trigger callback after a short delay
-    setTimeout(() => {
-      const entry: ResizeObserverEntry = {
-        target,
-        contentRect: {
-          x: 0,
-          y: 0,
-          width: 100,
-          height: 50,
-          top: 0,
-          right: 100,
-          bottom: 50,
-          left: 0,
-        } as DOMRectReadOnly,
-        borderBoxSize: [],
-        contentBoxSize: [],
-        devicePixelContentBoxSize: [],
-      };
-      this.callback([entry], this);
-    }, 0);
-  });
+  observe = jest.fn((_target: Element, _options?: ResizeObserverOptions) => {});
 
   unobserve = jest.fn();
   disconnect = jest.fn();
@@ -38,17 +17,24 @@ class MockResizeObserver implements ResizeObserver {
 
 // Store original ResizeObserver
 let originalResizeObserver: typeof ResizeObserver;
+let originalWindowResizeObserver: typeof ResizeObserver | undefined;
 let mockObserverInstance: MockResizeObserver;
 
 beforeAll(() => {
   originalResizeObserver = global.ResizeObserver;
+  originalWindowResizeObserver = window.ResizeObserver;
 });
 
 beforeEach(() => {
-  global.ResizeObserver = jest.fn((callback) => {
+  mockObserverInstance = undefined as unknown as MockResizeObserver;
+
+  const observerFactory = jest.fn((callback) => {
     mockObserverInstance = new MockResizeObserver(callback);
     return mockObserverInstance;
   }) as unknown as typeof ResizeObserver;
+
+  global.ResizeObserver = observerFactory;
+  (window as unknown as { ResizeObserver: typeof ResizeObserver }).ResizeObserver = observerFactory;
 });
 
 afterEach(() => {
@@ -57,6 +43,8 @@ afterEach(() => {
 
 afterAll(() => {
   global.ResizeObserver = originalResizeObserver;
+  (window as unknown as { ResizeObserver?: typeof ResizeObserver }).ResizeObserver =
+    originalWindowResizeObserver;
 });
 
 describe('useResizeObserver', () => {
@@ -82,10 +70,12 @@ describe('useResizeObserver', () => {
       const { result, rerender } = renderHook(() => useResizeObserver());
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await waitFor(() => expect(global.ResizeObserver).toHaveBeenCalled());
 
       expect(global.ResizeObserver).toHaveBeenCalled();
       expect(mockObserverInstance?.observe).toHaveBeenCalledWith(
@@ -98,8 +88,10 @@ describe('useResizeObserver', () => {
       const { result, rerender } = renderHook(() => useResizeObserver());
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       // Manually trigger resize
       const mockEntry: ResizeObserverEntry = {
@@ -119,16 +111,15 @@ describe('useResizeObserver', () => {
         devicePixelContentBoxSize: [],
       };
 
-      if (mockObserverInstance) {
-        mockObserverInstance.callback([mockEntry], mockObserverInstance);
-      }
+      await act(async () => {
+        mockObserverInstance?.callback([mockEntry], mockObserverInstance);
+      });
 
-      await new Promise((resolve) => setTimeout(resolve, 10));
-      rerender();
-
-      expect(result.current.width).toBe(200);
-      expect(result.current.height).toBe(150);
-      expect(result.current.entry).toBeDefined();
+      await waitFor(() => {
+        expect(result.current.width).toBe(200);
+        expect(result.current.height).toBe(150);
+        expect(result.current.entry).toBeDefined();
+      });
     });
   });
 
@@ -137,8 +128,10 @@ describe('useResizeObserver', () => {
       const { result, rerender } = renderHook(() => useResizeObserver());
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       expect(mockObserverInstance?.observe).toHaveBeenCalledWith(
         element,
@@ -150,8 +143,10 @@ describe('useResizeObserver', () => {
       const { result, rerender } = renderHook(() => useResizeObserver({ box: 'border-box' }));
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       expect(mockObserverInstance?.observe).toHaveBeenCalledWith(
         element,
@@ -165,8 +160,10 @@ describe('useResizeObserver', () => {
       );
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       expect(mockObserverInstance?.observe).toHaveBeenCalledWith(
         element,
@@ -181,8 +178,14 @@ describe('useResizeObserver', () => {
       const { result, rerender } = renderHook(() => useResizeObserver({ onResize }));
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
+
+      await waitFor(() => expect(global.ResizeObserver).toHaveBeenCalled());
+      await waitFor(() => expect(mockObserverInstance).toBeDefined());
+      onResize.mockClear();
 
       const mockEntry: ResizeObserverEntry = {
         target: element,
@@ -201,11 +204,9 @@ describe('useResizeObserver', () => {
         devicePixelContentBoxSize: [],
       };
 
-      if (mockObserverInstance) {
-        mockObserverInstance.callback([mockEntry], mockObserverInstance);
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await act(async () => {
+        mockObserverInstance?.callback([mockEntry], mockObserverInstance);
+      });
 
       expect(onResize).toHaveBeenCalledWith(mockEntry);
       expect(onResize).toHaveBeenCalledTimes(1);
@@ -216,8 +217,14 @@ describe('useResizeObserver', () => {
       const { result, rerender } = renderHook(() => useResizeObserver({ onResize }));
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
+
+      await waitFor(() => expect(global.ResizeObserver).toHaveBeenCalled());
+      await waitFor(() => expect(mockObserverInstance).toBeDefined());
+      onResize.mockClear();
 
       // First resize
       const mockEntry1: ResizeObserverEntry = {
@@ -237,11 +244,9 @@ describe('useResizeObserver', () => {
         devicePixelContentBoxSize: [],
       };
 
-      if (mockObserverInstance) {
-        mockObserverInstance.callback([mockEntry1], mockObserverInstance);
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await act(async () => {
+        mockObserverInstance?.callback([mockEntry1], mockObserverInstance);
+      });
 
       // Second resize
       const mockEntry2: ResizeObserverEntry = {
@@ -261,11 +266,9 @@ describe('useResizeObserver', () => {
         devicePixelContentBoxSize: [],
       };
 
-      if (mockObserverInstance) {
-        mockObserverInstance.callback([mockEntry2], mockObserverInstance);
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await act(async () => {
+        mockObserverInstance?.callback([mockEntry2], mockObserverInstance);
+      });
 
       expect(onResize).toHaveBeenCalledTimes(2);
       expect(onResize).toHaveBeenNthCalledWith(1, mockEntry1);
@@ -278,8 +281,10 @@ describe('useResizeObserver', () => {
       const { result, rerender } = renderHook(() => useResizeObserver({ enabled: false }));
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       expect(global.ResizeObserver).not.toHaveBeenCalled();
     });
@@ -288,8 +293,10 @@ describe('useResizeObserver', () => {
       const { result, rerender } = renderHook(() => useResizeObserver({ enabled: true }));
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       expect(global.ResizeObserver).toHaveBeenCalled();
     });
@@ -298,8 +305,10 @@ describe('useResizeObserver', () => {
       const { result, rerender } = renderHook(() => useResizeObserver());
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       expect(global.ResizeObserver).toHaveBeenCalled();
     });
@@ -310,18 +319,24 @@ describe('useResizeObserver', () => {
       });
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender({ enabled: true });
+      act(() => {
+        result.current.ref.current = element;
+        rerender({ enabled: true });
+      });
 
       expect(global.ResizeObserver).toHaveBeenCalled();
       const firstObserver = mockObserverInstance;
 
       // Disable
-      rerender({ enabled: false });
+      act(() => {
+        rerender({ enabled: false });
+      });
       expect(firstObserver?.disconnect).toHaveBeenCalled();
 
       // Re-enable
-      rerender({ enabled: true });
+      act(() => {
+        rerender({ enabled: true });
+      });
       expect(global.ResizeObserver).toHaveBeenCalledTimes(2);
     });
   });
@@ -331,8 +346,10 @@ describe('useResizeObserver', () => {
       const { result, unmount, rerender } = renderHook(() => useResizeObserver());
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       unmount();
 
@@ -345,13 +362,17 @@ describe('useResizeObserver', () => {
       });
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender({ box: 'content-box' as ResizeObserverBoxOptions });
+      act(() => {
+        result.current.ref.current = element;
+        rerender({ box: 'content-box' as ResizeObserverBoxOptions });
+      });
 
       const firstObserver = mockObserverInstance;
 
       // Change box option
-      rerender({ box: 'border-box' as ResizeObserverBoxOptions });
+      act(() => {
+        rerender({ box: 'border-box' as ResizeObserverBoxOptions });
+      });
 
       expect(firstObserver?.disconnect).toHaveBeenCalled();
       expect(global.ResizeObserver).toHaveBeenCalledTimes(2);
@@ -378,14 +399,14 @@ describe('useResizeObserver', () => {
       const { result, rerender } = renderHook(() => useResizeObserver({ onResize }));
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
-      if (mockObserverInstance) {
-        mockObserverInstance.callback([], mockObserverInstance);
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await act(async () => {
+        mockObserverInstance?.callback([], mockObserverInstance);
+      });
 
       expect(onResize).not.toHaveBeenCalled();
     });
@@ -394,8 +415,10 @@ describe('useResizeObserver', () => {
       const { result, rerender } = renderHook(() => useResizeObserver());
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       const mockEntry: ResizeObserverEntry = {
         target: element,
@@ -414,15 +437,14 @@ describe('useResizeObserver', () => {
         devicePixelContentBoxSize: [],
       };
 
-      if (mockObserverInstance) {
-        mockObserverInstance.callback([mockEntry], mockObserverInstance);
-      }
+      await act(async () => {
+        mockObserverInstance?.callback([mockEntry], mockObserverInstance);
+      });
 
-      await new Promise((resolve) => setTimeout(resolve, 10));
-      rerender();
-
-      expect(result.current.width).toBe(0);
-      expect(result.current.height).toBe(0);
+      await waitFor(() => {
+        expect(result.current.width).toBe(0);
+        expect(result.current.height).toBe(0);
+      });
     });
 
     it('should handle rapid resize changes', async () => {
@@ -430,34 +452,33 @@ describe('useResizeObserver', () => {
       const { result, rerender } = renderHook(() => useResizeObserver({ onResize }));
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
-      // Rapid resizes
-      for (let i = 0; i < 10; i++) {
-        const mockEntry: ResizeObserverEntry = {
-          target: element,
-          contentRect: {
-            x: 0,
-            y: 0,
-            width: 100 + i * 10,
-            height: 100 + i * 10,
-            top: 0,
-            right: 100 + i * 10,
-            bottom: 100 + i * 10,
-            left: 0,
-          } as DOMRectReadOnly,
-          borderBoxSize: [],
-          contentBoxSize: [],
-          devicePixelContentBoxSize: [],
-        };
+      await act(async () => {
+        for (let i = 0; i < 10; i++) {
+          const mockEntry: ResizeObserverEntry = {
+            target: element,
+            contentRect: {
+              x: 0,
+              y: 0,
+              width: 100 + i * 10,
+              height: 100 + i * 10,
+              top: 0,
+              right: 100 + i * 10,
+              bottom: 100 + i * 10,
+              left: 0,
+            } as DOMRectReadOnly,
+            borderBoxSize: [],
+            contentBoxSize: [],
+            devicePixelContentBoxSize: [],
+          };
 
-        if (mockObserverInstance) {
-          mockObserverInstance.callback([mockEntry], mockObserverInstance);
+          mockObserverInstance?.callback([mockEntry], mockObserverInstance);
         }
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      });
 
       expect(onResize).toHaveBeenCalledTimes(10);
     });
@@ -480,17 +501,23 @@ describe('useResizeObserver', () => {
       const consoleWarn = jest.spyOn(console, 'warn').mockImplementation();
       // @ts-expect-error - Removing ResizeObserver
       delete global.ResizeObserver;
+      // @ts-expect-error - Removing ResizeObserver on window
+      delete (window as unknown as { ResizeObserver?: typeof ResizeObserver }).ResizeObserver;
 
       const { result, rerender } = renderHook(() => useResizeObserver());
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       expect(consoleWarn).toHaveBeenCalledWith('ResizeObserver is not supported in this browser');
 
       consoleWarn.mockRestore();
       global.ResizeObserver = originalResizeObserver;
+      (window as unknown as { ResizeObserver?: typeof ResizeObserver }).ResizeObserver =
+        originalWindowResizeObserver;
     });
   });
 
@@ -505,8 +532,10 @@ describe('useResizeObserver', () => {
       const { result, rerender } = renderHook(() => useResizeObserver<HTMLCanvasElement>());
 
       const canvas = document.createElement('canvas');
-      result.current.ref.current = canvas;
-      rerender();
+      act(() => {
+        result.current.ref.current = canvas;
+        rerender();
+      });
 
       expect(mockObserverInstance?.observe).toHaveBeenCalledWith(
         canvas,

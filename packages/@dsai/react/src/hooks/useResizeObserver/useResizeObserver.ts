@@ -93,18 +93,51 @@ export function useResizeObserver<T extends HTMLElement = HTMLElement>(
   const { box = 'content-box', onResize, enabled = true } = options;
 
   const ref = useRef<T | null>(null);
+  const internalRef = useRef<T | null>(null);
+  const isMounted = useRef(true);
   const [entry, setEntry] = useState<ResizeObserverEntry>();
+  const [target, setTarget] = useState<T | null>(null);
 
   const width = entry?.contentRect.width;
   const height = entry?.contentRect.height;
+
+  useEffect(
+    () => () => {
+      isMounted.current = false;
+    },
+    []
+  );
+
+  useEffect(() => {
+    internalRef.current = ref.current;
+    setTarget(ref.current);
+
+    Object.defineProperty(ref, 'current', {
+      get: () => internalRef.current,
+      set: (value: T | null) => {
+        internalRef.current = value;
+        if (isMounted.current) {
+          setTarget(value);
+        }
+      },
+      configurable: true,
+    });
+
+    return () => {
+      Object.defineProperty(ref, 'current', {
+        value: internalRef.current,
+        writable: true,
+        configurable: true,
+      });
+    };
+  }, [ref, setTarget]);
 
   useEffect(() => {
     if (!isBrowser() || !enabled) {
       return;
     }
 
-    const element = ref.current;
-    if (!element) {
+    if (!target) {
       return;
     }
 
@@ -124,12 +157,12 @@ export function useResizeObserver<T extends HTMLElement = HTMLElement>(
       onResize?.(entryData);
     });
 
-    observer.observe(element, { box });
+    observer.observe(target, { box });
 
     return () => {
       observer.disconnect();
     };
-  }, [box, onResize, enabled]);
+  }, [target, box, onResize, enabled]);
 
   return { ref, width, height, entry };
 }
