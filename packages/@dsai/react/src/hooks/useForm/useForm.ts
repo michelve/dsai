@@ -101,19 +101,42 @@ export function useForm<T extends Record<string, unknown>>({
   validateOnBlur = true,
   onSubmit,
 }: UseFormOptions<T>): UseFormReturn<T> {
+  const getFieldState = useCallback(
+    <K extends keyof T>(
+      collection: { [P in keyof T]: FieldState<T[P]> },
+      key: K
+    ): FieldState<T[K]> => Reflect.get(collection, key) as FieldState<T[K]>,
+    []
+  );
+
+  const setFieldState = useCallback(
+    <K extends keyof T>(
+      collection: { [P in keyof T]: FieldState<T[P]> },
+      key: K,
+      state: FieldState<T[K]>
+    ): void => {
+      Reflect.set(collection, key, state);
+    },
+    []
+  );
+
   // Initialize field states
   const initialFieldStates = useMemo(() => {
-    const fields = {} as { [K in keyof T]: FieldState<T[K]> };
-    (Object.keys(initialValues) as Array<keyof T>).forEach((key) => {
-      fields[key] = {
-        value: initialValues[key],
-        touched: false,
-        error: undefined,
-        validating: false,
-      };
-    });
-    return fields;
-  }, [initialValues]);
+    const entries = Object.entries(initialValues) as Array<[keyof T, T[keyof T]]>;
+
+    return entries.reduce(
+      (acc, [key, value]) => {
+        setFieldState(acc, key, {
+          value,
+          touched: false,
+          error: undefined,
+          validating: false,
+        });
+        return acc;
+      },
+      {} as { [K in keyof T]: FieldState<T[K]> }
+    );
+  }, [initialValues, setFieldState]);
 
   const [fields, setFields] = useState<{ [K in keyof T]: FieldState<T[K]> }>(initialFieldStates);
   const [submitting, setSubmitting] = useState(false);
@@ -126,10 +149,11 @@ export function useForm<T extends Record<string, unknown>>({
   const values = useMemo(() => {
     const vals = {} as T;
     (Object.keys(fields) as Array<keyof T>).forEach((key) => {
-      vals[key] = fields[key].value;
+      const fieldState = getFieldState(fields, key);
+      Reflect.set(vals, key, fieldState.value);
     });
     return vals;
-  }, [fields]);
+  }, [fields, getFieldState]);
 
   const valid = useMemo(() => {
     return Object.values(fields).every((field) => !field.error);
@@ -137,51 +161,77 @@ export function useForm<T extends Record<string, unknown>>({
 
   const dirty = useMemo(() => {
     return (Object.keys(fields) as Array<keyof T>).some((key) => {
-      return fields[key].value !== initialValuesRef.current[key];
+      const fieldState = getFieldState(fields, key);
+      const initialValue = Reflect.get(initialValuesRef.current, key) as T[keyof T];
+      return fieldState.value !== initialValue;
     });
-  }, [fields]);
+  }, [fields, getFieldState]);
 
   // Validate a single field
   const validateField = useCallback(
     async <K extends keyof T>(name: K): Promise<boolean> => {
-      const rules = validationSchema[name];
+      const rules = Reflect.get(validationSchema, name) as (typeof validationSchema)[K];
       if (!rules || rules.length === 0) {
         return true;
       }
 
       // Set validating state
-      setFields((prev) => ({
-        ...prev,
-        [name]: { ...prev[name], validating: true },
-      }));
+      setFields((prev) => {
+        const updated = { ...prev };
+        const current = getFieldState(prev, name);
+        setFieldState(updated, name, { ...current, validating: true });
+        return updated;
+      });
+
+      const value = getFieldState(fields, name)?.value;
+
+      const runRules = async (): Promise<{ valid: boolean; error?: string }> => {
+        for (const rule of rules) {
+          try {
+            const isValid = await rule.validate(value);
+            if (!isValid) {
+              return { valid: false, error: rule.message };
+            }
+          } catch {
+            return { valid: false, error: rule.message };
+          }
+        }
+
+        return { valid: true };
+      };
 
       try {
-        const result = await validateFieldUtil(fields[name].value, rules);
+        const result = await validateFieldUtil(value, rules);
 
-        setFields((prev) => ({
-          ...prev,
-          [name]: {
-            ...prev[name],
-            error: result.error,
-            validating: false,
-          },
-        }));
+        // Handle case where validation utility returns unexpected value
+        const finalResult = !result || (!result.valid && !result.error) ? await runRules() : result;
 
-        return result.valid;
+        setFields((prev) => {
+          const updated = { ...prev };
+          const current = getFieldState(prev, name);
+          setFieldState(updated, name, { ...current, error: finalResult.error, validating: false });
+          return updated;
+        });
+
+        return finalResult.valid;
       } catch {
-        // Handle validation errors
-        setFields((prev) => ({
-          ...prev,
-          [name]: {
-            ...prev[name],
-            error: 'Validation error',
+        const fallback = await runRules();
+
+        setFields((prev) => {
+          const updated = { ...prev };
+          const current = getFieldState(prev, name);
+          setFieldState(updated, name, {
+            ...current,
+            error: fallback.error ?? 'Validation error',
             validating: false,
-          },
-        }));
-        return false;
+          });
+          return updated;
+        });
+
+        return fallback.valid;
       }
     },
-    [fields, validationSchema]
+    [fields, validationSchema, getFieldState, setFieldState]
   );
 
   // Validate entire form
@@ -195,41 +245,50 @@ export function useForm<T extends Record<string, unknown>>({
   // Set field value
   const setFieldValue = useCallback(
     <K extends keyof T>(name: K, value: T[K]) => {
-      setFields((prev) => ({
-        ...prev,
-        [name]: { ...prev[name], value },
-      }));
+      setFields((prev) => {
+        const updated = { ...prev };
+        const current = getFieldState(prev, name);
+        setFieldState(updated, name, { ...current, value });
+        return updated;
+      });
 
       // Validate on change if enabled
       if (validateOnChange) {
         void validateField(name);
       }
     },
-    [validateOnChange, validateField]
+    [getFieldState, setFieldState, validateOnChange, validateField]
   );
 
   // Set field error
-  const setFieldError = useCallback(<K extends keyof T>(name: K, error?: string) => {
-    setFields((prev) => ({
-      ...prev,
-      [name]: { ...prev[name], error },
-    }));
-  }, []);
+  const setFieldError = useCallback(
+    <K extends keyof T>(name: K, error?: string) => {
+      setFields((prev) => {
+        const updated = { ...prev };
+        const current = getFieldState(prev, name);
+        setFieldState(updated, name, { ...current, error });
+        return updated;
+      });
+    },
+    [getFieldState, setFieldState]
+  );
 
   // Set field touched
   const setFieldTouched = useCallback(
     <K extends keyof T>(name: K, touched = true) => {
-      setFields((prev) => ({
-        ...prev,
-        [name]: { ...prev[name], touched },
-      }));
+      setFields((prev) => {
+        const updated = { ...prev };
+        const current = getFieldState(prev, name);
+        setFieldState(updated, name, { ...current, touched });
+        return updated;
+      });
 
       // Validate on blur if enabled
       if (validateOnBlur && touched) {
         void validateField(name);
       }
     },
-    [validateOnBlur, validateField]
+    [getFieldState, setFieldState, validateOnBlur, validateField]
   );
 
   // Reset form
@@ -247,7 +306,8 @@ export function useForm<T extends Record<string, unknown>>({
     setFields((prev) => {
       const updated = { ...prev };
       (Object.keys(updated) as Array<keyof T>).forEach((key) => {
-        updated[key] = { ...updated[key], touched: true };
+        const current = getFieldState(updated, key);
+        setFieldState(updated, key, { ...current, touched: true });
       });
       return updated;
     });
@@ -268,7 +328,7 @@ export function useForm<T extends Record<string, unknown>>({
     } finally {
       setSubmitting(false);
     }
-  }, [values, validateForm, onSubmit]);
+  }, [values, validateForm, onSubmit, getFieldState, setFieldState]);
 
   // Get field handlers
   const getFieldHandlers = useCallback(
@@ -282,13 +342,13 @@ export function useForm<T extends Record<string, unknown>>({
   // Get field props helper
   const getFieldProps = useCallback(
     <K extends keyof T>(name: K) => ({
-      value: fields[name].value,
+      value: getFieldState(fields, name).value,
       onChange: (value: T[K]) => setFieldValue(name, value),
       onBlur: () => setFieldTouched(name, true),
-      error: fields[name].error,
-      touched: fields[name].touched,
+      error: getFieldState(fields, name).error,
+      touched: getFieldState(fields, name).touched,
     }),
-    [fields, setFieldValue, setFieldTouched]
+    [fields, getFieldState, setFieldTouched, setFieldValue]
   );
 
   // Construct state object

@@ -154,10 +154,20 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListPropsInternal>
       return [val];
     }, []);
 
+    const normalizedValue = useMemo(
+      () => (value !== undefined ? normalizeValue(value) : undefined),
+      [value, normalizeValue]
+    );
+
+    const normalizedDefaultValue = useMemo(
+      () => normalizeValue(defaultValue),
+      [defaultValue, normalizeValue]
+    );
+
     // Use centralized hook for controlled/uncontrolled state management
     const [selectedValues, setSelectedValues] = useControllableState<string[]>({
-      value: value !== undefined ? normalizeValue(value) : undefined,
-      defaultValue: normalizeValue(defaultValue),
+      value: normalizedValue,
+      defaultValue: normalizedDefaultValue,
       onChange: (newValues) => {
         if (onChange) {
           // For single mode, return single value or undefined

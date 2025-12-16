@@ -172,7 +172,9 @@ describe('formatDate', () => {
 
       it('omits timeZone when useLocalTimeZone is true', () => {
         formatDate(testDate, { locale: 'en-US', useLocalTimeZone: true });
-        expect(capturedOptions && 'timeZone' in capturedOptions ? capturedOptions.timeZone : undefined).toBeUndefined();
+        expect(
+          capturedOptions && 'timeZone' in capturedOptions ? capturedOptions.timeZone : undefined
+        ).toBeUndefined();
       });
 
       it('passes through explicit timeZone', () => {

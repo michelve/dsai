@@ -227,13 +227,17 @@ function printResults() {
 
   if (errors.length > 0) {
     console.log('ERRORS:\n');
-    errors.forEach((error) => console.log(error));
+    errors.forEach((error) => {
+      console.log(error);
+    });
     console.log();
   }
 
   if (warnings.length > 0) {
     console.log('WARNINGS:\n');
-    warnings.forEach((warning) => console.log(warning));
+    warnings.forEach((warning) => {
+      console.log(warning);
+    });
     console.log();
   }
 

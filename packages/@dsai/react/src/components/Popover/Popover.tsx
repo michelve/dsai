@@ -56,7 +56,7 @@ function assignNodeToRef<T>(refTarget: Ref<T> | undefined, node: T | null): void
     refTarget(node);
     return;
   }
-  if ('current' in (refTarget as Record<string, unknown>)) {
+  if (typeof refTarget === 'object' && refTarget !== null && 'current' in refTarget) {
     (refTarget as MutableRefObject<T | null>).current = node;
   }
 }
@@ -186,7 +186,12 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
     );
 
     // Floating UI setup
-    const { refs: floatingRefs, floatingStyles, context, update } = useFloating({
+    const {
+      refs: floatingRefs,
+      floatingStyles,
+      context,
+      update,
+    } = useFloating({
       open: fsmState.shouldRender,
       onOpenChange: (open) => {
         if (disabled) {
@@ -377,13 +382,10 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
         return null;
       }
 
-      return cloneElement(
-        child,
-        {
-          ...referenceProps,
-          ref: triggerRef,
-        }
-      );
+      return cloneElement(child, {
+        ...referenceProps,
+        ref: triggerRef,
+      });
     }, [children, child, triggerRef, referenceProps]);
     /* eslint-enable react-hooks/refs */
 
@@ -446,12 +448,12 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
       }
 
       return content_element;
-  }, [
-    isMounted,
-    popoverId,
-    popoverClassName,
-    popoverStyles,
-    trapFocus,
+    }, [
+      isMounted,
+      popoverId,
+      popoverClassName,
+      popoverStyles,
+      trapFocus,
       header,
       headerId,
       ariaLabel,

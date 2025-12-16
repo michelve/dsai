@@ -17,9 +17,7 @@
               "darkMode": "true"
             }
           },
-          "$scopes": [
-            "WIDTH_HEIGHT"
-          ],
+          "$scopes": ["WIDTH_HEIGHT"],
           "comment": "$container-max-widths.sm"
         },
         "md": {
@@ -37,9 +35,7 @@
               "darkMode": "true"
             }
           },
-          "$scopes": [
-            "WIDTH_HEIGHT"
-          ],
+          "$scopes": ["WIDTH_HEIGHT"],
           "comment": "$container-max-widths.md"
         },
         "lg": {
@@ -57,9 +53,7 @@
               "darkMode": "true"
             }
           },
-          "$scopes": [
-            "WIDTH_HEIGHT"
-          ],
+          "$scopes": ["WIDTH_HEIGHT"],
           "comment": "$container-max-widths.lg"
         },
         "xl": {
@@ -77,9 +71,7 @@
               "darkMode": "true"
             }
           },
-          "$scopes": [
-            "WIDTH_HEIGHT"
-          ],
+          "$scopes": ["WIDTH_HEIGHT"],
           "comment": "$container-max-widths.xl"
         },
         "xxl": {
@@ -97,9 +89,7 @@
               "darkMode": "true"
             }
           },
-          "$scopes": [
-            "WIDTH_HEIGHT"
-          ],
+          "$scopes": ["WIDTH_HEIGHT"],
           "comment": "$container-max-widths.xxl"
         }
       },
@@ -118,9 +108,7 @@
             "darkMode": "true"
           }
         },
-        "$scopes": [
-          "GAP"
-        ],
+        "$scopes": ["GAP"],
         "comment": "$container-padding-x"
       }
     }

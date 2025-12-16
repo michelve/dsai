@@ -53,7 +53,9 @@ function httpsGet(url, headers = {}) {
 
     const req = https.request(options, (res) => {
       let data = '';
-      res.on('data', (chunk) => (data += chunk));
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
       res.on('end', () => resolve({ statusCode: res.statusCode, data }));
     });
 

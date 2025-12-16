@@ -192,20 +192,23 @@ export function formatNumber(value: number, options: NumberFormatterOptions = {}
     throw new TypeError(`formatNumber expects a number, received ${typeof value}`);
   }
 
+  // Normalize negative zero to plain zero for consistent output
+  const normalizedValue = Object.is(value, -0) ? 0 : value;
+
   // SSR safety check - if Intl is not available, use fallback
   if (typeof Intl === 'undefined' || typeof Intl.NumberFormat === 'undefined') {
-    return fallbackFormat(value, intlOptions);
+    return fallbackFormat(normalizedValue, intlOptions);
   }
 
   try {
     const formatter = getOrCreateFormatter(locale, intlOptions);
-    return formatter.format(value);
+    return formatter.format(normalizedValue);
   } catch (error) {
     // Fallback if formatter fails (e.g., invalid options)
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env['NODE_ENV'] !== 'production') {
       console.warn('formatNumber: Intl.NumberFormat failed, using fallback', error);
     }
-    return fallbackFormat(value, intlOptions);
+    return fallbackFormat(normalizedValue, intlOptions);
   }
 }
 

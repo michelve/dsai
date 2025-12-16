@@ -2,12 +2,9 @@
  * @file Layout utilities test suite
  */
 
-import {
-  getDocumentSize,
-  getElementBounds,
-  getScrollProgress,
-  getViewportSize,
-} from '../layout/getViewportSize';
+import * as browserUtils from '../browser/isBrowser';
+import { getElementBounds } from '../layout/getElementBounds';
+import { getDocumentSize, getScrollProgress, getViewportSize } from '../layout/getViewportSize';
 import { observeResize, observeResizeMany } from '../layout/observeResize';
 import { scheduleFrame, startLoop } from '../layout/scheduleFrame';
 import { throttleFrame } from '../layout/throttleFrame';
@@ -20,7 +17,7 @@ describe('Layout utilities', () => {
 
   describe('getElementBounds', () => {
     it('returns null when not in browser', () => {
-      const spy = jest.spyOn(require('../browser/isBrowser'), 'isBrowser').mockReturnValue(false);
+      const spy = jest.spyOn(browserUtils, 'isBrowser').mockReturnValue(false);
       expect(getElementBounds(null)).toBeNull();
       spy.mockRestore();
     });
@@ -51,7 +48,7 @@ describe('Layout utilities', () => {
 
   describe('viewport helpers', () => {
     it('returns defaults in SSR', () => {
-      const spy = jest.spyOn(require('../browser/isBrowser'), 'isBrowser').mockReturnValue(false);
+      const spy = jest.spyOn(browserUtils, 'isBrowser').mockReturnValue(false);
       const viewport = getViewportSize({ defaultWidth: 800, defaultHeight: 600 });
       expect(viewport.width).toBe(800);
       expect(viewport.height).toBe(600);
@@ -63,7 +60,7 @@ describe('Layout utilities', () => {
 
   describe('observeResize', () => {
     it('returns noop when ResizeObserver unavailable', () => {
-      const spy = jest.spyOn(require('../browser/isBrowser'), 'isBrowser').mockReturnValue(true);
+      const spy = jest.spyOn(browserUtils, 'isBrowser').mockReturnValue(true);
       const original = (global as any).ResizeObserver;
       // @ts-expect-error - remove for test
       delete (global as any).ResizeObserver;
@@ -122,10 +119,10 @@ describe('Layout utilities', () => {
     it('falls back to setTimeout when rAF is unavailable', () => {
       jest.useFakeTimers();
       const original = (window as any).requestAnimationFrame;
-      // @ts-expect-error
+      // @ts-expect-error - remove requestAnimationFrame to test fallback path
       delete (window as any).requestAnimationFrame;
 
-      const spy = jest.spyOn(require('../browser/isBrowser'), 'isBrowser').mockReturnValue(true);
+      const spy = jest.spyOn(browserUtils, 'isBrowser').mockReturnValue(true);
       const cb = jest.fn();
       scheduleFrame(cb);
       jest.runOnlyPendingTimers();
@@ -135,7 +132,7 @@ describe('Layout utilities', () => {
     });
 
     it('executes synchronously in non-browser environments', () => {
-      const spy = jest.spyOn(require('../browser/isBrowser'), 'isBrowser').mockReturnValue(false);
+      const spy = jest.spyOn(browserUtils, 'isBrowser').mockReturnValue(false);
       const cb = jest.fn();
       const cancel = scheduleFrame(cb);
       expect(cb).not.toHaveBeenCalled();
@@ -158,7 +155,7 @@ describe('Layout utilities', () => {
 
   describe('throttleFrame', () => {
     it('executes synchronously when not in browser', () => {
-      const spy = jest.spyOn(require('../browser/isBrowser'), 'isBrowser').mockReturnValue(false);
+      const spy = jest.spyOn(browserUtils, 'isBrowser').mockReturnValue(false);
       const fn = jest.fn();
       const throttled = throttleFrame(fn);
       throttled();

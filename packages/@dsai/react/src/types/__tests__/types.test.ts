@@ -9,7 +9,6 @@
 
 import { getResponsiveValue, isResponsiveValue } from '../index';
 
-import type { CSSProperties } from 'react';
 import type {
   ARIAProps,
   Breakpoint,
@@ -27,6 +26,7 @@ import type {
   SemanticColorVariant,
   VisualStateBase,
 } from '../index';
+import type { CSSProperties } from 'react';
 
 // =============================================================================
 // SafeHTMLAttributes Tests

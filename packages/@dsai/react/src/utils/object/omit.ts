@@ -81,7 +81,7 @@ export function omit<T extends Record<string, unknown>, K extends keyof T>(
 
   // Copy all keys except omitted ones
   for (const key in obj) {
-    if (Object.hasOwn(obj, key)) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
       if (!keysToOmit.has(key as unknown as K)) {
         (result as Record<string, unknown>)[key as string] = obj[key];
       }

@@ -576,8 +576,14 @@ describe('M2.2 Color & Theming Utilities', () => {
       expect(lighter).not.toBe(original);
 
       // Should have sufficient contrast for hover state
-      const ratio = getContrastRatio(hexToRgb(original)!, hexToRgb(lighter)!);
-      expect(ratio).toBeGreaterThan(1);
+      const originalRgb = hexToRgb(original);
+      const lighterRgb = hexToRgb(lighter);
+      expect(originalRgb).not.toBeNull();
+      expect(lighterRgb).not.toBeNull();
+      if (originalRgb && lighterRgb) {
+        const ratio = getContrastRatio(originalRgb, lighterRgb);
+        expect(ratio).toBeGreaterThan(1);
+      }
     });
   });
 
@@ -642,8 +648,14 @@ describe('M2.2 Color & Theming Utilities', () => {
       expect(darker).not.toBe(original);
 
       // Should have sufficient contrast for active state
-      const ratio = getContrastRatio(hexToRgb(original)!, hexToRgb(darker)!);
-      expect(ratio).toBeGreaterThan(1);
+      const originalRgb = hexToRgb(original);
+      const darkerRgb = hexToRgb(darker);
+      expect(originalRgb).not.toBeNull();
+      expect(darkerRgb).not.toBeNull();
+      if (originalRgb && darkerRgb) {
+        const ratio = getContrastRatio(originalRgb, darkerRgb);
+        expect(ratio).toBeGreaterThan(1);
+      }
     });
   });
 
@@ -654,12 +666,16 @@ describe('M2.2 Color & Theming Utilities', () => {
       const backToDark = getDarkerShade(lighter, 20);
 
       // Due to rounding, might not be exactly the same, but should be close
-      const originalRgb = hexToRgb(original)!;
-      const backRgb = hexToRgb(backToDark)!;
+      const originalRgb = hexToRgb(original);
+      const backRgb = hexToRgb(backToDark);
+      expect(originalRgb).not.toBeNull();
+      expect(backRgb).not.toBeNull();
 
-      expect(Math.abs(originalRgb[0] - backRgb[0])).toBeLessThan(10);
-      expect(Math.abs(originalRgb[1] - backRgb[1])).toBeLessThan(10);
-      expect(Math.abs(originalRgb[2] - backRgb[2])).toBeLessThan(10);
+      if (originalRgb && backRgb) {
+        expect(Math.abs(originalRgb[0] - backRgb[0])).toBeLessThan(10);
+        expect(Math.abs(originalRgb[1] - backRgb[1])).toBeLessThan(10);
+        expect(Math.abs(originalRgb[2] - backRgb[2])).toBeLessThan(10);
+      }
     });
   });
 

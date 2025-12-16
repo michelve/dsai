@@ -85,7 +85,10 @@ function evictOldestCacheEntries(): void {
     const keys = Array.from(formattersCache.keys());
 
     for (let i = 0; i < entriesToRemove; i++) {
-      formattersCache.delete(keys[i]);
+      const keyToDelete = keys[i];
+      if (keyToDelete !== undefined) {
+        formattersCache.delete(keyToDelete);
+      }
     }
   }
 }
@@ -119,7 +122,7 @@ function getOrCreateFormatter(
 
       formattersCache.set(cacheKey, formatter);
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
+      if (process.env['NODE_ENV'] === 'development') {
         console.warn(`[formatRelativeTime] Failed to create formatter: ${error}`);
       }
       return null;
@@ -145,7 +148,7 @@ function selectTimeUnit(milliseconds: number): TimeUnit {
   }
 
   // Default to seconds for very small differences
-  return TIME_UNITS[TIME_UNITS.length - 1];
+  return TIME_UNITS[TIME_UNITS.length - 1] ?? { milliseconds: 1000, unit: 'second' };
 }
 
 /**
@@ -316,7 +319,7 @@ export function formatRelativeTime(
     try {
       return formatter.format(value, timeUnit.unit);
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
+      if (process.env['NODE_ENV'] === 'development') {
         console.warn(`[formatRelativeTime] Formatter failed, using fallback: ${error}`);
       }
     }

@@ -12,9 +12,7 @@
           "scssVariableName": "$white"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$white"
     },
     "black": {
@@ -29,9 +27,7 @@
           "scssVariableName": "$black"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$black"
     },
     "gray": {
@@ -47,10 +43,7 @@
             "scssVariableName": "$gray-100"
           }
         },
-        "$scopes": [
-          "ALL_FILLS",
-          "STROKE_COLOR"
-        ],
+        "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
         "comment": "$gray-100"
       },
       "200": {
@@ -65,10 +58,7 @@
             "scssVariableName": "$gray-200"
           }
         },
-        "$scopes": [
-          "ALL_FILLS",
-          "STROKE_COLOR"
-        ],
+        "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
         "comment": "$gray-200"
       },
       "300": {
@@ -83,9 +73,7 @@
             "scssVariableName": "$gray-300"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-300"
       },
       "400": {
@@ -100,9 +88,7 @@
             "scssVariableName": "$gray-400"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-400"
       },
       "500": {
@@ -117,9 +103,7 @@
             "scssVariableName": "$gray-500"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-500"
       },
       "600": {
@@ -134,9 +118,7 @@
             "scssVariableName": "$gray-600"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-600"
       },
       "700": {
@@ -151,9 +133,7 @@
             "scssVariableName": "$gray-700"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-700"
       },
       "800": {
@@ -168,9 +148,7 @@
             "scssVariableName": "$gray-800"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-800"
       },
       "900": {
@@ -185,9 +163,7 @@
             "scssVariableName": "$gray-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "comment": "$gray-900"
       }
     }

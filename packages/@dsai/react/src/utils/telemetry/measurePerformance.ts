@@ -90,12 +90,12 @@ type PerformanceLike = Pick<
  * via (globalThis as any).performance or window.performance.
  */
 function getPerformance(): PerformanceLike | undefined {
-  const globalPerf = (globalThis as any).performance as PerformanceLike | undefined;
+  const globalPerf = (globalThis as { performance?: PerformanceLike }).performance;
 
   // In jsdom, window.performance may be separate; prefer global, then window.
   const windowPerf =
     typeof window !== 'undefined'
-      ? ((window as any).performance as PerformanceLike | undefined)
+      ? (window as { performance?: PerformanceLike }).performance
       : undefined;
 
   const perf = globalPerf ?? windowPerf;

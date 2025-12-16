@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { isBrowser } from '../../utils/browser/isBrowser';
 
@@ -103,73 +103,143 @@ export function useHover<T extends HTMLElement = HTMLElement>(
 
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const ref = useRef<T | null>(null);
-  const enterTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
-  const leaveTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const internalRef = useRef<T | null>(null);
+  const attachedElementRef = useRef<T | null>(null);
+  const enterTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const leaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const isMounted = useRef(true);
+  const optionsRef = useRef({
+    enterDelay,
+    leaveDelay,
+    onHoverChange,
+  });
 
   useEffect(() => {
-    if (!isBrowser()) {
-      return;
-    }
-
-    const element = ref.current;
-    if (!element) {
-      return;
-    }
-
-    const handleMouseEnter = (): void => {
-      // Clear any pending leave timeout
-      if (leaveTimeoutRef.current) {
-        clearTimeout(leaveTimeoutRef.current);
-        leaveTimeoutRef.current = undefined;
-      }
-
-      if (enterDelay > 0) {
-        enterTimeoutRef.current = setTimeout(() => {
-          setIsHovered(true);
-          onHoverChange?.(true);
-        }, enterDelay);
-      } else {
-        setIsHovered(true);
-        onHoverChange?.(true);
-      }
-    };
-
-    const handleMouseLeave = (): void => {
-      // Clear any pending enter timeout
-      if (enterTimeoutRef.current) {
-        clearTimeout(enterTimeoutRef.current);
-        enterTimeoutRef.current = undefined;
-      }
-
-      if (leaveDelay > 0) {
-        leaveTimeoutRef.current = setTimeout(() => {
-          setIsHovered(false);
-          onHoverChange?.(false);
-        }, leaveDelay);
-      } else {
-        setIsHovered(false);
-        onHoverChange?.(false);
-      }
-    };
-
-    // Add event listeners
-    element.addEventListener('mouseenter', handleMouseEnter);
-    element.addEventListener('mouseleave', handleMouseLeave);
-
-    // Cleanup
-    return () => {
-      element.removeEventListener('mouseenter', handleMouseEnter);
-      element.removeEventListener('mouseleave', handleMouseLeave);
-
-      // Clear any pending timeouts
-      if (enterTimeoutRef.current) {
-        clearTimeout(enterTimeoutRef.current);
-      }
-      if (leaveTimeoutRef.current) {
-        clearTimeout(leaveTimeoutRef.current);
-      }
-    };
+    optionsRef.current = { enterDelay, leaveDelay, onHoverChange };
   }, [enterDelay, leaveDelay, onHoverChange]);
+
+  const clearEnterTimeout = useCallback(() => {
+    if (enterTimeoutRef.current) {
+      const clearFn =
+        typeof globalThis.clearTimeout === 'function' ? globalThis.clearTimeout : clearTimeout;
+      clearFn(enterTimeoutRef.current);
+      enterTimeoutRef.current = undefined;
+    }
+  }, []);
+
+  const clearLeaveTimeout = useCallback(() => {
+    if (leaveTimeoutRef.current) {
+      const clearFn =
+        typeof globalThis.clearTimeout === 'function' ? globalThis.clearTimeout : clearTimeout;
+      clearFn(leaveTimeoutRef.current);
+      leaveTimeoutRef.current = undefined;
+    }
+  }, []);
+
+  const handleMouseEnter = useCallback((): void => {
+    clearLeaveTimeout();
+    const { enterDelay: currentEnterDelay, onHoverChange: currentOnHoverChange } =
+      optionsRef.current;
+
+    if (currentEnterDelay > 0) {
+      const setFn =
+        typeof globalThis.setTimeout === 'function' ? globalThis.setTimeout : setTimeout;
+      enterTimeoutRef.current = setFn(() => {
+        if (!isMounted.current) {
+          return;
+        }
+        setIsHovered(true);
+        currentOnHoverChange?.(true);
+      }, currentEnterDelay);
+      return;
+    }
+
+    setIsHovered(true);
+    currentOnHoverChange?.(true);
+  }, [clearLeaveTimeout]);
+
+  const handleMouseLeave = useCallback((): void => {
+    clearEnterTimeout();
+    const { leaveDelay: currentLeaveDelay, onHoverChange: currentOnHoverChange } =
+      optionsRef.current;
+
+    if (currentLeaveDelay > 0) {
+      const setFn =
+        typeof globalThis.setTimeout === 'function' ? globalThis.setTimeout : setTimeout;
+      leaveTimeoutRef.current = setFn(() => {
+        if (!isMounted.current) {
+          return;
+        }
+        setIsHovered(false);
+        currentOnHoverChange?.(false);
+      }, currentLeaveDelay);
+      return;
+    }
+
+    setIsHovered(false);
+    currentOnHoverChange?.(false);
+  }, [clearEnterTimeout]);
+
+  const detachListeners = useCallback(() => {
+    const node = attachedElementRef.current;
+    if (!node) {
+      return;
+    }
+
+    node.removeEventListener('mouseenter', handleMouseEnter);
+    node.removeEventListener('mouseleave', handleMouseLeave);
+    attachedElementRef.current = null;
+    clearEnterTimeout();
+    clearLeaveTimeout();
+  }, [handleMouseEnter, handleMouseLeave, clearEnterTimeout, clearLeaveTimeout]);
+
+  const attachListeners = useCallback(
+    (node: T | null) => {
+      if (!isBrowser() || !node) {
+        return;
+      }
+
+      attachedElementRef.current = node;
+      node.addEventListener('mouseenter', handleMouseEnter);
+      node.addEventListener('mouseleave', handleMouseLeave);
+    },
+    [handleMouseEnter, handleMouseLeave]
+  );
+
+  useEffect(
+    () => () => {
+      isMounted.current = false;
+      detachListeners();
+    },
+    [detachListeners]
+  );
+
+  useEffect(() => {
+    internalRef.current = ref.current;
+    attachListeners(ref.current);
+
+    Object.defineProperty(ref, 'current', {
+      get: () => internalRef.current,
+      set: (value: T | null) => {
+        if (internalRef.current === value) {
+          return;
+        }
+        detachListeners();
+        internalRef.current = value;
+        attachListeners(value);
+      },
+      configurable: true,
+    });
+
+    return () => {
+      detachListeners();
+      Object.defineProperty(ref, 'current', {
+        value: internalRef.current,
+        writable: true,
+        configurable: true,
+      });
+    };
+  }, [attachListeners, detachListeners]);
 
   return [ref, isHovered];
 }

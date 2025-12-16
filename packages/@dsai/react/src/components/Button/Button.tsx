@@ -142,7 +142,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       dispatchFSMEvent({ type: 'RELEASE' });
     };
 
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>): void => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
       // Prevent click if disabled or loading
       if (disabled || loading) {
         e.preventDefault();

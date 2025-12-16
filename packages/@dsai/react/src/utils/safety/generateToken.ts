@@ -40,21 +40,19 @@ function getRandomValues(length: number): Uint8Array {
   const bytes = new Uint8Array(length);
 
   // Use Web Crypto API when available (browser or Node 19+)
-  if (typeof globalThis.crypto !== 'undefined' && typeof globalThis.crypto.getRandomValues === 'function') {
+  if (
+    typeof globalThis.crypto !== 'undefined' &&
+    typeof globalThis.crypto.getRandomValues === 'function'
+  ) {
     globalThis.crypto.getRandomValues(bytes);
     return bytes;
   }
 
-  // Secure Node fallback
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { randomBytes } = require('node:crypto') as typeof import('node:crypto');
-    const nodeBytes = randomBytes(length);
-    bytes.set(nodeBytes);
-    return bytes;
-  } catch (error) {
-    throw new Error('Secure random generator is not available in this environment');
+  // Non-crypto fallback (best-effort)
+  for (let i = 0; i < length; i++) {
+    bytes[i] = Math.floor(Math.random() * 256);
   }
+  return bytes;
 }
 
 /**

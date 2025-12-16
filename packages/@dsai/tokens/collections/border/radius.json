@@ -14,9 +14,7 @@
             "cssClass": "rounded-0"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "comment": "$border-radius (0 override)"
       },
       "sm": {
@@ -32,9 +30,7 @@
             "cssClass": "rounded-1"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "comment": "$border-radius-sm"
       },
       "md": {
@@ -50,9 +46,7 @@
             "cssClass": "rounded, rounded-2"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "comment": "$border-radius"
       },
       "lg": {
@@ -68,9 +62,7 @@
             "cssClass": "rounded-3"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "comment": "$border-radius-lg"
       },
       "xl": {
@@ -86,9 +78,7 @@
             "cssClass": "rounded-4"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "comment": "$border-radius-xl"
       },
       "xxl": {
@@ -104,9 +94,7 @@
             "cssClass": "rounded-5"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "comment": "$border-radius-xxl"
       },
       "full": {
@@ -122,9 +110,7 @@
             "cssClass": "rounded-full"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "comment": "$border-radius-full"
       },
       "circle": {
@@ -141,9 +127,7 @@
             "unit": "%"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "comment": "50% (calculated)"
       },
       "pill": {
@@ -159,9 +143,7 @@
             "cssClass": "rounded-pill"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "comment": "$border-radius-pill"
       }
     }

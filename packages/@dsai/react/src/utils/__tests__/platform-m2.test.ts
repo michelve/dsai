@@ -2,6 +2,7 @@
  * @file Platform utilities test suite
  */
 
+import * as browserModule from '../browser';
 import {
   getBrowser,
   getDevicePixelRatio,
@@ -14,6 +15,7 @@ import {
   isTablet,
   isTouchDevice,
 } from '../platform';
+import * as rtlModule from '../platform/isRTL';
 
 describe('Platform utilities', () => {
   const originalUA = navigator.userAgent;
@@ -30,7 +32,7 @@ describe('Platform utilities', () => {
   });
 
   it('returns null in SSR for guarded utilities', () => {
-    const isBrowserSpy = jest.spyOn(require('../browser'), 'isBrowser').mockReturnValue(false);
+    const isBrowserSpy = jest.spyOn(browserModule, 'isBrowser').mockReturnValue(false);
     expect(getBrowser()).toBeNull();
     expect(getOS()).toBeNull();
     expect(isMobile()).toBeNull();
@@ -76,11 +78,11 @@ describe('Platform utilities', () => {
     expect(isDesktop()).toBe(false);
   });
 
-    it('handles touch and hover detection', () => {
-      Object.defineProperty(navigator, 'userAgent', {
-        value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-        configurable: true,
-      });
+  it('handles touch and hover detection', () => {
+    Object.defineProperty(navigator, 'userAgent', {
+      value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+      configurable: true,
+    });
     // Simulate matchMedia
     (window as any).matchMedia = jest.fn().mockImplementation((query: string) => {
       return {
@@ -96,8 +98,8 @@ describe('Platform utilities', () => {
   });
 
   it('returns text direction based on isRTL', () => {
-    const isBrowserSpy = jest.spyOn(require('../browser'), 'isBrowser').mockReturnValue(true);
-    const rtlSpy = jest.spyOn(require('../platform/isRTL'), 'isRTL').mockReturnValue(true);
+    const isBrowserSpy = jest.spyOn(browserModule, 'isBrowser').mockReturnValue(true);
+    const rtlSpy = jest.spyOn(rtlModule, 'isRTL').mockReturnValue(true);
     expect(getTextDirection()).toBe('rtl');
     rtlSpy.mockReturnValue(false);
     expect(getTextDirection()).toBe('ltr');

@@ -263,7 +263,7 @@ export function formatCurrency(value: number, options: CurrencyFormatterOptions 
     return formatter.format(value);
   } catch (error) {
     // Fallback if formatter fails (e.g., invalid currency code or options)
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env['NODE_ENV'] !== 'production') {
       console.warn('formatCurrency: Intl.NumberFormat failed, using fallback', error);
     }
     return fallbackFormat(value, currency, intlOptions);

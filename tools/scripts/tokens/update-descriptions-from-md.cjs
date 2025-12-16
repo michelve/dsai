@@ -125,7 +125,9 @@ function updateDescriptionsFromMarkdown(jsonPath, mdPath) {
 
   if (notFoundCount > 0) {
     console.log(`⚠ Warning: ${notFoundCount} paths not found in JSON:`);
-    notFoundPaths.slice(0, 5).forEach((p) => console.log(`  - ${p}`));
+    notFoundPaths.slice(0, 5).forEach((p) => {
+      console.log(`  - ${p}`);
+    });
     if (notFoundPaths.length > 5) {
       console.log(`  ... and ${notFoundPaths.length - 5} more`);
     }

@@ -11,8 +11,8 @@
  * Target: 100% code coverage for development tooling
  */
 
-import React from 'react';
 import { render } from '@testing-library/react';
+import React from 'react';
 
 import {
   clearWarnings,
@@ -292,16 +292,22 @@ describe('M2.10 Developer Experience Utilities', () => {
 
       const Broken = () => <div>{useCtx()}</div>;
 
-      expect(() => render(<Provider value={undefined as any}><Broken /></Provider>)).toThrow(
-        'BadContext context: defaultValue must be provided when strict is false'
-      );
+      expect(() =>
+        render(
+          <Provider value={undefined as any}>
+            <Broken />
+          </Provider>
+        )
+      ).toThrow('BadContext context: defaultValue must be provided when strict is false');
     });
   });
 
   describe('createComponent', () => {
     it('should create component with default props', () => {
       const BaseButton = ({ label, disabled = false }: { label: string; disabled?: boolean }) => (
-        <button disabled={disabled}>{label}</button>
+        <button type="button" disabled={disabled}>
+          {label}
+        </button>
       );
 
       const Button = createComponent({
@@ -322,7 +328,7 @@ describe('M2.10 Developer Experience Utilities', () => {
         displayName: 'Greeting',
       });
 
-      const { container } = require('@testing-library/react').render(<Greeting name="World" />);
+      const { container } = render(<Greeting name="World" />);
 
       expect(container.textContent).toBe('Hello World');
     });
@@ -341,7 +347,7 @@ describe('M2.10 Developer Experience Utilities', () => {
       });
 
       expect(() => {
-        require('@testing-library/react').render(<Card title="Test" />);
+        render(<Card title="Test" />);
       }).not.toThrow();
     });
   });
@@ -355,9 +361,7 @@ describe('M2.10 Developer Experience Utilities', () => {
         <Component style={{ padding }} {...props} />
       ));
 
-      const { container } = require('@testing-library/react').render(
-        <Box padding="20px">Content</Box>
-      );
+      const { container } = render(<Box padding="20px">Content</Box>);
 
       expect(container.querySelector('div')).toBeTruthy();
     });
@@ -370,7 +374,7 @@ describe('M2.10 Developer Experience Utilities', () => {
         <Component style={{ fontWeight: bold ? 'bold' : 'normal' }} {...props} />
       ));
 
-      const { container } = require('@testing-library/react').render(
+      const { container } = render(
         <Text as="p" bold>
           Bold text
         </Text>
@@ -392,7 +396,7 @@ describe('M2.10 Developer Experience Utilities', () => {
         />
       ));
 
-      const { container } = require('@testing-library/react').render(
+      const { container } = render(
         <Link href="https://example.com" external>
           Link
         </Link>
@@ -404,7 +408,7 @@ describe('M2.10 Developer Experience Utilities', () => {
     });
 
     it('should have correct display name', () => {
-      const Polymorphic = createPolymorphic<'div', {}>(
+      const Polymorphic = createPolymorphic<'div', Record<string, unknown>>(
         'div',
         'Polymorphic'
       )(({ as: Component = 'div', ...props }) => <Component {...props} />);
@@ -443,8 +447,18 @@ describe('M2.10 Developer Experience Utilities', () => {
       const BaseList = ({ data, onSelect, render }: ComplexProps) => (
         <ul>
           {data.map((item) => (
-            <li key={item.id} onClick={() => onSelect(item.id)}>
-              {render ? render(item) : item.name}
+            <li key={item.id}>
+              <button
+                type="button"
+                onClick={() => onSelect(item.id)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    onSelect(item.id);
+                  }
+                }}
+              >
+                {render ? render(item) : item.name}
+              </button>
             </li>
           ))}
         </ul>

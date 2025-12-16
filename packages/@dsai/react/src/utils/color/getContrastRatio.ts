@@ -84,7 +84,7 @@ export function getContrastRatio(
 
   // Apply precision if specified
   if (typeof precision === 'number' && precision >= 0) {
-    const factor = Math.pow(10, precision);
+    const factor = 10 ** precision;
     return Math.round(ratio * factor) / factor;
   }
 

@@ -133,7 +133,7 @@ function getHiddenAvatarNames(children: React.ReactNode, startIndex: number): st
  * ```
  */
 export const AvatarGroup = memo(
-  forwardRef<HTMLDivElement, AvatarGroupProps>(function AvatarGroup(
+  forwardRef<HTMLFieldSetElement, AvatarGroupProps>(function AvatarGroup(
     {
       children,
       maxVisible,
@@ -305,12 +305,11 @@ export const AvatarGroup = memo(
     }, [ariaLabel, hasOverflow, visibleCount, totalCount]);
 
     return (
-      <div
+      <fieldset
         ref={ref}
         id={id}
         className={containerClasses}
         style={containerStyle}
-        role="group"
         aria-label={groupAriaLabel}
         aria-hidden={ariaHidden}
         title={title}
@@ -321,6 +320,8 @@ export const AvatarGroup = memo(
         data-visible-count={visibleCount}
         data-total-count={totalCount}
       >
+        <legend className="visually-hidden">{groupAriaLabel}</legend>
+
         {/* Render overflow chip first for stacked (reversed) layout */}
         {layout === 'stacked' && renderOverflowChip()}
 
@@ -329,7 +330,7 @@ export const AvatarGroup = memo(
 
         {/* Render overflow chip last for inline layout */}
         {layout === 'inline' && renderOverflowChip()}
-      </div>
+      </fieldset>
     );
   })
 );

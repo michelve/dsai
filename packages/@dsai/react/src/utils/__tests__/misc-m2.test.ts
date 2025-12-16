@@ -2,9 +2,9 @@
  * @file Misc utilities test suite (placements, triggers, safe input props)
  */
 
+import { getSafeInputProps, SAFE_INPUT_ATTRIBUTES } from '../misc/getSafeInputProps';
 import { mapPlacement } from '../misc/mapPlacement';
 import { normalizeTriggers } from '../misc/normalizeTriggers';
-import { getSafeInputProps, SAFE_INPUT_ATTRIBUTES } from '../misc/getSafeInputProps';
 
 describe('Misc utilities', () => {
   describe('mapPlacement', () => {

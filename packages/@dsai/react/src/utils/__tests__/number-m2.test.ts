@@ -2,8 +2,8 @@
  * @file Number utilities targeted tests
  */
 
-import { formatNumber } from '../number/formatNumber';
 import { formatCurrency } from '../number/formatCurrency';
+import { formatNumber } from '../number/formatNumber';
 
 describe('Number utilities', () => {
   describe('formatNumber', () => {

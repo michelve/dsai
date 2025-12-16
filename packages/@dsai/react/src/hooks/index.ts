@@ -22,7 +22,6 @@ export { useScrollLock } from './useScrollLock';
 export type {
   UseScrollLockOptions,
   UseScrollLockReturn,
-  UseScrollLockTarget,
 } from './useScrollLock';
 
 export {

@@ -1,5 +1,5 @@
 import type { SemanticColorVariant } from '../../types';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 /**
  * Card variant styling

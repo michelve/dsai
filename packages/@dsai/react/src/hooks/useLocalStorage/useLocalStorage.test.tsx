@@ -8,6 +8,8 @@
 import '@testing-library/jest-dom';
 import { act, renderHook } from '@testing-library/react';
 
+import * as browserUtils from '../../utils/browser/isBrowser';
+
 import { useLocalStorage } from './useLocalStorage';
 
 describe('useLocalStorage', () => {
@@ -262,6 +264,8 @@ describe('useLocalStorage', () => {
       // @ts-expect-error - Testing SSR scenario
       delete global.window;
 
+      const isBrowserSpy = jest.spyOn(browserUtils, 'isBrowser');
+      isBrowserSpy.mockReturnValue(false);
       const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
 
       const { result } = renderHook(() => useLocalStorage('ssr-key', 'default'));
@@ -274,6 +278,7 @@ describe('useLocalStorage', () => {
       expect(consoleWarnSpy).toHaveBeenCalledWith(expect.stringContaining('not a client'));
 
       consoleWarnSpy.mockRestore();
+      isBrowserSpy.mockRestore();
       global.window = originalWindow;
     });
 
@@ -430,7 +435,9 @@ describe('useLocalStorage', () => {
         renderHook(() => useLocalStorage(`key-${i}`, i))
       );
 
-      hooks.forEach(({ unmount }) => unmount());
+      hooks.forEach(({ unmount }) => {
+        unmount();
+      });
 
       // No assertion needed - just ensuring no errors
       expect(true).toBe(true);

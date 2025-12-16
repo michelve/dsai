@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { createElement, createRef } from 'react';

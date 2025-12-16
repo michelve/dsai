@@ -8,12 +8,12 @@
 import '@testing-library/jest-dom';
 import { act, fireEvent, render, renderHook, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import type React from 'react';
 import { useRef } from 'react';
 
 import { useFocusTrap } from './useFocusTrap';
 
 import type { UseFocusTrapOptions } from './useFocusTrap.types';
+import type React from 'react';
 
 // Test component that uses the hook
 function TestContainer({
@@ -49,11 +49,15 @@ function TestContainerWithInitialFocus({
 
   return (
     <div ref={containerRef} data-testid="container" data-active={isActive}>
-      <button data-testid="first">First</button>
-      <button ref={initialFocusRef} data-testid="initial">
+      <button type="button" data-testid="first">
+        First
+      </button>
+      <button type="button" ref={initialFocusRef} data-testid="initial">
         Initial Focus
       </button>
-      <button data-testid="last">Last</button>
+      <button type="button" data-testid="last">
+        Last
+      </button>
     </div>
   );
 }
@@ -68,11 +72,13 @@ function TestContainerWithFinalFocus({ enabled = true }: { enabled?: boolean }) 
 
   return (
     <>
-      <button ref={finalFocusRef} data-testid="final-focus-target">
+      <button type="button" ref={finalFocusRef} data-testid="final-focus-target">
         Final Target
       </button>
       <div ref={containerRef} data-testid="container" data-active={isActive}>
-        <button data-testid="inside">Inside</button>
+        <button type="button" data-testid="inside">
+          Inside
+        </button>
       </div>
     </>
   );
@@ -86,14 +92,16 @@ function TestContainerWithManualControl() {
 
   return (
     <div>
-      <button onClick={activate} data-testid="activate">
+      <button type="button" onClick={activate} data-testid="activate">
         Activate
       </button>
-      <button onClick={deactivate} data-testid="deactivate">
+      <button type="button" onClick={deactivate} data-testid="deactivate">
         Deactivate
       </button>
       <div ref={containerRef} data-testid="container" data-active={isActive}>
-        <button data-testid="inside">Inside</button>
+        <button type="button" data-testid="inside">
+          Inside
+        </button>
       </div>
     </div>
   );
@@ -105,8 +113,12 @@ describe('useFocusTrap', () => {
   });
 
   afterEach(() => {
-    jest.runOnlyPendingTimers();
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
     jest.useRealTimers();
+
+    document.body.innerHTML = '';
   });
 
   describe('basic functionality', () => {
@@ -136,8 +148,12 @@ describe('useFocusTrap', () => {
     it('should focus first focusable element by default', () => {
       render(
         <TestContainer options={{ enabled: true }}>
-          <button data-testid="first">First</button>
-          <button data-testid="second">Second</button>
+          <button type="button" data-testid="first">
+            First
+          </button>
+          <button type="button" data-testid="second">
+            Second
+          </button>
         </TestContainer>
       );
 
@@ -151,8 +167,12 @@ describe('useFocusTrap', () => {
     it('should not auto-focus when autoFocus is false', () => {
       render(
         <TestContainer options={{ enabled: true, autoFocus: false }}>
-          <button data-testid="first">First</button>
-          <button data-testid="second">Second</button>
+          <button type="button" data-testid="first">
+            First
+          </button>
+          <button type="button" data-testid="second">
+            Second
+          </button>
         </TestContainer>
       );
 
@@ -195,7 +215,9 @@ describe('useFocusTrap', () => {
     it('should delay initial focus by specified amount', () => {
       render(
         <TestContainer options={{ enabled: true, initialFocusDelay: 100 }}>
-          <button data-testid="first">First</button>
+          <button type="button" data-testid="first">
+            First
+          </button>
         </TestContainer>
       );
 
@@ -222,9 +244,13 @@ describe('useFocusTrap', () => {
 
       const { rerender } = render(
         <>
-          <button data-testid="outside">Outside</button>
+          <button type="button" data-testid="outside">
+            Outside
+          </button>
           <TestContainer options={{ enabled: false }}>
-            <button data-testid="inside">Inside</button>
+            <button type="button" data-testid="inside">
+              Inside
+            </button>
           </TestContainer>
         </>
       );
@@ -236,9 +262,13 @@ describe('useFocusTrap', () => {
       // Enable the trap
       rerender(
         <>
-          <button data-testid="outside">Outside</button>
+          <button type="button" data-testid="outside">
+            Outside
+          </button>
           <TestContainer options={{ enabled: true }}>
-            <button data-testid="inside">Inside</button>
+            <button type="button" data-testid="inside">
+              Inside
+            </button>
           </TestContainer>
         </>
       );
@@ -252,9 +282,13 @@ describe('useFocusTrap', () => {
       // Disable the trap
       rerender(
         <>
-          <button data-testid="outside">Outside</button>
+          <button type="button" data-testid="outside">
+            Outside
+          </button>
           <TestContainer options={{ enabled: false }}>
-            <button data-testid="inside">Inside</button>
+            <button type="button" data-testid="inside">
+              Inside
+            </button>
           </TestContainer>
         </>
       );
@@ -268,9 +302,13 @@ describe('useFocusTrap', () => {
 
       const { rerender } = render(
         <>
-          <button data-testid="outside">Outside</button>
+          <button type="button" data-testid="outside">
+            Outside
+          </button>
           <TestContainer options={{ enabled: false, restoreFocus: false }}>
-            <button data-testid="inside">Inside</button>
+            <button type="button" data-testid="inside">
+              Inside
+            </button>
           </TestContainer>
         </>
       );
@@ -281,9 +319,13 @@ describe('useFocusTrap', () => {
       // Enable the trap
       rerender(
         <>
-          <button data-testid="outside">Outside</button>
+          <button type="button" data-testid="outside">
+            Outside
+          </button>
           <TestContainer options={{ enabled: true, restoreFocus: false }}>
-            <button data-testid="inside">Inside</button>
+            <button type="button" data-testid="inside">
+              Inside
+            </button>
           </TestContainer>
         </>
       );
@@ -295,9 +337,13 @@ describe('useFocusTrap', () => {
       // Disable the trap
       rerender(
         <>
-          <button data-testid="outside">Outside</button>
+          <button type="button" data-testid="outside">
+            Outside
+          </button>
           <TestContainer options={{ enabled: false, restoreFocus: false }}>
-            <button data-testid="inside">Inside</button>
+            <button type="button" data-testid="inside">
+              Inside
+            </button>
           </TestContainer>
         </>
       );
@@ -354,12 +400,8 @@ describe('useFocusTrap', () => {
       const onEscape = jest.fn();
       const parentHandler = jest.fn();
 
-      render(
-        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-        <div onKeyDown={parentHandler}>
-          <TestContainerWithInitialFocus enabled={true} onEscape={onEscape} />
-        </div>
-      );
+      document.addEventListener('keydown', parentHandler);
+      render(<TestContainerWithInitialFocus enabled={true} onEscape={onEscape} />);
 
       act(() => {
         jest.runAllTimers();
@@ -374,6 +416,7 @@ describe('useFocusTrap', () => {
 
       expect(onEscape).toHaveBeenCalled();
       expect(event.defaultPrevented).toBe(true);
+      document.removeEventListener('keydown', parentHandler);
     });
   });
 
@@ -383,9 +426,15 @@ describe('useFocusTrap', () => {
 
       render(
         <TestContainer options={{ enabled: true }}>
-          <button data-testid="first">First</button>
-          <button data-testid="second">Second</button>
-          <button data-testid="third">Third</button>
+          <button type="button" data-testid="first">
+            First
+          </button>
+          <button type="button" data-testid="second">
+            Second
+          </button>
+          <button type="button" data-testid="third">
+            Third
+          </button>
         </TestContainer>
       );
 
@@ -411,9 +460,15 @@ describe('useFocusTrap', () => {
 
       render(
         <TestContainer options={{ enabled: true }}>
-          <button data-testid="first">First</button>
-          <button data-testid="second">Second</button>
-          <button data-testid="third">Third</button>
+          <button type="button" data-testid="first">
+            First
+          </button>
+          <button type="button" data-testid="second">
+            Second
+          </button>
+          <button type="button" data-testid="third">
+            Third
+          </button>
         </TestContainer>
       );
 
@@ -475,7 +530,9 @@ describe('useFocusTrap', () => {
     it('should activate when enabled changes from false to true', () => {
       const { rerender } = render(
         <TestContainer options={{ enabled: false }}>
-          <button data-testid="button">Button</button>
+          <button type="button" data-testid="button">
+            Button
+          </button>
         </TestContainer>
       );
 
@@ -483,7 +540,9 @@ describe('useFocusTrap', () => {
 
       rerender(
         <TestContainer options={{ enabled: true }}>
-          <button data-testid="button">Button</button>
+          <button type="button" data-testid="button">
+            Button
+          </button>
         </TestContainer>
       );
 
@@ -498,7 +557,9 @@ describe('useFocusTrap', () => {
     it('should deactivate when enabled changes from true to false', () => {
       const { rerender } = render(
         <TestContainer options={{ enabled: true }}>
-          <button data-testid="button">Button</button>
+          <button type="button" data-testid="button">
+            Button
+          </button>
         </TestContainer>
       );
 
@@ -510,7 +571,9 @@ describe('useFocusTrap', () => {
 
       rerender(
         <TestContainer options={{ enabled: false }}>
-          <button data-testid="button">Button</button>
+          <button type="button" data-testid="button">
+            Button
+          </button>
         </TestContainer>
       );
 
@@ -524,7 +587,9 @@ describe('useFocusTrap', () => {
 
       render(
         <TestContainer options={{ enabled: true }}>
-          <button data-testid="only">Only Button</button>
+          <button type="button" data-testid="only">
+            Only Button
+          </button>
         </TestContainer>
       );
 
@@ -542,7 +607,7 @@ describe('useFocusTrap', () => {
     it('should cleanup on unmount', () => {
       const { unmount } = render(
         <TestContainer options={{ enabled: true }}>
-          <button>Button</button>
+          <button type="button">Button</button>
         </TestContainer>
       );
 
@@ -557,11 +622,15 @@ describe('useFocusTrap', () => {
     it('should filter out hidden elements from focusable list', () => {
       render(
         <TestContainer options={{ enabled: true }}>
-          <button data-testid="visible">Visible</button>
-          <button data-testid="hidden" style={{ display: 'none' }}>
+          <button type="button" data-testid="visible">
+            Visible
+          </button>
+          <button type="button" data-testid="hidden" style={{ display: 'none' }}>
             Hidden
           </button>
-          <button data-testid="visible2">Visible 2</button>
+          <button type="button" data-testid="visible2">
+            Visible 2
+          </button>
         </TestContainer>
       );
 
@@ -575,11 +644,15 @@ describe('useFocusTrap', () => {
     it('should filter out visibility:hidden elements from focusable list', () => {
       render(
         <TestContainer options={{ enabled: true }}>
-          <button data-testid="visible">Visible</button>
-          <button data-testid="invisible" style={{ visibility: 'hidden' }}>
+          <button type="button" data-testid="visible">
+            Visible
+          </button>
+          <button type="button" data-testid="invisible" style={{ visibility: 'hidden' }}>
             Invisible
           </button>
-          <button data-testid="visible2">Visible 2</button>
+          <button type="button" data-testid="visible2">
+            Visible 2
+          </button>
         </TestContainer>
       );
 

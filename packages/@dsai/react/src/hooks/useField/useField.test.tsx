@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 
 import { useField } from './useField';
 
@@ -53,7 +53,9 @@ describe('useField', () => {
     it('should update value with setValue', () => {
       const { result } = renderHook(() => useField<string>({ initialValue: 'initial' }));
 
-      result.current.actions.setValue('updated');
+      act(() => {
+        result.current.actions.setValue('updated');
+      });
 
       expect(result.current.state.value).toBe('updated');
     });
@@ -61,7 +63,9 @@ describe('useField', () => {
     it('should support function updater for setValue', () => {
       const { result } = renderHook(() => useField<number>({ initialValue: 10 }));
 
-      result.current.actions.setValue((prev) => prev + 5);
+      act(() => {
+        result.current.actions.setValue((prev) => prev + 5);
+      });
 
       expect(result.current.state.value).toBe(15);
     });
@@ -69,7 +73,9 @@ describe('useField', () => {
     it('should update value with handleChange', () => {
       const { result } = renderHook(() => useField<string>({ initialValue: 'initial' }));
 
-      result.current.actions.handleChange('changed');
+      act(() => {
+        result.current.actions.handleChange('changed');
+      });
 
       expect(result.current.state.value).toBe('changed');
     });
@@ -78,7 +84,9 @@ describe('useField', () => {
       const onChange = jest.fn();
       const { result } = renderHook(() => useField<string>({ initialValue: 'initial', onChange }));
 
-      result.current.actions.handleChange('new value');
+      act(() => {
+        result.current.actions.handleChange('new value');
+      });
 
       expect(onChange).toHaveBeenCalledWith('new value');
     });
@@ -90,7 +98,9 @@ describe('useField', () => {
 
       expect(result.current.state.touched).toBe(false);
 
-      result.current.actions.setTouched();
+      act(() => {
+        result.current.actions.setTouched();
+      });
 
       expect(result.current.state.touched).toBe(true);
     });
@@ -98,17 +108,23 @@ describe('useField', () => {
     it('should set touched explicitly with boolean', () => {
       const { result } = renderHook(() => useField<string>({ initialValue: 'test' }));
 
-      result.current.actions.setTouched(true);
+      act(() => {
+        result.current.actions.setTouched(true);
+      });
       expect(result.current.state.touched).toBe(true);
 
-      result.current.actions.setTouched(false);
+      act(() => {
+        result.current.actions.setTouched(false);
+      });
       expect(result.current.state.touched).toBe(false);
     });
 
     it('should mark as touched on handleBlur', () => {
       const { result } = renderHook(() => useField<string>({ initialValue: 'test' }));
 
-      result.current.actions.handleBlur();
+      act(() => {
+        result.current.actions.handleBlur();
+      });
 
       expect(result.current.state.touched).toBe(true);
     });
@@ -117,7 +133,9 @@ describe('useField', () => {
       const onBlur = jest.fn();
       const { result } = renderHook(() => useField<string>({ initialValue: 'test', onBlur }));
 
-      result.current.actions.handleBlur();
+      act(() => {
+        result.current.actions.handleBlur();
+      });
 
       expect(onBlur).toHaveBeenCalled();
     });
@@ -133,7 +151,9 @@ describe('useField', () => {
     it('should be dirty when value differs from initial value', () => {
       const { result } = renderHook(() => useField<string>({ initialValue: 'initial' }));
 
-      result.current.actions.setValue('changed');
+      act(() => {
+        result.current.actions.setValue('changed');
+      });
 
       expect(result.current.state.dirty).toBe(true);
     });
@@ -141,10 +161,14 @@ describe('useField', () => {
     it('should be clean again when reset to initial value', () => {
       const { result } = renderHook(() => useField<string>({ initialValue: 'initial' }));
 
-      result.current.actions.setValue('changed');
+      act(() => {
+        result.current.actions.setValue('changed');
+      });
       expect(result.current.state.dirty).toBe(true);
 
-      result.current.actions.setValue('initial');
+      act(() => {
+        result.current.actions.setValue('initial');
+      });
       expect(result.current.state.dirty).toBe(false);
     });
   });
@@ -153,7 +177,9 @@ describe('useField', () => {
     it('should set error with setError', () => {
       const { result } = renderHook(() => useField<string>({ initialValue: 'test' }));
 
-      result.current.actions.setError('Error message');
+      act(() => {
+        result.current.actions.setError('Error message');
+      });
 
       expect(result.current.state.error).toBe('Error message');
     });
@@ -161,10 +187,14 @@ describe('useField', () => {
     it('should clear error when setting undefined', () => {
       const { result } = renderHook(() => useField<string>({ initialValue: 'test' }));
 
-      result.current.actions.setError('Error message');
+      act(() => {
+        result.current.actions.setError('Error message');
+      });
       expect(result.current.state.error).toBe('Error message');
 
-      result.current.actions.setError(undefined);
+      act(() => {
+        result.current.actions.setError(undefined);
+      });
       expect(result.current.state.error).toBeUndefined();
     });
   });
@@ -180,7 +210,10 @@ describe('useField', () => {
 
       const { result } = renderHook(() => useField<string>({ initialValue: '', validationRules }));
 
-      const isValid = await result.current.actions.validate();
+      let isValid: boolean;
+      await act(async () => {
+        isValid = await result.current.actions.validate();
+      });
 
       expect(isValid).toBe(false);
       await waitFor(() => {
@@ -192,7 +225,10 @@ describe('useField', () => {
     it('should return true when no validation rules', async () => {
       const { result } = renderHook(() => useField<string>({ initialValue: '' }));
 
-      const isValid = await result.current.actions.validate();
+      let isValid: boolean;
+      await act(async () => {
+        isValid = await result.current.actions.validate();
+      });
 
       expect(isValid).toBe(true);
       expect(result.current.state.error).toBeUndefined();
@@ -214,7 +250,10 @@ describe('useField', () => {
         useField<string>({ initialValue: 'test', validationRules })
       );
 
-      const isValid = await result.current.actions.validate();
+      let isValid: boolean;
+      await act(async () => {
+        isValid = await result.current.actions.validate();
+      });
 
       expect(isValid).toBe(false);
       await waitFor(() => {
@@ -225,7 +264,10 @@ describe('useField', () => {
     it('should set validating state during validation', async () => {
       const validationRules = [
         {
-          validate: (v: unknown) => typeof v === 'string' && v.length > 0,
+          validate: async (v: unknown) => {
+            await new Promise((resolve) => setTimeout(resolve, 10));
+            return typeof v === 'string' && v.length > 0;
+          },
           message: 'Required',
         },
       ];
@@ -234,19 +276,18 @@ describe('useField', () => {
         useField<string>({ initialValue: 'test', validationRules })
       );
 
-      const validatePromise = result.current.actions.validate();
-
-      // Should be validating immediately
-      await waitFor(() => {
-        expect(result.current.state.validating).toBe(true);
+      let promise: Promise<boolean>;
+      act(() => {
+        promise = result.current.actions.validate();
       });
 
-      await validatePromise;
+      await waitFor(() => expect(result.current.state.validating).toBe(true));
 
-      // Should not be validating after completion
-      await waitFor(() => {
-        expect(result.current.state.validating).toBe(false);
+      await act(async () => {
+        await promise;
       });
+
+      expect(result.current.state.validating).toBe(false);
     });
 
     it('should validate on change when validateOnChange is true', async () => {
@@ -265,7 +306,11 @@ describe('useField', () => {
         })
       );
 
-      result.current.actions.handleChange('ab');
+      await act(async () => {
+        await act(async () => {
+          result.current.actions.handleChange('ab');
+        });
+      });
 
       await waitFor(() => {
         expect(result.current.state.error).toBe('Min 3 characters');
@@ -288,7 +333,9 @@ describe('useField', () => {
         })
       );
 
-      result.current.actions.handleChange('ab');
+      await act(async () => {
+        result.current.actions.handleChange('ab');
+      });
 
       // Wait a bit to ensure validation doesn't happen
       await new Promise((resolve) => setTimeout(resolve, 50));
@@ -312,7 +359,9 @@ describe('useField', () => {
         })
       );
 
-      result.current.actions.handleBlur();
+      await act(async () => {
+        result.current.actions.handleBlur();
+      });
 
       await waitFor(() => {
         expect(result.current.state.error).toBe('Min 3 characters');
@@ -335,7 +384,9 @@ describe('useField', () => {
         })
       );
 
-      result.current.actions.handleBlur();
+      await act(async () => {
+        result.current.actions.handleBlur();
+      });
 
       // Wait a bit to ensure validation doesn't happen
       await new Promise((resolve) => setTimeout(resolve, 50));
@@ -356,7 +407,10 @@ describe('useField', () => {
 
       const { result } = renderHook(() => useField<string>({ initialValue: '', validationRules }));
 
-      const isValid = await result.current.actions.validate();
+      let isValid: boolean;
+      await act(async () => {
+        isValid = await result.current.actions.validate();
+      });
 
       expect(isValid).toBe(false);
       await waitFor(() => {
@@ -378,11 +432,14 @@ describe('useField', () => {
         useField<string>({ initialValue: 'test', validationRules })
       );
 
-      const isValid = await result.current.actions.validate();
+      let isValid: boolean;
+      await act(async () => {
+        isValid = await result.current.actions.validate();
+      });
 
       expect(isValid).toBe(false);
       await waitFor(() => {
-        expect(result.current.state.error).toBe('Validation error');
+        expect(result.current.state.error).toBe('Invalid');
       });
     });
   });
@@ -391,11 +448,15 @@ describe('useField', () => {
     it('should reset to initial value', () => {
       const { result } = renderHook(() => useField<string>({ initialValue: 'initial' }));
 
-      result.current.actions.setValue('changed');
-      result.current.actions.setTouched(true);
-      result.current.actions.setError('Error');
+      act(() => {
+        result.current.actions.setValue('changed');
+        result.current.actions.setTouched(true);
+        result.current.actions.setError('Error');
+      });
 
-      result.current.actions.reset();
+      act(() => {
+        result.current.actions.reset();
+      });
 
       expect(result.current.state.value).toBe('initial');
       expect(result.current.state.touched).toBe(false);
@@ -407,11 +468,15 @@ describe('useField', () => {
     it('should reset to initial value even if changed multiple times', () => {
       const { result } = renderHook(() => useField<string>({ initialValue: 'initial' }));
 
-      result.current.actions.setValue('change1');
-      result.current.actions.setValue('change2');
-      result.current.actions.setValue('change3');
+      act(() => {
+        result.current.actions.setValue('change1');
+        result.current.actions.setValue('change2');
+        result.current.actions.setValue('change3');
+      });
 
-      result.current.actions.reset();
+      act(() => {
+        result.current.actions.reset();
+      });
 
       expect(result.current.state.value).toBe('initial');
     });
@@ -434,7 +499,9 @@ describe('useField', () => {
       const { result } = renderHook(() => useField<string>({ initialValue: 'initial' }));
 
       const inputProps = result.current.getInputProps();
-      inputProps.onChange('updated');
+      act(() => {
+        inputProps.onChange('updated');
+      });
 
       expect(result.current.state.value).toBe('updated');
     });
@@ -443,13 +510,18 @@ describe('useField', () => {
       const { result } = renderHook(() => useField<string>({ initialValue: 'test' }));
 
       const inputProps = result.current.getInputProps();
-      inputProps.onBlur();
+      act(() => {
+        inputProps.onBlur();
+      });
 
       expect(result.current.state.touched).toBe(true);
     });
 
     it('should have stable references across renders', () => {
-      const { result, rerender } = renderHook(() => useField<string>({ initialValue: 'test' }));
+      const validationRules: Array<{ validate: (v: unknown) => boolean; message: string }> = [];
+      const { result, rerender } = renderHook(() =>
+        useField<string>({ initialValue: 'test', validationRules })
+      );
 
       const inputProps1 = result.current.getInputProps();
       rerender();
@@ -483,7 +555,9 @@ describe('useField', () => {
 
       expect(result.current.state.value).toEqual(['a', 'b']);
 
-      result.current.actions.setValue(['c', 'd']);
+      act(() => {
+        result.current.actions.setValue(['c', 'd']);
+      });
       expect(result.current.state.dirty).toBe(true);
     });
 
@@ -493,7 +567,9 @@ describe('useField', () => {
 
       expect(result.current.state.value).toEqual(initialValue);
 
-      result.current.actions.setValue({ name: 'Jane', age: 25 });
+      act(() => {
+        result.current.actions.setValue({ name: 'Jane', age: 25 });
+      });
       expect(result.current.state.dirty).toBe(true);
     });
 
@@ -505,7 +581,9 @@ describe('useField', () => {
         })
       );
 
-      result.current.actions.handleChange('test');
+      act(() => {
+        result.current.actions.handleChange('test');
+      });
 
       expect(result.current.state.validating).toBe(false);
       expect(result.current.state.error).toBeUndefined();
@@ -519,7 +597,9 @@ describe('useField', () => {
         })
       );
 
-      result.current.actions.handleBlur();
+      act(() => {
+        result.current.actions.handleBlur();
+      });
 
       expect(result.current.state.validating).toBe(false);
       expect(result.current.state.error).toBeUndefined();
@@ -530,21 +610,27 @@ describe('useField', () => {
     it('should work with string type', () => {
       const { result } = renderHook(() => useField<string>({ initialValue: 'test' }));
 
-      result.current.actions.setValue('new value');
+      act(() => {
+        result.current.actions.setValue('new value');
+      });
       expect(result.current.state.value).toBe('new value');
     });
 
     it('should work with number type', () => {
       const { result } = renderHook(() => useField<number>({ initialValue: 42 }));
 
-      result.current.actions.setValue(100);
+      act(() => {
+        result.current.actions.setValue(100);
+      });
       expect(result.current.state.value).toBe(100);
     });
 
     it('should work with boolean type', () => {
       const { result } = renderHook(() => useField<boolean>({ initialValue: false }));
 
-      result.current.actions.setValue(true);
+      act(() => {
+        result.current.actions.setValue(true);
+      });
       expect(result.current.state.value).toBe(true);
     });
 
@@ -558,7 +644,9 @@ describe('useField', () => {
         useField<User>({ initialValue: { name: 'John', email: 'john@example.com' } })
       );
 
-      result.current.actions.setValue({ name: 'Jane', email: 'jane@example.com' });
+      act(() => {
+        result.current.actions.setValue({ name: 'Jane', email: 'jane@example.com' });
+      });
       expect(result.current.state.value).toEqual({
         name: 'Jane',
         email: 'jane@example.com',

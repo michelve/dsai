@@ -307,7 +307,8 @@ export const WithLink: Story = {
 // =============================================================================
 
 /**
- * Dismissible alert with close button
+ * Dismissible alert with close button and Escape key support.
+ * Press Escape key to dismiss the alert when it's visible.
  */
 export const Dismissible: Story = {
   render: function DismissibleAlert() {
@@ -315,16 +316,27 @@ export const Dismissible: Story = {
 
     if (!show) {
       return (
-        <Button variant="primary" onClick={() => setShow(true)}>
-          Show Alert
-        </Button>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <Button variant="primary" onClick={() => setShow(true)}>
+            Show Alert
+          </Button>
+          <p style={{ fontSize: '0.875rem', color: '#666' }}>
+            Alert dismissed. Click button to show it again.
+          </p>
+        </div>
       );
     }
 
     return (
-      <Alert variant="warning" dismissible onClose={() => setShow(false)}>
-        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-      </Alert>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <Alert variant="warning" dismissible onClose={() => setShow(false)}>
+          <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+        </Alert>
+        <p style={{ fontSize: '0.875rem', color: '#666' }}>
+          <strong>Keyboard support:</strong> Press <kbd>Escape</kbd> to dismiss, or click the X
+          button.
+        </p>
+      </div>
     );
   },
 };

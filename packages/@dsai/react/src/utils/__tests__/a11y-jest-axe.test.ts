@@ -101,12 +101,23 @@ describe('Jest-Axe A11y Tests: Screen Reader Utilities', () => {
       const container = document.createElement('div');
       document.body.appendChild(container);
 
+      const labelEl = document.createElement('span');
+      labelEl.id = 'submit-label';
+      labelEl.textContent = 'Submit';
+      container.appendChild(labelEl);
+
+      const helpEl = document.createElement('div');
+      helpEl.id = 'submit-help';
+      helpEl.textContent = 'Submits the form';
+      container.appendChild(helpEl);
+
       const button = document.createElement('button');
       const ariaProps = buildAriaLabel({
         label: 'Submit form',
         labelledBy: 'submit-label',
         describedBy: 'submit-help',
       });
+      button.textContent = 'Submit';
 
       Object.entries(ariaProps).forEach(([key, value]) => {
         button.setAttribute(key, String(value));
@@ -147,6 +158,7 @@ describe('Jest-Axe A11y Tests: Screen Reader Utilities', () => {
       // Create input with aria-labelledby
       const input = document.createElement('input');
       input.type = 'email';
+      input.setAttribute('aria-label', 'Email Address');
       const ariaProps = buildAriaLabel({ labelledBy: 'email-label' });
 
       Object.entries(ariaProps).forEach(([key, value]) => {
@@ -167,6 +179,7 @@ describe('Jest-Axe A11y Tests: Screen Reader Utilities', () => {
       label.textContent = 'Password';
       const input = document.createElement('input');
       input.type = 'password';
+      input.setAttribute('aria-label', 'Password');
       label.appendChild(input);
       container.appendChild(label);
 
@@ -195,6 +208,7 @@ describe('Jest-Axe A11y Tests: Screen Reader Utilities', () => {
       label.textContent = 'Username';
       const input = document.createElement('input');
       input.type = 'text';
+      input.setAttribute('aria-label', 'Username');
       label.appendChild(input);
       container.appendChild(label);
 
@@ -238,6 +252,7 @@ describe('Jest-Axe A11y Tests: Screen Reader Utilities', () => {
       container.appendChild(desc2);
 
       const input = document.createElement('input');
+      input.setAttribute('aria-label', 'Input with descriptions');
       const combined = combineAriaDescriptions(['desc-1', 'desc-2']);
       input.setAttribute('aria-describedby', combined);
       container.appendChild(input);
@@ -251,6 +266,7 @@ describe('Jest-Axe A11y Tests: Screen Reader Utilities', () => {
       document.body.appendChild(container);
 
       const input = document.createElement('input');
+      input.setAttribute('aria-label', 'Input with optional description');
       const combined = combineAriaDescriptions([]);
       if (combined) {
         input.setAttribute('aria-describedby', combined);
@@ -271,6 +287,7 @@ describe('Jest-Axe A11y Tests: Screen Reader Utilities', () => {
       container.appendChild(desc);
 
       const input = document.createElement('input');
+      input.setAttribute('aria-label', 'Input with shared description');
       const combined = combineAriaDescriptions(['shared-desc', 'shared-desc']);
       input.setAttribute('aria-describedby', combined);
       container.appendChild(input);
@@ -356,12 +373,12 @@ describe('Jest-Axe A11y Tests: Focus Management', () => {
         return button;
       });
 
-      const cleanup = createRovingTabindex(items);
+      const manager = createRovingTabindex(items);
 
       const results = await axe(container);
       expect(results).toHaveNoViolations();
 
-      cleanup();
+      manager.destroy();
     });
 
     it('should create menu with roving tabindex and no violations', async () => {
@@ -377,7 +394,7 @@ describe('Jest-Axe A11y Tests: Focus Management', () => {
         return item;
       });
 
-      const cleanup = createRovingTabindex(menuItems);
+      const manager = createRovingTabindex(menuItems);
 
       // First item should be tabbable
       expect(menuItems[0].getAttribute('tabindex')).toBe('0');
@@ -385,7 +402,7 @@ describe('Jest-Axe A11y Tests: Focus Management', () => {
       const results = await axe(container);
       expect(results).toHaveNoViolations();
 
-      cleanup();
+      manager.destroy();
     });
 
     it('should handle list navigation with no violations', async () => {
@@ -401,12 +418,12 @@ describe('Jest-Axe A11y Tests: Focus Management', () => {
         return item;
       });
 
-      const cleanup = createRovingTabindex(listItems);
+      const manager = createRovingTabindex(listItems);
 
       const results = await axe(container);
       expect(results).toHaveNoViolations();
 
-      cleanup();
+      manager.destroy();
     });
 
     it('should create tablist with roving tabindex and no violations', async () => {
@@ -418,17 +435,33 @@ describe('Jest-Axe A11y Tests: Focus Management', () => {
         const tab = document.createElement('button');
         tab.setAttribute('role', 'tab');
         tab.textContent = `Tab ${i + 1}`;
+        tab.id = `tab-${i + 1}`;
         tab.setAttribute('aria-controls', `panel-${i + 1}`);
         container.appendChild(tab);
         return tab;
       });
 
-      const cleanup = createRovingTabindex(tabs);
+      const panelsContainer = document.createElement('div');
+      panelsContainer.setAttribute('aria-label', 'Tab panels');
+      document.body.appendChild(panelsContainer);
+
+      // Create corresponding tab panels to satisfy aria-controls references
+      Array.from({ length: 3 }, (_, i) => {
+        const panel = document.createElement('div');
+        panel.id = `panel-${i + 1}`;
+        panel.setAttribute('role', 'tabpanel');
+        panel.setAttribute('aria-labelledby', `tab-${i + 1}`);
+        panel.textContent = `Panel ${i + 1}`;
+        panelsContainer.appendChild(panel);
+        return panel;
+      });
+
+      const manager = createRovingTabindex(tabs);
 
       const results = await axe(container);
       expect(results).toHaveNoViolations();
 
-      cleanup();
+      manager.destroy();
     });
   });
 
@@ -546,6 +579,7 @@ describe('Jest-Axe A11y Tests: Complex ARIA Patterns', () => {
     const combobox = document.createElement('input');
     combobox.id = comboboxId;
     combobox.setAttribute('role', 'combobox');
+    combobox.setAttribute('aria-label', 'Choose option');
     combobox.setAttribute('aria-expanded', 'false');
     combobox.setAttribute('aria-controls', listboxId);
     combobox.setAttribute('aria-autocomplete', 'list');

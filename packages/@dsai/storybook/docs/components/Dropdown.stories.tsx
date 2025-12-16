@@ -754,8 +754,8 @@ export const Callbacks: Story = {
         <div style={{ marginTop: '1rem', fontFamily: 'monospace', fontSize: '0.875rem' }}>
           <strong>Events:</strong>
           <ul style={{ margin: 0, paddingLeft: '1.5rem' }}>
-            {events.map((event, i) => (
-              <li key={i}>{event}</li>
+            {events.map((event) => (
+              <li key={event}>{event}</li>
             ))}
           </ul>
         </div>

@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 
+import { isBrowser } from '../../utils/browser/isBrowser';
+
 /**
  * Tracks whether the component is currently mounted.
  *
@@ -73,7 +75,20 @@ export function useMounted(): React.RefObject<boolean> {
   const mountedRef = useRef(false);
 
   useEffect(() => {
-    mountedRef.current = true;
+    if (!isBrowser()) {
+      return;
+    }
+
+    const markMounted = (): void => {
+      mountedRef.current = true;
+    };
+
+    if (typeof queueMicrotask === 'function') {
+      queueMicrotask(markMounted);
+    } else {
+      setTimeout(markMounted, 0);
+    }
+
     return () => {
       mountedRef.current = false;
     };

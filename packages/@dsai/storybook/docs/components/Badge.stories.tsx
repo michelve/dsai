@@ -27,7 +27,7 @@ import type { JSX } from 'react';
  * - Accessibility: aria-label required for dot-only badges (shows dev warning if missing)
  * - forwardRef support for direct DOM access when needed
  *
- * Performance Optimizations (A Grade - 95/100):
+ * Performance Optimizations:
  * - React.memo prevents unnecessary re-renders
  * - Memoized class name construction with useMemo
  * - Memoized content detection (hasVisibleContent)
@@ -430,24 +430,72 @@ export const AccessibilityShowcase: Story = {
 };
 
 /**
- * Proper dot-only usage with aria-label
+ * Proper dot-only usage with aria-label vs incorrect usage (shows dev warning in console)
  */
 export const ProperDotOnlyUsage: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       <div>
-        <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem' }}>
+        <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem', fontWeight: 600 }}>
           <CheckIcon size={14} className="text-success me-1" />
           Correct: Dot-only with aria-label
         </p>
-        <Badge variant="success" dot aria-label="Online" />
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <Badge variant="success" dot aria-label="Online" />
+          <code
+            style={{
+              fontSize: '0.75rem',
+              background: '#f8f9fa',
+              padding: '0.25rem 0.5rem',
+              borderRadius: '4px',
+            }}
+          >
+            &lt;Badge dot aria-label=&quot;Online&quot; /&gt;
+          </code>
+        </div>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.25rem' }}>
+          Screen readers announce: &quot;Online&quot;
+        </p>
       </div>
       <div>
-        <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem' }}>
+        <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem', fontWeight: 600 }}>
           <XLgIcon size={14} className="text-danger me-1" />
-          Incorrect: Dot-only without aria-label (check console for warning)
+          Incorrect: Dot-only without aria-label
         </p>
-        <Badge variant="danger" dot />
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <Badge variant="danger" dot />
+          <code
+            style={{
+              fontSize: '0.75rem',
+              background: '#fff3cd',
+              padding: '0.25rem 0.5rem',
+              borderRadius: '4px',
+              border: '1px solid #ffc107',
+            }}
+          >
+            &lt;Badge dot /&gt;
+          </code>
+        </div>
+        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.25rem' }}>
+          <strong>Dev Warning:</strong> Check browser console for accessibility warning
+        </p>
+      </div>
+      <div
+        style={{
+          background: '#f8f9fa',
+          padding: '1rem',
+          borderRadius: '8px',
+          borderLeft: '4px solid #0d6efd',
+        }}
+      >
+        <p style={{ fontSize: '0.875rem', margin: 0, fontWeight: 600, marginBottom: '0.5rem' }}>
+          Accessibility Tip
+        </p>
+        <p style={{ fontSize: '0.875rem', margin: 0, color: '#666' }}>
+          Dot-only badges must have an <code>aria-label</code> so screen reader users understand
+          what the status indicator means. The component shows a helpful dev warning to catch this
+          during development.
+        </p>
       </div>
     </div>
   ),
@@ -680,9 +728,9 @@ export const CompleteShowcase: Story = {
       {/* Accessibility */}
       <div>
         <Heading level={4} style={{ marginBottom: '0.5rem' }}>
-          Accessibility & Performance (A Grade)
+          Accessibility & Performance
         </Heading>
-        <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem' }}>
+        <p>
           Icons are hidden from screen readers. Dots are smart: hidden when content exists, but
           visible for dot-only indicators. Component uses React.memo + memoized class construction
           for optimal performance in lists and high-frequency re-renders.

@@ -127,22 +127,28 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
   const [currentValue, setCurrentValue] = useControllableState<string>({
     value: value !== undefined ? String(value) : undefined,
     defaultValue: String(defaultValue ?? ''),
-    onChange: (newValue) => {
-      // For backward compatibility, create a synthetic event when calling onChange
-      if (onChange) {
-        const syntheticEvent = {
-          target: { value: newValue },
-          currentTarget: { value: newValue },
-        } as ChangeEvent<HTMLInputElement>;
-        onChange(syntheticEvent);
+    onChange: (newValue, event) => {
+      if (!onChange) {
+        return;
       }
+      if (event) {
+        onChange(event as ChangeEvent<HTMLInputElement>);
+        return;
+      }
+
+      // Fallback synthetic event for programmatic updates (e.g., clear button)
+      const syntheticEvent = {
+        target: { value: newValue, type },
+        currentTarget: { value: newValue, type },
+      } as unknown as ChangeEvent<HTMLInputElement>;
+      onChange(syntheticEvent);
     },
   });
 
   // Memoize event handlers
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
-      setCurrentValue(e.target.value);
+      setCurrentValue(e.target.value, e);
     },
     [setCurrentValue]
   );

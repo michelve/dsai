@@ -16,10 +16,7 @@
           "darkMode": "false"
         }
       },
-      "$scopes": [
-        "ALL_FILLS",
-        "STROKE_COLOR"
-      ],
+      "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
       "comment": "$primary"
     },
     "secondary": {
@@ -34,10 +31,7 @@
           "scssVariableName": "$secondary"
         }
       },
-      "$scopes": [
-        "ALL_FILLS",
-        "STROKE_COLOR"
-      ],
+      "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
       "comment": "$secondary"
     },
     "success": {
@@ -52,9 +46,7 @@
           "scssVariableName": "$success"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$success"
     },
     "info": {
@@ -69,9 +61,7 @@
           "scssVariableName": "$info"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$info"
     },
     "warning": {
@@ -86,9 +76,7 @@
           "scssVariableName": "$warning"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$warning"
     },
     "danger": {
@@ -103,9 +91,7 @@
           "scssVariableName": "$danger"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$danger"
     },
     "light": {
@@ -120,9 +106,7 @@
           "scssVariableName": "$light"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$light"
     },
     "dark": {
@@ -137,9 +121,7 @@
           "scssVariableName": "$dark"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "comment": "$dark"
     }
   }

@@ -82,7 +82,7 @@ export function useControllableState<T>({
 
   // Warn if component switches between controlled and uncontrolled (in effect, not during render)
   useEffect(() => {
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env['NODE_ENV'] !== 'production') {
       if (wasControlledRef.current !== isControlled) {
         console.warn(
           `useControllableState: A component changed from ${
@@ -103,7 +103,7 @@ export function useControllableState<T>({
 
   // Stable setValue function
   const setValue = useCallback(
-    (nextValue: T | ((prev: T) => T)) => {
+    (nextValue: T | ((prev: T) => T), event?: unknown) => {
       const resolvedValue =
         typeof nextValue === 'function' ? (nextValue as (prev: T) => T)(value) : nextValue;
 
@@ -113,7 +113,11 @@ export function useControllableState<T>({
       }
 
       // Always call onChange if provided
-      onChange?.(resolvedValue);
+      if (event === undefined) {
+        onChange?.(resolvedValue);
+      } else {
+        onChange?.(resolvedValue, event);
+      }
     },
     [value, onChange, isControlled]
   );

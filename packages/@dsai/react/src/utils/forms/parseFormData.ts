@@ -60,7 +60,7 @@ const DANGEROUS_KEYS = new Set([
 ]);
 
 // Only allow alphanumeric keys with common separators
-const SAFE_KEY_PATTERN = /^[a-zA-Z0-9_.\[\]-]+$/;
+const SAFE_KEY_PATTERN = /^[a-zA-Z0-9_.[\]-]+$/;
 
 /**
  * Check if a key or any of its parts is dangerous (prototype pollution risk)

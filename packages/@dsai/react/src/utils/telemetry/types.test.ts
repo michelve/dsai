@@ -58,28 +58,21 @@ describe('TelemetryContext Types', () => {
 
     it('returns false for array', () => {
       const context = ['item1', 'item2'];
-
-      // biome-ignore lint/suspicious/noExplicitAny: Testing type guard with invalid input
-      expect(isTelemetryContext(context as any)).toBe(false);
+      expect(isTelemetryContext(context as unknown as TelemetryContext)).toBe(false);
     });
 
     it('returns false for null', () => {
-      // biome-ignore lint/suspicious/noExplicitAny: Testing type guard with invalid input
-      expect(isTelemetryContext(null as any)).toBe(false);
+      expect(isTelemetryContext(null as unknown as TelemetryContext)).toBe(false);
     });
 
     it('returns false for undefined', () => {
-      // biome-ignore lint/suspicious/noExplicitAny: Testing type guard with invalid input
-      expect(isTelemetryContext(undefined as any)).toBe(false);
+      expect(isTelemetryContext(undefined as unknown as TelemetryContext)).toBe(false);
     });
 
     it('returns false for primitive values', () => {
-      // biome-ignore lint/suspicious/noExplicitAny: Testing type guard with invalid input
-      expect(isTelemetryContext('string' as any)).toBe(false);
-      // biome-ignore lint/suspicious/noExplicitAny: Testing type guard with invalid input
-      expect(isTelemetryContext(123 as any)).toBe(false);
-      // biome-ignore lint/suspicious/noExplicitAny: Testing type guard with invalid input
-      expect(isTelemetryContext(true as any)).toBe(false);
+      expect(isTelemetryContext('string' as unknown as TelemetryContext)).toBe(false);
+      expect(isTelemetryContext(123 as unknown as TelemetryContext)).toBe(false);
+      expect(isTelemetryContext(true as unknown as TelemetryContext)).toBe(false);
     });
   });
 

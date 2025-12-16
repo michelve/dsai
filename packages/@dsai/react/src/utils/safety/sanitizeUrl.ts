@@ -79,8 +79,15 @@ function decodeRecursively(url: string, maxIterations = 10): string {
  * Remove null bytes and other dangerous invisible characters
  */
 function removeInvisibleChars(url: string): string {
-  // eslint-disable-next-line no-control-regex
-  return url.replace(/[\x00-\x1f\x7f]/g, '');
+  // Filter out ASCII control characters (0x00-0x1f) and DEL (0x7f) without regex
+  let cleaned = '';
+  for (let i = 0; i < url.length; i++) {
+    const code = url.charCodeAt(i);
+    if (code >= 0x20 && code !== 0x7f) {
+      cleaned += url[i];
+    }
+  }
+  return cleaned;
 }
 
 /**

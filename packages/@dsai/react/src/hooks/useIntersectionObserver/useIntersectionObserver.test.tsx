@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 
 import { useIntersectionObserver } from './useIntersectionObserver';
 
@@ -49,10 +49,18 @@ beforeAll(() => {
 });
 
 beforeEach(() => {
-  global.IntersectionObserver = jest.fn((callback, options) => {
+  mockObserverInstance = undefined as unknown as MockIntersectionObserver;
+
+  const observerFactory = jest.fn((callback, options) => {
     mockObserverInstance = new MockIntersectionObserver(callback, options);
     return mockObserverInstance;
   }) as unknown as typeof IntersectionObserver;
+
+  global.IntersectionObserver = observerFactory;
+  // Ensure window has the mock so the hook's feature detection passes
+  (
+    window as unknown as { IntersectionObserver: typeof IntersectionObserver }
+  ).IntersectionObserver = observerFactory;
 });
 
 afterEach(() => {
@@ -82,18 +90,15 @@ describe('useIntersectionObserver', () => {
     });
 
     it('should create IntersectionObserver when element is attached', async () => {
-      const { result } = renderHook(() => useIntersectionObserver());
+      const { result, rerender } = renderHook(() => useIntersectionObserver());
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
-      // Trigger effect
-      const { rerender } = renderHook(() => useIntersectionObserver());
-      rerender();
-
-      await new Promise((resolve) => setTimeout(resolve, 10));
-
-      expect(global.IntersectionObserver).toHaveBeenCalled();
+      await waitFor(() => expect(global.IntersectionObserver).toHaveBeenCalled());
       expect(mockObserverInstance?.observe).toHaveBeenCalledWith(element);
     });
 
@@ -101,8 +106,12 @@ describe('useIntersectionObserver', () => {
       const { result, rerender } = renderHook(() => useIntersectionObserver());
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
+
+      await waitFor(() => expect(global.IntersectionObserver).toHaveBeenCalled());
 
       // Manually trigger intersection
       const mockEntry: IntersectionObserverEntry = {
@@ -115,11 +124,9 @@ describe('useIntersectionObserver', () => {
         time: Date.now(),
       };
 
-      if (mockObserverInstance) {
-        mockObserverInstance.callback([mockEntry], mockObserverInstance);
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await act(async () => {
+        mockObserverInstance?.callback([mockEntry], mockObserverInstance);
+      });
       rerender();
 
       expect(result.current.entry).toBeDefined();
@@ -129,13 +136,13 @@ describe('useIntersectionObserver', () => {
 
   describe('Threshold Option', () => {
     it('should pass threshold to IntersectionObserver', () => {
-      const { result } = renderHook(() => useIntersectionObserver({ threshold: 0.5 }));
+      const { result, rerender } = renderHook(() => useIntersectionObserver({ threshold: 0.5 }));
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-
-      const { rerender } = renderHook(() => useIntersectionObserver({ threshold: 0.5 }));
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       expect(global.IntersectionObserver).toHaveBeenCalledWith(
         expect.any(Function),
@@ -144,13 +151,15 @@ describe('useIntersectionObserver', () => {
     });
 
     it('should support array of thresholds', () => {
-      const { result } = renderHook(() => useIntersectionObserver({ threshold: [0, 0.5, 1.0] }));
+      const { result, rerender } = renderHook(() =>
+        useIntersectionObserver({ threshold: [0, 0.5, 1.0] })
+      );
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-
-      const { rerender } = renderHook(() => useIntersectionObserver({ threshold: [0, 0.5, 1.0] }));
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       expect(global.IntersectionObserver).toHaveBeenCalledWith(
         expect.any(Function),
@@ -159,13 +168,13 @@ describe('useIntersectionObserver', () => {
     });
 
     it('should default threshold to 0', () => {
-      const { result } = renderHook(() => useIntersectionObserver());
+      const { result, rerender } = renderHook(() => useIntersectionObserver());
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-
-      const { rerender } = renderHook(() => useIntersectionObserver());
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       expect(global.IntersectionObserver).toHaveBeenCalledWith(
         expect.any(Function),
@@ -177,13 +186,13 @@ describe('useIntersectionObserver', () => {
   describe('Root and RootMargin Options', () => {
     it('should pass root to IntersectionObserver', () => {
       const rootElement = document.createElement('div');
-      const { result } = renderHook(() => useIntersectionObserver({ root: rootElement }));
+      const { result, rerender } = renderHook(() => useIntersectionObserver({ root: rootElement }));
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-
-      const { rerender } = renderHook(() => useIntersectionObserver({ root: rootElement }));
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       expect(global.IntersectionObserver).toHaveBeenCalledWith(
         expect.any(Function),
@@ -192,13 +201,15 @@ describe('useIntersectionObserver', () => {
     });
 
     it('should pass rootMargin to IntersectionObserver', () => {
-      const { result } = renderHook(() => useIntersectionObserver({ rootMargin: '100px' }));
+      const { result, rerender } = renderHook(() =>
+        useIntersectionObserver({ rootMargin: '100px' })
+      );
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-
-      const { rerender } = renderHook(() => useIntersectionObserver({ rootMargin: '100px' }));
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       expect(global.IntersectionObserver).toHaveBeenCalledWith(
         expect.any(Function),
@@ -207,13 +218,13 @@ describe('useIntersectionObserver', () => {
     });
 
     it('should default rootMargin to 0px', () => {
-      const { result } = renderHook(() => useIntersectionObserver());
+      const { result, rerender } = renderHook(() => useIntersectionObserver());
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-
-      const { rerender } = renderHook(() => useIntersectionObserver());
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       expect(global.IntersectionObserver).toHaveBeenCalledWith(
         expect.any(Function),
@@ -229,8 +240,12 @@ describe('useIntersectionObserver', () => {
       );
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
+
+      await waitFor(() => expect(global.IntersectionObserver).toHaveBeenCalled());
 
       // Simulate element becoming visible
       const mockEntry: IntersectionObserverEntry = {
@@ -243,11 +258,9 @@ describe('useIntersectionObserver', () => {
         time: Date.now(),
       };
 
-      if (mockObserverInstance) {
-        mockObserverInstance.callback([mockEntry], mockObserverInstance);
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await act(async () => {
+        mockObserverInstance?.callback([mockEntry], mockObserverInstance);
+      });
       rerender();
 
       expect(mockObserverInstance?.disconnect).toHaveBeenCalled();
@@ -259,8 +272,12 @@ describe('useIntersectionObserver', () => {
       );
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
+
+      await waitFor(() => expect(global.IntersectionObserver).toHaveBeenCalled());
 
       // Simulate element not visible
       const mockEntry: IntersectionObserverEntry = {
@@ -273,11 +290,9 @@ describe('useIntersectionObserver', () => {
         time: Date.now(),
       };
 
-      if (mockObserverInstance) {
-        mockObserverInstance.callback([mockEntry], mockObserverInstance);
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await act(async () => {
+        mockObserverInstance?.callback([mockEntry], mockObserverInstance);
+      });
       rerender();
 
       expect(mockObserverInstance?.disconnect).not.toHaveBeenCalled();
@@ -289,8 +304,12 @@ describe('useIntersectionObserver', () => {
       );
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
+
+      await waitFor(() => expect(global.IntersectionObserver).toHaveBeenCalled());
 
       // Simulate element becoming visible
       const mockEntry: IntersectionObserverEntry = {
@@ -303,12 +322,10 @@ describe('useIntersectionObserver', () => {
         time: Date.now(),
       };
 
-      if (mockObserverInstance) {
-        mockObserverInstance.disconnect.mockClear();
-        mockObserverInstance.callback([mockEntry], mockObserverInstance);
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      mockObserverInstance?.disconnect.mockClear();
+      await act(async () => {
+        mockObserverInstance?.callback([mockEntry], mockObserverInstance);
+      });
       rerender();
 
       // Should not disconnect when freezeOnceVisible is false
@@ -322,8 +339,15 @@ describe('useIntersectionObserver', () => {
       const { result, rerender } = renderHook(() => useIntersectionObserver({ onChange }));
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
+
+      await waitFor(() => expect(global.IntersectionObserver).toHaveBeenCalled());
+
+      await waitFor(() => expect(onChange).toHaveBeenCalled());
+      onChange.mockClear();
 
       const mockEntry: IntersectionObserverEntry = {
         target: element,
@@ -335,11 +359,9 @@ describe('useIntersectionObserver', () => {
         time: Date.now(),
       };
 
-      if (mockObserverInstance) {
-        mockObserverInstance.callback([mockEntry], mockObserverInstance);
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await act(async () => {
+        mockObserverInstance?.callback([mockEntry], mockObserverInstance);
+      });
 
       expect(onChange).toHaveBeenCalledWith(mockEntry);
       expect(onChange).toHaveBeenCalledTimes(1);
@@ -350,8 +372,15 @@ describe('useIntersectionObserver', () => {
       const { result, rerender } = renderHook(() => useIntersectionObserver({ onChange }));
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
+
+      await waitFor(() => expect(global.IntersectionObserver).toHaveBeenCalled());
+
+      await waitFor(() => expect(onChange).toHaveBeenCalled());
+      onChange.mockClear();
 
       // First intersection
       const mockEntry1: IntersectionObserverEntry = {
@@ -364,11 +393,9 @@ describe('useIntersectionObserver', () => {
         time: Date.now(),
       };
 
-      if (mockObserverInstance) {
-        mockObserverInstance.callback([mockEntry1], mockObserverInstance);
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await act(async () => {
+        mockObserverInstance?.callback([mockEntry1], mockObserverInstance);
+      });
 
       // Second intersection
       const mockEntry2: IntersectionObserverEntry = {
@@ -381,11 +408,9 @@ describe('useIntersectionObserver', () => {
         time: Date.now() + 100,
       };
 
-      if (mockObserverInstance) {
-        mockObserverInstance.callback([mockEntry2], mockObserverInstance);
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await act(async () => {
+        mockObserverInstance?.callback([mockEntry2], mockObserverInstance);
+      });
 
       expect(onChange).toHaveBeenCalledTimes(2);
       expect(onChange).toHaveBeenNthCalledWith(1, mockEntry1);
@@ -395,37 +420,37 @@ describe('useIntersectionObserver', () => {
 
   describe('Enabled Option', () => {
     it('should not create observer when enabled is false', () => {
-      const { result } = renderHook(() => useIntersectionObserver({ enabled: false }));
+      const { result, rerender } = renderHook(() => useIntersectionObserver({ enabled: false }));
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-
-      const { rerender } = renderHook(() => useIntersectionObserver({ enabled: false }));
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       expect(global.IntersectionObserver).not.toHaveBeenCalled();
     });
 
     it('should create observer when enabled is true', () => {
-      const { result } = renderHook(() => useIntersectionObserver({ enabled: true }));
+      const { result, rerender } = renderHook(() => useIntersectionObserver({ enabled: true }));
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-
-      const { rerender } = renderHook(() => useIntersectionObserver({ enabled: true }));
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       expect(global.IntersectionObserver).toHaveBeenCalled();
     });
 
     it('should be enabled by default', () => {
-      const { result } = renderHook(() => useIntersectionObserver());
+      const { result, rerender } = renderHook(() => useIntersectionObserver());
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-
-      const { rerender } = renderHook(() => useIntersectionObserver());
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       expect(global.IntersectionObserver).toHaveBeenCalled();
     });
@@ -436,8 +461,12 @@ describe('useIntersectionObserver', () => {
       const { result, unmount, rerender } = renderHook(() => useIntersectionObserver());
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
+
+      expect(global.IntersectionObserver).toHaveBeenCalled();
 
       unmount();
 
@@ -451,8 +480,10 @@ describe('useIntersectionObserver', () => {
       );
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender({ threshold: 0 });
+      act(() => {
+        result.current.ref.current = element;
+        rerender({ threshold: 0 });
+      });
 
       const firstObserver = mockObserverInstance;
 
@@ -481,17 +512,26 @@ describe('useIntersectionObserver', () => {
 
     it('should handle empty entries array', async () => {
       const onChange = jest.fn();
+
+      mockObserverInstance = undefined as unknown as MockIntersectionObserver;
+      const observerFactory = jest.fn((callback, options) => {
+        mockObserverInstance = new MockIntersectionObserver(callback, options);
+        mockObserverInstance.observe = jest.fn();
+        return mockObserverInstance;
+      }) as unknown as typeof IntersectionObserver;
+      global.IntersectionObserver = observerFactory;
+
       const { result, rerender } = renderHook(() => useIntersectionObserver({ onChange }));
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
-      if (mockObserverInstance) {
-        mockObserverInstance.callback([], mockObserverInstance);
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 10));
+      await act(async () => {
+        mockObserverInstance?.callback([], mockObserverInstance);
+      });
 
       expect(onChange).not.toHaveBeenCalled();
     });
@@ -518,8 +558,10 @@ describe('useIntersectionObserver', () => {
       const { result, rerender } = renderHook(() => useIntersectionObserver());
 
       const element = document.createElement('div');
-      result.current.ref.current = element;
-      rerender();
+      act(() => {
+        result.current.ref.current = element;
+        rerender();
+      });
 
       expect(consoleWarn).toHaveBeenCalledWith(
         'IntersectionObserver is not supported in this browser'

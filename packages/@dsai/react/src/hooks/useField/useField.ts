@@ -147,18 +147,46 @@ export function useField<T = unknown>({
     }
 
     setValidating(true);
+    let result: { valid: boolean; error?: string } = { valid: true, error: undefined };
+
+    const runRules = async (): Promise<{ valid: boolean; error?: string }> => {
+      for (const rule of validationRules) {
+        try {
+          const isValidRule = await rule.validate(value);
+          if (!isValidRule) {
+            return { valid: false, error: rule.message };
+          }
+        } catch {
+          return { valid: false, error: rule.message ?? 'Validation error' };
+        }
+      }
+      return { valid: true };
+    };
 
     try {
-      const result = await validateFieldUtil(value, validationRules);
+      // Primary validation path with full async support
+      result = await runRules();
+
+      // If the shared validator returns an explicit error, prefer it
+      try {
+        const utilResult = await validateFieldUtil(value, validationRules);
+        if (utilResult && (!utilResult.valid || utilResult.error)) {
+          result = utilResult;
+        }
+      } catch {
+        // Ignore util failures and keep the primary result
+      }
+    } catch {
+      result = { valid: false, error: 'Validation error' };
+    } finally {
       setError(result.error);
       setValidating(false);
-      return result.valid;
-    } catch {
-      // Handle validation errors
-      setError('Validation error');
-      setValidating(false);
-      return false;
     }
+
+    // Allow state updates to flush before resolving
+    await Promise.resolve();
+
+    return result.valid;
   }, [value, validationRules]);
 
   // Handle change

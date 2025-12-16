@@ -42,8 +42,11 @@ beforeAll(() => {
 
 beforeEach(() => {
   // Ensure performance exists and has the methods we need for spying
-  const perf = ((globalThis as any).performance ||
-    ((globalThis as any).performance = {})) as Performance & {
+  const existingPerf = (globalThis as any).performance as Performance | undefined;
+  if (!existingPerf) {
+    (globalThis as any).performance = {} as Performance;
+  }
+  const perf = (globalThis as any).performance as Performance & {
     mark?: Performance['mark'];
     measure?: Performance['measure'];
     clearMarks?: Performance['clearMarks'];
@@ -51,11 +54,21 @@ beforeEach(() => {
     now?: Performance['now'];
   };
 
-  if (typeof perf.now !== 'function') perf.now = Date.now;
-  if (typeof perf.mark !== 'function') perf.mark = () => undefined;
-  if (typeof perf.measure !== 'function') perf.measure = () => undefined;
-  if (typeof perf.clearMarks !== 'function') perf.clearMarks = () => undefined;
-  if (typeof perf.clearMeasures !== 'function') perf.clearMeasures = () => undefined;
+  if (typeof perf.now !== 'function') {
+    perf.now = Date.now;
+  }
+  if (typeof perf.mark !== 'function') {
+    perf.mark = () => undefined;
+  }
+  if (typeof perf.measure !== 'function') {
+    perf.measure = () => undefined;
+  }
+  if (typeof perf.clearMarks !== 'function') {
+    perf.clearMarks = () => undefined;
+  }
+  if (typeof perf.clearMeasures !== 'function') {
+    perf.clearMeasures = () => undefined;
+  }
 
   nowSpy = jest.spyOn(perf, 'now').mockReturnValue(1000);
   markSpy = jest.spyOn(perf, 'mark').mockImplementation(() => undefined);

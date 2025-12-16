@@ -1,6 +1,12 @@
-import { renderHook } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 
 import { useKeyPress } from './useKeyPress';
+
+const dispatchKey = (event: KeyboardEvent, target: EventTarget = window) => {
+  act(() => {
+    target.dispatchEvent(event);
+  });
+};
 
 describe('useKeyPress', () => {
   describe('Basic Functionality', () => {
@@ -16,7 +22,7 @@ describe('useKeyPress', () => {
       renderHook(() => useKeyPress('Enter', callback));
 
       const event = new KeyboardEvent('keydown', { key: 'Enter' });
-      window.dispatchEvent(event);
+      dispatchKey(event);
 
       expect(callback).toHaveBeenCalledWith(event);
       expect(callback).toHaveBeenCalledTimes(1);
@@ -28,17 +34,17 @@ describe('useKeyPress', () => {
 
       // Test first key
       const eventA = new KeyboardEvent('keydown', { key: 'a' });
-      window.dispatchEvent(eventA);
+      dispatchKey(eventA);
       expect(callback).toHaveBeenCalledWith(eventA);
 
       // Test middle key
       const eventB = new KeyboardEvent('keydown', { key: 'b' });
-      window.dispatchEvent(eventB);
+      dispatchKey(eventB);
       expect(callback).toHaveBeenCalledWith(eventB);
 
       // Test last key
       const eventC = new KeyboardEvent('keydown', { key: 'c' });
-      window.dispatchEvent(eventC);
+      dispatchKey(eventC);
       expect(callback).toHaveBeenCalledWith(eventC);
 
       expect(callback).toHaveBeenCalledTimes(3);
@@ -50,12 +56,12 @@ describe('useKeyPress', () => {
 
       // Lower case key event
       const eventLower = new KeyboardEvent('keydown', { key: 'a' });
-      window.dispatchEvent(eventLower);
+      dispatchKey(eventLower);
       expect(callback).toHaveBeenCalledWith(eventLower);
 
       // Upper case key event
       const eventUpper = new KeyboardEvent('keydown', { key: 'A' });
-      window.dispatchEvent(eventUpper);
+      dispatchKey(eventUpper);
       expect(callback).toHaveBeenCalledWith(eventUpper);
 
       expect(callback).toHaveBeenCalledTimes(2);
@@ -66,63 +72,77 @@ describe('useKeyPress', () => {
       renderHook(() => useKeyPress('Enter', callback));
 
       const event = new KeyboardEvent('keydown', { key: 'Escape' });
-      window.dispatchEvent(event);
+      dispatchKey(event);
 
       expect(callback).not.toHaveBeenCalled();
     });
   });
 
   describe('Pressed State', () => {
-    it('should return true when key is pressed down', () => {
+    it('should return true when key is pressed down', async () => {
       const callback = jest.fn();
       const { result } = renderHook(() => useKeyPress('Space', callback));
 
       expect(result.current).toBe(false);
 
       const event = new KeyboardEvent('keydown', { key: 'Space' });
-      window.dispatchEvent(event);
+      await act(async () => {
+        dispatchKey(event);
+      });
 
-      expect(result.current).toBe(true);
+      await waitFor(() => expect(result.current).toBe(true));
     });
 
-    it('should return false when key is released', () => {
+    it('should return false when key is released', async () => {
       const callback = jest.fn();
       const { result } = renderHook(() => useKeyPress('a', callback));
 
       // Press key down
       const keydownEvent = new KeyboardEvent('keydown', { key: 'a' });
-      window.dispatchEvent(keydownEvent);
-      expect(result.current).toBe(true);
+      await act(async () => {
+        dispatchKey(keydownEvent);
+      });
+      await waitFor(() => expect(result.current).toBe(true));
 
       // Release key
       const keyupEvent = new KeyboardEvent('keyup', { key: 'a' });
-      window.dispatchEvent(keyupEvent);
-      expect(result.current).toBe(false);
+      await act(async () => {
+        dispatchKey(keyupEvent);
+      });
+      await waitFor(() => expect(result.current).toBe(false));
     });
 
-    it('should track pressed state for multiple keys', () => {
+    it('should track pressed state for multiple keys', async () => {
       const callback = jest.fn();
       const { result } = renderHook(() => useKeyPress(['Shift', 'Control'], callback));
 
       // Press Shift
       const shiftDown = new KeyboardEvent('keydown', { key: 'Shift' });
-      window.dispatchEvent(shiftDown);
-      expect(result.current).toBe(true);
+      await act(async () => {
+        dispatchKey(shiftDown);
+      });
+      await waitFor(() => expect(result.current).toBe(true));
 
       // Release Shift
       const shiftUp = new KeyboardEvent('keyup', { key: 'Shift' });
-      window.dispatchEvent(shiftUp);
-      expect(result.current).toBe(false);
+      await act(async () => {
+        dispatchKey(shiftUp);
+      });
+      await waitFor(() => expect(result.current).toBe(false));
 
       // Press Control
       const ctrlDown = new KeyboardEvent('keydown', { key: 'Control' });
-      window.dispatchEvent(ctrlDown);
-      expect(result.current).toBe(true);
+      await act(async () => {
+        dispatchKey(ctrlDown);
+      });
+      await waitFor(() => expect(result.current).toBe(true));
 
       // Release Control
       const ctrlUp = new KeyboardEvent('keyup', { key: 'Control' });
-      window.dispatchEvent(ctrlUp);
-      expect(result.current).toBe(false);
+      await act(async () => {
+        dispatchKey(ctrlUp);
+      });
+      await waitFor(() => expect(result.current).toBe(false));
     });
 
     it('should not track pressed state for keyup event type', () => {
@@ -130,7 +150,7 @@ describe('useKeyPress', () => {
       const { result } = renderHook(() => useKeyPress('Enter', callback, { event: 'keyup' }));
 
       const event = new KeyboardEvent('keyup', { key: 'Enter' });
-      window.dispatchEvent(event);
+      dispatchKey(event);
 
       expect(callback).toHaveBeenCalledWith(event);
       expect(result.current).toBe(false); // Should stay false for keyup
@@ -147,7 +167,7 @@ describe('useKeyPress', () => {
 
       const event = new KeyboardEvent('keydown', { key: 'a', bubbles: true });
       Object.defineProperty(event, 'target', { value: input, enumerable: true });
-      input.dispatchEvent(event);
+      dispatchKey(event, input);
 
       expect(callback).not.toHaveBeenCalled();
 
@@ -163,7 +183,7 @@ describe('useKeyPress', () => {
 
       const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
       Object.defineProperty(event, 'target', { value: textarea, enumerable: true });
-      textarea.dispatchEvent(event);
+      dispatchKey(event, textarea);
 
       expect(callback).not.toHaveBeenCalled();
 
@@ -179,7 +199,7 @@ describe('useKeyPress', () => {
 
       const event = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true });
       Object.defineProperty(event, 'target', { value: select, enumerable: true });
-      select.dispatchEvent(event);
+      dispatchKey(event, select);
 
       expect(callback).not.toHaveBeenCalled();
 
@@ -195,7 +215,7 @@ describe('useKeyPress', () => {
 
       const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
       Object.defineProperty(event, 'target', { value: input, enumerable: true });
-      input.dispatchEvent(event);
+      dispatchKey(event, input);
 
       expect(callback).toHaveBeenCalledWith(event);
 
@@ -211,7 +231,7 @@ describe('useKeyPress', () => {
 
       const event = new KeyboardEvent('keydown', { key: 'k', bubbles: true });
       Object.defineProperty(event, 'target', { value: div, enumerable: true });
-      div.dispatchEvent(event);
+      dispatchKey(event, div);
 
       expect(callback).toHaveBeenCalledWith(event);
 
@@ -225,12 +245,12 @@ describe('useKeyPress', () => {
       renderHook(() => useKeyPress('a', callback));
 
       const keydownEvent = new KeyboardEvent('keydown', { key: 'a' });
-      window.dispatchEvent(keydownEvent);
+      dispatchKey(keydownEvent);
       expect(callback).toHaveBeenCalledWith(keydownEvent);
 
       const keyupEvent = new KeyboardEvent('keyup', { key: 'a' });
       callback.mockClear();
-      window.dispatchEvent(keyupEvent);
+      dispatchKey(keyupEvent);
       expect(callback).not.toHaveBeenCalled();
     });
 
@@ -239,11 +259,11 @@ describe('useKeyPress', () => {
       renderHook(() => useKeyPress('b', callback, { event: 'keyup' }));
 
       const keydownEvent = new KeyboardEvent('keydown', { key: 'b' });
-      window.dispatchEvent(keydownEvent);
+      dispatchKey(keydownEvent);
       expect(callback).not.toHaveBeenCalled();
 
       const keyupEvent = new KeyboardEvent('keyup', { key: 'b' });
-      window.dispatchEvent(keyupEvent);
+      dispatchKey(keyupEvent);
       expect(callback).toHaveBeenCalledWith(keyupEvent);
     });
   });
@@ -254,7 +274,7 @@ describe('useKeyPress', () => {
       renderHook(() => useKeyPress('a', callback));
 
       const event = new KeyboardEvent('keydown', { key: 'a' });
-      window.dispatchEvent(event);
+      dispatchKey(event);
 
       expect(callback).toHaveBeenCalledWith(event);
     });
@@ -269,12 +289,12 @@ describe('useKeyPress', () => {
 
       // Window event should not trigger
       const windowEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-      window.dispatchEvent(windowEvent);
+      dispatchKey(windowEvent);
       expect(callback).not.toHaveBeenCalled();
 
       // Element event should trigger
       const elementEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-      div.dispatchEvent(elementEvent);
+      dispatchKey(elementEvent, div);
       expect(callback).toHaveBeenCalledWith(elementEvent);
 
       document.body.removeChild(div);
@@ -290,7 +310,7 @@ describe('useKeyPress', () => {
 
       // Should not trigger callback
       const event = new KeyboardEvent('keydown', { key: 'a' });
-      window.dispatchEvent(event);
+      dispatchKey(event);
       expect(callback).not.toHaveBeenCalled();
     });
 
@@ -299,7 +319,7 @@ describe('useKeyPress', () => {
       renderHook(() => useKeyPress('d', callback, { target: document }));
 
       const event = new KeyboardEvent('keydown', { key: 'd' });
-      document.dispatchEvent(event);
+      dispatchKey(event, document);
 
       expect(callback).toHaveBeenCalledWith(event);
     });
@@ -312,7 +332,7 @@ describe('useKeyPress', () => {
 
       // Should work before unmount
       const event1 = new KeyboardEvent('keydown', { key: 'a' });
-      window.dispatchEvent(event1);
+      dispatchKey(event1);
       expect(callback).toHaveBeenCalledWith(event1);
       expect(callback).toHaveBeenCalledTimes(1);
 
@@ -321,7 +341,7 @@ describe('useKeyPress', () => {
 
       // Should not work after unmount
       const event2 = new KeyboardEvent('keydown', { key: 'a' });
-      window.dispatchEvent(event2);
+      dispatchKey(event2);
       expect(callback).not.toHaveBeenCalled();
     });
 
@@ -333,10 +353,10 @@ describe('useKeyPress', () => {
 
       // Neither should trigger after unmount
       const keydownEvent = new KeyboardEvent('keydown', { key: 'b' });
-      window.dispatchEvent(keydownEvent);
+      dispatchKey(keydownEvent);
 
       const keyupEvent = new KeyboardEvent('keyup', { key: 'b' });
-      window.dispatchEvent(keyupEvent);
+      dispatchKey(keyupEvent);
 
       expect(callback).not.toHaveBeenCalled();
     });
@@ -349,7 +369,7 @@ describe('useKeyPress', () => {
 
       // Old key should work
       const eventA = new KeyboardEvent('keydown', { key: 'a' });
-      window.dispatchEvent(eventA);
+      dispatchKey(eventA);
       expect(callback).toHaveBeenCalledWith(eventA);
       expect(callback).toHaveBeenCalledTimes(1);
 
@@ -360,12 +380,12 @@ describe('useKeyPress', () => {
 
       // Old key should not work
       const eventA2 = new KeyboardEvent('keydown', { key: 'a' });
-      window.dispatchEvent(eventA2);
+      dispatchKey(eventA2);
       expect(callback).not.toHaveBeenCalled();
 
       // New key should work
       const eventB = new KeyboardEvent('keydown', { key: 'b' });
-      window.dispatchEvent(eventB);
+      dispatchKey(eventB);
       expect(callback).toHaveBeenCalledWith(eventB);
     });
   });
@@ -376,19 +396,19 @@ describe('useKeyPress', () => {
       renderHook(() => useKeyPress(['Control', 'Meta', 'Alt', 'Shift'], callback));
 
       const ctrlEvent = new KeyboardEvent('keydown', { key: 'Control' });
-      window.dispatchEvent(ctrlEvent);
+      dispatchKey(ctrlEvent);
       expect(callback).toHaveBeenCalledWith(ctrlEvent);
 
       const metaEvent = new KeyboardEvent('keydown', { key: 'Meta' });
-      window.dispatchEvent(metaEvent);
+      dispatchKey(metaEvent);
       expect(callback).toHaveBeenCalledWith(metaEvent);
 
       const altEvent = new KeyboardEvent('keydown', { key: 'Alt' });
-      window.dispatchEvent(altEvent);
+      dispatchKey(altEvent);
       expect(callback).toHaveBeenCalledWith(altEvent);
 
       const shiftEvent = new KeyboardEvent('keydown', { key: 'Shift' });
-      window.dispatchEvent(shiftEvent);
+      dispatchKey(shiftEvent);
       expect(callback).toHaveBeenCalledWith(shiftEvent);
 
       expect(callback).toHaveBeenCalledTimes(4);
@@ -399,11 +419,11 @@ describe('useKeyPress', () => {
       renderHook(() => useKeyPress(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'], callback));
 
       const upEvent = new KeyboardEvent('keydown', { key: 'ArrowUp' });
-      window.dispatchEvent(upEvent);
+      dispatchKey(upEvent);
       expect(callback).toHaveBeenCalledWith(upEvent);
 
       const downEvent = new KeyboardEvent('keydown', { key: 'ArrowDown' });
-      window.dispatchEvent(downEvent);
+      dispatchKey(downEvent);
       expect(callback).toHaveBeenCalledWith(downEvent);
 
       expect(callback).toHaveBeenCalledTimes(2);
@@ -414,15 +434,15 @@ describe('useKeyPress', () => {
       renderHook(() => useKeyPress(['Escape', 'Enter', 'Tab'], callback));
 
       const escEvent = new KeyboardEvent('keydown', { key: 'Escape' });
-      window.dispatchEvent(escEvent);
+      dispatchKey(escEvent);
       expect(callback).toHaveBeenCalledWith(escEvent);
 
       const enterEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-      window.dispatchEvent(enterEvent);
+      dispatchKey(enterEvent);
       expect(callback).toHaveBeenCalledWith(enterEvent);
 
       const tabEvent = new KeyboardEvent('keydown', { key: 'Tab' });
-      window.dispatchEvent(tabEvent);
+      dispatchKey(tabEvent);
       expect(callback).toHaveBeenCalledWith(tabEvent);
 
       expect(callback).toHaveBeenCalledTimes(3);
@@ -437,7 +457,7 @@ describe('useKeyPress', () => {
       }).not.toThrow();
 
       const event = new KeyboardEvent('keydown', { key: 'a' });
-      window.dispatchEvent(event);
+      dispatchKey(event);
       expect(callback).not.toHaveBeenCalled();
     });
 
@@ -448,7 +468,7 @@ describe('useKeyPress', () => {
       // Rapid presses
       for (let i = 0; i < 10; i++) {
         const event = new KeyboardEvent('keydown', { key: 'a' });
-        window.dispatchEvent(event);
+        dispatchKey(event);
       }
 
       expect(callback).toHaveBeenCalledTimes(10);
@@ -464,7 +484,7 @@ describe('useKeyPress', () => {
 
       // First callback should be called
       const event1 = new KeyboardEvent('keydown', { key: 'a' });
-      window.dispatchEvent(event1);
+      dispatchKey(event1);
       expect(callback1).toHaveBeenCalledWith(event1);
       expect(callback2).not.toHaveBeenCalled();
 
@@ -473,7 +493,7 @@ describe('useKeyPress', () => {
 
       // New callback should be called
       const event2 = new KeyboardEvent('keydown', { key: 'a' });
-      window.dispatchEvent(event2);
+      dispatchKey(event2);
       expect(callback2).toHaveBeenCalledWith(event2);
       expect(callback1).toHaveBeenCalledTimes(1); // Not called again
     });

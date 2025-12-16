@@ -67,11 +67,17 @@ function App() {
 function DismissibleAlert() {
   const [show, setShow] = useState(true);
 
-  if (!show) return null;
+  if (!show) {
+    return (
+      <Button variant="primary" onClick={() => setShow(true)}>
+        Show Alert
+      </Button>
+    );
+  }
 
   return (
     <Alert variant="warning" dismissible onClose={() => setShow(false)}>
-      This alert can be dismissed by clicking the X or pressing Escape.
+      <strong>Dismissible Alert:</strong> Click the X button or press <kbd>Escape</kbd> to dismiss.
     </Alert>
   );
 }
@@ -106,10 +112,21 @@ function DismissibleAlert() {
 ### Controlled Visibility
 
 ```tsx
-<Alert variant="info" show={isVisible}>
-  This alert's visibility is controlled.
-</Alert>
+function ControlledAlert() {
+  const [isVisible, setIsVisible] = useState(true);
+
+  return (
+    <div>
+      <Button onClick={() => setIsVisible(!isVisible)}>{isVisible ? 'Hide' : 'Show'} Alert</Button>
+      <Alert variant="info" show={isVisible}>
+        This alert's visibility is controlled by the parent component.
+      </Alert>
+    </div>
+  );
+}
 ```
+
+> **Note**: The `show` prop controls visibility through the FSM. When `show` changes from `true` to `false`, the FSM transitions to the `hidden` state and the component returns `null`.
 
 ## Props
 
@@ -219,11 +236,53 @@ The Alert component exposes its FSM state via the `data-visual-state` attribute 
 
 ## Security
 
-The Alert.Link component includes security features:
+The Alert.Link component includes comprehensive security features:
 
-- **XSS Prevention**: Validates `href` to block dangerous protocols (`javascript:`, `data:`, `vbscript:`, etc.)
-- **External Link Protection**: Automatically adds `rel="noopener noreferrer"` for `target="_blank"` links
+- **XSS Prevention**: Validates `href` to block dangerous protocols (`javascript:`, `data:`, `vbscript:`, `file:`, etc.)
+- **External Link Protection**: Automatically adds `rel="noopener noreferrer"` for `target="_blank"` links to prevent `window.opener` attacks
 - **Prop Whitelisting**: Only safe HTML attributes are passed through
+- **Safe Fallback**: Dangerous URLs are automatically converted to `#` for safety
+
+### Security Examples
+
+```tsx
+// ✅ Safe: HTTPS link
+<Alert variant="info">
+  Visit <Alert.Link href="https://example.com">our website</Alert.Link>.
+</Alert>
+
+// ✅ Safe: Relative link
+<Alert variant="info">
+  Read the <Alert.Link href="/docs">documentation</Alert.Link>.
+</Alert>
+
+// ✅ Safe: Email and tel links
+<Alert variant="info">
+  Contact us at <Alert.Link href="mailto:support@example.com">support</Alert.Link>
+  or call <Alert.Link href="tel:+15551234567">(555) 123-4567</Alert.Link>.
+</Alert>
+
+// ✅ Protected: External link with automatic rel="noopener noreferrer"
+<Alert variant="info">
+  <Alert.Link href="https://external.com" target="_blank">
+    External site
+  </Alert.Link>
+</Alert>
+
+// 🛡️ Blocked: Dangerous protocols converted to safe fallback (#)
+<Alert variant="warning">
+  <Alert.Link href="javascript:alert('XSS')">
+    Blocked dangerous URL (becomes #)
+  </Alert.Link>
+</Alert>
+
+// 🛡️ Blocked: Data URLs prevented
+<Alert variant="warning">
+  <Alert.Link href="data:text/html,<script>alert('XSS')</script>">
+    Blocked data URL
+  </Alert.Link>
+</Alert>
+```
 
 ## Related Components
 

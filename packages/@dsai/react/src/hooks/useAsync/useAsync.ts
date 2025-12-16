@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import type { AsyncState, AsyncStatus, UseAsyncReturn } from './useAsync.types';
 
@@ -137,15 +137,21 @@ export function useAsync<T, E = Error>(
   asyncFunction: () => Promise<T>,
   immediate = false
 ): UseAsyncReturn<T, E> {
-  const [state, setState] = useState<AsyncState<T, E>>({
-    status: 'idle',
-    data: null,
-    error: null,
-    isLoading: false,
-    isSuccess: false,
-    isError: false,
-    isIdle: true,
-  });
+  const initialState = useMemo<AsyncState<T, E>>(
+    () => ({
+      status: 'idle',
+      data: null,
+      error: null,
+      isLoading: false,
+      isSuccess: false,
+      isError: false,
+      isIdle: true,
+    }),
+    []
+  );
+
+  const stateRef = useRef<AsyncState<T, E>>(initialState);
+  const [state, setState] = useState<AsyncState<T, E>>(initialState);
 
   // Track if component is mounted to prevent state updates after unmount
   const mountedRef = useRef(true);
@@ -158,52 +164,75 @@ export function useAsync<T, E = Error>(
     };
   }, []);
 
-  const setStatus = useCallback((status: AsyncStatus) => {
+  const commitState = useCallback((next: AsyncState<T, E>) => {
     if (!mountedRef.current) {
       return;
     }
 
-    setState((prev) => ({
-      ...prev,
-      status,
-      isLoading: status === 'loading',
-      isSuccess: status === 'success',
-      isError: status === 'error',
-      isIdle: status === 'idle',
-    }));
+    stateRef.current = next;
+    setState(next);
   }, []);
 
-  const setData = useCallback((data: T | null) => {
-    if (!mountedRef.current) {
-      return;
-    }
+  const setStatus = useCallback(
+    (status: AsyncStatus) => {
+      if (!mountedRef.current) {
+        return;
+      }
 
-    setState((prev) => ({
-      ...prev,
-      data,
-      status: data !== null ? 'success' : 'idle',
-      isLoading: false,
-      isSuccess: data !== null,
-      isError: false,
-      isIdle: data === null,
-    }));
-  }, []);
+      const prev = stateRef.current;
+      commitState({
+        ...prev,
+        status,
+        isLoading: status === 'loading',
+        isSuccess: status === 'success',
+        isError: status === 'error',
+        isIdle: status === 'idle',
+      });
+    },
+    [commitState]
+  );
 
-  const setError = useCallback((error: E | null) => {
-    if (!mountedRef.current) {
-      return;
-    }
+  const setData = useCallback(
+    (data: T | null) => {
+      if (!mountedRef.current) {
+        return;
+      }
 
-    setState((prev) => ({
-      ...prev,
-      error,
-      status: error !== null ? 'error' : 'idle',
-      isLoading: false,
-      isSuccess: false,
-      isError: error !== null,
-      isIdle: error === null,
-    }));
-  }, []);
+      const prev = stateRef.current;
+      commitState({
+        ...prev,
+        data,
+        error: data !== null ? null : prev.error,
+        status: data !== null ? 'success' : 'idle',
+        isLoading: false,
+        isSuccess: data !== null,
+        isError: false,
+        isIdle: data === null,
+      });
+    },
+    [commitState]
+  );
+
+  const setError = useCallback(
+    (error: E | null) => {
+      if (!mountedRef.current) {
+        return;
+      }
+
+      const prev = stateRef.current;
+      commitState({
+        ...prev,
+        error,
+        data: error !== null ? null : prev.data,
+        status: error !== null ? 'error' : 'idle',
+        isLoading: false,
+        isSuccess: false,
+        isError: error !== null,
+        isIdle: error === null,
+      });
+    },
+    [commitState]
+  );
 
   const execute = useCallback(async (): Promise<T | null> => {
     // Increment execution ID to track this specific execution
@@ -217,7 +246,7 @@ export function useAsync<T, E = Error>(
 
       // Only update state if this is still the latest execution and component is mounted
       if (currentExecutionId === executionIdRef.current && mountedRef.current) {
-        setState({
+        commitState({
           status: 'success',
           data,
           error: null,
@@ -233,7 +262,7 @@ export function useAsync<T, E = Error>(
     } catch (error) {
       // Only update state if this is still the latest execution and component is mounted
       if (currentExecutionId === executionIdRef.current && mountedRef.current) {
-        setState({
+        commitState({
           status: 'error',
           data: null,
           error: error as E,
@@ -246,7 +275,7 @@ export function useAsync<T, E = Error>(
 
       return null;
     }
-  }, [asyncFunction, setStatus]);
+  }, [asyncFunction, setStatus, commitState]);
 
   const reset = useCallback(() => {
     // Increment execution ID to cancel any pending operations
@@ -256,23 +285,22 @@ export function useAsync<T, E = Error>(
       return;
     }
 
-    setState({
-      status: 'idle',
-      data: null,
-      error: null,
-      isLoading: false,
-      isSuccess: false,
-      isError: false,
-      isIdle: true,
-    });
-  }, []);
+    commitState(initialState);
+  }, [commitState, initialState]);
 
   // Execute immediately on mount if requested
   useEffect(() => {
     if (immediate) {
-      void execute();
+      const timeoutId = setTimeout(() => {
+        void execute();
+      }, 0);
+
+      return () => {
+        clearTimeout(timeoutId);
+      };
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    return undefined;
   }, [immediate, execute]);
 
   return {
