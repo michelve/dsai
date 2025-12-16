@@ -512,6 +512,15 @@ describe('useIntersectionObserver', () => {
 
     it('should handle empty entries array', async () => {
       const onChange = jest.fn();
+
+      mockObserverInstance = undefined as unknown as MockIntersectionObserver;
+      const observerFactory = jest.fn((callback, options) => {
+        mockObserverInstance = new MockIntersectionObserver(callback, options);
+        mockObserverInstance.observe = jest.fn();
+        return mockObserverInstance;
+      }) as unknown as typeof IntersectionObserver;
+      global.IntersectionObserver = observerFactory;
+
       const { result, rerender } = renderHook(() => useIntersectionObserver({ onChange }));
 
       const element = document.createElement('div');
