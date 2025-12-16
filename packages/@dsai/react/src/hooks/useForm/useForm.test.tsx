@@ -383,7 +383,9 @@ describe('useForm', () => {
         await currentSubmitPromise;
       });
 
-      expect(result.current.state.submitting).toBe(false);
+      await waitFor(() => {
+        expect(result.current.state.submitting).toBe(false);
+      });
     });
 
     it('should set submitted state after submission', async () => {
