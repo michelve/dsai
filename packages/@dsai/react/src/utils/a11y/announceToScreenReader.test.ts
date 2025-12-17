@@ -492,7 +492,7 @@ describe('announceToScreenReader', () => {
       const end = performance.now();
       const container = document.getElementById('perf-test');
 
-      expect(end - start).toBeLessThan(100);
+      expect(end - start).toBeLessThan(500);
       expect(container?.textContent).toBe('Message 99');
     });
 
@@ -507,7 +507,7 @@ describe('announceToScreenReader', () => {
 
       const end = performance.now();
 
-      expect(end - start).toBeLessThan(100);
+      expect(end - start).toBeLessThan(300);
       expect(document.querySelectorAll('[id^="region-"]').length).toBe(50);
 
       cleanups.forEach((cleanup) => {

@@ -220,7 +220,7 @@ const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
 
     // Interaction hooks
     const click = useClick(context, {
-      enabled: !disabled,
+      enabled: !disabled && !isControlled,
       toggle: true,
     });
 

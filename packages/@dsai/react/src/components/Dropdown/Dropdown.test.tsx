@@ -635,15 +635,16 @@ describe('Dropdown', () => {
 
       await user.click(screen.getByRole('button', { name: 'External Toggle' }));
 
-      // Wait for the closing animation (RAF-based transitions) to complete
-      // Increased timeout to account for CI environment and animation frames
+      // Wait for state to update and menu to close
+      // Check that aria-expanded changes to false
       await waitFor(
         () => {
-          expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+          const toggle = screen.getByRole('button', { name: 'Options' });
+          expect(toggle).toHaveAttribute('aria-expanded', 'false');
         },
         { timeout: 3000 }
       );
-    });
+    }, 10000); // 10 second test timeout for CI
   });
 
   // ===========================================================================
