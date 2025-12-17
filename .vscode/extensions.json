@@ -1,3 +1,38 @@
 {
-  "recommendations": ["nrwl.angular-console", "esbenp.prettier-vscode"]
+  "recommendations": [
+    // Essential - Nx & Monorepo
+    "nrwl.angular-console",
+
+    // Code Quality & Formatting
+    "biomejs.biome",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+
+    // TypeScript
+    "yoavbls.pretty-ts-errors",
+
+    // Testing
+    "orta.vscode-jest",
+
+    // Git
+    "eamodio.gitlens",
+
+    // Documentation
+    "yzhang.markdown-all-in-one",
+
+    // Utilities
+    "christian-kohler.path-intellisense",
+    "streetsidesoftware.code-spell-checker",
+
+    // GitHub
+    "github.copilot",
+    "github.copilot-chat",
+
+    // Figma
+    "figma.figma-vscode-extension",
+
+    // Codacy (Code Quality)
+    "codacy.codacy"
+  ],
+  "unwantedRecommendations": ["hookyqr.beautify", "ms-vscode.vscode-typescript-tslint-plugin"]
 }
