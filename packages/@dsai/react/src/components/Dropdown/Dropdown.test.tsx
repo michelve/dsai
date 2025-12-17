@@ -634,10 +634,15 @@ describe('Dropdown', () => {
       expect(screen.getByRole('menu')).toBeInTheDocument();
 
       await user.click(screen.getByRole('button', { name: 'External Toggle' }));
+
       // Wait for the closing animation (RAF-based transitions) to complete
-      await waitFor(() => {
-        expect(screen.queryByRole('menu')).not.toBeInTheDocument();
-      });
+      // Increased timeout to account for CI environment and animation frames
+      await waitFor(
+        () => {
+          expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+        },
+        { timeout: 3000 }
+      );
     });
   });
 

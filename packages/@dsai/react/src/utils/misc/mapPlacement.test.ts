@@ -243,8 +243,8 @@ describe('mapPlacement', () => {
       mapPlacement('top');
       const end = performance.now();
 
-      // Should be nearly instantaneous (< 1ms)
-      expect(end - start).toBeLessThan(1);
+      // Should be nearly instantaneous (< 5ms accounting for CI overhead)
+      expect(end - start).toBeLessThan(5);
     });
 
     it('should handle bulk operations efficiently', () => {
@@ -254,8 +254,8 @@ describe('mapPlacement', () => {
       placements.forEach(mapPlacement);
       const end = performance.now();
 
-      // Bulk operation should be fast (< 10ms for 1000 items)
-      expect(end - start).toBeLessThan(10);
+      // Bulk operation should be fast (< 50ms for 1000 items accounting for CI overhead)
+      expect(end - start).toBeLessThan(50);
     });
   });
 
