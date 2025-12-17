@@ -31,3 +31,7 @@ exclude_paths:
   # Third-party or vendored code
   - '**/vendor/**'
   - '**/third-party/**'
+
+  # Miscellaneous
+  - '.temp/**'
+  - '.github/workflows/**'

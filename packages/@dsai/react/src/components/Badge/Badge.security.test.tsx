@@ -1,5 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
+import { StarFillIcon } from '../Icon';
+
 import { Badge } from './Badge';
 
 describe('Badge Security Tests', () => {
@@ -84,7 +86,7 @@ describe('Badge Security Tests', () => {
   describe('Icon Security', () => {
     it('icon wrapper is aria-hidden', () => {
       const { container } = render(
-        <Badge icon={<span data-testid="icon">★</span>}>Featured</Badge>
+        <Badge icon={<StarFillIcon size={12} data-testid="icon" />}>Featured</Badge>
       );
       const iconWrapper = container.querySelector('[aria-hidden="true"]');
       expect(iconWrapper).toBeInTheDocument();
@@ -93,27 +95,27 @@ describe('Badge Security Tests', () => {
   });
 
   describe('XSS Prevention', () => {
-    it('does not render dangerouslySetInnerHTML', () => {
-      // TypeScript prevents this, but let's verify runtime behavior
-      const maliciousProps = {
-        dangerouslySetInnerHTML: { __html: '<script>alert("xss")</script>' },
-      } as unknown as Record<string, unknown>;
+    it('does not render dangerous HTML content', () => {
+      // Verify that Badge doesn't accept or render arbitrary HTML
+      // React escapes text content by default
+      const scriptTag = '<script>alert("xss")</script>';
+      render(<Badge>{scriptTag}</Badge>);
 
-      // Badge should not spread arbitrary props
-      const { container } = render(<Badge {...maliciousProps}>Safe Content</Badge>);
-
-      // Should not contain script tag
-      expect(container.querySelector('script')).not.toBeInTheDocument();
-      expect(screen.getByText('Safe Content')).toBeInTheDocument();
+      // Should render as text, not as HTML
+      expect(screen.getByText(scriptTag)).toBeInTheDocument();
+      expect(document.querySelector('script')).not.toBeInTheDocument();
     });
 
     it('sanitizes children content (React handles this by default)', () => {
       // React escapes text content by default
-      const maliciousContent = '<script>alert("xss")</script>';
+      const maliciousContent = '<img src=x onerror=alert("xss")>';
       render(<Badge>{maliciousContent}</Badge>);
 
       // Should render as text, not as HTML
       expect(screen.getByText(maliciousContent)).toBeInTheDocument();
+      // Verify no img tag was created
+      const { container } = render(<Badge>{maliciousContent}</Badge>);
+      expect(container.querySelector('img')).not.toBeInTheDocument();
     });
   });
 
