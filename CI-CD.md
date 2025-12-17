@@ -337,44 +337,6 @@ env:
 
 5. **Document changes**: Update this file when adding workflows
 
-## Workflow Status
-
-Check workflow status:
-
-- **Badge**: See README.md header
-- **Actions tab**: https://github.com/michelve/DSAi/actions
-- **PR checks**: Visible on pull request pages
-
-## Future Enhancements
-
-### Phase 1 (Foundation) - Current
-
-- [x] Basic CI/CD skeleton
-- [x] Lint, type-check, build
-- [x] Dependabot configuration
-- [ ] Nx Cloud connection (optional)
-
-### Phase 2 (Component Development)
-
-- [ ] Visual regression testing (Chromatic)
-- [ ] Accessibility testing (axe-core)
-- [ ] Bundle size tracking
-- [ ] Test coverage reporting
-
-### Phase 3 (Integration)
-
-- [ ] Figma token sync automation
-- [ ] Storybook deployment
-- [ ] npm publishing workflow
-- [ ] Release automation with changesets
-
-### Phase 4 (Production)
-
-- [ ] Security scanning (Snyk, npm audit)
-- [ ] Performance benchmarking
-- [ ] End-to-end tests
-- [ ] Canary deployments
-
 ## Metrics
 
 ### Current Targets
