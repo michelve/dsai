@@ -276,11 +276,3 @@ Nx caching makes subsequent builds nearly instant when files haven't changed.
 3. **Check bundle sizes regularly**: Use `pnpm gzip-size` to monitor
 4. **Keep external dependencies external**: Don't bundle React or other shared dependencies
 5. **Test builds before committing**: Run `pnpm nx run-many --target=build --all`
-
-## Future Improvements
-
-- [ ] Add bundle size tracking in CI
-- [ ] Implement bundle analysis visualization
-- [ ] Add build performance monitoring
-- [ ] Consider code splitting for larger packages
-- [ ] Add build metrics to PR checks

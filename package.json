@@ -10,7 +10,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:ci": "jest --ci --coverage --maxWorkers=2",
-    "coverage:upload": "dotenv -e .env -- bash -c 'curl -Ls https://coverage.codacy.com/get.sh | bash'",
+    "coverage:upload": "dotenv -e .env -- sh -c 'curl -Ls https://coverage.codacy.com/get.sh | bash -s report -r coverage/lcov.info'",
     "test:nx": "nx run-many --target=test --all",
     "lint": "nx run-many --target=lint --all",
     "affected:build": "nx affected --target=build",
