@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.92% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/13</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">90% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/10</span>
+                <span class='fraction'>9/10</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">76.92% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/13</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -146,35 +146,35 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">67x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1144x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1144x</span>
+<span class="cline-any cline-yes">2129x</span>
+<span class="cline-any cline-yes">5237x</span>
+<span class="cline-any cline-yes">2120x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3117x</span>
+<span class="cline-any cline-yes">980x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2137x</span>
+<span class="cline-any cline-yes">2137x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">67x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
  * mergeRefs - Safely composes multiple React refs into a single callback.
  *
@@ -206,12 +206,12 @@ export function mergeRefs&lt;T&gt;(
   ...refs: (Ref&lt;T&gt; | undefined)[] | [Array&lt;Ref&lt;T&gt; | undefined&gt;]
 ): RefCallback&lt;T&gt; {
   // Support both array and variadic signatures
-  const refList = Array.isArray(refs[0]) &amp;&amp; refs.length === 1 ? refs[0] : <span class="branch-1 cbranch-no" title="branch not covered" >refs;</span>
+  const refList = Array.isArray(refs[0]) &amp;&amp; refs.length === 1 ? refs[0] : refs;
 &nbsp;
   return (value: T) =&gt; {
     refList.forEach((ref) =&gt; {
-      <span class="missing-if-branch" title="if path not taken" >I</span>if (!ref) {
-<span class="cstat-no" title="statement not covered" >        return;</span>
+      if (!ref) {
+        return;
       }
 &nbsp;
       if (typeof ref === 'function') {
@@ -221,8 +221,8 @@ export function mergeRefs&lt;T&gt;(
           (ref as MutableRefObject&lt;T | null&gt;).current = value;
         } catch (error) {
           // Warn in development when ref assignment fails
-<span class="cstat-no" title="statement not covered" >          if (process.env.NODE_ENV !== 'production') {</span>
-<span class="cstat-no" title="statement not covered" >            console.warn('[mergeRefs] Failed to assign ref:', error);</span>
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (process.env['NODE_ENV'] !== 'production') {
+            console.warn('[mergeRefs] Failed to assign ref:', error);
           }
         }
       }
@@ -238,7 +238,7 @@ export default mergeRefs;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-07T23:27:10.374Z
+                at 2025-12-18T21:28:17.337Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

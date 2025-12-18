@@ -56,9 +56,11 @@ module.exports = {
     'packages/**/src/**/*.{ts,tsx}',
     '!packages/**/src/**/*.d.ts',
     '!packages/**/src/**/*.stories.{ts,tsx}',
+    '!packages/**/src/**/*.figma.{ts,tsx}', // Figma Code Connect files (design-to-code mapping)
     '!packages/**/src/**/__tests__/**',
     '!packages/**/src/**/index.ts', // Barrel exports
     '!packages/**/src/**/Icon/**', // Icon component (auto-generated)
+    '!packages/@dsai/tokens/src/**', // Token files (auto-generated from Style Dictionary)
   ],
 
   // Coverage thresholds (80% minimum as per roadmap)
