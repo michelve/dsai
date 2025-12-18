@@ -226,7 +226,8 @@ const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
 
     const dismiss = useDismiss(context, {
       enabled: autoClose !== false,
-      outsidePress: autoClose === true || autoClose === 'outside',
+      // Disable outsidePress in controlled mode - parent manages state
+      outsidePress: !isControlled && (autoClose === true || autoClose === 'outside'),
       escapeKey: true,
     });
 
