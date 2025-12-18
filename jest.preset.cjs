@@ -58,6 +58,7 @@ module.exports = {
     '!packages/**/src/**/*.stories.{ts,tsx}',
     '!packages/**/src/**/__tests__/**',
     '!packages/**/src/**/index.ts', // Barrel exports
+    '!packages/**/src/**/Icon/**', // Icon component (auto-generated)
   ],
 
   // Coverage thresholds (80% minimum as per roadmap)
