@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">26.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/15</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">55.55% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/18</span>
+                <span class='fraction'>10/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">26.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/15</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -206,36 +206,36 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -295,44 +295,44 @@ const ALLOWED_PROPS = [
 ] as const;
 &nbsp;
 export const StarFillIcon = forwardRef&lt;SVGSVGElement, IconProps&gt;(
-<span class="fstat-no" title="function not covered" >  (</span>
+  (
     {
       size = <span class="branch-0 cbranch-no" title="branch not covered" >16,</span>
-      color = <span class="branch-0 cbranch-no" title="branch not covered" >'currentColor',</span>
+      color = 'currentColor',
       className,
       title,
       style: propStyle,
       'aria-label': ariaLabel,
-      'aria-hidden': ariaHidden<span class="cstat-no" title="statement not covered" >,</span>
-      ...rest<span class="cstat-no" title="statement not covered" ></span>
+      'aria-hidden': ariaHidden,
+      ...rest
     },
     ref
   ) =&gt; {
-    const isDecorative = <span class="cstat-no" title="statement not covered" >!ariaLabel &amp;&amp; !title;</span>
+    const isDecorative = !ariaLabel &amp;&amp; !title;
 &nbsp;
     // Improved A11y: Prevent contradictory aria-hidden when labelled
     // - Decorative → always hidden
     // - With aria-label → never hidden (ignore user's aria-hidden)
     // - With title only → respect user's aria-hidden
-    const computedAriaHidden = <span class="cstat-no" title="statement not covered" >isDecorative ? true : ariaLabel ? undefined : ariaHidden;</span>
+    const computedAriaHidden = isDecorative ? true : <span class="branch-1 cbranch-no" title="branch not covered" >ariaLabel ? undefined : ariaHidden;</span>
 &nbsp;
-    const style = <span class="cstat-no" title="statement not covered" >useMemo(</span>
-<span class="fstat-no" title="function not covered" >      () =</span>&gt; <span class="cstat-no" title="statement not covered" >({</span>
-        width: typeof size === 'number' ? `${size}px` : size,
-        height: typeof size === 'number' ? `${size}px` : size,
+    const style = useMemo(
+      () =&gt; ({
+        width: typeof size === 'number' ? `${size}px` : <span class="branch-1 cbranch-no" title="branch not covered" >size,</span>
+        height: typeof size === 'number' ? `${size}px` : <span class="branch-1 cbranch-no" title="branch not covered" >size,</span>
         ...propStyle,
       }),
       [size, propStyle]
     );
 &nbsp;
-    const allowedProps: Record&lt;string, unknown&gt; = <span class="cstat-no" title="statement not covered" >{};</span>
-<span class="cstat-no" title="statement not covered" >    for (const key of ALLOWED_PROPS) {</span>
-<span class="cstat-no" title="statement not covered" >      if (key in rest) {</span>
-<span class="cstat-no" title="statement not covered" >        allowedProps[key] = rest[key as keyof typeof rest];</span>
+    const allowedProps: Record&lt;string, unknown&gt; = {};
+    for (const key of ALLOWED_PROPS) {
+      if (key in rest) {
+        allowedProps[key] = rest[key as keyof typeof rest];
       }
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return (</span>
+    return (
       &lt;svg
         ref={ref}
         xmlns="http://www.w3.org/2000/svg"
@@ -342,11 +342,11 @@ export const StarFillIcon = forwardRef&lt;SVGSVGElement, IconProps&gt;(
         style={style}
         aria-hidden={computedAriaHidden}
         aria-label={ariaLabel}
-        role={ariaLabel ? 'img' : undefined}
+        role={ariaLabel ? <span class="branch-0 cbranch-no" title="branch not covered" >'img' </span>: undefined}
         focusable="false"
         {...allowedProps}
       &gt;
-        {title &amp;&amp; &lt;title&gt;{title}&lt;/title&gt;}
+        {title &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >&lt;title&gt;{title}&lt;/title&gt;}</span>
         &lt;path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" /&gt;
       &lt;/svg&gt;
     );
@@ -361,7 +361,7 @@ StarFillIcon.displayName = 'StarFillIcon';
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-17T14:22:41.931Z
+                at 2025-12-18T21:11:17.986Z
             </div>
         <script src="../../../../../prettify.js"></script>
         <script>
