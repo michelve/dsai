@@ -351,9 +351,9 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 
 Notes:
 
-eslint: npx eslint packages/@DSAi/storybook/docs/components/
+eslint: npx eslint packages/@dsai/storybook/docs/components/
 How to test component: npm test -- Accordion
-eslint: npx eslint packages/@DSAi/React/src/components/Accordion
+eslint: npx eslint packages/@dsai/react/src/components/Accordion
 
 **Documentation Gates:**
 

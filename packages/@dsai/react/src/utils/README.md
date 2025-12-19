@@ -613,8 +613,8 @@ All utilities follow these enterprise-grade principles:
 
 ## Related Packages
 
-- [@DSAi/tokens](../../../tokens/README.md) - Design tokens (colors, spacing, typography)
-- [@DSAi/React](../../README.md) - React component library
+- [@dsai/tokens](../../../tokens/README.md) - Design tokens (colors, spacing, typography)
+- [@dsai/react](../../README.md) - React component library
 
 ---
 

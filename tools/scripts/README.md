@@ -64,7 +64,7 @@ pnpm tokens:build        # Transform + validate
 pnpm analyze:buttons     # Analyze Button component usage
 ```
 
-## npm Scripts (@DSAi/tokens)
+## npm Scripts (@dsai/tokens)
 
 ```bash
 pnpm --filter @dsai/tokens tokens:validate:figma      # Validate Figma exports
@@ -72,7 +72,7 @@ pnpm --filter @dsai/tokens tokens:transform           # Transform to DTCG
 pnpm --filter @dsai/tokens tokens:build               # Full token build
 ```
 
-## npm Scripts (@DSAi/storybook)
+## npm Scripts (@dsai/storybook)
 
 ```bash
 pnpm --filter @dsai/storybook kill     # Kill Storybook processes

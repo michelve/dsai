@@ -35,9 +35,9 @@ dist/
 
 | Package            | ESM (gzipped) | CJS (gzipped) | Status |
 | ------------------ | ------------- | ------------- | ------ |
-| @DSAi/tokens       | 117 B         | 163 B         | ✅     |
-| @DSAi/React        | 156 B         | 185 B         | ✅     |
-| @DSAi/figma-tokens | 129 B         | 174 B         | ✅     |
+| @dsai/tokens       | 117 B         | 163 B         | ✅     |
+| @dsai/react        | 156 B         | 185 B         | ✅     |
+| @dsai/figma-tokens | 129 B         | 174 B         | ✅     |
 
 **Target**: < 50KB gzipped per package (all packages well under target)
 
@@ -180,7 +180,7 @@ All packages are configured for optimal tree-shaking:
 
 1. **ESM format**: Default export format supports tree-shaking
 2. **Named exports**: Use named exports instead of default exports
-3. **Pure annotations**: tsup automatically adds /*#**PURE***/ comments
+3. **Pure annotations**: tsup automatically adds /\*#**PURE\***/ comments
 4. **Side-effect free**: All packages marked as `"sideEffects": false` in package.json
 
 Example tree-shaking verification:
@@ -196,7 +196,7 @@ import { tokens } from '@dsai/react';
 
 External dependencies are not bundled:
 
-- **@DSAi/tokens**: Marked as external in dependent packages
+- **@dsai/tokens**: Marked as external in dependent packages
 - **React, React-dom**: Marked as peer dependencies and external
 - Consumers must install these separately
 
@@ -215,7 +215,7 @@ This:
 
 **Solution**: Ensure `tsup.config.ts` uses `tsconfig: './tsconfig.build.json'` which removes path mappings.
 
-### Error: Cannot find module '@DSAi/tokens'
+### Error: Cannot find module '@dsai/tokens'
 
 **Problem**: Package not built or not in node_modules.
 

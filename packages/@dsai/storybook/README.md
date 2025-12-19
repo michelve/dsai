@@ -1,4 +1,4 @@
-# @DSAi/storybook
+# @dsai/storybook
 
 > Official Storybook documentation for the DSAi Design System
 

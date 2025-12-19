@@ -1,4 +1,4 @@
-# @DSAi/tokens
+# @dsai/tokens
 
 Design tokens for the DSAi Design System - The foundation for all UI components.
 
@@ -574,9 +574,9 @@ Currently, only Light mode is exported and transformed.
 
 ## Related Packages
 
-- **@DSAi/React**: React components that consume these tokens
-- **@DSAi/storybook**: Documentation and examples
-- **@DSAi/figma-tokens**: Figma integration utilities
+- **@dsai/react**: React components that consume these tokens
+- **@dsai/storybook**: Documentation and examples
+- **@dsai/figma-tokens**: Figma integration utilities
 
 ## Development
 
