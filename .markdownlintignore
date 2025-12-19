@@ -1,0 +1,9 @@
+node_modules/
+dist/
+out-tsc/
+storybook-static/
+coverage/
+**/CHANGELOG.md
+pnpm-lock.yaml
+.nx/
+**/vendor/
