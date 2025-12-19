@@ -60,11 +60,27 @@ jobs:
         run: |
           cd packages/@dsai/tokens
           echo "Checking required outputs..."
+          # Core CSS files
           test -f dist/css/variables.css || exit 1
+          test -f dist/css/dsai.css || exit 1
+          test -f dist/css/dsai.min.css || exit 1
+          test -f dist/css/dsai-theme-bs.css || exit 1
+          test -f dist/css/dsai-theme-bs.min.css || exit 1
+          # SCSS files
           test -f dist/scss/_variables.scss || exit 1
+          # JavaScript files
           test -f dist/js/tokens.js || exit 1
+          test -f dist/js/tokens.cjs || exit 1
+          # TypeScript files
           test -f dist/ts/tokens.ts || exit 1
           test -f dist/ts/tokens.d.ts || exit 1
+          # JSON files
+          test -f dist/json/tokens.json || exit 1
+          test -f dist/json/tokens-nested.json || exit 1
+          # Module entry points
+          test -f dist/index.js || exit 1
+          test -f dist/index.mjs || exit 1
+          test -f dist/index.d.ts || exit 1
           echo "✅ All outputs verified"
 
       - name: Check for undefined values
@@ -89,8 +105,13 @@ jobs:
         with:
           files: |
             packages/@dsai/tokens/dist/css/variables.css
+            packages/@dsai/tokens/dist/css/dsai.css
+            packages/@dsai/tokens/dist/css/dsai.min.css
+            packages/@dsai/tokens/dist/css/dsai-theme-bs.css
+            packages/@dsai/tokens/dist/css/dsai-theme-bs.min.css
             packages/@dsai/tokens/dist/scss/_variables.scss
             packages/@dsai/tokens/dist/js/tokens.js
+            packages/@dsai/tokens/dist/json/tokens.json
           generate_release_notes: true
           body: |
             ## @dsai/tokens Release
@@ -106,6 +127,18 @@ jobs:
             npm install @dsai/tokens@${{ github.ref_name }}
             # or
             pnpm add @dsai/tokens@${{ github.ref_name }}
+            ```
+
+            ### 🎨 CSS Imports
+            ```css
+            /* Full theme with Bootstrap overrides */
+            @import '@dsai/tokens/css/dsai-theme-bs.css';
+
+            /* Core design tokens only */
+            @import '@dsai/tokens/css/dsai.css';
+
+            /* CSS custom properties */
+            @import '@dsai/tokens/css/variables.css';
             ```
 
             ### 📚 Documentation
