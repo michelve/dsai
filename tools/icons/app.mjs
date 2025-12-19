@@ -52,6 +52,46 @@ const DSAI_ICON_SIZES = ['16', '20', '24', '32', '40', '48'];
 const SKIP_REST_API = process.argv.includes('--skip-rest-api');
 
 /**
+ * Securely write a file within a restricted base directory.
+ * Prevents path traversal attacks by validating the resolved path.
+ *
+ * SECURITY: This function is safe despite static analysis warnings because:
+ * 1. Filenames are pre-sanitized to alphanumeric only (no path separators)
+ * 2. Path separators in filename are explicitly rejected
+ * 3. Path is normalized and validated against base directory
+ * 4. This is a build-time CLI tool, not a web server
+ *
+ * @param {string} baseDir - The allowed base directory (must be absolute or resolved)
+ * @param {string} filename - The sanitized filename (no path separators allowed)
+ * @param {string} content - The file content to write
+ * @returns {boolean} - True if write succeeded, false if path validation failed
+ */
+function secureWriteFile(baseDir, filename, content) {
+  // Reject filenames containing path separators
+  if (filename.includes('/') || filename.includes('\\') || filename.includes('..')) {
+    console.error(`Security: Invalid filename rejected: ${filename}`);
+    return false;
+  }
+
+  // Resolve the base directory to an absolute path
+  const resolvedBase = path.resolve(baseDir);
+
+  // Construct and normalize the full path
+  const fullPath = path.normalize(path.join(resolvedBase, filename));
+
+  // Verify the path stays within the base directory
+  if (!fullPath.startsWith(resolvedBase + path.sep) && fullPath !== resolvedBase) {
+    console.error(`Security: Path traversal attempt blocked: ${filename}`);
+    return false;
+  }
+
+  // nosemgrep: javascript.lang.security.audit.path-traversal.path-traversal-join
+  // Safe: filename is pre-validated (no path separators, alphanumeric only)
+  fs.writeFileSync(fullPath, content);
+  return true;
+}
+
+/**
  * Allowed props for security (matches DSAi Icon component)
  */
 const ALLOWED_PROPS_CODE = `const ALLOWED_PROPS = [
@@ -263,18 +303,13 @@ async function run() {
       continue;
     }
 
-    // Use path.join and normalize to ensure safe path construction
-    const joinedPath = path.join(ICONS_OUTPUT, `${safeName}.tsx`);
-    const normalizedPath = path.normalize(joinedPath);
-    const resolvedOutput = path.resolve(ICONS_OUTPUT);
-
-    // Verify the path stays within the output directory (prevent traversal)
-    if (!normalizedPath.startsWith(resolvedOutput)) {
-      console.warn(`Path traversal attempt detected for: ${name}`);
+    // Use secure write function to prevent path traversal
+    const filename = `${safeName}.tsx`;
+    if (!secureWriteFile(ICONS_OUTPUT, filename, componentCode)) {
+      console.warn(`Failed to write icon: ${name}`);
       continue;
     }
 
-    fs.writeFileSync(normalizedPath, componentCode);
     exports.push(`export { ${safeName} } from './components/${safeName}';`);
     codeConnects.push(codeConnect);
   }
@@ -466,6 +501,8 @@ async function processIconNode(nodeId, iconNodes, images) {
   }
 
   // Fetch from validated URL
+  // nosemgrep: javascript.lang.security.audit.ssrf.node-ssrf
+  // Safe: URL is validated against ALLOWED_HOSTS allowlist above (Figma S3 buckets only)
   const svgResponse = await fetch(parsedUrl.href, { method: 'GET' });
   const svg = await svgResponse.text();
 
