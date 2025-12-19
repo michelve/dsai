@@ -2,8 +2,7 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/068516f0032a4690b46404252021023a)](https://app.codacy.com?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/068516f0032a4690b46404252021023a)](https://app.codacy.com?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
-![CI](https://github.com/michelve/DSAi/workflows/CI/badge.svg)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+![CI](https://github.com/michelve/dsai/actions/workflows/ci.yml/badge.svg)
 
 A production-ready React component library built with TypeScript and Nx monorepo architecture. Provides 38+ accessible, customizable components with design tokens, Figma integration, and comprehensive testing.
 
