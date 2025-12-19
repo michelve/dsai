@@ -298,13 +298,13 @@ function DataTable({ data, columns }: Props) {
 invariant(config !== null, 'Config not initialized');
 ```
 
-2. **Prefer warnOnce for deprecation warnings:**
+1. **Prefer warnOnce for deprecation warnings:**
 
 ```tsx
 warnOnce(`${propName} is deprecated. Use ${newPropName} instead`);
 ```
 
-3. **Always name contexts:**
+1. **Always name contexts:**
 
 ```tsx
 const { Provider, useContext } = createContext({
@@ -312,7 +312,7 @@ const { Provider, useContext } = createContext({
 });
 ```
 
-4. **Set displayName for debugging:**
+1. **Set displayName for debugging:**
 
 ```tsx
 MyComponent.displayName = 'MyComponent';

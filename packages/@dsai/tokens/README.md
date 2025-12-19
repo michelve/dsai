@@ -394,7 +394,7 @@ Figma Design → Token Studio Plugin → figma-exports/*.json
 - **Storybook**: Load CSS variables globally
 - **Documentation**: Use JSON exports for token browser
 - **CI/CD**: Build tokens on every commit
-- **NPM**: Publish as `@dsai/tokens` package
+- **npm**: Publish as `@dsai/tokens` package
 
 ### Properties
 

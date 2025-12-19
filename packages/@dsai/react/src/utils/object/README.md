@@ -155,19 +155,19 @@ function InputWrapper({ helperText, error, ...props }: Props) {
 const allowed = pick(data, allowedFields);
 ```
 
-2. **Use omit for blocklists:**
+1. **Use omit for blocklists:**
 
 ```tsx
 const safe = omit(data, sensitiveFields);
 ```
 
-3. **Prefer shallow operations when possible:**
+1. **Prefer shallow operations when possible:**
 
 ```tsx
 const { password, ...safe } = user;
 ```
 
-4. **Deep merge for nested config:**
+1. **Deep merge for nested config:**
 
 ```tsx
 const config = deepMerge(defaults, userOverrides);

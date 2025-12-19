@@ -180,7 +180,7 @@ All packages are configured for optimal tree-shaking:
 
 1. **ESM format**: Default export format supports tree-shaking
 2. **Named exports**: Use named exports instead of default exports
-3. **Pure annotations**: tsup automatically adds /_#**PURE**_/ comments
+3. **Pure annotations**: tsup automatically adds /\*#**PURE\***/ comments
 4. **Side-effect free**: All packages marked as `"sideEffects": false` in package.json
 
 Example tree-shaking verification:
@@ -197,7 +197,7 @@ import { tokens } from '@dsai/react';
 External dependencies are not bundled:
 
 - **@dsai/tokens**: Marked as external in dependent packages
-- **react, react-dom**: Marked as peer dependencies and external
+- **React, React-dom**: Marked as peer dependencies and external
 - Consumers must install these separately
 
 This:

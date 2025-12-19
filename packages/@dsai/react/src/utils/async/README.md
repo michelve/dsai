@@ -370,7 +370,7 @@ try {
 }
 ```
 
-2. **Use cleanup in React:**
+1. **Use cleanup in React:**
 
 ```tsx
 useEffect(() => {
@@ -379,13 +379,13 @@ useEffect(() => {
 }, []);
 ```
 
-3. **Combine utilities:**
+1. **Combine utilities:**
 
 ```tsx
 const result = await retryWithBackoff(() => withTimeout(apiCall(), 5000), { maxAttempts: 3 });
 ```
 
-4. **Structured error handling:**
+1. **Structured error handling:**
 
 ```tsx
 const result = await retryWithBackoff(fn);

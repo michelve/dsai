@@ -80,7 +80,7 @@ The current Storybook Vite configuration lacks:
 - [ ] `nx run storybook:storybook` starts without errors
 - [ ] HMR works on component file changes (verify faster refresh)
 - [ ] All story files render correctly
-- [ ] Prop tables display via react-docgen-typescript
+- [ ] Prop tables display via React-docgen-TypeScript
 - [ ] Security config prevents access to `.env` files via dev server
 - [ ] `nx run storybook:build-storybook` succeeds with license file generated
 - [ ] Nx cache correctly stores/restores Vite optimization artifacts
@@ -106,37 +106,37 @@ The current Storybook Vite configuration lacks:
 
 ### Phase 2: Create Shared Config
 
-4. [ ] Create `config/vite.shared.ts` with:
+1. [ ] Create `config/vite.shared.ts` with:
    - Security defaults (`server.fs.deny`, `server.allowedHosts`, `server.cors`)
    - Common `optimizeDeps.include` patterns for workspace packages
    - Reusable helper functions for path resolution
 
 ### Phase 3: Security Hardening
 
-5. [ ] Add `server.fs.deny` patterns in `viteFinal`
-6. [ ] Configure explicit `server.allowedHosts` (localhost only for dev)
-7. [ ] Set `server.cors` with explicit origin configuration
-8. [ ] Verify `server.fs.strict: true` (Vite default since 2.7)
+1. [ ] Add `server.fs.deny` patterns in `viteFinal`
+2. [ ] Configure explicit `server.allowedHosts` (localhost only for dev)
+3. [ ] Set `server.cors` with explicit origin configuration
+4. [ ] Verify `server.fs.strict: true` (Vite default since 2.7)
 
 ### Phase 4: Performance Optimization
 
-9. [ ] Add `server.warmup.clientFiles` for frequently used component/token files
-10. [ ] Configure `optimizeDeps.include` for `@dsai/react`, `@dsai/tokens`
-11. [ ] Add `build.license: true` for compliance
+1. [ ] Add `server.warmup.clientFiles` for frequently used component/token files
+2. [ ] Configure `optimizeDeps.include` for `@dsai/react`, `@dsai/tokens`
+3. [ ] Add `build.license: true` for compliance
 
 ### Phase 5: Nx Integration
 
-12. [ ] Update `packages/@dsai/storybook/project.json` with cache outputs:
+1. [ ] Update `packages/@dsai/storybook/project.json` with cache outputs:
     - `node_modules/.vite` for dependency optimization cache
     - Existing `dist/storybook` for build output
 
 ### Phase 6: Verification
 
-13. [ ] Start Storybook and verify all stories render
-14. [ ] Test HMR on component changes
-15. [ ] Verify prop tables still work
-16. [ ] Test security by attempting to access `.env` via dev server
-17. [ ] Run Codacy analysis on modified files
+1. [ ] Start Storybook and verify all stories render
+2. [ ] Test HMR on component changes
+3. [ ] Verify prop tables still work
+4. [ ] Test security by attempting to access `.env` via dev server
+5. [ ] Run Codacy analysis on modified files
 
 ---
 

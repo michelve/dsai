@@ -278,13 +278,13 @@ function ResponsiveLayout() {
 const debouncedSearch = debounce(search, 300);
 ```
 
-2. **Throttle for events that fire rapidly:**
+1. **Throttle for events that fire rapidly:**
 
 ```tsx
 const throttledScroll = throttle(updateUI, 100);
 ```
 
-3. **Always cleanup in React:**
+1. **Always cleanup in React:**
 
 ```tsx
 useEffect(() => {
@@ -297,13 +297,13 @@ useEffect(() => {
 }, []);
 ```
 
-4. **Use maxWait for important operations:**
+1. **Use maxWait for important operations:**
 
 ```tsx
 debounce(save, 1000, { maxWait: 5000 });
 ```
 
-5. **Memoize debounced/throttled functions:**
+1. **Memoize debounced/throttled functions:**
 
 ```tsx
 const handler = useMemo(() => debounce(fn, 300), []);

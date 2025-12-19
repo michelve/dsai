@@ -349,7 +349,7 @@ function ErrorBoundary({ children }: Props) {
 setTelemetryClient(appInsightsClient);
 ```
 
-2. **Add context to measurements:**
+1. **Add context to measurements:**
 
 ```tsx
 measurePerformance(fn, {
@@ -357,7 +357,7 @@ measurePerformance(fn, {
 });
 ```
 
-3. **Use timing sessions for multi-step operations:**
+1. **Use timing sessions for multi-step operations:**
 
 ```tsx
 const session = startTiming('checkout');
@@ -365,7 +365,7 @@ const session = startTiming('checkout');
 session.end({ itemCount, total });
 ```
 
-4. **Wrap critical functions:**
+1. **Wrap critical functions:**
 
 ```tsx
 const trackedFunction = wrapWithTelemetry(criticalOperation, { name: 'criticalOperation' });

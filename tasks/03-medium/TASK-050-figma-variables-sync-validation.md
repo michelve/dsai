@@ -19,6 +19,7 @@ Create automated validation tests to ensure Figma Variables stay in sync with co
 ## Acceptance Criteria
 
 ### Validation Tests
+
 - [ ] Compare Figma Variables JSON with code tokens JSON
 - [ ] Detect added/removed/changed variables
 - [ ] Validate color contrast ratios (WCAG 2.1 AA)
@@ -26,23 +27,27 @@ Create automated validation tests to ensure Figma Variables stay in sync with co
 - [ ] Validate semantic token references
 
 ### Reporting
+
 - [ ] Generate JSON diff report
 - [ ] Highlight contrast ratio failures
 - [ ] List missing/extra tokens
 - [ ] Human-readable summary
 
 ### CI/CD Integration
+
 - [ ] GitHub Actions workflow
 - [ ] Run after token sync
 - [ ] Fail build on validation errors
 - [ ] Post comment on PR with results
 
 ### Visual Regression (Optional)
+
 - [ ] Chromatic or Percy integration
 - [ ] Screenshot components with tokens
 - [ ] Compare before/after token changes
 
 ### Testing
+
 - [ ] Test with intentional mismatches
 - [ ] Test contrast validation
 - [ ] Test CI/CD workflow
@@ -51,7 +56,8 @@ Create automated validation tests to ensure Figma Variables stay in sync with co
 
 ## Dependencies
 
-### Requires:
+### Requires
+
 - **TASK-017**: GitHub Actions Token Sync
 - **TASK-018**: Populate Figma Variables
 

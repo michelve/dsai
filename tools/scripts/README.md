@@ -52,7 +52,7 @@ tools/scripts/
 | `fix-dark-mode-colors.js`        | Fixes dark mode color values             | Utility                                            |
 | `update-descriptions-from-md.js` | Updates token descriptions from markdown | Utility                                            |
 
-## NPM Scripts (Root)
+## npm Scripts (Root)
 
 ```bash
 # Token operations
@@ -64,7 +64,7 @@ pnpm tokens:build        # Transform + validate
 pnpm analyze:buttons     # Analyze Button component usage
 ```
 
-## NPM Scripts (@dsai/tokens)
+## npm Scripts (@dsai/tokens)
 
 ```bash
 pnpm --filter @dsai/tokens tokens:validate:figma      # Validate Figma exports
@@ -72,7 +72,7 @@ pnpm --filter @dsai/tokens tokens:transform           # Transform to DTCG
 pnpm --filter @dsai/tokens tokens:build               # Full token build
 ```
 
-## NPM Scripts (@dsai/storybook)
+## npm Scripts (@dsai/storybook)
 
 ```bash
 pnpm --filter @dsai/storybook kill     # Kill Storybook processes

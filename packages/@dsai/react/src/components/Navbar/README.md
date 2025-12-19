@@ -397,7 +397,7 @@ import { Navbar, Dropdown } from '@dsai/react';
 | `className`      | `string`        | -         | Additional class name                                                       |
 | `style`          | `CSSProperties` | -         | Inline styles                                                               |
 | `data-testid`    | `string`        | -         | Test ID                                                                     |
-| _data attribute_ | -               | -         | `data-orientation` is set to `horizontal` or `vertical` for styling/testing |
+| *data attribute* | -               | -         | `data-orientation` is set to `horizontal` or `vertical` for styling/testing |
 
 ### Navbar.Link Props
 

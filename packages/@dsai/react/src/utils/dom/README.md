@@ -345,7 +345,7 @@ const readOnlyRef = { current: null } as const;
 mergeRefs(readOnlyRef); // Warning in dev, silent in prod
 ```
 
-2. **Function ref throws:**
+1. **Function ref throws:**
 
 ```tsx
 const throwingRef = () => {

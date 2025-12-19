@@ -194,14 +194,14 @@ const formatted = formatDate(date, {
 });
 ```
 
-2. **Use relative time for recent dates:**
+1. **Use relative time for recent dates:**
 
 ```tsx
 const isRecent = Date.now() - date.getTime() < 7 * 24 * 60 * 60 * 1000;
 const display = isRecent ? formatRelativeTime(date) : formatDate(date);
 ```
 
-3. **Include ISO datetime for accessibility:**
+1. **Include ISO datetime for accessibility:**
 
 ```tsx
 <time dateTime={date.toISOString()}>{formatRelativeTime(date)}</time>

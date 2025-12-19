@@ -19,6 +19,7 @@ Create comprehensive migration guide for teams upgrading from Bootstrap to the D
 ## Acceptance Criteria
 
 ### Migration Guide
+
 - [ ] Overview of migration approach
 - [ ] Step-by-step migration instructions
 - [ ] Component-by-component comparison (Bootstrap vs DSAi)
@@ -26,12 +27,14 @@ Create comprehensive migration guide for teams upgrading from Bootstrap to the D
 - [ ] CSS migration guide (Bootstrap classes → tokens)
 
 ### API Comparison Tables
+
 - [ ] Table for each component (38 components)
 - [ ] Bootstrap props vs DSAi props
 - [ ] Bootstrap classes vs DSAi classes
 - [ ] Examples of before/after code
 
 ### Codemods (Optional)
+
 - [ ] JSCodeshift codemod scripts
 - [ ] Automate prop name changes
 - [ ] Automate import statement updates
@@ -39,12 +42,14 @@ Create comprehensive migration guide for teams upgrading from Bootstrap to the D
 - [ ] Testing for codemods
 
 ### Examples and Tutorials
+
 - [ ] Full migration example project
 - [ ] Video tutorials (optional)
 - [ ] Common migration patterns
 - [ ] Troubleshooting FAQ
 
 ### Publication
+
 - [ ] Migration guide in documentation site
 - [ ] Link from README
 - [ ] Announce to teams
@@ -53,7 +58,8 @@ Create comprehensive migration guide for teams upgrading from Bootstrap to the D
 
 ## Dependencies
 
-### Requires:
+### Requires
+
 - **TASK-006**: Audit Bootstrap Components
 - All component tasks (TASK-021 through TASK-045)
 

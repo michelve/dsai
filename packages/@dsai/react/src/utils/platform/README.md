@@ -311,7 +311,7 @@ const deviceInfo = useMemo(
 );
 ```
 
-2. **Use feature detection over browser detection:**
+1. **Use feature detection over browser detection:**
 
 ```tsx
 if ('serviceWorker' in navigator) {
@@ -319,7 +319,7 @@ if ('serviceWorker' in navigator) {
 }
 ```
 
-3. **Respect device capabilities:**
+1. **Respect device capabilities:**
 
 ```tsx
 if (!hasHover()) {
@@ -327,7 +327,7 @@ if (!hasHover()) {
 }
 ```
 
-4. **Support both RTL and LTR:**
+1. **Support both RTL and LTR:**
 
 ```tsx
 const margin = isRTL() ? { marginLeft: spacing } : { marginRight: spacing };

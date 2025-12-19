@@ -1,4 +1,4 @@
-# DSAI Icon Components
+# DSAi Icon Components
 
 Bootstrap Icons as React components with full accessibility support.
 

@@ -8,7 +8,7 @@
 | `open` | `CLOSE` | `closing` |
 | `open` | `FORCE_CLOSE` | `closing` |
 | `closing` | `CLOSE_ANIMATION_END` | `unmounting` |
-| `unmounting` | _cleanup done_ | `closed` |
+| `unmounting` | *cleanup done* | `closed` |
 | Any state | `ERROR` | `error` |
 
 **Behavior expectations**:
@@ -150,7 +150,7 @@ This FSM ensures every open/close cycle is deterministic, unambiguous, testable,
 
 ## Important Notes
 
-**_What to Watch Out For — What Our Spec Must Do to Succeed:_**
+***What to Watch Out For — What Our Spec Must Do to Succeed:***
 
 - [ ] Implementation Complexity: building overlay manager + stacking + animations + focus + accessibility + theming + variant modes + FSM is non-trivial. Mistakes could lead to subtle bugs (scroll leaks, focus bugs, z-index conflicts, animation glitches).
 - [ ] Maintenance Overhead: Because this is custom, we own everything — changes to design tokens, global styles, or layout might break the sheet. Documentation, tests, and governance will be vital.

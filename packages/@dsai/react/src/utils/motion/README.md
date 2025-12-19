@@ -323,13 +323,13 @@ function useSpring(target: number, config?: Partial<SpringConfig>) {
 const progress = easeOut(t);
 ```
 
-2. **Clamp interpolated values when needed:**
+1. **Clamp interpolated values when needed:**
 
 ```tsx
 const value = interpolate(input, [0, 1], [0, 100], { clamp: true });
 ```
 
-3. **Reset springs when target changes dramatically:**
+1. **Reset springs when target changes dramatically:**
 
 ```tsx
 if (Math.abs(newTarget - oldTarget) > threshold) {
@@ -337,7 +337,7 @@ if (Math.abs(newTarget - oldTarget) > threshold) {
 }
 ```
 
-4. **Respect prefersReducedMotion:**
+1. **Respect prefersReducedMotion:**
 
 ```tsx
 import { prefersReducedMotion } from '../browser';

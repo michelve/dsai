@@ -19,6 +19,7 @@ Create a GitHub Actions workflow that automatically syncs design tokens from Fig
 ## Acceptance Criteria
 
 ### GitHub Actions Workflow
+
 - [ ] Workflow file created: `.github/workflows/token-sync.yml`
 - [ ] Workflow triggered on:
   - Manual dispatch (on-demand sync)
@@ -27,29 +28,34 @@ Create a GitHub Actions workflow that automatically syncs design tokens from Fig
 - [ ] Workflow runs on `ubuntu-latest`
 
 ### Token Export from Figma
+
 - [ ] Figma API integration configured
 - [ ] Figma personal access token stored in GitHub Secrets
 - [ ] Script exports Figma Variables to JSON
 - [ ] Exported JSON matches token structure from TASK-011
 
 ### Token Build
+
 - [ ] Style Dictionary build runs in workflow
 - [ ] All output formats generated (CSS, JS, TS, SCSS, JSON)
 - [ ] Build artifacts validated (no errors)
 - [ ] Generated files committed to git (optional) or published directly
 
 ### Change Detection
+
 - [ ] Workflow detects if tokens changed
 - [ ] If no changes, workflow exits early
 - [ ] If changes detected, creates PR or commits directly
 - [ ] Commit message includes change summary
 
 ### Notifications
+
 - [ ] Slack/Discord notification on token changes (optional)
 - [ ] GitHub issue created for manual review (optional)
 - [ ] PR review requested from design team
 
 ### Documentation
+
 - [ ] Workflow README with setup instructions
 - [ ] How to manually trigger sync
 - [ ] How to configure Figma API token
@@ -59,13 +65,15 @@ Create a GitHub Actions workflow that automatically syncs design tokens from Fig
 
 ## Dependencies
 
-### Requires:
+### Requires
+
 - **TASK-004**: CI/CD Pipeline Skeleton (GitHub Actions basics)
 - **TASK-010**: Figma Variables Collection (Figma structure)
 - **TASK-011**: Design JSON Token Structure (target format)
 - **TASK-012**: Setup Style Dictionary Pipeline (build process)
 
-### Enhances:
+### Enhances
+
 - **TASK-018**: Populate Figma Variables (ensures sync works)
 
 ---
@@ -73,6 +81,7 @@ Create a GitHub Actions workflow that automatically syncs design tokens from Fig
 ## Implementation Steps
 
 ### Step 1: Create Figma Export Script (2 hours)
+
 ```javascript
 // scripts/export-figma-tokens.js
 const fetch = require('node-fetch');
@@ -110,6 +119,7 @@ exportTokens();
 ```
 
 ### Step 2: Create GitHub Actions Workflow (2 hours)
+
 ```yaml
 # .github/workflows/token-sync.yml
 name: Sync Design Tokens from Figma
@@ -182,6 +192,7 @@ jobs:
 ```
 
 ### Step 3: Configure Secrets (0.5 hours)
+
 1. Get Figma Personal Access Token:
    - Go to Figma Account Settings
    - Generate new token
@@ -191,14 +202,18 @@ jobs:
 3. Test secrets are accessible in workflow
 
 ### Step 4: Add Change Detection (1 hour)
+
 1. Improve change detection to show what changed:
+
 ```bash
 git diff --name-only tokens/
 ```
-2. Generate change summary for PR body
-3. Add validation before creating PR
+
+1. Generate change summary for PR body
+2. Add validation before creating PR
 
 ### Step 5: Test Workflow (0.5 hours)
+
 1. Manually trigger workflow
 2. Verify Figma export works
 3. Verify Style Dictionary build works
@@ -206,7 +221,9 @@ git diff --name-only tokens/
 5. Fix any issues
 
 ### Step 6: Documentation (0.5 hours)
+
 Create `.github/workflows/README.md`:
+
 ```markdown
 # Token Sync Workflow
 
@@ -248,18 +265,21 @@ Create `.github/workflows/README.md`:
 
 ## Notes
 
-### Figma API:
+### Figma API
+
 - Rate limit: 1000 requests per hour
 - Personal tokens for server-side access
 - Variables API endpoint: `/v1/files/{file_key}/variables/local`
 
-### Automation Benefits:
+### Automation Benefits
+
 - Design-code sync stays up-to-date
 - Reduces manual token copying
 - Catches token changes immediately
 - Automates repetitive work
 
-### Alternative Approaches:
+### Alternative Approaches
+
 - Use Figma Tokens plugin (manual export)
 - Use figma-api npm package
 - Use Figma webhooks (requires server)

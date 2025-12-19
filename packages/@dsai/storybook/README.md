@@ -19,7 +19,7 @@ pnpm build
 pnpm verify
 ```
 
-Access at: **http://localhost:6006**
+Access at: **<http://localhost:6006>**
 
 ## 📖 What's Documented
 

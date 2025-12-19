@@ -1,0 +1,20 @@
+{
+  // markdownlint-cli2 configuration
+  // Extends the base markdownlint config
+  "config": {
+    "extends": ".markdownlint.json"
+  },
+
+  // Glob patterns to ignore
+  "ignores": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/out-tsc/**",
+    "**/storybook-static/**",
+    "**/coverage/**",
+    "**/CHANGELOG.md",
+    "pnpm-lock.yaml",
+    "**/.nx/**",
+    "**/vendor/**"
+  ]
+}

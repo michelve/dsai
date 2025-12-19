@@ -332,7 +332,7 @@ function createSession() {
 const safe = sanitizeHtml(userInput);
 ```
 
-2. **Validate URLs before use:**
+1. **Validate URLs before use:**
 
 ```tsx
 const safeUrl = sanitizeUrl(url);
@@ -341,13 +341,13 @@ if (safeUrl !== 'about:blank') {
 }
 ```
 
-3. **Use crypto IDs for security-sensitive contexts:**
+1. **Use crypto IDs for security-sensitive contexts:**
 
 ```tsx
 const sessionId = generateCryptoId();
 ```
 
-4. **Handle clipboard API permissions:**
+1. **Handle clipboard API permissions:**
 
 ```tsx
 const result = await copyToClipboard(text);
@@ -361,7 +361,7 @@ if (!result.success) {
 ## Security Notes
 
 - `sanitizeHtml` removes all script tags and event handlers
-- `sanitizeUrl` blocks javascript:, data:, vbscript:, file: protocols
+- `sanitizeUrl` blocks JavaScript:, data:, vbscript:, file: protocols
 - Token generation uses `crypto.getRandomValues()` (cryptographically secure)
 - Clipboard API requires user gesture and HTTPS
 
