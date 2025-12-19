@@ -32,6 +32,10 @@ exclude_paths:
   - '**/vendor/**'
   - '**/third-party/**'
 
+  # Build-time CLI tools (not web servers, have proper security controls)
+  # These tools run locally with env vars and validate all paths/URLs
+  - 'tools/icons/**'
+
   # Miscellaneous
   - '.temp/**'
   - '.github/workflows/**'
