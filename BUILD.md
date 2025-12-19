@@ -35,9 +35,9 @@ dist/
 
 | Package            | ESM (gzipped) | CJS (gzipped) | Status |
 | ------------------ | ------------- | ------------- | ------ |
-| @DSAi/tokens       | 117 B         | 163 B         | ✅     |
-| @DSAi/React        | 156 B         | 185 B         | ✅     |
-| @DSAi/figma-tokens | 129 B         | 174 B         | ✅     |
+| @dsai/tokens       | 117 B         | 163 B         | ✅     |
+| @dsai/react        | 156 B         | 185 B         | ✅     |
+| @dsai/figma-tokens | 129 B         | 174 B         | ✅     |
 
 **Target**: < 50KB gzipped per package (all packages well under target)
 
