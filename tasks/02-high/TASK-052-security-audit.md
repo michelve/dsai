@@ -19,12 +19,14 @@ Conduct security audit of the component library. Scan for dependency vulnerabili
 ## Acceptance Criteria
 
 ### Dependency Security
+
 - [ ] Run `npm audit` and resolve all high/critical issues
 - [ ] Run Snyk scan (or similar) for vulnerabilities
 - [ ] Update vulnerable dependencies
 - [ ] Document any acceptable risks
 
 ### Code Security Review
+
 - [ ] XSS prevention review (especially for user content)
 - [ ] Sanitize user inputs (DOMPurify if needed)
 - [ ] Review dangerouslySetInnerHTML usage (should be minimal/none)
@@ -32,16 +34,19 @@ Conduct security audit of the component library. Scan for dependency vulnerabili
 - [ ] Content Security Policy (CSP) compatibility
 
 ### Accessibility Security
+
 - [ ] Screen reader spoofing prevention
 - [ ] Keyboard trap prevention
 - [ ] Focus management security
 
 ### OWASP Top 10 Review
+
 - [ ] Review components against OWASP Top 10
 - [ ] Document security considerations
 - [ ] Create security policy (SECURITY.md)
 
 ### Testing
+
 - [ ] Security-focused tests
 - [ ] Penetration testing (optional, if resources available)
 
@@ -49,7 +54,8 @@ Conduct security audit of the component library. Scan for dependency vulnerabili
 
 ## Dependencies
 
-### Requires:
+### Requires
+
 - All component tasks (TASK-021 through TASK-045)
 
 ---

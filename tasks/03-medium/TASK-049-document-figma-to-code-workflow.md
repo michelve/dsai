@@ -19,6 +19,7 @@ Create comprehensive documentation for designers and developers on the Figma-to-
 ## Acceptance Criteria
 
 ### Documentation Sections
+
 - [ ] Overview of Figma integration
 - [ ] Token sync workflow (Figma Variables → Code)
 - [ ] Using Code Connect in Dev Mode
@@ -27,6 +28,7 @@ Create comprehensive documentation for designers and developers on the Figma-to-
 - [ ] Troubleshooting common issues
 
 ### Content Types
+
 - [ ] Written guides in Markdown
 - [ ] Screenshots and diagrams
 - [ ] Video tutorials (optional, 2-3 short videos)
@@ -34,12 +36,14 @@ Create comprehensive documentation for designers and developers on the Figma-to-
 - [ ] FAQ section
 
 ### Publication
+
 - [ ] Documentation site or wiki page
 - [ ] Link from Storybook "Getting Started"
 - [ ] Link from README
 - [ ] Share with design and dev teams
 
 ### Testing
+
 - [ ] Review by design team
 - [ ] Review by development team
 - [ ] User testing with new team members
@@ -48,7 +52,8 @@ Create comprehensive documentation for designers and developers on the Figma-to-
 
 ## Dependencies
 
-### Requires:
+### Requires
+
 - **TASK-017**: GitHub Actions Token Sync
 - **TASK-046**: Create Figma Code Connect Mappings
 - **TASK-048**: Create Figma Plugin

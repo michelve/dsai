@@ -275,7 +275,7 @@ const sorted = stableSort(items, {
 });
 ```
 
-2. **Memoize expensive computations:**
+1. **Memoize expensive computations:**
 
 ```tsx
 const memoized = memoize(expensiveFunction, {
@@ -284,13 +284,13 @@ const memoized = memoize(expensiveFunction, {
 });
 ```
 
-3. **Use createSelector for derived state:**
+1. **Use createSelector for derived state:**
 
 ```tsx
 const selectDerived = createSelector(selectInput, (input) => deriveOutput(input));
 ```
 
-4. **Validate chunk size:**
+1. **Validate chunk size:**
 
 ```tsx
 const size = Math.max(1, Math.floor(chunkSize));

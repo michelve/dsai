@@ -1,4 +1,4 @@
-# @dsai/tokens
+# @DSAi/tokens
 
 Design tokens for the DSAi Design System - The foundation for all UI components.
 
@@ -394,7 +394,7 @@ Figma Design → Token Studio Plugin → figma-exports/*.json
 - **Storybook**: Load CSS variables globally
 - **Documentation**: Use JSON exports for token browser
 - **CI/CD**: Build tokens on every commit
-- **NPM**: Publish as `@dsai/tokens` package
+- **npm**: Publish as `@dsai/tokens` package
 
 ### Properties
 
@@ -574,9 +574,9 @@ Currently, only Light mode is exported and transformed.
 
 ## Related Packages
 
-- **@dsai/react**: React components that consume these tokens
-- **@dsai/storybook**: Documentation and examples
-- **@dsai/figma-tokens**: Figma integration utilities
+- **@DSAi/React**: React components that consume these tokens
+- **@DSAi/storybook**: Documentation and examples
+- **@DSAi/figma-tokens**: Figma integration utilities
 
 ## Development
 

@@ -456,11 +456,11 @@ For each utility category, complete this threat model:
 
 ## References
 
-- **OWASP Top 10**: https://owasp.org/www-project-top-ten/
-- **OWASP ASVS L2**: https://owasp.org/www-project-application-security-verification-standard/
-- **WCAG 2.2 AA**: https://www.w3.org/WAI/WCAG22/quickref/
-- **Mozilla Web Security**: https://infosec.mozilla.org/guidelines/web_security
-- **TypeScript Strict Mode**: https://www.typescriptlang.org/tsconfig#strict
+- **OWASP Top 10**: <https://owasp.org/www-project-top-ten/>
+- **OWASP ASVS L2**: <https://owasp.org/www-project-application-security-verification-standard/>
+- **WCAG 2.2 AA**: <https://www.w3.org/WAI/WCAG22/quickref/>
+- **Mozilla Web Security**: <https://infosec.mozilla.org/guidelines/web_security>
+- **TypeScript Strict Mode**: <https://www.typescriptlang.org/tsconfig#strict>
 - **TASK-072 Enterprise Criteria**: See test file `utils-enterprise-compliance.test.ts`
 
 ---

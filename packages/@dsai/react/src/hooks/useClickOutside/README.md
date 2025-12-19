@@ -302,7 +302,7 @@ function NestedExample() {
 4. **Callback**: If click is outside all refs, calls the callback with the event object
 5. **Cleanup**: Removes all event listeners when component unmounts or when `enabled` becomes `false`
 
-## Why Capture Phase?
+## Why Capture Phase
 
 By default, this hook uses the capture phase (`capture: true`). This ensures the click-outside handler runs **before** any `event.stopPropagation()` calls in child components can prevent it.
 
@@ -314,7 +314,7 @@ useClickOutside(ref, handleClose); // ✅ Runs even if child calls stopPropagati
 useClickOutside(ref, handleClose, { capture: false }); // ⚠️ May not run if child calls stopPropagation
 ```
 
-## Why mousedown Instead of click?
+## Why mousedown Instead of click
 
 The hook uses `mousedown` instead of `click` by default to fire **before** potential `blur` events on input elements. This prevents race conditions where an input loses focus before the click-outside handler can run.
 
@@ -368,9 +368,9 @@ function ServerRenderedComponent() {
 - Need comprehensive dismiss behavior (Escape, focus, scroll)
 - Already using Floating UI
 
-### vs. react-onclickoutside
+### vs. React-onclickoutside
 
-| Feature              | useClickOutside | react-onclickoutside |
+| Feature              | useClickOutside | React-onclickoutside |
 | -------------------- | --------------- | -------------------- |
 | Hook-based API       | ✅              | ❌ (HOC)             |
 | Multiple refs        | ✅              | ❌                   |

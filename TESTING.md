@@ -454,6 +454,7 @@ expect(screen.getByText('Hidden')).not.toBeVisible();
    ```
 
 5. **Test error states**
+
    ```typescript
    it('should show error message on failure', async () => {
      render(<Form />);

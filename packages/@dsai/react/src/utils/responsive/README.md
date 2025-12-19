@@ -175,14 +175,14 @@ function useResponsiveValue<T>(value: ResponsiveValue<T>): T | undefined {
 const value = getResponsiveValue(responsive, bp) ?? defaultValue;
 ```
 
-2. **Use with media queries for SSR:**
+1. **Use with media queries for SSR:**
 
 ```tsx
 // Server renders mobile-first
 const columns = getResponsiveValue(config, 'xs');
 ```
 
-3. **Debounce resize handlers:**
+1. **Debounce resize handlers:**
 
 ```tsx
 const debouncedUpdate = debounce(updateBreakpoint, 150);

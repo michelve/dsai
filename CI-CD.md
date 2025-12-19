@@ -182,14 +182,14 @@ The CI workflow runs without secrets.
 #### For Publishing (`publish.yml`)
 
 - `NPM_TOKEN`: npm authentication token
-  - Create at: https://www.npmjs.com/settings/tokens
+  - Create at: <https://www.npmjs.com/settings/tokens>
   - Type: Automation token
   - Scope: Read and write
 
 #### For Figma Sync (`token-sync.yml`)
 
 - `FIGMA_ACCESS_TOKEN`: Figma API personal access token
-  - Create at: https://www.figma.com/developers/api#access-tokens
+  - Create at: <https://www.figma.com/developers/api#access-tokens>
   - Scope: Read-only file access
 
 ### Setting Secrets

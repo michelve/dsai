@@ -294,7 +294,7 @@ function ValidatedField({ name, rules, ...props }: Props) {
 <input onBlur={() => validateField(value, rules)} />
 ```
 
-2. **Show validation errors clearly:**
+1. **Show validation errors clearly:**
 
 ```tsx
 {
@@ -302,7 +302,7 @@ function ValidatedField({ name, rules, ...props }: Props) {
 }
 ```
 
-3. **Disable submit during validation:**
+1. **Disable submit during validation:**
 
 ```tsx
 <button disabled={isSubmitting || !isFormValid(validation)}>Submit</button>

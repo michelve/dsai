@@ -296,13 +296,13 @@ if (!meetsWCAG(textColor, bgColor)) {
 }
 ```
 
-2. **Use semantic tokens:**
+1. **Use semantic tokens:**
 
 ```tsx
 const primaryVar = tokenToCssVar('color.primary.500');
 ```
 
-3. **Validate color input:**
+1. **Validate color input:**
 
 ```tsx
 const rgb = hexToRgb(userInput);

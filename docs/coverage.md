@@ -1,6 +1,6 @@
 # Coverage Setup for Codacy
 
-This document explains how code coverage is configured and uploaded to Codacy for the DSAI project.
+This document explains how code coverage is configured and uploaded to Codacy for the DSAi project.
 
 ## Overview
 

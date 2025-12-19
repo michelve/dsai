@@ -262,7 +262,7 @@ isValidEmail('user@127.0.0.1'); // false (IP address)
 
 **What It Validates:**
 
-- Basic email structure (local@domain.tld)
+- Basic email structure (<local@domain.tld>)
 - No spaces or @ in local/domain parts
 - Presence of TLD (top-level domain)
 
@@ -464,7 +464,7 @@ function UrlInput() {
 
 ## Security Comparison Matrix
 
-| Function       | Relative Paths | Fragments (#) | mailto:/tel: | javascript: | data:    | Empty/Undefined   |
+| Function       | Relative Paths | Fragments (#) | mailto:/tel: | JavaScript: | data:    | Empty/Undefined   |
 | -------------- | -------------- | ------------- | ------------ | ----------- | -------- | ----------------- |
 | `isSafeHref`   | ✅ true        | ✅ true       | ✅ true      | ❌ false    | ❌ false | ✅ true (default) |
 | `isValidHref`  | ✅ true        | ✅ true       | ✅ true      | ⚠️ true     | ⚠️ true  | ❌ false          |

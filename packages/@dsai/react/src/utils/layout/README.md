@@ -284,13 +284,13 @@ useEffect(() => {
 }, []);
 ```
 
-2. **Throttle expensive operations:**
+1. **Throttle expensive operations:**
 
 ```tsx
 const handler = throttleFrame(expensiveCalculation);
 ```
 
-3. **Check for element existence:**
+1. **Check for element existence:**
 
 ```tsx
 if (ref.current && isInViewport(ref.current)) {

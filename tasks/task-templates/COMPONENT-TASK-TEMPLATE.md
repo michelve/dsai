@@ -251,12 +251,12 @@ Run: `pnpm test [ComponentName].a11y`
    ```
 ````
 
-2. [ ] Review generated files
-3. [ ] Plan component structure
+1. [ ] Review generated files
+2. [ ] Plan component structure
 
 ### Step 2: Component Implementation (2-5 hours depending on complexity)
 
-4. [ ] Define TypeScript Props interface
+1. [ ] Define TypeScript Props interface
 
    ```typescript
    export interface [ComponentName]Props {
@@ -268,60 +268,60 @@ Run: `pnpm test [ComponentName].a11y`
    }
    ```
 
-5. [ ] Implement component logic
-6. [ ] Add proper semantic HTML
-7. [ ] Handle all prop variations
-8. [ ] Implement keyboard navigation (if interactive)
-9. [ ] Add ARIA attributes for accessibility
-10. [ ] Export component properly
+2. [ ] Implement component logic
+3. [ ] Add proper semantic HTML
+4. [ ] Handle all prop variations
+5. [ ] Implement keyboard navigation (if interactive)
+6. [ ] Add ARIA attributes for accessibility
+7. [ ] Export component properly
 
 ### Step 3: Styling (1-2 hours)
 
-11. [ ] Create CSS Module file
-12. [ ] Use CSS variables from design tokens
-13. [ ] Style all variants
-14. [ ] Style all sizes
-15. [ ] Style all states (hover, focus, active, disabled)
-16. [ ] Add transitions/animations
-17. [ ] Ensure responsive behavior
-18. [ ] Test in browser
+1. [ ] Create CSS Module file
+2. [ ] Use CSS variables from design tokens
+3. [ ] Style all variants
+4. [ ] Style all sizes
+5. [ ] Style all states (hover, focus, active, disabled)
+6. [ ] Add transitions/animations
+7. [ ] Ensure responsive behavior
+8. [ ] Test in browser
 
 ### Step 4: Testing (2-3 hours)
 
-19. [ ] Write unit tests for all props
-20. [ ] Write tests for user interactions
-21. [ ] Write keyboard navigation tests
-22. [ ] Write accessibility tests with jest-axe
-23. [ ] Verify 90%+ coverage
-24. [ ] Run tests and fix failures
+1. [ ] Write unit tests for all props
+2. [ ] Write tests for user interactions
+3. [ ] Write keyboard navigation tests
+4. [ ] Write accessibility tests with jest-axe
+5. [ ] Verify 90%+ coverage
+6. [ ] Run tests and fix failures
 
 ### Step 5: Storybook Stories (1-2 hours)
 
-25. [ ] Create default story
-26. [ ] Create variant stories
-27. [ ] Create size stories
-28. [ ] Create state stories
-29. [ ] Add interactive Controls
-30. [ ] Write MDX documentation
-31. [ ] Test in Storybook UI
+1. [ ] Create default story
+2. [ ] Create variant stories
+3. [ ] Create size stories
+4. [ ] Create state stories
+5. [ ] Add interactive Controls
+6. [ ] Write MDX documentation
+7. [ ] Test in Storybook UI
 
 ### Step 6: Documentation (1 hour)
 
-32. [ ] Write component README
-33. [ ] Document all props with examples
-34. [ ] Add usage guidelines
-35. [ ] Create migration guide from Bootstrap
-36. [ ] Add accessibility notes
+1. [ ] Write component README
+2. [ ] Document all props with examples
+3. [ ] Add usage guidelines
+4. [ ] Create migration guide from Bootstrap
+5. [ ] Add accessibility notes
 
 ### Step 7: Review & Polish (30 minutes)
 
-37. [ ] Code self-review
-38. [ ] Run linter and fix issues
-39. [ ] Run type-check and fix errors
-40. [ ] Verify accessibility in browser
-41. [ ] Test with screen reader
-42. [ ] Check bundle size impact
-43. [ ] Update component index exports
+1. [ ] Code self-review
+2. [ ] Run linter and fix issues
+3. [ ] Run type-check and fix errors
+4. [ ] Verify accessibility in browser
+5. [ ] Test with screen reader
+6. [ ] Check bundle size impact
+7. [ ] Update component index exports
 
 ---
 

@@ -19,33 +19,39 @@ Audit test coverage across all components. Ensure 90%+ coverage target is met, a
 ## Acceptance Criteria
 
 ### Coverage Analysis
+
 - [ ] Generate coverage report (jest --coverage)
 - [ ] Identify components below 90% coverage
 - [ ] Add missing unit tests
 - [ ] Target: 90%+ line, branch, function coverage
 
 ### Integration Tests
+
 - [ ] Integration tests for complex components (Modal, Dropdown, Tabs)
 - [ ] Test component composition (Card with header/body/footer)
 - [ ] Test form components together (Input, Select, Checkbox)
 
 ### Visual Regression Tests
+
 - [ ] Setup Chromatic or Percy
 - [ ] Snapshot all component variants
 - [ ] Configure visual diff thresholds
 - [ ] Integrate with CI/CD
 
 ### E2E Tests (Optional but Recommended)
+
 - [ ] Setup Playwright or Cypress
 - [ ] Test critical user flows
 - [ ] Test accessibility with real screen readers (optional)
 
 ### Accessibility Testing
+
 - [ ] Verify jest-axe tests for all components
 - [ ] Manual testing with screen readers
 - [ ] Keyboard navigation testing
 
 ### Documentation
+
 - [ ] Coverage reports in README
 - [ ] Testing guide for contributors
 
@@ -53,7 +59,8 @@ Audit test coverage across all components. Ensure 90%+ coverage target is met, a
 
 ## Dependencies
 
-### Requires:
+### Requires
+
 - All component tasks (TASK-021 through TASK-045)
 
 ---

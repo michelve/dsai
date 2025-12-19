@@ -236,4 +236,3 @@ The Tabs component follows WCAG 2.2 AA guidelines:
 
 - [Button](../Button/README.md) - For actions
 - [Card](../Card/README.md) - For content containers
-

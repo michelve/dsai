@@ -17,7 +17,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 - Bootstrap: v5 (follow native markup and architecture - CRITICAL)
 - Storybook Blocks: Use `@storybook/addon-docs/blocks` (NOT `@storybook/blocks`)
 
-**Story Organization:** Keep stories ONLY in `@dsai/storybook`. Reference "DSAI" (no version numbers) in story titles, not "Bootstrap v5". Verify you have correctly imported the component and story.
+**Story Organization:** Keep stories ONLY in `@dsai/storybook`. Reference "DSAi" (no version numbers) in story titles, not "Bootstrap v5". Verify you have correctly imported the component and story.
 
 **Component Updates:** When creating new components, update all related stories to use real components (remove mocks).
 
@@ -351,9 +351,9 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 
 Notes:
 
-eslint: npx eslint packages/@dsai/storybook/docs/components/
+eslint: npx eslint packages/@DSAi/storybook/docs/components/
 How to test component: npm test -- Accordion
-eslint: npx eslint packages/@dsai/react/src/components/Accordion
+eslint: npx eslint packages/@DSAi/React/src/components/Accordion
 
 **Documentation Gates:**
 

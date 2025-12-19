@@ -1,4 +1,4 @@
-# @dsai/storybook
+# @DSAi/storybook
 
 > Official Storybook documentation for the DSAi Design System
 
@@ -19,7 +19,7 @@ pnpm build
 pnpm verify
 ```
 
-Access at: **http://localhost:6006**
+Access at: **<http://localhost:6006>**
 
 ## 📖 What's Documented
 

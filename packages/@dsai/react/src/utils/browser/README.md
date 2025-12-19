@@ -108,13 +108,13 @@ if (isBrowser()) {
 }
 ```
 
-2. **Respect prefersReducedMotion for accessibility:**
+1. **Respect prefersReducedMotion for accessibility:**
 
 ```tsx
 const duration = prefersReducedMotion() ? 0 : 300;
 ```
 
-3. **Use in useEffect for SSR safety:**
+1. **Use in useEffect for SSR safety:**
 
 ```tsx
 useEffect(() => {

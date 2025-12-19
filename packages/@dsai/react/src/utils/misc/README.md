@@ -556,6 +556,7 @@ The whitelist approach ensures only known-safe attributes are allowed. This prev
    ```
 
 3. **Error Handler Exploitation:**
+
    ```tsx
    // User tries to inject onError
    const malicious = { onError: () => logTimingData() };
