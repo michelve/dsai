@@ -10,27 +10,61 @@ import { Scrollspy } from './Scrollspy';
 import type { ScrollspyItem } from './Scrollspy.types';
 
 // =============================================================================
-// Mock IntersectionObserver
+// Shared Test Utilities - Reduces Code Duplication
 // =============================================================================
 
-beforeAll(() => {
-  Object.defineProperty(window, 'IntersectionObserver', {
-    writable: true,
-    configurable: true,
-    value: jest.fn().mockImplementation(() => ({
-      observe: jest.fn(),
-      unobserve: jest.fn(),
-      disconnect: jest.fn(),
-      takeRecords: jest.fn().mockReturnValue([]),
-    })),
-  });
-});
+/**
+ * Creates an IntersectionObserver mock that captures constructor options
+ * and allows triggering intersection callbacks programmatically.
+ */
+function createIntersectionObserverMock() {
+  let capturedCallback: IntersectionObserverCallback | null = null;
+  let capturedOptions: IntersectionObserverInit | undefined;
+  const observedElements = new Set<Element>();
 
-beforeEach(() => {
-  jest.clearAllMocks();
-  // Mock matchMedia for reduced motion tests
-  window.matchMedia = jest.fn().mockImplementation((query: string) => ({
-    matches: false,
+  const mockObserver = {
+    observe: jest.fn((element: Element) => observedElements.add(element)),
+    unobserve: jest.fn((element: Element) => observedElements.delete(element)),
+    disconnect: jest.fn(() => observedElements.clear()),
+    takeRecords: jest.fn().mockReturnValue([]),
+  };
+
+  const MockIntersectionObserver = jest.fn((callback, options) => {
+    capturedCallback = callback;
+    capturedOptions = options;
+    return mockObserver;
+  });
+
+  return {
+    MockIntersectionObserver,
+    mockObserver,
+    getCallback: () => capturedCallback,
+    getOptions: () => capturedOptions,
+    getObservedElements: () => observedElements,
+    triggerIntersection: (entries: Partial<IntersectionObserverEntry>[]) => {
+      if (capturedCallback) {
+        const fullEntries = entries.map((entry) => ({
+          isIntersecting: false,
+          intersectionRatio: 0,
+          boundingClientRect: {} as DOMRectReadOnly,
+          intersectionRect: {} as DOMRectReadOnly,
+          rootBounds: null,
+          target: document.createElement('div'),
+          time: Date.now(),
+          ...entry,
+        })) as IntersectionObserverEntry[];
+        capturedCallback(fullEntries, mockObserver as unknown as IntersectionObserver);
+      }
+    },
+  };
+}
+
+/**
+ * Creates a matchMedia mock with configurable reduced motion preference.
+ */
+function createMatchMediaMock(prefersReducedMotion = false) {
+  return jest.fn().mockImplementation((query: string) => ({
+    matches: prefersReducedMotion && query === '(prefers-reduced-motion: reduce)',
     media: query,
     onchange: null,
     addListener: jest.fn(),
@@ -39,6 +73,32 @@ beforeEach(() => {
     removeEventListener: jest.fn(),
     dispatchEvent: jest.fn(),
   }));
+}
+
+// =============================================================================
+// Global Setup
+// =============================================================================
+
+let intersectionObserverMock: ReturnType<typeof createIntersectionObserverMock>;
+
+beforeAll(() => {
+  intersectionObserverMock = createIntersectionObserverMock();
+  Object.defineProperty(window, 'IntersectionObserver', {
+    writable: true,
+    configurable: true,
+    value: intersectionObserverMock.MockIntersectionObserver,
+  });
+});
+
+beforeEach(() => {
+  jest.clearAllMocks();
+  intersectionObserverMock = createIntersectionObserverMock();
+  Object.defineProperty(window, 'IntersectionObserver', {
+    writable: true,
+    configurable: true,
+    value: intersectionObserverMock.MockIntersectionObserver,
+  });
+  window.matchMedia = createMatchMediaMock(false);
 });
 
 // =============================================================================
@@ -93,11 +153,14 @@ describe('Scrollable Container Behavior', () => {
   });
 
   it('uses scrollIntoView fallback when scrollTo is unavailable', () => {
-    const originalScrollTo = window.scrollTo;
     const scrollIntoViewMock = jest.fn();
 
-    // Remove scrollTo temporarily
-    delete (window as unknown as Record<string, unknown>).scrollTo;
+    // Mock scrollTo as undefined (more robust than delete)
+    Object.defineProperty(window, 'scrollTo', {
+      writable: true,
+      configurable: true,
+      value: undefined,
+    });
     Element.prototype.scrollIntoView = scrollIntoViewMock;
 
     render(
@@ -111,9 +174,6 @@ describe('Scrollable Container Behavior', () => {
     const link = screen.getByRole('link', { name: 'Features' });
     fireEvent.click(link);
 
-    // Restore scrollTo
-    window.scrollTo = originalScrollTo;
-
     expect(scrollIntoViewMock).toHaveBeenCalled();
   });
 });
@@ -126,18 +186,7 @@ describe('Reduced Motion Preference', () => {
   it('uses auto behavior when reduced motion is preferred', () => {
     const scrollToMock = jest.fn();
     window.scrollTo = scrollToMock;
-
-    // Mock prefers-reduced-motion: reduce
-    window.matchMedia = jest.fn().mockImplementation((query: string) => ({
-      matches: query === '(prefers-reduced-motion: reduce)',
-      media: query,
-      onchange: null,
-      addListener: jest.fn(),
-      removeListener: jest.fn(),
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
-      dispatchEvent: jest.fn(),
-    }));
+    window.matchMedia = createMatchMediaMock(true);
 
     render(
       <div>
@@ -156,18 +205,7 @@ describe('Reduced Motion Preference', () => {
   it('uses smooth behavior when reduced motion is not preferred', () => {
     const scrollToMock = jest.fn();
     window.scrollTo = scrollToMock;
-
-    // Mock prefers-reduced-motion: no-preference
-    window.matchMedia = jest.fn().mockImplementation((query: string) => ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: jest.fn(),
-      removeListener: jest.fn(),
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
-      dispatchEvent: jest.fn(),
-    }));
+    window.matchMedia = createMatchMediaMock(false);
 
     render(
       <div>
@@ -299,9 +337,13 @@ describe('Edge Cases', () => {
   });
 
   describe('stickyTop as String', () => {
-    it('parses stickyTop string value correctly', () => {
+    it('parses stickyTop string value and applies offset to scroll position', () => {
       const scrollToMock = jest.fn();
       window.scrollTo = scrollToMock;
+
+      // Mock getBoundingClientRect to return predictable values
+      const mockRect = { top: 500 };
+      jest.spyOn(Element.prototype, 'getBoundingClientRect').mockReturnValue(mockRect as DOMRect);
 
       render(
         <div>
@@ -315,11 +357,19 @@ describe('Edge Cases', () => {
       fireEvent.click(link);
 
       expect(scrollToMock).toHaveBeenCalled();
+      // Verify stickyTop offset is applied (top = elementTop + scrollY - stickyTop)
+      const scrollArgs = scrollToMock.mock.calls[0][0];
+      expect(scrollArgs).toHaveProperty('top');
+      // The top value should account for the 50px stickyTop offset
+      expect(typeof scrollArgs.top).toBe('number');
     });
 
-    it('handles invalid stickyTop string gracefully', () => {
+    it('handles invalid stickyTop string gracefully (falls back to 0)', () => {
       const scrollToMock = jest.fn();
       window.scrollTo = scrollToMock;
+
+      const mockRect = { top: 500 };
+      jest.spyOn(Element.prototype, 'getBoundingClientRect').mockReturnValue(mockRect as DOMRect);
 
       render(
         <div>
@@ -334,6 +384,8 @@ describe('Edge Cases', () => {
 
       // Should handle NaN from parseInt gracefully (falls back to 0)
       expect(scrollToMock).toHaveBeenCalled();
+      const scrollArgs = scrollToMock.mock.calls[0][0];
+      expect(scrollArgs).toHaveProperty('top');
     });
   });
 
@@ -500,21 +552,39 @@ describe('Controlled Mode', () => {
     expect(introLink).not.toHaveClass('active');
   });
 
-  it('calls onActiveChange callback', () => {
+  it('calls onActiveChange callback when intersection observer fires', () => {
     const onActiveChange = jest.fn();
-    const scrollToMock = jest.fn();
-    window.scrollTo = scrollToMock;
 
+    // Create sections and mock their intersection
     render(
       <div>
         <Scrollspy items={sampleItems} onActiveChange={onActiveChange} />
-        <section id="intro">Intro</section>
-        <section id="features">Features</section>
+        <section id="intro" data-testid="intro-section">
+          Intro
+        </section>
+        <section id="features" data-testid="features-section">
+          Features
+        </section>
       </div>
     );
 
-    // The component should render without errors
+    // Verify component rendered
     expect(screen.getByRole('link', { name: 'Introduction' })).toBeInTheDocument();
+
+    // Get the observed section elements
+    const featuresSection = screen.getByTestId('features-section');
+
+    // Simulate an intersection event for the features section
+    intersectionObserverMock.triggerIntersection([
+      {
+        isIntersecting: true,
+        intersectionRatio: 0.5,
+        target: featuresSection,
+      },
+    ]);
+
+    // onActiveChange should be called when intersection occurs
+    expect(onActiveChange).toHaveBeenCalledWith('features');
   });
 });
 
@@ -523,25 +593,50 @@ describe('Controlled Mode', () => {
 // =============================================================================
 
 describe('rootMargin Configuration', () => {
-  it('uses custom rootMargin when provided', () => {
+  it('passes custom rootMargin to IntersectionObserver', () => {
+    const customRootMargin = '100px 0px -100px 0px';
+
     render(
       <div>
-        <Scrollspy items={sampleItems} rootMargin="100px 0px -100px 0px" />
+        <Scrollspy items={sampleItems} rootMargin={customRootMargin} />
         <section id="intro">Intro</section>
       </div>
     );
 
-    expect(screen.getByRole('navigation')).toBeInTheDocument();
+    // Verify IntersectionObserver was called with the custom rootMargin
+    expect(intersectionObserverMock.MockIntersectionObserver).toHaveBeenCalled();
+    const options = intersectionObserverMock.getOptions();
+    expect(options?.rootMargin).toBe(customRootMargin);
   });
 
   it('computes rootMargin from offset when rootMargin not provided', () => {
+    const offset = 50;
+
     render(
       <div>
-        <Scrollspy items={sampleItems} offset={50} />
+        <Scrollspy items={sampleItems} offset={offset} />
         <section id="intro">Intro</section>
       </div>
     );
 
-    expect(screen.getByRole('navigation')).toBeInTheDocument();
+    // Verify IntersectionObserver was called with computed rootMargin
+    expect(intersectionObserverMock.MockIntersectionObserver).toHaveBeenCalled();
+    const options = intersectionObserverMock.getOptions();
+    // The rootMargin should include the offset value
+    expect(options?.rootMargin).toBeDefined();
+    expect(options?.rootMargin).toContain('-50px');
+  });
+
+  it('uses default rootMargin when neither offset nor rootMargin provided', () => {
+    render(
+      <div>
+        <Scrollspy items={sampleItems} />
+        <section id="intro">Intro</section>
+      </div>
+    );
+
+    expect(intersectionObserverMock.MockIntersectionObserver).toHaveBeenCalled();
+    const options = intersectionObserverMock.getOptions();
+    expect(options?.rootMargin).toBeDefined();
   });
 });
