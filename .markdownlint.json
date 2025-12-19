@@ -102,6 +102,7 @@
   "MD044": {
     "names": ["DSAi", "GitHub", "JavaScript", "TypeScript", "Node.js", "npm", "pnpm"],
     "code_blocks": false,
+    "code_spans": false,
     "html_elements": false
   },
   "MD045": true,
