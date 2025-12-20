@@ -537,12 +537,32 @@ function extractShadows(data) {
 
   for (const [key, value] of Object.entries(shadows)) {
     if (value.composite) {
-      result.shadow[key] = {
-        value: value.composite.$value,
-        type: 'shadow',
-        description: value.composite.$description,
-        comment: value.composite.$extensions?.platform?.scssVariableName,
+      const token = {
+        $value: value.composite.$value,
+        $type: 'shadow',
       };
+
+      // Add description if present
+      if (value.composite.$description) {
+        token.$description = value.composite.$description;
+      }
+
+      // Preserve $extensions
+      if (value.composite.$extensions) {
+        token.$extensions = value.composite.$extensions;
+      }
+
+      // Preserve $codeSyntax for platform-specific code references
+      if (value.composite.$codeSyntax) {
+        token.$codeSyntax = value.composite.$codeSyntax;
+      }
+
+      // Add comment for backward compatibility
+      if (value.composite.$extensions?.platform?.scssVariableName) {
+        token.comment = value.composite.$extensions.platform.scssVariableName;
+      }
+
+      result.shadow[key] = token;
     }
   }
 

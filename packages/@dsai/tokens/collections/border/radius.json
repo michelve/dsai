@@ -10,8 +10,7 @@
             "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#radius"
           },
           "platform": {
-            "scssVariableName": "$border-radius-none",
-            "cssClass": "rounded-0"
+            "scssVariableName": "$border-radius-none"
           }
         },
         "$scopes": [
@@ -33,8 +32,7 @@
             "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
           },
           "platform": {
-            "scssVariableName": "$border-radius-sm",
-            "cssClass": "rounded-1"
+            "scssVariableName": "$border-radius-sm"
           }
         },
         "$scopes": [
@@ -56,8 +54,7 @@
             "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#radius"
           },
           "platform": {
-            "scssVariableName": "$border-radius",
-            "cssClass": "rounded, rounded-2"
+            "scssVariableName": "$border-radius"
           }
         },
         "$scopes": [
@@ -79,8 +76,7 @@
             "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
           },
           "platform": {
-            "scssVariableName": "$border-radius-lg",
-            "cssClass": "rounded-3"
+            "scssVariableName": "$border-radius-lg"
           }
         },
         "$scopes": [
@@ -102,8 +98,7 @@
             "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
           },
           "platform": {
-            "scssVariableName": "$border-radius-xl",
-            "cssClass": "rounded-4"
+            "scssVariableName": "$border-radius-xl"
           }
         },
         "$scopes": [
@@ -125,8 +120,7 @@
             "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
           },
           "platform": {
-            "scssVariableName": "$border-radius-xxl",
-            "cssClass": "rounded-5"
+            "scssVariableName": "$border-radius-xxl"
           }
         },
         "$scopes": [
@@ -148,8 +142,7 @@
             "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
           },
           "platform": {
-            "scssVariableName": "$border-radius-full",
-            "cssClass": "rounded-full"
+            "scssVariableName": "$border-radius-full"
           }
         },
         "$scopes": [
@@ -171,9 +164,7 @@
             "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
           },
           "platform": {
-            "scssVariableName": "$border-radius-circle",
-            "cssClass": "rounded-circle",
-            "unit": "%"
+            "scssVariableName": "$border-radius-circle"
           }
         },
         "$scopes": [
@@ -195,8 +186,7 @@
             "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
           },
           "platform": {
-            "scssVariableName": "$border-radius-pill",
-            "cssClass": "rounded-pill"
+            "scssVariableName": "$border-radius-pill"
           }
         },
         "$scopes": [
