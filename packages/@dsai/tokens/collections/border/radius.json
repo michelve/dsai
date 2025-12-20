@@ -10,7 +10,7 @@
             "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#radius"
           },
           "platform": {
-            "scssVariableName": "$border-radius (0 override)",
+            "scssVariableName": "$border-radius-none",
             "cssClass": "rounded-0"
           }
         },
@@ -18,9 +18,11 @@
           "CORNER_RADIUS"
         ],
         "$codeSyntax": {
-          "WEB": "--bs-border-radius: 0"
+          "WEB": "--dsai-border-radius-none",
+          "ANDROID": "border.radius.none",
+          "iOS": "Border.Radius.None"
         },
-        "comment": "$border-radius (0 override)"
+        "comment": "$border-radius-none"
       },
       "sm": {
         "$value": "4px",
@@ -39,7 +41,9 @@
           "CORNER_RADIUS"
         ],
         "$codeSyntax": {
-          "WEB": "--bs-border-radius-sm"
+          "WEB": "--dsai-border-radius-sm",
+          "ANDROID": "border.radius.sm",
+          "iOS": "Border.Radius.Sm"
         },
         "comment": "$border-radius-sm"
       },
@@ -60,7 +64,9 @@
           "CORNER_RADIUS"
         ],
         "$codeSyntax": {
-          "WEB": "--bs-border-radius"
+          "WEB": "--dsai-border-radius-md",
+          "ANDROID": "border.radius.md",
+          "iOS": "Border.Radius.Md"
         },
         "comment": "$border-radius"
       },
@@ -81,7 +87,9 @@
           "CORNER_RADIUS"
         ],
         "$codeSyntax": {
-          "WEB": "--bs-border-radius-lg"
+          "WEB": "--dsai-border-radius-lg",
+          "ANDROID": "border.radius.lg",
+          "iOS": "Border.Radius.Lg"
         },
         "comment": "$border-radius-lg"
       },
@@ -102,9 +110,34 @@
           "CORNER_RADIUS"
         ],
         "$codeSyntax": {
-          "WEB": "--bs-border-radius-xl"
+          "WEB": "--dsai-border-radius-xl",
+          "ANDROID": "border.radius.xl",
+          "iOS": "Border.Radius.Xl"
         },
         "comment": "$border-radius-xl"
+      },
+      "xxl": {
+        "$value": "32px",
+        "$type": "dimension",
+        "$description": "Border radius: 2X Extra Large - 2rem (32px). Used for dramatically rounded corners creating a softer, more modern appearance. Equivalent to Bootstrap's 'rounded-5' utility class and $border-radius-xxl variable.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
+          },
+          "platform": {
+            "scssVariableName": "$border-radius-xxl",
+            "cssClass": "rounded-5"
+          }
+        },
+        "$scopes": [
+          "CORNER_RADIUS"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-border-radius-xxl",
+          "ANDROID": "border.radius.xxl",
+          "iOS": "Border.Radius.Xxl"
+        },
+        "comment": "$border-radius-xxl"
       },
       "full": {
         "$value": "9999px",
@@ -123,7 +156,9 @@
           "CORNER_RADIUS"
         ],
         "$codeSyntax": {
-          "WEB": "--bs-border-radius-xxl"
+          "WEB": "--dsai-border-radius-full",
+          "ANDROID": "border.radius.full",
+          "iOS": "Border.Radius.Full"
         },
         "comment": "$border-radius-full"
       },
@@ -136,7 +171,7 @@
             "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
           },
           "platform": {
-            "scssVariableName": "50% (calculated)",
+            "scssVariableName": "$border-radius-circle",
             "cssClass": "rounded-circle",
             "unit": "%"
           }
@@ -145,9 +180,11 @@
           "CORNER_RADIUS"
         ],
         "$codeSyntax": {
-          "WEB": "50%"
+          "WEB": "--dsai-border-radius-circle",
+          "ANDROID": "border.radius.circle",
+          "iOS": "Border.Radius.Circle"
         },
-        "comment": "50% (calculated)"
+        "comment": "$border-radius-circle"
       },
       "pill": {
         "$value": "9999px",
@@ -166,28 +203,11 @@
           "CORNER_RADIUS"
         ],
         "$codeSyntax": {
-          "WEB": "--bs-border-radius-pill"
+          "WEB": "--dsai-border-radius-pill",
+          "ANDROID": "border.radius.pill",
+          "iOS": "Border.Radius.Pill"
         },
         "comment": "$border-radius-pill"
-      },
-      "xxl": {
-        "$value": "32px",
-        "$type": "dimension",
-        "$description": "Border radius: 2X Extra Large - 2rem (32px). Used for dramatically rounded corners creating a softer, more modern appearance. Equivalent to Bootstrap's 'rounded-5' utility class and $border-radius-xxl variable.",
-        "$extensions": {
-          "docs": {
-            "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
-          },
-          "platform": {
-            "scssVariableName": "$border-radius-xxl",
-            "cssClass": "rounded-5"
-          }
-        },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
-        "$codeSyntax": {},
-        "comment": "$border-radius-xxl"
       }
     }
   }

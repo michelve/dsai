@@ -12,12 +12,13 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#radius"
               },
               "platform": {
-                "scssVariableName": "$border-radius (0 override)",
-                "cssClass": "rounded-0"
+                "scssVariableName": "$border-radius-none"
               }
             },
             "$codeSyntax": {
-              "WEB": "--bs-border-radius: 0"
+              "WEB": "--dsai-border-radius-none",
+              "ANDROID": "border.radius.none",
+              "iOS": "Border.Radius.None"
             },
             "$scopes": [
               "CORNER_RADIUS"
@@ -32,12 +33,13 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
               },
               "platform": {
-                "scssVariableName": "$border-radius-sm",
-                "cssClass": "rounded-1"
+                "scssVariableName": "$border-radius-sm"
               }
             },
             "$codeSyntax": {
-              "WEB": "--bs-border-radius-sm"
+              "WEB": "--dsai-border-radius-sm",
+              "ANDROID": "border.radius.sm",
+              "iOS": "Border.Radius.Sm"
             },
             "$scopes": [
               "CORNER_RADIUS"
@@ -52,12 +54,13 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#radius"
               },
               "platform": {
-                "scssVariableName": "$border-radius",
-                "cssClass": "rounded, rounded-2"
+                "scssVariableName": "$border-radius"
               }
             },
             "$codeSyntax": {
-              "WEB": "--bs-border-radius"
+              "WEB": "--dsai-border-radius-md",
+              "ANDROID": "border.radius.md",
+              "iOS": "Border.Radius.Md"
             },
             "$scopes": [
               "CORNER_RADIUS"
@@ -72,12 +75,13 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
               },
               "platform": {
-                "scssVariableName": "$border-radius-lg",
-                "cssClass": "rounded-3"
+                "scssVariableName": "$border-radius-lg"
               }
             },
             "$codeSyntax": {
-              "WEB": "--bs-border-radius-lg"
+              "WEB": "--dsai-border-radius-lg",
+              "ANDROID": "border.radius.lg",
+              "iOS": "Border.Radius.Lg"
             },
             "$scopes": [
               "CORNER_RADIUS"
@@ -92,73 +96,13 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
               },
               "platform": {
-                "scssVariableName": "$border-radius-xl",
-                "cssClass": "rounded-4"
+                "scssVariableName": "$border-radius-xl"
               }
             },
             "$codeSyntax": {
-              "WEB": "--bs-border-radius-xl"
-            },
-            "$scopes": [
-              "CORNER_RADIUS"
-            ]
-          },
-          "full": {
-            "$value": 9999,
-            "$type": "number",
-            "$description": "Border radius: Full - 624.9375rem (9999px). Creates fully rounded corners for any size element. Used internally for completely rounded shapes.",
-            "$extensions": {
-              "docs": {
-                "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
-              },
-              "platform": {
-                "scssVariableName": "$border-radius-full",
-                "cssClass": "rounded-full"
-              }
-            },
-            "$codeSyntax": {
-              "WEB": "--bs-border-radius-xxl"
-            },
-            "$scopes": [
-              "CORNER_RADIUS"
-            ]
-          },
-          "circle": {
-            "$value": 100000000,
-            "$type": "number",
-            "$description": "Border radius: Circle - 50%. Creates perfectly circular shapes when applied to square elements. Equivalent to Bootstrap's 'rounded-circle' utility class. Note: This is a percentage value (50%), not pixel-based.",
-            "$extensions": {
-              "docs": {
-                "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
-              },
-              "platform": {
-                "scssVariableName": "50% (calculated)",
-                "cssClass": "rounded-circle",
-                "unit": "%"
-              }
-            },
-            "$codeSyntax": {
-              "WEB": "50%"
-            },
-            "$scopes": [
-              "CORNER_RADIUS"
-            ]
-          },
-          "pill": {
-            "$value": 800,
-            "$type": "number",
-            "$description": "Border radius: Pill - 50rem (800px). Creates pill-shaped elements with fully rounded ends on rectangular shapes. Equivalent to Bootstrap's 'rounded-pill' utility class and $border-radius-pill variable.",
-            "$extensions": {
-              "docs": {
-                "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
-              },
-              "platform": {
-                "scssVariableName": "$border-radius-pill",
-                "cssClass": "rounded-pill"
-              }
-            },
-            "$codeSyntax": {
-              "WEB": "--bs-border-radius-pill"
+              "WEB": "--dsai-border-radius-xl",
+              "ANDROID": "border.radius.xl",
+              "iOS": "Border.Radius.Xl"
             },
             "$scopes": [
               "CORNER_RADIUS"
@@ -173,11 +117,77 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
               },
               "platform": {
-                "scssVariableName": "$border-radius-xxl",
-                "cssClass": "rounded-5"
+                "scssVariableName": "$border-radius-xxl"
               }
             },
-            "$codeSyntax": {},
+            "$codeSyntax": {
+              "WEB": "--dsai-border-radius-xxl",
+              "ANDROID": "border.radius.xxl",
+              "iOS": "Border.Radius.Xxl"
+            },
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
+          },
+          "full": {
+            "$value": 9999,
+            "$type": "number",
+            "$description": "Border radius: Full - 624.9375rem (9999px). Creates fully rounded corners for any size element. Used internally for completely rounded shapes.",
+            "$extensions": {
+              "docs": {
+                "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
+              },
+              "platform": {
+                "scssVariableName": "$border-radius-full"
+              }
+            },
+            "$codeSyntax": {
+              "WEB": "--dsai-border-radius-full",
+              "ANDROID": "border.radius.full",
+              "iOS": "Border.Radius.Full"
+            },
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
+          },
+          "circle": {
+            "$value": 100000000,
+            "$type": "number",
+            "$description": "Border radius: Circle - 50%. Creates perfectly circular shapes when applied to square elements. Equivalent to Bootstrap's 'rounded-circle' utility class. Note: This is a percentage value (50%), not pixel-based.",
+            "$extensions": {
+              "docs": {
+                "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
+              },
+              "platform": {
+                "scssVariableName": "$border-radius-circle"
+              }
+            },
+            "$codeSyntax": {
+              "WEB": "--dsai-border-radius-circle",
+              "ANDROID": "border.radius.circle",
+              "iOS": "Border.Radius.Circle"
+            },
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
+          },
+          "pill": {
+            "$value": 800,
+            "$type": "number",
+            "$description": "Border radius: Pill - 50rem (800px). Creates pill-shaped elements with fully rounded ends on rectangular shapes. Equivalent to Bootstrap's 'rounded-pill' utility class and $border-radius-pill variable.",
+            "$extensions": {
+              "docs": {
+                "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
+              },
+              "platform": {
+                "scssVariableName": "$border-radius-pill"
+              }
+            },
+            "$codeSyntax": {
+              "WEB": "--dsai-border-radius-pill",
+              "ANDROID": "border.radius.pill",
+              "iOS": "Border.Radius.Pill"
+            },
             "$scopes": [
               "CORNER_RADIUS"
             ]
