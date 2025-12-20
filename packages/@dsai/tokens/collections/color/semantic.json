@@ -11,13 +11,21 @@
           "subsection": "Theme Colors - Primary"
         },
         "platform": {
-          "scssVariableName": "$primary",
+          "scssVariableName": "$theme-primary",
           "lightMode": "true",
           "darkMode": "false"
         }
       },
-      "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
-      "comment": "$primary"
+      "$scopes": [
+        "ALL_FILLS",
+        "STROKE_COLOR"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-theme-primary",
+        "ANDROID": "theme.primary",
+        "iOS": "Theme.Primary"
+      },
+      "comment": "$theme-primary"
     },
     "secondary": {
       "$value": "{colors.brand.gray.500}",
@@ -28,11 +36,19 @@
           "reference": "https://getbootstrap.com/docs/5.3/customize/color/#secondary"
         },
         "platform": {
-          "scssVariableName": "$secondary"
+          "scssVariableName": "$theme-secondary"
         }
       },
-      "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
-      "comment": "$secondary"
+      "$scopes": [
+        "ALL_FILLS",
+        "STROKE_COLOR"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-theme-secondary",
+        "ANDROID": "theme.secondary",
+        "iOS": "Theme.Secondary"
+      },
+      "comment": "$theme-secondary"
     },
     "success": {
       "$value": "{colors.brand.green.500}",
@@ -43,11 +59,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/customize/color/#success"
         },
         "platform": {
-          "scssVariableName": "$success"
+          "scssVariableName": "$theme-success"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$success"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-theme-success",
+        "ANDROID": "theme.success",
+        "iOS": "Theme.Success"
+      },
+      "comment": "$theme-success"
     },
     "info": {
       "$value": "{colors.brand.blue.500}",
@@ -58,11 +81,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/customize/color/#info"
         },
         "platform": {
-          "scssVariableName": "$info"
+          "scssVariableName": "$theme-info"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$info"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-theme-info",
+        "ANDROID": "theme.info",
+        "iOS": "Theme.Info"
+      },
+      "comment": "$theme-info"
     },
     "warning": {
       "$value": "{colors.brand.yellow.500}",
@@ -73,11 +103,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/customize/color/#warning"
         },
         "platform": {
-          "scssVariableName": "$warning"
+          "scssVariableName": "$theme-warning"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$warning"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-theme-warning",
+        "ANDROID": "theme.warning",
+        "iOS": "Theme.Warning"
+      },
+      "comment": "$theme-warning"
     },
     "danger": {
       "$value": "{colors.brand.red.500}",
@@ -88,11 +125,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/customize/color/#danger"
         },
         "platform": {
-          "scssVariableName": "$danger"
+          "scssVariableName": "$theme-danger"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$danger"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-theme-danger",
+        "ANDROID": "theme.danger",
+        "iOS": "Theme.Danger"
+      },
+      "comment": "$theme-danger"
     },
     "light": {
       "$value": "{colors.brand.gray.100}",
@@ -103,11 +147,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/customize/color/#light"
         },
         "platform": {
-          "scssVariableName": "$light"
+          "scssVariableName": "$theme-light"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$light"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-theme-light",
+        "ANDROID": "theme.light",
+        "iOS": "Theme.Light"
+      },
+      "comment": "$theme-light"
     },
     "dark": {
       "$value": "{colors.brand.gray.900}",
@@ -118,11 +169,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/customize/color/#dark"
         },
         "platform": {
-          "scssVariableName": "$dark"
+          "scssVariableName": "$theme-dark"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$dark"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-theme-dark",
+        "ANDROID": "theme.dark",
+        "iOS": "Theme.Dark"
+      },
+      "comment": "$theme-dark"
     }
   }
 }

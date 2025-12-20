@@ -16,7 +16,14 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["WIDTH_HEIGHT"],
+        "$scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-layout-breakpoints-xs",
+          "ANDROID": "layout.breakpoints.xs",
+          "iOS": "Layout.Breakpoints.Xs"
+        },
         "comment": "$grid-breakpoints.xs"
       },
       "sm": {
@@ -34,7 +41,14 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["WIDTH_HEIGHT"],
+        "$scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-layout-breakpoints-sm",
+          "ANDROID": "layout.breakpoints.sm",
+          "iOS": "Layout.Breakpoints.Sm"
+        },
         "comment": "$grid-breakpoints.sm"
       },
       "md": {
@@ -52,7 +66,14 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["WIDTH_HEIGHT"],
+        "$scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-layout-breakpoints-md",
+          "ANDROID": "layout.breakpoints.md",
+          "iOS": "Layout.Breakpoints.Md"
+        },
         "comment": "$grid-breakpoints.md"
       },
       "lg": {
@@ -70,7 +91,14 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["WIDTH_HEIGHT"],
+        "$scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-layout-breakpoints-lg",
+          "ANDROID": "layout.breakpoints.lg",
+          "iOS": "Layout.Breakpoints.Lg"
+        },
         "comment": "$grid-breakpoints.lg"
       },
       "xl": {
@@ -88,7 +116,14 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["WIDTH_HEIGHT"],
+        "$scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-layout-breakpoints-xl",
+          "ANDROID": "layout.breakpoints.xl",
+          "iOS": "Layout.Breakpoints.Xl"
+        },
         "comment": "$grid-breakpoints.xl"
       },
       "xxl": {
@@ -106,7 +141,14 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["WIDTH_HEIGHT"],
+        "$scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-layout-breakpoints-xxl",
+          "ANDROID": "layout.breakpoints.xxl",
+          "iOS": "Layout.Breakpoints.Xxl"
+        },
         "comment": "$grid-breakpoints.xxl"
       }
     }

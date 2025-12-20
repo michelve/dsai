@@ -17,7 +17,14 @@
               "darkMode": "true"
             }
           },
-          "$scopes": ["WIDTH_HEIGHT"],
+          "$scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "$codeSyntax": {
+            "WEB": "--dsai-layout-container-max-width-sm",
+            "ANDROID": "layout.container.maxWidth.sm",
+            "iOS": "Layout.Container.MaxWidth.Sm"
+          },
           "comment": "$container-max-widths.sm"
         },
         "md": {
@@ -35,7 +42,14 @@
               "darkMode": "true"
             }
           },
-          "$scopes": ["WIDTH_HEIGHT"],
+          "$scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "$codeSyntax": {
+            "WEB": "--dsai-layout-container-max-width-md",
+            "ANDROID": "layout.container.maxWidth.md",
+            "iOS": "Layout.Container.MaxWidth.Md"
+          },
           "comment": "$container-max-widths.md"
         },
         "lg": {
@@ -53,7 +67,14 @@
               "darkMode": "true"
             }
           },
-          "$scopes": ["WIDTH_HEIGHT"],
+          "$scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "$codeSyntax": {
+            "WEB": "--dsai-layout-container-max-width-lg",
+            "ANDROID": "layout.container.maxWidth.lg",
+            "iOS": "Layout.Container.MaxWidth.Lg"
+          },
           "comment": "$container-max-widths.lg"
         },
         "xl": {
@@ -71,7 +92,14 @@
               "darkMode": "true"
             }
           },
-          "$scopes": ["WIDTH_HEIGHT"],
+          "$scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "$codeSyntax": {
+            "WEB": "--dsai-layout-container-max-width-xl",
+            "ANDROID": "layout.container.maxWidth.xl",
+            "iOS": "Layout.Container.MaxWidth.Xl"
+          },
           "comment": "$container-max-widths.xl"
         },
         "xxl": {
@@ -89,7 +117,14 @@
               "darkMode": "true"
             }
           },
-          "$scopes": ["WIDTH_HEIGHT"],
+          "$scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "$codeSyntax": {
+            "WEB": "--dsai-layout-container-max-width-xxl",
+            "ANDROID": "layout.container.maxWidth.xxl",
+            "iOS": "Layout.Container.MaxWidth.Xxl"
+          },
           "comment": "$container-max-widths.xxl"
         }
       },
@@ -108,7 +143,14 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["GAP"],
+        "$scopes": [
+          "GAP"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-layout-container-padding-x",
+          "ANDROID": "layout.container.paddingX",
+          "iOS": "Layout.Container.PaddingX"
+        },
         "comment": "$container-padding-x"
       }
     }

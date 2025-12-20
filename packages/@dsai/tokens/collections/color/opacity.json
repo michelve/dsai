@@ -11,10 +11,18 @@
           "subsection": "Opacity"
         },
         "platform": {
-          "cssClass": ".opacity-0"
+          "scssVariableName": "$opacity-0"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-0",
+        "ANDROID": "opacity.value0",
+        "iOS": "Opacity.value0"
+      },
+      "comment": "$opacity-0"
     },
     "5": {
       "$value": "5px",
@@ -25,10 +33,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-5"
+          "scssVariableName": "$opacity-5"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-5",
+        "ANDROID": "opacity.value5",
+        "iOS": "Opacity.value5"
+      },
+      "comment": "$opacity-5"
     },
     "10": {
       "$value": "10px",
@@ -39,10 +55,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-10"
+          "scssVariableName": "$opacity-10"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-10",
+        "ANDROID": "opacity.value10",
+        "iOS": "Opacity.value10"
+      },
+      "comment": "$opacity-10"
     },
     "15": {
       "$value": "15px",
@@ -53,10 +77,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-15"
+          "scssVariableName": "$opacity-15"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-15",
+        "ANDROID": "opacity.value15",
+        "iOS": "Opacity.value15"
+      },
+      "comment": "$opacity-15"
     },
     "20": {
       "$value": "20px",
@@ -67,10 +99,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-20"
+          "scssVariableName": "$opacity-20"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-20",
+        "ANDROID": "opacity.value20",
+        "iOS": "Opacity.value20"
+      },
+      "comment": "$opacity-20"
     },
     "25": {
       "$value": "25px",
@@ -81,10 +121,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-25"
+          "scssVariableName": "$opacity-25"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-25",
+        "ANDROID": "opacity.value25",
+        "iOS": "Opacity.value25"
+      },
+      "comment": "$opacity-25"
     },
     "30": {
       "$value": "30px",
@@ -95,10 +143,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-30"
+          "scssVariableName": "$opacity-30"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-30",
+        "ANDROID": "opacity.value30",
+        "iOS": "Opacity.value30"
+      },
+      "comment": "$opacity-30"
     },
     "35": {
       "$value": "35px",
@@ -109,10 +165,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-35"
+          "scssVariableName": "$opacity-35"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-35",
+        "ANDROID": "opacity.value35",
+        "iOS": "Opacity.value35"
+      },
+      "comment": "$opacity-35"
     },
     "40": {
       "$value": "40px",
@@ -123,10 +187,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-40"
+          "scssVariableName": "$opacity-40"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-40",
+        "ANDROID": "opacity.value40",
+        "iOS": "Opacity.value40"
+      },
+      "comment": "$opacity-40"
     },
     "45": {
       "$value": "45px",
@@ -137,10 +209,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-45"
+          "scssVariableName": "$opacity-45"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-45",
+        "ANDROID": "opacity.value45",
+        "iOS": "Opacity.value45"
+      },
+      "comment": "$opacity-45"
     },
     "50": {
       "$value": "50px",
@@ -151,10 +231,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-50"
+          "scssVariableName": "$opacity-50"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-50",
+        "ANDROID": "opacity.value50",
+        "iOS": "Opacity.value50"
+      },
+      "comment": "$opacity-50"
     },
     "55": {
       "$value": "55px",
@@ -165,10 +253,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-55"
+          "scssVariableName": "$opacity-55"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-55",
+        "ANDROID": "opacity.value55",
+        "iOS": "Opacity.value55"
+      },
+      "comment": "$opacity-55"
     },
     "60": {
       "$value": "60px",
@@ -179,10 +275,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-60"
+          "scssVariableName": "$opacity-60"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-60",
+        "ANDROID": "opacity.value60",
+        "iOS": "Opacity.value60"
+      },
+      "comment": "$opacity-60"
     },
     "65": {
       "$value": "65px",
@@ -193,10 +297,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-65"
+          "scssVariableName": "$opacity-65"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-65",
+        "ANDROID": "opacity.value65",
+        "iOS": "Opacity.value65"
+      },
+      "comment": "$opacity-65"
     },
     "70": {
       "$value": "70px",
@@ -207,10 +319,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-70"
+          "scssVariableName": "$opacity-70"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-70",
+        "ANDROID": "opacity.value70",
+        "iOS": "Opacity.value70"
+      },
+      "comment": "$opacity-70"
     },
     "75": {
       "$value": "75px",
@@ -221,10 +341,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-75"
+          "scssVariableName": "$opacity-75"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-75",
+        "ANDROID": "opacity.value75",
+        "iOS": "Opacity.value75"
+      },
+      "comment": "$opacity-75"
     },
     "80": {
       "$value": "80px",
@@ -235,10 +363,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-80"
+          "scssVariableName": "$opacity-80"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-80",
+        "ANDROID": "opacity.value80",
+        "iOS": "Opacity.value80"
+      },
+      "comment": "$opacity-80"
     },
     "85": {
       "$value": "85px",
@@ -249,10 +385,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-85"
+          "scssVariableName": "$opacity-85"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-85",
+        "ANDROID": "opacity.value85",
+        "iOS": "Opacity.value85"
+      },
+      "comment": "$opacity-85"
     },
     "90": {
       "$value": "90px",
@@ -263,10 +407,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-90"
+          "scssVariableName": "$opacity-90"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-90",
+        "ANDROID": "opacity.value90",
+        "iOS": "Opacity.value90"
+      },
+      "comment": "$opacity-90"
     },
     "95": {
       "$value": "95px",
@@ -277,10 +429,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-95"
+          "scssVariableName": "$opacity-95"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-95",
+        "ANDROID": "opacity.value95",
+        "iOS": "Opacity.value95"
+      },
+      "comment": "$opacity-95"
     },
     "100": {
       "$value": "100px",
@@ -291,10 +451,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/opacity/"
         },
         "platform": {
-          "cssClass": ".opacity-100"
+          "scssVariableName": "$opacity-100"
         }
       },
-      "$scopes": ["OPACITY"]
+      "$scopes": [
+        "OPACITY"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-opacity-100",
+        "ANDROID": "opacity.value100",
+        "iOS": "Opacity.value100"
+      },
+      "comment": "$opacity-100"
     }
   }
 }

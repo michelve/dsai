@@ -16,7 +16,14 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["WIDTH_HEIGHT"],
+        "$scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-layout-grid-columns",
+          "ANDROID": "layout.grid.columns",
+          "iOS": "Layout.Grid.Columns"
+        },
         "comment": "$grid-columns"
       },
       "gutter-width": {
@@ -34,7 +41,14 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["GAP"],
+        "$scopes": [
+          "GAP"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-layout-grid-gutter-width",
+          "ANDROID": "layout.grid.gutterWidth",
+          "iOS": "Layout.Grid.GutterWidth"
+        },
         "comment": "$grid-gutter-width"
       },
       "row-columns": {
@@ -52,7 +66,14 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["WIDTH_HEIGHT"],
+        "$scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-layout-grid-row-columns",
+          "ANDROID": "layout.grid.rowColumns",
+          "iOS": "Layout.Grid.RowColumns"
+        },
         "comment": "$grid-row-columns"
       }
     },
@@ -71,7 +92,14 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["GAP"]
+        "$scopes": [
+          "GAP"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-layout-gutters-0",
+          "ANDROID": "layout.gutters.0",
+          "iOS": "Layout.Gutters.0"
+        }
       },
       "1": {
         "$value": "4px",
@@ -87,7 +115,14 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["GAP"]
+        "$scopes": [
+          "GAP"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-layout-gutters-1",
+          "ANDROID": "layout.gutters.1",
+          "iOS": "Layout.Gutters.1"
+        }
       },
       "2": {
         "$value": "8px",
@@ -103,7 +138,14 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["GAP"]
+        "$scopes": [
+          "GAP"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-layout-gutters-2",
+          "ANDROID": "layout.gutters.2",
+          "iOS": "Layout.Gutters.2"
+        }
       },
       "3": {
         "$value": "16px",
@@ -119,7 +161,14 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["GAP"]
+        "$scopes": [
+          "GAP"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-layout-gutters-3",
+          "ANDROID": "layout.gutters.3",
+          "iOS": "Layout.Gutters.3"
+        }
       },
       "4": {
         "$value": "24px",
@@ -135,7 +184,14 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["GAP"]
+        "$scopes": [
+          "GAP"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-layout-gutters-4",
+          "ANDROID": "layout.gutters.4",
+          "iOS": "Layout.Gutters.4"
+        }
       },
       "5": {
         "$value": "48px",
@@ -151,7 +207,14 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["GAP"]
+        "$scopes": [
+          "GAP"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-layout-gutters-5",
+          "ANDROID": "layout.gutters.5",
+          "iOS": "Layout.Gutters.5"
+        }
       }
     }
   }

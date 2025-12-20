@@ -9,215 +9,664 @@
           "reference": "https://getbootstrap.com/docs.5.3/customize/color/"
         },
         "platform": {
-          "scssVariableName": "$border-color-translucent"
+          "scssVariableName": "$semantic-border-color-translucent"
         }
       },
-      "$scopes": ["STROKE_COLOR"],
-      "comment": "$border-color-translucent"
+      "$scopes": [
+        "STROKE_COLOR"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-border-color-translucent",
+        "ANDROID": "semantic.borderColorTranslucent",
+        "iOS": "Semantic.BorderColorTranslucent"
+      },
+      "comment": "$semantic-border-color-translucent"
     },
     "body-color": {
       "$value": "{colors.neutral.gray.900}",
       "$type": "color",
       "$description": "Default body text color. Applied to the <body> element and inherited by all text content unless overridden.",
-      "$scopes": ["TEXT_FILL"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-body-color"
+        }
+      },
+      "$scopes": [
+        "TEXT_FILL"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-body-color",
+        "ANDROID": "semantic.bodyColor",
+        "iOS": "Semantic.BodyColor"
+      },
+      "comment": "$semantic-body-color"
     },
     "body-bg": {
       "$value": "{colors.neutral.white}",
       "$type": "color",
       "$description": "Default body background color. Applied to the <body> element as the base page background.",
-      "$scopes": ["ALL_FILLS"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-body-bg"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-body-bg",
+        "ANDROID": "semantic.bodyBg",
+        "iOS": "Semantic.BodyBg"
+      },
+      "comment": "$semantic-body-bg"
     },
     "emphasis-color": {
       "$value": "{colors.neutral.black}",
       "$type": "color",
       "$description": "Emphasis color for higher contrast text. Use for headings or text that needs to stand out.",
-      "$scopes": ["TEXT_FILL"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-emphasis-color"
+        }
+      },
+      "$scopes": [
+        "TEXT_FILL"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-emphasis-color",
+        "ANDROID": "semantic.emphasisColor",
+        "iOS": "Semantic.EmphasisColor"
+      },
+      "comment": "$semantic-emphasis-color"
     },
     "secondary-color": {
       "$value": "{colors.neutral.gray.600}",
       "$type": "color",
       "$description": "Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text.",
-      "$scopes": ["TEXT_FILL"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-secondary-color"
+        }
+      },
+      "$scopes": [
+        "TEXT_FILL"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-secondary-color",
+        "ANDROID": "semantic.secondaryColor",
+        "iOS": "Semantic.SecondaryColor"
+      },
+      "comment": "$semantic-secondary-color"
     },
     "secondary-bg": {
       "$value": "{colors.neutral.gray.200}",
       "$type": "color",
       "$description": "Secondary background color. Use for dividers and to indicate disabled component states.",
-      "$scopes": ["ALL_FILLS"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-secondary-bg"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-secondary-bg",
+        "ANDROID": "semantic.secondaryBg",
+        "iOS": "Semantic.SecondaryBg"
+      },
+      "comment": "$semantic-secondary-bg"
     },
     "tertiary-color": {
       "$value": "{colors.neutral.gray.500}",
       "$type": "color",
       "$description": "Tertiary text color for even lighter text. Use for less important supporting text.",
-      "$scopes": ["TEXT_FILL"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-tertiary-color"
+        }
+      },
+      "$scopes": [
+        "TEXT_FILL"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-tertiary-color",
+        "ANDROID": "semantic.tertiaryColor",
+        "iOS": "Semantic.TertiaryColor"
+      },
+      "comment": "$semantic-tertiary-color"
     },
     "tertiary-bg": {
       "$value": "{colors.neutral.gray.100}",
       "$type": "color",
       "$description": "Tertiary background color. Use for hover states, accents, and wells.",
-      "$scopes": ["ALL_FILLS"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-tertiary-bg"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-tertiary-bg",
+        "ANDROID": "semantic.tertiaryBg",
+        "iOS": "Semantic.TertiaryBg"
+      },
+      "comment": "$semantic-tertiary-bg"
     },
     "link-color": {
       "$value": "{colors.brand.blue.600}",
       "$type": "color",
       "$description": "Default hyperlink color. Used for all <a> elements and interactive text.",
-      "$scopes": ["TEXT_FILL"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-link-color"
+        }
+      },
+      "$scopes": [
+        "TEXT_FILL"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-link-color",
+        "ANDROID": "semantic.linkColor",
+        "iOS": "Semantic.LinkColor"
+      },
+      "comment": "$semantic-link-color"
     },
     "link-hover-color": {
       "$value": "{colors.brand.blue.700}",
       "$type": "color",
       "$description": "Hyperlink hover color. Applied when user hovers over a link.",
-      "$scopes": ["TEXT_FILL"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-link-hover-color"
+        }
+      },
+      "$scopes": [
+        "TEXT_FILL"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-link-hover-color",
+        "ANDROID": "semantic.linkHoverColor",
+        "iOS": "Semantic.LinkHoverColor"
+      },
+      "comment": "$semantic-link-hover-color"
     },
     "border-color": {
       "$value": "{colors.neutral.gray.300}",
       "$type": "color",
       "$description": "Default border color for component borders, dividers, and rules.",
-      "$scopes": ["STROKE_COLOR"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-border-color"
+        }
+      },
+      "$scopes": [
+        "STROKE_COLOR"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-border-color",
+        "ANDROID": "semantic.borderColor",
+        "iOS": "Semantic.BorderColor"
+      },
+      "comment": "$semantic-border-color"
     },
     "primary-text-emphasis": {
       "$value": "{colors.brand.blue.700}",
       "$type": "color",
       "$description": "Primary text emphasis color - higher contrast text on light backgrounds.",
-      "$scopes": ["TEXT_FILL"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-primary-text-emphasis"
+        }
+      },
+      "$scopes": [
+        "TEXT_FILL"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-primary-text-emphasis",
+        "ANDROID": "semantic.primaryTextEmphasis",
+        "iOS": "Semantic.PrimaryTextEmphasis"
+      },
+      "comment": "$semantic-primary-text-emphasis"
     },
     "primary-bg-subtle": {
       "$value": "{colors.brand.blue.100}",
       "$type": "color",
       "$description": "Primary subtle background color for non-intrusive backgrounds.",
-      "$scopes": ["ALL_FILLS"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-primary-bg-subtle"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-primary-bg-subtle",
+        "ANDROID": "semantic.primaryBgSubtle",
+        "iOS": "Semantic.PrimaryBgSubtle"
+      },
+      "comment": "$semantic-primary-bg-subtle"
     },
     "primary-border-subtle": {
       "$value": "{colors.brand.blue.200}",
       "$type": "color",
       "$description": "Primary subtle border color for gentle borders matching primary theme.",
-      "$scopes": ["STROKE_COLOR"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-primary-border-subtle"
+        }
+      },
+      "$scopes": [
+        "STROKE_COLOR"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-primary-border-subtle",
+        "ANDROID": "semantic.primaryBorderSubtle",
+        "iOS": "Semantic.PrimaryBorderSubtle"
+      },
+      "comment": "$semantic-primary-border-subtle"
     },
     "secondary-text-emphasis": {
       "$value": "{colors.neutral.gray.700}",
       "$type": "color",
       "$description": "Secondary theme text emphasis color - higher contrast text on light backgrounds.",
-      "$scopes": ["TEXT_FILL"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-secondary-text-emphasis"
+        }
+      },
+      "$scopes": [
+        "TEXT_FILL"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-secondary-text-emphasis",
+        "ANDROID": "semantic.secondaryTextEmphasis",
+        "iOS": "Semantic.SecondaryTextEmphasis"
+      },
+      "comment": "$semantic-secondary-text-emphasis"
     },
     "secondary-bg-subtle": {
       "$value": "{colors.neutral.gray.100}",
       "$type": "color",
       "$description": "Secondary theme subtle background color for non-intrusive backgrounds.",
-      "$scopes": ["ALL_FILLS"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-secondary-bg-subtle"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-secondary-bg-subtle",
+        "ANDROID": "semantic.secondaryBgSubtle",
+        "iOS": "Semantic.SecondaryBgSubtle"
+      },
+      "comment": "$semantic-secondary-bg-subtle"
     },
     "secondary-border-subtle": {
       "$value": "{colors.neutral.gray.200}",
       "$type": "color",
       "$description": "Secondary theme subtle border color for gentle borders matching secondary theme.",
-      "$scopes": ["STROKE_COLOR"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-secondary-border-subtle"
+        }
+      },
+      "$scopes": [
+        "STROKE_COLOR"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-secondary-border-subtle",
+        "ANDROID": "semantic.secondaryBorderSubtle",
+        "iOS": "Semantic.SecondaryBorderSubtle"
+      },
+      "comment": "$semantic-secondary-border-subtle"
     },
     "success-text-emphasis": {
       "$value": "{colors.brand.green.700}",
       "$type": "color",
       "$description": "Success text emphasis color - higher contrast text on light backgrounds.",
-      "$scopes": ["TEXT_FILL"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-success-text-emphasis"
+        }
+      },
+      "$scopes": [
+        "TEXT_FILL"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-success-text-emphasis",
+        "ANDROID": "semantic.successTextEmphasis",
+        "iOS": "Semantic.SuccessTextEmphasis"
+      },
+      "comment": "$semantic-success-text-emphasis"
     },
     "success-bg-subtle": {
       "$value": "{colors.brand.green.100}",
       "$type": "color",
       "$description": "Success subtle background color for non-intrusive success states.",
-      "$scopes": ["ALL_FILLS"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-success-bg-subtle"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-success-bg-subtle",
+        "ANDROID": "semantic.successBgSubtle",
+        "iOS": "Semantic.SuccessBgSubtle"
+      },
+      "comment": "$semantic-success-bg-subtle"
     },
     "success-border-subtle": {
       "$value": "{colors.brand.green.200}",
       "$type": "color",
       "$description": "Success subtle border color for gentle borders matching success theme.",
-      "$scopes": ["STROKE_COLOR"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-success-border-subtle"
+        }
+      },
+      "$scopes": [
+        "STROKE_COLOR"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-success-border-subtle",
+        "ANDROID": "semantic.successBorderSubtle",
+        "iOS": "Semantic.SuccessBorderSubtle"
+      },
+      "comment": "$semantic-success-border-subtle"
     },
     "danger-text-emphasis": {
       "$value": "{colors.brand.red.700}",
       "$type": "color",
       "$description": "Danger text emphasis color - higher contrast text on light backgrounds.",
-      "$scopes": ["TEXT_FILL"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-danger-text-emphasis"
+        }
+      },
+      "$scopes": [
+        "TEXT_FILL"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-danger-text-emphasis",
+        "ANDROID": "semantic.dangerTextEmphasis",
+        "iOS": "Semantic.DangerTextEmphasis"
+      },
+      "comment": "$semantic-danger-text-emphasis"
     },
     "danger-bg-subtle": {
       "$value": "{colors.brand.red.100}",
       "$type": "color",
       "$description": "Danger subtle background color for non-intrusive error states.",
-      "$scopes": ["ALL_FILLS"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-danger-bg-subtle"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-danger-bg-subtle",
+        "ANDROID": "semantic.dangerBgSubtle",
+        "iOS": "Semantic.DangerBgSubtle"
+      },
+      "comment": "$semantic-danger-bg-subtle"
     },
     "danger-border-subtle": {
       "$value": "{colors.brand.red.200}",
       "$type": "color",
       "$description": "Danger subtle border color for gentle borders matching danger theme.",
-      "$scopes": ["STROKE_COLOR"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-danger-border-subtle"
+        }
+      },
+      "$scopes": [
+        "STROKE_COLOR"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-danger-border-subtle",
+        "ANDROID": "semantic.dangerBorderSubtle",
+        "iOS": "Semantic.DangerBorderSubtle"
+      },
+      "comment": "$semantic-danger-border-subtle"
     },
     "warning-text-emphasis": {
       "$value": "{colors.brand.yellow.700}",
       "$type": "color",
       "$description": "Warning text emphasis color - higher contrast text on light backgrounds.",
-      "$scopes": ["TEXT_FILL"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-warning-text-emphasis"
+        }
+      },
+      "$scopes": [
+        "TEXT_FILL"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-warning-text-emphasis",
+        "ANDROID": "semantic.warningTextEmphasis",
+        "iOS": "Semantic.WarningTextEmphasis"
+      },
+      "comment": "$semantic-warning-text-emphasis"
     },
     "warning-bg-subtle": {
       "$value": "{colors.brand.yellow.100}",
       "$type": "color",
       "$description": "Warning subtle background color for non-intrusive warning states.",
-      "$scopes": ["ALL_FILLS"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-warning-bg-subtle"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-warning-bg-subtle",
+        "ANDROID": "semantic.warningBgSubtle",
+        "iOS": "Semantic.WarningBgSubtle"
+      },
+      "comment": "$semantic-warning-bg-subtle"
     },
     "warning-border-subtle": {
       "$value": "{colors.brand.yellow.200}",
       "$type": "color",
       "$description": "Warning subtle border color for gentle borders matching warning theme.",
-      "$scopes": ["STROKE_COLOR"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-warning-border-subtle"
+        }
+      },
+      "$scopes": [
+        "STROKE_COLOR"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-warning-border-subtle",
+        "ANDROID": "semantic.warningBorderSubtle",
+        "iOS": "Semantic.WarningBorderSubtle"
+      },
+      "comment": "$semantic-warning-border-subtle"
     },
     "info-text-emphasis": {
       "$value": "{colors.brand.cyan.700}",
       "$type": "color",
       "$description": "Info text emphasis color - higher contrast text on light backgrounds.",
-      "$scopes": ["TEXT_FILL"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-info-text-emphasis"
+        }
+      },
+      "$scopes": [
+        "TEXT_FILL"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-info-text-emphasis",
+        "ANDROID": "semantic.infoTextEmphasis",
+        "iOS": "Semantic.InfoTextEmphasis"
+      },
+      "comment": "$semantic-info-text-emphasis"
     },
     "info-bg-subtle": {
       "$value": "{colors.brand.cyan.100}",
       "$type": "color",
       "$description": "Info subtle background color for non-intrusive info states.",
-      "$scopes": ["ALL_FILLS"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-info-bg-subtle"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-info-bg-subtle",
+        "ANDROID": "semantic.infoBgSubtle",
+        "iOS": "Semantic.InfoBgSubtle"
+      },
+      "comment": "$semantic-info-bg-subtle"
     },
     "info-border-subtle": {
       "$value": "{colors.brand.cyan.200}",
       "$type": "color",
       "$description": "Info subtle border color for gentle borders matching info theme.",
-      "$scopes": ["STROKE_COLOR"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-info-border-subtle"
+        }
+      },
+      "$scopes": [
+        "STROKE_COLOR"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-info-border-subtle",
+        "ANDROID": "semantic.infoBorderSubtle",
+        "iOS": "Semantic.InfoBorderSubtle"
+      },
+      "comment": "$semantic-info-border-subtle"
     },
     "light-text-emphasis": {
       "$value": "{colors.neutral.gray.700}",
       "$type": "color",
       "$description": "Light text emphasis color - provides contrast on light themed components.",
-      "$scopes": ["TEXT_FILL"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-light-text-emphasis"
+        }
+      },
+      "$scopes": [
+        "TEXT_FILL"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-light-text-emphasis",
+        "ANDROID": "semantic.lightTextEmphasis",
+        "iOS": "Semantic.LightTextEmphasis"
+      },
+      "comment": "$semantic-light-text-emphasis"
     },
     "light-bg-subtle": {
       "$value": "{colors.neutral.gray.100}",
       "$type": "color",
       "$description": "Light subtle background color for subtle backgrounds.",
-      "$scopes": ["ALL_FILLS"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-light-bg-subtle"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-light-bg-subtle",
+        "ANDROID": "semantic.lightBgSubtle",
+        "iOS": "Semantic.LightBgSubtle"
+      },
+      "comment": "$semantic-light-bg-subtle"
     },
     "light-border-subtle": {
       "$value": "{colors.neutral.gray.200}",
       "$type": "color",
       "$description": "Light subtle border color for gentle borders matching light theme.",
-      "$scopes": ["STROKE_COLOR"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-light-border-subtle"
+        }
+      },
+      "$scopes": [
+        "STROKE_COLOR"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-light-border-subtle",
+        "ANDROID": "semantic.lightBorderSubtle",
+        "iOS": "Semantic.LightBorderSubtle"
+      },
+      "comment": "$semantic-light-border-subtle"
     },
     "dark-text-emphasis": {
       "$value": "{colors.neutral.gray.900}",
       "$type": "color",
       "$description": "Dark text emphasis color - highest contrast text on light backgrounds.",
-      "$scopes": ["TEXT_FILL"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-dark-text-emphasis"
+        }
+      },
+      "$scopes": [
+        "TEXT_FILL"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-dark-text-emphasis",
+        "ANDROID": "semantic.darkTextEmphasis",
+        "iOS": "Semantic.DarkTextEmphasis"
+      },
+      "comment": "$semantic-dark-text-emphasis"
     },
     "dark-bg-subtle": {
       "$value": "{colors.neutral.gray.400}",
       "$type": "color",
       "$description": "Dark subtle background color for darker backgrounds.",
-      "$scopes": ["ALL_FILLS"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-dark-bg-subtle"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-dark-bg-subtle",
+        "ANDROID": "semantic.darkBgSubtle",
+        "iOS": "Semantic.DarkBgSubtle"
+      },
+      "comment": "$semantic-dark-bg-subtle"
     },
     "dark-border-subtle": {
       "$value": "{colors.neutral.gray.500}",
       "$type": "color",
       "$description": "Dark subtle border color for borders matching dark theme.",
-      "$scopes": ["STROKE_COLOR"]
+      "$extensions": {
+        "platform": {
+          "scssVariableName": "$semantic-dark-border-subtle"
+        }
+      },
+      "$scopes": [
+        "STROKE_COLOR"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-semantic-dark-border-subtle",
+        "ANDROID": "semantic.darkBorderSubtle",
+        "iOS": "Semantic.DarkBorderSubtle"
+      },
+      "comment": "$semantic-dark-border-subtle"
     }
   }
 }

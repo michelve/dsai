@@ -9,11 +9,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
         },
         "platform": {
-          "scssVariableName": "$white"
+          "scssVariableName": "$neutral-white"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$white"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-neutral-white",
+        "ANDROID": "color.white",
+        "iOS": "Color.White"
+      },
+      "comment": "$neutral-white"
     },
     "black": {
       "$value": "#0a0d10",
@@ -24,11 +31,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
         },
         "platform": {
-          "scssVariableName": "$black"
+          "scssVariableName": "$neutral-black"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$black"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": "--dsai-neutral-black",
+        "ANDROID": "neutral.black",
+        "iOS": "Neutral.Black"
+      },
+      "comment": "$neutral-black"
     },
     "gray": {
       "100": {
@@ -40,11 +54,19 @@
             "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
           },
           "platform": {
-            "scssVariableName": "$gray-100"
+            "scssVariableName": "$color-gray-100"
           }
         },
-        "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
-        "comment": "$gray-100"
+        "$scopes": [
+          "ALL_FILLS",
+          "STROKE_COLOR"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-color-gray-100",
+          "ANDROID": "neutral.gray.100",
+          "iOS": "Neutral.Gray.100"
+        },
+        "comment": "$color-gray-100"
       },
       "200": {
         "$value": "{colors.brand.gray.200}",
@@ -55,11 +77,19 @@
             "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
           },
           "platform": {
-            "scssVariableName": "$gray-200"
+            "scssVariableName": "$color-gray-200"
           }
         },
-        "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
-        "comment": "$gray-200"
+        "$scopes": [
+          "ALL_FILLS",
+          "STROKE_COLOR"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-color-gray-200",
+          "ANDROID": "neutral.gray.200",
+          "iOS": "Neutral.Gray.200"
+        },
+        "comment": "$color-gray-200"
       },
       "300": {
         "$value": "{colors.brand.gray.300}",
@@ -70,11 +100,18 @@
             "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
           },
           "platform": {
-            "scssVariableName": "$gray-300"
+            "scssVariableName": "$color-gray-300"
           }
         },
-        "$scopes": ["ALL_FILLS"],
-        "comment": "$gray-300"
+        "$scopes": [
+          "ALL_FILLS"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-color-gray-300",
+          "ANDROID": "color.gray.300",
+          "iOS": "Color.Gray.shade300"
+        },
+        "comment": "$color-gray-300"
       },
       "400": {
         "$value": "{colors.brand.gray.400}",
@@ -85,11 +122,18 @@
             "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
           },
           "platform": {
-            "scssVariableName": "$gray-400"
+            "scssVariableName": "$color-gray-400"
           }
         },
-        "$scopes": ["ALL_FILLS"],
-        "comment": "$gray-400"
+        "$scopes": [
+          "ALL_FILLS"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-color-gray-400",
+          "ANDROID": "color.gray.400",
+          "iOS": "Color.Gray.shade400"
+        },
+        "comment": "$color-gray-400"
       },
       "500": {
         "$value": "{colors.brand.gray.500}",
@@ -100,11 +144,18 @@
             "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
           },
           "platform": {
-            "scssVariableName": "$gray-500"
+            "scssVariableName": "$color-gray-500"
           }
         },
-        "$scopes": ["ALL_FILLS"],
-        "comment": "$gray-500"
+        "$scopes": [
+          "ALL_FILLS"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-color-gray-500",
+          "ANDROID": "color.gray.500",
+          "iOS": "Color.Gray.shade500"
+        },
+        "comment": "$color-gray-500"
       },
       "600": {
         "$value": "{colors.brand.gray.600}",
@@ -115,11 +166,18 @@
             "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
           },
           "platform": {
-            "scssVariableName": "$gray-600"
+            "scssVariableName": "$color-gray-600"
           }
         },
-        "$scopes": ["ALL_FILLS"],
-        "comment": "$gray-600"
+        "$scopes": [
+          "ALL_FILLS"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-color-gray-600",
+          "ANDROID": "color.gray.600",
+          "iOS": "Color.Gray.shade600"
+        },
+        "comment": "$color-gray-600"
       },
       "700": {
         "$value": "{colors.brand.gray.700}",
@@ -130,11 +188,18 @@
             "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
           },
           "platform": {
-            "scssVariableName": "$gray-700"
+            "scssVariableName": "$color-gray-700"
           }
         },
-        "$scopes": ["ALL_FILLS"],
-        "comment": "$gray-700"
+        "$scopes": [
+          "ALL_FILLS"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-color-gray-700",
+          "ANDROID": "color.gray.700",
+          "iOS": "Color.Gray.shade700"
+        },
+        "comment": "$color-gray-700"
       },
       "800": {
         "$value": "{colors.brand.gray.800}",
@@ -145,11 +210,18 @@
             "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
           },
           "platform": {
-            "scssVariableName": "$gray-800"
+            "scssVariableName": "$color-gray-800"
           }
         },
-        "$scopes": ["ALL_FILLS"],
-        "comment": "$gray-800"
+        "$scopes": [
+          "ALL_FILLS"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-color-gray-800",
+          "ANDROID": "color.gray.800",
+          "iOS": "Color.Gray.shade800"
+        },
+        "comment": "$color-gray-800"
       },
       "900": {
         "$value": "{colors.brand.gray.900}",
@@ -160,11 +232,18 @@
             "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
           },
           "platform": {
-            "scssVariableName": "$gray-900"
+            "scssVariableName": "$color-gray-900"
           }
         },
-        "$scopes": ["ALL_FILLS"],
-        "comment": "$gray-900"
+        "$scopes": [
+          "ALL_FILLS"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-color-gray-900",
+          "ANDROID": "color.gray.900",
+          "iOS": "Color.Gray.shade900"
+        },
+        "comment": "$color-gray-900"
       }
     }
   }

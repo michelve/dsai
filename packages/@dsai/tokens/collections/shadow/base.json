@@ -1,27 +1,79 @@
 {
   "shadow": {
     "default": {
-      "value": "0 0.5rem 1rem rgba(0, 0, 0, 0.15)",
-      "type": "shadow",
-      "description": "Complete box shadow value for Bootstrap SCSS export",
+      "$value": "0 0.5rem 1rem rgba(0, 0, 0, 0.15)",
+      "$type": "shadow",
+      "$description": "Complete box shadow value for Bootstrap SCSS export",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/shadows/"
+        },
+        "platform": {
+          "scssVariableName": "$box-shadow"
+        }
+      },
+      "$codeSyntax": {
+        "WEB": "--dsai-shadow-default",
+        "ANDROID": "shadow.default",
+        "iOS": "Shadow.Default"
+      },
       "comment": "$box-shadow"
     },
     "sm": {
-      "value": "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)",
-      "type": "shadow",
-      "description": "Complete box shadow value for Bootstrap SCSS export",
+      "$value": "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)",
+      "$type": "shadow",
+      "$description": "Complete box shadow value for Bootstrap SCSS export",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/shadows/"
+        },
+        "platform": {
+          "scssVariableName": "$box-shadow-sm"
+        }
+      },
+      "$codeSyntax": {
+        "WEB": "--dsai-shadow-sm",
+        "ANDROID": "shadow.sm",
+        "iOS": "Shadow.Sm"
+      },
       "comment": "$box-shadow-sm"
     },
     "lg": {
-      "value": "0 1rem 3rem rgba(0, 0, 0, 0.175)",
-      "type": "shadow",
-      "description": "Complete box shadow value for Bootstrap SCSS export",
+      "$value": "0 1rem 3rem rgba(0, 0, 0, 0.175)",
+      "$type": "shadow",
+      "$description": "Complete box shadow value for Bootstrap SCSS export",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/shadows/"
+        },
+        "platform": {
+          "scssVariableName": "$box-shadow-lg"
+        }
+      },
+      "$codeSyntax": {
+        "WEB": "--dsai-shadow-lg",
+        "ANDROID": "shadow.lg",
+        "iOS": "Shadow.Lg"
+      },
       "comment": "$box-shadow-lg"
     },
     "inset": {
-      "value": "inset 0 1px 2px rgba(0, 0, 0, 0.075)",
-      "type": "shadow",
-      "description": "Complete box shadow value for Bootstrap SCSS export",
+      "$value": "inset 0 1px 2px rgba(0, 0, 0, 0.075)",
+      "$type": "shadow",
+      "$description": "Complete box shadow value for Bootstrap SCSS export",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/shadows/"
+        },
+        "platform": {
+          "scssVariableName": "$box-shadow-inset"
+        }
+      },
+      "$codeSyntax": {
+        "WEB": "--dsai-shadow-inset",
+        "ANDROID": "shadow.inset",
+        "iOS": "Shadow.Inset"
+      },
       "comment": "$box-shadow-inset"
     }
   }

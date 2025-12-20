@@ -11,12 +11,18 @@
           "subsection": "Background - Primary"
         },
         "platform": {
-          "cssClass": ".bg-primary",
-          "scssVariableName": "$primary"
+          "scssVariableName": "$theme-primary"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$primary"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-primary",
+        "ANDROID": "background.primary",
+        "iOS": "Background.Primary"
+      },
+      "comment": "$theme-primary"
     },
     "secondary": {
       "$value": "{colors.brand.gray.600}",
@@ -27,12 +33,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
         },
         "platform": {
-          "cssClass": ".bg-secondary",
-          "scssVariableName": "$secondary"
+          "scssVariableName": "$theme-secondary"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$secondary"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-secondary",
+        "ANDROID": "background.secondary",
+        "iOS": "Background.Secondary"
+      },
+      "comment": "$theme-secondary"
     },
     "success": {
       "$value": "{colors.brand.green.500}",
@@ -43,12 +55,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
         },
         "platform": {
-          "cssClass": ".bg-success",
-          "scssVariableName": "$success"
+          "scssVariableName": "$theme-success"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$success"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-success",
+        "ANDROID": "background.success",
+        "iOS": "Background.Success"
+      },
+      "comment": "$theme-success"
     },
     "danger": {
       "$value": "{colors.brand.red.500}",
@@ -59,12 +77,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
         },
         "platform": {
-          "cssClass": ".bg-danger",
-          "scssVariableName": "$danger"
+          "scssVariableName": "$theme-danger"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$danger"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-danger",
+        "ANDROID": "background.danger",
+        "iOS": "Background.Danger"
+      },
+      "comment": "$theme-danger"
     },
     "warning": {
       "$value": "{colors.brand.yellow.500}",
@@ -75,12 +99,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
         },
         "platform": {
-          "cssClass": ".bg-warning",
-          "scssVariableName": "$warning"
+          "scssVariableName": "$theme-warning"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$warning"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-warning",
+        "ANDROID": "background.warning",
+        "iOS": "Background.Warning"
+      },
+      "comment": "$theme-warning"
     },
     "info": {
       "$value": "{colors.brand.cyan.500}",
@@ -91,12 +121,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
         },
         "platform": {
-          "cssClass": ".bg-info",
-          "scssVariableName": "$info"
+          "scssVariableName": "$theme-info"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$info"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-info",
+        "ANDROID": "background.info",
+        "iOS": "Background.Info"
+      },
+      "comment": "$theme-info"
     },
     "light": {
       "$value": "{colors.brand.gray.100}",
@@ -107,12 +143,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
         },
         "platform": {
-          "cssClass": ".bg-light",
-          "scssVariableName": "$light"
+          "scssVariableName": "$theme-light"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$light"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-light",
+        "ANDROID": "background.light",
+        "iOS": "Background.Light"
+      },
+      "comment": "$theme-light"
     },
     "dark": {
       "$value": "{colors.brand.gray.900}",
@@ -123,12 +165,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
         },
         "platform": {
-          "cssClass": ".bg-dark",
-          "scssVariableName": "$dark"
+          "scssVariableName": "$theme-dark"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$dark"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-dark",
+        "ANDROID": "background.dark",
+        "iOS": "Background.Dark"
+      },
+      "comment": "$theme-dark"
     },
     "body": {
       "$value": "{colors.neutral.white}",
@@ -139,12 +187,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
         },
         "platform": {
-          "cssClass": ".bg-body",
-          "scssVariableName": "$body-bg"
+          "scssVariableName": "$semantic-body-bg"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$body-bg"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-body",
+        "ANDROID": "background.body",
+        "iOS": "Background.Body"
+      },
+      "comment": "$semantic-body-bg"
     },
     "white": {
       "$value": "{colors.neutral.white}",
@@ -155,12 +209,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
         },
         "platform": {
-          "cssClass": ".bg-white",
-          "scssVariableName": "$white"
+          "scssVariableName": "$neutral-white"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$white"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-white",
+        "ANDROID": "background.white",
+        "iOS": "Background.White"
+      },
+      "comment": "$neutral-white"
     },
     "black": {
       "$value": "{colors.neutral.black}",
@@ -171,12 +231,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
         },
         "platform": {
-          "cssClass": ".bg-black",
-          "scssVariableName": "$black"
+          "scssVariableName": "$neutral-black"
         }
       },
-      "$scopes": ["ALL_FILLS"],
-      "comment": "$black"
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-black",
+        "ANDROID": "background.black",
+        "iOS": "Background.Black"
+      },
+      "comment": "$neutral-black"
     },
     "transparent": {
       "$value": "#000000",
@@ -187,10 +253,18 @@
           "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
         },
         "platform": {
-          "cssClass": ".bg-transparent"
+          "scssVariableName": "$background-transparent"
         }
       },
-      "$scopes": ["ALL_FILLS"]
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-transparent",
+        "ANDROID": "background.transparent",
+        "iOS": "Background.Transparent"
+      },
+      "comment": "$background-transparent"
     }
   }
 }

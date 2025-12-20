@@ -12,11 +12,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#radius"
               },
               "platform": {
-                "scssVariableName": "$border-radius (0 override)",
-                "cssClass": "rounded-0"
+                "scssVariableName": "$border-radius-none"
               }
             },
-            "$scopes": ["CORNER_RADIUS"]
+            "$codeSyntax": {
+              "WEB": "--dsai-border-radius-none",
+              "ANDROID": "border.radius.none",
+              "iOS": "Border.Radius.None"
+            },
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
           },
           "sm": {
             "$value": 4,
@@ -27,11 +33,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
               },
               "platform": {
-                "scssVariableName": "$border-radius-sm",
-                "cssClass": "rounded-1"
+                "scssVariableName": "$border-radius-sm"
               }
             },
-            "$scopes": ["CORNER_RADIUS"]
+            "$codeSyntax": {
+              "WEB": "--dsai-border-radius-sm",
+              "ANDROID": "border.radius.sm",
+              "iOS": "Border.Radius.Sm"
+            },
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
           },
           "md": {
             "$value": 8,
@@ -42,11 +54,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#radius"
               },
               "platform": {
-                "scssVariableName": "$border-radius",
-                "cssClass": "rounded, rounded-2"
+                "scssVariableName": "$border-radius"
               }
             },
-            "$scopes": ["CORNER_RADIUS"]
+            "$codeSyntax": {
+              "WEB": "--dsai-border-radius-md",
+              "ANDROID": "border.radius.md",
+              "iOS": "Border.Radius.Md"
+            },
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
           },
           "lg": {
             "$value": 16,
@@ -57,11 +75,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
               },
               "platform": {
-                "scssVariableName": "$border-radius-lg",
-                "cssClass": "rounded-3"
+                "scssVariableName": "$border-radius-lg"
               }
             },
-            "$scopes": ["CORNER_RADIUS"]
+            "$codeSyntax": {
+              "WEB": "--dsai-border-radius-lg",
+              "ANDROID": "border.radius.lg",
+              "iOS": "Border.Radius.Lg"
+            },
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
           },
           "xl": {
             "$value": 24,
@@ -72,11 +96,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
               },
               "platform": {
-                "scssVariableName": "$border-radius-xl",
-                "cssClass": "rounded-4"
+                "scssVariableName": "$border-radius-xl"
               }
             },
-            "$scopes": ["CORNER_RADIUS"]
+            "$codeSyntax": {
+              "WEB": "--dsai-border-radius-xl",
+              "ANDROID": "border.radius.xl",
+              "iOS": "Border.Radius.Xl"
+            },
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
           },
           "xxl": {
             "$value": 32,
@@ -87,11 +117,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
               },
               "platform": {
-                "scssVariableName": "$border-radius-xxl",
-                "cssClass": "rounded-5"
+                "scssVariableName": "$border-radius-xxl"
               }
             },
-            "$scopes": ["CORNER_RADIUS"]
+            "$codeSyntax": {
+              "WEB": "--dsai-border-radius-xxl",
+              "ANDROID": "border.radius.xxl",
+              "iOS": "Border.Radius.Xxl"
+            },
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
           },
           "full": {
             "$value": 9999,
@@ -102,11 +138,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
               },
               "platform": {
-                "scssVariableName": "$border-radius-full",
-                "cssClass": "rounded-full"
+                "scssVariableName": "$border-radius-full"
               }
             },
-            "$scopes": ["CORNER_RADIUS"]
+            "$codeSyntax": {
+              "WEB": "--dsai-border-radius-full",
+              "ANDROID": "border.radius.full",
+              "iOS": "Border.Radius.Full"
+            },
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
           },
           "circle": {
             "$value": 100000000,
@@ -117,12 +159,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
               },
               "platform": {
-                "scssVariableName": "50% (calculated)",
-                "cssClass": "rounded-circle",
-                "unit": "%"
+                "scssVariableName": "$border-radius-circle"
               }
             },
-            "$scopes": ["CORNER_RADIUS"]
+            "$codeSyntax": {
+              "WEB": "--dsai-border-radius-circle",
+              "ANDROID": "border.radius.circle",
+              "iOS": "Border.Radius.Circle"
+            },
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
           },
           "pill": {
             "$value": 800,
@@ -133,11 +180,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
               },
               "platform": {
-                "scssVariableName": "$border-radius-pill",
-                "cssClass": "rounded-pill"
+                "scssVariableName": "$border-radius-pill"
               }
             },
-            "$scopes": ["CORNER_RADIUS"]
+            "$codeSyntax": {
+              "WEB": "--dsai-border-radius-pill",
+              "ANDROID": "border.radius.pill",
+              "iOS": "Border.Radius.Pill"
+            },
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
           }
         }
       }

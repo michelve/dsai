@@ -12,12 +12,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
               },
               "platform": {
-                "scssVariableName": "$font-size-base",
-                "remValue": "1rem",
-                "viewport": "all"
+                "scssVariableName": "$font-size-base"
               }
             },
-            "$scopes": ["FONT_SIZE"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-font-size-base",
+              "ANDROID": "typography.fontSize.base",
+              "iOS": "Typography.FontSize.Base"
+            },
+            "$scopes": [
+              "FONT_SIZE"
+            ]
           },
           "sm": {
             "$value": 14,
@@ -28,12 +33,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
               },
               "platform": {
-                "scssVariableName": "$font-size-sm",
-                "remValue": "0.875rem",
-                "viewport": "all"
+                "scssVariableName": "$font-size-sm"
               }
             },
-            "$scopes": ["FONT_SIZE"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-font-size-sm",
+              "ANDROID": "typography.fontSize.sm",
+              "iOS": "Typography.FontSize.Sm"
+            },
+            "$scopes": [
+              "FONT_SIZE"
+            ]
           },
           "lg": {
             "$value": 20,
@@ -44,12 +54,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
               },
               "platform": {
-                "scssVariableName": "$font-size-lg",
-                "remValue": "1.25rem",
-                "viewport": "all"
+                "scssVariableName": "$font-size-lg"
               }
             },
-            "$scopes": ["FONT_SIZE"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-font-size-lg",
+              "ANDROID": "typography.fontSize.lg",
+              "iOS": "Typography.FontSize.Lg"
+            },
+            "$scopes": [
+              "FONT_SIZE"
+            ]
           }
         },
         "fontWeight": {
@@ -62,11 +77,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics"
               },
               "platform": {
-                "scssVariableName": "$font-weight-lighter",
-                "cssClass": "fw-lighter"
+                "scssVariableName": "$font-weight-lighter"
               }
             },
-            "$scopes": ["FONT_WEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-font-weight-lighter",
+              "ANDROID": "typography.fontWeight.lighter",
+              "iOS": "Typography.FontWeight.Lighter"
+            },
+            "$scopes": [
+              "FONT_WEIGHT"
+            ]
           },
           "light": {
             "$value": 300,
@@ -77,11 +98,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics"
               },
               "platform": {
-                "scssVariableName": "$font-weight-light",
-                "cssClass": "fw-light"
+                "scssVariableName": "$font-weight-light"
               }
             },
-            "$scopes": ["FONT_WEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-font-weight-light",
+              "ANDROID": "typography.fontWeight.light",
+              "iOS": "Typography.FontWeight.Light"
+            },
+            "$scopes": [
+              "FONT_WEIGHT"
+            ]
           },
           "normal": {
             "$value": 400,
@@ -92,11 +119,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics"
               },
               "platform": {
-                "scssVariableName": "$font-weight-normal",
-                "cssClass": "fw-normal"
+                "scssVariableName": "$font-weight-normal"
               }
             },
-            "$scopes": ["FONT_WEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-font-weight-normal",
+              "ANDROID": "typography.fontWeight.normal",
+              "iOS": "Typography.FontWeight.Normal"
+            },
+            "$scopes": [
+              "FONT_WEIGHT"
+            ]
           },
           "medium": {
             "$value": 500,
@@ -107,11 +140,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics"
               },
               "platform": {
-                "scssVariableName": "$font-weight-medium",
-                "cssClass": "fw-medium"
+                "scssVariableName": "$font-weight-medium"
               }
             },
-            "$scopes": ["FONT_WEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-font-weight-medium",
+              "ANDROID": "typography.fontWeight.medium",
+              "iOS": "Typography.FontWeight.Medium"
+            },
+            "$scopes": [
+              "FONT_WEIGHT"
+            ]
           },
           "semibold": {
             "$value": 600,
@@ -122,11 +161,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics"
               },
               "platform": {
-                "scssVariableName": "$font-weight-semibold",
-                "cssClass": "fw-semibold"
+                "scssVariableName": "$font-weight-semibold"
               }
             },
-            "$scopes": ["FONT_WEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-font-weight-semibold",
+              "ANDROID": "typography.fontWeight.semibold",
+              "iOS": "Typography.FontWeight.Semibold"
+            },
+            "$scopes": [
+              "FONT_WEIGHT"
+            ]
           },
           "bold": {
             "$value": 700,
@@ -137,11 +182,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics"
               },
               "platform": {
-                "scssVariableName": "$font-weight-bold",
-                "cssClass": "fw-bold"
+                "scssVariableName": "$font-weight-bold"
               }
             },
-            "$scopes": ["FONT_WEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-font-weight-bold",
+              "ANDROID": "typography.fontWeight.bold",
+              "iOS": "Typography.FontWeight.Bold"
+            },
+            "$scopes": [
+              "FONT_WEIGHT"
+            ]
           },
           "bolder": {
             "$value": 900,
@@ -152,11 +203,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics"
               },
               "platform": {
-                "scssVariableName": "$font-weight-bolder",
-                "cssClass": "fw-bolder"
+                "scssVariableName": "$font-weight-bolder"
               }
             },
-            "$scopes": ["FONT_WEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-font-weight-bolder",
+              "ANDROID": "typography.fontWeight.bolder",
+              "iOS": "Typography.FontWeight.Bolder"
+            },
+            "$scopes": [
+              "FONT_WEIGHT"
+            ]
           }
         },
         "lineHeight": {
@@ -169,18 +226,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
               },
               "platform": {
-                "scssVariableName": "$line-height-xs",
-                "ratio": "1.0",
-                "usage": "badges, tags, compact-ui"
-              },
-              "accessibility": {
-                "wcag": "Not recommended for body text"
-              },
-              "scale": {
-                "unit": "4pt"
+                "scssVariableName": "$line-height-xs"
               }
             },
-            "$scopes": ["LINE_HEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-line-height-xs",
+              "ANDROID": "typography.lineHeight.xs",
+              "iOS": "Typography.LineHeight.Xs"
+            },
+            "$scopes": [
+              "LINE_HEIGHT"
+            ]
           },
           "sm": {
             "$value": 20,
@@ -191,18 +247,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
               },
               "platform": {
-                "scssVariableName": "$line-height-sm",
-                "ratio": "1.25",
-                "usage": "buttons, form-controls, compact-text"
-              },
-              "accessibility": {
-                "wcag": "Below AA standard for body text"
-              },
-              "scale": {
-                "unit": "4pt"
+                "scssVariableName": "$line-height-sm"
               }
             },
-            "$scopes": ["LINE_HEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-line-height-sm",
+              "ANDROID": "typography.lineHeight.sm",
+              "iOS": "Typography.LineHeight.Sm"
+            },
+            "$scopes": [
+              "LINE_HEIGHT"
+            ]
           },
           "tight": {
             "$value": 20,
@@ -213,18 +268,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
               },
               "platform": {
-                "scssVariableName": "$headings-line-height",
-                "ratio": "1.2-1.25",
-                "usage": "headings, display-fonts, hero-text"
-              },
-              "accessibility": {
-                "wcag": "Appropriate for headings/large text"
-              },
-              "scale": {
-                "unit": "4pt"
+                "scssVariableName": "$headings-line-height"
               }
             },
-            "$scopes": ["LINE_HEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-line-height-tight",
+              "ANDROID": "typography.lineHeight.tight",
+              "iOS": "Typography.LineHeight.Tight"
+            },
+            "$scopes": [
+              "LINE_HEIGHT"
+            ]
           },
           "base": {
             "$value": 24,
@@ -235,18 +289,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
               },
               "platform": {
-                "scssVariableName": "$line-height-base",
-                "ratio": "1.5",
-                "usage": "body-text, paragraphs, default"
-              },
-              "accessibility": {
-                "wcag": "AA compliant (1.5 minimum)"
-              },
-              "scale": {
-                "unit": "4pt"
+                "scssVariableName": "$line-height-base"
               }
             },
-            "$scopes": ["LINE_HEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-line-height-base",
+              "ANDROID": "typography.lineHeight.base",
+              "iOS": "Typography.LineHeight.Base"
+            },
+            "$scopes": [
+              "LINE_HEIGHT"
+            ]
           },
           "relaxed": {
             "$value": 28,
@@ -257,18 +310,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
               },
               "platform": {
-                "scssVariableName": "$line-height-relaxed",
-                "ratio": "1.75",
-                "usage": "long-form, articles, documentation"
-              },
-              "accessibility": {
-                "wcag": "Exceeds AA (enhanced readability)"
-              },
-              "scale": {
-                "unit": "4pt"
+                "scssVariableName": "$line-height-relaxed"
               }
             },
-            "$scopes": ["LINE_HEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-line-height-relaxed",
+              "ANDROID": "typography.lineHeight.relaxed",
+              "iOS": "Typography.LineHeight.Relaxed"
+            },
+            "$scopes": [
+              "LINE_HEIGHT"
+            ]
           },
           "lg": {
             "$value": 32,
@@ -279,18 +331,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
               },
               "platform": {
-                "scssVariableName": "$line-height-lg",
-                "ratio": "2.0",
-                "usage": "lead-text, large-ui, callouts"
-              },
-              "accessibility": {
-                "wcag": "Excellent for readability"
-              },
-              "scale": {
-                "unit": "4pt"
+                "scssVariableName": "$line-height-lg"
               }
             },
-            "$scopes": ["LINE_HEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-line-height-lg",
+              "ANDROID": "typography.lineHeight.lg",
+              "iOS": "Typography.LineHeight.Lg"
+            },
+            "$scopes": [
+              "LINE_HEIGHT"
+            ]
           },
           "display-sm": {
             "$value": 48,
@@ -301,19 +352,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
               },
               "platform": {
-                "scssVariableName": "$display-line-height",
-                "ratio": "1.2",
-                "usage": "display-4, display-5, display-6, large-headings",
-                "fontSize": "40px base"
-              },
-              "accessibility": {
-                "wcag": "Appropriate for display text"
-              },
-              "scale": {
-                "unit": "4pt"
+                "scssVariableName": "$display-line-height"
               }
             },
-            "$scopes": ["LINE_HEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-line-height-display-sm",
+              "ANDROID": "typography.lineHeight.display-sm",
+              "iOS": "Typography.LineHeight.Display-sm"
+            },
+            "$scopes": [
+              "LINE_HEIGHT"
+            ]
           },
           "display-md": {
             "$value": 60,
@@ -324,19 +373,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
               },
               "platform": {
-                "scssVariableName": "$display-line-height-md",
-                "ratio": "1.2",
-                "usage": "display-2, display-3, hero-subheadings",
-                "fontSize": "48-56px base"
-              },
-              "accessibility": {
-                "wcag": "Appropriate for display text"
-              },
-              "scale": {
-                "unit": "4pt"
+                "scssVariableName": "$display-line-height-md"
               }
             },
-            "$scopes": ["LINE_HEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-line-height-display-md",
+              "ANDROID": "typography.lineHeight.display-md",
+              "iOS": "Typography.LineHeight.Display-md"
+            },
+            "$scopes": [
+              "LINE_HEIGHT"
+            ]
           },
           "display-lg": {
             "$value": 76,
@@ -347,19 +394,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
               },
               "platform": {
-                "scssVariableName": "$display-line-height-lg",
-                "ratio": "1.2",
-                "usage": "display-1, hero-headings, landing-pages",
-                "fontSize": "64px base"
-              },
-              "accessibility": {
-                "wcag": "Appropriate for display text"
-              },
-              "scale": {
-                "unit": "4pt"
+                "scssVariableName": "$display-line-height-lg"
               }
             },
-            "$scopes": ["LINE_HEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-line-height-display-lg",
+              "ANDROID": "typography.lineHeight.display-lg",
+              "iOS": "Typography.LineHeight.Display-lg"
+            },
+            "$scopes": [
+              "LINE_HEIGHT"
+            ]
           }
         },
         "headings": {
@@ -373,11 +418,17 @@
                   "reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
                 },
                 "platform": {
-                  "scssVariableName": "$h1-font-size",
-                  "remValue": "2.5rem"
+                  "scssVariableName": "$h1-font-size"
                 }
               },
-              "$scopes": ["FONT_SIZE"]
+              "$codeSyntax": {
+                "WEB": "--dsai-typography-headings-h1-font-size",
+                "ANDROID": "typography.headings.h1.fontSize",
+                "iOS": "Typography.Headings.H1.FontSize"
+              },
+              "$scopes": [
+                "FONT_SIZE"
+              ]
             }
           },
           "h2": {
@@ -390,11 +441,17 @@
                   "reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
                 },
                 "platform": {
-                  "scssVariableName": "$h2-font-size",
-                  "remValue": "2rem"
+                  "scssVariableName": "$h2-font-size"
                 }
               },
-              "$scopes": ["FONT_SIZE"]
+              "$codeSyntax": {
+                "WEB": "--dsai-typography-headings-h2-font-size",
+                "ANDROID": "typography.headings.h2.fontSize",
+                "iOS": "Typography.Headings.H2.FontSize"
+              },
+              "$scopes": [
+                "FONT_SIZE"
+              ]
             }
           },
           "h3": {
@@ -407,11 +464,17 @@
                   "reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
                 },
                 "platform": {
-                  "scssVariableName": "$h3-font-size",
-                  "remValue": "1.75rem"
+                  "scssVariableName": "$h3-font-size"
                 }
               },
-              "$scopes": ["FONT_SIZE"]
+              "$codeSyntax": {
+                "WEB": "--dsai-typography-headings-h3-font-size",
+                "ANDROID": "typography.headings.h3.fontSize",
+                "iOS": "Typography.Headings.H3.FontSize"
+              },
+              "$scopes": [
+                "FONT_SIZE"
+              ]
             }
           },
           "h4": {
@@ -424,11 +487,17 @@
                   "reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
                 },
                 "platform": {
-                  "scssVariableName": "$h4-font-size",
-                  "remValue": "1.5rem"
+                  "scssVariableName": "$h4-font-size"
                 }
               },
-              "$scopes": ["FONT_SIZE"]
+              "$codeSyntax": {
+                "WEB": "--dsai-typography-headings-h4-font-size",
+                "ANDROID": "typography.headings.h4.fontSize",
+                "iOS": "Typography.Headings.H4.FontSize"
+              },
+              "$scopes": [
+                "FONT_SIZE"
+              ]
             }
           },
           "h5": {
@@ -441,11 +510,17 @@
                   "reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
                 },
                 "platform": {
-                  "scssVariableName": "$h5-font-size",
-                  "remValue": "1.25rem"
+                  "scssVariableName": "$h5-font-size"
                 }
               },
-              "$scopes": ["FONT_SIZE"]
+              "$codeSyntax": {
+                "WEB": "--dsai-typography-headings-h5-font-size",
+                "ANDROID": "typography.headings.h5.fontSize",
+                "iOS": "Typography.Headings.H5.FontSize"
+              },
+              "$scopes": [
+                "FONT_SIZE"
+              ]
             }
           },
           "h6": {
@@ -458,11 +533,17 @@
                   "reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
                 },
                 "platform": {
-                  "scssVariableName": "$h6-font-size",
-                  "remValue": "1rem"
+                  "scssVariableName": "$h6-font-size"
                 }
               },
-              "$scopes": ["FONT_SIZE"]
+              "$codeSyntax": {
+                "WEB": "--dsai-typography-headings-h6-font-size",
+                "ANDROID": "typography.headings.h6.fontSize",
+                "iOS": "Typography.Headings.H6.FontSize"
+              },
+              "$scopes": [
+                "FONT_SIZE"
+              ]
             }
           },
           "fontWeight": {
@@ -477,7 +558,14 @@
                 "scssVariableName": "$headings-font-weight"
               }
             },
-            "$scopes": ["FONT_WEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-headings-font-weight",
+              "ANDROID": "typography.headings.fontWeight",
+              "iOS": "Typography.Headings.FontWeight"
+            },
+            "$scopes": [
+              "FONT_WEIGHT"
+            ]
           },
           "lineHeight": {
             "$value": 1.2000000476837158,
@@ -491,7 +579,14 @@
                 "scssVariableName": "$headings-line-height"
               }
             },
-            "$scopes": ["LINE_HEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-headings-line-height",
+              "ANDROID": "typography.headings.lineHeight",
+              "iOS": "Typography.Headings.LineHeight"
+            },
+            "$scopes": [
+              "LINE_HEIGHT"
+            ]
           }
         },
         "display": {
@@ -505,12 +600,17 @@
                   "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
                 },
                 "platform": {
-                  "scssVariableName": "$display-font-sizes: (1: 5rem)",
-                  "cssClass": "display-1",
-                  "remValue": "5rem"
+                  "scssVariableName": "$display-font-sizes: (1: 5rem)"
                 }
               },
-              "$scopes": ["FONT_SIZE"]
+              "$codeSyntax": {
+                "WEB": "--dsai-typography-display-display1-font-size",
+                "ANDROID": "typography.display.display1.fontSize",
+                "iOS": "Typography.Display.Display1.FontSize"
+              },
+              "$scopes": [
+                "FONT_SIZE"
+              ]
             }
           },
           "display2": {
@@ -523,12 +623,17 @@
                   "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
                 },
                 "platform": {
-                  "scssVariableName": "$display-font-sizes: (2: 4.5rem)",
-                  "cssClass": "display-2",
-                  "remValue": "4.5rem"
+                  "scssVariableName": "$display-font-sizes: (2: 4.5rem)"
                 }
               },
-              "$scopes": ["FONT_SIZE"]
+              "$codeSyntax": {
+                "WEB": "--dsai-typography-display-display2-font-size",
+                "ANDROID": "typography.display.display2.fontSize",
+                "iOS": "Typography.Display.Display2.FontSize"
+              },
+              "$scopes": [
+                "FONT_SIZE"
+              ]
             }
           },
           "display3": {
@@ -541,12 +646,17 @@
                   "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
                 },
                 "platform": {
-                  "scssVariableName": "$display-font-sizes: (3: 4rem)",
-                  "cssClass": "display-3",
-                  "remValue": "4rem"
+                  "scssVariableName": "$display-font-sizes: (3: 4rem)"
                 }
               },
-              "$scopes": ["FONT_SIZE"]
+              "$codeSyntax": {
+                "WEB": "--dsai-typography-display-display3-font-size",
+                "ANDROID": "typography.display.display3.fontSize",
+                "iOS": "Typography.Display.Display3.FontSize"
+              },
+              "$scopes": [
+                "FONT_SIZE"
+              ]
             }
           },
           "display4": {
@@ -559,12 +669,17 @@
                   "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
                 },
                 "platform": {
-                  "scssVariableName": "$display-font-sizes: (4: 3.5rem)",
-                  "cssClass": "display-4",
-                  "remValue": "3.5rem"
+                  "scssVariableName": "$display-font-sizes: (4: 3.5rem)"
                 }
               },
-              "$scopes": ["FONT_SIZE"]
+              "$codeSyntax": {
+                "WEB": "--dsai-typography-display-display4-font-size",
+                "ANDROID": "typography.display.display4.fontSize",
+                "iOS": "Typography.Display.Display4.FontSize"
+              },
+              "$scopes": [
+                "FONT_SIZE"
+              ]
             }
           },
           "display5": {
@@ -577,12 +692,17 @@
                   "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
                 },
                 "platform": {
-                  "scssVariableName": "$display-font-sizes: (5: 3rem)",
-                  "cssClass": "display-5",
-                  "remValue": "3rem"
+                  "scssVariableName": "$display-font-sizes: (5: 3rem)"
                 }
               },
-              "$scopes": ["FONT_SIZE"]
+              "$codeSyntax": {
+                "WEB": "--dsai-typography-display-display5-font-size",
+                "ANDROID": "typography.display.display5.fontSize",
+                "iOS": "Typography.Display.Display5.FontSize"
+              },
+              "$scopes": [
+                "FONT_SIZE"
+              ]
             }
           },
           "display6": {
@@ -595,12 +715,17 @@
                   "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
                 },
                 "platform": {
-                  "scssVariableName": "$display-font-sizes: (6: 2.5rem)",
-                  "cssClass": "display-6",
-                  "remValue": "2.5rem"
+                  "scssVariableName": "$display-font-sizes: (6: 2.5rem)"
                 }
               },
-              "$scopes": ["FONT_SIZE"]
+              "$codeSyntax": {
+                "WEB": "--dsai-typography-display-display6-font-size",
+                "ANDROID": "typography.display.display6.fontSize",
+                "iOS": "Typography.Display.Display6.FontSize"
+              },
+              "$scopes": [
+                "FONT_SIZE"
+              ]
             }
           },
           "fontWeight": {
@@ -615,7 +740,14 @@
                 "scssVariableName": "$display-font-weight"
               }
             },
-            "$scopes": ["FONT_WEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-display-font-weight",
+              "ANDROID": "typography.display.fontWeight",
+              "iOS": "Typography.Display.FontWeight"
+            },
+            "$scopes": [
+              "FONT_WEIGHT"
+            ]
           },
           "lineHeight": {
             "$value": 1.2000000476837158,
@@ -629,7 +761,14 @@
                 "scssVariableName": "$display-line-height"
               }
             },
-            "$scopes": ["LINE_HEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-display-line-height",
+              "ANDROID": "typography.display.lineHeight",
+              "iOS": "Typography.Display.LineHeight"
+            },
+            "$scopes": [
+              "LINE_HEIGHT"
+            ]
           }
         },
         "lead": {
@@ -642,12 +781,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/#lead"
               },
               "platform": {
-                "scssVariableName": "$lead-font-size",
-                "cssClass": "lead",
-                "remValue": "1.25rem"
+                "scssVariableName": "$lead-font-size"
               }
             },
-            "$scopes": ["FONT_SIZE"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-lead-font-size",
+              "ANDROID": "typography.lead.fontSize",
+              "iOS": "Typography.Lead.FontSize"
+            },
+            "$scopes": [
+              "FONT_SIZE"
+            ]
           },
           "fontWeight": {
             "$value": 300,
@@ -661,7 +805,14 @@
                 "scssVariableName": "$lead-font-weight"
               }
             },
-            "$scopes": ["FONT_WEIGHT"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-lead-font-weight",
+              "ANDROID": "typography.lead.fontWeight",
+              "iOS": "Typography.Lead.FontWeight"
+            },
+            "$scopes": [
+              "FONT_WEIGHT"
+            ]
           }
         },
         "small": {
@@ -674,12 +825,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/#inline-text-elements"
               },
               "platform": {
-                "scssVariableName": "$small-font-size",
-                "cssClass": "small",
-                "remValue": "0.875rem"
+                "scssVariableName": "$small-font-size"
               }
             },
-            "$scopes": ["FONT_SIZE"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-small-font-size",
+              "ANDROID": "typography.small.fontSize",
+              "iOS": "Typography.Small.FontSize"
+            },
+            "$scopes": [
+              "FONT_SIZE"
+            ]
           }
         },
         "letterSpacing": {
@@ -692,15 +848,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
               },
               "platform": {
-                "scssVariableName": "$letter-spacing-tighter",
-                "cssClass": "tracking-tighter",
-                "emValue": "-0.05em"
-              },
-              "accessibility": {
-                "wcag": "WCAG AA compliant - improves readability for large text"
+                "scssVariableName": "$letter-spacing-tighter"
               }
             },
-            "$scopes": ["LETTER_SPACING"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-letter-spacing-tighter",
+              "ANDROID": "typography.letterSpacing.tighter",
+              "iOS": "Typography.LetterSpacing.Tighter"
+            },
+            "$scopes": [
+              "LETTER_SPACING"
+            ]
           },
           "tight": {
             "$value": -0.02500000037252903,
@@ -711,15 +869,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
               },
               "platform": {
-                "scssVariableName": "$letter-spacing-tight",
-                "cssClass": "tracking-tight",
-                "emValue": "-0.025em"
-              },
-              "accessibility": {
-                "wcag": "WCAG AA compliant"
+                "scssVariableName": "$letter-spacing-tight"
               }
             },
-            "$scopes": ["LETTER_SPACING"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-letter-spacing-tight",
+              "ANDROID": "typography.letterSpacing.tight",
+              "iOS": "Typography.LetterSpacing.Tight"
+            },
+            "$scopes": [
+              "LETTER_SPACING"
+            ]
           },
           "normal": {
             "$value": 0,
@@ -730,15 +890,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
               },
               "platform": {
-                "scssVariableName": "$letter-spacing-normal",
-                "cssClass": "tracking-normal",
-                "emValue": "0"
-              },
-              "accessibility": {
-                "wcag": "WCAG AA compliant - recommended baseline"
+                "scssVariableName": "$letter-spacing-normal"
               }
             },
-            "$scopes": ["LETTER_SPACING"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-letter-spacing-normal",
+              "ANDROID": "typography.letterSpacing.normal",
+              "iOS": "Typography.LetterSpacing.Normal"
+            },
+            "$scopes": [
+              "LETTER_SPACING"
+            ]
           },
           "wide": {
             "$value": 0.02500000037252903,
@@ -749,15 +911,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
               },
               "platform": {
-                "scssVariableName": "$letter-spacing-wide",
-                "cssClass": "tracking-wide",
-                "emValue": "0.025em"
-              },
-              "accessibility": {
-                "wcag": "WCAG AA compliant - improves small text readability"
+                "scssVariableName": "$letter-spacing-wide"
               }
             },
-            "$scopes": ["LETTER_SPACING"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-letter-spacing-wide",
+              "ANDROID": "typography.letterSpacing.wide",
+              "iOS": "Typography.LetterSpacing.Wide"
+            },
+            "$scopes": [
+              "LETTER_SPACING"
+            ]
           },
           "wider": {
             "$value": 0.05000000074505806,
@@ -768,15 +932,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
               },
               "platform": {
-                "scssVariableName": "$letter-spacing-wider",
-                "cssClass": "tracking-wider",
-                "emValue": "0.05em"
-              },
-              "accessibility": {
-                "wcag": "WCAG AA compliant - recommended for uppercase"
+                "scssVariableName": "$letter-spacing-wider"
               }
             },
-            "$scopes": ["LETTER_SPACING"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-letter-spacing-wider",
+              "ANDROID": "typography.letterSpacing.wider",
+              "iOS": "Typography.LetterSpacing.Wider"
+            },
+            "$scopes": [
+              "LETTER_SPACING"
+            ]
           },
           "widest": {
             "$value": 0.10000000149011612,
@@ -787,15 +953,17 @@
                 "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
               },
               "platform": {
-                "scssVariableName": "$letter-spacing-widest",
-                "cssClass": "tracking-widest",
-                "emValue": "0.1em"
-              },
-              "accessibility": {
-                "wcag": "WCAG AA compliant - optimal for all-caps text"
+                "scssVariableName": "$letter-spacing-widest"
               }
             },
-            "$scopes": ["LETTER_SPACING"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-letter-spacing-widest",
+              "ANDROID": "typography.letterSpacing.widest",
+              "iOS": "Typography.LetterSpacing.Widest"
+            },
+            "$scopes": [
+              "LETTER_SPACING"
+            ]
           }
         },
         "fontFamily": {
@@ -809,11 +977,17 @@
               },
               "platform": {
                 "scssVariableName": "$font-family-base",
-                "fontStack": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", \"Noto Sans\", \"Liberation Sans\", Arial, sans-serif",
-                "viewport": "all"
+                "fontStack": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", \"Noto Sans\", \"Liberation Sans\", Arial, sans-serif"
               }
             },
-            "$scopes": ["FONT_FAMILY"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-font-family-base",
+              "ANDROID": "typography.fontFamily.base",
+              "iOS": "Typography.FontFamily.Base"
+            },
+            "$scopes": [
+              "FONT_FAMILY"
+            ]
           },
           "monospace": {
             "$value": "Roboto Mono",
@@ -825,11 +999,17 @@
               },
               "platform": {
                 "scssVariableName": "$font-family-monospace",
-                "fontStack": "SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace",
-                "viewport": "all"
+                "fontStack": "SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace"
               }
             },
-            "$scopes": ["FONT_FAMILY"]
+            "$codeSyntax": {
+              "WEB": "--dsai-typography-font-family-monospace",
+              "ANDROID": "typography.fontFamily.monospace",
+              "iOS": "Typography.FontFamily.Monospace"
+            },
+            "$scopes": [
+              "FONT_FAMILY"
+            ]
           }
         }
       }

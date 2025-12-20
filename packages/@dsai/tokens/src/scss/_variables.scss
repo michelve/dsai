@@ -197,12 +197,12 @@ $spacing-1: 0.25rem; // Spacing scale 1 - Extra small spacing. Bootstrap's $spac
 $spacing-2: 0.5rem; // Spacing scale 2 - Small spacing. Bootstrap's $spacer * 0.5 (8px).
 $spacing-3: 1rem; // Spacing scale 3 - Base spacing. Bootstrap's $spacer * 1 (16px).
 $spacing-4: 1.5rem; // Spacing scale 4 - Medium spacing. Bootstrap's $spacer * 1.5 (24px).
-$spacing-5: 2rem; // Spacing scale 5 - Large spacing. Bootstrap's $spacer * 3 (48px).
-$spacing-6: 3rem;
-$spacing-7: 4rem;
-$spacing-8: 6rem;
-$spacing-9: 8rem;
-$spacing-10: 10rem;
+$spacing-5: 3rem; // Spacing scale 5 - Large spacing. Bootstrap's $spacer * 3 (48px).
+$spacing-6: 4rem; // Spacing scale 6 - Extra large spacing (64px).
+$spacing-7: 5rem; // Spacing scale 7 - 2X extra large spacing (80px).
+$spacing-8: 6rem; // Spacing scale 8 - 3X extra large spacing (96px).
+$spacing-9: 8rem; // Spacing scale 9 - 4X extra large spacing (128px).
+$spacing-10: 10rem; // Spacing scale 10 - 5X extra large spacing (160px).
 $border-radius-none: 0; // Border radius: 0 - No rounding. Used for completely square corners. Equivalent to Bootstrap's 'rounded-0' utility class.
 $border-radius-sm: 0.25rem; // Border radius: Small - .25rem (4px). Used for subtle rounding on small components. Equivalent to Bootstrap's 'rounded-1' utility class and $border-radius-sm variable.
 $border-radius-md: 0.5rem; // Border radius: Default - 0.5rem (8px). The standard rounding used throughout Bootstrap for most components. Equivalent to Bootstrap's 'rounded' or 'rounded-2' utility classes and $border-radius variable.
@@ -212,6 +212,16 @@ $border-radius-xxl: 2rem; // Border radius: 2X Extra Large - 2rem (32px). Used f
 $border-radius-full: 624.9375rem; // Border radius: Full - 624.9375rem (9999px). Creates fully rounded corners for any size element. Used internally for completely rounded shapes.
 $border-radius-circle: 50%; // Border radius: Circle - 50%. Creates perfectly circular shapes when applied to square elements. Equivalent to Bootstrap's 'rounded-circle' utility class. Note: This is a percentage value (50%), not pixel-based.
 $border-radius-pill: 624.9375rem; // Border radius: Pill - 50rem (800px). Creates pill-shaped elements with fully rounded ends on rectangular shapes. Equivalent to Bootstrap's 'rounded-pill' utility class and $border-radius-pill variable.
+$border-width-0: 0; // Border width: 0 - No border. Equivalent to Bootstrap's '.border-0' utility class.
+$border-width-1: 0.0625rem; // Border width: 1px - Default border width. Equivalent to Bootstrap's '.border-1' utility class.
+$border-width-2: 0.125rem; // Border width: 2px - Medium border width. Equivalent to Bootstrap's '.border-2' utility class.
+$border-width-3: 0.1875rem; // Border width: 3px - Thicker border width. Equivalent to Bootstrap's '.border-3' utility class.
+$border-width-4: 0.25rem; // Border width: 4px - Thick border width. Equivalent to Bootstrap's '.border-4' utility class.
+$border-width-5: 0.3125rem; // Border width: 5px - Maximum border width. Equivalent to Bootstrap's '.border-5' utility class.
+$shadow-default: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); // Complete box shadow value for Bootstrap SCSS export
+$shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); // Complete box shadow value for Bootstrap SCSS export
+$shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175); // Complete box shadow value for Bootstrap SCSS export
+$shadow-inset: inset 0 1px 2px rgba(0, 0, 0, 0.075); // Complete box shadow value for Bootstrap SCSS export
 $layout-breakpoints-xs: 0; // Extra small breakpoint for portrait phones (min-width: 0). Bootstrap's default mobile-first starting point.
 $layout-breakpoints-sm: 36rem; // Small breakpoint for landscape phones (≥576px). First responsive breakpoint in Bootstrap's mobile-first approach.
 $layout-breakpoints-md: 48rem; // Medium breakpoint for tablets (≥768px). Common tablet viewport size for responsive layouts.
@@ -296,4 +306,4 @@ $semantic-light-border-subtle: $neutral-gray-200; // Light subtle border color f
 $semantic-dark-text-emphasis: $neutral-gray-900; // Dark text emphasis color - highest contrast text on light backgrounds.
 $semantic-dark-bg-subtle: $neutral-gray-400; // Dark subtle background color for darker backgrounds.
 $semantic-dark-border-subtle: $neutral-gray-500; // Dark subtle border color for borders matching dark theme.
-$border-color-default: $neutral-gray-300;
+$border-color-default: $neutral-gray-300; // $border-color-default

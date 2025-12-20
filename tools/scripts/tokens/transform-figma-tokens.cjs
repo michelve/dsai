@@ -34,7 +34,7 @@ const COLLECTIONS = {
       { file: 'collections/color/semantic.json', extractor: extractThemeColors },
       { file: 'collections/color/component.json', extractor: extractSemanticColors },
       { file: 'collections/border/color.json', extractor: extractBorderColors },
-      { file: 'collections/border/width-figma.json', extractor: extractBorderWidths },
+      { file: 'collections/border/width.json', extractor: extractBorderWidths },
     ],
   },
   typography: {
@@ -108,6 +108,11 @@ function transformToken(figmaToken, options = {}) {
   // Preserve $scopes (used by Style Dictionary transforms)
   if (figmaToken.$scopes) {
     token.$scopes = figmaToken.$scopes;
+  }
+
+  // Preserve $codeSyntax for platform-specific code references
+  if (figmaToken.$codeSyntax) {
+    token.$codeSyntax = figmaToken.$codeSyntax;
   }
 
   // Also add comment for backward compatibility with Style Dictionary v3
@@ -532,12 +537,32 @@ function extractShadows(data) {
 
   for (const [key, value] of Object.entries(shadows)) {
     if (value.composite) {
-      result.shadow[key] = {
-        value: value.composite.$value,
-        type: 'shadow',
-        description: value.composite.$description,
-        comment: value.composite.$extensions?.platform?.scssVariableName,
+      const token = {
+        $value: value.composite.$value,
+        $type: 'shadow',
       };
+
+      // Add description if present
+      if (value.composite.$description) {
+        token.$description = value.composite.$description;
+      }
+
+      // Preserve $extensions
+      if (value.composite.$extensions) {
+        token.$extensions = value.composite.$extensions;
+      }
+
+      // Preserve $codeSyntax for platform-specific code references
+      if (value.composite.$codeSyntax) {
+        token.$codeSyntax = value.composite.$codeSyntax;
+      }
+
+      // Add comment for backward compatibility
+      if (value.composite.$extensions?.platform?.scssVariableName) {
+        token.comment = value.composite.$extensions.platform.scssVariableName;
+      }
+
+      result.shadow[key] = token;
     }
   }
 
