@@ -18,7 +18,11 @@
                 "darkMode": "true"
               }
             },
-            "$codeSyntax": {},
+            "$codeSyntax": {
+              "WEB": "--dsai-layout-breakpoints-xs",
+              "ANDROID": "layout.breakpoints.xs",
+              "iOS": "Layout.Breakpoints.Xs"
+            },
             "$scopes": [
               "WIDTH_HEIGHT"
             ]
@@ -38,7 +42,11 @@
                 "darkMode": "true"
               }
             },
-            "$codeSyntax": {},
+            "$codeSyntax": {
+              "WEB": "--dsai-layout-breakpoints-sm",
+              "ANDROID": "layout.breakpoints.sm",
+              "iOS": "Layout.Breakpoints.Sm"
+            },
             "$scopes": [
               "WIDTH_HEIGHT"
             ]
@@ -58,7 +66,11 @@
                 "darkMode": "true"
               }
             },
-            "$codeSyntax": {},
+            "$codeSyntax": {
+              "WEB": "--dsai-layout-breakpoints-md",
+              "ANDROID": "layout.breakpoints.md",
+              "iOS": "Layout.Breakpoints.Md"
+            },
             "$scopes": [
               "WIDTH_HEIGHT"
             ]
@@ -78,7 +90,11 @@
                 "darkMode": "true"
               }
             },
-            "$codeSyntax": {},
+            "$codeSyntax": {
+              "WEB": "--dsai-layout-breakpoints-lg",
+              "ANDROID": "layout.breakpoints.lg",
+              "iOS": "Layout.Breakpoints.Lg"
+            },
             "$scopes": [
               "WIDTH_HEIGHT"
             ]
@@ -98,7 +114,11 @@
                 "darkMode": "true"
               }
             },
-            "$codeSyntax": {},
+            "$codeSyntax": {
+              "WEB": "--dsai-layout-breakpoints-xl",
+              "ANDROID": "layout.breakpoints.xl",
+              "iOS": "Layout.Breakpoints.Xl"
+            },
             "$scopes": [
               "WIDTH_HEIGHT"
             ]
@@ -118,7 +138,11 @@
                 "darkMode": "true"
               }
             },
-            "$codeSyntax": {},
+            "$codeSyntax": {
+              "WEB": "--dsai-layout-breakpoints-xxl",
+              "ANDROID": "layout.breakpoints.xxl",
+              "iOS": "Layout.Breakpoints.Xxl"
+            },
             "$scopes": [
               "WIDTH_HEIGHT"
             ]
@@ -141,7 +165,11 @@
                   "darkMode": "true"
                 }
               },
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-layout-container-max-width-sm",
+                "ANDROID": "layout.container.maxWidth.sm",
+                "iOS": "Layout.Container.MaxWidth.Sm"
+              },
               "$scopes": [
                 "WIDTH_HEIGHT"
               ]
@@ -161,7 +189,11 @@
                   "darkMode": "true"
                 }
               },
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-layout-container-max-width-md",
+                "ANDROID": "layout.container.maxWidth.md",
+                "iOS": "Layout.Container.MaxWidth.Md"
+              },
               "$scopes": [
                 "WIDTH_HEIGHT"
               ]
@@ -181,7 +213,11 @@
                   "darkMode": "true"
                 }
               },
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-layout-container-max-width-lg",
+                "ANDROID": "layout.container.maxWidth.lg",
+                "iOS": "Layout.Container.MaxWidth.Lg"
+              },
               "$scopes": [
                 "WIDTH_HEIGHT"
               ]
@@ -201,7 +237,11 @@
                   "darkMode": "true"
                 }
               },
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-layout-container-max-width-xl",
+                "ANDROID": "layout.container.maxWidth.xl",
+                "iOS": "Layout.Container.MaxWidth.Xl"
+              },
               "$scopes": [
                 "WIDTH_HEIGHT"
               ]
@@ -221,7 +261,11 @@
                   "darkMode": "true"
                 }
               },
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-layout-container-max-width-xxl",
+                "ANDROID": "layout.container.maxWidth.xxl",
+                "iOS": "Layout.Container.MaxWidth.Xxl"
+              },
               "$scopes": [
                 "WIDTH_HEIGHT"
               ]
@@ -242,7 +286,11 @@
                 "darkMode": "true"
               }
             },
-            "$codeSyntax": {},
+            "$codeSyntax": {
+              "WEB": "--dsai-layout-container-padding-x",
+              "ANDROID": "layout.container.paddingX",
+              "iOS": "Layout.Container.PaddingX"
+            },
             "$scopes": [
               "GAP"
             ]
@@ -264,7 +312,11 @@
                 "darkMode": "true"
               }
             },
-            "$codeSyntax": {},
+            "$codeSyntax": {
+              "WEB": "--dsai-layout-grid-columns",
+              "ANDROID": "layout.grid.columns",
+              "iOS": "Layout.Grid.Columns"
+            },
             "$scopes": [
               "WIDTH_HEIGHT"
             ]
@@ -285,7 +337,9 @@
               }
             },
             "$codeSyntax": {
-              "WEB": "--bs-gutter-x"
+              "WEB": "--dsai-layout-grid-gutter-width",
+              "ANDROID": "layout.grid.gutterWidth",
+              "iOS": "Layout.Grid.GutterWidth"
             },
             "$scopes": [
               "GAP"
@@ -306,7 +360,11 @@
                 "darkMode": "true"
               }
             },
-            "$codeSyntax": {},
+            "$codeSyntax": {
+              "WEB": "--dsai-layout-grid-row-columns",
+              "ANDROID": "layout.grid.rowColumns",
+              "iOS": "Layout.Grid.RowColumns"
+            },
             "$scopes": [
               "WIDTH_HEIGHT"
             ]
@@ -327,7 +385,11 @@
                 "darkMode": "true"
               }
             },
-            "$codeSyntax": {},
+            "$codeSyntax": {
+              "WEB": "--dsai-layout-gutters-0",
+              "ANDROID": "layout.gutters.0",
+              "iOS": "Layout.Gutters.0"
+            },
             "$scopes": [
               "GAP"
             ]
@@ -346,7 +408,11 @@
                 "darkMode": "true"
               }
             },
-            "$codeSyntax": {},
+            "$codeSyntax": {
+              "WEB": "--dsai-layout-gutters-1",
+              "ANDROID": "layout.gutters.1",
+              "iOS": "Layout.Gutters.1"
+            },
             "$scopes": [
               "GAP"
             ]
@@ -365,7 +431,11 @@
                 "darkMode": "true"
               }
             },
-            "$codeSyntax": {},
+            "$codeSyntax": {
+              "WEB": "--dsai-layout-gutters-2",
+              "ANDROID": "layout.gutters.2",
+              "iOS": "Layout.Gutters.2"
+            },
             "$scopes": [
               "GAP"
             ]
@@ -384,7 +454,11 @@
                 "darkMode": "true"
               }
             },
-            "$codeSyntax": {},
+            "$codeSyntax": {
+              "WEB": "--dsai-layout-gutters-3",
+              "ANDROID": "layout.gutters.3",
+              "iOS": "Layout.Gutters.3"
+            },
             "$scopes": [
               "GAP"
             ]
@@ -403,7 +477,11 @@
                 "darkMode": "true"
               }
             },
-            "$codeSyntax": {},
+            "$codeSyntax": {
+              "WEB": "--dsai-layout-gutters-4",
+              "ANDROID": "layout.gutters.4",
+              "iOS": "Layout.Gutters.4"
+            },
             "$scopes": [
               "GAP"
             ]
@@ -422,7 +500,11 @@
                 "darkMode": "true"
               }
             },
-            "$codeSyntax": {},
+            "$codeSyntax": {
+              "WEB": "--dsai-layout-gutters-5",
+              "ANDROID": "layout.gutters.5",
+              "iOS": "Layout.Gutters.5"
+            },
             "$scopes": [
               "GAP"
             ]
