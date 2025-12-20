@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Foundation/CSS Variables" />
+<Meta title="Foundation/Themes & Modes/CSS Variables Reference" />
 
 # CSS Variables Reference
 
@@ -54,51 +54,134 @@ Full color palette with 11 shades (50-950) for each color:
 --dsai-color-blue-950: #010811;
 
 /* Available color scales: */
-/* blue, indigo, purple, pink, red, orange, yellow, green, teal, cyan */
+/* blue, indigo, purple, pink, red, orange, yellow, green, teal, cyan, gray */
 ```
 
-### Neutral Colors (Gray)
+### Gray Scale
 
 ```css
---dsai-neutral-gray-50: #f8f9fa;
---dsai-neutral-gray-100: #e9ecef;
---dsai-neutral-gray-200: #dee2e6;
---dsai-neutral-gray-300: #ced4da;
---dsai-neutral-gray-400: #adb5bd;
---dsai-neutral-gray-500: #6c757d; /* Base */
---dsai-neutral-gray-600: #495057;
---dsai-neutral-gray-700: #343a40;
---dsai-neutral-gray-800: #212529;
---dsai-neutral-gray-900: #181c20;
---dsai-neutral-gray-950: #0f1113;
+--dsai-color-gray-50: #fafbfc;
+--dsai-color-gray-100: #f5f6f7;
+--dsai-color-gray-200: #e8eaed;
+--dsai-color-gray-300: #dfe1e5;
+--dsai-color-gray-400: #cbced3;
+--dsai-color-gray-500: #a8adb7;
+--dsai-color-gray-600: #7a7f87;
+--dsai-color-gray-700: #495057;
+--dsai-color-gray-800: #343a40;
+--dsai-color-gray-900: #212529;
+--dsai-color-gray-950: #0a0d10;
 ```
 
-### Semantic Colors
+### Neutral Colors
 
 ```css
-/* Theme colors */
---dsai-theme-primary: #0d6efd;
---dsai-theme-secondary: #6c757d;
---dsai-theme-success: #198754;
---dsai-theme-danger: #dc3545;
---dsai-theme-warning: #ffc107;
---dsai-theme-info: #0dcaf0;
---dsai-theme-light: #f8f9fa;
+--dsai-neutral-white: #fafbfc;
+--dsai-neutral-black: #0a0d10;
+--dsai-neutral-gray-100: #f5f6f7;
+--dsai-neutral-gray-200: #e8eaed;
+--dsai-neutral-gray-300: #dfe1e5;
+--dsai-neutral-gray-400: #cbced3;
+--dsai-neutral-gray-500: #a8adb7;
+--dsai-neutral-gray-600: #7a7f87;
+--dsai-neutral-gray-700: #495057;
+--dsai-neutral-gray-800: #343a40;
+--dsai-neutral-gray-900: #212529;
+```
+
+### Theme Colors
+
+```css
+--dsai-theme-primary: #0a58ca;
+--dsai-theme-secondary: #a8adb7;
+--dsai-theme-success: #0f5132;
+--dsai-theme-info: #0a58ca;
+--dsai-theme-warning: #f59e0b;
+--dsai-theme-danger: #842029;
+--dsai-theme-light: #f5f6f7;
 --dsai-theme-dark: #212529;
-
-/* Semantic link colors */
---dsai-semantic-link-color: #0d6efd;
---dsai-semantic-link-hover-color: #0a58ca;
 ```
 
 ### Background Colors
 
 ```css
---dsai-background-white: #ffffff;
---dsai-background-black: #000000;
---dsai-background-body: #ffffff;
---dsai-background-body-secondary: #e9ecef;
---dsai-background-body-tertiary: #f8f9fa;
+--dsai-background-white: #fafbfc;
+--dsai-background-black: #0a0d10;
+--dsai-background-body: #fafbfc;
+--dsai-background-transparent: #000000;
+
+/* Semantic backgrounds */
+--dsai-background-primary: #0a58ca;
+--dsai-background-secondary: #7a7f87;
+--dsai-background-success: #0f5132;
+--dsai-background-danger: #842029;
+--dsai-background-warning: #f59e0b;
+--dsai-background-info: #087990;
+--dsai-background-light: #f5f6f7;
+--dsai-background-dark: #212529;
+```
+
+### Semantic Colors
+
+```css
+/* Body */
+--dsai-semantic-body-color: #212529;
+--dsai-semantic-body-bg: #fafbfc;
+
+/* Emphasis */
+--dsai-semantic-emphasis-color: #0a0d10;
+--dsai-semantic-secondary-color: #7a7f87;
+--dsai-semantic-secondary-bg: #e8eaed;
+--dsai-semantic-tertiary-color: #a8adb7;
+--dsai-semantic-tertiary-bg: #f5f6f7;
+
+/* Links */
+--dsai-semantic-link-color: #084298;
+--dsai-semantic-link-hover-color: #063166;
+
+/* Borders */
+--dsai-semantic-border-color: #dfe1e5;
+--dsai-semantic-border-color-translucent: #0a0d10;
+
+/* Primary variant */
+--dsai-semantic-primary-text-emphasis: #063166;
+--dsai-semantic-primary-bg-subtle: #d7e6f9;
+--dsai-semantic-primary-border-subtle: #aeccf3;
+
+/* Secondary variant */
+--dsai-semantic-secondary-text-emphasis: #495057;
+--dsai-semantic-secondary-bg-subtle: #f5f6f7;
+--dsai-semantic-secondary-border-subtle: #e8eaed;
+
+/* Success variant */
+--dsai-semantic-success-text-emphasis: #0a3622;
+--dsai-semantic-success-bg-subtle: #b3e1d3;
+--dsai-semantic-success-border-subtle: #8dd2bd;
+
+/* Danger variant */
+--dsai-semantic-danger-text-emphasis: #58151c;
+--dsai-semantic-danger-bg-subtle: #ebc9d1;
+--dsai-semantic-danger-border-subtle: #e1adba;
+
+/* Warning variant */
+--dsai-semantic-warning-text-emphasis: #92400e;
+--dsai-semantic-warning-bg-subtle: #fef3c7;
+--dsai-semantic-warning-border-subtle: #fcd34d;
+
+/* Info variant */
+--dsai-semantic-info-text-emphasis: #055160;
+--dsai-semantic-info-bg-subtle: #b2ebf2;
+--dsai-semantic-info-border-subtle: #80deea;
+
+/* Light variant */
+--dsai-semantic-light-text-emphasis: #495057;
+--dsai-semantic-light-bg-subtle: #f5f6f7;
+--dsai-semantic-light-border-subtle: #e8eaed;
+
+/* Dark variant */
+--dsai-semantic-dark-text-emphasis: #212529;
+--dsai-semantic-dark-bg-subtle: #cbced3;
+--dsai-semantic-dark-border-subtle: #a8adb7;
 ```
 
 ---
@@ -108,10 +191,8 @@ Full color palette with 11 shades (50-950) for each color:
 ### Font Families
 
 ```css
---dsai-typography-font-family-base:
-  Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
---dsai-typography-font-family-monospace:
-  Roboto Mono, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+--dsai-typography-font-family-base: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
+--dsai-typography-font-family-monospace: Roboto Mono, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 ```
 
 ### Font Sizes
@@ -120,6 +201,7 @@ Full color palette with 11 shades (50-950) for each color:
 --dsai-typography-font-size-base: 1rem; /* 16px */
 --dsai-typography-font-size-sm: 0.875rem; /* 14px */
 --dsai-typography-font-size-lg: 1.25rem; /* 20px */
+--dsai-typography-small-font-size: 0.875rem; /* 14px */
 ```
 
 ### Font Weights
@@ -134,7 +216,7 @@ Full color palette with 11 shades (50-950) for each color:
 --dsai-typography-font-weight-bolder: 900;
 ```
 
-### Line Heights (Unitless)
+### Line Heights
 
 ```css
 --dsai-typography-line-height-xs: 1;
@@ -143,17 +225,53 @@ Full color palette with 11 shades (50-950) for each color:
 --dsai-typography-line-height-base: 1.5;
 --dsai-typography-line-height-relaxed: 1.75;
 --dsai-typography-line-height-lg: 2;
+--dsai-typography-line-height-display-sm: 3;
+--dsai-typography-line-height-display-md: 3.75;
+--dsai-typography-line-height-display-lg: 4.75;
 ```
 
 ### Letter Spacing
 
 ```css
---dsai-typography-letter-spacing-tighter: -0.05em;
---dsai-typography-letter-spacing-tight: -0.025em;
+--dsai-typography-letter-spacing-tighter: -0.003125rem;
+--dsai-typography-letter-spacing-tight: -0.001563rem;
 --dsai-typography-letter-spacing-normal: 0;
---dsai-typography-letter-spacing-wide: 0.025em;
---dsai-typography-letter-spacing-wider: 0.05em;
---dsai-typography-letter-spacing-widest: 0.1em;
+--dsai-typography-letter-spacing-wide: 0.001563rem;
+--dsai-typography-letter-spacing-wider: 0.003125rem;
+--dsai-typography-letter-spacing-widest: 0.00625rem;
+```
+
+### Headings
+
+```css
+--dsai-typography-headings-h1-font-size: 2.5rem; /* 40px */
+--dsai-typography-headings-h2-font-size: 2rem; /* 32px */
+--dsai-typography-headings-h3-font-size: 1.75rem; /* 28px */
+--dsai-typography-headings-h4-font-size: 1.5rem; /* 24px */
+--dsai-typography-headings-h5-font-size: 1.25rem; /* 20px */
+--dsai-typography-headings-h6-font-size: 1rem; /* 16px */
+--dsai-typography-headings-font-weight: 500;
+--dsai-typography-headings-line-height: 1.2;
+```
+
+### Display
+
+```css
+--dsai-typography-display-display1-font-size: 5rem; /* 80px */
+--dsai-typography-display-display2-font-size: 4.5rem; /* 72px */
+--dsai-typography-display-display3-font-size: 4rem; /* 64px */
+--dsai-typography-display-display4-font-size: 3.5rem; /* 56px */
+--dsai-typography-display-display5-font-size: 3rem; /* 48px */
+--dsai-typography-display-display6-font-size: 2.5rem; /* 40px */
+--dsai-typography-display-font-weight: 300;
+--dsai-typography-display-line-height: 1.2;
+```
+
+### Lead Text
+
+```css
+--dsai-typography-lead-font-size: 1.25rem; /* 20px */
+--dsai-typography-lead-font-weight: 300;
 ```
 
 ---
@@ -168,9 +286,9 @@ All spacing values use rem units for accessibility:
 --dsai-spacing-2: 0.5rem; /* 8px */
 --dsai-spacing-3: 1rem; /* 16px */
 --dsai-spacing-4: 1.5rem; /* 24px */
---dsai-spacing-5: 2rem; /* 32px */
---dsai-spacing-6: 3rem; /* 48px */
---dsai-spacing-7: 4rem; /* 64px */
+--dsai-spacing-5: 3rem; /* 48px */
+--dsai-spacing-6: 4rem; /* 64px */
+--dsai-spacing-7: 5rem; /* 80px */
 --dsai-spacing-8: 6rem; /* 96px */
 --dsai-spacing-9: 8rem; /* 128px */
 --dsai-spacing-10: 10rem; /* 160px */
@@ -189,14 +307,37 @@ All spacing values use rem units for accessibility:
 --dsai-border-radius-lg: 1rem; /* 16px */
 --dsai-border-radius-xl: 1.5rem; /* 24px */
 --dsai-border-radius-xxl: 2rem; /* 32px */
+--dsai-border-radius-full: 624.9375rem;
 --dsai-border-radius-circle: 50%;
 --dsai-border-radius-pill: 624.9375rem;
+```
+
+### Border Widths
+
+```css
+--dsai-border-width-0: 0;
+--dsai-border-width-1: 0.0625rem; /* 1px */
+--dsai-border-width-2: 0.125rem; /* 2px */
+--dsai-border-width-3: 0.1875rem; /* 3px */
+--dsai-border-width-4: 0.25rem; /* 4px */
+--dsai-border-width-5: 0.3125rem; /* 5px */
 ```
 
 ### Border Colors
 
 ```css
 --dsai-border-color-default: #dfe1e5;
+```
+
+---
+
+## Shadow Variables
+
+```css
+--dsai-shadow-default: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+--dsai-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+--dsai-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+--dsai-shadow-inset: inset 0 1px 2px rgba(0, 0, 0, 0.075);
 ```
 
 ---
@@ -222,6 +363,7 @@ All spacing values use rem units for accessibility:
 --dsai-layout-container-max-width-lg: 60rem; /* 960px */
 --dsai-layout-container-max-width-xl: 71.25rem; /* 1140px */
 --dsai-layout-container-max-width-xxl: 82.5rem; /* 1320px */
+--dsai-layout-container-padding-x: 0.75rem; /* 12px */
 ```
 
 ### Grid
@@ -230,6 +372,17 @@ All spacing values use rem units for accessibility:
 --dsai-layout-grid-columns: 12;
 --dsai-layout-grid-gutter-width: 1.5rem; /* 24px */
 --dsai-layout-grid-row-columns: 6;
+```
+
+### Gutters
+
+```css
+--dsai-layout-gutters-0: 0;
+--dsai-layout-gutters-1: 0.25rem; /* 4px */
+--dsai-layout-gutters-2: 0.5rem; /* 8px */
+--dsai-layout-gutters-3: 1rem; /* 16px */
+--dsai-layout-gutters-4: 1.5rem; /* 24px */
+--dsai-layout-gutters-5: 3rem; /* 48px */
 ```
 
 ---
