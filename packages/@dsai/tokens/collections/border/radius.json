@@ -111,28 +111,6 @@
         },
         "comment": "$border-radius-xl"
       },
-      "xxl": {
-        "$value": "32px",
-        "$type": "dimension",
-        "$description": "Border radius: 2X Extra Large - 2rem (32px). Used for dramatically rounded corners creating a softer, more modern appearance. Equivalent to Bootstrap's 'rounded-5' utility class and $border-radius-xxl variable.",
-        "$extensions": {
-          "docs": {
-            "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
-          },
-          "platform": {
-            "scssVariableName": "$border-radius-xxl"
-          }
-        },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
-        "$codeSyntax": {
-          "WEB": "--dsai-border-radius-xxl",
-          "ANDROID": "border.radius.xxl",
-          "iOS": "Border.Radius.Xxl"
-        },
-        "comment": "$border-radius-xxl"
-      },
       "full": {
         "$value": "9999px",
         "$type": "dimension",
@@ -198,6 +176,28 @@
           "iOS": "Border.Radius.Pill"
         },
         "comment": "$border-radius-pill"
+      },
+      "xxl": {
+        "$value": "32px",
+        "$type": "dimension",
+        "$description": "Border radius: 2X Extra Large - 2rem (32px). Used for dramatically rounded corners creating a softer, more modern appearance. Equivalent to Bootstrap's 'rounded-5' utility class and $border-radius-xxl variable.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#sizes"
+          },
+          "platform": {
+            "scssVariableName": "$border-radius-xxl"
+          }
+        },
+        "$scopes": [
+          "CORNER_RADIUS"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-border-radius-xxl",
+          "ANDROID": "border.radius.xxl",
+          "iOS": "Border.Radius.Xxl"
+        },
+        "comment": "$border-radius-xxl"
       }
     }
   }

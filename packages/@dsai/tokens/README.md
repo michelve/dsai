@@ -135,6 +135,66 @@ pnpm tokens:watch
 pnpm tokens:clean
 ```
 
+### Build Configuration
+
+The tokens package uses a configuration file (`tokens.config.json`) to control build behavior:
+
+```json
+{
+  "build": {
+    "source": "theme"
+  },
+  "themes": {
+    "autoDetect": true,
+    "default": "Light",
+    "ignoreModes": [],
+    "selectorPattern": {
+      "default": ":root",
+      "others": "[data-dsai-theme=\"{mode}\"]"
+    }
+  },
+  "transform": {
+    "preserveCodeSyntax": true
+  }
+}
+```
+
+#### Build Source Options
+
+| Source        | Description                                                          |
+| ------------- | -------------------------------------------------------------------- |
+| `theme`       | Build from combined `figma-exports/theme.json` (master Figma export) |
+| `collections` | Build from individual files in `/figma-exports/` folder              |
+
+#### Theme Configuration
+
+By default, **all modes detected** in the Figma export are built automatically. Use `ignoreModes` to exclude specific modes.
+
+| Option            | Type     | Default | Description                                                |
+| ----------------- | -------- | ------- | ---------------------------------------------------------- |
+| `autoDetect`      | boolean  | `true`  | Auto-detect available modes from Figma export              |
+| `default`         | string   | `Light` | Default theme mode (uses `:root` selector)                 |
+| `ignoreModes`     | string[] | `[]`    | Modes to skip during build (e.g., `["WIP", "Deprecated"]`) |
+| `selectorPattern` | object   | -       | CSS selector patterns for theme output                     |
+
+Example to ignore a work-in-progress mode:
+
+```json
+{
+  "themes": {
+    "autoDetect": true,
+    "default": "Light",
+    "ignoreModes": ["WIP", "TestMode"]
+  }
+}
+```
+
+#### Transform Options
+
+| Option               | Type    | Default | Description                                |
+| -------------------- | ------- | ------- | ------------------------------------------ |
+| `preserveCodeSyntax` | boolean | `true`  | Preserve `$codeSyntax` platform references |
+
 ### Build Output
 
 The build process generates 5 output formats in `dist/`:
@@ -560,12 +620,58 @@ Bootstrap SCSS variable names are preserved in the `comment` field for reference
 
 ### Light & Dark Modes
 
-Colors support Light and Dark modes in Figma:
+Colors support Light and Dark modes in Figma. Both modes are automatically detected and built:
 
-- **Light mode**: Default color values
-- **Dark mode**: Inverted/adjusted values (future implementation)
+- **Light mode**: Default color values (uses `:root` and `[data-dsai-theme=light]` selectors)
+- **Dark mode**: Inverted/adjusted values (uses `[data-dsai-theme=dark]` selector)
 
-Currently, only Light mode is exported and transformed.
+> **Note**: DSAi uses `data-dsai-theme` instead of Bootstrap's default `data-bs-theme` attribute for theme switching. This is configured via a mixin override in `dsai-theme-bs.scss`.
+
+#### Using Dark Mode
+
+Add `data-dsai-theme="dark"` to the `<html>` element or any container:
+
+```html
+<!-- Global dark mode -->
+<html data-dsai-theme="dark">
+  <!-- Component-level dark mode -->
+  <div data-dsai-theme="dark">
+    <button class="btn btn-primary">Dark themed button</button>
+  </div>
+
+  <!-- Light mode section within dark page -->
+  <html data-dsai-theme="dark">
+    <div data-dsai-theme="light">
+      <p>This section uses light theme</p>
+    </div>
+  </html>
+</html>
+```
+
+#### JavaScript Theme Switching
+
+```javascript
+// Toggle dark mode
+document.documentElement.setAttribute('data-dsai-theme', 'dark');
+
+// Toggle light mode
+document.documentElement.setAttribute('data-dsai-theme', 'light');
+
+// Read current theme
+const currentTheme = document.documentElement.getAttribute('data-dsai-theme');
+```
+
+#### Skipping Modes
+
+To exclude specific modes from the build, use `ignoreModes` in `tokens.config.json`:
+
+```json
+{
+  "themes": {
+    "ignoreModes": ["Dark"]
+  }
+}
+```
 
 ### Figma Limitations
 

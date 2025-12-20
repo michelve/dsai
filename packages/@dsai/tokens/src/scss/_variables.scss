@@ -208,10 +208,10 @@ $border-radius-sm: 0.25rem; // Border radius: Small - .25rem (4px). Used for sub
 $border-radius-md: 0.5rem; // Border radius: Default - 0.5rem (8px). The standard rounding used throughout Bootstrap for most components. Equivalent to Bootstrap's 'rounded' or 'rounded-2' utility classes and $border-radius variable.
 $border-radius-lg: 1rem; // Border radius: Large - 1rem (16px). Used for larger, more prominent rounded corners. Equivalent to Bootstrap's 'rounded-3' utility class and $border-radius-lg variable.
 $border-radius-xl: 1.5rem; // Border radius: Extra Large - 1.5rem (24px). Used for very prominent rounded corners on large components. Equivalent to Bootstrap's 'rounded-4' utility class and $border-radius-xl variable.
-$border-radius-xxl: 2rem; // Border radius: 2X Extra Large - 2rem (32px). Used for dramatically rounded corners creating a softer, more modern appearance. Equivalent to Bootstrap's 'rounded-5' utility class and $border-radius-xxl variable.
 $border-radius-full: 624.9375rem; // Border radius: Full - 624.9375rem (9999px). Creates fully rounded corners for any size element. Used internally for completely rounded shapes.
 $border-radius-circle: 50%; // Border radius: Circle - 50%. Creates perfectly circular shapes when applied to square elements. Equivalent to Bootstrap's 'rounded-circle' utility class. Note: This is a percentage value (50%), not pixel-based.
 $border-radius-pill: 624.9375rem; // Border radius: Pill - 50rem (800px). Creates pill-shaped elements with fully rounded ends on rectangular shapes. Equivalent to Bootstrap's 'rounded-pill' utility class and $border-radius-pill variable.
+$border-radius-xxl: 2rem; // Border radius: 2X Extra Large - 2rem (32px). Used for dramatically rounded corners creating a softer, more modern appearance. Equivalent to Bootstrap's 'rounded-5' utility class and $border-radius-xxl variable.
 $border-width-0: 0; // Border width: 0 - No border. Equivalent to Bootstrap's '.border-0' utility class.
 $border-width-1: 0.0625rem; // Border width: 1px - Default border width. Equivalent to Bootstrap's '.border-1' utility class.
 $border-width-2: 0.125rem; // Border width: 2px - Medium border width. Equivalent to Bootstrap's '.border-2' utility class.

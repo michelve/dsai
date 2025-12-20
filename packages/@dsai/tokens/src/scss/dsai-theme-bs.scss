@@ -35,7 +35,7 @@
 // 3. Configure Bootstrap Options (Feature Toggles)
 // Per Bootstrap docs: https://getbootstrap.com/docs/5.3/customize/options/
 // ----------------------------------------------------------------------------
-$enable-dark-mode: false !default; // TODO: Enable after dark mode tokens are ready
+$enable-dark-mode: true !default; // Dark mode enabled - use tokens.config.json ignoreModes to skip themes
 $enable-rounded: true !default; // Enables border-radius on components
 $enable-shadows: false !default; // Set true to enable box-shadows (we use DSAi shadows)
 $enable-gradients: false !default; // Set true to enable gradients
@@ -703,6 +703,27 @@ $colors: map-merge($colors, $custom-colors) !default;
 // 5. Include remainder of required Bootstrap parts
 @import '../../node_modules/bootstrap/scss/maps';
 @import '../../node_modules/bootstrap/scss/mixins';
+
+// ============================================================================
+// DSAI THEME ATTRIBUTE OVERRIDE
+// ============================================================================
+// Override Bootstrap's color-mode mixin to use data-dsai-theme instead of data-bs-theme
+// This ensures all theme selectors use our custom attribute: [data-dsai-theme="dark"]
+// Must be placed AFTER mixins import but BEFORE root import
+// ============================================================================
+@mixin color-mode($mode: light, $root: false) {
+  @if $root == true {
+    :root,
+    [data-dsai-theme='#{$mode}'] {
+      @content;
+    }
+  } @else {
+    [data-dsai-theme='#{$mode}'] {
+      @content;
+    }
+  }
+}
+
 @import '../../node_modules/bootstrap/scss/root';
 
 // 6. Include all Bootstrap components
