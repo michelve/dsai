@@ -1,0 +1,83 @@
+{
+  "$schema": "./tokens.config.schema.json",
+  "version": "1.0.0",
+  "description": "DSAi Design Tokens Build Configuration",
+
+  "build": {
+    "source": "theme",
+    "sourceOptions": {
+      "collections": {
+        "description": "Build from individual collection files in /collections folder",
+        "path": "collections/**/*.json"
+      },
+      "theme": {
+        "description": "Build from combined theme.json Figma export",
+        "path": "figma-exports/theme.json"
+      }
+    }
+  },
+
+  "themes": {
+    "autoDetect": true,
+    "default": "Light",
+    "ignoreModes": [],
+    "selectorPattern": {
+      "default": ":root",
+      "others": "[data-dsai-theme=\"{mode}\"]"
+    }
+  },
+
+  "output": {
+    "css": {
+      "prefix": "--dsai-",
+      "outputReferences": true,
+      "separateThemeFiles": false,
+      "files": {
+        "variables": "dist/css/variables.css",
+        "variablesThemed": "dist/css/variables-{mode}.css"
+      }
+    },
+    "scss": {
+      "files": {
+        "variables": "src/scss/_variables.scss",
+        "variablesThemed": "src/scss/_variables-{mode}.scss"
+      }
+    },
+    "js": {
+      "files": {
+        "tokens": "dist/js/tokens.js",
+        "tokensThemed": "dist/js/tokens-{mode}.js"
+      }
+    }
+  },
+
+  "transform": {
+    "preserveCodeSyntax": true,
+    "collections": {
+      "foundation": {
+        "path": "Foundation",
+        "hasModes": true
+      },
+      "layout": {
+        "path": "Layout",
+        "hasModes": false
+      },
+      "spacing": {
+        "path": "Spacing",
+        "hasModes": false
+      },
+      "radius": {
+        "path": "Radius",
+        "hasModes": false
+      },
+      "shadows": {
+        "path": "Shadows",
+        "hasModes": false
+      },
+      "typography": {
+        "path": "Typography",
+        "hasModes": false
+      }
+    }
+  }
+}

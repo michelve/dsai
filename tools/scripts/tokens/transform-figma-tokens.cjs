@@ -19,13 +19,50 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 // Paths
-const FIGMA_EXPORTS = path.join(__dirname, '../../../packages/@dsai/tokens/figma-exports');
-const OUTPUT_DIR = path.join(__dirname, '../../../packages/@dsai/tokens');
+const TOKENS_DIR = path.join(__dirname, '../../../packages/@dsai/tokens');
+const FIGMA_EXPORTS = path.join(TOKENS_DIR, 'figma-exports');
+const OUTPUT_DIR = TOKENS_DIR;
+const CONFIG_PATH = path.join(TOKENS_DIR, 'tokens.config.json');
+
+/**
+ * Load tokens configuration
+ * @returns {Object} The tokens configuration
+ */
+function loadConfig() {
+  if (!fs.existsSync(CONFIG_PATH)) {
+    console.warn('⚠️  tokens.config.json not found, using default configuration');
+    return {
+      build: { source: 'theme' },
+      themes: { autoDetect: true, default: 'Light', ignoreModes: [] },
+      transform: { preserveCodeSyntax: true },
+    };
+  }
+  return JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));
+}
+
+// Load configuration
+const CONFIG = loadConfig();
+
+/**
+ * Auto-detect available modes from a Figma export file
+ * @param {Object} data - The parsed Figma export data
+ * @param {string} collectionPath - The collection path (e.g., 'Foundation')
+ * @returns {string[]} Array of detected mode names
+ */
+function detectModes(data, collectionPath) {
+  const collection = data[collectionPath];
+  if (!collection || !collection.modes) {
+    return ['Base'];
+  }
+  return Object.keys(collection.modes);
+}
 
 // Transformation configuration
+// modeAware: true means the extractor accepts a mode parameter and should generate per-mode outputs
 const COLLECTIONS = {
   foundation: {
     input: 'foundation.json',
+    modeAware: true, // Has Light/Dark modes
     outputs: [
       { file: 'collections/color/primitive.json', extractor: extractBrandColors },
       { file: 'collections/color/neutral.json', extractor: extractNeutralColors },
@@ -39,18 +76,22 @@ const COLLECTIONS = {
   },
   typography: {
     input: 'typography.json',
+    modeAware: false, // Only has Base mode
     outputs: [{ file: 'collections/typography/base.json', extractor: extractTypography }],
   },
   spacing: {
     input: 'spacing.json',
+    modeAware: false, // Only has Base mode
     outputs: [{ file: 'collections/spacing/base.json', extractor: extractSpacing }],
   },
   radius: {
     input: 'radius.json',
+    modeAware: false, // Only has Base mode
     outputs: [{ file: 'collections/border/radius.json', extractor: extractRadius }],
   },
   layout: {
     input: 'layout.json',
+    modeAware: false, // Only has Base mode
     outputs: [
       { file: 'collections/layout/breakpoints.json', extractor: extractBreakpoints },
       { file: 'collections/layout/containers.json', extractor: extractContainers },
@@ -59,6 +100,7 @@ const COLLECTIONS = {
   },
   shadows: {
     input: 'shadows.json',
+    modeAware: false, // Only has Base mode
     outputs: [{ file: 'collections/shadow/base.json', extractor: extractShadows }],
   },
 };
@@ -262,45 +304,51 @@ function transformTokenTree(obj, parentKey = '', options = {}) {
 
 /**
  * Extract brand colors from foundation collection
+ * @param {Object} data - The Figma export data
+ * @param {string} mode - The mode to extract (e.g., 'Light', 'Dark')
  */
-function extractBrandColors(data) {
-  const lightMode = data.Foundation?.modes?.Light?.colors?.brand;
+function extractBrandColors(data, mode = 'Light') {
+  const modeData = data.Foundation?.modes?.[mode]?.colors?.brand;
 
-  if (!lightMode) {
-    console.warn('No brand colors found in Light mode');
+  if (!modeData) {
+    console.warn(`No brand colors found in ${mode} mode`);
     return {};
   }
 
   return {
-    color: transformTokenTree(lightMode),
+    color: transformTokenTree(modeData),
   };
 }
 
 /**
  * Extract theme colors from foundation collection
+ * @param {Object} data - The Figma export data
+ * @param {string} mode - The mode to extract (e.g., 'Light', 'Dark')
  */
-function extractThemeColors(data) {
-  const lightMode = data.Foundation?.modes?.Light?.colors?.theme;
+function extractThemeColors(data, mode = 'Light') {
+  const modeData = data.Foundation?.modes?.[mode]?.colors?.theme;
 
-  if (!lightMode) {
-    console.warn('No theme colors found in Light mode');
+  if (!modeData) {
+    console.warn(`No theme colors found in ${mode} mode`);
     return {};
   }
 
   return {
-    theme: transformTokenTree(lightMode),
+    theme: transformTokenTree(modeData),
   };
 }
 
 /**
  * Extract semantic/component colors from foundation collection
  * These are the extended tokens like primary-bg-subtle, warning-text-emphasis, etc.
+ * @param {Object} data - The Figma export data
+ * @param {string} mode - The mode to extract (e.g., 'Light', 'Dark')
  */
-function extractSemanticColors(data) {
-  const semantic = data.Foundation?.modes?.Light?.semantic;
+function extractSemanticColors(data, mode = 'Light') {
+  const semantic = data.Foundation?.modes?.[mode]?.semantic;
 
   if (!semantic) {
-    console.warn('No semantic colors found in Light mode');
+    console.warn(`No semantic colors found in ${mode} mode`);
     return {};
   }
 
@@ -311,12 +359,14 @@ function extractSemanticColors(data) {
 
 /**
  * Extract neutral colors (black, white, grays)
+ * @param {Object} data - The Figma export data
+ * @param {string} mode - The mode to extract (e.g., 'Light', 'Dark')
  */
-function extractNeutralColors(data) {
-  const neutral = data.Foundation?.modes?.Light?.colors?.neutral;
+function extractNeutralColors(data, mode = 'Light') {
+  const neutral = data.Foundation?.modes?.[mode]?.colors?.neutral;
 
   if (!neutral) {
-    console.warn('No neutral colors found in Light mode');
+    console.warn(`No neutral colors found in ${mode} mode`);
     return {};
   }
 
@@ -327,12 +377,14 @@ function extractNeutralColors(data) {
 
 /**
  * Extract background colors
+ * @param {Object} data - The Figma export data
+ * @param {string} mode - The mode to extract (e.g., 'Light', 'Dark')
  */
-function extractBackgroundColors(data) {
-  const background = data.Foundation?.modes?.Light?.colors?.background;
+function extractBackgroundColors(data, mode = 'Light') {
+  const background = data.Foundation?.modes?.[mode]?.colors?.background;
 
   if (!background) {
-    console.warn('No background colors found in Light mode');
+    console.warn(`No background colors found in ${mode} mode`);
     return {};
   }
 
@@ -343,12 +395,14 @@ function extractBackgroundColors(data) {
 
 /**
  * Extract opacity scale
+ * @param {Object} data - The Figma export data
+ * @param {string} mode - The mode to extract (e.g., 'Light', 'Dark')
  */
-function extractOpacityColors(data) {
-  const opacity = data.Foundation?.modes?.Light?.colors?.opacity;
+function extractOpacityColors(data, mode = 'Light') {
+  const opacity = data.Foundation?.modes?.[mode]?.colors?.opacity;
 
   if (!opacity) {
-    console.warn('No opacity tokens found in Light mode');
+    console.warn(`No opacity tokens found in ${mode} mode`);
     return {};
   }
 
@@ -359,12 +413,14 @@ function extractOpacityColors(data) {
 
 /**
  * Extract border colors
+ * @param {Object} data - The Figma export data
+ * @param {string} mode - The mode to extract (e.g., 'Light', 'Dark')
  */
-function extractBorderColors(data) {
-  const borderColor = data.Foundation?.modes?.Light?.borders?.color;
+function extractBorderColors(data, mode = 'Light') {
+  const borderColor = data.Foundation?.modes?.[mode]?.borders?.color;
 
   if (!borderColor) {
-    console.warn('No border color tokens found in Light mode');
+    console.warn(`No border color tokens found in ${mode} mode`);
     return {};
   }
 
@@ -377,12 +433,14 @@ function extractBorderColors(data) {
 
 /**
  * Extract border widths from Figma
+ * @param {Object} data - The Figma export data
+ * @param {string} mode - The mode to extract (e.g., 'Light', 'Dark')
  */
-function extractBorderWidths(data) {
-  const borderWidth = data.Foundation?.modes?.Light?.borders?.width;
+function extractBorderWidths(data, mode = 'Light') {
+  const borderWidth = data.Foundation?.modes?.[mode]?.borders?.width;
 
   if (!borderWidth) {
-    console.warn('No border width tokens found in Light mode');
+    console.warn(`No border width tokens found in ${mode} mode`);
     return {};
   }
 
@@ -580,48 +638,184 @@ function ensureDir(filePath) {
 }
 
 /**
+ * Get the input source based on configuration with automatic fallback
+ * Priority:
+ * 1. Use configured source (theme or collections)
+ * 2. If theme.json not found, fallback to individual collection files
+ * 3. If collection file not found, try theme.json as fallback
+ *
+ * @param {string} collectionName - The collection name
+ * @param {Object} collectionConfig - The collection configuration
+ * @returns {string} The input file path
+ */
+function getInputSource(collectionName, collectionConfig) {
+  const buildSource = CONFIG.build?.source || 'theme';
+  const themeFile = path.join(FIGMA_EXPORTS, 'theme.json');
+  const collectionFile = path.join(FIGMA_EXPORTS, collectionConfig.input);
+
+  if (buildSource === 'theme') {
+    // Prefer theme.json, fallback to collection file
+    if (fs.existsSync(themeFile)) {
+      return themeFile;
+    }
+    if (fs.existsSync(collectionFile)) {
+      console.warn(`   ⚠️  theme.json not found, using ${collectionConfig.input}`);
+      return collectionFile;
+    }
+    return themeFile; // Return theme path to trigger "not found" error
+  }
+
+  // Prefer collection file, fallback to theme.json
+  if (fs.existsSync(collectionFile)) {
+    return collectionFile;
+  }
+  if (fs.existsSync(themeFile)) {
+    console.warn(`   ⚠️  ${collectionConfig.input} not found, using theme.json`);
+    return themeFile;
+  }
+  return collectionFile; // Return collection path to trigger "not found" error
+}
+
+/**
+ * Log configuration info
+ */
+function logConfigInfo(detectedModes = {}) {
+  const buildSource = CONFIG.build?.source || 'theme';
+  const autoDetect = CONFIG.themes?.autoDetect !== false;
+  const ignoreModes = CONFIG.themes?.ignoreModes || [];
+
+  console.log('📋 Configuration:');
+  console.log(`   Build source: ${buildSource}`);
+  console.log(`   Auto-detect modes: ${autoDetect}`);
+  if (ignoreModes.length > 0) {
+    console.log(`   Ignored modes: ${ignoreModes.join(', ')}`);
+  }
+
+  if (Object.keys(detectedModes).length > 0) {
+    console.log('');
+    console.log('🎨 Detected modes:');
+    for (const [collection, modes] of Object.entries(detectedModes)) {
+      const activeModes = modes.filter(m => !ignoreModes.includes(m));
+      const ignoredModes = modes.filter(m => ignoreModes.includes(m));
+      let modeDisplay = activeModes.join(', ');
+      if (ignoredModes.length > 0) {
+        modeDisplay += ` (ignored: ${ignoredModes.join(', ')})`;
+      }
+      console.log(`   ${collection}: ${modeDisplay}`);
+    }
+  }
+  console.log('');
+}
+
+/**
  * Main transformation function
  */
 function transformTokens() {
   console.log('🎨 Transforming Figma tokens to Style Dictionary format...\n');
 
+  // Detect modes from theme.json if using theme source
+  const detectedModes = {};
+  const buildSource = CONFIG.build?.source || 'theme';
+
+  if (buildSource === 'theme') {
+    const themeFile = path.join(FIGMA_EXPORTS, 'theme.json');
+    if (fs.existsSync(themeFile)) {
+      const themeData = JSON.parse(fs.readFileSync(themeFile, 'utf8'));
+
+      // Detect modes for each collection
+      for (const collectionConfig of Object.values(CONFIG.transform?.collections || {})) {
+        if (collectionConfig.hasModes && collectionConfig.path) {
+          const modes = detectModes(themeData, collectionConfig.path);
+          if (modes.length > 0) {
+            detectedModes[collectionConfig.path] = modes;
+          }
+        }
+      }
+    }
+  }
+
+  // Log configuration with detected modes
+  logConfigInfo(detectedModes);
+
+  const ignoreModes = CONFIG.themes?.ignoreModes || [];
+  const defaultMode = CONFIG.themes?.default || 'Light';
+
   // Process each collection
   for (const [collectionName, config] of Object.entries(COLLECTIONS)) {
     console.log(`Processing ${collectionName} collection...`);
 
-    const inputPath = path.join(FIGMA_EXPORTS, config.input);
+    // Get input path based on configuration
+    const inputPath = getInputSource(collectionName, config);
 
     // Check if input file exists
     if (!fs.existsSync(inputPath)) {
-      console.warn(`⚠️  Input file not found: ${config.input}`);
+      console.warn(`⚠️  Input file not found: ${inputPath}`);
       continue;
     }
 
     // Read input file
     const data = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
 
+    // Determine which modes to process for this collection
+    // Default: build ALL detected modes (filtered by ignoreModes)
+    let modesToProcess = [defaultMode];
+    if (config.modeAware) {
+      // Get the collection path from config (e.g., 'Foundation')
+      const collectionPath = CONFIG.transform?.collections?.[collectionName]?.path;
+      if (collectionPath && detectedModes[collectionPath]) {
+        // Filter out ignored modes
+        modesToProcess = detectedModes[collectionPath].filter(m => !ignoreModes.includes(m));
+      } else {
+        // Fall back to detecting from data directly
+        const modes = detectModes(data, 'Foundation');
+        if (modes.length > 1 || !modes.includes('Base')) {
+          modesToProcess = modes.filter(m => !ignoreModes.includes(m));
+        }
+      }
+    }
+
     // Process each output
     for (const output of config.outputs) {
-      const outputPath = path.join(OUTPUT_DIR, output.file);
+      // For mode-aware collections, generate output for each mode
+      for (const mode of modesToProcess) {
+        // Generate the output file path
+        let outputFile = output.file;
+        if (config.modeAware && modesToProcess.length > 1) {
+          // Insert mode into filename: color/semantic.json -> color/semantic-dark.json
+          const ext = path.extname(output.file);
+          const basename = path.basename(output.file, ext);
+          const dirname = path.dirname(output.file);
 
-      try {
-        // Extract and transform tokens
-        const tokens = output.extractor(data);
-
-        if (Object.keys(tokens).length === 0) {
-          console.warn(`  ⚠️  No tokens extracted for ${output.file}`);
-          continue;
+          if (mode === defaultMode) {
+            // Default mode keeps original filename
+            outputFile = output.file;
+          } else {
+            // Other modes get mode suffix (lowercase)
+            outputFile = path.join(dirname, `${basename}-${mode.toLowerCase()}${ext}`);
+          }
         }
 
-        // Ensure output directory exists
-        ensureDir(outputPath);
+        const outputPath = path.join(OUTPUT_DIR, outputFile);
 
-        // Write output file
-        fs.writeFileSync(outputPath, `${JSON.stringify(tokens, null, 2)}\n`, 'utf8');
+        try {
+          // Extract and transform tokens (pass mode for mode-aware extractors)
+          const tokens = config.modeAware ? output.extractor(data, mode) : output.extractor(data);
 
-        console.log(`  ✅ Created ${output.file}`);
-      } catch (error) {
-        console.error(`  ❌ Error processing ${output.file}:`, error.message);
+          if (Object.keys(tokens).length === 0) {
+            console.warn(`  ⚠️  No tokens extracted for ${outputFile} (${mode} mode)`);
+            continue;
+          }
+
+          // Ensure output directory exists
+          ensureDir(outputPath);
+
+          // Write output file
+          fs.writeFileSync(outputPath, `${JSON.stringify(tokens, null, 2)}\n`, 'utf8');
+
+          console.log(`  ✅ Created ${outputFile}${modesToProcess.length > 1 ? ` (${mode})` : ''}`);
+        } catch (error) {
+          console.error(`  ❌ Error processing ${outputFile}:`, error.message);
+        }
       }
     }
   }

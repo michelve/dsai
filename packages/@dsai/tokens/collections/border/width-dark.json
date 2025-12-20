@@ -1,0 +1,144 @@
+{
+  "border": {
+    "width": {
+      "0": {
+        "$value": "0px",
+        "$type": "dimension",
+        "$description": "Border width: 0 - No border. Equivalent to Bootstrap's '.border-0' utility class.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#border-width"
+          },
+          "platform": {
+            "scssVariableName": "$border-width-0",
+            "bootstrapVersion": "5.3"
+          }
+        },
+        "$scopes": [
+          "STROKE_FLOAT"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-border-width-0",
+          "ANDROID": "border.width.0",
+          "iOS": "Border.Width.0"
+        },
+        "comment": "$border-width-0"
+      },
+      "1": {
+        "$value": "1px",
+        "$type": "dimension",
+        "$description": "Border width: 1px - Default border width. Equivalent to Bootstrap's '.border-1' utility class.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#border-width"
+          },
+          "platform": {
+            "scssVariableName": "$border-width-1",
+            "bootstrapVersion": "5.3"
+          }
+        },
+        "$scopes": [
+          "STROKE_FLOAT"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-border-width-1",
+          "ANDROID": "border.width.1",
+          "iOS": "Border.Width.1"
+        },
+        "comment": "$border-width-1"
+      },
+      "2": {
+        "$value": "2px",
+        "$type": "dimension",
+        "$description": "Border width: 2px - Medium border width. Equivalent to Bootstrap's '.border-2' utility class.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#border-width"
+          },
+          "platform": {
+            "scssVariableName": "$border-width-2",
+            "bootstrapVersion": "5.3"
+          }
+        },
+        "$scopes": [
+          "STROKE_FLOAT"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-border-width-2",
+          "ANDROID": "border.width.2",
+          "iOS": "Border.Width.2"
+        },
+        "comment": "$border-width-2"
+      },
+      "3": {
+        "$value": "3px",
+        "$type": "dimension",
+        "$description": "Border width: 3px - Thicker border width. Equivalent to Bootstrap's '.border-3' utility class.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#border-width"
+          },
+          "platform": {
+            "scssVariableName": "$border-width-3",
+            "bootstrapVersion": "5.3"
+          }
+        },
+        "$scopes": [
+          "STROKE_FLOAT"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-border-width-3",
+          "ANDROID": "border.width.3",
+          "iOS": "Border.Width.3"
+        },
+        "comment": "$border-width-3"
+      },
+      "4": {
+        "$value": "4px",
+        "$type": "dimension",
+        "$description": "Border width: 4px - Thick border width. Equivalent to Bootstrap's '.border-4' utility class.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#border-width"
+          },
+          "platform": {
+            "scssVariableName": "$border-width-4",
+            "bootstrapVersion": "5.3"
+          }
+        },
+        "$scopes": [
+          "STROKE_FLOAT"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-border-width-4",
+          "ANDROID": "border.width.4",
+          "iOS": "Border.Width.4"
+        },
+        "comment": "$border-width-4"
+      },
+      "5": {
+        "$value": "5px",
+        "$type": "dimension",
+        "$description": "Border width: 5px - Maximum border width. Equivalent to Bootstrap's '.border-5' utility class.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/utilities/borders/#border-width"
+          },
+          "platform": {
+            "scssVariableName": "$border-width-5",
+            "bootstrapVersion": "5.3"
+          }
+        },
+        "$scopes": [
+          "STROKE_FLOAT"
+        ],
+        "$codeSyntax": {
+          "WEB": "--dsai-border-width-5",
+          "ANDROID": "border.width.5",
+          "iOS": "Border.Width.5"
+        },
+        "comment": "$border-width-5"
+      }
+    }
+  }
+}

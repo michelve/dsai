@@ -26,18 +26,18 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0
 
       - name: Setup Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://registry.npmjs.org'
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@c5ba7f7862a0f64c1b1a05fbac13e0b8e86ba08c # v4
         with:
           version: ${{ env.PNPM_VERSION }}
 
@@ -92,6 +92,22 @@ jobs:
           fi
           echo "✅ No undefined values found"
 
+      - name: Verify theme attribute post-processing
+        run: |
+          cd packages/@dsai/tokens
+          # Ensure data-bs-theme was replaced with data-dsai-theme
+          BS_COUNT=$(grep -c "data-bs-theme" dist/css/dsai-theme-bs.css || echo 0)
+          DSAI_COUNT=$(grep -c "data-dsai-theme" dist/css/dsai-theme-bs.css || echo 0)
+          if [ "$BS_COUNT" -gt 0 ]; then
+            echo "❌ Found $BS_COUNT 'data-bs-theme' occurrences (should be 0)"
+            exit 1
+          fi
+          if [ "$DSAI_COUNT" -eq 0 ]; then
+            echo "❌ No 'data-dsai-theme' found (post-processing may have failed)"
+            exit 1
+          fi
+          echo "✅ Theme attribute: $DSAI_COUNT data-dsai-theme, $BS_COUNT data-bs-theme"
+
       - name: Publish to npm
         run: |
           cd packages/@dsai/tokens
@@ -100,7 +116,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@26994186c0ac3ef5cae75ac16aa32e8153525f77 # v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |

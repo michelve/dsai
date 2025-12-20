@@ -1,0 +1,270 @@
+{
+  "background": {
+    "primary": {
+      "$value": "{colors.brand.blue.500}",
+      "$type": "color",
+      "$description": "Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color",
+          "section": "Utilities",
+          "subsection": "Background - Primary"
+        },
+        "platform": {
+          "scssVariableName": "$theme-primary"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-primary",
+        "ANDROID": "background.primary",
+        "iOS": "Background.Primary"
+      },
+      "comment": "$theme-primary"
+    },
+    "secondary": {
+      "$value": "{colors.brand.gray.600}",
+      "$type": "color",
+      "$description": "Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$theme-secondary"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-secondary",
+        "ANDROID": "background.secondary",
+        "iOS": "Background.Secondary"
+      },
+      "comment": "$theme-secondary"
+    },
+    "success": {
+      "$value": "{colors.brand.green.500}",
+      "$type": "color",
+      "$description": "Success background color utility. Applies success color as background. Use for positive feedback surfaces. Maps to Bootstrap's .bg-success utility class. Indicates successful operations.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$theme-success"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-success",
+        "ANDROID": "background.success",
+        "iOS": "Background.Success"
+      },
+      "comment": "$theme-success"
+    },
+    "danger": {
+      "$value": "{colors.brand.red.500}",
+      "$type": "color",
+      "$description": "Danger background color utility. Applies danger color as background. Use for error or destructive action surfaces. Maps to Bootstrap's .bg-danger utility class. Indicates errors or warnings.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$theme-danger"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-danger",
+        "ANDROID": "background.danger",
+        "iOS": "Background.Danger"
+      },
+      "comment": "$theme-danger"
+    },
+    "warning": {
+      "$value": "{colors.brand.yellow.500}",
+      "$type": "color",
+      "$description": "Warning background color utility. Applies warning color as background. Use for caution or important notice surfaces. Maps to Bootstrap's .bg-warning utility class. Requires careful contrast checking.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$theme-warning"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-warning",
+        "ANDROID": "background.warning",
+        "iOS": "Background.Warning"
+      },
+      "comment": "$theme-warning"
+    },
+    "info": {
+      "$value": "{colors.brand.cyan.500}",
+      "$type": "color",
+      "$description": "Info background color utility. Applies info color as background. Use for informational surfaces. Maps to Bootstrap's .bg-info utility class. Communicates helpful information.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$theme-info"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-info",
+        "ANDROID": "background.info",
+        "iOS": "Background.Info"
+      },
+      "comment": "$theme-info"
+    },
+    "light": {
+      "$value": "{colors.brand.gray.100}",
+      "$type": "color",
+      "$description": "Light background color utility. Applies light gray as background. Use for subtle surfaces and page backgrounds. Maps to Bootstrap's .bg-light utility class. Requires dark text for contrast.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$theme-light"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-light",
+        "ANDROID": "background.light",
+        "iOS": "Background.Light"
+      },
+      "comment": "$theme-light"
+    },
+    "dark": {
+      "$value": "{colors.brand.gray.900}",
+      "$type": "color",
+      "$description": "Dark background color utility. Applies dark gray as background. Use for high-contrast surfaces and footers. Maps to Bootstrap's .bg-dark utility class. Requires light text for contrast.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$theme-dark"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-dark",
+        "ANDROID": "background.dark",
+        "iOS": "Background.Dark"
+      },
+      "comment": "$theme-dark"
+    },
+    "body": {
+      "$value": "{colors.neutral.black}",
+      "$type": "color",
+      "$description": "Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$semantic-body-bg"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-body",
+        "ANDROID": "background.body",
+        "iOS": "Background.Body"
+      },
+      "comment": "$semantic-body-bg"
+    },
+    "white": {
+      "$value": "{colors.neutral.white}",
+      "$type": "color",
+      "$description": "White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$neutral-white"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-white",
+        "ANDROID": "background.white",
+        "iOS": "Background.White"
+      },
+      "comment": "$neutral-white"
+    },
+    "black": {
+      "$value": "{colors.neutral.black}",
+      "$type": "color",
+      "$description": "Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$neutral-black"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-black",
+        "ANDROID": "background.black",
+        "iOS": "Background.Black"
+      },
+      "comment": "$neutral-black"
+    },
+    "transparent": {
+      "$value": "#000000",
+      "$type": "color",
+      "$description": "Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$background-transparent"
+        }
+      },
+      "$scopes": [
+        "ALL_FILLS"
+      ],
+      "$codeSyntax": {
+        "WEB": ".bg-transparent",
+        "ANDROID": "background.transparent",
+        "iOS": "Background.Transparent"
+      },
+      "comment": "$background-transparent"
+    }
+  }
+}
