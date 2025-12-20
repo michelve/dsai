@@ -34,7 +34,7 @@ const COLLECTIONS = {
       { file: 'collections/color/semantic.json', extractor: extractThemeColors },
       { file: 'collections/color/component.json', extractor: extractSemanticColors },
       { file: 'collections/border/color.json', extractor: extractBorderColors },
-      { file: 'collections/border/width-figma.json', extractor: extractBorderWidths },
+      { file: 'collections/border/width.json', extractor: extractBorderWidths },
     ],
   },
   typography: {
@@ -108,6 +108,11 @@ function transformToken(figmaToken, options = {}) {
   // Preserve $scopes (used by Style Dictionary transforms)
   if (figmaToken.$scopes) {
     token.$scopes = figmaToken.$scopes;
+  }
+
+  // Preserve $codeSyntax for platform-specific code references
+  if (figmaToken.$codeSyntax) {
+    token.$codeSyntax = figmaToken.$codeSyntax;
   }
 
   // Also add comment for backward compatibility with Style Dictionary v3

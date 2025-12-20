@@ -553,6 +553,17 @@ $border-radius-none: dsai.$border-radius-none !default; // 0 (square corners)
 $border-radius-circle: dsai.$border-radius-circle !default; // 50% (perfect circles)
 $border-radius-full: dsai.$border-radius-full !default; // 624.9375rem (fully rounded)
 
+// Border widths (Bootstrap standard 0-5 scale):
+// Maps DSAi token names to Bootstrap's expected variable names
+// @see https://getbootstrap.com/docs/5.3/utilities/borders/#border-width
+$border-width: dsai.$border-width-1 !default; // 1px - Default border width (Bootstrap $border-width)
+$border-width-0: dsai.$border-width-0 !default; // 0 - No border
+$border-width-1: dsai.$border-width-1 !default; // 1px - Thin border
+$border-width-2: dsai.$border-width-2 !default; // 2px - Medium border
+$border-width-3: dsai.$border-width-3 !default; // 3px - Thicker border
+$border-width-4: dsai.$border-width-4 !default; // 4px - Thick border
+$border-width-5: dsai.$border-width-5 !default; // 5px - Maximum border
+
 // ----------------------------------------------------------------------------
 // FOCUS RING (Accessibility)
 // ----------------------------------------------------------------------------

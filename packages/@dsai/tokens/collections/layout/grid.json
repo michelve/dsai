@@ -16,7 +16,10 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["WIDTH_HEIGHT"],
+        "$scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "$codeSyntax": {},
         "comment": "$grid-columns"
       },
       "gutter-width": {
@@ -34,7 +37,12 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["GAP"],
+        "$scopes": [
+          "GAP"
+        ],
+        "$codeSyntax": {
+          "WEB": "--bs-gutter-x"
+        },
         "comment": "$grid-gutter-width"
       },
       "row-columns": {
@@ -52,7 +60,10 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["WIDTH_HEIGHT"],
+        "$scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "$codeSyntax": {},
         "comment": "$grid-row-columns"
       }
     },
@@ -71,7 +82,10 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["GAP"]
+        "$scopes": [
+          "GAP"
+        ],
+        "$codeSyntax": {}
       },
       "1": {
         "$value": "4px",
@@ -87,7 +101,10 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["GAP"]
+        "$scopes": [
+          "GAP"
+        ],
+        "$codeSyntax": {}
       },
       "2": {
         "$value": "8px",
@@ -103,7 +120,10 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["GAP"]
+        "$scopes": [
+          "GAP"
+        ],
+        "$codeSyntax": {}
       },
       "3": {
         "$value": "16px",
@@ -119,7 +139,10 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["GAP"]
+        "$scopes": [
+          "GAP"
+        ],
+        "$codeSyntax": {}
       },
       "4": {
         "$value": "24px",
@@ -135,7 +158,10 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["GAP"]
+        "$scopes": [
+          "GAP"
+        ],
+        "$codeSyntax": {}
       },
       "5": {
         "$value": "48px",
@@ -151,7 +177,10 @@
             "darkMode": "true"
           }
         },
-        "$scopes": ["GAP"]
+        "$scopes": [
+          "GAP"
+        ],
+        "$codeSyntax": {}
       }
     }
   }

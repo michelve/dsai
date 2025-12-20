@@ -17,7 +17,10 @@
                 "remValue": "0rem"
               }
             },
-            "$scopes": ["GAP"]
+            "$codeSyntax": {},
+            "$scopes": [
+              "GAP"
+            ]
           },
           "1": {
             "$value": 4,
@@ -33,7 +36,10 @@
                 "remValue": "0.25rem"
               }
             },
-            "$scopes": ["GAP"]
+            "$codeSyntax": {},
+            "$scopes": [
+              "GAP"
+            ]
           },
           "2": {
             "$value": 8,
@@ -49,7 +55,10 @@
                 "remValue": "0.5rem"
               }
             },
-            "$scopes": ["GAP"]
+            "$codeSyntax": {},
+            "$scopes": [
+              "GAP"
+            ]
           },
           "3": {
             "$value": 16,
@@ -65,7 +74,10 @@
                 "remValue": "1rem"
               }
             },
-            "$scopes": ["GAP"]
+            "$codeSyntax": {},
+            "$scopes": [
+              "GAP"
+            ]
           },
           "4": {
             "$value": 24,
@@ -81,7 +93,10 @@
                 "remValue": "1.5rem"
               }
             },
-            "$scopes": ["GAP"]
+            "$codeSyntax": {},
+            "$scopes": [
+              "GAP"
+            ]
           },
           "5": {
             "$value": 32,
@@ -97,32 +112,52 @@
                 "remValue": "3rem"
               }
             },
-            "$scopes": ["GAP"]
+            "$codeSyntax": {},
+            "$scopes": [
+              "GAP"
+            ]
           },
           "6": {
             "$value": 48,
             "$type": "number",
-            "$scopes": ["GAP", "FONT_VARIATIONS"]
+            "$codeSyntax": {},
+            "$scopes": [
+              "GAP",
+              "FONT_VARIATIONS"
+            ]
           },
           "7": {
             "$value": 64,
             "$type": "number",
-            "$scopes": ["GAP", "FONT_VARIATIONS"]
+            "$codeSyntax": {},
+            "$scopes": [
+              "GAP",
+              "FONT_VARIATIONS"
+            ]
           },
           "8": {
             "$value": 96,
             "$type": "number",
-            "$scopes": ["GAP"]
+            "$codeSyntax": {},
+            "$scopes": [
+              "GAP"
+            ]
           },
           "9": {
             "$value": 128,
             "$type": "number",
-            "$scopes": ["GAP"]
+            "$codeSyntax": {},
+            "$scopes": [
+              "GAP"
+            ]
           },
           "10": {
             "$value": 160,
             "$type": "number",
-            "$scopes": ["GAP"]
+            "$codeSyntax": {},
+            "$scopes": [
+              "GAP"
+            ]
           }
         }
       }
