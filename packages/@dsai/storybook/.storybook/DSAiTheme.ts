@@ -1,12 +1,9 @@
-import { create, type ThemeVars } from 'storybook/theming';
-
 // Import tokens directly - these are the flat exports with correct values
 import {
-  // Teal colors (primary brand)
-  colorTeal400,
-  colorTeal500,
-  colorTeal600,
-  colorTeal950,
+  // Blue colors (primary brand - matches component theme)
+  colorBlue400,
+  colorBlue500,
+  colorBlue600,
   // Gray colors
   colorGray50,
   colorGray200,
@@ -24,6 +21,7 @@ import {
   typographyFontFamilyBase,
   typographyFontFamilyMonospace,
 } from '@dsai/tokens';
+import { create, type ThemeVars } from 'storybook/theming';
 
 /**
  * DSAi Storybook Theme
@@ -31,7 +29,7 @@ import {
  * Uses design tokens from @dsai/tokens for consistent branding.
  * Fonts are loaded dynamically via preview-head.html based on token values.
  *
- * Color scheme based on Teal as primary brand color per TASK-020 spec.
+ * Color scheme uses Blue as primary to match component theme colors.
  */
 
 // Get fonts from tokens (with fallbacks)
@@ -40,7 +38,7 @@ const fontCode = typographyFontFamilyMonospace || 'Roboto Mono, Monaco, Courier,
 
 /**
  * Light Theme
- * Primary: Teal 500
+ * Primary: Blue 500 (matches --bs-primary)
  * Used for manager (sidebar) and docs pages
  */
 export const lightTheme: ThemeVars = create({
@@ -56,9 +54,9 @@ export const lightTheme: ThemeVars = create({
   fontBase,
   fontCode,
 
-  // Primary colors - Teal based per task spec
-  colorPrimary: colorTeal500 || '#20c997',
-  colorSecondary: colorTeal600 || '#1aa179',
+  // Primary colors - Blue to match component theme
+  colorPrimary: colorBlue500 || '#0a58ca',
+  colorSecondary: colorBlue600 || '#084298',
 
   // UI - Using semantic tokens
   appBg: colorGray50 || '#fafbfc',
@@ -67,21 +65,21 @@ export const lightTheme: ThemeVars = create({
   appBorderColor: semanticBorderColor || colorGray200 || '#e8eaed',
   appBorderRadius: 4,
 
-  // Text colors - Using teal-950 for main text per task spec
-  textColor: colorTeal950 || '#06281e',
+  // Text colors
+  textColor: colorGray900 || '#212529',
   textInverseColor: backgroundWhite || '#ffffff',
   textMutedColor: colorGray700 || '#495057',
 
   // Toolbar colors
   barTextColor: colorGray700 || '#495057',
-  barSelectedColor: colorTeal500 || '#20c997',
-  barHoverColor: colorTeal600 || '#1aa179',
+  barSelectedColor: colorBlue500 || '#0a58ca',
+  barHoverColor: colorBlue600 || '#084298',
   barBg: backgroundWhite || '#ffffff',
 
   // Form colors
   inputBg: backgroundWhite || '#ffffff',
   inputBorder: colorGray300 || '#dfe1e5',
-  inputTextColor: colorTeal950 || '#06281e',
+  inputTextColor: colorGray900 || '#212529',
   inputBorderRadius: 4,
 
   // Button colors
@@ -90,12 +88,12 @@ export const lightTheme: ThemeVars = create({
 
   // Boolean (toggle) colors
   booleanBg: colorGray50 || '#fafbfc',
-  booleanSelectedBg: colorTeal500 || '#20c997',
+  booleanSelectedBg: colorBlue500 || '#0a58ca',
 });
 
 /**
  * Dark Theme
- * Primary: Teal 400 (lighter for dark backgrounds)
+ * Primary: Blue 400 (lighter for dark backgrounds)
  * Used for manager (sidebar) and docs pages in dark mode
  */
 export const darkTheme: ThemeVars = create({
@@ -111,9 +109,9 @@ export const darkTheme: ThemeVars = create({
   fontBase,
   fontCode,
 
-  // Primary colors - Teal 400 for better visibility on dark
-  colorPrimary: colorTeal400 || '#4dd4ac',
-  colorSecondary: colorTeal500 || '#20c997',
+  // Primary colors - Blue 400 for better visibility on dark backgrounds
+  colorPrimary: colorBlue400 || '#3d8bfd',
+  colorSecondary: colorBlue500 || '#0a58ca',
 
   // UI - Dark backgrounds
   appBg: colorGray900 || '#212529',
@@ -129,8 +127,8 @@ export const darkTheme: ThemeVars = create({
 
   // Toolbar colors
   barTextColor: colorGray300 || '#dfe1e5',
-  barSelectedColor: colorTeal400 || '#4dd4ac',
-  barHoverColor: colorTeal500 || '#20c997',
+  barSelectedColor: colorBlue400 || '#3d8bfd',
+  barHoverColor: colorBlue500 || '#0a58ca',
   barBg: colorGray800 || '#343a40',
 
   // Form colors
@@ -145,7 +143,7 @@ export const darkTheme: ThemeVars = create({
 
   // Boolean (toggle) colors
   booleanBg: colorGray700 || '#495057',
-  booleanSelectedBg: colorTeal400 || '#4dd4ac',
+  booleanSelectedBg: colorBlue400 || '#3d8bfd',
 });
 
 // Export light theme as default

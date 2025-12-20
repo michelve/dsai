@@ -1,3 +1,6 @@
+import { backgroundWhite, colorGray900 } from '@dsai/tokens';
+import React from 'react';
+
 import { lightTheme } from './DSAiTheme';
 
 import type { Preview } from '@storybook/react-vite';
@@ -54,23 +57,12 @@ const preview: Preview = {
     backgrounds: {
       options: {
         light: {
-          name: 'light',
-          value: '#ffffff', // backgroundWhite
+          name: 'Light',
+          value: backgroundWhite || '#ffffff',
         },
-
-        gray: {
-          name: 'gray',
-          value: '#f5f6f7', // colorGray100 / backgroundLight
-        },
-
         dark: {
-          name: 'dark',
-          value: '#212529', // colorGray900 / backgroundDark
-        },
-
-        teal: {
-          name: 'teal',
-          value: '#06281e', // colorTeal950 - brand dark
+          name: 'Dark',
+          value: colorGray900 || '#212529',
         },
       },
     },
@@ -89,26 +81,56 @@ const preview: Preview = {
   // Global toolbar controls
   globalTypes: {
     theme: {
-      name: 'Theme',
       description: 'Global theme for components',
-      defaultValue: 'light',
       toolbar: {
+        title: 'Theme',
         icon: 'circlehollow',
-        items: [
-          { value: 'light', title: 'Light', icon: 'sun' },
-          { value: 'dark', title: 'Dark', icon: 'moon' },
-        ],
-        showName: true,
+        items: ['light', 'dark'],
         dynamicTitle: true,
       },
     },
   },
 
   // Decorators for story rendering
-  decorators: [],
+  decorators: [
+    // Theme decorator - applies data-dsai-theme attribute based on toolbar selection
+    (Story, context) => {
+      const theme = (context.globals['theme'] as string) || 'light';
+
+      // Apply theme to document for CSS variable cascading
+      React.useEffect(() => {
+        document.documentElement.setAttribute('data-dsai-theme', theme);
+        document.body.setAttribute('data-dsai-theme', theme);
+
+        // Apply background color based on theme for the Storybook canvas
+        if (theme === 'dark') {
+          document.body.style.backgroundColor = '#212529';
+          document.body.style.color = '#dfe1e5';
+        } else {
+          document.body.style.backgroundColor = '#ffffff';
+          document.body.style.color = '#212529';
+        }
+      }, [theme]);
+
+      return React.createElement(
+        'div',
+        {
+          'data-dsai-theme': theme,
+          style: {
+            backgroundColor: theme === 'dark' ? '#212529' : '#ffffff',
+            color: theme === 'dark' ? '#dfe1e5' : '#212529',
+            minHeight: '100%',
+            padding: '1rem',
+          },
+        },
+        React.createElement(Story, null)
+      );
+    },
+  ],
 
   // Initial global values
   initialGlobals: {
+    theme: 'light',
     backgrounds: {
       value: 'light',
     },
