@@ -8,7 +8,11 @@
               "$value": "{semantic.emphasis-color}",
               "$type": "color",
               "$description": "Shadow color for default elevation",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-default-color",
+                "ANDROID": "shadow.default.color",
+                "iOS": "Shadow.Default.Color"
+              },
               "$scopes": [
                 "EFFECT_COLOR"
               ]
@@ -17,7 +21,11 @@
               "$value": 0,
               "$type": "number",
               "$description": "Shadow horizontal offset",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-default-offset-x",
+                "ANDROID": "shadow.default.offsetX",
+                "iOS": "Shadow.Default.OffsetX"
+              },
               "$scopes": [
                 "EFFECT_FLOAT"
               ]
@@ -26,7 +34,11 @@
               "$value": 8,
               "$type": "number",
               "$description": "Shadow vertical offset (0.5rem = 8px)",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-default-offset-y",
+                "ANDROID": "shadow.default.offsetY",
+                "iOS": "Shadow.Default.OffsetY"
+              },
               "$scopes": [
                 "EFFECT_FLOAT"
               ]
@@ -35,7 +47,11 @@
               "$value": 16,
               "$type": "number",
               "$description": "Shadow blur radius (1rem = 16px)",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-default-blur",
+                "ANDROID": "shadow.default.blur",
+                "iOS": "Shadow.Default.Blur"
+              },
               "$scopes": [
                 "EFFECT_FLOAT"
               ]
@@ -44,7 +60,11 @@
               "$value": 0,
               "$type": "number",
               "$description": "Shadow spread radius",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-default-spread",
+                "ANDROID": "shadow.default.spread",
+                "iOS": "Shadow.Default.Spread"
+              },
               "$scopes": [
                 "EFFECT_FLOAT"
               ]
@@ -58,11 +78,14 @@
                   "reference": "https://getbootstrap.com/docs/5.3/utilities/shadows/"
                 },
                 "platform": {
-                  "cssClass": "shadow",
                   "scssVariableName": "$box-shadow"
                 }
               },
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-default",
+                "ANDROID": "shadow.default",
+                "iOS": "Shadow.Default"
+              },
               "$scopes": [
                 "TEXT_CONTENT"
               ]
@@ -73,7 +96,11 @@
               "$value": "{semantic.emphasis-color}",
               "$type": "color",
               "$description": "Shadow color for small elevation",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-sm-color",
+                "ANDROID": "shadow.sm.color",
+                "iOS": "Shadow.Sm.Color"
+              },
               "$scopes": [
                 "EFFECT_COLOR"
               ]
@@ -82,7 +109,11 @@
               "$value": 0,
               "$type": "number",
               "$description": "Shadow horizontal offset",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-sm-offset-x",
+                "ANDROID": "shadow.sm.offsetX",
+                "iOS": "Shadow.Sm.OffsetX"
+              },
               "$scopes": [
                 "EFFECT_FLOAT"
               ]
@@ -91,7 +122,11 @@
               "$value": 2,
               "$type": "number",
               "$description": "Shadow vertical offset (0.125rem = 2px)",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-sm-offset-y",
+                "ANDROID": "shadow.sm.offsetY",
+                "iOS": "Shadow.Sm.OffsetY"
+              },
               "$scopes": [
                 "EFFECT_FLOAT"
               ]
@@ -100,7 +135,11 @@
               "$value": 4,
               "$type": "number",
               "$description": "Shadow blur radius (0.25rem = 4px)",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-sm-blur",
+                "ANDROID": "shadow.sm.blur",
+                "iOS": "Shadow.Sm.Blur"
+              },
               "$scopes": [
                 "EFFECT_FLOAT"
               ]
@@ -109,7 +148,11 @@
               "$value": 0,
               "$type": "number",
               "$description": "Shadow spread radius",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-sm-spread",
+                "ANDROID": "shadow.sm.spread",
+                "iOS": "Shadow.Sm.Spread"
+              },
               "$scopes": [
                 "EFFECT_FLOAT"
               ]
@@ -123,11 +166,14 @@
                   "reference": "https://getbootstrap.com/docs/5.3/utilities/shadows/"
                 },
                 "platform": {
-                  "cssClass": "shadow-sm",
                   "scssVariableName": "$box-shadow-sm"
                 }
               },
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-sm",
+                "ANDROID": "shadow.sm",
+                "iOS": "Shadow.Sm"
+              },
               "$scopes": [
                 "TEXT_CONTENT"
               ]
@@ -138,7 +184,11 @@
               "$value": "#000000",
               "$type": "color",
               "$description": "Shadow color for large elevation",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-lg-color",
+                "ANDROID": "shadow.lg.color",
+                "iOS": "Shadow.Lg.Color"
+              },
               "$scopes": [
                 "EFFECT_COLOR"
               ]
@@ -147,7 +197,11 @@
               "$value": 0,
               "$type": "number",
               "$description": "Shadow horizontal offset",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-lg-offset-x",
+                "ANDROID": "shadow.lg.offsetX",
+                "iOS": "Shadow.Lg.OffsetX"
+              },
               "$scopes": [
                 "EFFECT_FLOAT"
               ]
@@ -156,7 +210,11 @@
               "$value": 16,
               "$type": "number",
               "$description": "Shadow vertical offset (1rem = 16px)",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-lg-offset-y",
+                "ANDROID": "shadow.lg.offsetY",
+                "iOS": "Shadow.Lg.OffsetY"
+              },
               "$scopes": [
                 "EFFECT_FLOAT"
               ]
@@ -165,7 +223,11 @@
               "$value": 48,
               "$type": "number",
               "$description": "Shadow blur radius (3rem = 48px)",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-lg-blur",
+                "ANDROID": "shadow.lg.blur",
+                "iOS": "Shadow.Lg.Blur"
+              },
               "$scopes": [
                 "EFFECT_FLOAT"
               ]
@@ -174,7 +236,11 @@
               "$value": 0,
               "$type": "number",
               "$description": "Shadow spread radius",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-lg-spread",
+                "ANDROID": "shadow.lg.spread",
+                "iOS": "Shadow.Lg.Spread"
+              },
               "$scopes": [
                 "EFFECT_FLOAT"
               ]
@@ -188,11 +254,14 @@
                   "reference": "https://getbootstrap.com/docs/5.3/utilities/shadows/"
                 },
                 "platform": {
-                  "cssClass": "shadow-lg",
                   "scssVariableName": "$box-shadow-lg"
                 }
               },
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-lg",
+                "ANDROID": "shadow.lg",
+                "iOS": "Shadow.Lg"
+              },
               "$scopes": [
                 "TEXT_CONTENT"
               ]
@@ -203,7 +272,11 @@
               "$value": "#000000",
               "$type": "color",
               "$description": "Shadow color for inset effect",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-inset-color",
+                "ANDROID": "shadow.inset.color",
+                "iOS": "Shadow.Inset.Color"
+              },
               "$scopes": [
                 "EFFECT_COLOR"
               ]
@@ -212,7 +285,11 @@
               "$value": 0,
               "$type": "number",
               "$description": "Shadow horizontal offset",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-inset-offset-x",
+                "ANDROID": "shadow.inset.offsetX",
+                "iOS": "Shadow.Inset.OffsetX"
+              },
               "$scopes": [
                 "EFFECT_FLOAT"
               ]
@@ -221,7 +298,11 @@
               "$value": 1,
               "$type": "number",
               "$description": "Shadow vertical offset (1px)",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-inset-offset-y",
+                "ANDROID": "shadow.inset.offsetY",
+                "iOS": "Shadow.Inset.OffsetY"
+              },
               "$scopes": [
                 "EFFECT_FLOAT"
               ]
@@ -230,7 +311,11 @@
               "$value": 2,
               "$type": "number",
               "$description": "Shadow blur radius (2px)",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-inset-blur",
+                "ANDROID": "shadow.inset.blur",
+                "iOS": "Shadow.Inset.Blur"
+              },
               "$scopes": [
                 "EFFECT_FLOAT"
               ]
@@ -239,7 +324,11 @@
               "$value": 0,
               "$type": "number",
               "$description": "Shadow spread radius",
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-inset-spread",
+                "ANDROID": "shadow.inset.spread",
+                "iOS": "Shadow.Inset.Spread"
+              },
               "$scopes": [
                 "EFFECT_FLOAT"
               ]
@@ -256,7 +345,11 @@
                   "scssVariableName": "$box-shadow-inset"
                 }
               },
-              "$codeSyntax": {},
+              "$codeSyntax": {
+                "WEB": "--dsai-shadow-inset",
+                "ANDROID": "shadow.inset",
+                "iOS": "Shadow.Inset"
+              },
               "$scopes": [
                 "TEXT_CONTENT"
               ]
