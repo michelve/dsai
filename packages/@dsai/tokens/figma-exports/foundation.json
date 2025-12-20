@@ -2980,7 +2980,7 @@
             "dark": {
               "$value": "{colors.brand.gray.900}",
               "$type": "color",
-              "$description": "Light theme color. Light backgrounds, subtle surfaces, and low-emphasis elements. Use for page backgrounds, card backgrounds, light UI surfaces. Bootstrap's --bs-light maps to gray-100. Provides subtle separation. Use with dark text (700+).",
+              "$description": "Dark theme color. Dark backgrounds, strong surfaces, and high-emphasis elements. Use for page backgrounds, card backgrounds, and dark UI surfaces. Bootstrap's --bs-dark maps to gray-900. Provides strong contrast. Use with light text (100–300).",
               "$extensions": {
                 "docs": {
                   "reference": "https://getbootstrap.com/docs/5.3/customize/color/#dark"
@@ -7471,7 +7471,7 @@
             "dark": {
               "$value": "{colors.brand.gray.900}",
               "$type": "color",
-              "$description": "Light theme color. Light backgrounds, subtle surfaces, and low-emphasis elements. Use for page backgrounds, card backgrounds, light UI surfaces. Bootstrap's --bs-light maps to gray-100. Provides subtle separation. Use with dark text (700+).",
+              "$description": "Dark theme color. Dark backgrounds, strong surfaces, and high-emphasis elements. Use for page backgrounds, card backgrounds, and dark UI surfaces. Bootstrap's --bs-dark maps to gray-900. Provides strong contrast. Use with light text (100–300).",
               "$extensions": {
                 "docs": {
                   "reference": "https://getbootstrap.com/docs/5.3/customize/color/#dark"
