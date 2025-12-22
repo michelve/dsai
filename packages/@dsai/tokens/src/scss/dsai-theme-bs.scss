@@ -710,14 +710,20 @@ $colors: map-merge($colors, $custom-colors) !default;
 // Override Bootstrap's color-mode mixin to use data-dsai-theme instead of data-bs-theme
 // This ensures all theme selectors use our custom attribute: [data-dsai-theme="dark"]
 // Must be placed AFTER mixins import but BEFORE root import
+//
+// IMPORTANT: For dark mode, we do NOT apply to :root because we want light mode
+// to be the default. Only [data-dsai-theme="dark"] should trigger dark mode.
 // ============================================================================
 @mixin color-mode($mode: light, $root: false) {
-  @if $root == true {
+  @if $mode == light and $root == true {
+    // Light mode with root: apply to :root AND [data-dsai-theme="light"]
     :root,
     [data-dsai-theme='#{$mode}'] {
       @content;
     }
   } @else {
+    // Dark mode OR non-root: only apply to the attribute selector
+    // This ensures dark mode is NOT the default on :root
     [data-dsai-theme='#{$mode}'] {
       @content;
     }
