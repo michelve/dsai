@@ -52,6 +52,11 @@
     "<FIGMA_DSAI_TOOLTIP>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=TOOLTIP_NODE_ID",
     "<FIGMA_DSAI_TOOLTIP_BUTTON>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=TOOLTIP_BUTTON_NODE_ID",
     "<FIGMA_DSAI_TOOLTIP_ICON>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=TOOLTIP_ICON_NODE_ID",
-    "<FIGMA_DSAI_TOOLTIP_LINK>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=TOOLTIP_LINK_NODE_ID"
+    "<FIGMA_DSAI_TOOLTIP_LINK>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=TOOLTIP_LINK_NODE_ID",
+    "<FIGMA_DSAI_HEADING>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=HEADING_NODE_ID",
+    "<FIGMA_DSAI_DISPLAY>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=DISPLAY_NODE_ID",
+    "<FIGMA_DSAI_TEXT>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=TEXT_NODE_ID",
+    "<FIGMA_DSAI_LEAD>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=LEAD_NODE_ID",
+    "<FIGMA_DSAI_BLOCKQUOTE>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=BLOCKQUOTE_NODE_ID"
   }
 }
