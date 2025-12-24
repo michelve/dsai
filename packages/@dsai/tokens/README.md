@@ -116,84 +116,107 @@ All tokens follow Style Dictionary format:
 ### Build Commands
 
 ```bash
-# Build all tokens (transform + validate + build)
-pnpm tokens:build
+# Full build (validate + style-dictionary + theme + tsup)
+pnpm build
 
-# Just build Style Dictionary outputs
+# Build Style Dictionary outputs only
 pnpm build:tokens
 
-# Transform Figma exports to Style Dictionary format
-pnpm tokens:transform
-
 # Validate token structure
-pnpm tokens:validate
+pnpm validate
+
+# Sync tokens to TypeScript flat file
+pnpm sync
+
+# Build Bootstrap theme CSS
+pnpm build:theme
+
+# Build DSAi utilities CSS
+pnpm build:dsai
 
 # Watch mode (rebuild on change)
-pnpm tokens:watch
+pnpm dev
 
 # Clean generated files
-pnpm tokens:clean
+pnpm clean
 ```
 
-### Build Configuration
+### Using with Nx
 
-The tokens package uses a configuration file (`tokens.config.json`) to control build behavior:
+```bash
+# Build with Nx
+nx build @dsai/tokens
 
-```json
-{
-  "build": {
-    "source": "theme"
+# Validate tokens
+nx validate @dsai/tokens
+
+# Sync tokens
+nx sync @dsai/tokens
+
+# Watch mode
+nx watch @dsai/tokens
+```
+
+### Configuration
+
+The tokens package uses two configuration files:
+
+#### 1. DSAi Config (`dsai.config.mjs`)
+
+Configuration for the @dsai/tools build pipeline:
+
+```javascript
+import { defineConfig } from '@dsai/tools';
+
+export default defineConfig({
+  global: {
+    debug: false,
+    verbose: false,
   },
-  "themes": {
-    "autoDetect": true,
-    "default": "Light",
-    "ignoreModes": [],
-    "selectorPattern": {
-      "default": ":root",
-      "others": "[data-dsai-theme=\"{mode}\"]"
-    }
+  tokens: {
+    sourceDir: './collections',
+    outputDir: './dist',
+    prefix: '--dsai-',
+    baseFontSize: 16,
+    outputReferences: true,
+    formats: ['css', 'js', 'ts', 'scss', 'scss-dist', 'json'],
   },
-  "transform": {
-    "preserveCodeSyntax": true
-  }
-}
+});
 ```
 
-#### Build Source Options
+#### 2. Style Dictionary Config (`sd.config.mjs`)
 
-| Source        | Description                                                          |
-| ------------- | -------------------------------------------------------------------- |
-| `theme`       | Build from combined `figma-exports/theme.json` (master Figma export) |
-| `collections` | Build from individual files in `/figma-exports/` folder              |
+Configuration for Style Dictionary build:
 
-#### Theme Configuration
+```javascript
+import StyleDictionary from 'style-dictionary';
+import { registerAll } from '@dsai/tools/tokens';
 
-By default, **all modes detected** in the Figma export are built automatically. Use `ignoreModes` to exclude specific modes.
+// Register custom transforms, formats, preprocessors
+registerAll(StyleDictionary);
 
-| Option            | Type     | Default | Description                                                |
-| ----------------- | -------- | ------- | ---------------------------------------------------------- |
-| `autoDetect`      | boolean  | `true`  | Auto-detect available modes from Figma export              |
-| `default`         | string   | `Light` | Default theme mode (uses `:root` selector)                 |
-| `ignoreModes`     | string[] | `[]`    | Modes to skip during build (e.g., `["WIP", "Deprecated"]`) |
-| `selectorPattern` | object   | -       | CSS selector patterns for theme output                     |
-
-Example to ignore a work-in-progress mode:
-
-```json
-{
-  "themes": {
-    "autoDetect": true,
-    "default": "Light",
-    "ignoreModes": ["WIP", "TestMode"]
-  }
-}
+export default {
+  preprocessors: ['fix-references'],
+  source: ['collections/**/*.json'],
+  platforms: {
+    css: {
+      /* ... */
+    },
+    js: {
+      /* ... */
+    },
+    ts: {
+      /* ... */
+    },
+    scss: {
+      /* ... */
+    },
+    json: {
+      /* ... */
+    },
+  },
+};
 ```
-
-#### Transform Options
-
-| Option               | Type    | Default | Description                                |
-| -------------------- | ------- | ------- | ------------------------------------------ |
-| `preserveCodeSyntax` | boolean | `true`  | Preserve `$codeSyntax` platform references |
 
 ### Build Output
 

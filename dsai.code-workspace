@@ -1,36 +1,7 @@
 {
   "folders": [
     {
-      "name": "Root",
       "path": "."
-    },
-    {
-      "name": "@dsai/react",
-      "path": "packages/@dsai/react"
-    },
-    {
-      "name": "@dsai/tokens",
-      "path": "packages/@dsai/tokens"
-    },
-    {
-      "name": "@dsai/figma-tokens",
-      "path": "packages/@dsai/figma-tokens"
-    },
-    {
-      "name": "@dsai/storybook",
-      "path": "packages/@dsai/storybook"
-    },
-    {
-      "name": "@dsai/docs",
-      "path": "packages/@dsai/docs"
-    },
-    {
-      "name": "Playground",
-      "path": "apps/playground"
-    },
-    {
-      "name": "Tools",
-      "path": "tools"
     }
   ],
   "settings": {

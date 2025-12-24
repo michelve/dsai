@@ -1,6 +1,9 @@
 /**
  * Style Dictionary Configuration (DTCG-Compliant)
  *
+ * This file is a thin wrapper around @dsai/tools Style Dictionary integration.
+ * It delegates all transforms, formats, and preprocessors to @dsai/tools.
+ *
  * Transforms design tokens from DTCG format to multiple output formats:
  * - CSS Variables
  * - JavaScript/ES6
@@ -8,458 +11,21 @@
  * - SCSS Variables
  * - JSON (flattened)
  *
- * DTCG Format: Uses $ prefix for special properties ($value, $type, $description, $extensions)
- * This aligns with W3C Design Tokens Community Group specification
- *
  * @see https://styledictionary.com/
  * @see https://www.designtokens.org/
  */
 
+import { registerAll } from '@dsai/tools/tokens';
 import StyleDictionary from 'style-dictionary';
 
 // ============================================================================
-// CUSTOM PREPROCESSORS
+// Register All Custom Transforms, Formats, Preprocessors
 // ============================================================================
 
-/**
- * Preprocessor: Fix token references
- * Our tokens use "color.blue.500" but references say "{colors.brand.blue.500}"
- * This preprocessor fixes the mismatch
- */
-StyleDictionary.registerPreprocessor({
-  name: 'fix-references',
-  preprocessor: (dictionary) => {
-    // Create aliases for references to work
-    // Map colors.brand.* -> color.*
-    // Map colors.neutral.* -> neutral.*
-    // Map borders.width.* -> border.width.*
-
-    const fixValue = (value) => {
-      if (typeof value === 'string' && value.startsWith('{')) {
-        // Fix reference paths
-        return value
-          .replace(/\{colors\.brand\./g, '{color.')
-          .replace(/\{colors\.neutral\./g, '{neutral.')
-          .replace(/\{borders\.width\./g, '{border.width.');
-      }
-      return value;
-    };
-
-    const processTokens = (obj) => {
-      for (const key in obj) {
-        if (obj[key] && typeof obj[key] === 'object') {
-          // Check for DTCG format ($value) or Style Dictionary format (value)
-          if (obj[key].$value !== undefined) {
-            // DTCG format - fix $value
-            obj[key].$value = fixValue(obj[key].$value);
-          } else if (obj[key].value !== undefined) {
-            // Legacy format - fix value
-            obj[key].value = fixValue(obj[key].value);
-          } else {
-            // Recurse
-            processTokens(obj[key]);
-          }
-        }
-      }
-    };
-
-    processTokens(dictionary);
-    return dictionary;
-  },
-});
+registerAll(StyleDictionary);
 
 // ============================================================================
-// CUSTOM TRANSFORMS
-// ============================================================================
-
-/**
- * Custom Transform: fontWeight/unitless
- * Keeps font-weight as unitless numbers (300, 400, 700, etc.)
- * DTCG-compatible: checks both $type and type
- *
- * Style Dictionary v5 Best Practice:
- * Source tokens store raw numbers, transforms add units
- */
-StyleDictionary.registerTransform({
-  name: 'fontWeight/unitless',
-  type: 'value',
-  filter: (token) => {
-    const tokenType = token.$type || token.type;
-    // Match fontWeight type or check path for font-weight
-    const isFontWeight = tokenType === 'fontWeight' || tokenType === 'number';
-    const pathHasFontWeight = token.path?.some((part) => {
-      const lower = String(part).toLowerCase();
-      return (
-        lower === 'fontweight' || lower.includes('font-weight') || lower.includes('fontweight')
-      );
-    });
-    return isFontWeight || pathHasFontWeight;
-  },
-  transform: (token) => {
-    const value = token.$value || token.value;
-    // Return unitless number (CSS font-weight must be unitless)
-    return typeof value === 'number' ? value : parseInt(String(value), 10);
-  },
-});
-
-/**
- * Custom Transform: lineHeight/unitless
- * Keeps line-height as unitless ratios (1, 1.5, 2, etc.)
- * DTCG-compatible: checks both $type and type
- *
- * Style Dictionary v5 Best Practice:
- * Source tokens store raw numbers or percentages, transforms normalize to unitless
- *
- * CSS Specification: line-height should be unitless for proper inheritance
- * @see https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
- */
-StyleDictionary.registerTransform({
-  name: 'lineHeight/unitless',
-  type: 'value',
-  filter: (token) => {
-    const tokenType = token.$type || token.type;
-    // Match lineHeight type or check path/scopes
-    const isLineHeight = tokenType === 'lineHeight' || tokenType === 'number';
-    const pathHasLineHeight = token.path?.some((part) => {
-      const lower = String(part).toLowerCase();
-      return (
-        lower === 'lineheight' || lower.includes('line-height') || lower.includes('lineheight')
-      );
-    });
-    const scopeHasLineHeight = token.$scopes?.includes('LINE_HEIGHT');
-
-    return isLineHeight || pathHasLineHeight || scopeHasLineHeight;
-  },
-  transform: (token) => {
-    const value = token.$value || token.value;
-
-    // If it's already a clean number (likely unitless), return it
-    if (typeof value === 'number') {
-      // If it's <= 3, it's already a multiplier (1, 1.5, 2)
-      if (value <= 3) {
-        return value;
-      }
-      // If it's > 3, it's likely px from Figma (16, 24, etc.)
-      // Convert to unitless by dividing by base font size (16px)
-      return value / 16;
-    }
-
-    // Handle percentage strings (e.g., "150%" -> 1.5)
-    if (typeof value === 'string' && value.endsWith('%')) {
-      return parseFloat(value) / 100;
-    }
-
-    // Handle strings with units like "1.5rem" or "24px"
-    if (typeof value === 'string') {
-      const numValue = parseFloat(value);
-      // If it was in rem (1.5rem) or small px (20px), likely already a ratio
-      if (numValue <= 3) {
-        return numValue;
-      }
-      // If large px value (24px), divide by 16
-      return numValue / 16;
-    }
-
-    // Fallback: return as-is
-    return value;
-  },
-});
-
-/**
- * Custom Transform: dimension/rem
- * Converts number dimensions to rem (divide by basePxFontSize, default 16)
- * Handles raw numbers from source tokens
- * DTCG-compatible: checks both $value and value
- *
- * Style Dictionary v5 Best Practice:
- * Source tokens: {"value": 16, "type": "dimension"}
- * Output: 1rem
- */
-StyleDictionary.registerTransform({
-  name: 'dimension/rem',
-  type: 'value',
-  filter: (token) => {
-    const tokenType = token.$type || token.type;
-
-    // Exclude font-weights
-    const isFontWeight = tokenType === 'fontWeight' || tokenType === 'number';
-    if (isFontWeight) return false;
-
-    const pathHasFontWeight = token.path?.some((part) => {
-      const lower = String(part).toLowerCase();
-      return (
-        lower === 'fontweight' || lower.includes('font-weight') || lower.includes('fontweight')
-      );
-    });
-    if (pathHasFontWeight) return false;
-
-    // Exclude line-heights (they should be unitless)
-    const isLineHeight = tokenType === 'lineHeight';
-    if (isLineHeight) return false;
-
-    const pathHasLineHeight = token.path?.some((part) => {
-      const lower = String(part).toLowerCase();
-      return (
-        lower === 'lineheight' || lower.includes('line-height') || lower.includes('lineheight')
-      );
-    });
-    if (pathHasLineHeight) return false;
-
-    const scopeHasLineHeight = token.$scopes?.includes('LINE_HEIGHT');
-    if (scopeHasLineHeight) return false;
-
-    // Exclude grid configuration (should be unitless count values, not dimensions)
-    const pathHasGridConfig = token.path?.some((part) => {
-      const lower = String(part).toLowerCase();
-      return lower === 'columns' || lower === 'row-columns';
-    });
-    if (pathHasGridConfig) return false;
-
-    // Include dimensions, spacing, sizing
-    return tokenType === 'dimension' || tokenType === 'spacing' || tokenType === 'sizing';
-  },
-  transform: (token, options) => {
-    const value = token.$value || token.value;
-    const baseFontSize = options?.basePxFontSize || 16;
-
-    // Handle raw numbers (preferred approach)
-    if (typeof value === 'number') {
-      if (value === 0) return '0';
-      return `${value / baseFontSize}rem`;
-    }
-
-    // Handle string values like "16px" (legacy)
-    if (typeof value === 'string' && value.endsWith('px')) {
-      const numValue = parseFloat(value);
-      if (numValue === 0) return '0';
-      return `${numValue / baseFontSize}rem`;
-    }
-
-    // Return as-is if not a number or px value
-    return value;
-  },
-});
-
-/**
- * Transform: name/kebab
- * Converts token path to kebab-case for CSS
- */
-StyleDictionary.registerTransform({
-  name: 'name/kebab',
-  type: 'name',
-  transform: (token) => {
-    return token.path.join('-').replace(/_/g, '-').toLowerCase();
-  },
-});
-
-// ============================================================================
-// CUSTOM FORMATS
-// ============================================================================
-
-/**
- * Format: css/variables-with-comments
- * CSS custom properties with descriptive comments
- */
-StyleDictionary.registerFormat({
-  name: 'css/variables-with-comments',
-  format: ({ dictionary, options }) => {
-    const { prefix = '--' } = options;
-
-    return `:root {\n${dictionary.allTokens
-      .map((token) => {
-        const comment = token.comment ? `  /* ${token.comment} */\n` : '';
-        const description = token.description ? `  /* ${token.description} */\n` : '';
-        // Style Dictionary v5 DTCG mode: Use $value if present, fallback to value
-        const tokenValue = token.$value !== undefined ? token.$value : token.value;
-        const value = typeof tokenValue === 'string' ? tokenValue : JSON.stringify(tokenValue);
-        return `${comment}${description}  ${prefix}${token.name}: ${value};`;
-      })
-      .join('\n')}\n}\n`;
-  },
-});
-
-/**
- * Format: typescript/declarations (DTCG-compatible)
- * TypeScript declarations with proper types
- * Generates:
- * - DesignTokens interface with nested structure
- * - String literal types for each token category
- * - Flat token exports with proper types
- */
-StyleDictionary.registerFormat({
-  name: 'typescript/declarations',
-  format: ({ dictionary }) => {
-    // Helper to determine TypeScript type from token
-    const getTypeScriptType = (token) => {
-      const value = token.value;
-      if (typeof value === 'number') return 'number';
-      if (typeof value === 'boolean') return 'boolean';
-      return 'string';
-    };
-
-    // Build nested interface structure
-    const buildTokenInterface = (obj, indent = 0) => {
-      const spaces = '  '.repeat(indent);
-      let output = '{\n';
-
-      for (const [key, value] of Object.entries(obj)) {
-        if (!value) continue;
-
-        // Quote keys that need it (contain hyphens or start with numbers)
-        const quotedKey = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key) ? key : `"${key}"`;
-
-        // Check if this is a leaf token (has _isToken marker)
-        if (value._isToken) {
-          output += `${spaces}  ${quotedKey}: ${value._type};\n`;
-        } else {
-          // Nested object
-          output += `${spaces}  ${quotedKey}: ${buildTokenInterface(value, indent + 1)}\n`;
-        }
-      }
-
-      output += `${spaces}}`;
-      return output;
-    };
-
-    // Build nested structure with type markers
-    const tokenTree = {};
-    dictionary.allTokens.forEach((token) => {
-      let current = tokenTree;
-      token.path.slice(0, -1).forEach((key) => {
-        if (!current[key]) current[key] = {};
-        current = current[key];
-      });
-      const lastKey = token.path[token.path.length - 1];
-      current[lastKey] = {
-        _isToken: true,
-        _type: getTypeScriptType(token),
-      };
-    });
-
-    // Group tokens by category for string literal types
-    const categories = {};
-    dictionary.allTokens.forEach((token) => {
-      const category = token.path[0];
-      if (!categories[category]) categories[category] = [];
-      categories[category].push(token.path.join('.'));
-    });
-
-    // Generate string literal types
-    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-    let literalTypes = '';
-    Object.keys(categories)
-      .sort()
-      .forEach((category) => {
-        const typeName = `${capitalize(category)}TokenName`;
-        literalTypes += `/**\n * All ${category} token names as string literals\n */\n`;
-        literalTypes += `export type ${typeName} =\n`;
-        literalTypes += categories[category].map((t) => `  | '${t}'`).join('\n');
-        literalTypes += ';\n\n';
-      });
-
-    // Generate all token names type
-    const allTokenNames = dictionary.allTokens.map((t) => t.path.join('.'));
-    literalTypes += `/**\n * All token names as string literals\n */\n`;
-    literalTypes += `export type TokenName =\n`;
-    literalTypes += allTokenNames.map((t) => `  | '${t}'`).join('\n');
-    literalTypes += ';\n\n';
-
-    // Generate flat token exports type
-    let flatExports = '/**\n * Flat token exports (camelCase names)\n */\n';
-    dictionary.allTokens.forEach((token) => {
-      const name = token.name;
-      const type = getTypeScriptType(token);
-      flatExports += `export declare const ${name}: ${type};\n`;
-    });
-
-    return `/**
- * Design Tokens - TypeScript Declarations
- * Auto-generated from Style Dictionary
- * DO NOT EDIT DIRECTLY
- *
- * @packageDocumentation
- */
-
-// ============================================================================
-// String Literal Types (for type-safe token access)
-// ============================================================================
-
-${literalTypes}
-// ============================================================================
-// Nested Token Interface
-// ============================================================================
-
-/**
- * Design tokens organized by category
- */
-export interface DesignTokens ${buildTokenInterface(tokenTree)}
-
-// ============================================================================
-// Flat Token Exports
-// ============================================================================
-
-${flatExports}
-// ============================================================================
-// Default Export
-// ============================================================================
-
-export declare const tokens: DesignTokens;
-export default tokens;
-`;
-  },
-});
-
-// ============================================================================
-// CUSTOM TRANSFORM GROUPS
-// ============================================================================
-
-StyleDictionary.registerTransformGroup({
-  name: 'custom/css',
-  transforms: [
-    'attribute/cti',
-    'name/kebab',
-    'time/seconds',
-    'fontWeight/unitless', // Must run before dimension/rem
-    'lineHeight/unitless', // Must run before dimension/rem
-    'dimension/rem',
-    'color/css',
-  ],
-});
-
-StyleDictionary.registerTransformGroup({
-  name: 'custom/js',
-  transforms: [
-    'attribute/cti',
-    'name/camel',
-    'fontWeight/unitless', // Must run before dimension/rem
-    'lineHeight/unitless', // Must run before dimension/rem
-    'dimension/rem',
-    'color/css',
-  ],
-});
-
-/**
- * Custom SCSS Transform Group
- * Uses our custom dimension/rem, fontWeight/unitless, and lineHeight/unitless transforms
- * This follows Style Dictionary v5 best practices:
- * - Source tokens are raw numbers
- * - Transforms add appropriate units (or keep unitless for font-weight/line-height)
- */
-StyleDictionary.registerTransformGroup({
-  name: 'custom/scss',
-  transforms: [
-    'attribute/cti', // Add CTI attributes
-    'name/kebab', // kebab-case names
-    'time/seconds', // Convert time to seconds
-    'fontWeight/unitless', // Font weights stay unitless (MUST run before dimension/rem)
-    'lineHeight/unitless', // Line heights stay unitless (MUST run before dimension/rem)
-    'dimension/rem', // Convert dimensions to rem
-    'color/css', // Convert colors to CSS format
-  ],
-});
-
-// ============================================================================
-// CONFIGURATION
+// Configuration
 // ============================================================================
 
 export default {
@@ -551,9 +117,7 @@ export default {
       ],
     },
 
-    // SCSS Variables with custom transforms
-    // Uses custom/scss transform group with dimension/rem and fontWeight/unitless
-    // Output to src/ - these are source files for Bootstrap & DSAi builds
+    // SCSS Variables (source - for Bootstrap & DSAi builds)
     scss: {
       transformGroup: 'custom/scss',
       buildPath: 'src/scss/',
@@ -563,14 +127,13 @@ export default {
           format: 'scss/variables',
           options: {
             outputReferences: true,
-            basePxFontSize: 16, // Base for rem conversion
+            basePxFontSize: 16,
           },
         },
       ],
     },
 
-    // SCSS Variables for distribution
-    // Same as scss platform but outputs to dist/ for npm package consumers
+    // SCSS Variables (dist - for npm package consumers)
     'scss-dist': {
       transformGroup: 'custom/scss',
       buildPath: 'dist/scss/',
@@ -580,7 +143,7 @@ export default {
           format: 'scss/variables',
           options: {
             outputReferences: true,
-            basePxFontSize: 16, // Base for rem conversion
+            basePxFontSize: 16,
           },
         },
       ],

@@ -1,0 +1,37 @@
+{
+  "$schema": "./dsai-config.schema.json",
+  "tokens": {
+    "source": "theme",
+    "sourceDir": "figma-exports",
+    "sourcePatterns": ["theme.json", "tokens.json", "*.tokens.json"],
+    "outputDir": "dist",
+    "formats": ["css", "scss", "js", "ts", "json"],
+    "prefix": "--dsai-",
+    "themes": {
+      "autoDetect": true,
+      "default": "Light",
+      "selectorPattern": {
+        "default": ":root",
+        "others": "[data-dsai-theme=\"{mode}\"]"
+      }
+    },
+    "outputReferences": true,
+    "baseFontSize": 16,
+    "separateThemeFiles": false,
+    "watch": false
+  },
+  "icons": {
+    "sourceDir": "icons",
+    "outputDir": "src/components/icons",
+    "framework": "react",
+    "typescript": true,
+    "optimize": true,
+    "prefix": "Icon",
+    "exportIndex": true,
+    "generateSprite": false
+  },
+  "global": {
+    "debug": false,
+    "logLevel": "info"
+  }
+}

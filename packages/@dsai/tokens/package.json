@@ -29,25 +29,22 @@
   "scripts": {
     "prebuild": "pnpm build:tokens && pnpm build:theme && pnpm build:dsai",
     "build": "tsup",
-    "build:tokens": "pnpm tokens:validate && style-dictionary build --config sd.config.mjs && pnpm tokens:sync",
-    "tokens:sync": "node ../../../tools/scripts/tokens/sync-tokens-flat.js",
+    "build:tokens": "dsai tokens build",
     "build:theme": "pnpm build:theme:sass && pnpm build:theme:postprocess",
     "build:theme:sass": "sass --quiet-deps --silence-deprecation=import --silence-deprecation=global-builtin --silence-deprecation=color-functions src/scss/dsai-theme-bs.scss dist/css/dsai-theme-bs.css && sass --quiet-deps --silence-deprecation=import --silence-deprecation=global-builtin --silence-deprecation=color-functions src/scss/dsai-theme-bs.scss dist/css/dsai-theme-bs.min.css --style=compressed",
-    "build:theme:postprocess": "node ../../../tools/scripts/tokens/postprocess-theme-css.cjs",
+    "build:theme:postprocess": "dsai tokens postprocess",
     "build:dsai": "sass --quiet-deps --silence-deprecation=import src/scss/dsai-utilities.scss dist/css/dsai.css && sass --quiet-deps --silence-deprecation=import src/scss/dsai-utilities.scss dist/css/dsai.min.css --style=compressed",
     "build:watch": "tsup --watch",
-    "dev": "pnpm tokens:watch & tsup --watch",
+    "dev": "dsai tokens build --watch & tsup --watch",
     "test": "echo 'Test tokens'",
-    "tokens:validate": "node ../../../tools/scripts/tokens/validate-tokens.cjs",
-    "tokens:validate:figma": "node ../../../tools/scripts/tokens/validate-figma-tokens.cjs",
-    "tokens:validate:figma:master": "FIGMA_SOURCE=master node ../../../tools/scripts/tokens/validate-figma-tokens.cjs",
-    "tokens:validate:figma:collections": "FIGMA_SOURCE=collections node ../../../tools/scripts/tokens/validate-figma-tokens.cjs",
-    "tokens:validate:all": "pnpm tokens:validate:figma && pnpm tokens:validate",
-    "tokens:transform": "node ../../../tools/scripts/tokens/transform-figma-tokens.cjs",
-    "tokens:build": "pnpm tokens:transform && pnpm tokens:validate:all && style-dictionary build --config sd.config.mjs && pnpm tokens:sync",
-    "tokens:build:all": "node ../../../tools/scripts/tokens/build-all.cjs",
-    "tokens:watch": "style-dictionary build --config sd.config.mjs --watch",
-    "tokens:clean": "rm -rf dist"
+    "validate": "dsai tokens validate",
+    "validate:figma": "dsai tokens validate --figma",
+    "validate:figma:master": "FIGMA_SOURCE=master dsai tokens validate --figma",
+    "validate:figma:collections": "FIGMA_SOURCE=collections dsai tokens validate --figma",
+    "validate:all": "dsai tokens validate --figma && dsai tokens validate",
+    "transform": "dsai tokens transform",
+    "sync": "dsai tokens sync",
+    "clean": "rm -rf dist"
   },
   "keywords": [
     "design-tokens",
@@ -63,6 +60,9 @@
   },
   "publishConfig": {
     "access": "restricted"
+  },
+  "dependencies": {
+    "@dsai/tools": "workspace:*"
   },
   "devDependencies": {
     "bootstrap": "^5.3.8",
