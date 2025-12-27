@@ -40,7 +40,7 @@ for (const colorFamily of [
     const lightValue = brandColors[colorFamily][shade]?.$value;
     const darkColor = darkModeColors.brand[colorFamily][shade];
 
-    if (!darkColor) continue;
+    if (!darkColor) {continue;}
 
     const currentDarkValue = darkColor.$value;
 
@@ -114,7 +114,7 @@ if (darkModeColors.neutral) {
   if (darkModeColors.neutral.gray) {
     for (const shade of ['100', '200', '300', '400', '500', '600', '700', '800', '900']) {
       const darkGray = darkModeColors.neutral.gray[shade];
-      if (!darkGray) continue;
+      if (!darkGray) {continue;}
 
       const isPlaceholder = darkGray.$value === 'rgba(0, 0, 0, 0)' || darkGray.$value === '#ffffff';
 
@@ -153,7 +153,7 @@ if (darkModeColors.theme) {
 
   for (const [themeName] of Object.entries(themeMapping)) {
     const darkTheme = darkModeColors.theme[themeName];
-    if (!darkTheme) continue;
+    if (!darkTheme) {continue;}
 
     const currentValue = darkTheme.$value;
     const isPlaceholder =
@@ -164,14 +164,14 @@ if (darkModeColors.theme) {
     if (isPlaceholder) {
       // Determine which shade to use
       let shadeReference;
-      if (themeName === 'primary') shadeReference = '{colors.brand.blue.500}';
-      else if (themeName === 'secondary') shadeReference = '{colors.brand.gray.600}';
-      else if (themeName === 'success') shadeReference = '{colors.brand.green.500}';
-      else if (themeName === 'info') shadeReference = '{colors.brand.cyan.500}';
-      else if (themeName === 'warning') shadeReference = '{colors.brand.yellow.500}';
-      else if (themeName === 'danger') shadeReference = '{colors.brand.red.500}';
-      else if (themeName === 'light') shadeReference = '{colors.brand.gray.100}';
-      else if (themeName === 'dark') shadeReference = '{colors.brand.gray.900}';
+      if (themeName === 'primary') {shadeReference = '{colors.brand.blue.500}';}
+      else if (themeName === 'secondary') {shadeReference = '{colors.brand.gray.600}';}
+      else if (themeName === 'success') {shadeReference = '{colors.brand.green.500}';}
+      else if (themeName === 'info') {shadeReference = '{colors.brand.cyan.500}';}
+      else if (themeName === 'warning') {shadeReference = '{colors.brand.yellow.500}';}
+      else if (themeName === 'danger') {shadeReference = '{colors.brand.red.500}';}
+      else if (themeName === 'light') {shadeReference = '{colors.brand.gray.100}';}
+      else if (themeName === 'dark') {shadeReference = '{colors.brand.gray.900}';}
 
       darkModeColors.theme[themeName].$value = shadeReference;
       fixedCount++;

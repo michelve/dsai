@@ -17,9 +17,7 @@
               "darkMode": "true"
             }
           },
-          "$scopes": [
-            "WIDTH_HEIGHT"
-          ],
+          "$scopes": ["WIDTH_HEIGHT"],
           "$codeSyntax": {
             "WEB": "--dsai-layout-container-max-width-sm",
             "ANDROID": "layout.container.maxWidth.sm",
@@ -42,9 +40,7 @@
               "darkMode": "true"
             }
           },
-          "$scopes": [
-            "WIDTH_HEIGHT"
-          ],
+          "$scopes": ["WIDTH_HEIGHT"],
           "$codeSyntax": {
             "WEB": "--dsai-layout-container-max-width-md",
             "ANDROID": "layout.container.maxWidth.md",
@@ -67,9 +63,7 @@
               "darkMode": "true"
             }
           },
-          "$scopes": [
-            "WIDTH_HEIGHT"
-          ],
+          "$scopes": ["WIDTH_HEIGHT"],
           "$codeSyntax": {
             "WEB": "--dsai-layout-container-max-width-lg",
             "ANDROID": "layout.container.maxWidth.lg",
@@ -92,9 +86,7 @@
               "darkMode": "true"
             }
           },
-          "$scopes": [
-            "WIDTH_HEIGHT"
-          ],
+          "$scopes": ["WIDTH_HEIGHT"],
           "$codeSyntax": {
             "WEB": "--dsai-layout-container-max-width-xl",
             "ANDROID": "layout.container.maxWidth.xl",
@@ -117,9 +109,7 @@
               "darkMode": "true"
             }
           },
-          "$scopes": [
-            "WIDTH_HEIGHT"
-          ],
+          "$scopes": ["WIDTH_HEIGHT"],
           "$codeSyntax": {
             "WEB": "--dsai-layout-container-max-width-xxl",
             "ANDROID": "layout.container.maxWidth.xxl",
@@ -143,9 +133,7 @@
             "darkMode": "true"
           }
         },
-        "$scopes": [
-          "GAP"
-        ],
+        "$scopes": ["GAP"],
         "$codeSyntax": {
           "WEB": "--dsai-layout-container-padding-x",
           "ANDROID": "layout.container.paddingX",

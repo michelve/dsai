@@ -16,10 +16,7 @@
           "darkMode": "false"
         }
       },
-      "$scopes": [
-        "ALL_FILLS",
-        "STROKE_COLOR"
-      ],
+      "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
       "$codeSyntax": {
         "WEB": "--dsai-theme-primary",
         "ANDROID": "theme.primary",
@@ -39,10 +36,7 @@
           "scssVariableName": "$theme-secondary"
         }
       },
-      "$scopes": [
-        "ALL_FILLS",
-        "STROKE_COLOR"
-      ],
+      "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
       "$codeSyntax": {
         "WEB": "--dsai-theme-secondary",
         "ANDROID": "theme.secondary",
@@ -62,9 +56,7 @@
           "scssVariableName": "$theme-success"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-theme-success",
         "ANDROID": "theme.success",
@@ -84,9 +76,7 @@
           "scssVariableName": "$theme-info"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-theme-info",
         "ANDROID": "theme.info",
@@ -106,9 +96,7 @@
           "scssVariableName": "$theme-warning"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-theme-warning",
         "ANDROID": "theme.warning",
@@ -128,9 +116,7 @@
           "scssVariableName": "$theme-danger"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-theme-danger",
         "ANDROID": "theme.danger",
@@ -150,9 +136,7 @@
           "scssVariableName": "$theme-light"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-theme-light",
         "ANDROID": "theme.light",
@@ -172,9 +156,7 @@
           "scssVariableName": "$theme-dark"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-theme-dark",
         "ANDROID": "theme.dark",

@@ -1,0 +1,554 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://dsai.dev/schemas/dsai-config.schema.json",
+  "title": "DSAI Configuration",
+  "description": "Configuration schema for @dsai/tools - Design System AI toolkit",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema reference"
+    },
+    "extends": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "global": {
+      "type": "object",
+      "properties": {
+        "logLevel": {
+          "type": "string",
+          "enum": ["silent", "error", "warn", "info", "debug", "verbose"],
+          "default": "info"
+        },
+        "colors": {
+          "type": "boolean",
+          "default": true
+        },
+        "ci": {
+          "type": "boolean",
+          "default": false
+        },
+        "dryRun": {
+          "type": "boolean",
+          "default": false
+        },
+        "cwd": {
+          "type": "string"
+        },
+        "configPath": {
+          "type": "string"
+        },
+        "framework": {
+          "type": "string",
+          "enum": ["react", "vue", "angular", "svelte", "vanilla"]
+        },
+        "build": {
+          "type": "object",
+          "properties": {
+            "outDir": {
+              "type": "string",
+              "default": "dist"
+            },
+            "clean": {
+              "type": "boolean",
+              "default": true
+            },
+            "sourcemap": {
+              "type": "boolean",
+              "default": false
+            },
+            "minify": {
+              "type": "boolean",
+              "default": true
+            },
+            "parallel": {
+              "type": "boolean",
+              "default": true
+            },
+            "maxConcurrency": {
+              "type": "number",
+              "default": 4
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "tokens": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "sourcePatterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": ["src/tokens/**/*.json", "src/tokens/**/*.yaml"]
+        },
+        "outputDirs": {
+          "type": "object",
+          "properties": {
+            "css": {
+              "type": "string",
+              "default": "dist/css"
+            },
+            "scss": {
+              "type": "string",
+              "default": "dist/scss"
+            },
+            "less": {
+              "type": "string",
+              "default": "dist/less"
+            },
+            "js": {
+              "type": "string",
+              "default": "dist/js"
+            },
+            "ts": {
+              "type": "string",
+              "default": "dist/ts"
+            },
+            "json": {
+              "type": "string",
+              "default": "dist/json"
+            }
+          },
+          "additionalProperties": false
+        },
+        "additionalScssDirectories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "outputFileNames": {
+          "type": "object",
+          "properties": {
+            "variables": {
+              "type": "string",
+              "default": "variables"
+            },
+            "utilities": {
+              "type": "string",
+              "default": "utilities"
+            },
+            "mixins": {
+              "type": "string",
+              "default": "mixins"
+            },
+            "tokens": {
+              "type": "string",
+              "default": "tokens"
+            }
+          },
+          "additionalProperties": false
+        },
+        "prefix": {
+          "type": "string",
+          "default": "dsai"
+        },
+        "mergeOrder": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": ["base", "semantic", "component"]
+        },
+        "createBundle": {
+          "type": "boolean",
+          "default": true
+        },
+        "bundleFileName": {
+          "type": "string",
+          "default": "bundle"
+        },
+        "formats": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["css", "scss", "less", "json", "js", "ts", "esm", "cjs"]
+          },
+          "default": ["css", "scss", "json"]
+        },
+        "platforms": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "format": {
+                "type": "string",
+                "enum": ["css", "scss", "less", "json", "js", "ts", "esm", "cjs"]
+              },
+              "outputDir": {
+                "type": "string"
+              },
+              "outputFileName": {
+                "type": "string"
+              },
+              "fileExtension": {
+                "type": "string"
+              },
+              "prefix": {
+                "type": "string"
+              },
+              "useVariables": {
+                "type": "boolean"
+              },
+              "selector": {
+                "type": "string"
+              },
+              "transforms": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "customTransforms": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "minLength": 1,
+                      "errorMessage": {
+                        "minLength": "Transform name is required"
+                      }
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": ["value", "attribute", "name"],
+                      "default": "value"
+                    }
+                  },
+                  "required": ["name"],
+                  "additionalProperties": false
+                }
+              },
+              "header": {
+                "type": "string"
+              },
+              "footer": {
+                "type": "string"
+              }
+            },
+            "required": ["format"],
+            "additionalProperties": false
+          }
+        },
+        "transforms": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "customTransforms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "errorMessage": {
+                  "minLength": "Transform name is required"
+                }
+              },
+              "description": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["value", "attribute", "name"],
+                "default": "value"
+              }
+            },
+            "required": ["name"],
+            "additionalProperties": false
+          },
+          "default": []
+        },
+        "customFormats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "errorMessage": {
+                  "minLength": "Format name is required"
+                }
+              },
+              "description": {
+                "type": "string"
+              },
+              "extension": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": ["name"],
+            "additionalProperties": false
+          },
+          "default": []
+        },
+        "hooks": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "cache": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "directory": {
+              "type": "string",
+              "default": ".cache"
+            },
+            "hashType": {
+              "type": "string",
+              "enum": ["content", "timestamp", "version", "none"],
+              "default": "content"
+            },
+            "maxAge": {
+              "type": "number",
+              "default": 86400000
+            }
+          },
+          "additionalProperties": false
+        },
+        "watch": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false
+            },
+            "debounce": {
+              "type": "number",
+              "default": 300
+            },
+            "clearScreen": {
+              "type": "boolean",
+              "default": true
+            },
+            "ignorePatterns": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            }
+          },
+          "additionalProperties": false
+        },
+        "verbose": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "themes": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "defaultMode": {
+          "type": "string",
+          "enum": ["light", "dark", "system"],
+          "default": "light"
+        },
+        "modes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "selector": {
+                "type": "string",
+                "minLength": 1,
+                "errorMessage": {
+                  "minLength": "Theme selector is required"
+                }
+              },
+              "mediaQuery": {
+                "type": "string"
+              },
+              "dataAttribute": {
+                "type": "string"
+              },
+              "cssVariables": {
+                "type": "boolean",
+                "default": true
+              },
+              "generateSeparateFiles": {
+                "type": "boolean",
+                "default": false
+              },
+              "prefix": {
+                "type": "string"
+              }
+            },
+            "required": ["selector"],
+            "additionalProperties": false
+          },
+          "default": {
+            "light": {
+              "selector": ":root",
+              "cssVariables": true,
+              "generateSeparateFiles": false
+            },
+            "dark": {
+              "selector": "[data-theme=\"dark\"]",
+              "mediaQuery": "(prefers-color-scheme: dark)",
+              "cssVariables": true,
+              "generateSeparateFiles": false
+            }
+          }
+        },
+        "outputFileName": {
+          "type": "string",
+          "default": "themes"
+        },
+        "colorScheme": {
+          "type": "object",
+          "properties": {
+            "light": {
+              "type": "string"
+            },
+            "dark": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "icons": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "sourceDir": {
+          "type": "string",
+          "default": "assets/icons"
+        },
+        "outputDir": {
+          "type": "string",
+          "default": "dist/icons"
+        },
+        "formats": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["svg", "react", "vue", "sprite", "font"]
+          },
+          "default": ["svg"]
+        },
+        "optimization": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "removeComments": {
+              "type": "boolean",
+              "default": true
+            },
+            "removeDimensions": {
+              "type": "boolean",
+              "default": false
+            },
+            "removeViewBox": {
+              "type": "boolean",
+              "default": false
+            },
+            "removeXMLNS": {
+              "type": "boolean",
+              "default": true
+            },
+            "cleanupIds": {
+              "type": "boolean",
+              "default": true
+            },
+            "minify": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "sprite": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "fileName": {
+              "type": "string",
+              "default": "icons"
+            },
+            "format": {
+              "type": "string",
+              "enum": ["symbol", "stack", "css"],
+              "default": "symbol"
+            },
+            "prefix": {
+              "type": "string",
+              "default": "icon-"
+            }
+          },
+          "additionalProperties": false
+        },
+        "componentPrefix": {
+          "type": "string",
+          "default": "Icon"
+        },
+        "componentSuffix": {
+          "type": "string",
+          "default": ""
+        },
+        "generateIndex": {
+          "type": "boolean",
+          "default": true
+        },
+        "generateTypes": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

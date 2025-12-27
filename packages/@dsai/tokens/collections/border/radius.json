@@ -13,9 +13,7 @@
             "scssVariableName": "$border-radius-none"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "$codeSyntax": {
           "WEB": "--dsai-border-radius-none",
           "ANDROID": "border.radius.none",
@@ -35,9 +33,7 @@
             "scssVariableName": "$border-radius-sm"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "$codeSyntax": {
           "WEB": "--dsai-border-radius-sm",
           "ANDROID": "border.radius.sm",
@@ -57,9 +53,7 @@
             "scssVariableName": "$border-radius"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "$codeSyntax": {
           "WEB": "--dsai-border-radius-md",
           "ANDROID": "border.radius.md",
@@ -79,9 +73,7 @@
             "scssVariableName": "$border-radius-lg"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "$codeSyntax": {
           "WEB": "--dsai-border-radius-lg",
           "ANDROID": "border.radius.lg",
@@ -101,9 +93,7 @@
             "scssVariableName": "$border-radius-xl"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "$codeSyntax": {
           "WEB": "--dsai-border-radius-xl",
           "ANDROID": "border.radius.xl",
@@ -123,9 +113,7 @@
             "scssVariableName": "$border-radius-full"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "$codeSyntax": {
           "WEB": "--dsai-border-radius-full",
           "ANDROID": "border.radius.full",
@@ -145,9 +133,7 @@
             "scssVariableName": "$border-radius-circle"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "$codeSyntax": {
           "WEB": "--dsai-border-radius-circle",
           "ANDROID": "border.radius.circle",
@@ -167,9 +153,7 @@
             "scssVariableName": "$border-radius-pill"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "$codeSyntax": {
           "WEB": "--dsai-border-radius-pill",
           "ANDROID": "border.radius.pill",
@@ -189,9 +173,7 @@
             "scssVariableName": "$border-radius-xxl"
           }
         },
-        "$scopes": [
-          "CORNER_RADIUS"
-        ],
+        "$scopes": ["CORNER_RADIUS"],
         "$codeSyntax": {
           "WEB": "--dsai-border-radius-xxl",
           "ANDROID": "border.radius.xxl",

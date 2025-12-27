@@ -252,6 +252,7 @@ export default [
       '@typescript-eslint/explicit-function-return-type': 'off',
       'react/jsx-boolean-value': 'off',
       'security/detect-object-injection': 'off',
+      'security/detect-non-literal-fs-filename': 'off',
     },
   },
 
@@ -261,10 +262,16 @@ export default [
   {
     files: ['**/*.stories.{ts,tsx,js,jsx}'],
     rules: {
-      'jsx-a11y/anchor-is-valid': 'off',
-      'jsx-a11y/anchor-has-content': 'off',
+      // Storybook often uses demo anchors - warn but don't block
+      'jsx-a11y/anchor-is-valid': 'warn',
+      'jsx-a11y/anchor-has-content': 'warn',
+      // Return types in stories add noise without value
       '@typescript-eslint/explicit-function-return-type': 'off',
-      'react/no-array-index-key': 'off',
+      // Static demo lists often use index keys safely
+      'react/no-array-index-key': 'warn',
+      // Quotes in demo text are common and low-risk
+      'react/no-unescaped-entities': 'warn',
+      // Keep hooks rule ON - stories should use proper component patterns
     },
   },
 
@@ -298,6 +305,21 @@ export default [
   },
 
   // =========================
+  // CommonJS config files at root
+  // =========================
+  {
+    files: ['*.cjs'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
+
+  // =========================
   // Figma code connect files
   // =========================
   {
@@ -305,6 +327,32 @@ export default [
     rules: {
       '@typescript-eslint/explicit-function-return-type': 'off',
       'react/jsx-key': 'off',
+    },
+  },
+
+  // =========================
+  // Figma plugin files (run inside Figma)
+  // =========================
+  {
+    files: ['tools/icons/figma-plugin-icons-tsx/**/*.js', 'tools/component-metadata/**/*.js'],
+    languageOptions: {
+      globals: {
+        figma: 'readonly',
+      },
+    },
+    rules: {
+      'no-undef': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
+
+  // =========================
+  // Dev resources with JSON import
+  // =========================
+  {
+    files: ['tools/dev-resources/**/*.mjs'],
+    rules: {
+      'import/no-unresolved': 'off',
     },
   },
 ];

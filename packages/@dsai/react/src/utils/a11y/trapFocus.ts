@@ -61,7 +61,7 @@ export function trapFocus(container: HTMLElement, options: TrapFocusOptions = {}
 
   // Input validation: ensure container is a valid element
   if (!container || !(container instanceof HTMLElement)) {
-  if (process.env['NODE_ENV'] !== 'production') {
+    if (process.env['NODE_ENV'] !== 'production') {
       console.warn('[trapFocus] Invalid container element provided');
     }
     return () => {};
@@ -73,7 +73,7 @@ export function trapFocus(container: HTMLElement, options: TrapFocusOptions = {}
   );
 
   if (focusable.length === 0) {
-  if (process.env['NODE_ENV'] !== 'production') {
+    if (process.env['NODE_ENV'] !== 'production') {
       console.warn('[trapFocus] No focusable elements found in container');
     }
     return () => {};

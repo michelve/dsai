@@ -54,8 +54,7 @@
     "tokenInputs": [
       "{projectRoot}/src/**/*",
       "sharedGlobals",
-      "{workspaceRoot}/tools/scripts/tokens/**/*",
-      "{workspaceRoot}/tools/scripts/analysis/**/*"
+      "{workspaceRoot}/packages/@dsai/tools/dist/**/*"
     ]
   },
 

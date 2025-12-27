@@ -1,0 +1,112 @@
+{
+  "theme": {
+    "primary": {
+      "$value": "{colors.brand.blue.500}",
+      "$type": "color",
+      "$description": "Primary theme color. Main brand color for primary CTAs, links, and key interactive elements. Use for primary buttons, active navigation, focus states. Bootstrap's --bs-primary maps to blue-500. Ensures consistent brand expression across all touchpoints. Verify 4.5:1 contrast on backgrounds.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/customize/color/#primary",
+          "section": "Customization",
+          "subsection": "Theme Colors - Primary"
+        },
+        "platform": {
+          "scssVariableName": "$theme-primary",
+          "lightMode": "true",
+          "darkMode": "false"
+        }
+      }
+    },
+    "secondary": {
+      "$value": "{colors.brand.gray.500}",
+      "$type": "color",
+      "$description": "Secondary theme color. Supporting UI elements, secondary actions, and muted emphasis. Use for secondary buttons, subtle badges, disabled state text. Bootstrap's --bs-secondary maps to gray-600. Provides visual hierarchy below primary actions. Meets WCAG AA for text.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/customize/color/#secondary"
+        },
+        "platform": {
+          "scssVariableName": "$theme-secondary"
+        }
+      }
+    },
+    "success": {
+      "$value": "{colors.brand.green.500}",
+      "$type": "color",
+      "$description": "Success theme color. Positive feedback, confirmations, and successful operations. Use for success messages, checkmarks, positive badges, form validation. Bootstrap's --bs-success maps to green-500. Universal indicator of positive outcomes. Ensure 4.5:1 with backgrounds.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/customize/color/#success"
+        },
+        "platform": {
+          "scssVariableName": "$theme-success"
+        }
+      }
+    },
+    "info": {
+      "$value": "{colors.brand.blue.500}",
+      "$type": "color",
+      "$description": "Info theme color. Informational content, tips, and neutral notifications. Use for info alerts, help text, tooltips, neutral badges. Bootstrap's --bs-info maps to cyan-500. Communicates helpful information without urgency. Maintain contrast standards.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/customize/color/#info"
+        },
+        "platform": {
+          "scssVariableName": "$theme-info"
+        }
+      }
+    },
+    "warning": {
+      "$value": "{colors.brand.yellow.500}",
+      "$type": "color",
+      "$description": "Warning theme color. Cautions, warnings, and important notices requiring attention. Use for warning alerts, pending states, cautionary badges. Bootstrap's --bs-warning maps to yellow-500. May require dark text overlay for accessibility. Test contrast carefully.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/customize/color/#warning"
+        },
+        "platform": {
+          "scssVariableName": "$theme-warning"
+        }
+      }
+    },
+    "danger": {
+      "$value": "{colors.brand.red.500}",
+      "$type": "color",
+      "$description": "Danger theme color. Errors, destructive actions, and critical alerts. Use for error messages, delete buttons, critical alerts, form errors. Bootstrap's --bs-danger maps to red-500. Universal indicator of risk or problems. Ensure strong contrast.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/customize/color/#danger"
+        },
+        "platform": {
+          "scssVariableName": "$theme-danger"
+        }
+      }
+    },
+    "light": {
+      "$value": "{colors.brand.gray.100}",
+      "$type": "color",
+      "$description": "Light theme color. Light backgrounds, subtle surfaces, and low-emphasis elements. Use for page backgrounds, card backgrounds, light UI surfaces. Bootstrap's --bs-light maps to gray-100. Provides subtle separation. Use with dark text (700+).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/customize/color/#light"
+        },
+        "platform": {
+          "scssVariableName": "$theme-light"
+        }
+      }
+    },
+    "dark": {
+      "$value": "{colors.brand.gray.900}",
+      "$type": "color",
+      "$description": "Light theme color. Light backgrounds, subtle surfaces, and low-emphasis elements. Use for page backgrounds, card backgrounds, light UI surfaces. Bootstrap's --bs-light maps to gray-100. Provides subtle separation. Use with dark text (700+).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/customize/color/#dark"
+        },
+        "platform": {
+          "scssVariableName": "$theme-dark"
+        }
+      }
+    }
+  }
+}

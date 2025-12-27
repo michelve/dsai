@@ -23,9 +23,7 @@
               "ANDROID": "layout.breakpoints.xs",
               "iOS": "Layout.Breakpoints.Xs"
             },
-            "$scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            "$scopes": ["WIDTH_HEIGHT"]
           },
           "sm": {
             "$value": 576,
@@ -47,9 +45,7 @@
               "ANDROID": "layout.breakpoints.sm",
               "iOS": "Layout.Breakpoints.Sm"
             },
-            "$scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            "$scopes": ["WIDTH_HEIGHT"]
           },
           "md": {
             "$value": 768,
@@ -71,9 +67,7 @@
               "ANDROID": "layout.breakpoints.md",
               "iOS": "Layout.Breakpoints.Md"
             },
-            "$scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            "$scopes": ["WIDTH_HEIGHT"]
           },
           "lg": {
             "$value": 992,
@@ -95,9 +89,7 @@
               "ANDROID": "layout.breakpoints.lg",
               "iOS": "Layout.Breakpoints.Lg"
             },
-            "$scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            "$scopes": ["WIDTH_HEIGHT"]
           },
           "xl": {
             "$value": 1200,
@@ -119,9 +111,7 @@
               "ANDROID": "layout.breakpoints.xl",
               "iOS": "Layout.Breakpoints.Xl"
             },
-            "$scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            "$scopes": ["WIDTH_HEIGHT"]
           },
           "xxl": {
             "$value": 1400,
@@ -143,9 +133,7 @@
               "ANDROID": "layout.breakpoints.xxl",
               "iOS": "Layout.Breakpoints.Xxl"
             },
-            "$scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            "$scopes": ["WIDTH_HEIGHT"]
           }
         },
         "container": {
@@ -170,9 +158,7 @@
                 "ANDROID": "layout.container.maxWidth.sm",
                 "iOS": "Layout.Container.MaxWidth.Sm"
               },
-              "$scopes": [
-                "WIDTH_HEIGHT"
-              ]
+              "$scopes": ["WIDTH_HEIGHT"]
             },
             "md": {
               "$value": 720,
@@ -194,9 +180,7 @@
                 "ANDROID": "layout.container.maxWidth.md",
                 "iOS": "Layout.Container.MaxWidth.Md"
               },
-              "$scopes": [
-                "WIDTH_HEIGHT"
-              ]
+              "$scopes": ["WIDTH_HEIGHT"]
             },
             "lg": {
               "$value": 960,
@@ -218,9 +202,7 @@
                 "ANDROID": "layout.container.maxWidth.lg",
                 "iOS": "Layout.Container.MaxWidth.Lg"
               },
-              "$scopes": [
-                "WIDTH_HEIGHT"
-              ]
+              "$scopes": ["WIDTH_HEIGHT"]
             },
             "xl": {
               "$value": 1140,
@@ -242,9 +224,7 @@
                 "ANDROID": "layout.container.maxWidth.xl",
                 "iOS": "Layout.Container.MaxWidth.Xl"
               },
-              "$scopes": [
-                "WIDTH_HEIGHT"
-              ]
+              "$scopes": ["WIDTH_HEIGHT"]
             },
             "xxl": {
               "$value": 1320,
@@ -266,9 +246,7 @@
                 "ANDROID": "layout.container.maxWidth.xxl",
                 "iOS": "Layout.Container.MaxWidth.Xxl"
               },
-              "$scopes": [
-                "WIDTH_HEIGHT"
-              ]
+              "$scopes": ["WIDTH_HEIGHT"]
             }
           },
           "padding-x": {
@@ -291,9 +269,7 @@
               "ANDROID": "layout.container.paddingX",
               "iOS": "Layout.Container.PaddingX"
             },
-            "$scopes": [
-              "GAP"
-            ]
+            "$scopes": ["GAP"]
           }
         },
         "grid": {
@@ -317,9 +293,7 @@
               "ANDROID": "layout.grid.columns",
               "iOS": "Layout.Grid.Columns"
             },
-            "$scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            "$scopes": ["WIDTH_HEIGHT"]
           },
           "gutter-width": {
             "$value": 24,
@@ -341,9 +315,7 @@
               "ANDROID": "layout.grid.gutterWidth",
               "iOS": "Layout.Grid.GutterWidth"
             },
-            "$scopes": [
-              "GAP"
-            ]
+            "$scopes": ["GAP"]
           },
           "row-columns": {
             "$value": 6,
@@ -365,9 +337,7 @@
               "ANDROID": "layout.grid.rowColumns",
               "iOS": "Layout.Grid.RowColumns"
             },
-            "$scopes": [
-              "WIDTH_HEIGHT"
-            ]
+            "$scopes": ["WIDTH_HEIGHT"]
           }
         },
         "gutters": {
@@ -390,9 +360,7 @@
               "ANDROID": "layout.gutters.0",
               "iOS": "Layout.Gutters.0"
             },
-            "$scopes": [
-              "GAP"
-            ]
+            "$scopes": ["GAP"]
           },
           "1": {
             "$value": 4,
@@ -413,9 +381,7 @@
               "ANDROID": "layout.gutters.1",
               "iOS": "Layout.Gutters.1"
             },
-            "$scopes": [
-              "GAP"
-            ]
+            "$scopes": ["GAP"]
           },
           "2": {
             "$value": 8,
@@ -436,9 +402,7 @@
               "ANDROID": "layout.gutters.2",
               "iOS": "Layout.Gutters.2"
             },
-            "$scopes": [
-              "GAP"
-            ]
+            "$scopes": ["GAP"]
           },
           "3": {
             "$value": 16,
@@ -459,9 +423,7 @@
               "ANDROID": "layout.gutters.3",
               "iOS": "Layout.Gutters.3"
             },
-            "$scopes": [
-              "GAP"
-            ]
+            "$scopes": ["GAP"]
           },
           "4": {
             "$value": 24,
@@ -482,9 +444,7 @@
               "ANDROID": "layout.gutters.4",
               "iOS": "Layout.Gutters.4"
             },
-            "$scopes": [
-              "GAP"
-            ]
+            "$scopes": ["GAP"]
           },
           "5": {
             "$value": 48,
@@ -505,9 +465,7 @@
               "ANDROID": "layout.gutters.5",
               "iOS": "Layout.Gutters.5"
             },
-            "$scopes": [
-              "GAP"
-            ]
+            "$scopes": ["GAP"]
           }
         }
       }

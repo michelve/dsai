@@ -16,8 +16,8 @@
  */
 
 const fs = require('node:fs');
-const path = require('node:path');
 const https = require('node:https');
+const path = require('node:path');
 
 // Configuration
 const _GITHUB_API_BASE = 'https://api.github.com';

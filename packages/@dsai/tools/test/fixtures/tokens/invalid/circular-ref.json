@@ -1,0 +1,8 @@
+{
+  "$description": "Tokens with circular references",
+  "circular": {
+    "a": { "$value": "{circular.b}" },
+    "b": { "$value": "{circular.c}" },
+    "c": { "$value": "{circular.a}" }
+  }
+}

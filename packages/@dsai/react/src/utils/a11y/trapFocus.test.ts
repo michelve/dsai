@@ -644,7 +644,9 @@ describe('trapFocus', () => {
   describe('Performance', () => {
     it('should handle containers with many focusable elements', () => {
       const buttons = Array.from({ length: 100 }, () => document.createElement('button'));
-      buttons.forEach((button) => container.appendChild(button));
+      for (const button of buttons) {
+        container.appendChild(button);
+      }
 
       const start = performance.now();
       const cleanup = trapFocus(container);

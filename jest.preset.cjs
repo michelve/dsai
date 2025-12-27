@@ -32,6 +32,8 @@ module.exports = {
 
   // Module resolution
   moduleNameMapper: {
+    // Handle .js extensions in TypeScript imports (ESM style imports)
+    '^(\\.{1,2}/.*)\\.js$': '$1',
     // Mock test utilities path
     '^@/test/(.*)$': '<rootDir>/test/$1',
     // Map TypeScript path aliases

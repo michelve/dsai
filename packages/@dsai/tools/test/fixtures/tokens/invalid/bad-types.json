@@ -1,0 +1,15 @@
+{
+  "$description": "Tokens with invalid type values",
+  "invalid": {
+    "$type": "not-a-real-type",
+    "value": { "$value": "test" }
+  },
+  "missing-value": {
+    "$type": "color",
+    "no-value": {}
+  },
+  "wrong-format": {
+    "$type": "color",
+    "bad-color": { "$value": "not-a-color" }
+  }
+}

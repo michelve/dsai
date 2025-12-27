@@ -9,9 +9,7 @@
             "scssVariableName": "$border-color-default"
           }
         },
-        "$scopes": [
-          "STROKE_COLOR"
-        ],
+        "$scopes": ["STROKE_COLOR"],
         "$codeSyntax": {
           "WEB": "--dsai-border-color-default",
           "ANDROID": "border.color.default",

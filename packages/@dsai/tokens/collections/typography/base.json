@@ -13,9 +13,7 @@
             "scssVariableName": "$font-size-base"
           }
         },
-        "$scopes": [
-          "FONT_SIZE"
-        ],
+        "$scopes": ["FONT_SIZE"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-font-size-base",
           "ANDROID": "typography.fontSize.base",
@@ -35,9 +33,7 @@
             "scssVariableName": "$font-size-sm"
           }
         },
-        "$scopes": [
-          "FONT_SIZE"
-        ],
+        "$scopes": ["FONT_SIZE"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-font-size-sm",
           "ANDROID": "typography.fontSize.sm",
@@ -57,9 +53,7 @@
             "scssVariableName": "$font-size-lg"
           }
         },
-        "$scopes": [
-          "FONT_SIZE"
-        ],
+        "$scopes": ["FONT_SIZE"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-font-size-lg",
           "ANDROID": "typography.fontSize.lg",
@@ -81,9 +75,7 @@
             "scssVariableName": "$font-weight-lighter"
           }
         },
-        "$scopes": [
-          "FONT_WEIGHT"
-        ],
+        "$scopes": ["FONT_WEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-font-weight-lighter",
           "ANDROID": "typography.fontWeight.lighter",
@@ -103,9 +95,7 @@
             "scssVariableName": "$font-weight-light"
           }
         },
-        "$scopes": [
-          "FONT_WEIGHT"
-        ],
+        "$scopes": ["FONT_WEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-font-weight-light",
           "ANDROID": "typography.fontWeight.light",
@@ -125,9 +115,7 @@
             "scssVariableName": "$font-weight-normal"
           }
         },
-        "$scopes": [
-          "FONT_WEIGHT"
-        ],
+        "$scopes": ["FONT_WEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-font-weight-normal",
           "ANDROID": "typography.fontWeight.normal",
@@ -147,9 +135,7 @@
             "scssVariableName": "$font-weight-medium"
           }
         },
-        "$scopes": [
-          "FONT_WEIGHT"
-        ],
+        "$scopes": ["FONT_WEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-font-weight-medium",
           "ANDROID": "typography.fontWeight.medium",
@@ -169,9 +155,7 @@
             "scssVariableName": "$font-weight-semibold"
           }
         },
-        "$scopes": [
-          "FONT_WEIGHT"
-        ],
+        "$scopes": ["FONT_WEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-font-weight-semibold",
           "ANDROID": "typography.fontWeight.semibold",
@@ -191,9 +175,7 @@
             "scssVariableName": "$font-weight-bold"
           }
         },
-        "$scopes": [
-          "FONT_WEIGHT"
-        ],
+        "$scopes": ["FONT_WEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-font-weight-bold",
           "ANDROID": "typography.fontWeight.bold",
@@ -213,9 +195,7 @@
             "scssVariableName": "$font-weight-bolder"
           }
         },
-        "$scopes": [
-          "FONT_WEIGHT"
-        ],
+        "$scopes": ["FONT_WEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-font-weight-bolder",
           "ANDROID": "typography.fontWeight.bolder",
@@ -237,9 +217,7 @@
             "scssVariableName": "$line-height-xs"
           }
         },
-        "$scopes": [
-          "LINE_HEIGHT"
-        ],
+        "$scopes": ["LINE_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-line-height-xs",
           "ANDROID": "typography.lineHeight.xs",
@@ -259,9 +237,7 @@
             "scssVariableName": "$line-height-sm"
           }
         },
-        "$scopes": [
-          "LINE_HEIGHT"
-        ],
+        "$scopes": ["LINE_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-line-height-sm",
           "ANDROID": "typography.lineHeight.sm",
@@ -281,9 +257,7 @@
             "scssVariableName": "$headings-line-height"
           }
         },
-        "$scopes": [
-          "LINE_HEIGHT"
-        ],
+        "$scopes": ["LINE_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-line-height-tight",
           "ANDROID": "typography.lineHeight.tight",
@@ -303,9 +277,7 @@
             "scssVariableName": "$line-height-base"
           }
         },
-        "$scopes": [
-          "LINE_HEIGHT"
-        ],
+        "$scopes": ["LINE_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-line-height-base",
           "ANDROID": "typography.lineHeight.base",
@@ -325,9 +297,7 @@
             "scssVariableName": "$line-height-relaxed"
           }
         },
-        "$scopes": [
-          "LINE_HEIGHT"
-        ],
+        "$scopes": ["LINE_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-line-height-relaxed",
           "ANDROID": "typography.lineHeight.relaxed",
@@ -347,9 +317,7 @@
             "scssVariableName": "$line-height-lg"
           }
         },
-        "$scopes": [
-          "LINE_HEIGHT"
-        ],
+        "$scopes": ["LINE_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-line-height-lg",
           "ANDROID": "typography.lineHeight.lg",
@@ -369,9 +337,7 @@
             "scssVariableName": "$display-line-height"
           }
         },
-        "$scopes": [
-          "LINE_HEIGHT"
-        ],
+        "$scopes": ["LINE_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-line-height-display-sm",
           "ANDROID": "typography.lineHeight.display-sm",
@@ -391,9 +357,7 @@
             "scssVariableName": "$display-line-height-md"
           }
         },
-        "$scopes": [
-          "LINE_HEIGHT"
-        ],
+        "$scopes": ["LINE_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-line-height-display-md",
           "ANDROID": "typography.lineHeight.display-md",
@@ -413,9 +377,7 @@
             "scssVariableName": "$display-line-height-lg"
           }
         },
-        "$scopes": [
-          "LINE_HEIGHT"
-        ],
+        "$scopes": ["LINE_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-line-height-display-lg",
           "ANDROID": "typography.lineHeight.display-lg",
@@ -438,9 +400,7 @@
               "scssVariableName": "$h1-font-size"
             }
           },
-          "$scopes": [
-            "FONT_SIZE"
-          ],
+          "$scopes": ["FONT_SIZE"],
           "$codeSyntax": {
             "WEB": "--dsai-typography-headings-h1-font-size",
             "ANDROID": "typography.headings.h1.fontSize",
@@ -462,9 +422,7 @@
               "scssVariableName": "$h2-font-size"
             }
           },
-          "$scopes": [
-            "FONT_SIZE"
-          ],
+          "$scopes": ["FONT_SIZE"],
           "$codeSyntax": {
             "WEB": "--dsai-typography-headings-h2-font-size",
             "ANDROID": "typography.headings.h2.fontSize",
@@ -486,9 +444,7 @@
               "scssVariableName": "$h3-font-size"
             }
           },
-          "$scopes": [
-            "FONT_SIZE"
-          ],
+          "$scopes": ["FONT_SIZE"],
           "$codeSyntax": {
             "WEB": "--dsai-typography-headings-h3-font-size",
             "ANDROID": "typography.headings.h3.fontSize",
@@ -510,9 +466,7 @@
               "scssVariableName": "$h4-font-size"
             }
           },
-          "$scopes": [
-            "FONT_SIZE"
-          ],
+          "$scopes": ["FONT_SIZE"],
           "$codeSyntax": {
             "WEB": "--dsai-typography-headings-h4-font-size",
             "ANDROID": "typography.headings.h4.fontSize",
@@ -534,9 +488,7 @@
               "scssVariableName": "$h5-font-size"
             }
           },
-          "$scopes": [
-            "FONT_SIZE"
-          ],
+          "$scopes": ["FONT_SIZE"],
           "$codeSyntax": {
             "WEB": "--dsai-typography-headings-h5-font-size",
             "ANDROID": "typography.headings.h5.fontSize",
@@ -558,9 +510,7 @@
               "scssVariableName": "$h6-font-size"
             }
           },
-          "$scopes": [
-            "FONT_SIZE"
-          ],
+          "$scopes": ["FONT_SIZE"],
           "$codeSyntax": {
             "WEB": "--dsai-typography-headings-h6-font-size",
             "ANDROID": "typography.headings.h6.fontSize",
@@ -581,9 +531,7 @@
             "scssVariableName": "$headings-font-weight"
           }
         },
-        "$scopes": [
-          "FONT_WEIGHT"
-        ],
+        "$scopes": ["FONT_WEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-headings-font-weight",
           "ANDROID": "typography.headings.fontWeight",
@@ -603,9 +551,7 @@
             "scssVariableName": "$headings-line-height"
           }
         },
-        "$scopes": [
-          "LINE_HEIGHT"
-        ],
+        "$scopes": ["LINE_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-headings-line-height",
           "ANDROID": "typography.headings.lineHeight",
@@ -628,9 +574,7 @@
               "scssVariableName": "$display-font-sizes: (1: 5rem)"
             }
           },
-          "$scopes": [
-            "FONT_SIZE"
-          ],
+          "$scopes": ["FONT_SIZE"],
           "$codeSyntax": {
             "WEB": "--dsai-typography-display-display1-font-size",
             "ANDROID": "typography.display.display1.fontSize",
@@ -652,9 +596,7 @@
               "scssVariableName": "$display-font-sizes: (2: 4.5rem)"
             }
           },
-          "$scopes": [
-            "FONT_SIZE"
-          ],
+          "$scopes": ["FONT_SIZE"],
           "$codeSyntax": {
             "WEB": "--dsai-typography-display-display2-font-size",
             "ANDROID": "typography.display.display2.fontSize",
@@ -676,9 +618,7 @@
               "scssVariableName": "$display-font-sizes: (3: 4rem)"
             }
           },
-          "$scopes": [
-            "FONT_SIZE"
-          ],
+          "$scopes": ["FONT_SIZE"],
           "$codeSyntax": {
             "WEB": "--dsai-typography-display-display3-font-size",
             "ANDROID": "typography.display.display3.fontSize",
@@ -700,9 +640,7 @@
               "scssVariableName": "$display-font-sizes: (4: 3.5rem)"
             }
           },
-          "$scopes": [
-            "FONT_SIZE"
-          ],
+          "$scopes": ["FONT_SIZE"],
           "$codeSyntax": {
             "WEB": "--dsai-typography-display-display4-font-size",
             "ANDROID": "typography.display.display4.fontSize",
@@ -724,9 +662,7 @@
               "scssVariableName": "$display-font-sizes: (5: 3rem)"
             }
           },
-          "$scopes": [
-            "FONT_SIZE"
-          ],
+          "$scopes": ["FONT_SIZE"],
           "$codeSyntax": {
             "WEB": "--dsai-typography-display-display5-font-size",
             "ANDROID": "typography.display.display5.fontSize",
@@ -748,9 +684,7 @@
               "scssVariableName": "$display-font-sizes: (6: 2.5rem)"
             }
           },
-          "$scopes": [
-            "FONT_SIZE"
-          ],
+          "$scopes": ["FONT_SIZE"],
           "$codeSyntax": {
             "WEB": "--dsai-typography-display-display6-font-size",
             "ANDROID": "typography.display.display6.fontSize",
@@ -771,9 +705,7 @@
             "scssVariableName": "$display-font-weight"
           }
         },
-        "$scopes": [
-          "FONT_WEIGHT"
-        ],
+        "$scopes": ["FONT_WEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-display-font-weight",
           "ANDROID": "typography.display.fontWeight",
@@ -793,9 +725,7 @@
             "scssVariableName": "$display-line-height"
           }
         },
-        "$scopes": [
-          "LINE_HEIGHT"
-        ],
+        "$scopes": ["LINE_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-display-line-height",
           "ANDROID": "typography.display.lineHeight",
@@ -817,9 +747,7 @@
             "scssVariableName": "$lead-font-size"
           }
         },
-        "$scopes": [
-          "FONT_SIZE"
-        ],
+        "$scopes": ["FONT_SIZE"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-lead-font-size",
           "ANDROID": "typography.lead.fontSize",
@@ -839,9 +767,7 @@
             "scssVariableName": "$lead-font-weight"
           }
         },
-        "$scopes": [
-          "FONT_WEIGHT"
-        ],
+        "$scopes": ["FONT_WEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-lead-font-weight",
           "ANDROID": "typography.lead.fontWeight",
@@ -863,9 +789,7 @@
             "scssVariableName": "$small-font-size"
           }
         },
-        "$scopes": [
-          "FONT_SIZE"
-        ],
+        "$scopes": ["FONT_SIZE"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-small-font-size",
           "ANDROID": "typography.small.fontSize",
@@ -887,9 +811,7 @@
             "scssVariableName": "$letter-spacing-tighter"
           }
         },
-        "$scopes": [
-          "LETTER_SPACING"
-        ],
+        "$scopes": ["LETTER_SPACING"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-letter-spacing-tighter",
           "ANDROID": "typography.letterSpacing.tighter",
@@ -909,9 +831,7 @@
             "scssVariableName": "$letter-spacing-tight"
           }
         },
-        "$scopes": [
-          "LETTER_SPACING"
-        ],
+        "$scopes": ["LETTER_SPACING"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-letter-spacing-tight",
           "ANDROID": "typography.letterSpacing.tight",
@@ -931,9 +851,7 @@
             "scssVariableName": "$letter-spacing-normal"
           }
         },
-        "$scopes": [
-          "LETTER_SPACING"
-        ],
+        "$scopes": ["LETTER_SPACING"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-letter-spacing-normal",
           "ANDROID": "typography.letterSpacing.normal",
@@ -953,9 +871,7 @@
             "scssVariableName": "$letter-spacing-wide"
           }
         },
-        "$scopes": [
-          "LETTER_SPACING"
-        ],
+        "$scopes": ["LETTER_SPACING"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-letter-spacing-wide",
           "ANDROID": "typography.letterSpacing.wide",
@@ -975,9 +891,7 @@
             "scssVariableName": "$letter-spacing-wider"
           }
         },
-        "$scopes": [
-          "LETTER_SPACING"
-        ],
+        "$scopes": ["LETTER_SPACING"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-letter-spacing-wider",
           "ANDROID": "typography.letterSpacing.wider",
@@ -997,9 +911,7 @@
             "scssVariableName": "$letter-spacing-widest"
           }
         },
-        "$scopes": [
-          "LETTER_SPACING"
-        ],
+        "$scopes": ["LETTER_SPACING"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-letter-spacing-widest",
           "ANDROID": "typography.letterSpacing.widest",
@@ -1022,9 +934,7 @@
             "fontStack": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", \"Noto Sans\", \"Liberation Sans\", Arial, sans-serif"
           }
         },
-        "$scopes": [
-          "FONT_FAMILY"
-        ],
+        "$scopes": ["FONT_FAMILY"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-font-family-base",
           "ANDROID": "typography.fontFamily.base",
@@ -1045,9 +955,7 @@
             "fontStack": "SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace"
           }
         },
-        "$scopes": [
-          "FONT_FAMILY"
-        ],
+        "$scopes": ["FONT_FAMILY"],
         "$codeSyntax": {
           "WEB": "--dsai-typography-font-family-monospace",
           "ANDROID": "typography.fontFamily.monospace",

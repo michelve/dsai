@@ -4,9 +4,9 @@
  */
 
 export const exportTokens = async (): Promise<void> => {
-  console.log('Figma token export not yet implemented');
+  console.warn('Figma token export not yet implemented');
 };
 
 export const syncFigma = async (): Promise<void> => {
-  console.log('Figma sync not yet implemented');
+  console.warn('Figma sync not yet implemented');
 };

@@ -16,9 +16,7 @@
             "darkMode": "true"
           }
         },
-        "$scopes": [
-          "WIDTH_HEIGHT"
-        ],
+        "$scopes": ["WIDTH_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-layout-grid-columns",
           "ANDROID": "layout.grid.columns",
@@ -41,9 +39,7 @@
             "darkMode": "true"
           }
         },
-        "$scopes": [
-          "GAP"
-        ],
+        "$scopes": ["GAP"],
         "$codeSyntax": {
           "WEB": "--dsai-layout-grid-gutter-width",
           "ANDROID": "layout.grid.gutterWidth",
@@ -66,9 +62,7 @@
             "darkMode": "true"
           }
         },
-        "$scopes": [
-          "WIDTH_HEIGHT"
-        ],
+        "$scopes": ["WIDTH_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-layout-grid-row-columns",
           "ANDROID": "layout.grid.rowColumns",
@@ -92,9 +86,7 @@
             "darkMode": "true"
           }
         },
-        "$scopes": [
-          "GAP"
-        ],
+        "$scopes": ["GAP"],
         "$codeSyntax": {
           "WEB": "--dsai-layout-gutters-0",
           "ANDROID": "layout.gutters.0",
@@ -115,9 +107,7 @@
             "darkMode": "true"
           }
         },
-        "$scopes": [
-          "GAP"
-        ],
+        "$scopes": ["GAP"],
         "$codeSyntax": {
           "WEB": "--dsai-layout-gutters-1",
           "ANDROID": "layout.gutters.1",
@@ -138,9 +128,7 @@
             "darkMode": "true"
           }
         },
-        "$scopes": [
-          "GAP"
-        ],
+        "$scopes": ["GAP"],
         "$codeSyntax": {
           "WEB": "--dsai-layout-gutters-2",
           "ANDROID": "layout.gutters.2",
@@ -161,9 +149,7 @@
             "darkMode": "true"
           }
         },
-        "$scopes": [
-          "GAP"
-        ],
+        "$scopes": ["GAP"],
         "$codeSyntax": {
           "WEB": "--dsai-layout-gutters-3",
           "ANDROID": "layout.gutters.3",
@@ -184,9 +170,7 @@
             "darkMode": "true"
           }
         },
-        "$scopes": [
-          "GAP"
-        ],
+        "$scopes": ["GAP"],
         "$codeSyntax": {
           "WEB": "--dsai-layout-gutters-4",
           "ANDROID": "layout.gutters.4",
@@ -207,9 +191,7 @@
             "darkMode": "true"
           }
         },
-        "$scopes": [
-          "GAP"
-        ],
+        "$scopes": ["GAP"],
         "$codeSyntax": {
           "WEB": "--dsai-layout-gutters-5",
           "ANDROID": "layout.gutters.5",

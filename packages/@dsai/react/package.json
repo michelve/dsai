@@ -60,7 +60,7 @@
     "dev": "tsup --watch",
     "test": "echo 'Test components'",
     "lint": "echo 'Lint components'",
-    "icons:generate": "node ../../tools/scripts/icons/generate-icons.cjs",
+    "icons:generate": "dsai icons build --format react",
     "icons:figma": "node ../../tools/scripts/icons/generate-figma-code-connect.cjs",
     "figma:connect": "figma connect",
     "figma:validate": "figma connect validate",
@@ -82,6 +82,7 @@
     "@floating-ui/react": "^0.27.16"
   },
   "devDependencies": {
+    "@dsai/tools": "workspace:*",
     "@figma/code-connect": "^1.3.0"
   },
   "license": "UNLICENSED",

@@ -6,11 +6,48 @@
   "targets": {
     "build": {
       "executor": "nx:run-commands",
-      "dependsOn": ["^build"],
+      "dependsOn": ["validate", "^build"],
       "outputs": ["{projectRoot}/dist"],
       "options": {
-        "cwd": "packages/@dsai/tokens",
-        "command": "tsup && tsc --emitDeclarationOnly --outDir dist"
+        "cwd": "{projectRoot}",
+        "commands": [
+          "style-dictionary build --config sd.config.mjs",
+          "dsai tokens sync",
+          "pnpm build:theme",
+          "pnpm build:dsai",
+          "tsup",
+          "tsc --emitDeclarationOnly --outDir dist"
+        ],
+        "parallel": false
+      }
+    },
+    "build:tokens": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "style-dictionary build --config sd.config.mjs"
+      }
+    },
+    "validate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "dsai tokens validate"
+      }
+    },
+    "sync": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "dsai tokens sync"
+      }
+    },
+    "watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "style-dictionary build --config sd.config.mjs --watch"
       }
     },
     "test": {

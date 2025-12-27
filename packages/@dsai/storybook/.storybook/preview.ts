@@ -95,36 +95,41 @@ const preview: Preview = {
   decorators: [
     // Theme decorator - applies data-dsai-theme attribute based on toolbar selection
     (Story, context) => {
-      const theme = (context.globals['theme'] as string) || 'light';
+      const theme = (context.globals.theme as string) || 'light';
 
-      // Apply theme to document for CSS variable cascading
-      React.useEffect(() => {
-        document.documentElement.setAttribute('data-dsai-theme', theme);
-        document.body.setAttribute('data-dsai-theme', theme);
+      // Create a wrapper component to properly use React hooks
+      const ThemedWrapper: React.FC = () => {
+        // Apply theme to document for CSS variable cascading
+        React.useEffect(() => {
+          document.documentElement.setAttribute('data-dsai-theme', theme);
+          document.body.setAttribute('data-dsai-theme', theme);
 
-        // Apply background color based on theme for the Storybook canvas
-        if (theme === 'dark') {
-          document.body.style.backgroundColor = '#212529';
-          document.body.style.color = '#dfe1e5';
-        } else {
-          document.body.style.backgroundColor = '#ffffff';
-          document.body.style.color = '#212529';
-        }
-      }, [theme]);
+          // Apply background color based on theme for the Storybook canvas
+          if (theme === 'dark') {
+            document.body.style.backgroundColor = '#212529';
+            document.body.style.color = '#dfe1e5';
+          } else {
+            document.body.style.backgroundColor = '#ffffff';
+            document.body.style.color = '#212529';
+          }
+        }, []);
 
-      return React.createElement(
-        'div',
-        {
-          'data-dsai-theme': theme,
-          style: {
-            backgroundColor: theme === 'dark' ? '#212529' : '#ffffff',
-            color: theme === 'dark' ? '#dfe1e5' : '#212529',
-            minHeight: '100%',
-            padding: '1rem',
+        return React.createElement(
+          'div',
+          {
+            'data-dsai-theme': theme,
+            style: {
+              backgroundColor: theme === 'dark' ? '#212529' : '#ffffff',
+              color: theme === 'dark' ? '#dfe1e5' : '#212529',
+              minHeight: '100%',
+              padding: '1rem',
+            },
           },
-        },
-        React.createElement(Story, null)
-      );
+          React.createElement(Story, null)
+        );
+      };
+
+      return React.createElement(ThemedWrapper);
     },
   ],
 

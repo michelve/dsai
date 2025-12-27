@@ -10,7 +10,7 @@ console.log('🔄 Applying export format to colors.json...\n');
 
 // Function to simplify a color token to match export format
 function simplifyColorToken(token) {
-  if (!token || typeof token !== 'object') return token;
+  if (!token || typeof token !== 'object') {return token;}
 
   const simplified = {
     $codeSyntax: token.$codeSyntax || {},
@@ -25,7 +25,7 @@ function simplifyColorToken(token) {
 
 // Function to process a color object recursively
 function processColors(obj) {
-  if (!obj || typeof obj !== 'object') return obj;
+  if (!obj || typeof obj !== 'object') {return obj;}
 
   // If this looks like a color token (has $value), simplify it
   if (obj.$value !== undefined) {

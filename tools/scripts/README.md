@@ -2,14 +2,21 @@
 
 This directory contains utility scripts for the DSAi design system, organized by functionality.
 
+> **Note:** Core token operations have been migrated to `@dsai/tools`. Use the `dsai` CLI for:
+>
+> - Token validation: `dsai tokens validate`
+> - Token building: `pnpm nx build @dsai/tokens`
+> - Token sync: `dsai tokens sync`
+
 ## Directory Structure
 
 ```plaintext
 tools/scripts/
 ├── analysis/       # Code analysis and validation tools
 ├── github/         # GitHub/CI automation scripts
-├── storybook/      # Storybook utilities
-└── tokens/         # Design token transformation and validation
+├── icons/          # Icon generation utilities
+├── storybook/      # Storybook shell scripts
+└── tokens/         # One-off token utilities
 ```
 
 ## Scripts by Category
@@ -34,45 +41,50 @@ tools/scripts/
 | `kill-storybook.sh`   | Kills any running Storybook processes | `pnpm --filter @dsai/storybook kill`   |
 | `verify-storybook.sh` | Verifies Storybook build              | `pnpm --filter @dsai/storybook verify` |
 
-### 🎨 Tokens (`tokens/`)
+### 🎨 Icons (`icons/`)
 
-| Script                           | Description                              | Usage                                              |
-| -------------------------------- | ---------------------------------------- | -------------------------------------------------- |
-| `transform-figma-tokens.js`      | Transforms Figma exports to DTCG format  | `pnpm tokens:transform`                            |
-| `validate-tokens.js`             | Validates token structure and values     | `pnpm tokens:validate`                             |
-| `validate-figma-tokens.js`       | Validates Figma export files             | `pnpm --filter @dsai/tokens tokens:validate:figma` |
-| `sync-tokens-flat.js`            | Syncs flattened token structure          | Internal build step                                |
-| `generate-token-index.js`        | Generates token index exports            | Internal build step                                |
-| `merge-tokens.js`                | Merges multiple token files              | Utility                                            |
-| `merge-collections.js`           | Merges token collections                 | Utility                                            |
-| `add-color-descriptions.js`      | Adds descriptions to color tokens        | Utility                                            |
-| `enhance-color-tokens.js`        | Enhances color token metadata            | Utility                                            |
-| `apply-export-format.js`         | Applies export format to tokens          | Utility                                            |
-| `copy-light-to-dark.js`          | Copies light mode values to dark mode    | Utility                                            |
-| `fix-dark-mode-colors.js`        | Fixes dark mode color values             | Utility                                            |
-| `update-descriptions-from-md.js` | Updates token descriptions from markdown | Utility                                            |
+| Script                            | Description                          | Usage          |
+| --------------------------------- | ------------------------------------ | -------------- |
+| `generate-icons.cjs`              | Generate icon components             | Manual utility |
+| `generate-figma-code-connect.cjs` | Generate Figma Code Connect mappings | Manual utility |
+| `update-icon-jsdoc.cjs`           | Update JSDoc comments on icons       | Manual utility |
+| `fetch-icon-metadata.cjs`         | Fetch icon metadata from sources     | Manual utility |
 
-## npm Scripts (Root)
+### 🎨 Tokens (`tokens/`) - One-Off Utilities
+
+These are utility scripts for specific token operations. For main token operations, use the `dsai` CLI.
+
+| Script                            | Description                              | Usage           |
+| --------------------------------- | ---------------------------------------- | --------------- |
+| `validate-figma-tokens.cjs`       | Validates raw Figma export files         | Manual utility  |
+| `add-color-descriptions.cjs`      | Adds descriptions to color tokens        | One-off utility |
+| `enhance-color-tokens.cjs`        | Enhances color token metadata            | One-off utility |
+| `apply-export-format.cjs`         | Applies export format to tokens          | One-off utility |
+| `copy-light-to-dark.cjs`          | Copies light mode values to dark mode    | One-off utility |
+| `fix-dark-mode-colors.cjs`        | Fixes dark mode color values             | One-off utility |
+| `fix-dark-description.cjs`        | Fixes dark mode descriptions             | One-off utility |
+| `generate-token-index.cjs`        | Generates token index file               | One-off utility |
+| `update-descriptions-from-md.cjs` | Updates token descriptions from markdown | One-off utility |
+
+## npm Scripts
+
+### Root Package
 
 ```bash
-# Token operations
-pnpm tokens:transform    # Transform Figma tokens
-pnpm tokens:validate     # Validate token structure
-pnpm tokens:build        # Transform + validate
-
 # Analysis
 pnpm analyze:buttons     # Analyze Button component usage
 ```
 
-## npm Scripts (@dsai/tokens)
+### @DSAi/tokens
 
 ```bash
-pnpm --filter @dsai/tokens tokens:validate:figma      # Validate Figma exports
-pnpm --filter @dsai/tokens tokens:transform           # Transform to DTCG
-pnpm --filter @dsai/tokens tokens:build               # Full token build
+# Use dsai CLI for token operations
+pnpm dsai tokens validate     # Validate token structure
+pnpm dsai tokens sync         # Sync tokens-flat.ts
+pnpm nx build @dsai/tokens    # Full token build pipeline
 ```
 
-## npm Scripts (@dsai/storybook)
+### @DSAi/storybook
 
 ```bash
 pnpm --filter @dsai/storybook kill     # Kill Storybook processes

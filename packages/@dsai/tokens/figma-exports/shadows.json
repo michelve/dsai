@@ -13,9 +13,7 @@
                 "ANDROID": "shadow.default.color",
                 "iOS": "Shadow.Default.Color"
               },
-              "$scopes": [
-                "EFFECT_COLOR"
-              ]
+              "$scopes": ["EFFECT_COLOR"]
             },
             "offsetX": {
               "$value": 0,
@@ -26,9 +24,7 @@
                 "ANDROID": "shadow.default.offsetX",
                 "iOS": "Shadow.Default.OffsetX"
               },
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "offsetY": {
               "$value": 8,
@@ -39,9 +35,7 @@
                 "ANDROID": "shadow.default.offsetY",
                 "iOS": "Shadow.Default.OffsetY"
               },
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "blur": {
               "$value": 16,
@@ -52,9 +46,7 @@
                 "ANDROID": "shadow.default.blur",
                 "iOS": "Shadow.Default.Blur"
               },
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "spread": {
               "$value": 0,
@@ -65,9 +57,7 @@
                 "ANDROID": "shadow.default.spread",
                 "iOS": "Shadow.Default.Spread"
               },
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "composite": {
               "$value": "0 0.5rem 1rem rgba(0, 0, 0, 0.15)",
@@ -86,9 +76,7 @@
                 "ANDROID": "shadow.default",
                 "iOS": "Shadow.Default"
               },
-              "$scopes": [
-                "TEXT_CONTENT"
-              ]
+              "$scopes": ["TEXT_CONTENT"]
             }
           },
           "sm": {
@@ -101,9 +89,7 @@
                 "ANDROID": "shadow.sm.color",
                 "iOS": "Shadow.Sm.Color"
               },
-              "$scopes": [
-                "EFFECT_COLOR"
-              ]
+              "$scopes": ["EFFECT_COLOR"]
             },
             "offsetX": {
               "$value": 0,
@@ -114,9 +100,7 @@
                 "ANDROID": "shadow.sm.offsetX",
                 "iOS": "Shadow.Sm.OffsetX"
               },
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "offsetY": {
               "$value": 2,
@@ -127,9 +111,7 @@
                 "ANDROID": "shadow.sm.offsetY",
                 "iOS": "Shadow.Sm.OffsetY"
               },
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "blur": {
               "$value": 4,
@@ -140,9 +122,7 @@
                 "ANDROID": "shadow.sm.blur",
                 "iOS": "Shadow.Sm.Blur"
               },
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "spread": {
               "$value": 0,
@@ -153,9 +133,7 @@
                 "ANDROID": "shadow.sm.spread",
                 "iOS": "Shadow.Sm.Spread"
               },
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "composite": {
               "$value": "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)",
@@ -174,9 +152,7 @@
                 "ANDROID": "shadow.sm",
                 "iOS": "Shadow.Sm"
               },
-              "$scopes": [
-                "TEXT_CONTENT"
-              ]
+              "$scopes": ["TEXT_CONTENT"]
             }
           },
           "lg": {
@@ -189,9 +165,7 @@
                 "ANDROID": "shadow.lg.color",
                 "iOS": "Shadow.Lg.Color"
               },
-              "$scopes": [
-                "EFFECT_COLOR"
-              ]
+              "$scopes": ["EFFECT_COLOR"]
             },
             "offsetX": {
               "$value": 0,
@@ -202,9 +176,7 @@
                 "ANDROID": "shadow.lg.offsetX",
                 "iOS": "Shadow.Lg.OffsetX"
               },
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "offsetY": {
               "$value": 16,
@@ -215,9 +187,7 @@
                 "ANDROID": "shadow.lg.offsetY",
                 "iOS": "Shadow.Lg.OffsetY"
               },
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "blur": {
               "$value": 48,
@@ -228,9 +198,7 @@
                 "ANDROID": "shadow.lg.blur",
                 "iOS": "Shadow.Lg.Blur"
               },
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "spread": {
               "$value": 0,
@@ -241,9 +209,7 @@
                 "ANDROID": "shadow.lg.spread",
                 "iOS": "Shadow.Lg.Spread"
               },
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "composite": {
               "$value": "0 1rem 3rem rgba(0, 0, 0, 0.175)",
@@ -262,9 +228,7 @@
                 "ANDROID": "shadow.lg",
                 "iOS": "Shadow.Lg"
               },
-              "$scopes": [
-                "TEXT_CONTENT"
-              ]
+              "$scopes": ["TEXT_CONTENT"]
             }
           },
           "inset": {
@@ -277,9 +241,7 @@
                 "ANDROID": "shadow.inset.color",
                 "iOS": "Shadow.Inset.Color"
               },
-              "$scopes": [
-                "EFFECT_COLOR"
-              ]
+              "$scopes": ["EFFECT_COLOR"]
             },
             "offsetX": {
               "$value": 0,
@@ -290,9 +252,7 @@
                 "ANDROID": "shadow.inset.offsetX",
                 "iOS": "Shadow.Inset.OffsetX"
               },
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "offsetY": {
               "$value": 1,
@@ -303,9 +263,7 @@
                 "ANDROID": "shadow.inset.offsetY",
                 "iOS": "Shadow.Inset.OffsetY"
               },
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "blur": {
               "$value": 2,
@@ -316,9 +274,7 @@
                 "ANDROID": "shadow.inset.blur",
                 "iOS": "Shadow.Inset.Blur"
               },
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "spread": {
               "$value": 0,
@@ -329,9 +285,7 @@
                 "ANDROID": "shadow.inset.spread",
                 "iOS": "Shadow.Inset.Spread"
               },
-              "$scopes": [
-                "EFFECT_FLOAT"
-              ]
+              "$scopes": ["EFFECT_FLOAT"]
             },
             "composite": {
               "$value": "inset 0 1px 2px rgba(0, 0, 0, 0.075)",
@@ -350,9 +304,7 @@
                 "ANDROID": "shadow.inset",
                 "iOS": "Shadow.Inset"
               },
-              "$scopes": [
-                "TEXT_CONTENT"
-              ]
+              "$scopes": ["TEXT_CONTENT"]
             }
           }
         }

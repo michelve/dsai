@@ -16,9 +16,7 @@
             "darkMode": "true"
           }
         },
-        "$scopes": [
-          "WIDTH_HEIGHT"
-        ],
+        "$scopes": ["WIDTH_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-layout-breakpoints-xs",
           "ANDROID": "layout.breakpoints.xs",
@@ -41,9 +39,7 @@
             "darkMode": "true"
           }
         },
-        "$scopes": [
-          "WIDTH_HEIGHT"
-        ],
+        "$scopes": ["WIDTH_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-layout-breakpoints-sm",
           "ANDROID": "layout.breakpoints.sm",
@@ -66,9 +62,7 @@
             "darkMode": "true"
           }
         },
-        "$scopes": [
-          "WIDTH_HEIGHT"
-        ],
+        "$scopes": ["WIDTH_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-layout-breakpoints-md",
           "ANDROID": "layout.breakpoints.md",
@@ -91,9 +85,7 @@
             "darkMode": "true"
           }
         },
-        "$scopes": [
-          "WIDTH_HEIGHT"
-        ],
+        "$scopes": ["WIDTH_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-layout-breakpoints-lg",
           "ANDROID": "layout.breakpoints.lg",
@@ -116,9 +108,7 @@
             "darkMode": "true"
           }
         },
-        "$scopes": [
-          "WIDTH_HEIGHT"
-        ],
+        "$scopes": ["WIDTH_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-layout-breakpoints-xl",
           "ANDROID": "layout.breakpoints.xl",
@@ -141,9 +131,7 @@
             "darkMode": "true"
           }
         },
-        "$scopes": [
-          "WIDTH_HEIGHT"
-        ],
+        "$scopes": ["WIDTH_HEIGHT"],
         "$codeSyntax": {
           "WEB": "--dsai-layout-breakpoints-xxl",
           "ANDROID": "layout.breakpoints.xxl",

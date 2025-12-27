@@ -666,7 +666,7 @@ class ButtonUsageAnalyzer {
    */
   getExitCode() {
     const summary = this.getSummary();
-    if (summary.errors > 0) return 1;
+    if (summary.errors > 0) {return 1;}
     return 0;
   }
 }

@@ -9,26 +9,29 @@ import { toHaveNoViolations } from 'jest-axe';
 // Extend Jest matchers with jest-axe
 expect.extend(toHaveNoViolations);
 
-// Mock window.matchMedia (not implemented in jsdom)
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: jest.fn().mockImplementation((query) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: jest.fn(), // Deprecated
-    removeListener: jest.fn(), // Deprecated
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-  })),
-});
+// Only run browser-specific mocks in jsdom environment
+if (typeof window !== 'undefined') {
+  // Mock window.matchMedia (not implemented in jsdom)
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: jest.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(), // Deprecated
+      removeListener: jest.fn(), // Deprecated
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })),
+  });
 
-// Mock window.scrollTo (not implemented in jsdom)
-Object.defineProperty(window, 'scrollTo', {
-  writable: true,
-  value: jest.fn(),
-});
+  // Mock window.scrollTo (not implemented in jsdom)
+  Object.defineProperty(window, 'scrollTo', {
+    writable: true,
+    value: jest.fn(),
+  });
+}
 
 // Mock IntersectionObserver (not implemented in jsdom)
 (global as typeof globalThis & { IntersectionObserver: unknown }).IntersectionObserver =

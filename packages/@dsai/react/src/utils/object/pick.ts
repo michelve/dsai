@@ -71,8 +71,9 @@ export function pick<T extends Record<string, unknown>, K extends keyof T>(
       throw new Error(`pick prototype pollution attempt detected: ${String(key)}`);
     }
 
+    const hasOwn = Object.prototype.hasOwnProperty;
     // Only copy if key exists in source object (own property)
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+    if (hasOwn.call(obj, key)) {
       (result as Record<string, unknown>)[key as string] = obj[key];
     }
   }

@@ -12,9 +12,7 @@
           "scssVariableName": "$semantic-border-color-translucent"
         }
       },
-      "$scopes": [
-        "STROKE_COLOR"
-      ],
+      "$scopes": ["STROKE_COLOR"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-border-color-translucent",
         "ANDROID": "semantic.borderColorTranslucent",
@@ -31,9 +29,7 @@
           "scssVariableName": "$semantic-body-color"
         }
       },
-      "$scopes": [
-        "TEXT_FILL"
-      ],
+      "$scopes": ["TEXT_FILL"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-body-color",
         "ANDROID": "semantic.bodyColor",
@@ -50,9 +46,7 @@
           "scssVariableName": "$semantic-body-bg"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-body-bg",
         "ANDROID": "semantic.bodyBg",
@@ -69,9 +63,7 @@
           "scssVariableName": "$semantic-emphasis-color"
         }
       },
-      "$scopes": [
-        "TEXT_FILL"
-      ],
+      "$scopes": ["TEXT_FILL"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-emphasis-color",
         "ANDROID": "semantic.emphasisColor",
@@ -88,9 +80,7 @@
           "scssVariableName": "$semantic-secondary-color"
         }
       },
-      "$scopes": [
-        "TEXT_FILL"
-      ],
+      "$scopes": ["TEXT_FILL"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-secondary-color",
         "ANDROID": "semantic.secondaryColor",
@@ -107,9 +97,7 @@
           "scssVariableName": "$semantic-secondary-bg"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-secondary-bg",
         "ANDROID": "semantic.secondaryBg",
@@ -126,9 +114,7 @@
           "scssVariableName": "$semantic-tertiary-color"
         }
       },
-      "$scopes": [
-        "TEXT_FILL"
-      ],
+      "$scopes": ["TEXT_FILL"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-tertiary-color",
         "ANDROID": "semantic.tertiaryColor",
@@ -145,9 +131,7 @@
           "scssVariableName": "$semantic-tertiary-bg"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-tertiary-bg",
         "ANDROID": "semantic.tertiaryBg",
@@ -164,9 +148,7 @@
           "scssVariableName": "$semantic-link-color"
         }
       },
-      "$scopes": [
-        "TEXT_FILL"
-      ],
+      "$scopes": ["TEXT_FILL"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-link-color",
         "ANDROID": "semantic.linkColor",
@@ -183,9 +165,7 @@
           "scssVariableName": "$semantic-link-hover-color"
         }
       },
-      "$scopes": [
-        "TEXT_FILL"
-      ],
+      "$scopes": ["TEXT_FILL"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-link-hover-color",
         "ANDROID": "semantic.linkHoverColor",
@@ -202,9 +182,7 @@
           "scssVariableName": "$semantic-border-color"
         }
       },
-      "$scopes": [
-        "STROKE_COLOR"
-      ],
+      "$scopes": ["STROKE_COLOR"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-border-color",
         "ANDROID": "semantic.borderColor",
@@ -221,9 +199,7 @@
           "scssVariableName": "$semantic-primary-text-emphasis"
         }
       },
-      "$scopes": [
-        "TEXT_FILL"
-      ],
+      "$scopes": ["TEXT_FILL"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-primary-text-emphasis",
         "ANDROID": "semantic.primaryTextEmphasis",
@@ -240,9 +216,7 @@
           "scssVariableName": "$semantic-primary-bg-subtle"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-primary-bg-subtle",
         "ANDROID": "semantic.primaryBgSubtle",
@@ -259,9 +233,7 @@
           "scssVariableName": "$semantic-primary-border-subtle"
         }
       },
-      "$scopes": [
-        "STROKE_COLOR"
-      ],
+      "$scopes": ["STROKE_COLOR"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-primary-border-subtle",
         "ANDROID": "semantic.primaryBorderSubtle",
@@ -278,9 +250,7 @@
           "scssVariableName": "$semantic-secondary-text-emphasis"
         }
       },
-      "$scopes": [
-        "TEXT_FILL"
-      ],
+      "$scopes": ["TEXT_FILL"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-secondary-text-emphasis",
         "ANDROID": "semantic.secondaryTextEmphasis",
@@ -297,9 +267,7 @@
           "scssVariableName": "$semantic-secondary-bg-subtle"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-secondary-bg-subtle",
         "ANDROID": "semantic.secondaryBgSubtle",
@@ -316,9 +284,7 @@
           "scssVariableName": "$semantic-secondary-border-subtle"
         }
       },
-      "$scopes": [
-        "STROKE_COLOR"
-      ],
+      "$scopes": ["STROKE_COLOR"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-secondary-border-subtle",
         "ANDROID": "semantic.secondaryBorderSubtle",
@@ -335,9 +301,7 @@
           "scssVariableName": "$semantic-success-text-emphasis"
         }
       },
-      "$scopes": [
-        "TEXT_FILL"
-      ],
+      "$scopes": ["TEXT_FILL"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-success-text-emphasis",
         "ANDROID": "semantic.successTextEmphasis",
@@ -354,9 +318,7 @@
           "scssVariableName": "$semantic-success-bg-subtle"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-success-bg-subtle",
         "ANDROID": "semantic.successBgSubtle",
@@ -373,9 +335,7 @@
           "scssVariableName": "$semantic-success-border-subtle"
         }
       },
-      "$scopes": [
-        "STROKE_COLOR"
-      ],
+      "$scopes": ["STROKE_COLOR"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-success-border-subtle",
         "ANDROID": "semantic.successBorderSubtle",
@@ -392,9 +352,7 @@
           "scssVariableName": "$semantic-danger-text-emphasis"
         }
       },
-      "$scopes": [
-        "TEXT_FILL"
-      ],
+      "$scopes": ["TEXT_FILL"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-danger-text-emphasis",
         "ANDROID": "semantic.dangerTextEmphasis",
@@ -411,9 +369,7 @@
           "scssVariableName": "$semantic-danger-bg-subtle"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-danger-bg-subtle",
         "ANDROID": "semantic.dangerBgSubtle",
@@ -430,9 +386,7 @@
           "scssVariableName": "$semantic-danger-border-subtle"
         }
       },
-      "$scopes": [
-        "STROKE_COLOR"
-      ],
+      "$scopes": ["STROKE_COLOR"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-danger-border-subtle",
         "ANDROID": "semantic.dangerBorderSubtle",
@@ -449,9 +403,7 @@
           "scssVariableName": "$semantic-warning-text-emphasis"
         }
       },
-      "$scopes": [
-        "TEXT_FILL"
-      ],
+      "$scopes": ["TEXT_FILL"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-warning-text-emphasis",
         "ANDROID": "semantic.warningTextEmphasis",
@@ -468,9 +420,7 @@
           "scssVariableName": "$semantic-warning-bg-subtle"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-warning-bg-subtle",
         "ANDROID": "semantic.warningBgSubtle",
@@ -487,9 +437,7 @@
           "scssVariableName": "$semantic-warning-border-subtle"
         }
       },
-      "$scopes": [
-        "STROKE_COLOR"
-      ],
+      "$scopes": ["STROKE_COLOR"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-warning-border-subtle",
         "ANDROID": "semantic.warningBorderSubtle",
@@ -506,9 +454,7 @@
           "scssVariableName": "$semantic-info-text-emphasis"
         }
       },
-      "$scopes": [
-        "TEXT_FILL"
-      ],
+      "$scopes": ["TEXT_FILL"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-info-text-emphasis",
         "ANDROID": "semantic.infoTextEmphasis",
@@ -525,9 +471,7 @@
           "scssVariableName": "$semantic-info-bg-subtle"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-info-bg-subtle",
         "ANDROID": "semantic.infoBgSubtle",
@@ -544,9 +488,7 @@
           "scssVariableName": "$semantic-info-border-subtle"
         }
       },
-      "$scopes": [
-        "STROKE_COLOR"
-      ],
+      "$scopes": ["STROKE_COLOR"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-info-border-subtle",
         "ANDROID": "semantic.infoBorderSubtle",
@@ -563,9 +505,7 @@
           "scssVariableName": "$semantic-light-text-emphasis"
         }
       },
-      "$scopes": [
-        "TEXT_FILL"
-      ],
+      "$scopes": ["TEXT_FILL"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-light-text-emphasis",
         "ANDROID": "semantic.lightTextEmphasis",
@@ -582,9 +522,7 @@
           "scssVariableName": "$semantic-light-bg-subtle"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-light-bg-subtle",
         "ANDROID": "semantic.lightBgSubtle",
@@ -601,9 +539,7 @@
           "scssVariableName": "$semantic-light-border-subtle"
         }
       },
-      "$scopes": [
-        "STROKE_COLOR"
-      ],
+      "$scopes": ["STROKE_COLOR"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-light-border-subtle",
         "ANDROID": "semantic.lightBorderSubtle",
@@ -620,9 +556,7 @@
           "scssVariableName": "$semantic-dark-text-emphasis"
         }
       },
-      "$scopes": [
-        "TEXT_FILL"
-      ],
+      "$scopes": ["TEXT_FILL"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-dark-text-emphasis",
         "ANDROID": "semantic.darkTextEmphasis",
@@ -639,9 +573,7 @@
           "scssVariableName": "$semantic-dark-bg-subtle"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-dark-bg-subtle",
         "ANDROID": "semantic.darkBgSubtle",
@@ -658,9 +590,7 @@
           "scssVariableName": "$semantic-dark-border-subtle"
         }
       },
-      "$scopes": [
-        "STROKE_COLOR"
-      ],
+      "$scopes": ["STROKE_COLOR"],
       "$codeSyntax": {
         "WEB": "--dsai-semantic-dark-border-subtle",
         "ANDROID": "semantic.darkBorderSubtle",
