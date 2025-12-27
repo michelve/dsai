@@ -20,9 +20,7 @@
               "ANDROID": "typography.fontSize.base",
               "iOS": "Typography.FontSize.Base"
             },
-            "$scopes": [
-              "FONT_SIZE"
-            ]
+            "$scopes": ["FONT_SIZE"]
           },
           "sm": {
             "$value": 14,
@@ -41,9 +39,7 @@
               "ANDROID": "typography.fontSize.sm",
               "iOS": "Typography.FontSize.Sm"
             },
-            "$scopes": [
-              "FONT_SIZE"
-            ]
+            "$scopes": ["FONT_SIZE"]
           },
           "lg": {
             "$value": 20,
@@ -62,9 +58,7 @@
               "ANDROID": "typography.fontSize.lg",
               "iOS": "Typography.FontSize.Lg"
             },
-            "$scopes": [
-              "FONT_SIZE"
-            ]
+            "$scopes": ["FONT_SIZE"]
           }
         },
         "fontWeight": {
@@ -85,9 +79,7 @@
               "ANDROID": "typography.fontWeight.lighter",
               "iOS": "Typography.FontWeight.Lighter"
             },
-            "$scopes": [
-              "FONT_WEIGHT"
-            ]
+            "$scopes": ["FONT_WEIGHT"]
           },
           "light": {
             "$value": 300,
@@ -106,9 +98,7 @@
               "ANDROID": "typography.fontWeight.light",
               "iOS": "Typography.FontWeight.Light"
             },
-            "$scopes": [
-              "FONT_WEIGHT"
-            ]
+            "$scopes": ["FONT_WEIGHT"]
           },
           "normal": {
             "$value": 400,
@@ -127,9 +117,7 @@
               "ANDROID": "typography.fontWeight.normal",
               "iOS": "Typography.FontWeight.Normal"
             },
-            "$scopes": [
-              "FONT_WEIGHT"
-            ]
+            "$scopes": ["FONT_WEIGHT"]
           },
           "medium": {
             "$value": 500,
@@ -148,9 +136,7 @@
               "ANDROID": "typography.fontWeight.medium",
               "iOS": "Typography.FontWeight.Medium"
             },
-            "$scopes": [
-              "FONT_WEIGHT"
-            ]
+            "$scopes": ["FONT_WEIGHT"]
           },
           "semibold": {
             "$value": 600,
@@ -169,9 +155,7 @@
               "ANDROID": "typography.fontWeight.semibold",
               "iOS": "Typography.FontWeight.Semibold"
             },
-            "$scopes": [
-              "FONT_WEIGHT"
-            ]
+            "$scopes": ["FONT_WEIGHT"]
           },
           "bold": {
             "$value": 700,
@@ -190,9 +174,7 @@
               "ANDROID": "typography.fontWeight.bold",
               "iOS": "Typography.FontWeight.Bold"
             },
-            "$scopes": [
-              "FONT_WEIGHT"
-            ]
+            "$scopes": ["FONT_WEIGHT"]
           },
           "bolder": {
             "$value": 900,
@@ -211,9 +193,7 @@
               "ANDROID": "typography.fontWeight.bolder",
               "iOS": "Typography.FontWeight.Bolder"
             },
-            "$scopes": [
-              "FONT_WEIGHT"
-            ]
+            "$scopes": ["FONT_WEIGHT"]
           }
         },
         "lineHeight": {
@@ -234,9 +214,7 @@
               "ANDROID": "typography.lineHeight.xs",
               "iOS": "Typography.LineHeight.Xs"
             },
-            "$scopes": [
-              "LINE_HEIGHT"
-            ]
+            "$scopes": ["LINE_HEIGHT"]
           },
           "sm": {
             "$value": 20,
@@ -255,9 +233,7 @@
               "ANDROID": "typography.lineHeight.sm",
               "iOS": "Typography.LineHeight.Sm"
             },
-            "$scopes": [
-              "LINE_HEIGHT"
-            ]
+            "$scopes": ["LINE_HEIGHT"]
           },
           "tight": {
             "$value": 20,
@@ -276,9 +252,7 @@
               "ANDROID": "typography.lineHeight.tight",
               "iOS": "Typography.LineHeight.Tight"
             },
-            "$scopes": [
-              "LINE_HEIGHT"
-            ]
+            "$scopes": ["LINE_HEIGHT"]
           },
           "base": {
             "$value": 24,
@@ -297,9 +271,7 @@
               "ANDROID": "typography.lineHeight.base",
               "iOS": "Typography.LineHeight.Base"
             },
-            "$scopes": [
-              "LINE_HEIGHT"
-            ]
+            "$scopes": ["LINE_HEIGHT"]
           },
           "relaxed": {
             "$value": 28,
@@ -318,9 +290,7 @@
               "ANDROID": "typography.lineHeight.relaxed",
               "iOS": "Typography.LineHeight.Relaxed"
             },
-            "$scopes": [
-              "LINE_HEIGHT"
-            ]
+            "$scopes": ["LINE_HEIGHT"]
           },
           "lg": {
             "$value": 32,
@@ -339,9 +309,7 @@
               "ANDROID": "typography.lineHeight.lg",
               "iOS": "Typography.LineHeight.Lg"
             },
-            "$scopes": [
-              "LINE_HEIGHT"
-            ]
+            "$scopes": ["LINE_HEIGHT"]
           },
           "display-sm": {
             "$value": 48,
@@ -360,9 +328,7 @@
               "ANDROID": "typography.lineHeight.display-sm",
               "iOS": "Typography.LineHeight.Display-sm"
             },
-            "$scopes": [
-              "LINE_HEIGHT"
-            ]
+            "$scopes": ["LINE_HEIGHT"]
           },
           "display-md": {
             "$value": 60,
@@ -381,9 +347,7 @@
               "ANDROID": "typography.lineHeight.display-md",
               "iOS": "Typography.LineHeight.Display-md"
             },
-            "$scopes": [
-              "LINE_HEIGHT"
-            ]
+            "$scopes": ["LINE_HEIGHT"]
           },
           "display-lg": {
             "$value": 76,
@@ -402,9 +366,7 @@
               "ANDROID": "typography.lineHeight.display-lg",
               "iOS": "Typography.LineHeight.Display-lg"
             },
-            "$scopes": [
-              "LINE_HEIGHT"
-            ]
+            "$scopes": ["LINE_HEIGHT"]
           }
         },
         "headings": {
@@ -426,9 +388,7 @@
                 "ANDROID": "typography.headings.h1.fontSize",
                 "iOS": "Typography.Headings.H1.FontSize"
               },
-              "$scopes": [
-                "FONT_SIZE"
-              ]
+              "$scopes": ["FONT_SIZE"]
             }
           },
           "h2": {
@@ -449,9 +409,7 @@
                 "ANDROID": "typography.headings.h2.fontSize",
                 "iOS": "Typography.Headings.H2.FontSize"
               },
-              "$scopes": [
-                "FONT_SIZE"
-              ]
+              "$scopes": ["FONT_SIZE"]
             }
           },
           "h3": {
@@ -472,9 +430,7 @@
                 "ANDROID": "typography.headings.h3.fontSize",
                 "iOS": "Typography.Headings.H3.FontSize"
               },
-              "$scopes": [
-                "FONT_SIZE"
-              ]
+              "$scopes": ["FONT_SIZE"]
             }
           },
           "h4": {
@@ -495,9 +451,7 @@
                 "ANDROID": "typography.headings.h4.fontSize",
                 "iOS": "Typography.Headings.H4.FontSize"
               },
-              "$scopes": [
-                "FONT_SIZE"
-              ]
+              "$scopes": ["FONT_SIZE"]
             }
           },
           "h5": {
@@ -518,9 +472,7 @@
                 "ANDROID": "typography.headings.h5.fontSize",
                 "iOS": "Typography.Headings.H5.FontSize"
               },
-              "$scopes": [
-                "FONT_SIZE"
-              ]
+              "$scopes": ["FONT_SIZE"]
             }
           },
           "h6": {
@@ -541,9 +493,7 @@
                 "ANDROID": "typography.headings.h6.fontSize",
                 "iOS": "Typography.Headings.H6.FontSize"
               },
-              "$scopes": [
-                "FONT_SIZE"
-              ]
+              "$scopes": ["FONT_SIZE"]
             }
           },
           "fontWeight": {
@@ -563,9 +513,7 @@
               "ANDROID": "typography.headings.fontWeight",
               "iOS": "Typography.Headings.FontWeight"
             },
-            "$scopes": [
-              "FONT_WEIGHT"
-            ]
+            "$scopes": ["FONT_WEIGHT"]
           },
           "lineHeight": {
             "$value": 1.2000000476837158,
@@ -584,9 +532,7 @@
               "ANDROID": "typography.headings.lineHeight",
               "iOS": "Typography.Headings.LineHeight"
             },
-            "$scopes": [
-              "LINE_HEIGHT"
-            ]
+            "$scopes": ["LINE_HEIGHT"]
           }
         },
         "display": {
@@ -608,9 +554,7 @@
                 "ANDROID": "typography.display.display1.fontSize",
                 "iOS": "Typography.Display.Display1.FontSize"
               },
-              "$scopes": [
-                "FONT_SIZE"
-              ]
+              "$scopes": ["FONT_SIZE"]
             }
           },
           "display2": {
@@ -631,9 +575,7 @@
                 "ANDROID": "typography.display.display2.fontSize",
                 "iOS": "Typography.Display.Display2.FontSize"
               },
-              "$scopes": [
-                "FONT_SIZE"
-              ]
+              "$scopes": ["FONT_SIZE"]
             }
           },
           "display3": {
@@ -654,9 +596,7 @@
                 "ANDROID": "typography.display.display3.fontSize",
                 "iOS": "Typography.Display.Display3.FontSize"
               },
-              "$scopes": [
-                "FONT_SIZE"
-              ]
+              "$scopes": ["FONT_SIZE"]
             }
           },
           "display4": {
@@ -677,9 +617,7 @@
                 "ANDROID": "typography.display.display4.fontSize",
                 "iOS": "Typography.Display.Display4.FontSize"
               },
-              "$scopes": [
-                "FONT_SIZE"
-              ]
+              "$scopes": ["FONT_SIZE"]
             }
           },
           "display5": {
@@ -700,9 +638,7 @@
                 "ANDROID": "typography.display.display5.fontSize",
                 "iOS": "Typography.Display.Display5.FontSize"
               },
-              "$scopes": [
-                "FONT_SIZE"
-              ]
+              "$scopes": ["FONT_SIZE"]
             }
           },
           "display6": {
@@ -723,9 +659,7 @@
                 "ANDROID": "typography.display.display6.fontSize",
                 "iOS": "Typography.Display.Display6.FontSize"
               },
-              "$scopes": [
-                "FONT_SIZE"
-              ]
+              "$scopes": ["FONT_SIZE"]
             }
           },
           "fontWeight": {
@@ -745,9 +679,7 @@
               "ANDROID": "typography.display.fontWeight",
               "iOS": "Typography.Display.FontWeight"
             },
-            "$scopes": [
-              "FONT_WEIGHT"
-            ]
+            "$scopes": ["FONT_WEIGHT"]
           },
           "lineHeight": {
             "$value": 1.2000000476837158,
@@ -766,9 +698,7 @@
               "ANDROID": "typography.display.lineHeight",
               "iOS": "Typography.Display.LineHeight"
             },
-            "$scopes": [
-              "LINE_HEIGHT"
-            ]
+            "$scopes": ["LINE_HEIGHT"]
           }
         },
         "lead": {
@@ -789,9 +719,7 @@
               "ANDROID": "typography.lead.fontSize",
               "iOS": "Typography.Lead.FontSize"
             },
-            "$scopes": [
-              "FONT_SIZE"
-            ]
+            "$scopes": ["FONT_SIZE"]
           },
           "fontWeight": {
             "$value": 300,
@@ -810,9 +738,7 @@
               "ANDROID": "typography.lead.fontWeight",
               "iOS": "Typography.Lead.FontWeight"
             },
-            "$scopes": [
-              "FONT_WEIGHT"
-            ]
+            "$scopes": ["FONT_WEIGHT"]
           }
         },
         "small": {
@@ -833,9 +759,7 @@
               "ANDROID": "typography.small.fontSize",
               "iOS": "Typography.Small.FontSize"
             },
-            "$scopes": [
-              "FONT_SIZE"
-            ]
+            "$scopes": ["FONT_SIZE"]
           }
         },
         "letterSpacing": {
@@ -856,9 +780,7 @@
               "ANDROID": "typography.letterSpacing.tighter",
               "iOS": "Typography.LetterSpacing.Tighter"
             },
-            "$scopes": [
-              "LETTER_SPACING"
-            ]
+            "$scopes": ["LETTER_SPACING"]
           },
           "tight": {
             "$value": -0.02500000037252903,
@@ -877,9 +799,7 @@
               "ANDROID": "typography.letterSpacing.tight",
               "iOS": "Typography.LetterSpacing.Tight"
             },
-            "$scopes": [
-              "LETTER_SPACING"
-            ]
+            "$scopes": ["LETTER_SPACING"]
           },
           "normal": {
             "$value": 0,
@@ -898,9 +818,7 @@
               "ANDROID": "typography.letterSpacing.normal",
               "iOS": "Typography.LetterSpacing.Normal"
             },
-            "$scopes": [
-              "LETTER_SPACING"
-            ]
+            "$scopes": ["LETTER_SPACING"]
           },
           "wide": {
             "$value": 0.02500000037252903,
@@ -919,9 +837,7 @@
               "ANDROID": "typography.letterSpacing.wide",
               "iOS": "Typography.LetterSpacing.Wide"
             },
-            "$scopes": [
-              "LETTER_SPACING"
-            ]
+            "$scopes": ["LETTER_SPACING"]
           },
           "wider": {
             "$value": 0.05000000074505806,
@@ -940,9 +856,7 @@
               "ANDROID": "typography.letterSpacing.wider",
               "iOS": "Typography.LetterSpacing.Wider"
             },
-            "$scopes": [
-              "LETTER_SPACING"
-            ]
+            "$scopes": ["LETTER_SPACING"]
           },
           "widest": {
             "$value": 0.10000000149011612,
@@ -961,9 +875,7 @@
               "ANDROID": "typography.letterSpacing.widest",
               "iOS": "Typography.LetterSpacing.Widest"
             },
-            "$scopes": [
-              "LETTER_SPACING"
-            ]
+            "$scopes": ["LETTER_SPACING"]
           }
         },
         "fontFamily": {
@@ -985,9 +897,7 @@
               "ANDROID": "typography.fontFamily.base",
               "iOS": "Typography.FontFamily.Base"
             },
-            "$scopes": [
-              "FONT_FAMILY"
-            ]
+            "$scopes": ["FONT_FAMILY"]
           },
           "monospace": {
             "$value": "Roboto Mono",
@@ -1007,9 +917,7 @@
               "ANDROID": "typography.fontFamily.monospace",
               "iOS": "Typography.FontFamily.Monospace"
             },
-            "$scopes": [
-              "FONT_FAMILY"
-            ]
+            "$scopes": ["FONT_FAMILY"]
           }
         }
       }

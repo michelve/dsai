@@ -6,8 +6,8 @@
  * describe a dark theme color.
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const FOUNDATION_PATH = path.join(
   __dirname,
@@ -41,7 +41,7 @@ function fixDarkDescription() {
   }
 
   if (fixCount > 0) {
-    fs.writeFileSync(FOUNDATION_PATH, JSON.stringify(data, null, 2) + '\n', 'utf8');
+    fs.writeFileSync(FOUNDATION_PATH, `${JSON.stringify(data, null, 2)}\n`, 'utf8');
     console.log(`\n✅ Fixed ${fixCount} description(s) in foundation.json`);
   } else {
     console.log('\n⚠️  No fixes needed - descriptions may already be correct');

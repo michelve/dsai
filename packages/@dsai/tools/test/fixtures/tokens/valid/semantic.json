@@ -1,0 +1,36 @@
+{
+  "$description": "Semantic tokens with references",
+  "semantic": {
+    "color": {
+      "$type": "color",
+      "primary": { "$value": "{color.blue.500}" },
+      "secondary": { "$value": "{color.gray.600}" },
+      "success": { "$value": "{color.green.500}" },
+      "error": { "$value": "{color.red.500}" },
+      "background": {
+        "default": { "$value": "{color.gray.50}" },
+        "subtle": { "$value": "{color.gray.100}" },
+        "muted": { "$value": "{color.gray.200}" }
+      },
+      "foreground": {
+        "default": { "$value": "{color.gray.900}" },
+        "muted": { "$value": "{color.gray.600}" },
+        "subtle": { "$value": "{color.gray.400}" }
+      },
+      "border": {
+        "default": { "$value": "{color.gray.300}" },
+        "focus": { "$value": "{color.blue.500}" }
+      }
+    },
+    "spacing": {
+      "$type": "dimension",
+      "component": {
+        "xs": { "$value": "{spacing.1}" },
+        "sm": { "$value": "{spacing.2}" },
+        "md": { "$value": "{spacing.4}" },
+        "lg": { "$value": "{spacing.6}" },
+        "xl": { "$value": "{spacing.8}" }
+      }
+    }
+  }
+}

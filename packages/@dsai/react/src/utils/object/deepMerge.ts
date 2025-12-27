@@ -185,8 +185,9 @@ export function deepMerge<T extends Record<string, unknown>>(
     // Merge object properties
     const merged = { ...(targetValue as Record<string, unknown>) };
 
+    const hasOwn = Object.prototype.hasOwnProperty;
     for (const key in sourceValue) {
-      if (Object.prototype.hasOwnProperty.call(sourceValue, key)) {
+      if (hasOwn.call(sourceValue, key)) {
         // Prevent prototype pollution
         if (isDangerousKey(key)) {
           throw new Error(`deepMerge prototype pollution attempt detected: ${key}`);
@@ -206,6 +207,7 @@ export function deepMerge<T extends Record<string, unknown>>(
   }
 
   // Merge all sources
+  const hasOwn = Object.prototype.hasOwnProperty;
   for (const source of actualSources) {
     if (source === null || source === undefined) {
       continue;
@@ -216,7 +218,7 @@ export function deepMerge<T extends Record<string, unknown>>(
     }
 
     for (const key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
+      if (hasOwn.call(source, key)) {
         // Prevent prototype pollution
         if (isDangerousKey(key)) {
           throw new Error(`deepMerge prototype pollution attempt detected: ${key}`);

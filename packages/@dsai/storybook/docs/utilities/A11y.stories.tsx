@@ -16,6 +16,162 @@ import { useEffect, useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { JSX } from 'react';
 
+// =============================================================================
+// Demo Components - Proper React components for hooks compliance
+// =============================================================================
+
+/** Demo component for GenerateId story */
+function GenerateIdDemo(): JSX.Element {
+  const [ids, setIds] = useState<string[]>([]);
+  const emailId = useRef(generateId('email'));
+  const errorId = useRef(generateId('error'));
+
+  const handleGenerate = (): void => {
+    const newId = generateId('field');
+    setIds((prev) => [...prev, newId]);
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '800px' }}>
+      <div>
+        <Heading level={3}>Generate SSR-Safe IDs</Heading>
+        <p style={{ color: '#6c757d', marginTop: '0.5rem', marginBottom: 0 }}>
+          Create unique, deterministic IDs that work in server-side rendering.
+        </p>
+      </div>
+
+      <div
+        style={{
+          padding: '1.5rem',
+          backgroundColor: '#f8f9fa',
+          borderRadius: '0.5rem',
+          border: '1px solid #dee2e6',
+        }}
+      >
+        <Heading level={4}>Interactive Demo</Heading>
+        <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1rem', flexWrap: 'wrap' }}>
+          <Button variant="primary" onClick={handleGenerate}>
+            Generate New ID
+          </Button>
+          <Button
+            variant="outline-secondary"
+            onClick={() => setIds([])}
+            disabled={ids.length === 0}
+          >
+            Clear All
+          </Button>
+        </div>
+
+        {ids.length > 0 && (
+          <div style={{ marginTop: '1rem' }}>
+            <strong style={{ display: 'block', marginBottom: '0.5rem' }}>Generated IDs:</strong>
+            <ul style={{ margin: 0, paddingLeft: '1.5rem' }}>
+              {ids.map((id) => (
+                <li key={id}>
+                  <code style={{ color: '#0d6efd', fontFamily: 'monospace' }}>{id}</code>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      <div
+        style={{
+          padding: '1.5rem',
+          backgroundColor: '#fff',
+          borderRadius: '0.5rem',
+          border: '1px solid #dee2e6',
+        }}
+      >
+        <Heading level={4}>Usage Example</Heading>
+        <pre
+          style={{
+            backgroundColor: '#f8f9fa',
+            padding: '1rem',
+            borderRadius: '0.375rem',
+            overflow: 'auto',
+            margin: '1rem 0 0 0',
+            fontSize: '0.875rem',
+          }}
+        >
+          {`import { generateId } from '@dsai/react';
+
+function FormField() {
+  // Generate IDs once - stable across renders
+  const inputId = generateId('email');
+  const errorId = generateId('error');
+
+  return (
+    <div>
+      <label htmlFor={inputId}>Email Address</label>
+      <input
+        id={inputId}
+        type="email"
+        aria-describedby={errorId}
+      />
+      <span id={errorId} role="alert">
+        Invalid email format
+      </span>
+    </div>
+  );
+}`}
+        </pre>
+      </div>
+
+      <div
+        style={{
+          padding: '1.5rem',
+          backgroundColor: '#fff',
+          borderRadius: '0.5rem',
+          border: '1px solid #dee2e6',
+        }}
+      >
+        <Heading level={4}>Live Form Example</Heading>
+        <div style={{ marginTop: '1rem' }}>
+          <label
+            htmlFor={emailId.current}
+            style={{ display: 'block', fontWeight: 500, marginBottom: '0.5rem' }}
+          >
+            Email Address
+          </label>
+          <input
+            id={emailId.current}
+            type="email"
+            aria-describedby={errorId.current}
+            placeholder="you@example.com"
+            style={{
+              width: '100%',
+              padding: '0.5rem',
+              border: '1px solid #ced4da',
+              borderRadius: '0.375rem',
+            }}
+          />
+          <small
+            id={errorId.current}
+            style={{ display: 'block', marginTop: '0.25rem', color: '#6c757d' }}
+          >
+            {"We'll never share your email with anyone else."}
+          </small>
+        </div>
+        <div style={{ marginTop: '1rem', fontSize: '0.875rem', color: '#6c757d' }}>
+          <strong>Generated IDs:</strong>
+          <br />
+          <code>input: {emailId.current}</code>
+          <br />
+          <code>description: {errorId.current}</code>
+        </div>
+      </div>
+
+      <Alert variant="info" dismissible={false}>
+        <strong>SSR Safety:</strong> IDs are generated using an incrementing counter, ensuring
+        consistency between server and client renders. This prevents hydration mismatches in
+        Next.js, Remix, and other SSR frameworks.
+      </Alert>
+    </div>
+  );
+}
+
 /**
  * Accessibility (a11y) Utilities
  *
@@ -86,156 +242,7 @@ type Story = StoryObj;
  * **Returns:** Unique ID string in format `${prefix}-${counter}`
  */
 export const GenerateId: Story = {
-  render: (): JSX.Element => {
-    const [ids, setIds] = useState<string[]>([]);
-    const emailId = useRef(generateId('email'));
-    const errorId = useRef(generateId('error'));
-
-    const handleGenerate = (): void => {
-      const newId = generateId('field');
-      setIds((prev) => [...prev, newId]);
-    };
-
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '800px' }}>
-        <div>
-          <Heading level={3}>Generate SSR-Safe IDs</Heading>
-          <p style={{ color: '#6c757d', marginTop: '0.5rem', marginBottom: 0 }}>
-            Create unique, deterministic IDs that work in server-side rendering.
-          </p>
-        </div>
-
-        <div
-          style={{
-            padding: '1.5rem',
-            backgroundColor: '#f8f9fa',
-            borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
-          }}
-        >
-          <Heading level={4}>Interactive Demo</Heading>
-          <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1rem', flexWrap: 'wrap' }}>
-            <Button variant="primary" onClick={handleGenerate}>
-              Generate New ID
-            </Button>
-            <Button
-              variant="outline-secondary"
-              onClick={() => setIds([])}
-              disabled={ids.length === 0}
-            >
-              Clear All
-            </Button>
-          </div>
-
-          {ids.length > 0 && (
-            <div style={{ marginTop: '1rem' }}>
-              <strong style={{ display: 'block', marginBottom: '0.5rem' }}>Generated IDs:</strong>
-              <ul style={{ margin: 0, paddingLeft: '1.5rem' }}>
-                {ids.map((id) => (
-                  <li key={id}>
-                    <code style={{ color: '#0d6efd', fontFamily: 'monospace' }}>{id}</code>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-
-        <div
-          style={{
-            padding: '1.5rem',
-            backgroundColor: '#fff',
-            borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
-          }}
-        >
-          <Heading level={4}>Usage Example</Heading>
-          <pre
-            style={{
-              backgroundColor: '#f8f9fa',
-              padding: '1rem',
-              borderRadius: '0.375rem',
-              overflow: 'auto',
-              margin: '1rem 0 0 0',
-              fontSize: '0.875rem',
-            }}
-          >
-            {`import { generateId } from '@dsai/react';
-
-function FormField() {
-  // Generate IDs once - stable across renders
-  const inputId = generateId('email');
-  const errorId = generateId('error');
-
-  return (
-    <div>
-      <label htmlFor={inputId}>Email Address</label>
-      <input
-        id={inputId}
-        type="email"
-        aria-describedby={errorId}
-      />
-      <span id={errorId} role="alert">
-        Invalid email format
-      </span>
-    </div>
-  );
-}`}
-          </pre>
-        </div>
-
-        <div
-          style={{
-            padding: '1.5rem',
-            backgroundColor: '#fff',
-            borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
-          }}
-        >
-          <Heading level={4}>Live Form Example</Heading>
-          <div style={{ marginTop: '1rem' }}>
-            <label
-              htmlFor={emailId.current}
-              style={{ display: 'block', fontWeight: 500, marginBottom: '0.5rem' }}
-            >
-              Email Address
-            </label>
-            <input
-              id={emailId.current}
-              type="email"
-              aria-describedby={errorId.current}
-              placeholder="you@example.com"
-              style={{
-                width: '100%',
-                padding: '0.5rem',
-                border: '1px solid #ced4da',
-                borderRadius: '0.375rem',
-              }}
-            />
-            <small
-              id={errorId.current}
-              style={{ display: 'block', marginTop: '0.25rem', color: '#6c757d' }}
-            >
-              We'll never share your email with anyone else.
-            </small>
-          </div>
-          <div style={{ marginTop: '1rem', fontSize: '0.875rem', color: '#6c757d' }}>
-            <strong>Generated IDs:</strong>
-            <br />
-            <code>input: {emailId.current}</code>
-            <br />
-            <code>description: {errorId.current}</code>
-          </div>
-        </div>
-
-        <Alert variant="info" dismissible={false}>
-          <strong>SSR Safety:</strong> IDs are generated using an incrementing counter, ensuring
-          consistency between server and client renders. This prevents hydration mismatches in
-          Next.js, Remix, and other SSR frameworks.
-        </Alert>
-      </div>
-    );
-  },
+  render: () => <GenerateIdDemo />,
 };
 
 /**

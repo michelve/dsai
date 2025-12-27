@@ -13,14 +13,15 @@ import { optimizeSVGFiles, parseSVGFiles, scanSVGFiles } from './core/index.js';
 import { generateReactIcons } from './generators/react.js';
 import { generateSVGSprite } from './generators/svg-sprite.js';
 
-import type { ResolvedConfig } from '../config/types.js';
 import type {
   GeneratedIcon,
   IconBuildOptions,
   IconBuildResult,
   IconFormat,
+  OptimizedSVG,
   SVGOConfig,
 } from './types.js';
+import type { ResolvedConfig } from '../config/types.js';
 
 /**
  * Build icons from SVG source files
@@ -89,7 +90,7 @@ export async function buildIcons(
     const parsedFiles = parseSVGFiles(filteredFiles);
 
     // Step 3: Optimize SVGs (if enabled)
-    let optimizedFiles: import('./types.js').OptimizedSVG[];
+    let optimizedFiles: OptimizedSVG[];
     if (config.icons.optimize) {
       const svgoConfig: SVGOConfig = {
         multipass: true,

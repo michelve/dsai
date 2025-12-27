@@ -216,7 +216,6 @@ async function runInit(options: InitOptions): Promise<void> {
     case 'enterprise':
       content = ENTERPRISE_CONFIG;
       break;
-    case 'full':
     default:
       content = FULL_CONFIG;
   }

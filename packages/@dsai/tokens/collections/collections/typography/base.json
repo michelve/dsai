@@ -1,0 +1,646 @@
+{
+  "typography": {
+    "fontSize": {
+      "base": {
+        "$value": "16px",
+        "$type": "dimension",
+        "$description": "Root font size for all viewports (1rem = 16px)",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
+          },
+          "platform": {
+            "scssVariableName": "$font-size-base"
+          }
+        }
+      },
+      "sm": {
+        "$value": "14px",
+        "$type": "dimension",
+        "$description": "Small font size (0.875rem = 14px)",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
+          },
+          "platform": {
+            "scssVariableName": "$font-size-sm"
+          }
+        }
+      },
+      "lg": {
+        "$value": "20px",
+        "$type": "dimension",
+        "$description": "Large font size (1.25rem = 20px)",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
+          },
+          "platform": {
+            "scssVariableName": "$font-size-lg"
+          }
+        }
+      }
+    },
+    "fontWeight": {
+      "lighter": {
+        "$value": 100,
+        "$type": "dimension",
+        "$description": "Lighter font weight",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics"
+          },
+          "platform": {
+            "scssVariableName": "$font-weight-lighter"
+          }
+        }
+      },
+      "light": {
+        "$value": 300,
+        "$type": "dimension",
+        "$description": "Light font weight",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics"
+          },
+          "platform": {
+            "scssVariableName": "$font-weight-light"
+          }
+        }
+      },
+      "normal": {
+        "$value": 400,
+        "$type": "dimension",
+        "$description": "Normal font weight (default body weight)",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics"
+          },
+          "platform": {
+            "scssVariableName": "$font-weight-normal"
+          }
+        }
+      },
+      "medium": {
+        "$value": 500,
+        "$type": "dimension",
+        "$description": "Medium font weight",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics"
+          },
+          "platform": {
+            "scssVariableName": "$font-weight-medium"
+          }
+        }
+      },
+      "semibold": {
+        "$value": 600,
+        "$type": "dimension",
+        "$description": "Semibold font weight",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics"
+          },
+          "platform": {
+            "scssVariableName": "$font-weight-semibold"
+          }
+        }
+      },
+      "bold": {
+        "$value": 700,
+        "$type": "dimension",
+        "$description": "Bold font weight",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics"
+          },
+          "platform": {
+            "scssVariableName": "$font-weight-bold"
+          }
+        }
+      },
+      "bolder": {
+        "$value": 900,
+        "$type": "dimension",
+        "$description": "Bolder font weight",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/utilities/text/#font-weight-and-italics"
+          },
+          "platform": {
+            "scssVariableName": "$font-weight-bolder"
+          }
+        }
+      }
+    },
+    "lineHeight": {
+      "xs": {
+        "$value": 16,
+        "$type": "dimension",
+        "$description": "Extra small line height (1.0 ratio) - Compact UI, tags, badges. Use sparingly, not for body text. 4pt scale: 16px.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
+          },
+          "platform": {
+            "scssVariableName": "$line-height-xs"
+          }
+        }
+      },
+      "sm": {
+        "$value": 20,
+        "$type": "dimension",
+        "$description": "Small line height (1.25 ratio) - Bootstrap $line-height-sm. Compact text, small UI elements, tight spacing. Below WCAG AA for body text. 4pt scale: 20px.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
+          },
+          "platform": {
+            "scssVariableName": "$line-height-sm"
+          }
+        }
+      },
+      "tight": {
+        "$value": 20,
+        "$type": "dimension",
+        "$description": "Tight line height (1.2-1.25 ratio) - Display fonts, headings (h1-h6). Improves readability of large text. Bootstrap heading default. 4pt scale: 20px for 16px base.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
+          },
+          "platform": {
+            "scssVariableName": "$headings-line-height"
+          }
+        }
+      },
+      "base": {
+        "$value": 24,
+        "$type": "dimension",
+        "$description": "Base line height (1.5 ratio) - Bootstrap $line-height-base. Default for body text. WCAG AA compliant (1.5 minimum). 4pt scale: 24px for 16px base font.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
+          },
+          "platform": {
+            "scssVariableName": "$line-height-base"
+          }
+        }
+      },
+      "relaxed": {
+        "$value": 28,
+        "$type": "dimension",
+        "$description": "Relaxed line height (1.75 ratio) - Enhanced readability for long-form content, articles, documentation. Exceeds WCAG AA. 4pt scale: 28px.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
+          },
+          "platform": {
+            "scssVariableName": "$line-height-relaxed"
+          }
+        }
+      },
+      "lg": {
+        "$value": 32,
+        "$type": "dimension",
+        "$description": "Large line height (2.0 ratio) - Bootstrap $line-height-lg. Spacious text, large UI components, improved scannability. 4pt scale: 32px.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
+          },
+          "platform": {
+            "scssVariableName": "$line-height-lg"
+          }
+        }
+      },
+      "display-sm": {
+        "$value": 48,
+        "$type": "dimension",
+        "$description": "Small display line height (1.2 ratio for 40px text) - Display fonts, large headings. Tighter leading for visual impact. 4pt scale: 48px.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
+          },
+          "platform": {
+            "scssVariableName": "$display-line-height"
+          }
+        }
+      },
+      "display-md": {
+        "$value": 60,
+        "$type": "dimension",
+        "$description": "Medium display line height (1.2 ratio for 48-56px text) - Medium display fonts. 4pt scale: 60px.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
+          },
+          "platform": {
+            "scssVariableName": "$display-line-height-md"
+          }
+        }
+      },
+      "display-lg": {
+        "$value": 76,
+        "$type": "dimension",
+        "$description": "Large display line height (1.2 ratio for 64px text) - Large display fonts, hero headings. 4pt scale: 76px (closest to 1.2 ratio).",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
+          },
+          "platform": {
+            "scssVariableName": "$display-line-height-lg"
+          }
+        }
+      }
+    },
+    "headings": {
+      "h1": {
+        "fontSize": {
+          "$value": "40px",
+          "$type": "dimension",
+          "$description": "H1 heading font size (2.5rem = 40px)",
+          "$extensions": {
+            "docs": {
+              "reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
+            },
+            "platform": {
+              "scssVariableName": "$h1-font-size"
+            }
+          }
+        }
+      },
+      "h2": {
+        "fontSize": {
+          "$value": "32px",
+          "$type": "dimension",
+          "$description": "H2 heading font size (2rem = 32px)",
+          "$extensions": {
+            "docs": {
+              "reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
+            },
+            "platform": {
+              "scssVariableName": "$h2-font-size"
+            }
+          }
+        }
+      },
+      "h3": {
+        "fontSize": {
+          "$value": "28px",
+          "$type": "dimension",
+          "$description": "H3 heading font size (1.75rem = 28px)",
+          "$extensions": {
+            "docs": {
+              "reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
+            },
+            "platform": {
+              "scssVariableName": "$h3-font-size"
+            }
+          }
+        }
+      },
+      "h4": {
+        "fontSize": {
+          "$value": "24px",
+          "$type": "dimension",
+          "$description": "H4 heading font size (1.5rem = 24px)",
+          "$extensions": {
+            "docs": {
+              "reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
+            },
+            "platform": {
+              "scssVariableName": "$h4-font-size"
+            }
+          }
+        }
+      },
+      "h5": {
+        "fontSize": {
+          "$value": "20px",
+          "$type": "dimension",
+          "$description": "H5 heading font size (1.25rem = 20px)",
+          "$extensions": {
+            "docs": {
+              "reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
+            },
+            "platform": {
+              "scssVariableName": "$h5-font-size"
+            }
+          }
+        }
+      },
+      "h6": {
+        "fontSize": {
+          "$value": "16px",
+          "$type": "dimension",
+          "$description": "H6 heading font size (1rem = 16px)",
+          "$extensions": {
+            "docs": {
+              "reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
+            },
+            "platform": {
+              "scssVariableName": "$h6-font-size"
+            }
+          }
+        }
+      },
+      "fontWeight": {
+        "$value": 500,
+        "$type": "dimension",
+        "$description": "Default font weight for all headings",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
+          },
+          "platform": {
+            "scssVariableName": "$headings-font-weight"
+          }
+        }
+      },
+      "lineHeight": {
+        "$value": 1.2000000476837158,
+        "$type": "dimension",
+        "$description": "Line height for all headings",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
+          },
+          "platform": {
+            "scssVariableName": "$headings-line-height"
+          }
+        }
+      }
+    },
+    "display": {
+      "display1": {
+        "fontSize": {
+          "$value": "80px",
+          "$type": "dimension",
+          "$description": "Display 1 font size (5rem = 80px)",
+          "$extensions": {
+            "docs": {
+              "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
+            },
+            "platform": {
+              "scssVariableName": "$display-font-sizes: (1: 5rem)"
+            }
+          }
+        }
+      },
+      "display2": {
+        "fontSize": {
+          "$value": "72px",
+          "$type": "dimension",
+          "$description": "Display 2 font size (4.5rem = 72px)",
+          "$extensions": {
+            "docs": {
+              "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
+            },
+            "platform": {
+              "scssVariableName": "$display-font-sizes: (2: 4.5rem)"
+            }
+          }
+        }
+      },
+      "display3": {
+        "fontSize": {
+          "$value": "64px",
+          "$type": "dimension",
+          "$description": "Display 3 font size (4rem = 64px)",
+          "$extensions": {
+            "docs": {
+              "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
+            },
+            "platform": {
+              "scssVariableName": "$display-font-sizes: (3: 4rem)"
+            }
+          }
+        }
+      },
+      "display4": {
+        "fontSize": {
+          "$value": "56px",
+          "$type": "dimension",
+          "$description": "Display 4 font size (3.5rem = 56px)",
+          "$extensions": {
+            "docs": {
+              "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
+            },
+            "platform": {
+              "scssVariableName": "$display-font-sizes: (4: 3.5rem)"
+            }
+          }
+        }
+      },
+      "display5": {
+        "fontSize": {
+          "$value": "48px",
+          "$type": "dimension",
+          "$description": "Display 5 font size (3rem = 48px)",
+          "$extensions": {
+            "docs": {
+              "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
+            },
+            "platform": {
+              "scssVariableName": "$display-font-sizes: (5: 3rem)"
+            }
+          }
+        }
+      },
+      "display6": {
+        "fontSize": {
+          "$value": "40px",
+          "$type": "dimension",
+          "$description": "Display 6 font size (2.5rem = 40px)",
+          "$extensions": {
+            "docs": {
+              "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
+            },
+            "platform": {
+              "scssVariableName": "$display-font-sizes: (6: 2.5rem)"
+            }
+          }
+        }
+      },
+      "fontWeight": {
+        "$value": 300,
+        "$type": "dimension",
+        "$description": "Font weight for display headings",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
+          },
+          "platform": {
+            "scssVariableName": "$display-font-weight"
+          }
+        }
+      },
+      "lineHeight": {
+        "$value": 1.2000000476837158,
+        "$type": "dimension",
+        "$description": "Line height for display headings",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/#display-headings"
+          },
+          "platform": {
+            "scssVariableName": "$display-line-height"
+          }
+        }
+      }
+    },
+    "lead": {
+      "fontSize": {
+        "$value": "20px",
+        "$type": "dimension",
+        "$description": "Lead paragraph font size (1.25rem = 20px)",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/#lead"
+          },
+          "platform": {
+            "scssVariableName": "$lead-font-size"
+          }
+        }
+      },
+      "fontWeight": {
+        "$value": 300,
+        "$type": "dimension",
+        "$description": "Lead paragraph font weight",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/#lead"
+          },
+          "platform": {
+            "scssVariableName": "$lead-font-weight"
+          }
+        }
+      }
+    },
+    "small": {
+      "fontSize": {
+        "$value": "14px",
+        "$type": "dimension",
+        "$description": "Small text font size (0.875rem = 14px)",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/#inline-text-elements"
+          },
+          "platform": {
+            "scssVariableName": "$small-font-size"
+          }
+        }
+      }
+    },
+    "letterSpacing": {
+      "tighter": {
+        "$value": "-0.05000000074505806px",
+        "$type": "dimension",
+        "$description": "Tighter letter spacing (-0.05em) - Use for large headings and display text to improve visual density. Enhances readability at larger sizes.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
+          },
+          "platform": {
+            "scssVariableName": "$letter-spacing-tighter"
+          }
+        }
+      },
+      "tight": {
+        "$value": "-0.02500000037252903px",
+        "$type": "dimension",
+        "$description": "Tight letter spacing (-0.025em) - Subtle tightening for headings. Improves visual cohesion without sacrificing readability.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
+          },
+          "platform": {
+            "scssVariableName": "$letter-spacing-tight"
+          }
+        }
+      },
+      "normal": {
+        "$value": "0px",
+        "$type": "dimension",
+        "$description": "Normal letter spacing (0) - Default spacing for body text and most content. Optimal for readability and accessibility.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
+          },
+          "platform": {
+            "scssVariableName": "$letter-spacing-normal"
+          }
+        }
+      },
+      "wide": {
+        "$value": "0.02500000037252903px",
+        "$type": "dimension",
+        "$description": "Wide letter spacing (0.025em) - Subtle spacing increase for improved readability in small text or uppercase. Enhances legibility.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
+          },
+          "platform": {
+            "scssVariableName": "$letter-spacing-wide"
+          }
+        }
+      },
+      "wider": {
+        "$value": "0.05000000074505806px",
+        "$type": "dimension",
+        "$description": "Wider letter spacing (0.05em) - Noticeable spacing for uppercase text, labels, and buttons. Improves legibility and visual prominence.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
+          },
+          "platform": {
+            "scssVariableName": "$letter-spacing-wider"
+          }
+        }
+      },
+      "widest": {
+        "$value": "0.10000000149011612px",
+        "$type": "dimension",
+        "$description": "Widest letter spacing (0.1em) - Maximum spacing for all-caps headings, labels, or decorative text. Creates strong visual impact.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/typography/"
+          },
+          "platform": {
+            "scssVariableName": "$letter-spacing-widest"
+          }
+        }
+      }
+    },
+    "fontFamily": {
+      "base": {
+        "$value": "Inter, system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", \"Noto Sans\", \"Liberation Sans\", Arial, sans-serif",
+        "$type": "fontFamily",
+        "$description": "Primary font family for Figma (single font name). Full Bootstrap stack: system-ui, -apple-system, Segoe UI, Roboto, etc.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/reboot/#native-font-stack"
+          },
+          "platform": {
+            "scssVariableName": "$font-family-base",
+            "fontStack": "system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", \"Noto Sans\", \"Liberation Sans\", Arial, sans-serif"
+          }
+        }
+      },
+      "monospace": {
+        "$value": "Roboto Mono, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+        "$type": "fontFamily",
+        "$description": "Monospace font for code (single font name). Full Bootstrap stack: SFMono-Regular, Menlo, Monaco, Consolas, etc.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/content/reboot/#native-font-stack"
+          },
+          "platform": {
+            "scssVariableName": "$font-family-monospace",
+            "fontStack": "SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+          }
+        }
+      }
+    }
+  }
+}

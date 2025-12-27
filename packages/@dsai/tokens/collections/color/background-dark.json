@@ -14,9 +14,7 @@
           "scssVariableName": "$theme-primary"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": ".bg-primary",
         "ANDROID": "background.primary",
@@ -36,9 +34,7 @@
           "scssVariableName": "$theme-secondary"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": ".bg-secondary",
         "ANDROID": "background.secondary",
@@ -58,9 +54,7 @@
           "scssVariableName": "$theme-success"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": ".bg-success",
         "ANDROID": "background.success",
@@ -80,9 +74,7 @@
           "scssVariableName": "$theme-danger"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": ".bg-danger",
         "ANDROID": "background.danger",
@@ -102,9 +94,7 @@
           "scssVariableName": "$theme-warning"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": ".bg-warning",
         "ANDROID": "background.warning",
@@ -124,9 +114,7 @@
           "scssVariableName": "$theme-info"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": ".bg-info",
         "ANDROID": "background.info",
@@ -146,9 +134,7 @@
           "scssVariableName": "$theme-light"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": ".bg-light",
         "ANDROID": "background.light",
@@ -168,9 +154,7 @@
           "scssVariableName": "$theme-dark"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": ".bg-dark",
         "ANDROID": "background.dark",
@@ -190,9 +174,7 @@
           "scssVariableName": "$semantic-body-bg"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": ".bg-body",
         "ANDROID": "background.body",
@@ -212,9 +194,7 @@
           "scssVariableName": "$neutral-white"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": ".bg-white",
         "ANDROID": "background.white",
@@ -234,9 +214,7 @@
           "scssVariableName": "$neutral-black"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": ".bg-black",
         "ANDROID": "background.black",
@@ -256,9 +234,7 @@
           "scssVariableName": "$background-transparent"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": ".bg-transparent",
         "ANDROID": "background.transparent",

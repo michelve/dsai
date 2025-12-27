@@ -172,12 +172,12 @@ function addDescriptions(data) {
 
   collections.forEach((collection) => {
     const colors = collection.Colors;
-    if (!colors || !colors.modes) return;
+    if (!colors || !colors.modes) {return;}
 
     // Process both Light and Dark modes
     Object.keys(colors.modes).forEach((modeName) => {
       const mode = colors.modes[modeName];
-      if (!mode.colors) return;
+      if (!mode.colors) {return;}
 
       // Process brand colors
       if (mode.colors.brand) {
@@ -185,7 +185,7 @@ function addDescriptions(data) {
           const colorGroup = mode.colors.brand[colorName];
           const descriptions = colorDescriptions.brand[colorName];
 
-          if (!descriptions) return;
+          if (!descriptions) {return;}
 
           Object.keys(colorGroup).forEach((shade) => {
             const token = colorGroup[shade];

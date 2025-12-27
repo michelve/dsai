@@ -26,13 +26,13 @@
  * ```
  */
 
-import { createProgram, setupErrorHandling } from './create-program.js';
 import {
   createConfigCommand,
   createIconsCommand,
   createInitCommand,
   createTokensCommand,
 } from './commands/index.js';
+import { createProgram, setupErrorHandling } from './create-program.js';
 
 import type { Command } from 'commander';
 

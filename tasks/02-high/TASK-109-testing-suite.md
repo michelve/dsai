@@ -45,7 +45,7 @@ A testing infrastructure that:
 
 ### Test Coverage
 
-- [ ] 80%+ overall coverage
+- [ ] 90%+ overall coverage
 - [ ] 90%+ coverage on core modules
 - [ ] All public APIs tested
 - [ ] All CLI commands tested

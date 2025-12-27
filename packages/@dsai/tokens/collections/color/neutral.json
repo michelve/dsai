@@ -12,9 +12,7 @@
           "scssVariableName": "$neutral-white"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-neutral-white",
         "ANDROID": "color.white",
@@ -34,9 +32,7 @@
           "scssVariableName": "$neutral-black"
         }
       },
-      "$scopes": [
-        "ALL_FILLS"
-      ],
+      "$scopes": ["ALL_FILLS"],
       "$codeSyntax": {
         "WEB": "--dsai-neutral-black",
         "ANDROID": "neutral.black",
@@ -57,10 +53,7 @@
             "scssVariableName": "$color-gray-100"
           }
         },
-        "$scopes": [
-          "ALL_FILLS",
-          "STROKE_COLOR"
-        ],
+        "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-100",
           "ANDROID": "neutral.gray.100",
@@ -80,10 +73,7 @@
             "scssVariableName": "$color-gray-200"
           }
         },
-        "$scopes": [
-          "ALL_FILLS",
-          "STROKE_COLOR"
-        ],
+        "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-200",
           "ANDROID": "neutral.gray.200",
@@ -103,9 +93,7 @@
             "scssVariableName": "$color-gray-300"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-300",
           "ANDROID": "color.gray.300",
@@ -125,9 +113,7 @@
             "scssVariableName": "$color-gray-400"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-400",
           "ANDROID": "color.gray.400",
@@ -147,9 +133,7 @@
             "scssVariableName": "$color-gray-500"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-500",
           "ANDROID": "color.gray.500",
@@ -169,9 +153,7 @@
             "scssVariableName": "$color-gray-600"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-600",
           "ANDROID": "color.gray.600",
@@ -191,9 +173,7 @@
             "scssVariableName": "$color-gray-700"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-700",
           "ANDROID": "color.gray.700",
@@ -213,9 +193,7 @@
             "scssVariableName": "$color-gray-800"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-800",
           "ANDROID": "color.gray.800",
@@ -235,9 +213,7 @@
             "scssVariableName": "$color-gray-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-900",
           "ANDROID": "color.gray.900",

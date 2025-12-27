@@ -84,7 +84,7 @@ export function prefersReducedMotion(options: PrefersReducedMotionOptions = {}):
   } catch (error) {
     // matchMedia may throw in some environments
     // Guard process access for non-Node, non-bundled runtimes
-  if (typeof process !== 'undefined' && process?.env?.['NODE_ENV'] !== 'production') {
+    if (typeof process !== 'undefined' && process?.env?.['NODE_ENV'] !== 'production') {
       console.warn('[prefersReducedMotion] matchMedia threw an error:', error);
     }
     return defaultValue;

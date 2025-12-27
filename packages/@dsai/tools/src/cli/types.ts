@@ -32,7 +32,7 @@ export const ExitCode = {
   IOError: 5,
 } as const;
 
-export type ExitCode = (typeof ExitCode)[keyof typeof ExitCode];
+export type ExitCodeType = (typeof ExitCode)[keyof typeof ExitCode];
 
 // ============================================================================
 // Global Options

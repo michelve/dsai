@@ -51,15 +51,15 @@ function generateSchema() {
   };
 
   // Remove the generated name wrapper if present
-  if (schema.definitions?.['DsaiConfig']) {
-    Object.assign(schema, schema.definitions['DsaiConfig']);
+  if (schema.definitions?.DsaiConfig) {
+    Object.assign(schema, schema.definitions.DsaiConfig);
     delete schema.definitions;
     delete schema.$ref;
   }
 
   // Allow $schema property in config files
   if (schema.properties) {
-    schema.properties['$schema'] = {
+    schema.properties.$schema = {
       type: 'string',
       description: 'JSON Schema reference',
     };

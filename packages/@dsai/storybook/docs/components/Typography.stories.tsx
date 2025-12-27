@@ -19,875 +19,933 @@ const meta: Meta<typeof Typography.Heading> = {
     layout: 'padded',
     docs: {
       description: {
-        component:{
-  "componentSet": {
-    "name": "Typography / Heading",
-    "pageName": "Typography",
-    "key": "typography-heading-001",
-    "type": "COMPONENT_SET",
-    "description": "Semantic heading typography components (H1-H6) with Bootstrap color variants. All HTML headings, <h1> through <h6>, are available with Default, Primary, Secondary, Success, Danger, Warning, Info, Light, Dark, Muted, and White color variants. Use Level for semantic HTML element, Visual Size to override font size independently. Based on Bootstrap 5.3 typography system.",
-    "documentationLink": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
-  },
-  "defaultStyles": {
-    "label": "Heading",
-    "text": "{Foundation/Light/semantic/emphasis-color}",
-    "fontName": "{Typography/Base/fontFamily/base}",
-    "fontWeight": "{Typography/Base/headings/fontWeight}",
-    "fontSize": "{Typography/Base/headings/h1/fontSize}",
-    "lineHeight": "{Typography/Base/lineHeight/tight}",
-    "letterSpacing": "{Typography/Base/letterSpacing/normal}",
-    "textAlignHorizontal": "LEFT",
-    "textAlignVertical": "TOP",
-    "textLayout": {
-      "textAutoResize": "WIDTH_AND_HEIGHT"
-    }
-  },
-  "variants": [
-    {
-      "type": "h1",
-      "state": "default",
-      "size": "default",
-      "styles": {
-        "label": "Heading 1",
-        "fontSize": "{Typography/Base/headings/h1/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/emphasis-color}"
-      },
-      "description": "H1 heading (2.5rem / 40px) - Use for page titles and main headings. Default body text color ensures maximum readability.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
-    },
-    {
-      "type": "h1",
-      "state": "primary",
-      "size": "default",
-      "styles": {
-        "label": "Heading 1 Primary",
-        "fontSize": "{Typography/Base/headings/h1/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/primary-text-emphasis}"
-      },
-      "description": "H1 heading with .text-primary-emphasis - Primary brand color emphasis (blue-700). Use for brand-aligned headings and key messages.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h1",
-      "state": "secondary",
-      "size": "default",
-      "styles": {
-        "label": "Heading 1 Secondary",
-        "fontSize": "{Typography/Base/headings/h1/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/secondary-color}"
-      },
-      "description": "H1 heading with .text-secondary - Secondary text color (gray-600). Use for supporting headings or sections with less prominence.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h1",
-      "state": "success",
-      "size": "default",
-      "styles": {
-        "label": "Heading 1 Success",
-        "fontSize": "{Typography/Base/headings/h1/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/success-text-emphasis}"
-      },
-      "description": "H1 heading with .text-success-emphasis - Success color (green-700). Use for positive/success page headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h1",
-      "state": "danger",
-      "size": "default",
-      "styles": {
-        "label": "Heading 1 Danger",
-        "fontSize": "{Typography/Base/headings/h1/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/danger-text-emphasis}"
-      },
-      "description": "H1 heading with .text-danger-emphasis - Danger color (red-700). Use for error or critical page headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h1",
-      "state": "warning",
-      "size": "default",
-      "styles": {
-        "label": "Heading 1 Warning",
-        "fontSize": "{Typography/Base/headings/h1/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/warning-text-emphasis}"
-      },
-      "description": "H1 heading with .text-warning-emphasis - Warning color (yellow-700). Use for caution or alert page headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h1",
-      "state": "info",
-      "size": "default",
-      "styles": {
-        "label": "Heading 1 Info",
-        "fontSize": "{Typography/Base/headings/h1/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/info-text-emphasis}"
-      },
-      "description": "H1 heading with .text-info-emphasis - Info color (cyan-700). Use for informational page headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h1",
-      "state": "light",
-      "size": "default",
-      "styles": {
-        "label": "Heading 1 Light",
-        "fontSize": "{Typography/Base/headings/h1/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/light-text-emphasis}"
-      },
-      "description": "H1 heading with .text-light-emphasis - Light emphasis (gray-700). Use on light backgrounds for subtle headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h1",
-      "state": "dark",
-      "size": "default",
-      "styles": {
-        "label": "Heading 1 Dark",
-        "fontSize": "{Typography/Base/headings/h1/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/dark-text-emphasis}"
-      },
-      "description": "H1 heading with .text-dark-emphasis - Dark emphasis (gray-900). Maximum contrast for headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h1",
-      "state": "muted",
-      "size": "default",
-      "styles": {
-        "label": "Heading 1 Muted",
-        "fontSize": "{Typography/Base/headings/h1/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/tertiary-color}"
-      },
-      "description": "H1 heading with .text-muted - Muted text color (gray-500). Use for de-emphasized or disabled headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h2",
-      "state": "default",
-      "size": "default",
-      "styles": {
-        "label": "Heading 2",
-        "fontSize": "{Typography/Base/headings/h2/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/emphasis-color}"
-      },
-      "description": "H2 heading (2rem / 32px) - Use for major section titles within a page. Creates clear visual hierarchy below H1.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
-    },
-    {
-      "type": "h2",
-      "state": "primary",
-      "size": "default",
-      "styles": {
-        "label": "Heading 2 Primary",
-        "fontSize": "{Typography/Base/headings/h2/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/primary-text-emphasis}"
-      },
-      "description": "H2 heading with .text-primary-emphasis - Primary brand color emphasis for section titles.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h2",
-      "state": "secondary",
-      "size": "default",
-      "styles": {
-        "label": "Heading 2 Secondary",
-        "fontSize": "{Typography/Base/headings/h2/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/secondary-color}"
-      },
-      "description": "H2 heading with .text-secondary - Secondary color for supporting section titles.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h2",
-      "state": "success",
-      "size": "default",
-      "styles": {
-        "label": "Heading 2 Success",
-        "fontSize": "{Typography/Base/headings/h2/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/success-text-emphasis}"
-      },
-      "description": "H2 heading with .text-success-emphasis - Success color for positive section headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h2",
-      "state": "danger",
-      "size": "default",
-      "styles": {
-        "label": "Heading 2 Danger",
-        "fontSize": "{Typography/Base/headings/h2/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/danger-text-emphasis}"
-      },
-      "description": "H2 heading with .text-danger-emphasis - Danger color for error section headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h2",
-      "state": "warning",
-      "size": "default",
-      "styles": {
-        "label": "Heading 2 Warning",
-        "fontSize": "{Typography/Base/headings/h2/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/warning-text-emphasis}"
-      },
-      "description": "H2 heading with .text-warning-emphasis - Warning color for caution section headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h2",
-      "state": "info",
-      "size": "default",
-      "styles": {
-        "label": "Heading 2 Info",
-        "fontSize": "{Typography/Base/headings/h2/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/info-text-emphasis}"
-      },
-      "description": "H2 heading with .text-info-emphasis - Info color for informational section headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h2",
-      "state": "light",
-      "size": "default",
-      "styles": {
-        "label": "Heading 2 Light",
-        "fontSize": "{Typography/Base/headings/h2/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/light-text-emphasis}"
-      },
-      "description": "H2 heading with .text-light-emphasis - Light emphasis for subtle section headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h2",
-      "state": "dark",
-      "size": "default",
-      "styles": {
-        "label": "Heading 2 Dark",
-        "fontSize": "{Typography/Base/headings/h2/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/dark-text-emphasis}"
-      },
-      "description": "H2 heading with .text-dark-emphasis - Dark emphasis for maximum contrast headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h2",
-      "state": "muted",
-      "size": "default",
-      "styles": {
-        "label": "Heading 2 Muted",
-        "fontSize": "{Typography/Base/headings/h2/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/tertiary-color}"
-      },
-      "description": "H2 heading with .text-muted - Muted color for de-emphasized section headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h3",
-      "state": "default",
-      "size": "default",
-      "styles": {
-        "label": "Heading 3",
-        "fontSize": "{Typography/Base/headings/h3/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/emphasis-color}"
-      },
-      "description": "H3 heading (1.75rem / 28px) - Use for subsection titles within major sections.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
-    },
-    {
-      "type": "h3",
-      "state": "primary",
-      "size": "default",
-      "styles": {
-        "label": "Heading 3 Primary",
-        "fontSize": "{Typography/Base/headings/h3/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/primary-text-emphasis}"
-      },
-      "description": "H3 heading with .text-primary-emphasis - Primary brand emphasis for subsections.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h3",
-      "state": "secondary",
-      "size": "default",
-      "styles": {
-        "label": "Heading 3 Secondary",
-        "fontSize": "{Typography/Base/headings/h3/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/secondary-color}"
-      },
-      "description": "H3 heading with .text-secondary - Secondary color for supporting subsections.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h3",
-      "state": "success",
-      "size": "default",
-      "styles": {
-        "label": "Heading 3 Success",
-        "fontSize": "{Typography/Base/headings/h3/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/success-text-emphasis}"
-      },
-      "description": "H3 heading with .text-success-emphasis - Success color for positive subsections.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h3",
-      "state": "danger",
-      "size": "default",
-      "styles": {
-        "label": "Heading 3 Danger",
-        "fontSize": "{Typography/Base/headings/h3/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/danger-text-emphasis}"
-      },
-      "description": "H3 heading with .text-danger-emphasis - Danger color for error subsections.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h3",
-      "state": "warning",
-      "size": "default",
-      "styles": {
-        "label": "Heading 3 Warning",
-        "fontSize": "{Typography/Base/headings/h3/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/warning-text-emphasis}"
-      },
-      "description": "H3 heading with .text-warning-emphasis - Warning color for caution subsections.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h3",
-      "state": "info",
-      "size": "default",
-      "styles": {
-        "label": "Heading 3 Info",
-        "fontSize": "{Typography/Base/headings/h3/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/info-text-emphasis}"
-      },
-      "description": "H3 heading with .text-info-emphasis - Info color for informational subsections.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h3",
-      "state": "light",
-      "size": "default",
-      "styles": {
-        "label": "Heading 3 Light",
-        "fontSize": "{Typography/Base/headings/h3/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/light-text-emphasis}"
-      },
-      "description": "H3 heading with .text-light-emphasis - Light emphasis for subtle subsections.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h3",
-      "state": "dark",
-      "size": "default",
-      "styles": {
-        "label": "Heading 3 Dark",
-        "fontSize": "{Typography/Base/headings/h3/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/dark-text-emphasis}"
-      },
-      "description": "H3 heading with .text-dark-emphasis - Dark emphasis for maximum contrast.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h3",
-      "state": "muted",
-      "size": "default",
-      "styles": {
-        "label": "Heading 3 Muted",
-        "fontSize": "{Typography/Base/headings/h3/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/tertiary-color}"
-      },
-      "description": "H3 heading with .text-muted - Muted color for de-emphasized subsections.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h4",
-      "state": "default",
-      "size": "default",
-      "styles": {
-        "label": "Heading 4",
-        "fontSize": "{Typography/Base/headings/h4/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/emphasis-color}"
-      },
-      "description": "H4 heading (1.5rem / 24px) - Use for card titles, minor section headings, or list group headers.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
-    },
-    {
-      "type": "h4",
-      "state": "primary",
-      "size": "default",
-      "styles": {
-        "label": "Heading 4 Primary",
-        "fontSize": "{Typography/Base/headings/h4/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/primary-text-emphasis}"
-      },
-      "description": "H4 heading with .text-primary-emphasis - Primary brand emphasis for card headers.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h4",
-      "state": "secondary",
-      "size": "default",
-      "styles": {
-        "label": "Heading 4 Secondary",
-        "fontSize": "{Typography/Base/headings/h4/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/secondary-color}"
-      },
-      "description": "H4 heading with .text-secondary - Secondary color for supporting card titles.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h4",
-      "state": "success",
-      "size": "default",
-      "styles": {
-        "label": "Heading 4 Success",
-        "fontSize": "{Typography/Base/headings/h4/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/success-text-emphasis}"
-      },
-      "description": "H4 heading with .text-success-emphasis - Success color for positive card titles.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h4",
-      "state": "danger",
-      "size": "default",
-      "styles": {
-        "label": "Heading 4 Danger",
-        "fontSize": "{Typography/Base/headings/h4/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/danger-text-emphasis}"
-      },
-      "description": "H4 heading with .text-danger-emphasis - Danger color for error card titles.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h4",
-      "state": "warning",
-      "size": "default",
-      "styles": {
-        "label": "Heading 4 Warning",
-        "fontSize": "{Typography/Base/headings/h4/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/warning-text-emphasis}"
-      },
-      "description": "H4 heading with .text-warning-emphasis - Warning color for caution card titles.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h4",
-      "state": "info",
-      "size": "default",
-      "styles": {
-        "label": "Heading 4 Info",
-        "fontSize": "{Typography/Base/headings/h4/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/info-text-emphasis}"
-      },
-      "description": "H4 heading with .text-info-emphasis - Info color for informational card titles.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h4",
-      "state": "light",
-      "size": "default",
-      "styles": {
-        "label": "Heading 4 Light",
-        "fontSize": "{Typography/Base/headings/h4/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/light-text-emphasis}"
-      },
-      "description": "H4 heading with .text-light-emphasis - Light emphasis for subtle card titles.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h4",
-      "state": "dark",
-      "size": "default",
-      "styles": {
-        "label": "Heading 4 Dark",
-        "fontSize": "{Typography/Base/headings/h4/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/dark-text-emphasis}"
-      },
-      "description": "H4 heading with .text-dark-emphasis - Dark emphasis for maximum contrast.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h4",
-      "state": "muted",
-      "size": "default",
-      "styles": {
-        "label": "Heading 4 Muted",
-        "fontSize": "{Typography/Base/headings/h4/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/tertiary-color}"
-      },
-      "description": "H4 heading with .text-muted - Muted color for de-emphasized card titles.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h5",
-      "state": "default",
-      "size": "default",
-      "styles": {
-        "label": "Heading 5",
-        "fontSize": "{Typography/Base/headings/h5/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/emphasis-color}"
-      },
-      "description": "H5 heading (1.25rem / 20px) - Use for small section headers, sidebar titles, or nested content headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
-    },
-    {
-      "type": "h5",
-      "state": "primary",
-      "size": "default",
-      "styles": {
-        "label": "Heading 5 Primary",
-        "fontSize": "{Typography/Base/headings/h5/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/primary-text-emphasis}"
-      },
-      "description": "H5 heading with .text-primary-emphasis - Primary brand emphasis for small headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h5",
-      "state": "secondary",
-      "size": "default",
-      "styles": {
-        "label": "Heading 5 Secondary",
-        "fontSize": "{Typography/Base/headings/h5/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/secondary-color}"
-      },
-      "description": "H5 heading with .text-secondary - Secondary emphasis for small headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h5",
-      "state": "success",
-      "size": "default",
-      "styles": {
-        "label": "Heading 5 Success",
-        "fontSize": "{Typography/Base/headings/h5/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/success-text-emphasis}"
-      },
-      "description": "H5 heading with .text-success-emphasis - Success color for positive small headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h5",
-      "state": "danger",
-      "size": "default",
-      "styles": {
-        "label": "Heading 5 Danger",
-        "fontSize": "{Typography/Base/headings/h5/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/danger-text-emphasis}"
-      },
-      "description": "H5 heading with .text-danger-emphasis - Danger color for error small headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h5",
-      "state": "warning",
-      "size": "default",
-      "styles": {
-        "label": "Heading 5 Warning",
-        "fontSize": "{Typography/Base/headings/h5/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/warning-text-emphasis}"
-      },
-      "description": "H5 heading with .text-warning-emphasis - Warning color for caution small headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h5",
-      "state": "info",
-      "size": "default",
-      "styles": {
-        "label": "Heading 5 Info",
-        "fontSize": "{Typography/Base/headings/h5/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/info-text-emphasis}"
-      },
-      "description": "H5 heading with .text-info-emphasis - Info color for informational small headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h5",
-      "state": "light",
-      "size": "default",
-      "styles": {
-        "label": "Heading 5 Light",
-        "fontSize": "{Typography/Base/headings/h5/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/light-text-emphasis}"
-      },
-      "description": "H5 heading with .text-light-emphasis - Light emphasis for subtle small headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h5",
-      "state": "dark",
-      "size": "default",
-      "styles": {
-        "label": "Heading 5 Dark",
-        "fontSize": "{Typography/Base/headings/h5/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/dark-text-emphasis}"
-      },
-      "description": "H5 heading with .text-dark-emphasis - Dark emphasis for maximum contrast.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h5",
-      "state": "muted",
-      "size": "default",
-      "styles": {
-        "label": "Heading 5 Muted",
-        "fontSize": "{Typography/Base/headings/h5/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/tertiary-color}"
-      },
-      "description": "H5 heading with .text-muted - Muted color for de-emphasized small headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h6",
-      "state": "default",
-      "size": "default",
-      "styles": {
-        "label": "Heading 6",
-        "fontSize": "{Typography/Base/headings/h6/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/emphasis-color}"
-      },
-      "description": "H6 heading (1rem / 16px) - Smallest heading, use for labels, form section titles, or deeply nested content.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/content/typography/#headings"
-    },
-    {
-      "type": "h6",
-      "state": "primary",
-      "size": "default",
-      "styles": {
-        "label": "Heading 6 Primary",
-        "fontSize": "{Typography/Base/headings/h6/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/primary-text-emphasis}"
-      },
-      "description": "H6 heading with .text-primary-emphasis - Primary brand emphasis for smallest headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h6",
-      "state": "secondary",
-      "size": "default",
-      "styles": {
-        "label": "Heading 6 Secondary",
-        "fontSize": "{Typography/Base/headings/h6/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/secondary-color}"
-      },
-      "description": "H6 heading with .text-secondary - Secondary emphasis for smallest headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h6",
-      "state": "success",
-      "size": "default",
-      "styles": {
-        "label": "Heading 6 Success",
-        "fontSize": "{Typography/Base/headings/h6/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/success-text-emphasis}"
-      },
-      "description": "H6 heading with .text-success-emphasis - Success color for positive smallest headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h6",
-      "state": "danger",
-      "size": "default",
-      "styles": {
-        "label": "Heading 6 Danger",
-        "fontSize": "{Typography/Base/headings/h6/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/danger-text-emphasis}"
-      },
-      "description": "H6 heading with .text-danger-emphasis - Danger color for error smallest headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h6",
-      "state": "warning",
-      "size": "default",
-      "styles": {
-        "label": "Heading 6 Warning",
-        "fontSize": "{Typography/Base/headings/h6/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/warning-text-emphasis}"
-      },
-      "description": "H6 heading with .text-warning-emphasis - Warning color for caution smallest headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h6",
-      "state": "info",
-      "size": "default",
-      "styles": {
-        "label": "Heading 6 Info",
-        "fontSize": "{Typography/Base/headings/h6/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/info-text-emphasis}"
-      },
-      "description": "H6 heading with .text-info-emphasis - Info color for informational smallest headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h6",
-      "state": "light",
-      "size": "default",
-      "styles": {
-        "label": "Heading 6 Light",
-        "fontSize": "{Typography/Base/headings/h6/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/light-text-emphasis}"
-      },
-      "description": "H6 heading with .text-light-emphasis - Light emphasis for subtle smallest headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h6",
-      "state": "dark",
-      "size": "default",
-      "styles": {
-        "label": "Heading 6 Dark",
-        "fontSize": "{Typography/Base/headings/h6/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/dark-text-emphasis}"
-      },
-      "description": "H6 heading with .text-dark-emphasis - Dark emphasis for maximum contrast.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    },
-    {
-      "type": "h6",
-      "state": "muted",
-      "size": "default",
-      "styles": {
-        "label": "Heading 6 Muted",
-        "fontSize": "{Typography/Base/headings/h6/fontSize}",
-        "fontWeight": "{Typography/Base/headings/fontWeight}",
-        "lineHeight": "{Typography/Base/lineHeight/tight}",
-        "text": "{Foundation/Light/semantic/tertiary-color}"
-      },
-      "description": "H6 heading with .text-muted - Muted color for de-emphasized smallest headings.",
-      "documentationLink": "https://getbootstrap.com/docs/5.3/utilities/colors/#colors"
-    }
-  ]
-}
-
-          'A comprehensive typography system with semantic headings, display headings, ' +
-          'and text components for body copy and inline styling.',
+        component: {
+          componentSet: {
+            name: 'Typography / Heading',
+            pageName: 'Typography',
+            key: 'typography-heading-001',
+            type: 'COMPONENT_SET',
+            description:
+              'Semantic heading typography components (H1-H6) with Bootstrap color variants. All HTML headings, <h1> through <h6>, are available with Default, Primary, Secondary, Success, Danger, Warning, Info, Light, Dark, Muted, and White color variants. Use Level for semantic HTML element, Visual Size to override font size independently. Based on Bootstrap 5.3 typography system.',
+            documentationLink: 'https://getbootstrap.com/docs/5.3/content/typography/#headings',
+          },
+          defaultStyles: {
+            label: 'Heading',
+            text: '{Foundation/Light/semantic/emphasis-color}',
+            fontName: '{Typography/Base/fontFamily/base}',
+            fontWeight: '{Typography/Base/headings/fontWeight}',
+            fontSize: '{Typography/Base/headings/h1/fontSize}',
+            lineHeight: '{Typography/Base/lineHeight/tight}',
+            letterSpacing: '{Typography/Base/letterSpacing/normal}',
+            textAlignHorizontal: 'LEFT',
+            textAlignVertical: 'TOP',
+            textLayout: {
+              textAutoResize: 'WIDTH_AND_HEIGHT',
+            },
+          },
+          variants: [
+            {
+              type: 'h1',
+              state: 'default',
+              size: 'default',
+              styles: {
+                label: 'Heading 1',
+                fontSize: '{Typography/Base/headings/h1/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/emphasis-color}',
+              },
+              description:
+                'H1 heading (2.5rem / 40px) - Use for page titles and main headings. Default body text color ensures maximum readability.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/content/typography/#headings',
+            },
+            {
+              type: 'h1',
+              state: 'primary',
+              size: 'default',
+              styles: {
+                label: 'Heading 1 Primary',
+                fontSize: '{Typography/Base/headings/h1/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/primary-text-emphasis}',
+              },
+              description:
+                'H1 heading with .text-primary-emphasis - Primary brand color emphasis (blue-700). Use for brand-aligned headings and key messages.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h1',
+              state: 'secondary',
+              size: 'default',
+              styles: {
+                label: 'Heading 1 Secondary',
+                fontSize: '{Typography/Base/headings/h1/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/secondary-color}',
+              },
+              description:
+                'H1 heading with .text-secondary - Secondary text color (gray-600). Use for supporting headings or sections with less prominence.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h1',
+              state: 'success',
+              size: 'default',
+              styles: {
+                label: 'Heading 1 Success',
+                fontSize: '{Typography/Base/headings/h1/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/success-text-emphasis}',
+              },
+              description:
+                'H1 heading with .text-success-emphasis - Success color (green-700). Use for positive/success page headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h1',
+              state: 'danger',
+              size: 'default',
+              styles: {
+                label: 'Heading 1 Danger',
+                fontSize: '{Typography/Base/headings/h1/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/danger-text-emphasis}',
+              },
+              description:
+                'H1 heading with .text-danger-emphasis - Danger color (red-700). Use for error or critical page headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h1',
+              state: 'warning',
+              size: 'default',
+              styles: {
+                label: 'Heading 1 Warning',
+                fontSize: '{Typography/Base/headings/h1/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/warning-text-emphasis}',
+              },
+              description:
+                'H1 heading with .text-warning-emphasis - Warning color (yellow-700). Use for caution or alert page headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h1',
+              state: 'info',
+              size: 'default',
+              styles: {
+                label: 'Heading 1 Info',
+                fontSize: '{Typography/Base/headings/h1/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/info-text-emphasis}',
+              },
+              description:
+                'H1 heading with .text-info-emphasis - Info color (cyan-700). Use for informational page headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h1',
+              state: 'light',
+              size: 'default',
+              styles: {
+                label: 'Heading 1 Light',
+                fontSize: '{Typography/Base/headings/h1/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/light-text-emphasis}',
+              },
+              description:
+                'H1 heading with .text-light-emphasis - Light emphasis (gray-700). Use on light backgrounds for subtle headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h1',
+              state: 'dark',
+              size: 'default',
+              styles: {
+                label: 'Heading 1 Dark',
+                fontSize: '{Typography/Base/headings/h1/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/dark-text-emphasis}',
+              },
+              description:
+                'H1 heading with .text-dark-emphasis - Dark emphasis (gray-900). Maximum contrast for headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h1',
+              state: 'muted',
+              size: 'default',
+              styles: {
+                label: 'Heading 1 Muted',
+                fontSize: '{Typography/Base/headings/h1/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/tertiary-color}',
+              },
+              description:
+                'H1 heading with .text-muted - Muted text color (gray-500). Use for de-emphasized or disabled headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h2',
+              state: 'default',
+              size: 'default',
+              styles: {
+                label: 'Heading 2',
+                fontSize: '{Typography/Base/headings/h2/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/emphasis-color}',
+              },
+              description:
+                'H2 heading (2rem / 32px) - Use for major section titles within a page. Creates clear visual hierarchy below H1.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/content/typography/#headings',
+            },
+            {
+              type: 'h2',
+              state: 'primary',
+              size: 'default',
+              styles: {
+                label: 'Heading 2 Primary',
+                fontSize: '{Typography/Base/headings/h2/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/primary-text-emphasis}',
+              },
+              description:
+                'H2 heading with .text-primary-emphasis - Primary brand color emphasis for section titles.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h2',
+              state: 'secondary',
+              size: 'default',
+              styles: {
+                label: 'Heading 2 Secondary',
+                fontSize: '{Typography/Base/headings/h2/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/secondary-color}',
+              },
+              description:
+                'H2 heading with .text-secondary - Secondary color for supporting section titles.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h2',
+              state: 'success',
+              size: 'default',
+              styles: {
+                label: 'Heading 2 Success',
+                fontSize: '{Typography/Base/headings/h2/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/success-text-emphasis}',
+              },
+              description:
+                'H2 heading with .text-success-emphasis - Success color for positive section headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h2',
+              state: 'danger',
+              size: 'default',
+              styles: {
+                label: 'Heading 2 Danger',
+                fontSize: '{Typography/Base/headings/h2/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/danger-text-emphasis}',
+              },
+              description:
+                'H2 heading with .text-danger-emphasis - Danger color for error section headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h2',
+              state: 'warning',
+              size: 'default',
+              styles: {
+                label: 'Heading 2 Warning',
+                fontSize: '{Typography/Base/headings/h2/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/warning-text-emphasis}',
+              },
+              description:
+                'H2 heading with .text-warning-emphasis - Warning color for caution section headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h2',
+              state: 'info',
+              size: 'default',
+              styles: {
+                label: 'Heading 2 Info',
+                fontSize: '{Typography/Base/headings/h2/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/info-text-emphasis}',
+              },
+              description:
+                'H2 heading with .text-info-emphasis - Info color for informational section headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h2',
+              state: 'light',
+              size: 'default',
+              styles: {
+                label: 'Heading 2 Light',
+                fontSize: '{Typography/Base/headings/h2/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/light-text-emphasis}',
+              },
+              description:
+                'H2 heading with .text-light-emphasis - Light emphasis for subtle section headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h2',
+              state: 'dark',
+              size: 'default',
+              styles: {
+                label: 'Heading 2 Dark',
+                fontSize: '{Typography/Base/headings/h2/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/dark-text-emphasis}',
+              },
+              description:
+                'H2 heading with .text-dark-emphasis - Dark emphasis for maximum contrast headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h2',
+              state: 'muted',
+              size: 'default',
+              styles: {
+                label: 'Heading 2 Muted',
+                fontSize: '{Typography/Base/headings/h2/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/tertiary-color}',
+              },
+              description:
+                'H2 heading with .text-muted - Muted color for de-emphasized section headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h3',
+              state: 'default',
+              size: 'default',
+              styles: {
+                label: 'Heading 3',
+                fontSize: '{Typography/Base/headings/h3/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/emphasis-color}',
+              },
+              description:
+                'H3 heading (1.75rem / 28px) - Use for subsection titles within major sections.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/content/typography/#headings',
+            },
+            {
+              type: 'h3',
+              state: 'primary',
+              size: 'default',
+              styles: {
+                label: 'Heading 3 Primary',
+                fontSize: '{Typography/Base/headings/h3/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/primary-text-emphasis}',
+              },
+              description:
+                'H3 heading with .text-primary-emphasis - Primary brand emphasis for subsections.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h3',
+              state: 'secondary',
+              size: 'default',
+              styles: {
+                label: 'Heading 3 Secondary',
+                fontSize: '{Typography/Base/headings/h3/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/secondary-color}',
+              },
+              description:
+                'H3 heading with .text-secondary - Secondary color for supporting subsections.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h3',
+              state: 'success',
+              size: 'default',
+              styles: {
+                label: 'Heading 3 Success',
+                fontSize: '{Typography/Base/headings/h3/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/success-text-emphasis}',
+              },
+              description:
+                'H3 heading with .text-success-emphasis - Success color for positive subsections.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h3',
+              state: 'danger',
+              size: 'default',
+              styles: {
+                label: 'Heading 3 Danger',
+                fontSize: '{Typography/Base/headings/h3/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/danger-text-emphasis}',
+              },
+              description:
+                'H3 heading with .text-danger-emphasis - Danger color for error subsections.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h3',
+              state: 'warning',
+              size: 'default',
+              styles: {
+                label: 'Heading 3 Warning',
+                fontSize: '{Typography/Base/headings/h3/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/warning-text-emphasis}',
+              },
+              description:
+                'H3 heading with .text-warning-emphasis - Warning color for caution subsections.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h3',
+              state: 'info',
+              size: 'default',
+              styles: {
+                label: 'Heading 3 Info',
+                fontSize: '{Typography/Base/headings/h3/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/info-text-emphasis}',
+              },
+              description:
+                'H3 heading with .text-info-emphasis - Info color for informational subsections.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h3',
+              state: 'light',
+              size: 'default',
+              styles: {
+                label: 'Heading 3 Light',
+                fontSize: '{Typography/Base/headings/h3/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/light-text-emphasis}',
+              },
+              description:
+                'H3 heading with .text-light-emphasis - Light emphasis for subtle subsections.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h3',
+              state: 'dark',
+              size: 'default',
+              styles: {
+                label: 'Heading 3 Dark',
+                fontSize: '{Typography/Base/headings/h3/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/dark-text-emphasis}',
+              },
+              description:
+                'H3 heading with .text-dark-emphasis - Dark emphasis for maximum contrast.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h3',
+              state: 'muted',
+              size: 'default',
+              styles: {
+                label: 'Heading 3 Muted',
+                fontSize: '{Typography/Base/headings/h3/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/tertiary-color}',
+              },
+              description:
+                'H3 heading with .text-muted - Muted color for de-emphasized subsections.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h4',
+              state: 'default',
+              size: 'default',
+              styles: {
+                label: 'Heading 4',
+                fontSize: '{Typography/Base/headings/h4/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/emphasis-color}',
+              },
+              description:
+                'H4 heading (1.5rem / 24px) - Use for card titles, minor section headings, or list group headers.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/content/typography/#headings',
+            },
+            {
+              type: 'h4',
+              state: 'primary',
+              size: 'default',
+              styles: {
+                label: 'Heading 4 Primary',
+                fontSize: '{Typography/Base/headings/h4/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/primary-text-emphasis}',
+              },
+              description:
+                'H4 heading with .text-primary-emphasis - Primary brand emphasis for card headers.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h4',
+              state: 'secondary',
+              size: 'default',
+              styles: {
+                label: 'Heading 4 Secondary',
+                fontSize: '{Typography/Base/headings/h4/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/secondary-color}',
+              },
+              description:
+                'H4 heading with .text-secondary - Secondary color for supporting card titles.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h4',
+              state: 'success',
+              size: 'default',
+              styles: {
+                label: 'Heading 4 Success',
+                fontSize: '{Typography/Base/headings/h4/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/success-text-emphasis}',
+              },
+              description:
+                'H4 heading with .text-success-emphasis - Success color for positive card titles.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h4',
+              state: 'danger',
+              size: 'default',
+              styles: {
+                label: 'Heading 4 Danger',
+                fontSize: '{Typography/Base/headings/h4/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/danger-text-emphasis}',
+              },
+              description:
+                'H4 heading with .text-danger-emphasis - Danger color for error card titles.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h4',
+              state: 'warning',
+              size: 'default',
+              styles: {
+                label: 'Heading 4 Warning',
+                fontSize: '{Typography/Base/headings/h4/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/warning-text-emphasis}',
+              },
+              description:
+                'H4 heading with .text-warning-emphasis - Warning color for caution card titles.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h4',
+              state: 'info',
+              size: 'default',
+              styles: {
+                label: 'Heading 4 Info',
+                fontSize: '{Typography/Base/headings/h4/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/info-text-emphasis}',
+              },
+              description:
+                'H4 heading with .text-info-emphasis - Info color for informational card titles.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h4',
+              state: 'light',
+              size: 'default',
+              styles: {
+                label: 'Heading 4 Light',
+                fontSize: '{Typography/Base/headings/h4/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/light-text-emphasis}',
+              },
+              description:
+                'H4 heading with .text-light-emphasis - Light emphasis for subtle card titles.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h4',
+              state: 'dark',
+              size: 'default',
+              styles: {
+                label: 'Heading 4 Dark',
+                fontSize: '{Typography/Base/headings/h4/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/dark-text-emphasis}',
+              },
+              description:
+                'H4 heading with .text-dark-emphasis - Dark emphasis for maximum contrast.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h4',
+              state: 'muted',
+              size: 'default',
+              styles: {
+                label: 'Heading 4 Muted',
+                fontSize: '{Typography/Base/headings/h4/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/tertiary-color}',
+              },
+              description:
+                'H4 heading with .text-muted - Muted color for de-emphasized card titles.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h5',
+              state: 'default',
+              size: 'default',
+              styles: {
+                label: 'Heading 5',
+                fontSize: '{Typography/Base/headings/h5/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/emphasis-color}',
+              },
+              description:
+                'H5 heading (1.25rem / 20px) - Use for small section headers, sidebar titles, or nested content headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/content/typography/#headings',
+            },
+            {
+              type: 'h5',
+              state: 'primary',
+              size: 'default',
+              styles: {
+                label: 'Heading 5 Primary',
+                fontSize: '{Typography/Base/headings/h5/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/primary-text-emphasis}',
+              },
+              description:
+                'H5 heading with .text-primary-emphasis - Primary brand emphasis for small headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h5',
+              state: 'secondary',
+              size: 'default',
+              styles: {
+                label: 'Heading 5 Secondary',
+                fontSize: '{Typography/Base/headings/h5/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/secondary-color}',
+              },
+              description:
+                'H5 heading with .text-secondary - Secondary emphasis for small headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h5',
+              state: 'success',
+              size: 'default',
+              styles: {
+                label: 'Heading 5 Success',
+                fontSize: '{Typography/Base/headings/h5/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/success-text-emphasis}',
+              },
+              description:
+                'H5 heading with .text-success-emphasis - Success color for positive small headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h5',
+              state: 'danger',
+              size: 'default',
+              styles: {
+                label: 'Heading 5 Danger',
+                fontSize: '{Typography/Base/headings/h5/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/danger-text-emphasis}',
+              },
+              description:
+                'H5 heading with .text-danger-emphasis - Danger color for error small headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h5',
+              state: 'warning',
+              size: 'default',
+              styles: {
+                label: 'Heading 5 Warning',
+                fontSize: '{Typography/Base/headings/h5/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/warning-text-emphasis}',
+              },
+              description:
+                'H5 heading with .text-warning-emphasis - Warning color for caution small headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h5',
+              state: 'info',
+              size: 'default',
+              styles: {
+                label: 'Heading 5 Info',
+                fontSize: '{Typography/Base/headings/h5/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/info-text-emphasis}',
+              },
+              description:
+                'H5 heading with .text-info-emphasis - Info color for informational small headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h5',
+              state: 'light',
+              size: 'default',
+              styles: {
+                label: 'Heading 5 Light',
+                fontSize: '{Typography/Base/headings/h5/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/light-text-emphasis}',
+              },
+              description:
+                'H5 heading with .text-light-emphasis - Light emphasis for subtle small headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h5',
+              state: 'dark',
+              size: 'default',
+              styles: {
+                label: 'Heading 5 Dark',
+                fontSize: '{Typography/Base/headings/h5/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/dark-text-emphasis}',
+              },
+              description:
+                'H5 heading with .text-dark-emphasis - Dark emphasis for maximum contrast.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h5',
+              state: 'muted',
+              size: 'default',
+              styles: {
+                label: 'Heading 5 Muted',
+                fontSize: '{Typography/Base/headings/h5/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/tertiary-color}',
+              },
+              description:
+                'H5 heading with .text-muted - Muted color for de-emphasized small headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h6',
+              state: 'default',
+              size: 'default',
+              styles: {
+                label: 'Heading 6',
+                fontSize: '{Typography/Base/headings/h6/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/emphasis-color}',
+              },
+              description:
+                'H6 heading (1rem / 16px) - Smallest heading, use for labels, form section titles, or deeply nested content.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/content/typography/#headings',
+            },
+            {
+              type: 'h6',
+              state: 'primary',
+              size: 'default',
+              styles: {
+                label: 'Heading 6 Primary',
+                fontSize: '{Typography/Base/headings/h6/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/primary-text-emphasis}',
+              },
+              description:
+                'H6 heading with .text-primary-emphasis - Primary brand emphasis for smallest headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h6',
+              state: 'secondary',
+              size: 'default',
+              styles: {
+                label: 'Heading 6 Secondary',
+                fontSize: '{Typography/Base/headings/h6/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/secondary-color}',
+              },
+              description:
+                'H6 heading with .text-secondary - Secondary emphasis for smallest headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h6',
+              state: 'success',
+              size: 'default',
+              styles: {
+                label: 'Heading 6 Success',
+                fontSize: '{Typography/Base/headings/h6/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/success-text-emphasis}',
+              },
+              description:
+                'H6 heading with .text-success-emphasis - Success color for positive smallest headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h6',
+              state: 'danger',
+              size: 'default',
+              styles: {
+                label: 'Heading 6 Danger',
+                fontSize: '{Typography/Base/headings/h6/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/danger-text-emphasis}',
+              },
+              description:
+                'H6 heading with .text-danger-emphasis - Danger color for error smallest headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h6',
+              state: 'warning',
+              size: 'default',
+              styles: {
+                label: 'Heading 6 Warning',
+                fontSize: '{Typography/Base/headings/h6/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/warning-text-emphasis}',
+              },
+              description:
+                'H6 heading with .text-warning-emphasis - Warning color for caution smallest headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h6',
+              state: 'info',
+              size: 'default',
+              styles: {
+                label: 'Heading 6 Info',
+                fontSize: '{Typography/Base/headings/h6/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/info-text-emphasis}',
+              },
+              description:
+                'H6 heading with .text-info-emphasis - Info color for informational smallest headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h6',
+              state: 'light',
+              size: 'default',
+              styles: {
+                label: 'Heading 6 Light',
+                fontSize: '{Typography/Base/headings/h6/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/light-text-emphasis}',
+              },
+              description:
+                'H6 heading with .text-light-emphasis - Light emphasis for subtle smallest headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h6',
+              state: 'dark',
+              size: 'default',
+              styles: {
+                label: 'Heading 6 Dark',
+                fontSize: '{Typography/Base/headings/h6/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/dark-text-emphasis}',
+              },
+              description:
+                'H6 heading with .text-dark-emphasis - Dark emphasis for maximum contrast.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+            {
+              type: 'h6',
+              state: 'muted',
+              size: 'default',
+              styles: {
+                label: 'Heading 6 Muted',
+                fontSize: '{Typography/Base/headings/h6/fontSize}',
+                fontWeight: '{Typography/Base/headings/fontWeight}',
+                lineHeight: '{Typography/Base/lineHeight/tight}',
+                text: '{Foundation/Light/semantic/tertiary-color}',
+              },
+              description:
+                'H6 heading with .text-muted - Muted color for de-emphasized smallest headings.',
+              documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
+            },
+          ],
+        },
       },
     },
   },

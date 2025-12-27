@@ -453,7 +453,8 @@ export function sanitizeHtml(html: string, options: SanitizeHtmlOptions = {}): s
         attrs: Readonly<Record<string, readonly string[]>>,
         key: string
       ): readonly string[] => {
-        if (Object.prototype.hasOwnProperty.call(attrs, key)) {
+        const hasOwn = Object.prototype.hasOwnProperty;
+        if (hasOwn.call(attrs, key)) {
           const entries = Object.entries(attrs);
           for (const [k, v] of entries) {
             if (k === key) {

@@ -1,4 +1,5 @@
 import * as figmaJSON from '../../figma.config.json' with { type: 'json' };
+
 import { devResources } from './devResources.mjs';
 
 // run with node --env-file=.env app.mjs

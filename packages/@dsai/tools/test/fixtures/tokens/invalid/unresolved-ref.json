@@ -1,0 +1,8 @@
+{
+  "$description": "Tokens with unresolved references",
+  "broken-refs": {
+    "$type": "color",
+    "primary": { "$value": "{does.not.exist}" },
+    "secondary": { "$value": "{also.missing.token}" }
+  }
+}

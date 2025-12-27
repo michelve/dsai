@@ -16,9 +16,7 @@
             "bootstrapVersion": "5.3"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-blue-50",
           "ANDROID": "brand.blue.50",
@@ -41,9 +39,7 @@
             "bootstrapVersion": "5.3"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-blue-100",
           "ANDROID": "color.blue.100",
@@ -63,9 +59,7 @@
             "scssVariableName": "$color-blue-200"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-blue-200",
           "ANDROID": "color.blue.200",
@@ -85,9 +79,7 @@
             "scssVariableName": "$color-blue-300"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-blue-300",
           "ANDROID": "color.blue.300",
@@ -107,9 +99,7 @@
             "scssVariableName": "$color-blue-400"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-blue-400",
           "ANDROID": "color.blue.400",
@@ -130,9 +120,7 @@
             "isBaseColor": "true"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-blue-500",
           "ANDROID": "color.blue.500",
@@ -153,9 +141,7 @@
             "useCase": "hover"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-blue-600",
           "ANDROID": "color.blue.600",
@@ -176,9 +162,7 @@
             "useCase": "active"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-blue-700",
           "ANDROID": "color.blue.700",
@@ -198,9 +182,7 @@
             "scssVariableName": "$color-blue-800"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-blue-800",
           "ANDROID": "color.blue.800",
@@ -220,9 +202,7 @@
             "scssVariableName": "$color-blue-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-blue-900",
           "ANDROID": "color.blue.900",
@@ -242,9 +222,7 @@
             "scssVariableName": "$color-blue-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-blue-900",
           "ANDROID": "brand.blue.950",
@@ -266,9 +244,7 @@
             "scssVariableName": "$color-indigo-50"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-indigo-50",
           "ANDROID": "brand.indigo.50",
@@ -288,9 +264,7 @@
             "scssVariableName": "$color-indigo-100"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-indigo-100",
           "ANDROID": "color.indigo.100",
@@ -310,9 +284,7 @@
             "scssVariableName": "$color-indigo-200"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-indigo-200",
           "ANDROID": "color.indigo.200",
@@ -332,9 +304,7 @@
             "scssVariableName": "$color-indigo-300"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-indigo-300",
           "ANDROID": "color.indigo.300",
@@ -354,9 +324,7 @@
             "scssVariableName": "$color-indigo-400"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-indigo-400",
           "ANDROID": "color.indigo.400",
@@ -377,9 +345,7 @@
             "isBaseColor": "true"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-indigo-500",
           "ANDROID": "color.indigo.500",
@@ -399,9 +365,7 @@
             "scssVariableName": "$color-indigo-600"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-indigo-600",
           "ANDROID": "color.indigo.600",
@@ -421,9 +385,7 @@
             "scssVariableName": "$color-indigo-700"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-indigo-700",
           "ANDROID": "color.indigo.700",
@@ -443,9 +405,7 @@
             "scssVariableName": "$color-indigo-800"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-indigo-800",
           "ANDROID": "color.indigo.800",
@@ -465,9 +425,7 @@
             "scssVariableName": "$color-indigo-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-indigo-900",
           "ANDROID": "color.indigo.900",
@@ -487,9 +445,7 @@
             "scssVariableName": "$color-indigo-950"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-indigo-950",
           "ANDROID": "brand.indigo.950",
@@ -511,9 +467,7 @@
             "scssVariableName": "$color-purple-50"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-purple-50",
           "ANDROID": "brand.purple.50",
@@ -533,9 +487,7 @@
             "scssVariableName": "$color-purple-100"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-purple-100",
           "ANDROID": "color.purple.100",
@@ -555,9 +507,7 @@
             "scssVariableName": "$color-purple-200"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-purple-200",
           "ANDROID": "color.purple.200",
@@ -577,9 +527,7 @@
             "scssVariableName": "$color-purple-300"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-purple-300",
           "ANDROID": "color.purple.300",
@@ -599,9 +547,7 @@
             "scssVariableName": "$color-purple-400"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-purple-400",
           "ANDROID": "color.purple.400",
@@ -622,9 +568,7 @@
             "isBaseColor": "true"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-purple-500",
           "ANDROID": "color.purple.500",
@@ -644,9 +588,7 @@
             "scssVariableName": "$color-purple-600"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-purple-600",
           "ANDROID": "color.purple.600",
@@ -666,9 +608,7 @@
             "scssVariableName": "$color-purple-700"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-purple-700",
           "ANDROID": "color.purple.700",
@@ -688,9 +628,7 @@
             "scssVariableName": "$color-purple-800"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-purple-800",
           "ANDROID": "color.purple.800",
@@ -710,9 +648,7 @@
             "scssVariableName": "$color-purple-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-purple-900",
           "ANDROID": "color.purple.900",
@@ -732,9 +668,7 @@
             "scssVariableName": "$color-purple-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-purple-900",
           "ANDROID": "brand.purple.950",
@@ -756,9 +690,7 @@
             "scssVariableName": "$color-pink-50"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-pink-50",
           "ANDROID": "brand.pink.50",
@@ -778,9 +710,7 @@
             "scssVariableName": "$color-pink-100"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-pink-100",
           "ANDROID": "color.pink.100",
@@ -800,9 +730,7 @@
             "scssVariableName": "$color-pink-200"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-pink-200",
           "ANDROID": "color.pink.200",
@@ -822,9 +750,7 @@
             "scssVariableName": "$color-pink-300"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-pink-300",
           "ANDROID": "color.pink.300",
@@ -844,9 +770,7 @@
             "scssVariableName": "$color-pink-400"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-pink-400",
           "ANDROID": "color.pink.400",
@@ -867,9 +791,7 @@
             "isBaseColor": "true"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-pink-500",
           "ANDROID": "color.pink.500",
@@ -889,9 +811,7 @@
             "scssVariableName": "$color-pink-600"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-pink-600",
           "ANDROID": "color.pink.600",
@@ -911,9 +831,7 @@
             "scssVariableName": "$color-pink-700"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-pink-700",
           "ANDROID": "color.pink.700",
@@ -933,9 +851,7 @@
             "scssVariableName": "$color-pink-800"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-pink-800",
           "ANDROID": "color.pink.800",
@@ -955,9 +871,7 @@
             "scssVariableName": "$color-pink-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-pink-900",
           "ANDROID": "color.pink.900",
@@ -977,9 +891,7 @@
             "scssVariableName": "$color-pink-950"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-pink-950",
           "ANDROID": "brand.pink.950",
@@ -1001,9 +913,7 @@
             "scssVariableName": "$color-red-50"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-red-50",
           "ANDROID": "brand.red.50",
@@ -1023,9 +933,7 @@
             "scssVariableName": "$color-red-100"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-red-100",
           "ANDROID": "color.red.100",
@@ -1045,9 +953,7 @@
             "scssVariableName": "$color-red-200"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-red-200",
           "ANDROID": "color.red.200",
@@ -1067,9 +973,7 @@
             "scssVariableName": "$color-red-300"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-red-300",
           "ANDROID": "color.red.300",
@@ -1089,9 +993,7 @@
             "scssVariableName": "$color-red-400"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-red-400",
           "ANDROID": "color.red.400",
@@ -1112,9 +1014,7 @@
             "isBaseColor": "true"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-red-500",
           "ANDROID": "color.red.500",
@@ -1134,9 +1034,7 @@
             "scssVariableName": "$color-red-600"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-red-600",
           "ANDROID": "color.red.600",
@@ -1156,9 +1054,7 @@
             "scssVariableName": "$color-red-700"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-red-700",
           "ANDROID": "color.red.700",
@@ -1178,9 +1074,7 @@
             "scssVariableName": "$color-red-800"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-red-800",
           "ANDROID": "color.red.800",
@@ -1200,9 +1094,7 @@
             "scssVariableName": "$color-red-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-red-900",
           "ANDROID": "color.red.900",
@@ -1222,9 +1114,7 @@
             "scssVariableName": "$color-red-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-red-900",
           "ANDROID": "brand.red.950",
@@ -1246,9 +1136,7 @@
             "scssVariableName": "$color-orange-50"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-orange-50",
           "ANDROID": "brand.orange.50",
@@ -1268,9 +1156,7 @@
             "scssVariableName": "$color-orange-100"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-orange-100",
           "ANDROID": "color.orange.100",
@@ -1290,9 +1176,7 @@
             "scssVariableName": "$color-orange-200"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-orange-200",
           "ANDROID": "color.orange.200",
@@ -1312,9 +1196,7 @@
             "scssVariableName": "$color-orange-300"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-orange-300",
           "ANDROID": "color.orange.300",
@@ -1334,9 +1216,7 @@
             "scssVariableName": "$color-orange-400"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-orange-400",
           "ANDROID": "color.orange.400",
@@ -1357,9 +1237,7 @@
             "isBaseColor": "true"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-orange-500",
           "ANDROID": "color.orange.500",
@@ -1379,9 +1257,7 @@
             "scssVariableName": "$color-orange-600"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-orange-600",
           "ANDROID": "color.orange.600",
@@ -1401,9 +1277,7 @@
             "scssVariableName": "$color-orange-700"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-orange-700",
           "ANDROID": "color.orange.700",
@@ -1423,9 +1297,7 @@
             "scssVariableName": "$color-orange-800"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-orange-800",
           "ANDROID": "color.orange.800",
@@ -1445,9 +1317,7 @@
             "scssVariableName": "$color-orange-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-orange-900",
           "ANDROID": "color.orange.900",
@@ -1467,9 +1337,7 @@
             "scssVariableName": "$color-orange-950"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-orange-950",
           "ANDROID": "brand.orange.950",
@@ -1491,9 +1359,7 @@
             "scssVariableName": "$color-yellow-50"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-yellow-50",
           "ANDROID": "brand.yellow.50",
@@ -1513,9 +1379,7 @@
             "scssVariableName": "$color-yellow-100"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-yellow-100",
           "ANDROID": "color.yellow.100",
@@ -1535,9 +1399,7 @@
             "scssVariableName": "$color-yellow-200"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-yellow-200",
           "ANDROID": "color.yellow.200",
@@ -1557,9 +1419,7 @@
             "scssVariableName": "$color-yellow-300"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-yellow-300",
           "ANDROID": "color.yellow.300",
@@ -1579,9 +1439,7 @@
             "scssVariableName": "$color-yellow-400"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-yellow-400",
           "ANDROID": "color.yellow.400",
@@ -1602,9 +1460,7 @@
             "isBaseColor": "true"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-yellow-500",
           "ANDROID": "color.yellow.500",
@@ -1624,9 +1480,7 @@
             "scssVariableName": "$color-yellow-600"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-yellow-600",
           "ANDROID": "color.yellow.600",
@@ -1646,9 +1500,7 @@
             "scssVariableName": "$color-yellow-700"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-yellow-700",
           "ANDROID": "color.yellow.700",
@@ -1668,9 +1520,7 @@
             "scssVariableName": "$color-yellow-800"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-yellow-800",
           "ANDROID": "color.yellow.800",
@@ -1690,9 +1540,7 @@
             "scssVariableName": "$color-yellow-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-yellow-900",
           "ANDROID": "color.yellow.900",
@@ -1712,9 +1560,7 @@
             "scssVariableName": "$color-yellow-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-yellow-900",
           "ANDROID": "brand.yellow.950",
@@ -1736,9 +1582,7 @@
             "scssVariableName": "$color-green-50"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-green-50",
           "ANDROID": "brand.green.50",
@@ -1758,9 +1602,7 @@
             "scssVariableName": "$color-green-100"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-green-100",
           "ANDROID": "color.green.100",
@@ -1780,9 +1622,7 @@
             "scssVariableName": "$color-green-200"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-green-200",
           "ANDROID": "color.green.200",
@@ -1802,9 +1642,7 @@
             "scssVariableName": "$color-green-300"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-green-300",
           "ANDROID": "color.green.300",
@@ -1824,9 +1662,7 @@
             "scssVariableName": "$color-green-400"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-green-400",
           "ANDROID": "color.green.400",
@@ -1847,9 +1683,7 @@
             "isBaseColor": "true"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-green-500",
           "ANDROID": "color.green.500",
@@ -1869,9 +1703,7 @@
             "scssVariableName": "$color-green-600"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-green-600",
           "ANDROID": "color.green.600",
@@ -1891,9 +1723,7 @@
             "scssVariableName": "$color-green-700"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-green-700",
           "ANDROID": "color.green.700",
@@ -1913,9 +1743,7 @@
             "scssVariableName": "$color-green-800"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-green-800",
           "ANDROID": "color.green.800",
@@ -1935,9 +1763,7 @@
             "scssVariableName": "$color-green-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-green-900",
           "ANDROID": "color.green.900",
@@ -1957,9 +1783,7 @@
             "scssVariableName": "$color-green-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-green-900",
           "ANDROID": "brand.green.950",
@@ -1981,9 +1805,7 @@
             "scssVariableName": "$color-teal-50"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-teal-50",
           "ANDROID": "brand.teal.50",
@@ -2003,9 +1825,7 @@
             "scssVariableName": "$color-teal-100"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-teal-100",
           "ANDROID": "color.teal.100",
@@ -2025,9 +1845,7 @@
             "scssVariableName": "$color-teal-200"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-teal-200",
           "ANDROID": "color.teal.200",
@@ -2047,9 +1865,7 @@
             "scssVariableName": "$color-teal-300"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-teal-300",
           "ANDROID": "color.teal.300",
@@ -2069,9 +1885,7 @@
             "scssVariableName": "$color-teal-400"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-teal-400",
           "ANDROID": "color.teal.400",
@@ -2092,9 +1906,7 @@
             "isBaseColor": "true"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-teal-500",
           "ANDROID": "color.teal.500",
@@ -2114,9 +1926,7 @@
             "scssVariableName": "$color-teal-600"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-teal-600",
           "ANDROID": "color.teal.600",
@@ -2136,9 +1946,7 @@
             "scssVariableName": "$color-teal-700"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-teal-700",
           "ANDROID": "color.teal.700",
@@ -2158,9 +1966,7 @@
             "scssVariableName": "$color-teal-800"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-teal-800",
           "ANDROID": "color.teal.800",
@@ -2180,9 +1986,7 @@
             "scssVariableName": "$color-teal-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-teal-900",
           "ANDROID": "color.teal.900",
@@ -2202,9 +2006,7 @@
             "scssVariableName": "$color-teal-950"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-teal-950",
           "ANDROID": "brand.teal.950",
@@ -2226,9 +2028,7 @@
             "scssVariableName": "$color-cyan-50"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-cyan-50",
           "ANDROID": "brand.cyan.50",
@@ -2248,9 +2048,7 @@
             "scssVariableName": "$color-cyan-100"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-cyan-100",
           "ANDROID": "color.cyan.100",
@@ -2270,9 +2068,7 @@
             "scssVariableName": "$color-cyan-200"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-cyan-200",
           "ANDROID": "color.cyan.200",
@@ -2292,9 +2088,7 @@
             "scssVariableName": "$color-cyan-300"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-cyan-300",
           "ANDROID": "color.cyan.300",
@@ -2314,9 +2108,7 @@
             "scssVariableName": "$color-cyan-400"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-cyan-400",
           "ANDROID": "color.cyan.400",
@@ -2337,9 +2129,7 @@
             "isBaseColor": "true"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-cyan-500",
           "ANDROID": "color.cyan.500",
@@ -2359,9 +2149,7 @@
             "scssVariableName": "$color-cyan-600"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-cyan-600",
           "ANDROID": "color.cyan.600",
@@ -2381,9 +2169,7 @@
             "scssVariableName": "$color-cyan-700"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-cyan-700",
           "ANDROID": "color.cyan.700",
@@ -2403,9 +2189,7 @@
             "scssVariableName": "$color-cyan-800"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-cyan-800",
           "ANDROID": "color.cyan.800",
@@ -2425,9 +2209,7 @@
             "scssVariableName": "$color-cyan-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-cyan-900",
           "ANDROID": "color.cyan.900",
@@ -2447,9 +2229,7 @@
             "scssVariableName": "$color-cyan-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-cyan-900",
           "ANDROID": "brand.cyan.950",
@@ -2471,9 +2251,7 @@
             "scssVariableName": "$color-gray-50"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-50",
           "ANDROID": "brand.gray.50",
@@ -2493,9 +2271,7 @@
             "scssVariableName": "$color-gray-100"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-100",
           "ANDROID": "color.gray.100",
@@ -2515,9 +2291,7 @@
             "scssVariableName": "$color-gray-200"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-200",
           "ANDROID": "color.gray.200",
@@ -2537,9 +2311,7 @@
             "scssVariableName": "$color-gray-300"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-300",
           "ANDROID": "color.gray.300",
@@ -2559,9 +2331,7 @@
             "scssVariableName": "$color-gray-400"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-400",
           "ANDROID": "color.gray.400",
@@ -2581,9 +2351,7 @@
             "scssVariableName": "$color-gray-500"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-500",
           "ANDROID": "color.gray.500",
@@ -2603,9 +2371,7 @@
             "scssVariableName": "$color-gray-600"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-600",
           "ANDROID": "color.gray.600",
@@ -2625,9 +2391,7 @@
             "scssVariableName": "$color-gray-700"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-700",
           "ANDROID": "color.gray.700",
@@ -2647,9 +2411,7 @@
             "scssVariableName": "$color-gray-800"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-800",
           "ANDROID": "color.gray.800",
@@ -2669,9 +2431,7 @@
             "scssVariableName": "$color-gray-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-900",
           "ANDROID": "color.gray.900",
@@ -2691,9 +2451,7 @@
             "scssVariableName": "$color-gray-900"
           }
         },
-        "$scopes": [
-          "ALL_FILLS"
-        ],
+        "$scopes": ["ALL_FILLS"],
         "$codeSyntax": {
           "WEB": "--dsai-color-gray-900",
           "ANDROID": "brand.gray.950",

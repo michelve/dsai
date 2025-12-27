@@ -212,7 +212,7 @@ export function processScssImportHeader(
     }
   }
 
-  return statements.join('\n') + '\n\n';
+  return `${statements.join('\n')}\n\n`;
 }
 
 /**

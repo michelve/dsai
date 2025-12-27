@@ -44,7 +44,7 @@ export function mergeRefs<T>(
           (ref as MutableRefObject<T | null>).current = value;
         } catch (error) {
           // Warn in development when ref assignment fails
-      if (process.env['NODE_ENV'] !== 'production') {
+          if (process.env['NODE_ENV'] !== 'production') {
             console.warn('[mergeRefs] Failed to assign ref:', error);
           }
         }

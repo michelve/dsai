@@ -65,7 +65,7 @@ export function getArrowKeyHandler(handlers: ArrowKeyHandlers): (event: Keyboard
     const key = event.key as ArrowKey;
 
     // Safe: key is typed as ArrowKey and checked against handlers
-    if (key in handlers && Object.prototype.hasOwnProperty.call(handlers, key)) {
+    if (Object.keys(handlers).includes(key)) {
       const handler = handlers[key];
       if (handler) {
         handler(event);

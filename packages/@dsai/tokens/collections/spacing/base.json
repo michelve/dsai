@@ -12,9 +12,7 @@
           "scssVariableName": "$spacer-0"
         }
       },
-      "$scopes": [
-        "GAP"
-      ],
+      "$scopes": ["GAP"],
       "$codeSyntax": {
         "WEB": "--dsai-spacing-0",
         "ANDROID": "spacing.0",
@@ -34,9 +32,7 @@
           "scssVariableName": "$spacer-1"
         }
       },
-      "$scopes": [
-        "GAP"
-      ],
+      "$scopes": ["GAP"],
       "$codeSyntax": {
         "WEB": "--dsai-spacing-1",
         "ANDROID": "spacing.1",
@@ -56,9 +52,7 @@
           "scssVariableName": "$spacer-2"
         }
       },
-      "$scopes": [
-        "GAP"
-      ],
+      "$scopes": ["GAP"],
       "$codeSyntax": {
         "WEB": "--dsai-spacing-2",
         "ANDROID": "spacing.2",
@@ -78,9 +72,7 @@
           "scssVariableName": "$spacer-3"
         }
       },
-      "$scopes": [
-        "GAP"
-      ],
+      "$scopes": ["GAP"],
       "$codeSyntax": {
         "WEB": "--dsai-spacing-3",
         "ANDROID": "spacing.3",
@@ -100,9 +92,7 @@
           "scssVariableName": "$spacer-4"
         }
       },
-      "$scopes": [
-        "GAP"
-      ],
+      "$scopes": ["GAP"],
       "$codeSyntax": {
         "WEB": "--dsai-spacing-4",
         "ANDROID": "spacing.4",
@@ -122,9 +112,7 @@
           "scssVariableName": "$spacer-5"
         }
       },
-      "$scopes": [
-        "GAP"
-      ],
+      "$scopes": ["GAP"],
       "$codeSyntax": {
         "WEB": "--dsai-spacing-5",
         "ANDROID": "spacing.5",
@@ -144,9 +132,7 @@
           "scssVariableName": "$spacer-6"
         }
       },
-      "$scopes": [
-        "GAP"
-      ],
+      "$scopes": ["GAP"],
       "$codeSyntax": {
         "WEB": "--dsai-spacing-6",
         "ANDROID": "spacing.6",
@@ -166,9 +152,7 @@
           "scssVariableName": "$spacer-7"
         }
       },
-      "$scopes": [
-        "GAP"
-      ],
+      "$scopes": ["GAP"],
       "$codeSyntax": {
         "WEB": "--dsai-spacing-7",
         "ANDROID": "spacing.7",
@@ -188,9 +172,7 @@
           "scssVariableName": "$spacer-8"
         }
       },
-      "$scopes": [
-        "GAP"
-      ],
+      "$scopes": ["GAP"],
       "$codeSyntax": {
         "WEB": "--dsai-spacing-8",
         "ANDROID": "spacing.8",
@@ -210,9 +192,7 @@
           "scssVariableName": "$spacer-9"
         }
       },
-      "$scopes": [
-        "GAP"
-      ],
+      "$scopes": ["GAP"],
       "$codeSyntax": {
         "WEB": "--dsai-spacing-9",
         "ANDROID": "spacing.9",
@@ -232,9 +212,7 @@
           "scssVariableName": "$spacer-10"
         }
       },
-      "$scopes": [
-        "GAP"
-      ],
+      "$scopes": ["GAP"],
       "$codeSyntax": {
         "WEB": "--dsai-spacing-10",
         "ANDROID": "spacing.10",

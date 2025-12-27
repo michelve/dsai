@@ -20,6 +20,14 @@ module.exports = {
     '!src/**/__tests__/**',
     '!src/**/*.test.{ts,tsx}',
   ],
+  coverageThreshold: {
+    global: {
+      branches: 30,
+      functions: 30,
+      lines: 33,
+      statements: 33,
+    },
+  },
   extensionsToTreatAsEsm: ['.ts'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',

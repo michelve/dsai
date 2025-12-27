@@ -14,8 +14,8 @@ import { buildIcons } from '../../icons/index.js';
 import { ExitCode } from '../types.js';
 import { colors, createLogger, createSpinner, formatDuration } from '../ui/index.js';
 
-import type { IconsBuildOptions } from '../types.js';
 import type { IconFormat } from '../../icons/types.js';
+import type { IconsBuildOptions } from '../types.js';
 
 /**
  * Create icons command group
@@ -116,7 +116,7 @@ async function runIconsBuild(options: IconsBuildOptions & { optimize?: boolean }
     if (error instanceof Error) {
       logger.error(error.message);
       if (options.debug) {
-        // eslint-disable-next-line no-console
+         
         console.error(error.stack);
       }
     }

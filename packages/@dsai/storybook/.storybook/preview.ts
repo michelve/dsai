@@ -95,7 +95,7 @@ const preview: Preview = {
   decorators: [
     // Theme decorator - applies data-dsai-theme attribute based on toolbar selection
     (Story, context) => {
-      const theme = (context.globals['theme'] as string) || 'light';
+      const theme = (context.globals.theme as string) || 'light';
 
       // Create a wrapper component to properly use React hooks
       const ThemedWrapper: React.FC = () => {
@@ -112,7 +112,7 @@ const preview: Preview = {
             document.body.style.backgroundColor = '#ffffff';
             document.body.style.color = '#212529';
           }
-        }, [theme]);
+        }, []);
 
         return React.createElement(
           'div',

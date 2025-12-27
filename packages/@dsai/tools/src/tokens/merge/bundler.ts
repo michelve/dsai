@@ -12,6 +12,7 @@ import * as path from 'node:path';
 
 import { loadContent, mergeContent } from './merger.js';
 import { sortFiles } from './scanner.js';
+
 import type { BundleConfig, BundleResult, StyleScannedFile, StyleMergeResult } from './types.js';
 
 // ============================================================================
