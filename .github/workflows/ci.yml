@@ -214,6 +214,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build @dsai/tools (required for CLI)
+        run: pnpm nx run @dsai/tools:build
+
       - name: Transform Figma tokens
         run: pnpm tokens:transform
         working-directory: packages/@dsai/tokens
@@ -286,6 +289,11 @@ jobs:
 
       - name: Verify build outputs
         run: |
+          echo "Checking @dsai/tools outputs..."
+          ls -lh packages/@dsai/tools/dist/index.js
+          ls -lh packages/@dsai/tools/dist/index.d.ts
+          echo "✅ Tools package outputs exist"
+
           echo "Checking @dsai/tokens outputs..."
           ls -lh packages/@dsai/tokens/dist/css/variables.css
           ls -lh packages/@dsai/tokens/dist/scss/_variables.scss
@@ -298,6 +306,7 @@ jobs:
         with:
           name: build-artifacts
           path: |
+            packages/@dsai/tools/dist/
             packages/@dsai/tokens/dist/
             packages/@dsai/react/dist/
             packages/@dsai/storybook/storybook-static/
