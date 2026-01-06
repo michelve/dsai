@@ -17,7 +17,12 @@ import { ExitCode } from '../types.js';
 import { colors, createLogger, createSpinner, formatDuration } from '../ui/index.js';
 
 import type { BuildResult, SyncResult, ValidationResult } from '../../tokens/types.js';
-import type { TokensBuildOptions, TokensSyncOptions, TokensValidateOptions } from '../types.js';
+import type {
+  TokensBuildOptions,
+  TokensSyncOptions,
+  TokensTransformOptions,
+  TokensValidateOptions,
+} from '../types.js';
 
 /**
  * Create tokens command group
@@ -56,6 +61,20 @@ export function createTokensCommand(): Command {
       await runTokensValidate(mergedOpts);
     });
 
+  // Transform command
+  tokens
+    .command('transform')
+    .description('Transform Figma token exports to Style Dictionary format')
+    .option('--dry-run', 'Show what would be transformed without writing files', false)
+    .option('--default-mode <mode>', 'Default mode for mode-aware collections', 'Light')
+    .option('--ignore-modes <modes>', 'Comma-separated list of modes to ignore', '')
+    .action(async (options: TokensTransformOptions, command: Command) => {
+      const globalOpts = command.parent?.parent?.opts() ?? {};
+      const mergedOpts = { ...globalOpts, ...options } as TokensTransformOptions;
+
+      await runTokensTransform(mergedOpts);
+    });
+
   // Sync command
   tokens
     .command('sync')
@@ -79,6 +98,90 @@ export function createTokensCommand(): Command {
     });
 
   return tokens;
+}
+
+/**
+ * Run tokens transform
+ */
+async function runTokensTransform(options: TokensTransformOptions): Promise<void> {
+  const startTime = Date.now();
+  const logger = createLogger({
+    quiet: options.quiet,
+    debug: options.debug,
+  });
+  const spinner = createSpinner(options.quiet);
+
+  try {
+    // Load configuration
+    spinner.start('Loading configuration...');
+    const { config, configPath } = await loadConfig({
+      cwd: options.cwd,
+      configPath: options.config,
+    });
+    spinner.succeed(`Loaded config from ${colors.path(configPath ?? 'defaults')}`);
+
+    logger.debug(`Config: ${JSON.stringify(config, null, 2)}`);
+
+    // Get directories from config
+    const sourceDir = config.tokens.sourceDir;
+    const collectionsDir = config.tokens.collectionsDir;
+
+    // Run transform
+    spinner.start('Transforming Figma tokens...');
+    const { transformTokens } = await import('../../tokens/index.js');
+
+    const ignoreModes = options.ignoreModes
+      ? options.ignoreModes.split(',').map((m: string) => m.trim())
+      : [];
+
+    const result = transformTokens({
+      sourceDir,
+      collectionsDir,
+      defaultMode: options.defaultMode ?? 'Light',
+      ignoreModes,
+      dryRun: options.dryRun ?? false,
+      verbose: !options.quiet,
+    });
+
+    if (result.success) {
+      const duration = formatDuration(Date.now() - startTime);
+      spinner.succeed(
+        `Transformed ${colors.bold(result.filesWritten.length.toString())} files in ${colors.bold(duration)}`
+      );
+
+      // Show output files
+      if (!options.quiet && result.filesWritten.length > 0) {
+        logger.log('');
+        for (const file of result.filesWritten) {
+          logger.log(`  ${colors.success('✔')} ${colors.path(file)}`);
+        }
+        logger.log('');
+      }
+
+      // Show warnings
+      if (result.warnings.length > 0) {
+        logger.log('');
+        for (const warning of result.warnings) {
+          logger.warn(warning);
+        }
+      }
+
+      process.exit(ExitCode.Success);
+    } else {
+      spinner.fail('Transform failed');
+
+      for (const error of result.errors) {
+        logger.error(error);
+      }
+
+      process.exit(ExitCode.BuildError);
+    }
+  } catch (error) {
+    spinner.fail('Transform failed');
+    const logger = createLogger({ quiet: options.quiet, debug: options.debug });
+    logger.error(error instanceof Error ? error.message : 'Unknown error');
+    process.exit(ExitCode.BuildError);
+  }
 }
 
 /**

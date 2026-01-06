@@ -1,7 +1,7 @@
 {
   "name": "@dsai/tokens",
   "version": "0.0.1",
-  "description": "Design tokens for DSAi component library",
+  "description": "Design tokens for DSAi component library - JavaScript/TypeScript exports only",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -16,24 +16,15 @@
     },
     "./dist/js/tokens.js": "./dist/js/tokens.js",
     "./dist/ts/tokens.d.ts": "./dist/ts/tokens.d.ts",
-    "./css/variables.css": "./dist/css/variables.css",
-    "./css/dsai.css": "./dist/css/dsai.css",
-    "./css/dsai.min.css": "./dist/css/dsai.min.css",
-    "./css/dsai-theme-bs.css": "./dist/css/dsai-theme-bs.css",
-    "./css/dsai-theme-bs.min.css": "./dist/css/dsai-theme-bs.min.css",
-    "./scss/_variables.scss": "./dist/scss/_variables.scss"
+    "./json": "./dist/json/tokens.json"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "prebuild": "pnpm build:tokens && pnpm build:theme && pnpm build:dsai",
+    "prebuild": "pnpm build:tokens",
     "build": "tsup",
     "build:tokens": "dsai tokens build",
-    "build:theme": "pnpm build:theme:sass && pnpm build:theme:postprocess",
-    "build:theme:sass": "sass --quiet-deps --silence-deprecation=import --silence-deprecation=global-builtin --silence-deprecation=color-functions src/scss/dsai-theme-bs.scss dist/css/dsai-theme-bs.css && sass --quiet-deps --silence-deprecation=import --silence-deprecation=global-builtin --silence-deprecation=color-functions src/scss/dsai-theme-bs.scss dist/css/dsai-theme-bs.min.css --style=compressed",
-    "build:theme:postprocess": "dsai tokens postprocess",
-    "build:dsai": "sass --quiet-deps --silence-deprecation=import src/scss/dsai-utilities.scss dist/css/dsai.css && sass --quiet-deps --silence-deprecation=import src/scss/dsai-utilities.scss dist/css/dsai.min.css --style=compressed",
     "build:watch": "tsup --watch",
     "dev": "dsai tokens build --watch & tsup --watch",
     "test": "echo 'Test tokens'",
@@ -65,8 +56,6 @@
     "@dsai/tools": "workspace:*"
   },
   "devDependencies": {
-    "bootstrap": "^5.3.8",
-    "sass": "^1.94.2",
     "style-dictionary": "^5.1.1"
   }
 }

@@ -1,0 +1,337 @@
+// ============================================================================
+// DSAi Token Variables Compatibility Layer (Storybook)
+// ============================================================================
+// This file maps the auto-generated token variables to the naming conventions
+// expected by the Bootstrap theme file (dsai-theme-bs.scss).
+//
+// The generated tokens use Figma's naming convention (e.g., typography-heading-h1),
+// while the Bootstrap theme expects DSAi's established convention
+// (e.g., typography-headings-h1-font-size).
+//
+// WORKFLOW:
+// 1. Run `pnpm tokens:transform` to convert Figma exports to collections
+// 2. Run `pnpm tokens:build` to generate _variables.scss in src/generated/
+// 3. This file forwards those variables with compatibility aliases
+// ============================================================================
+
+// Import auto-generated tokens
+@use '../generated/variables' as tokens;
+
+// ============================================================================
+// COLOR TOKENS (Direct mapping - names match)
+// ============================================================================
+
+// Blue scale
+$color-blue-50: tokens.$color-blue-50;
+$color-blue-100: tokens.$color-blue-100;
+$color-blue-200: tokens.$color-blue-200;
+$color-blue-300: tokens.$color-blue-300;
+$color-blue-400: tokens.$color-blue-400;
+$color-blue-500: tokens.$color-blue-500;
+$color-blue-600: tokens.$color-blue-600;
+$color-blue-700: tokens.$color-blue-700;
+$color-blue-800: tokens.$color-blue-800;
+$color-blue-900: tokens.$color-blue-900;
+$color-blue-950: tokens.$color-blue-950;
+
+// Indigo scale
+$color-indigo-50: tokens.$color-indigo-50;
+$color-indigo-100: tokens.$color-indigo-100;
+$color-indigo-200: tokens.$color-indigo-200;
+$color-indigo-300: tokens.$color-indigo-300;
+$color-indigo-400: tokens.$color-indigo-400;
+$color-indigo-500: tokens.$color-indigo-500;
+$color-indigo-600: tokens.$color-indigo-600;
+$color-indigo-700: tokens.$color-indigo-700;
+$color-indigo-800: tokens.$color-indigo-800;
+$color-indigo-900: tokens.$color-indigo-900;
+$color-indigo-950: tokens.$color-indigo-950;
+
+// Purple scale
+$color-purple-50: tokens.$color-purple-50;
+$color-purple-100: tokens.$color-purple-100;
+$color-purple-200: tokens.$color-purple-200;
+$color-purple-300: tokens.$color-purple-300;
+$color-purple-400: tokens.$color-purple-400;
+$color-purple-500: tokens.$color-purple-500;
+$color-purple-600: tokens.$color-purple-600;
+$color-purple-700: tokens.$color-purple-700;
+$color-purple-800: tokens.$color-purple-800;
+$color-purple-900: tokens.$color-purple-900;
+$color-purple-950: tokens.$color-purple-950;
+
+// Pink scale
+$color-pink-50: tokens.$color-pink-50;
+$color-pink-100: tokens.$color-pink-100;
+$color-pink-200: tokens.$color-pink-200;
+$color-pink-300: tokens.$color-pink-300;
+$color-pink-400: tokens.$color-pink-400;
+$color-pink-500: tokens.$color-pink-500;
+$color-pink-600: tokens.$color-pink-600;
+$color-pink-700: tokens.$color-pink-700;
+$color-pink-800: tokens.$color-pink-800;
+$color-pink-900: tokens.$color-pink-900;
+$color-pink-950: tokens.$color-pink-950;
+
+// Red scale
+$color-red-50: tokens.$color-red-50;
+$color-red-100: tokens.$color-red-100;
+$color-red-200: tokens.$color-red-200;
+$color-red-300: tokens.$color-red-300;
+$color-red-400: tokens.$color-red-400;
+$color-red-500: tokens.$color-red-500;
+$color-red-600: tokens.$color-red-600;
+$color-red-700: tokens.$color-red-700;
+$color-red-800: tokens.$color-red-800;
+$color-red-900: tokens.$color-red-900;
+$color-red-950: tokens.$color-red-950;
+
+// Orange scale
+$color-orange-50: tokens.$color-orange-50;
+$color-orange-100: tokens.$color-orange-100;
+$color-orange-200: tokens.$color-orange-200;
+$color-orange-300: tokens.$color-orange-300;
+$color-orange-400: tokens.$color-orange-400;
+$color-orange-500: tokens.$color-orange-500;
+$color-orange-600: tokens.$color-orange-600;
+$color-orange-700: tokens.$color-orange-700;
+$color-orange-800: tokens.$color-orange-800;
+$color-orange-900: tokens.$color-orange-900;
+$color-orange-950: tokens.$color-orange-950;
+
+// Yellow scale
+$color-yellow-50: tokens.$color-yellow-50;
+$color-yellow-100: tokens.$color-yellow-100;
+$color-yellow-200: tokens.$color-yellow-200;
+$color-yellow-300: tokens.$color-yellow-300;
+$color-yellow-400: tokens.$color-yellow-400;
+$color-yellow-500: tokens.$color-yellow-500;
+$color-yellow-600: tokens.$color-yellow-600;
+$color-yellow-700: tokens.$color-yellow-700;
+$color-yellow-800: tokens.$color-yellow-800;
+$color-yellow-900: tokens.$color-yellow-900;
+$color-yellow-950: tokens.$color-yellow-950;
+
+// Green scale
+$color-green-50: tokens.$color-green-50;
+$color-green-100: tokens.$color-green-100;
+$color-green-200: tokens.$color-green-200;
+$color-green-300: tokens.$color-green-300;
+$color-green-400: tokens.$color-green-400;
+$color-green-500: tokens.$color-green-500;
+$color-green-600: tokens.$color-green-600;
+$color-green-700: tokens.$color-green-700;
+$color-green-800: tokens.$color-green-800;
+$color-green-900: tokens.$color-green-900;
+$color-green-950: tokens.$color-green-950;
+
+// Teal scale
+$color-teal-50: tokens.$color-teal-50;
+$color-teal-100: tokens.$color-teal-100;
+$color-teal-200: tokens.$color-teal-200;
+$color-teal-300: tokens.$color-teal-300;
+$color-teal-400: tokens.$color-teal-400;
+$color-teal-500: tokens.$color-teal-500;
+$color-teal-600: tokens.$color-teal-600;
+$color-teal-700: tokens.$color-teal-700;
+$color-teal-800: tokens.$color-teal-800;
+$color-teal-900: tokens.$color-teal-900;
+$color-teal-950: tokens.$color-teal-950;
+
+// Cyan scale
+$color-cyan-50: tokens.$color-cyan-50;
+$color-cyan-100: tokens.$color-cyan-100;
+$color-cyan-200: tokens.$color-cyan-200;
+$color-cyan-300: tokens.$color-cyan-300;
+$color-cyan-400: tokens.$color-cyan-400;
+$color-cyan-500: tokens.$color-cyan-500;
+$color-cyan-600: tokens.$color-cyan-600;
+$color-cyan-700: tokens.$color-cyan-700;
+$color-cyan-800: tokens.$color-cyan-800;
+$color-cyan-900: tokens.$color-cyan-900;
+$color-cyan-950: tokens.$color-cyan-950;
+
+// Gray scale
+$color-gray-50: tokens.$color-gray-50;
+$color-gray-100: tokens.$color-gray-100;
+$color-gray-200: tokens.$color-gray-200;
+$color-gray-300: tokens.$color-gray-300;
+$color-gray-400: tokens.$color-gray-400;
+$color-gray-500: tokens.$color-gray-500;
+$color-gray-600: tokens.$color-gray-600;
+$color-gray-700: tokens.$color-gray-700;
+$color-gray-800: tokens.$color-gray-800;
+$color-gray-900: tokens.$color-gray-900;
+$color-gray-950: tokens.$color-gray-950;
+
+// ============================================================================
+// NEUTRAL COLORS (Semantic aliases)
+// ============================================================================
+$neutral-white: #ffffff;
+$neutral-black: #000000;
+$neutral-gray-50: $color-gray-50;
+$neutral-gray-100: $color-gray-100;
+$neutral-gray-200: $color-gray-200;
+$neutral-gray-300: $color-gray-300;
+$neutral-gray-400: $color-gray-400;
+$neutral-gray-500: $color-gray-500;
+$neutral-gray-600: $color-gray-600;
+$neutral-gray-700: $color-gray-700;
+$neutral-gray-800: $color-gray-800;
+$neutral-gray-900: $color-gray-900;
+
+// ============================================================================
+// SEMANTIC COLORS (Theme file expected names)
+// ============================================================================
+$semantic-primary: $color-blue-500;
+$semantic-secondary: $color-gray-600;
+$semantic-success: $color-green-500;
+$semantic-danger: $color-red-500;
+$semantic-warning: $color-yellow-500;
+$semantic-info: $color-cyan-500;
+$semantic-light: $color-gray-100;
+$semantic-dark: $color-gray-900;
+$semantic-body-bg: $neutral-white;
+$semantic-body-color: $color-gray-900;
+$semantic-secondary-text-emphasis: $color-gray-700;
+$semantic-link-color: $color-blue-600;
+
+// ============================================================================
+// TYPOGRAPHY TOKENS (Compatibility mapping)
+// ============================================================================
+
+// Font Family
+$typography-font-family-base: tokens.$typography-font-family-base;
+$typography-font-family-monospace: tokens.$typography-font-family-monospace;
+
+// Font Sizes (mapping from Figma names to theme expected names)
+$typography-font-size-base: tokens.$typography-text-base;
+$typography-font-size-sm: tokens.$typography-text-sm;
+$typography-font-size-lg: tokens.$typography-text-lead;
+
+// Font Weights
+$typography-font-weight-lighter: tokens.$typography-font-weight-thin;
+$typography-font-weight-light: tokens.$typography-font-weight-light;
+$typography-font-weight-normal: tokens.$typography-font-weight-regular;
+$typography-font-weight-medium: tokens.$typography-font-weight-medium;
+$typography-font-weight-semibold: tokens.$typography-font-weight-semi-bold;
+$typography-font-weight-bold: tokens.$typography-font-weight-bold;
+$typography-font-weight-bolder: tokens.$typography-font-weight-black;
+
+// Line Heights
+$typography-line-height-xs: tokens.$typography-line-height-xs;
+$typography-line-height-sm: tokens.$typography-line-height-sm;
+$typography-line-height-tight: tokens.$typography-line-height-tight;
+$typography-line-height-base: tokens.$typography-line-height-base;
+$typography-line-height-relaxed: tokens.$typography-line-height-relaxed;
+$typography-line-height-lg: tokens.$typography-line-height-lg;
+$typography-line-height-display-sm: tokens.$typography-line-height-display-sm;
+$typography-line-height-display-md: tokens.$typography-line-height-display-md;
+$typography-line-height-display-lg: tokens.$typography-line-height-display-lg;
+
+// Letter Spacing
+$typography-letter-spacing-tighter: tokens.$typography-letter-spacing-tighter;
+$typography-letter-spacing-tight: tokens.$typography-letter-spacing-tight;
+$typography-letter-spacing-normal: tokens.$typography-letter-spacing-normal;
+$typography-letter-spacing-wide: tokens.$typography-letter-spacing-wide;
+$typography-letter-spacing-wider: tokens.$typography-letter-spacing-wider;
+$typography-letter-spacing-widest: tokens.$typography-letter-spacing-widest;
+
+// Headings (mapping from Figma names to theme expected names)
+$typography-headings-h1-font-size: tokens.$typography-heading-h1;
+$typography-headings-h2-font-size: tokens.$typography-heading-h2;
+$typography-headings-h3-font-size: tokens.$typography-heading-h3;
+$typography-headings-h4-font-size: tokens.$typography-heading-h4;
+$typography-headings-h5-font-size: tokens.$typography-heading-h5;
+$typography-headings-h6-font-size: tokens.$typography-heading-h6;
+$typography-headings-font-weight: $typography-font-weight-medium;
+
+// Display Headings (mapping from Figma names to theme expected names)
+$typography-display-display1-font-size: tokens.$typography-display-h1;
+$typography-display-display2-font-size: tokens.$typography-display-h2;
+$typography-display-display3-font-size: tokens.$typography-display-h3;
+$typography-display-display4-font-size: tokens.$typography-display-h4;
+$typography-display-display5-font-size: tokens.$typography-display-h5;
+$typography-display-display6-font-size: tokens.$typography-display-h6;
+$typography-display-font-weight: $typography-font-weight-light;
+
+// Lead and Small
+$typography-lead-font-size: tokens.$typography-text-lead;
+$typography-lead-font-weight: $typography-font-weight-light;
+$typography-small-font-size: tokens.$typography-text-sm;
+
+// ============================================================================
+// SPACING TOKENS (Direct mapping - names match)
+// ============================================================================
+$spacing-0: tokens.$spacing-0;
+$spacing-1: tokens.$spacing-1;
+$spacing-2: tokens.$spacing-2;
+$spacing-3: tokens.$spacing-3;
+$spacing-4: tokens.$spacing-4;
+$spacing-5: tokens.$spacing-5;
+$spacing-6: tokens.$spacing-6;
+$spacing-7: tokens.$spacing-7;
+$spacing-8: tokens.$spacing-8;
+$spacing-9: tokens.$spacing-9;
+$spacing-10: tokens.$spacing-10;
+
+// ============================================================================
+// LAYOUT TOKENS (Direct mapping - names match)
+// ============================================================================
+
+// Breakpoints
+$layout-breakpoints-xs: tokens.$layout-breakpoints-xs;
+$layout-breakpoints-sm: tokens.$layout-breakpoints-sm;
+$layout-breakpoints-md: tokens.$layout-breakpoints-md;
+$layout-breakpoints-lg: tokens.$layout-breakpoints-lg;
+$layout-breakpoints-xl: tokens.$layout-breakpoints-xl;
+$layout-breakpoints-xxl: tokens.$layout-breakpoints-xxl;
+
+// Container Max Widths
+$layout-container-max-width-sm: tokens.$layout-container-max-width-sm;
+$layout-container-max-width-md: tokens.$layout-container-max-width-md;
+$layout-container-max-width-lg: tokens.$layout-container-max-width-lg;
+$layout-container-max-width-xl: tokens.$layout-container-max-width-xl;
+$layout-container-max-width-xxl: tokens.$layout-container-max-width-xxl;
+$layout-container-padding-x: tokens.$layout-container-padding-x;
+
+// Grid
+$layout-grid-columns: tokens.$layout-grid-columns;
+$layout-grid-gutter-width: tokens.$layout-grid-gutter-width;
+$layout-grid-row-columns: tokens.$layout-grid-row-columns;
+
+// Gutters
+$layout-gutters-0: tokens.$layout-gutters-0;
+$layout-gutters-1: tokens.$layout-gutters-1;
+$layout-gutters-2: tokens.$layout-gutters-2;
+$layout-gutters-3: tokens.$layout-gutters-3;
+$layout-gutters-4: tokens.$layout-gutters-4;
+$layout-gutters-5: tokens.$layout-gutters-5;
+
+// ============================================================================
+// SHADOW TOKENS
+// ============================================================================
+$shadow-default: tokens.$shadow-default;
+$shadow-sm: tokens.$shadow-sm;
+$shadow-lg: tokens.$shadow-lg;
+$shadow-inset: tokens.$shadow-inset;
+
+// ============================================================================
+// BORDER TOKENS
+// ============================================================================
+$border-radius-none: 0;
+$border-radius-sm: 0.25rem;
+$border-radius-md: 0.5rem;
+$border-radius-lg: 1rem;
+$border-radius-xl: 1.5rem;
+$border-radius-xxl: 2rem;
+$border-radius-pill: 624.9375rem;
+$border-radius-circle: 50%;
+$border-radius-full: 624.9375rem;
+
+$border-width-0: 0;
+$border-width-1: 1px;
+$border-width-2: 2px;
+$border-width-3: 3px;
+$border-width-4: 4px;
+$border-width-5: 5px;

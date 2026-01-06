@@ -1,21 +1,35 @@
 {
   "name": "playground",
   "version": "0.0.1",
-  "description": "Development playground for testing DSAi components",
+  "description": "Development playground for testing DSAi components and building custom tokens",
   "private": true,
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "tokens:transform": "node ../../packages/@dsai/tools/bin/dsai-tools.mjs tokens transform",
+    "tokens:build": "style-dictionary build --config sd.config.mjs",
+    "tokens:validate": "node ../../packages/@dsai/tools/bin/dsai-tools.mjs tokens validate",
+    "tokens:watch": "style-dictionary build --config sd.config.mjs --watch",
+    "tokens:all": "pnpm tokens:transform && pnpm tokens:build",
+    "scss:build": "sass src/scss/dsai-theme-bs.scss:src/generated/dsai-theme-bs.css --style=compressed --load-path=node_modules",
+    "scss:watch": "sass src/scss/dsai-theme-bs.scss:src/generated/dsai-theme-bs.css --watch --style=compressed --load-path=node_modules",
+    "styles:all": "pnpm tokens:all && pnpm scss:build",
+    "styles:watch": "concurrently \"pnpm tokens:watch\" \"pnpm scss:watch\""
   },
   "dependencies": {
     "@dsai/react": "workspace:*",
     "@dsai/tokens": "workspace:*",
+    "@dsai/tools": "workspace:*",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.1.1",
+    "bootstrap": "^5.3.3",
+    "glob": "^11.0.2",
+    "sass": "^1.77.8",
+    "style-dictionary": "^5.1.1",
     "vite": "^7.2.6"
   },
   "license": "UNLICENSED"

@@ -1,0 +1,149 @@
+{
+  "neutral": {
+    "white": {
+      "$value": "#0a0d10",
+      "$type": "color",
+      "$description": "Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+        },
+        "platform": {
+          "scssVariableName": "$neutral-white"
+        }
+      }
+    },
+    "black": {
+      "$value": "#fafbfc",
+      "$type": "color",
+      "$description": "Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+        },
+        "platform": {
+          "scssVariableName": "$neutral-black"
+        }
+      }
+    },
+    "gray": {
+      "100": {
+        "$value": "{colors.brand.gray.100}",
+        "$type": "color",
+        "$description": "Neutral gray 100 alias. References brand.gray.100. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.100 for detailed usage guidance.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$color-gray-100"
+          }
+        }
+      },
+      "200": {
+        "$value": "{colors.brand.gray.200}",
+        "$type": "color",
+        "$description": "Neutral gray 200 alias. References brand.gray.200. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.200 for detailed usage guidance.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$color-gray-200"
+          }
+        }
+      },
+      "300": {
+        "$value": "{colors.brand.gray.300}",
+        "$type": "color",
+        "$description": "Neutral gray 300 alias. References brand.gray.300. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.300 for detailed usage guidance.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$color-gray-300"
+          }
+        }
+      },
+      "400": {
+        "$value": "{colors.brand.gray.400}",
+        "$type": "color",
+        "$description": "Neutral gray 400 alias. References brand.gray.400. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.400 for detailed usage guidance.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$color-gray-400"
+          }
+        }
+      },
+      "500": {
+        "$value": "{colors.brand.gray.500}",
+        "$type": "color",
+        "$description": "Neutral gray 500 alias. References brand.gray.500. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.500 for detailed usage guidance.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$color-gray-500"
+          }
+        }
+      },
+      "600": {
+        "$value": "{colors.brand.gray.600}",
+        "$type": "color",
+        "$description": "Neutral gray 600 alias. References brand.gray.600. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.600 for detailed usage guidance.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$color-gray-600"
+          }
+        }
+      },
+      "700": {
+        "$value": "{colors.brand.gray.700}",
+        "$type": "color",
+        "$description": "Neutral gray 700 alias. References brand.gray.700. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.700 for detailed usage guidance.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$color-gray-700"
+          }
+        }
+      },
+      "800": {
+        "$value": "{colors.brand.gray.800}",
+        "$type": "color",
+        "$description": "Neutral gray 800 alias. References brand.gray.800. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.800 for detailed usage guidance.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$color-gray-800"
+          }
+        }
+      },
+      "900": {
+        "$value": "{colors.brand.gray.900}",
+        "$type": "color",
+        "$description": "Neutral gray 900 alias. References brand.gray.900. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.900 for detailed usage guidance.",
+        "$extensions": {
+          "docs": {
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/#grays"
+          },
+          "platform": {
+            "scssVariableName": "$color-gray-900"
+          }
+        }
+      }
+    }
+  }
+}

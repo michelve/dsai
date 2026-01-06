@@ -4,11 +4,15 @@
   "description": "Storybook configuration and documentation for DSAi components",
   "private": true,
   "scripts": {
-    "prestorybook": "pnpm --filter @dsai/tokens build",
+    "tokens:transform": "node ../tools/bin/dsai-tools.mjs tokens transform",
+    "tokens:build": "style-dictionary build --config sd.config.mjs",
+    "scss:build": "sass --load-path=node_modules src/scss/dsai-theme-bs.scss src/generated/dsai-theme-bs.css",
+    "styles:all": "pnpm tokens:transform && pnpm tokens:build && pnpm scss:build",
+    "prestorybook": "pnpm styles:all",
     "storybook": "STORYBOOK_EDITOR_URL='vscode://file/{{path}}:{{line}}:{{column}}' storybook dev -p 6006",
     "kill": "bash ../../tools/scripts/storybook/kill-storybook.sh",
     "stop": "pnpm kill",
-    "prebuild": "pnpm --filter @dsai/tokens build",
+    "prebuild": "pnpm styles:all",
     "build": "storybook build -o ./storybook-static",
     "build-storybook": "pnpm build",
     "verify": "bash ../../tools/scripts/storybook/verify-storybook.sh",
@@ -24,7 +28,12 @@
   ],
   "dependencies": {
     "@dsai/react": "workspace:*",
-    "@dsai/tokens": "workspace:*"
+    "@dsai/tokens": "workspace:*",
+    "@dsai/tools": "workspace:*",
+    "bootstrap": "^5.3.8",
+    "glob": "^11.0.2",
+    "sass": "^1.94.2",
+    "style-dictionary": "^5.1.1"
   },
   "license": "UNLICENSED",
   "devDependencies": {
