@@ -7,7 +7,8 @@ import type { Preview } from '@storybook/react-vite';
 
 // DSAi is a Bootstrap-first design system
 // Load Bootstrap theme (customized with DSAi tokens) as the primary framework
-import '../../../@dsai/tokens/dist/css/dsai-theme-bs.css';
+// Generated locally via: pnpm styles:all
+import '../src/generated/dsai-theme-bs.css';
 
 // Preview-specific styles (minimal overrides)
 import './preview.css';

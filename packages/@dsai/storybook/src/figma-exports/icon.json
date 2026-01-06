@@ -1,0 +1,23 @@
+{
+  "Icon": {
+    "modes": {
+      "Mode 1": {
+        "sm": {
+          "$value": 16,
+          "$type": "number",
+          "$codeSyntax": {}
+        },
+        "md": {
+          "$value": 24,
+          "$type": "number",
+          "$codeSyntax": {}
+        },
+        "lg": {
+          "$value": 32,
+          "$type": "number",
+          "$codeSyntax": {}
+        }
+      }
+    }
+  }
+}

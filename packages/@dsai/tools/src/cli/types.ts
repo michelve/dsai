@@ -96,6 +96,20 @@ export interface TokensSyncOptions extends GlobalOptions {
 }
 
 /**
+ * Token transform command options
+ */
+export interface TokensTransformOptions extends GlobalOptions {
+  /** Dry run - show what would be transformed without writing files */
+  dryRun?: boolean;
+
+  /** Default mode for mode-aware collections */
+  defaultMode?: string;
+
+  /** Comma-separated list of modes to ignore */
+  ignoreModes?: string;
+}
+
+/**
  * Icons build command options
  */
 export interface IconsBuildOptions extends GlobalOptions {

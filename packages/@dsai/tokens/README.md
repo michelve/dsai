@@ -1,6 +1,6 @@
 # @dsai/tokens
 
-Design tokens for the DSAi Design System - The foundation for all UI components.
+Design tokens for the DSAi Design System - JavaScript/TypeScript exports only.
 
 > **✨ DTCG Compliant**: Fully compliant with the [W3C Design Tokens Community Group (DTCG) specification](https://www.designtokens.org/) using Style Dictionary v5.1.1.
 
@@ -9,6 +9,8 @@ Design tokens for the DSAi Design System - The foundation for all UI components.
 This package contains all design tokens exported from Figma and transformed into **DTCG-compliant** Style Dictionary format. These tokens are the **source of truth** for colors, typography, spacing, borders, shadows, and layout values used throughout the DSAi component library.
 
 **Philosophy**: "Token system as foundation - Build design system from tokens up, not components down."
+
+> **Note**: This package exports **JavaScript/TypeScript tokens only**. CSS/SCSS stylesheets and Bootstrap theme compilation have moved to the `apps/playground` app, which consumes tokens from Figma exports and builds its own styles.
 
 ### Standards & Tools
 
@@ -89,7 +91,7 @@ packages/@dsai/tokens/
 │   ├── shadows.json
 │   └── theme.json            # Master combined file
 ├── src/                      # TypeScript source
-├── dist/                     # Built outputs (CSS, SCSS, JS, TS)
+├── dist/                     # Built outputs (JS, TS, JSON)
 ├── index.json                # Master index
 └── README.md                 # This file
 ```
@@ -116,7 +118,7 @@ All tokens follow Style Dictionary format:
 ### Build Commands
 
 ```bash
-# Full build (validate + style-dictionary + theme + tsup)
+# Full build (validate + style-dictionary + tsup)
 pnpm build
 
 # Build Style Dictionary outputs only
@@ -127,12 +129,6 @@ pnpm validate
 
 # Sync tokens to TypeScript flat file
 pnpm sync
-
-# Build Bootstrap theme CSS
-pnpm build:theme
-
-# Build DSAi utilities CSS
-pnpm build:dsai
 
 # Watch mode (rebuild on change)
 pnpm dev
@@ -179,7 +175,7 @@ export default defineConfig({
     prefix: '--dsai-',
     baseFontSize: 16,
     outputReferences: true,
-    formats: ['css', 'js', 'ts', 'scss', 'scss-dist', 'json'],
+    formats: ['js', 'ts', 'json'],
   },
 });
 ```
@@ -199,16 +195,10 @@ export default {
   preprocessors: ['fix-references'],
   source: ['collections/**/*.json'],
   platforms: {
-    css: {
-      /* ... */
-    },
     js: {
       /* ... */
     },
     ts: {
-      /* ... */
-    },
-    scss: {
       /* ... */
     },
     json: {
@@ -220,48 +210,26 @@ export default {
 
 ### Build Output
 
-The build process generates 5 output formats in `dist/`:
+The build process generates 3 output formats in `dist/`:
 
 ```plaintext
 dist/
-├── css/
-│   └── variables.css         # CSS custom properties
 ├── js/
 │   ├── tokens.js             # ES6 module
 │   └── tokens.cjs            # CommonJS module
 ├── ts/
 │   ├── tokens.ts             # TypeScript module
 │   └── tokens.d.ts           # TypeScript declarations
-├── scss/
-│   └── _variables.scss       # SCSS variables
 └── json/
     ├── tokens.json           # Flat token structure
     └── tokens-nested.json    # Nested token structure
 ```
 
+> **Note**: CSS and SCSS outputs have moved to the playground app. See `apps/playground/README.md` for style compilation.
+
 ---
 
 ## Using Tokens
-
-### In CSS/Vanilla JavaScript
-
-```css
-/* Import CSS variables */
-@import '@dsai/tokens/css';
-
-.button {
-  background-color: var(--dsai-theme-primary);
-  color: var(--dsai-neutral-white);
-  padding: var(--dsai-spacing-2) var(--dsai-spacing-4);
-  border-radius: var(--dsai-border-radius-md);
-  font-size: var(--dsai-typography-font-size-base);
-  box-shadow: var(--dsai-shadow-default);
-}
-
-.button:hover {
-  background-color: var(--dsai-color-blue-600);
-}
-```
 
 ### In React/TypeScript
 
@@ -294,25 +262,6 @@ console.log(tokens.colorBlue500); // "#0a58ca"
 console.log(tokens.themePrimary); // "#0a58ca"
 console.log(tokens.spacing2); // "8px"
 console.log(tokens.borderRadiusMd); // "8px"
-```
-
-### In SCSS
-
-```scss
-@import '@dsai/tokens/dist/scss/variables';
-
-.button {
-  background-color: $theme-primary;
-  color: $neutral-white;
-  padding: $spacing-2 $spacing-4;
-  border-radius: $border-radius-md;
-  font-size: $typography-font-size-base;
-  box-shadow: $shadow-default;
-
-  &:hover {
-    background-color: $color-blue-600;
-  }
-}
 ```
 
 ### In Styled Components
@@ -352,9 +301,7 @@ Many semantic tokens reference primitive tokens using Style Dictionary's referen
 
 **These are automatically resolved** during the build process:
 
-- CSS: `var(--dsai-theme-primary)` resolves to `#0a58ca`
 - JS: `tokens.themePrimary` resolves to `"#0a58ca"`
-- SCSS: `$theme-primary` resolves to `#0a58ca`
 
 ---
 
@@ -374,7 +321,7 @@ Converts pixel values to rem units (base: 16px):
 
 #### 2. **name/kebab**
 
-Converts token paths to kebab-case for CSS:
+Converts token paths to kebab-case:
 
 - `color.blue.500` → `color-blue-500`
 - `typography.fontSize.base` → `typography-font-size-base`
@@ -408,22 +355,10 @@ This allows Figma references to work seamlessly with our token structure.
 - Categories: color, typography, spacing, border, shadow, layout
 - Semantic tokens: `theme.primary`, `semantic.body-color`
 
-### CSS Variable Names
-
-- Prefix: `--dsai-`
-- Kebab-case: `--dsai-color-blue-500`
-- Semantic: `--dsai-theme-primary`
-
 ### JavaScript Names
 
 - CamelCase: `colorBlue500`
 - Semantic: `themePrimary`
-
-### SCSS Variable Names
-
-- Prefix: `$`
-- Kebab-case: `$color-blue-500`
-- Semantic: `$theme-primary`
 
 ---
 
@@ -434,7 +369,7 @@ This allows Figma references to work seamlessly with our token structure.
 ```plaintext
 Figma Design → Token Studio Plugin → figma-exports/*.json
                                             ↓
-                           transform-figma-tokens.js (TASK-011)
+                           transform-figma-tokens.js
                                             ↓
                                    collections/color/*.json
                                    collections/typography/*.json
@@ -443,12 +378,10 @@ Figma Design → Token Studio Plugin → figma-exports/*.json
                                    collections/shadow/*.json
                                    collections/layout/*.json
                                             ↓
-                            Style Dictionary (TASK-012)
+                            Style Dictionary
                                             ↓
-                                    dist/css/*.css
                                     dist/js/*.js
                                     dist/ts/*.ts
-                                    dist/scss/*.scss
                                     dist/json/*.json
                                             ↓
                         Consumed by Components & Applications
@@ -473,18 +406,13 @@ Figma Design → Token Studio Plugin → figma-exports/*.json
 
 ### Integration Points
 
-- **Components**: Import CSS variables or JS/TS tokens
-- **Storybook**: Load CSS variables globally
+- **Components**: Import JS/TS tokens
+- **Playground App**: Builds CSS/SCSS from its own Figma exports (see `apps/playground`)
 - **Documentation**: Use JSON exports for token browser
 - **CI/CD**: Build tokens on every commit
 - **npm**: Publish as `@dsai/tokens` package
 
-### Properties
-
-- **value** (required): The actual token value (hex color, px dimension, font name, etc.)
-- **type** (required): Token type (`color`, `dimension`, `fontFamily`, `fontWeight`, `shadow`, etc.)
-- **description** (optional): Human-readable description of token usage
-- **comment** (optional): Bootstrap SCSS variable name for reference
+---
 
 ## Workflow
 
@@ -535,56 +463,33 @@ Checks for:
 - ✅ Valid color formats (#hex, rgb, rgba, hsl, hsla)
 - ✅ File references in index.json
 
-### 4. Build (Transform + Validate)
+### 4. Build
 
-Run both steps:
+Run the full build:
 
 ```bash
-pnpm tokens:build
+pnpm build
 ```
 
-## Usage in Components
-
-### CSS Variables (Recommended)
-
-Once transformed by Style Dictionary, tokens become CSS variables:
-
-```css
-.button {
-  background-color: var(--color-button-primary-background-default);
-  color: var(--color-button-primary-text-color);
-  padding: var(--spacing-button-vertical) var(--spacing-button-horizontal);
-  border-radius: var(--border-radius-md);
-  font-size: var(--typography-fontSize-base);
-}
-```
-
-### JavaScript/TypeScript
-
-Import tokens as JavaScript objects:
-
-```typescript
-import { tokens } from '@dsai/tokens';
-
-const primaryColor = tokens.color.blue[500].value; // "#0a58ca"
-const spacing = tokens.spacing[4].value; // "24px"
-```
+---
 
 ## Adding New Tokens
 
 ### Option 1: From Figma (Recommended)
 
 1. Update tokens in Figma using Tokens Studio plugin
-2. Export collections to `.idea/tokens/collections/`
-3. Run `pnpm tokens:build`
+2. Export collections to `figma-exports/`
+3. Run `pnpm tokens:transform && pnpm build`
 4. Commit changes
 
 ### Option 2: Manual Addition
 
-1. Edit the appropriate JSON file in `packages/@dsai/tokens/`
+1. Edit the appropriate JSON file in `collections/`
 2. Follow the token format (value, type, description, comment)
 3. Run `pnpm tokens:validate` to check
 4. Commit changes
+
+---
 
 ## Token Naming Patterns
 
@@ -615,6 +520,8 @@ button.primary.background.hover
 card.padding.vertical
 ```
 
+---
+
 ## Bootstrap Compatibility
 
 All tokens map to Bootstrap 5.3 variables:
@@ -629,6 +536,10 @@ All tokens map to Bootstrap 5.3 variables:
 
 Bootstrap SCSS variable names are preserved in the `comment` field for reference.
 
+> **For Bootstrap theme compilation**, see `apps/playground` which handles SCSS/CSS generation.
+
+---
+
 ## Token Statistics
 
 - **Total tokens**: 223+
@@ -639,73 +550,28 @@ Bootstrap SCSS variable names are preserved in the `comment` field for reference
 - **Shadow tokens**: 4
 - **Layout tokens**: 21
 
+---
+
 ## Figma Integration
 
 ### Light & Dark Modes
 
-Colors support Light and Dark modes in Figma. Both modes are automatically detected and built:
+Colors support Light and Dark modes in Figma. Both modes are automatically detected:
 
-- **Light mode**: Default color values (uses `:root` and `[data-dsai-theme=light]` selectors)
-- **Dark mode**: Inverted/adjusted values (uses `[data-dsai-theme=dark]` selector)
+- **Light mode**: Default color values
+- **Dark mode**: Inverted/adjusted values
 
-> **Note**: DSAi uses `data-dsai-theme` instead of Bootstrap's default `data-bs-theme` attribute for theme switching. This is configured via a mixin override in `dsai-theme-bs.scss`.
+> **Note**: Theme switching is handled by the playground app using `data-dsai-theme` attribute.
 
-#### Using Dark Mode
-
-Add `data-dsai-theme="dark"` to the `<html>` element or any container:
-
-```html
-<!-- Global dark mode -->
-<html data-dsai-theme="dark">
-  <!-- Component-level dark mode -->
-  <div data-dsai-theme="dark">
-    <button class="btn btn-primary">Dark themed button</button>
-  </div>
-
-  <!-- Light mode section within dark page -->
-  <html data-dsai-theme="dark">
-    <div data-dsai-theme="light">
-      <p>This section uses light theme</p>
-    </div>
-  </html>
-</html>
-```
-
-#### JavaScript Theme Switching
-
-```javascript
-// Toggle dark mode
-document.documentElement.setAttribute('data-dsai-theme', 'dark');
-
-// Toggle light mode
-document.documentElement.setAttribute('data-dsai-theme', 'light');
-
-// Read current theme
-const currentTheme = document.documentElement.getAttribute('data-dsai-theme');
-```
-
-#### Skipping Modes
-
-To exclude specific modes from the build, use `ignoreModes` in `tokens.config.json`:
-
-```json
-{
-  "themes": {
-    "ignoreModes": ["Dark"]
-  }
-}
-```
-
-### Figma Limitations
-
-- **Shadows**: Figma doesn't support shadow collections natively, so shadows are exported with individual properties (color, offsetX/Y, blur, spread) plus composite CSS values
-- **Font Families**: Figma stores single font names, but extensions contain full font stacks for production use
+---
 
 ## Related Packages
 
 - **@dsai/react**: React components that consume these tokens
-- **@dsai/storybook**: Documentation and examples
-- **@dsai/figma-tokens**: Figma integration utilities
+- **@dsai/tools**: Build tooling for token transformation
+- **apps/playground**: CSS/SCSS compilation and Bootstrap theme
+
+---
 
 ## Development
 
@@ -718,72 +584,18 @@ pnpm tokens:transform
 # Validate all token files
 pnpm tokens:validate
 
-# Transform + Validate
-pnpm tokens:build
+# Full build
+pnpm build
 ```
 
 ### File Locations
 
 - **Figma exports**: `packages/@dsai/tokens/figma-exports/*.json` ← **Export here from Figma**
-- **Transformed tokens**: `packages/@dsai/tokens/**/*.json`
-- **Transform script**: `tools/scripts/tokens/transform-figma-tokens.cjs`
-- **Validation script**: `tools/scripts/tokens/validate-tokens.cjs`
-
-### Project Layout
-
-```plaintext
-packages/@dsai/tokens/
-├── figma-exports/          # ← Figma plugin exports (source files)
-│   ├── foundation.json
-│   ├── typography.json
-│   ├── spacing.json
-│   ├── radius.json
-│   ├── layout.json
-│   ├── shadows.json
-│   └── theme.json (optional)
-│
-├── collections/            # ← Transformed tokens
-│   ├── color/
-│   │   ├── primitive.json
-│   │   └── semantic.json
-│   ├── typography/
-│   │   └── base.json
-│   ├── spacing/
-│   │   └── base.json
-│   ├── border/
-│   │   ├── radius.json
-│   │   └── width.json
-│   ├── shadow/
-│   │   └── base.json
-│   └── layout/
-│   ├── breakpoints.json
-│   ├── containers.json
-│   └── grid.json
-│
-├── index.json              # Master token index
-└── README.md               # This file
-```
-
-## Next Steps
-
-After completing this token package:
-
-1. **TASK-012**: Setup Style Dictionary Pipeline
-2. **TASK-015**: Token-to-CSS Variable Generation
-3. **TASK-016**: TypeScript Types for Tokens
-4. **TASK-019**: Semantic Token Definitions
-5. Build components using these tokens
-
-## Support
-
-For questions or issues:
-
-- See `ROADMAP/README.md` for project context
-- See `tasks/02-high/TASK-011-design-json-token-structure.md` for implementation details
-- Review `BUILD.md` for build system information
+- **Transformed tokens**: `packages/@dsai/tokens/collections/**/*.json`
+- **Built outputs**: `packages/@dsai/tokens/dist/`
 
 ---
 
-**Version**: 1.0.0  
+**Version**: 2.0.0  
 **Status**: ✅ Production Ready  
-**Last Updated**: November 21, 2024
+**Last Updated**: January 2026

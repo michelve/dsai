@@ -1,0 +1,46 @@
+{
+  "$description": "Example Figma token export - Replace with your actual Figma exports",
+  "color": {
+    "$type": "color",
+    "brand": {
+      "primary": {
+        "$value": "#0d6efd",
+        "$type": "color",
+        "$description": "Primary brand color"
+      },
+      "secondary": {
+        "$value": "#6c757d",
+        "$type": "color",
+        "$description": "Secondary brand color"
+      }
+    },
+    "blue": {
+      "50": { "$value": "#e7f1ff", "$type": "color" },
+      "100": { "$value": "#cfe2ff", "$type": "color" },
+      "200": { "$value": "#9ec5fe", "$type": "color" },
+      "300": { "$value": "#6ea8fe", "$type": "color" },
+      "400": { "$value": "#3d8bfd", "$type": "color" },
+      "500": { "$value": "#0d6efd", "$type": "color" },
+      "600": { "$value": "#0a58ca", "$type": "color" },
+      "700": { "$value": "#084298", "$type": "color" },
+      "800": { "$value": "#052c65", "$type": "color" },
+      "900": { "$value": "#031633", "$type": "color" }
+    },
+    "gray": {
+      "50": { "$value": "#f8f9fa", "$type": "color" },
+      "100": { "$value": "#f1f3f5", "$type": "color" },
+      "200": { "$value": "#e9ecef", "$type": "color" },
+      "300": { "$value": "#dee2e6", "$type": "color" },
+      "400": { "$value": "#ced4da", "$type": "color" },
+      "500": { "$value": "#adb5bd", "$type": "color" },
+      "600": { "$value": "#6c757d", "$type": "color" },
+      "700": { "$value": "#495057", "$type": "color" },
+      "800": { "$value": "#343a40", "$type": "color" },
+      "900": { "$value": "#212529", "$type": "color" }
+    },
+    "success": { "$value": "#198754", "$type": "color" },
+    "danger": { "$value": "#dc3545", "$type": "color" },
+    "warning": { "$value": "#ffc107", "$type": "color" },
+    "info": { "$value": "#0dcaf0", "$type": "color" }
+  }
+}

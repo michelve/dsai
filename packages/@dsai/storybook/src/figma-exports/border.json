@@ -1,0 +1,38 @@
+{
+  "Border": {
+    "modes": {
+      "Mode 1": {
+        "0": {
+          "$value": 0,
+          "$type": "number",
+          "$codeSyntax": {}
+        },
+        "1": {
+          "$value": 1,
+          "$type": "number",
+          "$codeSyntax": {}
+        },
+        "2": {
+          "$value": 2,
+          "$type": "number",
+          "$codeSyntax": {}
+        },
+        "3": {
+          "$value": 3,
+          "$type": "number",
+          "$codeSyntax": {}
+        },
+        "4": {
+          "$value": 4,
+          "$type": "number",
+          "$codeSyntax": {}
+        },
+        "5": {
+          "$value": 5,
+          "$type": "number",
+          "$codeSyntax": {}
+        }
+      }
+    }
+  }
+}
