@@ -1,0 +1,315 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# CodeRabbit Configuration for DSAi Design System
+# Last updated: 2026-01-06
+
+language: 'en-US'
+early_access: false
+enable_free_tier: true
+
+# =============================================================================
+# Reviews Configuration
+# =============================================================================
+reviews:
+  # Review profile: "chill" for less nitpicky, "assertive" for more thorough
+  profile: 'assertive'
+
+  # Workflow settings
+  request_changes_workflow: true
+  abort_on_close: true
+  disable_cache: false
+
+  # Summary and documentation
+  high_level_summary: true
+  high_level_summary_in_walkthrough: true
+  high_level_summary_placeholder: '@coderabbitai summary'
+  high_level_summary_instructions: |
+    Create concise release notes as a bullet-point list grouped by:
+    - 🆕 New Features
+    - 🐛 Bug Fixes
+    - ♻️ Refactoring
+    - 📦 Dependencies
+    - 📝 Documentation
+
+  # PR title auto-generation
+  auto_title_placeholder: '@coderabbitai'
+  auto_title_instructions: |
+    Generate a concise PR title following conventional commits format:
+    - feat: for new features
+    - fix: for bug fixes
+    - refactor: for code refactoring
+    - docs: for documentation changes
+    - test: for test additions/changes
+    - chore: for maintenance tasks
+    - style: for formatting/linting changes
+
+  # Walkthrough settings
+  review_status: true
+  commit_status: true
+  fail_commit_status: false
+  collapse_walkthrough: false
+  changed_files_summary: true
+  sequence_diagrams: true
+  estimate_code_review_effort: true
+  assess_linked_issues: true
+  related_issues: true
+  related_prs: true
+
+  # Labeling
+  suggested_labels: true
+  auto_apply_labels: false
+  labeling_instructions:
+    - label: 'breaking-change'
+      instructions: 'Apply when changes break backward compatibility'
+    - label: 'needs-tests'
+      instructions: 'Apply when new code lacks test coverage'
+    - label: 'documentation'
+      instructions: 'Apply when documentation needs updating'
+    - label: 'security'
+      instructions: 'Apply when security-related changes are made'
+    - label: 'performance'
+      instructions: 'Apply when performance optimizations are made'
+    - label: 'accessibility'
+      instructions: 'Apply when a11y improvements are made'
+
+  # Reviewers
+  suggested_reviewers: true
+  auto_assign_reviewers: false
+
+  # Fun settings
+  poem: false
+  in_progress_fortune: false
+  enable_prompt_for_ai_agents: true
+
+  # =============================================================================
+  # Path Filters - Include/Exclude patterns
+  # =============================================================================
+  path_filters:
+    # Exclude generated files
+    - '!**/dist/**'
+    - '!**/coverage/**'
+    - '!**/node_modules/**'
+    - '!**/*.min.js'
+    - '!**/*.min.css'
+    - '!**/storybook-static/**'
+    # Exclude lock files
+    - '!pnpm-lock.yaml'
+    - '!package-lock.json'
+    # Exclude IDE configs
+    - '!.idea/**'
+    - '!.vscode/**'
+    - '!.cursor/**'
+    # Include everything else
+    - '**/*'
+
+  # =============================================================================
+  # Path Instructions - Context-specific review guidelines
+  # =============================================================================
+  path_instructions:
+    - path: 'packages/@dsai/react/src/components/**/*.tsx'
+      instructions: |
+        Review React components for:
+        - Accessibility (WCAG 2.1 AA compliance)
+        - Proper use of TypeScript types and generics
+        - React hooks rules compliance
+        - Performance optimizations (memo, useMemo, useCallback where appropriate)
+        - Consistent prop naming conventions
+        - Bootstrap 5.3 compatibility
+        - Proper forwardRef usage for DOM access
+
+    - path: 'packages/@dsai/react/src/hooks/**/*.ts'
+      instructions: |
+        Review custom hooks for:
+        - Rules of hooks compliance
+        - Proper cleanup in useEffect
+        - Correct dependency arrays
+        - TypeScript generic constraints
+        - SSR compatibility (check for window/document access)
+
+    - path: 'packages/@dsai/react/src/utils/**/*.ts'
+      instructions: |
+        Review utility functions for:
+        - Pure function principles
+        - Type safety and generics
+        - Edge case handling
+        - Performance considerations
+        - Tree-shaking friendliness (named exports)
+
+    - path: 'packages/@dsai/tokens/**/*.json'
+      instructions: |
+        Review design tokens for:
+        - DTCG (W3C Design Token Community Group) format compliance
+        - Consistent naming conventions (kebab-case)
+        - Proper $type, $value, and $description fields
+        - Color accessibility (contrast ratios)
+        - Semantic token references
+
+    - path: 'packages/@dsai/tools/src/**/*.ts'
+      instructions: |
+        Review CLI tools for:
+        - Proper error handling and exit codes
+        - Clear user feedback and logging
+        - TypeScript strict mode compliance
+        - Node.js best practices
+        - Security considerations (input validation)
+
+    - path: '**/*.test.ts'
+      instructions: |
+        Review tests for:
+        - Meaningful test descriptions
+        - Proper use of Jest matchers
+        - Test isolation (no shared state)
+        - Edge cases and error scenarios
+        - Accessibility testing with jest-axe
+
+    - path: '**/*.test.tsx'
+      instructions: |
+        Review React tests for:
+        - Testing Library best practices
+        - User-centric queries (getByRole, getByLabelText)
+        - Async handling with waitFor/findBy
+        - Accessibility assertions
+        - Avoid implementation details
+
+    - path: '**/*.stories.tsx'
+      instructions: |
+        Review Storybook stories for:
+        - Comprehensive args coverage
+        - Proper argTypes configuration
+        - Accessibility documentation
+        - Interactive controls
+        - CSF 3.0 format compliance
+
+    - path: '.github/workflows/**/*.yml'
+      instructions: |
+        Review GitHub Actions for:
+        - Security best practices (pinned actions, minimal permissions)
+        - Proper caching strategies
+        - Efficient job dependencies
+        - Clear step naming
+        - Proper secret handling
+
+    - path: '**/*.scss'
+      instructions: |
+        Review SCSS for:
+        - CSS custom property usage
+        - Bootstrap 5.3 variable integration
+        - Responsive design patterns
+        - Proper nesting depth (max 3 levels)
+        - BEM naming conventions where applicable
+
+  # =============================================================================
+  # Auto Review Settings
+  # =============================================================================
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - main
+      - develop
+      - dev
+
+  # =============================================================================
+  # Finishing Touches
+  # =============================================================================
+  finishing_touches:
+    docstrings:
+      enabled: true
+    unit_tests:
+      enabled: true
+
+  # =============================================================================
+  # Tools Configuration
+  # =============================================================================
+  tools:
+    # JavaScript/TypeScript
+    biome:
+      enabled: true
+
+    # GitHub Actions
+    actionlint:
+      enabled: true
+
+    # Shell scripts
+    shellcheck:
+      enabled: true
+
+    # Markdown
+    markdownlint:
+      enabled: true
+
+    # YAML
+    yamllint:
+      enabled: true
+
+    # Docker (if applicable)
+    hadolint:
+      enabled: true
+
+    # Security
+    gitleaks:
+      enabled: true
+    semgrep:
+      enabled: true
+
+    # General
+    languagetool:
+      enabled: true
+      enabled_only: false
+      level: 'default'
+
+# =============================================================================
+# Chat Configuration
+# =============================================================================
+chat:
+  auto_reply: true
+  art: false
+
+# =============================================================================
+# Knowledge Base Configuration
+# =============================================================================
+knowledge_base:
+  opt_out: false
+  learnings:
+    scope: 'auto'
+
+# =============================================================================
+# Code Generation Configuration
+# =============================================================================
+code_generation:
+  docstrings:
+    path_instructions:
+      - path: 'packages/@dsai/react/src/**/*.ts'
+        instructions: 'Use TSDoc format with @param, @returns, @example tags'
+      - path: 'packages/@dsai/react/src/**/*.tsx'
+        instructions: 'Use TSDoc format. Document props with @param, include usage examples'
+      - path: 'packages/@dsai/tools/src/**/*.ts'
+        instructions: 'Use TSDoc format with comprehensive @param and @returns documentation'
+
+  unit_tests:
+    path_instructions:
+      - path: 'packages/@dsai/react/src/components/**/*.tsx'
+        instructions: |
+          Generate tests using:
+          - @testing-library/react
+          - jest-axe for accessibility
+          - User-centric queries (getByRole, getByLabelText)
+          - Cover: rendering, props, user interactions, accessibility
+      - path: 'packages/@dsai/react/src/hooks/**/*.ts'
+        instructions: |
+          Generate tests using:
+          - @testing-library/react with renderHook
+          - Test state changes and side effects
+          - Test cleanup functions
+      - path: 'packages/@dsai/react/src/utils/**/*.ts'
+        instructions: |
+          Generate tests using:
+          - Pure unit tests with Jest
+          - Cover edge cases and error handling
+          - Test with various input types
+      - path: 'packages/@dsai/tools/src/**/*.ts'
+        instructions: |
+          Generate tests using:
+          - Jest with TypeScript
+          - Mock file system operations
+          - Test CLI argument parsing
+          - Test error handling and exit codes
