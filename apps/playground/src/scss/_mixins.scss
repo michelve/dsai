@@ -302,28 +302,26 @@
 // ============================================================================
 
 /// Border radius from design tokens
-/// @param {String} $size - Radius size (none, sm, md, lg, xl, xxl, circle, pill, full)
-@mixin border-radius($size: 'md') {
-  @if $size == 'none' {
-    border-radius: var(--dsai-radius-none);
+/// @param {String} $size - Radius size (0, sm, default, lg, xl, xxl, circle, pill)
+@mixin border-radius($size: 'default') {
+  @if $size == '0' or $size == 'none' {
+    border-radius: var(--dsai-border-radius-0);
   } @else if $size == 'sm' {
-    border-radius: var(--dsai-radius-sm);
-  } @else if $size == 'md' {
-    border-radius: var(--dsai-radius-md);
+    border-radius: var(--dsai-border-radius-sm);
+  } @else if $size == 'default' or $size == 'md' {
+    border-radius: var(--dsai-border-radius);
   } @else if $size == 'lg' {
-    border-radius: var(--dsai-radius-lg);
+    border-radius: var(--dsai-border-radius-lg);
   } @else if $size == 'xl' {
-    border-radius: var(--dsai-radius-xl);
-  } @else if $size == 'xxl' {
-    border-radius: var(--dsai-radius-xxl);
+    border-radius: var(--dsai-border-radius-xl);
+  } @else if $size == 'xxl' or $size == '2xl' {
+    border-radius: var(--dsai-border-radius-xxl);
   } @else if $size == 'circle' {
-    border-radius: var(--dsai-radius-circle);
+    border-radius: var(--dsai-border-radius-circle);
   } @else if $size == 'pill' {
-    border-radius: var(--dsai-radius-pill);
-  } @else if $size == 'full' {
-    border-radius: var(--dsai-radius-full);
+    border-radius: var(--dsai-border-radius-pill);
   } @else {
-    @warn "Unknown radius size: #{$size}. Valid sizes: none, sm, md, lg, xl, xxl, circle, pill, full";
+    @warn "Unknown radius size: #{$size}. Valid sizes: 0, sm, default, lg, xl, xxl, circle, pill";
   }
 }
 

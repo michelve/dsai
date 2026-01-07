@@ -13,8 +13,6 @@
         "commands": [
           "style-dictionary build --config sd.config.mjs",
           "dsai tokens sync",
-          "pnpm build:theme",
-          "pnpm build:dsai",
           "tsup",
           "tsc --emitDeclarationOnly --outDir dist"
         ],

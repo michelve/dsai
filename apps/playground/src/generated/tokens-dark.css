@@ -1,190 +1,4 @@
-:root {
-  /* Root font size for all viewports (1rem = 16px) */
-  --pg-typography-text-base: 1rem;
-  /* Small font size (0.875rem = 14px) */
-  --pg-typography-text-sm: 0.875rem;
-  /* Large font size (1.25rem = 20px) */
-  --pg-typography-text-lead: 1.25rem;
-  /* Lighter font weight */
-  --pg-typography-font-weight-thin: 100;
-  /* Light font weight */
-  --pg-typography-font-weight-light: 300;
-  /* Normal font weight (default body weight) */
-  --pg-typography-font-weight-regular: 400;
-  /* Medium font weight */
-  --pg-typography-font-weight-medium: 500;
-  /* Semibold font weight */
-  --pg-typography-font-weight-semi-bold: 600;
-  /* Bold font weight */
-  --pg-typography-font-weight-bold: 700;
-  /* Bolder font weight */
-  --pg-typography-font-weight-black: 900;
-  /* Lighter font weight */
-  --pg-typography-font-weight-extra-light: 200;
-  /* Bold font weight */
-  --pg-typography-font-weight-extra-bold: 800;
-  --pg-typography-font-weight-italic: italic;
-  --pg-typography-font-weight-thin-italic: thin italic;
-  --pg-typography-font-weight-extra-light-italic: extra light italic;
-  --pg-typography-font-weight-light-italic: light italic;
-  --pg-typography-font-weight-medium-italic: medium italic;
-  --pg-typography-font-weight-semi-bold-italic: semi bold italic;
-  --pg-typography-font-weight-bold-italic: bold italic;
-  --pg-typography-font-weight-extra-bold-italic: extra bold italic;
-  --pg-typography-font-weight-black-italic: black italic;
-  /* Extra small line height (1.0 ratio) - Compact UI, tags, badges. Use sparingly, not for body text. 4pt scale: 16px. */
-  --pg-typography-line-height-xs: 1;
-  /* Small line height (1.25 ratio) - Bootstrap $line-height-sm. Compact text, small UI elements, tight spacing. Below WCAG AA for body text. 4pt scale: 20px. */
-  --pg-typography-line-height-sm: 1.25;
-  /* Tight line height (1.2-1.25 ratio) - Display fonts, headings (h1-h6). Improves readability of large text. Bootstrap heading default. 4pt scale: 20px for 16px base. */
-  --pg-typography-line-height-tight: 1.25;
-  /* Base line height (1.5 ratio) - Bootstrap $line-height-base. Default for body text. WCAG AA compliant (1.5 minimum). 4pt scale: 24px for 16px base font. */
-  --pg-typography-line-height-base: 1.5;
-  /* Relaxed line height (1.75 ratio) - Enhanced readability for long-form content, articles, documentation. Exceeds WCAG AA. 4pt scale: 28px. */
-  --pg-typography-line-height-relaxed: 1.75;
-  /* Large line height (2.0 ratio) - Bootstrap $line-height-lg. Spacious text, large UI components, improved scannability. 4pt scale: 32px. */
-  --pg-typography-line-height-lg: 2;
-  /* Small display line height (1.2 ratio for 40px text) - Display fonts, large headings. Tighter leading for visual impact. 4pt scale: 48px. */
-  --pg-typography-line-height-display-sm: 3;
-  /* Medium display line height (1.2 ratio for 48-56px text) - Medium display fonts. 4pt scale: 60px. */
-  --pg-typography-line-height-display-md: 3.75;
-  /* Large display line height (1.2 ratio for 64px text) - Large display fonts, hero headings. 4pt scale: 76px (closest to 1.2 ratio). */
-  --pg-typography-line-height-display-lg: 5;
-  /* Large line height (2.0 ratio) - Bootstrap $line-height-lg. Spacious text, large UI components, improved scannability. 4pt scale: 32px. */
-  --pg-typography-line-height-xlg: 2.5;
-  /* Large line height (2.0 ratio) - Bootstrap $line-height-lg. Spacious text, large UI components, improved scannability. 4pt scale: 32px. */
-  --pg-typography-line-height-xxlg: 2.75;
-  --pg-typography-line-height-display-xlg: 5.5;
-  /* H1 heading font size (2.5rem = 40px) */
-  --pg-typography-heading-h1: 2.5rem;
-  /* H2 heading font size (2rem = 32px) */
-  --pg-typography-heading-h2: 2rem;
-  /* H3 heading font size (1.75rem = 28px) */
-  --pg-typography-heading-h3: 1.75rem;
-  /* H4 heading font size (1.5rem = 24px) */
-  --pg-typography-heading-h4: 1.5rem;
-  /* H5 heading font size (1.25rem = 20px) */
-  --pg-typography-heading-h5: 1.25rem;
-  /* H6 heading font size (1rem = 16px) */
-  --pg-typography-heading-h6: 1rem;
-  /* Display 1 font size (5rem = 80px) */
-  --pg-typography-display-h1: 5rem;
-  /* Display 2 font size (4.5rem = 72px) */
-  --pg-typography-display-h2: 4.5rem;
-  /* Display 3 font size (4rem = 64px) */
-  --pg-typography-display-h3: 4rem;
-  /* Display 4 font size (3.5rem = 56px) */
-  --pg-typography-display-h4: 3.5rem;
-  /* Display 5 font size (3rem = 48px) */
-  --pg-typography-display-h5: 3rem;
-  /* Display 6 font size (2.5rem = 40px) */
-  --pg-typography-display-h6: 2.5rem;
-  /* Tighter letter spacing (-0.05em) - Use for large headings and display text to improve visual density. Enhances readability at larger sizes. */
-  --pg-typography-letter-spacing-tighter: -0.03125rem;
-  /* Tight letter spacing (-0.025em) - Subtle tightening for headings. Improves visual cohesion without sacrificing readability. */
-  --pg-typography-letter-spacing-tight: -0.01875000074505806rem;
-  /* Normal letter spacing (0) - Default spacing for body text and most content. Optimal for readability and accessibility. */
-  --pg-typography-letter-spacing-normal: 0;
-  /* Wide letter spacing (0.025em) - Subtle spacing increase for improved readability in small text or uppercase. Enhances legibility. */
-  --pg-typography-letter-spacing-wide: 0.01875000074505806rem;
-  /* Wider letter spacing (0.05em) - Noticeable spacing for uppercase text, labels, and buttons. Improves legibility and visual prominence. */
-  --pg-typography-letter-spacing-wider: 0.03125rem;
-  /* Widest letter spacing (0.1em) - Maximum spacing for all-caps headings, labels, or decorative text. Creates strong visual impact. */
-  --pg-typography-letter-spacing-widest: 0.0625rem;
-  /* Tighter letter spacing (-0.05em) - Use for large headings and display text to improve visual density. Enhances readability at larger sizes. */
-  --pg-typography-letter-spacing-tightest: -0.0625rem;
-  /* Primary font family for Figma (single font name). Full Bootstrap stack: system-ui, -apple-system, Segoe UI, Roboto, etc. */
-  --pg-typography-font-family-base: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
-  /* Monospace font for code (single font name). Full Bootstrap stack: SFMono-Regular, Menlo, Monaco, Consolas, etc. */
-  --pg-typography-font-family-monospace: Roboto Mono, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  /* Spacing scale 0 - No spacing. Bootstrap's $spacer * 0 (0px). */
-  --pg-spacing-0: 0;
-  /* Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px). */
-  --pg-spacing-1: 0.25rem;
-  /* Spacing scale 2 - Small spacing. Bootstrap's $spacer * 0.5 (8px). */
-  --pg-spacing-2: 0.5rem;
-  /* Spacing scale 3 - Base spacing. Bootstrap's $spacer * 1 (16px). */
-  --pg-spacing-3: 1rem;
-  /* Spacing scale 4 - Medium spacing. Bootstrap's $spacer * 1.5 (24px). */
-  --pg-spacing-4: 1.5rem;
-  /* Spacing scale 5 - Large spacing. Bootstrap's $spacer * 3 (48px). */
-  --pg-spacing-5: 3rem;
-  /* Spacing scale 6 - Extra large spacing (64px). */
-  --pg-spacing-6: 4rem;
-  /* Spacing scale 7 - 2X extra large spacing (80px). */
-  --pg-spacing-7: 5rem;
-  /* Spacing scale 8 - 3X extra large spacing (96px). */
-  --pg-spacing-8: 6rem;
-  /* Spacing scale 9 - 4X extra large spacing (128px). */
-  --pg-spacing-9: 8rem;
-  /* Spacing scale 10 - 5X extra large spacing (160px). */
-  --pg-spacing-10: 10rem;
-  /* Spacing 12px - 4px grid intermediate value. Common for button/input padding (0.75rem). */
-  --pg-spacing-12: 0.75rem;
-  /* Spacing 20px - 4px grid intermediate value (1.25rem). Fills gap between 16px and 24px. */
-  --pg-spacing-20: 1.25rem;
-  /* Spacing 28px - 4px grid intermediate value (1.75rem). Fills gap between 24px and 32px. */
-  --pg-spacing-28: 1.75rem;
-  /* Spacing 32px - 4px grid value (2rem). Between Bootstrap scale 4 (24px) and 5 (48px). */
-  --pg-spacing-32: 2rem;
-  /* Spacing 36px - 4px grid value (2.25rem). Between Bootstrap scale 4 (24px) and 5 (48px). */
-  --pg-spacing-36: 2.25rem;
-  /* Spacing 40px - 4px grid value (2.5rem). Between Bootstrap scale 4 (24px) and 5 (48px). */
-  --pg-spacing-40: 2.5rem;
-  /* Spacing 44px - 4px grid value (2.75rem). Between Bootstrap scale 4 (24px) and 5 (48px). */
-  --pg-spacing-44: 2.75rem;
-  /* Spacing 56px - 4px grid value (3.5rem). Between Bootstrap scale 5 (48px) and extended 6 (64px). */
-  --pg-spacing-56: 3.5rem;
-  /* Complete box shadow value for Bootstrap SCSS export */
-  --pg-shadow-default: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  /* Complete box shadow value for Bootstrap SCSS export */
-  --pg-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-  /* Complete box shadow value for Bootstrap SCSS export */
-  --pg-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
-  /* Complete box shadow value for Bootstrap SCSS export */
-  --pg-shadow-inset: inset 0 1px 2px rgba(0, 0, 0, 0.075);
-  /* Number of columns in Bootstrap's grid system (12). Provides flexible layout options with divisible column counts. */
-  --pg-layout-grid-columns: 12;
-  /* Default gutter width between grid columns (1.5rem = 24px). Horizontal padding creating space between columns. */
-  --pg-layout-grid-gutter-width: 1.5rem;
-  /* Maximum number of columns for .row-cols-* classes (6). Sets the limit for auto-layout row columns. */
-  --pg-layout-grid-row-columns: 6;
-  /* No gutter spacing (0). Removes all spacing between columns with .g-0 class. */
-  --pg-layout-gutters-0: 0;
-  /* Extra small gutter spacing (0.25rem = 4px). Minimal spacing for tightly packed layouts. */
-  --pg-layout-gutters-1: 0.25rem;
-  /* Small gutter spacing (0.5rem = 8px). Compact spacing between columns. */
-  --pg-layout-gutters-2: 0.5rem;
-  /* Medium gutter spacing (1rem = 16px). Standard spacing for moderate column separation. */
-  --pg-layout-gutters-3: 1rem;
-  /* Default gutter spacing (1.5rem = 24px). Bootstrap's standard gutter width matching $grid-gutter-width. */
-  --pg-layout-gutters-4: 1.5rem;
-  /* Large gutter spacing (3rem = 48px). Wide spacing for prominent column separation. */
-  --pg-layout-gutters-5: 3rem;
-  /* Maximum container width at small breakpoint (540px). Container width for landscape phones and small tablets. */
-  --pg-layout-container-max-width-sm: 33.75rem;
-  /* Maximum container width at medium breakpoint (720px). Container width optimized for tablets. */
-  --pg-layout-container-max-width-md: 45rem;
-  /* Maximum container width at large breakpoint (960px). Standard desktop container width. */
-  --pg-layout-container-max-width-lg: 60rem;
-  /* Maximum container width at extra large breakpoint (1140px). Wide desktop container width. */
-  --pg-layout-container-max-width-xl: 71.25rem;
-  /* Maximum container width at extra extra large breakpoint (1320px). Widest container for ultra-wide displays. */
-  --pg-layout-container-max-width-xxl: 82.5rem;
-  /* Horizontal padding for containers (12px left and right). Applied by the make-container mixin for content spacing. */
-  --pg-layout-container-padding-x: 0.75rem;
-  /* Extra small breakpoint for portrait phones (min-width: 0). Bootstrap's default mobile-first starting point. */
-  --pg-layout-breakpoints-xs: 0;
-  /* Small breakpoint for landscape phones (≥576px). First responsive breakpoint in Bootstrap's mobile-first approach. */
-  --pg-layout-breakpoints-sm: 36rem;
-  /* Medium breakpoint for tablets (≥768px). Common tablet viewport size for responsive layouts. */
-  --pg-layout-breakpoints-md: 48rem;
-  /* Large breakpoint for desktops (≥992px). Standard desktop viewport size for responsive web design. */
-  --pg-layout-breakpoints-lg: 62rem;
-  /* Extra large breakpoint for large desktops (≥1200px). Wide desktop viewport for expansive layouts. */
-  --pg-layout-breakpoints-xl: 75rem;
-  /* Extra extra large breakpoint for larger desktops (≥1400px). Widest default viewport for ultra-wide displays. */
-  --pg-layout-breakpoints-xxl: 87.5rem;
+[data-dsai-theme="dark"] {
   /* Primary theme color. Main brand color for primary CTAs, links, and key interactive elements. Use for primary buttons, active navigation, focus states. Bootstrap's --bs-primary maps to blue-500. Ensures consistent brand expression across all touchpoints. Verify 4.5:1 contrast on backgrounds. */
   --pg-theme-primary: #0a58ca;
   /* Secondary theme color. Supporting UI elements, secondary actions, and muted emphasis. Use for secondary buttons, subtle badges, disabled state text. Bootstrap's --bs-secondary maps to gray-600. Provides visual hierarchy below primary actions. Meets WCAG AA for text. */
@@ -486,9 +300,9 @@
   /* 100% opacity. Fully opaque, no transparency. */
   --pg-opacity-100: 6.25rem;
   /* Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text. */
-  --pg-neutral-white: #fafbfc;
+  --pg-neutral-white: #0a0d10;
   /* Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds. */
-  --pg-neutral-black: #0a0d10;
+  --pg-neutral-black: #fafbfc;
   /* Neutral gray 100 alias. References brand.gray.100. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.100 for detailed usage guidance. */
   --pg-neutral-gray-100: #f5f6f7;
   /* Neutral gray 200 alias. References brand.gray.200. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.200 for detailed usage guidance. */
@@ -510,73 +324,73 @@
   /* Translucent border color that blends with backgrounds using rgba(). */
   --pg-semantic-border-color-translucent: #0a0d10;
   /* Default body text color. Applied to the <body> element and inherited by all text content unless overridden. */
-  --pg-semantic-body-color: #212529;
+  --pg-semantic-body-color: #dfe1e5;
   /* Default body background color. Applied to the <body> element as the base page background. */
-  --pg-semantic-body-bg: #fafbfc;
+  --pg-semantic-body-bg: #212529;
   /* Emphasis color for higher contrast text. Use for headings or text that needs to stand out. */
   --pg-semantic-emphasis-color: #0a0d10;
   /* Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text. */
-  --pg-semantic-secondary-color: #7a7f87;
+  --pg-semantic-secondary-color: #cbced3;
   /* Secondary background color. Use for dividers and to indicate disabled component states. */
-  --pg-semantic-secondary-bg: #e8eaed;
+  --pg-semantic-secondary-bg: #343a40;
   /* Tertiary text color for even lighter text. Use for less important supporting text. */
   --pg-semantic-tertiary-color: #a8adb7;
   /* Tertiary background color. Use for hover states, accents, and wells. */
-  --pg-semantic-tertiary-bg: #f5f6f7;
+  --pg-semantic-tertiary-bg: #212529;
   /* Default hyperlink color. Used for all <a> elements and interactive text. */
-  --pg-semantic-link-color: #084298;
+  --pg-semantic-link-color: #5d99e7;
   /* Hyperlink hover color. Applied when user hovers over a link. */
-  --pg-semantic-link-hover-color: #063166;
+  --pg-semantic-link-hover-color: #86b3ed;
   /* Default border color for component borders, dividers, and rules. */
-  --pg-semantic-border-color: #dfe1e5;
+  --pg-semantic-border-color: #495057;
   /* Primary text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-primary-text-emphasis: #063166;
+  --pg-semantic-primary-text-emphasis: #86b3ed;
   /* Primary subtle background color for non-intrusive backgrounds. */
-  --pg-semantic-primary-bg-subtle: #d7e6f9;
+  --pg-semantic-primary-bg-subtle: #021022;
   /* Primary subtle border color for gentle borders matching primary theme. */
-  --pg-semantic-primary-border-subtle: #aeccf3;
+  --pg-semantic-primary-border-subtle: #063166;
   /* Secondary theme text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-secondary-text-emphasis: #495057;
+  --pg-semantic-secondary-text-emphasis: #dfe1e5;
   /* Secondary theme subtle background color for non-intrusive backgrounds. */
-  --pg-semantic-secondary-bg-subtle: #f5f6f7;
+  --pg-semantic-secondary-bg-subtle: #212529;
   /* Secondary theme subtle border color for gentle borders matching secondary theme. */
-  --pg-semantic-secondary-border-subtle: #e8eaed;
+  --pg-semantic-secondary-border-subtle: #495057;
   /* Success text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-success-text-emphasis: #0a3622;
+  --pg-semantic-success-text-emphasis: #67c3a7;
   /* Success subtle background color for non-intrusive success states. */
-  --pg-semantic-success-bg-subtle: #b3e1d3;
+  --pg-semantic-success-bg-subtle: #041b0f;
   /* Success subtle border color for gentle borders matching success theme. */
-  --pg-semantic-success-border-subtle: #8dd2bd;
+  --pg-semantic-success-border-subtle: #0a3622;
   /* Danger text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-danger-text-emphasis: #58151c;
+  --pg-semantic-danger-text-emphasis: #d792a3;
   /* Danger subtle background color for non-intrusive error states. */
-  --pg-semantic-danger-bg-subtle: #ebc9d1;
+  --pg-semantic-danger-bg-subtle: #2c0b0e;
   /* Danger subtle border color for gentle borders matching danger theme. */
-  --pg-semantic-danger-border-subtle: #e1adba;
+  --pg-semantic-danger-border-subtle: #58151c;
   /* Warning text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-warning-text-emphasis: #92400e;
+  --pg-semantic-warning-text-emphasis: #fbbf24;
   /* Warning subtle background color for non-intrusive warning states. */
-  --pg-semantic-warning-bg-subtle: #fef3c7;
+  --pg-semantic-warning-bg-subtle: #451a03;
   /* Warning subtle border color for gentle borders matching warning theme. */
-  --pg-semantic-warning-border-subtle: #fcd34d;
+  --pg-semantic-warning-border-subtle: #92400e;
   /* Info text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-info-text-emphasis: #055160;
+  --pg-semantic-info-text-emphasis: #4dd0e1;
   /* Info subtle background color for non-intrusive info states. */
-  --pg-semantic-info-bg-subtle: #b2ebf2;
+  --pg-semantic-info-bg-subtle: #012320;
   /* Info subtle border color for gentle borders matching info theme. */
-  --pg-semantic-info-border-subtle: #80deea;
+  --pg-semantic-info-border-subtle: #055160;
   /* Light text emphasis color - provides contrast on light themed components. */
-  --pg-semantic-light-text-emphasis: #495057;
+  --pg-semantic-light-text-emphasis: #f5f6f7;
   /* Light subtle background color for subtle backgrounds. */
-  --pg-semantic-light-bg-subtle: #f5f6f7;
+  --pg-semantic-light-bg-subtle: #343a40;
   /* Light subtle border color for gentle borders matching light theme. */
-  --pg-semantic-light-border-subtle: #e8eaed;
+  --pg-semantic-light-border-subtle: #495057;
   /* Dark text emphasis color - highest contrast text on light backgrounds. */
-  --pg-semantic-dark-text-emphasis: #212529;
+  --pg-semantic-dark-text-emphasis: #dfe1e5;
   /* Dark subtle background color for darker backgrounds. */
-  --pg-semantic-dark-bg-subtle: #cbced3;
+  --pg-semantic-dark-bg-subtle: #495057;
   /* Dark subtle border color for borders matching dark theme. */
-  --pg-semantic-dark-border-subtle: #a8adb7;
+  --pg-semantic-dark-border-subtle: #343a40;
   /* Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces. */
   --pg-background-primary: #0a58ca;
   /* Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy. */
@@ -596,25 +410,9 @@
   /* Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background. */
   --pg-background-body: #fafbfc;
   /* White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness. */
-  --pg-background-white: #fafbfc;
+  --pg-background-white: #0a0d10;
   /* Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text. */
-  --pg-background-black: #0a0d10;
+  --pg-background-black: #fafbfc;
   /* Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class. */
   --pg-background-transparent: #000000;
-  /* Border radius: None - 0. No rounding, completely square corners. Equivalent to Bootstrap's 'rounded-0' utility class. */
-  --pg-border-radius-0: 0;
-  /* Border radius: Default - 0.375rem (6px). The standard rounding used throughout Bootstrap for most components. Equivalent to Bootstrap's 'rounded' or 'rounded-2' utility classes and $border-radius variable. */
-  --pg-border-radius-default: 0.375rem;
-  /* Border radius: Small - 0.25rem (4px). Used for subtle rounding on small components. Equivalent to Bootstrap's 'rounded-1' utility class and $border-radius-sm variable. */
-  --pg-border-radius-sm: 0.25rem;
-  /* Border radius: Large - 0.5rem (8px). Used for larger, more prominent rounded corners. Equivalent to Bootstrap's 'rounded-3' utility class and $border-radius-lg variable. */
-  --pg-border-radius-lg: 0.5rem;
-  /* Border radius: Extra Large - 1rem (16px). Used for very prominent rounded corners on large components. Equivalent to Bootstrap's 'rounded-4' utility class and $border-radius-xl variable. */
-  --pg-border-radius-xl: 1rem;
-  /* Border radius: 2X Extra Large - 2rem (32px). Used for dramatically rounded corners creating a softer, more modern appearance. Equivalent to Bootstrap's 'rounded-5' utility class and $border-radius-xxl variable. */
-  --pg-border-radius-xxl: 2rem;
-  /* Border radius: Pill - 50rem (800px). Creates pill-shaped elements with fully rounded ends on rectangular shapes. Equivalent to Bootstrap's 'rounded-pill' utility class and $border-radius-pill variable. */
-  --pg-border-radius-pill: 624.9375rem;
-  /* Border radius: Circle - 50%. Creates perfectly circular shapes when applied to square elements. Equivalent to Bootstrap's 'rounded-circle' utility class. Note: This is a percentage value, not pixel-based. */
-  --pg-border-radius-circle: 50%;
 }

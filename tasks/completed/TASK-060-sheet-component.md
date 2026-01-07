@@ -8,7 +8,7 @@
 | `open` | `CLOSE` | `closing` |
 | `open` | `FORCE_CLOSE` | `closing` |
 | `closing` | `CLOSE_ANIMATION_END` | `unmounting` |
-| `unmounting` | *cleanup done* | `closed` |
+| `unmounting` | _cleanup done_ | `closed` |
 | Any state | `ERROR` | `error` |
 
 **Behavior expectations**:
@@ -63,7 +63,6 @@ This FSM ensures every open/close cycle is deterministic, unambiguous, testable,
 - `packages/@dsai/react/src/components/Sheet/SheetHeader.tsx` — header sub-component (title, subtitle, close button)
 - `packages/@dsai/react/src/components/Sheet/SheetBody.tsx` — body sub-component (scrollable region for content)
 - `packages/@dsai/react/src/components/Sheet/SheetFooter.tsx` — footer sub-component (action buttons / controls)
-- `packages/@dsai/react/src/components/Sheet/styles.css` (or `.scss`, or design-system theming file) — class definitions for `.sheet`, `.sheet-backdrop`, `.sheet-dialog`, placement/size modifiers, transition/animation styles.
 - `packages/@dsai/react/src/utils/overlayManager.ts` — overlay stack manager and global registry for stacking / z-index / scroll-lock coordination.
 - `packages/@dsai/react/src/utils/useFocusTrap.ts` — either reuse existing focus-trap infrastructure or implement / adapt one (e.g. using a lightweight utility or existing shared hook).
 - `packages/@dsai/react/src/tests/Sheet/Sheet.test.tsx` — unit & integration tests covering state transitions, props, behaviors.
@@ -150,7 +149,7 @@ This FSM ensures every open/close cycle is deterministic, unambiguous, testable,
 
 ## Important Notes
 
-***What to Watch Out For — What Our Spec Must Do to Succeed:***
+**_What to Watch Out For — What Our Spec Must Do to Succeed:_**
 
 - [ ] Implementation Complexity: building overlay manager + stacking + animations + focus + accessibility + theming + variant modes + FSM is non-trivial. Mistakes could lead to subtle bugs (scroll leaks, focus bugs, z-index conflicts, animation glitches).
 - [ ] Maintenance Overhead: Because this is custom, we own everything — changes to design tokens, global styles, or layout might break the sheet. Documentation, tests, and governance will be vital.

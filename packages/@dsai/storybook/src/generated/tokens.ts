@@ -598,21 +598,19 @@ export const backgroundWhite: string;
 export const backgroundBlack: string;
 /** Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class. */
 export const backgroundTransparent: string;
-/** Border radius: 0 - No rounding. Used for completely square corners. Equivalent to Bootstrap's 'rounded-0' utility class. */
+/** Border radius: None - 0. No rounding, completely square corners. Equivalent to Bootstrap's 'rounded-0' utility class. */
 export const borderRadius0: string;
-/** Border radius: Small - .25rem (4px). Used for subtle rounding on small components. Equivalent to Bootstrap's 'rounded-1' utility class and $border-radius-sm variable. */
-export const borderRadius1: string;
-/** Border radius: Default - 0.5rem (8px). The standard rounding used throughout Bootstrap for most components. Equivalent to Bootstrap's 'rounded' or 'rounded-2' utility classes and $border-radius variable. */
-export const borderRadius2: string;
-/** Border radius: Large - 1rem (16px). Used for larger, more prominent rounded corners. Equivalent to Bootstrap's 'rounded-3' utility class and $border-radius-lg variable. */
-export const borderRadius3: string;
-/** Border radius: Extra Large - 1.5rem (24px). Used for very prominent rounded corners on large components. Equivalent to Bootstrap's 'rounded-4' utility class and $border-radius-xl variable. */
-export const borderRadius4: string;
+/** Border radius: Default - 0.375rem (6px). The standard rounding used throughout Bootstrap for most components. Equivalent to Bootstrap's 'rounded' or 'rounded-2' utility classes and $border-radius variable. */
+export const borderRadiusDefault: string;
+/** Border radius: Small - 0.25rem (4px). Used for subtle rounding on small components. Equivalent to Bootstrap's 'rounded-1' utility class and $border-radius-sm variable. */
+export const borderRadiusSm: string;
+/** Border radius: Large - 0.5rem (8px). Used for larger, more prominent rounded corners. Equivalent to Bootstrap's 'rounded-3' utility class and $border-radius-lg variable. */
+export const borderRadiusLg: string;
+/** Border radius: Extra Large - 1rem (16px). Used for very prominent rounded corners on large components. Equivalent to Bootstrap's 'rounded-4' utility class and $border-radius-xl variable. */
+export const borderRadiusXl: string;
 /** Border radius: 2X Extra Large - 2rem (32px). Used for dramatically rounded corners creating a softer, more modern appearance. Equivalent to Bootstrap's 'rounded-5' utility class and $border-radius-xxl variable. */
-export const borderRadius5: string;
-/** Border radius: Circle - 50%. Creates perfectly circular shapes when applied to square elements. Equivalent to Bootstrap's 'rounded-circle' utility class. Note: This is a percentage value (50%), not pixel-based. */
-export const borderRadiusCircle: string;
+export const borderRadiusXxl: string;
 /** Border radius: Pill - 50rem (800px). Creates pill-shaped elements with fully rounded ends on rectangular shapes. Equivalent to Bootstrap's 'rounded-pill' utility class and $border-radius-pill variable. */
 export const borderRadiusPill: string;
-/** Border radius: Circle - 50%. Creates perfectly circular shapes when applied to square elements. Equivalent to Bootstrap's 'rounded-circle' utility class. Note: This is a percentage value (50%), not pixel-based. */
-export const borderRadiusFull: string;
+/** Border radius: Circle - 50%. Creates perfectly circular shapes when applied to square elements. Equivalent to Bootstrap's 'rounded-circle' utility class. Note: This is a percentage value, not pixel-based. */
+export const borderRadiusCircle: string;

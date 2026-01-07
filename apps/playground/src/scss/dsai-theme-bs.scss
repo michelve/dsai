@@ -337,16 +337,28 @@ $letter-spacing-widest: dsai.$typography-letter-spacing-widest !default;
 $spacer: dsai.$spacing-3 !default;
 
 $spacers: (
+  // Bootstrap-compatible scale (0-5)
   0: 0,
-  1: dsai.$spacing-1,
-  2: dsai.$spacing-2,
-  3: $spacer,
-  4: dsai.$spacing-4,
-  5: dsai.$spacing-6,
-  6: dsai.$spacing-7,
-  7: dsai.$spacing-8,
-  8: dsai.$spacing-9,
-  9: dsai.$spacing-10,
+  1: dsai.$spacing-1,    // 4px
+  2: dsai.$spacing-2,    // 8px
+  3: $spacer,            // 16px (base)
+  4: dsai.$spacing-4,    // 24px
+  5: dsai.$spacing-5,    // 48px
+  // Extended scale (6-10)
+  6: dsai.$spacing-6,    // 64px
+  7: dsai.$spacing-7,    // 80px
+  8: dsai.$spacing-8,    // 96px
+  9: dsai.$spacing-9,    // 128px
+  10: dsai.$spacing-10,  // 160px
+  // Intermediate 4px grid values (for .p-12, .gap-32, etc.)
+  12: dsai.$spacing-12,  // 12px
+  20: dsai.$spacing-20,  // 20px
+  28: dsai.$spacing-28,  // 28px
+  32: dsai.$spacing-32,  // 32px
+  36: dsai.$spacing-36,  // 36px
+  40: dsai.$spacing-40,  // 40px
+  44: dsai.$spacing-44,  // 44px
+  56: dsai.$spacing-56,  // 56px
 ) !default;
 
 // ============================================================================
@@ -392,7 +404,7 @@ $gutters: (
 // 10. BORDERS
 // ============================================================================
 
-$border-radius: dsai.$border-radius-md !default;
+$border-radius: dsai.$border-radius !default;
 $border-radius-sm: dsai.$border-radius-sm !default;
 $border-radius-lg: dsai.$border-radius-lg !default;
 $border-radius-xl: dsai.$border-radius-xl !default;

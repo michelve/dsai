@@ -248,6 +248,20 @@ export { Select } from './Select';
 export type { CardSelectionMode, SelectableCardProps } from './SelectableCard';
 // SelectableCard
 export { SelectableCard } from './SelectableCard';
+export type {
+  SheetBodyProps,
+  SheetContextValue,
+  SheetFooterProps,
+  SheetHeaderProps,
+  SheetMode,
+  SheetPlacement,
+  SheetProps,
+  SheetSize,
+  SheetSurface,
+  SheetTitleProps,
+} from './Sheet';
+// Sheet
+export { Sheet } from './Sheet';
 export type { SpinnerAnimation, SpinnerProps, SpinnerSize, SpinnerVariant } from './Spinner';
 // Spinner
 export { Spinner } from './Spinner';
