@@ -25,9 +25,7 @@
                   "ANDROID": "brand.blue.50",
                   "iOS": "Brand.Blue.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#d7e6f9",
@@ -49,9 +47,7 @@
                   "ANDROID": "color.blue.100",
                   "iOS": "Color.Blue.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#aeccf3",
@@ -70,9 +66,7 @@
                   "ANDROID": "color.blue.200",
                   "iOS": "Color.Blue.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#86b3ed",
@@ -91,9 +85,7 @@
                   "ANDROID": "color.blue.300",
                   "iOS": "Color.Blue.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#5d99e7",
@@ -112,9 +104,7 @@
                   "ANDROID": "color.blue.400",
                   "iOS": "Color.Blue.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#0a58ca",
@@ -134,9 +124,7 @@
                   "ANDROID": "color.blue.500",
                   "iOS": "Color.Blue.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#084298",
@@ -156,9 +144,7 @@
                   "ANDROID": "color.blue.600",
                   "iOS": "Color.Blue.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#063166",
@@ -178,9 +164,7 @@
                   "ANDROID": "color.blue.700",
                   "iOS": "Color.Blue.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#042144",
@@ -199,9 +183,7 @@
                   "ANDROID": "color.blue.800",
                   "iOS": "Color.Blue.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#021022",
@@ -220,9 +202,7 @@
                   "ANDROID": "color.blue.900",
                   "iOS": "Color.Blue.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#010811",
@@ -241,9 +221,7 @@
                   "ANDROID": "brand.blue.950",
                   "iOS": "Brand.Blue.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "indigo": {
@@ -264,9 +242,7 @@
                   "ANDROID": "brand.indigo.50",
                   "iOS": "Brand.Indigo.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#e0cffc",
@@ -285,9 +261,7 @@
                   "ANDROID": "color.indigo.100",
                   "iOS": "Color.Indigo.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#c29ffa",
@@ -306,9 +280,7 @@
                   "ANDROID": "color.indigo.200",
                   "iOS": "Color.Indigo.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#a370f7",
@@ -327,9 +299,7 @@
                   "ANDROID": "color.indigo.300",
                   "iOS": "Color.Indigo.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#8540f5",
@@ -348,9 +318,7 @@
                   "ANDROID": "color.indigo.400",
                   "iOS": "Color.Indigo.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#6610f2",
@@ -370,9 +338,7 @@
                   "ANDROID": "color.indigo.500",
                   "iOS": "Color.Indigo.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#520dc2",
@@ -391,9 +357,7 @@
                   "ANDROID": "color.indigo.600",
                   "iOS": "Color.Indigo.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#3d0a91",
@@ -412,9 +376,7 @@
                   "ANDROID": "color.indigo.700",
                   "iOS": "Color.Indigo.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#290661",
@@ -433,9 +395,7 @@
                   "ANDROID": "color.indigo.800",
                   "iOS": "Color.Indigo.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#140330",
@@ -454,9 +414,7 @@
                   "ANDROID": "color.indigo.900",
                   "iOS": "Color.Indigo.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#0a0416",
@@ -475,9 +433,7 @@
                   "ANDROID": "brand.indigo.950",
                   "iOS": "Brand.Indigo.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "purple": {
@@ -498,9 +454,7 @@
                   "ANDROID": "brand.purple.50",
                   "iOS": "Brand.Purple.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#d1bff1",
@@ -519,9 +473,7 @@
                   "ANDROID": "color.purple.100",
                   "iOS": "Color.Purple.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#b39fea",
@@ -540,9 +492,7 @@
                   "ANDROID": "color.purple.200",
                   "iOS": "Color.Purple.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#957fe3",
@@ -561,9 +511,7 @@
                   "ANDROID": "color.purple.300",
                   "iOS": "Color.Purple.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#775fdc",
@@ -582,9 +530,7 @@
                   "ANDROID": "color.purple.400",
                   "iOS": "Color.Purple.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#432874",
@@ -604,9 +550,7 @@
                   "ANDROID": "color.purple.500",
                   "iOS": "Color.Purple.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#2c1a4d",
@@ -625,9 +569,7 @@
                   "ANDROID": "color.purple.600",
                   "iOS": "Color.Purple.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#1f1335",
@@ -646,9 +588,7 @@
                   "ANDROID": "color.purple.700",
                   "iOS": "Color.Purple.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#160d27",
@@ -667,9 +607,7 @@
                   "ANDROID": "color.purple.800",
                   "iOS": "Color.Purple.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#0a0613",
@@ -688,9 +626,7 @@
                   "ANDROID": "color.purple.900",
                   "iOS": "Color.Purple.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#0a0613",
@@ -709,9 +645,7 @@
                   "ANDROID": "brand.purple.950",
                   "iOS": "Brand.Purple.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "pink": {
@@ -732,9 +666,7 @@
                   "ANDROID": "brand.pink.50",
                   "iOS": "Brand.Pink.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#f7d6e6",
@@ -753,9 +685,7 @@
                   "ANDROID": "color.pink.100",
                   "iOS": "Color.Pink.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#efadce",
@@ -774,9 +704,7 @@
                   "ANDROID": "color.pink.200",
                   "iOS": "Color.Pink.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#e685b5",
@@ -795,9 +723,7 @@
                   "ANDROID": "color.pink.300",
                   "iOS": "Color.Pink.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#de5c9d",
@@ -816,9 +742,7 @@
                   "ANDROID": "color.pink.400",
                   "iOS": "Color.Pink.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#d63384",
@@ -838,9 +762,7 @@
                   "ANDROID": "color.pink.500",
                   "iOS": "Color.Pink.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#ab296a",
@@ -859,9 +781,7 @@
                   "ANDROID": "color.pink.600",
                   "iOS": "Color.Pink.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#801f4f",
@@ -880,9 +800,7 @@
                   "ANDROID": "color.pink.700",
                   "iOS": "Color.Pink.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#561435",
@@ -901,9 +819,7 @@
                   "ANDROID": "color.pink.800",
                   "iOS": "Color.Pink.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#2b0a1a",
@@ -922,9 +838,7 @@
                   "ANDROID": "color.pink.900",
                   "iOS": "Color.Pink.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#2b0a1a",
@@ -943,9 +857,7 @@
                   "ANDROID": "brand.pink.950",
                   "iOS": "Brand.Pink.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "red": {
@@ -966,9 +878,7 @@
                   "ANDROID": "brand.red.50",
                   "iOS": "Brand.Red.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#ebc9d1",
@@ -987,9 +897,7 @@
                   "ANDROID": "color.red.100",
                   "iOS": "Color.Red.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#e1adba",
@@ -1008,9 +916,7 @@
                   "ANDROID": "color.red.200",
                   "iOS": "Color.Red.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#d792a3",
@@ -1029,9 +935,7 @@
                   "ANDROID": "color.red.300",
                   "iOS": "Color.Red.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#cd7691",
@@ -1050,9 +954,7 @@
                   "ANDROID": "color.red.400",
                   "iOS": "Color.Red.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#842029",
@@ -1072,9 +974,7 @@
                   "ANDROID": "color.red.500",
                   "iOS": "Color.Red.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#6b1a22",
@@ -1093,9 +993,7 @@
                   "ANDROID": "color.red.600",
                   "iOS": "Color.Red.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#58151c",
@@ -1114,9 +1012,7 @@
                   "ANDROID": "color.red.700",
                   "iOS": "Color.Red.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#3d0f14",
@@ -1135,9 +1031,7 @@
                   "ANDROID": "color.red.800",
                   "iOS": "Color.Red.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#2c0b0e",
@@ -1156,9 +1050,7 @@
                   "ANDROID": "color.red.900",
                   "iOS": "Color.Red.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#2c0b0e",
@@ -1177,9 +1069,7 @@
                   "ANDROID": "brand.red.950",
                   "iOS": "Brand.Red.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "orange": {
@@ -1200,9 +1090,7 @@
                   "ANDROID": "brand.orange.50",
                   "iOS": "Brand.Orange.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#ffe5d0",
@@ -1221,9 +1109,7 @@
                   "ANDROID": "color.orange.100",
                   "iOS": "Color.Orange.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#fecba1",
@@ -1242,9 +1128,7 @@
                   "ANDROID": "color.orange.200",
                   "iOS": "Color.Orange.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#feb272",
@@ -1263,9 +1147,7 @@
                   "ANDROID": "color.orange.300",
                   "iOS": "Color.Orange.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#fd9843",
@@ -1284,9 +1166,7 @@
                   "ANDROID": "color.orange.400",
                   "iOS": "Color.Orange.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#fd7e14",
@@ -1306,9 +1186,7 @@
                   "ANDROID": "color.orange.500",
                   "iOS": "Color.Orange.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#ca6510",
@@ -1327,9 +1205,7 @@
                   "ANDROID": "color.orange.600",
                   "iOS": "Color.Orange.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#984c0c",
@@ -1348,9 +1224,7 @@
                   "ANDROID": "color.orange.700",
                   "iOS": "Color.Orange.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#653208",
@@ -1369,9 +1243,7 @@
                   "ANDROID": "color.orange.800",
                   "iOS": "Color.Orange.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#331904",
@@ -1390,9 +1262,7 @@
                   "ANDROID": "color.orange.900",
                   "iOS": "Color.Orange.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#331904",
@@ -1411,9 +1281,7 @@
                   "ANDROID": "brand.orange.950",
                   "iOS": "Brand.Orange.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "yellow": {
@@ -1434,9 +1302,7 @@
                   "ANDROID": "brand.yellow.50",
                   "iOS": "Brand.Yellow.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#fef3c7",
@@ -1455,9 +1321,7 @@
                   "ANDROID": "color.yellow.100",
                   "iOS": "Color.Yellow.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#fcd34d",
@@ -1476,9 +1340,7 @@
                   "ANDROID": "color.yellow.200",
                   "iOS": "Color.Yellow.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#fbbf24",
@@ -1497,9 +1359,7 @@
                   "ANDROID": "color.yellow.300",
                   "iOS": "Color.Yellow.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#f59e0b",
@@ -1518,9 +1378,7 @@
                   "ANDROID": "color.yellow.400",
                   "iOS": "Color.Yellow.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#f59e0b",
@@ -1540,9 +1398,7 @@
                   "ANDROID": "color.yellow.500",
                   "iOS": "Color.Yellow.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#d97706",
@@ -1561,9 +1417,7 @@
                   "ANDROID": "color.yellow.600",
                   "iOS": "Color.Yellow.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#92400e",
@@ -1582,9 +1436,7 @@
                   "ANDROID": "color.yellow.700",
                   "iOS": "Color.Yellow.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#78350f",
@@ -1603,9 +1455,7 @@
                   "ANDROID": "color.yellow.800",
                   "iOS": "Color.Yellow.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#451a03",
@@ -1624,9 +1474,7 @@
                   "ANDROID": "color.yellow.900",
                   "iOS": "Color.Yellow.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#451a03",
@@ -1645,9 +1493,7 @@
                   "ANDROID": "brand.yellow.950",
                   "iOS": "Brand.Yellow.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "green": {
@@ -1668,9 +1514,7 @@
                   "ANDROID": "brand.green.50",
                   "iOS": "Brand.Green.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#b3e1d3",
@@ -1689,9 +1533,7 @@
                   "ANDROID": "color.green.100",
                   "iOS": "Color.Green.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#8dd2bd",
@@ -1710,9 +1552,7 @@
                   "ANDROID": "color.green.200",
                   "iOS": "Color.Green.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#67c3a7",
@@ -1731,9 +1571,7 @@
                   "ANDROID": "color.green.300",
                   "iOS": "Color.Green.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#41b491",
@@ -1752,9 +1590,7 @@
                   "ANDROID": "color.green.400",
                   "iOS": "Color.Green.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#0f5132",
@@ -1774,9 +1610,7 @@
                   "ANDROID": "color.green.500",
                   "iOS": "Color.Green.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#0c4229",
@@ -1795,9 +1629,7 @@
                   "ANDROID": "color.green.600",
                   "iOS": "Color.Green.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#0a3622",
@@ -1816,9 +1648,7 @@
                   "ANDROID": "color.green.700",
                   "iOS": "Color.Green.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#062419",
@@ -1837,9 +1667,7 @@
                   "ANDROID": "color.green.800",
                   "iOS": "Color.Green.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#041b0f",
@@ -1858,9 +1686,7 @@
                   "ANDROID": "color.green.900",
                   "iOS": "Color.Green.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#041b0f",
@@ -1879,9 +1705,7 @@
                   "ANDROID": "brand.green.950",
                   "iOS": "Brand.Green.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "teal": {
@@ -1902,9 +1726,7 @@
                   "ANDROID": "brand.teal.50",
                   "iOS": "Brand.Teal.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#d2f4ea",
@@ -1923,9 +1745,7 @@
                   "ANDROID": "color.teal.100",
                   "iOS": "Color.Teal.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#a6e9d5",
@@ -1944,9 +1764,7 @@
                   "ANDROID": "color.teal.200",
                   "iOS": "Color.Teal.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#79dfc1",
@@ -1965,9 +1783,7 @@
                   "ANDROID": "color.teal.300",
                   "iOS": "Color.Teal.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#4dd4ac",
@@ -1986,9 +1802,7 @@
                   "ANDROID": "color.teal.400",
                   "iOS": "Color.Teal.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#20c997",
@@ -2008,9 +1822,7 @@
                   "ANDROID": "color.teal.500",
                   "iOS": "Color.Teal.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#1aa179",
@@ -2029,9 +1841,7 @@
                   "ANDROID": "color.teal.600",
                   "iOS": "Color.Teal.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#13795b",
@@ -2050,9 +1860,7 @@
                   "ANDROID": "color.teal.700",
                   "iOS": "Color.Teal.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#0d503c",
@@ -2071,9 +1879,7 @@
                   "ANDROID": "color.teal.800",
                   "iOS": "Color.Teal.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#06281e",
@@ -2092,9 +1898,7 @@
                   "ANDROID": "color.teal.900",
                   "iOS": "Color.Teal.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#06281e",
@@ -2113,9 +1917,7 @@
                   "ANDROID": "brand.teal.950",
                   "iOS": "Brand.Teal.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "cyan": {
@@ -2136,9 +1938,7 @@
                   "ANDROID": "brand.cyan.50",
                   "iOS": "Brand.Cyan.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#b2ebf2",
@@ -2157,9 +1957,7 @@
                   "ANDROID": "color.cyan.100",
                   "iOS": "Color.Cyan.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#80deea",
@@ -2178,9 +1976,7 @@
                   "ANDROID": "color.cyan.200",
                   "iOS": "Color.Cyan.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#4dd0e1",
@@ -2199,9 +1995,7 @@
                   "ANDROID": "color.cyan.300",
                   "iOS": "Color.Cyan.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#26c6da",
@@ -2220,9 +2014,7 @@
                   "ANDROID": "color.cyan.400",
                   "iOS": "Color.Cyan.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#087990",
@@ -2242,9 +2034,7 @@
                   "ANDROID": "color.cyan.500",
                   "iOS": "Color.Cyan.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#066570",
@@ -2263,9 +2053,7 @@
                   "ANDROID": "color.cyan.600",
                   "iOS": "Color.Cyan.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#055160",
@@ -2284,9 +2072,7 @@
                   "ANDROID": "color.cyan.700",
                   "iOS": "Color.Cyan.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#033a40",
@@ -2305,9 +2091,7 @@
                   "ANDROID": "color.cyan.800",
                   "iOS": "Color.Cyan.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#012320",
@@ -2326,9 +2110,7 @@
                   "ANDROID": "color.cyan.900",
                   "iOS": "Color.Cyan.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#012320",
@@ -2347,9 +2129,7 @@
                   "ANDROID": "brand.cyan.950",
                   "iOS": "Brand.Cyan.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "gray": {
@@ -2370,9 +2150,7 @@
                   "ANDROID": "brand.gray.50",
                   "iOS": "Brand.Gray.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#f5f6f7",
@@ -2391,9 +2169,7 @@
                   "ANDROID": "color.gray.100",
                   "iOS": "Color.Gray.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#e8eaed",
@@ -2412,9 +2188,7 @@
                   "ANDROID": "color.gray.200",
                   "iOS": "Color.Gray.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#dfe1e5",
@@ -2433,9 +2207,7 @@
                   "ANDROID": "color.gray.300",
                   "iOS": "Color.Gray.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#cbced3",
@@ -2454,9 +2226,7 @@
                   "ANDROID": "color.gray.400",
                   "iOS": "Color.Gray.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#a8adb7",
@@ -2475,9 +2245,7 @@
                   "ANDROID": "color.gray.500",
                   "iOS": "Color.Gray.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#7a7f87",
@@ -2496,9 +2264,7 @@
                   "ANDROID": "color.gray.600",
                   "iOS": "Color.Gray.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#495057",
@@ -2517,9 +2283,7 @@
                   "ANDROID": "color.gray.700",
                   "iOS": "Color.Gray.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#343a40",
@@ -2538,9 +2302,7 @@
                   "ANDROID": "color.gray.800",
                   "iOS": "Color.Gray.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#212529",
@@ -2559,9 +2321,7 @@
                   "ANDROID": "color.gray.900",
                   "iOS": "Color.Gray.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
                 "$value": "#0a0d10",
@@ -2580,9 +2340,7 @@
                   "ANDROID": "brand.gray.950",
                   "iOS": "Brand.Gray.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             }
           },
@@ -2604,9 +2362,7 @@
                 "ANDROID": "color.white",
                 "iOS": "Color.White"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "black": {
               "$value": "#0a0d10",
@@ -2625,9 +2381,7 @@
                 "ANDROID": "neutral.black",
                 "iOS": "Neutral.Black"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "gray": {
               "100": {
@@ -2647,10 +2401,7 @@
                   "ANDROID": "neutral.gray.100",
                   "iOS": "Neutral.Gray.100"
                 },
-                "$scopes": [
-                  "ALL_FILLS",
-                  "STROKE_COLOR"
-                ]
+                "$scopes": ["ALL_FILLS", "STROKE_COLOR"]
               },
               "200": {
                 "$value": "{colors.brand.gray.200}",
@@ -2669,10 +2420,7 @@
                   "ANDROID": "neutral.gray.200",
                   "iOS": "Neutral.Gray.200"
                 },
-                "$scopes": [
-                  "ALL_FILLS",
-                  "STROKE_COLOR"
-                ]
+                "$scopes": ["ALL_FILLS", "STROKE_COLOR"]
               },
               "300": {
                 "$value": "{colors.brand.gray.300}",
@@ -2691,9 +2439,7 @@
                   "ANDROID": "color.gray.300",
                   "iOS": "Color.Gray.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "{colors.brand.gray.400}",
@@ -2712,9 +2458,7 @@
                   "ANDROID": "color.gray.400",
                   "iOS": "Color.Gray.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "{colors.brand.gray.500}",
@@ -2733,9 +2477,7 @@
                   "ANDROID": "color.gray.500",
                   "iOS": "Color.Gray.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "{colors.brand.gray.600}",
@@ -2754,9 +2496,7 @@
                   "ANDROID": "color.gray.600",
                   "iOS": "Color.Gray.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "{colors.brand.gray.700}",
@@ -2775,9 +2515,7 @@
                   "ANDROID": "color.gray.700",
                   "iOS": "Color.Gray.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "{colors.brand.gray.800}",
@@ -2796,9 +2534,7 @@
                   "ANDROID": "color.gray.800",
                   "iOS": "Color.Gray.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "{colors.brand.gray.900}",
@@ -2817,9 +2553,7 @@
                   "ANDROID": "color.gray.900",
                   "iOS": "Color.Gray.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             }
           },
@@ -2845,10 +2579,7 @@
                 "ANDROID": "theme.primary",
                 "iOS": "Theme.Primary"
               },
-              "$scopes": [
-                "ALL_FILLS",
-                "STROKE_COLOR"
-              ]
+              "$scopes": ["ALL_FILLS", "STROKE_COLOR"]
             },
             "secondary": {
               "$value": "{colors.brand.gray.500}",
@@ -2867,10 +2598,7 @@
                 "ANDROID": "theme.secondary",
                 "iOS": "Theme.Secondary"
               },
-              "$scopes": [
-                "ALL_FILLS",
-                "STROKE_COLOR"
-              ]
+              "$scopes": ["ALL_FILLS", "STROKE_COLOR"]
             },
             "success": {
               "$value": "{colors.brand.green.500}",
@@ -2889,9 +2617,7 @@
                 "ANDROID": "theme.success",
                 "iOS": "Theme.Success"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "info": {
               "$value": "{colors.brand.blue.500}",
@@ -2910,9 +2636,7 @@
                 "ANDROID": "theme.info",
                 "iOS": "Theme.Info"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "warning": {
               "$value": "{colors.brand.yellow.500}",
@@ -2931,9 +2655,7 @@
                 "ANDROID": "theme.warning",
                 "iOS": "Theme.Warning"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "danger": {
               "$value": "{colors.brand.red.500}",
@@ -2952,9 +2674,7 @@
                 "ANDROID": "theme.danger",
                 "iOS": "Theme.Danger"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "light": {
               "$value": "{colors.brand.gray.100}",
@@ -2973,9 +2693,7 @@
                 "ANDROID": "theme.light",
                 "iOS": "Theme.Light"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "dark": {
               "$value": "{colors.brand.gray.900}",
@@ -2994,9 +2712,7 @@
                 "ANDROID": "theme.dark",
                 "iOS": "Theme.Dark"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             }
           },
           "background": {
@@ -3019,9 +2735,7 @@
                 "ANDROID": "background.primary",
                 "iOS": "Background.Primary"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "secondary": {
               "$value": "{colors.brand.gray.600}",
@@ -3040,9 +2754,7 @@
                 "ANDROID": "background.secondary",
                 "iOS": "Background.Secondary"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "success": {
               "$value": "{colors.brand.green.500}",
@@ -3061,9 +2773,7 @@
                 "ANDROID": "background.success",
                 "iOS": "Background.Success"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "danger": {
               "$value": "{colors.brand.red.500}",
@@ -3082,9 +2792,7 @@
                 "ANDROID": "background.danger",
                 "iOS": "Background.Danger"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "warning": {
               "$value": "{colors.brand.yellow.500}",
@@ -3103,9 +2811,7 @@
                 "ANDROID": "background.warning",
                 "iOS": "Background.Warning"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "info": {
               "$value": "{colors.brand.cyan.500}",
@@ -3124,9 +2830,7 @@
                 "ANDROID": "background.info",
                 "iOS": "Background.Info"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "light": {
               "$value": "{colors.brand.gray.100}",
@@ -3145,9 +2849,7 @@
                 "ANDROID": "background.light",
                 "iOS": "Background.Light"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "dark": {
               "$value": "{colors.brand.gray.900}",
@@ -3166,9 +2868,7 @@
                 "ANDROID": "background.dark",
                 "iOS": "Background.Dark"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "body": {
               "$value": "{colors.neutral.white}",
@@ -3187,9 +2887,7 @@
                 "ANDROID": "background.body",
                 "iOS": "Background.Body"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "white": {
               "$value": "{colors.neutral.white}",
@@ -3208,9 +2906,7 @@
                 "ANDROID": "background.white",
                 "iOS": "Background.White"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "black": {
               "$value": "{colors.neutral.black}",
@@ -3229,9 +2925,7 @@
                 "ANDROID": "background.black",
                 "iOS": "Background.Black"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "transparent": {
               "$value": "#000000",
@@ -3250,9 +2944,7 @@
                 "ANDROID": "background.transparent",
                 "iOS": "Background.Transparent"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             }
           },
           "opacity": {
@@ -3275,9 +2967,7 @@
                 "ANDROID": "opacity.value0",
                 "iOS": "Opacity.value0"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "5": {
               "$value": 5,
@@ -3296,9 +2986,7 @@
                 "ANDROID": "opacity.value5",
                 "iOS": "Opacity.value5"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "10": {
               "$value": 10,
@@ -3317,9 +3005,7 @@
                 "ANDROID": "opacity.value10",
                 "iOS": "Opacity.value10"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "15": {
               "$value": 15,
@@ -3338,9 +3024,7 @@
                 "ANDROID": "opacity.value15",
                 "iOS": "Opacity.value15"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "20": {
               "$value": 20,
@@ -3359,9 +3043,7 @@
                 "ANDROID": "opacity.value20",
                 "iOS": "Opacity.value20"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "25": {
               "$value": 25,
@@ -3380,9 +3062,7 @@
                 "ANDROID": "opacity.value25",
                 "iOS": "Opacity.value25"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "30": {
               "$value": 30,
@@ -3401,9 +3081,7 @@
                 "ANDROID": "opacity.value30",
                 "iOS": "Opacity.value30"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "35": {
               "$value": 35,
@@ -3422,9 +3100,7 @@
                 "ANDROID": "opacity.value35",
                 "iOS": "Opacity.value35"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "40": {
               "$value": 40,
@@ -3443,9 +3119,7 @@
                 "ANDROID": "opacity.value40",
                 "iOS": "Opacity.value40"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "45": {
               "$value": 45,
@@ -3464,9 +3138,7 @@
                 "ANDROID": "opacity.value45",
                 "iOS": "Opacity.value45"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "50": {
               "$value": 50,
@@ -3485,9 +3157,7 @@
                 "ANDROID": "opacity.value50",
                 "iOS": "Opacity.value50"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "55": {
               "$value": 55,
@@ -3506,9 +3176,7 @@
                 "ANDROID": "opacity.value55",
                 "iOS": "Opacity.value55"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "60": {
               "$value": 60,
@@ -3527,9 +3195,7 @@
                 "ANDROID": "opacity.value60",
                 "iOS": "Opacity.value60"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "65": {
               "$value": 65,
@@ -3548,9 +3214,7 @@
                 "ANDROID": "opacity.value65",
                 "iOS": "Opacity.value65"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "70": {
               "$value": 70,
@@ -3569,9 +3233,7 @@
                 "ANDROID": "opacity.value70",
                 "iOS": "Opacity.value70"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "75": {
               "$value": 75,
@@ -3590,9 +3252,7 @@
                 "ANDROID": "opacity.value75",
                 "iOS": "Opacity.value75"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "80": {
               "$value": 80,
@@ -3611,9 +3271,7 @@
                 "ANDROID": "opacity.value80",
                 "iOS": "Opacity.value80"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "85": {
               "$value": 85,
@@ -3632,9 +3290,7 @@
                 "ANDROID": "opacity.value85",
                 "iOS": "Opacity.value85"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "90": {
               "$value": 90,
@@ -3653,9 +3309,7 @@
                 "ANDROID": "opacity.value90",
                 "iOS": "Opacity.value90"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "95": {
               "$value": 95,
@@ -3674,9 +3328,7 @@
                 "ANDROID": "opacity.value95",
                 "iOS": "Opacity.value95"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "100": {
               "$value": 100,
@@ -3695,9 +3347,7 @@
                 "ANDROID": "opacity.value100",
                 "iOS": "Opacity.value100"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             }
           }
         },
@@ -3719,9 +3369,7 @@
               "ANDROID": "semantic.borderColorTranslucent",
               "iOS": "Semantic.BorderColorTranslucent"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "body-color": {
             "$value": "{colors.neutral.gray.900}",
@@ -3737,9 +3385,7 @@
               "ANDROID": "semantic.bodyColor",
               "iOS": "Semantic.BodyColor"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "body-bg": {
             "$value": "{colors.neutral.white}",
@@ -3755,9 +3401,7 @@
               "ANDROID": "semantic.bodyBg",
               "iOS": "Semantic.BodyBg"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "emphasis-color": {
             "$value": "{colors.neutral.black}",
@@ -3773,9 +3417,7 @@
               "ANDROID": "semantic.emphasisColor",
               "iOS": "Semantic.EmphasisColor"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "secondary-color": {
             "$value": "{colors.neutral.gray.600}",
@@ -3791,9 +3433,7 @@
               "ANDROID": "semantic.secondaryColor",
               "iOS": "Semantic.SecondaryColor"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "secondary-bg": {
             "$value": "{colors.neutral.gray.200}",
@@ -3809,9 +3449,7 @@
               "ANDROID": "semantic.secondaryBg",
               "iOS": "Semantic.SecondaryBg"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "tertiary-color": {
             "$value": "{colors.neutral.gray.500}",
@@ -3827,9 +3465,7 @@
               "ANDROID": "semantic.tertiaryColor",
               "iOS": "Semantic.TertiaryColor"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "tertiary-bg": {
             "$value": "{colors.neutral.gray.100}",
@@ -3845,9 +3481,7 @@
               "ANDROID": "semantic.tertiaryBg",
               "iOS": "Semantic.TertiaryBg"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "link-color": {
             "$value": "{colors.brand.blue.600}",
@@ -3863,9 +3497,7 @@
               "ANDROID": "semantic.linkColor",
               "iOS": "Semantic.LinkColor"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "link-hover-color": {
             "$value": "{colors.brand.blue.700}",
@@ -3881,9 +3513,7 @@
               "ANDROID": "semantic.linkHoverColor",
               "iOS": "Semantic.LinkHoverColor"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "border-color": {
             "$value": "{colors.neutral.gray.300}",
@@ -3899,9 +3529,7 @@
               "ANDROID": "semantic.borderColor",
               "iOS": "Semantic.BorderColor"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "primary-text-emphasis": {
             "$value": "{colors.brand.blue.700}",
@@ -3917,9 +3545,7 @@
               "ANDROID": "semantic.primaryTextEmphasis",
               "iOS": "Semantic.PrimaryTextEmphasis"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "primary-bg-subtle": {
             "$value": "{colors.brand.blue.100}",
@@ -3935,9 +3561,7 @@
               "ANDROID": "semantic.primaryBgSubtle",
               "iOS": "Semantic.PrimaryBgSubtle"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "primary-border-subtle": {
             "$value": "{colors.brand.blue.200}",
@@ -3953,9 +3577,7 @@
               "ANDROID": "semantic.primaryBorderSubtle",
               "iOS": "Semantic.PrimaryBorderSubtle"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "secondary-text-emphasis": {
             "$value": "{colors.neutral.gray.700}",
@@ -3971,9 +3593,7 @@
               "ANDROID": "semantic.secondaryTextEmphasis",
               "iOS": "Semantic.SecondaryTextEmphasis"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "secondary-bg-subtle": {
             "$value": "{colors.neutral.gray.100}",
@@ -3989,9 +3609,7 @@
               "ANDROID": "semantic.secondaryBgSubtle",
               "iOS": "Semantic.SecondaryBgSubtle"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "secondary-border-subtle": {
             "$value": "{colors.neutral.gray.200}",
@@ -4007,9 +3625,7 @@
               "ANDROID": "semantic.secondaryBorderSubtle",
               "iOS": "Semantic.SecondaryBorderSubtle"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "success-text-emphasis": {
             "$value": "{colors.brand.green.700}",
@@ -4025,9 +3641,7 @@
               "ANDROID": "semantic.successTextEmphasis",
               "iOS": "Semantic.SuccessTextEmphasis"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "success-bg-subtle": {
             "$value": "{colors.brand.green.100}",
@@ -4043,9 +3657,7 @@
               "ANDROID": "semantic.successBgSubtle",
               "iOS": "Semantic.SuccessBgSubtle"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "success-border-subtle": {
             "$value": "{colors.brand.green.200}",
@@ -4061,9 +3673,7 @@
               "ANDROID": "semantic.successBorderSubtle",
               "iOS": "Semantic.SuccessBorderSubtle"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "danger-text-emphasis": {
             "$value": "{colors.brand.red.700}",
@@ -4079,9 +3689,7 @@
               "ANDROID": "semantic.dangerTextEmphasis",
               "iOS": "Semantic.DangerTextEmphasis"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "danger-bg-subtle": {
             "$value": "{colors.brand.red.100}",
@@ -4097,9 +3705,7 @@
               "ANDROID": "semantic.dangerBgSubtle",
               "iOS": "Semantic.DangerBgSubtle"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "danger-border-subtle": {
             "$value": "{colors.brand.red.200}",
@@ -4115,9 +3721,7 @@
               "ANDROID": "semantic.dangerBorderSubtle",
               "iOS": "Semantic.DangerBorderSubtle"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "warning-text-emphasis": {
             "$value": "{colors.brand.yellow.700}",
@@ -4133,9 +3737,7 @@
               "ANDROID": "semantic.warningTextEmphasis",
               "iOS": "Semantic.WarningTextEmphasis"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "warning-bg-subtle": {
             "$value": "{colors.brand.yellow.100}",
@@ -4151,9 +3753,7 @@
               "ANDROID": "semantic.warningBgSubtle",
               "iOS": "Semantic.WarningBgSubtle"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "warning-border-subtle": {
             "$value": "{colors.brand.yellow.200}",
@@ -4169,9 +3769,7 @@
               "ANDROID": "semantic.warningBorderSubtle",
               "iOS": "Semantic.WarningBorderSubtle"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "info-text-emphasis": {
             "$value": "{colors.brand.cyan.700}",
@@ -4187,9 +3785,7 @@
               "ANDROID": "semantic.infoTextEmphasis",
               "iOS": "Semantic.InfoTextEmphasis"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "info-bg-subtle": {
             "$value": "{colors.brand.cyan.100}",
@@ -4205,9 +3801,7 @@
               "ANDROID": "semantic.infoBgSubtle",
               "iOS": "Semantic.InfoBgSubtle"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "info-border-subtle": {
             "$value": "{colors.brand.cyan.200}",
@@ -4223,9 +3817,7 @@
               "ANDROID": "semantic.infoBorderSubtle",
               "iOS": "Semantic.InfoBorderSubtle"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "light-text-emphasis": {
             "$value": "{colors.neutral.gray.700}",
@@ -4241,9 +3833,7 @@
               "ANDROID": "semantic.lightTextEmphasis",
               "iOS": "Semantic.LightTextEmphasis"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "light-bg-subtle": {
             "$value": "{colors.neutral.gray.100}",
@@ -4259,9 +3849,7 @@
               "ANDROID": "semantic.lightBgSubtle",
               "iOS": "Semantic.LightBgSubtle"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "light-border-subtle": {
             "$value": "{colors.neutral.gray.200}",
@@ -4277,9 +3865,7 @@
               "ANDROID": "semantic.lightBorderSubtle",
               "iOS": "Semantic.LightBorderSubtle"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "dark-text-emphasis": {
             "$value": "{colors.neutral.gray.900}",
@@ -4295,9 +3881,7 @@
               "ANDROID": "semantic.darkTextEmphasis",
               "iOS": "Semantic.DarkTextEmphasis"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "dark-bg-subtle": {
             "$value": "{colors.neutral.gray.400}",
@@ -4313,9 +3897,7 @@
               "ANDROID": "semantic.darkBgSubtle",
               "iOS": "Semantic.DarkBgSubtle"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "dark-border-subtle": {
             "$value": "{colors.neutral.gray.500}",
@@ -4331,9 +3913,7 @@
               "ANDROID": "semantic.darkBorderSubtle",
               "iOS": "Semantic.DarkBorderSubtle"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           }
         }
       },
@@ -4342,7 +3922,7 @@
           "brand": {
             "blue": {
               "50": {
-                "$value": "#010811",
+                "$value": "#ebf3fc",
                 "$type": "color",
                 "$description": "Ultra-light tint of blue. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
                 "$extensions": {
@@ -4361,12 +3941,10 @@
                   "ANDROID": "brand.blue.50",
                   "iOS": "Brand.Blue.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
-                "$value": "#cfe2ff",
+                "$value": "#d7e6f9",
                 "$type": "color",
                 "$description": "Lightest tint (90% lighter) of primary brand color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
                 "$extensions": {
@@ -4385,12 +3963,10 @@
                   "ANDROID": "color.blue.100",
                   "iOS": "Color.Blue.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
-                "$value": "#9ec5fe",
+                "$value": "#aeccf3",
                 "$type": "color",
                 "$description": "Very light tint (75% lighter) of primary brand color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
                 "$extensions": {
@@ -4406,12 +3982,10 @@
                   "ANDROID": "color.blue.200",
                   "iOS": "Color.Blue.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
-                "$value": "#6ea8fe",
+                "$value": "#86b3ed",
                 "$type": "color",
                 "$description": "Light tint (60% lighter) of primary brand color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
                 "$extensions": {
@@ -4427,12 +4001,10 @@
                   "ANDROID": "color.blue.300",
                   "iOS": "Color.Blue.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
-                "$value": "#3d8bfd",
+                "$value": "#5d99e7",
                 "$type": "color",
                 "$description": "Medium-light tint (40% lighter) of primary brand color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
                 "$extensions": {
@@ -4448,12 +4020,10 @@
                   "ANDROID": "color.blue.400",
                   "iOS": "Color.Blue.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
-                "$value": "#0d6efd",
+                "$value": "#0a58ca",
                 "$type": "color",
                 "$description": "Base color (reference) of primary brand color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
                 "$extensions": {
@@ -4470,12 +4040,10 @@
                   "ANDROID": "color.blue.500",
                   "iOS": "Color.Blue.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
-                "$value": "#0a58ca",
+                "$value": "#084298",
                 "$type": "color",
                 "$description": "Dark shade (20% darker) of primary brand color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
                 "$extensions": {
@@ -4492,12 +4060,10 @@
                   "ANDROID": "color.blue.600",
                   "iOS": "Color.Blue.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
-                "$value": "#084298",
+                "$value": "#063166",
                 "$type": "color",
                 "$description": "Darker shade (40% darker) of primary brand color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
                 "$extensions": {
@@ -4514,12 +4080,10 @@
                   "ANDROID": "color.blue.700",
                   "iOS": "Color.Blue.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
-                "$value": "#052c65",
+                "$value": "#042144",
                 "$type": "color",
                 "$description": "Very dark shade (60% darker) of primary brand color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
                 "$extensions": {
@@ -4535,12 +4099,10 @@
                   "ANDROID": "color.blue.800",
                   "iOS": "Color.Blue.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
-                "$value": "#031633",
+                "$value": "#021022",
                 "$type": "color",
                 "$description": "Darkest shade (80% darker) of primary brand color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
                 "$extensions": {
@@ -4556,12 +4118,10 @@
                   "ANDROID": "color.blue.900",
                   "iOS": "Color.Blue.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
-                "$value": "#e0edfb",
+                "$value": "#010811",
                 "$type": "color",
                 "$description": "Deep shadows, near-black shade of blue. Maximum depth and contrast.",
                 "$extensions": {
@@ -4577,14 +4137,12 @@
                   "ANDROID": "brand.blue.950",
                   "iOS": "Brand.Blue.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "indigo": {
               "50": {
-                "$value": "#0a0416",
+                "$value": "#f0ebff",
                 "$type": "color",
                 "$description": "Ultra-light tint of indigo. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
                 "$extensions": {
@@ -4600,9 +4158,7 @@
                   "ANDROID": "brand.indigo.50",
                   "iOS": "Brand.Indigo.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#e0cffc",
@@ -4621,9 +4177,7 @@
                   "ANDROID": "color.indigo.100",
                   "iOS": "Color.Indigo.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#c29ffa",
@@ -4642,9 +4196,7 @@
                   "ANDROID": "color.indigo.200",
                   "iOS": "Color.Indigo.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#a370f7",
@@ -4663,9 +4215,7 @@
                   "ANDROID": "color.indigo.300",
                   "iOS": "Color.Indigo.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#8540f5",
@@ -4684,9 +4234,7 @@
                   "ANDROID": "color.indigo.400",
                   "iOS": "Color.Indigo.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#6610f2",
@@ -4706,9 +4254,7 @@
                   "ANDROID": "color.indigo.500",
                   "iOS": "Color.Indigo.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#520dc2",
@@ -4727,9 +4273,7 @@
                   "ANDROID": "color.indigo.600",
                   "iOS": "Color.Indigo.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#3d0a91",
@@ -4748,9 +4292,7 @@
                   "ANDROID": "color.indigo.700",
                   "iOS": "Color.Indigo.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#290661",
@@ -4769,9 +4311,7 @@
                   "ANDROID": "color.indigo.800",
                   "iOS": "Color.Indigo.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#140330",
@@ -4790,12 +4330,10 @@
                   "ANDROID": "color.indigo.900",
                   "iOS": "Color.Indigo.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
-                "$value": "#ede8ff",
+                "$value": "#0a0416",
                 "$type": "color",
                 "$description": "Deep shadows, near-black shade of indigo. Maximum depth and contrast for light mode.",
                 "$extensions": {
@@ -4811,14 +4349,12 @@
                   "ANDROID": "brand.indigo.950",
                   "iOS": "Brand.Indigo.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "purple": {
               "50": {
-                "$value": "#0a0613",
+                "$value": "#e8dff8",
                 "$type": "color",
                 "$description": "Ultra-light tint of purple. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
                 "$extensions": {
@@ -4834,12 +4370,10 @@
                   "ANDROID": "brand.purple.50",
                   "iOS": "Brand.Purple.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
-                "$value": "#e2d9f3",
+                "$value": "#d1bff1",
                 "$type": "color",
                 "$description": "Lightest tint (90% lighter) of premium and creative color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
                 "$extensions": {
@@ -4855,12 +4389,10 @@
                   "ANDROID": "color.purple.100",
                   "iOS": "Color.Purple.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
-                "$value": "#c5b3e6",
+                "$value": "#b39fea",
                 "$type": "color",
                 "$description": "Very light tint (75% lighter) of premium and creative color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
                 "$extensions": {
@@ -4876,12 +4408,10 @@
                   "ANDROID": "color.purple.200",
                   "iOS": "Color.Purple.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
-                "$value": "#a98eda",
+                "$value": "#957fe3",
                 "$type": "color",
                 "$description": "Light tint (60% lighter) of premium and creative color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
                 "$extensions": {
@@ -4897,12 +4427,10 @@
                   "ANDROID": "color.purple.300",
                   "iOS": "Color.Purple.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
-                "$value": "#8c68cd",
+                "$value": "#775fdc",
                 "$type": "color",
                 "$description": "Medium-light tint (40% lighter) of premium and creative color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
                 "$extensions": {
@@ -4918,12 +4446,10 @@
                   "ANDROID": "color.purple.400",
                   "iOS": "Color.Purple.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
-                "$value": "#6f42c1",
+                "$value": "#432874",
                 "$type": "color",
                 "$description": "Base color (reference) of premium and creative color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
                 "$extensions": {
@@ -4940,12 +4466,10 @@
                   "ANDROID": "color.purple.500",
                   "iOS": "Color.Purple.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
-                "$value": "#59359a",
+                "$value": "#2c1a4d",
                 "$type": "color",
                 "$description": "Dark shade (20% darker) of premium and creative color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
                 "$extensions": {
@@ -4961,12 +4485,10 @@
                   "ANDROID": "color.purple.600",
                   "iOS": "Color.Purple.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
-                "$value": "#432874",
+                "$value": "#1f1335",
                 "$type": "color",
                 "$description": "Darker shade (40% darker) of premium and creative color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
                 "$extensions": {
@@ -4982,12 +4504,10 @@
                   "ANDROID": "color.purple.700",
                   "iOS": "Color.Purple.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
-                "$value": "#2c1a4d",
+                "$value": "#160d27",
                 "$type": "color",
                 "$description": "Very dark shade (60% darker) of premium and creative color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
                 "$extensions": {
@@ -5003,12 +4523,10 @@
                   "ANDROID": "color.purple.800",
                   "iOS": "Color.Purple.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
-                "$value": "#160d27",
+                "$value": "#0a0613",
                 "$type": "color",
                 "$description": "Darkest shade (80% darker) of premium and creative color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
                 "$extensions": {
@@ -5024,12 +4542,10 @@
                   "ANDROID": "color.purple.900",
                   "iOS": "Color.Purple.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
-                "$value": "#f0e8f8",
+                "$value": "#0a0613",
                 "$type": "color",
                 "$description": "Deep shadows, near-black shade of purple. Maximum depth and contrast.",
                 "$extensions": {
@@ -5045,14 +4561,12 @@
                   "ANDROID": "brand.purple.950",
                   "iOS": "Brand.Purple.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "pink": {
               "50": {
-                "$value": "#2b0a1a",
+                "$value": "#fce4ec",
                 "$type": "color",
                 "$description": "Ultra-light tint of pink. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
                 "$extensions": {
@@ -5068,9 +4582,7 @@
                   "ANDROID": "brand.pink.50",
                   "iOS": "Brand.Pink.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#f7d6e6",
@@ -5089,9 +4601,7 @@
                   "ANDROID": "color.pink.100",
                   "iOS": "Color.Pink.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#efadce",
@@ -5110,9 +4620,7 @@
                   "ANDROID": "color.pink.200",
                   "iOS": "Color.Pink.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#e685b5",
@@ -5131,9 +4639,7 @@
                   "ANDROID": "color.pink.300",
                   "iOS": "Color.Pink.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#de5c9d",
@@ -5152,9 +4658,7 @@
                   "ANDROID": "color.pink.400",
                   "iOS": "Color.Pink.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#d63384",
@@ -5174,9 +4678,7 @@
                   "ANDROID": "color.pink.500",
                   "iOS": "Color.Pink.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#ab296a",
@@ -5195,9 +4697,7 @@
                   "ANDROID": "color.pink.600",
                   "iOS": "Color.Pink.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#801f4f",
@@ -5216,9 +4716,7 @@
                   "ANDROID": "color.pink.700",
                   "iOS": "Color.Pink.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#561435",
@@ -5237,9 +4735,7 @@
                   "ANDROID": "color.pink.800",
                   "iOS": "Color.Pink.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#2b0a1a",
@@ -5258,12 +4754,10 @@
                   "ANDROID": "color.pink.900",
                   "iOS": "Color.Pink.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
-                "$value": "#fce4ec",
+                "$value": "#2b0a1a",
                 "$type": "color",
                 "$description": "Deep shadows, near-black shade of pink. Maximum depth and contrast for light mode.",
                 "$extensions": {
@@ -5279,14 +4773,12 @@
                   "ANDROID": "brand.pink.950",
                   "iOS": "Brand.Pink.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "red": {
               "50": {
-                "$value": "#2c0b0e",
+                "$value": "#f5e4e8",
                 "$type": "color",
                 "$description": "Ultra-light tint of red. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
                 "$extensions": {
@@ -5302,12 +4794,10 @@
                   "ANDROID": "brand.red.50",
                   "iOS": "Brand.Red.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
-                "$value": "#f8d7da",
+                "$value": "#ebc9d1",
                 "$type": "color",
                 "$description": "Lightest tint (90% lighter) of danger and error color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
                 "$extensions": {
@@ -5323,12 +4813,10 @@
                   "ANDROID": "color.red.100",
                   "iOS": "Color.Red.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
-                "$value": "#f1aeb5",
+                "$value": "#e1adba",
                 "$type": "color",
                 "$description": "Very light tint (75% lighter) of danger and error color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
                 "$extensions": {
@@ -5344,12 +4832,10 @@
                   "ANDROID": "color.red.200",
                   "iOS": "Color.Red.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
-                "$value": "#ea868f",
+                "$value": "#d792a3",
                 "$type": "color",
                 "$description": "Light tint (60% lighter) of danger and error color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
                 "$extensions": {
@@ -5365,12 +4851,10 @@
                   "ANDROID": "color.red.300",
                   "iOS": "Color.Red.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
-                "$value": "#e35d6a",
+                "$value": "#cd7691",
                 "$type": "color",
                 "$description": "Medium-light tint (40% lighter) of danger and error color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
                 "$extensions": {
@@ -5386,12 +4870,10 @@
                   "ANDROID": "color.red.400",
                   "iOS": "Color.Red.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
-                "$value": "#dc3545",
+                "$value": "#842029",
                 "$type": "color",
                 "$description": "Base color (reference) of danger and error color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
                 "$extensions": {
@@ -5408,12 +4890,10 @@
                   "ANDROID": "color.red.500",
                   "iOS": "Color.Red.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
-                "$value": "#b02a37",
+                "$value": "#6b1a22",
                 "$type": "color",
                 "$description": "Dark shade (20% darker) of danger and error color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
                 "$extensions": {
@@ -5429,12 +4909,10 @@
                   "ANDROID": "color.red.600",
                   "iOS": "Color.Red.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
-                "$value": "#842029",
+                "$value": "#58151c",
                 "$type": "color",
                 "$description": "Darker shade (40% darker) of danger and error color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
                 "$extensions": {
@@ -5450,12 +4928,10 @@
                   "ANDROID": "color.red.700",
                   "iOS": "Color.Red.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
-                "$value": "#58151c",
+                "$value": "#3d0f14",
                 "$type": "color",
                 "$description": "Very dark shade (60% darker) of danger and error color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
                 "$extensions": {
@@ -5471,9 +4947,7 @@
                   "ANDROID": "color.red.800",
                   "iOS": "Color.Red.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#2c0b0e",
@@ -5492,12 +4966,10 @@
                   "ANDROID": "color.red.900",
                   "iOS": "Color.Red.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
-                "$value": "#faebec",
+                "$value": "#2c0b0e",
                 "$type": "color",
                 "$description": "Deep shadows, near-black shade of red. Maximum depth and contrast.",
                 "$extensions": {
@@ -5513,14 +4985,12 @@
                   "ANDROID": "brand.red.950",
                   "iOS": "Brand.Red.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "orange": {
               "50": {
-                "$value": "#331904",
+                "$value": "#fff4e5",
                 "$type": "color",
                 "$description": "Ultra-light tint of orange. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
                 "$extensions": {
@@ -5536,9 +5006,7 @@
                   "ANDROID": "brand.orange.50",
                   "iOS": "Brand.Orange.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#ffe5d0",
@@ -5557,9 +5025,7 @@
                   "ANDROID": "color.orange.100",
                   "iOS": "Color.Orange.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#fecba1",
@@ -5578,9 +5044,7 @@
                   "ANDROID": "color.orange.200",
                   "iOS": "Color.Orange.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#feb272",
@@ -5599,9 +5063,7 @@
                   "ANDROID": "color.orange.300",
                   "iOS": "Color.Orange.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#fd9843",
@@ -5620,9 +5082,7 @@
                   "ANDROID": "color.orange.400",
                   "iOS": "Color.Orange.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#fd7e14",
@@ -5642,9 +5102,7 @@
                   "ANDROID": "color.orange.500",
                   "iOS": "Color.Orange.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#ca6510",
@@ -5663,9 +5121,7 @@
                   "ANDROID": "color.orange.600",
                   "iOS": "Color.Orange.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#984c0c",
@@ -5684,9 +5140,7 @@
                   "ANDROID": "color.orange.700",
                   "iOS": "Color.Orange.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#653208",
@@ -5705,9 +5159,7 @@
                   "ANDROID": "color.orange.800",
                   "iOS": "Color.Orange.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#331904",
@@ -5726,12 +5178,10 @@
                   "ANDROID": "color.orange.900",
                   "iOS": "Color.Orange.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
-                "$value": "#fff4e5",
+                "$value": "#331904",
                 "$type": "color",
                 "$description": "Deep shadows, near-black shade of orange. Maximum depth and contrast for light mode.",
                 "$extensions": {
@@ -5747,14 +5197,12 @@
                   "ANDROID": "brand.orange.950",
                   "iOS": "Brand.Orange.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "yellow": {
               "50": {
-                "$value": "#451a03",
+                "$value": "#fffaeb",
                 "$type": "color",
                 "$description": "Ultra-light tint of yellow. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
                 "$extensions": {
@@ -5770,12 +5218,10 @@
                   "ANDROID": "brand.yellow.50",
                   "iOS": "Brand.Yellow.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
-                "$value": "#fff3cd",
+                "$value": "#fef3c7",
                 "$type": "color",
                 "$description": "Lightest tint (90% lighter) of warning and caution color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
                 "$extensions": {
@@ -5791,12 +5237,10 @@
                   "ANDROID": "color.yellow.100",
                   "iOS": "Color.Yellow.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
-                "$value": "#ffe69c",
+                "$value": "#fcd34d",
                 "$type": "color",
                 "$description": "Very light tint (75% lighter) of warning and caution color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
                 "$extensions": {
@@ -5812,12 +5256,10 @@
                   "ANDROID": "color.yellow.200",
                   "iOS": "Color.Yellow.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
-                "$value": "#ffda6a",
+                "$value": "#fbbf24",
                 "$type": "color",
                 "$description": "Light tint (60% lighter) of warning and caution color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
                 "$extensions": {
@@ -5833,12 +5275,10 @@
                   "ANDROID": "color.yellow.300",
                   "iOS": "Color.Yellow.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
-                "$value": "#ffcd39",
+                "$value": "#f59e0b",
                 "$type": "color",
                 "$description": "Medium-light tint (40% lighter) of warning and caution color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
                 "$extensions": {
@@ -5854,12 +5294,10 @@
                   "ANDROID": "color.yellow.400",
                   "iOS": "Color.Yellow.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
-                "$value": "#ffc107",
+                "$value": "#f59e0b",
                 "$type": "color",
                 "$description": "Base color (reference) of warning and caution color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
                 "$extensions": {
@@ -5876,12 +5314,10 @@
                   "ANDROID": "color.yellow.500",
                   "iOS": "Color.Yellow.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
-                "$value": "#cc9a06",
+                "$value": "#d97706",
                 "$type": "color",
                 "$description": "Dark shade (20% darker) of warning and caution color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
                 "$extensions": {
@@ -5897,12 +5333,10 @@
                   "ANDROID": "color.yellow.600",
                   "iOS": "Color.Yellow.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
-                "$value": "#997404",
+                "$value": "#92400e",
                 "$type": "color",
                 "$description": "Darker shade (40% darker) of warning and caution color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
                 "$extensions": {
@@ -5918,12 +5352,10 @@
                   "ANDROID": "color.yellow.700",
                   "iOS": "Color.Yellow.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
-                "$value": "#664d03",
+                "$value": "#78350f",
                 "$type": "color",
                 "$description": "Very dark shade (60% darker) of warning and caution color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
                 "$extensions": {
@@ -5939,12 +5371,10 @@
                   "ANDROID": "color.yellow.800",
                   "iOS": "Color.Yellow.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
-                "$value": "#332701",
+                "$value": "#451a03",
                 "$type": "color",
                 "$description": "Darkest shade (80% darker) of warning and caution color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
                 "$extensions": {
@@ -5960,12 +5390,10 @@
                   "ANDROID": "color.yellow.900",
                   "iOS": "Color.Yellow.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
-                "$value": "#fffaeb",
+                "$value": "#451a03",
                 "$type": "color",
                 "$description": "Deep shadows, near-black shade of yellow. Maximum depth and contrast.",
                 "$extensions": {
@@ -5981,14 +5409,12 @@
                   "ANDROID": "brand.yellow.950",
                   "iOS": "Brand.Yellow.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "green": {
               "50": {
-                "$value": "#041b0f",
+                "$value": "#d9f0e9",
                 "$type": "color",
                 "$description": "Ultra-light tint of green. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
                 "$extensions": {
@@ -6004,12 +5430,10 @@
                   "ANDROID": "brand.green.50",
                   "iOS": "Brand.Green.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
-                "$value": "#d1e7dd",
+                "$value": "#b3e1d3",
                 "$type": "color",
                 "$description": "Lightest tint (90% lighter) of success and positive color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
                 "$extensions": {
@@ -6025,12 +5449,10 @@
                   "ANDROID": "color.green.100",
                   "iOS": "Color.Green.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
-                "$value": "#a3cfbb",
+                "$value": "#8dd2bd",
                 "$type": "color",
                 "$description": "Very light tint (75% lighter) of success and positive color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
                 "$extensions": {
@@ -6046,12 +5468,10 @@
                   "ANDROID": "color.green.200",
                   "iOS": "Color.Green.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
-                "$value": "#75b798",
+                "$value": "#67c3a7",
                 "$type": "color",
                 "$description": "Light tint (60% lighter) of success and positive color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
                 "$extensions": {
@@ -6067,12 +5487,10 @@
                   "ANDROID": "color.green.300",
                   "iOS": "Color.Green.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
-                "$value": "#479f76",
+                "$value": "#41b491",
                 "$type": "color",
                 "$description": "Medium-light tint (40% lighter) of success and positive color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
                 "$extensions": {
@@ -6088,12 +5506,10 @@
                   "ANDROID": "color.green.400",
                   "iOS": "Color.Green.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
-                "$value": "#198754",
+                "$value": "#0f5132",
                 "$type": "color",
                 "$description": "Base color (reference) of success and positive color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
                 "$extensions": {
@@ -6110,12 +5526,10 @@
                   "ANDROID": "color.green.500",
                   "iOS": "Color.Green.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
-                "$value": "#146c43",
+                "$value": "#0c4229",
                 "$type": "color",
                 "$description": "Dark shade (20% darker) of success and positive color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
                 "$extensions": {
@@ -6131,12 +5545,10 @@
                   "ANDROID": "color.green.600",
                   "iOS": "Color.Green.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
-                "$value": "#0f5132",
+                "$value": "#0a3622",
                 "$type": "color",
                 "$description": "Darker shade (40% darker) of success and positive color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
                 "$extensions": {
@@ -6152,12 +5564,10 @@
                   "ANDROID": "color.green.700",
                   "iOS": "Color.Green.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
-                "$value": "#0a3622",
+                "$value": "#062419",
                 "$type": "color",
                 "$description": "Very dark shade (60% darker) of success and positive color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
                 "$extensions": {
@@ -6173,12 +5583,10 @@
                   "ANDROID": "color.green.800",
                   "iOS": "Color.Green.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
-                "$value": "#051b11",
+                "$value": "#041b0f",
                 "$type": "color",
                 "$description": "Darkest shade (80% darker) of success and positive color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
                 "$extensions": {
@@ -6194,12 +5602,10 @@
                   "ANDROID": "color.green.900",
                   "iOS": "Color.Green.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
-                "$value": "#e0f2e9",
+                "$value": "#041b0f",
                 "$type": "color",
                 "$description": "Deep shadows, near-black shade of green. Maximum depth and contrast.",
                 "$extensions": {
@@ -6215,14 +5621,12 @@
                   "ANDROID": "brand.green.950",
                   "iOS": "Brand.Green.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "teal": {
               "50": {
-                "$value": "#06281e",
+                "$value": "#e0f2f1",
                 "$type": "color",
                 "$description": "Ultra-light tint of teal. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
                 "$extensions": {
@@ -6238,9 +5642,7 @@
                   "ANDROID": "brand.teal.50",
                   "iOS": "Brand.Teal.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
                 "$value": "#d2f4ea",
@@ -6259,9 +5661,7 @@
                   "ANDROID": "color.teal.100",
                   "iOS": "Color.Teal.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
                 "$value": "#a6e9d5",
@@ -6280,9 +5680,7 @@
                   "ANDROID": "color.teal.200",
                   "iOS": "Color.Teal.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
                 "$value": "#79dfc1",
@@ -6301,9 +5699,7 @@
                   "ANDROID": "color.teal.300",
                   "iOS": "Color.Teal.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "#4dd4ac",
@@ -6322,9 +5718,7 @@
                   "ANDROID": "color.teal.400",
                   "iOS": "Color.Teal.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "#20c997",
@@ -6344,9 +5738,7 @@
                   "ANDROID": "color.teal.500",
                   "iOS": "Color.Teal.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "#1aa179",
@@ -6365,9 +5757,7 @@
                   "ANDROID": "color.teal.600",
                   "iOS": "Color.Teal.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#13795b",
@@ -6386,9 +5776,7 @@
                   "ANDROID": "color.teal.700",
                   "iOS": "Color.Teal.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#0d503c",
@@ -6407,9 +5795,7 @@
                   "ANDROID": "color.teal.800",
                   "iOS": "Color.Teal.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#06281e",
@@ -6428,12 +5814,10 @@
                   "ANDROID": "color.teal.900",
                   "iOS": "Color.Teal.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
-                "$value": "#e0f2f1",
+                "$value": "#06281e",
                 "$type": "color",
                 "$description": "Deep shadows, near-black shade of teal. Maximum depth and contrast for light mode.",
                 "$extensions": {
@@ -6449,14 +5833,12 @@
                   "ANDROID": "brand.teal.950",
                   "iOS": "Brand.Teal.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "cyan": {
               "50": {
-                "$value": "#012320",
+                "$value": "#e0f7fa",
                 "$type": "color",
                 "$description": "Ultra-light tint of cyan. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
                 "$extensions": {
@@ -6472,12 +5854,10 @@
                   "ANDROID": "brand.cyan.50",
                   "iOS": "Brand.Cyan.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
-                "$value": "#cff4fc",
+                "$value": "#b2ebf2",
                 "$type": "color",
                 "$description": "Lightest tint (90% lighter) of informational color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
                 "$extensions": {
@@ -6493,12 +5873,10 @@
                   "ANDROID": "color.cyan.100",
                   "iOS": "Color.Cyan.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
-                "$value": "#9eeaf9",
+                "$value": "#80deea",
                 "$type": "color",
                 "$description": "Very light tint (75% lighter) of informational color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
                 "$extensions": {
@@ -6514,12 +5892,10 @@
                   "ANDROID": "color.cyan.200",
                   "iOS": "Color.Cyan.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
-                "$value": "#6edff6",
+                "$value": "#4dd0e1",
                 "$type": "color",
                 "$description": "Light tint (60% lighter) of informational color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
                 "$extensions": {
@@ -6535,12 +5911,10 @@
                   "ANDROID": "color.cyan.300",
                   "iOS": "Color.Cyan.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
-                "$value": "#3dd5f3",
+                "$value": "#26c6da",
                 "$type": "color",
                 "$description": "Medium-light tint (40% lighter) of informational color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
                 "$extensions": {
@@ -6556,12 +5930,10 @@
                   "ANDROID": "color.cyan.400",
                   "iOS": "Color.Cyan.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
-                "$value": "#0dcaf0",
+                "$value": "#087990",
                 "$type": "color",
                 "$description": "Base color (reference) of informational color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
                 "$extensions": {
@@ -6578,12 +5950,10 @@
                   "ANDROID": "color.cyan.500",
                   "iOS": "Color.Cyan.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
-                "$value": "#0aa2c0",
+                "$value": "#066570",
                 "$type": "color",
                 "$description": "Dark shade (20% darker) of informational color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
                 "$extensions": {
@@ -6599,12 +5969,10 @@
                   "ANDROID": "color.cyan.600",
                   "iOS": "Color.Cyan.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
-                "$value": "#087990",
+                "$value": "#055160",
                 "$type": "color",
                 "$description": "Darker shade (40% darker) of informational color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.",
                 "$extensions": {
@@ -6620,12 +5988,10 @@
                   "ANDROID": "color.cyan.700",
                   "iOS": "Color.Cyan.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
-                "$value": "#055160",
+                "$value": "#033a40",
                 "$type": "color",
                 "$description": "Very dark shade (60% darker) of informational color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.",
                 "$extensions": {
@@ -6641,12 +6007,10 @@
                   "ANDROID": "color.cyan.800",
                   "iOS": "Color.Cyan.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
-                "$value": "#032830",
+                "$value": "#012320",
                 "$type": "color",
                 "$description": "Darkest shade (80% darker) of informational color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.",
                 "$extensions": {
@@ -6662,12 +6026,10 @@
                   "ANDROID": "color.cyan.900",
                   "iOS": "Color.Cyan.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
-                "$value": "#e0f7fa",
+                "$value": "#012320",
                 "$type": "color",
                 "$description": "Deep shadows, near-black shade of cyan. Maximum depth and contrast.",
                 "$extensions": {
@@ -6683,14 +6045,12 @@
                   "ANDROID": "brand.cyan.950",
                   "iOS": "Brand.Cyan.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             },
             "gray": {
               "50": {
-                "$value": "#0a0d10",
+                "$value": "#fafbfc",
                 "$type": "color",
                 "$description": "Ultra-light tint of gray. Subtle backgrounds, glass morphism, hover states on white. Background use only.",
                 "$extensions": {
@@ -6706,12 +6066,10 @@
                   "ANDROID": "brand.gray.50",
                   "iOS": "Brand.Gray.50"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "100": {
-                "$value": "#f8f9fa",
+                "$value": "#f5f6f7",
                 "$type": "color",
                 "$description": "Lightest tint (90% lighter) of neutral interface color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).",
                 "$extensions": {
@@ -6727,12 +6085,10 @@
                   "ANDROID": "color.gray.100",
                   "iOS": "Color.Gray.shade100"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "200": {
-                "$value": "#e9ecef",
+                "$value": "#e8eaed",
                 "$type": "color",
                 "$description": "Very light tint (75% lighter) of neutral interface color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).",
                 "$extensions": {
@@ -6748,12 +6104,10 @@
                   "ANDROID": "color.gray.200",
                   "iOS": "Color.Gray.shade200"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "300": {
-                "$value": "#dee2e6",
+                "$value": "#dfe1e5",
                 "$type": "color",
                 "$description": "Light tint (60% lighter) of neutral interface color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.",
                 "$extensions": {
@@ -6769,12 +6123,10 @@
                   "ANDROID": "color.gray.300",
                   "iOS": "Color.Gray.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
-                "$value": "#ced4da",
+                "$value": "#cbced3",
                 "$type": "color",
                 "$description": "Medium-light tint (40% lighter) of neutral interface color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.",
                 "$extensions": {
@@ -6790,12 +6142,10 @@
                   "ANDROID": "color.gray.400",
                   "iOS": "Color.Gray.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
-                "$value": "#adb5bd",
+                "$value": "#a8adb7",
                 "$type": "color",
                 "$description": "Base color (reference) of neutral interface color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.",
                 "$extensions": {
@@ -6811,12 +6161,10 @@
                   "ANDROID": "color.gray.500",
                   "iOS": "Color.Gray.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
-                "$value": "#6c757d",
+                "$value": "#7a7f87",
                 "$type": "color",
                 "$description": "Dark shade (20% darker) of neutral interface color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.",
                 "$extensions": {
@@ -6832,9 +6180,7 @@
                   "ANDROID": "color.gray.600",
                   "iOS": "Color.Gray.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "#495057",
@@ -6853,9 +6199,7 @@
                   "ANDROID": "color.gray.700",
                   "iOS": "Color.Gray.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "#343a40",
@@ -6874,9 +6218,7 @@
                   "ANDROID": "color.gray.800",
                   "iOS": "Color.Gray.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "#212529",
@@ -6895,12 +6237,10 @@
                   "ANDROID": "color.gray.900",
                   "iOS": "Color.Gray.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "950": {
-                "$value": "#fafbfc",
+                "$value": "#0a0d10",
                 "$type": "color",
                 "$description": "Deep shadows, near-black shade of gray. Maximum depth and contrast.",
                 "$extensions": {
@@ -6916,9 +6256,7 @@
                   "ANDROID": "brand.gray.950",
                   "iOS": "Brand.Gray.950"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             }
           },
@@ -6940,9 +6278,7 @@
                 "ANDROID": "color.white",
                 "iOS": "Color.White"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "black": {
               "$value": "#fafbfc",
@@ -6961,9 +6297,7 @@
                 "ANDROID": "neutral.black",
                 "iOS": "Neutral.Black"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "gray": {
               "100": {
@@ -6983,10 +6317,7 @@
                   "ANDROID": "neutral.gray.100",
                   "iOS": "Neutral.Gray.100"
                 },
-                "$scopes": [
-                  "ALL_FILLS",
-                  "STROKE_COLOR"
-                ]
+                "$scopes": ["ALL_FILLS", "STROKE_COLOR"]
               },
               "200": {
                 "$value": "{colors.brand.gray.200}",
@@ -7005,10 +6336,7 @@
                   "ANDROID": "neutral.gray.200",
                   "iOS": "Neutral.Gray.200"
                 },
-                "$scopes": [
-                  "ALL_FILLS",
-                  "STROKE_COLOR"
-                ]
+                "$scopes": ["ALL_FILLS", "STROKE_COLOR"]
               },
               "300": {
                 "$value": "{colors.brand.gray.300}",
@@ -7027,9 +6355,7 @@
                   "ANDROID": "color.gray.300",
                   "iOS": "Color.Gray.shade300"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "400": {
                 "$value": "{colors.brand.gray.400}",
@@ -7048,9 +6374,7 @@
                   "ANDROID": "color.gray.400",
                   "iOS": "Color.Gray.shade400"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "500": {
                 "$value": "{colors.brand.gray.500}",
@@ -7069,9 +6393,7 @@
                   "ANDROID": "color.gray.500",
                   "iOS": "Color.Gray.shade500"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "600": {
                 "$value": "{colors.brand.gray.600}",
@@ -7090,9 +6412,7 @@
                   "ANDROID": "color.gray.600",
                   "iOS": "Color.Gray.shade600"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "700": {
                 "$value": "{colors.brand.gray.700}",
@@ -7111,9 +6431,7 @@
                   "ANDROID": "color.gray.700",
                   "iOS": "Color.Gray.shade700"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "800": {
                 "$value": "{colors.brand.gray.800}",
@@ -7132,9 +6450,7 @@
                   "ANDROID": "color.gray.800",
                   "iOS": "Color.Gray.shade800"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               },
               "900": {
                 "$value": "{colors.brand.gray.900}",
@@ -7153,9 +6469,7 @@
                   "ANDROID": "color.gray.900",
                   "iOS": "Color.Gray.shade900"
                 },
-                "$scopes": [
-                  "ALL_FILLS"
-                ]
+                "$scopes": ["ALL_FILLS"]
               }
             }
           },
@@ -7181,10 +6495,7 @@
                 "ANDROID": "theme.primary",
                 "iOS": "Theme.Primary"
               },
-              "$scopes": [
-                "ALL_FILLS",
-                "STROKE_COLOR"
-              ]
+              "$scopes": ["ALL_FILLS", "STROKE_COLOR"]
             },
             "secondary": {
               "$value": "{colors.brand.gray.500}",
@@ -7203,10 +6514,7 @@
                 "ANDROID": "theme.secondary",
                 "iOS": "Theme.Secondary"
               },
-              "$scopes": [
-                "ALL_FILLS",
-                "STROKE_COLOR"
-              ]
+              "$scopes": ["ALL_FILLS", "STROKE_COLOR"]
             },
             "success": {
               "$value": "{colors.brand.green.500}",
@@ -7225,9 +6533,7 @@
                 "ANDROID": "theme.success",
                 "iOS": "Theme.Success"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "info": {
               "$value": "{colors.brand.blue.500}",
@@ -7246,9 +6552,7 @@
                 "ANDROID": "theme.info",
                 "iOS": "Theme.Info"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "warning": {
               "$value": "{colors.brand.yellow.500}",
@@ -7267,9 +6571,7 @@
                 "ANDROID": "theme.warning",
                 "iOS": "Theme.Warning"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "danger": {
               "$value": "{colors.brand.red.500}",
@@ -7288,9 +6590,7 @@
                 "ANDROID": "theme.danger",
                 "iOS": "Theme.Danger"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "light": {
               "$value": "{colors.brand.gray.100}",
@@ -7309,9 +6609,7 @@
                 "ANDROID": "theme.light",
                 "iOS": "Theme.Light"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "dark": {
               "$value": "{colors.brand.gray.900}",
@@ -7330,9 +6628,7 @@
                 "ANDROID": "theme.dark",
                 "iOS": "Theme.Dark"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             }
           },
           "background": {
@@ -7355,9 +6651,7 @@
                 "ANDROID": "background.primary",
                 "iOS": "Background.Primary"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "secondary": {
               "$value": "{colors.brand.gray.600}",
@@ -7376,9 +6670,7 @@
                 "ANDROID": "background.secondary",
                 "iOS": "Background.Secondary"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "success": {
               "$value": "{colors.brand.green.500}",
@@ -7397,9 +6689,7 @@
                 "ANDROID": "background.success",
                 "iOS": "Background.Success"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "danger": {
               "$value": "{colors.brand.red.500}",
@@ -7418,9 +6708,7 @@
                 "ANDROID": "background.danger",
                 "iOS": "Background.Danger"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "warning": {
               "$value": "{colors.brand.yellow.500}",
@@ -7439,9 +6727,7 @@
                 "ANDROID": "background.warning",
                 "iOS": "Background.Warning"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "info": {
               "$value": "{colors.brand.cyan.500}",
@@ -7460,9 +6746,7 @@
                 "ANDROID": "background.info",
                 "iOS": "Background.Info"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "light": {
               "$value": "{colors.brand.gray.100}",
@@ -7481,9 +6765,7 @@
                 "ANDROID": "background.light",
                 "iOS": "Background.Light"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "dark": {
               "$value": "{colors.brand.gray.900}",
@@ -7502,9 +6784,7 @@
                 "ANDROID": "background.dark",
                 "iOS": "Background.Dark"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "body": {
               "$value": "{colors.neutral.black}",
@@ -7523,9 +6803,7 @@
                 "ANDROID": "background.body",
                 "iOS": "Background.Body"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "white": {
               "$value": "{colors.neutral.white}",
@@ -7544,9 +6822,7 @@
                 "ANDROID": "background.white",
                 "iOS": "Background.White"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "black": {
               "$value": "{colors.neutral.black}",
@@ -7565,9 +6841,7 @@
                 "ANDROID": "background.black",
                 "iOS": "Background.Black"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             },
             "transparent": {
               "$value": "#000000",
@@ -7586,9 +6860,7 @@
                 "ANDROID": "background.transparent",
                 "iOS": "Background.Transparent"
               },
-              "$scopes": [
-                "ALL_FILLS"
-              ]
+              "$scopes": ["ALL_FILLS"]
             }
           },
           "opacity": {
@@ -7611,9 +6883,7 @@
                 "ANDROID": "opacity.value0",
                 "iOS": "Opacity.value0"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "5": {
               "$value": 5,
@@ -7632,9 +6902,7 @@
                 "ANDROID": "opacity.value5",
                 "iOS": "Opacity.value5"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "10": {
               "$value": 10,
@@ -7653,9 +6921,7 @@
                 "ANDROID": "opacity.value10",
                 "iOS": "Opacity.value10"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "15": {
               "$value": 15,
@@ -7674,9 +6940,7 @@
                 "ANDROID": "opacity.value15",
                 "iOS": "Opacity.value15"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "20": {
               "$value": 20,
@@ -7695,9 +6959,7 @@
                 "ANDROID": "opacity.value20",
                 "iOS": "Opacity.value20"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "25": {
               "$value": 25,
@@ -7716,9 +6978,7 @@
                 "ANDROID": "opacity.value25",
                 "iOS": "Opacity.value25"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "30": {
               "$value": 30,
@@ -7737,9 +6997,7 @@
                 "ANDROID": "opacity.value30",
                 "iOS": "Opacity.value30"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "35": {
               "$value": 35,
@@ -7758,9 +7016,7 @@
                 "ANDROID": "opacity.value35",
                 "iOS": "Opacity.value35"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "40": {
               "$value": 40,
@@ -7779,9 +7035,7 @@
                 "ANDROID": "opacity.value40",
                 "iOS": "Opacity.value40"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "45": {
               "$value": 45,
@@ -7800,9 +7054,7 @@
                 "ANDROID": "opacity.value45",
                 "iOS": "Opacity.value45"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "50": {
               "$value": 50,
@@ -7821,9 +7073,7 @@
                 "ANDROID": "opacity.value50",
                 "iOS": "Opacity.value50"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "55": {
               "$value": 55,
@@ -7842,9 +7092,7 @@
                 "ANDROID": "opacity.value55",
                 "iOS": "Opacity.value55"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "60": {
               "$value": 60,
@@ -7863,9 +7111,7 @@
                 "ANDROID": "opacity.value60",
                 "iOS": "Opacity.value60"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "65": {
               "$value": 65,
@@ -7884,9 +7130,7 @@
                 "ANDROID": "opacity.value65",
                 "iOS": "Opacity.value65"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "70": {
               "$value": 70,
@@ -7905,9 +7149,7 @@
                 "ANDROID": "opacity.value70",
                 "iOS": "Opacity.value70"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "75": {
               "$value": 75,
@@ -7926,9 +7168,7 @@
                 "ANDROID": "opacity.value75",
                 "iOS": "Opacity.value75"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "80": {
               "$value": 80,
@@ -7947,9 +7187,7 @@
                 "ANDROID": "opacity.value80",
                 "iOS": "Opacity.value80"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "85": {
               "$value": 85,
@@ -7968,9 +7206,7 @@
                 "ANDROID": "opacity.value85",
                 "iOS": "Opacity.value85"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "90": {
               "$value": 90,
@@ -7989,9 +7225,7 @@
                 "ANDROID": "opacity.value90",
                 "iOS": "Opacity.value90"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "95": {
               "$value": 95,
@@ -8010,9 +7244,7 @@
                 "ANDROID": "opacity.value95",
                 "iOS": "Opacity.value95"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             },
             "100": {
               "$value": 100,
@@ -8031,9 +7263,7 @@
                 "ANDROID": "opacity.value100",
                 "iOS": "Opacity.value100"
               },
-              "$scopes": [
-                "OPACITY"
-              ]
+              "$scopes": ["OPACITY"]
             }
           }
         },
@@ -8055,9 +7285,7 @@
               "ANDROID": "semantic.borderColorTranslucent",
               "iOS": "Semantic.BorderColorTranslucent"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "body-color": {
             "$value": "{colors.neutral.gray.300}",
@@ -8073,9 +7301,7 @@
               "ANDROID": "semantic.bodyColor",
               "iOS": "Semantic.BodyColor"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "body-bg": {
             "$value": "{colors.neutral.gray.900}",
@@ -8091,9 +7317,7 @@
               "ANDROID": "semantic.bodyBg",
               "iOS": "Semantic.BodyBg"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "emphasis-color": {
             "$value": "{colors.neutral.white}",
@@ -8109,9 +7333,7 @@
               "ANDROID": "semantic.emphasisColor",
               "iOS": "Semantic.EmphasisColor"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "secondary-color": {
             "$value": "{colors.neutral.gray.400}",
@@ -8127,9 +7349,7 @@
               "ANDROID": "semantic.secondaryColor",
               "iOS": "Semantic.SecondaryColor"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "secondary-bg": {
             "$value": "{colors.neutral.gray.800}",
@@ -8145,9 +7365,7 @@
               "ANDROID": "semantic.secondaryBg",
               "iOS": "Semantic.SecondaryBg"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "tertiary-color": {
             "$value": "{colors.neutral.gray.500}",
@@ -8163,9 +7381,7 @@
               "ANDROID": "semantic.tertiaryColor",
               "iOS": "Semantic.TertiaryColor"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "tertiary-bg": {
             "$value": "{colors.neutral.gray.900}",
@@ -8181,9 +7397,7 @@
               "ANDROID": "semantic.tertiaryBg",
               "iOS": "Semantic.TertiaryBg"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "link-color": {
             "$value": "{colors.brand.blue.400}",
@@ -8199,9 +7413,7 @@
               "ANDROID": "semantic.linkColor",
               "iOS": "Semantic.LinkColor"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "link-hover-color": {
             "$value": "{colors.brand.blue.300}",
@@ -8217,9 +7429,7 @@
               "ANDROID": "semantic.linkHoverColor",
               "iOS": "Semantic.LinkHoverColor"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "border-color": {
             "$value": "{colors.neutral.gray.700}",
@@ -8235,9 +7445,7 @@
               "ANDROID": "semantic.borderColor",
               "iOS": "Semantic.BorderColor"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "primary-text-emphasis": {
             "$value": "{colors.brand.blue.300}",
@@ -8253,9 +7461,7 @@
               "ANDROID": "semantic.primaryTextEmphasis",
               "iOS": "Semantic.PrimaryTextEmphasis"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "primary-bg-subtle": {
             "$value": "{colors.brand.blue.900}",
@@ -8271,9 +7477,7 @@
               "ANDROID": "semantic.primaryBgSubtle",
               "iOS": "Semantic.PrimaryBgSubtle"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "primary-border-subtle": {
             "$value": "{colors.brand.blue.700}",
@@ -8289,9 +7493,7 @@
               "ANDROID": "semantic.primaryBorderSubtle",
               "iOS": "Semantic.PrimaryBorderSubtle"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "secondary-text-emphasis": {
             "$value": "{colors.neutral.gray.300}",
@@ -8307,9 +7509,7 @@
               "ANDROID": "semantic.secondaryTextEmphasis",
               "iOS": "Semantic.SecondaryTextEmphasis"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "secondary-bg-subtle": {
             "$value": "{colors.neutral.gray.900}",
@@ -8325,9 +7525,7 @@
               "ANDROID": "semantic.secondaryBgSubtle",
               "iOS": "Semantic.SecondaryBgSubtle"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "secondary-border-subtle": {
             "$value": "{colors.neutral.gray.700}",
@@ -8343,9 +7541,7 @@
               "ANDROID": "semantic.secondaryBorderSubtle",
               "iOS": "Semantic.SecondaryBorderSubtle"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "success-text-emphasis": {
             "$value": "{colors.brand.green.300}",
@@ -8361,9 +7557,7 @@
               "ANDROID": "semantic.successTextEmphasis",
               "iOS": "Semantic.SuccessTextEmphasis"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "success-bg-subtle": {
             "$value": "{colors.brand.green.900}",
@@ -8379,9 +7573,7 @@
               "ANDROID": "semantic.successBgSubtle",
               "iOS": "Semantic.SuccessBgSubtle"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "success-border-subtle": {
             "$value": "{colors.brand.green.700}",
@@ -8397,9 +7589,7 @@
               "ANDROID": "semantic.successBorderSubtle",
               "iOS": "Semantic.SuccessBorderSubtle"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "danger-text-emphasis": {
             "$value": "{colors.brand.red.300}",
@@ -8415,9 +7605,7 @@
               "ANDROID": "semantic.dangerTextEmphasis",
               "iOS": "Semantic.DangerTextEmphasis"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "danger-bg-subtle": {
             "$value": "{colors.brand.red.900}",
@@ -8433,9 +7621,7 @@
               "ANDROID": "semantic.dangerBgSubtle",
               "iOS": "Semantic.DangerBgSubtle"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "danger-border-subtle": {
             "$value": "{colors.brand.red.700}",
@@ -8451,9 +7637,7 @@
               "ANDROID": "semantic.dangerBorderSubtle",
               "iOS": "Semantic.DangerBorderSubtle"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "warning-text-emphasis": {
             "$value": "{colors.brand.yellow.300}",
@@ -8469,9 +7653,7 @@
               "ANDROID": "semantic.warningTextEmphasis",
               "iOS": "Semantic.WarningTextEmphasis"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "warning-bg-subtle": {
             "$value": "{colors.brand.yellow.900}",
@@ -8487,9 +7669,7 @@
               "ANDROID": "semantic.warningBgSubtle",
               "iOS": "Semantic.WarningBgSubtle"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "warning-border-subtle": {
             "$value": "{colors.brand.yellow.700}",
@@ -8505,9 +7685,7 @@
               "ANDROID": "semantic.warningBorderSubtle",
               "iOS": "Semantic.WarningBorderSubtle"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "info-text-emphasis": {
             "$value": "{colors.brand.cyan.300}",
@@ -8523,9 +7701,7 @@
               "ANDROID": "semantic.infoTextEmphasis",
               "iOS": "Semantic.InfoTextEmphasis"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "info-bg-subtle": {
             "$value": "{colors.brand.cyan.900}",
@@ -8541,9 +7717,7 @@
               "ANDROID": "semantic.infoBgSubtle",
               "iOS": "Semantic.InfoBgSubtle"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "info-border-subtle": {
             "$value": "{colors.brand.cyan.700}",
@@ -8559,9 +7733,7 @@
               "ANDROID": "semantic.infoBorderSubtle",
               "iOS": "Semantic.InfoBorderSubtle"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "light-text-emphasis": {
             "$value": "{colors.neutral.gray.100}",
@@ -8577,9 +7749,7 @@
               "ANDROID": "semantic.lightTextEmphasis",
               "iOS": "Semantic.LightTextEmphasis"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "light-bg-subtle": {
             "$value": "{colors.neutral.gray.800}",
@@ -8595,9 +7765,7 @@
               "ANDROID": "semantic.lightBgSubtle",
               "iOS": "Semantic.LightBgSubtle"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "light-border-subtle": {
             "$value": "{colors.neutral.gray.700}",
@@ -8613,9 +7781,7 @@
               "ANDROID": "semantic.lightBorderSubtle",
               "iOS": "Semantic.LightBorderSubtle"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           },
           "dark-text-emphasis": {
             "$value": "{colors.neutral.gray.300}",
@@ -8631,9 +7797,7 @@
               "ANDROID": "semantic.darkTextEmphasis",
               "iOS": "Semantic.DarkTextEmphasis"
             },
-            "$scopes": [
-              "TEXT_FILL"
-            ]
+            "$scopes": ["TEXT_FILL"]
           },
           "dark-bg-subtle": {
             "$value": "{colors.neutral.gray.700}",
@@ -8649,9 +7813,7 @@
               "ANDROID": "semantic.darkBgSubtle",
               "iOS": "Semantic.DarkBgSubtle"
             },
-            "$scopes": [
-              "ALL_FILLS"
-            ]
+            "$scopes": ["ALL_FILLS"]
           },
           "dark-border-subtle": {
             "$value": "{colors.neutral.gray.800}",
@@ -8667,9 +7829,7 @@
               "ANDROID": "semantic.darkBorderSubtle",
               "iOS": "Semantic.DarkBorderSubtle"
             },
-            "$scopes": [
-              "STROKE_COLOR"
-            ]
+            "$scopes": ["STROKE_COLOR"]
           }
         }
       }

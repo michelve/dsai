@@ -12,8 +12,8 @@ const pathMapping = {
 
 /** @type {import('jest').Config} */
 module.exports = {
-  // Use jsdom for React component testing
-  testEnvironment: 'jsdom',
+  // Use custom jsdom environment with matchMedia polyfill
+  testEnvironment: '<rootDir>/test/jsdom-environment.ts',
 
   // TypeScript transformation
   transform: {
@@ -50,7 +50,7 @@ module.exports = {
   // File extensions to consider
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
 
-  // Setup files
+  // Setup files after env - runs AFTER test environment for Jest matchers etc.
   setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],
 
   // Coverage configuration

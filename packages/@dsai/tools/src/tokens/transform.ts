@@ -476,7 +476,10 @@ function extractSpacing(data: FigmaExport): Record<string, unknown> {
  * Extract border radius tokens
  */
 function extractRadius(data: FigmaExport): Record<string, unknown> {
-  const base = getNestedValue(data, 'Radius', 'modes', 'Base', 'radius');
+  // Support both 'border-radius' (Bootstrap naming) and 'radius' (legacy Figma naming)
+  const base =
+    getNestedValue(data, 'Radius', 'modes', 'Base', 'border-radius') ||
+    getNestedValue(data, 'Radius', 'modes', 'Base', 'radius');
 
   if (!base) {
     console.warn('No radius tokens found');

@@ -1,101 +1,6 @@
 
 // Do not edit directly, this file was auto-generated.
 
-$typography-text-base: 1rem; // Root font size for all viewports (1rem = 16px)
-$typography-text-sm: 0.875rem; // Small font size (0.875rem = 14px)
-$typography-text-lead: 1.25rem; // Large font size (1.25rem = 20px)
-$typography-font-weight-thin: 100; // Lighter font weight
-$typography-font-weight-light: 300; // Light font weight
-$typography-font-weight-regular: 400; // Normal font weight (default body weight)
-$typography-font-weight-medium: 500; // Medium font weight
-$typography-font-weight-semi-bold: 600; // Semibold font weight
-$typography-font-weight-bold: 700; // Bold font weight
-$typography-font-weight-black: 900; // Bolder font weight
-$typography-font-weight-extra-light: 200; // Lighter font weight
-$typography-font-weight-extra-bold: 800; // Bold font weight
-$typography-font-weight-italic: italic;
-$typography-font-weight-thin-italic: thin italic;
-$typography-font-weight-extra-light-italic: extra light italic;
-$typography-font-weight-light-italic: light italic;
-$typography-font-weight-medium-italic: medium italic;
-$typography-font-weight-semi-bold-italic: semi bold italic;
-$typography-font-weight-bold-italic: bold italic;
-$typography-font-weight-extra-bold-italic: extra bold italic;
-$typography-font-weight-black-italic: black italic;
-$typography-line-height-xs: 1; // Extra small line height (1.0 ratio) - Compact UI, tags, badges. Use sparingly, not for body text. 4pt scale: 16px.
-$typography-line-height-sm: 1.25; // Small line height (1.25 ratio) - Bootstrap $line-height-sm. Compact text, small UI elements, tight spacing. Below WCAG AA for body text. 4pt scale: 20px.
-$typography-line-height-tight: 1.25; // Tight line height (1.2-1.25 ratio) - Display fonts, headings (h1-h6). Improves readability of large text. Bootstrap heading default. 4pt scale: 20px for 16px base.
-$typography-line-height-base: 1.5; // Base line height (1.5 ratio) - Bootstrap $line-height-base. Default for body text. WCAG AA compliant (1.5 minimum). 4pt scale: 24px for 16px base font.
-$typography-line-height-relaxed: 1.75; // Relaxed line height (1.75 ratio) - Enhanced readability for long-form content, articles, documentation. Exceeds WCAG AA. 4pt scale: 28px.
-$typography-line-height-lg: 2; // Large line height (2.0 ratio) - Bootstrap $line-height-lg. Spacious text, large UI components, improved scannability. 4pt scale: 32px.
-$typography-line-height-display-sm: 3; // Small display line height (1.2 ratio for 40px text) - Display fonts, large headings. Tighter leading for visual impact. 4pt scale: 48px.
-$typography-line-height-display-md: 3.75; // Medium display line height (1.2 ratio for 48-56px text) - Medium display fonts. 4pt scale: 60px.
-$typography-line-height-display-lg: 5; // Large display line height (1.2 ratio for 64px text) - Large display fonts, hero headings. 4pt scale: 76px (closest to 1.2 ratio).
-$typography-line-height-xlg: 2.5; // Large line height (2.0 ratio) - Bootstrap $line-height-lg. Spacious text, large UI components, improved scannability. 4pt scale: 32px.
-$typography-line-height-xxlg: 2.75; // Large line height (2.0 ratio) - Bootstrap $line-height-lg. Spacious text, large UI components, improved scannability. 4pt scale: 32px.
-$typography-line-height-display-xlg: 5.5;
-$typography-heading-h1: 2.5rem; // H1 heading font size (2.5rem = 40px)
-$typography-heading-h2: 2rem; // H2 heading font size (2rem = 32px)
-$typography-heading-h3: 1.75rem; // H3 heading font size (1.75rem = 28px)
-$typography-heading-h4: 1.5rem; // H4 heading font size (1.5rem = 24px)
-$typography-heading-h5: 1.25rem; // H5 heading font size (1.25rem = 20px)
-$typography-heading-h6: 1rem; // H6 heading font size (1rem = 16px)
-$typography-display-h1: 5rem; // Display 1 font size (5rem = 80px)
-$typography-display-h2: 4.5rem; // Display 2 font size (4.5rem = 72px)
-$typography-display-h3: 4rem; // Display 3 font size (4rem = 64px)
-$typography-display-h4: 3.5rem; // Display 4 font size (3.5rem = 56px)
-$typography-display-h5: 3rem; // Display 5 font size (3rem = 48px)
-$typography-display-h6: 2.5rem; // Display 6 font size (2.5rem = 40px)
-$typography-letter-spacing-tighter: -0.03125rem; // Tighter letter spacing (-0.05em) - Use for large headings and display text to improve visual density. Enhances readability at larger sizes.
-$typography-letter-spacing-tight: -0.01875000074505806rem; // Tight letter spacing (-0.025em) - Subtle tightening for headings. Improves visual cohesion without sacrificing readability.
-$typography-letter-spacing-normal: 0; // Normal letter spacing (0) - Default spacing for body text and most content. Optimal for readability and accessibility.
-$typography-letter-spacing-wide: 0.01875000074505806rem; // Wide letter spacing (0.025em) - Subtle spacing increase for improved readability in small text or uppercase. Enhances legibility.
-$typography-letter-spacing-wider: 0.03125rem; // Wider letter spacing (0.05em) - Noticeable spacing for uppercase text, labels, and buttons. Improves legibility and visual prominence.
-$typography-letter-spacing-widest: 0.0625rem; // Widest letter spacing (0.1em) - Maximum spacing for all-caps headings, labels, or decorative text. Creates strong visual impact.
-$typography-letter-spacing-tightest: -0.0625rem; // Tighter letter spacing (-0.05em) - Use for large headings and display text to improve visual density. Enhances readability at larger sizes.
-$typography-font-family-base: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif; // Primary font family for Figma (single font name). Full Bootstrap stack: system-ui, -apple-system, Segoe UI, Roboto, etc.
-$typography-font-family-monospace: Roboto Mono, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; // Monospace font for code (single font name). Full Bootstrap stack: SFMono-Regular, Menlo, Monaco, Consolas, etc.
-$spacing-0: 0; // Spacing scale 0 - No spacing. Bootstrap's $spacer * 0 (0px).
-$spacing-1: 0.25rem; // Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px).
-$spacing-2: 0.5rem; // Spacing scale 2 - Small spacing. Bootstrap's $spacer * 0.5 (8px).
-$spacing-3: 0.75rem; // Spacing scale 3 - Base spacing. Bootstrap's $spacer * 1 (16px).
-$spacing-4: 1rem; // Spacing scale 4 - Medium spacing. Bootstrap's $spacer * 1.5 (24px).
-$spacing-5: 1.5rem; // Spacing scale 5 - Large spacing. Bootstrap's $spacer * 3 (48px).
-$spacing-6: 2rem; // Spacing scale 6 - Extra large spacing (64px).
-$spacing-7: 2.5rem; // Spacing scale 7 - 2X extra large spacing (80px).
-$spacing-8: 3rem; // Spacing scale 8 - 3X extra large spacing (96px).
-$spacing-9: 4rem; // Spacing scale 9 - 4X extra large spacing (128px).
-$spacing-10: 5rem; // Spacing scale 10 - 5X extra large spacing (160px).
-$spacing-11: 6rem; // Spacing scale 10 - 5X extra large spacing (160px).
-$spacing-12: 8rem; // Spacing scale 10 - 5X extra large spacing (160px).
-$spacing-13: 9rem; // Spacing scale 10 - 5X extra large spacing (160px).
-$spacing-14: 10rem; // Spacing scale 10 - 5X extra large spacing (160px).
-$spacing-1-5: 0.375rem; // Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px).
-$shadow-default: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); // Complete box shadow value for Bootstrap SCSS export
-$shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); // Complete box shadow value for Bootstrap SCSS export
-$shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175); // Complete box shadow value for Bootstrap SCSS export
-$shadow-inset: inset 0 1px 2px rgba(0, 0, 0, 0.075); // Complete box shadow value for Bootstrap SCSS export
-$layout-grid-columns: 12; // Number of columns in Bootstrap's grid system (12). Provides flexible layout options with divisible column counts.
-$layout-grid-gutter-width: 1.5rem; // Default gutter width between grid columns (1.5rem = 24px). Horizontal padding creating space between columns.
-$layout-grid-row-columns: 6; // Maximum number of columns for .row-cols-* classes (6). Sets the limit for auto-layout row columns.
-$layout-gutters-0: 0; // No gutter spacing (0). Removes all spacing between columns with .g-0 class.
-$layout-gutters-1: 0.25rem; // Extra small gutter spacing (0.25rem = 4px). Minimal spacing for tightly packed layouts.
-$layout-gutters-2: 0.5rem; // Small gutter spacing (0.5rem = 8px). Compact spacing between columns.
-$layout-gutters-3: 1rem; // Medium gutter spacing (1rem = 16px). Standard spacing for moderate column separation.
-$layout-gutters-4: 1.5rem; // Default gutter spacing (1.5rem = 24px). Bootstrap's standard gutter width matching $grid-gutter-width.
-$layout-gutters-5: 3rem; // Large gutter spacing (3rem = 48px). Wide spacing for prominent column separation.
-$layout-container-max-width-sm: 33.75rem; // Maximum container width at small breakpoint (540px). Container width for landscape phones and small tablets.
-$layout-container-max-width-md: 45rem; // Maximum container width at medium breakpoint (720px). Container width optimized for tablets.
-$layout-container-max-width-lg: 60rem; // Maximum container width at large breakpoint (960px). Standard desktop container width.
-$layout-container-max-width-xl: 71.25rem; // Maximum container width at extra large breakpoint (1140px). Wide desktop container width.
-$layout-container-max-width-xxl: 82.5rem; // Maximum container width at extra extra large breakpoint (1320px). Widest container for ultra-wide displays.
-$layout-container-padding-x: 0.75rem; // Horizontal padding for containers (12px left and right). Applied by the make-container mixin for content spacing.
-$layout-breakpoints-xs: 0; // Extra small breakpoint for portrait phones (min-width: 0). Bootstrap's default mobile-first starting point.
-$layout-breakpoints-sm: 36rem; // Small breakpoint for landscape phones (≥576px). First responsive breakpoint in Bootstrap's mobile-first approach.
-$layout-breakpoints-md: 48rem; // Medium breakpoint for tablets (≥768px). Common tablet viewport size for responsive layouts.
-$layout-breakpoints-lg: 62rem; // Large breakpoint for desktops (≥992px). Standard desktop viewport size for responsive web design.
-$layout-breakpoints-xl: 75rem; // Extra large breakpoint for large desktops (≥1200px). Wide desktop viewport for expansive layouts.
-$layout-breakpoints-xxl: 87.5rem; // Extra extra large breakpoint for larger desktops (≥1400px). Widest default viewport for ultra-wide displays.
 $color-blue-50: #ebf3fc; // Ultra-light tint of blue. Subtle backgrounds, glass morphism, hover states on white. Background use only.
 $color-blue-100: #d7e6f9; // Lightest tint (90% lighter) of primary brand color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).
 $color-blue-200: #aeccf3; // Very light tint (75% lighter) of primary brand color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).
@@ -238,17 +143,9 @@ $opacity-85: 5.3125rem; // 85% opacity. Use for mostly solid elements.
 $opacity-90: 5.625rem; // 90% opacity. Use for almost fully opaque elements.
 $opacity-95: 5.9375rem; // 95% opacity. Use for very nearly solid elements.
 $opacity-100: 6.25rem; // 100% opacity. Fully opaque, no transparency.
-$neutral-white: #fafbfc; // Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text.
-$neutral-black: #0a0d10; // Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds.
+$neutral-white: #0a0d10; // Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text.
+$neutral-black: #fafbfc; // Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds.
 $background-transparent: #000000; // Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class.
-$border-radius-0: 0; // Border radius: None - 0. No rounding, completely square corners. Equivalent to Bootstrap's 'rounded-0' utility class.
-$border-radius-default: 0.375rem; // Border radius: Default - 0.375rem (6px). The standard rounding used throughout Bootstrap for most components. Equivalent to Bootstrap's 'rounded' or 'rounded-2' utility classes and $border-radius variable.
-$border-radius-sm: 0.25rem; // Border radius: Small - 0.25rem (4px). Used for subtle rounding on small components. Equivalent to Bootstrap's 'rounded-1' utility class and $border-radius-sm variable.
-$border-radius-lg: 0.5rem; // Border radius: Large - 0.5rem (8px). Used for larger, more prominent rounded corners. Equivalent to Bootstrap's 'rounded-3' utility class and $border-radius-lg variable.
-$border-radius-xl: 1rem; // Border radius: Extra Large - 1rem (16px). Used for very prominent rounded corners on large components. Equivalent to Bootstrap's 'rounded-4' utility class and $border-radius-xl variable.
-$border-radius-xxl: 2rem; // Border radius: 2X Extra Large - 2rem (32px). Used for dramatically rounded corners creating a softer, more modern appearance. Equivalent to Bootstrap's 'rounded-5' utility class and $border-radius-xxl variable.
-$border-radius-pill: 624.9375rem; // Border radius: Pill - 50rem (800px). Creates pill-shaped elements with fully rounded ends on rectangular shapes. Equivalent to Bootstrap's 'rounded-pill' utility class and $border-radius-pill variable.
-$border-radius-circle: 50%; // Border radius: Circle - 50%. Creates perfectly circular shapes when applied to square elements. Equivalent to Bootstrap's 'rounded-circle' utility class. Note: This is a percentage value, not pixel-based.
 $theme-primary: $color-blue-500; // Primary theme color. Main brand color for primary CTAs, links, and key interactive elements. Use for primary buttons, active navigation, focus states. Bootstrap's --bs-primary maps to blue-500. Ensures consistent brand expression across all touchpoints. Verify 4.5:1 contrast on backgrounds.
 $theme-secondary: $color-gray-500; // Secondary theme color. Supporting UI elements, secondary actions, and muted emphasis. Use for secondary buttons, subtle badges, disabled state text. Bootstrap's --bs-secondary maps to gray-600. Provides visual hierarchy below primary actions. Meets WCAG AA for text.
 $theme-success: $color-green-500; // Success theme color. Positive feedback, confirmations, and successful operations. Use for success messages, checkmarks, positive badges, form validation. Bootstrap's --bs-success maps to green-500. Universal indicator of positive outcomes. Ensure 4.5:1 with backgrounds.
@@ -266,26 +163,25 @@ $neutral-gray-600: $color-gray-600; // Neutral gray 600 alias. References brand.
 $neutral-gray-700: $color-gray-700; // Neutral gray 700 alias. References brand.gray.700. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.700 for detailed usage guidance.
 $neutral-gray-800: $color-gray-800; // Neutral gray 800 alias. References brand.gray.800. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.800 for detailed usage guidance.
 $neutral-gray-900: $color-gray-900; // Neutral gray 900 alias. References brand.gray.900. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.900 for detailed usage guidance.
-$semantic-border-color-translucent: $neutral-black; // Translucent border color that blends with backgrounds using rgba().
-$semantic-body-bg: $neutral-white; // Default body background color. Applied to the <body> element as the base page background.
-$semantic-emphasis-color: $neutral-black; // Emphasis color for higher contrast text. Use for headings or text that needs to stand out.
-$semantic-link-color: $color-blue-600; // Default hyperlink color. Used for all <a> elements and interactive text.
-$semantic-link-hover-color: $color-blue-700; // Hyperlink hover color. Applied when user hovers over a link.
-$semantic-primary-text-emphasis: $color-blue-700; // Primary text emphasis color - higher contrast text on light backgrounds.
-$semantic-primary-bg-subtle: $color-blue-100; // Primary subtle background color for non-intrusive backgrounds.
-$semantic-primary-border-subtle: $color-blue-200; // Primary subtle border color for gentle borders matching primary theme.
-$semantic-success-text-emphasis: $color-green-700; // Success text emphasis color - higher contrast text on light backgrounds.
-$semantic-success-bg-subtle: $color-green-100; // Success subtle background color for non-intrusive success states.
-$semantic-success-border-subtle: $color-green-200; // Success subtle border color for gentle borders matching success theme.
-$semantic-danger-text-emphasis: $color-red-700; // Danger text emphasis color - higher contrast text on light backgrounds.
-$semantic-danger-bg-subtle: $color-red-100; // Danger subtle background color for non-intrusive error states.
-$semantic-danger-border-subtle: $color-red-200; // Danger subtle border color for gentle borders matching danger theme.
-$semantic-warning-text-emphasis: $color-yellow-700; // Warning text emphasis color - higher contrast text on light backgrounds.
-$semantic-warning-bg-subtle: $color-yellow-100; // Warning subtle background color for non-intrusive warning states.
-$semantic-warning-border-subtle: $color-yellow-200; // Warning subtle border color for gentle borders matching warning theme.
-$semantic-info-text-emphasis: $color-cyan-700; // Info text emphasis color - higher contrast text on light backgrounds.
-$semantic-info-bg-subtle: $color-cyan-100; // Info subtle background color for non-intrusive info states.
-$semantic-info-border-subtle: $color-cyan-200; // Info subtle border color for gentle borders matching info theme.
+$semantic-border-color-translucent: $neutral-white; // Translucent border color that blends with backgrounds using rgba().
+$semantic-emphasis-color: $neutral-white; // Emphasis color for higher contrast text. Use for headings or text that needs to stand out.
+$semantic-link-color: $color-blue-400; // Default hyperlink color. Used for all <a> elements and interactive text.
+$semantic-link-hover-color: $color-blue-300; // Hyperlink hover color. Applied when user hovers over a link.
+$semantic-primary-text-emphasis: $color-blue-300; // Primary text emphasis color - higher contrast text on light backgrounds.
+$semantic-primary-bg-subtle: $color-blue-900; // Primary subtle background color for non-intrusive backgrounds.
+$semantic-primary-border-subtle: $color-blue-700; // Primary subtle border color for gentle borders matching primary theme.
+$semantic-success-text-emphasis: $color-green-300; // Success text emphasis color - higher contrast text on light backgrounds.
+$semantic-success-bg-subtle: $color-green-900; // Success subtle background color for non-intrusive success states.
+$semantic-success-border-subtle: $color-green-700; // Success subtle border color for gentle borders matching success theme.
+$semantic-danger-text-emphasis: $color-red-300; // Danger text emphasis color - higher contrast text on light backgrounds.
+$semantic-danger-bg-subtle: $color-red-900; // Danger subtle background color for non-intrusive error states.
+$semantic-danger-border-subtle: $color-red-700; // Danger subtle border color for gentle borders matching danger theme.
+$semantic-warning-text-emphasis: $color-yellow-300; // Warning text emphasis color - higher contrast text on light backgrounds.
+$semantic-warning-bg-subtle: $color-yellow-900; // Warning subtle background color for non-intrusive warning states.
+$semantic-warning-border-subtle: $color-yellow-700; // Warning subtle border color for gentle borders matching warning theme.
+$semantic-info-text-emphasis: $color-cyan-300; // Info text emphasis color - higher contrast text on light backgrounds.
+$semantic-info-bg-subtle: $color-cyan-900; // Info subtle background color for non-intrusive info states.
+$semantic-info-border-subtle: $color-cyan-700; // Info subtle border color for gentle borders matching info theme.
 $background-primary: $color-blue-500; // Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces.
 $background-secondary: $color-gray-600; // Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy.
 $background-success: $color-green-500; // Success background color utility. Applies success color as background. Use for positive feedback surfaces. Maps to Bootstrap's .bg-success utility class. Indicates successful operations.
@@ -294,21 +190,22 @@ $background-warning: $color-yellow-500; // Warning background color utility. App
 $background-info: $color-cyan-500; // Info background color utility. Applies info color as background. Use for informational surfaces. Maps to Bootstrap's .bg-info utility class. Communicates helpful information.
 $background-light: $color-gray-100; // Light background color utility. Applies light gray as background. Use for subtle surfaces and page backgrounds. Maps to Bootstrap's .bg-light utility class. Requires dark text for contrast.
 $background-dark: $color-gray-900; // Dark background color utility. Applies dark gray as background. Use for high-contrast surfaces and footers. Maps to Bootstrap's .bg-dark utility class. Requires light text for contrast.
-$background-body: $neutral-white; // Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background.
+$background-body: $neutral-black; // Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background.
 $background-white: $neutral-white; // White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness.
 $background-black: $neutral-black; // Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text.
-$semantic-body-color: $neutral-gray-900; // Default body text color. Applied to the <body> element and inherited by all text content unless overridden.
-$semantic-secondary-color: $neutral-gray-600; // Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text.
-$semantic-secondary-bg: $neutral-gray-200; // Secondary background color. Use for dividers and to indicate disabled component states.
+$semantic-body-color: $neutral-gray-300; // Default body text color. Applied to the <body> element and inherited by all text content unless overridden.
+$semantic-body-bg: $neutral-gray-900; // Default body background color. Applied to the <body> element as the base page background.
+$semantic-secondary-color: $neutral-gray-400; // Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text.
+$semantic-secondary-bg: $neutral-gray-800; // Secondary background color. Use for dividers and to indicate disabled component states.
 $semantic-tertiary-color: $neutral-gray-500; // Tertiary text color for even lighter text. Use for less important supporting text.
-$semantic-tertiary-bg: $neutral-gray-100; // Tertiary background color. Use for hover states, accents, and wells.
-$semantic-border-color: $neutral-gray-300; // Default border color for component borders, dividers, and rules.
-$semantic-secondary-text-emphasis: $neutral-gray-700; // Secondary theme text emphasis color - higher contrast text on light backgrounds.
-$semantic-secondary-bg-subtle: $neutral-gray-100; // Secondary theme subtle background color for non-intrusive backgrounds.
-$semantic-secondary-border-subtle: $neutral-gray-200; // Secondary theme subtle border color for gentle borders matching secondary theme.
-$semantic-light-text-emphasis: $neutral-gray-700; // Light text emphasis color - provides contrast on light themed components.
-$semantic-light-bg-subtle: $neutral-gray-100; // Light subtle background color for subtle backgrounds.
-$semantic-light-border-subtle: $neutral-gray-200; // Light subtle border color for gentle borders matching light theme.
-$semantic-dark-text-emphasis: $neutral-gray-900; // Dark text emphasis color - highest contrast text on light backgrounds.
-$semantic-dark-bg-subtle: $neutral-gray-400; // Dark subtle background color for darker backgrounds.
-$semantic-dark-border-subtle: $neutral-gray-500; // Dark subtle border color for borders matching dark theme.
+$semantic-tertiary-bg: $neutral-gray-900; // Tertiary background color. Use for hover states, accents, and wells.
+$semantic-border-color: $neutral-gray-700; // Default border color for component borders, dividers, and rules.
+$semantic-secondary-text-emphasis: $neutral-gray-300; // Secondary theme text emphasis color - higher contrast text on light backgrounds.
+$semantic-secondary-bg-subtle: $neutral-gray-900; // Secondary theme subtle background color for non-intrusive backgrounds.
+$semantic-secondary-border-subtle: $neutral-gray-700; // Secondary theme subtle border color for gentle borders matching secondary theme.
+$semantic-light-text-emphasis: $neutral-gray-100; // Light text emphasis color - provides contrast on light themed components.
+$semantic-light-bg-subtle: $neutral-gray-800; // Light subtle background color for subtle backgrounds.
+$semantic-light-border-subtle: $neutral-gray-700; // Light subtle border color for gentle borders matching light theme.
+$semantic-dark-text-emphasis: $neutral-gray-300; // Dark text emphasis color - highest contrast text on light backgrounds.
+$semantic-dark-bg-subtle: $neutral-gray-700; // Dark subtle background color for darker backgrounds.
+$semantic-dark-border-subtle: $neutral-gray-800; // Dark subtle border color for borders matching dark theme.

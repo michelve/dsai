@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "tokens:transform": "node ../../packages/@dsai/tools/bin/dsai-tools.mjs tokens transform",
-    "tokens:build": "style-dictionary build --config sd.config.mjs",
+    "tokens:build": "node build-tokens.mjs",
     "tokens:validate": "node ../../packages/@dsai/tools/bin/dsai-tools.mjs tokens validate",
     "tokens:watch": "style-dictionary build --config sd.config.mjs --watch",
     "tokens:all": "pnpm tokens:transform && pnpm tokens:build",
@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.1.1",
-    "bootstrap": "^5.3.3",
+    "bootstrap": "^5.3.8",
     "glob": "^11.0.2",
     "sass": "^1.77.8",
     "style-dictionary": "^5.1.1",

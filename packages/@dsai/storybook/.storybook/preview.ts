@@ -10,6 +10,10 @@ import type { Preview } from '@storybook/react-vite';
 // Generated locally via: pnpm styles:all
 import '../src/generated/dsai-theme-bs.css';
 
+// Dark mode token overrides (scoped to [data-bs-theme="dark"])
+// These CSS custom properties are applied when dark mode is active
+import '../src/generated/tokens-dark.css';
+
 // Preview-specific styles (minimal overrides)
 import './preview.css';
 

@@ -288,8 +288,15 @@ export default [
   // =========================
   // Node-only scripts (tools, scripts)
   // =========================
+  // Build scripts in tools, scripts, and apps
+  // =========================
   {
-    files: ['tools/**/*.{js,ts,mjs,cjs}', 'scripts/**/*.{js,ts,mjs,cjs}'],
+    files: [
+      'tools/**/*.{js,ts,mjs,cjs}',
+      'scripts/**/*.{js,ts,mjs,cjs}',
+      'apps/**/build-*.{js,mjs}',
+      'packages/**/build-*.{js,mjs}',
+    ],
     languageOptions: {
       globals: {
         ...globals.node,
@@ -301,6 +308,8 @@ export default [
       'no-console': 'off',
       'security/detect-non-literal-fs-filename': 'off',
       'security/detect-object-injection': 'off',
+      // Disable import resolution for build scripts (pnpm workspace handles this)
+      'import/no-unresolved': 'off',
     },
   },
 

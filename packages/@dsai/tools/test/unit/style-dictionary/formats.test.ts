@@ -69,9 +69,10 @@ function createFormatArgs(
 
 describe('builtInFormats', () => {
   it('should include all standard formats', () => {
-    expect(builtInFormats).toHaveLength(2);
+    expect(builtInFormats).toHaveLength(3);
 
     const names = builtInFormats.map((f) => f.name);
+    expect(names).toContain('css/variables-dark-mode');
     expect(names).toContain('css/variables-with-comments');
     expect(names).toContain('typescript/declarations');
   });
@@ -300,7 +301,8 @@ describe('registerFormats', () => {
 
     registerFormats(mockSD);
 
-    expect(mockSD.registerFormat).toHaveBeenCalledTimes(2);
+    expect(mockSD.registerFormat).toHaveBeenCalledTimes(3);
+    expect(registered).toContain('css/variables-dark-mode');
     expect(registered).toContain('css/variables-with-comments');
     expect(registered).toContain('typescript/declarations');
   });
@@ -320,7 +322,7 @@ describe('registerFormats', () => {
 
     registerFormats(mockSD, [customFormat]);
 
-    expect(mockSD.registerFormat).toHaveBeenCalledTimes(3);
+    expect(mockSD.registerFormat).toHaveBeenCalledTimes(4);
     expect(mockSD.registerFormat).toHaveBeenCalledWith(
       expect.objectContaining({ name: 'custom/format' })
     );

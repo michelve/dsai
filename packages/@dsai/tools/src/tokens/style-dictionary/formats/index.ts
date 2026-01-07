@@ -7,6 +7,7 @@
  * @module @dsai/tools/tokens/style-dictionary/formats
  */
 
+import { cssDarkModeVariables } from './css-dark-mode.js';
 import { cssVariablesWithComments } from './css-variables.js';
 import { typescriptDeclarations } from './typescript.js';
 
@@ -16,6 +17,7 @@ import type { FormatDefinition, StyleDictionaryInstance } from '../types.js';
  * All built-in formats
  */
 export const builtInFormats: FormatDefinition[] = [
+  cssDarkModeVariables,
   cssVariablesWithComments,
   typescriptDeclarations,
 ];
@@ -49,5 +51,6 @@ export function registerFormats(
 }
 
 // Re-export individual formats
+export { cssDarkModeVariables } from './css-dark-mode.js';
 export { cssVariablesWithComments } from './css-variables.js';
 export { typescriptDeclarations } from './typescript.js';

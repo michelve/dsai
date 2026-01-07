@@ -392,20 +392,21 @@ $gutters: (
 // 10. BORDERS
 // ============================================================================
 
-$border-radius: dsai.$border-radius-md !default;
+$border-radius: dsai.$border-radius !default;
 $border-radius-sm: dsai.$border-radius-sm !default;
 $border-radius-lg: dsai.$border-radius-lg !default;
 $border-radius-xl: dsai.$border-radius-xl !default;
 $border-radius-xxl: dsai.$border-radius-xxl !default;
 $border-radius-pill: dsai.$border-radius-pill !default;
 
-$border-width: dsai.$border-width-1 !default;
-$border-width-0: dsai.$border-width-0 !default;
-$border-width-1: dsai.$border-width-1 !default;
-$border-width-2: dsai.$border-width-2 !default;
-$border-width-3: dsai.$border-width-3 !default;
-$border-width-4: dsai.$border-width-4 !default;
-$border-width-5: dsai.$border-width-5 !default;
+// Border width tokens not yet generated - using Bootstrap defaults
+$border-width: 1px !default;
+$border-width-0: 0 !default;
+$border-width-1: 1px !default;
+$border-width-2: 2px !default;
+$border-width-3: 3px !default;
+$border-width-4: 4px !default;
+$border-width-5: 5px !default;
 
 // ============================================================================
 // 11. SHADOWS
@@ -555,22 +556,14 @@ $colors: map-merge($colors, $custom-colors) !default;
 @import 'bootstrap/scss/mixins';
 
 // ============================================================================
-// 14. THEME ATTRIBUTE OVERRIDE
+// 14. BOOTSTRAP ROOT & DARK MODE
 // ============================================================================
-
-// Override Bootstrap's color-mode mixin to use data-dsai-theme instead of data-bs-theme
-@mixin color-mode($mode: light, $root: false) {
-  @if $mode == light and $root == true {
-    :root,
-    [data-dsai-theme='#{$mode}'] {
-      @content;
-    }
-  } @else {
-    [data-dsai-theme='#{$mode}'] {
-      @content;
-    }
-  }
-}
+//
+// Uses Bootstrap's default data-bs-theme attribute for color mode switching.
+// Dark mode is activated by adding data-bs-theme="dark" to the <html> element.
+//
+// @see https://getbootstrap.com/docs/5.3/customize/color-modes/
+// ============================================================================
 
 @import 'bootstrap/scss/root';
 
