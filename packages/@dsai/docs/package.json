@@ -15,8 +15,7 @@
     "design-system"
   ],
   "dependencies": {
-    "@dsai/react": "workspace:*",
-    "@dsai/tokens": "workspace:*"
+    "@dsai/react": "workspace:*"
   },
   "license": "UNLICENSED"
 }

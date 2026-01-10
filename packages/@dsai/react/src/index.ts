@@ -416,10 +416,11 @@ export { useScrollLock } from './hooks';
 export type { UseScrollLockOptions, UseScrollLockReturn } from './hooks';
 
 // ============================================================================
-// Tokens - Import from @dsai/tokens directly
+// Tokens - Generate locally using @dsai/tools
 // ============================================================================
-// Note: Tokens are NOT re-exported to avoid TypeScript rootDir issues.
-// Import tokens directly: import { tokens } from '@dsai/tokens';
+// Note: Tokens are generated locally in each app using:
+// dsai tokens build
+// Then import from: import { colorBlue500 } from './generated/tokens';
 
 // ============================================================================
 // Icons - Bootstrap Icons as React components (inline SVG for Figma compatibility)

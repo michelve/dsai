@@ -58,6 +58,9 @@ export default [
       // Test snapshots
       '**/*.snap',
 
+      // CLI executables (have different requirements)
+      '**/bin/**',
+
       // Editor/OS
       '.DS_Store',
     ],

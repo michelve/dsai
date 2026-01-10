@@ -1,4 +1,4 @@
-// Import tokens directly - these are the flat exports with correct values
+// Import tokens from locally generated files
 import {
   // Blue colors (primary brand - matches component theme)
   colorBlue400,
@@ -20,7 +20,7 @@ import {
   // Typography
   typographyFontFamilyBase,
   typographyFontFamilyMonospace,
-} from '@dsai/tokens';
+} from '../src/generated/tokens.js';
 import { create, type ThemeVars } from 'storybook/theming';
 
 /**

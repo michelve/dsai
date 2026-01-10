@@ -164,12 +164,12 @@ Interactive button component with multiple variants.
 ### Method 2: JavaScript Import
 
 ```tsx
-import tokens from '@dsai/tokens';
+import { themePrimary, neutralWhite } from './generated/tokens';
 
 <div
   style={{
-    backgroundColor: tokens.theme.primary.value,
-    color: tokens.neutral.white.value,
+    backgroundColor: themePrimary,
+    color: neutralWhite,
   }}
 >
   Content

@@ -1,6 +1,6 @@
 // Import grouped tokens (with .value properties for easy access)
 import { Heading } from '@dsai/react';
-import tokens from '@dsai/tokens';
+import tokens from '../../src/generated/tokens-grouped';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -765,12 +765,12 @@ export const Usage: Story = {
           overflow: 'auto',
         }}
       >
-        {`import tokens from '@dsai/tokens';
+        {`import { themePrimary, neutralWhite, colorBlue600 } from './generated/tokens';
 
 const styles = {
-  backgroundColor: tokens.theme.primary,
-  color: tokens.neutral.white,
-  border: \`1px solid \${tokens.color.blue['600']}\`,
+  backgroundColor: themePrimary,
+  color: neutralWhite,
+  border: \`1px solid \${colorBlue600}\`,
 };`}
       </pre>
 

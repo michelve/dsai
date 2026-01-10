@@ -303,7 +303,7 @@
             "$codeSyntax": {}
           }
         },
-        "_lineHeight": {
+        "lineHeight": {
           "xs": {
             "$value": 16,
             "$type": "number",
@@ -670,7 +670,7 @@
           }
         },
         "display": {
-          "h1": {
+          "d1": {
             "$value": 80,
             "$type": "number",
             "$description": "Display 1 font size (5rem = 80px)",
@@ -691,7 +691,7 @@
               "FONT_SIZE"
             ]
           },
-          "h2": {
+          "d2": {
             "$value": 72,
             "$type": "number",
             "$description": "Display 2 font size (4.5rem = 72px)",
@@ -712,7 +712,7 @@
               "FONT_SIZE"
             ]
           },
-          "h3": {
+          "d3": {
             "$value": 64,
             "$type": "number",
             "$description": "Display 3 font size (4rem = 64px)",
@@ -733,7 +733,7 @@
               "FONT_SIZE"
             ]
           },
-          "h4": {
+          "d4": {
             "$value": 56,
             "$type": "number",
             "$description": "Display 4 font size (3.5rem = 56px)",
@@ -754,7 +754,7 @@
               "FONT_SIZE"
             ]
           },
-          "h5": {
+          "d5": {
             "$value": 48,
             "$type": "number",
             "$description": "Display 5 font size (3rem = 48px)",
@@ -775,7 +775,7 @@
               "FONT_SIZE"
             ]
           },
-          "h6": {
+          "d6": {
             "$value": 40,
             "$type": "number",
             "$description": "Display 6 font size (2.5rem = 40px)",

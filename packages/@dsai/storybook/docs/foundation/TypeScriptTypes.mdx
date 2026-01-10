@@ -4,20 +4,25 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # TypeScript Types Reference
 
-DSAi design tokens provide full TypeScript support with type-safe access, IntelliSense, and compile-time validation.
+DSAi design tokens are generated locally in each app using `@dsai/tools`. This provides full TypeScript support with type-safe access, IntelliSense, and compile-time validation.
 
-## Installation
+## Setup
+
+Generate tokens locally using the CLI:
 
 ```bash
-pnpm add @dsai/tokens
+pnpm add @dsai/tools
+dsai tokens build
 ```
+
+This generates `src/generated/tokens.js` and `src/generated/tokens.ts` in your project.
 
 ## Import Patterns
 
 ### Flat Token Imports (Recommended)
 
 ```typescript
-import { colorBlue500, spacing4, themePrimary } from '@dsai/tokens';
+import { colorBlue500, spacing4, themePrimary } from './generated/tokens';
 
 const styles = {
   color: colorBlue500,
@@ -28,124 +33,41 @@ const styles = {
 
 ### Grouped Token Access
 
+Create a grouped tokens file (see `src/generated/tokens-grouped.ts`) for nested access:
+
 ```typescript
-import { tokens } from '@dsai/tokens';
+import tokens from './generated/tokens-grouped';
 
 const blue = tokens.color.blue['500'].value;
 const primary = tokens.theme.primary.value;
 ```
 
-### Type-Safe Utilities
-
-```typescript
-import { getToken, cssVar, getColorToken } from '@dsai/tokens';
-
-const blue = getToken('colorBlue500');
-const ref = cssVar('themePrimary');
-const red = getColorToken('red', '500');
-```
-
 ---
 
-## String Literal Types
+## CSS Variables
 
-All token names are available as string literal types for compile-time validation:
+Use CSS custom properties directly:
 
-```typescript
-import type { ColorTokenName, TokenName } from '@dsai/tokens/types';
-
-function useToken(name: ColorTokenName) {
-  // Only valid color token names allowed
+```css
+.my-component {
+  color: var(--dsai-color-blue-500);
+  padding: var(--dsai-spacing-4);
+  background: var(--dsai-theme-primary);
 }
-
-useToken('color.blue.500'); // Valid
-```
-
-### Available Type Literals
-
-| Type | Description | Example Values |
-|------|-------------|----------------|
-| `ColorTokenName` | All color tokens | `color.blue.500` |
-| `SpacingTokenName` | Spacing scale | `spacing.4` |
-| `TypographyTokenName` | Typography tokens | `typography.font-size.base` |
-| `ThemeTokenName` | Theme colors | `theme.primary` |
-| `BorderTokenName` | Border tokens | `border.radius.md` |
-| `LayoutTokenName` | Layout tokens | `layout.breakpoints.md` |
-| `TokenName` | All tokens | Any valid token name |
-
----
-
-## Utility Functions
-
-### getToken(name)
-
-Get a token value by its camelCase name.
-
-```typescript
-import { getToken } from '@dsai/tokens';
-
-const blue = getToken('colorBlue500');
-const spacing = getToken('spacing4');
-const weight = getToken('typographyFontWeightBold');
-```
-
-### getTokenInfo(name)
-
-Get full token info including CSS variable reference.
-
-```typescript
-import { getTokenInfo } from '@dsai/tokens';
-
-const info = getTokenInfo('colorBlue500');
-// Returns: { value, cssVar, cssVarRef }
-```
-
-### cssVar(name)
-
-Get CSS variable reference string.
-
-```typescript
-import { cssVar } from '@dsai/tokens';
-
-const ref = cssVar('themePrimary');
-// Returns: "var(--dsai-theme-primary)"
-```
-
-### Category-Specific Getters
-
-```typescript
-import { getColorToken, getSpacingToken, getThemeToken } from '@dsai/tokens';
-
-getColorToken('blue', '500');
-getSpacingToken('4');
-getThemeToken('primary');
-getBorderRadiusToken('md');
-```
-
-### Validation Functions
-
-```typescript
-import { isValidToken, getAllTokenNames, getTokensByCategory } from '@dsai/tokens';
-
-isValidToken('colorBlue500');
-getAllTokenNames();
-getTokensByCategory('color');
 ```
 
 ---
 
-## Nested Interface
+## Available Token Categories
 
-The `DesignTokens` interface provides full type information for nested access:
-
-```typescript
-import type { DesignTokens } from '@dsai/tokens/types';
-
-// Full nested structure with proper types
-// color.blue["50"]: string
-// spacing["0"]: string
-// typography["font-weight"].bold: number
-```
+| Category | Description | Example Values |
+|----------|-------------|----------------|
+| `color*` | All color tokens | `colorBlue500` |
+| `spacing*` | Spacing scale | `spacing4` |
+| `typography*` | Typography tokens | `typographyFontWeightBold` |
+| `theme*` | Theme colors | `themePrimary` |
+| `border*` | Border tokens | `borderRadiusMd` |
+| `background*` | Background colors | `backgroundWhite` |
 
 ---
 
@@ -156,24 +78,22 @@ All token imports provide full IntelliSense in VS Code and other TypeScript-awar
 - **Autocomplete**: Type `color` and see all color tokens
 - **Hover Info**: See token values and descriptions
 - **Go to Definition**: Jump to token source
-- **Rename Symbol**: Safely rename tokens across codebase
 
 ---
 
-## Migration Guide
+## Token Generation
 
 ### Adding New Tokens
 
-1. Add token to JSON in `packages/@dsai/tokens/collections/`
-2. Run `pnpm build:tokens` to regenerate types
+1. Add token to your DTCG JSON source files
+2. Run `dsai tokens build` to regenerate outputs
 3. Import new token in your code
 
-### Renaming Tokens
+### Updating Tokens
 
-1. Update token name in JSON source
-2. Run `pnpm build:tokens`
-3. TypeScript will show errors for old token names
-4. Update all usages
+1. Update token value in JSON source
+2. Run `dsai tokens build`
+3. Generated files update automatically
 
 ---
 
