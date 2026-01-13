@@ -20,7 +20,7 @@ This project uses the DSAi Design System built with React, TypeScript, and Boots
 - **Framework**: React with TypeScript
 - **CSS Framework**: Bootstrap 5
 - **Design System Package**: `@dsai/react`
-- **Design Tokens Package**: `@dsai/tokens`
+- **Design Tokens CLI**: `@dsai/tools`
 
 ## Design System Usage
 

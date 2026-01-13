@@ -305,7 +305,7 @@ pnpm tokens:full          # Fetch + transform + build
 2. Follow DTCG format with `$value`, `$type`, `$description`
 3. Use references for semantic tokens: `"$value": "{color.blue.500}"`
 4. Run build to generate outputs
-5. Validate with `pnpm nx test @dsai/tokens`
+5. Validate with `pnpm dsai tokens validate`
 
 ## Token References (Aliases)
 

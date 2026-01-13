@@ -5,7 +5,7 @@ This directory contains utility scripts for the DSAi design system, organized by
 > **Note:** Core token operations have been migrated to `@dsai/tools`. Use the `dsai` CLI for:
 >
 > - Token validation: `dsai tokens validate`
-> - Token building: `pnpm nx build @dsai/tokens`
+> - Token building: `dsai tokens build`
 > - Token sync: `dsai tokens sync`
 
 ## Directory Structure
@@ -75,13 +75,13 @@ These are utility scripts for specific token operations. For main token operatio
 pnpm analyze:buttons     # Analyze Button component usage
 ```
 
-### @DSAi/tokens
+### @DSAi/tools
 
 ```bash
 # Use dsai CLI for token operations
 pnpm dsai tokens validate     # Validate token structure
 pnpm dsai tokens sync         # Sync tokens-flat.ts
-pnpm nx build @dsai/tokens    # Full token build pipeline
+pnpm dsai tokens build        # Full token build pipeline
 ```
 
 ### @DSAi/storybook

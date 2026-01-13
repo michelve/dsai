@@ -35,7 +35,7 @@ dist/
 
 | Package            | ESM (gzipped) | CJS (gzipped) | Status |
 | ------------------ | ------------- | ------------- | ------ |
-| @dsai/tokens       | 117 B         | 163 B         | ✅     |
+| @dsai/tools        | 117 B         | 163 B         | ✅     |
 | @dsai/react        | 156 B         | 185 B         | ✅     |
 | @dsai/figma-tokens | 129 B         | 174 B         | ✅     |
 
@@ -58,7 +58,7 @@ export default defineConfig({
   clean: true,
   minify: true,
   treeshake: true,
-  external: ['react', 'react-dom', '@dsai/tokens'], // Don't bundle these
+  external: ['react', 'react-dom'], // Don't bundle these
   tsconfig: './tsconfig.build.json', // Use build-specific config
 });
 ```
@@ -82,7 +82,7 @@ Each package has a `tsconfig.build.json` that removes path mappings:
 
    ```json
    {
-     "@dsai/tokens": ["packages/@dsai/tokens/src"]
+     "@dsai/tools": ["packages/@dsai/tools/src"]
    }
    ```
 
@@ -92,7 +92,7 @@ Each package has a `tsconfig.build.json` that removes path mappings:
    and tries to include source files from other packages, causing errors:
 
    ```
-   TS6059: File '.../tokens/src/index.ts' is not under 'rootDir'
+   TS6059: File '.../tools/src/index.ts' is not under 'rootDir'
    ```
 
 3. **Solution**: `tsconfig.build.json` removes path mappings during build,
@@ -109,12 +109,12 @@ This allows us to maintain the best of both worlds:
 
 ```bash
 # Build a single package
-pnpm nx build @dsai/tokens
+pnpm nx build @dsai/tools
 pnpm nx build @dsai/react
 pnpm nx build @dsai/figma-tokens
 
 # Watch mode for development
-pnpm nx run @dsai/tokens:dev
+pnpm nx run @dsai/tools:dev
 ```
 
 ### All Packages
@@ -124,16 +124,16 @@ pnpm nx run @dsai/tokens:dev
 pnpm nx run-many --target=build --all
 
 # Build specific packages
-pnpm nx run-many --target=build --projects=@dsai/tokens,@dsai/react
+pnpm nx run-many --target=build --projects=@dsai/tools,@dsai/react
 ```
 
 ### Build Order
 
 Nx automatically handles build order based on dependencies:
 
-1. `@dsai/tokens` (no dependencies)
-2. `@dsai/react` (depends on tokens)
-3. `@dsai/figma-tokens` (depends on tokens)
+1. `@dsai/tools` (no dependencies)
+2. `@dsai/react` (depends on tools)
+3. `@dsai/figma-tokens` (depends on tools)
 
 ## Package.json Scripts
 
@@ -160,7 +160,7 @@ Each package's `project.json` uses the `nx:run-commands` executor:
       "executor": "nx:run-commands",
       "options": {
         "command": "tsup",
-        "cwd": "packages/@dsai/tokens"
+        "cwd": "packages/@dsai/tools"
       }
     }
   }
@@ -196,7 +196,7 @@ import { tokens } from '@dsai/react';
 
 External dependencies are not bundled:
 
-- **@dsai/tokens**: Marked as external in dependent packages
+- **@dsai/tools**: Marked as external in dependent packages
 - **React, React-dom**: Marked as peer dependencies and external
 - Consumers must install these separately
 
@@ -215,7 +215,7 @@ This:
 
 **Solution**: Ensure `tsup.config.ts` uses `tsconfig: './tsconfig.build.json'` which removes path mappings.
 
-### Error: Cannot find module '@dsai/tokens'
+### Error: Cannot find module '@dsai/tools'
 
 **Problem**: Package not built or not in node_modules.
 
@@ -223,7 +223,7 @@ This:
 
 ```bash
 # Build dependencies first
-pnpm nx build @dsai/tokens
+pnpm nx build @dsai/tools
 
 # Then build dependent packages
 pnpm nx build @dsai/react
@@ -262,7 +262,7 @@ pnpm nx run-many --target=build --all
 
 Build times (measured on development machine):
 
-- `@dsai/tokens`: ~2s
+- `@dsai/tools`: ~2s
 - `@dsai/react`: ~2s
 - `@dsai/figma-tokens`: ~2s
 - **All packages**: ~2s (parallel execution)
@@ -272,7 +272,7 @@ Nx caching makes subsequent builds nearly instant when files haven't changed.
 ## Best Practices
 
 1. **Always build dependencies first**: Use `nx build` which handles this automatically
-2. **Use watch mode during development**: `pnpm nx run @dsai/tokens:dev`
+2. **Use watch mode during development**: `pnpm nx run @dsai/tools:dev`
 3. **Check bundle sizes regularly**: Use `pnpm gzip-size` to monitor
 4. **Keep external dependencies external**: Don't bundle React or other shared dependencies
 5. **Test builds before committing**: Run `pnpm nx run-many --target=build --all`

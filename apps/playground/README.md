@@ -55,7 +55,7 @@ pnpm dev
 
 ## Token Pipeline
 
-The playground has its own complete token pipeline, independent of `@dsai/tokens`:
+The playground has its own complete token pipeline using `@dsai/tools`:
 
 ### 1. Figma Exports → DTCG Collections
 

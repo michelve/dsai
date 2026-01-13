@@ -367,4 +367,28 @@ export default [
       'import/no-unresolved': 'off',
     },
   },
+
+  // =========================
+  // CLI config files (JavaScript, not TypeScript)
+  // These are executed with Node.js and don't need TypeScript rules
+  // =========================
+  {
+    files: [
+      '**/figma.config.mjs',
+      '**/dsai.config.mjs',
+      '**/build-tokens.mjs',
+      '**/style-dictionary.config.mjs',
+    ],
+    rules: {
+      // TypeScript rules don't apply to JavaScript files
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      // CLI scripts use console for output
+      'no-console': 'off',
+      // forEach with print function is idiomatic in scripts
+      'array-callback-return': 'off',
+      // Security rules for dynamic key access - keys are controlled in these configs
+      'security/detect-object-injection': 'off',
+    },
+  },
 ];
