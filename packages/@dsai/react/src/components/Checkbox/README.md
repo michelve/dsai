@@ -15,7 +15,13 @@ A Bootstrap 5 checkbox component for form inputs with full accessibility support
 ## Installation
 
 ```bash
-pnpm add @dsai/react @dsai/tokens
+pnpm add @dsai/react @dsai/tools
+```
+
+Then generate your design tokens:
+
+```bash
+npx dsai tokens build
 ```
 
 ## Usage
@@ -24,7 +30,8 @@ pnpm add @dsai/react @dsai/tokens
 
 ```tsx
 import { Checkbox } from '@dsai/react';
-import '@dsai/tokens/css/dsai-theme-bs.css';
+// Import the generated theme CSS from your local project
+import './generated/dsai-theme-bs.css';
 
 function App() {
   return <Checkbox label="Accept terms and conditions" />;

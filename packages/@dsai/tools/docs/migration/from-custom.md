@@ -274,11 +274,11 @@ project.addSourceFilesAtPaths('src/**/*.scss');
 for (const file of project.getSourceFiles()) {
   let content = file.getFullText();
 
-  // Replace Sass imports
-  content = content.replace(/@import ['"].*_variables['"];/g, "@import '@dsai/tokens/scss';");
+  // Replace Sass imports to use generated tokens
+  content = content.replace(/@import ['"].*_variables['"];/g, \"@import './generated/variables';\");
 
   // Replace variable names
-  content = content.replace(/\$color-primary/g, '$color-primary');
+  content = content.replace(/\\$color-primary/g, '$color-primary');
 
   file.replaceWithText(content);
 }

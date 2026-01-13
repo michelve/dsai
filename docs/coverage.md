@@ -180,7 +180,7 @@ bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
   --partial
 
 bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
-  -r packages/@dsai/tokens/coverage/lcov.info \
+  -r packages/@dsai/tools/coverage/lcov.info \
   --partial
 
 # Send final notification

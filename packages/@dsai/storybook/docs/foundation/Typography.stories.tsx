@@ -1,5 +1,5 @@
 import { Display, Heading, Text } from '@dsai/react';
-import tokens from '@dsai/tokens';
+import tokens from '../../src/generated/tokens-grouped';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -376,13 +376,18 @@ export const Usage: Story = {
 
       <Heading level={3}>JavaScript/TypeScript</Heading>
       <Text variant="pre">
-        {`import tokens from '@dsai/tokens';
+        {`import {
+  typographyFontFamilyBase,
+  typographyTextBase,
+  typographyFontWeightSemiBold,
+  typographyLineHeightBase,
+} from './generated/tokens';
 
 const styles = {
-  fontFamily: tokens.typography.fontFamily.base,
-  fontSize: tokens.typography.fontSize.base,
-  fontWeight: tokens.typography.fontWeight.semibold,
-  lineHeight: tokens.typography.lineHeight.normal,
+  fontFamily: typographyFontFamilyBase,
+  fontSize: typographyTextBase,
+  fontWeight: typographyFontWeightSemiBold,
+  lineHeight: typographyLineHeightBase,
 };`}
       </Text>
 

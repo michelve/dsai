@@ -82,6 +82,12 @@ function App() {
 
 ## Using Design Tokens
 
+Tokens are generated locally in each app using `@dsai/tools`:
+
+```bash
+dsai tokens build
+```
+
 ### CSS Variables
 
 All design tokens are available as CSS custom properties:
@@ -97,24 +103,24 @@ All design tokens are available as CSS custom properties:
 
 ### JavaScript/TypeScript
 
-Import tokens directly in your code:
+Import tokens from your locally generated files:
 
 ```typescript
-import tokens from '@dsai/tokens';
+import { colorBlue500, spacing3, themePrimary } from './generated/tokens';
 
 const styles = {
-  backgroundColor: tokens.theme.primary,
-  padding: tokens.spacing['3'],
-  borderRadius: tokens.border.radius.md,
+  backgroundColor: themePrimary,
+  padding: spacing3,
+  color: colorBlue500,
 };
 ```
 
 ### SCSS
 
-For SCSS projects:
+For SCSS projects, import generated variables:
 
 ```scss
-@import '@dsai/tokens/dist/scss/variables';
+@import './generated/variables';
 
 .my-component {
   background-color: $theme-primary;

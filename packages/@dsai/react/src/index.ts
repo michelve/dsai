@@ -9,12 +9,18 @@
  * @example Basic Usage
  * ```tsx
  * import { Button } from '@dsai/react';
- * import '@dsai/tokens/css/dsai-theme-bs.css';
+ * // Import the generated theme CSS from your local project
+ * import './generated/dsai-theme-bs.css';
  *
  * function App() {
  *   return <Button variant="primary">Click me</Button>;
  * }
  * ```
+ *
+ * @remarks
+ * Design tokens are generated locally by `@dsai/tools` into your project's
+ * output directory (e.g., `./src/generated/`). Run `dsai tokens build` to
+ * generate the theme CSS files.
  *
  * @example With Utilities
  * ```tsx
@@ -416,10 +422,11 @@ export { useScrollLock } from './hooks';
 export type { UseScrollLockOptions, UseScrollLockReturn } from './hooks';
 
 // ============================================================================
-// Tokens - Import from @dsai/tokens directly
+// Tokens - Generate locally using @dsai/tools
 // ============================================================================
-// Note: Tokens are NOT re-exported to avoid TypeScript rootDir issues.
-// Import tokens directly: import { tokens } from '@dsai/tokens';
+// Note: Tokens are generated locally in each app using:
+// dsai tokens build
+// Then import from: import { colorBlue500 } from './generated/tokens';
 
 // ============================================================================
 // Icons - Bootstrap Icons as React components (inline SVG for Figma compatibility)

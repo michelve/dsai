@@ -46,12 +46,13 @@
           ]
         },
         "tokenSystem": {
-          "name": "@dsai/tokens",
+          "name": "@dsai/tools",
           "version": "0.0.1",
-          "imports": {
-            "css": "@dsai/tokens/css/dsai-theme-bs.css",
-            "cssUtilities": "@dsai/tokens/css/dsai.css",
-            "scss": "@dsai/tokens/src/scss/bootstrap-theme.scss"
+          "description": "Design tokens are generated locally via `dsai tokens build` command",
+          "generatedOutputs": {
+            "css": "dsai-theme-bs.css",
+            "cssUtilities": "dsai.css",
+            "scss": "bootstrap-theme.scss"
           },
           "cssVariablePrefix": "--bs-",
           "collections": ["color", "typography", "spacing", "border", "shadow", "layout"]
@@ -95,7 +96,7 @@
       "metadata": {
         "component": "Button",
         "import": "import { Button } from '@dsai/react';",
-        "cssRequired": "@dsai/tokens/css/dsai-theme-bs.css",
+        "cssRequired": "Generated theme CSS from @dsai/tools (e.g., dsai-theme-bs.css)",
         "props": {
           "variant": {
             "type": "ButtonVariant",

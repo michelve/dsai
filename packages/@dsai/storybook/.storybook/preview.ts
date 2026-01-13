@@ -1,4 +1,4 @@
-import { backgroundWhite, colorGray900 } from '@dsai/tokens';
+import { backgroundWhite, colorGray900 } from '../src/generated/tokens.js';
 import React from 'react';
 
 import { lightTheme } from './DSAiTheme';

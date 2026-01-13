@@ -66,8 +66,8 @@ viteFinal: async (config) => ({
   ...config,
   resolve: {
     alias: {
-      '@dsai/tokens': resolve(__dirname, '../../@dsai/tokens/src'),
-      '@dsai/tokens/css': resolve(__dirname, '../../@dsai/tokens/dist/css'),
+      '@dsai/tools': resolve(__dirname, '../../@dsai/tools/src'),
+      '@dsai/react': resolve(__dirname, '../../@dsai/react/src'),
     },
   },
 }),
@@ -79,18 +79,18 @@ Pre-hooks ensure tokens are always fresh:
 
 ```json
 {
-  "prestorybook": "pnpm --filter @dsai/tokens build",
-  "prebuild": "pnpm --filter @dsai/tokens build"
+  "prestorybook": "pnpm dsai tokens build",
+  "prebuild": "pnpm dsai tokens build"
 }
 ```
 
 #### 3. Design Token Integration
 
-CSS variables loaded globally:
+CSS variables loaded globally from generated files:
 
 ```typescript
 // .storybook/preview.ts
-import '@dsai/tokens/css/variables.css';
+import './generated/dsai-theme-bs.css';
 ```
 
 ## 📝 Writing Stories
@@ -164,12 +164,12 @@ Interactive button component with multiple variants.
 ### Method 2: JavaScript Import
 
 ```tsx
-import tokens from '@dsai/tokens';
+import { themePrimary, neutralWhite } from './generated/tokens';
 
 <div
   style={{
-    backgroundColor: tokens.theme.primary.value,
-    color: tokens.neutral.white.value,
+    backgroundColor: themePrimary,
+    color: neutralWhite,
   }}
 >
   Content
@@ -213,7 +213,7 @@ All stories automatically checked with `@storybook/addon-a11y`:
 **Solution:**
 
 ```bash
-pnpm --filter @dsai/tokens build
+pnpm dsai tokens build
 pnpm storybook
 ```
 
@@ -244,7 +244,7 @@ rm -rf node_modules/.vite
 rm -rf .nx/cache
 
 # Rebuild and restart
-pnpm tokens:build
+pnpm dsai tokens build
 pnpm storybook
 ```
 
@@ -254,11 +254,11 @@ pnpm storybook
 
 1. Hard refresh browser (Cmd+Shift+R / Ctrl+Shift+F5)
 2. Check terminal for build errors
-3. Verify tokens rebuilt: `ls -lh ../\@dsai/tokens/dist/css/variables.css`
+3. Verify tokens rebuilt: Check your generated CSS files exist
 
 ## 🔗 Related Packages
 
-- `@dsai/tokens` - Design token system
+- `@dsai/tools` - Design token build system and CLI
 - `@dsai/react` - React component library
 - `@dsai/figma-tokens` - Figma integration utilities
 

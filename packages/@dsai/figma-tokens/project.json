@@ -10,23 +10,14 @@
       "outputs": ["{projectRoot}/dist"],
       "options": {
         "cwd": "packages/@dsai/figma-tokens",
-        "command": "tsup && tsc --emitDeclarationOnly --outDir dist"
+        "command": "tsup"
       }
     },
-    "export-tokens": {
+    "dev": {
       "executor": "nx:run-commands",
-      "dependsOn": ["build"],
       "options": {
         "cwd": "packages/@dsai/figma-tokens",
-        "command": "node dist/export.js"
-      }
-    },
-    "sync-figma": {
-      "executor": "nx:run-commands",
-      "dependsOn": ["build"],
-      "options": {
-        "cwd": "packages/@dsai/figma-tokens",
-        "command": "node dist/sync.js"
+        "command": "tsup --watch"
       }
     },
     "test": {
@@ -42,6 +33,13 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["packages/@dsai/figma-tokens/src/**/*.ts"]
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/@dsai/figma-tokens",
+        "command": "tsc --noEmit"
       }
     }
   },

@@ -15,7 +15,13 @@ A Bootstrap 5 progress bar component for showing progress or loading states.
 ## Installation
 
 ```bash
-pnpm add @dsai/react @dsai/tokens
+pnpm add @dsai/react @dsai/tools
+```
+
+Then generate your design tokens:
+
+```bash
+npx dsai tokens build
 ```
 
 ## Usage
@@ -24,7 +30,8 @@ pnpm add @dsai/react @dsai/tokens
 
 ```tsx
 import { Progress } from '@dsai/react';
-import '@dsai/tokens/css/dsai-theme-bs.css';
+// Import the generated theme CSS from your local project
+import './generated/dsai-theme-bs.css';
 
 function App() {
   return <Progress value={75} aria-label="Task progress" />;

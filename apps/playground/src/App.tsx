@@ -101,7 +101,7 @@ export function App(): JSX.Element {
 
       <div className="text-center mt-5">
         <Text variant="small" color="muted">
-          Built with <code>@dsai/react</code> and <code>@dsai/tokens</code>
+          Built with <code>@dsai/react</code> and <code>@dsai/tools</code>
         </Text>
       </div>
     </main>

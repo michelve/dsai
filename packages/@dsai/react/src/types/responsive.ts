@@ -10,7 +10,7 @@
 /**
  * Breakpoint identifiers
  *
- * Matches Bootstrap 5 breakpoints (aligned with @dsai/tokens):
+ * Matches Bootstrap 5 breakpoints (aligned with DSAi design tokens):
  * - xs: 0px (extra small, mobile)
  * - sm: >= 576px (small, large mobile)
  * - md: >= 768px (medium, tablets)

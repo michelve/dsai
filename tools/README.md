@@ -11,15 +11,15 @@ This directory contains utility scripts and development tools that are **not** p
 
 The following functionality has been migrated to the `@dsai/tools` package and should be accessed via the `dsai` CLI:
 
-| Old Script                         | New CLI Command              | Description                           |
-| ---------------------------------- | ---------------------------- | ------------------------------------- |
-| `scripts/tokens/validate-tokens.*` | `dsai tokens validate`       | Validate token structure and values   |
-| `scripts/tokens/transform-*.cjs`   | `dsai tokens build`          | Transform Figma tokens to DTCG format |
-| `scripts/tokens/sync-tokens-*.js`  | `dsai tokens sync`           | Sync tokens-flat.ts file              |
-| `scripts/tokens/postprocess-*.cjs` | `dsai tokens postprocess`    | Post-process theme CSS files          |
-| `scripts/tokens/merge-*.cjs`       | `dsai tokens merge`          | Merge token collections               |
-| `scripts/tokens/build-all.cjs`     | `pnpm nx build @dsai/tokens` | Complete token build pipeline         |
-| Icon generation scripts            | `dsai icons build`           | Build React icon components           |
+| Old Script                         | New CLI Command           | Description                           |
+| ---------------------------------- | ------------------------- | ------------------------------------- |
+| `scripts/tokens/validate-tokens.*` | `dsai tokens validate`    | Validate token structure and values   |
+| `scripts/tokens/transform-*.cjs`   | `dsai tokens build`       | Transform Figma tokens to DTCG format |
+| `scripts/tokens/sync-tokens-*.js`  | `dsai tokens sync`        | Sync tokens-flat.ts file              |
+| `scripts/tokens/postprocess-*.cjs` | `dsai tokens postprocess` | Post-process theme CSS files          |
+| `scripts/tokens/merge-*.cjs`       | `dsai tokens merge`       | Merge token collections               |
+| `scripts/tokens/build-all.cjs`     | `dsai tokens build`       | Complete token build pipeline         |
+| Icon generation scripts            | `dsai icons build`        | Build React icon components           |
 
 See [`packages/@dsai/tools/README.md`](../packages/@dsai/tools/README.md) for full CLI documentation.
 
@@ -120,7 +120,7 @@ One-off token utilities for specific tasks. For main token operations, use the `
 pnpm dsai tokens validate
 
 # Build all tokens
-pnpm nx build @dsai/tokens
+pnpm dsai tokens build
 
 # Sync tokens-flat.ts
 pnpm dsai tokens sync

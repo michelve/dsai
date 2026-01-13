@@ -28,7 +28,6 @@
   ],
   "dependencies": {
     "@dsai/react": "workspace:*",
-    "@dsai/tokens": "workspace:*",
     "@dsai/tools": "workspace:*",
     "bootstrap": "^5.3.8",
     "glob": "^11.0.2",

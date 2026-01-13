@@ -75,7 +75,9 @@
     "zod": "^3.25.0"
   },
   "devDependencies": {
+    "@clack/prompts": "^0.11.0",
     "@types/node": "^22.15.30",
+    "@types/prompts": "^2.4.9",
     "style-dictionary": "^5.1.1",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
