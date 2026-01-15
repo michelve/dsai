@@ -11,10 +11,10 @@ import {
   Switch,
   TabsPro,
   Text,
-} from '@dsai/react';
+} from '@dsai-io/react';
 import { useCallback, useState } from 'react';
 
-import type { GuardResult, TabsProItem } from '@dsai/react';
+import type { GuardResult, TabsProItem } from '@dsai-io/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 /**

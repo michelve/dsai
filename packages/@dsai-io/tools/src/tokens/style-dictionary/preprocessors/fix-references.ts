@@ -5,7 +5,7 @@
  * Figma exports and the actual token structure.
  *
  * @packageDocumentation
- * @module @dsai/tools/tokens/style-dictionary/preprocessors/fix-references
+ * @module @dsai-io/tools/tokens/style-dictionary/preprocessors/fix-references
  */
 
 import type { PreprocessorDefinition } from '../types.js';

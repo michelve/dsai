@@ -4,7 +4,7 @@
  * Type definitions for responsive values that support breakpoint-specific values.
  * Allows components to adapt to different screen sizes.
  *
- * @module @dsai/react/types/responsive
+ * @module @dsai-io/react/types/responsive
  */
 
 /**
@@ -84,7 +84,7 @@ export type ResponsiveProp<T> = ResponsiveValue<T>;
  * These functions are implemented in utils/responsive and re-exported here
  * for backward compatibility. New code should import from utils/responsive.
  *
- * @see {@link module:@dsai/react/utils/responsive}
- * @deprecated Import from `@dsai/react/utils/responsive` to keep type modules type-only.
+ * @see {@link module:@dsai-io/react/utils/responsive}
+ * @deprecated Import from `@dsai-io/react/utils/responsive` to keep type modules type-only.
  */
 export { getResponsiveValue, isResponsiveValue } from '../utils/responsive';

@@ -4,7 +4,7 @@
  * Type definitions for implementing finite state machines in components.
  * These types provide a consistent pattern for state management across components.
  *
- * @module @dsai/react/types/fsm
+ * @module @dsai-io/react/types/fsm
  */
 
 /**

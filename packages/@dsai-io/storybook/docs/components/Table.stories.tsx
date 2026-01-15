@@ -1,7 +1,7 @@
-import { Badge, Button, Heading, Table } from '@dsai/react';
+import { Badge, Button, Heading, Table } from '@dsai-io/react';
 import { useState } from 'react';
 
-import type { RowId, SortConfig, TableColumn } from '@dsai/react';
+import type { RowId, SortConfig, TableColumn } from '@dsai-io/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 // =============================================================================

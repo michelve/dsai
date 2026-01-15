@@ -1,6 +1,6 @@
 /**
  * @file formatNumber - Locale-aware number formatting utility
- * @module @dsai/react/utils/number
+ * @module @dsai-io/react/utils/number
  *
  * Enterprise-grade number formatting with:
  * - Intl.NumberFormat with SSR-safe fallbacks

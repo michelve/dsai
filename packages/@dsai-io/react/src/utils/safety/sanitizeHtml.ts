@@ -1,6 +1,6 @@
 /**
  * @file sanitizeHtml - HTML sanitization with XSS protection
- * @module @dsai/react/utils/safety
+ * @module @dsai-io/react/utils/safety
  *
  * Enterprise-grade HTML sanitizer with:
  * - Allowlist-based tag and attribute filtering

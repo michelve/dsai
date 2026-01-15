@@ -1,6 +1,6 @@
 /**
  * @file generateCryptoId - Cryptographically secure ID generation
- * @module @dsai/react/utils/safety
+ * @module @dsai-io/react/utils/safety
  *
  * Enterprise-grade unique ID generation with:
  * - Cryptographically secure randomness

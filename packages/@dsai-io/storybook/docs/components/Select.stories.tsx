@@ -1,7 +1,7 @@
-import { Button, Heading, Select } from '@dsai/react';
+import { Button, Heading, Select } from '@dsai-io/react';
 import { useState } from 'react';
 
-import type { SelectOption } from '@dsai/react';
+import type { SelectOption } from '@dsai-io/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 // Sample options

@@ -1,6 +1,6 @@
 /**
  * @file generateToken - Secure random token generation
- * @module @dsai/react/utils/safety
+ * @module @dsai-io/react/utils/safety
  *
  * Enterprise-grade token generation with:
  * - Cryptographically secure random generation

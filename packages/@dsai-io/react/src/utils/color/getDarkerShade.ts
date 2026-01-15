@@ -1,6 +1,6 @@
 /**
  * @file getDarkerShade - Generate darker color shade
- * @module @dsai/react/utils/color
+ * @module @dsai-io/react/utils/color
  *
  * Enterprise-grade color darkening with:
  * - HSL color space manipulation

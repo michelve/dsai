@@ -24,7 +24,7 @@
  * @see https://styledictionary.com/
  */
 
-import { registerAll } from '@dsai/tools/tokens';
+import { registerAll } from '@dsai-io/tools/tokens';
 import { globSync } from 'glob';
 import StyleDictionary from 'style-dictionary';
 

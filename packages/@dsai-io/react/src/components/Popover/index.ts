@@ -6,7 +6,7 @@
  *
  * @example
  * ```tsx
- * import { Popover, PopoverHeader, PopoverBody } from '@dsai/react';
+ * import { Popover, PopoverHeader, PopoverBody } from '@dsai-io/react';
  *
  * <Popover header="Settings" content="Configure your preferences.">
  *   <button>Open Settings</button>

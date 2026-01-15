@@ -1,5 +1,5 @@
 /**
- * @module @dsai/react/utils/timing
+ * @module @dsai-io/react/utils/timing
  * Timing utilities for debouncing and throttling
  */
 

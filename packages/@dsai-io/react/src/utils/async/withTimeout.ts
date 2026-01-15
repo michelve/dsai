@@ -1,6 +1,6 @@
 /**
  * @file withTimeout - Add timeout to promise
- * @module @dsai/react/utils/async
+ * @module @dsai-io/react/utils/async
  *
  * Enterprise-grade timeout wrapper with:
  * - Configurable timeout duration

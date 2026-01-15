@@ -7,9 +7,9 @@
  * @module utils/misc/mapPlacement
  *
  * Consolidated from:
- * - packages/@dsai/react/src/components/Dropdown/Dropdown.tsx
- * - packages/@dsai/react/src/components/Popover/Popover.tsx
- * - packages/@dsai/react/src/components/Tooltip/Tooltip.tsx
+ * - packages/@dsai-io/react/src/components/Dropdown/Dropdown.tsx
+ * - packages/@dsai-io/react/src/components/Popover/Popover.tsx
+ * - packages/@dsai-io/react/src/components/Tooltip/Tooltip.tsx
  */
 
 import type { Placement } from '@floating-ui/react';

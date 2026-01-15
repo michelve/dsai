@@ -1,5 +1,5 @@
 /**
- * Configuration type definitions for @dsai/tools
+ * Configuration type definitions for @dsai-io/tools
  *
  * @packageDocumentation
  */

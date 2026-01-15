@@ -1,4 +1,4 @@
-import { Button, CheckIcon, Heading, Input, SearchIcon, XLgIcon } from '@dsai/react';
+import { Button, CheckIcon, Heading, Input, SearchIcon, XLgIcon } from '@dsai-io/react';
 import { useState } from 'react';
 import { userEvent, within } from 'storybook/test';
 

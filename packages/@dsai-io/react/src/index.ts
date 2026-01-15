@@ -8,7 +8,7 @@
  *
  * @example Basic Usage
  * ```tsx
- * import { Button } from '@dsai/react';
+ * import { Button } from '@dsai-io/react';
  * // Import the generated theme CSS from your local project
  * import './generated/dsai-theme-bs.css';
  *
@@ -18,13 +18,13 @@
  * ```
  *
  * @remarks
- * Design tokens are generated locally by `@dsai/tools` into your project's
+ * Design tokens are generated locally by `@dsai-io/tools` into your project's
  * output directory (e.g., `./src/generated/`). Run `dsai tokens build` to
  * generate the theme CSS files.
  *
  * @example With Utilities
  * ```tsx
- * import { Button, cn, generateId } from '@dsai/react';
+ * import { Button, cn, generateId } from '@dsai-io/react';
  *
  * function MyComponent({ isActive }) {
  *   const id = generateId('my-button');
@@ -337,7 +337,7 @@ export {
  *
  * @example
  * ```typescript
- * import type { SemanticColorVariant, ComponentSize } from '@dsai/react';
+ * import type { SemanticColorVariant, ComponentSize } from '@dsai-io/react';
  *
  * interface CustomAlertProps {
  *   variant?: SemanticColorVariant;
@@ -422,7 +422,7 @@ export { useScrollLock } from './hooks';
 export type { UseScrollLockOptions, UseScrollLockReturn } from './hooks';
 
 // ============================================================================
-// Tokens - Generate locally using @dsai/tools
+// Tokens - Generate locally using @dsai-io/tools
 // ============================================================================
 // Note: Tokens are generated locally in each app using:
 // dsai tokens build
@@ -432,10 +432,10 @@ export type { UseScrollLockOptions, UseScrollLockReturn } from './hooks';
 // Icons - Bootstrap Icons as React components (inline SVG for Figma compatibility)
 // ============================================================================
 // Individual icons can be imported directly:
-// import { ArrowLeftIcon, CheckCircleFillIcon } from '@dsai/react';
+// import { ArrowLeftIcon, CheckCircleFillIcon } from '@dsai-io/react';
 //
 // Or use the Icon folder exports from components:
-// import { ArrowLeftIcon } from '@dsai/react';
+// import { ArrowLeftIcon } from '@dsai-io/react';
 export * from './components/Icon';
 
 // ============================================================================

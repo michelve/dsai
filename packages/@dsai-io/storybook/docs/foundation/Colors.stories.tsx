@@ -1,5 +1,5 @@
 // Import grouped tokens (with .value properties for easy access)
-import { Heading } from '@dsai/react';
+import { Heading } from '@dsai-io/react';
 import tokens from '../../src/generated/tokens-grouped';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';

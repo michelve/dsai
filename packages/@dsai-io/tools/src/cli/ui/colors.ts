@@ -4,7 +4,7 @@
  * Wraps picocolors with NO_COLOR environment variable support.
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/ui/colors
+ * @module @dsai-io/tools/cli/ui/colors
  */
 
 import pc from 'picocolors';

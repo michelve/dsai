@@ -1,7 +1,7 @@
-import { Button, Heading, Scrollspy, ScrollspyProvider, useScrollspy } from '@dsai/react';
+import { Button, Heading, Scrollspy, ScrollspyProvider, useScrollspy } from '@dsai-io/react';
 import { Fragment, type ReactElement, useMemo, useState } from 'react';
 
-import type { ScrollspyItem } from '@dsai/react';
+import type { ScrollspyItem } from '@dsai-io/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const baseItems: ScrollspyItem[] = [

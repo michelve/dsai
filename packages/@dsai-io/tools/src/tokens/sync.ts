@@ -8,7 +8,7 @@
  * This ensures that when font families or other tokens change in Figma,
  * the changes automatically propagate to the TypeScript source.
  *
- * @module @dsai/tools/tokens/sync
+ * @module @dsai-io/tools/tokens/sync
  */
 
 /* eslint-disable no-console */
@@ -100,12 +100,12 @@ export function getDefaultSyncPaths(tokensDir: string): { sourceFile: string; ta
  * ```typescript
  * // Sync with explicit paths
  * const result = syncTokens({
- *   sourceFile: './packages/@dsai/tokens/dist/js/tokens.js',
- *   targetFile: './packages/@dsai/tokens/src/tokens-flat.ts',
+ *   sourceFile: './packages/@dsai-io/tokens/dist/js/tokens.js',
+ *   targetFile: './packages/@dsai-io/tokens/src/tokens-flat.ts',
  * });
  *
  * // Sync with paths computed from tokens directory
- * const paths = getDefaultSyncPaths('./packages/@dsai/tokens');
+ * const paths = getDefaultSyncPaths('./packages/@dsai-io/tokens');
  * const result = syncTokens(paths);
  * ```
  */

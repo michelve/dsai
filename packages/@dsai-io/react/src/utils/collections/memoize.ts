@@ -1,6 +1,6 @@
 /**
  * @file memoize - General-purpose function memoization
- * @module @dsai/react/utils/collections
+ * @module @dsai-io/react/utils/collections
  *
  * Enterprise-grade memoization utility for caching function results.
  * Supports custom cache keys, cache size limits, and TTL.

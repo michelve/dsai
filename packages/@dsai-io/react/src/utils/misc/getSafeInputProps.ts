@@ -7,8 +7,8 @@
  * @module utils/misc/getSafeInputProps
  *
  * Consolidated from:
- * - packages/@dsai/react/src/components/Checkbox/Checkbox.tsx
- * - packages/@dsai/react/src/components/Input/Input.tsx
+ * - packages/@dsai-io/react/src/components/Checkbox/Checkbox.tsx
+ * - packages/@dsai-io/react/src/components/Input/Input.tsx
  */
 
 /**

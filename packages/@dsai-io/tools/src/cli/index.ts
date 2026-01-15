@@ -1,5 +1,5 @@
 /**
- * CLI module for @dsai/tools
+ * CLI module for @dsai-io/tools
  *
  * Provides the command-line interface for the dsai-tools package.
  * Uses Commander.js for command parsing, with spinners and colored output.

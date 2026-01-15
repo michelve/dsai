@@ -4,7 +4,7 @@
  * Exports all built-in preprocessors and registration utilities.
  *
  * @packageDocumentation
- * @module @dsai/tools/tokens/style-dictionary/preprocessors
+ * @module @dsai-io/tools/tokens/style-dictionary/preprocessors
  */
 
 import { fixReferences } from './fix-references.js';
@@ -25,7 +25,7 @@ export const builtInPreprocessors: PreprocessorDefinition[] = [fixReferences];
  * @example
  * ```typescript
  * import StyleDictionary from 'style-dictionary';
- * import { registerPreprocessors } from '@dsai/tools/tokens/style-dictionary';
+ * import { registerPreprocessors } from '@dsai-io/tools/tokens/style-dictionary';
  *
  * registerPreprocessors(StyleDictionary);
  * ```

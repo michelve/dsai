@@ -6,7 +6,7 @@
  * safe integration with existing projects.
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/commands/init
+ * @module @dsai-io/tools/cli/commands/init
  *
  * @remarks
  * Currently supports React framework integration.
@@ -668,7 +668,7 @@ export function createInitCommand(): Command {
       // Check if DSAI is already installed
       if (isDsaiInstalled(cwd) && !mergedOpts.force && !mergedOpts.yes) {
         console.log();
-        console.log(pc.yellow('⚠ @dsai/tools is already installed in this project.'));
+        console.log(pc.yellow('⚠ @dsai-io/tools is already installed in this project.'));
         console.log();
         console.log('To reconfigure, run:');
         console.log(`  ${pc.cyan('dsai init --force')}`);

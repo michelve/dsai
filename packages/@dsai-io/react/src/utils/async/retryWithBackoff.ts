@@ -1,6 +1,6 @@
 /**
  * @file retryWithBackoff - Retry failed promises with exponential backoff
- * @module @dsai/react/utils/async
+ * @module @dsai-io/react/utils/async
  *
  * Enterprise-grade retry utility with:
  * - Configurable max attempts

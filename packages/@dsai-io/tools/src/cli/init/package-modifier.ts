@@ -5,7 +5,7 @@
  * with proper backup and validation.
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/init/package-modifier
+ * @module @dsai-io/tools/cli/init/package-modifier
  */
 
 /* eslint-disable security/detect-non-literal-fs-filename */
@@ -329,7 +329,7 @@ export function modifyPackageJson(cwd: string, options: ModifyOptions): Modifica
  */
 export const DSAI_DEPENDENCIES: DependencyEntry[] = [
   {
-    name: '@dsai/tools',
+    name: '@dsai-io/tools',
     version: '^0.0.1',
     type: 'devDependencies',
   },
@@ -340,7 +340,7 @@ export const DSAI_DEPENDENCIES: DependencyEntry[] = [
  */
 export const DSAI_OPTIONAL_DEPENDENCIES: Record<string, DependencyEntry> = {
   'figma-tokens': {
-    name: '@dsai/figma-tokens',
+    name: '@dsai-io/figma-tokens',
     version: '^1.0.0',
     type: 'devDependencies',
   },
@@ -534,7 +534,7 @@ export function isDsaiInstalled(cwd: string): boolean {
     ...pkg.peerDependencies,
   };
 
-  return Boolean(allDeps['@dsai/tools']);
+  return Boolean(allDeps['@dsai-io/tools']);
 }
 
 /**
@@ -636,8 +636,8 @@ function getUpgradeWarning(
     'style-dictionary': isMajor
       ? 'Major Style Dictionary upgrade may require config file updates. Review migration guide.'
       : (undefined as unknown as string),
-    '@dsai/tools': 'DSAI tools upgrade. Review changelog for any config schema changes.',
-    '@dsai/figma-tokens': 'Figma tokens upgrade. Check for any API changes.',
+    '@dsai-io/tools': 'DSAI tools upgrade. Review changelog for any config schema changes.',
+    '@dsai-io/figma-tokens': 'Figma tokens upgrade. Check for any API changes.',
   };
 
   return warnings[packageName];

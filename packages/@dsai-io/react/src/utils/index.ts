@@ -6,7 +6,7 @@
  *
  * @example
  * ```tsx
- * import { cn, generateId, isBrowser } from '@dsai/react';
+ * import { cn, generateId, isBrowser } from '@dsai-io/react';
  * ```
  */
 

@@ -4,7 +4,7 @@
  * Exports all built-in formats and registration utilities.
  *
  * @packageDocumentation
- * @module @dsai/tools/tokens/style-dictionary/formats
+ * @module @dsai-io/tools/tokens/style-dictionary/formats
  */
 
 import { cssDarkModeVariables } from './css-dark-mode.js';
@@ -31,7 +31,7 @@ export const builtInFormats: FormatDefinition[] = [
  * @example
  * ```typescript
  * import StyleDictionary from 'style-dictionary';
- * import { registerFormats } from '@dsai/tools/tokens/style-dictionary';
+ * import { registerFormats } from '@dsai-io/tools/tokens/style-dictionary';
  *
  * registerFormats(StyleDictionary);
  * ```

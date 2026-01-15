@@ -4,7 +4,7 @@
  * Wraps ora for consistent spinner behavior with quiet mode support.
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/ui/spinner
+ * @module @dsai-io/tools/cli/ui/spinner
  */
 
 import ora from 'ora';

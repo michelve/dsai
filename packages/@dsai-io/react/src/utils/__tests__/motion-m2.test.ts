@@ -1,6 +1,6 @@
 /**
  * @file Motion & Animation Utilities Test Suite (M2.12)
- * @module @dsai/react/utils/__tests__/motion-m2.test
+ * @module @dsai-io/react/utils/__tests__/motion-m2.test
  *
  * Comprehensive test coverage for M2.12 Motion utilities:
  * - Spring physics: createSpring

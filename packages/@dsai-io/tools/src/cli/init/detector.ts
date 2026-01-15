@@ -5,7 +5,7 @@
  * from the filesystem to provide intelligent setup recommendations.
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/init/detector
+ * @module @dsai-io/tools/cli/init/detector
  *
  * @remarks
  * Currently supports React framework integration.

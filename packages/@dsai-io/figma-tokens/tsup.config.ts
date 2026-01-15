@@ -11,7 +11,7 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   minify: true,
-  external: ['@dsai/tokens', '@dsai/tools'],
+  external: ['@dsai-io/tokens', '@dsai-io/tools'],
   tsconfig: './tsconfig.build.json',
   splitting: false,
   treeshake: true,

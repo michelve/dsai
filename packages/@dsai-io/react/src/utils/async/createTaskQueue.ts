@@ -1,6 +1,6 @@
 /**
  * @file createTaskQueue - Task queue for animations/transitions
- * @module @dsai/react/utils/async
+ * @module @dsai-io/react/utils/async
  *
  * Enterprise-grade task queue with:
  * - Sequential or concurrent execution

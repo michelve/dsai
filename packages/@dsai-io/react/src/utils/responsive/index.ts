@@ -4,7 +4,7 @@
  * Runtime utilities for working with responsive values.
  * These functions help extract values from responsive objects at runtime.
  *
- * @module @dsai/react/utils/responsive
+ * @module @dsai-io/react/utils/responsive
  */
 
 import type { Breakpoint, ResponsiveValue } from '../../types';

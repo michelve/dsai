@@ -1,6 +1,6 @@
 /**
  * @file Object utilities tests
- * @module @dsai/react/utils/object
+ * @module @dsai-io/react/utils/object
  */
 
 import { deepMerge } from './deepMerge';

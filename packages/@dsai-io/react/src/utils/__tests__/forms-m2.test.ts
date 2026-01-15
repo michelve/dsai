@@ -1,6 +1,6 @@
 /**
  * @file Form Utilities Test Suite (M2.11)
- * @module @dsai/react/utils/__tests__/forms-m2.test
+ * @module @dsai-io/react/utils/__tests__/forms-m2.test
  *
  * Comprehensive test coverage for M2.11 Form utilities:
  * - Form data handling: parseFormData, serializeForm

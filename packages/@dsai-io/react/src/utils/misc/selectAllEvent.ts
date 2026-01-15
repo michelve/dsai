@@ -7,8 +7,8 @@
  * @module utils/misc/selectAllEvent
  *
  * Consolidated from:
- * - packages/@dsai/react/src/components/CardList/CardList.fsm.ts
- * - packages/@dsai/react/src/components/Table/Table.fsm.ts
+ * - packages/@dsai-io/react/src/components/CardList/CardList.fsm.ts
+ * - packages/@dsai-io/react/src/components/Table/Table.fsm.ts
  */
 
 /** Row identifier type used by table selection */

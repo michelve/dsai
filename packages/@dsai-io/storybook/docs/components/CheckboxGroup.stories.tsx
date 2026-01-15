@@ -1,7 +1,7 @@
-import { Button, CheckboxGroup, CheckIcon, Heading, XLgIcon } from '@dsai/react';
+import { Button, CheckboxGroup, CheckIcon, Heading, XLgIcon } from '@dsai-io/react';
 import { useState } from 'react';
 
-import type { CheckboxGroupOption } from '@dsai/react';
+import type { CheckboxGroupOption } from '@dsai-io/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 /**

@@ -1,6 +1,6 @@
 /**
  * @file getRelativeLuminance - Calculate relative luminance per WCAG
- * @module @dsai/react/utils/color
+ * @module @dsai-io/react/utils/color
  *
  * Enterprise-grade relative luminance calculator with:
  * - WCAG 2.1 compliant formula

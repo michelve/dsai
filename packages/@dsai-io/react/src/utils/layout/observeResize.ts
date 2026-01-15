@@ -1,6 +1,6 @@
 /**
  * @file observeResize - ResizeObserver wrapper with cleanup
- * @module @dsai/react/utils/layout
+ * @module @dsai-io/react/utils/layout
  *
  * A wrapper around ResizeObserver that provides automatic cleanup,
  * debouncing, and SSR safety.

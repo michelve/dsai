@@ -4,7 +4,7 @@
  * Reads configuration values from environment variables and converts
  * them to the appropriate types.
  *
- * @module @dsai/tools/config/env
+ * @module @dsai-io/tools/config/env
  */
 
 import { envArrayKeys, envBooleanKeys, envMappings, envNumberKeys } from './defaults.js';

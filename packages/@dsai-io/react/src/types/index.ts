@@ -8,15 +8,15 @@
  * components, eliminating duplication and establishing a single source of truth
  * for design system primitives.
  *
- * @module @dsai/react/types
+ * @module @dsai-io/react/types
  *
  * @example
  * ```typescript
  * // Import from types module
- * import type { SemanticColorVariant, ComponentSize } from '@dsai/react/types';
+ * import type { SemanticColorVariant, ComponentSize } from '@dsai-io/react/types';
  *
  * // Or from main package (after export updates)
- * import type { SemanticColorVariant } from '@dsai/react';
+ * import type { SemanticColorVariant } from '@dsai-io/react';
  *
  * // Use in component types
  * interface AlertProps {
@@ -64,6 +64,6 @@ export type { PolymorphicComponentProps, PolymorphicProps, PolymorphicRef } from
 export type { Breakpoint, ResponsiveProp, ResponsiveValue } from './responsive';
 
 /**
- * @deprecated Import runtime helpers from `@dsai/react/utils/responsive` to keep the types barrel type-only.
+ * @deprecated Import runtime helpers from `@dsai-io/react/utils/responsive` to keep the types barrel type-only.
  */
 export { getResponsiveValue, isResponsiveValue } from './responsive';

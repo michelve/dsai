@@ -114,7 +114,7 @@ import {
   XCircleFillIcon,
   XIcon,
   YoutubeIcon,
-} from '@dsai/react';
+} from '@dsai-io/react';
 import { useId, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -137,7 +137,7 @@ DSAi Icon System - 2000+ Bootstrap Icons as React components.
 ## Usage
 
 \`\`\`tsx
-import { ArrowLeftIcon, CheckCircleFillIcon } from '@dsai/react';
+import { ArrowLeftIcon, CheckCircleFillIcon } from '@dsai-io/react';
 
 // Decorative (inside buttons, next to text)
 <Button startIcon={<ArrowLeftIcon />}>Back</Button>

@@ -1,6 +1,6 @@
 /**
  * @file combineAriaDescriptions - Merge multiple aria-describedby IDs
- * @module @dsai/react/utils/a11y
+ * @module @dsai-io/react/utils/a11y
  *
  * Enterprise-grade aria-describedby combiner with:
  * - Merges multiple ID references

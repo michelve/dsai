@@ -1,6 +1,6 @@
 /**
  * @file tokenToCssVar - Convert design token to CSS variable
- * @module @dsai/react/utils/color
+ * @module @dsai-io/react/utils/color
  *
  * Enterprise-grade token to CSS variable converter with:
  * - Dot notation support (colors.primary.500)

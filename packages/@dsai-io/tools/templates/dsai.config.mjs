@@ -1,5 +1,5 @@
 /**
- * @dsai/tools Configuration Template
+ * @dsai-io/tools Configuration Template
  *
  * This file provides a starting point for configuring the DSAI tools.
  * Copy this file to your project root and customize as needed.
@@ -13,9 +13,9 @@
  * - .dsairc.yaml
  * - package.json (under "dsai" key)
  *
- * @type {import('@dsai/tools').DsaiConfig}
+ * @type {import('@dsai-io/tools').DsaiConfig}
  */
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   // =========================================================================

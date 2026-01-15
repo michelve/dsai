@@ -1,6 +1,6 @@
 /**
  * @file hexToRgb - Convert hex color to RGB
- * @module @dsai/react/utils/color
+ * @module @dsai-io/react/utils/color
  *
  * Enterprise-grade hex to RGB converter with:
  * - 3-digit and 6-digit hex support

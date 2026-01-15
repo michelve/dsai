@@ -1,4 +1,4 @@
-import { Button, Tooltip } from '@dsai/react';
+import { Button, Tooltip } from '@dsai-io/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';

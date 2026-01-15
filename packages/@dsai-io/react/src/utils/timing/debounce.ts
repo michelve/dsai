@@ -1,6 +1,6 @@
 /**
  * @file debounce - Function debouncing utility
- * @module @dsai/react/utils/timing
+ * @module @dsai-io/react/utils/timing
  *
  * Enterprise-grade debouncing with:
  * - Leading and trailing edge execution

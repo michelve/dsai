@@ -4,7 +4,7 @@
  * Initialize DSAI configuration.
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/commands/init
+ * @module @dsai-io/tools/cli/commands/init
  */
 
 /* eslint-disable no-console */
@@ -31,7 +31,7 @@ const MINIMAL_CONFIG = `/**
  * DSAI Tools Configuration
  * @see https://github.com/michelve/dsai
  */
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {
@@ -48,7 +48,7 @@ const FULL_CONFIG = `/**
  * DSAI Tools Configuration
  * @see https://github.com/michelve/dsai
  */
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {
@@ -91,7 +91,7 @@ const ENTERPRISE_CONFIG = `/**
  * DSAI Tools Configuration - Enterprise
  * @see https://github.com/michelve/dsai
  */
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {

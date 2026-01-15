@@ -3,7 +3,7 @@
  *
  * @example
  * ```tsx
- * import { useFocusTrap } from '@dsai/react';
+ * import { useFocusTrap } from '@dsai-io/react';
  *
  * function Modal({ isOpen, onClose, children }) {
  *   const { containerRef } = useFocusTrap({

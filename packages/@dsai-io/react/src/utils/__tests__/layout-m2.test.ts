@@ -1,6 +1,6 @@
 /**
  * @file Layout utilities test suite
- * @module @dsai/react/utils/__tests__/layout-m2.test
+ * @module @dsai-io/react/utils/__tests__/layout-m2.test
  *
  * Comprehensive test coverage for layout utilities:
  * - getElementBounds: Element bounding rect with extended measurements

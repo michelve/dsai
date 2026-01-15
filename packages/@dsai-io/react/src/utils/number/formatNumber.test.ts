@@ -1,6 +1,6 @@
 /**
  * @file formatNumber and formatCurrency tests
- * @module @dsai/react/utils/number
+ * @module @dsai-io/react/utils/number
  */
 
 import { formatCurrency } from './formatCurrency';

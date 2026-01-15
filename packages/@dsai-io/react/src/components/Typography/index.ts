@@ -6,7 +6,7 @@
  *
  * @example
  * ```tsx
- * import { Typography, Heading, Display, Text } from '@dsai/react';
+ * import { Typography, Heading, Display, Text } from '@dsai-io/react';
  *
  * // Using namespace
  * <Typography.Heading level={1}>Title</Typography.Heading>

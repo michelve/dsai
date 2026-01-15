@@ -1,6 +1,6 @@
 /**
  * @file sanitizeUrl - URL sanitization with XSS protection
- * @module @dsai/react/utils/safety
+ * @module @dsai-io/react/utils/safety
  *
  * Enterprise-grade URL sanitizer with:
  * - Protocol allowlist validation

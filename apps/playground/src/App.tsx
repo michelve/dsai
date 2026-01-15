@@ -10,7 +10,7 @@ import {
   Heading,
   Spinner,
   Text,
-} from '@dsai/react';
+} from '@dsai-io/react';
 
 import type { JSX } from 'react';
 
@@ -101,7 +101,7 @@ export function App(): JSX.Element {
 
       <div className="text-center mt-5">
         <Text variant="small" color="muted">
-          Built with <code>@dsai/react</code> and <code>@dsai/tools</code>
+          Built with <code>@dsai-io/react</code> and <code>@dsai-io/tools</code>
         </Text>
       </div>
     </main>

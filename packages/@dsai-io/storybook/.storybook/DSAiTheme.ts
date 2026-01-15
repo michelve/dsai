@@ -26,7 +26,7 @@ import { create, type ThemeVars } from 'storybook/theming';
 /**
  * DSAi Storybook Theme
  *
- * Uses design tokens from @dsai/tokens for consistent branding.
+ * Uses design tokens from @dsai-io/tokens for consistent branding.
  * Fonts are loaded dynamically via preview-head.html based on token values.
  *
  * Color scheme uses Blue as primary to match component theme colors.

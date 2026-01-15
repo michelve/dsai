@@ -1,6 +1,6 @@
 /**
  * @file createAbortable - Make promise cancellable with AbortController
- * @module @dsai/react/utils/async
+ * @module @dsai-io/react/utils/async
  *
  * Enterprise-grade abortable promise wrapper with:
  * - AbortController integration

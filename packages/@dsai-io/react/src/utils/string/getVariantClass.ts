@@ -6,8 +6,8 @@
  * @module utils/string/getVariantClass
  *
  * Consolidated from:
- * - packages/@dsai/react/src/components/Card/Card.tsx
- * - packages/@dsai/react/src/components/Toast/Toast.tsx
+ * - packages/@dsai-io/react/src/components/Card/Card.tsx
+ * - packages/@dsai-io/react/src/components/Toast/Toast.tsx
  */
 
 /** Standard Bootstrap variant types plus common aliases */

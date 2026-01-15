@@ -6,7 +6,7 @@
  *
  * @example
  * ```tsx
- * import { useFocusTrap, useMediaQuery, useDebounce, useLocalStorage } from '@dsai/react';
+ * import { useFocusTrap, useMediaQuery, useDebounce, useLocalStorage } from '@dsai-io/react';
  * ```
  */
 

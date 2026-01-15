@@ -1,6 +1,6 @@
 /**
  * @file Timing utility tests
- * @module @dsai/react/utils/timing
+ * @module @dsai-io/react/utils/timing
  */
 
 import { debounce } from './debounce';

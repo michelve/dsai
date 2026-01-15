@@ -7,9 +7,9 @@
  * @module utils/types/isExternalUrl
  *
  * Consolidated from:
- * - packages/@dsai/react/src/components/Breadcrumb/Breadcrumb.tsx
- * - packages/@dsai/react/src/components/Card/Card.tsx
- * - packages/@dsai/react/src/components/ListGroup/ListGroup.tsx
+ * - packages/@dsai-io/react/src/components/Breadcrumb/Breadcrumb.tsx
+ * - packages/@dsai-io/react/src/components/Card/Card.tsx
+ * - packages/@dsai-io/react/src/components/ListGroup/ListGroup.tsx
  */
 
 /**

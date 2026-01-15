@@ -4,7 +4,7 @@
  * Provides comprehensive runtime validation for all configuration options.
  * Schemas mirror the TypeScript types in types.ts for type safety.
  *
- * @module @dsai/tools/config/schema
+ * @module @dsai-io/tools/config/schema
  * @see {@link ./types.ts} for TypeScript type definitions
  */
 

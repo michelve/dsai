@@ -1,6 +1,6 @@
 /**
  * @file Collections utilities barrel export
- * @module @dsai/react/utils/collections
+ * @module @dsai-io/react/utils/collections
  *
  * Enterprise-grade collection utilities for arrays, objects, and data structures.
  * All utilities are type-safe, immutable, and SSR-compatible.

@@ -6,7 +6,7 @@
  *
  * @example
  * ```tsx
- * import { Form, DataTable, Modal } from '@dsai/react';
+ * import { Form, DataTable, Modal } from '@dsai-io/react';
  * ```
  */
 

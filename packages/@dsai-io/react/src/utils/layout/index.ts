@@ -1,6 +1,6 @@
 /**
  * @file Layout utilities barrel export
- * @module @dsai/react/utils/layout
+ * @module @dsai-io/react/utils/layout
  *
  * Enterprise-grade layout and measurement utilities.
  * All utilities are SSR-safe and provide cleanup functions where applicable.

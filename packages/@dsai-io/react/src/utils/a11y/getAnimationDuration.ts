@@ -1,6 +1,6 @@
 /**
  * @file getAnimationDuration - Get animation duration based on user preference
- * @module @dsai/react/utils/a11y
+ * @module @dsai-io/react/utils/a11y
  *
  * Enterprise-grade animation duration calculator with:
  * - Respects prefers-reduced-motion (returns 0ms)

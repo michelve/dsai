@@ -1,4 +1,4 @@
-import { Button, Heading, SelectableCard } from '@dsai/react';
+import { Button, Heading, SelectableCard } from '@dsai-io/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';

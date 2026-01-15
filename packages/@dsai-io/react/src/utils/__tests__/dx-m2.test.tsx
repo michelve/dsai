@@ -1,6 +1,6 @@
 /**
  * @file Developer Experience Utilities Test Suite (M2.10)
- * @module @dsai/react/utils/__tests__/dx-m2.test
+ * @module @dsai-io/react/utils/__tests__/dx-m2.test
  *
  * Comprehensive test coverage for M2.10 DX (Developer Experience) utilities:
  * - Environment detection: isDev

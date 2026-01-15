@@ -7,10 +7,10 @@
  * @module utils/validation/isSafeHref
  *
  * Consolidated from:
- * - packages/@dsai/react/src/components/Alert/Alert.tsx
- * - packages/@dsai/react/src/components/Breadcrumb/Breadcrumb.tsx
- * - packages/@dsai/react/src/components/Card/Card.tsx
- * - packages/@dsai/react/src/components/ListGroup/ListGroup.tsx
+ * - packages/@dsai-io/react/src/components/Alert/Alert.tsx
+ * - packages/@dsai-io/react/src/components/Breadcrumb/Breadcrumb.tsx
+ * - packages/@dsai-io/react/src/components/Card/Card.tsx
+ * - packages/@dsai-io/react/src/components/ListGroup/ListGroup.tsx
  */
 
 /** Dangerous URL protocols that should be blocked */

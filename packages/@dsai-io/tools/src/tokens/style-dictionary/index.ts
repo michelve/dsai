@@ -5,17 +5,17 @@
  * generation for Style Dictionary token builds.
  *
  * @packageDocumentation
- * @module @dsai/tools/tokens/style-dictionary
+ * @module @dsai-io/tools/tokens/style-dictionary
  *
  * @example
  * ```typescript
  * import StyleDictionary from 'style-dictionary';
- * import { loadConfig } from '@dsai/tools/config';
+ * import { loadConfig } from '@dsai-io/tools/config';
  * import {
  *   setupStyleDictionary,
  *   registerAll,
  *   createStyleDictionaryConfig,
- * } from '@dsai/tools/tokens/style-dictionary';
+ * } from '@dsai-io/tools/tokens/style-dictionary';
  *
  * // Option 1: All-in-one setup
  * const { config } = await loadConfig();

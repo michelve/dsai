@@ -1,6 +1,6 @@
 /**
  * @file truncate - Text truncation utility
- * @module @dsai/react/utils/string
+ * @module @dsai-io/react/utils/string
  *
  * Enterprise-grade text truncation with:
  * - Word boundary awareness

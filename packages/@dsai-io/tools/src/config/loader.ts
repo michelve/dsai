@@ -4,7 +4,7 @@
  * Uses cosmiconfig to load configuration from multiple file formats
  * and locations following standard conventions.
  *
- * @module @dsai/tools/config/loader
+ * @module @dsai-io/tools/config/loader
  */
 
 import path from 'node:path';
@@ -269,7 +269,7 @@ export function loadConfigSync(options: LoadConfigOptions = {}): LoadConfigResul
  * @example
  * ```typescript
  * // dsai.config.ts
- * import { defineConfig } from '@dsai/tools';
+ * import { defineConfig } from '@dsai-io/tools';
  *
  * export default defineConfig({
  *   tokens: {
@@ -297,7 +297,7 @@ export function defineConfig(config: DsaiConfig): DsaiConfig {
  * @example
  * ```typescript
  * // dsai.config.ts
- * import { defineConfigAsync } from '@dsai/tools';
+ * import { defineConfigAsync } from '@dsai-io/tools';
  *
  * export default defineConfigAsync(async () => {
  *   const baseConfig = await loadExternalConfig();

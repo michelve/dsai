@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Heading, PersonFillIcon } from '@dsai/react';
+import { Avatar, AvatarGroup, Heading, PersonFillIcon } from '@dsai-io/react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { JSX } from 'react';

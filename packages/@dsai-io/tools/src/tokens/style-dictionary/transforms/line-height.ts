@@ -6,7 +6,7 @@
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
  * @packageDocumentation
- * @module @dsai/tools/tokens/style-dictionary/transforms/line-height
+ * @module @dsai-io/tools/tokens/style-dictionary/transforms/line-height
  */
 
 import type { SDToken, TransformDefinition } from '../types.js';

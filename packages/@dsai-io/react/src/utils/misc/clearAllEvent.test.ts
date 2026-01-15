@@ -1,6 +1,6 @@
 /**
  * @file clearAllEvent tests
- * @module @dsai/react/utils/misc
+ * @module @dsai-io/react/utils/misc
  */
 
 import { clearAllEvent, type ClearAllEvent } from './clearAllEvent';

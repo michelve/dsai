@@ -373,7 +373,7 @@ describe('generateMigrationScript', () => {
     const script = generateMigrationScript({}, newConfig);
 
     expect(script).toContain('import { defineConfig }');
-    expect(script).toContain("from '@dsai/tools'");
+    expect(script).toContain("from '@dsai-io/tools'");
     expect(script).toContain('defineConfig');
     expect(script).toContain('sourceDir');
     expect(script).toContain('./src/tokens');

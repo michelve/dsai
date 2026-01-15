@@ -4,7 +4,7 @@
  * Exports all built-in transform groups and registration utilities.
  *
  * @packageDocumentation
- * @module @dsai/tools/tokens/style-dictionary/groups
+ * @module @dsai-io/tools/tokens/style-dictionary/groups
  */
 
 import { cssTransformGroup } from './css.js';
@@ -31,7 +31,7 @@ export const transformGroups: TransformGroupDefinition[] = [
  * @example
  * ```typescript
  * import StyleDictionary from 'style-dictionary';
- * import { registerTransformGroups } from '@dsai/tools/tokens/style-dictionary';
+ * import { registerTransformGroups } from '@dsai-io/tools/tokens/style-dictionary';
  *
  * registerTransformGroups(StyleDictionary);
  * ```

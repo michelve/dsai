@@ -1,6 +1,6 @@
 /**
  * @file capitalize - Text capitalization utility
- * @module @dsai/react/utils/string
+ * @module @dsai-io/react/utils/string
  *
  * Enterprise-grade text capitalization with:
  * - First character capitalization

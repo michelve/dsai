@@ -1,6 +1,6 @@
 /**
  * @file getLighterShade - Generate lighter color shade
- * @module @dsai/react/utils/color
+ * @module @dsai-io/react/utils/color
  *
  * Enterprise-grade color lightening with:
  * - HSL color space manipulation

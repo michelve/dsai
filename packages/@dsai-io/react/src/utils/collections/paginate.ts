@@ -1,6 +1,6 @@
 /**
  * @file paginate - Paginate arrays with rich metadata
- * @module @dsai/react/utils/collections
+ * @module @dsai-io/react/utils/collections
  *
  * Enterprise-grade pagination utility with comprehensive metadata.
  * Returns paginated results with navigation helpers.

@@ -10,7 +10,7 @@ import {
   shouldAnimate,
   trapFocus,
   XCircleFillIcon,
-} from '@dsai/react';
+} from '@dsai-io/react';
 import { useEffect, useRef, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -95,7 +95,7 @@ function GenerateIdDemo(): JSX.Element {
             fontSize: '0.875rem',
           }}
         >
-          {`import { generateId } from '@dsai/react';
+          {`import { generateId } from '@dsai-io/react';
 
 function FormField() {
   // Generate IDs once - stable across renders
@@ -392,7 +392,7 @@ export const AnnounceToScreenReader: Story = {
               fontSize: '0.875rem',
             }}
           >
-            {`import { announceToScreenReader } from '@dsai/react';
+            {`import { announceToScreenReader } from '@dsai-io/react';
 
 function SaveButton() {
   const handleSave = async () => {
@@ -649,7 +649,7 @@ export const TrapFocus: Story = {
               fontSize: '0.875rem',
             }}
           >
-            {`import { trapFocus } from '@dsai/react';
+            {`import { trapFocus } from '@dsai-io/react';
 import { useEffect, useRef } from 'react';
 
 function Modal({ isOpen, onClose }) {
@@ -820,7 +820,7 @@ export const AnimationPreferences: Story = {
               fontSize: '0.875rem',
             }}
           >
-            {`import { shouldAnimate, getAnimationDuration } from '@dsai/react';
+            {`import { shouldAnimate, getAnimationDuration } from '@dsai-io/react';
 
 function AnimatedCard() {
   const handleClick = () => {

@@ -7,7 +7,7 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   minify: true,
-  external: ['react', 'react-dom', '@dsai/tokens'],
+  external: ['react', 'react-dom', '@dsai-io/tokens'],
   injectStyle: false,
   tsconfig: './tsconfig.build.json',
   splitting: false,

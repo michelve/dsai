@@ -6,7 +6,7 @@
  *
  * @example
  * ```tsx
- * import { Sheet } from '@dsai/react';
+ * import { Sheet } from '@dsai-io/react';
  *
  * function App() {
  *   const [isOpen, setIsOpen] = useState(false);

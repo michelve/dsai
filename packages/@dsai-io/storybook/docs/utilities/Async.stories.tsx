@@ -17,7 +17,7 @@ import {
   retryWithBackoff,
   TimeoutError,
   withTimeout,
-} from '@dsai/react';
+} from '@dsai-io/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -1424,7 +1424,7 @@ export const APIReference: Story = {
               marginTop: '1rem',
             }}
           >
-            {`import { createAbortable } from '@dsai/react';
+            {`import { createAbortable } from '@dsai-io/react';
 
 // Create an abortable fetch request
 const { promise, abort, controller, aborted } = createAbortable(
@@ -1466,7 +1466,7 @@ console.log(aborted); // true after abort() is called`}
               marginTop: '1rem',
             }}
           >
-            {`import { withTimeout, TimeoutError } from '@dsai/react';
+            {`import { withTimeout, TimeoutError } from '@dsai-io/react';
 
 try {
   // Timeout after 5 seconds
@@ -1512,7 +1512,7 @@ await withTimeout(
               marginTop: '1rem',
             }}
           >
-            {`import { retryWithBackoff } from '@dsai/react';
+            {`import { retryWithBackoff } from '@dsai-io/react';
 
 const result = await retryWithBackoff(
   () => fetch('/api/flaky-endpoint').then(r => r.json()),
@@ -1561,7 +1561,7 @@ if (result.success) {
               marginTop: '1rem',
             }}
           >
-            {`import { exponentialBackoff } from '@dsai/react';
+            {`import { exponentialBackoff } from '@dsai-io/react';
 
 // Default: 1000, 2000, 4000, 8000... (capped at 30000)
 exponentialBackoff(0); // ~1000ms
@@ -1603,7 +1603,7 @@ exponentialBackoff(3, { jitter: false }); // Exactly 8000ms`}
               marginTop: '1rem',
             }}
           >
-            {`import { createTaskQueue } from '@dsai/react';
+            {`import { createTaskQueue } from '@dsai-io/react';
 
 // Sequential queue (default)
 const queue = createTaskQueue();
@@ -1654,7 +1654,7 @@ await queue.drain();`}
               marginTop: '1rem',
             }}
           >
-            {`import { queueTask } from '@dsai/react';
+            {`import { queueTask } from '@dsai-io/react';
 
 // Microtask (default) - highest priority
 queueTask(() => console.log('After current script'));
@@ -1732,7 +1732,7 @@ handle.cancel();`}
   type QueueTaskOptions,
   type QueuedTaskHandle,
   type TaskSchedule,
-} from '@dsai/react';`}
+} from '@dsai-io/react';`}
           </pre>
         </div>
       </div>

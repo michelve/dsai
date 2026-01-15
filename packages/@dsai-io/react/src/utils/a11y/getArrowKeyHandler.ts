@@ -1,6 +1,6 @@
 /**
  * @file getArrowKeyHandler - Arrow key navigation handler
- * @module @dsai/react/utils/a11y
+ * @module @dsai-io/react/utils/a11y
  *
  * Enterprise-grade arrow key handler with:
  * - Maps arrow keys to actions

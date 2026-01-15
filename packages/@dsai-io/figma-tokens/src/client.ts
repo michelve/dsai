@@ -5,7 +5,7 @@
  *
  * @example Basic usage
  * ```ts
- * import { FigmaClient } from '@dsai/figma-tokens/client';
+ * import { FigmaClient } from '@dsai-io/figma-tokens/client';
  *
  * const client = new FigmaClient({
  *   accessToken: process.env.FIGMA_TOKEN!,
@@ -1601,7 +1601,7 @@ export class FigmaClient {
    * ```ts
    * const result = await client.syncTokens({
    *   fileKey: 'abc123',
-   *   tokensDir: './packages/@dsai/tokens',
+   *   tokensDir: './packages/@dsai-io/tokens',
    *   direction: 'pull',
    *   dryRun: true,
    * });

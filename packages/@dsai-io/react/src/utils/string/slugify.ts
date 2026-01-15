@@ -1,6 +1,6 @@
 /**
  * @file slugify - URL-safe string conversion utility
- * @module @dsai/react/utils/string
+ * @module @dsai-io/react/utils/string
  *
  * Enterprise-grade slugification with:
  * - Unicode normalization (NFD/NFC)

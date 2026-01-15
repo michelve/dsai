@@ -5,7 +5,7 @@
  * Templates are generated dynamically based on project detection and user choices.
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/init/templates
+ * @module @dsai-io/tools/cli/init/templates
  *
  * @remarks
  * Currently supports React framework templates.
@@ -137,7 +137,7 @@ function generateReactMinimalConfig(opts: TemplateOptions): string {
  * React Project - Minimal Setup
  * @see https://github.com/michelve/dsai
  */
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {
@@ -166,7 +166,7 @@ function generateReactFullConfig(opts: TemplateOptions): string {
  *
  * @see https://github.com/michelve/dsai
  */
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   // Global settings
@@ -260,7 +260,7 @@ function generateReactEnterpriseConfig(opts: TemplateOptions): string {
  *
  * @see https://github.com/michelve/dsai
  */
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   // =========================================================================
@@ -488,7 +488,7 @@ function generateNextJsConfig(opts: TemplateOptions): string {
  * Next.js Project - Minimal Setup
  * @see https://github.com/michelve/dsai
  */
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {
@@ -506,7 +506,7 @@ export default defineConfig({
  * Next.js Project
  * @see https://github.com/michelve/dsai
  */
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {
@@ -564,7 +564,7 @@ function generateVanillaConfig(opts: TemplateOptions): string {
  * DSAI Tools Configuration
  * @see https://github.com/michelve/dsai
  */
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {
@@ -581,7 +581,7 @@ export default defineConfig({
  * DSAI Tools Configuration
  * @see https://github.com/michelve/dsai
  */
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {
@@ -625,7 +625,7 @@ export default defineConfig({
  * Generate Figma configuration file content
  *
  * This creates a figma.config.mjs file for users who want Figma API integration.
- * Requires @dsai/figma-tokens package.
+ * Requires @dsai-io/figma-tokens package.
  */
 export function generateFigmaConfig(options: {
   outputDir: string;
@@ -650,7 +650,7 @@ export function generateFigmaConfig(options: {
  *   node figma.config.mjs sync      # Sync tokens with Figma
  *   node figma.config.mjs info      # Show Figma file info
  *
- * @see https://github.com/michelve/dsai/tree/main/packages/@dsai/figma-tokens
+ * @see https://github.com/michelve/dsai/tree/main/packages/@dsai-io/figma-tokens
  */
 
 import {
@@ -658,7 +658,7 @@ import {
   transformTokens,
   validateFigmaExports,
   buildTokens,
-} from '@dsai/figma-tokens';
+} from '@dsai-io/figma-tokens';
 
 // =============================================================================
 // Configuration
@@ -1023,7 +1023,7 @@ export function generateStyleDictionaryConfig(options: {
  * @see https://styledictionary.com/
  */
 
-import { registerAll } from '@dsai/tools/tokens';
+import { registerAll } from '@dsai-io/tools/tokens';
 import { globSync } from 'glob';
 import StyleDictionary from 'style-dictionary';
 
@@ -1147,7 +1147,7 @@ ${themeList.map((t) => ` * - ${t}${t === 'light' ? ' (default, applied to :root)
  * @see https://styledictionary.com/
  */
 
-import { registerAll } from '@dsai/tools/tokens';
+import { registerAll } from '@dsai-io/tools/tokens';
 import { globSync } from 'glob';
 import StyleDictionary from 'style-dictionary';
 

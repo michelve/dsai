@@ -4,7 +4,7 @@
  * Merges user configuration with defaults and resolves relative paths.
  * Handles configuration inheritance and validation.
  *
- * @module @dsai/tools/config/resolver
+ * @module @dsai-io/tools/config/resolver
  */
 
 import path from 'node:path';

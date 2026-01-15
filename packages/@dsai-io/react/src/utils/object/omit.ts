@@ -1,6 +1,6 @@
 /**
  * @file omit - Omit object properties utility
- * @module @dsai/react/utils/object
+ * @module @dsai-io/react/utils/object
  *
  * Enterprise-grade object property omission with:
  * - Type-safe key inference

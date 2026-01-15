@@ -1,4 +1,4 @@
-import { Button, Heading, Spinner } from '@dsai/react';
+import { Button, Heading, Spinner } from '@dsai-io/react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 

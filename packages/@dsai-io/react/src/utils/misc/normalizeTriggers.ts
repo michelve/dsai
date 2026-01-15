@@ -7,8 +7,8 @@
  * @module utils/misc/normalizeTriggers
  *
  * Consolidated from:
- * - packages/@dsai/react/src/components/Popover/Popover.tsx
- * - packages/@dsai/react/src/components/Tooltip/Tooltip.tsx
+ * - packages/@dsai-io/react/src/components/Popover/Popover.tsx
+ * - packages/@dsai-io/react/src/components/Tooltip/Tooltip.tsx
  */
 
 /** Valid trigger types for floating components */

@@ -4,7 +4,7 @@
  * Provides project initialization and integration capabilities.
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/init
+ * @module @dsai-io/tools/cli/init
  *
  * @remarks
  * Currently supports React framework integration.

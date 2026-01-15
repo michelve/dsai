@@ -1,6 +1,6 @@
 /**
  * @file readFromClipboard - Clipboard read with permission handling
- * @module @dsai/react/utils/safety
+ * @module @dsai-io/react/utils/safety
  *
  * Enterprise-grade clipboard read utility with:
  * - Modern Clipboard API support

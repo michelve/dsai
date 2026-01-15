@@ -1,6 +1,6 @@
 /**
  * @file meetsWCAG - Check WCAG contrast compliance
- * @module @dsai/react/utils/color
+ * @module @dsai-io/react/utils/color
  *
  * Enterprise-grade WCAG compliance checker with:
  * - AA and AAA level support

@@ -1,6 +1,6 @@
 /**
  * @file pick - Pick object properties utility
- * @module @dsai/react/utils/object
+ * @module @dsai-io/react/utils/object
  *
  * Enterprise-grade object property picking with:
  * - Type-safe key inference

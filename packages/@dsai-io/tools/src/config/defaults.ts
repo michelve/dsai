@@ -4,7 +4,7 @@
  * Provides comprehensive default values for all configuration options.
  * These defaults are merged with user configuration during resolution.
  *
- * @module @dsai/tools/config/defaults
+ * @module @dsai-io/tools/config/defaults
  */
 
 import type {

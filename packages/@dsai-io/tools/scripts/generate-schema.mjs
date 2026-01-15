@@ -46,7 +46,7 @@ function generateSchema() {
     $schema: 'http://json-schema.org/draft-07/schema#',
     $id: 'https://dsai.dev/schemas/dsai-config.schema.json',
     title: 'DSAI Configuration',
-    description: 'Configuration schema for @dsai/tools - Design System AI toolkit',
+    description: 'Configuration schema for @dsai-io/tools - Design System AI toolkit',
     ...jsonSchema,
   };
 

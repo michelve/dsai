@@ -1,6 +1,6 @@
 /**
  * @file getContrastRatio - Calculate WCAG contrast ratio
- * @module @dsai/react/utils/color
+ * @module @dsai-io/react/utils/color
  *
  * Enterprise-grade contrast ratio calculator with:
  * - WCAG 2.1 compliant formula

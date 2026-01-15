@@ -4,7 +4,7 @@
  * Transform group for generating JavaScript output.
  *
  * @packageDocumentation
- * @module @dsai/tools/tokens/style-dictionary/groups/js
+ * @module @dsai-io/tools/tokens/style-dictionary/groups/js
  */
 
 import type { TransformGroupDefinition } from '../types.js';

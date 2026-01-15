@@ -1,4 +1,4 @@
-import { Heading } from '@dsai/react';
+import { Heading } from '@dsai-io/react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -10,7 +10,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
  */
 
 // Import your component
-// import { YourComponent } from '@dsai/react';
+// import { YourComponent } from '@dsai-io/react';
 
 // Placeholder component for template
 const PlaceholderComponent = ({
@@ -98,7 +98,7 @@ export const Usage: Story = {
           overflow: 'auto',
         }}
       >
-        {`import { YourComponent } from '@dsai/react';
+        {`import { YourComponent } from '@dsai-io/react';
 
 function Example() {
   return (

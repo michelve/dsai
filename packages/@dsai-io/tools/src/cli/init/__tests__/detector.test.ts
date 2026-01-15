@@ -2,7 +2,7 @@
  * Tests for project detector module
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/init/__tests__/detector
+ * @module @dsai-io/tools/cli/init/__tests__/detector
  */
 
 import { existsSync, readFileSync } from 'node:fs';

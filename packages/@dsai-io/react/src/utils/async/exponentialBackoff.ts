@@ -1,6 +1,6 @@
 /**
  * @file exponentialBackoff - Calculate exponential backoff delay with jitter
- * @module @dsai/react/utils/async
+ * @module @dsai-io/react/utils/async
  *
  * Enterprise-grade backoff calculator with:
  * - Configurable base delay and multiplier

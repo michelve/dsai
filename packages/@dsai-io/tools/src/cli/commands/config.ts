@@ -4,7 +4,7 @@
  * Display resolved configuration.
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/commands/config
+ * @module @dsai-io/tools/cli/commands/config
  */
 
 import { Command } from 'commander';

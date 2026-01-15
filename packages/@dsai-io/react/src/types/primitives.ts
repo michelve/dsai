@@ -4,7 +4,7 @@
  * Shared type primitives for component development.
  * These types eliminate duplication and ensure consistency across components.
  *
- * @module @dsai/react/types/primitives
+ * @module @dsai-io/react/types/primitives
  */
 
 /**

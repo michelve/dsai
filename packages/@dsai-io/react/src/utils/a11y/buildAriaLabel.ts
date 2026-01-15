@@ -1,6 +1,6 @@
 /**
  * @file buildAriaLabel - Build comprehensive ARIA label attributes
- * @module @dsai/react/utils/a11y
+ * @module @dsai-io/react/utils/a11y
  *
  * Enterprise-grade ARIA label builder with:
  * - Combines label, labelledby, and describedby

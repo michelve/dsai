@@ -1,4 +1,4 @@
-import { Heading } from '@dsai/react';
+import { Heading } from '@dsai-io/react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 

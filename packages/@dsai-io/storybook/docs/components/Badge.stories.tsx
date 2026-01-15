@@ -8,7 +8,7 @@ import {
   InfoCircleFillIcon,
   StarFillIcon,
   XLgIcon,
-} from '@dsai/react';
+} from '@dsai-io/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';

@@ -1,4 +1,4 @@
-import { Button, Heading, Input, Modal } from '@dsai/react';
+import { Button, Heading, Input, Modal } from '@dsai-io/react';
 import { useRef, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';

@@ -4,7 +4,7 @@
  * Creates Style Dictionary configuration from DSAi config.
  *
  * @packageDocumentation
- * @module @dsai/tools/tokens/style-dictionary/config
+ * @module @dsai-io/tools/tokens/style-dictionary/config
  */
 
 import { registerFormats } from './formats/index.js';
@@ -50,8 +50,8 @@ const DEFAULT_PLATFORMS: SDPlatformType[] = ['css', 'js', 'ts', 'scss', 'scss-di
  * @example
  * ```typescript
  * import StyleDictionary from 'style-dictionary';
- * import { loadConfig } from '@dsai/tools/config';
- * import { createStyleDictionaryConfig, registerAll } from '@dsai/tools/tokens/style-dictionary';
+ * import { loadConfig } from '@dsai-io/tools/config';
+ * import { createStyleDictionaryConfig, registerAll } from '@dsai-io/tools/tokens/style-dictionary';
  *
  * const { config } = await loadConfig();
  * const sdConfig = createStyleDictionaryConfig(config);
@@ -213,7 +213,7 @@ export function createStyleDictionaryConfig(
  * @example
  * ```typescript
  * import StyleDictionary from 'style-dictionary';
- * import { registerAll } from '@dsai/tools/tokens/style-dictionary';
+ * import { registerAll } from '@dsai-io/tools/tokens/style-dictionary';
  *
  * registerAll(StyleDictionary, {
  *   customTransforms: [myCustomTransform],
@@ -247,8 +247,8 @@ export function registerAll(
  * @example
  * ```typescript
  * import StyleDictionary from 'style-dictionary';
- * import { loadConfig } from '@dsai/tools/config';
- * import { setupStyleDictionary } from '@dsai/tools/tokens/style-dictionary';
+ * import { loadConfig } from '@dsai-io/tools/config';
+ * import { setupStyleDictionary } from '@dsai-io/tools/tokens/style-dictionary';
  *
  * const { config } = await loadConfig();
  * const sdConfig = setupStyleDictionary(StyleDictionary, config);

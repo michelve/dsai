@@ -4,7 +4,7 @@
  * Exports all built-in transforms and registration utilities.
  *
  * @packageDocumentation
- * @module @dsai/tools/tokens/style-dictionary/transforms
+ * @module @dsai-io/tools/tokens/style-dictionary/transforms
  */
 
 import { dimensionRem } from './dimension.js';
@@ -33,7 +33,7 @@ export const builtInTransforms: TransformDefinition[] = [
  * @example
  * ```typescript
  * import StyleDictionary from 'style-dictionary';
- * import { registerTransforms } from '@dsai/tools/tokens/style-dictionary';
+ * import { registerTransforms } from '@dsai-io/tools/tokens/style-dictionary';
  *
  * registerTransforms(StyleDictionary);
  * ```

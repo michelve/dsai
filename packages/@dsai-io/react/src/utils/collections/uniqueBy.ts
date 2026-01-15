@@ -1,6 +1,6 @@
 /**
  * @file uniqueBy - Extract unique items from an array by key
- * @module @dsai/react/utils/collections
+ * @module @dsai-io/react/utils/collections
  *
  * Enterprise-grade utility for deduplicating arrays based on a key extractor.
  * Preserves the first occurrence of each unique key.

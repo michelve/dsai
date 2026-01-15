@@ -402,7 +402,7 @@ function findJsonFiles(dir: string, files: string[] = []): string[] {
  *
  * @example
  * ```typescript
- * import { validateTokens, loadConfig } from '@dsai/tools';
+ * import { validateTokens, loadConfig } from '@dsai-io/tools';
  *
  * const { config } = await loadConfig();
  * const result = await validateTokens(config);

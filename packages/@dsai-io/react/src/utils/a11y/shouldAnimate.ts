@@ -1,6 +1,6 @@
 /**
  * @file shouldAnimate - Check if animations should run
- * @module @dsai/react/utils/a11y
+ * @module @dsai-io/react/utils/a11y
  *
  * Enterprise-grade animation preference checker with:
  * - Respects prefers-reduced-motion

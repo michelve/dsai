@@ -1,6 +1,6 @@
 /**
  * @file stableSort - Stable sorting with comparator function
- * @module @dsai/react/utils/collections
+ * @module @dsai-io/react/utils/collections
  *
  * Enterprise-grade stable sort utility that preserves relative order
  * of equal elements (stability), unlike native Array.sort in some engines.

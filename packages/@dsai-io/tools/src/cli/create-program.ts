@@ -4,7 +4,7 @@
  * Sets up the main Commander program with global options and help formatting.
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/create-program
+ * @module @dsai-io/tools/cli/create-program
  */
 
 import { Command } from 'commander';

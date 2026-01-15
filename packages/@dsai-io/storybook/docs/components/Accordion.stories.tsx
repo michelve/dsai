@@ -1,4 +1,4 @@
-import { Accordion, Badge, Button, Heading } from '@dsai/react';
+import { Accordion, Badge, Button, Heading } from '@dsai-io/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';

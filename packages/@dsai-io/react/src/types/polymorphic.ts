@@ -6,7 +6,7 @@
  *
  * Inspired by Material UI's OverridableComponent pattern.
  *
- * @module @dsai/react/types/polymorphic
+ * @module @dsai-io/react/types/polymorphic
  */
 
 import type React from 'react';

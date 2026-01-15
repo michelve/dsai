@@ -1,4 +1,4 @@
-import { Button, Popover } from '@dsai/react';
+import { Button, Popover } from '@dsai-io/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';

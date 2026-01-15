@@ -1,6 +1,6 @@
 /**
  * @file M2.2 Color & Theming Utilities Test Suite
- * @module @dsai/react/utils/__tests__/color-m2.test
+ * @module @dsai-io/react/utils/__tests__/color-m2.test
  *
  * Comprehensive test coverage for:
  * - WCAG compliance (getRelativeLuminance, getContrastRatio, meetsWCAG)

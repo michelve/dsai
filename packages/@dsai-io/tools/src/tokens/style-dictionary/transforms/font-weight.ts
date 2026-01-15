@@ -5,7 +5,7 @@
  * CSS font-weight must be unitless for proper inheritance.
  *
  * @packageDocumentation
- * @module @dsai/tools/tokens/style-dictionary/transforms/font-weight
+ * @module @dsai-io/tools/tokens/style-dictionary/transforms/font-weight
  */
 
 import type { SDToken, TransformDefinition } from '../types.js';

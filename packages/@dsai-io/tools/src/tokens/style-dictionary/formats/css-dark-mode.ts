@@ -5,7 +5,7 @@
  * following Bootstrap 5.3+ color mode pattern.
  *
  * @packageDocumentation
- * @module @dsai/tools/tokens/style-dictionary/formats/css-dark-mode
+ * @module @dsai-io/tools/tokens/style-dictionary/formats/css-dark-mode
  * @see https://getbootstrap.com/docs/5.3/customize/color-modes/
  */
 

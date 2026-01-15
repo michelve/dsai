@@ -1,4 +1,4 @@
-import { Button, Heading, Radio, RadioGroup } from '@dsai/react';
+import { Button, Heading, Radio, RadioGroup } from '@dsai-io/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';

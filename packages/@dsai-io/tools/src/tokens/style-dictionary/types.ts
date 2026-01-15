@@ -5,7 +5,7 @@
  * formats, preprocessors, and configuration.
  *
  * @packageDocumentation
- * @module @dsai/tools/tokens/style-dictionary/types
+ * @module @dsai-io/tools/tokens/style-dictionary/types
  */
 
 // ============================================================================

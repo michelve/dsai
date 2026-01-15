@@ -1,6 +1,6 @@
 /**
  * @file rgbToHsl - Convert RGB to HSL color space
- * @module @dsai/react/utils/color
+ * @module @dsai-io/react/utils/color
  *
  * Enterprise-grade RGB to HSL converter with:
  * - Accurate color space conversion

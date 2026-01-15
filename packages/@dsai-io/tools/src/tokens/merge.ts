@@ -13,7 +13,7 @@
  * - Sorts properties alphabetically for consistency
  * - Removes duplicate sections (like "hue" that duplicates "brand")
  *
- * @module @dsai/tools/tokens/merge
+ * @module @dsai-io/tools/tokens/merge
  */
 
 /* eslint-disable no-console */

@@ -1,6 +1,6 @@
 /**
  * @file Safety utilities barrel export
- * @module @dsai/react/utils/safety
+ * @module @dsai-io/react/utils/safety
  *
  * Data safety utilities for secure input handling:
  * - HTML sanitization

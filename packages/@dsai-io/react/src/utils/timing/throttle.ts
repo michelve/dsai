@@ -1,6 +1,6 @@
 /**
  * @file throttle - Function throttling utility
- * @module @dsai/react/utils/timing
+ * @module @dsai-io/react/utils/timing
  *
  * Enterprise-grade throttling with:
  * - Leading and trailing edge execution

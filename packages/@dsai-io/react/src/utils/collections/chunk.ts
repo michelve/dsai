@@ -1,6 +1,6 @@
 /**
  * @file chunk - Split an array into chunks of a specified size
- * @module @dsai/react/utils/collections
+ * @module @dsai-io/react/utils/collections
  *
  * Enterprise-grade utility for splitting arrays into fixed-size chunks.
  * Useful for pagination, batch processing, and grid layouts.

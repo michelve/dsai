@@ -4,7 +4,7 @@
  * Generates CSS custom properties with descriptive comments.
  *
  * @packageDocumentation
- * @module @dsai/tools/tokens/style-dictionary/formats/css-variables
+ * @module @dsai-io/tools/tokens/style-dictionary/formats/css-variables
  */
 
 import type { SDFormatArgs, FormatDefinition } from '../types.js';

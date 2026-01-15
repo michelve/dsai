@@ -7,8 +7,8 @@
  * @module utils/misc/clearAllEvent
  *
  * Consolidated from:
- * - packages/@dsai/react/src/components/CardList/CardList.fsm.ts
- * - packages/@dsai/react/src/components/Table/Table.fsm.ts
+ * - packages/@dsai-io/react/src/components/CardList/CardList.fsm.ts
+ * - packages/@dsai-io/react/src/components/Table/Table.fsm.ts
  */
 
 /** Event type for clearing all selections */

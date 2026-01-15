@@ -1,7 +1,7 @@
 /**
  * DSAI Configuration for Storybook
  *
- * This configuration tells @dsai/tools where to find your Figma token exports
+ * This configuration tells @dsai-io/tools where to find your Figma token exports
  * and where to output the generated style files.
  *
  * DIRECTORY STRUCTURE:
@@ -18,10 +18,10 @@
  * 4. Run: pnpm scss:build         (compiles Bootstrap theme with tokens)
  * 5. Import generated styles in preview.ts from src/generated/
  *
- * @see https://github.com/michelve/dsai/tree/main/packages/@dsai/tools
+ * @see https://github.com/michelve/dsai/tree/main/packages/@dsai-io/tools
  */
 
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   // Global settings

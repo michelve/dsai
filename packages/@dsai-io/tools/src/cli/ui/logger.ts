@@ -4,7 +4,7 @@
  * Provides consistent logging with icons, colors, and quiet/debug mode support.
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/ui/logger
+ * @module @dsai-io/tools/cli/ui/logger
  */
 
 /* eslint-disable no-console */

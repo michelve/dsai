@@ -4,7 +4,7 @@
  * These tests use @ts-expect-error to verify type constraints.
  * The tests pass if TypeScript correctly rejects invalid types.
  *
- * @module @dsai/react/types/types.test
+ * @module @dsai-io/react/types/types.test
  */
 
 import { getResponsiveValue, isResponsiveValue } from '../index';

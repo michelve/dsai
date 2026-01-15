@@ -7,8 +7,8 @@
  * @module utils/misc/ClearIcon
  *
  * Consolidated from:
- * - packages/@dsai/react/src/components/Input/Input.tsx
- * - packages/@dsai/react/src/components/Select/Select.tsx
+ * - packages/@dsai-io/react/src/components/Input/Input.tsx
+ * - packages/@dsai-io/react/src/components/Select/Select.tsx
  */
 
 import { XIcon } from '../../components/Icon';

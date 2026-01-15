@@ -1,6 +1,6 @@
 /**
  * @file createRovingTabindex - Roving tabindex manager
- * @module @dsai/react/utils/a11y
+ * @module @dsai-io/react/utils/a11y
  *
  * Enterprise-grade roving tabindex with:
  * - Manages tabindex across focusable items

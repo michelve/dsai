@@ -30,7 +30,7 @@ const config: StorybookConfig = {
       name: getAbsolutePath('@storybook/addon-vitest'),
       options: {
         // CLI testing is enabled; browser UI integration is experimental
-        // Run tests with: cd packages/@dsai/storybook && pnpm vitest --run
+        // Run tests with: cd packages/@dsai-io/storybook && pnpm vitest --run
       },
     },
     getAbsolutePath('@chromatic-com/storybook'),

@@ -2,7 +2,7 @@
  * CLI commands
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/commands
+ * @module @dsai-io/tools/cli/commands
  */
 
 export { createTokensCommand } from './tokens.js';

@@ -1,6 +1,6 @@
 /**
  * @file getElementBounds - Get element bounding rect
- * @module @dsai/react/utils/layout
+ * @module @dsai-io/react/utils/layout
  *
  * Retrieves the bounding client rect of an element with SSR safety
  * and additional computed values for layout calculations.

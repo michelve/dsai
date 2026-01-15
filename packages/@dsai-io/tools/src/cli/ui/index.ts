@@ -2,7 +2,7 @@
  * UI utilities for CLI
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/ui
+ * @module @dsai-io/tools/cli/ui
  */
 
 export { colors, default as colorsDefault } from './colors.js';

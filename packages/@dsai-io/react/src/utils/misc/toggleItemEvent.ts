@@ -7,8 +7,8 @@
  * @module utils/misc/toggleItemEvent
  *
  * Consolidated from:
- * - packages/@dsai/react/src/components/CardList/CardList.fsm.ts
- * - packages/@dsai/react/src/components/CheckboxGroup/CheckboxGroup.fsm.ts
+ * - packages/@dsai-io/react/src/components/CardList/CardList.fsm.ts
+ * - packages/@dsai-io/react/src/components/CheckboxGroup/CheckboxGroup.fsm.ts
  */
 
 /** Event type for toggling a single item's selection state */

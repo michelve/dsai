@@ -592,7 +592,7 @@ Text.displayName = 'Text';
  *
  * @example
  * ```tsx
- * import { Typography } from '@dsai/react';
+ * import { Typography } from '@dsai-io/react';
  *
  * // Using namespace
  * <Typography.Heading level={1}>Title</Typography.Heading>
@@ -600,7 +600,7 @@ Text.displayName = 'Text';
  * <Typography.Text variant="lead">Lead text</Typography.Text>
  *
  * // Or import components directly
- * import { Heading, Display, Text } from '@dsai/react';
+ * import { Heading, Display, Text } from '@dsai-io/react';
  * ```
  */
 export const Typography: TypographyNamespace = {

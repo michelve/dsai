@@ -1,6 +1,6 @@
 /**
  * @file formatCurrency - Locale-aware currency formatting utility
- * @module @dsai/react/utils/number
+ * @module @dsai-io/react/utils/number
  *
  * Enterprise-grade currency formatting with:
  * - Intl.NumberFormat with SSR-safe fallbacks

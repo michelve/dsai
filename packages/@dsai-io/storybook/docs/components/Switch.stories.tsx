@@ -1,4 +1,4 @@
-import { Button, CheckIcon, Heading, Switch, XIcon } from '@dsai/react';
+import { Button, CheckIcon, Heading, Switch, XIcon } from '@dsai-io/react';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';

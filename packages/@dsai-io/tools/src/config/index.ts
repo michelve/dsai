@@ -1,14 +1,14 @@
 /**
- * Configuration module for @dsai/tools
+ * Configuration module for @dsai-io/tools
  *
  * Provides type-safe configuration loading, validation, and resolution
  * using cosmiconfig and zod.
  *
- * @module @dsai/tools/config
+ * @module @dsai-io/tools/config
  *
  * @example
  * ```typescript
- * import { loadConfig, defineConfig } from '@dsai/tools/config';
+ * import { loadConfig, defineConfig } from '@dsai-io/tools/config';
  *
  * // In your dsai.config.ts
  * export default defineConfig({

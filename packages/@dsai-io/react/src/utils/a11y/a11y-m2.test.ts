@@ -1,6 +1,6 @@
 /**
  * @file M2.1 Accessibility Helpers Tests
- * @module @dsai/react/utils/a11y
+ * @module @dsai-io/react/utils/a11y
  */
 
 import {

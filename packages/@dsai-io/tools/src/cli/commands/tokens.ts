@@ -4,7 +4,7 @@
  * Build, validate, and sync design tokens.
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/commands/tokens
+ * @module @dsai-io/tools/cli/commands/tokens
  */
 
 import { dirname } from 'node:path';

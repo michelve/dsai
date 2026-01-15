@@ -6,7 +6,7 @@
  * - Replaces `data-bs-theme` with `data-dsai-theme` for custom theme attribute
  * - Applies configurable text replacements
  *
- * @module @dsai/tools/tokens/postprocess
+ * @module @dsai-io/tools/tokens/postprocess
  */
 
 /* eslint-disable no-console */
@@ -172,7 +172,7 @@ export function postprocessCss(options: PostprocessOptions): PostprocessResult {
  * @example
  * ```typescript
  * const results = postprocessCssFiles({
- *   cssDir: './packages/@dsai/tokens/dist/css',
+ *   cssDir: './packages/@dsai-io/tokens/dist/css',
  *   files: ['dsai-theme-bs.css', 'dsai-theme-bs.min.css'],
  * });
  * ```

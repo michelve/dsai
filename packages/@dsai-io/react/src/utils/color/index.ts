@@ -1,6 +1,6 @@
 /**
  * @file Color & Theming utilities
- * @module @dsai/react/utils/color
+ * @module @dsai-io/react/utils/color
  *
  * Enterprise-grade color manipulation and WCAG compliance utilities including:
  * - WCAG contrast checking (getContrastRatio, meetsWCAG, getRelativeLuminance)

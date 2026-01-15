@@ -1,5 +1,5 @@
 /**
- * Jest test setup for @dsai/tools
+ * Jest test setup for @dsai-io/tools
  *
  * Configures global test environment, custom matchers, and cleanup.
  */

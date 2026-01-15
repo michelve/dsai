@@ -1,5 +1,5 @@
 /**
- * Icon tooling module for @dsai/tools
+ * Icon tooling module for @dsai-io/tools
  *
  * Provides utilities for generating icon components from SVG source files.
  * Supports React components, SVG sprites, with SVGO optimization.
@@ -35,8 +35,8 @@ import type { ResolvedConfig } from '../config/types.js';
  *
  * @example
  * ```typescript
- * import { loadConfig } from '@dsai/tools/config';
- * import { buildIcons } from '@dsai/tools/icons';
+ * import { loadConfig } from '@dsai-io/tools/config';
+ * import { buildIcons } from '@dsai-io/tools/icons';
  *
  * const { config } = await loadConfig();
  * const result = await buildIcons(config, {

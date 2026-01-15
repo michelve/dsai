@@ -1,6 +1,6 @@
 /**
  * @file scheduleFrame - requestAnimationFrame wrapper with cleanup
- * @module @dsai/react/utils/layout
+ * @module @dsai-io/react/utils/layout
  *
  * A wrapper around requestAnimationFrame that provides automatic cleanup,
  * SSR safety, and convenient scheduling patterns.

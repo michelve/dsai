@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * @dsai/figma-tokens CLI
+ * @dsai-io/figma-tokens CLI
  *
  * Fetch design tokens from Figma and export to local files.
  *
@@ -182,7 +182,7 @@ function parseArgs(args) {
  */
 function showHelp() {
   process.stdout.write(`
-${colors.bold}@dsai/figma-tokens${colors.reset} - Fetch design tokens from Figma
+${colors.bold}@dsai-io/figma-tokens${colors.reset} - Fetch design tokens from Figma
 
 ${colors.bold}Usage:${colors.reset}
   dsai-figma <command> [options]
@@ -500,8 +500,8 @@ async function handleValidate(options) {
   }
 
   try {
-    // Import validation from @dsai/tools
-    const { validateTokens } = await import('@dsai/tools/tokens');
+    // Import validation from @dsai-io/tools
+    const { validateTokens } = await import('@dsai-io/tools/tokens');
 
     const result = await validateTokens({
       sourceDir: targetDir,

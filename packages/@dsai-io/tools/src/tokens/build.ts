@@ -12,7 +12,7 @@
  * 7. Compile DSAi utilities SCSS → CSS
  * 8. Bundle with tsup (ESM + CJS)
  *
- * @module @dsai/tools/tokens/build
+ * @module @dsai-io/tools/tokens/build
  */
 
 /* eslint-disable no-console */
@@ -130,7 +130,7 @@ function createBuildSteps(
   const { skipValidate, skipTransform, onlyTheme } = options;
 
   // Get the tokens package root directory
-  // tokensDir is typically the collections dir (e.g., packages/@dsai/tokens/collections)
+  // tokensDir is typically the collections dir (e.g., packages/@dsai-io/tokens/collections)
   // We need the package root for running commands
   const tokensPackageDir = tokensDir.endsWith('/collections')
     ? dirname(tokensDir)
@@ -222,20 +222,20 @@ function createBuildSteps(
  * ```typescript
  * // Full build
  * const result = buildTokens({
- *   tokensDir: './packages/@dsai/tokens',
+ *   tokensDir: './packages/@dsai-io/tokens',
  *   toolsDir: './tools/scripts/tokens',
  * });
  *
  * // Skip validation
  * const result = buildTokens({
- *   tokensDir: './packages/@dsai/tokens',
+ *   tokensDir: './packages/@dsai-io/tokens',
  *   toolsDir: './tools/scripts/tokens',
  *   skipValidate: true,
  * });
  *
  * // Only build theme CSS
  * const result = buildTokens({
- *   tokensDir: './packages/@dsai/tokens',
+ *   tokensDir: './packages/@dsai-io/tokens',
  *   toolsDir: './tools/scripts/tokens',
  *   onlyTheme: true,
  * });

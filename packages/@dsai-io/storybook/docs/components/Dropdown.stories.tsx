@@ -12,7 +12,7 @@ import {
   PencilIcon,
   ThreeDotsVerticalIcon,
   TrashIcon,
-} from '@dsai/react';
+} from '@dsai-io/react';
 import { useCallback, useRef, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';

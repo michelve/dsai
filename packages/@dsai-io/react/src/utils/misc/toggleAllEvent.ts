@@ -7,8 +7,8 @@
  * @module utils/misc/toggleAllEvent
  *
  * Consolidated from:
- * - packages/@dsai/react/src/components/CheckboxGroup/CheckboxGroup.fsm.ts
- * - packages/@dsai/react/src/components/Table/Table.fsm.ts
+ * - packages/@dsai-io/react/src/components/CheckboxGroup/CheckboxGroup.fsm.ts
+ * - packages/@dsai-io/react/src/components/Table/Table.fsm.ts
  */
 
 /** Row identifier type used by table selection */

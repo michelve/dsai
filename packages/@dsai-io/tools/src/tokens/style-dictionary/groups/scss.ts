@@ -4,7 +4,7 @@
  * Transform group for generating SCSS output.
  *
  * @packageDocumentation
- * @module @dsai/tools/tokens/style-dictionary/groups/scss
+ * @module @dsai-io/tools/tokens/style-dictionary/groups/scss
  */
 
 import type { TransformGroupDefinition } from '../types.js';

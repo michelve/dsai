@@ -2,7 +2,7 @@
  * CLI type definitions
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/types
+ * @module @dsai-io/tools/cli/types
  */
 
 // ============================================================================

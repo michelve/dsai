@@ -4,7 +4,7 @@
  * Build and manage icon components.
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/commands/icons
+ * @module @dsai-io/tools/cli/commands/icons
  */
 
 import { Command } from 'commander';

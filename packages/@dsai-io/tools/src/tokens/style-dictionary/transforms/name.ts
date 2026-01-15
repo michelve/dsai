@@ -4,7 +4,7 @@
  * Converts token paths to kebab-case names.
  *
  * @packageDocumentation
- * @module @dsai/tools/tokens/style-dictionary/transforms/name
+ * @module @dsai-io/tools/tokens/style-dictionary/transforms/name
  */
 
 import type { TransformDefinition } from '../types.js';

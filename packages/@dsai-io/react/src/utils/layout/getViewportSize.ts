@@ -1,6 +1,6 @@
 /**
  * @file getViewportSize - Get viewport dimensions
- * @module @dsai/react/utils/layout
+ * @module @dsai-io/react/utils/layout
  *
  * Retrieves viewport dimensions with SSR safety and multiple
  * measurement strategies for different use cases.

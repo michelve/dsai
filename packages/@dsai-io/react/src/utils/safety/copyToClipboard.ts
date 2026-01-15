@@ -1,6 +1,6 @@
 /**
  * @file copyToClipboard - Clipboard write with fallback
- * @module @dsai/react/utils/safety
+ * @module @dsai-io/react/utils/safety
  *
  * Enterprise-grade clipboard utility with:
  * - Modern Clipboard API support

@@ -20,7 +20,7 @@ export default defineConfig({
   treeshake: true,
   external: ['style-dictionary'],
   banner: {
-    js: '/* @dsai/tools - DSAi Design System Build Tools */',
+    js: '/* @dsai-io/tools - DSAi Design System Build Tools */',
   },
   outDir: 'dist',
   target: 'es2022',

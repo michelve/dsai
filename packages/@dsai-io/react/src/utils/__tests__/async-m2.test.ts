@@ -1,6 +1,6 @@
 /**
  * @file M2.3 Async & Control Flow Utilities Test Suite
- * @module @dsai/react/utils/__tests__/async-m2.test
+ * @module @dsai-io/react/utils/__tests__/async-m2.test
  *
  * Comprehensive test coverage for:
  * - exponentialBackoff

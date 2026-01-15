@@ -2,7 +2,7 @@
  * Tests for templates module
  *
  * @packageDocumentation
- * @module @dsai/tools/cli/init/__tests__/templates
+ * @module @dsai-io/tools/cli/init/__tests__/templates
  */
 
 import {

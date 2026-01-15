@@ -1,4 +1,4 @@
-import { Pagination } from '@dsai/react';
+import { Pagination } from '@dsai-io/react';
 import { useCallback, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';

@@ -80,7 +80,7 @@ export function checkMigrationNeeded(config: unknown, filename?: string): Migrat
   // Check filename for legacy format
   if (filename?.includes('tokens.config.json')) {
     warnings.push('tokens.config.json is deprecated. Please migrate to dsai.config.mjs.');
-    suggestions.push('Run: npx @dsai/tools migrate to automatically migrate your config.');
+    suggestions.push('Run: npx @dsai-io/tools migrate to automatically migrate your config.');
 
     return {
       needsMigration: true,
@@ -275,9 +275,9 @@ export function generateMigrationScript(_oldConfig: unknown, newConfig: DsaiConf
  * Migrated from legacy format.
  * Please review and adjust as needed.
  *
- * @type {import('@dsai/tools').DsaiConfig}
+ * @type {import('@dsai-io/tools').DsaiConfig}
  */
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig(${configJson.replace(/"([^"]+)":/g, '$1:')});
 `;

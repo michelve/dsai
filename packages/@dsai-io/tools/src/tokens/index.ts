@@ -3,7 +3,7 @@
  * @description Provides utilities for token validation, transformation,
  * and build orchestration using Style Dictionary.
  *
- * @module @dsai/tools/tokens
+ * @module @dsai-io/tools/tokens
  */
 
 // ============================================================================

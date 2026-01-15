@@ -1,6 +1,6 @@
 /**
  * @file hslToHex - Convert HSL to hex color
- * @module @dsai/react/utils/color
+ * @module @dsai-io/react/utils/color
  *
  * Enterprise-grade HSL to hex converter with:
  * - Accurate color space conversion

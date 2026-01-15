@@ -6,7 +6,7 @@
  *
  * @example
  * ```tsx
- * import { DashboardLayout, AuthLayout } from '@dsai/react';
+ * import { DashboardLayout, AuthLayout } from '@dsai-io/react';
  * ```
  */
 

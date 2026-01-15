@@ -3,7 +3,7 @@
  * @description Figma integration utilities, token synchronization, and API client for DSAi.
  *
  * This package provides:
- * - Re-exports of Figma-related utilities from @dsai/tools
+ * - Re-exports of Figma-related utilities from @dsai-io/tools
  * - Figma REST API client for design file access
  * - Token synchronization between Figma and the design system
  * - Validation utilities for Figma token exports
@@ -12,7 +12,7 @@
  *
  * @example Validate Figma exports
  * ```ts
- * import { validateFigmaExports } from '@dsai/figma-tokens';
+ * import { validateFigmaExports } from '@dsai-io/figma-tokens';
  *
  * const result = await validateFigmaExports({
  *   exportsDir: './figma-exports',
@@ -26,7 +26,7 @@
  *
  * @example Transform Figma tokens
  * ```ts
- * import { transformTokens } from '@dsai/figma-tokens';
+ * import { transformTokens } from '@dsai-io/figma-tokens';
  *
  * await transformTokens({
  *   sourceDir: './figma-exports',
@@ -36,16 +36,16 @@
  *
  * @example Sync tokens to TypeScript
  * ```ts
- * import { syncTokens } from '@dsai/figma-tokens';
+ * import { syncTokens } from '@dsai-io/figma-tokens';
  *
  * await syncTokens({
- *   tokensDir: './packages/@dsai/tokens',
+ *   tokensDir: './packages/@dsai-io/tokens',
  * });
  * ```
  *
  * @example Use Figma API client (future)
  * ```ts
- * import { FigmaClient } from '@dsai/figma-tokens/client';
+ * import { FigmaClient } from '@dsai-io/figma-tokens/client';
  *
  * const client = new FigmaClient({ accessToken: process.env.FIGMA_TOKEN });
  * const file = await client.getFile('file-key');
@@ -53,7 +53,7 @@
  */
 
 // ============================================================================
-// Re-exports from @dsai/tools/tokens
+// Re-exports from @dsai-io/tools/tokens
 // ============================================================================
 
 // Types
@@ -89,7 +89,7 @@ export type {
   PostprocessOptions,
   PostprocessResult,
   ReplacementRule,
-} from '@dsai/tools/tokens';
+} from '@dsai-io/tools/tokens';
 
 // Type guards and utilities
 export {
@@ -104,7 +104,7 @@ export {
   toDTCGToken,
   parseTokenReference,
   VALID_TOKEN_TYPES,
-} from '@dsai/tools/tokens';
+} from '@dsai-io/tools/tokens';
 
 // Figma validation
 export {
@@ -112,7 +112,7 @@ export {
   validateFigmaFile,
   validateFigmaCLI,
   detectFigmaModes,
-} from '@dsai/tools/tokens';
+} from '@dsai-io/tools/tokens';
 
 // Token transformation
 export {
@@ -123,16 +123,16 @@ export {
   transformType,
   transformValue,
   detectTransformModes,
-} from '@dsai/tools/tokens';
+} from '@dsai-io/tools/tokens';
 
 // Token sync
-export { syncTokens, syncTokensCLI, getDefaultSyncPaths } from '@dsai/tools/tokens';
+export { syncTokens, syncTokensCLI, getDefaultSyncPaths } from '@dsai-io/tools/tokens';
 
 // Token build
-export { buildTokens, buildTokensCLI, runBuildCLI } from '@dsai/tools/tokens';
+export { buildTokens, buildTokensCLI, runBuildCLI } from '@dsai-io/tools/tokens';
 
 // Token merge
-export { mergeCollections, mergeCollectionsCLI } from '@dsai/tools/tokens';
+export { mergeCollections, mergeCollectionsCLI } from '@dsai-io/tools/tokens';
 
 // CSS postprocessing
 export {
@@ -142,10 +142,10 @@ export {
   getDefaultCssDir,
   getDefaultFiles,
   getDefaultTransformations,
-} from '@dsai/tools/tokens';
+} from '@dsai-io/tools/tokens';
 
 // General token validation
-export { validateTokens, validateTokensCLI } from '@dsai/tools/tokens';
+export { validateTokens, validateTokensCLI } from '@dsai-io/tools/tokens';
 
 // ============================================================================
 // Figma-specific Types (from this package)
@@ -185,4 +185,4 @@ export const VERSION = '1.0.2';
 /**
  * Package name
  */
-export const PACKAGE_NAME = '@dsai/figma-tokens';
+export const PACKAGE_NAME = '@dsai-io/figma-tokens';

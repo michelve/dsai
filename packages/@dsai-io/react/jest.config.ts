@@ -2,19 +2,19 @@ import { pathsToModuleNameMapper } from 'ts-jest';
 
 // Manual path mapping from tsconfig.base.json
 const pathMapping = {
-  '@dsai/tokens': ['packages/@dsai/tokens/src'],
-  '@dsai/tokens/(.*)': ['packages/@dsai/tokens/src/$1'],
-  '@dsai/react': ['packages/@dsai/react/src'],
-  '@dsai/react/(.*)': ['packages/@dsai/react/src/$1'],
-  '@dsai/figma-tokens': ['packages/@dsai/figma-tokens/src'],
-  '@dsai/figma-tokens/(.*)': ['packages/@dsai/figma-tokens/src/$1'],
+  '@dsai-io/tokens': ['packages/@dsai-io/tokens/src'],
+  '@dsai-io/tokens/(.*)': ['packages/@dsai-io/tokens/src/$1'],
+  '@dsai-io/react': ['packages/@dsai-io/react/src'],
+  '@dsai-io/react/(.*)': ['packages/@dsai-io/react/src/$1'],
+  '@dsai-io/figma-tokens': ['packages/@dsai-io/figma-tokens/src'],
+  '@dsai-io/figma-tokens/(.*)': ['packages/@dsai-io/figma-tokens/src/$1'],
 };
 
 export default {
-  displayName: '@dsai/react',
+  displayName: '@dsai-io/react',
   testEnvironment: 'jsdom',
   rootDir: '../../../',
-  roots: ['<rootDir>/packages/@dsai/react'],
+  roots: ['<rootDir>/packages/@dsai-io/react'],
   transform: {
     '^.+\\.(ts|tsx|js|jsx)$': [
       'ts-jest',
@@ -38,16 +38,16 @@ export default {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   setupFilesAfterEnv: [
     '<rootDir>/test/setup.ts',
-    '<rootDir>/packages/@dsai/react/src/hooks/__tests__/setup.ts',
+    '<rootDir>/packages/@dsai-io/react/src/hooks/__tests__/setup.ts',
   ],
-  coverageDirectory: '<rootDir>/coverage/packages/@dsai/react',
+  coverageDirectory: '<rootDir>/coverage/packages/@dsai-io/react',
   coverageThreshold: {
-    'packages/@dsai/react/src/hooks/**/*.ts': {
+    'packages/@dsai-io/react/src/hooks/**/*.ts': {
       branches: 100,
       functions: 100,
       lines: 100,
       statements: 100,
     },
   },
-  testMatch: ['<rootDir>/packages/@dsai/react/**/*.(test|spec).(ts|tsx)'],
+  testMatch: ['<rootDir>/packages/@dsai-io/react/**/*.(test|spec).(ts|tsx)'],
 };

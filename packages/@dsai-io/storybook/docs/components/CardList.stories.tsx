@@ -1,7 +1,7 @@
-import { Button, CardList, CheckIcon, Heading, XLgIcon } from '@dsai/react';
+import { Button, CardList, CheckIcon, Heading, XLgIcon } from '@dsai-io/react';
 import { type ReactElement, useState } from 'react';
 
-import type { CardListItem } from '@dsai/react';
+import type { CardListItem } from '@dsai-io/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 // Define a simplified props type for Storybook since CardListProps is a discriminated union

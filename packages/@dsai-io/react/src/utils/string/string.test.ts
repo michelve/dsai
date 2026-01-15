@@ -1,6 +1,6 @@
 /**
  * @file String utility tests
- * @module @dsai/react/utils/string
+ * @module @dsai-io/react/utils/string
  */
 
 import { capitalize } from './capitalize';

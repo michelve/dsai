@@ -1,5 +1,5 @@
 /**
- * Utility functions for @dsai/tools
+ * Utility functions for @dsai-io/tools
  *
  * Common utilities used across the tools package.
  */
@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 import pc from 'picocolors';
 
 /**
- * Get the root directory of the @dsai/tools package
+ * Get the root directory of the @dsai-io/tools package
  *
  * @returns Absolute path to package root
  */

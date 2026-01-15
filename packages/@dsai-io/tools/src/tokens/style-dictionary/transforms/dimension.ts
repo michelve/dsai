@@ -5,7 +5,7 @@
  * Handles raw numbers and pixel strings.
  *
  * @packageDocumentation
- * @module @dsai/tools/tokens/style-dictionary/transforms/dimension
+ * @module @dsai-io/tools/tokens/style-dictionary/transforms/dimension
  */
 
 import type { SDToken, SDTransformOptions, TransformDefinition } from '../types.js';

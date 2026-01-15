@@ -1,6 +1,6 @@
 /**
  * @file trapFocus tests
- * @module @dsai/react/utils/a11y
+ * @module @dsai-io/react/utils/a11y
  */
 
 import { trapFocus } from './trapFocus';

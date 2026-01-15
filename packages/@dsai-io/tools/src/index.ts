@@ -1,5 +1,5 @@
 /**
- * @dsai/tools - DSAi Design System Build Tools
+ * @dsai-io/tools - DSAi Design System Build Tools
  *
  * Enterprise-grade tooling for design token management,
  * icon generation, and build orchestration.

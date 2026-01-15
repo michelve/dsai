@@ -1,6 +1,6 @@
 /**
  * @file queueTask - Simple task scheduler using microtasks/macrotasks
- * @module @dsai/react/utils/async
+ * @module @dsai-io/react/utils/async
  *
  * Enterprise-grade task scheduling with:
  * - Microtask (Promise-based) scheduling

@@ -1,6 +1,6 @@
 /**
  * @file createSelector - Memoized selector pattern (reselect-like)
- * @module @dsai/react/utils/collections
+ * @module @dsai-io/react/utils/collections
  *
  * Enterprise-grade memoized selector for derived state computation.
  * Inspired by reselect, optimized for React/Redux patterns.

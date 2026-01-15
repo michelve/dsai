@@ -5,7 +5,7 @@
  *
  * @example
  * ```tsx
- * import { Tooltip } from '@dsai/react';
+ * import { Tooltip } from '@dsai-io/react';
  *
  * <Tooltip content="Helpful information">
  *   <button>Hover me</button>

@@ -9,10 +9,10 @@ import {
   ToastProvider,
   useToast,
   XCircleFillIcon,
-} from '@dsai/react';
+} from '@dsai-io/react';
 import { useState } from 'react';
 
-import type { ToastPosition } from '@dsai/react';
+import type { ToastPosition } from '@dsai-io/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { JSX } from 'react';
 

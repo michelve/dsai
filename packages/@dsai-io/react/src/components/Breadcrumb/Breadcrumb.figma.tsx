@@ -144,7 +144,7 @@ figma.connect(BreadcrumbItem, '<FIGMA_DSAI_BREADCRUMB_ITEM>', {
  * Breadcrumb Usage Patterns
  *
  * 1. Items Array (recommended):
- *    import { HouseIcon, FolderIcon } from '@dsai/react';
+ *    import { HouseIcon, FolderIcon } from '@dsai-io/react';
  *
  *    <Breadcrumb
  *      items={[

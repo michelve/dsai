@@ -1,6 +1,6 @@
 /**
  * @file throttleFrame - Throttle function to animation frame
- * @module @dsai/react/utils/layout
+ * @module @dsai-io/react/utils/layout
  *
  * Throttles function execution to animation frames, ensuring smooth
  * animations and preventing excessive callback execution.

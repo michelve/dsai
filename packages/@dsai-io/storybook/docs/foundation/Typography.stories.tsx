@@ -1,4 +1,4 @@
-import { Display, Heading, Text } from '@dsai/react';
+import { Display, Heading, Text } from '@dsai-io/react';
 import tokens from '../../src/generated/tokens-grouped';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -393,7 +393,7 @@ const styles = {
 
       <Heading level={3}>Using Typography Components</Heading>
       <Text variant="pre">
-        {`import { Heading, Display, Text } from '@dsai/react';
+        {`import { Heading, Display, Text } from '@dsai-io/react';
 
 // Semantic heading with visual override
 <Heading level={2} visualSize="h4">Section Title</Heading>

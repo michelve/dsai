@@ -6,7 +6,7 @@
  *
  * @example
  * ```tsx
- * import { Button, Input, Card } from '@dsai/react';
+ * import { Button, Input, Card } from '@dsai-io/react';
  * ```
  */
 

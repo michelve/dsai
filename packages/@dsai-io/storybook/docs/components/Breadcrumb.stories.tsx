@@ -7,7 +7,7 @@ import {
   HouseIcon,
   SearchIcon,
   StarFillIcon,
-} from '@dsai/react';
+} from '@dsai-io/react';
 import { type ComponentProps, useCallback, useId, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';

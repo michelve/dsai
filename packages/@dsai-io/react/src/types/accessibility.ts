@@ -3,7 +3,7 @@
  *
  * Type definitions for accessible and secure component development.
  *
- * @module @dsai/react/types/accessibility
+ * @module @dsai-io/react/types/accessibility
  */
 
 import type { CSSProperties } from 'react';

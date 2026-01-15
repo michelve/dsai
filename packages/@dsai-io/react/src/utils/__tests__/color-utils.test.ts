@@ -1,6 +1,6 @@
 /**
  * @file Color Utilities Test Suite
- * @module @dsai/react/utils/__tests__/color-utils.test
+ * @module @dsai-io/react/utils/__tests__/color-utils.test
  *
  * Comprehensive test coverage for:
  * - getContrastRatio

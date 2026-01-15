@@ -1,6 +1,6 @@
 /**
  * @file deepMerge - Deep merge objects utility
- * @module @dsai/react/utils/object
+ * @module @dsai-io/react/utils/object
  *
  * Enterprise-grade deep object merging with:
  * - Circular reference detection

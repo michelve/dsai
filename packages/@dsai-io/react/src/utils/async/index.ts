@@ -1,6 +1,6 @@
 /**
  * @file Async & Control Flow utilities
- * @module @dsai/react/utils/async
+ * @module @dsai-io/react/utils/async
  *
  * Enterprise-grade async utilities including:
  * - Retry with exponential backoff
