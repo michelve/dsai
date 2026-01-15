@@ -1,5 +1,5 @@
 {
-  "name": "@dsai/storybook",
+  "name": "@dsai-io/storybook",
   "version": "1.0.1",
   "description": "Storybook configuration and documentation for DSAi components",
   "private": true,
@@ -27,8 +27,8 @@
     "design-system"
   ],
   "dependencies": {
-    "@dsai/react": "workspace:*",
-    "@dsai/tools": "workspace:*",
+    "@dsai-io/react": "workspace:*",
+    "@dsai-io/tools": "workspace:*",
     "bootstrap": "^5.3.8",
     "glob": "^11.0.2",
     "sass": "^1.94.2",

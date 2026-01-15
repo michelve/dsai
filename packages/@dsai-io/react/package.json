@@ -1,6 +1,7 @@
 {
-  "name": "@dsai/react",
+  "name": "@dsai-io/react",
   "version": "0.0.1",
+  "private": true,
   "description": "React component library for DSAi design system",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -81,7 +82,7 @@
     "@floating-ui/react": "^0.27.16"
   },
   "devDependencies": {
-    "@dsai/tools": "workspace:*",
+    "@dsai-io/tools": "workspace:*",
     "@figma/code-connect": "^1.3.0"
   },
   "license": "UNLICENSED",

@@ -1,5 +1,5 @@
 {
-  "name": "@dsai/docs",
+  "name": "@dsai-io/docs",
   "version": "0.0.1",
   "description": "Documentation site for DSAi design system",
   "private": true,
@@ -15,7 +15,7 @@
     "design-system"
   ],
   "dependencies": {
-    "@dsai/react": "workspace:*"
+    "@dsai-io/react": "workspace:*"
   },
   "license": "UNLICENSED"
 }
