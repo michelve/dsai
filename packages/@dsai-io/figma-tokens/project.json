@@ -1,7 +1,7 @@
 {
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "name": "@dsai/figma-tokens",
-  "sourceRoot": "packages/@dsai/figma-tokens/src",
+  "name": "@dsai-io/figma-tokens",
+  "sourceRoot": "packages/@dsai-io/figma-tokens/src",
   "projectType": "library",
   "targets": {
     "build": {
@@ -9,14 +9,14 @@
       "dependsOn": ["^build"],
       "outputs": ["{projectRoot}/dist"],
       "options": {
-        "cwd": "packages/@dsai/figma-tokens",
+        "cwd": "packages/@dsai-io/figma-tokens",
         "command": "tsup"
       }
     },
     "dev": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": "packages/@dsai/figma-tokens",
+        "cwd": "packages/@dsai-io/figma-tokens",
         "command": "tsup --watch"
       }
     },
@@ -24,7 +24,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{projectRoot}/coverage"],
       "options": {
-        "jestConfig": "packages/@dsai/figma-tokens/jest.config.ts",
+        "jestConfig": "packages/@dsai-io/figma-tokens/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -32,13 +32,13 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/@dsai/figma-tokens/src/**/*.ts"]
+        "lintFilePatterns": ["packages/@dsai-io/figma-tokens/src/**/*.ts"]
       }
     },
     "typecheck": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": "packages/@dsai/figma-tokens",
+        "cwd": "packages/@dsai-io/figma-tokens",
         "command": "tsc --noEmit"
       }
     }

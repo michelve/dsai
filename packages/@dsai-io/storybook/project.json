@@ -1,7 +1,7 @@
 {
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "name": "@dsai/storybook",
-  "sourceRoot": "packages/@dsai/storybook/.storybook",
+  "name": "@dsai-io/storybook",
+  "sourceRoot": "packages/@dsai-io/storybook/.storybook",
   "projectType": "application",
 
   "targets": {
@@ -11,7 +11,7 @@
       "outputs": ["{projectRoot}/node_modules/.vite"],
       "options": {
         "port": 6006,
-        "configDir": "packages/@dsai/storybook/.storybook"
+        "configDir": "packages/@dsai-io/storybook/.storybook"
       }
     },
 
@@ -20,8 +20,8 @@
       "executor": "@nx/storybook:build",
       "outputs": ["{projectRoot}/storybook-static", "{projectRoot}/node_modules/.vite"],
       "options": {
-        "configDir": "packages/@dsai/storybook/.storybook",
-        "outputDir": "packages/@dsai/storybook/storybook-static"
+        "configDir": "packages/@dsai-io/storybook/.storybook",
+        "outputDir": "packages/@dsai-io/storybook/storybook-static"
       }
     },
 
@@ -30,7 +30,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{projectRoot}/coverage"],
       "options": {
-        "jestConfig": "packages/@dsai/storybook/jest.config.ts",
+        "jestConfig": "packages/@dsai-io/storybook/jest.config.ts",
         "passWithNoTests": true
       }
     },

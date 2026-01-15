@@ -1,7 +1,7 @@
 {
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "name": "@dsai/docs",
-  "sourceRoot": "packages/@dsai/docs/src",
+  "name": "@dsai-io/docs",
+  "sourceRoot": "packages/@dsai-io/docs/src",
   "projectType": "application",
   "targets": {
     "dev": {
