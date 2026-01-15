@@ -2,7 +2,9 @@
 
 ## Priority: Critical
 
-## Status: Not Started
+## Status: ✅ Completed
+
+## Completed Date: 2026-01-15
 
 ## Estimated Effort: 45 minutes
 
@@ -208,12 +210,17 @@ Part of TASK-112 migration plan."
 
 ## Acceptance Criteria
 
-- [ ] All 6 packages have `name` updated to `@dsai-io/*`
-- [ ] All 6 packages have `"private": true`
-- [ ] All internal dependencies use `@dsai-io/*`
-- [ ] `pnpm install` completes successfully
-- [ ] `pnpm list --recursive` shows correct package names
-- [ ] No references to `@dsai/` in any package.json file
+- [x] All 5 packages have `name` updated to `@dsai-io/*`
+- [x] All 5 packages have `"private": true`
+- [x] All internal dependencies use `@dsai-io/*`
+- [x] `pnpm install` completes successfully
+- [x] `pnpm list --recursive` shows correct package names
+- [x] No references to `@dsai/` in any package.json file
+
+### Additional Changes Made
+
+- Updated `pnpm-workspace.yaml` to point to `packages/@dsai-io/*`
+- Updated `apps/playground/package.json` dependencies and script paths
 
 ---
 
