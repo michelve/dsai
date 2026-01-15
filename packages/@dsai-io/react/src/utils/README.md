@@ -32,13 +32,13 @@ The utils package provides specialized implementations organized by domain:
 ## Installation
 
 ```bash
-npm install @dsai/react
+npm install @dsai-io/react
 ```
 
 ## Usage
 
 ```tsx
-import { cn, generateId, isBrowser } from '@dsai/react';
+import { cn, generateId, isBrowser } from '@dsai-io/react';
 ```
 
 ---
@@ -52,7 +52,7 @@ Utilities for building WCAG 2.2 AA compliant interfaces.
 Send messages to screen readers via ARIA live regions.
 
 ```tsx
-import { announceToScreenReader } from '@dsai/react';
+import { announceToScreenReader } from '@dsai-io/react';
 
 // Polite announcement (default)
 const cleanup = announceToScreenReader('Item saved successfully');
@@ -75,7 +75,7 @@ const cleanup = announceToScreenReader('Critical error occurred', {
 Build comprehensive ARIA label attributes from multiple sources.
 
 ```tsx
-import { buildAriaLabel } from '@dsai/react';
+import { buildAriaLabel } from '@dsai-io/react';
 
 // Basic label
 buildAriaLabel({ label: 'Submit form' });
@@ -101,7 +101,7 @@ buildAriaLabel({
 Merge multiple `aria-describedby` ID references.
 
 ```tsx
-import { combineAriaDescriptions } from '@dsai/react';
+import { combineAriaDescriptions } from '@dsai-io/react';
 
 combineAriaDescriptions('help-text', 'error-message');
 // => 'help-text error-message'
@@ -115,7 +115,7 @@ combineAriaDescriptions(['id1', 'id2', undefined, 'id3', 'id1']);
 SSR-safe, deterministic ID generator.
 
 ```tsx
-import { generateId } from '@dsai/react';
+import { generateId } from '@dsai-io/react';
 
 const inputId = generateId('input'); // => 'input-1'
 const buttonId = generateId('button'); // => 'button-2'
@@ -126,7 +126,7 @@ const buttonId = generateId('button'); // => 'button-2'
 CSS selectors for focusable elements.
 
 ```tsx
-import { focusableSelectors, focusableSelectorString } from '@dsai/react';
+import { focusableSelectors, focusableSelectorString } from '@dsai-io/react';
 
 // Array of selectors
 const selectors = focusableSelectors;
@@ -140,7 +140,7 @@ const allFocusable = document.querySelectorAll(focusableSelectorString);
 Trap focus within a container element.
 
 ```tsx
-import { trapFocus } from '@dsai/react';
+import { trapFocus } from '@dsai-io/react';
 
 const cleanup = trapFocus(modalElement, {
   initialFocus: firstInput,
@@ -159,7 +159,7 @@ Utilities for keyboard event handling.
 Detect Enter key press with IME composition safety.
 
 ```tsx
-import { isEnterKey } from '@dsai/react';
+import { isEnterKey } from '@dsai-io/react';
 
 <input
   onKeyDown={(e) => {
@@ -175,7 +175,7 @@ import { isEnterKey } from '@dsai/react';
 Detect Escape key press with IME composition safety.
 
 ```tsx
-import { isEscapeKey } from '@dsai/react';
+import { isEscapeKey } from '@dsai-io/react';
 
 <div
   onKeyDown={(e) => {
@@ -197,7 +197,7 @@ Utilities for URL and input validation with XSS protection.
 Validate that a URL href is safe to use.
 
 ```tsx
-import { isSafeHref } from '@dsai/react';
+import { isSafeHref } from '@dsai-io/react';
 
 // Safe URLs
 isSafeHref('https://example.com'); // true
@@ -227,7 +227,7 @@ isSafeHref(undefined, { undefinedBehavior: 'unsafe' }); // false
 Validate email address format.
 
 ```tsx
-import { isValidEmail } from '@dsai/react';
+import { isValidEmail } from '@dsai-io/react';
 
 isValidEmail('user@example.com'); // true
 isValidEmail('invalid.email'); // false
@@ -238,7 +238,7 @@ isValidEmail('invalid.email'); // false
 Validate URL format and structure.
 
 ```tsx
-import { isValidUrl } from '@dsai/react';
+import { isValidUrl } from '@dsai-io/react';
 
 isValidUrl('https://example.com'); // true
 isValidUrl('not-a-url'); // false
@@ -255,7 +255,7 @@ Utilities for string manipulation and formatting.
 Text capitalization with locale support.
 
 ```tsx
-import { capitalize } from '@dsai/react';
+import { capitalize } from '@dsai-io/react';
 
 // First character only (default)
 capitalize('hello world');
@@ -285,7 +285,7 @@ capitalize('istanbul', { locale: 'tr' });
 Text truncation with word boundary awareness.
 
 ```tsx
-import { truncate } from '@dsai/react';
+import { truncate } from '@dsai-io/react';
 
 // Basic truncation
 truncate('Hello, World!', { maxLength: 8 });
@@ -321,7 +321,7 @@ truncate('Hello 👋 World 🌍', { maxLength: 10 });
 Convert strings to URL-safe slugs.
 
 ```tsx
-import { slugify } from '@dsai/react';
+import { slugify } from '@dsai-io/react';
 
 slugify('Hello World!');
 // => "hello-world"
@@ -335,7 +335,7 @@ slugify('Enterprise React Components');
 Generate Bootstrap variant class names.
 
 ```tsx
-import { getVariantClass } from '@dsai/react';
+import { getVariantClass } from '@dsai-io/react';
 
 getVariantClass('primary', 'btn');
 // => "btn-primary"
@@ -355,7 +355,7 @@ Utilities for number formatting and manipulation.
 Constrain a number to a min/max range.
 
 ```tsx
-import { clamp } from '@dsai/react';
+import { clamp } from '@dsai-io/react';
 
 clamp(10, 0, 5); // => 5
 clamp(-5, 0, 10); // => 0
@@ -367,7 +367,7 @@ clamp(7, 0, 10); // => 7
 Locale-aware number formatting with Intl.NumberFormat.
 
 ```tsx
-import { formatNumber } from '@dsai/react';
+import { formatNumber } from '@dsai-io/react';
 
 // Basic formatting
 formatNumber(1234567.89);
@@ -406,7 +406,7 @@ formatNumber(1234567.89, { locale: 'de-DE' });
 Format currency values with locale support.
 
 ```tsx
-import { formatCurrency } from '@dsai/react';
+import { formatCurrency } from '@dsai-io/react';
 
 formatCurrency(1234.56, 'USD');
 // => "$1,234.56"
@@ -426,7 +426,7 @@ Type guards and type utilities.
 Check if a URL is an external link.
 
 ```tsx
-import { isExternalUrl } from '@dsai/react';
+import { isExternalUrl } from '@dsai-io/react';
 
 isExternalUrl('https://google.com'); // true
 isExternalUrl('mailto:test@example.com'); // true
@@ -454,7 +454,7 @@ Utilities for DOM manipulation and React refs.
 Safely compose multiple React refs into a single callback.
 
 ```tsx
-import { mergeRefs } from '@dsai/react';
+import { mergeRefs } from '@dsai-io/react';
 import { forwardRef, useRef } from 'react';
 
 const Component = forwardRef((props, ref) => {
@@ -484,7 +484,7 @@ Miscellaneous utilities and event helpers.
 Filter input props to safe attributes only (XSS prevention).
 
 ```tsx
-import { getSafeInputProps } from '@dsai/react';
+import { getSafeInputProps } from '@dsai-io/react';
 
 const safeProps = getSafeInputProps(props);
 // Blocks: onLoad, onError, onAbort, etc.
@@ -504,7 +504,7 @@ const safeProps = getSafeInputProps(props);
 SVG icon component for clear/close buttons.
 
 ```tsx
-import { ClearIcon } from '@dsai/react';
+import { ClearIcon } from '@dsai-io/react';
 
 <button>
   <ClearIcon />
@@ -522,7 +522,7 @@ Browser detection and feature detection utilities.
 Check if code is running in a browser environment.
 
 ```tsx
-import { isBrowser } from '@dsai/react';
+import { isBrowser } from '@dsai-io/react';
 
 if (isBrowser) {
   // Safe to use window, document, etc.
@@ -545,7 +545,7 @@ if (isBrowser) {
 Combine class names conditionally.
 
 ```tsx
-import { cn } from '@dsai/react';
+import { cn } from '@dsai-io/react';
 
 cn('btn', isActive && 'btn-active', size === 'lg' && 'btn-lg');
 // => 'btn btn-active btn-lg' or 'btn' depending on conditions
@@ -613,8 +613,8 @@ All utilities follow these enterprise-grade principles:
 
 ## Related Packages
 
-- [@dsai/tools](../../../../tools/README.md) - Design tokens build system and CLI
-- [@dsai/react](../../README.md) - React component library
+- [@dsai-io/tools](../../../../tools/README.md) - Design tokens build system and CLI
+- [@dsai-io/react](../../README.md) - React component library
 
 ---
 

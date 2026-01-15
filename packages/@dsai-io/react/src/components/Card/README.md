@@ -15,7 +15,7 @@ A flexible content container component with multiple subcomponents for building 
 ## Installation
 
 ```bash
-npm install @dsai/react
+npm install @dsai-io/react
 ```
 
 ## Usage
@@ -23,7 +23,7 @@ npm install @dsai/react
 ### Basic Card
 
 ```tsx
-import { Card, CardBody, CardTitle, CardText } from '@dsai/react';
+import { Card, CardBody, CardTitle, CardText } from '@dsai-io/react';
 
 function Example() {
   return (

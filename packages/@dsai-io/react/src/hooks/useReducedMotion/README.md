@@ -14,17 +14,17 @@ A React hook that detects if the user prefers reduced motion based on their syst
 ## Installation
 
 ```bash
-npm install @dsai/react
+npm install @dsai-io/react
 # or
-pnpm add @dsai/react
+pnpm add @dsai-io/react
 # or
-yarn add @dsai/react
+yarn add @dsai-io/react
 ```
 
 ## Basic Usage
 
 ```tsx
-import { useReducedMotion } from '@dsai/react';
+import { useReducedMotion } from '@dsai-io/react';
 
 function AnimatedButton() {
   const prefersReducedMotion = useReducedMotion();
@@ -73,7 +73,7 @@ Returns `boolean`:
 ### Conditional Animations
 
 ```tsx
-import { useReducedMotion } from '@dsai/react';
+import { useReducedMotion } from '@dsai-io/react';
 
 function Modal({ isOpen, children }) {
   const prefersReducedMotion = useReducedMotion();
@@ -91,7 +91,7 @@ function Modal({ isOpen, children }) {
 ### Disable Auto-Play for Carousels
 
 ```tsx
-import { useReducedMotion } from '@dsai/react';
+import { useReducedMotion } from '@dsai-io/react';
 
 function Carousel({ autoPlay = true, ...props }) {
   const prefersReducedMotion = useReducedMotion();
@@ -106,7 +106,7 @@ function Carousel({ autoPlay = true, ...props }) {
 ### Conditional Transition Duration
 
 ```tsx
-import { useReducedMotion } from '@dsai/react';
+import { useReducedMotion } from '@dsai-io/react';
 
 function CollapsiblePanel({ isOpen, children }) {
   const prefersReducedMotion = useReducedMotion();
@@ -131,7 +131,7 @@ function CollapsiblePanel({ isOpen, children }) {
 ### SSR with Custom Default
 
 ```tsx
-import { useReducedMotion } from '@dsai/react';
+import { useReducedMotion } from '@dsai-io/react';
 
 function Hero() {
   // Default to no animations during SSR for better initial experience
@@ -149,7 +149,7 @@ function Hero() {
 ### React Spring Integration
 
 ```tsx
-import { useReducedMotion } from '@dsai/react';
+import { useReducedMotion } from '@dsai-io/react';
 import { useSpring, animated } from '@react-spring/web';
 
 function AnimatedCard() {
@@ -170,7 +170,7 @@ function AnimatedCard() {
 ### Framer Motion Integration
 
 ```tsx
-import { useReducedMotion } from '@dsai/react';
+import { useReducedMotion } from '@dsai-io/react';
 import { motion } from 'framer-motion';
 
 function FadeInBox() {
@@ -273,7 +273,7 @@ This hook helps meet:
 Fully typed with TypeScript. Interfaces are exported:
 
 ```tsx
-import type { UseReducedMotionOptions } from '@dsai/react';
+import type { UseReducedMotionOptions } from '@dsai-io/react';
 
 const options: UseReducedMotionOptions = {
   defaultValue: true,

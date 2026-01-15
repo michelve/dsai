@@ -1,6 +1,6 @@
 # Guides
 
-Step-by-step guides for advanced `@dsai/tools` usage.
+Step-by-step guides for advanced `@dsai-io/tools` usage.
 
 ## Available Guides
 
@@ -31,8 +31,8 @@ Step-by-step guides for advanced `@dsai/tools` usage.
 
 All guides assume familiarity with:
 
-- Basic `@dsai/tools` configuration
+- Basic `@dsai-io/tools` configuration
 - Token structure and naming conventions
 - Command-line usage
 
-See [Getting Started](../getting-started.md) if you're new to `@dsai/tools`.
+See [Getting Started](../getting-started.md) if you're new to `@dsai-io/tools`.

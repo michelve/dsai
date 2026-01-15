@@ -5,7 +5,7 @@ The ListGroup component displays a flexible list of content.
 ## Import
 
 ```tsx
-import { ListGroup } from '@dsai/react';
+import { ListGroup } from '@dsai-io/react';
 ```
 
 ## When to Use

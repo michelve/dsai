@@ -1,4 +1,4 @@
-# @dsai/storybook
+# @dsai-io/storybook
 
 > Official Storybook documentation for the DSAi Design System
 
@@ -66,8 +66,8 @@ viteFinal: async (config) => ({
   ...config,
   resolve: {
     alias: {
-      '@dsai/tools': resolve(__dirname, '../../@dsai/tools/src'),
-      '@dsai/react': resolve(__dirname, '../../@dsai/react/src'),
+      '@dsai-io/tools': resolve(__dirname, '../../@dsai-io/tools/src'),
+      '@dsai-io/react': resolve(__dirname, '../../@dsai-io/react/src'),
     },
   },
 }),
@@ -99,7 +99,7 @@ import './generated/dsai-theme-bs.css';
 
 ```tsx
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from '@dsai/react';
+import { Button } from '@dsai-io/react';
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
@@ -258,9 +258,9 @@ pnpm storybook
 
 ## 🔗 Related Packages
 
-- `@dsai/tools` - Design token build system and CLI
-- `@dsai/react` - React component library
-- `@dsai/figma-tokens` - Figma integration utilities
+- `@dsai-io/tools` - Design token build system and CLI
+- `@dsai-io/react` - React component library
+- `@dsai-io/figma-tokens` - Figma integration utilities
 
 ## 📚 Resources
 

@@ -22,7 +22,7 @@ import {
   createContext,
   createComponent,
   createPolymorphic,
-} from '@dsai/react';
+} from '@dsai-io/react';
 ```
 
 ---

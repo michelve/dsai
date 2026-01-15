@@ -16,7 +16,7 @@
 
 ## Description
 
-Rename all package folders from `packages/@dsai/*` to `packages/@dsai-io/*` using `git mv` to preserve git history. This is the first step of the migration and must be completed before any other changes.
+Rename all package folders from `packages/@dsai-io/*` to `packages/@dsai-io/*` using `git mv` to preserve git history. This is the first step of the migration and must be completed before any other changes.
 
 ---
 
@@ -42,19 +42,19 @@ Rename all package folders from `packages/@dsai/*` to `packages/@dsai-io/*` usin
 
 | Current Path      | New Path             |
 | ----------------- | -------------------- |
-| `packages/@dsai/` | `packages/@dsai-io/` |
+| `packages/@dsai-io/` | `packages/@dsai-io/` |
 
 ### Specific Folders (5 total - tokens package doesn't exist)
 
 | #   | Current Folder                | New Folder                       | Status  |
 | --- | ----------------------------- | -------------------------------- | ------- |
-| 1   | `packages/@dsai/react`        | `packages/@dsai-io/react`        | ✅ Done |
-| 2   | `packages/@dsai/tools`        | `packages/@dsai-io/tools`        | ✅ Done |
-| 3   | `packages/@dsai/figma-tokens` | `packages/@dsai-io/figma-tokens` | ✅ Done |
-| 4   | `packages/@dsai/storybook`    | `packages/@dsai-io/storybook`    | ✅ Done |
-| 5   | `packages/@dsai/docs`         | `packages/@dsai-io/docs`         | ✅ Done |
+| 1   | `packages/@dsai-io/react`        | `packages/@dsai-io/react`        | ✅ Done |
+| 2   | `packages/@dsai-io/tools`        | `packages/@dsai-io/tools`        | ✅ Done |
+| 3   | `packages/@dsai-io/figma-tokens` | `packages/@dsai-io/figma-tokens` | ✅ Done |
+| 4   | `packages/@dsai-io/storybook`    | `packages/@dsai-io/storybook`    | ✅ Done |
+| 5   | `packages/@dsai-io/docs`         | `packages/@dsai-io/docs`         | ✅ Done |
 
-> Note: The `@dsai/tokens` package listed in the original plan does not exist in the repository.
+> Note: The `@dsai-io/tokens` package listed in the original plan does not exist in the repository.
 
 ---
 
@@ -70,22 +70,22 @@ mkdir -p packages/@dsai-io
 
 ```bash
 # Move react package
-git mv packages/@dsai/react packages/@dsai-io/react
+git mv packages/@dsai-io/react packages/@dsai-io/react
 
 # Move tools package
-git mv packages/@dsai/tools packages/@dsai-io/tools
+git mv packages/@dsai-io/tools packages/@dsai-io/tools
 
 # Move tokens package
-git mv packages/@dsai/tokens packages/@dsai-io/tokens
+git mv packages/@dsai-io/tokens packages/@dsai-io/tokens
 
 # Move figma-tokens package
-git mv packages/@dsai/figma-tokens packages/@dsai-io/figma-tokens
+git mv packages/@dsai-io/figma-tokens packages/@dsai-io/figma-tokens
 
 # Move storybook package
-git mv packages/@dsai/storybook packages/@dsai-io/storybook
+git mv packages/@dsai-io/storybook packages/@dsai-io/storybook
 
 # Move docs package
-git mv packages/@dsai/docs packages/@dsai-io/docs
+git mv packages/@dsai-io/docs packages/@dsai-io/docs
 ```
 
 ### Step 3: Remove the old empty directory
@@ -122,7 +122,7 @@ Part of TASK-111 migration plan."
 ## Acceptance Criteria
 
 - [x] All 5 package folders moved to `packages/@dsai-io/`
-- [x] Old `packages/@dsai/` directory no longer exists
+- [x] Old `packages/@dsai-io/` directory no longer exists
 - [x] Git history preserved for all files (verify with `git log --follow <file>`)
 - [x] `git status` shows renames, not deletions + additions
 - [x] Changes committed with descriptive message
@@ -137,7 +137,7 @@ ls packages/@dsai-io/
 # Expected: docs  figma-tokens  react  storybook  tokens  tools
 
 # Verify old folder gone
-ls packages/@dsai/ 2>&1
+ls packages/@dsai-io/ 2>&1
 # Expected: No such file or directory
 
 # Verify git history preserved (example for one file)

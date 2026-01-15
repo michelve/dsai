@@ -15,7 +15,7 @@ A card component that behaves like a checkbox or radio option. Click anywhere on
 ## Installation
 
 ```bash
-npm install @dsai/react
+npm install @dsai-io/react
 ```
 
 ## Usage
@@ -23,7 +23,7 @@ npm install @dsai/react
 ### Basic Checkbox Card
 
 ```tsx
-import { SelectableCard } from '@dsai/react';
+import { SelectableCard } from '@dsai-io/react';
 
 function Example() {
   return (
@@ -41,7 +41,7 @@ function Example() {
 ### Radio Cards (Single Selection)
 
 ```tsx
-import { SelectableCard } from '@dsai/react';
+import { SelectableCard } from '@dsai-io/react';
 import { useState } from 'react';
 
 function PlanSelector() {

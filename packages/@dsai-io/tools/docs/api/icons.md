@@ -9,7 +9,7 @@ API reference for icon generation and optimization.
 Generate icon components from SVG files.
 
 ```typescript
-import { buildIcons, loadConfig } from '@dsai/tools';
+import { buildIcons, loadConfig } from '@dsai-io/tools';
 
 const { config } = await loadConfig();
 const result = await buildIcons(config, { formats: ['react'] });
@@ -52,7 +52,7 @@ interface IconBuildResult {
 Optimize an SVG file using SVGO.
 
 ```typescript
-import { optimizeSvg } from '@dsai/tools';
+import { optimizeSvg } from '@dsai-io/tools';
 
 const optimized = await optimizeSvg('./icons/arrow.svg', {
   removeViewBox: false,
@@ -97,7 +97,7 @@ interface OptimizeResult {
 Extract metadata from an SVG file.
 
 ```typescript
-import { extractIconMetadata } from '@dsai/tools';
+import { extractIconMetadata } from '@dsai-io/tools';
 
 const metadata = await extractIconMetadata('./icons/arrow.svg');
 
@@ -140,7 +140,7 @@ interface IconMetadata {
 Generate a React component from SVG content.
 
 ```typescript
-import { generateReactIcon } from '@dsai/tools';
+import { generateReactIcon } from '@dsai-io/tools';
 
 const component = generateReactIcon({
   name: 'ArrowRight',
@@ -183,7 +183,7 @@ interface GeneratedComponent {
 Generate an index file exporting all icons.
 
 ```typescript
-import { generateIconIndex } from '@dsai/tools';
+import { generateIconIndex } from '@dsai-io/tools';
 
 const index = generateIconIndex({
   icons: ['ArrowRight', 'ArrowLeft', 'Check'],
@@ -250,7 +250,7 @@ interface OptimizedSVG {
 ### React Template
 
 ```typescript
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   icons: {
@@ -282,7 +282,7 @@ ${icon.name}.displayName = '${icon.name}';
 ### Index Template
 
 ```typescript
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   icons: {
@@ -299,7 +299,7 @@ export default defineConfig({
 ## Error Handling
 
 ```typescript
-import { buildIcons, IconBuildError } from '@dsai/tools';
+import { buildIcons, IconBuildError } from '@dsai-io/tools';
 
 try {
   await buildIcons(config);

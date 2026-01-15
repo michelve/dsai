@@ -1,6 +1,6 @@
 # Migration Guides
 
-Guides for migrating to `@dsai/tools` from other token systems.
+Guides for migrating to `@dsai-io/tools` from other token systems.
 
 ## Available Guides
 
@@ -15,7 +15,7 @@ Guides for migrating to `@dsai/tools` from other token systems.
 
 ### Benefits of Migrating
 
-`@dsai/tools` provides:
+`@dsai-io/tools` provides:
 
 - **TypeScript-first** - Full type safety for configurations
 - **Multi-brand support** - Built-in brand management
@@ -35,7 +35,7 @@ Guides for migrating to `@dsai/tools` from other token systems.
 
 ## Token Format
 
-`@dsai/tools` uses the [Design Token Community Group (DTCG)](https://tr.designtokens.org/format/) format:
+`@dsai-io/tools` uses the [Design Token Community Group (DTCG)](https://tr.designtokens.org/format/) format:
 
 ```json
 {

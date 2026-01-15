@@ -23,7 +23,7 @@ multi-platform/
 ### Configuration File
 
 ```typescript
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {

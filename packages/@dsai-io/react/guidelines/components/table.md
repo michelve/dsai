@@ -5,7 +5,7 @@ The Table component provides tabular data display with optional sorting and pagi
 ## Import
 
 ```tsx
-import { Table } from '@dsai/react';
+import { Table } from '@dsai-io/react';
 ```
 
 ## When to Use

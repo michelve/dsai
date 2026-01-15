@@ -5,7 +5,7 @@ The Select component provides a dropdown for choosing from predefined options.
 ## Import
 
 ```tsx
-import { Select } from '@dsai/react';
+import { Select } from '@dsai-io/react';
 ```
 
 ## When to Use

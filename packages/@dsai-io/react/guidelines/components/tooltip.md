@@ -5,7 +5,7 @@ The Tooltip component displays informational text on hover or focus.
 ## Import
 
 ```tsx
-import { Tooltip } from '@dsai/react';
+import { Tooltip } from '@dsai-io/react';
 ```
 
 ## When to Use

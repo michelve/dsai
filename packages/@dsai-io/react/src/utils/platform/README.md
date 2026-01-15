@@ -26,7 +26,7 @@ import {
   isRTL,
   getTextDirection,
   getDevicePixelRatio,
-} from '@dsai/react';
+} from '@dsai-io/react';
 ```
 
 ---

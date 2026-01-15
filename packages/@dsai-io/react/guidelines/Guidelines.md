@@ -1,12 +1,12 @@
 # DSAi Design System Guidelines
 
-This project uses the **DSAi Design System** (`@dsai/react`), an enterprise-grade React component library with Bootstrap 5 theming and WCAG 2.2 AA accessibility.
+This project uses the **DSAi Design System** (`@dsai-io/react`), an enterprise-grade React component library with Bootstrap 5 theming and WCAG 2.2 AA accessibility.
 
 > **Version**: 1.0.0 | **Last Updated**: January 2026 | **Figma Library**: DSAi Components
 
 ## READ THIS FIRST
 
-IMPORTANT: Always prefer components from `@dsai/react` if they exist. Do not create custom components when a DSAi component is available.
+IMPORTANT: Always prefer components from `@dsai-io/react` if they exist. Do not create custom components when a DSAi component is available.
 
 IMPORTANT: Follow these steps IN ORDER before writing any code:
 
@@ -46,23 +46,23 @@ DO NOT write code using a component until you have read its specific guidelines.
 | ---------- | ----- |
 | **Framework** | React 18+ with TypeScript |
 | **CSS Framework** | Bootstrap 5.3 |
-| **Component Package** | `@dsai/react` |
-| **Token CLI** | `@dsai/tools` |
+| **Component Package** | `@dsai-io/react` |
+| **Token CLI** | `@dsai-io/tools` |
 | **Design Tool** | Figma with Code Connect |
 | **Accessibility** | WCAG 2.2 AA compliant |
 | **Token Format** | DTCG (Design Token Community Group) |
 
 ## Package Import Pattern
 
-All components are imported from `@dsai/react`:
+All components are imported from `@dsai-io/react`:
 
 ```tsx
-import { Button, Alert, Badge, Input } from '@dsai/react';
+import { Button, Alert, Badge, Input } from '@dsai-io/react';
 ```
 
 ## Design Tokens Setup
 
-Design tokens are generated locally using `@dsai/tools`:
+Design tokens are generated locally using `@dsai-io/tools`:
 
 ```bash
 # Generate tokens
@@ -169,7 +169,7 @@ npx figma connect publish
 ```tsx
 // Button.figma.tsx
 import figma from '@figma/code-connect';
-import { Button } from '@dsai/react';
+import { Button } from '@dsai-io/react';
 
 figma.connect(Button, 'figma-url', {
   props: {
@@ -249,7 +249,7 @@ Never remove focus outlines without providing an alternative indicator.
 
 ### DO ✅
 
-- Import components from `@dsai/react`
+- Import components from `@dsai-io/react`
 - Use semantic variants (`variant="danger"` for destructive actions)
 - Include proper ARIA labels
 - Use design token CSS variables
@@ -281,7 +281,7 @@ Never remove focus outlines without providing an alternative indicator.
 ### Import Pattern
 
 ```tsx
-import { Button, Card, Input, Alert } from '@dsai/react';
+import { Button, Card, Input, Alert } from '@dsai-io/react';
 import './generated/dsai-theme-bs.css';
 ```
 

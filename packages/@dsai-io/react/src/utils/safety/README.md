@@ -21,7 +21,7 @@ import {
   readFromClipboard,
   generateToken,
   generateCryptoId,
-} from '@dsai/react';
+} from '@dsai-io/react';
 ```
 
 ---

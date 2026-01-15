@@ -14,7 +14,7 @@ An accessible tabbed interface component built with Bootstrap 5 styling. Support
 ## Installation
 
 ```bash
-npm install @dsai/react
+npm install @dsai-io/react
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ npm install @dsai/react
 ### Basic Tabs (Items Mode)
 
 ```tsx
-import { Tabs } from '@dsai/react';
+import { Tabs } from '@dsai-io/react';
 
 function Example() {
   return (
@@ -40,7 +40,7 @@ function Example() {
 ### Compound Components
 
 ```tsx
-import { Tab, TabList, TabPanel, Tabs } from '@dsai/react';
+import { Tab, TabList, TabPanel, Tabs } from '@dsai-io/react';
 
 function Example() {
   return (

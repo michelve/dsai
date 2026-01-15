@@ -16,7 +16,7 @@
 
 ## Description
 
-Update all configuration files that reference `@dsai/*` packages or paths to use the new `@dsai-io/*` scope and paths. This includes TypeScript configs, Jest configs, Nx configs, ESLint configs, and build configurations.
+Update all configuration files that reference `@dsai-io/*` packages or paths to use the new `@dsai-io/*` scope and paths. This includes TypeScript configs, Jest configs, Nx configs, ESLint configs, and build configurations.
 
 ---
 
@@ -88,14 +88,14 @@ The paths mapping needs to be updated:
 ```json
 // Before
 "paths": {
-  "@dsai/react": ["packages/@dsai/react/src/index.ts"],
-  "@dsai/react/*": ["packages/@dsai/react/src/*"],
-  "@dsai/tools": ["packages/@dsai/tools/src/index.ts"],
-  "@dsai/tools/*": ["packages/@dsai/tools/src/*"],
-  "@dsai/tokens": ["packages/@dsai/tokens/src/index.ts"],
-  "@dsai/tokens/*": ["packages/@dsai/tokens/src/*"],
-  "@dsai/figma-tokens": ["packages/@dsai/figma-tokens/src/index.ts"],
-  "@dsai/figma-tokens/*": ["packages/@dsai/figma-tokens/src/*"]
+  "@dsai-io/react": ["packages/@dsai-io/react/src/index.ts"],
+  "@dsai-io/react/*": ["packages/@dsai-io/react/src/*"],
+  "@dsai-io/tools": ["packages/@dsai-io/tools/src/index.ts"],
+  "@dsai-io/tools/*": ["packages/@dsai-io/tools/src/*"],
+  "@dsai-io/tokens": ["packages/@dsai-io/tokens/src/index.ts"],
+  "@dsai-io/tokens/*": ["packages/@dsai-io/tokens/src/*"],
+  "@dsai-io/figma-tokens": ["packages/@dsai-io/figma-tokens/src/index.ts"],
+  "@dsai-io/figma-tokens/*": ["packages/@dsai-io/figma-tokens/src/*"]
 }
 
 // After
@@ -118,8 +118,8 @@ Each project.json needs the name field updated:
 ```json
 // Before
 {
-  "name": "@dsai/react",
-  "sourceRoot": "packages/@dsai/react/src",
+  "name": "@dsai-io/react",
+  "sourceRoot": "packages/@dsai-io/react/src",
   "projectType": "library"
 }
 
@@ -138,7 +138,7 @@ Update module name mapper:
 ```javascript
 // Before
 moduleNameMapper: {
-  '^@dsai/(.*)$': '<rootDir>/packages/@dsai/$1/src'
+  '^@dsai-io/(.*)$': '<rootDir>/packages/@dsai-io/$1/src'
 }
 
 // After
@@ -154,7 +154,7 @@ Update packages glob:
 ```yaml
 # Before
 packages:
-  - 'packages/@dsai/*'
+  - 'packages/@dsai-io/*'
   - 'apps/*'
 
 # After
@@ -169,7 +169,7 @@ packages:
 
 ### Step 1: Update tsconfig.base.json
 
-Replace all `@dsai/` with `@dsai-io/` in paths section.
+Replace all `@dsai-io/` with `@dsai-io/` in paths section.
 
 ### Step 2: Update all project.json files
 
@@ -181,7 +181,7 @@ For each package, update:
 
 ### Step 3: Update pnpm-workspace.yaml
 
-Change packages glob from `@dsai/*` to `@dsai-io/*`.
+Change packages glob from `@dsai-io/*` to `@dsai-io/*`.
 
 ### Step 4: Update jest configuration
 
@@ -265,7 +265,7 @@ nx show project @dsai-io/react
 grep -A 20 '"paths"' tsconfig.base.json
 
 # Check no old references in config files
-grep -r "@dsai/" *.json *.yaml *.mjs *.cjs | grep -v "@dsai-io" | grep -v node_modules
+grep -r "@dsai-io/" *.json *.yaml *.mjs *.cjs | grep -v "@dsai-io" | grep -v node_modules
 ```
 
 ---

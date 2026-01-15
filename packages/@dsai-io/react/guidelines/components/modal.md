@@ -5,7 +5,7 @@ The Modal component displays content in a dialog overlay, focusing user attentio
 ## Import
 
 ```tsx
-import { Modal } from '@dsai/react';
+import { Modal } from '@dsai-io/react';
 ```
 
 ## When to Use

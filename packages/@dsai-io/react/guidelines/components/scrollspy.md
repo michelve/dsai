@@ -5,7 +5,7 @@ The Scrollspy component highlights navigation based on scroll position.
 ## Import
 
 ```tsx
-import { Scrollspy } from '@dsai/react';
+import { Scrollspy } from '@dsai-io/react';
 ```
 
 ## When to Use

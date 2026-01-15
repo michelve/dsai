@@ -21,7 +21,7 @@ import {
   createTaskQueue,
   queueTask,
   exponentialBackoff,
-} from '@dsai/react';
+} from '@dsai-io/react';
 ```
 
 ---

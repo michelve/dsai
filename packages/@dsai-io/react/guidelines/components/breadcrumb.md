@@ -5,7 +5,7 @@ The Breadcrumb component shows navigation hierarchy and current location.
 ## Import
 
 ```tsx
-import { Breadcrumb } from '@dsai/react';
+import { Breadcrumb } from '@dsai-io/react';
 ```
 
 ## When to Use

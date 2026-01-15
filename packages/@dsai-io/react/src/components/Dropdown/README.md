@@ -15,10 +15,10 @@ A fully accessible dropdown menu component using Bootstrap 5 native classes with
 
 ## Installation
 
-The Dropdown component is part of the `@dsai/react` package:
+The Dropdown component is part of the `@dsai-io/react` package:
 
 ```tsx
-import { Dropdown } from '@dsai/react';
+import { Dropdown } from '@dsai-io/react';
 ```
 
 ## Usage
@@ -26,7 +26,7 @@ import { Dropdown } from '@dsai/react';
 ### Basic Dropdown
 
 ```tsx
-import { Dropdown } from '@dsai/react';
+import { Dropdown } from '@dsai-io/react';
 
 function Example() {
   return (
@@ -83,7 +83,7 @@ function Example() {
 ### Split Button
 
 ```tsx
-import { Button, Dropdown } from '@dsai/react';
+import { Button, Dropdown } from '@dsai-io/react';
 
 <Dropdown>
   <Button variant="primary" onClick={() => console.log('Primary action')}>

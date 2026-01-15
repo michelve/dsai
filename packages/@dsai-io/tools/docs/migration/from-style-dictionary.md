@@ -1,10 +1,10 @@
 # Migrating from Style Dictionary
 
-Guide for migrating from Amazon Style Dictionary to `@dsai/tools`.
+Guide for migrating from Amazon Style Dictionary to `@dsai-io/tools`.
 
 ## Overview
 
-`@dsai/tools` is compatible with Style Dictionary concepts but offers:
+`@dsai-io/tools` is compatible with Style Dictionary concepts but offers:
 
 - TypeScript configuration
 - Built-in multi-brand support
@@ -15,7 +15,7 @@ Guide for migrating from Amazon Style Dictionary to `@dsai/tools`.
 
 ## Quick Comparison
 
-| Feature        | Style Dictionary | @dsai/tools     |
+| Feature        | Style Dictionary | @dsai-io/tools     |
 | -------------- | ---------------- | --------------- |
 | Config format  | JSON/JS          | TypeScript      |
 | Token format   | Custom           | DTCG-compatible |
@@ -33,8 +33,8 @@ Guide for migrating from Amazon Style Dictionary to `@dsai/tools`.
 # Remove Style Dictionary
 pnpm remove style-dictionary
 
-# Install @dsai/tools
-pnpm add -D @dsai/tools
+# Install @dsai-io/tools
+pnpm add -D @dsai-io/tools
 ```
 
 ---
@@ -72,11 +72,11 @@ module.exports = {
 };
 ```
 
-### `@dsai/tools` Config
+### `@dsai-io/tools` Config
 
 ```typescript
 // dsai.config.ts
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {
@@ -200,7 +200,7 @@ StyleDictionary.registerTransform({
 });
 ```
 
-### `@dsai/tools` Transform
+### `@dsai-io/tools` Transform
 
 ```typescript
 // dsai.config.ts
@@ -233,7 +233,7 @@ StyleDictionary.registerFormat({
 });
 ```
 
-### `@dsai/tools` Format
+### `@dsai-io/tools` Format
 
 ```typescript
 // dsai.config.ts
@@ -277,7 +277,7 @@ export default defineConfig({
 - run: npx style-dictionary build
 ```
 
-### After (@dsai/tools)
+### After (@dsai-io/tools)
 
 ```yaml
 - run: pnpm dsai tokens build
@@ -287,7 +287,7 @@ export default defineConfig({
 
 ## Transform Group Mapping
 
-| Style Dictionary | @dsai/tools      |
+| Style Dictionary | @dsai-io/tools      |
 | ---------------- | ---------------- |
 | `css`            | `web-css`        |
 | `scss`           | `web-scss`       |
@@ -299,7 +299,7 @@ export default defineConfig({
 
 ## Format Mapping
 
-| Style Dictionary              | @dsai/tools       |
+| Style Dictionary              | @dsai-io/tools       |
 | ----------------------------- | ----------------- |
 | `css/variables`               | `css/variables`   |
 | `scss/variables`              | `scss/variables`  |
@@ -316,7 +316,7 @@ export default defineConfig({
 ### References Not Resolving
 
 **Style Dictionary:** Uses `{path.to.token.value}`
-**@dsai/tools:** Uses `{path.to.token}` (without `.value`)
+**@dsai-io/tools:** Uses `{path.to.token}` (without `.value`)
 
 ```json
 // Before
@@ -329,7 +329,7 @@ export default defineConfig({
 ### Category Attributes
 
 **Style Dictionary:** Auto-generates `attributes.category`
-**@dsai/tools:** Use `$type` or explicit attributes
+**@dsai-io/tools:** Use `$type` or explicit attributes
 
 ```json
 // Before

@@ -13,7 +13,7 @@ This module provides utilities for:
 ## Installation
 
 ```tsx
-import { deepMerge, pick, omit } from '@dsai/react';
+import { deepMerge, pick, omit } from '@dsai-io/react';
 ```
 
 ---

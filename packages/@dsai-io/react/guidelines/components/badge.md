@@ -5,7 +5,7 @@ The Badge component displays small status labels, counters, or tags.
 ## Import
 
 ```tsx
-import { Badge } from '@dsai/react';
+import { Badge } from '@dsai-io/react';
 ```
 
 ## When to Use

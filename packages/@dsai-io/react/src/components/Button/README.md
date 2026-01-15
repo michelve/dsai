@@ -18,7 +18,7 @@ A versatile, accessible button component using Bootstrap 5 native classes with D
 ## Installation
 
 ```bash
-pnpm add @dsai/react @dsai/tools
+pnpm add @dsai-io/react @dsai-io/tools
 ```
 
 Then generate your design tokens:
@@ -72,7 +72,7 @@ button[data-visual-state="pressed"] {
 ### Basic Usage
 
 ```tsx
-import { Button } from '@dsai/react';
+import { Button } from '@dsai-io/react';
 // Import the generated theme CSS from your local project
 import './generated/dsai-theme-bs.css';
 

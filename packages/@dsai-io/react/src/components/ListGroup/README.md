@@ -14,7 +14,7 @@ An accessible list group component for displaying lists of content. Built with B
 ## Installation
 
 ```bash
-npm install @dsai/react
+npm install @dsai-io/react
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ npm install @dsai/react
 ### Basic ListGroup (Items Mode)
 
 ```tsx
-import { ListGroup } from '@dsai/react';
+import { ListGroup } from '@dsai-io/react';
 
 function Example() {
   return (
@@ -34,7 +34,7 @@ function Example() {
 ### Compound Components
 
 ```tsx
-import { ListGroup, ListGroupItem } from '@dsai/react';
+import { ListGroup, ListGroupItem } from '@dsai-io/react';
 
 function Example() {
   return (
@@ -112,7 +112,7 @@ function Example() {
 ### With Badges
 
 ```tsx
-import { Badge } from '@dsai/react';
+import { Badge } from '@dsai-io/react';
 
 <ListGroup>
   <ListGroupItem badge={<Badge variant="primary">14</Badge>}>Inbox</ListGroupItem>

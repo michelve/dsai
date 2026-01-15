@@ -5,7 +5,7 @@ The Avatar component displays a visual representation of users or entities.
 ## Import
 
 ```tsx
-import { Avatar } from '@dsai/react';
+import { Avatar } from '@dsai-io/react';
 ```
 
 ## When to Use

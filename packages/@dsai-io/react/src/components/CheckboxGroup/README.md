@@ -15,7 +15,7 @@ A high-level component managing multiple checkboxes with tri-state selection, op
 ## Installation
 
 ```bash
-pnpm add @dsai/react @dsai/tools
+pnpm add @dsai-io/react @dsai-io/tools
 ```
 
 Then generate your design tokens:
@@ -29,7 +29,7 @@ npx dsai tokens build
 ### Basic Usage
 
 ```tsx
-import { CheckboxGroup } from '@dsai/react';
+import { CheckboxGroup } from '@dsai-io/react';
 // Import the generated theme CSS from your local project
 import './generated/dsai-theme-bs.css';
 
@@ -275,5 +275,5 @@ import {
   type CheckboxGroupOption,
   type GroupSelectionState, // 'none' | 'some' | 'all'
   type CheckboxGroupFSMState, // Full FSM state type
-} from '@dsai/react';
+} from '@dsai-io/react';
 ```

@@ -5,7 +5,7 @@ The Spinner component displays a loading indicator animation.
 ## Import
 
 ```tsx
-import { Spinner } from '@dsai/react';
+import { Spinner } from '@dsai-io/react';
 ```
 
 ## When to Use

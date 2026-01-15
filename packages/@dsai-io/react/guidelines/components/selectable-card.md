@@ -5,7 +5,7 @@ The SelectableCard component provides a card variant that can be selected/toggle
 ## Import
 
 ```tsx
-import { SelectableCard } from '@dsai/react';
+import { SelectableCard } from '@dsai-io/react';
 ```
 
 ## When to Use

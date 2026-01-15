@@ -15,7 +15,7 @@ A container component that manages groups of SelectableCards with FSM-based sele
 ## Installation
 
 ```bash
-npm install @dsai/react
+npm install @dsai-io/react
 ```
 
 ## Usage
@@ -23,7 +23,7 @@ npm install @dsai/react
 ### Single Selection (Radio Behavior)
 
 ```tsx
-import { CardList, SelectableCard } from '@dsai/react';
+import { CardList, SelectableCard } from '@dsai-io/react';
 
 function PlanSelector() {
   const handleChange = (values: string[]) => {
@@ -43,7 +43,7 @@ function PlanSelector() {
 ### Multiple Selection (Checkbox Behavior)
 
 ```tsx
-import { CardList, SelectableCard } from '@dsai/react';
+import { CardList, SelectableCard } from '@dsai-io/react';
 import { useState } from 'react';
 
 function FeatureSelector() {
@@ -94,7 +94,7 @@ function FeatureSelector() {
 ### Using Visual State
 
 ```tsx
-import { CardList, SelectableCard, type CardListVisualState } from '@dsai/react';
+import { CardList, SelectableCard, type CardListVisualState } from '@dsai-io/react';
 
 function FeatureList() {
   const [visualState, setVisualState] = useState<CardListVisualState>('none');

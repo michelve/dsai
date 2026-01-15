@@ -16,7 +16,7 @@
 
 ## Description
 
-Update all source code imports that reference `@dsai/*` packages to use the new `@dsai-io/*` scope. This includes TypeScript/JavaScript imports in components, utilities, tests, stories, and application code.
+Update all source code imports that reference `@dsai-io/*` packages to use the new `@dsai-io/*` scope. This includes TypeScript/JavaScript imports in components, utilities, tests, stories, and application code.
 
 ---
 
@@ -40,8 +40,8 @@ Update all source code imports that reference `@dsai/*` packages to use the new 
 
 Source files in `packages/@dsai-io/react/src/`:
 
-- All component files importing from `@dsai/tokens`
-- All component files importing from `@dsai/tools`
+- All component files importing from `@dsai-io/tokens`
+- All component files importing from `@dsai-io/tools`
 - All test files (`.test.ts`, `.test.tsx`)
 - All story files (`.stories.tsx`)
 
@@ -63,15 +63,15 @@ Source files in `packages/@dsai-io/tokens/src/`:
 
 Source files in `packages/@dsai-io/figma-tokens/src/`:
 
-- Files importing from `@dsai/tools`
-- Files importing from `@dsai/tokens`
+- Files importing from `@dsai-io/tools`
+- Files importing from `@dsai-io/tokens`
 - Figma Code Connect files (`.figma.tsx`)
 
 ### Package: @dsai-io/storybook
 
 Source files in `packages/@dsai-io/storybook/`:
 
-- All story files importing from `@dsai/react`
+- All story files importing from `@dsai-io/react`
 - Configuration files importing @dsai packages
 - `.storybook/` configuration files
 
@@ -96,7 +96,7 @@ Application files in `apps/`:
 
 ```typescript
 // Before
-import { Button, Card } from '@dsai/react';
+import { Button, Card } from '@dsai-io/react';
 
 // After
 import { Button, Card } from '@dsai-io/react';
@@ -106,7 +106,7 @@ import { Button, Card } from '@dsai-io/react';
 
 ```typescript
 // Before
-import tokens from '@dsai/tokens';
+import tokens from '@dsai-io/tokens';
 
 // After
 import tokens from '@dsai-io/tokens';
@@ -116,7 +116,7 @@ import tokens from '@dsai-io/tokens';
 
 ```typescript
 // Before
-import { validateToken } from '@dsai/tools/validators';
+import { validateToken } from '@dsai-io/tools/validators';
 
 // After
 import { validateToken } from '@dsai-io/tools/validators';
@@ -126,7 +126,7 @@ import { validateToken } from '@dsai-io/tools/validators';
 
 ```typescript
 // Before
-import type { ButtonProps } from '@dsai/react';
+import type { ButtonProps } from '@dsai-io/react';
 
 // After
 import type { ButtonProps } from '@dsai-io/react';
@@ -136,7 +136,7 @@ import type { ButtonProps } from '@dsai-io/react';
 
 ```typescript
 // Before
-const module = await import('@dsai/react');
+const module = await import('@dsai-io/react');
 
 // After
 const module = await import('@dsai-io/react');
@@ -146,8 +146,8 @@ const module = await import('@dsai-io/react');
 
 ```typescript
 // Before
-export * from '@dsai/react';
-export { Button } from '@dsai/react';
+export * from '@dsai-io/react';
+export { Button } from '@dsai-io/react';
 
 // After
 export * from '@dsai-io/react';
@@ -162,33 +162,33 @@ export { Button } from '@dsai-io/react';
 
 ```bash
 # List all files with @dsai imports
-grep -rl "@dsai/" packages/@dsai-io apps --include="*.ts" --include="*.tsx" --include="*.js" --include="*.mjs" | wc -l
+grep -rl "@dsai-io/" packages/@dsai-io apps --include="*.ts" --include="*.tsx" --include="*.js" --include="*.mjs" | wc -l
 
 # Show actual files
-grep -rl "@dsai/" packages/@dsai-io apps --include="*.ts" --include="*.tsx" --include="*.js" --include="*.mjs"
+grep -rl "@dsai-io/" packages/@dsai-io apps --include="*.ts" --include="*.tsx" --include="*.js" --include="*.mjs"
 ```
 
 ### Step 2: Use sed for batch replacement (macOS)
 
 ```bash
 # Dry run - preview changes
-grep -rl "@dsai/" packages/@dsai-io apps --include="*.ts" --include="*.tsx" --include="*.js" --include="*.mjs" | xargs grep "@dsai/" | head -20
+grep -rl "@dsai-io/" packages/@dsai-io apps --include="*.ts" --include="*.tsx" --include="*.js" --include="*.mjs" | xargs grep "@dsai-io/" | head -20
 
 # Execute replacement
 find packages/@dsai-io apps -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.mjs" \) -exec sed -i '' 's/@dsai\//@dsai-io\//g' {} +
 ```
 
-### Step 3: Verify no @dsai/ imports remain
+### Step 3: Verify no @dsai-io/ imports remain
 
 ```bash
-grep -r "@dsai/" packages/@dsai-io apps --include="*.ts" --include="*.tsx" --include="*.js" --include="*.mjs" | grep -v "@dsai-io"
+grep -r "@dsai-io/" packages/@dsai-io apps --include="*.ts" --include="*.tsx" --include="*.js" --include="*.mjs" | grep -v "@dsai-io"
 # Should return no results
 ```
 
 ### Step 4: Update CSS @import statements (if any)
 
 ```bash
-grep -r "@dsai/" packages/@dsai-io apps --include="*.css" --include="*.scss"
+grep -r "@dsai-io/" packages/@dsai-io apps --include="*.css" --include="*.scss"
 # Update any found references
 ```
 
@@ -211,10 +211,10 @@ git add -A
 git commit -m "chore: update all source imports to @dsai-io
 
 - Updated ~460+ import statements across 200+ files
-- Changed @dsai/react to @dsai-io/react
-- Changed @dsai/tools to @dsai-io/tools
-- Changed @dsai/tokens to @dsai-io/tokens
-- Changed @dsai/figma-tokens to @dsai-io/figma-tokens
+- Changed @dsai-io/react to @dsai-io/react
+- Changed @dsai-io/tools to @dsai-io/tools
+- Changed @dsai-io/tokens to @dsai-io/tokens
+- Changed @dsai-io/figma-tokens to @dsai-io/figma-tokens
 - Updated re-exports and type imports
 
 Part of TASK-114 migration plan."
@@ -224,19 +224,19 @@ Part of TASK-114 migration plan."
 
 ## Acceptance Criteria
 
-- [x] All imports from `@dsai/*` changed to `@dsai-io/*`
+- [x] All imports from `@dsai-io/*` changed to `@dsai-io/*`
 - [x] All re-exports updated to new package names
 - [x] All type imports updated to new package names
 - [x] All dynamic imports updated to new package names
 - [ ] TypeScript compilation passes (`tsc --noEmit`) - deferred to TASK-116
 - [ ] All tests pass (`pnpm test`) - deferred to TASK-116
 - [ ] ESLint passes (`pnpm lint`) - deferred to TASK-116
-- [x] No references to `@dsai/` remain in source files
+- [x] No references to `@dsai-io/` remain in source files
 
 ### Actual Results
 
 - 223 files changed with 374 import replacements
-- All @dsai/ references converted to @dsai-io/
+- All @dsai-io/ references converted to @dsai-io/
 
 ---
 
@@ -244,11 +244,11 @@ Part of TASK-114 migration plan."
 
 ```bash
 # Check no old imports remain in TypeScript files
-grep -r "from '@dsai/" packages/@dsai-io apps --include="*.ts" --include="*.tsx" | grep -v "@dsai-io"
+grep -r "from '@dsai-io/" packages/@dsai-io apps --include="*.ts" --include="*.tsx" | grep -v "@dsai-io"
 # Expected: no output
 
 # Check no old imports remain in JavaScript files
-grep -r "from '@dsai/" packages/@dsai-io apps --include="*.js" --include="*.mjs" | grep -v "@dsai-io"
+grep -r "from '@dsai-io/" packages/@dsai-io apps --include="*.js" --include="*.mjs" | grep -v "@dsai-io"
 # Expected: no output
 
 # Verify new imports exist
@@ -274,10 +274,10 @@ Common patterns in this directory:
 
 ```typescript
 // Components importing tokens
-import { spacing, colors } from '@dsai/tokens';
+import { spacing, colors } from '@dsai-io/tokens';
 
 // Components importing utilities
-import { classNames } from '@dsai/tools';
+import { classNames } from '@dsai-io/tools';
 ```
 
 ### packages/@dsai-io/storybook/
@@ -286,7 +286,7 @@ Common patterns:
 
 ```typescript
 // Stories importing components
-import { Button, Card, Modal } from '@dsai/react';
+import { Button, Card, Modal } from '@dsai-io/react';
 ```
 
 ### apps/playground/src/
@@ -295,8 +295,8 @@ Common patterns:
 
 ```typescript
 // App importing design system
-import { ThemeProvider, Button } from '@dsai/react';
-import '@dsai/tokens/css/variables.css';
+import { ThemeProvider, Button } from '@dsai-io/react';
+import '@dsai-io/tokens/css/variables.css';
 ```
 
 ---
@@ -341,7 +341,7 @@ Files matching `*.figma.tsx` have special imports:
 
 ```typescript
 // Before
-import { Button } from '@dsai/react';
+import { Button } from '@dsai-io/react';
 import figma from '@figma/code-connect';
 
 // After
@@ -355,7 +355,7 @@ import figma from '@figma/code-connect';
 
 ```typescript
 // Before
-import { StorybookConfig } from '@dsai/storybook';
+import { StorybookConfig } from '@dsai-io/storybook';
 
 // After
 import { StorybookConfig } from '@dsai-io/storybook';
@@ -367,7 +367,7 @@ import { StorybookConfig } from '@dsai-io/storybook';
 
 ```typescript
 // Before
-export * from '@dsai/react';
+export * from '@dsai-io/react';
 
 // After
 export * from '@dsai-io/react';

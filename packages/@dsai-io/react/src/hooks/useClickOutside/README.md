@@ -15,10 +15,10 @@ A React hook that detects clicks or touches outside of specified element(s) and 
 
 ## Installation
 
-This hook is part of the `@dsai/react` package:
+This hook is part of the `@dsai-io/react` package:
 
 ```bash
-npm install @dsai/react
+npm install @dsai-io/react
 ```
 
 ## API
@@ -66,7 +66,7 @@ interface UseClickOutsideOptions {
 
 ```tsx
 import { useRef, useState } from 'react';
-import { useClickOutside } from '@dsai/react';
+import { useClickOutside } from '@dsai-io/react';
 
 function Tooltip() {
   const [isOpen, setIsOpen] = useState(false);
@@ -95,7 +95,7 @@ When your trigger and content are siblings (not parent-child), use multiple refs
 
 ```tsx
 import { useRef, useState } from 'react';
-import { useClickOutside } from '@dsai/react';
+import { useClickOutside } from '@dsai-io/react';
 
 function Dropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -127,7 +127,7 @@ Use pointer events instead of mouse/touch:
 
 ```tsx
 import { useRef } from 'react';
-import { useClickOutside } from '@dsai/react';
+import { useClickOutside } from '@dsai-io/react';
 
 function Dialog({ onClose }: { onClose: () => void }) {
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -151,7 +151,7 @@ Only enable click-outside detection when dropdown is open:
 
 ```tsx
 import { useRef, useState } from 'react';
-import { useClickOutside } from '@dsai/react';
+import { useClickOutside } from '@dsai-io/react';
 
 function Menu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -185,7 +185,7 @@ Works seamlessly with React portals:
 ```tsx
 import { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useClickOutside } from '@dsai/react';
+import { useClickOutside } from '@dsai-io/react';
 
 function Modal({ onClose }: { onClose: () => void }) {
   const modalRef = useRef<HTMLDivElement>(null);
@@ -212,7 +212,7 @@ Combine with keyboard event handling for full accessibility:
 
 ```tsx
 import { useRef, useState, useEffect } from 'react';
-import { useClickOutside } from '@dsai/react';
+import { useClickOutside } from '@dsai-io/react';
 
 function AccessibleDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -488,7 +488,7 @@ import type {
   UseClickOutsideOptions,
   UseClickOutsideRefs,
   UseClickOutsideCallback,
-} from '@dsai/react';
+} from '@dsai-io/react';
 
 const options: UseClickOutsideOptions = {
   enabled: true,

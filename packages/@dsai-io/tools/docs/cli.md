@@ -4,10 +4,10 @@ Complete reference for @DSAi/tools CLI commands.
 
 ## Installation
 
-The CLI is included with the `@dsai/tools` package:
+The CLI is included with the `@dsai-io/tools` package:
 
 ```bash
-npm install @dsai/tools
+npm install @dsai-io/tools
 ```
 
 Run commands with `npx dsai` or add scripts to your `package.json`.

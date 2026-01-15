@@ -14,7 +14,7 @@ An accessible breadcrumb navigation component built with Bootstrap 5 styling. Su
 ## Installation
 
 ```bash
-npm install @dsai/react
+npm install @dsai-io/react
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ npm install @dsai/react
 ### Basic Breadcrumb (Items Mode)
 
 ```tsx
-import { Breadcrumb } from '@dsai/react';
+import { Breadcrumb } from '@dsai-io/react';
 
 function Example() {
   return (
@@ -41,7 +41,7 @@ function Example() {
 ### Compound Components
 
 ```tsx
-import { Breadcrumb, BreadcrumbItem } from '@dsai/react';
+import { Breadcrumb, BreadcrumbItem } from '@dsai-io/react';
 
 function Example() {
   return (
@@ -256,7 +256,7 @@ import {
   expandEvent,
   isExpanded,
   resetFromPropsEvent,
-} from '@dsai/react';
+} from '@dsai-io/react';
 
 // Create initial state
 const state = createInitialBreadcrumbFSMState(false);

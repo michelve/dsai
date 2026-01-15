@@ -30,7 +30,7 @@ For additional sizing flexibility:
 ### With Icon Component
 
 ```tsx
-import { Icon } from '@dsai/react';
+import { Icon } from '@dsai-io/react';
 
 // Default size (24px)
 <Icon name="home" />
@@ -100,7 +100,7 @@ import { Home, Settings, User } from 'lucide-react';
 ## SCSS Usage
 
 ```scss
-@use '@dsai/tokens' as *;
+@use '@dsai-io/tokens' as *;
 
 .icon-sm {
   width: 16px;

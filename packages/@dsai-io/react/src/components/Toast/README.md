@@ -22,7 +22,7 @@ The Toast component provides a way to display brief, non-blocking notifications 
 ## Installation
 
 ```tsx
-import { Toast, ToastContainer, ToastProvider, useToast } from '@dsai/react';
+import { Toast, ToastContainer, ToastProvider, useToast } from '@dsai-io/react';
 ```
 
 ## Basic Usage
@@ -30,7 +30,7 @@ import { Toast, ToastContainer, ToastProvider, useToast } from '@dsai/react';
 ### Standalone Toast
 
 ```tsx
-import { Toast } from '@dsai/react';
+import { Toast } from '@dsai-io/react';
 
 function Example() {
   const [show, setShow] = useState(true);
@@ -49,7 +49,7 @@ function Example() {
 ### With ToastProvider (Recommended)
 
 ```tsx
-import { ToastProvider, useToast } from '@dsai/react';
+import { ToastProvider, useToast } from '@dsai-io/react';
 
 // Wrap your app
 function App() {
@@ -214,7 +214,7 @@ console.log(toast.toasts);
 ### Complete Integration Example
 
 ```tsx
-import { ToastProvider, useToast, Button } from '@dsai/react';
+import { ToastProvider, useToast, Button } from '@dsai-io/react';
 
 function App() {
   return (

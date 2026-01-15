@@ -18,7 +18,7 @@ Complete reference for all @DSAi/tools configuration options.
 ## Basic Configuration
 
 ```javascript
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {
@@ -257,7 +257,7 @@ interface HookContext {
 ### Minimal Configuration
 
 ```javascript
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {
@@ -269,7 +269,7 @@ export default defineConfig({
 ### Full Configuration
 
 ```javascript
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   global: {
@@ -311,7 +311,7 @@ export default defineConfig({
 ### Enterprise Configuration
 
 ```javascript
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   extends: '@acme/design-tokens-config',

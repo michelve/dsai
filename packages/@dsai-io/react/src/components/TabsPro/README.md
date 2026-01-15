@@ -14,11 +14,11 @@ TabsPro wraps the base `Tabs` component and adds enterprise-grade features:
 
 ## Installation
 
-TabsPro is part of the `@dsai/react` package:
+TabsPro is part of the `@dsai-io/react` package:
 
 ```tsx
-import { TabsPro } from '@dsai/react';
-import type { TabsProItem } from '@dsai/react';
+import { TabsPro } from '@dsai-io/react';
+import type { TabsProItem } from '@dsai-io/react';
 ```
 
 ## Basic Usage

@@ -5,7 +5,7 @@ The Popover component displays interactive content in a popup triggered by click
 ## Import
 
 ```tsx
-import { Popover } from '@dsai/react';
+import { Popover } from '@dsai-io/react';
 ```
 
 ## When to Use

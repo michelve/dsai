@@ -9,7 +9,7 @@ Design tokens for typography in the DSAi design system. Use the Typography compo
 Always prefer the Typography component for semantic text:
 
 ```tsx
-import { Typography } from '@dsai/react';
+import { Typography } from '@dsai-io/react';
 
 // Headings
 <Typography.H1>Page Title</Typography.H1>
@@ -162,7 +162,7 @@ Line heights are optimized for readability and WCAG compliance:
 ### SCSS Usage
 
 ```scss
-@use '@dsai/tokens' as *;
+@use '@dsai-io/tokens' as *;
 
 .custom-heading {
   font-family: $font-family-base;

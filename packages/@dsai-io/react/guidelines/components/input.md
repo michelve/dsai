@@ -5,7 +5,7 @@ The Input component provides single-line text input fields with labels, validati
 ## Import
 
 ```tsx
-import { Input } from '@dsai/react';
+import { Input } from '@dsai-io/react';
 ```
 
 ## When to Use

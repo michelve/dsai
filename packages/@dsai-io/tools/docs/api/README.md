@@ -9,13 +9,13 @@ Programmatic API reference for @DSAi/tools.
 ## Installation
 
 ```bash
-npm install @dsai/tools
+npm install @dsai-io/tools
 ```
 
 ## Quick Example
 
 ```typescript
-import { loadConfig, buildTokens, buildIcons } from '@dsai/tools';
+import { loadConfig, buildTokens, buildIcons } from '@dsai-io/tools';
 
 // Load configuration
 const { config } = await loadConfig();
@@ -88,7 +88,7 @@ interface TokenValidationResult {
 All API functions throw typed errors:
 
 ```typescript
-import { ConfigError, BuildError, ValidationError } from '@dsai/tools';
+import { ConfigError, BuildError, ValidationError } from '@dsai-io/tools';
 
 try {
   await buildTokens(config);
@@ -108,7 +108,7 @@ try {
 Control logging output:
 
 ```typescript
-import { setLogLevel } from '@dsai/tools';
+import { setLogLevel } from '@dsai-io/tools';
 
 // Options: 'debug', 'info', 'warn', 'error', 'silent'
 setLogLevel('info');

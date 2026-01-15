@@ -15,7 +15,7 @@ Reusable React hooks for the DSAi design system.
 ## Quick Start
 
 ```tsx
-import { useMediaQuery, useClickOutside, useFocusTrap } from '@dsai/react';
+import { useMediaQuery, useClickOutside, useFocusTrap } from '@dsai-io/react';
 
 function ResponsiveModal({ isOpen, onClose }: ModalProps) {
   const isMobile = useMediaQuery('(max-width: 767.98px)');

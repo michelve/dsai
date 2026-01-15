@@ -5,7 +5,7 @@ The Switch component provides a toggle for binary on/off settings.
 ## Import
 
 ```tsx
-import { Switch } from '@dsai/react';
+import { Switch } from '@dsai-io/react';
 ```
 
 ## When to Use

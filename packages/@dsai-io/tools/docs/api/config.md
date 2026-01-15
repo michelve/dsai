@@ -9,7 +9,7 @@ API reference for configuration loading and management.
 Type-safe configuration helper.
 
 ```typescript
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {
@@ -39,7 +39,7 @@ function defineConfig(config: DsaiConfig): DsaiConfig;
 Load configuration from the filesystem.
 
 ```typescript
-import { loadConfig } from '@dsai/tools';
+import { loadConfig } from '@dsai-io/tools';
 
 const { config, filepath } = await loadConfig();
 console.log('Loaded from:', filepath);
@@ -87,7 +87,7 @@ const { config } = await loadConfig({ configPath: './custom.config.mjs' });
 Validate a configuration object against the schema.
 
 ```typescript
-import { validateConfig } from '@dsai/tools';
+import { validateConfig } from '@dsai-io/tools';
 
 const result = validateConfig(myConfig);
 if (!result.valid) {
@@ -126,7 +126,7 @@ interface ValidationResult {
 Resolve a partial config with defaults.
 
 ```typescript
-import { resolveConfig } from '@dsai/tools';
+import { resolveConfig } from '@dsai-io/tools';
 
 const fullConfig = resolveConfig(partialConfig);
 ```
@@ -152,7 +152,7 @@ function resolveConfig(config: Partial<DsaiConfig>): ResolvedConfig;
 Merge multiple configuration objects.
 
 ```typescript
-import { mergeConfigs } from '@dsai/tools';
+import { mergeConfigs } from '@dsai-io/tools';
 
 const merged = mergeConfigs(baseConfig, overrideConfig);
 ```
@@ -213,7 +213,7 @@ interface ResolvedConfig {
 ## Error Handling
 
 ```typescript
-import { loadConfig, ConfigError } from '@dsai/tools';
+import { loadConfig, ConfigError } from '@dsai-io/tools';
 
 try {
   const { config } = await loadConfig();

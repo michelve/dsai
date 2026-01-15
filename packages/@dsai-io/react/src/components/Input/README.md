@@ -16,7 +16,7 @@ A flexible text input component built with Bootstrap 5 classes. Supports multipl
 ## Installation
 
 ```bash
-npm install @dsai/react
+npm install @dsai-io/react
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ npm install @dsai/react
 ### Basic Input
 
 ```tsx
-import { Input } from '@dsai/react';
+import { Input } from '@dsai-io/react';
 
 function Example() {
   return <Input label="Name" placeholder="Enter your name" />;

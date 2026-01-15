@@ -12,10 +12,10 @@ The Typography system includes three main components:
 
 ## Installation
 
-Typography is part of the `@dsai/react` package:
+Typography is part of the `@dsai-io/react` package:
 
 ```tsx
-import { Heading, Display, Text, Typography } from '@dsai/react';
+import { Heading, Display, Text, Typography } from '@dsai-io/react';
 ```
 
 ## Components
@@ -164,7 +164,7 @@ Body copy, lead paragraphs, and inline text variants.
 All components are available through the `Typography` namespace:
 
 ```tsx
-import { Typography } from '@dsai/react';
+import { Typography } from '@dsai-io/react';
 
 <Typography.Heading level={1}>Title</Typography.Heading>
 <Typography.Display size={2}>Hero</Typography.Display>

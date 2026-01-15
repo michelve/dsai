@@ -5,7 +5,7 @@ The Dropdown component provides a toggle-triggered menu with options.
 ## Import
 
 ```tsx
-import { Dropdown } from '@dsai/react';
+import { Dropdown } from '@dsai-io/react';
 ```
 
 ## When to Use

@@ -22,7 +22,7 @@ import {
   rgbToHsl,
   getLighterShade,
   getDarkerShade,
-} from '@dsai/react';
+} from '@dsai-io/react';
 ```
 
 ---

@@ -14,7 +14,7 @@ This module provides utilities for:
 ## Installation
 
 ```tsx
-import { isEnterKey, isEscapeKey } from '@dsai/react';
+import { isEnterKey, isEscapeKey } from '@dsai-io/react';
 ```
 
 ---

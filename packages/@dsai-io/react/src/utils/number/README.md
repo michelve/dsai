@@ -13,7 +13,7 @@ This module provides utilities for:
 ## Installation
 
 ```tsx
-import { formatNumber, formatCurrency, clamp } from '@dsai/react';
+import { formatNumber, formatCurrency, clamp } from '@dsai-io/react';
 ```
 
 ---

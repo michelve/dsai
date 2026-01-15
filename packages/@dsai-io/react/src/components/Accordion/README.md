@@ -15,10 +15,10 @@ A fully accessible accordion component using Bootstrap 5 native classes with smo
 
 ## Installation
 
-The Accordion component is part of the `@dsai/react` package:
+The Accordion component is part of the `@dsai-io/react` package:
 
 ```tsx
-import { Accordion } from '@dsai/react';
+import { Accordion } from '@dsai-io/react';
 ```
 
 ## Usage
@@ -26,7 +26,7 @@ import { Accordion } from '@dsai/react';
 ### Basic Accordion
 
 ```tsx
-import { Accordion, Heading } from '@dsai/react';
+import { Accordion, Heading } from '@dsai-io/react';
 
 function Example() {
   return (
@@ -112,7 +112,7 @@ function Example() {
 
 ```tsx
 import { useState } from 'react';
-import { Accordion } from '@dsai/react';
+import { Accordion } from '@dsai-io/react';
 
 function ControlledAccordion() {
   const [activeKeys, setActiveKeys] = useState<string[]>(['0']);
@@ -157,7 +157,7 @@ function ControlledAccordion() {
 ### With Icons and Custom Content
 
 ```tsx
-import { ChevronRightIcon, StarIcon, GearIcon } from '@dsai/react';
+import { ChevronRightIcon, StarIcon, GearIcon } from '@dsai-io/react';
 
 <Accordion>
   <Accordion.Item eventKey="0">
@@ -240,7 +240,7 @@ import { ChevronRightIcon, StarIcon, GearIcon } from '@dsai/react';
 Accordions can be nested within panels for hierarchical content:
 
 ```tsx
-import { Accordion, Heading } from '@dsai/react';
+import { Accordion, Heading } from '@dsai-io/react';
 
 <Accordion>
   <Accordion.Item eventKey="0">

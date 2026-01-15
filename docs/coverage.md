@@ -147,7 +147,7 @@ collectCoverageFrom: [
 2. Coverage uploaded for ignored files
 3. Wrong language association
 
-**Solution**: Ensure coverage report uses paths relative to repository root (e.g., `packages/@dsai/react/src/Button.tsx`)
+**Solution**: Ensure coverage report uses paths relative to repository root (e.g., `packages/@dsai-io/react/src/Button.tsx`)
 
 ### Pull Request Not Showing Coverage Diff
 
@@ -176,11 +176,11 @@ If running tests in parallel or per package:
 ```bash
 # Upload each package's coverage as partial
 bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
-  -r packages/@dsai/react/coverage/lcov.info \
+  -r packages/@dsai-io/react/coverage/lcov.info \
   --partial
 
 bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
-  -r packages/@dsai/tools/coverage/lcov.info \
+  -r packages/@dsai-io/tools/coverage/lcov.info \
   --partial
 
 # Send final notification

@@ -24,7 +24,7 @@ import {
   toggleAllEvent,
   mapPlacement,
   normalizeTriggers,
-} from '@dsai/react';
+} from '@dsai-io/react';
 ```
 
 ---

@@ -12,7 +12,7 @@ This module provides utilities for:
 ## Installation
 
 ```tsx
-import { getResponsiveValue } from '@dsai/react';
+import { getResponsiveValue } from '@dsai-io/react';
 ```
 
 ---

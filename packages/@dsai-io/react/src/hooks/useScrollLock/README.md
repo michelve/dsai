@@ -15,17 +15,17 @@ A React hook that locks/unlocks scrolling on the document body or a custom eleme
 ## Installation
 
 ```bash
-npm install @dsai/react
+npm install @dsai-io/react
 # or
-pnpm add @dsai/react
+pnpm add @dsai-io/react
 # or
-yarn add @dsai/react
+yarn add @dsai-io/react
 ```
 
 ## Basic Usage
 
 ```tsx
-import { useScrollLock } from '@dsai/react';
+import { useScrollLock } from '@dsai-io/react';
 
 function Modal({ isOpen }: { isOpen: boolean }) {
   useScrollLock({ enabled: isOpen });
@@ -97,7 +97,7 @@ interface UseScrollLockReturn {
 
 ```tsx
 import { useState } from 'react';
-import { useScrollLock } from '@dsai/react';
+import { useScrollLock } from '@dsai-io/react';
 
 function Drawer() {
   const [isOpen, setIsOpen] = useState(false);
@@ -121,7 +121,7 @@ function Drawer() {
 ### Manual Control
 
 ```tsx
-import { useScrollLock } from '@dsai/react';
+import { useScrollLock } from '@dsai-io/react';
 
 function CustomComponent() {
   const { lock, unlock, isLocked } = useScrollLock({ enabled: false });
@@ -139,7 +139,7 @@ function CustomComponent() {
 ### Multiple Overlays (Stacking)
 
 ```tsx
-import { useScrollLock } from '@dsai/react';
+import { useScrollLock } from '@dsai-io/react';
 
 // Both modal and drawer can be open at the same time
 // Scrolling is only unlocked when BOTH are closed
@@ -169,7 +169,7 @@ function Drawer({ isOpen, onClose }: DrawerProps) {
 ### Without Scrollbar Compensation
 
 ```tsx
-import { useScrollLock } from '@dsai/react';
+import { useScrollLock } from '@dsai-io/react';
 
 function FullscreenVideo() {
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -193,7 +193,7 @@ function FullscreenVideo() {
 
 ```tsx
 import { useRef } from 'react';
-import { useScrollLock } from '@dsai/react';
+import { useScrollLock } from '@dsai-io/react';
 
 function ScrollablePanel() {
   const panelRef = useRef<HTMLDivElement>(null);
@@ -256,7 +256,7 @@ Works in all modern browsers. Uses:
 Fully typed with TypeScript. All interfaces are exported for use in your code:
 
 ```tsx
-import type { UseScrollLockOptions, UseScrollLockReturn, UseScrollLockTarget } from '@dsai/react';
+import type { UseScrollLockOptions, UseScrollLockReturn, UseScrollLockTarget } from '@dsai-io/react';
 ```
 
 ## Related Hooks

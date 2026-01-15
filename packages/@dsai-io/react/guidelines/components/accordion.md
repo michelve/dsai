@@ -5,7 +5,7 @@ The Accordion component displays collapsible content sections.
 ## Import
 
 ```tsx
-import { Accordion } from '@dsai/react';
+import { Accordion } from '@dsai-io/react';
 ```
 
 ## When to Use
@@ -34,7 +34,7 @@ Do not use Accordion when:
 
   <Accordion.Item value="item-2">
     <Accordion.Header>How do I install it?</Accordion.Header>
-    <Accordion.Content>Run npm install @dsai/react to add it to your project.</Accordion.Content>
+    <Accordion.Content>Run npm install @dsai-io/react to add it to your project.</Accordion.Content>
   </Accordion.Item>
 </Accordion>
 ```

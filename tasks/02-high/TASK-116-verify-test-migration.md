@@ -52,21 +52,21 @@ nx reset
 ### Step 2: Verify No Old References Remain
 
 ```bash
-# Search for ANY remaining @dsai/ references (excluding @dsai-io)
+# Search for ANY remaining @dsai-io/ references (excluding @dsai-io)
 echo "=== Checking TypeScript/JavaScript files ==="
-grep -r "@dsai/" . --include="*.ts" --include="*.tsx" --include="*.js" --include="*.mjs" --include="*.cjs" | grep -v "@dsai-io" | grep -v node_modules | grep -v ".git"
+grep -r "@dsai-io/" . --include="*.ts" --include="*.tsx" --include="*.js" --include="*.mjs" --include="*.cjs" | grep -v "@dsai-io" | grep -v node_modules | grep -v ".git"
 
 echo "=== Checking JSON files ==="
-grep -r "@dsai/" . --include="*.json" | grep -v "@dsai-io" | grep -v node_modules | grep -v ".git"
+grep -r "@dsai-io/" . --include="*.json" | grep -v "@dsai-io" | grep -v node_modules | grep -v ".git"
 
 echo "=== Checking YAML files ==="
-grep -r "@dsai/" . --include="*.yaml" --include="*.yml" | grep -v "@dsai-io" | grep -v node_modules | grep -v ".git"
+grep -r "@dsai-io/" . --include="*.yaml" --include="*.yml" | grep -v "@dsai-io" | grep -v node_modules | grep -v ".git"
 
 echo "=== Checking Markdown files ==="
-grep -r "@dsai/" . --include="*.md" | grep -v "@dsai-io" | grep -v node_modules | grep -v ".git"
+grep -r "@dsai-io/" . --include="*.md" | grep -v "@dsai-io" | grep -v node_modules | grep -v ".git"
 
 echo "=== Checking all other files ==="
-grep -r "@dsai/" . --include="*" | grep -v "@dsai-io" | grep -v node_modules | grep -v ".git" | grep -v ".pnpm"
+grep -r "@dsai-io/" . --include="*" | grep -v "@dsai-io" | grep -v node_modules | grep -v ".git" | grep -v ".pnpm"
 ```
 
 Expected output for all: **No matches found**
@@ -80,7 +80,7 @@ ls -la packages/@dsai-io/
 
 # Verify old folder doesn't exist
 echo "=== Verify old folder removed ==="
-ls packages/@dsai/ 2>&1 && echo "ERROR: Old folder still exists!" || echo "OK: Old folder removed"
+ls packages/@dsai-io/ 2>&1 && echo "ERROR: Old folder still exists!" || echo "OK: Old folder removed"
 
 # Show package names from package.json
 echo "=== Package names ==="
@@ -197,8 +197,8 @@ Manual checks:
 
 ### No Old References
 
-- [ ] Zero `@dsai/` references found (excluding `@dsai-io`)
-- [ ] Old `packages/@dsai/` folder does not exist
+- [ ] Zero `@dsai-io/` references found (excluding `@dsai-io`)
+- [ ] Old `packages/@dsai-io/` folder does not exist
 - [ ] No old paths in any configuration files
 
 ### Build Success
@@ -245,7 +245,7 @@ Create a verification report:
 # Migration Verification Report
 
 **Date**: [DATE]
-**Migration**: @dsai/_ → @dsai-io/_
+**Migration**: @dsai-io/_ → @dsai-io/_
 
 ## Summary
 
@@ -282,7 +282,7 @@ git add -A
 git commit -m "chore: complete @dsai to @dsai-io migration verification
 
 All verification checks passed:
-- No old @dsai/ references remain
+- No old @dsai-io/ references remain
 - Build successful
 - All tests pass
 - Lint passes
@@ -306,11 +306,11 @@ gh pr create \
   --title "chore: migrate package scope from @dsai to @dsai-io" \
   --body "## Summary
 
-This PR migrates all packages from the \`@dsai/*\` scope to \`@dsai-io/*\`.
+This PR migrates all packages from the \`@dsai-io/*\` scope to \`@dsai-io/*\`.
 
 ## Changes
 
-- Renamed all package folders from \`packages/@dsai/*\` to \`packages/@dsai-io/*\`
+- Renamed all package folders from \`packages/@dsai-io/*\` to \`packages/@dsai-io/*\`
 - Updated all package.json files with new names and \`private: true\`
 - Updated all configuration files (tsconfig, nx, jest, etc.)
 - Updated all source code imports

@@ -14,7 +14,7 @@ An accessible table-of-contents style navigation that highlights the section tha
 ## Installation
 
 ```tsx
-import { Scrollspy } from '@dsai/react';
+import { Scrollspy } from '@dsai-io/react';
 ```
 
 ## Basic usage
@@ -99,7 +99,7 @@ const nestedItems = [
 ## Sharing state with the provider
 
 ```tsx
-import { ScrollspyProvider, Scrollspy, useScrollspy } from '@dsai/react';
+import { ScrollspyProvider, Scrollspy, useScrollspy } from '@dsai-io/react';
 
 function ActiveBadge(): React.ReactElement {
   const { activeId, scrollToSection } = useScrollspy();

@@ -14,7 +14,7 @@ This module provides utilities for:
 ## Installation
 
 ```tsx
-import { parseFormData, serializeForm, validateField, validateForm, submitForm } from '@dsai/react';
+import { parseFormData, serializeForm, validateField, validateForm, submitForm } from '@dsai-io/react';
 ```
 
 ---

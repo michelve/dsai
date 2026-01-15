@@ -16,10 +16,10 @@ A React hook for trapping keyboard focus within a container element. Essential f
 
 ## Installation
 
-The useFocusTrap hook is part of the `@dsai/react` package:
+The useFocusTrap hook is part of the `@dsai-io/react` package:
 
 ```tsx
-import { useFocusTrap } from '@dsai/react';
+import { useFocusTrap } from '@dsai-io/react';
 ```
 
 ## Usage
@@ -27,7 +27,7 @@ import { useFocusTrap } from '@dsai/react';
 ### Basic Usage
 
 ```tsx
-import { useFocusTrap } from '@dsai/react';
+import { useFocusTrap } from '@dsai-io/react';
 
 function Dialog({ isOpen, onClose, children }) {
   const { containerRef } = useFocusTrap({
@@ -49,7 +49,7 @@ function Dialog({ isOpen, onClose, children }) {
 
 ```tsx
 import { useRef } from 'react';
-import { useFocusTrap } from '@dsai/react';
+import { useFocusTrap } from '@dsai-io/react';
 
 function ConfirmDialog({ isOpen, onConfirm, onCancel }) {
   const confirmButtonRef = useRef<HTMLButtonElement>(null);
@@ -76,7 +76,7 @@ function ConfirmDialog({ isOpen, onConfirm, onCancel }) {
 ### Manual Control
 
 ```tsx
-import { useFocusTrap } from '@dsai/react';
+import { useFocusTrap } from '@dsai-io/react';
 
 function CustomOverlay() {
   const { containerRef, activate, deactivate, isActive } = useFocusTrap({
@@ -99,7 +99,7 @@ function CustomOverlay() {
 
 ```tsx
 import { useRef } from 'react';
-import { useFocusTrap } from '@dsai/react';
+import { useFocusTrap } from '@dsai-io/react';
 
 function Modal({ isOpen, children }) {
   const modalRef = useRef<HTMLDivElement>(null);
@@ -123,7 +123,7 @@ function Modal({ isOpen, children }) {
 
 ```tsx
 import { useRef } from 'react';
-import { useFocusTrap } from '@dsai/react';
+import { useFocusTrap } from '@dsai-io/react';
 
 function Sheet({ isOpen, onClose }) {
   const triggerRef = useRef<HTMLButtonElement>(null);

@@ -5,7 +5,7 @@ The CardList component displays a grid or list of selectable cards.
 ## Import
 
 ```tsx
-import { CardList } from '@dsai/react';
+import { CardList } from '@dsai-io/react';
 ```
 
 ## When to Use

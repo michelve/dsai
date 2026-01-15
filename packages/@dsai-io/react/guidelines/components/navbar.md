@@ -5,7 +5,7 @@ The Navbar component provides a responsive navigation header.
 ## Import
 
 ```tsx
-import { Navbar } from '@dsai/react';
+import { Navbar } from '@dsai-io/react';
 ```
 
 ## When to Use

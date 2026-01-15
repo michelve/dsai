@@ -12,7 +12,7 @@ This module provides utilities for:
 ## Installation
 
 ```tsx
-import { debounce, throttle } from '@dsai/react';
+import { debounce, throttle } from '@dsai-io/react';
 ```
 
 ---

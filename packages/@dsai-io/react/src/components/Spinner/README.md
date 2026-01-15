@@ -14,7 +14,7 @@ A Bootstrap 5 spinner component for indicating loading states.
 ## Installation
 
 ```bash
-pnpm add @dsai/react @dsai/tools
+pnpm add @dsai-io/react @dsai-io/tools
 ```
 
 Then generate your design tokens:
@@ -28,7 +28,7 @@ npx dsai tokens build
 ### Basic Usage
 
 ```tsx
-import { Spinner } from '@dsai/react';
+import { Spinner } from '@dsai-io/react';
 // Import the generated theme CSS from your local project
 import './generated/dsai-theme-bs.css';
 
@@ -82,7 +82,7 @@ function App() {
 ### In Buttons
 
 ```tsx
-import { Button, Spinner } from '@dsai/react';
+import { Button, Spinner } from '@dsai-io/react';
 
 // Loading button
 <Button disabled>

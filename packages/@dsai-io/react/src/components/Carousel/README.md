@@ -15,7 +15,7 @@ A fully accessible carousel component for cycling through images or content. Sup
 ## Installation
 
 ```tsx
-import { Carousel, CarouselItem, CarouselCaption } from '@dsai/react';
+import { Carousel, CarouselItem, CarouselCaption } from '@dsai-io/react';
 ```
 
 ## Basic Usage
@@ -280,7 +280,7 @@ The Carousel uses a Finite State Machine (FSM) for predictable state management.
 ### Using the FSM Directly
 
 ```tsx
-import { carouselFSMReducer, createInitialCarouselFSMState } from '@dsai/react';
+import { carouselFSMReducer, createInitialCarouselFSMState } from '@dsai-io/react';
 
 const initialState = createInitialCarouselFSMState(0, 5, false);
 const nextState = carouselFSMReducer(initialState, { type: 'NEXT' });

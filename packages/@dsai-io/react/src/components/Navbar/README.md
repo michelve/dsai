@@ -16,10 +16,10 @@ A fully accessible responsive navigation header component using Bootstrap 5 nati
 
 ## Installation
 
-The Navbar component is part of the `@dsai/react` package:
+The Navbar component is part of the `@dsai-io/react` package:
 
 ```tsx
-import { Navbar } from '@dsai/react';
+import { Navbar } from '@dsai-io/react';
 ```
 
 ## Usage
@@ -27,7 +27,7 @@ import { Navbar } from '@dsai/react';
 ### Basic Navbar
 
 ```tsx
-import { Navbar } from '@dsai/react';
+import { Navbar } from '@dsai-io/react';
 
 function Example() {
   return (
@@ -150,7 +150,7 @@ function Example() {
 
 ```tsx
 import { useState } from 'react';
-import { Navbar } from '@dsai/react';
+import { Navbar } from '@dsai-io/react';
 
 function ControlledNavbar() {
   const [expanded, setExpanded] = useState(false);
@@ -223,7 +223,7 @@ function ControlledNavbar() {
 ### With Dropdown
 
 ```tsx
-import { Navbar, Dropdown } from '@dsai/react';
+import { Navbar, Dropdown } from '@dsai-io/react';
 
 <Navbar>
   <Navbar.Brand href="#">Brand</Navbar.Brand>

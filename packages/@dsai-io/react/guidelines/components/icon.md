@@ -5,7 +5,7 @@ The Icon component renders SVG icons with consistent sizing.
 ## Import
 
 ```tsx
-import { Icon } from '@dsai/react';
+import { Icon } from '@dsai-io/react';
 ```
 
 ## When to Use

@@ -13,8 +13,8 @@ This module provides:
 ## Installation
 
 ```tsx
-import { isExternalUrl } from '@dsai/react';
-import type { SlugifyOptions, TruncateOptions } from '@dsai/react';
+import { isExternalUrl } from '@dsai-io/react';
+import type { SlugifyOptions, TruncateOptions } from '@dsai-io/react';
 ```
 
 ---
@@ -193,7 +193,7 @@ import type {
 
   // Misc utilities
   SafeInputAttributes,
-} from '@dsai/react';
+} from '@dsai-io/react';
 ```
 
 ### String Utility Types
@@ -431,7 +431,7 @@ function Button({ variant = 'primary' }: ButtonProps) {
 ### Type-Safe Component Props
 
 ```tsx
-import type { BootstrapVariant, VariantClassOptions } from '@dsai/react';
+import type { BootstrapVariant, VariantClassOptions } from '@dsai-io/react';
 
 interface ButtonProps {
   variant?: BootstrapVariant;
@@ -447,7 +447,7 @@ function Button({ variant = 'primary', children }: ButtonProps) {
 ### Conditional Link Rendering
 
 ```tsx
-import { isExternalUrl } from '@dsai/react';
+import { isExternalUrl } from '@dsai-io/react';
 
 function ConditionalLink({ href, children }: LinkProps) {
   if (isExternalUrl(href)) {
@@ -465,7 +465,7 @@ function ConditionalLink({ href, children }: LinkProps) {
 ### Type-Safe Options
 
 ```tsx
-import type { TruncateOptions, CapitalizeOptions } from '@dsai/react';
+import type { TruncateOptions, CapitalizeOptions } from '@dsai-io/react';
 
 const truncateConfig: TruncateOptions = {
   maxLength: 150,
@@ -487,7 +487,7 @@ const title = capitalize(text, capitalizeConfig);
 ### Shared Configuration
 
 ```tsx
-import type { FormatNumberOptions, FormatCurrencyOptions } from '@dsai/react';
+import type { FormatNumberOptions, FormatCurrencyOptions } from '@dsai-io/react';
 
 // Reusable number format config
 const dashboardNumberFormat: FormatNumberOptions = {

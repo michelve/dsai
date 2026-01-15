@@ -12,7 +12,7 @@ This module provides utilities for:
 ## Installation
 
 ```tsx
-import { isBrowser, prefersReducedMotion } from '@dsai/react';
+import { isBrowser, prefersReducedMotion } from '@dsai-io/react';
 ```
 
 ---

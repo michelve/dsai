@@ -21,7 +21,7 @@ import {
   catchErrors,
   wrapWithTelemetry,
   setTelemetryClient,
-} from '@dsai/react';
+} from '@dsai-io/react';
 ```
 
 ---

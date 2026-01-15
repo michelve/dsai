@@ -1,6 +1,6 @@
 # Tools Directory
 
-This directory contains utility scripts and development tools that are **not** part of the `@dsai/tools` package. These scripts remain here because they are:
+This directory contains utility scripts and development tools that are **not** part of the `@dsai-io/tools` package. These scripts remain here because they are:
 
 - **Shell scripts** that can't be easily converted to TypeScript
 - **One-off utilities** used infrequently for specific tasks
@@ -9,7 +9,7 @@ This directory contains utility scripts and development tools that are **not** p
 
 ## 🔄 Migrated to @DSAi/tools
 
-The following functionality has been migrated to the `@dsai/tools` package and should be accessed via the `dsai` CLI:
+The following functionality has been migrated to the `@dsai-io/tools` package and should be accessed via the `dsai` CLI:
 
 | Old Script                         | New CLI Command           | Description                           |
 | ---------------------------------- | ------------------------- | ------------------------------------- |
@@ -21,7 +21,7 @@ The following functionality has been migrated to the `@dsai/tools` package and s
 | `scripts/tokens/build-all.cjs`     | `dsai tokens build`       | Complete token build pipeline         |
 | Icon generation scripts            | `dsai icons build`        | Build React icon components           |
 
-See [`packages/@dsai/tools/README.md`](../packages/@dsai/tools/README.md) for full CLI documentation.
+See [`packages/@dsai-io/tools/README.md`](../packages/@dsai-io/tools/README.md) for full CLI documentation.
 
 ## 📁 Directory Structure
 
@@ -83,8 +83,8 @@ Utility scripts organized by category. See [`scripts/README.md`](./scripts/READM
 
 | Script                | Description                      | Usage                                  |
 | --------------------- | -------------------------------- | -------------------------------------- |
-| `kill-storybook.sh`   | Kill running Storybook processes | `pnpm --filter @dsai/storybook kill`   |
-| `verify-storybook.sh` | Verify Storybook build           | `pnpm --filter @dsai/storybook verify` |
+| `kill-storybook.sh`   | Kill running Storybook processes | `pnpm --filter @dsai-io/storybook kill`   |
+| `verify-storybook.sh` | Verify Storybook build           | `pnpm --filter @dsai-io/storybook verify` |
 
 #### `scripts/icons/`
 
@@ -140,18 +140,18 @@ node tools/scripts/tokens/enhance-color-tokens.cjs
 
 ```bash
 # Kill running Storybook
-pnpm --filter @dsai/storybook kill
+pnpm --filter @dsai-io/storybook kill
 
 # Verify Storybook build
-pnpm --filter @dsai/storybook verify
+pnpm --filter @dsai-io/storybook verify
 ```
 
 ## ⚠️ Deprecation Notice
 
 Scripts in this directory are utility tools, not maintained packages. They may be:
 
-- **Removed** if functionality is fully migrated to `@dsai/tools`
+- **Removed** if functionality is fully migrated to `@dsai-io/tools`
 - **Outdated** if not frequently used
 - **Unsupported** for edge cases
 
-For production workflows, prefer using the `dsai` CLI from `@dsai/tools`.
+For production workflows, prefer using the `dsai` CLI from `@dsai-io/tools`.

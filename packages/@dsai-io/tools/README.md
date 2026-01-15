@@ -5,7 +5,7 @@
 ## Installation
 
 ```bash
-pnpm add @dsai/tools
+pnpm add @dsai-io/tools
 ```
 
 ## Features
@@ -22,7 +22,7 @@ pnpm add @dsai/tools
 Create a `dsai.config.ts` in your project root:
 
 ```typescript
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {
@@ -62,7 +62,7 @@ npx dsai-tools init
 ### Programmatic Usage
 
 ```typescript
-import { buildTokens, generateIcons, loadConfig } from '@dsai/tools';
+import { buildTokens, generateIcons, loadConfig } from '@dsai-io/tools';
 
 // Load configuration
 const config = await loadConfig();

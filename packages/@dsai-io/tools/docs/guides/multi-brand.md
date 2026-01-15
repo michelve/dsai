@@ -46,7 +46,7 @@ tokens/
 
 ```typescript
 // dsai.config.ts
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {
@@ -144,7 +144,7 @@ dsai tokens build --brand brand-a --theme dark
 ### Programmatic Build
 
 ```typescript
-import { buildTokens, loadConfig } from '@dsai/tools';
+import { buildTokens, loadConfig } from '@dsai-io/tools';
 
 async function buildAllBrands() {
   const { config } = await loadConfig();
@@ -280,7 +280,7 @@ export default defineConfig({
 ### Ensure Brand Completeness
 
 ```typescript
-import { validateBrand } from '@dsai/tools';
+import { validateBrand } from '@dsai-io/tools';
 
 async function validateAllBrands() {
   const brands = ['brand-a', 'brand-b', 'brand-c'];
@@ -320,7 +320,7 @@ packages/
 
 ```typescript
 // packages/@shared/tokens/dsai.config.ts
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {
@@ -334,7 +334,7 @@ export default defineConfig({
 
 ```typescript
 // packages/@brand-a/tokens/dsai.config.ts
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 import sharedConfig from '@shared/tokens/dsai.config';
 
 export default defineConfig({

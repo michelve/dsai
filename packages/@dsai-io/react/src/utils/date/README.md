@@ -12,7 +12,7 @@ This module provides utilities for:
 ## Installation
 
 ```tsx
-import { formatDate, formatRelativeTime } from '@dsai/react';
+import { formatDate, formatRelativeTime } from '@dsai-io/react';
 ```
 
 ---

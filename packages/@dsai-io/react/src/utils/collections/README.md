@@ -15,7 +15,7 @@ This module provides utilities for:
 ## Installation
 
 ```tsx
-import { stableSort, uniqueBy, chunk, paginate, memoize, createSelector } from '@dsai/react';
+import { stableSort, uniqueBy, chunk, paginate, memoize, createSelector } from '@dsai-io/react';
 ```
 
 ---

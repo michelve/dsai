@@ -5,7 +5,7 @@ The Pagination component provides navigation between pages of content.
 ## Import
 
 ```tsx
-import { Pagination } from '@dsai/react';
+import { Pagination } from '@dsai-io/react';
 ```
 
 ## When to Use

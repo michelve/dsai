@@ -5,7 +5,7 @@ The Progress component displays visual indicator for completion percentage.
 ## Import
 
 ```tsx
-import { Progress } from '@dsai/react';
+import { Progress } from '@dsai-io/react';
 ```
 
 ## When to Use

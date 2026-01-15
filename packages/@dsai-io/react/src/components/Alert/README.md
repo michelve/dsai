@@ -13,7 +13,7 @@ A Bootstrap 5 alert component for displaying important messages to users.
 ## Installation
 
 ```bash
-pnpm add @dsai/react @dsai/tools
+pnpm add @dsai-io/react @dsai-io/tools
 ```
 
 Then generate your design tokens:
@@ -27,7 +27,7 @@ npx dsai tokens build
 ### Basic Usage
 
 ```tsx
-import { Alert } from '@dsai/react';
+import { Alert } from '@dsai-io/react';
 // Import the generated theme CSS from your local project
 import './generated/dsai-theme-bs.css';
 
@@ -234,7 +234,7 @@ import {
   type AlertFSMState,
   type AlertFSMEvent,
   type AlertVisibilityState,
-} from '@dsai/react';
+} from '@dsai-io/react';
 ```
 
 ### Visual State Debugging

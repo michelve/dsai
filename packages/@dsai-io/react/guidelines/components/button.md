@@ -5,7 +5,7 @@ The Button component is the primary interactive element for triggering actions.
 ## Import
 
 ```tsx
-import { Button } from '@dsai/react';
+import { Button } from '@dsai-io/react';
 ```
 
 ## When to Use

@@ -1,6 +1,6 @@
 # Examples
 
-Example configurations and token setups for `@dsai/tools`.
+Example configurations and token setups for `@dsai-io/tools`.
 
 ## Available Examples
 
@@ -19,7 +19,7 @@ Example configurations and token setups for `@dsai/tools`.
 git clone https://github.com/michelve/dsai.git
 
 # Navigate to examples
-cd packages/@dsai/tools/docs/examples/basic
+cd packages/@dsai-io/tools/docs/examples/basic
 
 # Install dependencies
 pnpm install

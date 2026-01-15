@@ -5,7 +5,7 @@ The TabsPro component provides advanced tabs with additional features.
 ## Import
 
 ```tsx
-import { TabsPro } from '@dsai/react';
+import { TabsPro } from '@dsai-io/react';
 ```
 
 ## When to Use

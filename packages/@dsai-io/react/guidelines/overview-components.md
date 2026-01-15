@@ -1,11 +1,11 @@
 # DSAi Components Overview
 
-Always prefer components from the `@dsai/react` package if they are available. Each component has a guidelines file that contains helpful examples and additional context. You must follow all relevant instructions.
+Always prefer components from the `@dsai-io/react` package if they are available. Each component has a guidelines file that contains helpful examples and additional context. You must follow all relevant instructions.
 
 ## Import Pattern
 
 ```tsx
-import { Button, Alert, Badge, Card, Input } from '@dsai/react';
+import { Button, Alert, Badge, Card, Input } from '@dsai-io/react';
 ```
 
 ## Available Components

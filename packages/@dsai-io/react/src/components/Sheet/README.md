@@ -15,14 +15,14 @@ An accessible slide-out panel component for navigation, forms, and secondary con
 ## Installation
 
 ```tsx
-import { Sheet } from '@dsai/react';
+import { Sheet } from '@dsai-io/react';
 ```
 
 ## Basic Usage
 
 ```tsx
 import { useState } from 'react';
-import { Sheet, Button } from '@dsai/react';
+import { Sheet, Button } from '@dsai-io/react';
 
 function Example() {
   const [isOpen, setIsOpen] = useState(false);

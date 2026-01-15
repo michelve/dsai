@@ -1,6 +1,6 @@
 # CI/CD Integration
 
-Integrate @dsai/tools into your continuous integration and deployment pipelines.
+Integrate @dsai-io/tools into your continuous integration and deployment pipelines.
 
 ## Overview
 

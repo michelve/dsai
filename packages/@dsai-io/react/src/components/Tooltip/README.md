@@ -16,7 +16,7 @@ A fully accessible tooltip component for displaying contextual information on ho
 ## Installation
 
 ```tsx
-import { Tooltip } from '@dsai/react';
+import { Tooltip } from '@dsai-io/react';
 ```
 
 ## Basic Usage

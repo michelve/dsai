@@ -21,7 +21,7 @@ import {
   observeResize,
   scheduleFrame,
   throttleFrame,
-} from '@dsai/react';
+} from '@dsai-io/react';
 ```
 
 ---

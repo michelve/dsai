@@ -5,7 +5,7 @@ The Carousel component provides a slideshow for cycling through elements.
 ## Import
 
 ```tsx
-import { Carousel } from '@dsai/react';
+import { Carousel } from '@dsai-io/react';
 ```
 
 ## When to Use

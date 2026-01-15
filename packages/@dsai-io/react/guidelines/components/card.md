@@ -5,7 +5,7 @@ The Card component provides a flexible container for grouping related content.
 ## Import
 
 ```tsx
-import { Card } from '@dsai/react';
+import { Card } from '@dsai-io/react';
 ```
 
 ## When to Use

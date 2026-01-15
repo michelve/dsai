@@ -14,7 +14,7 @@ A toggle switch component for binary on/off states. Built with Bootstrap 5 styli
 ## Installation
 
 ```bash
-npm install @dsai/react
+npm install @dsai-io/react
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ npm install @dsai/react
 ### Basic Switch
 
 ```tsx
-import { Switch } from '@dsai/react';
+import { Switch } from '@dsai-io/react';
 
 function Example() {
   return <Switch label="Enable notifications" />;

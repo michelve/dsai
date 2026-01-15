@@ -24,7 +24,7 @@ import {
   distance,
   angle,
   clampVelocity,
-} from '@dsai/react';
+} from '@dsai-io/react';
 ```
 
 ---

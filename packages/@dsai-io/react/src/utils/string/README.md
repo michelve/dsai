@@ -14,7 +14,7 @@ This module provides utilities for:
 ## Installation
 
 ```tsx
-import { capitalize, truncate, slugify, getVariantClass } from '@dsai/react';
+import { capitalize, truncate, slugify, getVariantClass } from '@dsai-io/react';
 ```
 
 ---

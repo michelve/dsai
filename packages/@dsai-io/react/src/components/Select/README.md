@@ -15,7 +15,7 @@ A flexible dropdown select component built with Bootstrap 5 classes. Supports si
 ## Installation
 
 ```bash
-npm install @dsai/react
+npm install @dsai-io/react
 ```
 
 ## Usage
@@ -23,7 +23,7 @@ npm install @dsai/react
 ### Basic Select
 
 ```tsx
-import { Select } from '@dsai/react';
+import { Select } from '@dsai-io/react';
 
 const options = [
   { value: 'apple', label: 'Apple' },

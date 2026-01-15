@@ -185,7 +185,7 @@ bash: dsai: command not found
 
 **Solution:**
 
-1. For global install: `npm install -g @dsai/tools`
+1. For global install: `npm install -g @dsai-io/tools`
 2. For local use: `npx dsai` or add to package.json scripts
 3. Check that `node_modules/.bin` is in your PATH
 
@@ -311,7 +311,7 @@ Ensure you're on the latest version:
 
 ```bash
 dsai --version
-npm view @dsai/tools version
+npm view @dsai-io/tools version
 ```
 
 ### File an Issue

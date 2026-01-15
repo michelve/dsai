@@ -5,7 +5,7 @@ The Typography component provides consistent text styling.
 ## Import
 
 ```tsx
-import { Typography } from '@dsai/react';
+import { Typography } from '@dsai-io/react';
 ```
 
 ## When to Use

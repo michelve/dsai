@@ -7,7 +7,7 @@ Bootstrap Icons as React components with full accessibility support.
 All SVG icon components are auto-generated from Bootstrap Icons SVG files and live in:
 
 ```text
-packages/@dsai/react/src/components/Icon/components/
+packages/@dsai-io/react/src/components/Icon/components/
 ```
 
 ## Icon Component Rules
@@ -88,7 +88,7 @@ for (const key of ALLOWED_PROPS) {
 - **Never** access arbitrary object keys in icons
 - **No** `something[dynamicKey]` except for the controlled `ALLOWED_PROPS` pattern above
 - All icons **must** compile and pass ESLint with `security/detect-object-injection` enabled globally
-- Only the icon components folder (`packages/@dsai/react/src/components/Icon/components/**/*.tsx`) is allowed to use the allow-list pattern with the ESLint override
+- Only the icon components folder (`packages/@dsai-io/react/src/components/Icon/components/**/*.tsx`) is allowed to use the allow-list pattern with the ESLint override
 
 ## Accessibility
 
@@ -148,7 +148,7 @@ The ESLint config includes a specific override for icon components:
 ```javascript
 // eslint.config.cjs
 {
-  files: ['packages/@dsai/react/src/components/Icon/components/**/*.tsx'],
+  files: ['packages/@dsai-io/react/src/components/Icon/components/**/*.tsx'],
   rules: {
     // Icon components use a controlled allow-list (ALLOWED_PROPS) to filter
     // SVG props, so this rule is too noisy here.
@@ -162,7 +162,7 @@ This allows the `ALLOWED_PROPS` pattern **only** in icon components while keepin
 ## File Structure
 
 ```text
-packages/@dsai/react/src/components/Icon/
+packages/@dsai-io/react/src/components/Icon/
 ├── README.md              # This file
 ├── index.ts               # Main barrel export
 ├── types.ts               # IconProps and IconComponent types

@@ -1,4 +1,4 @@
-# TASK-110: Migrate @dsai/_ to @dsai-io/_ - Master Plan
+# TASK-110: Migrate @dsai-io/_ to @dsai-io/_ - Master Plan
 
 ## Priority: Critical
 
@@ -12,7 +12,7 @@
 
 ## Description
 
-Migrate all npm package scopes from `@dsai/*` to `@dsai-io/*` across the entire monorepo. The `@dsai` npm organization is unavailable, so we've created `@dsai-io` as our official npm org. All packages should be marked as **private** (not published to npm).
+Migrate all npm package scopes from `@dsai-io/*` to `@dsai-io/*` across the entire monorepo. The `@dsai` npm organization is unavailable, so we've created `@dsai-io` as our official npm org. All packages should be marked as **private** (not published to npm).
 
 This is a **master task** that coordinates 6 sub-tasks for a safe, incremental migration.
 
@@ -104,29 +104,29 @@ After each sub-task:
 
 | Old Package          | New Package             |
 | -------------------- | ----------------------- |
-| `@dsai/react`        | `@dsai-io/react`        |
-| `@dsai/tools`        | `@dsai-io/tools`        |
-| `@dsai/tokens`       | `@dsai-io/tokens`       |
-| `@dsai/figma-tokens` | `@dsai-io/figma-tokens` |
-| `@dsai/storybook`    | `@dsai-io/storybook`    |
-| `@dsai/docs`         | `@dsai-io/docs`         |
+| `@dsai-io/react`        | `@dsai-io/react`        |
+| `@dsai-io/tools`        | `@dsai-io/tools`        |
+| `@dsai-io/tokens`       | `@dsai-io/tokens`       |
+| `@dsai-io/figma-tokens` | `@dsai-io/figma-tokens` |
+| `@dsai-io/storybook`    | `@dsai-io/storybook`    |
+| `@dsai-io/docs`         | `@dsai-io/docs`         |
 
 ### Folder Paths
 
 | Old Path                      | New Path                         |
 | ----------------------------- | -------------------------------- |
-| `packages/@dsai/react`        | `packages/@dsai-io/react`        |
-| `packages/@dsai/tools`        | `packages/@dsai-io/tools`        |
-| `packages/@dsai/tokens`       | `packages/@dsai-io/tokens`       |
-| `packages/@dsai/figma-tokens` | `packages/@dsai-io/figma-tokens` |
-| `packages/@dsai/storybook`    | `packages/@dsai-io/storybook`    |
-| `packages/@dsai/docs`         | `packages/@dsai-io/docs`         |
+| `packages/@dsai-io/react`        | `packages/@dsai-io/react`        |
+| `packages/@dsai-io/tools`        | `packages/@dsai-io/tools`        |
+| `packages/@dsai-io/tokens`       | `packages/@dsai-io/tokens`       |
+| `packages/@dsai-io/figma-tokens` | `packages/@dsai-io/figma-tokens` |
+| `packages/@dsai-io/storybook`    | `packages/@dsai-io/storybook`    |
+| `packages/@dsai-io/docs`         | `packages/@dsai-io/docs`         |
 
 ---
 
 ## Acceptance Criteria
 
-- [ ] All packages renamed from `@dsai/*` to `@dsai-io/*`
+- [ ] All packages renamed from `@dsai-io/*` to `@dsai-io/*`
 - [ ] All package.json files have `"private": true`
 - [ ] All imports updated to use new package names
 - [ ] All config files reference new paths
@@ -136,7 +136,7 @@ After each sub-task:
 - [ ] `pnpm test` passes all tests
 - [ ] `pnpm lint` passes without errors
 - [ ] Storybook builds and runs correctly
-- [ ] No references to `@dsai/` remain (verified by grep)
+- [ ] No references to `@dsai-io/` remain (verified by grep)
 - [ ] Git history preserved for all moved files
 
 ---
@@ -144,8 +144,8 @@ After each sub-task:
 ## Verification Commands
 
 ```bash
-# Check for any remaining @dsai/ references (should return empty)
-grep -r "@dsai/" --include="*.ts" --include="*.tsx" --include="*.json" --include="*.md" --include="*.mjs" --include="*.cjs" . | grep -v "@dsai-io" | grep -v node_modules | grep -v ".git"
+# Check for any remaining @dsai-io/ references (should return empty)
+grep -r "@dsai-io/" --include="*.ts" --include="*.tsx" --include="*.json" --include="*.md" --include="*.mjs" --include="*.cjs" . | grep -v "@dsai-io" | grep -v node_modules | grep -v ".git"
 
 # Verify package names
 cat packages/@dsai-io/*/package.json | jq '.name'

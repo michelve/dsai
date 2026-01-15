@@ -13,7 +13,7 @@ This module provides utilities for:
 ## Installation
 
 ```tsx
-import { mergeRefs } from '@dsai/react';
+import { mergeRefs } from '@dsai-io/react';
 ```
 
 ---
@@ -46,7 +46,7 @@ type RefObject<T> = { readonly current: T | null };
 **Basic Usage (Variadic):**
 
 ```tsx
-import { mergeRefs } from '@dsai/react';
+import { mergeRefs } from '@dsai-io/react';
 import { forwardRef, useRef } from 'react';
 
 const Component = forwardRef<HTMLDivElement>((props, ref) => {

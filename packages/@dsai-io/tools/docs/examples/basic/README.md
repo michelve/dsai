@@ -19,7 +19,7 @@ basic/
 
 ```bash
 # Install
-pnpm add -D @dsai/tools
+pnpm add -D @dsai-io/tools
 
 # Build
 pnpm dsai tokens build
@@ -30,7 +30,7 @@ pnpm dsai tokens build
 ### Configuration File
 
 ```typescript
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {

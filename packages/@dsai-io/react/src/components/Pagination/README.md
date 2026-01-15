@@ -16,7 +16,7 @@ An accessible pagination component built with Bootstrap 5 styling. Supports cont
 ## Installation
 
 ```bash
-npm install @dsai/react
+npm install @dsai-io/react
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ npm install @dsai/react
 ### Basic Pagination
 
 ```tsx
-import { Pagination } from '@dsai/react';
+import { Pagination } from '@dsai-io/react';
 
 function Example() {
   return <Pagination count={10} />;
@@ -35,7 +35,7 @@ function Example() {
 
 ```tsx
 import { useState } from 'react';
-import { Pagination } from '@dsai/react';
+import { Pagination } from '@dsai-io/react';
 
 function Example() {
   const [page, setPage] = useState(1);

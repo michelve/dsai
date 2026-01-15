@@ -14,7 +14,7 @@ This module provides utilities for:
 ## Installation
 
 ```tsx
-import { isSafeHref, isValidHref, isValidEmail, isValidUrl } from '@dsai/react';
+import { isSafeHref, isValidHref, isValidEmail, isValidUrl } from '@dsai-io/react';
 ```
 
 ---

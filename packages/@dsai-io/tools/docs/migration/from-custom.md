@@ -1,6 +1,6 @@
 # Migrating from Custom Systems
 
-Guide for migrating from custom or proprietary token systems to `@dsai/tools`.
+Guide for migrating from custom or proprietary token systems to `@dsai-io/tools`.
 
 ## Overview
 
@@ -160,7 +160,7 @@ function mapType(category: string): string {
 
 ```typescript
 // dsai.config.ts
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {
@@ -398,7 +398,7 @@ project.saveSync();
 ### Unit Tests
 
 ```typescript
-import { buildTokens, loadConfig } from '@dsai/tools';
+import { buildTokens, loadConfig } from '@dsai-io/tools';
 
 describe('Token Migration', () => {
   it('generates expected CSS output', async () => {

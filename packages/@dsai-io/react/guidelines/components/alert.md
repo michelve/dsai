@@ -5,7 +5,7 @@ The Alert component displays contextual feedback messages for user actions and s
 ## Import
 
 ```tsx
-import { Alert } from '@dsai/react';
+import { Alert } from '@dsai-io/react';
 ```
 
 ## When to Use

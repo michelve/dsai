@@ -15,10 +15,10 @@ A fully accessible modal dialog component using Bootstrap 5 native classes with 
 
 ## Installation
 
-The Modal component is part of the `@dsai/react` package:
+The Modal component is part of the `@dsai-io/react` package:
 
 ```tsx
-import { Modal, Button } from '@dsai/react';
+import { Modal, Button } from '@dsai-io/react';
 ```
 
 ## Usage
@@ -27,7 +27,7 @@ import { Modal, Button } from '@dsai/react';
 
 ```tsx
 import { useState } from 'react';
-import { Modal, Button } from '@dsai/react';
+import { Modal, Button } from '@dsai-io/react';
 
 function Example() {
   const [isOpen, setIsOpen] = useState(false);

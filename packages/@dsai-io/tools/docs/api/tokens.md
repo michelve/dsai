@@ -9,7 +9,7 @@ API reference for token building, validation, and transformation.
 Build tokens from source files to output formats.
 
 ```typescript
-import { buildTokens, loadConfig } from '@dsai/tools';
+import { buildTokens, loadConfig } from '@dsai-io/tools';
 
 const { config } = await loadConfig();
 const result = await buildTokens(config);
@@ -52,7 +52,7 @@ interface BuildResult {
 Validate token files against DTCG specification.
 
 ```typescript
-import { validateTokens } from '@dsai/tools';
+import { validateTokens } from '@dsai-io/tools';
 
 const result = await validateTokens({
   source: ['./collections/**/*.json'],
@@ -104,7 +104,7 @@ interface ValidationResult {
 Transform Figma exports to DTCG token collections.
 
 ```typescript
-import { transformTokens } from '@dsai/tools';
+import { transformTokens } from '@dsai-io/tools';
 
 const result = transformTokens({
   sourceDir: './figma-exports',
@@ -149,7 +149,7 @@ interface TransformResult {
 Sync tokens to a flat TypeScript file for IDE autocomplete.
 
 ```typescript
-import { syncTokensCLI } from '@dsai/tools';
+import { syncTokensCLI } from '@dsai-io/tools';
 
 const success = syncTokensCLI('./packages/tokens');
 ```
@@ -175,7 +175,7 @@ function syncTokensCLI(tokensDir: string): boolean;
 Post-process CSS theme files to replace selectors.
 
 ```typescript
-import { postprocessCLI } from '@dsai/tools';
+import { postprocessCLI } from '@dsai-io/tools';
 
 const success = postprocessCLI('./packages/tokens');
 ```
@@ -201,7 +201,7 @@ function postprocessCLI(tokensDir: string): boolean;
 Merge multiple token collections into one.
 
 ```typescript
-import { mergeTokenCollections } from '@dsai/tools';
+import { mergeTokenCollections } from '@dsai-io/tools';
 
 const merged = mergeTokenCollections(['./collections/color.json', './collections/typography.json']);
 ```
@@ -279,7 +279,7 @@ interface ValidationError {
 ## Error Handling
 
 ```typescript
-import { buildTokens, BuildError, ValidationError } from '@dsai/tools';
+import { buildTokens, BuildError, ValidationError } from '@dsai-io/tools';
 
 try {
   await buildTokens(config);
@@ -298,7 +298,7 @@ try {
 Access Style Dictionary directly:
 
 ```typescript
-import { getStyleDictionary } from '@dsai/tools';
+import { getStyleDictionary } from '@dsai-io/tools';
 
 const sd = await getStyleDictionary(config);
 

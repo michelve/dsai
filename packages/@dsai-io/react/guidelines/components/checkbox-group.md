@@ -5,7 +5,7 @@ The CheckboxGroup component manages a group of related checkboxes.
 ## Import
 
 ```tsx
-import { CheckboxGroup, Checkbox } from '@dsai/react';
+import { CheckboxGroup, Checkbox } from '@dsai-io/react';
 ```
 
 ## When to Use

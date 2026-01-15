@@ -18,7 +18,7 @@ Transforms modify token values during the build process. Common use cases includ
 ### Basic Transform
 
 ```typescript
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   transforms: {
@@ -268,7 +268,7 @@ export default defineConfig({
 ## Testing Transforms
 
 ```typescript
-import { createTransformContext, runTransform } from '@dsai/tools/testing';
+import { createTransformContext, runTransform } from '@dsai-io/tools/testing';
 
 describe('color/rgba transform', () => {
   it('converts hex to rgba', () => {

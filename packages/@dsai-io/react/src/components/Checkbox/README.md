@@ -15,7 +15,7 @@ A Bootstrap 5 checkbox component for form inputs with full accessibility support
 ## Installation
 
 ```bash
-pnpm add @dsai/react @dsai/tools
+pnpm add @dsai-io/react @dsai-io/tools
 ```
 
 Then generate your design tokens:
@@ -29,7 +29,7 @@ npx dsai tokens build
 ### Basic Usage
 
 ```tsx
-import { Checkbox } from '@dsai/react';
+import { Checkbox } from '@dsai-io/react';
 // Import the generated theme CSS from your local project
 import './generated/dsai-theme-bs.css';
 

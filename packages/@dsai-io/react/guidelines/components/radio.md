@@ -5,7 +5,7 @@ The Radio component provides single selection from mutually exclusive options.
 ## Import
 
 ```tsx
-import { Radio, RadioGroup } from '@dsai/react';
+import { Radio, RadioGroup } from '@dsai-io/react';
 ```
 
 ## When to Use

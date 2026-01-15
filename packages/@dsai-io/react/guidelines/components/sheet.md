@@ -5,7 +5,7 @@ The Sheet component provides a slide-in panel from screen edge.
 ## Import
 
 ```tsx
-import { Sheet } from '@dsai/react';
+import { Sheet } from '@dsai-io/react';
 ```
 
 ## When to Use

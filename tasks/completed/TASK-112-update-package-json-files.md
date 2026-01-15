@@ -16,7 +16,7 @@
 
 ## Description
 
-Update all `package.json` files to change package names from `@dsai/*` to `@dsai-io/*`, add `"private": true` to all packages, and update all internal workspace dependencies to use the new package names.
+Update all `package.json` files to change package names from `@dsai-io/*` to `@dsai-io/*`, add `"private": true` to all packages, and update all internal workspace dependencies to use the new package names.
 
 ---
 
@@ -49,7 +49,7 @@ Update all `package.json` files to change package names from `@dsai/*` to `@dsai
 
 ```json
 // Before
-"name": "@dsai/react"
+"name": "@dsai-io/react"
 
 // After
 "name": "@dsai-io/react"
@@ -67,8 +67,8 @@ Update all `package.json` files to change package names from `@dsai/*` to `@dsai
 ```json
 // Before
 "dependencies": {
-  "@dsai/tokens": "workspace:*",
-  "@dsai/tools": "workspace:*"
+  "@dsai-io/tokens": "workspace:*",
+  "@dsai-io/tools": "workspace:*"
 }
 
 // After
@@ -83,7 +83,7 @@ Update all `package.json` files to change package names from `@dsai/*` to `@dsai
 ```json
 // Before
 "devDependencies": {
-  "@dsai/tools": "workspace:*"
+  "@dsai-io/tools": "workspace:*"
 }
 
 // After
@@ -97,7 +97,7 @@ Update all `package.json` files to change package names from `@dsai/*` to `@dsai
 ```json
 // Before
 "peerDependencies": {
-  "@dsai/react": "workspace:*"
+  "@dsai-io/react": "workspace:*"
 }
 
 // After
@@ -112,40 +112,40 @@ Update all `package.json` files to change package names from `@dsai/*` to `@dsai
 
 ### packages/@dsai-io/react/package.json
 
-- [ ] Change `"name": "@dsai/react"` to `"name": "@dsai-io/react"`
+- [ ] Change `"name": "@dsai-io/react"` to `"name": "@dsai-io/react"`
 - [ ] Add `"private": true`
-- [ ] Update dependency `@dsai/tokens` to `@dsai-io/tokens`
-- [ ] Update dependency `@dsai/tools` to `@dsai-io/tools` (if present)
+- [ ] Update dependency `@dsai-io/tokens` to `@dsai-io/tokens`
+- [ ] Update dependency `@dsai-io/tools` to `@dsai-io/tools` (if present)
 
 ### packages/@dsai-io/tools/package.json
 
-- [ ] Change `"name": "@dsai/tools"` to `"name": "@dsai-io/tools"`
+- [ ] Change `"name": "@dsai-io/tools"` to `"name": "@dsai-io/tools"`
 - [ ] Add `"private": true`
 - [ ] Update any @dsai dependencies to @dsai-io
 
 ### packages/@dsai-io/tokens/package.json
 
-- [ ] Change `"name": "@dsai/tokens"` to `"name": "@dsai-io/tokens"`
+- [ ] Change `"name": "@dsai-io/tokens"` to `"name": "@dsai-io/tokens"`
 - [ ] Add `"private": true`
 - [ ] Update any @dsai dependencies to @dsai-io
 
 ### packages/@dsai-io/figma-tokens/package.json
 
-- [ ] Change `"name": "@dsai/figma-tokens"` to `"name": "@dsai-io/figma-tokens"`
+- [ ] Change `"name": "@dsai-io/figma-tokens"` to `"name": "@dsai-io/figma-tokens"`
 - [ ] Add `"private": true`
-- [ ] Update dependency `@dsai/tools` to `@dsai-io/tools`
-- [ ] Update dependency `@dsai/tokens` to `@dsai-io/tokens`
+- [ ] Update dependency `@dsai-io/tools` to `@dsai-io/tools`
+- [ ] Update dependency `@dsai-io/tokens` to `@dsai-io/tokens`
 
 ### packages/@dsai-io/storybook/package.json
 
-- [ ] Change `"name": "@dsai/storybook"` to `"name": "@dsai-io/storybook"`
+- [ ] Change `"name": "@dsai-io/storybook"` to `"name": "@dsai-io/storybook"`
 - [ ] Add `"private": true`
-- [ ] Update dependency `@dsai/react` to `@dsai-io/react`
-- [ ] Update dependency `@dsai/tokens` to `@dsai-io/tokens`
+- [ ] Update dependency `@dsai-io/react` to `@dsai-io/react`
+- [ ] Update dependency `@dsai-io/tokens` to `@dsai-io/tokens`
 
 ### packages/@dsai-io/docs/package.json
 
-- [ ] Change `"name": "@dsai/docs"` to `"name": "@dsai-io/docs"`
+- [ ] Change `"name": "@dsai-io/docs"` to `"name": "@dsai-io/docs"`
 - [ ] Add `"private": true`
 - [ ] Update any @dsai dependencies to @dsai-io
 
@@ -157,7 +157,7 @@ Update all `package.json` files to change package names from `@dsai/*` to `@dsai
 
 Use search and replace within each file:
 
-- Find: `@dsai/`
+- Find: `@dsai-io/`
 - Replace with: `@dsai-io/`
 
 Then ensure `"private": true` is present.
@@ -198,7 +198,7 @@ pnpm why @dsai-io/react
 git add -A
 git commit -m "chore: update package.json files to @dsai-io scope
 
-- Renamed all packages from @dsai/* to @dsai-io/*
+- Renamed all packages from @dsai-io/* to @dsai-io/*
 - Added private: true to all packages
 - Updated internal workspace dependencies
 - Regenerated pnpm lockfile
@@ -215,7 +215,7 @@ Part of TASK-112 migration plan."
 - [x] All internal dependencies use `@dsai-io/*`
 - [x] `pnpm install` completes successfully
 - [x] `pnpm list --recursive` shows correct package names
-- [x] No references to `@dsai/` in any package.json file
+- [x] No references to `@dsai-io/` in any package.json file
 
 ### Additional Changes Made
 
@@ -243,7 +243,7 @@ cat packages/@dsai-io/*/package.json | jq -r '.private'
 # Expected: all true
 
 # Check no old references remain
-grep -r '"@dsai/' packages/@dsai-io/*/package.json
+grep -r '"@dsai-io/' packages/@dsai-io/*/package.json
 # Expected: no output
 
 # Check new references exist

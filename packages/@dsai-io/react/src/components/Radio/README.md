@@ -18,7 +18,7 @@ Bootstrap 5 radio button components for single-selection inputs.
 ## Installation
 
 ```bash
-pnpm add @dsai/react @dsai/tools
+pnpm add @dsai-io/react @dsai-io/tools
 ```
 
 Then generate your design tokens:
@@ -32,7 +32,7 @@ npx dsai tokens build
 ### Basic RadioGroup (Recommended)
 
 ```tsx
-import { Radio, RadioGroup } from '@dsai/react';
+import { Radio, RadioGroup } from '@dsai-io/react';
 // Import the generated theme CSS from your local project
 import './generated/dsai-theme-bs.css';
 

@@ -5,7 +5,7 @@ The Tabs component organizes content into switchable panels.
 ## Import
 
 ```tsx
-import { Tabs } from '@dsai/react';
+import { Tabs } from '@dsai-io/react';
 ```
 
 ## When to Use

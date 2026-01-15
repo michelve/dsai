@@ -100,7 +100,7 @@ For advanced customization, individual shadow properties are available:
 ### SCSS Usage
 
 ```scss
-@use '@dsai/tokens' as *;
+@use '@dsai-io/tokens' as *;
 
 .card {
   box-shadow: $box-shadow;

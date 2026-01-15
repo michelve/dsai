@@ -22,7 +22,7 @@ Create comprehensive Storybook stories and documentation for DSAi components.
 ## Story File Location
 
 ```text
-packages/@dsai/storybook/src/stories/
+packages/@dsai-io/storybook/src/stories/
 ├── components/
 │   ├── Button.stories.tsx
 │   ├── Card.stories.tsx
@@ -36,7 +36,7 @@ packages/@dsai/storybook/src/stories/
 
 ```tsx
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from '@dsai/react';
+import { Button } from '@dsai-io/react';
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
@@ -281,10 +281,10 @@ export const InContext: Story = {
 
 ```bash
 # Development
-pnpm nx storybook @dsai/storybook
+pnpm nx storybook @dsai-io/storybook
 
 # Build static
-pnpm nx build-storybook @dsai/storybook
+pnpm nx build-storybook @dsai-io/storybook
 ```
 
 ## Best Practices

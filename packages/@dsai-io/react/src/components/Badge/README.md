@@ -13,7 +13,7 @@ A Bootstrap 5 badge component for displaying labels, status indicators, and coun
 ## Installation
 
 ```bash
-pnpm add @dsai/react @dsai/tools
+pnpm add @dsai-io/react @dsai-io/tools
 ```
 
 Then generate your design tokens:
@@ -27,7 +27,7 @@ npx dsai tokens build
 ### Basic Usage
 
 ```tsx
-import { Badge } from '@dsai/react';
+import { Badge } from '@dsai-io/react';
 // Import the generated theme CSS from your local project
 import './generated/dsai-theme-bs.css';
 
@@ -80,7 +80,7 @@ function App() {
 ### Notification Badge on Button
 
 ```tsx
-import { Badge, Button } from '@dsai/react';
+import { Badge, Button } from '@dsai-io/react';
 
 // Positioned notification badge
 function NotificationButton() {

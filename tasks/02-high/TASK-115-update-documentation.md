@@ -14,7 +14,7 @@
 
 ## Description
 
-Update all documentation files that reference `@dsai/*` packages to use the new `@dsai-io/*` scope. This includes README files, markdown documentation, code examples, and any user-facing guides.
+Update all documentation files that reference `@dsai-io/*` packages to use the new `@dsai-io/*` scope. This includes README files, markdown documentation, code examples, and any user-facing guides.
 
 ---
 
@@ -85,9 +85,9 @@ Files in `tools/`:
 ```markdown
 <!-- Before -->
 
-npm install @dsai/react
-pnpm add @dsai/react
-yarn add @dsai/react
+npm install @dsai-io/react
+pnpm add @dsai-io/react
+yarn add @dsai-io/react
 
 <!-- After -->
 
@@ -102,7 +102,7 @@ yarn add @dsai-io/react
 <!-- Before -->
 
 \`\`\`typescript
-import { Button } from '@dsai/react';
+import { Button } from '@dsai-io/react';
 \`\`\`
 
 <!-- After -->
@@ -117,7 +117,7 @@ import { Button } from '@dsai-io/react';
 ```markdown
 <!-- Before -->
 
-The `@dsai/react` package provides React components.
+The `@dsai-io/react` package provides React components.
 
 <!-- After -->
 
@@ -129,8 +129,8 @@ The `@dsai-io/react` package provides React components.
 ```markdown
 <!-- Before -->
 
-nx build @dsai/react
-nx test @dsai/tools
+nx build @dsai-io/react
+nx test @dsai-io/tools
 
 <!-- After -->
 
@@ -143,8 +143,8 @@ nx test @dsai-io/tools
 ```markdown
 <!-- Before -->
 
-pnpm --filter @dsai/react build
-pnpm --filter @dsai/\* test
+pnpm --filter @dsai-io/react build
+pnpm --filter @dsai-io/\* test
 
 <!-- After -->
 
@@ -192,7 +192,7 @@ If README has npm badges, update package names:
 ```markdown
 <!-- Before -->
 
-[![npm](https://img.shields.io/npm/v/@dsai/react)](...)
+[![npm](https://img.shields.io/npm/v/@dsai-io/react)](...)
 
 <!-- After -->
 
@@ -226,7 +226,7 @@ Part of TASK-115 migration plan."
 - [ ] All markdown code examples use new imports
 - [ ] All installation commands use new package names
 - [ ] All nx/pnpm commands use new package names
-- [ ] No references to `@dsai/` remain in documentation
+- [ ] No references to `@dsai-io/` remain in documentation
 - [ ] All internal documentation links still work
 - [ ] Code examples in docs are syntactically correct
 
@@ -236,7 +236,7 @@ Part of TASK-115 migration plan."
 
 ```bash
 # Check no old references in markdown files
-grep -r "@dsai/" . --include="*.md" | grep -v "@dsai-io" | grep -v node_modules | grep -v ".git"
+grep -r "@dsai-io/" . --include="*.md" | grep -v "@dsai-io" | grep -v node_modules | grep -v ".git"
 # Expected: no output
 
 # Verify new references exist
@@ -298,7 +298,7 @@ grep "install @dsai-io" README.md
 
 **Cause**: Links to old package folders.
 
-**Solution**: Update relative paths from `@dsai/` to `@dsai-io/`.
+**Solution**: Update relative paths from `@dsai-io/` to `@dsai-io/`.
 
 ### Issue: npm badge showing wrong package
 
@@ -328,7 +328,7 @@ If documentation contains GitHub links to files in the old path:
 ```markdown
 <!-- Before -->
 
-[Source](https://github.com/michelve/dsai/tree/main/packages/@dsai/react)
+[Source](https://github.com/michelve/dsai/tree/main/packages/@dsai-io/react)
 
 <!-- After -->
 
@@ -342,7 +342,7 @@ Update any links to npmjs.com:
 ```markdown
 <!-- Before -->
 
-[npm](https://www.npmjs.com/package/@dsai/react)
+[npm](https://www.npmjs.com/package/@dsai-io/react)
 
 <!-- After -->
 

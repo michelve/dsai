@@ -23,7 +23,7 @@ import {
   generateId,
   trapFocus,
   focusableSelectors,
-} from '@dsai/react';
+} from '@dsai-io/react';
 ```
 
 ---
@@ -277,7 +277,7 @@ const focusableSelectorString: string;
 **Examples:**
 
 ```tsx
-import { focusableSelectors, focusableSelectorString } from '@dsai/react';
+import { focusableSelectors, focusableSelectorString } from '@dsai-io/react';
 
 // Array of selectors
 console.log(focusableSelectors);

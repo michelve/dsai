@@ -15,7 +15,7 @@ A fully accessible popover component for displaying rich interactive content. Us
 ## Installation
 
 ```tsx
-import { Popover } from '@dsai/react';
+import { Popover } from '@dsai-io/react';
 ```
 
 ## Basic Usage

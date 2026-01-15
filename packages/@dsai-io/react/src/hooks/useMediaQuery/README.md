@@ -19,10 +19,10 @@ The `useMediaQuery` hook provides a simple, type-safe way to respond to viewport
 
 ## Installation
 
-The hook is included in `@dsai/react`. Import it directly:
+The hook is included in `@dsai-io/react`. Import it directly:
 
 ```tsx
-import { useMediaQuery } from '@dsai/react';
+import { useMediaQuery } from '@dsai-io/react';
 ```
 
 ## Basic Usage
@@ -30,7 +30,7 @@ import { useMediaQuery } from '@dsai/react';
 ### Simple Media Query
 
 ```tsx
-import { useMediaQuery } from '@dsai/react';
+import { useMediaQuery } from '@dsai-io/react';
 
 function ResponsiveComponent() {
   const isMobile = useMediaQuery('(max-width: 767.98px)');
@@ -42,7 +42,7 @@ function ResponsiveComponent() {
 ### Using Breakpoint Helpers
 
 ```tsx
-import { useMediaQuery, breakpointUp } from '@dsai/react';
+import { useMediaQuery, breakpointUp } from '@dsai-io/react';
 
 function Grid() {
   const isDesktop = useMediaQuery(breakpointUp('lg'));
@@ -55,7 +55,7 @@ function Grid() {
 ### Convenience Hooks
 
 ```tsx
-import { useIsMobile, useIsTablet, useIsDesktop } from '@dsai/react';
+import { useIsMobile, useIsTablet, useIsDesktop } from '@dsai-io/react';
 
 function Header() {
   const isMobile = useIsMobile();
@@ -129,7 +129,7 @@ const isLargeDesktop = useIsLargeDesktop();
 ### Breakpoint Constants
 
 ```tsx
-import { BREAKPOINTS, breakpointUp, breakpointDown, breakpointBetween } from '@dsai/react';
+import { BREAKPOINTS, breakpointUp, breakpointDown, breakpointBetween } from '@dsai-io/react';
 
 // Breakpoint values (px)
 BREAKPOINTS.xs; // 0
@@ -269,7 +269,7 @@ This prevents React hydration errors while ensuring the UI updates quickly after
 // app/components/ResponsiveNav.tsx
 'use client';
 
-import { useIsMobile } from '@dsai/react';
+import { useIsMobile } from '@dsai-io/react';
 
 export function ResponsiveNav() {
   const isMobile = useIsMobile();
@@ -393,7 +393,7 @@ const BREAKPOINTS: Record<Breakpoint, number>;
 ### Usage
 
 ```tsx
-import type { Breakpoint } from '@dsai/react';
+import type { Breakpoint } from '@dsai-io/react';
 
 function getBreakpointQuery(bp: Breakpoint): string {
   return breakpointUp(bp);

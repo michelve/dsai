@@ -5,7 +5,7 @@ The Toast component displays temporary notification messages that auto-dismiss.
 ## Import
 
 ```tsx
-import { toast, ToastProvider } from '@dsai/react';
+import { toast, ToastProvider } from '@dsai-io/react';
 ```
 
 ## When to Use
@@ -29,7 +29,7 @@ Do not use Toast when:
 Wrap your app with ToastProvider:
 
 ```tsx
-import { ToastProvider } from '@dsai/react';
+import { ToastProvider } from '@dsai-io/react';
 
 function App() {
   return (
@@ -43,7 +43,7 @@ function App() {
 ## Basic Usage
 
 ```tsx
-import { toast } from '@dsai/react';
+import { toast } from '@dsai-io/react';
 
 // Success toast
 toast.success('Changes saved successfully');

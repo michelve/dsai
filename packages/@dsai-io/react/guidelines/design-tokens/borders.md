@@ -61,7 +61,7 @@ Design tokens for borders in the DSAi design system. Use these tokens for consis
 ### SCSS Usage
 
 ```scss
-@use '@dsai/tokens' as *;
+@use '@dsai-io/tokens' as *;
 
 .custom-card {
   border: $border-width solid $border-color;

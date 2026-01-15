@@ -5,7 +5,7 @@ The Checkbox component provides a boolean input for single on/off selections.
 ## Import
 
 ```tsx
-import { Checkbox } from '@dsai/react';
+import { Checkbox } from '@dsai-io/react';
 ```
 
 ## When to Use
@@ -89,7 +89,7 @@ Use for parent checkboxes when only some children are selected:
 Use CheckboxGroup for related checkboxes:
 
 ```tsx
-import { CheckboxGroup } from '@dsai/react';
+import { CheckboxGroup } from '@dsai-io/react';
 
 <CheckboxGroup label="Notification preferences" value={selected} onChange={setSelected}>
   <Checkbox value="email" label="Email notifications" />

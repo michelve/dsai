@@ -15,8 +15,8 @@ A Bootstrap 5 table component with sorting, row selection, responsive layout, an
 ## Installation
 
 ```tsx
-import { Table } from '@dsai/react';
-import type { TableColumn } from '@dsai/react';
+import { Table } from '@dsai-io/react';
+import type { TableColumn } from '@dsai-io/react';
 ```
 
 ## Basic Usage
@@ -463,7 +463,7 @@ import {
   isNoneSelected,
   isRowSelected,
   getSelectedCount,
-} from '@dsai/react';
+} from '@dsai-io/react';
 ```
 
 ## TypeScript

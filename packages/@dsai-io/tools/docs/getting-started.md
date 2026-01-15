@@ -11,13 +11,13 @@ This guide will help you set up @DSAi/tools in your project.
 
 ```bash
 # Using npm
-npm install @dsai/tools
+npm install @dsai-io/tools
 
 # Using pnpm
-pnpm add @dsai/tools
+pnpm add @dsai-io/tools
 
 # Using yarn
-yarn add @dsai/tools
+yarn add @dsai-io/tools
 ```
 
 ## Quick Setup
@@ -114,7 +114,7 @@ const primaryColor = tokens.color.blue[500];
 Create a `dsai.config.mjs` file in your project root:
 
 ```javascript
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {
