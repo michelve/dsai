@@ -82,6 +82,8 @@ jobs:
         run: |
           cd packages/@dsai-io/tools
           npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
         continue-on-error: false
 
       # Publish @dsai-io/figma-tokens
@@ -90,6 +92,8 @@ jobs:
         run: |
           cd packages/@dsai-io/figma-tokens
           npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
         continue-on-error: false
 
       # Publish @dsai-io/react
@@ -98,6 +102,8 @@ jobs:
         run: |
           cd packages/@dsai-io/react
           npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
         continue-on-error: false
 
       # Publish @dsai-io/storybook
@@ -106,6 +112,8 @@ jobs:
         run: |
           cd packages/@dsai-io/storybook
           npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
         continue-on-error: false
 
       # Publish @dsai-io/docs
@@ -114,4 +122,6 @@ jobs:
         run: |
           cd packages/@dsai-io/docs
           npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
         continue-on-error: false
