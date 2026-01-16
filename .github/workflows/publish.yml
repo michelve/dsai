@@ -53,7 +53,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_READ_TOKEN }}
 
       - name: Build publishable packages
-        run: pnpm nx run-many --target=build --projects=@dsai-io/tools,@dsai-io/figma-tokens,@dsai-io/react
+        run: pnpm nx run-many --target=build --projects=@dsai-io/tools,@dsai-io/figma-tokens,@dsai-io/react,@dsai-io/storybook,@dsai-io/docs
 
       # Replace workspace:* with actual versions for publishing
       - name: Prepare packages for publishing
