@@ -12,15 +12,15 @@
         "framework": "react",
         "typescript": true,
         "styling": "bootstrap",
-        "designSystem": "@dsai/react",
+        "designSystem": "@dsai-io/react",
         "componentLibrary": {
-          "name": "@dsai/react",
+          "name": "@dsai-io/react",
           "version": "0.0.1",
-          "importPath": "@dsai/react",
+          "importPath": "@dsai-io/react",
           "components": [
             {
               "name": "Button",
-              "import": "import { Button } from '@dsai/react';",
+              "import": "import { Button } from '@dsai-io/react';",
               "props": ["variant", "size", "type", "disabled", "fullWidth", "children"],
               "variants": [
                 "primary",
@@ -46,7 +46,7 @@
           ]
         },
         "tokenSystem": {
-          "name": "@dsai/tools",
+          "name": "@dsai-io/tools",
           "version": "0.0.1",
           "description": "Design tokens are generated locally via `dsai tokens build` command",
           "generatedOutputs": {
@@ -95,8 +95,8 @@
       "description": "Accessible button component with Bootstrap 5 styling",
       "metadata": {
         "component": "Button",
-        "import": "import { Button } from '@dsai/react';",
-        "cssRequired": "Generated theme CSS from @dsai/tools (e.g., dsai-theme-bs.css)",
+        "import": "import { Button } from '@dsai-io/react';",
+        "cssRequired": "Generated theme CSS from @dsai-io/tools (e.g., dsai-theme-bs.css)",
         "props": {
           "variant": {
             "type": "ButtonVariant",

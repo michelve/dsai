@@ -308,7 +308,7 @@
       {
         "label": "Storybook",
         "type": "shell",
-        "command": "pnpm --filter @dsai/storybook storybook",
+        "command": "pnpm --filter @dsai-io/storybook storybook",
         "isBackground": true,
         "presentation": {
           "reveal": "always",

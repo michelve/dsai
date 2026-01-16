@@ -7,7 +7,7 @@
       ".figma/**/*.figma.tsx",
       ".figma/**/*.figma.ts"
     ],
-    "label": "@dsai/react",
+    "label": "@dsai-io/react",
     "parser": "react",
     "exclude": [
       "**/*.test.tsx",
@@ -30,21 +30,21 @@
       "**/.cache/**"
     ],
     "importPaths": {
-      "src/components/**/*": "@dsai/react",
-      "src/compositions/**/*": "@dsai/react/compositions",
-      "src/patterns/**/*": "@dsai/react/patterns",
-      "src/hooks/**/*": "@dsai/react/hooks",
-      "src/types/**/*": "@dsai/react/types",
-      "src/utils/**/*": "@dsai/react/utils"
+      "src/components/**/*": "@dsai-io/react",
+      "src/compositions/**/*": "@dsai-io/react/compositions",
+      "src/patterns/**/*": "@dsai-io/react/patterns",
+      "src/hooks/**/*": "@dsai-io/react/hooks",
+      "src/types/**/*": "@dsai-io/react/types",
+      "src/utils/**/*": "@dsai-io/react/utils"
     },
     "paths": {
-      "@dsai/react": ["src"],
-      "@dsai/react/components": ["src/components"],
-      "@dsai/react/compositions": ["src/compositions"],
-      "@dsai/react/patterns": ["src/patterns"],
-      "@dsai/react/hooks": ["src/hooks"],
-      "@dsai/react/types": ["src/types"],
-      "@dsai/react/utils": ["src/utils"]
+      "@dsai-io/react": ["src"],
+      "@dsai-io/react/components": ["src/components"],
+      "@dsai-io/react/compositions": ["src/compositions"],
+      "@dsai-io/react/patterns": ["src/patterns"],
+      "@dsai-io/react/hooks": ["src/hooks"],
+      "@dsai-io/react/types": ["src/types"],
+      "@dsai-io/react/utils": ["src/utils"]
     }
   },
   "documentUrlSubstitutions": {

@@ -12,6 +12,24 @@
 import type { ArrowKey, ArrowKeyHandlers } from '../types/shared';
 
 /**
+ * Static allowlist of valid arrow keys to prevent dynamic property access attacks.
+ * This is a compile-time constant that ensures only these specific keys can be used.
+ */
+const ARROW_KEYS: ReadonlySet<ArrowKey> = new Set([
+  'ArrowUp',
+  'ArrowDown',
+  'ArrowLeft',
+  'ArrowRight',
+] as const);
+
+/**
+ * Type guard to check if a string is a valid arrow key
+ */
+function isArrowKey(key: string): key is ArrowKey {
+  return ARROW_KEYS.has(key as ArrowKey);
+}
+
+/**
  * Create a keyboard event handler for arrow key navigation
  *
  * @param handlers - Map of arrow keys to handler functions
@@ -62,14 +80,28 @@ import type { ArrowKey, ArrowKeyHandlers } from '../types/shared';
  */
 export function getArrowKeyHandler(handlers: ArrowKeyHandlers): (event: KeyboardEvent) => void {
   return (event: KeyboardEvent): void => {
-    const key = event.key as ArrowKey;
+    const key = event.key;
 
-    // Safe: key is typed as ArrowKey and checked against handlers
-    if (Object.keys(handlers).includes(key)) {
-      const handler = handlers[key];
-      if (handler) {
-        handler(event);
-      }
+    // Security: validate key against static allowlist before property access
+    if (!isArrowKey(key)) {
+      return;
+    }
+
+    // Safe: key is now validated as one of the four arrow key literals
+    // Use explicit switch statement instead of dynamic property access
+    switch (key) {
+      case 'ArrowUp':
+        handlers.ArrowUp?.(event);
+        break;
+      case 'ArrowDown':
+        handlers.ArrowDown?.(event);
+        break;
+      case 'ArrowLeft':
+        handlers.ArrowLeft?.(event);
+        break;
+      case 'ArrowRight':
+        handlers.ArrowRight?.(event);
+        break;
     }
   };
 }

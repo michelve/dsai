@@ -177,6 +177,64 @@ function validateCleanTarget(dirPath: string, baseDir: string): { valid: boolean
 }
 
 /**
+ * Escape special regex characters in a string
+ * @param str - String to escape
+ * @returns Escaped string safe for regex
+ */
+function escapeRegexChars(str: string): string {
+  // Escape all regex special chars except * and ? which we handle separately
+  return str.replace(/[.+^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
+ * Convert a simple glob pattern to a safe regex pattern
+ * Only supports * (any chars) and ? (single char) wildcards
+ *
+ * @param pattern - Glob pattern like "*.json" or "file?.txt"
+ * @returns Safe regex pattern string
+ */
+function globToSafePattern(pattern: string): string {
+  // First escape any regex special characters (except our wildcards)
+  const escaped = escapeRegexChars(pattern);
+  // Then convert our wildcards to regex equivalents
+  // Use non-greedy matching to prevent catastrophic backtracking
+  return escaped.replace(/\*/g, '.*?').replace(/\?/g, '.');
+}
+
+/**
+ * Match a filename against a glob pattern safely
+ * Uses character-by-character matching for simple patterns to avoid ReDoS
+ *
+ * @param fileName - Name of the file to match
+ * @param pattern - Glob pattern (supports * and ? wildcards)
+ * @returns Whether the filename matches the pattern
+ */
+function matchGlobPattern(fileName: string, pattern: string): boolean {
+  // For patterns without wildcards, use exact match
+  if (!pattern.includes('*') && !pattern.includes('?')) {
+    return fileName === pattern;
+  }
+
+  // For simple extension patterns like "*.json", use endsWith for safety
+  if (pattern.startsWith('*.') && !pattern.slice(2).includes('*') && !pattern.includes('?')) {
+    const extension = pattern.slice(1); // ".json"
+    return fileName.endsWith(extension);
+  }
+
+  // For simple prefix patterns like "file*", use startsWith for safety
+  if (pattern.endsWith('*') && !pattern.slice(0, -1).includes('*') && !pattern.includes('?')) {
+    const prefix = pattern.slice(0, -1);
+    return fileName.startsWith(prefix);
+  }
+
+  // For more complex patterns, use a safe regex with non-greedy matching
+  // nosemgrep: javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp
+  const safePattern = globToSafePattern(pattern);
+  const regex = new RegExp(`^${safePattern}$`);
+  return regex.test(fileName);
+}
+
+/**
  * Check if a file should be preserved
  *
  * @param fileName - Name of the file
@@ -185,14 +243,7 @@ function validateCleanTarget(dirPath: string, baseDir: string): { valid: boolean
  */
 function shouldPreserve(fileName: string, preservePatterns: string[]): boolean {
   const allPatterns = [...ALWAYS_PRESERVE, ...preservePatterns];
-  return allPatterns.some((pattern) => {
-    // Simple pattern matching (exact match or glob-like)
-    if (pattern.includes('*')) {
-      const regex = new RegExp('^' + pattern.replace(/\*/g, '.*').replace(/\?/g, '.') + '$');
-      return regex.test(fileName);
-    }
-    return fileName === pattern;
-  });
+  return allPatterns.some((pattern) => matchGlobPattern(fileName, pattern));
 }
 
 // ============================================================================

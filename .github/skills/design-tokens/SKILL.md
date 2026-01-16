@@ -4,7 +4,7 @@ description: Manages DTCG-compliant design tokens for DSAi. Use when adding colo
 license: Complete terms in LICENSE.txt
 metadata:
   author: dsai
-  version: '1.0'
+  version: '1.1'
 ---
 
 # Design Tokens
@@ -13,11 +13,12 @@ Manage DTCG-compliant design tokens that serve as the foundation of the DSAi des
 
 ## When to Use
 
-- Adding new color, typography, or spacing tokens
-- Syncing tokens from Figma
+- Adding new color, typography, spacing, or shadow tokens
+- Syncing tokens from Figma exports
 - Building CSS variables from token sources
 - Validating token structure and naming
 - Understanding the token architecture
+- Configuring the build pipeline
 
 ## Architecture
 
@@ -31,31 +32,54 @@ DSAi uses a **two-package** token workflow:
                                │
                                ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│  @dsai-io/figma-tokens                                                          │
-│  ─────────────────                                                           │
+│  @dsai-io/figma-tokens                                                       │
+│  ─────────────────────                                                       │
 │  • Fetches variables from Figma API                                          │
 │  • Creates figma-exports/ directory                                          │
-│  • CLI: figma-tokens fetch                                                   │
+│  • CLI: dsai-figma fetch|sync|validate                                       │
 └──────────────────────────────┬──────────────────────────────────────────────┘
                                │
                                ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│  @dsai-io/tools                                                                 │
-│  ───────────                                                                 │
+│  @dsai-io/tools                                                              │
+│  ──────────────                                                              │
 │  • Transforms figma-exports → collections (DTCG format)                      │
 │  • Builds collections → CSS/JS/TS/SCSS outputs                               │
 │  • Validates token structure                                                 │
-│  • CLI: dsai tokens transform|build|validate                                 │
+│  • Post-processes CSS (theme attribute replacement)                          │
+│  • CLI: dsai tokens transform|build|validate|sync|postprocess                │
 └──────────────────────────────┬──────────────────────────────────────────────┘
                                │
                                ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │  YOUR APP (e.g., playground, storybook)                                      │
 │  ─────────────────────────────────────                                       │
-│  src/figma-exports/    ← Raw Figma exports                                   │
+│  src/figma-exports/    ← Raw Figma exports (theme.json, foundation.json)     │
 │  src/collections/      ← Transformed DTCG tokens                             │
 │  src/generated/        ← Built CSS/JS/TS/SCSS outputs                        │
 └─────────────────────────────────────────────────────────────────────────────┘
+```
+
+## Package Location
+
+```text
+packages/@dsai-io/tools/
+├── bin/dsai-tools.mjs     # CLI entry point
+├── src/
+│   ├── cli/commands/tokens.ts  # Token CLI commands
+│   ├── config/                  # Configuration system
+│   │   ├── schema.ts           # Zod validation schemas
+│   │   └── loader.ts           # Config loading
+│   └── tokens/                  # Token processing
+│       ├── build.ts            # Build pipeline
+│       ├── transform.ts        # Figma → DTCG transform
+│       ├── validate.ts         # Token validation
+│       ├── validate-figma.ts   # Figma export validation
+│       ├── sync.ts             # Token sync
+│       ├── postprocess.ts      # CSS post-processing
+│       ├── clean.ts            # Output cleanup
+│       ├── types.ts            # TypeScript types
+│       └── style-dictionary/   # SD v5 integration
 ```
 
 ## App Directory Structure
@@ -69,22 +93,133 @@ apps/playground/
 ├── sd.config.mjs             # Style Dictionary config
 └── src/
     ├── figma-exports/        # Raw Figma exports (from figma-tokens fetch)
-    │   ├── colors.json
-    │   ├── typography.json
-    │   └── spacing.json
+    │   ├── theme.json        # Theme tokens (colors, typography)
+    │   └── foundation.json   # Foundation tokens
     ├── collections/          # Transformed DTCG tokens (from dsai transform)
+    │   ├── border/
     │   ├── color/
-    │   │   ├── primitive.json
-    │   │   └── semantic.json
-    │   ├── typography/
-    │   └── spacing/
+    │   │   └── primitive.json
+    │   ├── layout/
+    │   ├── shadow/
+    │   ├── spacing/
+    │   └── typography/
     └── generated/            # Built outputs (from dsai build)
         ├── tokens.css
         ├── tokens-dark.css
         ├── tokens.js
         ├── tokens.ts
+        ├── tokens.json
+        ├── tokens.d.ts
         ├── _variables.scss
+        ├── _variables-dark.scss
         └── dsai-theme-bs.css
+```
+
+## Configuration
+
+Create a `dsai.config.mjs` in your project root:
+
+```javascript
+import { defineConfig } from '@dsai-io/tools';
+
+export default defineConfig({
+  // Global settings
+  global: {
+    debug: process.env['DEBUG'] === 'true',
+    logLevel: process.env['LOG_LEVEL'] ?? 'info',
+  },
+
+  // Token configuration
+  tokens: {
+    // Source type - 'theme' uses theme.json, 'collections' uses individual files
+    source: 'theme',
+
+    // Directory for raw Figma exports (theme.json or foundation.json, etc.)
+    sourceDir: './src/figma-exports',
+
+    // Base directory for processed collections
+    collectionsDir: './src',
+
+    // Output directory for generated files (CSS, SCSS, JS, TS)
+    outputDir: './src/generated',
+
+    // CSS variable prefix (e.g., --dsai-color-blue-500)
+    prefix: '--dsai-',
+
+    // Base font size for rem calculations
+    baseFontSize: 16,
+
+    // Output references in generated files (uses CSS var() functions)
+    outputReferences: true,
+
+    // Output formats to generate
+    formats: ['css', 'js', 'ts', 'scss', 'json'],
+  },
+});
+```
+
+## CLI Commands
+
+### Transform (Figma → DTCG)
+
+```bash
+# Transform Figma exports to Style Dictionary format
+dsai tokens transform
+
+# Preview without writing files
+dsai tokens transform --dry-run
+
+# Specify default mode for mode-aware collections
+dsai tokens transform --default-mode Light
+
+# Ignore specific modes
+dsai tokens transform --ignore-modes "Dark,High Contrast"
+```
+
+### Build (Collections → Outputs)
+
+```bash
+# Build all token outputs
+dsai tokens build
+
+# Clean output before build
+dsai tokens build --clean
+
+# Build specific platforms
+dsai tokens build --platforms css,js
+
+# Watch mode
+dsai tokens build --watch
+```
+
+### Validate
+
+```bash
+# Validate token structure
+dsai tokens validate
+
+# Strict mode
+dsai tokens validate --strict
+
+# Attempt to fix issues
+dsai tokens validate --fix
+```
+
+### Sync
+
+```bash
+# Sync tokens to flat file
+dsai tokens sync
+
+# Specify output format
+dsai tokens sync --format flat
+```
+
+### Post-process
+
+```bash
+# Post-process CSS files (replace data-bs-theme with data-dsai-theme)
+dsai tokens postprocess
 ```
 
 ## DTCG Token Format
@@ -99,18 +234,15 @@ All tokens follow the W3C Design Tokens Community Group specification:
         "$value": "#0a58ca",
         "$type": "color",
         "$description": "Primary brand color. Use for primary actions and links.",
-        "$scopes": ["ALL_FILLS", "STROKE_COLOR"],
-        "$codeSyntax": {
-          "WEB": "--dsai-color-blue-500",
-          "ANDROID": "color.blue.500",
-          "iOS": "Color.Blue.500"
-        },
         "$extensions": {
           "docs": {
-            "reference": "https://getbootstrap.com/docs/5.3/customize/color/"
+            "reference": "https://getbootstrap.com/docs/5.3/customize/color/",
+            "section": "Customization",
+            "subsection": "Colors - Brand - Blue"
           },
           "platform": {
-            "scssVariableName": "$color-blue-500"
+            "scssVariableName": "$color-blue-500",
+            "bootstrapVersion": "5.3"
           }
         }
       }
@@ -129,16 +261,26 @@ All tokens follow the W3C Design Tokens Community Group specification:
 
 ### DSAi Extensions
 
-| Field         | Description                                          |
-| ------------- | ---------------------------------------------------- |
-| `$scopes`     | Figma scopes: `ALL_FILLS`, `STROKE_COLOR`, `GAP`     |
-| `$codeSyntax` | Platform-specific variable names (WEB, ANDROID, iOS) |
-| `$extensions` | Docs references and platform metadata                |
-| `comment`     | SCSS variable name (legacy)                          |
+| Field                  | Description                                       |
+| ---------------------- | ------------------------------------------------- |
+| `$extensions.docs`     | Documentation references and section info         |
+| `$extensions.platform` | Platform-specific metadata (SCSS var names, etc.) |
+
+### Valid Token Types
+
+- `color` - Color values (hex, rgb, hsl)
+- `dimension` - Size values (px, rem, em)
+- `fontFamily` - Font stack definitions
+- `fontWeight` - Font weight values
+- `duration` - Animation/transition durations
+- `cubicBezier` - Easing functions
+- `number` - Numeric values
+- `shadow` - Box shadow definitions
+- `border` - Border definitions
 
 ## Token Categories
 
-### Colors
+### Colors (collections/color/)
 
 **Primitive** (11 hues × 11 steps in `primitive.json`):
 
@@ -146,50 +288,15 @@ All tokens follow the W3C Design Tokens Community Group specification:
 - `color.gray.50` through `color.gray.950`
 - Also: cyan, green, indigo, orange, pink, purple, red, teal, yellow
 
-**Semantic** (in `semantic.json` using references):
+**Semantic** (in `semantic.json` using references to primitives)
 
-```json
-{
-  "theme": {
-    "primary": {
-      "$value": "{colors.brand.blue.500}",
-      "$type": "color",
-      "$description": "Primary theme color for CTAs and links"
-    },
-    "secondary": { "$value": "{colors.brand.gray.500}" },
-    "success": { "$value": "{colors.brand.green.500}" },
-    "danger": { "$value": "{colors.brand.red.500}" },
-    "warning": { "$value": "{colors.brand.yellow.500}" },
-    "info": { "$value": "{colors.brand.cyan.500}" }
-  }
-}
-```
+See [references/EXAMPLES.md](references/EXAMPLES.md) for complete token examples.
 
-### Typography
+### Typography (collections/typography/)
 
-```json
-{
-  "typography": {
-    "fontFamily": {
-      "base": {
-        "$value": "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
-        "$type": "fontFamily"
-      },
-      "monospace": {
-        "$value": "Roboto Mono, SFMono-Regular, Menlo, Monaco, monospace",
-        "$type": "fontFamily"
-      }
-    },
-    "fontSize": {
-      "base": { "$value": "16px", "$type": "dimension" },
-      "sm": { "$value": "14px", "$type": "dimension" },
-      "lg": { "$value": "20px", "$type": "dimension" }
-    }
-  }
-}
-```
+Font families, sizes, weights, and line heights.
 
-### Spacing
+### Spacing (collections/spacing/)
 
 Scale 0-10 (Bootstrap-compatible):
 
@@ -202,9 +309,15 @@ Scale 0-10 (Bootstrap-compatible):
 | `spacing.4` | `24px` | Large ($spacer × 1.5)        |
 | `spacing.5` | `48px` | Extra large ($spacer × 3)    |
 
+### Additional Categories
+
+- **Border** (`collections/border/`) - Border radius, width, style tokens
+- **Shadow** (`collections/shadow/`) - Box shadow definitions
+- **Layout** (`collections/layout/`) - Container, breakpoint tokens
+
 ## CSS Variable Output
 
-Tokens build to CSS variables with the `--dsai-` prefix:
+Tokens build to CSS variables with the configured prefix:
 
 ```css
 :root {
@@ -215,99 +328,78 @@ Tokens build to CSS variables with the `--dsai-` prefix:
 }
 ```
 
-## Building Tokens
+## Output Formats
 
-Apps use a **two-step** process powered by `@dsai-io/figma-tokens` and `@dsai-io/tools`:
+| Output                 | Path                             | Description              |
+| ---------------------- | -------------------------------- | ------------------------ |
+| CSS Variables (Light)  | `generated/tokens.css`           | Light mode CSS variables |
+| CSS Variables (Dark)   | `generated/tokens-dark.css`      | Dark mode CSS overrides  |
+| JavaScript (ESM)       | `generated/tokens.js`            | ESM module export        |
+| TypeScript             | `generated/tokens.ts`            | TypeScript with types    |
+| TypeScript Definitions | `generated/tokens.d.ts`          | Type definitions         |
+| JSON                   | `generated/tokens.json`          | Raw token values         |
+| SCSS Variables (Light) | `generated/_variables.scss`      | SCSS variables           |
+| SCSS Variables (Dark)  | `generated/_variables-dark.scss` | Dark mode SCSS           |
+| Bootstrap Theme        | `generated/dsai-theme-bs.css`    | Bootstrap CSS theme      |
 
-### Step 1: Fetch from Figma (via @DSAi/figma-tokens)
+## Build Pipeline
 
-```bash
-# Fetch variables from Figma API → figma-exports/
-dsai-figma fetch                # Full fetch
-dsai-figma fetch --dry-run      # Preview without writing
-dsai-figma sync                 # Bi-directional sync
-dsai-figma validate             # Validate exports
+The build uses a configurable pipeline with these steps:
+
+```typescript
+// Available pipeline steps
+type BuildPipelineStep =
+  | 'validate' // Validate token structure
+  | 'transform' // Transform Figma → DTCG
+  | 'style-dictionary' // Run Style Dictionary
+  | 'sync' // Sync to flat file
+  | 'sass-theme' // Build Sass theme
+  | 'sass-theme-minified' // Minified Sass theme
+  | 'postprocess' // Post-process CSS
+  | 'sass-utilities' // Build Sass utilities
+  | 'sass-utilities-minified' // Minified utilities
+  | 'bundle'; // Bundle outputs
 ```
 
-Configuration in `figma.config.mjs`:
+Configure in `dsai.config.mjs`:
 
-```js
-export default {
-  figma: {
-    fileId: 'YOUR_FIGMA_FILE_ID',
-    // Variable collections to fetch
-    collections: ['Primitives', 'Semantic', 'Component'],
+```javascript
+export default defineConfig({
+  tokens: {
+    pipeline: {
+      steps: ['validate', 'transform', 'style-dictionary', 'postprocess'],
+    },
   },
-  // Output directory for raw exports
-  outputDir: './src/figma-exports',
-};
+});
 ```
-
-### Step 2: Transform & Build (via @DSAi/tools)
-
-```bash
-# Transform Figma exports → DTCG collections
-dsai tokens transform
-
-# Build CSS/JS/TS/SCSS outputs
-dsai tokens build
-
-# Validate token structure
-dsai tokens validate
-dsai tokens validate --figma   # Validate against Figma exports
-```
-
-Configuration in `dsai.config.mjs`:
-
-```js
-export default {
-  source: ['./src/collections/**/*.json'],
-  prefix: '--dsai-',
-  outputDir: './src/generated',
-  figmaExports: './src/figma-exports',
-  // ...
-};
-```
-
-### Playground Example Scripts
-
-```bash
-cd apps/playground
-
-# Figma fetch commands (via @dsai-io/figma-tokens)
-pnpm figma:fetch          # Fetch from Figma → figma-exports/
-pnpm figma:sync           # Bi-directional sync
-pnpm figma:validate       # Validate exports
-
-# Token build commands (via @dsai-io/tools)
-pnpm tokens:transform     # figma-exports → collections
-pnpm tokens:build         # collections → generated outputs
-pnpm tokens:all           # Transform + build
-
-# Full workflow
-pnpm tokens:full          # Fetch + transform + build
-```
-
-### Output Formats
-
-| Output          | Path                          | Description           |
-| --------------- | ----------------------------- | --------------------- |
-| CSS Variables   | `generated/tokens.css`        | Light mode variables  |
-| CSS Dark Mode   | `generated/tokens-dark.css`   | Dark mode overrides   |
-| JavaScript      | `generated/tokens.js`         | ESM module            |
-| TypeScript      | `generated/tokens.ts`         | With type definitions |
-| SCSS            | `generated/_variables.scss`   | SCSS variables        |
-| Bootstrap Theme | `generated/dsai-theme-bs.css` | Bootstrap CSS theme   |
 
 ## Adding New Tokens
 
 1. Add to appropriate JSON file in `collections/`
 2. Follow DTCG format with `$value`, `$type`, `$description`
 3. Use references for semantic tokens: `"$value": "{color.blue.500}"`
-4. Run build to generate outputs
-5. Validate with `pnpm dsai tokens validate`
+4. Run validation: `dsai tokens validate`
+5. Build outputs: `dsai tokens build`
+
+Example adding a new color:
+
+```json
+{
+  "color": {
+    "brand": {
+      "accent": {
+        "$value": "#ff6b35",
+        "$type": "color",
+        "$description": "Accent color for highlights and call-to-action elements"
+      }
+    }
+  }
+}
+```
 
 ## Token References (Aliases)
+
+Create semantic tokens that reference primitives:
 
 ```json
 {
@@ -316,46 +408,69 @@ pnpm tokens:full          # Fetch + transform + build
       "$value": "{color.blue.500}",
       "$type": "color",
       "$description": "Primary brand color alias"
+    },
+    "text": {
+      "default": {
+        "$value": "{color.gray.900}",
+        "$type": "color",
+        "$description": "Default text color"
+      }
     }
   }
 }
 ```
 
-## Figma Sync
-
-The `@dsai-io/figma-tokens` package handles all Figma communication:
-
-```bash
-# Set your Figma access token
-export FIGMA_TOKEN=figd_xxxxx
-
-# Fetch variables from Figma
-dsai-figma fetch
-
-# Bi-directional sync (pull changes, push local updates)
-dsai-figma sync
-
-# Validate exports match Figma state
-dsai-figma validate
-```
-
-Configuration via `figma.config.mjs`:
-
-```js
-export default {
-  figma: {
-    fileId: 'YOUR_FIGMA_FILE_ID',
-    collections: ['Primitives', 'Semantic', 'Component'],
-  },
-  outputDir: './src/figma-exports',
-};
-```
-
-Figma exports are stored in `figma-exports/` and transformed to DTCG format via `dsai tokens transform`.
-
 ## Validation Rules
 
-- Token names: lowercase, dot-separated paths
-- Values: Valid CSS values or references
-- Types: Must match DTCG specification
-- No duplicate token paths
+The `dsai tokens validate` command checks:
+
+- **Structure**: Valid JSON, required `$value` and `$type` fields
+- **Types**: `$type` matches DTCG specification
+- **Values**: Valid CSS values or references
+- **References**: Referenced tokens exist
+- **Naming**: Lowercase, dot-separated paths (no underscores)
+- **Duplicates**: No duplicate token paths
+
+## Integration with Figma
+
+See the [figma-integration](../figma-integration/SKILL.md) skill for Figma API workflows.
+
+```bash
+# Export from Figma
+dsai-figma fetch
+
+# Validate exports match Figma
+dsai-figma validate
+
+# Transform to DTCG
+dsai tokens transform
+
+# Build outputs
+dsai tokens build
+```
+
+## Playground Scripts
+
+```bash
+cd apps/playground
+
+# Token build commands (via @dsai-io/tools)
+pnpm tokens:transform     # figma-exports → collections
+pnpm tokens:build         # collections → generated outputs
+pnpm tokens:all           # Transform + build
+pnpm tokens:validate      # Validate structure
+
+# Full workflow
+pnpm tokens:full          # Fetch + transform + build
+```
+
+## Troubleshooting
+
+See [references/TROUBLESHOOTING.md](references/TROUBLESHOOTING.md) for detailed solutions to common issues:
+
+- Transform produces empty output
+- Validation fails on references
+- CSS variables not updating
+- Dark mode not working
+- Figma sync issues
+- Build performance

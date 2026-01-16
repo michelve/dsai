@@ -13,7 +13,7 @@ module.exports = {
     ],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
-  coverageDirectory: '../../../coverage/packages/@dsai/tools',
+  coverageDirectory: '../../../coverage/packages/@dsai-io/tools',
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     '!src/**/*.d.ts',
