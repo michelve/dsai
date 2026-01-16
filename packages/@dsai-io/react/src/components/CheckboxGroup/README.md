@@ -125,7 +125,7 @@ const options = [
 
 The CheckboxGroup uses a Finite State Machine (FSM) to manage selection state:
 
-```
+```text
 ┌─────────┐     TOGGLE_ITEM      ┌─────────┐     TOGGLE_ITEM      ┌─────────┐
 │  none   │ ─────────────────→   │  some   │ ─────────────────→   │   all   │
 │         │     (select 1)       │         │     (select all)     │         │

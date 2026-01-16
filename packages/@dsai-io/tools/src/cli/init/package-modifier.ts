@@ -274,6 +274,11 @@ export function modifyPackageJson(cwd: string, options: ModifyOptions): Modifica
   // Process dependencies
   if (options.dependencies && options.dependencies.length > 0) {
     for (const dep of options.dependencies) {
+      // Guard against prototype pollution
+      if (dep.name === '__proto__' || dep.name === 'constructor' || dep.name === 'prototype') {
+        continue;
+      }
+
       const section = dep.type;
 
       if (!pkg[section]) {
@@ -281,15 +286,25 @@ export function modifyPackageJson(cwd: string, options: ModifyOptions): Modifica
       }
 
       const depsSection = pkg[section] as Record<string, string>;
-      const exists = depsSection[dep.name] !== undefined;
+      const exists = dep.name in depsSection;
 
       if (!exists) {
-        depsSection[dep.name] = dep.version;
+        Object.defineProperty(depsSection, dep.name, {
+          value: dep.version,
+          writable: true,
+          enumerable: true,
+          configurable: true,
+        });
         result.changes.dependenciesAdded.push(dep.name);
       } else if (options.upgradeDependencies) {
         // Only update if upgradeDependencies is true and version is different
         if (depsSection[dep.name] !== dep.version) {
-          depsSection[dep.name] = dep.version;
+          Object.defineProperty(depsSection, dep.name, {
+            value: dep.version,
+            writable: true,
+            enumerable: true,
+            configurable: true,
+          });
           result.changes.dependenciesUpdated.push(dep.name);
         }
       }

@@ -66,6 +66,7 @@ function generateSchema() {
   }
 
   // Write schema file
+  // Note: SCHEMA_OUTPUT is a hardcoded constant derived from __dirname, not user input
   fs.writeFileSync(SCHEMA_OUTPUT, JSON.stringify(schema, null, '\t'), 'utf-8');
 
   console.log(`✓ Generated: ${path.relative(process.cwd(), SCHEMA_OUTPUT)}`);

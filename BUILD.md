@@ -15,7 +15,7 @@ We chose **tsup** over Rollup for the following reasons:
 
 Each package generates the following outputs:
 
-```
+```text
 dist/
   ├── index.js          # CommonJS bundle (minified)
   ├── index.js.map      # CJS sourcemap
@@ -35,9 +35,9 @@ dist/
 
 | Package            | ESM (gzipped) | CJS (gzipped) | Status |
 | ------------------ | ------------- | ------------- | ------ |
-| @dsai-io/tools        | 117 B         | 163 B         | ✅     |
-| @dsai-io/react        | 156 B         | 185 B         | ✅     |
-| @dsai-io/figma-tokens | 129 B         | 174 B         | ✅     |
+| @DSAi-io/tools        | 117 B         | 163 B         | ✅     |
+| @DSAi-io/react        | 156 B         | 185 B         | ✅     |
+| @DSAi-io/figma-tokens | 129 B         | 174 B         | ✅     |
 
 **Target**: < 50KB gzipped per package (all packages well under target)
 
@@ -196,7 +196,7 @@ import { tokens } from '@dsai-io/react';
 
 External dependencies are not bundled:
 
-- **@dsai-io/tools**: Marked as external in dependent packages
+- **@DSAi-io/tools**: Marked as external in dependent packages
 - **React, React-dom**: Marked as peer dependencies and external
 - Consumers must install these separately
 
@@ -215,7 +215,7 @@ This:
 
 **Solution**: Ensure `tsup.config.ts` uses `tsconfig: './tsconfig.build.json'` which removes path mappings.
 
-### Error: Cannot find module '@dsai-io/tools'
+### Error: Cannot find module '@DSAi-io/tools'
 
 **Problem**: Package not built or not in node_modules.
 

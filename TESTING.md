@@ -79,7 +79,7 @@ pnpm test:ci
 
 Place test files next to the components they test:
 
-```
+```text
 packages/@dsai-io/react/src/
 ├── Button/
 │   ├── Button.tsx

@@ -113,6 +113,10 @@ export const typescriptDeclarations: FormatDefinition = {
       let current: TokenTreeNode = tokenTree;
       for (let i = 0; i < token.path.length - 1; i++) {
         const key = token.path[i] as string;
+        // Guard against prototype pollution
+        if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+          continue;
+        }
         if (!current[key] || typeof current[key] !== 'object') {
           current[key] = {};
         }

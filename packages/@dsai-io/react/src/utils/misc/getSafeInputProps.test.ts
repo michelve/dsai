@@ -99,6 +99,9 @@ describe('getSafeInputProps', () => {
     });
 
     it('should block dangerous attributes', () => {
+      // This test verifies that dangerous attributes are stripped out.
+      // The dangerouslySetInnerHTML below is test input that should be REMOVED
+      // by getSafeInputProps - it is never rendered to the DOM.
       const props = {
         id: 'safe',
         dangerouslySetInnerHTML: { __html: '<script>alert("xss")</script>' },

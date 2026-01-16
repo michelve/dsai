@@ -72,24 +72,70 @@ Use annotations and dev resources for:
 - Translating Figma frames to code
 - Getting styled component representations
 - Default choice for most design-to-code tasks
+- Supported files: Figma Design, Figma Make
 
 ### When to use `get_metadata`
 
 - Very large designs (over 50 layers)
 - When `get_design_context` is slow or truncated
 - Getting an overview before detailed extraction
+- Breaking down complex designs into manageable sections
 
 ### When to use `get_variable_defs`
 
-- Extracting design tokens
+- Extracting design tokens (colors, spacing, typography)
 - Auditing token usage in designs
 - Syncing Figma variables with codebase tokens
+- Supported files: Figma Design only
 
 ### When to use `get_screenshot`
 
 - Preserving visual fidelity
 - Complex layouts where structure matters
 - Visual comparison during implementation
+- Supported files: Figma Design, FigJam
+
+### When to use `get_code_connect_map`
+
+- Checking existing component mappings
+- Verifying Figma nodes are linked to codebase components
+- Before generating code to ensure reuse of existing components
+
+### When to use `add_code_connect_map`
+
+- Creating new mappings between Figma nodes and components
+- Setting up Code Connect for a new component
+- Improving code generation accuracy for specific components
+
+### When to use `create_design_system_rules`
+
+- Initial project setup for consistent code output
+- Creating rule files for agent context
+- Outputs to `rules/` or `instructions/` directory
+- No file context required
+
+### When to use `get_figjam`
+
+- Extracting FigJam diagrams (architecture, workflows)
+- Getting metadata with node screenshots
+- Documenting processes and flows
+
+### When to use `whoami` (remote only)
+
+- Verifying authentication status
+- Checking user plan and seat type
+- Debugging permission issues
+
+### When to use `get_strategy_for_mapping` (alpha, local only)
+
+- Auto-detecting component mapping strategies
+- Figma-prompted component detection
+- Setting up Code Connect mappings automatically
+
+### When to use `send_get_strategy_response` (alpha, local only)
+
+- Completing the Figma-prompted mapping workflow
+- After calling `get_strategy_for_mapping`
 
 ## Handling Large Designs
 

@@ -100,7 +100,7 @@
   "MD041": true,
   "MD042": true,
   "MD044": {
-    "names": ["DSAi", "GitHub", "JavaScript", "TypeScript", "Node.js", "npm", "pnpm"],
+    "names": ["GitHub", "JavaScript", "TypeScript", "Node.js", "npm", "pnpm"],
     "code_blocks": false,
     "code_spans": false,
     "html_elements": false

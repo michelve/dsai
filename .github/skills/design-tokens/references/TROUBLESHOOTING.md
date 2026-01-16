@@ -37,6 +37,7 @@ Common issues and solutions when working with DSAi design tokens.
    ```
 
 4. **Enable debug mode:**
+
    ```bash
    DEBUG=true dsai tokens transform
    ```
@@ -64,6 +65,7 @@ Common issues and solutions when working with DSAi design tokens.
    ```
 
 3. **Verify Figma export structure:**
+
    ```json
    {
      "modes": {
@@ -220,6 +222,7 @@ Common issues and solutions when working with DSAi design tokens.
    ```
 
 3. **Check Style Dictionary config:**
+
    ```bash
    cat sd.config.mjs
    ```
@@ -280,6 +283,7 @@ Common issues and solutions when working with DSAi design tokens.
    ```
 
 4. **Verify HTML attribute:**
+
    ```html
    <html data-theme="dark"></html>
    ```
@@ -296,6 +300,7 @@ Common issues and solutions when working with DSAi design tokens.
    - The postprocess step replaces `data-bs-theme` with `data-dsai-theme`
 
 2. **Update your HTML:**
+
    ```html
    <!-- Use the selector that matches your CSS -->
    <html data-dsai-theme="dark"></html>
@@ -328,6 +333,7 @@ Common issues and solutions when working with DSAi design tokens.
    ```
 
 3. **Check network access:**
+
    ```bash
    curl -H "X-Figma-Token: $FIGMA_TOKEN" \
      https://api.figma.com/v1/me
@@ -353,6 +359,7 @@ Common issues and solutions when working with DSAi design tokens.
    - Check variable modes are correct
 
 3. **Validate against Figma:**
+
    ```bash
    dsai-figma validate
    ```
@@ -386,6 +393,7 @@ Common issues and solutions when working with DSAi design tokens.
    ```
 
 3. **Use incremental builds:**
+
    ```bash
    dsai tokens build --watch
    ```
