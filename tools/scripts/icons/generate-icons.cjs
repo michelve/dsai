@@ -19,10 +19,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 // Paths - Icons now live under components/Icon
-const ICONS_DIR = path.join(__dirname, '../../../packages/@dsai/react/src/components/Icon');
+const ICONS_DIR = path.join(__dirname, '../../../packages/@dsai-io/react/src/components/Icon');
 const OUTPUT_DIR = path.join(
   __dirname,
-  '../../../packages/@dsai/react/src/components/Icon/components'
+  '../../../packages/@dsai-io/react/src/components/Icon/components'
 );
 const METADATA_FILE = path.join(__dirname, 'icon-metadata.json');
 

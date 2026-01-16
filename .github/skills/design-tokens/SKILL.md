@@ -31,7 +31,7 @@ DSAi uses a **two-package** token workflow:
                                │
                                ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│  @dsai/figma-tokens                                                          │
+│  @dsai-io/figma-tokens                                                          │
 │  ─────────────────                                                           │
 │  • Fetches variables from Figma API                                          │
 │  • Creates figma-exports/ directory                                          │
@@ -40,7 +40,7 @@ DSAi uses a **two-package** token workflow:
                                │
                                ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│  @dsai/tools                                                                 │
+│  @dsai-io/tools                                                                 │
 │  ───────────                                                                 │
 │  • Transforms figma-exports → collections (DTCG format)                      │
 │  • Builds collections → CSS/JS/TS/SCSS outputs                               │
@@ -65,7 +65,7 @@ Each app that uses tokens has this structure:
 ```text
 apps/playground/
 ├── figma.config.mjs          # Figma fetch configuration
-├── dsai.config.mjs           # @dsai/tools configuration
+├── dsai.config.mjs           # @dsai-io/tools configuration
 ├── sd.config.mjs             # Style Dictionary config
 └── src/
     ├── figma-exports/        # Raw Figma exports (from figma-tokens fetch)
@@ -217,7 +217,7 @@ Tokens build to CSS variables with the `--dsai-` prefix:
 
 ## Building Tokens
 
-Apps use a **two-step** process powered by `@dsai/figma-tokens` and `@dsai/tools`:
+Apps use a **two-step** process powered by `@dsai-io/figma-tokens` and `@dsai-io/tools`:
 
 ### Step 1: Fetch from Figma (via @DSAi/figma-tokens)
 
@@ -274,12 +274,12 @@ export default {
 ```bash
 cd apps/playground
 
-# Figma fetch commands (via @dsai/figma-tokens)
+# Figma fetch commands (via @dsai-io/figma-tokens)
 pnpm figma:fetch          # Fetch from Figma → figma-exports/
 pnpm figma:sync           # Bi-directional sync
 pnpm figma:validate       # Validate exports
 
-# Token build commands (via @dsai/tools)
+# Token build commands (via @dsai-io/tools)
 pnpm tokens:transform     # figma-exports → collections
 pnpm tokens:build         # collections → generated outputs
 pnpm tokens:all           # Transform + build
@@ -323,7 +323,7 @@ pnpm tokens:full          # Fetch + transform + build
 
 ## Figma Sync
 
-The `@dsai/figma-tokens` package handles all Figma communication:
+The `@dsai-io/figma-tokens` package handles all Figma communication:
 
 ```bash
 # Set your Figma access token

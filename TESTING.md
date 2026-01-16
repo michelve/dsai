@@ -80,7 +80,7 @@ pnpm test:ci
 Place test files next to the components they test:
 
 ```
-packages/@dsai/react/src/
+packages/@dsai-io/react/src/
 ├── Button/
 │   ├── Button.tsx
 │   ├── Button.test.tsx          # Unit tests
@@ -90,7 +90,7 @@ packages/@dsai/react/src/
 Or use the `__tests__` directory:
 
 ```
-packages/@dsai/react/src/
+packages/@dsai-io/react/src/
 ├── __tests__/
 │   ├── Button.test.tsx
 │   └── Button.a11y.test.tsx
@@ -580,8 +580,8 @@ moduleNameMapper: {
 
 See comprehensive examples in:
 
-- `packages/@dsai/react/src/__tests__/example.test.tsx`
-- `packages/@dsai/react/src/__tests__/accessibility.test.tsx`
+- `packages/@dsai-io/react/src/__tests__/example.test.tsx`
+- `packages/@dsai-io/react/src/__tests__/accessibility.test.tsx`
 
 ## Resources
 

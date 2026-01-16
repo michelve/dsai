@@ -5,7 +5,7 @@ import path from 'node:path';
  * DSAi Icon Generator - REST API Version
  *
  * This script fetches icons from a Figma file via REST API and generates
- * React components compatible with the DSAi design system (@dsai/react).
+ * React components compatible with the DSAi design system (@dsai-io/react).
  *
  * Usage:
  *   node --env-file=.env app.mjs          # Full fetch + generate
@@ -16,9 +16,9 @@ import path from 'node:path';
  *   FIGMA_FILE_KEY - The file key from your Figma icons URL
  *
  * Output:
- *   - packages/@dsai/react/src/components/Icon/components/*.tsx
- *   - packages/@dsai/react/src/components/Icon/index.ts
- *   - packages/@dsai/react/src/figma/icons/Icons.figma.tsx
+ *   - packages/@dsai-io/react/src/components/Icon/components/*.tsx
+ *   - packages/@dsai-io/react/src/components/Icon/index.ts
+ *   - packages/@dsai-io/react/src/figma/icons/Icons.figma.tsx
  *
  * Security Note: This is a build-time tool that runs locally with environment
  * variables. The URLs are from Figma's trusted API and the filenames are derived
@@ -37,7 +37,7 @@ const ICON_VARIANT_NAME = 'Size=16';
 const ROOT_TRAVERSE_IDS = ['7809:18809', '522:12152']; // Page ID > Section ID
 
 // Output paths (relative to this script)
-const OUTPUT_BASE = '../../packages/@dsai/react/src';
+const OUTPUT_BASE = '../../packages/@dsai-io/react/src';
 const ICONS_OUTPUT = `${OUTPUT_BASE}/components/Icon/components`;
 const INDEX_OUTPUT = `${OUTPUT_BASE}/components/Icon/index.ts`;
 const FIGMA_CONNECT_OUTPUT = `${OUTPUT_BASE}/figma/icons/Icons.figma.tsx`;
@@ -270,7 +270,7 @@ async function run() {
     // Write intermediate files for debugging/caching
     fs.writeFileSync(
       './Icons.figma.txt',
-      `import figma from '@figma/code-connect';\nimport { ${names.join(', ')} } from '@dsai/react/components/Icon';\n`
+      `import figma from '@figma/code-connect';\nimport { ${names.join(', ')} } from '@dsai-io/react/components/Icon';\n`
     );
     fs.writeFileSync(
       './icons-index.txt',
@@ -345,7 +345,7 @@ export type { IconProps, IconComponent } from './types';
  * Maps Figma icon components to React implementations.
  */
 import figma from '@figma/code-connect';
-import { ${importNames.join(', ')} } from '@dsai/react/components/Icon';
+import { ${importNames.join(', ')} } from '@dsai-io/react/components/Icon';
 
 ${codeConnects.join('\n\n')}
 `;

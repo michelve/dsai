@@ -1,5 +1,5 @@
 packages:
-  - 'packages/@dsai/*'
+  - 'packages/@dsai-io/*'
   - 'apps/*'
   - 'tools/*'
 

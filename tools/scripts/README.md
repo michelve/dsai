@@ -2,7 +2,7 @@
 
 This directory contains utility scripts for the DSAi design system, organized by functionality.
 
-> **Note:** Core token operations have been migrated to `@dsai/tools`. Use the `dsai` CLI for:
+> **Note:** Core token operations have been migrated to `@dsai-io/tools`. Use the `dsai` CLI for:
 >
 > - Token validation: `dsai tokens validate`
 > - Token building: `dsai tokens build`
@@ -38,8 +38,8 @@ tools/scripts/
 
 | Script                | Description                           | Usage                                  |
 | --------------------- | ------------------------------------- | -------------------------------------- |
-| `kill-storybook.sh`   | Kills any running Storybook processes | `pnpm --filter @dsai/storybook kill`   |
-| `verify-storybook.sh` | Verifies Storybook build              | `pnpm --filter @dsai/storybook verify` |
+| `kill-storybook.sh`   | Kills any running Storybook processes | `pnpm --filter @dsai-io/storybook kill`   |
+| `verify-storybook.sh` | Verifies Storybook build              | `pnpm --filter @dsai-io/storybook verify` |
 
 ### 🎨 Icons (`icons/`)
 
@@ -87,6 +87,6 @@ pnpm dsai tokens build        # Full token build pipeline
 ### @DSAi/storybook
 
 ```bash
-pnpm --filter @dsai/storybook kill     # Kill Storybook processes
-pnpm --filter @dsai/storybook verify   # Verify Storybook build
+pnpm --filter @dsai-io/storybook kill     # Kill Storybook processes
+pnpm --filter @dsai-io/storybook verify   # Verify Storybook build
 ```

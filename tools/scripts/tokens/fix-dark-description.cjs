@@ -11,7 +11,7 @@ const path = require('node:path');
 
 const FOUNDATION_PATH = path.join(
   __dirname,
-  '../../../packages/@dsai/tokens/figma-exports/foundation.json'
+  '../../../packages/@dsai-io/tokens/figma-exports/foundation.json'
 );
 
 const WRONG_DESCRIPTION =

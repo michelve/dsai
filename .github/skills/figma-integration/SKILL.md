@@ -1,6 +1,6 @@
 ---
 name: figma-integration
-description: Syncs design tokens between Figma and code using @dsai/figma-tokens. Use when exporting Figma variables, importing tokens to code, syncing design-code parity, or managing the Figma Variables API workflow.
+description: Syncs design tokens between Figma and code using @dsai-io/figma-tokens. Use when exporting Figma variables, importing tokens to code, syncing design-code parity, or managing the Figma Variables API workflow.
 license: Complete terms in LICENSE.txt
 metadata:
   author: dsai
@@ -32,7 +32,7 @@ export FIGMA_FILE_KEY="ABC123xyz"  # From Figma file URL
 ## Package Location
 
 ```text
-packages/@dsai/figma-tokens/
+packages/@dsai-io/figma-tokens/
 ├── src/
 │   ├── index.ts      # Main exports
 │   ├── client.ts     # FigmaClient class
@@ -44,7 +44,7 @@ packages/@dsai/figma-tokens/
 ### Export Tokens from Figma
 
 ```typescript
-import { createFigmaClientFromEnv } from '@dsai/figma-tokens';
+import { createFigmaClientFromEnv } from '@dsai-io/figma-tokens';
 
 const client = createFigmaClientFromEnv();
 

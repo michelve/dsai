@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "@dsai-io/react",
+  "sourceRoot": "packages/@dsai-io/react/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["^build"],
+      "outputs": ["{projectRoot}/dist"],
+      "options": {
+        "cwd": "packages/@dsai-io/react",
+        "command": "tsup && tsc --emitDeclarationOnly --outDir dist"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{projectRoot}/coverage"],
+      "options": {
+        "jestConfig": "packages/@dsai-io/react/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/@dsai-io/react/src/**/*.{ts,tsx}"]
+      }
+    }
+  },
+  "tags": ["type:library", "scope:react"]
+}

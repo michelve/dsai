@@ -22,7 +22,7 @@ Implement WCAG 2.1 AA compliant accessibility in DSAi components.
 
 ## DSAi Accessibility Utilities
 
-Located in `packages/@dsai/react/src/utils/a11y/`:
+Located in `packages/@dsai-io/react/src/utils/a11y/`:
 
 | Utility                  | Description                               |
 | ------------------------ | ----------------------------------------- |
@@ -52,7 +52,7 @@ Located in `packages/@dsai/react/src/utils/a11y/`:
 ### Using useKeyPress Hook
 
 ```tsx
-import { useKeyPress } from '@dsai/react';
+import { useKeyPress } from '@dsai-io/react';
 
 function SearchModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -75,7 +75,7 @@ function SearchModal() {
 ### Using Keyboard Utilities
 
 ```tsx
-import { isEscapeKey, isEnterKey } from '@dsai/react';
+import { isEscapeKey, isEnterKey } from '@dsai-io/react';
 
 const handleKeyDown = (e: React.KeyboardEvent) => {
   if (isEscapeKey(e)) {
@@ -89,7 +89,7 @@ const handleKeyDown = (e: React.KeyboardEvent) => {
 ### Using getArrowKeyHandler
 
 ```tsx
-import { getArrowKeyHandler } from '@dsai/react';
+import { getArrowKeyHandler } from '@dsai-io/react';
 
 // Vertical navigation (menus, lists)
 const handleKeyDown = getArrowKeyHandler({
@@ -187,7 +187,7 @@ const handleGrid = getArrowKeyHandler({
 The primary way to trap focus in modals and dialogs:
 
 ```tsx
-import { useFocusTrap } from '@dsai/react';
+import { useFocusTrap } from '@dsai-io/react';
 
 function Modal({ isOpen, onClose, children }) {
   const { containerRef, isActive } = useFocusTrap({
@@ -218,7 +218,7 @@ function Modal({ isOpen, onClose, children }) {
 For non-React contexts or custom implementations:
 
 ```tsx
-import { trapFocus } from '@dsai/react';
+import { trapFocus } from '@dsai-io/react';
 
 const cleanup = trapFocus(containerElement, {
   initialFocus: true,
@@ -234,7 +234,7 @@ const cleanup = trapFocus(containerElement, {
 For tab lists, menus, and toolbars:
 
 ```tsx
-import { createRovingTabindex } from '@dsai/react';
+import { createRovingTabindex } from '@dsai-io/react';
 
 useEffect(() => {
   if (!containerRef.current) return;
@@ -270,7 +270,7 @@ function Modal({ open, onClose }) {
 ### announceToScreenReader Utility
 
 ```tsx
-import { announceToScreenReader } from '@dsai/react';
+import { announceToScreenReader } from '@dsai-io/react';
 
 // Polite announcement (default)
 const cleanup = announceToScreenReader('Item saved successfully');
@@ -303,7 +303,7 @@ announceToScreenReader('Loading complete', { timeoutMs: 3000 });
 Respect user's motion preferences:
 
 ```tsx
-import { useReducedMotion } from '@dsai/react';
+import { useReducedMotion } from '@dsai-io/react';
 
 function AnimatedComponent() {
   const prefersReducedMotion = useReducedMotion();

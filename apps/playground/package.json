@@ -11,9 +11,9 @@
     "figma:sync": "node --env-file=.env figma.config.mjs sync",
     "figma:info": "node --env-file=.env figma.config.mjs info",
     "figma:workflow": "node --env-file=.env figma.config.mjs workflow",
-    "tokens:transform": "node ../../packages/@dsai/tools/bin/dsai-tools.mjs tokens transform",
+    "tokens:transform": "node ../../packages/@dsai-io/tools/bin/dsai-tools.mjs tokens transform",
     "tokens:build": "node build-tokens.mjs",
-    "tokens:validate": "node ../../packages/@dsai/tools/bin/dsai-tools.mjs tokens validate",
+    "tokens:validate": "node ../../packages/@dsai-io/tools/bin/dsai-tools.mjs tokens validate",
     "tokens:watch": "style-dictionary build --config sd.config.mjs --watch",
     "tokens:all": "pnpm tokens:transform && pnpm tokens:build",
     "tokens:full": "pnpm figma:fetch && pnpm tokens:all",
@@ -23,9 +23,9 @@
     "styles:watch": "concurrently \"pnpm tokens:watch\" \"pnpm scss:watch\""
   },
   "dependencies": {
-    "@dsai/figma-tokens": "workspace:*",
-    "@dsai/react": "workspace:*",
-    "@dsai/tools": "workspace:*",
+    "@dsai-io/figma-tokens": "workspace:*",
+    "@dsai-io/react": "workspace:*",
+    "@dsai-io/tools": "workspace:*",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

@@ -92,9 +92,9 @@ node --env-file=.env app.mjs --skip-rest-api
 
 ### Output Files
 
-- `packages/@dsai/react/src/components/Icon/components/*.tsx` - Icon components
-- `packages/@dsai/react/src/components/Icon/index.ts` - Barrel exports
-- `packages/@dsai/react/src/figma/icons/Icons.figma.tsx` - Code Connect
+- `packages/@dsai-io/react/src/components/Icon/components/*.tsx` - Icon components
+- `packages/@dsai-io/react/src/components/Icon/index.ts` - Barrel exports
+- `packages/@dsai-io/react/src/figma/icons/Icons.figma.tsx` - Code Connect
 
 ### Intermediate Files
 
@@ -170,6 +170,6 @@ Generated Code Connect uses URL substitution compatible with `figma.config.json`
 
 ## See Also
 
-- [DSAi Icon Component](/packages/@dsai/react/src/components/Icon/)
+- [DSAi Icon Component](/packages/@dsai-io/react/src/components/Icon/)
 - [Figma Code Connect Documentation](https://www.figma.com/developers/api#code-connect)
 - [Bootstrap Icons](https://icons.getbootstrap.com/) (current icon source)

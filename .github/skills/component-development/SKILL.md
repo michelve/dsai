@@ -20,7 +20,7 @@ Create production-ready React components for the DSAi design system.
 
 ## Component Structure
 
-All components live in `packages/@dsai/react/src/components/`:
+All components live in `packages/@dsai-io/react/src/components/`:
 
 ```text
 ComponentName/
@@ -189,7 +189,7 @@ export { ComponentName } from './ComponentName';
 export type { ComponentNameProps } from './types';
 ```
 
-Add to `packages/@dsai/react/src/components/index.ts`:
+Add to `packages/@dsai-io/react/src/components/index.ts`:
 
 ```tsx
 export * from './ComponentName';
@@ -197,7 +197,7 @@ export * from './ComponentName';
 
 ## Existing Components Reference
 
-DSAi includes 30+ components in `packages/@dsai/react/src/components/`:
+DSAi includes 30+ components in `packages/@dsai-io/react/src/components/`:
 
 | Component      | Pattern     | Key Features                                                 |
 | -------------- | ----------- | ------------------------------------------------------------ |

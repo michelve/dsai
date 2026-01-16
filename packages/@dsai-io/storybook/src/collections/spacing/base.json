@@ -1,0 +1,303 @@
+{
+  "spacing": {
+    "0": {
+      "$value": "0px",
+      "$type": "dimension",
+      "$description": "Spacing scale 0 - No spacing. Bootstrap's $spacer * 0 (0px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-0"
+        }
+      }
+    },
+    "1": {
+      "$value": "4px",
+      "$type": "dimension",
+      "$description": "Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-1"
+        }
+      }
+    },
+    "2": {
+      "$value": "8px",
+      "$type": "dimension",
+      "$description": "Spacing scale 2 - Small spacing. Bootstrap's $spacer * 0.5 (8px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-2"
+        }
+      }
+    },
+    "3": {
+      "$value": "16px",
+      "$type": "dimension",
+      "$description": "Spacing scale 3 - Base spacing. Bootstrap's $spacer * 1 (16px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-3"
+        }
+      }
+    },
+    "4": {
+      "$value": "24px",
+      "$type": "dimension",
+      "$description": "Spacing scale 4 - Medium spacing. Bootstrap's $spacer * 1.5 (24px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-4"
+        }
+      }
+    },
+    "5": {
+      "$value": "48px",
+      "$type": "dimension",
+      "$description": "Spacing scale 5 - Large spacing. Bootstrap's $spacer * 3 (48px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-5"
+        }
+      }
+    },
+    "6": {
+      "$value": "64px",
+      "$type": "dimension",
+      "$description": "Spacing scale 6 - Extra large spacing (64px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-6"
+        }
+      }
+    },
+    "7": {
+      "$value": "80px",
+      "$type": "dimension",
+      "$description": "Spacing scale 7 - 2X extra large spacing (80px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-7"
+        }
+      }
+    },
+    "8": {
+      "$value": "96px",
+      "$type": "dimension",
+      "$description": "Spacing scale 8 - 3X extra large spacing (96px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-8"
+        }
+      }
+    },
+    "9": {
+      "$value": "128px",
+      "$type": "dimension",
+      "$description": "Spacing scale 9 - 4X extra large spacing (128px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-9"
+        }
+      }
+    },
+    "10": {
+      "$value": "160px",
+      "$type": "dimension",
+      "$description": "Spacing scale 10 - 5X extra large spacing (160px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-10"
+        }
+      }
+    },
+    "11": {
+      "$value": "96px",
+      "$type": "dimension",
+      "$description": "Spacing scale 10 - 5X extra large spacing (160px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacer-10"
+        }
+      }
+    },
+    "12": {
+      "$value": "12px",
+      "$type": "dimension",
+      "$description": "Spacing 12px - 4px grid intermediate value. Common for button/input padding (0.75rem).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-12"
+        }
+      }
+    },
+    "13": {
+      "$value": "144px",
+      "$type": "dimension",
+      "$description": "Spacing scale 10 - 5X extra large spacing (160px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacer-10"
+        }
+      }
+    },
+    "14": {
+      "$value": "160px",
+      "$type": "dimension",
+      "$description": "Spacing scale 10 - 5X extra large spacing (160px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacer-10"
+        }
+      }
+    },
+    "20": {
+      "$value": "20px",
+      "$type": "dimension",
+      "$description": "Spacing 20px - 4px grid intermediate value (1.25rem). Fills gap between 16px and 24px.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-20"
+        }
+      }
+    },
+    "28": {
+      "$value": "28px",
+      "$type": "dimension",
+      "$description": "Spacing 28px - 4px grid intermediate value (1.75rem). Fills gap between 24px and 32px.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-28"
+        }
+      }
+    },
+    "32": {
+      "$value": "32px",
+      "$type": "dimension",
+      "$description": "Spacing 32px - 4px grid value (2rem). Between Bootstrap scale 4 (24px) and 5 (48px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-32"
+        }
+      }
+    },
+    "36": {
+      "$value": "36px",
+      "$type": "dimension",
+      "$description": "Spacing 36px - 4px grid value (2.25rem). Between Bootstrap scale 4 (24px) and 5 (48px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-36"
+        }
+      }
+    },
+    "40": {
+      "$value": "40px",
+      "$type": "dimension",
+      "$description": "Spacing 40px - 4px grid value (2.5rem). Between Bootstrap scale 4 (24px) and 5 (48px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-40"
+        }
+      }
+    },
+    "44": {
+      "$value": "44px",
+      "$type": "dimension",
+      "$description": "Spacing 44px - 4px grid value (2.75rem). Between Bootstrap scale 4 (24px) and 5 (48px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-44"
+        }
+      }
+    },
+    "56": {
+      "$value": "56px",
+      "$type": "dimension",
+      "$description": "Spacing 56px - 4px grid value (3.5rem). Between Bootstrap scale 5 (48px) and extended 6 (64px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacing-56"
+        }
+      }
+    },
+    "1_5": {
+      "$value": "6px",
+      "$type": "dimension",
+      "$description": "Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacer-1"
+        }
+      }
+    }
+  }
+}

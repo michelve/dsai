@@ -59,16 +59,16 @@ This FSM ensures every open/close cycle is deterministic, unambiguous, testable,
 
 ## 📂 Files to Modify
 
-- `packages/@dsai/react/src/components/Sheet/Sheet.tsx` — root component + logic (state, portal, open/close, animations, props handling)
-- `packages/@dsai/react/src/components/Sheet/SheetHeader.tsx` — header sub-component (title, subtitle, close button)
-- `packages/@dsai/react/src/components/Sheet/SheetBody.tsx` — body sub-component (scrollable region for content)
-- `packages/@dsai/react/src/components/Sheet/SheetFooter.tsx` — footer sub-component (action buttons / controls)
-- `packages/@dsai/react/src/utils/overlayManager.ts` — overlay stack manager and global registry for stacking / z-index / scroll-lock coordination.
-- `packages/@dsai/react/src/utils/useFocusTrap.ts` — either reuse existing focus-trap infrastructure or implement / adapt one (e.g. using a lightweight utility or existing shared hook).
-- `packages/@dsai/react/src/tests/Sheet/Sheet.test.tsx` — unit & integration tests covering state transitions, props, behaviors.
-- `packages/@dsai/react/src/tests/Sheet/Sheet.a11y.test.tsx` — accessibility tests (keyboard behavior, ARIA, focus, screen reader expectations).
-- `packages/@dsai/storybook/docs/components/Sheet.stories.tsx` — Storybook stories showing variants (placements, sizes, variants, nested overlays, responsive behavior).
-- - `packages/@dsai/react/src/components/Sheet/README.md` — Full documentation
+- `packages/@dsai-io/react/src/components/Sheet/Sheet.tsx` — root component + logic (state, portal, open/close, animations, props handling)
+- `packages/@dsai-io/react/src/components/Sheet/SheetHeader.tsx` — header sub-component (title, subtitle, close button)
+- `packages/@dsai-io/react/src/components/Sheet/SheetBody.tsx` — body sub-component (scrollable region for content)
+- `packages/@dsai-io/react/src/components/Sheet/SheetFooter.tsx` — footer sub-component (action buttons / controls)
+- `packages/@dsai-io/react/src/utils/overlayManager.ts` — overlay stack manager and global registry for stacking / z-index / scroll-lock coordination.
+- `packages/@dsai-io/react/src/utils/useFocusTrap.ts` — either reuse existing focus-trap infrastructure or implement / adapt one (e.g. using a lightweight utility or existing shared hook).
+- `packages/@dsai-io/react/src/tests/Sheet/Sheet.test.tsx` — unit & integration tests covering state transitions, props, behaviors.
+- `packages/@dsai-io/react/src/tests/Sheet/Sheet.a11y.test.tsx` — accessibility tests (keyboard behavior, ARIA, focus, screen reader expectations).
+- `packages/@dsai-io/storybook/docs/components/Sheet.stories.tsx` — Storybook stories showing variants (placements, sizes, variants, nested overlays, responsive behavior).
+- - `packages/@dsai-io/react/src/components/Sheet/README.md` — Full documentation
 
 ---
 

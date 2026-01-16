@@ -235,7 +235,7 @@ it('debounces input', async () => {
 Run coverage:
 
 ```bash
-pnpm nx test @dsai/react --coverage
+pnpm nx test @dsai-io/react --coverage
 ```
 
 ## Common Queries

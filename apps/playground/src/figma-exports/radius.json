@@ -20,7 +20,9 @@
               "ANDROID": "border.radius.none",
               "iOS": "Border.Radius.None"
             },
-            "$scopes": ["CORNER_RADIUS"]
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
           },
           "default": {
             "$value": 6,
@@ -39,7 +41,9 @@
               "ANDROID": "border.radius.default",
               "iOS": "Border.Radius.Default"
             },
-            "$scopes": ["CORNER_RADIUS"]
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
           },
           "sm": {
             "$value": 4,
@@ -58,7 +62,9 @@
               "ANDROID": "border.radius.sm",
               "iOS": "Border.Radius.Sm"
             },
-            "$scopes": ["CORNER_RADIUS"]
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
           },
           "lg": {
             "$value": 8,
@@ -77,7 +83,9 @@
               "ANDROID": "border.radius.lg",
               "iOS": "Border.Radius.Lg"
             },
-            "$scopes": ["CORNER_RADIUS"]
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
           },
           "xl": {
             "$value": 16,
@@ -96,7 +104,9 @@
               "ANDROID": "border.radius.xl",
               "iOS": "Border.Radius.Xl"
             },
-            "$scopes": ["CORNER_RADIUS"]
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
           },
           "xxl": {
             "$value": 32,
@@ -115,7 +125,9 @@
               "ANDROID": "border.radius.xxl",
               "iOS": "Border.Radius.Xxl"
             },
-            "$scopes": ["CORNER_RADIUS"]
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
           },
           "pill": {
             "$value": 800,
@@ -134,7 +146,9 @@
               "ANDROID": "border.radius.pill",
               "iOS": "Border.Radius.Pill"
             },
-            "$scopes": ["CORNER_RADIUS"]
+            "$scopes": [
+              "CORNER_RADIUS"
+            ]
           },
           "circle": {
             "$value": 9999,

@@ -1,0 +1,21 @@
+{
+  "name": "@dsai-io/docs",
+  "version": "0.0.1",
+  "description": "Documentation site for DSAi design system",
+  "private": true,
+  "scripts": {
+    "dev": "echo 'Start docs dev server'",
+    "build": "echo 'Build documentation site'",
+    "preview": "echo 'Preview built documentation'",
+    "deploy": "echo 'Deploy documentation'"
+  },
+  "keywords": [
+    "documentation",
+    "docs",
+    "design-system"
+  ],
+  "dependencies": {
+    "@dsai-io/react": "workspace:*"
+  },
+  "license": "UNLICENSED"
+}
