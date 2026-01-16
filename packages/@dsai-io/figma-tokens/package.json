@@ -1,7 +1,6 @@
 {
   "name": "@dsai-io/figma-tokens",
   "version": "1.0.2",
-  "private": true,
   "description": "Figma integration utilities and token synchronization for DSAi",
   "type": "module",
   "main": "dist/index.cjs",
@@ -67,6 +66,6 @@
   },
   "license": "UNLICENSED",
   "publishConfig": {
-    "access": "public"
+    "access": "restricted"
   }
 }

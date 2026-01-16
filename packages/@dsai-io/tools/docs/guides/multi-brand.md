@@ -17,7 +17,7 @@ Multi-brand architecture allows you to:
 
 ### Recommended Structure
 
-```
+```text
 tokens/
 ├── core/                    # Shared foundation
 │   ├── primitives.json      # Base values

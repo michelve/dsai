@@ -50,7 +50,7 @@ The DSAi hooks library includes comprehensive testing utilities to make writing 
 
 All test utilities are located in `hooks/__tests__/`:
 
-```
+```text
 hooks/
 ├── __tests__/
 │   ├── setup.ts              # Auto-loaded test setup

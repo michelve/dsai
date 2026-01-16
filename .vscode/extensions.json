@@ -19,6 +19,7 @@
 
     // Documentation
     "yzhang.markdown-all-in-one",
+    "DavidAnson.vscode-markdownlint",
 
     // Utilities
     "christian-kohler.path-intellisense",

@@ -39,3 +39,8 @@ exclude_paths:
   # Miscellaneous
   - '.temp/**'
   - '.github/workflows/**'
+
+  # Documentation and completed tasks (historical records, not source code)
+  - 'tasks/completed/**'
+  - 'docs/**'
+  - '**/*.md'

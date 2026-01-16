@@ -272,7 +272,7 @@ The Sheet component is fully accessible (WCAG 2.2 AA compliant):
 
 The Sheet uses an FSM for predictable state management:
 
-```
+```text
 closed → opening → open → closing → closed
 ```
 

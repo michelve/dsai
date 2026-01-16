@@ -1,7 +1,6 @@
 {
   "name": "@dsai-io/react",
   "version": "0.0.1",
-  "private": true,
   "description": "React component library for DSAi design system",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

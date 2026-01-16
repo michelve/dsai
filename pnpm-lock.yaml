@@ -242,6 +242,9 @@ importers:
 
   packages/@dsai-io/storybook:
     dependencies:
+      '@dsai-io/figma-tokens':
+        specifier: workspace:*
+        version: link:../figma-tokens
       '@dsai-io/react':
         specifier: workspace:*
         version: link:../react

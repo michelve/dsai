@@ -47,7 +47,7 @@ Access at: **<http://localhost:6006>**
 
 ### Configuration Files
 
-```
+```text
 .storybook/
 ├── main.ts           # Main Storybook config with Vite aliases
 ├── preview.ts        # Global decorators, parameters, theme

@@ -1,6 +1,6 @@
 ---
 name: figma-mcp
-description: Uses Figma MCP server to generate code from Figma designs, extract design context, variables, and component mappings. Use when implementing UI from Figma files, extracting design tokens, getting screenshots for visual reference, or mapping Figma components to codebase components via Code Connect.
+description: Use Figma MCP server to generate code from Figma designs, extract design context, variables, and component mappings. Use when implementing UI from Figma files, extracting design tokens, getting screenshots for visual reference, or mapping Figma components to codebase components via Code Connect.
 license: Complete terms in LICENSE.txt
 metadata:
   author: dsai
@@ -138,6 +138,24 @@ Extract metadata from FigJam diagrams.
 
 Get authenticated user identity and plan information.
 
+- Returns: Email address, plans, seat types
+- Use for: Verifying authentication and permissions
+
+### `get_strategy_for_mapping` (alpha, local only)
+
+Figma-prompted tool to detect and map Figma components to codebase components.
+
+- Supported files: Figma Design
+- Use for: Auto-detecting component mapping strategies
+- Note: Alpha feature, desktop MCP server only
+
+### `send_get_strategy_response` (alpha, local only)
+
+Send a response after calling `get_strategy_for_mapping`.
+
+- Use for: Completing the Figma-prompted mapping workflow
+- Note: Alpha feature, desktop MCP server only
+
 ## Required Workflow
 
 **IMPORTANT:** Always follow this sequence for Figma-to-code tasks:
@@ -174,20 +192,21 @@ When translating Figma MCP output to DSAi components:
 // ❌ Figma MCP output (Tailwind)
 <div className="flex gap-4 p-6 bg-blue-500">
 
-// ✅ DSAi translation (Bootstrap + tokens)
-<div className="d-flex gap-3 p-4" style={{ backgroundColor: 'var(--dsai-color-primary)' }}>
+// ✅ DSAi translation (Bootstrap + SCSS variables)
+<div className="d-flex gap-3 p-4 bg-primary">
+// Or with inline style: style={{ backgroundColor: '$theme-primary' }}
 ```
 
 ### Token Mapping
 
-Map Figma variables to DSAi tokens:
+Map Figma variables to SCSS variables (from `_variables.scss`):
 
-| Figma Variable    | DSAi Token               |
-| ----------------- | ------------------------ |
-| `color/primary`   | `--dsai-color-primary`   |
-| `color/secondary` | `--dsai-color-secondary` |
-| `spacing/md`      | `--dsai-spacing-md`      |
-| `radius/md`       | `--dsai-radius-md`       |
+| Figma Variable    | SCSS Variable            | Value       |
+| ----------------- | ------------------------ | ----------- |
+| `color/primary`   | `$theme-primary`         | `#0a58ca`   |
+| `color/secondary` | `$theme-secondary`       | `#a8adb7`   |
+| `spacing/md`      | `$spacing-3`             | `1rem`      |
+| `radius/md`       | `$border-radius-default` | `0.375rem`  |
 
 ### Asset Handling
 
@@ -280,3 +299,72 @@ After generating component:
 - [Remote Server Installation](https://developers.figma.com/docs/figma-mcp-server/remote-server-installation/)
 - [Desktop Server Installation](https://developers.figma.com/docs/figma-mcp-server/local-server-installation/)
 - [Code Connect Documentation](https://help.figma.com/hc/en-us/articles/23920389749655-Code-Connect)
+
+---
+
+## Component Sync Workflow
+
+Audit an existing component against its Figma design and decide how to handle differences.
+
+**When to use:** Reviewing component accuracy, syncing after Figma changes, documenting accepted deviations.
+
+**Workflow:**
+
+1. **INITIALIZE** - Create output dir, fetch Figma context
+2. **TRACE DEPENDENCIES** - Identify internal components used
+3. **ANALYZE** - Compare design vs implementation (all files)
+4. **REVIEW** - User decides: IMPLEMENT, ACCEPT, or SKIP each
+5. **APPLY** - Implement approved changes, document accepted
+
+**Output:** `.temp/component-updates/{Component}/comparison.md` with decision checkboxes.
+
+📖 **Full workflow:** See [references/COMPONENT-SYNC.md](references/COMPONENT-SYNC.md)
+📋 **Templates:** See [examples/](examples/) for `figma-context-template.md` and `comparison-template.md`
+
+---
+
+## Token Sync Workflow
+
+Sync design tokens between Figma and your codebase.
+
+**Commands:**
+
+```bash
+node figma.config.mjs export    # Figma → local JSON
+node figma.config.mjs sync      # Bidirectional sync
+node figma.config.mjs workflow  # Full pipeline
+```
+
+**After sync:** Run `pnpm dsai tokens build` to generate CSS/JS/SCSS outputs.
+
+📖 **Full workflow:** See [references/TOKEN-SYNC.md](references/TOKEN-SYNC.md)
+
+---
+
+## Example Prompts
+
+### Check a component against Figma
+
+```text
+Get the design context for the Button component in Figma and compare it against
+packages/@dsai-io/react/src/components/Button/Button.tsx
+```
+
+### Generate a new component from Figma
+
+```text
+Generate this Figma selection as a React component using @dsai-io/react patterns.
+Follow the component-development skill for structure.
+```
+
+### Sync design tokens
+
+```text
+Export the latest design tokens from Figma to packages/@dsai-io/tokens/src/figma-exports
+```
+
+### Update Code Connect after changes
+
+```text
+Update the Code Connect mapping in Button.figma.tsx to include the new "error" variant
+```

@@ -279,7 +279,7 @@ All variants use Bootstrap's `text-bg-*` utility classes which ensure WCAG AA co
 
 The Toast uses a Finite State Machine to manage visibility states:
 
-```
+```text
 ┌──────────┐    ANIMATION_START    ┌─────────┐    ANIMATION_END    ┌─────────┐
 │ entering │ ───────────────────► │ visible │ ◄───────────────── │         │
 └──────────┘                       └─────────┘                     │ exiting │

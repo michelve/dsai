@@ -1,7 +1,7 @@
 # Task: Testing Suite
 
 **Task ID:** TASK-109
-**Title:** Comprehensive Testing Suite for @dsai-io/tools
+**Title:** Comprehensive Testing Suite for @DSAi-io/tools
 **Priority:** High
 **Status:** ⚪ Not Started
 **Assigned To:** Unassigned
@@ -72,7 +72,7 @@ A testing infrastructure that:
 
 ### New Files
 
-```
+```text
 packages/@dsai-io/tools/
 ├── jest.config.ts                  # Jest configuration
 ├── tsconfig.test.json              # TypeScript config for tests
@@ -158,7 +158,7 @@ packages/@dsai-io/tools/
 
 ### Step 1: Jest Configuration
 
-**packages/@dsai-io/tools/jest.config.ts:**
+**packages/@DSAi-io/tools/jest.config.ts:**
 
 ```typescript
 import type { Config } from 'jest';
@@ -219,7 +219,7 @@ export default config;
 
 ### Step 2: Test Setup
 
-**packages/@dsai-io/tools/test/setup.ts:**
+**packages/@DSAi-io/tools/test/setup.ts:**
 
 ```typescript
 /**
@@ -285,7 +285,7 @@ declare global {
 
 ### Step 3: Test Utilities
 
-**packages/@dsai-io/tools/test/utils/index.ts:**
+**packages/@DSAi-io/tools/test/utils/index.ts:**
 
 ```typescript
 /**
@@ -297,7 +297,7 @@ export * from './mocks.js';
 export * from './temp-dir.js';
 ```
 
-**packages/@dsai-io/tools/test/utils/fixtures.ts:**
+**packages/@DSAi-io/tools/test/utils/fixtures.ts:**
 
 ```typescript
 /**
@@ -341,7 +341,7 @@ export function getFixtureFiles(dir: string): string[] {
 }
 ```
 
-**packages/@dsai-io/tools/test/utils/temp-dir.ts:**
+**packages/@DSAi-io/tools/test/utils/temp-dir.ts:**
 
 ```typescript
 /**
@@ -391,7 +391,7 @@ export function createMockProject(dir: string, files: Record<string, string>): v
 }
 ```
 
-**packages/@dsai-io/tools/test/utils/mocks.ts:**
+**packages/@DSAi-io/tools/test/utils/mocks.ts:**
 
 ```typescript
 /**
@@ -475,7 +475,7 @@ export function createMockSpinner() {
 
 ### Step 4: Unit Tests - Config
 
-**packages/@dsai-io/tools/test/unit/config/loader.test.ts:**
+**packages/@DSAi-io/tools/test/unit/config/loader.test.ts:**
 
 ```typescript
 import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
@@ -569,7 +569,7 @@ describe('Config Loader', () => {
 
 ### Step 5: Unit Tests - Transforms
 
-**packages/@dsai-io/tools/test/unit/style-dictionary/transforms.test.ts:**
+**packages/@DSAi-io/tools/test/unit/style-dictionary/transforms.test.ts:**
 
 ```typescript
 import { describe, it, expect } from '@jest/globals';
@@ -742,7 +742,7 @@ describe('Style Dictionary Transforms', () => {
 
 ### Step 6: Integration Tests
 
-**packages/@dsai-io/tools/test/integration/token-build.test.ts:**
+**packages/@DSAi-io/tools/test/integration/token-build.test.ts:**
 
 ```typescript
 import { describe, it, expect } from '@jest/globals';
@@ -847,7 +847,7 @@ describe('Token Build Integration', () => {
 
 ### Step 7: E2E Tests - CLI
 
-**packages/@dsai-io/tools/test/e2e/cli-tokens.test.ts:**
+**packages/@DSAi-io/tools/test/e2e/cli-tokens.test.ts:**
 
 ```typescript
 import { describe, it, expect } from '@jest/globals';
@@ -964,7 +964,7 @@ describe('CLI: tokens commands', () => {
 
 ### Step 8: Snapshot Tests
 
-**packages/@dsai-io/tools/test/snapshots/css-output.test.ts:**
+**packages/@DSAi-io/tools/test/snapshots/css-output.test.ts:**
 
 ```typescript
 import { describe, it, expect } from '@jest/globals';

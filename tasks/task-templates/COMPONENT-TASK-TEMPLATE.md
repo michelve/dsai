@@ -484,7 +484,7 @@ After completing this task:
 
 **Component Ready for Production! 🎉**
 
-```
+```text
 
 ---
 

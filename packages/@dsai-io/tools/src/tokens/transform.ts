@@ -77,6 +77,14 @@ interface TokenTransformOptions {
 // Helpers
 // ============================================================================
 
+/** Keys that could cause prototype pollution */
+const UNSAFE_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
+/** Check if a key is safe from prototype pollution */
+function isSafeKey(key: string): boolean {
+  return !UNSAFE_KEYS.has(key);
+}
+
 /**
  * Safe nested property access for objects with index signatures
  */
@@ -84,6 +92,9 @@ function getNestedValue(obj: unknown, ...keys: string[]): unknown {
   let current: unknown = obj;
   for (const key of keys) {
     if (current === null || current === undefined || typeof current !== 'object') {
+      return undefined;
+    }
+    if (!isSafeKey(key)) {
       return undefined;
     }
     current = (current as Record<string, unknown>)[key];
