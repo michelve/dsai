@@ -165,6 +165,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build packages
+        run: pnpm nx run-many --target=build --projects=@dsai-io/tools
+
       - name: Run tests with coverage
         run: pnpm test:ci
 
