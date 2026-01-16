@@ -39,7 +39,7 @@ The current Storybook Vite configuration lacks:
 ## 🎯 Acceptance Criteria
 
 - [ ] `@vitejs/plugin-react-swc` (v4.2.2+) integrated via `viteFinal` in `.storybook/main.ts`
-- [ ] `server.warmup` configured for `@dsai/react/src/**/*.tsx` and `@dsai/tokens/src/**/*.ts`
+- [ ] `server.warmup` configured for `@dsai-io/react/src/**/*.tsx` and `@dsai-io/tokens/src/**/*.ts`
 - [ ] `server.allowedHosts` explicitly configured (not `true`)
 - [ ] `server.fs.deny` includes `.env`, `.env.*`, `*.pem`, `*.crt`, `**/.git/**`
 - [ ] `server.cors` configured with explicit origin list (not `true`)
@@ -55,9 +55,9 @@ The current Storybook Vite configuration lacks:
 
 ## 📂 Files to Modify
 
-- `packages/@dsai/storybook/.storybook/main.ts` - Add SWC plugin, security config, warmup
-- `packages/@dsai/storybook/project.json` - Add Nx cache outputs for Vite
-- `packages/@dsai/storybook/package.json` - Add `@vitejs/plugin-react-swc` dependency
+- `packages/@dsai-io/storybook/.storybook/main.ts` - Add SWC plugin, security config, warmup
+- `packages/@dsai-io/storybook/project.json` - Add Nx cache outputs for Vite
+- `packages/@dsai-io/storybook/package.json` - Add `@vitejs/plugin-react-swc` dependency
 - `config/vite.shared.ts` - Create shared Vite configuration utilities (new file)
 
 ---
@@ -100,7 +100,7 @@ The current Storybook Vite configuration lacks:
 
 ### Phase 1: Add SWC Plugin
 
-1. [ ] Add `@vitejs/plugin-react-swc` to `packages/@dsai/storybook/package.json`
+1. [ ] Add `@vitejs/plugin-react-swc` to `packages/@dsai-io/storybook/package.json`
 2. [ ] Run `pnpm install` to install the dependency
 3. [ ] Import and configure SWC plugin in `.storybook/main.ts` `viteFinal`
 
@@ -121,12 +121,12 @@ The current Storybook Vite configuration lacks:
 ### Phase 4: Performance Optimization
 
 1. [ ] Add `server.warmup.clientFiles` for frequently used component/token files
-2. [ ] Configure `optimizeDeps.include` for `@dsai/react`, `@dsai/tokens`
+2. [ ] Configure `optimizeDeps.include` for `@dsai-io/react`, `@dsai-io/tokens`
 3. [ ] Add `build.license: true` for compliance
 
 ### Phase 5: Nx Integration
 
-1. [ ] Update `packages/@dsai/storybook/project.json` with cache outputs:
+1. [ ] Update `packages/@dsai-io/storybook/project.json` with cache outputs:
     - `node_modules/.vite` for dependency optimization cache
     - Existing `dist/storybook` for build output
 
@@ -195,7 +195,7 @@ viteFinal: async (config) => {
     ],
     server: {
       warmup: {
-        clientFiles: ['./../../@dsai/react/src/**/*.tsx', './../../@dsai/tokens/src/**/*.ts'],
+        clientFiles: ['./../../@dsai-io/react/src/**/*.tsx', './../../@dsai-io/tokens/src/**/*.ts'],
       },
       allowedHosts: ['localhost', '127.0.0.1'],
       fs: {
@@ -203,7 +203,7 @@ viteFinal: async (config) => {
       },
     },
     optimizeDeps: {
-      include: ['@dsai/react', '@dsai/tokens'],
+      include: ['@dsai-io/react', '@dsai-io/tokens'],
     },
     build: {
       license: true,

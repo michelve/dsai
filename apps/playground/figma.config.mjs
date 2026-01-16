@@ -2,7 +2,7 @@
 /**
  * Figma Integration Configuration for Playground App
  *
- * This configuration shows how to use @dsai/figma-tokens to:
+ * This configuration shows how to use @dsai-io/figma-tokens to:
  * - Export tokens directly from Figma API
  * - Sync tokens between Figma and local files
  * - Use the Figma client programmatically
@@ -18,18 +18,18 @@
  *   node figma.config.mjs sync      # Sync tokens with Figma
  *   node figma.config.mjs info      # Show Figma file info
  *
- * @see https://github.com/michelve/dsai/tree/main/packages/@dsai/figma-tokens
+ * @see https://github.com/michelve/dsai/tree/main/packages/@dsai-io/figma-tokens
  */
 
 import {
   // Figma API client
   createFigmaClient,
   createFigmaClientFromEnv,
-  // Token utilities (re-exported from @dsai/tools)
+  // Token utilities (re-exported from @dsai-io/tools)
   transformTokens,
   validateFigmaExports,
   buildTokens,
-} from '@dsai/figma-tokens';
+} from '@dsai-io/figma-tokens';
 
 // =============================================================================
 // Configuration

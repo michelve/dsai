@@ -1,0 +1,489 @@
+/**
+ * @file Token Clean Module
+ * @description Provides functionality to clean token output directories before builds.
+ *
+ * This module supports:
+ * - Cleaning individual output directories (dist/css, dist/js, etc.)
+ * - Cleaning all build outputs
+ * - Dry-run mode to preview what would be deleted
+ * - Safe deletion with directory validation
+ *
+ * @module @dsai-io/tools/tokens/clean
+ */
+
+/* eslint-disable no-console */
+/* eslint-disable security/detect-non-literal-fs-filename */
+/* eslint-disable security/detect-non-literal-regexp */
+
+import { existsSync, readdirSync, rmSync } from 'node:fs';
+import { basename, join, resolve } from 'node:path';
+
+// ============================================================================
+// Types
+// ============================================================================
+
+/**
+ * Clean operation options
+ */
+export interface CleanOptions {
+  /**
+   * Base directory for cleaning (typically the package root)
+   * @default process.cwd()
+   */
+  baseDir?: string;
+
+  /**
+   * Directories to clean relative to baseDir
+   * @default ['dist']
+   */
+  directories?: string[];
+
+  /**
+   * Show what would be deleted without actually deleting
+   * @default false
+   */
+  dryRun?: boolean;
+
+  /**
+   * Enable verbose logging
+   * @default false
+   */
+  verbose?: boolean;
+
+  /**
+   * File patterns to preserve (glob patterns)
+   * Files matching these patterns will not be deleted
+   * @example ['.gitkeep', 'README.md']
+   */
+  preserve?: string[];
+}
+
+/**
+ * Information about a cleaned directory
+ */
+export interface CleanedDirectory {
+  /** Path to the cleaned directory */
+  path: string;
+
+  /** Number of files removed */
+  filesRemoved: number;
+
+  /** Number of directories removed */
+  directoriesRemoved: number;
+
+  /** Whether the directory existed before cleaning */
+  existed: boolean;
+}
+
+/**
+ * Result of a clean operation
+ */
+export interface CleanResult {
+  /** Whether the clean operation completed successfully */
+  success: boolean;
+
+  /** List of cleaned directories with details */
+  cleaned: CleanedDirectory[];
+
+  /** Total number of files removed */
+  totalFilesRemoved: number;
+
+  /** Total number of directories removed */
+  totalDirectoriesRemoved: number;
+
+  /** Any errors encountered */
+  errors: string[];
+
+  /** Any warnings (non-blocking issues) */
+  warnings: string[];
+
+  /** Whether this was a dry run */
+  dryRun: boolean;
+
+  /** Duration of the operation in milliseconds */
+  duration: number;
+}
+
+// ============================================================================
+// Constants
+// ============================================================================
+
+/**
+ * Default directories to clean for token builds
+ */
+export const DEFAULT_CLEAN_DIRECTORIES = ['dist'] as const;
+
+/**
+ * Files to always preserve
+ */
+const ALWAYS_PRESERVE = ['.gitkeep', '.gitignore'] as const;
+
+/**
+ * Directories that should never be cleaned (safety check)
+ */
+const PROTECTED_DIRECTORIES = [
+  'src',
+  'node_modules',
+  '.git',
+  '.github',
+  'test',
+  'tests',
+  '__tests__',
+  'docs',
+  'config',
+] as const;
+
+// ============================================================================
+// Validation
+// ============================================================================
+
+/**
+ * Validate that a directory is safe to clean
+ *
+ * @param dirPath - Absolute path to the directory
+ * @param baseDir - Base directory for relative validation
+ * @returns Validation result with error message if invalid
+ */
+function validateCleanTarget(dirPath: string, baseDir: string): { valid: boolean; error?: string } {
+  // Ensure path is within baseDir (prevent directory traversal)
+  const resolvedDir = resolve(dirPath);
+  const resolvedBase = resolve(baseDir);
+
+  if (!resolvedDir.startsWith(resolvedBase)) {
+    return {
+      valid: false,
+      error: `Directory "${dirPath}" is outside base directory "${baseDir}"`,
+    };
+  }
+
+  // Check for protected directories
+  const dirName = basename(resolvedDir);
+  if (PROTECTED_DIRECTORIES.includes(dirName as (typeof PROTECTED_DIRECTORIES)[number])) {
+    return {
+      valid: false,
+      error: `Directory "${dirName}" is protected and cannot be cleaned`,
+    };
+  }
+
+  // Don't allow cleaning the base directory itself
+  if (resolvedDir === resolvedBase) {
+    return {
+      valid: false,
+      error: 'Cannot clean the base directory itself',
+    };
+  }
+
+  return { valid: true };
+}
+
+/**
+ * Escape special regex characters in a string
+ * @param str - String to escape
+ * @returns Escaped string safe for regex
+ */
+function escapeRegexChars(str: string): string {
+  // Escape all regex special chars except * and ? which we handle separately
+  return str.replace(/[.+^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
+ * Convert a simple glob pattern to a safe regex pattern
+ * Only supports * (any chars) and ? (single char) wildcards
+ *
+ * @param pattern - Glob pattern like "*.json" or "file?.txt"
+ * @returns Safe regex pattern string
+ */
+function globToSafePattern(pattern: string): string {
+  // First escape any regex special characters (except our wildcards)
+  const escaped = escapeRegexChars(pattern);
+  // Then convert our wildcards to regex equivalents
+  // Use non-greedy matching to prevent catastrophic backtracking
+  return escaped.replace(/\*/g, '.*?').replace(/\?/g, '.');
+}
+
+/**
+ * Match a filename against a glob pattern safely
+ * Uses character-by-character matching for simple patterns to avoid ReDoS
+ *
+ * @param fileName - Name of the file to match
+ * @param pattern - Glob pattern (supports * and ? wildcards)
+ * @returns Whether the filename matches the pattern
+ */
+function matchGlobPattern(fileName: string, pattern: string): boolean {
+  // For patterns without wildcards, use exact match
+  if (!pattern.includes('*') && !pattern.includes('?')) {
+    return fileName === pattern;
+  }
+
+  // For simple extension patterns like "*.json", use endsWith for safety
+  if (pattern.startsWith('*.') && !pattern.slice(2).includes('*') && !pattern.includes('?')) {
+    const extension = pattern.slice(1); // ".json"
+    return fileName.endsWith(extension);
+  }
+
+  // For simple prefix patterns like "file*", use startsWith for safety
+  if (pattern.endsWith('*') && !pattern.slice(0, -1).includes('*') && !pattern.includes('?')) {
+    const prefix = pattern.slice(0, -1);
+    return fileName.startsWith(prefix);
+  }
+
+  // For more complex patterns, use a safe regex with non-greedy matching
+  // nosemgrep: javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp
+  const safePattern = globToSafePattern(pattern);
+  const regex = new RegExp(`^${safePattern}$`);
+  return regex.test(fileName);
+}
+
+/**
+ * Check if a file should be preserved
+ *
+ * @param fileName - Name of the file
+ * @param preservePatterns - Additional patterns to preserve
+ * @returns Whether the file should be preserved
+ */
+function shouldPreserve(fileName: string, preservePatterns: string[]): boolean {
+  const allPatterns = [...ALWAYS_PRESERVE, ...preservePatterns];
+  return allPatterns.some((pattern) => matchGlobPattern(fileName, pattern));
+}
+
+// ============================================================================
+// Directory Cleaning
+// ============================================================================
+
+/**
+ * Count files and directories in a path recursively
+ *
+ * @param dirPath - Path to count
+ * @returns Object with file and directory counts
+ */
+function countContents(dirPath: string): { files: number; dirs: number } {
+  if (!existsSync(dirPath)) {
+    return { files: 0, dirs: 0 };
+  }
+
+  let files = 0;
+  let dirs = 0;
+
+  const entries = readdirSync(dirPath, { withFileTypes: true });
+  for (const entry of entries) {
+    if (entry.isDirectory()) {
+      dirs++;
+      const subCounts = countContents(join(dirPath, entry.name));
+      files += subCounts.files;
+      dirs += subCounts.dirs;
+    } else {
+      files++;
+    }
+  }
+
+  return { files, dirs };
+}
+
+/**
+ * Clean a single directory
+ *
+ * @param dirPath - Absolute path to the directory to clean
+ * @param options - Clean options
+ * @returns Cleaned directory info
+ */
+function cleanDirectory(
+  dirPath: string,
+  options: Required<Pick<CleanOptions, 'dryRun' | 'verbose' | 'preserve'>>
+): CleanedDirectory {
+  const existed = existsSync(dirPath);
+
+  if (!existed) {
+    if (options.verbose) {
+      console.info(`  ℹ️  Directory does not exist: ${dirPath}`);
+    }
+    return {
+      path: dirPath,
+      filesRemoved: 0,
+      directoriesRemoved: 0,
+      existed: false,
+    };
+  }
+
+  // Count contents before deletion
+  const counts = countContents(dirPath);
+
+  if (options.dryRun) {
+    if (options.verbose) {
+      console.info(
+        `  🔍 Would remove: ${dirPath} (${counts.files} files, ${counts.dirs} directories)`
+      );
+    }
+    return {
+      path: dirPath,
+      filesRemoved: counts.files,
+      directoriesRemoved: counts.dirs,
+      existed: true,
+    };
+  }
+
+  // Check for files to preserve
+  const entries = readdirSync(dirPath, { withFileTypes: true });
+  const toPreserve = entries.filter((e) => shouldPreserve(e.name, options.preserve));
+
+  if (toPreserve.length > 0) {
+    // Delete contents except preserved files
+    for (const entry of entries) {
+      if (shouldPreserve(entry.name, options.preserve)) {
+        if (options.verbose) {
+          console.info(`  📌 Preserving: ${entry.name}`);
+        }
+        continue;
+      }
+
+      const entryPath = join(dirPath, entry.name);
+      rmSync(entryPath, { recursive: true, force: true });
+    }
+  } else {
+    // Delete entire directory
+    rmSync(dirPath, { recursive: true, force: true });
+  }
+
+  if (options.verbose) {
+    console.info(`  ✅ Cleaned: ${dirPath} (${counts.files} files, ${counts.dirs} directories)`);
+  }
+
+  return {
+    path: dirPath,
+    filesRemoved: counts.files,
+    directoriesRemoved: counts.dirs,
+    existed: true,
+  };
+}
+
+// ============================================================================
+// Public API
+// ============================================================================
+
+/**
+ * Clean token output directories
+ *
+ * Removes build artifacts from output directories to ensure a fresh build.
+ * Supports dry-run mode, preserve patterns, and safety validation.
+ *
+ * @param options - Clean operation options
+ * @returns Clean operation result
+ *
+ * @example
+ * // Clean default dist directory
+ * const result = cleanTokenOutputs();
+ *
+ * @example
+ * // Clean specific directories with dry-run
+ * const result = cleanTokenOutputs({
+ *   directories: ['dist/css', 'dist/js'],
+ *   dryRun: true,
+ *   verbose: true,
+ * });
+ *
+ * @example
+ * // Clean with preserved files
+ * const result = cleanTokenOutputs({
+ *   preserve: ['README.md', '*.d.ts'],
+ * });
+ */
+export function cleanTokenOutputs(options: CleanOptions = {}): CleanResult {
+  const startTime = Date.now();
+
+  // Normalize options with defaults
+  const normalizedOptions = {
+    baseDir: options.baseDir ?? process.cwd(),
+    directories: options.directories ?? [...DEFAULT_CLEAN_DIRECTORIES],
+    dryRun: options.dryRun ?? false,
+    verbose: options.verbose ?? false,
+    preserve: options.preserve ?? [],
+  };
+
+  const result: CleanResult = {
+    success: true,
+    cleaned: [],
+    totalFilesRemoved: 0,
+    totalDirectoriesRemoved: 0,
+    errors: [],
+    warnings: [],
+    dryRun: normalizedOptions.dryRun,
+    duration: 0,
+  };
+
+  if (normalizedOptions.verbose) {
+    const modeStr = normalizedOptions.dryRun ? '(dry-run)' : '';
+    console.info(`\n🧹 Cleaning token outputs ${modeStr}`);
+    console.info(`   Base: ${normalizedOptions.baseDir}`);
+  }
+
+  // Validate and clean each directory
+  for (const dir of normalizedOptions.directories) {
+    const absolutePath = resolve(normalizedOptions.baseDir, dir);
+
+    // Validate target
+    const validation = validateCleanTarget(absolutePath, normalizedOptions.baseDir);
+    if (!validation.valid && validation.error) {
+      result.errors.push(validation.error);
+      result.success = false;
+      continue;
+    }
+
+    // Clean directory
+    try {
+      const cleaned = cleanDirectory(absolutePath, {
+        dryRun: normalizedOptions.dryRun,
+        verbose: normalizedOptions.verbose,
+        preserve: normalizedOptions.preserve,
+      });
+
+      result.cleaned.push(cleaned);
+      result.totalFilesRemoved += cleaned.filesRemoved;
+      result.totalDirectoriesRemoved += cleaned.directoriesRemoved;
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      result.errors.push(`Failed to clean "${dir}": ${errorMessage}`);
+      result.success = false;
+    }
+  }
+
+  result.duration = Date.now() - startTime;
+
+  if (normalizedOptions.verbose) {
+    console.info('');
+    if (result.success) {
+      const actionStr = normalizedOptions.dryRun ? 'Would remove' : 'Removed';
+      console.info(
+        `✅ ${actionStr} ${result.totalFilesRemoved} files, ` +
+          `${result.totalDirectoriesRemoved} directories in ${result.duration}ms`
+      );
+    } else {
+      console.error('❌ Clean failed with errors:');
+      for (const error of result.errors) {
+        console.error(`   - ${error}`);
+      }
+    }
+  }
+
+  return result;
+}
+
+/**
+ * CLI wrapper for cleanTokenOutputs
+ *
+ * Provides formatted output suitable for CLI usage.
+ *
+ * @param baseDir - Base directory for the clean operation
+ * @param options - Clean options
+ * @returns Whether the clean was successful
+ */
+export function cleanTokensCLI(
+  baseDir: string,
+  options: Omit<CleanOptions, 'baseDir'> = {}
+): boolean {
+  const result = cleanTokenOutputs({
+    ...options,
+    baseDir,
+    verbose: options.verbose ?? true,
+  });
+
+  return result.success;
+}

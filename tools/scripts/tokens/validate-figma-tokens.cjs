@@ -6,8 +6,8 @@
  * This script validates the SOURCE OF TRUTH (figma-exports) and ensures
  * that ALL tokens are correctly transformed into output files with NO LOSS.
  *
- * SOURCE OF TRUTH: packages/@dsai/tokens/figma-exports/*.json
- * OUTPUTS: packages/@dsai/tokens/**\/*.json (color/, typography/, spacing/, etc.)
+ * SOURCE OF TRUTH: packages/@dsai-io/tokens/figma-exports/*.json
+ * OUTPUTS: packages/@dsai-io/tokens/**\/*.json (color/, typography/, spacing/, etc.)
  *
  * Validates:
  * 1. Figma export files exist and have valid structure
@@ -32,8 +32,8 @@ const path = require('node:path');
 // CONFIGURATION
 // ============================================================================
 
-const FIGMA_EXPORTS_DIR = path.join(__dirname, '../../../packages/@dsai/tokens/figma-exports');
-const TOKENS_DIR = path.join(__dirname, '../../../packages/@dsai/tokens');
+const FIGMA_EXPORTS_DIR = path.join(__dirname, '../../../packages/@dsai-io/tokens/figma-exports');
+const TOKENS_DIR = path.join(__dirname, '../../../packages/@dsai-io/tokens');
 
 // Master combined file (contains all tokens)
 const MASTER_FILE = 'theme.json';
@@ -906,7 +906,7 @@ function printReport() {
  */
 async function runValidation() {
   console.log('🎨 DSAi Token Validation');
-  console.log('SOURCE OF TRUTH: packages/@dsai/tokens/figma-exports/\n');
+  console.log('SOURCE OF TRUTH: packages/@dsai-io/tokens/figma-exports/\n');
 
   // Step 0: Determine which source files to use
   EXPECTED_EXPORTS = await determineSourceFiles();

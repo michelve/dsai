@@ -55,7 +55,7 @@ pnpm dev
 
 ## Token Pipeline
 
-The playground has its own complete token pipeline using `@dsai/tools`:
+The playground has its own complete token pipeline using `@dsai-io/tools`:
 
 ### 1. Figma Exports → DTCG Collections
 
@@ -246,7 +246,7 @@ export default {
 ### DSAi Config (`dsai.config.mjs`)
 
 ```javascript
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   tokens: {
@@ -301,7 +301,7 @@ src/generated/
 | `bootstrap`        | ^5.3.3       | Bootstrap 5.3 framework |
 | `sass`             | ^1.77.8      | SCSS compiler           |
 | `style-dictionary` | ^5.1.1       | Token transformation    |
-| `@dsai/tools`      | workspace:\* | DSAi build tooling      |
+| `@dsai-io/tools`      | workspace:\* | DSAi build tooling      |
 
 ## Troubleshooting
 

@@ -105,7 +105,7 @@ reviews:
   # Path Instructions - Context-specific review guidelines
   # =============================================================================
   path_instructions:
-    - path: 'packages/@dsai/react/src/components/**/*.tsx'
+    - path: 'packages/@dsai-io/react/src/components/**/*.tsx'
       instructions: |
         Review React components for:
         - Accessibility (WCAG 2.1 AA compliance)
@@ -116,7 +116,7 @@ reviews:
         - Bootstrap 5.3 compatibility
         - Proper forwardRef usage for DOM access
 
-    - path: 'packages/@dsai/react/src/hooks/**/*.ts'
+    - path: 'packages/@dsai-io/react/src/hooks/**/*.ts'
       instructions: |
         Review custom hooks for:
         - Rules of hooks compliance
@@ -125,7 +125,7 @@ reviews:
         - TypeScript generic constraints
         - SSR compatibility (check for window/document access)
 
-    - path: 'packages/@dsai/react/src/utils/**/*.ts'
+    - path: 'packages/@dsai-io/react/src/utils/**/*.ts'
       instructions: |
         Review utility functions for:
         - Pure function principles
@@ -134,7 +134,7 @@ reviews:
         - Performance considerations
         - Tree-shaking friendliness (named exports)
 
-    - path: 'packages/@dsai/tokens/**/*.json'
+    - path: 'packages/@dsai-io/tools/src/tokens/**/*.json'
       instructions: |
         Review design tokens for:
         - DTCG (W3C Design Token Community Group) format compliance
@@ -143,7 +143,7 @@ reviews:
         - Color accessibility (contrast ratios)
         - Semantic token references
 
-    - path: 'packages/@dsai/tools/src/**/*.ts'
+    - path: 'packages/@dsai-io/tools/src/**/*.ts'
       instructions: |
         Review CLI tools for:
         - Proper error handling and exit codes
@@ -278,35 +278,35 @@ knowledge_base:
 code_generation:
   docstrings:
     path_instructions:
-      - path: 'packages/@dsai/react/src/**/*.ts'
+      - path: 'packages/@dsai-io/react/src/**/*.ts'
         instructions: 'Use TSDoc format with @param, @returns, @example tags'
-      - path: 'packages/@dsai/react/src/**/*.tsx'
+      - path: 'packages/@dsai-io/react/src/**/*.tsx'
         instructions: 'Use TSDoc format. Document props with @param, include usage examples'
-      - path: 'packages/@dsai/tools/src/**/*.ts'
+      - path: 'packages/@dsai-io/tools/src/**/*.ts'
         instructions: 'Use TSDoc format with comprehensive @param and @returns documentation'
 
   unit_tests:
     path_instructions:
-      - path: 'packages/@dsai/react/src/components/**/*.tsx'
+      - path: 'packages/@dsai-io/react/src/components/**/*.tsx'
         instructions: |
           Generate tests using:
           - @testing-library/react
           - jest-axe for accessibility
           - User-centric queries (getByRole, getByLabelText)
           - Cover: rendering, props, user interactions, accessibility
-      - path: 'packages/@dsai/react/src/hooks/**/*.ts'
+      - path: 'packages/@dsai-io/react/src/hooks/**/*.ts'
         instructions: |
           Generate tests using:
           - @testing-library/react with renderHook
           - Test state changes and side effects
           - Test cleanup functions
-      - path: 'packages/@dsai/react/src/utils/**/*.ts'
+      - path: 'packages/@dsai-io/react/src/utils/**/*.ts'
         instructions: |
           Generate tests using:
           - Pure unit tests with Jest
           - Cover edge cases and error handling
           - Test with various input types
-      - path: 'packages/@dsai/tools/src/**/*.ts'
+      - path: 'packages/@dsai-io/tools/src/**/*.ts'
         instructions: |
           Generate tests using:
           - Jest with TypeScript

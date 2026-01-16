@@ -1,0 +1,67 @@
+{
+  "codeConnect": {
+    "interactiveSetupFigmaFileUrl": "https://www.figma.com/design/abc123/my-design-system",
+    "include": [
+      "src/components/**/*.figma.tsx",
+      "src/components/**/*.figma.ts",
+      ".figma/**/*.figma.tsx",
+      ".figma/**/*.figma.ts"
+    ],
+    "label": "@dsai-io/react",
+    "parser": "react",
+    "exclude": [
+      "**/*.test.tsx",
+      "**/*.test.ts",
+      "**/*.spec.tsx",
+      "**/*.spec.ts",
+      "**/*.stories.tsx",
+      "**/*.stories.ts",
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/coverage/**",
+      "**/.storybook/**",
+      "**/temp/**",
+      "**/__tests__/**",
+      "**/__mocks__/**",
+      "**/e2e/**",
+      "**/.turbo/**",
+      "**/.next/**",
+      "**/.cache/**"
+    ],
+    "importPaths": {
+      "src/components/**/*": "@dsai-io/react",
+      "src/compositions/**/*": "@dsai-io/react/compositions",
+      "src/patterns/**/*": "@dsai-io/react/patterns",
+      "src/hooks/**/*": "@dsai-io/react/hooks",
+      "src/types/**/*": "@dsai-io/react/types",
+      "src/utils/**/*": "@dsai-io/react/utils"
+    },
+    "paths": {
+      "@dsai-io/react": ["src"],
+      "@dsai-io/react/components": ["src/components"],
+      "@dsai-io/react/compositions": ["src/compositions"],
+      "@dsai-io/react/patterns": ["src/patterns"],
+      "@dsai-io/react/hooks": ["src/hooks"],
+      "@dsai-io/react/types": ["src/types"],
+      "@dsai-io/react/utils": ["src/utils"]
+    }
+  },
+  "documentUrlSubstitutions": {
+    "<FIGMA_ICONS_BASE>": "https://figma.com/design/ZjZrrJoBgkA9qozUtAH1to",
+    "<FIGMA_DSAI_BUTTON>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=BUTTON_NODE_ID",
+    "<FIGMA_DSAI_SHEET>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=SHEET_NODE_ID",
+    "<FIGMA_DSAI_SHEET_HEADER>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=SHEET_HEADER_NODE_ID",
+    "<FIGMA_DSAI_SHEET_BODY>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=SHEET_BODY_NODE_ID",
+    "<FIGMA_DSAI_SHEET_FOOTER>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=SHEET_FOOTER_NODE_ID",
+    "<FIGMA_DSAI_TOOLTIP>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=TOOLTIP_NODE_ID",
+    "<FIGMA_DSAI_TOOLTIP_BUTTON>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=TOOLTIP_BUTTON_NODE_ID",
+    "<FIGMA_DSAI_TOOLTIP_ICON>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=TOOLTIP_ICON_NODE_ID",
+    "<FIGMA_DSAI_TOOLTIP_LINK>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=TOOLTIP_LINK_NODE_ID",
+    "<FIGMA_DSAI_HEADING>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=HEADING_NODE_ID",
+    "<FIGMA_DSAI_DISPLAY>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=DISPLAY_NODE_ID",
+    "<FIGMA_DSAI_TEXT>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=TEXT_NODE_ID",
+    "<FIGMA_DSAI_LEAD>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=LEAD_NODE_ID",
+    "<FIGMA_DSAI_BLOCKQUOTE>": "https://figma.com/design/YOUR_DESIGN_FILE_ID?node-id=BLOCKQUOTE_NODE_ID"
+  }
+}

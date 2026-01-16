@@ -4,176 +4,176 @@
     {
       "label": "test cardlist",
       "type": "shell",
-      "command": "pnpm nx test @dsai/react --testPathPattern=CardList",
+      "command": "pnpm nx test @dsai-io/react --testPathPattern=CardList",
       "group": "test"
     },
     {
       "label": "test selectablecard",
       "type": "shell",
-      "command": "pnpm nx test @dsai/react --testPathPattern=SelectableCard",
+      "command": "pnpm nx test @dsai-io/react --testPathPattern=SelectableCard",
       "group": "test"
     },
     {
       "label": "test all react",
       "type": "shell",
-      "command": "pnpm nx test @dsai/react --no-coverage",
+      "command": "pnpm nx test @dsai-io/react --no-coverage",
       "isBackground": false,
       "group": "test"
     },
     {
       "label": "test react layout",
       "type": "shell",
-      "command": "pnpm nx test @dsai/react --testPathPattern=layout-m2 --no-coverage",
+      "command": "pnpm nx test @dsai-io/react --testPathPattern=layout-m2 --no-coverage",
       "isBackground": false
     },
     {
       "label": "test telemetry",
       "type": "shell",
-      "command": "pnpm nx test @dsai/react --testPathPattern=telemetry --no-coverage",
+      "command": "pnpm nx test @dsai-io/react --testPathPattern=telemetry --no-coverage",
       "isBackground": false,
       "group": "test"
     },
     {
       "label": "test telemetry now",
       "type": "shell",
-      "command": "pnpm nx test @dsai/react --testPathPattern=telemetry --no-coverage 2>&1 | head -100",
+      "command": "pnpm nx test @dsai-io/react --testPathPattern=telemetry --no-coverage 2>&1 | head -100",
       "isBackground": false,
       "group": "test"
     },
     {
       "label": "telemetry-test",
       "type": "shell",
-      "command": "pnpm nx test @dsai/react --testPathPattern=telemetry --no-coverage",
+      "command": "pnpm nx test @dsai-io/react --testPathPattern=telemetry --no-coverage",
       "isBackground": false,
       "group": "test"
     },
     {
       "label": "test Input component",
       "type": "shell",
-      "command": "pnpm nx test @dsai/react --testPathPattern=Input --no-coverage"
+      "command": "pnpm nx test @dsai-io/react --testPathPattern=Input --no-coverage"
     },
     {
       "label": "test RadioGroup",
       "type": "shell",
-      "command": "pnpm nx test @dsai/react --testPathPattern=Radio --no-coverage",
+      "command": "pnpm nx test @dsai-io/react --testPathPattern=Radio --no-coverage",
       "group": "test"
     },
     {
       "label": "test timing",
       "type": "shell",
-      "command": "pnpm nx test @dsai/react --testPathPattern=timing.test --no-coverage"
+      "command": "pnpm nx test @dsai-io/react --testPathPattern=timing.test --no-coverage"
     },
     {
       "label": "lint timing",
       "type": "shell",
-      "command": "pnpm biome check packages/@dsai/react/src/utils/timing --write --unsafe && pnpm eslint packages/@dsai/react/src/utils/timing && echo 'Linting passed!'"
+      "command": "pnpm biome check packages/@dsai-io/react/src/utils/timing --write --unsafe && pnpm eslint packages/@dsai-io/react/src/utils/timing && echo 'Linting passed!'"
     },
     {
       "label": "test timing only",
       "type": "shell",
-      "command": "pnpm nx test @dsai/react --testFile=packages/@dsai/react/src/utils/timing/timing.test.ts --no-coverage"
+      "command": "pnpm nx test @dsai-io/react --testFile=packages/@dsai-io/react/src/utils/timing/timing.test.ts --no-coverage"
     },
     {
       "label": "test tools transform",
       "type": "shell",
-      "command": "pnpm nx test @dsai/tools --testPathPattern=transform --no-coverage --forceExit",
+      "command": "pnpm nx test @dsai-io/tools --testPathPattern=transform --no-coverage --forceExit",
       "group": "test"
     },
     {
       "label": "test tools with coverage",
       "type": "shell",
-      "command": "pnpm nx test @dsai/tools --coverage --forceExit 2>&1",
+      "command": "pnpm nx test @dsai-io/tools --coverage --forceExit 2>&1",
       "group": "test"
     },
     {
       "label": "tools coverage extract",
       "type": "shell",
-      "command": "pnpm nx test @dsai/tools --coverage 2>&1 | grep -E '^(All files|src/)' | head -60",
+      "command": "pnpm nx test @dsai-io/tools --coverage 2>&1 | grep -E '^(All files|src/)' | head -60",
       "group": "test"
     },
     {
       "label": "tools coverage fresh",
       "type": "shell",
-      "command": "pnpm nx test @dsai/tools --skip-nx-cache --coverage 2>&1",
+      "command": "pnpm nx test @dsai-io/tools --skip-nx-cache --coverage 2>&1",
       "group": "test"
     },
     {
       "label": "test tools types",
       "type": "shell",
-      "command": "pnpm nx test @dsai/tools --testPathPattern=types --no-coverage --forceExit 2>&1 | tail -40",
+      "command": "pnpm nx test @dsai-io/tools --testPathPattern=types --no-coverage --forceExit 2>&1 | tail -40",
       "group": "test"
     },
     {
       "label": "test tools types only",
       "type": "shell",
-      "command": "pnpm nx test @dsai/tools --testPathPattern=types.test --no-coverage --forceExit 2>&1",
+      "command": "pnpm nx test @dsai-io/tools --testPathPattern=types.test --no-coverage --forceExit 2>&1",
       "group": "test"
     },
     {
       "label": "test types file",
       "type": "shell",
-      "command": "pnpm nx test @dsai/tools --testPathPattern=unit/tokens/types --no-coverage --forceExit 2>&1",
+      "command": "pnpm nx test @dsai-io/tools --testPathPattern=unit/tokens/types --no-coverage --forceExit 2>&1",
       "group": "test"
     },
     {
       "label": "test tools coverage",
       "type": "shell",
-      "command": "cd packages/@dsai/tools && npx jest --coverage --forceExit 2>&1 | tail -60"
+      "command": "cd packages/@dsai-io/tools && npx jest --coverage --forceExit 2>&1 | tail -60"
     },
     {
       "label": "test tools coverage table",
       "type": "shell",
-      "command": "cd packages/@dsai/tools && npx jest --coverage --forceExit 2>&1 | grep -E '(scanner|All files|%)'"
+      "command": "cd packages/@dsai-io/tools && npx jest --coverage --forceExit 2>&1 | grep -E '(scanner|All files|%)'"
     },
     {
       "label": "low coverage files",
       "type": "shell",
-      "command": "cd packages/@dsai/tools && npx jest --coverage --forceExit 2>&1 | grep -E '^\\s+\\S+\\.ts.*\\|' | awk -F'|' '$2 < 75 {print $0}'"
+      "command": "cd packages/@dsai-io/tools && npx jest --coverage --forceExit 2>&1 | grep -E '^\\s+\\S+\\.ts.*\\|' | awk -F'|' '$2 < 75 {print $0}'"
     },
     {
       "label": "test validate",
       "type": "shell",
-      "command": "cd packages/@dsai/tools && npx jest --testPathPattern=validate.test --no-coverage --forceExit 2>&1 | tail -40"
+      "command": "cd packages/@dsai-io/tools && npx jest --testPathPattern=validate.test --no-coverage --forceExit 2>&1 | tail -40"
     },
     {
       "label": "test validate 2",
       "type": "shell",
-      "command": "cd packages/@dsai/tools && npx jest validate.test --no-coverage --forceExit 2>&1 | tail -40"
+      "command": "cd packages/@dsai-io/tools && npx jest validate.test --no-coverage --forceExit 2>&1 | tail -40"
     },
     {
       "label": "test validate 3",
       "type": "shell",
-      "command": "cd packages/@dsai/tools && npx jest validate.test --no-coverage --forceExit 2>&1 | tail -20"
+      "command": "cd packages/@dsai-io/tools && npx jest validate.test --no-coverage --forceExit 2>&1 | tail -20"
     },
     {
       "label": "full coverage check",
       "type": "shell",
-      "command": "cd packages/@dsai/tools && npx jest --coverage --forceExit 2>&1 | grep -E '(All files|Tests:|Suites:)'"
+      "command": "cd packages/@dsai-io/tools && npx jest --coverage --forceExit 2>&1 | grep -E '(All files|Tests:|Suites:)'"
     },
     {
       "label": "check specific coverage",
       "type": "shell",
-      "command": "cd packages/@dsai/tools && npx jest --coverage --forceExit 2>&1 | grep -E '(transform\\.ts|build\\.ts|loader\\.ts|validate\\.ts)'"
+      "command": "cd packages/@dsai-io/tools && npx jest --coverage --forceExit 2>&1 | grep -E '(transform\\.ts|build\\.ts|loader\\.ts|validate\\.ts)'"
     },
     {
       "label": "env coverage",
       "type": "shell",
-      "command": "cd packages/@dsai/tools && npx jest --coverage --forceExit 2>&1 | grep -E 'env\\.ts'"
+      "command": "cd packages/@dsai-io/tools && npx jest --coverage --forceExit 2>&1 | grep -E 'env\\.ts'"
     },
     {
       "label": "test parser",
       "type": "shell",
-      "command": "cd packages/@dsai/tools && npx jest parser.test --no-coverage --forceExit 2>&1 | tail -30"
+      "command": "cd packages/@dsai-io/tools && npx jest parser.test --no-coverage --forceExit 2>&1 | tail -30"
     },
     {
       "label": "test parser 2",
       "type": "shell",
-      "command": "cd packages/@dsai/tools && npx jest parser.test --no-coverage --forceExit 2>&1 | tail -15"
+      "command": "cd packages/@dsai-io/tools && npx jest parser.test --no-coverage --forceExit 2>&1 | tail -15"
     },
     {
       "label": "test parser 3",
       "type": "shell",
-      "command": "cd packages/@dsai/tools && npx jest parser.test --no-coverage --forceExit 2>&1 | grep -A 20 'FAIL\\|●'"
+      "command": "cd packages/@dsai-io/tools && npx jest parser.test --no-coverage --forceExit 2>&1 | grep -A 20 'FAIL\\|●'"
     }
   ]
 }

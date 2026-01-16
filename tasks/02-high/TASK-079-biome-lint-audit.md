@@ -25,7 +25,7 @@ Running `npx biome check .` reveals:
 
 ### Expected Outcome
 
-- Zero Biome errors in source code (`packages/@dsai/`)
+- Zero Biome errors in source code (`packages/@dsai-io/`)
 - Zero Biome errors in tooling (`tools/`)
 - Clean CI/CD pipeline with Biome checks passing
 
@@ -124,7 +124,7 @@ npx biome check . --write --unsafe
 
 ## ✅ Definition of Done
 
-- [ ] Zero Biome errors in `packages/@dsai/`
+- [ ] Zero Biome errors in `packages/@dsai-io/`
 - [ ] Zero Biome errors in `tools/`
 - [ ] All tests passing
 - [ ] Code reviewed and approved

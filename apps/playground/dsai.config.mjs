@@ -1,7 +1,7 @@
 /**
  * DSAI Configuration for Playground App
  *
- * This configuration tells @dsai/tools where to find your Figma token exports
+ * This configuration tells @dsai-io/tools where to find your Figma token exports
  * and where to output the generated style files.
  *
  * DIRECTORY STRUCTURE:
@@ -17,10 +17,10 @@
  * 3. Run: pnpm tokens:build       (builds collections → CSS/JS/TS/SCSS)
  * 4. Import generated styles in your app from src/generated/
  *
- * @see https://github.com/michelve/dsai/tree/main/packages/@dsai/tools
+ * @see https://github.com/michelve/dsai/tree/main/packages/@dsai-io/tools
  */
 
-import { defineConfig } from '@dsai/tools';
+import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
   // Global settings

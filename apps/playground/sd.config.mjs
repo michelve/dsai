@@ -16,7 +16,7 @@
  * @see https://www.designtokens.org/
  */
 
-import { registerAll } from '@dsai/tools/tokens';
+import { registerAll } from '@dsai-io/tools/tokens';
 import { globSync } from 'glob';
 import StyleDictionary from 'style-dictionary';
 
@@ -58,7 +58,7 @@ export default {
     },
 
     // SCSS Variables (for Bootstrap theme integration)
-    // No prefix to match @dsai/tokens naming convention (e.g., $color-blue-50)
+    // No prefix to match @dsai-io/tokens naming convention (e.g., $color-blue-50)
     scss: {
       transformGroup: 'custom/scss',
       buildPath: 'src/generated/',
@@ -95,7 +95,7 @@ export default {
       buildPath: 'src/generated/',
       files: [
         {
-          destination: 'tokens.ts',
+          destination: 'tokens.d.ts',
           format: 'typescript/es6-declarations',
           options: {
             prefix: 'pg',

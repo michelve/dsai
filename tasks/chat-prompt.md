@@ -8,7 +8,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 
 **Project Context:** See ROADMAP\README.md for goals and architecture.
 
-**Token System:** Always reference `packages/@dsai/tokens/collections` and `packages/@dsai/tokens/sd.config.mjs` for current token definitions. Task files may contain outdated variable names.
+**Token System:** Always reference `packages/@dsai-io/tokens/collections` and `packages/@dsai-io/tokens/sd.config.mjs` for current token definitions. Task files may contain outdated variable names.
 
 **Framework Versions:**
 
@@ -17,7 +17,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 - Bootstrap: v5 (follow native markup and architecture - CRITICAL)
 - Storybook Blocks: Use `@storybook/addon-docs/blocks` (NOT `@storybook/blocks`)
 
-**Story Organization:** Keep stories ONLY in `@dsai/storybook`. Reference "DSAi" (no version numbers) in story titles, not "Bootstrap v5". Verify you have correctly imported the component and story.
+**Story Organization:** Keep stories ONLY in `@dsai-io/storybook`. Reference "DSAi" (no version numbers) in story titles, not "Bootstrap v5". Verify you have correctly imported the component and story.
 
 **Component Updates:** When creating new components, update all related stories to use real components (remove mocks).
 
@@ -303,7 +303,7 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 
 **Requirements:**
 
-- Stories in `@dsai/storybook` package only
+- Stories in `@dsai-io/storybook` package only
 - Use Controls addon for interactive prop editing
 - Document accessibility features in story description
 - Include keyboard navigation documentation
@@ -351,9 +351,9 @@ You are a meticulous, safety-first, and security-conscious engineering assistant
 
 Notes:
 
-eslint: npx eslint packages/@dsai/storybook/docs/components/
+eslint: npx eslint packages/@dsai-io/storybook/docs/components/
 How to test component: npm test -- Accordion
-eslint: npx eslint packages/@dsai/react/src/components/Accordion
+eslint: npx eslint packages/@dsai-io/react/src/components/Accordion
 
 **Documentation Gates:**
 
@@ -381,7 +381,7 @@ eslint: npx eslint packages/@dsai/react/src/components/Accordion
 
 ### Step 2: Verify Current State
 
-- Check token definitions in `packages/@dsai/tokens`
+- Check token definitions in `packages/@dsai-io/tokens`
 - Review related existing components
 - Identify dependencies and integration points
 

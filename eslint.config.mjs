@@ -282,7 +282,7 @@ export default [
   // Icon components – dynamic prop filtering
   // =========================
   {
-    files: ['packages/@dsai/react/src/components/Icon/components/**/*.tsx'],
+    files: ['packages/@dsai-io/react/src/components/Icon/components/**/*.tsx'],
     rules: {
       'security/detect-object-injection': 'off',
     },

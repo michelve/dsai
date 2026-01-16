@@ -17,8 +17,8 @@ storybook-static
 *.log
 
 # SCSS auto-compiled CSS (from Live Sass Compiler or similar extensions)
-packages/@dsai/tokens/src/scss/*.css
-packages/@dsai/tokens/src/scss/*.css.map
+packages/@dsai-io/tools/src/scss/*.css
+packages/@dsai-io/tools/src/scss/*.css.map
 
 # dependencies
 node_modules
@@ -72,7 +72,7 @@ Thumbs.db
 .env
 .env.*
 !.env.example
-/packages/@dsai/storybook/storybook-static
+/packages/@dsai-io/storybook/storybook-static
 pnpm-lock.yaml
 tasks/01-critical/check.md
 migrations.json

@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@dsai-io/tools": ["../tools/src"],
+      "@dsai-io/tools/*": ["../tools/src/*"]
+    }
+  }
+}

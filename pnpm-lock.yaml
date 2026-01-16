@@ -167,15 +167,15 @@ importers:
 
   apps/playground:
     dependencies:
-      '@dsai/figma-tokens':
+      '@dsai-io/figma-tokens':
         specifier: workspace:*
-        version: link:../../packages/@dsai/figma-tokens
-      '@dsai/react':
+        version: link:../../packages/@dsai-io/figma-tokens
+      '@dsai-io/react':
         specifier: workspace:*
-        version: link:../../packages/@dsai/react
-      '@dsai/tools':
+        version: link:../../packages/@dsai-io/react
+      '@dsai-io/tools':
         specifier: workspace:*
-        version: link:../../packages/@dsai/tools
+        version: link:../../packages/@dsai-io/tools
       react:
         specifier: ^19.2.0
         version: 19.2.0
@@ -202,15 +202,15 @@ importers:
         specifier: ^7.2.6
         version: 7.2.6(@types/node@24.10.1)(lightningcss@1.30.2)(sass@1.94.2)(yaml@2.8.1)
 
-  packages/@dsai/docs:
+  packages/@dsai-io/docs:
     dependencies:
-      '@dsai/react':
+      '@dsai-io/react':
         specifier: workspace:*
         version: link:../react
 
-  packages/@dsai/figma-tokens:
+  packages/@dsai-io/figma-tokens:
     dependencies:
-      '@dsai/tools':
+      '@dsai-io/tools':
         specifier: workspace:*
         version: link:../tools
       typescript:
@@ -221,7 +221,7 @@ importers:
         specifier: ^22.10.1
         version: 22.19.3
 
-  packages/@dsai/react:
+  packages/@dsai-io/react:
     dependencies:
       '@floating-ui/react':
         specifier: ^0.27.16
@@ -233,19 +233,19 @@ importers:
         specifier: '>=18.0.0'
         version: 19.2.0(react@19.2.0)
     devDependencies:
-      '@dsai/tools':
+      '@dsai-io/tools':
         specifier: workspace:*
         version: link:../tools
       '@figma/code-connect':
         specifier: ^1.3.0
         version: 1.3.11
 
-  packages/@dsai/storybook:
+  packages/@dsai-io/storybook:
     dependencies:
-      '@dsai/react':
+      '@dsai-io/react':
         specifier: workspace:*
         version: link:../react
-      '@dsai/tools':
+      '@dsai-io/tools':
         specifier: workspace:*
         version: link:../tools
       bootstrap:
@@ -319,7 +319,7 @@ importers:
         specifier: ^4.0.15
         version: 4.0.15(@types/node@24.10.1)(@vitest/browser-playwright@4.0.15)(jsdom@26.1.0)(lightningcss@1.30.2)(sass@1.94.2)(yaml@2.8.1)
 
-  packages/@dsai/tools:
+  packages/@dsai-io/tools:
     dependencies:
       commander:
         specifier: ^14.0.2

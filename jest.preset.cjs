@@ -2,12 +2,12 @@ const { pathsToModuleNameMapper } = require('ts-jest');
 
 // Manual path mapping from tsconfig.base.json
 const pathMapping = {
-  '@dsai/tokens': ['packages/@dsai/tokens/src'],
-  '@dsai/tokens/(.*)': ['packages/@dsai/tokens/src/$1'],
-  '@dsai/react': ['packages/@dsai/react/src'],
-  '@dsai/react/(.*)': ['packages/@dsai/react/src/$1'],
-  '@dsai/figma-tokens': ['packages/@dsai/figma-tokens/src'],
-  '@dsai/figma-tokens/(.*)': ['packages/@dsai/figma-tokens/src/$1'],
+  '@dsai-io/react': ['packages/@dsai-io/react/src'],
+  '@dsai-io/react/(.*)': ['packages/@dsai-io/react/src/$1'],
+  '@dsai-io/figma-tokens': ['packages/@dsai-io/figma-tokens/src'],
+  '@dsai-io/figma-tokens/(.*)': ['packages/@dsai-io/figma-tokens/src/$1'],
+  '@dsai-io/tools': ['packages/@dsai-io/tools/src'],
+  '@dsai-io/tools/(.*)': ['packages/@dsai-io/tools/src/$1'],
 };
 
 /** @type {import('jest').Config} */
@@ -62,7 +62,6 @@ module.exports = {
     '!packages/**/src/**/__tests__/**',
     '!packages/**/src/**/index.ts', // Barrel exports
     '!packages/**/src/**/Icon/**', // Icon component (auto-generated)
-    '!packages/@dsai/tokens/src/**', // Token files (auto-generated from Style Dictionary)
   ],
 
   // Coverage thresholds (80% minimum as per roadmap)

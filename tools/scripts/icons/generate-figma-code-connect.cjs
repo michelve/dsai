@@ -23,11 +23,11 @@ const path = require('node:path');
 // Paths
 const COMPONENTS_DIR = path.join(
   __dirname,
-  '../../../packages/@dsai/react/src/components/Icon/components'
+  '../../../packages/@dsai-io/react/src/components/Icon/components'
 );
 const OUTPUT_FILE = path.join(
   __dirname,
-  '../../../packages/@dsai/react/src/components/Icon/Icon.figma.tsx'
+  '../../../packages/@dsai-io/react/src/components/Icon/Icon.figma.tsx'
 );
 
 /**

@@ -1,0 +1,55 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "@dsai-io/storybook",
+  "sourceRoot": "packages/@dsai-io/storybook/.storybook",
+  "projectType": "application",
+
+  "targets": {
+    // ========= STORYBOOK SERVE =========
+    "storybook": {
+      "executor": "@nx/storybook:storybook",
+      "outputs": ["{projectRoot}/node_modules/.vite"],
+      "options": {
+        "port": 6006,
+        "configDir": "packages/@dsai-io/storybook/.storybook"
+      }
+    },
+
+    // ========= STORYBOOK BUILD =========
+    "build-storybook": {
+      "executor": "@nx/storybook:build",
+      "outputs": ["{projectRoot}/storybook-static", "{projectRoot}/node_modules/.vite"],
+      "options": {
+        "configDir": "packages/@dsai-io/storybook/.storybook",
+        "outputDir": "packages/@dsai-io/storybook/storybook-static"
+      }
+    },
+
+    // ========= TEST =========
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{projectRoot}/coverage"],
+      "options": {
+        "jestConfig": "packages/@dsai-io/storybook/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+
+    // ========= STOP / CLEANUP =========
+    "kill": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bash tools/scripts/storybook/kill-storybook.sh"
+      }
+    },
+
+    "stop": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bash tools/scripts/storybook/kill-storybook.sh"
+      }
+    }
+  },
+
+  "tags": ["type:application", "scope:storybook"]
+}
