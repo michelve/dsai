@@ -74,7 +74,10 @@
   "prettier.requireConfig": true,
   "prettier.useEditorConfig": false,
   "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.markdownlint": "explicit"
+    }
   },
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
