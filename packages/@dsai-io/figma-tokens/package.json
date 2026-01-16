@@ -48,7 +48,7 @@
     "dtcg"
   ],
   "dependencies": {
-    "@dsai-io/tools": "^0.0.1"
+    "@dsai-io/tools": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.10.1"
