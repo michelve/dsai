@@ -1,6 +1,6 @@
 {
   "name": "@dsai-io/figma-tokens",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Figma integration utilities and token synchronization for DSAi",
   "type": "module",
   "main": "dist/index.cjs",
@@ -48,7 +48,7 @@
     "dtcg"
   ],
   "dependencies": {
-    "@dsai-io/tools": "workspace:*"
+    "@dsai-io/tools": "^0.0.1"
   },
   "devDependencies": {
     "@types/node": "^22.10.1"

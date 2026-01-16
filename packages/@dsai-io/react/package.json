@@ -1,7 +1,7 @@
 {
   "name": "@dsai-io/react",
-  "version": "0.0.1",
-  "description": "React component library for DSAi design system",
+  "version": "1.0.1",
+  "description": "DSAi React - Accessible, themeable React components with WCAG 2.1 AA compliance, design tokens, and TypeScript support",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -69,9 +69,18 @@
   },
   "keywords": [
     "react",
-    "components",
+    "react-components",
     "design-system",
-    "ui-library"
+    "ui-library",
+    "component-library",
+    "dsai",
+    "typescript",
+    "accessible",
+    "a11y",
+    "wcag",
+    "design-tokens",
+    "theming",
+    "ui-kit"
   ],
   "peerDependencies": {
     "react": ">=18.0.0",
@@ -81,7 +90,7 @@
     "@floating-ui/react": "^0.27.16"
   },
   "devDependencies": {
-    "@dsai-io/tools": "workspace:*",
+    "@dsai-io/tools": "^0.0.1",
     "@figma/code-connect": "^1.3.0"
   },
   "license": "UNLICENSED",

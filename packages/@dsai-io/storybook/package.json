@@ -1,6 +1,6 @@
 {
   "name": "@dsai-io/storybook",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "description": "Storybook configuration and documentation for DSAi components",
   "scripts": {
     "tokens:transform": "node ../tools/bin/dsai-tools.mjs tokens transform",
@@ -28,9 +28,9 @@
     "design-system"
   ],
   "dependencies": {
-    "@dsai-io/figma-tokens": "workspace:*",
-    "@dsai-io/react": "workspace:*",
-    "@dsai-io/tools": "workspace:*",
+    "@dsai-io/figma-tokens": "^1.0.2",
+    "@dsai-io/react": "^0.0.1",
+    "@dsai-io/tools": "^0.0.1",
     "bootstrap": "^5.3.8",
     "glob": "^11.0.2",
     "sass": "^1.94.2",
