@@ -55,13 +55,13 @@ jobs:
         run: |
           # Get the version from tools package
           TOOLS_VERSION=$(node -p "require('./packages/@dsai-io/tools/package.json').version")
-          
+
           # Update figma-tokens to use actual version instead of workspace:*
           cd packages/@dsai-io/figma-tokens
           sed -i.bak 's/"@dsai-io\/tools": "workspace:\*"/"@dsai-io\/tools": "^'"$TOOLS_VERSION"'"/' package.json
           rm -f package.json.bak
           cd ../..
-          
+
           # Update react to use actual version if it depends on tools
           cd packages/@dsai-io/react
           if grep -q '"@dsai-io/tools": "workspace:\*"' package.json; then
@@ -69,7 +69,7 @@ jobs:
             rm -f package.json.bak
           fi
           cd ../..
-          
+
           # Update storybook dependencies
           cd packages/@dsai-io/storybook
           if grep -q '"@dsai-io/tools": "workspace:\*"' package.json; then
