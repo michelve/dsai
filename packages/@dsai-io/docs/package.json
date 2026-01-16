@@ -1,6 +1,6 @@
 {
   "name": "@dsai-io/docs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Documentation site for DSAi design system",
   "scripts": {
     "dev": "echo 'Start docs dev server'",

@@ -1,6 +1,6 @@
 {
   "name": "@dsai-io/storybook",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Storybook configuration and documentation for DSAi components",
   "scripts": {
     "tokens:transform": "node ../tools/bin/dsai-tools.mjs tokens transform",
