@@ -28,9 +28,9 @@
     "design-system"
   ],
   "dependencies": {
-    "@dsai-io/figma-tokens": "^1.0.2",
-    "@dsai-io/react": "^0.0.1",
-    "@dsai-io/tools": "^0.0.1",
+    "@dsai-io/figma-tokens": "workspace:*",
+    "@dsai-io/react": "workspace:*",
+    "@dsai-io/tools": "workspace:*",
     "bootstrap": "^5.3.8",
     "glob": "^11.0.2",
     "sass": "^1.94.2",

@@ -211,8 +211,8 @@ importers:
   packages/@dsai-io/figma-tokens:
     dependencies:
       '@dsai-io/tools':
-        specifier: ^0.0.1
-        version: 0.0.1(style-dictionary@5.1.1)(typescript@5.9.3)
+        specifier: workspace:*
+        version: link:../tools
       typescript:
         specifier: '>=5.0.0'
         version: 5.9.3
@@ -234,8 +234,8 @@ importers:
         version: 19.2.0(react@19.2.0)
     devDependencies:
       '@dsai-io/tools':
-        specifier: ^0.0.1
-        version: 0.0.1(style-dictionary@5.1.1)(typescript@5.9.3)
+        specifier: workspace:*
+        version: link:../tools
       '@figma/code-connect':
         specifier: ^1.3.0
         version: 1.3.11
@@ -243,14 +243,14 @@ importers:
   packages/@dsai-io/storybook:
     dependencies:
       '@dsai-io/figma-tokens':
-        specifier: ^1.0.2
-        version: 1.0.3(style-dictionary@5.1.1)(typescript@5.9.3)
+        specifier: workspace:*
+        version: link:../figma-tokens
       '@dsai-io/react':
-        specifier: ^0.0.1
-        version: 0.0.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        specifier: workspace:*
+        version: link:../react
       '@dsai-io/tools':
-        specifier: ^0.0.1
-        version: 0.0.1(style-dictionary@5.1.1)(typescript@5.9.3)
+        specifier: workspace:*
+        version: link:../tools
       bootstrap:
         specifier: ^5.3.8
         version: 5.3.8(@popperjs/core@2.11.8)
@@ -1109,32 +1109,6 @@ packages:
   '@csstools/css-tokenizer@3.0.4':
     resolution: {integrity: sha512-Vd/9EVDiu6PPJt9yAh6roZP6El1xHrdvIVGjyBsHR0RYwNHgL7FJPyIIW4fANJNG6FtyZfvlRPpFI4ZM/lubvw==}
     engines: {node: '>=18'}
-
-  '@dsai-io/figma-tokens@1.0.3':
-    resolution: {integrity: sha512-jIPdz396h2Dnaew2nHkDeXSGmyauFlwkaR+2PDHXxP9ij4j9pxtUxFSRCISWpZNFVdU/vUkCLMyrjnN5TbYejg==}
-    engines: {node: '>=22.0.0'}
-    hasBin: true
-    peerDependencies:
-      typescript: '>=5.0.0'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
-  '@dsai-io/react@0.0.1':
-    resolution: {integrity: sha512-IimxhuQ/dRbOJvkvzxKBhajs3fnAZWcmVOcibMjqd47BxlJRnG03Lf216TNePFPDntMJr92dDS3IAlMBOyc13g==}
-    peerDependencies:
-      react: '>=18.0.0'
-      react-dom: '>=18.0.0'
-
-  '@dsai-io/tools@0.0.1':
-    resolution: {integrity: sha512-PiyFvNE+MEfOihNPQ/W/RbmumJt85q7IchnnfoOgHuzpwnNZVyqUnX28kGiU/32WAbWEr72VAyDYOzPPA9zv5w==}
-    engines: {node: '>=22.0.0'}
-    hasBin: true
-    peerDependencies:
-      style-dictionary: ^5.1.1
-    peerDependenciesMeta:
-      style-dictionary:
-        optional: true
 
   '@emnapi/core@1.7.1':
     resolution: {integrity: sha512-o1uhUASyo921r2XtHYOHy7gdkGLge8ghBEQHMWmyJFoXlpU58kIrhhN3w26lpQb6dspetweapMn2CSNwQ8I4wg==}
@@ -7239,35 +7213,6 @@ snapshots:
       '@csstools/css-tokenizer': 3.0.4
 
   '@csstools/css-tokenizer@3.0.4': {}
-
-  '@dsai-io/figma-tokens@1.0.3(style-dictionary@5.1.1)(typescript@5.9.3)':
-    dependencies:
-      '@dsai-io/tools': 0.0.1(style-dictionary@5.1.1)(typescript@5.9.3)
-    optionalDependencies:
-      typescript: 5.9.3
-    transitivePeerDependencies:
-      - style-dictionary
-
-  '@dsai-io/react@0.0.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
-    dependencies:
-      '@floating-ui/react': 0.27.16(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      react: 19.2.0
-      react-dom: 19.2.0(react@19.2.0)
-
-  '@dsai-io/tools@0.0.1(style-dictionary@5.1.1)(typescript@5.9.3)':
-    dependencies:
-      commander: 14.0.2
-      cosmiconfig: 9.0.0(typescript@5.9.3)
-      deepmerge: 4.3.1
-      fast-glob: 3.3.3
-      ora: 9.0.0
-      picocolors: 1.1.1
-      svgo: 4.0.0
-      zod: 3.25.58
-    optionalDependencies:
-      style-dictionary: 5.1.1
-    transitivePeerDependencies:
-      - typescript
 
   '@emnapi/core@1.7.1':
     dependencies:
