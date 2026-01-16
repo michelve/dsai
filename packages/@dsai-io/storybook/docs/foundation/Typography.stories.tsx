@@ -1,4 +1,5 @@
 import { Display, Heading, Text } from '@dsai-io/react';
+import { backgroundWhite, themeLight, themeDark } from '../../src/generated/tokens';
 import tokens from '../../src/generated/tokens-grouped';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -16,9 +17,9 @@ const meta: Meta = {
     backgrounds: {
       default: 'light',
       values: [
-        { name: 'light', value: '#ffffff' },
-        { name: 'dark', value: '#1a1a1a' },
-        { name: 'gray', value: '#f5f5f5' },
+        { name: 'light', value: backgroundWhite },
+        { name: 'dark', value: themeDark },
+        { name: 'gray', value: themeLight },
       ],
     },
     // Enable viewport testing for responsive typography
@@ -36,7 +37,7 @@ type Story = StoryObj;
  */
 export const FontFamilies: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-4)' }}>
       <div>
         <Heading level={3} noMargin>
           Base Font (Inter)
@@ -50,7 +51,7 @@ export const FontFamilies: Story = {
         >
           The quick brown fox jumps over the lazy dog. 0123456789
         </Text>
-        <Text variant="code" style={{ color: '#6b7280' }}>
+        <Text variant="code" style={{ color: 'var(--bs-secondary)' }}>
           var(--dsai-typography-font-family-base)
         </Text>
       </div>
@@ -68,7 +69,7 @@ export const FontFamilies: Story = {
         >
           {`const greeting = "Hello, World!"; // Code example`}
         </Text>
-        <Text variant="code" style={{ color: '#6b7280' }}>
+        <Text variant="code" style={{ color: 'var(--bs-secondary)' }}>
           var(--dsai-typography-font-family-monospace)
         </Text>
       </div>
@@ -92,17 +93,17 @@ export const FontSizes: Story = {
     ];
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-3)' }}>
         <Heading level={2}>Font Size Scale</Heading>
         {sizes.map(({ name, token, size }) => (
-          <div key={token} style={{ display: 'flex', alignItems: 'baseline', gap: '16px' }}>
+          <div key={token} style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--sb-spacing-3)' }}>
             <Text as="span" color="muted" style={{ minWidth: '120px' }}>
               {name}
             </Text>
             <Text as="span" noMargin style={{ fontSize: size }}>
               The quick brown fox jumps over the lazy dog
             </Text>
-            <Text variant="code" style={{ color: '#9ca3af', marginLeft: 'auto' }}>
+            <Text variant="code" style={{ color: 'var(--bs-tertiary-color)', marginLeft: 'auto' }}>
               {size}
             </Text>
           </div>
@@ -163,7 +164,7 @@ export const DisplayTypography: Story = {
     ];
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-4)' }}>
         <div>
           <Heading level={2}>Display Typography Scale</Heading>
           <Text color="muted" style={{ marginTop: '8px' }}>
@@ -172,15 +173,18 @@ export const DisplayTypography: Story = {
           </Text>
         </div>
         {displays.map(({ name, size, sizeStr, weight, usage }) => (
-          <div key={size} style={{ borderTop: '1px solid #e5e7eb', paddingTop: '24px' }}>
+          <div
+            key={size}
+            style={{ borderTop: '1px solid var(--bs-border-color)', paddingTop: '24px' }}
+          >
             <div style={{ marginBottom: '16px' }}>
               <div
-                style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}
+                style={{ display: 'flex', alignItems: 'center', gap: 'var(--sb-spacing-2)', marginBottom: '4px' }}
               >
                 <Text as="span" weight="semibold">
                   {name}
                 </Text>
-                <Text variant="code" style={{ color: '#6b7280' }}>
+                <Text variant="code" style={{ color: 'var(--bs-secondary)' }}>
                   {sizeStr}
                 </Text>
                 <Text as="span" color="muted" size="sm">
@@ -197,7 +201,7 @@ export const DisplayTypography: Story = {
             <Text
               variant="code"
               style={{
-                color: '#9ca3af',
+                color: 'var(--bs-tertiary-color)',
                 marginTop: '8px',
                 display: 'block',
               }}
@@ -208,17 +212,17 @@ export const DisplayTypography: Story = {
         ))}
         <div
           style={{
-            backgroundColor: '#f0f9ff',
-            padding: '20px',
-            borderRadius: '8px',
-            borderLeft: '4px solid #0ea5e9',
+            backgroundColor: 'var(--bs-info-bg-subtle)',
+            padding: 'var(--sb-spacing-3)',
+            borderRadius: 'var(--sb-border-radius-lg)',
+            borderLeft: '4px solid var(--bs-info)',
             marginTop: '24px',
           }}
         >
           <Heading level={3} noMargin style={{ marginBottom: '8px' }}>
             Usage Tips
           </Heading>
-          <ul style={{ margin: 0, paddingLeft: '20px', color: '#0c4a6e' }}>
+          <ul style={{ margin: 0, paddingLeft: '20px', color: 'var(--bs-info-text-emphasis)' }}>
             <li>Use display typography sparingly for maximum impact</li>
             <li>Pair with generous white space for breathing room</li>
             <li>Apply negative letter-spacing (-0.02em) for better visual balance</li>
@@ -246,7 +250,7 @@ export const Headings: Story = {
     ];
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-4)' }}>
         <Heading level={2}>Heading Scale</Heading>
         {headings.map(({ level, size, weight }) => (
           <div key={level}>
@@ -276,17 +280,17 @@ export const FontWeights: Story = {
     ];
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-3)' }}>
         <Heading level={2}>Font Weights</Heading>
         {weights.map(({ name, value }) => (
-          <div key={value} style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <div key={value} style={{ display: 'flex', alignItems: 'center', gap: 'var(--sb-spacing-4)' }}>
             <Text as="span" color="muted" style={{ minWidth: '120px' }}>
               {name}
             </Text>
             <Text as="span" weight={value} size="lg" noMargin>
               The quick brown fox jumps over the lazy dog
             </Text>
-            <Text variant="code" style={{ color: '#9ca3af', marginLeft: 'auto' }}>
+            <Text variant="code" style={{ color: 'var(--bs-tertiary-color)', marginLeft: 'auto' }}>
               fw-{value}
             </Text>
           </div>
@@ -309,17 +313,17 @@ export const LineHeights: Story = {
     ];
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-4)' }}>
         <Heading level={2}>Line Height Scale</Heading>
         {lineHeights.map(({ name, value, description }) => (
           <div key={value}>
             <div
-              style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 'var(--sb-spacing-3)', marginBottom: '8px' }}
             >
               <Text as="span" weight="bold">
                 {name}
               </Text>
-              <Text variant="code" style={{ color: '#6b7280' }}>
+              <Text variant="code" style={{ color: 'var(--bs-secondary)' }}>
                 {value}
               </Text>
               <Text as="span" color="muted">
@@ -330,9 +334,9 @@ export const LineHeights: Story = {
               noMargin
               style={{
                 lineHeight: value,
-                backgroundColor: '#f3f4f6',
-                padding: '16px',
-                borderRadius: '8px',
+                backgroundColor: 'var(--bs-gray-100)',
+                padding: 'var(--sb-spacing-3)',
+                borderRadius: 'var(--sb-border-radius-lg)',
               }}
             >
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor

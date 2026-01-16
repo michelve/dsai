@@ -1,5 +1,6 @@
 // Import grouped tokens (with .value properties for easy access)
 import { Heading } from '@dsai-io/react';
+import { backgroundWhite, themeLight, themeDark, themePrimary } from '../../src/generated/tokens';
 import tokens from '../../src/generated/tokens-grouped';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -17,10 +18,10 @@ const meta: Meta = {
     backgrounds: {
       default: 'light',
       values: [
-        { name: 'light', value: '#ffffff' },
-        { name: 'dark', value: '#1a1a1a' },
-        { name: 'gray', value: '#f5f5f5' },
-        { name: 'brand', value: '#00b8a9' },
+        { name: 'light', value: backgroundWhite },
+        { name: 'dark', value: themeDark },
+        { name: 'gray', value: themeLight },
+        { name: 'brand', value: themePrimary },
       ],
     },
   },
@@ -45,14 +46,14 @@ const ColorSwatch = ({
   value,
   cssVariable,
   tokenPath,
-  textColor = '#000',
+  textColor = 'var(--bs-dark)',
 }: ColorSwatchProps) => (
   <div
     style={{
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'stretch',
-      gap: '8px',
+      gap: 'var(--sb-spacing-2)',
       minWidth: '160px',
       flex: '0 0 auto',
     }}
@@ -62,28 +63,35 @@ const ColorSwatch = ({
         width: '100%',
         height: '80px',
         backgroundColor: value,
-        borderRadius: '8px',
-        border: '1px solid #e5e7eb',
+        borderRadius: 'var(--sb-border-radius-lg)',
+        border: '1px solid var(--bs-border-color)',
         boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         color: textColor,
-        fontWeight: 600,
+        fontWeight: 'var(--sb-typography-font-weight-semi-bold)',
         fontSize: '14px',
       }}
     >
       {name}
     </div>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-      <div style={{ fontSize: '11px', color: '#111827', fontFamily: 'monospace', fontWeight: 600 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-1)' }}>
+      <div
+        style={{
+          fontSize: '11px',
+          color: 'var(--bs-body-color)',
+          fontFamily: 'monospace',
+          fontWeight: 'var(--sb-typography-font-weight-semi-bold)',
+        }}
+      >
         {value}
       </div>
       {cssVariable && (
         <div
           style={{
             fontSize: '10px',
-            color: '#111111',
+            color: 'var(--bs-body-color)',
             fontFamily: 'monospace',
             wordBreak: 'break-all',
           }}
@@ -95,7 +103,7 @@ const ColorSwatch = ({
         <div
           style={{
             fontSize: '10px',
-            color: '#111111',
+            color: 'var(--bs-body-color)',
             fontFamily: 'monospace',
             fontStyle: 'italic',
             wordBreak: 'break-all',
@@ -116,67 +124,67 @@ export const BrandColors: Story = {
     const brandColors = [
       {
         name: '50',
-        value: tokens.color?.blue?.[50]?.value || '#eff6ff',
+        value: tokens.color?.blue?.[50]?.value,
         cssVar: '--dsai-color-blue-50',
         token: 'color.blue.50',
       },
       {
         name: '100',
-        value: tokens.color?.blue?.[100]?.value || '#dbeafe',
+        value: tokens.color?.blue?.[100]?.value,
         cssVar: '--dsai-color-blue-100',
         token: 'color.blue.100',
       },
       {
         name: '200',
-        value: tokens.color?.blue?.[200]?.value || '#bfdbfe',
+        value: tokens.color?.blue?.[200]?.value,
         cssVar: '--dsai-color-blue-200',
         token: 'color.blue.200',
       },
       {
         name: '300',
-        value: tokens.color?.blue?.[300]?.value || '#93c5fd',
+        value: tokens.color?.blue?.[300]?.value,
         cssVar: '--dsai-color-blue-300',
         token: 'color.blue.300',
       },
       {
         name: '400',
-        value: tokens.color?.blue?.[400]?.value || '#60a5fa',
+        value: tokens.color?.blue?.[400]?.value,
         cssVar: '--dsai-color-blue-400',
         token: 'color.blue.400',
       },
       {
         name: '500',
-        value: tokens.color?.blue?.[500]?.value || '#3b82f6',
+        value: tokens.color?.blue?.[500]?.value,
         cssVar: '--dsai-color-blue-500',
         token: 'color.blue.500',
       },
       {
         name: '600',
-        value: tokens.color?.blue?.[600]?.value || '#2563eb',
+        value: tokens.color?.blue?.[600]?.value,
         cssVar: '--dsai-color-blue-600',
         token: 'color.blue.600',
       },
       {
         name: '700',
-        value: tokens.color?.blue?.[700]?.value || '#1d4ed8',
+        value: tokens.color?.blue?.[700]?.value,
         cssVar: '--dsai-color-blue-700',
         token: 'color.blue.700',
       },
       {
         name: '800',
-        value: tokens.color?.blue?.[800]?.value || '#1e40af',
+        value: tokens.color?.blue?.[800]?.value,
         cssVar: '--dsai-color-blue-800',
         token: 'color.blue.800',
       },
       {
         name: '900',
-        value: tokens.color?.blue?.[900]?.value || '#1e3a8a',
+        value: tokens.color?.blue?.[900]?.value,
         cssVar: '--dsai-color-blue-900',
         token: 'color.blue.900',
       },
       {
         name: '950',
-        value: tokens.color?.blue?.[950]?.value || '#172554',
+        value: tokens.color?.blue?.[950]?.value,
         cssVar: '--dsai-color-blue-950',
         token: 'color.blue.950',
       },
@@ -186,7 +194,7 @@ export const BrandColors: Story = {
       <div>
         <Heading level={2}>Brand Colors (Blue Scale)</Heading>
         <p>Primary brand color scale used for buttons, links, and interactive elements.</p>
-        <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginTop: '24px' }}>
+        <div style={{ display: 'flex', gap: 'var(--sb-spacing-3)', flexWrap: 'wrap', marginTop: '24px' }}>
           {brandColors.map((color) => (
             <ColorSwatch
               key={color.name}
@@ -194,7 +202,7 @@ export const BrandColors: Story = {
               value={color.value}
               cssVariable={color.cssVar}
               tokenPath={color.token}
-              textColor={parseInt(color.name, 10) >= 500 ? '#fff' : '#000'}
+              textColor={parseInt(color.name, 10) >= 500 ? 'var(--bs-white)' : 'var(--bs-dark)'}
             />
           ))}
         </div>
@@ -211,51 +219,51 @@ export const SemanticColors: Story = {
     const semanticColors = [
       {
         name: 'Primary',
-        value: tokens.theme?.primary?.value || '#0ea5e9',
+        value: tokens.theme?.primary?.value,
         cssVar: '--dsai-theme-primary',
         token: 'theme.primary',
         description: 'Main brand color',
-        textColor: '#fff',
+        textColor: 'var(--bs-white)',
       },
       {
         name: 'Secondary',
-        value: tokens.theme?.secondary?.value || '#64748b',
+        value: tokens.theme?.secondary?.value,
         cssVar: '--dsai-theme-secondary',
         token: 'theme.secondary',
         description: 'Secondary actions',
-        textColor: '#111',
+        textColor: 'var(--bs-dark)',
       },
       {
         name: 'Success',
-        value: tokens.theme?.success?.value || '#10b981',
+        value: tokens.theme?.success?.value,
         cssVar: '--dsai-theme-success',
         token: 'theme.success',
         description: 'Success states',
-        textColor: '#fff',
+        textColor: 'var(--bs-white)',
       },
       {
         name: 'Danger',
-        value: tokens.theme?.danger?.value || '#ef4444',
+        value: tokens.theme?.danger?.value,
         cssVar: '--dsai-theme-danger',
         token: 'theme.danger',
         description: 'Error states',
-        textColor: '#fff',
+        textColor: 'var(--bs-white)',
       },
       {
         name: 'Warning',
-        value: tokens.theme?.warning?.value || '#f59e0b',
+        value: tokens.theme?.warning?.value,
         cssVar: '--dsai-theme-warning',
         token: 'theme.warning',
         description: 'Warning states',
-        textColor: '#000',
+        textColor: 'var(--bs-dark)',
       },
       {
         name: 'Info',
-        value: tokens.theme?.info?.value || '#0ea5e9',
+        value: tokens.theme?.info?.value,
         cssVar: '--dsai-theme-info',
         token: 'theme.info',
         description: 'Informational',
-        textColor: '#fff',
+        textColor: 'var(--bs-white)',
       },
     ];
 
@@ -263,7 +271,7 @@ export const SemanticColors: Story = {
       <div>
         <Heading level={2}>Semantic Colors</Heading>
         <p>Contextual colors used for feedback, states, and semantic meaning.</p>
-        <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginTop: '24px' }}>
+        <div style={{ display: 'flex', gap: 'var(--sb-spacing-3)', flexWrap: 'wrap', marginTop: '24px' }}>
           {semanticColors.map((color) => (
             <div key={color.name} style={{ minWidth: '180px' }}>
               <ColorSwatch
@@ -273,7 +281,7 @@ export const SemanticColors: Story = {
                 tokenPath={color.token}
                 textColor={color.textColor}
               />
-              <p style={{ fontSize: '12px', color: '#6b7280', marginTop: '8px' }}>
+              <p style={{ fontSize: '12px', color: 'var(--bs-secondary)', marginTop: '8px' }}>
                 {color.description}
               </p>
             </div>
@@ -295,43 +303,43 @@ export const ComponentSemanticColors: Story = {
         colors: [
           {
             name: 'Body Text',
-            value: tokens.semantic?.['body-color']?.value || '#212529',
+            value: tokens.semantic?.['body-color']?.value,
             cssVar: '--dsai-semantic-body-color',
             token: 'semantic.body-color',
             description: 'Default body text color',
-            textColor: '#fff',
+            textColor: 'var(--bs-white)',
           },
           {
             name: 'Body Background',
-            value: tokens.semantic?.['body-bg']?.value || '#ffffff',
+            value: tokens.semantic?.['body-bg']?.value,
             cssVar: '--dsai-semantic-body-bg',
             token: 'semantic.body-bg',
             description: 'Default body background',
-            textColor: '#000',
+            textColor: 'var(--bs-dark)',
           },
           {
             name: 'Emphasis',
-            value: tokens.semantic?.['emphasis-color']?.value || '#000000',
+            value: tokens.semantic?.['emphasis-color']?.value,
             cssVar: '--dsai-semantic-emphasis-color',
             token: 'semantic.emphasis-color',
             description: 'High contrast text',
-            textColor: '#fff',
+            textColor: 'var(--bs-white)',
           },
           {
             name: 'Secondary Text',
-            value: tokens.semantic?.['secondary-color']?.value || '#6c757d',
+            value: tokens.semantic?.['secondary-color']?.value || 'var(--bs-secondary)',
             cssVar: '--dsai-semantic-secondary-color',
             token: 'semantic.secondary-color',
             description: 'Lighter text',
-            textColor: '#111',
+            textColor: 'var(--bs-dark)',
           },
           {
             name: 'Tertiary Text',
-            value: tokens.semantic?.['tertiary-color']?.value || '#a8adb7',
+            value: tokens.semantic?.['tertiary-color']?.value,
             cssVar: '--dsai-semantic-tertiary-color',
             token: 'semantic.tertiary-color',
             description: 'Lightest text',
-            textColor: '#000',
+            textColor: 'var(--bs-dark)',
           },
         ],
       },
@@ -340,19 +348,19 @@ export const ComponentSemanticColors: Story = {
         colors: [
           {
             name: 'Link Default',
-            value: tokens.semantic?.['link-color']?.value || '#0d6efd',
+            value: tokens.semantic?.['link-color']?.value,
             cssVar: '--dsai-semantic-link-color',
             token: 'semantic.link-color',
             description: 'Default link color',
-            textColor: '#fff',
+            textColor: 'var(--bs-white)',
           },
           {
             name: 'Link Hover',
-            value: tokens.semantic?.['link-hover-color']?.value || '#0a58ca',
+            value: tokens.semantic?.['link-hover-color']?.value,
             cssVar: '--dsai-semantic-link-hover-color',
             token: 'semantic.link-hover-color',
             description: 'Link hover state',
-            textColor: '#fff',
+            textColor: 'var(--bs-white)',
           },
         ],
       },
@@ -361,19 +369,19 @@ export const ComponentSemanticColors: Story = {
         colors: [
           {
             name: 'Secondary BG',
-            value: tokens.semantic?.['secondary-bg']?.value || '#e9ecef',
+            value: tokens.semantic?.['secondary-bg']?.value,
             cssVar: '--dsai-semantic-secondary-bg',
             token: 'semantic.secondary-bg',
             description: 'Secondary surface',
-            textColor: '#000',
+            textColor: 'var(--bs-dark)',
           },
           {
             name: 'Tertiary BG',
-            value: tokens.semantic?.['tertiary-bg']?.value || '#f8f9fa',
+            value: tokens.semantic?.['tertiary-bg']?.value,
             cssVar: '--dsai-semantic-tertiary-bg',
             token: 'semantic.tertiary-bg',
             description: 'Tertiary surface',
-            textColor: '#000',
+            textColor: 'var(--bs-dark)',
           },
         ],
       },
@@ -382,11 +390,11 @@ export const ComponentSemanticColors: Story = {
         colors: [
           {
             name: 'Border',
-            value: tokens.semantic?.['border-color']?.value || '#dee2e6',
+            value: tokens.semantic?.['border-color']?.value,
             cssVar: '--dsai-semantic-border-color',
             token: 'semantic.border-color',
             description: 'Default borders',
-            textColor: '#000',
+            textColor: 'var(--bs-dark)',
           },
           {
             name: 'Border Translucent',
@@ -394,7 +402,7 @@ export const ComponentSemanticColors: Story = {
             cssVar: '--dsai-semantic-border-color-translucent',
             token: 'semantic.border-color-translucent',
             description: 'Translucent borders',
-            textColor: '#fff',
+            textColor: 'var(--bs-white)',
           },
         ],
       },
@@ -403,27 +411,27 @@ export const ComponentSemanticColors: Story = {
         colors: [
           {
             name: 'Text Emphasis',
-            value: tokens.semantic?.['primary-text-emphasis']?.value || '#052c65',
+            value: tokens.semantic?.['primary-text-emphasis']?.value,
             cssVar: '--dsai-semantic-primary-text-emphasis',
             token: 'semantic.primary-text-emphasis',
             description: 'Primary text emphasis',
-            textColor: '#fff',
+            textColor: 'var(--bs-white)',
           },
           {
             name: 'BG Subtle',
-            value: tokens.semantic?.['primary-bg-subtle']?.value || '#cfe2ff',
+            value: tokens.semantic?.['primary-bg-subtle']?.value,
             cssVar: '--dsai-semantic-primary-bg-subtle',
             token: 'semantic.primary-bg-subtle',
             description: 'Primary subtle background',
-            textColor: '#000',
+            textColor: 'var(--bs-dark)',
           },
           {
             name: 'Border Subtle',
-            value: tokens.semantic?.['primary-border-subtle']?.value || '#9ec5fe',
+            value: tokens.semantic?.['primary-border-subtle']?.value,
             cssVar: '--dsai-semantic-primary-border-subtle',
             token: 'semantic.primary-border-subtle',
             description: 'Primary subtle border',
-            textColor: '#000',
+            textColor: 'var(--bs-dark)',
           },
         ],
       },
@@ -432,27 +440,27 @@ export const ComponentSemanticColors: Story = {
         colors: [
           {
             name: 'Text Emphasis',
-            value: tokens.semantic?.['success-text-emphasis']?.value || '#0a3622',
+            value: tokens.semantic?.['success-text-emphasis']?.value,
             cssVar: '--dsai-semantic-success-text-emphasis',
             token: 'semantic.success-text-emphasis',
             description: 'Success text emphasis',
-            textColor: '#fff',
+            textColor: 'var(--bs-white)',
           },
           {
             name: 'BG Subtle',
-            value: tokens.semantic?.['success-bg-subtle']?.value || '#d1e7dd',
+            value: tokens.semantic?.['success-bg-subtle']?.value,
             cssVar: '--dsai-semantic-success-bg-subtle',
             token: 'semantic.success-bg-subtle',
             description: 'Success subtle background',
-            textColor: '#000',
+            textColor: 'var(--bs-dark)',
           },
           {
             name: 'Border Subtle',
-            value: tokens.semantic?.['success-border-subtle']?.value || '#a3cfbb',
+            value: tokens.semantic?.['success-border-subtle']?.value,
             cssVar: '--dsai-semantic-success-border-subtle',
             token: 'semantic.success-border-subtle',
             description: 'Success subtle border',
-            textColor: '#000',
+            textColor: 'var(--bs-dark)',
           },
         ],
       },
@@ -461,27 +469,27 @@ export const ComponentSemanticColors: Story = {
         colors: [
           {
             name: 'Text Emphasis',
-            value: tokens.semantic?.['danger-text-emphasis']?.value || '#58151c',
+            value: tokens.semantic?.['danger-text-emphasis']?.value,
             cssVar: '--dsai-semantic-danger-text-emphasis',
             token: 'semantic.danger-text-emphasis',
             description: 'Danger text emphasis',
-            textColor: '#fff',
+            textColor: 'var(--bs-white)',
           },
           {
             name: 'BG Subtle',
-            value: tokens.semantic?.['danger-bg-subtle']?.value || '#f8d7da',
+            value: tokens.semantic?.['danger-bg-subtle']?.value,
             cssVar: '--dsai-semantic-danger-bg-subtle',
             token: 'semantic.danger-bg-subtle',
             description: 'Danger subtle background',
-            textColor: '#000',
+            textColor: 'var(--bs-dark)',
           },
           {
             name: 'Border Subtle',
-            value: tokens.semantic?.['danger-border-subtle']?.value || '#f1aeb5',
+            value: tokens.semantic?.['danger-border-subtle']?.value,
             cssVar: '--dsai-semantic-danger-border-subtle',
             token: 'semantic.danger-border-subtle',
             description: 'Danger subtle border',
-            textColor: '#000',
+            textColor: 'var(--bs-dark)',
           },
         ],
       },
@@ -490,27 +498,27 @@ export const ComponentSemanticColors: Story = {
         colors: [
           {
             name: 'Text Emphasis',
-            value: tokens.semantic?.['warning-text-emphasis']?.value || '#664d03',
+            value: tokens.semantic?.['warning-text-emphasis']?.value,
             cssVar: '--dsai-semantic-warning-text-emphasis',
             token: 'semantic.warning-text-emphasis',
             description: 'Warning text emphasis',
-            textColor: '#fff',
+            textColor: 'var(--bs-white)',
           },
           {
             name: 'BG Subtle',
-            value: tokens.semantic?.['warning-bg-subtle']?.value || '#fff3cd',
+            value: tokens.semantic?.['warning-bg-subtle']?.value,
             cssVar: '--dsai-semantic-warning-bg-subtle',
             token: 'semantic.warning-bg-subtle',
             description: 'Warning subtle background',
-            textColor: '#000',
+            textColor: 'var(--bs-dark)',
           },
           {
             name: 'Border Subtle',
-            value: tokens.semantic?.['warning-border-subtle']?.value || '#ffe69c',
+            value: tokens.semantic?.['warning-border-subtle']?.value,
             cssVar: '--dsai-semantic-warning-border-subtle',
             token: 'semantic.warning-border-subtle',
             description: 'Warning subtle border',
-            textColor: '#000',
+            textColor: 'var(--bs-dark)',
           },
         ],
       },
@@ -519,27 +527,27 @@ export const ComponentSemanticColors: Story = {
         colors: [
           {
             name: 'Text Emphasis',
-            value: tokens.semantic?.['info-text-emphasis']?.value || '#055160',
+            value: tokens.semantic?.['info-text-emphasis']?.value,
             cssVar: '--dsai-semantic-info-text-emphasis',
             token: 'semantic.info-text-emphasis',
             description: 'Info text emphasis',
-            textColor: '#fff',
+            textColor: 'var(--bs-white)',
           },
           {
             name: 'BG Subtle',
-            value: tokens.semantic?.['info-bg-subtle']?.value || '#cff4fc',
+            value: tokens.semantic?.['info-bg-subtle']?.value,
             cssVar: '--dsai-semantic-info-bg-subtle',
             token: 'semantic.info-bg-subtle',
             description: 'Info subtle background',
-            textColor: '#000',
+            textColor: 'var(--bs-dark)',
           },
           {
             name: 'Border Subtle',
-            value: tokens.semantic?.['info-border-subtle']?.value || '#9eeaf9',
+            value: tokens.semantic?.['info-border-subtle']?.value,
             cssVar: '--dsai-semantic-info-border-subtle',
             token: 'semantic.info-border-subtle',
             description: 'Info subtle border',
-            textColor: '#000',
+            textColor: 'var(--bs-dark)',
           },
         ],
       },
@@ -554,10 +562,10 @@ export const ComponentSemanticColors: Story = {
         </p>
         {componentSemanticColors.map(({ category, colors }) => (
           <div key={category} style={{ marginTop: '32px' }}>
-            <Heading level={3} style={{ marginBottom: '16px', fontSize: '18px', fontWeight: 600 }}>
+            <Heading level={3} style={{ marginBottom: '16px', fontSize: '18px', fontWeight: 'var(--sb-typography-font-weight-semi-bold)' }}>
               {category}
             </Heading>
-            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 'var(--sb-spacing-3)', flexWrap: 'wrap' }}>
               {colors.map((color) => (
                 <div key={color.name} style={{ minWidth: '180px' }}>
                   <ColorSwatch
@@ -567,7 +575,7 @@ export const ComponentSemanticColors: Story = {
                     tokenPath={color.token}
                     textColor={color.textColor}
                   />
-                  <p style={{ fontSize: '12px', color: '#6b7280', marginTop: '8px' }}>
+                  <p style={{ fontSize: '12px', color: 'var(--bs-secondary)', marginTop: '8px' }}>
                     {color.description}
                   </p>
                 </div>
@@ -588,67 +596,67 @@ export const NeutralColors: Story = {
     const neutralColors = [
       {
         name: '50',
-        value: tokens.color?.gray?.[50]?.value || '#f9fafb',
+        value: tokens.color?.gray?.[50]?.value,
         cssVar: '--dsai-color-gray-50',
         token: 'color.gray.50',
       },
       {
         name: '100',
-        value: tokens.color?.gray?.[100]?.value || '#f3f4f6',
+        value: tokens.color?.gray?.[100]?.value,
         cssVar: '--dsai-color-gray-100',
         token: 'color.gray.100',
       },
       {
         name: '200',
-        value: tokens.color?.gray?.[200]?.value || '#e5e7eb',
+        value: tokens.color?.gray?.[200]?.value,
         cssVar: '--dsai-color-gray-200',
         token: 'color.gray.200',
       },
       {
         name: '300',
-        value: tokens.color?.gray?.[300]?.value || '#d1d5db',
+        value: tokens.color?.gray?.[300]?.value,
         cssVar: '--dsai-color-gray-300',
         token: 'color.gray.300',
       },
       {
         name: '400',
-        value: tokens.color?.gray?.[400]?.value || '#9ca3af',
+        value: tokens.color?.gray?.[400]?.value || 'var(--bs-tertiary-color)',
         cssVar: '--dsai-color-gray-400',
         token: 'color.gray.400',
       },
       {
         name: '500',
-        value: tokens.color?.gray?.[500]?.value || '#6b7280',
+        value: tokens.color?.gray?.[500]?.value || 'var(--bs-secondary)',
         cssVar: '--dsai-color-gray-500',
         token: 'color.gray.500',
       },
       {
         name: '600',
-        value: tokens.color?.gray?.[600]?.value || '#4b5563',
+        value: tokens.color?.gray?.[600]?.value,
         cssVar: '--dsai-color-gray-600',
         token: 'color.gray.600',
       },
       {
         name: '700',
-        value: tokens.color?.gray?.[700]?.value || '#374151',
+        value: tokens.color?.gray?.[700]?.value,
         cssVar: '--dsai-color-gray-700',
         token: 'color.gray.700',
       },
       {
         name: '800',
-        value: tokens.color?.gray?.[800]?.value || '#1f2937',
+        value: tokens.color?.gray?.[800]?.value,
         cssVar: '--dsai-color-gray-800',
         token: 'color.gray.800',
       },
       {
         name: '900',
-        value: tokens.color?.gray?.[900]?.value || '#111827',
+        value: tokens.color?.gray?.[900]?.value,
         cssVar: '--dsai-color-gray-900',
         token: 'color.gray.900',
       },
       {
         name: '950',
-        value: tokens.color?.gray?.[950]?.value || '#030712',
+        value: tokens.color?.gray?.[950]?.value,
         cssVar: '--dsai-color-gray-950',
         token: 'color.gray.950',
       },
@@ -658,7 +666,7 @@ export const NeutralColors: Story = {
       <div>
         <Heading level={2}>Neutral Colors (Gray Scale)</Heading>
         <p>Used for text, backgrounds, borders, and UI elements.</p>
-        <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginTop: '24px' }}>
+        <div style={{ display: 'flex', gap: 'var(--sb-spacing-3)', flexWrap: 'wrap', marginTop: '24px' }}>
           {neutralColors.map((color) => (
             <ColorSwatch
               key={color.name}
@@ -666,7 +674,7 @@ export const NeutralColors: Story = {
               value={color.value}
               cssVariable={color.cssVar}
               tokenPath={color.token}
-              textColor={parseInt(color.name, 10) >= 500 ? '#fff' : '#000'}
+              textColor={parseInt(color.name, 10) >= 500 ? 'var(--bs-white)' : 'var(--bs-dark)'}
             />
           ))}
         </div>
@@ -699,16 +707,16 @@ export const AllColorHues: Story = {
       <div>
         <Heading level={2}>Complete Color Palette</Heading>
         <p>All 11 hues × 11 steps = 121 primitive colors with CSS variables and token paths.</p>
-        <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+        <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-4)' }}>
           {hues.map((hue) => (
             <div key={hue}>
               <Heading level={3} style={{ textTransform: 'capitalize', marginBottom: '16px' }}>
                 {hue}
               </Heading>
-              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: 'var(--sb-spacing-2)', flexWrap: 'wrap' }}>
                 {steps.map((step) => {
                   // eslint-disable-next-line security/detect-object-injection -- Safe: hue and step are from static arrays, not user input
-                  const value = tokens.color?.[hue]?.[step]?.value || '#cccccc';
+                  const value = tokens.color?.[hue]?.[step]?.value;
                   const cssVar = `--dsai-color-${hue}-${step}`;
                   const tokenPath = `color.${hue}.${step}`;
                   const stepNum = parseInt(step, 10);
@@ -719,7 +727,7 @@ export const AllColorHues: Story = {
                       value={value}
                       cssVariable={cssVar}
                       tokenPath={tokenPath}
-                      textColor={stepNum >= 500 ? '#fff' : '#000'}
+                      textColor={stepNum >= 500 ? 'var(--bs-white)' : 'var(--bs-dark)'}
                     />
                   );
                 })}
@@ -743,9 +751,9 @@ export const Usage: Story = {
       <Heading level={3}>CSS Variables</Heading>
       <pre
         style={{
-          backgroundColor: '#f3f4f6',
-          padding: '16px',
-          borderRadius: '8px',
+          backgroundColor: 'var(--bs-gray-100)',
+          padding: 'var(--sb-spacing-3)',
+          borderRadius: 'var(--sb-border-radius-lg)',
           overflow: 'auto',
         }}
       >
@@ -759,9 +767,9 @@ export const Usage: Story = {
       <Heading level={3}>JavaScript/TypeScript</Heading>
       <pre
         style={{
-          backgroundColor: '#f3f4f6',
-          padding: '16px',
-          borderRadius: '8px',
+          backgroundColor: 'var(--bs-gray-100)',
+          padding: 'var(--sb-spacing-3)',
+          borderRadius: 'var(--sb-border-radius-lg)',
           overflow: 'auto',
         }}
       >

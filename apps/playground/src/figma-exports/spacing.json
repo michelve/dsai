@@ -20,7 +20,9 @@
               "ANDROID": "spacing.0",
               "iOS": "Spacing.0"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
           },
           "1": {
             "$value": 4,
@@ -39,7 +41,9 @@
               "ANDROID": "spacing.1",
               "iOS": "Spacing.1"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
           },
           "2": {
             "$value": 8,
@@ -58,7 +62,9 @@
               "ANDROID": "spacing.2",
               "iOS": "Spacing.2"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
           },
           "3": {
             "$value": 16,
@@ -77,7 +83,9 @@
               "ANDROID": "spacing.3",
               "iOS": "Spacing.3"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
           },
           "4": {
             "$value": 24,
@@ -96,7 +104,9 @@
               "ANDROID": "spacing.4",
               "iOS": "Spacing.4"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
           },
           "5": {
             "$value": 48,
@@ -115,7 +125,9 @@
               "ANDROID": "spacing.5",
               "iOS": "Spacing.5"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
           },
           "6": {
             "$value": 64,
@@ -134,7 +146,9 @@
               "ANDROID": "spacing.6",
               "iOS": "Spacing.6"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
           },
           "7": {
             "$value": 80,
@@ -153,7 +167,9 @@
               "ANDROID": "spacing.7",
               "iOS": "Spacing.7"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
           },
           "8": {
             "$value": 96,
@@ -172,7 +188,9 @@
               "ANDROID": "spacing.8",
               "iOS": "Spacing.8"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
           },
           "9": {
             "$value": 128,
@@ -191,7 +209,9 @@
               "ANDROID": "spacing.9",
               "iOS": "Spacing.9"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
           },
           "10": {
             "$value": 160,
@@ -210,7 +230,30 @@
               "ANDROID": "spacing.10",
               "iOS": "Spacing.10"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
+          },
+          "11": {
+            "$value": 96,
+            "$type": "number",
+            "$description": "Spacing scale 10 - 5X extra large spacing (160px).",
+            "$extensions": {
+              "docs": {
+                "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+              },
+              "platform": {
+                "scssVariableName": "$spacer-10"
+              }
+            },
+            "$codeSyntax": {
+              "WEB": "--dsai-spacing-10",
+              "ANDROID": "spacing.10",
+              "iOS": "Spacing.10"
+            },
+            "$scopes": [
+              "GAP"
+            ]
           },
           "12": {
             "$value": 12,
@@ -229,7 +272,51 @@
               "ANDROID": "spacing.12",
               "iOS": "Spacing.12"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
+          },
+          "13": {
+            "$value": 144,
+            "$type": "number",
+            "$description": "Spacing scale 10 - 5X extra large spacing (160px).",
+            "$extensions": {
+              "docs": {
+                "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+              },
+              "platform": {
+                "scssVariableName": "$spacer-10"
+              }
+            },
+            "$codeSyntax": {
+              "WEB": "--dsai-spacing-10",
+              "ANDROID": "spacing.10",
+              "iOS": "Spacing.10"
+            },
+            "$scopes": [
+              "GAP"
+            ]
+          },
+          "14": {
+            "$value": 160,
+            "$type": "number",
+            "$description": "Spacing scale 10 - 5X extra large spacing (160px).",
+            "$extensions": {
+              "docs": {
+                "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+              },
+              "platform": {
+                "scssVariableName": "$spacer-10"
+              }
+            },
+            "$codeSyntax": {
+              "WEB": "--dsai-spacing-10",
+              "ANDROID": "spacing.10",
+              "iOS": "Spacing.10"
+            },
+            "$scopes": [
+              "GAP"
+            ]
           },
           "20": {
             "$value": 20,
@@ -248,7 +335,9 @@
               "ANDROID": "spacing.20",
               "iOS": "Spacing.20"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
           },
           "28": {
             "$value": 28,
@@ -267,7 +356,9 @@
               "ANDROID": "spacing.28",
               "iOS": "Spacing.28"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
           },
           "32": {
             "$value": 32,
@@ -286,7 +377,9 @@
               "ANDROID": "spacing.32",
               "iOS": "Spacing.32"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
           },
           "36": {
             "$value": 36,
@@ -305,7 +398,9 @@
               "ANDROID": "spacing.36",
               "iOS": "Spacing.36"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
           },
           "40": {
             "$value": 40,
@@ -324,7 +419,9 @@
               "ANDROID": "spacing.40",
               "iOS": "Spacing.40"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
           },
           "44": {
             "$value": 44,
@@ -343,7 +440,9 @@
               "ANDROID": "spacing.44",
               "iOS": "Spacing.44"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
           },
           "56": {
             "$value": 56,
@@ -362,7 +461,30 @@
               "ANDROID": "spacing.56",
               "iOS": "Spacing.56"
             },
-            "$scopes": ["GAP"]
+            "$scopes": [
+              "GAP"
+            ]
+          },
+          "1_5": {
+            "$value": 6,
+            "$type": "number",
+            "$description": "Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px).",
+            "$extensions": {
+              "docs": {
+                "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+              },
+              "platform": {
+                "scssVariableName": "$spacer-1"
+              }
+            },
+            "$codeSyntax": {
+              "WEB": "--dsai-spacing-1",
+              "ANDROID": "spacing.1",
+              "iOS": "Spacing.1"
+            },
+            "$scopes": [
+              "GAP"
+            ]
           }
         }
       }

@@ -787,7 +787,7 @@ export const NavigationDrawer: Story = {
           <Sheet.Body>
             <nav>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                <li style={{ padding: '0.75rem 0', borderBottom: '1px solid #eee' }}>
+                <li style={{ padding: '0.75rem 0', borderBottom: '1px solid var(--bs-border-color)' }}>
                   <a
                     href="#home"
                     style={{
@@ -801,7 +801,7 @@ export const NavigationDrawer: Story = {
                     <HouseIcon /> Home
                   </a>
                 </li>
-                <li style={{ padding: '0.75rem 0', borderBottom: '1px solid #eee' }}>
+                <li style={{ padding: '0.75rem 0', borderBottom: '1px solid var(--bs-border-color)' }}>
                   <a
                     href="#about"
                     style={{
@@ -815,7 +815,7 @@ export const NavigationDrawer: Story = {
                     <InfoCircleIcon /> About
                   </a>
                 </li>
-                <li style={{ padding: '0.75rem 0', borderBottom: '1px solid #eee' }}>
+                <li style={{ padding: '0.75rem 0', borderBottom: '1px solid var(--bs-border-color)' }}>
                   <a
                     href="#services"
                     style={{
@@ -829,7 +829,7 @@ export const NavigationDrawer: Story = {
                     <ToolsIcon /> Services
                   </a>
                 </li>
-                <li style={{ padding: '0.75rem 0', borderBottom: '1px solid #eee' }}>
+                <li style={{ padding: '0.75rem 0', borderBottom: '1px solid var(--bs-border-color)' }}>
                   <a
                     href="#contact"
                     style={{

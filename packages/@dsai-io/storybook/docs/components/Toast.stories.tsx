@@ -51,7 +51,7 @@ function ToastHookDemo(): JSX.Element {
           Info Toast
         </Button>
       </div>
-      <p style={{ fontSize: '0.875rem', color: '#666' }}>Active toasts: {toast.toasts.length}</p>
+      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>Active toasts: {toast.toasts.length}</p>
     </div>
   );
 }
@@ -196,7 +196,7 @@ function AccessibilityDemo(): JSX.Element {
           Success (polite)
         </Button>
       </div>
-      <p style={{ fontSize: '0.875rem', color: '#666' }}>
+      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
         Error toasts use <code>aria-live=&quot;assertive&quot;</code> for immediate announcement.
         Success toasts use <code>aria-live=&quot;polite&quot;</code> to wait for opportune moment.
       </p>
@@ -493,7 +493,7 @@ export const QueueManagement: Story = {
   render: () => (
     <ToastProvider position="top-end" maxToasts={3}>
       <QueueManagementDemo />
-      <p style={{ marginTop: '1rem', fontSize: '0.875rem', color: '#666' }}>
+      <p style={{ marginTop: '1rem', fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
         Maximum 3 toasts shown at once. Oldest will be removed when exceeding limit.
       </p>
     </ToastProvider>

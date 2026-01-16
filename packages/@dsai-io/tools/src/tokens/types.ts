@@ -326,6 +326,36 @@ export interface BuildOptions {
 
   /** Additional directories to watch */
   watchDirectories?: string[];
+
+  /** Build pipeline configuration */
+  pipeline?: {
+    /** Steps to include in the build */
+    steps?: Array<
+      | 'validate'
+      | 'transform'
+      | 'style-dictionary'
+      | 'sync'
+      | 'sass-theme'
+      | 'sass-theme-minified'
+      | 'postprocess'
+      | 'sass-utilities'
+      | 'sass-utilities-minified'
+      | 'bundle'
+    >;
+    /** Paths configuration for build steps */
+    paths?: {
+      syncSource?: string;
+      syncTarget?: string;
+      sassThemeInput?: string;
+      sassThemeOutput?: string;
+      sassThemeMinifiedOutput?: string;
+      sassUtilitiesInput?: string;
+      sassUtilitiesOutput?: string;
+      sassUtilitiesMinifiedOutput?: string;
+    };
+    /** Style Dictionary config file name */
+    styleDictionaryConfig?: string;
+  };
 }
 
 /**

@@ -6,27 +6,13 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "paths": {
-      "@dsai/tokens": ["../@dsai/tokens/src"],
-      "@dsai/tokens/css/*": ["../@dsai/tokens/dist/css/*"],
-      "@dsai/tokens/js/*": ["../@dsai/tokens/dist/js/*"]
-    }
+    "skipLibCheck": true
   },
-  "include": [
-    ".storybook/**/*",
-    "docs/**/*",
-    "../react/src/**/*",
-    "../tokens/src/**/*",
-    "../tokens/bootstrap"
-  ],
+  "include": [".storybook/**/*", "docs/**/*", "src/**/*", "../react/src/**/*"],
   "exclude": ["node_modules", "storybook-static"],
   "references": [
     {
       "path": "../react/tsconfig.json"
-    },
-    {
-      "path": "../tokens/tsconfig.json"
     }
   ]
 }

@@ -112,6 +112,22 @@ export { syncTokens, syncTokensCLI, getDefaultSyncPaths } from './sync.js';
 export { buildTokens, buildTokensCLI, runBuildCLI } from './build.js';
 
 // ============================================================================
+// Clean Module
+// ============================================================================
+
+export {
+  cleanTokenOutputs,
+  cleanTokensCLI,
+  DEFAULT_CLEAN_DIRECTORIES,
+} from './clean.js';
+
+export type {
+  CleanOptions,
+  CleanResult,
+  CleanedDirectory,
+} from './clean.js';
+
+// ============================================================================
 // Postprocess Module
 // ============================================================================
 

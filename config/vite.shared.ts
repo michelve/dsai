@@ -8,12 +8,12 @@ const __dirname = dirname(__filename);
 const workspaceRoot = resolve(__dirname, '..');
 
 export const aliasPaths = {
-  '@dsai/react': resolve(workspaceRoot, 'packages/@dsai/react/src'),
+  '@dsai-io/react': resolve(workspaceRoot, 'packages/@dsai-io/react/src'),
 } satisfies Record<string, string>;
 
 export const warmupClientFiles = [
-  'packages/@dsai/react/src/**/*.tsx',
-  'packages/@dsai/tokens/src/**/*.ts',
+  'packages/@dsai-io/react/src/**/*.tsx',
+  'packages/@dsai-io/tools/src/**/*.ts',
 ];
 
 const corsOrigins = ['http://localhost:5173', 'http://localhost:6006'];
@@ -27,7 +27,7 @@ export const sharedViteConfig: UserConfig = {
     alias: aliasPaths,
   },
   optimizeDeps: {
-    include: ['@dsai/react', '@dsai/tokens'],
+    include: ['@dsai-io/react', '@dsai-io/tools'],
   },
   server: {
     allowedHosts: ['localhost', '127.0.0.1'],

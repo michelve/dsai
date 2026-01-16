@@ -95,7 +95,7 @@ export default {
       buildPath: 'src/generated/',
       files: [
         {
-          destination: 'tokens.ts',
+          destination: 'tokens.d.ts',
           format: 'typescript/es6-declarations',
           options: {
             prefix: 'pg',

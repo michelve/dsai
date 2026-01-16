@@ -5,9 +5,11 @@
   "private": true,
   "scripts": {
     "tokens:transform": "node ../tools/bin/dsai-tools.mjs tokens transform",
-    "tokens:build": "node build-tokens.mjs",
+    "tokens:sd": "style-dictionary build --config sd.config.mjs",
+    "tokens:sd:dark": "style-dictionary build --config sd.config.dark.mjs",
+    "tokens:build": "node ../tools/bin/dsai-tools.mjs tokens validate && pnpm tokens:transform && pnpm tokens:sd && pnpm tokens:sd:dark",
     "scss:build": "sass --load-path=node_modules src/scss/dsai-theme-bs.scss src/generated/dsai-theme-bs.css",
-    "styles:all": "pnpm tokens:transform && pnpm tokens:build && pnpm scss:build",
+    "styles:all": "pnpm tokens:build && pnpm scss:build",
     "prestorybook": "pnpm styles:all",
     "storybook": "STORYBOOK_EDITOR_URL='vscode://file/{{path}}:{{line}}:{{column}}' storybook dev -p 6006",
     "kill": "bash ../../tools/scripts/storybook/kill-storybook.sh",

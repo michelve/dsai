@@ -91,7 +91,7 @@ const AccessibilityShowcaseExample = (): JSX.Element => (
       <Heading level={4} style={{ marginBottom: '0.5rem' }}>
         Icon Accessibility
       </Heading>
-      <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem' }}>
+      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)', marginBottom: '0.5rem' }}>
         Icons are hidden from screen readers (aria-hidden=&quot;true&quot;), preventing redundant
         announcements:
       </p>
@@ -102,7 +102,7 @@ const AccessibilityShowcaseExample = (): JSX.Element => (
       <Heading level={4} style={{ marginBottom: '0.5rem' }}>
         Dot Indicator Accessibility
       </Heading>
-      <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem' }}>
+      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)', marginBottom: '0.5rem' }}>
         Dots are hidden when badge has content, but visible to screen readers when dot-only:
       </p>
       <DotAccessibilityExample />
@@ -112,7 +112,7 @@ const AccessibilityShowcaseExample = (): JSX.Element => (
       <Heading level={4} style={{ marginBottom: '0.5rem' }}>
         Dev Warning Example
       </Heading>
-      <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem' }}>
+      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)', marginBottom: '0.5rem' }}>
         Check browser console - dot-only without aria-label shows a helpful warning in development:
       </p>
       <Badge variant="danger" dot>
@@ -128,7 +128,7 @@ const PerformanceShowcaseExample = (): JSX.Element => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <p style={{ fontSize: '0.875rem', color: '#666' }}>
+      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
         Badges are wrapped with React.memo and internally memoized for maximum performance. Memoized
         class construction and component prevent unnecessary re-renders even in large lists.
       </p>
@@ -436,7 +436,7 @@ export const ProperDotOnlyUsage: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       <div>
-        <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem', fontWeight: 600 }}>
+        <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem', fontWeight: 'var(--sb-typography-font-weight-semi-bold)' }}>
           <CheckIcon size={14} className="text-success me-1" />
           Correct: Dot-only with aria-label
         </p>
@@ -445,20 +445,20 @@ export const ProperDotOnlyUsage: Story = {
           <code
             style={{
               fontSize: '0.75rem',
-              background: '#f8f9fa',
+              background: 'var(--bs-gray-100)',
               padding: '0.25rem 0.5rem',
-              borderRadius: '4px',
+              borderRadius: 'var(--sb-border-radius-sm)',
             }}
           >
             &lt;Badge dot aria-label=&quot;Online&quot; /&gt;
           </code>
         </div>
-        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.25rem' }}>
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.25rem' }}>
           Screen readers announce: &quot;Online&quot;
         </p>
       </div>
       <div>
-        <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem', fontWeight: 600 }}>
+        <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem', fontWeight: 'var(--sb-typography-font-weight-semi-bold)' }}>
           <XLgIcon size={14} className="text-danger me-1" />
           Incorrect: Dot-only without aria-label
         </p>
@@ -467,31 +467,31 @@ export const ProperDotOnlyUsage: Story = {
           <code
             style={{
               fontSize: '0.75rem',
-              background: '#fff3cd',
+              background: 'var(--bs-warning-bg-subtle)',
               padding: '0.25rem 0.5rem',
-              borderRadius: '4px',
-              border: '1px solid #ffc107',
+              borderRadius: 'var(--sb-border-radius-sm)',
+              border: '1px solid var(--bs-warning)',
             }}
           >
             &lt;Badge dot /&gt;
           </code>
         </div>
-        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.25rem' }}>
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.25rem' }}>
           <strong>Dev Warning:</strong> Check browser console for accessibility warning
         </p>
       </div>
       <div
         style={{
-          background: '#f8f9fa',
+          background: 'var(--bs-gray-100)',
           padding: '1rem',
-          borderRadius: '8px',
-          borderLeft: '4px solid #0d6efd',
+          borderRadius: 'var(--sb-border-radius-lg)',
+          borderLeft: '4px solid var(--bs-primary)',
         }}
       >
-        <p style={{ fontSize: '0.875rem', margin: 0, fontWeight: 600, marginBottom: '0.5rem' }}>
+        <p style={{ fontSize: '0.875rem', margin: 0, fontWeight: 'var(--sb-typography-font-weight-semi-bold)', marginBottom: '0.5rem' }}>
           Accessibility Tip
         </p>
-        <p style={{ fontSize: '0.875rem', margin: 0, color: '#666' }}>
+        <p style={{ fontSize: '0.875rem', margin: 0, color: 'var(--bs-secondary)' }}>
           Dot-only badges must have an <code>aria-label</code> so screen reader users understand
           what the status indicator means. The component shows a helpful dev warning to catch this
           during development.

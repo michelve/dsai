@@ -1098,7 +1098,7 @@ export default {
       buildPath: '${outputDir}/',
       files: [
         {
-          destination: 'tokens.ts',
+          destination: 'tokens.d.ts',
           format: 'typescript/es6-declarations',
         },
       ],

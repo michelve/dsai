@@ -76,7 +76,7 @@ const SectionList = ({
             id={item.target}
             style={{
               padding: '2rem 0',
-              borderBottom: '1px solid var(--bs-border-color, #e2e5e9)',
+              borderBottom: '1px solid var(--bs-border-color)',
               minHeight: '30vh',
             }}
           >
@@ -101,7 +101,7 @@ const SectionList = ({
   return (
     <section
       className="ps-lg-4"
-      style={{ maxHeight: '70vh', overflowY: 'auto', backgroundColor: 'var(--bs-body-bg, #fff)' }}
+      style={{ maxHeight: '70vh', overflowY: 'auto', backgroundColor: 'var(--bs-body-bg)' }}
       tabIndex={0}
       aria-label={regionLabel}
     >

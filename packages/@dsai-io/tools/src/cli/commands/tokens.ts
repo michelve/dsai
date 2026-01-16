@@ -12,7 +12,13 @@ import { dirname } from 'node:path';
 import { Command } from 'commander';
 
 import { loadConfig } from '../../config/index.js';
-import { buildTokens, postprocessCLI, syncTokens, validateTokens } from '../../tokens/index.js';
+import {
+  buildTokens,
+  cleanTokenOutputs,
+  postprocessCLI,
+  syncTokens,
+  validateTokens,
+} from '../../tokens/index.js';
 import { ExitCode } from '../types.js';
 import { colors, createLogger, createSpinner, formatDuration } from '../ui/index.js';
 
@@ -32,7 +38,7 @@ import type {
 export function createTokensCommand(): Command {
   const tokens = new Command('tokens')
     .description('Design token operations')
-    .addHelpCommand('help [command]', 'Show help for a command');
+    .helpCommand('help [command]', 'Show help for a command');
 
   // Build command
   tokens
@@ -213,8 +219,24 @@ async function runTokensBuild(options: TokensBuildOptions): Promise<void> {
     // Clean if requested
     if (options.clean) {
       spinner.start('Cleaning output directory...');
-      // TODO: Implement clean in tokens module
-      spinner.succeed('Cleaned output directory');
+
+      const cleanResult = cleanTokenOutputs({
+        baseDir: dirname(configPath ?? process.cwd()),
+        directories: config.tokens.outputDir ? [config.tokens.outputDir] : ['dist'],
+        verbose: !options.quiet,
+        dryRun: false,
+      });
+
+      if (cleanResult.success) {
+        spinner.succeed(
+          `Cleaned ${cleanResult.totalFilesRemoved} files from ${cleanResult.cleaned.length} directories`
+        );
+      } else {
+        spinner.warn('Clean completed with warnings');
+        for (const error of cleanResult.errors) {
+          logger.warn(error);
+        }
+      }
     }
 
     // Run build
@@ -222,6 +244,7 @@ async function runTokensBuild(options: TokensBuildOptions): Promise<void> {
     const result: BuildResult = buildTokens(tokensDir, toolsDir, {
       verbose: !options.quiet,
       quiet: options.quiet,
+      pipeline: config.tokens.pipeline,
     });
 
     if (result.success) {

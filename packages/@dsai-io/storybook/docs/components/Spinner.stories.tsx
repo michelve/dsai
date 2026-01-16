@@ -303,8 +303,8 @@ export const Centered: Story = {
         style={{
           height: '200px',
           width: '300px',
-          border: '1px dashed #ccc',
-          borderRadius: '8px',
+          border: '1px dashed var(--bs-border-color)',
+          borderRadius: 'var(--sb-border-radius-lg)',
         }}
       >
         <Story />
@@ -322,8 +322,8 @@ export const CenteredWithText: Story = {
       style={{
         height: '200px',
         width: '300px',
-        border: '1px dashed #ccc',
-        borderRadius: '8px',
+        border: '1px dashed var(--bs-border-color)',
+        borderRadius: 'var(--sb-border-radius-lg)',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',

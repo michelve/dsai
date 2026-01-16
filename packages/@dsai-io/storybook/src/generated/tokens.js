@@ -41,12 +41,12 @@ export const typographyHeadingH3 = "1.75rem"; // H3 heading font size (1.75rem =
 export const typographyHeadingH4 = "1.5rem"; // H4 heading font size (1.5rem = 24px)
 export const typographyHeadingH5 = "1.25rem"; // H5 heading font size (1.25rem = 20px)
 export const typographyHeadingH6 = "1rem"; // H6 heading font size (1rem = 16px)
-export const typographyDisplayH1 = "5rem"; // Display 1 font size (5rem = 80px)
-export const typographyDisplayH2 = "4.5rem"; // Display 2 font size (4.5rem = 72px)
-export const typographyDisplayH3 = "4rem"; // Display 3 font size (4rem = 64px)
-export const typographyDisplayH4 = "3.5rem"; // Display 4 font size (3.5rem = 56px)
-export const typographyDisplayH5 = "3rem"; // Display 5 font size (3rem = 48px)
-export const typographyDisplayH6 = "2.5rem"; // Display 6 font size (2.5rem = 40px)
+export const typographyDisplayD1 = "5rem"; // Display 1 font size (5rem = 80px)
+export const typographyDisplayD2 = "4.5rem"; // Display 2 font size (4.5rem = 72px)
+export const typographyDisplayD3 = "4rem"; // Display 3 font size (4rem = 64px)
+export const typographyDisplayD4 = "3.5rem"; // Display 4 font size (3.5rem = 56px)
+export const typographyDisplayD5 = "3rem"; // Display 5 font size (3rem = 48px)
+export const typographyDisplayD6 = "2.5rem"; // Display 6 font size (2.5rem = 40px)
 export const typographyLetterSpacingTighter = "-0.03125rem"; // Tighter letter spacing (-0.05em) - Use for large headings and display text to improve visual density. Enhances readability at larger sizes.
 export const typographyLetterSpacingTight = "-0.01875000074505806rem"; // Tight letter spacing (-0.025em) - Subtle tightening for headings. Improves visual cohesion without sacrificing readability.
 export const typographyLetterSpacingNormal = "0"; // Normal letter spacing (0) - Default spacing for body text and most content. Optimal for readability and accessibility.
@@ -61,18 +61,25 @@ export const typographyFontFamilyMonospace =
 export const spacing0 = "0"; // Spacing scale 0 - No spacing. Bootstrap's $spacer * 0 (0px).
 export const spacing1 = "0.25rem"; // Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px).
 export const spacing2 = "0.5rem"; // Spacing scale 2 - Small spacing. Bootstrap's $spacer * 0.5 (8px).
-export const spacing3 = "0.75rem"; // Spacing scale 3 - Base spacing. Bootstrap's $spacer * 1 (16px).
-export const spacing4 = "1rem"; // Spacing scale 4 - Medium spacing. Bootstrap's $spacer * 1.5 (24px).
-export const spacing5 = "1.5rem"; // Spacing scale 5 - Large spacing. Bootstrap's $spacer * 3 (48px).
-export const spacing6 = "2rem"; // Spacing scale 6 - Extra large spacing (64px).
-export const spacing7 = "2.5rem"; // Spacing scale 7 - 2X extra large spacing (80px).
-export const spacing8 = "3rem"; // Spacing scale 8 - 3X extra large spacing (96px).
-export const spacing9 = "4rem"; // Spacing scale 9 - 4X extra large spacing (128px).
-export const spacing10 = "5rem"; // Spacing scale 10 - 5X extra large spacing (160px).
+export const spacing3 = "1rem"; // Spacing scale 3 - Base spacing. Bootstrap's $spacer * 1 (16px).
+export const spacing4 = "1.5rem"; // Spacing scale 4 - Medium spacing. Bootstrap's $spacer * 1.5 (24px).
+export const spacing5 = "3rem"; // Spacing scale 5 - Large spacing. Bootstrap's $spacer * 3 (48px).
+export const spacing6 = "4rem"; // Spacing scale 6 - Extra large spacing (64px).
+export const spacing7 = "5rem"; // Spacing scale 7 - 2X extra large spacing (80px).
+export const spacing8 = "6rem"; // Spacing scale 8 - 3X extra large spacing (96px).
+export const spacing9 = "8rem"; // Spacing scale 9 - 4X extra large spacing (128px).
+export const spacing10 = "10rem"; // Spacing scale 10 - 5X extra large spacing (160px).
 export const spacing11 = "6rem"; // Spacing scale 10 - 5X extra large spacing (160px).
-export const spacing12 = "8rem"; // Spacing scale 10 - 5X extra large spacing (160px).
+export const spacing12 = "0.75rem"; // Spacing 12px - 4px grid intermediate value. Common for button/input padding (0.75rem).
 export const spacing13 = "9rem"; // Spacing scale 10 - 5X extra large spacing (160px).
 export const spacing14 = "10rem"; // Spacing scale 10 - 5X extra large spacing (160px).
+export const spacing20 = "1.25rem"; // Spacing 20px - 4px grid intermediate value (1.25rem). Fills gap between 16px and 24px.
+export const spacing28 = "1.75rem"; // Spacing 28px - 4px grid intermediate value (1.75rem). Fills gap between 24px and 32px.
+export const spacing32 = "2rem"; // Spacing 32px - 4px grid value (2rem). Between Bootstrap scale 4 (24px) and 5 (48px).
+export const spacing36 = "2.25rem"; // Spacing 36px - 4px grid value (2.25rem). Between Bootstrap scale 4 (24px) and 5 (48px).
+export const spacing40 = "2.5rem"; // Spacing 40px - 4px grid value (2.5rem). Between Bootstrap scale 4 (24px) and 5 (48px).
+export const spacing44 = "2.75rem"; // Spacing 44px - 4px grid value (2.75rem). Between Bootstrap scale 4 (24px) and 5 (48px).
+export const spacing56 = "3.5rem"; // Spacing 56px - 4px grid value (3.5rem). Between Bootstrap scale 5 (48px) and extended 6 (64px).
 export const spacing15 = "0.375rem"; // Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px).
 export const shadowDefault = "0 0.5rem 1rem rgba(0, 0, 0, 0.15)"; // Complete box shadow value for Bootstrap SCSS export
 export const shadowSm = "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)"; // Complete box shadow value for Bootstrap SCSS export
@@ -295,6 +302,18 @@ export const semanticLightBorderSubtle = "#e8eaed"; // Light subtle border color
 export const semanticDarkTextEmphasis = "#212529"; // Dark text emphasis color - highest contrast text on light backgrounds.
 export const semanticDarkBgSubtle = "#cbced3"; // Dark subtle background color for darker backgrounds.
 export const semanticDarkBorderSubtle = "#a8adb7"; // Dark subtle border color for borders matching dark theme.
+export const semanticPrimary = "#0a58ca"; // Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces.
+export const semanticInfo = "#087990"; // Info background color utility. Applies info color as background. Use for informational surfaces. Maps to Bootstrap's .bg-info utility class. Communicates helpful information.
+export const semanticBody = "#212529"; // Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background.
+export const semanticSuccess = "#0f5132"; // Success background color utility. Applies success color as background. Use for positive feedback surfaces. Maps to Bootstrap's .bg-success utility class. Indicates successful operations.
+export const semanticWarning = "#f59e0b"; // Warning background color utility. Applies warning color as background. Use for caution or important notice surfaces. Maps to Bootstrap's .bg-warning utility class. Requires careful contrast checking.
+export const semanticSecondary = "#7a7f87"; // Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy.
+export const semanticDanger = "#842029"; // Danger background color utility. Applies danger color as background. Use for error or destructive action surfaces. Maps to Bootstrap's .bg-danger utility class. Indicates errors or warnings.
+export const semanticDark = "#212529"; // Dark background color utility. Applies dark gray as background. Use for high-contrast surfaces and footers. Maps to Bootstrap's .bg-dark utility class. Requires light text for contrast.
+export const semanticLight = "#f5f6f7"; // Light background color utility. Applies light gray as background. Use for subtle surfaces and page backgrounds. Maps to Bootstrap's .bg-light utility class. Requires dark text for contrast.
+export const semanticWhite = "#fafbfc"; // White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness.
+export const semanticBlack = "#0a0d10"; // Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text.
+export const semanticTransparent = "#000000"; // Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class.
 export const backgroundPrimary = "#0a58ca"; // Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces.
 export const backgroundSecondary = "#7a7f87"; // Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy.
 export const backgroundSuccess = "#0f5132"; // Success background color utility. Applies success color as background. Use for positive feedback surfaces. Maps to Bootstrap's .bg-success utility class. Indicates successful operations.

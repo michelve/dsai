@@ -35,7 +35,7 @@ function GenerateIdDemo(): JSX.Element {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '800px' }}>
       <div>
         <Heading level={3}>Generate SSR-Safe IDs</Heading>
-        <p style={{ color: '#6c757d', marginTop: '0.5rem', marginBottom: 0 }}>
+        <p style={{ color: 'var(--bs-secondary)', marginTop: '0.5rem', marginBottom: 0 }}>
           Create unique, deterministic IDs that work in server-side rendering.
         </p>
       </div>
@@ -43,9 +43,9 @@ function GenerateIdDemo(): JSX.Element {
       <div
         style={{
           padding: '1.5rem',
-          backgroundColor: '#f8f9fa',
+          backgroundColor: 'var(--bs-gray-100)',
           borderRadius: '0.5rem',
-          border: '1px solid #dee2e6',
+          border: '1px solid var(--bs-border-color)',
         }}
       >
         <Heading level={4}>Interactive Demo</Heading>
@@ -68,7 +68,7 @@ function GenerateIdDemo(): JSX.Element {
             <ul style={{ margin: 0, paddingLeft: '1.5rem' }}>
               {ids.map((id) => (
                 <li key={id}>
-                  <code style={{ color: '#0d6efd', fontFamily: 'monospace' }}>{id}</code>
+                  <code style={{ color: 'var(--bs-primary)', fontFamily: 'monospace' }}>{id}</code>
                 </li>
               ))}
             </ul>
@@ -79,15 +79,15 @@ function GenerateIdDemo(): JSX.Element {
       <div
         style={{
           padding: '1.5rem',
-          backgroundColor: '#fff',
+          backgroundColor: 'var(--bs-white)',
           borderRadius: '0.5rem',
-          border: '1px solid #dee2e6',
+          border: '1px solid var(--bs-border-color)',
         }}
       >
         <Heading level={4}>Usage Example</Heading>
         <pre
           style={{
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             padding: '1rem',
             borderRadius: '0.375rem',
             overflow: 'auto',
@@ -122,16 +122,16 @@ function FormField() {
       <div
         style={{
           padding: '1.5rem',
-          backgroundColor: '#fff',
+          backgroundColor: 'var(--bs-white)',
           borderRadius: '0.5rem',
-          border: '1px solid #dee2e6',
+          border: '1px solid var(--bs-border-color)',
         }}
       >
         <Heading level={4}>Live Form Example</Heading>
         <div style={{ marginTop: '1rem' }}>
           <label
             htmlFor={emailId.current}
-            style={{ display: 'block', fontWeight: 500, marginBottom: '0.5rem' }}
+            style={{ display: 'block', fontWeight: 'var(--sb-typography-font-weight-medium)', marginBottom: '0.5rem' }}
           >
             Email Address
           </label>
@@ -143,18 +143,18 @@ function FormField() {
             style={{
               width: '100%',
               padding: '0.5rem',
-              border: '1px solid #ced4da',
+              border: '1px solid var(--bs-border-color)',
               borderRadius: '0.375rem',
             }}
           />
           <small
             id={errorId.current}
-            style={{ display: 'block', marginTop: '0.25rem', color: '#6c757d' }}
+            style={{ display: 'block', marginTop: '0.25rem', color: 'var(--bs-secondary)' }}
           >
             {"We'll never share your email with anyone else."}
           </small>
         </div>
-        <div style={{ marginTop: '1rem', fontSize: '0.875rem', color: '#6c757d' }}>
+        <div style={{ marginTop: '1rem', fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
           <strong>Generated IDs:</strong>
           <br />
           <code>input: {emailId.current}</code>
@@ -317,7 +317,7 @@ export const AnnounceToScreenReader: Story = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '800px' }}>
         <div>
           <Heading level={3}>Screen Reader Announcements</Heading>
-          <p style={{ color: '#6c757d', marginTop: '0.5rem', marginBottom: 0 }}>
+          <p style={{ color: 'var(--bs-secondary)', marginTop: '0.5rem', marginBottom: 0 }}>
             Test dynamic announcements to assistive technologies. Enable a screen reader (NVDA,
             JAWS, VoiceOver) to hear the announcements.
           </p>
@@ -326,9 +326,9 @@ export const AnnounceToScreenReader: Story = {
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>Interactive Demo</Heading>
@@ -376,15 +376,15 @@ export const AnnounceToScreenReader: Story = {
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#fff',
+            backgroundColor: 'var(--bs-white)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>Usage Example</Heading>
           <pre
             style={{
-              backgroundColor: '#f8f9fa',
+              backgroundColor: 'var(--bs-gray-100)',
               padding: '1rem',
               borderRadius: '0.375rem',
               overflow: 'auto',
@@ -505,7 +505,7 @@ export const TrapFocus: Story = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '800px' }}>
         <div>
           <Heading level={3}>Focus Trap for Modals</Heading>
-          <p style={{ color: '#6c757d', marginTop: '0.5rem', marginBottom: 0 }}>
+          <p style={{ color: 'var(--bs-secondary)', marginTop: '0.5rem', marginBottom: 0 }}>
             Open the modal and press Tab to cycle through focusable elements. Focus stays trapped
             until the modal is closed.
           </p>
@@ -514,9 +514,9 @@ export const TrapFocus: Story = {
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>Interactive Demo</Heading>
@@ -555,7 +555,7 @@ export const TrapFocus: Story = {
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                backgroundColor: '#fff',
+                backgroundColor: 'var(--bs-white)',
                 padding: '2rem',
                 borderRadius: '0.5rem',
                 boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.15)',
@@ -567,7 +567,7 @@ export const TrapFocus: Story = {
               <Heading level={3} id="modal-title">
                 Focus Trap Example
               </Heading>
-              <p style={{ marginTop: '1rem', color: '#6c757d' }}>
+              <p style={{ marginTop: '1rem', color: 'var(--bs-secondary)' }}>
                 Press <kbd>Tab</kbd> to move forward, <kbd>Shift + Tab</kbd> to move backward. Focus
                 cycles between elements in this modal. Press <kbd>Escape</kbd> to close.
               </p>
@@ -583,7 +583,7 @@ export const TrapFocus: Story = {
                 <div>
                   <label
                     htmlFor="modal-input-1"
-                    style={{ display: 'block', fontWeight: 500, marginBottom: '0.5rem' }}
+                    style={{ display: 'block', fontWeight: 'var(--sb-typography-font-weight-medium)', marginBottom: '0.5rem' }}
                   >
                     First Input
                   </label>
@@ -594,7 +594,7 @@ export const TrapFocus: Story = {
                     style={{
                       width: '100%',
                       padding: '0.5rem',
-                      border: '1px solid #ced4da',
+                      border: '1px solid var(--bs-border-color)',
                       borderRadius: '0.375rem',
                     }}
                   />
@@ -602,7 +602,7 @@ export const TrapFocus: Story = {
                 <div>
                   <label
                     htmlFor="modal-input-2"
-                    style={{ display: 'block', fontWeight: 500, marginBottom: '0.5rem' }}
+                    style={{ display: 'block', fontWeight: 'var(--sb-typography-font-weight-medium)', marginBottom: '0.5rem' }}
                   >
                     Second Input
                   </label>
@@ -613,7 +613,7 @@ export const TrapFocus: Story = {
                     style={{
                       width: '100%',
                       padding: '0.5rem',
-                      border: '1px solid #ced4da',
+                      border: '1px solid var(--bs-border-color)',
                       borderRadius: '0.375rem',
                     }}
                   />
@@ -633,15 +633,15 @@ export const TrapFocus: Story = {
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#fff',
+            backgroundColor: 'var(--bs-white)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>Usage Example</Heading>
           <pre
             style={{
-              backgroundColor: '#f8f9fa',
+              backgroundColor: 'var(--bs-gray-100)',
               padding: '1rem',
               borderRadius: '0.375rem',
               overflow: 'auto',
@@ -753,7 +753,7 @@ export const AnimationPreferences: Story = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '800px' }}>
         <div>
           <Heading level={3}>Motion Preferences</Heading>
-          <p style={{ color: '#6c757d', marginTop: '0.5rem', marginBottom: 0 }}>
+          <p style={{ color: 'var(--bs-secondary)', marginTop: '0.5rem', marginBottom: 0 }}>
             Automatically respect user's <code>prefers-reduced-motion</code> setting. Enable it in
             your OS accessibility settings to test.
           </p>
@@ -771,9 +771,9 @@ export const AnimationPreferences: Story = {
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>Interactive Demo</Heading>
@@ -785,13 +785,13 @@ export const AnimationPreferences: Story = {
             style={{
               marginTop: '1.5rem',
               height: '120px',
-              backgroundColor: '#0d6efd',
+              backgroundColor: 'var(--bs-primary)',
               borderRadius: '0.5rem',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#fff',
-              fontWeight: 'bold',
+              color: 'var(--bs-white)',
+              fontWeight: 'var(--sb-typography-font-weight-bold)',
               fontSize: '1.125rem',
               transform: isAnimating ? 'scale(1.1) rotate(2deg)' : 'scale(1) rotate(0deg)',
               transition: animate ? 'all 0.3s ease' : 'none',
@@ -804,15 +804,15 @@ export const AnimationPreferences: Story = {
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#fff',
+            backgroundColor: 'var(--bs-white)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>Usage Example</Heading>
           <pre
             style={{
-              backgroundColor: '#f8f9fa',
+              backgroundColor: 'var(--bs-gray-100)',
               padding: '1rem',
               borderRadius: '0.375rem',
               overflow: 'auto',
@@ -891,7 +891,7 @@ export const APIReference: Story = {
   render: (): JSX.Element => (
     <div style={{ maxWidth: '1000px' }}>
       <Heading level={2}>API Reference</Heading>
-      <p style={{ color: '#6c757d', marginTop: '0.5rem' }}>
+      <p style={{ color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
         Complete TypeScript signatures and parameters for all accessibility utilities.
       </p>
 
@@ -900,13 +900,13 @@ export const APIReference: Story = {
         <Heading level={3}>
           <code style={{ fontSize: '1.25rem' }}>generateId</code>
         </Heading>
-        <p style={{ marginTop: '0.5rem', color: '#6c757d' }}>
+        <p style={{ marginTop: '0.5rem', color: 'var(--bs-secondary)' }}>
           Generate unique, SSR-safe IDs for form inputs and ARIA relationships.
         </p>
 
         <pre
           style={{
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             padding: '1rem',
             borderRadius: '0.375rem',
             overflow: 'auto',
@@ -922,38 +922,62 @@ export const APIReference: Story = {
             width: '100%',
             marginTop: '1rem',
             borderCollapse: 'collapse',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
             fontSize: '0.875rem',
           }}
         >
           <thead>
-            <tr style={{ backgroundColor: '#f8f9fa' }}>
-              <th style={{ padding: '0.75rem', textAlign: 'left', border: '1px solid #dee2e6' }}>
+            <tr style={{ backgroundColor: 'var(--bs-gray-100)' }}>
+              <th
+                style={{
+                  padding: '0.75rem',
+                  textAlign: 'left',
+                  border: '1px solid var(--bs-border-color)',
+                }}
+              >
                 Parameter
               </th>
-              <th style={{ padding: '0.75rem', textAlign: 'left', border: '1px solid #dee2e6' }}>
+              <th
+                style={{
+                  padding: '0.75rem',
+                  textAlign: 'left',
+                  border: '1px solid var(--bs-border-color)',
+                }}
+              >
                 Type
               </th>
-              <th style={{ padding: '0.75rem', textAlign: 'left', border: '1px solid #dee2e6' }}>
+              <th
+                style={{
+                  padding: '0.75rem',
+                  textAlign: 'left',
+                  border: '1px solid var(--bs-border-color)',
+                }}
+              >
                 Default
               </th>
-              <th style={{ padding: '0.75rem', textAlign: 'left', border: '1px solid #dee2e6' }}>
+              <th
+                style={{
+                  padding: '0.75rem',
+                  textAlign: 'left',
+                  border: '1px solid var(--bs-border-color)',
+                }}
+              >
                 Description
               </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>prefix</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>string</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>'id'</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 Optional prefix for the generated ID
               </td>
             </tr>
@@ -971,13 +995,13 @@ export const APIReference: Story = {
         <Heading level={3}>
           <code style={{ fontSize: '1.25rem' }}>announceToScreenReader</code>
         </Heading>
-        <p style={{ marginTop: '0.5rem', color: '#6c757d' }}>
+        <p style={{ marginTop: '0.5rem', color: 'var(--bs-secondary)' }}>
           Announce messages to screen readers via ARIA live regions.
         </p>
 
         <pre
           style={{
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             padding: '1rem',
             borderRadius: '0.375rem',
             overflow: 'auto',
@@ -1002,78 +1026,102 @@ function announceToScreenReader(
             width: '100%',
             marginTop: '1rem',
             borderCollapse: 'collapse',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
             fontSize: '0.875rem',
           }}
         >
           <thead>
-            <tr style={{ backgroundColor: '#f8f9fa' }}>
-              <th style={{ padding: '0.75rem', textAlign: 'left', border: '1px solid #dee2e6' }}>
+            <tr style={{ backgroundColor: 'var(--bs-gray-100)' }}>
+              <th
+                style={{
+                  padding: '0.75rem',
+                  textAlign: 'left',
+                  border: '1px solid var(--bs-border-color)',
+                }}
+              >
                 Parameter
               </th>
-              <th style={{ padding: '0.75rem', textAlign: 'left', border: '1px solid #dee2e6' }}>
+              <th
+                style={{
+                  padding: '0.75rem',
+                  textAlign: 'left',
+                  border: '1px solid var(--bs-border-color)',
+                }}
+              >
                 Type
               </th>
-              <th style={{ padding: '0.75rem', textAlign: 'left', border: '1px solid #dee2e6' }}>
+              <th
+                style={{
+                  padding: '0.75rem',
+                  textAlign: 'left',
+                  border: '1px solid var(--bs-border-color)',
+                }}
+              >
                 Default
               </th>
-              <th style={{ padding: '0.75rem', textAlign: 'left', border: '1px solid #dee2e6' }}>
+              <th
+                style={{
+                  padding: '0.75rem',
+                  textAlign: 'left',
+                  border: '1px solid var(--bs-border-color)',
+                }}
+              >
                 Description
               </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>message</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>string</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>-</td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>-</td>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 Message to announce
               </td>
             </tr>
             <tr>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>options.politeness</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>'polite' | 'assertive'</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>'polite'</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 Announcement priority
               </td>
             </tr>
             <tr>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>options.id</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>string</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>'dsai-live-region'</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 Custom live region ID
               </td>
             </tr>
             <tr>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>options.timeoutMs</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>number</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>2000</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 Auto-clear timeout
               </td>
             </tr>
@@ -1090,13 +1138,13 @@ function announceToScreenReader(
         <Heading level={3}>
           <code style={{ fontSize: '1.25rem' }}>trapFocus</code>
         </Heading>
-        <p style={{ marginTop: '0.5rem', color: '#6c757d' }}>
+        <p style={{ marginTop: '0.5rem', color: 'var(--bs-secondary)' }}>
           Trap keyboard focus within a container element.
         </p>
 
         <pre
           style={{
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             padding: '1rem',
             borderRadius: '0.375rem',
             overflow: 'auto',
@@ -1122,88 +1170,112 @@ function trapFocus(
             width: '100%',
             marginTop: '1rem',
             borderCollapse: 'collapse',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
             fontSize: '0.875rem',
           }}
         >
           <thead>
-            <tr style={{ backgroundColor: '#f8f9fa' }}>
-              <th style={{ padding: '0.75rem', textAlign: 'left', border: '1px solid #dee2e6' }}>
+            <tr style={{ backgroundColor: 'var(--bs-gray-100)' }}>
+              <th
+                style={{
+                  padding: '0.75rem',
+                  textAlign: 'left',
+                  border: '1px solid var(--bs-border-color)',
+                }}
+              >
                 Parameter
               </th>
-              <th style={{ padding: '0.75rem', textAlign: 'left', border: '1px solid #dee2e6' }}>
+              <th
+                style={{
+                  padding: '0.75rem',
+                  textAlign: 'left',
+                  border: '1px solid var(--bs-border-color)',
+                }}
+              >
                 Type
               </th>
-              <th style={{ padding: '0.75rem', textAlign: 'left', border: '1px solid #dee2e6' }}>
+              <th
+                style={{
+                  padding: '0.75rem',
+                  textAlign: 'left',
+                  border: '1px solid var(--bs-border-color)',
+                }}
+              >
                 Default
               </th>
-              <th style={{ padding: '0.75rem', textAlign: 'left', border: '1px solid #dee2e6' }}>
+              <th
+                style={{
+                  padding: '0.75rem',
+                  textAlign: 'left',
+                  border: '1px solid var(--bs-border-color)',
+                }}
+              >
                 Description
               </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>container</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>HTMLElement</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>-</td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>-</td>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 Element to trap focus within
               </td>
             </tr>
             <tr>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>options.focusableSelectors</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>string[]</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>default selectors</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 Custom focusable selectors
               </td>
             </tr>
             <tr>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>options.onWrap</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>() =&gt; void</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>-</td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>-</td>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 Called when focus wraps
               </td>
             </tr>
             <tr>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>options.onEscape</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>() =&gt; void</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>-</td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>-</td>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 Called on Escape key press
               </td>
             </tr>
             <tr>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>options.initialFocus</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>boolean</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>false</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 Auto-focus first element
               </td>
             </tr>
@@ -1220,13 +1292,13 @@ function trapFocus(
         <Heading level={3}>
           <code style={{ fontSize: '1.25rem' }}>shouldAnimate</code>
         </Heading>
-        <p style={{ marginTop: '0.5rem', color: '#6c757d' }}>
+        <p style={{ marginTop: '0.5rem', color: 'var(--bs-secondary)' }}>
           Check if animations should be enabled based on user preferences.
         </p>
 
         <pre
           style={{
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             padding: '1rem',
             borderRadius: '0.375rem',
             overflow: 'auto',
@@ -1248,13 +1320,13 @@ function trapFocus(
         <Heading level={3}>
           <code style={{ fontSize: '1.25rem' }}>getAnimationDuration</code>
         </Heading>
-        <p style={{ marginTop: '0.5rem', color: '#6c757d' }}>
+        <p style={{ marginTop: '0.5rem', color: 'var(--bs-secondary)' }}>
           Get animation duration respecting user's motion preferences.
         </p>
 
         <pre
           style={{
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             padding: '1rem',
             borderRadius: '0.375rem',
             overflow: 'auto',
@@ -1272,51 +1344,85 @@ function getAnimationDuration(type: AnimationDuration): number`}
             width: '100%',
             marginTop: '1rem',
             borderCollapse: 'collapse',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
             fontSize: '0.875rem',
           }}
         >
           <thead>
-            <tr style={{ backgroundColor: '#f8f9fa' }}>
-              <th style={{ padding: '0.75rem', textAlign: 'left', border: '1px solid #dee2e6' }}>
+            <tr style={{ backgroundColor: 'var(--bs-gray-100)' }}>
+              <th
+                style={{
+                  padding: '0.75rem',
+                  textAlign: 'left',
+                  border: '1px solid var(--bs-border-color)',
+                }}
+              >
                 Type
               </th>
-              <th style={{ padding: '0.75rem', textAlign: 'left', border: '1px solid #dee2e6' }}>
+              <th
+                style={{
+                  padding: '0.75rem',
+                  textAlign: 'left',
+                  border: '1px solid var(--bs-border-color)',
+                }}
+              >
                 Duration (normal)
               </th>
-              <th style={{ padding: '0.75rem', textAlign: 'left', border: '1px solid #dee2e6' }}>
+              <th
+                style={{
+                  padding: '0.75rem',
+                  textAlign: 'left',
+                  border: '1px solid var(--bs-border-color)',
+                }}
+              >
                 Duration (reduced motion)
               </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>'fast'</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>150ms</td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>0ms</td>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
+                150ms
+              </td>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
+                0ms
+              </td>
             </tr>
             <tr>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>'normal'</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>300ms</td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>0ms</td>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
+                300ms
+              </td>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
+                0ms
+              </td>
             </tr>
             <tr>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>'slow'</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>500ms</td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>0ms</td>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
+                500ms
+              </td>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
+                0ms
+              </td>
             </tr>
             <tr>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 <code>'standard'</code>
               </td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>300ms</td>
-              <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>0ms</td>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
+                300ms
+              </td>
+              <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
+                0ms
+              </td>
             </tr>
           </tbody>
         </table>

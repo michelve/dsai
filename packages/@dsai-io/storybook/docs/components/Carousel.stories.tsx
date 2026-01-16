@@ -268,7 +268,7 @@ export const FadeAnimation: Story = {
 export const DarkVariant: Story = {
   render: function DarkCarousel() {
     return (
-      <div style={{ backgroundColor: '#f8f9fa', padding: '2rem' }}>
+      <div style={{ backgroundColor: 'var(--bs-gray-100)', padding: '2rem' }}>
         <Carousel dark aria-label="Dark carousel variant">
           {slides.map((slide) => (
             <CarouselItem key={slide.id}>

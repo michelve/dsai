@@ -252,6 +252,73 @@ export interface TokensConfig {
    * @example ['src/styles', 'design-tokens']
    */
   watchDirectories?: string[];
+
+  /**
+   * Build pipeline configuration
+   * Controls which steps run and their paths
+   */
+  pipeline?: TokensBuildPipeline;
+}
+
+/**
+ * Build pipeline step names
+ */
+export type BuildPipelineStep =
+  | 'validate'
+  | 'transform'
+  | 'style-dictionary'
+  | 'sync'
+  | 'sass-theme'
+  | 'sass-theme-minified'
+  | 'postprocess'
+  | 'sass-utilities'
+  | 'sass-utilities-minified'
+  | 'bundle';
+
+/**
+ * Build pipeline paths configuration
+ */
+export interface BuildPipelinePaths {
+  /** Source file for sync step (Style Dictionary JS output) */
+  syncSource?: string;
+  /** Target file for sync step */
+  syncTarget?: string;
+  /** SCSS theme input file */
+  sassThemeInput?: string;
+  /** CSS theme output file */
+  sassThemeOutput?: string;
+  /** CSS theme minified output file */
+  sassThemeMinifiedOutput?: string;
+  /** SCSS utilities input file */
+  sassUtilitiesInput?: string;
+  /** CSS utilities output file */
+  sassUtilitiesOutput?: string;
+  /** CSS utilities minified output file */
+  sassUtilitiesMinifiedOutput?: string;
+}
+
+/**
+ * Build pipeline configuration
+ */
+export interface TokensBuildPipeline {
+  /**
+   * Steps to include in the build.
+   * Order matters - steps run in sequence.
+   * Default includes all steps for full @dsai-io/tokens build.
+   * Simpler packages can use subset like ['validate', 'transform', 'style-dictionary']
+   */
+  steps?: BuildPipelineStep[];
+
+  /**
+   * Paths configuration for build steps
+   */
+  paths?: BuildPipelinePaths;
+
+  /**
+   * Style Dictionary config file name
+   * @default 'sd.config.mjs'
+   */
+  styleDictionaryConfig?: string;
 }
 
 /**
@@ -545,6 +612,7 @@ export interface ResolvedTokensConfig {
   separateThemeFiles: boolean;
   watch: boolean;
   watchDirectories: string[];
+  pipeline?: TokensBuildPipeline;
 }
 
 /**

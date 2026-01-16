@@ -2,7 +2,7 @@
  * Style Dictionary Configuration for Storybook
  *
  * Transforms design tokens from DTCG format to multiple output formats.
- * Supports light/dark mode following Bootstrap's data-bs-theme pattern.
+ * Generates both light mode tokens (main) and dark mode CSS overrides.
  *
  * PREREQUISITE: Run `pnpm tokens:transform` first to convert Figma exports
  * from src/figma-exports/ to src/collections/
@@ -15,7 +15,6 @@
  *
  * @see https://styledictionary.com/
  * @see https://www.designtokens.org/
- * @see https://getbootstrap.com/docs/5.3/customize/color-modes/
  */
 
 import { registerAll } from '@dsai-io/tools/tokens';
@@ -25,13 +24,11 @@ import StyleDictionary from 'style-dictionary';
 // Register DSAi custom transforms, formats, and preprocessors
 registerAll(StyleDictionary);
 
-// Light mode files (default theme)
+// Dynamically find token files, separating light and dark mode
+// Exclude dark mode files from light mode build to prevent value collisions
 const lightModeFiles = globSync('src/collections/**/*.json', {
   ignore: ['src/collections/**/*-dark.json'],
 });
-
-// Dark mode files (for [data-bs-theme="dark"] overrides)
-const darkModeFiles = globSync('src/collections/**/*-dark.json');
 
 export default {
   log: {
@@ -43,8 +40,8 @@ export default {
   // Preprocessing to fix reference paths
   preprocessors: ['fix-references'],
 
-  // Source: light mode token files (base/default)
-  source: lightModeFiles.length > 0 ? lightModeFiles : ['src/collections/**/*.json'],
+  // Source: light mode token files only (exclude *-dark.json)
+  source: lightModeFiles,
 
   // Output platforms
   platforms: {
@@ -102,7 +99,7 @@ export default {
       buildPath: 'src/generated/',
       files: [
         {
-          destination: 'tokens.ts',
+          destination: 'tokens.d.ts',
           format: 'typescript/es6-declarations',
           options: {
             prefix: 'sb',

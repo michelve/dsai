@@ -51,34 +51,34 @@ export const SpacingScale: Story = {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '24px',
+                gap: 'var(--sb-spacing-4)',
                 marginBottom: '16px',
-                padding: '12px',
-                backgroundColor: '#f9fafb',
-                borderRadius: '8px',
+                padding: 'var(--sb-spacing-2)',
+                backgroundColor: 'var(--bs-gray-100)',
+                borderRadius: 'var(--sb-border-radius-lg)',
               }}
             >
-              <div style={{ minWidth: '80px', fontWeight: 600 }}>spacing-{token}</div>
+              <div style={{ minWidth: '80px', fontWeight: 'var(--sb-typography-font-weight-semi-bold)' }}>spacing-{token}</div>
               <div
                 style={{
                   width: value,
                   height: '32px',
-                  backgroundColor: '#0ea5e9',
-                  borderRadius: '4px',
-                  border: '1px solid #0284c7',
+                  backgroundColor: 'var(--bs-info)',
+                  borderRadius: 'var(--sb-border-radius-sm)',
+                  border: '1px solid var(--bs-info-border-subtle)',
                 }}
               />
-              <div style={{ fontSize: '14px', color: '#6b7280' }}>
+              <div style={{ fontSize: '14px', color: 'var(--bs-secondary)' }}>
                 {value} ({rem})
               </div>
               <code
                 style={{
                   fontSize: '12px',
-                  color: '#9ca3af',
+                  color: 'var(--bs-tertiary-color)',
                   marginLeft: 'auto',
-                  backgroundColor: '#fff',
+                  backgroundColor: 'var(--bs-white)',
                   padding: '4px 8px',
-                  borderRadius: '4px',
+                  borderRadius: 'var(--sb-border-radius-sm)',
                 }}
               >
                 var(--dsai-spacing-{token})
@@ -106,26 +106,26 @@ export const PaddingExamples: Story = {
     return (
       <div>
         <Heading level={2}>Padding Examples</Heading>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '24px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-3)', marginTop: '24px' }}>
           {paddingExamples.map(({ name, token, value }) => (
             <div key={token}>
-              <div style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>
+              <div style={{ fontSize: '14px', fontWeight: 'var(--sb-typography-font-weight-semi-bold)', marginBottom: '8px' }}>
                 {name} (spacing-{token}: {value})
               </div>
               <div
                 style={{
                   padding: value,
-                  backgroundColor: '#eff6ff',
-                  border: '2px dashed #0ea5e9',
-                  borderRadius: '8px',
+                  backgroundColor: 'var(--bs-info-bg-subtle)',
+                  border: '2px dashed var(--bs-info)',
+                  borderRadius: 'var(--sb-border-radius-lg)',
                 }}
               >
                 <div
                   style={{
-                    backgroundColor: '#0ea5e9',
+                    backgroundColor: 'var(--bs-info)',
                     color: 'white',
-                    padding: '12px',
-                    borderRadius: '4px',
+                    padding: 'var(--sb-spacing-2)',
+                    borderRadius: 'var(--sb-border-radius-sm)',
                     textAlign: 'center',
                   }}
                 >
@@ -151,25 +151,25 @@ export const MarginExamples: Story = {
       <div
         style={{
           marginTop: '24px',
-          padding: '24px',
-          backgroundColor: '#f9fafb',
-          borderRadius: '8px',
+          padding: 'var(--sb-spacing-4)',
+          backgroundColor: 'var(--bs-gray-100)',
+          borderRadius: 'var(--sb-border-radius-lg)',
         }}
       >
         <Heading level={3} noMargin>
           Heading
         </Heading>
-        <p style={{ marginTop: '8px', marginBottom: '0', color: '#6b7280' }}>
+        <p style={{ marginTop: '8px', marginBottom: '0', color: 'var(--bs-secondary)' }}>
           margin-top: spacing-2 (8px)
         </p>
 
         <div
           style={{
             marginTop: '16px',
-            padding: '16px',
-            backgroundColor: 'white',
-            borderRadius: '8px',
-            border: '1px solid #e5e7eb',
+            padding: 'var(--sb-spacing-3)',
+            backgroundColor: 'var(--bs-white)',
+            borderRadius: 'var(--sb-border-radius-lg)',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           Content block with spacing-3 (16px) top margin
@@ -178,10 +178,10 @@ export const MarginExamples: Story = {
         <div
           style={{
             marginTop: '24px',
-            padding: '16px',
-            backgroundColor: 'white',
-            borderRadius: '8px',
-            border: '1px solid #e5e7eb',
+            padding: 'var(--sb-spacing-3)',
+            backgroundColor: 'var(--bs-white)',
+            borderRadius: 'var(--sb-border-radius-lg)',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           Content block with spacing-4 (24px) top margin
@@ -190,10 +190,10 @@ export const MarginExamples: Story = {
         <div
           style={{
             marginTop: '32px',
-            padding: '16px',
-            backgroundColor: 'white',
-            borderRadius: '8px',
-            border: '1px solid #e5e7eb',
+            padding: 'var(--sb-spacing-3)',
+            backgroundColor: 'var(--bs-white)',
+            borderRadius: 'var(--sb-border-radius-lg)',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           Content block with spacing-5 (32px) top margin
@@ -211,21 +211,21 @@ export const GapExamples: Story = {
     <div>
       <Heading level={2}>Gap Examples (Flexbox/Grid)</Heading>
       <p>Using spacing tokens for gap in flex and grid layouts.</p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginTop: '24px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-4)', marginTop: '24px' }}>
         <div>
-          <div style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>
+          <div style={{ fontSize: '14px', fontWeight: 'var(--sb-typography-font-weight-semi-bold)', marginBottom: '8px' }}>
             Gap: spacing-2 (8px)
           </div>
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{ display: 'flex', gap: 'var(--sb-spacing-2)' }}>
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
                 style={{
                   flex: 1,
-                  padding: '16px',
-                  backgroundColor: '#0ea5e9',
+                  padding: 'var(--sb-spacing-3)',
+                  backgroundColor: 'var(--bs-info)',
                   color: 'white',
-                  borderRadius: '8px',
+                  borderRadius: 'var(--sb-border-radius-lg)',
                   textAlign: 'center',
                 }}
               >
@@ -236,19 +236,19 @@ export const GapExamples: Story = {
         </div>
 
         <div>
-          <div style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>
+          <div style={{ fontSize: '14px', fontWeight: 'var(--sb-typography-font-weight-semi-bold)', marginBottom: '8px' }}>
             Gap: spacing-4 (24px)
           </div>
-          <div style={{ display: 'flex', gap: '24px' }}>
+          <div style={{ display: 'flex', gap: 'var(--sb-spacing-4)' }}>
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
                 style={{
                   flex: 1,
-                  padding: '16px',
-                  backgroundColor: '#10b981',
+                  padding: 'var(--sb-spacing-3)',
+                  backgroundColor: 'var(--bs-success)',
                   color: 'white',
-                  borderRadius: '8px',
+                  borderRadius: 'var(--sb-border-radius-lg)',
                   textAlign: 'center',
                 }}
               >
@@ -259,18 +259,18 @@ export const GapExamples: Story = {
         </div>
 
         <div>
-          <div style={{ fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>
+          <div style={{ fontSize: '14px', fontWeight: 'var(--sb-typography-font-weight-semi-bold)', marginBottom: '8px' }}>
             Gap: spacing-6 (48px)
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '48px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--sb-spacing-5)' }}>
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
                 style={{
-                  padding: '24px',
-                  backgroundColor: '#8b5cf6',
+                  padding: 'var(--sb-spacing-4)',
+                  backgroundColor: 'var(--bs-primary)',
                   color: 'white',
-                  borderRadius: '8px',
+                  borderRadius: 'var(--sb-border-radius-lg)',
                   textAlign: 'center',
                 }}
               >
@@ -295,9 +295,9 @@ export const Usage: Story = {
       <Heading level={3}>CSS Variables</Heading>
       <pre
         style={{
-          backgroundColor: '#f3f4f6',
-          padding: '16px',
-          borderRadius: '8px',
+          backgroundColor: 'var(--bs-gray-100)',
+          padding: 'var(--sb-spacing-3)',
+          borderRadius: 'var(--sb-border-radius-lg)',
           overflow: 'auto',
         }}
       >
@@ -316,9 +316,9 @@ export const Usage: Story = {
       <Heading level={3}>JavaScript/TypeScript</Heading>
       <pre
         style={{
-          backgroundColor: '#f3f4f6',
-          padding: '16px',
-          borderRadius: '8px',
+          backgroundColor: 'var(--bs-gray-100)',
+          padding: 'var(--sb-spacing-3)',
+          borderRadius: 'var(--sb-border-radius-lg)',
           overflow: 'auto',
         }}
       >

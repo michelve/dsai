@@ -1,7 +1,7 @@
 {
   "Border": {
     "modes": {
-      "Mode 1": {
+      "Base": {
         "0": {
           "$value": 0,
           "$type": "number",

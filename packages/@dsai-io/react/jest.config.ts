@@ -2,8 +2,6 @@ import { pathsToModuleNameMapper } from 'ts-jest';
 
 // Manual path mapping from tsconfig.base.json
 const pathMapping = {
-  '@dsai-io/tokens': ['packages/@dsai-io/tokens/src'],
-  '@dsai-io/tokens/(.*)': ['packages/@dsai-io/tokens/src/$1'],
   '@dsai-io/react': ['packages/@dsai-io/react/src'],
   '@dsai-io/react/(.*)': ['packages/@dsai-io/react/src/$1'],
   '@dsai-io/figma-tokens': ['packages/@dsai-io/figma-tokens/src'],

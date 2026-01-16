@@ -19,7 +19,10 @@ const PlaceholderComponent = ({
 }: {
   children?: React.ReactNode;
 }): React.ReactElement => (
-  <div style={{ padding: '16px', backgroundColor: '#f3f4f6', borderRadius: '8px' }} {...props}>
+  <div
+    style={{ padding: 'var(--sb-spacing-3)', backgroundColor: 'var(--bs-gray-100)', borderRadius: 'var(--sb-border-radius-lg)' }}
+    {...props}
+  >
     {children || 'Component Placeholder'}
   </div>
 );
@@ -92,9 +95,9 @@ export const Usage: Story = {
       <Heading level={2}>Usage</Heading>
       <pre
         style={{
-          backgroundColor: '#f3f4f6',
-          padding: '16px',
-          borderRadius: '8px',
+          backgroundColor: 'var(--bs-gray-100)',
+          padding: 'var(--sb-spacing-3)',
+          borderRadius: 'var(--sb-border-radius-lg)',
           overflow: 'auto',
         }}
       >

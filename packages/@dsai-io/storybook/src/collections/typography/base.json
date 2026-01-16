@@ -196,7 +196,7 @@
         "$type": "fontFamily"
       }
     },
-    "_lineHeight": {
+    "lineHeight": {
       "xs": {
         "$value": 16,
         "$type": "dimension",
@@ -426,7 +426,7 @@
       }
     },
     "display": {
-      "h1": {
+      "d1": {
         "$value": "80px",
         "$type": "dimension",
         "$description": "Display 1 font size (5rem = 80px)",
@@ -439,7 +439,7 @@
           }
         }
       },
-      "h2": {
+      "d2": {
         "$value": "72px",
         "$type": "dimension",
         "$description": "Display 2 font size (4.5rem = 72px)",
@@ -452,7 +452,7 @@
           }
         }
       },
-      "h3": {
+      "d3": {
         "$value": "64px",
         "$type": "dimension",
         "$description": "Display 3 font size (4rem = 64px)",
@@ -465,7 +465,7 @@
           }
         }
       },
-      "h4": {
+      "d4": {
         "$value": "56px",
         "$type": "dimension",
         "$description": "Display 4 font size (3.5rem = 56px)",
@@ -478,7 +478,7 @@
           }
         }
       },
-      "h5": {
+      "d5": {
         "$value": "48px",
         "$type": "dimension",
         "$description": "Display 5 font size (3rem = 48px)",
@@ -491,7 +491,7 @@
           }
         }
       },
-      "h6": {
+      "d6": {
         "$value": "40px",
         "$type": "dimension",
         "$description": "Display 6 font size (2.5rem = 40px)",

@@ -17,6 +17,8 @@ import {
   backgroundWhite,
   // Semantic colors
   semanticBorderColor,
+  // Theme colors
+  themeDark,
   // Typography
   typographyFontFamilyBase,
   typographyFontFamilyMonospace,
@@ -26,15 +28,15 @@ import { create, type ThemeVars } from 'storybook/theming';
 /**
  * DSAi Storybook Theme
  *
- * Uses design tokens from @dsai-io/tokens for consistent branding.
+ * Uses design tokens from @dsai-io/figma-tokens and @dsai-io/tools for consistent branding.
  * Fonts are loaded dynamically via preview-head.html based on token values.
  *
  * Color scheme uses Blue as primary to match component theme colors.
  */
 
-// Get fonts from tokens (with fallbacks)
-const fontBase = typographyFontFamilyBase || 'Inter, system-ui, -apple-system, sans-serif';
-const fontCode = typographyFontFamilyMonospace || 'Roboto Mono, Monaco, Courier, monospace';
+// Get fonts from tokens
+const fontBase = typographyFontFamilyBase;
+const fontCode = typographyFontFamilyMonospace;
 
 /**
  * Light Theme
@@ -55,40 +57,40 @@ export const lightTheme: ThemeVars = create({
   fontCode,
 
   // Primary colors - Blue to match component theme
-  colorPrimary: colorBlue500 || '#0a58ca',
-  colorSecondary: colorBlue600 || '#084298',
+  colorPrimary: colorBlue500,
+  colorSecondary: colorBlue600,
 
   // UI - Using semantic tokens
-  appBg: colorGray50 || '#fafbfc',
-  appContentBg: backgroundWhite || '#ffffff',
-  appPreviewBg: backgroundWhite || '#ffffff',
-  appBorderColor: semanticBorderColor || colorGray200 || '#e8eaed',
+  appBg: colorGray50,
+  appContentBg: backgroundWhite,
+  appPreviewBg: backgroundWhite,
+  appBorderColor: semanticBorderColor ?? colorGray200,
   appBorderRadius: 4,
 
   // Text colors
-  textColor: colorGray900 || '#212529',
-  textInverseColor: backgroundWhite || '#ffffff',
-  textMutedColor: colorGray700 || '#495057',
+  textColor: colorGray900,
+  textInverseColor: backgroundWhite,
+  textMutedColor: colorGray700,
 
   // Toolbar colors
-  barTextColor: colorGray700 || '#495057',
-  barSelectedColor: colorBlue500 || '#0a58ca',
-  barHoverColor: colorBlue600 || '#084298',
-  barBg: backgroundWhite || '#ffffff',
+  barTextColor: colorGray700,
+  barSelectedColor: colorBlue500,
+  barHoverColor: colorBlue600,
+  barBg: backgroundWhite,
 
   // Form colors
-  inputBg: backgroundWhite || '#ffffff',
-  inputBorder: colorGray300 || '#dfe1e5',
-  inputTextColor: colorGray900 || '#212529',
+  inputBg: backgroundWhite,
+  inputBorder: colorGray300,
+  inputTextColor: colorGray900,
   inputBorderRadius: 4,
 
   // Button colors
-  buttonBg: colorGray50 || '#fafbfc',
-  buttonBorder: colorGray200 || '#e8eaed',
+  buttonBg: colorGray50,
+  buttonBorder: colorGray200,
 
   // Boolean (toggle) colors
-  booleanBg: colorGray50 || '#fafbfc',
-  booleanSelectedBg: colorBlue500 || '#0a58ca',
+  booleanBg: colorGray50,
+  booleanSelectedBg: colorBlue500,
 });
 
 /**
@@ -110,40 +112,40 @@ export const darkTheme: ThemeVars = create({
   fontCode,
 
   // Primary colors - Blue 400 for better visibility on dark backgrounds
-  colorPrimary: colorBlue400 || '#3d8bfd',
-  colorSecondary: colorBlue500 || '#0a58ca',
+  colorPrimary: colorBlue400,
+  colorSecondary: colorBlue500,
 
   // UI - Dark backgrounds
-  appBg: colorGray900 || '#212529',
-  appContentBg: colorGray800 || '#343a40',
-  appPreviewBg: colorGray800 || '#343a40',
-  appBorderColor: colorGray700 || '#495057',
+  appBg: themeDark,
+  appContentBg: colorGray800,
+  appPreviewBg: colorGray800,
+  appBorderColor: colorGray700,
   appBorderRadius: 4,
 
   // Text colors - Light text for dark backgrounds
-  textColor: colorGray50 || '#fafbfc',
-  textInverseColor: colorGray900 || '#212529',
-  textMutedColor: colorGray400 || '#cbced3',
+  textColor: colorGray50,
+  textInverseColor: themeDark,
+  textMutedColor: colorGray400,
 
   // Toolbar colors
-  barTextColor: colorGray300 || '#dfe1e5',
-  barSelectedColor: colorBlue400 || '#3d8bfd',
-  barHoverColor: colorBlue500 || '#0a58ca',
-  barBg: colorGray800 || '#343a40',
+  barTextColor: colorGray300,
+  barSelectedColor: colorBlue400,
+  barHoverColor: colorBlue500,
+  barBg: colorGray800,
 
   // Form colors
-  inputBg: colorGray700 || '#495057',
-  inputBorder: colorGray600 || '#7a7f87',
-  inputTextColor: colorGray50 || '#fafbfc',
+  inputBg: colorGray700,
+  inputBorder: colorGray600,
+  inputTextColor: colorGray50,
   inputBorderRadius: 4,
 
   // Button colors
-  buttonBg: colorGray700 || '#495057',
-  buttonBorder: colorGray600 || '#7a7f87',
+  buttonBg: colorGray700,
+  buttonBorder: colorGray600,
 
   // Boolean (toggle) colors
-  booleanBg: colorGray700 || '#495057',
-  booleanSelectedBg: colorBlue400 || '#3d8bfd',
+  booleanBg: colorGray700,
+  booleanSelectedBg: colorBlue400,
 });
 
 // Export light theme as default

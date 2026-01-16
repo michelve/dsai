@@ -80,7 +80,7 @@ const AriaAtomicExample = (): JSX.Element => {
       >
         Save Changes
       </Button>
-      <p style={{ fontSize: '0.875rem', color: '#666' }}>
+      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
         With aria-atomic=&quot;true&quot;, screen readers announce the complete alert content on
         updates.
       </p>
@@ -320,7 +320,7 @@ export const Dismissible: Story = {
           <Button variant="primary" onClick={() => setShow(true)}>
             Show Alert
           </Button>
-          <p style={{ fontSize: '0.875rem', color: '#666' }}>
+          <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
             Alert dismissed. Click button to show it again.
           </p>
         </div>
@@ -332,7 +332,7 @@ export const Dismissible: Story = {
         <Alert variant="warning" dismissible onClose={() => setShow(false)}>
           <strong>Holy guacamole!</strong> You should check in on some of those fields below.
         </Alert>
-        <p style={{ fontSize: '0.875rem', color: '#666' }}>
+        <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
           <strong>Keyboard support:</strong> Press <kbd>Escape</kbd> to dismiss, or click the X
           button.
         </p>

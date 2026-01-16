@@ -272,6 +272,77 @@ export const tokensHooksSchema = z.object({
 });
 
 /**
+ * Build pipeline step names
+ */
+export const buildPipelineStepSchema = z.enum([
+  'validate',
+  'transform',
+  'style-dictionary',
+  'sync',
+  'sass-theme',
+  'sass-theme-minified',
+  'postprocess',
+  'sass-utilities',
+  'sass-utilities-minified',
+  'bundle',
+]);
+
+/**
+ * Build pipeline configuration
+ * Controls which steps run and their paths
+ */
+export const tokensBuildPipelineSchema = z.object({
+  /**
+   * Steps to include in the build.
+   * Order matters - steps run in sequence.
+   * Default includes all steps for full @dsai-io/tokens build.
+   * Simpler packages can use subset like ['validate', 'transform', 'style-dictionary']
+   */
+  steps: z
+    .array(buildPipelineStepSchema)
+    .optional()
+    .default([
+      'validate',
+      'transform',
+      'style-dictionary',
+      'sync',
+      'sass-theme',
+      'sass-theme-minified',
+      'postprocess',
+      'sass-utilities',
+      'sass-utilities-minified',
+      'bundle',
+    ]),
+
+  /**
+   * Paths configuration for build steps
+   */
+  paths: z
+    .object({
+      /** Source file for sync step (Style Dictionary JS output) */
+      syncSource: z.string().optional().default('dist/js/tokens.js'),
+      /** Target file for sync step */
+      syncTarget: z.string().optional().default('src/tokens-flat.ts'),
+      /** SCSS theme input file */
+      sassThemeInput: z.string().optional().default('src/scss/dsai-theme-bs.scss'),
+      /** CSS theme output file */
+      sassThemeOutput: z.string().optional().default('dist/css/dsai-theme-bs.css'),
+      /** CSS theme minified output file */
+      sassThemeMinifiedOutput: z.string().optional().default('dist/css/dsai-theme-bs.min.css'),
+      /** SCSS utilities input file */
+      sassUtilitiesInput: z.string().optional().default('src/scss/dsai-utilities.scss'),
+      /** CSS utilities output file */
+      sassUtilitiesOutput: z.string().optional().default('dist/css/dsai.css'),
+      /** CSS utilities minified output file */
+      sassUtilitiesMinifiedOutput: z.string().optional().default('dist/css/dsai.min.css'),
+    })
+    .optional(),
+
+  /** Style Dictionary config file name */
+  styleDictionaryConfig: z.string().optional().default('sd.config.mjs'),
+});
+
+/**
  * Tokens configuration section
  */
 export const tokensConfigSchema = z.object({
@@ -312,6 +383,8 @@ export const tokensConfigSchema = z.object({
   cache: tokenCacheConfigSchema.optional(),
   watch: tokenWatchConfigSchema.optional(),
   verbose: z.boolean().optional().default(false),
+  /** Build pipeline configuration */
+  pipeline: tokensBuildPipelineSchema.optional(),
 });
 
 // ============================================================================

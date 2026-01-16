@@ -176,6 +176,7 @@ function resolveTokensConfig(
     separateThemeFiles: config?.separateThemeFiles ?? base.separateThemeFiles,
     watch: config?.watch ?? base.watch,
     watchDirectories,
+    pipeline: config?.pipeline,
   };
 }
 

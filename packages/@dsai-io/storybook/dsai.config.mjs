@@ -55,5 +55,13 @@ export default defineConfig({
 
     // Output formats to generate
     formats: ['css', 'js', 'ts', 'scss', 'json'],
+
+    // Build pipeline configuration
+    // Storybook only needs validate, transform, and style-dictionary steps
+    // (no sync, sass theme compilation, or tsup bundling)
+    pipeline: {
+      steps: ['validate', 'transform', 'style-dictionary'],
+      styleDictionaryConfig: 'sd.config.mjs',
+    },
   },
 });

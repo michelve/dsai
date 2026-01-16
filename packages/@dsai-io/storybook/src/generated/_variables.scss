@@ -40,12 +40,12 @@ $typography-heading-h3: 1.75rem; // H3 heading font size (1.75rem = 28px)
 $typography-heading-h4: 1.5rem; // H4 heading font size (1.5rem = 24px)
 $typography-heading-h5: 1.25rem; // H5 heading font size (1.25rem = 20px)
 $typography-heading-h6: 1rem; // H6 heading font size (1rem = 16px)
-$typography-display-h1: 5rem; // Display 1 font size (5rem = 80px)
-$typography-display-h2: 4.5rem; // Display 2 font size (4.5rem = 72px)
-$typography-display-h3: 4rem; // Display 3 font size (4rem = 64px)
-$typography-display-h4: 3.5rem; // Display 4 font size (3.5rem = 56px)
-$typography-display-h5: 3rem; // Display 5 font size (3rem = 48px)
-$typography-display-h6: 2.5rem; // Display 6 font size (2.5rem = 40px)
+$typography-display-d1: 5rem; // Display 1 font size (5rem = 80px)
+$typography-display-d2: 4.5rem; // Display 2 font size (4.5rem = 72px)
+$typography-display-d3: 4rem; // Display 3 font size (4rem = 64px)
+$typography-display-d4: 3.5rem; // Display 4 font size (3.5rem = 56px)
+$typography-display-d5: 3rem; // Display 5 font size (3rem = 48px)
+$typography-display-d6: 2.5rem; // Display 6 font size (2.5rem = 40px)
 $typography-letter-spacing-tighter: -0.03125rem; // Tighter letter spacing (-0.05em) - Use for large headings and display text to improve visual density. Enhances readability at larger sizes.
 $typography-letter-spacing-tight: -0.01875000074505806rem; // Tight letter spacing (-0.025em) - Subtle tightening for headings. Improves visual cohesion without sacrificing readability.
 $typography-letter-spacing-normal: 0; // Normal letter spacing (0) - Default spacing for body text and most content. Optimal for readability and accessibility.
@@ -58,18 +58,25 @@ $typography-font-family-monospace: Roboto Mono, SFMono-Regular, Menlo, Monaco, C
 $spacing-0: 0; // Spacing scale 0 - No spacing. Bootstrap's $spacer * 0 (0px).
 $spacing-1: 0.25rem; // Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px).
 $spacing-2: 0.5rem; // Spacing scale 2 - Small spacing. Bootstrap's $spacer * 0.5 (8px).
-$spacing-3: 0.75rem; // Spacing scale 3 - Base spacing. Bootstrap's $spacer * 1 (16px).
-$spacing-4: 1rem; // Spacing scale 4 - Medium spacing. Bootstrap's $spacer * 1.5 (24px).
-$spacing-5: 1.5rem; // Spacing scale 5 - Large spacing. Bootstrap's $spacer * 3 (48px).
-$spacing-6: 2rem; // Spacing scale 6 - Extra large spacing (64px).
-$spacing-7: 2.5rem; // Spacing scale 7 - 2X extra large spacing (80px).
-$spacing-8: 3rem; // Spacing scale 8 - 3X extra large spacing (96px).
-$spacing-9: 4rem; // Spacing scale 9 - 4X extra large spacing (128px).
-$spacing-10: 5rem; // Spacing scale 10 - 5X extra large spacing (160px).
+$spacing-3: 1rem; // Spacing scale 3 - Base spacing. Bootstrap's $spacer * 1 (16px).
+$spacing-4: 1.5rem; // Spacing scale 4 - Medium spacing. Bootstrap's $spacer * 1.5 (24px).
+$spacing-5: 3rem; // Spacing scale 5 - Large spacing. Bootstrap's $spacer * 3 (48px).
+$spacing-6: 4rem; // Spacing scale 6 - Extra large spacing (64px).
+$spacing-7: 5rem; // Spacing scale 7 - 2X extra large spacing (80px).
+$spacing-8: 6rem; // Spacing scale 8 - 3X extra large spacing (96px).
+$spacing-9: 8rem; // Spacing scale 9 - 4X extra large spacing (128px).
+$spacing-10: 10rem; // Spacing scale 10 - 5X extra large spacing (160px).
 $spacing-11: 6rem; // Spacing scale 10 - 5X extra large spacing (160px).
-$spacing-12: 8rem; // Spacing scale 10 - 5X extra large spacing (160px).
+$spacing-12: 0.75rem; // Spacing 12px - 4px grid intermediate value. Common for button/input padding (0.75rem).
 $spacing-13: 9rem; // Spacing scale 10 - 5X extra large spacing (160px).
 $spacing-14: 10rem; // Spacing scale 10 - 5X extra large spacing (160px).
+$spacing-20: 1.25rem; // Spacing 20px - 4px grid intermediate value (1.25rem). Fills gap between 16px and 24px.
+$spacing-28: 1.75rem; // Spacing 28px - 4px grid intermediate value (1.75rem). Fills gap between 24px and 32px.
+$spacing-32: 2rem; // Spacing 32px - 4px grid value (2rem). Between Bootstrap scale 4 (24px) and 5 (48px).
+$spacing-36: 2.25rem; // Spacing 36px - 4px grid value (2.25rem). Between Bootstrap scale 4 (24px) and 5 (48px).
+$spacing-40: 2.5rem; // Spacing 40px - 4px grid value (2.5rem). Between Bootstrap scale 4 (24px) and 5 (48px).
+$spacing-44: 2.75rem; // Spacing 44px - 4px grid value (2.75rem). Between Bootstrap scale 4 (24px) and 5 (48px).
+$spacing-56: 3.5rem; // Spacing 56px - 4px grid value (3.5rem). Between Bootstrap scale 5 (48px) and extended 6 (64px).
 $spacing-1-5: 0.375rem; // Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px).
 $shadow-default: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); // Complete box shadow value for Bootstrap SCSS export
 $shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); // Complete box shadow value for Bootstrap SCSS export
@@ -240,6 +247,7 @@ $opacity-95: 5.9375rem; // 95% opacity. Use for very nearly solid elements.
 $opacity-100: 6.25rem; // 100% opacity. Fully opaque, no transparency.
 $neutral-white: #fafbfc; // Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text.
 $neutral-black: #0a0d10; // Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds.
+$semantic-transparent: #000000; // Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class.
 $background-transparent: #000000; // Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class.
 $border-radius-0: 0; // Border radius: None - 0. No rounding, completely square corners. Equivalent to Bootstrap's 'rounded-0' utility class.
 $border-radius-default: 0.375rem; // Border radius: Default - 0.375rem (6px). The standard rounding used throughout Bootstrap for most components. Equivalent to Bootstrap's 'rounded' or 'rounded-2' utility classes and $border-radius variable.
@@ -286,6 +294,17 @@ $semantic-warning-border-subtle: $color-yellow-200; // Warning subtle border col
 $semantic-info-text-emphasis: $color-cyan-700; // Info text emphasis color - higher contrast text on light backgrounds.
 $semantic-info-bg-subtle: $color-cyan-100; // Info subtle background color for non-intrusive info states.
 $semantic-info-border-subtle: $color-cyan-200; // Info subtle border color for gentle borders matching info theme.
+$semantic-primary: $color-blue-500; // Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces.
+$semantic-info: $color-cyan-500; // Info background color utility. Applies info color as background. Use for informational surfaces. Maps to Bootstrap's .bg-info utility class. Communicates helpful information.
+$semantic-body: $color-gray-900; // Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background.
+$semantic-success: $color-green-500; // Success background color utility. Applies success color as background. Use for positive feedback surfaces. Maps to Bootstrap's .bg-success utility class. Indicates successful operations.
+$semantic-warning: $color-yellow-500; // Warning background color utility. Applies warning color as background. Use for caution or important notice surfaces. Maps to Bootstrap's .bg-warning utility class. Requires careful contrast checking.
+$semantic-secondary: $color-gray-600; // Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy.
+$semantic-danger: $color-red-500; // Danger background color utility. Applies danger color as background. Use for error or destructive action surfaces. Maps to Bootstrap's .bg-danger utility class. Indicates errors or warnings.
+$semantic-dark: $color-gray-900; // Dark background color utility. Applies dark gray as background. Use for high-contrast surfaces and footers. Maps to Bootstrap's .bg-dark utility class. Requires light text for contrast.
+$semantic-light: $color-gray-100; // Light background color utility. Applies light gray as background. Use for subtle surfaces and page backgrounds. Maps to Bootstrap's .bg-light utility class. Requires dark text for contrast.
+$semantic-white: $neutral-white; // White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness.
+$semantic-black: $neutral-black; // Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text.
 $background-primary: $color-blue-500; // Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces.
 $background-secondary: $color-gray-600; // Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy.
 $background-success: $color-green-500; // Success background color utility. Applies success color as background. Use for positive feedback surfaces. Maps to Bootstrap's .bg-success utility class. Indicates successful operations.

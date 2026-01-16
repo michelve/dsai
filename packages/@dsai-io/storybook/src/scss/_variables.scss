@@ -247,12 +247,14 @@ $typography-headings-h6-font-size: tokens.$typography-heading-h6;
 $typography-headings-font-weight: $typography-font-weight-medium;
 
 // Display Headings (mapping from Figma names to theme expected names)
-$typography-display-display1-font-size: tokens.$typography-display-h1;
-$typography-display-display2-font-size: tokens.$typography-display-h2;
-$typography-display-display3-font-size: tokens.$typography-display-h3;
-$typography-display-display4-font-size: tokens.$typography-display-h4;
-$typography-display-display5-font-size: tokens.$typography-display-h5;
-$typography-display-display6-font-size: tokens.$typography-display-h6;
+// Bootstrap uses display-1 through display-6 (d1-d6) for larger decorative headings
+// These are separate from regular h1-h6 headings
+$typography-display-display1-font-size: tokens.$typography-display-d1;
+$typography-display-display2-font-size: tokens.$typography-display-d2;
+$typography-display-display3-font-size: tokens.$typography-display-d3;
+$typography-display-display4-font-size: tokens.$typography-display-d4;
+$typography-display-display5-font-size: tokens.$typography-display-d5;
+$typography-display-display6-font-size: tokens.$typography-display-d6;
 $typography-display-font-weight: $typography-font-weight-light;
 
 // Lead and Small

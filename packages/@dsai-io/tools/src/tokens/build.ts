@@ -12,6 +12,9 @@
  * 7. Compile DSAi utilities SCSS → CSS
  * 8. Bundle with tsup (ESM + CJS)
  *
+ * The pipeline is configurable via dsai.config.mjs tokens.pipeline section.
+ * Packages can specify which steps to run and customize paths.
+ *
  * @module @dsai-io/tools/tokens/build
  */
 
@@ -27,6 +30,11 @@ import { syncTokensCLI } from './sync.js';
 import { transformTokens } from './transform.js';
 
 import type { BuildOptions, BuildResult, BuildStep } from './types';
+import type {
+  BuildPipelinePaths,
+  BuildPipelineStep,
+  TokensBuildPipeline,
+} from '../config/types.js';
 
 // ============================================================================
 // Constants
@@ -42,6 +50,32 @@ const SASS_FLAGS = [
 
 /** Minimal SASS flags (no color functions deprecation) */
 const SASS_FLAGS_MINIMAL = ['--quiet-deps', '--silence-deprecation=import'].join(' ');
+
+/** Default build pipeline steps (full @dsai-io/tokens build) */
+const DEFAULT_PIPELINE_STEPS: BuildPipelineStep[] = [
+  'validate',
+  'transform',
+  'style-dictionary',
+  'sync',
+  'sass-theme',
+  'sass-theme-minified',
+  'postprocess',
+  'sass-utilities',
+  'sass-utilities-minified',
+  'bundle',
+];
+
+/** Default pipeline paths */
+const DEFAULT_PIPELINE_PATHS: Required<BuildPipelinePaths> = {
+  syncSource: 'dist/js/tokens.js',
+  syncTarget: 'src/tokens-flat.ts',
+  sassThemeInput: 'src/scss/dsai-theme-bs.scss',
+  sassThemeOutput: 'dist/css/dsai-theme-bs.css',
+  sassThemeMinifiedOutput: 'dist/css/dsai-theme-bs.min.css',
+  sassUtilitiesInput: 'src/scss/dsai-utilities.scss',
+  sassUtilitiesOutput: 'dist/css/dsai.css',
+  sassUtilitiesMinifiedOutput: 'dist/css/dsai.min.css',
+};
 
 // ============================================================================
 // Build Step Runner
@@ -120,12 +154,144 @@ function runStep(step: BuildStep, index: number, total: number, verbose: boolean
 // ============================================================================
 
 /**
- * Create build steps based on options
+ * Get merged pipeline paths with defaults
+ */
+function getPipelinePaths(customPaths?: BuildPipelinePaths): Required<BuildPipelinePaths> {
+  return {
+    ...DEFAULT_PIPELINE_PATHS,
+    ...customPaths,
+  };
+}
+
+/**
+ * Map of step names to human-readable names
+ */
+const STEP_DISPLAY_NAMES: Record<BuildPipelineStep, string> = {
+  validate: 'Validate Tokens',
+  transform: 'Transform Figma Tokens',
+  'style-dictionary': 'Build Style Dictionary',
+  sync: 'Sync tokens-flat.ts',
+  'sass-theme': 'Compile Bootstrap Theme (unminified)',
+  'sass-theme-minified': 'Compile Bootstrap Theme (minified)',
+  postprocess: 'Post-process Theme CSS',
+  'sass-utilities': 'Compile DSAi Utilities (unminified)',
+  'sass-utilities-minified': 'Compile DSAi Utilities (minified)',
+  bundle: 'Bundle with tsup',
+};
+
+/**
+ * Create a single build step from step name
+ */
+function createStepFromName(
+  stepName: BuildPipelineStep,
+  tokensPackageDir: string,
+  figmaExportsDir: string,
+  tokensDir: string,
+  paths: Required<BuildPipelinePaths>,
+  sdConfigFile: string
+): BuildStep {
+  const displayName = STEP_DISPLAY_NAMES[stepName];
+
+  switch (stepName) {
+    case 'validate':
+      // Use dsai CLI for validation - this uses the native TypeScript implementation
+      return {
+        name: displayName,
+        command: 'dsai tokens validate',
+        cwd: tokensPackageDir,
+      };
+
+    case 'transform':
+      return {
+        name: displayName,
+        fn: () => {
+          const result = transformTokens({
+            sourceDir: figmaExportsDir,
+            collectionsDir: tokensDir,
+            verbose: true,
+          });
+          if (!result.success) {
+            for (const error of result.errors) {
+              console.error(`❌ ${error}`);
+            }
+          }
+          return result.success;
+        },
+      };
+
+    case 'style-dictionary':
+      return {
+        name: displayName,
+        command: `style-dictionary build --config ${sdConfigFile}`,
+        cwd: tokensPackageDir,
+      };
+
+    case 'sync':
+      return {
+        name: displayName,
+        fn: () => syncTokensCLI(tokensPackageDir),
+      };
+
+    case 'sass-theme':
+      return {
+        name: displayName,
+        command: `sass ${SASS_FLAGS} ${paths.sassThemeInput} ${paths.sassThemeOutput}`,
+        cwd: tokensPackageDir,
+      };
+
+    case 'sass-theme-minified':
+      return {
+        name: displayName,
+        command: `sass ${SASS_FLAGS} ${paths.sassThemeInput} ${paths.sassThemeMinifiedOutput} --style=compressed`,
+        cwd: tokensPackageDir,
+      };
+
+    case 'postprocess':
+      return {
+        name: displayName,
+        fn: () => postprocessCLI(tokensPackageDir),
+      };
+
+    case 'sass-utilities':
+      return {
+        name: displayName,
+        command: `sass ${SASS_FLAGS_MINIMAL} ${paths.sassUtilitiesInput} ${paths.sassUtilitiesOutput}`,
+        cwd: tokensPackageDir,
+      };
+
+    case 'sass-utilities-minified':
+      return {
+        name: displayName,
+        command: `sass ${SASS_FLAGS_MINIMAL} ${paths.sassUtilitiesInput} ${paths.sassUtilitiesMinifiedOutput} --style=compressed`,
+        cwd: tokensPackageDir,
+      };
+
+    case 'bundle':
+      return {
+        name: displayName,
+        command: 'tsup',
+        cwd: tokensPackageDir,
+      };
+
+    default:
+      return {
+        name: `Unknown step: ${stepName}`,
+        fn: () => {
+          console.warn(`⚠️ Unknown pipeline step: ${stepName}`);
+          return true;
+        },
+      };
+  }
+}
+
+/**
+ * Create build steps based on options and pipeline configuration
  */
 function createBuildSteps(
   tokensDir: string,
   _toolsDir: string,
-  options: BuildOptions
+  options: BuildOptions,
+  pipeline?: TokensBuildPipeline
 ): BuildStep[] {
   const { skipValidate, skipTransform, onlyTheme } = options;
 
@@ -139,76 +305,42 @@ function createBuildSteps(
   // Path to figma-exports source directory (sibling to collections)
   const figmaExportsDir = `${tokensPackageDir}/figma-exports`;
 
-  return [
-    {
-      name: 'Validate Tokens',
-      // Use dsai CLI for validation - this uses the native TypeScript implementation
-      command: 'dsai tokens validate',
-      cwd: tokensPackageDir,
-      skip: skipValidate,
-    },
-    {
-      name: 'Transform Figma Tokens',
-      // Use native transform function directly
-      fn: () => {
-        const result = transformTokens({
-          sourceDir: figmaExportsDir,
-          collectionsDir: tokensDir,
-          verbose: true,
-        });
-        if (!result.success) {
-          for (const error of result.errors) {
-            console.error(`❌ ${error}`);
-          }
-        }
-        return result.success;
-      },
-      skip: skipTransform || onlyTheme,
-    },
-    {
-      name: 'Build Style Dictionary',
-      command: 'style-dictionary build --config sd.config.mjs',
-      cwd: tokensPackageDir,
-      skip: onlyTheme,
-    },
-    {
-      name: 'Sync tokens-flat.ts',
-      fn: () => syncTokensCLI(tokensPackageDir),
-      skip: onlyTheme,
-    },
-    {
-      name: 'Compile Bootstrap Theme (unminified)',
-      command: `sass ${SASS_FLAGS} src/scss/dsai-theme-bs.scss dist/css/dsai-theme-bs.css`,
-      cwd: tokensPackageDir,
-    },
-    {
-      name: 'Compile Bootstrap Theme (minified)',
-      command: `sass ${SASS_FLAGS} src/scss/dsai-theme-bs.scss dist/css/dsai-theme-bs.min.css --style=compressed`,
-      cwd: tokensPackageDir,
-    },
-    {
-      name: 'Post-process Theme CSS',
-      fn: () => postprocessCLI(tokensPackageDir),
-    },
-    {
-      name: 'Compile DSAi Utilities (unminified)',
-      command: `sass ${SASS_FLAGS_MINIMAL} src/scss/dsai-utilities.scss dist/css/dsai.css`,
-      cwd: tokensPackageDir,
-      skip: onlyTheme,
-    },
-    {
-      name: 'Compile DSAi Utilities (minified)',
-      command: `sass ${SASS_FLAGS_MINIMAL} src/scss/dsai-utilities.scss dist/css/dsai.min.css --style=compressed`,
-      cwd: tokensPackageDir,
-      skip: onlyTheme,
-    },
-    {
-      name: 'Bundle with tsup',
-      command: 'tsup',
-      cwd: tokensPackageDir,
-      skip: onlyTheme,
-    },
-  ];
+  // Get pipeline configuration
+  const pipelineSteps = pipeline?.steps ?? DEFAULT_PIPELINE_STEPS;
+  const paths = getPipelinePaths(pipeline?.paths);
+  const sdConfigFile = pipeline?.styleDictionaryConfig ?? 'sd.config.mjs';
+
+  // Build steps based on pipeline configuration
+  const steps: BuildStep[] = [];
+
+  for (const stepName of pipelineSteps) {
+    const step = createStepFromName(
+      stepName,
+      tokensPackageDir,
+      figmaExportsDir,
+      tokensDir,
+      paths,
+      sdConfigFile
+    );
+
+    // Apply skip flags based on legacy options
+    if (stepName === 'validate' && skipValidate) {
+      step.skip = true;
+    }
+    if (stepName === 'transform' && (skipTransform || onlyTheme)) {
+      step.skip = true;
+    }
+    if (onlyTheme && !['sass-theme', 'sass-theme-minified', 'postprocess'].includes(stepName)) {
+      // Only run theme-related steps when onlyTheme is true
+      if (!['validate'].includes(stepName)) {
+        step.skip = true;
+      }
+    }
+
+    steps.push(step);
+  }
+
+  return steps;
 }
 
 // ============================================================================
@@ -314,7 +446,7 @@ export function buildTokens(
   }
 
   // Create and run build steps
-  const steps = createBuildSteps(tokensDir, toolsDir, options);
+  const steps = createBuildSteps(tokensDir, toolsDir, options, options.pipeline);
 
   for (const step of steps) {
     const stepIndex = steps.indexOf(step);

@@ -122,16 +122,22 @@ export const spacing8: string;
 export const spacing9: string;
 /** Spacing scale 10 - 5X extra large spacing (160px). */
 export const spacing10: string;
-/** Spacing scale 10 - 5X extra large spacing (160px). */
-export const spacing11: string;
-/** Spacing scale 10 - 5X extra large spacing (160px). */
+/** Spacing 12px - 4px grid intermediate value. Common for button/input padding (0.75rem). */
 export const spacing12: string;
-/** Spacing scale 10 - 5X extra large spacing (160px). */
-export const spacing13: string;
-/** Spacing scale 10 - 5X extra large spacing (160px). */
-export const spacing14: string;
-/** Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px). */
-export const spacing15: string;
+/** Spacing 20px - 4px grid intermediate value (1.25rem). Fills gap between 16px and 24px. */
+export const spacing20: string;
+/** Spacing 28px - 4px grid intermediate value (1.75rem). Fills gap between 24px and 32px. */
+export const spacing28: string;
+/** Spacing 32px - 4px grid value (2rem). Between Bootstrap scale 4 (24px) and 5 (48px). */
+export const spacing32: string;
+/** Spacing 36px - 4px grid value (2.25rem). Between Bootstrap scale 4 (24px) and 5 (48px). */
+export const spacing36: string;
+/** Spacing 40px - 4px grid value (2.5rem). Between Bootstrap scale 4 (24px) and 5 (48px). */
+export const spacing40: string;
+/** Spacing 44px - 4px grid value (2.75rem). Between Bootstrap scale 4 (24px) and 5 (48px). */
+export const spacing44: string;
+/** Spacing 56px - 4px grid value (3.5rem). Between Bootstrap scale 5 (48px) and extended 6 (64px). */
+export const spacing56: string;
 /** Complete box shadow value for Bootstrap SCSS export */
 export const shadowDefault: string;
 /** Complete box shadow value for Bootstrap SCSS export */

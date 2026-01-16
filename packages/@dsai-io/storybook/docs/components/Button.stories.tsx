@@ -1,9 +1,11 @@
 import {
+  Alert,
   ArrowLeftIcon,
   ArrowRightIcon,
   Button,
   CheckIcon,
   ChevronDownIcon,
+  Dropdown,
   ExclamationTriangleIcon,
   GearIcon,
   Heading,
@@ -13,6 +15,8 @@ import {
   XLgIcon,
 } from '@dsai-io/react';
 import { useState } from 'react';
+
+import { backgroundWhite, themeLight, themeDark } from '../../src/generated/tokens';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { JSX } from 'react';
@@ -110,7 +114,7 @@ const AnnouncementDemo = (): JSX.Element => {
       >
         {isLoading ? 'Saving...' : 'Save Changes'}
       </Button>
-      <p style={{ fontSize: '0.875rem', color: '#666' }}>
+      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
         Click the button and watch the screen reader announcement region
       </p>
     </div>
@@ -186,19 +190,39 @@ const meta: Meta<typeof Button> = {
     layout: 'centered',
     docs: {
       description: {
-        component:
-          'A versatile button component with multiple variants, sizes, and states. ' +
-          'Fully accessible (WCAG 2.2 AA compliant) with keyboard navigation, focus management, ' +
-          'and proper color contrast ratios. Uses design tokens for consistent theming. ' +
-          '**Test Coverage:** 151 tests across 4 test files ensuring reliability and accessibility.',
+        component: `A versatile button component with multiple variants, sizes, and states.
+Fully accessible (WCAG 2.2 AA compliant) with keyboard navigation, focus management,
+and proper color contrast ratios. Uses design tokens for consistent theming.
+**Test Coverage:** 151 tests across 4 test files ensuring reliability and accessibility.
+
+## Installation & Usage
+
+\`\`\`tsx
+import { Button } from '@dsai-io/react';
+
+// Basic usage
+<Button variant="primary">Click me</Button>
+
+// With icons
+import { ArrowRightIcon } from '@dsai-io/react';
+<Button variant="primary" endIcon={<ArrowRightIcon />}>
+  Next
+</Button>
+
+// With loading state
+<Button variant="primary" loading loadingText="Saving...">
+  Save
+</Button>
+\`\`\`
+`,
       },
     },
     backgrounds: {
       default: 'light',
       values: [
-        { name: 'light', value: '#ffffff' },
-        { name: 'dark', value: '#1a1a1a' },
-        { name: 'gray', value: '#f5f5f5' },
+        { name: 'light', value: backgroundWhite },
+        { name: 'dark', value: themeDark },
+        { name: 'gray', value: themeLight },
       ],
     },
   },
@@ -771,7 +795,7 @@ const ErrorWithRecoveryExample = (): JSX.Element => {
       <Button variant="primary" error={hasError} onClick={handleClick} disabled={hasError}>
         {hasError ? 'Error - Retry' : 'Click Me'}
       </Button>
-      <p style={{ fontSize: '0.875rem', color: '#666' }}>
+      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
         Click the button to trigger error state. After 2 seconds, error clears automatically.
       </p>
     </div>
@@ -794,7 +818,11 @@ export const FSMStatePriority: Story = {
       <div>
         <Heading
           level={3}
-          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+          style={{
+            fontSize: '0.875rem',
+            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            marginBottom: '0.5rem',
+          }}
         >
           Idle State (default)
         </Heading>
@@ -804,14 +832,18 @@ export const FSMStatePriority: Story = {
       <div>
         <Heading
           level={3}
-          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+          style={{
+            fontSize: '0.875rem',
+            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            marginBottom: '0.5rem',
+          }}
         >
           Loading State (prop-driven)
         </Heading>
         <Button variant="primary" loading>
           Loading...
         </Button>
-        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
           Loading overrides interactive states. FSM ignores hover/press/focus events.
         </p>
       </div>
@@ -819,14 +851,18 @@ export const FSMStatePriority: Story = {
       <div>
         <Heading
           level={3}
-          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+          style={{
+            fontSize: '0.875rem',
+            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            marginBottom: '0.5rem',
+          }}
         >
           Error State (prop-driven)
         </Heading>
         <Button variant="danger" error>
           Error Occurred
         </Button>
-        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
           Error state visually indicates a problem. FSM prevents interaction.
         </p>
       </div>
@@ -834,14 +870,18 @@ export const FSMStatePriority: Story = {
       <div>
         <Heading
           level={3}
-          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+          style={{
+            fontSize: '0.875rem',
+            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            marginBottom: '0.5rem',
+          }}
         >
           Disabled State (highest priority)
         </Heading>
         <Button variant="primary" disabled>
           Disabled State
         </Button>
-        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
           Disabled takes precedence over all other states. No interaction possible.
         </p>
       </div>
@@ -849,14 +889,18 @@ export const FSMStatePriority: Story = {
       <div>
         <Heading
           level={3}
-          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+          style={{
+            fontSize: '0.875rem',
+            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            marginBottom: '0.5rem',
+          }}
         >
           Disabled Loading (disabled wins)
         </Heading>
         <Button variant="primary" disabled loading>
           Disabled & Loading
         </Button>
-        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
           When both disabled and loading, disabled takes precedence (FSM priority rule).
         </p>
       </div>
@@ -877,17 +921,21 @@ export const FSMInteractiveStates: Story = {
       <div>
         <Heading
           level={3}
-          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+          style={{
+            fontSize: '0.875rem',
+            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            marginBottom: '0.5rem',
+          }}
         >
           Interactive States Demo
         </Heading>
-        <p style={{ fontSize: '0.75rem', color: '#666', marginBottom: '1rem' }}>
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginBottom: '1rem' }}>
           Try these interactions and observe the button behavior:
         </p>
         <ul
           style={{
             fontSize: '0.75rem',
-            color: '#666',
+            color: 'var(--bs-secondary)',
             marginBottom: '1rem',
             paddingLeft: '1.5rem',
           }}
@@ -907,7 +955,7 @@ export const FSMInteractiveStates: Story = {
       </div>
 
       <div>
-        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '1rem' }}>
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '1rem' }}>
           <strong>FSM State Tracking:</strong> The button element includes a{' '}
           <code>data-visual-state</code> attribute that changes as you interact with it. Open
           browser DevTools Inspector to see the attribute updates in real-time.
@@ -955,7 +1003,11 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
       <div>
         <Heading
           level={3}
-          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}
+          style={{
+            fontSize: '0.875rem',
+            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            marginBottom: '1rem',
+          }}
         >
           Successful Operation
         </Heading>
@@ -971,7 +1023,11 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
       <div>
         <Heading
           level={3}
-          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}
+          style={{
+            fontSize: '0.875rem',
+            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            marginBottom: '1rem',
+          }}
         >
           Failed Operation
         </Heading>
@@ -992,7 +1048,11 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
       <div>
         <Heading
           level={3}
-          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}
+          style={{
+            fontSize: '0.875rem',
+            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            marginBottom: '1rem',
+          }}
         >
           Confirm Action Flow
         </Heading>
@@ -1006,14 +1066,20 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
         </Button>
       </div>
 
-      <div style={{ backgroundColor: '#f5f5f5', padding: '1rem', borderRadius: '4px' }}>
-        <p style={{ fontSize: '0.75rem', color: '#666', margin: 0 }}>
+      <div
+        style={{
+          backgroundColor: 'var(--bs-gray-100)',
+          padding: '1rem',
+          borderRadius: 'var(--sb-border-radius-sm)',
+        }}
+      >
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', margin: 0 }}>
           <strong>FSM Transition Flow:</strong>
         </p>
-        <p style={{ fontSize: '0.75rem', color: '#666', margin: '0.5rem 0 0 0' }}>
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', margin: '0.5rem 0 0 0' }}>
           idle → loading → (success: idle) or (error: error state)
         </p>
-        <p style={{ fontSize: '0.75rem', color: '#666', margin: '0.5rem 0 0 0' }}>
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', margin: '0.5rem 0 0 0' }}>
           Each button manages its own FSM state independently.
         </p>
       </div>
@@ -1048,7 +1114,11 @@ export const AccessibleIconOnlyButton: Story = {
       <div>
         <Heading
           level={3}
-          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+          style={{
+            fontSize: '0.875rem',
+            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            marginBottom: '0.5rem',
+          }}
         >
           Accessible Icon-only Buttons
         </Heading>
@@ -1066,7 +1136,7 @@ export const AccessibleIconOnlyButton: Story = {
             {''}
           </Button>
         </div>
-        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
           Each icon-only button has an <code>aria-label</code> for screen readers.
         </p>
       </div>
@@ -1074,7 +1144,11 @@ export const AccessibleIconOnlyButton: Story = {
       <div>
         <Heading
           level={3}
-          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
+          style={{
+            fontSize: '0.875rem',
+            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            marginBottom: '0.5rem',
+          }}
         >
           Icon + Text (no aria-label needed)
         </Heading>
@@ -1089,28 +1163,15 @@ export const AccessibleIconOnlyButton: Story = {
             Next
           </Button>
         </div>
-        <p style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem' }}>
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
           Buttons with visible text content automatically have accessible names.
         </p>
       </div>
 
-      <div
-        style={{
-          backgroundColor: '#fff3cd',
-          padding: '1rem',
-          borderRadius: '4px',
-          border: '1px solid #ffc107',
-        }}
-      >
-        <p style={{ fontSize: '0.75rem', color: '#856404', margin: 0 }}>
-          <strong>
-            <ExclamationTriangleIcon size={14} style={{ marginRight: '4px' }} />
-            Accessibility Note:
-          </strong>{' '}
-          Icon-only buttons without <code>aria-label</code> will fail WCAG 2.2 AA compliance. Our
-          test suite includes guards that verify this requirement.
-        </p>
-      </div>
+      <Alert variant="warning" icon={<ExclamationTriangleIcon />}>
+        <strong>Accessibility Note:</strong> Icon-only buttons without <code>aria-label</code> will
+        fail WCAG 2.2 AA compliance. Our test suite includes guards that verify this requirement.
+      </Alert>
     </div>
   ),
 };
@@ -1125,11 +1186,15 @@ export const KeyboardNavigationDemo: Story = {
       <div>
         <Heading
           level={3}
-          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '1rem' }}
+          style={{
+            fontSize: '0.875rem',
+            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            marginBottom: '1rem',
+          }}
         >
           Keyboard Navigation Test
         </Heading>
-        <p style={{ fontSize: '0.75rem', color: '#666', marginBottom: '1rem' }}>
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginBottom: '1rem' }}>
           Use Tab to navigate between buttons. Press Enter or Space to activate.
         </p>
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
@@ -1144,20 +1209,20 @@ export const KeyboardNavigationDemo: Story = {
 
       <div
         style={{
-          backgroundColor: '#d1ecf1',
+          backgroundColor: 'var(--bs-info-bg-subtle)',
           padding: '1rem',
-          borderRadius: '4px',
-          border: '1px solid #bee5eb',
+          borderRadius: 'var(--sb-border-radius-sm)',
+          border: '1px solid var(--bs-info-border-subtle)',
         }}
       >
-        <p style={{ fontSize: '0.75rem', color: '#0c5460', margin: 0 }}>
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-info-text-emphasis)', margin: 0 }}>
           <strong>Test Coverage:</strong> The Button.a11y.test.tsx file includes 6 keyboard
           interaction tests verifying:
         </p>
         <ul
           style={{
             fontSize: '0.75rem',
-            color: '#0c5460',
+            color: 'var(--bs-info-text-emphasis)',
             marginTop: '0.5rem',
             paddingLeft: '1rem',
           }}
@@ -1178,73 +1243,177 @@ export const KeyboardNavigationDemo: Story = {
  * ARIA Attributes Demo
  * Shows all supported ARIA attributes for accessibility
  */
-export const ARIAAttributesDemo: Story = {
-  render: () => (
+const ARIAAttributesDemoExample = (): JSX.Element => {
+  const [isPressed, setIsPressed] = useState(false);
+
+  return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
-        <Heading
-          level={3}
-          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
-        >
-          aria-expanded (Expandable)
-        </Heading>
+        <Heading level={3}> aria-expanded &amp; aria-controls (Expandable) </Heading>
+        <Dropdown>
+          <Dropdown.Toggle
+            variant="outline-secondary"
+            aria-label="Open menu options"
+            aria-haspopup="menu"
+            aria-controls="demo-dropdown-menu"
+          >
+            Dropdown Menu
+          </Dropdown.Toggle>
+          <Dropdown.Menu id="demo-dropdown-menu" aria-label="Menu options">
+            <Dropdown.Item aria-label="Select first option">Menu item 1</Dropdown.Item>
+            <Dropdown.Item aria-label="Select second option">Menu item 2</Dropdown.Item>
+            <Dropdown.Item aria-label="Select third option">Menu item 3</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
+          <strong>ARIA attributes used:</strong>
+          <br />• <code>aria-expanded</code> - automatically managed by Dropdown.Toggle
+          <br />• <code>aria-controls=&quot;demo-dropdown-menu&quot;</code> - links toggle to menu
+          <br />• <code>aria-haspopup=&quot;menu&quot;</code> - indicates popup menu
+          <br />• <code>aria-label</code> - provides accessible names for items
+        </p>
+      </div>
+
+      <div>
+        <Heading level={3}> aria-pressed (Toggle Button) </Heading>
         <Button
-          variant="outline-secondary"
-          aria-expanded="false"
-          aria-controls="dropdown-menu"
-          endIcon={<ChevronDownIcon />}
+          variant={isPressed ? 'primary' : 'outline-primary'}
+          aria-pressed={isPressed}
+          aria-label={
+            isPressed ? 'Feature enabled, click to disable' : 'Feature disabled, click to enable'
+          }
+          onClick={() => setIsPressed(!isPressed)}
         >
-          Dropdown Menu
+          {isPressed ? 'On' : 'Off'}
         </Button>
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
+          <strong>ARIA attributes used:</strong>
+          <br />• <code>aria-pressed=&quot;{String(isPressed)}&quot;</code> - indicates toggle state
+          <br />• <code>aria-label</code> - describes action based on current state
+        </p>
       </div>
 
       <div>
-        <Heading
-          level={3}
-          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
-        >
-          aria-pressed (Toggle)
-        </Heading>
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <Button variant="outline-primary" aria-pressed="false">
-            Off
-          </Button>
-          <Button variant="primary" aria-pressed="true">
-            On
-          </Button>
-        </div>
-      </div>
-
-      <div>
-        <Heading
-          level={3}
-          style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem' }}
-        >
-          aria-describedby (Additional description)
-        </Heading>
+        <Heading level={3}> aria-describedby (Additional description) </Heading>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <Button variant="danger" aria-label="Delete Account - This action cannot be undone">
+          <Button
+            variant="danger"
+            aria-describedby="delete-description"
+            aria-label="Delete account permanently"
+            onClick={() => alert('Delete action triggered!')}
+          >
             Delete Account
           </Button>
-          <span style={{ fontSize: '0.75rem', color: '#dc3545' }}>
+          <span id="delete-description" style={{ fontSize: '0.75rem', color: 'var(--bs-danger)' }}>
             This action cannot be undone.
           </span>
         </div>
-      </div>
-
-      <div
-        style={{
-          backgroundColor: '#e7f3e7',
-          padding: '1rem',
-          borderRadius: '4px',
-          border: '1px solid #28a745',
-        }}
-      >
-        <p style={{ fontSize: '0.75rem', color: '#155724', margin: 0 }}>
-          <strong>✅ All ARIA attributes tested:</strong> aria-label, aria-describedby,
-          aria-controls, aria-expanded, aria-pressed, aria-busy
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
+          <strong>ARIA attributes used:</strong>
+          <br />• <code>aria-describedby=&quot;delete-description&quot;</code> - links to warning
+          text
+          <br />• <code>aria-label</code> - provides accessible button name
         </p>
       </div>
+
+      <div>
+        <Heading level={3}> aria-busy (Loading state) </Heading>
+        <Button variant="primary" loading aria-busy="true" aria-label="Saving changes, please wait">
+          Saving...
+        </Button>
+        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
+          <strong>ARIA attributes used:</strong>
+          <br />• <code>aria-busy=&quot;true&quot;</code> - indicates ongoing operation
+          <br />• <code>aria-disabled=&quot;true&quot;</code> - prevents interaction while loading
+        </p>
+      </div>
+
+      <Alert variant="success">
+        <strong>All ARIA attributes demonstrated:</strong> aria-label, aria-describedby,
+        aria-controls, aria-expanded, aria-pressed, aria-busy, aria-haspopup, aria-disabled
+      </Alert>
     </div>
-  ),
+  );
+};
+
+export const ARIAAttributesDemo: Story = {
+  render: () => <ARIAAttributesDemoExample />,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+import { useState } from 'react';
+import { Alert, Button, Dropdown, Heading } from '@dsai-io/react';
+
+const ARIAAttributesDemo = () => {
+  const [isPressed, setIsPressed] = useState(false);
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      {/* aria-expanded & aria-controls (Expandable) */}
+      <div>
+        <Heading level={3}>aria-expanded & aria-controls</Heading>
+        <Dropdown>
+          <Dropdown.Toggle
+            variant="outline-secondary"
+            aria-label="Open menu options"
+            aria-haspopup="menu"
+            aria-controls="demo-dropdown-menu"
+          >
+            Dropdown Menu
+          </Dropdown.Toggle>
+          <Dropdown.Menu id="demo-dropdown-menu" aria-label="Menu options">
+            <Dropdown.Item aria-label="Select first option">Menu item 1</Dropdown.Item>
+            <Dropdown.Item aria-label="Select second option">Menu item 2</Dropdown.Item>
+            <Dropdown.Item aria-label="Select third option">Menu item 3</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
+
+      {/* aria-pressed (Toggle Button) */}
+      <div>
+        <Heading level={3}>aria-pressed (Toggle Button)</Heading>
+        <Button
+          variant={isPressed ? 'primary' : 'outline-primary'}
+          aria-pressed={isPressed}
+          aria-label={isPressed ? 'Feature enabled, click to disable' : 'Feature disabled, click to enable'}
+          onClick={() => setIsPressed(!isPressed)}
+        >
+          {isPressed ? 'On' : 'Off'}
+        </Button>
+      </div>
+
+      {/* aria-describedby (Additional description) */}
+      <div>
+        <Heading level={3}>aria-describedby</Heading>
+        <Button
+          variant="danger"
+          aria-describedby="delete-description"
+          aria-label="Delete account permanently"
+        >
+          Delete Account
+        </Button>
+        <span id="delete-description">This action cannot be undone.</span>
+      </div>
+
+      {/* aria-busy (Loading state) */}
+      <div>
+        <Heading level={3}>aria-busy (Loading state)</Heading>
+        <Button
+          variant="primary"
+          loading
+          aria-busy="true"
+          aria-label="Saving changes, please wait"
+        >
+          Saving...
+        </Button>
+      </div>
+    </div>
+  );
+};
+`,
+        language: 'tsx',
+      },
+    },
+  },
 };

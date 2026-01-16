@@ -432,11 +432,11 @@ export const WithHelperText: Story = {
 export const CustomOptionRendering: Story = {
   render: () => {
     const colorOptions: SelectOption[] = [
-      { value: '#ff0000', label: 'Red' },
-      { value: '#00ff00', label: 'Green' },
-      { value: '#0000ff', label: 'Blue' },
-      { value: '#ffff00', label: 'Yellow' },
-      { value: '#ff00ff', label: 'Magenta' },
+      { value: 'var(--bs-danger)', label: 'Red' },
+      { value: 'var(--bs-success)', label: 'Green' },
+      { value: 'var(--bs-primary)', label: 'Blue' },
+      { value: 'var(--bs-warning)', label: 'Yellow' },
+      { value: 'var(--bs-purple)', label: 'Magenta' },
     ];
 
     return (

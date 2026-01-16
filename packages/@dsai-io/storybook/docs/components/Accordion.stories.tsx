@@ -211,7 +211,7 @@ export const MultipleMode: Story = {
 export const Flush: Story = {
   render: function FlushAccordion() {
     return (
-      <div style={{ backgroundColor: '#f8f9fa', padding: '1rem' }}>
+      <div style={{ backgroundColor: 'var(--bs-gray-100)', padding: '1rem' }}>
         <Accordion flush>
           <Accordion.Item eventKey="1">
             <Heading level={2} className="accordion-header">
@@ -475,8 +475,8 @@ export const WithCallbacks: Story = {
           style={{
             marginTop: '1rem',
             padding: '0.5rem',
-            background: '#f1f1f1',
-            borderRadius: '4px',
+            background: 'var(--bs-gray-100)',
+            borderRadius: 'var(--sb-border-radius-sm)',
             fontFamily: 'monospace',
             fontSize: '0.875rem',
           }}
@@ -484,7 +484,7 @@ export const WithCallbacks: Story = {
           <strong>Events:</strong>
           <ul style={{ margin: 0, padding: '0.5rem 0 0 1.5rem' }}>
             {events.length === 0 ? (
-              <li style={{ color: '#666' }}>No events yet...</li>
+              <li style={{ color: 'var(--bs-secondary)' }}>No events yet...</li>
             ) : (
               events.map((event, i) => <li key={`event-${i}-${event}`}>{event}</li>)
             )}

@@ -177,7 +177,7 @@ export const CreateAbortable: Story = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '800px' }}>
         <div>
           <Heading level={3}>Abortable Promises</Heading>
-          <p style={{ color: '#6c757d', marginTop: '0.5rem', marginBottom: 0 }}>
+          <p style={{ color: 'var(--bs-secondary)', marginTop: '0.5rem', marginBottom: 0 }}>
             Create cancellable promises with AbortController integration.
           </p>
         </div>
@@ -185,13 +185,13 @@ export const CreateAbortable: Story = {
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>Interactive Demo</Heading>
-          <p style={{ color: '#6c757d', marginBottom: '1rem' }}>
+          <p style={{ color: 'var(--bs-secondary)', marginBottom: '1rem' }}>
             Start a 3-second request, then try cancelling it before it completes.
           </p>
 
@@ -236,9 +236,9 @@ export const CreateAbortable: Story = {
         <div
           style={{
             padding: '1rem',
-            backgroundColor: '#e7f3ff',
+            backgroundColor: 'var(--bs-info-bg-subtle)',
             borderRadius: '0.5rem',
-            border: '1px solid #b6d4fe',
+            border: '1px solid var(--bs-info-border-subtle)',
           }}
         >
           <strong style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -342,7 +342,7 @@ export const WithTimeoutDemo: Story = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '800px' }}>
         <div>
           <Heading level={3}>Promise Timeouts</Heading>
-          <p style={{ color: '#6c757d', marginTop: '0.5rem', marginBottom: 0 }}>
+          <p style={{ color: 'var(--bs-secondary)', marginTop: '0.5rem', marginBottom: 0 }}>
             Wrap any promise with a timeout to prevent indefinite waiting.
           </p>
         </div>
@@ -350,9 +350,9 @@ export const WithTimeoutDemo: Story = {
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>Interactive Demo</Heading>
@@ -368,7 +368,7 @@ export const WithTimeoutDemo: Story = {
             <div>
               <label
                 htmlFor="timeout-slider"
-                style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}
+                style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'var(--sb-typography-font-weight-medium)' }}
               >
                 Timeout: {timeoutMs}ms
               </label>
@@ -386,7 +386,7 @@ export const WithTimeoutDemo: Story = {
             <div>
               <label
                 htmlFor="duration-slider"
-                style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}
+                style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'var(--sb-typography-font-weight-medium)' }}
               >
                 Request Duration: {requestDuration}ms
               </label>
@@ -405,7 +405,7 @@ export const WithTimeoutDemo: Story = {
 
           <p
             style={{
-              color: '#6c757d',
+              color: 'var(--bs-secondary)',
               marginBottom: '1rem',
               fontSize: '0.875rem',
               display: 'flex',
@@ -415,13 +415,13 @@ export const WithTimeoutDemo: Story = {
           >
             {requestDuration > timeoutMs ? (
               <>
-                <ExclamationTriangleFillIcon size="sm" color="#dc3545" aria-hidden /> Request will
-                timeout (duration {'>'} timeout)
+                <ExclamationTriangleFillIcon size="sm" color="var(--bs-danger)" aria-hidden />{' '}
+                Request will timeout (duration {'>'} timeout)
               </>
             ) : (
               <>
-                <CheckCircleFillIcon size="sm" color="#198754" aria-hidden /> Request will succeed
-                (duration ≤ timeout)
+                <CheckCircleFillIcon size="sm" color="var(--bs-success)" aria-hidden /> Request will
+                succeed (duration ≤ timeout)
               </>
             )}
           </p>
@@ -445,9 +445,9 @@ export const WithTimeoutDemo: Story = {
         <div
           style={{
             padding: '1rem',
-            backgroundColor: '#fff3cd',
+            backgroundColor: 'var(--bs-warning-bg-subtle)',
             borderRadius: '0.5rem',
-            border: '1px solid #ffecb5',
+            border: '1px solid var(--bs-warning-border-subtle)',
           }}
         >
           <strong style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -600,7 +600,7 @@ export const RetryWithBackoffDemo: Story = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '800px' }}>
         <div>
           <Heading level={3}>Retry with Exponential Backoff</Heading>
-          <p style={{ color: '#6c757d', marginTop: '0.5rem', marginBottom: 0 }}>
+          <p style={{ color: 'var(--bs-secondary)', marginTop: '0.5rem', marginBottom: 0 }}>
             Automatically retry failed operations with increasing delays between attempts.
           </p>
         </div>
@@ -608,9 +608,9 @@ export const RetryWithBackoffDemo: Story = {
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>Interactive Demo</Heading>
@@ -626,7 +626,7 @@ export const RetryWithBackoffDemo: Story = {
             <div>
               <label
                 htmlFor="fail-count"
-                style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}
+                style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'var(--sb-typography-font-weight-medium)' }}
               >
                 Failures before success: {failCount}
               </label>
@@ -643,7 +643,7 @@ export const RetryWithBackoffDemo: Story = {
             <div>
               <label
                 htmlFor="max-attempts"
-                style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}
+                style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'var(--sb-typography-font-weight-medium)' }}
               >
                 Max attempts: {maxAttempts}
               </label>
@@ -661,7 +661,7 @@ export const RetryWithBackoffDemo: Story = {
 
           <p
             style={{
-              color: '#6c757d',
+              color: 'var(--bs-secondary)',
               marginBottom: '1rem',
               fontSize: '0.875rem',
               display: 'flex',
@@ -671,13 +671,13 @@ export const RetryWithBackoffDemo: Story = {
           >
             {failCount >= maxAttempts ? (
               <>
-                <ExclamationTriangleFillIcon size="sm" color="#dc3545" aria-hidden /> Will exhaust
-                all attempts (failures ≥ max attempts)
+                <ExclamationTriangleFillIcon size="sm" color="var(--bs-danger)" aria-hidden /> Will
+                exhaust all attempts (failures ≥ max attempts)
               </>
             ) : (
               <>
-                <CheckCircleFillIcon size="sm" color="#198754" aria-hidden /> Will succeed on
-                attempt {failCount + 1}
+                <CheckCircleFillIcon size="sm" color="var(--bs-success)" aria-hidden /> Will succeed
+                on attempt {failCount + 1}
               </>
             )}
           </p>
@@ -694,8 +694,8 @@ export const RetryWithBackoffDemo: Story = {
           {logs.length > 0 && (
             <div
               style={{
-                backgroundColor: '#1e1e1e',
-                color: '#d4d4d4',
+                backgroundColor: 'var(--bs-dark)',
+                color: 'var(--bs-gray-400)',
                 padding: '1rem',
                 borderRadius: '0.5rem',
                 fontFamily: 'monospace',
@@ -783,7 +783,7 @@ export const ExponentialBackoffDemo: Story = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '800px' }}>
         <div>
           <Heading level={3}>Exponential Backoff Calculator</Heading>
-          <p style={{ color: '#6c757d', marginTop: '0.5rem', marginBottom: 0 }}>
+          <p style={{ color: 'var(--bs-secondary)', marginTop: '0.5rem', marginBottom: 0 }}>
             Visualize how backoff delays grow with each retry attempt.
           </p>
         </div>
@@ -791,9 +791,9 @@ export const ExponentialBackoffDemo: Story = {
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>Configuration</Heading>
@@ -807,7 +807,7 @@ export const ExponentialBackoffDemo: Story = {
             }}
           >
             <div>
-              <label style={{ display: 'block', fontWeight: 500 }}>
+              <label style={{ display: 'block', fontWeight: 'var(--sb-typography-font-weight-medium)' }}>
                 <span style={{ display: 'block', marginBottom: '0.5rem' }}>
                   Base Delay: {baseDelay}ms
                 </span>
@@ -823,7 +823,7 @@ export const ExponentialBackoffDemo: Story = {
               </label>
             </div>
             <div>
-              <label style={{ display: 'block', fontWeight: 500 }}>
+              <label style={{ display: 'block', fontWeight: 'var(--sb-typography-font-weight-medium)' }}>
                 <span style={{ display: 'block', marginBottom: '0.5rem' }}>
                   Multiplier: {multiplier}x
                 </span>
@@ -839,7 +839,7 @@ export const ExponentialBackoffDemo: Story = {
               </label>
             </div>
             <div>
-              <label style={{ display: 'block', fontWeight: 500 }}>
+              <label style={{ display: 'block', fontWeight: 'var(--sb-typography-font-weight-medium)' }}>
                 <span style={{ display: 'block', marginBottom: '0.5rem' }}>
                   Max Delay: {maxDelay}ms
                 </span>
@@ -861,9 +861,11 @@ export const ExponentialBackoffDemo: Story = {
                   checked={jitter}
                   onChange={(e) => setJitter(e.target.checked)}
                 />
-                <span style={{ fontWeight: 500 }}>Enable Jitter (±25%)</span>
+                <span style={{ fontWeight: 'var(--sb-typography-font-weight-medium)' }}>Enable Jitter (±25%)</span>
               </label>
-              <p style={{ color: '#6c757d', fontSize: '0.75rem', marginTop: '0.25rem' }}>
+              <p
+                style={{ color: 'var(--bs-secondary)', fontSize: '0.75rem', marginTop: '0.25rem' }}
+              >
                 Prevents thundering herd problem
               </p>
             </div>
@@ -877,9 +879,9 @@ export const ExponentialBackoffDemo: Story = {
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#fff',
+            backgroundColor: 'var(--bs-white)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>Delay Visualization</Heading>
@@ -899,13 +901,13 @@ export const ExponentialBackoffDemo: Story = {
                     marginBottom: '0.5rem',
                   }}
                 >
-                  <span style={{ width: '80px', fontWeight: 500 }}>Attempt {attempt + 1}</span>
+                  <span style={{ width: '80px', fontWeight: 'var(--sb-typography-font-weight-medium)' }}>Attempt {attempt + 1}</span>
                   <div
                     style={{
                       flex: 1,
                       height: '24px',
-                      backgroundColor: '#e9ecef',
-                      borderRadius: '4px',
+                      backgroundColor: 'var(--bs-gray-200)',
+                      borderRadius: 'var(--sb-border-radius-sm)',
                       overflow: 'hidden',
                     }}
                   >
@@ -913,7 +915,8 @@ export const ExponentialBackoffDemo: Story = {
                       style={{
                         width: `${Math.min(100, percentage)}%`,
                         height: '100%',
-                        backgroundColor: delay >= maxDelay ? '#dc3545' : '#0d6efd',
+                        backgroundColor:
+                          delay >= maxDelay ? 'var(--bs-danger)' : 'var(--bs-primary)',
                         transition: 'width 0.3s',
                       }}
                     />
@@ -921,7 +924,7 @@ export const ExponentialBackoffDemo: Story = {
                   <span style={{ width: '120px', fontSize: '0.875rem', fontFamily: 'monospace' }}>
                     {delay.toLocaleString()}ms
                     {jitter && theoretical !== delay && (
-                      <span style={{ color: '#6c757d', fontSize: '0.7rem' }}>
+                      <span style={{ color: 'var(--bs-secondary)', fontSize: '0.7rem' }}>
                         {' '}
                         ({delay > theoretical ? '+' : ''}
                         {Math.round(((delay - theoretical) / theoretical) * 100)}%)
@@ -933,7 +936,14 @@ export const ExponentialBackoffDemo: Story = {
             })}
           </div>
 
-          <p style={{ color: '#dc3545', fontSize: '0.875rem', marginTop: '1rem', marginBottom: 0 }}>
+          <p
+            style={{
+              color: 'var(--bs-danger)',
+              fontSize: '0.875rem',
+              marginTop: '1rem',
+              marginBottom: 0,
+            }}
+          >
             Red bars indicate delays capped at maxDelay ({maxDelay.toLocaleString()}ms)
           </p>
         </div>
@@ -1043,7 +1053,7 @@ export const CreateTaskQueueDemo: Story = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '800px' }}>
         <div>
           <Heading level={3}>Task Queue</Heading>
-          <p style={{ color: '#6c757d', marginTop: '0.5rem', marginBottom: 0 }}>
+          <p style={{ color: 'var(--bs-secondary)', marginTop: '0.5rem', marginBottom: 0 }}>
             Manage sequential or concurrent task execution with priority support.
           </p>
         </div>
@@ -1051,15 +1061,15 @@ export const CreateTaskQueueDemo: Story = {
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>Configuration</Heading>
 
           <div style={{ marginBottom: '1rem' }}>
-            <label style={{ display: 'block', fontWeight: 500 }}>
+            <label style={{ display: 'block', fontWeight: 'var(--sb-typography-font-weight-medium)' }}>
               <span style={{ display: 'block', marginBottom: '0.5rem' }}>
                 Concurrency: {concurrency} task{concurrency > 1 ? 's' : ''} at a time
               </span>
@@ -1101,7 +1111,7 @@ export const CreateTaskQueueDemo: Story = {
               display: 'flex',
               gap: '2rem',
               padding: '1rem',
-              backgroundColor: '#e9ecef',
+              backgroundColor: 'var(--bs-gray-200)',
               borderRadius: '0.5rem',
               marginBottom: '1rem',
             }}
@@ -1129,8 +1139,8 @@ export const CreateTaskQueueDemo: Story = {
           {logs.length > 0 && (
             <div
               style={{
-                backgroundColor: '#1e1e1e',
-                color: '#d4d4d4',
+                backgroundColor: 'var(--bs-dark)',
+                color: 'var(--bs-gray-400)',
                 padding: '1rem',
                 borderRadius: '0.5rem',
                 fontFamily: 'monospace',
@@ -1201,32 +1211,36 @@ export const QueueTaskDemo: Story = {
       handlesRef.current = [];
       setLogs([]);
 
-      addLog('▶ Demo started', '#6c757d');
-      addLog('1. Synchronous code runs first', '#000');
+      addLog('▶ Demo started', 'var(--bs-secondary)');
+      addLog('1. Synchronous code runs first', 'var(--bs-dark)');
 
       // Queue tasks in different orders
       handlesRef.current.push(
-        queueTask(() => addLog('4. Macrotask (setTimeout)', '#fd7e14'), { schedule: 'macrotask' })
+        queueTask(() => addLog('4. Macrotask (setTimeout)', 'var(--bs-orange)'), {
+          schedule: 'macrotask',
+        })
       );
 
       handlesRef.current.push(
-        queueTask(() => addLog('2. Microtask (Promise)', '#0d6efd'), { schedule: 'microtask' })
+        queueTask(() => addLog('2. Microtask (Promise)', 'var(--bs-primary)'), {
+          schedule: 'microtask',
+        })
       );
 
       handlesRef.current.push(
-        queueTask(() => addLog('3. Animation Frame (rAF)', '#198754'), {
+        queueTask(() => addLog('3. Animation Frame (rAF)', 'var(--bs-success)'), {
           schedule: 'animationFrame',
         })
       );
 
       handlesRef.current.push(
-        queueTask(() => addLog('5. Idle Callback (when browser is idle)', '#6f42c1'), {
+        queueTask(() => addLog('5. Idle Callback (when browser is idle)', 'var(--bs-purple)'), {
           schedule: 'idle',
           idleTimeout: 2000,
         })
       );
 
-      addLog('6. More synchronous code', '#000');
+      addLog('6. More synchronous code', 'var(--bs-dark)');
     };
 
     const cancelAll = (): void => {
@@ -1234,7 +1248,7 @@ export const QueueTaskDemo: Story = {
         h.cancel();
       });
       handlesRef.current = [];
-      addLog('[CANCELLED] All pending tasks cancelled', '#dc3545');
+      addLog('[CANCELLED] All pending tasks cancelled', 'var(--bs-danger)');
     };
 
     useEffect(() => {
@@ -1249,7 +1263,7 @@ export const QueueTaskDemo: Story = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '800px' }}>
         <div>
           <Heading level={3}>Task Scheduling</Heading>
-          <p style={{ color: '#6c757d', marginTop: '0.5rem', marginBottom: 0 }}>
+          <p style={{ color: 'var(--bs-secondary)', marginTop: '0.5rem', marginBottom: 0 }}>
             Schedule tasks with different priorities using browser APIs.
           </p>
         </div>
@@ -1257,13 +1271,13 @@ export const QueueTaskDemo: Story = {
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>Execution Order Demo</Heading>
-          <p style={{ color: '#6c757d', marginBottom: '1rem' }}>
+          <p style={{ color: 'var(--bs-secondary)', marginBottom: '1rem' }}>
             See how different scheduling strategies affect execution order.
           </p>
 
@@ -1279,8 +1293,8 @@ export const QueueTaskDemo: Story = {
           {logs.length > 0 && (
             <div
               style={{
-                backgroundColor: '#fff',
-                border: '1px solid #dee2e6',
+                backgroundColor: 'var(--bs-white)',
+                border: '1px solid var(--bs-border-color)',
                 padding: '1rem',
                 borderRadius: '0.5rem',
                 fontFamily: 'monospace',
@@ -1292,7 +1306,7 @@ export const QueueTaskDemo: Story = {
                 return (
                   <div
                     key={`${log.time}-${log.message}`}
-                    style={{ color: log.color || '#000', marginBottom: '0.25rem' }}
+                    style={{ color: log.color || 'var(--bs-dark)', marginBottom: '0.25rem' }}
                   >
                     {log.message}
                   </div>
@@ -1312,13 +1326,18 @@ export const QueueTaskDemo: Story = {
           <div
             style={{
               padding: '1rem',
-              backgroundColor: '#cfe2ff',
+              backgroundColor: 'var(--bs-primary-bg-subtle)',
               borderRadius: '0.5rem',
-              border: '1px solid #b6d4fe',
+              border: '1px solid var(--bs-primary-border-subtle)',
             }}
           >
             <strong
-              style={{ color: '#0d6efd', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+              style={{
+                color: 'var(--bs-primary)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+              }}
             >
               <CircleFillIcon size="sm" aria-hidden /> Microtask
             </strong>
@@ -1329,13 +1348,18 @@ export const QueueTaskDemo: Story = {
           <div
             style={{
               padding: '1rem',
-              backgroundColor: '#d1e7dd',
+              backgroundColor: 'var(--bs-success-bg-subtle)',
               borderRadius: '0.5rem',
-              border: '1px solid #badbcc',
+              border: '1px solid var(--bs-success-border-subtle)',
             }}
           >
             <strong
-              style={{ color: '#198754', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+              style={{
+                color: 'var(--bs-success)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+              }}
             >
               <CircleFillIcon size="sm" aria-hidden /> Animation Frame
             </strong>
@@ -1346,13 +1370,18 @@ export const QueueTaskDemo: Story = {
           <div
             style={{
               padding: '1rem',
-              backgroundColor: '#ffe5d0',
+              backgroundColor: 'var(--bs-warning-bg-subtle)',
               borderRadius: '0.5rem',
-              border: '1px solid #fecba1',
+              border: '1px solid var(--bs-warning-border-subtle)',
             }}
           >
             <strong
-              style={{ color: '#fd7e14', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+              style={{
+                color: 'var(--bs-orange)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+              }}
             >
               <CircleFillIcon size="sm" aria-hidden /> Macrotask
             </strong>
@@ -1363,13 +1392,18 @@ export const QueueTaskDemo: Story = {
           <div
             style={{
               padding: '1rem',
-              backgroundColor: '#e2d9f3',
+              backgroundColor: 'var(--bs-secondary-bg-subtle)',
               borderRadius: '0.5rem',
-              border: '1px solid #c5b3e6',
+              border: '1px solid var(--bs-secondary-border-subtle)',
             }}
           >
             <strong
-              style={{ color: '#6f42c1', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+              style={{
+                color: 'var(--bs-purple)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+              }}
             >
               <CircleFillIcon size="sm" aria-hidden /> Idle
             </strong>
@@ -1398,7 +1432,7 @@ export const APIReference: Story = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxWidth: '900px' }}>
         <div>
           <Heading level={3}>Async Utilities API Reference</Heading>
-          <p style={{ color: '#6c757d', marginTop: '0.5rem' }}>
+          <p style={{ color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
             Complete type definitions and usage examples for all async utilities.
           </p>
         </div>
@@ -1407,16 +1441,16 @@ export const APIReference: Story = {
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>createAbortable</Heading>
           <pre
             style={{
-              backgroundColor: '#1e1e1e',
-              color: '#d4d4d4',
+              backgroundColor: 'var(--bs-dark)',
+              color: 'var(--bs-gray-400)',
               padding: '1rem',
               borderRadius: '0.5rem',
               fontSize: '0.75rem',
@@ -1449,16 +1483,16 @@ console.log(aborted); // true after abort() is called`}
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>withTimeout</Heading>
           <pre
             style={{
-              backgroundColor: '#1e1e1e',
-              color: '#d4d4d4',
+              backgroundColor: 'var(--bs-dark)',
+              color: 'var(--bs-gray-400)',
               padding: '1rem',
               borderRadius: '0.5rem',
               fontSize: '0.75rem',
@@ -1495,16 +1529,16 @@ await withTimeout(
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>retryWithBackoff</Heading>
           <pre
             style={{
-              backgroundColor: '#1e1e1e',
-              color: '#d4d4d4',
+              backgroundColor: 'var(--bs-dark)',
+              color: 'var(--bs-gray-400)',
               padding: '1rem',
               borderRadius: '0.5rem',
               fontSize: '0.75rem',
@@ -1544,16 +1578,16 @@ if (result.success) {
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>exponentialBackoff</Heading>
           <pre
             style={{
-              backgroundColor: '#1e1e1e',
-              color: '#d4d4d4',
+              backgroundColor: 'var(--bs-dark)',
+              color: 'var(--bs-gray-400)',
               padding: '1rem',
               borderRadius: '0.5rem',
               fontSize: '0.75rem',
@@ -1586,16 +1620,16 @@ exponentialBackoff(3, { jitter: false }); // Exactly 8000ms`}
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>createTaskQueue</Heading>
           <pre
             style={{
-              backgroundColor: '#1e1e1e',
-              color: '#d4d4d4',
+              backgroundColor: 'var(--bs-dark)',
+              color: 'var(--bs-gray-400)',
               padding: '1rem',
               borderRadius: '0.5rem',
               fontSize: '0.75rem',
@@ -1637,16 +1671,16 @@ await queue.drain();`}
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#f8f9fa',
+            backgroundColor: 'var(--bs-gray-100)',
             borderRadius: '0.5rem',
-            border: '1px solid #dee2e6',
+            border: '1px solid var(--bs-border-color)',
           }}
         >
           <Heading level={4}>queueTask</Heading>
           <pre
             style={{
-              backgroundColor: '#1e1e1e',
-              color: '#d4d4d4',
+              backgroundColor: 'var(--bs-dark)',
+              color: 'var(--bs-gray-400)',
               padding: '1rem',
               borderRadius: '0.5rem',
               fontSize: '0.75rem',
@@ -1681,9 +1715,9 @@ handle.cancel();`}
         <div
           style={{
             padding: '1.5rem',
-            backgroundColor: '#e7f3ff',
+            backgroundColor: 'var(--bs-info-bg-subtle)',
             borderRadius: '0.5rem',
-            border: '1px solid #b6d4fe',
+            border: '1px solid var(--bs-info-border-subtle)',
           }}
         >
           <Heading level={4}>
@@ -1693,8 +1727,8 @@ handle.cancel();`}
           </Heading>
           <pre
             style={{
-              backgroundColor: '#1e1e1e',
-              color: '#d4d4d4',
+              backgroundColor: 'var(--bs-dark)',
+              color: 'var(--bs-gray-400)',
               padding: '1rem',
               borderRadius: '0.5rem',
               fontSize: '0.75rem',

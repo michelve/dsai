@@ -2,9 +2,9 @@
  * DSAi Figma Plugin - Icon Generator
  *
  * This plugin extracts icons from a Figma file and generates React components
- * compatible with the DSAi design system (@dsai/react).
+ * compatible with the DSAi design system (@dsai-io/react).
  *
- * Output format matches: packages/@dsai/react/src/components/Icon/components/
+ * Output format matches: packages/@dsai-io/react/src/components/Icon/components/
  *
  * Usage:
  * 1. Open the Figma file containing icons
@@ -18,7 +18,7 @@
 
 // URL substitution variable (used in figma.config.json for Code Connect)
 // This gets substituted with the actual Figma file URL at build time
-// See: packages/@dsai/react/figma.config.json
+// See: packages/@dsai-io/react/figma.config.json
 const FIGMA_URL_SUBSTITUTION = '<FIGMA_DSAI_ICONS>';
 
 // Icon variant to export - can be size in pixels OR variant name
@@ -315,7 +315,7 @@ export type { IconProps, IconComponent } from './types';
 import figma from '@figma/code-connect';
 
 // Import all icons
-${exports.map((e) => e.replace("from './components/", "from '@dsai/react/components/Icon/components/")).join('\n')}
+${exports.map((e) => e.replace("from './components/", "from '@dsai-io/react/components/Icon/components/")).join('\n')}
 
 // Code Connect mappings
 ${codeConnects.join('\n\n')}

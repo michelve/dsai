@@ -705,7 +705,7 @@ const AccessibilityExample = (): JSX.Element => (
       </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar name="John Doe" status="online" />
-        <span style={{ fontSize: '0.875rem', color: '#666' }}>
+        <span style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
           Announces: &quot;John Doe, Online&quot;
         </span>
       </div>
@@ -717,7 +717,7 @@ const AccessibilityExample = (): JSX.Element => (
       </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar name="Jane Smith" aria-label="Jane Smith, Team Lead, Available" />
-        <span style={{ fontSize: '0.875rem', color: '#666' }}>Custom label overrides default</span>
+        <span style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>Custom label overrides default</span>
       </div>
     </div>
 
@@ -727,7 +727,7 @@ const AccessibilityExample = (): JSX.Element => (
       </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar name="Hidden from SR" decorative />
-        <span style={{ fontSize: '0.875rem', color: '#666' }}>
+        <span style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
           Hidden from screen readers (aria-hidden=true)
         </span>
       </div>
@@ -739,7 +739,7 @@ const AccessibilityExample = (): JSX.Element => (
       </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar name="Interactive User" interactive onClick={() => alert('Clicked!')} />
-        <span style={{ fontSize: '0.875rem', color: '#666' }}>
+        <span style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
           Focusable, activates with Enter/Space
         </span>
       </div>
@@ -755,7 +755,7 @@ const AccessibilityExample = (): JSX.Element => (
           <Avatar name="Bob" />
           <Avatar name="Charlie" />
         </AvatarGroup>
-        <span style={{ fontSize: '0.875rem', color: '#666' }}>
+        <span style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
           Group with role=&quot;group&quot; and aria-label
         </span>
       </div>

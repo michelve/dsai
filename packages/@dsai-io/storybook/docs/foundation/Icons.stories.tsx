@@ -174,11 +174,11 @@ const IconDisplay = ({ icon, name, size = 24 }: IconDisplayProps) => (
       flexDirection: 'column',
       alignItems: 'center',
       padding: '16px 8px',
-      borderRadius: '8px',
-      border: '1px solid #e5e7eb',
-      backgroundColor: '#fafafa',
+      borderRadius: 'var(--sb-border-radius-lg)',
+      border: '1px solid var(--bs-border-color)',
+      backgroundColor: 'var(--bs-gray-100)',
       minWidth: '100px',
-      gap: '8px',
+      gap: 'var(--sb-spacing-2)',
     }}
   >
     <div style={{ fontSize: size }}>{icon}</div>
@@ -186,7 +186,7 @@ const IconDisplay = ({ icon, name, size = 24 }: IconDisplayProps) => (
       style={{
         fontSize: '11px',
         fontFamily: 'monospace',
-        color: '#6b7280',
+        color: 'var(--bs-secondary)',
         textAlign: 'center',
         wordBreak: 'break-word',
       }}
@@ -205,18 +205,20 @@ interface IconGridProps {
 const IconGrid = ({ children, title, description }: IconGridProps) => (
   <div style={{ marginBottom: '2rem' }}>
     {title && (
-      <Heading level={3} style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.5rem' }}>
+      <Heading level={3} style={{ fontSize: '1.25rem', fontWeight: 'var(--sb-typography-font-weight-semi-bold)', marginBottom: '0.5rem' }}>
         {title}
       </Heading>
     )}
     {description && (
-      <p style={{ fontSize: '0.875rem', color: '#6b7280', marginBottom: '1rem' }}>{description}</p>
+      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)', marginBottom: '1rem' }}>
+        {description}
+      </p>
     )}
     <div
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
-        gap: '12px',
+        gap: 'var(--sb-spacing-2)',
       }}
     >
       {children}
@@ -409,20 +411,20 @@ export const Colors: Story = {
         </Heading>
         <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           <div style={{ textAlign: 'center' }}>
-            <HeartFillIcon size={32} color="#e91e63" />
-            <p style={{ fontSize: '12px', marginTop: '8px' }}>#e91e63</p>
+            <HeartFillIcon size={32} color="var(--bs-danger)" />
+            <p style={{ fontSize: '12px', marginTop: '8px' }}>danger</p>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <StarFillIcon size={32} color="#ffc107" />
-            <p style={{ fontSize: '12px', marginTop: '8px' }}>#ffc107</p>
+            <StarFillIcon size={32} color="var(--bs-warning)" />
+            <p style={{ fontSize: '12px', marginTop: '8px' }}>warning</p>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <CloudFillIcon size={32} color="#2196f3" />
-            <p style={{ fontSize: '12px', marginTop: '8px' }}>#2196f3</p>
+            <CloudFillIcon size={32} color="var(--bs-primary)" />
+            <p style={{ fontSize: '12px', marginTop: '8px' }}>primary</p>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <GithubIcon size={32} color="#333" />
-            <p style={{ fontSize: '12px', marginTop: '8px' }}>#333</p>
+            <GithubIcon size={32} color="var(--bs-dark)" />
+            <p style={{ fontSize: '12px', marginTop: '8px' }}>dark</p>
           </div>
         </div>
       </div>
@@ -432,16 +434,16 @@ export const Colors: Story = {
           Inheriting Text Color (default)
         </Heading>
         <div style={{ display: 'flex', gap: '2rem' }}>
-          <div style={{ color: '#1f2937' }}>
+          <div style={{ color: 'var(--bs-body-color)' }}>
             <SearchIcon size={24} /> Dark text
           </div>
-          <div style={{ color: '#6b7280' }}>
+          <div style={{ color: 'var(--bs-secondary)' }}>
             <SearchIcon size={24} /> Gray text
           </div>
-          <div style={{ color: '#3b82f6' }}>
+          <div style={{ color: 'var(--bs-primary)' }}>
             <SearchIcon size={24} /> Blue text
           </div>
-          <div style={{ color: '#10b981' }}>
+          <div style={{ color: 'var(--bs-success)' }}>
             <SearchIcon size={24} /> Green text
           </div>
         </div>
@@ -502,16 +504,16 @@ export const OutlineVsFill: Story = {
               display: 'flex',
               alignItems: 'center',
               gap: '1rem',
-              padding: '12px',
-              border: '1px solid #e5e7eb',
-              borderRadius: '8px',
+              padding: 'var(--sb-spacing-2)',
+              border: '1px solid var(--bs-border-color)',
+              borderRadius: 'var(--sb-border-radius-lg)',
             }}
           >
-            <div style={{ display: 'flex', gap: '8px' }}>
+            <div style={{ display: 'flex', gap: 'var(--sb-spacing-2)' }}>
               {outline}
               {fill}
             </div>
-            <span style={{ fontSize: '13px', color: '#6b7280' }}>{name}</span>
+            <span style={{ fontSize: '13px', color: 'var(--bs-secondary)' }}>{name}</span>
           </div>
         ))}
       </div>
@@ -535,15 +537,15 @@ export const Accessibility: Story = {
       <div
         style={{
           padding: '1rem',
-          backgroundColor: '#f0fdf4',
-          borderRadius: '8px',
-          border: '1px solid #bbf7d0',
+          backgroundColor: 'var(--bs-success-bg-subtle)',
+          borderRadius: 'var(--sb-border-radius-lg)',
+          border: '1px solid var(--bs-success-border-subtle)',
         }}
       >
         <h3
           style={{
             marginBottom: '0.5rem',
-            color: '#166534',
+            color: 'var(--bs-success-text-emphasis)',
             display: 'flex',
             alignItems: 'center',
             gap: '0.5rem',
@@ -551,22 +553,28 @@ export const Accessibility: Story = {
         >
           <CheckCircleFillIcon size={18} /> Decorative Icons (Inside Buttons)
         </h3>
-        <p style={{ fontSize: '14px', color: '#166534', marginBottom: '1rem' }}>
+        <p
+          style={{
+            fontSize: '14px',
+            color: 'var(--bs-success-text-emphasis)',
+            marginBottom: '1rem',
+          }}
+        >
           When used inside buttons or next to text, icons should be decorative. The button text
           provides the accessible name.
         </p>
         <code
           style={{
             display: 'block',
-            padding: '12px',
-            backgroundColor: '#dcfce7',
-            borderRadius: '4px',
+            padding: 'var(--sb-spacing-2)',
+            backgroundColor: 'var(--bs-success-bg-subtle)',
+            borderRadius: 'var(--sb-border-radius-sm)',
             fontSize: '13px',
           }}
         >
           {`<Button startIcon={<ArrowLeftIcon />}>Go Back</Button>`}
         </code>
-        <p style={{ fontSize: '12px', color: '#166534', marginTop: '8px' }}>
+        <p style={{ fontSize: '12px', color: 'var(--bs-success-text-emphasis)', marginTop: '8px' }}>
           The icon will have <code>aria-hidden=&quot;true&quot;</code> automatically.
         </p>
       </div>
@@ -574,15 +582,15 @@ export const Accessibility: Story = {
       <div
         style={{
           padding: '1rem',
-          backgroundColor: '#eff6ff',
-          borderRadius: '8px',
-          border: '1px solid #bfdbfe',
+          backgroundColor: 'var(--bs-info-bg-subtle)',
+          borderRadius: 'var(--sb-border-radius-lg)',
+          border: '1px solid var(--bs-info-border-subtle)',
         }}
       >
         <h3
           style={{
             marginBottom: '0.5rem',
-            color: '#1e40af',
+            color: 'var(--bs-primary-text-emphasis)',
             display: 'flex',
             alignItems: 'center',
             gap: '0.5rem',
@@ -590,22 +598,28 @@ export const Accessibility: Story = {
         >
           <InfoCircleFillIcon size={18} /> Semantic Icons (Standalone)
         </h3>
-        <p style={{ fontSize: '14px', color: '#1e40af', marginBottom: '1rem' }}>
+        <p
+          style={{
+            fontSize: '14px',
+            color: 'var(--bs-primary-text-emphasis)',
+            marginBottom: '1rem',
+          }}
+        >
           When an icon conveys meaning on its own, use <code>aria-label</code> to make it
           accessible.
         </p>
         <code
           style={{
             display: 'block',
-            padding: '12px',
-            backgroundColor: '#dbeafe',
-            borderRadius: '4px',
+            padding: 'var(--sb-spacing-2)',
+            backgroundColor: 'var(--bs-info-bg-subtle)',
+            borderRadius: 'var(--sb-border-radius-sm)',
             fontSize: '13px',
           }}
         >
           {`<CheckCircleFillIcon aria-label="Task completed" color="green" />`}
         </code>
-        <p style={{ fontSize: '12px', color: '#1e40af', marginTop: '8px' }}>
+        <p style={{ fontSize: '12px', color: 'var(--bs-primary-text-emphasis)', marginTop: '8px' }}>
           The icon will have <code>role=&quot;img&quot;</code> and the label will be announced.
         </p>
       </div>
@@ -613,15 +627,15 @@ export const Accessibility: Story = {
       <div
         style={{
           padding: '1rem',
-          backgroundColor: '#fef3c7',
-          borderRadius: '8px',
-          border: '1px solid #fde68a',
+          backgroundColor: 'var(--bs-warning-bg-subtle)',
+          borderRadius: 'var(--sb-border-radius-lg)',
+          border: '1px solid var(--bs-warning-border-subtle)',
         }}
       >
         <h3
           style={{
             marginBottom: '0.5rem',
-            color: '#92400e',
+            color: 'var(--bs-warning-text-emphasis)',
             display: 'flex',
             alignItems: 'center',
             gap: '0.5rem',
@@ -629,21 +643,27 @@ export const Accessibility: Story = {
         >
           <ExclamationTriangleFillIcon size={18} /> Icon-Only Buttons
         </h3>
-        <p style={{ fontSize: '14px', color: '#92400e', marginBottom: '1rem' }}>
+        <p
+          style={{
+            fontSize: '14px',
+            color: 'var(--bs-warning-text-emphasis)',
+            marginBottom: '1rem',
+          }}
+        >
           For icon-only buttons, always add <code>aria-label</code> to the Button, not the icon.
         </p>
         <code
           style={{
             display: 'block',
-            padding: '12px',
-            backgroundColor: '#fef9c3',
-            borderRadius: '4px',
+            padding: 'var(--sb-spacing-2)',
+            backgroundColor: 'var(--bs-warning-bg-subtle)',
+            borderRadius: 'var(--sb-border-radius-sm)',
             fontSize: '13px',
           }}
         >
           {`<Button aria-label="Close dialog" startIcon={<XIcon />} />`}
         </code>
-        <p style={{ fontSize: '12px', color: '#92400e', marginTop: '8px' }}>
+        <p style={{ fontSize: '12px', color: 'var(--bs-warning-text-emphasis)', marginTop: '8px' }}>
           The button wrapper hides the icon; the button&apos;s <code>aria-label</code> provides the
           name.
         </p>
@@ -807,20 +827,20 @@ export const InteractiveDemo: Story = {
     const sizeId = `${id}-size`;
     const colorId = `${id}-color`;
     const [size, setSize] = useState(32);
-    const [color, setColor] = useState('#0d6efd');
+    const [color, setColor] = useState('var(--bs-primary)');
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
         <div
           style={{
             padding: '2rem',
-            border: '1px solid #e5e7eb',
-            borderRadius: '12px',
+            border: '1px solid var(--bs-border-color)',
+            borderRadius: 'var(--sb-border-radius-lg)',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             minHeight: '150px',
-            backgroundColor: '#fafafa',
+            backgroundColor: 'var(--bs-gray-100)',
           }}
         >
           <StarFillIcon size={size} color={color} />
@@ -830,7 +850,7 @@ export const InteractiveDemo: Story = {
           <div style={{ flex: '1 1 200px' }}>
             <label
               htmlFor={sizeId}
-              style={{ display: 'block', marginBottom: '8px', fontWeight: 500 }}
+              style={{ display: 'block', marginBottom: '8px', fontWeight: 'var(--sb-typography-font-weight-medium)' }}
             >
               Size: {size}px
             </label>
@@ -848,11 +868,11 @@ export const InteractiveDemo: Story = {
           <div style={{ flex: '1 1 200px' }}>
             <label
               htmlFor={colorId}
-              style={{ display: 'block', marginBottom: '8px', fontWeight: 500 }}
+              style={{ display: 'block', marginBottom: '8px', fontWeight: 'var(--sb-typography-font-weight-medium)' }}
             >
               Color
             </label>
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: 'var(--sb-spacing-2)', alignItems: 'center' }}>
               <input
                 id={colorId}
                 type="color"
@@ -868,8 +888,8 @@ export const InteractiveDemo: Story = {
         <div
           style={{
             padding: '1rem',
-            backgroundColor: '#f3f4f6',
-            borderRadius: '8px',
+            backgroundColor: 'var(--bs-gray-100)',
+            borderRadius: 'var(--sb-border-radius-lg)',
             fontFamily: 'monospace',
             fontSize: '14px',
           }}

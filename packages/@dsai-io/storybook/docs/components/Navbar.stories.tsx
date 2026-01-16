@@ -375,7 +375,7 @@ export const Controlled: Story = {
 
     return (
       <div>
-        <div style={{ padding: '1rem', background: '#f8f9fa', marginBottom: '0' }}>
+        <div style={{ padding: '1rem', background: 'var(--bs-gray-100)', marginBottom: '0' }}>
           <strong>External Controls:</strong>
           <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             <Button size="sm" variant="outline-primary" onClick={() => setExpanded(true)}>
@@ -978,8 +978,8 @@ export const WithCallback: Story = {
           style={{
             margin: '1rem',
             padding: '0.5rem',
-            background: '#f1f1f1',
-            borderRadius: '4px',
+            background: 'var(--bs-gray-100)',
+            borderRadius: 'var(--sb-border-radius-sm)',
             fontFamily: 'monospace',
             fontSize: '0.875rem',
           }}
@@ -987,7 +987,7 @@ export const WithCallback: Story = {
           <strong>Events:</strong>
           <ul style={{ margin: 0, padding: '0.5rem 0 0 1.5rem' }}>
             {events.length === 0 ? (
-              <li style={{ color: '#666' }}>Toggle the menu to see events...</li>
+              <li style={{ color: 'var(--bs-secondary)' }}>Toggle the menu to see events...</li>
             ) : (
               events.map((event, i) => <li key={`event-${i}-${event}`}>{event}</li>)
             )}

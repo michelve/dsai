@@ -750,14 +750,14 @@ export const ThemedWithVisualStates: Story = {
         <style>
           {`
             .custom-tooltip-surface.tooltip {
-              --tooltip-bg: #1b1d3a;
+              --tooltip-bg: var(--bs-gray-900);
             }
 
             .custom-tooltip-surface .tooltip-inner {
               background-color: var(--tooltip-bg);
-              color: #f8f9ff;
-              font-weight: 500;
-              letter-spacing: 0.01em;
+              color: var(--bs-gray-100);
+              font-weight: var(--sb-typography-font-weight-medium);
+              letter-spacing: var(--sb-typography-letter-spacing-wide);
             }
 
             .custom-tooltip-surface .dsai-tooltip-arrow {
