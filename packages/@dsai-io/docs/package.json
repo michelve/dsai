@@ -2,7 +2,6 @@
   "name": "@dsai-io/docs",
   "version": "0.0.1",
   "description": "Documentation site for DSAi design system",
-  "private": true,
   "scripts": {
     "dev": "echo 'Start docs dev server'",
     "build": "echo 'Build documentation site'",
@@ -17,5 +16,8 @@
   "dependencies": {
     "@dsai-io/react": "workspace:*"
   },
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "publishConfig": {
+    "access": "restricted"
+  }
 }

@@ -1,0 +1,129 @@
+name: Publish Packages
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      package:
+        description: 'Package to publish (all, tools, react, figma-tokens, storybook, docs)'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - tools
+          - react
+          - figma-tokens
+          - storybook
+          - docs
+
+permissions:
+  id-token: write # Required for npm OIDC trusted publishing
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_READ_TOKEN }}
+
+      - name: Build all packages
+        run: pnpm nx run-many --target=build --all
+
+      # Replace workspace:* with actual versions for publishing
+      - name: Prepare packages for publishing
+        run: |
+          # Get the version from tools package
+          TOOLS_VERSION=$(node -p "require('./packages/@dsai-io/tools/package.json').version")
+          
+          # Update figma-tokens to use actual version instead of workspace:*
+          cd packages/@dsai-io/figma-tokens
+          sed -i.bak 's/"@dsai-io\/tools": "workspace:\*"/"@dsai-io\/tools": "^'"$TOOLS_VERSION"'"/' package.json
+          rm -f package.json.bak
+          cd ../..
+          
+          # Update react to use actual version if it depends on tools
+          cd packages/@dsai-io/react
+          if grep -q '"@dsai-io/tools": "workspace:\*"' package.json; then
+            sed -i.bak 's/"@dsai-io\/tools": "workspace:\*"/"@dsai-io\/tools": "^'"$TOOLS_VERSION"'"/' package.json
+            rm -f package.json.bak
+          fi
+          cd ../..
+          
+          # Update storybook dependencies
+          cd packages/@dsai-io/storybook
+          if grep -q '"@dsai-io/tools": "workspace:\*"' package.json; then
+            sed -i.bak 's/"@dsai-io\/tools": "workspace:\*"/"@dsai-io\/tools": "^'"$TOOLS_VERSION"'"/' package.json
+            rm -f package.json.bak
+          fi
+          REACT_VERSION=$(node -p "require('../react/package.json').version")
+          if grep -q '"@dsai-io/react": "workspace:\*"' package.json; then
+            sed -i.bak 's/"@dsai-io\/react": "workspace:\*"/"@dsai-io\/react": "^'"$REACT_VERSION"'"/' package.json
+            rm -f package.json.bak
+          fi
+          FIGMA_VERSION=$(node -p "require('../figma-tokens/package.json').version")
+          if grep -q '"@dsai-io/figma-tokens": "workspace:\*"' package.json; then
+            sed -i.bak 's/"@dsai-io\/figma-tokens": "workspace:\*"/"@dsai-io\/figma-tokens": "^'"$FIGMA_VERSION"'"/' package.json
+            rm -f package.json.bak
+          fi
+          cd ../..
+
+      # Publish @dsai-io/tools (base dependency)
+      - name: Publish @dsai-io/tools
+        if: github.event_name == 'push' || github.event.inputs.package == 'all' || github.event.inputs.package == 'tools'
+        run: |
+          cd packages/@dsai-io/tools
+          npm publish
+        continue-on-error: false
+
+      # Publish @dsai-io/figma-tokens
+      - name: Publish @dsai-io/figma-tokens
+        if: github.event_name == 'push' || github.event.inputs.package == 'all' || github.event.inputs.package == 'figma-tokens'
+        run: |
+          cd packages/@dsai-io/figma-tokens
+          npm publish
+        continue-on-error: false
+
+      # Publish @dsai-io/react
+      - name: Publish @dsai-io/react
+        if: github.event_name == 'push' || github.event.inputs.package == 'all' || github.event.inputs.package == 'react'
+        run: |
+          cd packages/@dsai-io/react
+          npm publish
+        continue-on-error: false
+
+      # Publish @dsai-io/storybook
+      - name: Publish @dsai-io/storybook
+        if: github.event_name == 'push' || github.event.inputs.package == 'all' || github.event.inputs.package == 'storybook'
+        run: |
+          cd packages/@dsai-io/storybook
+          npm publish
+        continue-on-error: false
+
+      # Publish @dsai-io/docs
+      - name: Publish @dsai-io/docs
+        if: github.event_name == 'push' || github.event.inputs.package == 'all' || github.event.inputs.package == 'docs'
+        run: |
+          cd packages/@dsai-io/docs
+          npm publish
+        continue-on-error: false
