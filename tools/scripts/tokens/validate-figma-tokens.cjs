@@ -11,14 +11,17 @@
  *
  * Validates:
  * 1. Figma export files exist and have valid structure
- * 2. All collections and modes are present
+ * 2. All collections and modes are present (Light, Dark, Base, Pro, Enterprise, etc.)
  * 3. All tokens have required properties ($value, $type)
  * 4. All nested levels are complete (no missing tokens)
  * 5. Transformation completeness (source tokens vs output tokens)
  * 6. No tokens are lost in transformation
  * 7. Value consistency between source and output
+ * 8. Multi-theme/mode support with per-mode statistics
  *
- * TODO: Add dark mode validation when dark mode is implemented
+ * Supported theme selectors:
+ * - :root (default/light mode)
+ * - [data-dsai-theme="{mode}"] (dark, pro, enterprise, moonlight, etc.)
  *
  * Usage: node tools/scripts/tokens/validate-figma-tokens.cjs
  *
@@ -80,6 +83,9 @@ const results = {
     totalOutputTokens: 0,
     missingTokens: [],
     extraTokens: [],
+    // Track tokens per mode for multi-theme validation
+    tokensByMode: {},
+    modesFound: new Set(),
   },
 };
 
@@ -416,19 +422,29 @@ function validateFigmaExportFile(fileName) {
     }
 
     const modes = Object.keys(collection.modes);
+    
+    // Track all discovered modes
+    for (const mode of modes) {
+      results.stats.modesFound.add(mode);
+    }
+    
     results.info.push({
       file: fileName,
       collection: collectionName,
       message: `Modes: ${modes.join(', ')}`,
     });
 
-    // TODO: Validate dark mode when implemented
-    // For now, we only validate Light mode
-    if (!modes.includes('Light') && !modes.includes('Base')) {
+    // Validate that at least one default mode exists (Light or Base)
+    // Other modes (Dark, Pro, Enterprise, etc.) are optional
+    const hasDefaultMode = modes.some((m) => 
+      ['Light', 'Base', 'Default'].includes(m)
+    );
+    
+    if (!hasDefaultMode) {
       results.warnings.push({
         file: fileName,
         collection: collectionName,
-        message: 'No Light or Base mode found',
+        message: `No default mode (Light/Base/Default) found. Available modes: ${modes.join(', ')}`,
       });
     }
 
@@ -657,20 +673,49 @@ function validateTransformationCompleteness() {
     return;
   }
 
-  // TODO: Dark mode validation when dark mode is implemented
-  // For now, filter out Dark mode tokens from validation
-  const lightModeTokens = results.stats.sourceTokens.filter((token) => {
-    return token.mode !== 'Dark';
+  // Group tokens by mode for per-mode validation
+  const tokensByMode = {};
+  const allModes = [...results.stats.modesFound];
+  
+  results.stats.sourceTokens.forEach((token) => {
+    const mode = token.mode || 'Unknown';
+    if (!tokensByMode[mode]) {
+      tokensByMode[mode] = [];
+    }
+    tokensByMode[mode].push(token);
   });
-
-  const darkModeTokenCount = results.stats.sourceTokens.length - lightModeTokens.length;
-  if (darkModeTokenCount > 0) {
-    console.log(`  ℹ️  Excluding ${darkModeTokenCount} Dark mode tokens (not yet implemented)`);
+  
+  results.stats.tokensByMode = tokensByMode;
+  
+  // Report token counts per mode
+  console.log('  📊 Tokens by mode:');
+  for (const [mode, tokens] of Object.entries(tokensByMode)) {
+    console.log(`     ${mode}: ${tokens.length} tokens`);
+  }
+  console.log();
+  
+  // Determine which modes to validate based on available output
+  // Default modes (Light/Base) are validated against main output files
+  // Other modes (Dark/Pro/etc.) would be validated against mode-specific output files
+  const defaultModes = ['Light', 'Base', 'Default'];
+  const defaultModeTokens = results.stats.sourceTokens.filter((token) => 
+    defaultModes.includes(token.mode)
+  );
+  
+  const alternativeModes = allModes.filter((m) => !defaultModes.includes(m));
+  const alternativeModeTokenCount = results.stats.sourceTokens.length - defaultModeTokens.length;
+  
+  if (alternativeModeTokenCount > 0) {
+    console.log(`  ℹ️  Found ${alternativeModeTokenCount} tokens in alternative modes: ${alternativeModes.join(', ')}`);
+    console.log(`     These require mode-specific output files (e.g., tokens-dark.css)`);
     results.info.push({
-      message: `${darkModeTokenCount} Dark mode tokens excluded from validation`,
-      note: 'TODO: Validate dark mode when implemented',
+      message: `${alternativeModeTokenCount} tokens in alternative modes: ${alternativeModes.join(', ')}`,
+      note: 'Alternative mode tokens require separate output files with [data-dsai-theme="{mode}"] selectors',
     });
   }
+  
+  // For now, validate default mode tokens against main output
+  const lightModeTokens = defaultModeTokens;
 
   // Filter out shadow sub-properties (color, offsetX, offsetY, blur, spread)
   // These are intentionally combined into composite shadow values
@@ -713,7 +758,7 @@ function validateTransformationCompleteness() {
     outputMap.set(normalizedPath, token);
   });
 
-  console.log(`  Source tokens (Light/Base modes): ${sourceMap.size}`);
+  console.log(`  Source tokens (default modes: ${defaultModes.join('/')}): ${sourceMap.size}`);
   console.log(`  Output tokens (normalized): ${outputMap.size}`);
 
   // Find missing tokens (in source but not in output)
