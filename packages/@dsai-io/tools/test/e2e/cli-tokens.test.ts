@@ -71,12 +71,7 @@ function runCLI(args: string[], cwd: string): CLIResult {
   } else {
     return {
       stdout: '',
-      stderr: [
-        'CLI not found.',
-        `Binary (${binaryExists}): ${binaryPath}`,
-        `Dist (${distExists}): ${distPath}`,
-        `Source (${sourceExists}): ${sourcePath}`,
-      ].join('\n'),
+      stderr: `CLI not found. binary=${binaryExists}, dist=${distExists}, source=${sourceExists}. Paths: ${binaryPath}, ${distPath}, ${sourcePath}`,
       exitCode: 1,
     };
   }
@@ -133,13 +128,21 @@ describe('CLI Help Output', () => {
   it('should display help for tokens command', () => {
     const result = runCLI(['tokens', '--help'], process.cwd());
 
-    // Skip if CLI not available (e.g., dist not built)
+    // Fail explicitly if CLI not available - CI builds before tests, local devs need feedback
     if (result.stderr.includes('CLI not found')) {
-      console.warn('Skipping test: CLI not built -', result.stderr);
-      return;
+      throw new Error(
+        `CLI not available: ${result.stderr}. Run 'pnpm nx run @dsai-io/tools:build' first.`
+      );
     }
 
     const output = result.stdout + result.stderr;
+
+    // Fail if output is empty - CLI should always produce output when built
+    if (!output.trim()) {
+      throw new Error(
+        "CLI returned empty output. Run 'pnpm nx run @dsai-io/tools:build' first."
+      );
+    }
 
     // Help text should include command description
     expect(output).toMatch(/token/i);
@@ -148,13 +151,21 @@ describe('CLI Help Output', () => {
   it('should display help for tokens validate command', () => {
     const result = runCLI(['tokens', 'validate', '--help'], process.cwd());
 
-    // Skip if CLI not available (e.g., dist not built)
+    // Fail explicitly if CLI not available - CI builds before tests, local devs need feedback
     if (result.stderr.includes('CLI not found')) {
-      console.warn('Skipping test: CLI not built -', result.stderr);
-      return;
+      throw new Error(
+        `CLI not available: ${result.stderr}. Run 'pnpm nx run @dsai-io/tools:build' first.`
+      );
     }
 
     const output = result.stdout + result.stderr;
+
+    // Fail if output is empty - CLI should always produce output when built
+    if (!output.trim()) {
+      throw new Error(
+        "CLI returned empty output. Run 'pnpm nx run @dsai-io/tools:build' first."
+      );
+    }
 
     expect(output).toMatch(/validate/i);
   });
