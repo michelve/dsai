@@ -141,12 +141,6 @@ describe('CLI Help Output', () => {
 
     const output = result.stdout + result.stderr;
 
-    // Skip if output is empty (CLI might not be fully built in CI)
-    if (!output.trim()) {
-      console.warn('Skipping test: CLI returned empty output (dist may not be built)');
-      return;
-    }
-
     // Help text should include command description
     expect(output).toMatch(/token/i);
   });
@@ -161,12 +155,6 @@ describe('CLI Help Output', () => {
     }
 
     const output = result.stdout + result.stderr;
-
-    // Skip if output is empty (CLI might not be fully built in CI)
-    if (!output.trim()) {
-      console.warn('Skipping test: CLI returned empty output (dist may not be built)');
-      return;
-    }
 
     expect(output).toMatch(/validate/i);
   });
