@@ -128,18 +128,16 @@ describe('CLI Help Output', () => {
   it('should display help for tokens command', () => {
     const result = runCLI(['tokens', '--help'], process.cwd());
 
-    // Skip if CLI not available (e.g., dist not built)
+    // Fail explicitly if CLI not available
     if (result.stderr.includes('CLI not found')) {
-      console.warn('Skipping test: CLI not built -', result.stderr);
-      return;
+      throw new Error(`CLI not available: ${result.stderr}. Run 'pnpm nx run @dsai-io/tools:build' first.`);
     }
 
     const output = result.stdout + result.stderr;
 
-    // Skip if output is empty (CLI might not be fully built in CI)
+    // Fail explicitly if output is empty
     if (!output.trim()) {
-      console.warn('Skipping test: CLI returned empty output (dist may not be built)');
-      return;
+      throw new Error('CLI returned empty output. The CLI may not be built correctly.');
     }
 
     // Help text should include command description
@@ -149,18 +147,16 @@ describe('CLI Help Output', () => {
   it('should display help for tokens validate command', () => {
     const result = runCLI(['tokens', 'validate', '--help'], process.cwd());
 
-    // Skip if CLI not available (e.g., dist not built)
+    // Fail explicitly if CLI not available
     if (result.stderr.includes('CLI not found')) {
-      console.warn('Skipping test: CLI not built -', result.stderr);
-      return;
+      throw new Error(`CLI not available: ${result.stderr}. Run 'pnpm nx run @dsai-io/tools:build' first.`);
     }
 
     const output = result.stdout + result.stderr;
 
-    // Skip if output is empty (CLI might not be fully built in CI)
+    // Fail explicitly if output is empty
     if (!output.trim()) {
-      console.warn('Skipping test: CLI returned empty output (dist may not be built)');
-      return;
+      throw new Error('CLI returned empty output. The CLI may not be built correctly.');
     }
 
     expect(output).toMatch(/validate/i);
