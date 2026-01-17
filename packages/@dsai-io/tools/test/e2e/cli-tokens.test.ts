@@ -71,7 +71,12 @@ function runCLI(args: string[], cwd: string): CLIResult {
   } else {
     return {
       stdout: '',
-      stderr: `CLI not found. binary=${binaryExists}, dist=${distExists}, source=${sourceExists}. Paths: ${binaryPath}, ${distPath}, ${sourcePath}`,
+      stderr: [
+        'CLI not found.',
+        `Binary (${binaryExists}): ${binaryPath}`,
+        `Dist (${distExists}): ${distPath}`,
+        `Source (${sourceExists}): ${sourcePath}`,
+      ].join('\n'),
       exitCode: 1,
     };
   }
