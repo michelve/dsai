@@ -9,25 +9,23 @@ import { axe, type JestAxeConfigureOptions } from 'jest-axe';
 import type { ReactElement } from 'react';
 
 /**
- * Custom render function that wraps components with necessary providers
- * Add your app's providers here (Theme, Router, Redux, etc.)
+ * Custom render function for component testing
+ *
+ * DSAi components use CSS variables for theming (via data-dsai-theme attribute)
+ * so no React context providers are needed. Components are tested in isolation.
+ *
+ * @example
+ * ```tsx
+ * // Basic render
+ * const { getByRole } = render(<Button>Click me</Button>);
+ *
+ * // With theme attribute on container
+ * const { container } = render(<Button>Click me</Button>);
+ * container.setAttribute('data-dsai-theme', 'dark');
+ * ```
  */
 export function render(ui: ReactElement, options?: RenderOptions): RenderResult {
-  // TODO: Add your providers as needed
-  // const AllProviders = ({ children }: { children: React.ReactNode }) => {
-  //   return (
-  //     <ThemeProvider theme={theme}>
-  //       <RouterProvider router={router}>
-  //         {children}
-  //       </RouterProvider>
-  //     </ThemeProvider>
-  //   );
-  // };
-
-  return rtlRender(ui, {
-    // wrapper: AllProviders,
-    ...options,
-  });
+  return rtlRender(ui, options);
 }
 
 /**
