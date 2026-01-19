@@ -54,5 +54,16 @@ export default defineConfig({
 
     // Output formats to generate
     formats: ['css', 'js', 'ts', 'scss', 'json'],
+
+    // Build pipeline configuration
+    pipeline: {
+      // Only run the essential steps for playground (skip SASS and bundle steps)
+      steps: ['validate', 'transform', 'style-dictionary', 'sync'],
+      // Sync paths (match sd.config.mjs output paths)
+      paths: {
+        syncSource: 'src/generated/tokens.js',
+        syncTarget: 'src/tokens-flat.ts',
+      },
+    },
   },
 });

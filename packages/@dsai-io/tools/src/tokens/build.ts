@@ -229,7 +229,11 @@ function createStepFromName(
     case 'sync':
       return {
         name: displayName,
-        fn: () => syncTokensCLI(tokensPackageDir),
+        fn: () =>
+          syncTokensCLI(tokensPackageDir, {
+            syncSource: paths.syncSource,
+            syncTarget: paths.syncTarget,
+          }),
       };
 
     case 'sass-theme':

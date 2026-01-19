@@ -241,8 +241,8 @@ $opacity-85: 5.3125rem; // 85% opacity. Use for mostly solid elements.
 $opacity-90: 5.625rem; // 90% opacity. Use for almost fully opaque elements.
 $opacity-95: 5.9375rem; // 95% opacity. Use for very nearly solid elements.
 $opacity-100: 6.25rem; // 100% opacity. Fully opaque, no transparency.
-$neutral-white: #fafbfc; // Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text.
-$neutral-black: #0a0d10; // Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds.
+$neutral-white: #0a0d10; // Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text.
+$neutral-black: #fafbfc; // Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds.
 $background-transparent: #000000; // Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class.
 $border-radius-0: 0; // Border radius: None - 0. No rounding, completely square corners. Equivalent to Bootstrap's 'rounded-0' utility class.
 $border-radius-default: 0.375rem; // Border radius: Default - 0.375rem (6px). The standard rounding used throughout Bootstrap for most components. Equivalent to Bootstrap's 'rounded' or 'rounded-2' utility classes and $border-radius variable.
@@ -269,26 +269,25 @@ $neutral-gray-600: $color-gray-600; // Neutral gray 600 alias. References brand.
 $neutral-gray-700: $color-gray-700; // Neutral gray 700 alias. References brand.gray.700. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.700 for detailed usage guidance.
 $neutral-gray-800: $color-gray-800; // Neutral gray 800 alias. References brand.gray.800. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.800 for detailed usage guidance.
 $neutral-gray-900: $color-gray-900; // Neutral gray 900 alias. References brand.gray.900. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.900 for detailed usage guidance.
-$semantic-border-color-translucent: $neutral-black; // Translucent border color that blends with backgrounds using rgba().
-$semantic-body-bg: $neutral-white; // Default body background color. Applied to the <body> element as the base page background.
-$semantic-emphasis-color: $neutral-black; // Emphasis color for higher contrast text. Use for headings or text that needs to stand out.
-$semantic-link-color: $color-blue-600; // Default hyperlink color. Used for all <a> elements and interactive text.
-$semantic-link-hover-color: $color-blue-700; // Hyperlink hover color. Applied when user hovers over a link.
-$semantic-primary-text-emphasis: $color-blue-700; // Primary text emphasis color - higher contrast text on light backgrounds.
-$semantic-primary-bg-subtle: $color-blue-100; // Primary subtle background color for non-intrusive backgrounds.
-$semantic-primary-border-subtle: $color-blue-200; // Primary subtle border color for gentle borders matching primary theme.
-$semantic-success-text-emphasis: $color-green-700; // Success text emphasis color - higher contrast text on light backgrounds.
-$semantic-success-bg-subtle: $color-green-100; // Success subtle background color for non-intrusive success states.
-$semantic-success-border-subtle: $color-green-200; // Success subtle border color for gentle borders matching success theme.
-$semantic-danger-text-emphasis: $color-red-700; // Danger text emphasis color - higher contrast text on light backgrounds.
-$semantic-danger-bg-subtle: $color-red-100; // Danger subtle background color for non-intrusive error states.
-$semantic-danger-border-subtle: $color-red-200; // Danger subtle border color for gentle borders matching danger theme.
-$semantic-warning-text-emphasis: $color-yellow-700; // Warning text emphasis color - higher contrast text on light backgrounds.
-$semantic-warning-bg-subtle: $color-yellow-100; // Warning subtle background color for non-intrusive warning states.
-$semantic-warning-border-subtle: $color-yellow-200; // Warning subtle border color for gentle borders matching warning theme.
-$semantic-info-text-emphasis: $color-cyan-700; // Info text emphasis color - higher contrast text on light backgrounds.
-$semantic-info-bg-subtle: $color-cyan-100; // Info subtle background color for non-intrusive info states.
-$semantic-info-border-subtle: $color-cyan-200; // Info subtle border color for gentle borders matching info theme.
+$semantic-border-color-translucent: $neutral-white; // Translucent border color that blends with backgrounds using rgba().
+$semantic-emphasis-color: $neutral-white; // Emphasis color for higher contrast text. Use for headings or text that needs to stand out.
+$semantic-link-color: $color-blue-400; // Default hyperlink color. Used for all <a> elements and interactive text.
+$semantic-link-hover-color: $color-blue-300; // Hyperlink hover color. Applied when user hovers over a link.
+$semantic-primary-text-emphasis: $color-blue-300; // Primary text emphasis color - higher contrast text on light backgrounds.
+$semantic-primary-bg-subtle: $color-blue-900; // Primary subtle background color for non-intrusive backgrounds.
+$semantic-primary-border-subtle: $color-blue-700; // Primary subtle border color for gentle borders matching primary theme.
+$semantic-success-text-emphasis: $color-green-300; // Success text emphasis color - higher contrast text on light backgrounds.
+$semantic-success-bg-subtle: $color-green-900; // Success subtle background color for non-intrusive success states.
+$semantic-success-border-subtle: $color-green-700; // Success subtle border color for gentle borders matching success theme.
+$semantic-danger-text-emphasis: $color-red-300; // Danger text emphasis color - higher contrast text on light backgrounds.
+$semantic-danger-bg-subtle: $color-red-900; // Danger subtle background color for non-intrusive error states.
+$semantic-danger-border-subtle: $color-red-700; // Danger subtle border color for gentle borders matching danger theme.
+$semantic-warning-text-emphasis: $color-yellow-300; // Warning text emphasis color - higher contrast text on light backgrounds.
+$semantic-warning-bg-subtle: $color-yellow-900; // Warning subtle background color for non-intrusive warning states.
+$semantic-warning-border-subtle: $color-yellow-700; // Warning subtle border color for gentle borders matching warning theme.
+$semantic-info-text-emphasis: $color-cyan-300; // Info text emphasis color - higher contrast text on light backgrounds.
+$semantic-info-bg-subtle: $color-cyan-900; // Info subtle background color for non-intrusive info states.
+$semantic-info-border-subtle: $color-cyan-700; // Info subtle border color for gentle borders matching info theme.
 $background-primary: $color-blue-500; // Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces.
 $background-secondary: $color-gray-600; // Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy.
 $background-success: $color-green-500; // Success background color utility. Applies success color as background. Use for positive feedback surfaces. Maps to Bootstrap's .bg-success utility class. Indicates successful operations.
@@ -297,21 +296,22 @@ $background-warning: $color-yellow-500; // Warning background color utility. App
 $background-info: $color-cyan-500; // Info background color utility. Applies info color as background. Use for informational surfaces. Maps to Bootstrap's .bg-info utility class. Communicates helpful information.
 $background-light: $color-gray-100; // Light background color utility. Applies light gray as background. Use for subtle surfaces and page backgrounds. Maps to Bootstrap's .bg-light utility class. Requires dark text for contrast.
 $background-dark: $color-gray-900; // Dark background color utility. Applies dark gray as background. Use for high-contrast surfaces and footers. Maps to Bootstrap's .bg-dark utility class. Requires light text for contrast.
-$background-body: $neutral-white; // Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background.
+$background-body: $neutral-black; // Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background.
 $background-white: $neutral-white; // White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness.
 $background-black: $neutral-black; // Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text.
-$semantic-body-color: $neutral-gray-900; // Default body text color. Applied to the <body> element and inherited by all text content unless overridden.
-$semantic-secondary-color: $neutral-gray-600; // Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text.
-$semantic-secondary-bg: $neutral-gray-200; // Secondary background color. Use for dividers and to indicate disabled component states.
+$semantic-body-color: $neutral-gray-300; // Default body text color. Applied to the <body> element and inherited by all text content unless overridden.
+$semantic-body-bg: $neutral-gray-900; // Default body background color. Applied to the <body> element as the base page background.
+$semantic-secondary-color: $neutral-gray-400; // Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text.
+$semantic-secondary-bg: $neutral-gray-800; // Secondary background color. Use for dividers and to indicate disabled component states.
 $semantic-tertiary-color: $neutral-gray-500; // Tertiary text color for even lighter text. Use for less important supporting text.
-$semantic-tertiary-bg: $neutral-gray-100; // Tertiary background color. Use for hover states, accents, and wells.
-$semantic-border-color: $neutral-gray-300; // Default border color for component borders, dividers, and rules.
-$semantic-secondary-text-emphasis: $neutral-gray-700; // Secondary theme text emphasis color - higher contrast text on light backgrounds.
-$semantic-secondary-bg-subtle: $neutral-gray-100; // Secondary theme subtle background color for non-intrusive backgrounds.
-$semantic-secondary-border-subtle: $neutral-gray-200; // Secondary theme subtle border color for gentle borders matching secondary theme.
-$semantic-light-text-emphasis: $neutral-gray-700; // Light text emphasis color - provides contrast on light themed components.
-$semantic-light-bg-subtle: $neutral-gray-100; // Light subtle background color for subtle backgrounds.
-$semantic-light-border-subtle: $neutral-gray-200; // Light subtle border color for gentle borders matching light theme.
-$semantic-dark-text-emphasis: $neutral-gray-900; // Dark text emphasis color - highest contrast text on light backgrounds.
-$semantic-dark-bg-subtle: $neutral-gray-400; // Dark subtle background color for darker backgrounds.
-$semantic-dark-border-subtle: $neutral-gray-500; // Dark subtle border color for borders matching dark theme.
+$semantic-tertiary-bg: $neutral-gray-900; // Tertiary background color. Use for hover states, accents, and wells.
+$semantic-border-color: $neutral-gray-700; // Default border color for component borders, dividers, and rules.
+$semantic-secondary-text-emphasis: $neutral-gray-300; // Secondary theme text emphasis color - higher contrast text on light backgrounds.
+$semantic-secondary-bg-subtle: $neutral-gray-900; // Secondary theme subtle background color for non-intrusive backgrounds.
+$semantic-secondary-border-subtle: $neutral-gray-700; // Secondary theme subtle border color for gentle borders matching secondary theme.
+$semantic-light-text-emphasis: $neutral-gray-100; // Light text emphasis color - provides contrast on light themed components.
+$semantic-light-bg-subtle: $neutral-gray-800; // Light subtle background color for subtle backgrounds.
+$semantic-light-border-subtle: $neutral-gray-700; // Light subtle border color for gentle borders matching light theme.
+$semantic-dark-text-emphasis: $neutral-gray-300; // Dark text emphasis color - highest contrast text on light backgrounds.
+$semantic-dark-bg-subtle: $neutral-gray-700; // Dark subtle background color for darker backgrounds.
+$semantic-dark-border-subtle: $neutral-gray-800; // Dark subtle border color for borders matching dark theme.

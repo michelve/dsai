@@ -1,5 +1,15 @@
 /**
  * Do not edit directly, this file was auto-generated.
+ * Generated from Style Dictionary output (dist/js/tokens.js)
+ *
+ * To update: run `pnpm tokens:build` which will:
+ * 1. Transform Figma tokens
+ * 2. Build with Style Dictionary
+ * 3. Sync this file automatically
+ */
+
+/**
+ * Do not edit directly, this file was auto-generated.
  */
 
 export const typographyTextBase = "1rem"; // Root font size for all viewports (1rem = 16px)

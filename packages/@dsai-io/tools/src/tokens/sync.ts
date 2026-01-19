@@ -231,11 +231,24 @@ export function syncTokens(options: SyncOptions): SyncResult {
 
 /**
  * CLI entry point for token sync
+ * @param tokensDir - The tokens package directory
+ * @param customPaths - Optional custom paths for source and target files
  */
-export function syncTokensCLI(tokensDir: string): boolean {
-  const paths = getDefaultSyncPaths(tokensDir);
+export function syncTokensCLI(
+  tokensDir: string,
+  customPaths?: { syncSource?: string; syncTarget?: string }
+): boolean {
+  // Use custom paths if provided, otherwise use defaults
+  const sourceFile = customPaths?.syncSource
+    ? join(tokensDir, customPaths.syncSource)
+    : join(tokensDir, DEFAULT_SOURCE_RELATIVE);
+  const targetFile = customPaths?.syncTarget
+    ? join(tokensDir, customPaths.syncTarget)
+    : join(tokensDir, DEFAULT_TARGET_RELATIVE);
+
   const result = syncTokens({
-    ...paths,
+    sourceFile,
+    targetFile,
     verbose: true,
   });
 

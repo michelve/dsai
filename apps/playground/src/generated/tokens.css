@@ -486,9 +486,9 @@
   /* 100% opacity. Fully opaque, no transparency. */
   --pg-opacity-100: 6.25rem;
   /* Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text. */
-  --pg-neutral-white: #fafbfc;
+  --pg-neutral-white: #0a0d10;
   /* Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds. */
-  --pg-neutral-black: #0a0d10;
+  --pg-neutral-black: #fafbfc;
   /* Neutral gray 100 alias. References brand.gray.100. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.100 for detailed usage guidance. */
   --pg-neutral-gray-100: #f5f6f7;
   /* Neutral gray 200 alias. References brand.gray.200. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.200 for detailed usage guidance. */
@@ -510,73 +510,73 @@
   /* Translucent border color that blends with backgrounds using rgba(). */
   --pg-semantic-border-color-translucent: #0a0d10;
   /* Default body text color. Applied to the <body> element and inherited by all text content unless overridden. */
-  --pg-semantic-body-color: #212529;
+  --pg-semantic-body-color: #dfe1e5;
   /* Default body background color. Applied to the <body> element as the base page background. */
-  --pg-semantic-body-bg: #fafbfc;
+  --pg-semantic-body-bg: #212529;
   /* Emphasis color for higher contrast text. Use for headings or text that needs to stand out. */
   --pg-semantic-emphasis-color: #0a0d10;
   /* Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text. */
-  --pg-semantic-secondary-color: #7a7f87;
+  --pg-semantic-secondary-color: #cbced3;
   /* Secondary background color. Use for dividers and to indicate disabled component states. */
-  --pg-semantic-secondary-bg: #e8eaed;
+  --pg-semantic-secondary-bg: #343a40;
   /* Tertiary text color for even lighter text. Use for less important supporting text. */
   --pg-semantic-tertiary-color: #a8adb7;
   /* Tertiary background color. Use for hover states, accents, and wells. */
-  --pg-semantic-tertiary-bg: #f5f6f7;
+  --pg-semantic-tertiary-bg: #212529;
   /* Default hyperlink color. Used for all <a> elements and interactive text. */
-  --pg-semantic-link-color: #084298;
+  --pg-semantic-link-color: #5d99e7;
   /* Hyperlink hover color. Applied when user hovers over a link. */
-  --pg-semantic-link-hover-color: #063166;
+  --pg-semantic-link-hover-color: #86b3ed;
   /* Default border color for component borders, dividers, and rules. */
-  --pg-semantic-border-color: #dfe1e5;
+  --pg-semantic-border-color: #495057;
   /* Primary text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-primary-text-emphasis: #063166;
+  --pg-semantic-primary-text-emphasis: #86b3ed;
   /* Primary subtle background color for non-intrusive backgrounds. */
-  --pg-semantic-primary-bg-subtle: #d7e6f9;
+  --pg-semantic-primary-bg-subtle: #021022;
   /* Primary subtle border color for gentle borders matching primary theme. */
-  --pg-semantic-primary-border-subtle: #aeccf3;
+  --pg-semantic-primary-border-subtle: #063166;
   /* Secondary theme text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-secondary-text-emphasis: #495057;
+  --pg-semantic-secondary-text-emphasis: #dfe1e5;
   /* Secondary theme subtle background color for non-intrusive backgrounds. */
-  --pg-semantic-secondary-bg-subtle: #f5f6f7;
+  --pg-semantic-secondary-bg-subtle: #212529;
   /* Secondary theme subtle border color for gentle borders matching secondary theme. */
-  --pg-semantic-secondary-border-subtle: #e8eaed;
+  --pg-semantic-secondary-border-subtle: #495057;
   /* Success text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-success-text-emphasis: #0a3622;
+  --pg-semantic-success-text-emphasis: #67c3a7;
   /* Success subtle background color for non-intrusive success states. */
-  --pg-semantic-success-bg-subtle: #b3e1d3;
+  --pg-semantic-success-bg-subtle: #041b0f;
   /* Success subtle border color for gentle borders matching success theme. */
-  --pg-semantic-success-border-subtle: #8dd2bd;
+  --pg-semantic-success-border-subtle: #0a3622;
   /* Danger text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-danger-text-emphasis: #58151c;
+  --pg-semantic-danger-text-emphasis: #d792a3;
   /* Danger subtle background color for non-intrusive error states. */
-  --pg-semantic-danger-bg-subtle: #ebc9d1;
+  --pg-semantic-danger-bg-subtle: #2c0b0e;
   /* Danger subtle border color for gentle borders matching danger theme. */
-  --pg-semantic-danger-border-subtle: #e1adba;
+  --pg-semantic-danger-border-subtle: #58151c;
   /* Warning text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-warning-text-emphasis: #92400e;
+  --pg-semantic-warning-text-emphasis: #fbbf24;
   /* Warning subtle background color for non-intrusive warning states. */
-  --pg-semantic-warning-bg-subtle: #fef3c7;
+  --pg-semantic-warning-bg-subtle: #451a03;
   /* Warning subtle border color for gentle borders matching warning theme. */
-  --pg-semantic-warning-border-subtle: #fcd34d;
+  --pg-semantic-warning-border-subtle: #92400e;
   /* Info text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-info-text-emphasis: #055160;
+  --pg-semantic-info-text-emphasis: #4dd0e1;
   /* Info subtle background color for non-intrusive info states. */
-  --pg-semantic-info-bg-subtle: #b2ebf2;
+  --pg-semantic-info-bg-subtle: #012320;
   /* Info subtle border color for gentle borders matching info theme. */
-  --pg-semantic-info-border-subtle: #80deea;
+  --pg-semantic-info-border-subtle: #055160;
   /* Light text emphasis color - provides contrast on light themed components. */
-  --pg-semantic-light-text-emphasis: #495057;
+  --pg-semantic-light-text-emphasis: #f5f6f7;
   /* Light subtle background color for subtle backgrounds. */
-  --pg-semantic-light-bg-subtle: #f5f6f7;
+  --pg-semantic-light-bg-subtle: #343a40;
   /* Light subtle border color for gentle borders matching light theme. */
-  --pg-semantic-light-border-subtle: #e8eaed;
+  --pg-semantic-light-border-subtle: #495057;
   /* Dark text emphasis color - highest contrast text on light backgrounds. */
-  --pg-semantic-dark-text-emphasis: #212529;
+  --pg-semantic-dark-text-emphasis: #dfe1e5;
   /* Dark subtle background color for darker backgrounds. */
-  --pg-semantic-dark-bg-subtle: #cbced3;
+  --pg-semantic-dark-bg-subtle: #495057;
   /* Dark subtle border color for borders matching dark theme. */
-  --pg-semantic-dark-border-subtle: #a8adb7;
+  --pg-semantic-dark-border-subtle: #343a40;
   /* Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces. */
   --pg-background-primary: #0a58ca;
   /* Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy. */
@@ -596,9 +596,9 @@
   /* Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background. */
   --pg-background-body: #fafbfc;
   /* White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness. */
-  --pg-background-white: #fafbfc;
+  --pg-background-white: #0a0d10;
   /* Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text. */
-  --pg-background-black: #0a0d10;
+  --pg-background-black: #fafbfc;
   /* Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class. */
   --pg-background-transparent: #000000;
   /* Border radius: None - 0. No rounding, completely square corners. Equivalent to Bootstrap's 'rounded-0' utility class. */
