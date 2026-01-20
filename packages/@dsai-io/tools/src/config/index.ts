@@ -34,13 +34,20 @@ export type {
   TokensConfig,
   IconsConfig,
   ThemesConfig,
+  ThemeDefinition,
   ThemeSelectorPattern,
+  ScssOutputConfig,
+  // Framework mapper types
+  FrameworkTarget,
+  FrameworkMappingConfig,
+  FrameworkMappingPattern,
   // Resolved types
   ResolvedConfig,
   ResolvedGlobalConfig,
   ResolvedTokensConfig,
   ResolvedIconsConfig,
   ResolvedThemesConfig,
+  ResolvedThemeDefinition,
   // Extensibility types
   CustomTransform,
   CustomFormat,
@@ -80,7 +87,8 @@ export {
   customTransformSchema,
   customFormatSchema,
   // Config section schemas
-  themeModeSchema,
+  themeDefinitionSchema,
+  themeSelectorPatternSchema,
   themesConfigSchema,
   iconOptimizationSchema,
   iconSpriteSchema,

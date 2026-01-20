@@ -1,0 +1,78 @@
+/**
+ * Custom SCSS Variables
+ *
+ * These variables extend the DSAi design tokens with app-specific values.
+ * Use design token CSS variables when possible, add custom values here
+ * only when tokens don't cover your use case.
+ *
+ * @example
+ *   .my-component {
+ *     // Prefer: use token CSS variables
+ *     color: var(--pg-color-primary-500);
+ *
+ *     // Custom: app-specific values
+ *     border-radius: custom-vars.$app-card-radius;
+ *   }
+ */
+
+// =============================================================================
+// App-Specific Dimensions
+// =============================================================================
+
+/// Sidebar width for the playground layout
+$app-sidebar-width: 280px;
+
+/// Header height
+$app-header-height: 64px;
+
+/// Footer height
+$app-footer-height: 48px;
+
+// =============================================================================
+// App-Specific Colors (when tokens don't cover the use case)
+// =============================================================================
+
+/// Playground-specific accent color
+$app-accent: #6366f1;
+
+/// Playground code block background
+$app-code-bg: #1e1e2e;
+
+/// Playground code block text
+$app-code-text: #cdd6f4;
+
+// =============================================================================
+// Component Customizations
+// =============================================================================
+
+/// Custom card border radius (overrides token default)
+$app-card-radius: 12px;
+
+/// Custom button padding
+$app-button-padding-x: 1.25rem;
+$app-button-padding-y: 0.625rem;
+
+// =============================================================================
+// Animation Durations
+// =============================================================================
+
+/// Quick transition for hover states
+$app-transition-fast: 150ms;
+
+/// Standard transition for most animations
+$app-transition-base: 250ms;
+
+/// Slow transition for complex animations
+$app-transition-slow: 400ms;
+
+// =============================================================================
+// Z-Index Scale
+// =============================================================================
+
+$app-z-dropdown: 1000;
+$app-z-sticky: 1020;
+$app-z-fixed: 1030;
+$app-z-modal-backdrop: 1040;
+$app-z-modal: 1050;
+$app-z-popover: 1060;
+$app-z-tooltip: 1070;

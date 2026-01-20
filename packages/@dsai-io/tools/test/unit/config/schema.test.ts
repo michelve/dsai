@@ -250,10 +250,10 @@ describe('themesConfigSchema', () => {
     const result = themesConfigSchema.safeParse({});
     expect(result.success).toBe(true);
     if (result.success) {
-      expect(result.data.defaultMode).toBe('light');
-      expect(result.data.modes).toBeDefined();
-      expect(result.data.modes.light).toBeDefined();
-      expect(result.data.modes.dark).toBeDefined();
+      // The 'default' field holds the default theme name
+      expect(result.data.default).toBe('light');
+      // Legacy 'modes' field is optional and not set by default
+      // The 'definitions' field is used for modern theme configuration
     }
   });
 });

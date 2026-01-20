@@ -19,6 +19,7 @@ import {
   syncTokens,
   validateTokens,
 } from '../../tokens/index.js';
+import { SnapshotService } from '../../tokens/snapshot.js';
 import { ExitCode } from '../types.js';
 import { colors, createLogger, createSpinner, formatDuration } from '../ui/index.js';
 
@@ -47,6 +48,8 @@ export function createTokensCommand(): Command {
     .option('-p, --platforms <platforms>', 'Platforms to build (comma-separated)', 'all')
     .option('-w, --watch', 'Watch mode', false)
     .option('--clean', 'Clean output before build', false)
+    .option('--theme <name>', 'Build only a specific theme (e.g., dark)')
+    .option('--list-themes', 'List available themes from config')
     .action(async (options: TokensBuildOptions, command: Command) => {
       const globalOpts = command.parent?.parent?.opts() ?? {};
       const mergedOpts = { ...globalOpts, ...options } as TokensBuildOptions;
@@ -101,6 +104,34 @@ export function createTokensCommand(): Command {
       const globalOpts = command.parent?.parent?.opts() ?? {};
 
       await runTokensPostprocess(globalOpts);
+    });
+
+  // Snapshot commands
+  const snapshots = tokens.command('snapshots').description('Manage token collection snapshots');
+
+  snapshots
+    .command('list')
+    .description('List all snapshots')
+    .action(async (_options: Record<string, unknown>, command: Command) => {
+      const globalOpts = command.parent?.parent?.parent?.opts() ?? {};
+      await runSnapshotsList(globalOpts);
+    });
+
+  snapshots
+    .command('info <snapshot-id>')
+    .description('Show detailed information about a snapshot')
+    .action(async (snapshotId: string, _options: Record<string, unknown>, command: Command) => {
+      const globalOpts = command.parent?.parent?.parent?.opts() ?? {};
+      await runSnapshotsInfo(snapshotId, globalOpts);
+    });
+
+  snapshots
+    .command('rollback <snapshot-id>')
+    .description('Rollback token collections to a snapshot')
+    .option('--dry-run', 'Show what would be restored without writing files', false)
+    .action(async (snapshotId: string, options: Record<string, unknown>, command: Command) => {
+      const globalOpts = command.parent?.parent?.parent?.opts() ?? {};
+      await runSnapshotsRollback(snapshotId, { ...globalOpts, ...options });
     });
 
   return tokens;
@@ -212,6 +243,31 @@ async function runTokensBuild(options: TokensBuildOptions): Promise<void> {
 
     logger.debug(`Config: ${JSON.stringify(config, null, 2)}`);
 
+    // Handle --list-themes flag
+    if (options.listThemes) {
+      const themes = config.tokens.themes?.definitions;
+      if (!themes || Object.keys(themes).length === 0) {
+        logger.log('No themes configured.');
+        logger.log('Add themes to your dsai.config.mjs under tokens.themes.definitions');
+        process.exit(ExitCode.Success);
+      }
+
+      logger.log('');
+      logger.log(colors.bold('Available Themes:'));
+      logger.log('');
+      for (const [name, def] of Object.entries(themes)) {
+        const isDefault = def.isDefault ? colors.success(' (default)') : '';
+        const suffix = def.suffix ? colors.dim(` suffix: ${def.suffix}`) : '';
+        logger.log(`  ${colors.bold(name)}${isDefault}${suffix}`);
+        logger.log(`    Selector: ${colors.path(def.selector)}`);
+        if (def.mediaQuery) {
+          logger.log(`    Media Query: ${colors.dim(def.mediaQuery)}`);
+        }
+      }
+      logger.log('');
+      process.exit(ExitCode.Success);
+    }
+
     // Get directories from config
     const tokensDir = config.tokens.collectionsDir;
     const toolsDir = config.tokens.sourceDir;
@@ -245,6 +301,13 @@ async function runTokensBuild(options: TokensBuildOptions): Promise<void> {
       verbose: !options.quiet,
       quiet: options.quiet,
       pipeline: config.tokens.pipeline,
+      // Pass themes config for multi-theme builds
+      themesConfig: config.tokens.themes
+        ? {
+            enabled: config.tokens.themes.enabled,
+            definitions: config.tokens.themes.definitions,
+          }
+        : undefined,
     });
 
     if (result.success) {
@@ -435,6 +498,196 @@ async function runTokensPostprocess(options: { quiet?: boolean; debug?: boolean 
     }
   } catch (error) {
     spinner.fail('Post-processing failed');
+
+    if (error instanceof Error) {
+      logger.error(error.message);
+    }
+
+    process.exit(ExitCode.GeneralError);
+  }
+}
+
+/**
+ * Run snapshots list
+ */
+async function runSnapshotsList(options: { quiet?: boolean; debug?: boolean }): Promise<void> {
+  const logger = createLogger({
+    quiet: options.quiet,
+    debug: options.debug,
+  });
+  const spinner = createSpinner(options.quiet);
+
+  try {
+    // Load configuration
+    spinner.start('Loading configuration...');
+    const { config } = await loadConfig({
+      cwd: process.cwd(),
+    });
+    spinner.stop();
+
+    const tokensPackageDir = dirname(config.tokens.outputDir);
+    const snapshotService = new SnapshotService({
+      collectionsDir: config.tokens.collectionsDir,
+      snapshotDir: `${tokensPackageDir}/.snapshots`,
+    });
+
+    // List snapshots
+    const snapshots = snapshotService.listSnapshots();
+
+    if (snapshots.length === 0) {
+      logger.info('No snapshots found');
+      process.exit(ExitCode.Success);
+      return;
+    }
+
+    logger.info(`\nFound ${colors.bold(String(snapshots.length))} snapshot(s):\n`);
+
+    for (const snapshot of snapshots) {
+      const date = new Date(snapshot.timestamp).toLocaleString();
+      logger.info(`  ${colors.bold(snapshot.id)}`);
+      logger.info(`    Date: ${date}`);
+      logger.info(`    Files: ${snapshot.files.length}`);
+      if (snapshot.description) {
+        logger.info(`    Description: ${snapshot.description}`);
+      }
+      logger.info('');
+    }
+
+    process.exit(ExitCode.Success);
+  } catch (error) {
+    spinner.fail('Failed to list snapshots');
+
+    if (error instanceof Error) {
+      logger.error(error.message);
+    }
+
+    process.exit(ExitCode.GeneralError);
+  }
+}
+
+/**
+ * Run snapshots info
+ */
+async function runSnapshotsInfo(
+  snapshotId: string,
+  options: { quiet?: boolean; debug?: boolean }
+): Promise<void> {
+  const logger = createLogger({
+    quiet: options.quiet,
+    debug: options.debug,
+  });
+  const spinner = createSpinner(options.quiet);
+
+  try {
+    // Load configuration
+    spinner.start('Loading configuration...');
+    const { config } = await loadConfig({
+      cwd: process.cwd(),
+    });
+    spinner.stop();
+
+    const tokensPackageDir = dirname(config.tokens.outputDir);
+    const snapshotService = new SnapshotService({
+      collectionsDir: config.tokens.collectionsDir,
+      snapshotDir: `${tokensPackageDir}/.snapshots`,
+    });
+
+    // Get snapshot
+    const snapshot = snapshotService.getSnapshot(snapshotId);
+
+    if (!snapshot) {
+      logger.error(`Snapshot not found: ${snapshotId}`);
+      process.exit(ExitCode.GeneralError);
+      return;
+    }
+
+    // Display snapshot info
+    const date = new Date(snapshot.timestamp).toLocaleString();
+    logger.info(`\nSnapshot: ${colors.bold(snapshot.id)}`);
+    logger.info(`Date: ${date}`);
+    logger.info(`Files: ${snapshot.files.length}`);
+    if (snapshot.description) {
+      logger.info(`Description: ${snapshot.description}`);
+    }
+
+    logger.info(`\nFiles in snapshot:`);
+    for (const file of snapshot.files) {
+      const size = Buffer.byteLength(file.content, 'utf8');
+      logger.info(`  ${file.path} (${size} bytes, checksum: ${file.checksum.substring(0, 8)}...)`);
+    }
+
+    process.exit(ExitCode.Success);
+  } catch (error) {
+    spinner.fail('Failed to get snapshot info');
+
+    if (error instanceof Error) {
+      logger.error(error.message);
+    }
+
+    process.exit(ExitCode.GeneralError);
+  }
+}
+
+/**
+ * Run snapshots rollback
+ */
+async function runSnapshotsRollback(
+  snapshotId: string,
+  options: { quiet?: boolean; debug?: boolean; dryRun?: boolean }
+): Promise<void> {
+  const logger = createLogger({
+    quiet: options.quiet,
+    debug: options.debug,
+  });
+  const spinner = createSpinner(options.quiet);
+
+  try {
+    // Load configuration
+    spinner.start('Loading configuration...');
+    const { config } = await loadConfig({
+      cwd: process.cwd(),
+    });
+    spinner.stop();
+
+    const tokensPackageDir = dirname(config.tokens.outputDir);
+    const snapshotService = new SnapshotService({
+      collectionsDir: config.tokens.collectionsDir,
+      snapshotDir: `${tokensPackageDir}/.snapshots`,
+    });
+
+    // Get snapshot for info
+    const snapshot = snapshotService.getSnapshot(snapshotId);
+
+    if (!snapshot) {
+      logger.error(`Snapshot not found: ${snapshotId}`);
+      process.exit(ExitCode.GeneralError);
+      return;
+    }
+
+    if (options.dryRun) {
+      logger.info(`\n${colors.bold('DRY RUN')} - Would restore snapshot: ${snapshotId}`);
+      logger.info(`Date: ${new Date(snapshot.timestamp).toLocaleString()}`);
+      logger.info(`Files to restore: ${snapshot.files.length}`);
+
+      for (const file of snapshot.files) {
+        logger.info(`  ${file.path}`);
+      }
+
+      process.exit(ExitCode.Success);
+      return;
+    }
+
+    // Perform rollback
+    spinner.start(`Rolling back to snapshot ${snapshotId}...`);
+    snapshotService.rollback(snapshotId);
+    spinner.succeed(`Rolled back to snapshot ${snapshotId}`);
+
+    logger.info(`Restored ${snapshot.files.length} file(s)`);
+    logger.info(`Snapshot date: ${new Date(snapshot.timestamp).toLocaleString()}`);
+
+    process.exit(ExitCode.Success);
+  } catch (error) {
+    spinner.fail('Rollback failed');
 
     if (error instanceof Error) {
       logger.error(error.message);

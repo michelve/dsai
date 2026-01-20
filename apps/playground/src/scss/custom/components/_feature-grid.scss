@@ -1,0 +1,122 @@
+/**
+ * Feature Grid Component
+ *
+ * A responsive grid layout for displaying features or cards.
+ */
+
+@use '../variables' as vars;
+@use '../mixins' as mixins;
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+
+  &--2-cols {
+    grid-template-columns: repeat(2, 1fr);
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &--3-cols {
+    grid-template-columns: repeat(3, 1fr);
+
+    @media (max-width: 992px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 576px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &--4-cols {
+    grid-template-columns: repeat(4, 1fr);
+
+    @media (max-width: 1200px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 992px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 576px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.feature-item {
+  @include mixins.elevated-card;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+
+  &__icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: var(--pg-color-primary-100, #dbeafe);
+    color: var(--pg-color-primary-600, #2563eb);
+
+    [data-dsai-theme='dark'] & {
+      background: var(--pg-color-primary-900, #1e3a8a);
+      color: var(--pg-color-primary-400, #60a5fa);
+    }
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--pg-color-neutral-900, #111827);
+
+    [data-dsai-theme='dark'] & {
+      color: var(--pg-color-neutral-100, #f3f4f6);
+    }
+  }
+
+  &__description {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 0;
+    color: var(--pg-color-neutral-600, #4b5563);
+
+    [data-dsai-theme='dark'] & {
+      color: var(--pg-color-neutral-400, #9ca3af);
+    }
+  }
+
+  &__link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--pg-color-primary-600, #2563eb);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: auto;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    [data-dsai-theme='dark'] & {
+      color: var(--pg-color-primary-400, #60a5fa);
+    }
+  }
+}

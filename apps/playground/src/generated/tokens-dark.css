@@ -260,45 +260,45 @@
   /* 0% opacity. Completely transparent, invisible element. */
   --pg-opacity-0: 0;
   /* 5% opacity. Use for very subtle overlays or hover states. */
-  --pg-opacity-5: 0.3125rem;
+  --pg-opacity-5: 0.05;
   /* 10% opacity. Use for subtle overlays or disabled states. */
-  --pg-opacity-10: 0.625rem;
+  --pg-opacity-10: 0.1;
   /* 15% opacity. Use for light overlays or hover effects. */
-  --pg-opacity-15: 0.9375rem;
+  --pg-opacity-15: 0.15;
   /* 20% opacity. Use for subtle backgrounds or shadows. */
-  --pg-opacity-20: 1.25rem;
+  --pg-opacity-20: 0.2;
   /* 25% opacity. Use for overlay backgrounds or disabled elements. */
-  --pg-opacity-25: 1.5625rem;
+  --pg-opacity-25: 0.25;
   /* 30% opacity. Use for moderate overlays. */
-  --pg-opacity-30: 1.875rem;
+  --pg-opacity-30: 0.3;
   /* 35% opacity. Use for visible overlays. */
-  --pg-opacity-35: 2.1875rem;
+  --pg-opacity-35: 0.35;
   /* 40% opacity. Use for semi-transparent backgrounds. */
-  --pg-opacity-40: 2.5rem;
+  --pg-opacity-40: 0.4;
   /* 45% opacity. Use for noticeable overlays. */
-  --pg-opacity-45: 2.8125rem;
+  --pg-opacity-45: 0.45;
   /* 50% opacity. Use for half-transparent elements. */
-  --pg-opacity-50: 3.125rem;
+  --pg-opacity-50: 0.5;
   /* 55% opacity. Use for semi-visible elements. */
-  --pg-opacity-55: 3.4375rem;
+  --pg-opacity-55: 0.55;
   /* 60% opacity. Use for visible but translucent elements. */
-  --pg-opacity-60: 3.75rem;
+  --pg-opacity-60: 0.6;
   /* 65% opacity. Use for mostly visible elements. */
-  --pg-opacity-65: 4.0625rem;
+  --pg-opacity-65: 0.65;
   /* 70% opacity. Use for mostly opaque elements. */
-  --pg-opacity-70: 4.375rem;
+  --pg-opacity-70: 0.7;
   /* 75% opacity. Use for semi-opaque elements. */
-  --pg-opacity-75: 4.6875rem;
+  --pg-opacity-75: 0.75;
   /* 80% opacity. Use for nearly opaque elements. */
-  --pg-opacity-80: 5rem;
+  --pg-opacity-80: 0.8;
   /* 85% opacity. Use for mostly solid elements. */
-  --pg-opacity-85: 5.3125rem;
+  --pg-opacity-85: 0.85;
   /* 90% opacity. Use for almost fully opaque elements. */
-  --pg-opacity-90: 5.625rem;
+  --pg-opacity-90: 0.9;
   /* 95% opacity. Use for very nearly solid elements. */
-  --pg-opacity-95: 5.9375rem;
+  --pg-opacity-95: 0.95;
   /* 100% opacity. Fully opaque, no transparency. */
-  --pg-opacity-100: 6.25rem;
+  --pg-opacity-100: 1;
   /* Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text. */
   --pg-neutral-white: #0a0d10;
   /* Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds. */
@@ -391,6 +391,30 @@
   --pg-semantic-dark-bg-subtle: #495057;
   /* Dark subtle border color for borders matching dark theme. */
   --pg-semantic-dark-border-subtle: #343a40;
+  /* Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces. */
+  --pg-semantic-primary: #0a58ca;
+  /* Info background color utility. Applies info color as background. Use for informational surfaces. Maps to Bootstrap's .bg-info utility class. Communicates helpful information. */
+  --pg-semantic-info: #087990;
+  /* Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background. */
+  --pg-semantic-body: #7a7f87;
+  /* Success background color utility. Applies success color as background. Use for positive feedback surfaces. Maps to Bootstrap's .bg-success utility class. Indicates successful operations. */
+  --pg-semantic-success: #0f5132;
+  /* Warning background color utility. Applies warning color as background. Use for caution or important notice surfaces. Maps to Bootstrap's .bg-warning utility class. Requires careful contrast checking. */
+  --pg-semantic-warning: #f59e0b;
+  /* Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy. */
+  --pg-semantic-secondary: #7a7f87;
+  /* Danger background color utility. Applies danger color as background. Use for error or destructive action surfaces. Maps to Bootstrap's .bg-danger utility class. Indicates errors or warnings. */
+  --pg-semantic-danger: #842029;
+  /* Dark background color utility. Applies dark gray as background. Use for high-contrast surfaces and footers. Maps to Bootstrap's .bg-dark utility class. Requires light text for contrast. */
+  --pg-semantic-dark: #f5f6f7;
+  /* Light background color utility. Applies light gray as background. Use for subtle surfaces and page backgrounds. Maps to Bootstrap's .bg-light utility class. Requires dark text for contrast. */
+  --pg-semantic-light: #f5f6f7;
+  /* White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness. */
+  --pg-semantic-white: #0a0d10;
+  /* Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text. */
+  --pg-semantic-black: #fafbfc;
+  /* Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class. */
+  --pg-semantic-transparent: #000000;
   /* Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces. */
   --pg-background-primary: #0a58ca;
   /* Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy. */

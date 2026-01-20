@@ -68,17 +68,17 @@
   /* H6 heading font size (1rem = 16px) */
   --pg-typography-heading-h6: 1rem;
   /* Display 1 font size (5rem = 80px) */
-  --pg-typography-display-h1: 5rem;
+  --pg-typography-display-d1: 5rem;
   /* Display 2 font size (4.5rem = 72px) */
-  --pg-typography-display-h2: 4.5rem;
+  --pg-typography-display-d2: 4.5rem;
   /* Display 3 font size (4rem = 64px) */
-  --pg-typography-display-h3: 4rem;
+  --pg-typography-display-d3: 4rem;
   /* Display 4 font size (3.5rem = 56px) */
-  --pg-typography-display-h4: 3.5rem;
+  --pg-typography-display-d4: 3.5rem;
   /* Display 5 font size (3rem = 48px) */
-  --pg-typography-display-h5: 3rem;
+  --pg-typography-display-d5: 3rem;
   /* Display 6 font size (2.5rem = 40px) */
-  --pg-typography-display-h6: 2.5rem;
+  --pg-typography-display-d6: 2.5rem;
   /* Tighter letter spacing (-0.05em) - Use for large headings and display text to improve visual density. Enhances readability at larger sizes. */
   --pg-typography-letter-spacing-tighter: -0.03125rem;
   /* Tight letter spacing (-0.025em) - Subtle tightening for headings. Improves visual cohesion without sacrificing readability. */
@@ -119,8 +119,14 @@
   --pg-spacing-9: 8rem;
   /* Spacing scale 10 - 5X extra large spacing (160px). */
   --pg-spacing-10: 10rem;
+  /* Spacing scale 10 - 5X extra large spacing (160px). */
+  --pg-spacing-11: 6rem;
   /* Spacing 12px - 4px grid intermediate value. Common for button/input padding (0.75rem). */
   --pg-spacing-12: 0.75rem;
+  /* Spacing scale 10 - 5X extra large spacing (160px). */
+  --pg-spacing-13: 9rem;
+  /* Spacing scale 10 - 5X extra large spacing (160px). */
+  --pg-spacing-14: 10rem;
   /* Spacing 20px - 4px grid intermediate value (1.25rem). Fills gap between 16px and 24px. */
   --pg-spacing-20: 1.25rem;
   /* Spacing 28px - 4px grid intermediate value (1.75rem). Fills gap between 24px and 32px. */
@@ -135,6 +141,8 @@
   --pg-spacing-44: 2.75rem;
   /* Spacing 56px - 4px grid value (3.5rem). Between Bootstrap scale 5 (48px) and extended 6 (64px). */
   --pg-spacing-56: 3.5rem;
+  /* Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px). */
+  --pg-spacing-1-5: 0.375rem;
   /* Complete box shadow value for Bootstrap SCSS export */
   --pg-shadow-default: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   /* Complete box shadow value for Bootstrap SCSS export */
@@ -446,49 +454,49 @@
   /* 0% opacity. Completely transparent, invisible element. */
   --pg-opacity-0: 0;
   /* 5% opacity. Use for very subtle overlays or hover states. */
-  --pg-opacity-5: 0.3125rem;
+  --pg-opacity-5: 0.05;
   /* 10% opacity. Use for subtle overlays or disabled states. */
-  --pg-opacity-10: 0.625rem;
+  --pg-opacity-10: 0.1;
   /* 15% opacity. Use for light overlays or hover effects. */
-  --pg-opacity-15: 0.9375rem;
+  --pg-opacity-15: 0.15;
   /* 20% opacity. Use for subtle backgrounds or shadows. */
-  --pg-opacity-20: 1.25rem;
+  --pg-opacity-20: 0.2;
   /* 25% opacity. Use for overlay backgrounds or disabled elements. */
-  --pg-opacity-25: 1.5625rem;
+  --pg-opacity-25: 0.25;
   /* 30% opacity. Use for moderate overlays. */
-  --pg-opacity-30: 1.875rem;
+  --pg-opacity-30: 0.3;
   /* 35% opacity. Use for visible overlays. */
-  --pg-opacity-35: 2.1875rem;
+  --pg-opacity-35: 0.35;
   /* 40% opacity. Use for semi-transparent backgrounds. */
-  --pg-opacity-40: 2.5rem;
+  --pg-opacity-40: 0.4;
   /* 45% opacity. Use for noticeable overlays. */
-  --pg-opacity-45: 2.8125rem;
+  --pg-opacity-45: 0.45;
   /* 50% opacity. Use for half-transparent elements. */
-  --pg-opacity-50: 3.125rem;
+  --pg-opacity-50: 0.5;
   /* 55% opacity. Use for semi-visible elements. */
-  --pg-opacity-55: 3.4375rem;
+  --pg-opacity-55: 0.55;
   /* 60% opacity. Use for visible but translucent elements. */
-  --pg-opacity-60: 3.75rem;
+  --pg-opacity-60: 0.6;
   /* 65% opacity. Use for mostly visible elements. */
-  --pg-opacity-65: 4.0625rem;
+  --pg-opacity-65: 0.65;
   /* 70% opacity. Use for mostly opaque elements. */
-  --pg-opacity-70: 4.375rem;
+  --pg-opacity-70: 0.7;
   /* 75% opacity. Use for semi-opaque elements. */
-  --pg-opacity-75: 4.6875rem;
+  --pg-opacity-75: 0.75;
   /* 80% opacity. Use for nearly opaque elements. */
-  --pg-opacity-80: 5rem;
+  --pg-opacity-80: 0.8;
   /* 85% opacity. Use for mostly solid elements. */
-  --pg-opacity-85: 5.3125rem;
+  --pg-opacity-85: 0.85;
   /* 90% opacity. Use for almost fully opaque elements. */
-  --pg-opacity-90: 5.625rem;
+  --pg-opacity-90: 0.9;
   /* 95% opacity. Use for very nearly solid elements. */
-  --pg-opacity-95: 5.9375rem;
+  --pg-opacity-95: 0.95;
   /* 100% opacity. Fully opaque, no transparency. */
-  --pg-opacity-100: 6.25rem;
+  --pg-opacity-100: 1;
   /* Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text. */
-  --pg-neutral-white: #0a0d10;
+  --pg-neutral-white: #fafbfc;
   /* Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds. */
-  --pg-neutral-black: #fafbfc;
+  --pg-neutral-black: #0a0d10;
   /* Neutral gray 100 alias. References brand.gray.100. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.100 for detailed usage guidance. */
   --pg-neutral-gray-100: #f5f6f7;
   /* Neutral gray 200 alias. References brand.gray.200. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.200 for detailed usage guidance. */
@@ -510,73 +518,97 @@
   /* Translucent border color that blends with backgrounds using rgba(). */
   --pg-semantic-border-color-translucent: #0a0d10;
   /* Default body text color. Applied to the <body> element and inherited by all text content unless overridden. */
-  --pg-semantic-body-color: #dfe1e5;
+  --pg-semantic-body-color: #212529;
   /* Default body background color. Applied to the <body> element as the base page background. */
-  --pg-semantic-body-bg: #212529;
+  --pg-semantic-body-bg: #fafbfc;
   /* Emphasis color for higher contrast text. Use for headings or text that needs to stand out. */
   --pg-semantic-emphasis-color: #0a0d10;
   /* Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text. */
-  --pg-semantic-secondary-color: #cbced3;
+  --pg-semantic-secondary-color: #7a7f87;
   /* Secondary background color. Use for dividers and to indicate disabled component states. */
-  --pg-semantic-secondary-bg: #343a40;
+  --pg-semantic-secondary-bg: #e8eaed;
   /* Tertiary text color for even lighter text. Use for less important supporting text. */
   --pg-semantic-tertiary-color: #a8adb7;
   /* Tertiary background color. Use for hover states, accents, and wells. */
-  --pg-semantic-tertiary-bg: #212529;
+  --pg-semantic-tertiary-bg: #f5f6f7;
   /* Default hyperlink color. Used for all <a> elements and interactive text. */
-  --pg-semantic-link-color: #5d99e7;
+  --pg-semantic-link-color: #084298;
   /* Hyperlink hover color. Applied when user hovers over a link. */
-  --pg-semantic-link-hover-color: #86b3ed;
+  --pg-semantic-link-hover-color: #063166;
   /* Default border color for component borders, dividers, and rules. */
-  --pg-semantic-border-color: #495057;
+  --pg-semantic-border-color: #dfe1e5;
   /* Primary text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-primary-text-emphasis: #86b3ed;
+  --pg-semantic-primary-text-emphasis: #063166;
   /* Primary subtle background color for non-intrusive backgrounds. */
-  --pg-semantic-primary-bg-subtle: #021022;
+  --pg-semantic-primary-bg-subtle: #d7e6f9;
   /* Primary subtle border color for gentle borders matching primary theme. */
-  --pg-semantic-primary-border-subtle: #063166;
+  --pg-semantic-primary-border-subtle: #aeccf3;
   /* Secondary theme text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-secondary-text-emphasis: #dfe1e5;
+  --pg-semantic-secondary-text-emphasis: #495057;
   /* Secondary theme subtle background color for non-intrusive backgrounds. */
-  --pg-semantic-secondary-bg-subtle: #212529;
+  --pg-semantic-secondary-bg-subtle: #f5f6f7;
   /* Secondary theme subtle border color for gentle borders matching secondary theme. */
-  --pg-semantic-secondary-border-subtle: #495057;
+  --pg-semantic-secondary-border-subtle: #e8eaed;
   /* Success text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-success-text-emphasis: #67c3a7;
+  --pg-semantic-success-text-emphasis: #0a3622;
   /* Success subtle background color for non-intrusive success states. */
-  --pg-semantic-success-bg-subtle: #041b0f;
+  --pg-semantic-success-bg-subtle: #b3e1d3;
   /* Success subtle border color for gentle borders matching success theme. */
-  --pg-semantic-success-border-subtle: #0a3622;
+  --pg-semantic-success-border-subtle: #8dd2bd;
   /* Danger text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-danger-text-emphasis: #d792a3;
+  --pg-semantic-danger-text-emphasis: #58151c;
   /* Danger subtle background color for non-intrusive error states. */
-  --pg-semantic-danger-bg-subtle: #2c0b0e;
+  --pg-semantic-danger-bg-subtle: #ebc9d1;
   /* Danger subtle border color for gentle borders matching danger theme. */
-  --pg-semantic-danger-border-subtle: #58151c;
+  --pg-semantic-danger-border-subtle: #e1adba;
   /* Warning text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-warning-text-emphasis: #fbbf24;
+  --pg-semantic-warning-text-emphasis: #92400e;
   /* Warning subtle background color for non-intrusive warning states. */
-  --pg-semantic-warning-bg-subtle: #451a03;
+  --pg-semantic-warning-bg-subtle: #fef3c7;
   /* Warning subtle border color for gentle borders matching warning theme. */
-  --pg-semantic-warning-border-subtle: #92400e;
+  --pg-semantic-warning-border-subtle: #fcd34d;
   /* Info text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-info-text-emphasis: #4dd0e1;
+  --pg-semantic-info-text-emphasis: #055160;
   /* Info subtle background color for non-intrusive info states. */
-  --pg-semantic-info-bg-subtle: #012320;
+  --pg-semantic-info-bg-subtle: #b2ebf2;
   /* Info subtle border color for gentle borders matching info theme. */
-  --pg-semantic-info-border-subtle: #055160;
+  --pg-semantic-info-border-subtle: #80deea;
   /* Light text emphasis color - provides contrast on light themed components. */
-  --pg-semantic-light-text-emphasis: #f5f6f7;
+  --pg-semantic-light-text-emphasis: #495057;
   /* Light subtle background color for subtle backgrounds. */
-  --pg-semantic-light-bg-subtle: #343a40;
+  --pg-semantic-light-bg-subtle: #f5f6f7;
   /* Light subtle border color for gentle borders matching light theme. */
-  --pg-semantic-light-border-subtle: #495057;
+  --pg-semantic-light-border-subtle: #e8eaed;
   /* Dark text emphasis color - highest contrast text on light backgrounds. */
-  --pg-semantic-dark-text-emphasis: #dfe1e5;
+  --pg-semantic-dark-text-emphasis: #212529;
   /* Dark subtle background color for darker backgrounds. */
-  --pg-semantic-dark-bg-subtle: #495057;
+  --pg-semantic-dark-bg-subtle: #cbced3;
   /* Dark subtle border color for borders matching dark theme. */
-  --pg-semantic-dark-border-subtle: #343a40;
+  --pg-semantic-dark-border-subtle: #a8adb7;
+  /* Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces. */
+  --pg-semantic-primary: #0a58ca;
+  /* Info background color utility. Applies info color as background. Use for informational surfaces. Maps to Bootstrap's .bg-info utility class. Communicates helpful information. */
+  --pg-semantic-info: #087990;
+  /* Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background. */
+  --pg-semantic-body: #212529;
+  /* Success background color utility. Applies success color as background. Use for positive feedback surfaces. Maps to Bootstrap's .bg-success utility class. Indicates successful operations. */
+  --pg-semantic-success: #0f5132;
+  /* Warning background color utility. Applies warning color as background. Use for caution or important notice surfaces. Maps to Bootstrap's .bg-warning utility class. Requires careful contrast checking. */
+  --pg-semantic-warning: #f59e0b;
+  /* Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy. */
+  --pg-semantic-secondary: #7a7f87;
+  /* Danger background color utility. Applies danger color as background. Use for error or destructive action surfaces. Maps to Bootstrap's .bg-danger utility class. Indicates errors or warnings. */
+  --pg-semantic-danger: #842029;
+  /* Dark background color utility. Applies dark gray as background. Use for high-contrast surfaces and footers. Maps to Bootstrap's .bg-dark utility class. Requires light text for contrast. */
+  --pg-semantic-dark: #212529;
+  /* Light background color utility. Applies light gray as background. Use for subtle surfaces and page backgrounds. Maps to Bootstrap's .bg-light utility class. Requires dark text for contrast. */
+  --pg-semantic-light: #f5f6f7;
+  /* White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness. */
+  --pg-semantic-white: #fafbfc;
+  /* Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text. */
+  --pg-semantic-black: #0a0d10;
+  /* Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class. */
+  --pg-semantic-transparent: #000000;
   /* Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces. */
   --pg-background-primary: #0a58ca;
   /* Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy. */
@@ -596,11 +628,23 @@
   /* Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background. */
   --pg-background-body: #fafbfc;
   /* White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness. */
-  --pg-background-white: #0a0d10;
+  --pg-background-white: #fafbfc;
   /* Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text. */
-  --pg-background-black: #fafbfc;
+  --pg-background-black: #0a0d10;
   /* Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class. */
   --pg-background-transparent: #000000;
+  /* Border width 0 (0px). Bootstrap's $border-width-0 variable. */
+  --pg-border-width-0: 0;
+  /* Border width 1 (1px). Bootstrap's $border-width-1 variable. */
+  --pg-border-width-1: 0.0625rem;
+  /* Border width 2 (2px). Bootstrap's $border-width-2 variable. */
+  --pg-border-width-2: 0.125rem;
+  /* Border width 3 (3px). Bootstrap's $border-width-3 variable. */
+  --pg-border-width-3: 0.1875rem;
+  /* Border width 4 (4px). Bootstrap's $border-width-4 variable. */
+  --pg-border-width-4: 0.25rem;
+  /* Border width 5 (5px). Bootstrap's $border-width-5 variable. */
+  --pg-border-width-5: 0.3125rem;
   /* Border radius: None - 0. No rounding, completely square corners. Equivalent to Bootstrap's 'rounded-0' utility class. */
   --pg-border-radius-0: 0;
   /* Border radius: Default - 0.375rem (6px). The standard rounding used throughout Bootstrap for most components. Equivalent to Bootstrap's 'rounded' or 'rounded-2' utility classes and $border-radius variable. */

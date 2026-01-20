@@ -1,0 +1,87 @@
+/**
+ * Demo Card Component
+ *
+ * A custom card style for showcasing components in the playground.
+ */
+
+@use '../variables' as vars;
+@use '../mixins' as mixins;
+
+.demo-card {
+  @include mixins.elevated-card;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--pg-color-neutral-200, #e5e7eb);
+
+    [data-dsai-theme='dark'] & {
+      border-bottom-color: var(--pg-color-neutral-700, #374151);
+    }
+  }
+
+  &__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--pg-color-neutral-900, #111827);
+
+    [data-dsai-theme='dark'] & {
+      color: var(--pg-color-neutral-100, #f3f4f6);
+    }
+  }
+
+  &__badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    background: var(--pg-color-primary-100, #dbeafe);
+    color: var(--pg-color-primary-700, #1d4ed8);
+
+    [data-dsai-theme='dark'] & {
+      background: var(--pg-color-primary-900, #1e3a8a);
+      color: var(--pg-color-primary-300, #93c5fd);
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__preview {
+    padding: 2rem;
+    background: var(--pg-color-neutral-50, #f9fafb);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+
+    [data-dsai-theme='dark'] & {
+      background: var(--pg-color-neutral-800, #1f2937);
+    }
+  }
+
+  &__code {
+    @include mixins.code-block;
+  }
+
+  &__footer {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--pg-color-neutral-200, #e5e7eb);
+
+    [data-dsai-theme='dark'] & {
+      border-top-color: var(--pg-color-neutral-700, #374151);
+    }
+  }
+}

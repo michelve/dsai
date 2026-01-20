@@ -120,7 +120,7 @@ function setNestedValue(obj: Record<string, unknown>, path: string, value: unkno
           configurable: true,
         });
       }
-      const nested = obj[first] as Record<string, unknown>;
+      const nested = Reflect.get(obj, first) as Record<string, unknown>;
       Object.defineProperty(nested, second, {
         value,
         writable: true,
@@ -142,7 +142,7 @@ function setNestedValue(obj: Record<string, unknown>, path: string, value: unkno
           configurable: true,
         });
       }
-      const nested1 = obj[first] as Record<string, unknown>;
+      const nested1 = Reflect.get(obj, first) as Record<string, unknown>;
       if (!(second in nested1)) {
         Object.defineProperty(nested1, second, {
           value: {},
@@ -151,7 +151,7 @@ function setNestedValue(obj: Record<string, unknown>, path: string, value: unkno
           configurable: true,
         });
       }
-      const nested2 = nested1[second] as Record<string, unknown>;
+      const nested2 = Reflect.get(nested1, second) as Record<string, unknown>;
       Object.defineProperty(nested2, third, {
         value,
         writable: true,
@@ -200,7 +200,7 @@ export function getConfigFromEnv(options: EnvParseOptions = {}): Partial<DsaiCon
       continue;
     }
 
-    const envValue = env[envKey];
+    const envValue = Reflect.get(env, envKey) as string | undefined;
     if (envValue === undefined) {
       continue;
     }

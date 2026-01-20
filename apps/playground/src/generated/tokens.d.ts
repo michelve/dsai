@@ -71,17 +71,17 @@ export const typographyHeadingH5: string;
 /** H6 heading font size (1rem = 16px) */
 export const typographyHeadingH6: string;
 /** Display 1 font size (5rem = 80px) */
-export const typographyDisplayH1: string;
+export const typographyDisplayD1: string;
 /** Display 2 font size (4.5rem = 72px) */
-export const typographyDisplayH2: string;
+export const typographyDisplayD2: string;
 /** Display 3 font size (4rem = 64px) */
-export const typographyDisplayH3: string;
+export const typographyDisplayD3: string;
 /** Display 4 font size (3.5rem = 56px) */
-export const typographyDisplayH4: string;
+export const typographyDisplayD4: string;
 /** Display 5 font size (3rem = 48px) */
-export const typographyDisplayH5: string;
+export const typographyDisplayD5: string;
 /** Display 6 font size (2.5rem = 40px) */
-export const typographyDisplayH6: string;
+export const typographyDisplayD6: string;
 /** Tighter letter spacing (-0.05em) - Use for large headings and display text to improve visual density. Enhances readability at larger sizes. */
 export const typographyLetterSpacingTighter: string;
 /** Tight letter spacing (-0.025em) - Subtle tightening for headings. Improves visual cohesion without sacrificing readability. */
@@ -122,8 +122,14 @@ export const spacing8: string;
 export const spacing9: string;
 /** Spacing scale 10 - 5X extra large spacing (160px). */
 export const spacing10: string;
+/** Spacing scale 10 - 5X extra large spacing (160px). */
+export const spacing11: string;
 /** Spacing 12px - 4px grid intermediate value. Common for button/input padding (0.75rem). */
 export const spacing12: string;
+/** Spacing scale 10 - 5X extra large spacing (160px). */
+export const spacing13: string;
+/** Spacing scale 10 - 5X extra large spacing (160px). */
+export const spacing14: string;
 /** Spacing 20px - 4px grid intermediate value (1.25rem). Fills gap between 16px and 24px. */
 export const spacing20: string;
 /** Spacing 28px - 4px grid intermediate value (1.75rem). Fills gap between 24px and 32px. */
@@ -138,6 +144,8 @@ export const spacing40: string;
 export const spacing44: string;
 /** Spacing 56px - 4px grid value (3.5rem). Between Bootstrap scale 5 (48px) and extended 6 (64px). */
 export const spacing56: string;
+/** Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px). */
+export const spacing15: string;
 /** Complete box shadow value for Bootstrap SCSS export */
 export const shadowDefault: string;
 /** Complete box shadow value for Bootstrap SCSS export */
@@ -447,47 +455,47 @@ export const colorGray900: string;
 /** Deep shadows, near-black shade of gray. Maximum depth and contrast. */
 export const colorGray950: string;
 /** 0% opacity. Completely transparent, invisible element. */
-export const opacity0: string;
+export const opacity0: number;
 /** 5% opacity. Use for very subtle overlays or hover states. */
-export const opacity5: string;
+export const opacity5: number;
 /** 10% opacity. Use for subtle overlays or disabled states. */
-export const opacity10: string;
+export const opacity10: number;
 /** 15% opacity. Use for light overlays or hover effects. */
-export const opacity15: string;
+export const opacity15: number;
 /** 20% opacity. Use for subtle backgrounds or shadows. */
-export const opacity20: string;
+export const opacity20: number;
 /** 25% opacity. Use for overlay backgrounds or disabled elements. */
-export const opacity25: string;
+export const opacity25: number;
 /** 30% opacity. Use for moderate overlays. */
-export const opacity30: string;
+export const opacity30: number;
 /** 35% opacity. Use for visible overlays. */
-export const opacity35: string;
+export const opacity35: number;
 /** 40% opacity. Use for semi-transparent backgrounds. */
-export const opacity40: string;
+export const opacity40: number;
 /** 45% opacity. Use for noticeable overlays. */
-export const opacity45: string;
+export const opacity45: number;
 /** 50% opacity. Use for half-transparent elements. */
-export const opacity50: string;
+export const opacity50: number;
 /** 55% opacity. Use for semi-visible elements. */
-export const opacity55: string;
+export const opacity55: number;
 /** 60% opacity. Use for visible but translucent elements. */
-export const opacity60: string;
+export const opacity60: number;
 /** 65% opacity. Use for mostly visible elements. */
-export const opacity65: string;
+export const opacity65: number;
 /** 70% opacity. Use for mostly opaque elements. */
-export const opacity70: string;
+export const opacity70: number;
 /** 75% opacity. Use for semi-opaque elements. */
-export const opacity75: string;
+export const opacity75: number;
 /** 80% opacity. Use for nearly opaque elements. */
-export const opacity80: string;
+export const opacity80: number;
 /** 85% opacity. Use for mostly solid elements. */
-export const opacity85: string;
+export const opacity85: number;
 /** 90% opacity. Use for almost fully opaque elements. */
-export const opacity90: string;
+export const opacity90: number;
 /** 95% opacity. Use for very nearly solid elements. */
-export const opacity95: string;
+export const opacity95: number;
 /** 100% opacity. Fully opaque, no transparency. */
-export const opacity100: string;
+export const opacity100: number;
 /** Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text. */
 export const neutralWhite: string;
 /** Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds. */
@@ -581,6 +589,30 @@ export const semanticDarkBgSubtle: string;
 /** Dark subtle border color for borders matching dark theme. */
 export const semanticDarkBorderSubtle: string;
 /** Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces. */
+export const semanticPrimary: string;
+/** Info background color utility. Applies info color as background. Use for informational surfaces. Maps to Bootstrap's .bg-info utility class. Communicates helpful information. */
+export const semanticInfo: string;
+/** Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background. */
+export const semanticBody: string;
+/** Success background color utility. Applies success color as background. Use for positive feedback surfaces. Maps to Bootstrap's .bg-success utility class. Indicates successful operations. */
+export const semanticSuccess: string;
+/** Warning background color utility. Applies warning color as background. Use for caution or important notice surfaces. Maps to Bootstrap's .bg-warning utility class. Requires careful contrast checking. */
+export const semanticWarning: string;
+/** Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy. */
+export const semanticSecondary: string;
+/** Danger background color utility. Applies danger color as background. Use for error or destructive action surfaces. Maps to Bootstrap's .bg-danger utility class. Indicates errors or warnings. */
+export const semanticDanger: string;
+/** Dark background color utility. Applies dark gray as background. Use for high-contrast surfaces and footers. Maps to Bootstrap's .bg-dark utility class. Requires light text for contrast. */
+export const semanticDark: string;
+/** Light background color utility. Applies light gray as background. Use for subtle surfaces and page backgrounds. Maps to Bootstrap's .bg-light utility class. Requires dark text for contrast. */
+export const semanticLight: string;
+/** White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness. */
+export const semanticWhite: string;
+/** Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text. */
+export const semanticBlack: string;
+/** Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class. */
+export const semanticTransparent: string;
+/** Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces. */
 export const backgroundPrimary: string;
 /** Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy. */
 export const backgroundSecondary: string;
@@ -604,6 +636,18 @@ export const backgroundWhite: string;
 export const backgroundBlack: string;
 /** Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class. */
 export const backgroundTransparent: string;
+/** Border width 0 (0px). Bootstrap's $border-width-0 variable. */
+export const borderWidth0: string;
+/** Border width 1 (1px). Bootstrap's $border-width-1 variable. */
+export const borderWidth1: string;
+/** Border width 2 (2px). Bootstrap's $border-width-2 variable. */
+export const borderWidth2: string;
+/** Border width 3 (3px). Bootstrap's $border-width-3 variable. */
+export const borderWidth3: string;
+/** Border width 4 (4px). Bootstrap's $border-width-4 variable. */
+export const borderWidth4: string;
+/** Border width 5 (5px). Bootstrap's $border-width-5 variable. */
+export const borderWidth5: string;
 /** Border radius: None - 0. No rounding, completely square corners. Equivalent to Bootstrap's 'rounded-0' utility class. */
 export const borderRadius0: string;
 /** Border radius: Default - 0.375rem (6px). The standard rounding used throughout Bootstrap for most components. Equivalent to Bootstrap's 'rounded' or 'rounded-2' utility classes and $border-radius variable. */

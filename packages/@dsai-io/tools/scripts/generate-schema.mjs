@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
+
 /**
  * Generate JSON Schema from Zod schemas
  *
@@ -29,7 +29,7 @@ const SCHEMA_OUTPUT = path.resolve(TEMPLATES_DIR, 'dsai-config.schema.json');
 
 /**
  * Generate JSON Schema from Zod schema
- * @returns {void}
+ * @returns {undefined}
  */
 function generateSchema() {
   console.log('Generating JSON Schema from Zod schemas...\n');

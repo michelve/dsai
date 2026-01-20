@@ -123,28 +123,29 @@ $color-gray-800: #343a40; // Very dark shade (60% darker) of neutral interface c
 $color-gray-900: #212529; // Darkest shade (80% darker) of neutral interface color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.
 $color-gray-950: #0a0d10; // Deep shadows, near-black shade of gray. Maximum depth and contrast.
 $opacity-0: 0; // 0% opacity. Completely transparent, invisible element.
-$opacity-5: 0.3125rem; // 5% opacity. Use for very subtle overlays or hover states.
-$opacity-10: 0.625rem; // 10% opacity. Use for subtle overlays or disabled states.
-$opacity-15: 0.9375rem; // 15% opacity. Use for light overlays or hover effects.
-$opacity-20: 1.25rem; // 20% opacity. Use for subtle backgrounds or shadows.
-$opacity-25: 1.5625rem; // 25% opacity. Use for overlay backgrounds or disabled elements.
-$opacity-30: 1.875rem; // 30% opacity. Use for moderate overlays.
-$opacity-35: 2.1875rem; // 35% opacity. Use for visible overlays.
-$opacity-40: 2.5rem; // 40% opacity. Use for semi-transparent backgrounds.
-$opacity-45: 2.8125rem; // 45% opacity. Use for noticeable overlays.
-$opacity-50: 3.125rem; // 50% opacity. Use for half-transparent elements.
-$opacity-55: 3.4375rem; // 55% opacity. Use for semi-visible elements.
-$opacity-60: 3.75rem; // 60% opacity. Use for visible but translucent elements.
-$opacity-65: 4.0625rem; // 65% opacity. Use for mostly visible elements.
-$opacity-70: 4.375rem; // 70% opacity. Use for mostly opaque elements.
-$opacity-75: 4.6875rem; // 75% opacity. Use for semi-opaque elements.
-$opacity-80: 5rem; // 80% opacity. Use for nearly opaque elements.
-$opacity-85: 5.3125rem; // 85% opacity. Use for mostly solid elements.
-$opacity-90: 5.625rem; // 90% opacity. Use for almost fully opaque elements.
-$opacity-95: 5.9375rem; // 95% opacity. Use for very nearly solid elements.
-$opacity-100: 6.25rem; // 100% opacity. Fully opaque, no transparency.
+$opacity-5: 0.05; // 5% opacity. Use for very subtle overlays or hover states.
+$opacity-10: 0.1; // 10% opacity. Use for subtle overlays or disabled states.
+$opacity-15: 0.15; // 15% opacity. Use for light overlays or hover effects.
+$opacity-20: 0.2; // 20% opacity. Use for subtle backgrounds or shadows.
+$opacity-25: 0.25; // 25% opacity. Use for overlay backgrounds or disabled elements.
+$opacity-30: 0.3; // 30% opacity. Use for moderate overlays.
+$opacity-35: 0.35; // 35% opacity. Use for visible overlays.
+$opacity-40: 0.4; // 40% opacity. Use for semi-transparent backgrounds.
+$opacity-45: 0.45; // 45% opacity. Use for noticeable overlays.
+$opacity-50: 0.5; // 50% opacity. Use for half-transparent elements.
+$opacity-55: 0.55; // 55% opacity. Use for semi-visible elements.
+$opacity-60: 0.6; // 60% opacity. Use for visible but translucent elements.
+$opacity-65: 0.65; // 65% opacity. Use for mostly visible elements.
+$opacity-70: 0.7; // 70% opacity. Use for mostly opaque elements.
+$opacity-75: 0.75; // 75% opacity. Use for semi-opaque elements.
+$opacity-80: 0.8; // 80% opacity. Use for nearly opaque elements.
+$opacity-85: 0.85; // 85% opacity. Use for mostly solid elements.
+$opacity-90: 0.9; // 90% opacity. Use for almost fully opaque elements.
+$opacity-95: 0.95; // 95% opacity. Use for very nearly solid elements.
+$opacity-100: 1; // 100% opacity. Fully opaque, no transparency.
 $neutral-white: #0a0d10; // Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text.
 $neutral-black: #fafbfc; // Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds.
+$semantic-transparent: #000000; // Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class.
 $background-transparent: #000000; // Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class.
 $theme-primary: $color-blue-500; // Primary theme color. Main brand color for primary CTAs, links, and key interactive elements. Use for primary buttons, active navigation, focus states. Bootstrap's --bs-primary maps to blue-500. Ensures consistent brand expression across all touchpoints. Verify 4.5:1 contrast on backgrounds.
 $theme-secondary: $color-gray-500; // Secondary theme color. Supporting UI elements, secondary actions, and muted emphasis. Use for secondary buttons, subtle badges, disabled state text. Bootstrap's --bs-secondary maps to gray-600. Provides visual hierarchy below primary actions. Meets WCAG AA for text.
@@ -182,6 +183,16 @@ $semantic-warning-border-subtle: $color-yellow-700; // Warning subtle border col
 $semantic-info-text-emphasis: $color-cyan-300; // Info text emphasis color - higher contrast text on light backgrounds.
 $semantic-info-bg-subtle: $color-cyan-900; // Info subtle background color for non-intrusive info states.
 $semantic-info-border-subtle: $color-cyan-700; // Info subtle border color for gentle borders matching info theme.
+$semantic-primary: $color-blue-500; // Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces.
+$semantic-info: $color-cyan-500; // Info background color utility. Applies info color as background. Use for informational surfaces. Maps to Bootstrap's .bg-info utility class. Communicates helpful information.
+$semantic-success: $color-green-500; // Success background color utility. Applies success color as background. Use for positive feedback surfaces. Maps to Bootstrap's .bg-success utility class. Indicates successful operations.
+$semantic-warning: $color-yellow-500; // Warning background color utility. Applies warning color as background. Use for caution or important notice surfaces. Maps to Bootstrap's .bg-warning utility class. Requires careful contrast checking.
+$semantic-secondary: $color-gray-600; // Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy.
+$semantic-danger: $color-red-500; // Danger background color utility. Applies danger color as background. Use for error or destructive action surfaces. Maps to Bootstrap's .bg-danger utility class. Indicates errors or warnings.
+$semantic-dark: $color-gray-100; // Dark background color utility. Applies dark gray as background. Use for high-contrast surfaces and footers. Maps to Bootstrap's .bg-dark utility class. Requires light text for contrast.
+$semantic-light: $color-gray-100; // Light background color utility. Applies light gray as background. Use for subtle surfaces and page backgrounds. Maps to Bootstrap's .bg-light utility class. Requires dark text for contrast.
+$semantic-white: $neutral-white; // White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness.
+$semantic-black: $neutral-black; // Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text.
 $background-primary: $color-blue-500; // Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces.
 $background-secondary: $color-gray-600; // Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy.
 $background-success: $color-green-500; // Success background color utility. Applies success color as background. Use for positive feedback surfaces. Maps to Bootstrap's .bg-success utility class. Indicates successful operations.
@@ -209,3 +220,4 @@ $semantic-light-border-subtle: $neutral-gray-700; // Light subtle border color f
 $semantic-dark-text-emphasis: $neutral-gray-300; // Dark text emphasis color - highest contrast text on light backgrounds.
 $semantic-dark-bg-subtle: $neutral-gray-700; // Dark subtle background color for darker backgrounds.
 $semantic-dark-border-subtle: $neutral-gray-800; // Dark subtle border color for borders matching dark theme.
+$semantic-body: $neutral-gray-600; // Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background.

@@ -19,6 +19,8 @@ storybook-static
 # SCSS auto-compiled CSS (from Live Sass Compiler or similar extensions)
 packages/@dsai-io/tools/src/scss/*.css
 packages/@dsai-io/tools/src/scss/*.css.map
+apps/playground/src/scss/*.css
+apps/playground/src/scss/*.css.map
 
 # dependencies
 node_modules
@@ -46,6 +48,16 @@ node_modules
 .parcel-cache
 .eslintcache
 .stylelintcache
+
+# NEW: Incremental build cache (TASK-122)
+.dsai-cache
+**/.dsai-cache
+
+# NEW: Version snapshots (TASK-119)
+# Uncomment to commit snapshots (optional for faster CI recovery)
+.snapshots
+**/.snapshots
+*.snapshot.tar.gz
 
 # misc
 /.sass-cache

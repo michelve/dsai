@@ -1,8 +1,8 @@
 {
   "opacity": {
     "0": {
-      "$value": "0px",
-      "$type": "dimension",
+      "$value": 0,
+      "$type": "number",
       "$description": "0% opacity. Completely transparent, invisible element.",
       "$extensions": {
         "docs": {
@@ -16,8 +16,8 @@
       }
     },
     "5": {
-      "$value": "5px",
-      "$type": "dimension",
+      "$value": 0.05,
+      "$type": "number",
       "$description": "5% opacity. Use for very subtle overlays or hover states.",
       "$extensions": {
         "docs": {
@@ -29,8 +29,8 @@
       }
     },
     "10": {
-      "$value": "10px",
-      "$type": "dimension",
+      "$value": 0.1,
+      "$type": "number",
       "$description": "10% opacity. Use for subtle overlays or disabled states.",
       "$extensions": {
         "docs": {
@@ -42,8 +42,8 @@
       }
     },
     "15": {
-      "$value": "15px",
-      "$type": "dimension",
+      "$value": 0.15,
+      "$type": "number",
       "$description": "15% opacity. Use for light overlays or hover effects.",
       "$extensions": {
         "docs": {
@@ -55,8 +55,8 @@
       }
     },
     "20": {
-      "$value": "20px",
-      "$type": "dimension",
+      "$value": 0.2,
+      "$type": "number",
       "$description": "20% opacity. Use for subtle backgrounds or shadows.",
       "$extensions": {
         "docs": {
@@ -68,8 +68,8 @@
       }
     },
     "25": {
-      "$value": "25px",
-      "$type": "dimension",
+      "$value": 0.25,
+      "$type": "number",
       "$description": "25% opacity. Use for overlay backgrounds or disabled elements.",
       "$extensions": {
         "docs": {
@@ -81,8 +81,8 @@
       }
     },
     "30": {
-      "$value": "30px",
-      "$type": "dimension",
+      "$value": 0.3,
+      "$type": "number",
       "$description": "30% opacity. Use for moderate overlays.",
       "$extensions": {
         "docs": {
@@ -94,8 +94,8 @@
       }
     },
     "35": {
-      "$value": "35px",
-      "$type": "dimension",
+      "$value": 0.35,
+      "$type": "number",
       "$description": "35% opacity. Use for visible overlays.",
       "$extensions": {
         "docs": {
@@ -107,8 +107,8 @@
       }
     },
     "40": {
-      "$value": "40px",
-      "$type": "dimension",
+      "$value": 0.4,
+      "$type": "number",
       "$description": "40% opacity. Use for semi-transparent backgrounds.",
       "$extensions": {
         "docs": {
@@ -120,8 +120,8 @@
       }
     },
     "45": {
-      "$value": "45px",
-      "$type": "dimension",
+      "$value": 0.45,
+      "$type": "number",
       "$description": "45% opacity. Use for noticeable overlays.",
       "$extensions": {
         "docs": {
@@ -133,8 +133,8 @@
       }
     },
     "50": {
-      "$value": "50px",
-      "$type": "dimension",
+      "$value": 0.5,
+      "$type": "number",
       "$description": "50% opacity. Use for half-transparent elements.",
       "$extensions": {
         "docs": {
@@ -146,8 +146,8 @@
       }
     },
     "55": {
-      "$value": "55px",
-      "$type": "dimension",
+      "$value": 0.55,
+      "$type": "number",
       "$description": "55% opacity. Use for semi-visible elements.",
       "$extensions": {
         "docs": {
@@ -159,8 +159,8 @@
       }
     },
     "60": {
-      "$value": "60px",
-      "$type": "dimension",
+      "$value": 0.6,
+      "$type": "number",
       "$description": "60% opacity. Use for visible but translucent elements.",
       "$extensions": {
         "docs": {
@@ -172,8 +172,8 @@
       }
     },
     "65": {
-      "$value": "65px",
-      "$type": "dimension",
+      "$value": 0.65,
+      "$type": "number",
       "$description": "65% opacity. Use for mostly visible elements.",
       "$extensions": {
         "docs": {
@@ -185,8 +185,8 @@
       }
     },
     "70": {
-      "$value": "70px",
-      "$type": "dimension",
+      "$value": 0.7,
+      "$type": "number",
       "$description": "70% opacity. Use for mostly opaque elements.",
       "$extensions": {
         "docs": {
@@ -198,8 +198,8 @@
       }
     },
     "75": {
-      "$value": "75px",
-      "$type": "dimension",
+      "$value": 0.75,
+      "$type": "number",
       "$description": "75% opacity. Use for semi-opaque elements.",
       "$extensions": {
         "docs": {
@@ -211,8 +211,8 @@
       }
     },
     "80": {
-      "$value": "80px",
-      "$type": "dimension",
+      "$value": 0.8,
+      "$type": "number",
       "$description": "80% opacity. Use for nearly opaque elements.",
       "$extensions": {
         "docs": {
@@ -224,8 +224,8 @@
       }
     },
     "85": {
-      "$value": "85px",
-      "$type": "dimension",
+      "$value": 0.85,
+      "$type": "number",
       "$description": "85% opacity. Use for mostly solid elements.",
       "$extensions": {
         "docs": {
@@ -237,8 +237,8 @@
       }
     },
     "90": {
-      "$value": "90px",
-      "$type": "dimension",
+      "$value": 0.9,
+      "$type": "number",
       "$description": "90% opacity. Use for almost fully opaque elements.",
       "$extensions": {
         "docs": {
@@ -250,8 +250,8 @@
       }
     },
     "95": {
-      "$value": "95px",
-      "$type": "dimension",
+      "$value": 0.95,
+      "$type": "number",
       "$description": "95% opacity. Use for very nearly solid elements.",
       "$extensions": {
         "docs": {
@@ -263,8 +263,8 @@
       }
     },
     "100": {
-      "$value": "100px",
-      "$type": "dimension",
+      "$value": 1,
+      "$type": "number",
       "$description": "100% opacity. Fully opaque, no transparency.",
       "$extensions": {
         "docs": {

@@ -1,0 +1,25 @@
+/**
+ * Custom SCSS Entry Point
+ *
+ * This file imports all custom stylesheets that extend the DSAi design system.
+ * These styles are compiled alongside the generated token styles when you run:
+ *   pnpm tokens:build
+ *
+ * Configure in dsai.config.mjs:
+ *   additionalScssDirectories: ['./src/scss/custom'],
+ *
+ * @example Usage in your app:
+ *   import './generated/tokens-bundle.css'; // Includes tokens + custom styles
+ */
+
+// Custom variables (extends token variables)
+@use 'variables' as custom-vars;
+
+// Custom mixins for common patterns
+@use 'mixins' as custom-mixins;
+
+// Custom component overrides
+@use 'components/index' as components;
+
+// Custom utilities
+@use 'utilities' as utilities;

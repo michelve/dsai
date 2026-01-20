@@ -25,14 +25,25 @@ import { execSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { dirname } from 'node:path';
 
+import { CacheService } from './cache.js';
+import {
+  analyzeChanges,
+  generateIncrementalReport,
+  updateCacheAfterBuild,
+  type IncrementalOptions,
+} from './incremental.js';
 import { postprocessCLI } from './postprocess.js';
+import { SnapshotService } from './snapshot.js';
 import { syncTokensCLI } from './sync.js';
+import { buildAllThemes } from './theme-builder.js';
+import { discoverThemeFiles } from './theme-discovery.js';
 import { transformTokens } from './transform.js';
 
 import type { BuildOptions, BuildResult, BuildStep } from './types';
 import type {
   BuildPipelinePaths,
   BuildPipelineStep,
+  OutputFormat,
   TokensBuildPipeline,
 } from '../config/types.js';
 
@@ -54,6 +65,7 @@ const SASS_FLAGS_MINIMAL = ['--quiet-deps', '--silence-deprecation=import'].join
 /** Default build pipeline steps (full @dsai-io/tokens build) */
 const DEFAULT_PIPELINE_STEPS: BuildPipelineStep[] = [
   'validate',
+  'snapshot', // Create backup before transform
   'transform',
   'style-dictionary',
   'sync',
@@ -165,19 +177,22 @@ function getPipelinePaths(customPaths?: BuildPipelinePaths): Required<BuildPipel
 
 /**
  * Map of step names to human-readable names
+ * Using Map for safe access (avoids Object Injection Sink)
  */
-const STEP_DISPLAY_NAMES: Record<BuildPipelineStep, string> = {
-  validate: 'Validate Tokens',
-  transform: 'Transform Figma Tokens',
-  'style-dictionary': 'Build Style Dictionary',
-  sync: 'Sync tokens-flat.ts',
-  'sass-theme': 'Compile Bootstrap Theme (unminified)',
-  'sass-theme-minified': 'Compile Bootstrap Theme (minified)',
-  postprocess: 'Post-process Theme CSS',
-  'sass-utilities': 'Compile DSAi Utilities (unminified)',
-  'sass-utilities-minified': 'Compile DSAi Utilities (minified)',
-  bundle: 'Bundle with tsup',
-};
+const STEP_DISPLAY_NAMES = new Map<BuildPipelineStep, string>([
+  ['validate', 'Validate Tokens'],
+  ['snapshot', 'Create Snapshot Backup'],
+  ['transform', 'Transform Figma Tokens'],
+  ['style-dictionary', 'Build Style Dictionary'],
+  ['multi-theme', 'Build Multi-Theme Tokens'],
+  ['sync', 'Sync tokens-flat.ts'],
+  ['sass-theme', 'Compile Bootstrap Theme (unminified)'],
+  ['sass-theme-minified', 'Compile Bootstrap Theme (minified)'],
+  ['postprocess', 'Post-process Theme CSS'],
+  ['sass-utilities', 'Compile DSAi Utilities (unminified)'],
+  ['sass-utilities-minified', 'Compile DSAi Utilities (minified)'],
+  ['bundle', 'Bundle with tsup'],
+]);
 
 /**
  * Create a single build step from step name
@@ -188,9 +203,12 @@ function createStepFromName(
   figmaExportsDir: string,
   tokensDir: string,
   paths: Required<BuildPipelinePaths>,
-  sdConfigFile: string
+  sdConfigFile: string,
+  strict: boolean,
+  snapshotService?: SnapshotService,
+  themesConfig?: BuildOptions['themesConfig']
 ): BuildStep {
-  const displayName = STEP_DISPLAY_NAMES[stepName];
+  const displayName = STEP_DISPLAY_NAMES.get(stepName) ?? `Unknown: ${stepName}`;
 
   switch (stepName) {
     case 'validate':
@@ -201,6 +219,37 @@ function createStepFromName(
         cwd: tokensPackageDir,
       };
 
+    case 'snapshot':
+      return {
+        name: displayName,
+        fn: () => {
+          if (!snapshotService) {
+            console.warn('    ⚠️  Snapshot service not available, skipping');
+            return true;
+          }
+          try {
+            const result = snapshotService.createSnapshot(
+              `${tokensPackageDir}/collections`,
+              `Pre-transform backup - ${new Date().toISOString()}`
+            );
+
+            if (!result.success || !result.snapshot) {
+              console.error(`    ❌ Snapshot failed: ${result.error || 'Unknown error'}`);
+              return false;
+            }
+
+            console.info(`    📸 Snapshot created: ${result.snapshot.id}`);
+            console.info(`       Files: ${result.snapshot.files.length}`);
+            return true;
+          } catch (error) {
+            console.error(
+              `    ❌ Snapshot failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+            );
+            return false;
+          }
+        },
+      };
+
     case 'transform':
       return {
         name: displayName,
@@ -209,6 +258,7 @@ function createStepFromName(
             sourceDir: figmaExportsDir,
             collectionsDir: tokensDir,
             verbose: true,
+            strict,
           });
           if (!result.success) {
             for (const error of result.errors) {
@@ -224,6 +274,130 @@ function createStepFromName(
         name: displayName,
         command: `style-dictionary build --config ${sdConfigFile}`,
         cwd: tokensPackageDir,
+      };
+
+    case 'multi-theme':
+      return {
+        name: displayName,
+        fn: async () => {
+          // Check if themes config is provided and enabled
+          if (!themesConfig?.enabled || !themesConfig?.definitions) {
+            console.warn('    ⚠️  Multi-theme build requires themes config with enabled: true');
+            console.warn('    ℹ️  Falling back to single-theme build via style-dictionary');
+            return true; // Skip but don't fail
+          }
+
+          try {
+            // Build minimal resolved config for theme builder
+            const definitions = new Map(Object.entries(themesConfig.definitions));
+
+            // Discover theme files
+            const discoveryResult = discoverThemeFiles(
+              {
+                enabled: true,
+                default: 'light',
+                autoDetect: true,
+                ignoreModes: [],
+                selectorPattern: {
+                  default: ':root',
+                  others: '[data-dsai-theme="{mode}"]',
+                },
+                definitions: Object.fromEntries(
+                  Array.from(definitions.entries()).map(([name, def]) => [
+                    name,
+                    {
+                      isDefault: def.isDefault ?? name === 'light',
+                      suffix: def.suffix ?? (def.isDefault ? null : `-${name}`),
+                      selector: def.selector,
+                      mediaQuery: def.mediaQuery,
+                      dataAttribute: def.dataAttribute ?? `data-dsai-theme="${name}"`,
+                      outputFiles: {
+                        css:
+                          def.outputFiles?.['css'] ??
+                          (def.isDefault ? 'tokens.css' : `tokens-${name}.css`),
+                        scss:
+                          def.outputFiles?.['scss'] ??
+                          (def.isDefault ? '_variables.scss' : `_variables-${name}.scss`),
+                        js:
+                          def.outputFiles?.['js'] ??
+                          (def.isDefault ? 'tokens.js' : `tokens-${name}.js`),
+                        ts:
+                          def.outputFiles?.['ts'] ??
+                          (def.isDefault ? 'tokens.d.ts' : `tokens-${name}.d.ts`),
+                        json:
+                          def.outputFiles?.['json'] ??
+                          (def.isDefault ? 'tokens.json' : `tokens-${name}.json`),
+                        android:
+                          def.outputFiles?.['android'] ??
+                          (def.isDefault ? 'tokens.xml' : `tokens-${name}.xml`),
+                        ios:
+                          def.outputFiles?.['ios'] ??
+                          (def.isDefault ? 'tokens.h' : `tokens-${name}.h`),
+                      },
+                    },
+                  ])
+                ),
+              },
+              { sourceDir: tokensDir, verbose: true }
+            );
+
+            if (discoveryResult.emptyThemes.length > 0) {
+              console.warn(
+                `    ⚠️  Empty themes (no files): ${discoveryResult.emptyThemes.join(', ')}`
+              );
+            }
+
+            console.info(
+              `    📂 Found ${discoveryResult.totalFiles} files across ${discoveryResult.themes.size} themes`
+            );
+
+            // Build all themes
+            const themeFiles = discoveryResult.themes;
+
+            // Convert definitions to the format buildAllThemes expects
+            const themeDefinitions = Object.fromEntries(
+              Array.from(definitions.entries()).map(([name, def]) => [
+                name,
+                {
+                  isDefault: def.isDefault ?? name === 'light',
+                  suffix: def.suffix ?? (def.isDefault ? null : `-${name}`),
+                  selector: def.selector,
+                  mediaQuery: def.mediaQuery,
+                  dataAttribute: def.dataAttribute ?? `data-dsai-theme="${name}"`,
+                  outputFiles: def.outputFiles,
+                },
+              ])
+            );
+
+            const result = await buildAllThemes({
+              config: {
+                formats: ['css', 'scss', 'js', 'json'] as OutputFormat[],
+                themes: {
+                  definitions: themeDefinitions,
+                },
+              },
+              themeFiles,
+              outputDir: `${tokensPackageDir}/dist`,
+              verbose: true,
+            });
+
+            if (!result.success) {
+              console.error(`    ❌ Multi-theme build failed: ${result.failCount} theme(s) failed`);
+              for (const themeResult of result.results.filter((r) => !r.success)) {
+                console.error(`       - ${themeResult.themeName}: ${themeResult.error}`);
+              }
+              return false;
+            }
+
+            console.info(`    ✅ Built ${result.successCount} themes in ${result.duration}ms`);
+            return true;
+          } catch (error) {
+            console.error(
+              `    ❌ Multi-theme build error: ${error instanceof Error ? error.message : 'Unknown error'}`
+            );
+            return false;
+          }
+        },
       };
 
     case 'sync':
@@ -297,7 +471,7 @@ function createBuildSteps(
   options: BuildOptions,
   pipeline?: TokensBuildPipeline
 ): BuildStep[] {
-  const { skipValidate, skipTransform, onlyTheme } = options;
+  const { skipValidate, skipTransform, onlyTheme, strict = false } = options;
 
   // Get the tokens package root directory
   // tokensDir is typically the collections dir (e.g., packages/@dsai-io/tokens/collections)
@@ -308,6 +482,13 @@ function createBuildSteps(
 
   // Path to figma-exports source directory (sibling to collections)
   const figmaExportsDir = `${tokensPackageDir}/figma-exports`;
+
+  // Initialize snapshot service for backup/rollback
+  const snapshotService = new SnapshotService({
+    snapshotDir: `${tokensPackageDir}/.snapshots`,
+    maxSnapshots: 10,
+    include: ['**/*.json'],
+  });
 
   // Get pipeline configuration
   const pipelineSteps = pipeline?.steps ?? DEFAULT_PIPELINE_STEPS;
@@ -324,7 +505,10 @@ function createBuildSteps(
       figmaExportsDir,
       tokensDir,
       paths,
-      sdConfigFile
+      sdConfigFile,
+      strict,
+      snapshotService,
+      options.themesConfig
     );
 
     // Apply skip flags based on legacy options
@@ -377,12 +561,20 @@ function createBuildSteps(
  * });
  * ```
  */
-export function buildTokens(
+export async function buildTokens(
   tokensDir: string,
   toolsDir: string,
   options: BuildOptions = {}
-): BuildResult {
-  const { skipValidate, onlyTheme, verbose = true, quiet = false } = options;
+): Promise<BuildResult> {
+  const {
+    skipValidate,
+    onlyTheme,
+    verbose = true,
+    quiet = false,
+    incremental = false,
+    force = false,
+    cacheDir,
+  } = options;
 
   const startTime = Date.now();
   const stepsCompleted: string[] = [];
@@ -447,6 +639,52 @@ export function buildTokens(
     if (onlyTheme) {
       console.info('⚠️  Building only theme CSS (--only-theme)');
     }
+    if (incremental) {
+      console.info('🔄 Incremental build enabled');
+      if (force) {
+        console.info('⚡ Force rebuild - ignoring cache');
+      }
+    }
+  }
+
+  // Initialize cache service for incremental builds
+  let cacheService: CacheService | undefined;
+  let incrementalAnalysis: Awaited<ReturnType<typeof analyzeChanges>> | undefined;
+
+  if (incremental) {
+    cacheService = new CacheService({
+      cacheDir: cacheDir || `${tokensDir}/.dsai-cache`,
+      enabled: true,
+    });
+
+    // Analyze what needs to be rebuilt
+    const figmaExportsDir = `${tokensDir}/figma-exports`;
+    const incrementalOptions: IncrementalOptions = {
+      enabled: true,
+      force,
+      cacheService,
+      verbose: verbose && !quiet,
+    };
+
+    incrementalAnalysis = await analyzeChanges(figmaExportsDir, incrementalOptions);
+
+    // If no changes detected, skip build
+    if (!incrementalAnalysis.needsFullBuild && incrementalAnalysis.changedFiles.length === 0) {
+      const duration = Date.now() - startTime;
+
+      if (verbose && !quiet) {
+        console.info(generateIncrementalReport(incrementalAnalysis, startTime, 0, 0));
+      }
+
+      return {
+        success: true,
+        stepsCompleted: ['Cache Check'],
+        stepsFailed: [],
+        duration,
+        errors: [],
+        warnings: ['No changes detected - build skipped'],
+      };
+    }
   }
 
   // Create and run build steps
@@ -485,6 +723,33 @@ export function buildTokens(
   const duration = Date.now() - startTime;
   const durationSec = (duration / 1000).toFixed(2);
 
+  // Update cache after successful build
+  if (incremental && cacheService && incrementalAnalysis) {
+    const figmaExportsDir = `${tokensDir}/figma-exports`;
+    const collectionsDir = `${tokensDir}/collections`;
+
+    await updateCacheAfterBuild(
+      cacheService,
+      incrementalAnalysis.changedFiles,
+      [], // Output files - would need to track from transform step
+      figmaExportsDir,
+      collectionsDir,
+      verbose && !quiet
+    );
+
+    // Show incremental build report
+    if (verbose && !quiet) {
+      console.info(
+        generateIncrementalReport(
+          incrementalAnalysis,
+          startTime,
+          stepsCompleted.length,
+          steps.length
+        )
+      );
+    }
+  }
+
   // Print footer
   if (verbose && !quiet) {
     console.info('\n╔════════════════════════════════════════════════════════════╗');
@@ -508,18 +773,34 @@ export function buildTokens(
 /**
  * CLI entry point for token build
  */
-export function buildTokensCLI(tokensDir: string, toolsDir: string, args: string[] = []): boolean {
+export async function buildTokensCLI(
+  tokensDir: string,
+  toolsDir: string,
+  args: string[] = []
+): Promise<boolean> {
   const skipValidate = args.includes('--skip-validate');
   const skipTransform = args.includes('--skip-transform');
   const onlyTheme = args.includes('--only-theme');
   const quiet = args.includes('--quiet') || args.includes('-q');
+  const strict = args.includes('--strict');
+  const incremental = args.includes('--incremental') || args.includes('--cache');
+  const force = args.includes('--force');
 
-  const result = buildTokens(tokensDir, toolsDir, {
+  // Extract --cache-dir argument
+  const cacheDirIndex = args.findIndex((arg) => arg.startsWith('--cache-dir='));
+  const cacheDirArg = cacheDirIndex >= 0 ? args.at(cacheDirIndex) : undefined;
+  const cacheDir = cacheDirArg?.split('=')[1];
+
+  const result = await buildTokens(tokensDir, toolsDir, {
     skipValidate,
     skipTransform,
     onlyTheme,
     verbose: !quiet,
     quiet,
+    strict,
+    incremental,
+    force,
+    cacheDir,
   });
 
   return result.success;
@@ -529,8 +810,8 @@ export function buildTokensCLI(tokensDir: string, toolsDir: string, args: string
  * Parse CLI arguments and run build
  * Used as the main entry point when called directly
  */
-export function runBuildCLI(tokensDir: string, toolsDir: string): void {
+export async function runBuildCLI(tokensDir: string, toolsDir: string): Promise<void> {
   const args = process.argv.slice(2);
-  const success = buildTokensCLI(tokensDir, toolsDir, args);
+  const success = await buildTokensCLI(tokensDir, toolsDir, args);
   process.exit(success ? 0 : 1);
 }

@@ -270,65 +270,68 @@ $theme-colors: (
 // 6. TYPOGRAPHY
 // ============================================================================
 
-$font-family-sans-serif: dsai.$typography-font-family-base !default;
-$font-family-monospace: dsai.$typography-font-family-monospace !default;
+// Font families
+$font-family-sans-serif: dsai.$font-family-base !default;
+$font-family-monospace: dsai.$font-family-monospace !default;
 $btn-font-family: $font-family-sans-serif !default;
 
-$font-size-base: dsai.$typography-font-size-base !default;
-$font-size-sm: dsai.$typography-font-size-sm !default;
-$font-size-lg: dsai.$typography-font-size-lg !default;
+// Font sizes (mapped from generated token names)
+$font-size-base: dsai.$font-size-base !default;
+$font-size-sm: dsai.$font-size-sm !default;
+$font-size-lg: dsai.$font-size-lg !default;
 
-$font-weight-lighter: dsai.$typography-font-weight-lighter !default;
-$font-weight-light: dsai.$typography-font-weight-light !default;
-$font-weight-normal: dsai.$typography-font-weight-normal !default;
-$font-weight-medium: dsai.$typography-font-weight-medium !default;
-$font-weight-semibold: dsai.$typography-font-weight-semibold !default;
-$font-weight-bold: dsai.$typography-font-weight-bold !default;
-$font-weight-bolder: dsai.$typography-font-weight-bolder !default;
+// Font weights (mapped from generated token names)
+$font-weight-lighter: dsai.$font-weight-lighter !default;
+$font-weight-light: dsai.$font-weight-light !default;
+$font-weight-normal: dsai.$font-weight-normal !default;
+$font-weight-medium: dsai.$font-weight-medium !default;
+$font-weight-semibold: dsai.$font-weight-semibold !default;
+$font-weight-bold: dsai.$font-weight-bold !default;
+$font-weight-bolder: dsai.$font-weight-bolder !default;
 $font-weight-base: $font-weight-normal !default;
 
 // Line heights
-$line-height-base: 1.5 !default;
-$line-height-sm: 1.25 !default;
-$line-height-lg: 2 !default;
+$line-height-base: dsai.$line-height-base !default;
+$line-height-sm: dsai.$line-height-sm !default;
+$line-height-lg: dsai.$line-height-lg !default;
 
-// Headings
-$h1-font-size: dsai.$typography-headings-h1-font-size !default;
-$h2-font-size: dsai.$typography-headings-h2-font-size !default;
-$h3-font-size: dsai.$typography-headings-h3-font-size !default;
-$h4-font-size: dsai.$typography-headings-h4-font-size !default;
-$h5-font-size: dsai.$typography-headings-h5-font-size !default;
-$h6-font-size: dsai.$typography-headings-h6-font-size !default;
-$headings-font-weight: dsai.$typography-headings-font-weight !default;
-$headings-line-height: 1.2 !default;
+// Headings (mapped from generated token names)
+$h1-font-size: dsai.$h1-font-size !default;
+$h2-font-size: dsai.$h2-font-size !default;
+$h3-font-size: dsai.$h3-font-size !default;
+$h4-font-size: dsai.$h4-font-size !default;
+$h5-font-size: dsai.$h5-font-size !default;
+$h6-font-size: dsai.$h6-font-size !default;
+$headings-font-weight: dsai.$font-weight-medium !default;
+$headings-line-height: dsai.$headings-line-height !default;
 
-// Display headings
+// Display headings (mapped from generated token names)
 $display-font-sizes: (
-  1: dsai.$typography-display-display1-font-size,
-  2: dsai.$typography-display-display2-font-size,
-  3: dsai.$typography-display-display3-font-size,
-  4: dsai.$typography-display-display4-font-size,
-  5: dsai.$typography-display-display5-font-size,
-  6: dsai.$typography-display-display6-font-size,
+  1: dsai.$display1-size,
+  2: dsai.$display2-size,
+  3: dsai.$display3-size,
+  4: dsai.$display4-size,
+  5: dsai.$display5-size,
+  6: dsai.$display6-size,
 ) !default;
 
-$display-font-weight: dsai.$typography-display-font-weight !default;
+$display-font-weight: dsai.$font-weight-light !default;
 $display-line-height: $headings-line-height !default;
 
 // Lead paragraph
-$lead-font-size: dsai.$typography-lead-font-size !default;
-$lead-font-weight: dsai.$typography-lead-font-weight !default;
+$lead-font-size: dsai.$font-size-lg !default;
+$lead-font-weight: dsai.$font-weight-light !default;
 
 // Small text
-$small-font-size: dsai.$typography-small-font-size !default;
+$small-font-size: dsai.$font-size-sm !default;
 
 // Letter spacing
-$letter-spacing-tighter: dsai.$typography-letter-spacing-tighter !default;
-$letter-spacing-tight: dsai.$typography-letter-spacing-tight !default;
-$letter-spacing-normal: dsai.$typography-letter-spacing-normal !default;
-$letter-spacing-wide: dsai.$typography-letter-spacing-wide !default;
-$letter-spacing-wider: dsai.$typography-letter-spacing-wider !default;
-$letter-spacing-widest: dsai.$typography-letter-spacing-widest !default;
+$letter-spacing-tighter: dsai.$letter-spacing-tighter !default;
+$letter-spacing-tight: dsai.$letter-spacing-tight !default;
+$letter-spacing-normal: dsai.$letter-spacing-normal !default;
+$letter-spacing-wide: dsai.$letter-spacing-wide !default;
+$letter-spacing-wider: dsai.$letter-spacing-wider !default;
+$letter-spacing-widest: dsai.$letter-spacing-widest !default;
 
 // ============================================================================
 // 7. SPACING
@@ -367,11 +370,11 @@ $spacers: (
 
 $grid-breakpoints: (
   xs: 0,
-  sm: dsai.$layout-breakpoints-sm,
-  md: dsai.$layout-breakpoints-md,
-  lg: dsai.$layout-breakpoints-lg,
-  xl: dsai.$layout-breakpoints-xl,
-  xxl: dsai.$layout-breakpoints-xxl,
+  sm: dsai.$breakpoint-sm,
+  md: dsai.$breakpoint-md,
+  lg: dsai.$breakpoint-lg,
+  xl: dsai.$breakpoint-xl,
+  xxl: dsai.$breakpoint-xxl,
 ) !default;
 
 // ============================================================================
@@ -379,25 +382,25 @@ $grid-breakpoints: (
 // ============================================================================
 
 $container-max-widths: (
-  sm: dsai.$layout-container-max-width-sm,
-  md: dsai.$layout-container-max-width-md,
-  lg: dsai.$layout-container-max-width-lg,
-  xl: dsai.$layout-container-max-width-xl,
-  xxl: dsai.$layout-container-max-width-xxl,
+  sm: dsai.$container-max-width-sm,
+  md: dsai.$container-max-width-md,
+  lg: dsai.$container-max-width-lg,
+  xl: dsai.$container-max-width-xl,
+  xxl: dsai.$container-max-width-xxl,
 ) !default;
 
-$container-padding-x: dsai.$layout-container-padding-x !default;
-$grid-columns: dsai.$layout-grid-columns !default;
-$grid-gutter-width: dsai.$layout-grid-gutter-width !default;
-$grid-row-columns: dsai.$layout-grid-row-columns !default;
+$container-padding-x: dsai.$container-padding-x !default;
+$grid-columns: dsai.$grid-columns !default;
+$grid-gutter-width: dsai.$grid-gutter-width !default;
+$grid-row-columns: dsai.$grid-row-columns !default;
 
 $gutters: (
-  0: dsai.$layout-gutters-0,
-  1: dsai.$layout-gutters-1,
-  2: dsai.$layout-gutters-2,
-  3: dsai.$layout-gutters-3,
-  4: dsai.$layout-gutters-4,
-  5: dsai.$layout-gutters-5,
+  0: dsai.$gutters-0,
+  1: dsai.$gutters-1,
+  2: dsai.$gutters-2,
+  3: dsai.$gutters-3,
+  4: dsai.$gutters-4,
+  5: dsai.$gutters-5,
 ) !default;
 
 // ============================================================================
@@ -423,23 +426,43 @@ $border-width-5: dsai.$border-width-5 !default;
 // 11. SHADOWS
 // ============================================================================
 
-$box-shadow: dsai.$shadow-default !default;
-$box-shadow-sm: dsai.$shadow-sm !default;
-$box-shadow-lg: dsai.$shadow-lg !default;
-$box-shadow-inset: dsai.$shadow-inset !default;
+$box-shadow: dsai.$box-shadow !default;
+$box-shadow-sm: dsai.$box-shadow-sm !default;
+$box-shadow-lg: dsai.$box-shadow-lg !default;
+$box-shadow-inset: dsai.$box-shadow-inset !default;
 
 // ============================================================================
 // 12. FOCUS RING
 // ============================================================================
 
-$focus-ring-width: 0.25rem !default;
-$focus-ring-opacity: 0.25 !default;
+$focus-ring-width: dsai.$spacing-1 !default; // 0.25rem (4px)
+$focus-ring-opacity: dsai.$opacity-25 !default; // 0.25
 $focus-ring-color: rgba($primary, $focus-ring-opacity) !default;
-$focus-ring-blur: 0 !default;
+$focus-ring-blur: dsai.$spacing-0 !default; // 0
 $focus-ring-box-shadow: 0 0 $focus-ring-blur $focus-ring-width $focus-ring-color !default;
 
 // ============================================================================
-// 13. BOOTSTRAP IMPORTS
+// 13. LINKS & PARAGRAPHS
+// ============================================================================
+
+$link-color: $primary !default;
+$paragraph-margin-bottom: dsai.$spacing-3 !default; // 1rem (16px)
+
+// ============================================================================
+// 14. COMPONENT ACTIVE STATES
+// ============================================================================
+
+$component-active-color: dsai.$neutral-white !default;
+$component-active-bg: $primary !default;
+
+// ============================================================================
+// 15. ICON LINKS
+// ============================================================================
+
+$icon-link-gap: dsai.$spacing-1-5 !default; // 0.375rem (6px)
+
+// ============================================================================
+// 16. BOOTSTRAP IMPORTS
 // ============================================================================
 
 @import '../../node_modules/bootstrap/scss/variables';
@@ -567,7 +590,7 @@ $colors: map-merge($colors, $custom-colors) !default;
 @import '../../node_modules/bootstrap/scss/mixins';
 
 // ============================================================================
-// 14. THEME ATTRIBUTE OVERRIDE
+// 17. THEME ATTRIBUTE OVERRIDE
 // ============================================================================
 
 // Override Bootstrap's color-mode mixin to use data-dsai-theme instead of data-bs-theme
@@ -587,7 +610,7 @@ $colors: map-merge($colors, $custom-colors) !default;
 @import '../../node_modules/bootstrap/scss/root';
 
 // ============================================================================
-// 15. BOOTSTRAP COMPONENTS
+// 18. BOOTSTRAP COMPONENTS
 // ============================================================================
 
 @import '../../node_modules/bootstrap/scss/utilities';
@@ -629,7 +652,58 @@ $colors: map-merge($colors, $custom-colors) !default;
 @import '../../node_modules/bootstrap/scss/utilities/api';
 
 // ============================================================================
-// 16. CUSTOM COMPONENTS
+// 19. CUSTOM COMPONENTS
 // ============================================================================
 
-@import 'components/avatar';
+// ============================================================================
+// Size Scale
+// ============================================================================
+// Avatar sizes derived from spacing scale where possible
+$dsai-avatar-size-xs: dsai.$spacing-4 !default; // 1.5rem (24px)
+$dsai-avatar-size-sm: dsai.$spacing-32 !default; // 2rem (32px)
+$dsai-avatar-size-md: dsai.$spacing-40 !default; // 2.5rem (40px)
+$dsai-avatar-size-lg: dsai.$spacing-5 !default; // 3rem (48px)
+$dsai-avatar-size-xl: dsai.$spacing-6 !default; // 4rem (64px)
+$dsai-avatar-size-2xl: dsai.$spacing-7 !default; // 5rem (80px)
+$dsai-avatar-size-xxl: dsai.$spacing-8 !default; // 6rem (96px)
+
+// ============================================================================
+// Font Sizes (for initials)
+// ============================================================================
+// Maps to typography scale where available
+$dsai-avatar-font-size-xs: dsai.$spacing-2 !default; // 0.5rem (8px) - closest to 10px
+$dsai-avatar-font-size-sm: dsai.$spacing-12 !default; // 0.75rem (12px)
+$dsai-avatar-font-size-md: dsai.$font-size-sm !default; // 0.875rem (14px)
+$dsai-avatar-font-size-lg: dsai.$font-size-base !default; // 1rem (16px)
+$dsai-avatar-font-size-xl: dsai.$spacing-20 !default; // 1.25rem (20px)
+$dsai-avatar-font-size-2xl: dsai.$h4-font-size !default; // 1.5rem (24px)
+$dsai-avatar-font-size-xxl: dsai.$spacing-28 !default; // 1.75rem (28px)
+
+// ============================================================================
+// Status Indicator Sizes
+// ============================================================================
+// Proportional to avatar size - using closest token matches
+$dsai-avatar-status-size-xs: dsai.$spacing-1-5 !default; // 0.375rem (6px)
+$dsai-avatar-status-size-sm: dsai.$spacing-2 !default; // 0.5rem (8px)
+$dsai-avatar-status-size-md: dsai.$spacing-2 !default; // 0.5rem (8px) - closest to 10px
+$dsai-avatar-status-size-lg: dsai.$spacing-12 !default; // 0.75rem (12px)
+$dsai-avatar-status-size-xl: dsai.$spacing-12 !default; // 0.75rem (12px) - closest to 14px
+$dsai-avatar-status-size-2xl: dsai.$spacing-3 !default; // 1rem (16px)
+$dsai-avatar-status-size-xxl: dsai.$spacing-20 !default; // 1.25rem (20px) - closest to 18px
+
+// ============================================================================
+// AvatarGroup Overlap Ratios
+// ============================================================================
+// Unitless ratios for calculating negative margins (reusing opacity scale)
+$dsai-avatar-overlap-compact: dsai.$opacity-40 !default; // 40% overlap
+$dsai-avatar-overlap-normal: dsai.$opacity-30 !default; // 30% overlap
+$dsai-avatar-overlap-loose: dsai.$opacity-20 !default; // 20% overlap
+
+// ============================================================================
+// AvatarGroup Gap (non-overlapping mode)
+// ============================================================================
+$dsai-avatar-gap-compact: dsai.$spacing-1 !default; // 0.25rem (4px)
+$dsai-avatar-gap-normal: dsai.$spacing-2 !default; // 0.5rem (8px)
+$dsai-avatar-gap-loose: dsai.$spacing-12 !default; // 0.75rem (12px)
+
+

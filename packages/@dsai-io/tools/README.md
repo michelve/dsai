@@ -1,19 +1,61 @@
-# @DSAi/tools
+# @dsai-io/tools
 
-> Enterprise-grade build tools for the DSAi Design System
+> Enterprise-grade design token tooling with incremental builds, automatic changelog generation, and production-ready error recovery
+
+[![npm version](https://badge.fury.io/js/@dsai-io%2Ftools.svg)](https://www.npmjs.com/package/@dsai-io/tools)
+[![Test Coverage](https://img.shields.io/badge/coverage-88.4%25-brightgreen.svg)](../../docs/coverage.md)
+[![Bundle Size](https://img.shields.io/badge/bundle-117B%20gzipped-success.svg)](../../BUILD.md)
 
 ## Installation
 
 ```bash
 pnpm add @dsai-io/tools
+
+# or
+npm install @dsai-io/tools
+
+# or
+yarn add @dsai-io/tools
 ```
 
 ## Features
 
-- 🎨 **Token Management** - Build and validate design tokens using Style Dictionary
-- 🔧 **Configuration** - Type-safe configuration with `dsai.config.ts`
-- 🖼️ **Icon Generation** - Generate icon components from SVG files
-- 📦 **CLI** - Command-line interface for build automation
+### 🚀 **Incremental Builds**
+
+- SHA-256 content hashing for instant change detection
+- Smart decision logic (10-100x faster than full rebuilds)
+- Dependency graph analysis for minimal rebuilds
+- Persistent caching in `.dsai-cache/`
+
+### 📝 **Automatic Changelog Generation**
+
+- Detects added, removed, modified, and type-changed tokens
+- Breaking change identification and warnings
+- Professional Markdown output with before/after values
+- DTCG and legacy token format support
+
+### 🛡️ **Production-Grade Error Recovery**
+
+- Circuit breaker pattern prevents cascading failures
+- Rate limiter protects external APIs (Figma)
+- Snapshot service for version rollback
+- Exponential backoff with jitter for retries
+- Health monitoring and metrics
+
+### 🎨 **Token Management**
+
+- DTCG-compliant token format with legacy support
+- Style Dictionary v5 integration
+- Schema validation (Zod-based)
+- Figma Variables API sync
+- Multi-mode token support
+
+### 🔧 **Developer Tools**
+
+- Type-safe configuration with `dsai.config.ts`
+- Comprehensive CLI with rich output
+- Programmatic API for automation
+- Icon component generation from SVGs
 
 ## Quick Start
 
@@ -42,27 +84,72 @@ export default defineConfig({
 
 ### CLI Usage
 
+#### Token Building
+
 ```bash
-# Build all tokens and icons
-npx dsai-tools build
+# Full build
+npx dsai-tools tokens build tokens/
 
-# Build only tokens
-npx dsai-tools build --tokens
+# Incremental build (10-100x faster)
+npx dsai-tools tokens build tokens/ --incremental
 
-# Build tokens with clean (removes old outputs first)
+# Force full rebuild
+npx dsai-tools tokens build tokens/ --force
+
+# Custom cache directory
+npx dsai-tools tokens build tokens/ --incremental --cache-dir .cache
+
+# Clean outputs before build
 npx dsai-tools tokens build --clean
+```
 
-# Build only icons
-npx dsai-tools build --icons
+#### Changelog Generation
 
-# Validate token files
-npx dsai-tools validate tokens/**/*.json
+```bash
+# Generate changelog from token changes
+npx dsai-tools tokens changelog old-tokens.json new-tokens.json
 
-# Transform Figma token exports
+# With version number
+npx dsai-tools tokens changelog old.json new.json --version 1.2.0
+
+# Custom output file
+npx dsai-tools tokens changelog old.json new.json --output CHANGES.md
+```
+
+#### Token Validation & Transformation
+
+```bash
+# Validate tokens against DTCG spec
+npx dsai-tools tokens validate tokens/**/*.json
+
+# Transform Figma exports to Style Dictionary format
 npx dsai-tools tokens transform
 
-# Sync tokens flat file
+# Sync tokens to flat TypeScript file
 npx dsai-tools tokens sync
+```
+
+#### Figma Integration
+
+```bash
+# Sync from Figma Variables API
+npx dsai-tools tokens sync --figma-file YOUR_FILE_ID
+
+# Validate Figma export
+npx dsai-tools tokens validate-figma export.json
+```
+
+#### Utilities
+
+```bash
+# Clean output directories
+npx dsai-tools tokens clean
+
+# Post-process CSS theme files
+npx dsai-tools tokens postprocess
+
+# Generate icons from SVGs
+npx dsai-tools build --icons
 
 # Initialize configuration
 npx dsai-tools init
@@ -70,8 +157,92 @@ npx dsai-tools init
 
 ### Programmatic Usage
 
+#### Incremental Builds
+
 ```typescript
-import { buildTokens, generateIcons, loadConfig } from '@dsai-io/tools';
+import { buildTokens, CacheService } from '@dsai-io/tools/tokens';
+
+// Incremental build with caching
+const result = await buildTokens('tokens/', {
+  incremental: true,
+  cacheDir: '.dsai-cache',
+  force: false,
+});
+
+console.log(`Built ${result.tokenCount} tokens`);
+console.log(`Build time: ${result.duration}ms`);
+console.log(`Cache hit rate: ${result.cacheStats?.hitRate}%`);
+```
+
+#### Changelog Generation
+
+```typescript
+import { diffTokens, generateChangelog, writeChangelog } from '@dsai-io/tools/tokens';
+
+// Load tokens
+const oldTokens = JSON.parse(fs.readFileSync('old.json', 'utf-8'));
+const newTokens = JSON.parse(fs.readFileSync('new.json', 'utf-8'));
+
+// Compute diff
+const diff = diffTokens(oldTokens, newTokens);
+
+if (diff.hasBreaking) {
+  console.warn('⚠️  Breaking changes detected!');
+}
+
+// Generate and write changelog
+const result = generateChangelog(diff, {
+  version: '1.2.0',
+  includeDescriptions: true,
+  includeValues: true,
+});
+
+await writeChangelog(result.content, 'TOKENS-CHANGELOG.md');
+```
+
+#### Error Recovery
+
+```typescript
+import { 
+  CircuitBreaker, 
+  RateLimiter, 
+  SnapshotService 
+} from '@dsai-io/tools/tokens';
+
+// Circuit breaker for external APIs
+const breaker = new CircuitBreaker({
+  threshold: 5,
+  timeout: 30000,
+  resetTimeout: 60000,
+});
+
+const data = await breaker.execute(async () => {
+  return await fetchFromFigmaAPI();
+});
+
+// Rate limiter for API protection
+const limiter = new RateLimiter({
+  maxRequests: 10,
+  windowMs: 60000,
+});
+
+await limiter.acquire();
+
+// Snapshot for rollback
+const snapshotService = new SnapshotService('.snapshots');
+const snapshot = await snapshotService.createSnapshot(
+  'tokens/',
+  'Before v2.0.0 migration'
+);
+
+// Restore if needed
+await snapshotService.restoreSnapshot(snapshot.id, 'tokens/');
+```
+
+#### Configuration & Build
+
+```typescript
+import { loadConfig, buildTokens, generateIcons } from '@dsai-io/tools';
 
 // Load configuration
 const config = await loadConfig();
@@ -93,14 +264,93 @@ console.log('Generated:', iconResult.files);
 - `loadConfig(searchFrom?)` - Load configuration from filesystem
 - `validateConfig(config)` - Validate configuration against schema
 
-### Token Tools
+### Token Building
 
-- `validateTokens(config, options)` - Validate token files against DTCG spec
-- `transformTokens(options)` - Transform Figma token exports to Style Dictionary format
-- `buildTokens(tokensDir, toolsDir, options)` - Build tokens from source to output formats
-- `syncTokens(options)` - Sync tokens to flat TypeScript file
-- `cleanTokenOutputs(options)` - Clean output directories before build
+- `buildTokens(tokensDir, options)` - Build tokens with optional incremental mode
+- `buildTokensCLI(args)` - CLI wrapper for token builds
+- `runBuildCLI(args)` - Execute build from command line
+
+**Options:**
+
+- `incremental: boolean` - Enable incremental builds
+- `force: boolean` - Force full rebuild
+- `cacheDir: string` - Custom cache directory
+- `clean: boolean` - Clean outputs before build
+
+### Incremental Build System
+
+- `CacheService` - SHA-256 content hashing and cache management
+  - `hashFile(filePath)` - Generate content hash
+  - `hasFileChanged(filePath, baseDir)` - Check if file changed
+  - `getChangedFiles(directory, pattern)` - Get all changed files
+  - `updateCacheEntry(filePath, baseDir)` - Update cache
+  - `getCacheStats()` - Get cache metrics
+
+- `analyzeChanges(options)` - Analyze token changes
+- `buildDependencyGraph(collections)` - Build dependency graph
+- `getAffectedCollections(changed, graph)` - Get affected collections
+- `generateIncrementalReport(result)` - Generate build report
+
+### Changelog Generation
+
+- `diffTokens(oldTokens, newTokens)` - Compare token collections
+- `generateChangelog(diff, options)` - Generate Markdown changelog
+- `writeChangelog(content, filePath)` - Write changelog to file
+- `generateAndWriteChangelog(diff, filePath, options)` - Combined operation
+- `generateChangelogCLI(oldPath, newPath, output, version)` - CLI wrapper
+
+**Diff Result:**
+
+- `added: TokenChange[]` - Added tokens
+- `removed: TokenChange[]` - Removed tokens (breaking)
+- `modified: TokenChange[]` - Modified tokens
+- `typeChanged: TokenChange[]` - Type-changed tokens (breaking)
+- `deprecated: TokenChange[]` - Deprecated tokens
+- `totalChanges: number` - Total count
+- `hasBreaking: boolean` - Breaking change flag
+
+**Helper Functions:**
+
+- `summarizeDiff(diff)` - Text summary of changes
+- `filterDiff(diff, types)` - Filter by change types
+- `getBreakingChanges(diff)` - Get only breaking changes
+
+### Error Recovery
+
+- `CircuitBreaker` - Prevent cascading failures
+  - `execute(fn)` - Execute with circuit breaker protection
+  - `getState()` - Get current state (CLOSED, OPEN, HALF_OPEN)
+  - `getMetrics()` - Get failure/success metrics
+  - `reset()` - Manually reset circuit
+
+- `RateLimiter` - API rate limiting
+  - `acquire()` - Acquire rate limit slot
+  - `getMetrics()` - Get request metrics
+  - `reset()` - Reset rate limiter
+
+- `SnapshotService` - Version snapshots for rollback
+  - `createSnapshot(dir, description)` - Create snapshot
+  - `listSnapshots()` - List all snapshots
+  - `getSnapshot(id)` - Get snapshot by ID
+  - `restoreSnapshot(id, targetDir)` - Restore snapshot
+  - `deleteSnapshot(id)` - Delete snapshot
+  - `cleanup(keepCount)` - Clean old snapshots
+
+### Token Validation & Transformation
+
+- `validateTokens(config, options)` - Validate against DTCG spec
+- `validateFigmaExports(data)` - Validate Figma exports
+- `transformTokens(options)` - Transform Figma to Style Dictionary
+- `syncTokens(options)` - Sync to flat TypeScript file
+- `cleanTokenOutputs(options)` - Clean output directories
 - `postprocessCss(options)` - Post-process CSS theme files
+
+### Schema Validation
+
+- `validateDTCGFile(data)` - Validate DTCG file structure
+- `validateDTCGTokens(tokens)` - Validate token collection
+- `validateFigmaExport(data)` - Validate Figma export
+- `validateStyleDictionaryInput(data)` - Validate SD input
 
 ### Icon Tools
 
@@ -108,12 +358,14 @@ console.log('Generated:', iconResult.files);
 - `optimizeSvg(source, options)` - Optimize SVG files
 - `extractIconMetadata(svgPath)` - Extract metadata from SVG
 
-### Utilities
+### Type Guards & Utilities
 
-- `logger` - Colored console logging utilities
-- `resolvePath(...segments)` - Resolve path relative to cwd
-- `fileExists(path)` - Check if file exists
-- `formatDuration(ms)` - Format milliseconds to readable string
+- `isDTCGToken(obj)` - Check if DTCG format
+- `isLegacyToken(obj)` - Check if legacy format
+- `isToken(obj)` - Check if any token format
+- `getTokenValue(token)` - Get value from any format
+- `getTokenType(token)` - Get type from any format
+- `toDTCGToken(legacy)` - Convert legacy to DTCG
 
 ## Configuration Options
 

@@ -105,7 +105,7 @@ export async function buildIcons(
       // Skip optimization - just add size metadata
       const { skipOptimization } = await import('./core/optimizer.js');
       optimizedFiles = parsedFiles.map((parsed, index) => {
-        const rawFile = filteredFiles[index];
+        const rawFile = filteredFiles.at(index);
         if (!rawFile) {
           throw new Error(`Missing raw file for ${parsed.fileName}`);
         }

@@ -223,6 +223,18 @@ export interface TransformOptions {
 
   /** Enable verbose output */
   verbose?: boolean;
+
+  /** Enable strict schema validation */
+  strict?: boolean;
+
+  /** Enable incremental build (only process changed files) */
+  incremental?: boolean;
+
+  /** Force full rebuild (ignore cache) */
+  force?: boolean;
+
+  /** Cache directory for incremental builds */
+  cacheDir?: string;
 }
 
 /**
@@ -300,6 +312,18 @@ export interface BuildOptions {
   /** Suppress output */
   quiet?: boolean;
 
+  /** Enable strict schema validation */
+  strict?: boolean;
+
+  /** Enable incremental build (only process changed files) */
+  incremental?: boolean;
+
+  /** Force full rebuild (ignore cache) */
+  force?: boolean;
+
+  /** Cache directory for incremental builds */
+  cacheDir?: string;
+
   /** Output directory for all formats */
   outputDir?: string;
 
@@ -355,6 +379,28 @@ export interface BuildOptions {
     };
     /** Style Dictionary config file name */
     styleDictionaryConfig?: string;
+  };
+
+  /**
+   * Themes configuration for multi-theme builds.
+   * When provided with enabled: true, the 'multi-theme' step will
+   * use config-driven theme definitions instead of hardcoded themes.
+   */
+  themesConfig?: {
+    /** Whether theme building is enabled */
+    enabled?: boolean;
+    /** Theme definitions by name */
+    definitions?: Record<
+      string,
+      {
+        isDefault?: boolean;
+        suffix?: string | null;
+        selector: string;
+        mediaQuery?: string;
+        dataAttribute?: string;
+        outputFiles?: Partial<Record<string, string>>;
+      }
+    >;
   };
 }
 

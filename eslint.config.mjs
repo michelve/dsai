@@ -299,6 +299,7 @@ export default [
       'scripts/**/*.{js,ts,mjs,cjs}',
       'apps/**/build-*.{js,mjs}',
       'packages/**/build-*.{js,mjs}',
+      'packages/**/scripts/**/*.{js,ts,mjs,cjs}',
     ],
     languageOptions: {
       globals: {
@@ -389,6 +390,32 @@ export default [
       'array-callback-return': 'off',
       // Security rules for dynamic key access - keys are controlled in these configs
       'security/detect-object-injection': 'off',
+    },
+  },
+
+  // =========================
+  // Tools and Figma-tokens packages - no React dependencies
+  // These packages are pure TypeScript utilities, no React components
+  // =========================
+  {
+    files: [
+      'packages/@dsai-io/tools/**/*.{ts,tsx,js,mjs,cjs}',
+      'packages/@dsai-io/figma-tokens/**/*.{ts,tsx,js,mjs,cjs}',
+    ],
+    settings: {
+      react: {
+        // Set explicit version to avoid "detect" trying to find react package
+        version: '19.0.0',
+      },
+    },
+    rules: {
+      // Disable React-specific rules since this package doesn't use React
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
+      'react/jsx-uses-react': 'off',
+      'react/jsx-uses-vars': 'off',
+      'react-hooks/rules-of-hooks': 'off',
+      'react-hooks/exhaustive-deps': 'off',
     },
   },
 ];

@@ -109,37 +109,59 @@ export const customFormatSchema = z.object({
 // ============================================================================
 
 /**
- * Theme mode configuration
- * Controls how themes are generated and applied
+ * Output format enum for validation
  */
-export const themeModeSchema = z.object({
+const outputFormatEnum = z.enum(['css', 'scss', 'js', 'ts', 'json', 'android', 'ios']);
+
+/**
+ * Theme definition schema
+ * Defines how a single theme is discovered and built
+ */
+export const themeDefinitionSchema = z.object({
+  isDefault: z.boolean().optional().default(false),
+  suffix: z.string().nullable().optional(),
   selector: z.string().min(1, 'Theme selector is required'),
   mediaQuery: z.string().optional(),
   dataAttribute: z.string().optional(),
-  cssVariables: z.boolean().optional().default(true),
-  generateSeparateFiles: z.boolean().optional().default(false),
-  prefix: z.string().optional(),
+  outputFiles: z.record(outputFormatEnum, z.string()).optional(),
+});
+
+/**
+ * Theme selector pattern schema
+ */
+export const themeSelectorPatternSchema = z.object({
+  default: z.string().optional().default(':root'),
+  others: z.string().optional().default('[data-dsai-theme="{mode}"]'),
 });
 
 /**
  * Themes configuration section
+ * Supports both legacy mode-based config and new definitions-based config
  */
 export const themesConfigSchema = z.object({
   enabled: z.boolean().optional().default(true),
-  defaultMode: z.enum(['light', 'dark', 'system']).optional().default('light'),
+  autoDetect: z.boolean().optional().default(true),
+  default: z.string().optional().default('light'),
+  ignoreModes: z.array(z.string()).optional().default([]),
+  selectorPattern: themeSelectorPatternSchema.optional(),
+  definitions: z.record(z.string(), themeDefinitionSchema).optional(),
+
+  // Legacy fields (for backward compatibility)
+  defaultMode: z.enum(['light', 'dark', 'system']).optional(),
   modes: z
-    .record(z.string(), themeModeSchema)
-    .optional()
-    .default({
-      light: { selector: ':root', cssVariables: true, generateSeparateFiles: false },
-      dark: {
-        selector: '[data-theme="dark"]',
-        mediaQuery: '(prefers-color-scheme: dark)',
-        cssVariables: true,
-        generateSeparateFiles: false,
-      },
-    }),
-  outputFileName: z.string().optional().default('themes'),
+    .record(
+      z.string(),
+      z.object({
+        selector: z.string().min(1),
+        mediaQuery: z.string().optional(),
+        dataAttribute: z.string().optional(),
+        cssVariables: z.boolean().optional(),
+        generateSeparateFiles: z.boolean().optional(),
+        prefix: z.string().optional(),
+      })
+    )
+    .optional(),
+  outputFileName: z.string().optional(),
   colorScheme: z
     .object({
       light: z.string().optional(),

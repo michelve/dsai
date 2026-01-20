@@ -21,6 +21,10 @@
  * @packageDocumentation
  */
 
+import { CircuitBreaker } from '@dsai-io/tools/utils/circuit-breaker';
+
+import { RateLimiter } from './rate-limiter.js';
+
 import type {
   FigmaClientConfig,
   FigmaFile,
@@ -116,14 +120,21 @@ function parseDescription(description: string | undefined): ParsedDescription {
 
   if (parts.length === 1) {
     // No metadata section, check if metadata is in the same line
-    const metadataMatch = description.match(
-      /^(.+?)(?:\s*\n)?((?:[A-Z][a-z]+\.[A-Z][a-zA-Z]+:\s*.+(?:\s*•\s*)?)+)$/s
-    );
-    if (metadataMatch?.[1] && metadataMatch[2]) {
-      return {
-        description: metadataMatch[1].trim(),
-        metadata: parseMetadataLine(metadataMatch[2]),
-      };
+    // Use a simpler pattern to avoid exponential backtracking (unsafe regex)
+    const metadataPattern = /[A-Z][a-z]+\.[A-Z][a-zA-Z]+:\s*[^•]+/g;
+    const metadataMatches = description.match(metadataPattern);
+    if (metadataMatches && metadataMatches.length > 0) {
+      // Find where metadata starts
+      const firstMatch = metadataMatches[0];
+      const metadataIndex = firstMatch ? description.indexOf(firstMatch) : -1;
+      if (metadataIndex > 0) {
+        const descPart = description.slice(0, metadataIndex).trim();
+        const metaPart = description.slice(metadataIndex);
+        return {
+          description: descPart,
+          metadata: parseMetadataLine(metaPart),
+        };
+      }
     }
     return { description: description.trim() };
   }
@@ -149,7 +160,8 @@ function parseDescription(description: string | undefined): ParsedDescription {
  * Parse a metadata line in format: "Key.SubKey: value • Key.SubKey: value"
  */
 function parseMetadataLine(line: string): Record<string, Record<string, string>> {
-  const result: Record<string, Record<string, string>> = {};
+  // Use Map for safe key-value storage (avoid Object Injection Sink)
+  const resultMap = new Map<string, Map<string, string>>();
 
   // Split by bullet separator
   const pairs = line.split(/\s*•\s*/);
@@ -163,11 +175,22 @@ function parseMetadataLine(line: string): Record<string, Record<string, string>>
       const key = match[2].charAt(0).toLowerCase() + match[2].slice(1);
       const value = match[3].trim();
 
-      if (!result[category]) {
-        result[category] = {};
+      if (!resultMap.has(category)) {
+        resultMap.set(category, new Map<string, string>());
       }
-      result[category][key] = value;
+      resultMap.get(category)?.set(key, value);
     }
+  }
+
+  // Convert Map back to Record for return type compatibility
+  const result: Record<string, Record<string, string>> = {};
+  for (const [category, innerMap] of resultMap) {
+    Object.defineProperty(result, category, {
+      value: Object.fromEntries(innerMap),
+      writable: true,
+      enumerable: true,
+      configurable: true,
+    });
   }
 
   return result;
@@ -440,6 +463,8 @@ export class FigmaConfigError extends Error {
 export class FigmaClient {
   private readonly config: Required<FigmaClientConfig>;
   private readonly isConfigured: boolean;
+  private readonly circuitBreaker: CircuitBreaker;
+  private readonly rateLimiter: RateLimiter;
 
   constructor(config?: FigmaClientConfig) {
     // Check if client is properly configured
@@ -454,6 +479,21 @@ export class FigmaClient {
       cache: config?.cache ?? true,
       headers: config?.headers ?? {},
     };
+
+    // Initialize error recovery components
+    this.circuitBreaker = new CircuitBreaker({
+      name: 'FigmaAPI',
+      failureThreshold: 5,
+      cooldownMs: 60000, // 1 minute cooldown
+      timeout: this.config.timeout,
+    });
+
+    this.rateLimiter = new RateLimiter({
+      throttleThreshold: 0.2, // Slow down at 20% remaining
+      throttleDelay: 2000, // 2s delay when throttling
+      criticalThreshold: 0.1, // Critical at 10% remaining
+      criticalDelay: 5000, // 5s delay when critical
+    });
   }
 
   // ==========================================================================
@@ -491,64 +531,90 @@ export class FigmaClient {
   }
 
   /**
-   * Make API request with retry logic
+   * Make API request with retry logic, circuit breaker, and rate limiting
    */
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     this.ensureConfigured();
 
-    const url = this.buildUrl(endpoint);
-    const headers = this.buildHeaders();
+    // Wrap in circuit breaker to prevent cascade failures
+    return this.circuitBreaker.execute(async () => {
+      // Apply rate limiting before making request
+      await this.rateLimiter.wait();
 
-    let lastError: Error | null = null;
-
-    for (let attempt = 0; attempt <= this.config.retries; attempt++) {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
-
-        const response = await fetch(url, {
-          ...options,
-          headers: { ...headers, ...options.headers },
-          signal: controller.signal,
-        });
-
-        clearTimeout(timeoutId);
-
-        if (!response.ok) {
-          const errorBody = (await response.json()) as FigmaApiError;
-          throw FigmaClientError.fromApiError(
-            {
-              status: response.status,
-              err: errorBody.err ?? response.statusText,
-              code: errorBody.code,
-              requestId: response.headers.get('x-request-id') ?? undefined,
-            },
-            endpoint
-          );
+      // Log warnings if rate limit is critical
+      if (this.rateLimiter.isCritical()) {
+        console.warn(
+          '⚠️  Figma API rate limit critically low (%d%% remaining)',
+          Math.round(this.rateLimiter.getRatio() * 100)
+        );
+        const timeUntilReset = this.rateLimiter.getTimeUntilReset();
+        if (timeUntilReset > 0) {
+          console.warn('   Rate limit resets in %d seconds', Math.round(timeUntilReset / 1000));
         }
+      } else if (this.rateLimiter.shouldThrottle()) {
+        console.warn(
+          'ℹ️  Throttling Figma API requests (%d%% remaining)',
+          Math.round(this.rateLimiter.getRatio() * 100)
+        );
+      }
 
-        return (await response.json()) as T;
-      } catch (error) {
-        lastError = error as Error;
+      const url = this.buildUrl(endpoint);
+      const headers = this.buildHeaders();
 
-        // Don't retry on client errors (4xx)
-        if (error instanceof FigmaClientError && error.status < 500) {
-          throw error;
-        }
+      let lastError: Error | null = null;
 
-        // Don't retry on config errors
-        if (error instanceof FigmaConfigError) {
-          throw error;
-        }
+      for (let attempt = 0; attempt <= this.config.retries; attempt++) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
 
-        // Wait before retrying (exponential backoff)
-        if (attempt < this.config.retries) {
-          await new Promise((resolve) => setTimeout(resolve, 2 ** attempt * 1000));
+          const response = await fetch(url, {
+            ...options,
+            headers: { ...headers, ...options.headers },
+            signal: controller.signal,
+          });
+
+          clearTimeout(timeoutId);
+
+          // Update rate limiter from response headers
+          this.rateLimiter.updateFromHeaders(response.headers);
+
+          if (!response.ok) {
+            const errorBody = (await response.json()) as FigmaApiError;
+            throw FigmaClientError.fromApiError(
+              {
+                status: response.status,
+                err: errorBody.err ?? response.statusText,
+                code: errorBody.code,
+                requestId: response.headers.get('x-request-id') ?? undefined,
+              },
+              endpoint
+            );
+          }
+
+          return (await response.json()) as T;
+        } catch (error) {
+          lastError = error as Error;
+
+          // Don't retry on client errors (4xx)
+          if (error instanceof FigmaClientError && error.status < 500) {
+            throw error;
+          }
+
+          // Don't retry on config errors
+          if (error instanceof FigmaConfigError) {
+            throw error;
+          }
+
+          // Wait before retrying (exponential backoff)
+          if (attempt < this.config.retries) {
+            await new Promise((resolve) => setTimeout(resolve, 2 ** attempt * 1000));
+          }
         }
       }
-    }
 
-    throw lastError ?? new Error('Request failed after retries');
+      throw lastError ?? new Error('Request failed after retries');
+    });
   }
 
   // ==========================================================================
@@ -870,9 +936,11 @@ export class FigmaClient {
       return;
     }
 
+    // Use slice to get all segments except the last one, then iterate safely
+    const parentPath = path.slice(0, -1);
     let obj = tokens;
-    for (let i = 0; i < path.length - 1; i++) {
-      const segment = path[i];
+
+    for (const segment of parentPath) {
       // Guard against prototype pollution
       if (
         !segment ||
@@ -894,7 +962,7 @@ export class FigmaClient {
       obj = (descriptor?.value ?? {}) as Record<string, unknown>;
     }
 
-    const finalKey = path[path.length - 1];
+    const finalKey = path.at(-1);
     if (
       finalKey &&
       finalKey !== '__proto__' &&
