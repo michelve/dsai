@@ -188,16 +188,22 @@ function matchGlobDP(str: string, pattern: string): boolean {
   const m = str.length;
   const n = pattern.length;
 
-  // dp[i][j] = true if str[0..i-1] matches pattern[0..j-1]
-  const dp: boolean[][] = Array.from({ length: m + 1 }, () => Array<boolean>(n + 1).fill(false));
+  // Use a Map for type-safe access instead of 2D array
+  const dp = new Map<string, boolean>();
+  const key = (i: number, j: number): string => `${i},${j}`;
+  const get = (i: number, j: number): boolean => dp.get(key(i, j)) ?? false;
+  const set = (i: number, j: number, val: boolean): void => {
+    dp.set(key(i, j), val);
+  };
 
+  // Initialize all to false (Map returns undefined -> false via get helper)
   // Empty pattern matches empty string
-  dp[0][0] = true;
+  set(0, 0, true);
 
   // Handle patterns starting with *
   for (let j = 1; j <= n; j++) {
     if (pattern[j - 1] === '*') {
-      dp[0][j] = dp[0][j - 1];
+      set(0, j, get(0, j - 1));
     }
   }
 
@@ -208,16 +214,16 @@ function matchGlobDP(str: string, pattern: string): boolean {
 
       if (pChar === '*') {
         // * can match zero chars (dp[i][j-1]) or one+ chars (dp[i-1][j])
-        dp[i][j] = dp[i][j - 1] || dp[i - 1][j];
+        set(i, j, get(i, j - 1) || get(i - 1, j));
       } else if (pChar === '?' || pChar === str[i - 1]) {
         // ? matches any single char, or exact character match
-        dp[i][j] = dp[i - 1][j - 1];
+        set(i, j, get(i - 1, j - 1));
       }
-      // else dp[i][j] remains false
+      // else remains false (not set in Map)
     }
   }
 
-  return dp[m][n];
+  return get(m, n);
 }
 
 /**

@@ -1,6 +1,6 @@
 {
   "name": "@dsai-io/tools",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Build tooling and CLI for DSAi Design System",
   "type": "module",
   "main": "dist/index.cjs",
