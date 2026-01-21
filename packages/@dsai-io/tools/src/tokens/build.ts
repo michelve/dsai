@@ -22,23 +22,39 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 
 import { execSync } from 'node:child_process';
-import { existsSync } from 'node:fs';
-import { dirname } from 'node:path';
+import { existsSync, readdirSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 
-import { postprocessCLI } from './postprocess.js';
+import { CacheService } from './cache.js';
+import {
+  analyzeChanges,
+  generateIncrementalReport,
+  updateCacheAfterBuild,
+  type IncrementalOptions,
+} from './incremental.js';
+import { preprocessTokenFiles, type FilePreprocessingResult } from './mode-preprocessor.js';
+import { postprocessCssFiles } from './postprocess.js';
+import { SnapshotService } from './snapshot.js';
 import { syncTokensCLI } from './sync.js';
+import { buildAllThemes } from './theme-builder.js';
+import { discoverThemeFiles } from './theme-discovery.js';
 import { transformTokens } from './transform.js';
+import { validateTokens } from './validate.js';
 
 import type { BuildOptions, BuildResult, BuildStep } from './types';
 import type {
   BuildPipelinePaths,
   BuildPipelineStep,
+  OutputFormat,
   TokensBuildPipeline,
 } from '../config/types.js';
 
 // ============================================================================
 // Constants
 // ============================================================================
+
+/** Global cleanup function for preprocessed files */
+let preprocessCleanup: (() => void) | null = null;
 
 /** Default SASS deprecation silencing flags */
 const SASS_FLAGS = [
@@ -54,6 +70,8 @@ const SASS_FLAGS_MINIMAL = ['--quiet-deps', '--silence-deprecation=import'].join
 /** Default build pipeline steps (full @dsai-io/tokens build) */
 const DEFAULT_PIPELINE_STEPS: BuildPipelineStep[] = [
   'validate',
+  'snapshot', // Create backup before transform
+  'preprocess', // Extract modes from nested Figma structure
   'transform',
   'style-dictionary',
   'sync',
@@ -84,7 +102,12 @@ const DEFAULT_PIPELINE_PATHS: Required<BuildPipelinePaths> = {
 /**
  * Run a single build step
  */
-function runStep(step: BuildStep, index: number, total: number, verbose: boolean): boolean {
+async function runStep(
+  step: BuildStep,
+  index: number,
+  total: number,
+  verbose: boolean
+): Promise<boolean> {
   const stepNum = `[${index + 1}/${total}]`;
 
   if (step.skip) {
@@ -101,12 +124,8 @@ function runStep(step: BuildStep, index: number, total: number, verbose: boolean
   // If step has a function, run it
   if (step.fn) {
     try {
-      // Run function and check return value
-      const result = step.fn();
-      if (result instanceof Promise) {
-        // We need to handle this synchronously in the build context
-        console.warn(`    ⚠️  Async step ${step.name} - running synchronously`);
-      }
+      // Run function and await if it returns a promise
+      const result = await step.fn();
       // Check if function returned false (failure)
       if (result === false) {
         console.error(`    ❌ Failed: Step returned false`);
@@ -117,7 +136,8 @@ function runStep(step: BuildStep, index: number, total: number, verbose: boolean
       }
       return true;
     } catch (error) {
-      console.error(`    ❌ Failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      console.error(`    ❌ Failed: ${errorMsg}`);
       return false;
     }
   }
@@ -165,19 +185,23 @@ function getPipelinePaths(customPaths?: BuildPipelinePaths): Required<BuildPipel
 
 /**
  * Map of step names to human-readable names
+ * Using Map for safe access (avoids Object Injection Sink)
  */
-const STEP_DISPLAY_NAMES: Record<BuildPipelineStep, string> = {
-  validate: 'Validate Tokens',
-  transform: 'Transform Figma Tokens',
-  'style-dictionary': 'Build Style Dictionary',
-  sync: 'Sync tokens-flat.ts',
-  'sass-theme': 'Compile Bootstrap Theme (unminified)',
-  'sass-theme-minified': 'Compile Bootstrap Theme (minified)',
-  postprocess: 'Post-process Theme CSS',
-  'sass-utilities': 'Compile DSAi Utilities (unminified)',
-  'sass-utilities-minified': 'Compile DSAi Utilities (minified)',
-  bundle: 'Bundle with tsup',
-};
+const STEP_DISPLAY_NAMES = new Map<BuildPipelineStep, string>([
+  ['validate', 'Validate Tokens'],
+  ['snapshot', 'Create Snapshot Backup'],
+  ['preprocess', 'Preprocess Mode Files'],
+  ['transform', 'Transform Figma Tokens'],
+  ['style-dictionary', 'Build Style Dictionary'],
+  ['multi-theme', 'Build Multi-Theme Tokens'],
+  ['sync', 'Sync tokens-flat.ts'],
+  ['sass-theme', 'Compile Bootstrap Theme (unminified)'],
+  ['sass-theme-minified', 'Compile Bootstrap Theme (minified)'],
+  ['postprocess', 'Post-process Theme CSS'],
+  ['sass-utilities', 'Compile DSAi Utilities (unminified)'],
+  ['sass-utilities-minified', 'Compile DSAi Utilities (minified)'],
+  ['bundle', 'Bundle with tsup'],
+]);
 
 /**
  * Create a single build step from step name
@@ -188,27 +212,160 @@ function createStepFromName(
   figmaExportsDir: string,
   tokensDir: string,
   paths: Required<BuildPipelinePaths>,
-  sdConfigFile: string
+  sdConfigFile: string,
+  strict: boolean,
+  snapshotService?: SnapshotService,
+  themesConfig?: BuildOptions['themesConfig'],
+  outputDir?: string,
+  formats: OutputFormat[] = ['css', 'scss', 'json'],
+  cssOutputDir?: string,
+  postprocessConfig?: BuildOptions['postprocessConfig']
 ): BuildStep {
-  const displayName = STEP_DISPLAY_NAMES[stepName];
+  const displayName = STEP_DISPLAY_NAMES.get(stepName) ?? `Unknown: ${stepName}`;
 
   switch (stepName) {
     case 'validate':
-      // Use dsai CLI for validation - this uses the native TypeScript implementation
       return {
         name: displayName,
-        command: 'dsai tokens validate',
-        cwd: tokensPackageDir,
+        fn: async () => {
+          // Create minimal config for validation
+          const config = {
+            tokens: {
+              collectionsDir: tokensDir,
+              sourceDir: figmaExportsDir,
+            },
+          } as Parameters<typeof validateTokens>[0];
+
+          const result = await validateTokens(config, {
+            verbose: true,
+            strict,
+          });
+
+          if (!result.valid) {
+            for (const error of result.errors) {
+              console.error(`❌ ${error.message}`);
+            }
+          }
+          return result.valid;
+        },
+      };
+
+    case 'snapshot':
+      return {
+        name: displayName,
+        fn: () => {
+          if (!snapshotService) {
+            console.warn('    ⚠️  Snapshot service not available, skipping');
+            return true;
+          }
+          try {
+            // tokensDir is collectionsDir from config (e.g., ./src)
+            // actual collections are in tokensDir/collections
+            const collectionsPath = join(tokensDir, 'collections');
+            console.info(`    📂 Snapshot path: ${collectionsPath}`);
+            const result = snapshotService.createSnapshot(
+              collectionsPath,
+              `Pre-transform backup - ${new Date().toISOString()}`
+            );
+
+            if (!result.success || !result.snapshot) {
+              console.error(`    ❌ Snapshot failed: ${result.error || 'Unknown error'}`);
+              return false;
+            }
+
+            console.info(`    📸 Snapshot created: ${result.snapshot.id}`);
+            console.info(`       Files: ${result.snapshot.files.length}`);
+            return true;
+          } catch (error) {
+            console.error(
+              `    ❌ Snapshot failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+            );
+            return false;
+          }
+        },
+      };
+
+    case 'preprocess':
+      return {
+        name: displayName,
+        fn: async () => {
+          try {
+            const outputDir = join(figmaExportsDir, '.preprocessed');
+            console.info(`    📂 Source: ${figmaExportsDir}`);
+            console.info(`    📂 Output: ${outputDir}`);
+
+            // Get all JSON files from the source directory
+            const jsonFiles = readdirSync(figmaExportsDir).filter((f) => f.endsWith('.json'));
+
+            if (jsonFiles.length === 0) {
+              console.warn(`    ⚠️  No JSON files found in ${figmaExportsDir}`);
+              return true; // Not a failure, just skip
+            }
+
+            const result = preprocessTokenFiles({
+              sourceDir: figmaExportsDir,
+              outputDir,
+              files: jsonFiles,
+              modesPath: ['Foundation', 'modes'],
+              verbose: true,
+            });
+
+            // Only fail if actual processing errors occurred (not "no modes detected")
+            const failedFiles = result.files.filter(
+              (f) => !f.success && f.error !== 'No modes detected'
+            );
+            if (failedFiles.length > 0) {
+              console.error(`    ❌ Preprocessing failed for ${failedFiles.length} file(s)`);
+              for (const failed of failedFiles) {
+                console.error(`       - ${failed.sourceFile}: ${failed.error ?? 'Unknown error'}`);
+              }
+              return false;
+            }
+
+            const successFiles = result.files.filter((f) => f.success);
+            const skippedFiles = result.files.filter((f) => f.error === 'No modes detected');
+
+            console.info(`    ✅ Preprocessed ${successFiles.length} file(s)`);
+            if (skippedFiles.length > 0) {
+              console.info(`    ⏭️  Skipped ${skippedFiles.length} file(s) (no modes)`);
+            }
+
+            const totalModes = result.files.reduce(
+              (sum: number, file: FilePreprocessingResult) => sum + file.modes.length,
+              0
+            );
+            console.info(`    📊 Total modes extracted: ${totalModes}`);
+
+            // Store cleanup function for later
+            preprocessCleanup = result.cleanup;
+
+            return true;
+          } catch (error) {
+            console.error(
+              `    ❌ Preprocessing failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+            );
+            return false;
+          }
+        },
       };
 
     case 'transform':
       return {
         name: displayName,
         fn: () => {
+          // Check if preprocessed directory exists and use it instead
+          const preprocessedDir = join(figmaExportsDir, '.preprocessed');
+          const sourceDir = existsSync(preprocessedDir) ? preprocessedDir : figmaExportsDir;
+
+          if (sourceDir === preprocessedDir) {
+            console.info(`    📂 Using preprocessed directory: ${preprocessedDir}`);
+          }
+
           const result = transformTokens({
-            sourceDir: figmaExportsDir,
+            sourceDir,
             collectionsDir: tokensDir,
             verbose: true,
+            strict,
           });
           if (!result.success) {
             for (const error of result.errors) {
@@ -226,10 +383,138 @@ function createStepFromName(
         cwd: tokensPackageDir,
       };
 
+    case 'multi-theme':
+      return {
+        name: displayName,
+        fn: async () => {
+          // Check if themes config is provided and enabled
+          if (!themesConfig?.enabled || !themesConfig?.definitions) {
+            console.warn('    ⚠️  Multi-theme build requires themes config with enabled: true');
+            console.warn('    ℹ️  Falling back to single-theme build via style-dictionary');
+            return true; // Skip but don't fail
+          }
+
+          try {
+            // Build minimal resolved config for theme builder
+            const definitions = new Map(Object.entries(themesConfig.definitions));
+
+            // Discover theme files
+            const discoveryResult = discoverThemeFiles(
+              {
+                enabled: true,
+                default: 'light',
+                autoDetect: true,
+                ignoreModes: [],
+                selectorPattern: {
+                  default: ':root',
+                  others: '[data-dsai-theme="{mode}"]',
+                },
+                definitions: Object.fromEntries(
+                  Array.from(definitions.entries()).map(([name, def]) => [
+                    name,
+                    {
+                      isDefault: def.isDefault ?? name === 'light',
+                      suffix: def.suffix ?? (def.isDefault ? null : `-${name}`),
+                      selector: def.selector,
+                      mediaQuery: def.mediaQuery,
+                      dataAttribute: def.dataAttribute ?? `data-dsai-theme="${name}"`,
+                      outputFiles: {
+                        css:
+                          def.outputFiles?.['css'] ??
+                          (def.isDefault ? 'tokens.css' : `tokens-${name}.css`),
+                        scss:
+                          def.outputFiles?.['scss'] ??
+                          (def.isDefault ? '_variables.scss' : `_variables-${name}.scss`),
+                        js:
+                          def.outputFiles?.['js'] ??
+                          (def.isDefault ? 'tokens.js' : `tokens-${name}.js`),
+                        ts:
+                          def.outputFiles?.['ts'] ??
+                          (def.isDefault ? 'tokens.d.ts' : `tokens-${name}.d.ts`),
+                        json:
+                          def.outputFiles?.['json'] ??
+                          (def.isDefault ? 'tokens.json' : `tokens-${name}.json`),
+                        android:
+                          def.outputFiles?.['android'] ??
+                          (def.isDefault ? 'tokens.xml' : `tokens-${name}.xml`),
+                        ios:
+                          def.outputFiles?.['ios'] ??
+                          (def.isDefault ? 'tokens.h' : `tokens-${name}.h`),
+                      },
+                    },
+                  ])
+                ),
+              },
+              { sourceDir: join(tokensDir, 'collections'), verbose: true }
+            );
+
+            if (discoveryResult.emptyThemes.length > 0) {
+              console.warn(
+                `    ⚠️  Empty themes (no files): ${discoveryResult.emptyThemes.join(', ')}`
+              );
+            }
+
+            console.info(
+              `    📂 Found ${discoveryResult.totalFiles} files across ${discoveryResult.themes.size} themes`
+            );
+
+            // Build all themes
+            const themeFiles = discoveryResult.themes;
+
+            // Convert definitions to the format buildAllThemes expects
+            const themeDefinitions = Object.fromEntries(
+              Array.from(definitions.entries()).map(([name, def]) => [
+                name,
+                {
+                  isDefault: def.isDefault ?? name === 'light',
+                  suffix: def.suffix ?? (def.isDefault ? null : `-${name}`),
+                  selector: def.selector,
+                  mediaQuery: def.mediaQuery,
+                  dataAttribute: def.dataAttribute ?? `data-dsai-theme="${name}"`,
+                  outputFiles: def.outputFiles,
+                },
+              ])
+            );
+
+            const result = await buildAllThemes({
+              config: {
+                formats: formats,
+                themes: {
+                  definitions: themeDefinitions,
+                },
+              },
+              themeFiles,
+              outputDir: outputDir ?? `${tokensPackageDir}/dist`,
+              verbose: true,
+            });
+
+            if (!result.success) {
+              console.error(`    ❌ Multi-theme build failed: ${result.failCount} theme(s) failed`);
+              for (const themeResult of result.results.filter((r) => !r.success)) {
+                console.error(`       - ${themeResult.themeName}: ${themeResult.error}`);
+              }
+              return false;
+            }
+
+            console.info(`    ✅ Built ${result.successCount} themes in ${result.duration}ms`);
+            return true;
+          } catch (error) {
+            console.error(
+              `    ❌ Multi-theme build error: ${error instanceof Error ? error.message : 'Unknown error'}`
+            );
+            return false;
+          }
+        },
+      };
+
     case 'sync':
       return {
         name: displayName,
-        fn: () => syncTokensCLI(tokensPackageDir),
+        fn: () =>
+          syncTokensCLI(tokensPackageDir, {
+            syncSource: paths.syncSource,
+            syncTarget: paths.syncTarget,
+          }),
       };
 
     case 'sass-theme':
@@ -249,7 +534,20 @@ function createStepFromName(
     case 'postprocess':
       return {
         name: displayName,
-        fn: () => postprocessCLI(tokensPackageDir),
+        fn: () => {
+          // Use cssOutputDir or postprocessConfig.cssDir if provided (now absolute paths from CLI)
+          // Fall back to tokensPackageDir + 'dist/css' if neither is set
+          const cssDir =
+            cssOutputDir ?? postprocessConfig?.cssDir ?? join(tokensPackageDir, 'dist/css');
+
+          const result = postprocessCssFiles({
+            cssDir,
+            files: postprocessConfig?.files,
+            replacements: postprocessConfig?.replacements,
+            verbose: true,
+          });
+          return result.success;
+        },
       };
 
     case 'sass-utilities':
@@ -293,7 +591,7 @@ function createBuildSteps(
   options: BuildOptions,
   pipeline?: TokensBuildPipeline
 ): BuildStep[] {
-  const { skipValidate, skipTransform, onlyTheme } = options;
+  const { skipValidate, skipTransform, onlyTheme, strict = false } = options;
 
   // Get the tokens package root directory
   // tokensDir is typically the collections dir (e.g., packages/@dsai-io/tokens/collections)
@@ -302,13 +600,24 @@ function createBuildSteps(
     ? dirname(tokensDir)
     : dirname(tokensDir);
 
-  // Path to figma-exports source directory (sibling to collections)
-  const figmaExportsDir = `${tokensPackageDir}/figma-exports`;
+  // Path to figma-exports source directory
+  // Use sourceDir from options if provided, otherwise use sibling directory
+  const figmaExportsDir = options.sourceDir ?? `${tokensPackageDir}/figma-exports`;
+
+  // Initialize snapshot service for backup/rollback
+  const snapshotService = new SnapshotService({
+    snapshotDir: `${tokensPackageDir}/.snapshots`,
+    maxSnapshots: 10,
+    include: ['**/*.json'],
+  });
 
   // Get pipeline configuration
   const pipelineSteps = pipeline?.steps ?? DEFAULT_PIPELINE_STEPS;
   const paths = getPipelinePaths(pipeline?.paths);
   const sdConfigFile = pipeline?.styleDictionaryConfig ?? 'sd.config.mjs';
+
+  // Get formats from options (default: css, scss, json - no js/ts by default to avoid numeric identifier issues)
+  const formats = (options.formats ?? ['css', 'scss', 'json']) as OutputFormat[];
 
   // Build steps based on pipeline configuration
   const steps: BuildStep[] = [];
@@ -320,7 +629,14 @@ function createBuildSteps(
       figmaExportsDir,
       tokensDir,
       paths,
-      sdConfigFile
+      sdConfigFile,
+      strict,
+      snapshotService,
+      options.themesConfig,
+      options.outputDir,
+      formats,
+      options.cssOutputDir,
+      options.postprocessConfig
     );
 
     // Apply skip flags based on legacy options
@@ -373,12 +689,32 @@ function createBuildSteps(
  * });
  * ```
  */
-export function buildTokens(
+export async function buildTokens(
   tokensDir: string,
   toolsDir: string,
   options: BuildOptions = {}
-): BuildResult {
-  const { skipValidate, onlyTheme, verbose = true, quiet = false } = options;
+): Promise<BuildResult> {
+  const {
+    skipValidate,
+    onlyTheme,
+    verbose = true,
+    quiet = false,
+    incremental = false,
+    force = false,
+    cacheDir,
+  } = options;
+
+  // Use config values from options (already passed from CLI)
+  // No need to reload config here - CLI already loaded it
+  const cssOutputDir = options.cssOutputDir;
+  const postprocessConfig = options.postprocessConfig;
+
+  // Pass config to options so createBuildSteps can access it
+  const optionsWithConfig: BuildOptions = {
+    ...options,
+    cssOutputDir,
+    postprocessConfig,
+  };
 
   const startTime = Date.now();
   const stepsCompleted: string[] = [];
@@ -443,14 +779,65 @@ export function buildTokens(
     if (onlyTheme) {
       console.info('⚠️  Building only theme CSS (--only-theme)');
     }
+    if (incremental) {
+      console.info('🔄 Incremental build enabled');
+      if (force) {
+        console.info('⚡ Force rebuild - ignoring cache');
+      }
+    }
+  }
+
+  // Initialize cache service for incremental builds
+  let cacheService: CacheService | undefined;
+  let incrementalAnalysis: Awaited<ReturnType<typeof analyzeChanges>> | undefined;
+
+  if (incremental) {
+    cacheService = new CacheService({
+      cacheDir: cacheDir || `${tokensDir}/.dsai-cache`,
+      enabled: true,
+    });
+
+    // Analyze what needs to be rebuilt
+    const figmaExportsDir = `${tokensDir}/figma-exports`;
+    const incrementalOptions: IncrementalOptions = {
+      enabled: true,
+      force,
+      cacheService,
+      verbose: verbose && !quiet,
+    };
+
+    incrementalAnalysis = await analyzeChanges(figmaExportsDir, incrementalOptions);
+
+    // If no changes detected, skip build
+    if (!incrementalAnalysis.needsFullBuild && incrementalAnalysis.changedFiles.length === 0) {
+      const duration = Date.now() - startTime;
+
+      if (verbose && !quiet) {
+        console.info(generateIncrementalReport(incrementalAnalysis, startTime, 0, 0));
+      }
+
+      return {
+        success: true,
+        stepsCompleted: ['Cache Check'],
+        stepsFailed: [],
+        duration,
+        errors: [],
+        warnings: ['No changes detected - build skipped'],
+      };
+    }
   }
 
   // Create and run build steps
-  const steps = createBuildSteps(tokensDir, toolsDir, options, options.pipeline);
+  const steps = createBuildSteps(
+    tokensDir,
+    toolsDir,
+    optionsWithConfig,
+    optionsWithConfig.pipeline
+  );
 
   for (const step of steps) {
     const stepIndex = steps.indexOf(step);
-    const success = runStep(step, stepIndex, steps.length, verbose && !quiet);
+    const success = await runStep(step, stepIndex, steps.length, verbose && !quiet);
 
     if (success) {
       if (!step.skip) {
@@ -481,6 +868,51 @@ export function buildTokens(
   const duration = Date.now() - startTime;
   const durationSec = (duration / 1000).toFixed(2);
 
+  // Update cache after successful build
+  if (incremental && cacheService && incrementalAnalysis) {
+    const figmaExportsDir = `${tokensDir}/figma-exports`;
+    const collectionsDir = `${tokensDir}/collections`;
+
+    await updateCacheAfterBuild(
+      cacheService,
+      incrementalAnalysis.changedFiles,
+      [], // Output files - would need to track from transform step
+      figmaExportsDir,
+      collectionsDir,
+      verbose && !quiet
+    );
+
+    // Show incremental build report
+    if (verbose && !quiet) {
+      console.info(
+        generateIncrementalReport(
+          incrementalAnalysis,
+          startTime,
+          stepsCompleted.length,
+          steps.length
+        )
+      );
+    }
+  }
+
+  // Cleanup preprocessed files if they exist
+  if (preprocessCleanup) {
+    try {
+      preprocessCleanup();
+      if (verbose && !quiet) {
+        console.info('🧹 Cleaned up preprocessed files');
+      }
+    } catch (error) {
+      if (verbose && !quiet) {
+        console.warn(
+          `⚠️  Failed to cleanup preprocessed files: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
+      }
+    } finally {
+      preprocessCleanup = null;
+    }
+  }
+
   // Print footer
   if (verbose && !quiet) {
     console.info('\n╔════════════════════════════════════════════════════════════╗');
@@ -504,18 +936,34 @@ export function buildTokens(
 /**
  * CLI entry point for token build
  */
-export function buildTokensCLI(tokensDir: string, toolsDir: string, args: string[] = []): boolean {
+export async function buildTokensCLI(
+  tokensDir: string,
+  toolsDir: string,
+  args: string[] = []
+): Promise<boolean> {
   const skipValidate = args.includes('--skip-validate');
   const skipTransform = args.includes('--skip-transform');
   const onlyTheme = args.includes('--only-theme');
   const quiet = args.includes('--quiet') || args.includes('-q');
+  const strict = args.includes('--strict');
+  const incremental = args.includes('--incremental') || args.includes('--cache');
+  const force = args.includes('--force');
 
-  const result = buildTokens(tokensDir, toolsDir, {
+  // Extract --cache-dir argument
+  const cacheDirIndex = args.findIndex((arg) => arg.startsWith('--cache-dir='));
+  const cacheDirArg = cacheDirIndex >= 0 ? args.at(cacheDirIndex) : undefined;
+  const cacheDir = cacheDirArg?.split('=')[1];
+
+  const result = await buildTokens(tokensDir, toolsDir, {
     skipValidate,
     skipTransform,
     onlyTheme,
     verbose: !quiet,
     quiet,
+    strict,
+    incremental,
+    force,
+    cacheDir,
   });
 
   return result.success;
@@ -525,8 +973,8 @@ export function buildTokensCLI(tokensDir: string, toolsDir: string, args: string
  * Parse CLI arguments and run build
  * Used as the main entry point when called directly
  */
-export function runBuildCLI(tokensDir: string, toolsDir: string): void {
+export async function runBuildCLI(tokensDir: string, toolsDir: string): Promise<void> {
   const args = process.argv.slice(2);
-  const success = buildTokensCLI(tokensDir, toolsDir, args);
+  const success = await buildTokensCLI(tokensDir, toolsDir, args);
   process.exit(success ? 0 : 1);
 }

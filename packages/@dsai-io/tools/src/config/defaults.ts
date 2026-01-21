@@ -14,6 +14,7 @@ import type {
   ResolvedConfig,
   ResolvedGlobalConfig,
   ResolvedIconsConfig,
+  ResolvedThemeDefinition,
   ResolvedThemesConfig,
   ResolvedTokensConfig,
   ThemeSelectorPattern,
@@ -98,13 +99,51 @@ export const defaultSelectorPattern: Required<ThemeSelectorPattern> = {
 };
 
 /**
+ * Default theme definitions
+ * Provides light and dark themes out of the box
+ */
+export const defaultThemeDefinitions: Record<string, ResolvedThemeDefinition> = {
+  light: {
+    isDefault: true,
+    suffix: null,
+    selector: ':root',
+    outputFiles: {
+      css: 'tokens.css',
+      scss: '_tokens.scss',
+      js: 'tokens.js',
+      ts: 'tokens.ts',
+      json: 'tokens.json',
+      android: 'tokens.xml',
+      ios: 'tokens.h',
+    },
+  },
+  dark: {
+    isDefault: false,
+    suffix: '-dark',
+    selector: '[data-dsai-theme="dark"]',
+    mediaQuery: '(prefers-color-scheme: dark)',
+    outputFiles: {
+      css: 'tokens-dark.css',
+      scss: '_tokens-dark.scss',
+      js: 'tokens-dark.js',
+      ts: 'tokens-dark.ts',
+      json: 'tokens-dark.json',
+      android: 'tokens-dark.xml',
+      ios: 'tokens-dark.h',
+    },
+  },
+};
+
+/**
  * Default resolved themes configuration
  */
 export const defaultThemesConfig: ResolvedThemesConfig = {
+  enabled: true,
   autoDetect: true,
-  default: 'Light',
+  default: 'light',
   ignoreModes: [],
   selectorPattern: defaultSelectorPattern,
+  definitions: defaultThemeDefinitions,
 };
 
 // ============================================================================

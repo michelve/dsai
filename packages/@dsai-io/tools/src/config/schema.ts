@@ -89,9 +89,9 @@ export const customTransformSchema = z.object({
   name: z.string().min(1, 'Transform name is required'),
   description: z.string().optional(),
   type: z.enum(['value', 'attribute', 'name']).optional().default('value'),
-  transform: z.function().args(z.any(), z.any()).returns(z.any()).optional(),
-  filter: z.function().args(z.any()).returns(z.boolean()).optional(),
-  matcher: z.function().args(z.any()).returns(z.boolean()).optional(),
+  transform: z.function().optional(),
+  filter: z.function().optional(),
+  matcher: z.function().optional(),
 });
 
 /**
@@ -100,7 +100,7 @@ export const customTransformSchema = z.object({
 export const customFormatSchema = z.object({
   name: z.string().min(1, 'Format name is required'),
   description: z.string().optional(),
-  formatter: z.function().args(z.any()).returns(z.string()).optional(),
+  formatter: z.function().optional(),
   extension: z.string().min(1).optional(),
 });
 
@@ -109,37 +109,59 @@ export const customFormatSchema = z.object({
 // ============================================================================
 
 /**
- * Theme mode configuration
- * Controls how themes are generated and applied
+ * Output format enum for validation
  */
-export const themeModeSchema = z.object({
+const outputFormatEnum = z.enum(['css', 'scss', 'js', 'ts', 'json', 'android', 'ios']);
+
+/**
+ * Theme definition schema
+ * Defines how a single theme is discovered and built
+ */
+export const themeDefinitionSchema = z.object({
+  isDefault: z.boolean().optional().default(false),
+  suffix: z.string().nullable().optional(),
   selector: z.string().min(1, 'Theme selector is required'),
   mediaQuery: z.string().optional(),
   dataAttribute: z.string().optional(),
-  cssVariables: z.boolean().optional().default(true),
-  generateSeparateFiles: z.boolean().optional().default(false),
-  prefix: z.string().optional(),
+  outputFiles: z.record(outputFormatEnum, z.string()).optional(),
+});
+
+/**
+ * Theme selector pattern schema
+ */
+export const themeSelectorPatternSchema = z.object({
+  default: z.string().optional().default(':root'),
+  others: z.string().optional().default('[data-dsai-theme="{mode}"]'),
 });
 
 /**
  * Themes configuration section
+ * Supports both legacy mode-based config and new definitions-based config
  */
 export const themesConfigSchema = z.object({
   enabled: z.boolean().optional().default(true),
-  defaultMode: z.enum(['light', 'dark', 'system']).optional().default('light'),
+  autoDetect: z.boolean().optional().default(true),
+  default: z.string().optional().default('light'),
+  ignoreModes: z.array(z.string()).optional().default([]),
+  selectorPattern: themeSelectorPatternSchema.optional(),
+  definitions: z.record(z.string(), themeDefinitionSchema).optional(),
+
+  // Legacy fields (for backward compatibility)
+  defaultMode: z.enum(['light', 'dark', 'system']).optional(),
   modes: z
-    .record(z.string(), themeModeSchema)
-    .optional()
-    .default({
-      light: { selector: ':root', cssVariables: true, generateSeparateFiles: false },
-      dark: {
-        selector: '[data-theme="dark"]',
-        mediaQuery: '(prefers-color-scheme: dark)',
-        cssVariables: true,
-        generateSeparateFiles: false,
-      },
-    }),
-  outputFileName: z.string().optional().default('themes'),
+    .record(
+      z.string(),
+      z.object({
+        selector: z.string().min(1),
+        mediaQuery: z.string().optional(),
+        dataAttribute: z.string().optional(),
+        cssVariables: z.boolean().optional(),
+        generateSeparateFiles: z.boolean().optional(),
+        prefix: z.string().optional(),
+      })
+    )
+    .optional(),
+  outputFileName: z.string().optional(),
   colorScheme: z
     .object({
       light: z.string().optional(),
@@ -211,13 +233,53 @@ export const tokenBuildConfigSchema = z.object({
   selector: z.string().optional(),
   transforms: z.array(z.string()).optional(),
   customTransforms: z.array(customTransformSchema).optional(),
-  filter: z
-    .function()
-    .args(z.any())
-    .returns(z.union([z.boolean(), z.promise(z.boolean())]))
-    .optional(),
+  filter: z.function().optional(),
   header: z.string().optional(),
   footer: z.string().optional(),
+});
+
+/**
+ * Postprocess configuration for CSS files
+ */
+export const postprocessConfigSchema = z.object({
+  enabled: z.boolean().optional(),
+  cssDir: z.string().optional(),
+  files: z.array(z.string()).optional(),
+  replacements: z
+    .array(
+      z.object({
+        description: z.string().optional(),
+        from: z.union([z.string(), z.instanceof(RegExp)]),
+        to: z.string(),
+      })
+    )
+    .optional(),
+});
+
+/**
+ * SCSS/CSS output configuration for token builds
+ */
+export const scssConfigSchema = z.object({
+  /** Output styles to generate: 'expanded' (readable) or 'compressed' (minified) */
+  outputStyles: z.array(z.enum(['expanded', 'compressed'])).optional(),
+  /** Generate source maps for SCSS compilation */
+  generateSourceMaps: z.boolean().optional(),
+  /** Suffix for minified files (e.g., '.min') */
+  minifiedSuffix: z.string().optional(),
+  /** Theme entry point SCSS file */
+  themeEntry: z.string().optional(),
+  /** Utilities entry point SCSS file */
+  utilitiesEntry: z.string().optional(),
+  /** Output directory for compiled CSS files */
+  cssOutputDir: z.string().optional(),
+  /** Additional Sass load paths */
+  loadPaths: z.array(z.string()).optional(),
+  /** Target CSS framework for variable name mapping */
+  framework: z.enum(['bootstrap', 'tailwind', 'material', 'custom']).optional(),
+  /** Custom token to variable name mappings */
+  nameMapping: z.record(z.string(), z.string()).optional(),
+  /** Output path for Bootstrap-compatible SCSS variables */
+  variablesOutput: z.string().optional(),
 });
 
 /**
@@ -244,31 +306,11 @@ export const tokenWatchConfigSchema = z.object({
  * Token processing hooks
  */
 export const tokensHooksSchema = z.object({
-  onBuildStart: z
-    .function()
-    .args(z.any())
-    .returns(z.union([z.void(), z.promise(z.void())]))
-    .optional(),
-  onFormatComplete: z
-    .function()
-    .args(z.any())
-    .returns(z.union([z.void(), z.promise(z.void())]))
-    .optional(),
-  onAllFormatsComplete: z
-    .function()
-    .args(z.any())
-    .returns(z.union([z.void(), z.promise(z.void())]))
-    .optional(),
-  onBuildComplete: z
-    .function()
-    .args(z.any())
-    .returns(z.union([z.void(), z.promise(z.void())]))
-    .optional(),
-  onError: z
-    .function()
-    .args(z.any())
-    .returns(z.union([z.void(), z.promise(z.void())]))
-    .optional(),
+  onBuildStart: z.function().optional(),
+  onFormatComplete: z.function().optional(),
+  onAllFormatsComplete: z.function().optional(),
+  onBuildComplete: z.function().optional(),
+  onError: z.function().optional(),
 });
 
 /**
@@ -276,6 +318,8 @@ export const tokensHooksSchema = z.object({
  */
 export const buildPipelineStepSchema = z.enum([
   'validate',
+  'snapshot',
+  'preprocess',
   'transform',
   'style-dictionary',
   'sync',
@@ -298,21 +342,7 @@ export const tokensBuildPipelineSchema = z.object({
    * Default includes all steps for full @dsai-io/tokens build.
    * Simpler packages can use subset like ['validate', 'transform', 'style-dictionary']
    */
-  steps: z
-    .array(buildPipelineStepSchema)
-    .optional()
-    .default([
-      'validate',
-      'transform',
-      'style-dictionary',
-      'sync',
-      'sass-theme',
-      'sass-theme-minified',
-      'postprocess',
-      'sass-utilities',
-      'sass-utilities-minified',
-      'bundle',
-    ]),
+  steps: z.array(buildPipelineStepSchema).optional(),
 
   /**
    * Paths configuration for build steps
@@ -320,26 +350,26 @@ export const tokensBuildPipelineSchema = z.object({
   paths: z
     .object({
       /** Source file for sync step (Style Dictionary JS output) */
-      syncSource: z.string().optional().default('dist/js/tokens.js'),
+      syncSource: z.string().optional(),
       /** Target file for sync step */
-      syncTarget: z.string().optional().default('src/tokens-flat.ts'),
+      syncTarget: z.string().optional(),
       /** SCSS theme input file */
-      sassThemeInput: z.string().optional().default('src/scss/dsai-theme-bs.scss'),
+      sassThemeInput: z.string().optional(),
       /** CSS theme output file */
-      sassThemeOutput: z.string().optional().default('dist/css/dsai-theme-bs.css'),
+      sassThemeOutput: z.string().optional(),
       /** CSS theme minified output file */
-      sassThemeMinifiedOutput: z.string().optional().default('dist/css/dsai-theme-bs.min.css'),
+      sassThemeMinifiedOutput: z.string().optional(),
       /** SCSS utilities input file */
-      sassUtilitiesInput: z.string().optional().default('src/scss/dsai-utilities.scss'),
+      sassUtilitiesInput: z.string().optional(),
       /** CSS utilities output file */
-      sassUtilitiesOutput: z.string().optional().default('dist/css/dsai.css'),
+      sassUtilitiesOutput: z.string().optional(),
       /** CSS utilities minified output file */
-      sassUtilitiesMinifiedOutput: z.string().optional().default('dist/css/dsai.min.css'),
+      sassUtilitiesMinifiedOutput: z.string().optional(),
     })
     .optional(),
 
   /** Style Dictionary config file name */
-  styleDictionaryConfig: z.string().optional().default('sd.config.mjs'),
+  styleDictionaryConfig: z.string().optional(),
 });
 
 /**
@@ -383,8 +413,12 @@ export const tokensConfigSchema = z.object({
   cache: tokenCacheConfigSchema.optional(),
   watch: tokenWatchConfigSchema.optional(),
   verbose: z.boolean().optional().default(false),
+  /** SCSS/CSS output configuration */
+  scss: scssConfigSchema.optional(),
   /** Build pipeline configuration */
   pipeline: tokensBuildPipelineSchema.optional(),
+  /** Postprocess configuration */
+  postprocess: postprocessConfigSchema.optional(),
 });
 
 // ============================================================================
@@ -495,7 +529,7 @@ export interface ValidationError {
  * @returns Array of formatted validation errors
  */
 export function formatValidationErrors(zodError: z.ZodError): ValidationError[] {
-  return zodError.errors.map((err) => ({
+  return zodError.issues.map((err: z.ZodIssue) => ({
     path: err.path.join('.') || 'root',
     message: err.message,
     code: err.code,

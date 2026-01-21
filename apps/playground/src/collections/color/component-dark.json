@@ -1,7 +1,7 @@
 {
   "semantic": {
     "border-color-translucent": {
-      "$value": "{colors.neutral.white}",
+      "$value": "{neutral.white}",
       "$type": "color",
       "$description": "Translucent border color that blends with backgrounds using rgba().",
       "$extensions": {
@@ -14,7 +14,7 @@
       }
     },
     "body-color": {
-      "$value": "{colors.neutral.gray.300}",
+      "$value": "{neutral.gray.300}",
       "$type": "color",
       "$description": "Default body text color. Applied to the <body> element and inherited by all text content unless overridden.",
       "$extensions": {
@@ -24,7 +24,7 @@
       }
     },
     "body-bg": {
-      "$value": "{colors.neutral.gray.900}",
+      "$value": "{neutral.gray.900}",
       "$type": "color",
       "$description": "Default body background color. Applied to the <body> element as the base page background.",
       "$extensions": {
@@ -34,7 +34,7 @@
       }
     },
     "emphasis-color": {
-      "$value": "{colors.neutral.white}",
+      "$value": "{neutral.white}",
       "$type": "color",
       "$description": "Emphasis color for higher contrast text. Use for headings or text that needs to stand out.",
       "$extensions": {
@@ -44,7 +44,7 @@
       }
     },
     "secondary-color": {
-      "$value": "{colors.neutral.gray.400}",
+      "$value": "{neutral.gray.400}",
       "$type": "color",
       "$description": "Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text.",
       "$extensions": {
@@ -54,7 +54,7 @@
       }
     },
     "secondary-bg": {
-      "$value": "{colors.neutral.gray.800}",
+      "$value": "{neutral.gray.800}",
       "$type": "color",
       "$description": "Secondary background color. Use for dividers and to indicate disabled component states.",
       "$extensions": {
@@ -64,7 +64,7 @@
       }
     },
     "tertiary-color": {
-      "$value": "{colors.neutral.gray.500}",
+      "$value": "{neutral.gray.500}",
       "$type": "color",
       "$description": "Tertiary text color for even lighter text. Use for less important supporting text.",
       "$extensions": {
@@ -74,7 +74,7 @@
       }
     },
     "tertiary-bg": {
-      "$value": "{colors.neutral.gray.900}",
+      "$value": "{neutral.gray.900}",
       "$type": "color",
       "$description": "Tertiary background color. Use for hover states, accents, and wells.",
       "$extensions": {
@@ -84,7 +84,7 @@
       }
     },
     "link-color": {
-      "$value": "{colors.brand.blue.400}",
+      "$value": "{color.blue.400}",
       "$type": "color",
       "$description": "Default hyperlink color. Used for all <a> elements and interactive text.",
       "$extensions": {
@@ -94,7 +94,7 @@
       }
     },
     "link-hover-color": {
-      "$value": "{colors.brand.blue.300}",
+      "$value": "{color.blue.300}",
       "$type": "color",
       "$description": "Hyperlink hover color. Applied when user hovers over a link.",
       "$extensions": {
@@ -104,7 +104,7 @@
       }
     },
     "border-color": {
-      "$value": "{colors.neutral.gray.700}",
+      "$value": "{neutral.gray.700}",
       "$type": "color",
       "$description": "Default border color for component borders, dividers, and rules.",
       "$extensions": {
@@ -114,7 +114,7 @@
       }
     },
     "primary-text-emphasis": {
-      "$value": "{colors.brand.blue.300}",
+      "$value": "{color.blue.300}",
       "$type": "color",
       "$description": "Primary text emphasis color - higher contrast text on light backgrounds.",
       "$extensions": {
@@ -124,7 +124,7 @@
       }
     },
     "primary-bg-subtle": {
-      "$value": "{colors.brand.blue.900}",
+      "$value": "{color.blue.900}",
       "$type": "color",
       "$description": "Primary subtle background color for non-intrusive backgrounds.",
       "$extensions": {
@@ -134,7 +134,7 @@
       }
     },
     "primary-border-subtle": {
-      "$value": "{colors.brand.blue.700}",
+      "$value": "{color.blue.700}",
       "$type": "color",
       "$description": "Primary subtle border color for gentle borders matching primary theme.",
       "$extensions": {
@@ -144,7 +144,7 @@
       }
     },
     "secondary-text-emphasis": {
-      "$value": "{colors.neutral.gray.300}",
+      "$value": "{neutral.gray.300}",
       "$type": "color",
       "$description": "Secondary theme text emphasis color - higher contrast text on light backgrounds.",
       "$extensions": {
@@ -154,7 +154,7 @@
       }
     },
     "secondary-bg-subtle": {
-      "$value": "{colors.neutral.gray.900}",
+      "$value": "{neutral.gray.900}",
       "$type": "color",
       "$description": "Secondary theme subtle background color for non-intrusive backgrounds.",
       "$extensions": {
@@ -164,7 +164,7 @@
       }
     },
     "secondary-border-subtle": {
-      "$value": "{colors.neutral.gray.700}",
+      "$value": "{neutral.gray.700}",
       "$type": "color",
       "$description": "Secondary theme subtle border color for gentle borders matching secondary theme.",
       "$extensions": {
@@ -174,7 +174,7 @@
       }
     },
     "success-text-emphasis": {
-      "$value": "{colors.brand.green.300}",
+      "$value": "{color.green.300}",
       "$type": "color",
       "$description": "Success text emphasis color - higher contrast text on light backgrounds.",
       "$extensions": {
@@ -184,7 +184,7 @@
       }
     },
     "success-bg-subtle": {
-      "$value": "{colors.brand.green.900}",
+      "$value": "{color.green.900}",
       "$type": "color",
       "$description": "Success subtle background color for non-intrusive success states.",
       "$extensions": {
@@ -194,7 +194,7 @@
       }
     },
     "success-border-subtle": {
-      "$value": "{colors.brand.green.700}",
+      "$value": "{color.green.700}",
       "$type": "color",
       "$description": "Success subtle border color for gentle borders matching success theme.",
       "$extensions": {
@@ -204,7 +204,7 @@
       }
     },
     "danger-text-emphasis": {
-      "$value": "{colors.brand.red.300}",
+      "$value": "{color.red.300}",
       "$type": "color",
       "$description": "Danger text emphasis color - higher contrast text on light backgrounds.",
       "$extensions": {
@@ -214,7 +214,7 @@
       }
     },
     "danger-bg-subtle": {
-      "$value": "{colors.brand.red.900}",
+      "$value": "{color.red.900}",
       "$type": "color",
       "$description": "Danger subtle background color for non-intrusive error states.",
       "$extensions": {
@@ -224,7 +224,7 @@
       }
     },
     "danger-border-subtle": {
-      "$value": "{colors.brand.red.700}",
+      "$value": "{color.red.700}",
       "$type": "color",
       "$description": "Danger subtle border color for gentle borders matching danger theme.",
       "$extensions": {
@@ -234,7 +234,7 @@
       }
     },
     "warning-text-emphasis": {
-      "$value": "{colors.brand.yellow.300}",
+      "$value": "{color.yellow.300}",
       "$type": "color",
       "$description": "Warning text emphasis color - higher contrast text on light backgrounds.",
       "$extensions": {
@@ -244,7 +244,7 @@
       }
     },
     "warning-bg-subtle": {
-      "$value": "{colors.brand.yellow.900}",
+      "$value": "{color.yellow.900}",
       "$type": "color",
       "$description": "Warning subtle background color for non-intrusive warning states.",
       "$extensions": {
@@ -254,7 +254,7 @@
       }
     },
     "warning-border-subtle": {
-      "$value": "{colors.brand.yellow.700}",
+      "$value": "{color.yellow.700}",
       "$type": "color",
       "$description": "Warning subtle border color for gentle borders matching warning theme.",
       "$extensions": {
@@ -264,7 +264,7 @@
       }
     },
     "info-text-emphasis": {
-      "$value": "{colors.brand.cyan.300}",
+      "$value": "{color.cyan.300}",
       "$type": "color",
       "$description": "Info text emphasis color - higher contrast text on light backgrounds.",
       "$extensions": {
@@ -274,7 +274,7 @@
       }
     },
     "info-bg-subtle": {
-      "$value": "{colors.brand.cyan.900}",
+      "$value": "{color.cyan.900}",
       "$type": "color",
       "$description": "Info subtle background color for non-intrusive info states.",
       "$extensions": {
@@ -284,7 +284,7 @@
       }
     },
     "info-border-subtle": {
-      "$value": "{colors.brand.cyan.700}",
+      "$value": "{color.cyan.700}",
       "$type": "color",
       "$description": "Info subtle border color for gentle borders matching info theme.",
       "$extensions": {
@@ -294,7 +294,7 @@
       }
     },
     "light-text-emphasis": {
-      "$value": "{colors.neutral.gray.100}",
+      "$value": "{neutral.gray.100}",
       "$type": "color",
       "$description": "Light text emphasis color - provides contrast on light themed components.",
       "$extensions": {
@@ -304,7 +304,7 @@
       }
     },
     "light-bg-subtle": {
-      "$value": "{colors.neutral.gray.800}",
+      "$value": "{neutral.gray.800}",
       "$type": "color",
       "$description": "Light subtle background color for subtle backgrounds.",
       "$extensions": {
@@ -314,7 +314,7 @@
       }
     },
     "light-border-subtle": {
-      "$value": "{colors.neutral.gray.700}",
+      "$value": "{neutral.gray.700}",
       "$type": "color",
       "$description": "Light subtle border color for gentle borders matching light theme.",
       "$extensions": {
@@ -324,7 +324,7 @@
       }
     },
     "dark-text-emphasis": {
-      "$value": "{colors.neutral.gray.300}",
+      "$value": "{neutral.gray.300}",
       "$type": "color",
       "$description": "Dark text emphasis color - highest contrast text on light backgrounds.",
       "$extensions": {
@@ -334,7 +334,7 @@
       }
     },
     "dark-bg-subtle": {
-      "$value": "{colors.neutral.gray.700}",
+      "$value": "{neutral.gray.700}",
       "$type": "color",
       "$description": "Dark subtle background color for darker backgrounds.",
       "$extensions": {
@@ -344,12 +344,170 @@
       }
     },
     "dark-border-subtle": {
-      "$value": "{colors.neutral.gray.800}",
+      "$value": "{neutral.gray.800}",
       "$type": "color",
       "$description": "Dark subtle border color for borders matching dark theme.",
       "$extensions": {
         "platform": {
           "scssVariableName": "$semantic-dark-border-subtle"
+        }
+      }
+    },
+    "primary": {
+      "$value": "{color.blue.500}",
+      "$type": "color",
+      "$description": "Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color",
+          "section": "Utilities",
+          "subsection": "Background - Primary"
+        },
+        "platform": {
+          "scssVariableName": "$theme-primary"
+        }
+      }
+    },
+    "info": {
+      "$value": "{color.cyan.500}",
+      "$type": "color",
+      "$description": "Info background color utility. Applies info color as background. Use for informational surfaces. Maps to Bootstrap's .bg-info utility class. Communicates helpful information.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$theme-info"
+        }
+      }
+    },
+    "body": {
+      "$value": "{neutral.gray.600}",
+      "$type": "color",
+      "$description": "Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$semantic-body-bg"
+        }
+      }
+    },
+    "success": {
+      "$value": "{color.green.500}",
+      "$type": "color",
+      "$description": "Success background color utility. Applies success color as background. Use for positive feedback surfaces. Maps to Bootstrap's .bg-success utility class. Indicates successful operations.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$theme-success"
+        }
+      }
+    },
+    "warning": {
+      "$value": "{color.yellow.500}",
+      "$type": "color",
+      "$description": "Warning background color utility. Applies warning color as background. Use for caution or important notice surfaces. Maps to Bootstrap's .bg-warning utility class. Requires careful contrast checking.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$theme-warning"
+        }
+      }
+    },
+    "secondary": {
+      "$value": "{color.gray.600}",
+      "$type": "color",
+      "$description": "Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$theme-secondary"
+        }
+      }
+    },
+    "danger": {
+      "$value": "{color.red.500}",
+      "$type": "color",
+      "$description": "Danger background color utility. Applies danger color as background. Use for error or destructive action surfaces. Maps to Bootstrap's .bg-danger utility class. Indicates errors or warnings.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$theme-danger"
+        }
+      }
+    },
+    "dark": {
+      "$value": "{color.gray.100}",
+      "$type": "color",
+      "$description": "Dark background color utility. Applies dark gray as background. Use for high-contrast surfaces and footers. Maps to Bootstrap's .bg-dark utility class. Requires light text for contrast.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$theme-dark"
+        }
+      }
+    },
+    "light": {
+      "$value": "{color.gray.100}",
+      "$type": "color",
+      "$description": "Light background color utility. Applies light gray as background. Use for subtle surfaces and page backgrounds. Maps to Bootstrap's .bg-light utility class. Requires dark text for contrast.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$theme-light"
+        }
+      }
+    },
+    "white": {
+      "$value": "{neutral.white}",
+      "$type": "color",
+      "$description": "White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$neutral-white"
+        }
+      }
+    },
+    "black": {
+      "$value": "{neutral.black}",
+      "$type": "color",
+      "$description": "Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$neutral-black"
+        }
+      }
+    },
+    "transparent": {
+      "$value": "#000000",
+      "$type": "color",
+      "$description": "Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class.",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/background/#background-color"
+        },
+        "platform": {
+          "scssVariableName": "$background-transparent"
         }
       }
     }

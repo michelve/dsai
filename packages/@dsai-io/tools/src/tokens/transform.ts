@@ -11,6 +11,8 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, dirname, extname, join } from 'node:path';
 
+import { validateFigmaExport } from './schemas/index.js';
+
 import type {
   DTCGToken,
   FigmaExport,
@@ -89,12 +91,17 @@ function isSafeKey(key: string): boolean {
  * Safe nested property access for objects with index signatures
  */
 function getNestedValue(obj: unknown, ...keys: string[]): unknown {
+  const hasOwn = Object.prototype.hasOwnProperty;
   let current: unknown = obj;
   for (const key of keys) {
     if (current === null || current === undefined || typeof current !== 'object') {
       return undefined;
     }
     if (!isSafeKey(key)) {
+      return undefined;
+    }
+    // Only access own properties to prevent prototype pollution
+    if (!hasOwn.call(current, key)) {
       return undefined;
     }
     current = (current as Record<string, unknown>)[key];
@@ -117,6 +124,11 @@ function shouldKeepUnitless(_type: string, scopes: string[] = [], tokenPath = ''
 
   // Line heights should be unitless for proper inheritance (1, 1.5, 2, etc.)
   if (scopes.includes('LINE_HEIGHT')) {
+    return true;
+  }
+
+  // Opacity values must be unitless decimals (0, 0.5, 1, etc.)
+  if (scopes.includes('OPACITY')) {
     return true;
   }
 
@@ -163,7 +175,17 @@ export function transformValue(
     return `${fontName}, ${stack}`;
   }
 
-  // Handle line-height: keep as unitless number (CSS best practice)
+  // Handle opacity: convert percentage (0-100) to decimal (0-1)
+  if (typeof value === 'number' && options.scopes?.includes('OPACITY')) {
+    // If value is > 1, it's a percentage that needs conversion
+    if (value > 1) {
+      return value / 100;
+    }
+    // Value is already a decimal (0-1)
+    return value;
+  }
+
+  // Handle line-height and font-weight: keep as unitless number (CSS best practice)
   if (
     typeof value === 'number' &&
     shouldKeepUnitless(type ?? '', options.scopes, options.tokenPath)
@@ -190,19 +212,33 @@ export function transformValue(
 
 /**
  * Transform type from Figma to DTCG standard
+ * @param figmaType - The original Figma type
+ * @param scopes - Token scopes to determine type-specific handling
  */
-export function transformType(figmaType: string | undefined): TokenType | undefined {
+export function transformType(
+  figmaType: string | undefined,
+  scopes: string[] = []
+): TokenType | undefined {
   if (!figmaType) {
     return undefined;
   }
 
-  const typeMap: Record<string, TokenType> = {
-    number: 'dimension',
-    string: 'fontFamily',
-    color: 'color',
-  };
+  // Keep 'number' type for unitless values (opacity, font-weight, line-height)
+  if (figmaType === 'number') {
+    const unitlessScopes = ['OPACITY', 'FONT_WEIGHT', 'LINE_HEIGHT'];
+    if (scopes.some((scope) => unitlessScopes.includes(scope))) {
+      return 'number' as TokenType;
+    }
+    // Default: convert number to dimension
+    return 'dimension';
+  }
 
-  return typeMap[figmaType] ?? (figmaType as TokenType);
+  const typeMap = new Map<string, TokenType>([
+    ['string', 'fontFamily'],
+    ['color', 'color'],
+  ]);
+
+  return typeMap.get(figmaType) ?? (figmaType as TokenType);
 }
 
 /**
@@ -217,20 +253,24 @@ export function transformToken(
   }
 
   const tokenObj = figmaToken as Record<string, unknown>;
+  const hasOwn = Object.prototype.hasOwnProperty;
 
   // Skip if this is not a leaf token (no $value property)
-  if (!Object.hasOwn(tokenObj, '$value')) {
+  if (!hasOwn.call(tokenObj, '$value')) {
     return null;
   }
+
+  // Extract scopes for type-specific handling
+  const scopes = (tokenObj['$scopes'] as string[] | undefined) ?? [];
 
   // Pass scopes to transformValue for type-specific handling
   const transformOptions: TokenTransformOptions = {
     ...options,
-    scopes: (tokenObj['$scopes'] as string[] | undefined) ?? [],
+    scopes,
   };
 
   const rawType = tokenObj['$type'] as string | undefined;
-  const transformedType = transformType(rawType);
+  const transformedType = transformType(rawType, scopes);
 
   // DTCG Format: Keep $ prefix for all properties
   const token: DTCGToken = {
@@ -260,6 +300,7 @@ export function transformTokenTree(
   options: Record<string, TokenTransformOptions> = {}
 ): Record<string, unknown> {
   const result: Record<string, unknown> = {};
+  const optionsMap = new Map(Object.entries(options));
 
   if (obj === null || typeof obj !== 'object' || Array.isArray(obj)) {
     return result;
@@ -270,23 +311,34 @@ export function transformTokenTree(
     const currentPath = parentKey ? `${parentKey}.${key}` : key;
 
     // Try to transform as a token
+    const keyOptions = optionsMap.get(key);
     const tokenOptions: TokenTransformOptions = {
-      ...(options[key] ?? {}),
+      ...(keyOptions ?? {}),
       tokenPath: currentPath,
     };
     const transformed = transformToken(value, tokenOptions);
 
     if (transformed) {
-      result[key] = transformed;
+      Object.defineProperty(result, key, {
+        value: transformed,
+        writable: true,
+        enumerable: true,
+        configurable: true,
+      });
     } else if (typeof value === 'object' && value !== null) {
       // Recursively process nested objects
       const nested = transformTokenTree(
         value,
         currentPath,
-        (options[key] as Record<string, TokenTransformOptions>) ?? {}
+        (keyOptions as Record<string, TokenTransformOptions>) ?? {}
       );
       if (Object.keys(nested).length > 0) {
-        result[key] = nested;
+        Object.defineProperty(result, key, {
+          value: nested,
+          writable: true,
+          enumerable: true,
+          configurable: true,
+        });
       }
     }
   }
@@ -311,22 +363,6 @@ function extractBrandColors(data: FigmaExport, mode = 'Light'): Record<string, u
 
   return {
     color: transformTokenTree(brandData),
-  };
-}
-
-/**
- * Extract theme colors from foundation collection
- */
-function extractThemeColors(data: FigmaExport, mode = 'Light'): Record<string, unknown> {
-  const themeData = getNestedValue(data, 'Foundation', 'modes', mode, 'colors', 'theme');
-
-  if (!themeData) {
-    console.warn(`No theme colors found in ${mode} mode`);
-    return {};
-  }
-
-  return {
-    theme: transformTokenTree(themeData),
   };
 }
 
@@ -363,22 +399,6 @@ function extractNeutralColors(data: FigmaExport, mode = 'Light'): Record<string,
 }
 
 /**
- * Extract background colors
- */
-function extractBackgroundColors(data: FigmaExport, mode = 'Light'): Record<string, unknown> {
-  const background = getNestedValue(data, 'Foundation', 'modes', mode, 'colors', 'background');
-
-  if (!background) {
-    console.warn(`No background colors found in ${mode} mode`);
-    return {};
-  }
-
-  return {
-    background: transformTokenTree(background),
-  };
-}
-
-/**
  * Extract opacity scale
  */
 function extractOpacityColors(data: FigmaExport, mode = 'Light'): Record<string, unknown> {
@@ -391,42 +411,6 @@ function extractOpacityColors(data: FigmaExport, mode = 'Light'): Record<string,
 
   return {
     opacity: transformTokenTree(opacity),
-  };
-}
-
-/**
- * Extract border colors
- */
-function extractBorderColors(data: FigmaExport, mode = 'Light'): Record<string, unknown> {
-  const borderColor = getNestedValue(data, 'Foundation', 'modes', mode, 'borders', 'color');
-
-  if (!borderColor) {
-    console.warn(`No border color tokens found in ${mode} mode`);
-    return {};
-  }
-
-  return {
-    border: {
-      color: transformTokenTree(borderColor),
-    },
-  };
-}
-
-/**
- * Extract border widths
- */
-function extractBorderWidths(data: FigmaExport, mode = 'Light'): Record<string, unknown> {
-  const borderWidth = getNestedValue(data, 'Foundation', 'modes', mode, 'borders', 'width');
-
-  if (!borderWidth) {
-    console.warn(`No border width tokens found in ${mode} mode`);
-    return {};
-  }
-
-  return {
-    border: {
-      width: transformTokenTree(borderWidth),
-    },
   };
 }
 
@@ -444,26 +428,27 @@ function extractTypography(data: FigmaExport): Record<string, unknown> {
   }
 
   // Special handling for font families - use font stacks from extensions
-  const options: Record<string, TokenTransformOptions> = {};
-  const fontFamily = base['fontFamily'] as Record<string, Record<string, unknown>> | undefined;
+  const optionsMap = new Map<string, TokenTransformOptions>();
+  const fontFamily = Reflect.get(base, 'fontFamily') as
+    | Record<string, Record<string, unknown>>
+    | undefined;
   if (fontFamily) {
     for (const key of Object.keys(fontFamily)) {
-      const fontToken = fontFamily[key];
+      const fontToken = Reflect.get(fontFamily, key) as Record<string, unknown> | undefined;
       const extensions = fontToken?.['$extensions'] as
         | Record<string, Record<string, string>>
         | undefined;
       const fontStack = extensions?.['platform']?.['fontStack'];
       if (fontStack) {
-        options[key] = { fontStack };
+        optionsMap.set(key, { fontStack });
       }
     }
   }
 
   return {
-    typography: transformTokenTree(base, '', { fontFamily: options } as Record<
-      string,
-      TokenTransformOptions
-    >),
+    typography: transformTokenTree(base, '', {
+      fontFamily: Object.fromEntries(optionsMap),
+    } as Record<string, TokenTransformOptions>),
   };
 }
 
@@ -506,6 +491,47 @@ function extractRadius(data: FigmaExport): Record<string, unknown> {
   return {
     border: {
       radius: transformTokenTree(base, '', options),
+    },
+  };
+}
+
+/**
+ * Extract border widths from border.json file
+ * Structure: Border.modes.Base.[0-5] → border.width.[0-5]
+ */
+function extractBorderWidthsFromBorder(data: FigmaExport): Record<string, unknown> {
+  const base = getNestedValue(data, 'Border', 'modes', 'Base');
+
+  if (!base) {
+    console.warn('No border width tokens found in border.json');
+    return {};
+  }
+
+  // Transform numeric keys to proper width tokens
+  // The tokens are numbers (0-5) representing pixel values
+  const transformedWidths = new Map<string, DTCGToken>();
+  for (const [key, value] of Object.entries(base as Record<string, unknown>)) {
+    if (typeof value === 'object' && value !== null) {
+      const token = value as Record<string, unknown>;
+      const numValue = token['$value'];
+
+      // Convert to dimension type with px unit for border widths
+      transformedWidths.set(key, {
+        $value: typeof numValue === 'number' ? `${numValue}px` : String(numValue),
+        $type: 'dimension',
+        $description: `Border width ${key} (${numValue}px). Bootstrap's $border-width-${key} variable.`,
+        $extensions: {
+          platform: {
+            scssVariableName: `$border-width-${key}`,
+          },
+        },
+      });
+    }
+  }
+
+  return {
+    border: {
+      width: Object.fromEntries(transformedWidths),
     },
   };
 }
@@ -587,7 +613,7 @@ function extractShadows(data: FigmaExport): Record<string, unknown> {
     return {};
   }
 
-  const result: { shadow: Record<string, DTCGToken> } = { shadow: {} };
+  const shadowMap = new Map<string, DTCGToken>();
 
   for (const [key, value] of Object.entries(base)) {
     const composite = value?.['composite'] as Record<string, unknown> | undefined;
@@ -605,11 +631,11 @@ function extractShadows(data: FigmaExport): Record<string, unknown> {
         token.$extensions = composite['$extensions'] as Record<string, unknown>;
       }
 
-      result.shadow[key] = token;
+      shadowMap.set(key, token);
     }
   }
 
-  return result;
+  return { shadow: Object.fromEntries(shadowMap) };
 }
 
 // ============================================================================
@@ -626,12 +652,12 @@ const DEFAULT_COLLECTIONS: CollectionsConfig = {
     outputs: [
       { file: 'collections/color/primitive.json', extractor: extractBrandColors },
       { file: 'collections/color/neutral.json', extractor: extractNeutralColors },
-      { file: 'collections/color/background.json', extractor: extractBackgroundColors },
       { file: 'collections/color/opacity.json', extractor: extractOpacityColors },
-      { file: 'collections/color/semantic.json', extractor: extractThemeColors },
       { file: 'collections/color/component.json', extractor: extractSemanticColors },
-      { file: 'collections/border/color.json', extractor: extractBorderColors },
-      { file: 'collections/border/width.json', extractor: extractBorderWidths },
+      // Note: These paths don't exist in current Figma exports:
+      // - colors.theme (extractThemeColors) - use semantic tokens instead
+      // - colors.background (extractBackgroundColors) - backgrounds are in semantic
+      // - borders.color (extractBorderColors) - border colors are in semantic.border-color
     ],
   },
   typography: {
@@ -648,6 +674,11 @@ const DEFAULT_COLLECTIONS: CollectionsConfig = {
     input: 'radius.json',
     modeAware: false,
     outputs: [{ file: 'collections/border/radius.json', extractor: extractRadius }],
+  },
+  border: {
+    input: 'border.json',
+    modeAware: false,
+    outputs: [{ file: 'collections/border/width.json', extractor: extractBorderWidthsFromBorder }],
   },
   layout: {
     input: 'layout.json',
@@ -785,7 +816,7 @@ export function transformTokens(options: TransformOptions): TransformResult {
   }
 
   // Detect modes from theme.json
-  const detectedModes: Record<string, string[]> = {};
+  const detectedModesMap = new Map<string, string[]>();
   const themeFile = join(sourceDir, 'theme.json');
   if (existsSync(themeFile)) {
     try {
@@ -799,7 +830,7 @@ export function transformTokens(options: TransformOptions): TransformResult {
           const collectionPath = name.charAt(0).toUpperCase() + name.slice(1);
           const modes = detectModes(themeData, collectionPath);
           if (modes.length > 0) {
-            detectedModes[collectionPath] = modes;
+            detectedModesMap.set(collectionPath, modes);
             for (const mode of modes) {
               allModesDetected.add(mode);
             }
@@ -834,6 +865,19 @@ export function transformTokens(options: TransformOptions): TransformResult {
     try {
       const content = readFileSync(inputPath, 'utf-8');
       data = JSON.parse(content) as FigmaExport;
+
+      // Validate schema if strict mode is enabled
+      if (options.strict) {
+        const validation = validateFigmaExport(data);
+        if (!validation.valid) {
+          const errorMessages = validation.errors?.map((e) => `${e.path}: ${e.message}`) || [];
+          errors.push(`Schema validation failed for ${inputPath}:\n${errorMessages.join('\n')}`);
+          continue;
+        }
+        if (verbose) {
+          console.info(`   ✓ Schema validation passed`);
+        }
+      }
     } catch (error) {
       errors.push(
         `Failed to read ${inputPath}: ${error instanceof Error ? error.message : 'Unknown error'}`
@@ -845,8 +889,9 @@ export function transformTokens(options: TransformOptions): TransformResult {
     let modesToProcess = [defaultMode];
     if (typedConfig.modeAware) {
       const collectionPath = collectionName.charAt(0).toUpperCase() + collectionName.slice(1);
-      if (detectedModes[collectionPath]) {
-        modesToProcess = detectedModes[collectionPath].filter((m) => !ignoreModes.includes(m));
+      const detectedForCollection = detectedModesMap.get(collectionPath);
+      if (detectedForCollection) {
+        modesToProcess = detectedForCollection.filter((m) => !ignoreModes.includes(m));
       } else {
         const modes = detectModes(data, collectionPath);
         if (modes.length > 1 || !modes.includes('Base')) {

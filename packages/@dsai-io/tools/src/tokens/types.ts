@@ -223,6 +223,18 @@ export interface TransformOptions {
 
   /** Enable verbose output */
   verbose?: boolean;
+
+  /** Enable strict schema validation */
+  strict?: boolean;
+
+  /** Enable incremental build (only process changed files) */
+  incremental?: boolean;
+
+  /** Force full rebuild (ignore cache) */
+  force?: boolean;
+
+  /** Cache directory for incremental builds */
+  cacheDir?: string;
 }
 
 /**
@@ -288,6 +300,9 @@ export interface BuildOptions {
   /** Only build theme CSS */
   onlyTheme?: boolean;
 
+  /** Source directory for Figma exports */
+  sourceDir?: string;
+
   /** Enable watch mode */
   watch?: boolean;
 
@@ -300,8 +315,23 @@ export interface BuildOptions {
   /** Suppress output */
   quiet?: boolean;
 
+  /** Enable strict schema validation */
+  strict?: boolean;
+
+  /** Enable incremental build (only process changed files) */
+  incremental?: boolean;
+
+  /** Force full rebuild (ignore cache) */
+  force?: boolean;
+
+  /** Cache directory for incremental builds */
+  cacheDir?: string;
+
   /** Output directory for all formats */
   outputDir?: string;
+
+  /** Output formats to generate (default: ['css', 'scss', 'json']) */
+  formats?: Array<'css' | 'scss' | 'js' | 'ts' | 'json' | 'android' | 'ios'>;
 
   /** Per-format output directories */
   outputDirs?: Partial<Record<string, string>>;
@@ -356,6 +386,51 @@ export interface BuildOptions {
     /** Style Dictionary config file name */
     styleDictionaryConfig?: string;
   };
+
+  /**
+   * Themes configuration for multi-theme builds.
+   * When provided with enabled: true, the 'multi-theme' step will
+   * use config-driven theme definitions instead of hardcoded themes.
+   */
+  themesConfig?: {
+    /** Whether theme building is enabled */
+    enabled?: boolean;
+    /** Theme definitions by name */
+    definitions?: Record<
+      string,
+      {
+        isDefault?: boolean;
+        suffix?: string | null;
+        selector: string;
+        mediaQuery?: string;
+        dataAttribute?: string;
+        outputFiles?: Partial<Record<string, string>>;
+      }
+    >;
+  };
+
+  /**
+   * Post-process configuration for CSS files
+   */
+  postprocessConfig?: {
+    /** Whether postprocessing is enabled */
+    enabled?: boolean;
+    /** CSS output directory */
+    cssDir?: string;
+    /** CSS files to process */
+    files?: string[];
+    /** Text replacements to apply */
+    replacements?: Array<{
+      description?: string;
+      from: string | RegExp;
+      to: string;
+    }>;
+  };
+
+  /**
+   * CSS output directory (from SCSS config)
+   */
+  cssOutputDir?: string;
 }
 
 /**

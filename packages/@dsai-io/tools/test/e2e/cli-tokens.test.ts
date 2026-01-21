@@ -139,9 +139,7 @@ describe('CLI Help Output', () => {
 
     // Fail if output is empty - CLI should always produce output when built
     if (!output.trim()) {
-      throw new Error(
-        "CLI returned empty output. Run 'pnpm nx run @dsai-io/tools:build' first."
-      );
+      throw new Error("CLI returned empty output. Run 'pnpm nx run @dsai-io/tools:build' first.");
     }
 
     // Help text should include command description
@@ -162,9 +160,7 @@ describe('CLI Help Output', () => {
 
     // Fail if output is empty - CLI should always produce output when built
     if (!output.trim()) {
-      throw new Error(
-        "CLI returned empty output. Run 'pnpm nx run @dsai-io/tools:build' first."
-      );
+      throw new Error("CLI returned empty output. Run 'pnpm nx run @dsai-io/tools:build' first.");
     }
 
     expect(output).toMatch(/validate/i);

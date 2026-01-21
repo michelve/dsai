@@ -209,7 +209,7 @@ describe('Default Configurations', () => {
 
     it('should have default themes config', () => {
       expect(defaultTokensConfig.themes).toBeDefined();
-      expect(defaultTokensConfig.themes.default).toBe('Light');
+      expect(defaultTokensConfig.themes.default).toBe('light');
     });
 
     it('should have valid baseFontSize', () => {
@@ -254,7 +254,7 @@ describe('Default Configurations', () => {
     });
 
     it('should default to Light theme', () => {
-      expect(defaultThemesConfig.default).toBe('Light');
+      expect(defaultThemesConfig.default).toBe('light');
     });
 
     it('should have empty ignoreModes', () => {

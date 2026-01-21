@@ -230,7 +230,7 @@ describe('resolveConfig', () => {
       const result = resolveConfig();
 
       expect(result.tokens.themes).toBeDefined();
-      expect(result.tokens.themes.default).toBe('Light');
+      expect(result.tokens.themes.default).toBe('light');
       expect(result.tokens.themes.autoDetect).toBe(true);
     });
 

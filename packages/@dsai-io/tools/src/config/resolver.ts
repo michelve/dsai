@@ -13,6 +13,8 @@ import {
   defaultConfig,
   defaultGlobalConfig,
   defaultIconsConfig,
+  defaultOutputFileNames,
+  defaultThemeDefinitions,
   defaultThemesConfig,
   defaultTokensConfig,
 } from './defaults.js';
@@ -21,11 +23,14 @@ import type {
   DsaiConfig,
   GlobalConfig,
   IconsConfig,
+  OutputFormat,
   ResolvedConfig,
   ResolvedGlobalConfig,
   ResolvedIconsConfig,
+  ResolvedThemeDefinition,
   ResolvedThemesConfig,
   ResolvedTokensConfig,
+  ThemeDefinition,
   ThemesConfig,
   TokensConfig,
 } from './types.js';
@@ -70,19 +75,101 @@ function resolveGlobalConfig(
 }
 
 /**
+ * Resolve a single theme definition
+ */
+function resolveThemeDefinition(
+  themeName: string,
+  definition: ThemeDefinition | undefined,
+  selectorPattern: { default: string; others: string },
+  _outputFileNames: Record<OutputFormat, string>,
+  isDefaultTheme: boolean
+): ResolvedThemeDefinition {
+  // Generate default output files based on theme name
+  const generateOutputFiles = (): Record<OutputFormat, string> => {
+    const suffix = isDefaultTheme ? '' : `-${themeName}`;
+    return {
+      css: `tokens${suffix}.css`,
+      scss: `_tokens${suffix}.scss`,
+      js: `tokens${suffix}.js`,
+      ts: `tokens${suffix}.ts`,
+      json: `tokens${suffix}.json`,
+      android: `tokens${suffix}.xml`,
+      ios: `tokens${suffix}.h`,
+    };
+  };
+
+  // Generate default selector based on pattern
+  const generateSelector = (): string => {
+    if (isDefaultTheme) {
+      return selectorPattern.default;
+    }
+    return selectorPattern.others.replace('{mode}', themeName);
+  };
+
+  const defaultOutputFiles = generateOutputFiles();
+
+  return {
+    isDefault: definition?.isDefault ?? isDefaultTheme,
+    suffix: definition?.suffix ?? (isDefaultTheme ? null : `-${themeName}`),
+    selector: definition?.selector ?? generateSelector(),
+    mediaQuery: definition?.mediaQuery,
+    dataAttribute: definition?.dataAttribute,
+    outputFiles: {
+      ...defaultOutputFiles,
+      ...definition?.outputFiles,
+    },
+  };
+}
+
+/**
  * Resolve themes configuration section
  */
 function resolveThemesConfig(config: ThemesConfig | undefined): ResolvedThemesConfig {
   const base = defaultThemesConfig;
 
+  const selectorPattern = {
+    default: config?.selectorPattern?.default ?? base.selectorPattern.default,
+    others: config?.selectorPattern?.others ?? base.selectorPattern.others,
+  };
+
+  // Determine the default theme name
+  const defaultThemeName = config?.default?.toLowerCase() ?? base.default;
+
+  // Resolve definitions
+  let definitions: Record<string, ResolvedThemeDefinition>;
+
+  if (config?.definitions && Object.keys(config.definitions).length > 0) {
+    // User provided explicit definitions
+    definitions = {};
+    for (const [themeName, definition] of Object.entries(config.definitions)) {
+      const normalizedName = themeName.toLowerCase();
+      const isDefaultTheme = definition.isDefault ?? normalizedName === defaultThemeName;
+      const resolvedDef = resolveThemeDefinition(
+        normalizedName,
+        definition,
+        selectorPattern,
+        defaultOutputFileNames,
+        isDefaultTheme
+      );
+      Object.defineProperty(definitions, normalizedName, {
+        value: resolvedDef,
+        writable: true,
+        enumerable: true,
+        configurable: true,
+      });
+    }
+  } else {
+    // Use default definitions (light & dark)
+    definitions = { ...defaultThemeDefinitions };
+  }
+
   return {
+    enabled: config?.enabled ?? base.enabled,
     autoDetect: config?.autoDetect ?? base.autoDetect,
-    default: config?.default ?? base.default,
+    default: defaultThemeName,
     ignoreModes: config?.ignoreModes ?? [...base.ignoreModes],
-    selectorPattern: {
-      default: config?.selectorPattern?.default ?? base.selectorPattern.default,
-      others: config?.selectorPattern?.others ?? base.selectorPattern.others,
-    },
+    selectorPattern,
+    definitions,
   };
 }
 
@@ -177,6 +264,8 @@ function resolveTokensConfig(
     watch: config?.watch ?? base.watch,
     watchDirectories,
     pipeline: config?.pipeline,
+    scss: config?.scss,
+    postprocess: config?.postprocess,
   };
 }
 

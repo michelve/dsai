@@ -7,6 +7,7 @@ export default defineConfig({
     'tokens/index': 'src/tokens/index.ts',
     'icons/index': 'src/icons/index.ts',
     'cli/index': 'src/cli/index.ts',
+    'utils/circuit-breaker': 'src/utils/circuit-breaker.ts',
   },
   format: ['esm', 'cjs'],
   dts: {

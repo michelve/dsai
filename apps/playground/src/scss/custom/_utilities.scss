@@ -1,0 +1,172 @@
+/**
+ * Custom Utility Classes
+ *
+ * App-specific utility classes that complement the DSAi design system.
+ * These follow the same naming conventions as Bootstrap utilities.
+ */
+
+@use 'variables' as vars;
+@use 'mixins' as mixins;
+
+// =============================================================================
+// Layout Utilities
+// =============================================================================
+
+/// Full viewport height minus header/footer
+.min-vh-content {
+  min-height: calc(100vh - #{vars.$app-header-height} - #{vars.$app-footer-height});
+}
+
+/// Sticky header positioning
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: vars.$app-z-sticky;
+}
+
+/// Sidebar container
+.sidebar {
+  width: vars.$app-sidebar-width;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+// =============================================================================
+// Visual Utilities
+// =============================================================================
+
+/// Glass effect background
+.bg-glass {
+  @include mixins.glass-effect;
+}
+
+/// Elevated card
+.card-elevated {
+  @include mixins.elevated-card;
+}
+
+/// Smooth shadow
+.shadow-smooth {
+  @include mixins.smooth-shadow;
+}
+
+// =============================================================================
+// Code Display Utilities
+// =============================================================================
+
+/// Code block wrapper
+.code-block {
+  @include mixins.code-block;
+}
+
+/// Inline code
+.code-inline {
+  font-family: 'Roboto Mono', 'Fira Code', monospace;
+  font-size: 0.875em;
+  background: var(--pg-color-neutral-100, #f3f4f6);
+  color: var(--pg-color-semantic-error, #dc2626);
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+
+  [data-dsai-theme='dark'] & {
+    background: var(--pg-color-neutral-800, #1f2937);
+    color: var(--pg-color-primary-400, #60a5fa);
+  }
+}
+
+// =============================================================================
+// Text Utilities
+// =============================================================================
+
+/// Single line truncation
+.text-truncate-1 {
+  @include mixins.truncate(1);
+}
+
+/// Two line truncation
+.text-truncate-2 {
+  @include mixins.truncate(2);
+}
+
+/// Three line truncation
+.text-truncate-3 {
+  @include mixins.truncate(3);
+}
+
+// =============================================================================
+// Animation Utilities
+// =============================================================================
+
+/// Fade in animation
+.animate-fade-in {
+  animation: fade-in vars.$app-transition-base ease-out;
+}
+
+/// Slide up animation
+.animate-slide-up {
+  animation: slide-up vars.$app-transition-base ease-out;
+}
+
+/// Scale in animation
+.animate-scale-in {
+  animation: scale-in vars.$app-transition-fast ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// =============================================================================
+// Interactive Utilities
+// =============================================================================
+
+/// Clickable element with visual feedback
+.clickable {
+  cursor: pointer;
+  transition: opacity vars.$app-transition-fast;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.6;
+  }
+}
+
+/// Disabled state
+.is-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}

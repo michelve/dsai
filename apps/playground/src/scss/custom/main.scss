@@ -1,0 +1,31 @@
+/**
+ * Playground Custom Styles Entry Point
+ *
+ * This is the main entry point for all custom styles in the playground app.
+ * Import this file in your main.tsx to include custom styles alongside
+ * the generated DSAi token styles.
+ *
+ * Structure:
+ *   src/scss/custom/
+ *   ├── _index.scss       <- Module index (for @use)
+ *   ├── _variables.scss   <- Custom SCSS variables
+ *   ├── _mixins.scss      <- Reusable mixins
+ *   ├── _utilities.scss   <- Utility classes
+ *   └── components/
+ *       ├── _index.scss   <- Component index
+ *       ├── _demo-card.scss
+ *       └── _feature-grid.scss
+ *
+ * Usage in main.tsx:
+ *   import './generated/dsai-theme-bs.css'; // Token styles
+ *   import './scss/custom/main.scss';       // Custom styles
+ *
+ * Or if you want to use SCSS module system:
+ *   @use 'custom' as custom;
+ */
+
+// Import all custom styles
+@use 'variables' as *;
+@use 'mixins' as *;
+@use 'utilities';
+@use 'components/index' as *;

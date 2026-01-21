@@ -74,6 +74,12 @@ export interface TokensBuildOptions extends GlobalOptions {
 
   /** Clean output directory before build */
   clean?: boolean;
+
+  /** Build only a specific theme (e.g., 'dark', 'pro') */
+  theme?: string;
+
+  /** List available themes from config */
+  listThemes?: boolean;
 }
 
 /**

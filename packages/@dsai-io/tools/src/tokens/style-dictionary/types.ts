@@ -258,6 +258,18 @@ export interface SDLogConfig {
 }
 
 /**
+ * Expand configuration for composite tokens
+ */
+export interface SDExpandConfig {
+  /** Optional type mapping for composite token properties */
+  typesMap?: Record<string, string | string[] | Record<string, string | string[]>>;
+  /** Include specific token types */
+  include?: string[] | ((token: SDToken, config: SDConfig) => boolean);
+  /** Exclude specific token types */
+  exclude?: string[] | ((token: SDToken, config: SDConfig) => boolean);
+}
+
+/**
  * Full Style Dictionary configuration
  */
 export interface SDConfig {
@@ -266,6 +278,9 @@ export interface SDConfig {
 
   /** Preprocessors to run on source tokens */
   preprocessors?: string[];
+
+  /** Configures whether and how composite tokens will be expanded */
+  expand?: boolean | SDExpandConfig | ((token: SDToken, config: SDConfig) => boolean);
 
   /** Source token file patterns */
   source?: string[];

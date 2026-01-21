@@ -143,6 +143,19 @@
         }
       }
     },
+    "11": {
+      "$value": "96px",
+      "$type": "dimension",
+      "$description": "Spacing scale 10 - 5X extra large spacing (160px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacer-10"
+        }
+      }
+    },
     "12": {
       "$value": "12px",
       "$type": "dimension",
@@ -153,6 +166,32 @@
         },
         "platform": {
           "scssVariableName": "$spacing-12"
+        }
+      }
+    },
+    "13": {
+      "$value": "144px",
+      "$type": "dimension",
+      "$description": "Spacing scale 10 - 5X extra large spacing (160px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacer-10"
+        }
+      }
+    },
+    "14": {
+      "$value": "160px",
+      "$type": "dimension",
+      "$description": "Spacing scale 10 - 5X extra large spacing (160px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacer-10"
         }
       }
     },
@@ -244,6 +283,19 @@
         },
         "platform": {
           "scssVariableName": "$spacing-56"
+        }
+      }
+    },
+    "1_5": {
+      "$value": "6px",
+      "$type": "dimension",
+      "$description": "Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px).",
+      "$extensions": {
+        "docs": {
+          "reference": "https://getbootstrap.com/docs/5.3/utilities/spacing/"
+        },
+        "platform": {
+          "scssVariableName": "$spacer-1"
         }
       }
     }

@@ -47,6 +47,18 @@ export type {
   TransformResult as TokenTransformResult,
 } from './types.js';
 
+// Mode extraction and preprocessing types
+export type {
+  ModeExtractionOptions,
+  ModeExtractionResult,
+} from './mode-extractor.js';
+
+export type {
+  PreprocessorConfig,
+  FilePreprocessingResult,
+  PreprocessingResult,
+} from './mode-preprocessor.js';
+
 // ============================================================================
 // Type Guards and Utility Functions
 // ============================================================================
@@ -73,6 +85,44 @@ export {
 // ============================================================================
 
 export { validateTokens, validateTokensCLI } from './validate.js';
+
+// ============================================================================
+// Schema Validation Module
+// ============================================================================
+
+export {
+  // DTCG schemas
+  dtcgFileSchema,
+  dtcgTokenCollectionSchema,
+  dtcgTokenSchema,
+  // Figma schemas
+  figmaExportSchema,
+  figmaExportWithMetadataSchema,
+  figmaVariablesResponseSchema,
+  // Style Dictionary schemas
+  styleDictionaryInputSchema,
+  styleDictionaryTokenSchema,
+  // Validation functions
+  validateDTCGFile,
+  validateDTCGTokens,
+  validateFigmaExport,
+  validateFigmaExportWithMetadata,
+  validateFigmaVariablesResponse,
+  validateStyleDictionaryInput,
+  validateStyleDictionaryTokens,
+} from './schemas/index.js';
+
+export type {
+  // Schema types
+  DTCGFile,
+  DTCGTokenCollection,
+  FigmaExportWithMetadata,
+  FigmaVariablesResponse,
+  // Validation types
+  ValidationError as SchemaValidationError,
+  ValidationOptions as SchemaValidationOptions,
+  ValidationResult as SchemaValidationResult,
+} from './schemas/index.js';
 
 // ============================================================================
 // Figma Validation Module
@@ -110,6 +160,63 @@ export { syncTokens, syncTokensCLI, getDefaultSyncPaths } from './sync.js';
 // ============================================================================
 
 export { buildTokens, buildTokensCLI, runBuildCLI } from './build.js';
+
+// ============================================================================
+// Theme Discovery Module
+// ============================================================================
+
+export {
+  discoverThemeFiles,
+  getThemeFiles,
+  autoDetectThemes,
+} from './theme-discovery.js';
+
+export type {
+  ThemeFilesResult,
+  DiscoveryResult,
+  DiscoveryOptions,
+} from './theme-discovery.js';
+
+// ============================================================================
+// Mode Extraction and Preprocessing Module
+// ============================================================================
+
+export {
+  extractMode,
+  extractModes,
+  detectModes,
+  flattenModeStructure,
+} from './mode-extractor.js';
+
+export {
+  preprocessFile,
+  preprocessTokenFiles,
+  getPreprocessedFilesForMode,
+} from './mode-preprocessor.js';
+
+// ============================================================================
+// Theme Builder Module
+// ============================================================================
+
+export {
+  buildTheme,
+  buildAllThemes,
+  generateThemeBuildConfig,
+  getCssFormat,
+  getThemeSelector,
+  validateThemeDefinitions,
+} from './theme-builder.js';
+
+export type {
+  ThemeBuildConfig,
+  ThemeBuildOptions,
+  ThemeBuildResult,
+  MultiThemeBuildOptions,
+  MultiThemeBuildResult,
+  ThemeStyleDictionaryConfig,
+  StyleDictionaryPlatformConfig,
+  StyleDictionaryFileConfig,
+} from './theme-builder.js';
 
 // ============================================================================
 // Clean Module
@@ -164,3 +271,40 @@ export * from './output/index.js';
 
 // Re-export all Style Dictionary types and utilities
 export * from './style-dictionary/index.js';
+
+// ============================================================================
+// Framework Mappers
+// ============================================================================
+
+// Re-export framework mapping utilities
+export * from './framework-mappers/index.js';
+
+// ============================================================================
+// Changelog Generation
+// ============================================================================
+
+export {
+  generateChangelog,
+  writeChangelog,
+  generateAndWriteChangelog,
+  generateChangelogCLI,
+} from './changelog.js';
+
+export type {
+  ChangelogOptions,
+  ChangelogResult,
+} from './changelog.js';
+
+export {
+  diffTokens,
+  summarizeDiff,
+  filterDiff,
+  getBreakingChanges,
+} from './diff.js';
+
+export type {
+  TokenChangeType,
+  TokenValueChange,
+  TokenChange,
+  TokenDiff,
+} from './diff.js';

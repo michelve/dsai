@@ -177,33 +177,58 @@ function validateCleanTarget(dirPath: string, baseDir: string): { valid: boolean
 }
 
 /**
- * Escape special regex characters in a string
- * @param str - String to escape
- * @returns Escaped string safe for regex
- */
-function escapeRegexChars(str: string): string {
-  // Escape all regex special chars except * and ? which we handle separately
-  return str.replace(/[.+^${}()|[\]\\]/g, '\\$&');
-}
-
-/**
- * Convert a simple glob pattern to a safe regex pattern
- * Only supports * (any chars) and ? (single char) wildcards
+ * Match a string against a glob pattern using dynamic programming
+ * Safely handles * (any chars) and ? (single char) without regex
  *
- * @param pattern - Glob pattern like "*.json" or "file?.txt"
- * @returns Safe regex pattern string
+ * @param str - String to match
+ * @param pattern - Glob pattern
+ * @returns Whether the string matches the pattern
  */
-function globToSafePattern(pattern: string): string {
-  // First escape any regex special characters (except our wildcards)
-  const escaped = escapeRegexChars(pattern);
-  // Then convert our wildcards to regex equivalents
-  // Use non-greedy matching to prevent catastrophic backtracking
-  return escaped.replace(/\*/g, '.*?').replace(/\?/g, '.');
+function matchGlobDP(str: string, pattern: string): boolean {
+  const m = str.length;
+  const n = pattern.length;
+
+  // Use a Map for type-safe access instead of 2D array
+  const dp = new Map<string, boolean>();
+  const key = (i: number, j: number): string => `${i},${j}`;
+  const get = (i: number, j: number): boolean => dp.get(key(i, j)) ?? false;
+  const set = (i: number, j: number, val: boolean): void => {
+    dp.set(key(i, j), val);
+  };
+
+  // Initialize all to false (Map returns undefined -> false via get helper)
+  // Empty pattern matches empty string
+  set(0, 0, true);
+
+  // Handle patterns starting with *
+  for (let j = 1; j <= n; j++) {
+    if (pattern[j - 1] === '*') {
+      set(0, j, get(0, j - 1));
+    }
+  }
+
+  // Fill the DP table
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      const pChar = pattern[j - 1];
+
+      if (pChar === '*') {
+        // * can match zero chars (dp[i][j-1]) or one+ chars (dp[i-1][j])
+        set(i, j, get(i, j - 1) || get(i - 1, j));
+      } else if (pChar === '?' || pChar === str[i - 1]) {
+        // ? matches any single char, or exact character match
+        set(i, j, get(i - 1, j - 1));
+      }
+      // else remains false (not set in Map)
+    }
+  }
+
+  return get(m, n);
 }
 
 /**
  * Match a filename against a glob pattern safely
- * Uses character-by-character matching for simple patterns to avoid ReDoS
+ * Uses optimized string methods for simple patterns, DP algorithm for complex ones
  *
  * @param fileName - Name of the file to match
  * @param pattern - Glob pattern (supports * and ? wildcards)
@@ -227,11 +252,8 @@ function matchGlobPattern(fileName: string, pattern: string): boolean {
     return fileName.startsWith(prefix);
   }
 
-  // For more complex patterns, use a safe regex with non-greedy matching
-  // nosemgrep: javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp
-  const safePattern = globToSafePattern(pattern);
-  const regex = new RegExp(`^${safePattern}$`);
-  return regex.test(fileName);
+  // For complex patterns, use safe DP-based glob matching (no regex)
+  return matchGlobDP(fileName, pattern);
 }
 
 /**

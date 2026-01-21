@@ -69,12 +69,15 @@ function createFormatArgs(
 
 describe('builtInFormats', () => {
   it('should include all standard formats', () => {
-    expect(builtInFormats).toHaveLength(3);
+    expect(builtInFormats).toHaveLength(7);
 
     const names = builtInFormats.map((f) => f.name);
     expect(names).toContain('css/variables-dark-mode');
     expect(names).toContain('css/variables-with-comments');
     expect(names).toContain('typescript/declarations');
+    expect(names).toContain('scss/framework-variables');
+    expect(names).toContain('scss/bootstrap-variables');
+    expect(names).toContain('scss/shadcn-variables');
   });
 });
 
@@ -301,10 +304,13 @@ describe('registerFormats', () => {
 
     registerFormats(mockSD);
 
-    expect(mockSD.registerFormat).toHaveBeenCalledTimes(3);
+    expect(mockSD.registerFormat).toHaveBeenCalledTimes(7);
     expect(registered).toContain('css/variables-dark-mode');
     expect(registered).toContain('css/variables-with-comments');
     expect(registered).toContain('typescript/declarations');
+    expect(registered).toContain('scss/framework-variables');
+    expect(registered).toContain('scss/bootstrap-variables');
+    expect(registered).toContain('scss/shadcn-variables');
   });
 
   it('should register custom formats', () => {
@@ -322,7 +328,7 @@ describe('registerFormats', () => {
 
     registerFormats(mockSD, [customFormat]);
 
-    expect(mockSD.registerFormat).toHaveBeenCalledTimes(4);
+    expect(mockSD.registerFormat).toHaveBeenCalledTimes(8);
     expect(mockSD.registerFormat).toHaveBeenCalledWith(
       expect.objectContaining({ name: 'custom/format' })
     );

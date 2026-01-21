@@ -133,7 +133,13 @@ if ! $JSON_MODE; then
     echo "🔧 Code Quality:"
 fi
 
-run_check "Lint passes" "cd '$REPO_ROOT' && pnpm nx lint @dsai-io/react --quiet" || true
+# Build lint command with optional --fix flag
+LINT_CMD="cd '$REPO_ROOT' && pnpm nx lint @dsai-io/react --quiet"
+if $FIX; then
+    LINT_CMD="cd '$REPO_ROOT' && pnpm nx lint @dsai-io/react --fix --quiet"
+fi
+
+run_check "Lint passes" "$LINT_CMD" || true
 
 # Test check
 if ! $JSON_MODE; then

@@ -83,6 +83,14 @@ export function createStyleDictionaryConfig(
       errors: 'error',
     },
     preprocessors: ['fix-references'],
+    expand: {
+      typesMap: {
+        sizing: 'dimension',
+        spacing: 'dimension',
+        borderRadius: 'dimension',
+        borderWidth: 'dimension',
+      },
+    },
     source,
     platforms: {},
   };
@@ -103,7 +111,10 @@ export function createStyleDictionaryConfig(
           format: 'css/variables-with-comments',
           options: {
             prefix,
-            outputReferences,
+            // For CSS, we need resolved values, not references
+            // CSS custom properties cannot reference other tokens using {token.path} syntax
+            // They need actual values or var(--other-token) syntax
+            outputReferences: false,
           },
         },
       ],
@@ -113,7 +124,7 @@ export function createStyleDictionaryConfig(
   // JavaScript Platform
   if (platforms.includes('js')) {
     platformConfigs['js'] = {
-      transformGroup: 'custom/js',
+      transformGroup: 'js-custom',
       buildPath: `${normalizedBuildPath}js/`,
       files: [
         {
@@ -133,7 +144,7 @@ export function createStyleDictionaryConfig(
   // TypeScript Platform
   if (platforms.includes('ts')) {
     platformConfigs['ts'] = {
-      transformGroup: 'custom/js',
+      transformGroup: 'js-custom',
       buildPath: `${normalizedBuildPath}ts/`,
       files: [
         {

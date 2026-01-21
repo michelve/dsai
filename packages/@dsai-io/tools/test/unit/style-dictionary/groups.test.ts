@@ -42,7 +42,7 @@ describe('transformGroups', () => {
 
     it('should include jsTransformGroup', () => {
       expect(jsTransformGroup).toBeDefined();
-      expect(jsTransformGroup.name).toBe('custom/js');
+      expect(jsTransformGroup.name).toBe('js-custom');
     });
 
     it('should include scssTransformGroup', () => {
@@ -68,7 +68,7 @@ describe('transformGroups', () => {
 
   describe('jsTransformGroup', () => {
     it('should have correct name', () => {
-      expect(jsTransformGroup.name).toBe('custom/js');
+      expect(jsTransformGroup.name).toBe('js-custom');
     });
 
     it('should have transforms array', () => {
@@ -115,7 +115,7 @@ describe('transformGroups', () => {
 
       expect(mockSD.registerTransformGroup).toHaveBeenCalledWith(
         expect.objectContaining({
-          name: 'custom/js',
+          name: 'js-custom',
         })
       );
     });

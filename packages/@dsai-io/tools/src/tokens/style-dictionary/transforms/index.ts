@@ -11,6 +11,7 @@ import { dimensionRem } from './dimension.js';
 import { fontWeightUnitless } from './font-weight.js';
 import { lineHeightUnitless } from './line-height.js';
 import { nameKebab } from './name.js';
+import { nameJsIdentifier } from './name-js-identifier.js';
 
 import type { StyleDictionaryInstance, TransformDefinition } from '../types.js';
 
@@ -22,6 +23,7 @@ export const builtInTransforms: TransformDefinition[] = [
   lineHeightUnitless,
   dimensionRem,
   nameKebab,
+  nameJsIdentifier,
 ];
 
 /**
@@ -59,3 +61,4 @@ export { fontWeightUnitless } from './font-weight.js';
 export { lineHeightUnitless } from './line-height.js';
 export { dimensionRem } from './dimension.js';
 export { nameKebab } from './name.js';
+export { nameJsIdentifier } from './name-js-identifier.js';

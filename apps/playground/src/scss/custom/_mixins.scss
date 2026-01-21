@@ -1,0 +1,137 @@
+/**
+ * Custom SCSS Mixins
+ *
+ * Reusable patterns and utilities specific to the playground app.
+ * These complement the DSAi design system mixins.
+ */
+
+@use 'variables' as vars;
+
+// =============================================================================
+// Layout Mixins
+// =============================================================================
+
+/// Full-height layout with fixed header/footer
+/// @param {Length} $header-height - Height of the header
+/// @param {Length} $footer-height - Height of the footer
+@mixin app-layout($header-height: vars.$app-header-height, $footer-height: vars.$app-footer-height) {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  > main {
+    flex: 1;
+    margin-top: $header-height;
+    margin-bottom: $footer-height;
+  }
+}
+
+/// Sidebar layout with fixed sidebar
+/// @param {Length} $sidebar-width - Width of the sidebar
+@mixin sidebar-layout($sidebar-width: vars.$app-sidebar-width) {
+  display: grid;
+  grid-template-columns: $sidebar-width 1fr;
+  min-height: 100vh;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// =============================================================================
+// Visual Effect Mixins
+// =============================================================================
+
+/// Glassmorphism effect
+/// @param {Color} $bg-color - Background color (should have alpha)
+/// @param {Length} $blur - Blur amount
+@mixin glass-effect($bg-color: rgba(255, 255, 255, 0.1), $blur: 10px) {
+  background: $bg-color;
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+}
+
+/// Smooth shadow that works well with dark/light themes
+@mixin smooth-shadow {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    0 4px 8px rgba(0, 0, 0, 0.05),
+    0 8px 16px rgba(0, 0, 0, 0.05);
+}
+
+/// Elevated card effect
+@mixin elevated-card {
+  background: var(--pg-color-background-surface, #fff);
+  border-radius: vars.$app-card-radius;
+  @include smooth-shadow;
+  transition: transform vars.$app-transition-base, box-shadow vars.$app-transition-base;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 4px 8px rgba(0, 0, 0, 0.08),
+      0 8px 16px rgba(0, 0, 0, 0.08),
+      0 16px 32px rgba(0, 0, 0, 0.08);
+  }
+}
+
+// =============================================================================
+// Interactive Mixins
+// =============================================================================
+
+/// Focus ring that respects reduced motion
+@mixin focus-ring($color: var(--pg-color-primary-500, #3b82f6), $offset: 2px) {
+  outline: 2px solid $color;
+  outline-offset: $offset;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+/// Accessible button reset
+@mixin button-reset {
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// =============================================================================
+// Typography Mixins
+// =============================================================================
+
+/// Truncate text with ellipsis
+/// @param {Number} $lines - Number of lines before truncation (1 for single line)
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/// Code block styling
+@mixin code-block {
+  font-family: 'Roboto Mono', 'Fira Code', monospace;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  background: vars.$app-code-bg;
+  color: vars.$app-code-text;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+}

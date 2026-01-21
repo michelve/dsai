@@ -168,6 +168,11 @@ export interface TokensConfig {
    */
   scssImportHeader?: string;
 
+  /**
+   * SCSS/CSS output style options
+   */
+  scss?: ScssOutputConfig;
+
   // --- Theme Configuration ---
 
   /** Theme mode settings */
@@ -258,6 +263,30 @@ export interface TokensConfig {
    * Controls which steps run and their paths
    */
   pipeline?: TokensBuildPipeline;
+
+  /**
+   * Postprocess configuration for CSS file transformations
+   * Applied after SASS compilation
+   */
+  postprocess?: PostprocessConfig;
+}
+
+/**
+ * Postprocess configuration for CSS file transformations
+ */
+export interface PostprocessConfig {
+  /** Whether postprocessing is enabled */
+  enabled?: boolean;
+  /** Directory containing CSS files to process */
+  cssDir?: string;
+  /** File names to process */
+  files?: string[];
+  /** Replacement rules to apply */
+  replacements?: Array<{
+    description?: string;
+    from: string | RegExp;
+    to: string;
+  }>;
 }
 
 /**
@@ -265,8 +294,11 @@ export interface TokensConfig {
  */
 export type BuildPipelineStep =
   | 'validate'
+  | 'snapshot'
+  | 'preprocess'
   | 'transform'
   | 'style-dictionary'
+  | 'multi-theme'
   | 'sync'
   | 'sass-theme'
   | 'sass-theme-minified'
@@ -348,19 +380,221 @@ export interface BuildSummary {
   };
 }
 
+// ============================================================================
+// SCSS Output Configuration
+// ============================================================================
+
+/**
+ * CSS/SCSS output style options
+ * Controls whether to generate expanded, compressed, or both formats
+ */
+export interface ScssOutputConfig {
+  /**
+   * Output format styles to generate
+   * - 'expanded': Human-readable, formatted CSS
+   * - 'compressed': Minified CSS for production
+   * @default ['expanded']
+   */
+  outputStyles?: ('expanded' | 'compressed')[];
+
+  /**
+   * Generate source maps for debugging
+   * @default false
+   */
+  generateSourceMaps?: boolean;
+
+  /**
+   * Suffix for minified/compressed output files
+   * @default '.min'
+   * @example '.min' produces 'theme.min.css' alongside 'theme.css'
+   */
+  minifiedSuffix?: string;
+
+  /**
+   * Entry SCSS file for theme compilation
+   * Relative to config file location
+   * @example 'src/scss/dsai-theme-bs.scss'
+   */
+  themeEntry?: string;
+
+  /**
+   * Entry SCSS file for utilities compilation
+   * Relative to config file location
+   * @example 'src/scss/dsai-utilities.scss'
+   */
+  utilitiesEntry?: string;
+
+  /**
+   * Output directory for compiled CSS files
+   * Relative to config file location
+   * @default 'src/generated'
+   */
+  cssOutputDir?: string;
+
+  /**
+   * Additional Sass load paths for @use and @import resolution
+   * @default ['node_modules']
+   */
+  loadPaths?: string[];
+
+  /**
+   * Target CSS framework for variable naming conventions
+   * Controls how token names are mapped to framework-specific names
+   * @default 'bootstrap'
+   */
+  framework?: FrameworkTarget;
+
+  /**
+   * Custom name mappings for token → framework variable names
+   * Merged with framework defaults (custom mappings take precedence)
+   * @example { 'typography-text-base': 'font-size-base', 'typography-heading-h1': 'h1-font-size' }
+   */
+  nameMapping?: Record<string, string>;
+
+  /**
+   * Output path for generated SCSS variables file
+   * Relative to config file location
+   * @default 'src/scss/_variables.scss'
+   */
+  variablesOutput?: string;
+}
+
+// ============================================================================
+// Framework Target Configuration
+// ============================================================================
+
+/**
+ * Supported CSS framework targets
+ * Each framework has its own naming conventions for variables
+ */
+export type FrameworkTarget =
+  | 'bootstrap' // Bootstrap 5.x naming ($primary, $font-size-base, etc.)
+  | 'shadcn' // shadcn/ui CSS variables (--primary, --radius, etc.)
+  | 'tailwind' // Tailwind CSS config format
+  | 'mui' // Material UI theme format
+  | 'custom'; // Custom naming via nameMapping only
+
+/**
+ * Framework mapping configuration
+ * Defines how Figma token names map to framework-specific variable names
+ */
+export interface FrameworkMappingConfig {
+  /**
+   * Framework identifier
+   */
+  framework: FrameworkTarget;
+
+  /**
+   * Token name → framework variable name mappings
+   * Keys are Figma/DTCG token names, values are framework variable names
+   */
+  mappings: Record<string, string>;
+
+  /**
+   * Pattern-based mappings using regex
+   * Applied after explicit mappings
+   * @example [{ pattern: /^typography-heading-(.+)$/, replacement: 'h$1-font-size' }]
+   */
+  patterns?: FrameworkMappingPattern[];
+
+  /**
+   * Variable prefix for this framework
+   * @example '$' for SCSS, '--' for CSS custom properties
+   */
+  variablePrefix?: string;
+
+  /**
+   * File header comment
+   */
+  header?: string;
+}
+
+/**
+ * Pattern-based name mapping rule
+ */
+export interface FrameworkMappingPattern {
+  /**
+   * Regex pattern to match token names
+   */
+  pattern: RegExp | string;
+
+  /**
+   * Replacement string (supports $1, $2, etc. for capture groups)
+   */
+  replacement: string;
+
+  /**
+   * Optional description for documentation
+   */
+  description?: string;
+}
+
+/**
+ * Individual theme definition
+ * Specifies how a theme is discovered and built
+ */
+export interface ThemeDefinition {
+  /**
+   * Whether this is the default theme (uses :root selector)
+   * Only one theme can be default
+   * @default false
+   */
+  isDefault?: boolean;
+
+  /**
+   * File suffix pattern for this theme
+   * null means files without any theme suffix (default theme)
+   * e.g., '-dark' matches files like 'foundation-dark.json'
+   * @default null for default theme, '-{themeName}' for others
+   */
+  suffix?: string | null;
+
+  /**
+   * CSS selector for this theme
+   * @example ':root' for default, '[data-dsai-theme="dark"]' for dark
+   */
+  selector: string;
+
+  /**
+   * Optional media query for automatic switching
+   * @example '(prefers-color-scheme: dark)'
+   */
+  mediaQuery?: string;
+
+  /**
+   * Optional data attribute (derived from selector if not specified)
+   */
+  dataAttribute?: string;
+
+  /**
+   * Custom output file names per format
+   * If not specified, uses default naming pattern with theme suffix
+   */
+  outputFiles?: Partial<Record<OutputFormat, string>>;
+}
+
 /**
  * Theme configuration
  */
 export interface ThemesConfig {
   /**
+   * Enable/disable theme processing
+   * @default true
+   */
+  enabled?: boolean;
+
+  /**
    * Auto-detect available modes from Figma export
+   * When true, scans for files with theme suffixes
+   * When false, only builds themes explicitly defined in definitions
    * @default true
    */
   autoDetect?: boolean;
 
   /**
    * Default theme mode (uses :root selector)
-   * @default 'Light'
+   * @default 'light'
+   * @deprecated Use definitions with isDefault: true instead
    */
   default?: string;
 
@@ -374,6 +608,13 @@ export interface ThemesConfig {
    * CSS selector patterns for themes
    */
   selectorPattern?: ThemeSelectorPattern;
+
+  /**
+   * Explicit theme definitions
+   * Key is theme name, value is theme configuration
+   * When specified, provides explicit control over theme builds
+   */
+  definitions?: Record<string, ThemeDefinition>;
 }
 
 /**
@@ -570,13 +811,39 @@ export interface IconsConfig {
 // ============================================================================
 
 /**
+ * Resolved theme definition with all required fields
+ */
+export interface ResolvedThemeDefinition {
+  /** Whether this is the default theme */
+  isDefault: boolean;
+  /** File suffix pattern (null for default theme) */
+  suffix: string | null;
+  /** CSS selector */
+  selector: string;
+  /** Optional media query */
+  mediaQuery?: string;
+  /** Optional data attribute */
+  dataAttribute?: string;
+  /** Output file names per format */
+  outputFiles: Record<OutputFormat, string>;
+}
+
+/**
  * Resolved themes config with all defaults applied
  */
 export interface ResolvedThemesConfig {
+  /** Whether themes are enabled */
+  enabled: boolean;
+  /** Auto-detect themes from files */
   autoDetect: boolean;
+  /** Default theme name (for backward compat) */
   default: string;
+  /** Modes to ignore */
   ignoreModes: string[];
+  /** Selector patterns */
   selectorPattern: Required<ThemeSelectorPattern>;
+  /** Resolved theme definitions */
+  definitions: Record<string, ResolvedThemeDefinition>;
 }
 
 /**
@@ -613,6 +880,19 @@ export interface ResolvedTokensConfig {
   watch: boolean;
   watchDirectories: string[];
   pipeline?: TokensBuildPipeline;
+  scss?: {
+    cssOutputDir?: string;
+  };
+  postprocess?: {
+    enabled?: boolean;
+    cssDir?: string;
+    files?: string[];
+    replacements?: Array<{
+      description?: string;
+      from: string | RegExp;
+      to: string;
+    }>;
+  };
 }
 
 /**

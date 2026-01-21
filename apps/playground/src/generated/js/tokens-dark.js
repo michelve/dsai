@@ -1,0 +1,628 @@
+/**
+ * tokens-dark.js
+ * Design Tokens - Generated
+ * DO NOT EDIT
+ */
+
+// Border radius: None - 0. No rounding, completely square corners. Equivalent to Bootstrap's 'rounded-0' utility class.
+export const BorderRadius_0 = "0";
+// Border radius: Default - 0.375rem (6px). The standard rounding used throughout Bootstrap for most components. Equivalent to Bootstrap's 'rounded' or 'rounded-2' utility classes and $border-radius variable.
+export const BorderRadiusDefault = "0.375rem";
+// Border radius: Small - 0.25rem (4px). Used for subtle rounding on small components. Equivalent to Bootstrap's 'rounded-1' utility class and $border-radius-sm variable.
+export const BorderRadiusSm = "0.25rem";
+// Border radius: Large - 0.5rem (8px). Used for larger, more prominent rounded corners. Equivalent to Bootstrap's 'rounded-3' utility class and $border-radius-lg variable.
+export const BorderRadiusLg = "0.5rem";
+// Border radius: Extra Large - 1rem (16px). Used for very prominent rounded corners on large components. Equivalent to Bootstrap's 'rounded-4' utility class and $border-radius-xl variable.
+export const BorderRadiusXl = "1rem";
+// Border radius: 2X Extra Large - 2rem (32px). Used for dramatically rounded corners creating a softer, more modern appearance. Equivalent to Bootstrap's 'rounded-5' utility class and $border-radius-xxl variable.
+export const BorderRadiusXxl = "2rem";
+// Border radius: Pill - 50rem (800px). Creates pill-shaped elements with fully rounded ends on rectangular shapes. Equivalent to Bootstrap's 'rounded-pill' utility class and $border-radius-pill variable.
+export const BorderRadiusPill = "624.9375rem";
+// Border radius: Circle - 50%. Creates perfectly circular shapes when applied to square elements. Equivalent to Bootstrap's 'rounded-circle' utility class. Note: This is a percentage value, not pixel-based.
+export const BorderRadiusCircle = "50%";
+// Border width 0 (0px). Bootstrap's $border-width-0 variable.
+export const BorderWidth_0 = "0";
+// Border width 1 (1px). Bootstrap's $border-width-1 variable.
+export const BorderWidth_1 = "0.0625rem";
+// Border width 2 (2px). Bootstrap's $border-width-2 variable.
+export const BorderWidth_2 = "0.125rem";
+// Border width 3 (3px). Bootstrap's $border-width-3 variable.
+export const BorderWidth_3 = "0.1875rem";
+// Border width 4 (4px). Bootstrap's $border-width-4 variable.
+export const BorderWidth_4 = "0.25rem";
+// Border width 5 (5px). Bootstrap's $border-width-5 variable.
+export const BorderWidth_5 = "0.3125rem";
+// Translucent border color that blends with backgrounds using rgba().
+export const SemanticBorderColorTranslucent = "#0a0d10";
+// Default body text color. Applied to the <body> element and inherited by all text content unless overridden.
+export const SemanticBodyColor = "#dfe1e5";
+// Default body background color. Applied to the <body> element as the base page background.
+export const SemanticBodyBg = "#212529";
+// Emphasis color for higher contrast text. Use for headings or text that needs to stand out.
+export const SemanticEmphasisColor = "#0a0d10";
+// Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text.
+export const SemanticSecondaryColor = "#cbced3";
+// Secondary background color. Use for dividers and to indicate disabled component states.
+export const SemanticSecondaryBg = "#343a40";
+// Tertiary text color for even lighter text. Use for less important supporting text.
+export const SemanticTertiaryColor = "#a8adb7";
+// Tertiary background color. Use for hover states, accents, and wells.
+export const SemanticTertiaryBg = "#212529";
+// Default hyperlink color. Used for all <a> elements and interactive text.
+export const SemanticLinkColor = "#5d99e7";
+// Hyperlink hover color. Applied when user hovers over a link.
+export const SemanticLinkHoverColor = "#86b3ed";
+// Default border color for component borders, dividers, and rules.
+export const SemanticBorderColor = "#495057";
+// Primary text emphasis color - higher contrast text on light backgrounds.
+export const SemanticPrimaryTextEmphasis = "#86b3ed";
+// Primary subtle background color for non-intrusive backgrounds.
+export const SemanticPrimaryBgSubtle = "#021022";
+// Primary subtle border color for gentle borders matching primary theme.
+export const SemanticPrimaryBorderSubtle = "#063166";
+// Secondary theme text emphasis color - higher contrast text on light backgrounds.
+export const SemanticSecondaryTextEmphasis = "#dfe1e5";
+// Secondary theme subtle background color for non-intrusive backgrounds.
+export const SemanticSecondaryBgSubtle = "#212529";
+// Secondary theme subtle border color for gentle borders matching secondary theme.
+export const SemanticSecondaryBorderSubtle = "#495057";
+// Success text emphasis color - higher contrast text on light backgrounds.
+export const SemanticSuccessTextEmphasis = "#67c3a7";
+// Success subtle background color for non-intrusive success states.
+export const SemanticSuccessBgSubtle = "#041b0f";
+// Success subtle border color for gentle borders matching success theme.
+export const SemanticSuccessBorderSubtle = "#0a3622";
+// Danger text emphasis color - higher contrast text on light backgrounds.
+export const SemanticDangerTextEmphasis = "#d792a3";
+// Danger subtle background color for non-intrusive error states.
+export const SemanticDangerBgSubtle = "#2c0b0e";
+// Danger subtle border color for gentle borders matching danger theme.
+export const SemanticDangerBorderSubtle = "#58151c";
+// Warning text emphasis color - higher contrast text on light backgrounds.
+export const SemanticWarningTextEmphasis = "#fbbf24";
+// Warning subtle background color for non-intrusive warning states.
+export const SemanticWarningBgSubtle = "#451a03";
+// Warning subtle border color for gentle borders matching warning theme.
+export const SemanticWarningBorderSubtle = "#92400e";
+// Info text emphasis color - higher contrast text on light backgrounds.
+export const SemanticInfoTextEmphasis = "#4dd0e1";
+// Info subtle background color for non-intrusive info states.
+export const SemanticInfoBgSubtle = "#012320";
+// Info subtle border color for gentle borders matching info theme.
+export const SemanticInfoBorderSubtle = "#055160";
+// Light text emphasis color - provides contrast on light themed components.
+export const SemanticLightTextEmphasis = "#f5f6f7";
+// Light subtle background color for subtle backgrounds.
+export const SemanticLightBgSubtle = "#343a40";
+// Light subtle border color for gentle borders matching light theme.
+export const SemanticLightBorderSubtle = "#495057";
+// Dark text emphasis color - highest contrast text on light backgrounds.
+export const SemanticDarkTextEmphasis = "#dfe1e5";
+// Dark subtle background color for darker backgrounds.
+export const SemanticDarkBgSubtle = "#495057";
+// Dark subtle border color for borders matching dark theme.
+export const SemanticDarkBorderSubtle = "#343a40";
+// Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces.
+export const SemanticPrimary = "#0a58ca";
+// Info background color utility. Applies info color as background. Use for informational surfaces. Maps to Bootstrap's .bg-info utility class. Communicates helpful information.
+export const SemanticInfo = "#087990";
+// Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background.
+export const SemanticBody = "#7a7f87";
+// Success background color utility. Applies success color as background. Use for positive feedback surfaces. Maps to Bootstrap's .bg-success utility class. Indicates successful operations.
+export const SemanticSuccess = "#0f5132";
+// Warning background color utility. Applies warning color as background. Use for caution or important notice surfaces. Maps to Bootstrap's .bg-warning utility class. Requires careful contrast checking.
+export const SemanticWarning = "#f59e0b";
+// Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy.
+export const SemanticSecondary = "#7a7f87";
+// Danger background color utility. Applies danger color as background. Use for error or destructive action surfaces. Maps to Bootstrap's .bg-danger utility class. Indicates errors or warnings.
+export const SemanticDanger = "#842029";
+// Dark background color utility. Applies dark gray as background. Use for high-contrast surfaces and footers. Maps to Bootstrap's .bg-dark utility class. Requires light text for contrast.
+export const SemanticDark = "#f5f6f7";
+// Light background color utility. Applies light gray as background. Use for subtle surfaces and page backgrounds. Maps to Bootstrap's .bg-light utility class. Requires dark text for contrast.
+export const SemanticLight = "#f5f6f7";
+// White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness.
+export const SemanticWhite = "#0a0d10";
+// Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text.
+export const SemanticBlack = "#fafbfc";
+// Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class.
+export const SemanticTransparent = "#000000";
+// Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text.
+export const NeutralWhite = "#0a0d10";
+// Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds.
+export const NeutralBlack = "#fafbfc";
+// Neutral gray 100 alias. References brand.gray.100. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.100 for detailed usage guidance.
+export const NeutralGray_100 = "#f5f6f7";
+// Neutral gray 200 alias. References brand.gray.200. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.200 for detailed usage guidance.
+export const NeutralGray_200 = "#e8eaed";
+// Neutral gray 300 alias. References brand.gray.300. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.300 for detailed usage guidance.
+export const NeutralGray_300 = "#dfe1e5";
+// Neutral gray 400 alias. References brand.gray.400. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.400 for detailed usage guidance.
+export const NeutralGray_400 = "#cbced3";
+// Neutral gray 500 alias. References brand.gray.500. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.500 for detailed usage guidance.
+export const NeutralGray_500 = "#a8adb7";
+// Neutral gray 600 alias. References brand.gray.600. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.600 for detailed usage guidance.
+export const NeutralGray_600 = "#7a7f87";
+// Neutral gray 700 alias. References brand.gray.700. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.700 for detailed usage guidance.
+export const NeutralGray_700 = "#495057";
+// Neutral gray 800 alias. References brand.gray.800. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.800 for detailed usage guidance.
+export const NeutralGray_800 = "#343a40";
+// Neutral gray 900 alias. References brand.gray.900. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.900 for detailed usage guidance.
+export const NeutralGray_900 = "#212529";
+// 0% opacity. Completely transparent, invisible element.
+export const Opacity_0 = 0;
+// 5% opacity. Use for very subtle overlays or hover states.
+export const Opacity_5 = 0.05;
+// 10% opacity. Use for subtle overlays or disabled states.
+export const Opacity_10 = 0.1;
+// 15% opacity. Use for light overlays or hover effects.
+export const Opacity_15 = 0.15;
+// 20% opacity. Use for subtle backgrounds or shadows.
+export const Opacity_20 = 0.2;
+// 25% opacity. Use for overlay backgrounds or disabled elements.
+export const Opacity_25 = 0.25;
+// 30% opacity. Use for moderate overlays.
+export const Opacity_30 = 0.3;
+// 35% opacity. Use for visible overlays.
+export const Opacity_35 = 0.35;
+// 40% opacity. Use for semi-transparent backgrounds.
+export const Opacity_40 = 0.4;
+// 45% opacity. Use for noticeable overlays.
+export const Opacity_45 = 0.45;
+// 50% opacity. Use for half-transparent elements.
+export const Opacity_50 = 0.5;
+// 55% opacity. Use for semi-visible elements.
+export const Opacity_55 = 0.55;
+// 60% opacity. Use for visible but translucent elements.
+export const Opacity_60 = 0.6;
+// 65% opacity. Use for mostly visible elements.
+export const Opacity_65 = 0.65;
+// 70% opacity. Use for mostly opaque elements.
+export const Opacity_70 = 0.7;
+// 75% opacity. Use for semi-opaque elements.
+export const Opacity_75 = 0.75;
+// 80% opacity. Use for nearly opaque elements.
+export const Opacity_80 = 0.8;
+// 85% opacity. Use for mostly solid elements.
+export const Opacity_85 = 0.85;
+// 90% opacity. Use for almost fully opaque elements.
+export const Opacity_90 = 0.9;
+// 95% opacity. Use for very nearly solid elements.
+export const Opacity_95 = 0.95;
+// 100% opacity. Fully opaque, no transparency.
+export const Opacity_100 = 1;
+// Ultra-light tint of blue. Subtle backgrounds, glass morphism, hover states on white. Background use only.
+export const ColorBlue_50 = "#ebf3fc";
+// Lightest tint (90% lighter) of primary brand color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).
+export const ColorBlue_100 = "#d7e6f9";
+// Very light tint (75% lighter) of primary brand color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).
+export const ColorBlue_200 = "#aeccf3";
+// Light tint (60% lighter) of primary brand color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.
+export const ColorBlue_300 = "#86b3ed";
+// Medium-light tint (40% lighter) of primary brand color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.
+export const ColorBlue_400 = "#5d99e7";
+// Base color (reference) of primary brand color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.
+export const ColorBlue_500 = "#0a58ca";
+// Dark shade (20% darker) of primary brand color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.
+export const ColorBlue_600 = "#084298";
+// Darker shade (40% darker) of primary brand color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.
+export const ColorBlue_700 = "#063166";
+// Very dark shade (60% darker) of primary brand color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.
+export const ColorBlue_800 = "#042144";
+// Darkest shade (80% darker) of primary brand color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.
+export const ColorBlue_900 = "#021022";
+// Deep shadows, near-black shade of blue. Maximum depth and contrast.
+export const ColorBlue_950 = "#010811";
+// Ultra-light tint of indigo. Subtle backgrounds, glass morphism, hover states on white. Background use only.
+export const ColorIndigo_50 = "#f0ebff";
+// Lightest tint (90% lighter) of secondary accent color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).
+export const ColorIndigo_100 = "#e0cffc";
+// Very light tint (75% lighter) of secondary accent color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).
+export const ColorIndigo_200 = "#c29ffa";
+// Light tint (60% lighter) of secondary accent color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.
+export const ColorIndigo_300 = "#a370f7";
+// Medium-light tint (40% lighter) of secondary accent color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.
+export const ColorIndigo_400 = "#8540f5";
+// Base color (reference) of secondary accent color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.
+export const ColorIndigo_500 = "#6610f2";
+// Dark shade (20% darker) of secondary accent color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.
+export const ColorIndigo_600 = "#520dc2";
+// Darker shade (40% darker) of secondary accent color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.
+export const ColorIndigo_700 = "#3d0a91";
+// Very dark shade (60% darker) of secondary accent color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.
+export const ColorIndigo_800 = "#290661";
+// Darkest shade (80% darker) of secondary accent color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.
+export const ColorIndigo_900 = "#140330";
+// Deep shadows, near-black shade of indigo. Maximum depth and contrast for light mode.
+export const ColorIndigo_950 = "#0a0416";
+// Ultra-light tint of purple. Subtle backgrounds, glass morphism, hover states on white. Background use only.
+export const ColorPurple_50 = "#e8dff8";
+// Lightest tint (90% lighter) of premium and creative color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).
+export const ColorPurple_100 = "#d1bff1";
+// Very light tint (75% lighter) of premium and creative color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).
+export const ColorPurple_200 = "#b39fea";
+// Light tint (60% lighter) of premium and creative color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.
+export const ColorPurple_300 = "#957fe3";
+// Medium-light tint (40% lighter) of premium and creative color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.
+export const ColorPurple_400 = "#775fdc";
+// Base color (reference) of premium and creative color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.
+export const ColorPurple_500 = "#432874";
+// Dark shade (20% darker) of premium and creative color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.
+export const ColorPurple_600 = "#2c1a4d";
+// Darker shade (40% darker) of premium and creative color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.
+export const ColorPurple_700 = "#1f1335";
+// Very dark shade (60% darker) of premium and creative color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.
+export const ColorPurple_800 = "#160d27";
+// Darkest shade (80% darker) of premium and creative color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.
+export const ColorPurple_900 = "#0a0613";
+// Deep shadows, near-black shade of purple. Maximum depth and contrast.
+export const ColorPurple_950 = "#0a0613";
+// Ultra-light tint of pink. Subtle backgrounds, glass morphism, hover states on white. Background use only.
+export const ColorPink_50 = "#fce4ec";
+// Lightest tint (90% lighter) of friendly and approachable color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).
+export const ColorPink_100 = "#f7d6e6";
+// Very light tint (75% lighter) of friendly and approachable color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).
+export const ColorPink_200 = "#efadce";
+// Light tint (60% lighter) of friendly and approachable color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.
+export const ColorPink_300 = "#e685b5";
+// Medium-light tint (40% lighter) of friendly and approachable color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.
+export const ColorPink_400 = "#de5c9d";
+// Base color (reference) of friendly and approachable color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.
+export const ColorPink_500 = "#d63384";
+// Dark shade (20% darker) of friendly and approachable color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.
+export const ColorPink_600 = "#ab296a";
+// Darker shade (40% darker) of friendly and approachable color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.
+export const ColorPink_700 = "#801f4f";
+// Very dark shade (60% darker) of friendly and approachable color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.
+export const ColorPink_800 = "#561435";
+// Darkest shade (80% darker) of friendly and approachable color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.
+export const ColorPink_900 = "#2b0a1a";
+// Deep shadows, near-black shade of pink. Maximum depth and contrast for light mode.
+export const ColorPink_950 = "#2b0a1a";
+// Ultra-light tint of red. Subtle backgrounds, glass morphism, hover states on white. Background use only.
+export const ColorRed_50 = "#f5e4e8";
+// Lightest tint (90% lighter) of danger and error color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).
+export const ColorRed_100 = "#ebc9d1";
+// Very light tint (75% lighter) of danger and error color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).
+export const ColorRed_200 = "#e1adba";
+// Light tint (60% lighter) of danger and error color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.
+export const ColorRed_300 = "#d792a3";
+// Medium-light tint (40% lighter) of danger and error color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.
+export const ColorRed_400 = "#cd7691";
+// Base color (reference) of danger and error color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.
+export const ColorRed_500 = "#842029";
+// Dark shade (20% darker) of danger and error color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.
+export const ColorRed_600 = "#6b1a22";
+// Darker shade (40% darker) of danger and error color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.
+export const ColorRed_700 = "#58151c";
+// Very dark shade (60% darker) of danger and error color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.
+export const ColorRed_800 = "#3d0f14";
+// Darkest shade (80% darker) of danger and error color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.
+export const ColorRed_900 = "#2c0b0e";
+// Deep shadows, near-black shade of red. Maximum depth and contrast.
+export const ColorRed_950 = "#2c0b0e";
+// Ultra-light tint of orange. Subtle backgrounds, glass morphism, hover states on white. Background use only.
+export const ColorOrange_50 = "#fff4e5";
+// Lightest tint (90% lighter) of energetic highlight color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).
+export const ColorOrange_100 = "#ffe5d0";
+// Very light tint (75% lighter) of energetic highlight color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).
+export const ColorOrange_200 = "#fecba1";
+// Light tint (60% lighter) of energetic highlight color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.
+export const ColorOrange_300 = "#feb272";
+// Medium-light tint (40% lighter) of energetic highlight color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.
+export const ColorOrange_400 = "#fd9843";
+// Base color (reference) of energetic highlight color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.
+export const ColorOrange_500 = "#fd7e14";
+// Dark shade (20% darker) of energetic highlight color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.
+export const ColorOrange_600 = "#ca6510";
+// Darker shade (40% darker) of energetic highlight color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.
+export const ColorOrange_700 = "#984c0c";
+// Very dark shade (60% darker) of energetic highlight color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.
+export const ColorOrange_800 = "#653208";
+// Darkest shade (80% darker) of energetic highlight color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.
+export const ColorOrange_900 = "#331904";
+// Deep shadows, near-black shade of orange. Maximum depth and contrast for light mode.
+export const ColorOrange_950 = "#331904";
+// Ultra-light tint of yellow. Subtle backgrounds, glass morphism, hover states on white. Background use only.
+export const ColorYellow_50 = "#fffaeb";
+// Lightest tint (90% lighter) of warning and caution color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).
+export const ColorYellow_100 = "#fef3c7";
+// Very light tint (75% lighter) of warning and caution color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).
+export const ColorYellow_200 = "#fcd34d";
+// Light tint (60% lighter) of warning and caution color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.
+export const ColorYellow_300 = "#fbbf24";
+// Medium-light tint (40% lighter) of warning and caution color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.
+export const ColorYellow_400 = "#f59e0b";
+// Base color (reference) of warning and caution color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.
+export const ColorYellow_500 = "#f59e0b";
+// Dark shade (20% darker) of warning and caution color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.
+export const ColorYellow_600 = "#d97706";
+// Darker shade (40% darker) of warning and caution color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.
+export const ColorYellow_700 = "#92400e";
+// Very dark shade (60% darker) of warning and caution color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.
+export const ColorYellow_800 = "#78350f";
+// Darkest shade (80% darker) of warning and caution color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.
+export const ColorYellow_900 = "#451a03";
+// Deep shadows, near-black shade of yellow. Maximum depth and contrast.
+export const ColorYellow_950 = "#451a03";
+// Ultra-light tint of green. Subtle backgrounds, glass morphism, hover states on white. Background use only.
+export const ColorGreen_50 = "#d9f0e9";
+// Lightest tint (90% lighter) of success and positive color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).
+export const ColorGreen_100 = "#b3e1d3";
+// Very light tint (75% lighter) of success and positive color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).
+export const ColorGreen_200 = "#8dd2bd";
+// Light tint (60% lighter) of success and positive color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.
+export const ColorGreen_300 = "#67c3a7";
+// Medium-light tint (40% lighter) of success and positive color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.
+export const ColorGreen_400 = "#41b491";
+// Base color (reference) of success and positive color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.
+export const ColorGreen_500 = "#0f5132";
+// Dark shade (20% darker) of success and positive color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.
+export const ColorGreen_600 = "#0c4229";
+// Darker shade (40% darker) of success and positive color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.
+export const ColorGreen_700 = "#0a3622";
+// Very dark shade (60% darker) of success and positive color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.
+export const ColorGreen_800 = "#062419";
+// Darkest shade (80% darker) of success and positive color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.
+export const ColorGreen_900 = "#041b0f";
+// Deep shadows, near-black shade of green. Maximum depth and contrast.
+export const ColorGreen_950 = "#041b0f";
+// Ultra-light tint of teal. Subtle backgrounds, glass morphism, hover states on white. Background use only.
+export const ColorTeal_50 = "#e0f2f1";
+// Lightest tint (90% lighter) of fresh and modern color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).
+export const ColorTeal_100 = "#d2f4ea";
+// Very light tint (75% lighter) of fresh and modern color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).
+export const ColorTeal_200 = "#a6e9d5";
+// Light tint (60% lighter) of fresh and modern color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.
+export const ColorTeal_300 = "#79dfc1";
+// Medium-light tint (40% lighter) of fresh and modern color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.
+export const ColorTeal_400 = "#4dd4ac";
+// Base color (reference) of fresh and modern color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.
+export const ColorTeal_500 = "#20c997";
+// Dark shade (20% darker) of fresh and modern color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.
+export const ColorTeal_600 = "#1aa179";
+// Darker shade (40% darker) of fresh and modern color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.
+export const ColorTeal_700 = "#13795b";
+// Very dark shade (60% darker) of fresh and modern color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.
+export const ColorTeal_800 = "#0d503c";
+// Darkest shade (80% darker) of fresh and modern color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.
+export const ColorTeal_900 = "#06281e";
+// Deep shadows, near-black shade of teal. Maximum depth and contrast for light mode.
+export const ColorTeal_950 = "#06281e";
+// Ultra-light tint of cyan. Subtle backgrounds, glass morphism, hover states on white. Background use only.
+export const ColorCyan_50 = "#e0f7fa";
+// Lightest tint (90% lighter) of informational color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).
+export const ColorCyan_100 = "#b2ebf2";
+// Very light tint (75% lighter) of informational color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).
+export const ColorCyan_200 = "#80deea";
+// Light tint (60% lighter) of informational color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.
+export const ColorCyan_300 = "#4dd0e1";
+// Medium-light tint (40% lighter) of informational color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.
+export const ColorCyan_400 = "#26c6da";
+// Base color (reference) of informational color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.
+export const ColorCyan_500 = "#087990";
+// Dark shade (20% darker) of informational color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.
+export const ColorCyan_600 = "#066570";
+// Darker shade (40% darker) of informational color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.
+export const ColorCyan_700 = "#055160";
+// Very dark shade (60% darker) of informational color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.
+export const ColorCyan_800 = "#033a40";
+// Darkest shade (80% darker) of informational color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.
+export const ColorCyan_900 = "#012320";
+// Deep shadows, near-black shade of cyan. Maximum depth and contrast.
+export const ColorCyan_950 = "#012320";
+// Ultra-light tint of gray. Subtle backgrounds, glass morphism, hover states on white. Background use only.
+export const ColorGray_50 = "#fafbfc";
+// Lightest tint (90% lighter) of neutral interface color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast).
+export const ColorGray_100 = "#f5f6f7";
+// Very light tint (75% lighter) of neutral interface color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum).
+export const ColorGray_200 = "#e8eaed";
+// Light tint (60% lighter) of neutral interface color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors.
+export const ColorGray_300 = "#dfe1e5";
+// Medium-light tint (40% lighter) of neutral interface color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing.
+export const ColorGray_400 = "#cbced3";
+// Base color (reference) of neutral interface color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color.
+export const ColorGray_500 = "#a8adb7";
+// Dark shade (20% darker) of neutral interface color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses.
+export const ColorGray_600 = "#7a7f87";
+// Darker shade (40% darker) of neutral interface color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons.
+export const ColorGray_700 = "#495057";
+// Very dark shade (60% darker) of neutral interface color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability.
+export const ColorGray_800 = "#343a40";
+// Darkest shade (80% darker) of neutral interface color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading.
+export const ColorGray_900 = "#212529";
+// Deep shadows, near-black shade of gray. Maximum depth and contrast.
+export const ColorGray_950 = "#0a0d10";
+// Extra small breakpoint for portrait phones (min-width: 0). Bootstrap's default mobile-first starting point.
+export const LayoutBreakpointsXs = "0";
+// Small breakpoint for landscape phones (≥576px). First responsive breakpoint in Bootstrap's mobile-first approach.
+export const LayoutBreakpointsSm = "36rem";
+// Medium breakpoint for tablets (≥768px). Common tablet viewport size for responsive layouts.
+export const LayoutBreakpointsMd = "48rem";
+// Large breakpoint for desktops (≥992px). Standard desktop viewport size for responsive web design.
+export const LayoutBreakpointsLg = "62rem";
+// Extra large breakpoint for large desktops (≥1200px). Wide desktop viewport for expansive layouts.
+export const LayoutBreakpointsXl = "75rem";
+// Extra extra large breakpoint for larger desktops (≥1400px). Widest default viewport for ultra-wide displays.
+export const LayoutBreakpointsXxl = "87.5rem";
+// Maximum container width at small breakpoint (540px). Container width for landscape phones and small tablets.
+export const LayoutContainerMaxWidthSm = "33.75rem";
+// Maximum container width at medium breakpoint (720px). Container width optimized for tablets.
+export const LayoutContainerMaxWidthMd = "45rem";
+// Maximum container width at large breakpoint (960px). Standard desktop container width.
+export const LayoutContainerMaxWidthLg = "60rem";
+// Maximum container width at extra large breakpoint (1140px). Wide desktop container width.
+export const LayoutContainerMaxWidthXl = "71.25rem";
+// Maximum container width at extra extra large breakpoint (1320px). Widest container for ultra-wide displays.
+export const LayoutContainerMaxWidthXxl = "82.5rem";
+// Horizontal padding for containers (12px left and right). Applied by the make-container mixin for content spacing.
+export const LayoutContainerPaddingX = "0.75rem";
+// Number of columns in Bootstrap's grid system (12). Provides flexible layout options with divisible column counts.
+export const LayoutGridColumns = 12;
+// Default gutter width between grid columns (1.5rem = 24px). Horizontal padding creating space between columns.
+export const LayoutGridGutterWidth = "1.5rem";
+// Maximum number of columns for .row-cols-* classes (6). Sets the limit for auto-layout row columns.
+export const LayoutGridRowColumns = 6;
+// No gutter spacing (0). Removes all spacing between columns with .g-0 class.
+export const LayoutGutters_0 = "0";
+// Extra small gutter spacing (0.25rem = 4px). Minimal spacing for tightly packed layouts.
+export const LayoutGutters_1 = "0.25rem";
+// Small gutter spacing (0.5rem = 8px). Compact spacing between columns.
+export const LayoutGutters_2 = "0.5rem";
+// Medium gutter spacing (1rem = 16px). Standard spacing for moderate column separation.
+export const LayoutGutters_3 = "1rem";
+// Default gutter spacing (1.5rem = 24px). Bootstrap's standard gutter width matching $grid-gutter-width.
+export const LayoutGutters_4 = "1.5rem";
+// Large gutter spacing (3rem = 48px). Wide spacing for prominent column separation.
+export const LayoutGutters_5 = "3rem";
+// Complete box shadow value for Bootstrap SCSS export
+export const ShadowDefault = "0 0.5rem 1rem rgba(0, 0, 0, 0.15)";
+// Complete box shadow value for Bootstrap SCSS export
+export const ShadowSm = "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)";
+// Complete box shadow value for Bootstrap SCSS export
+export const ShadowLg = "0 1rem 3rem rgba(0, 0, 0, 0.175)";
+// Complete box shadow value for Bootstrap SCSS export
+export const ShadowInset = "inset 0 1px 2px rgba(0, 0, 0, 0.075)";
+// Spacing scale 0 - No spacing. Bootstrap's $spacer * 0 (0px).
+export const Spacing_0 = "0";
+// Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px).
+export const Spacing_1 = "0.25rem";
+// Spacing scale 2 - Small spacing. Bootstrap's $spacer * 0.5 (8px).
+export const Spacing_2 = "0.5rem";
+// Spacing scale 3 - Base spacing. Bootstrap's $spacer * 1 (16px).
+export const Spacing_3 = "1rem";
+// Spacing scale 4 - Medium spacing. Bootstrap's $spacer * 1.5 (24px).
+export const Spacing_4 = "1.5rem";
+// Spacing scale 5 - Large spacing. Bootstrap's $spacer * 3 (48px).
+export const Spacing_5 = "3rem";
+// Spacing scale 6 - Extra large spacing (64px).
+export const Spacing_6 = "4rem";
+// Spacing scale 7 - 2X extra large spacing (80px).
+export const Spacing_7 = "5rem";
+// Spacing scale 8 - 3X extra large spacing (96px).
+export const Spacing_8 = "6rem";
+// Spacing scale 9 - 4X extra large spacing (128px).
+export const Spacing_9 = "8rem";
+// Spacing scale 10 - 5X extra large spacing (160px).
+export const Spacing_10 = "10rem";
+// Spacing scale 10 - 5X extra large spacing (160px).
+export const Spacing_11 = "6rem";
+// Spacing 12px - 4px grid intermediate value. Common for button/input padding (0.75rem).
+export const Spacing_12 = "0.75rem";
+// Spacing scale 10 - 5X extra large spacing (160px).
+export const Spacing_13 = "9rem";
+// Spacing scale 10 - 5X extra large spacing (160px).
+export const Spacing_14 = "10rem";
+// Spacing 20px - 4px grid intermediate value (1.25rem). Fills gap between 16px and 24px.
+export const Spacing_20 = "1.25rem";
+// Spacing 28px - 4px grid intermediate value (1.75rem). Fills gap between 24px and 32px.
+export const Spacing_28 = "1.75rem";
+// Spacing 32px - 4px grid value (2rem). Between Bootstrap scale 4 (24px) and 5 (48px).
+export const Spacing_32 = "2rem";
+// Spacing 36px - 4px grid value (2.25rem). Between Bootstrap scale 4 (24px) and 5 (48px).
+export const Spacing_36 = "2.25rem";
+// Spacing 40px - 4px grid value (2.5rem). Between Bootstrap scale 4 (24px) and 5 (48px).
+export const Spacing_40 = "2.5rem";
+// Spacing 44px - 4px grid value (2.75rem). Between Bootstrap scale 4 (24px) and 5 (48px).
+export const Spacing_44 = "2.75rem";
+// Spacing 56px - 4px grid value (3.5rem). Between Bootstrap scale 5 (48px) and extended 6 (64px).
+export const Spacing_56 = "3.5rem";
+// Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px).
+export const Spacing_15 = "0.375rem";
+// Root font size for all viewports (1rem = 16px)
+export const TypographyTextBase = "1rem";
+// Small font size (0.875rem = 14px)
+export const TypographyTextSm = "0.875rem";
+// Large font size (1.25rem = 20px)
+export const TypographyTextLead = "1.25rem";
+// Lighter font weight
+export const TypographyFontweightThin = 100;
+// Light font weight
+export const TypographyFontweightLight = 300;
+// Normal font weight (default body weight)
+export const TypographyFontweightRegular = 400;
+// Medium font weight
+export const TypographyFontweightMedium = 500;
+// Semibold font weight
+export const TypographyFontweightSemiBold = 600;
+// Bold font weight
+export const TypographyFontweightBold = 700;
+// Bolder font weight
+export const TypographyFontweightBlack = 900;
+// Lighter font weight
+export const TypographyFontweightExtraLight = 200;
+// Bold font weight
+export const TypographyFontweightExtraBold = 800;
+export const TypographyFontweightItalic = "italic";
+export const TypographyFontweightThinItalic = "thin italic";
+export const TypographyFontweightExtraLightItalic = "extra light italic";
+export const TypographyFontweightLightItalic = "light italic";
+export const TypographyFontweightMediumItalic = "medium italic";
+export const TypographyFontweightSemiBoldItalic = "semi bold italic";
+export const TypographyFontweightBoldItalic = "bold italic";
+export const TypographyFontweightExtraBoldItalic = "extra bold italic";
+export const TypographyFontweightBlackItalic = "black italic";
+// Extra small line height (1.0 ratio) - Compact UI, tags, badges. Use sparingly, not for body text. 4pt scale: 16px.
+export const TypographyLineheightXs = 1;
+// Small line height (1.25 ratio) - Bootstrap $line-height-sm. Compact text, small UI elements, tight spacing. Below WCAG AA for body text. 4pt scale: 20px.
+export const TypographyLineheightSm = 1.25;
+// Tight line height (1.2-1.25 ratio) - Display fonts, headings (h1-h6). Improves readability of large text. Bootstrap heading default. 4pt scale: 20px for 16px base.
+export const TypographyLineheightTight = 1.25;
+// Base line height (1.5 ratio) - Bootstrap $line-height-base. Default for body text. WCAG AA compliant (1.5 minimum). 4pt scale: 24px for 16px base font.
+export const TypographyLineheightBase = 1.5;
+// Relaxed line height (1.75 ratio) - Enhanced readability for long-form content, articles, documentation. Exceeds WCAG AA. 4pt scale: 28px.
+export const TypographyLineheightRelaxed = 1.75;
+// Large line height (2.0 ratio) - Bootstrap $line-height-lg. Spacious text, large UI components, improved scannability. 4pt scale: 32px.
+export const TypographyLineheightLg = 2;
+// Small display line height (1.2 ratio for 40px text) - Display fonts, large headings. Tighter leading for visual impact. 4pt scale: 48px.
+export const TypographyLineheightDisplaySm = 3;
+// Medium display line height (1.2 ratio for 48-56px text) - Medium display fonts. 4pt scale: 60px.
+export const TypographyLineheightDisplayMd = 3.75;
+// Large display line height (1.2 ratio for 64px text) - Large display fonts, hero headings. 4pt scale: 76px (closest to 1.2 ratio).
+export const TypographyLineheightDisplayLg = 5;
+// Large line height (2.0 ratio) - Bootstrap $line-height-lg. Spacious text, large UI components, improved scannability. 4pt scale: 32px.
+export const TypographyLineheightXlg = 2.5;
+// Large line height (2.0 ratio) - Bootstrap $line-height-lg. Spacious text, large UI components, improved scannability. 4pt scale: 32px.
+export const TypographyLineheightXxlg = 2.75;
+export const TypographyLineheightDisplayXlg = 5.5;
+// H1 heading font size (2.5rem = 40px)
+export const TypographyHeadingH1 = "2.5rem";
+// H2 heading font size (2rem = 32px)
+export const TypographyHeadingH2 = "2rem";
+// H3 heading font size (1.75rem = 28px)
+export const TypographyHeadingH3 = "1.75rem";
+// H4 heading font size (1.5rem = 24px)
+export const TypographyHeadingH4 = "1.5rem";
+// H5 heading font size (1.25rem = 20px)
+export const TypographyHeadingH5 = "1.25rem";
+// H6 heading font size (1rem = 16px)
+export const TypographyHeadingH6 = "1rem";
+// Display 1 font size (5rem = 80px)
+export const TypographyDisplayD1 = "5rem";
+// Display 2 font size (4.5rem = 72px)
+export const TypographyDisplayD2 = "4.5rem";
+// Display 3 font size (4rem = 64px)
+export const TypographyDisplayD3 = "4rem";
+// Display 4 font size (3.5rem = 56px)
+export const TypographyDisplayD4 = "3.5rem";
+// Display 5 font size (3rem = 48px)
+export const TypographyDisplayD5 = "3rem";
+// Display 6 font size (2.5rem = 40px)
+export const TypographyDisplayD6 = "2.5rem";
+// Tighter letter spacing (-0.05em) - Use for large headings and display text to improve visual density. Enhances readability at larger sizes.
+export const TypographyLetterspacingTighter = "-0.03125rem";
+// Tight letter spacing (-0.025em) - Subtle tightening for headings. Improves visual cohesion without sacrificing readability.
+export const TypographyLetterspacingTight = "-0.01875000074505806rem";
+// Normal letter spacing (0) - Default spacing for body text and most content. Optimal for readability and accessibility.
+export const TypographyLetterspacingNormal = "0";
+// Wide letter spacing (0.025em) - Subtle spacing increase for improved readability in small text or uppercase. Enhances legibility.
+export const TypographyLetterspacingWide = "0.01875000074505806rem";
+// Wider letter spacing (0.05em) - Noticeable spacing for uppercase text, labels, and buttons. Improves legibility and visual prominence.
+export const TypographyLetterspacingWider = "0.03125rem";
+// Widest letter spacing (0.1em) - Maximum spacing for all-caps headings, labels, or decorative text. Creates strong visual impact.
+export const TypographyLetterspacingWidest = "0.0625rem";
+// Tighter letter spacing (-0.05em) - Use for large headings and display text to improve visual density. Enhances readability at larger sizes.
+export const TypographyLetterspacingTightest = "-0.0625rem";
+// Primary font family for Figma (single font name). Full Bootstrap stack: system-ui, -apple-system, Segoe UI, Roboto, etc.
+export const TypographyFontfamilyBase = "Inter, system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", \"Noto Sans\", \"Liberation Sans\", Arial, sans-serif";
+// Monospace font for code (single font name). Full Bootstrap stack: SFMono-Regular, Menlo, Monaco, Consolas, etc.
+export const TypographyFontfamilyMonospace = "Roboto Mono, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace";

@@ -91,7 +91,7 @@ Each package has a `tsconfig.build.json` that removes path mappings:
 2. **Build Issue**: TypeScript's declaration generator follows these path mappings
    and tries to include source files from other packages, causing errors:
 
-   ```
+   ```text
    TS6059: File '.../tools/src/index.ts' is not under 'rootDir'
    ```
 
