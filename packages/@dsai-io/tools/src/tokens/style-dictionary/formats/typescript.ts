@@ -133,6 +133,8 @@ export const typescriptDeclarations: FormatDefinition = {
     // Build nested structure with type markers
     const tokenTree: TokenTreeNode = {};
 
+    const hasOwn = Object.prototype.hasOwnProperty;
+
     for (const token of dictionary.allTokens) {
       let current: TokenTreeNode = tokenTree;
       for (let i = 0; i < token.path.length - 1; i++) {
@@ -141,7 +143,7 @@ export const typescriptDeclarations: FormatDefinition = {
         if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
           continue;
         }
-        if (!current[key] || typeof current[key] !== 'object') {
+        if (!hasOwn.call(current, key) || typeof current[key] !== 'object') {
           current[key] = {};
         }
         current = current[key] as TokenTreeNode;

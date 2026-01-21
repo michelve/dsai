@@ -49,12 +49,19 @@ function deepClone<T>(obj: T): T {
 
 /**
  * Get nested value from object using path array
+ * Uses hasOwn.call() to prevent prototype pollution attacks
  */
 function getNestedValue(obj: Record<string, unknown>, path: string[]): unknown {
+  const hasOwn = Object.prototype.hasOwnProperty;
   let current: unknown = obj;
 
   for (const key of path) {
-    if (current && typeof current === 'object' && key in current) {
+    if (
+      current &&
+      typeof current === 'object' &&
+      !Array.isArray(current) &&
+      hasOwn.call(current, key)
+    ) {
       current = (current as Record<string, unknown>)[key];
     } else {
       return undefined;

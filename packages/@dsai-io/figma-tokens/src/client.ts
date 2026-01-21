@@ -310,6 +310,8 @@ function variableNameToPath(name: string): string[] {
  */
 /* eslint-disable security/detect-object-injection */
 function setNestedValue(obj: Record<string, unknown>, path: string[], value: unknown): void {
+  const hasOwn = Object.prototype.hasOwnProperty;
+
   if (path.length === 0) {
     return;
   }
@@ -324,8 +326,8 @@ function setNestedValue(obj: Record<string, unknown>, path: string[], value: unk
     if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
       continue;
     }
-    // Safe: key comes from path array split from validated variable names
-    const existing = key in current ? current[key] : undefined;
+    // Safe: use hasOwn to only check own properties, not prototype chain
+    const existing = hasOwn.call(current, key) ? current[key] : undefined;
     if (typeof existing !== 'object' || existing === null) {
       Object.defineProperty(current, key, {
         value: {},
@@ -334,7 +336,7 @@ function setNestedValue(obj: Record<string, unknown>, path: string[], value: unk
         configurable: true,
       });
     }
-    // Safe: key is validated string from path array
+    // Safe: key is validated and property exists as own property
     current = current[key] as Record<string, unknown>;
   }
 

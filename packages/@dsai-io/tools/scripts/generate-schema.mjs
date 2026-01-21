@@ -23,9 +23,16 @@ import { dsaiConfigSchema } from '../dist/index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Output paths
+// Output paths - hardcoded constants, not derived from user input
 const TEMPLATES_DIR = path.resolve(__dirname, '../templates');
 const SCHEMA_OUTPUT = path.resolve(TEMPLATES_DIR, 'dsai-config.schema.json');
+
+// Security: Validate output path is within expected directory (defense in depth)
+const normalizedOutput = path.normalize(SCHEMA_OUTPUT);
+const normalizedTemplates = path.normalize(TEMPLATES_DIR);
+if (!normalizedOutput.startsWith(normalizedTemplates + path.sep)) {
+  throw new Error('Security: Schema output path escapes templates directory');
+}
 
 /**
  * Generate JSON Schema from Zod schema

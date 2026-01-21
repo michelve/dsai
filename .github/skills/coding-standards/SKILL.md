@@ -37,6 +37,7 @@ Enterprise-level guardrails for secure, robust, and production-ready code.
 - Always validate keys before property operations
 - Block forbidden keys: `__proto__`, `constructor`, `prototype`
 - Create a `isSafeKey()` guard function for all dynamic key operations
+- Avoid modifying object prototypes directly, especially within loops. Use safer alternatives such as freezing the object prototype, creating objects without prototypes using Object.create(null), blocking modifications to prototype attributes, or using Map objects instead of plain objects.
 
 ### Regex Safety (ReDoS Prevention)
 

@@ -89,7 +89,7 @@ packages/@dsai-io/react/src/
 
 Or use the `__tests__` directory:
 
-```
+```text
 packages/@dsai-io/react/src/
 ├── __tests__/
 │   ├── Button.test.tsx

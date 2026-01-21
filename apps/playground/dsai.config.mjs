@@ -9,9 +9,6 @@
  * Use this as a reference when setting up your own project.
  *
  * @see https://github.com/michelve/dsai/tree/main/packages/@dsai-io/tools
- * @see https://github.com/michelve/dsai/blob/main/docs/INCREMENTAL-BUILD.md
- * @see https://github.com/michelve/dsai/blob/main/docs/CHANGELOG-GENERATION.md
- * @see https://github.com/michelve/dsai/blob/main/docs/TOKEN-RECOVERY.md
  */
 
 import { defineConfig } from '@dsai-io/tools';

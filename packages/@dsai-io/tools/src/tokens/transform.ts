@@ -91,6 +91,7 @@ function isSafeKey(key: string): boolean {
  * Safe nested property access for objects with index signatures
  */
 function getNestedValue(obj: unknown, ...keys: string[]): unknown {
+  const hasOwn = Object.prototype.hasOwnProperty;
   let current: unknown = obj;
   for (const key of keys) {
     if (current === null || current === undefined || typeof current !== 'object') {
@@ -99,7 +100,11 @@ function getNestedValue(obj: unknown, ...keys: string[]): unknown {
     if (!isSafeKey(key)) {
       return undefined;
     }
-    current = Reflect.get(current as Record<string, unknown>, key);
+    // Only access own properties to prevent prototype pollution
+    if (!hasOwn.call(current, key)) {
+      return undefined;
+    }
+    current = (current as Record<string, unknown>)[key];
   }
   return current;
 }
@@ -248,9 +253,10 @@ export function transformToken(
   }
 
   const tokenObj = figmaToken as Record<string, unknown>;
+  const hasOwn = Object.prototype.hasOwnProperty;
 
   // Skip if this is not a leaf token (no $value property)
-  if (!Object.hasOwn(tokenObj, '$value')) {
+  if (!hasOwn.call(tokenObj, '$value')) {
     return null;
   }
 
