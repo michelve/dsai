@@ -12,6 +12,30 @@
 import type { SDFormatArgs, FormatDefinition, SDToken } from '../types.js';
 
 /**
+ * Convert a path segment to PascalCase, handling numeric segments
+ */
+function toPascalCaseSegment(segment: string): string {
+  const needsNumericPrefix = /^\d/.test(segment);
+
+  // Convert to PascalCase: split by non-alphanumeric, capitalize each part
+  const pascal = segment
+    .split(/[^a-zA-Z0-9]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+    .join('');
+
+  // Prefix numeric identifiers with underscore to make them valid
+  return needsNumericPrefix ? `_${pascal}` : pascal;
+}
+
+/**
+ * Convert token path to valid JavaScript identifier
+ */
+function toJsIdentifier(path: string[]): string {
+  return path.map(toPascalCaseSegment).join('');
+}
+
+/**
  * Get TypeScript type from token value
  */
 function getTypeScriptType(token: SDToken): string {
@@ -169,7 +193,8 @@ export const typescriptDeclarations: FormatDefinition = {
     let flatExports = '/**\n * Flat token exports (camelCase names)\n */\n';
     for (const token of dictionary.allTokens) {
       const type = getTypeScriptType(token);
-      flatExports += `export declare const ${token.name}: ${type};\n`;
+      const name = toJsIdentifier(token.path); // Generate valid identifier from path
+      flatExports += `export declare const ${name}: ${type};\n`;
     }
 
     return `/**

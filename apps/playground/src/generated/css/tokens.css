@@ -1,442 +1,624 @@
-[data-dsai-theme="dark"] {
-  /* Primary theme color. Main brand color for primary CTAs, links, and key interactive elements. Use for primary buttons, active navigation, focus states. Bootstrap's --bs-primary maps to blue-500. Ensures consistent brand expression across all touchpoints. Verify 4.5:1 contrast on backgrounds. */
-  --pg-theme-primary: #0a58ca;
-  /* Secondary theme color. Supporting UI elements, secondary actions, and muted emphasis. Use for secondary buttons, subtle badges, disabled state text. Bootstrap's --bs-secondary maps to gray-600. Provides visual hierarchy below primary actions. Meets WCAG AA for text. */
-  --pg-theme-secondary: #a8adb7;
-  /* Success theme color. Positive feedback, confirmations, and successful operations. Use for success messages, checkmarks, positive badges, form validation. Bootstrap's --bs-success maps to green-500. Universal indicator of positive outcomes. Ensure 4.5:1 with backgrounds. */
-  --pg-theme-success: #0f5132;
-  /* Info theme color. Informational content, tips, and neutral notifications. Use for info alerts, help text, tooltips, neutral badges. Bootstrap's --bs-info maps to cyan-500. Communicates helpful information without urgency. Maintain contrast standards. */
-  --pg-theme-info: #0a58ca;
-  /* Warning theme color. Cautions, warnings, and important notices requiring attention. Use for warning alerts, pending states, cautionary badges. Bootstrap's --bs-warning maps to yellow-500. May require dark text overlay for accessibility. Test contrast carefully. */
-  --pg-theme-warning: #f59e0b;
-  /* Danger theme color. Errors, destructive actions, and critical alerts. Use for error messages, delete buttons, critical alerts, form errors. Bootstrap's --bs-danger maps to red-500. Universal indicator of risk or problems. Ensure strong contrast. */
-  --pg-theme-danger: #842029;
-  /* Light theme color. Light backgrounds, subtle surfaces, and low-emphasis elements. Use for page backgrounds, card backgrounds, light UI surfaces. Bootstrap's --bs-light maps to gray-100. Provides subtle separation. Use with dark text (700+). */
-  --pg-theme-light: #f5f6f7;
-  /* Dark theme color. Dark backgrounds, strong surfaces, and high-emphasis elements. Use for page backgrounds, card backgrounds, and dark UI surfaces. Bootstrap's --bs-dark maps to gray-900. Provides strong contrast. Use with light text (100–300). */
-  --pg-theme-dark: #212529;
-  /* Ultra-light tint of blue. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
-  --pg-color-blue-50: #ebf3fc;
-  /* Lightest tint (90% lighter) of primary brand color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
-  --pg-color-blue-100: #d7e6f9;
-  /* Very light tint (75% lighter) of primary brand color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
-  --pg-color-blue-200: #aeccf3;
-  /* Light tint (60% lighter) of primary brand color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
-  --pg-color-blue-300: #86b3ed;
-  /* Medium-light tint (40% lighter) of primary brand color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
-  --pg-color-blue-400: #5d99e7;
-  /* Base color (reference) of primary brand color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
-  --pg-color-blue-500: #0a58ca;
-  /* Dark shade (20% darker) of primary brand color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
-  --pg-color-blue-600: #084298;
-  /* Darker shade (40% darker) of primary brand color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
-  --pg-color-blue-700: #063166;
-  /* Very dark shade (60% darker) of primary brand color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
-  --pg-color-blue-800: #042144;
-  /* Darkest shade (80% darker) of primary brand color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
-  --pg-color-blue-900: #021022;
-  /* Deep shadows, near-black shade of blue. Maximum depth and contrast. */
-  --pg-color-blue-950: #010811;
-  /* Ultra-light tint of indigo. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
-  --pg-color-indigo-50: #f0ebff;
-  /* Lightest tint (90% lighter) of secondary accent color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
-  --pg-color-indigo-100: #e0cffc;
-  /* Very light tint (75% lighter) of secondary accent color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
-  --pg-color-indigo-200: #c29ffa;
-  /* Light tint (60% lighter) of secondary accent color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
-  --pg-color-indigo-300: #a370f7;
-  /* Medium-light tint (40% lighter) of secondary accent color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
-  --pg-color-indigo-400: #8540f5;
-  /* Base color (reference) of secondary accent color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
-  --pg-color-indigo-500: #6610f2;
-  /* Dark shade (20% darker) of secondary accent color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
-  --pg-color-indigo-600: #520dc2;
-  /* Darker shade (40% darker) of secondary accent color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
-  --pg-color-indigo-700: #3d0a91;
-  /* Very dark shade (60% darker) of secondary accent color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
-  --pg-color-indigo-800: #290661;
-  /* Darkest shade (80% darker) of secondary accent color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
-  --pg-color-indigo-900: #140330;
-  /* Deep shadows, near-black shade of indigo. Maximum depth and contrast for light mode. */
-  --pg-color-indigo-950: #0a0416;
-  /* Ultra-light tint of purple. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
-  --pg-color-purple-50: #e8dff8;
-  /* Lightest tint (90% lighter) of premium and creative color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
-  --pg-color-purple-100: #d1bff1;
-  /* Very light tint (75% lighter) of premium and creative color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
-  --pg-color-purple-200: #b39fea;
-  /* Light tint (60% lighter) of premium and creative color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
-  --pg-color-purple-300: #957fe3;
-  /* Medium-light tint (40% lighter) of premium and creative color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
-  --pg-color-purple-400: #775fdc;
-  /* Base color (reference) of premium and creative color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
-  --pg-color-purple-500: #432874;
-  /* Dark shade (20% darker) of premium and creative color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
-  --pg-color-purple-600: #2c1a4d;
-  /* Darker shade (40% darker) of premium and creative color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
-  --pg-color-purple-700: #1f1335;
-  /* Very dark shade (60% darker) of premium and creative color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
-  --pg-color-purple-800: #160d27;
-  /* Darkest shade (80% darker) of premium and creative color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
-  --pg-color-purple-900: #0a0613;
-  /* Deep shadows, near-black shade of purple. Maximum depth and contrast. */
-  --pg-color-purple-950: #0a0613;
-  /* Ultra-light tint of pink. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
-  --pg-color-pink-50: #fce4ec;
-  /* Lightest tint (90% lighter) of friendly and approachable color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
-  --pg-color-pink-100: #f7d6e6;
-  /* Very light tint (75% lighter) of friendly and approachable color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
-  --pg-color-pink-200: #efadce;
-  /* Light tint (60% lighter) of friendly and approachable color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
-  --pg-color-pink-300: #e685b5;
-  /* Medium-light tint (40% lighter) of friendly and approachable color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
-  --pg-color-pink-400: #de5c9d;
-  /* Base color (reference) of friendly and approachable color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
-  --pg-color-pink-500: #d63384;
-  /* Dark shade (20% darker) of friendly and approachable color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
-  --pg-color-pink-600: #ab296a;
-  /* Darker shade (40% darker) of friendly and approachable color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
-  --pg-color-pink-700: #801f4f;
-  /* Very dark shade (60% darker) of friendly and approachable color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
-  --pg-color-pink-800: #561435;
-  /* Darkest shade (80% darker) of friendly and approachable color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
-  --pg-color-pink-900: #2b0a1a;
-  /* Deep shadows, near-black shade of pink. Maximum depth and contrast for light mode. */
-  --pg-color-pink-950: #2b0a1a;
-  /* Ultra-light tint of red. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
-  --pg-color-red-50: #f5e4e8;
-  /* Lightest tint (90% lighter) of danger and error color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
-  --pg-color-red-100: #ebc9d1;
-  /* Very light tint (75% lighter) of danger and error color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
-  --pg-color-red-200: #e1adba;
-  /* Light tint (60% lighter) of danger and error color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
-  --pg-color-red-300: #d792a3;
-  /* Medium-light tint (40% lighter) of danger and error color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
-  --pg-color-red-400: #cd7691;
-  /* Base color (reference) of danger and error color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
-  --pg-color-red-500: #842029;
-  /* Dark shade (20% darker) of danger and error color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
-  --pg-color-red-600: #6b1a22;
-  /* Darker shade (40% darker) of danger and error color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
-  --pg-color-red-700: #58151c;
-  /* Very dark shade (60% darker) of danger and error color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
-  --pg-color-red-800: #3d0f14;
-  /* Darkest shade (80% darker) of danger and error color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
-  --pg-color-red-900: #2c0b0e;
-  /* Deep shadows, near-black shade of red. Maximum depth and contrast. */
-  --pg-color-red-950: #2c0b0e;
-  /* Ultra-light tint of orange. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
-  --pg-color-orange-50: #fff4e5;
-  /* Lightest tint (90% lighter) of energetic highlight color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
-  --pg-color-orange-100: #ffe5d0;
-  /* Very light tint (75% lighter) of energetic highlight color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
-  --pg-color-orange-200: #fecba1;
-  /* Light tint (60% lighter) of energetic highlight color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
-  --pg-color-orange-300: #feb272;
-  /* Medium-light tint (40% lighter) of energetic highlight color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
-  --pg-color-orange-400: #fd9843;
-  /* Base color (reference) of energetic highlight color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
-  --pg-color-orange-500: #fd7e14;
-  /* Dark shade (20% darker) of energetic highlight color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
-  --pg-color-orange-600: #ca6510;
-  /* Darker shade (40% darker) of energetic highlight color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
-  --pg-color-orange-700: #984c0c;
-  /* Very dark shade (60% darker) of energetic highlight color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
-  --pg-color-orange-800: #653208;
-  /* Darkest shade (80% darker) of energetic highlight color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
-  --pg-color-orange-900: #331904;
-  /* Deep shadows, near-black shade of orange. Maximum depth and contrast for light mode. */
-  --pg-color-orange-950: #331904;
-  /* Ultra-light tint of yellow. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
-  --pg-color-yellow-50: #fffaeb;
-  /* Lightest tint (90% lighter) of warning and caution color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
-  --pg-color-yellow-100: #fef3c7;
-  /* Very light tint (75% lighter) of warning and caution color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
-  --pg-color-yellow-200: #fcd34d;
-  /* Light tint (60% lighter) of warning and caution color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
-  --pg-color-yellow-300: #fbbf24;
-  /* Medium-light tint (40% lighter) of warning and caution color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
-  --pg-color-yellow-400: #f59e0b;
-  /* Base color (reference) of warning and caution color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
-  --pg-color-yellow-500: #f59e0b;
-  /* Dark shade (20% darker) of warning and caution color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
-  --pg-color-yellow-600: #d97706;
-  /* Darker shade (40% darker) of warning and caution color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
-  --pg-color-yellow-700: #92400e;
-  /* Very dark shade (60% darker) of warning and caution color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
-  --pg-color-yellow-800: #78350f;
-  /* Darkest shade (80% darker) of warning and caution color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
-  --pg-color-yellow-900: #451a03;
-  /* Deep shadows, near-black shade of yellow. Maximum depth and contrast. */
-  --pg-color-yellow-950: #451a03;
-  /* Ultra-light tint of green. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
-  --pg-color-green-50: #d9f0e9;
-  /* Lightest tint (90% lighter) of success and positive color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
-  --pg-color-green-100: #b3e1d3;
-  /* Very light tint (75% lighter) of success and positive color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
-  --pg-color-green-200: #8dd2bd;
-  /* Light tint (60% lighter) of success and positive color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
-  --pg-color-green-300: #67c3a7;
-  /* Medium-light tint (40% lighter) of success and positive color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
-  --pg-color-green-400: #41b491;
-  /* Base color (reference) of success and positive color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
-  --pg-color-green-500: #0f5132;
-  /* Dark shade (20% darker) of success and positive color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
-  --pg-color-green-600: #0c4229;
-  /* Darker shade (40% darker) of success and positive color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
-  --pg-color-green-700: #0a3622;
-  /* Very dark shade (60% darker) of success and positive color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
-  --pg-color-green-800: #062419;
-  /* Darkest shade (80% darker) of success and positive color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
-  --pg-color-green-900: #041b0f;
-  /* Deep shadows, near-black shade of green. Maximum depth and contrast. */
-  --pg-color-green-950: #041b0f;
-  /* Ultra-light tint of teal. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
-  --pg-color-teal-50: #e0f2f1;
-  /* Lightest tint (90% lighter) of fresh and modern color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
-  --pg-color-teal-100: #d2f4ea;
-  /* Very light tint (75% lighter) of fresh and modern color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
-  --pg-color-teal-200: #a6e9d5;
-  /* Light tint (60% lighter) of fresh and modern color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
-  --pg-color-teal-300: #79dfc1;
-  /* Medium-light tint (40% lighter) of fresh and modern color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
-  --pg-color-teal-400: #4dd4ac;
-  /* Base color (reference) of fresh and modern color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
-  --pg-color-teal-500: #20c997;
-  /* Dark shade (20% darker) of fresh and modern color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
-  --pg-color-teal-600: #1aa179;
-  /* Darker shade (40% darker) of fresh and modern color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
-  --pg-color-teal-700: #13795b;
-  /* Very dark shade (60% darker) of fresh and modern color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
-  --pg-color-teal-800: #0d503c;
-  /* Darkest shade (80% darker) of fresh and modern color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
-  --pg-color-teal-900: #06281e;
-  /* Deep shadows, near-black shade of teal. Maximum depth and contrast for light mode. */
-  --pg-color-teal-950: #06281e;
-  /* Ultra-light tint of cyan. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
-  --pg-color-cyan-50: #e0f7fa;
-  /* Lightest tint (90% lighter) of informational color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
-  --pg-color-cyan-100: #b2ebf2;
-  /* Very light tint (75% lighter) of informational color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
-  --pg-color-cyan-200: #80deea;
-  /* Light tint (60% lighter) of informational color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
-  --pg-color-cyan-300: #4dd0e1;
-  /* Medium-light tint (40% lighter) of informational color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
-  --pg-color-cyan-400: #26c6da;
-  /* Base color (reference) of informational color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
-  --pg-color-cyan-500: #087990;
-  /* Dark shade (20% darker) of informational color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
-  --pg-color-cyan-600: #066570;
-  /* Darker shade (40% darker) of informational color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
-  --pg-color-cyan-700: #055160;
-  /* Very dark shade (60% darker) of informational color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
-  --pg-color-cyan-800: #033a40;
-  /* Darkest shade (80% darker) of informational color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
-  --pg-color-cyan-900: #012320;
-  /* Deep shadows, near-black shade of cyan. Maximum depth and contrast. */
-  --pg-color-cyan-950: #012320;
-  /* Ultra-light tint of gray. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
-  --pg-color-gray-50: #fafbfc;
-  /* Lightest tint (90% lighter) of neutral interface color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
-  --pg-color-gray-100: #f5f6f7;
-  /* Very light tint (75% lighter) of neutral interface color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
-  --pg-color-gray-200: #e8eaed;
-  /* Light tint (60% lighter) of neutral interface color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
-  --pg-color-gray-300: #dfe1e5;
-  /* Medium-light tint (40% lighter) of neutral interface color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
-  --pg-color-gray-400: #cbced3;
-  /* Base color (reference) of neutral interface color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
-  --pg-color-gray-500: #a8adb7;
-  /* Dark shade (20% darker) of neutral interface color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
-  --pg-color-gray-600: #7a7f87;
-  /* Darker shade (40% darker) of neutral interface color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
-  --pg-color-gray-700: #495057;
-  /* Very dark shade (60% darker) of neutral interface color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
-  --pg-color-gray-800: #343a40;
-  /* Darkest shade (80% darker) of neutral interface color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
-  --pg-color-gray-900: #212529;
-  /* Deep shadows, near-black shade of gray. Maximum depth and contrast. */
-  --pg-color-gray-950: #0a0d10;
-  /* 0% opacity. Completely transparent, invisible element. */
-  --pg-opacity-0: 0;
-  /* 5% opacity. Use for very subtle overlays or hover states. */
-  --pg-opacity-5: 0.05;
-  /* 10% opacity. Use for subtle overlays or disabled states. */
-  --pg-opacity-10: 0.1;
-  /* 15% opacity. Use for light overlays or hover effects. */
-  --pg-opacity-15: 0.15;
-  /* 20% opacity. Use for subtle backgrounds or shadows. */
-  --pg-opacity-20: 0.2;
-  /* 25% opacity. Use for overlay backgrounds or disabled elements. */
-  --pg-opacity-25: 0.25;
-  /* 30% opacity. Use for moderate overlays. */
-  --pg-opacity-30: 0.3;
-  /* 35% opacity. Use for visible overlays. */
-  --pg-opacity-35: 0.35;
-  /* 40% opacity. Use for semi-transparent backgrounds. */
-  --pg-opacity-40: 0.4;
-  /* 45% opacity. Use for noticeable overlays. */
-  --pg-opacity-45: 0.45;
-  /* 50% opacity. Use for half-transparent elements. */
-  --pg-opacity-50: 0.5;
-  /* 55% opacity. Use for semi-visible elements. */
-  --pg-opacity-55: 0.55;
-  /* 60% opacity. Use for visible but translucent elements. */
-  --pg-opacity-60: 0.6;
-  /* 65% opacity. Use for mostly visible elements. */
-  --pg-opacity-65: 0.65;
-  /* 70% opacity. Use for mostly opaque elements. */
-  --pg-opacity-70: 0.7;
-  /* 75% opacity. Use for semi-opaque elements. */
-  --pg-opacity-75: 0.75;
-  /* 80% opacity. Use for nearly opaque elements. */
-  --pg-opacity-80: 0.8;
-  /* 85% opacity. Use for mostly solid elements. */
-  --pg-opacity-85: 0.85;
-  /* 90% opacity. Use for almost fully opaque elements. */
-  --pg-opacity-90: 0.9;
-  /* 95% opacity. Use for very nearly solid elements. */
-  --pg-opacity-95: 0.95;
-  /* 100% opacity. Fully opaque, no transparency. */
-  --pg-opacity-100: 1;
-  /* Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text. */
-  --pg-neutral-white: #0a0d10;
-  /* Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds. */
-  --pg-neutral-black: #fafbfc;
-  /* Neutral gray 100 alias. References brand.gray.100. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.100 for detailed usage guidance. */
-  --pg-neutral-gray-100: #f5f6f7;
-  /* Neutral gray 200 alias. References brand.gray.200. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.200 for detailed usage guidance. */
-  --pg-neutral-gray-200: #e8eaed;
-  /* Neutral gray 300 alias. References brand.gray.300. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.300 for detailed usage guidance. */
-  --pg-neutral-gray-300: #dfe1e5;
-  /* Neutral gray 400 alias. References brand.gray.400. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.400 for detailed usage guidance. */
-  --pg-neutral-gray-400: #cbced3;
-  /* Neutral gray 500 alias. References brand.gray.500. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.500 for detailed usage guidance. */
-  --pg-neutral-gray-500: #a8adb7;
-  /* Neutral gray 600 alias. References brand.gray.600. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.600 for detailed usage guidance. */
-  --pg-neutral-gray-600: #7a7f87;
-  /* Neutral gray 700 alias. References brand.gray.700. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.700 for detailed usage guidance. */
-  --pg-neutral-gray-700: #495057;
-  /* Neutral gray 800 alias. References brand.gray.800. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.800 for detailed usage guidance. */
-  --pg-neutral-gray-800: #343a40;
-  /* Neutral gray 900 alias. References brand.gray.900. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.900 for detailed usage guidance. */
-  --pg-neutral-gray-900: #212529;
+:root {
+  /* Border radius: None - 0. No rounding, completely square corners. Equivalent to Bootstrap's 'rounded-0' utility class. */
+  --border-radius-0: 0px;
+  /* Border radius: Default - 0.375rem (6px). The standard rounding used throughout Bootstrap for most components. Equivalent to Bootstrap's 'rounded' or 'rounded-2' utility classes and $border-radius variable. */
+  --border-radius-default: 6px;
+  /* Border radius: Small - 0.25rem (4px). Used for subtle rounding on small components. Equivalent to Bootstrap's 'rounded-1' utility class and $border-radius-sm variable. */
+  --border-radius-sm: 4px;
+  /* Border radius: Large - 0.5rem (8px). Used for larger, more prominent rounded corners. Equivalent to Bootstrap's 'rounded-3' utility class and $border-radius-lg variable. */
+  --border-radius-lg: 8px;
+  /* Border radius: Extra Large - 1rem (16px). Used for very prominent rounded corners on large components. Equivalent to Bootstrap's 'rounded-4' utility class and $border-radius-xl variable. */
+  --border-radius-xl: 16px;
+  /* Border radius: 2X Extra Large - 2rem (32px). Used for dramatically rounded corners creating a softer, more modern appearance. Equivalent to Bootstrap's 'rounded-5' utility class and $border-radius-xxl variable. */
+  --border-radius-xxl: 32px;
+  /* Border radius: Pill - 50rem (800px). Creates pill-shaped elements with fully rounded ends on rectangular shapes. Equivalent to Bootstrap's 'rounded-pill' utility class and $border-radius-pill variable. */
+  --border-radius-pill: 9999px;
+  /* Border radius: Circle - 50%. Creates perfectly circular shapes when applied to square elements. Equivalent to Bootstrap's 'rounded-circle' utility class. Note: This is a percentage value, not pixel-based. */
+  --border-radius-circle: 50%;
+  /* Border width 0 (0px). Bootstrap's $border-width-0 variable. */
+  --border-width-0: 0px;
+  /* Border width 1 (1px). Bootstrap's $border-width-1 variable. */
+  --border-width-1: 1px;
+  /* Border width 2 (2px). Bootstrap's $border-width-2 variable. */
+  --border-width-2: 2px;
+  /* Border width 3 (3px). Bootstrap's $border-width-3 variable. */
+  --border-width-3: 3px;
+  /* Border width 4 (4px). Bootstrap's $border-width-4 variable. */
+  --border-width-4: 4px;
+  /* Border width 5 (5px). Bootstrap's $border-width-5 variable. */
+  --border-width-5: 5px;
   /* Translucent border color that blends with backgrounds using rgba(). */
-  --pg-semantic-border-color-translucent: #0a0d10;
+  --semantic-border-color-translucent: #0a0d10;
   /* Default body text color. Applied to the <body> element and inherited by all text content unless overridden. */
-  --pg-semantic-body-color: #dfe1e5;
+  --semantic-body-color: #212529;
   /* Default body background color. Applied to the <body> element as the base page background. */
-  --pg-semantic-body-bg: #212529;
+  --semantic-body-bg: #fafbfc;
   /* Emphasis color for higher contrast text. Use for headings or text that needs to stand out. */
-  --pg-semantic-emphasis-color: #0a0d10;
+  --semantic-emphasis-color: #0a0d10;
   /* Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text. */
-  --pg-semantic-secondary-color: #cbced3;
+  --semantic-secondary-color: #7a7f87;
   /* Secondary background color. Use for dividers and to indicate disabled component states. */
-  --pg-semantic-secondary-bg: #343a40;
+  --semantic-secondary-bg: #e8eaed;
   /* Tertiary text color for even lighter text. Use for less important supporting text. */
-  --pg-semantic-tertiary-color: #a8adb7;
+  --semantic-tertiary-color: #a8adb7;
   /* Tertiary background color. Use for hover states, accents, and wells. */
-  --pg-semantic-tertiary-bg: #212529;
+  --semantic-tertiary-bg: #f5f6f7;
   /* Default hyperlink color. Used for all <a> elements and interactive text. */
-  --pg-semantic-link-color: #5d99e7;
+  --semantic-link-color: #084298;
   /* Hyperlink hover color. Applied when user hovers over a link. */
-  --pg-semantic-link-hover-color: #86b3ed;
+  --semantic-link-hover-color: #063166;
   /* Default border color for component borders, dividers, and rules. */
-  --pg-semantic-border-color: #495057;
+  --semantic-border-color: #dfe1e5;
   /* Primary text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-primary-text-emphasis: #86b3ed;
+  --semantic-primary-text-emphasis: #063166;
   /* Primary subtle background color for non-intrusive backgrounds. */
-  --pg-semantic-primary-bg-subtle: #021022;
+  --semantic-primary-bg-subtle: #d7e6f9;
   /* Primary subtle border color for gentle borders matching primary theme. */
-  --pg-semantic-primary-border-subtle: #063166;
+  --semantic-primary-border-subtle: #aeccf3;
   /* Secondary theme text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-secondary-text-emphasis: #dfe1e5;
+  --semantic-secondary-text-emphasis: #495057;
   /* Secondary theme subtle background color for non-intrusive backgrounds. */
-  --pg-semantic-secondary-bg-subtle: #212529;
+  --semantic-secondary-bg-subtle: #f5f6f7;
   /* Secondary theme subtle border color for gentle borders matching secondary theme. */
-  --pg-semantic-secondary-border-subtle: #495057;
+  --semantic-secondary-border-subtle: #e8eaed;
   /* Success text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-success-text-emphasis: #67c3a7;
+  --semantic-success-text-emphasis: #0a3622;
   /* Success subtle background color for non-intrusive success states. */
-  --pg-semantic-success-bg-subtle: #041b0f;
+  --semantic-success-bg-subtle: #b3e1d3;
   /* Success subtle border color for gentle borders matching success theme. */
-  --pg-semantic-success-border-subtle: #0a3622;
+  --semantic-success-border-subtle: #8dd2bd;
   /* Danger text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-danger-text-emphasis: #d792a3;
+  --semantic-danger-text-emphasis: #58151c;
   /* Danger subtle background color for non-intrusive error states. */
-  --pg-semantic-danger-bg-subtle: #2c0b0e;
+  --semantic-danger-bg-subtle: #ebc9d1;
   /* Danger subtle border color for gentle borders matching danger theme. */
-  --pg-semantic-danger-border-subtle: #58151c;
+  --semantic-danger-border-subtle: #e1adba;
   /* Warning text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-warning-text-emphasis: #fbbf24;
+  --semantic-warning-text-emphasis: #92400e;
   /* Warning subtle background color for non-intrusive warning states. */
-  --pg-semantic-warning-bg-subtle: #451a03;
+  --semantic-warning-bg-subtle: #fef3c7;
   /* Warning subtle border color for gentle borders matching warning theme. */
-  --pg-semantic-warning-border-subtle: #92400e;
+  --semantic-warning-border-subtle: #fcd34d;
   /* Info text emphasis color - higher contrast text on light backgrounds. */
-  --pg-semantic-info-text-emphasis: #4dd0e1;
+  --semantic-info-text-emphasis: #055160;
   /* Info subtle background color for non-intrusive info states. */
-  --pg-semantic-info-bg-subtle: #012320;
+  --semantic-info-bg-subtle: #b2ebf2;
   /* Info subtle border color for gentle borders matching info theme. */
-  --pg-semantic-info-border-subtle: #055160;
+  --semantic-info-border-subtle: #80deea;
   /* Light text emphasis color - provides contrast on light themed components. */
-  --pg-semantic-light-text-emphasis: #f5f6f7;
+  --semantic-light-text-emphasis: #495057;
   /* Light subtle background color for subtle backgrounds. */
-  --pg-semantic-light-bg-subtle: #343a40;
+  --semantic-light-bg-subtle: #f5f6f7;
   /* Light subtle border color for gentle borders matching light theme. */
-  --pg-semantic-light-border-subtle: #495057;
+  --semantic-light-border-subtle: #e8eaed;
   /* Dark text emphasis color - highest contrast text on light backgrounds. */
-  --pg-semantic-dark-text-emphasis: #dfe1e5;
+  --semantic-dark-text-emphasis: #212529;
   /* Dark subtle background color for darker backgrounds. */
-  --pg-semantic-dark-bg-subtle: #495057;
+  --semantic-dark-bg-subtle: #cbced3;
   /* Dark subtle border color for borders matching dark theme. */
-  --pg-semantic-dark-border-subtle: #343a40;
+  --semantic-dark-border-subtle: #a8adb7;
   /* Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces. */
-  --pg-semantic-primary: #0a58ca;
+  --semantic-primary: #0a58ca;
   /* Info background color utility. Applies info color as background. Use for informational surfaces. Maps to Bootstrap's .bg-info utility class. Communicates helpful information. */
-  --pg-semantic-info: #087990;
+  --semantic-info: #087990;
   /* Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background. */
-  --pg-semantic-body: #7a7f87;
+  --semantic-body: #212529;
   /* Success background color utility. Applies success color as background. Use for positive feedback surfaces. Maps to Bootstrap's .bg-success utility class. Indicates successful operations. */
-  --pg-semantic-success: #0f5132;
+  --semantic-success: #0f5132;
   /* Warning background color utility. Applies warning color as background. Use for caution or important notice surfaces. Maps to Bootstrap's .bg-warning utility class. Requires careful contrast checking. */
-  --pg-semantic-warning: #f59e0b;
+  --semantic-warning: #f59e0b;
   /* Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy. */
-  --pg-semantic-secondary: #7a7f87;
+  --semantic-secondary: #7a7f87;
   /* Danger background color utility. Applies danger color as background. Use for error or destructive action surfaces. Maps to Bootstrap's .bg-danger utility class. Indicates errors or warnings. */
-  --pg-semantic-danger: #842029;
+  --semantic-danger: #842029;
   /* Dark background color utility. Applies dark gray as background. Use for high-contrast surfaces and footers. Maps to Bootstrap's .bg-dark utility class. Requires light text for contrast. */
-  --pg-semantic-dark: #f5f6f7;
+  --semantic-dark: #212529;
   /* Light background color utility. Applies light gray as background. Use for subtle surfaces and page backgrounds. Maps to Bootstrap's .bg-light utility class. Requires dark text for contrast. */
-  --pg-semantic-light: #f5f6f7;
+  --semantic-light: #f5f6f7;
   /* White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness. */
-  --pg-semantic-white: #0a0d10;
+  --semantic-white: #fafbfc;
   /* Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text. */
-  --pg-semantic-black: #fafbfc;
+  --semantic-black: #0a0d10;
   /* Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class. */
-  --pg-semantic-transparent: #000000;
-  /* Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces. */
-  --pg-background-primary: #0a58ca;
-  /* Secondary background color utility. Applies secondary color as background. Use for supporting UI surfaces. Maps to Bootstrap's .bg-secondary utility class. Provides visual hierarchy. */
-  --pg-background-secondary: #7a7f87;
-  /* Success background color utility. Applies success color as background. Use for positive feedback surfaces. Maps to Bootstrap's .bg-success utility class. Indicates successful operations. */
-  --pg-background-success: #0f5132;
-  /* Danger background color utility. Applies danger color as background. Use for error or destructive action surfaces. Maps to Bootstrap's .bg-danger utility class. Indicates errors or warnings. */
-  --pg-background-danger: #842029;
-  /* Warning background color utility. Applies warning color as background. Use for caution or important notice surfaces. Maps to Bootstrap's .bg-warning utility class. Requires careful contrast checking. */
-  --pg-background-warning: #f59e0b;
-  /* Info background color utility. Applies info color as background. Use for informational surfaces. Maps to Bootstrap's .bg-info utility class. Communicates helpful information. */
-  --pg-background-info: #087990;
-  /* Light background color utility. Applies light gray as background. Use for subtle surfaces and page backgrounds. Maps to Bootstrap's .bg-light utility class. Requires dark text for contrast. */
-  --pg-background-light: #f5f6f7;
-  /* Dark background color utility. Applies dark gray as background. Use for high-contrast surfaces and footers. Maps to Bootstrap's .bg-dark utility class. Requires light text for contrast. */
-  --pg-background-dark: #212529;
-  /* Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background. */
-  --pg-background-body: #fafbfc;
-  /* White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness. */
-  --pg-background-white: #0a0d10;
-  /* Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text. */
-  --pg-background-black: #fafbfc;
-  /* Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class. */
-  --pg-background-transparent: #000000;
+  --semantic-transparent: #000000;
+  /* Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text. */
+  --neutral-white: #fafbfc;
+  /* Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds. */
+  --neutral-black: #0a0d10;
+  /* Neutral gray 100 alias. References brand.gray.100. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.100 for detailed usage guidance. */
+  --neutral-gray-100: #f5f6f7;
+  /* Neutral gray 200 alias. References brand.gray.200. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.200 for detailed usage guidance. */
+  --neutral-gray-200: #e8eaed;
+  /* Neutral gray 300 alias. References brand.gray.300. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.300 for detailed usage guidance. */
+  --neutral-gray-300: #dfe1e5;
+  /* Neutral gray 400 alias. References brand.gray.400. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.400 for detailed usage guidance. */
+  --neutral-gray-400: #cbced3;
+  /* Neutral gray 500 alias. References brand.gray.500. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.500 for detailed usage guidance. */
+  --neutral-gray-500: #a8adb7;
+  /* Neutral gray 600 alias. References brand.gray.600. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.600 for detailed usage guidance. */
+  --neutral-gray-600: #7a7f87;
+  /* Neutral gray 700 alias. References brand.gray.700. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.700 for detailed usage guidance. */
+  --neutral-gray-700: #495057;
+  /* Neutral gray 800 alias. References brand.gray.800. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.800 for detailed usage guidance. */
+  --neutral-gray-800: #343a40;
+  /* Neutral gray 900 alias. References brand.gray.900. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.900 for detailed usage guidance. */
+  --neutral-gray-900: #212529;
+  /* 0% opacity. Completely transparent, invisible element. */
+  --opacity-0: 0;
+  /* 5% opacity. Use for very subtle overlays or hover states. */
+  --opacity-5: 0.05;
+  /* 10% opacity. Use for subtle overlays or disabled states. */
+  --opacity-10: 0.1;
+  /* 15% opacity. Use for light overlays or hover effects. */
+  --opacity-15: 0.15;
+  /* 20% opacity. Use for subtle backgrounds or shadows. */
+  --opacity-20: 0.2;
+  /* 25% opacity. Use for overlay backgrounds or disabled elements. */
+  --opacity-25: 0.25;
+  /* 30% opacity. Use for moderate overlays. */
+  --opacity-30: 0.3;
+  /* 35% opacity. Use for visible overlays. */
+  --opacity-35: 0.35;
+  /* 40% opacity. Use for semi-transparent backgrounds. */
+  --opacity-40: 0.4;
+  /* 45% opacity. Use for noticeable overlays. */
+  --opacity-45: 0.45;
+  /* 50% opacity. Use for half-transparent elements. */
+  --opacity-50: 0.5;
+  /* 55% opacity. Use for semi-visible elements. */
+  --opacity-55: 0.55;
+  /* 60% opacity. Use for visible but translucent elements. */
+  --opacity-60: 0.6;
+  /* 65% opacity. Use for mostly visible elements. */
+  --opacity-65: 0.65;
+  /* 70% opacity. Use for mostly opaque elements. */
+  --opacity-70: 0.7;
+  /* 75% opacity. Use for semi-opaque elements. */
+  --opacity-75: 0.75;
+  /* 80% opacity. Use for nearly opaque elements. */
+  --opacity-80: 0.8;
+  /* 85% opacity. Use for mostly solid elements. */
+  --opacity-85: 0.85;
+  /* 90% opacity. Use for almost fully opaque elements. */
+  --opacity-90: 0.9;
+  /* 95% opacity. Use for very nearly solid elements. */
+  --opacity-95: 0.95;
+  /* 100% opacity. Fully opaque, no transparency. */
+  --opacity-100: 1;
+  /* Ultra-light tint of blue. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
+  --color-blue-50: #ebf3fc;
+  /* Lightest tint (90% lighter) of primary brand color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
+  --color-blue-100: #d7e6f9;
+  /* Very light tint (75% lighter) of primary brand color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
+  --color-blue-200: #aeccf3;
+  /* Light tint (60% lighter) of primary brand color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
+  --color-blue-300: #86b3ed;
+  /* Medium-light tint (40% lighter) of primary brand color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
+  --color-blue-400: #5d99e7;
+  /* Base color (reference) of primary brand color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
+  --color-blue-500: #0a58ca;
+  /* Dark shade (20% darker) of primary brand color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
+  --color-blue-600: #084298;
+  /* Darker shade (40% darker) of primary brand color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
+  --color-blue-700: #063166;
+  /* Very dark shade (60% darker) of primary brand color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
+  --color-blue-800: #042144;
+  /* Darkest shade (80% darker) of primary brand color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
+  --color-blue-900: #021022;
+  /* Deep shadows, near-black shade of blue. Maximum depth and contrast. */
+  --color-blue-950: #010811;
+  /* Ultra-light tint of indigo. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
+  --color-indigo-50: #f0ebff;
+  /* Lightest tint (90% lighter) of secondary accent color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
+  --color-indigo-100: #e0cffc;
+  /* Very light tint (75% lighter) of secondary accent color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
+  --color-indigo-200: #c29ffa;
+  /* Light tint (60% lighter) of secondary accent color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
+  --color-indigo-300: #a370f7;
+  /* Medium-light tint (40% lighter) of secondary accent color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
+  --color-indigo-400: #8540f5;
+  /* Base color (reference) of secondary accent color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
+  --color-indigo-500: #6610f2;
+  /* Dark shade (20% darker) of secondary accent color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
+  --color-indigo-600: #520dc2;
+  /* Darker shade (40% darker) of secondary accent color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
+  --color-indigo-700: #3d0a91;
+  /* Very dark shade (60% darker) of secondary accent color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
+  --color-indigo-800: #290661;
+  /* Darkest shade (80% darker) of secondary accent color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
+  --color-indigo-900: #140330;
+  /* Deep shadows, near-black shade of indigo. Maximum depth and contrast for light mode. */
+  --color-indigo-950: #0a0416;
+  /* Ultra-light tint of purple. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
+  --color-purple-50: #e8dff8;
+  /* Lightest tint (90% lighter) of premium and creative color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
+  --color-purple-100: #d1bff1;
+  /* Very light tint (75% lighter) of premium and creative color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
+  --color-purple-200: #b39fea;
+  /* Light tint (60% lighter) of premium and creative color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
+  --color-purple-300: #957fe3;
+  /* Medium-light tint (40% lighter) of premium and creative color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
+  --color-purple-400: #775fdc;
+  /* Base color (reference) of premium and creative color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
+  --color-purple-500: #432874;
+  /* Dark shade (20% darker) of premium and creative color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
+  --color-purple-600: #2c1a4d;
+  /* Darker shade (40% darker) of premium and creative color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
+  --color-purple-700: #1f1335;
+  /* Very dark shade (60% darker) of premium and creative color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
+  --color-purple-800: #160d27;
+  /* Darkest shade (80% darker) of premium and creative color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
+  --color-purple-900: #0a0613;
+  /* Deep shadows, near-black shade of purple. Maximum depth and contrast. */
+  --color-purple-950: #0a0613;
+  /* Ultra-light tint of pink. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
+  --color-pink-50: #fce4ec;
+  /* Lightest tint (90% lighter) of friendly and approachable color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
+  --color-pink-100: #f7d6e6;
+  /* Very light tint (75% lighter) of friendly and approachable color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
+  --color-pink-200: #efadce;
+  /* Light tint (60% lighter) of friendly and approachable color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
+  --color-pink-300: #e685b5;
+  /* Medium-light tint (40% lighter) of friendly and approachable color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
+  --color-pink-400: #de5c9d;
+  /* Base color (reference) of friendly and approachable color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
+  --color-pink-500: #d63384;
+  /* Dark shade (20% darker) of friendly and approachable color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
+  --color-pink-600: #ab296a;
+  /* Darker shade (40% darker) of friendly and approachable color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
+  --color-pink-700: #801f4f;
+  /* Very dark shade (60% darker) of friendly and approachable color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
+  --color-pink-800: #561435;
+  /* Darkest shade (80% darker) of friendly and approachable color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
+  --color-pink-900: #2b0a1a;
+  /* Deep shadows, near-black shade of pink. Maximum depth and contrast for light mode. */
+  --color-pink-950: #2b0a1a;
+  /* Ultra-light tint of red. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
+  --color-red-50: #f5e4e8;
+  /* Lightest tint (90% lighter) of danger and error color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
+  --color-red-100: #ebc9d1;
+  /* Very light tint (75% lighter) of danger and error color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
+  --color-red-200: #e1adba;
+  /* Light tint (60% lighter) of danger and error color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
+  --color-red-300: #d792a3;
+  /* Medium-light tint (40% lighter) of danger and error color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
+  --color-red-400: #cd7691;
+  /* Base color (reference) of danger and error color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
+  --color-red-500: #842029;
+  /* Dark shade (20% darker) of danger and error color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
+  --color-red-600: #6b1a22;
+  /* Darker shade (40% darker) of danger and error color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
+  --color-red-700: #58151c;
+  /* Very dark shade (60% darker) of danger and error color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
+  --color-red-800: #3d0f14;
+  /* Darkest shade (80% darker) of danger and error color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
+  --color-red-900: #2c0b0e;
+  /* Deep shadows, near-black shade of red. Maximum depth and contrast. */
+  --color-red-950: #2c0b0e;
+  /* Ultra-light tint of orange. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
+  --color-orange-50: #fff4e5;
+  /* Lightest tint (90% lighter) of energetic highlight color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
+  --color-orange-100: #ffe5d0;
+  /* Very light tint (75% lighter) of energetic highlight color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
+  --color-orange-200: #fecba1;
+  /* Light tint (60% lighter) of energetic highlight color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
+  --color-orange-300: #feb272;
+  /* Medium-light tint (40% lighter) of energetic highlight color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
+  --color-orange-400: #fd9843;
+  /* Base color (reference) of energetic highlight color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
+  --color-orange-500: #fd7e14;
+  /* Dark shade (20% darker) of energetic highlight color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
+  --color-orange-600: #ca6510;
+  /* Darker shade (40% darker) of energetic highlight color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
+  --color-orange-700: #984c0c;
+  /* Very dark shade (60% darker) of energetic highlight color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
+  --color-orange-800: #653208;
+  /* Darkest shade (80% darker) of energetic highlight color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
+  --color-orange-900: #331904;
+  /* Deep shadows, near-black shade of orange. Maximum depth and contrast for light mode. */
+  --color-orange-950: #331904;
+  /* Ultra-light tint of yellow. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
+  --color-yellow-50: #fffaeb;
+  /* Lightest tint (90% lighter) of warning and caution color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
+  --color-yellow-100: #fef3c7;
+  /* Very light tint (75% lighter) of warning and caution color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
+  --color-yellow-200: #fcd34d;
+  /* Light tint (60% lighter) of warning and caution color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
+  --color-yellow-300: #fbbf24;
+  /* Medium-light tint (40% lighter) of warning and caution color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
+  --color-yellow-400: #f59e0b;
+  /* Base color (reference) of warning and caution color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
+  --color-yellow-500: #f59e0b;
+  /* Dark shade (20% darker) of warning and caution color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
+  --color-yellow-600: #d97706;
+  /* Darker shade (40% darker) of warning and caution color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
+  --color-yellow-700: #92400e;
+  /* Very dark shade (60% darker) of warning and caution color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
+  --color-yellow-800: #78350f;
+  /* Darkest shade (80% darker) of warning and caution color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
+  --color-yellow-900: #451a03;
+  /* Deep shadows, near-black shade of yellow. Maximum depth and contrast. */
+  --color-yellow-950: #451a03;
+  /* Ultra-light tint of green. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
+  --color-green-50: #d9f0e9;
+  /* Lightest tint (90% lighter) of success and positive color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
+  --color-green-100: #b3e1d3;
+  /* Very light tint (75% lighter) of success and positive color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
+  --color-green-200: #8dd2bd;
+  /* Light tint (60% lighter) of success and positive color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
+  --color-green-300: #67c3a7;
+  /* Medium-light tint (40% lighter) of success and positive color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
+  --color-green-400: #41b491;
+  /* Base color (reference) of success and positive color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
+  --color-green-500: #0f5132;
+  /* Dark shade (20% darker) of success and positive color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
+  --color-green-600: #0c4229;
+  /* Darker shade (40% darker) of success and positive color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
+  --color-green-700: #0a3622;
+  /* Very dark shade (60% darker) of success and positive color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
+  --color-green-800: #062419;
+  /* Darkest shade (80% darker) of success and positive color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
+  --color-green-900: #041b0f;
+  /* Deep shadows, near-black shade of green. Maximum depth and contrast. */
+  --color-green-950: #041b0f;
+  /* Ultra-light tint of teal. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
+  --color-teal-50: #e0f2f1;
+  /* Lightest tint (90% lighter) of fresh and modern color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
+  --color-teal-100: #d2f4ea;
+  /* Very light tint (75% lighter) of fresh and modern color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
+  --color-teal-200: #a6e9d5;
+  /* Light tint (60% lighter) of fresh and modern color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
+  --color-teal-300: #79dfc1;
+  /* Medium-light tint (40% lighter) of fresh and modern color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
+  --color-teal-400: #4dd4ac;
+  /* Base color (reference) of fresh and modern color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
+  --color-teal-500: #20c997;
+  /* Dark shade (20% darker) of fresh and modern color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
+  --color-teal-600: #1aa179;
+  /* Darker shade (40% darker) of fresh and modern color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
+  --color-teal-700: #13795b;
+  /* Very dark shade (60% darker) of fresh and modern color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
+  --color-teal-800: #0d503c;
+  /* Darkest shade (80% darker) of fresh and modern color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
+  --color-teal-900: #06281e;
+  /* Deep shadows, near-black shade of teal. Maximum depth and contrast for light mode. */
+  --color-teal-950: #06281e;
+  /* Ultra-light tint of cyan. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
+  --color-cyan-50: #e0f7fa;
+  /* Lightest tint (90% lighter) of informational color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
+  --color-cyan-100: #b2ebf2;
+  /* Very light tint (75% lighter) of informational color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
+  --color-cyan-200: #80deea;
+  /* Light tint (60% lighter) of informational color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
+  --color-cyan-300: #4dd0e1;
+  /* Medium-light tint (40% lighter) of informational color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
+  --color-cyan-400: #26c6da;
+  /* Base color (reference) of informational color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
+  --color-cyan-500: #087990;
+  /* Dark shade (20% darker) of informational color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
+  --color-cyan-600: #066570;
+  /* Darker shade (40% darker) of informational color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
+  --color-cyan-700: #055160;
+  /* Very dark shade (60% darker) of informational color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
+  --color-cyan-800: #033a40;
+  /* Darkest shade (80% darker) of informational color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
+  --color-cyan-900: #012320;
+  /* Deep shadows, near-black shade of cyan. Maximum depth and contrast. */
+  --color-cyan-950: #012320;
+  /* Ultra-light tint of gray. Subtle backgrounds, glass morphism, hover states on white. Background use only. */
+  --color-gray-50: #fafbfc;
+  /* Lightest tint (90% lighter) of neutral interface color. Subtle backgrounds, ghost button hover states, and alert backgrounds. Use for disabled states and low-emphasis surfaces. Insufficient contrast for text. Background use only. Not suitable for text. Decorative use or with dark text (check contrast). */
+  --color-gray-100: #f5f6f7;
+  /* Very light tint (75% lighter) of neutral interface color. Secondary backgrounds, skeleton loaders, and inactive states. Hover states for light surfaces, disabled backgrounds. Low contrast. Combine with 700+ for text. Use with 600+ colors for accessible text contrast (4.5:1 minimum). */
+  --color-gray-200: #e8eaed;
+  /* Light tint (60% lighter) of neutral interface color. Borders, dividers, input backgrounds, and tertiary buttons. Active borders, focus ring alternatives, subtle emphasis. Medium-low contrast. Pair with 800+ for body text. Achieves 3:1 for large text with white, 4.5:1 with 800+ colors. */
+  --color-gray-300: #dfe1e5;
+  /* Medium-light tint (40% lighter) of neutral interface color. Prominent borders, icon fills, active states, and focus indicators. Hover states for interactive elements, selected states. Moderate contrast. Use with white backgrounds for UI elements. Meets 3:1 non-text contrast. Use 900 for text pairing. */
+  --color-gray-400: #cbced3;
+  /* Base color (reference) of neutral interface color. Primary actions, links, badges, and brand expression. Default state for buttons, active navigation, emphasis. Strong contrast with white. Test with light backgrounds. Typically meets 4.5:1 with white for text. Verify for each color. */
+  --color-gray-500: #a8adb7;
+  /* Dark shade (20% darker) of neutral interface color. Hover states for primary actions, pressed states, focus rings. Button hover, active navigation, emphasized borders. High contrast. Excellent for interactive states. Strong contrast with white (7:1+). Safe for all text uses. */
+  --color-gray-600: #7a7f87;
+  /* Darker shade (40% darker) of neutral interface color. Active/pressed states, secondary text, icon emphasis. Button pressed, selected items, high-emphasis text. Very high contrast. Versatile for text and UI. Exceeds 7:1 with white. Optimal for small text and icons. */
+  --color-gray-700: #495057;
+  /* Very dark shade (60% darker) of neutral interface color. Body text on light backgrounds, headings, strong emphasis. Text primary color, icon fills, critical information. Maximum contrast on light backgrounds. WCAG AAA compliant (10:1+) with white. Ideal for readability. */
+  --color-gray-800: #343a40;
+  /* Darkest shade (80% darker) of neutral interface color. Maximum contrast text, critical alerts, Dark surfaces. Headline text, error text, highest priority content. Near-black contrast. Reduces eye strain vs pure black. Exceeds WCAG AAA (12:1+). Superior to black for extended reading. */
+  --color-gray-900: #212529;
+  /* Deep shadows, near-black shade of gray. Maximum depth and contrast. */
+  --color-gray-950: #0a0d10;
+  /* Extra small breakpoint for portrait phones (min-width: 0). Bootstrap's default mobile-first starting point. */
+  --layout-breakpoints-xs: 0px;
+  /* Small breakpoint for landscape phones (≥576px). First responsive breakpoint in Bootstrap's mobile-first approach. */
+  --layout-breakpoints-sm: 576px;
+  /* Medium breakpoint for tablets (≥768px). Common tablet viewport size for responsive layouts. */
+  --layout-breakpoints-md: 768px;
+  /* Large breakpoint for desktops (≥992px). Standard desktop viewport size for responsive web design. */
+  --layout-breakpoints-lg: 992px;
+  /* Extra large breakpoint for large desktops (≥1200px). Wide desktop viewport for expansive layouts. */
+  --layout-breakpoints-xl: 1200px;
+  /* Extra extra large breakpoint for larger desktops (≥1400px). Widest default viewport for ultra-wide displays. */
+  --layout-breakpoints-xxl: 1400px;
+  /* Maximum container width at small breakpoint (540px). Container width for landscape phones and small tablets. */
+  --layout-container-max-width-sm: 540px;
+  /* Maximum container width at medium breakpoint (720px). Container width optimized for tablets. */
+  --layout-container-max-width-md: 720px;
+  /* Maximum container width at large breakpoint (960px). Standard desktop container width. */
+  --layout-container-max-width-lg: 960px;
+  /* Maximum container width at extra large breakpoint (1140px). Wide desktop container width. */
+  --layout-container-max-width-xl: 1140px;
+  /* Maximum container width at extra extra large breakpoint (1320px). Widest container for ultra-wide displays. */
+  --layout-container-max-width-xxl: 1320px;
+  /* Horizontal padding for containers (12px left and right). Applied by the make-container mixin for content spacing. */
+  --layout-container-padding-x: 12px;
+  /* Number of columns in Bootstrap's grid system (12). Provides flexible layout options with divisible column counts. */
+  --layout-grid-columns: 12rem;
+  /* Default gutter width between grid columns (1.5rem = 24px). Horizontal padding creating space between columns. */
+  --layout-grid-gutter-width: 24px;
+  /* Maximum number of columns for .row-cols-* classes (6). Sets the limit for auto-layout row columns. */
+  --layout-grid-row-columns: 6rem;
+  /* No gutter spacing (0). Removes all spacing between columns with .g-0 class. */
+  --layout-gutters-0: 0px;
+  /* Extra small gutter spacing (0.25rem = 4px). Minimal spacing for tightly packed layouts. */
+  --layout-gutters-1: 4px;
+  /* Small gutter spacing (0.5rem = 8px). Compact spacing between columns. */
+  --layout-gutters-2: 8px;
+  /* Medium gutter spacing (1rem = 16px). Standard spacing for moderate column separation. */
+  --layout-gutters-3: 16px;
+  /* Default gutter spacing (1.5rem = 24px). Bootstrap's standard gutter width matching $grid-gutter-width. */
+  --layout-gutters-4: 24px;
+  /* Large gutter spacing (3rem = 48px). Wide spacing for prominent column separation. */
+  --layout-gutters-5: 48px;
+  /* Complete box shadow value for Bootstrap SCSS export */
+  --shadow-default: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  /* Complete box shadow value for Bootstrap SCSS export */
+  --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  /* Complete box shadow value for Bootstrap SCSS export */
+  --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  /* Complete box shadow value for Bootstrap SCSS export */
+  --shadow-inset: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+  /* Spacing scale 0 - No spacing. Bootstrap's $spacer * 0 (0px). */
+  --spacing-0: 0px;
+  /* Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px). */
+  --spacing-1: 4px;
+  /* Spacing scale 2 - Small spacing. Bootstrap's $spacer * 0.5 (8px). */
+  --spacing-2: 8px;
+  /* Spacing scale 3 - Base spacing. Bootstrap's $spacer * 1 (16px). */
+  --spacing-3: 16px;
+  /* Spacing scale 4 - Medium spacing. Bootstrap's $spacer * 1.5 (24px). */
+  --spacing-4: 24px;
+  /* Spacing scale 5 - Large spacing. Bootstrap's $spacer * 3 (48px). */
+  --spacing-5: 48px;
+  /* Spacing scale 6 - Extra large spacing (64px). */
+  --spacing-6: 64px;
+  /* Spacing scale 7 - 2X extra large spacing (80px). */
+  --spacing-7: 80px;
+  /* Spacing scale 8 - 3X extra large spacing (96px). */
+  --spacing-8: 96px;
+  /* Spacing scale 9 - 4X extra large spacing (128px). */
+  --spacing-9: 128px;
+  /* Spacing scale 10 - 5X extra large spacing (160px). */
+  --spacing-10: 160px;
+  /* Spacing scale 10 - 5X extra large spacing (160px). */
+  --spacing-11: 96px;
+  /* Spacing 12px - 4px grid intermediate value. Common for button/input padding (0.75rem). */
+  --spacing-12: 12px;
+  /* Spacing scale 10 - 5X extra large spacing (160px). */
+  --spacing-13: 144px;
+  /* Spacing scale 10 - 5X extra large spacing (160px). */
+  --spacing-14: 160px;
+  /* Spacing 20px - 4px grid intermediate value (1.25rem). Fills gap between 16px and 24px. */
+  --spacing-20: 20px;
+  /* Spacing 28px - 4px grid intermediate value (1.75rem). Fills gap between 24px and 32px. */
+  --spacing-28: 28px;
+  /* Spacing 32px - 4px grid value (2rem). Between Bootstrap scale 4 (24px) and 5 (48px). */
+  --spacing-32: 32px;
+  /* Spacing 36px - 4px grid value (2.25rem). Between Bootstrap scale 4 (24px) and 5 (48px). */
+  --spacing-36: 36px;
+  /* Spacing 40px - 4px grid value (2.5rem). Between Bootstrap scale 4 (24px) and 5 (48px). */
+  --spacing-40: 40px;
+  /* Spacing 44px - 4px grid value (2.75rem). Between Bootstrap scale 4 (24px) and 5 (48px). */
+  --spacing-44: 44px;
+  /* Spacing 56px - 4px grid value (3.5rem). Between Bootstrap scale 5 (48px) and extended 6 (64px). */
+  --spacing-56: 56px;
+  /* Spacing scale 1 - Extra small spacing. Bootstrap's $spacer * 0.25 (4px). */
+  --spacing-1-5: 6px;
+  /* Root font size for all viewports (1rem = 16px) */
+  --typography-text-base: 16px;
+  /* Small font size (0.875rem = 14px) */
+  --typography-text-sm: 14px;
+  /* Large font size (1.25rem = 20px) */
+  --typography-text-lead: 20px;
+  /* Lighter font weight */
+  --typography-font-weight-thin: 100;
+  /* Light font weight */
+  --typography-font-weight-light: 300;
+  /* Normal font weight (default body weight) */
+  --typography-font-weight-regular: 400;
+  /* Medium font weight */
+  --typography-font-weight-medium: 500;
+  /* Semibold font weight */
+  --typography-font-weight-semi-bold: 600;
+  /* Bold font weight */
+  --typography-font-weight-bold: 700;
+  /* Bolder font weight */
+  --typography-font-weight-black: 900;
+  /* Lighter font weight */
+  --typography-font-weight-extra-light: 200;
+  /* Bold font weight */
+  --typography-font-weight-extra-bold: 800;
+  --typography-font-weight-italic: italic;
+  --typography-font-weight-thin-italic: 'thin italic';
+  --typography-font-weight-extra-light-italic: 'extra light italic';
+  --typography-font-weight-light-italic: 'light italic';
+  --typography-font-weight-medium-italic: 'medium italic';
+  --typography-font-weight-semi-bold-italic: 'semi bold italic';
+  --typography-font-weight-bold-italic: 'bold italic';
+  --typography-font-weight-extra-bold-italic: 'extra bold italic';
+  --typography-font-weight-black-italic: 'black italic';
+  /* Extra small line height (1.0 ratio) - Compact UI, tags, badges. Use sparingly, not for body text. 4pt scale: 16px. */
+  --typography-line-height-xs: 16;
+  /* Small line height (1.25 ratio) - Bootstrap $line-height-sm. Compact text, small UI elements, tight spacing. Below WCAG AA for body text. 4pt scale: 20px. */
+  --typography-line-height-sm: 20;
+  /* Tight line height (1.2-1.25 ratio) - Display fonts, headings (h1-h6). Improves readability of large text. Bootstrap heading default. 4pt scale: 20px for 16px base. */
+  --typography-line-height-tight: 20;
+  /* Base line height (1.5 ratio) - Bootstrap $line-height-base. Default for body text. WCAG AA compliant (1.5 minimum). 4pt scale: 24px for 16px base font. */
+  --typography-line-height-base: 24;
+  /* Relaxed line height (1.75 ratio) - Enhanced readability for long-form content, articles, documentation. Exceeds WCAG AA. 4pt scale: 28px. */
+  --typography-line-height-relaxed: 28;
+  /* Large line height (2.0 ratio) - Bootstrap $line-height-lg. Spacious text, large UI components, improved scannability. 4pt scale: 32px. */
+  --typography-line-height-lg: 32;
+  /* Small display line height (1.2 ratio for 40px text) - Display fonts, large headings. Tighter leading for visual impact. 4pt scale: 48px. */
+  --typography-line-height-display-sm: 48;
+  /* Medium display line height (1.2 ratio for 48-56px text) - Medium display fonts. 4pt scale: 60px. */
+  --typography-line-height-display-md: 60;
+  /* Large display line height (1.2 ratio for 64px text) - Large display fonts, hero headings. 4pt scale: 76px (closest to 1.2 ratio). */
+  --typography-line-height-display-lg: 80;
+  /* Large line height (2.0 ratio) - Bootstrap $line-height-lg. Spacious text, large UI components, improved scannability. 4pt scale: 32px. */
+  --typography-line-height-xlg: 40;
+  /* Large line height (2.0 ratio) - Bootstrap $line-height-lg. Spacious text, large UI components, improved scannability. 4pt scale: 32px. */
+  --typography-line-height-xxlg: 44;
+  --typography-line-height-display-xlg: 88px;
+  /* H1 heading font size (2.5rem = 40px) */
+  --typography-heading-h1: 40px;
+  /* H2 heading font size (2rem = 32px) */
+  --typography-heading-h2: 32px;
+  /* H3 heading font size (1.75rem = 28px) */
+  --typography-heading-h3: 28px;
+  /* H4 heading font size (1.5rem = 24px) */
+  --typography-heading-h4: 24px;
+  /* H5 heading font size (1.25rem = 20px) */
+  --typography-heading-h5: 20px;
+  /* H6 heading font size (1rem = 16px) */
+  --typography-heading-h6: 16px;
+  /* Display 1 font size (5rem = 80px) */
+  --typography-display-d1: 80px;
+  /* Display 2 font size (4.5rem = 72px) */
+  --typography-display-d2: 72px;
+  /* Display 3 font size (4rem = 64px) */
+  --typography-display-d3: 64px;
+  /* Display 4 font size (3.5rem = 56px) */
+  --typography-display-d4: 56px;
+  /* Display 5 font size (3rem = 48px) */
+  --typography-display-d5: 48px;
+  /* Display 6 font size (2.5rem = 40px) */
+  --typography-display-d6: 40px;
+  /* Tighter letter spacing (-0.05em) - Use for large headings and display text to improve visual density. Enhances readability at larger sizes. */
+  --typography-letter-spacing-tighter: -0.5px;
+  /* Tight letter spacing (-0.025em) - Subtle tightening for headings. Improves visual cohesion without sacrificing readability. */
+  --typography-letter-spacing-tight: -0.30000001192092896px;
+  /* Normal letter spacing (0) - Default spacing for body text and most content. Optimal for readability and accessibility. */
+  --typography-letter-spacing-normal: 0px;
+  /* Wide letter spacing (0.025em) - Subtle spacing increase for improved readability in small text or uppercase. Enhances legibility. */
+  --typography-letter-spacing-wide: 0.30000001192092896px;
+  /* Wider letter spacing (0.05em) - Noticeable spacing for uppercase text, labels, and buttons. Improves legibility and visual prominence. */
+  --typography-letter-spacing-wider: 0.5px;
+  /* Widest letter spacing (0.1em) - Maximum spacing for all-caps headings, labels, or decorative text. Creates strong visual impact. */
+  --typography-letter-spacing-widest: 1px;
+  /* Tighter letter spacing (-0.05em) - Use for large headings and display text to improve visual density. Enhances readability at larger sizes. */
+  --typography-letter-spacing-tightest: -1px;
+  /* Primary font family for Figma (single font name). Full Bootstrap stack: system-ui, -apple-system, Segoe UI, Roboto, etc. */
+  --typography-font-family-base: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
+  /* Monospace font for code (single font name). Full Bootstrap stack: SFMono-Regular, Menlo, Monaco, Consolas, etc. */
+  --typography-font-family-monospace: 'Roboto Mono', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }

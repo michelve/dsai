@@ -300,6 +300,9 @@ export interface BuildOptions {
   /** Only build theme CSS */
   onlyTheme?: boolean;
 
+  /** Source directory for Figma exports */
+  sourceDir?: string;
+
   /** Enable watch mode */
   watch?: boolean;
 
@@ -326,6 +329,9 @@ export interface BuildOptions {
 
   /** Output directory for all formats */
   outputDir?: string;
+
+  /** Output formats to generate (default: ['css', 'scss', 'json']) */
+  formats?: Array<'css' | 'scss' | 'js' | 'ts' | 'json' | 'android' | 'ios'>;
 
   /** Per-format output directories */
   outputDirs?: Partial<Record<string, string>>;
@@ -402,6 +408,29 @@ export interface BuildOptions {
       }
     >;
   };
+
+  /**
+   * Post-process configuration for CSS files
+   */
+  postprocessConfig?: {
+    /** Whether postprocessing is enabled */
+    enabled?: boolean;
+    /** CSS output directory */
+    cssDir?: string;
+    /** CSS files to process */
+    files?: string[];
+    /** Text replacements to apply */
+    replacements?: Array<{
+      description?: string;
+      from: string | RegExp;
+      to: string;
+    }>;
+  };
+
+  /**
+   * CSS output directory (from SCSS config)
+   */
+  cssOutputDir?: string;
 }
 
 /**

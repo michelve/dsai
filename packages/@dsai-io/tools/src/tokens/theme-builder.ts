@@ -116,6 +116,18 @@ export interface ThemeStyleDictionaryConfig {
 
   /** Platform configurations */
   platforms: Record<string, StyleDictionaryPlatformConfig>;
+
+  /** Whether tokens use DTCG format ($value, $type, etc.) */
+  usesDtcg?: boolean;
+
+  /** Logging configuration */
+  log?: {
+    warnings?: 'warn' | 'error' | 'disabled';
+    verbosity?: 'default' | 'silent' | 'verbose';
+    errors?: {
+      brokenReferences?: 'throw' | 'console';
+    };
+  };
 }
 
 /**
@@ -171,8 +183,8 @@ interface FormatConfig {
 const FORMAT_MAPPING = new Map<OutputFormat, FormatConfig>([
   ['css', { default: 'css/variables-with-comments', themed: 'css/variables-dark-mode' }],
   ['scss', { default: 'scss/variables', themed: 'scss/variables' }],
-  ['js', { default: 'javascript/es6', themed: 'javascript/es6' }],
-  ['ts', { default: 'typescript/es6-declarations', themed: 'typescript/es6-declarations' }],
+  ['js', { default: 'javascript/esm-safe', themed: 'javascript/esm-safe' }],
+  ['ts', { default: 'typescript/declarations', themed: 'typescript/declarations' }],
   ['json', { default: 'json/nested', themed: 'json/nested' }],
   ['android', { default: 'android/resources', themed: 'android/resources' }],
   ['ios', { default: 'ios/macros', themed: 'ios/macros' }],
@@ -181,13 +193,16 @@ const FORMAT_MAPPING = new Map<OutputFormat, FormatConfig>([
 /**
  * Default Style Dictionary transform groups by platform
  * Using Map for safe access (avoids Object Injection Sink)
+ * Note: Style Dictionary built-in groups are: web, js, scss, css, less, html, android, compose, ios, ios-swift, assets, flutter, react-native
+ *
+ * We use 'js-custom' for JS/TS to ensure valid JavaScript identifiers with our custom name/js-identifier transform
  */
 const TRANSFORM_GROUPS = new Map<OutputFormat, string>([
   ['css', 'css'],
   ['scss', 'scss'],
-  ['js', 'js'],
-  ['ts', 'ts'],
-  ['json', 'json'],
+  ['js', 'js-custom'], // Use custom transform group for valid JS identifiers
+  ['ts', 'js-custom'], // TypeScript uses same transforms as JS
+  ['json', 'web'], // JSON uses web transforms (no "json" transformGroup exists)
   ['android', 'android'],
   ['ios', 'ios'],
 ]);
@@ -235,6 +250,16 @@ export function generateThemeBuildConfig(options: ThemeBuildOptions): ThemeStyle
   return {
     source: files,
     platforms,
+    // Enable DTCG format support (tokens with $value, $type, etc.)
+    usesDtcg: true,
+    // Configure logging to not throw on broken references (they'll be logged but build continues)
+    log: {
+      warnings: 'warn' as const,
+      verbosity: 'default' as const,
+      errors: {
+        brokenReferences: 'console' as const,
+      },
+    },
   };
 }
 
@@ -407,6 +432,13 @@ export async function buildTheme(options: ThemeBuildOptions): Promise<ThemeBuild
 
     if (verbose) {
       console.warn(`   Platforms: ${Object.keys(sdConfig.platforms).join(', ')}`);
+      console.warn(`   Enabled formats: ${options.config.formats.join(', ')}`);
+      // Debug: show platform build paths
+      for (const [platform, platformCfg] of Object.entries(sdConfig.platforms)) {
+        console.warn(
+          `   ${platform}: ${platformCfg.buildPath} -> ${platformCfg.files[0]?.destination}`
+        );
+      }
     }
 
     // Run Style Dictionary build
@@ -443,19 +475,47 @@ async function runStyleDictionaryBuild(
   options: ThemeBuildOptions
 ): Promise<Partial<Record<OutputFormat, string[]>>> {
   // Dynamic import to avoid circular dependencies
-  const StyleDictionary = await import('style-dictionary');
+  const StyleDictionaryModule = await import('style-dictionary');
+  const StyleDictionary = StyleDictionaryModule.default;
 
   // Register custom formats using type assertion for compatibility
   const { registerFormats: registerCustomFormats } = await import(
     './style-dictionary/formats/index.js'
   );
-  registerCustomFormats(StyleDictionary.default as unknown as StyleDictionaryInstance);
+  registerCustomFormats(StyleDictionary as unknown as StyleDictionaryInstance);
+
+  // Register custom transforms
+  const { registerTransforms: registerCustomTransforms } = await import(
+    './style-dictionary/transforms/index.js'
+  );
+  registerCustomTransforms(StyleDictionary as unknown as StyleDictionaryInstance);
+
+  // Register custom transform groups (including js-custom with name/js-identifier)
+  const { registerTransformGroups } = await import('./style-dictionary/groups/index.js');
+  registerTransformGroups(StyleDictionary as unknown as StyleDictionaryInstance);
+
+  // Debug: log platforms being built
+  if (options.verbose) {
+    console.warn(`   🔧 Style Dictionary platforms:`);
+    for (const [platform, config] of Object.entries(sdConfig.platforms)) {
+      console.warn(
+        `      ${platform}: transformGroup="${config.transformGroup}", format="${config.files[0]?.format}"`
+      );
+    }
+  }
 
   // Create and build Style Dictionary instance
-  const sd = new StyleDictionary.default(sdConfig);
+  // Note: The built-in 'js' transform group includes 'name/pascal' which
+  // generates valid JS identifiers like 'Spacing0', 'NeutralGray100', etc.
+  const sd = new StyleDictionary(sdConfig);
 
-  // Build all platforms
-  await sd.buildAllPlatforms();
+  // Build all platforms and capture any errors
+  try {
+    await sd.buildAllPlatforms();
+  } catch (error) {
+    console.error(`❌ Style Dictionary build failed:`, error);
+    throw error;
+  }
 
   // Collect output files using Map for safe access
   const outputsMap = new Map<OutputFormat, string[]>();
@@ -473,6 +533,15 @@ async function runStyleDictionaryBuild(
   if (options.verbose) {
     const totalFiles = Object.values(outputs).flat().length;
     console.warn(`   ✅ Generated ${totalFiles} output files`);
+    // Debug: check if files actually exist
+    for (const [format, files] of Object.entries(outputs)) {
+      for (const file of files) {
+        const exists = existsSync(file);
+        if (!exists) {
+          console.warn(`   ⚠️  Missing: ${format} -> ${file}`);
+        }
+      }
+    }
   }
 
   return outputs;
@@ -568,10 +637,16 @@ export async function buildAllThemes(
     console.warn(`\n🎨 Building ${themesToBuild.length} themes...`);
   }
 
+  // Find the default theme's files (needed for non-default themes to resolve references)
+  const defaultThemeName = Array.from(definitionsMap.entries()).find(
+    ([_, def]) => def.isDefault
+  )?.[0];
+  const defaultThemeFiles = defaultThemeName ? (themeFiles.get(defaultThemeName) ?? []) : [];
+
   // Build each theme
   for (const themeName of themesToBuild) {
     const rawThemeDefinition = definitionsMap.get(themeName);
-    const files = themeFiles.get(themeName);
+    const themeSpecificFiles = themeFiles.get(themeName);
 
     if (!rawThemeDefinition) {
       results.push({
@@ -585,7 +660,7 @@ export async function buildAllThemes(
       continue;
     }
 
-    if (!files || files.length === 0) {
+    if (!themeSpecificFiles || themeSpecificFiles.length === 0) {
       results.push({
         success: false,
         themeName,
@@ -597,8 +672,18 @@ export async function buildAllThemes(
       continue;
     }
 
-    // Resolve the theme definition to ensure all required fields are present
+    // For non-default themes, include default theme files first, then theme-specific files
+    // This allows references to be resolved and theme-specific values to override defaults
     const isDefault = rawThemeDefinition.isDefault ?? false;
+    let files: string[];
+    if (isDefault) {
+      files = themeSpecificFiles;
+    } else {
+      // Include default files first, then theme-specific files (which override)
+      files = [...defaultThemeFiles, ...themeSpecificFiles];
+    }
+
+    // Resolve the theme definition to ensure all required fields are present
     const baseOutputFiles = rawThemeDefinition.outputFiles ?? {};
     const themeDefinition: ResolvedThemeDefinition = {
       isDefault,

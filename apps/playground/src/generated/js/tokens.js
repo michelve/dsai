@@ -1,14 +1,4 @@
 /**
- * Do not edit directly, this file was auto-generated.
- * Generated from Style Dictionary output (dist/js/tokens.js)
- *
- * To update: run `pnpm tokens:build` which will:
- * 1. Transform Figma tokens
- * 2. Build with Style Dictionary
- * 3. Sync this file automatically
- */
-
-/**
  * tokens.js
  * Design Tokens - Generated
  * DO NOT EDIT

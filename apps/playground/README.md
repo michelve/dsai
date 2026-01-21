@@ -32,8 +32,7 @@ apps/playground/
 │   │   └── dsai-theme-bs.css    # Compiled Bootstrap theme
 │   └── figma-exports/           # Figma token exports
 │       └── theme.json
-├── sd.config.mjs                # Style Dictionary configuration
-├── dsai.config.mjs              # DSAi tools configuration
+├── dsai.config.mjs              # DSAi tools configuration (tokens, themes, build pipeline)
 └── package.json
 ```
 
@@ -411,51 +410,23 @@ To add new components:
 
 ## Configuration
 
-### Style Dictionary (`sd.config.mjs`)
-
-```javascript
-export default {
-  source: ['src/collections/**/*.json'],
-  platforms: {
-    scss: {
-      transformGroup: 'scss',
-      buildPath: 'src/generated/',
-      files: [
-        {
-          destination: '_variables.scss',
-          format: 'scss/variables',
-          options: { outputReferences: true },
-        },
-      ],
-    },
-    css: {
-      /* ... */
-    },
-    js: {
-      /* ... */
-    },
-    ts: {
-      /* ... */
-    },
-    json: {
-      /* ... */
-    },
-  },
-};
-```
-
-### DSAi Config (`dsai.config.mjs`)
+All configuration is centralized in `dsai.config.mjs`. See that file for comprehensive documentation of all available options.
 
 ```javascript
 import { defineConfig } from '@dsai-io/tools';
 
 export default defineConfig({
+  global: { /* debug, logLevel, framework, build options */ },
   tokens: {
-    sourceDir: './src/collections',
+    sourceDir: './src/figma-exports',
     outputDir: './src/generated',
-    figmaExports: './src/figma-exports',
     formats: ['css', 'scss', 'js', 'ts', 'json'],
+    themes: { /* multi-theme configuration */ },
+    cache: { /* incremental build caching */ },
+    pipeline: { /* build pipeline steps */ },
   },
+  icons: { /* icon processing */ },
+  changelog: { /* token changelog generation */ },
 });
 ```
 

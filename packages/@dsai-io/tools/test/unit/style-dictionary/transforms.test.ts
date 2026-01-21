@@ -17,6 +17,7 @@ import {
   fontWeightUnitless,
   lineHeightUnitless,
   nameKebab,
+  nameJsIdentifier,
 } from '../../../src/tokens/style-dictionary/transforms/index.js';
 
 import type {
@@ -55,13 +56,14 @@ function assertFilter(
 
 describe('builtInTransforms', () => {
   it('should include all standard transforms', () => {
-    expect(builtInTransforms).toHaveLength(4);
+    expect(builtInTransforms).toHaveLength(5);
 
     const names = builtInTransforms.map((t) => t.name);
     expect(names).toContain('dimension/rem');
     expect(names).toContain('fontWeight/unitless');
     expect(names).toContain('lineHeight/unitless');
     expect(names).toContain('name/kebab');
+    expect(names).toContain('name/js-identifier');
   });
 });
 
@@ -355,6 +357,41 @@ describe('nameKebab', () => {
 });
 
 // ============================================================================
+// name/js-identifier Transform
+// ============================================================================
+
+describe('nameJsIdentifier', () => {
+  it('should have correct name and type', () => {
+    expect(nameJsIdentifier.name).toBe('name/js-identifier');
+    expect(nameJsIdentifier.type).toBe('name');
+  });
+
+  it('should convert to PascalCase for alphabetic segments', () => {
+    const token = createToken({ path: ['colors', 'brand', 'primaryBase'] });
+    const result = nameJsIdentifier.transform(token);
+    expect(result).toBe('ColorsBrandPrimarybase');
+  });
+
+  it('should prefix numeric-only segments with underscore', () => {
+    const token = createToken({ path: ['colors', 'neutral', 'gray', '100'] });
+    const result = nameJsIdentifier.transform(token);
+    expect(result).toBe('ColorsNeutralGray_100');
+  });
+
+  it('should prefix segments that start with numbers and keep casing', () => {
+    const token = createToken({ path: ['grid', '12-col', 'span'] });
+    const result = nameJsIdentifier.transform(token);
+    expect(result).toBe('Grid_12ColSpan');
+  });
+
+  it('should handle numeric first segments', () => {
+    const token = createToken({ path: ['100', 'level', 'token'] });
+    const result = nameJsIdentifier.transform(token);
+    expect(result).toBe('_100LevelToken');
+  });
+});
+
+// ============================================================================
 // Register Transforms
 // ============================================================================
 
@@ -372,11 +409,12 @@ describe('registerTransforms', () => {
 
     registerTransforms(mockSD);
 
-    expect(mockSD.registerTransform).toHaveBeenCalledTimes(4);
+    expect(mockSD.registerTransform).toHaveBeenCalledTimes(5);
     expect(registered).toContain('dimension/rem');
     expect(registered).toContain('fontWeight/unitless');
     expect(registered).toContain('lineHeight/unitless');
     expect(registered).toContain('name/kebab');
+    expect(registered).toContain('name/js-identifier');
   });
 
   it('should register custom transforms', () => {
@@ -396,7 +434,7 @@ describe('registerTransforms', () => {
 
     registerTransforms(mockSD, [customTransform]);
 
-    expect(mockSD.registerTransform).toHaveBeenCalledTimes(5);
+    expect(mockSD.registerTransform).toHaveBeenCalledTimes(6);
     expect(mockSD.registerTransform).toHaveBeenCalledWith(
       expect.objectContaining({ name: 'custom/transform' })
     );

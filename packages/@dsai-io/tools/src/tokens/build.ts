@@ -22,8 +22,8 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 
 import { execSync } from 'node:child_process';
-import { existsSync } from 'node:fs';
-import { dirname } from 'node:path';
+import { existsSync, readdirSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 
 import { CacheService } from './cache.js';
 import {
@@ -32,12 +32,14 @@ import {
   updateCacheAfterBuild,
   type IncrementalOptions,
 } from './incremental.js';
-import { postprocessCLI } from './postprocess.js';
+import { preprocessTokenFiles, type FilePreprocessingResult } from './mode-preprocessor.js';
+import { postprocessCssFiles } from './postprocess.js';
 import { SnapshotService } from './snapshot.js';
 import { syncTokensCLI } from './sync.js';
 import { buildAllThemes } from './theme-builder.js';
 import { discoverThemeFiles } from './theme-discovery.js';
 import { transformTokens } from './transform.js';
+import { validateTokens } from './validate.js';
 
 import type { BuildOptions, BuildResult, BuildStep } from './types';
 import type {
@@ -50,6 +52,9 @@ import type {
 // ============================================================================
 // Constants
 // ============================================================================
+
+/** Global cleanup function for preprocessed files */
+let preprocessCleanup: (() => void) | null = null;
 
 /** Default SASS deprecation silencing flags */
 const SASS_FLAGS = [
@@ -66,6 +71,7 @@ const SASS_FLAGS_MINIMAL = ['--quiet-deps', '--silence-deprecation=import'].join
 const DEFAULT_PIPELINE_STEPS: BuildPipelineStep[] = [
   'validate',
   'snapshot', // Create backup before transform
+  'preprocess', // Extract modes from nested Figma structure
   'transform',
   'style-dictionary',
   'sync',
@@ -96,7 +102,12 @@ const DEFAULT_PIPELINE_PATHS: Required<BuildPipelinePaths> = {
 /**
  * Run a single build step
  */
-function runStep(step: BuildStep, index: number, total: number, verbose: boolean): boolean {
+async function runStep(
+  step: BuildStep,
+  index: number,
+  total: number,
+  verbose: boolean
+): Promise<boolean> {
   const stepNum = `[${index + 1}/${total}]`;
 
   if (step.skip) {
@@ -113,12 +124,8 @@ function runStep(step: BuildStep, index: number, total: number, verbose: boolean
   // If step has a function, run it
   if (step.fn) {
     try {
-      // Run function and check return value
-      const result = step.fn();
-      if (result instanceof Promise) {
-        // We need to handle this synchronously in the build context
-        console.warn(`    ⚠️  Async step ${step.name} - running synchronously`);
-      }
+      // Run function and await if it returns a promise
+      const result = await step.fn();
       // Check if function returned false (failure)
       if (result === false) {
         console.error(`    ❌ Failed: Step returned false`);
@@ -129,7 +136,8 @@ function runStep(step: BuildStep, index: number, total: number, verbose: boolean
       }
       return true;
     } catch (error) {
-      console.error(`    ❌ Failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      console.error(`    ❌ Failed: ${errorMsg}`);
       return false;
     }
   }
@@ -182,6 +190,7 @@ function getPipelinePaths(customPaths?: BuildPipelinePaths): Required<BuildPipel
 const STEP_DISPLAY_NAMES = new Map<BuildPipelineStep, string>([
   ['validate', 'Validate Tokens'],
   ['snapshot', 'Create Snapshot Backup'],
+  ['preprocess', 'Preprocess Mode Files'],
   ['transform', 'Transform Figma Tokens'],
   ['style-dictionary', 'Build Style Dictionary'],
   ['multi-theme', 'Build Multi-Theme Tokens'],
@@ -206,17 +215,39 @@ function createStepFromName(
   sdConfigFile: string,
   strict: boolean,
   snapshotService?: SnapshotService,
-  themesConfig?: BuildOptions['themesConfig']
+  themesConfig?: BuildOptions['themesConfig'],
+  outputDir?: string,
+  formats: OutputFormat[] = ['css', 'scss', 'json'],
+  cssOutputDir?: string,
+  postprocessConfig?: BuildOptions['postprocessConfig']
 ): BuildStep {
   const displayName = STEP_DISPLAY_NAMES.get(stepName) ?? `Unknown: ${stepName}`;
 
   switch (stepName) {
     case 'validate':
-      // Use dsai CLI for validation - this uses the native TypeScript implementation
       return {
         name: displayName,
-        command: 'dsai tokens validate',
-        cwd: tokensPackageDir,
+        fn: async () => {
+          // Create minimal config for validation
+          const config = {
+            tokens: {
+              collectionsDir: tokensDir,
+              sourceDir: figmaExportsDir,
+            },
+          } as Parameters<typeof validateTokens>[0];
+
+          const result = await validateTokens(config, {
+            verbose: true,
+            strict,
+          });
+
+          if (!result.valid) {
+            for (const error of result.errors) {
+              console.error(`❌ ${error.message}`);
+            }
+          }
+          return result.valid;
+        },
       };
 
     case 'snapshot':
@@ -228,8 +259,12 @@ function createStepFromName(
             return true;
           }
           try {
+            // tokensDir is collectionsDir from config (e.g., ./src)
+            // actual collections are in tokensDir/collections
+            const collectionsPath = join(tokensDir, 'collections');
+            console.info(`    📂 Snapshot path: ${collectionsPath}`);
             const result = snapshotService.createSnapshot(
-              `${tokensPackageDir}/collections`,
+              collectionsPath,
               `Pre-transform backup - ${new Date().toISOString()}`
             );
 
@@ -250,12 +285,84 @@ function createStepFromName(
         },
       };
 
+    case 'preprocess':
+      return {
+        name: displayName,
+        fn: async () => {
+          try {
+            const outputDir = join(figmaExportsDir, '.preprocessed');
+            console.info(`    📂 Source: ${figmaExportsDir}`);
+            console.info(`    📂 Output: ${outputDir}`);
+
+            // Get all JSON files from the source directory
+            const jsonFiles = readdirSync(figmaExportsDir).filter((f) => f.endsWith('.json'));
+
+            if (jsonFiles.length === 0) {
+              console.warn(`    ⚠️  No JSON files found in ${figmaExportsDir}`);
+              return true; // Not a failure, just skip
+            }
+
+            const result = preprocessTokenFiles({
+              sourceDir: figmaExportsDir,
+              outputDir,
+              files: jsonFiles,
+              modesPath: ['Foundation', 'modes'],
+              verbose: true,
+            });
+
+            // Only fail if actual processing errors occurred (not "no modes detected")
+            const failedFiles = result.files.filter(
+              (f) => !f.success && f.error !== 'No modes detected'
+            );
+            if (failedFiles.length > 0) {
+              console.error(`    ❌ Preprocessing failed for ${failedFiles.length} file(s)`);
+              for (const failed of failedFiles) {
+                console.error(`       - ${failed.sourceFile}: ${failed.error ?? 'Unknown error'}`);
+              }
+              return false;
+            }
+
+            const successFiles = result.files.filter((f) => f.success);
+            const skippedFiles = result.files.filter((f) => f.error === 'No modes detected');
+
+            console.info(`    ✅ Preprocessed ${successFiles.length} file(s)`);
+            if (skippedFiles.length > 0) {
+              console.info(`    ⏭️  Skipped ${skippedFiles.length} file(s) (no modes)`);
+            }
+
+            const totalModes = result.files.reduce(
+              (sum: number, file: FilePreprocessingResult) => sum + file.modes.length,
+              0
+            );
+            console.info(`    📊 Total modes extracted: ${totalModes}`);
+
+            // Store cleanup function for later
+            preprocessCleanup = result.cleanup;
+
+            return true;
+          } catch (error) {
+            console.error(
+              `    ❌ Preprocessing failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+            );
+            return false;
+          }
+        },
+      };
+
     case 'transform':
       return {
         name: displayName,
         fn: () => {
+          // Check if preprocessed directory exists and use it instead
+          const preprocessedDir = join(figmaExportsDir, '.preprocessed');
+          const sourceDir = existsSync(preprocessedDir) ? preprocessedDir : figmaExportsDir;
+
+          if (sourceDir === preprocessedDir) {
+            console.info(`    📂 Using preprocessed directory: ${preprocessedDir}`);
+          }
+
           const result = transformTokens({
-            sourceDir: figmaExportsDir,
+            sourceDir,
             collectionsDir: tokensDir,
             verbose: true,
             strict,
@@ -338,7 +445,7 @@ function createStepFromName(
                   ])
                 ),
               },
-              { sourceDir: tokensDir, verbose: true }
+              { sourceDir: join(tokensDir, 'collections'), verbose: true }
             );
 
             if (discoveryResult.emptyThemes.length > 0) {
@@ -371,13 +478,13 @@ function createStepFromName(
 
             const result = await buildAllThemes({
               config: {
-                formats: ['css', 'scss', 'js', 'json'] as OutputFormat[],
+                formats: formats,
                 themes: {
                   definitions: themeDefinitions,
                 },
               },
               themeFiles,
-              outputDir: `${tokensPackageDir}/dist`,
+              outputDir: outputDir ?? `${tokensPackageDir}/dist`,
               verbose: true,
             });
 
@@ -427,7 +534,20 @@ function createStepFromName(
     case 'postprocess':
       return {
         name: displayName,
-        fn: () => postprocessCLI(tokensPackageDir),
+        fn: () => {
+          // Use cssOutputDir or postprocessConfig.cssDir if provided (now absolute paths from CLI)
+          // Fall back to tokensPackageDir + 'dist/css' if neither is set
+          const cssDir =
+            cssOutputDir ?? postprocessConfig?.cssDir ?? join(tokensPackageDir, 'dist/css');
+
+          const result = postprocessCssFiles({
+            cssDir,
+            files: postprocessConfig?.files,
+            replacements: postprocessConfig?.replacements,
+            verbose: true,
+          });
+          return result.success;
+        },
       };
 
     case 'sass-utilities':
@@ -480,8 +600,9 @@ function createBuildSteps(
     ? dirname(tokensDir)
     : dirname(tokensDir);
 
-  // Path to figma-exports source directory (sibling to collections)
-  const figmaExportsDir = `${tokensPackageDir}/figma-exports`;
+  // Path to figma-exports source directory
+  // Use sourceDir from options if provided, otherwise use sibling directory
+  const figmaExportsDir = options.sourceDir ?? `${tokensPackageDir}/figma-exports`;
 
   // Initialize snapshot service for backup/rollback
   const snapshotService = new SnapshotService({
@@ -494,6 +615,9 @@ function createBuildSteps(
   const pipelineSteps = pipeline?.steps ?? DEFAULT_PIPELINE_STEPS;
   const paths = getPipelinePaths(pipeline?.paths);
   const sdConfigFile = pipeline?.styleDictionaryConfig ?? 'sd.config.mjs';
+
+  // Get formats from options (default: css, scss, json - no js/ts by default to avoid numeric identifier issues)
+  const formats = (options.formats ?? ['css', 'scss', 'json']) as OutputFormat[];
 
   // Build steps based on pipeline configuration
   const steps: BuildStep[] = [];
@@ -508,7 +632,11 @@ function createBuildSteps(
       sdConfigFile,
       strict,
       snapshotService,
-      options.themesConfig
+      options.themesConfig,
+      options.outputDir,
+      formats,
+      options.cssOutputDir,
+      options.postprocessConfig
     );
 
     // Apply skip flags based on legacy options
@@ -575,6 +703,18 @@ export async function buildTokens(
     force = false,
     cacheDir,
   } = options;
+
+  // Use config values from options (already passed from CLI)
+  // No need to reload config here - CLI already loaded it
+  const cssOutputDir = options.cssOutputDir;
+  const postprocessConfig = options.postprocessConfig;
+
+  // Pass config to options so createBuildSteps can access it
+  const optionsWithConfig: BuildOptions = {
+    ...options,
+    cssOutputDir,
+    postprocessConfig,
+  };
 
   const startTime = Date.now();
   const stepsCompleted: string[] = [];
@@ -688,11 +828,16 @@ export async function buildTokens(
   }
 
   // Create and run build steps
-  const steps = createBuildSteps(tokensDir, toolsDir, options, options.pipeline);
+  const steps = createBuildSteps(
+    tokensDir,
+    toolsDir,
+    optionsWithConfig,
+    optionsWithConfig.pipeline
+  );
 
   for (const step of steps) {
     const stepIndex = steps.indexOf(step);
-    const success = runStep(step, stepIndex, steps.length, verbose && !quiet);
+    const success = await runStep(step, stepIndex, steps.length, verbose && !quiet);
 
     if (success) {
       if (!step.skip) {
@@ -747,6 +892,24 @@ export async function buildTokens(
           steps.length
         )
       );
+    }
+  }
+
+  // Cleanup preprocessed files if they exist
+  if (preprocessCleanup) {
+    try {
+      preprocessCleanup();
+      if (verbose && !quiet) {
+        console.info('🧹 Cleaned up preprocessed files');
+      }
+    } catch (error) {
+      if (verbose && !quiet) {
+        console.warn(
+          `⚠️  Failed to cleanup preprocessed files: ${error instanceof Error ? error.message : 'Unknown error'}`
+        );
+      }
+    } finally {
+      preprocessCleanup = null;
     }
   }
 

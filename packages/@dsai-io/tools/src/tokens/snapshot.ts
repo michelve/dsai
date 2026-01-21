@@ -358,8 +358,13 @@ export class SnapshotService {
       }
       if (pattern.startsWith('**/')) {
         // **/*.json matches any path ending with .json
-        const suffix = pattern.substring(2); // Remove **
-        return path.endsWith(suffix.substring(1)); // Remove leading /
+        const suffix = pattern.substring(3); // Remove **/
+        if (suffix.startsWith('*.')) {
+          // Pattern like **/*.json - check extension
+          const ext = suffix.substring(1); // .json
+          return path.endsWith(ext);
+        }
+        return path.endsWith(suffix);
       }
       if (pattern.startsWith('*.')) {
         return path.endsWith(pattern.substring(1));

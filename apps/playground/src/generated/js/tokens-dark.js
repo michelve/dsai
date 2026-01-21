@@ -1,15 +1,5 @@
 /**
- * Do not edit directly, this file was auto-generated.
- * Generated from Style Dictionary output (dist/js/tokens.js)
- *
- * To update: run `pnpm tokens:build` which will:
- * 1. Transform Figma tokens
- * 2. Build with Style Dictionary
- * 3. Sync this file automatically
- */
-
-/**
- * tokens.js
+ * tokens-dark.js
  * Design Tokens - Generated
  * DO NOT EDIT
  */
@@ -45,79 +35,79 @@ export const BorderWidth_5 = "0.3125rem";
 // Translucent border color that blends with backgrounds using rgba().
 export const SemanticBorderColorTranslucent = "#0a0d10";
 // Default body text color. Applied to the <body> element and inherited by all text content unless overridden.
-export const SemanticBodyColor = "#212529";
+export const SemanticBodyColor = "#dfe1e5";
 // Default body background color. Applied to the <body> element as the base page background.
-export const SemanticBodyBg = "#fafbfc";
+export const SemanticBodyBg = "#212529";
 // Emphasis color for higher contrast text. Use for headings or text that needs to stand out.
 export const SemanticEmphasisColor = "#0a0d10";
 // Secondary text color for lighter, less prominent text. Use for captions, labels, or helper text.
-export const SemanticSecondaryColor = "#7a7f87";
+export const SemanticSecondaryColor = "#cbced3";
 // Secondary background color. Use for dividers and to indicate disabled component states.
-export const SemanticSecondaryBg = "#e8eaed";
+export const SemanticSecondaryBg = "#343a40";
 // Tertiary text color for even lighter text. Use for less important supporting text.
 export const SemanticTertiaryColor = "#a8adb7";
 // Tertiary background color. Use for hover states, accents, and wells.
-export const SemanticTertiaryBg = "#f5f6f7";
+export const SemanticTertiaryBg = "#212529";
 // Default hyperlink color. Used for all <a> elements and interactive text.
-export const SemanticLinkColor = "#084298";
+export const SemanticLinkColor = "#5d99e7";
 // Hyperlink hover color. Applied when user hovers over a link.
-export const SemanticLinkHoverColor = "#063166";
+export const SemanticLinkHoverColor = "#86b3ed";
 // Default border color for component borders, dividers, and rules.
-export const SemanticBorderColor = "#dfe1e5";
+export const SemanticBorderColor = "#495057";
 // Primary text emphasis color - higher contrast text on light backgrounds.
-export const SemanticPrimaryTextEmphasis = "#063166";
+export const SemanticPrimaryTextEmphasis = "#86b3ed";
 // Primary subtle background color for non-intrusive backgrounds.
-export const SemanticPrimaryBgSubtle = "#d7e6f9";
+export const SemanticPrimaryBgSubtle = "#021022";
 // Primary subtle border color for gentle borders matching primary theme.
-export const SemanticPrimaryBorderSubtle = "#aeccf3";
+export const SemanticPrimaryBorderSubtle = "#063166";
 // Secondary theme text emphasis color - higher contrast text on light backgrounds.
-export const SemanticSecondaryTextEmphasis = "#495057";
+export const SemanticSecondaryTextEmphasis = "#dfe1e5";
 // Secondary theme subtle background color for non-intrusive backgrounds.
-export const SemanticSecondaryBgSubtle = "#f5f6f7";
+export const SemanticSecondaryBgSubtle = "#212529";
 // Secondary theme subtle border color for gentle borders matching secondary theme.
-export const SemanticSecondaryBorderSubtle = "#e8eaed";
+export const SemanticSecondaryBorderSubtle = "#495057";
 // Success text emphasis color - higher contrast text on light backgrounds.
-export const SemanticSuccessTextEmphasis = "#0a3622";
+export const SemanticSuccessTextEmphasis = "#67c3a7";
 // Success subtle background color for non-intrusive success states.
-export const SemanticSuccessBgSubtle = "#b3e1d3";
+export const SemanticSuccessBgSubtle = "#041b0f";
 // Success subtle border color for gentle borders matching success theme.
-export const SemanticSuccessBorderSubtle = "#8dd2bd";
+export const SemanticSuccessBorderSubtle = "#0a3622";
 // Danger text emphasis color - higher contrast text on light backgrounds.
-export const SemanticDangerTextEmphasis = "#58151c";
+export const SemanticDangerTextEmphasis = "#d792a3";
 // Danger subtle background color for non-intrusive error states.
-export const SemanticDangerBgSubtle = "#ebc9d1";
+export const SemanticDangerBgSubtle = "#2c0b0e";
 // Danger subtle border color for gentle borders matching danger theme.
-export const SemanticDangerBorderSubtle = "#e1adba";
+export const SemanticDangerBorderSubtle = "#58151c";
 // Warning text emphasis color - higher contrast text on light backgrounds.
-export const SemanticWarningTextEmphasis = "#92400e";
+export const SemanticWarningTextEmphasis = "#fbbf24";
 // Warning subtle background color for non-intrusive warning states.
-export const SemanticWarningBgSubtle = "#fef3c7";
+export const SemanticWarningBgSubtle = "#451a03";
 // Warning subtle border color for gentle borders matching warning theme.
-export const SemanticWarningBorderSubtle = "#fcd34d";
+export const SemanticWarningBorderSubtle = "#92400e";
 // Info text emphasis color - higher contrast text on light backgrounds.
-export const SemanticInfoTextEmphasis = "#055160";
+export const SemanticInfoTextEmphasis = "#4dd0e1";
 // Info subtle background color for non-intrusive info states.
-export const SemanticInfoBgSubtle = "#b2ebf2";
+export const SemanticInfoBgSubtle = "#012320";
 // Info subtle border color for gentle borders matching info theme.
-export const SemanticInfoBorderSubtle = "#80deea";
+export const SemanticInfoBorderSubtle = "#055160";
 // Light text emphasis color - provides contrast on light themed components.
-export const SemanticLightTextEmphasis = "#495057";
+export const SemanticLightTextEmphasis = "#f5f6f7";
 // Light subtle background color for subtle backgrounds.
-export const SemanticLightBgSubtle = "#f5f6f7";
+export const SemanticLightBgSubtle = "#343a40";
 // Light subtle border color for gentle borders matching light theme.
-export const SemanticLightBorderSubtle = "#e8eaed";
+export const SemanticLightBorderSubtle = "#495057";
 // Dark text emphasis color - highest contrast text on light backgrounds.
-export const SemanticDarkTextEmphasis = "#212529";
+export const SemanticDarkTextEmphasis = "#dfe1e5";
 // Dark subtle background color for darker backgrounds.
-export const SemanticDarkBgSubtle = "#cbced3";
+export const SemanticDarkBgSubtle = "#495057";
 // Dark subtle border color for borders matching dark theme.
-export const SemanticDarkBorderSubtle = "#a8adb7";
+export const SemanticDarkBorderSubtle = "#343a40";
 // Primary background color utility. Applies primary brand color as background. Use with .text-white for proper contrast. Maps to Bootstrap's .bg-primary utility class. Provides brand-consistent primary surfaces.
 export const SemanticPrimary = "#0a58ca";
 // Info background color utility. Applies info color as background. Use for informational surfaces. Maps to Bootstrap's .bg-info utility class. Communicates helpful information.
 export const SemanticInfo = "#087990";
 // Body background color utility. Applies default body background color. Use for main content areas. Maps to Bootstrap's .bg-body utility class. Matches default page background.
-export const SemanticBody = "#212529";
+export const SemanticBody = "#7a7f87";
 // Success background color utility. Applies success color as background. Use for positive feedback surfaces. Maps to Bootstrap's .bg-success utility class. Indicates successful operations.
 export const SemanticSuccess = "#0f5132";
 // Warning background color utility. Applies warning color as background. Use for caution or important notice surfaces. Maps to Bootstrap's .bg-warning utility class. Requires careful contrast checking.
@@ -127,19 +117,19 @@ export const SemanticSecondary = "#7a7f87";
 // Danger background color utility. Applies danger color as background. Use for error or destructive action surfaces. Maps to Bootstrap's .bg-danger utility class. Indicates errors or warnings.
 export const SemanticDanger = "#842029";
 // Dark background color utility. Applies dark gray as background. Use for high-contrast surfaces and footers. Maps to Bootstrap's .bg-dark utility class. Requires light text for contrast.
-export const SemanticDark = "#212529";
+export const SemanticDark = "#f5f6f7";
 // Light background color utility. Applies light gray as background. Use for subtle surfaces and page backgrounds. Maps to Bootstrap's .bg-light utility class. Requires dark text for contrast.
 export const SemanticLight = "#f5f6f7";
 // White background color utility. Applies pure white as background. Use for cards and elevated surfaces. Maps to Bootstrap's .bg-white utility class. Maximum brightness.
-export const SemanticWhite = "#fafbfc";
+export const SemanticWhite = "#0a0d10";
 // Black background color utility. Applies pure black as background. Use for maximum contrast surfaces. Maps to Bootstrap's .bg-black utility class. Requires white text.
-export const SemanticBlack = "#0a0d10";
+export const SemanticBlack = "#fafbfc";
 // Transparent background color utility. Removes background color. Use for overlay elements or to reset backgrounds. Maps to Bootstrap's .bg-transparent utility class.
 export const SemanticTransparent = "#000000";
 // Soft white (#FAFBFC / gray-50). Primary background for Light mode. Use for cards, page backgrounds, and surfaces. Reduces eye strain compared to pure white. WCAG AAA compliant with gray-900 text.
-export const NeutralWhite = "#fafbfc";
+export const NeutralWhite = "#0a0d10";
 // Near-black (#0A0D10 / gray-950). Maximum emphasis for Light mode. Use for headings, high-contrast text, and critical UI. Softer than pure black, reduces eye strain. WCAG AAA compliant on white backgrounds.
-export const NeutralBlack = "#0a0d10";
+export const NeutralBlack = "#fafbfc";
 // Neutral gray 100 alias. References brand.gray.100. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.100 for detailed usage guidance.
 export const NeutralGray_100 = "#f5f6f7";
 // Neutral gray 200 alias. References brand.gray.200. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.200 for detailed usage guidance.

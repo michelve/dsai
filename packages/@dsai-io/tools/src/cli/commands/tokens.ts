@@ -7,7 +7,7 @@
  * @module @dsai-io/tools/cli/commands/tokens
  */
 
-import { dirname } from 'node:path';
+import { dirname, resolve } from 'node:path';
 
 import { Command } from 'commander';
 
@@ -268,9 +268,11 @@ async function runTokensBuild(options: TokensBuildOptions): Promise<void> {
       process.exit(ExitCode.Success);
     }
 
-    // Get directories from config
-    const tokensDir = config.tokens.collectionsDir;
-    const toolsDir = config.tokens.sourceDir;
+    // Get directories from config - resolve to absolute paths
+    const configDir = dirname(configPath ?? process.cwd());
+    const tokensDir = resolve(configDir, config.tokens.collectionsDir);
+    const sourceDir = resolve(configDir, config.tokens.sourceDir);
+    const toolsDir = resolve(configDir, config.tokens.sourceDir);
 
     // Clean if requested
     if (options.clean) {
@@ -297,15 +299,39 @@ async function runTokensBuild(options: TokensBuildOptions): Promise<void> {
 
     // Run build
     spinner.start('Building tokens...');
-    const result: BuildResult = buildTokens(tokensDir, toolsDir, {
+
+    // Resolve paths for postprocess and scss config
+    const resolvedCssOutputDir = config.tokens.scss?.cssOutputDir
+      ? resolve(configDir, config.tokens.scss.cssOutputDir)
+      : undefined;
+    const resolvedPostprocessCssDir = config.tokens.postprocess?.cssDir
+      ? resolve(configDir, config.tokens.postprocess.cssDir)
+      : undefined;
+
+    const result: BuildResult = await buildTokens(tokensDir, toolsDir, {
       verbose: !options.quiet,
       quiet: options.quiet,
+      sourceDir, // Pass source directory for Figma exports
       pipeline: config.tokens.pipeline,
+      // Pass formats from config (default: css, scss, json)
+      formats: config.tokens.formats,
+      // Pass output directory from config
+      outputDir: config.tokens.outputDir
+        ? resolve(configDir, config.tokens.outputDir)
+        : resolve(configDir, 'dist'),
       // Pass themes config for multi-theme builds
       themesConfig: config.tokens.themes
         ? {
             enabled: config.tokens.themes.enabled,
             definitions: config.tokens.themes.definitions,
+          }
+        : undefined,
+      // Pass postprocess and scss config
+      cssOutputDir: resolvedCssOutputDir,
+      postprocessConfig: config.tokens.postprocess
+        ? {
+            ...config.tokens.postprocess,
+            cssDir: resolvedPostprocessCssDir,
           }
         : undefined,
     });
@@ -329,8 +355,10 @@ async function runTokensBuild(options: TokensBuildOptions): Promise<void> {
     } else {
       spinner.fail('Build failed');
 
-      for (const error of result.errors) {
-        logger.error(error);
+      if (result.errors && Array.isArray(result.errors)) {
+        for (const error of result.errors) {
+          logger.error(error);
+        }
       }
 
       process.exit(ExitCode.BuildError);

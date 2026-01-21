@@ -1082,7 +1082,7 @@ export default {
 
     // JavaScript/ES6
     js: {
-      transformGroup: 'custom/js',
+      transformGroup: 'js-custom',
       buildPath: '${outputDir}/',
       files: [
         {
@@ -1094,7 +1094,7 @@ export default {
 
     // TypeScript
     ts: {
-      transformGroup: 'custom/js',
+      transformGroup: 'js-custom',
       buildPath: '${outputDir}/',
       files: [
         {

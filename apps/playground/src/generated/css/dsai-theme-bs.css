@@ -1,6 +1,6 @@
 @charset "UTF-8";
 :root,
-[data-bs-theme=light] {
+[data-dsai-theme=light] {
   --bs-blue: #0a58ca;
   --bs-indigo: #6610f2;
   --bs-purple: #432874;
@@ -4299,7 +4299,7 @@ textarea.form-control-lg {
 }
 
 .navbar-dark,
-.navbar[data-bs-theme=dark] {
+.navbar[data-dsai-theme=dark] {
   --bs-navbar-color: rgba(250, 251, 252, 0.55);
   --bs-navbar-hover-color: rgba(250, 251, 252, 0.75);
   --bs-navbar-disabled-color: rgba(250, 251, 252, 0.25);
@@ -5333,7 +5333,7 @@ textarea.form-control-lg {
 }
 
 :root,
-[data-bs-theme=light] {
+[data-dsai-theme=light] {
   --bs-btn-close-filter: ;
 }
 
@@ -6154,7 +6154,7 @@ textarea.form-control-lg {
 }
 
 :root,
-[data-bs-theme=light] {
+[data-dsai-theme=light] {
   --bs-carousel-indicator-active-bg: #fafbfc;
   --bs-carousel-caption-color: #fafbfc;
   --bs-carousel-control-icon-filter: ;

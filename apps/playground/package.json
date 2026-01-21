@@ -12,18 +12,15 @@
     "figma:info": "node --env-file=.env figma.config.mjs info",
     "figma:workflow": "node --env-file=.env figma.config.mjs workflow",
     "tokens:transform": "node ../../packages/@dsai-io/tools/bin/dsai-tools.mjs tokens transform",
-    "tokens:build": "node build-tokens.mjs --incremental",
-    "tokens:build:full": "node build-tokens.mjs --force",
-    "tokens:build:fast": "node build-tokens.mjs --incremental --skip-validate",
+    "tokens:build": "node ../../packages/@dsai-io/tools/bin/dsai-tools.mjs tokens build",
+    "tokens:build:full": "node ../../packages/@dsai-io/tools/bin/dsai-tools.mjs tokens build --clean",
+    "tokens:build:fast": "node ../../packages/@dsai-io/tools/bin/dsai-tools.mjs tokens build --quiet",
+    "tokens:list-themes": "node ../../packages/@dsai-io/tools/bin/dsai-tools.mjs tokens build --list-themes",
     "tokens:validate": "node ../../packages/@dsai-io/tools/bin/dsai-tools.mjs tokens validate",
     "tokens:changelog": "node ../../packages/@dsai-io/tools/bin/dsai-tools.mjs tokens changelog",
-    "tokens:watch": "style-dictionary build --config sd.config.mjs --watch",
+    "tokens:watch": "node ../../packages/@dsai-io/tools/bin/dsai-tools.mjs tokens build --watch",
     "tokens:all": "pnpm tokens:transform && pnpm tokens:build",
-    "tokens:full": "pnpm figma:fetch && pnpm tokens:all",
-    "scss:build": "sass src/scss/dsai-theme-bs.scss:src/generated/dsai-theme-bs.css --style=expanded --load-path=node_modules && sass src/scss/dsai-theme-bs.scss:src/generated/dsai-theme-bs.min.css --style=compressed --load-path=node_modules",
-    "scss:watch": "sass src/scss/dsai-theme-bs.scss:src/generated/dsai-theme-bs.css --watch --style=expanded --load-path=node_modules",
-    "styles:all": "pnpm tokens:all && pnpm scss:build",
-    "styles:watch": "concurrently \"pnpm tokens:watch\" \"pnpm scss:watch\""
+    "tokens:full": "pnpm figma:fetch && pnpm tokens:all"
   },
   "dependencies": {
     "@dsai-io/figma-tokens": "workspace:*",
@@ -37,7 +34,7 @@
     "bootstrap": "^5.3.8",
     "glob": "^11.0.2",
     "sass": "^1.77.8",
-    "style-dictionary": "^5.1.1",
+    "style-dictionary": "^5.1.4",
     "vite": "^7.2.6"
   },
   "license": "UNLICENSED"

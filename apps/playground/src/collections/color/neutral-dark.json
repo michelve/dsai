@@ -28,7 +28,7 @@
     },
     "gray": {
       "100": {
-        "$value": "{colors.brand.gray.100}",
+        "$value": "{color.gray.100}",
         "$type": "color",
         "$description": "Neutral gray 100 alias. References brand.gray.100. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.100 for detailed usage guidance.",
         "$extensions": {
@@ -41,7 +41,7 @@
         }
       },
       "200": {
-        "$value": "{colors.brand.gray.200}",
+        "$value": "{color.gray.200}",
         "$type": "color",
         "$description": "Neutral gray 200 alias. References brand.gray.200. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.200 for detailed usage guidance.",
         "$extensions": {
@@ -54,7 +54,7 @@
         }
       },
       "300": {
-        "$value": "{colors.brand.gray.300}",
+        "$value": "{color.gray.300}",
         "$type": "color",
         "$description": "Neutral gray 300 alias. References brand.gray.300. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.300 for detailed usage guidance.",
         "$extensions": {
@@ -67,7 +67,7 @@
         }
       },
       "400": {
-        "$value": "{colors.brand.gray.400}",
+        "$value": "{color.gray.400}",
         "$type": "color",
         "$description": "Neutral gray 400 alias. References brand.gray.400. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.400 for detailed usage guidance.",
         "$extensions": {
@@ -80,7 +80,7 @@
         }
       },
       "500": {
-        "$value": "{colors.brand.gray.500}",
+        "$value": "{color.gray.500}",
         "$type": "color",
         "$description": "Neutral gray 500 alias. References brand.gray.500. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.500 for detailed usage guidance.",
         "$extensions": {
@@ -93,7 +93,7 @@
         }
       },
       "600": {
-        "$value": "{colors.brand.gray.600}",
+        "$value": "{color.gray.600}",
         "$type": "color",
         "$description": "Neutral gray 600 alias. References brand.gray.600. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.600 for detailed usage guidance.",
         "$extensions": {
@@ -106,7 +106,7 @@
         }
       },
       "700": {
-        "$value": "{colors.brand.gray.700}",
+        "$value": "{color.gray.700}",
         "$type": "color",
         "$description": "Neutral gray 700 alias. References brand.gray.700. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.700 for detailed usage guidance.",
         "$extensions": {
@@ -119,7 +119,7 @@
         }
       },
       "800": {
-        "$value": "{colors.brand.gray.800}",
+        "$value": "{color.gray.800}",
         "$type": "color",
         "$description": "Neutral gray 800 alias. References brand.gray.800. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.800 for detailed usage guidance.",
         "$extensions": {
@@ -132,7 +132,7 @@
         }
       },
       "900": {
-        "$value": "{colors.brand.gray.900}",
+        "$value": "{color.gray.900}",
         "$type": "color",
         "$description": "Neutral gray 900 alias. References brand.gray.900. Use for consistent gray tones across light/Darks. Maintains semantic meaning while adapting to theme context. See brand.gray.900 for detailed usage guidance.",
         "$extensions": {

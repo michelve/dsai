@@ -9,6 +9,7 @@
 
 import { cssDarkModeVariables } from './css-dark-mode.js';
 import { cssVariablesWithComments } from './css-variables.js';
+import { javascriptEsm } from './javascript.js';
 import {
   scssBootstrapVariables,
   scssFrameworkVariables,
@@ -24,6 +25,7 @@ import type { FormatDefinition, StyleDictionaryInstance } from '../types.js';
 export const builtInFormats: FormatDefinition[] = [
   cssDarkModeVariables,
   cssVariablesWithComments,
+  javascriptEsm,
   typescriptDeclarations,
   scssFrameworkVariables,
   scssBootstrapVariables,
@@ -61,6 +63,7 @@ export function registerFormats(
 // Re-export individual formats
 export { cssDarkModeVariables } from './css-dark-mode.js';
 export { cssVariablesWithComments } from './css-variables.js';
+export { javascriptEsm } from './javascript.js';
 export {
   scssBootstrapVariables,
   scssFrameworkVariables,

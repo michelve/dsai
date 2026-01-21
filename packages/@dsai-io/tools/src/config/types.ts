@@ -263,6 +263,30 @@ export interface TokensConfig {
    * Controls which steps run and their paths
    */
   pipeline?: TokensBuildPipeline;
+
+  /**
+   * Postprocess configuration for CSS file transformations
+   * Applied after SASS compilation
+   */
+  postprocess?: PostprocessConfig;
+}
+
+/**
+ * Postprocess configuration for CSS file transformations
+ */
+export interface PostprocessConfig {
+  /** Whether postprocessing is enabled */
+  enabled?: boolean;
+  /** Directory containing CSS files to process */
+  cssDir?: string;
+  /** File names to process */
+  files?: string[];
+  /** Replacement rules to apply */
+  replacements?: Array<{
+    description?: string;
+    from: string | RegExp;
+    to: string;
+  }>;
 }
 
 /**
@@ -271,6 +295,7 @@ export interface TokensConfig {
 export type BuildPipelineStep =
   | 'validate'
   | 'snapshot'
+  | 'preprocess'
   | 'transform'
   | 'style-dictionary'
   | 'multi-theme'
@@ -855,6 +880,19 @@ export interface ResolvedTokensConfig {
   watch: boolean;
   watchDirectories: string[];
   pipeline?: TokensBuildPipeline;
+  scss?: {
+    cssOutputDir?: string;
+  };
+  postprocess?: {
+    enabled?: boolean;
+    cssDir?: string;
+    files?: string[];
+    replacements?: Array<{
+      description?: string;
+      from: string | RegExp;
+      to: string;
+    }>;
+  };
 }
 
 /**

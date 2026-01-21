@@ -47,6 +47,18 @@ export type {
   TransformResult as TokenTransformResult,
 } from './types.js';
 
+// Mode extraction and preprocessing types
+export type {
+  ModeExtractionOptions,
+  ModeExtractionResult,
+} from './mode-extractor.js';
+
+export type {
+  PreprocessorConfig,
+  FilePreprocessingResult,
+  PreprocessingResult,
+} from './mode-preprocessor.js';
+
 // ============================================================================
 // Type Guards and Utility Functions
 // ============================================================================
@@ -164,6 +176,23 @@ export type {
   DiscoveryResult,
   DiscoveryOptions,
 } from './theme-discovery.js';
+
+// ============================================================================
+// Mode Extraction and Preprocessing Module
+// ============================================================================
+
+export {
+  extractMode,
+  extractModes,
+  detectModes,
+  flattenModeStructure,
+} from './mode-extractor.js';
+
+export {
+  preprocessFile,
+  preprocessTokenFiles,
+  getPreprocessedFilesForMode,
+} from './mode-preprocessor.js';
 
 // ============================================================================
 // Theme Builder Module

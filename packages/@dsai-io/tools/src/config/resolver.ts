@@ -264,6 +264,8 @@ function resolveTokensConfig(
     watch: config?.watch ?? base.watch,
     watchDirectories,
     pipeline: config?.pipeline,
+    scss: config?.scss,
+    postprocess: config?.postprocess,
   };
 }
 

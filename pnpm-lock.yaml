@@ -199,8 +199,8 @@ importers:
         specifier: ^1.77.8
         version: 1.94.2
       style-dictionary:
-        specifier: ^5.1.1
-        version: 5.1.1
+        specifier: ^5.1.4
+        version: 5.1.4
       vite:
         specifier: ^7.2.6
         version: 7.2.6(@types/node@24.10.1)(lightningcss@1.30.2)(sass@1.94.2)(yaml@2.8.1)
@@ -349,8 +349,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       zod:
-        specifier: ^3.25.0
-        version: 3.25.58
+        specifier: ^4.3.5
+        version: 4.3.5
     devDependencies:
       '@clack/prompts':
         specifier: ^0.11.0
@@ -362,8 +362,8 @@ importers:
         specifier: ^2.4.9
         version: 2.4.9
       style-dictionary:
-        specifier: ^5.1.1
-        version: 5.1.1
+        specifier: ^5.1.4
+        version: 5.1.4
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(postcss@8.5.6)(typescript@5.9.3)(yaml@2.8.1)
@@ -371,8 +371,8 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
       zod-to-json-schema:
-        specifier: ^3.25.0
-        version: 3.25.0(zod@3.25.58)
+        specifier: ^3.25.1
+        version: 3.25.1(zod@4.3.5)
 
 packages:
 
@@ -1069,6 +1069,9 @@ packages:
 
   '@bundled-es-modules/glob@11.0.3':
     resolution: {integrity: sha512-rt+1650YhlwRkkj67YMZQj5LXWZiavpHQg8K6jDcZBPbrBIooHbKOQvvxKJsKM80H1oHengEbIymfw3mn4FkUw==}
+
+  '@bundled-es-modules/glob@11.1.0':
+    resolution: {integrity: sha512-aD2nUfnJMa4hzRXhCRXKtIeOiCyGzJwJ/3mfHQeFxPANzpmQZRzv8lgWabYt1VtXkI6mvBPA+x8K5gB/lzPhIQ==}
 
   '@bundled-es-modules/memfs@4.17.0':
     resolution: {integrity: sha512-ykdrkEmQr9BV804yd37ikXfNnvxrwYfY9Z2/EtMHFEFadEjsQXJ1zL9bVZrKNLDtm91UdUOEHso6Aweg93K6xQ==}
@@ -5797,6 +5800,11 @@ packages:
     engines: {node: '>=22.0.0'}
     hasBin: true
 
+  style-dictionary@5.1.4:
+    resolution: {integrity: sha512-ig12xIuflWzvIQ+q+WlOynKS7B3+sE6Tj2XUeqtjv8mB+ljcomWJcc8PGcgrbYWXWY1GXw1rBEcsKY31qsmcNQ==}
+    engines: {node: '>=22.0.0'}
+    hasBin: true
+
   sucrase@3.35.1:
     resolution: {integrity: sha512-DhuTmvZWux4H1UOnWMB3sk0sbaCVOoQZjv8u1rDoTV0HTdGem9hkAZtl4JZy8P2z4Bg0nT+YMeOFyVr4zcG5Tw==}
     engines: {node: '>=16 || 14 >=14.17'}
@@ -6439,8 +6447,8 @@ packages:
     resolution: {integrity: sha512-CzhO+pFNo8ajLM2d2IW/R93ipy99LWjtwblvC1RsoSUMZgyLbYFr221TnSNT7GjGdYui6P459mw9JH/g/zW2ug==}
     engines: {node: '>=18'}
 
-  zod-to-json-schema@3.25.0:
-    resolution: {integrity: sha512-HvWtU2UG41LALjajJrML6uQejQhNJx+JBO9IflpSja4R03iNWfKXrj6W2h7ljuLyc1nKS+9yDyL/9tD1U/yBnQ==}
+  zod-to-json-schema@3.25.1:
+    resolution: {integrity: sha512-pM/SU9d3YAggzi6MtR4h7ruuQlqKtad8e9S0fmxcMi+ueAK5Korys/aWcV9LIIHTVbj01NdzxcnXSN+O74ZIVA==}
     peerDependencies:
       zod: ^3.25 || ^4
 
@@ -6458,6 +6466,9 @@ packages:
 
   zod@3.25.58:
     resolution: {integrity: sha512-DVLmMQzSZwNYzQoMaM3MQWnxr2eq+AtM9Hx3w1/Yl0pH8sLTSjN4jGP7w6f7uand6Hw44tsnSu1hz1AOA6qI2Q==}
+
+  zod@4.3.5:
+    resolution: {integrity: sha512-k7Nwx6vuWx1IJ9Bjuf4Zt1PEllcwe7cls3VNzm4CQ1/hgtFUK2bRNG3rvnpPUhFjmqJKAKtjV576KnUkHocg/g==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -7310,6 +7321,16 @@ snapshots:
       deepmerge: 4.3.1
 
   '@bundled-es-modules/glob@11.0.3':
+    dependencies:
+      buffer: 6.0.3
+      events: 3.3.0
+      glob: 11.1.0
+      path: 0.12.7
+      stream: 0.0.3
+      string_decoder: 1.3.0
+      url: 0.11.4
+
+  '@bundled-es-modules/glob@11.1.0':
     dependencies:
       buffer: 6.0.3
       events: 3.3.0
@@ -10235,8 +10256,8 @@ snapshots:
       '@babel/parser': 7.28.5
       eslint: 9.39.2
       hermes-parser: 0.25.1
-      zod: 3.25.58
-      zod-validation-error: 4.0.2(zod@3.25.58)
+      zod: 4.3.5
+      zod-validation-error: 4.0.2(zod@4.3.5)
     transitivePeerDependencies:
       - supports-color
 
@@ -12982,6 +13003,21 @@ snapshots:
       prettier: 3.6.2
       tinycolor2: 1.6.0
 
+  style-dictionary@5.1.4:
+    dependencies:
+      '@bundled-es-modules/deepmerge': 4.3.1
+      '@bundled-es-modules/glob': 11.1.0
+      '@bundled-es-modules/memfs': 4.17.0
+      '@zip.js/zip.js': 2.8.11
+      chalk: 5.6.2
+      change-case: 5.4.4
+      commander: 12.1.0
+      is-plain-obj: 4.1.0
+      json5: 2.2.3
+      path-unified: 0.2.0
+      prettier: 3.8.0
+      tinycolor2: 1.6.0
+
   sucrase@3.35.1:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.13
@@ -13650,18 +13686,20 @@ snapshots:
 
   yoctocolors@2.1.2: {}
 
-  zod-to-json-schema@3.25.0(zod@3.25.58):
+  zod-to-json-schema@3.25.1(zod@4.3.5):
     dependencies:
-      zod: 3.25.58
+      zod: 4.3.5
 
   zod-validation-error@3.5.4(zod@3.25.58):
     dependencies:
       zod: 3.25.58
 
-  zod-validation-error@4.0.2(zod@3.25.58):
+  zod-validation-error@4.0.2(zod@4.3.5):
     dependencies:
-      zod: 3.25.58
+      zod: 4.3.5
 
   zod@3.25.58: {}
+
+  zod@4.3.5: {}
 
   zwitch@2.0.4: {}
