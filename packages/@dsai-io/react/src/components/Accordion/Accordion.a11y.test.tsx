@@ -503,5 +503,71 @@ describe('Accordion Accessibility', () => {
       const results = await axe(container);
       expect(results).toHaveNoViolations();
     });
+
+    it('Accordion.Header renders accessible heading with button', async () => {
+      const { container } = render(
+        <Accordion>
+          <Accordion.Item eventKey="1">
+            <Accordion.Header>
+              <Accordion.Button>Header Section</Accordion.Button>
+            </Accordion.Header>
+            <Accordion.Panel>Content</Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+      );
+
+      const heading = container.querySelector('h2.accordion-header');
+      expect(heading).toBeInTheDocument();
+      expect(heading?.querySelector('button')).toBeInTheDocument();
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('Accordion.Header with custom level has no violations', async () => {
+      const { container } = render(
+        <Accordion>
+          <Accordion.Item eventKey="1">
+            <Accordion.Header as="h4">
+              <Accordion.Button>Level 4 Section</Accordion.Button>
+            </Accordion.Header>
+            <Accordion.Panel>Content</Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+      );
+
+      expect(container.querySelector('h4.accordion-header')).toBeInTheDocument();
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
+
+  // ===========================================================================
+  // Home/End Key Navigation
+  // ===========================================================================
+
+  describe('Home/End Key Navigation', () => {
+    it('Home key focuses the first button', async () => {
+      const user = userEvent.setup();
+      renderAccordion();
+
+      const buttons = screen.getAllByRole('button');
+      buttons[2].focus();
+
+      await user.keyboard('{Home}');
+      expect(buttons[0]).toHaveFocus();
+    });
+
+    it('End key focuses the last button', async () => {
+      const user = userEvent.setup();
+      renderAccordion();
+
+      const buttons = screen.getAllByRole('button');
+      buttons[0].focus();
+
+      await user.keyboard('{End}');
+      expect(buttons[2]).toHaveFocus();
+    });
   });
 });

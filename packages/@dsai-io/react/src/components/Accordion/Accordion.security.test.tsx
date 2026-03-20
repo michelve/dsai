@@ -315,7 +315,7 @@ describe('Accordion - Security (Prop Whitelisting & XSS Prevention)', () => {
       const items = container.querySelectorAll('.accordion-item');
       items.forEach((item) => {
         const visualState = item.getAttribute('data-visual-state');
-        expect(['collapsed', 'expanding', 'expanded', 'collapsing', null]).toContain(visualState);
+        expect(['collapsed', 'expanded', null]).toContain(visualState);
       });
     });
 
@@ -333,7 +333,7 @@ describe('Accordion - Security (Prop Whitelisting & XSS Prevention)', () => {
       // The visual state should only be one of the defined FSM states
       const visualState = item?.getAttribute('data-visual-state');
       expect(visualState).not.toBe('malicious-state');
-      expect(['collapsed', 'expanding', 'expanded', 'collapsing', null]).toContain(visualState);
+      expect(['collapsed', 'expanded', null]).toContain(visualState);
     });
   });
 

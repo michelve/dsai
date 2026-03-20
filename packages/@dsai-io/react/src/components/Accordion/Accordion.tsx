@@ -26,13 +26,13 @@ import { mergeRefs } from '../../utils/dom/mergeRefs';
 import {
   accordionFSMReducer,
   createInitialAccordionFSMState,
-  getAccordionItemVisualState,
   getActiveKeysArray,
 } from './Accordion.fsm';
 
 import type {
   AccordionButtonProps,
   AccordionContextValue,
+  AccordionHeaderProps,
   AccordionItemContextValue,
   AccordionItemProps,
   AccordionPanelProps,
@@ -143,48 +143,79 @@ const AccordionRoot = forwardRef<HTMLDivElement, AccordionProps>(
 
     // Track button refs for arrow-key navigation
     const buttonRefsRef = useRef<Map<string, HTMLButtonElement>>(new Map());
-    const buttonOrderRef = useRef<string[]>([]);
 
     // Register button ref for arrow-key navigation
     const registerButtonRef = useCallback(
       (eventKey: string, buttonRef: HTMLButtonElement | null) => {
         if (buttonRef) {
           buttonRefsRef.current.set(eventKey, buttonRef);
-          // Maintain order based on DOM position
-          if (!buttonOrderRef.current.includes(eventKey)) {
-            buttonOrderRef.current.push(eventKey);
-          }
         } else {
           buttonRefsRef.current.delete(eventKey);
-          buttonOrderRef.current = buttonOrderRef.current.filter((k) => k !== eventKey);
         }
       },
       []
     );
 
+    // Get button keys sorted by DOM position
+    const getSortedButtonKeys = useCallback((): string[] => {
+      const entries = [...buttonRefsRef.current.entries()];
+      entries.sort(([, a], [, b]) => {
+        const position = a.compareDocumentPosition(b);
+        if (position & Node.DOCUMENT_POSITION_FOLLOWING) return -1;
+        if (position & Node.DOCUMENT_POSITION_PRECEDING) return 1;
+        return 0;
+      });
+      return entries.map(([key]) => key);
+    }, []);
+
     // Navigate to next/previous button using arrow keys
-    const navigateToButton = useCallback((eventKey: string, direction: 'next' | 'prev') => {
-      const order = buttonOrderRef.current;
-      const currentIndex = order.indexOf(eventKey);
-      if (currentIndex === -1 || order.length === 0) {
-        return;
-      }
-
-      // Build a rotated list starting from next/prev position to enable wrapping
-      const rotatedKeys =
-        direction === 'next'
-          ? [...order.slice(currentIndex + 1), ...order.slice(0, currentIndex)]
-          : [...order.slice(0, currentIndex).reverse(), ...order.slice(currentIndex + 1).reverse()];
-
-      // Find the first focusable (non-disabled) button
-      for (const key of rotatedKeys) {
-        const button = buttonRefsRef.current.get(key);
-        if (button && !button.disabled) {
-          button.focus();
+    const navigateToButton = useCallback(
+      (eventKey: string, direction: 'next' | 'prev') => {
+        const order = getSortedButtonKeys();
+        const currentIndex = order.indexOf(eventKey);
+        if (currentIndex === -1 || order.length === 0) {
           return;
         }
-      }
-    }, []);
+
+        // Build a rotated list starting from next/prev position to enable wrapping
+        const rotatedKeys =
+          direction === 'next'
+            ? [...order.slice(currentIndex + 1), ...order.slice(0, currentIndex)]
+            : [
+                ...order.slice(0, currentIndex).reverse(),
+                ...order.slice(currentIndex + 1).reverse(),
+              ];
+
+        // Find the first focusable (non-disabled) button
+        for (const key of rotatedKeys) {
+          const button = buttonRefsRef.current.get(key);
+          if (button && !button.disabled) {
+            button.focus();
+            return;
+          }
+        }
+      },
+      [getSortedButtonKeys]
+    );
+
+    // Navigate to first/last focusable button (for Home/End keys)
+    const navigateToEdge = useCallback(
+      (position: 'first' | 'last') => {
+        const order = getSortedButtonKeys();
+        if (order.length === 0) return;
+
+        const keys = position === 'first' ? order : [...order].reverse();
+
+        for (const key of keys) {
+          const button = buttonRefsRef.current.get(key);
+          if (button && !button.disabled) {
+            button.focus();
+            return;
+          }
+        }
+      },
+      [getSortedButtonKeys]
+    );
 
     // Sync with controlled props when they change
     useEffect(() => {
@@ -253,8 +284,17 @@ const AccordionRoot = forwardRef<HTMLDivElement, AccordionProps>(
         flush,
         registerButtonRef,
         navigateToButton,
+        navigateToEdge,
       }),
-      [fsmState, toggleItem, selectionMode, flush, registerButtonRef, navigateToButton]
+      [
+        fsmState,
+        toggleItem,
+        selectionMode,
+        flush,
+        registerButtonRef,
+        navigateToButton,
+        navigateToEdge,
+      ]
     );
 
     // Compute classes
@@ -320,10 +360,7 @@ const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(
     const panelId = `${itemId}-panel`;
 
     const isExpanded = activeKeys.includes(eventKey);
-
-    // Create FSM state for visual state attribute
-    const fsmState = createInitialAccordionFSMState(isExpanded ? [eventKey] : [], 'single');
-    const visualState = getAccordionItemVisualState(fsmState, eventKey);
+    const visualState = isExpanded ? 'expanded' : 'collapsed';
 
     // Memoize context value
     const itemContextValue = useMemo<AccordionItemContextValue>(
@@ -389,18 +426,23 @@ const AccordionButton = forwardRef<HTMLButtonElement, AccordionButtonProps>(
     },
     ref
   ) => {
-    const { toggleItem, registerButtonRef, navigateToButton } = useAccordionContext();
+    const { toggleItem, registerButtonRef, navigateToButton, navigateToEdge } =
+      useAccordionContext();
     const { eventKey, isExpanded, disabled, buttonId, panelId } = useAccordionItemContext();
 
     // Internal ref for arrow-key navigation
     const internalRef = useRef<HTMLButtonElement>(null);
 
-    // Merge refs: combines forwarded ref, internal ref, and registration callback
-    const combinedRef = mergeRefs([
-      ref,
-      internalRef,
-      (node: HTMLButtonElement | null) => registerButtonRef(eventKey, node),
-    ]);
+    // Stable merged ref: combines forwarded ref, internal ref, and registration callback
+    const combinedRef = useMemo(
+      () =>
+        mergeRefs([
+          ref,
+          internalRef,
+          (node: HTMLButtonElement | null) => registerButtonRef(eventKey, node),
+        ]),
+      [ref, eventKey, registerButtonRef]
+    );
 
     // Handle click
     const handleClick = useCallback(
@@ -433,21 +475,18 @@ const AccordionButton = forwardRef<HTMLButtonElement, AccordionButtonProps>(
             break;
           case 'Home':
             event.preventDefault();
-            // Navigate to first button
-            navigateToButton(eventKey, 'prev');
-            // Keep going until we wrap around or reach the start
+            navigateToEdge('first');
             break;
           case 'End':
             event.preventDefault();
-            // Navigate to last button
-            navigateToButton(eventKey, 'next');
+            navigateToEdge('last');
             break;
         }
 
         // Enter and Space are handled natively by button
         onKeyDown?.(event);
       },
-      [disabled, onKeyDown, navigateToButton, eventKey]
+      [disabled, onKeyDown, navigateToButton, navigateToEdge, eventKey]
     );
 
     // Compute classes
@@ -530,6 +569,58 @@ const AccordionPanel = forwardRef<HTMLDivElement, AccordionPanelProps>(
 AccordionPanel.displayName = 'Accordion.Panel';
 
 // =============================================================================
+// Accordion.Header Component
+// =============================================================================
+
+/**
+ * Accordion.Header Component
+ *
+ * An optional heading wrapper for Accordion.Button that provides
+ * proper semantic heading structure per WAI-ARIA Accordion Pattern.
+ *
+ * @example
+ * ```tsx
+ * <Accordion.Item eventKey="0">
+ *   <Accordion.Header as="h3">
+ *     <Accordion.Button>Section Title</Accordion.Button>
+ *   </Accordion.Header>
+ *   <Accordion.Panel>Content</Accordion.Panel>
+ * </Accordion.Item>
+ * ```
+ */
+const AccordionHeader = forwardRef<HTMLHeadingElement, AccordionHeaderProps>(
+  (
+    {
+      children,
+      as: Component = 'h2',
+      className = '',
+      style,
+      id,
+      'data-testid': dataTestId,
+      'data-test': dataTest,
+    },
+    ref
+  ) => {
+    const headerClasses = useMemo(() => cn('accordion-header', className), [className]);
+
+    return (
+      <Component
+        ref={ref}
+        id={id}
+        className={headerClasses}
+        style={style}
+        data-testid={dataTestId}
+        data-test={dataTest}
+      >
+        {children}
+      </Component>
+    );
+  }
+);
+
+AccordionHeader.displayName = 'Accordion.Header';
+
+// =============================================================================
 // Compound Component Export
 // =============================================================================
 
@@ -538,6 +629,7 @@ AccordionPanel.displayName = 'Accordion.Panel';
  */
 export const Accordion = Object.assign(AccordionRoot, {
   Item: AccordionItem,
+  Header: AccordionHeader,
   Button: AccordionButton,
   Panel: AccordionPanel,
 });
@@ -556,6 +648,7 @@ export {
 export type {
   AccordionButtonProps,
   AccordionContextValue,
+  AccordionHeaderProps,
   AccordionItemContextValue,
   AccordionItemProps,
   AccordionItemVisualState,

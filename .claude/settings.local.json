@@ -3,7 +3,15 @@
     "allow": [
       "Bash(find tools:*)",
       "WebFetch(domain:www.gnu.org)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(npx jest:*)",
+      "Bash(pnpm jest:*)",
+      "Bash(pnpm exec:*)",
+      "Bash(npx -y jest@30 --testPathPatterns=\"Accordion\" --coverage --collectCoverageFrom=\"packages/@dsai-io/react/src/components/Accordion/**/*.{ts,tsx}\" --coverageReporters=text)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm test:*)",
+      "Bash(node_modules/.bin/jest --testPathPatterns=\"Accordion\" --coverage --collectCoverageFrom=\"packages/@dsai-io/react/src/components/Accordion/**/*.{ts,tsx}\" --coverageReporters=text)",
+      "Bash(node_modules/.bin/jest --testPathPatterns=\"Accordion\")"
     ]
   }
 }

@@ -843,10 +843,172 @@ describe('Accordion', () => {
       await user.keyboard('{ArrowUp}');
       expect(buttons[0]).toHaveFocus();
     });
+
+    it('Home key moves focus to the first button', async () => {
+      const user = userEvent.setup();
+      renderAccordion();
+
+      const buttons = screen.getAllByRole('button');
+      buttons[2].focus();
+      expect(buttons[2]).toHaveFocus();
+
+      await user.keyboard('{Home}');
+      expect(buttons[0]).toHaveFocus();
+    });
+
+    it('End key moves focus to the last button', async () => {
+      const user = userEvent.setup();
+      renderAccordion();
+
+      const buttons = screen.getAllByRole('button');
+      buttons[0].focus();
+      expect(buttons[0]).toHaveFocus();
+
+      await user.keyboard('{End}');
+      expect(buttons[2]).toHaveFocus();
+    });
+
+    it('Home key skips disabled buttons at the start', async () => {
+      const user = userEvent.setup();
+      render(
+        <Accordion>
+          <Accordion.Item eventKey="1" disabled>
+            <Accordion.Button>Item 1 (Disabled)</Accordion.Button>
+            <Accordion.Panel>Content 1</Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item eventKey="2">
+            <Accordion.Button>Item 2</Accordion.Button>
+            <Accordion.Panel>Content 2</Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item eventKey="3">
+            <Accordion.Button>Item 3</Accordion.Button>
+            <Accordion.Panel>Content 3</Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+      );
+
+      const buttons = screen.getAllByRole('button');
+      buttons[2].focus();
+      expect(buttons[2]).toHaveFocus();
+
+      await user.keyboard('{Home}');
+      expect(buttons[1]).toHaveFocus();
+    });
+
+    it('End key skips disabled buttons at the end', async () => {
+      const user = userEvent.setup();
+      render(
+        <Accordion>
+          <Accordion.Item eventKey="1">
+            <Accordion.Button>Item 1</Accordion.Button>
+            <Accordion.Panel>Content 1</Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item eventKey="2">
+            <Accordion.Button>Item 2</Accordion.Button>
+            <Accordion.Panel>Content 2</Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item eventKey="3" disabled>
+            <Accordion.Button>Item 3 (Disabled)</Accordion.Button>
+            <Accordion.Panel>Content 3</Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+      );
+
+      const buttons = screen.getAllByRole('button');
+      buttons[0].focus();
+      expect(buttons[0]).toHaveFocus();
+
+      await user.keyboard('{End}');
+      expect(buttons[1]).toHaveFocus();
+    });
   });
 
   // ===========================================================================
   // DisplayName Tests
+  // ===========================================================================
+
+  // ===========================================================================
+  // Accordion.Header Tests
+  // ===========================================================================
+
+  describe('Accordion.Header', () => {
+    it('renders as h2 by default', () => {
+      const { container } = render(
+        <Accordion>
+          <Accordion.Item eventKey="1">
+            <Accordion.Header>
+              <Accordion.Button>Item 1</Accordion.Button>
+            </Accordion.Header>
+            <Accordion.Panel>Content 1</Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+      );
+      expect(container.querySelector('h2.accordion-header')).toBeInTheDocument();
+    });
+
+    it('renders with custom heading level via as prop', () => {
+      const { container } = render(
+        <Accordion>
+          <Accordion.Item eventKey="1">
+            <Accordion.Header as="h3">
+              <Accordion.Button>Item 1</Accordion.Button>
+            </Accordion.Header>
+            <Accordion.Panel>Content 1</Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+      );
+      expect(container.querySelector('h3.accordion-header')).toBeInTheDocument();
+    });
+
+    it('renders with custom className', () => {
+      const { container } = render(
+        <Accordion>
+          <Accordion.Item eventKey="1">
+            <Accordion.Header className="custom-header">
+              <Accordion.Button>Item 1</Accordion.Button>
+            </Accordion.Header>
+            <Accordion.Panel>Content 1</Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+      );
+      expect(container.querySelector('.accordion-header.custom-header')).toBeInTheDocument();
+    });
+
+    it('preserves button functionality inside header', async () => {
+      const user = userEvent.setup();
+      render(
+        <Accordion>
+          <Accordion.Item eventKey="1">
+            <Accordion.Header>
+              <Accordion.Button>Item 1</Accordion.Button>
+            </Accordion.Header>
+            <Accordion.Panel>Content 1</Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+      );
+
+      const button = screen.getByText('Item 1');
+      await user.click(button);
+      expect(button).toHaveAttribute('aria-expanded', 'true');
+    });
+
+    it('renders with data-testid', () => {
+      render(
+        <Accordion>
+          <Accordion.Item eventKey="1">
+            <Accordion.Header data-testid="test-header">
+              <Accordion.Button>Item 1</Accordion.Button>
+            </Accordion.Header>
+            <Accordion.Panel>Content 1</Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
+      );
+      expect(screen.getByTestId('test-header')).toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
+  // Display Name Tests
   // ===========================================================================
 
   describe('Display Names', () => {
@@ -857,6 +1019,7 @@ describe('Accordion', () => {
 
     it('has correct displayName for subcomponents', () => {
       expect(Accordion.Item.displayName).toBe('Accordion.Item');
+      expect(Accordion.Header.displayName).toBe('Accordion.Header');
       expect(Accordion.Button.displayName).toBe('Accordion.Button');
       expect(Accordion.Panel.displayName).toBe('Accordion.Panel');
     });

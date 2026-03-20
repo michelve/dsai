@@ -7,9 +7,9 @@ A fully accessible accordion component using Bootstrap 5 native classes with smo
 - **Native Bootstrap 5 Classes**: Uses standard Bootstrap accordion styling
 - **Selection Modes**: Single (one panel at a time) or multiple (many panels open)
 - **Smooth Animations**: CSS transitions for expand/collapse with FSM states
-- **Keyboard Navigation**: Tab, Enter, Space support for accessibility
+- **Keyboard Navigation**: Tab, Enter, Space, Arrow keys, Home/End support
 - **Flush Variant**: Edge-to-edge rendering without borders
-- **Compound Components**: Accordion.Item, Accordion.Button, Accordion.Panel
+- **Compound Components**: Accordion.Item, Accordion.Header, Accordion.Button, Accordion.Panel
 - **FSM State Management**: Predictable state transitions for animations
 - **Security**: Prop whitelisting, no dangerous attributes
 
@@ -26,27 +26,27 @@ import { Accordion } from '@dsai-io/react';
 ### Basic Accordion
 
 ```tsx
-import { Accordion, Heading } from '@dsai-io/react';
+import { Accordion } from '@dsai-io/react';
 
 function Example() {
   return (
     <Accordion>
       <Accordion.Item eventKey="0">
-        <Heading level={2} className="accordion-header">
+        <Accordion.Header>
           <Accordion.Button>Section 1</Accordion.Button>
-        </Heading>
+        </Accordion.Header>
         <Accordion.Panel>Content for section 1</Accordion.Panel>
       </Accordion.Item>
       <Accordion.Item eventKey="1">
-        <Heading level={2} className="accordion-header">
+        <Accordion.Header>
           <Accordion.Button>Section 2</Accordion.Button>
-        </Heading>
+        </Accordion.Header>
         <Accordion.Panel>Content for section 2</Accordion.Panel>
       </Accordion.Item>
       <Accordion.Item eventKey="2">
-        <Heading level={2} className="accordion-header">
+        <Accordion.Header>
           <Accordion.Button>Section 3</Accordion.Button>
-        </Heading>
+        </Accordion.Header>
         <Accordion.Panel>Content for section 3</Accordion.Panel>
       </Accordion.Item>
     </Accordion>
@@ -54,7 +54,7 @@ function Example() {
 }
 ```
 
-> **Note:** For semantic HTML structure, wrap `Accordion.Button` in a heading element (e.g., `Heading level={2}`) with `className="accordion-header"`. The heading level should match your document outline.
+> **Note:** `Accordion.Header` renders an `<h2>` by default. Use the `as` prop to change the heading level to match your document outline (e.g., `<Accordion.Header as="h3">`).
 
 ### Default Expanded
 
@@ -240,26 +240,26 @@ import { ChevronRightIcon, StarIcon, GearIcon } from '@dsai-io/react';
 Accordions can be nested within panels for hierarchical content:
 
 ```tsx
-import { Accordion, Heading } from '@dsai-io/react';
+import { Accordion } from '@dsai-io/react';
 
 <Accordion>
   <Accordion.Item eventKey="0">
-    <Heading level={2} className="accordion-header">
+    <Accordion.Header>
       <Accordion.Button>Parent Section</Accordion.Button>
-    </Heading>
+    </Accordion.Header>
     <Accordion.Panel>
       <p>This panel contains a nested accordion:</p>
       <Accordion flush>
         <Accordion.Item eventKey="child-0">
-          <Heading level={3} className="accordion-header">
+          <Accordion.Header as="h3">
             <Accordion.Button>Child Section 1</Accordion.Button>
-          </Heading>
+          </Accordion.Header>
           <Accordion.Panel>Nested content 1</Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item eventKey="child-1">
-          <Heading level={3} className="accordion-header">
+          <Accordion.Header as="h3">
             <Accordion.Button>Child Section 2</Accordion.Button>
-          </Heading>
+          </Accordion.Header>
           <Accordion.Panel>Nested content 2</Accordion.Panel>
         </Accordion.Item>
       </Accordion>
@@ -268,7 +268,7 @@ import { Accordion, Heading } from '@dsai-io/react';
 </Accordion>;
 ```
 
-> **Note**: Use `flush` variant for nested accordions to avoid double borders. Increment heading levels (`level={3}`) for proper document outline.
+> **Note**: Use `flush` variant for nested accordions to avoid double borders. Use `as="h3"` on nested headers for proper document outline.
 
 ## API Reference
 
@@ -313,6 +313,17 @@ import { Accordion, Heading } from '@dsai-io/react';
 | `style`       | `CSSProperties`                  | -       | Inline styles         |
 | `id`          | `string`                         | -       | Button ID             |
 | `data-testid` | `string`                         | -       | Test ID               |
+
+### Accordion.Header Props
+
+| Prop          | Type            | Default | Description                       |
+| ------------- | --------------- | ------- | --------------------------------- |
+| `children`    | `ReactNode`     | -       | Header content (AccordionButton)  |
+| `as`          | `ElementType`   | `'h2'`  | HTML heading element to render    |
+| `className`   | `string`        | -       | Additional class name             |
+| `style`       | `CSSProperties` | -       | Inline styles                     |
+| `id`          | `string`        | -       | Header ID                         |
+| `data-testid` | `string`        | -       | Test ID                           |
 
 ### Accordion.Panel Props
 
@@ -384,7 +395,7 @@ The Accordion uses a finite state machine for predictable panel state management
 | `collapsed` | Panel is fully hidden  |
 | `expanded`  | Panel is fully visible |
 
-> **Note**: Animation states (expanding/collapsing transitions) are handled by CSS transitions using Bootstrap's `.collapsing` class, not by the FSM. The FSM tracks only the logical state (expanded/collapsed).
+> **Note**: Animations are handled by CSS transitions using Bootstrap's `.collapsing` class. The FSM tracks only the logical state.
 
 ### Visual State Attribute
 

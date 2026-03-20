@@ -1,5 +1,5 @@
 import type { SafeHTMLAttributes } from '../../types';
-import type { KeyboardEvent, MouseEvent, ReactNode } from 'react';
+import type { ElementType, KeyboardEvent, MouseEvent, ReactNode } from 'react';
 
 /**
  * Accordion selection mode
@@ -226,6 +226,32 @@ export interface AccordionPanelProps extends SafeAccordionHTMLAttributes {
 }
 
 /**
+ * Accordion.Header component props
+ *
+ * An optional heading wrapper that provides semantic structure
+ * per WAI-ARIA Accordion Pattern. Defaults to `<h2>`.
+ *
+ * @example
+ * ```tsx
+ * <Accordion.Header as="h3">
+ *   <Accordion.Button>Section Title</Accordion.Button>
+ * </Accordion.Header>
+ * ```
+ */
+export interface AccordionHeaderProps extends SafeAccordionHTMLAttributes {
+  /**
+   * Header content (typically an AccordionButton)
+   */
+  children: ReactNode;
+
+  /**
+   * HTML heading element to render
+   * @default 'h2'
+   */
+  as?: ElementType;
+}
+
+/**
  * Accordion context value for sharing state between components
  */
 export interface AccordionContextValue {
@@ -241,6 +267,8 @@ export interface AccordionContextValue {
   registerButtonRef: (eventKey: string, ref: HTMLButtonElement | null) => void;
   /** Navigate to next/previous button using arrow keys */
   navigateToButton: (eventKey: string, direction: 'next' | 'prev') => void;
+  /** Navigate to first/last focusable button (Home/End keys) */
+  navigateToEdge: (position: 'first' | 'last') => void;
 }
 
 /**
@@ -260,6 +288,7 @@ export interface AccordionItemContextValue {
 }
 
 /**
- * Visual state for FSM and data-visual-state attribute
+ * Visual state for data-visual-state attribute.
+ * Reflects the logical expansion state; CSS transitions handle animation.
  */
-export type AccordionItemVisualState = 'collapsed' | 'expanding' | 'expanded' | 'collapsing';
+export type AccordionItemVisualState = 'collapsed' | 'expanded';

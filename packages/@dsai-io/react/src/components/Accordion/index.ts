@@ -1,6 +1,7 @@
 export type {
   AccordionButtonProps,
   AccordionContextValue,
+  AccordionHeaderProps,
   AccordionItemContextValue,
   AccordionItemProps,
   AccordionItemVisualState,
