@@ -403,6 +403,47 @@ export const WithIcon: Story = {
 };
 
 // =============================================================================
+// Controlled Visibility
+// =============================================================================
+
+/**
+ * Controlled visibility via the `show` prop.
+ * Toggle the alert on and off with an external button.
+ */
+export const ControlledVisibility: Story = {
+  render: function ControlledVisibilityAlert() {
+    const [isVisible, setIsVisible] = useState(true);
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => setIsVisible(true)}
+            disabled={isVisible}
+          >
+            Show
+          </Button>
+          <Button
+            variant="outline-secondary"
+            size="sm"
+            onClick={() => setIsVisible(false)}
+            disabled={!isVisible}
+          >
+            Hide
+          </Button>
+        </div>
+        <Alert variant="info" show={isVisible}>
+          This alert&apos;s visibility is controlled by the <code>show</code> prop. The FSM
+          transitions between <em>visible</em> and <em>hidden</em> states.
+        </Alert>
+      </div>
+    );
+  },
+};
+
+// =============================================================================
 // Security Features
 // =============================================================================
 
@@ -647,4 +688,135 @@ export const CompleteShowcase: Story = {
       </div>
     );
   },
+};
+
+/**
+ * Alert with auto-dismiss functionality.
+ * The alert disappears after the specified duration.
+ * Timer resets when the alert is re-shown.
+ */
+export const AutoDismiss: Story = {
+  render: function AutoDismissStory() {
+    const [show, setShow] = useState(true);
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        {show ? (
+          <Alert
+            variant="info"
+            icon={<InfoCircleFillIcon />}
+            autoDismiss={5000}
+            dismissible
+            onClose={() => setShow(false)}
+          >
+            This alert will auto-dismiss in 5 seconds. You can also close it manually.
+          </Alert>
+        ) : (
+          <Button size="sm" onClick={() => setShow(true)}>
+            Show Auto-Dismiss Alert
+          </Button>
+        )}
+        <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+          The <code>autoDismiss</code> prop accepts a duration in milliseconds. The{' '}
+          <code>onClose</code> callback receives a <code>reason</code> parameter:{' '}
+          <code>&quot;click&quot;</code>, <code>&quot;escape&quot;</code>, or{' '}
+          <code>&quot;timeout&quot;</code>.
+        </p>
+      </div>
+    );
+  },
+};
+
+/**
+ * Alert with fade-out animation on dismiss.
+ * Uses Bootstrap's fade/show CSS classes for smooth opacity transitions.
+ * Respects the user's prefers-reduced-motion setting.
+ */
+export const FadeTransition: Story = {
+  render: function FadeTransitionStory() {
+    const [showAnimated, setShowAnimated] = useState(true);
+    const [showInstant, setShowInstant] = useState(true);
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          With Transition (default)
+        </Heading>
+        {showAnimated ? (
+          <Alert variant="success" dismissible onClose={() => setShowAnimated(false)}>
+            This alert fades out when dismissed.
+          </Alert>
+        ) : (
+          <Button size="sm" onClick={() => setShowAnimated(true)}>
+            Show Animated Alert
+          </Button>
+        )}
+
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
+          Without Transition
+        </Heading>
+        {showInstant ? (
+          <Alert
+            variant="warning"
+            dismissible
+            onClose={() => setShowInstant(false)}
+            transition={false}
+          >
+            This alert disappears instantly when dismissed.
+          </Alert>
+        ) : (
+          <Button size="sm" onClick={() => setShowInstant(true)}>
+            Show Instant Alert
+          </Button>
+        )}
+      </div>
+    );
+  },
+};
+
+/**
+ * Alert rendered as a `<section>` element for semantic grouping.
+ * Useful when the alert represents a distinct section of content.
+ */
+export const AsSection: Story = {
+  args: {
+    as: 'section',
+    variant: 'info',
+    children: (
+      <>
+        <Alert.Heading>Section Alert</Alert.Heading>
+        <p className="mb-0">
+          This alert renders as a <code>&lt;section&gt;</code> element instead of a{' '}
+          <code>&lt;div&gt;</code>, providing stronger semantic grouping.
+        </p>
+      </>
+    ),
+  },
+};
+
+/**
+ * Alert.Heading with custom heading levels.
+ * By default it renders an `<h4>`, but you can change it to any heading level (h1–h6).
+ */
+export const HeadingLevels: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <Alert variant="primary">
+        <Alert.Heading as="h2">Heading Level 2</Alert.Heading>
+        <p className="mb-0">This uses an h2 element for the heading.</p>
+      </Alert>
+      <Alert variant="success">
+        <Alert.Heading as="h3">Heading Level 3</Alert.Heading>
+        <p className="mb-0">This uses an h3 element for the heading.</p>
+      </Alert>
+      <Alert variant="info">
+        <Alert.Heading>Default Heading (h4)</Alert.Heading>
+        <p className="mb-0">This uses the default h4 element for the heading.</p>
+      </Alert>
+      <Alert variant="warning">
+        <Alert.Heading as="h5">Heading Level 5</Alert.Heading>
+        <p className="mb-0">This uses an h5 element for the heading.</p>
+      </Alert>
+    </div>
+  ),
 };

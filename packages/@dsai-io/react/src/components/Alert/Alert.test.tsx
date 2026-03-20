@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { createRef } from 'react';
 
@@ -92,6 +93,11 @@ describe('Alert', () => {
       const { container } = render(<Alert>Content only</Alert>);
       expect(container.querySelector('.alert-heading')).not.toBeInTheDocument();
     });
+
+    it('does not set HTML title attribute on root element', () => {
+      render(<Alert title="Alert Title">Content</Alert>);
+      expect(screen.getByRole('status')).not.toHaveAttribute('title');
+    });
   });
 
   describe('Dismissible', () => {
@@ -141,15 +147,32 @@ describe('Alert', () => {
       expect(screen.getByRole('status')).toHaveClass('fade', 'show');
     });
 
-    it('calls onClose when Escape key is pressed', () => {
+    it('calls onClose when Escape key is pressed with focus inside alert', () => {
       const handleClose = jest.fn();
       render(
         <Alert dismissible onClose={handleClose}>
           Dismissible
         </Alert>
       );
+      // Focus the close button inside the alert
+      screen.getByRole('button', { name: /close/i }).focus();
       fireEvent.keyDown(document, { key: 'Escape' });
       expect(handleClose).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not call onClose on Escape when focus is outside the alert', () => {
+      const handleClose = jest.fn();
+      render(
+        <>
+          <button type="button">Outside</button>
+          <Alert dismissible onClose={handleClose}>
+            Dismissible
+          </Alert>
+        </>
+      );
+      screen.getByRole('button', { name: 'Outside' }).focus();
+      fireEvent.keyDown(document, { key: 'Escape' });
+      expect(handleClose).not.toHaveBeenCalled();
     });
 
     it('does not call onClose on Escape when not dismissible', () => {
@@ -222,6 +245,44 @@ describe('Alert', () => {
       );
       fireEvent.click(screen.getByText('here'));
       expect(handleClick).toHaveBeenCalledTimes(1);
+    });
+
+    it('adds noopener noreferrer for target="_blank"', () => {
+      render(
+        <Alert>
+          <Alert.Link href="https://example.com" target="_blank">
+            external
+          </Alert.Link>
+        </Alert>
+      );
+      expect(screen.getByText('external')).toHaveAttribute('rel', 'noopener noreferrer');
+    });
+
+    it('merges user-provided rel with noopener noreferrer for target="_blank"', () => {
+      render(
+        <Alert>
+          <Alert.Link href="https://example.com" target="_blank" rel="author">
+            external
+          </Alert.Link>
+        </Alert>
+      );
+      const link = screen.getByText('external');
+      expect(link).toHaveAttribute('rel');
+      const relValue = link.getAttribute('rel') ?? '';
+      expect(relValue).toContain('author');
+      expect(relValue).toContain('noopener');
+      expect(relValue).toContain('noreferrer');
+    });
+
+    it('preserves user rel when target is not _blank', () => {
+      render(
+        <Alert>
+          <Alert.Link href="/test" rel="author">
+            link
+          </Alert.Link>
+        </Alert>
+      );
+      expect(screen.getByText('link')).toHaveAttribute('rel', 'author');
     });
   });
 
@@ -377,6 +438,30 @@ describe('Alert', () => {
       expect(ref.current).toBeInstanceOf(HTMLDivElement);
       expect(ref.current).toBe(screen.getByRole('status'));
     });
+
+    it('forwards ref to Alert.Link element', () => {
+      const ref = createRef<HTMLAnchorElement>();
+      render(
+        <Alert>
+          <Alert.Link ref={ref} href="/test">
+            link
+          </Alert.Link>
+        </Alert>
+      );
+      expect(ref.current).toBeInstanceOf(HTMLAnchorElement);
+      expect(ref.current).toBe(screen.getByText('link'));
+    });
+
+    it('forwards ref to Alert.Heading element', () => {
+      const ref = createRef<HTMLHeadingElement>();
+      render(
+        <Alert>
+          <Alert.Heading ref={ref}>Heading Text</Alert.Heading>
+        </Alert>
+      );
+      expect(ref.current).toBeInstanceOf(HTMLHeadingElement);
+      expect(ref.current).toBe(screen.getByText('Heading Text'));
+    });
   });
 
   describe('Display Name', () => {
@@ -459,10 +544,10 @@ describe('Alert', () => {
       expect(screen.getByRole('status')).toHaveAttribute('data-visual-state', 'visible');
     });
 
-    it('removes element from DOM when dismissed via click', () => {
+    it('removes element from DOM when dismissed via click (no transition)', () => {
       const handleClose = jest.fn();
       render(
-        <Alert dismissible onClose={handleClose}>
+        <Alert dismissible onClose={handleClose} transition={false}>
           Dismissible
         </Alert>
       );
@@ -471,16 +556,34 @@ describe('Alert', () => {
       expect(handleClose).toHaveBeenCalledTimes(1);
     });
 
-    it('removes element from DOM when dismissed via Escape', () => {
+    it('removes element from DOM when dismissed via Escape (no transition)', () => {
+      const handleClose = jest.fn();
+      render(
+        <Alert dismissible onClose={handleClose} transition={false}>
+          Dismissible
+        </Alert>
+      );
+      screen.getByRole('button', { name: /close/i }).focus();
+      fireEvent.keyDown(document, { key: 'Escape' });
+      expect(screen.queryByText('Dismissible')).not.toBeInTheDocument();
+      expect(handleClose).toHaveBeenCalledTimes(1);
+    });
+
+    it('enters dismissing state before hiding when transition is enabled', () => {
       const handleClose = jest.fn();
       render(
         <Alert dismissible onClose={handleClose}>
           Dismissible
         </Alert>
       );
-      fireEvent.keyDown(document, { key: 'Escape' });
-      expect(screen.queryByText('Dismissible')).not.toBeInTheDocument();
-      expect(handleClose).toHaveBeenCalledTimes(1);
+      fireEvent.click(screen.getByRole('button', { name: /close/i }));
+      // With transition=true (default), element enters dismissing state
+      expect(screen.getByText('Dismissible')).toBeInTheDocument();
+      expect(screen.getByText('Dismissible').closest('.alert')).toHaveAttribute(
+        'data-visual-state',
+        'dismissing'
+      );
+      expect(screen.getByText('Dismissible').closest('.alert')).not.toHaveClass('show');
     });
 
     it('shows alert when show prop changes from false to true', () => {
@@ -498,6 +601,344 @@ describe('Alert', () => {
 
       rerender(<Alert show={false}>Toggle Alert</Alert>);
       expect(screen.queryByText('Toggle Alert')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('Icon (cloneElement path)', () => {
+    it('merges className onto a valid React element icon', () => {
+      render(
+        <Alert icon={<svg data-testid="svg-icon" className="custom-icon" />}>With SVG icon</Alert>
+      );
+      const icon = screen.getByTestId('svg-icon');
+      expect(icon).toHaveClass('d-inline-flex', 'align-items-center', 'flex-shrink-0', 'me-2');
+      expect(icon).toHaveClass('custom-icon');
+    });
+
+    it('sets aria-hidden="true" on element icon when no iconLabel', () => {
+      render(<Alert icon={<svg data-testid="svg-icon" />}>With icon</Alert>);
+      expect(screen.getByTestId('svg-icon')).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('preserves existing aria-hidden on element icon when no iconLabel', () => {
+      render(<Alert icon={<svg data-testid="svg-icon" aria-hidden={false} />}>With icon</Alert>);
+      // aria-hidden from icon element is used since no iconLabel
+      expect(screen.getByTestId('svg-icon')).toHaveAttribute('aria-hidden', 'false');
+    });
+
+    it('sets role="img" and aria-label when iconLabel is provided', () => {
+      render(
+        <Alert icon={<svg data-testid="svg-icon" />} iconLabel="Error indicator">
+          With labeled icon
+        </Alert>
+      );
+      const icon = screen.getByTestId('svg-icon');
+      expect(icon).toHaveAttribute('aria-label', 'Error indicator');
+      expect(icon).toHaveAttribute('role', 'img');
+      expect(icon).not.toHaveAttribute('aria-hidden');
+    });
+
+    it('uses iconLabel over existing aria-label on element', () => {
+      render(
+        <Alert icon={<svg data-testid="svg-icon" aria-label="old label" />} iconLabel="new label">
+          With icon
+        </Alert>
+      );
+      expect(screen.getByTestId('svg-icon')).toHaveAttribute('aria-label', 'new label');
+    });
+
+    it('uses existing aria-label from icon element when no iconLabel', () => {
+      render(
+        <Alert icon={<svg data-testid="svg-icon" aria-label="existing label" />}>With icon</Alert>
+      );
+      expect(screen.getByTestId('svg-icon')).toHaveAttribute('aria-label', 'existing label');
+    });
+
+    it('preserves existing role on element icon when no ariaLabel', () => {
+      render(<Alert icon={<svg data-testid="svg-icon" role="presentation" />}>With icon</Alert>);
+      expect(screen.getByTestId('svg-icon')).toHaveAttribute('role', 'presentation');
+    });
+  });
+
+  describe('Icon (span wrapper fallback)', () => {
+    it('wraps non-element icon in a span with aria-hidden', () => {
+      render(<Alert icon="★">With string icon</Alert>);
+      const status = screen.getByRole('status');
+      const iconWrapper = status.querySelector('span[aria-hidden="true"]');
+      expect(iconWrapper).toBeInTheDocument();
+      expect(iconWrapper).toHaveTextContent('★');
+    });
+
+    it('applies layout classes to span wrapper', () => {
+      render(<Alert icon="!">With string icon</Alert>);
+      const status = screen.getByRole('status');
+      const iconWrapper = status.querySelector('span[aria-hidden="true"]');
+      expect(iconWrapper).toHaveClass(
+        'd-inline-flex',
+        'align-items-center',
+        'flex-shrink-0',
+        'me-2'
+      );
+    });
+  });
+
+  describe('Title rendering', () => {
+    it('renders title as heading without setting HTML title attribute on root', () => {
+      render(<Alert title="Important">Content</Alert>);
+      // Heading rendered inside alert
+      expect(screen.getByText('Important')).toHaveClass('alert-heading');
+      // No HTML title tooltip on root element
+      expect(screen.getByRole('status')).not.toHaveAttribute('title');
+    });
+  });
+
+  describe('Edge cases', () => {
+    it('does not render dismiss button when dismissible but onClose is undefined', () => {
+      render(<Alert dismissible>No handler</Alert>);
+      expect(screen.queryByRole('button', { name: /close/i })).not.toBeInTheDocument();
+    });
+
+    it('does not fire Escape handler when dismissible but onClose is undefined', () => {
+      render(<Alert dismissible>No handler</Alert>);
+      // Should not throw
+      fireEvent.keyDown(document, { key: 'Escape' });
+      expect(screen.getByText('No handler')).toBeInTheDocument();
+    });
+
+    it('handles non-Escape key presses without dismissing', () => {
+      const handleClose = jest.fn();
+      render(
+        <Alert dismissible onClose={handleClose}>
+          Dismissible
+        </Alert>
+      );
+      fireEvent.keyDown(document, { key: 'Enter' });
+      expect(handleClose).not.toHaveBeenCalled();
+    });
+
+    it('cleans up keyboard listener on unmount', () => {
+      const handleClose = jest.fn();
+      const { unmount } = render(
+        <Alert dismissible onClose={handleClose}>
+          Dismissible
+        </Alert>
+      );
+      unmount();
+      fireEvent.keyDown(document, { key: 'Escape' });
+      expect(handleClose).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('User interactions (userEvent)', () => {
+    it('dismisses via close button click', async () => {
+      const user = userEvent.setup();
+      const handleClose = jest.fn();
+      render(
+        <Alert dismissible onClose={handleClose} transition={false}>
+          Dismissible
+        </Alert>
+      );
+      await user.click(screen.getByRole('button', { name: /close/i }));
+      expect(handleClose).toHaveBeenCalledTimes(1);
+    });
+
+    it('dismisses via Escape key', async () => {
+      const user = userEvent.setup();
+      const handleClose = jest.fn();
+      render(
+        <Alert dismissible onClose={handleClose} transition={false}>
+          Dismissible
+        </Alert>
+      );
+      // Focus the close button so Escape is scoped to the alert
+      screen.getByRole('button', { name: /close/i }).focus();
+      await user.keyboard('{Escape}');
+      expect(handleClose).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('onClose reason', () => {
+    it('passes "click" reason when close button is clicked', () => {
+      const handleClose = jest.fn();
+      render(
+        <Alert dismissible onClose={handleClose} transition={false}>
+          Alert
+        </Alert>
+      );
+      fireEvent.click(screen.getByRole('button', { name: /close/i }));
+      expect(handleClose).toHaveBeenCalledWith('click');
+    });
+
+    it('passes "escape" reason when Escape key is pressed', () => {
+      const handleClose = jest.fn();
+      render(
+        <Alert dismissible onClose={handleClose} transition={false}>
+          Alert
+        </Alert>
+      );
+      screen.getByRole('button', { name: /close/i }).focus();
+      fireEvent.keyDown(document, { key: 'Escape' });
+      expect(handleClose).toHaveBeenCalledWith('escape');
+    });
+
+    it('passes "timeout" reason when auto-dismiss fires', () => {
+      jest.useFakeTimers();
+      const handleClose = jest.fn();
+      render(
+        <Alert autoDismiss={3000} onClose={handleClose} transition={false}>
+          Auto-dismiss
+        </Alert>
+      );
+      jest.advanceTimersByTime(3000);
+      expect(handleClose).toHaveBeenCalledWith('timeout');
+      jest.useRealTimers();
+    });
+  });
+
+  describe('Auto-dismiss', () => {
+    it('auto-dismisses after specified duration', () => {
+      jest.useFakeTimers();
+      const handleClose = jest.fn();
+      render(
+        <Alert autoDismiss={5000} onClose={handleClose} transition={false}>
+          Auto alert
+        </Alert>
+      );
+      expect(screen.getByText('Auto alert')).toBeInTheDocument();
+
+      act(() => {
+        jest.advanceTimersByTime(5000);
+      });
+      expect(handleClose).toHaveBeenCalledTimes(1);
+      expect(screen.queryByText('Auto alert')).not.toBeInTheDocument();
+      jest.useRealTimers();
+    });
+
+    it('does not auto-dismiss when autoDismiss is 0', () => {
+      jest.useFakeTimers();
+      const handleClose = jest.fn();
+      render(
+        <Alert autoDismiss={0} onClose={handleClose}>
+          No dismiss
+        </Alert>
+      );
+      jest.advanceTimersByTime(10000);
+      expect(handleClose).not.toHaveBeenCalled();
+      expect(screen.getByText('No dismiss')).toBeInTheDocument();
+      jest.useRealTimers();
+    });
+
+    it('does not auto-dismiss when autoDismiss is not set', () => {
+      jest.useFakeTimers();
+      const handleClose = jest.fn();
+      render(<Alert onClose={handleClose}>Normal alert</Alert>);
+      jest.advanceTimersByTime(10000);
+      expect(handleClose).not.toHaveBeenCalled();
+      jest.useRealTimers();
+    });
+
+    it('clears timer when alert is hidden before timeout', () => {
+      jest.useFakeTimers();
+      const handleClose = jest.fn();
+      const { rerender } = render(
+        <Alert autoDismiss={5000} onClose={handleClose} show={true} transition={false}>
+          Auto alert
+        </Alert>
+      );
+      jest.advanceTimersByTime(2000);
+      rerender(
+        <Alert autoDismiss={5000} onClose={handleClose} show={false} transition={false}>
+          Auto alert
+        </Alert>
+      );
+      jest.advanceTimersByTime(5000);
+      expect(handleClose).not.toHaveBeenCalled();
+      jest.useRealTimers();
+    });
+
+    it('restarts timer when alert is re-shown', () => {
+      jest.useFakeTimers();
+      const handleClose = jest.fn();
+      const { rerender } = render(
+        <Alert autoDismiss={3000} onClose={handleClose} show={true} transition={false}>
+          Auto alert
+        </Alert>
+      );
+      jest.advanceTimersByTime(2000);
+
+      // Hide
+      rerender(
+        <Alert autoDismiss={3000} onClose={handleClose} show={false} transition={false}>
+          Auto alert
+        </Alert>
+      );
+
+      // Re-show
+      rerender(
+        <Alert autoDismiss={3000} onClose={handleClose} show={true} transition={false}>
+          Auto alert
+        </Alert>
+      );
+      jest.advanceTimersByTime(2999);
+      expect(handleClose).not.toHaveBeenCalled();
+
+      jest.advanceTimersByTime(1);
+      expect(handleClose).toHaveBeenCalledWith('timeout');
+      jest.useRealTimers();
+    });
+  });
+
+  describe('Transition', () => {
+    it('has fade class by default', () => {
+      render(<Alert>Alert</Alert>);
+      expect(screen.getByRole('status')).toHaveClass('fade');
+    });
+
+    it('has show class when visible', () => {
+      render(<Alert>Alert</Alert>);
+      expect(screen.getByRole('status')).toHaveClass('show');
+    });
+
+    it('removes show class during dismissing state', () => {
+      const handleClose = jest.fn();
+      render(
+        <Alert dismissible onClose={handleClose}>
+          Alert
+        </Alert>
+      );
+      fireEvent.click(screen.getByRole('button', { name: /close/i }));
+      const alert = screen.getByText('Alert').closest('.alert');
+      expect(alert).toHaveClass('fade');
+      expect(alert).not.toHaveClass('show');
+    });
+
+    it('removes element from DOM after safety timeout when transitioning', () => {
+      jest.useFakeTimers();
+      const handleClose = jest.fn();
+      render(
+        <Alert dismissible onClose={handleClose}>
+          Alert
+        </Alert>
+      );
+      fireEvent.click(screen.getByRole('button', { name: /close/i }));
+      expect(screen.getByText('Alert')).toBeInTheDocument();
+
+      // Safety timeout fires at 300ms — wrap in act() for state update
+      act(() => {
+        jest.advanceTimersByTime(300);
+      });
+      expect(screen.queryByText('Alert')).not.toBeInTheDocument();
+      jest.useRealTimers();
+    });
+
+    it('immediately removes when transition={false}', () => {
+      const handleClose = jest.fn();
+      render(
+        <Alert dismissible onClose={handleClose} transition={false}>
+          Alert
+        </Alert>
+      );
+      fireEvent.click(screen.getByRole('button', { name: /close/i }));
+      expect(screen.queryByText('Alert')).not.toBeInTheDocument();
     });
   });
 });

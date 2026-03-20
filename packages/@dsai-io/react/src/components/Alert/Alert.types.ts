@@ -11,6 +11,14 @@ import type { ReactNode } from 'react';
 export type AlertVariant = SemanticColorVariant;
 
 /**
+ * Reason for alert dismissal
+ * - 'click': User clicked the close button
+ * - 'escape': User pressed the Escape key
+ * - 'timeout': Auto-dismiss timer expired
+ */
+export type AlertDismissReason = 'click' | 'escape' | 'timeout';
+
+/**
  * Whitelisted HTML attributes for safe prop spreading in Alert component
  * SECURITY: Restricts arbitrary props to prevent injection attacks
  * @see SafeHTMLAttributes
@@ -74,8 +82,13 @@ export interface AlertProps extends SafeAlertHTMLAttributes {
   /**
    * Callback when the alert is closed
    * Required when dismissible is true
+   *
+   * @param reason - Why the alert was dismissed:
+   *   - `'click'`: close button clicked
+   *   - `'escape'`: Escape key pressed
+   *   - `'timeout'`: auto-dismiss timer expired
    */
-  onClose?: () => void;
+  onClose?: (reason?: AlertDismissReason) => void;
 
   /**
    * Custom icon to display
@@ -101,6 +114,21 @@ export interface AlertProps extends SafeAlertHTMLAttributes {
    * @default 'div'
    */
   as?: 'div' | 'section';
+
+  /**
+   * Auto-dismiss the alert after the specified duration (in milliseconds)
+   * Set to 0 or omit to disable auto-dismiss.
+   * Requires onClose to be provided.
+   */
+  autoDismiss?: number;
+
+  /**
+   * Whether to animate the dismiss transition (fade-out)
+   * Uses Bootstrap's `fade`/`show` CSS classes.
+   * Respects the user's `prefers-reduced-motion` setting.
+   * @default true
+   */
+  transition?: boolean;
 
   /**
    * Aria-atomic attribute for complete announcements

@@ -3,4 +3,10 @@ export type { AlertFSMEvent, AlertFSMState, AlertVisibilityState } from './Alert
 
 // FSM utilities for advanced use cases
 export { alertFSMReducer, createInitialAlertFSMState } from './Alert.fsm';
-export type { AlertHeadingProps, AlertLinkProps, AlertProps, AlertVariant } from './Alert.types';
+export type {
+  AlertDismissReason,
+  AlertHeadingProps,
+  AlertLinkProps,
+  AlertProps,
+  AlertVariant,
+} from './Alert.types';

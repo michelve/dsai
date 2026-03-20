@@ -25,23 +25,68 @@ describe('Alert FSM', () => {
         expect(newState).toEqual({ visibility: 'hidden' });
       });
 
-      it('transitions to hidden on DISMISS_CLICK event', () => {
+      it('transitions to dismissing on DISMISS_CLICK event', () => {
         const event: AlertFSMEvent = { type: 'DISMISS_CLICK' };
         const newState = alertFSMReducer(visibleState, event);
-        expect(newState).toEqual({ visibility: 'hidden' });
+        expect(newState).toEqual({ visibility: 'dismissing' });
       });
 
-      it('transitions to hidden on DISMISS_ESCAPE event', () => {
+      it('transitions to dismissing on DISMISS_ESCAPE event', () => {
         const event: AlertFSMEvent = { type: 'DISMISS_ESCAPE' };
         const newState = alertFSMReducer(visibleState, event);
+        expect(newState).toEqual({ visibility: 'dismissing' });
+      });
+
+      it('stays visible on ANIMATION_END event (no-op)', () => {
+        const event: AlertFSMEvent = { type: 'ANIMATION_END' };
+        const newState = alertFSMReducer(visibleState, event);
+        expect(newState).toBe(visibleState);
+      });
+
+      it('transitions to dismissing on AUTO_DISMISS_TIMEOUT event', () => {
+        const event: AlertFSMEvent = { type: 'AUTO_DISMISS_TIMEOUT' };
+        const newState = alertFSMReducer(visibleState, event);
+        expect(newState).toEqual({ visibility: 'dismissing' });
+      });
+    });
+
+    describe('from dismissing state', () => {
+      const dismissingState: AlertFSMState = { visibility: 'dismissing' };
+
+      it('transitions to hidden on ANIMATION_END event', () => {
+        const event: AlertFSMEvent = { type: 'ANIMATION_END' };
+        const newState = alertFSMReducer(dismissingState, event);
         expect(newState).toEqual({ visibility: 'hidden' });
       });
 
-      it('stays visible on SHOW event (idempotent)', () => {
+      it('transitions to visible on SHOW event (cancel animation)', () => {
         const event: AlertFSMEvent = { type: 'SHOW' };
-        const newState = alertFSMReducer(visibleState, event);
-        expect(newState).toBe(visibleState); // Same reference
+        const newState = alertFSMReducer(dismissingState, event);
         expect(newState).toEqual({ visibility: 'visible' });
+      });
+
+      it('transitions to hidden on HIDE event (force hide)', () => {
+        const event: AlertFSMEvent = { type: 'HIDE' };
+        const newState = alertFSMReducer(dismissingState, event);
+        expect(newState).toEqual({ visibility: 'hidden' });
+      });
+
+      it('stays dismissing on DISMISS_CLICK event', () => {
+        const event: AlertFSMEvent = { type: 'DISMISS_CLICK' };
+        const newState = alertFSMReducer(dismissingState, event);
+        expect(newState).toBe(dismissingState);
+      });
+
+      it('stays dismissing on DISMISS_ESCAPE event', () => {
+        const event: AlertFSMEvent = { type: 'DISMISS_ESCAPE' };
+        const newState = alertFSMReducer(dismissingState, event);
+        expect(newState).toBe(dismissingState);
+      });
+
+      it('stays dismissing on AUTO_DISMISS_TIMEOUT event', () => {
+        const event: AlertFSMEvent = { type: 'AUTO_DISMISS_TIMEOUT' };
+        const newState = alertFSMReducer(dismissingState, event);
+        expect(newState).toBe(dismissingState);
       });
     });
 
@@ -74,15 +119,31 @@ describe('Alert FSM', () => {
         expect(newState).toBe(hiddenState); // Same reference
         expect(newState).toEqual({ visibility: 'hidden' });
       });
+
+      it('stays hidden on AUTO_DISMISS_TIMEOUT event (no-op)', () => {
+        const event: AlertFSMEvent = { type: 'AUTO_DISMISS_TIMEOUT' };
+        const newState = alertFSMReducer(hiddenState, event);
+        expect(newState).toBe(hiddenState);
+      });
+
+      it('stays hidden on ANIMATION_END event (no-op)', () => {
+        const event: AlertFSMEvent = { type: 'ANIMATION_END' };
+        const newState = alertFSMReducer(hiddenState, event);
+        expect(newState).toBe(hiddenState);
+      });
     });
 
     describe('transition sequences', () => {
-      it('handles show → dismiss → show cycle', () => {
+      it('handles show → dismiss → animation end → show cycle', () => {
         let state = createInitialAlertFSMState(true);
         expect(state.visibility).toBe('visible');
 
-        // Dismiss via click
+        // Dismiss via click → goes to dismissing
         state = alertFSMReducer(state, { type: 'DISMISS_CLICK' });
+        expect(state.visibility).toBe('dismissing');
+
+        // Animation ends → goes to hidden
+        state = alertFSMReducer(state, { type: 'ANIMATION_END' });
         expect(state.visibility).toBe('hidden');
 
         // Show again
@@ -112,6 +173,32 @@ describe('Alert FSM', () => {
         // Second show
         const stateAfterSecondShow = alertFSMReducer(stateAfterFirstShow, { type: 'SHOW' });
         expect(stateAfterSecondShow).toBe(stateAfterFirstShow);
+      });
+    });
+
+    describe('default branches (defensive)', () => {
+      it('returns same state for unknown event in visible state', () => {
+        const state: AlertFSMState = { visibility: 'visible' };
+        const result = alertFSMReducer(state, { type: 'UNKNOWN' } as unknown as AlertFSMEvent);
+        expect(result).toBe(state);
+      });
+
+      it('returns same state for unknown event in hidden state', () => {
+        const state: AlertFSMState = { visibility: 'hidden' };
+        const result = alertFSMReducer(state, { type: 'UNKNOWN' } as unknown as AlertFSMEvent);
+        expect(result).toBe(state);
+      });
+
+      it('returns same state for unknown event in dismissing state', () => {
+        const state: AlertFSMState = { visibility: 'dismissing' };
+        const result = alertFSMReducer(state, { type: 'UNKNOWN' } as unknown as AlertFSMEvent);
+        expect(result).toBe(state);
+      });
+
+      it('returns same state for unknown visibility value', () => {
+        const state = { visibility: 'transitioning' } as unknown as AlertFSMState;
+        const result = alertFSMReducer(state, { type: 'SHOW' });
+        expect(result).toBe(state);
       });
     });
 

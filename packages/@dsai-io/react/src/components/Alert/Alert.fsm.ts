@@ -6,6 +6,7 @@
  *
  * States:
  * - visible: Alert is rendered and visible to the user
+ * - dismissing: Alert is playing the fade-out exit animation
  * - hidden: Alert is not rendered (returns null)
  *
  * Events:
@@ -13,12 +14,14 @@
  * - HIDE: External request to hide (show prop becomes false)
  * - DISMISS_CLICK: Close button clicked
  * - DISMISS_ESCAPE: Escape key pressed when dismissible
+ * - AUTO_DISMISS_TIMEOUT: Auto-dismiss timer expired
+ * - ANIMATION_END: Dismiss animation completed
  */
 
 /**
  * Visibility states for the Alert FSM
  */
-export type AlertVisibilityState = 'visible' | 'hidden';
+export type AlertVisibilityState = 'visible' | 'dismissing' | 'hidden';
 
 /**
  * The Alert FSM state object
@@ -34,7 +37,9 @@ export type AlertFSMEvent =
   | { readonly type: 'SHOW' }
   | { readonly type: 'HIDE' }
   | { readonly type: 'DISMISS_CLICK' }
-  | { readonly type: 'DISMISS_ESCAPE' };
+  | { readonly type: 'DISMISS_ESCAPE' }
+  | { readonly type: 'AUTO_DISMISS_TIMEOUT' }
+  | { readonly type: 'ANIMATION_END' };
 
 /**
  * Creates the initial FSM state based on the show prop
@@ -53,15 +58,24 @@ export function createInitialAlertFSMState(show: boolean): AlertFSMState {
  *
  * Transitions:
  * - From "visible":
- *   - HIDE → "hidden"
- *   - DISMISS_CLICK → "hidden"
- *   - DISMISS_ESCAPE → "hidden"
+ *   - HIDE → "hidden" (immediate, external control)
+ *   - DISMISS_CLICK → "dismissing"
+ *   - DISMISS_ESCAPE → "dismissing"
+ *   - AUTO_DISMISS_TIMEOUT → "dismissing"
  *   - SHOW → stays "visible" (idempotent)
+ *   - ANIMATION_END → stays "visible" (no-op)
+ *
+ * - From "dismissing":
+ *   - ANIMATION_END → "hidden"
+ *   - SHOW → "visible" (cancel animation, re-show)
+ *   - HIDE → "hidden" (force hide)
+ *   - DISMISS_* / AUTO_DISMISS_TIMEOUT → stays "dismissing"
  *
  * - From "hidden":
  *   - SHOW → "visible"
  *   - HIDE → stays "hidden" (idempotent)
- *   - DISMISS_* → stays "hidden" (no-op)
+ *   - DISMISS_* / AUTO_DISMISS_TIMEOUT → stays "hidden" (no-op)
+ *   - ANIMATION_END → stays "hidden" (no-op)
  *
  * @param state - Current FSM state
  * @param event - Event triggering the transition
@@ -72,11 +86,29 @@ export function alertFSMReducer(state: AlertFSMState, event: AlertFSMEvent): Ale
     case 'visible':
       switch (event.type) {
         case 'HIDE':
+          return { visibility: 'hidden' };
         case 'DISMISS_CLICK':
         case 'DISMISS_ESCAPE':
+        case 'AUTO_DISMISS_TIMEOUT':
+          return { visibility: 'dismissing' };
+        case 'SHOW':
+        case 'ANIMATION_END':
+          return state;
+        default:
+          return state;
+      }
+
+    case 'dismissing':
+      switch (event.type) {
+        case 'ANIMATION_END':
           return { visibility: 'hidden' };
         case 'SHOW':
-          // Already visible, stay visible (idempotent)
+          return { visibility: 'visible' };
+        case 'HIDE':
+          return { visibility: 'hidden' };
+        case 'DISMISS_CLICK':
+        case 'DISMISS_ESCAPE':
+        case 'AUTO_DISMISS_TIMEOUT':
           return state;
         default:
           return state;
@@ -89,7 +121,8 @@ export function alertFSMReducer(state: AlertFSMState, event: AlertFSMEvent): Ale
         case 'HIDE':
         case 'DISMISS_CLICK':
         case 'DISMISS_ESCAPE':
-          // Already hidden, stay hidden (no-op)
+        case 'AUTO_DISMISS_TIMEOUT':
+        case 'ANIMATION_END':
           return state;
         default:
           return state;

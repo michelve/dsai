@@ -5,9 +5,11 @@ A Bootstrap 5 alert component for displaying important messages to users.
 ## Features
 
 - **8 variants**: primary, secondary, success, danger, warning, info, light, dark
-- **Dismissible**: Close button with Escape key support
+- **Dismissible**: Close button with Escape key support and fade-out animation
 - **Compound components**: `Alert.Link` and `Alert.Heading`
 - **Icon support**: Custom icons
+- **Auto-dismiss**: Timed auto-dismiss with configurable duration
+- **Transition**: Fade-out animation on dismiss (respects `prefers-reduced-motion`)
 - **Accessible**: WCAG 2.2 AA compliant with proper ARIA attributes
 
 ## Installation
@@ -116,6 +118,44 @@ function DismissibleAlert() {
 </Alert>
 ```
 
+### Auto-Dismiss
+
+```tsx
+function AutoDismissAlert() {
+  const [show, setShow] = useState(true);
+
+  return (
+    show && (
+      <Alert
+        variant="info"
+        dismissible
+        autoDismiss={5000}
+        onClose={(reason) => {
+          console.log(`Alert dismissed: ${reason}`); // 'click', 'escape', or 'timeout'
+          setShow(false);
+        }}
+      >
+        This alert will auto-dismiss in 5 seconds.
+      </Alert>
+    )
+  );
+}
+```
+
+### Dismiss Transition
+
+```tsx
+// Fade-out animation (default)
+<Alert variant="success" dismissible onClose={() => {}}>
+  This alert fades out when dismissed.
+</Alert>
+
+// Instant dismiss (no animation)
+<Alert variant="warning" dismissible onClose={() => {}} transition={false}>
+  This alert disappears instantly.
+</Alert>
+```
+
 ### Controlled Visibility
 
 ```tsx
@@ -139,23 +179,25 @@ function ControlledAlert() {
 
 ### Alert
 
-| Prop          | Type                 | Default     | Description                                                               |
-| ------------- | -------------------- | ----------- | ------------------------------------------------------------------------- |
-| `children`    | `ReactNode`          | -           | Alert content                                                             |
-| `variant`     | `AlertVariant`       | `'primary'` | Color variant                                                             |
-| `title`       | `string`             | -           | Optional alert heading; also populates the root `title` tooltip attribute |
-| `dismissible` | `boolean`            | `false`     | Show close button and enable Escape-to-dismiss                            |
-| `onClose`     | `() => void`         | -           | Close callback, required when `dismissible` is `true`                     |
-| `icon`        | `ReactNode`          | -           | Custom icon (wrapped in an `aria-hidden` container)                       |
-| `iconLabel`   | `string`             | -           | Accessible label for the icon (sets `role="img"`); omit for decorative    |
-| `show`        | `boolean`            | `true`      | Control visibility (FSM syncs with prop changes)                          |
-| `className`   | `string`             | -           | Additional CSS classes                                                    |
-| `style`       | `CSSProperties`      | -           | Inline styles                                                             |
-| `id`          | `string`             | -           | ID attribute                                                              |
-| `as`          | `'div' \| 'section'` | `'div'`     | Element to render as                                                      |
-| `aria-atomic` | `boolean`            | `true`      | Announces the entire alert when content changes                           |
-| `data-testid` | `string`             | -           | Testing hook (sanitized)                                                  |
-| `data-test`   | `string`             | -           | Alternate testing hook (sanitized)                                        |
+| Prop          | Type                                    | Default     | Description                                                               |
+| ------------- | --------------------------------------- | ----------- | ------------------------------------------------------------------------- |
+| `children`    | `ReactNode`                             | -           | Alert content                                                             |
+| `variant`     | `AlertVariant`                          | `'primary'` | Color variant                                                             |
+| `title`       | `string`                                | -           | Optional alert heading; also populates the root `title` tooltip attribute |
+| `dismissible` | `boolean`                               | `false`     | Show close button and enable Escape-to-dismiss                            |
+| `onClose`     | `(reason?: AlertDismissReason) => void` | -           | Close callback with reason (`'click'`, `'escape'`, `'timeout'`)           |
+| `icon`        | `ReactNode`                             | -           | Custom icon (wrapped in an `aria-hidden` container)                       |
+| `iconLabel`   | `string`                                | -           | Accessible label for the icon (sets `role="img"`); omit for decorative    |
+| `show`        | `boolean`                               | `true`      | Control visibility (FSM syncs with prop changes)                          |
+| `autoDismiss` | `number`                                | -           | Auto-dismiss after specified milliseconds (0 or omit to disable)          |
+| `transition`  | `boolean`                               | `true`      | Enable fade-out animation on dismiss (respects `prefers-reduced-motion`)  |
+| `className`   | `string`                                | -           | Additional CSS classes                                                    |
+| `style`       | `CSSProperties`                         | -           | Inline styles                                                             |
+| `id`          | `string`                                | -           | ID attribute                                                              |
+| `as`          | `'div' \| 'section'`                    | `'div'`     | Element to render as                                                      |
+| `aria-atomic` | `boolean`                               | `true`      | Announces the entire alert when content changes                           |
+| `data-testid` | `string`                                | -           | Testing hook (sanitized)                                                  |
+| `data-test`   | `string`                                | -           | Alternate testing hook (sanitized)                                        |
 
 > ℹ️ The tooltip-style `title` attribute currently mirrors the heading text. If you need different tooltip copy, compose your own heading with `Alert.Heading` and pass the desired `title` attribute to the root element.
 
@@ -189,7 +231,7 @@ The Alert component is built with accessibility in mind:
   - `role="alert"` for danger/warning variants (assertive announcement)
   - `role="status"` for info/success/primary/secondary variants (polite announcement)
 - **ARIA Live Regions**:
-  - `aria-live="assertive"` for danger alerts
+  - `aria-live="assertive"` for danger/warning alerts
   - `aria-live="polite"` for other variants
 - **Keyboard Support**: Escape key dismisses the alert when dismissible
 - **Close Button**: Has `aria-label="Close"` for screen readers
@@ -214,6 +256,7 @@ The Alert component uses a finite state machine (FSM) to manage visibility and d
 ### States
 
 - `visible` - Alert is rendered and displayed
+- `dismissing` - Alert is playing the fade-out exit animation
 - `hidden` - Alert is not rendered (returns null)
 
 ### Events
@@ -222,6 +265,8 @@ The Alert component uses a finite state machine (FSM) to manage visibility and d
 - `HIDE` - External request to hide (when `show` prop becomes `false`)
 - `DISMISS_CLICK` - User clicked the close button
 - `DISMISS_ESCAPE` - User pressed Escape key (when dismissible)
+- `AUTO_DISMISS_TIMEOUT` - Auto-dismiss timer expired
+- `ANIMATION_END` - Dismiss animation completed
 
 ### FSM Exports
 

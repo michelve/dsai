@@ -2,12 +2,15 @@ import React, {
   cloneElement,
   forwardRef,
   isValidElement,
+  memo,
   useCallback,
   useEffect,
   useMemo,
   useReducer,
+  useRef,
 } from 'react';
 
+import { useReducedMotion } from '../../hooks/useReducedMotion/useReducedMotion';
 import { cn } from '../../utils';
 import { isEscapeKey } from '../../utils/keyboard';
 import { isSafeHref } from '../../utils/validation';
@@ -15,14 +18,6 @@ import { isSafeHref } from '../../utils/validation';
 import { alertFSMReducer, createInitialAlertFSMState } from './Alert.fsm';
 
 import type { AlertHeadingProps, AlertLinkProps, AlertProps } from './Alert.types';
-
-/**
- * Validates href to prevent XSS and dangerous protocols
- * SECURITY: Blocks javascript:, data:, text/html and other dangerous schemes
- *
- * @param href - URL to validate
- * @returns true if href is safe, false otherwise
- */
 
 /**
  * Alert Link - styled link for use within alerts
@@ -61,12 +56,13 @@ const AlertLink = React.memo(
     const safeHref = isSafeHref(href, { undefinedBehavior: 'unsafe' }) ? href : '#';
 
     // External link protection: target="_blank" requires rel="noopener noreferrer"
-    // This prevents the opened page from accessing window.opener
+    // This prevents the opened page from accessing window.opener — merge with user-provided rel
     const isExternal = target === '_blank';
-    const safeRel = isExternal ? 'noopener noreferrer' : rel;
+    const safeRel = isExternal
+      ? [...new Set([...(rel ? rel.split(/\s+/) : []), 'noopener', 'noreferrer'])].join(' ')
+      : rel;
 
-    // Memoize className construction
-    const computedClassName = useMemo(() => cn('alert-link', className), [className]);
+    const computedClassName = cn('alert-link', className);
 
     return (
       <a
@@ -99,15 +95,20 @@ AlertLink.displayName = 'Alert.Link';
  * </Alert>
  * ```
  */
-const AlertHeading = React.memo(function AlertHeading({
-  children,
-  as: Component = 'h4',
-  className = '',
-}: AlertHeadingProps): React.JSX.Element {
-  const classes = useMemo(() => cn('alert-heading', className), [className]);
+const AlertHeading = React.memo(
+  forwardRef<HTMLHeadingElement, AlertHeadingProps>(function AlertHeading(
+    { children, as: Component = 'h4', className = '' },
+    ref
+  ) {
+    const classes = cn('alert-heading', className);
 
-  return <Component className={classes}>{children}</Component>;
-});
+    return (
+      <Component ref={ref} className={classes}>
+        {children}
+      </Component>
+    );
+  })
+);
 
 AlertHeading.displayName = 'Alert.Heading';
 
@@ -164,153 +165,232 @@ AlertHeading.displayName = 'Alert.Heading';
  * </Alert>
  * ```
  */
-const AlertBase = forwardRef<HTMLDivElement, AlertProps>(
-  (
-    {
-      children,
-      variant = 'primary',
-      title,
-      dismissible = false,
-      onClose,
-      icon,
-      show = true,
-      className = '',
-      style,
-      id,
-      as: Component = 'div',
-      'aria-atomic': ariaAtomic = true,
-      'data-testid': dataTestId,
-      'data-test': dataTest,
-      title: titleAttr,
-      iconLabel,
-    },
-    ref
-  ) => {
-    // Initialize FSM state from show prop
-    const [fsmState, dispatch] = useReducer(alertFSMReducer, show, createInitialAlertFSMState);
-
-    // Synchronize external show prop with FSM
-    useEffect(() => {
-      dispatch({ type: show ? 'SHOW' : 'HIDE' });
-    }, [show]);
-
-    // Determine ARIA role based on variant
-    // danger/warning are assertive (role="alert"), others are polite (role="status")
-    const role = variant === 'danger' || variant === 'warning' ? 'alert' : 'status';
-
-    // Handle close button click - dispatch FSM event and call onClose
-    const handleClose = useCallback(() => {
-      dispatch({ type: 'DISMISS_CLICK' });
-      onClose?.();
-    }, [onClose]);
-
-    // Handle Escape key to dismiss - dispatch FSM event and call onClose
-    const handleKeyDown = useCallback(
-      (event: KeyboardEvent) => {
-        if (dismissible && onClose && isEscapeKey(event)) {
-          dispatch({ type: 'DISMISS_ESCAPE' });
-          onClose();
-        }
+const AlertBase = memo(
+  forwardRef<HTMLDivElement, AlertProps>(
+    (
+      {
+        children,
+        variant = 'primary',
+        title,
+        dismissible = false,
+        onClose,
+        icon,
+        show = true,
+        className = '',
+        style,
+        id,
+        as: Component = 'div',
+        'aria-atomic': ariaAtomic = true,
+        'data-testid': dataTestId,
+        'data-test': dataTest,
+        iconLabel,
+        autoDismiss,
+        transition = true,
       },
-      [dismissible, onClose]
-    );
+      ref
+    ) => {
+      // Initialize FSM state from show prop
+      const [fsmState, dispatch] = useReducer(alertFSMReducer, show, createInitialAlertFSMState);
 
-    useEffect(() => {
-      if (dismissible && onClose) {
-        document.addEventListener('keydown', handleKeyDown);
+      const alertRef = useRef<HTMLDivElement | null>(null);
+      const prefersReducedMotion = useReducedMotion();
+      const shouldAnimate = transition && !prefersReducedMotion;
+
+      // Synchronize external show prop with FSM
+      useEffect(() => {
+        dispatch({ type: show ? 'SHOW' : 'HIDE' });
+      }, [show]);
+
+      // Determine ARIA role based on variant
+      // danger/warning are assertive (role="alert"), others are polite (role="status")
+      const role = variant === 'danger' || variant === 'warning' ? 'alert' : 'status';
+
+      // Handle close button click - dispatch FSM event and call onClose
+      const handleClose = useCallback(() => {
+        dispatch({ type: 'DISMISS_CLICK' });
+        if (!shouldAnimate) {
+          dispatch({ type: 'ANIMATION_END' });
+        }
+        onClose?.('click');
+      }, [onClose, shouldAnimate]);
+
+      // Handle Escape key to dismiss - dispatch FSM event and call onClose
+      const handleKeyDown = useCallback(
+        (event: KeyboardEvent) => {
+          if (
+            dismissible &&
+            onClose &&
+            isEscapeKey(event) &&
+            alertRef.current?.contains(document.activeElement)
+          ) {
+            dispatch({ type: 'DISMISS_ESCAPE' });
+            if (!shouldAnimate) {
+              dispatch({ type: 'ANIMATION_END' });
+            }
+            onClose('escape');
+          }
+        },
+        [dismissible, onClose, shouldAnimate]
+      );
+
+      useEffect(() => {
+        if (dismissible && onClose) {
+          document.addEventListener('keydown', handleKeyDown);
+          return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+          };
+        }
+        return undefined;
+      }, [dismissible, onClose, handleKeyDown]);
+
+      // Auto-dismiss timer
+      useEffect(() => {
+        if (!autoDismiss || autoDismiss <= 0 || fsmState.visibility !== 'visible') {
+          return undefined;
+        }
+
+        const timerId = setTimeout(() => {
+          dispatch({ type: 'AUTO_DISMISS_TIMEOUT' });
+          if (!shouldAnimate) {
+            dispatch({ type: 'ANIMATION_END' });
+          }
+          onClose?.('timeout');
+        }, autoDismiss);
+
         return () => {
-          document.removeEventListener('keydown', handleKeyDown);
+          clearTimeout(timerId);
         };
-      }
-      return undefined;
-    }, [dismissible, onClose, handleKeyDown]);
+      }, [autoDismiss, fsmState.visibility, onClose, shouldAnimate]);
 
-    // Memoize Bootstrap class names construction (must be before visibility check for hook ordering)
-    const bootstrapClasses = useMemo(
-      () =>
-        cn(
-          'alert', // Base Bootstrap alert class
-          `alert-${variant}`, // Variant: alert-primary, alert-success, etc.
-          dismissible && 'alert-dismissible', // Dismissible styling
-          dismissible && 'fade show', // Animation classes for dismissible
-          className // Allow additional custom classes
-        ),
-      [variant, dismissible, className]
-    );
+      // Handle dismiss animation end via CSS transitionend
+      useEffect(() => {
+        if (fsmState.visibility !== 'dismissing' || !shouldAnimate) {
+          return undefined;
+        }
 
-    const iconClasses = 'd-inline-flex align-items-center flex-shrink-0 me-2';
+        const element = alertRef.current;
+        if (!element) {
+          dispatch({ type: 'ANIMATION_END' });
+          return undefined;
+        }
 
-    const renderedIcon = useMemo(() => {
-      if (!icon) {
+        const handleTransitionEnd = (event: TransitionEvent): void => {
+          // Only react to opacity transitions on this element
+          if (event.target === element && event.propertyName === 'opacity') {
+            dispatch({ type: 'ANIMATION_END' });
+          }
+        };
+
+        element.addEventListener('transitionend', handleTransitionEnd);
+
+        // Safety timeout in case transitionend doesn't fire (e.g., display: none)
+        const safetyTimer = setTimeout(() => {
+          dispatch({ type: 'ANIMATION_END' });
+        }, 300);
+
+        return () => {
+          element.removeEventListener('transitionend', handleTransitionEnd);
+          clearTimeout(safetyTimer);
+        };
+      }, [fsmState.visibility, shouldAnimate]);
+
+      // Memoize Bootstrap class names construction (must be before visibility check for hook ordering)
+      const bootstrapClasses = useMemo(
+        () =>
+          cn(
+            'alert', // Base Bootstrap alert class
+            `alert-${variant}`, // Variant: alert-primary, alert-success, etc.
+            dismissible && 'alert-dismissible', // Dismissible styling
+            'fade', // Always include fade for transition support
+            fsmState.visibility === 'visible' && 'show', // Show class for visible state
+            className // Allow additional custom classes
+          ),
+        [variant, dismissible, className, fsmState.visibility]
+      );
+
+      const iconClasses = 'd-inline-flex align-items-center flex-shrink-0 me-2';
+
+      const renderedIcon = useMemo(() => {
+        if (!icon) {
+          return null;
+        }
+
+        if (
+          isValidElement<{
+            className?: string;
+            'aria-label'?: string;
+            'aria-hidden'?: boolean;
+            role?: string;
+            children?: React.ReactNode;
+          }>(icon)
+        ) {
+          const iconElement = icon;
+          const existingClassName = iconElement.props.className;
+          const existingAriaLabel = iconElement.props['aria-label'];
+          const existingAriaHidden = iconElement.props['aria-hidden'];
+          const ariaLabel = iconLabel ?? existingAriaLabel;
+          const ariaHidden = iconLabel ? undefined : (existingAriaHidden ?? true);
+
+          return cloneElement(iconElement, {
+            className: cn(iconClasses, existingClassName),
+            'aria-label': ariaLabel,
+            'aria-hidden': ariaHidden,
+            role: ariaLabel ? 'img' : iconElement.props.role,
+          });
+        }
+
+        return (
+          <span className={iconClasses} aria-hidden="true">
+            {icon}
+          </span>
+        );
+      }, [icon, iconLabel]);
+
+      // Don't render if FSM state is hidden
+      if (fsmState.visibility === 'hidden') {
         return null;
       }
 
-      if (
-        isValidElement<{
-          className?: string;
-          'aria-label'?: string;
-          'aria-hidden'?: boolean;
-          role?: string;
-          children?: React.ReactNode;
-        }>(icon)
-      ) {
-        const iconElement = icon;
-        const existingClassName = iconElement.props.className;
-        const existingAriaLabel = iconElement.props['aria-label'];
-        const existingAriaHidden = iconElement.props['aria-hidden'];
-        const ariaLabel = iconLabel ?? existingAriaLabel;
-        const ariaHidden = iconLabel ? undefined : (existingAriaHidden ?? true);
-
-        return cloneElement(iconElement, {
-          className: cn(iconClasses, existingClassName),
-          'aria-label': ariaLabel,
-          'aria-hidden': ariaHidden,
-          role: ariaLabel ? 'img' : iconElement.props.role,
-        });
-      }
+      // Merge forwarded ref with internal alertRef
+      const mergeRefs = (node: HTMLDivElement | null): void => {
+        alertRef.current = node;
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        }
+      };
 
       return (
-        <span className={iconClasses} aria-hidden="true">
-          {icon}
-        </span>
+        <Component
+          ref={mergeRefs}
+          className={bootstrapClasses}
+          role={role}
+          style={style}
+          id={id}
+          aria-live={variant === 'danger' || variant === 'warning' ? 'assertive' : 'polite'}
+          aria-atomic={ariaAtomic}
+          data-testid={dataTestId}
+          data-test={dataTest}
+          data-visual-state={fsmState.visibility}
+        >
+          {/* Optional icon */}
+          {renderedIcon}
+
+          {/* Optional title using Alert.Heading */}
+          {title && <AlertHeading>{title}</AlertHeading>}
+
+          {/* Alert content */}
+          {children}
+
+          {/* Dismiss button */}
+          {dismissible && onClose && (
+            <button type="button" className="btn-close" aria-label="Close" onClick={handleClose} />
+          )}
+        </Component>
       );
-    }, [icon, iconLabel]);
-
-    // Don't render if FSM state is hidden
-    if (fsmState.visibility === 'hidden') {
-      return null;
     }
-
-    return (
-      <Component
-        ref={ref}
-        className={bootstrapClasses}
-        role={role}
-        style={style}
-        id={id}
-        aria-live={variant === 'danger' ? 'assertive' : 'polite'}
-        aria-atomic={ariaAtomic}
-        data-testid={dataTestId}
-        data-test={dataTest}
-        title={titleAttr}
-        data-visual-state={fsmState.visibility}
-      >
-        {/* Optional icon */}
-        {renderedIcon}
-
-        {/* Optional title using Alert.Heading */}
-        {title && <AlertHeading>{title}</AlertHeading>}
-
-        {/* Alert content */}
-        {children}
-
-        {/* Dismiss button */}
-        {dismissible && onClose && (
-          <button type="button" className="btn-close" aria-label="Close" onClick={handleClose} />
-        )}
-      </Component>
-    );
-  }
+  )
 );
 
 AlertBase.displayName = 'Alert';

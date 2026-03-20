@@ -162,7 +162,7 @@ describe('Alert Security Tests', () => {
       expect(link).toHaveAttribute('rel', 'custom');
     });
 
-    it('overrides custom rel with noopener noreferrer for external links', () => {
+    it('merges user rel with noopener noreferrer for external links', () => {
       render(
         <Alert>
           <Alert.Link href="https://example.com" target="_blank" rel="author">
@@ -171,7 +171,10 @@ describe('Alert Security Tests', () => {
         </Alert>
       );
       const link = screen.getByText('external');
-      expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+      const relValue = link.getAttribute('rel') ?? '';
+      expect(relValue).toContain('author');
+      expect(relValue).toContain('noopener');
+      expect(relValue).toContain('noreferrer');
     });
   });
 
@@ -202,7 +205,7 @@ describe('Alert Security Tests', () => {
       expect(link).toHaveAttribute('data-test', 'link-test');
     });
 
-    it('accepts title attribute for tooltips', () => {
+    it('does not set HTML title tooltip on root element (title renders as heading only)', () => {
       render(
         <Alert title="Alert tooltip">
           <Alert.Link href="/test" title="Link tooltip">
@@ -212,7 +215,10 @@ describe('Alert Security Tests', () => {
       );
       const alert = screen.getByRole('status');
       const link = screen.getByText('link');
-      expect(alert).toHaveAttribute('title', 'Alert tooltip');
+      // title prop renders as AlertHeading, not as HTML tooltip on root
+      expect(alert).not.toHaveAttribute('title');
+      expect(screen.getByText('Alert tooltip')).toHaveClass('alert-heading');
+      // Alert.Link title still works as normal HTML attribute
       expect(link).toHaveAttribute('title', 'Link tooltip');
     });
   });
