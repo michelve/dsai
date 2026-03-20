@@ -16,7 +16,7 @@
   "dependencies": {
     "@dsai-io/react": "workspace:*"
   },
-  "license": "UNLICENSED",
+  "license": "AGPL-3.0-or-later",
   "publishConfig": {
     "access": "restricted"
   }

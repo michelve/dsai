@@ -89,3 +89,7 @@ pnpm-lock.yaml
 tasks/01-critical/check.md
 migrations.json
 pnpm-lock.yaml
+
+#Demo apps
+/apps/
+apps/*

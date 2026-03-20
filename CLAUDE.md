@@ -1,42 +1,49 @@
-# DSAi Design System — Agent Guidelines
+# CLAUDE.md
 
-This file provides guidance to AI coding agents (GitHub Copilot, Cursor, Claude Code, etc.) working in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
 
-DSAi is a production-ready React 19 component library (38+ components) built as an Nx monorepo. Key requirements: TypeScript strict mode, Bootstrap 5-compatible styling, WCAG 2.1 AA accessibility, 90%+ test coverage.
+DSAi is a production-ready React 19 component library (38+ components) built as an Nx monorepo with TypeScript strict mode, Bootstrap 5-compatible styling, WCAG 2.1 AA accessibility, and design token integration.
 
 ## Common Commands
 
 ```bash
-# Build
-pnpm build                         # Build all packages
-nx run @dsai-io/react:build         # Build single package
+# Build & Dev
+pnpm build                        # Build all packages
+pnpm dev                          # Dev mode for all packages
+nx run @dsai-io/react:build       # Build single package
 
-# Test
-pnpm test                          # Run all tests (Jest 30)
-pnpm test:coverage                 # With coverage report
-jest --testPathPattern=Button       # Run tests matching a pattern
+# Testing
+pnpm test                         # Run all tests (Jest)
+pnpm test:watch                   # Watch mode
+pnpm test:coverage                # With coverage report
+pnpm test:ci                      # CI mode (--ci --coverage --maxWorkers=2)
+jest --testPathPattern=Button      # Run tests matching a pattern
 
-# Lint
-pnpm lint                          # Lint all packages
-nx run @dsai-io/react:lint          # Lint single package
+# Linting
+pnpm lint                         # Lint all packages
+nx run @dsai-io/react:lint        # Lint single package
 
-# Affected only (preferred in CI and for large changes)
+# Affected (only changed packages)
 pnpm affected:build
 pnpm affected:test
 
 # Design Tokens
-pnpm tokens:build                  # Build + validate tokens
+pnpm tokens:build                 # Build + validate tokens
+pnpm tokens:transform             # Transform only
+pnpm tokens:validate              # Validate only
 
 # Figma
-pnpm figma:connect                 # Set up Figma Code Connect
-pnpm figma:publish:dry             # Dry-run publish
+pnpm figma:connect                # Set up Figma Code Connect
+pnpm figma:publish:dry            # Dry-run publish
 ```
+
+Always prefer running tasks through `nx` rather than underlying tooling directly.
 
 ## Architecture
 
-**Packages:**
+**Monorepo layout (Nx):**
 - `packages/@dsai-io/react/` — Component library (38+ components in `src/components/`)
 - `packages/@dsai-io/tools/` — CLI tooling, token pipeline, build utilities (CLI: `dsai`)
 - `packages/@dsai-io/figma-tokens/` — Figma Variables API integration
@@ -44,9 +51,12 @@ pnpm figma:publish:dry             # Dry-run publish
 - `packages/@dsai-io/docs/` — Documentation package
 - `apps/playground/` — Development playground
 
-**Build:** tsup (ESM + CJS + declarations). Each package has `tsconfig.build.json` that removes path mappings to avoid declaration errors.
+**Build system:** tsup (ESM + CJS + declarations). Each package has `tsconfig.build.json` that removes path mappings to avoid declaration errors.
 
-**Path aliases** (tsconfig.base.json): `@dsai-io/react`, `@dsai-io/tools`, `@dsai-io/figma-tokens` map to their respective `packages/*/src`.
+**Path aliases** (tsconfig.base.json):
+- `@dsai-io/react` → `packages/@dsai-io/react/src`
+- `@dsai-io/tools` → `packages/@dsai-io/tools/src`
+- `@dsai-io/figma-tokens` → `packages/@dsai-io/figma-tokens/src`
 
 ## Component Patterns
 
@@ -57,7 +67,7 @@ pnpm figma:publish:dry             # Dry-run publish
 - **Controlled/uncontrolled:** Via `useControllableState` hook
 - **Focus management:** `useFocusTrap` hook for modals
 
-## Code Quality
+## Code Quality Standards
 
 **Formatting:** Biome + Prettier — single quotes, trailing commas (ES5), 100 char line width, 2-space indent.
 
@@ -81,7 +91,7 @@ pnpm figma:publish:dry             # Dry-run publish
 
 **Test location:** `ComponentName.test.tsx` colocated with component, or `__tests__/ComponentName.test.tsx`
 
-**Coverage:** 80% minimum threshold (all metrics), 90%+ target.
+**Coverage:** 80% minimum threshold (all metrics), 90%+ target. Coverage excludes `*.d.ts`, `*.stories.tsx`, `*.figma.tsx`, `index.ts`, `Icon/**`.
 
 **Test structure:**
 ```typescript
@@ -97,25 +107,23 @@ Prefer accessible queries: `getByRole`, `getByLabelText`. Test behavior, not imp
 
 ## Pre-flight Checklist
 
-Before any PR:
+Before any PR, verify:
 1. `nx run <project>:lint` — 0 errors/warnings
 2. `nx run <project>:test --coverage` — 90%+ coverage
 3. `nx run <project>:build` — builds successfully
 4. jest-axe passes, keyboard navigation works
 5. No hard-coded colors/spacing — use CSS custom properties (design tokens)
 
----
+## Codacy Integration
 
-<!-- nx configuration start-->
-<!-- Leave the start & end comments to automatically receive updates. -->
+After editing any file, run `codacy_cli_analyze` (Codacy MCP Server) with:
+- `provider`: `gh`, `organization`: `michelve`, `repository`: `dsai`
+- After dependency changes, also run with `tool`: `trivy`
 
-# General Guidelines for working with Nx
+## CI/CD
 
-- When running tasks (for example build, lint, test, e2e, etc.), always prefer running the task through `nx` (i.e. `nx run`, `nx run-many`, `nx affected`) instead of using the underlying tooling directly
-- You have access to the Nx MCP server and its tools, use them to help the user
-- When answering questions about the repository, use the `nx_workspace` tool first to gain an understanding of the workspace architecture where applicable.
-- When working in individual projects, use the `nx_project_details` mcp tool to analyze and understand the specific project structure and dependencies
-- For questions around nx configuration, best practices or if you're unsure, use the `nx_docs` tool to get relevant, up-to-date docs. Always use this instead of assuming things about nx configuration
-- If the user needs help with an Nx configuration or project graph error, use the `nx_workspace` tool to get any errors
-
-<!-- nx configuration end-->
+GitHub Actions runs on push to `main` and PRs targeting `main`:
+- Lint & typecheck (affected only)
+- Build (affected only)
+- Test with coverage (affected only)
+- Node.js compatibility matrix: 18.x, 20.x, 22.x

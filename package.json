@@ -2,7 +2,7 @@
   "name": "@dsai-io/source",
   "version": "1.0.1",
   "type": "module",
-  "license": "UNLICENSED",
+  "license": "AGPL-3.0-or-later",
   "scripts": {
     "dev": "nx run-many --target=dev --all",
     "build": "nx run-many --target=build --all",

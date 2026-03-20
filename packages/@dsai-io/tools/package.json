@@ -65,7 +65,7 @@
     "build-tools",
     "dsai"
   ],
-  "license": "UNLICENSED",
+  "license": "AGPL-3.0-or-later",
   "engines": {
     "node": ">=22.0.0"
   },

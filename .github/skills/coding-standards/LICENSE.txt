@@ -1,8 +1,6 @@
-UNLICENSED
+AGPL-3.0-or-later
 
-Copyright (c) 2024-2026 DSAi. All rights reserved.
+Copyright (c) 2024-2026 DSAi.
 
-This skill is proprietary and confidential. Unauthorized copying, modification,
-distribution, or use of this skill, via any medium, is strictly prohibited.
-
-For licensing inquiries, contact the DSAi team.
+This skill is licensed under the GNU Affero General Public License v3.0 or later.
+See the LICENSE.md file in the project root for full terms.

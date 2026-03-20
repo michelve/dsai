@@ -3,7 +3,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/068516f0032a4690b46404252021023a)](https://app.codacy.com?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/068516f0032a4690b46404252021023a)](https://app.codacy.com?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 ![CI](https://github.com/michelve/dsai/actions/workflows/ci.yml/badge.svg)
-[![License: UNLICENSED](https://img.shields.io/badge/License-UNLICENSED-red.svg)](LICENSE)
+[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](LICENSE.md)
 
 A production-ready React component library built with TypeScript and Nx monorepo architecture. Provides 38+ accessible, customizable components with design tokens, Figma integration, and comprehensive testing.
 
@@ -393,9 +393,9 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ## License
 
-UNLICENSED - This project is proprietary and confidential.
+This project is licensed under the [GNU Affero General Public License v3.0](LICENSE.md) (AGPL-3.0-or-later).
 
-See [COPYRIGHT.md](COPYRIGHT.md) for details.
+You are free to use, modify, and distribute this software. If you use it in a networked service or distribute modified versions, you must release your source code under the same license. See [LICENSE](LICENSE.md) for full terms.
 
 ---
 
@@ -404,7 +404,3 @@ See [COPYRIGHT.md](COPYRIGHT.md) for details.
 - **Issues**: [GitHub Issues](https://github.com/michelve/dsai/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/michelve/dsai/discussions)
 - **Documentation**: [docs/](docs/)
-
----
-
-**Built with ❤️ by the DSAi team**

@@ -37,5 +37,5 @@
     "style-dictionary": "^5.1.4",
     "vite": "^7.2.6"
   },
-  "license": "UNLICENSED"
+  "license": "AGPL-3.0-or-later"
 }
