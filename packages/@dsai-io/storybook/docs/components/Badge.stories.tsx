@@ -20,18 +20,18 @@ import type { JSX } from 'react';
  *
  * Features:
  * - 8 color variants with Bootstrap 5 theming
+ * - 3 sizes (sm, md, lg)
+ * - 3 appearances (solid, outline, subtle)
  * - Pill shape for fully rounded badges
  * - Dot indicators for status (with automatic aria-hidden for accessibility)
- * - Icon support (icons automatically hidden from screen readers)
- * - Performance: React.memo wrapper + memoized component, class construction, and content detection
+ * - Icon support with start/end positioning
+ * - Dismissible badges with onDismiss callback
+ * - Max count truncation (e.g., 99+)
+ * - Visibility control (invisible, showZero)
+ * - Badge.Wrapper for overlay positioning on other elements
+ * - Animation support (mount + content change pulse)
+ * - Performance: React.memo wrapper + memoized internals
  * - Accessibility: aria-label required for dot-only badges (shows dev warning if missing)
- * - forwardRef support for direct DOM access when needed
- *
- * Performance Optimizations:
- * - React.memo prevents unnecessary re-renders
- * - Memoized class name construction with useMemo
- * - Memoized content detection (hasVisibleContent)
- * - Ideal for: large lists (100+ badges), frequent parent re-renders
  *
  * @see https://getbootstrap.com/docs/5.3/components/badge/
  */
@@ -129,8 +129,7 @@ const PerformanceShowcaseExample = (): JSX.Element => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
-        Badges are wrapped with React.memo and internally memoized for maximum performance. Memoized
-        class construction and component prevent unnecessary re-renders even in large lists.
+        Badges are wrapped with React.memo and internally memoized for maximum performance.
       </p>
       <div>
         <p style={{ marginBottom: '0.5rem' }}>
@@ -152,6 +151,7 @@ const PerformanceShowcaseExample = (): JSX.Element => {
     </div>
   );
 };
+
 const meta: Meta<typeof Badge> = {
   title: 'Components/Badge',
   component: Badge,
@@ -161,7 +161,8 @@ const meta: Meta<typeof Badge> = {
       description: {
         component:
           'A Bootstrap 5 badge component for displaying labels, status indicators, and counts. ' +
-          'Supports 8 color variants, pill shape, dot indicators, and icons. ' +
+          'Supports 8 color variants, 3 sizes, 3 appearances, pill shape, dot indicators, icons, ' +
+          'dismissible badges, max count, visibility control, and Badge.Wrapper overlay. ' +
           'Fully accessible with WCAG 2.2 AA compliance and performance optimizations.',
       },
     },
@@ -177,6 +178,24 @@ const meta: Meta<typeof Badge> = {
         defaultValue: { summary: 'primary' },
       },
     },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Badge size',
+      table: {
+        type: { summary: 'BadgeSize' },
+        defaultValue: { summary: 'md' },
+      },
+    },
+    appearance: {
+      control: 'select',
+      options: ['solid', 'outline', 'subtle'],
+      description: 'Visual style treatment',
+      table: {
+        type: { summary: 'BadgeAppearance' },
+        defaultValue: { summary: 'solid' },
+      },
+    },
     pill: {
       control: 'boolean',
       description: 'Pill shape (fully rounded)',
@@ -188,6 +207,46 @@ const meta: Meta<typeof Badge> = {
     dot: {
       control: 'boolean',
       description: 'Show dot indicator (requires aria-label when dot-only)',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    iconPosition: {
+      control: 'select',
+      options: ['start', 'end'],
+      description: 'Icon position relative to text',
+      table: {
+        type: { summary: "'start' | 'end'" },
+        defaultValue: { summary: 'start' },
+      },
+    },
+    max: {
+      control: 'number',
+      description: 'Maximum numeric value (shows "N+" when exceeded)',
+      table: {
+        type: { summary: 'number' },
+      },
+    },
+    invisible: {
+      control: 'boolean',
+      description: 'Hide badge visually while preserving layout',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    showZero: {
+      control: 'boolean',
+      description: 'Whether to display when children is 0',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
+      },
+    },
+    animated: {
+      control: 'boolean',
+      description: 'Enable mount and content-change animations',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -217,130 +276,98 @@ type Story = StoryObj<typeof meta>;
 // Basic Variants
 // =============================================================================
 
-/**
- * Primary badge - default variant
- */
 export const Primary: Story = {
-  args: {
-    variant: 'primary',
-    children: 'Primary',
-  },
+  args: { variant: 'primary', children: 'Primary' },
 };
 
-/**
- * Secondary badge
- */
 export const Secondary: Story = {
-  args: {
-    variant: 'secondary',
-    children: 'Secondary',
-  },
+  args: { variant: 'secondary', children: 'Secondary' },
 };
 
-/**
- * Success badge - use for positive status
- */
 export const Success: Story = {
-  args: {
-    variant: 'success',
-    children: 'Success',
-  },
+  args: { variant: 'success', children: 'Success' },
 };
 
-/**
- * Danger badge - use for errors or critical status
- */
 export const Danger: Story = {
-  args: {
-    variant: 'danger',
-    children: 'Danger',
-  },
+  args: { variant: 'danger', children: 'Danger' },
 };
 
-/**
- * Warning badge - use for warnings or caution
- */
 export const Warning: Story = {
-  args: {
-    variant: 'warning',
-    children: 'Warning',
-  },
+  args: { variant: 'warning', children: 'Warning' },
 };
 
-/**
- * Info badge - use for informational content
- */
 export const Info: Story = {
-  args: {
-    variant: 'info',
-    children: 'Info',
-  },
+  args: { variant: 'info', children: 'Info' },
 };
 
-/**
- * Light badge - use on dark backgrounds
- */
 export const Light: Story = {
-  args: {
-    variant: 'light',
-    children: 'Light',
-  },
-  globals: {
-    backgrounds: {
-      value: 'dark',
-    },
-  },
+  args: { variant: 'light', children: 'Light' },
+  globals: { backgrounds: { value: 'dark' } },
 };
 
-/**
- * Dark badge - use on light backgrounds
- */
 export const Dark: Story = {
-  args: {
-    variant: 'dark',
-    children: 'Dark',
-  },
+  args: { variant: 'dark', children: 'Dark' },
+};
+
+// =============================================================================
+// Sizes
+// =============================================================================
+
+/** All three badge sizes */
+export const Sizes: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+      <Badge size="sm">Small</Badge>
+      <Badge size="md">Medium</Badge>
+      <Badge size="lg">Large</Badge>
+    </div>
+  ),
+};
+
+// =============================================================================
+// Appearances
+// =============================================================================
+
+/** Solid (default), outline, and subtle style treatments */
+export const Appearances: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+        <Badge variant="primary" appearance="solid">Solid</Badge>
+        <Badge variant="success" appearance="solid">Solid</Badge>
+        <Badge variant="danger" appearance="solid">Solid</Badge>
+      </div>
+      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+        <Badge variant="primary" appearance="outline">Outline</Badge>
+        <Badge variant="success" appearance="outline">Outline</Badge>
+        <Badge variant="danger" appearance="outline">Outline</Badge>
+      </div>
+      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+        <Badge variant="primary" appearance="subtle">Subtle</Badge>
+        <Badge variant="success" appearance="subtle">Subtle</Badge>
+        <Badge variant="danger" appearance="subtle">Subtle</Badge>
+      </div>
+    </div>
+  ),
 };
 
 // =============================================================================
 // Pill Shape
 // =============================================================================
 
-/**
- * Pill badge - fully rounded
- */
 export const Pill: Story = {
-  args: {
-    variant: 'primary',
-    pill: true,
-    children: 'Pill Badge',
-  },
+  args: { variant: 'primary', pill: true, children: 'Pill Badge' },
 };
 
-/**
- * All pill variants
- */
 export const AllPillVariants: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-      <Badge variant="primary" pill>
-        Primary
-      </Badge>
-      <Badge variant="secondary" pill>
-        Secondary
-      </Badge>
-      <Badge variant="success" pill>
-        Success
-      </Badge>
-      <Badge variant="danger" pill>
-        Danger
-      </Badge>
-      <Badge variant="warning" pill>
-        Warning
-      </Badge>
-      <Badge variant="info" pill>
-        Info
-      </Badge>
+      <Badge variant="primary" pill>Primary</Badge>
+      <Badge variant="secondary" pill>Secondary</Badge>
+      <Badge variant="success" pill>Success</Badge>
+      <Badge variant="danger" pill>Danger</Badge>
+      <Badge variant="warning" pill>Warning</Badge>
+      <Badge variant="info" pill>Info</Badge>
     </div>
   ),
 };
@@ -349,57 +376,29 @@ export const AllPillVariants: Story = {
 // Dot Indicator
 // =============================================================================
 
-/**
- * Badge with dot indicator
- */
 export const WithDot: Story = {
-  args: {
-    variant: 'success',
-    dot: true,
-    children: 'Online',
-  },
+  args: { variant: 'success', dot: true, children: 'Online' },
 };
 
-/**
- * Dot-only badge (status indicator)
- */
 export const DotOnly: Story = {
-  args: {
-    variant: 'success',
-    dot: true,
-    'aria-label': 'Online status',
-  },
+  args: { variant: 'success', dot: true, 'aria-label': 'Online status' },
 };
 
-/**
- * Status indicators with dots
- */
 export const StatusIndicators: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-      <Badge variant="success" dot>
-        Online
-      </Badge>
-      <Badge variant="warning" dot>
-        Away
-      </Badge>
-      <Badge variant="danger" dot>
-        Busy
-      </Badge>
-      <Badge variant="secondary" dot>
-        Offline
-      </Badge>
+      <Badge variant="success" dot>Online</Badge>
+      <Badge variant="warning" dot>Away</Badge>
+      <Badge variant="danger" dot>Busy</Badge>
+      <Badge variant="secondary" dot>Offline</Badge>
     </div>
   ),
 };
 
 // =============================================================================
-// With Icon
+// Icon Support
 // =============================================================================
 
-/**
- * Badge with icon
- */
 export const WithIcon: Story = {
   args: {
     variant: 'primary',
@@ -408,30 +407,181 @@ export const WithIcon: Story = {
   },
 };
 
-/**
- * Various icon badges - icons automatically hidden from screen readers
- */
 export const IconExamples: Story = {
   render: () => <IconBadgeExample />,
+};
+
+/** Icon positioned at the end of the badge */
+export const IconEnd: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+      <Badge variant="primary" icon={<StarFillIcon size={12} />} iconPosition="start">
+        Start
+      </Badge>
+      <Badge variant="success" icon={<CheckCircleFillIcon size={12} />} iconPosition="end">
+        End
+      </Badge>
+    </div>
+  ),
+};
+
+// =============================================================================
+// Dismissible
+// =============================================================================
+
+/** Badges with dismiss buttons — great for tag/chip patterns */
+export const Dismissible: Story = {
+  render: () => {
+    const DismissDemo = (): JSX.Element => {
+      const [tags, setTags] = useState(['React', 'TypeScript', 'Bootstrap']);
+      return (
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+          {tags.map((tag) => (
+            <Badge
+              key={tag}
+              variant="primary"
+              pill
+              onDismiss={() => setTags((t) => t.filter((x) => x !== tag))}
+            >
+              {tag}
+            </Badge>
+          ))}
+          {tags.length === 0 && (
+            <Button variant="outline-secondary" size="sm" onClick={() => setTags(['React', 'TypeScript', 'Bootstrap'])}>
+              Reset tags
+            </Button>
+          )}
+        </div>
+      );
+    };
+    return <DismissDemo />;
+  },
+};
+
+// =============================================================================
+// Max Count
+// =============================================================================
+
+/** Auto-truncated count when exceeding max */
+export const MaxCount: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+      <Badge variant="danger" max={99}>{150}</Badge>
+      <Badge variant="primary" max={99}>{50}</Badge>
+      <Badge variant="info" max={9}>{10}</Badge>
+    </div>
+  ),
+};
+
+// =============================================================================
+// Visibility
+// =============================================================================
+
+/** Invisible badge and showZero behavior */
+export const Visibility: Story = {
+  render: () => {
+    const VisibilityDemo = (): JSX.Element => {
+      const [count, setCount] = useState(0);
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+            <Button variant="outline-primary" onClick={() => setCount((c) => c + 1)}>
+              Add ({count})
+            </Button>
+            <Button variant="outline-secondary" onClick={() => setCount(0)}>
+              Reset
+            </Button>
+          </div>
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+            <span>showZero=true:</span>
+            <Badge variant="danger">{count}</Badge>
+            <span>showZero=false:</span>
+            <Badge variant="danger" showZero={false}>{count}</Badge>
+            <span>invisible when 0:</span>
+            <Badge variant="danger" invisible={count === 0}>{count}</Badge>
+          </div>
+        </div>
+      );
+    };
+    return <VisibilityDemo />;
+  },
+  parameters: { layout: 'padded' },
+};
+
+// =============================================================================
+// Badge.Wrapper (Overlay)
+// =============================================================================
+
+/** Badge positioned as overlay on another element */
+export const Wrapper: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+      <Badge.Wrapper>
+        <Button variant="outline-primary">
+          Inbox
+        </Button>
+        <Badge variant="danger" pill>4</Badge>
+      </Badge.Wrapper>
+      <Badge.Wrapper placement="bottom-end">
+        <Button variant="outline-secondary">
+          Tasks
+        </Button>
+        <Badge variant="warning" pill>!</Badge>
+      </Badge.Wrapper>
+      <Badge.Wrapper overlap="circular">
+        <div
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: '50%',
+            backgroundColor: 'var(--bs-gray-300)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          M
+        </div>
+        <Badge variant="success" dot aria-label="Online" />
+      </Badge.Wrapper>
+    </div>
+  ),
+  parameters: { layout: 'padded' },
+};
+
+// =============================================================================
+// Animation
+// =============================================================================
+
+/** Animated badge with content change pulse */
+export const Animated: Story = {
+  render: () => {
+    const AnimatedDemo = (): JSX.Element => {
+      const [count, setCount] = useState(1);
+      return (
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <Button variant="outline-primary" onClick={() => setCount((c) => c + 1)}>
+            Increment
+          </Button>
+          <Badge variant="danger" pill animated>
+            {count}
+          </Badge>
+        </div>
+      );
+    };
+    return <AnimatedDemo />;
+  },
 };
 
 // =============================================================================
 // Accessibility Features
 // =============================================================================
 
-/**
- * Accessibility showcase - demonstrates all accessibility features
- */
 export const AccessibilityShowcase: Story = {
   render: () => <AccessibilityShowcaseExample />,
-  parameters: {
-    layout: 'padded',
-  },
+  parameters: { layout: 'padded' },
 };
 
-/**
- * Proper dot-only usage with aria-label vs incorrect usage (shows dev warning in console)
- */
 export const ProperDotOnlyUsage: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -442,20 +592,10 @@ export const ProperDotOnlyUsage: Story = {
         </p>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <Badge variant="success" dot aria-label="Online" />
-          <code
-            style={{
-              fontSize: '0.75rem',
-              background: 'var(--bs-gray-100)',
-              padding: '0.25rem 0.5rem',
-              borderRadius: 'var(--dsai-border-radius-sm)',
-            }}
-          >
+          <code style={{ fontSize: '0.75rem', background: 'var(--bs-gray-100)', padding: '0.25rem 0.5rem', borderRadius: 'var(--dsai-border-radius-sm)' }}>
             &lt;Badge dot aria-label=&quot;Online&quot; /&gt;
           </code>
         </div>
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.25rem' }}>
-          Screen readers announce: &quot;Online&quot;
-        </p>
       </div>
       <div>
         <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem', fontWeight: 'var(--dsai-typography-font-weight-semi-bold)' }}>
@@ -464,15 +604,7 @@ export const ProperDotOnlyUsage: Story = {
         </p>
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <Badge variant="danger" dot />
-          <code
-            style={{
-              fontSize: '0.75rem',
-              background: 'var(--bs-warning-bg-subtle)',
-              padding: '0.25rem 0.5rem',
-              borderRadius: 'var(--dsai-border-radius-sm)',
-              border: '1px solid var(--bs-warning)',
-            }}
-          >
+          <code style={{ fontSize: '0.75rem', background: 'var(--bs-warning-bg-subtle)', padding: '0.25rem 0.5rem', borderRadius: 'var(--dsai-border-radius-sm)', border: '1px solid var(--bs-warning)' }}>
             &lt;Badge dot /&gt;
           </code>
         </div>
@@ -480,51 +612,24 @@ export const ProperDotOnlyUsage: Story = {
           <strong>Dev Warning:</strong> Check browser console for accessibility warning
         </p>
       </div>
-      <div
-        style={{
-          background: 'var(--bs-gray-100)',
-          padding: '1rem',
-          borderRadius: 'var(--dsai-border-radius-lg)',
-          borderLeft: '4px solid var(--bs-primary)',
-        }}
-      >
-        <p style={{ fontSize: '0.875rem', margin: 0, fontWeight: 'var(--dsai-typography-font-weight-semi-bold)', marginBottom: '0.5rem' }}>
-          Accessibility Tip
-        </p>
-        <p style={{ fontSize: '0.875rem', margin: 0, color: 'var(--bs-secondary)' }}>
-          Dot-only badges must have an <code>aria-label</code> so screen reader users understand
-          what the status indicator means. The component shows a helpful dev warning to catch this
-          during development.
-        </p>
-      </div>
     </div>
   ),
-  parameters: {
-    layout: 'padded',
-  },
+  parameters: { layout: 'padded' },
 };
 
 // =============================================================================
 // Performance Features
 // =============================================================================
 
-/**
- * Performance - memoized component and class construction
- */
 export const PerformanceDemo: Story = {
   render: () => <PerformanceShowcaseExample />,
-  parameters: {
-    layout: 'padded',
-  },
+  parameters: { layout: 'padded' },
 };
 
 // =============================================================================
 // Use Cases
 // =============================================================================
 
-/**
- * Badge in heading
- */
 export const InHeading: Story = {
   render: () => (
     <div>
@@ -539,61 +644,44 @@ export const InHeading: Story = {
       </Heading>
     </div>
   ),
-  parameters: {
-    layout: 'padded',
-  },
+  parameters: { layout: 'padded' },
 };
 
-/**
- * Notification badge on button
- */
 export const NotificationBadge: Story = {
   render: () => (
-    <Button variant="primary" className="position-relative">
-      Inbox
-      <Badge variant="danger" pill className="position-absolute top-0 start-100 translate-middle">
-        99+
-      </Badge>
-    </Button>
+    <Badge.Wrapper>
+      <Button variant="primary">Inbox</Button>
+      <Badge variant="danger" pill>99+</Badge>
+    </Badge.Wrapper>
   ),
 };
 
-/**
- * Badge as counter
- */
 export const AsCounter: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-      <Button variant="outline-primary" className="position-relative">
+      <Button variant="outline-primary">
         Messages
-        <Badge variant="primary" pill className="ms-2">
-          4
-        </Badge>
+        <Badge variant="primary" pill className="ms-2">4</Badge>
       </Button>
-      <Button variant="outline-secondary" className="position-relative">
+      <Button variant="outline-secondary">
         Notifications
-        <Badge variant="danger" pill className="ms-2">
-          12
-        </Badge>
+        <Badge variant="danger" pill className="ms-2">12</Badge>
       </Button>
     </div>
   ),
 };
 
-/**
- * Empty state indicator
- */
 export const EmptyIndicator: Story = {
   render: () => (
-    <Button variant="primary" className="position-relative">
-      Inbox
+    <Badge.Wrapper>
+      <Button variant="primary">Inbox</Button>
       <Badge
         variant="danger"
         pill
-        className="position-absolute top-0 start-100 translate-middle p-2 border border-light"
+        className="p-2 border border-light"
         aria-label="New notifications"
       />
-    </Button>
+    </Badge.Wrapper>
   ),
 };
 
@@ -601,9 +689,6 @@ export const EmptyIndicator: Story = {
 // Showcases
 // =============================================================================
 
-/**
- * All variants showcase
- */
 export const AllVariants: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
@@ -619,17 +704,11 @@ export const AllVariants: Story = {
   ),
 };
 
-/**
- * Complete badge showcase
- */
 export const CompleteShowcase: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      {/* Variants */}
       <div>
-        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
-          Variants
-        </Heading>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>Variants</Heading>
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
           <Badge variant="primary">Primary</Badge>
           <Badge variant="secondary">Secondary</Badge>
@@ -640,105 +719,78 @@ export const CompleteShowcase: Story = {
         </div>
       </div>
 
-      {/* Pill */}
       <div>
-        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
-          Pill Shape
-        </Heading>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>Sizes</Heading>
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+          <Badge size="sm">Small</Badge>
+          <Badge size="md">Medium</Badge>
+          <Badge size="lg">Large</Badge>
+        </div>
+      </div>
+
+      <div>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>Appearances</Heading>
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-          <Badge variant="primary" pill>
-            Primary
-          </Badge>
-          <Badge variant="secondary" pill>
-            Secondary
-          </Badge>
-          <Badge variant="success" pill>
-            Success
-          </Badge>
-          <Badge variant="danger" pill>
-            Danger
-          </Badge>
+          <Badge variant="primary" appearance="solid">Solid</Badge>
+          <Badge variant="primary" appearance="outline">Outline</Badge>
+          <Badge variant="primary" appearance="subtle">Subtle</Badge>
         </div>
       </div>
 
-      {/* Dot */}
       <div>
-        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
-          Status Indicators
-        </Heading>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-          <Badge variant="success" dot>
-            Online
-          </Badge>
-          <Badge variant="warning" dot>
-            Away
-          </Badge>
-          <Badge variant="danger" dot>
-            Busy
-          </Badge>
-          <Badge variant="secondary" dot>
-            Offline
-          </Badge>
-        </div>
-      </div>
-
-      {/* With Icons */}
-      <div>
-        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
-          With Icons
-        </Heading>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>Pill Shape</Heading>
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-          <Badge variant="primary" icon={<StarFillIcon size={12} />}>
-            Featured
-          </Badge>
-          <Badge variant="success" icon={<CheckCircleFillIcon size={12} />}>
-            Verified
-          </Badge>
-          <Badge variant="danger" icon={<ExclamationTriangleFillIcon size={12} />}>
-            Alert
-          </Badge>
+          <Badge variant="primary" pill>Primary</Badge>
+          <Badge variant="secondary" pill>Secondary</Badge>
+          <Badge variant="success" pill>Success</Badge>
+          <Badge variant="danger" pill>Danger</Badge>
         </div>
       </div>
 
-      {/* On Buttons */}
       <div>
-        <Heading level={4} style={{ marginBottom: '0.5rem' }}>
-          On Buttons
-        </Heading>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>Status Indicators</Heading>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-          <Button variant="primary" className="position-relative">
-            Inbox
-            <Badge variant="light" pill className="ms-2">
-              4
-            </Badge>
-          </Button>
-          <Button variant="outline-primary" className="position-relative">
-            Notifications
-            <Badge
-              variant="danger"
-              pill
-              className="position-absolute top-0 start-100 translate-middle"
-            >
-              99+
-            </Badge>
-          </Button>
+          <Badge variant="success" dot>Online</Badge>
+          <Badge variant="warning" dot>Away</Badge>
+          <Badge variant="danger" dot>Busy</Badge>
+          <Badge variant="secondary" dot>Offline</Badge>
         </div>
       </div>
 
-      {/* Accessibility */}
+      <div>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>With Icons</Heading>
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+          <Badge variant="primary" icon={<StarFillIcon size={12} />}>Featured</Badge>
+          <Badge variant="success" icon={<CheckCircleFillIcon size={12} />}>Verified</Badge>
+          <Badge variant="danger" icon={<ExclamationTriangleFillIcon size={12} />}>Alert</Badge>
+        </div>
+      </div>
+
+      <div>
+        <Heading level={4} style={{ marginBottom: '0.5rem' }}>Overlay (Badge.Wrapper)</Heading>
+        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+          <Badge.Wrapper>
+            <Button variant="outline-primary">Inbox</Button>
+            <Badge variant="danger" pill>4</Badge>
+          </Badge.Wrapper>
+          <Badge.Wrapper placement="bottom-end">
+            <Button variant="outline-secondary">Tasks</Button>
+            <Badge variant="warning" pill>!</Badge>
+          </Badge.Wrapper>
+        </div>
+      </div>
+
       <div>
         <Heading level={4} style={{ marginBottom: '0.5rem' }}>
-          Accessibility & Performance
+          Accessibility &amp; Performance
         </Heading>
         <p>
           Icons are hidden from screen readers. Dots are smart: hidden when content exists, but
-          visible for dot-only indicators. Component uses React.memo + memoized class construction
+          visible for dot-only indicators. Component uses React.memo + memoized internals
           for optimal performance in lists and high-frequency re-renders.
         </p>
       </div>
     </div>
   ),
-  parameters: {
-    layout: 'padded',
-  },
+  parameters: { layout: 'padded' },
 };

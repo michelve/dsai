@@ -10,7 +10,7 @@
 
 import figma from '@figma/code-connect';
 
-import { Badge } from './Badge';
+import { Badge } from './index';
 
 /**
  * DSAi Badge - Code Connect Mapping

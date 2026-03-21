@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 
 import { StarFillIcon } from '../Icon';
 
-import { Badge } from './Badge';
+import { Badge } from './index';
 
 describe('Badge Security Tests', () => {
   describe('Prop Whitelisting', () => {

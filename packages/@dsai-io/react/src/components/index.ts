@@ -40,9 +40,17 @@ export type {
 } from './Avatar';
 // Avatar
 export { Avatar, AvatarGroup } from './Avatar';
-export type { BadgeProps, BadgeVariant } from './Badge';
+export type {
+  BadgeAppearance,
+  BadgeOverlap,
+  BadgePlacement,
+  BadgeProps,
+  BadgeSize,
+  BadgeVariant,
+  BadgeWrapperProps,
+} from './Badge';
 // Badge
-export { Badge } from './Badge';
+export { Badge, BadgeWrapper } from './Badge';
 export type { BreadcrumbItemData, BreadcrumbItemProps, BreadcrumbProps } from './Breadcrumb';
 // Breadcrumb
 export { Breadcrumb, BreadcrumbItem } from './Breadcrumb';
