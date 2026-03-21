@@ -93,3 +93,6 @@ pnpm-lock.yaml
 #Demo apps
 /apps/
 apps/*
+coverage/
+/coverage
+/coverage/lcov-report
