@@ -11,7 +11,7 @@
  * - Accessibility tests with jest-axe
  */
 
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
 
@@ -568,6 +568,120 @@ describe('Avatar', () => {
       expect(ref.current).toBeInstanceOf(HTMLElement);
     });
   });
+
+  // ===========================================================================
+  // New Features
+  // ===========================================================================
+
+  describe('delayMs', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('delays fallback rendering', () => {
+      render(<Avatar name="Test" delayMs={500} data-testid="avatar" />);
+      // Fallback should not be visible yet
+      expect(screen.queryByText('TE')).not.toBeInTheDocument();
+
+      // Advance timer
+      act(() => { jest.advanceTimersByTime(500); });
+      expect(screen.getByText('TE')).toBeInTheDocument();
+    });
+
+    it('shows image immediately regardless of delayMs', () => {
+      render(<Avatar src="/test.jpg" alt="Test" delayMs={500} data-testid="avatar" />);
+      expect(screen.getByTestId('avatar-image')).toBeInTheDocument();
+    });
+  });
+
+  describe('onLoadingStatusChange', () => {
+    it('fires with loaded on successful image load', () => {
+      const onChange = jest.fn();
+      render(
+        <Avatar src="/test.jpg" alt="Test" onLoadingStatusChange={onChange} data-testid="avatar" />
+      );
+
+      const img = screen.getByTestId('avatar-image');
+      fireEvent.load(img);
+
+      expect(onChange).toHaveBeenCalledWith('loaded');
+    });
+
+    it('fires with error on failed image', () => {
+      const onChange = jest.fn();
+      render(
+        <Avatar src="/bad.jpg" alt="Test" onLoadingStatusChange={onChange} data-testid="avatar" />
+      );
+
+      const img = screen.getByTestId('avatar-image');
+      fireEvent.error(img);
+
+      expect(onChange).toHaveBeenCalledWith('error');
+    });
+  });
+
+  describe('image security attributes', () => {
+    it('passes referrerPolicy to img', () => {
+      render(
+        <Avatar src="/test.jpg" alt="Test" referrerPolicy="no-referrer" data-testid="avatar" />
+      );
+      expect(screen.getByTestId('avatar-image')).toHaveAttribute('referrerpolicy', 'no-referrer');
+    });
+
+    it('passes crossOrigin to img', () => {
+      render(
+        <Avatar src="/test.jpg" alt="Test" crossOrigin="anonymous" data-testid="avatar" />
+      );
+      expect(screen.getByTestId('avatar-image')).toHaveAttribute('crossorigin', 'anonymous');
+    });
+  });
+
+  describe('compound components', () => {
+    it('renders Avatar.Badge as compound child', () => {
+      render(
+        <Avatar name="Test" data-testid="avatar">
+          <Avatar.Badge count={3} />
+        </Avatar>
+      );
+      expect(screen.getByTestId('avatar-badge-count')).toHaveTextContent('3');
+    });
+
+    it('renders Avatar.Status as compound child', () => {
+      render(
+        <Avatar name="Test" data-testid="avatar">
+          <Avatar.Status value="online" />
+        </Avatar>
+      );
+      const indicator = screen.getByTestId('avatar').querySelector('[data-status]');
+      expect(indicator).toHaveAttribute('data-status', 'online');
+    });
+
+    it('compound child overrides flat prop (per-slot)', () => {
+      render(
+        <Avatar name="Test" badgeCount={5} data-testid="avatar">
+          <Avatar.Badge count={10} />
+        </Avatar>
+      );
+      // Compound badge should win
+      expect(screen.getByTestId('avatar-badge-count')).toHaveTextContent('10');
+    });
+
+    it('flat props still work when no compound child for that slot', () => {
+      render(
+        <Avatar name="Test" status="online" data-testid="avatar">
+          <Avatar.Badge count={3} />
+        </Avatar>
+      );
+      // Status from flat prop, badge from compound
+      const indicator = screen.getByTestId('avatar').querySelector('[data-status]');
+      expect(indicator).toHaveAttribute('data-status', 'online');
+      expect(screen.getByTestId('avatar-badge-count')).toHaveTextContent('3');
+    });
+  });
 });
 
 // =============================================================================
@@ -844,6 +958,77 @@ describe('AvatarGroup', () => {
         </AvatarGroup>
       );
       expect(ref.current).toBeInstanceOf(HTMLDivElement);
+    });
+  });
+
+  // ===========================================================================
+  // AvatarGroup New Features
+  // ===========================================================================
+
+  describe('new features', () => {
+    it('uses total prop for overflow count', () => {
+      render(
+        <AvatarGroup maxVisible={2} total={50} data-testid="group">
+          <Avatar name="Alice" />
+          <Avatar name="Bob" />
+          <Avatar name="Charlie" />
+        </AvatarGroup>
+      );
+      expect(screen.getByTestId('avatar-group-overflow')).toHaveTextContent('+48');
+    });
+
+    it('renders custom surplus with renderSurplus', () => {
+      render(
+        <AvatarGroup
+          maxVisible={2}
+          renderSurplus={(count) => <span data-testid="custom-surplus">+{count} more</span>}
+          data-testid="group"
+        >
+          <Avatar name="Alice" />
+          <Avatar name="Bob" />
+          <Avatar name="Charlie" />
+        </AvatarGroup>
+      );
+      expect(screen.getByTestId('custom-surplus')).toHaveTextContent('+1 more');
+      expect(screen.queryByTestId('avatar-group-overflow')).not.toBeInTheDocument();
+    });
+
+    it('fires onOverflowClick on default chip click', async () => {
+      const user = userEvent.setup();
+      const onClick = jest.fn();
+      render(
+        <AvatarGroup maxVisible={2} onOverflowClick={onClick} data-testid="group">
+          <Avatar name="Alice" />
+          <Avatar name="Bob" />
+          <Avatar name="Charlie" />
+        </AvatarGroup>
+      );
+
+      await user.click(screen.getByTestId('avatar-group-overflow'));
+      expect(onClick).toHaveBeenCalled();
+    });
+
+    it('supports firstOnTop stacking order', () => {
+      render(
+        <AvatarGroup stackingOrder="firstOnTop" data-testid="group">
+          <Avatar name="Alice" data-testid="alice" />
+          <Avatar name="Bob" data-testid="bob" />
+        </AvatarGroup>
+      );
+      const group = screen.getByTestId('group');
+      // firstOnTop should not have flex-row-reverse
+      expect(group).not.toHaveClass('flex-row-reverse');
+    });
+
+    it('uses lastOnTop stacking by default', () => {
+      render(
+        <AvatarGroup data-testid="group">
+          <Avatar name="Alice" />
+          <Avatar name="Bob" />
+        </AvatarGroup>
+      );
+      const group = screen.getByTestId('group');
+      expect(group).toHaveClass('flex-row-reverse');
     });
   });
 });
