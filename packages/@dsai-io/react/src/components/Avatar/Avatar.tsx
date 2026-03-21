@@ -11,16 +11,33 @@
  * - Notification badges with count or dot
  * - Interactive mode with focus ring and selection state
  * - Accessible labeling and keyboard navigation
+ * - Compound sub-components: Avatar.Image, Avatar.Fallback, Avatar.Badge, Avatar.Status
  *
  * @see https://getbootstrap.com/docs/5.3/components/
  * @packageDocumentation
  */
 
-import { forwardRef, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  Children,
+  forwardRef,
+  isValidElement,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import { cn } from '../../utils';
 import { isEnterKey } from '../../utils/keyboard';
 import { PersonIcon } from '../Icon';
+
+import { AvatarContext } from './AvatarContext';
+import { AvatarBadge } from './AvatarBadge';
+import { AvatarFallback } from './AvatarFallback';
+import { AvatarImage } from './AvatarImage';
+import { AvatarStatus } from './AvatarStatus';
 
 import {
   getFontSize,
@@ -35,7 +52,7 @@ import {
   getToneFromName,
 } from './avatarUtils';
 
-import type { AvatarProps } from './Avatar.types';
+import type { AvatarContextValue, AvatarImageStatus, AvatarProps } from './Avatar.types';
 import type React from 'react';
 
 type AvatarElement = HTMLSpanElement | HTMLDivElement | HTMLButtonElement | HTMLAnchorElement;
@@ -63,9 +80,16 @@ type AvatarElement = HTMLSpanElement | HTMLDivElement | HTMLButtonElement | HTML
  *
  * // Loading state
  * <Avatar isLoading size="md" />
+ *
+ * // Compound sub-components
+ * <Avatar name="John">
+ *   <Avatar.Image src="/john.jpg" alt="John Doe" />
+ *   <Avatar.Fallback delayMs={300}>JD</Avatar.Fallback>
+ *   <Avatar.Status value="online" />
+ * </Avatar>
  * ```
  */
-export const Avatar = memo(
+const AvatarRoot = memo(
   forwardRef<AvatarElement, AvatarProps>(function Avatar(
     {
       src,
@@ -98,6 +122,11 @@ export const Avatar = memo(
       style,
       id,
       title,
+      children,
+      delayMs,
+      onLoadingStatusChange,
+      referrerPolicy,
+      crossOrigin,
       'aria-label': ariaLabel,
       'aria-describedby': ariaDescribedBy,
       'aria-hidden': ariaHidden,
@@ -107,14 +136,55 @@ export const Avatar = memo(
     },
     ref
   ) {
-    // Track image loading state keyed by src
-    const [imageState, setImageState] = useState<{ loadedSrc?: string; errorSrc?: string }>(
-      () => ({})
+    // Scan children for compound sub-components (per-slot override)
+    const childArray = children ? Children.toArray(children) : [];
+    const compoundImage = childArray.find(
+      (child) =>
+        isValidElement(child) &&
+        (child.type as { displayName?: string }).displayName === 'Avatar.Image'
+    );
+    const compoundFallback = childArray.find(
+      (child) =>
+        isValidElement(child) &&
+        (child.type as { displayName?: string }).displayName === 'Avatar.Fallback'
+    );
+    const compoundBadge = childArray.find(
+      (child) =>
+        isValidElement(child) &&
+        (child.type as { displayName?: string }).displayName === 'Avatar.Badge'
+    );
+    const compoundStatus = childArray.find(
+      (child) =>
+        isValidElement(child) &&
+        (child.type as { displayName?: string }).displayName === 'Avatar.Status'
+    );
+
+    // Track image loading status
+    const [imageStatus, setImageStatus] = useState<AvatarImageStatus>(() =>
+      src ? 'loading' : 'idle'
     );
     const imageRef = useRef<HTMLImageElement | null>(null);
-    const srcKey = src ?? '';
-    const imageLoaded = imageState.loadedSrc === srcKey;
-    const imageError = imageState.errorSrc === srcKey;
+
+    // Fire onLoadingStatusChange on transitions
+    const prevStatusRef = useRef<AvatarImageStatus>(src ? 'loading' : 'idle');
+    useEffect(() => {
+      if (imageStatus !== prevStatusRef.current) {
+        prevStatusRef.current = imageStatus;
+        onLoadingStatusChange?.(imageStatus);
+      }
+    }, [imageStatus, onLoadingStatusChange]);
+
+    // Reset status when src changes
+    useEffect(() => {
+      if (src) {
+        setImageStatus('loading');
+      } else {
+        setImageStatus('idle');
+      }
+    }, [src]);
+
+    const imageLoaded = imageStatus === 'loaded';
+    const imageError = imageStatus === 'error';
 
     // Determine if we should show image
     const showImage = src && !imageError && !isLoading;
@@ -148,6 +218,21 @@ export const Avatar = memo(
     const sizeValue = getSizeValue(size);
     const fontSize = getFontSize(size);
     const statusSize = getStatusSize(size);
+
+    // delayMs for flat API (compound child handles its own delay)
+    const effectiveDelayMs = compoundFallback ? undefined : delayMs;
+    const [delayElapsed, setDelayElapsed] = useState(
+      effectiveDelayMs === undefined || effectiveDelayMs === 0
+    );
+
+    useEffect(() => {
+      if (effectiveDelayMs === undefined || effectiveDelayMs === 0) {
+        setDelayElapsed(true);
+        return undefined;
+      }
+      const timer = window.setTimeout(() => setDelayElapsed(true), effectiveDelayMs);
+      return () => window.clearTimeout(timer);
+    }, [effectiveDelayMs]);
 
     // Memoize container styles
     const containerStyle = useMemo(
@@ -393,20 +478,12 @@ export const Avatar = memo(
       }
 
       const handleLoadEvent = (event: Event): void => {
-        setImageState((prev) => ({
-          ...prev,
-          loadedSrc: srcKey,
-          errorSrc: prev.errorSrc === srcKey ? undefined : prev.errorSrc,
-        }));
+        setImageStatus('loaded');
         onLoad?.(event as unknown as React.SyntheticEvent<HTMLImageElement>);
       };
 
       const handleErrorEvent = (event: Event): void => {
-        setImageState((prev) => ({
-          ...prev,
-          errorSrc: srcKey,
-          loadedSrc: prev.loadedSrc === srcKey ? undefined : prev.loadedSrc,
-        }));
+        setImageStatus('error');
         onError?.(event as unknown as React.SyntheticEvent<HTMLImageElement>);
       };
 
@@ -417,7 +494,7 @@ export const Avatar = memo(
         imgEl.removeEventListener('load', handleLoadEvent);
         imgEl.removeEventListener('error', handleErrorEvent);
       };
-    }, [onError, onLoad, srcKey]);
+    }, [onError, onLoad, src]);
 
     // Determine the role for the container
     // - button: when interactive and not a semantic button/link
@@ -457,42 +534,68 @@ export const Avatar = memo(
         }
       : { tabIndex };
 
+    // Build context value for compound sub-components
+    const contextValue = useMemo<AvatarContextValue>(
+      () => ({
+        size,
+        shape: shape ?? 'circle',
+        tone,
+        imageStatus,
+      }),
+      [size, shape, tone, imageStatus]
+    );
+
     return (
       <Component
         ref={ref as React.Ref<AvatarElement>}
         {...(baseContainerProps as Record<string, unknown>)}
         {...(interactiveProps as Record<string, unknown>)}
       >
-        {isLoading ? (
-          renderSkeleton()
-        ) : showImage ? (
-          <img
-            ref={imageRef}
-            src={src}
-            alt={decorative ? '' : (alt ?? name ?? undefined)}
-            srcSet={srcSet}
-            sizes={sizes}
-            loading={loading}
-            className={cn(
-              'dsai-avatar__image',
-              'w-100',
-              'h-100',
-              'object-fit-cover',
-              getShapeClass(shape),
-              !imageLoaded && 'opacity-0'
-            )}
-            aria-hidden={decorative ? true : undefined}
-            data-testid="avatar-image"
-          />
-        ) : (
-          renderFallbackContent()
-        )}
+        <AvatarContext.Provider value={contextValue}>
+          {isLoading ? (
+            renderSkeleton()
+          ) : compoundImage ? (
+            compoundImage
+          ) : showImage ? (
+            <img
+              ref={imageRef}
+              src={src}
+              alt={decorative ? '' : (alt ?? name ?? undefined)}
+              srcSet={srcSet}
+              sizes={sizes}
+              loading={loading}
+              referrerPolicy={referrerPolicy}
+              crossOrigin={crossOrigin}
+              className={cn(
+                'dsai-avatar__image',
+                'w-100',
+                'h-100',
+                'object-fit-cover',
+                getShapeClass(shape),
+                !imageLoaded && 'opacity-0'
+              )}
+              aria-hidden={decorative ? true : undefined}
+              data-testid="avatar-image"
+            />
+          ) : compoundFallback ? (
+            compoundFallback
+          ) : (
+            delayElapsed && renderFallbackContent()
+          )}
 
-        {renderStatus()}
-        {renderBadge()}
+          {compoundStatus ?? renderStatus()}
+          {compoundBadge ?? renderBadge()}
+        </AvatarContext.Provider>
       </Component>
     );
   })
 );
 
-Avatar.displayName = 'Avatar';
+AvatarRoot.displayName = 'Avatar';
+
+export const Avatar = Object.assign(AvatarRoot, {
+  Image: AvatarImage,
+  Fallback: AvatarFallback,
+  Badge: AvatarBadge,
+  Status: AvatarStatus,
+});
