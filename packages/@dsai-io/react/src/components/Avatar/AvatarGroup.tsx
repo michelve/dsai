@@ -15,7 +15,7 @@
  * @packageDocumentation
  */
 
-import { Children, cloneElement, forwardRef, isValidElement, memo, useMemo } from 'react';
+import { Children, cloneElement, forwardRef, isValidElement, memo, useEffect, useMemo } from 'react';
 
 import { cn } from '../../utils';
 
@@ -95,15 +95,29 @@ export const AvatarGroup = memo(
       'aria-hidden': ariaHidden,
       'data-testid': dataTestId,
       'data-test': dataTest,
+      total,
+      renderSurplus,
+      onOverflowClick,
+      stackingOrder = 'lastOnTop',
     },
     ref
   ) {
+    // Dev-mode warning for conflicting props
+    useEffect(() => {
+      if (process.env.NODE_ENV !== 'production' && renderSurplus && onOverflowClick) {
+        console.warn(
+          'AvatarGroup: onOverflowClick is ignored when renderSurplus is provided. ' +
+            'Handle click events in your renderSurplus function instead.',
+        );
+      }
+    }, [renderSurplus, onOverflowClick]);
+
     // Get all avatar children
     const childArray = Children.toArray(children);
-    const totalCount = childArray.length;
+    const totalCount = total ?? childArray.length;
 
     // Calculate visible and hidden counts
-    const visibleCount = maxVisible !== undefined ? Math.min(maxVisible, totalCount) : totalCount;
+    const visibleCount = maxVisible !== undefined ? Math.min(maxVisible, childArray.length) : childArray.length;
     const hiddenCount = totalCount - visibleCount;
     const hasOverflow = hiddenCount > 0;
 
@@ -139,10 +153,10 @@ export const AvatarGroup = memo(
           'dsai-avatar-group',
           'd-inline-flex',
           'align-items-center',
-          layout === 'stacked' && 'flex-row-reverse',
+          layout === 'stacked' && stackingOrder === 'lastOnTop' && 'flex-row-reverse',
           className
         ),
-      [layout, className]
+      [layout, stackingOrder, className]
     );
 
     // Memoize container styles
@@ -179,7 +193,14 @@ export const AvatarGroup = memo(
           // Add margin for stacked layout (except first in reversed order)
           style: {
             ...childProps.style,
-            marginLeft: layout === 'stacked' && index > 0 ? marginLeft : undefined,
+            marginLeft:
+              layout === 'stacked' && stackingOrder === 'lastOnTop' && index > 0
+                ? marginLeft
+                : undefined,
+            marginRight:
+              layout === 'stacked' && stackingOrder === 'firstOnTop' && index > 0
+                ? marginLeft
+                : undefined,
             // Add z-index for stacking order
             zIndex: layout === 'stacked' ? visibleCount - index : undefined,
           },
@@ -193,7 +214,7 @@ export const AvatarGroup = memo(
 
         return cloneElement(child, enhancedProps);
       });
-    }, [childArray, visibleCount, size, shape, tone, layout, marginLeft, ariaLabel]);
+    }, [childArray, visibleCount, size, shape, tone, layout, stackingOrder, marginLeft, ariaLabel]);
 
     // Render overflow chip
     const renderOverflowChip = (): React.ReactNode => {
@@ -201,6 +222,12 @@ export const AvatarGroup = memo(
         return null;
       }
 
+      // Custom render — consumer handles everything
+      if (renderSurplus) {
+        return renderSurplus(hiddenCount);
+      }
+
+      // Default chip
       const chipClasses = cn(
         'dsai-avatar-group__overflow',
         'd-inline-flex',
@@ -218,7 +245,10 @@ export const AvatarGroup = memo(
         width: avatarSize,
         height: avatarSize,
         fontSize: `calc(${avatarSize} * 0.35)`,
-        marginLeft: layout === 'stacked' ? marginLeft : undefined,
+        marginLeft:
+          layout === 'stacked' && stackingOrder === 'lastOnTop' ? marginLeft : undefined,
+        marginRight:
+          layout === 'stacked' && stackingOrder === 'firstOnTop' ? marginLeft : undefined,
         zIndex: 0,
       };
 
@@ -229,6 +259,7 @@ export const AvatarGroup = memo(
           style={chipStyle}
           aria-label={computedOverflowLabel}
           title={showOverflowTooltip ? computedOverflowLabel : undefined}
+          onClick={onOverflowClick}
           data-testid="avatar-group-overflow"
         >
           +{hiddenCount}
