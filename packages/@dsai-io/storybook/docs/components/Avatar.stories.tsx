@@ -33,7 +33,7 @@ const meta: Meta<typeof Avatar> = {
   argTypes: {
     size: {
       control: 'select',
-      options: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'],
+      options: ['xs', 'sm', 'md', 'lg', 'xl', '2xl', 'xxl'],
       description: 'Size of the avatar',
     },
     shape: {
@@ -106,6 +106,20 @@ const meta: Meta<typeof Avatar> = {
       control: 'boolean',
       description: 'Hide from screen readers (purely decorative)',
     },
+    delayMs: {
+      control: 'number',
+      description: 'Delay (ms) before showing fallback content',
+    },
+    referrerPolicy: {
+      control: 'select',
+      options: [undefined, 'no-referrer', 'no-referrer-when-downgrade', 'origin', 'same-origin'],
+      description: 'Referrer policy for image requests',
+    },
+    crossOrigin: {
+      control: 'select',
+      options: [undefined, 'anonymous', 'use-credentials'],
+      description: 'Cross-origin setting for image element',
+    },
   },
 };
 
@@ -173,6 +187,7 @@ const SizesExample = (): JSX.Element => (
     <Avatar name="Large Size" size="lg" />
     <Avatar name="Extra Large" size="xl" />
     <Avatar name="2X Large" size="2xl" />
+    <Avatar name="XXL Size" size="xxl" />
   </div>
 );
 
@@ -185,7 +200,7 @@ export const Sizes: Story = {
     docs: {
       description: {
         story:
-          'Available sizes: xs (24px), sm (32px), md (40px), lg (48px), xl (64px), 2xl (80px).',
+          'Available sizes: xs (24px), sm (32px), md (40px), lg (48px), xl (64px), 2xl (80px), xxl (96px).',
       },
     },
   },
@@ -476,6 +491,84 @@ export const LoadingState: Story = {
 };
 
 // =============================================================================
+// Compound Components
+// =============================================================================
+
+const CompoundComponentsExample = (): JSX.Element => (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+    <div>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Compound Badge
+      </Heading>
+      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <Avatar name="John Doe" size="lg">
+          <Avatar.Badge count={5} />
+        </Avatar>
+        <Avatar name="Jane Smith" size="lg">
+          <Avatar.Badge dot />
+        </Avatar>
+      </div>
+    </div>
+
+    <div>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Compound Status
+      </Heading>
+      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <Avatar name="Online User" size="lg">
+          <Avatar.Status value="online" />
+        </Avatar>
+        <Avatar name="Busy User" size="lg">
+          <Avatar.Status value="busy" position="bottom-left" />
+        </Avatar>
+      </div>
+    </div>
+
+    <div>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Compound Fallback with Delay
+      </Heading>
+      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <Avatar src="https://invalid-url.example/fail.jpg" size="lg">
+          <Avatar.Fallback delayMs={300}>
+            <span style={{ fontSize: '0.875rem' }}>FB</span>
+          </Avatar.Fallback>
+        </Avatar>
+      </div>
+    </div>
+
+    <div>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Mixed: Compound + Flat Props
+      </Heading>
+      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <Avatar name="Mixed User" status="online" size="lg">
+          <Avatar.Badge count={3} />
+        </Avatar>
+        <span style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+          Status from flat prop, badge from compound
+        </span>
+      </div>
+    </div>
+  </div>
+);
+
+/**
+ * Compound sub-components provide advanced composition control.
+ */
+export const CompoundComponents: Story = {
+  render: CompoundComponentsExample,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Compound sub-components provide advanced composition. Use Avatar.Image, Avatar.Fallback, Avatar.Badge, and Avatar.Status for fine-grained control. Flat props still work — compound children override only their corresponding slot.',
+      },
+    },
+  },
+};
+
+// =============================================================================
 // AvatarGroup - Basic
 // =============================================================================
 
@@ -688,6 +781,95 @@ export const GroupInherited: Story = {
       description: {
         story:
           'Set `size` and `shape` on AvatarGroup to apply to all children. Individual Avatar props override group defaults.',
+      },
+    },
+  },
+};
+
+// =============================================================================
+// AvatarGroup - New Features
+// =============================================================================
+
+const GroupNewFeaturesExample = (): JSX.Element => (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+    <div>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Server-Side Total (total=50)
+      </Heading>
+      <AvatarGroup maxVisible={3} total={50}>
+        <Avatar name="Alice Johnson" />
+        <Avatar name="Bob Smith" />
+        <Avatar name="Charlie Brown" />
+      </AvatarGroup>
+    </div>
+
+    <div>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Custom Overflow (renderSurplus)
+      </Heading>
+      <AvatarGroup
+        maxVisible={3}
+        renderSurplus={(count) => (
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              padding: '0.25rem 0.75rem',
+              fontSize: '0.75rem',
+              backgroundColor: 'var(--bs-primary)',
+              color: 'white',
+              borderRadius: '1rem',
+            }}
+          >
+            View {count} more
+          </span>
+        )}
+      >
+        <Avatar name="Alice Johnson" />
+        <Avatar name="Bob Smith" />
+        <Avatar name="Charlie Brown" />
+        <Avatar name="Diana Prince" />
+        <Avatar name="Edward Norton" />
+      </AvatarGroup>
+    </div>
+
+    <div>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+        Stacking Order: First on Top
+      </Heading>
+      <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+        <div>
+          <div style={{ fontSize: '0.75rem', marginBottom: '0.25rem' }}>lastOnTop (default)</div>
+          <AvatarGroup stackingOrder="lastOnTop">
+            <Avatar name="First" tone="brand" />
+            <Avatar name="Second" tone="success" />
+            <Avatar name="Third" tone="danger" />
+          </AvatarGroup>
+        </div>
+        <div>
+          <div style={{ fontSize: '0.75rem', marginBottom: '0.25rem' }}>firstOnTop</div>
+          <AvatarGroup stackingOrder="firstOnTop">
+            <Avatar name="First" tone="brand" />
+            <Avatar name="Second" tone="success" />
+            <Avatar name="Third" tone="danger" />
+          </AvatarGroup>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+/**
+ * New AvatarGroup features for enterprise use cases.
+ */
+export const GroupNewFeatures: Story = {
+  render: GroupNewFeaturesExample,
+  name: 'AvatarGroup: New Features',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'New AvatarGroup features: `total` for server-side counts, `renderSurplus` for custom overflow rendering, and `stackingOrder` to control which avatar appears on top.',
       },
     },
   },
