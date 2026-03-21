@@ -134,6 +134,15 @@ export const AVATAR_STATUS_LABEL_MAP: Record<AvatarStatus, string> = {
 };
 
 // =============================================================================
+// Image Loading Status
+// =============================================================================
+
+/**
+ * Granular image loading status for onLoadingStatusChange callback.
+ */
+export type AvatarImageStatus = 'idle' | 'loading' | 'loaded' | 'error';
+
+// =============================================================================
 // Safe HTML Attributes
 // =============================================================================
 
@@ -310,6 +319,99 @@ export interface AvatarProps extends SafeAvatarHTMLAttributes {
    * Image load handler
    */
   onLoad?: (event: React.SyntheticEvent<HTMLImageElement>) => void;
+
+  /**
+   * Children for compound sub-components (Avatar.Image, Avatar.Fallback, etc.)
+   * When compound children are present, they override their corresponding flat prop slot.
+   */
+  children?: ReactNode;
+
+  /**
+   * Delay (ms) before showing fallback content.
+   * Prevents flash of initials/icon when images load quickly.
+   */
+  delayMs?: number;
+
+  /**
+   * Callback fired on every image loading state transition.
+   * Provides granular idle → loading → loaded/error tracking.
+   */
+  onLoadingStatusChange?: (status: AvatarImageStatus) => void;
+
+  /**
+   * Referrer policy for the image element.
+   * Controls the Referer header sent with image requests.
+   */
+  referrerPolicy?: React.HTMLAttributeReferrerPolicy;
+
+  /**
+   * Cross-origin setting for the image element.
+   * Controls CORS for images loaded from external CDNs.
+   */
+  crossOrigin?: 'anonymous' | 'use-credentials' | '';
+}
+
+// =============================================================================
+// Compound Sub-Component Props
+// =============================================================================
+
+/**
+ * Props for Avatar.Image compound sub-component.
+ * Allows custom image elements (e.g., Next.js Image).
+ */
+export interface AvatarImageProps {
+  src?: string;
+  alt?: string;
+  srcSet?: string;
+  sizes?: string;
+  loading?: 'eager' | 'lazy';
+  referrerPolicy?: React.HTMLAttributeReferrerPolicy;
+  crossOrigin?: 'anonymous' | 'use-credentials' | '';
+  children?: ReactNode;
+  onError?: (event: React.SyntheticEvent<HTMLImageElement>) => void;
+  onLoad?: (event: React.SyntheticEvent<HTMLImageElement>) => void;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+/**
+ * Props for Avatar.Fallback compound sub-component.
+ */
+export interface AvatarFallbackProps {
+  delayMs?: number;
+  children?: ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+/**
+ * Props for Avatar.Badge compound sub-component.
+ */
+export interface AvatarBadgeProps {
+  count?: number;
+  dot?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+/**
+ * Props for Avatar.Status compound sub-component.
+ */
+export interface AvatarStatusProps {
+  value: AvatarStatus;
+  position?: AvatarStatusPosition;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+/**
+ * Context value shared from Avatar root to compound children.
+ */
+export interface AvatarContextValue {
+  size: AvatarSize;
+  shape: AvatarShape;
+  tone: AvatarTone;
+  imageStatus: AvatarImageStatus;
 }
 
 // =============================================================================
@@ -416,6 +518,30 @@ export interface AvatarGroupProps extends SafeAvatarHTMLAttributes {
    * @default true
    */
   showOverflowTooltip?: boolean;
+
+  /**
+   * Server-side total count, independent of rendered children.
+   * When set, overflow chip shows +(total - visibleCount).
+   */
+  total?: number;
+
+  /**
+   * Custom render function for the overflow chip.
+   * Receives surplus count, returns custom ReactNode.
+   */
+  renderSurplus?: (surplusCount: number) => ReactNode;
+
+  /**
+   * Click handler for the default overflow chip.
+   * Ignored when renderSurplus is provided.
+   */
+  onOverflowClick?: (event: React.MouseEvent) => void;
+
+  /**
+   * Controls which avatar appears on top in stacked layout.
+   * @default 'lastOnTop'
+   */
+  stackingOrder?: 'firstOnTop' | 'lastOnTop';
 }
 
 // =============================================================================
