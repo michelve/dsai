@@ -70,7 +70,7 @@ const AVATAR_SIZE_FALLBACK_NUMBERS: Record<AvatarSize, number> = {
 // =============================================================================
 
 export function getNumericSize(size: AvatarSize): number {
-  return safeLookup(AVATAR_SIZE_FALLBACK_NUMBERS, size, 40);
+  return safeLookup<number>(AVATAR_SIZE_FALLBACK_NUMBERS, size, 40);
 }
 
 export function getSizeValue(size: AvatarSize): string {

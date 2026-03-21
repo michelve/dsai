@@ -20,7 +20,7 @@ import { Children, cloneElement, forwardRef, isValidElement, memo, useEffect, us
 import { cn } from '../../utils';
 
 import { getSizeValue, resolveOverlap, resolveInlineGap } from './avatarUtils';
-import type { AvatarGroupProps, AvatarGroupSpacing, AvatarSize } from './Avatar.types';
+import type { AvatarGroupProps, AvatarSize } from './Avatar.types';
 
 // =============================================================================
 // Utility Functions
@@ -104,7 +104,7 @@ export const AvatarGroup = memo(
   ) {
     // Dev-mode warning for conflicting props
     useEffect(() => {
-      if (process.env.NODE_ENV !== 'production' && renderSurplus && onOverflowClick) {
+      if (process.env['NODE_ENV'] !== 'production' && renderSurplus && onOverflowClick) {
         console.warn(
           'AvatarGroup: onOverflowClick is ignored when renderSurplus is provided. ' +
             'Handle click events in your renderSurplus function instead.',
