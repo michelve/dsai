@@ -30,7 +30,10 @@
       "Bash(export PATH=\"/Users/michel/Library/pnpm:$PATH\")",
       "Bash(npx nx:*)",
       "Bash(pnpm nx:*)",
-      "Bash(node_modules/.bin/eslint --version)"
+      "Bash(node_modules/.bin/eslint --version)",
+      "WebFetch(domain:v2.chakra-ui.com)",
+      "WebFetch(domain:kombai.com)",
+      "WebFetch(domain:medium.com)"
     ]
   }
 }

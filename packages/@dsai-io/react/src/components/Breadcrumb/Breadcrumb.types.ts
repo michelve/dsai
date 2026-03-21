@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react';
 
 /**
- * Breadcrumb item configuration
+ * Breadcrumb item configuration (data-driven mode)
  */
 export interface BreadcrumbItemData {
   /**
@@ -38,7 +38,7 @@ export interface BreadcrumbItemData {
 }
 
 /**
- * BreadcrumbItem component props
+ * BreadcrumbItem component props (compound component mode)
  */
 export interface BreadcrumbItemProps {
   /**
@@ -86,6 +86,18 @@ export interface BreadcrumbItemProps {
    * ```
    */
   linkAs?: React.ElementType;
+
+  /**
+   * Truncate long labels with ellipsis at this max width (CSS value)
+   * @example '120px', '10em'
+   */
+  maxLabelWidth?: string;
+
+  /** Test ID attribute */
+  'data-testid'?: string;
+
+  /** Test attribute */
+  'data-test'?: string;
 }
 
 /**
@@ -93,24 +105,26 @@ export interface BreadcrumbItemProps {
  */
 export interface BreadcrumbProps {
   /**
-   * Breadcrumb items to render
+   * Breadcrumb items to render (data-driven mode)
    */
   items?: BreadcrumbItemData[];
 
   /**
-   * Children (alternative to items prop for compound component usage)
+   * Children (compound component mode — alternative to items prop)
    */
   children?: ReactNode;
 
   /**
-   * Custom separator between items
+   * Custom separator between items.
+   * - String values use Bootstrap's `--bs-breadcrumb-divider` CSS variable
+   * - ReactNode values render inline between items (replaces CSS separator)
    * @default '/'
    */
   separator?: ReactNode;
 
   /**
-   * Maximum number of items to show before collapsing
-   * When exceeded, shows first item, ellipsis, and last items
+   * Maximum number of items to show before collapsing.
+   * When exceeded, shows first items, ellipsis, and last items.
    */
   maxItems?: number;
 
@@ -132,15 +146,53 @@ export interface BreadcrumbProps {
   onExpand?: () => void;
 
   /**
-   * Whether the breadcrumb is currently expanded
+   * Whether the breadcrumb is currently expanded (controlled mode)
    * @default false
    */
   expanded?: boolean;
 
   /**
-   * Custom link component for all items (for router integration)
+   * Accessible label for the expand/ellipsis button
+   * @default 'Show hidden breadcrumbs'
+   */
+  expandText?: string;
+
+  /**
+   * Custom link component for all items (router integration)
    */
   linkAs?: React.ElementType;
+
+  /**
+   * Truncate long item labels with ellipsis at this max width (CSS value).
+   * Applies to all items. Override per-item via BreadcrumbItem's maxLabelWidth.
+   * @example '150px', '12em'
+   */
+  maxLabelWidth?: string;
+
+  /**
+   * Render prop for collapsed items — receives the hidden items array.
+   * Use to render a dropdown or popover showing collapsed breadcrumbs.
+   *
+   * @example
+   * ```tsx
+   * <Breadcrumb
+   *   items={items}
+   *   maxItems={4}
+   *   renderCollapsedItems={(hiddenItems) => (
+   *     <Dropdown items={hiddenItems.map(i => ({ label: i.label, href: i.href }))} />
+   *   )}
+   * />
+   * ```
+   */
+  renderCollapsedItems?: (hiddenItems: BreadcrumbItemData[]) => ReactNode;
+
+  /**
+   * Generate Schema.org BreadcrumbList JSON-LD structured data.
+   * When true, renders a `<script type="application/ld+json">` tag.
+   * Only works with the `items` prop (data-driven mode).
+   * @default false
+   */
+  structuredData?: boolean;
 
   /**
    * Accessible label for the navigation
@@ -167,4 +219,10 @@ export interface BreadcrumbProps {
    * ID attribute
    */
   id?: string;
+
+  /** Test ID attribute */
+  'data-testid'?: string;
+
+  /** Test attribute */
+  'data-test'?: string;
 }

@@ -462,4 +462,281 @@ describe('Breadcrumb', () => {
       expect(BreadcrumbItem.displayName).toBe('BreadcrumbItem');
     });
   });
+
+  // ===========================================================================
+  // ReactNode Separator
+  // ===========================================================================
+  describe('ReactNode Separator', () => {
+    it('renders inline ReactNode separators between items', () => {
+      const { container } = render(
+        <Breadcrumb items={sampleItems} separator={<span data-testid="sep">›</span>} />
+      );
+      const separators = container.querySelectorAll('.breadcrumb-separator');
+      // 4 items = 3 separators
+      expect(separators.length).toBe(3);
+      expect(screen.getAllByTestId('sep')).toHaveLength(3);
+    });
+
+    it('hides separators from screen readers', () => {
+      const { container } = render(
+        <Breadcrumb items={sampleItems} separator={<span>›</span>} />
+      );
+      const separators = container.querySelectorAll('.breadcrumb-separator');
+      for (const sep of separators) {
+        expect(sep).toHaveAttribute('aria-hidden', 'true');
+        expect(sep).toHaveAttribute('role', 'presentation');
+      }
+    });
+
+    it('uses CSS variable for string separators', () => {
+      const { container } = render(
+        <Breadcrumb items={sampleItems} separator=">" />
+      );
+      const ol = container.querySelector('.breadcrumb');
+      expect(ol).toHaveStyle({ '--bs-breadcrumb-divider': "'>" + "'" });
+      // No inline separators for string mode
+      expect(container.querySelectorAll('.breadcrumb-separator').length).toBe(0);
+    });
+
+    it('does not add separator style for default "/"', () => {
+      const { container } = render(<Breadcrumb items={sampleItems} />);
+      const ol = container.querySelector('.breadcrumb');
+      expect(ol).not.toHaveAttribute('style');
+    });
+  });
+
+  // ===========================================================================
+  // Configurable expandText
+  // ===========================================================================
+  describe('Expand Text', () => {
+    const manyItems = [
+      { id: '1', label: 'Root', href: '/' },
+      { id: '2', label: 'A', href: '/a' },
+      { id: '3', label: 'B', href: '/b' },
+      { id: '4', label: 'C', href: '/c' },
+      { id: '5', label: 'D', href: '/d' },
+      { id: '6', label: 'Current', active: true },
+    ];
+
+    it('uses default expandText on ellipsis button', () => {
+      render(<Breadcrumb items={manyItems} maxItems={3} />);
+      expect(screen.getByRole('button', { name: 'Show hidden breadcrumbs' })).toBeInTheDocument();
+    });
+
+    it('uses custom expandText', () => {
+      render(<Breadcrumb items={manyItems} maxItems={3} expandText="Show full path" />);
+      expect(screen.getByRole('button', { name: 'Show full path' })).toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
+  // Schema.org JSON-LD Structured Data
+  // ===========================================================================
+  describe('Structured Data (JSON-LD)', () => {
+    it('renders JSON-LD script tag when structuredData=true', () => {
+      const { container } = render(
+        <Breadcrumb items={sampleItems} structuredData />
+      );
+      const script = container.parentElement?.querySelector('script[type="application/ld+json"]');
+      expect(script).toBeInTheDocument();
+    });
+
+    it('generates valid Schema.org BreadcrumbList', () => {
+      const { container } = render(
+        <Breadcrumb items={sampleItems} structuredData />
+      );
+      const script = container.parentElement?.querySelector('script[type="application/ld+json"]');
+      const data = JSON.parse(script?.innerHTML ?? '{}');
+      expect(data['@context']).toBe('https://schema.org');
+      expect(data['@type']).toBe('BreadcrumbList');
+      expect(data.itemListElement).toHaveLength(4);
+      expect(data.itemListElement[0]).toMatchObject({
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: '/',
+      });
+    });
+
+    it('omits item URL when href is not provided', () => {
+      const { container } = render(
+        <Breadcrumb items={sampleItems} structuredData />
+      );
+      const script = container.parentElement?.querySelector('script[type="application/ld+json"]');
+      const data = JSON.parse(script?.innerHTML ?? '{}');
+      // Last item (active) has no href
+      expect(data.itemListElement[3]).not.toHaveProperty('item');
+    });
+
+    it('does not render JSON-LD when structuredData=false', () => {
+      const { container } = render(
+        <Breadcrumb items={sampleItems} />
+      );
+      const script = container.parentElement?.querySelector('script[type="application/ld+json"]');
+      expect(script).not.toBeInTheDocument();
+    });
+
+    it('does not render JSON-LD without items prop', () => {
+      const { container } = render(
+        <Breadcrumb structuredData>
+          <BreadcrumbItem href="/">Home</BreadcrumbItem>
+        </Breadcrumb>
+      );
+      const script = container.parentElement?.querySelector('script[type="application/ld+json"]');
+      expect(script).not.toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
+  // Label Truncation
+  // ===========================================================================
+  describe('Label Truncation', () => {
+    it('applies truncation styles on BreadcrumbItem when maxLabelWidth is set', () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbItem href="/" maxLabelWidth="100px">
+            Very Long Breadcrumb Label That Should Be Truncated
+          </BreadcrumbItem>
+        </Breadcrumb>
+      );
+      const span = screen.getByText('Very Long Breadcrumb Label That Should Be Truncated');
+      expect(span).toHaveStyle({ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis' });
+    });
+
+    it('applies truncation from Breadcrumb maxLabelWidth to all items', () => {
+      const items = [
+        { id: '1', label: 'Short', href: '/' },
+        { id: '2', label: 'A Very Long Label', active: true },
+      ];
+      const { container } = render(
+        <Breadcrumb items={items} maxLabelWidth="80px" />
+      );
+      const spans = container.querySelectorAll('span[style*="max-width"]');
+      expect(spans.length).toBe(2);
+    });
+
+    it('adds title attribute for truncated string labels', () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbItem href="/" maxLabelWidth="100px">
+            Long Label
+          </BreadcrumbItem>
+        </Breadcrumb>
+      );
+      const span = screen.getByText('Long Label');
+      expect(span).toHaveAttribute('title', 'Long Label');
+    });
+  });
+
+  // ===========================================================================
+  // Collapsed Items Render Prop
+  // ===========================================================================
+  describe('Collapsed Items Render Prop', () => {
+    const manyItems = [
+      { id: '1', label: 'Root', href: '/' },
+      { id: '2', label: 'A', href: '/a' },
+      { id: '3', label: 'B', href: '/b' },
+      { id: '4', label: 'C', href: '/c' },
+      { id: '5', label: 'Current', active: true },
+    ];
+
+    it('renders custom content for collapsed items', () => {
+      render(
+        <Breadcrumb
+          items={manyItems}
+          maxItems={3}
+          renderCollapsedItems={(hidden) => (
+            <span data-testid="custom-collapse">{hidden.length} hidden</span>
+          )}
+        />
+      );
+      expect(screen.getByTestId('custom-collapse')).toHaveTextContent('3 hidden');
+    });
+
+    it('passes correct hidden items to render prop', () => {
+      const renderSpy = jest.fn(() => <span>collapsed</span>);
+      render(
+        <Breadcrumb
+          items={manyItems}
+          maxItems={3}
+          itemsBeforeCollapse={1}
+          itemsAfterCollapse={1}
+          renderCollapsedItems={renderSpy}
+        />
+      );
+      expect(renderSpy).toHaveBeenCalledTimes(1);
+      const hiddenItems = renderSpy.mock.calls[0][0];
+      expect(hiddenItems).toHaveLength(3);
+      expect(hiddenItems[0].label).toBe('A');
+      expect(hiddenItems[2].label).toBe('C');
+    });
+
+    it('does not render default ellipsis button when renderCollapsedItems is provided', () => {
+      render(
+        <Breadcrumb
+          items={manyItems}
+          maxItems={3}
+          renderCollapsedItems={() => <span>custom</span>}
+        />
+      );
+      expect(screen.queryByRole('button', { name: 'Show hidden breadcrumbs' })).not.toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
+  // Data Attributes
+  // ===========================================================================
+  describe('Data Attributes', () => {
+    it('passes data-testid to Breadcrumb nav', () => {
+      render(<Breadcrumb items={sampleItems} data-testid="bc-nav" />);
+      expect(screen.getByTestId('bc-nav')).toBeInTheDocument();
+      expect(screen.getByTestId('bc-nav').tagName).toBe('NAV');
+    });
+
+    it('passes data-testid to BreadcrumbItem', () => {
+      render(
+        <Breadcrumb>
+          <BreadcrumbItem href="/" data-testid="bc-item">Home</BreadcrumbItem>
+        </Breadcrumb>
+      );
+      expect(screen.getByTestId('bc-item')).toBeInTheDocument();
+      expect(screen.getByTestId('bc-item').tagName).toBe('LI');
+    });
+
+    it('passes data-test to nav and items', () => {
+      const { container } = render(
+        <Breadcrumb items={sampleItems} data-test="bc" />
+      );
+      expect(container.querySelector('[data-test="bc"]')).toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
+  // Accessibility with New Features
+  // ===========================================================================
+  describe('Accessibility with New Features', () => {
+    it('has no violations with ReactNode separator', async () => {
+      const { container } = render(
+        <Breadcrumb items={sampleItems} separator={<span>›</span>} />
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no violations with structured data', async () => {
+      const { container } = render(
+        <Breadcrumb items={sampleItems} structuredData />
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no violations with truncated labels', async () => {
+      const { container } = render(
+        <Breadcrumb items={sampleItems} maxLabelWidth="100px" />
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
 });

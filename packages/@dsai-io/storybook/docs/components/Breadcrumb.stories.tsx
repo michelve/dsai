@@ -713,3 +713,137 @@ export const CompleteShowcase: Story = {
     </div>
   ),
 };
+
+// =============================================================================
+// New Features
+// =============================================================================
+
+/**
+ * ReactNode separator — use icons or custom elements as separators
+ */
+export const ReactNodeSeparator: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <StoryBreadcrumb
+        items={[
+          { id: 'home', label: 'Home', href: '#' },
+          { id: 'products', label: 'Products', href: '#' },
+          { id: 'current', label: 'Current', active: true },
+        ]}
+        separator={<span style={{ color: 'var(--bs-secondary)', margin: '0 0.25rem' }}>›</span>}
+      />
+      <StoryBreadcrumb
+        items={[
+          { id: 'home', label: 'Home', href: '#' },
+          { id: 'products', label: 'Products', href: '#' },
+          { id: 'current', label: 'Current', active: true },
+        ]}
+        separator={<span style={{ color: 'var(--bs-secondary)', margin: '0 0.25rem' }}>→</span>}
+      />
+    </div>
+  ),
+  parameters: { layout: 'padded' },
+};
+
+/**
+ * Configurable expand text for collapsed breadcrumbs
+ */
+export const CustomExpandText: Story = {
+  render: () => {
+    const items = [
+      { id: '1', label: 'Root', href: '#' },
+      { id: '2', label: 'Level 1', href: '#' },
+      { id: '3', label: 'Level 2', href: '#' },
+      { id: '4', label: 'Level 3', href: '#' },
+      { id: '5', label: 'Level 4', href: '#' },
+      { id: '6', label: 'Current Page', active: true as const },
+    ];
+    return (
+      <StoryBreadcrumb
+        items={items}
+        maxItems={3}
+        expandText="Show full path"
+      />
+    );
+  },
+};
+
+/**
+ * Schema.org BreadcrumbList JSON-LD structured data for SEO.
+ * Inspect the page source to see the generated script tag.
+ */
+export const StructuredData: Story = {
+  render: () => (
+    <div>
+      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)', marginBottom: '0.5rem' }}>
+        This breadcrumb generates a &lt;script type=&quot;application/ld+json&quot;&gt; tag
+        with Schema.org BreadcrumbList data. Inspect the DOM to see it.
+      </p>
+      <StoryBreadcrumb
+        items={[
+          { id: 'home', label: 'Home', href: 'https://example.com' },
+          { id: 'docs', label: 'Documentation', href: 'https://example.com/docs' },
+          { id: 'api', label: 'API Reference', active: true },
+        ]}
+        structuredData
+      />
+    </div>
+  ),
+  parameters: { layout: 'padded' },
+};
+
+/**
+ * Label truncation for long breadcrumb labels
+ */
+export const LabelTruncation: Story = {
+  render: () => (
+    <div style={{ maxWidth: 500 }}>
+      <StoryBreadcrumb
+        items={[
+          { id: 'home', label: 'Home', href: '#' },
+          { id: 'cat', label: 'A Very Long Category Name That Should Be Truncated', href: '#' },
+          { id: 'sub', label: 'Another Extremely Long Subcategory Label', href: '#' },
+          { id: 'current', label: 'Current Page With A Long Title', active: true },
+        ]}
+        maxLabelWidth="120px"
+      />
+    </div>
+  ),
+  parameters: { layout: 'padded' },
+};
+
+/**
+ * Custom collapsed items rendering via renderCollapsedItems prop
+ */
+export const CollapsedItemsDropdown: Story = {
+  render: () => {
+    const items = [
+      { id: '1', label: 'Home', href: '#' },
+      { id: '2', label: 'Products', href: '#products' },
+      { id: '3', label: 'Electronics', href: '#electronics' },
+      { id: '4', label: 'Phones', href: '#phones' },
+      { id: '5', label: 'iPhone 16', active: true as const },
+    ];
+    return (
+      <StoryBreadcrumb
+        items={items}
+        maxItems={3}
+        renderCollapsedItems={(hiddenItems) => (
+          <details style={{ display: 'inline' }}>
+            <summary style={{ cursor: 'pointer', listStyle: 'none' }}>…</summary>
+            <ul style={{ position: 'absolute', background: 'var(--bs-body-bg)', border: '1px solid var(--bs-border-color)', borderRadius: 'var(--dsai-border-radius-sm)', padding: '0.5rem', listStyle: 'none', zIndex: 10 }}>
+              {hiddenItems.map((item) => (
+                <li key={item.id}>
+                  <a href={item.href ?? '#'} style={{ textDecoration: 'none', padding: '0.25rem 0.5rem', display: 'block' }}>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+        )}
+      />
+    );
+  },
+  parameters: { layout: 'padded' },
+};

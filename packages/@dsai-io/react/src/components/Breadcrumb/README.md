@@ -4,12 +4,17 @@ An accessible breadcrumb navigation component built with Bootstrap 5 styling. Su
 
 ## Features
 
-- 🧭 Hierarchical navigation display
-- ✂️ Collapsible items for long paths
-- 🔗 Router integration support
-- 🎨 Custom separators
-- 🖼️ Icon support
-- ♿ WCAG 2.2 AA compliant
+- Hierarchical navigation display
+- Collapsible items for long paths (FSM-based)
+- Router integration support (`linkAs` prop)
+- Custom separators (string or ReactNode)
+- Icon support per item
+- Dismissible label truncation (`maxLabelWidth`)
+- Schema.org JSON-LD structured data for SEO
+- Collapsed items render prop for custom dropdowns
+- Configurable expand button label (`expandText`)
+- HREF security validation (blocks dangerous protocols)
+- WCAG 2.2 AA compliant
 
 ## Installation
 
@@ -54,12 +59,17 @@ function Example() {
 }
 ```
 
-### Custom Separator
+### Custom Separator (String)
 
 ```tsx
 <Breadcrumb separator=">" items={items} />
 <Breadcrumb separator="→" items={items} />
-<Breadcrumb separator="•" items={items} />
+```
+
+### Custom Separator (ReactNode)
+
+```tsx
+<Breadcrumb separator={<ChevronRightIcon size={14} />} items={items} />
 ```
 
 ### Collapsible Breadcrumbs
@@ -140,26 +150,66 @@ function ControlledBreadcrumb() {
 }
 ```
 
+### Schema.org Structured Data
+
+```tsx
+<Breadcrumb items={items} structuredData />
+```
+
+Generates a `<script type="application/ld+json">` tag with Schema.org `BreadcrumbList` data for SEO rich results.
+
+### Label Truncation
+
+```tsx
+<Breadcrumb items={items} maxLabelWidth="120px" />
+
+// Per-item override
+<BreadcrumbItem href="/" maxLabelWidth="80px">Very Long Label</BreadcrumbItem>
+```
+
+### Custom Collapsed Items
+
+```tsx
+<Breadcrumb
+  items={items}
+  maxItems={4}
+  renderCollapsedItems={(hiddenItems) => (
+    <Dropdown items={hiddenItems.map(i => ({ label: i.label, href: i.href }))} />
+  )}
+/>
+```
+
+### Custom Expand Text
+
+```tsx
+<Breadcrumb items={items} maxItems={4} expandText="Show full path" />
+```
+
 ## Props
 
 ### Breadcrumb
 
-| Prop                  | Type                   | Default        | Description                                               |
-| --------------------- | ---------------------- | -------------- | --------------------------------------------------------- |
-| `items`               | `BreadcrumbItemData[]` | -              | Breadcrumb items                                          |
-| `children`            | `ReactNode`            | -              | Compound components                                       |
-| `separator`           | `ReactNode`            | `'/'`          | Custom separator                                          |
-| `maxItems`            | `number`               | -              | Max items before collapse                                 |
-| `itemsBeforeCollapse` | `number`               | `1`            | Items before ellipsis                                     |
-| `itemsAfterCollapse`  | `number`               | `1`            | Items after ellipsis                                      |
-| `expanded`            | `boolean`              | `false`        | Controlled expand state                                   |
-| `onExpand`            | `() => void`           | -              | Expand callback                                           |
-| `linkAs`              | `ElementType`          | `'a'`          | Custom link component                                     |
-| `aria-label`          | `string`               | `'Breadcrumb'` | Accessible label (defaults to component ID when provided) |
-| `aria-labelledby`     | `string`               | -              | ID of element labeling the nav                            |
-| `className`           | `string`               | -              | Additional classes                                        |
-| `style`               | `CSSProperties`        | -              | Inline styles                                             |
-| `id`                  | `string`               | -              | Element ID                                                |
+| Prop                    | Type                                             | Default                       | Description                            |
+| ----------------------- | ------------------------------------------------ | ----------------------------- | -------------------------------------- |
+| `items`                 | `BreadcrumbItemData[]`                           | -                             | Breadcrumb items                       |
+| `children`              | `ReactNode`                                      | -                             | Compound components                    |
+| `separator`             | `ReactNode`                                      | `'/'`                         | Custom separator (string or ReactNode) |
+| `maxItems`              | `number`                                         | -                             | Max items before collapse              |
+| `itemsBeforeCollapse`   | `number`                                         | `1`                           | Items before ellipsis                  |
+| `itemsAfterCollapse`    | `number`                                         | `1`                           | Items after ellipsis                   |
+| `expanded`              | `boolean`                                        | `false`                       | Controlled expand state                |
+| `onExpand`              | `() => void`                                     | -                             | Expand callback                        |
+| `expandText`            | `string`                                         | `'Show hidden breadcrumbs'`   | Expand button accessible label         |
+| `linkAs`                | `ElementType`                                    | `'a'`                         | Custom link component                  |
+| `maxLabelWidth`         | `string`                                         | -                             | Truncate labels at this width          |
+| `renderCollapsedItems`  | `(items: BreadcrumbItemData[]) => ReactNode`     | -                             | Custom render for collapsed items      |
+| `structuredData`        | `boolean`                                        | `false`                       | Generate Schema.org JSON-LD            |
+| `aria-label`            | `string`                                         | `'Breadcrumb'`                | Accessible label                       |
+| `aria-labelledby`       | `string`                                         | -                             | ID of element labeling the nav         |
+| `className`             | `string`                                         | -                             | Additional classes                     |
+| `style`                 | `CSSProperties`                                  | -                             | Inline styles                          |
+| `id`                    | `string`                                         | -                             | Element ID                             |
+| `data-testid`           | `string`                                         | -                             | Test ID attribute                      |
 
 ### BreadcrumbItemData
 
@@ -174,16 +224,19 @@ function ControlledBreadcrumb() {
 
 ### BreadcrumbItem
 
-| Prop        | Type            | Description            |
-| ----------- | --------------- | ---------------------- |
-| `children`  | `ReactNode`     | Item content           |
-| `href`      | `string`        | Link URL               |
-| `icon`      | `ReactNode`     | Optional icon          |
-| `active`    | `boolean`       | Current page indicator |
-| `onClick`   | `() => void`    | Click handler          |
-| `linkAs`    | `ElementType`   | Custom link component  |
-| `className` | `string`        | Additional classes     |
-| `style`     | `CSSProperties` | Inline styles          |
+| Prop            | Type            | Description                   |
+| --------------- | --------------- | ----------------------------- |
+| `children`      | `ReactNode`     | Item content                  |
+| `href`          | `string`        | Link URL                      |
+| `icon`          | `ReactNode`     | Optional icon                 |
+| `active`        | `boolean`       | Current page indicator        |
+| `onClick`       | `() => void`    | Click handler                 |
+| `linkAs`        | `ElementType`   | Custom link component         |
+| `maxLabelWidth` | `string`        | Truncate label at this width  |
+| `className`     | `string`        | Additional classes            |
+| `style`         | `CSSProperties` | Inline styles                 |
+| `data-testid`   | `string`        | Test ID attribute             |
+| `data-test`     | `string`        | Test attribute                |
 
 ## Accessibility
 
