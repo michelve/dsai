@@ -191,7 +191,8 @@ export const Avatar = memo(
     // Handle keyboard interaction
     const handleKeyDown = useCallback(
       (event: React.KeyboardEvent) => {
-        if (interactive && isEnterKey(event)) {
+        if (interactive && (isEnterKey(event) || event.key === ' ')) {
+          event.preventDefault(); // Prevent scroll on Space
           onClick?.(event as unknown as React.MouseEvent);
         }
         onKeyDown?.(event);

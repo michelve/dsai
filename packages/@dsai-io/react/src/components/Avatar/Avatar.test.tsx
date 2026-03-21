@@ -426,6 +426,18 @@ describe('Avatar', () => {
       expect(onClick).toHaveBeenCalled();
     });
 
+    it('calls onClick on Space key', async () => {
+      const user = userEvent.setup();
+      const onClick = jest.fn();
+      render(<Avatar name="Test" interactive onClick={onClick} data-testid="avatar" />);
+
+      const avatar = screen.getByTestId('avatar');
+      avatar.focus();
+      await user.keyboard(' ');
+
+      expect(onClick).toHaveBeenCalled();
+    });
+
     it('renders as button when as="button"', () => {
       render(<Avatar name="Test" as="button" data-testid="avatar" />);
       expect(screen.getByTestId('avatar').tagName).toBe('BUTTON');
@@ -587,15 +599,16 @@ describe('AvatarGroup', () => {
       expect(screen.getByTestId('charlie')).toBeInTheDocument();
     });
 
-    it('renders semantic fieldset with accessible label', () => {
+    it('renders div[role=group] with accessible label', () => {
       render(
         <AvatarGroup data-testid="group">
           <Avatar name="Alice" />
         </AvatarGroup>
       );
       const group = screen.getByTestId('group');
-      expect(group.tagName).toBe('FIELDSET');
-      expect(group).toHaveAttribute('aria-label', '1 users');
+      expect(group.tagName).toBe('DIV');
+      expect(group).toHaveAttribute('role', 'group');
+      expect(group).toHaveAttribute('aria-label', '1 user');
     });
   });
 
@@ -830,7 +843,7 @@ describe('AvatarGroup', () => {
           <Avatar name="Alice" />
         </AvatarGroup>
       );
-      expect(ref.current).toBeInstanceOf(HTMLFieldSetElement);
+      expect(ref.current).toBeInstanceOf(HTMLDivElement);
     });
   });
 });
