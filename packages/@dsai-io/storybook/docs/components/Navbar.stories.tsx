@@ -979,7 +979,7 @@ export const WithCallback: Story = {
             margin: '1rem',
             padding: '0.5rem',
             background: 'var(--bs-gray-100)',
-            borderRadius: 'var(--sb-border-radius-sm)',
+            borderRadius: 'var(--dsai-border-radius-sm)',
             fontFamily: 'monospace',
             fontSize: '0.875rem',
           }}

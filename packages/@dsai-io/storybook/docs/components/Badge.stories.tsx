@@ -436,7 +436,7 @@ export const ProperDotOnlyUsage: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       <div>
-        <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem', fontWeight: 'var(--sb-typography-font-weight-semi-bold)' }}>
+        <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem', fontWeight: 'var(--dsai-typography-font-weight-semi-bold)' }}>
           <CheckIcon size={14} className="text-success me-1" />
           Correct: Dot-only with aria-label
         </p>
@@ -447,7 +447,7 @@ export const ProperDotOnlyUsage: Story = {
               fontSize: '0.75rem',
               background: 'var(--bs-gray-100)',
               padding: '0.25rem 0.5rem',
-              borderRadius: 'var(--sb-border-radius-sm)',
+              borderRadius: 'var(--dsai-border-radius-sm)',
             }}
           >
             &lt;Badge dot aria-label=&quot;Online&quot; /&gt;
@@ -458,7 +458,7 @@ export const ProperDotOnlyUsage: Story = {
         </p>
       </div>
       <div>
-        <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem', fontWeight: 'var(--sb-typography-font-weight-semi-bold)' }}>
+        <p style={{ fontSize: '0.875rem', marginBottom: '0.5rem', fontWeight: 'var(--dsai-typography-font-weight-semi-bold)' }}>
           <XLgIcon size={14} className="text-danger me-1" />
           Incorrect: Dot-only without aria-label
         </p>
@@ -469,7 +469,7 @@ export const ProperDotOnlyUsage: Story = {
               fontSize: '0.75rem',
               background: 'var(--bs-warning-bg-subtle)',
               padding: '0.25rem 0.5rem',
-              borderRadius: 'var(--sb-border-radius-sm)',
+              borderRadius: 'var(--dsai-border-radius-sm)',
               border: '1px solid var(--bs-warning)',
             }}
           >
@@ -484,11 +484,11 @@ export const ProperDotOnlyUsage: Story = {
         style={{
           background: 'var(--bs-gray-100)',
           padding: '1rem',
-          borderRadius: 'var(--sb-border-radius-lg)',
+          borderRadius: 'var(--dsai-border-radius-lg)',
           borderLeft: '4px solid var(--bs-primary)',
         }}
       >
-        <p style={{ fontSize: '0.875rem', margin: 0, fontWeight: 'var(--sb-typography-font-weight-semi-bold)', marginBottom: '0.5rem' }}>
+        <p style={{ fontSize: '0.875rem', margin: 0, fontWeight: 'var(--dsai-typography-font-weight-semi-bold)', marginBottom: '0.5rem' }}>
           Accessibility Tip
         </p>
         <p style={{ fontSize: '0.875rem', margin: 0, color: 'var(--bs-secondary)' }}>

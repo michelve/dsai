@@ -44,8 +44,8 @@ export default defineConfig({
     // Output directory for generated files (CSS, SCSS, JS, TS)
     outputDir: './src/generated',
 
-    // CSS variable prefix (e.g., --sb-color-blue-500)
-    prefix: '--sb-',
+    // CSS variable prefix (e.g., --dsai-color-blue-500)
+    prefix: '--dsai-',
 
     // Base font size for rem calculations
     baseFontSize: 16,

@@ -756,8 +756,8 @@ export const ThemedWithVisualStates: Story = {
             .custom-tooltip-surface .tooltip-inner {
               background-color: var(--tooltip-bg);
               color: var(--bs-gray-100);
-              font-weight: var(--sb-typography-font-weight-medium);
-              letter-spacing: var(--sb-typography-letter-spacing-wide);
+              font-weight: var(--dsai-typography-font-weight-medium);
+              letter-spacing: var(--dsai-typography-letter-spacing-wide);
             }
 
             .custom-tooltip-surface .dsai-tooltip-arrow {

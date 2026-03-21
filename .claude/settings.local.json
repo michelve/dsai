@@ -11,7 +11,26 @@
       "Bash(pnpm install:*)",
       "Bash(pnpm test:*)",
       "Bash(node_modules/.bin/jest --testPathPatterns=\"Accordion\" --coverage --collectCoverageFrom=\"packages/@dsai-io/react/src/components/Accordion/**/*.{ts,tsx}\" --coverageReporters=text)",
-      "Bash(node_modules/.bin/jest --testPathPatterns=\"Accordion\")"
+      "Bash(node_modules/.bin/jest --testPathPatterns=\"Accordion\")",
+      "WebFetch(domain:www.chakra-ui.com)",
+      "WebFetch(domain:mui.com)",
+      "WebFetch(domain:www.radix-ui.com)",
+      "WebFetch(domain:ui.shadcn.com)",
+      "WebFetch(domain:chakra-ui.com)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(command -v pnpm)",
+      "Read(//Users/michel/GitHub/dsai/$HOME/.corepack/**)",
+      "Read(//opt/homebrew/bin/**)",
+      "Read(//usr/local/**)",
+      "Read(//Users/michel/GitHub/dsai/$HOME/.nvm/versions/node/v25.8.1/bin/**)",
+      "Bash(source ~/.zshrc)",
+      "Bash(export PATH=\"/Users/michel/Library/pnpm:$PATH\")",
+      "Bash(npx nx:*)",
+      "Bash(pnpm nx:*)",
+      "Bash(node_modules/.bin/eslint --version)"
     ]
   }
 }

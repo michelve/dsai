@@ -44,7 +44,7 @@
     "fontWeight": {
       "thin": {
         "$value": 100,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Lighter font weight",
         "$extensions": {
           "docs": {
@@ -57,7 +57,7 @@
       },
       "light": {
         "$value": 300,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Light font weight",
         "$extensions": {
           "docs": {
@@ -70,7 +70,7 @@
       },
       "regular": {
         "$value": 400,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Normal font weight (default body weight)",
         "$extensions": {
           "docs": {
@@ -83,7 +83,7 @@
       },
       "medium": {
         "$value": 500,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Medium font weight",
         "$extensions": {
           "docs": {
@@ -96,7 +96,7 @@
       },
       "semi-bold": {
         "$value": 600,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Semibold font weight",
         "$extensions": {
           "docs": {
@@ -109,7 +109,7 @@
       },
       "bold": {
         "$value": 700,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Bold font weight",
         "$extensions": {
           "docs": {
@@ -122,7 +122,7 @@
       },
       "black": {
         "$value": 900,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Bolder font weight",
         "$extensions": {
           "docs": {
@@ -135,7 +135,7 @@
       },
       "extra-light": {
         "$value": 200,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Lighter font weight",
         "$extensions": {
           "docs": {
@@ -148,7 +148,7 @@
       },
       "extra-bold": {
         "$value": 800,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Bold font weight",
         "$extensions": {
           "docs": {
@@ -199,7 +199,7 @@
     "lineHeight": {
       "xs": {
         "$value": 16,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Extra small line height (1.0 ratio) - Compact UI, tags, badges. Use sparingly, not for body text. 4pt scale: 16px.",
         "$extensions": {
           "docs": {
@@ -212,7 +212,7 @@
       },
       "sm": {
         "$value": 20,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Small line height (1.25 ratio) - Bootstrap $line-height-sm. Compact text, small UI elements, tight spacing. Below WCAG AA for body text. 4pt scale: 20px.",
         "$extensions": {
           "docs": {
@@ -225,7 +225,7 @@
       },
       "tight": {
         "$value": 20,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Tight line height (1.2-1.25 ratio) - Display fonts, headings (h1-h6). Improves readability of large text. Bootstrap heading default. 4pt scale: 20px for 16px base.",
         "$extensions": {
           "docs": {
@@ -238,7 +238,7 @@
       },
       "base": {
         "$value": 24,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Base line height (1.5 ratio) - Bootstrap $line-height-base. Default for body text. WCAG AA compliant (1.5 minimum). 4pt scale: 24px for 16px base font.",
         "$extensions": {
           "docs": {
@@ -251,7 +251,7 @@
       },
       "relaxed": {
         "$value": 28,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Relaxed line height (1.75 ratio) - Enhanced readability for long-form content, articles, documentation. Exceeds WCAG AA. 4pt scale: 28px.",
         "$extensions": {
           "docs": {
@@ -264,7 +264,7 @@
       },
       "lg": {
         "$value": 32,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Large line height (2.0 ratio) - Bootstrap $line-height-lg. Spacious text, large UI components, improved scannability. 4pt scale: 32px.",
         "$extensions": {
           "docs": {
@@ -277,7 +277,7 @@
       },
       "display-sm": {
         "$value": 48,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Small display line height (1.2 ratio for 40px text) - Display fonts, large headings. Tighter leading for visual impact. 4pt scale: 48px.",
         "$extensions": {
           "docs": {
@@ -290,7 +290,7 @@
       },
       "display-md": {
         "$value": 60,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Medium display line height (1.2 ratio for 48-56px text) - Medium display fonts. 4pt scale: 60px.",
         "$extensions": {
           "docs": {
@@ -303,7 +303,7 @@
       },
       "display-lg": {
         "$value": 80,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Large display line height (1.2 ratio for 64px text) - Large display fonts, hero headings. 4pt scale: 76px (closest to 1.2 ratio).",
         "$extensions": {
           "docs": {
@@ -316,7 +316,7 @@
       },
       "xlg": {
         "$value": 40,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Large line height (2.0 ratio) - Bootstrap $line-height-lg. Spacious text, large UI components, improved scannability. 4pt scale: 32px.",
         "$extensions": {
           "docs": {
@@ -329,7 +329,7 @@
       },
       "xxlg": {
         "$value": 44,
-        "$type": "dimension",
+        "$type": "number",
         "$description": "Large line height (2.0 ratio) - Bootstrap $line-height-lg. Spacious text, large UI components, improved scannability. 4pt scale: 32px.",
         "$extensions": {
           "docs": {

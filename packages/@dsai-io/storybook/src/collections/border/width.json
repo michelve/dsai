@@ -1,0 +1,66 @@
+{
+  "border": {
+    "width": {
+      "0": {
+        "$value": "0px",
+        "$type": "dimension",
+        "$description": "Border width 0 (0px). Bootstrap's $border-width-0 variable.",
+        "$extensions": {
+          "platform": {
+            "scssVariableName": "$border-width-0"
+          }
+        }
+      },
+      "1": {
+        "$value": "1px",
+        "$type": "dimension",
+        "$description": "Border width 1 (1px). Bootstrap's $border-width-1 variable.",
+        "$extensions": {
+          "platform": {
+            "scssVariableName": "$border-width-1"
+          }
+        }
+      },
+      "2": {
+        "$value": "2px",
+        "$type": "dimension",
+        "$description": "Border width 2 (2px). Bootstrap's $border-width-2 variable.",
+        "$extensions": {
+          "platform": {
+            "scssVariableName": "$border-width-2"
+          }
+        }
+      },
+      "3": {
+        "$value": "3px",
+        "$type": "dimension",
+        "$description": "Border width 3 (3px). Bootstrap's $border-width-3 variable.",
+        "$extensions": {
+          "platform": {
+            "scssVariableName": "$border-width-3"
+          }
+        }
+      },
+      "4": {
+        "$value": "4px",
+        "$type": "dimension",
+        "$description": "Border width 4 (4px). Bootstrap's $border-width-4 variable.",
+        "$extensions": {
+          "platform": {
+            "scssVariableName": "$border-width-4"
+          }
+        }
+      },
+      "5": {
+        "$value": "5px",
+        "$type": "dimension",
+        "$description": "Border width 5 (5px). Bootstrap's $border-width-5 variable.",
+        "$extensions": {
+          "platform": {
+            "scssVariableName": "$border-width-5"
+          }
+        }
+      }
+    }
+  }
+}

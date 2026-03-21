@@ -174,11 +174,11 @@ const IconDisplay = ({ icon, name, size = 24 }: IconDisplayProps) => (
       flexDirection: 'column',
       alignItems: 'center',
       padding: '16px 8px',
-      borderRadius: 'var(--sb-border-radius-lg)',
+      borderRadius: 'var(--dsai-border-radius-lg)',
       border: '1px solid var(--bs-border-color)',
       backgroundColor: 'var(--bs-gray-100)',
       minWidth: '100px',
-      gap: 'var(--sb-spacing-2)',
+      gap: 'var(--dsai-spacing-2)',
     }}
   >
     <div style={{ fontSize: size }}>{icon}</div>
@@ -205,7 +205,7 @@ interface IconGridProps {
 const IconGrid = ({ children, title, description }: IconGridProps) => (
   <div style={{ marginBottom: '2rem' }}>
     {title && (
-      <Heading level={3} style={{ fontSize: '1.25rem', fontWeight: 'var(--sb-typography-font-weight-semi-bold)', marginBottom: '0.5rem' }}>
+      <Heading level={3} style={{ fontSize: '1.25rem', fontWeight: 'var(--dsai-typography-font-weight-semi-bold)', marginBottom: '0.5rem' }}>
         {title}
       </Heading>
     )}
@@ -218,7 +218,7 @@ const IconGrid = ({ children, title, description }: IconGridProps) => (
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
-        gap: 'var(--sb-spacing-2)',
+        gap: 'var(--dsai-spacing-2)',
       }}
     >
       {children}
@@ -504,12 +504,12 @@ export const OutlineVsFill: Story = {
               display: 'flex',
               alignItems: 'center',
               gap: '1rem',
-              padding: 'var(--sb-spacing-2)',
+              padding: 'var(--dsai-spacing-2)',
               border: '1px solid var(--bs-border-color)',
-              borderRadius: 'var(--sb-border-radius-lg)',
+              borderRadius: 'var(--dsai-border-radius-lg)',
             }}
           >
-            <div style={{ display: 'flex', gap: 'var(--sb-spacing-2)' }}>
+            <div style={{ display: 'flex', gap: 'var(--dsai-spacing-2)' }}>
               {outline}
               {fill}
             </div>
@@ -538,7 +538,7 @@ export const Accessibility: Story = {
         style={{
           padding: '1rem',
           backgroundColor: 'var(--bs-success-bg-subtle)',
-          borderRadius: 'var(--sb-border-radius-lg)',
+          borderRadius: 'var(--dsai-border-radius-lg)',
           border: '1px solid var(--bs-success-border-subtle)',
         }}
       >
@@ -566,9 +566,9 @@ export const Accessibility: Story = {
         <code
           style={{
             display: 'block',
-            padding: 'var(--sb-spacing-2)',
+            padding: 'var(--dsai-spacing-2)',
             backgroundColor: 'var(--bs-success-bg-subtle)',
-            borderRadius: 'var(--sb-border-radius-sm)',
+            borderRadius: 'var(--dsai-border-radius-sm)',
             fontSize: '13px',
           }}
         >
@@ -583,7 +583,7 @@ export const Accessibility: Story = {
         style={{
           padding: '1rem',
           backgroundColor: 'var(--bs-info-bg-subtle)',
-          borderRadius: 'var(--sb-border-radius-lg)',
+          borderRadius: 'var(--dsai-border-radius-lg)',
           border: '1px solid var(--bs-info-border-subtle)',
         }}
       >
@@ -611,9 +611,9 @@ export const Accessibility: Story = {
         <code
           style={{
             display: 'block',
-            padding: 'var(--sb-spacing-2)',
+            padding: 'var(--dsai-spacing-2)',
             backgroundColor: 'var(--bs-info-bg-subtle)',
-            borderRadius: 'var(--sb-border-radius-sm)',
+            borderRadius: 'var(--dsai-border-radius-sm)',
             fontSize: '13px',
           }}
         >
@@ -628,7 +628,7 @@ export const Accessibility: Story = {
         style={{
           padding: '1rem',
           backgroundColor: 'var(--bs-warning-bg-subtle)',
-          borderRadius: 'var(--sb-border-radius-lg)',
+          borderRadius: 'var(--dsai-border-radius-lg)',
           border: '1px solid var(--bs-warning-border-subtle)',
         }}
       >
@@ -655,9 +655,9 @@ export const Accessibility: Story = {
         <code
           style={{
             display: 'block',
-            padding: 'var(--sb-spacing-2)',
+            padding: 'var(--dsai-spacing-2)',
             backgroundColor: 'var(--bs-warning-bg-subtle)',
-            borderRadius: 'var(--sb-border-radius-sm)',
+            borderRadius: 'var(--dsai-border-radius-sm)',
             fontSize: '13px',
           }}
         >
@@ -835,7 +835,7 @@ export const InteractiveDemo: Story = {
           style={{
             padding: '2rem',
             border: '1px solid var(--bs-border-color)',
-            borderRadius: 'var(--sb-border-radius-lg)',
+            borderRadius: 'var(--dsai-border-radius-lg)',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -850,7 +850,7 @@ export const InteractiveDemo: Story = {
           <div style={{ flex: '1 1 200px' }}>
             <label
               htmlFor={sizeId}
-              style={{ display: 'block', marginBottom: '8px', fontWeight: 'var(--sb-typography-font-weight-medium)' }}
+              style={{ display: 'block', marginBottom: '8px', fontWeight: 'var(--dsai-typography-font-weight-medium)' }}
             >
               Size: {size}px
             </label>
@@ -868,11 +868,11 @@ export const InteractiveDemo: Story = {
           <div style={{ flex: '1 1 200px' }}>
             <label
               htmlFor={colorId}
-              style={{ display: 'block', marginBottom: '8px', fontWeight: 'var(--sb-typography-font-weight-medium)' }}
+              style={{ display: 'block', marginBottom: '8px', fontWeight: 'var(--dsai-typography-font-weight-medium)' }}
             >
               Color
             </label>
-            <div style={{ display: 'flex', gap: 'var(--sb-spacing-2)', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: 'var(--dsai-spacing-2)', alignItems: 'center' }}>
               <input
                 id={colorId}
                 type="color"
@@ -889,7 +889,7 @@ export const InteractiveDemo: Story = {
           style={{
             padding: '1rem',
             backgroundColor: 'var(--bs-gray-100)',
-            borderRadius: 'var(--sb-border-radius-lg)',
+            borderRadius: 'var(--dsai-border-radius-lg)',
             fontFamily: 'monospace',
             fontSize: '14px',
           }}

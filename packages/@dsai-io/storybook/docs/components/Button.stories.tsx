@@ -16,7 +16,7 @@ import {
 } from '@dsai-io/react';
 import { useState } from 'react';
 
-import { backgroundWhite, themeLight, themeDark } from '../../src/generated/tokens';
+import { BackgroundWhite, ThemeLight, ThemeDark } from '../../src/generated/tokens';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { JSX } from 'react';
@@ -220,9 +220,9 @@ import { ArrowRightIcon } from '@dsai-io/react';
     backgrounds: {
       default: 'light',
       values: [
-        { name: 'light', value: backgroundWhite },
-        { name: 'dark', value: themeDark },
-        { name: 'gray', value: themeLight },
+        { name: 'light', value: BackgroundWhite },
+        { name: 'dark', value: ThemeDark },
+        { name: 'gray', value: ThemeLight },
       ],
     },
   },
@@ -820,7 +820,7 @@ export const FSMStatePriority: Story = {
           level={3}
           style={{
             fontSize: '0.875rem',
-            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            fontWeight: 'var(--dsai-typography-font-weight-bold)',
             marginBottom: '0.5rem',
           }}
         >
@@ -834,7 +834,7 @@ export const FSMStatePriority: Story = {
           level={3}
           style={{
             fontSize: '0.875rem',
-            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            fontWeight: 'var(--dsai-typography-font-weight-bold)',
             marginBottom: '0.5rem',
           }}
         >
@@ -853,7 +853,7 @@ export const FSMStatePriority: Story = {
           level={3}
           style={{
             fontSize: '0.875rem',
-            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            fontWeight: 'var(--dsai-typography-font-weight-bold)',
             marginBottom: '0.5rem',
           }}
         >
@@ -872,7 +872,7 @@ export const FSMStatePriority: Story = {
           level={3}
           style={{
             fontSize: '0.875rem',
-            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            fontWeight: 'var(--dsai-typography-font-weight-bold)',
             marginBottom: '0.5rem',
           }}
         >
@@ -891,7 +891,7 @@ export const FSMStatePriority: Story = {
           level={3}
           style={{
             fontSize: '0.875rem',
-            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            fontWeight: 'var(--dsai-typography-font-weight-bold)',
             marginBottom: '0.5rem',
           }}
         >
@@ -923,7 +923,7 @@ export const FSMInteractiveStates: Story = {
           level={3}
           style={{
             fontSize: '0.875rem',
-            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            fontWeight: 'var(--dsai-typography-font-weight-bold)',
             marginBottom: '0.5rem',
           }}
         >
@@ -1005,7 +1005,7 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
           level={3}
           style={{
             fontSize: '0.875rem',
-            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            fontWeight: 'var(--dsai-typography-font-weight-bold)',
             marginBottom: '1rem',
           }}
         >
@@ -1025,7 +1025,7 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
           level={3}
           style={{
             fontSize: '0.875rem',
-            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            fontWeight: 'var(--dsai-typography-font-weight-bold)',
             marginBottom: '1rem',
           }}
         >
@@ -1050,7 +1050,7 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
           level={3}
           style={{
             fontSize: '0.875rem',
-            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            fontWeight: 'var(--dsai-typography-font-weight-bold)',
             marginBottom: '1rem',
           }}
         >
@@ -1070,7 +1070,7 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
         style={{
           backgroundColor: 'var(--bs-gray-100)',
           padding: '1rem',
-          borderRadius: 'var(--sb-border-radius-sm)',
+          borderRadius: 'var(--dsai-border-radius-sm)',
         }}
       >
         <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', margin: 0 }}>
@@ -1116,7 +1116,7 @@ export const AccessibleIconOnlyButton: Story = {
           level={3}
           style={{
             fontSize: '0.875rem',
-            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            fontWeight: 'var(--dsai-typography-font-weight-bold)',
             marginBottom: '0.5rem',
           }}
         >
@@ -1146,7 +1146,7 @@ export const AccessibleIconOnlyButton: Story = {
           level={3}
           style={{
             fontSize: '0.875rem',
-            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            fontWeight: 'var(--dsai-typography-font-weight-bold)',
             marginBottom: '0.5rem',
           }}
         >
@@ -1188,7 +1188,7 @@ export const KeyboardNavigationDemo: Story = {
           level={3}
           style={{
             fontSize: '0.875rem',
-            fontWeight: 'var(--sb-typography-font-weight-bold)',
+            fontWeight: 'var(--dsai-typography-font-weight-bold)',
             marginBottom: '1rem',
           }}
         >
@@ -1211,7 +1211,7 @@ export const KeyboardNavigationDemo: Story = {
         style={{
           backgroundColor: 'var(--bs-info-bg-subtle)',
           padding: '1rem',
-          borderRadius: 'var(--sb-border-radius-sm)',
+          borderRadius: 'var(--dsai-border-radius-sm)',
           border: '1px solid var(--bs-info-border-subtle)',
         }}
       >

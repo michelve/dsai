@@ -1,27 +1,27 @@
 // Import tokens from locally generated files
 import {
   // Blue colors (primary brand - matches component theme)
-  colorBlue400,
-  colorBlue500,
-  colorBlue600,
+  ColorBlue_400,
+  ColorBlue_500,
+  ColorBlue_600,
   // Gray colors
-  colorGray50,
-  colorGray200,
-  colorGray300,
-  colorGray400,
-  colorGray600,
-  colorGray700,
-  colorGray800,
-  colorGray900,
+  ColorGray_50,
+  ColorGray_200,
+  ColorGray_300,
+  ColorGray_400,
+  ColorGray_600,
+  ColorGray_700,
+  ColorGray_800,
+  ColorGray_900,
   // Background colors
-  backgroundWhite,
+  BackgroundWhite,
   // Semantic colors
-  semanticBorderColor,
+  SemanticBorderColor,
   // Theme colors
-  themeDark,
+  ThemeDark,
   // Typography
-  typographyFontFamilyBase,
-  typographyFontFamilyMonospace,
+  TypographyFontfamilyBase,
+  TypographyFontfamilyMonospace,
 } from '../src/generated/tokens.js';
 import { create, type ThemeVars } from 'storybook/theming';
 
@@ -35,8 +35,8 @@ import { create, type ThemeVars } from 'storybook/theming';
  */
 
 // Get fonts from tokens
-const fontBase = typographyFontFamilyBase;
-const fontCode = typographyFontFamilyMonospace;
+const fontBase = TypographyFontfamilyBase;
+const fontCode = TypographyFontfamilyMonospace;
 
 /**
  * Light Theme
@@ -57,40 +57,40 @@ export const lightTheme: ThemeVars = create({
   fontCode,
 
   // Primary colors - Blue to match component theme
-  colorPrimary: colorBlue500,
-  colorSecondary: colorBlue600,
+  colorPrimary: ColorBlue_500,
+  colorSecondary: ColorBlue_600,
 
   // UI - Using semantic tokens
-  appBg: colorGray50,
-  appContentBg: backgroundWhite,
-  appPreviewBg: backgroundWhite,
-  appBorderColor: semanticBorderColor ?? colorGray200,
+  appBg: ColorGray_50,
+  appContentBg: BackgroundWhite,
+  appPreviewBg: BackgroundWhite,
+  appBorderColor: SemanticBorderColor ?? ColorGray_200,
   appBorderRadius: 4,
 
   // Text colors
-  textColor: colorGray900,
-  textInverseColor: backgroundWhite,
-  textMutedColor: colorGray700,
+  textColor: ColorGray_900,
+  textInverseColor: BackgroundWhite,
+  textMutedColor: ColorGray_700,
 
   // Toolbar colors
-  barTextColor: colorGray700,
-  barSelectedColor: colorBlue500,
-  barHoverColor: colorBlue600,
-  barBg: backgroundWhite,
+  barTextColor: ColorGray_700,
+  barSelectedColor: ColorBlue_500,
+  barHoverColor: ColorBlue_600,
+  barBg: BackgroundWhite,
 
   // Form colors
-  inputBg: backgroundWhite,
-  inputBorder: colorGray300,
-  inputTextColor: colorGray900,
+  inputBg: BackgroundWhite,
+  inputBorder: ColorGray_300,
+  inputTextColor: ColorGray_900,
   inputBorderRadius: 4,
 
   // Button colors
-  buttonBg: colorGray50,
-  buttonBorder: colorGray200,
+  buttonBg: ColorGray_50,
+  buttonBorder: ColorGray_200,
 
   // Boolean (toggle) colors
-  booleanBg: colorGray50,
-  booleanSelectedBg: colorBlue500,
+  booleanBg: ColorGray_50,
+  booleanSelectedBg: ColorBlue_500,
 });
 
 /**
@@ -112,40 +112,40 @@ export const darkTheme: ThemeVars = create({
   fontCode,
 
   // Primary colors - Blue 400 for better visibility on dark backgrounds
-  colorPrimary: colorBlue400,
-  colorSecondary: colorBlue500,
+  colorPrimary: ColorBlue_400,
+  colorSecondary: ColorBlue_500,
 
   // UI - Dark backgrounds
-  appBg: themeDark,
-  appContentBg: colorGray800,
-  appPreviewBg: colorGray800,
-  appBorderColor: colorGray700,
+  appBg: ThemeDark,
+  appContentBg: ColorGray_800,
+  appPreviewBg: ColorGray_800,
+  appBorderColor: ColorGray_700,
   appBorderRadius: 4,
 
   // Text colors - Light text for dark backgrounds
-  textColor: colorGray50,
-  textInverseColor: themeDark,
-  textMutedColor: colorGray400,
+  textColor: ColorGray_50,
+  textInverseColor: ThemeDark,
+  textMutedColor: ColorGray_400,
 
   // Toolbar colors
-  barTextColor: colorGray300,
-  barSelectedColor: colorBlue400,
-  barHoverColor: colorBlue500,
-  barBg: colorGray800,
+  barTextColor: ColorGray_300,
+  barSelectedColor: ColorBlue_400,
+  barHoverColor: ColorBlue_500,
+  barBg: ColorGray_800,
 
   // Form colors
-  inputBg: colorGray700,
-  inputBorder: colorGray600,
-  inputTextColor: colorGray50,
+  inputBg: ColorGray_700,
+  inputBorder: ColorGray_600,
+  inputTextColor: ColorGray_50,
   inputBorderRadius: 4,
 
   // Button colors
-  buttonBg: colorGray700,
-  buttonBorder: colorGray600,
+  buttonBg: ColorGray_700,
+  buttonBorder: ColorGray_600,
 
   // Boolean (toggle) colors
-  booleanBg: colorGray700,
-  booleanSelectedBg: colorBlue400,
+  booleanBg: ColorGray_700,
+  booleanSelectedBg: ColorBlue_400,
 });
 
 // Export light theme as default

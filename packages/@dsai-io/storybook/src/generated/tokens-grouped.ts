@@ -8,6 +8,7 @@ import * as flat from './tokens.js';
 // Type for Storybook compatibility (.value property)
 interface TokenValue {
   value: string;
+  cssVar: string;
 }
 
 // ============================================================================
@@ -81,6 +82,7 @@ function toKebabCase(name: string): string {
 }
 
 // Parse flat tokens into Maps
+// Token keys are PascalCase with underscores for numbers (e.g. ColorBlue_50, ThemePrimary)
 Object.entries(flat).forEach(([key, value]) => {
   if (typeof value !== 'string' && typeof value !== 'number') {
     return;
@@ -88,40 +90,56 @@ Object.entries(flat).forEach(([key, value]) => {
 
   const token: TokenValue = { value: String(value) };
 
-  if (key.startsWith('color')) {
-    // colorBlue50 -> color.blue['50']
-    const match = key.match(/^color([A-Z][a-z]+)(\d+)$/);
+  if (key.startsWith('Color')) {
+    // ColorBlue_50 -> color.blue['50']
+    const match = key.match(/^Color([A-Z][a-z]+)_(\d+)$/);
     if (match?.[1] && match[2]) {
       const hue = match[1].toLowerCase();
       const step = match[2];
+      token.cssVar = `--dsai-color-${hue}-${step}`;
       setNestedMapValue(colorMap, hue, step, token);
     }
-  } else if (key.startsWith('theme')) {
-    const name = key.replace('theme', '');
-    themeMap.set(toKebabCase(name), token);
-  } else if (key.startsWith('semantic')) {
-    const name = key.replace('semantic', '');
-    semanticMap.set(toKebabCase(name), token);
-  } else if (key.startsWith('neutral')) {
-    const name = key.replace('neutral', '');
-    neutralMap.set(toKebabCase(name), token);
-  } else if (key.startsWith('background')) {
-    const name = key.replace('background', '');
-    backgroundMap.set(toKebabCase(name), token);
-  } else if (key.startsWith('opacity')) {
-    const num = key.replace('opacity', '');
+  } else if (key.startsWith('Theme')) {
+    const name = key.replace('Theme', '');
+    const kebab = toKebabCase(name);
+    token.cssVar = `--dsai-theme-${kebab}`;
+    themeMap.set(kebab, token);
+  } else if (key.startsWith('Semantic')) {
+    const name = key.replace('Semantic', '');
+    const kebab = toKebabCase(name);
+    token.cssVar = `--dsai-semantic-${kebab}`;
+    semanticMap.set(kebab, token);
+  } else if (key.startsWith('Neutral')) {
+    const name = key.replace('Neutral', '');
+    const kebab = toKebabCase(name);
+    token.cssVar = `--dsai-neutral-${kebab}`;
+    neutralMap.set(kebab, token);
+  } else if (key.startsWith('Background')) {
+    const name = key.replace('Background', '');
+    const kebab = toKebabCase(name);
+    token.cssVar = `--dsai-background-${kebab}`;
+    backgroundMap.set(kebab, token);
+  } else if (key.startsWith('Opacity_')) {
+    const num = key.replace('Opacity_', '');
+    token.cssVar = `--dsai-opacity-${num}`;
     opacityMap.set(num, token);
-  } else if (key.startsWith('borderColor')) {
-    const name = key.replace('borderColor', '');
-    borderColorMap.set(toKebabCase(name), token);
-  } else if (key.startsWith('borderWidth')) {
-    const name = key.replace('borderWidth', '');
-    borderWidthMap.set(toKebabCase(name), token);
-  } else if (key.startsWith('typography')) {
-    const name = key.replace('typography', '');
-    typographyMap.set(toKebabCase(name), token);
-  } else if (key.startsWith('spacing')) {
-    const name = key.replace('spacing', '');
+  } else if (key.startsWith('BorderColor')) {
+    const name = key.replace('BorderColor', '');
+    const kebab = toKebabCase(name);
+    token.cssVar = `--dsai-border-color-${kebab}`;
+    borderColorMap.set(kebab, token);
+  } else if (key.startsWith('BorderWidth_')) {
+    const num = key.replace('BorderWidth_', '');
+    token.cssVar = `--dsai-border-width-${num}`;
+    borderWidthMap.set(num, token);
+  } else if (key.startsWith('Typography')) {
+    const name = key.replace('Typography', '');
+    const kebab = toKebabCase(name);
+    token.cssVar = `--dsai-typography-${kebab}`;
+    typographyMap.set(kebab, token);
+  } else if (key.startsWith('Spacing')) {
+    const name = key.replace('Spacing_', '');
+    token.cssVar = `--dsai-spacing-${name}`;
     spacingMap.set(name, token);
   }
 });

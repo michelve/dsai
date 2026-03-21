@@ -51,20 +51,20 @@ export const SpacingScale: Story = {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 'var(--sb-spacing-4)',
+                gap: 'var(--dsai-spacing-4)',
                 marginBottom: '16px',
-                padding: 'var(--sb-spacing-2)',
+                padding: 'var(--dsai-spacing-2)',
                 backgroundColor: 'var(--bs-gray-100)',
-                borderRadius: 'var(--sb-border-radius-lg)',
+                borderRadius: 'var(--dsai-border-radius-lg)',
               }}
             >
-              <div style={{ minWidth: '80px', fontWeight: 'var(--sb-typography-font-weight-semi-bold)' }}>spacing-{token}</div>
+              <div style={{ minWidth: '80px', fontWeight: 'var(--dsai-typography-font-weight-semi-bold)' }}>spacing-{token}</div>
               <div
                 style={{
                   width: value,
                   height: '32px',
                   backgroundColor: 'var(--bs-info)',
-                  borderRadius: 'var(--sb-border-radius-sm)',
+                  borderRadius: 'var(--dsai-border-radius-sm)',
                   border: '1px solid var(--bs-info-border-subtle)',
                 }}
               />
@@ -78,7 +78,7 @@ export const SpacingScale: Story = {
                   marginLeft: 'auto',
                   backgroundColor: 'var(--bs-white)',
                   padding: '4px 8px',
-                  borderRadius: 'var(--sb-border-radius-sm)',
+                  borderRadius: 'var(--dsai-border-radius-sm)',
                 }}
               >
                 var(--dsai-spacing-{token})
@@ -106,10 +106,10 @@ export const PaddingExamples: Story = {
     return (
       <div>
         <Heading level={2}>Padding Examples</Heading>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-3)', marginTop: '24px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-3)', marginTop: '24px' }}>
           {paddingExamples.map(({ name, token, value }) => (
             <div key={token}>
-              <div style={{ fontSize: '14px', fontWeight: 'var(--sb-typography-font-weight-semi-bold)', marginBottom: '8px' }}>
+              <div style={{ fontSize: '14px', fontWeight: 'var(--dsai-typography-font-weight-semi-bold)', marginBottom: '8px' }}>
                 {name} (spacing-{token}: {value})
               </div>
               <div
@@ -117,15 +117,15 @@ export const PaddingExamples: Story = {
                   padding: value,
                   backgroundColor: 'var(--bs-info-bg-subtle)',
                   border: '2px dashed var(--bs-info)',
-                  borderRadius: 'var(--sb-border-radius-lg)',
+                  borderRadius: 'var(--dsai-border-radius-lg)',
                 }}
               >
                 <div
                   style={{
                     backgroundColor: 'var(--bs-info)',
                     color: 'white',
-                    padding: 'var(--sb-spacing-2)',
-                    borderRadius: 'var(--sb-border-radius-sm)',
+                    padding: 'var(--dsai-spacing-2)',
+                    borderRadius: 'var(--dsai-border-radius-sm)',
                     textAlign: 'center',
                   }}
                 >
@@ -151,9 +151,9 @@ export const MarginExamples: Story = {
       <div
         style={{
           marginTop: '24px',
-          padding: 'var(--sb-spacing-4)',
+          padding: 'var(--dsai-spacing-4)',
           backgroundColor: 'var(--bs-gray-100)',
-          borderRadius: 'var(--sb-border-radius-lg)',
+          borderRadius: 'var(--dsai-border-radius-lg)',
         }}
       >
         <Heading level={3} noMargin>
@@ -166,9 +166,9 @@ export const MarginExamples: Story = {
         <div
           style={{
             marginTop: '16px',
-            padding: 'var(--sb-spacing-3)',
+            padding: 'var(--dsai-spacing-3)',
             backgroundColor: 'var(--bs-white)',
-            borderRadius: 'var(--sb-border-radius-lg)',
+            borderRadius: 'var(--dsai-border-radius-lg)',
             border: '1px solid var(--bs-border-color)',
           }}
         >
@@ -178,9 +178,9 @@ export const MarginExamples: Story = {
         <div
           style={{
             marginTop: '24px',
-            padding: 'var(--sb-spacing-3)',
+            padding: 'var(--dsai-spacing-3)',
             backgroundColor: 'var(--bs-white)',
-            borderRadius: 'var(--sb-border-radius-lg)',
+            borderRadius: 'var(--dsai-border-radius-lg)',
             border: '1px solid var(--bs-border-color)',
           }}
         >
@@ -190,9 +190,9 @@ export const MarginExamples: Story = {
         <div
           style={{
             marginTop: '32px',
-            padding: 'var(--sb-spacing-3)',
+            padding: 'var(--dsai-spacing-3)',
             backgroundColor: 'var(--bs-white)',
-            borderRadius: 'var(--sb-border-radius-lg)',
+            borderRadius: 'var(--dsai-border-radius-lg)',
             border: '1px solid var(--bs-border-color)',
           }}
         >
@@ -211,21 +211,21 @@ export const GapExamples: Story = {
     <div>
       <Heading level={2}>Gap Examples (Flexbox/Grid)</Heading>
       <p>Using spacing tokens for gap in flex and grid layouts.</p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-4)', marginTop: '24px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-4)', marginTop: '24px' }}>
         <div>
-          <div style={{ fontSize: '14px', fontWeight: 'var(--sb-typography-font-weight-semi-bold)', marginBottom: '8px' }}>
+          <div style={{ fontSize: '14px', fontWeight: 'var(--dsai-typography-font-weight-semi-bold)', marginBottom: '8px' }}>
             Gap: spacing-2 (8px)
           </div>
-          <div style={{ display: 'flex', gap: 'var(--sb-spacing-2)' }}>
+          <div style={{ display: 'flex', gap: 'var(--dsai-spacing-2)' }}>
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
                 style={{
                   flex: 1,
-                  padding: 'var(--sb-spacing-3)',
+                  padding: 'var(--dsai-spacing-3)',
                   backgroundColor: 'var(--bs-info)',
                   color: 'white',
-                  borderRadius: 'var(--sb-border-radius-lg)',
+                  borderRadius: 'var(--dsai-border-radius-lg)',
                   textAlign: 'center',
                 }}
               >
@@ -236,19 +236,19 @@ export const GapExamples: Story = {
         </div>
 
         <div>
-          <div style={{ fontSize: '14px', fontWeight: 'var(--sb-typography-font-weight-semi-bold)', marginBottom: '8px' }}>
+          <div style={{ fontSize: '14px', fontWeight: 'var(--dsai-typography-font-weight-semi-bold)', marginBottom: '8px' }}>
             Gap: spacing-4 (24px)
           </div>
-          <div style={{ display: 'flex', gap: 'var(--sb-spacing-4)' }}>
+          <div style={{ display: 'flex', gap: 'var(--dsai-spacing-4)' }}>
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
                 style={{
                   flex: 1,
-                  padding: 'var(--sb-spacing-3)',
+                  padding: 'var(--dsai-spacing-3)',
                   backgroundColor: 'var(--bs-success)',
                   color: 'white',
-                  borderRadius: 'var(--sb-border-radius-lg)',
+                  borderRadius: 'var(--dsai-border-radius-lg)',
                   textAlign: 'center',
                 }}
               >
@@ -259,18 +259,18 @@ export const GapExamples: Story = {
         </div>
 
         <div>
-          <div style={{ fontSize: '14px', fontWeight: 'var(--sb-typography-font-weight-semi-bold)', marginBottom: '8px' }}>
+          <div style={{ fontSize: '14px', fontWeight: 'var(--dsai-typography-font-weight-semi-bold)', marginBottom: '8px' }}>
             Gap: spacing-6 (48px)
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--sb-spacing-5)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--dsai-spacing-5)' }}>
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
                 style={{
-                  padding: 'var(--sb-spacing-4)',
+                  padding: 'var(--dsai-spacing-4)',
                   backgroundColor: 'var(--bs-primary)',
                   color: 'white',
-                  borderRadius: 'var(--sb-border-radius-lg)',
+                  borderRadius: 'var(--dsai-border-radius-lg)',
                   textAlign: 'center',
                 }}
               >
@@ -296,8 +296,8 @@ export const Usage: Story = {
       <pre
         style={{
           backgroundColor: 'var(--bs-gray-100)',
-          padding: 'var(--sb-spacing-3)',
-          borderRadius: 'var(--sb-border-radius-lg)',
+          padding: 'var(--dsai-spacing-3)',
+          borderRadius: 'var(--dsai-border-radius-lg)',
           overflow: 'auto',
         }}
       >
@@ -317,8 +317,8 @@ export const Usage: Story = {
       <pre
         style={{
           backgroundColor: 'var(--bs-gray-100)',
-          padding: 'var(--sb-spacing-3)',
-          borderRadius: 'var(--sb-border-radius-lg)',
+          padding: 'var(--dsai-spacing-3)',
+          borderRadius: 'var(--dsai-border-radius-lg)',
           overflow: 'auto',
         }}
       >

@@ -54,7 +54,7 @@ export default {
           destination: 'tokens.css',
           format: 'css/variables-with-comments',
           options: {
-            prefix: '--sb-',
+            prefix: '--dsai-',
             outputReferences: true,
           },
         },
@@ -80,7 +80,7 @@ export default {
 
     // JavaScript/ES6
     js: {
-      transformGroup: 'custom/js',
+      transformGroup: 'js-custom',
       buildPath: 'src/generated/',
       files: [
         {
@@ -95,7 +95,7 @@ export default {
 
     // TypeScript
     ts: {
-      transformGroup: 'custom/js',
+      transformGroup: 'js-custom',
       buildPath: 'src/generated/',
       files: [
         {
@@ -110,7 +110,7 @@ export default {
 
     // JSON (flat)
     json: {
-      transformGroup: 'custom/js',
+      transformGroup: 'js-custom',
       buildPath: 'src/generated/',
       files: [
         {

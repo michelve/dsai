@@ -1,5 +1,5 @@
 import { Display, Heading, Text } from '@dsai-io/react';
-import { backgroundWhite, themeLight, themeDark } from '../../src/generated/tokens';
+import { BackgroundWhite, ThemeLight, ThemeDark } from '../../src/generated/tokens';
 import tokens from '../../src/generated/tokens-grouped';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -17,9 +17,9 @@ const meta: Meta = {
     backgrounds: {
       default: 'light',
       values: [
-        { name: 'light', value: backgroundWhite },
-        { name: 'dark', value: themeDark },
-        { name: 'gray', value: themeLight },
+        { name: 'light', value: BackgroundWhite },
+        { name: 'dark', value: ThemeDark },
+        { name: 'gray', value: ThemeLight },
       ],
     },
     // Enable viewport testing for responsive typography
@@ -37,7 +37,7 @@ type Story = StoryObj;
  */
 export const FontFamilies: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-4)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-4)' }}>
       <div>
         <Heading level={3} noMargin>
           Base Font (Inter)
@@ -93,10 +93,10 @@ export const FontSizes: Story = {
     ];
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-3)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-3)' }}>
         <Heading level={2}>Font Size Scale</Heading>
         {sizes.map(({ name, token, size }) => (
-          <div key={token} style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--sb-spacing-3)' }}>
+          <div key={token} style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--dsai-spacing-3)' }}>
             <Text as="span" color="muted" style={{ minWidth: '120px' }}>
               {name}
             </Text>
@@ -164,7 +164,7 @@ export const DisplayTypography: Story = {
     ];
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-4)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-4)' }}>
         <div>
           <Heading level={2}>Display Typography Scale</Heading>
           <Text color="muted" style={{ marginTop: '8px' }}>
@@ -179,7 +179,7 @@ export const DisplayTypography: Story = {
           >
             <div style={{ marginBottom: '16px' }}>
               <div
-                style={{ display: 'flex', alignItems: 'center', gap: 'var(--sb-spacing-2)', marginBottom: '4px' }}
+                style={{ display: 'flex', alignItems: 'center', gap: 'var(--dsai-spacing-2)', marginBottom: '4px' }}
               >
                 <Text as="span" weight="semibold">
                   {name}
@@ -213,8 +213,8 @@ export const DisplayTypography: Story = {
         <div
           style={{
             backgroundColor: 'var(--bs-info-bg-subtle)',
-            padding: 'var(--sb-spacing-3)',
-            borderRadius: 'var(--sb-border-radius-lg)',
+            padding: 'var(--dsai-spacing-3)',
+            borderRadius: 'var(--dsai-border-radius-lg)',
             borderLeft: '4px solid var(--bs-info)',
             marginTop: '24px',
           }}
@@ -250,7 +250,7 @@ export const Headings: Story = {
     ];
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-4)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-4)' }}>
         <Heading level={2}>Heading Scale</Heading>
         {headings.map(({ level, size, weight }) => (
           <div key={level}>
@@ -280,10 +280,10 @@ export const FontWeights: Story = {
     ];
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-3)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-3)' }}>
         <Heading level={2}>Font Weights</Heading>
         {weights.map(({ name, value }) => (
-          <div key={value} style={{ display: 'flex', alignItems: 'center', gap: 'var(--sb-spacing-4)' }}>
+          <div key={value} style={{ display: 'flex', alignItems: 'center', gap: 'var(--dsai-spacing-4)' }}>
             <Text as="span" color="muted" style={{ minWidth: '120px' }}>
               {name}
             </Text>
@@ -313,12 +313,12 @@ export const LineHeights: Story = {
     ];
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sb-spacing-4)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-4)' }}>
         <Heading level={2}>Line Height Scale</Heading>
         {lineHeights.map(({ name, value, description }) => (
           <div key={value}>
             <div
-              style={{ display: 'flex', alignItems: 'center', gap: 'var(--sb-spacing-3)', marginBottom: '8px' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 'var(--dsai-spacing-3)', marginBottom: '8px' }}
             >
               <Text as="span" weight="bold">
                 {name}
@@ -335,8 +335,8 @@ export const LineHeights: Story = {
               style={{
                 lineHeight: value,
                 backgroundColor: 'var(--bs-gray-100)',
-                padding: 'var(--sb-spacing-3)',
-                borderRadius: 'var(--sb-border-radius-lg)',
+                padding: 'var(--dsai-spacing-3)',
+                borderRadius: 'var(--dsai-border-radius-lg)',
               }}
             >
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor

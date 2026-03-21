@@ -1,4 +1,4 @@
-import { backgroundWhite, colorGray50, themeDark } from '../src/generated/tokens.js';
+import { BackgroundWhite, ColorGray_50, ThemeDark } from '../src/generated/tokens.js';
 import React from 'react';
 
 import { lightTheme } from './DSAiTheme';
@@ -9,6 +9,10 @@ import type { Preview } from '@storybook/react-vite';
 // Load Bootstrap theme (customized with DSAi tokens) as the primary framework
 // Generated locally via: pnpm styles:all
 import '../src/generated/dsai-theme-bs.css';
+
+// Design tokens as CSS custom properties (--dsai-* variables)
+// Provides spacing, border-radius, typography, and color tokens
+import '../src/generated/tokens.css';
 
 // Dark mode token overrides (scoped to [data-bs-theme="dark"])
 // These CSS custom properties are applied when dark mode is active
@@ -72,11 +76,11 @@ const preview: Preview = {
       options: {
         light: {
           name: 'Light',
-          value: backgroundWhite,
+          value: BackgroundWhite,
         },
         dark: {
           name: 'Dark',
-          value: themeDark,
+          value: ThemeDark,
         },
       },
     },
@@ -120,11 +124,11 @@ const preview: Preview = {
 
           // Apply background color based on theme for the Storybook canvas
           if (theme === 'dark') {
-            document.body.style.backgroundColor = themeDark;
-            document.body.style.color = colorGray50;
+            document.body.style.backgroundColor = ThemeDark;
+            document.body.style.color = ColorGray_50;
           } else {
-            document.body.style.backgroundColor = backgroundWhite;
-            document.body.style.color = themeDark;
+            document.body.style.backgroundColor = BackgroundWhite;
+            document.body.style.color = ThemeDark;
           }
         }, []);
 
@@ -133,8 +137,8 @@ const preview: Preview = {
           {
             'data-dsai-theme': theme,
             style: {
-              backgroundColor: theme === 'dark' ? themeDark : backgroundWhite,
-              color: theme === 'dark' ? colorGray50 : themeDark,
+              backgroundColor: theme === 'dark' ? ThemeDark : BackgroundWhite,
+              color: theme === 'dark' ? ColorGray_50 : ThemeDark,
               minHeight: '100%',
               padding: '1rem',
             },
