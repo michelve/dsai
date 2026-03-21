@@ -5,6 +5,8 @@
  */
 
 export { Avatar } from './Avatar';
+export { AvatarGroup } from './AvatarGroup';
+export { AvatarContext, useAvatarContext } from './AvatarContext';
 export {
   AVATAR_FONT_SIZE_MAP,
   AVATAR_HASH_COLORS,
@@ -15,14 +17,19 @@ export {
   AVATAR_TONE_MAP,
 } from './Avatar.types';
 export type {
+  AvatarBadgeProps,
+  AvatarContextValue,
+  AvatarFallbackProps,
   AvatarGroupLayout,
   AvatarGroupProps,
   AvatarGroupSpacing,
+  AvatarImageProps,
+  AvatarImageStatus,
   AvatarProps,
   AvatarShape,
   AvatarSize,
   AvatarStatus,
   AvatarStatusPosition,
+  AvatarStatusProps,
   AvatarTone,
 } from './Avatar.types';
-export { AvatarGroup } from './AvatarGroup';
