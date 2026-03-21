@@ -19,65 +19,8 @@ import { Children, cloneElement, forwardRef, isValidElement, memo, useMemo } fro
 
 import { cn } from '../../utils';
 
-import {
-  AVATAR_GROUP_GAP_MAP,
-  AVATAR_GROUP_OVERLAP_MAP,
-  AVATAR_SIZE_MAP,
-  type AvatarGroupProps,
-  type AvatarGroupSpacing,
-  type AvatarSize,
-} from './Avatar.types';
-
-// =============================================================================
-// Spacing Constants
-// =============================================================================
-
-function resolveAvatarSize(size: AvatarSize): string {
-  switch (size) {
-    case 'xs':
-      return AVATAR_SIZE_MAP.xs;
-    case 'sm':
-      return AVATAR_SIZE_MAP.sm;
-    case 'md':
-      return AVATAR_SIZE_MAP.md;
-    case 'lg':
-      return AVATAR_SIZE_MAP.lg;
-    case 'xl':
-      return AVATAR_SIZE_MAP.xl;
-    case '2xl':
-      return AVATAR_SIZE_MAP['2xl'];
-    case 'xxl':
-      return AVATAR_SIZE_MAP.xxl;
-    default:
-      return AVATAR_SIZE_MAP.md;
-  }
-}
-
-function resolveOverlap(spacing: AvatarGroupSpacing): string {
-  switch (spacing) {
-    case 'compact':
-      return AVATAR_GROUP_OVERLAP_MAP.compact;
-    case 'normal':
-      return AVATAR_GROUP_OVERLAP_MAP.normal;
-    case 'loose':
-      return AVATAR_GROUP_OVERLAP_MAP.loose;
-    default:
-      return AVATAR_GROUP_OVERLAP_MAP.normal;
-  }
-}
-
-function resolveInlineGap(spacing: AvatarGroupSpacing): string {
-  switch (spacing) {
-    case 'compact':
-      return AVATAR_GROUP_GAP_MAP.compact;
-    case 'normal':
-      return AVATAR_GROUP_GAP_MAP.normal;
-    case 'loose':
-      return AVATAR_GROUP_GAP_MAP.loose;
-    default:
-      return AVATAR_GROUP_GAP_MAP.normal;
-  }
-}
+import { getSizeValue, resolveOverlap, resolveInlineGap } from './avatarUtils';
+import type { AvatarGroupProps, AvatarGroupSpacing, AvatarSize } from './Avatar.types';
 
 // =============================================================================
 // Utility Functions
@@ -184,7 +127,7 @@ export const AvatarGroup = memo(
     }, [overflowLabel, hiddenNames, hiddenCount]);
 
     // Calculate sizing - safe object access with validated enum types
-    const avatarSize = resolveAvatarSize(size);
+    const avatarSize = getSizeValue(size);
     const overlap = layout === 'stacked' ? resolveOverlap(spacing) : '0';
     const marginLeft = layout === 'stacked' ? `calc(${avatarSize} * -1 * ${overlap})` : '0';
     const gap = layout === 'inline' ? resolveInlineGap(spacing) : '0';
