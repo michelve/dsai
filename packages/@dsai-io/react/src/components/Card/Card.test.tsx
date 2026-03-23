@@ -454,6 +454,24 @@ describe('Card', () => {
       });
     });
 
+    describe('CardText polymorphic', () => {
+      it('renders as span when as="span"', () => {
+        const { container } = render(<CardText as="span">Text</CardText>);
+        expect(container.querySelector('span')).toHaveClass('card-text');
+        expect(container.querySelector('p')).toBeNull();
+      });
+
+      it('renders as small when as="small"', () => {
+        const { container } = render(<CardText as="small">Text</CardText>);
+        expect(container.querySelector('small')).toHaveClass('card-text');
+      });
+
+      it('renders as p by default', () => {
+        const { container } = render(<CardText>Text</CardText>);
+        expect(container.querySelector('p')).toHaveClass('card-text');
+      });
+    });
+
     describe('CardLink', () => {
       it('renders link', () => {
         render(
@@ -467,6 +485,23 @@ describe('Card', () => {
         const link = screen.getByRole('link', { name: 'Link' });
         expect(link).toHaveAttribute('href', '/test');
         expect(link).toHaveClass('card-link');
+      });
+    });
+
+    describe('CardLink target prop', () => {
+      it('accepts target="_blank"', () => {
+        render(<CardLink href="/test" target="_blank">Link</CardLink>);
+        expect(screen.getByRole('link')).toHaveAttribute('target', '_blank');
+      });
+
+      it('adds rel="noopener noreferrer" for internal links with target="_blank"', () => {
+        render(<CardLink href="/internal" target="_blank">Link</CardLink>);
+        expect(screen.getByRole('link')).toHaveAttribute('rel', 'noopener noreferrer');
+      });
+
+      it('preserves explicit rel when provided', () => {
+        render(<CardLink href="https://example.com" rel="noopener">Link</CardLink>);
+        expect(screen.getByRole('link')).toHaveAttribute('rel', 'noopener');
       });
     });
 

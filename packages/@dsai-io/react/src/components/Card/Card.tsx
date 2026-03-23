@@ -225,8 +225,8 @@ CardSubtitle.displayName = 'CardSubtitle';
 /**
  * CardText component - card text paragraph
  */
-const CardTextComponent = forwardRef<HTMLParagraphElement, CardTextProps>(function CardText(
-  { children, muted = false, className = '', style, dangerouslySetInnerHTML: _dSIH, ...rest },
+const CardTextComponent = forwardRef<HTMLElement, CardTextProps>(function CardText(
+  { children, muted = false, as: Component = 'p', className = '', style, dangerouslySetInnerHTML: _dSIH, ...rest },
   ref
 ) {
   const classes = useMemo(
@@ -235,9 +235,9 @@ const CardTextComponent = forwardRef<HTMLParagraphElement, CardTextProps>(functi
   );
 
   return (
-    <p ref={ref} {...rest} className={classes} style={style}>
+    <Component ref={ref} {...rest} className={classes} style={style}>
       {children}
-    </p>
+    </Component>
   );
 });
 
@@ -253,18 +253,16 @@ CardText.displayName = 'CardText';
  * CardLink component - card link
  */
 const CardLinkComponent = forwardRef<HTMLAnchorElement, CardLinkProps>(function CardLink(
-  { children, href, className = '', style, dangerouslySetInnerHTML: _dSIH, ...rest },
+  { children, href, className = '', style, target, rel, dangerouslySetInnerHTML: _dSIH, ...rest },
   ref
 ) {
-  // Validate href for security
   const safeHref = isSafeHref(href) ? href : '#';
   const isExternal = isExternalUrl(safeHref);
-  const relAttribute = isExternal ? 'noopener noreferrer' : undefined;
-
+  const computedRel = rel ?? (isExternal || target === '_blank' ? 'noopener noreferrer' : undefined);
   const classes = useMemo(() => cn('card-link', className), [className]);
 
   return (
-    <a ref={ref} {...rest} href={safeHref} className={classes} style={style} rel={relAttribute}>
+    <a ref={ref} {...rest} href={safeHref} className={classes} style={style} target={target} rel={computedRel}>
       {children}
     </a>
   );
