@@ -45,13 +45,13 @@ import type {
  * CardHeader component - card header section
  */
 const CardHeaderComponent = forwardRef<HTMLDivElement, CardHeaderProps>(function CardHeader(
-  { children, className = '', style },
+  { children, className = '', style, dangerouslySetInnerHTML: _dSIH, ...rest },
   ref
 ) {
   const classes = useMemo(() => cn('card-header', className), [className]);
 
   return (
-    <div ref={ref} className={classes} style={style}>
+    <div ref={ref} {...rest} className={classes} style={style}>
       {children}
     </div>
   );
@@ -69,13 +69,13 @@ CardHeader.displayName = 'CardHeader';
  * CardBody component - card body section
  */
 const CardBodyComponent = forwardRef<HTMLDivElement, CardBodyProps>(function CardBody(
-  { children, className = '', style },
+  { children, className = '', style, dangerouslySetInnerHTML: _dSIH, ...rest },
   ref
 ) {
   const classes = useMemo(() => cn('card-body', className), [className]);
 
   return (
-    <div ref={ref} className={classes} style={style}>
+    <div ref={ref} {...rest} className={classes} style={style}>
       {children}
     </div>
   );
@@ -93,13 +93,13 @@ CardBody.displayName = 'CardBody';
  * CardFooter component - card footer section
  */
 const CardFooterComponent = forwardRef<HTMLDivElement, CardFooterProps>(function CardFooter(
-  { children, className = '', style },
+  { children, className = '', style, dangerouslySetInnerHTML: _dSIH, ...rest },
   ref
 ) {
   const classes = useMemo(() => cn('card-footer', className), [className]);
 
   return (
-    <div ref={ref} className={classes} style={style}>
+    <div ref={ref} {...rest} className={classes} style={style}>
       {children}
     </div>
   );
@@ -117,7 +117,17 @@ CardFooter.displayName = 'CardFooter';
  * CardImage component - card image
  */
 const CardImageComponent = forwardRef<HTMLImageElement, CardImageProps>(function CardImage(
-  { src, alt, position = 'top', height, className = '', style, loading = 'lazy' },
+  {
+    src,
+    alt,
+    position = 'top',
+    height,
+    className = '',
+    style,
+    loading = 'lazy',
+    dangerouslySetInnerHTML: _dSIH,
+    ...rest
+  },
   ref
 ) {
   const positionClass = useMemo(() => {
@@ -139,7 +149,15 @@ const CardImageComponent = forwardRef<HTMLImageElement, CardImageProps>(function
   }, [style, height]);
 
   return (
-    <img ref={ref} src={src} alt={alt} className={classes} style={imgStyle} loading={loading} />
+    <img
+      ref={ref}
+      {...rest}
+      src={src}
+      alt={alt}
+      className={classes}
+      style={imgStyle}
+      loading={loading}
+    />
   );
 });
 
@@ -155,13 +173,13 @@ CardImage.displayName = 'CardImage';
  * CardTitle component - card title heading
  */
 const CardTitleComponent = forwardRef<HTMLHeadingElement, CardTitleProps>(function CardTitle(
-  { children, as: Component = 'h5', className = '', style },
+  { children, as: Component = 'h5', className = '', style, dangerouslySetInnerHTML: _dSIH, ...rest },
   ref
 ) {
   const classes = useMemo(() => cn('card-title', className), [className]);
 
   return (
-    <Component ref={ref} className={classes} style={style}>
+    <Component ref={ref} {...rest} className={classes} style={style}>
       {children}
     </Component>
   );
@@ -179,7 +197,7 @@ CardTitle.displayName = 'CardTitle';
  * CardText component - card text paragraph
  */
 const CardTextComponent = forwardRef<HTMLParagraphElement, CardTextProps>(function CardText(
-  { children, muted = false, className = '', style },
+  { children, muted = false, className = '', style, dangerouslySetInnerHTML: _dSIH, ...rest },
   ref
 ) {
   const classes = useMemo(
@@ -188,7 +206,7 @@ const CardTextComponent = forwardRef<HTMLParagraphElement, CardTextProps>(functi
   );
 
   return (
-    <p ref={ref} className={classes} style={style}>
+    <p ref={ref} {...rest} className={classes} style={style}>
       {children}
     </p>
   );
@@ -206,7 +224,7 @@ CardText.displayName = 'CardText';
  * CardLink component - card link
  */
 const CardLinkComponent = forwardRef<HTMLAnchorElement, CardLinkProps>(function CardLink(
-  { children, href, className = '', style },
+  { children, href, className = '', style, dangerouslySetInnerHTML: _dSIH, ...rest },
   ref
 ) {
   // Validate href for security
@@ -217,7 +235,7 @@ const CardLinkComponent = forwardRef<HTMLAnchorElement, CardLinkProps>(function 
   const classes = useMemo(() => cn('card-link', className), [className]);
 
   return (
-    <a ref={ref} href={safeHref} className={classes} style={style} rel={relAttribute}>
+    <a ref={ref} {...rest} href={safeHref} className={classes} style={style} rel={relAttribute}>
       {children}
     </a>
   );
@@ -235,11 +253,14 @@ CardLink.displayName = 'CardLink';
  * CardImgOverlay component - overlay content on card image
  */
 const CardImgOverlayComponent = forwardRef<HTMLDivElement, CardImgOverlayProps>(
-  function CardImgOverlay({ children, className = '', style }, ref) {
+  function CardImgOverlay(
+    { children, className = '', style, dangerouslySetInnerHTML: _dSIH, ...rest },
+    ref
+  ) {
     const classes = useMemo(() => cn('card-img-overlay', className), [className]);
 
     return (
-      <div ref={ref} className={classes} style={style}>
+      <div ref={ref} {...rest} className={classes} style={style}>
         {children}
       </div>
     );
@@ -290,6 +311,7 @@ export const Card = memo(
       children,
       variant = 'elevated',
       color,
+      size,
       horizontal = false,
       interactive = false,
       href,
@@ -297,9 +319,8 @@ export const Card = memo(
       linkAs: LinkComponent,
       className = '',
       style,
-      id,
-      'aria-label': ariaLabel,
-      'aria-labelledby': ariaLabelledBy,
+      dangerouslySetInnerHTML: _dSIH,
+      ...rest
     },
     ref
   ) {
@@ -355,18 +376,6 @@ export const Card = memo(
     const isExternal = isExternalUrl(safeHref);
     const relAttribute = isExternal ? 'noopener noreferrer' : undefined;
 
-    // Common props with memoization
-    const commonProps = useMemo(
-      () => ({
-        className: cardClasses,
-        style: interactiveStyle,
-        id,
-        'aria-label': ariaLabel,
-        'aria-labelledby': ariaLabelledBy,
-      }),
-      [cardClasses, interactiveStyle, id, ariaLabel, ariaLabelledBy]
-    );
-
     // Render as link
     if (safeHref) {
       if (LinkComponent) {
@@ -374,7 +383,8 @@ export const Card = memo(
           <LinkComponent
             ref={ref}
             href={safeHref}
-            {...commonProps}
+            {...rest}
+            className={cardClasses}
             style={{ ...interactiveStyle, textDecoration: 'none', color: 'inherit' }}
             rel={relAttribute}
           >
@@ -387,7 +397,8 @@ export const Card = memo(
         <a
           ref={ref as React.Ref<HTMLAnchorElement>}
           href={safeHref}
-          {...commonProps}
+          {...rest}
+          className={cardClasses}
           style={{ ...interactiveStyle, textDecoration: 'none', color: 'inherit' }}
           rel={relAttribute}
         >
@@ -402,7 +413,9 @@ export const Card = memo(
         <button
           ref={ref as React.Ref<HTMLButtonElement>}
           type="button"
-          {...commonProps}
+          {...rest}
+          className={cardClasses}
+          style={interactiveStyle}
           onClick={handleClick}
           onKeyDown={handleKeyDown}
         >
@@ -413,7 +426,7 @@ export const Card = memo(
 
     // Render as article (default)
     return (
-      <article ref={ref as React.Ref<HTMLElement>} {...commonProps}>
+      <article ref={ref as React.Ref<HTMLElement>} {...rest} className={cardClasses} style={interactiveStyle}>
         {children}
       </article>
     );

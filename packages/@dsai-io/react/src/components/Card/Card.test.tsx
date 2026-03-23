@@ -591,6 +591,64 @@ describe('Card', () => {
   });
 
   // ===========================================================================
+  // Rest Props Spreading
+  // ===========================================================================
+  describe('Rest Props Spreading', () => {
+    it('Card passes rest props to root element', () => {
+      render(
+        <Card data-testid="my-card">
+          <CardBody>Content</CardBody>
+        </Card>
+      );
+      expect(screen.getByTestId('my-card')).toBeInTheDocument();
+    });
+
+    it('CardHeader passes rest props', () => {
+      render(<CardHeader data-testid="hdr">Header</CardHeader>);
+      expect(screen.getByTestId('hdr')).toBeInTheDocument();
+    });
+
+    it('CardBody passes rest props', () => {
+      render(<CardBody data-testid="body">Body</CardBody>);
+      expect(screen.getByTestId('body')).toBeInTheDocument();
+    });
+
+    it('CardFooter passes rest props', () => {
+      render(<CardFooter data-testid="ftr">Footer</CardFooter>);
+      expect(screen.getByTestId('ftr')).toBeInTheDocument();
+    });
+
+    it('CardImage passes rest props', () => {
+      render(<CardImage src="test.jpg" alt="Test" data-testid="img" />);
+      expect(screen.getByTestId('img')).toBeInTheDocument();
+    });
+
+    it('CardTitle passes rest props', () => {
+      render(<CardTitle data-testid="title">Title</CardTitle>);
+      expect(screen.getByTestId('title')).toBeInTheDocument();
+    });
+
+    it('CardText passes rest props', () => {
+      render(<CardText data-testid="text">Text</CardText>);
+      expect(screen.getByTestId('text')).toBeInTheDocument();
+    });
+
+    it('CardLink passes rest props', () => {
+      render(
+        <CardLink href="/x" data-testid="link">
+          Link
+        </CardLink>
+      );
+      expect(screen.getByTestId('link')).toBeInTheDocument();
+    });
+
+    it('CardImgOverlay passes rest props', () => {
+      render(<CardImgOverlay data-testid="overlay">Overlay</CardImgOverlay>);
+      expect(screen.getByTestId('overlay')).toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
   // Display Names
   // ===========================================================================
   describe('Display Names', () => {

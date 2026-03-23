@@ -1,5 +1,5 @@
 import type { SemanticColorVariant } from '../../types';
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 /**
  * Card variant styling
@@ -13,9 +13,14 @@ export type CardVariant = 'elevated' | 'outlined' | 'ghost';
 export type CardColor = SemanticColorVariant;
 
 /**
+ * Card size
+ */
+export type CardSize = 'sm' | 'md' | 'lg';
+
+/**
  * Card container props
  */
-export interface CardProps {
+export interface CardProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onClick'> {
   /**
    * Card content
    */
@@ -31,6 +36,11 @@ export interface CardProps {
    * Background color variant
    */
   color?: CardColor;
+
+  /**
+   * Card size
+   */
+  size?: CardSize;
 
   /**
    * Horizontal layout (image on side)
@@ -50,7 +60,9 @@ export interface CardProps {
   href?: string;
 
   /**
-   * Click handler for interactive cards
+   * Click handler for interactive cards.
+   * Intentionally () => void, not MouseEventHandler — Card onClick is a semantic action,
+   * not a DOM mouse event. Omitted from HTMLAttributes to avoid type conflict.
    */
   onClick?: () => void;
 
@@ -58,97 +70,42 @@ export interface CardProps {
    * Custom link component (for router integration)
    */
   linkAs?: React.ElementType;
-
-  /**
-   * Additional CSS class names
-   */
-  className?: string;
-
-  /**
-   * Inline styles
-   */
-  style?: CSSProperties;
-
-  /**
-   * ID attribute
-   */
-  id?: string;
-
-  /**
-   * Accessible label
-   */
-  'aria-label'?: string;
-
-  /**
-   * ID of element that labels this card
-   */
-  'aria-labelledby'?: string;
 }
 
 /**
  * CardHeader props
  */
-export interface CardHeaderProps {
+export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Header content
    */
   children: ReactNode;
-
-  /**
-   * Additional CSS class names
-   */
-  className?: string;
-
-  /**
-   * Inline styles
-   */
-  style?: CSSProperties;
 }
 
 /**
  * CardBody props
  */
-export interface CardBodyProps {
+export interface CardBodyProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Body content
    */
   children: ReactNode;
-
-  /**
-   * Additional CSS class names
-   */
-  className?: string;
-
-  /**
-   * Inline styles
-   */
-  style?: CSSProperties;
 }
 
 /**
  * CardFooter props
  */
-export interface CardFooterProps {
+export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Footer content
    */
   children: ReactNode;
-
-  /**
-   * Additional CSS class names
-   */
-  className?: string;
-
-  /**
-   * Inline styles
-   */
-  style?: CSSProperties;
 }
 
 /**
  * CardImage props
  */
-export interface CardImageProps {
+export interface CardImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'height'> {
   /**
    * Image source URL
    */
@@ -169,28 +126,12 @@ export interface CardImageProps {
    * Image height
    */
   height?: string | number;
-
-  /**
-   * Additional CSS class names
-   */
-  className?: string;
-
-  /**
-   * Inline styles
-   */
-  style?: CSSProperties;
-
-  /**
-   * Loading strategy
-   * @default 'lazy'
-   */
-  loading?: 'lazy' | 'eager';
 }
 
 /**
  * CardTitle props
  */
-export interface CardTitleProps {
+export interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
   /**
    * Title content
    */
@@ -201,22 +142,12 @@ export interface CardTitleProps {
    * @default 'h5'
    */
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-
-  /**
-   * Additional CSS class names
-   */
-  className?: string;
-
-  /**
-   * Inline styles
-   */
-  style?: CSSProperties;
 }
 
 /**
  * CardText props
  */
-export interface CardTextProps {
+export interface CardTextProps extends React.HTMLAttributes<HTMLElement> {
   /**
    * Text content
    */
@@ -229,20 +160,16 @@ export interface CardTextProps {
   muted?: boolean;
 
   /**
-   * Additional CSS class names
+   * Element type to render as
+   * @default 'p'
    */
-  className?: string;
-
-  /**
-   * Inline styles
-   */
-  style?: CSSProperties;
+  as?: 'p' | 'span' | 'small' | 'div';
 }
 
 /**
  * CardLink props
  */
-export interface CardLinkProps {
+export interface CardLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   /**
    * Link content
    */
@@ -252,34 +179,14 @@ export interface CardLinkProps {
    * Link URL
    */
   href: string;
-
-  /**
-   * Additional CSS class names
-   */
-  className?: string;
-
-  /**
-   * Inline styles
-   */
-  style?: CSSProperties;
 }
 
 /**
  * CardImgOverlay props
  */
-export interface CardImgOverlayProps {
+export interface CardImgOverlayProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Overlay content
    */
   children: ReactNode;
-
-  /**
-   * Additional CSS class names
-   */
-  className?: string;
-
-  /**
-   * Inline styles
-   */
-  style?: CSSProperties;
 }
