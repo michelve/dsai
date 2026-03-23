@@ -7,6 +7,7 @@ import {
   CardImage,
   CardImgOverlay,
   CardLink,
+  CardSubtitle,
   CardText,
   CardTitle,
   Heading,
@@ -77,6 +78,15 @@ const meta: Meta<typeof Card> = {
       description: 'Background color variant',
       table: {
         type: { summary: 'CardColor' },
+      },
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Card size',
+      table: {
+        type: { summary: "'sm' | 'md' | 'lg'" },
+        defaultValue: { summary: 'md' },
       },
     },
     horizontal: {
@@ -550,6 +560,86 @@ export const PerformanceMemoization: Story = {
 };
 
 // =============================================================================
+// Size Variants
+// =============================================================================
+
+/**
+ * Card size variants
+ */
+export const Sizes: Story = {
+  render: () => (
+    <div className="d-flex gap-3 flex-wrap">
+      {(['sm', 'md', 'lg'] as const).map((size) => (
+        <Card key={size} size={size} style={{ width: '16rem' }}>
+          <CardBody>
+            <CardTitle>Size: {size}</CardTitle>
+            <CardText>Card with {size} sizing</CardText>
+          </CardBody>
+        </Card>
+      ))}
+    </div>
+  ),
+};
+
+// =============================================================================
+// Subtitle
+// =============================================================================
+
+/**
+ * Card with subtitle
+ */
+export const WithSubtitle: Story = {
+  render: () => (
+    <Card style={{ width: '18rem' }}>
+      <CardBody>
+        <CardTitle>Card Title</CardTitle>
+        <CardSubtitle>Card Subtitle</CardSubtitle>
+        <CardText>Some quick example text to build on the card title.</CardText>
+      </CardBody>
+    </Card>
+  ),
+};
+
+// =============================================================================
+// Polymorphic Text
+// =============================================================================
+
+/**
+ * CardText with different element types
+ */
+export const PolymorphicText: Story = {
+  render: () => (
+    <Card style={{ width: '18rem' }}>
+      <CardBody>
+        <CardTitle>Polymorphic Text</CardTitle>
+        <CardText>Default paragraph text.</CardText>
+        <CardText as="small" muted>Small muted text.</CardText>
+        <CardText as="span">Inline span text.</CardText>
+      </CardBody>
+    </Card>
+  ),
+};
+
+// =============================================================================
+// Card Link Targets
+// =============================================================================
+
+/**
+ * CardLink with target attribute
+ */
+export const CardLinkTarget: Story = {
+  render: () => (
+    <Card style={{ width: '18rem' }}>
+      <CardBody>
+        <CardTitle>Links with Targets</CardTitle>
+        <CardLink href="https://example.com" target="_blank">External (new tab)</CardLink>
+        <CardLink href="/internal">Internal link</CardLink>
+      </CardBody>
+    </Card>
+  ),
+};
+
+// =============================================================================
 
 /**
  * Complete card showcase
@@ -594,6 +684,22 @@ export const CompleteShowcase: Story = {
         </div>
       </section>
 
+      {/* Sizes */}
+      <section>
+        <Heading level={5} className="mb-2">
+          Sizes
+        </Heading>
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          {(['sm', 'md', 'lg'] as const).map((size) => (
+            <Card key={size} size={size} style={{ width: '14rem' }}>
+              <CardBody>
+                <CardTitle>{size.toUpperCase()}</CardTitle>
+              </CardBody>
+            </Card>
+          ))}
+        </div>
+      </section>
+
       {/* With Header/Footer */}
       <section>
         <Heading level={5} className="mb-2">
@@ -606,6 +712,20 @@ export const CompleteShowcase: Story = {
             <CardText>Content</CardText>
           </CardBody>
           <CardFooter>Footer</CardFooter>
+        </Card>
+      </section>
+
+      {/* Subtitle */}
+      <section>
+        <Heading level={5} className="mb-2">
+          With Subtitle
+        </Heading>
+        <Card style={{ width: '18rem' }}>
+          <CardBody>
+            <CardTitle>Title</CardTitle>
+            <CardSubtitle>Subtitle</CardSubtitle>
+            <CardText>Content</CardText>
+          </CardBody>
         </Card>
       </section>
 
