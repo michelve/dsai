@@ -145,6 +145,28 @@ export interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement>
 }
 
 /**
+ * CardSubtitle props
+ */
+export interface CardSubtitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  /**
+   * Subtitle content
+   */
+  children: ReactNode;
+
+  /**
+   * Heading level
+   * @default 'h6'
+   */
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
+  /**
+   * Muted text style
+   * @default true
+   */
+  muted?: boolean;
+}
+
+/**
  * CardText props
  */
 export interface CardTextProps extends React.HTMLAttributes<HTMLElement> {

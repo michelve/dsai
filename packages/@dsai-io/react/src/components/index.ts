@@ -67,6 +67,7 @@ export type {
   CardLinkProps,
   CardProps,
   CardSize,
+  CardSubtitleProps,
   CardTextProps,
   CardTitleProps,
   CardVariant,
@@ -80,6 +81,7 @@ export {
   CardImage,
   CardImgOverlay,
   CardLink,
+  CardSubtitle,
   CardText,
   CardTitle,
 } from './Card';

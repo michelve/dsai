@@ -11,6 +11,7 @@ import {
   CardImage,
   CardImgOverlay,
   CardLink,
+  CardSubtitle,
   CardText,
   CardTitle,
 } from './Card';
@@ -380,6 +381,50 @@ describe('Card', () => {
         );
 
         expect(screen.getByRole('heading', { level: 3 })).toBeInTheDocument();
+      });
+    });
+
+    describe('CardSubtitle', () => {
+      it('renders subtitle with card-subtitle class', () => {
+        render(
+          <Card><CardBody><CardSubtitle>Subtitle</CardSubtitle></CardBody></Card>
+        );
+        expect(screen.getByText('Subtitle')).toHaveClass('card-subtitle');
+      });
+
+      it('renders as h6 by default', () => {
+        render(<CardSubtitle>Sub</CardSubtitle>);
+        expect(screen.getByRole('heading', { level: 6 })).toBeInTheDocument();
+      });
+
+      it('renders as custom heading level', () => {
+        render(<CardSubtitle as="h4">Sub</CardSubtitle>);
+        expect(screen.getByRole('heading', { level: 4 })).toBeInTheDocument();
+      });
+
+      it('applies muted style by default', () => {
+        render(<CardSubtitle>Sub</CardSubtitle>);
+        expect(screen.getByText('Sub')).toHaveClass('text-body-secondary');
+      });
+
+      it('can disable muted style', () => {
+        render(<CardSubtitle muted={false}>Sub</CardSubtitle>);
+        expect(screen.getByText('Sub')).not.toHaveClass('text-body-secondary');
+      });
+
+      it('forwards ref', () => {
+        const ref = createRef<HTMLHeadingElement>();
+        render(<CardSubtitle ref={ref}>Sub</CardSubtitle>);
+        expect(ref.current).toBeInstanceOf(HTMLElement);
+      });
+
+      it('has correct displayName', () => {
+        expect(CardSubtitle.displayName).toBe('CardSubtitle');
+      });
+
+      it('spreads rest props', () => {
+        render(<CardSubtitle data-testid="sub">Sub</CardSubtitle>);
+        expect(screen.getByTestId('sub')).toBeInTheDocument();
       });
     });
 

@@ -15,6 +15,7 @@ import type {
   CardImgOverlayProps,
   CardLinkProps,
   CardProps,
+  CardSubtitleProps,
   CardTextProps,
   CardTitleProps,
   CardVariant,
@@ -188,6 +189,34 @@ const CardTitleComponent = forwardRef<HTMLHeadingElement, CardTitleProps>(functi
 CardTitleComponent.displayName = 'CardTitle';
 export const CardTitle = memo(CardTitleComponent);
 CardTitle.displayName = 'CardTitle';
+
+// =============================================================================
+// CardSubtitle Component
+// =============================================================================
+
+/**
+ * CardSubtitle component - card subtitle heading
+ */
+const CardSubtitleComponent = forwardRef<HTMLHeadingElement, CardSubtitleProps>(
+  function CardSubtitle(
+    { children, as: Component = 'h6', muted = true, className = '', style, dangerouslySetInnerHTML: _dSIH, ...rest },
+    ref
+  ) {
+    const classes = useMemo(
+      () => cn('card-subtitle', muted && 'text-body-secondary', className),
+      [muted, className]
+    );
+    return (
+      <Component ref={ref} {...rest} className={classes} style={style}>
+        {children}
+      </Component>
+    );
+  }
+);
+
+CardSubtitleComponent.displayName = 'CardSubtitle';
+export const CardSubtitle = memo(CardSubtitleComponent);
+CardSubtitle.displayName = 'CardSubtitle';
 
 // =============================================================================
 // CardText Component
@@ -449,6 +478,7 @@ export type {
   CardImgOverlayProps,
   CardLinkProps,
   CardProps,
+  CardSubtitleProps,
   CardTextProps,
   CardTitleProps,
   CardVariant,
