@@ -22,23 +22,6 @@ import type {
 } from './Card.types';
 
 // =============================================================================
-// Security: HREF Validation
-// =============================================================================
-
-/**
- * Validates if an href is safe to use
- * Blocks dangerous protocols like javascript:, data:, vbscript:
- * @param href - The href to validate
- * @returns true if the href is safe, false otherwise
- */
-
-/**
- * Detects if a URL is external
- * @param href - The href to check
- * @returns true if the href is external, false otherwise
- */
-
-// =============================================================================
 // CardHeader Component
 // =============================================================================
 
@@ -303,10 +286,6 @@ CardImgOverlay.displayName = 'CardImgOverlay';
 // =============================================================================
 
 /**
- * Get variant class
- */
-
-/**
  * Get color class
  */
 const getColorClass = (color: CardColor): string => {
@@ -353,6 +332,15 @@ export const Card = memo(
   ) {
     const isInteractive = interactive || Boolean(href) || Boolean(onClick);
 
+    if (process.env.NODE_ENV !== 'production') {
+      if (interactive && !href && !onClick) {
+        console.warn(
+          'Card: `interactive` prop has no effect without `href` or `onClick`. ' +
+          'Pass `href` or `onClick` to make the card interactive.'
+        );
+      }
+    }
+
     // Build card classes with memoization
     const cardClasses = useMemo(() => {
       return cn(
@@ -370,16 +358,7 @@ export const Card = memo(
       );
     }, [variant, color, size, horizontal, isInteractive, className]);
 
-    // Interactive card styles with memoization
-    const interactiveStyle = useMemo<React.CSSProperties | undefined>(() => {
-      return isInteractive
-        ? {
-            cursor: 'pointer',
-            transition: 'transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out',
-            ...style,
-          }
-        : style;
-    }, [isInteractive, style]);
+    const mergedStyle = style;
 
     // Handle click with useCallback
     const handleClick = useCallback((): void => {
@@ -413,7 +392,7 @@ export const Card = memo(
             href={safeHref}
             {...rest}
             className={cardClasses}
-            style={{ ...interactiveStyle, textDecoration: 'none', color: 'inherit' }}
+            style={{ ...mergedStyle, textDecoration: 'none', color: 'inherit' }}
             rel={relAttribute}
           >
             {children}
@@ -427,7 +406,7 @@ export const Card = memo(
           href={safeHref}
           {...rest}
           className={cardClasses}
-          style={{ ...interactiveStyle, textDecoration: 'none', color: 'inherit' }}
+          style={{ ...mergedStyle, textDecoration: 'none', color: 'inherit' }}
           rel={relAttribute}
         >
           {children}
@@ -443,7 +422,7 @@ export const Card = memo(
           type="button"
           {...rest}
           className={cardClasses}
-          style={interactiveStyle}
+          style={mergedStyle}
           onClick={handleClick}
           onKeyDown={handleKeyDown}
         >
@@ -454,7 +433,7 @@ export const Card = memo(
 
     // Render as article (default)
     return (
-      <article ref={ref as React.Ref<HTMLElement>} {...rest} className={cardClasses} style={interactiveStyle}>
+      <article ref={ref as React.Ref<HTMLElement>} {...rest} className={cardClasses} style={mergedStyle}>
         {children}
       </article>
     );

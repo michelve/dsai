@@ -245,6 +245,22 @@ describe('Card', () => {
   });
 
   // ===========================================================================
+  // href and onClick precedence
+  // ===========================================================================
+  describe('href and onClick precedence', () => {
+    it('renders as link when both href and onClick are provided', () => {
+      const handleClick = jest.fn();
+      render(
+        <Card href="/test" onClick={handleClick}>
+          <CardBody>Both</CardBody>
+        </Card>
+      );
+      expect(screen.getByRole('link')).toBeInTheDocument();
+      expect(screen.getByRole('link')).toHaveAttribute('href', '/test');
+    });
+  });
+
+  // ===========================================================================
   // Horizontal Layout
   // ===========================================================================
   describe('Horizontal Layout', () => {
