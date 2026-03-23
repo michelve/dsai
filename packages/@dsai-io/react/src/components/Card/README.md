@@ -63,6 +63,18 @@ function Example() {
 </Card>
 ```
 
+### Card with Subtitle
+
+```tsx
+<Card>
+  <CardBody>
+    <CardTitle>Card Title</CardTitle>
+    <CardSubtitle>Card Subtitle</CardSubtitle>
+    <CardText>Supporting text content.</CardText>
+  </CardBody>
+</Card>
+```
+
 ### Card Variants
 
 ```tsx
@@ -79,6 +91,25 @@ function Example() {
 // Ghost - transparent background
 <Card variant="ghost">
   <CardBody>Ghost card</CardBody>
+</Card>
+```
+
+### Size Variants
+
+```tsx
+// Small
+<Card size="sm">
+  <CardBody>Compact card</CardBody>
+</Card>
+
+// Medium (default)
+<Card size="md">
+  <CardBody>Standard card</CardBody>
+</Card>
+
+// Large
+<Card size="lg">
+  <CardBody>Spacious card</CardBody>
 </Card>
 ```
 
@@ -149,6 +180,18 @@ function Example() {
 </Card>
 ```
 
+### Polymorphic Text
+
+```tsx
+<Card>
+  <CardBody>
+    <CardText>Default paragraph text</CardText>
+    <CardText as="span">Inline span text</CardText>
+    <CardText as="small" muted>Small muted caption</CardText>
+  </CardBody>
+</Card>
+```
+
 ## Props
 
 ### Card
@@ -157,6 +200,7 @@ function Example() {
 | ----------------- | ------------------------------------- | ------------ | ----------------------- |
 | `children`        | `ReactNode`                           | -            | Card content            |
 | `variant`         | `'elevated' \| 'outlined' \| 'ghost'` | `'elevated'` | Card variant            |
+| `size`            | `'sm' \| 'md' \| 'lg'`               | `'md'`       | Card size variant       |
 | `color`           | `CardColor`                           | -            | Background color        |
 | `horizontal`      | `boolean`                             | `false`      | Horizontal layout       |
 | `interactive`     | `boolean`                             | `false`      | Make card clickable     |
@@ -166,8 +210,8 @@ function Example() {
 | `className`       | `string`                              | -            | Additional classes      |
 | `style`           | `CSSProperties`                       | -            | Inline styles           |
 | `id`              | `string`                              | -            | Element ID              |
-| `aria-label`      | `string`                              | -            | Accessible label        |
-| `aria-labelledby` | `string`                              | -            | ID of labelling element |
+
+> All standard HTML attributes (`aria-*`, `data-*`, `role`, `tabIndex`, etc.) are supported via rest props spreading.
 
 ### CardHeader, CardBody, CardFooter
 
@@ -198,14 +242,23 @@ function Example() {
 | `className` | `string`        | -       | Additional classes |
 | `style`     | `CSSProperties` | -       | Inline styles      |
 
+### CardSubtitle
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | Subtitle content |
+| `as` | `'h1' - 'h6'` | `'h6'` | Heading level |
+| `muted` | `boolean` | `true` | Muted text style |
+
 ### CardText
 
-| Prop        | Type            | Default | Description        |
-| ----------- | --------------- | ------- | ------------------ |
-| `children`  | `ReactNode`     | -       | Text content       |
-| `muted`     | `boolean`       | `false` | Muted text style   |
-| `className` | `string`        | -       | Additional classes |
-| `style`     | `CSSProperties` | -       | Inline styles      |
+| Prop        | Type                                 | Default | Description        |
+| ----------- | ------------------------------------ | ------- | ------------------ |
+| `children`  | `ReactNode`                          | -       | Text content       |
+| `as`        | `'p' \| 'span' \| 'small' \| 'div'` | `'p'`   | Element type       |
+| `muted`     | `boolean`                            | `false` | Muted text style   |
+| `className` | `string`                             | -       | Additional classes |
+| `style`     | `CSSProperties`                      | -       | Inline styles      |
 
 ### CardLink
 
@@ -215,6 +268,8 @@ function Example() {
 | `href`      | `string`        | Link URL           |
 | `className` | `string`        | Additional classes |
 | `style`     | `CSSProperties` | Inline styles      |
+
+> All standard `<a>` element attributes (`target`, `rel`, `download`, etc.) are supported via rest props spreading.
 
 ### CardImgOverlay
 
@@ -233,7 +288,7 @@ The Card component follows WCAG 2.2 AA guidelines:
 - CardTitle uses proper heading hierarchy
 - CardImage requires alt text
 - Keyboard accessible (Tab, Enter, Space for interactive cards)
-- Supports `aria-label` and `aria-labelledby`
+- Supports all ARIA attributes via rest props spreading
 
 ## Styling
 
