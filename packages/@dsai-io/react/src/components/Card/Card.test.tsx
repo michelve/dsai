@@ -722,6 +722,48 @@ describe('Card', () => {
   });
 
   // ===========================================================================
+  // Accessibility - New Features
+  // ===========================================================================
+  describe('Accessibility - New Features', () => {
+    it('has no violations with size variants', async () => {
+      const { container } = render(
+        <Card size="sm"><CardBody><CardTitle>Small</CardTitle></CardBody></Card>
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it('has no violations with CardSubtitle', async () => {
+      const { container } = render(
+        <Card>
+          <CardBody>
+            <CardTitle>Title</CardTitle>
+            <CardSubtitle>Subtitle</CardSubtitle>
+            <CardText>Content</CardText>
+          </CardBody>
+        </Card>
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it('has no violations with polymorphic CardText', async () => {
+      const { container } = render(
+        <Card><CardBody><CardText as="span">Span text</CardText></CardBody></Card>
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
+
+    it('has no violations with aria-describedby', async () => {
+      const { container } = render(
+        <>
+          <Card aria-describedby="desc"><CardBody>Content</CardBody></Card>
+          <p id="desc">Description</p>
+        </>
+      );
+      expect(await axe(container)).toHaveNoViolations();
+    });
+  });
+
+  // ===========================================================================
   // Rest Props Spreading
   // ===========================================================================
   describe('Rest Props Spreading', () => {
