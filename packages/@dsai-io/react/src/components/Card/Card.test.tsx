@@ -118,6 +118,41 @@ describe('Card', () => {
   });
 
   // ===========================================================================
+  // Size Variants
+  // ===========================================================================
+  describe('Size Variants', () => {
+    it('renders sm size with card-sm class', () => {
+      const { container } = render(
+        <Card size="sm"><CardBody>Small</CardBody></Card>
+      );
+      expect(container.querySelector('.card-sm')).toBeInTheDocument();
+    });
+
+    it('renders lg size with card-lg class', () => {
+      const { container } = render(
+        <Card size="lg"><CardBody>Large</CardBody></Card>
+      );
+      expect(container.querySelector('.card-lg')).toBeInTheDocument();
+    });
+
+    it('renders default md size without size class', () => {
+      const { container } = render(
+        <Card><CardBody>Default</CardBody></Card>
+      );
+      expect(container.querySelector('.card-sm')).not.toBeInTheDocument();
+      expect(container.querySelector('.card-lg')).not.toBeInTheDocument();
+    });
+
+    it('md size explicitly does not add size class', () => {
+      const { container } = render(
+        <Card size="md"><CardBody>Medium</CardBody></Card>
+      );
+      expect(container.querySelector('.card-sm')).not.toBeInTheDocument();
+      expect(container.querySelector('.card-lg')).not.toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
   // Interactive Cards
   // ===========================================================================
   describe('Interactive Cards', () => {

@@ -3,12 +3,14 @@ import {
   cloneElement,
   forwardRef,
   isValidElement,
+  memo,
   useCallback,
   useEffect,
   useId,
   useMemo,
   useReducer,
   useRef,
+  useState,
 } from 'react';
 
 import { cn, mergeRefs } from '../../utils';
@@ -18,8 +20,10 @@ import {
   createInitialCarouselFSMState,
   getCarouselVisualState,
 } from './Carousel.fsm';
+import { CarouselCaption } from './CarouselCaption';
 import { CarouselControl } from './CarouselControl';
 import { CarouselIndicators } from './CarouselIndicators';
+import { CarouselItem } from './CarouselItem';
 import { CarouselPauseButton } from './CarouselPauseButton';
 
 import type { CarouselItemProps, CarouselProps } from './Carousel.types';
@@ -34,6 +38,38 @@ const DEFAULT_INTERVAL = 5000;
  * Default swipe threshold in pixels
  */
 const DEFAULT_SWIPE_THRESHOLD = 50;
+
+/**
+ * Hook to detect prefers-reduced-motion media query.
+ * Returns true when the user prefers reduced motion.
+ */
+function useReducedMotion(): boolean {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+    return window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return undefined;
+    }
+
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const handler = (event: MediaQueryListEvent): void => {
+      setPrefersReducedMotion(event.matches);
+    };
+
+    mediaQuery.addEventListener('change', handler);
+    return (): void => {
+      mediaQuery.removeEventListener('change', handler);
+    };
+  }, []);
+
+  return prefersReducedMotion;
+}
 
 /**
  * Carousel Component
@@ -80,7 +116,7 @@ const DEFAULT_SWIPE_THRESHOLD = 50;
  *
  * @see https://getbootstrap.com/docs/5.3/components/carousel/
  */
-export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
+const CarouselBase = memo(forwardRef<HTMLDivElement, CarouselProps>(
   (
     {
       children,
@@ -106,6 +142,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       swipeThreshold = DEFAULT_SWIPE_THRESHOLD,
       slideLabels,
       showPauseButton,
+      onSlideChanged,
       'data-testid': dataTestId,
       'data-test': dataTest,
     },
@@ -113,6 +150,9 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
   ) => {
     // Determine if controlled
     const isControlled = controlledActiveIndex !== undefined;
+
+    // Detect reduced motion preference
+    const prefersReducedMotion = useReducedMotion();
 
     // Generate unique ID for carousel
     const generatedId = useId();
@@ -185,8 +225,9 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       if (nextIndex !== fsmState.activeIndex) {
         dispatch({ type: 'NEXT' });
         onSelect?.(nextIndex);
+        onSlideChanged?.(nextIndex, 'next');
       }
-    }, [fsmState.activeIndex, slideCount, wrap, onSelect]);
+    }, [fsmState.activeIndex, slideCount, wrap, onSelect, onSlideChanged]);
 
     const handlePrev = useCallback((): void => {
       const prevIndex = wrap
@@ -196,17 +237,20 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       if (prevIndex !== fsmState.activeIndex) {
         dispatch({ type: 'PREV' });
         onSelect?.(prevIndex);
+        onSlideChanged?.(prevIndex, 'prev');
       }
-    }, [fsmState.activeIndex, slideCount, wrap, onSelect]);
+    }, [fsmState.activeIndex, slideCount, wrap, onSelect, onSlideChanged]);
 
     const handleSelect = useCallback(
       (index: number): void => {
         if (index !== fsmState.activeIndex && index >= 0 && index < slideCount) {
+          const direction = index > fsmState.activeIndex ? 'next' : 'prev';
           dispatch({ type: 'GO_TO', payload: index });
           onSelect?.(index);
+          onSlideChanged?.(index, direction);
         }
       },
-      [fsmState.activeIndex, slideCount, onSelect]
+      [fsmState.activeIndex, slideCount, onSelect, onSlideChanged]
     );
 
     const handleTogglePause = useCallback((): void => {
@@ -215,9 +259,15 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       dispatch({ type: 'TOGGLE_PAUSE' });
     }, [fsmState.isPaused]);
 
-    // Autoplay timer
+    // Autoplay timer — disabled when user prefers reduced motion
     useEffect(() => {
-      if (!autoPlay || fsmState.isPaused || fsmState.isTransitioning || slideCount <= 1) {
+      if (
+        !autoPlay ||
+        fsmState.isPaused ||
+        fsmState.isTransitioning ||
+        slideCount <= 1 ||
+        prefersReducedMotion
+      ) {
         return undefined;
       }
 
@@ -241,6 +291,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       interval,
       items,
       handleNext,
+      prefersReducedMotion,
     ]);
 
     // Keyboard navigation
@@ -364,11 +415,11 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       () =>
         cn(
           'carousel',
-          animation === 'fade' ? 'carousel-fade' : 'slide',
+          !prefersReducedMotion && (animation === 'fade' ? 'carousel-fade' : 'slide'),
           dark && 'carousel-dark',
           className
         ),
-      [animation, dark, className]
+      [animation, dark, className, prefersReducedMotion]
     );
 
     // Memoize slide labels
@@ -386,11 +437,13 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       return `${label} of ${slideCount}`;
     }, [computedSlideLabels, fsmState.activeIndex, slideCount]);
 
-    // Render slides with active state
+    // Render slides with active state and W3C carousel ARIA attributes
     const renderedSlides = useMemo(() => {
       return items.map((item, index) => {
         const isActive = index === fsmState.activeIndex;
         const itemClassName = cn('carousel-item', isActive && 'active', item.props.className);
+        const slideLabel =
+          computedSlideLabels[index] ?? `Slide ${index + 1}`;
 
         // Use the item's existing key if provided, otherwise use index
         // Carousel items are static and don't reorder, so index is acceptable
@@ -399,9 +452,12 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         return cloneElement(item, {
           key: itemKey,
           className: itemClassName,
+          role: 'group',
+          'aria-roledescription': 'slide',
+          'aria-label': `${slideLabel} (${index + 1} of ${slideCount})`,
         });
       });
-    }, [items, fsmState.activeIndex]);
+    }, [items, fsmState.activeIndex, computedSlideLabels, slideCount]);
 
     // Determine if pause button should show
     const shouldShowPauseButton = showPauseButton ?? autoPlay;
@@ -542,12 +598,23 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         )}
 
         {/* Pause/Play button for autoplay (WCAG requirement) */}
-        {/* Pause/Play button for autoplay (WCAG requirement) */}
         {shouldShowPauseButton && (
           <CarouselPauseButton isPaused={fsmState.isPaused} onToggle={handleTogglePause} />
         )}
       </section>
     );
   }
-);
-Carousel.displayName = 'Carousel';
+));
+CarouselBase.displayName = 'Carousel';
+
+/**
+ * Carousel with compound component sub-components attached.
+ * Supports both `<Carousel.Item>` and direct `<CarouselItem>` imports.
+ */
+export const Carousel = Object.assign(CarouselBase, {
+  Item: CarouselItem,
+  Caption: CarouselCaption,
+  Control: CarouselControl,
+  Indicators: CarouselIndicators,
+  PauseButton: CarouselPauseButton,
+});

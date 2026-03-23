@@ -66,6 +66,7 @@ export type {
   CardImgOverlayProps,
   CardLinkProps,
   CardProps,
+  CardSize,
   CardTextProps,
   CardTitleProps,
   CardVariant,

@@ -167,6 +167,13 @@ export interface CarouselCaptionProps extends SafeCarouselHTMLAttributes {
   description?: ReactNode;
 
   /**
+   * Heading level for the caption heading element.
+   * Choose a level that maintains proper heading hierarchy in your page.
+   * @default 'h5'
+   */
+  headingLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
+  /**
    * Additional CSS class names
    */
   className?: string;
@@ -444,4 +451,10 @@ export interface CarouselProps extends SafeCarouselHTMLAttributes {
    * @default true when autoPlay is true
    */
   showPauseButton?: boolean;
+
+  /**
+   * Callback fired after the active slide changes.
+   * Provides the new index and the direction of navigation.
+   */
+  onSlideChanged?: (index: number, direction: 'next' | 'prev') => void;
 }

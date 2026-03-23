@@ -92,8 +92,7 @@ export const CarouselIndicators = forwardRef<HTMLDivElement, CarouselIndicatorsP
     const getLabelAtIndex = useCallback(
       (index: number): string => {
         if (index >= 0 && index < slideLabels.length) {
-          const label = slideLabels.find((_, i) => i === index);
-          return label ?? `Slide ${index + 1}`;
+          return Reflect.get(slideLabels, index) ?? `Slide ${index + 1}`;
         }
         return `Slide ${index + 1}`;
       },

@@ -70,14 +70,6 @@ export const CarouselControl = forwardRef<HTMLButtonElement, CarouselControlProp
       }
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>): void => {
-      // Native button handles Enter/Space, but we ensure consistency
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        handleClick();
-      }
-    };
-
     return (
       <button
         ref={ref}
@@ -85,7 +77,6 @@ export const CarouselControl = forwardRef<HTMLButtonElement, CarouselControlProp
         className={controlClassName}
         style={style}
         onClick={handleClick}
-        onKeyDown={handleKeyDown}
         disabled={disabled}
         aria-label={label}
         aria-disabled={disabled}

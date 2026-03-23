@@ -34,6 +34,9 @@ export const CarouselItem = forwardRef<HTMLDivElement, CarouselItemProps>(
       style,
       id,
       interval,
+      role,
+      'aria-roledescription': ariaRoleDescription,
+      'aria-label': ariaLabel,
       'data-testid': dataTestId,
       'data-test': dataTest,
     },
@@ -48,6 +51,9 @@ export const CarouselItem = forwardRef<HTMLDivElement, CarouselItemProps>(
         className={itemClassName}
         style={style}
         id={id}
+        role={role}
+        aria-roledescription={ariaRoleDescription}
+        aria-label={ariaLabel}
         data-bs-interval={interval}
         data-testid={dataTestId}
         data-test={dataTest}

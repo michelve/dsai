@@ -11,11 +11,18 @@ A fully accessible carousel component for cycling through images or content. Sup
 - **Controlled and uncontrolled modes**: Flexible state management options
 - **FSM-based state management**: Predictable state transitions
 - **WCAG 2.2 AA compliant**: Full accessibility support
+- **Compound component pattern**: `Carousel.Item`, `Carousel.Caption`, etc.
+- **Transition callbacks**: `onSlideChanged(index, direction)` for analytics/sync
+- **Reduced motion support**: Respects `prefers-reduced-motion` system setting
+- **W3C Carousel ARIA pattern**: `role="group"`, `aria-roledescription="slide"` on each slide
 
 ## Installation
 
 ```tsx
 import { Carousel, CarouselItem, CarouselCaption } from '@dsai-io/react';
+
+// Or use the compound component pattern:
+// Carousel.Item, Carousel.Caption, Carousel.Control, etc.
 ```
 
 ## Basic Usage
@@ -58,6 +65,7 @@ import { Carousel, CarouselItem, CarouselCaption } from '@dsai-io/react';
 | `showPauseButton`    | `boolean`                 | `true` when `autoPlay` | Show pause/play button                     |
 | `swipeThreshold`     | `number`                  | `50`                   | Minimum swipe distance in pixels           |
 | `slideLabels`        | `string[]`                | `undefined`            | Custom labels for screen readers           |
+| `onSlideChanged`     | `(index: number, direction: 'next' \| 'prev') => void` | `undefined` | Callback after slide changes |
 | `aria-label`         | `string`                  | `'Carousel'`           | Accessible label                           |
 | `aria-labelledby`    | `string`                  | `undefined`            | ID of labelling element                    |
 
@@ -72,11 +80,12 @@ import { Carousel, CarouselItem, CarouselCaption } from '@dsai-io/react';
 
 ### CarouselCaption
 
-| Prop          | Type        | Default     | Description            |
-| ------------- | ----------- | ----------- | ---------------------- |
-| `heading`     | `ReactNode` | `undefined` | Caption heading        |
-| `description` | `ReactNode` | `undefined` | Caption description    |
-| `className`   | `string`    | `undefined` | Additional CSS classes |
+| Prop           | Type        | Default     | Description            |
+| -------------- | ----------- | ----------- | ---------------------- |
+| `heading`      | `ReactNode` | `undefined` | Caption heading        |
+| `description`  | `ReactNode` | `undefined` | Caption description    |
+| `headingLevel` | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'h5'` | Heading element level |
+| `className`    | `string`    | `undefined` | Additional CSS classes |
 
 ### CarouselControl
 
@@ -189,6 +198,33 @@ function ControlledCarousel() {
 </Carousel>
 ```
 
+### Compound Component Pattern
+
+```tsx
+<Carousel aria-label="Gallery">
+  <Carousel.Item>
+    <img src="1.jpg" alt="Slide 1" className="d-block w-100" />
+    <Carousel.Caption heading="Title" description="Description" headingLevel="h3" />
+  </Carousel.Item>
+  <Carousel.Item>
+    <img src="2.jpg" alt="Slide 2" className="d-block w-100" />
+  </Carousel.Item>
+</Carousel>
+```
+
+### onSlideChanged Callback
+
+```tsx
+<Carousel
+  onSlideChanged={(index, direction) => {
+    console.log(`Navigated to slide ${index}, direction: ${direction}`);
+  }}
+  aria-label="Gallery"
+>
+  {slides}
+</Carousel>
+```
+
 ### Custom Content
 
 ```tsx
@@ -211,12 +247,14 @@ function ControlledCarousel() {
 The Carousel component is fully accessible:
 
 - **`<section>` element** provides implicit `role="region"` with **aria-roledescription="carousel"**
+- **W3C Carousel ARIA pattern**: Each slide has `role="group"`, `aria-roledescription="slide"`, and `aria-label` with position
 - **aria-label** for screen reader identification
 - **aria-live="polite"** announces slide changes
 - **Keyboard navigation** with Arrow keys
 - **Pause/Play button** for autoplay (WCAG 2.2.2 requirement)
 - **Labeled controls** and indicators
 - **Focus management** during navigation
+- **Reduced motion**: Animations are disabled and autoplay stops when `prefers-reduced-motion: reduce` is active
 
 ### Screen Reader Behavior
 

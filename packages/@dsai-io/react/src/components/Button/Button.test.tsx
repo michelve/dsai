@@ -2,9 +2,12 @@ import '@testing-library/jest-dom';
 import { randomUUID } from 'node:crypto';
 
 import { act, fireEvent, render, screen } from '@testing-library/react';
+import { axe, toHaveNoViolations } from 'jest-axe';
 import { createElement, createRef } from 'react';
 
 import { Button } from './Button';
+
+expect.extend(toHaveNoViolations);
 
 import type { ButtonProps } from './Button.types';
 import type { ComponentType } from 'react';
@@ -484,6 +487,207 @@ describe('Button', () => {
       rerender(<Button announceText="Request completed successfully">Submit</Button>);
 
       expect(screen.getByText('Request completed successfully')).toBeInTheDocument();
+    });
+  });
+
+  describe('Ghost Variant', () => {
+    it('renders ghost variant with transparent background', () => {
+      render(<Button variant="ghost">Ghost</Button>);
+      const button = screen.getByRole('button');
+      expect(button).toHaveClass('btn');
+      expect(button).not.toHaveClass('btn-ghost');
+      expect(button).toHaveAttribute('data-variant', 'ghost');
+      // Ghost renders with inline transparent bg style
+      expect(button.style.backgroundColor).toBe('transparent');
+    });
+
+    it('applies hover background when FSM is in hovered state', () => {
+      render(<Button variant="ghost">Ghost</Button>);
+      const button = screen.getByRole('button');
+
+      fireEvent.mouseEnter(button);
+      expect(button).toHaveStyle({ backgroundColor: 'var(--bs-tertiary-bg, rgba(0,0,0,0.05))' });
+    });
+
+    it('returns to transparent background after mouse leave', () => {
+      render(<Button variant="ghost">Ghost</Button>);
+      const button = screen.getByRole('button');
+
+      fireEvent.mouseEnter(button);
+      expect(button).toHaveAttribute('data-visual-state', 'hovered');
+
+      fireEvent.mouseLeave(button);
+      expect(button).toHaveAttribute('data-visual-state', 'idle');
+      expect(button.style.backgroundColor).toBe('transparent');
+    });
+
+    it('has no accessibility violations', async () => {
+      const { container } = render(<Button variant="ghost">Ghost Button</Button>);
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
+
+  describe('Subtle Variants', () => {
+    it('renders subtle-primary with Bootstrap subtle utilities', () => {
+      render(<Button variant="subtle-primary">Subtle</Button>);
+      const button = screen.getByRole('button');
+      expect(button).toHaveClass('btn');
+      expect(button).toHaveClass('bg-primary-subtle');
+      expect(button).toHaveClass('text-primary-emphasis');
+      expect(button).toHaveClass('border-0');
+      expect(button).toHaveAttribute('data-variant', 'subtle-primary');
+    });
+
+    it('renders subtle-danger with correct classes', () => {
+      render(<Button variant="subtle-danger">Subtle Danger</Button>);
+      const button = screen.getByRole('button');
+      expect(button).toHaveClass('bg-danger-subtle');
+      expect(button).toHaveClass('text-danger-emphasis');
+    });
+
+    it('does not use btn-subtle class', () => {
+      render(<Button variant="subtle-success">Subtle</Button>);
+      const button = screen.getByRole('button');
+      expect(button).not.toHaveClass('btn-subtle-success');
+    });
+
+    it('has no accessibility violations', async () => {
+      const { container } = render(
+        <Button variant="subtle-primary">Subtle Primary</Button>
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
+
+  describe('Icon Size', () => {
+    it('renders icon size with square dimensions', () => {
+      render(
+        <Button size="icon" aria-label="Settings" startIcon={<span>⚙</span>}>
+          {''}
+        </Button>
+      );
+      const button = screen.getByRole('button');
+      expect(button).toHaveStyle({ width: '2.5rem', height: '2.5rem' });
+    });
+
+    it('centers content in icon size', () => {
+      render(
+        <Button size="icon" aria-label="Close" startIcon={<span>×</span>}>
+          {''}
+        </Button>
+      );
+      const button = screen.getByRole('button');
+      expect(button).toHaveStyle({
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      });
+    });
+
+    it('has no accessibility violations with aria-label', async () => {
+      const { container } = render(
+        <Button size="icon" aria-label="Close">
+          ×
+        </Button>
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
+
+  describe('Loading Position', () => {
+    it('renders spinner at start position by default', () => {
+      const { container } = render(<Button loading>Loading</Button>);
+      const button = container.querySelector('button');
+      const children = Array.from(button?.children || []);
+      // First child should be the spinner wrapper
+      expect(children[0]).toHaveAttribute('aria-hidden', 'true');
+      expect(children[0].querySelector('[role="status"]')).toBeInTheDocument();
+    });
+
+    it('renders spinner at end position', () => {
+      const { container } = render(
+        <Button loading loadingPosition="end">
+          Loading
+        </Button>
+      );
+      const button = container.querySelector('button');
+      const children = Array.from(button?.children || []);
+      const lastChild = children[children.length - 1];
+      expect(lastChild).toHaveAttribute('aria-hidden', 'true');
+      expect(lastChild.querySelector('[role="status"]')).toBeInTheDocument();
+    });
+
+    it('renders spinner at center position with hidden text', () => {
+      const { container } = render(
+        <Button loading loadingPosition="center">
+          Save
+        </Button>
+      );
+      const button = container.querySelector('button');
+      // Text should be invisible but present (for layout)
+      const hiddenText = button?.querySelector('span[style*="visibility: hidden"]');
+      expect(hiddenText).toBeInTheDocument();
+      expect(hiddenText?.textContent).toBe('Save');
+      // Spinner should be present
+      expect(screen.getByRole('status')).toBeInTheDocument();
+    });
+
+    it('hides icons when loading regardless of position', () => {
+      render(
+        <Button
+          loading
+          loadingPosition="end"
+          startIcon={<span data-testid="start-icon">→</span>}
+        >
+          Loading
+        </Button>
+      );
+      expect(screen.queryByTestId('start-icon')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('Custom Loading Indicator', () => {
+    it('renders custom loading indicator instead of default spinner', () => {
+      const { container } = render(
+        <Button loading loadingIndicator={<span data-testid="custom-loader">...</span>}>
+          Loading
+        </Button>
+      );
+      expect(screen.getByTestId('custom-loader')).toBeInTheDocument();
+      // Default Spinner component should not be present (it has class 'spinner-border')
+      expect(container.querySelector('.spinner-border')).not.toBeInTheDocument();
+    });
+
+    it('renders custom loading indicator at end position', () => {
+      const { container } = render(
+        <Button
+          loading
+          loadingPosition="end"
+          loadingIndicator={<span data-testid="custom-loader">⏳</span>}
+        >
+          Saving
+        </Button>
+      );
+      const button = container.querySelector('button');
+      const children = Array.from(button?.children || []);
+      const lastChild = children[children.length - 1];
+      expect(lastChild.querySelector('[data-testid="custom-loader"]')).toBeInTheDocument();
+    });
+
+    it('renders custom loading indicator at center position', () => {
+      render(
+        <Button
+          loading
+          loadingPosition="center"
+          loadingIndicator={<span data-testid="custom-loader">●●●</span>}
+        >
+          Save
+        </Button>
+      );
+      expect(screen.getByTestId('custom-loader')).toBeInTheDocument();
     });
   });
 });

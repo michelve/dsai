@@ -34,6 +34,7 @@ export const CarouselCaption = forwardRef<HTMLDivElement, CarouselCaptionProps>(
     {
       heading,
       description,
+      headingLevel: HeadingTag = 'h5',
       className = '',
       style,
       'data-testid': dataTestId,
@@ -60,7 +61,7 @@ export const CarouselCaption = forwardRef<HTMLDivElement, CarouselCaptionProps>(
         data-testid={dataTestId}
         data-test={dataTest}
       >
-        {heading && <h5>{heading}</h5>}
+        {heading && <HeadingTag>{heading}</HeadingTag>}
         {description && <p>{description}</p>}
       </div>
     );

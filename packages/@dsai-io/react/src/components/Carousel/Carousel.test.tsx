@@ -412,6 +412,164 @@ describe('Carousel', () => {
       expect(onSelect).not.toHaveBeenCalled();
     });
   });
+
+  describe('onSlideChanged callback', () => {
+    it('fires with index and direction on next', async () => {
+      const onSlideChanged = jest.fn();
+      renderBasicCarousel({ onSlideChanged });
+
+      await userEvent.click(screen.getByLabelText('Next slide'));
+
+      expect(onSlideChanged).toHaveBeenCalledWith(1, 'next');
+    });
+
+    it('fires with index and direction on prev', async () => {
+      const onSlideChanged = jest.fn();
+      renderBasicCarousel({ defaultActiveIndex: 1, onSlideChanged });
+
+      await userEvent.click(screen.getByLabelText('Previous slide'));
+
+      expect(onSlideChanged).toHaveBeenCalledWith(0, 'prev');
+    });
+
+    it('fires with correct direction on indicator click', async () => {
+      const onSlideChanged = jest.fn();
+      renderBasicCarousel({ onSlideChanged });
+
+      await userEvent.click(screen.getByLabelText('Slide 3'));
+
+      expect(onSlideChanged).toHaveBeenCalledWith(2, 'next');
+    });
+
+    it('fires with prev direction when clicking earlier indicator', async () => {
+      const onSlideChanged = jest.fn();
+      renderBasicCarousel({ defaultActiveIndex: 2, onSlideChanged });
+
+      await userEvent.click(screen.getByLabelText('Slide 1'));
+
+      expect(onSlideChanged).toHaveBeenCalledWith(0, 'prev');
+    });
+  });
+
+  describe('W3C Carousel ARIA on slides', () => {
+    it('adds role="group" to each slide', () => {
+      renderBasicCarousel();
+
+      expect(screen.getByTestId('slide-1')).toHaveAttribute('role', 'group');
+      expect(screen.getByTestId('slide-2')).toHaveAttribute('role', 'group');
+      expect(screen.getByTestId('slide-3')).toHaveAttribute('role', 'group');
+    });
+
+    it('adds aria-roledescription="slide" to each slide', () => {
+      renderBasicCarousel();
+
+      expect(screen.getByTestId('slide-1')).toHaveAttribute('aria-roledescription', 'slide');
+    });
+
+    it('adds aria-label with slide position to each slide', () => {
+      renderBasicCarousel();
+
+      expect(screen.getByTestId('slide-1')).toHaveAttribute(
+        'aria-label',
+        'Slide 1 (1 of 3)'
+      );
+      expect(screen.getByTestId('slide-3')).toHaveAttribute(
+        'aria-label',
+        'Slide 3 (3 of 3)'
+      );
+    });
+
+    it('uses custom slideLabels in aria-label', () => {
+      renderBasicCarousel({ slideLabels: ['Intro', 'Features', 'Contact'] });
+
+      expect(screen.getByTestId('slide-1')).toHaveAttribute(
+        'aria-label',
+        'Intro (1 of 3)'
+      );
+    });
+  });
+
+  describe('Reduced motion', () => {
+    let matchMediaMock: jest.SpyInstance;
+
+    beforeEach(() => {
+      matchMediaMock = jest.spyOn(window, 'matchMedia');
+    });
+
+    afterEach(() => {
+      matchMediaMock.mockRestore();
+    });
+
+    it('removes slide/fade animation class when reduced motion is preferred', () => {
+      matchMediaMock.mockReturnValue({
+        matches: true,
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+      });
+
+      renderBasicCarousel();
+      const carousel = screen.getByTestId('carousel');
+
+      expect(carousel).toHaveClass('carousel');
+      expect(carousel).not.toHaveClass('slide');
+      expect(carousel).not.toHaveClass('carousel-fade');
+    });
+
+    it('keeps animation classes when reduced motion is not preferred', () => {
+      matchMediaMock.mockReturnValue({
+        matches: false,
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+      });
+
+      renderBasicCarousel();
+      const carousel = screen.getByTestId('carousel');
+
+      expect(carousel).toHaveClass('carousel', 'slide');
+    });
+
+    it('disables autoplay when reduced motion is preferred', () => {
+      jest.useFakeTimers();
+      matchMediaMock.mockReturnValue({
+        matches: true,
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+      });
+
+      const onSelect = jest.fn();
+      renderBasicCarousel({ autoPlay: true, interval: 1000, onSelect });
+
+      act(() => {
+        jest.advanceTimersByTime(3000);
+      });
+
+      expect(onSelect).not.toHaveBeenCalled();
+      jest.useRealTimers();
+    });
+  });
+
+  describe('Compound component pattern', () => {
+    it('exposes sub-components on Carousel namespace', () => {
+      expect(Carousel.Item).toBeDefined();
+      expect(Carousel.Caption).toBeDefined();
+      expect(Carousel.Control).toBeDefined();
+      expect(Carousel.Indicators).toBeDefined();
+      expect(Carousel.PauseButton).toBeDefined();
+    });
+
+    it('renders using compound pattern', () => {
+      render(
+        <Carousel data-testid="carousel">
+          <Carousel.Item data-testid="compound-slide">
+            <div>Slide 1</div>
+          </Carousel.Item>
+        </Carousel>
+      );
+
+      expect(screen.getByTestId('carousel')).toBeInTheDocument();
+      expect(screen.getByTestId('compound-slide')).toBeInTheDocument();
+    });
+  });
 });
 
 describe('CarouselItem', () => {
@@ -498,5 +656,26 @@ describe('CarouselCaption', () => {
     render(<CarouselCaption description="Only Description" data-testid="caption" />);
 
     expect(screen.getByText('Only Description')).toBeInTheDocument();
+  });
+
+  it('renders heading with default h5 tag', () => {
+    render(<CarouselCaption heading="Title" data-testid="caption" />);
+
+    const heading = screen.getByText('Title');
+    expect(heading.tagName).toBe('H5');
+  });
+
+  it('renders heading with custom heading level', () => {
+    render(<CarouselCaption heading="Title" headingLevel="h2" data-testid="caption" />);
+
+    const heading = screen.getByText('Title');
+    expect(heading.tagName).toBe('H2');
+  });
+
+  it('renders heading with h3 level', () => {
+    render(<CarouselCaption heading="Title" headingLevel="h3" data-testid="caption" />);
+
+    const heading = screen.getByText('Title');
+    expect(heading.tagName).toBe('H3');
   });
 });

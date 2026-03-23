@@ -49,6 +49,7 @@ export interface SafeHTMLAttributes<_T extends HTMLElement = HTMLElement> {
 
   // ARIA - Core
   role?: string;
+  'aria-roledescription'?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
   'aria-describedby'?: string;

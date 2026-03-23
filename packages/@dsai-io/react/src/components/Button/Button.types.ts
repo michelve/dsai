@@ -9,18 +9,31 @@ import type { CSSProperties, MouseEvent, ReactNode } from 'react';
 /**
  * Button component variants
  * Maps to Bootstrap 5 button styles using design tokens
+ *
+ * - Solid: 'primary', 'secondary', etc. — filled background
+ * - Outline: 'outline-primary', etc. — bordered, transparent background
+ * - Subtle: 'subtle-primary', etc. — lighter background using Bootstrap subtle utilities
+ * - Ghost: transparent background with subtle hover feedback
+ * - Link: styled as a hyperlink
+ *
  * @see SemanticColorVariant
  */
-export type ButtonVariant = SemanticColorVariant | `outline-${SemanticColorVariant}` | 'link';
+export type ButtonVariant =
+  | SemanticColorVariant
+  | `outline-${SemanticColorVariant}`
+  | `subtle-${SemanticColorVariant}`
+  | 'ghost'
+  | 'link';
 
 /**
  * Button component sizes
  * sm: Small button (0.875rem font size)
  * md: Medium button (1rem font size) - default
  * lg: Large button (1.25rem font size)
+ * icon: Square button for icon-only use (2.5rem × 2.5rem)
  * @see ComponentSize
  */
-export type ButtonSize = ComponentSize;
+export type ButtonSize = ComponentSize | 'icon';
 
 /**
  * Button HTML type attribute
@@ -109,6 +122,18 @@ export interface ButtonOwnProps extends SafeHTMLAttributes {
    * If not provided, children will be shown with spinner
    */
   loadingText?: string;
+
+  /**
+   * Position of the loading spinner relative to button text
+   * @default 'start'
+   */
+  loadingPosition?: 'start' | 'center' | 'end';
+
+  /**
+   * Custom loading indicator element (replaces default Spinner)
+   * @example <ThreeDotsIcon className="animate-pulse" />
+   */
+  loadingIndicator?: ReactNode;
 
   /**
    * Icon to display before button text (decorative, marked with aria-hidden)

@@ -4,16 +4,18 @@ A versatile, accessible button component using Bootstrap 5 native classes with D
 
 ## Features
 
-- **FSM Architecture**: Deterministic visual state management with clear state transitions
-- **17 variants**: primary, secondary, success, danger, warning, info, light, dark, outline-\*, link
-- **3 sizes**: sm (small), md (medium), lg (large)
-- **Visual States**: idle, hovered, focused, pressed, disabled, loading, error
-- **Icons**: Support for start and end icons
-- **Loading**: Built-in spinner with customizable loading text
-- **Error State**: New `error` prop for error feedback (NEW)
-- **Full width**: Option to span full container width
-- **Accessible**: WCAG 2.2 AA compliant
-- **Fully Backward Compatible**: All existing code continues to work
+- FSM Architecture: Deterministic visual state management with clear state transitions
+- 26+ variants: solid, outline-\*, subtle-\*, ghost, link
+- 4 sizes: sm, md (default), lg, icon (square)
+- Visual States: idle, hovered, focused, pressed, disabled, loading, error
+- Icons: Support for start and end icons
+- Loading: Built-in spinner with configurable position (start/center/end) and custom indicator
+- Error State: `error` prop for error feedback
+- Ghost variant: Transparent background with FSM-driven hover feedback
+- Subtle variants: Lighter backgrounds using Bootstrap subtle utilities
+- Full width: Option to span full container width
+- WCAG 2.2 AA compliant
+- Fully backward compatible
 
 ## Installation
 
@@ -104,6 +106,13 @@ function App() {
 <Button variant="outline-success">Outline Success</Button>
 <Button variant="outline-danger">Outline Danger</Button>
 
+// Ghost variant (transparent, subtle hover)
+<Button variant="ghost">Ghost Button</Button>
+
+// Subtle variants (lighter backgrounds)
+<Button variant="subtle-primary">Subtle Primary</Button>
+<Button variant="subtle-danger">Subtle Danger</Button>
+
 // Link variant
 <Button variant="link">Link Button</Button>
 ```
@@ -114,6 +123,9 @@ function App() {
 <Button size="sm">Small</Button>
 <Button size="md">Medium (Default)</Button>
 <Button size="lg">Large</Button>
+
+// Icon size (square, for icon-only buttons)
+<Button size="icon" aria-label="Settings" startIcon={<GearIcon />}>{''}</Button>
 ```
 
 ### Loading State
@@ -146,6 +158,27 @@ function SaveButton() {
     </Button>
   );
 }
+```
+
+### Loading Position
+
+```tsx
+// Start (default)
+<Button loading loadingPosition="start">Saving...</Button>
+
+// End
+<Button loading loadingPosition="end">Saving...</Button>
+
+// Center (hides text, overlays spinner)
+<Button loading loadingPosition="center">Save</Button>
+```
+
+### Custom Loading Indicator
+
+```tsx
+<Button loading loadingIndicator={<DotsIcon className="animate-pulse" />}>
+  Processing
+</Button>
 ```
 
 ### Error State
@@ -251,19 +284,21 @@ function FocusButton() {
 
 ## Props
 
-| Prop               | Type                              | Default     | Description                                                       |
-| ------------------ | --------------------------------- | ----------- | ----------------------------------------------------------------- |
-| `children`         | `ReactNode`                       | -           | Button content                                                    |
-| `variant`          | `ButtonVariant`                   | `'primary'` | Visual style variant                                              |
-| `size`             | `'sm' \| 'md' \| 'lg'`            | `'md'`      | Button size                                                       |
-| `disabled`         | `boolean`                         | `false`     | Disabled state                                                    |
-| `loading`          | `boolean`                         | `false`     | Loading state with spinner                                        |
-| `error`            | `boolean`                         | `false`     | Error state (NEW) - visual feedback for failed operations         |
-| `loadingText`      | `string`                          | -           | Text to show while loading                                        |
-| `startIcon`        | `ReactNode`                       | -           | Icon before text                                                  |
-| `endIcon`          | `ReactNode`                       | -           | Icon after text                                                   |
-| `fullWidth`        | `boolean`                         | `false`     | Full width button                                                 |
-| `type`             | `'button' \| 'submit' \| 'reset'` | `'button'`  | HTML button type                                                  |
+| Prop               | Type                                | Default     | Description                                                       |
+| ------------------ | ----------------------------------- | ----------- | ----------------------------------------------------------------- |
+| `children`         | `ReactNode`                         | -           | Button content                                                    |
+| `variant`          | `ButtonVariant`                     | `'primary'` | Visual style variant (solid, outline-\*, subtle-\*, ghost, link)  |
+| `size`             | `'sm' \| 'md' \| 'lg' \| 'icon'`   | `'md'`      | Button size (`icon` = square 2.5rem)                              |
+| `disabled`         | `boolean`                           | `false`     | Disabled state                                                    |
+| `loading`          | `boolean`                           | `false`     | Loading state with spinner                                        |
+| `error`            | `boolean`                           | `false`     | Error state - visual feedback for failed operations               |
+| `loadingText`      | `string`                            | -           | Text to show while loading                                        |
+| `loadingPosition`  | `'start' \| 'center' \| 'end'`     | `'start'`   | Position of the loading spinner                                   |
+| `loadingIndicator` | `ReactNode`                         | -           | Custom loading indicator (replaces default Spinner)               |
+| `startIcon`        | `ReactNode`                         | -           | Icon before text                                                  |
+| `endIcon`          | `ReactNode`                         | -           | Icon after text                                                   |
+| `fullWidth`        | `boolean`                           | `false`     | Full width button                                                 |
+| `type`             | `'button' \| 'submit' \| 'reset'`   | `'button'`  | HTML button type                                                  |
 | `onClick`          | `(event) => void`                 | -           | Click handler                                                     |
 | `className`        | `string`                          | -           | Additional CSS classes                                            |
 | `style`            | `CSSProperties`                   | -           | Inline styles                                                     |
@@ -517,13 +552,13 @@ describe('Button FSM States', () => {
 
 For comprehensive test coverage, see:
 
-- `Button.test.tsx` - Core unit tests (85 tests): rendering, props, variants, sizes, states, interactions
+- `Button.test.tsx` - Core unit tests (103 tests): rendering, props, variants, sizes, states, interactions, ghost, subtle, icon size, loading position, custom indicator
 - `Button.a11y.test.tsx` - Accessibility tests (24 tests): ARIA attributes, WCAG compliance, keyboard navigation, icon-only guards
 - `Button.fsm.test.ts` - FSM reducer unit tests (36 tests): state transitions, event handling, priority rules
 - `Button.integration.test.tsx` - Integration tests (6 tests): FSM + component interaction, state visualization
 - `Button.stories.tsx` - Storybook interactive documentation
 
-> **Total: 151 tests across 4 test files**
+> **Total: 169 tests across 4 test files**
 
 ## Test Coverage
 
@@ -533,11 +568,11 @@ The Button component has comprehensive test coverage organized into specialized 
 
 | File                          | Purpose                                             | Test Count |
 | ----------------------------- | --------------------------------------------------- | ---------- |
-| `Button.test.tsx`             | Core functionality, props, variants, event handling | 85         |
+| `Button.test.tsx`             | Core functionality, props, variants, new features   | 103        |
 | `Button.a11y.test.tsx`        | WCAG 2.2 AA compliance, ARIA, keyboard a11y         | 24         |
 | `Button.fsm.test.ts`          | FSM reducer unit tests, state transitions           | 36         |
 | `Button.integration.test.tsx` | FSM + component integration, visual states          | 6          |
-| **Total**                     |                                                     | **151**    |
+| **Total**                     |                                                     | **169**    |
 
 ### Accessibility Test Categories
 

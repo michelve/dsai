@@ -332,6 +332,7 @@ export const Card = memo(
         'card',
         getVariantClass(variant, { prefix: 'card' }),
         color && getColorClass(color),
+        size && size !== 'md' && `card-${size}`,
         horizontal && 'flex-row',
         isInteractive && 'card-interactive',
         variant === 'elevated' && 'shadow-sm',
@@ -340,7 +341,7 @@ export const Card = memo(
         variant === 'ghost' && 'border-0',
         className
       );
-    }, [variant, color, horizontal, isInteractive, className]);
+    }, [variant, color, size, horizontal, isInteractive, className]);
 
     // Interactive card styles with memoization
     const interactiveStyle = useMemo<React.CSSProperties | undefined>(() => {

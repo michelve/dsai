@@ -199,6 +199,38 @@ describe('Carousel Accessibility', () => {
     });
   });
 
+  describe('W3C Carousel Pattern ARIA', () => {
+    it('each slide has role="group"', () => {
+      const { container } = renderAccessibleCarousel();
+      const slides = container.querySelectorAll('.carousel-item');
+      slides.forEach((slide) => {
+        expect(slide).toHaveAttribute('role', 'group');
+      });
+    });
+
+    it('each slide has aria-roledescription="slide"', () => {
+      const { container } = renderAccessibleCarousel();
+      const slides = container.querySelectorAll('.carousel-item');
+      slides.forEach((slide) => {
+        expect(slide).toHaveAttribute('aria-roledescription', 'slide');
+      });
+    });
+
+    it('each slide has aria-label with position', () => {
+      const { container } = renderAccessibleCarousel();
+      const slides = container.querySelectorAll('.carousel-item');
+      expect(slides[0]).toHaveAttribute('aria-label', 'Slide 1 (1 of 3)');
+      expect(slides[1]).toHaveAttribute('aria-label', 'Slide 2 (2 of 3)');
+      expect(slides[2]).toHaveAttribute('aria-label', 'Slide 3 (3 of 3)');
+    });
+
+    it('has no violations with W3C slide ARIA attributes', async () => {
+      const { container } = renderAccessibleCarousel();
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
+
   describe('Keyboard Navigation', () => {
     it('carousel is focusable for keyboard users', () => {
       const { container } = renderAccessibleCarousel();

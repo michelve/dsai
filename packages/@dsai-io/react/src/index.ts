@@ -169,6 +169,7 @@ export {
   type CardListVisualState,
   type CardProps,
   type CardSelectionMode,
+  type CardSize,
   type CardTextProps,
   type CardTitleProps,
   type CardVariant,
