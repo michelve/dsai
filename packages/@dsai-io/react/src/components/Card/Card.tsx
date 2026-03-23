@@ -218,7 +218,7 @@ const CardTextComponent = forwardRef<HTMLElement, CardTextProps>(function CardTe
   );
 
   return (
-    <Component ref={ref} {...rest} className={classes} style={style}>
+    <Component ref={ref as React.Ref<never>} {...rest} className={classes} style={style}>
       {children}
     </Component>
   );
@@ -332,7 +332,7 @@ export const Card = memo(
   ) {
     const isInteractive = interactive || Boolean(href) || Boolean(onClick);
 
-    if (process.env.NODE_ENV !== 'production') {
+    if (Reflect.get(process.env, 'NODE_ENV') !== 'production') {
       if (interactive && !href && !onClick) {
         console.warn(
           'Card: `interactive` prop has no effect without `href` or `onClick`. ' +
