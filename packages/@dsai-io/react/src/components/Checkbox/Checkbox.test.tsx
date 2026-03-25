@@ -468,6 +468,50 @@ describe('Checkbox', () => {
     });
   });
 
+  describe('Color Variants', () => {
+    it('applies dsai-checkbox-success class for variant="success"', () => {
+      const { container } = render(<Checkbox variant="success" label="Success" />);
+      expect(container.querySelector('.form-check')).toHaveClass('dsai-checkbox-success');
+    });
+
+    it('applies dsai-checkbox-danger class for variant="danger"', () => {
+      const { container } = render(<Checkbox variant="danger" label="Danger" />);
+      expect(container.querySelector('.form-check')).toHaveClass('dsai-checkbox-danger');
+    });
+
+    it('does not apply variant class when variant is omitted', () => {
+      const { container } = render(<Checkbox label="Default" />);
+      const wrapperClass = container.querySelector('.form-check')?.className ?? '';
+      expect(wrapperClass).not.toMatch(/dsai-checkbox-(primary|secondary|success|danger|warning|info|light|dark)/);
+    });
+
+    it('applies variant class with switch mode', () => {
+      const { container } = render(<Checkbox variant="success" switch label="Success Switch" />);
+      const wrapper = container.querySelector('.form-check');
+      expect(wrapper).toHaveClass('dsai-checkbox-success');
+      expect(wrapper).toHaveClass('form-switch');
+    });
+
+    it('combines size and variant classes', () => {
+      const { container } = render(<Checkbox size="lg" variant="danger" label="Large Danger" />);
+      const wrapper = container.querySelector('.form-check');
+      expect(wrapper).toHaveClass('dsai-checkbox-lg');
+      expect(wrapper).toHaveClass('dsai-checkbox-danger');
+    });
+
+    it('has no a11y violations with color variants', async () => {
+      const { container } = render(
+        <>
+          <Checkbox variant="success" label="Success" />
+          <Checkbox variant="danger" label="Danger" />
+          <Checkbox variant="warning" label="Warning" />
+        </>
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
+
   describe('Display Name', () => {
     it('has correct displayName', () => {
       expect(Checkbox.displayName).toBe('Checkbox');

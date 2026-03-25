@@ -109,6 +109,7 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
       id: providedId,
       required = false,
       size,
+      variant,
       'aria-label': ariaLabel,
       ...rest
     },
@@ -150,9 +151,10 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
           reverse && 'form-check-reverse',
           size === 'sm' && 'dsai-checkbox-sm',
           size === 'lg' && 'dsai-checkbox-lg',
+          variant && `dsai-checkbox-${variant}`,
           className
         ),
-      [isSwitch, inline, reverse, size, className]
+      [isSwitch, inline, reverse, size, variant, className]
     );
 
     // Memoize input classes
