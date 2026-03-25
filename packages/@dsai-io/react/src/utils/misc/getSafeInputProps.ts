@@ -142,14 +142,31 @@ export type SafeInputProps = Partial<Record<SafeInputAttribute, unknown>>;
  * });
  * // Result: { id: 'email', name: 'email', 'aria-label': 'Email' }
  */
+/** Keys that must never be accessed dynamically (prototype pollution prevention) */
+const BLOCKED_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
+/** Pattern for safe data-* attributes */
+const DATA_ATTR_PATTERN = /^data-[a-z][a-z0-9-]*$/;
+
 export function getSafeInputProps(props: Record<string, unknown>): SafeInputProps {
-  const safeEntries: Array<[SafeInputAttribute, unknown]> = [];
+  const safeEntries: Array<[string, unknown]> = [];
+
+  // Pass through whitelisted attributes
   for (const safeKey of SAFE_INPUT_ATTRIBUTE_KEYS) {
     const descriptor = Object.getOwnPropertyDescriptor(props, safeKey);
     if (descriptor) {
       safeEntries.push([safeKey, descriptor.value]);
     }
   }
+
+  // Pass through data-* attributes (e.g., data-testid, data-cy)
+  for (const key of Object.keys(props)) {
+    if (BLOCKED_KEYS.has(key)) continue;
+    if (DATA_ATTR_PATTERN.test(key)) {
+      safeEntries.push([key, Reflect.get(props, key)]);
+    }
+  }
+
   return Object.fromEntries(safeEntries) as SafeInputProps;
 }
 
