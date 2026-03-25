@@ -152,6 +152,23 @@ export interface CheckboxProps
   readOnly?: boolean;
 
   /**
+   * Custom icon when checked. Requires controlled mode (checked + onChange).
+   * Must provide uncheckedIcon too.
+   */
+  checkedIcon?: ReactNode;
+
+  /**
+   * Custom icon when unchecked. Must provide checkedIcon too.
+   */
+  uncheckedIcon?: ReactNode;
+
+  /**
+   * Custom icon when indeterminate. Falls back to a dash if omitted
+   * while other icons provided.
+   */
+  indeterminateIcon?: ReactNode;
+
+  /**
    * Accessible label for screen readers (when no visible label)
    */
   'aria-label'?: string;

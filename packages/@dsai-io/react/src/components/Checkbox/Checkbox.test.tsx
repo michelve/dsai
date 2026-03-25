@@ -577,6 +577,135 @@ describe('Checkbox', () => {
     });
   });
 
+  describe('Custom Icons', () => {
+    const CheckedIcon = () => <svg data-testid="checked-icon" />;
+    const UncheckedIcon = () => <svg data-testid="unchecked-icon" />;
+    const IndeterminateIcon = () => <svg data-testid="indeterminate-icon" />;
+
+    it('renders unchecked icon when not checked', () => {
+      render(
+        <Checkbox
+          checked={false}
+          onChange={() => {}}
+          checkedIcon={<CheckedIcon />}
+          uncheckedIcon={<UncheckedIcon />}
+          label="Custom"
+        />
+      );
+      expect(screen.getByTestId('unchecked-icon')).toBeInTheDocument();
+      expect(screen.queryByTestId('checked-icon')).not.toBeInTheDocument();
+    });
+
+    it('renders checked icon when checked', () => {
+      render(
+        <Checkbox
+          checked
+          onChange={() => {}}
+          checkedIcon={<CheckedIcon />}
+          uncheckedIcon={<UncheckedIcon />}
+          label="Custom"
+        />
+      );
+      expect(screen.getByTestId('checked-icon')).toBeInTheDocument();
+      expect(screen.queryByTestId('unchecked-icon')).not.toBeInTheDocument();
+    });
+
+    it('renders indeterminate icon when indeterminate', () => {
+      render(
+        <Checkbox
+          checked={false}
+          onChange={() => {}}
+          indeterminate
+          checkedIcon={<CheckedIcon />}
+          uncheckedIcon={<UncheckedIcon />}
+          indeterminateIcon={<IndeterminateIcon />}
+          label="Custom"
+        />
+      );
+      expect(screen.getByTestId('indeterminate-icon')).toBeInTheDocument();
+      expect(screen.queryByTestId('checked-icon')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('unchecked-icon')).not.toBeInTheDocument();
+    });
+
+    it('hides native input visually when custom icons are provided', () => {
+      render(
+        <Checkbox
+          checked={false}
+          onChange={() => {}}
+          checkedIcon={<CheckedIcon />}
+          uncheckedIcon={<UncheckedIcon />}
+          label="Custom"
+        />
+      );
+      expect(screen.getByRole('checkbox')).toHaveClass('visually-hidden');
+    });
+
+    it('does not hide input when no icon props are provided', () => {
+      render(<Checkbox label="Normal" />);
+      expect(screen.getByRole('checkbox')).not.toHaveClass('visually-hidden');
+    });
+
+    it('icon label delegates click to hidden input', async () => {
+      const handleChange = jest.fn();
+      render(
+        <Checkbox
+          checked={false}
+          onChange={handleChange}
+          checkedIcon={<CheckedIcon />}
+          uncheckedIcon={<UncheckedIcon />}
+          label="Custom"
+        />
+      );
+      await userEvent.click(screen.getByTestId('unchecked-icon'));
+      expect(handleChange).toHaveBeenCalledTimes(1);
+    });
+
+    it('has no a11y violations with custom icons', async () => {
+      const { container } = render(
+        <Checkbox
+          checked={false}
+          onChange={() => {}}
+          checkedIcon={<CheckedIcon />}
+          uncheckedIcon={<UncheckedIcon />}
+          label="Custom Icons"
+        />
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('warns in dev when custom icons used without controlled mode', () => {
+      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+      render(
+        <Checkbox
+          checkedIcon={<CheckedIcon />}
+          uncheckedIcon={<UncheckedIcon />}
+          label="Uncontrolled with icons"
+        />
+      );
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('[DSAi Checkbox] Custom icons require controlled mode')
+      );
+      consoleSpy.mockRestore();
+    });
+
+    it('renders default fallback for indeterminate when indeterminateIcon not provided', () => {
+      const { container } = render(
+        <Checkbox
+          checked={false}
+          onChange={() => {}}
+          indeterminate
+          checkedIcon={<CheckedIcon />}
+          uncheckedIcon={<UncheckedIcon />}
+          label="Custom"
+        />
+      );
+      expect(container.querySelector('.dsai-checkbox-icon-fallback')).toBeInTheDocument();
+      expect(screen.queryByTestId('checked-icon')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('unchecked-icon')).not.toBeInTheDocument();
+    });
+  });
+
   describe('Display Name', () => {
     it('has correct displayName', () => {
       expect(Checkbox.displayName).toBe('Checkbox');

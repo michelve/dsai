@@ -112,6 +112,9 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
       size,
       variant,
       readOnly = false,
+      checkedIcon,
+      uncheckedIcon,
+      indeterminateIcon,
       'aria-label': ariaLabel,
       ...rest
     },
@@ -163,6 +166,38 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
       [readOnly, disabled, onChange]
     );
 
+    // Custom icon support
+    const hasCustomIcons = checkedIcon !== undefined && uncheckedIcon !== undefined;
+
+    // Dev warning: custom icons require controlled mode
+    useEffect(() => {
+      if (
+        hasCustomIcons &&
+        checked === undefined &&
+        typeof process !== 'undefined' &&
+        // biome-ignore lint/complexity/useLiteralKeys: noPropertyAccessFromIndexSignature requires bracket access
+        process.env?.['NODE_ENV'] !== 'production'
+      ) {
+        console.warn(
+          '[DSAi Checkbox] Custom icons require controlled mode (checked + onChange). Uncontrolled checkboxes cannot update icon state.'
+        );
+      }
+    }, [hasCustomIcons, checked]);
+
+    const currentIcon = useMemo(() => {
+      if (!hasCustomIcons) return null;
+      if (indeterminate) {
+        return (
+          indeterminateIcon ?? (
+            <span className="dsai-checkbox-icon-fallback" aria-hidden="true">
+              —
+            </span>
+          )
+        );
+      }
+      return checked ? checkedIcon : uncheckedIcon;
+    }, [hasCustomIcons, indeterminate, indeterminateIcon, checked, checkedIcon, uncheckedIcon]);
+
     // Memoize wrapper classes
     const wrapperClasses = useMemo(
       () =>
@@ -181,7 +216,10 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
     );
 
     // Memoize input classes
-    const inputClasses = useMemo(() => cn('form-check-input', error && 'is-invalid'), [error]);
+    const inputClasses = useMemo(
+      () => cn('form-check-input', error && 'is-invalid', hasCustomIcons && 'visually-hidden'),
+      [error, hasCustomIcons]
+    );
 
     // Label classes (static, no memoization needed)
     const labelClasses = 'form-check-label';
@@ -214,6 +252,11 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
           aria-checked={indeterminate ? 'mixed' : undefined}
           {...safeProps}
         />
+        {hasCustomIcons && (
+          <label htmlFor={id} className="dsai-checkbox-icon" aria-hidden="true">
+            <span aria-hidden="true">{currentIcon}</span>
+          </label>
+        )}
         {label && (
           <label htmlFor={id} className={labelClasses}>
             {label}
