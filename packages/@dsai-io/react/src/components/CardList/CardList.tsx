@@ -115,6 +115,7 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListProps>(
       'aria-labelledby': ariaLabelledby,
       'aria-describedby': externalDescribedby,
       helperText,
+      onVisualStateChange,
       className = '',
       style,
       id: providedId,
@@ -243,6 +244,11 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListProps>(
     // Derive visual state for rendering (selectedValues comes from useControllableState)
     const { visualState } = fsmState;
     const renderSelectedValues = fsmState.selectedValues;
+
+    // Notify consumer of visual state changes
+    useEffect(() => {
+      onVisualStateChange?.(visualState);
+    }, [visualState, onVisualStateChange]);
 
     // Determine selection mode for SelectableCard
     const cardSelectionMode = useMemo(() => {

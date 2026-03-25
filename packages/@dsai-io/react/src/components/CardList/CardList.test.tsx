@@ -815,6 +815,58 @@ describe('CardList', () => {
   });
 
   // ===========================================================================
+  // onVisualStateChange
+  // ===========================================================================
+
+  describe('onVisualStateChange', () => {
+    it('calls onVisualStateChange on mount with initial state', () => {
+      const handleVisualState = jest.fn();
+      render(
+        <CardList
+          label="Features"
+          items={defaultItems}
+          selectionMode="multiple"
+          defaultValue={[]}
+          onVisualStateChange={handleVisualState}
+        />
+      );
+      expect(handleVisualState).toHaveBeenCalledWith('none');
+    });
+
+    it('calls onVisualStateChange when selection changes', async () => {
+      const handleVisualState = jest.fn();
+      render(
+        <CardList
+          label="Features"
+          items={defaultItems}
+          selectionMode="multiple"
+          defaultValue={[]}
+          onVisualStateChange={handleVisualState}
+        />
+      );
+      handleVisualState.mockClear();
+      await userEvent.click(screen.getByRole('checkbox', { name: /basic plan/i }));
+      expect(handleVisualState).toHaveBeenCalledWith('one');
+    });
+
+    it('reports "all" when all items selected', async () => {
+      const handleVisualState = jest.fn();
+      render(
+        <CardList
+          label="Features"
+          items={defaultItems}
+          selectionMode="multiple"
+          defaultValue={['basic', 'pro']}
+          onVisualStateChange={handleVisualState}
+        />
+      );
+      handleVisualState.mockClear();
+      await userEvent.click(screen.getByRole('checkbox', { name: /enterprise/i }));
+      expect(handleVisualState).toHaveBeenCalledWith('all');
+    });
+  });
+
+  // ===========================================================================
   // Dev Warnings
   // ===========================================================================
 

@@ -169,6 +169,11 @@ interface CardListBaseProps extends Omit<
    */
   helperText?: string;
 
+  /**
+   * Callback fired when the visual state changes (none, one, some, all)
+   */
+  onVisualStateChange?: (visualState: CardListVisualState) => void;
+
 }
 
 // =============================================================================
