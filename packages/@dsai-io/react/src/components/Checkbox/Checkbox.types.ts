@@ -35,7 +35,7 @@ import type { ComponentSize, SemanticColorVariant } from '../../types';
  * ```
  */
 export interface CheckboxProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange' | 'readOnly'> {
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange' | 'readOnly' | 'size'> {
   /**
    * Checkbox label text or element
    */
