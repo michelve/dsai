@@ -654,6 +654,46 @@ describe('CardList', () => {
   });
 
   // ===========================================================================
+  // Responsive Columns
+  // ===========================================================================
+
+  describe('Responsive Columns', () => {
+    it('applies Bootstrap row-cols classes for responsive columns', () => {
+      const { container } = render(
+        <CardList
+          label="Plans"
+          items={defaultItems}
+          columns={{ sm: 1, md: 2, lg: 3 }}
+        />
+      );
+      const cardsContainer = container.querySelector('.card-list-container');
+      expect(cardsContainer).toHaveClass('row');
+      expect(cardsContainer).toHaveClass('row-cols-sm-1');
+      expect(cardsContainer).toHaveClass('row-cols-md-2');
+      expect(cardsContainer).toHaveClass('row-cols-lg-3');
+    });
+
+    it('wraps each card in col div for responsive columns', () => {
+      const { container } = render(
+        <CardList label="Plans" items={defaultItems} columns={{ md: 2 }} />
+      );
+      const cols = container.querySelectorAll('.col');
+      expect(cols).toHaveLength(3);
+    });
+
+    it('still uses grid for numeric columns', () => {
+      const { container } = render(
+        <CardList label="Plans" items={defaultItems} columns={2} />
+      );
+      const cardsContainer = container.querySelector('.card-list-container');
+      expect(cardsContainer).toHaveStyle({
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+      });
+    });
+  });
+
+  // ===========================================================================
   // Size Prop
   // ===========================================================================
 

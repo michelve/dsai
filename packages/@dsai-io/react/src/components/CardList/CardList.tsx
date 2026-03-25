@@ -271,19 +271,36 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListProps>(
       [error, className]
     );
 
-    // Build container classes and styles based on layout
+    // Whether columns is a responsive object
+    const isResponsiveColumns = typeof columns === 'object';
+
+    // Build container classes based on layout
+    const containerClasses = useMemo(() => {
+      if (isResponsiveColumns) {
+        const classes = ['card-list-container', 'row'];
+        if (columns.sm) classes.push(`row-cols-sm-${columns.sm}`);
+        if (columns.md) classes.push(`row-cols-md-${columns.md}`);
+        if (columns.lg) classes.push(`row-cols-lg-${columns.lg}`);
+        if (columns.xl) classes.push(`row-cols-xl-${columns.xl}`);
+        return classes.join(' ');
+      }
+      return 'card-list-container';
+    }, [columns, isResponsiveColumns]);
+
+    // Build container styles based on layout
     const containerStyle = useMemo<React.CSSProperties>(() => {
+      if (isResponsiveColumns) {
+        // Bootstrap row handles layout; use gap as inline style
+        return { gap };
+      }
+
       const baseStyle: React.CSSProperties = {
         gap,
       };
 
-      if (columns) {
-        // Grid layout for columns
+      if (typeof columns === 'number') {
         baseStyle.display = 'grid';
-        if (typeof columns === 'number') {
-          baseStyle.gridTemplateColumns = `repeat(${columns}, 1fr)`;
-        }
-        // For responsive columns, we'd need CSS classes
+        baseStyle.gridTemplateColumns = `repeat(${columns}, 1fr)`;
       } else if (orientation === 'horizontal') {
         baseStyle.display = 'flex';
         baseStyle.flexWrap = 'wrap';
@@ -293,7 +310,7 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListProps>(
       }
 
       return baseStyle;
-    }, [gap, columns, orientation]);
+    }, [gap, columns, orientation, isResponsiveColumns]);
 
     // Compute describedby
     const computedDescribedby = useMemo(() => {
@@ -329,13 +346,13 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListProps>(
         )}
 
         {/* Cards container */}
-        <div className="card-list-container" style={containerStyle} data-visual-state={visualState}>
+        <div className={containerClasses} style={containerStyle} data-visual-state={visualState}>
           {items.map((item) => {
             const itemId = `${id}-item-${item.value}`;
             const isSelected = renderSelectedValues.includes(item.value);
             const isDisabled = disabled || item.disabled;
 
-            return (
+            const card = (
               <SelectableCard
                 key={item.value}
                 id={itemId}
@@ -360,6 +377,16 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListProps>(
                 {item.children}
               </SelectableCard>
             );
+
+            if (isResponsiveColumns) {
+              return (
+                <div key={item.value} className="col">
+                  {card}
+                </div>
+              );
+            }
+
+            return card;
           })}
         </div>
 
