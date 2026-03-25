@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
 
@@ -252,6 +252,38 @@ describe('Checkbox - Security', () => {
 
       expect(onChange).toHaveBeenCalled();
       expect(checkbox).toHaveFocus();
+    });
+  });
+
+  describe('ReadOnly Security', () => {
+    it('readonly prevents onchange even with direct event dispatch', async () => {
+      const handleChange = jest.fn();
+      render(<Checkbox readOnly checked={false} onChange={handleChange} label="ReadOnly" />);
+      fireEvent.click(screen.getByRole('checkbox'));
+      expect(handleChange).not.toHaveBeenCalled();
+    });
+
+    it('readonly does not add native readonly attribute to dom', () => {
+      render(<Checkbox readOnly label="ReadOnly" />);
+      const checkbox = screen.getByRole('checkbox');
+      expect(checkbox).not.toHaveAttribute('readOnly');
+      expect(checkbox).not.toHaveAttribute('readonly');
+    });
+  });
+
+  describe('Custom Icon Security', () => {
+    it('icon content is rendered as react children not innerhtml', () => {
+      const maliciousContent = '<img src=x onerror=alert(1)>';
+      render(
+        <Checkbox
+          checked={false}
+          onChange={() => {}}
+          checkedIcon={maliciousContent}
+          uncheckedIcon={maliciousContent}
+          label="Icon test"
+        />
+      );
+      expect(document.querySelector('img')).not.toBeInTheDocument();
     });
   });
 });
