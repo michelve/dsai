@@ -187,7 +187,9 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
     }, [hasCustomIcons, checked]);
 
     const currentIcon = useMemo(() => {
-      if (!hasCustomIcons) return null;
+      if (!hasCustomIcons) {
+        return null;
+      }
       if (indeterminate) {
         return (
           indeterminateIcon ?? (

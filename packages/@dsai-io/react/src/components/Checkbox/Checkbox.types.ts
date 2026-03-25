@@ -1,6 +1,5 @@
-import type { CSSProperties, InputHTMLAttributes, ReactNode } from 'react';
-
 import type { ComponentSize, SemanticColorVariant } from '../../types';
+import type { CSSProperties, InputHTMLAttributes, ReactNode } from 'react';
 
 /**
  * Checkbox component props
