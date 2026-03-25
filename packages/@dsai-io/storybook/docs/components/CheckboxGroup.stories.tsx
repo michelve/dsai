@@ -139,6 +139,18 @@ const meta: Meta<typeof CheckboxGroup> = {
         defaultValue: { summary: "'vertical'" },
       },
     },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Size passed to child checkboxes',
+      table: { type: { summary: "'sm' | 'md' | 'lg'" } },
+    },
+    variant: {
+      control: 'select',
+      options: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'],
+      description: 'Color variant passed to child checkboxes',
+      table: { type: { summary: 'SemanticColorVariant' } },
+    },
   },
 };
 
@@ -430,6 +442,28 @@ export const Horizontal: Story = {
       { value: 'archived', label: 'Archived' },
     ],
     orientation: 'horizontal',
+  },
+};
+
+// =============================================================================
+// Size & Variant Pass-through
+// =============================================================================
+export const WithSize: Story = {
+  args: {
+    label: 'Large Group',
+    options: defaultOptions,
+    size: 'lg',
+    showSelectAll: true,
+  },
+};
+
+export const WithVariant: Story = {
+  args: {
+    label: 'Success Variant Group',
+    options: defaultOptions,
+    variant: 'success',
+    showSelectAll: true,
+    defaultValue: ['email'],
   },
 };
 

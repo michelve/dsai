@@ -127,6 +127,23 @@ const meta: Meta<typeof Checkbox> = {
         defaultValue: { summary: 'false' },
       },
     },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Checkbox size',
+      table: { type: { summary: "'sm' | 'md' | 'lg'" } },
+    },
+    readOnly: {
+      control: 'boolean',
+      description: 'ReadOnly mode',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    variant: {
+      control: 'select',
+      options: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'],
+      description: 'Color variant',
+      table: { type: { summary: 'SemanticColorVariant' } },
+    },
   },
 };
 
@@ -403,6 +420,77 @@ export const Stacked: Story = {
       <Checkbox label="Option 4" disabled />
     </div>
   ),
+};
+
+// =============================================================================
+// Size Variants
+// =============================================================================
+export const Sizes: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+      <Checkbox size="sm" label="Small checkbox" />
+      <Checkbox label="Default checkbox (md)" />
+      <Checkbox size="lg" label="Large checkbox" />
+    </div>
+  ),
+};
+
+export const SizesWithSwitch: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+      <Checkbox size="sm" switch label="Small switch" />
+      <Checkbox switch label="Default switch (md)" />
+      <Checkbox size="lg" switch label="Large switch" />
+    </div>
+  ),
+};
+
+// =============================================================================
+// Color Variants
+// =============================================================================
+export const ColorVariants: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+      <Checkbox variant="primary" defaultChecked label="Primary" />
+      <Checkbox variant="secondary" defaultChecked label="Secondary" />
+      <Checkbox variant="success" defaultChecked label="Success" />
+      <Checkbox variant="danger" defaultChecked label="Danger" />
+      <Checkbox variant="warning" defaultChecked label="Warning" />
+      <Checkbox variant="info" defaultChecked label="Info" />
+    </div>
+  ),
+};
+
+// =============================================================================
+// ReadOnly Mode
+// =============================================================================
+export const ReadOnly: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+      <Checkbox readOnly checked onChange={() => {}} label="ReadOnly checked" />
+      <Checkbox readOnly label="ReadOnly unchecked" />
+      <Checkbox readOnly indeterminate label="ReadOnly indeterminate" />
+      <Checkbox disabled label="Disabled (for comparison)" />
+    </div>
+  ),
+};
+
+// =============================================================================
+// Custom Icons
+// =============================================================================
+export const CustomIcons: Story = {
+  render: function CustomIconDemo() {
+    const [checked, setChecked] = useState(false);
+    return (
+      <Checkbox
+        checked={checked}
+        onChange={(e) => setChecked(e.target.checked)}
+        checkedIcon={<CheckIcon size={18} className="text-success" />}
+        uncheckedIcon={<XLgIcon size={18} className="text-muted" />}
+        label="Custom check/x icons"
+      />
+    );
+  },
 };
 
 // =============================================================================
