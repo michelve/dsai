@@ -179,6 +179,16 @@ interface CardListBaseProps extends Omit<
    */
   onVisualStateChange?: (visualState: CardListVisualState) => void;
 
+  /**
+   * Custom render function for card content.
+   * Replaces the default title/description/children slots inside SelectableCard.
+   * The native input, selection state, and keyboard navigation remain intact.
+   */
+  renderItem?: (
+    item: CardListItem,
+    state: { checked: boolean; disabled: boolean; index: number }
+  ) => ReactNode;
+
 }
 
 // =============================================================================

@@ -117,6 +117,7 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListProps>(
       'aria-describedby': externalDescribedby,
       helperText,
       onVisualStateChange,
+      renderItem,
       className = '',
       style,
       id: providedId,
@@ -347,7 +348,7 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListProps>(
 
         {/* Cards container */}
         <div className={containerClasses} style={containerStyle} data-visual-state={visualState}>
-          {items.map((item) => {
+          {items.map((item, index) => {
             const itemId = `${id}-item-${item.value}`;
             const isSelected = renderSelectedValues.includes(item.value);
             const isDisabled = disabled || item.disabled;
@@ -368,13 +369,15 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListProps>(
                 selectedColor={selectedColor}
                 size={size}
                 horizontal={horizontal}
-                title={item.title}
-                subtitle={item.subtitle}
-                description={item.description}
-                media={item.media}
-                footer={item.footer}
+                title={renderItem ? undefined : item.title}
+                subtitle={renderItem ? undefined : item.subtitle}
+                description={renderItem ? undefined : item.description}
+                media={renderItem ? undefined : item.media}
+                footer={renderItem ? undefined : item.footer}
               >
-                {item.children}
+                {renderItem
+                  ? renderItem(item, { checked: isSelected, disabled: isDisabled ?? false, index })
+                  : item.children}
               </SelectableCard>
             );
 

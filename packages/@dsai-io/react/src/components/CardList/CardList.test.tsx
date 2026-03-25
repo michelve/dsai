@@ -881,6 +881,64 @@ describe('CardList', () => {
   });
 
   // ===========================================================================
+  // renderItem
+  // ===========================================================================
+
+  describe('renderItem', () => {
+    it('uses renderItem for custom card content', () => {
+      render(
+        <CardList
+          label="Plans"
+          items={defaultItems}
+          selectionMode="single"
+          renderItem={(item) => (
+            <div data-testid={`custom-${item.value}`}>
+              <strong>{item.title}</strong>
+            </div>
+          )}
+        />
+      );
+      expect(screen.getByTestId('custom-basic')).toBeInTheDocument();
+      expect(screen.getAllByRole('radio')).toHaveLength(3);
+    });
+
+    it('renderItem receives correct checked state', () => {
+      render(
+        <CardList
+          label="Plans"
+          items={defaultItems}
+          selectionMode="single"
+          value="basic"
+          renderItem={(item, { checked }) => (
+            <span data-testid={`custom-${item.value}`}>
+              {item.title} {checked ? '(selected)' : ''}
+            </span>
+          )}
+        />
+      );
+      expect(screen.getByTestId('custom-basic')).toHaveTextContent('(selected)');
+      expect(screen.getByTestId('custom-pro')).not.toHaveTextContent('(selected)');
+    });
+
+    it('selection still works with renderItem', async () => {
+      const handleChange = jest.fn();
+      render(
+        <CardList
+          label="Plans"
+          items={defaultItems}
+          selectionMode="single"
+          onChange={handleChange}
+          renderItem={(item) => <span>{item.title}</span>}
+        />
+      );
+      // When renderItem is used, title is not passed to SelectableCard,
+      // so aria-label falls back to the item value
+      await userEvent.click(screen.getByRole('radio', { name: /basic/i }));
+      expect(handleChange).toHaveBeenCalledWith('basic');
+    });
+  });
+
+  // ===========================================================================
   // onVisualStateChange
   // ===========================================================================
 
