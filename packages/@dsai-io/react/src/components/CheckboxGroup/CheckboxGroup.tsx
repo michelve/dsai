@@ -103,6 +103,8 @@ const CheckboxGroupComponent = forwardRef<HTMLFieldSetElement, CheckboxGroupProp
       style,
       id: providedId,
       orientation = 'vertical',
+      size,
+      variant,
       'aria-label': ariaLabel,
       'aria-labelledby': ariaLabelledby,
       'aria-describedby': ariaDescribedby,
@@ -234,6 +236,8 @@ const CheckboxGroupComponent = forwardRef<HTMLFieldSetElement, CheckboxGroupProp
               indeterminate={selectAllIndeterminate}
               onChange={handleToggleAll}
               disabled={disabled || totalEnabled === 0}
+              size={size}
+              variant={variant}
               aria-controls={options.map((opt) => `${id}-option-${opt.value}`).join(' ')}
             />
           </div>
@@ -259,6 +263,8 @@ const CheckboxGroupComponent = forwardRef<HTMLFieldSetElement, CheckboxGroupProp
                 required={required}
                 helperText={option.helperText}
                 inline={orientation === 'horizontal'}
+                size={size}
+                variant={variant}
               />
             );
           })}

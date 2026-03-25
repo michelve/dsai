@@ -631,6 +631,44 @@ describe('CheckboxGroup', () => {
   });
 
   // ===========================================================================
+  // Size Pass-through
+  // ===========================================================================
+
+  describe('Size Pass-through', () => {
+    const options = [
+      { value: 'a', label: 'Option A' },
+      { value: 'b', label: 'Option B' },
+    ];
+    it('passes size to child checkboxes', () => {
+      const { container } = render(<CheckboxGroup label="Group" options={options} size="lg" />);
+      expect(container.querySelectorAll('.dsai-checkbox-lg').length).toBe(2);
+    });
+    it('passes size to select-all checkbox', () => {
+      const { container } = render(<CheckboxGroup label="Group" options={options} size="sm" showSelectAll />);
+      expect(container.querySelectorAll('.dsai-checkbox-sm').length).toBe(3);
+    });
+  });
+
+  // ===========================================================================
+  // Variant Pass-through
+  // ===========================================================================
+
+  describe('Variant Pass-through', () => {
+    const options = [
+      { value: 'a', label: 'Option A' },
+      { value: 'b', label: 'Option B' },
+    ];
+    it('passes variant to child checkboxes', () => {
+      const { container } = render(<CheckboxGroup label="Group" options={options} variant="success" />);
+      expect(container.querySelectorAll('.dsai-checkbox-success').length).toBe(2);
+    });
+    it('passes variant to select-all checkbox', () => {
+      const { container } = render(<CheckboxGroup label="Group" options={options} variant="danger" showSelectAll />);
+      expect(container.querySelectorAll('.dsai-checkbox-danger').length).toBe(3);
+    });
+  });
+
+  // ===========================================================================
   // Dev Warnings
   // ===========================================================================
 

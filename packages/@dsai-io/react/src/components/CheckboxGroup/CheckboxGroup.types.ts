@@ -10,6 +10,8 @@
 
 import type { CSSProperties, ReactNode } from 'react';
 
+import type { ComponentSize, SemanticColorVariant } from '../../types';
+
 // =============================================================================
 // Option Types
 // =============================================================================
@@ -149,6 +151,12 @@ export interface CheckboxGroupProps {
    * @default "vertical"
    */
   orientation?: 'horizontal' | 'vertical';
+
+  /** Size variant passed to all child Checkbox components */
+  size?: ComponentSize;
+
+  /** Color variant passed to all child Checkbox components */
+  variant?: SemanticColorVariant;
 
   /**
    * Accessible label for the group when label prop is not visible text
