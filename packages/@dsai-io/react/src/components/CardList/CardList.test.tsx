@@ -654,6 +654,32 @@ describe('CardList', () => {
   });
 
   // ===========================================================================
+  // Size Prop
+  // ===========================================================================
+
+  describe('Size Prop', () => {
+    it('passes size class to cards in none mode', () => {
+      const { container } = render(
+        <CardList label="Plans" items={defaultItems} size="sm" />
+      );
+      const cards = container.querySelectorAll('.card');
+      cards.forEach((card) => {
+        expect(card).toHaveClass('card-sm');
+      });
+    });
+
+    it('passes size class to cards in single mode', () => {
+      const { container } = render(
+        <CardList label="Plans" items={defaultItems} selectionMode="single" size="sm" />
+      );
+      const cards = container.querySelectorAll('.card');
+      cards.forEach((card) => {
+        expect(card).toHaveClass('card-sm');
+      });
+    });
+  });
+
+  // ===========================================================================
   // Card Variant
   // ===========================================================================
 

@@ -25,7 +25,7 @@
  */
 
 import type { CardListSelectionMode, CardListVisualState } from './CardList.fsm';
-import type { CardColor, CardVariant } from '../Card/Card.types';
+import type { CardColor, CardSize, CardVariant } from '../Card/Card.types';
 import type { FieldsetHTMLAttributes, ReactNode } from 'react';
 
 // =============================================================================
@@ -109,6 +109,11 @@ interface CardListBaseProps extends Omit<
   // ===========================================================================
   // Visual
   // ===========================================================================
+
+  /**
+   * Card size variant for all cards in the list
+   */
+  size?: CardSize;
 
   /**
    * Card variant for all cards in the list

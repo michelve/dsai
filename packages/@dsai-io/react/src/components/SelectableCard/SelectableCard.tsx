@@ -126,6 +126,7 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
       // Visual
       variant = 'outlined',
       selectedColor,
+      size,
       horizontal = false,
 
       // Content
@@ -355,6 +356,7 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
           id={id}
           variant={variant}
           color={cardColor}
+          size={size}
           horizontal={horizontal}
           interactive={false}
           className={cardClasses}
@@ -374,7 +376,7 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
       <label
         ref={ref as React.Ref<HTMLLabelElement>}
         htmlFor={inputId}
-        className={`card ${variant === 'outlined' ? 'border' : ''} ${cardClasses}`}
+        className={`card ${variant === 'outlined' ? 'border' : ''} ${size && size !== 'md' ? `card-${size}` : ''} ${cardClasses}`}
         style={{
           ...cardStyle,
           display: 'block',

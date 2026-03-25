@@ -104,6 +104,7 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListProps>(
       error = false,
       errorMessage,
       required = false,
+      size,
       variant = 'outlined',
       selectedColor,
       horizontal = false,
@@ -348,6 +349,7 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListProps>(
                 error={error}
                 variant={variant}
                 selectedColor={selectedColor}
+                size={size}
                 horizontal={horizontal}
                 title={item.title}
                 subtitle={item.subtitle}

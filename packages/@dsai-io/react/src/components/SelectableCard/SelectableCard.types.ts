@@ -1,4 +1,4 @@
-import type { CardColor, CardVariant } from '../Card';
+import type { CardColor, CardSize, CardVariant } from '../Card';
 import type { CSSProperties, ReactNode } from 'react';
 
 // =============================================================================
@@ -153,6 +153,11 @@ export interface SelectableCardProps {
    * Applied only when the card is checked
    */
   selectedColor?: CardColor;
+
+  /**
+   * Card size variant
+   */
+  size?: CardSize;
 
   /**
    * Horizontal layout (media on side)
