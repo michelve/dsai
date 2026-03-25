@@ -512,6 +512,71 @@ describe('Checkbox', () => {
     });
   });
 
+  describe('ReadOnly Mode', () => {
+    it('applies dsai-checkbox-readonly class', () => {
+      const { container } = render(<Checkbox readOnly label="ReadOnly" />);
+      expect(container.querySelector('.form-check')).toHaveClass('dsai-checkbox-readonly');
+    });
+
+    it('sets aria-readonly="true"', () => {
+      render(<Checkbox readOnly label="ReadOnly" />);
+      expect(screen.getByRole('checkbox')).toHaveAttribute('aria-readonly', 'true');
+    });
+
+    it('does not call onChange when readOnly', async () => {
+      const handleChange = jest.fn();
+      render(<Checkbox readOnly checked={false} onChange={handleChange} label="ReadOnly" />);
+      await userEvent.click(screen.getByRole('checkbox'));
+      expect(handleChange).not.toHaveBeenCalled();
+    });
+
+    it('remains focusable when readOnly', async () => {
+      render(
+        <>
+          <button type="button">Before</button>
+          <Checkbox readOnly label="ReadOnly" />
+        </>
+      );
+      await userEvent.tab();
+      await userEvent.tab();
+      expect(screen.getByRole('checkbox')).toHaveFocus();
+    });
+
+    it('is not disabled when readOnly', () => {
+      render(<Checkbox readOnly label="ReadOnly" />);
+      expect(screen.getByRole('checkbox')).not.toBeDisabled();
+    });
+
+    it('disabled takes precedence over readOnly', () => {
+      const { container } = render(<Checkbox readOnly disabled label="Both" />);
+      expect(screen.getByRole('checkbox')).toBeDisabled();
+      expect(container.querySelector('.form-check')).not.toHaveClass('dsai-checkbox-readonly');
+      expect(screen.getByRole('checkbox')).not.toHaveAttribute('aria-readonly');
+    });
+
+    it('does not toggle with Space key when readOnly', async () => {
+      render(<Checkbox readOnly defaultChecked={false} label="ReadOnly" />);
+      const checkbox = screen.getByRole('checkbox');
+      checkbox.focus();
+      await userEvent.keyboard(' ');
+      expect(checkbox).not.toBeChecked();
+    });
+
+    it('readOnly + indeterminate stays indeterminate', async () => {
+      render(<Checkbox readOnly indeterminate label="ReadOnly Indeterminate" />);
+      const checkbox = screen.getByRole('checkbox') as HTMLInputElement;
+      checkbox.focus();
+      await userEvent.keyboard(' ');
+      expect(checkbox.indeterminate).toBe(true);
+    });
+
+    it('has no a11y violations when readOnly', async () => {
+      const { container } = render(<Checkbox readOnly label="ReadOnly" />);
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
+
   describe('Display Name', () => {
     it('has correct displayName', () => {
       expect(Checkbox.displayName).toBe('Checkbox');

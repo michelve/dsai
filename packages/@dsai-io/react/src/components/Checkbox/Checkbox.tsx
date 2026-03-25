@@ -2,6 +2,7 @@ import {
   forwardRef,
   type InputHTMLAttributes,
   memo,
+  useCallback,
   useEffect,
   useId,
   useImperativeHandle,
@@ -110,6 +111,7 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
       required = false,
       size,
       variant,
+      readOnly = false,
       'aria-label': ariaLabel,
       ...rest
     },
@@ -141,6 +143,26 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
       }
     }, [label, ariaLabel, id]);
 
+    // ReadOnly handlers — HTML readOnly has no effect on checkboxes, so enforce via JS
+    const handleClick = useCallback(
+      (event: React.MouseEvent<HTMLInputElement>) => {
+        if (readOnly && !disabled) {
+          event.preventDefault();
+        }
+      },
+      [readOnly, disabled]
+    );
+
+    const handleChange = useCallback(
+      (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (readOnly && !disabled) {
+          return;
+        }
+        onChange?.(event);
+      },
+      [readOnly, disabled, onChange]
+    );
+
     // Memoize wrapper classes
     const wrapperClasses = useMemo(
       () =>
@@ -152,9 +174,10 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
           size === 'sm' && 'dsai-checkbox-sm',
           size === 'lg' && 'dsai-checkbox-lg',
           variant && `dsai-checkbox-${variant}`,
+          readOnly && !disabled && 'dsai-checkbox-readonly',
           className
         ),
-      [isSwitch, inline, reverse, size, variant, className]
+      [isSwitch, inline, reverse, size, variant, readOnly, disabled, className]
     );
 
     // Memoize input classes
@@ -178,8 +201,10 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
           className={inputClasses}
           checked={checked}
           defaultChecked={defaultChecked}
-          onChange={onChange}
+          onChange={handleChange}
+          onClick={handleClick}
           disabled={disabled}
+          aria-readonly={readOnly && !disabled ? true : undefined}
           name={name}
           value={value}
           required={required}

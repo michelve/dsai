@@ -35,7 +35,7 @@ import type { ComponentSize, SemanticColorVariant } from '../../types';
  * ```
  */
 export interface CheckboxProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange'> {
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange' | 'readOnly'> {
   /**
    * Checkbox label text or element
    */
@@ -142,6 +142,14 @@ export interface CheckboxProps
    * @default undefined (Bootstrap default primary)
    */
   variant?: SemanticColorVariant;
+
+  /**
+   * ReadOnly mode — visible and focusable but cannot be toggled.
+   * HTML readOnly has no effect on checkboxes. Enforced via JavaScript.
+   * disabled takes priority over readOnly.
+   * @default false
+   */
+  readOnly?: boolean;
 
   /**
    * Accessible label for screen readers (when no visible label)
