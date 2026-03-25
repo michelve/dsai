@@ -418,6 +418,56 @@ describe('Checkbox', () => {
     });
   });
 
+  describe('Size Variants', () => {
+    it('applies dsai-checkbox-sm class for size="sm"', () => {
+      const { container } = render(<Checkbox size="sm" label="Small" />);
+      expect(container.querySelector('.form-check')).toHaveClass('dsai-checkbox-sm');
+    });
+
+    it('does not apply size class for size="md"', () => {
+      const { container } = render(<Checkbox size="md" label="Medium" />);
+      const wrapper = container.querySelector('.form-check');
+      expect(wrapper).not.toHaveClass('dsai-checkbox-sm');
+      expect(wrapper).not.toHaveClass('dsai-checkbox-lg');
+    });
+
+    it('does not apply size class when size is omitted', () => {
+      const { container } = render(<Checkbox label="Default" />);
+      const wrapper = container.querySelector('.form-check');
+      expect(wrapper).not.toHaveClass('dsai-checkbox-sm');
+      expect(wrapper).not.toHaveClass('dsai-checkbox-lg');
+    });
+
+    it('applies dsai-checkbox-lg class for size="lg"', () => {
+      const { container } = render(<Checkbox size="lg" label="Large" />);
+      expect(container.querySelector('.form-check')).toHaveClass('dsai-checkbox-lg');
+    });
+
+    it('sets data-size attribute', () => {
+      const { container } = render(<Checkbox size="sm" label="Small" />);
+      expect(container.querySelector('.form-check')).toHaveAttribute('data-size', 'sm');
+    });
+
+    it('applies size class with switch mode', () => {
+      const { container } = render(<Checkbox size="lg" switch label="Large Switch" />);
+      const wrapper = container.querySelector('.form-check');
+      expect(wrapper).toHaveClass('dsai-checkbox-lg');
+      expect(wrapper).toHaveClass('form-switch');
+    });
+
+    it('has no a11y violations with size variants', async () => {
+      const { container } = render(
+        <>
+          <Checkbox size="sm" label="Small" />
+          <Checkbox size="md" label="Medium" />
+          <Checkbox size="lg" label="Large" />
+        </>
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
+
   describe('Display Name', () => {
     it('has correct displayName', () => {
       expect(Checkbox.displayName).toBe('Checkbox');

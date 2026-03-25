@@ -1,5 +1,7 @@
 import type { CSSProperties, InputHTMLAttributes, ReactNode } from 'react';
 
+import type { ComponentSize } from '../../types';
+
 /**
  * Checkbox component props
  *
@@ -128,6 +130,12 @@ export interface CheckboxProps
    * @default false
    */
   required?: boolean;
+
+  /**
+   * Checkbox size variant
+   * @default undefined (Bootstrap default, equivalent to 'md')
+   */
+  size?: ComponentSize;
 
   /**
    * Accessible label for screen readers (when no visible label)
