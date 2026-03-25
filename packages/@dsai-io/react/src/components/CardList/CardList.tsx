@@ -37,6 +37,7 @@ import {
 import type { CardListProps } from './CardList.types';
 
 // Development warning for accessibility
+const WARN_CACHE_LIMIT = 50;
 const warnedLists = new Set<string>();
 
 function warnMissingListLabel(listId: string): void {
@@ -46,6 +47,10 @@ function warnMissingListLabel(listId: string): void {
     process.env?.['NODE_ENV'] !== 'production' &&
     !warnedLists.has(listId)
   ) {
+    if (warnedLists.size >= WARN_CACHE_LIMIT) {
+      const first = warnedLists.values().next().value;
+      if (first !== undefined) warnedLists.delete(first);
+    }
     warnedLists.add(listId);
     console.warn(
       `[DSAi CardList] Missing accessible label. ` +
