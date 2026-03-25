@@ -12,12 +12,15 @@ interface CardListStorybookProps {
   value?: string | string[];
   defaultValue?: string | string[];
   onChange?: (value: string | string[] | undefined) => void;
+  onVisualStateChange?: (state: string) => void;
+  renderItem?: (item: CardListItem, state: { checked: boolean; disabled: boolean; index: number }) => React.ReactNode;
   name?: string;
   disabled?: boolean;
   error?: boolean;
   errorMessage?: string;
   required?: boolean;
   variant?: 'elevated' | 'outlined' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
   selectedColor?:
     | 'primary'
     | 'secondary'
@@ -30,7 +33,7 @@ interface CardListStorybookProps {
   horizontal?: boolean;
   orientation?: 'horizontal' | 'vertical';
   gap?: string;
-  columns?: number;
+  columns?: number | { sm?: number; md?: number; lg?: number; xl?: number };
   label?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
@@ -114,6 +117,15 @@ const meta: Meta<CardListStorybookProps> = {
       table: {
         type: { summary: "'elevated' | 'outlined' | 'ghost'" },
         defaultValue: { summary: "'outlined'" },
+      },
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Card size',
+      table: {
+        type: { summary: "'sm' | 'md' | 'lg'" },
+        defaultValue: { summary: 'md' },
       },
     },
     selectedColor: {
@@ -1261,6 +1273,127 @@ export const OnboardingWizardExample: Story = {
     );
   },
 };
+
+// =============================================================================
+// Visual State Callback
+// =============================================================================
+
+/**
+ * Demonstrates onVisualStateChange with live status
+ */
+export const VisualStateCallback: Story = {
+  render: function VisualStateDemo() {
+    const [state, setState] = useState<string>('none');
+    const [selected, setSelected] = useState<string[]>([]);
+
+    return (
+      <div>
+        <div className="alert alert-info mb-3">
+          <strong>Visual State:</strong> {state} | <strong>Selected:</strong>{' '}
+          {selected.length} of 3
+        </div>
+        <CardList
+          label="Select features"
+          items={pricingPlans}
+          selectionMode="multiple"
+          value={selected}
+          onChange={(val) => setSelected(val as string[])}
+          onVisualStateChange={(vs) => setState(vs)}
+        />
+      </div>
+    );
+  },
+};
+
+// =============================================================================
+// Size Variants
+// =============================================================================
+
+/**
+ * CardList with different card sizes
+ */
+export const Sizes: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      {(['sm', 'md', 'lg'] as const).map((size) => (
+        <div key={size}>
+          <Heading level={6} className="mb-2">
+            Size: {size}
+          </Heading>
+          <CardList
+            label={`${size} cards`}
+            items={pricingPlans.slice(0, 2)}
+            size={size}
+            orientation="horizontal"
+          />
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+// =============================================================================
+// Custom Render Item
+// =============================================================================
+
+/**
+ * Custom card content via renderItem while retaining selection
+ */
+export const CustomRenderItem: Story = {
+  render: function CustomRenderDemo() {
+    const [selected, setSelected] = useState<string | undefined>(undefined);
+
+    return (
+      <CardList
+        label="Choose a plan"
+        items={pricingPlans}
+        selectionMode="single"
+        value={selected}
+        onChange={(val) => setSelected(val as string | undefined)}
+        renderItem={(item, { checked }) => (
+          <div className="d-flex align-items-center gap-3">
+            <div
+              className={`rounded-circle p-2 ${checked ? 'bg-primary text-white' : 'bg-light'}`}
+            >
+              {checked ? (
+                <CheckIcon />
+              ) : (
+                <span className="d-inline-block" style={{ width: 16, height: 16 }} />
+              )}
+            </div>
+            <div>
+              <strong>{item.title}</strong>
+              {item.description && (
+                <div className="text-body-secondary small">{item.description}</div>
+              )}
+            </div>
+          </div>
+        )}
+      />
+    );
+  },
+};
+
+// =============================================================================
+// Responsive Columns
+// =============================================================================
+
+/**
+ * Responsive grid layout using Bootstrap breakpoints
+ */
+export const ResponsiveColumns: Story = {
+  render: () => (
+    <CardList
+      label="Responsive grid"
+      items={featureOptions}
+      columns={{ sm: 1, md: 2, lg: 3 }}
+    />
+  ),
+};
+
+// =============================================================================
+// Complete Showcase
+// =============================================================================
 
 /**
  * Complete showcase of CardList features
