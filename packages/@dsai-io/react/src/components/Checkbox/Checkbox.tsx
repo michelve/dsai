@@ -10,6 +10,8 @@ import {
   useRef,
 } from 'react';
 
+import './Checkbox.css';
+
 import { cn } from '../../utils';
 import { getSafeInputProps } from '../../utils/misc';
 

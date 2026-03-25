@@ -1,0 +1,36 @@
+/* Checkbox Component Styles — namespaced with dsai-checkbox- */
+
+/* Size: Small */
+.dsai-checkbox-sm .form-check-input { width: 0.875rem; height: 0.875rem; margin-top: 0.1875rem; }
+.dsai-checkbox-sm .form-check-label { font-size: 0.875rem; }
+
+/* Size: Large */
+.dsai-checkbox-lg .form-check-input { width: 1.5rem; height: 1.5rem; margin-top: 0; }
+.dsai-checkbox-lg .form-check-label { font-size: 1.125rem; padding-top: 0.125rem; }
+
+/* Color Variants */
+.dsai-checkbox-primary .form-check-input:checked,
+.dsai-checkbox-primary .form-check-input:indeterminate { background-color: var(--bs-primary); border-color: var(--bs-primary); }
+.dsai-checkbox-secondary .form-check-input:checked,
+.dsai-checkbox-secondary .form-check-input:indeterminate { background-color: var(--bs-secondary); border-color: var(--bs-secondary); }
+.dsai-checkbox-success .form-check-input:checked,
+.dsai-checkbox-success .form-check-input:indeterminate { background-color: var(--bs-success); border-color: var(--bs-success); }
+.dsai-checkbox-danger .form-check-input:checked,
+.dsai-checkbox-danger .form-check-input:indeterminate { background-color: var(--bs-danger); border-color: var(--bs-danger); }
+.dsai-checkbox-warning .form-check-input:checked,
+.dsai-checkbox-warning .form-check-input:indeterminate { background-color: var(--bs-warning); border-color: var(--bs-warning); }
+.dsai-checkbox-info .form-check-input:checked,
+.dsai-checkbox-info .form-check-input:indeterminate { background-color: var(--bs-info); border-color: var(--bs-info); }
+.dsai-checkbox-light .form-check-input:checked,
+.dsai-checkbox-light .form-check-input:indeterminate { background-color: var(--bs-light); border-color: var(--bs-light); }
+.dsai-checkbox-dark .form-check-input:checked,
+.dsai-checkbox-dark .form-check-input:indeterminate { background-color: var(--bs-dark); border-color: var(--bs-dark); }
+
+/* ReadOnly */
+.dsai-checkbox-readonly { cursor: default; }
+.dsai-checkbox-readonly .form-check-input { cursor: default; pointer-events: auto; }
+
+/* Custom Icon */
+.dsai-checkbox-icon { display: inline-flex; align-items: center; justify-content: center; min-width: 2.75rem; min-height: 2.75rem; cursor: pointer; }
+.dsai-checkbox-icon-fallback { display: inline-block; font-weight: bold; }
+.form-check-input.visually-hidden:focus-visible + .dsai-checkbox-icon { outline: 2px solid var(--bs-primary); outline-offset: 2px; border-radius: 0.25rem; }
