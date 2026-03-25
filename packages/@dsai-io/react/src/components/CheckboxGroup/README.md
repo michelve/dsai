@@ -174,6 +174,8 @@ The CheckboxGroup uses a Finite State Machine (FSM) to manage selection state:
 | `error`            | `boolean`                    | `false`        | Error state                              |
 | `errorMessage`     | `ReactNode`                  | -              | Error message                            |
 | `helperText`       | `ReactNode`                  | -              | Helper text                              |
+| `size`             | `ComponentSize`              | -              | Size passed to child checkboxes (`'sm'`, `'md'`, `'lg'`) |
+| `variant`          | `SemanticColorVariant`       | -              | Color variant passed to child checkboxes |
 | `orientation`      | `'vertical' \| 'horizontal'` | `'vertical'`   | Layout direction                         |
 | `className`        | `string`                     | -              | Additional CSS classes                   |
 | `style`            | `CSSProperties`              | -              | Inline styles                            |

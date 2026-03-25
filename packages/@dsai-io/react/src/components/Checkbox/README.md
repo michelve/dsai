@@ -10,6 +10,10 @@ A Bootstrap 5 checkbox component for form inputs with full accessibility support
 - **Error States**: Validation feedback
 - **Helper Text**: Additional context or error messages
 - **Inline Layout**: Multiple checkboxes in a row
+- **Size Variants**: Small, medium (default), large
+- **Color Variants**: Primary, secondary, success, danger, warning, info, light, dark
+- **ReadOnly Mode**: Visible and focusable but non-toggleable
+- **Custom Icons**: Bring-your-own checked/unchecked/indeterminate icons
 - **Accessible**: WCAG 2.2 AA compliant
 
 ## Installation
@@ -120,6 +124,41 @@ Label on the left, checkbox on the right:
 <Checkbox aria-label="Select row" />
 ```
 
+### Size Variants
+
+```tsx
+<Checkbox size="sm" label="Small" />
+<Checkbox label="Default (md)" />
+<Checkbox size="lg" label="Large" />
+```
+
+### Color Variants
+
+```tsx
+<Checkbox variant="success" defaultChecked label="Success" />
+<Checkbox variant="danger" defaultChecked label="Danger" />
+```
+
+### ReadOnly Mode
+
+```tsx
+<Checkbox readOnly checked onChange={() => {}} label="Cannot be toggled" />
+```
+
+### Custom Icons
+
+```tsx
+import { CheckIcon, XLgIcon } from '@dsai-io/react';
+
+<Checkbox
+  checked={checked}
+  onChange={(e) => setChecked(e.target.checked)}
+  checkedIcon={<CheckIcon size={18} />}
+  uncheckedIcon={<XLgIcon size={18} />}
+  label="Custom icons"
+/>
+```
+
 ## Props
 
 | Prop             | Type              | Default | Description                          |
@@ -131,7 +170,7 @@ Label on the left, checkbox on the right:
 | `onChange`       | `(event) => void` | -       | Change handler                       |
 | `disabled`       | `boolean`         | `false` | Disabled state                       |
 | `error`          | `boolean`         | `false` | Error state                          |
-| `helperText`     | `string`          | -       | Helper or error message              |
+| `helperText`     | `ReactNode`       | -       | Helper or error message              |
 | `name`           | `string`          | -       | Form field name                      |
 | `value`          | `string`          | -       | Form field value                     |
 | `inline`         | `boolean`         | `false` | Inline display                       |
@@ -141,6 +180,12 @@ Label on the left, checkbox on the right:
 | `className`      | `string`          | -       | Additional CSS classes               |
 | `style`          | `CSSProperties`   | -       | Inline styles                        |
 | `id`             | `string`          | auto    | Input ID (auto-generated if omitted) |
+| `size`             | `ComponentSize`   | -       | Checkbox size (`'sm'`, `'md'`, `'lg'`) |
+| `variant`          | `SemanticColorVariant` | -  | Color variant for checked state      |
+| `readOnly`         | `boolean`         | `false` | ReadOnly mode (visible, not toggleable) |
+| `checkedIcon`      | `ReactNode`       | -       | Custom icon when checked             |
+| `uncheckedIcon`    | `ReactNode`       | -       | Custom icon when unchecked           |
+| `indeterminateIcon`| `ReactNode`       | -       | Custom icon when indeterminate       |
 | `aria-label`     | `string`          | -       | Accessible label (no visible label)  |
 
 ## Accessibility
