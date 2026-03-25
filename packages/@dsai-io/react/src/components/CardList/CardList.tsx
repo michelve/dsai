@@ -34,7 +34,7 @@ import {
   toggleItemEvent,
 } from './CardList.fsm';
 
-import type { CardListProps, CardListPropsInternal } from './CardList.types';
+import type { CardListProps } from './CardList.types';
 
 // Development warning for accessibility
 const warnedLists = new Set<string>();
@@ -91,7 +91,7 @@ function warnMissingListLabel(listId: string): void {
  * ```
  */
 // Use internal type for implementation (more permissive), but expose public discriminated union type
-const CardListComponent = forwardRef<HTMLFieldSetElement, CardListPropsInternal>(
+const CardListComponent = forwardRef<HTMLFieldSetElement, CardListProps>(
   (
     {
       items,
@@ -113,10 +113,13 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListPropsInternal>
       label,
       'aria-label': ariaLabel,
       'aria-labelledby': ariaLabelledby,
+      'aria-describedby': externalDescribedby,
       helperText,
       className = '',
       style,
       id: providedId,
+      dangerouslySetInnerHTML: _dSIH,
+      ...rest
     },
     ref
   ) => {
@@ -288,6 +291,9 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListPropsInternal>
     // Compute describedby
     const computedDescribedby = useMemo(() => {
       const parts: string[] = [];
+      if (externalDescribedby) {
+        parts.push(externalDescribedby);
+      }
       if (helperText) {
         parts.push(helperId);
       }
@@ -295,7 +301,7 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListPropsInternal>
         parts.push(errorId);
       }
       return parts.length > 0 ? parts.join(' ') : undefined;
-    }, [helperText, helperId, error, errorMessage, errorId]);
+    }, [externalDescribedby, helperText, helperId, error, errorMessage, errorId]);
 
     // Content inside fieldset
     const content = (
@@ -361,6 +367,7 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListPropsInternal>
     return (
       <fieldset
         ref={ref}
+        {...rest}
         id={id}
         aria-labelledby={ariaLabelledby}
         aria-label={!label && !ariaLabelledby ? ariaLabel : undefined}

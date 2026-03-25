@@ -788,6 +788,33 @@ describe('CardList', () => {
   });
 
   // ===========================================================================
+  // Rest Props Spreading
+  // ===========================================================================
+
+  describe('Rest Props Spreading', () => {
+    it('passes data-testid to fieldset', () => {
+      render(<CardList label="Plans" items={defaultItems} data-testid="my-list" />);
+      expect(screen.getByTestId('my-list')).toBeInTheDocument();
+      expect(screen.getByTestId('my-list').tagName).toBe('FIELDSET');
+    });
+
+    it('merges consumer aria-describedby with internal', () => {
+      const { container } = render(
+        <CardList
+          label="Plans"
+          items={defaultItems}
+          helperText="Pick one"
+          aria-describedby="external-desc"
+        />
+      );
+      const fieldset = container.querySelector('fieldset');
+      const describedby = fieldset?.getAttribute('aria-describedby');
+      expect(describedby).toContain('external-desc');
+      expect(describedby?.split(' ').length).toBeGreaterThanOrEqual(2);
+    });
+  });
+
+  // ===========================================================================
   // Dev Warnings
   // ===========================================================================
 

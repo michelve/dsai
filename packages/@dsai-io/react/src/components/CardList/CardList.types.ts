@@ -26,7 +26,7 @@
 
 import type { CardListSelectionMode, CardListVisualState } from './CardList.fsm';
 import type { CardColor, CardVariant } from '../Card/Card.types';
-import type { ReactNode } from 'react';
+import type { FieldsetHTMLAttributes, ReactNode } from 'react';
 
 // =============================================================================
 // CardListItem - Option type for CardList items
@@ -61,7 +61,10 @@ export interface CardListItem {
 /**
  * Base props shared across all CardList modes
  */
-interface CardListBaseProps {
+interface CardListBaseProps extends Omit<
+  FieldsetHTMLAttributes<HTMLFieldSetElement>,
+  'onChange'
+> {
   // ===========================================================================
   // Items
   // ===========================================================================
@@ -166,24 +169,6 @@ interface CardListBaseProps {
    */
   helperText?: string;
 
-  // ===========================================================================
-  // Styling
-  // ===========================================================================
-
-  /**
-   * Additional CSS class for the CardList container
-   */
-  className?: string;
-
-  /**
-   * Additional inline styles for the CardList container
-   */
-  style?: React.CSSProperties;
-
-  /**
-   * Custom ID for the CardList
-   */
-  id?: string;
 }
 
 // =============================================================================
@@ -302,25 +287,11 @@ export type CardListProps =
  *
  * @internal
  */
-export interface CardListPropsInternal extends CardListBaseProps {
+interface CardListPropsInternal extends CardListBaseProps {
   selectionMode?: CardListSelectionMode;
   value?: string | string[];
   defaultValue?: string | string[];
   onChange?: (value: string | string[] | undefined) => void;
-}
-
-// =============================================================================
-// Internal Types
-// =============================================================================
-
-/**
- * Internal representation of CardList state (exposed for testing)
- */
-export interface CardListState {
-  /** Selected values */
-  selectedValues: string[];
-  /** Visual state */
-  visualState: CardListVisualState;
 }
 
 // =============================================================================
