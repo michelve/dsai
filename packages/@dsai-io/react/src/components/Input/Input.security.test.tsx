@@ -173,6 +173,12 @@ describe('Input - Security', () => {
       render(<Input label="Test" maxLength={50} />);
       expect(screen.getByDisplayValue('') as HTMLInputElement).toHaveAttribute('maxLength', '50');
     });
+
+    it('allows data-* attributes', () => {
+      const { container } = render(<Input label="Test" data-testid="my-input" />);
+      const input = container.querySelector('input') as HTMLInputElement;
+      expect(input.getAttribute('data-testid')).toBe('my-input');
+    });
   });
 
   describe('Event Handler Functionality', () => {

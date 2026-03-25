@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { createRef } from 'react';
@@ -247,6 +247,23 @@ describe('Input', () => {
       expect(handleClear).toHaveBeenCalled();
     });
 
+    it('calls onChange with synthetic event when clearing controlled input', async () => {
+      const handleChange = jest.fn();
+      render(
+        <Input label="Test" clearable value="Hello" onChange={handleChange} onClear={() => {}} />
+      );
+
+      const clearButton = screen.getByRole('button', { name: /clear/i });
+      await userEvent.click(clearButton);
+
+      expect(handleChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          target: expect.objectContaining({ value: '' }),
+          currentTarget: expect.objectContaining({ value: '' }),
+        })
+      );
+    });
+
     it('does not show clear button when disabled', () => {
       render(<Input label="Test" clearable defaultValue="Hello" disabled />);
       expect(screen.queryByRole('button', { name: /clear/i })).not.toBeInTheDocument();
@@ -417,7 +434,9 @@ describe('Input', () => {
       const ref = createRef<HTMLInputElement>();
       render(<Input label="Test" ref={ref} />);
 
-      ref.current?.focus();
+      act(() => {
+        ref.current?.focus();
+      });
       expect(document.activeElement).toBe(ref.current);
     });
   });
@@ -484,6 +503,16 @@ describe('Input', () => {
 
       await userEvent.tab();
       expect(screen.getByRole('button', { name: 'After' })).toHaveFocus();
+    });
+
+    it('clear button is reachable via Tab when clearable', async () => {
+      render(<Input label="Test" clearable defaultValue="Hello" />);
+
+      await userEvent.tab(); // focus input
+      await userEvent.tab(); // focus clear button
+
+      const clearButton = screen.getByRole('button', { name: /clear/i });
+      expect(clearButton).toHaveFocus();
     });
 
     it('can type with keyboard', async () => {

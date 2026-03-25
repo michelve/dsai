@@ -121,7 +121,7 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
   const labelId = `${inputId}-label`;
 
   // Track focus state
-  const [_isFocused, setIsFocused] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   // Controlled/uncontrolled state management with centralized hook
   const [currentValue, setCurrentValue] = useControllableState<string>({
@@ -237,7 +237,7 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
       aria-invalid={error || undefined}
       aria-describedby={describedByIds || undefined}
       aria-required={required || undefined}
-      data-focused={_isFocused || undefined}
+      data-focused={isFocused || undefined}
       {...safeProps}
     />
   );
@@ -297,17 +297,12 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
               onClick={handleClear}
               aria-label="Clear input"
               disabled={disabled}
-              tabIndex={-1}
             >
               <ClearIcon />
             </button>
           )}
           {hasSuffix && <span className="input-group-text">{suffix}</span>}
-          {error && helperText && (
-            <div id={helperId} className="invalid-feedback">
-              {helperText}
-            </div>
-          )}
+          {error && helperElement}
         </div>
         {!error && helperElement}
         {counterElement}
