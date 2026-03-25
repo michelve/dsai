@@ -181,6 +181,11 @@ describe('Checkbox', () => {
       const { container } = render(<Checkbox helperText="Help text" label="Test" />);
       expect(container.querySelector('.form-text')).toBeInTheDocument();
     });
+
+    it('renders ReactNode helperText', () => {
+      render(<Checkbox helperText={<span data-testid="rich-helper">Bold text</span>} label="Test" />);
+      expect(screen.getByTestId('rich-helper')).toBeInTheDocument();
+    });
   });
 
   describe('Switch Style', () => {

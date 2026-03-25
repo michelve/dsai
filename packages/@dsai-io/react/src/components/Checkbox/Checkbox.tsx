@@ -4,6 +4,7 @@ import {
   memo,
   useEffect,
   useId,
+  useImperativeHandle,
   useMemo,
   useRef,
 } from 'react';
@@ -121,15 +122,15 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
 
     // Internal ref for indeterminate state
     const internalRef = useRef<HTMLInputElement>(null);
-    const inputRef = (ref as React.RefObject<HTMLInputElement>) || internalRef;
+    useImperativeHandle(ref, () => internalRef.current as HTMLInputElement);
 
     // Set indeterminate property on input element
     // This must be done via JavaScript as there's no HTML attribute for it
     useEffect(() => {
-      if (inputRef.current) {
-        inputRef.current.indeterminate = indeterminate;
+      if (internalRef.current) {
+        internalRef.current.indeterminate = indeterminate;
       }
-    }, [indeterminate, inputRef]);
+    }, [indeterminate]);
 
     // Development-only warning for missing accessible name
     useEffect(() => {
@@ -154,8 +155,8 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
     // Memoize input classes
     const inputClasses = useMemo(() => cn('form-check-input', error && 'is-invalid'), [error]);
 
-    // Memoize label classes
-    const labelClasses = useMemo(() => cn('form-check-label'), []);
+    // Label classes (static, no memoization needed)
+    const labelClasses = 'form-check-label';
 
     // Memoize helper text classes
     const helperClasses = useMemo(() => cn(error ? 'invalid-feedback' : 'form-text'), [error]);
@@ -166,7 +167,7 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
     return (
       <div className={wrapperClasses} style={style}>
         <input
-          ref={inputRef}
+          ref={internalRef}
           type="checkbox"
           id={id}
           className={inputClasses}

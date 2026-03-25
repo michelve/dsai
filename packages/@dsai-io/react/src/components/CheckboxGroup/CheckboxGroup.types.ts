@@ -38,9 +38,8 @@ export interface CheckboxGroupOption {
 
   /**
    * Helper text for this specific option
-   * Must be a string to match Checkbox component's helperText prop
    */
-  helperText?: string;
+  helperText?: ReactNode;
 }
 
 // =============================================================================

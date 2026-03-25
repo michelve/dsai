@@ -77,7 +77,7 @@ export interface CheckboxProps
    * Helper text displayed below the checkbox
    * Used for additional context or error messages
    */
-  helperText?: string;
+  helperText?: ReactNode;
 
   /**
    * Form field name
