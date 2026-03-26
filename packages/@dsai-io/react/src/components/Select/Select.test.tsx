@@ -942,6 +942,167 @@ describe('Select', () => {
   });
 
   // ===========================================================================
+  // Limit Prop
+  // ===========================================================================
+  describe('Limit Prop', () => {
+    const manyOptions: SelectOption[] = Array.from({ length: 200 }, (_, i) => ({
+      value: `option-${i}`,
+      label: `Option ${i}`,
+    }));
+
+    it('renders all options when under limit', async () => {
+      render(<Select options={options} aria-label="Test" limit={100} />);
+      await userEvent.click(screen.getByRole('button', { name: /test/i }));
+
+      expect(screen.getAllByRole('option')).toHaveLength(4);
+    });
+
+    it('truncates options when over limit', async () => {
+      render(<Select options={manyOptions} aria-label="Test" limit={10} />);
+      await userEvent.click(screen.getByRole('button', { name: /test/i }));
+
+      expect(screen.getAllByRole('option')).toHaveLength(10);
+    });
+
+    it('shows limit message when truncated', async () => {
+      render(<Select options={manyOptions} aria-label="Test" limit={10} />);
+      await userEvent.click(screen.getByRole('button', { name: /test/i }));
+
+      expect(screen.getByText('Type to search for more options')).toBeInTheDocument();
+    });
+
+    it('shows custom limit message', async () => {
+      render(
+        <Select
+          options={manyOptions}
+          aria-label="Test"
+          limit={10}
+          limitMessage="Search to narrow results"
+        />
+      );
+      await userEvent.click(screen.getByRole('button', { name: /test/i }));
+
+      expect(screen.getByText('Search to narrow results')).toBeInTheDocument();
+    });
+
+    it('does not show limit message when not truncated', async () => {
+      render(<Select options={options} aria-label="Test" limit={100} />);
+      await userEvent.click(screen.getByRole('button', { name: /test/i }));
+
+      expect(screen.queryByText('Type to search for more options')).not.toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
+  // Data State Attribute
+  // ===========================================================================
+  describe('Data State Attribute', () => {
+    it('trigger has data-state="closed" when dropdown is closed', () => {
+      render(<Select options={options} aria-label="Test" />);
+      expect(screen.getByRole('button', { name: /test/i })).toHaveAttribute(
+        'data-state',
+        'closed'
+      );
+    });
+
+    it('trigger has data-state="open" when dropdown is open', async () => {
+      render(<Select options={options} aria-label="Test" />);
+      await userEvent.click(screen.getByRole('button', { name: /test/i }));
+
+      expect(screen.getByRole('button', { name: /test/i })).toHaveAttribute(
+        'data-state',
+        'open'
+      );
+    });
+  });
+
+  // ===========================================================================
+  // Focus Return
+  // ===========================================================================
+  describe('Focus Return', () => {
+    it('returns focus to trigger after single selection', async () => {
+      render(<Select options={options} aria-label="Test" />);
+      const button = screen.getByRole('button', { name: /test/i });
+
+      await userEvent.click(button);
+      await userEvent.click(screen.getByText('Apple'));
+
+      expect(document.activeElement).toBe(button);
+    });
+
+    it('returns focus to trigger on Escape', async () => {
+      render(<Select options={options} aria-label="Test" />);
+      const button = screen.getByRole('button', { name: /test/i });
+
+      await userEvent.click(button);
+      fireEvent.keyDown(button, { key: 'Escape' });
+
+      expect(document.activeElement).toBe(button);
+    });
+  });
+
+  // ===========================================================================
+  // Custom Filter Function
+  // ===========================================================================
+  describe('Custom Filter Function', () => {
+    it('uses filterOption for custom filtering', async () => {
+      const customFilter = (option: SelectOption, search: string): boolean => {
+        return option.value.startsWith(search.toLowerCase());
+      };
+
+      render(
+        <Select options={options} aria-label="Test" searchable filterOption={customFilter} />
+      );
+
+      await userEvent.click(screen.getByRole('button', { name: /test/i }));
+      await userEvent.type(screen.getByRole('combobox'), 'ch');
+
+      expect(screen.getByText('Cherry')).toBeInTheDocument();
+      expect(screen.queryByText('Apple')).not.toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
+  // Keyboard: Disabled Option Skip
+  // ===========================================================================
+  describe('Keyboard: Disabled Option Skip', () => {
+    it('skips disabled options when navigating with ArrowDown', async () => {
+      const optionsWithDisabled: SelectOption[] = [
+        { value: 'apple', label: 'Apple' },
+        { value: 'banana', label: 'Banana', disabled: true },
+        { value: 'cherry', label: 'Cherry' },
+      ];
+
+      render(<Select options={optionsWithDisabled} aria-label="Test" />);
+      const button = screen.getByRole('button', { name: /test/i });
+
+      await userEvent.click(button);
+      // Focus is on index 0 (Apple)
+      fireEvent.keyDown(button, { key: 'ArrowDown' });
+
+      // Should skip Banana (disabled) and land on Cherry (index 2)
+      const optionElements = screen.getAllByRole('option');
+      expect(optionElements[2]).toHaveClass('bg-light');
+    });
+  });
+
+  // ===========================================================================
+  // Tab Key
+  // ===========================================================================
+  describe('Tab Key', () => {
+    it('closes dropdown on Tab', async () => {
+      render(<Select options={options} aria-label="Test" />);
+      const button = screen.getByRole('button', { name: /test/i });
+
+      await userEvent.click(button);
+      expect(button).toHaveAttribute('aria-expanded', 'true');
+
+      fireEvent.keyDown(button, { key: 'Tab' });
+      expect(button).toHaveAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // ===========================================================================
   // Display Name
   // ===========================================================================
   describe('Display Name', () => {
