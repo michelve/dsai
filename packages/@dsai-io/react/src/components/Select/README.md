@@ -124,6 +124,19 @@ const options = [
 <Select label="Optional Field" options={options} clearable onClear={() => console.log('Cleared')} />
 ```
 
+### Large Option Lists
+
+```tsx
+// Limit rendered options for performance (default: 100)
+<Select
+  label="Search items"
+  options={largeOptionArray}
+  searchable
+  limit={50}
+  limitMessage="Keep typing to narrow results"
+/>
+```
+
 ### Custom Rendering
 
 ```tsx
@@ -196,6 +209,8 @@ const options = [
 | `maxDropdownHeight` | `number`                                 | `300`          | Max dropdown height (px)     |
 | `noOptionsMessage`  | `string`                                 | `'No options'` | Empty state text             |
 | `loadingMessage`    | `string`                                 | `'Loading...'` | Loading state text           |
+| `limit`             | `number`                                 | `100`          | Max rendered options         |
+| `limitMessage`      | `string`                                 | `'Type to search for more options'` | Truncation message |
 
 ### SelectOption Type
 
@@ -229,24 +244,34 @@ interface SelectOptionGroup<T = string> {
 | `End`             | Move focus to last option             |
 | `Escape`          | Close dropdown                        |
 | `Tab`             | Close dropdown and move focus         |
+| Character key     | Jump to first matching option (non-searchable mode) |
 
 ## Accessibility
 
-The Select component follows WCAG 2.2 AA guidelines:
+The Select component follows WCAG 2.2 AA guidelines with dual ARIA patterns:
 
-- Uses `role="combobox"` on trigger with `aria-haspopup="listbox"`
-- Uses `role="listbox"` on dropdown
-- Uses `role="option"` on options with unique IDs
-- `aria-expanded` reflects open state
-- `aria-controls` links trigger to listbox
-- `aria-activedescendant` tracks keyboard-focused option for screen readers
+### Non-searchable mode (default)
+- Trigger is a `<button>` with `aria-haspopup="listbox"` and `aria-expanded`
+- `aria-activedescendant` on the listbox tracks keyboard-focused option
+- Type-ahead character navigation jumps to matching options
+
+### Searchable mode
+- Search input gets `role="combobox"` with `aria-autocomplete="list"`
+- `aria-controls` links search input to listbox
+- `aria-activedescendant` on search input tracks focused option
+
+### Common ARIA attributes
+- `role="listbox"` on dropdown, `role="option"` on options with unique IDs
 - `aria-selected` on selected options
 - `aria-disabled` on disabled options
+- `aria-required` when required
 - `aria-invalid` when error
+- `aria-busy` when loading
 - `aria-describedby` links to helper text
 - `aria-labelledby` or `aria-label` for accessible name
-- Full keyboard navigation with focus indication
-- Focus management between trigger and dropdown
+- Option groups use `role="group"` with `aria-labelledby`
+- Focus management: focus returns to trigger on dropdown close
+- Floating UI positioning prevents viewport clipping
 
 ## Bootstrap Classes Used
 
