@@ -182,15 +182,16 @@ If you render multiple paginations on the same view, provide a descriptive `aria
 
 - **Tab**: Navigate between pagination buttons
 - **Enter/Space**: Activate focused button
-- Disabled buttons are excluded from tab order
+- **ArrowLeft/ArrowRight**: Move focus between pagination buttons (wraps around)
+- Disabled buttons are excluded from tab order and arrow key navigation
 
 ### Screen Reader Support
 
 - Navigation landmark with descriptive `aria-label`
 - Each page button has `aria-label` describing its action
-- Current page uses `aria-current="page"`
+- Current page uses `aria-current="page"` on a focusable `<button>`
 - Disabled buttons use `aria-disabled="true"`
-- Ellipsis items are hidden from screen readers (`aria-hidden`)
+- Ellipsis items show "Pages skipped" text for screen readers
 
 ### WCAG 2.2 AA Compliance
 
@@ -286,7 +287,7 @@ function URLPagination({ totalPages }) {
 - All custom content (labels, content props) is escaped by React
 - No use of `dangerouslySetInnerHTML`
 - Safe handling of numeric props (clamping, NaN/Infinity handling)
-- No prototype pollution vulnerabilities
+- Prototype pollution protection via `safeLookup()` with `Reflect.get()` for dynamic map access
 
 ## Performance
 

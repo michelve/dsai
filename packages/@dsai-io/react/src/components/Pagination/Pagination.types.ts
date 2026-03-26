@@ -49,9 +49,11 @@ export interface PaginationItemData {
 /**
  * PaginationItem component props
  *
+ * @internal Reserved for future `renderItem` customization API.
+ *
  * @accessibility
- * - Uses semantic `<li>` with `<button>` or `<span>` for proper screen reader support
- * - Active page has `aria-current="page"`
+ * - Uses semantic `<li>` with `<button>` for proper screen reader support
+ * - Active page has `aria-current="page"` and remains focusable
  * - Disabled items have `aria-disabled="true"` and `tabIndex="-1"`
  */
 export interface PaginationItemProps {

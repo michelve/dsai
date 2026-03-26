@@ -8,8 +8,9 @@
  * @packageDocumentation
  */
 
-import { forwardRef, memo, useCallback, useId, useMemo, useState } from 'react';
+import { forwardRef, memo, useCallback, useId, useMemo, useRef } from 'react';
 
+import { useControllableState } from '../../hooks/useControllableState';
 import { cn } from '../../utils';
 import {
   ChevronDoubleLeftIcon,
@@ -32,7 +33,7 @@ import type {
 /**
  * Size class mapping for Bootstrap pagination
  */
-const SIZE_CLASSES: Record<PaginationSize, string> = {
+const SIZE_CLASSES: Readonly<Record<PaginationSize, string>> = {
   sm: 'pagination-sm',
   md: '',
   lg: 'pagination-lg',
@@ -41,11 +42,27 @@ const SIZE_CLASSES: Record<PaginationSize, string> = {
 /**
  * Alignment class mapping for Bootstrap flexbox utilities
  */
-const ALIGNMENT_CLASSES: Record<PaginationAlignment, string> = {
+const ALIGNMENT_CLASSES: Readonly<Record<PaginationAlignment, string>> = {
   start: 'justify-content-start',
   center: 'justify-content-center',
   end: 'justify-content-end',
 };
+
+/** Keys that must be blocked to prevent prototype pollution */
+const BLOCKED_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
+/** Safe lookup with prototype pollution guard */
+function safeLookup<T>(map: Readonly<Record<string, T>>, key: string, fallback: T): T {
+  if (BLOCKED_KEYS.has(key)) return fallback;
+  const value = Reflect.get(map, key) as T | undefined;
+  return value !== undefined ? value : fallback;
+}
+
+// Default icon content hoisted to avoid recreating JSX on each render
+const DEFAULT_PREV_ICON = <ChevronLeftIcon aria-hidden />;
+const DEFAULT_NEXT_ICON = <ChevronRightIcon aria-hidden />;
+const DEFAULT_FIRST_ICON = <ChevronDoubleLeftIcon aria-hidden />;
+const DEFAULT_LAST_ICON = <ChevronDoubleRightIcon aria-hidden />;
 
 // =============================================================================
 // Utility Functions
@@ -130,11 +147,15 @@ function calculatePaginationItems(
     firstEndPage !== undefined ? firstEndPage - 2 : count - 1
   );
 
-  // Build the final page list with ellipsis
+  // Build the final page list with ellipsis (use Set for O(1) dedup)
   const pageNumbers: (number | 'ellipsis')[] = [];
+  const seen = new Set<number>();
 
   // Add start boundary
-  pageNumbers.push(...startBoundary);
+  for (const p of startBoundary) {
+    pageNumbers.push(p);
+    seen.add(p);
+  }
 
   // Add start ellipsis if needed
   if (siblingStart > boundaryCount + 2) {
@@ -143,13 +164,15 @@ function calculatePaginationItems(
     // Add the page between boundary and siblings
     for (let i = boundaryCount + 1; i < siblingStart; i++) {
       pageNumbers.push(i);
+      seen.add(i);
     }
   }
 
   // Add sibling pages (including current)
   for (let i = siblingStart; i <= siblingEnd; i++) {
-    if (!pageNumbers.includes(i) && i > boundaryCount && i <= count - boundaryCount) {
+    if (!seen.has(i) && i > boundaryCount && i <= count - boundaryCount) {
       pageNumbers.push(i);
+      seen.add(i);
     }
   }
 
@@ -161,16 +184,18 @@ function calculatePaginationItems(
   } else if (siblingEnd < lastPageBeforeEndBoundary) {
     // Add the page between siblings and end boundary
     for (let i = siblingEnd + 1; i < endBoundaryLimit; i++) {
-      if (!pageNumbers.includes(i)) {
+      if (!seen.has(i)) {
         pageNumbers.push(i);
+        seen.add(i);
       }
     }
   }
 
   // Add end boundary
   for (const endPage of endBoundary) {
-    if (!pageNumbers.includes(endPage)) {
+    if (!seen.has(endPage)) {
       pageNumbers.push(endPage);
+      seen.add(endPage);
     }
   }
 
@@ -254,8 +279,8 @@ const PaginationItemComponent = memo(function PaginationItem({
 }: InternalPaginationItemProps): React.ReactElement {
   const isDisabled = globalDisabled || item.disabled;
 
-  // Determine content and aria-label based on item type
-  const getContent = (): React.ReactNode => {
+  // Memoize content and aria-label to avoid closures per render (F5)
+  const content = useMemo((): React.ReactNode => {
     switch (item.type) {
       case 'first':
         return firstContent;
@@ -270,9 +295,9 @@ const PaginationItemComponent = memo(function PaginationItem({
       default:
         return item.page;
     }
-  };
+  }, [item.type, item.page, firstContent, previousContent, nextContent, lastContent]);
 
-  const getAriaLabel = (): string => {
+  const ariaLabel = useMemo((): string => {
     switch (item.type) {
       case 'first':
         return firstLabel;
@@ -287,7 +312,7 @@ const PaginationItemComponent = memo(function PaginationItem({
       default:
         return '';
     }
-  };
+  }, [item.type, item.page, firstLabel, previousLabel, nextLabel, lastLabel, getPageAriaLabel]);
 
   // Build class names
   const itemClasses = useMemo(() => {
@@ -301,31 +326,42 @@ const PaginationItemComponent = memo(function PaginationItem({
     }
   }, [isDisabled, item.page, onClick]);
 
-  // Render ellipsis as non-interactive span
+  const isNavButton =
+    item.type === 'first' ||
+    item.type === 'previous' ||
+    item.type === 'next' ||
+    item.type === 'last';
+
+  // Render ellipsis as non-interactive span with screen reader hint (F9)
   if (item.type === 'ellipsis') {
     return (
       <li className={itemClasses}>
-        <span className="page-link" aria-hidden="true">
-          …
+        <span className="page-link">
+          <span aria-hidden="true">…</span>
+          <span className="visually-hidden">Pages skipped</span>
         </span>
       </li>
     );
   }
 
-  // Render active page as span (non-interactive)
+  // Render active page as focusable button with aria-current (F4)
   if (item.active) {
     return (
       <li className={itemClasses}>
-        <span className="page-link" aria-current="page">
-          {getContent()}
-        </span>
+        <button
+          type="button"
+          className="page-link"
+          aria-current="page"
+          aria-label={ariaLabel || undefined}
+        >
+          {content}
+        </button>
       </li>
     );
   }
 
   // Render disabled items as disabled button
   if (isDisabled) {
-    const ariaLabel = getAriaLabel();
     return (
       <li className={itemClasses}>
         <button
@@ -336,14 +372,7 @@ const PaginationItemComponent = memo(function PaginationItem({
           tabIndex={-1}
           aria-label={ariaLabel || undefined}
         >
-          {item.type === 'first' ||
-          item.type === 'previous' ||
-          item.type === 'next' ||
-          item.type === 'last' ? (
-            <span aria-hidden="true">{getContent()}</span>
-          ) : (
-            getContent()
-          )}
+          {isNavButton ? <span aria-hidden="true">{content}</span> : content}
         </button>
       </li>
     );
@@ -352,15 +381,8 @@ const PaginationItemComponent = memo(function PaginationItem({
   // Render interactive items as button
   return (
     <li className={itemClasses}>
-      <button type="button" className="page-link" onClick={handleClick} aria-label={getAriaLabel()}>
-        {item.type === 'first' ||
-        item.type === 'previous' ||
-        item.type === 'next' ||
-        item.type === 'last' ? (
-          <span aria-hidden="true">{getContent()}</span>
-        ) : (
-          getContent()
-        )}
+      <button type="button" className="page-link" onClick={handleClick} aria-label={ariaLabel}>
+        {isNavButton ? <span aria-hidden="true">{content}</span> : content}
       </button>
     </li>
   );
@@ -425,17 +447,18 @@ export const Pagination = memo(
       firstLabel = 'Go to first page',
       lastLabel = 'Go to last page',
       getPageAriaLabel = (p: number): string => `Go to page ${p}`,
-      previousContent = <ChevronLeftIcon aria-hidden />,
-      nextContent = <ChevronRightIcon aria-hidden />,
-      firstContent = <ChevronDoubleLeftIcon aria-hidden />,
-      lastContent = <ChevronDoubleRightIcon aria-hidden />,
-      className = '',
+      previousContent = DEFAULT_PREV_ICON,
+      nextContent = DEFAULT_NEXT_ICON,
+      firstContent = DEFAULT_FIRST_ICON,
+      lastContent = DEFAULT_LAST_ICON,
+      className,
       style,
       id,
     },
     ref
   ) {
     const generatedLabelId = useId();
+    const listRef = useRef<HTMLUListElement>(null);
     const resolvedAriaLabel = useMemo(() => {
       const trimmed = ariaLabel?.trim();
       if (trimmed) {
@@ -444,28 +467,23 @@ export const Pagination = memo(
       return `Pagination navigation ${generatedLabelId}`;
     }, [ariaLabel, generatedLabelId]);
 
-    // Internal state for uncontrolled mode
-    const [internalPage, setInternalPage] = useState(defaultPage);
-
-    // Determine if controlled or uncontrolled
-    const isControlled = controlledPage !== undefined;
-    const currentPage = isControlled ? controlledPage : internalPage;
+    // Use shared controlled/uncontrolled hook (F2)
+    const [currentPage, setCurrentPage] = useControllableState<number>({
+      value: controlledPage,
+      defaultValue: defaultPage,
+      onChange,
+    });
 
     // Clamp current page to valid range
     const clampedPage = Math.max(1, Math.min(currentPage, count));
 
-    // Handle page change
+    // Handle page change with clamping
     const handlePageChange = useCallback(
       (newPage: number): void => {
         const validPage = Math.max(1, Math.min(newPage, count));
-
-        if (!isControlled) {
-          setInternalPage(validPage);
-        }
-
-        onChange?.(validPage);
+        setCurrentPage(validPage);
       },
-      [isControlled, count, onChange]
+      [count, setCurrentPage]
     );
 
     // Calculate pagination items with memoization
@@ -493,24 +511,45 @@ export const Pagination = memo(
       ]
     );
 
-    // Build nav and ul class names with memoization
-    const navClasses = useMemo(() => {
-      return className || undefined;
-    }, [className]);
-
+    // Build ul class names with safe lookup (F1)
     const ulClasses = useMemo(() => {
-      const sizeClass =
-        size in SIZE_CLASSES ? SIZE_CLASSES[size as keyof typeof SIZE_CLASSES] : undefined;
-      const alignClass =
-        alignment in ALIGNMENT_CLASSES
-          ? ALIGNMENT_CLASSES[alignment as keyof typeof ALIGNMENT_CLASSES]
-          : undefined;
+      const sizeClass = safeLookup(SIZE_CLASSES, size, '');
+      const alignClass = safeLookup(ALIGNMENT_CLASSES, alignment, '');
       return cn('pagination', 'mb-0', sizeClass, alignClass);
     }, [size, alignment]);
 
+    // Arrow key navigation between pagination buttons (F3)
+    const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLUListElement>): void => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+
+      const list = listRef.current;
+      if (!list) return;
+
+      const buttons = Array.from(
+        list.querySelectorAll<HTMLButtonElement>('button.page-link:not([disabled])')
+      );
+      if (buttons.length === 0) return;
+
+      const currentIndex = buttons.indexOf(event.target as HTMLButtonElement);
+      if (currentIndex === -1) return;
+
+      event.preventDefault();
+      const nextIndex =
+        event.key === 'ArrowRight'
+          ? (currentIndex + 1) % buttons.length
+          : (currentIndex - 1 + buttons.length) % buttons.length;
+      buttons[nextIndex]?.focus();
+    }, []);
+
     return (
-      <nav ref={ref} aria-label={resolvedAriaLabel} className={navClasses} style={style} id={id}>
-        <ul className={ulClasses}>
+      <nav
+        ref={ref}
+        aria-label={resolvedAriaLabel}
+        className={className || undefined}
+        style={style}
+        id={id}
+      >
+        <ul ref={listRef} className={ulClasses} onKeyDown={handleKeyDown}>
           {paginationItems.map((item) => (
             <PaginationItemComponent
               key={item.key}

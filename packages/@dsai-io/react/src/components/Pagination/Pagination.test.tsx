@@ -408,4 +408,89 @@ describe('Pagination', () => {
       expect(screen.getByText('5').closest('li')).toHaveClass('active');
     });
   });
+
+  // ===========================================================================
+  // Keyboard Navigation
+  // ===========================================================================
+
+  describe('Keyboard Navigation', () => {
+    it('moves focus to next button on ArrowRight', () => {
+      render(<Pagination count={5} page={3} />);
+      const buttons = screen.getAllByRole('button');
+      // Focus the first button and fire key on it (event bubbles to ul)
+      buttons[0].focus();
+      fireEvent.keyDown(buttons[0], { key: 'ArrowRight' });
+      expect(buttons[1]).toHaveFocus();
+    });
+
+    it('moves focus to previous button on ArrowLeft', () => {
+      render(<Pagination count={5} page={3} />);
+      const buttons = screen.getAllByRole('button');
+      buttons[1].focus();
+      fireEvent.keyDown(buttons[1], { key: 'ArrowLeft' });
+      expect(buttons[0]).toHaveFocus();
+    });
+
+    it('wraps focus from last to first on ArrowRight', () => {
+      render(<Pagination count={3} page={2} />);
+      const buttons = screen.getAllByRole('button');
+      const lastButton = buttons[buttons.length - 1];
+      lastButton.focus();
+      fireEvent.keyDown(lastButton, { key: 'ArrowRight' });
+      expect(buttons[0]).toHaveFocus();
+    });
+
+    it('wraps focus from first to last on ArrowLeft', () => {
+      render(<Pagination count={3} page={2} />);
+      const buttons = screen.getAllByRole('button');
+      buttons[0].focus();
+      fireEvent.keyDown(buttons[0], { key: 'ArrowLeft' });
+      expect(buttons[buttons.length - 1]).toHaveFocus();
+    });
+
+    it('ignores non-arrow keys', () => {
+      render(<Pagination count={5} page={3} />);
+      const buttons = screen.getAllByRole('button');
+      buttons[0].focus();
+      fireEvent.keyDown(buttons[0], { key: 'Enter' });
+      // Focus should remain on the same button
+      expect(buttons[0]).toHaveFocus();
+    });
+  });
+
+  // ===========================================================================
+  // Ellipsis Accessibility
+  // ===========================================================================
+
+  describe('Ellipsis Accessibility', () => {
+    it('renders "Pages skipped" screen reader text for ellipsis', () => {
+      render(<Pagination count={20} page={10} />);
+      const srTexts = screen.getAllByText('Pages skipped');
+      expect(srTexts.length).toBeGreaterThan(0);
+      srTexts.forEach((el) => {
+        expect(el).toHaveClass('visually-hidden');
+      });
+    });
+
+    it('ellipsis visual text is hidden from screen readers', () => {
+      render(<Pagination count={20} page={10} />);
+      const ellipses = screen.getAllByText('…');
+      ellipses.forEach((el) => {
+        expect(el).toHaveAttribute('aria-hidden', 'true');
+      });
+    });
+  });
+
+  // ===========================================================================
+  // Active Page Rendering
+  // ===========================================================================
+
+  describe('Active Page Rendering', () => {
+    it('active page is rendered as a button with aria-current', () => {
+      render(<Pagination count={5} page={2} />);
+      const activePage = screen.getByText('2');
+      expect(activePage.tagName).toBe('BUTTON');
+      expect(activePage).toHaveAttribute('aria-current', 'page');
+    });
+  });
 });

@@ -283,4 +283,35 @@ describe('Pagination - Security Tests', () => {
       expect(container.textContent).toContain('<b>Bold</b>');
     });
   });
+
+  // ===========================================================================
+  // Safe Lookup Prototype Pollution
+  // ===========================================================================
+
+  describe('Safe Lookup Prototype Pollution', () => {
+    it('ignores __proto__ as size value', () => {
+      // @ts-expect-error - testing prototype pollution
+      const { container } = render(<Pagination count={5} size="__proto__" />);
+      const list = container.querySelector('ul');
+      // Should not have any injected class — falls back to empty string
+      expect(list?.className).toContain('pagination');
+      expect(list?.className).not.toContain('__proto__');
+    });
+
+    it('ignores constructor as alignment value', () => {
+      // @ts-expect-error - testing prototype pollution
+      const { container } = render(<Pagination count={5} alignment="constructor" />);
+      const list = container.querySelector('ul');
+      expect(list?.className).toContain('pagination');
+      expect(list?.className).not.toContain('constructor');
+    });
+
+    it('ignores prototype as size value', () => {
+      // @ts-expect-error - testing prototype pollution
+      const { container } = render(<Pagination count={5} size="prototype" />);
+      const list = container.querySelector('ul');
+      expect(list?.className).toContain('pagination');
+      expect(list?.className).not.toContain('prototype');
+    });
+  });
 });
