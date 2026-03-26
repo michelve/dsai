@@ -3,6 +3,7 @@ export type { ModalFSMEvent, ModalFSMState, ModalVisibilityState } from './Modal
 export type {
   ModalBodyProps,
   ModalContextValue,
+  ModalDescriptionProps,
   ModalFooterProps,
   ModalFullscreenBreakpoint,
   ModalHeaderProps,

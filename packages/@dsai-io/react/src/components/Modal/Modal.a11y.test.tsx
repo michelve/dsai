@@ -485,4 +485,105 @@ describe('Modal Accessibility', () => {
       });
     });
   });
+
+  describe('alertdialog Role', () => {
+    it('has no accessibility violations with role="alertdialog"', async () => {
+      const { baseElement } = render(
+        <Modal isOpen={true} onClose={() => {}} role="alertdialog" animated={false}>
+          <Modal.Header>Confirm Delete</Modal.Header>
+          <Modal.Body>Are you sure you want to delete this?</Modal.Body>
+          <Modal.Footer>
+            <button type="button">Cancel</button>
+            <button type="button">Delete</button>
+          </Modal.Footer>
+        </Modal>
+      );
+
+      await waitFor(() => {
+        expect(screen.getByRole('alertdialog')).toBeInTheDocument();
+      });
+
+      const results = await axe(baseElement);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('alertdialog has proper ARIA attributes', async () => {
+      render(
+        <Modal
+          isOpen={true}
+          onClose={() => {}}
+          role="alertdialog"
+          titleId="alert-title"
+          animated={false}
+        >
+          <Modal.Header>Warning</Modal.Header>
+          <Modal.Body>This action cannot be undone.</Modal.Body>
+        </Modal>
+      );
+
+      await waitFor(() => {
+        const alertDialog = screen.getByRole('alertdialog');
+        expect(alertDialog).toHaveAttribute('aria-modal', 'true');
+        expect(alertDialog).toHaveAttribute('aria-labelledby', 'alert-title');
+      });
+    });
+  });
+
+  describe('Modal.Description Accessibility', () => {
+    it('has no violations with Modal.Description', async () => {
+      const { baseElement } = render(
+        <Modal isOpen={true} onClose={() => {}} animated={false}>
+          <Modal.Header>Title</Modal.Header>
+          <Modal.Body>
+            <Modal.Description>Concise description for screen readers</Modal.Description>
+            <p>Additional content here...</p>
+          </Modal.Body>
+        </Modal>
+      );
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+
+      const results = await axe(baseElement);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('aria-describedby references Description element when present', async () => {
+      render(
+        <Modal isOpen={true} onClose={() => {}} animated={false}>
+          <Modal.Header>Title</Modal.Header>
+          <Modal.Body>
+            <Modal.Description>Screen reader description</Modal.Description>
+            <p>Other content</p>
+          </Modal.Body>
+        </Modal>
+      );
+
+      await waitFor(() => {
+        const dialog = screen.getByRole('dialog');
+        const describedById = dialog.getAttribute('aria-describedby');
+        expect(describedById).toBeTruthy();
+        if (describedById) {
+          const descElement = document.getElementById(describedById);
+          expect(descElement).toHaveTextContent('Screen reader description');
+          expect(descElement).toHaveClass('modal-description');
+        }
+      });
+    });
+
+    it('aria-describedby falls back to body when no Description', async () => {
+      render(
+        <Modal isOpen={true} onClose={() => {}} bodyId="fallback-body" animated={false}>
+          <Modal.Header>Title</Modal.Header>
+          <Modal.Body>Body content</Modal.Body>
+        </Modal>
+      );
+
+      await waitFor(() => {
+        const dialog = screen.getByRole('dialog');
+        expect(dialog).toHaveAttribute('aria-describedby', 'fallback-body');
+      });
+    });
+  });
 });

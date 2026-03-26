@@ -22,6 +22,7 @@ import { createInitialModalFSMState, getModalVisualState, modalFSMReducer } from
 import type {
   ModalBodyProps,
   ModalContextValue,
+  ModalDescriptionProps,
   ModalFooterProps,
   ModalHeaderProps,
   ModalProps,
@@ -50,23 +51,23 @@ function useModalContext(): ModalContextValue {
 // Modal.Title Component
 // ============================================================================
 
-const ModalTitle = React.memo(function ModalTitle({
-  children,
-  as: Component = 'h5',
-  className = '',
-  id,
-}: ModalTitleProps): React.JSX.Element {
-  const context = useModalContext();
-  const titleId = id || context.titleId;
+const ModalTitle = React.memo(
+  forwardRef<HTMLHeadingElement, ModalTitleProps>(function ModalTitle(
+    { children, as: Component = 'h5', className = '', id },
+    ref
+  ): React.JSX.Element {
+    const context = useModalContext();
+    const titleId = id || context.titleId;
 
-  const classes = useMemo(() => cn('modal-title', className), [className]);
+    const classes = useMemo(() => cn('modal-title', className), [className]);
 
-  return (
-    <Component id={titleId} className={classes}>
-      {children}
-    </Component>
-  );
-});
+    return (
+      <Component ref={ref} id={titleId} className={classes}>
+        {children}
+      </Component>
+    );
+  })
+);
 
 ModalTitle.displayName = 'Modal.Title';
 
@@ -156,6 +157,42 @@ const ModalBody = React.memo(
 ModalBody.displayName = 'Modal.Body';
 
 // ============================================================================
+// Modal.Description Component
+// ============================================================================
+
+const ModalDescription = React.memo(
+  forwardRef<HTMLDivElement, ModalDescriptionProps>(function ModalDescription(
+    { children, className = '', style, 'data-testid': dataTestId, 'data-test': dataTest },
+    ref
+  ) {
+    const context = useModalContext();
+
+    // Register that a Description is rendered so Modal uses descriptionId for aria-describedby
+    useEffect(() => {
+      context.setHasDescription(true);
+      return () => context.setHasDescription(false);
+    }, [context]);
+
+    const classes = useMemo(() => cn('modal-description', className), [className]);
+
+    return (
+      <div
+        ref={ref}
+        id={context.descriptionId}
+        className={classes}
+        style={style}
+        data-testid={dataTestId}
+        data-test={dataTest}
+      >
+        {children}
+      </div>
+    );
+  })
+);
+
+ModalDescription.displayName = 'Modal.Description';
+
+// ============================================================================
 // Modal.Footer Component
 // ============================================================================
 
@@ -164,6 +201,9 @@ const ModalFooter = React.memo(
     { children, className = '', style, 'data-testid': dataTestId, 'data-test': dataTest },
     ref
   ) {
+    // Consume context to enforce that ModalFooter is used within a Modal
+    useModalContext();
+
     const classes = useMemo(() => cn('modal-footer', className), [className]);
 
     return (
@@ -261,6 +301,7 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
       returnFocusRef,
       zIndex = 1055,
       animated = true,
+      role = 'dialog',
       className = '',
       style,
       id,
@@ -273,6 +314,10 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
     const generatedId = useId();
     const titleId = titleIdProp || `modal-title-${generatedId}`;
     const bodyId = bodyIdProp || `modal-body-${generatedId}`;
+    const descriptionId = `modal-desc-${generatedId}`;
+
+    // Track whether a Modal.Description has been rendered
+    const [hasDescription, setHasDescription] = useState(false);
 
     // Internal refs
     const modalRef = useRef<HTMLDivElement>(null);
@@ -533,9 +578,12 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
         onClose,
         titleId,
         bodyId,
+        descriptionId,
+        hasDescription,
+        setHasDescription,
         scrollable,
       }),
-      [onClose, titleId, bodyId, scrollable]
+      [onClose, titleId, bodyId, descriptionId, hasDescription, scrollable]
     );
 
     // Don't render anything if not needed
@@ -550,6 +598,12 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
       return null;
     }
 
+    // Determine aria-describedby: prefer Description when present, fall back to Body
+    const ariaDescribedby = hasDescription ? descriptionId : bodyId;
+
+    // Determine aria-busy: true during transitions for screen reader safety
+    const isTransitioning = fsmState.visibility === 'opening' || fsmState.visibility === 'closing';
+
     const modalContent = (
       <ModalContext.Provider value={contextValue}>
         {/* Backdrop */}
@@ -562,16 +616,19 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
         )}
 
         {/* Modal */}
-        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Dialog backdrop click is a standard modal pattern per Bootstrap 5 and ARIA APG */}
+        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/role-supports-aria-props -- Dialog/alertdialog backdrop click is a standard modal pattern per Bootstrap 5 and ARIA APG; aria-modal is valid on dialog/alertdialog roles */}
+        {/* biome-ignore lint/a11y/noStaticElementInteractions: role is dynamically dialog|alertdialog both interactive per ARIA APG */}
+        {/* biome-ignore lint/a11y/useAriaPropsSupportedByRole: aria-modal is valid on both dialog and alertdialog roles */}
         <div
           ref={mergeRefs(modalRef, ref)}
           className={modalClasses}
           style={modalStyles}
           id={id}
-          role="dialog"
+          role={role}
           aria-modal="true"
           aria-labelledby={titleId}
-          aria-describedby={bodyId}
+          aria-describedby={ariaDescribedby}
+          aria-busy={isTransitioning || undefined}
           tabIndex={-1}
           onClick={handleBackdropClick}
           onKeyDown={handleModalKeyDown}
@@ -598,6 +655,7 @@ type ModalComponent = typeof ModalBase & {
   Header: typeof ModalHeader;
   Title: typeof ModalTitle;
   Body: typeof ModalBody;
+  Description: typeof ModalDescription;
   Footer: typeof ModalFooter;
 };
 
@@ -605,4 +663,5 @@ export const Modal = ModalBase as ModalComponent;
 Modal.Header = ModalHeader;
 Modal.Title = ModalTitle;
 Modal.Body = ModalBody;
+Modal.Description = ModalDescription;
 Modal.Footer = ModalFooter;

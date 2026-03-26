@@ -700,4 +700,192 @@ describe('Modal', () => {
       });
     });
   });
+
+  describe('Role Prop', () => {
+    it('renders with role="dialog" by default', async () => {
+      render(
+        <Modal isOpen={true} onClose={() => {}} animated={false}>
+          <Modal.Header>Title</Modal.Header>
+          <Modal.Body>Content</Modal.Body>
+        </Modal>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+    });
+
+    it('renders with role="alertdialog" when specified', async () => {
+      render(
+        <Modal isOpen={true} onClose={() => {}} role="alertdialog" animated={false}>
+          <Modal.Header>Confirm</Modal.Header>
+          <Modal.Body>Are you sure?</Modal.Body>
+        </Modal>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('alertdialog')).toBeInTheDocument();
+      });
+    });
+
+    it('has aria-modal="true" with alertdialog role', async () => {
+      render(
+        <Modal isOpen={true} onClose={() => {}} role="alertdialog" animated={false}>
+          <Modal.Header>Confirm</Modal.Header>
+          <Modal.Body>Are you sure?</Modal.Body>
+        </Modal>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('alertdialog')).toHaveAttribute('aria-modal', 'true');
+      });
+    });
+  });
+
+  describe('Modal.Description', () => {
+    it('renders description content', async () => {
+      render(
+        <Modal isOpen={true} onClose={() => {}} animated={false}>
+          <Modal.Header>Title</Modal.Header>
+          <Modal.Body>
+            <Modal.Description>This is the description</Modal.Description>
+            <p>Other body content</p>
+          </Modal.Body>
+        </Modal>
+      );
+      await waitFor(() => {
+        expect(screen.getByText('This is the description')).toBeInTheDocument();
+      });
+    });
+
+    it('updates aria-describedby to point to Description instead of Body', async () => {
+      render(
+        <Modal isOpen={true} onClose={() => {}} animated={false}>
+          <Modal.Header>Title</Modal.Header>
+          <Modal.Body>
+            <Modal.Description data-testid="desc">Precise description</Modal.Description>
+            <p>More body content</p>
+          </Modal.Body>
+        </Modal>
+      );
+      await waitFor(() => {
+        const dialog = screen.getByRole('dialog');
+        const descElement = screen.getByTestId('desc');
+        expect(dialog.getAttribute('aria-describedby')).toBe(descElement.id);
+      });
+    });
+
+    it('applies className to Description', async () => {
+      const { baseElement } = render(
+        <Modal isOpen={true} onClose={() => {}} animated={false}>
+          <Modal.Header>Title</Modal.Header>
+          <Modal.Body>
+            <Modal.Description className="custom-desc">Description</Modal.Description>
+          </Modal.Body>
+        </Modal>
+      );
+      await waitFor(() => {
+        const desc = baseElement.querySelector('.modal-description');
+        expect(desc).toHaveClass('custom-desc');
+      });
+    });
+
+    it('forwards ref to Description', async () => {
+      const ref = createRef<HTMLDivElement>();
+      render(
+        <Modal isOpen={true} onClose={() => {}} animated={false}>
+          <Modal.Header>Title</Modal.Header>
+          <Modal.Body>
+            <Modal.Description ref={ref}>Description</Modal.Description>
+          </Modal.Body>
+        </Modal>
+      );
+      await waitFor(() => {
+        expect(ref.current).toBeInstanceOf(HTMLDivElement);
+        expect(ref.current).toHaveClass('modal-description');
+      });
+    });
+
+    it('has correct displayName for Modal.Description', () => {
+      expect(Modal.Description.displayName).toBe('Modal.Description');
+    });
+  });
+
+  describe('aria-busy during transitions', () => {
+    it('does not have aria-busy when fully open (non-animated)', async () => {
+      render(
+        <Modal isOpen={true} onClose={() => {}} animated={false}>
+          <Modal.Header>Title</Modal.Header>
+          <Modal.Body>Content</Modal.Body>
+        </Modal>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).not.toHaveAttribute('aria-busy');
+      });
+    });
+  });
+
+  describe('Modal.Title ref forwarding', () => {
+    it('forwards ref to Title element', async () => {
+      const ref = createRef<HTMLHeadingElement>();
+      render(
+        <Modal isOpen={true} onClose={() => {}} animated={false}>
+          <Modal.Header>
+            <Modal.Title ref={ref}>Title Text</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Content</Modal.Body>
+        </Modal>
+      );
+      await waitFor(() => {
+        expect(ref.current).toBeInstanceOf(HTMLHeadingElement);
+        expect(ref.current).toHaveClass('modal-title');
+      });
+    });
+  });
+
+  describe('Modal.Title as prop', () => {
+    it('renders with custom heading level', async () => {
+      render(
+        <Modal isOpen={true} onClose={() => {}} animated={false}>
+          <Modal.Header>
+            <Modal.Title as="h2">Title</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Content</Modal.Body>
+        </Modal>
+      );
+      await waitFor(() => {
+        const title = screen.getByText('Title');
+        expect(title.tagName).toBe('H2');
+      });
+    });
+  });
+
+  describe('Custom Container', () => {
+    it('renders in a custom container element', async () => {
+      const container = document.createElement('div');
+      container.id = 'custom-container';
+      document.body.appendChild(container);
+
+      render(
+        <Modal isOpen={true} onClose={() => {}} container={container} animated={false}>
+          <Modal.Header>Title</Modal.Header>
+          <Modal.Body>Content</Modal.Body>
+        </Modal>
+      );
+
+      await waitFor(() => {
+        const modal = container.querySelector('.modal');
+        expect(modal).toBeInTheDocument();
+      });
+
+      document.body.removeChild(container);
+    });
+  });
+
+  describe('Modal.Footer context enforcement', () => {
+    it('throws when Modal.Footer is used outside Modal', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      expect(() => {
+        render(<Modal.Footer>Footer content</Modal.Footer>);
+      }).toThrow('Modal compound components must be used within a Modal');
+      consoleSpy.mockRestore();
+    });
+  });
 });

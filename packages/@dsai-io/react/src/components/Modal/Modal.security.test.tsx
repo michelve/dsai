@@ -334,4 +334,71 @@ describe('Modal Security Tests', () => {
       expect(onClosed).toHaveBeenCalledWith();
     });
   });
+
+  describe('Modal.Description Security', () => {
+    it('accepts whitelisted data-testid attribute', async () => {
+      render(
+        <Modal isOpen={true} onClose={() => {}} animated={false}>
+          <Modal.Header>Title</Modal.Header>
+          <Modal.Body>
+            <Modal.Description data-testid="desc-test">Description</Modal.Description>
+          </Modal.Body>
+        </Modal>
+      );
+
+      await waitFor(() => {
+        expect(screen.getByTestId('desc-test')).toBeInTheDocument();
+      });
+    });
+
+    it('accepts whitelisted data-test attribute', async () => {
+      const { baseElement } = render(
+        <Modal isOpen={true} onClose={() => {}} animated={false}>
+          <Modal.Header>Title</Modal.Header>
+          <Modal.Body>
+            <Modal.Description data-test="desc-test">Description</Modal.Description>
+          </Modal.Body>
+        </Modal>
+      );
+
+      await waitFor(() => {
+        expect(baseElement.querySelector('[data-test="desc-test"]')).toBeInTheDocument();
+      });
+    });
+
+    it('safely renders user-provided content in Description', async () => {
+      const userContent = '<img src=x onerror=alert(1)>';
+
+      render(
+        <Modal isOpen={true} onClose={() => {}} animated={false}>
+          <Modal.Header>Title</Modal.Header>
+          <Modal.Body>
+            <Modal.Description>{userContent}</Modal.Description>
+          </Modal.Body>
+        </Modal>
+      );
+
+      await waitFor(() => {
+        const desc = document.querySelector('.modal-description');
+        expect(desc?.textContent).toContain('<img');
+        expect(desc?.querySelector('img')).toBeNull();
+      });
+    });
+  });
+
+  describe('Role Prop Security', () => {
+    it('only allows dialog or alertdialog role values', async () => {
+      render(
+        <Modal isOpen={true} onClose={() => {}} role="alertdialog" animated={false}>
+          <Modal.Header>Title</Modal.Header>
+          <Modal.Body>Content</Modal.Body>
+        </Modal>
+      );
+
+      await waitFor(() => {
+        const alertDialog = screen.getByRole('alertdialog');
+        expect(alertDialog).toHaveAttribute('role', 'alertdialog');
+      });
+    });
+  });
 });

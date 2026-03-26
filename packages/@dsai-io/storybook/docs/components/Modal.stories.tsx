@@ -12,8 +12,9 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
  * - Focus trap with Tab key cycling
  * - ESC key to close
  * - Scroll lock when open
- * - Compound components (Modal.Header, Modal.Body, Modal.Footer, Modal.Title)
+ * - Compound components (Modal.Header, Modal.Body, Modal.Footer, Modal.Title, Modal.Description)
  * - Multiple sizes (sm, md, lg, xl, fullscreen)
+ * - role prop for dialog or alertdialog semantics
  * - FSM state management for animations
  *
  * @see https://getbootstrap.com/docs/5.3/components/modal/
@@ -589,7 +590,8 @@ export const FormModal: Story = {
 // =============================================================================
 
 /**
- * Confirmation dialog modal
+ * Confirmation dialog modal using `role="alertdialog"` for destructive actions.
+ * Uses `Modal.Description` to provide an accessible description separate from the body.
  */
 export const Confirmation: Story = {
   render: function ConfirmationModal() {
@@ -605,10 +607,18 @@ export const Confirmation: Story = {
         <Button variant="danger" onClick={() => setIsOpen(true)}>
           Delete Item
         </Button>
-        <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} centered size="sm">
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          role="alertdialog"
+          centered
+          size="sm"
+        >
           <Modal.Header>Confirm Delete</Modal.Header>
           <Modal.Body>
-            <p>Are you sure you want to delete this item? This action cannot be undone.</p>
+            <Modal.Description>
+              Are you sure you want to delete this item? This action cannot be undone.
+            </Modal.Description>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => setIsOpen(false)}>
@@ -616,6 +626,45 @@ export const Confirmation: Story = {
             </Button>
             <Button variant="danger" onClick={handleConfirm}>
               Delete
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  },
+};
+
+// =============================================================================
+// Description Subcomponent
+// =============================================================================
+
+/**
+ * Modal with `Modal.Description` for explicit `aria-describedby` control.
+ * When present, `aria-describedby` points to the Description rather than the Body.
+ */
+export const WithDescription: Story = {
+  render: function DescriptionModal() {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+      <>
+        <Button onClick={() => setIsOpen(true)}>Modal with Description</Button>
+        <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+          <Modal.Header>
+            <Modal.Title>Upload File</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Modal.Description>
+              Select a file to upload. Only .png and .jpg files under 5MB are accepted.
+            </Modal.Description>
+            <Input type="file" label="Choose file" className="mt-3" />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={() => setIsOpen(false)}>
+              Upload
             </Button>
           </Modal.Footer>
         </Modal>
@@ -739,7 +788,8 @@ export const AccessibilityDemo: Story = {
             <Heading level={6}>ARIA Attributes</Heading>
             <ul>
               <li>
-                <code>role=&quot;dialog&quot;</code> - Identifies as dialog
+                <code>role=&quot;dialog&quot;</code> or <code>role=&quot;alertdialog&quot;</code> -
+                Semantic dialog type
               </li>
               <li>
                 <code>aria-modal=&quot;true&quot;</code> - Indicates modal context
@@ -748,7 +798,10 @@ export const AccessibilityDemo: Story = {
                 <code>aria-labelledby</code> - Points to title
               </li>
               <li>
-                <code>aria-describedby</code> - Points to body
+                <code>aria-describedby</code> - Points to Description (if present) or Body
+              </li>
+              <li>
+                <code>aria-busy</code> - Set during open/close transitions
               </li>
             </ul>
 

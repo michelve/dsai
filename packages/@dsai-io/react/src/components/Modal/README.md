@@ -9,8 +9,9 @@ A fully accessible modal dialog component using Bootstrap 5 native classes with 
 - **Scroll Lock**: Prevents body scrolling when modal is open
 - **Keyboard Navigation**: ESC key to close, full keyboard accessibility
 - **Animations**: Fade in/out with configurable timing
-- **Compound Components**: Modal.Header, Modal.Body, Modal.Footer, Modal.Title
+- **Compound Components**: Modal.Header, Modal.Body, Modal.Footer, Modal.Title, Modal.Description
 - **Sizes**: sm, md (default), lg, xl, fullscreen
+- **Role Support**: `dialog` (default) or `alertdialog` for confirmation dialogs
 - **FSM State Management**: Predictable state transitions for animations
 
 ## Installation
@@ -147,6 +148,41 @@ function CustomFocusModal() {
 }
 ```
 
+### Confirmation Dialog (alertdialog)
+
+```tsx
+<Modal isOpen={isOpen} onClose={handleClose} role="alertdialog" centered size="sm">
+  <Modal.Header>Confirm Delete</Modal.Header>
+  <Modal.Body>
+    <Modal.Description>
+      Are you sure you want to delete this item? This action cannot be undone.
+    </Modal.Description>
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={handleClose}>Cancel</Button>
+    <Button variant="danger" onClick={handleDelete}>Delete</Button>
+  </Modal.Footer>
+</Modal>
+```
+
+### Modal with Description
+
+```tsx
+<Modal isOpen={isOpen} onClose={handleClose}>
+  <Modal.Header>
+    <Modal.Title>Upload File</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <Modal.Description>
+      Select a file to upload. Only .png and .jpg files under 5MB are accepted.
+    </Modal.Description>
+    <input type="file" />
+  </Modal.Body>
+</Modal>
+```
+
+When `Modal.Description` is present, `aria-describedby` points to the Description element instead of the Body, giving screen readers a focused summary.
+
 ### Return Focus to Trigger
 
 ```tsx
@@ -197,6 +233,7 @@ function ReturnFocusModal() {
 | `style`                | `CSSProperties`                                                              | -               | Inline styles                                     |
 | `id`                   | `string`                                                                     | -               | HTML id attribute                                 |
 | `data-testid`          | `string`                                                                     | -               | Test identifier                                   |
+| `role`                 | `'dialog' \| 'alertdialog'`                                                  | `'dialog'`      | ARIA role (use `alertdialog` for confirmations)   |
 | `data-test`            | `string`                                                                     | -               | Test identifier                                   |
 
 ### Modal.Header
@@ -230,6 +267,18 @@ function ReturnFocusModal() {
 | `data-testid` | `string`        | -            | Test identifier        |
 | `data-test`   | `string`        | -            | Test identifier        |
 
+### Modal.Description
+
+| Prop          | Type            | Default      | Description                                      |
+| ------------- | --------------- | ------------ | ------------------------------------------------ |
+| `children`    | `ReactNode`     | **Required** | Description content                              |
+| `className`   | `string`        | -            | Additional CSS classes                           |
+| `style`       | `CSSProperties` | -            | Inline styles                                    |
+| `data-testid` | `string`        | -            | Test identifier                                  |
+| `data-test`   | `string`        | -            | Test identifier                                  |
+
+When present, `aria-describedby` on the modal points to the Description element instead of the Body.
+
 ### Modal.Footer
 
 | Prop          | Type            | Default      | Description                        |
@@ -246,10 +295,11 @@ The Modal component is fully accessible:
 
 ### ARIA Attributes
 
-- `role="dialog"` - Identifies the element as a dialog
+- `role="dialog"` (default) or `role="alertdialog"` — semantic dialog type
 - `aria-modal="true"` - Indicates that the dialog is modal
 - `aria-labelledby` - Points to the modal title for screen readers
-- `aria-describedby` - Points to the modal body for screen readers
+- `aria-describedby` - Points to `Modal.Description` (if present) or `Modal.Body`
+- `aria-busy` - Set to `true` during open/close transitions
 
 ### Focus Management
 

@@ -1,5 +1,7 @@
-import type { ComponentSize, SafeHTMLAttributes } from '../../types';
+import type React from 'react';
 import type { ReactNode } from 'react';
+
+import type { ComponentSize, SafeHTMLAttributes } from '../../types';
 
 /**
  * Modal size variants
@@ -209,6 +211,14 @@ export interface ModalProps extends SafeModalHTMLAttributes {
    * @default true
    */
   animated?: boolean;
+
+  /**
+   * ARIA role for the modal dialog.
+   * Use 'alertdialog' for confirmation/destructive dialogs that require
+   * user acknowledgment (WCAG: alerts the user).
+   * @default 'dialog'
+   */
+  role?: 'dialog' | 'alertdialog';
 }
 
 /**
@@ -360,6 +370,43 @@ export interface ModalTitleProps {
 }
 
 /**
+ * Whitelisted HTML attributes for safe prop spreading in Modal.Description
+ * SECURITY: Restricts arbitrary props to prevent injection attacks
+ * @see {@link SafeHTMLAttributes}
+ */
+export type SafeModalDescriptionHTMLAttributes = SafeHTMLAttributes<HTMLDivElement>;
+
+/**
+ * Modal.Description component props
+ *
+ * Provides an explicit element for aria-describedby, giving screen readers
+ * a concise description separate from the full body content.
+ *
+ * @example
+ * ```tsx
+ * <Modal isOpen={isOpen} onClose={handleClose} role="alertdialog">
+ *   <Modal.Header>Confirm Delete</Modal.Header>
+ *   <Modal.Body>
+ *     <Modal.Description>
+ *       This action will permanently delete the item.
+ *     </Modal.Description>
+ *     <p>Additional details here...</p>
+ *   </Modal.Body>
+ *   <Modal.Footer>
+ *     <Button onClick={handleClose}>Cancel</Button>
+ *     <Button variant="danger" onClick={handleDelete}>Delete</Button>
+ *   </Modal.Footer>
+ * </Modal>
+ * ```
+ */
+export interface ModalDescriptionProps extends SafeModalDescriptionHTMLAttributes {
+  /**
+   * Description content
+   */
+  children: ReactNode;
+}
+
+/**
  * Modal context value for sharing state between Modal and subcomponents
  */
 export interface ModalContextValue {
@@ -377,6 +424,21 @@ export interface ModalContextValue {
    * Body ID for aria-describedby
    */
   bodyId: string;
+
+  /**
+   * Description ID for aria-describedby when Modal.Description is used
+   */
+  descriptionId: string;
+
+  /**
+   * Whether a Modal.Description has been rendered
+   */
+  hasDescription: boolean;
+
+  /**
+   * Register that a Modal.Description has been rendered
+   */
+  setHasDescription: (value: boolean) => void;
 
   /**
    * Whether the modal content is scrollable
