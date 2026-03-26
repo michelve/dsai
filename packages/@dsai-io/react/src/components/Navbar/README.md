@@ -7,7 +7,7 @@ A fully accessible responsive navigation header component using Bootstrap 5 nati
 - **Native Bootstrap 5 Classes**: Uses standard Bootstrap navbar styling
 - **Responsive Design**: Configurable breakpoint for mobile/desktop layouts
 - **Smooth Animations**: CSS transitions for collapse/expand with FSM states
-- **Keyboard Navigation**: Tab/Shift+Tab plus Enter, Space, Arrow, Home/End, and Escape support within the nav
+- **Keyboard Navigation**: Tab/Shift+Tab plus Enter, Space, ArrowRight/Left (horizontal) or ArrowDown/Up (vertical), Home/End, and Escape support within the nav
 - **Color Variants**: Light and dark color schemes with customizable backgrounds
 - **Compound Components**: Navbar.Brand, Navbar.Toggle, Navbar.Collapse, Navbar.Nav, Navbar.Link, Navbar.Item, Navbar.Text
 - **FSM State Management**: Predictable state transitions for animations
@@ -446,6 +446,7 @@ The Navbar component follows the WAI-ARIA navigation landmark pattern (WCAG 2.2 
   - Active links have `aria-current="page"`
   - `Navbar.Nav` exposes `data-orientation` (`horizontal` | `vertical`) for styling/testing
 - **Disabled State**: Disabled links have `tabindex="-1"` and `aria-disabled="true"`
+- **Animation Feedback**: `Navbar.Collapse` sets `aria-busy="true"` during expand/collapse animations
 - **Visual State**: `data-visual-state` attribute reflects FSM state
 - **External Links**: Automatically get `rel="noopener noreferrer"` for security
 
@@ -456,7 +457,8 @@ The Navbar component follows the WAI-ARIA navigation landmark pattern (WCAG 2.2 
 | `Tab` / `Shift+Tab`            | Move focus between interactive elements (toggle, links, form controls)                   |
 | `Enter` / `Space`              | Activate links or toggle the menu                                                        |
 | `Escape`                       | Close the expanded menu and return focus to the toggle (when focus is inside the navbar) |
-| `Arrow Up/Down` / `Left/Right` | Cycle focus between links inside `Navbar.Nav` (horizontal vs. vertical respect layout)   |
+| `ArrowRight` / `ArrowLeft`     | Cycle focus between links in **horizontal** `Navbar.Nav`                                 |
+| `ArrowDown` / `ArrowUp`        | Cycle focus between links in **vertical** `Navbar.Nav`                                   |
 | `Home` / `End`                 | Jump focus to the first/last link inside `Navbar.Nav`                                    |
 
 ### Screen Reader Announcements

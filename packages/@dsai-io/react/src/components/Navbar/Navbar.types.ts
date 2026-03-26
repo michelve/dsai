@@ -103,6 +103,8 @@ export interface NavbarContextValue {
   registerToggleRef: (ref: HTMLButtonElement | null) => void;
   /** Orientation for keyboard navigation */
   orientation: NavbarOrientation;
+  /** Whether the navbar is currently animating (expanding or collapsing) */
+  isAnimating: boolean;
 }
 
 // =============================================================================

@@ -31,4 +31,5 @@ export {
   isNavbarExpanded,
   Navbar,
   navbarFSMReducer,
+  useNavbarContext,
 } from './Navbar';

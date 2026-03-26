@@ -11,11 +11,11 @@
  * - All subcomponents (Brand, Toggle, Collapse, Nav, Item, Link, Text)
  */
 
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createRef } from 'react';
 
-import { Navbar } from './Navbar';
+import { Navbar, useNavbarContext } from './Navbar';
 
 // =============================================================================
 // Test Setup
@@ -775,7 +775,7 @@ describe('Navbar.Toggle', () => {
       expect(screen.getByRole('button', { name: /toggle/i })).toHaveFocus();
     });
 
-    it('navigates links with Arrow Down key', async () => {
+    it('navigates links with Arrow Right key in horizontal mode', async () => {
       const user = userEvent.setup();
       renderNavbar({ expanded: true });
 
@@ -790,16 +790,16 @@ describe('Navbar.Toggle', () => {
       firstLink.focus();
       expect(firstLink).toHaveFocus();
 
-      // Press Arrow Down
-      await user.keyboard('{ArrowDown}');
+      // Press Arrow Right (horizontal navigation)
+      await user.keyboard('{ArrowRight}');
       expect(secondLink).toHaveFocus();
 
-      // Press Arrow Down again (wraps to first)
-      await user.keyboard('{ArrowDown}');
+      // Press Arrow Right again (wraps to first)
+      await user.keyboard('{ArrowRight}');
       expect(firstLink).toHaveFocus();
     });
 
-    it('navigates links with Arrow Up key', async () => {
+    it('navigates links with Arrow Left key in horizontal mode', async () => {
       const user = userEvent.setup();
       renderNavbar({ expanded: true });
 
@@ -814,8 +814,8 @@ describe('Navbar.Toggle', () => {
       secondLink.focus();
       expect(secondLink).toHaveFocus();
 
-      // Press Arrow Up
-      await user.keyboard('{ArrowUp}');
+      // Press Arrow Left (horizontal navigation)
+      await user.keyboard('{ArrowLeft}');
       expect(firstLink).toHaveFocus();
     });
 
@@ -858,7 +858,7 @@ describe('Navbar.Toggle', () => {
       expect(secondLink).toHaveFocus();
     });
 
-    it('wraps around on Arrow Down at last item', async () => {
+    it('wraps around on Arrow Right at last item', async () => {
       const user = userEvent.setup();
       renderNavbar({ expanded: true });
 
@@ -872,12 +872,12 @@ describe('Navbar.Toggle', () => {
 
       secondLink.focus();
 
-      // Press Arrow Down should wrap to first
-      await user.keyboard('{ArrowDown}');
+      // Press Arrow Right should wrap to first
+      await user.keyboard('{ArrowRight}');
       expect(firstLink).toHaveFocus();
     });
 
-    it('wraps around on Arrow Up at first item', async () => {
+    it('wraps around on Arrow Left at first item', async () => {
       const user = userEvent.setup();
       renderNavbar({ expanded: true });
 
@@ -891,9 +891,50 @@ describe('Navbar.Toggle', () => {
 
       firstLink.focus();
 
-      // Press Arrow Up should wrap to last
-      await user.keyboard('{ArrowUp}');
+      // Press Arrow Left should wrap to last
+      await user.keyboard('{ArrowLeft}');
       expect(secondLink).toHaveFocus();
+    });
+
+    it('does not navigate with Arrow Down in horizontal mode', async () => {
+      const user = userEvent.setup();
+      renderNavbar({ expanded: true });
+
+      const links = within(screen.getByRole('list')).getAllByRole('link');
+      const firstLink = links[0];
+      if (!firstLink) {
+        throw new Error('Link not found');
+      }
+
+      firstLink.focus();
+      expect(firstLink).toHaveFocus();
+
+      // Arrow Down should NOT navigate in horizontal mode
+      await user.keyboard('{ArrowDown}');
+      expect(firstLink).toHaveFocus();
+    });
+
+    it('navigates with Arrow Down/Up in vertical mode', async () => {
+      const user = userEvent.setup();
+      renderNavbar({ expanded: true, orientation: 'vertical' });
+
+      const links = within(screen.getByRole('list')).getAllByRole('link');
+      const firstLink = links[0];
+      const secondLink = links[1];
+      if (!firstLink || !secondLink) {
+        throw new Error('Links not found');
+      }
+
+      firstLink.focus();
+      expect(firstLink).toHaveFocus();
+
+      // Arrow Down navigates in vertical mode
+      await user.keyboard('{ArrowDown}');
+      expect(secondLink).toHaveFocus();
+
+      // Arrow Up navigates back
+      await user.keyboard('{ArrowUp}');
+      expect(firstLink).toHaveFocus();
     });
   });
 });
@@ -1575,5 +1616,362 @@ describe('Edge Cases', () => {
       'aria-expanded',
       'true'
     );
+  });
+});
+
+// =============================================================================
+// Aria-Busy During Animation Tests
+// =============================================================================
+
+describe('Aria-Busy During Animation', () => {
+  it('sets aria-busy on collapse during expanding animation', async () => {
+    // Mock requestAnimationFrame to queue callbacks instead of running immediately
+    const rafCallbacks: FrameRequestCallback[] = [];
+    const originalRaf = window.requestAnimationFrame;
+    const originalCancelRaf = window.cancelAnimationFrame;
+
+    window.requestAnimationFrame = jest.fn((callback: FrameRequestCallback) => {
+      rafCallbacks.push(callback);
+      return rafCallbacks.length;
+    }) as typeof window.requestAnimationFrame;
+    window.cancelAnimationFrame = jest.fn();
+
+    try {
+      const user = userEvent.setup();
+      const { container } = renderNavbar();
+
+      const toggle = screen.getByRole('button', { name: /toggle/i });
+
+      // Click to start expanding
+      await user.click(toggle);
+
+      // During expanding, collapse should have aria-busy
+      const collapse = container.querySelector('.navbar-collapse');
+      expect(collapse).toHaveAttribute('aria-busy', 'true');
+
+      // Run RAF to complete animation
+      for (const cb of rafCallbacks) {
+        cb(performance.now());
+      }
+
+      // After animation ends, aria-busy should be removed
+      await waitFor(() => {
+        expect(collapse).not.toHaveAttribute('aria-busy');
+      });
+    } finally {
+      window.requestAnimationFrame = originalRaf;
+      window.cancelAnimationFrame = originalCancelRaf;
+    }
+  });
+
+  it('does not set aria-busy when expanded (no animation)', () => {
+    const { container } = renderNavbar({ expanded: true });
+    const collapse = container.querySelector('.navbar-collapse');
+    expect(collapse).not.toHaveAttribute('aria-busy');
+  });
+
+  it('does not set aria-busy when collapsed (no animation)', () => {
+    const { container } = renderNavbar({ expanded: false });
+    const collapse = container.querySelector('.navbar-collapse');
+    expect(collapse).not.toHaveAttribute('aria-busy');
+  });
+});
+
+// =============================================================================
+// Controlled Mode - Open/Close Callback Coverage
+// =============================================================================
+
+describe('Controlled Mode Callbacks', () => {
+  it('calls onExpandedChange(true) when open is triggered in controlled mode', async () => {
+    const handleChange = jest.fn();
+    const user = userEvent.setup();
+    renderNavbar({ expanded: false, onExpandedChange: handleChange });
+
+    const toggle = screen.getByRole('button', { name: /toggle/i });
+    await user.click(toggle);
+
+    expect(handleChange).toHaveBeenCalledWith(true);
+  });
+
+  it('calls onExpandedChange(false) when close is triggered in controlled mode', async () => {
+    const handleChange = jest.fn();
+    const user = userEvent.setup();
+    renderNavbar({ expanded: true, onExpandedChange: handleChange });
+
+    const toggle = screen.getByRole('button', { name: /toggle/i });
+    await user.click(toggle);
+
+    expect(handleChange).toHaveBeenCalledWith(false);
+  });
+
+  it('calls onExpandedChange(false) on Escape in controlled mode', async () => {
+    const handleChange = jest.fn();
+    const user = userEvent.setup();
+    renderNavbar({ expanded: true, onExpandedChange: handleChange });
+
+    // Focus a link and press Escape
+    const links = within(screen.getByRole('list')).getAllByRole('link');
+    links[0]?.focus();
+    await user.keyboard('{Escape}');
+
+    expect(handleChange).toHaveBeenCalledWith(false);
+  });
+
+  it('calls onExpandedChange in uncontrolled mode when toggling', async () => {
+    const handleChange = jest.fn();
+    const user = userEvent.setup();
+    renderNavbar({ onExpandedChange: handleChange });
+
+    const toggle = screen.getByRole('button', { name: /toggle/i });
+    await user.click(toggle);
+
+    expect(handleChange).toHaveBeenCalledWith(true);
+  });
+});
+
+// =============================================================================
+// Click Outside Tests
+// =============================================================================
+
+describe('Click Outside', () => {
+  it('closes navbar when clicking outside while expanded', async () => {
+    const user = userEvent.setup();
+    const { container } = render(
+      <div>
+        <button type="button" data-testid="outside-button">
+          Outside
+        </button>
+        <Navbar defaultExpanded>
+          <Navbar.Brand href="/">Brand</Navbar.Brand>
+          <Navbar.Toggle />
+          <Navbar.Collapse>
+            <Navbar.Nav>
+              <Navbar.Item>
+                <Navbar.Link href="/" active>
+                  Home
+                </Navbar.Link>
+              </Navbar.Item>
+            </Navbar.Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      </div>
+    );
+
+    // Verify menu is open
+    expect(container.querySelector('.collapse.show')).toBeInTheDocument();
+
+    // Click outside
+    await user.click(screen.getByTestId('outside-button'));
+
+    await waitFor(() => {
+      expect(container.querySelector('.collapse.show')).toBeNull();
+    });
+  });
+
+  it('calls onExpandedChange on click outside in controlled mode', async () => {
+    const handleChange = jest.fn();
+    const user = userEvent.setup();
+    render(
+      <div>
+        <button type="button" data-testid="outside-button">
+          Outside
+        </button>
+        <Navbar expanded onExpandedChange={handleChange}>
+          <Navbar.Brand href="/">Brand</Navbar.Brand>
+          <Navbar.Toggle />
+          <Navbar.Collapse>
+            <Navbar.Nav>
+              <Navbar.Item>
+                <Navbar.Link href="/" active>
+                  Home
+                </Navbar.Link>
+              </Navbar.Item>
+            </Navbar.Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      </div>
+    );
+
+    // Click outside
+    await user.click(screen.getByTestId('outside-button'));
+
+    expect(handleChange).toHaveBeenCalledWith(false);
+  });
+});
+
+// =============================================================================
+// NavbarNav Child Normalization Tests
+// =============================================================================
+
+describe('NavbarNav Child Normalization', () => {
+  it('wraps non-NavbarItem children in NavbarItem', () => {
+    render(
+      <Navbar expanded>
+        <Navbar.Collapse>
+          <Navbar.Nav>
+            <Navbar.Link href="/">Direct Link</Navbar.Link>
+          </Navbar.Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    );
+
+    // Link should be wrapped in a <li> automatically
+    const listItems = screen.getAllByRole('listitem');
+    expect(listItems.length).toBeGreaterThan(0);
+    expect(screen.getByText('Direct Link')).toBeInTheDocument();
+  });
+
+  it('does not double-wrap NavbarItem children', () => {
+    render(
+      <Navbar expanded>
+        <Navbar.Collapse>
+          <Navbar.Nav>
+            <Navbar.Item>
+              <Navbar.Link href="/">Wrapped Link</Navbar.Link>
+            </Navbar.Item>
+          </Navbar.Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    );
+
+    // Should have exactly 1 list item for 1 explicit item
+    const listItems = screen.getAllByRole('listitem');
+    expect(listItems).toHaveLength(1);
+  });
+
+  it('passes through non-element children unchanged', () => {
+    render(
+      <Navbar expanded>
+        <Navbar.Collapse>
+          <Navbar.Nav>
+            {'plain text'}
+            <Navbar.Item>
+              <Navbar.Link href="/">Link</Navbar.Link>
+            </Navbar.Item>
+          </Navbar.Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    );
+
+    expect(screen.getByText('plain text')).toBeInTheDocument();
+    expect(screen.getByText('Link')).toBeInTheDocument();
+  });
+});
+
+// =============================================================================
+// Keyboard Navigation Edge Cases
+// =============================================================================
+
+describe('Keyboard Navigation Edge Cases', () => {
+  it('does nothing on arrow keys when there are no focusable links', () => {
+    render(
+      <Navbar expanded>
+        <Navbar.Collapse>
+          <Navbar.Nav>
+            <Navbar.Item>
+              <Navbar.Text>No links here</Navbar.Text>
+            </Navbar.Item>
+          </Navbar.Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    );
+
+    const nav = screen.getByRole('list');
+    // Fire keyboard event directly on the nav — should not throw
+    fireEvent.keyDown(nav, { key: 'ArrowRight' });
+    expect(nav).toBeInTheDocument();
+  });
+});
+
+// =============================================================================
+// Context open() API Tests
+// =============================================================================
+
+describe('Context open() API', () => {
+  /** Test consumer that exposes the context open() function */
+  function OpenButton() {
+    const { open } = useNavbarContext();
+    return (
+      <button type="button" data-testid="open-btn" onClick={open}>
+        Open
+      </button>
+    );
+  }
+
+  it('opens collapsed navbar via context open() in uncontrolled mode', async () => {
+    const handleChange = jest.fn();
+    const user = userEvent.setup();
+    const { container } = render(
+      <Navbar onExpandedChange={handleChange}>
+        <OpenButton />
+        <Navbar.Toggle />
+        <Navbar.Collapse>
+          <Navbar.Nav>
+            <Navbar.Item>
+              <Navbar.Link href="/">Home</Navbar.Link>
+            </Navbar.Item>
+          </Navbar.Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    );
+
+    // Navbar starts collapsed
+    expect(container.querySelector('.collapse.show')).toBeNull();
+
+    // Click the custom open button
+    await user.click(screen.getByTestId('open-btn'));
+
+    // onExpandedChange should fire with true
+    expect(handleChange).toHaveBeenCalledWith(true);
+  });
+
+  it('calls onExpandedChange(true) via open() in controlled mode', async () => {
+    const handleChange = jest.fn();
+    const user = userEvent.setup();
+    render(
+      <Navbar expanded={false} onExpandedChange={handleChange}>
+        <OpenButton />
+        <Navbar.Toggle />
+        <Navbar.Collapse>
+          <Navbar.Nav>
+            <Navbar.Item>
+              <Navbar.Link href="/">Home</Navbar.Link>
+            </Navbar.Item>
+          </Navbar.Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    );
+
+    await user.click(screen.getByTestId('open-btn'));
+
+    expect(handleChange).toHaveBeenCalledWith(true);
+  });
+});
+
+// =============================================================================
+// NavbarNav Unmount Ref Guard Tests
+// =============================================================================
+
+describe('NavbarNav Ref Guards', () => {
+  it('handles keyboard events gracefully after unmounting Nav', async () => {
+    const { unmount } = render(
+      <Navbar expanded>
+        <Navbar.Collapse>
+          <Navbar.Nav data-testid="nav">
+            <Navbar.Item>
+              <Navbar.Link href="/">Home</Navbar.Link>
+            </Navbar.Item>
+          </Navbar.Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    );
+
+    const nav = screen.getByTestId('nav');
+    // Verify element is in DOM
+    expect(nav).toBeInTheDocument();
+
+    // Fire keyboard event, then unmount — verifies cleanup runs without errors
+    fireEvent.keyDown(nav, { key: 'ArrowRight' });
+    unmount();
   });
 });

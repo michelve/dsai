@@ -10,7 +10,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
  * Features:
  * - Responsive design with configurable breakpoints
  * - Smooth collapse/expand animations via CSS transitions
- * - Full keyboard navigation (Tab, Enter, Space, Escape, Arrow/Home/End within nav)
+ * - Full keyboard navigation (Tab, Enter, Space, Escape, ArrowRight/Left or ArrowDown/Up, Home/End)
  * - FSM state management for visual states
  * - Controlled and uncontrolled modes
  * - Light and dark color schemes

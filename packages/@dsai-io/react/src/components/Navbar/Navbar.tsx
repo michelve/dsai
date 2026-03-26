@@ -30,6 +30,7 @@ import { isValidHref } from '../../utils/validation';
 import {
   createInitialNavbarFSMState,
   getNavbarVisualState,
+  isNavbarAnimating,
   isNavbarExpanded,
   navbarFSMReducer,
 } from './Navbar.fsm';
@@ -223,6 +224,7 @@ const NavbarRoot = forwardRef<HTMLElement, NavbarProps>(
     const contextValue = useMemo<NavbarContextValue>(
       () => ({
         isExpanded: isNavbarExpanded(fsmState),
+        isAnimating: isNavbarAnimating(fsmState),
         toggle,
         open,
         close,
@@ -508,7 +510,7 @@ const NavbarCollapse = forwardRef<HTMLDivElement, NavbarCollapseProps>(
     { children, className = '', style, id, 'data-testid': dataTestId, 'data-test': dataTest },
     ref
   ) => {
-    const { isExpanded, collapseId } = useNavbarContext();
+    const { isExpanded, isAnimating, collapseId } = useNavbarContext();
 
     // Compute classes
     const collapseClasses = useMemo(
@@ -522,6 +524,7 @@ const NavbarCollapse = forwardRef<HTMLDivElement, NavbarCollapseProps>(
         id={id ?? collapseId}
         className={collapseClasses}
         style={style}
+        aria-busy={isAnimating || undefined}
         data-testid={dataTestId}
         data-test={dataTest}
       >
@@ -608,9 +611,11 @@ const NavbarNav = forwardRef<HTMLUListElement, NavbarNavProps>(
         let nextIndex = -1;
 
         // Determine navigation keys based on orientation
+        // Horizontal: ArrowLeft/ArrowRight per WAI-ARIA navigation patterns
+        // Vertical: ArrowUp/ArrowDown
         const isVertical = orientation === 'vertical';
-        const nextKeys = isVertical ? ['ArrowDown'] : ['ArrowDown', 'ArrowRight'];
-        const prevKeys = isVertical ? ['ArrowUp'] : ['ArrowUp', 'ArrowLeft'];
+        const nextKeys = isVertical ? ['ArrowDown'] : ['ArrowRight'];
+        const prevKeys = isVertical ? ['ArrowUp'] : ['ArrowLeft'];
 
         if (nextKeys.includes(event.key)) {
           event.preventDefault();
@@ -627,10 +632,7 @@ const NavbarNav = forwardRef<HTMLUListElement, NavbarNavProps>(
         }
 
         if (nextIndex >= 0 && nextIndex < links.length) {
-          const targetLink = links.find((_, idx) => idx === nextIndex);
-          if (targetLink) {
-            targetLink.focus();
-          }
+          links[nextIndex]?.focus();
         }
       },
       [getFocusableLinks, orientation, handleEscapeKey]
@@ -676,9 +678,8 @@ const NavbarNav = forwardRef<HTMLUListElement, NavbarNavProps>(
         if (!isValidElement(child)) {
           return child;
         }
-        const childType = (child.type as { displayName?: string; name?: string }) || {};
-        const isNavItem =
-          childType.displayName === NavbarItem.displayName || childType.name === 'NavbarItem';
+        const childType = (child.type as { displayName?: string }) || {};
+        const isNavItem = childType.displayName === NavbarItem.displayName;
         if (isNavItem) {
           return child;
         }
@@ -907,6 +908,9 @@ export const Navbar = Object.assign(NavbarRoot, {
   Link: NavbarLink,
   Text: NavbarText,
 });
+
+// Export context hook for custom subcomponents
+export { useNavbarContext };
 
 // Re-export FSM utilities
 export {
