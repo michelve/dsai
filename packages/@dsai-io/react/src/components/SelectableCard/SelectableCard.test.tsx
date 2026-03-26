@@ -547,4 +547,428 @@ describe('SelectableCard', () => {
       expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('no "name" prop'));
     });
   });
+
+  // ===========================================================================
+  // Selection Indicator
+  // ===========================================================================
+
+  describe('Selection Indicator', () => {
+    it('renders checkbox control by default (control indicator)', () => {
+      const { container } = render(
+        <SelectableCard selectionMode="checkbox" value="plan1" title="Plan" />
+      );
+
+      expect(screen.getByRole('checkbox')).toBeInTheDocument();
+      // The control wrapper should have the control class
+      expect(container.querySelector('.selectable-card__control')).toBeInTheDocument();
+    });
+
+    it('renders check-icon indicator with SVG when checked', () => {
+      const { container } = render(
+        <SelectableCard
+          selectionMode="checkbox"
+          value="plan1"
+          title="Plan"
+          selectionIndicator="check-icon"
+          defaultChecked
+        />
+      );
+
+      // Should have hidden input for form participation
+      const input = container.querySelector('input.visually-hidden');
+      expect(input).toBeInTheDocument();
+      expect(input).toHaveAttribute('type', 'checkbox');
+
+      // Should show SVG check icon
+      expect(container.querySelector('.selectable-card__check-icon')).toBeInTheDocument();
+      expect(container.querySelector('svg')).toBeInTheDocument();
+    });
+
+    it('does not show check-icon SVG when unchecked', () => {
+      const { container } = render(
+        <SelectableCard
+          selectionMode="checkbox"
+          value="plan1"
+          title="Plan"
+          selectionIndicator="check-icon"
+        />
+      );
+
+      expect(container.querySelector('.selectable-card__check-icon')).not.toBeInTheDocument();
+    });
+
+    it('renders border-only indicator with hidden input', () => {
+      const { container } = render(
+        <SelectableCard
+          selectionMode="checkbox"
+          value="plan1"
+          title="Plan"
+          selectionIndicator="border-only"
+          defaultChecked
+        />
+      );
+
+      const input = container.querySelector('input.visually-hidden');
+      expect(input).toBeInTheDocument();
+      expect(input).toHaveAttribute('type', 'checkbox');
+
+      // No visible checkbox or radio control
+      expect(container.querySelector('.selectable-card__control')).not.toBeInTheDocument();
+    });
+
+    it('renders none indicator with hidden input', () => {
+      const { container } = render(
+        <SelectableCard
+          selectionMode="radio"
+          value="plan1"
+          name="plans"
+          title="Plan"
+          selectionIndicator="none"
+        />
+      );
+
+      const input = container.querySelector('input.visually-hidden');
+      expect(input).toBeInTheDocument();
+      expect(input).toHaveAttribute('type', 'radio');
+    });
+
+    it('check-icon works with radio mode', () => {
+      const { container } = render(
+        <SelectableCard
+          selectionMode="radio"
+          value="plan1"
+          name="plans"
+          title="Plan"
+          selectionIndicator="check-icon"
+          defaultChecked
+        />
+      );
+
+      const input = container.querySelector('input.visually-hidden');
+      expect(input).toHaveAttribute('type', 'radio');
+      expect(container.querySelector('.selectable-card__check-icon')).toBeInTheDocument();
+    });
+
+    it('border-only still toggles on click', async () => {
+      const handleChange = jest.fn();
+      const user = userEvent.setup();
+
+      const { container } = render(
+        <SelectableCard
+          selectionMode="checkbox"
+          value="plan1"
+          title="Plan"
+          selectionIndicator="border-only"
+          onChange={handleChange}
+        />
+      );
+
+      const card = getCard(container);
+      await user.click(card);
+
+      expect(handleChange).toHaveBeenCalledWith(true);
+    });
+  });
+
+  // ===========================================================================
+  // Description Truncation
+  // ===========================================================================
+
+  describe('Description Truncation', () => {
+    it('applies line-clamp styles when descriptionLines is set', () => {
+      const { container } = render(
+        <SelectableCard
+          title="Plan"
+          description="A very long description that might overflow"
+          descriptionLines={2}
+        />
+      );
+
+      const descText = container.querySelector('.selectable-card__description');
+      expect(descText).toBeInTheDocument();
+      expect(descText).toHaveStyle({
+        display: '-webkit-box',
+        overflow: 'hidden',
+        WebkitLineClamp: '2',
+      });
+    });
+
+    it('does not apply line-clamp when descriptionLines is 0', () => {
+      const { container } = render(
+        <SelectableCard
+          title="Plan"
+          description="A very long description"
+          descriptionLines={0}
+        />
+      );
+
+      const descText = container.querySelector('.selectable-card__description');
+      expect(descText).toBeInTheDocument();
+      expect(descText).not.toHaveStyle({ overflow: 'hidden' });
+    });
+
+    it('does not apply line-clamp when descriptionLines is not set', () => {
+      const { container } = render(
+        <SelectableCard
+          title="Plan"
+          description="A description"
+        />
+      );
+
+      const descText = container.querySelector('.selectable-card__description');
+      expect(descText).toBeInTheDocument();
+      expect(descText).not.toHaveStyle({ overflow: 'hidden' });
+    });
+  });
+
+  // ===========================================================================
+  // Selected Color Border
+  // ===========================================================================
+
+  describe('Selected Color Border', () => {
+    it('uses selectedColor for border when checked', () => {
+      const { container } = render(
+        <SelectableCard
+          selectionMode="checkbox"
+          value="plan1"
+          title="Plan"
+          selectedColor="success"
+          defaultChecked
+        />
+      );
+
+      const card = getCard(container);
+      expect(card).toHaveStyle({ borderColor: 'var(--bs-success)' });
+    });
+
+    it('uses primary border color when no selectedColor', () => {
+      const { container } = render(
+        <SelectableCard
+          selectionMode="checkbox"
+          value="plan1"
+          title="Plan"
+          defaultChecked
+        />
+      );
+
+      const card = getCard(container);
+      expect(card).toHaveStyle({ borderColor: 'var(--bs-primary)' });
+    });
+  });
+
+  // ===========================================================================
+  // Additional Branch Coverage
+  // ===========================================================================
+
+  describe('Branch Coverage', () => {
+    it('supports aria-labelledby prop', () => {
+      const { container } = render(
+        <SelectableCard
+          selectionMode="checkbox"
+          value="plan1"
+          title="Plan"
+          aria-labelledby="custom-label-id"
+        />
+      );
+
+      const card = getCard(container);
+      expect(card).toHaveAttribute('aria-labelledby', 'custom-label-id');
+    });
+
+    it('supports aria-describedby prop', () => {
+      const { container } = render(
+        <SelectableCard
+          selectionMode="checkbox"
+          value="plan1"
+          title="Plan"
+          description="Details"
+          aria-describedby="extra-desc-id"
+        />
+      );
+
+      const card = getCard(container);
+      expect(card).toHaveAttribute('aria-describedby', expect.stringContaining('extra-desc-id'));
+    });
+
+    it('supports custom id prop', () => {
+      const { container } = render(
+        <SelectableCard
+          selectionMode="none"
+          title="Plan"
+          id="my-custom-id"
+        />
+      );
+
+      const card = getCard(container);
+      expect(card).toHaveAttribute('id', 'my-custom-id');
+    });
+
+    it('supports size prop on checkbox/radio mode', () => {
+      const { container } = render(
+        <SelectableCard
+          selectionMode="checkbox"
+          value="plan1"
+          title="Plan"
+          size="lg"
+        />
+      );
+
+      const card = getCard(container);
+      expect(card.className).toMatch(/card-lg/);
+    });
+
+    it('supports variant elevated', () => {
+      const { container } = render(
+        <SelectableCard
+          selectionMode="checkbox"
+          value="plan1"
+          title="Plan"
+          variant="elevated"
+        />
+      );
+
+      const card = getCard(container);
+      // Elevated does not add 'border' class
+      expect(card.className).not.toContain('border');
+    });
+
+    it('derives aria-label from subtitle when no title', () => {
+      render(
+        <SelectableCard
+          selectionMode="checkbox"
+          value="plan1"
+          subtitle="$29/month"
+        />
+      );
+
+      expect(screen.getByRole('checkbox')).toHaveAttribute('aria-label', '$29/month');
+    });
+
+    it('derives aria-label from description when no title or subtitle', () => {
+      render(
+        <SelectableCard
+          selectionMode="checkbox"
+          value="plan1"
+          description="The premium option"
+        />
+      );
+
+      expect(screen.getByRole('checkbox')).toHaveAttribute('aria-label', 'The premium option');
+    });
+
+    it('derives aria-label from value when no text props', () => {
+      render(
+        <SelectableCard
+          selectionMode="checkbox"
+          value="plan1"
+        />
+      );
+
+      expect(screen.getByRole('checkbox')).toHaveAttribute('aria-label', 'plan1');
+    });
+
+    it('uses fallback aria-label when no identifiers', () => {
+      render(
+        <SelectableCard selectionMode="checkbox">
+          <div>Custom content</div>
+        </SelectableCard>
+      );
+
+      expect(screen.getByRole('checkbox')).toHaveAttribute('aria-label', 'Selectable option');
+    });
+
+    it('does not call onChange when radio is already checked', async () => {
+      const handleChange = jest.fn();
+      const user = userEvent.setup();
+
+      render(
+        <SelectableCard
+          selectionMode="radio"
+          value="plan1"
+          name="plans"
+          title="Plan"
+          checked={true}
+          onChange={handleChange}
+        />
+      );
+
+      const radio = screen.getByRole('radio');
+      await user.click(radio);
+
+      expect(handleChange).not.toHaveBeenCalled();
+    });
+
+    it('supports horizontal layout prop', () => {
+      const { container } = render(
+        <SelectableCard
+          selectionMode="none"
+          title="Plan"
+          horizontal
+        />
+      );
+
+      // horizontal is passed to the Card component
+      const card = getCard(container);
+      expect(card).toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
+  // Accessibility - Extended
+  // ===========================================================================
+
+  describe('Accessibility - Extended', () => {
+    it('has no axe violations with check-icon indicator', async () => {
+      const { container } = render(
+        <SelectableCard
+          selectionMode="checkbox"
+          value="plan1"
+          title="Plan"
+          selectionIndicator="check-icon"
+          defaultChecked
+        />
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no axe violations with border-only indicator', async () => {
+      const { container } = render(
+        <SelectableCard
+          selectionMode="checkbox"
+          value="plan1"
+          title="Plan"
+          selectionIndicator="border-only"
+        />
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no axe violations (none mode)', async () => {
+      const { container } = render(
+        <SelectableCard selectionMode="none" title="Info Card" description="Details" />
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no axe violations with selectedColor', async () => {
+      const { container } = render(
+        <SelectableCard
+          selectionMode="checkbox"
+          value="plan1"
+          title="Plan"
+          selectedColor="success"
+          defaultChecked
+        />
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
 });

@@ -8,4 +8,8 @@
  */
 
 export { SelectableCard } from './SelectableCard';
-export type { CardSelectionMode, SelectableCardProps } from './SelectableCard.types';
+export type {
+  CardSelectionMode,
+  SelectableCardProps,
+  SelectionIndicator,
+} from './SelectableCard.types';

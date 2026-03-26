@@ -11,7 +11,15 @@ import type { SelectableCardProps } from './SelectableCard.types';
 // Development Warnings
 // =============================================================================
 
+const WARN_CACHE_LIMIT = 100;
 const warnedIds = new Set<string>();
+
+function addWarningId(id: string): void {
+  if (warnedIds.size >= WARN_CACHE_LIMIT) {
+    warnedIds.clear();
+  }
+  warnedIds.add(id);
+}
 
 /**
  * Warns in development when SelectableCard is used incorrectly
@@ -23,7 +31,7 @@ function warnMissingValue(id: string, selectionMode: string): void {
     process.env?.['NODE_ENV'] !== 'production' &&
     !warnedIds.has(id)
   ) {
-    warnedIds.add(id);
+    addWarningId(id);
     console.warn(
       `[DSAi SelectableCard] Card with id "${id}" has selectionMode="${selectionMode}" but no "value" prop. ` +
         `The "value" prop is required when using SelectableCard within a CardList.`
@@ -41,7 +49,7 @@ function warnMissingName(id: string): void {
     process.env?.['NODE_ENV'] !== 'production' &&
     !warnedIds.has(`${id}-name`)
   ) {
-    warnedIds.add(`${id}-name`);
+    addWarningId(`${id}-name`);
     console.warn(
       `[DSAi SelectableCard] Card with id "${id}" has selectionMode="radio" but no "name" prop. ` +
         `Radio buttons require a "name" for proper grouping.`
@@ -128,6 +136,8 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
       selectedColor,
       size,
       horizontal = false,
+      selectionIndicator = 'control',
+      descriptionLines,
 
       // Content
       title,
@@ -233,12 +243,14 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
 
       // Add selection border highlight
       if (isChecked && selectionMode !== 'none') {
-        baseStyle.borderColor = 'var(--bs-primary)';
+        baseStyle.borderColor = selectedColor
+          ? `var(--bs-${selectedColor})`
+          : 'var(--bs-primary)';
         baseStyle.borderWidth = '2px';
       }
 
       return baseStyle;
-    }, [selectionMode, disabled, isChecked, style]);
+    }, [selectionMode, disabled, isChecked, selectedColor, style]);
 
     // Determine color based on selection state
     const cardColor = isChecked && selectedColor ? selectedColor : undefined;
@@ -276,6 +288,60 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
         return null;
       }
 
+      // Hidden input for form participation when indicator hides the control
+      const hiddenInputProps = {
+        ref: inputRef,
+        id: inputId,
+        checked: isChecked,
+        onChange: handleInputChange,
+        disabled,
+        required,
+        name,
+        value: value || '',
+        'aria-label': controlAriaLabel,
+        type: selectionMode === 'radio' ? 'radio' : 'checkbox',
+        className: 'visually-hidden',
+      } as const;
+
+      // border-only and none indicators: render a screen-reader-only input
+      if (selectionIndicator === 'border-only' || selectionIndicator === 'none') {
+        return (
+          <input {...hiddenInputProps} />
+        );
+      }
+
+      // check-icon indicator: render hidden input + SVG checkmark
+      if (selectionIndicator === 'check-icon') {
+        return (
+          <>
+            <input {...hiddenInputProps} />
+            {isChecked && (
+              <span className="selectable-card__check-icon" aria-hidden="true">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  role="img"
+                >
+                  <title>Selected</title>
+                  <circle cx="10" cy="10" r="10" fill="var(--bs-primary)" />
+                  <path
+                    d="M6 10l3 3 5-6"
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+            )}
+          </>
+        );
+      }
+
+      // Default 'control' indicator: render checkbox or radio
       const controlProps = {
         ref: inputRef,
         id: inputId,
@@ -293,11 +359,7 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
         return <Checkbox {...controlProps} />;
       }
 
-      if (selectionMode === 'radio') {
-        return <Radio {...controlProps} />;
-      }
-
-      return null;
+      return <Radio {...controlProps} />;
     };
 
     // Render card content
@@ -339,7 +401,21 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
             </div>
             {description && (
               <div id={descriptionId}>
-                <CardText className="selectable-card__description">{description}</CardText>
+                <CardText
+                  className="selectable-card__description"
+                  style={
+                    descriptionLines && descriptionLines > 0
+                      ? {
+                          display: '-webkit-box',
+                          WebkitLineClamp: descriptionLines,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                        }
+                      : undefined
+                  }
+                >
+                  {description}
+                </CardText>
               </div>
             )}
           </CardBody>

@@ -15,6 +15,20 @@ import type { CSSProperties, ReactNode } from 'react';
 export type CardSelectionMode = 'none' | 'checkbox' | 'radio';
 
 // =============================================================================
+// Selection Indicator
+// =============================================================================
+
+/**
+ * Visual style for the selection indicator
+ *
+ * - `control`: Default checkbox or radio control (default)
+ * - `check-icon`: Checkmark icon overlay instead of input control
+ * - `border-only`: Selection shown via border highlight only, no control
+ * - `none`: No visual indicator (selection state managed externally)
+ */
+export type SelectionIndicator = 'control' | 'check-icon' | 'border-only' | 'none';
+
+// =============================================================================
 // SelectableCard Props
 // =============================================================================
 
@@ -164,6 +178,29 @@ export interface SelectableCardProps {
    * @default false
    */
   horizontal?: boolean;
+
+  /**
+   * Visual style for the selection indicator
+   *
+   * - `control`: Standard checkbox/radio input (default)
+   * - `check-icon`: Checkmark icon overlay
+   * - `border-only`: Selection shown via border highlight only
+   * - `none`: No visual indicator
+   *
+   * @default 'control'
+   */
+  selectionIndicator?: SelectionIndicator;
+
+  /**
+   * Maximum number of lines for the description before truncation.
+   * Uses CSS line-clamp. Set to `0` or `undefined` for no truncation.
+   *
+   * @example
+   * ```tsx
+   * <SelectableCard descriptionLines={2} description="Long text..." />
+   * ```
+   */
+  descriptionLines?: number;
 
   // ===========================================================================
   // Content

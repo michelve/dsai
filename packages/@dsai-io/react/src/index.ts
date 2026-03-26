@@ -280,6 +280,7 @@ export {
   type SelectProps,
   type SelectSize,
   type SelectableCardProps,
+  type SelectionIndicator,
   type SheetBodyProps,
   type SheetContextValue,
   type SheetFooterProps,

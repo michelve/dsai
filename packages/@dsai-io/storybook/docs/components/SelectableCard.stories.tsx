@@ -1346,3 +1346,183 @@ export const CompleteShowcase: Story = {
     },
   },
 };
+
+// =============================================================================
+// Selection Indicators
+// =============================================================================
+
+/**
+ * Different selection indicator styles.
+ */
+export const SelectionIndicators: Story = {
+  render: function SelectionIndicatorsStory() {
+    const [checked, setChecked] = useState<Record<string, boolean>>({
+      control: true,
+      'check-icon': true,
+      'border-only': true,
+      none: true,
+    });
+
+    const toggle = (key: string, val: boolean): void => {
+      setChecked((prev) => ({ ...prev, [key]: val }));
+    };
+
+    return (
+      <div>
+        <Heading level={5} className="mb-3">
+          Selection Indicator Variants
+        </Heading>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+            gap: '1rem',
+          }}
+        >
+          <SelectableCard
+            selectionMode="checkbox"
+            value="control"
+            title="Control (Default)"
+            description="Standard checkbox input"
+            selectionIndicator="control"
+            checked={checked.control}
+            onChange={(v) => toggle('control', v)}
+          />
+          <SelectableCard
+            selectionMode="checkbox"
+            value="check-icon"
+            title="Check Icon"
+            description="SVG checkmark badge overlay"
+            selectionIndicator="check-icon"
+            checked={checked['check-icon']}
+            onChange={(v) => toggle('check-icon', v)}
+          />
+          <SelectableCard
+            selectionMode="checkbox"
+            value="border-only"
+            title="Border Only"
+            description="Selection via border highlight only"
+            selectionIndicator="border-only"
+            checked={checked['border-only']}
+            onChange={(v) => toggle('border-only', v)}
+          />
+          <SelectableCard
+            selectionMode="checkbox"
+            value="none-indicator"
+            title="None"
+            description="No visible indicator"
+            selectionIndicator="none"
+            checked={checked.none}
+            onChange={(v) => toggle('none', v)}
+          />
+        </div>
+      </div>
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'The `selectionIndicator` prop controls how the selection state is visually communicated. ' +
+          'All variants maintain a hidden native input for form participation and accessibility.',
+      },
+    },
+  },
+};
+
+// =============================================================================
+// Description Truncation
+// =============================================================================
+
+/**
+ * Description line clamping.
+ */
+export const DescriptionTruncation: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+      <SelectableCard
+        selectionMode="checkbox"
+        value="no-clamp"
+        title="No Truncation"
+        description="This description has no line limit and will expand to show all content regardless of how long it is. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        style={{ flex: '1', minWidth: '250px' }}
+      />
+      <SelectableCard
+        selectionMode="checkbox"
+        value="clamp-2"
+        title="2 Lines Max"
+        description="This description is limited to 2 lines using CSS line-clamp. Any content beyond these 2 lines will be truncated with an ellipsis. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        descriptionLines={2}
+        style={{ flex: '1', minWidth: '250px' }}
+      />
+      <SelectableCard
+        selectionMode="checkbox"
+        value="clamp-1"
+        title="1 Line Max"
+        description="This long description is truncated after just one single line using the descriptionLines prop."
+        descriptionLines={1}
+        style={{ flex: '1', minWidth: '250px' }}
+      />
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Use `descriptionLines` to limit the number of visible lines in the description. ' +
+          'Overflow is hidden with CSS line-clamp.',
+      },
+    },
+  },
+};
+
+// =============================================================================
+// Selected Color Border
+// =============================================================================
+
+/**
+ * Selected color affects both background and border.
+ */
+export const SelectedColorBorder: Story = {
+  render: () => {
+    const colors = ['primary', 'success', 'danger', 'warning', 'info'] as const;
+
+    return (
+      <div>
+        <Heading level={5} className="mb-3">
+          Selected Color on Border
+        </Heading>
+        <p className="text-muted small mb-3">
+          The <code>selectedColor</code> prop now sets both the background and border color.
+        </p>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+            gap: '1rem',
+          }}
+        >
+          {colors.map((color) => (
+            <SelectableCard
+              key={color}
+              selectionMode="checkbox"
+              value={color}
+              selectedColor={color}
+              title={color.charAt(0).toUpperCase() + color.slice(1)}
+              description={`Border uses var(--bs-${color})`}
+              defaultChecked
+            />
+          ))}
+        </div>
+      </div>
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'When `selectedColor` is set, the selection border uses `var(--bs-{color})` instead of the default `var(--bs-primary)`.',
+      },
+    },
+  },
+};

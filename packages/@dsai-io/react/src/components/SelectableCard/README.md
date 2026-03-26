@@ -8,7 +8,9 @@ A card component that behaves like a checkbox or radio option. Click anywhere on
 - 🖱️ Full card clickable (entire card acts as label)
 - 🔄 Controlled and uncontrolled patterns
 - ✅ Visual feedback for selected state (border highlight)
-- 🎨 Customizable selected color
+- 🎨 Customizable selected color (border + background)
+- 🔘 Selection indicator variants: control, check-icon, border-only, none
+- ✂️ Description line-clamping with `descriptionLines`
 - 🚫 Disabled and error states
 - ♿ WCAG 2.2 AA compliant with native inputs
 
@@ -107,6 +109,66 @@ function PlanSelector() {
 />
 ```
 
+### Selection Indicator Variants
+
+Control the visual style of the selection indicator:
+
+```tsx
+// Default: standard checkbox/radio control
+<SelectableCard selectionMode="checkbox" value="a" title="Standard" />
+
+// Check icon: SVG checkmark badge when selected
+<SelectableCard
+  selectionMode="checkbox"
+  value="b"
+  title="Check Icon"
+  selectionIndicator="check-icon"
+/>
+
+// Border only: selection shown via border highlight, no control visible
+<SelectableCard
+  selectionMode="checkbox"
+  value="c"
+  title="Border Only"
+  selectionIndicator="border-only"
+/>
+
+// None: hidden input for form participation, no visible indicator
+<SelectableCard
+  selectionMode="checkbox"
+  value="d"
+  title="No Indicator"
+  selectionIndicator="none"
+/>
+```
+
+### Description Truncation
+
+Limit description text to a specific number of lines:
+
+```tsx
+<SelectableCard
+  title="Product"
+  description="A very long description that spans multiple lines and should be truncated after two lines with an ellipsis..."
+  descriptionLines={2}
+/>
+```
+
+### Selected Color on Border
+
+The `selectedColor` prop now also affects the selection border color:
+
+```tsx
+<SelectableCard
+  selectionMode="checkbox"
+  value="success-card"
+  title="Success Theme"
+  selectedColor="success"
+  defaultChecked
+/>
+// Border uses var(--bs-success) instead of default var(--bs-primary)
+```
+
 ## Props
 
 | Prop             | Type                                  | Default      | Description                                 |
@@ -121,7 +183,9 @@ function PlanSelector() {
 | `error`          | `boolean`                             | `false`      | Shows error styling                         |
 | `required`       | `boolean`                             | `false`      | Marks as required field                     |
 | `variant`        | `'elevated' \| 'outlined' \| 'ghost'` | `'outlined'` | Card visual style                           |
-| `selectedColor`  | `CardColor`                           | -            | Background color when selected              |
+| `selectedColor`  | `CardColor`                           | -            | Background + border color when selected     |
+| `selectionIndicator` | `'control' \| 'check-icon' \| 'border-only' \| 'none'` | `'control'` | Visual style for the selection indicator |
+| `descriptionLines` | `number`                             | -            | Max lines before description truncation     |
 | `title`          | `ReactNode`                           | -            | Card title                                  |
 | `subtitle`       | `ReactNode`                           | -            | Secondary text below title                  |
 | `description`    | `ReactNode`                           | -            | Card description text                       |
@@ -150,6 +214,26 @@ function PlanSelector() {
 - Single-selection (one card in a group)
 - Requires `name` prop for grouping
 - Selecting one deselects others in the same group
+
+## Selection Indicators
+
+Control how the selection state is visually communicated:
+
+### `control` (default)
+
+Standard checkbox or radio input control is rendered.
+
+### `check-icon`
+
+An SVG checkmark badge replaces the input control. The native input is still rendered as visually-hidden for form participation and screen reader access.
+
+### `border-only`
+
+No visible control or icon. Selection is indicated solely by the border highlight. Input is visually-hidden.
+
+### `none`
+
+No visual indicator at all. The hidden input still participates in forms. Useful when you manage visual state entirely via external styling.
 
 ## Accessibility
 
