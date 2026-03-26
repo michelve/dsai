@@ -584,6 +584,7 @@ export const Select = memo(
           key={String(option.value)}
           id={getOptionId(index)}
           role="option"
+          tabIndex={-1}
           aria-selected={selected}
           aria-disabled={option.disabled || undefined}
           className={cn(
@@ -733,6 +734,7 @@ export const Select = memo(
 
         {/* Custom select trigger */}
         <div className="position-relative">
+          {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props -- Button acts as form select trigger, aria-required/invalid are semantically appropriate */}
           <button
             ref={(node) => {
               setTriggerRef(node);
@@ -757,6 +759,7 @@ export const Select = memo(
               textAlign: 'left',
               paddingRight: showClearButton ? '4rem' : undefined,
             }}
+            // eslint-disable-next-line react-hooks/rules-of-hooks -- Floating UI getReferenceProps is a stable function from useInteractions
             {...getReferenceProps({
               onKeyDown: handleKeyDown,
             })}
@@ -817,7 +820,7 @@ export const Select = memo(
                         ? getOptionId(focusedIndex)
                         : undefined
                     }
-                    aria-expanded={true}
+                    aria-expanded
                     onKeyDown={handleSearchKeyDown}
                   />
                 </div>
@@ -828,6 +831,7 @@ export const Select = memo(
                 ref={listboxRef}
                 id={listboxId}
                 role="listbox"
+                tabIndex={-1}
                 aria-multiselectable={multiple || undefined}
                 aria-labelledby={label ? labelId : undefined}
                 aria-activedescendant={
