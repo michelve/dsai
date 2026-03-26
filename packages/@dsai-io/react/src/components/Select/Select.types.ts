@@ -256,13 +256,20 @@ export interface SelectProps<T = string> {
   onSearchChange?: (searchValue: string) => void;
 
   /**
-   * Use native select on mobile devices
-   * @default true
-   */
-  useNativeOnMobile?: boolean;
-
-  /**
    * Tab index for keyboard navigation
    */
   tabIndex?: number;
+
+  /**
+   * Maximum number of options to render for performance.
+   * When exceeded, shows a truncation message.
+   * @default 100
+   */
+  limit?: number;
+
+  /**
+   * Message shown when options are truncated by `limit`.
+   * @default 'Type to search for more options'
+   */
+  limitMessage?: string;
 }
