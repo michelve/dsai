@@ -558,6 +558,110 @@ export const FormExample: Story = {
 };
 
 // =============================================================================
+// Type-ahead
+// =============================================================================
+
+/**
+ * Type-ahead navigation — press a character key to jump to matching option.
+ * Works in non-searchable mode. Try pressing 'b' to jump to Banana.
+ */
+export const TypeAhead: Story = {
+  args: {
+    label: 'Fruit (try pressing a letter key)',
+    options: fruitOptions,
+    placeholder: 'Focus and type a letter...',
+  },
+};
+
+// =============================================================================
+// Large Option List with Limit
+// =============================================================================
+
+/**
+ * Large option list demonstrating the `limit` prop.
+ * Only the first 20 options are rendered; search to find more.
+ */
+export const LargeOptionList: Story = {
+  render: function LargeList() {
+    const largeOptions: SelectOption[] = Array.from({ length: 500 }, (_, i) => ({
+      value: `item-${i}`,
+      label: `Item ${i + 1} — ${['Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon'][i % 5]}`,
+    }));
+
+    return (
+      <Select
+        label="Large List (500 items, limit=20)"
+        options={largeOptions}
+        limit={20}
+        searchable
+        placeholder="Search items..."
+      />
+    );
+  },
+};
+
+// =============================================================================
+// Async-like Pattern
+// =============================================================================
+
+/**
+ * Simulated async loading using onSearchChange + loading state.
+ * Type at least 2 characters to trigger a simulated search.
+ */
+export const AsyncPattern: Story = {
+  render: function AsyncSelect() {
+    const [value, setValue] = useState<string | undefined>();
+    const [isLoading, setIsLoading] = useState(false);
+    const [asyncOptions, setAsyncOptions] = useState<SelectOption[]>([]);
+
+    const allOptions: SelectOption[] = [
+      { value: 'react', label: 'React' },
+      { value: 'vue', label: 'Vue' },
+      { value: 'angular', label: 'Angular' },
+      { value: 'svelte', label: 'Svelte' },
+      { value: 'solid', label: 'SolidJS' },
+      { value: 'preact', label: 'Preact' },
+      { value: 'lit', label: 'Lit' },
+      { value: 'qwik', label: 'Qwik' },
+    ];
+
+    const handleSearchChange = (search: string): void => {
+      if (search.length < 2) {
+        setAsyncOptions([]);
+        return;
+      }
+
+      setIsLoading(true);
+      // Simulate API delay
+      setTimeout(() => {
+        const filtered = allOptions.filter((opt) =>
+          opt.label.toLowerCase().includes(search.toLowerCase())
+        );
+        setAsyncOptions(filtered);
+        setIsLoading(false);
+      }, 500);
+    };
+
+    return (
+      <div style={{ maxWidth: '400px' }}>
+        <Select
+          label="Framework (type 2+ chars)"
+          options={asyncOptions}
+          value={value}
+          onChange={(val) => setValue(val as string | undefined)}
+          searchable
+          loading={isLoading}
+          onSearchChange={handleSearchChange}
+          placeholder="Search frameworks..."
+          noOptionsMessage="Type at least 2 characters to search"
+        />
+        <p className="mt-2 text-muted small">Selected: {value || '(none)'}</p>
+      </div>
+    );
+  },
+};
+
+// =============================================================================
 // Complete Showcase
 // =============================================================================
 
