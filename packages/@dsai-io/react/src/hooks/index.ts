@@ -14,6 +14,9 @@
 export { useFocusTrap } from './useFocusTrap';
 export type { UseFocusTrapOptions, UseFocusTrapReturn } from './useFocusTrap';
 
+export { useRovingFocus } from './useRovingFocus';
+export type { UseRovingFocusOptions, UseRovingFocusReturn } from './useRovingFocus';
+
 export { useReducedMotion } from './useReducedMotion';
 export type { UseReducedMotionOptions } from './useReducedMotion';
 

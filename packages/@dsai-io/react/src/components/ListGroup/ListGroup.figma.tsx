@@ -91,6 +91,21 @@ figma.connect(ListGroup, '<FIGMA_DSAI_LISTGROUP>', {
      * Maps Figma "Aria Label" text property
      */
     ariaLabel: figma.string('Aria Label'),
+
+    /**
+     * Selection mode
+     * Maps Figma "Selection Mode" property
+     */
+    selectionMode: figma.enum('Selection Mode', {
+      Single: 'single',
+      Multiple: 'multiple',
+    }),
+
+    /**
+     * Show loading state
+     * Maps Figma "Loading" boolean property
+     */
+    loading: figma.boolean('Loading'),
   },
 
   /**
@@ -106,6 +121,8 @@ figma.connect(ListGroup, '<FIGMA_DSAI_LISTGROUP>', {
     showBadges,
     showIcons,
     ariaLabel,
+    selectionMode,
+    loading,
   }) => {
     // Normalize aria-label
     const normalizedAriaLabel =
@@ -130,6 +147,8 @@ figma.connect(ListGroup, '<FIGMA_DSAI_LISTGROUP>', {
         ordered={ordered}
         items={items}
         aria-label={normalizedAriaLabel}
+        selectionMode={selectionMode}
+        loading={loading}
       />
     );
   },
@@ -205,12 +224,38 @@ figma.connect(ListGroupItem, '<FIGMA_DSAI_LISTGROUP_ITEM>', {
      * Maps Figma "Href" text property
      */
     href: figma.string('Href'),
+
+    /**
+     * Secondary description text
+     * Maps Figma "Description" text property
+     */
+    description: figma.string('Description'),
+
+    /**
+     * Enable collapse/expand behavior
+     * Maps Figma "Collapsible" boolean property
+     */
+    collapsible: figma.boolean('Collapsible'),
   },
 
-  example: ({ variant, active, disabled, content, hasBadge, badge, hasIcon, isLink, href }) => {
+  example: ({
+    variant,
+    active,
+    disabled,
+    content,
+    hasBadge,
+    badge,
+    hasIcon,
+    isLink,
+    href,
+    description,
+    collapsible,
+  }) => {
     const normalizedContent = content && content.trim().length > 0 ? content.trim() : 'List item';
     const normalizedBadge = hasBadge && badge && badge.trim().length > 0 ? badge.trim() : undefined;
     const normalizedHref = isLink && href && href.trim().length > 0 ? href.trim() : undefined;
+    const normalizedDescription =
+      description && description.trim().length > 0 ? description.trim() : undefined;
 
     return (
       <ListGroupItem
@@ -220,6 +265,8 @@ figma.connect(ListGroupItem, '<FIGMA_DSAI_LISTGROUP_ITEM>', {
         badge={normalizedBadge}
         icon={hasIcon ? '•' : undefined}
         href={normalizedHref}
+        description={normalizedDescription}
+        collapsible={collapsible}
       >
         {normalizedContent}
       </ListGroupItem>
@@ -283,6 +330,31 @@ figma.connect(ListGroupItem, '<FIGMA_DSAI_LISTGROUP_ITEM>', {
  *      <ListGroupItem>Item 1</ListGroupItem>
  *      <ListGroupItem>Item 2</ListGroupItem>
  *    </ListGroup>
+ *
+ * 9. Managed Selection:
+ *    <ListGroup onSelect={(key) => setSelected(key)} activeKey={selected}>
+ *      <ListGroupItem eventKey="a">Item A</ListGroupItem>
+ *      <ListGroupItem eventKey="b">Item B</ListGroupItem>
+ *    </ListGroup>
+ *
+ * 10. With Description:
+ *    <ListGroupItem description="Secondary text">Primary text</ListGroupItem>
+ *
+ * 11. Dividers and Headers:
+ *    <ListGroup>
+ *      <ListGroupHeader>Section</ListGroupHeader>
+ *      <ListGroupItem>Item</ListGroupItem>
+ *      <ListGroupDivider />
+ *    </ListGroup>
+ *
+ * 12. Loading State:
+ *    <ListGroup loading items={items} />
+ *
+ * 13. Collapsible Items:
+ *    <ListGroupItem collapsible defaultExpanded>
+ *      Parent
+ *      <ListGroup><ListGroupItem>Child</ListGroupItem></ListGroup>
+ *    </ListGroupItem>
  *
  * Accessibility Notes:
  * - Uses proper ul/ol > li structure

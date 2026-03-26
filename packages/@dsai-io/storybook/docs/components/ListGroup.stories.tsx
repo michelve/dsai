@@ -4,6 +4,8 @@ import {
   EnvelopeIcon,
   Heading,
   ListGroup,
+  ListGroupDivider,
+  ListGroupHeader,
   ListGroupItem,
   StarIcon,
   TrashIcon,
@@ -512,6 +514,174 @@ export const CompleteShowcase: Story = {
       </section>
     </div>
   ),
+};
+
+// =============================================================================
+// Managed Selection
+// =============================================================================
+
+/**
+ * Single selection with onSelect callback
+ */
+export const ManagedSelection: Story = {
+  render: function ManagedSelectionExample() {
+    const [selected, setSelected] = useState<string | null>('inbox');
+
+    return (
+      <ListGroup
+        onSelect={(key) => setSelected(key)}
+        activeKey={selected ?? undefined}
+      >
+        <ListGroupItem eventKey="inbox">Inbox</ListGroupItem>
+        <ListGroupItem eventKey="sent">Sent</ListGroupItem>
+        <ListGroupItem eventKey="drafts">Drafts</ListGroupItem>
+        <ListGroupItem eventKey="trash" disabled>Trash</ListGroupItem>
+      </ListGroup>
+    );
+  },
+};
+
+/**
+ * Multiple selection mode
+ */
+export const MultiSelect: Story = {
+  render: function MultiSelectExample() {
+    const [selected, setSelected] = useState<string[]>(['tag1']);
+
+    return (
+      <ListGroup
+        selectionMode="multiple"
+        activeKey={selected}
+        onSelect={(key) => {
+          setSelected((prev) =>
+            prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
+          );
+        }}
+      >
+        <ListGroupItem eventKey="tag1">JavaScript</ListGroupItem>
+        <ListGroupItem eventKey="tag2">TypeScript</ListGroupItem>
+        <ListGroupItem eventKey="tag3">React</ListGroupItem>
+        <ListGroupItem eventKey="tag4">Node.js</ListGroupItem>
+      </ListGroup>
+    );
+  },
+};
+
+// =============================================================================
+// Content Features
+// =============================================================================
+
+/**
+ * Items with secondary description text
+ */
+export const WithDescription: Story = {
+  render: () => (
+    <ListGroup>
+      <ListGroupItem description="12 unread messages">Inbox</ListGroupItem>
+      <ListGroupItem description="Last sent 2 hours ago">Sent</ListGroupItem>
+      <ListGroupItem description="3 drafts">Drafts</ListGroupItem>
+    </ListGroup>
+  ),
+};
+
+/**
+ * Grouped items with dividers and headers
+ */
+export const WithDividersAndHeaders: Story = {
+  render: () => (
+    <ListGroup>
+      <ListGroupHeader>Mail</ListGroupHeader>
+      <ListGroupItem>Inbox</ListGroupItem>
+      <ListGroupItem>Sent</ListGroupItem>
+      <ListGroupDivider />
+      <ListGroupHeader>Settings</ListGroupHeader>
+      <ListGroupItem>Account</ListGroupItem>
+      <ListGroupItem>Preferences</ListGroupItem>
+    </ListGroup>
+  ),
+};
+
+// =============================================================================
+// Loading & Empty States
+// =============================================================================
+
+/**
+ * Loading state with spinner overlay
+ */
+export const LoadingState: Story = {
+  args: {
+    items: basicItems,
+    loading: true,
+  },
+};
+
+/**
+ * Empty state with custom content
+ */
+export const EmptyState: Story = {
+  args: {
+    items: [],
+    emptyContent: 'No items to display',
+  },
+};
+
+// =============================================================================
+// Collapsible Items
+// =============================================================================
+
+/**
+ * Nested expandable/collapsible items
+ */
+export const CollapsibleItems: Story = {
+  render: () => (
+    <ListGroup>
+      <ListGroupItem collapsible defaultExpanded>
+        Mail
+        <ListGroup>
+          <ListGroupItem>Inbox</ListGroupItem>
+          <ListGroupItem>Sent</ListGroupItem>
+          <ListGroupItem>Drafts</ListGroupItem>
+        </ListGroup>
+      </ListGroupItem>
+      <ListGroupItem collapsible defaultExpanded={false}>
+        Settings
+        <ListGroup>
+          <ListGroupItem>Account</ListGroupItem>
+          <ListGroupItem>Preferences</ListGroupItem>
+        </ListGroup>
+      </ListGroupItem>
+    </ListGroup>
+  ),
+};
+
+// =============================================================================
+// Arrow Key Navigation
+// =============================================================================
+
+/**
+ * Interactive demo showing roving tabindex keyboard navigation.
+ * Use Arrow Up/Down to navigate, Enter/Space to select, Home/End to jump.
+ */
+export const ArrowKeyNavigation: Story = {
+  render: function ArrowKeyNavExample() {
+    const [selected, setSelected] = useState<string>('item1');
+
+    return (
+      <div>
+        <p className="text-muted small mb-2">
+          Use Arrow Up/Down to navigate, Enter/Space to select, Home/End to jump.
+        </p>
+        <ListGroup onSelect={(key) => setSelected(key)} activeKey={selected}>
+          <ListGroupItem eventKey="item1">Item 1</ListGroupItem>
+          <ListGroupItem eventKey="item2">Item 2</ListGroupItem>
+          <ListGroupItem eventKey="item3" disabled>Item 3 (disabled, skipped)</ListGroupItem>
+          <ListGroupItem eventKey="item4">Item 4</ListGroupItem>
+          <ListGroupItem eventKey="item5">Item 5</ListGroupItem>
+        </ListGroup>
+        <p className="text-muted small mt-2">Selected: {selected}</p>
+      </div>
+    );
+  },
 };
 
 // =============================================================================

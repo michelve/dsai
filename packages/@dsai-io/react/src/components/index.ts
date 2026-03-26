@@ -148,14 +148,18 @@ export type { InputProps, InputSize, InputType } from './Input';
 // Input
 export { Input } from './Input';
 export type {
+  ListGroupDividerEntry,
+  ListGroupEntry,
+  ListGroupHeaderEntry,
   ListGroupItemData,
   ListGroupItemProps,
   ListGroupItemVariant,
   ListGroupProps,
+  ListGroupSelectionMode,
   ListGroupVariant,
 } from './ListGroup';
 // ListGroup
-export { ListGroup, ListGroupItem } from './ListGroup';
+export { ListGroup, ListGroupDivider, ListGroupHeader, ListGroupItem } from './ListGroup';
 export type {
   ModalBodyProps,
   ModalFooterProps,

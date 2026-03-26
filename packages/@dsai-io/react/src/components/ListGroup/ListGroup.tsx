@@ -1,28 +1,104 @@
-import { forwardRef, type KeyboardEvent, type MouseEvent } from 'react';
+import {
+  Children,
+  cloneElement,
+  forwardRef,
+  isValidElement,
+  memo,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useReducer,
+  useRef,
+  type KeyboardEvent,
+  type MouseEvent,
+  type ReactNode,
+} from 'react';
 
+import { useControllableState } from '../../hooks/useControllableState';
+import { useRovingFocus } from '../../hooks/useRovingFocus';
 import { cn } from '../../utils';
+import { mergeRefs } from '../../utils/dom/mergeRefs';
 import { isEnterKey } from '../../utils/keyboard';
 import { isExternalUrl } from '../../utils/types';
 import { isSafeHref } from '../../utils/validation';
 
-import type { ListGroupItemData, ListGroupItemProps, ListGroupProps } from './ListGroup.types';
+import { ListGroupContext, useListGroupContext } from './ListGroup.context';
+import { createInitialListGroupFSMState, listGroupFSMReducer } from './ListGroup.fsm';
+import { ListGroupDivider } from './ListGroupDivider';
+import { ListGroupHeader } from './ListGroupHeader';
+
+import type {
+  ListGroupDividerEntry,
+  ListGroupEntry,
+  ListGroupHeaderEntry,
+  ListGroupItemData,
+  ListGroupItemProps,
+  ListGroupProps,
+} from './ListGroup.types';
+
+// Optional peer dependency — @tanstack/react-virtual
+// Uses require() because static imports can't be try/caught.
+// tsup compiles this to ESM (with createRequire shim) and CJS (native require).
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let useVirtualizerFn: ((...args: any[]) => any) | null = null;
+try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const virtual = require('@tanstack/react-virtual');
+  useVirtualizerFn = virtual.useVirtualizer;
+} catch {
+  // @tanstack/react-virtual not installed — virtualization unavailable
+}
 
 // =============================================================================
-// Security: HREF Validation
+// Helpers
 // =============================================================================
 
 /**
- * Validates if an href is safe to use
- * Blocks dangerous protocols like javascript:, data:, vbscript:
- * @param href - The href to validate
- * @returns true if the href is safe, false otherwise
+ * Normalize an activeKey value to an array of strings
  */
+function normalizeActiveKey(value: string | string[] | undefined): string[] {
+  if (value === undefined) {
+    return [];
+  }
+  if (Array.isArray(value)) {
+    return value;
+  }
+  return [value];
+}
 
 /**
- * Detects if a URL is external
- * @param href - The href to check
- * @returns true if the href is external, false otherwise
+ * Type guard: true when the entry is a ListGroupItemData (no 'type' discriminant)
  */
+function isListGroupItemData(entry: ListGroupEntry): entry is ListGroupItemData {
+  return !('type' in entry);
+}
+
+/**
+ * Separate children into main content and nested ListGroup components
+ */
+function separateChildren(children: ReactNode): {
+  mainContent: ReactNode[];
+  nestedContent: ReactNode[];
+} {
+  const mainContent: ReactNode[] = [];
+  const nestedContent: ReactNode[] = [];
+
+  Children.forEach(children, (child) => {
+    if (
+      isValidElement(child) &&
+      typeof child.type !== 'string' &&
+      'displayName' in child.type &&
+      (child.type as { displayName?: string }).displayName === 'ListGroup'
+    ) {
+      nestedContent.push(child);
+    } else {
+      mainContent.push(child);
+    }
+  });
+
+  return { mainContent, nestedContent };
+}
 
 // =============================================================================
 // ListGroupItem Component
@@ -33,11 +109,12 @@ import type { ListGroupItemData, ListGroupItemProps, ListGroupProps } from './Li
  *
  * @see https://getbootstrap.com/docs/5.3/components/list-group/
  */
-export const ListGroupItem = forwardRef<HTMLElement, ListGroupItemProps>(function ListGroupItem(
+const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function ListGroupItem(
   {
     children,
+    description,
     variant,
-    active = false,
+    active: activeProp,
     disabled = false,
     badge,
     icon,
@@ -47,17 +124,40 @@ export const ListGroupItem = forwardRef<HTMLElement, ListGroupItemProps>(functio
     className = '',
     style,
     tabIndex,
+    eventKey,
+    collapsible,
+    defaultExpanded,
+    expanded,
+    onExpandedChange,
+    ...rest
   },
   ref
 ) {
+  // Consume context for managed selection
+  const context = useListGroupContext();
+
+  // Determine active state:
+  // - Explicit active prop (when not undefined) always wins
+  // - Otherwise derive from context if eventKey exists
+  // - Otherwise fall back to false
+  const active: boolean =
+    activeProp !== undefined
+      ? activeProp
+      : eventKey !== undefined && context !== null
+        ? context.activeKeys.has(eventKey)
+        : false;
+
+  // Whether this item participates in listbox semantics
+  const isListboxItem = context?.onSelect !== undefined && eventKey !== undefined;
+
   // Determine element type
-  const isInteractive = Boolean(href || onClick);
+  const isInteractive = Boolean(href || onClick || isListboxItem);
   let Element: React.ElementType = as ?? 'li';
 
   if (!as) {
     if (href) {
       Element = 'a';
-    } else if (onClick) {
+    } else if (onClick || isListboxItem) {
       Element = 'button';
     }
   }
@@ -73,13 +173,16 @@ export const ListGroupItem = forwardRef<HTMLElement, ListGroupItemProps>(functio
     className
   );
 
-  // Handle click
+  // Handle click — also fire context onSelect when applicable
   const handleClick = (e: MouseEvent<HTMLElement>): void => {
     if (disabled) {
       e.preventDefault();
       return;
     }
-    onClick?.();
+    onClick?.(e);
+    if (context?.onSelect && eventKey !== undefined) {
+      context.onSelect(eventKey, e);
+    }
   };
 
   // Handle keyboard
@@ -89,44 +192,150 @@ export const ListGroupItem = forwardRef<HTMLElement, ListGroupItemProps>(functio
     }
     if (isEnterKey(e) || e.key === ' ') {
       e.preventDefault();
-      onClick?.();
+      if (isListboxItem && context?.onSelect && eventKey !== undefined) {
+        context.onSelect(eventKey, e);
+      }
+      onClick?.(e as unknown as MouseEvent<HTMLElement>);
     }
   };
+
+  // Collapsible state management
+  const [isExpanded, setIsExpanded] = useControllableState({
+    value: expanded,
+    defaultValue: defaultExpanded ?? false,
+    onChange: onExpandedChange,
+  });
+
+  const { nestedContent, mainContent } = separateChildren(children);
+  const hasNestedContent = collapsible && nestedContent.length > 0;
+  const handleToggle = (): void => setIsExpanded(!isExpanded);
+  const collapsibleTextId = useId();
+
+  // Collapsible render — always renders as <li> with toggle and collapsible region
+  if (hasNestedContent) {
+    const collapsibleItemClasses = cn(
+      'list-group-item',
+      active && 'active',
+      disabled && 'disabled',
+      variant && `list-group-item-${variant}`,
+      className
+    );
+
+    // Clone nested ListGroup children to add aria-labelledby and ps-3 indent
+    const labelledNestedContent = nestedContent.map((child) => {
+      if (isValidElement(child)) {
+        return cloneElement(child as React.ReactElement<{ 'aria-labelledby'?: string; className?: string }>, {
+          'aria-labelledby': collapsibleTextId,
+          className: cn((child.props as { className?: string }).className, 'ps-3'),
+        });
+      }
+      return child;
+    });
+
+    return (
+      <li
+        ref={ref as React.Ref<HTMLLIElement>}
+        className={collapsibleItemClasses}
+        style={{ ...style, padding: 0 }}
+        {...rest}
+      >
+        <div
+          className="d-flex align-items-center"
+          style={{ padding: '0.5rem 1rem' }}
+          aria-disabled={disabled || undefined}
+        >
+          {icon && <span className="me-2">{icon}</span>}
+          <span id={collapsibleTextId} className="flex-grow-1">
+            {mainContent}
+            {description && (
+              <small className="text-body-secondary d-block">{description}</small>
+            )}
+          </span>
+          {badge && <span className="me-2">{badge}</span>}
+          <button
+            type="button"
+            className="btn btn-sm border-0 p-0 ms-auto"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleToggle();
+            }}
+            aria-expanded={isExpanded}
+            aria-label={isExpanded ? 'Collapse' : 'Expand'}
+          >
+            <span
+              className="d-inline-block"
+              style={{
+                transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
+                transition: 'transform 0.2s ease',
+              }}
+            >
+              &#9656;
+            </span>
+          </button>
+        </div>
+        <div
+          style={{
+            overflow: 'hidden',
+            maxHeight: isExpanded ? '1000px' : '0',
+            transition: 'max-height 0.3s ease',
+            ...(!isExpanded && { visibility: 'hidden' as const, height: 0 }),
+          }}
+        >
+          {labelledNestedContent}
+        </div>
+      </li>
+    );
+  }
 
   // Render content
   const content = (
     <>
       {icon && <span className="me-2">{icon}</span>}
-      <span className={badge ? 'flex-grow-1' : undefined}>{children}</span>
+      <span className={badge ? 'flex-grow-1' : undefined}>
+        {children}
+        {description && <small className="text-body-secondary d-block">{description}</small>}
+      </span>
       {badge && <span>{badge}</span>}
     </>
   );
 
+  // ARIA props depend on whether we're in listbox mode
+  const ariaProps = isListboxItem
+    ? { role: 'option' as const, 'aria-selected': active }
+    : { 'aria-current': active ? ('true' as const) : undefined };
+
   // Common props
   const commonProps = {
+    ...rest,
+    ...ariaProps,
     className: itemClasses,
     style,
-    'aria-current': active ? ('true' as const) : undefined,
     'aria-disabled': disabled || undefined,
   };
+
+  // Wrapper li props — when in listbox context, li must have role="presentation"
+  // to satisfy axe (listitem must not be inside a listbox). Also propagate active
+  // class so tests can use closest('li') to check active state.
+  const wrapperLiProps = isListboxItem
+    ? { className: cn('p-0 border-0 bg-transparent', active && 'active'), role: 'presentation' as const }
+    : { className: 'p-0 border-0 bg-transparent' };
 
   // Render based on element type
   // Links are wrapped in li for proper list semantics
   if (Element === 'a') {
-    // Sanitize href to prevent XSS
     const safeHref = isSafeHref(href) ? href : '#';
     const isExternal = isExternalUrl(safeHref);
 
     return (
-      <li className="p-0 border-0 bg-transparent">
+      <li {...wrapperLiProps}>
         <a
           ref={ref as React.Ref<HTMLAnchorElement>}
           href={disabled ? undefined : safeHref}
-          onClick={onClick ? handleClick : undefined}
+          onClick={handleClick}
           tabIndex={disabled ? -1 : tabIndex}
           rel={isExternal ? 'noopener noreferrer' : undefined}
           {...commonProps}
-          className={`${itemClasses} d-block`}
+          className={cn(itemClasses, 'd-block')}
         >
           {content}
         </a>
@@ -137,15 +346,16 @@ export const ListGroupItem = forwardRef<HTMLElement, ListGroupItemProps>(functio
   // Buttons are wrapped in li for proper list semantics
   if (Element === 'button') {
     return (
-      <li className="p-0 border-0 bg-transparent">
+      <li {...wrapperLiProps}>
         <button
           ref={ref as React.Ref<HTMLButtonElement>}
           type="button"
           disabled={disabled}
           onClick={handleClick}
+          onKeyDown={isListboxItem ? handleKeyDown : undefined}
           tabIndex={tabIndex}
           {...commonProps}
-          className={`${itemClasses} w-100 text-start`}
+          className={cn(itemClasses, 'w-100', 'text-start')}
         >
           {content}
         </button>
@@ -154,10 +364,9 @@ export const ListGroupItem = forwardRef<HTMLElement, ListGroupItemProps>(functio
   }
 
   // For div with onClick, use button semantics
-  // Wrap in li for proper list semantics when used within ListGroup
   if (isInteractive && as === 'div') {
     return (
-      <li className="p-0 border-0 bg-transparent">
+      <li {...wrapperLiProps}>
         <button
           ref={ref as React.Ref<HTMLButtonElement>}
           type="button"
@@ -165,7 +374,7 @@ export const ListGroupItem = forwardRef<HTMLElement, ListGroupItemProps>(functio
           onKeyDown={handleKeyDown}
           tabIndex={disabled ? -1 : (tabIndex ?? 0)}
           {...commonProps}
-          className={`${itemClasses} d-block w-100 text-start border-0`}
+          className={cn(itemClasses, 'd-block', 'w-100', 'text-start', 'border-0')}
         >
           {content}
         </button>
@@ -173,17 +382,18 @@ export const ListGroupItem = forwardRef<HTMLElement, ListGroupItemProps>(functio
     );
   }
 
-  // Default: non-interactive li or div
+  // Default: non-interactive div
   if (Element === 'div') {
     return (
-      <li className="p-0 border-0 bg-transparent">
-        <div ref={ref as React.Ref<HTMLDivElement>} {...commonProps} className={`${itemClasses}`}>
+      <li {...wrapperLiProps}>
+        <div ref={ref as React.Ref<HTMLDivElement>} {...commonProps} className={itemClasses}>
           {content}
         </div>
       </li>
     );
   }
 
+  // Default: non-interactive li
   return (
     <li ref={ref as React.Ref<HTMLLIElement>} {...commonProps}>
       {content}
@@ -191,6 +401,9 @@ export const ListGroupItem = forwardRef<HTMLElement, ListGroupItemProps>(functio
   );
 });
 
+ListGroupItemInner.displayName = 'ListGroupItem';
+
+export const ListGroupItem = memo(ListGroupItemInner);
 ListGroupItem.displayName = 'ListGroupItem';
 
 // =============================================================================
@@ -201,7 +414,7 @@ ListGroupItem.displayName = 'ListGroupItem';
  * ListGroup component - displays lists of content
  *
  * A Bootstrap 5 list group component for displaying lists of content.
- * Supports variants, interactive items, and badges/icons.
+ * Supports variants, interactive items, badges/icons, and managed selection.
  *
  * @see https://getbootstrap.com/docs/5.3/components/list-group/
  *
@@ -222,9 +435,15 @@ ListGroupItem.displayName = 'ListGroupItem';
  *   <ListGroupItem active>Item 2</ListGroupItem>
  *   <ListGroupItem disabled>Item 3</ListGroupItem>
  * </ListGroup>
+ *
+ * // With managed selection
+ * <ListGroup onSelect={(key) => console.log(key)} defaultActiveKey="1">
+ *   <ListGroupItem eventKey="1">Item 1</ListGroupItem>
+ *   <ListGroupItem eventKey="2">Item 2</ListGroupItem>
+ * </ListGroup>
  * ```
  */
-export const ListGroup = forwardRef<HTMLUListElement | HTMLOListElement, ListGroupProps>(
+const ListGroupInner = forwardRef<HTMLUListElement | HTMLOListElement, ListGroupProps>(
   function ListGroup(
     {
       items,
@@ -237,9 +456,61 @@ export const ListGroup = forwardRef<HTMLUListElement | HTMLOListElement, ListGro
       id,
       'aria-label': ariaLabel,
       'aria-labelledby': ariaLabelledBy,
+      activeKey,
+      defaultActiveKey,
+      onSelect,
+      selectionMode = 'single',
+      loading = false,
+      emptyContent,
+      virtualized = false,
+      itemHeight: _itemHeight,
+      overscan: _overscan = 5,
+      ...rest
     },
     ref
   ) {
+    // Determine if controlled
+    const isControlled = activeKey !== undefined;
+
+    // Initialize FSM state
+    const initialActiveKeys = normalizeActiveKey(isControlled ? activeKey : defaultActiveKey);
+    const [fsmState, dispatch] = useReducer(
+      listGroupFSMReducer,
+      { activeKeys: initialActiveKeys, selectionMode },
+      ({ activeKeys: keys, selectionMode: mode }) => createInitialListGroupFSMState(keys, mode)
+    );
+
+    // Sync controlled props via RESET_FROM_PROPS
+    useEffect(() => {
+      if (isControlled) {
+        dispatch({
+          type: 'RESET_FROM_PROPS',
+          activeKeys: normalizeActiveKey(activeKey),
+        });
+      }
+    }, [isControlled, activeKey]);
+
+    // Handle item selection
+    const handleSelect = useCallback(
+      (eventKey: string, event: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>): void => {
+        if (!isControlled) {
+          dispatch({ type: 'TOGGLE', eventKey });
+        }
+        onSelect?.(eventKey, event);
+      },
+      [isControlled, onSelect]
+    );
+
+    // Build context value
+    const contextValue = useMemo(
+      () => ({
+        activeKeys: fsmState.activeKeys,
+        onSelect: onSelect !== undefined ? handleSelect : undefined,
+        selectionMode,
+      }),
+      [fsmState.activeKeys, onSelect, handleSelect, selectionMode]
+    );
+
     // Determine element type
     const Element = ordered || variant === 'numbered' ? 'ol' : 'ul';
 
@@ -263,47 +534,149 @@ export const ListGroup = forwardRef<HTMLUListElement | HTMLOListElement, ListGro
       className
     );
 
-    // Render using items prop
-    const renderWithItems = (): React.ReactNode => {
-      if (!items || items.length === 0) {
-        return null;
-      }
+    // Additional ARIA props when acting as listbox
+    const listboxProps =
+      onSelect !== undefined
+        ? {
+            role: 'listbox' as const,
+            'aria-multiselectable': selectionMode === 'multiple' ? (true as const) : undefined,
+          }
+        : {};
 
-      return items.map((item, index) => (
-        <ListGroupItem
-          key={item.id ?? index}
-          variant={item.variant}
-          active={item.active}
-          disabled={item.disabled}
-          badge={item.badge}
-          icon={item.icon}
-          href={item.href}
-          onClick={item.onClick}
-        >
-          {item.content}
-        </ListGroupItem>
-      ));
+    // Roving focus for arrow-key navigation in listbox mode
+    const listRef = useRef<HTMLElement>(null);
+    const hasSelection = onSelect !== undefined;
+
+    const { containerProps: rovingProps } = useRovingFocus({
+      containerRef: listRef,
+      orientation: horizontal ? 'horizontal' : 'vertical',
+      wrap: true,
+      homeEnd: true,
+      itemSelector: '[role="option"]',
+      disabledSelector: '.disabled, [aria-disabled="true"]',
+      enabled: hasSelection,
+    });
+
+    // Merge the forwarded ref with the local listRef
+    const mergedRef = mergeRefs(
+      ref as React.Ref<HTMLElement>,
+      listRef as React.Ref<HTMLElement>,
+    );
+
+    // Render nested entries recursively for collapsible items
+    const renderEntries = (entries: ListGroupEntry[]): React.ReactNode => {
+      return entries.map((entry, index) => {
+        if (!isListGroupItemData(entry)) {
+          if (entry.type === 'divider') {
+            return <ListGroupDivider key={`divider-${index}`} />;
+          }
+          if (entry.type === 'header') {
+            return <ListGroupHeader key={`header-${index}`}>{entry.content}</ListGroupHeader>;
+          }
+          return null;
+        }
+
+        const hasChildren = entry.collapsible && entry.children && entry.children.length > 0;
+
+        return (
+          <ListGroupItem
+            key={entry.id ?? index}
+            eventKey={entry.eventKey}
+            variant={entry.variant}
+            active={entry.active}
+            disabled={entry.disabled}
+            badge={entry.badge}
+            icon={entry.icon}
+            href={entry.href}
+            onClick={entry.onClick}
+            description={entry.description}
+            collapsible={entry.collapsible}
+            defaultExpanded={entry.defaultExpanded}
+            expanded={entry.expanded}
+            onExpandedChange={entry.onExpandedChange}
+          >
+            {entry.content}
+            {hasChildren && (
+              <ListGroupInner variant={variant} className="ps-3">
+                {renderEntries(entry.children!)}
+              </ListGroupInner>
+            )}
+          </ListGroupItem>
+        );
+      });
     };
 
+    // Render using items prop
+    const renderWithItems = (): React.ReactNode => {
+      if (!items || items.length === 0) return null;
+      return renderEntries(items);
+    };
+
+    // Compute final aria-label: user value wins; fallback used only for listbox
+    const resolvedAriaLabel =
+      ariaLabel ?? (onSelect !== undefined && !ariaLabelledBy ? 'List group' : undefined);
+
+    // Virtualization fallback/warning
+    const shouldVirtualize = virtualized && items && items.length > 0;
+    if (shouldVirtualize && !useVirtualizerFn) {
+      if (process.env['NODE_ENV'] !== 'production') {
+        console.warn(
+          'ListGroup: virtualized prop requires @tanstack/react-virtual. ' +
+            'Install it with: npm install @tanstack/react-virtual'
+        );
+      }
+      // Falls through to render all items normally
+    }
+
+    // Loading spinner rendered as a list item
+    const loadingSpinner = loading ? (
+      <li className="list-group-item text-center border-0" role="status">
+        <span className="spinner-border spinner-border-sm" aria-hidden="true" />
+        <span className="visually-hidden">Loading...</span>
+      </li>
+    ) : null;
+
+    // Empty state rendered when items array is empty and emptyContent is provided
+    const emptyState =
+      emptyContent && items && items.length === 0 ? (
+        <li className="list-group-item text-center text-body-secondary border-0">{emptyContent}</li>
+      ) : null;
+
     return (
-      <Element
-        ref={ref as React.Ref<HTMLUListElement & HTMLOListElement>}
-        className={listClasses}
-        style={style}
-        id={id}
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledBy}
-      >
-        {items ? renderWithItems() : children}
-      </Element>
+      <ListGroupContext.Provider value={contextValue}>
+        <Element
+          ref={mergedRef}
+          className={listClasses}
+          style={loading ? { ...style, position: 'relative' as const } : style}
+          id={id}
+          aria-label={resolvedAriaLabel}
+          aria-labelledby={ariaLabelledBy}
+          {...listboxProps}
+          {...rovingProps}
+          {...rest}
+        >
+          {emptyState || (items ? renderWithItems() : children)}
+          {loadingSpinner}
+        </Element>
+      </ListGroupContext.Provider>
     );
   }
 );
 
+ListGroupInner.displayName = 'ListGroup';
+
+export const ListGroup = memo(ListGroupInner);
 ListGroup.displayName = 'ListGroup';
 
 // =============================================================================
 // Exports
 // =============================================================================
 
-export type { ListGroupItemData, ListGroupItemProps, ListGroupProps };
+export type {
+  ListGroupEntry,
+  ListGroupDividerEntry,
+  ListGroupHeaderEntry,
+  ListGroupItemData,
+  ListGroupItemProps,
+  ListGroupProps,
+};

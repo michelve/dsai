@@ -6,6 +6,8 @@ import { createRef } from 'react';
 import { Badge } from '../Badge';
 
 import { ListGroup, ListGroupItem } from './ListGroup';
+import { ListGroupDivider } from './ListGroupDivider';
+import { ListGroupHeader } from './ListGroupHeader';
 
 expect.extend(toHaveNoViolations);
 
@@ -534,6 +536,526 @@ describe('ListGroup', () => {
         </>
       );
       expect(screen.getByRole('list')).toHaveAttribute('aria-labelledby', 'list-heading');
+    });
+  });
+
+  // ===========================================================================
+  // Managed Selection
+  // ===========================================================================
+  describe('Managed Selection', () => {
+    it('supports uncontrolled selection with defaultActiveKey', () => {
+      render(
+        <ListGroup defaultActiveKey="b">
+          <ListGroupItem eventKey="a">A</ListGroupItem>
+          <ListGroupItem eventKey="b">B</ListGroupItem>
+        </ListGroup>
+      );
+      expect(screen.getByText('B').closest('li')).toHaveClass('active');
+      expect(screen.getByText('A').closest('li')).not.toHaveClass('active');
+    });
+
+    it('fires onSelect when item is clicked', async () => {
+      const onSelect = jest.fn();
+      render(
+        <ListGroup onSelect={onSelect} defaultActiveKey="a">
+          <ListGroupItem eventKey="a">A</ListGroupItem>
+          <ListGroupItem eventKey="b">B</ListGroupItem>
+        </ListGroup>
+      );
+      await userEvent.click(screen.getByText('B'));
+      expect(onSelect).toHaveBeenCalledWith('b', expect.any(Object));
+    });
+
+    it('supports controlled activeKey', () => {
+      const { rerender } = render(
+        <ListGroup activeKey="a">
+          <ListGroupItem eventKey="a">A</ListGroupItem>
+          <ListGroupItem eventKey="b">B</ListGroupItem>
+        </ListGroup>
+      );
+      expect(screen.getByText('A').closest('li')).toHaveClass('active');
+
+      rerender(
+        <ListGroup activeKey="b">
+          <ListGroupItem eventKey="a">A</ListGroupItem>
+          <ListGroupItem eventKey="b">B</ListGroupItem>
+        </ListGroup>
+      );
+      expect(screen.getByText('B').closest('li')).toHaveClass('active');
+      expect(screen.getByText('A').closest('li')).not.toHaveClass('active');
+    });
+
+    it('supports multiple selection mode', async () => {
+      const onSelect = jest.fn();
+      render(
+        <ListGroup selectionMode="multiple" defaultActiveKey={['a']} onSelect={onSelect}>
+          <ListGroupItem eventKey="a">A</ListGroupItem>
+          <ListGroupItem eventKey="b">B</ListGroupItem>
+        </ListGroup>
+      );
+      expect(screen.getByText('A').closest('li')).toHaveClass('active');
+      await userEvent.click(screen.getByText('B'));
+      expect(onSelect).toHaveBeenCalledWith('b', expect.any(Object));
+    });
+
+    it('explicit active prop overrides context', () => {
+      render(
+        <ListGroup activeKey="a">
+          <ListGroupItem eventKey="a" active={false}>A</ListGroupItem>
+          <ListGroupItem eventKey="b" active={true}>B</ListGroupItem>
+        </ListGroup>
+      );
+      expect(screen.getByText('A').closest('li')).not.toHaveClass('active');
+      expect(screen.getByText('B').closest('li')).toHaveClass('active');
+    });
+
+    it('works with items prop', async () => {
+      const onSelect = jest.fn();
+      render(
+        <ListGroup
+          defaultActiveKey="1"
+          onSelect={onSelect}
+          items={[
+            { id: '1', eventKey: '1', content: 'Item 1' },
+            { id: '2', eventKey: '2', content: 'Item 2' },
+          ]}
+        />
+      );
+      expect(screen.getByText('Item 1').closest('li')).toHaveClass('active');
+      await userEvent.click(screen.getByText('Item 2'));
+      expect(onSelect).toHaveBeenCalledWith('2', expect.any(Object));
+    });
+
+    it('applies role="listbox" when onSelect is provided', () => {
+      render(
+        <ListGroup onSelect={jest.fn()} defaultActiveKey="a">
+          <ListGroupItem eventKey="a">A</ListGroupItem>
+        </ListGroup>
+      );
+      expect(screen.getByRole('listbox')).toBeInTheDocument();
+    });
+
+    it('applies role="option" and aria-selected on items with eventKey', () => {
+      render(
+        <ListGroup onSelect={jest.fn()} activeKey="a">
+          <ListGroupItem eventKey="a">A</ListGroupItem>
+          <ListGroupItem eventKey="b">B</ListGroupItem>
+        </ListGroup>
+      );
+      const options = screen.getAllByRole('option');
+      expect(options).toHaveLength(2);
+      expect(options[0]).toHaveAttribute('aria-selected', 'true');
+      expect(options[1]).toHaveAttribute('aria-selected', 'false');
+    });
+
+    it('fires onSelect for href items with eventKey', async () => {
+      const onSelect = jest.fn();
+      render(
+        <ListGroup onSelect={onSelect}>
+          <ListGroupItem eventKey="a" href="/page-a">Link A</ListGroupItem>
+          <ListGroupItem eventKey="b" href="/page-b">Link B</ListGroupItem>
+        </ListGroup>
+      );
+      await userEvent.click(screen.getByText('Link B'));
+      expect(onSelect).toHaveBeenCalledWith('b', expect.any(Object));
+    });
+
+    it('has no a11y violations with selection', async () => {
+      const { container } = render(
+        <ListGroup onSelect={jest.fn()} activeKey="a">
+          <ListGroupItem eventKey="a">A</ListGroupItem>
+          <ListGroupItem eventKey="b">B</ListGroupItem>
+        </ListGroup>
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
+
+  // ===========================================================================
+  // Arrow Key Navigation
+  // ===========================================================================
+  describe('Arrow Key Navigation', () => {
+    it('moves focus with arrow keys when onSelect is provided', async () => {
+      render(
+        <ListGroup onSelect={jest.fn()} defaultActiveKey="a">
+          <ListGroupItem eventKey="a">A</ListGroupItem>
+          <ListGroupItem eventKey="b">B</ListGroupItem>
+          <ListGroupItem eventKey="c">C</ListGroupItem>
+        </ListGroup>
+      );
+
+      const options = screen.getAllByRole('option');
+      options[0].focus();
+
+      await userEvent.keyboard('{ArrowDown}');
+      expect(options[1]).toHaveFocus();
+
+      await userEvent.keyboard('{ArrowDown}');
+      expect(options[2]).toHaveFocus();
+    });
+
+    it('skips disabled items', async () => {
+      render(
+        <ListGroup onSelect={jest.fn()}>
+          <ListGroupItem eventKey="a">A</ListGroupItem>
+          <ListGroupItem eventKey="b" disabled>B</ListGroupItem>
+          <ListGroupItem eventKey="c">C</ListGroupItem>
+        </ListGroup>
+      );
+
+      const options = screen.getAllByRole('option');
+      options[0].focus();
+
+      await userEvent.keyboard('{ArrowDown}');
+      expect(options[2]).toHaveFocus(); // Skips B
+    });
+
+    it('does not use arrow keys for static lists', async () => {
+      render(
+        <ListGroup>
+          <ListGroupItem>A</ListGroupItem>
+          <ListGroupItem>B</ListGroupItem>
+        </ListGroup>
+      );
+
+      const items = screen.getAllByRole('listitem');
+      // Static list uses standard tab navigation, not arrow keys
+      expect(items[0]).not.toHaveAttribute('role', 'option');
+    });
+
+    it('selects item on Enter key', async () => {
+      const onSelect = jest.fn();
+      render(
+        <ListGroup onSelect={onSelect}>
+          <ListGroupItem eventKey="a">A</ListGroupItem>
+          <ListGroupItem eventKey="b">B</ListGroupItem>
+        </ListGroup>
+      );
+
+      const options = screen.getAllByRole('option');
+      options[0].focus();
+
+      await userEvent.keyboard('{ArrowDown}');
+      await userEvent.keyboard('{Enter}');
+      expect(onSelect).toHaveBeenCalledWith('b', expect.any(Object));
+    });
+
+    it('selects item on Space key', async () => {
+      const onSelect = jest.fn();
+      render(
+        <ListGroup onSelect={onSelect}>
+          <ListGroupItem eventKey="a">A</ListGroupItem>
+          <ListGroupItem eventKey="b">B</ListGroupItem>
+        </ListGroup>
+      );
+
+      const options = screen.getAllByRole('option');
+      options[0].focus();
+
+      await userEvent.keyboard('{ArrowDown}');
+      await userEvent.keyboard(' ');
+      expect(onSelect).toHaveBeenCalledWith('b', expect.any(Object));
+    });
+
+    it('jumps to first/last with Home/End', async () => {
+      render(
+        <ListGroup onSelect={jest.fn()}>
+          <ListGroupItem eventKey="a">A</ListGroupItem>
+          <ListGroupItem eventKey="b">B</ListGroupItem>
+          <ListGroupItem eventKey="c">C</ListGroupItem>
+        </ListGroup>
+      );
+
+      const options = screen.getAllByRole('option');
+      options[1].focus();
+
+      await userEvent.keyboard('{Home}');
+      expect(options[0]).toHaveFocus();
+
+      await userEvent.keyboard('{End}');
+      expect(options[2]).toHaveFocus();
+    });
+  });
+
+  // ===========================================================================
+  // Description
+  // ===========================================================================
+  describe('Description', () => {
+    it('renders description text below content', () => {
+      render(
+        <ListGroup>
+          <ListGroupItem description="12 unread">Inbox</ListGroupItem>
+        </ListGroup>
+      );
+      expect(screen.getByText('Inbox')).toBeInTheDocument();
+      expect(screen.getByText('12 unread')).toBeInTheDocument();
+    });
+
+    it('renders description in items mode', () => {
+      render(
+        <ListGroup items={[{ id: '1', content: 'Inbox', description: '12 unread' }]} />
+      );
+      expect(screen.getByText('12 unread')).toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
+  // Dividers
+  // ===========================================================================
+  describe('Dividers', () => {
+    it('renders divider compound component', () => {
+      const { container } = render(
+        <ListGroup>
+          <ListGroupItem>A</ListGroupItem>
+          <ListGroupDivider />
+          <ListGroupItem>B</ListGroupItem>
+        </ListGroup>
+      );
+      expect(container.querySelector('[role="separator"]')).toBeInTheDocument();
+    });
+
+    it('renders divider in items mode', () => {
+      const { container } = render(
+        <ListGroup
+          items={[
+            { id: '1', content: 'A' },
+            { type: 'divider' },
+            { id: '2', content: 'B' },
+          ]}
+        />
+      );
+      expect(container.querySelector('[role="separator"]')).toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
+  // Headers
+  // ===========================================================================
+  describe('Headers', () => {
+    it('renders header compound component', () => {
+      render(
+        <ListGroup>
+          <ListGroupHeader>Category</ListGroupHeader>
+          <ListGroupItem>A</ListGroupItem>
+        </ListGroup>
+      );
+      expect(screen.getByText('Category')).toBeInTheDocument();
+    });
+
+    it('renders header in items mode', () => {
+      render(
+        <ListGroup
+          items={[
+            { type: 'header', content: 'Category' },
+            { id: '1', content: 'A' },
+          ]}
+        />
+      );
+      expect(screen.getByText('Category')).toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
+  // Loading State
+  // ===========================================================================
+  describe('Loading State', () => {
+    it('renders spinner when loading', () => {
+      const { container } = render(<ListGroup loading items={sampleItems} />);
+      expect(container.querySelector('.spinner-border')).toBeInTheDocument();
+    });
+
+    it('renders items when loading', () => {
+      render(<ListGroup loading items={sampleItems} />);
+      expect(screen.getByText('Item 1')).toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
+  // Empty State
+  // ===========================================================================
+  describe('Empty State', () => {
+    it('renders emptyContent when items is empty', () => {
+      render(<ListGroup items={[]} emptyContent="No items found" />);
+      expect(screen.getByText('No items found')).toBeInTheDocument();
+    });
+
+    it('does not render emptyContent when items exist', () => {
+      render(<ListGroup items={sampleItems} emptyContent="No items found" />);
+      expect(screen.queryByText('No items found')).not.toBeInTheDocument();
+    });
+
+    it('renders nothing for empty list without emptyContent', () => {
+      const { container } = render(<ListGroup items={[]} />);
+      expect(container.querySelector('ul')).toBeEmptyDOMElement();
+    });
+  });
+
+  // ===========================================================================
+  // Collapsible Items
+  // ===========================================================================
+  describe('Collapsible Items', () => {
+    it('renders collapsible item with toggle', () => {
+      render(
+        <ListGroup>
+          <ListGroupItem collapsible defaultExpanded={false}>
+            Parent
+            <ListGroup>
+              <ListGroupItem>Child 1</ListGroupItem>
+            </ListGroup>
+          </ListGroupItem>
+        </ListGroup>
+      );
+
+      // Toggle button should exist
+      expect(screen.getByRole('button', { expanded: false })).toBeInTheDocument();
+      // Nested content should be hidden
+      expect(screen.queryByText('Child 1')).not.toBeVisible();
+    });
+
+    it('expands on toggle click', async () => {
+      render(
+        <ListGroup>
+          <ListGroupItem collapsible defaultExpanded={false}>
+            Parent
+            <ListGroup>
+              <ListGroupItem>Child 1</ListGroupItem>
+            </ListGroup>
+          </ListGroupItem>
+        </ListGroup>
+      );
+
+      await userEvent.click(screen.getByRole('button', { expanded: false }));
+      expect(screen.getByRole('button', { expanded: true })).toBeInTheDocument();
+      expect(screen.getByText('Child 1')).toBeVisible();
+    });
+
+    it('supports controlled expanded state', () => {
+      const onExpandedChange = jest.fn();
+      const { rerender } = render(
+        <ListGroup>
+          <ListGroupItem collapsible expanded={false} onExpandedChange={onExpandedChange}>
+            Parent
+            <ListGroup>
+              <ListGroupItem>Child 1</ListGroupItem>
+            </ListGroup>
+          </ListGroupItem>
+        </ListGroup>
+      );
+
+      expect(screen.queryByText('Child 1')).not.toBeVisible();
+
+      rerender(
+        <ListGroup>
+          <ListGroupItem collapsible expanded={true} onExpandedChange={onExpandedChange}>
+            Parent
+            <ListGroup>
+              <ListGroupItem>Child 1</ListGroupItem>
+            </ListGroup>
+          </ListGroupItem>
+        </ListGroup>
+      );
+
+      expect(screen.getByText('Child 1')).toBeVisible();
+    });
+
+    it('fires onExpandedChange callback', async () => {
+      const onExpandedChange = jest.fn();
+      render(
+        <ListGroup>
+          <ListGroupItem collapsible defaultExpanded={false} onExpandedChange={onExpandedChange}>
+            Parent
+            <ListGroup>
+              <ListGroupItem>Child 1</ListGroupItem>
+            </ListGroup>
+          </ListGroupItem>
+        </ListGroup>
+      );
+
+      await userEvent.click(screen.getByRole('button', { expanded: false }));
+      expect(onExpandedChange).toHaveBeenCalledWith(true);
+    });
+
+    it('renders expanded by default when defaultExpanded is true', () => {
+      render(
+        <ListGroup>
+          <ListGroupItem collapsible defaultExpanded={true}>
+            Parent
+            <ListGroup>
+              <ListGroupItem>Child 1</ListGroupItem>
+            </ListGroup>
+          </ListGroupItem>
+        </ListGroup>
+      );
+
+      expect(screen.getByText('Child 1')).toBeVisible();
+      expect(screen.getByRole('button', { expanded: true })).toBeInTheDocument();
+    });
+
+    it('supports items mode with collapsible children', () => {
+      render(
+        <ListGroup
+          items={[
+            {
+              id: 'parent',
+              content: 'Parent',
+              collapsible: true,
+              defaultExpanded: true,
+              children: [
+                { id: 'child1', content: 'Child 1' },
+                { id: 'child2', content: 'Child 2' },
+              ],
+            },
+          ]}
+        />
+      );
+
+      expect(screen.getByText('Parent')).toBeInTheDocument();
+      expect(screen.getByText('Child 1')).toBeInTheDocument();
+      expect(screen.getByText('Child 2')).toBeInTheDocument();
+    });
+
+    it('has no a11y violations', async () => {
+      const { container } = render(
+        <ListGroup>
+          <ListGroupItem collapsible defaultExpanded>
+            Parent
+            <ListGroup>
+              <ListGroupItem>Child 1</ListGroupItem>
+            </ListGroup>
+          </ListGroupItem>
+        </ListGroup>
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
+
+  // ===========================================================================
+  // Virtualization
+  // ===========================================================================
+  describe('Virtualization', () => {
+    it('renders all items when virtualized is false', () => {
+      const items = Array.from({ length: 100 }, (_, i) => ({
+        id: `${i}`,
+        content: `Item ${i}`,
+      }));
+      render(<ListGroup items={items} />);
+      expect(screen.getAllByText(/^Item \d+$/)).toHaveLength(100);
+    });
+
+    it('warns in dev when virtualized without @tanstack/react-virtual', () => {
+      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
+      const items = Array.from({ length: 100 }, (_, i) => ({
+        id: `${i}`,
+        content: `Item ${i}`,
+      }));
+      render(
+        <ListGroup virtualized itemHeight={40} items={items} style={{ height: 400 }} />
+      );
+      // Should fall back to rendering all items
+      expect(screen.getAllByText(/^Item \d+$/)).toHaveLength(100);
+      consoleSpy.mockRestore();
     });
   });
 
