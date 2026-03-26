@@ -523,6 +523,129 @@ describe('Tabs', () => {
   });
 
   // ===========================================================================
+  // Compound Mode Interactions
+  // ===========================================================================
+  describe('Compound Mode Interactions', () => {
+    const renderCompoundTabs = (props: Record<string, unknown> = {}) =>
+      render(
+        <Tabs defaultActiveTab="tab1" {...props}>
+          <TabList aria-label="Compound tabs">
+            <Tab id="tab1">First</Tab>
+            <Tab id="tab2">Second</Tab>
+            <Tab id="tab3">Third</Tab>
+          </TabList>
+          <TabPanel id="tab1">Content 1</TabPanel>
+          <TabPanel id="tab2">Content 2</TabPanel>
+          <TabPanel id="tab3">Content 3</TabPanel>
+        </Tabs>
+      );
+
+    it('activates tab on click in compound mode', async () => {
+      renderCompoundTabs();
+
+      await userEvent.click(screen.getByRole('tab', { name: 'Second' }));
+
+      expect(screen.getByRole('tab', { name: 'Second' })).toHaveAttribute('aria-selected', 'true');
+      expect(screen.getByText('Content 2')).toBeInTheDocument();
+    });
+
+    it('does not activate disabled compound tab on click', async () => {
+      render(
+        <Tabs defaultActiveTab="tab1">
+          <TabList aria-label="Tabs">
+            <Tab id="tab1">First</Tab>
+            <Tab id="tab2" disabled>
+              Disabled
+            </Tab>
+          </TabList>
+          <TabPanel id="tab1">Content 1</TabPanel>
+          <TabPanel id="tab2">Content 2</TabPanel>
+        </Tabs>
+      );
+
+      await userEvent.click(screen.getByRole('tab', { name: 'Disabled' }));
+
+      expect(screen.getByRole('tab', { name: 'First' })).toHaveAttribute('aria-selected', 'true');
+    });
+
+    it('navigates with ArrowRight in compound mode', () => {
+      renderCompoundTabs();
+
+      const tablist = screen.getByRole('tablist');
+      fireEvent.keyDown(tablist, { key: 'ArrowRight' });
+
+      expect(screen.getByRole('tab', { name: 'Second' })).toHaveAttribute('aria-selected', 'true');
+    });
+
+    it('navigates with ArrowLeft in compound mode', () => {
+      renderCompoundTabs({ defaultActiveTab: 'tab2' });
+
+      const tablist = screen.getByRole('tablist');
+      fireEvent.keyDown(tablist, { key: 'ArrowLeft' });
+
+      expect(screen.getByRole('tab', { name: 'First' })).toHaveAttribute('aria-selected', 'true');
+    });
+
+    it('wraps around with ArrowLeft on first compound tab', () => {
+      renderCompoundTabs();
+
+      const tablist = screen.getByRole('tablist');
+      fireEvent.keyDown(tablist, { key: 'ArrowLeft' });
+
+      expect(screen.getByRole('tab', { name: 'Third' })).toHaveAttribute('aria-selected', 'true');
+    });
+
+    it('wraps around with ArrowRight on last compound tab', () => {
+      renderCompoundTabs({ defaultActiveTab: 'tab3' });
+
+      const tablist = screen.getByRole('tablist');
+      fireEvent.keyDown(tablist, { key: 'ArrowRight' });
+
+      expect(screen.getByRole('tab', { name: 'First' })).toHaveAttribute('aria-selected', 'true');
+    });
+
+    it('navigates to first with Home key in compound mode', () => {
+      renderCompoundTabs({ defaultActiveTab: 'tab3' });
+
+      const tablist = screen.getByRole('tablist');
+      fireEvent.keyDown(tablist, { key: 'Home' });
+
+      expect(screen.getByRole('tab', { name: 'First' })).toHaveAttribute('aria-selected', 'true');
+    });
+
+    it('navigates to last with End key in compound mode', () => {
+      renderCompoundTabs();
+
+      const tablist = screen.getByRole('tablist');
+      fireEvent.keyDown(tablist, { key: 'End' });
+
+      expect(screen.getByRole('tab', { name: 'Third' })).toHaveAttribute('aria-selected', 'true');
+    });
+
+    it('uses ArrowDown/ArrowUp in vertical compound mode', () => {
+      renderCompoundTabs({ orientation: 'vertical' });
+
+      const tablist = screen.getByRole('tablist');
+      fireEvent.keyDown(tablist, { key: 'ArrowDown' });
+
+      expect(screen.getByRole('tab', { name: 'Second' })).toHaveAttribute('aria-selected', 'true');
+
+      fireEvent.keyDown(tablist, { key: 'ArrowUp' });
+
+      expect(screen.getByRole('tab', { name: 'First' })).toHaveAttribute('aria-selected', 'true');
+    });
+
+    it('ignores unrelated keys in compound mode', () => {
+      renderCompoundTabs();
+
+      const tablist = screen.getByRole('tablist');
+      fireEvent.keyDown(tablist, { key: 'a' });
+
+      expect(screen.getByRole('tab', { name: 'First' })).toHaveAttribute('aria-selected', 'true');
+    });
+  });
+
+  // ===========================================================================
   // Display Names
   // ===========================================================================
   describe('Display Names', () => {
