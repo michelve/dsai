@@ -148,6 +148,16 @@ export interface ProgressProps {
    * ID of element that labels this progress bar
    */
   'aria-labelledby'?: string;
+
+  /**
+   * Test ID for testing frameworks
+   */
+  'data-testid'?: string;
+
+  /**
+   * Additional test selector
+   */
+  'data-test'?: string;
 }
 
 /**
@@ -207,4 +217,14 @@ export interface ProgressBarProps {
    * @default false
    */
   'aria-hidden'?: boolean;
+
+  /**
+   * Test ID for testing frameworks
+   */
+  'data-testid'?: string;
+
+  /**
+   * Additional test selector
+   */
+  'data-test'?: string;
 }

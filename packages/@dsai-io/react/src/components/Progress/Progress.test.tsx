@@ -406,4 +406,63 @@ describe('Progress', () => {
       expect(Progress.Bar.displayName).toBe('Progress.Bar');
     });
   });
+
+  describe('Warning Variant Contrast', () => {
+    it('applies text-dark class on single bar with warning variant', () => {
+      const { container } = render(
+        <Progress value={50} variant="warning" showValue aria-label="Progress" />
+      );
+      expect(container.querySelector('.progress-bar')).toHaveClass('text-dark');
+    });
+
+    it('applies text-dark class on Progress.Bar with warning variant', () => {
+      const { container } = render(
+        <Progress aria-label="Progress">
+          <Progress.Bar value={50} variant="warning" showValue />
+        </Progress>
+      );
+      expect(container.querySelector('.progress-bar')).toHaveClass('text-dark');
+    });
+
+    it('does not apply text-dark class for non-warning variants', () => {
+      const { container } = render(
+        <Progress value={50} variant="primary" showValue aria-label="Progress" />
+      );
+      expect(container.querySelector('.progress-bar')).not.toHaveClass('text-dark');
+    });
+  });
+
+  describe('Data Attributes', () => {
+    it('passes data-testid to the progress container', () => {
+      const { container } = render(
+        <Progress value={50} data-testid="my-progress" aria-label="Progress" />
+      );
+      expect(container.querySelector('[data-testid="my-progress"]')).toBeInTheDocument();
+    });
+
+    it('passes data-test to the progress container', () => {
+      const { container } = render(
+        <Progress value={50} data-test="progress-test" aria-label="Progress" />
+      );
+      expect(container.querySelector('[data-test="progress-test"]')).toBeInTheDocument();
+    });
+
+    it('passes data-testid to Progress.Bar', () => {
+      const { container } = render(
+        <Progress aria-label="Progress">
+          <Progress.Bar value={40} data-testid="bar-1" />
+        </Progress>
+      );
+      expect(container.querySelector('[data-testid="bar-1"]')).toBeInTheDocument();
+    });
+
+    it('passes data-test to Progress.Bar', () => {
+      const { container } = render(
+        <Progress aria-label="Progress">
+          <Progress.Bar value={40} data-test="bar-test" />
+        </Progress>
+      );
+      expect(container.querySelector('[data-test="bar-test"]')).toBeInTheDocument();
+    });
+  });
 });

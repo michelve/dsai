@@ -31,9 +31,11 @@ function ProgressBar({
   valueText,
   striped = false,
   animated = false,
-  className = '',
+  className,
   'aria-label': ariaLabel,
   'aria-hidden': ariaHidden = false,
+  'data-testid': dataTestId,
+  'data-test': dataTest,
 }: ProgressBarProps): React.JSX.Element {
   const percentage = Math.min(100, Math.max(0, value));
   const isWarning = variant === 'warning';
@@ -55,7 +57,13 @@ function ProgressBar({
   // If aria-hidden, render as purely decorative (no ARIA attributes)
   if (ariaHidden) {
     return (
-      <div className={barClasses} style={{ width: `${percentage}%` }} aria-hidden="true">
+      <div
+        className={barClasses}
+        style={{ width: `${percentage}%` }}
+        aria-hidden="true"
+        data-testid={dataTestId}
+        data-test={dataTest}
+      >
         {showValue && (valueText || `${percentage}%`)}
       </div>
     );
@@ -70,6 +78,8 @@ function ProgressBar({
       aria-valuemin={0}
       aria-valuemax={100}
       aria-label={computedAriaLabel}
+      data-testid={dataTestId}
+      data-test={dataTest}
     >
       {showValue && (valueText || `${percentage}%`)}
     </div>
@@ -132,11 +142,13 @@ function ProgressBase({
   min = 0,
   max = 100,
   children,
-  className = '',
+  className,
   style,
   id,
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledBy,
+  'data-testid': dataTestId,
+  'data-test': dataTest,
 }: ProgressProps): React.JSX.Element {
   const percentage = indeterminate ? 0 : Math.min(100, Math.max(0, value ?? 0));
   const hasChildren = Boolean(children);
@@ -145,9 +157,11 @@ function ProgressBase({
   const progressClasses = cn('progress', className);
 
   // Build progress bar classes (for single bar mode)
+  const isWarning = variant === 'warning';
   const barClasses = cn(
     'progress-bar',
     `bg-${variant}`,
+    isWarning && 'text-dark',
     striped && 'progress-bar-striped',
     (animated || indeterminate) && 'progress-bar-animated',
     indeterminate && 'progress-bar-striped' // Indeterminate uses striped animation
@@ -174,6 +188,8 @@ function ProgressBase({
         style={{ height: resolveHeightForSize(size), ...style }}
         id={id}
         role={hasChildren ? 'group' : 'progressbar'}
+        data-testid={dataTestId}
+        data-test={dataTest}
         {...(!hasChildren && {
           'aria-label': ariaLabel,
           'aria-labelledby': ariaLabelledBy,
