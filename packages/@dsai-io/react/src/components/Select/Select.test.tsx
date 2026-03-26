@@ -702,6 +702,23 @@ describe('Select', () => {
       expect(results).toHaveNoViolations();
     });
 
+    it('has no violations when open in searchable mode', async () => {
+      const { container } = render(<Select options={options} label="Fruit" searchable />);
+
+      await userEvent.click(getTrigger(/fruit/i));
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no violations with multiple selection', async () => {
+      const { container } = render(
+        <Select options={options} label="Fruit" multiple value={['apple']} />
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
     it('has aria-haspopup="listbox" on trigger', () => {
       render(<Select options={options} aria-label="Test" />);
       expect(getTrigger()).toHaveAttribute('aria-haspopup', 'listbox');
