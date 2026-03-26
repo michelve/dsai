@@ -1,3 +1,5 @@
+import { forwardRef, memo } from 'react';
+
 import { cn } from '../../utils';
 
 import type { SpinnerProps } from './Spinner.types';
@@ -65,47 +67,55 @@ const resolveCustomSizeStyle = (
  * - Includes visually hidden text for screen readers
  * - Respects `prefers-reduced-motion` via Bootstrap CSS
  */
-export function Spinner({
-  animation = 'border',
-  size,
-  variant,
-  className = '',
-  style,
-  label = 'Loading...',
-  as: Component = 'div',
-  centered = false,
-  ...rest
-}: SpinnerProps): React.JSX.Element {
-  // Build Bootstrap class names
-  // Bootstrap spinner classes: spinner-border, spinner-grow, spinner-border-sm, text-{color}
-  const bootstrapClasses = cn(
-    `spinner-${animation}`, // spinner-border or spinner-grow
-    size === 'sm' && `spinner-${animation}-sm`, // spinner-border-sm or spinner-grow-sm
-    variant && `text-${variant}`, // text-primary, text-secondary, etc.
-    className
-  );
+export const Spinner = memo(
+  forwardRef<HTMLElement, SpinnerProps>(function Spinner(
+    {
+      animation = 'border',
+      size,
+      variant,
+      className = '',
+      style,
+      label = 'Loading...',
+      as: Component = 'div',
+      centered = false,
+      ...rest
+    },
+    ref
+  ) {
+    // Build Bootstrap class names
+    // Bootstrap spinner classes: spinner-border, spinner-grow, spinner-border-sm, text-{color}
+    const bootstrapClasses = cn(
+      `spinner-${animation}`, // spinner-border or spinner-grow
+      size === 'sm' && `spinner-${animation}-sm`, // spinner-border-sm or spinner-grow-sm
+      variant && `text-${variant}`, // text-primary, text-secondary, etc.
+      className
+    );
 
-  // Custom size styles for xs, lg, xl (Bootstrap only has sm)
-  const customSizeStyle = resolveCustomSizeStyle(size);
+    // Custom size styles for xs, lg, xl (Bootstrap only has sm)
+    const customSizeStyle = resolveCustomSizeStyle(size);
 
-  const spinner = (
-    <Component
-      className={bootstrapClasses}
-      role="status"
-      style={{ ...customSizeStyle, ...style }}
-      aria-label={label}
-      {...rest}
-    >
-      <span className="visually-hidden">{label}</span>
-    </Component>
-  );
+    const spinner = (
+      <Component
+        ref={ref}
+        className={bootstrapClasses}
+        role="status"
+        style={{ ...customSizeStyle, ...style }}
+        aria-label={label}
+        {...rest}
+      >
+        <span className="visually-hidden">{label}</span>
+      </Component>
+    );
 
-  // Wrap in centering container if centered prop is true
-  if (centered) {
-    return <div className="d-flex justify-content-center align-items-center w-100">{spinner}</div>;
-  }
+    // Wrap in centering container if centered prop is true
+    if (centered) {
+      return (
+        <div className="d-flex justify-content-center align-items-center w-100">{spinner}</div>
+      );
+    }
 
-  return spinner;
-}
+    return spinner;
+  })
+);
 
 Spinner.displayName = 'Spinner';

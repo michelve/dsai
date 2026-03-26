@@ -1,3 +1,4 @@
+import { createRef } from 'react';
 import { render, screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 
@@ -160,6 +161,44 @@ describe('Spinner', () => {
       render(<Spinner size="lg" style={{ width: '5rem' }} />);
       const spinner = screen.getByRole('status');
       expect(spinner).toHaveStyle({ width: '5rem' });
+    });
+  });
+
+  describe('Ref Forwarding', () => {
+    it('forwards ref to the spinner element', () => {
+      const ref = createRef<HTMLElement>();
+      render(<Spinner ref={ref} />);
+      expect(ref.current).toBeInstanceOf(HTMLElement);
+      expect(ref.current).toHaveClass('spinner-border');
+    });
+
+    it('forwards ref when rendered as span', () => {
+      const ref = createRef<HTMLElement>();
+      render(<Spinner ref={ref} as="span" />);
+      expect(ref.current).toBeInstanceOf(HTMLSpanElement);
+    });
+
+    it('forwards ref when centered', () => {
+      const ref = createRef<HTMLElement>();
+      render(<Spinner ref={ref} centered />);
+      expect(ref.current).toHaveClass('spinner-border');
+    });
+  });
+
+  describe('Rest Props Pass-through', () => {
+    it('passes data-testid to the spinner element', () => {
+      render(<Spinner data-testid="my-spinner" />);
+      expect(screen.getByTestId('my-spinner')).toBeInTheDocument();
+    });
+
+    it('passes id to the spinner element', () => {
+      render(<Spinner id="spinner-1" />);
+      expect(screen.getByRole('status')).toHaveAttribute('id', 'spinner-1');
+    });
+
+    it('passes aria attributes to the spinner element', () => {
+      render(<Spinner aria-describedby="desc" />);
+      expect(screen.getByRole('status')).toHaveAttribute('aria-describedby', 'desc');
     });
   });
 

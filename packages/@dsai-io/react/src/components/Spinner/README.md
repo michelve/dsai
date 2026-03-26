@@ -108,6 +108,7 @@ import { Button, Spinner } from '@dsai-io/react';
 | `label`     | `string`           | `'Loading...'` | Screen reader label           |
 | `centered`  | `boolean`          | `false`        | Center in container           |
 | `as`        | `'div' \| 'span'`  | `'div'`        | HTML element to render        |
+| `ref`       | `Ref<HTMLElement>`  | -              | Forwarded ref                 |
 | `className` | `string`           | -              | Additional CSS classes        |
 | `style`     | `CSSProperties`    | -              | Inline styles                 |
 
