@@ -317,6 +317,41 @@ closed → opening → open → closing → closed
 | `bodyId`               | `string`                                                | auto            | ID for aria-describedby          |
 | `onOpened`             | `() => void`                                            | —               | Called when open animation ends  |
 | `onClosed`             | `() => void`                                            | —               | Called when close animation ends |
+| `scrollable`           | `boolean`                                               | `true`          | Accepted for API compat (body scrolls natively) |
+
+### Sheet.Header Props
+
+| Prop          | Type         | Default     | Description                        |
+| ------------- | ------------ | ----------- | ---------------------------------- |
+| `children`    | `ReactNode`  | required    | Header content (string auto-wraps in heading) |
+| `closeButton` | `boolean`    | `true`      | Show close button                  |
+| `onClose`     | `() => void` | from Sheet  | Custom close handler               |
+| `className`   | `string`     | `''`        | Additional CSS classes             |
+
+### Sheet.Title Props
+
+| Prop        | Type                                     | Default | Description              |
+| ----------- | ---------------------------------------- | ------- | ------------------------ |
+| `children`  | `ReactNode`                              | required | Title content           |
+| `as`        | `'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'` | `'h5'` | Heading level  |
+| `className` | `string`                                 | `''`    | Additional CSS classes   |
+| `id`        | `string`                                 | auto    | ID for aria-labelledby   |
+
+### Sheet.Body Props
+
+| Prop        | Type        | Default  | Description            |
+| ----------- | ----------- | -------- | ---------------------- |
+| `children`  | `ReactNode` | required | Body content           |
+| `className` | `string`    | `''`     | Additional CSS classes |
+
+### Sheet.Footer Props
+
+| Prop        | Type        | Default  | Description            |
+| ----------- | ----------- | -------- | ---------------------- |
+| `children`  | `ReactNode` | required | Footer content         |
+| `className` | `string`    | `''`     | Additional CSS classes |
+
+> **Note:** Sheet.Footer does not consume SheetContext. This is intentional — the footer is a purely presentational container and can be rendered independently if needed.
 
 ## When to Use
 

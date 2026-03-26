@@ -1,4 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { axe } from 'jest-axe';
 import { createRef } from 'react';
 
 import { Sheet } from './Sheet';
@@ -743,6 +745,583 @@ describe('Sheet', () => {
         const sheet = document.querySelector('.offcanvas');
         expect(sheet).toHaveAttribute('data-visual-state', 'open');
       });
+    });
+  });
+
+  describe('Accessibility (jest-axe)', () => {
+    it('has no accessibility violations when open', async () => {
+      const { baseElement } = render(
+        <Sheet isOpen={true} onClose={() => {}} animated={false}>
+          <Sheet.Header>Sheet Title</Sheet.Header>
+          <Sheet.Body>Sheet body content</Sheet.Body>
+          <Sheet.Footer>
+            <button type="button">Close</button>
+          </Sheet.Footer>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+      const results = await axe(baseElement);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no accessibility violations with left placement', async () => {
+      const { baseElement } = render(
+        <Sheet isOpen={true} onClose={() => {}} placement="left" animated={false}>
+          <Sheet.Header>Navigation</Sheet.Header>
+          <Sheet.Body>Nav content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+      const results = await axe(baseElement);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no accessibility violations with bottom placement', async () => {
+      const { baseElement } = render(
+        <Sheet isOpen={true} onClose={() => {}} placement="bottom" animated={false}>
+          <Sheet.Header>Action Sheet</Sheet.Header>
+          <Sheet.Body>Actions</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+      const results = await axe(baseElement);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no accessibility violations in non-modal mode', async () => {
+      const { baseElement } = render(
+        <Sheet isOpen={true} onClose={() => {}} mode="non-modal" animated={false}>
+          <Sheet.Header>Panel</Sheet.Header>
+          <Sheet.Body>Panel content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+      const results = await axe(baseElement);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no accessibility violations with custom ARIA IDs', async () => {
+      const { baseElement } = render(
+        <Sheet
+          isOpen={true}
+          onClose={() => {}}
+          titleId="my-title"
+          bodyId="my-body"
+          animated={false}
+        >
+          <Sheet.Header>
+            <Sheet.Title id="my-title">Custom Title</Sheet.Title>
+          </Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+      const results = await axe(baseElement);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no accessibility violations without close button', async () => {
+      const { baseElement } = render(
+        <Sheet isOpen={true} onClose={() => {}} animated={false}>
+          <Sheet.Header closeButton={false}>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+      const results = await axe(baseElement);
+      expect(results).toHaveNoViolations();
+    });
+  });
+
+  describe('Keyboard Navigation', () => {
+    it('closes on Escape key press', async () => {
+      const onClose = jest.fn();
+      render(
+        <Sheet isOpen={true} onClose={onClose} animated={false}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>
+            <button type="button">Action</button>
+          </Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+      const user = userEvent.setup();
+      await user.keyboard('{Escape}');
+      expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not close on Escape when closeOnEscape is false', async () => {
+      const onClose = jest.fn();
+      render(
+        <Sheet isOpen={true} onClose={onClose} closeOnEscape={false} animated={false}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>
+            <button type="button">Action</button>
+          </Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+      const user = userEvent.setup();
+      await user.keyboard('{Escape}');
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    it('close button is keyboard accessible', async () => {
+      const onClose = jest.fn();
+      render(
+        <Sheet isOpen={true} onClose={onClose} animated={false}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument();
+      });
+      const closeBtn = screen.getByRole('button', { name: 'Close' });
+      closeBtn.focus();
+      expect(closeBtn).toHaveFocus();
+      const user = userEvent.setup();
+      await user.keyboard('{Enter}');
+      expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    it('accepts initialFocusRef to set initial focus target', async () => {
+      function TestSheet() {
+        const inputRef = createRef<HTMLInputElement>();
+        return (
+          <Sheet isOpen={true} onClose={() => {}} initialFocusRef={inputRef} animated={false}>
+            <Sheet.Header>Form</Sheet.Header>
+            <Sheet.Body>
+              <input ref={inputRef} data-testid="focus-input" type="text" />
+            </Sheet.Body>
+          </Sheet>
+        );
+      }
+      render(<TestSheet />);
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+      // initialFocusRef sets the target for useFocusTrap — verify the input is rendered
+      expect(screen.getByTestId('focus-input')).toBeInTheDocument();
+    });
+
+    it('accepts returnFocusRef for focus restoration target', async () => {
+      function TestSheet() {
+        const triggerRef = createRef<HTMLButtonElement>();
+        return (
+          <>
+            <button ref={triggerRef} type="button">
+              Trigger
+            </button>
+            <Sheet isOpen={true} onClose={() => {}} returnFocusRef={triggerRef} animated={false}>
+              <Sheet.Header>Title</Sheet.Header>
+              <Sheet.Body>Content</Sheet.Body>
+            </Sheet>
+          </>
+        );
+      }
+      render(<TestSheet />);
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+      // returnFocusRef sets the target for focus restoration — verify trigger is still available
+      expect(screen.getByRole('button', { name: 'Trigger' })).toBeInTheDocument();
+    });
+  });
+
+  describe('Animations & Transitions', () => {
+    it('calls onOpened callback when opened with animated={false}', async () => {
+      const onOpened = jest.fn();
+      render(
+        <Sheet isOpen={true} onClose={() => {}} animated={false} onOpened={onOpened}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(onOpened).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    it('calls onClosed callback when closed with animated={false}', async () => {
+      const onClosed = jest.fn();
+      const { rerender } = render(
+        <Sheet isOpen={true} onClose={() => {}} animated={false} onClosed={onClosed}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+      rerender(
+        <Sheet isOpen={false} onClose={() => {}} animated={false} onClosed={onClosed}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(onClosed).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    it('transitions through visual states on open', async () => {
+      render(
+        <Sheet isOpen={true} onClose={() => {}} animated={false}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        const sheet = document.querySelector('.offcanvas');
+        expect(sheet).toHaveAttribute('data-visual-state', 'open');
+      });
+    });
+
+    it('removes sheet from DOM after close animation', async () => {
+      const { rerender } = render(
+        <Sheet isOpen={true} onClose={() => {}} animated={false}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+      rerender(
+        <Sheet isOpen={false} onClose={() => {}} animated={false}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+      });
+    });
+
+    it('applies show class when open with animated={false}', async () => {
+      render(
+        <Sheet isOpen={true} onClose={() => {}} animated={false}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        const sheet = document.querySelector('.offcanvas');
+        expect(sheet).toHaveClass('show');
+      });
+    });
+
+    it('renders with showing class during opening animation', async () => {
+      const { rerender } = render(
+        <Sheet isOpen={false} onClose={() => {}} animated={true}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      // Open the sheet to trigger FSM 'opening' state
+      rerender(
+        <Sheet isOpen={true} onClose={() => {}} animated={true}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        const sheet = document.querySelector('.offcanvas');
+        expect(sheet).toBeInTheDocument();
+        expect(sheet).toHaveClass('showing');
+      });
+    });
+
+    it('calls onOpened after transitionend event fires on opening', async () => {
+      const onOpened = jest.fn();
+      const ref = createRef<HTMLDivElement>();
+      const { rerender } = render(
+        <Sheet ref={ref} isOpen={false} onClose={() => {}} animated={true} onOpened={onOpened}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      // Open the sheet — FSM goes closed → opening
+      rerender(
+        <Sheet ref={ref} isOpen={true} onClose={() => {}} animated={true} onOpened={onOpened}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+
+      await waitFor(() => {
+        expect(ref.current).toBeInTheDocument();
+        expect(ref.current).toHaveAttribute('data-visual-state', 'opening');
+      });
+      // Wait for double RAF to apply show class
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      // Create event with propertyName (jsdom lacks TransitionEvent)
+      const event = new Event('transitionend', { bubbles: true });
+      Object.defineProperty(event, 'propertyName', { value: 'transform' });
+      (ref.current as HTMLElement).dispatchEvent(event);
+      await waitFor(() => {
+        expect(onOpened).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    it('calls onClosed after transitionend event fires on closing', async () => {
+      const onClosed = jest.fn();
+      const onOpened = jest.fn();
+      const ref = createRef<HTMLDivElement>();
+      const { rerender } = render(
+        <Sheet
+          ref={ref}
+          isOpen={false}
+          onClose={() => {}}
+          animated={true}
+          onClosed={onClosed}
+          onOpened={onOpened}
+        >
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      // Open the sheet
+      rerender(
+        <Sheet
+          ref={ref}
+          isOpen={true}
+          onClose={() => {}}
+          animated={true}
+          onClosed={onClosed}
+          onOpened={onOpened}
+        >
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+
+      await waitFor(() => {
+        expect(ref.current).toBeInTheDocument();
+      });
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      // Finish the open transition
+      const openEvent = new Event('transitionend', { bubbles: true });
+      Object.defineProperty(openEvent, 'propertyName', { value: 'transform' });
+      (ref.current as HTMLElement).dispatchEvent(openEvent);
+      await waitFor(() => {
+        expect(onOpened).toHaveBeenCalledTimes(1);
+      });
+      // Now close the sheet
+      rerender(
+        <Sheet
+          ref={ref}
+          isOpen={false}
+          onClose={() => {}}
+          animated={true}
+          onClosed={onClosed}
+          onOpened={onOpened}
+        >
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(ref.current).toHaveAttribute('data-visual-state', 'closing');
+      });
+      const closeEvent = new Event('transitionend', { bubbles: true });
+      Object.defineProperty(closeEvent, 'propertyName', { value: 'transform' });
+      (ref.current as HTMLElement).dispatchEvent(closeEvent);
+      await waitFor(() => {
+        expect(onClosed).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    it('ignores transitionend events for non-transform properties', async () => {
+      const onOpened = jest.fn();
+      const ref = createRef<HTMLDivElement>();
+      const { rerender } = render(
+        <Sheet ref={ref} isOpen={false} onClose={() => {}} animated={true} onOpened={onOpened}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      // Open the sheet
+      rerender(
+        <Sheet ref={ref} isOpen={true} onClose={() => {}} animated={true} onOpened={onOpened}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(ref.current).toBeInTheDocument();
+      });
+      // Fire transitionend with non-transform property (should be ignored)
+      const event = new Event('transitionend', { bubbles: true });
+      Object.defineProperty(event, 'propertyName', { value: 'opacity' });
+      (ref.current as HTMLElement).dispatchEvent(event);
+      expect(onOpened).not.toHaveBeenCalled();
+    });
+
+    it('does not render when portal container resolves to null (SSR)', () => {
+      // Mock isBrowser to simulate SSR environment
+      const spy = jest.spyOn(
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        require('../../utils') as typeof import('../../utils'),
+        'isBrowser'
+      );
+      spy.mockReturnValue(false);
+      render(
+        <Sheet isOpen={true} onClose={() => {}} animated={false}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+      spy.mockRestore();
+    });
+  });
+
+  describe('Non-Modal Behavior', () => {
+    it('does not render backdrop in non-modal mode', async () => {
+      render(
+        <Sheet isOpen={true} onClose={() => {}} mode="non-modal" animated={false}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+      expect(document.querySelector('.offcanvas-backdrop')).not.toBeInTheDocument();
+    });
+
+    it('does not set aria-modal in non-modal mode', async () => {
+      render(
+        <Sheet isOpen={true} onClose={() => {}} mode="non-modal" animated={false}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        const dialog = screen.getByRole('dialog');
+        expect(dialog).not.toHaveAttribute('aria-modal');
+      });
+    });
+
+    it('still supports close button in non-modal mode', async () => {
+      const onClose = jest.fn();
+      render(
+        <Sheet isOpen={true} onClose={onClose} mode="non-modal" animated={false}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument();
+      });
+      fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+      expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    it('still closes on Escape in non-modal mode', async () => {
+      const onClose = jest.fn();
+      render(
+        <Sheet isOpen={true} onClose={onClose} mode="non-modal" animated={false}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+      fireEvent.keyDown(document, { key: 'Escape' });
+      expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    it('renders with correct role in non-modal mode', async () => {
+      render(
+        <Sheet isOpen={true} onClose={() => {}} mode="non-modal" animated={false}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Backdrop Semantics', () => {
+    it('renders backdrop as div, not button', async () => {
+      render(
+        <Sheet isOpen={true} onClose={() => {}} animated={false}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        const backdrop = document.querySelector('.offcanvas-backdrop');
+        expect(backdrop).toBeInTheDocument();
+        expect(backdrop?.tagName).toBe('DIV');
+      });
+    });
+
+    it('backdrop has aria-hidden="true"', async () => {
+      render(
+        <Sheet isOpen={true} onClose={() => {}} animated={false}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        const backdrop = document.querySelector('.offcanvas-backdrop');
+        expect(backdrop).toHaveAttribute('aria-hidden', 'true');
+      });
+    });
+
+    it('backdrop is not keyboard focusable', async () => {
+      render(
+        <Sheet isOpen={true} onClose={() => {}} animated={false}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        const backdrop = document.querySelector('.offcanvas-backdrop');
+        expect(backdrop).not.toHaveAttribute('tabindex');
+      });
+    });
+
+    it('static backdrop adds shake class on click', async () => {
+      jest.useFakeTimers();
+      render(
+        <Sheet isOpen={true} onClose={() => {}} staticBackdrop animated={false}>
+          <Sheet.Header>Title</Sheet.Header>
+          <Sheet.Body>Content</Sheet.Body>
+        </Sheet>
+      );
+      await waitFor(() => {
+        expect(document.querySelector('.offcanvas-backdrop')).toBeInTheDocument();
+      });
+      fireEvent.click(document.querySelector('.offcanvas-backdrop') as Element);
+      const sheet = document.querySelector('.offcanvas');
+      expect(sheet).toHaveClass('offcanvas-static');
+      jest.advanceTimersByTime(300);
+      expect(sheet).not.toHaveClass('offcanvas-static');
+      jest.useRealTimers();
     });
   });
 });

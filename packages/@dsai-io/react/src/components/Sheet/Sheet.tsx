@@ -329,7 +329,8 @@ const SheetBase = forwardRef<HTMLDivElement, SheetProps>(
       returnFocusRef,
       zIndex = 1055,
       animated = true,
-      // Note: scrollable is kept in API for compatibility but Bootstrap's offcanvas-body handles scrolling natively
+      // API compatibility: `scrollable` is accepted but unused because Bootstrap's
+      // offcanvas-body handles scrolling natively via overflow-y: auto.
       scrollable: _scrollable = true,
       width,
       height,
@@ -594,15 +595,13 @@ const SheetBase = forwardRef<HTMLDivElement, SheetProps>(
 
     const sheetContent = (
       <SheetContext.Provider value={contextValue}>
-        {/* Backdrop - Bootstrap uses offcanvas-backdrop */}
+        {/* Backdrop - using <div> with aria-hidden (matches Modal pattern) */}
         {isModalMode && backdrop && (
-          <button
-            type="button"
+          <div
             className={cn('offcanvas-backdrop', shouldAnimate && 'fade', showClass && 'show')}
             style={backdropStyles}
-            aria-label="Close sheet"
+            aria-hidden="true"
             onClick={handleBackdropClick}
-            tabIndex={-1}
           />
         )}
 
