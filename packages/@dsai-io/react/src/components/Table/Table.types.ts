@@ -48,6 +48,41 @@ export interface SortConfig {
   direction: SortDirection;
 }
 
+/**
+ * Array of sort configs for multi-column sorting
+ */
+export type SortingState = SortConfig[];
+
+// =============================================================================
+// Pagination Types
+// =============================================================================
+
+/**
+ * Pagination state
+ */
+export interface PaginationState {
+  /** Current page (0-indexed) */
+  page: number;
+  /** Rows per page */
+  pageSize: number;
+}
+
+// =============================================================================
+// Expandable Row Types
+// =============================================================================
+
+/**
+ * Configuration for expandable rows
+ *
+ * @typeParam T - The type of row data
+ */
+export interface ExpandableConfig<T> {
+  /** Render function for expanded row content */
+  render: (row: T, index: number) => ReactNode;
+  /** Show expand-all toggle in header */
+  expandAll?: boolean;
+}
+
 // =============================================================================
 // Selection Types
 // =============================================================================
@@ -158,6 +193,18 @@ export interface TableColumn<T = Record<string, unknown>> {
    * Make column sticky (left or right)
    */
   sticky?: 'left' | 'right';
+
+  /**
+   * Whether this column can be resized by dragging
+   * @default false
+   */
+  resizable?: boolean;
+
+  /**
+   * Whether this column can be hidden via column visibility controls
+   * @default true
+   */
+  hideable?: boolean;
 }
 
 // =============================================================================
@@ -234,18 +281,33 @@ interface TableBaseProps<T = Record<string, unknown>> {
 
   /**
    * Current sort configuration (controlled mode)
+   * Accepts a single SortConfig or an array for multi-column sorting.
    */
-  sortConfig?: SortConfig;
+  sortConfig?: SortConfig | SortingState;
 
   /**
    * Default sort configuration (uncontrolled mode)
+   * Accepts a single SortConfig or an array for multi-column sorting.
    */
-  defaultSortConfig?: SortConfig;
+  defaultSortConfig?: SortConfig | SortingState;
 
   /**
    * Callback when sort changes
+   * Always receives the full sorting state as an array.
    */
-  onSortChange?: (config: SortConfig | undefined) => void;
+  onSortChange?: (sortConfig: SortingState) => void;
+
+  /**
+   * Maximum number of columns that can be sorted simultaneously
+   * @default 3
+   */
+  maxSortColumns?: number;
+
+  /**
+   * Server-side sorting mode — disables client-side sort logic
+   * @default false
+   */
+  manualSorting?: boolean;
 
   // ===========================================================================
   // Visual
@@ -385,6 +447,110 @@ interface TableBaseProps<T = Record<string, unknown>> {
    * @param rowIndex - The row index
    */
   onRowClick?: (row: T, rowIndex: number) => void;
+
+  // ===========================================================================
+  // Pagination
+  // ===========================================================================
+
+  /**
+   * Current pagination state (controlled mode)
+   */
+  pagination?: PaginationState;
+
+  /**
+   * Default pagination state (uncontrolled mode)
+   */
+  defaultPagination?: PaginationState;
+
+  /**
+   * Callback when pagination changes
+   */
+  onPaginationChange?: (pagination: PaginationState) => void;
+
+  /**
+   * Server-side pagination mode — disables client-side slicing
+   * @default false
+   */
+  manualPagination?: boolean;
+
+  /**
+   * Server-side filtering mode — reserved for future use (no-op)
+   * @default false
+   */
+  manualFiltering?: boolean;
+
+  /**
+   * Available page size options for the pagination control
+   * @default [10, 25, 50, 100]
+   */
+  pageSizeOptions?: number[];
+
+  /**
+   * Total row count for server-side pagination
+   * When provided, the component uses this instead of data.length
+   */
+  totalRows?: number;
+
+  /**
+   * Position of the pagination controls
+   * @default 'bottom'
+   */
+  paginationPosition?: 'top' | 'bottom' | 'both';
+
+  // ===========================================================================
+  // Expandable Rows
+  // ===========================================================================
+
+  /**
+   * Configuration for expandable rows
+   */
+  expandable?: ExpandableConfig<T>;
+
+  /**
+   * Currently expanded row IDs (controlled mode)
+   */
+  expandedRows?: RowId[];
+
+  /**
+   * Default expanded row IDs (uncontrolled mode)
+   */
+  defaultExpandedRows?: RowId[];
+
+  /**
+   * Callback when expanded rows change
+   */
+  onExpandedRowsChange?: (expandedRows: RowId[]) => void;
+
+  // ===========================================================================
+  // Column Visibility
+  // ===========================================================================
+
+  /**
+   * Column visibility map (controlled mode)
+   * Keys are column IDs, values indicate visibility (true = visible)
+   */
+  columnVisibility?: Record<string, boolean>;
+
+  /**
+   * Default column visibility map (uncontrolled mode)
+   */
+  defaultColumnVisibility?: Record<string, boolean>;
+
+  /**
+   * Callback when column visibility changes
+   */
+  onColumnVisibilityChange?: (visibility: Record<string, boolean>) => void;
+
+  // ===========================================================================
+  // Column Resizing
+  // ===========================================================================
+
+  /**
+   * Callback when a column is resized
+   * @param columnKey - The column ID being resized
+   * @param width - The new width in pixels
+   */
+  onColumnResize?: (columnKey: string, width: number) => void;
 }
 
 // =============================================================================
