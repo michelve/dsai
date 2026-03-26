@@ -243,9 +243,7 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
 
       // Add selection border highlight
       if (isChecked && selectionMode !== 'none') {
-        baseStyle.borderColor = selectedColor
-          ? `var(--bs-${selectedColor})`
-          : 'var(--bs-primary)';
+        baseStyle.borderColor = selectedColor ? `var(--bs-${selectedColor})` : 'var(--bs-primary)';
         baseStyle.borderWidth = '2px';
       }
 
@@ -305,9 +303,7 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
 
       // border-only and none indicators: render a screen-reader-only input
       if (selectionIndicator === 'border-only' || selectionIndicator === 'none') {
-        return (
-          <input {...hiddenInputProps} />
-        );
+        return <input {...hiddenInputProps} />;
       }
 
       // check-icon indicator: render hidden input + SVG checkmark

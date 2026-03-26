@@ -40,7 +40,13 @@
       "Bash(git stash:*)",
       "Bash(find /e/GitHub/dsai/packages/@dsai-io/react/src/components/Popover -type f -name *)",
       "Bash(pnpm ls:*)",
-      "Bash(pnpm view:*)"
+      "Bash(pnpm view:*)",
+      "Bash(pnpm audit:*)",
+      "Bash(find /E/GitHub/dsai/packages/@dsai-io/react/src/components/Radio -type f -name *)",
+      "Bash(grep -r useControllableState /E/GitHub/dsai/packages/@dsai-io/react/src/hooks --include=*.ts --include=*.tsx)",
+      "WebFetch(domain:ant.design)",
+      "WebFetch(domain:4x.ant.design)",
+      "Bash(xargs grep:*)"
     ]
   }
 }

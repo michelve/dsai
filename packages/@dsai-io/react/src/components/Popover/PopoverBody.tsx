@@ -24,10 +24,7 @@ import type { PopoverBodyProps } from './Popover.types';
  * @see https://getbootstrap.com/docs/5.3/components/popovers/
  */
 export const PopoverBody = forwardRef<HTMLDivElement, PopoverBodyProps>(
-  (
-    { children, className, style, id, 'data-testid': dataTestId, 'data-test': dataTest },
-    ref
-  ) => {
+  ({ children, className, style, id, 'data-testid': dataTestId, 'data-test': dataTest }, ref) => {
     // Memoize class name computation
     const bodyClassName = useMemo(() => cn('popover-body', className), [className]);
 

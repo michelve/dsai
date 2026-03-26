@@ -23,10 +23,7 @@ import type { PopoverHeaderProps } from './Popover.types';
  * @see https://getbootstrap.com/docs/5.3/components/popovers/
  */
 export const PopoverHeader = forwardRef<HTMLHeadingElement, PopoverHeaderProps>(
-  (
-    { children, className, style, id, 'data-testid': dataTestId, 'data-test': dataTest },
-    ref
-  ) => {
+  ({ children, className, style, id, 'data-testid': dataTestId, 'data-test': dataTest }, ref) => {
     // Memoize class name computation
     const headerClassName = useMemo(() => cn('popover-header', className), [className]);
 

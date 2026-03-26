@@ -695,11 +695,7 @@ describe('SelectableCard', () => {
 
     it('does not apply line-clamp when descriptionLines is 0', () => {
       const { container } = render(
-        <SelectableCard
-          title="Plan"
-          description="A very long description"
-          descriptionLines={0}
-        />
+        <SelectableCard title="Plan" description="A very long description" descriptionLines={0} />
       );
 
       const descText = container.querySelector('.selectable-card__description');
@@ -708,12 +704,7 @@ describe('SelectableCard', () => {
     });
 
     it('does not apply line-clamp when descriptionLines is not set', () => {
-      const { container } = render(
-        <SelectableCard
-          title="Plan"
-          description="A description"
-        />
-      );
+      const { container } = render(<SelectableCard title="Plan" description="A description" />);
 
       const descText = container.querySelector('.selectable-card__description');
       expect(descText).toBeInTheDocument();
@@ -743,12 +734,7 @@ describe('SelectableCard', () => {
 
     it('uses primary border color when no selectedColor', () => {
       const { container } = render(
-        <SelectableCard
-          selectionMode="checkbox"
-          value="plan1"
-          title="Plan"
-          defaultChecked
-        />
+        <SelectableCard selectionMode="checkbox" value="plan1" title="Plan" defaultChecked />
       );
 
       const card = getCard(container);
@@ -792,11 +778,7 @@ describe('SelectableCard', () => {
 
     it('supports custom id prop', () => {
       const { container } = render(
-        <SelectableCard
-          selectionMode="none"
-          title="Plan"
-          id="my-custom-id"
-        />
+        <SelectableCard selectionMode="none" title="Plan" id="my-custom-id" />
       );
 
       const card = getCard(container);
@@ -805,12 +787,7 @@ describe('SelectableCard', () => {
 
     it('supports size prop on checkbox/radio mode', () => {
       const { container } = render(
-        <SelectableCard
-          selectionMode="checkbox"
-          value="plan1"
-          title="Plan"
-          size="lg"
-        />
+        <SelectableCard selectionMode="checkbox" value="plan1" title="Plan" size="lg" />
       );
 
       const card = getCard(container);
@@ -819,12 +796,7 @@ describe('SelectableCard', () => {
 
     it('supports variant elevated', () => {
       const { container } = render(
-        <SelectableCard
-          selectionMode="checkbox"
-          value="plan1"
-          title="Plan"
-          variant="elevated"
-        />
+        <SelectableCard selectionMode="checkbox" value="plan1" title="Plan" variant="elevated" />
       );
 
       const card = getCard(container);
@@ -833,36 +805,21 @@ describe('SelectableCard', () => {
     });
 
     it('derives aria-label from subtitle when no title', () => {
-      render(
-        <SelectableCard
-          selectionMode="checkbox"
-          value="plan1"
-          subtitle="$29/month"
-        />
-      );
+      render(<SelectableCard selectionMode="checkbox" value="plan1" subtitle="$29/month" />);
 
       expect(screen.getByRole('checkbox')).toHaveAttribute('aria-label', '$29/month');
     });
 
     it('derives aria-label from description when no title or subtitle', () => {
       render(
-        <SelectableCard
-          selectionMode="checkbox"
-          value="plan1"
-          description="The premium option"
-        />
+        <SelectableCard selectionMode="checkbox" value="plan1" description="The premium option" />
       );
 
       expect(screen.getByRole('checkbox')).toHaveAttribute('aria-label', 'The premium option');
     });
 
     it('derives aria-label from value when no text props', () => {
-      render(
-        <SelectableCard
-          selectionMode="checkbox"
-          value="plan1"
-        />
-      );
+      render(<SelectableCard selectionMode="checkbox" value="plan1" />);
 
       expect(screen.getByRole('checkbox')).toHaveAttribute('aria-label', 'plan1');
     });
@@ -899,13 +856,7 @@ describe('SelectableCard', () => {
     });
 
     it('supports horizontal layout prop', () => {
-      const { container } = render(
-        <SelectableCard
-          selectionMode="none"
-          title="Plan"
-          horizontal
-        />
-      );
+      const { container } = render(<SelectableCard selectionMode="none" title="Plan" horizontal />);
 
       // horizontal is passed to the Card component
       const card = getCard(container);
