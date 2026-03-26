@@ -465,4 +465,337 @@ describe('Progress', () => {
       expect(container.querySelector('[data-test="bar-test"]')).toBeInTheDocument();
     });
   });
+
+  describe('Format Value', () => {
+    it('renders custom formatted value from formatValue on Progress', () => {
+      render(
+        <Progress
+          value={75}
+          showValue
+          formatValue={(v, m) => `${v} of ${m}`}
+          aria-label="Progress"
+        />
+      );
+      expect(screen.getByText('75 of 100')).toBeInTheDocument();
+    });
+
+    it('formatValue takes precedence over valueText', () => {
+      render(
+        <Progress
+          value={50}
+          showValue
+          valueText="ignored"
+          formatValue={(v) => `${v}% done`}
+          aria-label="Progress"
+        />
+      );
+      expect(screen.getByText('50% done')).toBeInTheDocument();
+      expect(screen.queryByText('ignored')).not.toBeInTheDocument();
+    });
+
+    it('sets aria-valuetext from formatValue when it returns a string', () => {
+      render(<Progress value={60} formatValue={(v) => `${v} items`} aria-label="Progress" />);
+      expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuetext', '60 items');
+    });
+
+    it('renders formatValue on Progress.Bar', () => {
+      render(
+        <Progress aria-label="Progress">
+          <Progress.Bar value={40} showValue formatValue={(v) => `${v}% complete`} />
+        </Progress>
+      );
+      expect(screen.getByText('40% complete')).toBeInTheDocument();
+    });
+  });
+
+  describe('Buffer Mode', () => {
+    it('renders a buffer bar behind the main bar', () => {
+      const { container } = render(
+        <Progress value={30} bufferValue={60} data-testid="buf" aria-label="Buffering" />
+      );
+      const bufferBar = container.querySelector('[data-testid="buf-buffer"]');
+      expect(bufferBar).toBeInTheDocument();
+    });
+
+    it('buffer bar has correct width', () => {
+      const { container } = render(
+        <Progress value={30} bufferValue={60} data-testid="buf" aria-label="Buffering" />
+      );
+      const bufferBar = container.querySelector('[data-testid="buf-buffer"]');
+      expect(bufferBar).toHaveStyle({ width: '60%' });
+    });
+
+    it('buffer bar has reduced opacity', () => {
+      const { container } = render(
+        <Progress value={30} bufferValue={60} data-testid="buf" aria-label="Buffering" />
+      );
+      const bufferBar = container.querySelector('[data-testid="buf-buffer"]');
+      expect(bufferBar).toHaveStyle({ opacity: 0.3 });
+    });
+
+    it('buffer bar is aria-hidden', () => {
+      const { container } = render(
+        <Progress value={30} bufferValue={60} data-testid="buf" aria-label="Buffering" />
+      );
+      const bufferBar = container.querySelector('[data-testid="buf-buffer"]');
+      expect(bufferBar).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('clamps buffer value to 0-100 range', () => {
+      const { container } = render(
+        <Progress value={30} bufferValue={150} data-testid="buf" aria-label="Buffering" />
+      );
+      const bufferBar = container.querySelector('[data-testid="buf-buffer"]');
+      expect(bufferBar).toHaveStyle({ width: '100%' });
+    });
+
+    it('does not render buffer bar when bufferValue is not provided', () => {
+      const { container } = render(<Progress value={30} data-testid="buf" aria-label="Progress" />);
+      expect(container.querySelector('[data-testid="buf-buffer"]')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('Steps / Segments', () => {
+    it('renders correct number of step segments', () => {
+      const { container } = render(<Progress value={60} steps={5} aria-label="Steps" />);
+      const segments = container.querySelectorAll('[data-step]');
+      expect(segments).toHaveLength(5);
+    });
+
+    it('fills the correct number of segments proportionally', () => {
+      const { container } = render(
+        <Progress value={60} steps={5} variant="primary" aria-label="Steps" />
+      );
+      const segments = container.querySelectorAll('[data-step]');
+      // 60% of 5 = 3 filled segments
+      const filled = Array.from(segments).filter((s) => s.classList.contains('bg-primary'));
+      expect(filled).toHaveLength(3);
+    });
+
+    it('unfilled segments have reduced opacity', () => {
+      const { container } = render(<Progress value={40} steps={5} aria-label="Steps" />);
+      const segments = container.querySelectorAll('[data-step]');
+      // 40% of 5 = 2 filled. Segments 3-5 should be unfilled
+      expect(segments[2]).toHaveStyle({ opacity: 0.2 });
+      expect(segments[4]).toHaveStyle({ opacity: 0.2 });
+    });
+
+    it('filled segments have full opacity', () => {
+      const { container } = render(<Progress value={60} steps={5} aria-label="Steps" />);
+      const segments = container.querySelectorAll('[data-step]');
+      expect(segments[0]).toHaveStyle({ opacity: 1 });
+      expect(segments[2]).toHaveStyle({ opacity: 1 });
+    });
+
+    it('step segments are aria-hidden', () => {
+      const { container } = render(<Progress value={60} steps={5} aria-label="Steps" />);
+      const segments = container.querySelectorAll('[data-step]');
+      segments.forEach((segment) => {
+        expect(segment).toHaveAttribute('aria-hidden', 'true');
+      });
+    });
+
+    it('step data attributes are 1-indexed', () => {
+      const { container } = render(<Progress value={60} steps={3} aria-label="Steps" />);
+      const segments = container.querySelectorAll('[data-step]');
+      expect(segments[0]).toHaveAttribute('data-step', '1');
+      expect(segments[1]).toHaveAttribute('data-step', '2');
+      expect(segments[2]).toHaveAttribute('data-step', '3');
+    });
+  });
+
+  describe('Gradient', () => {
+    it('applies linear-gradient style on single bar', () => {
+      const { container } = render(
+        <Progress
+          value={75}
+          gradient={{ from: 'var(--bs-primary)', to: 'var(--bs-success)' }}
+          aria-label="Gradient"
+        />
+      );
+      const bar = container.querySelector('.progress-bar');
+      expect(bar).toHaveStyle({
+        background: 'linear-gradient(to right, var(--bs-primary), var(--bs-success))',
+      });
+    });
+
+    it('skips variant bg class when gradient is provided', () => {
+      const { container } = render(
+        <Progress
+          value={75}
+          variant="danger"
+          gradient={{ from: 'var(--bs-primary)', to: 'var(--bs-success)' }}
+          aria-label="Gradient"
+        />
+      );
+      const bar = container.querySelector('.progress-bar');
+      expect(bar).not.toHaveClass('bg-danger');
+    });
+
+    it('uses custom gradient direction', () => {
+      const { container } = render(
+        <Progress
+          value={50}
+          gradient={{ from: 'var(--bs-primary)', to: 'var(--bs-success)', direction: 'to bottom' }}
+          aria-label="Gradient"
+        />
+      );
+      const bar = container.querySelector('.progress-bar');
+      expect(bar).toHaveStyle({
+        background: 'linear-gradient(to bottom, var(--bs-primary), var(--bs-success))',
+      });
+    });
+
+    it('applies gradient on Progress.Bar', () => {
+      const { container } = render(
+        <Progress aria-label="Progress">
+          <Progress.Bar value={50} gradient={{ from: 'var(--bs-info)', to: 'var(--bs-primary)' }} />
+        </Progress>
+      );
+      const bar = container.querySelector('.progress-bar');
+      expect(bar).toHaveStyle({
+        background: 'linear-gradient(to right, var(--bs-info), var(--bs-primary))',
+      });
+      expect(bar).not.toHaveClass('bg-primary');
+    });
+
+    it('does not apply text-dark for warning variant when gradient is set', () => {
+      const { container } = render(
+        <Progress
+          value={50}
+          variant="warning"
+          gradient={{ from: 'var(--bs-warning)', to: 'var(--bs-danger)' }}
+          aria-label="Gradient"
+        />
+      );
+      const bar = container.querySelector('.progress-bar');
+      expect(bar).not.toHaveClass('text-dark');
+    });
+
+    it('applies gradient to filled step segments', () => {
+      const { container } = render(
+        <Progress
+          value={60}
+          steps={5}
+          gradient={{ from: 'var(--bs-primary)', to: 'var(--bs-success)' }}
+          aria-label="Steps"
+        />
+      );
+      const segments = container.querySelectorAll('[data-step]');
+      // First 3 segments (60% of 5) should have gradient
+      expect(segments[0]).toHaveStyle({
+        background: 'linear-gradient(to right, var(--bs-primary), var(--bs-success))',
+      });
+    });
+  });
+
+  describe('Progress.Circle', () => {
+    it('renders an SVG-based circular progress', () => {
+      const { container } = render(<Progress.Circle value={50} aria-label="Circle" />);
+      expect(screen.getByRole('progressbar')).toBeInTheDocument();
+      expect(container.querySelector('svg')).toBeInTheDocument();
+    });
+
+    it('has correct aria attributes', () => {
+      render(<Progress.Circle value={75} aria-label="Circle" />);
+      const el = screen.getByRole('progressbar');
+      expect(el).toHaveAttribute('aria-valuenow', '75');
+      expect(el).toHaveAttribute('aria-valuemin', '0');
+      expect(el).toHaveAttribute('aria-valuemax', '100');
+      expect(el).toHaveAttribute('aria-valuetext', '75%');
+    });
+
+    it('renders with custom size', () => {
+      const { container } = render(<Progress.Circle value={50} size={120} aria-label="Circle" />);
+      const wrapper = container.querySelector('.dsai-progress-circle');
+      expect(wrapper).toHaveStyle({ width: '120px', height: '120px' });
+    });
+
+    it('shows value when showValue is true', () => {
+      render(<Progress.Circle value={60} showValue aria-label="Circle" />);
+      expect(screen.getByText('60%')).toBeInTheDocument();
+    });
+
+    it('does not show value when showValue is false', () => {
+      render(<Progress.Circle value={60} aria-label="Circle" />);
+      expect(screen.queryByText('60%')).not.toBeInTheDocument();
+    });
+
+    it('renders custom valueText', () => {
+      render(<Progress.Circle value={80} showValue valueText="4 of 5" aria-label="Circle" />);
+      expect(screen.getByText('4 of 5')).toBeInTheDocument();
+    });
+
+    it('renders formatValue output', () => {
+      render(
+        <Progress.Circle value={80} showValue formatValue={(v) => `${v}%`} aria-label="Circle" />
+      );
+      expect(screen.getByText('80%')).toBeInTheDocument();
+    });
+
+    it('renders in indeterminate mode', () => {
+      render(<Progress.Circle indeterminate aria-label="Loading" />);
+      const progressbar = screen.getByRole('progressbar');
+      expect(progressbar).toHaveAttribute('aria-busy', 'true');
+      expect(progressbar).not.toHaveAttribute('aria-valuenow');
+      expect(progressbar).toHaveAttribute('aria-valuetext', 'Loading');
+    });
+
+    it('does not show value in indeterminate mode', () => {
+      render(<Progress.Circle indeterminate showValue aria-label="Loading" />);
+      expect(screen.queryByText(/%/)).not.toBeInTheDocument();
+    });
+
+    it('renders gradient stroke via SVG linearGradient', () => {
+      const { container } = render(
+        <Progress.Circle
+          value={80}
+          gradient={{ from: 'var(--bs-primary)', to: 'var(--bs-success)' }}
+          aria-label="Circle"
+        />
+      );
+      expect(container.querySelector('linearGradient')).toBeInTheDocument();
+      const stops = container.querySelectorAll('stop');
+      expect(stops).toHaveLength(2);
+      expect(stops[0]).toHaveAttribute('stop-color', 'var(--bs-primary)');
+      expect(stops[1]).toHaveAttribute('stop-color', 'var(--bs-success)');
+    });
+
+    it('does not render linearGradient when no gradient prop', () => {
+      const { container } = render(<Progress.Circle value={50} aria-label="Circle" />);
+      expect(container.querySelector('linearGradient')).not.toBeInTheDocument();
+    });
+
+    it('accepts data-testid', () => {
+      const { container } = render(
+        <Progress.Circle value={50} data-testid="my-circle" aria-label="Circle" />
+      );
+      expect(container.querySelector('[data-testid="my-circle"]')).toBeInTheDocument();
+    });
+
+    it('accepts custom className', () => {
+      const { container } = render(
+        <Progress.Circle value={50} className="extra" aria-label="Circle" />
+      );
+      expect(container.querySelector('.dsai-progress-circle')).toHaveClass('extra');
+    });
+
+    it('has correct displayName', () => {
+      expect(Progress.Circle.displayName).toBe('Progress.Circle');
+    });
+
+    it('has no accessibility violations', async () => {
+      const { container } = render(
+        <Progress.Circle value={75} showValue aria-label="Circle progress" />
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no accessibility violations in indeterminate mode', async () => {
+      const { container } = render(<Progress.Circle indeterminate aria-label="Loading circle" />);
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
 });

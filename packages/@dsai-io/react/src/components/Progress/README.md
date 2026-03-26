@@ -10,6 +10,11 @@ A Bootstrap 5 progress bar component for showing progress or loading states.
 - **Indeterminate mode**: Animated loading state
 - **Striped & animated**: Visual patterns
 - **Stacked bars**: Multiple progress bars in one container
+- **Circular progress**: SVG-based ring indicator (`Progress.Circle`)
+- **Buffer mode**: Secondary lighter bar for buffering/two-stage progress
+- **Steps/segments**: Discrete segment display (Ant Design-style)
+- **Gradient fills**: Linear gradient support for bars and circles
+- **Custom value formatter**: Function prop for flexible value display
 - **Accessible**: WCAG 2.2 AA compliant
 
 ## Installation
@@ -102,47 +107,121 @@ For purely decorative stacked bars where the parent provides the accessible labe
 </Progress>
 ```
 
+### Custom Value Formatter
+
+Use `formatValue` for flexible value display (similar to Ant Design's `format` prop):
+
+```tsx
+// Show items count
+<Progress value={3} max={10} formatValue={(v, max) => `${v}/${max} items`} showValue aria-label="Items" />
+
+// Show custom JSX content
+<Progress value={75} formatValue={(v) => `${v}% done`} showValue aria-label="Progress" />
+```
+
+### Buffer Mode
+
+Show a secondary lighter bar behind the main bar (similar to MUI's buffer variant):
+
+```tsx
+<Progress value={30} bufferValue={60} aria-label="Video buffering" />
+```
+
+### Steps / Segments
+
+Render discrete segments instead of a continuous bar (similar to Ant Design's `steps` prop):
+
+```tsx
+<Progress value={60} steps={5} aria-label="Onboarding" />
+<Progress value={80} steps={10} variant="success" aria-label="Steps progress" />
+```
+
+### Gradient Fill
+
+Apply a linear gradient to the progress bar:
+
+```tsx
+<Progress value={75} gradient={{ from: 'var(--bs-primary)', to: 'var(--bs-success)' }} aria-label="Gradient progress" />
+```
+
+### Circular Progress
+
+SVG-based ring progress indicator (similar to MUI's CircularProgress and Ant Design's `type="circle"`):
+
+```tsx
+<Progress.Circle value={75} aria-label="Circular progress" />
+<Progress.Circle value={75} size={120} showValue aria-label="Large circle" />
+<Progress.Circle indeterminate variant="info" aria-label="Loading" />
+<Progress.Circle value={80} gradient={{ from: 'var(--bs-primary)', to: 'var(--bs-success)' }} showValue aria-label="Gradient circle" />
+```
+
 ## Props
 
 ### Progress
 
-| Prop              | Type              | Default     | Description                     |
-| ----------------- | ----------------- | ----------- | ------------------------------- |
-| `value`           | `number`          | `0`         | Progress value (0-100)          |
-| `variant`         | `ProgressVariant` | `'primary'` | Color variant                   |
-| `size`            | `ProgressSize`    | `'md'`      | Bar height                      |
-| `label`           | `string`          | -           | Label above progress bar        |
-| `showValue`       | `boolean`         | `false`     | Show percentage value           |
-| `valueText`       | `string`          | -           | Custom value text               |
-| `indeterminate`   | `boolean`         | `false`     | Indeterminate loading mode      |
-| `striped`         | `boolean`         | `false`     | Striped pattern                 |
-| `animated`        | `boolean`         | `false`     | Animated stripes                |
-| `min`             | `number`          | `0`         | Minimum value (aria-valuemin)¹  |
-| `max`             | `number`          | `100`       | Maximum value (aria-valuemax)¹  |
-| `children`        | `ReactNode`       | -           | Progress.Bar children (stacked) |
-| `className`       | `string`          | -           | Additional CSS classes          |
-| `style`           | `CSSProperties`   | -           | Inline styles                   |
-| `id`              | `string`          | -           | ID attribute                    |
-| `aria-label`      | `string`          | -           | Accessible label                |
-| `aria-labelledby` | `string`          | -           | ID of labelling element         |
+| Prop              | Type                                    | Default     | Description                        |
+| ----------------- | --------------------------------------- | ----------- | ---------------------------------- |
+| `value`           | `number`                                | `0`         | Progress value (0-100)             |
+| `variant`         | `ProgressVariant`                       | `'primary'` | Color variant                      |
+| `size`            | `ProgressSize`                          | `'md'`      | Bar height                         |
+| `label`           | `string`                                | -           | Label above progress bar           |
+| `showValue`       | `boolean`                               | `false`     | Show percentage value              |
+| `valueText`       | `string`                                | -           | Custom value text                  |
+| `formatValue`     | `(value: number, max: number) => ReactNode` | -       | Custom value formatter function    |
+| `bufferValue`     | `number`                                | -           | Buffer bar value (0-100)           |
+| `steps`           | `number`                                | -           | Number of discrete segments        |
+| `gradient`        | `ProgressGradient`                      | -           | Gradient fill `{ from, to }`       |
+| `indeterminate`   | `boolean`                               | `false`     | Indeterminate loading mode         |
+| `striped`         | `boolean`                               | `false`     | Striped pattern                    |
+| `animated`        | `boolean`                               | `false`     | Animated stripes                   |
+| `min`             | `number`                                | `0`         | Minimum value (aria-valuemin)¹     |
+| `max`             | `number`                                | `100`       | Maximum value (aria-valuemax)¹     |
+| `children`        | `ReactNode`                             | -           | Progress.Bar children (stacked)    |
+| `className`       | `string`                                | -           | Additional CSS classes             |
+| `style`           | `CSSProperties`                         | -           | Inline styles                      |
+| `id`              | `string`                                | -           | ID attribute                       |
+| `aria-label`      | `string`                                | -           | Accessible label                   |
+| `aria-labelledby` | `string`                                | -           | ID of labelling element            |
 
 ¹ **Note**: `min` and `max` control ARIA semantics only, not the visual range. The visual width is always calculated as a percentage (0-100). For example, `min=10, max=20, value=15` results in a 15% visual width, but `aria-valuenow=15, aria-valuemin=10, aria-valuemax=20`.
 
 ### Progress.Bar
 
-| Prop          | Type              | Default      | Description                       |
-| ------------- | ----------------- | ------------ | --------------------------------- |
-| `value`       | `number`          | **required** | Progress value (0-100)            |
-| `variant`     | `ProgressVariant` | `'primary'`  | Color variant                     |
-| `showValue`   | `boolean`         | `false`      | Show percentage                   |
-| `valueText`   | `string`          | -            | Custom value text                 |
-| `striped`     | `boolean`         | `false`      | Striped pattern                   |
-| `animated`    | `boolean`         | `false`      | Animated stripes                  |
-| `className`   | `string`          | -            | Additional CSS classes            |
-| `aria-label`  | `string`          | auto²        | Accessible label                  |
-| `aria-hidden` | `boolean`         | `false`      | Mark as decorative (hide from AT) |
+| Prop          | Type                                    | Default      | Description                       |
+| ------------- | --------------------------------------- | ------------ | --------------------------------- |
+| `value`       | `number`                                | **required** | Progress value (0-100)            |
+| `variant`     | `ProgressVariant`                       | `'primary'`  | Color variant                     |
+| `showValue`   | `boolean`                               | `false`      | Show percentage                   |
+| `valueText`   | `string`                                | -            | Custom value text                 |
+| `formatValue` | `(value: number, max: number) => ReactNode` | -        | Custom value formatter            |
+| `gradient`    | `ProgressGradient`                      | -            | Gradient fill `{ from, to }`      |
+| `striped`     | `boolean`                               | `false`      | Striped pattern                   |
+| `animated`    | `boolean`                               | `false`      | Animated stripes                  |
+| `className`   | `string`                                | -            | Additional CSS classes            |
+| `aria-label`  | `string`                                | auto²        | Accessible label                  |
+| `aria-hidden` | `boolean`                               | `false`      | Mark as decorative (hide from AT) |
 
 ² If `aria-label` is not provided and `aria-hidden` is false, defaults to `"{variant} progress: {percentage}%"`.
+
+### Progress.Circle
+
+| Prop            | Type                                    | Default     | Description                    |
+| --------------- | --------------------------------------- | ----------- | ------------------------------ |
+| `value`         | `number`                                | `0`         | Progress value (0-100)         |
+| `variant`       | `ProgressVariant`                       | `'primary'` | Color variant                  |
+| `size`          | `number`                                | `80`        | Circle diameter in pixels      |
+| `strokeWidth`   | `number`                                | `6`         | Stroke width in pixels         |
+| `showValue`     | `boolean`                               | `false`     | Show value in center           |
+| `valueText`     | `string`                                | -           | Custom value text              |
+| `formatValue`   | `(value: number, max: number) => ReactNode` | -       | Custom value formatter         |
+| `gradient`      | `ProgressGradient`                      | -           | Gradient stroke `{ from, to }` |
+| `indeterminate` | `boolean`                               | `false`     | Spinning loading mode          |
+| `min`           | `number`                                | `0`         | Minimum value (aria-valuemin)  |
+| `max`           | `number`                                | `100`       | Maximum value (aria-valuemax)  |
+| `className`     | `string`                                | -           | Additional CSS classes         |
+| `style`         | `CSSProperties`                         | -           | Inline styles                  |
+| `id`            | `string`                                | -           | ID attribute                   |
+| `aria-label`    | `string`                                | -           | Accessible label               |
 
 ## Accessibility
 

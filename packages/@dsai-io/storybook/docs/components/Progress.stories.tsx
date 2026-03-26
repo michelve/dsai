@@ -483,6 +483,212 @@ export const FileUploadSimulation: Story = {
 };
 
 // =============================================================================
+// Format Value
+// =============================================================================
+
+/**
+ * Custom value formatter function.
+ * Takes precedence over `valueText` — use for dynamic formatting.
+ */
+export const FormatValue: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <Progress
+        value={3}
+        formatValue={(v) => `${v} of 10 items`}
+        showValue
+        label="Items processed"
+        aria-label="Items progress"
+      />
+      <Progress
+        value={75}
+        formatValue={(v) => `${v}% complete`}
+        showValue
+        variant="success"
+        aria-label="Completion progress"
+      />
+      <Progress aria-label="Stacked with formatter">
+        <Progress.Bar value={40} variant="success" showValue formatValue={(v) => `${v}% done`} />
+        <Progress.Bar value={25} variant="warning" showValue formatValue={(v) => `${v}% pending`} />
+      </Progress>
+    </div>
+  ),
+};
+
+// =============================================================================
+// Buffer Mode
+// =============================================================================
+
+/**
+ * Buffer mode shows a secondary lighter bar behind the main bar.
+ * Commonly used for video buffering or two-stage progress.
+ */
+export const BufferMode: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div>
+        <p className="small text-muted mb-1">Video buffering (30% played, 60% buffered)</p>
+        <Progress
+          value={30}
+          bufferValue={60}
+          variant="primary"
+          data-testid="buffer-demo"
+          aria-label="Video buffering"
+        />
+      </div>
+      <div>
+        <p className="small text-muted mb-1">
+          Download with pre-fetch (50% downloaded, 80% fetched)
+        </p>
+        <Progress
+          value={50}
+          bufferValue={80}
+          variant="success"
+          showValue
+          aria-label="Download with pre-fetch"
+        />
+      </div>
+    </div>
+  ),
+};
+
+// =============================================================================
+// Steps / Segments
+// =============================================================================
+
+/**
+ * Steps mode renders discrete segments instead of a continuous bar.
+ * Useful for checkout flows, onboarding, and multi-step forms.
+ */
+export const Steps: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div>
+        <p className="small text-muted mb-1">3 of 5 steps complete (60%)</p>
+        <Progress value={60} steps={5} variant="primary" aria-label="Onboarding steps" />
+      </div>
+      <div>
+        <p className="small text-muted mb-1">8 of 10 steps (80%)</p>
+        <Progress value={80} steps={10} variant="success" aria-label="Tutorial steps" />
+      </div>
+      <div>
+        <p className="small text-muted mb-1">1 of 3 steps (33%)</p>
+        <Progress value={33} steps={3} variant="info" size="lg" aria-label="Checkout steps" />
+      </div>
+    </div>
+  ),
+};
+
+// =============================================================================
+// Gradient Fill
+// =============================================================================
+
+/**
+ * Linear gradient fills for progress bars.
+ * Overrides the variant background color.
+ */
+export const GradientFill: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div>
+        <p className="small text-muted mb-1">Primary to success gradient</p>
+        <Progress
+          value={75}
+          gradient={{ from: 'var(--bs-primary)', to: 'var(--bs-success)' }}
+          aria-label="Gradient progress"
+        />
+      </div>
+      <div>
+        <p className="small text-muted mb-1">Info to primary gradient</p>
+        <Progress
+          value={60}
+          gradient={{ from: 'var(--bs-info)', to: 'var(--bs-primary)' }}
+          showValue
+          aria-label="Info gradient"
+        />
+      </div>
+      <div>
+        <p className="small text-muted mb-1">Gradient with steps</p>
+        <Progress
+          value={80}
+          steps={8}
+          gradient={{ from: 'var(--bs-warning)', to: 'var(--bs-danger)' }}
+          aria-label="Gradient steps"
+        />
+      </div>
+    </div>
+  ),
+};
+
+// =============================================================================
+// Circular Progress
+// =============================================================================
+
+/**
+ * SVG-based circular progress indicator.
+ * Ideal for dashboards, cards, and compact displays.
+ */
+export const CircularProgress: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', flexWrap: 'wrap' }}>
+      <Progress.Circle value={25} aria-label="25%" />
+      <Progress.Circle value={50} showValue aria-label="50%" />
+      <Progress.Circle value={75} showValue variant="success" aria-label="75%" />
+      <Progress.Circle value={100} showValue variant="info" aria-label="100%" />
+    </div>
+  ),
+};
+
+/**
+ * Circular progress with different sizes
+ */
+export const CircularSizes: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+      <Progress.Circle value={60} size={48} showValue aria-label="Small circle" />
+      <Progress.Circle value={60} size={80} showValue aria-label="Medium circle" />
+      <Progress.Circle value={60} size={120} showValue aria-label="Large circle" />
+    </div>
+  ),
+};
+
+/**
+ * Circular progress in indeterminate (spinning) mode
+ */
+export const CircularIndeterminate: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+      <Progress.Circle indeterminate aria-label="Loading" />
+      <Progress.Circle indeterminate variant="success" aria-label="Loading success" />
+      <Progress.Circle indeterminate variant="info" size={48} aria-label="Loading small" />
+    </div>
+  ),
+};
+
+/**
+ * Circular progress with gradient stroke
+ */
+export const CircularGradient: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+      <Progress.Circle
+        value={80}
+        showValue
+        gradient={{ from: 'var(--bs-primary)', to: 'var(--bs-success)' }}
+        aria-label="Gradient circle"
+      />
+      <Progress.Circle
+        value={65}
+        showValue
+        size={120}
+        gradient={{ from: 'var(--bs-info)', to: 'var(--bs-primary)' }}
+        aria-label="Large gradient circle"
+      />
+    </div>
+  ),
+};
+
+// =============================================================================
 // Complete Showcase
 // =============================================================================
 
