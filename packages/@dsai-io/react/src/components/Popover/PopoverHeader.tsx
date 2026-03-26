@@ -24,7 +24,7 @@ import type { PopoverHeaderProps } from './Popover.types';
  */
 export const PopoverHeader = forwardRef<HTMLHeadingElement, PopoverHeaderProps>(
   (
-    { children, className = '', style, id, 'data-testid': dataTestId, 'data-test': dataTest },
+    { children, className, style, id, 'data-testid': dataTestId, 'data-test': dataTest },
     ref
   ) => {
     // Memoize class name computation

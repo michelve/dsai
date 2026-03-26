@@ -25,7 +25,7 @@ import type { PopoverBodyProps } from './Popover.types';
  */
 export const PopoverBody = forwardRef<HTMLDivElement, PopoverBodyProps>(
   (
-    { children, className = '', style, id, 'data-testid': dataTestId, 'data-test': dataTest },
+    { children, className, style, id, 'data-testid': dataTestId, 'data-test': dataTest },
     ref
   ) => {
     // Memoize class name computation

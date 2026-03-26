@@ -276,7 +276,9 @@ export interface PopoverProps extends SafePopoverHTMLAttributes {
 }
 
 /**
- * Popover context value for sharing state between components
+ * Popover context value for sharing state between components.
+ *
+ * @experimental Exported for future compound-component API. Not yet consumed internally.
  */
 export interface PopoverContextValue {
   /** Whether the popover is currently visible */

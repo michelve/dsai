@@ -26,7 +26,7 @@ export const PopoverCloseButton = forwardRef<HTMLButtonElement, PopoverCloseButt
   (
     {
       onClick,
-      className = '',
+      className,
       style,
       'aria-label': ariaLabel = 'Close',
       'data-testid': dataTestId,

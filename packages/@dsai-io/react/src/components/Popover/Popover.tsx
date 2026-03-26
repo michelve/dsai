@@ -62,14 +62,6 @@ function assignNodeToRef<T>(refTarget: Ref<T> | undefined, node: T | null): void
 }
 
 /**
- * Map DSAi placement to Floating UI placement
- */
-
-/**
- * Normalize trigger prop to array
- */
-
-/**
  * Popover Component
  *
  * A fully accessible popover component that provides richer interactive content
@@ -138,7 +130,7 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
       hideDelay = 0,
       closeOnClickOutside = true,
       closeOnEscape = true,
-      className = '',
+      className,
       style,
       id,
       'aria-label': ariaLabel,
@@ -395,7 +387,7 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
         return null;
       }
 
-      const content_element = (
+      const contentElement = (
         <div
           ref={floatingRefs.setFloating}
           {...getFloatingProps()}
@@ -442,12 +434,12 @@ export const Popover = forwardRef<HTMLElement, PopoverProps>(
       if (trapFocus) {
         return (
           <FloatingFocusManager context={context} modal>
-            {content_element}
+            {contentElement}
           </FloatingFocusManager>
         );
       }
 
-      return content_element;
+      return contentElement;
     }, [
       isMounted,
       popoverId,
