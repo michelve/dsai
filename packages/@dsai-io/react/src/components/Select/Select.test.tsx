@@ -597,9 +597,12 @@ describe('Select', () => {
       expect(screen.getByText('*')).toBeInTheDocument();
     });
 
-    it('sets data-required attribute', () => {
+    it('sets aria-required attribute', () => {
       render(<Select options={options} label="Fruit" required />);
-      expect(screen.getByRole('combobox')).toHaveAttribute('data-required', 'true');
+      expect(screen.getByRole('button', { name: /fruit/i })).toHaveAttribute(
+        'aria-required',
+        'true'
+      );
     });
   });
 
@@ -732,9 +735,12 @@ describe('Select', () => {
       expect(selectedOption).toHaveAttribute('aria-selected', 'true');
     });
 
-    it('sets data-invalid when error', () => {
+    it('sets aria-invalid when error', () => {
       render(<Select options={options} label="Test" error />);
-      expect(screen.getByRole('combobox')).toHaveAttribute('data-invalid', 'true');
+      expect(screen.getByRole('button', { name: /test/i })).toHaveAttribute(
+        'aria-invalid',
+        'true'
+      );
     });
 
     it('has aria-describedby for helper text', () => {
@@ -827,6 +833,88 @@ describe('Select', () => {
       // Close dropdown
       fireEvent.keyDown(button, { key: 'Escape' });
       expect(button).not.toHaveAttribute('aria-activedescendant');
+    });
+  });
+
+  // ===========================================================================
+  // ARIA Pattern (Non-Searchable)
+  // ===========================================================================
+  describe('ARIA Pattern (Non-Searchable)', () => {
+    it('trigger has no role="combobox" when not searchable', () => {
+      render(<Select options={options} label="Fruit" />);
+      expect(screen.queryByRole('combobox')).not.toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /fruit/i })).toHaveAttribute(
+        'aria-haspopup',
+        'listbox'
+      );
+    });
+
+    it('options do not have tabIndex', async () => {
+      render(<Select options={options} aria-label="Test" />);
+      await userEvent.click(screen.getByRole('button', { name: /test/i }));
+
+      const optionElements = screen.getAllByRole('option');
+      for (const opt of optionElements) {
+        expect(opt).not.toHaveAttribute('tabindex', '0');
+      }
+    });
+
+    it('option groups use role="group" not fieldset', async () => {
+      render(<Select options={groupedOptions} aria-label="Test" />);
+      await userEvent.click(screen.getByRole('button', { name: /test/i }));
+
+      expect(screen.queryByRole('group')).toBeInTheDocument();
+      expect(document.querySelector('fieldset')).not.toBeInTheDocument();
+    });
+
+    it('sets aria-busy when loading', () => {
+      render(<Select options={options} label="Test" loading />);
+      expect(screen.getByRole('button', { name: /test/i })).toHaveAttribute('aria-busy', 'true');
+    });
+
+    it('sets aria-required when required', () => {
+      render(<Select options={options} label="Fruit" required />);
+      expect(screen.getByRole('button', { name: /fruit/i })).toHaveAttribute(
+        'aria-required',
+        'true'
+      );
+    });
+
+    it('sets aria-invalid when error', () => {
+      render(<Select options={options} label="Test" error />);
+      expect(screen.getByRole('button', { name: /test/i })).toHaveAttribute(
+        'aria-invalid',
+        'true'
+      );
+    });
+  });
+
+  // ===========================================================================
+  // ARIA Pattern (Searchable)
+  // ===========================================================================
+  describe('ARIA Pattern (Searchable)', () => {
+    it('search input has role="combobox" when searchable', async () => {
+      render(<Select options={options} aria-label="Test" searchable />);
+      await userEvent.click(screen.getByRole('button', { name: /test/i }));
+
+      expect(screen.getByRole('combobox')).toBeInTheDocument();
+      expect(screen.getByRole('combobox').tagName).toBe('INPUT');
+    });
+
+    it('search input has aria-autocomplete="list"', async () => {
+      render(<Select options={options} aria-label="Test" searchable />);
+      await userEvent.click(screen.getByRole('button', { name: /test/i }));
+
+      expect(screen.getByRole('combobox')).toHaveAttribute('aria-autocomplete', 'list');
+    });
+
+    it('search input has aria-controls pointing to listbox', async () => {
+      render(<Select options={options} aria-label="Test" searchable id="test-select" />);
+      await userEvent.click(screen.getByRole('button', { name: /test/i }));
+
+      const searchInput = screen.getByRole('combobox');
+      const listbox = screen.getByRole('listbox');
+      expect(searchInput).toHaveAttribute('aria-controls', listbox.id);
     });
   });
 
