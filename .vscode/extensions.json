@@ -15,9 +15,6 @@
     "orta.vscode-jest",
 
     // Git
-    "eamodio.gitlens",
-
-    // Documentation
     "yzhang.markdown-all-in-one",
     "DavidAnson.vscode-markdownlint",
 

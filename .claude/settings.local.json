@@ -33,7 +33,14 @@
       "Bash(node_modules/.bin/eslint --version)",
       "WebFetch(domain:v2.chakra-ui.com)",
       "WebFetch(domain:kombai.com)",
-      "WebFetch(domain:medium.com)"
+      "WebFetch(domain:medium.com)",
+      "Bash(npx eslint:*)",
+      "Bash(gh pr:*)",
+      "Bash(grep -v \"^$\")",
+      "Bash(git stash:*)",
+      "Bash(find /e/GitHub/dsai/packages/@dsai-io/react/src/components/Popover -type f -name *)",
+      "Bash(pnpm ls:*)",
+      "Bash(pnpm view:*)"
     ]
   }
 }
