@@ -39,6 +39,7 @@ export type {
   TextSize,
   TextTransform,
   TextVariant,
+  TextWrap,
   TypographyNamespace,
   TypographySafeHTMLAttributes,
 } from './Typography.types';

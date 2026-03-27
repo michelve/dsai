@@ -27,6 +27,15 @@ export type TextAlign = 'start' | 'center' | 'end';
 export type TextTransform = 'lowercase' | 'uppercase' | 'capitalize' | 'none';
 
 /**
+ * Text wrap options for modern CSS text-wrap
+ * - 'balance': Balances line lengths for headings (best for short text)
+ * - 'pretty': Prevents orphans on the last line
+ * - 'nowrap': Prevents wrapping
+ * - 'wrap': Default wrapping behavior (explicit)
+ */
+export type TextWrap = 'balance' | 'pretty' | 'nowrap' | 'wrap';
+
+/**
  * Font weight options
  * Maps to Bootstrap 5 font weight utilities
  */
@@ -157,6 +166,12 @@ export interface HeadingProps extends TypographySafeHTMLAttributes {
    * @default false
    */
   truncate?: boolean;
+
+  /**
+   * CSS text-wrap behavior
+   * Use 'balance' for headings, 'pretty' to prevent orphans
+   */
+  wrap?: TextWrap;
 }
 
 // =============================================================================
@@ -248,6 +263,12 @@ export interface DisplayProps extends TypographySafeHTMLAttributes {
    * @default false
    */
   truncate?: boolean;
+
+  /**
+   * CSS text-wrap behavior
+   * Use 'balance' for headings, 'pretty' to prevent orphans
+   */
+  wrap?: TextWrap;
 }
 
 // =============================================================================
@@ -388,6 +409,12 @@ export interface TextOwnProps extends TypographySafeHTMLAttributes {
    * Only applies when truncate is true
    */
   lines?: number;
+
+  /**
+   * CSS text-wrap behavior
+   * Use 'balance' for headings, 'pretty' to prevent orphans
+   */
+  wrap?: TextWrap;
 
   /**
    * For abbr variant - full text shown in tooltip

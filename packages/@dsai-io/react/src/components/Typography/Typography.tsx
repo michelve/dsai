@@ -124,6 +124,7 @@ export const Heading = memo(
       id,
       noMargin = false,
       truncate = false,
+      wrap,
       'data-testid': dataTestId,
       'data-test': dataTest,
       title,
@@ -157,12 +158,17 @@ export const Heading = memo(
       [level, visualSize, color, align, transform, weight, noMargin, truncate, className]
     );
 
+    const combinedStyle = useMemo(
+      () => (wrap ? { ...style, textWrap: wrap } : style),
+      [wrap, style]
+    );
+
     return (
       <Tag
         ref={ref}
         id={id}
         className={classes || undefined}
-        style={style}
+        style={combinedStyle}
         data-testid={dataTestId}
         data-test={dataTest}
         title={title}
@@ -230,6 +236,7 @@ export const Display = memo(
       id,
       noMargin = false,
       truncate = false,
+      wrap,
       'data-testid': dataTestId,
       'data-test': dataTest,
       title,
@@ -264,12 +271,17 @@ export const Display = memo(
       [size, color, align, transform, weight, noMargin, truncate, className]
     );
 
+    const combinedStyle = useMemo(
+      () => (wrap ? { ...style, textWrap: wrap } : style),
+      [wrap, style]
+    );
+
     return (
       <Tag
         ref={ref}
         id={id}
         className={classes}
-        style={style}
+        style={combinedStyle}
         data-testid={dataTestId}
         data-test={dataTest}
         title={title}
@@ -354,6 +366,7 @@ export const Text = memo(
       noMargin = false,
       truncate = false,
       lines,
+      wrap,
       title,
       cite,
       citeAuthor,
@@ -418,8 +431,11 @@ export const Text = memo(
 
     // Combine styles
     const combinedStyle = useMemo(
-      () => (truncateStyles ? { ...truncateStyles, ...style } : style),
-      [truncateStyles, style]
+      () => {
+        const base = truncateStyles ? { ...truncateStyles, ...style } : style;
+        return wrap ? { ...base, textWrap: wrap } : base;
+      },
+      [truncateStyles, style, wrap]
     );
 
     // Handle blockquote special case with citation
@@ -530,4 +546,5 @@ export type {
   TextSize,
   TextTransform,
   TextVariant,
+  TextWrap,
 } from './Typography.types';

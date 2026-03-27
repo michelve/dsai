@@ -315,6 +315,7 @@ export {
   type TabsVariant,
   type TextProps,
   type TextVariant,
+  type TextWrap,
   type ToastContainerProps,
   type ToastContextValue,
   type ToastData,

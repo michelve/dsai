@@ -249,6 +249,31 @@ describe('Typography', () => {
       });
     });
 
+    describe('Text Wrap', () => {
+      it('applies text-wrap balance style', () => {
+        render(
+          <Heading level={1} wrap="balance">
+            Balanced Heading
+          </Heading>
+        );
+        expect(screen.getByRole('heading')).toHaveStyle({ textWrap: 'balance' });
+      });
+
+      it('applies text-wrap pretty style', () => {
+        render(
+          <Heading level={1} wrap="pretty">
+            Pretty Heading
+          </Heading>
+        );
+        expect(screen.getByRole('heading')).toHaveStyle({ textWrap: 'pretty' });
+      });
+
+      it('does not apply text-wrap by default', () => {
+        render(<Heading level={1}>Default</Heading>);
+        expect(screen.getByRole('heading')).not.toHaveStyle({ textWrap: 'balance' });
+      });
+    });
+
     describe('Custom Styling', () => {
       it('accepts custom className', () => {
         render(
@@ -466,6 +491,17 @@ describe('Typography', () => {
       });
     });
 
+    describe('Text Wrap', () => {
+      it('applies text-wrap balance style', () => {
+        render(
+          <Display size={1} wrap="balance">
+            Balanced
+          </Display>
+        );
+        expect(screen.getByRole('heading')).toHaveStyle({ textWrap: 'balance' });
+      });
+    });
+
     describe('Ref Forwarding', () => {
       it('forwards ref to heading element', () => {
         const ref = createRef<HTMLHeadingElement>();
@@ -639,6 +675,18 @@ describe('Typography', () => {
           </Text>
         );
         expect(container.querySelector('p')).not.toHaveClass('text-truncate');
+      });
+    });
+
+    describe('Text Wrap', () => {
+      it('applies text-wrap pretty style', () => {
+        const { container } = render(<Text wrap="pretty">Pretty text</Text>);
+        expect(container.querySelector('p')).toHaveStyle({ textWrap: 'pretty' });
+      });
+
+      it('applies text-wrap nowrap style', () => {
+        const { container } = render(<Text wrap="nowrap">No wrap</Text>);
+        expect(container.querySelector('p')).toHaveStyle({ textWrap: 'nowrap' });
       });
     });
 
