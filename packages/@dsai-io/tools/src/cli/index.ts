@@ -26,6 +26,8 @@
  * ```
  */
 
+import { fileURLToPath } from 'node:url';
+
 import {
   createConfigCommand,
   createIconsCommand,
@@ -107,3 +109,11 @@ export {
   formatCount,
   formatDuration,
 } from './ui/index.js';
+
+// Auto-run when executed directly (e.g., via tsx)
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  run().catch((error) => {
+    console.error('Fatal error:', error);
+    process.exit(1);
+  });
+}

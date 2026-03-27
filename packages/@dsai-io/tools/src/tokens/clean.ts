@@ -13,7 +13,6 @@
 
 /* eslint-disable no-console */
 /* eslint-disable security/detect-non-literal-fs-filename */
-/* eslint-disable security/detect-non-literal-regexp */
 
 import { existsSync, readdirSync, rmSync } from 'node:fs';
 import { basename, join, resolve } from 'node:path';

@@ -72,7 +72,7 @@ const EXPECTED_CSS = `:root {
 describe('getDefaultCssDir', () => {
   it('should return correct CSS directory path', () => {
     const result = getDefaultCssDir('/path/to/tokens');
-    expect(result).toBe('/path/to/tokens/dist/css');
+    expect(result).toBe(join('/path/to/tokens', 'dist', 'css'));
   });
 });
 

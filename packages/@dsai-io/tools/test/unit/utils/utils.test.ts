@@ -14,7 +14,7 @@
 
 import { existsSync, mkdirSync, rmSync, writeFileSync, accessSync, statSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, resolve, dirname } from 'node:path';
+import { join, resolve, dirname, isAbsolute } from 'node:path';
 
 // Mock the utils/index module due to import.meta.url usage
 jest.mock('../../../src/utils/index.js', () => {
@@ -140,7 +140,7 @@ describe('resolvePath', () => {
     const result = resolvePath('test', 'file.ts');
     expect(result).toContain('test');
     expect(result).toContain('file.ts');
-    expect(result.startsWith('/')).toBe(true);
+    expect(isAbsolute(result)).toBe(true);
   });
 
   it('should handle single segment', () => {

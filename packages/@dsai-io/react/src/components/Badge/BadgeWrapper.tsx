@@ -25,7 +25,7 @@ const CIRCULAR_OFFSET: Readonly<Record<string, React.CSSProperties>> = {
 const BLOCKED_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 
 function safeLookup<T>(map: Readonly<Record<string, T>>, key: string, fallback: T): T {
-  if (BLOCKED_KEYS.has(key)) return fallback;
+  if (BLOCKED_KEYS.has(key)) {return fallback;}
   const value = Reflect.get(map, key) as T | undefined;
   return value !== undefined ? value : fallback;
 }

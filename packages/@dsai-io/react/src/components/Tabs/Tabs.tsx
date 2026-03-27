@@ -36,9 +36,7 @@ import './Tabs.scroll.css';
  * Type guard for extra prop with left/right slots.
  * Uses Reflect.get to avoid unsafe bracket-notation property access.
  */
-function isExtraSlots(
-  value: unknown
-): value is { left?: ReactNode; right?: ReactNode } {
+function isExtraSlots(value: unknown): value is { left?: ReactNode; right?: ReactNode } {
   if (value === null || value === undefined || typeof value !== 'object' || Array.isArray(value)) {
     return false;
   }
@@ -63,14 +61,7 @@ function isExtraSlots(
  */
 export const TabList = memo(
   forwardRef<HTMLDivElement, TabListProps>(function TabList(
-    {
-      children,
-      className = '',
-      style,
-      'aria-label': ariaLabel,
-      extra,
-      scrollable = false,
-    },
+    { children, className = '', style, 'aria-label': ariaLabel, extra, scrollable = false },
     ref
   ) {
     const {
@@ -128,6 +119,7 @@ export const TabList = memo(
         aria-orientation={orientation}
         className={cn(navClasses, scrollable && 'dsai-tabs-scroll-inner')}
         style={style}
+        tabIndex={-1}
         onKeyDown={handleKeyDown}
       >
         {children}
@@ -147,13 +139,8 @@ export const TabList = memo(
 
     if (scrollable) {
       return (
-        <div
-          ref={ref}
-          className="dsai-tabs-scroll-container d-flex align-items-center"
-        >
-          {leftExtra && (
-            <div className="dsai-tabs-extra-left">{leftExtra}</div>
-          )}
+        <div ref={ref} className="dsai-tabs-scroll-container d-flex align-items-center">
+          {leftExtra && <div className="dsai-tabs-extra-left">{leftExtra}</div>}
           <button
             type="button"
             className="dsai-tabs-scroll-btn dsai-tabs-scroll-btn-start"
@@ -172,9 +159,7 @@ export const TabList = memo(
             tabIndex={-1}
           />
           {(rightExtra || simpleExtra) && (
-            <div className="dsai-tabs-extra-right">
-              {rightExtra ?? simpleExtra}
-            </div>
+            <div className="dsai-tabs-extra-right">{rightExtra ?? simpleExtra}</div>
           )}
         </div>
       );
@@ -183,14 +168,10 @@ export const TabList = memo(
     if (extra) {
       return (
         <div ref={ref} className="d-flex align-items-center">
-          {leftExtra && (
-            <div className="dsai-tabs-extra-left">{leftExtra}</div>
-          )}
+          {leftExtra && <div className="dsai-tabs-extra-left">{leftExtra}</div>}
           {tabListContent}
           {(rightExtra || simpleExtra) && (
-            <div className="dsai-tabs-extra-right ms-auto">
-              {rightExtra ?? simpleExtra}
-            </div>
+            <div className="dsai-tabs-extra-right ms-auto">{rightExtra ?? simpleExtra}</div>
           )}
         </div>
       );
@@ -213,15 +194,7 @@ TabList.displayName = 'TabList';
  */
 export const Tab = memo(
   forwardRef<HTMLButtonElement, TabProps>(function Tab(
-    {
-      id,
-      children,
-      icon,
-      disabled = false,
-      className = '',
-      style,
-      closable = false,
-    },
+    { id, children, icon, disabled = false, className = '', style, closable = false },
     ref
   ) {
     const {
@@ -281,9 +254,7 @@ export const Tab = memo(
             aria-selected={isActive}
             aria-controls={panelId}
             aria-disabled={disabled || undefined}
-            tabIndex={
-              isActive || (activationMode === 'manual' && isFocused) ? 0 : -1
-            }
+            tabIndex={isActive || (activationMode === 'manual' && isFocused) ? 0 : -1}
             disabled={disabled}
             className={buttonClasses}
             style={style}
@@ -314,9 +285,7 @@ export const Tab = memo(
         aria-selected={isActive}
         aria-controls={panelId}
         aria-disabled={disabled || undefined}
-        tabIndex={
-          isActive || (activationMode === 'manual' && isFocused) ? 0 : -1
-        }
+        tabIndex={isActive || (activationMode === 'manual' && isFocused) ? 0 : -1}
         disabled={disabled}
         className={buttonClasses}
         style={style}
@@ -346,8 +315,7 @@ export const TabPanel = memo(
     { id, children, className = '', style, keepMounted = false },
     ref
   ) {
-    const { activeTab, baseId, lazyMount, unmountOnExit, mountedTabs } =
-      useTabsContext();
+    const { activeTab, baseId, lazyMount, unmountOnExit, mountedTabs } = useTabsContext();
 
     const isActive = activeTab === id;
     const hasBeenMounted = mountedTabs.has(id);
@@ -375,12 +343,7 @@ export const TabPanel = memo(
       return null;
     }
 
-    const panelClasses = cn(
-      'tab-pane',
-      'fade',
-      isActive && 'show active',
-      className
-    );
+    const panelClasses = cn('tab-pane', 'fade', isActive && 'show active', className);
 
     return (
       <div
@@ -439,8 +402,7 @@ export const Tabs = memo(
 
     // Determine default tab
     const defaultTab =
-      defaultActiveTab ??
-      (items && items.length > 0 && items[0] ? items[0].id : '');
+      defaultActiveTab ?? (items && items.length > 0 && items[0] ? items[0].id : '');
 
     const [activeTab, setActiveTab] = useControllableState<string>({
       value: controlledActiveTab,
@@ -452,9 +414,7 @@ export const Tabs = memo(
     const [registeredTabs, setRegisteredTabs] = useState<string[]>([]);
 
     // Track which tabs have been mounted (for lazyMount)
-    const mountedTabsRef = useRef<Set<string>>(
-      new Set(activeTab ? [activeTab] : [])
-    );
+    const mountedTabsRef = useRef<Set<string>>(new Set(activeTab ? [activeTab] : []));
     const mountedTabs = mountedTabsRef.current;
 
     // Track focused tab (for manual activation mode)
@@ -472,9 +432,7 @@ export const Tabs = memo(
     }, [activeTab]);
 
     const registerTab = useCallback((tabId: string) => {
-      setRegisteredTabs((prev) =>
-        prev.includes(tabId) ? prev : [...prev, tabId]
-      );
+      setRegisteredTabs((prev) => (prev.includes(tabId) ? prev : [...prev, tabId]));
     }, []);
 
     const unregisterTab = useCallback((tabId: string) => {
@@ -531,10 +489,7 @@ export const Tabs = memo(
       ]
     );
 
-    const wrapperClasses = cn(
-      orientation === 'vertical' && 'd-flex',
-      className
-    );
+    const wrapperClasses = cn(orientation === 'vertical' && 'd-flex', className);
 
     // Items mode: render using compound components internally
     const renderWithItems = (): ReactNode => {

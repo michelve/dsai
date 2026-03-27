@@ -10,8 +10,8 @@
 import { dimensionRem } from './dimension.js';
 import { fontWeightUnitless } from './font-weight.js';
 import { lineHeightUnitless } from './line-height.js';
-import { nameKebab } from './name.js';
 import { nameJsIdentifier } from './name-js-identifier.js';
+import { nameKebab } from './name.js';
 
 import type { StyleDictionaryInstance, TransformDefinition } from '../types.js';
 

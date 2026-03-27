@@ -101,6 +101,7 @@ function generateModeFilename(
  */
 function readJsonFile(filePath: string): Record<string, unknown> | null {
   try {
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     const content = readFileSync(filePath, 'utf-8');
     return JSON.parse(content) as Record<string, unknown>;
   } catch (error) {
@@ -115,6 +116,7 @@ function readJsonFile(filePath: string): Record<string, unknown> | null {
 function writeJsonFile(filePath: string, data: Record<string, unknown>): boolean {
   try {
     const content = JSON.stringify(data, null, 2);
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     writeFileSync(filePath, content, 'utf-8');
     return true;
   } catch (error) {
@@ -245,6 +247,7 @@ export function preprocessTokenFiles(config: PreprocessorConfig): PreprocessingR
   }
 
   // Clean output directory if requested
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
   if (clean && existsSync(outputDir)) {
     rmSync(outputDir, { recursive: true, force: true });
     if (verbose) {
@@ -253,7 +256,9 @@ export function preprocessTokenFiles(config: PreprocessorConfig): PreprocessingR
   }
 
   // Create output directory
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
   if (!existsSync(outputDir)) {
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     mkdirSync(outputDir, { recursive: true });
   }
 
@@ -265,6 +270,7 @@ export function preprocessTokenFiles(config: PreprocessorConfig): PreprocessingR
   for (const file of files) {
     const filePath = join(sourceDir, file);
 
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     if (!existsSync(filePath)) {
       if (verbose) {
         console.warn(`  ⚠️  File not found: ${file}`);
@@ -304,6 +310,7 @@ export function preprocessTokenFiles(config: PreprocessorConfig): PreprocessingR
 
   // Create cleanup function
   const cleanup = (): void => {
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     if (existsSync(outputDir)) {
       rmSync(outputDir, { recursive: true, force: true });
       if (verbose) {

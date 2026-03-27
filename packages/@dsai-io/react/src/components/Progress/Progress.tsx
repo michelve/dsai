@@ -129,7 +129,6 @@ function renderSteps(
             }),
         };
 
-        // eslint-disable-next-line react/no-array-index-key -- Steps are fixed positional elements
         return (
           <div
             key={i}

@@ -61,10 +61,7 @@ export interface CardListItem {
 /**
  * Base props shared across all CardList modes
  */
-interface CardListBaseProps extends Omit<
-  FieldsetHTMLAttributes<HTMLFieldSetElement>,
-  'onChange'
-> {
+interface CardListBaseProps extends Omit<FieldsetHTMLAttributes<HTMLFieldSetElement>, 'onChange'> {
   // ===========================================================================
   // Items
   // ===========================================================================
@@ -188,7 +185,6 @@ interface CardListBaseProps extends Omit<
     item: CardListItem,
     state: { checked: boolean; disabled: boolean; index: number }
   ) => ReactNode;
-
 }
 
 // =============================================================================
@@ -307,7 +303,7 @@ export type CardListProps =
  *
  * @internal
  */
-interface CardListPropsInternal extends CardListBaseProps {
+interface _CardListPropsInternal extends CardListBaseProps {
   selectionMode?: CardListSelectionMode;
   value?: string | string[];
   defaultValue?: string | string[];

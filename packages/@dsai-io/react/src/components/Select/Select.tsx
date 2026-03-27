@@ -44,7 +44,7 @@ const sizeClassMap: Record<SelectSize, string> = {
  * Check if options are grouped
  */
 function isGroupedOptions<T>(
-  options: SelectOption<T>[] | SelectOptionGroup<T>[],
+  options: SelectOption<T>[] | SelectOptionGroup<T>[]
 ): options is SelectOptionGroup<T>[] {
   return options.length > 0 && options[0] !== undefined && 'options' in options[0];
 }
@@ -52,9 +52,7 @@ function isGroupedOptions<T>(
 /**
  * Flatten grouped options into a single array
  */
-function flattenOptions<T>(
-  options: SelectOption<T>[] | SelectOptionGroup<T>[],
-): SelectOption<T>[] {
+function flattenOptions<T>(options: SelectOption<T>[] | SelectOptionGroup<T>[]): SelectOption<T>[] {
   if (isGroupedOptions(options)) {
     return options.flatMap((group) => group.options);
   }
@@ -83,9 +81,7 @@ function CheckIcon(): React.JSX.Element {
  * Spinner icon for loading state
  */
 function SpinnerIcon(): React.JSX.Element {
-  return (
-    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
-  );
+  return <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />;
 }
 
 /**
@@ -139,7 +135,7 @@ export const Select = memo(
       limit = 100,
       limitMessage = 'Type to search for more options',
     }: SelectProps<T>,
-    ref: React.ForwardedRef<HTMLButtonElement>,
+    ref: React.ForwardedRef<HTMLButtonElement>
   ) {
     // Generate unique IDs
     const generatedId = useId();
@@ -177,7 +173,7 @@ export const Select = memo(
           (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
         }
       },
-      [ref],
+      [ref]
     );
 
     // Flatten options for easier access
@@ -219,7 +215,7 @@ export const Select = memo(
         }
         return null;
       },
-      [displayOptions],
+      [displayOptions]
     );
 
     // Floating UI setup
@@ -288,11 +284,7 @@ export const Select = memo(
       enabled: isOpen && !searchable,
     });
 
-    const { getReferenceProps, getFloatingProps } = useInteractions([
-      click,
-      dismiss,
-      typeahead,
-    ]);
+    const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss, typeahead]);
 
     // Get selected options
     const selectedOptions = useMemo(() => {
@@ -314,13 +306,13 @@ export const Select = memo(
         }
         return currentValue === optionValue;
       },
-      [currentValue],
+      [currentValue]
     );
 
     // Generate option ID for a given index
     const getOptionId = useCallback(
       (index: number): string => `${optionIdPrefix}-${index}`,
-      [optionIdPrefix],
+      [optionIdPrefix]
     );
 
     // Handle value change
@@ -349,7 +341,7 @@ export const Select = memo(
           });
         }
       },
-      [multiple, currentValue, setCurrentValue, onClose],
+      [multiple, currentValue, setCurrentValue, onClose]
     );
 
     // Handle clear
@@ -360,7 +352,7 @@ export const Select = memo(
         setCurrentValue(newValue);
         onClear?.();
       },
-      [multiple, setCurrentValue, onClear],
+      [multiple, setCurrentValue, onClear]
     );
 
     // Handle keyboard on trigger (Enter/Space to select, Home/End, Arrow navigation)
@@ -405,10 +397,7 @@ export const Select = memo(
             }
             return;
           }
-          const next = findNextEnabledIndex(
-            (focusedIndex ?? -1) + 1,
-            1,
-          );
+          const next = findNextEnabledIndex((focusedIndex ?? -1) + 1, 1);
           if (next !== null) {
             setFocusedIndex(next);
           }
@@ -418,10 +407,7 @@ export const Select = memo(
         if (e.key === 'ArrowUp') {
           e.preventDefault();
           if (isOpen) {
-            const prev = findNextEnabledIndex(
-              (focusedIndex ?? displayOptions.length) - 1,
-              -1,
-            );
+            const prev = findNextEnabledIndex((focusedIndex ?? displayOptions.length) - 1, -1);
             if (prev !== null) {
               setFocusedIndex(prev);
             }
@@ -462,7 +448,10 @@ export const Select = memo(
         displayOptions,
         handleSelect,
         findNextEnabledIndex,
-      ],
+        onOpen,
+        onClose,
+        searchable,
+      ]
     );
 
     // Handle search input change
@@ -473,7 +462,7 @@ export const Select = memo(
         setFocusedIndex(0);
         onSearchChange?.(newValue);
       },
-      [onSearchChange],
+      [onSearchChange]
     );
 
     // Handle search input keyboard navigation
@@ -481,10 +470,7 @@ export const Select = memo(
       (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'ArrowDown') {
           e.preventDefault();
-          const next = findNextEnabledIndex(
-            (focusedIndex ?? -1) + 1,
-            1,
-          );
+          const next = findNextEnabledIndex((focusedIndex ?? -1) + 1, 1);
           if (next !== null) {
             setFocusedIndex(next);
           }
@@ -493,10 +479,7 @@ export const Select = memo(
 
         if (e.key === 'ArrowUp') {
           e.preventDefault();
-          const prev = findNextEnabledIndex(
-            (focusedIndex ?? displayOptions.length) - 1,
-            -1,
-          );
+          const prev = findNextEnabledIndex((focusedIndex ?? displayOptions.length) - 1, -1);
           if (prev !== null) {
             setFocusedIndex(prev);
           }
@@ -520,21 +503,13 @@ export const Select = memo(
           });
         }
       },
-      [
-        focusedIndex,
-        displayOptions,
-        handleSelect,
-        onClose,
-        findNextEnabledIndex,
-      ],
+      [focusedIndex, displayOptions, handleSelect, onClose, findNextEnabledIndex]
     );
 
     // Scroll focused option into view
     useEffect(() => {
       if (isOpen && focusedIndex !== null && focusedIndex >= 0 && listboxRef.current) {
-        const children = Array.from(
-          listboxRef.current.querySelectorAll('[role="option"]'),
-        );
+        const children = Array.from(listboxRef.current.querySelectorAll('[role="option"]'));
         const focusedElement = children[focusedIndex] as HTMLElement | undefined;
         if (focusedElement && typeof focusedElement.scrollIntoView === 'function') {
           focusedElement.scrollIntoView({ block: 'nearest' });
@@ -548,7 +523,7 @@ export const Select = memo(
       sizeClassMap[size] ?? '',
       error && 'is-invalid',
       success && !error && 'is-valid',
-      'd-flex align-items-center justify-content-between',
+      'd-flex align-items-center justify-content-between'
     );
 
     // Render display value
@@ -572,10 +547,7 @@ export const Select = memo(
     };
 
     // Render option item
-    const renderOptionItem = (
-      option: SelectOption<T>,
-      index: number,
-    ): React.JSX.Element => {
+    const renderOptionItem = (option: SelectOption<T>, index: number): React.JSX.Element => {
       const selected = isSelected(option.value);
       const focused = index === focusedIndex;
 
@@ -592,7 +564,7 @@ export const Select = memo(
             'd-flex align-items-center gap-2',
             selected && 'active',
             focused && 'bg-light',
-            option.disabled && 'disabled',
+            option.disabled && 'disabled'
           )}
           onClick={() => handleSelect(option)}
           onMouseEnter={() => setFocusedIndex(index)}
@@ -602,7 +574,7 @@ export const Select = memo(
             <span
               className={cn(
                 'border rounded d-inline-flex align-items-center justify-content-center',
-                selected && 'bg-primary border-primary text-white',
+                selected && 'bg-primary border-primary text-white'
               )}
               style={{ width: '18px', height: '18px' }}
             >
@@ -646,7 +618,7 @@ export const Select = memo(
           <>
             {options.map((group) => {
               const visibleGroupOptions = group.options.filter((opt) =>
-                displayValueSet.has(opt.value),
+                displayValueSet.has(opt.value)
               );
               if (visibleGroupOptions.length === 0) {
                 return null;
@@ -657,16 +629,8 @@ export const Select = memo(
                 .toLowerCase()}`;
 
               return (
-                <div
-                  key={group.label}
-                  role="group"
-                  aria-labelledby={groupLabelId}
-                >
-                  <div
-                    role="presentation"
-                    id={groupLabelId}
-                    className="dropdown-header"
-                  >
+                <div key={group.label} role="group" aria-labelledby={groupLabelId}>
+                  <div role="presentation" id={groupLabelId} className="dropdown-header">
                     {group.label}
                   </div>
                   {visibleGroupOptions.map((opt) => {
@@ -680,9 +644,7 @@ export const Select = memo(
         );
       }
 
-      return (
-        <>{displayOptions.map((opt, index) => renderOptionItem(opt, index))}</>
-      );
+      return <>{displayOptions.map((opt, index) => renderOptionItem(opt, index))}</>;
     };
 
     // Build aria-describedby
@@ -691,6 +653,20 @@ export const Select = memo(
     // Has value for clear button
     const hasValue = selectedOptions.length > 0;
     const showClearButton = clearable && hasValue && !disabled && !loading;
+
+    // Pre-compute floating-ui interaction props to avoid ref access in JSX
+    const referenceInteractionProps = getReferenceProps();
+
+    // Merge floating-ui keyboard handler with our custom handler
+    const mergedKeyDown = useCallback(
+      (e: React.KeyboardEvent<HTMLButtonElement>) => {
+        handleKeyDown(e);
+        if (typeof referenceInteractionProps.onKeyDown === 'function') {
+          (referenceInteractionProps.onKeyDown as React.KeyboardEventHandler<HTMLButtonElement>)(e);
+        }
+      },
+      [handleKeyDown, referenceInteractionProps]
+    );
 
     return (
       <div className={className} style={style}>
@@ -759,14 +735,10 @@ export const Select = memo(
               textAlign: 'left',
               paddingRight: showClearButton ? '4rem' : undefined,
             }}
-            // eslint-disable-next-line react-hooks/rules-of-hooks -- Floating UI getReferenceProps is a stable function from useInteractions
-            {...getReferenceProps({
-              onKeyDown: handleKeyDown,
-            })}
+            {...referenceInteractionProps}
+            onKeyDown={mergedKeyDown}
           >
-            <span className="flex-grow-1 text-truncate">
-              {renderDisplayValue()}
-            </span>
+            <span className="flex-grow-1 text-truncate">{renderDisplayValue()}</span>
           </button>
 
           {/* Clear button */}
@@ -791,7 +763,9 @@ export const Select = memo(
           {/* Dropdown */}
           {isOpen && (
             <div
-              ref={refs.setFloating}
+              ref={(node) => {
+                refs.setFloating(node);
+              }}
               className="dropdown-menu show"
               data-state="open"
               style={{
@@ -835,9 +809,7 @@ export const Select = memo(
                 aria-multiselectable={multiple || undefined}
                 aria-labelledby={label ? labelId : undefined}
                 aria-activedescendant={
-                  focusedIndex !== null && focusedIndex >= 0
-                    ? getOptionId(focusedIndex)
-                    : undefined
+                  focusedIndex !== null && focusedIndex >= 0 ? getOptionId(focusedIndex) : undefined
                 }
                 className="list-unstyled mb-0"
               >
@@ -846,10 +818,7 @@ export const Select = memo(
 
               {/* Limit message */}
               {isLimited && (
-                <div
-                  className="dropdown-item text-muted small fst-italic"
-                  aria-live="polite"
-                >
+                <div className="dropdown-item text-muted small fst-italic" aria-live="polite">
                   {limitMessage}
                 </div>
               )}
@@ -859,20 +828,17 @@ export const Select = memo(
 
         {/* Helper text */}
         {helperText && (
-          <div
-            id={helperId}
-            className={error ? 'invalid-feedback d-block' : 'form-text'}
-          >
+          <div id={helperId} className={error ? 'invalid-feedback d-block' : 'form-text'}>
             {helperText}
           </div>
         )}
       </div>
     );
   }) as <T = string>(
-    props: SelectProps<T> & { ref?: React.ForwardedRef<HTMLButtonElement> },
-  ) => React.JSX.Element,
+    props: SelectProps<T> & { ref?: React.ForwardedRef<HTMLButtonElement> }
+  ) => React.JSX.Element
 ) as <T = string>(
-  props: SelectProps<T> & { ref?: React.ForwardedRef<HTMLButtonElement> },
+  props: SelectProps<T> & { ref?: React.ForwardedRef<HTMLButtonElement> }
 ) => React.JSX.Element;
 
 (Select as React.FC).displayName = 'Select';

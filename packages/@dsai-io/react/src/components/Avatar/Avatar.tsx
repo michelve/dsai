@@ -33,12 +33,11 @@ import { cn } from '../../utils';
 import { isEnterKey } from '../../utils/keyboard';
 import { PersonIcon } from '../Icon';
 
-import { AvatarContext } from './AvatarContext';
 import { AvatarBadge } from './AvatarBadge';
+import { AvatarContext } from './AvatarContext';
 import { AvatarFallback } from './AvatarFallback';
 import { AvatarImage } from './AvatarImage';
 import { AvatarStatus } from './AvatarStatus';
-
 import {
   getFontSize,
   getInitialsFromName,
@@ -174,14 +173,13 @@ const AvatarRoot = memo(
       }
     }, [imageStatus, onLoadingStatusChange]);
 
-    // Reset status when src changes
-    useEffect(() => {
-      if (src) {
-        setImageStatus('loading');
-      } else {
-        setImageStatus('idle');
-      }
-    }, [src]);
+    // Reset status when src changes — derive synchronously to avoid cascading renders
+    // Uses state (not ref) to track previous value per React recommended pattern
+    const [prevSrc, setPrevSrc] = useState(src);
+    if (prevSrc !== src) {
+      setPrevSrc(src);
+      setImageStatus(src ? 'loading' : 'idle');
+    }
 
     const imageLoaded = imageStatus === 'loaded';
     const imageError = imageStatus === 'error';
@@ -225,9 +223,17 @@ const AvatarRoot = memo(
       effectiveDelayMs === undefined || effectiveDelayMs === 0
     );
 
-    useEffect(() => {
+    // Synchronize delayElapsed when effectiveDelayMs changes
+    const [prevEffectiveDelayMs, setPrevEffectiveDelayMs] = useState(effectiveDelayMs);
+    if (prevEffectiveDelayMs !== effectiveDelayMs) {
+      setPrevEffectiveDelayMs(effectiveDelayMs);
       if (effectiveDelayMs === undefined || effectiveDelayMs === 0) {
         setDelayElapsed(true);
+      }
+    }
+
+    useEffect(() => {
+      if (effectiveDelayMs === undefined || effectiveDelayMs === 0) {
         return undefined;
       }
       const timer = window.setTimeout(() => setDelayElapsed(true), effectiveDelayMs);
@@ -494,7 +500,7 @@ const AvatarRoot = memo(
         imgEl.removeEventListener('load', handleLoadEvent);
         imgEl.removeEventListener('error', handleErrorEvent);
       };
-    }, [onError, onLoad, src]);
+    }, [onError, onLoad]);
 
     // Determine the role for the container
     // - button: when interactive and not a semantic button/link

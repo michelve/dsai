@@ -9,7 +9,7 @@
 
 import { existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 
 import { createBundle } from '../../../src/tokens/merge/bundler.js';
 import { mergeContent } from '../../../src/tokens/merge/merger.js';
@@ -464,14 +464,16 @@ describe('processScssImportHeader', () => {
     const { processScssImportHeader } = await import('../../../src/tokens/merge/merger.js');
 
     const result = processScssImportHeader('./mixins.scss', '/project/config');
-    expect(result).toContain("@import '/project/config/mixins.scss';");
+    const expected = resolve('/project/config', './mixins.scss');
+    expect(result).toContain(`@import '${expected}';`);
   });
 
   it('should resolve absolute paths', async () => {
     const { processScssImportHeader } = await import('../../../src/tokens/merge/merger.js');
 
     const result = processScssImportHeader('/absolute/path.scss', '/config');
-    expect(result).toContain("@import '/absolute/path.scss';");
+    const expected = resolve('/config', '/absolute/path.scss');
+    expect(result).toContain(`@import '${expected}';`);
   });
 });
 

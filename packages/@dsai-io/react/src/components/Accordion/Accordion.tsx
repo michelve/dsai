@@ -161,8 +161,8 @@ const AccordionRoot = forwardRef<HTMLDivElement, AccordionProps>(
       const entries = [...buttonRefsRef.current.entries()];
       entries.sort(([, a], [, b]) => {
         const position = a.compareDocumentPosition(b);
-        if (position & Node.DOCUMENT_POSITION_FOLLOWING) return -1;
-        if (position & Node.DOCUMENT_POSITION_PRECEDING) return 1;
+        if (position & Node.DOCUMENT_POSITION_FOLLOWING) { return -1; }
+        if (position & Node.DOCUMENT_POSITION_PRECEDING) { return 1; }
         return 0;
       });
       return entries.map(([key]) => key);
@@ -202,7 +202,7 @@ const AccordionRoot = forwardRef<HTMLDivElement, AccordionProps>(
     const navigateToEdge = useCallback(
       (position: 'first' | 'last') => {
         const order = getSortedButtonKeys();
-        if (order.length === 0) return;
+        if (order.length === 0) { return; }
 
         const keys = position === 'first' ? order : [...order].reverse();
 
@@ -434,13 +434,14 @@ const AccordionButton = forwardRef<HTMLButtonElement, AccordionButtonProps>(
     const internalRef = useRef<HTMLButtonElement>(null);
 
     // Stable merged ref: combines forwarded ref, internal ref, and registration callback
-    const combinedRef = useMemo(
-      () =>
+    const combinedRef = useCallback(
+      (node: HTMLButtonElement | null) => {
         mergeRefs([
           ref,
           internalRef,
-          (node: HTMLButtonElement | null) => registerButtonRef(eventKey, node),
-        ]),
+          (n: HTMLButtonElement | null) => registerButtonRef(eventKey, n),
+        ])(node);
+      },
       [ref, eventKey, registerButtonRef]
     );
 

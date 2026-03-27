@@ -57,7 +57,17 @@
       "WebFetch(domain:floating-ui.com)",
       "WebFetch(domain:react-aria.adobe.com)",
       "WebFetch(domain:www.w3.org)",
-      "WebFetch(domain:base-ui.com)"
+      "WebFetch(domain:base-ui.com)",
+      "Bash(git checkout:*)",
+      "Bash(npx tsc:*)",
+      "Bash(act --version)",
+      "Bash(act -l)",
+      "Bash(act -j lint -P ubuntu-latest=-self-hosted --verbose)",
+      "Bash(act -j lint -P ubuntu-latest=-self-hosted)",
+      "Bash(taskkill /f /im act.exe)",
+      "Bash(node -e \"const fs=require\\(''''fs''''\\); fs.renameSync\\(''''packages/@dsai-io/tools/dist/cli/index.js'''',''''packages/@dsai-io/tools/dist/cli/index.js.bak''''\\)\")",
+      "Bash(node -e \"const fs=require\\(''''fs''''\\); fs.renameSync\\(''''packages/@dsai-io/tools/dist/cli/index.js.bak'''',''''packages/@dsai-io/tools/dist/cli/index.js''''\\)\")",
+      "Bash(node -e \"const f = require\\(''@floating-ui/react''\\); console.log\\(typeof f.useDelayGroupContext\\);\")"
     ]
   }
 }

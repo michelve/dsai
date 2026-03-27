@@ -62,6 +62,9 @@ node_modules
 **/.snapshots
 *.snapshot.tar.gz
 
+# Lint output artifacts
+lint-output.json
+
 # misc
 /.sass-cache
 /connect.lock
