@@ -406,7 +406,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
           {dismissible && (
             <button
               type="button"
-              className={`${closeButtonClass} me-2 m-auto`}
+              className={`${closeButtonClass} me-2 ms-auto`}
               onClick={handleCloseClick}
               onKeyDown={handleCloseKeyDown}
               aria-label={closeButtonLabel}

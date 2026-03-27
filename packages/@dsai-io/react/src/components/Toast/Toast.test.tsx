@@ -654,3 +654,12 @@ describe('Toast Ref Forwarding', () => {
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
 });
+
+describe('Toast Close Button Layout', () => {
+  it('close button in simplified toast uses ms-auto not m-auto', () => {
+    render(<Toast message="Test" dismissible data-testid="toast" />);
+    const closeBtn = screen.getByRole('button', { name: /close notification/i });
+    expect(closeBtn).toHaveClass('ms-auto');
+    expect(closeBtn).not.toHaveClass('m-auto');
+  });
+});
