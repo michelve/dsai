@@ -111,6 +111,32 @@ figma.connect(Tooltip, '<FIGMA_DSAI_TOOLTIP>', {
     }),
 
     /**
+     * Whether tooltip uses aria-describedby instead of aria-labelledby
+     * Maps Figma "Describe Child" boolean property
+     */
+    describeChild: figma.boolean('Describe Child', {
+      true: true,
+      false: false,
+    }),
+
+    /**
+     * Follow cursor mode
+     * Maps Figma "Follow Cursor" property
+     */
+    followCursor: figma.enum('Follow Cursor', {
+      Off: false,
+      Both: true,
+      Horizontal: 'x',
+      Vertical: 'y',
+    }),
+
+    /**
+     * Enable tooltip on touch devices
+     * Maps Figma "Touch Enabled" boolean property
+     */
+    touchEnabled: figma.boolean('Touch Enabled'),
+
+    /**
      * Trigger element (child instance)
      * Maps Figma nested trigger component
      */
@@ -130,6 +156,9 @@ figma.connect(Tooltip, '<FIGMA_DSAI_TOOLTIP>', {
     showDelay,
     hideDelay,
     maxWidth,
+    describeChild,
+    followCursor,
+    touchEnabled,
     triggerElement,
   }) => (
     <Tooltip
@@ -141,6 +170,9 @@ figma.connect(Tooltip, '<FIGMA_DSAI_TOOLTIP>', {
       showDelay={showDelay}
       hideDelay={hideDelay}
       maxWidth={maxWidth}
+      describeChild={describeChild}
+      followCursor={followCursor}
+      touchEnabled={touchEnabled}
     >
       {triggerElement}
     </Tooltip>
