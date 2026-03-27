@@ -229,6 +229,7 @@ export const Display = memo(
       style,
       id,
       noMargin = false,
+      truncate = false,
       'data-testid': dataTestId,
       'data-test': dataTest,
       title,
@@ -255,10 +256,12 @@ export const Display = memo(
           getFontWeightClass(weight),
           // No margin
           noMargin && 'mb-0',
+          // Truncate
+          truncate && 'text-truncate',
           // Custom classes
           className
         ),
-      [size, color, align, transform, weight, noMargin, className]
+      [size, color, align, transform, weight, noMargin, truncate, className]
     );
 
     return (

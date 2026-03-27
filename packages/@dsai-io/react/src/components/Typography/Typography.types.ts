@@ -242,6 +242,12 @@ export interface DisplayProps extends TypographySafeHTMLAttributes {
    * @default false
    */
   noMargin?: boolean;
+
+  /**
+   * Truncate text with ellipsis
+   * @default false
+   */
+  truncate?: boolean;
 }
 
 // =============================================================================

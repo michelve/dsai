@@ -450,6 +450,22 @@ describe('Typography', () => {
       });
     });
 
+    describe('Truncation', () => {
+      it('applies text-truncate class when truncate is true', () => {
+        render(
+          <Display size={1} truncate>
+            Very long display heading that should be truncated
+          </Display>
+        );
+        expect(screen.getByRole('heading')).toHaveClass('text-truncate');
+      });
+
+      it('does not apply text-truncate class by default', () => {
+        render(<Display size={1}>Normal display</Display>);
+        expect(screen.getByRole('heading')).not.toHaveClass('text-truncate');
+      });
+    });
+
     describe('Ref Forwarding', () => {
       it('forwards ref to heading element', () => {
         const ref = createRef<HTMLHeadingElement>();
