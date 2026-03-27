@@ -451,6 +451,252 @@ export const ManyTabs: Story = {
 /**
  * Complete tabs showcase
  */
+/**
+ * Manual activation mode — arrow keys move focus, Enter/Space activates.
+ */
+export const ManualActivation: Story = {
+  args: {
+    items: sampleItems,
+    activationMode: 'manual',
+  },
+};
+
+/**
+ * Lazy mount — only renders panels on first activation.
+ */
+export const LazyMount: Story = {
+  args: {
+    items: sampleItems,
+    lazyMount: true,
+  },
+};
+
+/**
+ * Closable tabs with onTabClose callback.
+ */
+export const ClosableTabs: Story = {
+  render: function ClosableTabsStory() {
+    const [tabs, setTabs] = useState([
+      { id: 'home', label: 'Home', closable: false },
+      { id: 'profile', label: 'Profile', closable: true },
+      { id: 'settings', label: 'Settings', closable: true },
+      { id: 'notifications', label: 'Notifications', closable: true },
+    ]);
+    const [activeTab, setActiveTab] = useState('home');
+
+    const handleClose = (id: string) => {
+      setTabs((prev) => prev.filter((t) => t.id !== id));
+      if (activeTab === id) {
+        setActiveTab('home');
+      }
+    };
+
+    return (
+      <Tabs
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        onTabClose={handleClose}
+        items={tabs.map((t) => ({
+          ...t,
+          content: (
+            <div className="p-3">
+              <Text as="p" noMargin>
+                Content for {t.label}
+              </Text>
+            </div>
+          ),
+        }))}
+      />
+    );
+  },
+};
+
+/**
+ * Editable tabs — add and close tabs dynamically.
+ */
+export const EditableTabs: Story = {
+  render: function EditableTabsStory() {
+    const [counter, setCounter] = useState(4);
+    const [tabs, setTabs] = useState([
+      { id: 'tab-1', label: 'Tab 1', closable: true },
+      { id: 'tab-2', label: 'Tab 2', closable: true },
+      { id: 'tab-3', label: 'Tab 3', closable: true },
+    ]);
+    const [activeTab, setActiveTab] = useState('tab-1');
+
+    const handleAdd = () => {
+      const newId = `tab-${counter}`;
+      setTabs((prev) => [...prev, { id: newId, label: `Tab ${counter}`, closable: true }]);
+      setActiveTab(newId);
+      setCounter((c) => c + 1);
+    };
+
+    const handleClose = (id: string) => {
+      setTabs((prev) => {
+        const remaining = prev.filter((t) => t.id !== id);
+        if (activeTab === id && remaining.length > 0) {
+          setActiveTab(remaining[0].id);
+        }
+        return remaining;
+      });
+    };
+
+    return (
+      <Tabs
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        onTabClose={handleClose}
+        onTabAdd={handleAdd}
+        items={tabs.map((t) => ({
+          ...t,
+          content: (
+            <div className="p-3">
+              <Text as="p" noMargin>
+                Content for {t.label}
+              </Text>
+            </div>
+          ),
+        }))}
+      />
+    );
+  },
+};
+
+/**
+ * Extra content on the right side of the tab list.
+ */
+export const ExtraContent: Story = {
+  render: () => (
+    <Tabs defaultActiveTab="home">
+      <TabList aria-label="Tabs with extra content" extra={<Button size="sm" variant="outline-primary">Action</Button>}>
+        <Tab id="home">Home</Tab>
+        <Tab id="profile">Profile</Tab>
+        <Tab id="settings">Settings</Tab>
+      </TabList>
+      <TabPanel id="home">
+        <div className="p-3">
+          <Text as="p" noMargin>Home content</Text>
+        </div>
+      </TabPanel>
+      <TabPanel id="profile">
+        <div className="p-3">
+          <Text as="p" noMargin>Profile content</Text>
+        </div>
+      </TabPanel>
+      <TabPanel id="settings">
+        <div className="p-3">
+          <Text as="p" noMargin>Settings content</Text>
+        </div>
+      </TabPanel>
+    </Tabs>
+  ),
+};
+
+/**
+ * Extra content with left and right slots.
+ */
+export const ExtraContentSlots: Story = {
+  render: () => (
+    <Tabs defaultActiveTab="home">
+      <TabList
+        aria-label="Tabs with extra content slots"
+        extra={{
+          left: <Text as="span" size="sm" color="muted" noMargin>Filter:</Text>,
+          right: <Button size="sm" variant="outline-secondary">Export</Button>,
+        }}
+      >
+        <Tab id="home">Home</Tab>
+        <Tab id="profile">Profile</Tab>
+        <Tab id="settings">Settings</Tab>
+      </TabList>
+      <TabPanel id="home">
+        <div className="p-3">
+          <Text as="p" noMargin>Home content</Text>
+        </div>
+      </TabPanel>
+      <TabPanel id="profile">
+        <div className="p-3">
+          <Text as="p" noMargin>Profile content</Text>
+        </div>
+      </TabPanel>
+      <TabPanel id="settings">
+        <div className="p-3">
+          <Text as="p" noMargin>Settings content</Text>
+        </div>
+      </TabPanel>
+    </Tabs>
+  ),
+};
+
+/**
+ * Scrollable tab list with many tabs.
+ */
+export const ScrollableTabs: Story = {
+  render: () => (
+    <Tabs defaultActiveTab="tab-1">
+      <TabList aria-label="Scrollable tabs" scrollable>
+        {Array.from({ length: 20 }, (_, i) => (
+          <Tab key={`tab-${i + 1}`} id={`tab-${i + 1}`}>
+            Tab {i + 1}
+          </Tab>
+        ))}
+      </TabList>
+      {Array.from({ length: 20 }, (_, i) => (
+        <TabPanel key={`tab-${i + 1}`} id={`tab-${i + 1}`}>
+          <div className="p-3">
+            <Text as="p" noMargin>
+              Content for Tab {i + 1}
+            </Text>
+          </div>
+        </TabPanel>
+      ))}
+    </Tabs>
+  ),
+};
+
+/**
+ * Keep mounted — panel stays in the DOM even when not active.
+ */
+export const KeepMounted: Story = {
+  render: () => (
+    <Tabs defaultActiveTab="home">
+      <TabList aria-label="Keep mounted tabs">
+        <Tab id="home">Home</Tab>
+        <Tab id="profile">Profile</Tab>
+        <Tab id="settings">Settings</Tab>
+      </TabList>
+      <TabPanel id="home" keepMounted>
+        <div className="p-3">
+          <Text as="p" noMargin>
+            Home panel (keepMounted) — stays in the DOM when inactive.
+          </Text>
+        </div>
+      </TabPanel>
+      <TabPanel id="profile" keepMounted>
+        <div className="p-3">
+          <Text as="p" noMargin>
+            Profile panel (keepMounted) — stays in the DOM when inactive.
+          </Text>
+        </div>
+      </TabPanel>
+      <TabPanel id="settings">
+        <div className="p-3">
+          <Text as="p" noMargin>
+            Settings panel (default) — unmounts when inactive.
+          </Text>
+        </div>
+      </TabPanel>
+    </Tabs>
+  ),
+};
+
+// =============================================================================
+// Complete Showcase
+// =============================================================================
+
+/**
+ * Complete tabs showcase
+ */
 export const CompleteShowcase: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
