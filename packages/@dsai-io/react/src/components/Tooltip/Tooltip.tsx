@@ -30,6 +30,8 @@ import {
 import type { TooltipProps } from './Tooltip.types';
 import type { ReactElement } from 'react';
 
+import { useTooltipContext } from './TooltipContext';
+
 const TOOLTIP_ARROW_GAP_PX = 6;
 const TOOLTIP_ARROW_WIDTH_PX = 12;
 const TOOLTIP_ARROW_HEIGHT_PX = 6;
@@ -87,9 +89,9 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
       content,
       placement = 'top',
       trigger = ['hover', 'focus'],
-      showDelay = 0,
-      hideDelay = 0,
-      arrow: showArrow = true,
+      showDelay,
+      hideDelay,
+      arrow: showArrow,
       offset: offsetValue = 8,
       maxWidth,
       isOpen: controlledIsOpen,
@@ -107,6 +109,14 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
     },
     ref
   ) => {
+    // Read provider defaults
+    const ctx = useTooltipContext();
+
+    // Resolve props: instance > provider > built-in defaults
+    const resolvedShowDelay = showDelay ?? ctx.showDelay;
+    const resolvedHideDelay = hideDelay ?? ctx.hideDelay;
+    const resolvedArrow = showArrow ?? ctx.arrow;
+
     // Determine if controlled
     const isControlled = controlledIsOpen !== undefined;
 
@@ -138,13 +148,13 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
     // to avoid React hooks ordering issues. FloatingArrow handles visibility.
     const middleware = useMemo(
       () => [
-        offset(offsetValue + (showArrow ? TOOLTIP_ARROW_GAP_PX : 0)),
+        offset(offsetValue + (resolvedArrow ? TOOLTIP_ARROW_GAP_PX : 0)),
         flip({ fallbackAxisSideDirection: 'start' }),
         shift({ padding: 5 }),
         // eslint-disable-next-line react-hooks/refs -- Floating UI documented pattern: arrow middleware requires ref object
         arrow({ element: arrowRef }),
       ],
-      [offsetValue, showArrow]
+      [offsetValue, resolvedArrow]
     );
 
     // Floating UI setup
@@ -171,8 +181,8 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
     const hover = useHover(context, {
       enabled: hasHover && !disabled,
       delay: {
-        open: showDelay,
-        close: hideDelay,
+        open: resolvedShowDelay,
+        close: resolvedHideDelay,
       },
       move: false,
     });
@@ -328,7 +338,7 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
         data-testid={dataTestId}
         data-test={dataTest}
       >
-        {showArrow && (
+        {resolvedArrow && (
           <FloatingArrow
             ref={arrowRef}
             context={context}
