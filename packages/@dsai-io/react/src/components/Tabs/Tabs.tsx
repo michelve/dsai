@@ -14,6 +14,9 @@ import { useControllableState } from '../../hooks/useControllableState/useContro
 import { cn } from '../../utils';
 
 import { TabsContext, useTabsContext } from './Tabs.context';
+import { useTabsKeyboard } from './useTabsKeyboard';
+import { useTabsScroll } from './useTabsScroll';
+
 import type {
   TabItem,
   TabListProps,
@@ -22,8 +25,6 @@ import type {
   TabsContextValue,
   TabsProps,
 } from './Tabs.types';
-import { useTabsKeyboard } from './useTabsKeyboard';
-import { useTabsScroll } from './useTabsScroll';
 
 import './Tabs.scroll.css';
 
@@ -38,7 +39,7 @@ import './Tabs.scroll.css';
 function isExtraSlots(
   value: unknown
 ): value is { left?: ReactNode; right?: ReactNode } {
-  if (value == null || typeof value !== 'object' || Array.isArray(value)) {
+  if (value === null || value === undefined || typeof value !== 'object' || Array.isArray(value)) {
     return false;
   }
   // React elements have $$typeof — those are simple ReactNode extra content
@@ -119,7 +120,6 @@ export const TabList = memo(
     const simpleExtra = !extraSlots ? (extra as ReactNode) : undefined;
 
     // Keyboard events bubble from focused tab buttons — tablist itself doesn't need tabIndex
-    // eslint-disable-next-line jsx-a11y/interactive-supports-focus
     const tabListContent = (
       <div
         ref={scrollable ? scrollRef : ref}

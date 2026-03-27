@@ -54,7 +54,8 @@ export function useTabsScroll({
       return;
     }
 
-    updateScrollState();
+    // Defer initial measurement to avoid synchronous setState in effect
+    const rafId = requestAnimationFrame(updateScrollState);
 
     container.addEventListener('scroll', updateScrollState, { passive: true });
 
@@ -62,6 +63,7 @@ export function useTabsScroll({
     observer.observe(container);
 
     return () => {
+      cancelAnimationFrame(rafId);
       container.removeEventListener('scroll', updateScrollState);
       observer.disconnect();
     };

@@ -76,7 +76,7 @@ export function useTabsKeyboard({
 
       e.preventDefault();
 
-      const newTabId = tabs[newIndex];
+      const newTabId = tabs.at(newIndex);
       if (!newTabId) {
         return;
       }
