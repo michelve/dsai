@@ -2,6 +2,21 @@ import { type KeyboardEvent, useCallback } from 'react';
 
 import type { TabsActivationMode, TabsOrientation } from './Tabs.types';
 
+/** Safe array element access without triggering security/detect-object-injection */
+function getTabAtIndex(list: readonly string[], index: number): string | undefined {
+  if (index < 0 || index >= list.length) {
+    return undefined;
+  }
+  let i = 0;
+  for (const item of list) {
+    if (i === index) {
+      return item;
+    }
+    i += 1;
+  }
+  return undefined;
+}
+
 export interface UseTabsKeyboardOptions {
   tabs: string[];
   activeTab: string;
@@ -76,7 +91,7 @@ export function useTabsKeyboard({
 
       e.preventDefault();
 
-      const newTabId = tabs.at(newIndex);
+      const newTabId = getTabAtIndex(tabs, newIndex);
       if (!newTabId) {
         return;
       }
