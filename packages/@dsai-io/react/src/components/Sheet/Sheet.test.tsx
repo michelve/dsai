@@ -1177,11 +1177,9 @@ describe('Sheet', () => {
 
     it('does not render when portal container resolves to null (SSR)', () => {
       // Mock isBrowser to simulate SSR environment
-      const spy = jest.spyOn(
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        require('../../utils') as typeof import('../../utils'),
-        'isBrowser'
-      );
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const utilsModule = require('../../utils');
+      const spy = jest.spyOn(utilsModule, 'isBrowser');
       spy.mockReturnValue(false);
       render(
         <Sheet isOpen={true} onClose={() => {}} animated={false}>

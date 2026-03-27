@@ -233,9 +233,9 @@ export const Breadcrumb = memo(
 
     // Accessible label with fallback chain
     const navAriaLabel = useMemo(() => {
-      if (ariaLabelledBy) return undefined;
-      if (ariaLabel) return ariaLabel;
-      if (id) return `Breadcrumb ${id}`;
+      if (ariaLabelledBy) {return undefined;}
+      if (ariaLabel) {return ariaLabel;}
+      if (id) {return `Breadcrumb ${id}`;}
       return 'Breadcrumb';
     }, [ariaLabel, ariaLabelledBy, id]);
 
@@ -254,7 +254,7 @@ export const Breadcrumb = memo(
 
     // Render items (data-driven mode)
     const renderedItems = useMemo(() => {
-      if (!items || items.length === 0) return null;
+      if (!items || items.length === 0) {return null;}
 
       const shouldCollapse = maxItems != null && items.length > maxItems && !isExpanded;
 
@@ -352,7 +352,7 @@ export const Breadcrumb = memo(
 
     // Render children (compound component mode)
     const renderedChildren = useMemo(() => {
-      if (!children) return null;
+      if (!children) {return null;}
 
       // For inline separators in compound mode, we can't auto-insert between children
       // because we don't control the children structure — use CSS variable approach

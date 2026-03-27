@@ -616,7 +616,7 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
         )}
 
         {/* Modal */}
-        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/role-supports-aria-props -- Dialog/alertdialog backdrop click is a standard modal pattern per Bootstrap 5 and ARIA APG; aria-modal is valid on dialog/alertdialog roles */}
+        { }
         {/* biome-ignore lint/a11y/noStaticElementInteractions: role is dynamically dialog|alertdialog both interactive per ARIA APG */}
         {/* biome-ignore lint/a11y/useAriaPropsSupportedByRole: aria-modal is valid on both dialog and alertdialog roles */}
         <div

@@ -1,7 +1,7 @@
+import type { ComponentSize, SafeHTMLAttributes } from '../../types';
 import type React from 'react';
 import type { ReactNode } from 'react';
 
-import type { ComponentSize, SafeHTMLAttributes } from '../../types';
 
 /**
  * Modal size variants

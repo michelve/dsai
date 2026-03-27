@@ -49,7 +49,7 @@ function warnMissingListLabel(listId: string): void {
   ) {
     if (warnedLists.size >= WARN_CACHE_LIMIT) {
       const first = warnedLists.values().next().value;
-      if (first !== undefined) warnedLists.delete(first);
+      if (first !== undefined) {warnedLists.delete(first);}
     }
     warnedLists.add(listId);
     console.warn(
@@ -284,10 +284,10 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListProps>(
     const containerClasses = useMemo(() => {
       if (isResponsiveColumns) {
         const classes = ['card-list-container', 'row'];
-        if (columns.sm) classes.push(`row-cols-sm-${columns.sm}`);
-        if (columns.md) classes.push(`row-cols-md-${columns.md}`);
-        if (columns.lg) classes.push(`row-cols-lg-${columns.lg}`);
-        if (columns.xl) classes.push(`row-cols-xl-${columns.xl}`);
+        if (columns.sm) {classes.push(`row-cols-sm-${columns.sm}`);}
+        if (columns.md) {classes.push(`row-cols-md-${columns.md}`);}
+        if (columns.lg) {classes.push(`row-cols-lg-${columns.lg}`);}
+        if (columns.xl) {classes.push(`row-cols-xl-${columns.xl}`);}
         return classes.join(' ');
       }
       return 'card-list-container';

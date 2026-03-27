@@ -608,7 +608,7 @@ const ListGroupInner = forwardRef<HTMLUListElement | HTMLOListElement, ListGroup
 
     // Render using items prop
     const renderWithItems = (): React.ReactNode => {
-      if (!items || items.length === 0) return null;
+      if (!items || items.length === 0) {return null;}
       return renderEntries(items);
     };
 

@@ -174,9 +174,10 @@ const AvatarRoot = memo(
     }, [imageStatus, onLoadingStatusChange]);
 
     // Reset status when src changes — derive synchronously to avoid cascading renders
-    const prevSrcRef = useRef(src);
-    if (prevSrcRef.current !== src) {
-      prevSrcRef.current = src;
+    // Uses state (not ref) to track previous value per React recommended pattern
+    const [prevSrc, setPrevSrc] = useState(src);
+    if (prevSrc !== src) {
+      setPrevSrc(src);
       setImageStatus(src ? 'loading' : 'idle');
     }
 
@@ -223,9 +224,9 @@ const AvatarRoot = memo(
     );
 
     // Synchronize delayElapsed when effectiveDelayMs changes
-    const prevDelayRef = useRef(effectiveDelayMs);
-    if (prevDelayRef.current !== effectiveDelayMs) {
-      prevDelayRef.current = effectiveDelayMs;
+    const [prevEffectiveDelayMs, setPrevEffectiveDelayMs] = useState(effectiveDelayMs);
+    if (prevEffectiveDelayMs !== effectiveDelayMs) {
+      setPrevEffectiveDelayMs(effectiveDelayMs);
       if (effectiveDelayMs === undefined || effectiveDelayMs === 0) {
         setDelayElapsed(true);
       }
@@ -499,7 +500,7 @@ const AvatarRoot = memo(
         imgEl.removeEventListener('load', handleLoadEvent);
         imgEl.removeEventListener('error', handleErrorEvent);
       };
-    }, [onError, onLoad, src]);
+    }, [onError, onLoad]);
 
     // Determine the role for the container
     // - button: when interactive and not a semantic button/link

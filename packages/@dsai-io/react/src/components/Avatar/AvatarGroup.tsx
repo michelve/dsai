@@ -20,6 +20,7 @@ import { Children, cloneElement, forwardRef, isValidElement, memo, useEffect, us
 import { cn } from '../../utils';
 
 import { getSizeValue, resolveOverlap, resolveInlineGap } from './avatarUtils';
+
 import type { AvatarGroupProps, AvatarSize } from './Avatar.types';
 
 // =============================================================================

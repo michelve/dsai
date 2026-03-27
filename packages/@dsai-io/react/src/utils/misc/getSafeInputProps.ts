@@ -161,7 +161,7 @@ export function getSafeInputProps(props: Record<string, unknown>): SafeInputProp
 
   // Pass through data-* attributes (e.g., data-testid, data-cy)
   for (const key of Object.keys(props)) {
-    if (BLOCKED_KEYS.has(key)) continue;
+    if (BLOCKED_KEYS.has(key)) {continue;}
     if (DATA_ATTR_PATTERN.test(key)) {
       safeEntries.push([key, Reflect.get(props, key)]);
     }

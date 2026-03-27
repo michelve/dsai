@@ -16,9 +16,15 @@ export const AvatarFallback = memo(
     const { imageStatus } = useAvatarContext();
     const [delayElapsed, setDelayElapsed] = useState(delayMs === undefined || delayMs === 0);
 
+    // Synchronize when delayMs changes (state-based, not effect-based)
+    const [prevDelayMs, setPrevDelayMs] = useState(delayMs);
+    if (prevDelayMs !== delayMs) {
+      setPrevDelayMs(delayMs);
+      setDelayElapsed(delayMs === undefined || delayMs === 0);
+    }
+
     useEffect(() => {
       if (delayMs === undefined || delayMs === 0) {
-        setDelayElapsed(true);
         return undefined;
       }
 

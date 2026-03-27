@@ -53,7 +53,7 @@ const BLOCKED_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 
 /** Safe lookup with prototype pollution guard */
 function safeLookup<T>(map: Readonly<Record<string, T>>, key: string, fallback: T): T {
-  if (BLOCKED_KEYS.has(key)) return fallback;
+  if (BLOCKED_KEYS.has(key)) {return fallback;}
   const value = Reflect.get(map, key) as T | undefined;
   return value !== undefined ? value : fallback;
 }
@@ -520,18 +520,18 @@ export const Pagination = memo(
 
     // Arrow key navigation between pagination buttons (F3)
     const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLUListElement>): void => {
-      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {return;}
 
       const list = listRef.current;
-      if (!list) return;
+      if (!list) {return;}
 
       const buttons = Array.from(
         list.querySelectorAll<HTMLButtonElement>('button.page-link:not([disabled])')
       );
-      if (buttons.length === 0) return;
+      if (buttons.length === 0) {return;}
 
       const currentIndex = buttons.indexOf(event.target as HTMLButtonElement);
-      if (currentIndex === -1) return;
+      if (currentIndex === -1) {return;}
 
       event.preventDefault();
       const nextIndex =

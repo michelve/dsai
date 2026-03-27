@@ -27,7 +27,7 @@ const SIZE_STYLE_MAP: Readonly<Record<string, React.CSSProperties>> = {
 const BLOCKED_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 
 function safeLookup<T>(map: Readonly<Record<string, T>>, key: string, fallback: T): T {
-  if (BLOCKED_KEYS.has(key)) return fallback;
+  if (BLOCKED_KEYS.has(key)) {return fallback;}
   const value = Reflect.get(map, key) as T | undefined;
   return value !== undefined ? value : fallback;
 }
@@ -82,7 +82,7 @@ function BadgeComponent(
   // Max count truncation
   // ---------------------------------------------------------------------------
   const displayContent = useMemo(() => {
-    if (isZeroHidden) return null;
+    if (isZeroHidden) {return null;}
     if (max !== undefined && typeof children === 'number' && children > max) {
       return `${max}+`;
     }
@@ -167,7 +167,7 @@ function BadgeComponent(
   const prevContentRef = useRef<React.ReactNode>(displayContent);
 
   useEffect(() => {
-    if (!animated || !badgeRef.current) return;
+    if (!animated || !badgeRef.current) {return;}
     if (prevContentRef.current !== displayContent) {
       const el = badgeRef.current;
       el.classList.add('dsai-badge-pulse');
@@ -183,7 +183,7 @@ function BadgeComponent(
   // ---------------------------------------------------------------------------
   // showZero: return null after hooks
   // ---------------------------------------------------------------------------
-  if (isZeroHidden) return null;
+  if (isZeroHidden) {return null;}
 
   // ---------------------------------------------------------------------------
   // ARIA
