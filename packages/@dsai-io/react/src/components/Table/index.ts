@@ -38,6 +38,7 @@ export type {
   RowIdAccessor,
   SortConfig,
   SortDirection,
+  SortingState,
   TableBodyProps,
   TableCellProps,
   TableColor,

@@ -74,6 +74,7 @@ import type {
   RowIdAccessor,
   SortConfig,
   SortDirection,
+  SortingState,
   TableColumn,
   TableProps,
   TablePropsInternal,
@@ -179,15 +180,46 @@ function getVisiblePages(currentPage: number, totalPages: number, maxVisible = 5
 }
 
 // =============================================================================
+// Multi-Sort Utilities
+// =============================================================================
+
+/**
+ * Check if a value is a SortingState (array of SortConfig)
+ */
+function isSortingState(value: SortConfig | SortingState | undefined): value is SortingState {
+  return Array.isArray(value);
+}
+
+/**
+ * Normalize sort config to always be a SortingState (array).
+ * - undefined -> []
+ * - SortConfig -> [SortConfig]
+ * - SortingState -> SortingState
+ */
+function normalizeSortState(
+  config: SortConfig | SortingState | undefined
+): SortingState {
+  if (!config) {
+    return [];
+  }
+  if (isSortingState(config)) {
+    return config;
+  }
+  return [config];
+}
+
+// =============================================================================
 // Sort Icon Component
 // =============================================================================
 
 interface SortIconProps {
   direction?: SortDirection;
   sortable?: boolean;
+  /** Priority number (1-based) for multi-column sort display */
+  priority?: number;
 }
 
-const SortIcon = memo(function SortIcon({ direction, sortable }: SortIconProps) {
+const SortIcon = memo(function SortIcon({ direction, sortable, priority }: SortIconProps) {
   if (!sortable) {
     return null;
   }
@@ -197,6 +229,11 @@ const SortIcon = memo(function SortIcon({ direction, sortable }: SortIconProps) 
       {direction === 'asc' && '\u25B2'}
       {direction === 'desc' && '\u25BC'}
       {!direction && '\u21C5'}
+      {priority !== undefined && priority > 0 && (
+        <span className="table-sort-priority ms-1" data-sort-priority={priority}>
+          {priority}
+        </span>
+      )}
     </span>
   );
 });
@@ -217,6 +254,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
       sortConfig,
       defaultSortConfig,
       onSortChange,
+      maxSortColumns = 3,
       manualSorting = false,
       // Pagination
       pagination,
@@ -297,38 +335,166 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     }, [columns, visibilityState]);
 
     // ==========================================================================
-    // Sorting State (can be controlled or uncontrolled)
+    // Sorting State (useControllableState for controlled/uncontrolled)
     // ==========================================================================
-    const [internalSortConfig, setInternalSortConfig] = useState<SortConfig | undefined>(
-      defaultSortConfig
+    const [currentSort, setCurrentSort] = useControllableState<
+      SortConfig | SortingState | undefined
+    >({
+      value: sortConfig,
+      defaultValue: defaultSortConfig,
+      onChange: onSortChange as ((value: SortConfig | SortingState | undefined) => void) | undefined,
+    });
+
+    /** Normalized sort state — always an array internally */
+    const sortingState: SortingState = useMemo(
+      () => normalizeSortState(currentSort),
+      [currentSort],
     );
-    const isSortControlled = sortConfig !== undefined;
-    const currentSortConfig = isSortControlled ? sortConfig : internalSortConfig;
 
+    /**
+     * Handle a sort click on a column header.
+     * Plain click: single-column cycle (asc -> desc -> none).
+     * Shift+click: multi-column toggle (add/remove/cycle column in array).
+     */
     const handleSortClick = useCallback(
-      (columnId: string) => {
-        let newConfig: SortConfig | undefined;
+      (columnId: string, shiftKey = false) => {
+        if (shiftKey) {
+          // Multi-column sort via Shift+Click
+          const existingIndex = sortingState.findIndex((s) => s.columnId === columnId);
 
-        if (currentSortConfig?.columnId === columnId) {
-          // Toggle direction or clear
-          if (currentSortConfig.direction === 'asc') {
-            newConfig = { columnId, direction: 'desc' };
+          let nextState: SortingState;
+
+          if (existingIndex >= 0) {
+            const existing = sortingState[existingIndex];
+            if (existing.direction === 'asc') {
+              // Toggle to desc
+              nextState = sortingState.map((s, i) =>
+                i === existingIndex ? { ...s, direction: 'desc' as SortDirection } : s,
+              );
+            } else {
+              // Remove from multi-sort
+              nextState = sortingState.filter((_, i) => i !== existingIndex);
+            }
           } else {
-            // Clear sort
-            newConfig = undefined;
+            // Add new column
+            if (sortingState.length >= maxSortColumns) {
+              // Replace the last column
+              nextState = [
+                ...sortingState.slice(0, -1),
+                { columnId, direction: 'asc' as SortDirection },
+              ];
+            } else {
+              nextState = [...sortingState, { columnId, direction: 'asc' as SortDirection }];
+            }
           }
+
+          const result = nextState.length === 0 ? undefined : nextState;
+          setCurrentSort(result);
         } else {
-          // New column, start with ascending
-          newConfig = { columnId, direction: 'asc' };
-        }
+          // Single-column sort (plain click resets to single column)
+          const current = sortingState.find((s) => s.columnId === columnId);
 
-        if (!isSortControlled) {
-          setInternalSortConfig(newConfig);
-        }
+          let newConfig: SortConfig | undefined;
 
-        onSortChange?.(newConfig);
+          if (current) {
+            if (current.direction === 'asc') {
+              newConfig = { columnId, direction: 'desc' };
+            } else {
+              // Clear sort
+              newConfig = undefined;
+            }
+          } else {
+            // New column, start with ascending
+            newConfig = { columnId, direction: 'asc' };
+          }
+
+          setCurrentSort(newConfig);
+        }
       },
-      [currentSortConfig, isSortControlled, onSortChange]
+      [sortingState, maxSortColumns, setCurrentSort],
+    );
+
+    // ==========================================================================
+    // Arrow Key Navigation for Sortable Headers (roving tabindex)
+    // ==========================================================================
+
+    /** Indices of sortable columns (based on visibleColumns) */
+    const sortableHeaderIndices = useMemo(
+      () => visibleColumns.reduce<number[]>((acc, col, idx) => {
+        if (col.sortable) {
+          acc.push(idx);
+        }
+        return acc;
+      }, []),
+      [visibleColumns],
+    );
+
+    const [activeHeaderIndex, setActiveHeaderIndex] = useState<number>(
+      sortableHeaderIndices.length > 0 ? sortableHeaderIndices[0] : -1,
+    );
+
+    /** Refs for sortable header elements to manage focus */
+    const headerRefs = useRef<Map<number, HTMLTableCellElement>>(new Map());
+
+    /** Set a header ref */
+    const setHeaderRef = useCallback(
+      (index: number, el: HTMLTableCellElement | null) => {
+        if (el) {
+          headerRefs.current.set(index, el);
+        } else {
+          headerRefs.current.delete(index);
+        }
+      },
+      [],
+    );
+
+    /** Handle arrow key navigation on sortable headers */
+    const handleHeaderKeyDown = useCallback(
+      (e: React.KeyboardEvent, columnId: string, columnIndex: number) => {
+        if (isEnterKey(e) || e.key === ' ') {
+          e.preventDefault();
+          handleSortClick(columnId, e.shiftKey);
+          return;
+        }
+
+        const currentPosInSortable = sortableHeaderIndices.indexOf(columnIndex);
+        if (currentPosInSortable < 0) {
+          return;
+        }
+
+        let nextIndex = -1;
+
+        switch (e.key) {
+          case 'ArrowRight':
+            e.preventDefault();
+            if (currentPosInSortable < sortableHeaderIndices.length - 1) {
+              nextIndex = sortableHeaderIndices[currentPosInSortable + 1];
+            }
+            break;
+          case 'ArrowLeft':
+            e.preventDefault();
+            if (currentPosInSortable > 0) {
+              nextIndex = sortableHeaderIndices[currentPosInSortable - 1];
+            }
+            break;
+          case 'Home':
+            e.preventDefault();
+            nextIndex = sortableHeaderIndices[0];
+            break;
+          case 'End':
+            e.preventDefault();
+            nextIndex = sortableHeaderIndices[sortableHeaderIndices.length - 1];
+            break;
+          default:
+            return;
+        }
+
+        if (nextIndex >= 0) {
+          setActiveHeaderIndex(nextIndex);
+          headerRefs.current.get(nextIndex)?.focus();
+        }
+      },
+      [sortableHeaderIndices, handleSortClick],
     );
 
     // ==========================================================================
@@ -642,27 +808,37 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     // ==========================================================================
 
     const sortedData = useMemo(() => {
-      // When manualSorting is true, skip client-side sorting
-      if (manualSorting) {
+      if (manualSorting || sortingState.length === 0) {
         return data;
       }
 
-      if (!currentSortConfig) {
-        return data;
-      }
+      // Build a list of column+direction pairs for multi-sort
+      const sortColumns = sortingState
+        .map((sc) => {
+          const col = columns.find((c) => c.id === sc.columnId);
+          return col ? { column: col, direction: sc.direction } : null;
+        })
+        .filter(Boolean) as { column: TableColumn<Record<string, unknown>>; direction: SortDirection }[];
 
-      const column = columns.find((col) => col.id === currentSortConfig.columnId);
-      if (!column) {
+      if (sortColumns.length === 0) {
         return data;
       }
 
       return [...data].sort((a, b) => {
-        if (column.sortFn) {
-          return column.sortFn(a, b, currentSortConfig.direction);
+        for (const { column, direction } of sortColumns) {
+          let result: number;
+          if (column.sortFn) {
+            result = column.sortFn(a, b, direction);
+          } else {
+            result = defaultSortFn(a, b, column.accessor, direction);
+          }
+          if (result !== 0) {
+            return result;
+          }
         }
-        return defaultSortFn(a, b, column.accessor, currentSortConfig.direction);
+        return 0;
       });
-    }, [data, currentSortConfig, columns, manualSorting]);
+    }, [data, sortingState, columns, manualSorting]);
 
     // ==========================================================================
     // Paginated Data
@@ -960,9 +1136,14 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
             )}
 
             {/* Column headers */}
-            {visibleColumns.map((column) => {
-              const isSorted = currentSortConfig?.columnId === column.id;
-              const sortDirection = isSorted ? currentSortConfig.direction : undefined;
+            {visibleColumns.map((column, columnIndex) => {
+              const sortEntry = sortingState.find((s) => s.columnId === column.id);
+              const isSorted = !!sortEntry;
+              const sortDirection = isSorted ? sortEntry.direction : undefined;
+              const sortPriority =
+                sortingState.length > 1
+                  ? sortingState.findIndex((s) => s.columnId === column.id) + 1
+                  : 0;
               const ariaSortValue = isSorted
                 ? sortDirection === 'asc'
                   ? 'ascending'
@@ -1006,28 +1187,41 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
                 isSorted && 'table-sorted'
               );
 
+              // Roving tabindex: active sortable header gets 0, others get -1
+              const isActiveHeader = column.sortable && columnIndex === activeHeaderIndex;
+              const headerTabIndex = column.sortable
+                ? isActiveHeader
+                  ? 0
+                  : -1
+                : undefined;
+
               return (
                 <th
                   key={column.id}
+                  ref={column.sortable ? (el) => setHeaderRef(columnIndex, el) : undefined}
                   scope="col"
                   className={headerCellClasses || undefined}
                   style={headerStyle}
                   aria-sort={ariaSortValue}
-                  onClick={column.sortable ? () => handleSortClick(column.id) : undefined}
-                  onKeyDown={
+                  onClick={
                     column.sortable
-                      ? (e) => {
-                          if (isEnterKey(e) || e.key === ' ') {
-                            e.preventDefault();
-                            handleSortClick(column.id);
-                          }
-                        }
+                      ? (e) => handleSortClick(column.id, e.shiftKey)
                       : undefined
                   }
-                  tabIndex={column.sortable ? 0 : undefined}
+                  onKeyDown={
+                    column.sortable
+                      ? (e) => handleHeaderKeyDown(e, column.id, columnIndex)
+                      : undefined
+                  }
+                  tabIndex={headerTabIndex}
+                  data-focusable={column.sortable ? '' : undefined}
                 >
                   {column.header}
-                  <SortIcon sortable={column.sortable} direction={sortDirection} />
+                  <SortIcon
+                    sortable={column.sortable}
+                    direction={sortDirection}
+                    priority={sortPriority}
+                  />
                   {column.resizable && (
                     <div
                       className="table-resize-handle"

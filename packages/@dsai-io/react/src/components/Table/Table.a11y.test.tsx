@@ -357,9 +357,13 @@ describe('Table Accessibility', () => {
       render(<Table columns={sortableColumns} data={testData} />);
 
       const headers = screen.getAllByRole('columnheader');
+      // Roving tabindex: first sortable header has tabindex="0", others have tabindex="-1"
+      // All are still programmatically focusable (have a tabindex attribute)
       headers.forEach((header) => {
-        expect(header).toHaveAttribute('tabindex', '0');
+        expect(header).toHaveAttribute('tabindex');
       });
+      // First sortable header is the active one
+      expect(headers[0]).toHaveAttribute('tabindex', '0');
     });
 
     it('sortable headers respond to keyboard events', async () => {

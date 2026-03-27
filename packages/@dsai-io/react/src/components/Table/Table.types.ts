@@ -91,6 +91,12 @@ export interface SortConfig {
   direction: SortDirection;
 }
 
+/**
+ * Multi-column sorting state — an array of SortConfig.
+ * Each entry represents a column in the sort chain, ordered by priority.
+ */
+export type SortingState = SortConfig[];
+
 // =============================================================================
 // Selection Types
 // =============================================================================
@@ -282,19 +288,29 @@ interface TableBaseProps<T = Record<string, unknown>> {
   // ===========================================================================
 
   /**
-   * Current sort configuration (controlled mode)
+   * Current sort configuration (controlled mode).
+   * Accepts a single SortConfig or a SortingState (array) for multi-column sort.
    */
-  sortConfig?: SortConfig;
+  sortConfig?: SortConfig | SortingState;
 
   /**
-   * Default sort configuration (uncontrolled mode)
+   * Default sort configuration (uncontrolled mode).
+   * Accepts a single SortConfig or a SortingState (array) for multi-column sort.
    */
-  defaultSortConfig?: SortConfig;
+  defaultSortConfig?: SortConfig | SortingState;
 
   /**
-   * Callback when sort changes
+   * Callback when sort changes.
+   * Receives a single SortConfig, a SortingState array, or undefined (cleared).
    */
-  onSortChange?: (config: SortConfig | undefined) => void;
+  onSortChange?: (config: SortConfig | SortingState | undefined) => void;
+
+  /**
+   * Maximum number of columns that can be sorted simultaneously.
+   * Only applies when using Shift+Click multi-column sorting.
+   * @default 3
+   */
+  maxSortColumns?: number;
 
   /**
    * When true, sorting is handled externally (server-side).
