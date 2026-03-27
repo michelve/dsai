@@ -1,0 +1,64 @@
+.dsai-tabs-scroll-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.dsai-tabs-scroll-inner {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+}
+
+.dsai-tabs-scroll-inner::-webkit-scrollbar {
+  display: none;
+}
+
+.dsai-tabs-scroll-inner.dsai-tabs-scroll-vertical {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.dsai-tabs-scroll-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: var(--bs-body-bg, #fff);
+  color: var(--bs-body-color, #212529);
+  padding: 0.25rem;
+  min-width: 2rem;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.15s ease-in-out;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.dsai-tabs-scroll-btn:hover {
+  opacity: 1;
+}
+
+.dsai-tabs-scroll-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.dsai-tabs-scroll-btn::after {
+  content: '';
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+}
+
+.dsai-tabs-scroll-btn-start::after {
+  transform: rotate(135deg);
+}
+
+.dsai-tabs-scroll-btn-end::after {
+  transform: rotate(-45deg);
+}
