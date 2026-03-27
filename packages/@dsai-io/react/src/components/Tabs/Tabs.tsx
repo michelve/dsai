@@ -28,6 +28,30 @@ import { useTabsScroll } from './useTabsScroll';
 import './Tabs.scroll.css';
 
 // =============================================================================
+// Helpers
+// =============================================================================
+
+/**
+ * Type guard for extra prop with left/right slots.
+ * Uses Reflect.get to avoid unsafe bracket-notation property access.
+ */
+function isExtraSlots(
+  value: unknown
+): value is { left?: ReactNode; right?: ReactNode } {
+  if (value == null || typeof value !== 'object' || Array.isArray(value)) {
+    return false;
+  }
+  // React elements have $$typeof — those are simple ReactNode extra content
+  if (Reflect.get(value as object, '$$typeof') !== undefined) {
+    return false;
+  }
+  return (
+    Reflect.get(value as object, 'left') !== undefined ||
+    Reflect.get(value as object, 'right') !== undefined
+  );
+}
+
+// =============================================================================
 // TabList Component
 // =============================================================================
 
@@ -89,22 +113,14 @@ export const TabList = memo(
       className
     );
 
-    const hasLeftRight =
-      extra != null &&
-      typeof extra === 'object' &&
-      !Array.isArray(extra) &&
-      ('left' in (extra as Record<string, unknown>) ||
-        'right' in (extra as Record<string, unknown>));
-    const leftExtra = hasLeftRight
-      ? (extra as { left?: ReactNode }).left
-      : undefined;
-    const rightExtra = hasLeftRight
-      ? (extra as { right?: ReactNode }).right
-      : undefined;
-    const simpleExtra = !hasLeftRight ? (extra as ReactNode) : undefined;
+    const extraSlots = isExtraSlots(extra) ? extra : undefined;
+    const leftExtra = extraSlots?.left;
+    const rightExtra = extraSlots?.right;
+    const simpleExtra = !extraSlots ? (extra as ReactNode) : undefined;
 
+    // Keyboard events bubble from focused tab buttons — tablist itself doesn't need tabIndex
+    // eslint-disable-next-line jsx-a11y/interactive-supports-focus
     const tabListContent = (
-      // eslint-disable-next-line jsx-a11y/interactive-supports-focus
       <div
         ref={scrollable ? scrollRef : ref}
         role="tablist"
@@ -252,6 +268,43 @@ export const Tab = memo(
       className
     );
 
+    // When closable with onTabClose, wrap in a div to avoid nesting
+    // interactive elements (invalid HTML: button inside button)
+    if (closable && onTabClose) {
+      return (
+        <div className={cn('nav-item', 'd-inline-flex', 'align-items-center')}>
+          <button
+            ref={ref}
+            type="button"
+            role="tab"
+            id={tabId}
+            aria-selected={isActive}
+            aria-controls={panelId}
+            aria-disabled={disabled || undefined}
+            tabIndex={
+              isActive || (activationMode === 'manual' && isFocused) ? 0 : -1
+            }
+            disabled={disabled}
+            className={buttonClasses}
+            style={style}
+            data-state={isActive ? 'active' : 'inactive'}
+            onClick={handleClick}
+          >
+            {icon && <span className="me-2">{icon}</span>}
+            {children}
+          </button>
+          <button
+            type="button"
+            className="btn-close btn-close-sm ms-1"
+            aria-label={`Close ${typeof children === 'string' ? children : 'tab'}`}
+            onClick={handleClose}
+            tabIndex={-1}
+          />
+        </div>
+      );
+    }
+
+    // Non-closable tabs — no wrapper needed
     return (
       <button
         ref={ref}
@@ -272,22 +325,6 @@ export const Tab = memo(
       >
         {icon && <span className="me-2">{icon}</span>}
         {children}
-        {closable && onTabClose && (
-          <span
-            role="button"
-            className="btn-close btn-close-sm ms-2"
-            aria-label={`Close ${typeof children === 'string' ? children : 'tab'}`}
-            onClick={handleClose}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                e.stopPropagation();
-                onTabClose(id);
-              }
-            }}
-            tabIndex={-1}
-          />
-        )}
       </button>
     );
   })
@@ -415,9 +452,10 @@ export const Tabs = memo(
     const [registeredTabs, setRegisteredTabs] = useState<string[]>([]);
 
     // Track which tabs have been mounted (for lazyMount)
-    const [mountedTabs, setMountedTabs] = useState<Set<string>>(
-      () => new Set(activeTab ? [activeTab] : [])
+    const mountedTabsRef = useRef<Set<string>>(
+      new Set(activeTab ? [activeTab] : [])
     );
+    const mountedTabs = mountedTabsRef.current;
 
     // Track focused tab (for manual activation mode)
     const [focusedTab, setFocusedTab] = useState<string | null>(null);
@@ -427,11 +465,11 @@ export const Tabs = memo(
     useEffect(() => {
       if (activeTab !== prevActiveTabRef.current) {
         prevActiveTabRef.current = activeTab;
-        if (activeTab && !mountedTabs.has(activeTab)) {
-          setMountedTabs((prev) => new Set([...prev, activeTab]));
+        if (activeTab) {
+          mountedTabsRef.current.add(activeTab);
         }
       }
-    }, [activeTab, mountedTabs]);
+    }, [activeTab]);
 
     const registerTab = useCallback((tabId: string) => {
       setRegisteredTabs((prev) =>
@@ -471,6 +509,9 @@ export const Tabs = memo(
         onTabClose,
         onTabAdd,
       }),
+      // mountedTabs is a stable ref (mountedTabsRef.current) — not included in deps.
+      // TabPanel re-renders when activeTab changes, which is when mountedTabs gains entries.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [
         activeTab,
         setActiveTab,
@@ -485,7 +526,6 @@ export const Tabs = memo(
         setFocusedTab,
         lazyMount,
         unmountOnExit,
-        mountedTabs,
         onTabClose,
         onTabAdd,
       ]

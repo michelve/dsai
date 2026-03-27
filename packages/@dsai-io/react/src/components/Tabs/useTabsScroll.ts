@@ -2,6 +2,8 @@ import { type RefObject, useCallback, useEffect, useRef, useState } from 'react'
 
 import type { TabsOrientation } from './Tabs.types';
 
+const SCROLL_AMOUNT = 200;
+
 export interface UseTabsScrollOptions {
   enabled: boolean;
   orientation: TabsOrientation;
@@ -65,8 +67,6 @@ export function useTabsScroll({
     };
   }, [enabled, updateScrollState]);
 
-  const scrollAmount = 200;
-
   const scrollToStart = useCallback(() => {
     const container = containerRef.current;
     if (!container) {
@@ -74,9 +74,9 @@ export function useTabsScroll({
     }
 
     if (isHorizontal) {
-      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      container.scrollBy({ left: -SCROLL_AMOUNT, behavior: 'smooth' });
     } else {
-      container.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
+      container.scrollBy({ top: -SCROLL_AMOUNT, behavior: 'smooth' });
     }
   }, [isHorizontal]);
 
@@ -87,9 +87,9 @@ export function useTabsScroll({
     }
 
     if (isHorizontal) {
-      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      container.scrollBy({ left: SCROLL_AMOUNT, behavior: 'smooth' });
     } else {
-      container.scrollBy({ top: scrollAmount, behavior: 'smooth' });
+      container.scrollBy({ top: SCROLL_AMOUNT, behavior: 'smooth' });
     }
   }, [isHorizontal]);
 
