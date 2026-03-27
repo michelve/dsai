@@ -1,6 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
 
 import { Tooltip } from './Tooltip';
+import { TooltipGroup } from './TooltipGroup';
+import { TooltipProvider } from './TooltipProvider';
 
 // Mock ResizeObserver for Floating UI
 beforeAll(() => {
@@ -331,6 +333,74 @@ describe('Tooltip Security', () => {
         // React handles this safely
         expect(tooltip).toBeInTheDocument();
       });
+    });
+  });
+
+  // ============================================================================
+  // Provider/Group Security
+  // ============================================================================
+  describe('Provider Security', () => {
+    it('does not leak internal context props to DOM', () => {
+      render(
+        <TooltipProvider showDelay={500} touchEnabled>
+          <Tooltip content="Test" isOpen>
+            <button>Trigger</button>
+          </Tooltip>
+        </TooltipProvider>
+      );
+
+      const tooltip = screen.getByRole('tooltip');
+      expect(tooltip).not.toHaveAttribute('showDelay');
+      expect(tooltip).not.toHaveAttribute('touchEnabled');
+      expect(tooltip).not.toHaveAttribute('describeChild');
+    });
+
+    it('does not leak group context to DOM', () => {
+      render(
+        <TooltipGroup skipDelay={500}>
+          <Tooltip content="Test" isOpen>
+            <button>Trigger</button>
+          </Tooltip>
+        </TooltipGroup>
+      );
+
+      const tooltip = screen.getByRole('tooltip');
+      expect(tooltip).not.toHaveAttribute('skipDelay');
+    });
+  });
+
+  describe('New Props Security', () => {
+    it('describeChild only accepts boolean', () => {
+      render(
+        <Tooltip content="Test" describeChild={false} isOpen>
+          <button>Trigger</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      expect(button).toHaveAttribute('aria-labelledby');
+    });
+
+    it('followCursor does not expose internal state to DOM', () => {
+      render(
+        <Tooltip content="Test" followCursor="x" isOpen>
+          <button>Trigger</button>
+        </Tooltip>
+      );
+
+      const tooltip = screen.getByRole('tooltip');
+      expect(tooltip).not.toHaveAttribute('followCursor');
+    });
+
+    it('touchEnabled does not expose to DOM', () => {
+      render(
+        <Tooltip content="Test" touchEnabled isOpen>
+          <button>Trigger</button>
+        </Tooltip>
+      );
+
+      const tooltip = screen.getByRole('tooltip');
+      expect(tooltip).not.toHaveAttribute('touchEnabled');
     });
   });
 });
