@@ -646,6 +646,387 @@ describe('Tabs', () => {
   });
 
   // ===========================================================================
+  // Activation Mode
+  // ===========================================================================
+  describe('Activation Mode', () => {
+    it('defaults to automatic activation', () => {
+      render(
+        <Tabs defaultActiveTab="tab1">
+          <TabList aria-label="Test">
+            <Tab id="tab1">First</Tab>
+            <Tab id="tab2">Second</Tab>
+          </TabList>
+          <TabPanel id="tab1">Content 1</TabPanel>
+          <TabPanel id="tab2">Content 2</TabPanel>
+        </Tabs>
+      );
+
+      const tablist = screen.getByRole('tablist');
+      fireEvent.keyDown(tablist, { key: 'ArrowRight' });
+
+      expect(screen.getByRole('tab', { name: 'Second' })).toHaveAttribute(
+        'aria-selected',
+        'true'
+      );
+    });
+
+    it('supports manual activation mode — arrow moves focus without selecting', () => {
+      render(
+        <Tabs defaultActiveTab="tab1" activationMode="manual">
+          <TabList aria-label="Test">
+            <Tab id="tab1">First</Tab>
+            <Tab id="tab2">Second</Tab>
+          </TabList>
+          <TabPanel id="tab1">Content 1</TabPanel>
+          <TabPanel id="tab2">Content 2</TabPanel>
+        </Tabs>
+      );
+
+      const tablist = screen.getByRole('tablist');
+      fireEvent.keyDown(tablist, { key: 'ArrowRight' });
+
+      // In manual mode, selection should NOT change
+      expect(screen.getByRole('tab', { name: 'First' })).toHaveAttribute(
+        'aria-selected',
+        'true'
+      );
+      // But focus should have moved
+      expect(document.activeElement).toBe(
+        screen.getByRole('tab', { name: 'Second' })
+      );
+    });
+
+    it('activates focused tab on Enter in manual mode', () => {
+      render(
+        <Tabs defaultActiveTab="tab1" activationMode="manual">
+          <TabList aria-label="Test">
+            <Tab id="tab1">First</Tab>
+            <Tab id="tab2">Second</Tab>
+          </TabList>
+          <TabPanel id="tab1">Content 1</TabPanel>
+          <TabPanel id="tab2">Content 2</TabPanel>
+        </Tabs>
+      );
+
+      const tablist = screen.getByRole('tablist');
+      fireEvent.keyDown(tablist, { key: 'ArrowRight' });
+      fireEvent.keyDown(tablist, { key: 'Enter' });
+
+      expect(screen.getByRole('tab', { name: 'Second' })).toHaveAttribute(
+        'aria-selected',
+        'true'
+      );
+    });
+
+    it('activates focused tab on Space in manual mode', () => {
+      render(
+        <Tabs defaultActiveTab="tab1" activationMode="manual">
+          <TabList aria-label="Test">
+            <Tab id="tab1">First</Tab>
+            <Tab id="tab2">Second</Tab>
+          </TabList>
+          <TabPanel id="tab1">Content 1</TabPanel>
+          <TabPanel id="tab2">Content 2</TabPanel>
+        </Tabs>
+      );
+
+      const tablist = screen.getByRole('tablist');
+      fireEvent.keyDown(tablist, { key: 'ArrowRight' });
+      fireEvent.keyDown(tablist, { key: ' ' });
+
+      expect(screen.getByRole('tab', { name: 'Second' })).toHaveAttribute(
+        'aria-selected',
+        'true'
+      );
+    });
+  });
+
+  // ===========================================================================
+  // Lazy Mount
+  // ===========================================================================
+  describe('Lazy Mount', () => {
+    it('does not render inactive panels when lazyMount is true', () => {
+      render(
+        <Tabs defaultActiveTab="tab1" lazyMount>
+          <TabList aria-label="Test">
+            <Tab id="tab1">First</Tab>
+            <Tab id="tab2">Second</Tab>
+          </TabList>
+          <TabPanel id="tab1">Content 1</TabPanel>
+          <TabPanel id="tab2">Content 2</TabPanel>
+        </Tabs>
+      );
+
+      expect(screen.getByText('Content 1')).toBeInTheDocument();
+      expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
+    });
+
+    it('renders panel after first activation with lazyMount', async () => {
+      render(
+        <Tabs defaultActiveTab="tab1" lazyMount>
+          <TabList aria-label="Test">
+            <Tab id="tab1">First</Tab>
+            <Tab id="tab2">Second</Tab>
+          </TabList>
+          <TabPanel id="tab1">Content 1</TabPanel>
+          <TabPanel id="tab2">Content 2</TabPanel>
+        </Tabs>
+      );
+
+      await userEvent.click(screen.getByRole('tab', { name: 'Second' }));
+      expect(screen.getByText('Content 2')).toBeInTheDocument();
+
+      // Switch back — tab2 panel should remain (once mounted, stays mounted)
+      await userEvent.click(screen.getByRole('tab', { name: 'First' }));
+      const panel2 = screen.getByText('Content 2').closest('[role="tabpanel"]');
+      expect(panel2).toHaveAttribute('hidden');
+    });
+  });
+
+  // ===========================================================================
+  // Unmount on Exit
+  // ===========================================================================
+  describe('Unmount on Exit', () => {
+    it('unmounts inactive panels when unmountOnExit is true', async () => {
+      render(
+        <Tabs defaultActiveTab="tab1" unmountOnExit>
+          <TabList aria-label="Test">
+            <Tab id="tab1">First</Tab>
+            <Tab id="tab2">Second</Tab>
+          </TabList>
+          <TabPanel id="tab1">Content 1</TabPanel>
+          <TabPanel id="tab2">Content 2</TabPanel>
+        </Tabs>
+      );
+
+      await userEvent.click(screen.getByRole('tab', { name: 'Second' }));
+      expect(screen.getByText('Content 2')).toBeInTheDocument();
+
+      await userEvent.click(screen.getByRole('tab', { name: 'First' }));
+      expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
+  // Closable Tabs
+  // ===========================================================================
+  describe('Closable Tabs', () => {
+    it('renders close button on closable tabs (items mode)', () => {
+      const items = [
+        {
+          id: 'tab1',
+          label: 'Tab 1',
+          content: <p>Content 1</p>,
+          closable: true,
+        },
+        { id: 'tab2', label: 'Tab 2', content: <p>Content 2</p> },
+      ];
+      render(<Tabs items={items} onTabClose={jest.fn()} />);
+
+      const closeButtons = screen.getAllByRole('button', { name: /close/i });
+      expect(closeButtons).toHaveLength(1);
+    });
+
+    it('calls onTabClose when close button is clicked', async () => {
+      const handleClose = jest.fn();
+      const items = [
+        {
+          id: 'tab1',
+          label: 'Tab 1',
+          content: <p>Content 1</p>,
+          closable: true,
+        },
+        { id: 'tab2', label: 'Tab 2', content: <p>Content 2</p> },
+      ];
+      render(<Tabs items={items} onTabClose={handleClose} />);
+
+      await userEvent.click(screen.getByRole('button', { name: /close/i }));
+      expect(handleClose).toHaveBeenCalledWith('tab1');
+    });
+
+    it('renders close button on closable tabs (compound mode)', () => {
+      render(
+        <Tabs defaultActiveTab="tab1" onTabClose={jest.fn()}>
+          <TabList aria-label="Test">
+            <Tab id="tab1" closable>
+              First
+            </Tab>
+            <Tab id="tab2">Second</Tab>
+          </TabList>
+          <TabPanel id="tab1">Content 1</TabPanel>
+          <TabPanel id="tab2">Content 2</TabPanel>
+        </Tabs>
+      );
+
+      const closeButtons = screen.getAllByRole('button', { name: /close/i });
+      expect(closeButtons).toHaveLength(1);
+    });
+  });
+
+  // ===========================================================================
+  // Tab Bar Extra Content
+  // ===========================================================================
+  describe('Tab Bar Extra Content', () => {
+    it('renders extra content as ReactNode', () => {
+      render(
+        <Tabs defaultActiveTab="tab1">
+          <TabList aria-label="Test" extra={<button>Add</button>}>
+            <Tab id="tab1">First</Tab>
+          </TabList>
+          <TabPanel id="tab1">Content</TabPanel>
+        </Tabs>
+      );
+
+      expect(screen.getByRole('button', { name: 'Add' })).toBeInTheDocument();
+    });
+
+    it('renders extra content with left and right slots', () => {
+      render(
+        <Tabs defaultActiveTab="tab1">
+          <TabList
+            aria-label="Test"
+            extra={{
+              left: <span data-testid="left-extra">Left</span>,
+              right: <span data-testid="right-extra">Right</span>,
+            }}
+          >
+            <Tab id="tab1">First</Tab>
+          </TabList>
+          <TabPanel id="tab1">Content</TabPanel>
+        </Tabs>
+      );
+
+      expect(screen.getByTestId('left-extra')).toBeInTheDocument();
+      expect(screen.getByTestId('right-extra')).toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
+  // Add Tab Button
+  // ===========================================================================
+  describe('Add Tab', () => {
+    it('renders add button when onTabAdd is provided', () => {
+      render(
+        <Tabs defaultActiveTab="tab1" onTabAdd={jest.fn()}>
+          <TabList aria-label="Test">
+            <Tab id="tab1">First</Tab>
+          </TabList>
+          <TabPanel id="tab1">Content</TabPanel>
+        </Tabs>
+      );
+
+      expect(
+        screen.getByRole('button', { name: /add tab/i })
+      ).toBeInTheDocument();
+    });
+
+    it('calls onTabAdd when add button is clicked', async () => {
+      const handleAdd = jest.fn();
+      render(
+        <Tabs defaultActiveTab="tab1" onTabAdd={handleAdd}>
+          <TabList aria-label="Test">
+            <Tab id="tab1">First</Tab>
+          </TabList>
+          <TabPanel id="tab1">Content</TabPanel>
+        </Tabs>
+      );
+
+      await userEvent.click(screen.getByRole('button', { name: /add tab/i }));
+      expect(handleAdd).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  // ===========================================================================
+  // Data State Attributes
+  // ===========================================================================
+  describe('Data State Attributes', () => {
+    it('sets data-state on tabs', () => {
+      render(
+        <Tabs defaultActiveTab="tab1">
+          <TabList aria-label="Test">
+            <Tab id="tab1">First</Tab>
+            <Tab id="tab2">Second</Tab>
+          </TabList>
+          <TabPanel id="tab1">Content 1</TabPanel>
+          <TabPanel id="tab2">Content 2</TabPanel>
+        </Tabs>
+      );
+
+      expect(screen.getByRole('tab', { name: 'First' })).toHaveAttribute(
+        'data-state',
+        'active'
+      );
+      expect(screen.getByRole('tab', { name: 'Second' })).toHaveAttribute(
+        'data-state',
+        'inactive'
+      );
+    });
+
+    it('sets data-state on tab panels', () => {
+      render(
+        <Tabs defaultActiveTab="tab1">
+          <TabList aria-label="Test">
+            <Tab id="tab1">First</Tab>
+            <Tab id="tab2">Second</Tab>
+          </TabList>
+          <TabPanel id="tab1">Content 1</TabPanel>
+          <TabPanel id="tab2" keepMounted>
+            Content 2
+          </TabPanel>
+        </Tabs>
+      );
+
+      expect(
+        screen.getByText('Content 1').closest('[role="tabpanel"]')
+      ).toHaveAttribute('data-state', 'active');
+      expect(
+        screen.getByText('Content 2').closest('[role="tabpanel"]')
+      ).toHaveAttribute('data-state', 'inactive');
+    });
+  });
+
+  // ===========================================================================
+  // Scrollable Tabs
+  // ===========================================================================
+  describe('Scrollable Tabs', () => {
+    it('renders scroll buttons when scrollable is true', () => {
+      render(
+        <Tabs defaultActiveTab="tab1">
+          <TabList aria-label="Test" scrollable>
+            <Tab id="tab1">First</Tab>
+            <Tab id="tab2">Second</Tab>
+          </TabList>
+          <TabPanel id="tab1">Content</TabPanel>
+          <TabPanel id="tab2">Content</TabPanel>
+        </Tabs>
+      );
+
+      expect(
+        screen.getByRole('button', { name: /scroll.*back/i })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', { name: /scroll.*forward/i })
+      ).toBeInTheDocument();
+    });
+
+    it('has no accessibility violations with scrollable tabs', async () => {
+      const { container } = render(
+        <Tabs defaultActiveTab="tab1">
+          <TabList aria-label="Test" scrollable>
+            <Tab id="tab1">First</Tab>
+            <Tab id="tab2">Second</Tab>
+          </TabList>
+          <TabPanel id="tab1">Content</TabPanel>
+          <TabPanel id="tab2">Content</TabPanel>
+        </Tabs>
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
+
+  // ===========================================================================
   // Display Names
   // ===========================================================================
   describe('Display Names', () => {

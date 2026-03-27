@@ -1,18 +1,21 @@
 import {
-  createContext,
   forwardRef,
-  type KeyboardEvent,
   memo,
   type ReactNode,
   useCallback,
-  useContext,
   useEffect,
   useId,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 
+import { useControllableState } from '../../hooks/useControllableState/useControllableState';
 import { cn } from '../../utils';
+
+import { TabsContext, useTabsContext } from './Tabs.context';
+import { useTabsKeyboard } from './useTabsKeyboard';
+import { useTabsScroll } from './useTabsScroll';
 
 import type {
   TabItem,
@@ -23,32 +26,30 @@ import type {
   TabsProps,
 } from './Tabs.types';
 
-const getItemAtIndex = <T,>(collection: readonly T[], targetIndex: number): T | undefined => {
-  if (targetIndex < 0) {
-    return undefined;
-  }
-  let currentIndex = 0;
-  for (const item of collection) {
-    if (currentIndex === targetIndex) {
-      return item;
-    }
-    currentIndex += 1;
-  }
-  return undefined;
-};
+import './Tabs.scroll.css';
 
 // =============================================================================
-// Context
+// Helpers
 // =============================================================================
 
-const TabsContext = createContext<TabsContextValue | null>(null);
-
-function useTabsContext(): TabsContextValue {
-  const context = useContext(TabsContext);
-  if (!context) {
-    throw new Error('Tabs compound components must be used within a Tabs component');
+/**
+ * Type guard for extra prop with left/right slots.
+ * Uses Reflect.get to avoid unsafe bracket-notation property access.
+ */
+function isExtraSlots(
+  value: unknown
+): value is { left?: ReactNode; right?: ReactNode } {
+  if (value === null || value === undefined || typeof value !== 'object' || Array.isArray(value)) {
+    return false;
   }
-  return context;
+  // React elements have $$typeof — those are simple ReactNode extra content
+  if (Reflect.get(value as object, '$$typeof') !== undefined) {
+    return false;
+  }
+  return (
+    Reflect.get(value as object, 'left') !== undefined ||
+    Reflect.get(value as object, 'right') !== undefined
+  );
 }
 
 // =============================================================================
@@ -62,55 +63,48 @@ function useTabsContext(): TabsContextValue {
  */
 export const TabList = memo(
   forwardRef<HTMLDivElement, TabListProps>(function TabList(
-    { children, className = '', style, 'aria-label': ariaLabel },
+    {
+      children,
+      className = '',
+      style,
+      'aria-label': ariaLabel,
+      extra,
+      scrollable = false,
+    },
     ref
   ) {
-    const { orientation, variant, activeTab, setActiveTab, tabs, baseId } = useTabsContext();
+    const {
+      orientation,
+      variant,
+      activeTab,
+      tabs,
+      baseId,
+      activationMode,
+      focusedTab,
+      setActiveTab,
+      setFocusedTab,
+      onTabAdd,
+    } = useTabsContext();
 
-    // Handle keyboard navigation
-    const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>): void => {
-      const currentIndex = tabs.indexOf(activeTab);
-      if (currentIndex === -1) {
-        return;
-      }
+    const handleKeyDown = useTabsKeyboard({
+      tabs,
+      activeTab,
+      orientation,
+      activationMode,
+      setActiveTab,
+      setFocusedTab,
+      baseId,
+      focusedTab,
+    });
 
-      let newIndex = currentIndex;
+    const {
+      containerRef: scrollRef,
+      canScrollStart,
+      canScrollEnd,
+      scrollToStart,
+      scrollToEnd,
+    } = useTabsScroll({ enabled: scrollable, orientation });
 
-      const isHorizontal = orientation === 'horizontal';
-      const prevKey = isHorizontal ? 'ArrowLeft' : 'ArrowUp';
-      const nextKey = isHorizontal ? 'ArrowRight' : 'ArrowDown';
-
-      switch (e.key) {
-        case prevKey:
-          e.preventDefault();
-          newIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
-          break;
-        case nextKey:
-          e.preventDefault();
-          newIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
-          break;
-        case 'Home':
-          e.preventDefault();
-          newIndex = 0;
-          break;
-        case 'End':
-          e.preventDefault();
-          newIndex = tabs.length - 1;
-          break;
-        default:
-          return;
-      }
-
-      const newTabId = getItemAtIndex(tabs, newIndex);
-      if (newTabId) {
-        setActiveTab(newTabId);
-        // Focus the new tab button
-        const tabButton = document.getElementById(`${baseId}-tab-${newTabId}`);
-        tabButton?.focus();
-      }
-    };
-
-    // Build nav classes based on variant
     const navClasses = cn(
       'nav',
       variant === 'tabs' && 'nav-tabs',
@@ -120,20 +114,89 @@ export const TabList = memo(
       className
     );
 
-    return (
-      // eslint-disable-next-line jsx-a11y/interactive-supports-focus
+    const extraSlots = isExtraSlots(extra) ? extra : undefined;
+    const leftExtra = extraSlots?.left;
+    const rightExtra = extraSlots?.right;
+    const simpleExtra = !extraSlots ? (extra as ReactNode) : undefined;
+
+    // Keyboard events bubble from focused tab buttons — tablist itself doesn't need tabIndex
+    const tabListContent = (
       <div
-        ref={ref}
+        ref={scrollable ? scrollRef : ref}
         role="tablist"
         aria-label={ariaLabel}
         aria-orientation={orientation}
-        className={navClasses}
+        className={cn(navClasses, scrollable && 'dsai-tabs-scroll-inner')}
         style={style}
         onKeyDown={handleKeyDown}
       >
         {children}
+        {onTabAdd && (
+          <button
+            type="button"
+            className={cn('nav-link', 'dsai-tabs-add-btn')}
+            onClick={onTabAdd}
+            aria-label="Add tab"
+            tabIndex={-1}
+          >
+            +
+          </button>
+        )}
       </div>
     );
+
+    if (scrollable) {
+      return (
+        <div
+          ref={ref}
+          className="dsai-tabs-scroll-container d-flex align-items-center"
+        >
+          {leftExtra && (
+            <div className="dsai-tabs-extra-left">{leftExtra}</div>
+          )}
+          <button
+            type="button"
+            className="dsai-tabs-scroll-btn dsai-tabs-scroll-btn-start"
+            onClick={scrollToStart}
+            disabled={!canScrollStart}
+            aria-label="Scroll tabs back"
+            tabIndex={-1}
+          />
+          {tabListContent}
+          <button
+            type="button"
+            className="dsai-tabs-scroll-btn dsai-tabs-scroll-btn-end"
+            onClick={scrollToEnd}
+            disabled={!canScrollEnd}
+            aria-label="Scroll tabs forward"
+            tabIndex={-1}
+          />
+          {(rightExtra || simpleExtra) && (
+            <div className="dsai-tabs-extra-right">
+              {rightExtra ?? simpleExtra}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    if (extra) {
+      return (
+        <div ref={ref} className="d-flex align-items-center">
+          {leftExtra && (
+            <div className="dsai-tabs-extra-left">{leftExtra}</div>
+          )}
+          {tabListContent}
+          {(rightExtra || simpleExtra) && (
+            <div className="dsai-tabs-extra-right ms-auto">
+              {rightExtra ?? simpleExtra}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    return tabListContent;
   })
 );
 
@@ -150,10 +213,27 @@ TabList.displayName = 'TabList';
  */
 export const Tab = memo(
   forwardRef<HTMLButtonElement, TabProps>(function Tab(
-    { id, children, icon, disabled = false, className = '', style },
+    {
+      id,
+      children,
+      icon,
+      disabled = false,
+      className = '',
+      style,
+      closable = false,
+    },
     ref
   ) {
-    const { activeTab, setActiveTab, baseId, registerTab, unregisterTab } = useTabsContext();
+    const {
+      activeTab,
+      setActiveTab,
+      baseId,
+      registerTab,
+      unregisterTab,
+      focusedTab,
+      activationMode,
+      onTabClose,
+    } = useTabsContext();
 
     useEffect(() => {
       if (!disabled) {
@@ -165,6 +245,7 @@ export const Tab = memo(
     }, [id, disabled, registerTab, unregisterTab]);
 
     const isActive = activeTab === id;
+    const isFocused = focusedTab === id;
     const tabId = `${baseId}-tab-${id}`;
     const panelId = `${baseId}-panel-${id}`;
 
@@ -174,9 +255,56 @@ export const Tab = memo(
       }
     };
 
-    // Build button classes
-    const buttonClasses = cn('nav-link', isActive && 'active', disabled && 'disabled', className);
+    const handleClose = (e: React.MouseEvent): void => {
+      e.stopPropagation();
+      onTabClose?.(id);
+    };
 
+    const buttonClasses = cn(
+      'nav-link',
+      isActive && 'active',
+      disabled && 'disabled',
+      closable && 'dsai-tabs-closable',
+      className
+    );
+
+    // When closable with onTabClose, wrap in a div to avoid nesting
+    // interactive elements (invalid HTML: button inside button)
+    if (closable && onTabClose) {
+      return (
+        <div className={cn('nav-item', 'd-inline-flex', 'align-items-center')}>
+          <button
+            ref={ref}
+            type="button"
+            role="tab"
+            id={tabId}
+            aria-selected={isActive}
+            aria-controls={panelId}
+            aria-disabled={disabled || undefined}
+            tabIndex={
+              isActive || (activationMode === 'manual' && isFocused) ? 0 : -1
+            }
+            disabled={disabled}
+            className={buttonClasses}
+            style={style}
+            data-state={isActive ? 'active' : 'inactive'}
+            onClick={handleClick}
+          >
+            {icon && <span className="me-2">{icon}</span>}
+            {children}
+          </button>
+          <button
+            type="button"
+            className="btn-close btn-close-sm ms-1"
+            aria-label={`Close ${typeof children === 'string' ? children : 'tab'}`}
+            onClick={handleClose}
+            tabIndex={-1}
+          />
+        </div>
+      );
+    }
+
+    // Non-closable tabs — no wrapper needed
     return (
       <button
         ref={ref}
@@ -186,10 +314,13 @@ export const Tab = memo(
         aria-selected={isActive}
         aria-controls={panelId}
         aria-disabled={disabled || undefined}
-        tabIndex={isActive ? 0 : -1}
+        tabIndex={
+          isActive || (activationMode === 'manual' && isFocused) ? 0 : -1
+        }
         disabled={disabled}
         className={buttonClasses}
         style={style}
+        data-state={isActive ? 'active' : 'inactive'}
         onClick={handleClick}
       >
         {icon && <span className="me-2">{icon}</span>}
@@ -215,19 +346,41 @@ export const TabPanel = memo(
     { id, children, className = '', style, keepMounted = false },
     ref
   ) {
-    const { activeTab, baseId } = useTabsContext();
+    const { activeTab, baseId, lazyMount, unmountOnExit, mountedTabs } =
+      useTabsContext();
 
     const isActive = activeTab === id;
+    const hasBeenMounted = mountedTabs.has(id);
     const tabId = `${baseId}-tab-${id}`;
     const panelId = `${baseId}-panel-${id}`;
 
-    // Don't render if not active and not keepMounted
-    if (!isActive && !keepMounted) {
+    // Determine whether to render
+    const shouldRender = (() => {
+      if (isActive) {
+        return true;
+      }
+      if (keepMounted) {
+        return true;
+      }
+      if (unmountOnExit) {
+        return false;
+      }
+      if (lazyMount && !hasBeenMounted) {
+        return false;
+      }
+      return true;
+    })();
+
+    if (!shouldRender) {
       return null;
     }
 
-    // Build panel classes
-    const panelClasses = cn('tab-pane', 'fade', isActive && 'show active', className);
+    const panelClasses = cn(
+      'tab-pane',
+      'fade',
+      isActive && 'show active',
+      className
+    );
 
     return (
       <div
@@ -239,6 +392,7 @@ export const TabPanel = memo(
         className={panelClasses}
         style={style}
         hidden={!isActive}
+        data-state={isActive ? 'active' : 'inactive'}
       >
         {children}
       </div>
@@ -255,31 +409,7 @@ TabPanel.displayName = 'TabPanel';
 /**
  * Tabs component - accessible tabbed interface
  *
- * A Bootstrap 5 tabs component supporting multiple variants,
- * orientations, and compound component patterns.
- *
  * @see https://getbootstrap.com/docs/5.3/components/navs-tabs/
- *
- * @example
- * ```tsx
- * // Using items prop
- * <Tabs
- *   items={[
- *     { id: 'home', label: 'Home', content: <p>Home content</p> },
- *     { id: 'profile', label: 'Profile', content: <p>Profile content</p> },
- *   ]}
- * />
- *
- * // Using compound components
- * <Tabs>
- *   <TabList>
- *     <Tab id="home">Home</Tab>
- *     <Tab id="profile">Profile</Tab>
- *   </TabList>
- *   <TabPanel id="home">Home content</TabPanel>
- *   <TabPanel id="profile">Profile content</TabPanel>
- * </Tabs>
- * ```
  */
 export const Tabs = memo(
   forwardRef<HTMLDivElement, TabsProps>(function Tabs(
@@ -296,57 +426,62 @@ export const Tabs = memo(
       className = '',
       style,
       id: providedId,
+      activationMode = 'automatic',
+      lazyMount = false,
+      unmountOnExit = false,
+      onTabClose,
+      onTabAdd,
     },
     ref
   ) {
-    // Generate unique ID
     const generatedId = useId();
     const baseId = providedId ?? generatedId;
 
-    // Determine initial tab
-    const getInitialTab = (): string => {
-      if (controlledActiveTab) {
-        return controlledActiveTab;
-      }
-      if (defaultActiveTab) {
-        return defaultActiveTab;
-      }
-      if (items && items.length > 0 && items[0]) {
-        return items[0].id;
-      }
-      return '';
-    };
+    // Determine default tab
+    const defaultTab =
+      defaultActiveTab ??
+      (items && items.length > 0 && items[0] ? items[0].id : '');
 
-    // Internal state for uncontrolled mode
-    const [internalActiveTab, setInternalActiveTab] = useState<string>(getInitialTab);
+    const [activeTab, setActiveTab] = useControllableState<string>({
+      value: controlledActiveTab,
+      defaultValue: defaultTab,
+      onChange: onTabChange,
+    });
 
     // Tab registration for keyboard navigation
     const [registeredTabs, setRegisteredTabs] = useState<string[]>([]);
 
+    // Track which tabs have been mounted (for lazyMount)
+    const mountedTabsRef = useRef<Set<string>>(
+      new Set(activeTab ? [activeTab] : [])
+    );
+    const mountedTabs = mountedTabsRef.current;
+
+    // Track focused tab (for manual activation mode)
+    const [focusedTab, setFocusedTab] = useState<string | null>(null);
+
+    // Update mountedTabs when activeTab changes
+    const prevActiveTabRef = useRef(activeTab);
+    useEffect(() => {
+      if (activeTab !== prevActiveTabRef.current) {
+        prevActiveTabRef.current = activeTab;
+        if (activeTab) {
+          mountedTabsRef.current.add(activeTab);
+        }
+      }
+    }, [activeTab]);
+
     const registerTab = useCallback((tabId: string) => {
-      setRegisteredTabs((prev) => (prev.includes(tabId) ? prev : [...prev, tabId]));
+      setRegisteredTabs((prev) =>
+        prev.includes(tabId) ? prev : [...prev, tabId]
+      );
     }, []);
 
     const unregisterTab = useCallback((tabId: string) => {
       setRegisteredTabs((prev) => prev.filter((t) => t !== tabId));
     }, []);
 
-    // Determine if controlled
-    const isControlled = controlledActiveTab !== undefined;
-    const activeTab = isControlled ? controlledActiveTab : internalActiveTab;
-
-    // Handle tab change
-    const setActiveTab = useCallback(
-      (tabId: string) => {
-        if (!isControlled) {
-          setInternalActiveTab(tabId);
-        }
-        onTabChange?.(tabId);
-      },
-      [isControlled, onTabChange]
-    );
-
-    // Build tabs list from items
+    // Build tabs list from items or registered
     const tabs = useMemo(() => {
       if (items) {
         return items.filter((item) => !item.disabled).map((item) => item.id);
@@ -365,25 +500,43 @@ export const Tabs = memo(
         registerTab,
         unregisterTab,
         tabs,
+        activationMode,
+        focusedTab,
+        setFocusedTab,
+        lazyMount,
+        unmountOnExit,
+        mountedTabs,
+        onTabClose,
+        onTabAdd,
       }),
-      [activeTab, setActiveTab, orientation, variant, baseId, registerTab, unregisterTab, tabs]
+      // mountedTabs is a stable ref (mountedTabsRef.current) — not included in deps.
+      // TabPanel re-renders when activeTab changes, which is when mountedTabs gains entries.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [
+        activeTab,
+        setActiveTab,
+        orientation,
+        variant,
+        baseId,
+        registerTab,
+        unregisterTab,
+        tabs,
+        activationMode,
+        focusedTab,
+        setFocusedTab,
+        lazyMount,
+        unmountOnExit,
+        onTabClose,
+        onTabAdd,
+      ]
     );
 
-    // Build wrapper classes
-    const wrapperClasses = cn(orientation === 'vertical' && 'd-flex', className);
-
-    // Build nav classes for items mode
-    const navClasses = cn(
-      'nav',
-      variant === 'tabs' && 'nav-tabs',
-      variant === 'pills' && 'nav-pills',
-      variant === 'underline' && 'nav-underline',
-      fill && 'nav-fill',
-      justified && 'nav-justified',
-      orientation === 'vertical' && 'flex-column me-3'
+    const wrapperClasses = cn(
+      orientation === 'vertical' && 'd-flex',
+      className
     );
 
-    // Render using items prop
+    // Items mode: render using compound components internally
     const renderWithItems = (): ReactNode => {
       if (!items || items.length === 0) {
         return null;
@@ -391,79 +544,31 @@ export const Tabs = memo(
 
       return (
         <>
-          <div role="tablist" aria-orientation={orientation} className={navClasses}>
+          <TabList
+            aria-label="Tabs"
+            className={cn(
+              fill && 'nav-fill',
+              justified && 'nav-justified',
+              orientation === 'vertical' && 'me-3'
+            )}
+          >
             {items.map((item) => (
-              <button
+              <Tab
                 key={item.id}
-                type="button"
-                role="tab"
-                id={`${baseId}-tab-${item.id}`}
-                aria-selected={activeTab === item.id}
-                aria-controls={`${baseId}-panel-${item.id}`}
-                aria-disabled={item.disabled || undefined}
-                tabIndex={activeTab === item.id ? 0 : -1}
+                id={item.id}
+                icon={item.icon}
                 disabled={item.disabled}
-                className={`nav-link ${activeTab === item.id ? 'active' : ''} ${item.disabled ? 'disabled' : ''}`}
-                onClick={() => !item.disabled && setActiveTab(item.id)}
-                onKeyDown={(e) => {
-                  const enabledItems = items.filter((i) => !i.disabled);
-                  const currentIndex = enabledItems.findIndex((i) => i.id === activeTab);
-                  if (currentIndex === -1) {
-                    return;
-                  }
-
-                  let newIndex = currentIndex;
-                  const isHorizontal = orientation === 'horizontal';
-                  const prevKey = isHorizontal ? 'ArrowLeft' : 'ArrowUp';
-                  const nextKey = isHorizontal ? 'ArrowRight' : 'ArrowDown';
-
-                  switch (e.key) {
-                    case prevKey:
-                      e.preventDefault();
-                      newIndex = currentIndex > 0 ? currentIndex - 1 : enabledItems.length - 1;
-                      break;
-                    case nextKey:
-                      e.preventDefault();
-                      newIndex = currentIndex < enabledItems.length - 1 ? currentIndex + 1 : 0;
-                      break;
-                    case 'Home':
-                      e.preventDefault();
-                      newIndex = 0;
-                      break;
-                    case 'End':
-                      e.preventDefault();
-                      newIndex = enabledItems.length - 1;
-                      break;
-                    default:
-                      return;
-                  }
-
-                  const newItem = getItemAtIndex(enabledItems, newIndex);
-                  if (newItem) {
-                    setActiveTab(newItem.id);
-                    const tabButton = document.getElementById(`${baseId}-tab-${newItem.id}`);
-                    tabButton?.focus();
-                  }
-                }}
+                closable={item.closable}
               >
-                {item.icon && <span className="me-2">{item.icon}</span>}
                 {item.label}
-              </button>
+              </Tab>
             ))}
-          </div>
+          </TabList>
           <div className="tab-content">
             {items.map((item) => (
-              <div
-                key={item.id}
-                role="tabpanel"
-                id={`${baseId}-panel-${item.id}`}
-                aria-labelledby={`${baseId}-tab-${item.id}`}
-                tabIndex={0}
-                className={`tab-pane fade ${activeTab === item.id ? 'show active' : ''}`}
-                hidden={activeTab !== item.id}
-              >
+              <TabPanel key={item.id} id={item.id}>
                 {item.content}
-              </div>
+              </TabPanel>
             ))}
           </div>
         </>
@@ -483,7 +588,7 @@ export const Tabs = memo(
 Tabs.displayName = 'Tabs';
 
 // =============================================================================
-// Compound Component Exports
+// Exports
 // =============================================================================
 
 export type { TabItem, TabListProps, TabPanelProps, TabProps, TabsProps };

@@ -10,6 +10,12 @@ An accessible tabbed interface component built with Bootstrap 5 styling. Support
 - ♿ WCAG 2.2 AA compliant
 - 🎯 Controlled and uncontrolled modes
 - 🧩 Compound component pattern
+- 📜 Scrollable tab overflow with scroll buttons
+- ❌ Closable and editable tabs (add/remove)
+- 📌 Tab bar extra content (left/right slots)
+- 🖱️ Manual activation mode for keyboard
+- 💤 Lazy mount and unmount on exit
+- 🎬 Animation hooks via data-state attributes
 
 ## Installation
 
@@ -146,6 +152,107 @@ Use `keepMounted` to preserve panel state when switching tabs:
 </Tabs>
 ```
 
+### Activation Mode
+
+```tsx
+// Manual: arrow keys move focus, Enter/Space activates
+<Tabs activationMode="manual" defaultActiveTab="home">
+  <TabList aria-label="Manual tabs">
+    <Tab id="home">Home</Tab>
+    <Tab id="profile">Profile</Tab>
+  </TabList>
+  <TabPanel id="home">Home content</TabPanel>
+  <TabPanel id="profile">Profile content</TabPanel>
+</Tabs>
+```
+
+### Lazy Mount & Unmount on Exit
+
+```tsx
+// Only render panels when first activated
+<Tabs lazyMount defaultActiveTab="home">
+  <TabList aria-label="Lazy tabs">
+    <Tab id="home">Home</Tab>
+    <Tab id="heavy">Heavy Content</Tab>
+  </TabList>
+  <TabPanel id="home">Loaded immediately</TabPanel>
+  <TabPanel id="heavy">Only loaded when clicked</TabPanel>
+</Tabs>
+
+// Unmount panels when switching away
+<Tabs unmountOnExit defaultActiveTab="home">
+  ...
+</Tabs>
+```
+
+### Closable Tabs
+
+```tsx
+function ClosableTabs() {
+  const [tabs, setTabs] = useState([
+    { id: 'tab1', label: 'Tab 1', content: <p>Content 1</p>, closable: true },
+    { id: 'tab2', label: 'Tab 2', content: <p>Content 2</p>, closable: true },
+  ]);
+
+  const handleClose = (tabId: string) => {
+    setTabs((prev) => prev.filter((t) => t.id !== tabId));
+  };
+
+  return <Tabs items={tabs} onTabClose={handleClose} />;
+}
+```
+
+### Add Tab Button
+
+```tsx
+<Tabs items={tabs} onTabAdd={() => addNewTab()} onTabClose={handleClose} />
+```
+
+### Tab Bar Extra Content
+
+```tsx
+// Simple extra content (rendered at the end)
+<TabList aria-label="Tabs" extra={<Button size="sm">Action</Button>}>
+  ...
+</TabList>
+
+// Left and right slots
+<TabList
+  aria-label="Tabs"
+  extra={{
+    left: <Badge>3 items</Badge>,
+    right: <Button size="sm">Settings</Button>,
+  }}
+>
+  ...
+</TabList>
+```
+
+### Scrollable Tabs
+
+```tsx
+<TabList aria-label="Many tabs" scrollable>
+  <Tab id="tab1">Tab 1</Tab>
+  <Tab id="tab2">Tab 2</Tab>
+  {/* ...many more tabs */}
+  <Tab id="tab20">Tab 20</Tab>
+</TabList>
+```
+
+### Animation Support
+
+```css
+/* Animate tab panels */
+[role="tabpanel"][data-state="active"] {
+  animation: fadeIn 0.2s ease-in;
+}
+
+/* Style active/inactive tabs */
+[role="tab"][data-state="active"] {
+  /* active styles */
+}
+```
+
 ## Props
 
 ### Tabs
@@ -164,6 +271,11 @@ Use `keepMounted` to preserve panel state when switching tabs:
 | `className` | `string` | - | Additional classes |
 | `style` | `CSSProperties` | - | Inline styles |
 | `id` | `string` | auto | Element ID |
+| `activationMode` | `'automatic' \| 'manual'` | `'automatic'` | Keyboard activation behavior |
+| `lazyMount` | `boolean` | `false` | Only render panels on first activation |
+| `unmountOnExit` | `boolean` | `false` | Unmount inactive panels |
+| `onTabClose` | `(id: string) => void` | - | Close handler for closable tabs |
+| `onTabAdd` | `() => void` | - | Add tab handler (shows + button) |
 
 ### TabItem
 
@@ -174,6 +286,7 @@ Use `keepMounted` to preserve panel state when switching tabs:
 | `content` | `ReactNode` | Panel content |
 | `icon` | `ReactNode` | Optional icon |
 | `disabled` | `boolean` | Disabled state |
+| `closable` | `boolean` | Whether the tab can be closed |
 
 ### TabList
 
@@ -183,6 +296,8 @@ Use `keepMounted` to preserve panel state when switching tabs:
 | `className` | `string` | Additional classes |
 | `style` | `CSSProperties` | Inline styles |
 | `aria-label` | `string` | Accessible label |
+| `extra` | `ReactNode \| { left?: ReactNode; right?: ReactNode }` | Extra content alongside tabs |
+| `scrollable` | `boolean` | Enable scroll buttons for overflow |
 
 ### Tab
 
@@ -192,6 +307,7 @@ Use `keepMounted` to preserve panel state when switching tabs:
 | `children` | `ReactNode` | Tab label |
 | `icon` | `ReactNode` | Optional icon |
 | `disabled` | `boolean` | Disabled state |
+| `closable` | `boolean` | Show close button on tab |
 | `className` | `string` | Additional classes |
 | `style` | `CSSProperties` | Inline styles |
 
@@ -215,6 +331,7 @@ Use `keepMounted` to preserve panel state when switching tabs:
 | `ArrowUp` | Previous tab (vertical) |
 | `Home` | First tab |
 | `End` | Last tab |
+| `Enter` / `Space` | Activate tab (manual mode only) |
 | `Tab` | Move focus out |
 
 ## Accessibility

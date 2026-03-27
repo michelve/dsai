@@ -10,6 +10,7 @@ export type {
   TabListProps,
   TabPanelProps,
   TabProps,
+  TabsActivationMode,
   TabsContextValue,
   TabsOrientation,
   TabsProps,

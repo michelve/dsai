@@ -11,6 +11,13 @@ export type TabsOrientation = 'horizontal' | 'vertical';
 export type TabsVariant = 'underline' | 'pills' | 'tabs';
 
 /**
+ * Keyboard activation mode
+ * - 'automatic': tab activates on focus (arrow key moves focus and selects)
+ * - 'manual': arrow keys move focus only, Enter/Space activates
+ */
+export type TabsActivationMode = 'automatic' | 'manual';
+
+/**
  * Tab item configuration
  */
 export interface TabItem {
@@ -39,6 +46,12 @@ export interface TabItem {
    * @default false
    */
   disabled?: boolean;
+
+  /**
+   * Whether this tab can be closed/removed
+   * @default false
+   */
+  closable?: boolean;
 }
 
 /**
@@ -108,6 +121,36 @@ export interface TabsProps {
    * ID attribute
    */
   id?: string;
+
+  /**
+   * Keyboard activation mode
+   * - 'automatic': tab activates on arrow key focus (default, current behavior)
+   * - 'manual': arrow keys move focus only, Enter/Space to activate
+   * @default 'automatic'
+   */
+  activationMode?: TabsActivationMode;
+
+  /**
+   * Lazy mount tab panels — only render when first activated
+   * @default false
+   */
+  lazyMount?: boolean;
+
+  /**
+   * Unmount tab panels when they become inactive
+   * @default false
+   */
+  unmountOnExit?: boolean;
+
+  /**
+   * Called when a closable tab's close button is clicked
+   */
+  onTabClose?: (tabId: string) => void;
+
+  /**
+   * Called when the add button is clicked (enables add button in tab list)
+   */
+  onTabAdd?: () => void;
 }
 
 /**
@@ -133,6 +176,18 @@ export interface TabListProps {
    * Accessible label for the tab list
    */
   'aria-label'?: string;
+
+  /**
+   * Extra content rendered alongside the tab list
+   * Can be a ReactNode or { left?: ReactNode; right?: ReactNode }
+   */
+  extra?: ReactNode | { left?: ReactNode; right?: ReactNode };
+
+  /**
+   * Enable horizontal scrolling when tabs overflow
+   * @default false
+   */
+  scrollable?: boolean;
 }
 
 /**
@@ -159,6 +214,12 @@ export interface TabProps {
    * @default false
    */
   disabled?: boolean;
+
+  /**
+   * Whether this tab can be closed
+   * @default false
+   */
+  closable?: boolean;
 
   /**
    * Additional CSS class names
@@ -214,4 +275,12 @@ export interface TabsContextValue {
   registerTab: (id: string) => void;
   unregisterTab: (id: string) => void;
   tabs: string[];
+  activationMode: TabsActivationMode;
+  focusedTab: string | null;
+  setFocusedTab: (id: string | null) => void;
+  lazyMount: boolean;
+  unmountOnExit: boolean;
+  mountedTabs: Set<string>;
+  onTabClose?: (tabId: string) => void;
+  onTabAdd?: () => void;
 }
