@@ -90,6 +90,50 @@ describe('Tooltip Accessibility', () => {
       });
     });
 
+    describe('describeChild', () => {
+      it('uses role="label" semantics when describeChild is false', async () => {
+        const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+        render(
+          <Tooltip content="Label tooltip" describeChild={false}>
+            <button type="button">Trigger</button>
+          </Tooltip>
+        );
+
+        const button = screen.getByRole('button');
+        await user.hover(button);
+
+        act(() => {
+          jest.advanceTimersByTime(400);
+        });
+
+        await waitFor(() => {
+          expect(button).toHaveAttribute('aria-labelledby');
+        });
+      });
+
+      it('passes jest-axe with describeChild=false on icon button', async () => {
+        jest.useRealTimers();
+
+        const { container } = render(
+          <Tooltip content="Delete item" isOpen describeChild={false}>
+            <button type="button" aria-label="Delete">
+              <span aria-hidden="true">X</span>
+            </button>
+          </Tooltip>
+        );
+
+        await waitFor(() => {
+          expect(screen.getByRole('tooltip')).toBeInTheDocument();
+        });
+
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+
+        jest.useFakeTimers();
+      });
+    });
+
     it('supports aria-label for complex content', async () => {
       render(
         <Tooltip

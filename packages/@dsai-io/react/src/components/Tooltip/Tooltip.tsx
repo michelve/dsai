@@ -7,6 +7,9 @@ import {
   offset,
   shift,
   useClick,
+  useClientPoint,
+  useDelayGroup,
+  useDelayGroupContext,
   useDismiss,
   useFloating,
   useFocus,
@@ -26,9 +29,12 @@ import {
   getTooltipVisualState,
   tooltipFSMReducer,
 } from './Tooltip.fsm';
+import { useTooltipContext } from './TooltipContext';
+import { useTouchInteraction } from './useTouchInteraction';
 
 import type { TooltipProps } from './Tooltip.types';
 import type { ReactElement } from 'react';
+
 
 const TOOLTIP_ARROW_GAP_PX = 6;
 const TOOLTIP_ARROW_WIDTH_PX = 12;
@@ -87,9 +93,12 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
       content,
       placement = 'top',
       trigger = ['hover', 'focus'],
-      showDelay = 0,
-      hideDelay = 0,
-      arrow: showArrow = true,
+      showDelay,
+      hideDelay,
+      describeChild,
+      followCursor,
+      touchEnabled,
+      arrow: showArrow,
       offset: offsetValue = 8,
       maxWidth,
       isOpen: controlledIsOpen,
@@ -107,6 +116,23 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
     },
     ref
   ) => {
+    // Read provider defaults
+    const ctx = useTooltipContext();
+
+    // Resolve props: instance > provider > built-in defaults
+    const resolvedShowDelay = showDelay ?? ctx.showDelay;
+    const resolvedHideDelay = hideDelay ?? ctx.hideDelay;
+    const resolvedArrow = showArrow ?? ctx.arrow;
+    const resolvedDescribeChild = describeChild ?? ctx.describeChild;
+    const resolvedTouchEnabled = touchEnabled ?? ctx.touchEnabled;
+
+    // Follow-cursor suppresses arrow (moving tooltip + arrow is disorienting)
+    const effectiveArrow = followCursor ? false : resolvedArrow;
+
+    if (process.env['NODE_ENV'] !== 'production' && followCursor && showArrow === true) {
+      console.warn('Tooltip: arrow is disabled when followCursor is active.');
+    }
+
     // Determine if controlled
     const isControlled = controlledIsOpen !== undefined;
 
@@ -138,13 +164,13 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
     // to avoid React hooks ordering issues. FloatingArrow handles visibility.
     const middleware = useMemo(
       () => [
-        offset(offsetValue + (showArrow ? TOOLTIP_ARROW_GAP_PX : 0)),
+        offset(offsetValue + (effectiveArrow ? TOOLTIP_ARROW_GAP_PX : 0)),
         flip({ fallbackAxisSideDirection: 'start' }),
         shift({ padding: 5 }),
         // eslint-disable-next-line react-hooks/refs -- Floating UI documented pattern: arrow middleware requires ref object
         arrow({ element: arrowRef }),
       ],
-      [offsetValue, showArrow]
+      [offsetValue, effectiveArrow]
     );
 
     // Floating UI setup
@@ -167,12 +193,21 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
       whileElementsMounted: autoUpdate,
     });
 
+    // Participate in delay groups (if wrapped in TooltipGroup)
+    useDelayGroup(context, { id: tooltipId });
+
+    // Read group context for skip-delay behavior.
+    // When no FloatingDelayGroup is present the default context returns { delay: 0 }.
+    // We must not let that zero override the resolved show/hide delays, so we only
+    // use groupDelay when it is truthy (a non-zero number or a delay object).
+    const { delay: groupDelay } = useDelayGroupContext();
+
     // Interaction hooks
     const hover = useHover(context, {
       enabled: hasHover && !disabled,
-      delay: {
-        open: showDelay,
-        close: hideDelay,
+      delay: groupDelay || {
+        open: resolvedShowDelay,
+        close: resolvedHideDelay,
       },
       move: false,
     });
@@ -191,7 +226,27 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
       escapeKey: true,
     });
 
-    const role = useRole(context, { role: 'tooltip' });
+    const role = useRole(context, {
+      role: resolvedDescribeChild ? 'tooltip' : 'label',
+    });
+
+    const clientPoint = useClientPoint(context, {
+      enabled: !!followCursor && !disabled,
+      axis: followCursor === true ? 'both' : (followCursor || 'both'),
+    });
+
+    // Touch interaction (long-press)
+    const touchInteraction = useTouchInteraction({
+      enabled: resolvedTouchEnabled && !disabled,
+      onOpen: () => {
+        dispatch({ type: 'OPEN' });
+        onOpenChange?.(true);
+      },
+      onClose: () => {
+        dispatch({ type: 'CLOSE' });
+        onOpenChange?.(false);
+      },
+    });
 
     const { getReferenceProps, getFloatingProps } = useInteractions([
       hover,
@@ -199,6 +254,7 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
       click,
       dismiss,
       role,
+      clientPoint,
     ]);
 
     // Transition styles for animation
@@ -275,14 +331,22 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
         return null;
       }
 
+      const ariaProps: Record<string, string | undefined> = resolvedDescribeChild
+        ? { 'aria-describedby': isOpen ? tooltipId : undefined }
+        : { 'aria-labelledby': isOpen ? tooltipId : undefined };
+
       return cloneElement(
         child,
         getReferenceProps({
           ref: mergedRef,
-          'aria-describedby': isOpen ? tooltipId : undefined,
+          ...ariaProps,
+          ...(resolvedTouchEnabled ? touchInteraction : {}),
         })
       );
-    }, [children, child, getReferenceProps, mergedRef, isOpen, tooltipId]);
+    }, [
+      children, child, getReferenceProps, mergedRef, isOpen, tooltipId,
+      resolvedDescribeChild, resolvedTouchEnabled, touchInteraction,
+    ]);
 
     // Compute tooltip styles
     const tooltipStyles = useMemo(() => {
@@ -328,7 +392,7 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
         data-testid={dataTestId}
         data-test={dataTest}
       >
-        {showArrow && (
+        {effectiveArrow && (
           <FloatingArrow
             ref={arrowRef}
             context={context}

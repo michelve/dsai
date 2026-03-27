@@ -345,15 +345,25 @@ export {
   useToast,
 } from './Toast';
 export type {
+  TooltipContextValue,
   TooltipFSMEvent,
   TooltipFSMState,
+  TooltipGroupProps,
   TooltipPlacement,
   TooltipProps,
+  TooltipProviderProps,
   TooltipTrigger,
   TooltipVisualState,
 } from './Tooltip';
 // Tooltip
-export { Tooltip } from './Tooltip';
+export {
+  Tooltip,
+  TooltipProvider,
+  TooltipGroup,
+  createInitialTooltipFSMState,
+  getTooltipVisualState,
+  tooltipFSMReducer,
+} from './Tooltip';
 
 export type {
   DisplayProps,

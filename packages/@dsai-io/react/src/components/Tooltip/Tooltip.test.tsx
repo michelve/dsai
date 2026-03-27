@@ -176,8 +176,6 @@ describe('Tooltip', () => {
       });
 
       it('respects showDelay prop', async () => {
-        const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-
         render(
           <Tooltip content="Delayed tooltip" trigger="hover" showDelay={500}>
             <button type="button">Hover me</button>
@@ -185,21 +183,72 @@ describe('Tooltip', () => {
         );
 
         const button = screen.getByRole('button');
-        await user.hover(button);
+        fireEvent.pointerEnter(button);
+        fireEvent.mouseEnter(button);
 
-        // Should not show immediately
+        // Should not show at 300ms (default would have fired, but we set 500ms)
         act(() => {
-          jest.advanceTimersByTime(100);
+          jest.advanceTimersByTime(300);
         });
         expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
 
-        // Should show after delay
+        // Should show after 500ms
         act(() => {
-          jest.advanceTimersByTime(500);
+          jest.advanceTimersByTime(200);
         });
 
         await waitFor(() => {
           expect(screen.getByRole('tooltip')).toBeInTheDocument();
+        });
+      });
+
+      it('uses 300ms showDelay by default', async () => {
+        const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+        render(
+          <Tooltip content="Delayed tooltip">
+            <button>Hover me</button>
+          </Tooltip>
+        );
+
+        await user.hover(screen.getByRole('button'));
+
+        // Not visible at 200ms
+        jest.advanceTimersByTime(200);
+        expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+
+        // Visible at 400ms
+        jest.advanceTimersByTime(200);
+        await waitFor(() => {
+          expect(screen.getByRole('tooltip')).toBeInTheDocument();
+        });
+      });
+
+      it('uses 150ms hideDelay by default', async () => {
+        const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+        render(
+          <Tooltip content="Delayed hide">
+            <button>Hover me</button>
+          </Tooltip>
+        );
+
+        await user.hover(screen.getByRole('button'));
+        jest.advanceTimersByTime(400);
+        await waitFor(() => {
+          expect(screen.getByRole('tooltip')).toBeInTheDocument();
+        });
+
+        await user.unhover(screen.getByRole('button'));
+
+        // Still visible at 100ms
+        jest.advanceTimersByTime(100);
+        expect(screen.queryByRole('tooltip')).toBeInTheDocument();
+
+        // Hidden after 200ms total
+        jest.advanceTimersByTime(100);
+        await waitFor(() => {
+          expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
         });
       });
 
@@ -723,6 +772,277 @@ describe('Tooltip', () => {
         const tooltip = screen.getByRole('tooltip');
         expect(container.contains(tooltip)).toBe(true);
       });
+    });
+  });
+
+  // ============================================================================
+  // describeChild Tests
+  // ============================================================================
+  describe('describeChild', () => {
+    it('defaults to true (aria-describedby)', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+      render(
+        <Tooltip content="Test tooltip">
+          <button type="button">Hover me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      await user.hover(button);
+
+      act(() => {
+        jest.advanceTimersByTime(400);
+      });
+
+      await waitFor(() => {
+        expect(button).toHaveAttribute('aria-describedby');
+      });
+    });
+
+    it('uses aria-labelledby when describeChild is false', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+      render(
+        <Tooltip content="Test tooltip" describeChild={false}>
+          <button type="button">Hover me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      await user.hover(button);
+
+      act(() => {
+        jest.advanceTimersByTime(400);
+      });
+
+      await waitFor(() => {
+        expect(button).toHaveAttribute('aria-labelledby');
+        expect(button).not.toHaveAttribute('aria-describedby');
+      });
+    });
+
+    it('removes aria-labelledby when tooltip is hidden', () => {
+      render(
+        <Tooltip content="Test tooltip" describeChild={false}>
+          <button type="button">Hover me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      expect(button).not.toHaveAttribute('aria-labelledby');
+    });
+  });
+
+  // ============================================================================
+  // followCursor Tests
+  // ============================================================================
+  describe('followCursor', () => {
+    it('renders tooltip when followCursor is true', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+      render(
+        <Tooltip content="Follows cursor" followCursor>
+          <button>Hover me</button>
+        </Tooltip>
+      );
+
+      await user.hover(screen.getByRole('button'));
+      jest.advanceTimersByTime(400);
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toHaveTextContent('Follows cursor');
+      });
+    });
+
+    it('auto-disables arrow when followCursor is active', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+      render(
+        <Tooltip content="No arrow" followCursor arrow>
+          <button>Hover me</button>
+        </Tooltip>
+      );
+
+      await user.hover(screen.getByRole('button'));
+      jest.advanceTimersByTime(400);
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toBeInTheDocument();
+      });
+      expect(document.querySelector('.dsai-tooltip-arrow')).not.toBeInTheDocument();
+    });
+
+    it('accepts axis value "x"', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+      render(
+        <Tooltip content="Horizontal track" followCursor="x">
+          <button>Hover me</button>
+        </Tooltip>
+      );
+
+      await user.hover(screen.getByRole('button'));
+      jest.advanceTimersByTime(400);
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toHaveTextContent('Horizontal track');
+      });
+    });
+
+    it('accepts axis value "y"', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+      render(
+        <Tooltip content="Vertical track" followCursor="y">
+          <button>Hover me</button>
+        </Tooltip>
+      );
+
+      await user.hover(screen.getByRole('button'));
+      jest.advanceTimersByTime(400);
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toHaveTextContent('Vertical track');
+      });
+    });
+
+    it('does not disable arrow when followCursor is false', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+      render(
+        <Tooltip content="Anchored" followCursor={false} arrow>
+          <button>Hover me</button>
+        </Tooltip>
+      );
+
+      await user.hover(screen.getByRole('button'));
+      jest.advanceTimersByTime(400);
+
+      await waitFor(() => {
+        expect(document.querySelector('.dsai-tooltip-arrow')).toBeInTheDocument();
+      });
+    });
+  });
+
+  // ============================================================================
+  // touchEnabled Tests
+  // ============================================================================
+  describe('touchEnabled', () => {
+    it('defaults to not showing on touch events', () => {
+      render(
+        <Tooltip content="Test tooltip">
+          <button>Touch me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      fireEvent.touchStart(button);
+      jest.advanceTimersByTime(1000);
+
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+    });
+
+    it('shows tooltip on long-press when touchEnabled', async () => {
+      render(
+        <Tooltip content="Touch tooltip" touchEnabled>
+          <button>Touch me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      fireEvent.touchStart(button, {
+        touches: [{ clientX: 100, clientY: 100 }],
+      });
+
+      // Not visible at 600ms
+      jest.advanceTimersByTime(600);
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+
+      // Visible after 700ms
+      jest.advanceTimersByTime(200);
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toHaveTextContent('Touch tooltip');
+      });
+    });
+
+    it('auto-hides after 1500ms', async () => {
+      render(
+        <Tooltip content="Touch tooltip" touchEnabled>
+          <button>Touch me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      fireEvent.touchStart(button, {
+        touches: [{ clientX: 100, clientY: 100 }],
+      });
+      jest.advanceTimersByTime(800);
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toBeInTheDocument();
+      });
+
+      // Auto-hide after 1500ms from show
+      jest.advanceTimersByTime(1600);
+      await waitFor(() => {
+        expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+      });
+    });
+
+    it('cancels on touchMove (scroll)', () => {
+      render(
+        <Tooltip content="Touch tooltip" touchEnabled>
+          <button>Touch me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      fireEvent.touchStart(button, {
+        touches: [{ clientX: 100, clientY: 100 }],
+      });
+      jest.advanceTimersByTime(300);
+
+      fireEvent.touchMove(button, {
+        touches: [{ clientX: 100, clientY: 125 }],
+      });
+
+      jest.advanceTimersByTime(500);
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+    });
+
+    it('cancels on touchEnd before threshold', () => {
+      render(
+        <Tooltip content="Touch tooltip" touchEnabled>
+          <button>Touch me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      fireEvent.touchStart(button, {
+        touches: [{ clientX: 100, clientY: 100 }],
+      });
+      jest.advanceTimersByTime(300);
+      fireEvent.touchEnd(button);
+
+      jest.advanceTimersByTime(500);
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+    });
+
+    it('does not show when disabled', () => {
+      render(
+        <Tooltip content="Touch tooltip" touchEnabled disabled>
+          <button>Touch me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      fireEvent.touchStart(button, {
+        touches: [{ clientX: 100, clientY: 100 }],
+      });
+      jest.advanceTimersByTime(1000);
+
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
     });
   });
 
