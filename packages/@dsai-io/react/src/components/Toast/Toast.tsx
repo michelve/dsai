@@ -136,6 +136,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       onOpen,
       closeButtonLabel = 'Close notification',
       animationDuration = DEFAULT_ANIMATION_MS,
+      pauseOnFocusLoss = false,
       className,
       style,
       id,
@@ -155,6 +156,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const progressRef = useRef<HTMLDivElement | null>(null);
     const startTimeRef = useRef<number | null>(null);
+    const remainingRef = useRef<number | null>(null);
 
     // FSM state
     const [fsmState, dispatch] = useReducer(toastFSMReducer, show, createInitialToastFSMState);
@@ -269,6 +271,50 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
         progressEl.style.width = '100%';
       };
     }, [showProgress, fsmState.visibility, effectiveDuration]);
+
+    // Pause on focus loss (document visibility)
+    useEffect(() => {
+      if (!pauseOnFocusLoss || effectiveDuration === null) return undefined;
+
+      const handleVisibilityChange = (): void => {
+        if (document.hidden) {
+          // Pause — clear timer and record remaining time
+          clearTimer();
+          if (startTimeRef.current !== null) {
+            const elapsed = Date.now() - startTimeRef.current;
+            remainingRef.current = Math.max(
+              0,
+              (remainingRef.current ?? effectiveDuration) - elapsed
+            );
+          }
+          if (progressRef.current) {
+            const computedWidth = getComputedStyle(progressRef.current).width;
+            progressRef.current.style.transition = 'none';
+            progressRef.current.style.width = computedWidth;
+          }
+        } else if (fsmState.visibility === 'visible') {
+          // Resume — restart timer with remaining time
+          const remaining = remainingRef.current ?? effectiveDuration;
+          if (remaining <= 0) {
+            handleDismiss();
+            return;
+          }
+          startTimeRef.current = Date.now();
+          timerRef.current = setTimeout(() => {
+            handleDismiss();
+          }, remaining);
+          if (progressRef.current) {
+            progressRef.current.style.transition = `width ${remaining}ms linear`;
+            progressRef.current.style.width = '0%';
+          }
+        }
+      };
+
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+      return () => {
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+      };
+    }, [pauseOnFocusLoss, effectiveDuration, fsmState.visibility, clearTimer, handleDismiss]);
 
     // Memoize class names
     const toastClassName = useMemo(() => {

@@ -663,3 +663,119 @@ describe('Toast Close Button Layout', () => {
     expect(closeBtn).not.toHaveClass('m-auto');
   });
 });
+
+describe('Pause on Focus Loss', () => {
+  it('pauses auto-dismiss when document becomes hidden', () => {
+    const onClose = jest.fn();
+    render(
+      <Toast
+        message="Focus loss"
+        duration={5000}
+        pauseOnFocusLoss
+        show
+        data-testid="toast"
+        onClose={onClose}
+      />
+    );
+
+    // Enter visible state
+    act(() => {
+      jest.advanceTimersByTime(200);
+    });
+
+    // Advance 2 seconds
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    // Simulate tab becoming hidden
+    Object.defineProperty(document, 'hidden', { value: true, writable: true });
+    document.dispatchEvent(new Event('visibilitychange'));
+
+    // Advance well past remaining duration — should NOT dismiss
+    act(() => {
+      jest.advanceTimersByTime(10000);
+    });
+
+    expect(onClose).not.toHaveBeenCalled();
+
+    // Simulate tab becoming visible again
+    Object.defineProperty(document, 'hidden', { value: false, writable: true });
+    document.dispatchEvent(new Event('visibilitychange'));
+
+    // Advance remaining ~3 seconds
+    act(() => {
+      jest.advanceTimersByTime(3500);
+    });
+
+    // Should now dismiss after exit animation
+    act(() => {
+      jest.advanceTimersByTime(200);
+    });
+
+    expect(onClose).toHaveBeenCalled();
+  });
+
+  it('does not pause when pauseOnFocusLoss is false', () => {
+    const onClose = jest.fn();
+    render(
+      <Toast
+        message="No focus pause"
+        duration={3000}
+        pauseOnFocusLoss={false}
+        show
+        data-testid="toast"
+        onClose={onClose}
+      />
+    );
+
+    // Enter visible state
+    act(() => {
+      jest.advanceTimersByTime(200);
+    });
+
+    // Simulate tab hidden
+    Object.defineProperty(document, 'hidden', { value: true, writable: true });
+    document.dispatchEvent(new Event('visibilitychange'));
+
+    // Advance past duration — should still dismiss
+    act(() => {
+      jest.advanceTimersByTime(3500);
+    });
+
+    // Exit animation
+    act(() => {
+      jest.advanceTimersByTime(200);
+    });
+
+    expect(onClose).toHaveBeenCalled();
+
+    // Cleanup
+    Object.defineProperty(document, 'hidden', { value: false, writable: true });
+  });
+
+  it('does not pause when duration is disabled', () => {
+    render(
+      <Toast
+        message="No duration"
+        duration={false}
+        pauseOnFocusLoss
+        show
+        data-testid="toast"
+      />
+    );
+
+    // Enter visible state
+    act(() => {
+      jest.advanceTimersByTime(200);
+    });
+
+    // Should not throw when visibility changes
+    Object.defineProperty(document, 'hidden', { value: true, writable: true });
+    document.dispatchEvent(new Event('visibilitychange'));
+    Object.defineProperty(document, 'hidden', { value: false, writable: true });
+    document.dispatchEvent(new Event('visibilitychange'));
+
+    expect(screen.getByTestId('toast')).toBeInTheDocument();
+  });
+});
