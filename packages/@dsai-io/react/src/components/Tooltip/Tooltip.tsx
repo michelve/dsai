@@ -7,6 +7,8 @@ import {
   offset,
   shift,
   useClick,
+  useDelayGroup,
+  useDelayGroupContext,
   useDismiss,
   useFloating,
   useFocus,
@@ -177,10 +179,16 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
       whileElementsMounted: autoUpdate,
     });
 
+    // Participate in delay groups (if wrapped in TooltipGroup)
+    useDelayGroup(context, { id: tooltipId });
+
+    // Read group context for skip-delay behavior
+    const { delay: groupDelay } = useDelayGroupContext();
+
     // Interaction hooks
     const hover = useHover(context, {
       enabled: hasHover && !disabled,
-      delay: {
+      delay: groupDelay ?? {
         open: resolvedShowDelay,
         close: resolvedHideDelay,
       },
