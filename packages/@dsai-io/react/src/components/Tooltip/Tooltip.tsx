@@ -7,6 +7,7 @@ import {
   offset,
   shift,
   useClick,
+  useClientPoint,
   useDelayGroup,
   useDelayGroupContext,
   useDismiss,
@@ -94,6 +95,7 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
       showDelay,
       hideDelay,
       describeChild,
+      followCursor,
       arrow: showArrow,
       offset: offsetValue = 8,
       maxWidth,
@@ -120,6 +122,13 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
     const resolvedHideDelay = hideDelay ?? ctx.hideDelay;
     const resolvedArrow = showArrow ?? ctx.arrow;
     const resolvedDescribeChild = describeChild ?? ctx.describeChild;
+
+    // Follow-cursor suppresses arrow (moving tooltip + arrow is disorienting)
+    const effectiveArrow = followCursor ? false : resolvedArrow;
+
+    if (process.env.NODE_ENV !== 'production' && followCursor && showArrow === true) {
+      console.warn('Tooltip: arrow is disabled when followCursor is active.');
+    }
 
     // Determine if controlled
     const isControlled = controlledIsOpen !== undefined;
@@ -152,13 +161,13 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
     // to avoid React hooks ordering issues. FloatingArrow handles visibility.
     const middleware = useMemo(
       () => [
-        offset(offsetValue + (resolvedArrow ? TOOLTIP_ARROW_GAP_PX : 0)),
+        offset(offsetValue + (effectiveArrow ? TOOLTIP_ARROW_GAP_PX : 0)),
         flip({ fallbackAxisSideDirection: 'start' }),
         shift({ padding: 5 }),
         // eslint-disable-next-line react-hooks/refs -- Floating UI documented pattern: arrow middleware requires ref object
         arrow({ element: arrowRef }),
       ],
-      [offsetValue, resolvedArrow]
+      [offsetValue, effectiveArrow]
     );
 
     // Floating UI setup
@@ -215,12 +224,18 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
       role: resolvedDescribeChild ? 'tooltip' : 'label',
     });
 
+    const clientPoint = useClientPoint(context, {
+      enabled: !!followCursor && !disabled,
+      axis: followCursor === true ? 'both' : (followCursor || 'both'),
+    });
+
     const { getReferenceProps, getFloatingProps } = useInteractions([
       hover,
       focus,
       click,
       dismiss,
       role,
+      clientPoint,
     ]);
 
     // Transition styles for animation
@@ -354,7 +369,7 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
         data-testid={dataTestId}
         data-test={dataTest}
       >
-        {resolvedArrow && (
+        {effectiveArrow && (
           <FloatingArrow
             ref={arrowRef}
             context={context}

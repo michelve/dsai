@@ -786,6 +786,97 @@ describe('Tooltip', () => {
   });
 
   // ============================================================================
+  // followCursor Tests
+  // ============================================================================
+  describe('followCursor', () => {
+    it('renders tooltip when followCursor is true', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+      render(
+        <Tooltip content="Follows cursor" followCursor>
+          <button>Hover me</button>
+        </Tooltip>
+      );
+
+      await user.hover(screen.getByRole('button'));
+      jest.advanceTimersByTime(400);
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toHaveTextContent('Follows cursor');
+      });
+    });
+
+    it('auto-disables arrow when followCursor is active', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+      render(
+        <Tooltip content="No arrow" followCursor arrow>
+          <button>Hover me</button>
+        </Tooltip>
+      );
+
+      await user.hover(screen.getByRole('button'));
+      jest.advanceTimersByTime(400);
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toBeInTheDocument();
+      });
+      expect(document.querySelector('.dsai-tooltip-arrow')).not.toBeInTheDocument();
+    });
+
+    it('accepts axis value "x"', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+      render(
+        <Tooltip content="Horizontal track" followCursor="x">
+          <button>Hover me</button>
+        </Tooltip>
+      );
+
+      await user.hover(screen.getByRole('button'));
+      jest.advanceTimersByTime(400);
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toHaveTextContent('Horizontal track');
+      });
+    });
+
+    it('accepts axis value "y"', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+      render(
+        <Tooltip content="Vertical track" followCursor="y">
+          <button>Hover me</button>
+        </Tooltip>
+      );
+
+      await user.hover(screen.getByRole('button'));
+      jest.advanceTimersByTime(400);
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toHaveTextContent('Vertical track');
+      });
+    });
+
+    it('does not disable arrow when followCursor is false', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+      render(
+        <Tooltip content="Anchored" followCursor={false} arrow>
+          <button>Hover me</button>
+        </Tooltip>
+      );
+
+      await user.hover(screen.getByRole('button'));
+      jest.advanceTimersByTime(400);
+
+      await waitFor(() => {
+        expect(document.querySelector('.dsai-tooltip-arrow')).toBeInTheDocument();
+      });
+    });
+  });
+
+  // ============================================================================
   // Integration with Button Component
   // ============================================================================
   describe('Integration with Button Component', () => {
