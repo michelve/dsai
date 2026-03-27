@@ -246,6 +246,12 @@ export interface ToastProps extends SafeToastHTMLAttributes {
   animationDuration?: number;
 
   /**
+   * Whether to pause auto-dismiss on hover
+   * @default false
+   */
+  pauseOnHover?: boolean;
+
+  /**
    * Whether to pause auto-dismiss when the browser tab loses focus
    * @default false
    */

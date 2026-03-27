@@ -274,7 +274,9 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
 
     // Pause on focus loss (document visibility)
     useEffect(() => {
-      if (!pauseOnFocusLoss || effectiveDuration === null) return undefined;
+      if (!pauseOnFocusLoss || effectiveDuration === null) {
+        return undefined;
+      }
 
       const handleVisibilityChange = (): void => {
         if (document.hidden) {

@@ -688,121 +688,105 @@ describe('ToastProvider and useToast', () => {
 
   describe('toast.update()', () => {
     it('updates the message of an existing toast', () => {
-      let toastApi: ReturnType<typeof useToast>;
+      let lastToastId = '';
 
-      function Consumer() {
-        toastApi = useToast();
-        return null;
+      function UpdateTestComponent() {
+        const toast = useToast();
+        return (
+          <div>
+            <button onClick={() => { lastToastId = toast.toast('Original message'); }}>Create</button>
+            <button onClick={() => toast.update(lastToastId, { message: 'Updated message' })}>Update</button>
+          </div>
+        );
       }
 
       render(
         <ToastProvider>
-          <Consumer />
+          <UpdateTestComponent />
         </ToastProvider>
       );
 
-      let toastId: string;
-      act(() => {
-        toastId = toastApi.toast('Original message');
-      });
-
-      act(() => {
-        jest.advanceTimersByTime(200);
-      });
-
+      fireEvent.click(screen.getByText('Create'));
+      act(() => { jest.advanceTimersByTime(200); });
       expect(screen.getByText('Original message')).toBeInTheDocument();
 
-      act(() => {
-        toastApi.update(toastId, { message: 'Updated message' });
-      });
-
+      fireEvent.click(screen.getByText('Update'));
       expect(screen.getByText('Updated message')).toBeInTheDocument();
       expect(screen.queryByText('Original message')).not.toBeInTheDocument();
     });
 
     it('updates the variant of an existing toast', () => {
-      let toastApi: ReturnType<typeof useToast>;
+      let lastToastId = '';
 
-      function Consumer() {
-        toastApi = useToast();
-        return null;
+      function UpdateVariantComponent() {
+        const toast = useToast();
+        return (
+          <div>
+            <button onClick={() => { lastToastId = toast.toast('Variant test'); }}>Create</button>
+            <button onClick={() => toast.update(lastToastId, { variant: 'success' })}>Update</button>
+          </div>
+        );
       }
 
       render(
         <ToastProvider>
-          <Consumer />
+          <UpdateVariantComponent />
         </ToastProvider>
       );
 
-      let toastId: string;
-      act(() => {
-        toastId = toastApi.toast('Variant test');
-      });
+      fireEvent.click(screen.getByText('Create'));
+      act(() => { jest.advanceTimersByTime(200); });
 
-      act(() => {
-        jest.advanceTimersByTime(200);
-      });
-
-      act(() => {
-        toastApi.update(toastId, { variant: 'success' });
-      });
-
+      fireEvent.click(screen.getByText('Update'));
       const container = screen.getByTestId('toast-container');
       const toast = container.querySelector('.toast');
       expect(toast).toHaveClass('text-bg-success');
     });
 
     it('updates title of an existing toast', () => {
-      let toastApi: ReturnType<typeof useToast>;
+      let lastToastId = '';
 
-      function Consumer() {
-        toastApi = useToast();
-        return null;
+      function UpdateTitleComponent() {
+        const toast = useToast();
+        return (
+          <div>
+            <button onClick={() => { lastToastId = toast.toast('Body', { title: 'Old Title' }); }}>Create</button>
+            <button onClick={() => toast.update(lastToastId, { title: 'New Title' })}>Update</button>
+          </div>
+        );
       }
 
       render(
         <ToastProvider>
-          <Consumer />
+          <UpdateTitleComponent />
         </ToastProvider>
       );
 
-      let toastId: string;
-      act(() => {
-        toastId = toastApi.toast('Body', { title: 'Old Title' });
-      });
-
-      act(() => {
-        jest.advanceTimersByTime(200);
-      });
-
+      fireEvent.click(screen.getByText('Create'));
+      act(() => { jest.advanceTimersByTime(200); });
       expect(screen.getByText('Old Title')).toBeInTheDocument();
 
-      act(() => {
-        toastApi.update(toastId, { title: 'New Title' });
-      });
-
+      fireEvent.click(screen.getByText('Update'));
       expect(screen.getByText('New Title')).toBeInTheDocument();
       expect(screen.queryByText('Old Title')).not.toBeInTheDocument();
     });
 
     it('does not crash when updating a non-existent toast', () => {
-      let toastApi: ReturnType<typeof useToast>;
-
-      function Consumer() {
-        toastApi = useToast();
-        return null;
+      function UpdateNonExistentComponent() {
+        const toast = useToast();
+        return (
+          <button onClick={() => toast.update('non-existent-id', { message: 'nothing' })}>Update</button>
+        );
       }
 
       render(
         <ToastProvider>
-          <Consumer />
+          <UpdateNonExistentComponent />
         </ToastProvider>
       );
 
       // Should not throw
-      act(() => {
-        toastApi.update('non-existent-id', { message: 'nothing' });
-      });
+      fireEvent.click(screen.getByText('Update'));
     });
   });
 
@@ -880,36 +864,30 @@ describe('ToastProvider and useToast', () => {
 
   describe('toast.promise()', () => {
     it('shows loading toast then success on resolve', async () => {
-      let toastApi: ReturnType<typeof useToast>;
-
-      function Consumer() {
-        toastApi = useToast();
-        return null;
-      }
-
-      render(
-        <ToastProvider>
-          <Consumer />
-        </ToastProvider>
-      );
-
       let resolvePromise: (value: string) => void;
       const promise = new Promise<string>((resolve) => {
         resolvePromise = resolve;
       });
 
-      act(() => {
-        toastApi.promise(promise, {
-          loading: 'Saving...',
-          success: 'Saved!',
-          error: 'Failed to save',
-        });
-      });
+      function PromiseComponent() {
+        const toast = useToast();
+        return (
+          <button onClick={() => toast.promise(promise, {
+            loading: 'Saving...',
+            success: 'Saved!',
+            error: 'Failed to save',
+          })}>Save</button>
+        );
+      }
 
-      act(() => {
-        jest.advanceTimersByTime(200);
-      });
+      render(
+        <ToastProvider>
+          <PromiseComponent />
+        </ToastProvider>
+      );
 
+      fireEvent.click(screen.getByText('Save'));
+      act(() => { jest.advanceTimersByTime(200); });
       expect(screen.getByText('Saving...')).toBeInTheDocument();
 
       await act(async () => {
@@ -922,36 +900,30 @@ describe('ToastProvider and useToast', () => {
     });
 
     it('shows loading toast then error on reject', async () => {
-      let toastApi: ReturnType<typeof useToast>;
-
-      function Consumer() {
-        toastApi = useToast();
-        return null;
-      }
-
-      render(
-        <ToastProvider>
-          <Consumer />
-        </ToastProvider>
-      );
-
       let rejectPromise: (reason: Error) => void;
       const promise = new Promise<string>((_, reject) => {
         rejectPromise = reject;
       });
 
-      act(() => {
-        toastApi.promise(promise, {
-          loading: 'Deleting...',
-          success: 'Deleted!',
-          error: 'Failed to delete',
-        });
-      });
+      function PromiseErrorComponent() {
+        const toast = useToast();
+        return (
+          <button onClick={() => toast.promise(promise, {
+            loading: 'Deleting...',
+            success: 'Deleted!',
+            error: 'Failed to delete',
+          })}>Delete</button>
+        );
+      }
 
-      act(() => {
-        jest.advanceTimersByTime(200);
-      });
+      render(
+        <ToastProvider>
+          <PromiseErrorComponent />
+        </ToastProvider>
+      );
 
+      fireEvent.click(screen.getByText('Delete'));
+      act(() => { jest.advanceTimersByTime(200); });
       expect(screen.getByText('Deleting...')).toBeInTheDocument();
 
       await act(async () => {
@@ -964,32 +936,27 @@ describe('ToastProvider and useToast', () => {
     });
 
     it('supports function messages that receive the resolved value', async () => {
-      let toastApi: ReturnType<typeof useToast>;
+      const promise = Promise.resolve({ count: 42 });
 
-      function Consumer() {
-        toastApi = useToast();
-        return null;
+      function PromiseFnComponent() {
+        const toast = useToast();
+        return (
+          <button onClick={() => toast.promise(promise, {
+            loading: 'Loading...',
+            success: (data: { count: number }) => `Loaded ${data.count} items`,
+            error: 'Failed',
+          })}>Load</button>
+        );
       }
 
       render(
         <ToastProvider>
-          <Consumer />
+          <PromiseFnComponent />
         </ToastProvider>
       );
 
-      const promise = Promise.resolve({ count: 42 });
-
-      act(() => {
-        toastApi.promise(promise, {
-          loading: 'Loading...',
-          success: (data: { count: number }) => `Loaded ${data.count} items`,
-          error: 'Failed',
-        });
-      });
-
-      act(() => {
-        jest.advanceTimersByTime(200);
-      });
+      fireEvent.click(screen.getByText('Load'));
+      act(() => { jest.advanceTimersByTime(200); });
 
       await act(async () => {
         await promise;
@@ -999,30 +966,29 @@ describe('ToastProvider and useToast', () => {
     });
 
     it('returns the original promise', async () => {
-      let toastApi: ReturnType<typeof useToast>;
+      const original = Promise.resolve('value');
+      let result: Promise<string> | undefined;
 
-      function Consumer() {
-        toastApi = useToast();
-        return null;
+      function PromiseReturnComponent() {
+        const toast = useToast();
+        return (
+          <button onClick={() => {
+            result = toast.promise(original, {
+              loading: 'Loading...',
+              success: 'Done',
+              error: 'Error',
+            });
+          }}>Go</button>
+        );
       }
 
       render(
         <ToastProvider>
-          <Consumer />
+          <PromiseReturnComponent />
         </ToastProvider>
       );
 
-      const original = Promise.resolve('value');
-
-      let result: Promise<string>;
-      act(() => {
-        result = toastApi.promise(original, {
-          loading: 'Loading...',
-          success: 'Done',
-          error: 'Error',
-        });
-      });
-
+      fireEvent.click(screen.getByText('Go'));
       const resolved = await result!;
       expect(resolved).toBe('value');
     });
