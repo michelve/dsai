@@ -96,21 +96,6 @@ export type ScrollspyVisualState = 'idle' | 'tracking' | 'scrolling';
 // =============================================================================
 
 /**
- * Scrollspy variant styles
- */
-export type ScrollspyVariant = 'pills' | 'underline' | 'minimal';
-
-/**
- * Scrollspy orientation
- */
-export type ScrollspyOrientation = 'vertical' | 'horizontal';
-
-/**
- * Scrollspy position (for sticky positioning context)
- */
-export type ScrollspyPosition = 'start' | 'end';
-
-/**
  * Scrollspy component props
  */
 export interface ScrollspyProps extends SafeScrollspyHTMLAttributes {
@@ -118,18 +103,6 @@ export interface ScrollspyProps extends SafeScrollspyHTMLAttributes {
    * Navigation items with target section IDs
    */
   items: ScrollspyItem[];
-
-  /**
-   * Visual variant of the navigation
-   * @default 'pills'
-   */
-  variant?: ScrollspyVariant;
-
-  /**
-   * Orientation of the navigation
-   * @default 'vertical'
-   */
-  orientation?: ScrollspyOrientation;
 
   /**
    * Offset from top of viewport for activation (pixels)

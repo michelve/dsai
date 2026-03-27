@@ -270,20 +270,29 @@ describe('Scrollspy Security', () => {
       expect(mockCallback).not.toHaveBeenCalled();
     });
 
-    it('onClick on link receives event, not raw HTML', async () => {
+    it('onClick on link receives event, not raw HTML', () => {
       const mockClick = jest.fn();
-      const items: ScrollspyItem[] = [{ id: '1', label: 'Test', target: 'section' }];
 
-      render(<Scrollspy items={items} onLinkClick={mockClick} />);
+      render(
+        <Scrollspy items={[{ id: '1', label: 'Test', target: 'section' }]}>
+          <Scrollspy.Link target="section" onClick={mockClick}>
+            Test
+          </Scrollspy.Link>
+        </Scrollspy>
+      );
 
       const link = screen.getByText('Test');
       link.click();
 
-      // Callback should receive React synthetic event
-      if (mockClick.mock.calls.length > 0) {
-        const event = mockClick.mock.calls[0][0];
-        expect(event).toBeDefined();
-      }
+      // onClick handler must be called with a React synthetic event
+      expect(mockClick).toHaveBeenCalledTimes(1);
+
+      const event = mockClick.mock.calls[0][0];
+      // Verify it is a proper event object, not raw HTML or string
+      expect(event).toBeDefined();
+      expect(typeof event.preventDefault).toBe('function');
+      // preventDefault should have been called to block raw anchor navigation
+      expect(event.defaultPrevented).toBe(true);
     });
   });
 

@@ -238,11 +238,8 @@ export type {
   ScrollspyFSMState,
   ScrollspyItem,
   ScrollspyLinkProps,
-  ScrollspyOrientation,
-  ScrollspyPosition,
   ScrollspyProps,
   ScrollspyProviderProps,
-  ScrollspyVariant,
   ScrollspyVisualState,
 } from './Scrollspy';
 // Scrollspy

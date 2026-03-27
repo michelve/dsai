@@ -39,6 +39,7 @@ import {
 
 import type {
   ScrollspyContextValue,
+  ScrollspyFSMState,
   ScrollspyItem,
   ScrollspyLinkProps,
   ScrollspyProps,
@@ -75,24 +76,21 @@ export function useScrollspy(): ScrollspyContextValue {
 const DANGEROUS_PROTOCOLS = /^(javascript|data|vbscript|file):/i;
 
 /**
- * Sanitize a target ID to ensure it's safe for use in href
- * Blocks dangerous protocols and removes script tags
+ * Sanitize a target ID to ensure it's safe for use in href.
+ * Blocks dangerous protocols and removes script tags.
  *
  * @param target - Raw target string
  * @returns Sanitized target string
  */
 function sanitizeTarget(target: string): string {
-  // Empty or whitespace only - return empty
   if (!target || !target.trim()) {
     return '';
   }
 
-  // Block dangerous protocols
   if (DANGEROUS_PROTOCOLS.test(target.trim())) {
     return '';
   }
 
-  // Remove any script tags or HTML
   const sanitized = target
     .replace(/<script[\s\S]*?<\/script>/gi, '')
     .replace(/<[^>]*>/g, '')
@@ -317,6 +315,186 @@ function renderScrollspyItem(item: ScrollspyItem, activeId: string | null): Reac
 }
 
 // =============================================================================
+// Shared Scrollspy Engine Hook
+// =============================================================================
+
+interface UseScrollspyEngineOptions {
+  items: ScrollspyItem[];
+  activeId?: string | null;
+  defaultActiveId?: string | null;
+  onActiveChange?: (activeId: string | null) => void;
+  smoothScroll?: boolean;
+  offset?: number;
+  stickyTop?: number | string;
+  rootMargin?: string;
+  threshold?: number | number[];
+}
+
+function useScrollspyEngine(options: UseScrollspyEngineOptions): {
+  activeId: string | null;
+  fsmState: ScrollspyFSMState;
+  contextValue: ScrollspyContextValue;
+} {
+  const {
+    items,
+    activeId: controlledActiveId,
+    defaultActiveId = null,
+    onActiveChange,
+    smoothScroll = true,
+    offset = 0,
+    stickyTop = 0,
+    rootMargin,
+    threshold = 0,
+  } = options;
+
+  const isControlled = controlledActiveId !== undefined;
+
+  const [fsmState, dispatch] = useReducer(
+    scrollspyFSMReducer,
+    defaultActiveId,
+    createInitialScrollspyFSMState
+  );
+
+  const activeId = isControlled ? controlledActiveId : fsmState.activeId;
+
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const sectionOrderRef = useRef<string[]>([]);
+
+  // Store latest state in refs so the IO callback never captures stale closures
+  const fsmStateRef = useRef(fsmState);
+  const onActiveChangeRef = useRef(onActiveChange);
+  const isControlledRef = useRef(isControlled);
+
+  useEffect(() => {
+    fsmStateRef.current = fsmState;
+  });
+
+  useEffect(() => {
+    onActiveChangeRef.current = onActiveChange;
+  });
+
+  useEffect(() => {
+    isControlledRef.current = isControlled;
+  });
+
+  const computedRootMargin = useMemo(() => {
+    if (rootMargin) {
+      return rootMargin;
+    }
+    const topOffset = -offset;
+    return `${topOffset}px 0px -50% 0px`;
+  }, [rootMargin, offset]);
+
+  const setActive = useCallback(
+    (sectionId: string | null): void => {
+      if (!isControlled) {
+        dispatch({ type: 'SET_ACTIVE', sectionId });
+      }
+      onActiveChange?.(sectionId);
+    },
+    [isControlled, onActiveChange]
+  );
+
+  const scrollToSection = useCallback(
+    (sectionId: string): void => {
+      if (!isBrowser()) {
+        return;
+      }
+
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const behavior =
+          smoothScroll && !prefersReducedMotion() ? ('smooth' as const) : ('auto' as const);
+        scrollElementIntoView(element, behavior, offset, stickyTop);
+      }
+    },
+    [smoothScroll, offset, stickyTop]
+  );
+
+  // Stable IO callback that reads from refs instead of capturing state
+  const handleIntersectionRef = useRef<IntersectionObserverCallback>(
+    (entries: IntersectionObserverEntry[]): void => {
+      const currentState = fsmStateRef.current;
+      const nextVisibleIds = new Set<string>(currentState.visibleIds);
+
+      for (const entry of entries) {
+        const sectionId = entry.target.id;
+
+        if (entry.isIntersecting) {
+          nextVisibleIds.add(sectionId);
+          dispatch({ type: 'SECTION_ENTER', sectionId });
+        } else {
+          nextVisibleIds.delete(sectionId);
+          dispatch({ type: 'SECTION_LEAVE', sectionId });
+        }
+      }
+
+      const visibleInOrder = sectionOrderRef.current.filter((id) => nextVisibleIds.has(id));
+      const topVisible = visibleInOrder[0] ?? null;
+
+      if (visibleInOrder.length > 0 && topVisible !== currentState.activeId) {
+        if (!isControlledRef.current) {
+          dispatch({ type: 'SET_ACTIVE', sectionId: topVisible });
+        }
+        onActiveChangeRef.current?.(topVisible);
+      } else if (visibleInOrder.length === 0 && currentState.activeId !== null) {
+        if (!isControlledRef.current) {
+          dispatch({ type: 'SET_ACTIVE', sectionId: null });
+        }
+        onActiveChangeRef.current?.(null);
+      }
+    }
+  );
+
+  // Set up IntersectionObserver
+  useEffect(() => {
+    if (!isBrowser()) {
+      return;
+    }
+
+    const targets = getAllTargets(items);
+    sectionOrderRef.current = targets;
+
+    const observer = new IntersectionObserver(handleIntersectionRef.current, {
+      rootMargin: computedRootMargin,
+      threshold,
+    });
+    observerRef.current = observer;
+
+    dispatch({ type: 'START_OBSERVING' });
+
+    if (typeof observer.observe === 'function') {
+      for (const target of targets) {
+        const element = document.getElementById(target);
+        if (element) {
+          observer.observe(element);
+        }
+      }
+    }
+
+    return () => {
+      if (observerRef.current && typeof observerRef.current.disconnect === 'function') {
+        observerRef.current.disconnect();
+      }
+      observerRef.current = null;
+    };
+  }, [items, computedRootMargin, threshold]);
+
+  const contextValue = useMemo<ScrollspyContextValue>(
+    () => ({
+      activeId,
+      visibleIds: fsmState.visibleIds,
+      setActive,
+      scrollToSection,
+      smoothScroll,
+    }),
+    [activeId, fsmState.visibleIds, setActive, scrollToSection, smoothScroll]
+  );
+
+  return { activeId, fsmState, contextValue };
+}
+
+// =============================================================================
 // Main Scrollspy Component
 // =============================================================================
 
@@ -336,7 +514,6 @@ function renderScrollspyItem(item: ScrollspyItem, activeId: string | null): Reac
  * SECURITY:
  * - No prop spreading (explicit whitelist only)
  * - Target IDs are validated and sanitized
- * - No dangerouslySetInnerHTML
  *
  * @example
  * ```tsx
@@ -375,152 +552,20 @@ export const Scrollspy = forwardRef<HTMLElement, ScrollspyProps>(
     },
     ref
   ) => {
-    // Generate unique ID
     const generatedId = useId();
     const scrollspyId = id ?? `scrollspy-${generatedId}`;
 
-    // Controlled vs uncontrolled
-    const isControlled = controlledActiveId !== undefined;
-
-    // FSM state
-    const [fsmState, dispatch] = useReducer(
-      scrollspyFSMReducer,
+    const { activeId, fsmState, contextValue } = useScrollspyEngine({
+      items,
+      activeId: controlledActiveId,
       defaultActiveId,
-      createInitialScrollspyFSMState
-    );
-
-    // Effective active ID (controlled or uncontrolled)
-    const activeId = isControlled ? controlledActiveId : fsmState.activeId;
-
-    // Refs for tracking
-    const observerRef = useRef<IntersectionObserver | null>(null);
-    const sectionOrderRef = useRef<string[]>([]);
-
-    // Compute root margin with offset
-    const computedRootMargin = useMemo(() => {
-      if (rootMargin) {
-        return rootMargin;
-      }
-      // Default: offset from top, 50% from bottom to activate when section is in upper half
-      const topOffset = -offset;
-      return `${topOffset}px 0px -50% 0px`;
-    }, [rootMargin, offset]);
-
-    // Set active section
-    const setActive = useCallback(
-      (sectionId: string | null): void => {
-        if (!isControlled) {
-          dispatch({ type: 'SET_ACTIVE', sectionId });
-        }
-        onActiveChange?.(sectionId);
-      },
-      [isControlled, onActiveChange]
-    );
-
-    // Scroll to section
-    const scrollToSection = useCallback(
-      (sectionId: string): void => {
-        if (!isBrowser()) {
-          return;
-        }
-
-        const element = document.getElementById(sectionId);
-        if (element) {
-          const behavior =
-            smoothScroll && !prefersReducedMotion() ? ('smooth' as const) : ('auto' as const);
-          scrollElementIntoView(element, behavior, offset, stickyTop);
-        }
-      },
-      [smoothScroll, offset, stickyTop]
-    );
-
-    // IntersectionObserver callback
-    const handleIntersection = useCallback(
-      (entries: IntersectionObserverEntry[]): void => {
-        // Clone current visible IDs so we can compute the next state synchronously
-        const nextVisibleIds = new Set<string>(fsmState.visibleIds);
-
-        for (const entry of entries) {
-          const sectionId = entry.target.id;
-
-          if (entry.isIntersecting) {
-            nextVisibleIds.add(sectionId);
-            dispatch({ type: 'SECTION_ENTER', sectionId });
-          } else {
-            nextVisibleIds.delete(sectionId);
-            dispatch({ type: 'SECTION_LEAVE', sectionId });
-          }
-        }
-
-        const visibleInOrder = sectionOrderRef.current.filter((id) => nextVisibleIds.has(id));
-        const topVisible = visibleInOrder[0] ?? null;
-
-        if (visibleInOrder.length > 0 && topVisible !== fsmState.activeId) {
-          if (!isControlled) {
-            dispatch({ type: 'SET_ACTIVE', sectionId: topVisible });
-          }
-          onActiveChange?.(topVisible);
-        } else if (visibleInOrder.length === 0 && fsmState.activeId !== null) {
-          if (!isControlled) {
-            dispatch({ type: 'SET_ACTIVE', sectionId: null });
-          }
-          onActiveChange?.(null);
-        }
-      },
-      [fsmState.visibleIds, fsmState.activeId, isControlled, onActiveChange]
-    );
-
-    // Set up IntersectionObserver
-    useEffect(() => {
-      if (!isBrowser()) {
-        return;
-      }
-
-      // Get all target IDs
-      const targets = getAllTargets(items);
-      sectionOrderRef.current = targets;
-
-      // Create observer
-      const observer = new IntersectionObserver(handleIntersection, {
-        rootMargin: computedRootMargin,
-        threshold,
-      });
-      observerRef.current = observer;
-
-      dispatch({ type: 'START_OBSERVING' });
-
-      // Observe all target sections
-      if (typeof observer.observe === 'function') {
-        for (const target of targets) {
-          const element = document.getElementById(target);
-          if (element) {
-            observer.observe(element);
-          }
-        }
-      }
-
-      // Cleanup
-      return () => {
-        if (observerRef.current && typeof observerRef.current.disconnect === 'function') {
-          observerRef.current.disconnect();
-        }
-        observerRef.current = null;
-        // Don't dispatch STOP_OBSERVING during cleanup to avoid infinite loops
-        // The state will be reset when the component unmounts anyway
-      };
-    }, [items, computedRootMargin, threshold, handleIntersection]);
-
-    // Context value
-    const contextValue = useMemo<ScrollspyContextValue>(
-      () => ({
-        activeId,
-        visibleIds: fsmState.visibleIds,
-        setActive,
-        scrollToSection,
-        smoothScroll,
-      }),
-      [activeId, fsmState.visibleIds, setActive, scrollToSection, smoothScroll]
-    );
+      onActiveChange,
+      smoothScroll,
+      offset,
+      stickyTop,
+      rootMargin,
+      threshold,
+    });
 
     // Compute nav classes
     const navClassName = useMemo(
@@ -602,131 +647,14 @@ export function ScrollspyProvider({
   offset = 0,
   children,
 }: ScrollspyProviderProps): React.ReactElement {
-  // Controlled vs uncontrolled
-  const isControlled = controlledActiveId !== undefined;
-
-  // FSM state
-  const [fsmState, dispatch] = useReducer(
-    scrollspyFSMReducer,
+  const { contextValue } = useScrollspyEngine({
+    items,
+    activeId: controlledActiveId,
     defaultActiveId,
-    createInitialScrollspyFSMState
-  );
-
-  // Effective active ID (controlled or uncontrolled)
-  const activeId = isControlled ? controlledActiveId : fsmState.activeId;
-
-  // Refs for tracking
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const sectionOrderRef = useRef<string[]>([]);
-
-  // Set active section
-  const setActive = useCallback(
-    (sectionId: string | null): void => {
-      if (!isControlled) {
-        dispatch({ type: 'SET_ACTIVE', sectionId });
-      }
-      onActiveChange?.(sectionId);
-    },
-    [isControlled, onActiveChange]
-  );
-
-  // Scroll to section
-  const scrollToSection = useCallback(
-    (sectionId: string): void => {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        const behavior = smoothScroll ? 'smooth' : 'auto';
-
-        // Calculate position with offset
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.scrollY - offset;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior,
-        });
-      }
-    },
-    [smoothScroll, offset]
-  );
-
-  // IntersectionObserver callback
-  const handleIntersection = useCallback(
-    (entries: IntersectionObserverEntry[]): void => {
-      // Process all entries
-      for (const entry of entries) {
-        const sectionId = entry.target.id;
-
-        if (entry.isIntersecting) {
-          dispatch({ type: 'SECTION_ENTER', sectionId });
-        } else {
-          dispatch({ type: 'SECTION_LEAVE', sectionId });
-        }
-      }
-
-      // Find the topmost visible section based on DOM order
-      const visibleInOrder = sectionOrderRef.current.filter((id) =>
-        fsmState.visibleIds.includes(id)
-      );
-
-      const topVisible = visibleInOrder[0] ?? null;
-      if (visibleInOrder.length > 0 && topVisible !== fsmState.activeId) {
-        if (!isControlled) {
-          dispatch({ type: 'SET_ACTIVE', sectionId: topVisible });
-        }
-        onActiveChange?.(topVisible);
-      }
-    },
-    [fsmState.visibleIds, fsmState.activeId, isControlled, onActiveChange]
-  );
-
-  // Set up IntersectionObserver
-  useEffect(() => {
-    // Get all target IDs
-    const targets = getAllTargets(items);
-    sectionOrderRef.current = targets;
-
-    // Create observer
-    const rootMargin = `${-offset}px 0px -50% 0px`;
-    const observer = new IntersectionObserver(handleIntersection, {
-      rootMargin,
-      threshold: 0,
-    });
-    observerRef.current = observer;
-
-    dispatch({ type: 'START_OBSERVING' });
-
-    // Observe all target sections
-    if (typeof observer.observe === 'function') {
-      for (const target of targets) {
-        const element = document.getElementById(target);
-        if (element) {
-          observer.observe(element);
-        }
-      }
-    }
-
-    // Cleanup
-    return () => {
-      if (observerRef.current && typeof observerRef.current.disconnect === 'function') {
-        observerRef.current.disconnect();
-      }
-      observerRef.current = null;
-      dispatch({ type: 'STOP_OBSERVING' });
-    };
-  }, [items, offset, handleIntersection]);
-
-  // Context value
-  const contextValue = useMemo<ScrollspyContextValue>(
-    () => ({
-      activeId,
-      visibleIds: fsmState.visibleIds,
-      setActive,
-      scrollToSection,
-      smoothScroll,
-    }),
-    [activeId, fsmState.visibleIds, setActive, scrollToSection, smoothScroll]
-  );
+    onActiveChange,
+    smoothScroll,
+    offset,
+  });
 
   return <ScrollspyContext.Provider value={contextValue}>{children}</ScrollspyContext.Provider>;
 }
