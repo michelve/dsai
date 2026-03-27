@@ -48,7 +48,16 @@
       "WebFetch(domain:4x.ant.design)",
       "Bash(xargs grep:*)",
       "Bash(git -C \"E:/GitHub/dsai\" add packages/@dsai-io/react/src/components/Toast/Toast.test.tsx)",
-      "Bash(git -C \"E:/GitHub/dsai\" commit --no-verify -m \"test\\(Toast\\): add test coverage for toast.update\\(\\) method\")"
+      "Bash(git -C \"E:/GitHub/dsai\" commit --no-verify -m \"test\\(Toast\\): add test coverage for toast.update\\(\\) method\")",
+      "WebFetch(domain:mantine.dev)",
+      "Bash(grep -E \"\\\\.\\(ts|tsx|css|scss|json\\)$\")",
+      "Bash(pnpm test:coverage --testPathPattern=Typography)",
+      "Bash(xargs cat:*)",
+      "WebFetch(domain:react-spectrum.adobe.com)",
+      "WebFetch(domain:floating-ui.com)",
+      "WebFetch(domain:react-aria.adobe.com)",
+      "WebFetch(domain:www.w3.org)",
+      "WebFetch(domain:base-ui.com)"
     ]
   }
 }
