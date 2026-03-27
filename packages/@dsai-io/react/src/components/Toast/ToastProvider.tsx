@@ -133,7 +133,8 @@ export function ToastProvider({
   defaultDuration = DEFAULT_DURATION_MS,
   gap = 12,
   containerId,
-  pauseOnHover: _pauseOnHover = true,
+  pauseOnHover = true,
+  pauseOnFocusLoss = true,
 }: ToastProviderProps): React.JSX.Element {
   const [state, dispatch] = useReducer(toastQueueReducer, { toasts: [] });
 
@@ -260,6 +261,8 @@ export function ToastProvider({
             onClose={() => handleToastClose(toastData)}
             onOpen={toastData.onOpen}
             className={toastData.className}
+            pauseOnHover={pauseOnHover}
+            pauseOnFocusLoss={pauseOnFocusLoss}
             data-testid={`toast-${toastData.id}`}
           />
         ))}

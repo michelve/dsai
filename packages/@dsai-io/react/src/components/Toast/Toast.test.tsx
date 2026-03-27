@@ -633,6 +633,58 @@ describe('ToastProvider and useToast', () => {
     expect(container).toHaveClass('bottom-0');
     expect(container).toHaveClass('start-50');
   });
+
+  it('passes pauseOnHover to rendered toasts', () => {
+    function TriggerToast() {
+      const toast = useToast();
+      return (
+        <button onClick={() => toast.success('Test')}>
+          Trigger
+        </button>
+      );
+    }
+
+    render(
+      <ToastProvider pauseOnHover>
+        <TriggerToast />
+      </ToastProvider>
+    );
+
+    fireEvent.click(screen.getByText('Trigger'));
+
+    act(() => {
+      jest.advanceTimersByTime(200);
+    });
+
+    const container = screen.getByTestId('toast-container');
+    expect(container.querySelector('.toast')).toBeInTheDocument();
+  });
+
+  it('passes pauseOnFocusLoss to rendered toasts', () => {
+    function TriggerToast() {
+      const toast = useToast();
+      return (
+        <button onClick={() => toast.success('Test')}>
+          Trigger
+        </button>
+      );
+    }
+
+    render(
+      <ToastProvider pauseOnFocusLoss>
+        <TriggerToast />
+      </ToastProvider>
+    );
+
+    fireEvent.click(screen.getByText('Trigger'));
+
+    act(() => {
+      jest.advanceTimersByTime(200);
+    });
+
+    const container = screen.getByTestId('toast-container');
+    expect(container.querySelector('.toast')).toBeInTheDocument();
+  });
 });
 
 describe('Toast Ref Forwarding', () => {

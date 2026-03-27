@@ -360,6 +360,12 @@ export interface ToastProviderProps {
    * @default true
    */
   pauseOnHover?: boolean;
+
+  /**
+   * Whether to pause auto-dismiss when the browser tab loses focus
+   * @default true
+   */
+  pauseOnFocusLoss?: boolean;
 }
 
 /**
