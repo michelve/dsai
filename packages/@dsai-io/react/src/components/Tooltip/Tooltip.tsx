@@ -93,6 +93,7 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
       trigger = ['hover', 'focus'],
       showDelay,
       hideDelay,
+      describeChild,
       arrow: showArrow,
       offset: offsetValue = 8,
       maxWidth,
@@ -118,6 +119,7 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
     const resolvedShowDelay = showDelay ?? ctx.showDelay;
     const resolvedHideDelay = hideDelay ?? ctx.hideDelay;
     const resolvedArrow = showArrow ?? ctx.arrow;
+    const resolvedDescribeChild = describeChild ?? ctx.describeChild;
 
     // Determine if controlled
     const isControlled = controlledIsOpen !== undefined;
@@ -209,7 +211,9 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
       escapeKey: true,
     });
 
-    const role = useRole(context, { role: 'tooltip' });
+    const role = useRole(context, {
+      role: resolvedDescribeChild ? 'tooltip' : 'label',
+    });
 
     const { getReferenceProps, getFloatingProps } = useInteractions([
       hover,
@@ -293,14 +297,18 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
         return null;
       }
 
+      const ariaProps: Record<string, string | undefined> = resolvedDescribeChild
+        ? { 'aria-describedby': isOpen ? tooltipId : undefined }
+        : { 'aria-labelledby': isOpen ? tooltipId : undefined };
+
       return cloneElement(
         child,
         getReferenceProps({
           ref: mergedRef,
-          'aria-describedby': isOpen ? tooltipId : undefined,
+          ...ariaProps,
         })
       );
-    }, [children, child, getReferenceProps, mergedRef, isOpen, tooltipId]);
+    }, [children, child, getReferenceProps, mergedRef, isOpen, tooltipId, resolvedDescribeChild]);
 
     // Compute tooltip styles
     const tooltipStyles = useMemo(() => {

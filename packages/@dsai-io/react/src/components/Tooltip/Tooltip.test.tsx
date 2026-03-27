@@ -727,6 +727,65 @@ describe('Tooltip', () => {
   });
 
   // ============================================================================
+  // describeChild Tests
+  // ============================================================================
+  describe('describeChild', () => {
+    it('defaults to true (aria-describedby)', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+      render(
+        <Tooltip content="Test tooltip">
+          <button type="button">Hover me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      await user.hover(button);
+
+      act(() => {
+        jest.advanceTimersByTime(400);
+      });
+
+      await waitFor(() => {
+        expect(button).toHaveAttribute('aria-describedby');
+      });
+    });
+
+    it('uses aria-labelledby when describeChild is false', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+      render(
+        <Tooltip content="Test tooltip" describeChild={false}>
+          <button type="button">Hover me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      await user.hover(button);
+
+      act(() => {
+        jest.advanceTimersByTime(400);
+      });
+
+      await waitFor(() => {
+        expect(button).toHaveAttribute('aria-labelledby');
+        expect(button).not.toHaveAttribute('aria-describedby');
+      });
+    });
+
+    it('removes aria-labelledby when tooltip is hidden', () => {
+      render(
+        <Tooltip content="Test tooltip" describeChild={false}>
+          <button type="button">Hover me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      expect(button).not.toHaveAttribute('aria-labelledby');
+    });
+  });
+
+  // ============================================================================
   // Integration with Button Component
   // ============================================================================
   describe('Integration with Button Component', () => {
