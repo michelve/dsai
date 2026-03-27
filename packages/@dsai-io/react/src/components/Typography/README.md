@@ -53,6 +53,8 @@ Semantic headings that map directly to HTML h1-h6 elements.
 | `transform`  | `TextTransform`                | -       | Text transform                 |
 | `noMargin`   | `boolean`                      | `false` | Remove default margin          |
 | `truncate`   | `boolean`                      | `false` | Truncate with ellipsis         |
+| `wrap`         | `TextWrap`                     | -       | CSS text-wrap behavior       |
+| `highContrast` | `boolean`                      | `false` | Enhanced contrast (WCAG AAA) |
 
 ### Display
 
@@ -89,6 +91,9 @@ Large display headings for hero sections and prominent titles.
 | `weight`    | `FontWeight`                   | -       | Font weight                 |
 | `transform` | `TextTransform`                | -       | Text transform              |
 | `noMargin`  | `boolean`                      | `false` | Remove default margin       |
+| `truncate`  | `boolean`                      | `false` | Truncate with ellipsis      |
+| `wrap`         | `TextWrap`                     | -       | CSS text-wrap behavior       |
+| `highContrast` | `boolean`                      | `false` | Enhanced contrast (WCAG AAA) |
 
 ### Text
 
@@ -140,6 +145,8 @@ Body copy, lead paragraphs, and inline text variants.
 | `lines`      | `number`                       | -        | Multi-line truncation  |
 | `citeAuthor` | `string`                       | -        | Blockquote author      |
 | `cite`       | `string`                       | -        | Blockquote source URL  |
+| `wrap`         | `TextWrap`                     | -       | CSS text-wrap behavior       |
+| `highContrast` | `boolean`                      | `false` | Enhanced contrast (WCAG AAA) |
 
 #### Text Variants
 
@@ -199,6 +206,30 @@ Available transforms (via `transform` prop):
 - `capitalize` - Capitalize Each Word
 - `none` - No transformation
 
+## Text Wrap
+
+Control CSS `text-wrap` behavior (via `wrap` prop):
+
+- `balance` - Balances line lengths (ideal for headings)
+- `pretty` - Prevents orphaned words on last line
+- `nowrap` - Prevents wrapping
+- `wrap` - Default wrapping (explicit)
+
+```tsx
+// Balanced heading - evens out line lengths
+<Heading level={1} wrap="balance">
+  A Long Heading That Wraps Nicely Across Multiple Lines
+</Heading>
+
+// Pretty paragraph - avoids orphans
+<Text wrap="pretty">
+  Long paragraph text that avoids leaving a single word on the last line.
+</Text>
+```
+
+> **Note:** `text-wrap: balance` and `pretty` are progressive enhancements.
+> Browsers that don't support them fall back to default wrapping behavior.
+
 ## Accessibility
 
 The Typography system is designed with accessibility in mind:
@@ -224,6 +255,15 @@ The Typography system is designed with accessibility in mind:
 // ❌ Avoid - skipping heading levels
 <Heading level={1}>Title</Heading>
 <Heading level={4}>Subsection</Heading> {/* Skips h2, h3 */}
+```
+
+### High Contrast Mode
+
+Use the `highContrast` prop for enhanced readability and WCAG AAA compliance:
+
+```tsx
+<Heading level={1} highContrast>Maximum Contrast Heading</Heading>
+<Text highContrast>Enhanced contrast body text for accessibility.</Text>
 ```
 
 ## Linting & Guidelines
