@@ -877,6 +877,127 @@ describe('Tooltip', () => {
   });
 
   // ============================================================================
+  // touchEnabled Tests
+  // ============================================================================
+  describe('touchEnabled', () => {
+    it('defaults to not showing on touch events', () => {
+      render(
+        <Tooltip content="Test tooltip">
+          <button>Touch me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      fireEvent.touchStart(button);
+      jest.advanceTimersByTime(1000);
+
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+    });
+
+    it('shows tooltip on long-press when touchEnabled', async () => {
+      render(
+        <Tooltip content="Touch tooltip" touchEnabled>
+          <button>Touch me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      fireEvent.touchStart(button, {
+        touches: [{ clientX: 100, clientY: 100 }],
+      });
+
+      // Not visible at 600ms
+      jest.advanceTimersByTime(600);
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+
+      // Visible after 700ms
+      jest.advanceTimersByTime(200);
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toHaveTextContent('Touch tooltip');
+      });
+    });
+
+    it('auto-hides after 1500ms', async () => {
+      render(
+        <Tooltip content="Touch tooltip" touchEnabled>
+          <button>Touch me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      fireEvent.touchStart(button, {
+        touches: [{ clientX: 100, clientY: 100 }],
+      });
+      jest.advanceTimersByTime(800);
+
+      await waitFor(() => {
+        expect(screen.getByRole('tooltip')).toBeInTheDocument();
+      });
+
+      // Auto-hide after 1500ms from show
+      jest.advanceTimersByTime(1600);
+      await waitFor(() => {
+        expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+      });
+    });
+
+    it('cancels on touchMove (scroll)', () => {
+      render(
+        <Tooltip content="Touch tooltip" touchEnabled>
+          <button>Touch me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      fireEvent.touchStart(button, {
+        touches: [{ clientX: 100, clientY: 100 }],
+      });
+      jest.advanceTimersByTime(300);
+
+      fireEvent.touchMove(button, {
+        touches: [{ clientX: 100, clientY: 125 }],
+      });
+
+      jest.advanceTimersByTime(500);
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+    });
+
+    it('cancels on touchEnd before threshold', () => {
+      render(
+        <Tooltip content="Touch tooltip" touchEnabled>
+          <button>Touch me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      fireEvent.touchStart(button, {
+        touches: [{ clientX: 100, clientY: 100 }],
+      });
+      jest.advanceTimersByTime(300);
+      fireEvent.touchEnd(button);
+
+      jest.advanceTimersByTime(500);
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+    });
+
+    it('does not show when disabled', () => {
+      render(
+        <Tooltip content="Touch tooltip" touchEnabled disabled>
+          <button>Touch me</button>
+        </Tooltip>
+      );
+
+      const button = screen.getByRole('button');
+      fireEvent.touchStart(button, {
+        touches: [{ clientX: 100, clientY: 100 }],
+      });
+      jest.advanceTimersByTime(1000);
+
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+    });
+  });
+
+  // ============================================================================
   // Integration with Button Component
   // ============================================================================
   describe('Integration with Button Component', () => {

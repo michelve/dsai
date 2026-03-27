@@ -34,6 +34,7 @@ import type { TooltipProps } from './Tooltip.types';
 import type { ReactElement } from 'react';
 
 import { useTooltipContext } from './TooltipContext';
+import { useTouchInteraction } from './useTouchInteraction';
 
 const TOOLTIP_ARROW_GAP_PX = 6;
 const TOOLTIP_ARROW_WIDTH_PX = 12;
@@ -96,6 +97,7 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
       hideDelay,
       describeChild,
       followCursor,
+      touchEnabled,
       arrow: showArrow,
       offset: offsetValue = 8,
       maxWidth,
@@ -122,6 +124,7 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
     const resolvedHideDelay = hideDelay ?? ctx.hideDelay;
     const resolvedArrow = showArrow ?? ctx.arrow;
     const resolvedDescribeChild = describeChild ?? ctx.describeChild;
+    const resolvedTouchEnabled = touchEnabled ?? ctx.touchEnabled;
 
     // Follow-cursor suppresses arrow (moving tooltip + arrow is disorienting)
     const effectiveArrow = followCursor ? false : resolvedArrow;
@@ -229,6 +232,19 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
       axis: followCursor === true ? 'both' : (followCursor || 'both'),
     });
 
+    // Touch interaction (long-press)
+    const touchInteraction = useTouchInteraction({
+      enabled: resolvedTouchEnabled && !disabled,
+      onOpen: () => {
+        dispatch({ type: 'OPEN' });
+        onOpenChange?.(true);
+      },
+      onClose: () => {
+        dispatch({ type: 'CLOSE' });
+        onOpenChange?.(false);
+      },
+    });
+
     const { getReferenceProps, getFloatingProps } = useInteractions([
       hover,
       focus,
@@ -321,9 +337,13 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
         getReferenceProps({
           ref: mergedRef,
           ...ariaProps,
+          ...(resolvedTouchEnabled ? touchInteraction : {}),
         })
       );
-    }, [children, child, getReferenceProps, mergedRef, isOpen, tooltipId, resolvedDescribeChild]);
+    }, [
+      children, child, getReferenceProps, mergedRef, isOpen, tooltipId,
+      resolvedDescribeChild, resolvedTouchEnabled, touchInteraction,
+    ]);
 
     // Compute tooltip styles
     const tooltipStyles = useMemo(() => {
