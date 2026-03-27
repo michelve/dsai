@@ -616,7 +616,6 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
         )}
 
         {/* Modal */}
-        { }
         {/* biome-ignore lint/a11y/noStaticElementInteractions: role is dynamically dialog|alertdialog both interactive per ARIA APG */}
         {/* biome-ignore lint/a11y/useAriaPropsSupportedByRole: aria-modal is valid on both dialog and alertdialog roles */}
         <div

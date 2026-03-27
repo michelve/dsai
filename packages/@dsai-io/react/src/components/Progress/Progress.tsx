@@ -129,7 +129,6 @@ function renderSteps(
             }),
         };
 
-         
         return (
           <div
             key={i}
