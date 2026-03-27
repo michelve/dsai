@@ -139,7 +139,13 @@ describe('CLI Help Output', () => {
 
     // Fail if output is empty - CLI should always produce output when built
     if (!output.trim()) {
-      throw new Error("CLI returned empty output. Run 'pnpm nx run @dsai-io/tools:build' first.");
+      const toolsRoot = resolve(__dirname, '../..');
+      const distExists = existsSync(resolve(toolsRoot, 'dist/cli/index.js'));
+      const binExists = existsSync(resolve(toolsRoot, 'bin/dsai-tools.mjs'));
+      throw new Error(
+        `CLI returned empty output. dist/cli/index.js exists: ${distExists}, bin/dsai-tools.mjs exists: ${binExists}. ` +
+          "Run 'pnpm nx run @dsai-io/tools:build' first."
+      );
     }
 
     // Help text should include command description
@@ -160,7 +166,13 @@ describe('CLI Help Output', () => {
 
     // Fail if output is empty - CLI should always produce output when built
     if (!output.trim()) {
-      throw new Error("CLI returned empty output. Run 'pnpm nx run @dsai-io/tools:build' first.");
+      const toolsRoot = resolve(__dirname, '../..');
+      const distExists = existsSync(resolve(toolsRoot, 'dist/cli/index.js'));
+      const binExists = existsSync(resolve(toolsRoot, 'bin/dsai-tools.mjs'));
+      throw new Error(
+        `CLI returned empty output. dist/cli/index.js exists: ${distExists}, bin/dsai-tools.mjs exists: ${binExists}. ` +
+          "Run 'pnpm nx run @dsai-io/tools:build' first."
+      );
     }
 
     expect(output).toMatch(/validate/i);

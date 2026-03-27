@@ -124,13 +124,30 @@ describe('getSafeInputProps', () => {
       const props = {
         id: 'safe',
         customProp: 'value',
-        'data-custom': 'value',
         myHandler: jest.fn(),
       };
 
       const result = getSafeInputProps(props);
 
       expect(result).toEqual({ id: 'safe' });
+    });
+
+    it('should allow data-* attributes (safe HTML5 standard)', () => {
+      const props = {
+        id: 'safe',
+        'data-testid': 'my-input',
+        'data-custom': 'value',
+        'data-cy': 'login-field',
+      };
+
+      const result = getSafeInputProps(props);
+
+      expect(result).toEqual({
+        id: 'safe',
+        'data-testid': 'my-input',
+        'data-custom': 'value',
+        'data-cy': 'login-field',
+      });
     });
   });
 

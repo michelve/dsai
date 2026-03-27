@@ -168,6 +168,15 @@ jobs:
       - name: Build packages
         run: pnpm nx run-many --target=build --projects=@dsai-io/tools
 
+      - name: Verify build artifacts
+        run: |
+          if [ ! -f "packages/@dsai-io/tools/dist/cli/index.js" ]; then
+            echo "::error::@dsai-io/tools build failed — dist/cli/index.js not found"
+            ls -la packages/@dsai-io/tools/dist/ 2>/dev/null || echo "dist/ directory missing"
+            exit 1
+          fi
+          echo "Build artifacts verified"
+
       - name: Run tests with coverage
         run: pnpm test:ci
 
