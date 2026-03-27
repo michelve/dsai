@@ -62,15 +62,6 @@ function getTextColorClass(color: HeadingProps['color']): string | undefined {
   if (!color) {
     return undefined;
   }
-
-  // Handle special cases
-  if (color === 'body-secondary') {
-    return 'text-body-secondary';
-  }
-  if (color === 'body-tertiary') {
-    return 'text-body-tertiary';
-  }
-
   return `text-${color}`;
 }
 
