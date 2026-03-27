@@ -685,6 +685,126 @@ describe('ToastProvider and useToast', () => {
     const container = screen.getByTestId('toast-container');
     expect(container.querySelector('.toast')).toBeInTheDocument();
   });
+
+  describe('toast.update()', () => {
+    it('updates the message of an existing toast', () => {
+      let toastApi: ReturnType<typeof useToast>;
+
+      function Consumer() {
+        toastApi = useToast();
+        return null;
+      }
+
+      render(
+        <ToastProvider>
+          <Consumer />
+        </ToastProvider>
+      );
+
+      let toastId: string;
+      act(() => {
+        toastId = toastApi.toast('Original message');
+      });
+
+      act(() => {
+        jest.advanceTimersByTime(200);
+      });
+
+      expect(screen.getByText('Original message')).toBeInTheDocument();
+
+      act(() => {
+        toastApi.update(toastId, { message: 'Updated message' });
+      });
+
+      expect(screen.getByText('Updated message')).toBeInTheDocument();
+      expect(screen.queryByText('Original message')).not.toBeInTheDocument();
+    });
+
+    it('updates the variant of an existing toast', () => {
+      let toastApi: ReturnType<typeof useToast>;
+
+      function Consumer() {
+        toastApi = useToast();
+        return null;
+      }
+
+      render(
+        <ToastProvider>
+          <Consumer />
+        </ToastProvider>
+      );
+
+      let toastId: string;
+      act(() => {
+        toastId = toastApi.toast('Variant test');
+      });
+
+      act(() => {
+        jest.advanceTimersByTime(200);
+      });
+
+      act(() => {
+        toastApi.update(toastId, { variant: 'success' });
+      });
+
+      const container = screen.getByTestId('toast-container');
+      const toast = container.querySelector('.toast');
+      expect(toast).toHaveClass('text-bg-success');
+    });
+
+    it('updates title of an existing toast', () => {
+      let toastApi: ReturnType<typeof useToast>;
+
+      function Consumer() {
+        toastApi = useToast();
+        return null;
+      }
+
+      render(
+        <ToastProvider>
+          <Consumer />
+        </ToastProvider>
+      );
+
+      let toastId: string;
+      act(() => {
+        toastId = toastApi.toast('Body', { title: 'Old Title' });
+      });
+
+      act(() => {
+        jest.advanceTimersByTime(200);
+      });
+
+      expect(screen.getByText('Old Title')).toBeInTheDocument();
+
+      act(() => {
+        toastApi.update(toastId, { title: 'New Title' });
+      });
+
+      expect(screen.getByText('New Title')).toBeInTheDocument();
+      expect(screen.queryByText('Old Title')).not.toBeInTheDocument();
+    });
+
+    it('does not crash when updating a non-existent toast', () => {
+      let toastApi: ReturnType<typeof useToast>;
+
+      function Consumer() {
+        toastApi = useToast();
+        return null;
+      }
+
+      render(
+        <ToastProvider>
+          <Consumer />
+        </ToastProvider>
+      );
+
+      // Should not throw
+      act(() => {
+        toastApi.update('non-existent-id', { message: 'nothing' });
+      });
+    });
+  });
 });
 
 describe('Toast Ref Forwarding', () => {
