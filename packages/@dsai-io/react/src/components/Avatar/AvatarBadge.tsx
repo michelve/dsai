@@ -3,6 +3,7 @@
 import { forwardRef, memo } from 'react';
 
 import { cn } from '../../utils';
+
 import { useAvatarContext } from './AvatarContext';
 
 import type { AvatarBadgeProps } from './Avatar.types';

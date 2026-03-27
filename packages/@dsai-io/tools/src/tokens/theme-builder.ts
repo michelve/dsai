@@ -536,6 +536,7 @@ async function runStyleDictionaryBuild(
     // Debug: check if files actually exist
     for (const [format, files] of Object.entries(outputs)) {
       for (const file of files) {
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
         const exists = existsSync(file);
         if (!exists) {
           console.warn(`   ⚠️  Missing: ${format} -> ${file}`);

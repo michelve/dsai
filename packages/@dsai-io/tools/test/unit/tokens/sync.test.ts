@@ -52,16 +52,16 @@ describe('getDefaultSyncPaths', () => {
     const tokensDir = '/path/to/tokens';
     const paths = getDefaultSyncPaths(tokensDir);
 
-    expect(paths.sourceFile).toBe('/path/to/tokens/dist/js/tokens.js');
-    expect(paths.targetFile).toBe('/path/to/tokens/src/tokens-flat.ts');
+    expect(paths.sourceFile).toBe(join('/path/to/tokens', 'dist', 'js', 'tokens.js'));
+    expect(paths.targetFile).toBe(join('/path/to/tokens', 'src', 'tokens-flat.ts'));
   });
 
   it('should handle relative paths', () => {
     const paths = getDefaultSyncPaths('./packages/tokens');
 
     // Note: join() normalizes paths and removes the leading ./
-    expect(paths.sourceFile).toBe('packages/tokens/dist/js/tokens.js');
-    expect(paths.targetFile).toBe('packages/tokens/src/tokens-flat.ts');
+    expect(paths.sourceFile).toBe(join('packages', 'tokens', 'dist', 'js', 'tokens.js'));
+    expect(paths.targetFile).toBe(join('packages', 'tokens', 'src', 'tokens-flat.ts'));
   });
 });
 

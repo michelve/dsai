@@ -33,12 +33,11 @@ import { cn } from '../../utils';
 import { isEnterKey } from '../../utils/keyboard';
 import { PersonIcon } from '../Icon';
 
-import { AvatarContext } from './AvatarContext';
 import { AvatarBadge } from './AvatarBadge';
+import { AvatarContext } from './AvatarContext';
 import { AvatarFallback } from './AvatarFallback';
 import { AvatarImage } from './AvatarImage';
 import { AvatarStatus } from './AvatarStatus';
-
 import {
   getFontSize,
   getInitialsFromName,
@@ -174,14 +173,12 @@ const AvatarRoot = memo(
       }
     }, [imageStatus, onLoadingStatusChange]);
 
-    // Reset status when src changes
-    useEffect(() => {
-      if (src) {
-        setImageStatus('loading');
-      } else {
-        setImageStatus('idle');
-      }
-    }, [src]);
+    // Reset status when src changes — derive synchronously to avoid cascading renders
+    const prevSrcRef = useRef(src);
+    if (prevSrcRef.current !== src) {
+      prevSrcRef.current = src;
+      setImageStatus(src ? 'loading' : 'idle');
+    }
 
     const imageLoaded = imageStatus === 'loaded';
     const imageError = imageStatus === 'error';
@@ -225,9 +222,17 @@ const AvatarRoot = memo(
       effectiveDelayMs === undefined || effectiveDelayMs === 0
     );
 
-    useEffect(() => {
+    // Synchronize delayElapsed when effectiveDelayMs changes
+    const prevDelayRef = useRef(effectiveDelayMs);
+    if (prevDelayRef.current !== effectiveDelayMs) {
+      prevDelayRef.current = effectiveDelayMs;
       if (effectiveDelayMs === undefined || effectiveDelayMs === 0) {
         setDelayElapsed(true);
+      }
+    }
+
+    useEffect(() => {
+      if (effectiveDelayMs === undefined || effectiveDelayMs === 0) {
         return undefined;
       }
       const timer = window.setTimeout(() => setDelayElapsed(true), effectiveDelayMs);

@@ -3,6 +3,7 @@
 import { forwardRef, memo, useEffect, useState } from 'react';
 
 import { cn } from '../../utils';
+
 import { useAvatarContext } from './AvatarContext';
 
 import type { AvatarFallbackProps } from './Avatar.types';
