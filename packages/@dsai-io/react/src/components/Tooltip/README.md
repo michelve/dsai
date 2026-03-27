@@ -7,11 +7,16 @@ A fully accessible tooltip component for displaying contextual information on ho
 - **Multiple trigger types**: Hover, focus, click, or any combination
 - **Smart positioning**: Auto-flips when near viewport edges
 - **Arrow pointer**: Optional arrow pointing to trigger element
-- **Configurable delays**: Show and hide delays for better UX
+- **Configurable delays**: Show and hide delays for better UX (300ms show, 150ms hide defaults)
 - **Controlled and uncontrolled modes**: Full state control when needed
 - **Portal rendering**: Renders outside parent DOM for proper stacking
 - **Keyboard accessible**: Visible on focus, ESC to dismiss
 - **Polished visuals**: Built-in fade/scale transitions and themable arrow surface
+- **TooltipProvider**: Set global defaults for all descendant Tooltips
+- **TooltipGroup**: Skip-delay coordination across sibling tooltips
+- **Label vs Description semantics**: `describeChild` controls whether tooltip uses `aria-describedby` or `aria-labelledby`
+- **Follow cursor**: `followCursor` tracks mouse position with optional axis locking
+- **Touch support**: `touchEnabled` enables long-press interaction on touch devices
 
 ## Installation
 
@@ -29,24 +34,27 @@ import { Tooltip } from '@dsai-io/react';
 
 ## Props
 
-| Prop           | Type                                 | Default              | Description                                                   |
+| Prop | Type | Default | Description |
 | -------------- | ------------------------------------ | -------------------- | ------------------------------------------------------------- |
-| `children`     | `ReactElement`                       | Required             | The trigger element                                           |
-| `content`      | `ReactNode`                          | Required             | Tooltip content to display                                    |
-| `placement`    | `TooltipPlacement`                   | `'top'`              | Position relative to trigger                                  |
-| `trigger`      | `TooltipTrigger \| TooltipTrigger[]` | `['hover', 'focus']` | How to trigger visibility                                     |
-| `showDelay`    | `number`                             | `0`                  | Delay before showing (ms)                                     |
-| `hideDelay`    | `number`                             | `0`                  | Delay before hiding (ms)                                      |
-| `arrow`        | `boolean`                            | `true`               | Show arrow pointer                                            |
-| `offset`       | `number`                             | `8`                  | Distance from trigger (px)                                    |
-| `maxWidth`     | `number \| string`                   | `undefined`          | Max width for text wrapping                                   |
-| `isOpen`       | `boolean`                            | `undefined`          | Controlled open state                                         |
-| `onOpenChange` | `(isOpen: boolean) => void`          | `undefined`          | Open state change callback                                    |
-| `defaultOpen`  | `boolean`                            | `false`              | Initial open state                                            |
-| `disabled`     | `boolean`                            | `false`              | Disable tooltip                                               |
-| `portal`       | `boolean`                            | `true`               | Render in portal                                              |
-| `container`    | `HTMLElement`                        | `document.body`      | Portal container                                              |
-| `aria-label`   | `string`                             | `undefined`          | Accessible label for screen readers when `content` is complex |
+| `children` | `ReactElement` | Required | The trigger element |
+| `content` | `ReactNode` | Required | Tooltip content to display |
+| `placement` | `TooltipPlacement` | `'top'` | Position relative to trigger |
+| `trigger` | `TooltipTrigger \| TooltipTrigger[]` | `['hover', 'focus']` | How to trigger visibility |
+| `showDelay` | `number` | `300` | Delay before showing (ms) |
+| `hideDelay` | `number` | `150` | Delay before hiding (ms) |
+| `arrow` | `boolean` | `true` | Show arrow pointer |
+| `offset` | `number` | `8` | Distance from trigger (px) |
+| `maxWidth` | `number \| string` | `undefined` | Max width for text wrapping |
+| `isOpen` | `boolean` | `undefined` | Controlled open state |
+| `onOpenChange` | `(isOpen: boolean) => void` | `undefined` | Open state change callback |
+| `defaultOpen` | `boolean` | `false` | Initial open state |
+| `disabled` | `boolean` | `false` | Disable tooltip |
+| `portal` | `boolean` | `true` | Render in portal |
+| `container` | `HTMLElement` | `document.body` | Portal container |
+| `aria-label` | `string` | `undefined` | Accessible label for screen readers when `content` is complex |
+| `describeChild` | `boolean` | `true` | When true, uses aria-describedby. When false, uses aria-labelledby. |
+| `followCursor` | `boolean \| 'x' \| 'y'` | `false` | Track cursor movement. Arrow auto-disabled when active. |
+| `touchEnabled` | `boolean` | `false` | Enable long-press (700ms) tooltip on touch devices. Auto-hides after 1500ms. |
 
 ### Placement Values
 
@@ -60,6 +68,60 @@ import { Tooltip } from '@dsai-io/react';
 - `'hover'` - Show on mouse hover
 - `'focus'` - Show on keyboard focus
 - `'click'` - Toggle on click
+
+## TooltipProvider
+
+Sets global defaults for all descendant Tooltips. Resolution order: instance prop > provider > built-in defaults.
+
+### Usage
+
+```tsx
+import { Tooltip, TooltipProvider } from '@dsai-io/react';
+
+<TooltipProvider showDelay={400} touchEnabled={false}>
+  <App />
+</TooltipProvider>
+
+{/* Instance override */}
+<TooltipProvider showDelay={500}>
+  <Tooltip content="Instant" showDelay={0}>
+    <button>Override</button>
+  </Tooltip>
+</TooltipProvider>
+```
+
+### Provider Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `showDelay` | `number` | `300` | Default show delay in ms |
+| `hideDelay` | `number` | `150` | Default hide delay in ms |
+| `skipDelay` | `number` | `300` | Default skip delay for groups |
+| `arrow` | `boolean` | `true` | Default arrow visibility |
+| `touchEnabled` | `boolean` | `false` | Default touch behavior |
+| `describeChild` | `boolean` | `true` | Default describe child behavior |
+
+## TooltipGroup
+
+Coordinates delay timing across sibling tooltips. When one tooltip is open and the user moves to another within the skip window, the second opens instantly.
+
+### Usage
+
+```tsx
+import { Tooltip, TooltipGroup } from '@dsai-io/react';
+
+<TooltipGroup>
+  <Tooltip content="Bold"><button>B</button></Tooltip>
+  <Tooltip content="Italic"><button>I</button></Tooltip>
+  <Tooltip content="Underline"><button>U</button></Tooltip>
+</TooltipGroup>
+```
+
+### Group Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `skipDelay` | `number` | `300` | Skip delay window in ms (inherits from provider) |
 
 ## Examples
 
@@ -164,6 +226,47 @@ function ControlledTooltip() {
 </Tooltip>
 ```
 
+## New Features
+
+### Label vs Description (`describeChild`)
+
+```tsx
+{/* Default: tooltip as description */}
+<Tooltip content="Saves the document">
+  <button>Save</button>
+</Tooltip>
+
+{/* Icon button: tooltip as label */}
+<Tooltip content="Save document" describeChild={false}>
+  <button aria-label="Save document">
+    <SaveIcon aria-hidden />
+  </button>
+</Tooltip>
+```
+
+### Follow Cursor
+
+```tsx
+{/* Track both axes */}
+<Tooltip content="Coordinates" followCursor>
+  <div className="chart" />
+</Tooltip>
+
+{/* Track horizontal only (slider) */}
+<Tooltip content={value} followCursor="x">
+  <input type="range" />
+</Tooltip>
+```
+
+### Touch Support
+
+```tsx
+{/* Long-press (700ms) to show, auto-hides after 1500ms */}
+<Tooltip content="More info" touchEnabled>
+  <button>Info</button>
+</Tooltip>
+```
+
 ## Accessibility
 
 ### WCAG 2.2 AA Compliance
@@ -171,17 +274,26 @@ function ControlledTooltip() {
 The Tooltip component is fully accessible:
 
 - **role="tooltip"**: Tooltip content has proper role
-- **aria-describedby**: Links trigger to tooltip for screen readers
+- **aria-describedby / aria-labelledby**: Controlled by `describeChild` prop. When `true` (default), the trigger receives `aria-describedby` and the tooltip serves as supplementary description. When `false`, the trigger receives `aria-labelledby` and the tooltip serves as the accessible name (ideal for icon-only buttons).
 - **Keyboard focus**: Tooltip visible when trigger receives focus
 - **ESC dismissal**: Click-triggered tooltips can be closed with ESC
 - **Focus management**: Proper focus handling during interactions
+
+### describeChild Behavior
+
+The `describeChild` prop determines the ARIA relationship between the trigger and tooltip:
+
+| `describeChild` | ARIA Attribute | Use Case |
+|-----------------|---------------|----------|
+| `true` (default) | `aria-describedby` | Trigger already has a visible label. Tooltip provides additional context. |
+| `false` | `aria-labelledby` | Trigger has no visible label (e.g., icon button). Tooltip provides the accessible name. |
 
 ### Screen Reader Behavior
 
 When the tooltip is visible:
 
-1. The trigger element receives `aria-describedby` pointing to the tooltip
-2. Screen readers announce the tooltip content as a description
+1. The trigger element receives `aria-describedby` (or `aria-labelledby` when `describeChild={false}`) pointing to the tooltip
+2. Screen readers announce the tooltip content as a description or label accordingly
 3. The tooltip content is accessible via `role="tooltip"`
 
 ### Keyboard Navigation
@@ -245,7 +357,7 @@ Only safe HTML attributes are accepted:
 ### No XSS Vulnerabilities
 
 - Content is rendered safely via React
-- No `dangerouslySetInnerHTML` usage
+- No unsafe innerHTML usage
 - Event handlers are explicitly defined
 
 ## Performance
