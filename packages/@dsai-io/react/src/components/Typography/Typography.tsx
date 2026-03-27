@@ -461,106 +461,22 @@ export const Text = memo(
       );
     }
 
-    // Common props for all variants
-    const commonProps = {
-      id,
-      className: classes || undefined,
-      style: combinedStyle,
-      title,
-      'data-testid': dataTestId,
-      'data-test': dataTest,
-    };
-
     // Render based on final tag (as prop takes precedence)
-    const finalTag = as ?? getElementForVariant(variant);
+    const FinalTag = (as ?? getElementForVariant(variant)) as React.ElementType;
 
-    switch (finalTag) {
-      case 'p':
-        return (
-          <p ref={ref as React.Ref<HTMLParagraphElement>} {...commonProps}>
-            {children}
-          </p>
-        );
-      case 'span':
-        return (
-          <span ref={ref as React.Ref<HTMLSpanElement>} {...commonProps}>
-            {children}
-          </span>
-        );
-      case 'small':
-        return (
-          <small ref={ref as React.Ref<HTMLElement>} {...commonProps}>
-            {children}
-          </small>
-        );
-      case 'mark':
-        return (
-          <mark ref={ref as React.Ref<HTMLElement>} {...commonProps}>
-            {children}
-          </mark>
-        );
-      case 'del':
-        return (
-          <del ref={ref as React.Ref<HTMLModElement>} {...commonProps}>
-            {children}
-          </del>
-        );
-      case 'ins':
-        return (
-          <ins ref={ref as React.Ref<HTMLModElement>} {...commonProps}>
-            {children}
-          </ins>
-        );
-      case 'strong':
-        return (
-          <strong ref={ref as React.Ref<HTMLElement>} {...commonProps}>
-            {children}
-          </strong>
-        );
-      case 'em':
-        return (
-          <em ref={ref as React.Ref<HTMLElement>} {...commonProps}>
-            {children}
-          </em>
-        );
-      case 'code':
-        return (
-          <code ref={ref as React.Ref<HTMLElement>} {...commonProps}>
-            {children}
-          </code>
-        );
-      case 'kbd':
-        return (
-          <kbd ref={ref as React.Ref<HTMLElement>} {...commonProps}>
-            {children}
-          </kbd>
-        );
-      case 'pre':
-        return (
-          <pre ref={ref as React.Ref<HTMLPreElement>} {...commonProps}>
-            {children}
-          </pre>
-        );
-      case 'blockquote':
-        return (
-          <blockquote ref={ref as React.Ref<HTMLQuoteElement>} {...commonProps}>
-            {children}
-          </blockquote>
-        );
-      case 'div':
-        return (
-          <div ref={ref as React.Ref<HTMLDivElement>} {...commonProps}>
-            {children}
-          </div>
-        );
-      default:
-        // Fallback to paragraph
-        return (
-          <p ref={ref as React.Ref<HTMLParagraphElement>} {...commonProps}>
-            {children}
-          </p>
-        );
-    }
+    return (
+      <FinalTag
+        ref={ref}
+        id={id}
+        className={classes || undefined}
+        style={combinedStyle}
+        title={title}
+        data-testid={dataTestId}
+        data-test={dataTest}
+      >
+        {children}
+      </FinalTag>
+    );
   })
 );
 
