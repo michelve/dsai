@@ -19,16 +19,16 @@ const meta: Meta<typeof Typography.Heading> = {
     layout: 'padded',
     docs: {
       description: {
-        component: {
-          componentSet: {
-            name: 'Typography / Heading',
-            pageName: 'Typography',
-            key: 'typography-heading-001',
-            type: 'COMPONENT_SET',
-            description:
-              'Semantic heading typography components (H1-H6) with Bootstrap color variants. All HTML headings, <h1> through <h6>, are available with Default, Primary, Secondary, Success, Danger, Warning, Info, Light, Dark, Muted, and White color variants. Use Level for semantic HTML element, Visual Size to override font size independently. Based on Bootstrap 5.3 typography system.',
-            documentationLink: 'https://getbootstrap.com/docs/5.3/content/typography/#headings',
-          },
+        component:
+          'Semantic heading typography components (H1-H6) with Bootstrap color variants. All HTML headings, `<h1>` through `<h6>`, are available with Default, Primary, Secondary, Success, Danger, Warning, Info, Light, Dark, Muted, and White color variants. Use Level for semantic HTML element, Visual Size to override font size independently. Based on [Bootstrap 5.3 typography system](https://getbootstrap.com/docs/5.3/content/typography/#headings).',
+      },
+      figmaComponentData: {
+        componentSet: {
+          name: 'Typography / Heading',
+          pageName: 'Typography',
+          key: 'typography-heading-001',
+          type: 'COMPONENT_SET',
+        },
           defaultStyles: {
             label: 'Heading',
             text: '{Foundation/Light/semantic/emphasis-color}',
@@ -945,7 +945,6 @@ const meta: Meta<typeof Typography.Heading> = {
               documentationLink: 'https://getbootstrap.com/docs/5.3/utilities/colors/#colors',
             },
           ],
-        },
       },
     },
   },

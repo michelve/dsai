@@ -1,6 +1,7 @@
 // This file has been automatically migrated to valid ESM format by Storybook.
+import { createRequire } from 'node:module';
 import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import react from '@vitejs/plugin-react';
 import remarkGfm from 'remark-gfm';
@@ -9,6 +10,11 @@ import type { StorybookConfig } from '@storybook/react-vite';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+const _require = createRequire(import.meta.url);
+function getAbsolutePath(value: string): string {
+  return dirname(_require.resolve(`${value}/package.json`));
+}
 
 const config: StorybookConfig = {
   stories: ['../docs/**/*.mdx', '../docs/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -51,7 +57,7 @@ const config: StorybookConfig = {
   viteFinal: async (config) => {
     const { mergeConfig } = await import('vite');
     const { sharedViteConfig } = await import(
-      resolve(__dirname, '../../../../config/vite.shared.ts')
+      pathToFileURL(resolve(__dirname, '../../../../config/vite.shared.ts')).href
     );
 
     const withShared = mergeConfig(config, sharedViteConfig);
@@ -87,6 +93,3 @@ const config: StorybookConfig = {
 
 export default config;
 
-function getAbsolutePath(value: string): string {
-  return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
-}

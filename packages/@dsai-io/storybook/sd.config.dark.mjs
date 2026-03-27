@@ -15,7 +15,7 @@ import StyleDictionary from 'style-dictionary';
 registerAll(StyleDictionary);
 
 // Dark mode token files
-const darkModeFiles = globSync('src/collections/**/*-dark.json');
+const darkModeFiles = globSync('src/collections/**/*-dark.json').map((f) => f.replace(/\\/g, '/'));
 
 export default {
   log: {
