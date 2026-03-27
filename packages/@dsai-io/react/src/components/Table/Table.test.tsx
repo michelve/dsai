@@ -1413,4 +1413,203 @@ describe('Table', () => {
       expect(nameHeader).toHaveAttribute('aria-sort', 'ascending');
     });
   });
+
+  // ===========================================================================
+  // Pagination
+  // ===========================================================================
+  describe('Pagination', () => {
+    const manyRows = Array.from({ length: 50 }, (_, i) => ({
+      id: i + 1,
+      name: `Row ${i + 1}`,
+      email: `row${i + 1}@example.com`,
+      age: 20 + (i % 30),
+      department: 'Dept',
+    }));
+    const paginationColumns: TableColumn<{
+      id: number;
+      name: string;
+      email: string;
+      age: number;
+      department: string;
+    }>[] = [
+      { id: 'id', header: 'ID', accessor: 'id' },
+      { id: 'name', header: 'Name', accessor: 'name' },
+      { id: 'age', header: 'Age', accessor: 'age' },
+    ];
+
+    it('renders pagination controls when pagination is provided', () => {
+      render(
+        <Table
+          data={manyRows}
+          columns={paginationColumns}
+          defaultPagination={{ page: 0, pageSize: 10 }}
+          aria-label="Paginated"
+        />
+      );
+      expect(screen.getByRole('navigation', { name: /pagination/i })).toBeInTheDocument();
+    });
+
+    it('shows correct page of data', () => {
+      render(
+        <Table
+          data={manyRows}
+          columns={paginationColumns}
+          defaultPagination={{ page: 0, pageSize: 10 }}
+          aria-label="Paginated"
+        />
+      );
+      expect(screen.getByText('Row 1')).toBeInTheDocument();
+      expect(screen.queryByText('Row 11')).not.toBeInTheDocument();
+    });
+
+    it('calls onPaginationChange when page changes', async () => {
+      const handleChange = jest.fn();
+      render(
+        <Table
+          data={manyRows}
+          columns={paginationColumns}
+          pagination={{ page: 0, pageSize: 10 }}
+          onPaginationChange={handleChange}
+          aria-label="Paginated"
+        />
+      );
+      await userEvent.click(screen.getByRole('button', { name: /next page/i }));
+      expect(handleChange).toHaveBeenCalled();
+    });
+  });
+
+  // ===========================================================================
+  // Row Expansion
+  // ===========================================================================
+  describe('Row Expansion', () => {
+    it('renders expand toggle buttons when expandable is provided', () => {
+      render(
+        <Table
+          data={testData}
+          columns={columns}
+          expandable={{ render: (row) => <div>Details for {row.name}</div> }}
+          aria-label="Expandable"
+        />
+      );
+      const toggles = screen.getAllByRole('button', { name: /expand/i });
+      expect(toggles.length).toBe(testData.length);
+    });
+
+    it('expands a row when toggle is clicked', async () => {
+      render(
+        <Table
+          data={testData}
+          columns={columns}
+          expandable={{
+            render: (row) => <div data-testid="expanded">Details for {row.name}</div>,
+          }}
+          aria-label="Expandable"
+        />
+      );
+      await userEvent.click(screen.getAllByRole('button', { name: /expand/i })[0]);
+      expect(screen.getByTestId('expanded')).toBeInTheDocument();
+    });
+
+    it('sets aria-expanded on toggle buttons', async () => {
+      render(
+        <Table
+          data={testData}
+          columns={columns}
+          expandable={{ render: () => <div>Details</div> }}
+          aria-label="Expandable"
+        />
+      );
+      const toggle = screen.getAllByRole('button', { name: /expand/i })[0];
+      expect(toggle).toHaveAttribute('aria-expanded', 'false');
+      await userEvent.click(toggle);
+      expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    });
+  });
+
+  // ===========================================================================
+  // Column Visibility
+  // ===========================================================================
+  describe('Column Visibility', () => {
+    it('hides columns when columnVisibility is set', () => {
+      render(
+        <Table
+          data={testData}
+          columns={columns}
+          columnVisibility={{ age: false }}
+          aria-label="Visibility"
+        />
+      );
+      // The "Age" header should not be present
+      const headers = screen.getAllByRole('columnheader');
+      const headerTexts = headers.map((h) => h.textContent);
+      expect(headerTexts).not.toContain('Age');
+    });
+
+    it('shows all columns by default', () => {
+      render(<Table data={testData} columns={columns} aria-label="All visible" />);
+      expect(screen.getByText('Name')).toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
+  // Column Resizing
+  // ===========================================================================
+  describe('Column Resizing', () => {
+    it('renders resize handles for resizable columns', () => {
+      const resizableColumns = columns.map((c) => ({ ...c, resizable: true }));
+      const { container } = render(
+        <Table data={testData} columns={resizableColumns} aria-label="Resizable" />
+      );
+      const handles = container.querySelectorAll('.table-resize-handle');
+      expect(handles.length).toBeGreaterThan(0);
+    });
+  });
+
+  // ===========================================================================
+  // Accessibility (jest-axe) — new features
+  // ===========================================================================
+  describe('Accessibility (jest-axe) — new features', () => {
+    it('has no violations with pagination', async () => {
+      const manyRows = Array.from({ length: 20 }, (_, i) => ({
+        id: i + 1,
+        name: `Row ${i + 1}`,
+        email: `row${i + 1}@example.com`,
+        age: 20 + i,
+        department: 'Dept',
+      }));
+      const cols: TableColumn<{
+        id: number;
+        name: string;
+        email: string;
+        age: number;
+        department: string;
+      }>[] = [
+        { id: 'id', header: 'ID', accessor: 'id' },
+        { id: 'name', header: 'Name', accessor: 'name' },
+      ];
+      const { container } = render(
+        <Table
+          data={manyRows}
+          columns={cols}
+          defaultPagination={{ page: 0, pageSize: 5 }}
+          aria-label="Axe pagination"
+        />
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no violations with expandable rows', async () => {
+      const { container } = render(
+        <Table
+          data={testData}
+          columns={columns}
+          expandable={{ render: () => <div>Details</div> }}
+          aria-label="Axe expandable"
+        />
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
 });

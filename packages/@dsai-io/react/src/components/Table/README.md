@@ -249,6 +249,116 @@ const columns: TableColumn<User>[] = [
 />
 ```
 
+### Pagination
+
+```tsx
+// Uncontrolled pagination (internal state)
+<Table
+  columns={columns}
+  data={users}
+  defaultPagination={{ page: 0, pageSize: 10 }}
+  pageSizeOptions={[5, 10, 25, 50]}
+/>
+
+// Controlled pagination
+const [pagination, setPagination] = useState({ page: 0, pageSize: 10 });
+
+<Table
+  columns={columns}
+  data={users}
+  pagination={pagination}
+  onPaginationChange={setPagination}
+  pageSizeOptions={[5, 10, 25, 50]}
+/>
+```
+
+### Multi-Column Sorting
+
+Hold **Shift** and click additional column headers to sort by multiple columns. Use `maxSortColumns` to limit how many columns can be sorted simultaneously.
+
+```tsx
+<Table
+  columns={sortableColumns}
+  data={users}
+  maxSortColumns={3}
+  aria-label="Multi-sort table"
+/>
+```
+
+### Row Expansion
+
+```tsx
+<Table
+  columns={columns}
+  data={users}
+  expandable={{
+    render: (row) => (
+      <div className="p-3">
+        <strong>Details for {row.name}:</strong> Additional content here.
+      </div>
+    ),
+    expandAll: true, // Show "Expand All" toggle
+  }}
+/>
+```
+
+### Column Visibility
+
+```tsx
+// Hide specific columns
+<Table
+  columns={columns}
+  data={users}
+  columnVisibility={{ email: false, department: false }}
+/>
+
+// Controlled visibility with toggle UI
+const [visibility, setVisibility] = useState<Record<string, boolean>>({});
+
+<Table
+  columns={columns}
+  data={users}
+  columnVisibility={visibility}
+  onColumnVisibilityChange={setVisibility}
+/>
+```
+
+### Column Resizing
+
+```tsx
+const resizableColumns: TableColumn<User>[] = [
+  { id: 'name', header: 'Name', accessor: 'name', resizable: true },
+  { id: 'email', header: 'Email', accessor: 'email', resizable: true, minWidth: 150, maxWidth: 400 },
+  { id: 'role', header: 'Role', accessor: 'role', resizable: true },
+];
+
+<Table columns={resizableColumns} data={users} aria-label="Resizable table" />
+```
+
+### Server-Side Data
+
+Use `manualSorting` and `manualPagination` flags when sorting and pagination are handled by the server.
+
+```tsx
+const [pagination, setPagination] = useState({ page: 0, pageSize: 10 });
+const [sortConfig, setSortConfig] = useState<SortConfig>();
+
+// Fetch data from API whenever pagination or sortConfig changes
+const { data, totalCount } = useServerData({ pagination, sortConfig });
+
+<Table
+  columns={sortableColumns}
+  data={data}
+  manualSorting
+  sortConfig={sortConfig}
+  onSortChange={setSortConfig}
+  manualPagination
+  pagination={pagination}
+  onPaginationChange={setPagination}
+  totalRows={totalCount}
+/>
+```
+
 ### Column Alignment
 
 ```tsx
@@ -304,6 +414,17 @@ const columns: TableColumn<Product>[] = [
 | `onRowClick`          | `(row, index) => void`                                 | -                     | Row click callback           |
 | `className`           | `string`                                               | -                     | Custom class name            |
 | `style`               | `CSSProperties`                                        | -                     | Custom inline styles         |
+| `pagination`          | `PaginationState`                                      | -                     | Controlled pagination state  |
+| `defaultPagination`   | `PaginationState`                                      | -                     | Initial pagination state     |
+| `onPaginationChange`  | `(state: PaginationState) => void`                     | -                     | Pagination change callback   |
+| `pageSizeOptions`     | `number[]`                                             | `[10, 25, 50]`       | Page size dropdown options   |
+| `totalRows`           | `number`                                               | -                     | Total rows (server-side)     |
+| `manualPagination`    | `boolean`                                              | `false`               | Server-side pagination       |
+| `manualSorting`       | `boolean`                                              | `false`               | Server-side sorting          |
+| `maxSortColumns`      | `number`                                               | `3`                   | Max multi-sort columns       |
+| `expandable`          | `ExpandableConfig<T>`                                  | -                     | Row expansion configuration  |
+| `columnVisibility`    | `Record<string, boolean>`                              | -                     | Column visibility map        |
+| `onColumnVisibilityChange` | `(vis: Record<string, boolean>) => void`          | -                     | Visibility change callback   |
 | `aria-label`          | `string`                                               | -                     | Accessible label             |
 | `aria-labelledby`     | `string`                                               | -                     | ID of labeling element       |
 | `aria-describedby`    | `string`                                               | -                     | ID of describing element     |
@@ -323,6 +444,7 @@ const columns: TableColumn<Product>[] = [
 | `maxWidth`        | `string \| number`                 | -        | Maximum width            |
 | `align`           | `'left' \| 'center' \| 'right'`    | `'left'` | Text alignment           |
 | `sticky`          | `'left' \| 'right'`                | -        | Sticky column            |
+| `resizable`       | `boolean`                          | `false`  | Enable column resizing   |
 | `headerClassName` | `string`                           | -        | Header cell class        |
 | `cellClassName`   | `string`                           | -        | Body cell class          |
 
@@ -344,6 +466,16 @@ The Table component follows WCAG 2.2 AA guidelines:
 - Support for `aria-label`, `aria-labelledby`, `aria-describedby`
 
 ### Keyboard Navigation
+
+| Key              | Context         | Action                                  |
+| ---------------- | --------------- | --------------------------------------- |
+| `Enter` / `Space`| Sortable header | Toggle sort direction                   |
+| `Shift+Enter`   | Sortable header | Add column to multi-sort                |
+| `ArrowLeft`      | Header row      | Move focus to previous header           |
+| `ArrowRight`     | Header row      | Move focus to next header               |
+| `Enter` / `Space`| Selectable row  | Toggle row selection                    |
+| `Enter` / `Space`| Expand toggle   | Expand or collapse row detail           |
+| `Tab`            | Table           | Move focus to next interactive element  |
 
 - Sortable headers are focusable and respond to Enter/Space
 - Selectable rows are focusable and respond to Enter/Space
@@ -503,6 +635,10 @@ const columns: TableColumn<User>[] = [
 - Firefox (latest)
 - Safari (latest)
 - Edge (latest)
+
+## Future
+
+Virtualization support for 10k+ rows via `@tanstack/react-virtual` is planned.
 
 ## Related Components
 
