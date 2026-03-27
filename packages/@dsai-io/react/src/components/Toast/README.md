@@ -18,6 +18,12 @@ The Toast component provides a way to display brief, non-blocking notifications 
 - ✅ FSM-based visibility state management
 - ✅ Smooth enter/exit animations
 - ✅ XSS-safe content rendering
+- ✅ Pause on hover — timer resumes with remaining time on mouse leave
+- ✅ Pause on focus loss — timer pauses when browser tab is hidden
+- ✅ Promise toasts — auto-transitions loading → success/error on resolution
+- ✅ Keyboard hotkey (F8) to focus the notification region
+- ✅ `prefers-reduced-motion` support — disables animations automatically
+- ✅ CSS custom properties for theming
 
 ## Installation
 
@@ -97,6 +103,8 @@ The main toast component.
 | `icon`              | `React.ReactNode`                                          | —                      | Custom icon (variant icons shown by default) |
 | `closeButtonLabel`  | `string`                                                   | `'Close notification'` | Accessible label for close button            |
 | `animationDuration` | `number`                                                   | `150`                  | Animation duration in ms                     |
+| `pauseOnHover`      | `boolean`                                                  | `false`                | Pause auto-dismiss timer on mouse enter; resumes with remaining time on leave |
+| `pauseOnFocusLoss`  | `boolean`                                                  | `false`                | Pause auto-dismiss timer when browser tab is hidden; resumes when tab is visible again |
 | `onOpen`            | `() => void`                                               | —                      | Called when toast becomes visible            |
 | `onClose`           | `() => void`                                               | —                      | Called when toast is dismissed               |
 
@@ -135,6 +143,9 @@ Context provider for managing toasts via the `useToast` hook.
 | `position`        | `ToastPosition`   | `'top-end'` | Default position for toasts   |
 | `maxToasts`       | `number`          | `5`         | Maximum simultaneous toasts   |
 | `defaultDuration` | `number`          | `5000`      | Default auto-dismiss duration |
+| `pauseOnHover`    | `boolean`         | `true`      | Pause auto-dismiss timer on mouse enter for all toasts |
+| `pauseOnFocusLoss`| `boolean`         | `true`      | Pause auto-dismiss timer when browser tab is hidden for all toasts |
+| `hotkey`          | `string`          | `'F8'`      | Keyboard key that focuses the toast notification region when toasts are visible |
 | `children`        | `React.ReactNode` | —           | Application tree              |
 
 ### useToast Hook
@@ -168,6 +179,20 @@ toast.dismissAll();
 
 // Access current toasts
 console.log(toast.toasts);
+
+// Promise toast — shows loading immediately, auto-transitions on resolution
+toast.promise(saveData(), {
+  loading: 'Saving...',
+  success: 'Saved successfully!',
+  error: 'Failed to save.',
+});
+
+// success/error can also be functions receiving the resolved/rejected value
+toast.promise(fetchUser(id), {
+  loading: 'Loading user...',
+  success: (user) => `Welcome, ${user.name}!`,
+  error: (err) => `Error: ${err.message}`,
+});
 ```
 
 ## Examples
@@ -249,6 +274,60 @@ function Dashboard() {
 }
 ```
 
+### Promise Toast
+
+```tsx
+import { ToastProvider, useToast } from '@dsai-io/react';
+import type { PromiseToastMessages } from '@dsai-io/react';
+
+function UploadButton() {
+  const toast = useToast();
+
+  const handleUpload = () => {
+    const upload = fetch('/api/upload', { method: 'POST', body: formData });
+
+    toast.promise(upload, {
+      loading: 'Uploading file...',
+      success: 'File uploaded successfully!',
+      error: (err) => `Upload failed: ${err.message}`,
+    });
+  };
+
+  return <button onClick={handleUpload}>Upload</button>;
+}
+```
+
+### Pause on Hover
+
+```tsx
+// Per-toast control
+<Toast
+  message="This toast pauses when you hover over it."
+  duration={5000}
+  pauseOnHover
+  showProgress
+/>
+
+// Provider-level default (applies to all toasts; default is true)
+<ToastProvider pauseOnHover={false}>
+  <App />
+</ToastProvider>
+```
+
+### Keyboard Hotkey
+
+```tsx
+// Default hotkey is F8 — press it to focus the notification region
+<ToastProvider hotkey="F8">
+  <App />
+</ToastProvider>
+
+// Use a custom hotkey
+<ToastProvider hotkey="F6">
+  <App />
+</ToastProvider>
+```
+
 ## Accessibility
 
 ### ARIA Attributes
@@ -263,6 +342,7 @@ function Dashboard() {
 
 - Close button is focusable and activates with Enter or Space
 - Toast does not trap focus
+- Press the configured `hotkey` (default: `F8`) to move keyboard focus directly to the toast notification region when toasts are visible
 
 ### Screen Readers
 
@@ -270,6 +350,20 @@ function Dashboard() {
 - Success and info toasts wait for opportune moment (polite)
 - Complete toast content is announced as a unit (atomic)
 - Icons are decorative and hidden from screen readers
+- The toast container receives `tabIndex={-1}` and `aria-label="Notifications"` when toasts are present, making it programmatically focusable via the keyboard hotkey
+
+### Reduced Motion
+
+The component automatically detects `prefers-reduced-motion: reduce` via the `(prefers-reduced-motion: reduce)` media query. When active:
+
+- Fade-in/fade-out animations are disabled (instant show/hide)
+- Progress bar uses `transition: none`
+
+No configuration is required; this behavior is applied automatically.
+
+### Tab Visibility
+
+When `pauseOnFocusLoss` is enabled (default on `ToastProvider`), the auto-dismiss timer pauses whenever the browser tab becomes hidden (`document.visibilitychange`). The timer resumes with its remaining time when the tab becomes visible again, preventing toasts from expiring while the user is away.
 
 ### Color Contrast
 
@@ -310,9 +404,26 @@ The Toast component uses Bootstrap 5 utility classes and custom CSS properties:
 .text-bg-danger   // Error variant
 .text-bg-warning  // Warning variant
 .text-bg-info     // Info variant
+```
 
-// Animation
---dsai-toast-animation-duration: 150ms;
+All layout and animation values are overridable via CSS custom properties:
+
+| Property                          | Default  | Description                                  |
+| --------------------------------- | -------- | -------------------------------------------- |
+| `--dsai-toast-animation-duration` | `150ms`  | Enter/exit animation speed                   |
+| `--dsai-toast-gap`                | `12px`   | Gap between stacked toasts                   |
+| `--dsai-toast-z-index`            | `1055`   | Container z-index                            |
+| `--dsai-toast-progress-height`    | `3px`    | Progress bar height                          |
+
+Example override:
+
+```css
+:root {
+  --dsai-toast-animation-duration: 200ms;
+  --dsai-toast-gap: 8px;
+  --dsai-toast-z-index: 9999;
+  --dsai-toast-progress-height: 4px;
+}
 ```
 
 ## Related Components
