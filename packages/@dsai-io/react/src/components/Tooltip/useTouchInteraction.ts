@@ -45,10 +45,10 @@ export function useTouchInteraction({
 
   const onTouchStart = useCallback(
     (e: React.TouchEvent) => {
-      if (!enabled) return;
+      if (!enabled) {return;}
 
       const touch = e.touches[0];
-      if (!touch) return;
+      if (!touch) {return;}
 
       startPosRef.current = { x: touch.clientX, y: touch.clientY };
       clearTimers();
@@ -68,10 +68,10 @@ export function useTouchInteraction({
 
   const onTouchMove = useCallback(
     (e: React.TouchEvent) => {
-      if (!startPosRef.current) return;
+      if (!startPosRef.current) {return;}
 
       const touch = e.touches[0];
-      if (!touch) return;
+      if (!touch) {return;}
 
       const dx = touch.clientX - startPosRef.current.x;
       const dy = touch.clientY - startPosRef.current.y;

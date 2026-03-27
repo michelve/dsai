@@ -1,7 +1,8 @@
 import { FloatingDelayGroup } from '@floating-ui/react';
 
-import type { TooltipGroupProps } from './Tooltip.types';
 import { useTooltipContext } from './TooltipContext';
+
+import type { TooltipGroupProps } from './Tooltip.types';
 
 /**
  * TooltipGroup — coordinates delay timing across sibling tooltips.

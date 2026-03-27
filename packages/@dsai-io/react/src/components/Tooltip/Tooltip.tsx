@@ -29,12 +29,12 @@ import {
   getTooltipVisualState,
   tooltipFSMReducer,
 } from './Tooltip.fsm';
+import { useTooltipContext } from './TooltipContext';
+import { useTouchInteraction } from './useTouchInteraction';
 
 import type { TooltipProps } from './Tooltip.types';
 import type { ReactElement } from 'react';
 
-import { useTooltipContext } from './TooltipContext';
-import { useTouchInteraction } from './useTouchInteraction';
 
 const TOOLTIP_ARROW_GAP_PX = 6;
 const TOOLTIP_ARROW_WIDTH_PX = 12;

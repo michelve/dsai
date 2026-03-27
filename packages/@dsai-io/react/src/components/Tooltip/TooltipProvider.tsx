@@ -1,8 +1,9 @@
-import type { TooltipProviderProps } from './Tooltip.types';
 import {
   TooltipProviderContext,
   useTooltipContext,
 } from './TooltipContext';
+
+import type { TooltipProviderProps } from './Tooltip.types';
 
 /**
  * TooltipProvider — sets global defaults for all descendant Tooltips.
