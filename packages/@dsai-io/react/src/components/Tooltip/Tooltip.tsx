@@ -129,7 +129,7 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
     // Follow-cursor suppresses arrow (moving tooltip + arrow is disorienting)
     const effectiveArrow = followCursor ? false : resolvedArrow;
 
-    if (process.env.NODE_ENV !== 'production' && followCursor && showArrow === true) {
+    if (process.env['NODE_ENV'] !== 'production' && followCursor && showArrow === true) {
       console.warn('Tooltip: arrow is disabled when followCursor is active.');
     }
 
