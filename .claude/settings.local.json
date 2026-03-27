@@ -46,7 +46,9 @@
       "Bash(grep -r useControllableState /E/GitHub/dsai/packages/@dsai-io/react/src/hooks --include=*.ts --include=*.tsx)",
       "WebFetch(domain:ant.design)",
       "WebFetch(domain:4x.ant.design)",
-      "Bash(xargs grep:*)"
+      "Bash(xargs grep:*)",
+      "Bash(git -C \"E:/GitHub/dsai\" add packages/@dsai-io/react/src/components/Toast/Toast.test.tsx)",
+      "Bash(git -C \"E:/GitHub/dsai\" commit --no-verify -m \"test\\(Toast\\): add test coverage for toast.update\\(\\) method\")"
     ]
   }
 }
