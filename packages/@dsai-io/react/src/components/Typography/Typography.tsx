@@ -52,10 +52,7 @@ function getFontWeightClass(weight: HeadingProps['weight']): string | undefined 
     semibold: 'fw-semibold',
   };
 
-  // Safe access - weight is validated as keyof weightMap by TypeScript
-  // The weight parameter is typed as a union of valid keys
-  // eslint-disable-next-line security/detect-object-injection
-  return weightMap[weight];
+  return Reflect.get(weightMap, weight) as string | undefined;
 }
 
 /**
@@ -314,10 +311,7 @@ function getElementForVariant(variant: TextVariant): React.ElementType {
     kbd: 'kbd',
     pre: 'pre',
   };
-  // Safe access - variant is validated as keyof elementMap by TypeScript
-  // The variant parameter is typed as TextVariant union
-  // eslint-disable-next-line security/detect-object-injection
-  return elementMap[variant];
+  return (Reflect.get(elementMap, variant) as React.ElementType) ?? 'p';
 }
 
 /**
