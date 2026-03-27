@@ -572,7 +572,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
         };
 
         const handlePointerMove = (moveEvent: PointerEvent): void => {
-          if (!resizingRef.current) return;
+          if (!resizingRef.current) { return; }
 
           const delta = moveEvent.clientX - resizingRef.current.startX;
           let newWidth = resizingRef.current.startWidth + delta;
@@ -856,7 +856,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
 
     // Pagination computed values
     const paginationInfo = useMemo(() => {
-      if (!paginationState) return null;
+      if (!paginationState) { return null; }
 
       const totalCount = manualPagination
         ? (totalRows ?? data.length)
@@ -871,7 +871,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
 
     const goToPage = useCallback(
       (page: number) => {
-        if (!paginationState || !paginationInfo) return;
+        if (!paginationState || !paginationInfo) { return; }
         const safePage = Math.max(0, Math.min(page, paginationInfo.totalPages - 1));
         setPaginationState({ ...paginationState, page: safePage });
       },
@@ -880,7 +880,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
 
     const handlePageSizeChange = useCallback(
       (e: React.ChangeEvent<HTMLSelectElement>) => {
-        if (!paginationState) return;
+        if (!paginationState) { return; }
         const newSize = Number(e.target.value);
         setPaginationState({ page: 0, pageSize: newSize });
       },
