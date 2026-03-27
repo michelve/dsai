@@ -1,11 +1,9 @@
 import {
-  createContext,
   forwardRef,
   type KeyboardEvent,
   memo,
   type ReactNode,
   useCallback,
-  useContext,
   useEffect,
   useId,
   useMemo,
@@ -14,6 +12,7 @@ import {
 
 import { cn } from '../../utils';
 
+import { TabsContext, useTabsContext } from './Tabs.context';
 import type {
   TabItem,
   TabListProps,
@@ -36,20 +35,6 @@ const getItemAtIndex = <T,>(collection: readonly T[], targetIndex: number): T | 
   }
   return undefined;
 };
-
-// =============================================================================
-// Context
-// =============================================================================
-
-const TabsContext = createContext<TabsContextValue | null>(null);
-
-function useTabsContext(): TabsContextValue {
-  const context = useContext(TabsContext);
-  if (!context) {
-    throw new Error('Tabs compound components must be used within a Tabs component');
-  }
-  return context;
-}
 
 // =============================================================================
 // TabList Component
