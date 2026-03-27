@@ -172,6 +172,13 @@ export interface HeadingProps extends TypographySafeHTMLAttributes {
    * Use 'balance' for headings, 'pretty' to prevent orphans
    */
   wrap?: TextWrap;
+
+  /**
+   * Enable high-contrast mode for enhanced accessibility
+   * Applies stronger color contrast for WCAG AAA compliance
+   * @default false
+   */
+  highContrast?: boolean;
 }
 
 // =============================================================================
@@ -269,6 +276,13 @@ export interface DisplayProps extends TypographySafeHTMLAttributes {
    * Use 'balance' for headings, 'pretty' to prevent orphans
    */
   wrap?: TextWrap;
+
+  /**
+   * Enable high-contrast mode for enhanced accessibility
+   * Applies stronger color contrast for WCAG AAA compliance
+   * @default false
+   */
+  highContrast?: boolean;
 }
 
 // =============================================================================
@@ -415,6 +429,13 @@ export interface TextOwnProps extends TypographySafeHTMLAttributes {
    * Use 'balance' for headings, 'pretty' to prevent orphans
    */
   wrap?: TextWrap;
+
+  /**
+   * Enable high-contrast mode for enhanced accessibility
+   * Applies stronger color contrast for WCAG AAA compliance
+   * @default false
+   */
+  highContrast?: boolean;
 
   /**
    * For abbr variant - full text shown in tooltip

@@ -274,6 +274,22 @@ describe('Typography', () => {
       });
     });
 
+    describe('High Contrast', () => {
+      it('applies high-contrast class when enabled', () => {
+        render(
+          <Heading level={1} highContrast>
+            High Contrast
+          </Heading>
+        );
+        expect(screen.getByRole('heading')).toHaveClass('dsai-high-contrast');
+      });
+
+      it('does not apply high-contrast class by default', () => {
+        render(<Heading level={1}>Normal</Heading>);
+        expect(screen.getByRole('heading')).not.toHaveClass('dsai-high-contrast');
+      });
+    });
+
     describe('Custom Styling', () => {
       it('accepts custom className', () => {
         render(
@@ -687,6 +703,13 @@ describe('Typography', () => {
       it('applies text-wrap nowrap style', () => {
         const { container } = render(<Text wrap="nowrap">No wrap</Text>);
         expect(container.querySelector('p')).toHaveStyle({ textWrap: 'nowrap' });
+      });
+    });
+
+    describe('High Contrast', () => {
+      it('applies high-contrast class when enabled', () => {
+        const { container } = render(<Text highContrast>High contrast text</Text>);
+        expect(container.querySelector('p')).toHaveClass('dsai-high-contrast');
       });
     });
 

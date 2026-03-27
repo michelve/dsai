@@ -334,6 +334,29 @@ describe('Typography Accessibility (WCAG 2.2 AA)', () => {
   });
 
   // ===========================================================================
+  // High Contrast Mode
+  // ===========================================================================
+  describe('High Contrast Mode', () => {
+    it('has no violations with highContrast on heading', async () => {
+      const { container } = render(
+        <Heading level={1} highContrast>
+          High Contrast Heading
+        </Heading>
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no violations with highContrast on text', async () => {
+      const { container } = render(
+        <Text highContrast>High Contrast Body Text</Text>
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
+
+  // ===========================================================================
   // Color Contrast (Documentation)
   // ===========================================================================
   describe('Color Contrast Guidelines', () => {

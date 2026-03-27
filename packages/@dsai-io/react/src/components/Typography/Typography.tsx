@@ -125,6 +125,7 @@ export const Heading = memo(
       noMargin = false,
       truncate = false,
       wrap,
+      highContrast = false,
       'data-testid': dataTestId,
       'data-test': dataTest,
       title,
@@ -152,10 +153,12 @@ export const Heading = memo(
           noMargin && 'mb-0',
           // Truncate
           truncate && 'text-truncate',
+          // High contrast
+          highContrast && 'dsai-high-contrast',
           // Custom classes
           className
         ),
-      [level, visualSize, color, align, transform, weight, noMargin, truncate, className]
+      [level, visualSize, color, align, transform, weight, noMargin, truncate, highContrast, className]
     );
 
     const combinedStyle = useMemo(
@@ -237,6 +240,7 @@ export const Display = memo(
       noMargin = false,
       truncate = false,
       wrap,
+      highContrast = false,
       'data-testid': dataTestId,
       'data-test': dataTest,
       title,
@@ -265,10 +269,12 @@ export const Display = memo(
           noMargin && 'mb-0',
           // Truncate
           truncate && 'text-truncate',
+          // High contrast
+          highContrast && 'dsai-high-contrast',
           // Custom classes
           className
         ),
-      [size, color, align, transform, weight, noMargin, truncate, className]
+      [size, color, align, transform, weight, noMargin, truncate, highContrast, className]
     );
 
     const combinedStyle = useMemo(
@@ -367,6 +373,7 @@ export const Text = memo(
       truncate = false,
       lines,
       wrap,
+      highContrast = false,
       title,
       cite,
       citeAuthor,
@@ -423,10 +430,12 @@ export const Text = memo(
           noMargin && 'mb-0',
           // Single-line truncate
           truncate && !lines && 'text-truncate',
+          // High contrast
+          highContrast && 'dsai-high-contrast',
           // Custom classes
           className
         ),
-      [variant, sizeClass, color, align, transform, weight, noMargin, truncate, lines, className]
+      [variant, sizeClass, color, align, transform, weight, noMargin, truncate, lines, highContrast, className]
     );
 
     // Combine styles
