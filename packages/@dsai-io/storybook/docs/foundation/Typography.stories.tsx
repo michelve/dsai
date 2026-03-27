@@ -449,3 +449,78 @@ const styles = {
     </div>
   ),
 };
+
+/**
+ * Text Wrap - Modern CSS text-wrap control
+ */
+export const TextWrapExamples: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-4)', maxWidth: '400px' }}>
+      <Heading level={2}>Text Wrap</Heading>
+
+      <div>
+        <Text as="span" weight="semibold">Default (no wrap prop)</Text>
+        <Heading level={3} noMargin>
+          This Is a Long Heading That Will Wrap Naturally Across Lines
+        </Heading>
+      </div>
+
+      <div>
+        <Text as="span" weight="semibold">wrap=&quot;balance&quot;</Text>
+        <Heading level={3} noMargin wrap="balance">
+          This Is a Long Heading That Will Wrap With Balanced Line Lengths
+        </Heading>
+      </div>
+
+      <div>
+        <Text as="span" weight="semibold">wrap=&quot;pretty&quot;</Text>
+        <Text wrap="pretty">
+          This paragraph demonstrates the pretty text-wrap option which prevents
+          orphaned words from appearing alone on the last line of a paragraph.
+        </Text>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * High Contrast Mode - Enhanced accessibility
+ */
+export const HighContrastMode: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-4)' }}>
+      <Heading level={2}>High Contrast Mode</Heading>
+      <Text color="muted">
+        The highContrast prop enhances color contrast for WCAG AAA compliance.
+      </Text>
+
+      <div style={{ display: 'flex', gap: 'var(--dsai-spacing-4)' }}>
+        <div>
+          <Text as="span" weight="semibold">Normal</Text>
+          <Heading level={3} color="muted">Muted Heading</Heading>
+          <Text color="body-secondary">Secondary body text</Text>
+        </div>
+        <div>
+          <Text as="span" weight="semibold">High Contrast</Text>
+          <Heading level={3} color="muted" highContrast>Muted Heading</Heading>
+          <Text color="body-secondary" highContrast>Secondary body text</Text>
+        </div>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * Display Truncation
+ */
+export const DisplayTruncation: Story = {
+  render: () => (
+    <div style={{ maxWidth: '500px' }}>
+      <Heading level={2}>Display Truncation</Heading>
+      <Display size={3} truncate>
+        This Very Long Display Heading Will Be Truncated With An Ellipsis
+      </Display>
+      <Text color="muted" size="sm">Constrained to 500px container</Text>
+    </div>
+  ),
+};
