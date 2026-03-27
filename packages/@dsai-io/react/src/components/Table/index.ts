@@ -32,12 +32,12 @@ export {
 export type {
   CellAlign,
   ExpandableConfig,
+  PaginationPosition,
   PaginationState,
   RowId,
   RowIdAccessor,
   SortConfig,
   SortDirection,
-  SortingState,
   TableBodyProps,
   TableCellProps,
   TableColor,

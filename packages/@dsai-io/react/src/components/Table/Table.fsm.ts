@@ -84,17 +84,14 @@ export interface ToggleAllEvent {
 }
 
 /**
- * Select a contiguous range of rows (Shift+Click behavior)
- * The component pre-computes the enabled row IDs within the range.
+ * Select a range of rows (Shift+Click in multiple mode)
  */
 export interface SelectRangeEvent {
   type: 'SELECT_RANGE';
-  /** Start of the range */
-  fromId: RowId;
-  /** End of the range */
-  toId: RowId;
-  /** All row IDs in the data set (used to determine range bounds) */
-  allRowIds: RowId[];
+  /** Row IDs to add to the selection */
+  rowIds: RowId[];
+  /** Total count of enabled rows */
+  totalEnabled: number;
 }
 
 /**
@@ -307,32 +304,15 @@ export function tableFSMReducer(state: TableFSMState, event: TableFSMEvent): Tab
     }
 
     case 'SELECT_RANGE': {
-      const { fromId, toId, allRowIds } = event;
+      const { rowIds, totalEnabled } = event;
 
-      // Find indices of the range endpoints
-      const fromIndex = allRowIds.indexOf(fromId);
-      const toIndex = allRowIds.indexOf(toId);
-
-      // If either ID is not found, return unchanged state
-      if (fromIndex === -1 || toIndex === -1) {
-        return state;
+      // Add all range row IDs to the existing selection (union)
+      const selected = new Set(state.selectedRows);
+      for (const id of rowIds) {
+        selected.add(id);
       }
 
-      // Determine range bounds (min to max)
-      const start = Math.min(fromIndex, toIndex);
-      const end = Math.max(fromIndex, toIndex);
-
-      // Get the IDs in the range
-      const rangeIds = allRowIds.slice(start, end + 1);
-
-      // Merge with existing selection (additive, like Gmail)
-      const merged = new Set(state.selectedRows);
-      for (const id of rangeIds) {
-        merged.add(id);
-      }
-
-      const selectedRows = Array.from(merged);
-      const totalEnabled = allRowIds.length;
+      const selectedRows = Array.from(selected);
       return {
         selectedRows,
         visualState: deriveVisualState(selectedRows, totalEnabled),
@@ -398,14 +378,10 @@ export function toggleAllEvent(enabledRowIds: RowId[], totalEnabled: number): To
 }
 
 /**
- * Creates a SELECT_RANGE event (multiple mode, Shift+Click)
+ * Creates a SELECT_RANGE event (Shift+Click in multiple mode)
  */
-export function selectRangeEvent(
-  fromId: RowId,
-  toId: RowId,
-  allRowIds: RowId[]
-): SelectRangeEvent {
-  return { type: 'SELECT_RANGE', fromId, toId, allRowIds };
+export function selectRangeEvent(rowIds: RowId[], totalEnabled: number): SelectRangeEvent {
+  return { type: 'SELECT_RANGE', rowIds, totalEnabled };
 }
 
 // =============================================================================
