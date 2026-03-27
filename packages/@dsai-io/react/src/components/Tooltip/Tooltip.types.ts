@@ -105,13 +105,13 @@ export interface TooltipProps extends SafeTooltipHTMLAttributes {
 
   /**
    * Delay in milliseconds before showing the tooltip.
-   * @default 0
+   * @default 300
    */
   showDelay?: number;
 
   /**
    * Delay in milliseconds before hiding the tooltip.
-   * @default 0
+   * @default 150
    */
   hideDelay?: number;
 
@@ -176,6 +176,65 @@ export interface TooltipProps extends SafeTooltipHTMLAttributes {
    * Used when content is complex (not a simple string).
    */
   'aria-label'?: string;
+
+  /**
+   * When true, tooltip acts as accessible description (aria-describedby).
+   * When false, tooltip acts as accessible label (aria-labelledby).
+   * Use false for icon-only buttons where the tooltip IS the label.
+   * @default true
+   */
+  describeChild?: boolean;
+
+  /**
+   * Track cursor movement.
+   * - true: both axes
+   * - 'x': horizontal only (timelines, sliders)
+   * - 'y': vertical only (data tables)
+   * - false: anchored to trigger (default)
+   *
+   * Arrow is auto-disabled when followCursor is active.
+   * @default false
+   */
+  followCursor?: boolean | 'x' | 'y';
+
+  /**
+   * Enable tooltip on touch devices via long-press (700ms).
+   * Auto-hides after 1500ms. When false, touch interactions are suppressed.
+   * @default false
+   */
+  touchEnabled?: boolean;
+}
+
+/**
+ * Props for TooltipProvider — sets global defaults for all descendant Tooltips.
+ *
+ * Resolution order: instance prop > TooltipProvider > built-in defaults.
+ */
+export interface TooltipProviderProps {
+  children: ReactNode;
+  /** Default show delay in ms. @default 300 */
+  showDelay?: number;
+  /** Default hide delay in ms. @default 150 */
+  hideDelay?: number;
+  /** Default skip delay for tooltip groups in ms. @default 300 */
+  skipDelay?: number;
+  /** Default arrow visibility. @default true */
+  arrow?: boolean;
+  /** Default touch behavior. @default false */
+  touchEnabled?: boolean;
+  /** Default describeChild behavior. @default true */
+  describeChild?: boolean;
+}
+
+/**
+ * Props for TooltipGroup — coordinates delay timing across sibling tooltips.
+ * When one tooltip closes, others in the group open instantly during the skip window.
+ */
+export interface TooltipGroupProps {
+  children: ReactNode;
+  /** Time window (ms) after close during which next tooltip opens instantly.
+   *  @default inherits from TooltipProvider (300ms) */
+  skipDelay?: number;
 }
 
 /**
