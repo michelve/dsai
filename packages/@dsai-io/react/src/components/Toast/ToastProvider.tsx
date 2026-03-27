@@ -3,7 +3,13 @@ import { createContext, useCallback, useContext, useMemo, useReducer } from 'rea
 import { Toast } from './Toast';
 import { ToastContainer } from './ToastContainer';
 
-import type { ToastContextValue, ToastData, ToastOptions, ToastProviderProps } from './Toast.types';
+import type {
+  PromiseToastMessages,
+  ToastContextValue,
+  ToastData,
+  ToastOptions,
+  ToastProviderProps,
+} from './Toast.types';
 import type { ReactNode } from 'react';
 
 /**
@@ -218,6 +224,51 @@ export function ToastProvider({
     dispatch({ type: 'UPDATE_TOAST', id, data });
   }, []);
 
+  // Promise toast
+  const promiseToast = useCallback(
+    <T,>(promiseValue: Promise<T>, messages: PromiseToastMessages<T>): Promise<T> => {
+      const id = addToast(messages.loading, {
+        variant: 'default',
+        duration: false,
+        dismissible: false,
+      });
+
+      promiseValue.then(
+        (data) => {
+          const successMessage =
+            typeof messages.success === 'function' ? messages.success(data) : messages.success;
+          dispatch({
+            type: 'UPDATE_TOAST',
+            id,
+            data: {
+              message: successMessage,
+              variant: 'success',
+              duration: DEFAULT_DURATION_MS,
+              dismissible: true,
+            },
+          });
+        },
+        (err: unknown) => {
+          const errorMessage =
+            typeof messages.error === 'function' ? messages.error(err) : messages.error;
+          dispatch({
+            type: 'UPDATE_TOAST',
+            id,
+            data: {
+              message: errorMessage,
+              variant: 'error',
+              duration: DEFAULT_DURATION_MS,
+              dismissible: true,
+            },
+          });
+        }
+      );
+
+      return promiseValue;
+    },
+    [addToast]
+  );
+
   // Handle individual toast close
   const handleToastClose = useCallback(
     (toastData: ToastData): void => {
@@ -238,9 +289,10 @@ export function ToastProvider({
       dismiss,
       dismissAll,
       update,
+      promise: promiseToast,
       toasts: state.toasts,
     }),
-    [addToast, success, error, warning, info, dismiss, dismissAll, update, state.toasts]
+    [addToast, success, error, warning, info, dismiss, dismissAll, update, promiseToast, state.toasts]
   );
 
   return (

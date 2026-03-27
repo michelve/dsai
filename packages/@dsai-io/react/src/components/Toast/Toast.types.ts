@@ -142,6 +142,16 @@ export interface ToastData {
 export type ToastOptions = Omit<ToastData, 'id' | 'message'>;
 
 /**
+ * Messages for promise-based toasts
+ * String messages are used directly; functions receive the resolved/rejected value.
+ */
+export interface PromiseToastMessages<T> {
+  loading: ReactNode;
+  success: ReactNode | ((data: T) => ReactNode);
+  error: ReactNode | ((error: unknown) => ReactNode);
+}
+
+/**
  * Toast component props
  *
  * @example
@@ -411,6 +421,12 @@ export interface ToastContextValue {
    * Update an existing toast
    */
   update: (id: string, data: Partial<ToastData>) => void;
+
+  /**
+   * Show a toast that tracks a promise lifecycle (loading -> success/error)
+   * Returns the original promise so it can be chained.
+   */
+  promise: <T>(promise: Promise<T>, messages: PromiseToastMessages<T>) => Promise<T>;
 
   /**
    * Current list of active toasts

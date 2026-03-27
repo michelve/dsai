@@ -805,6 +805,156 @@ describe('ToastProvider and useToast', () => {
       });
     });
   });
+
+  describe('toast.promise()', () => {
+    it('shows loading toast then success on resolve', async () => {
+      let toastApi: ReturnType<typeof useToast>;
+
+      function Consumer() {
+        toastApi = useToast();
+        return null;
+      }
+
+      render(
+        <ToastProvider>
+          <Consumer />
+        </ToastProvider>
+      );
+
+      let resolvePromise: (value: string) => void;
+      const promise = new Promise<string>((resolve) => {
+        resolvePromise = resolve;
+      });
+
+      act(() => {
+        toastApi.promise(promise, {
+          loading: 'Saving...',
+          success: 'Saved!',
+          error: 'Failed to save',
+        });
+      });
+
+      act(() => {
+        jest.advanceTimersByTime(200);
+      });
+
+      expect(screen.getByText('Saving...')).toBeInTheDocument();
+
+      await act(async () => {
+        resolvePromise!('done');
+        await promise;
+      });
+
+      expect(screen.getByText('Saved!')).toBeInTheDocument();
+      expect(screen.queryByText('Saving...')).not.toBeInTheDocument();
+    });
+
+    it('shows loading toast then error on reject', async () => {
+      let toastApi: ReturnType<typeof useToast>;
+
+      function Consumer() {
+        toastApi = useToast();
+        return null;
+      }
+
+      render(
+        <ToastProvider>
+          <Consumer />
+        </ToastProvider>
+      );
+
+      let rejectPromise: (reason: Error) => void;
+      const promise = new Promise<string>((_, reject) => {
+        rejectPromise = reject;
+      });
+
+      act(() => {
+        toastApi.promise(promise, {
+          loading: 'Deleting...',
+          success: 'Deleted!',
+          error: 'Failed to delete',
+        });
+      });
+
+      act(() => {
+        jest.advanceTimersByTime(200);
+      });
+
+      expect(screen.getByText('Deleting...')).toBeInTheDocument();
+
+      await act(async () => {
+        rejectPromise!(new Error('network'));
+        await promise.catch(() => {});
+      });
+
+      expect(screen.getByText('Failed to delete')).toBeInTheDocument();
+      expect(screen.queryByText('Deleting...')).not.toBeInTheDocument();
+    });
+
+    it('supports function messages that receive the resolved value', async () => {
+      let toastApi: ReturnType<typeof useToast>;
+
+      function Consumer() {
+        toastApi = useToast();
+        return null;
+      }
+
+      render(
+        <ToastProvider>
+          <Consumer />
+        </ToastProvider>
+      );
+
+      const promise = Promise.resolve({ count: 42 });
+
+      act(() => {
+        toastApi.promise(promise, {
+          loading: 'Loading...',
+          success: (data: { count: number }) => `Loaded ${data.count} items`,
+          error: 'Failed',
+        });
+      });
+
+      act(() => {
+        jest.advanceTimersByTime(200);
+      });
+
+      await act(async () => {
+        await promise;
+      });
+
+      expect(screen.getByText('Loaded 42 items')).toBeInTheDocument();
+    });
+
+    it('returns the original promise', async () => {
+      let toastApi: ReturnType<typeof useToast>;
+
+      function Consumer() {
+        toastApi = useToast();
+        return null;
+      }
+
+      render(
+        <ToastProvider>
+          <Consumer />
+        </ToastProvider>
+      );
+
+      const original = Promise.resolve('value');
+
+      let result: Promise<string>;
+      act(() => {
+        result = toastApi.promise(original, {
+          loading: 'Loading...',
+          success: 'Done',
+          error: 'Error',
+        });
+      });
+
+      const resolved = await result!;
+      expect(resolved).toBe('value');
+    });
+  });
 });
 
 describe('Toast Ref Forwarding', () => {

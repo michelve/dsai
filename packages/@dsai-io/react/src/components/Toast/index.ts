@@ -4,6 +4,7 @@ export { Toast } from './Toast';
 export { createInitialToastFSMState, getToastVisualState, toastFSMReducer } from './Toast.fsm';
 // Type exports
 export type {
+  PromiseToastMessages,
   ToastContainerProps,
   ToastContextValue,
   ToastData,
