@@ -409,7 +409,7 @@ export type TextProps = PolymorphicComponentProps<TextElement, TextOwnProps>;
  * Typography compound component namespace
  */
 export interface TypographyNamespace {
-  Heading: React.FC<HeadingProps>;
-  Display: React.FC<DisplayProps>;
-  Text: React.FC<TextProps>;
+  Heading: React.MemoExoticComponent<React.ForwardRefExoticComponent<HeadingProps & React.RefAttributes<HTMLHeadingElement>>>;
+  Display: React.MemoExoticComponent<React.ForwardRefExoticComponent<DisplayProps & React.RefAttributes<HTMLHeadingElement>>>;
+  Text: React.MemoExoticComponent<React.ForwardRefExoticComponent<TextProps & React.RefAttributes<HTMLElement>>>;
 }

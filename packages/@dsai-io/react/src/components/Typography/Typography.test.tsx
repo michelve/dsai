@@ -728,4 +728,24 @@ describe('Typography', () => {
       expect(screen.getByText('Namespace Text')).toBeInTheDocument();
     });
   });
+
+  describe('Type Safety', () => {
+    it('namespace components accept ref prop', () => {
+      const headingRef = createRef<HTMLHeadingElement>();
+      const displayRef = createRef<HTMLHeadingElement>();
+      const textRef = createRef<HTMLElement>();
+
+      render(
+        <>
+          <Typography.Heading level={1} ref={headingRef}>H</Typography.Heading>
+          <Typography.Display size={1} ref={displayRef}>D</Typography.Display>
+          <Typography.Text ref={textRef}>T</Typography.Text>
+        </>
+      );
+
+      expect(headingRef.current).toBeInstanceOf(HTMLHeadingElement);
+      expect(displayRef.current).toBeInstanceOf(HTMLHeadingElement);
+      expect(textRef.current).toBeInstanceOf(HTMLParagraphElement);
+    });
+  });
 });
