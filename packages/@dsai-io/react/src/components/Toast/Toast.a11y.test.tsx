@@ -362,22 +362,22 @@ describe('ToastContainer Accessibility Tests', () => {
   });
 
   describe('Live Region', () => {
-    it('has aria-live="polite" on container', () => {
+    it('does not have aria-live on container (individual toasts handle ARIA)', () => {
       render(
         <ToastContainer data-testid="container">
           <Toast message="Test" />
         </ToastContainer>
       );
-      expect(screen.getByTestId('container')).toHaveAttribute('aria-live', 'polite');
+      expect(screen.getByTestId('container')).not.toHaveAttribute('aria-live');
     });
 
-    it('has aria-atomic="true" on container', () => {
+    it('does not have aria-atomic on container (individual toasts handle ARIA)', () => {
       render(
         <ToastContainer data-testid="container">
           <Toast message="Test" />
         </ToastContainer>
       );
-      expect(screen.getByTestId('container')).toHaveAttribute('aria-atomic', 'true');
+      expect(screen.getByTestId('container')).not.toHaveAttribute('aria-atomic');
     });
   });
 

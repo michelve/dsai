@@ -350,7 +350,7 @@ describe('Toast Component', () => {
       render(<Toast message="Test" animationDuration={300} data-testid="toast" />);
 
       expect(screen.getByTestId('toast')).toHaveStyle({
-        transition: 'opacity 300ms ease-in-out',
+        transition: 'opacity var(--dsai-toast-animation-duration) ease-in-out',
       });
     });
 
@@ -432,24 +432,24 @@ describe('ToastContainer Component', () => {
     expect(screen.getByTestId('container')).toHaveClass('custom-container');
   });
 
-  it('has aria-live attribute', () => {
+  it('does not have aria-live attribute (individual toasts handle ARIA)', () => {
     render(
       <ToastContainer data-testid="container">
         <div>Child</div>
       </ToastContainer>
     );
 
-    expect(screen.getByTestId('container')).toHaveAttribute('aria-live', 'polite');
+    expect(screen.getByTestId('container')).not.toHaveAttribute('aria-live');
   });
 
-  it('has aria-atomic attribute', () => {
+  it('does not have aria-atomic attribute (individual toasts handle ARIA)', () => {
     render(
       <ToastContainer data-testid="container">
         <div>Child</div>
       </ToastContainer>
     );
 
-    expect(screen.getByTestId('container')).toHaveAttribute('aria-atomic', 'true');
+    expect(screen.getByTestId('container')).not.toHaveAttribute('aria-atomic');
   });
 });
 
@@ -1055,6 +1055,48 @@ describe('Toast Close Button Layout', () => {
     const closeBtn = screen.getByRole('button', { name: /close notification/i });
     expect(closeBtn).toHaveClass('ms-auto');
     expect(closeBtn).not.toHaveClass('m-auto');
+  });
+});
+
+describe('Design Token CSS Custom Properties', () => {
+  it('toast renders with CSS custom property for animation duration', () => {
+    render(<Toast message="Token test" show data-testid="toast" animationDuration={200} />);
+    const toast = screen.getByTestId('toast');
+    expect(toast.style.getPropertyValue('--dsai-toast-animation-duration')).toBe('200ms');
+  });
+
+  it('toast container renders with CSS custom property for gap', () => {
+    render(
+      <ToastContainer gap={16} data-testid="container">
+        <div>Child</div>
+      </ToastContainer>
+    );
+    const container = screen.getByTestId('container');
+    expect(container.style.getPropertyValue('--dsai-toast-gap')).toBe('16px');
+  });
+
+  it('toast container renders with CSS custom property for z-index', () => {
+    render(
+      <ToastContainer data-testid="container">
+        <div>Child</div>
+      </ToastContainer>
+    );
+    const container = screen.getByTestId('container');
+    expect(container.style.getPropertyValue('--dsai-toast-z-index')).toBe('1055');
+  });
+
+  it('progress bar renders with CSS custom property for height', () => {
+    render(
+      <Toast message="Progress" showProgress duration={5000} show data-testid="toast" />
+    );
+
+    act(() => {
+      jest.advanceTimersByTime(200);
+    });
+
+    const progressBar = screen.getByRole('progressbar');
+    const progressContainer = progressBar.parentElement;
+    expect(progressContainer?.style.getPropertyValue('--dsai-toast-progress-height')).toBe('3px');
   });
 });
 

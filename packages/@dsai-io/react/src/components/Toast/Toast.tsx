@@ -330,10 +330,11 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
 
     // Memoize styles with animation
     const toastStyles = useMemo(() => {
-      const baseStyles: React.CSSProperties = {
+      const baseStyles = {
         ...style,
-        transition: `opacity ${animationDuration}ms ease-in-out`,
-      };
+        '--dsai-toast-animation-duration': `${animationDuration}ms`,
+        transition: `opacity var(--dsai-toast-animation-duration) ease-in-out`,
+      } as React.CSSProperties;
 
       if (fsmState.visibility === 'entering' || fsmState.visibility === 'exiting') {
         baseStyles.opacity = fsmState.visibility === 'entering' ? 1 : 0;
@@ -408,7 +409,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
             {message}
           </div>
           {showProgress && effectiveDuration !== null && (
-            <div className="progress" style={{ height: '3px', borderRadius: 0 }}>
+            <div className="progress" style={{ '--dsai-toast-progress-height': '3px', height: 'var(--dsai-toast-progress-height)', borderRadius: 0 } as React.CSSProperties}>
               <div
                 ref={progressRef}
                 className="progress-bar"
@@ -460,7 +461,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
           )}
         </div>
         {showProgress && effectiveDuration !== null && (
-          <div className="progress" style={{ height: '3px', borderRadius: 0 }}>
+          <div className="progress" style={{ '--dsai-toast-progress-height': '3px', height: 'var(--dsai-toast-progress-height)', borderRadius: 0 } as React.CSSProperties}>
             <div
               ref={progressRef}
               className="progress-bar"

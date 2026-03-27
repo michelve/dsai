@@ -1,4 +1,4 @@
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, memo, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 
 import { cn } from '../../utils';
@@ -50,8 +50,7 @@ function getPositionClasses(position: ToastPosition): string {
  * Uses Bootstrap 5 positioning utilities with portal rendering.
  *
  * ACCESSIBILITY FEATURES (WCAG 2.2 AA):
- * - aria-live region wrapper for screen reader announcements
- * - aria-atomic for complete announcements
+ * - Individual toasts handle their own ARIA attributes (role, aria-live, aria-atomic)
  * - Proper stacking order for assistive technologies
  *
  * SECURITY FEATURES:
@@ -74,7 +73,7 @@ function getPositionClasses(position: ToastPosition): string {
  *
  * @see https://getbootstrap.com/docs/5.3/components/toasts/#placement
  */
-export const ToastContainer = forwardRef<HTMLDivElement, ToastContainerProps>(
+export const ToastContainer = memo(forwardRef<HTMLDivElement, ToastContainerProps>(
   (
     {
       children,
@@ -96,14 +95,16 @@ export const ToastContainer = forwardRef<HTMLDivElement, ToastContainerProps>(
     }, [position, className]);
 
     // Memoize container styles
-    const containerStyles = useMemo((): React.CSSProperties => {
+    const containerStyles = useMemo(() => {
       return {
         ...style,
+        '--dsai-toast-gap': `${gap}px`,
+        '--dsai-toast-z-index': '1055',
         display: 'flex',
         flexDirection: 'column',
         gap: `${gap}px`,
         zIndex: 1055, // Bootstrap toast z-index
-      };
+      } as React.CSSProperties;
     }, [style, gap]);
 
     const container = (
@@ -114,8 +115,6 @@ export const ToastContainer = forwardRef<HTMLDivElement, ToastContainerProps>(
         style={containerStyles}
         tabIndex={tabIndex}
         aria-label={ariaLabel}
-        aria-live="polite"
-        aria-atomic="true"
         data-testid={dataTestId}
         data-test={dataTest}
       >
@@ -130,6 +129,6 @@ export const ToastContainer = forwardRef<HTMLDivElement, ToastContainerProps>(
 
     return container;
   }
-);
+));
 
 ToastContainer.displayName = 'ToastContainer';
