@@ -84,6 +84,17 @@ export interface ToggleAllEvent {
 }
 
 /**
+ * Select a range of rows (Shift+Click in multiple mode)
+ */
+export interface SelectRangeEvent {
+  type: 'SELECT_RANGE';
+  /** Row IDs to add to the selection */
+  rowIds: RowId[];
+  /** Total count of enabled rows */
+  totalEnabled: number;
+}
+
+/**
  * Union of all FSM events
  */
 export type TableFSMEvent =
@@ -92,7 +103,8 @@ export type TableFSMEvent =
   | ToggleRowEvent
   | ClearAllEvent
   | SelectAllEvent
-  | ToggleAllEvent;
+  | ToggleAllEvent
+  | SelectRangeEvent;
 
 // =============================================================================
 // State Derivation
@@ -291,6 +303,22 @@ export function tableFSMReducer(state: TableFSMState, event: TableFSMEvent): Tab
       };
     }
 
+    case 'SELECT_RANGE': {
+      const { rowIds, totalEnabled } = event;
+
+      // Add all range row IDs to the existing selection (union)
+      const selected = new Set(state.selectedRows);
+      for (const id of rowIds) {
+        selected.add(id);
+      }
+
+      const selectedRows = Array.from(selected);
+      return {
+        selectedRows,
+        visualState: deriveVisualState(selectedRows, totalEnabled),
+      };
+    }
+
     default: {
       // TypeScript exhaustiveness check
       const _exhaustive: never = event;
@@ -347,6 +375,13 @@ export function selectAllEvent(enabledRowIds: RowId[], totalEnabled: number): Se
  */
 export function toggleAllEvent(enabledRowIds: RowId[], totalEnabled: number): ToggleAllEvent {
   return { type: 'TOGGLE_ALL', enabledRowIds, totalEnabled };
+}
+
+/**
+ * Creates a SELECT_RANGE event (Shift+Click in multiple mode)
+ */
+export function selectRangeEvent(rowIds: RowId[], totalEnabled: number): SelectRangeEvent {
+  return { type: 'SELECT_RANGE', rowIds, totalEnabled };
 }
 
 // =============================================================================

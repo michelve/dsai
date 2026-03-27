@@ -13,11 +13,16 @@
  * - Sticky header support
  * - Empty state handling
  * - Configurable variants: default, striped, bordered, borderless
+ * - Built-in pagination with server-side support
+ * - Column resizing with drag handles
+ * - Expandable rows with custom content
+ * - Column visibility control
+ * - Shift+Click batch selection
  *
  * Security Features:
- * - No dangerouslySetInnerHTML
  * - Props are typed and validated
  * - Custom cell renderers receive sanitized values
+ * - No unsafe HTML injection
  *
  * Accessibility Features:
  * - Semantic table elements (table, thead, tbody, th, td)
@@ -25,12 +30,14 @@
  * - aria-selected for selected rows
  * - Keyboard navigation for selection
  * - Optional caption for screen readers
+ * - aria-expanded for expandable rows
+ * - Pagination navigation with aria-labels
  *
  * @see https://getbootstrap.com/docs/5.3/content/tables/
  * @module Table
  */
 
-import {
+import React, {
   forwardRef,
   memo,
   useCallback,
@@ -38,9 +45,11 @@ import {
   useId,
   useMemo,
   useReducer,
+  useRef,
   useState,
 } from 'react';
 
+import { useControllableState } from '../../hooks';
 import { cn } from '../../utils';
 import { isEnterKey } from '../../utils/keyboard';
 import { Checkbox } from '../Checkbox';
@@ -51,6 +60,7 @@ import {
   isSelectAllChecked,
   isSelectAllIndeterminate,
   resetFromPropsEvent,
+  selectRangeEvent,
   selectRowEvent,
   tableFSMReducer,
   toggleAllEvent,
@@ -59,10 +69,12 @@ import {
 
 import type {
   CellAlign,
+  PaginationState,
   RowId,
   RowIdAccessor,
   SortConfig,
   SortDirection,
+  SortingState,
   TableColumn,
   TableProps,
   TablePropsInternal,
@@ -146,6 +158,56 @@ function getAlignClass(align?: CellAlign): string {
   }
 }
 
+/**
+ * Generate an array of page numbers to display in pagination.
+ * Shows at most `maxVisible` page buttons around the current page.
+ */
+function getVisiblePages(currentPage: number, totalPages: number, maxVisible = 5): number[] {
+  if (totalPages <= maxVisible) {
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  const half = Math.floor(maxVisible / 2);
+  let start = Math.max(0, currentPage - half);
+  const end = Math.min(totalPages, start + maxVisible);
+
+  // Adjust start if near the end
+  if (end - start < maxVisible) {
+    start = Math.max(0, end - maxVisible);
+  }
+
+  return Array.from({ length: end - start }, (_, i) => start + i);
+}
+
+// =============================================================================
+// Multi-Sort Utilities
+// =============================================================================
+
+/**
+ * Check if a value is a SortingState (array of SortConfig)
+ */
+function isSortingState(value: SortConfig | SortingState | undefined): value is SortingState {
+  return Array.isArray(value);
+}
+
+/**
+ * Normalize sort config to always be a SortingState (array).
+ * - undefined -> []
+ * - SortConfig -> [SortConfig]
+ * - SortingState -> SortingState
+ */
+function normalizeSortState(
+  config: SortConfig | SortingState | undefined
+): SortingState {
+  if (!config) {
+    return [];
+  }
+  if (isSortingState(config)) {
+    return config;
+  }
+  return [config];
+}
+
 // =============================================================================
 // Sort Icon Component
 // =============================================================================
@@ -153,18 +215,25 @@ function getAlignClass(align?: CellAlign): string {
 interface SortIconProps {
   direction?: SortDirection;
   sortable?: boolean;
+  /** Priority number (1-based) for multi-column sort display */
+  priority?: number;
 }
 
-const SortIcon = memo(function SortIcon({ direction, sortable }: SortIconProps) {
+const SortIcon = memo(function SortIcon({ direction, sortable, priority }: SortIconProps) {
   if (!sortable) {
     return null;
   }
 
   return (
     <span className="table-sort-icon ms-1" aria-hidden="true">
-      {direction === 'asc' && '▲'}
-      {direction === 'desc' && '▼'}
-      {!direction && '⇅'}
+      {direction === 'asc' && '\u25B2'}
+      {direction === 'desc' && '\u25BC'}
+      {!direction && '\u21C5'}
+      {priority !== undefined && priority > 0 && (
+        <span className="table-sort-priority ms-1" data-sort-priority={priority}>
+          {priority}
+        </span>
+      )}
     </span>
   );
 });
@@ -185,6 +254,29 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
       sortConfig,
       defaultSortConfig,
       onSortChange,
+      maxSortColumns = 3,
+      manualSorting = false,
+      // Pagination
+      pagination,
+      defaultPagination,
+      onPaginationChange,
+      manualPagination = false,
+      totalRows,
+      pageSizeOptions,
+      paginationPosition = 'bottom',
+      // Filtering (future-proofing)
+      manualFiltering: _manualFiltering,
+      // Expandable
+      expandable,
+      expandedRows,
+      defaultExpandedRows,
+      onExpandedRowsChange,
+      // Column Visibility
+      columnVisibility,
+      defaultColumnVisibility,
+      onColumnVisibilityChange,
+      // Column Resizing
+      onColumnResize,
       // Selection
       selectionMode = 'none',
       selectedRows,
@@ -226,38 +318,300 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     const id = providedId || generatedId;
 
     // ==========================================================================
-    // Sorting State (can be controlled or uncontrolled)
+    // Column Visibility State
     // ==========================================================================
-    const [internalSortConfig, setInternalSortConfig] = useState<SortConfig | undefined>(
-      defaultSortConfig
+    const [visibilityState] = useControllableState<Record<string, boolean>>({
+      value: columnVisibility,
+      defaultValue: defaultColumnVisibility ?? {},
+      onChange: onColumnVisibilityChange,
+    });
+
+    // Filter columns based on visibility
+    const visibleColumns = useMemo(() => {
+      return columns.filter((col) => {
+        const key = col.id;
+        return Reflect.get(visibilityState, key) !== false;
+      });
+    }, [columns, visibilityState]);
+
+    // ==========================================================================
+    // Sorting State (useControllableState for controlled/uncontrolled)
+    // ==========================================================================
+    const [currentSort, setCurrentSort] = useControllableState<
+      SortConfig | SortingState | undefined
+    >({
+      value: sortConfig,
+      defaultValue: defaultSortConfig,
+      onChange: onSortChange as ((value: SortConfig | SortingState | undefined) => void) | undefined,
+    });
+
+    /** Normalized sort state — always an array internally */
+    const sortingState: SortingState = useMemo(
+      () => normalizeSortState(currentSort),
+      [currentSort],
     );
-    const isSortControlled = sortConfig !== undefined;
-    const currentSortConfig = isSortControlled ? sortConfig : internalSortConfig;
 
+    /**
+     * Handle a sort click on a column header.
+     * Plain click: single-column cycle (asc -> desc -> none).
+     * Shift+click: multi-column toggle (add/remove/cycle column in array).
+     */
     const handleSortClick = useCallback(
-      (columnId: string) => {
-        let newConfig: SortConfig | undefined;
+      (columnId: string, shiftKey = false) => {
+        if (shiftKey) {
+          // Multi-column sort via Shift+Click
+          const existingIndex = sortingState.findIndex((s) => s.columnId === columnId);
 
-        if (currentSortConfig?.columnId === columnId) {
-          // Toggle direction or clear
-          if (currentSortConfig.direction === 'asc') {
-            newConfig = { columnId, direction: 'desc' };
+          let nextState: SortingState;
+
+          if (existingIndex >= 0) {
+            const existing = sortingState[existingIndex];
+            if (existing.direction === 'asc') {
+              // Toggle to desc
+              nextState = sortingState.map((s, i) =>
+                i === existingIndex ? { ...s, direction: 'desc' as SortDirection } : s,
+              );
+            } else {
+              // Remove from multi-sort
+              nextState = sortingState.filter((_, i) => i !== existingIndex);
+            }
           } else {
-            // Clear sort
-            newConfig = undefined;
+            // Add new column
+            if (sortingState.length >= maxSortColumns) {
+              // Replace the last column
+              nextState = [
+                ...sortingState.slice(0, -1),
+                { columnId, direction: 'asc' as SortDirection },
+              ];
+            } else {
+              nextState = [...sortingState, { columnId, direction: 'asc' as SortDirection }];
+            }
           }
+
+          const result = nextState.length === 0 ? undefined : nextState;
+          setCurrentSort(result);
         } else {
-          // New column, start with ascending
-          newConfig = { columnId, direction: 'asc' };
-        }
+          // Single-column sort (plain click resets to single column)
+          const current = sortingState.find((s) => s.columnId === columnId);
 
-        if (!isSortControlled) {
-          setInternalSortConfig(newConfig);
-        }
+          let newConfig: SortConfig | undefined;
 
-        onSortChange?.(newConfig);
+          if (current) {
+            if (current.direction === 'asc') {
+              newConfig = { columnId, direction: 'desc' };
+            } else {
+              // Clear sort
+              newConfig = undefined;
+            }
+          } else {
+            // New column, start with ascending
+            newConfig = { columnId, direction: 'asc' };
+          }
+
+          setCurrentSort(newConfig);
+        }
       },
-      [currentSortConfig, isSortControlled, onSortChange]
+      [sortingState, maxSortColumns, setCurrentSort],
+    );
+
+    // ==========================================================================
+    // Arrow Key Navigation for Sortable Headers (roving tabindex)
+    // ==========================================================================
+
+    /** Indices of sortable columns (based on visibleColumns) */
+    const sortableHeaderIndices = useMemo(
+      () => visibleColumns.reduce<number[]>((acc, col, idx) => {
+        if (col.sortable) {
+          acc.push(idx);
+        }
+        return acc;
+      }, []),
+      [visibleColumns],
+    );
+
+    const [activeHeaderIndex, setActiveHeaderIndex] = useState<number>(
+      sortableHeaderIndices.length > 0 ? sortableHeaderIndices[0] : -1,
+    );
+
+    /** Refs for sortable header elements to manage focus */
+    const headerRefs = useRef<Map<number, HTMLTableCellElement>>(new Map());
+
+    /** Set a header ref */
+    const setHeaderRef = useCallback(
+      (index: number, el: HTMLTableCellElement | null) => {
+        if (el) {
+          headerRefs.current.set(index, el);
+        } else {
+          headerRefs.current.delete(index);
+        }
+      },
+      [],
+    );
+
+    /** Handle arrow key navigation on sortable headers */
+    const handleHeaderKeyDown = useCallback(
+      (e: React.KeyboardEvent, columnId: string, columnIndex: number) => {
+        if (isEnterKey(e) || e.key === ' ') {
+          e.preventDefault();
+          handleSortClick(columnId, e.shiftKey);
+          return;
+        }
+
+        const currentPosInSortable = sortableHeaderIndices.indexOf(columnIndex);
+        if (currentPosInSortable < 0) {
+          return;
+        }
+
+        let nextIndex = -1;
+
+        switch (e.key) {
+          case 'ArrowRight':
+            e.preventDefault();
+            if (currentPosInSortable < sortableHeaderIndices.length - 1) {
+              nextIndex = sortableHeaderIndices[currentPosInSortable + 1];
+            }
+            break;
+          case 'ArrowLeft':
+            e.preventDefault();
+            if (currentPosInSortable > 0) {
+              nextIndex = sortableHeaderIndices[currentPosInSortable - 1];
+            }
+            break;
+          case 'Home':
+            e.preventDefault();
+            nextIndex = sortableHeaderIndices[0];
+            break;
+          case 'End':
+            e.preventDefault();
+            nextIndex = sortableHeaderIndices[sortableHeaderIndices.length - 1];
+            break;
+          default:
+            return;
+        }
+
+        if (nextIndex >= 0) {
+          setActiveHeaderIndex(nextIndex);
+          headerRefs.current.get(nextIndex)?.focus();
+        }
+      },
+      [sortableHeaderIndices, handleSortClick],
+    );
+
+    // ==========================================================================
+    // Pagination State
+    // ==========================================================================
+    const [paginationState, setPaginationState] = useControllableState<
+      PaginationState | undefined
+    >({
+      value: pagination,
+      defaultValue: defaultPagination,
+      onChange: onPaginationChange,
+    });
+
+    // ==========================================================================
+    // Expansion State
+    // ==========================================================================
+    const [expandedRowIds, setExpandedRowIds] = useControllableState<RowId[]>({
+      value: expandedRows,
+      defaultValue: defaultExpandedRows ?? [],
+      onChange: onExpandedRowsChange,
+    });
+
+    const expandedRowSet = useMemo(() => new Set(expandedRowIds), [expandedRowIds]);
+
+    const handleToggleExpand = useCallback(
+      (rowId: RowId) => {
+        setExpandedRowIds((prev: RowId[]) => {
+          if (prev.includes(rowId)) {
+            return prev.filter((rid) => rid !== rowId);
+          }
+          return [...prev, rowId];
+        });
+      },
+      [setExpandedRowIds]
+    );
+
+    const handleToggleExpandAll = useCallback(() => {
+      const allRowIds = data.map((row, idx) => getRowId(row, idx, rowIdAccessor));
+      const allExpanded = allRowIds.every((rid) => expandedRowSet.has(rid));
+
+      if (allExpanded) {
+        setExpandedRowIds([]);
+      } else {
+        setExpandedRowIds(allRowIds);
+      }
+    }, [data, rowIdAccessor, expandedRowSet, setExpandedRowIds]);
+
+    // ==========================================================================
+    // Column Resizing State
+    // ==========================================================================
+    const [columnWidths, setColumnWidths] = useState<Record<string, number>>({});
+    const resizingRef = useRef<{
+      columnId: string;
+      startX: number;
+      startWidth: number;
+    } | null>(null);
+
+    const handleResizeStart = useCallback(
+      (e: React.PointerEvent, columnId: string) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const target = e.currentTarget as HTMLElement;
+        target.setPointerCapture(e.pointerId);
+
+        // Get current width from state or measure the header cell
+        const th = target.parentElement;
+        const currentWidth = (Reflect.get(columnWidths, columnId) as number | undefined)
+          ?? (th ? th.getBoundingClientRect().width : 100);
+
+        resizingRef.current = {
+          columnId,
+          startX: e.clientX,
+          startWidth: currentWidth,
+        };
+
+        const handlePointerMove = (moveEvent: PointerEvent): void => {
+          if (!resizingRef.current) { return; }
+
+          const delta = moveEvent.clientX - resizingRef.current.startX;
+          let newWidth = resizingRef.current.startWidth + delta;
+
+          // Find column constraints
+          const col = columns.find((c) => c.id === columnId);
+          if (col) {
+            const minW = typeof col.minWidth === 'number' ? col.minWidth : 50;
+            const maxW = typeof col.maxWidth === 'number' ? col.maxWidth : Infinity;
+            newWidth = Math.max(minW, Math.min(maxW, newWidth));
+          }
+
+          setColumnWidths((prev) => ({
+            ...prev,
+            [columnId]: newWidth,
+          }));
+        };
+
+        const handlePointerUp = (): void => {
+          if (resizingRef.current) {
+            const cid = resizingRef.current.columnId;
+            // Read the latest width from state via closure
+            setColumnWidths((prev) => {
+              const finalWidth = Reflect.get(prev, cid) as number | undefined;
+              if (finalWidth !== undefined) {
+                onColumnResize?.(cid, finalWidth);
+              }
+              return prev;
+            });
+          }
+          resizingRef.current = null;
+          target.removeEventListener('pointermove', handlePointerMove);
+          target.removeEventListener('pointerup', handlePointerUp);
+        };
+
+        target.addEventListener('pointermove', handlePointerMove);
+        target.addEventListener('pointerup', handlePointerUp);
+      },
+      [columns, columnWidths, onColumnResize]
     );
 
     // ==========================================================================
@@ -310,6 +664,11 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     }, [isSelectionControlled, selectedRows, selectionMode, totalEnabled, normalizeSelectedRows]);
 
     // ==========================================================================
+    // Shift+Click Batch Selection
+    // ==========================================================================
+    const lastClickedRowIdRef = useRef<RowId | null>(null);
+
+    // ==========================================================================
     // Selection Handlers
     // ==========================================================================
 
@@ -360,9 +719,53 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
       }
     }, [fsmState, enabledRowIds, totalEnabled, isSelectionControlled, onSelectionChange]);
 
+    // Handle Shift+Click range selection for multiple mode
+    const handleRangeSelect = useCallback(
+      (rowId: RowId, allRowIds: RowId[]) => {
+        if (lastClickedRowIdRef.current === null) {
+          // No previous click, fall back to toggle
+          handleToggleRow(rowId);
+          return;
+        }
+
+        const lastIdx = allRowIds.indexOf(lastClickedRowIdRef.current);
+        const currentIdx = allRowIds.indexOf(rowId);
+
+        if (lastIdx === -1 || currentIdx === -1) {
+          handleToggleRow(rowId);
+          return;
+        }
+
+        const start = Math.min(lastIdx, currentIdx);
+        const end = Math.max(lastIdx, currentIdx);
+        const rangeIds = allRowIds
+          .slice(start, end + 1)
+          .filter((rid) => !disabledRowSet.has(rid));
+
+        const event = selectRangeEvent(rangeIds, totalEnabled);
+        const nextState = tableFSMReducer(fsmState, event);
+
+        if (!isSelectionControlled) {
+          dispatch(event);
+        }
+
+        if (onSelectionChange) {
+          onSelectionChange(nextState.selectedRows);
+        }
+      },
+      [
+        fsmState,
+        totalEnabled,
+        disabledRowSet,
+        isSelectionControlled,
+        onSelectionChange,
+        handleToggleRow,
+      ]
+    );
+
     // Handle row click for selection
     const handleRowSelectionClick = useCallback(
-      (rowId: RowId, isDisabled: boolean) => {
+      (rowId: RowId, isDisabled: boolean, shiftKey: boolean, allRowIds: RowId[]) => {
         if (isDisabled) {
           return;
         }
@@ -370,15 +773,21 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
         if (selectionMode === 'single') {
           handleSelectRow(rowId);
         } else if (selectionMode === 'multiple') {
-          handleToggleRow(rowId);
+          if (shiftKey && lastClickedRowIdRef.current !== null) {
+            handleRangeSelect(rowId, allRowIds);
+          } else {
+            handleToggleRow(rowId);
+          }
         }
+
+        lastClickedRowIdRef.current = rowId;
       },
-      [selectionMode, handleSelectRow, handleToggleRow]
+      [selectionMode, handleSelectRow, handleToggleRow, handleRangeSelect]
     );
 
     // Handle keyboard navigation for selection
     const handleRowKeyDown = useCallback(
-      (e: React.KeyboardEvent, rowId: RowId, isDisabled: boolean) => {
+      (e: React.KeyboardEvent, rowId: RowId, isDisabled: boolean, allRowIds: RowId[]) => {
         if (isDisabled) {
           return;
         }
@@ -388,7 +797,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
 
         if (isEnterKey(e) || e.key === ' ') {
           e.preventDefault();
-          handleRowSelectionClick(rowId, isDisabled);
+          handleRowSelectionClick(rowId, isDisabled, e.shiftKey, allRowIds);
         }
       },
       [selectionMode, handleRowSelectionClick]
@@ -399,22 +808,91 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     // ==========================================================================
 
     const sortedData = useMemo(() => {
-      if (!currentSortConfig) {
+      if (manualSorting || sortingState.length === 0) {
         return data;
       }
 
-      const column = columns.find((col) => col.id === currentSortConfig.columnId);
-      if (!column) {
+      // Build a list of column+direction pairs for multi-sort
+      const sortColumns = sortingState
+        .map((sc) => {
+          const col = columns.find((c) => c.id === sc.columnId);
+          return col ? { column: col, direction: sc.direction } : null;
+        })
+        .filter(Boolean) as { column: TableColumn<Record<string, unknown>>; direction: SortDirection }[];
+
+      if (sortColumns.length === 0) {
         return data;
       }
 
       return [...data].sort((a, b) => {
-        if (column.sortFn) {
-          return column.sortFn(a, b, currentSortConfig.direction);
+        for (const { column, direction } of sortColumns) {
+          let result: number;
+          if (column.sortFn) {
+            result = column.sortFn(a, b, direction);
+          } else {
+            result = defaultSortFn(a, b, column.accessor, direction);
+          }
+          if (result !== 0) {
+            return result;
+          }
         }
-        return defaultSortFn(a, b, column.accessor, currentSortConfig.direction);
+        return 0;
       });
-    }, [data, currentSortConfig, columns]);
+    }, [data, sortingState, columns, manualSorting]);
+
+    // ==========================================================================
+    // Paginated Data
+    // ==========================================================================
+
+    const paginatedData = useMemo(() => {
+      if (paginationState && !manualPagination) {
+        return sortedData.slice(
+          paginationState.page * paginationState.pageSize,
+          (paginationState.page + 1) * paginationState.pageSize
+        );
+      }
+      return sortedData;
+    }, [sortedData, paginationState, manualPagination]);
+
+    // Pagination computed values
+    const paginationInfo = useMemo(() => {
+      if (!paginationState) { return null; }
+
+      const totalCount = manualPagination
+        ? (totalRows ?? data.length)
+        : sortedData.length;
+      const totalPages = Math.max(1, Math.ceil(totalCount / paginationState.pageSize));
+      const currentPage = Math.min(paginationState.page, totalPages - 1);
+      const startRow = currentPage * paginationState.pageSize + 1;
+      const endRow = Math.min((currentPage + 1) * paginationState.pageSize, totalCount);
+
+      return { totalCount, totalPages, currentPage, startRow, endRow };
+    }, [paginationState, manualPagination, totalRows, data.length, sortedData.length]);
+
+    const goToPage = useCallback(
+      (page: number) => {
+        if (!paginationState || !paginationInfo) { return; }
+        const safePage = Math.max(0, Math.min(page, paginationInfo.totalPages - 1));
+        setPaginationState({ ...paginationState, page: safePage });
+      },
+      [paginationState, paginationInfo, setPaginationState]
+    );
+
+    const handlePageSizeChange = useCallback(
+      (e: React.ChangeEvent<HTMLSelectElement>) => {
+        if (!paginationState) { return; }
+        const newSize = Number(e.target.value);
+        setPaginationState({ page: 0, pageSize: newSize });
+      },
+      [paginationState, setPaginationState]
+    );
+
+    // ==========================================================================
+    // All row IDs (for shift+click range calculation)
+    // ==========================================================================
+    const allDisplayedRowIds = useMemo(() => {
+      return paginatedData.map((row, idx) => getRowId(row, idx, rowIdAccessor));
+    }, [paginatedData, rowIdAccessor]);
 
     // ==========================================================================
     // Class Names
@@ -470,10 +948,116 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     }, [stickyHeader]);
 
     // ==========================================================================
-    // Selection column count adjustment
+    // Column count adjustment
     // ==========================================================================
     const hasSelectionColumn = selectionMode !== 'none';
-    const totalColumns = columns.length + (hasSelectionColumn ? 1 : 0);
+    const hasExpandColumn = !!expandable;
+    const totalColumns =
+      visibleColumns.length + (hasSelectionColumn ? 1 : 0) + (hasExpandColumn ? 1 : 0);
+
+    // ==========================================================================
+    // Pagination UI
+    // ==========================================================================
+
+    const paginationElement = paginationState && paginationInfo ? (
+      <nav aria-label="Table pagination">
+        <div className="d-flex justify-content-between align-items-center">
+          <div className="text-muted small">
+            Showing {paginationInfo.startRow}-{paginationInfo.endRow} of{' '}
+            {paginationInfo.totalCount} rows
+          </div>
+          <ul className="pagination mb-0">
+            <li className={cn('page-item', paginationInfo.currentPage === 0 && 'disabled')}>
+              <button
+                className="page-link"
+                onClick={() => goToPage(0)}
+                aria-label="First page"
+                disabled={paginationInfo.currentPage === 0}
+              >
+                {'\u00AB'}
+              </button>
+            </li>
+            <li className={cn('page-item', paginationInfo.currentPage === 0 && 'disabled')}>
+              <button
+                className="page-link"
+                onClick={() => goToPage(paginationInfo.currentPage - 1)}
+                aria-label="Previous page"
+                disabled={paginationInfo.currentPage === 0}
+              >
+                {'\u2039'}
+              </button>
+            </li>
+            {getVisiblePages(paginationInfo.currentPage, paginationInfo.totalPages).map(
+              (pageNum) => (
+                <li
+                  key={pageNum}
+                  className={cn(
+                    'page-item',
+                    pageNum === paginationInfo.currentPage && 'active'
+                  )}
+                >
+                  <button
+                    className="page-link"
+                    onClick={() => goToPage(pageNum)}
+                    aria-label={`Page ${pageNum + 1}`}
+                    aria-current={
+                      pageNum === paginationInfo.currentPage ? 'page' : undefined
+                    }
+                  >
+                    {pageNum + 1}
+                  </button>
+                </li>
+              )
+            )}
+            <li
+              className={cn(
+                'page-item',
+                paginationInfo.currentPage === paginationInfo.totalPages - 1 && 'disabled'
+              )}
+            >
+              <button
+                className="page-link"
+                onClick={() => goToPage(paginationInfo.currentPage + 1)}
+                aria-label="Next page"
+                disabled={paginationInfo.currentPage === paginationInfo.totalPages - 1}
+              >
+                {'\u203A'}
+              </button>
+            </li>
+            <li
+              className={cn(
+                'page-item',
+                paginationInfo.currentPage === paginationInfo.totalPages - 1 && 'disabled'
+              )}
+            >
+              <button
+                className="page-link"
+                onClick={() => goToPage(paginationInfo.totalPages - 1)}
+                aria-label="Last page"
+                disabled={paginationInfo.currentPage === paginationInfo.totalPages - 1}
+              >
+                {'\u00BB'}
+              </button>
+            </li>
+          </ul>
+          {pageSizeOptions && paginationState && (
+            <select
+              className="form-select form-select-sm"
+              style={{ width: 'auto' }}
+              value={paginationState.pageSize}
+              onChange={handlePageSizeChange}
+              aria-label="Rows per page"
+            >
+              {pageSizeOptions.map((sz) => (
+                <option key={sz} value={sz}>
+                  {sz} / page
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
+      </nav>
+    ) : null;
 
     // ==========================================================================
     // Render
@@ -493,9 +1077,46 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
         {/* Caption */}
         {caption && <caption style={{ captionSide }}>{caption}</caption>}
 
+        {/* Colgroup for column widths */}
+        <colgroup>
+          {hasExpandColumn && <col style={{ width: '48px' }} />}
+          {hasSelectionColumn && <col style={{ width: '48px' }} />}
+          {visibleColumns.map((column) => {
+            const w = Reflect.get(columnWidths, column.id) as number | undefined;
+            return (
+              <col
+                key={column.id}
+                style={w !== undefined ? { width: `${w}px` } : undefined}
+              />
+            );
+          })}
+        </colgroup>
+
         {/* Header */}
         <thead className={headerClasses} style={stickyHeaderStyle}>
           <tr>
+            {/* Expand header */}
+            {hasExpandColumn && (
+              <th scope="col" className="table-expand-cell" style={{ width: '48px' }}>
+                {expandable?.expandAll ? (
+                  <button
+                    className="btn btn-sm btn-link p-0"
+                    onClick={handleToggleExpandAll}
+                    aria-label="Expand all rows"
+                    type="button"
+                  >
+                    {data.every((row, idx) =>
+                      expandedRowSet.has(getRowId(row, idx, rowIdAccessor))
+                    )
+                      ? '\u25BC'
+                      : '\u25B6'}
+                  </button>
+                ) : (
+                  <span className="visually-hidden">Expand</span>
+                )}
+              </th>
+            )}
+
             {/* Selection header */}
             {selectionMode === 'multiple' && (
               <th scope="col" className="table-select-cell" style={{ width: '48px' }}>
@@ -515,9 +1136,14 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
             )}
 
             {/* Column headers */}
-            {columns.map((column) => {
-              const isSorted = currentSortConfig?.columnId === column.id;
-              const sortDirection = isSorted ? currentSortConfig.direction : undefined;
+            {visibleColumns.map((column, columnIndex) => {
+              const sortEntry = sortingState.find((s) => s.columnId === column.id);
+              const isSorted = !!sortEntry;
+              const sortDirection = isSorted ? sortEntry.direction : undefined;
+              const sortPriority =
+                sortingState.length > 1
+                  ? sortingState.findIndex((s) => s.columnId === column.id) + 1
+                  : 0;
               const ariaSortValue = isSorted
                 ? sortDirection === 'asc'
                   ? 'ascending'
@@ -536,12 +1162,21 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
               if (column.maxWidth) {
                 headerStyle.maxWidth = column.maxWidth;
               }
+              // Override with resized width
+              const resizedWidth = Reflect.get(columnWidths, column.id) as number | undefined;
+              if (resizedWidth !== undefined) {
+                headerStyle.width = `${resizedWidth}px`;
+              }
               // Sticky columns (left/right) work independently
               if (column.sticky) {
                 headerStyle.position = 'sticky';
                 headerStyle[column.sticky] = 0;
                 headerStyle.zIndex = stickyHeader ? 3 : 2; // Higher z-index if also sticky header
                 headerStyle.backgroundColor = 'var(--bs-table-bg, #fff)';
+              }
+              // Resizable columns need relative positioning for the handle
+              if (column.resizable && !column.sticky) {
+                headerStyle.position = 'relative';
               }
 
               const alignClass = getAlignClass(column.align);
@@ -552,28 +1187,58 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
                 isSorted && 'table-sorted'
               );
 
+              // Roving tabindex: active sortable header gets 0, others get -1
+              const isActiveHeader = column.sortable && columnIndex === activeHeaderIndex;
+              const headerTabIndex = column.sortable
+                ? isActiveHeader
+                  ? 0
+                  : -1
+                : undefined;
+
               return (
                 <th
                   key={column.id}
+                  ref={column.sortable ? (el) => setHeaderRef(columnIndex, el) : undefined}
                   scope="col"
                   className={headerCellClasses || undefined}
                   style={headerStyle}
                   aria-sort={ariaSortValue}
-                  onClick={column.sortable ? () => handleSortClick(column.id) : undefined}
-                  onKeyDown={
+                  onClick={
                     column.sortable
-                      ? (e) => {
-                          if (isEnterKey(e) || e.key === ' ') {
-                            e.preventDefault();
-                            handleSortClick(column.id);
-                          }
-                        }
+                      ? (e) => handleSortClick(column.id, e.shiftKey)
                       : undefined
                   }
-                  tabIndex={column.sortable ? 0 : undefined}
+                  onKeyDown={
+                    column.sortable
+                      ? (e) => handleHeaderKeyDown(e, column.id, columnIndex)
+                      : undefined
+                  }
+                  tabIndex={headerTabIndex}
+                  data-focusable={column.sortable ? '' : undefined}
                 >
                   {column.header}
-                  <SortIcon sortable={column.sortable} direction={sortDirection} />
+                  <SortIcon
+                    sortable={column.sortable}
+                    direction={sortDirection}
+                    priority={sortPriority}
+                  />
+                  {column.resizable && (
+                    <div
+                      className="table-resize-handle"
+                      style={{
+                        position: 'absolute',
+                        right: 0,
+                        top: 0,
+                        bottom: 0,
+                        width: '4px',
+                        cursor: 'col-resize',
+                      }}
+                      onPointerDown={(e) => handleResizeStart(e, column.id)}
+                      role="separator"
+                      aria-orientation="vertical"
+                      aria-label={`Resize column ${typeof column.header === 'string' ? column.header : column.id}`}
+                    />
+                  )}
                 </th>
               );
             })}
@@ -581,91 +1246,136 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
         </thead>
 
         {/* Body */}
+        {/* TODO(virtualization): Integrate @tanstack/react-virtual for 10k+ row support. When virtual={true}, replace this tbody with a virtualized container. */}
         <tbody>
-          {sortedData.length === 0 && showEmpty ? (
+          {paginatedData.length === 0 && showEmpty ? (
             <tr>
               <td colSpan={totalColumns} className="text-center text-muted py-4">
                 {emptyContent}
               </td>
             </tr>
           ) : (
-            sortedData.map((row, rowIndex) => {
+            paginatedData.map((row, rowIndex) => {
               const rowIdValue = getRowId(row, rowIndex, rowIdAccessor);
               const isSelected = isRowSelected(fsmState, rowIdValue);
               const isDisabled = disabledRowSet.has(rowIdValue);
               const isInteractive = selectionMode !== 'none' || onRowClick;
+              const isExpanded = expandedRowSet.has(rowIdValue);
 
               const rowClasses = cn(isSelected && 'table-active', isDisabled && 'table-disabled');
 
               return (
-                <tr
-                  key={rowIdValue}
-                  className={rowClasses || undefined}
-                  aria-selected={selectionMode !== 'none' ? isSelected : undefined}
-                  aria-disabled={isDisabled || undefined}
-                  onClick={() => {
-                    onRowClick?.(row, rowIndex);
-                    if (selectionMode !== 'none' && !isDisabled) {
-                      handleRowSelectionClick(rowIdValue, isDisabled);
+                <React.Fragment key={rowIdValue}>
+                  <tr
+                    className={rowClasses || undefined}
+                    aria-selected={selectionMode !== 'none' ? isSelected : undefined}
+                    aria-disabled={isDisabled || undefined}
+                    onClick={(e) => {
+                      onRowClick?.(row, rowIndex);
+                      if (selectionMode !== 'none' && !isDisabled) {
+                        handleRowSelectionClick(
+                          rowIdValue,
+                          isDisabled,
+                          e.shiftKey,
+                          allDisplayedRowIds
+                        );
+                      }
+                    }}
+                    onKeyDown={
+                      isInteractive
+                        ? (e) =>
+                            handleRowKeyDown(e, rowIdValue, isDisabled, allDisplayedRowIds)
+                        : undefined
                     }
-                  }}
-                  onKeyDown={
-                    isInteractive ? (e) => handleRowKeyDown(e, rowIdValue, isDisabled) : undefined
-                  }
-                  tabIndex={isInteractive && !isDisabled ? 0 : undefined}
-                  role={selectionMode !== 'none' ? 'row' : undefined}
-                >
-                  {/* Selection cell */}
-                  {selectionMode === 'multiple' && (
-                    <td className="table-select-cell">
-                      <Checkbox
-                        checked={isSelected}
-                        onChange={() => handleToggleRow(rowIdValue)}
-                        aria-label={`Select row ${rowIndex + 1}`}
-                        disabled={isDisabled}
-                        onClick={(e) => e.stopPropagation()}
-                      />
-                    </td>
-                  )}
-                  {selectionMode === 'single' && (
-                    <td className="table-select-cell">
-                      <Checkbox
-                        checked={isSelected}
-                        onChange={() => handleSelectRow(rowIdValue)}
-                        aria-label={`Select row ${rowIndex + 1}`}
-                        disabled={isDisabled}
-                        onClick={(e) => e.stopPropagation()}
-                      />
-                    </td>
-                  )}
-
-                  {/* Data cells */}
-                  {columns.map((column) => {
-                    const cellValue = getValue(row, column.accessor);
-                    const alignClass = getAlignClass(column.align);
-
-                    const cellStyle: React.CSSProperties = {};
-                    if (column.sticky) {
-                      cellStyle.position = 'sticky';
-                      cellStyle[column.sticky] = 0;
-                      cellStyle.zIndex = 1;
-                      // Use solid background to prevent content showing through
-                      cellStyle.backgroundColor = isSelected
-                        ? 'var(--bs-table-active-bg, rgba(0, 0, 0, 0.075))'
-                        : 'var(--bs-table-bg, var(--bs-body-bg, #fff))';
-                    }
-
-                    const cellClasses = cn(alignClass, column.cellClassName);
-
-                    return (
-                      <td key={column.id} className={cellClasses || undefined} style={cellStyle}>
-                        {column.cell
-                          ? column.cell(cellValue, row, rowIndex)
-                          : (cellValue as React.ReactNode)}
+                    tabIndex={isInteractive && !isDisabled ? 0 : undefined}
+                    role={selectionMode !== 'none' ? 'row' : undefined}
+                  >
+                    {/* Expand cell */}
+                    {hasExpandColumn && (
+                      <td className="table-expand-cell">
+                        <button
+                          className="btn btn-sm btn-link p-0"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleToggleExpand(rowIdValue);
+                          }}
+                          onKeyDown={(e) => {
+                            if (isEnterKey(e) || e.key === ' ') {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleToggleExpand(rowIdValue);
+                            }
+                          }}
+                          aria-expanded={isExpanded}
+                          aria-label={`${isExpanded ? 'Collapse' : 'Expand'} row ${rowIndex + 1}`}
+                          type="button"
+                        >
+                          {isExpanded ? '\u25BC' : '\u25B6'}
+                        </button>
                       </td>
-                    );
-                  })}
-                </tr>
+                    )}
+
+                    {/* Selection cell */}
+                    {selectionMode === 'multiple' && (
+                      <td className="table-select-cell">
+                        <Checkbox
+                          checked={isSelected}
+                          onChange={() => handleToggleRow(rowIdValue)}
+                          aria-label={`Select row ${rowIndex + 1}`}
+                          disabled={isDisabled}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      </td>
+                    )}
+                    {selectionMode === 'single' && (
+                      <td className="table-select-cell">
+                        <Checkbox
+                          checked={isSelected}
+                          onChange={() => handleSelectRow(rowIdValue)}
+                          aria-label={`Select row ${rowIndex + 1}`}
+                          disabled={isDisabled}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      </td>
+                    )}
+
+                    {/* Data cells */}
+                    {visibleColumns.map((column) => {
+                      const cellValue = getValue(row, column.accessor);
+                      const alignClass = getAlignClass(column.align);
+
+                      const cellStyle: React.CSSProperties = {};
+                      if (column.sticky) {
+                        cellStyle.position = 'sticky';
+                        cellStyle[column.sticky] = 0;
+                        cellStyle.zIndex = 1;
+                        // Use solid background to prevent content showing through
+                        cellStyle.backgroundColor = isSelected
+                          ? 'var(--bs-table-active-bg, rgba(0, 0, 0, 0.075))'
+                          : 'var(--bs-table-bg, var(--bs-body-bg, #fff))';
+                      }
+
+                      const cellClasses = cn(alignClass, column.cellClassName);
+
+                      return (
+                        <td key={column.id} className={cellClasses || undefined} style={cellStyle}>
+                          {column.cell
+                            ? column.cell(cellValue, row, rowIndex)
+                            : (cellValue as React.ReactNode)}
+                        </td>
+                      );
+                    })}
+                  </tr>
+
+                  {/* Expanded row content */}
+                  {hasExpandColumn && isExpanded && expandable && (
+                    <tr className="table-expanded-row">
+                      <td colSpan={totalColumns}>
+                        {expandable.render(row, rowIndex)}
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
               );
             })
           )}
@@ -681,6 +1391,31 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
         )}
       </table>
     );
+
+    // Build final output with pagination
+    const showTopPagination =
+      paginationElement && (paginationPosition === 'top' || paginationPosition === 'both');
+    const showBottomPagination =
+      paginationElement && (paginationPosition === 'bottom' || paginationPosition === 'both');
+
+    const content = (
+      <>
+        {showTopPagination && paginationElement}
+        {responsive || (stickyHeader && maxHeight) ? (
+          <div className={wrapperClasses || undefined} style={computedWrapperStyle}>
+            {tableElement}
+          </div>
+        ) : (
+          tableElement
+        )}
+        {showBottomPagination && paginationElement}
+      </>
+    );
+
+    // If we have pagination, we need a wrapping div
+    if (paginationElement) {
+      return <div className="table-container">{content}</div>;
+    }
 
     // Wrap in responsive container if needed
     if (responsive || (stickyHeader && maxHeight)) {

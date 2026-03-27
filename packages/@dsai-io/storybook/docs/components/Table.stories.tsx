@@ -832,6 +832,105 @@ export const AccessibilityShowcase: Story = {
   },
 };
 
+// =============================================================================
+// Pagination
+// =============================================================================
+
+/**
+ * Paginated table with page size options.
+ */
+export const PaginatedTable: Story = {
+  render: function PaginationDemo() {
+    const data = Array.from({ length: 100 }, (_, i) => ({
+      id: i + 1,
+      name: `Item ${i + 1}`,
+      category: ['Electronics', 'Books', 'Clothing', 'Food'][i % 4],
+      price: Math.round(Math.random() * 1000) / 10,
+    }));
+
+    const columns = [
+      { accessor: 'id' as const, header: 'ID', sortable: true },
+      { accessor: 'name' as const, header: 'Name', sortable: true },
+      { accessor: 'category' as const, header: 'Category' },
+      { accessor: 'price' as const, header: 'Price', align: 'end' as const },
+    ];
+
+    return (
+      <Table
+        data={data}
+        columns={columns}
+        defaultPagination={{ page: 0, pageSize: 10 }}
+        pageSizeOptions={[5, 10, 25, 50]}
+        aria-label="Paginated table"
+      />
+    );
+  },
+};
+
+// =============================================================================
+// Row Expansion
+// =============================================================================
+
+/**
+ * Table with expandable rows showing detail content.
+ */
+export const ExpandableRows: Story = {
+  render: () => {
+    const data = [
+      { id: 1, name: 'Alice', role: 'Engineer' },
+      { id: 2, name: 'Bob', role: 'Designer' },
+      { id: 3, name: 'Charlie', role: 'PM' },
+    ];
+
+    const columns = [
+      { accessor: 'id' as const, header: 'ID' },
+      { accessor: 'name' as const, header: 'Name' },
+      { accessor: 'role' as const, header: 'Role' },
+    ];
+
+    return (
+      <Table
+        data={data}
+        columns={columns}
+        expandable={{
+          render: (row) => (
+            <div className="p-3">
+              <strong>Details for {row.name}:</strong> This is the expanded content area.
+            </div>
+          ),
+          expandAll: true,
+        }}
+        aria-label="Expandable table"
+      />
+    );
+  },
+};
+
+// =============================================================================
+// Column Resizing
+// =============================================================================
+
+/**
+ * Table with resizable columns. Drag column borders to resize.
+ */
+export const ResizableColumns: Story = {
+  render: () => {
+    const data = [
+      { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'Senior Engineer' },
+      { id: 2, name: 'Bob Smith', email: 'bob@example.com', role: 'Lead Designer' },
+    ];
+
+    const columns = [
+      { accessor: 'id' as const, header: 'ID', resizable: true, minWidth: 50, maxWidth: 100 },
+      { accessor: 'name' as const, header: 'Name', resizable: true },
+      { accessor: 'email' as const, header: 'Email', resizable: true },
+      { accessor: 'role' as const, header: 'Role', resizable: true },
+    ];
+
+    return <Table data={data} columns={columns} aria-label="Resizable columns" />;
+  },
+};
+
 /**
  * Example showing all visual states based on selection.
  */
