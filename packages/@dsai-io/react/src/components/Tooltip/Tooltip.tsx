@@ -196,13 +196,16 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
     // Participate in delay groups (if wrapped in TooltipGroup)
     useDelayGroup(context, { id: tooltipId });
 
-    // Read group context for skip-delay behavior
+    // Read group context for skip-delay behavior.
+    // When no FloatingDelayGroup is present the default context returns { delay: 0 }.
+    // We must not let that zero override the resolved show/hide delays, so we only
+    // use groupDelay when it is truthy (a non-zero number or a delay object).
     const { delay: groupDelay } = useDelayGroupContext();
 
     // Interaction hooks
     const hover = useHover(context, {
       enabled: hasHover && !disabled,
-      delay: groupDelay ?? {
+      delay: groupDelay || {
         open: resolvedShowDelay,
         close: resolvedHideDelay,
       },

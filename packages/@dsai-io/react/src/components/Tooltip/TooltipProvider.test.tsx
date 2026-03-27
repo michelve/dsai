@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Tooltip } from './Tooltip';
@@ -37,10 +37,6 @@ describe('TooltipProvider', () => {
 
   describe('Default Values', () => {
     it('provides 300ms showDelay by default (tooltip does not appear immediately)', async () => {
-      const user = userEvent.setup({
-        advanceTimers: jest.advanceTimersByTime,
-      });
-
       render(
         <TooltipProvider>
           <Tooltip content="Provider tooltip">
@@ -49,14 +45,20 @@ describe('TooltipProvider', () => {
         </TooltipProvider>
       );
 
-      await user.hover(screen.getByRole('button', { name: 'Hover me' }));
+      const button = screen.getByRole('button', { name: 'Hover me' });
+      fireEvent.pointerEnter(button);
+      fireEvent.mouseEnter(button);
 
       // After 100ms, tooltip should NOT be visible yet (default is 300ms)
-      jest.advanceTimersByTime(100);
+      act(() => {
+        jest.advanceTimersByTime(100);
+      });
       expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
 
       // After 300ms total, tooltip should appear
-      jest.advanceTimersByTime(200);
+      act(() => {
+        jest.advanceTimersByTime(200);
+      });
       await waitFor(() => {
         expect(screen.getByRole('tooltip')).toBeInTheDocument();
       });
@@ -93,10 +95,6 @@ describe('TooltipProvider', () => {
 
   describe('Custom Values', () => {
     it('overrides showDelay', async () => {
-      const user = userEvent.setup({
-        advanceTimers: jest.advanceTimersByTime,
-      });
-
       render(
         <TooltipProvider showDelay={500}>
           <Tooltip content="Slow tooltip">
@@ -105,14 +103,20 @@ describe('TooltipProvider', () => {
         </TooltipProvider>
       );
 
-      await user.hover(screen.getByRole('button', { name: 'Hover me' }));
+      const button = screen.getByRole('button', { name: 'Hover me' });
+      fireEvent.pointerEnter(button);
+      fireEvent.mouseEnter(button);
 
       // After 300ms, tooltip should NOT be visible (provider set 500ms)
-      jest.advanceTimersByTime(300);
+      act(() => {
+        jest.advanceTimersByTime(300);
+      });
       expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
 
       // After 500ms total, tooltip should appear
-      jest.advanceTimersByTime(200);
+      act(() => {
+        jest.advanceTimersByTime(200);
+      });
       await waitFor(() => {
         expect(screen.getByRole('tooltip')).toBeInTheDocument();
       });

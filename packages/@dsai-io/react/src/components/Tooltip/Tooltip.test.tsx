@@ -176,8 +176,6 @@ describe('Tooltip', () => {
       });
 
       it('respects showDelay prop', async () => {
-        const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-
         render(
           <Tooltip content="Delayed tooltip" trigger="hover" showDelay={500}>
             <button type="button">Hover me</button>
@@ -185,21 +183,72 @@ describe('Tooltip', () => {
         );
 
         const button = screen.getByRole('button');
-        await user.hover(button);
+        fireEvent.pointerEnter(button);
+        fireEvent.mouseEnter(button);
 
-        // Should not show immediately
+        // Should not show at 300ms (default would have fired, but we set 500ms)
         act(() => {
-          jest.advanceTimersByTime(100);
+          jest.advanceTimersByTime(300);
         });
         expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
 
-        // Should show after delay
+        // Should show after 500ms
         act(() => {
-          jest.advanceTimersByTime(500);
+          jest.advanceTimersByTime(200);
         });
 
         await waitFor(() => {
           expect(screen.getByRole('tooltip')).toBeInTheDocument();
+        });
+      });
+
+      it('uses 300ms showDelay by default', async () => {
+        const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+        render(
+          <Tooltip content="Delayed tooltip">
+            <button>Hover me</button>
+          </Tooltip>
+        );
+
+        await user.hover(screen.getByRole('button'));
+
+        // Not visible at 200ms
+        jest.advanceTimersByTime(200);
+        expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+
+        // Visible at 400ms
+        jest.advanceTimersByTime(200);
+        await waitFor(() => {
+          expect(screen.getByRole('tooltip')).toBeInTheDocument();
+        });
+      });
+
+      it('uses 150ms hideDelay by default', async () => {
+        const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+        render(
+          <Tooltip content="Delayed hide">
+            <button>Hover me</button>
+          </Tooltip>
+        );
+
+        await user.hover(screen.getByRole('button'));
+        jest.advanceTimersByTime(400);
+        await waitFor(() => {
+          expect(screen.getByRole('tooltip')).toBeInTheDocument();
+        });
+
+        await user.unhover(screen.getByRole('button'));
+
+        // Still visible at 100ms
+        jest.advanceTimersByTime(100);
+        expect(screen.queryByRole('tooltip')).toBeInTheDocument();
+
+        // Hidden after 200ms total
+        jest.advanceTimersByTime(100);
+        await waitFor(() => {
+          expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
         });
       });
 
