@@ -29,6 +29,9 @@ import type { JSX } from 'react';
  * - FSM-based visibility state management
  * - Security hardening: XSS-safe content rendering
  * - Accessibility: aria-live, aria-atomic, proper ARIA roles
+ * - Promise-based toasts: loading → success/error transitions
+ * - Pause on hover: timer and progress bar pause while hovered
+ * - Keyboard hotkey (F8): focus the notification region from anywhere
  */
 
 // Helper component for useToast hook example
@@ -204,6 +207,90 @@ function AccessibilityDemo(): JSX.Element {
   );
 }
 
+// Helper component for promise toast demo
+function PromiseToastDemo(): JSX.Element {
+  const toast = useToast();
+
+  const handleSave = (): void => {
+    const saveOperation = new Promise<string>((resolve) => {
+      setTimeout(() => resolve('Data saved'), 2000);
+    });
+
+    toast.promise(saveOperation, {
+      loading: 'Saving your changes...',
+      success: 'Changes saved successfully!',
+      error: 'Failed to save changes.',
+    });
+  };
+
+  const handleDelete = (): void => {
+    const deleteOperation = new Promise<void>((_, reject) => {
+      setTimeout(() => reject(new Error('Network error')), 2000);
+    });
+
+    toast.promise(deleteOperation, {
+      loading: 'Deleting item...',
+      success: 'Item deleted!',
+      error: 'Failed to delete item.',
+    });
+  };
+
+  return (
+    <div style={{ display: 'flex', gap: '0.5rem' }}>
+      <Button variant="primary" onClick={handleSave}>
+        Save (Success)
+      </Button>
+      <Button variant="danger" onClick={handleDelete}>
+        Delete (Error)
+      </Button>
+    </div>
+  );
+}
+
+// Helper component for pause on hover demo
+function PauseOnHoverDemo(): JSX.Element {
+  const toast = useToast();
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+      <Button
+        onClick={() =>
+          toast.success('Hover over me to pause the timer!', {
+            duration: 5000,
+            showProgress: true,
+          })
+        }
+      >
+        Show Toast (5s with progress)
+      </Button>
+      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+        Hover over the toast to pause auto-dismiss. The progress bar pauses too.
+      </p>
+    </div>
+  );
+}
+
+// Helper component for keyboard hotkey demo
+function KeyboardHotkeyDemo(): JSX.Element {
+  const toast = useToast();
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+      <Button
+        onClick={() =>
+          toast.info('Press F8 to focus the notification region', { duration: 10000 })
+        }
+      >
+        Show Toast
+      </Button>
+      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+        Press <kbd>F8</kbd> to focus the toast notification region. Configurable via the{' '}
+        <code>hotkey</code> prop.
+      </p>
+    </div>
+  );
+}
+
 const meta: Meta<typeof Toast> = {
   title: 'Components/Toast',
   component: Toast,
@@ -273,6 +360,22 @@ const meta: Meta<typeof Toast> = {
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
+      },
+    },
+    pauseOnHover: {
+      control: 'boolean',
+      description: 'Pause auto-dismiss timer and progress bar while the toast is hovered',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
+      },
+    },
+    pauseOnFocusLoss: {
+      control: 'boolean',
+      description: 'Pause auto-dismiss timer when the document loses focus',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
       },
     },
   },
@@ -526,6 +629,60 @@ export const AriaRoles: Story = {
       <Toast variant="success" message="Success: role='status', aria-live='polite'" />
       <Toast variant="info" message="Info: role='status', aria-live='polite'" />
     </div>
+  ),
+};
+
+// =============================================================================
+// Promise Toast
+// =============================================================================
+
+/**
+ * Promise-based toast for async operations
+ *
+ * Shows a loading toast that automatically transitions to success or error
+ * based on the promise result.
+ */
+export const PromiseToast: Story = {
+  render: () => (
+    <ToastProvider position="top-end">
+      <PromiseToastDemo />
+    </ToastProvider>
+  ),
+};
+
+// =============================================================================
+// Pause on Hover
+// =============================================================================
+
+/**
+ * Pause on hover
+ *
+ * Toasts pause their auto-dismiss timer when hovered. The progress bar
+ * also pauses. Timer resumes with remaining time on mouse leave.
+ */
+export const PauseOnHover: Story = {
+  render: () => (
+    <ToastProvider position="top-end" pauseOnHover>
+      <PauseOnHoverDemo />
+    </ToastProvider>
+  ),
+};
+
+// =============================================================================
+// Keyboard Hotkey
+// =============================================================================
+
+/**
+ * Keyboard hotkey to focus notifications
+ *
+ * Press F8 (default) to focus the toast notification region.
+ * Configurable via the `hotkey` prop on ToastProvider.
+ */
+export const KeyboardHotkey: Story = {
+  render: () => (
+    <ToastProvider position="top-end">
+      <KeyboardHotkeyDemo />
+    </ToastProvider>
   ),
 };
 
