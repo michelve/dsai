@@ -347,6 +347,16 @@ describe('Typography Accessibility (WCAG 2.2 AA)', () => {
       expect(results).toHaveNoViolations();
     });
 
+    it('has no violations with highContrast on display', async () => {
+      const { container } = render(
+        <Display size={1} highContrast>
+          High Contrast Display
+        </Display>
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
     it('has no violations with highContrast on text', async () => {
       const { container } = render(
         <Text highContrast>High Contrast Body Text</Text>

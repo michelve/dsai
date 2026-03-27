@@ -518,6 +518,17 @@ describe('Typography', () => {
       });
     });
 
+    describe('High Contrast', () => {
+      it('applies high-contrast class when enabled', () => {
+        render(
+          <Display size={1} highContrast>
+            High Contrast
+          </Display>
+        );
+        expect(screen.getByRole('heading')).toHaveClass('dsai-high-contrast');
+      });
+    });
+
     describe('Ref Forwarding', () => {
       it('forwards ref to heading element', () => {
         const ref = createRef<HTMLHeadingElement>();
