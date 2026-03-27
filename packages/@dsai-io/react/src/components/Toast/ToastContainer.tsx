@@ -83,6 +83,8 @@ export const ToastContainer = forwardRef<HTMLDivElement, ToastContainerProps>(
       style,
       id,
       gap = DEFAULT_GAP_PX,
+      tabIndex,
+      'aria-label': ariaLabel,
       'data-testid': dataTestId,
       'data-test': dataTest,
     },
@@ -110,6 +112,8 @@ export const ToastContainer = forwardRef<HTMLDivElement, ToastContainerProps>(
         id={id}
         className={containerClassName}
         style={containerStyles}
+        tabIndex={tabIndex}
+        aria-label={ariaLabel}
         aria-live="polite"
         aria-atomic="true"
         data-testid={dataTestId}

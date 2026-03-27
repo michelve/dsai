@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useReducer } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useRef } from 'react';
 
 import { Toast } from './Toast';
 import { ToastContainer } from './ToastContainer';
@@ -141,8 +141,10 @@ export function ToastProvider({
   containerId,
   pauseOnHover = true,
   pauseOnFocusLoss = true,
+  hotkey = 'F8',
 }: ToastProviderProps): React.JSX.Element {
   const [state, dispatch] = useReducer(toastQueueReducer, { toasts: [] });
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Add a toast
   const addToast = useCallback(
@@ -295,10 +297,31 @@ export function ToastProvider({
     [addToast, success, error, warning, info, dismiss, dismissAll, update, promiseToast, state.toasts]
   );
 
+  // Keyboard hotkey to focus toast region
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent): void => {
+      if (event.key === hotkey && state.toasts.length > 0) {
+        event.preventDefault();
+        containerRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [hotkey, state.toasts.length]);
+
   return (
     <ToastContext.Provider value={contextValue}>
       {children}
-      <ToastContainer position={position} gap={gap} id={containerId} data-testid="toast-container">
+      <ToastContainer
+        ref={containerRef}
+        position={position}
+        gap={gap}
+        id={containerId}
+        data-testid="toast-container"
+        tabIndex={state.toasts.length > 0 ? -1 : undefined}
+        aria-label={state.toasts.length > 0 ? 'Notifications' : undefined}
+      >
         {state.toasts.map((toastData) => (
           <Toast
             key={toastData.id}

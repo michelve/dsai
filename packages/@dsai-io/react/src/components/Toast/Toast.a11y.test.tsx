@@ -3,13 +3,12 @@
  * Verifies WCAG 2.2 AA compliance using jest-axe and manual checks
  */
 
-import { render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
-import { act } from 'react';
 
 import { Toast } from './Toast';
 import { ToastContainer } from './ToastContainer';
-import { ToastProvider } from './ToastProvider';
+import { ToastProvider, useToast } from './ToastProvider';
 
 expect.extend(toHaveNoViolations);
 
@@ -380,6 +379,35 @@ describe('ToastContainer Accessibility Tests', () => {
       );
       expect(screen.getByTestId('container')).toHaveAttribute('aria-atomic', 'true');
     });
+  });
+
+  it('toast container is focusable via tabIndex when toasts are present', () => {
+    jest.useFakeTimers();
+
+    function TriggerToast() {
+      const toast = useToast();
+      return (
+        <button onClick={() => toast.success('A11y test')}>Trigger</button>
+      );
+    }
+
+    render(
+      <ToastProvider>
+        <TriggerToast />
+      </ToastProvider>
+    );
+
+    fireEvent.click(screen.getByText('Trigger'));
+
+    act(() => {
+      jest.advanceTimersByTime(200);
+    });
+
+    const container = screen.getByTestId('toast-container');
+    expect(container).toHaveAttribute('tabIndex', '-1');
+    expect(container).toHaveAttribute('aria-label');
+
+    jest.useRealTimers();
   });
 
   describe('Semantic Structure', () => {

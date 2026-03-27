@@ -306,6 +306,16 @@ export interface ToastContainerProps {
    * @default 12
    */
   gap?: number;
+
+  /**
+   * Tab index for focus management
+   */
+  tabIndex?: number;
+
+  /**
+   * Accessible label for the container
+   */
+  'aria-label'?: string;
 }
 
 /**
@@ -376,6 +386,12 @@ export interface ToastProviderProps {
    * @default true
    */
   pauseOnFocusLoss?: boolean;
+
+  /**
+   * Keyboard hotkey to focus the toast notification region
+   * @default 'F8'
+   */
+  hotkey?: string;
 }
 
 /**

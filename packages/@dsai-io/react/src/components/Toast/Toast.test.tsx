@@ -806,6 +806,78 @@ describe('ToastProvider and useToast', () => {
     });
   });
 
+  describe('Keyboard Hotkey', () => {
+    it('focuses toast container on F8 keypress', () => {
+      function TriggerToast() {
+        const toast = useToast();
+        return (
+          <button onClick={() => toast.success('Focus test')}>Trigger</button>
+        );
+      }
+
+      render(
+        <ToastProvider>
+          <TriggerToast />
+        </ToastProvider>
+      );
+
+      fireEvent.click(screen.getByText('Trigger'));
+
+      act(() => {
+        jest.advanceTimersByTime(200);
+      });
+
+      // Press F8
+      fireEvent.keyDown(document, { key: 'F8' });
+
+      const container = screen.getByTestId('toast-container');
+      expect(container).toHaveFocus();
+    });
+
+    it('uses custom hotkey when provided', () => {
+      function TriggerToast() {
+        const toast = useToast();
+        return (
+          <button onClick={() => toast.success('Custom key')}>Trigger</button>
+        );
+      }
+
+      render(
+        <ToastProvider hotkey="F6">
+          <TriggerToast />
+        </ToastProvider>
+      );
+
+      fireEvent.click(screen.getByText('Trigger'));
+
+      act(() => {
+        jest.advanceTimersByTime(200);
+      });
+
+      // F8 should NOT focus
+      fireEvent.keyDown(document, { key: 'F8' });
+      const container = screen.getByTestId('toast-container');
+      expect(container).not.toHaveFocus();
+
+      // F6 should focus
+      fireEvent.keyDown(document, { key: 'F6' });
+      expect(container).toHaveFocus();
+    });
+
+    it('does not focus when no toasts are visible', () => {
+      render(
+        <ToastProvider>
+          <div>No toasts</div>
+        </ToastProvider>
+      );
+
+      fireEvent.keyDown(document, { key: 'F8' });
+
+      const container = screen.getByTestId('toast-container');
+      expect(container).not.toHaveFocus();
+    });
+  });
+
   describe('toast.promise()', () => {
     it('shows loading toast then success on resolve', async () => {
       let toastApi: ReturnType<typeof useToast>;
