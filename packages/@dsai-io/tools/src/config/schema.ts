@@ -452,6 +452,37 @@ export const globalConfigSchema = z.object({
 });
 
 // ============================================================================
+// Aliases Configuration Schema
+// ============================================================================
+
+/**
+ * Path aliases for component installation
+ * Controls where `dsai add` writes files in the consumer's project
+ */
+export const aliasesConfigSchema = z.object({
+  importAlias: z.string().optional().default('@/'),
+  ui: z.string().optional().default('src/components/ui'),
+  hooks: z.string().optional().default('src/hooks'),
+  utils: z.string().optional().default('src/lib/utils'),
+  components: z.string().optional().default('src/components'),
+  lib: z.string().optional().default('src/lib'),
+});
+
+// ============================================================================
+// Components Configuration Schema
+// ============================================================================
+
+/**
+ * Configuration for component distribution (shadcn-style)
+ */
+export const componentsConfigSchema = z.object({
+  enabled: z.boolean().optional().default(true),
+  registryUrl: z.string().optional().default('https://registry.dsai.dev'),
+  tsx: z.boolean().optional().default(true),
+  overwrite: z.boolean().optional().default(false),
+});
+
+// ============================================================================
 // Root Configuration Schema
 // ============================================================================
 
@@ -468,6 +499,8 @@ export const dsaiConfigSchema = z.object({
   tokens: tokensConfigSchema.optional(),
   themes: themesConfigSchema.optional(),
   icons: iconsConfigSchema.optional(),
+  aliases: aliasesConfigSchema.optional(),
+  components: componentsConfigSchema.optional(),
 });
 
 // ============================================================================
@@ -497,6 +530,12 @@ export type IconsConfigFromSchema = z.infer<typeof iconsConfigSchema>;
 
 /** Inferred GlobalConfig type from schema */
 export type GlobalConfigFromSchema = z.infer<typeof globalConfigSchema>;
+
+/** Inferred AliasesConfig type from schema */
+export type AliasesConfigFromSchema = z.infer<typeof aliasesConfigSchema>;
+
+/** Inferred ComponentsConfig type from schema */
+export type ComponentsConfigFromSchema = z.infer<typeof componentsConfigSchema>;
 
 // ============================================================================
 // Validation Functions
@@ -618,6 +657,8 @@ export function validateConfigSection<T extends keyof DsaiConfigFromSchema>(
     tokens: tokensConfigSchema,
     themes: themesConfigSchema,
     icons: iconsConfigSchema,
+    aliases: aliasesConfigSchema,
+    components: componentsConfigSchema,
   } as const;
 
   const schema = sectionSchemas[section as keyof typeof sectionSchemas];

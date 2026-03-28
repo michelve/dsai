@@ -11,6 +11,8 @@ import type {
   IconFramework,
   LogLevel,
   OutputFormat,
+  ResolvedAliasesConfig,
+  ResolvedComponentsConfig,
   ResolvedConfig,
   ResolvedGlobalConfig,
   ResolvedIconsConfig,
@@ -168,6 +170,36 @@ export const defaultIconsConfig: ResolvedIconsConfig = {
 };
 
 // ============================================================================
+// Aliases Defaults
+// ============================================================================
+
+/**
+ * Default resolved aliases configuration
+ */
+export const defaultAliasesConfig: ResolvedAliasesConfig = {
+  importAlias: '@/',
+  ui: 'src/components/ui',
+  hooks: 'src/hooks',
+  utils: 'src/lib/utils',
+  components: 'src/components',
+  lib: 'src/lib',
+};
+
+// ============================================================================
+// Components Defaults
+// ============================================================================
+
+/**
+ * Default resolved components configuration
+ */
+export const defaultComponentsConfig: ResolvedComponentsConfig = {
+  enabled: true,
+  registryUrl: 'https://registry.dsai.dev',
+  tsx: true,
+  overwrite: false,
+};
+
+// ============================================================================
 // Token Defaults
 // ============================================================================
 
@@ -227,6 +259,8 @@ export const defaultGlobalConfig: ResolvedGlobalConfig = {
 export const defaultConfig: ResolvedConfig = {
   tokens: defaultTokensConfig,
   icons: defaultIconsConfig,
+  aliases: defaultAliasesConfig,
+  components: defaultComponentsConfig,
   global: defaultGlobalConfig,
   configDir: process.cwd(),
 };

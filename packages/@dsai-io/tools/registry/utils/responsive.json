@@ -1,0 +1,19 @@
+{
+  "name": "responsive",
+  "type": "registry:util",
+  "title": "responsive",
+  "description": "Responsive design utilities.",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "responsive/index.ts",
+      "type": "registry:util",
+      "content": "/**\r\n * Responsive Utilities\r\n *\r\n * Runtime utilities for working with responsive values.\r\n * These functions help extract values from responsive objects at runtime.\r\n *\r\n * @module @dsai-io/react/utils/responsive\r\n */\r\n\r\nimport type { Breakpoint, ResponsiveValue } from '../../types';\r\n\r\n/**\r\n * Extract base value from responsive value\r\n *\r\n * Utility function to get the value for a specific breakpoint.\r\n * Falls back to 'xs' value if specific breakpoint not defined.\r\n *\r\n * @template T - Value type\r\n * @param value - Responsive value or single value\r\n * @param breakpoint - Breakpoint to get value for (default: 'xs')\r\n * @returns Value for the specified breakpoint, or undefined\r\n *\r\n * @example\r\n * ```typescript\r\n * const columns = { xs: 1, md: 2, lg: 3 };\r\n *\r\n * getResponsiveValue(columns, 'xs');  // 1\r\n * getResponsiveValue(columns, 'md');  // 2\r\n * getResponsiveValue(columns, 'sm');  // 1 (falls back to xs)\r\n * getResponsiveValue(2, 'lg');        // 2 (single value)\r\n * ```\r\n */\r\nexport function getResponsiveValue<T>(\r\n  value: ResponsiveValue<T>,\r\n  breakpoint: Breakpoint = 'xs'\r\n): T | undefined {\r\n  // If value is not an object, it's a single value\r\n  if (typeof value !== 'object' || value === null || Array.isArray(value)) {\r\n    return value as T;\r\n  }\r\n\r\n  // Type assertion - we've verified it's an object with optional breakpoint properties\r\n  const responsiveObj = value as { xs?: T; sm?: T; md?: T; lg?: T; xl?: T; xxl?: T };\r\n\r\n  // Get value for specific breakpoint with explicit access, fall back to xs\r\n  // Using explicit checks instead of dynamic property access for security\r\n  switch (breakpoint) {\r\n    case 'xs':\r\n      return responsiveObj.xs;\r\n    case 'sm':\r\n      return responsiveObj.sm ?? responsiveObj.xs;\r\n    case 'md':\r\n      return responsiveObj.md ?? responsiveObj.xs;\r\n    case 'lg':\r\n      return responsiveObj.lg ?? responsiveObj.xs;\r\n    case 'xl':\r\n      return responsiveObj.xl ?? responsiveObj.xs;\r\n    case 'xxl':\r\n      return responsiveObj.xxl ?? responsiveObj.xs;\r\n    default:\r\n      return responsiveObj.xs;\r\n  }\r\n}\r\n\r\n/**\r\n * Check if a value is responsive\r\n *\r\n * Type guard to check if a value is a responsive value object.\r\n *\r\n * @template T - Value type\r\n * @param value - Value to check\r\n * @returns True if value is a responsive object\r\n *\r\n * @example\r\n * ```typescript\r\n * if (isResponsiveValue(columns)) {\r\n *   // columns is { xs?: number, md?: number, ... }\r\n * } else {\r\n *   // columns is number\r\n * }\r\n * ```\r\n */\r\nexport function isResponsiveValue<T>(\r\n  value: ResponsiveValue<T>\r\n): value is Exclude<ResponsiveValue<T>, T> {\r\n  return (\r\n    typeof value === 'object' &&\r\n    value !== null &&\r\n    !Array.isArray(value) &&\r\n    ('xs' in value ||\r\n      'sm' in value ||\r\n      'md' in value ||\r\n      'lg' in value ||\r\n      'xl' in value ||\r\n      'xxl' in value)\r\n  );\r\n}\r\n"
+    }
+  ],
+  "categories": [
+    "responsive"
+  ]
+}

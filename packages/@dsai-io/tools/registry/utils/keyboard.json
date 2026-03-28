@@ -1,0 +1,29 @@
+{
+  "name": "keyboard",
+  "type": "registry:util",
+  "title": "keyboard",
+  "description": "Keyboard event helpers for detecting specific keys.",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "keyboard/index.ts",
+      "type": "registry:util",
+      "content": "export { isEnterKey } from './isEnterKey';\r\nexport { isEscapeKey } from './isEscapeKey';\r\n"
+    },
+    {
+      "path": "keyboard/isEnterKey.ts",
+      "type": "registry:util",
+      "content": "/**\r\n * isEnterKey - Detects Enter keypress with IME composition safety.\r\n *\r\n * Checks the modern `code` property first, falls back to `key`, and\r\n * supports legacy `keyCode`. Safe to use during IME composition.\r\n *\r\n * @param event - Keyboard event or event-like object\r\n * @returns true if the event represents an Enter key press\r\n *\r\n * @example\r\n * ```tsx\r\n * <input onKeyDown={(e) => {\r\n *   if (isEnterKey(e)) {\r\n *     handleSubmit();\r\n *   }\r\n * }} />\r\n * ```\r\n */\r\nexport function isEnterKey(event: {\r\n  code?: string;\r\n  key?: string;\r\n  keyCode?: number;\r\n  isComposing?: boolean;\r\n}): boolean {\r\n  // Ignore events during IME composition\r\n  if (event.isComposing) {\r\n    return false;\r\n  }\r\n\r\n  // Modern standard: event.code\r\n  if (event.code === 'Enter' || event.code === 'NumpadEnter') {\r\n    return true;\r\n  }\r\n\r\n  // Fallback: event.key\r\n  if (event.key === 'Enter') {\r\n    return true;\r\n  }\r\n\r\n  // Legacy: keyCode\r\n  return event.keyCode === 13;\r\n}\r\n\r\nexport default isEnterKey;\r\n"
+    },
+    {
+      "path": "keyboard/isEscapeKey.ts",
+      "type": "registry:util",
+      "content": "/**\r\n * isEscapeKey - Detects Escape keypress with IME composition safety.\r\n *\r\n * Checks the modern `code` property first, falls back to `key` (including\r\n * legacy 'Esc' variant), and supports legacy `keyCode`. Safe to use during\r\n * IME composition.\r\n *\r\n * @param event - Keyboard event or event-like object\r\n * @returns true if the event represents an Escape key press\r\n *\r\n * @example\r\n * ```tsx\r\n * <div onKeyDown={(e) => {\r\n *   if (isEscapeKey(e)) {\r\n *     closeModal();\r\n *   }\r\n * }} />\r\n * ```\r\n */\r\nexport function isEscapeKey(event: {\r\n  code?: string;\r\n  key?: string;\r\n  keyCode?: number;\r\n  isComposing?: boolean;\r\n}): boolean {\r\n  // Ignore events during IME composition\r\n  if (event.isComposing) {\r\n    return false;\r\n  }\r\n\r\n  // Modern standard: event.code\r\n  if (event.code === 'Escape') {\r\n    return true;\r\n  }\r\n\r\n  // Fallback: event.key (including legacy 'Esc')\r\n  if (event.key === 'Escape' || event.key === 'Esc') {\r\n    return true;\r\n  }\r\n\r\n  // Legacy: keyCode\r\n  return event.keyCode === 27;\r\n}\r\n\r\nexport default isEscapeKey;\r\n"
+    }
+  ],
+  "categories": [
+    "dom"
+  ]
+}

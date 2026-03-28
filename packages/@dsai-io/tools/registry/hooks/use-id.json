@@ -1,0 +1,24 @@
+{
+  "name": "use-id",
+  "type": "registry:hook",
+  "title": "useId",
+  "description": "Generates stable unique identifiers for accessibility attributes.",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "index.ts",
+      "type": "registry:hook",
+      "content": "export { useId } from './useId';\r\n"
+    },
+    {
+      "path": "useId.ts",
+      "type": "registry:hook",
+      "content": "import { useId as useReactId } from 'react';\r\n\r\n/**\r\n * Generates a unique ID for accessibility and form elements.\r\n *\r\n * This is a re-export of React's built-in `useId` hook (React 18+).\r\n * It generates stable, unique IDs that are safe to use in SSR and\r\n * hydration scenarios.\r\n *\r\n * **Key Features**:\r\n * - Stable across renders\r\n * - SSR-safe (same ID on server and client)\r\n * - Unique across component instances\r\n * - Suitable for accessibility attributes\r\n * - Type-safe\r\n *\r\n * **Use Cases**:\r\n * - `htmlFor` and `id` attributes\r\n * - `aria-labelledby` and `aria-describedby`\r\n * - Form field associations\r\n * - Any element that needs a unique ID\r\n *\r\n * @returns A unique ID string\r\n *\r\n * @example\r\n * ```tsx\r\n * // Basic form field\r\n * function TextField({ label }: { label: string }) {\r\n *   const id = useId();\r\n *\r\n *   return (\r\n *     <div>\r\n *       <label htmlFor={id}>{label}</label>\r\n *       <input id={id} type=\"text\" />\r\n *     </div>\r\n *   );\r\n * }\r\n * ```\r\n *\r\n * @example\r\n * ```tsx\r\n * // Multiple related IDs\r\n * function FormField({ label, hint }: { label: string; hint: string }) {\r\n *   const baseId = useId();\r\n *   const inputId = `${baseId}-input`;\r\n *   const hintId = `${baseId}-hint`;\r\n *\r\n *   return (\r\n *     <div>\r\n *       <label htmlFor={inputId}>{label}</label>\r\n *       <input\r\n *         id={inputId}\r\n *         type=\"text\"\r\n *         aria-describedby={hintId}\r\n *       />\r\n *       <span id={hintId}>{hint}</span>\r\n *     </div>\r\n *   );\r\n * }\r\n * ```\r\n *\r\n * @example\r\n * ```tsx\r\n * // Accessible combobox\r\n * function Combobox({ label, options }: ComboboxProps) {\r\n *   const id = useId();\r\n *   const inputId = `${id}-input`;\r\n *   const listboxId = `${id}-listbox`;\r\n *   const [value, setValue] = useState('');\r\n *\r\n *   return (\r\n *     <div>\r\n *       <label htmlFor={inputId}>{label}</label>\r\n *       <input\r\n *         id={inputId}\r\n *         role=\"combobox\"\r\n *         aria-controls={listboxId}\r\n *         aria-expanded={true}\r\n *         value={value}\r\n *         onChange={(e) => setValue(e.target.value)}\r\n *       />\r\n *       <ul id={listboxId} role=\"listbox\">\r\n *         {options.map((option) => (\r\n *           <li key={option.value} role=\"option\">\r\n *             {option.label}\r\n *           </li>\r\n *         ))}\r\n *       </ul>\r\n *     </div>\r\n *   );\r\n * }\r\n * ```\r\n */\r\nexport function useId(): string {\r\n  return useReactId();\r\n}\r\n"
+    }
+  ],
+  "categories": [
+    "a11y"
+  ]
+}

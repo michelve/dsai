@@ -1,0 +1,29 @@
+{
+  "name": "use-previous",
+  "type": "registry:hook",
+  "title": "usePrevious",
+  "description": "Returns the previous value of a variable across renders.",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "index.ts",
+      "type": "registry:hook",
+      "content": "export { usePrevious } from './usePrevious';\r\nexport type { UsePreviousReturn } from './usePrevious.types';\r\n"
+    },
+    {
+      "path": "usePrevious.ts",
+      "type": "registry:hook",
+      "content": "import { useRef } from 'react';\r\n\r\nimport type { UsePreviousReturn } from './usePrevious.types';\r\n\r\n/**\r\n * Returns the previous value from the last render.\r\n *\r\n * This hook stores the value from the previous render cycle, which is useful\r\n * for comparing current and previous values, implementing animations based on\r\n * value changes, or detecting when a value has changed.\r\n *\r\n * **Key Features**:\r\n * - Returns `undefined` on first render\r\n * - Updates automatically on every render\r\n * - Memory efficient (single ref)\r\n * - Full TypeScript type preservation\r\n * - SSR-safe\r\n *\r\n * @template T - The type of the value to track\r\n * @param value - The current value to track\r\n * @returns The previous value, or undefined on first render\r\n *\r\n * @example\r\n * ```tsx\r\n * function Counter() {\r\n *   const [count, setCount] = useState(0);\r\n *   const prevCount = usePrevious(count);\r\n *\r\n *   return (\r\n *     <div>\r\n *       <p>Current: {count}</p>\r\n *       <p>Previous: {prevCount ?? 'none'}</p>\r\n *       <button onClick={() => setCount(c => c + 1)}>Increment</button>\r\n *     </div>\r\n *   );\r\n * }\r\n * ```\r\n *\r\n * @example\r\n * ```tsx\r\n * // Detect value changes\r\n * function UserProfile({ userId }: { userId: string }) {\r\n *   const prevUserId = usePrevious(userId);\r\n *\r\n *   useEffect(() => {\r\n *     if (prevUserId && prevUserId !== userId) {\r\n *       console.log(`User changed from ${prevUserId} to ${userId}`);\r\n *       // Fetch new user data\r\n *     }\r\n *   }, [userId, prevUserId]);\r\n *\r\n *   return <div>User ID: {userId}</div>;\r\n * }\r\n * ```\r\n *\r\n * @example\r\n * ```tsx\r\n * // Animation based on direction\r\n * function AnimatedNumber({ value }: { value: number }) {\r\n *   const prevValue = usePrevious(value);\r\n *   const isIncreasing = prevValue !== undefined && value > prevValue;\r\n *\r\n *   return (\r\n *     <span className={isIncreasing ? 'animate-up' : 'animate-down'}>\r\n *       {value}\r\n *     </span>\r\n *   );\r\n * }\r\n * ```\r\n */\r\nexport function usePrevious<T>(value: T): UsePreviousReturn<T> {\r\n  const ref = useRef<UsePreviousReturn<T>>(undefined);\r\n  // Intentional render-time access to capture the previous render's value for immediate use\r\n  // eslint-disable-next-line react-hooks/refs\r\n  const previous = ref.current;\r\n\r\n  // eslint-disable-next-line react-hooks/refs\r\n  ref.current = value;\r\n\r\n  return previous;\r\n}\r\n"
+    },
+    {
+      "path": "usePrevious.types.ts",
+      "type": "registry:hook",
+      "content": "/**\r\n * Return type for usePrevious hook\r\n */\r\nexport type UsePreviousReturn<T> = T | undefined;\r\n"
+    }
+  ],
+  "categories": [
+    "state"
+  ]
+}

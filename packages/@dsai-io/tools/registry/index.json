@@ -1,0 +1,1020 @@
+{
+  "version": "0.1.0",
+  "count": 80,
+  "items": [
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Collapsible content panels for presenting information in a limited space.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn",
+        "merge-refs"
+      ],
+      "categories": [
+        "disclosure",
+        "layout"
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Contextual feedback messages for user actions.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn",
+        "keyboard",
+        "use-reduced-motion",
+        "validation"
+      ],
+      "categories": [
+        "feedback"
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "Graphical representation of a user or entity.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn",
+        "keyboard"
+      ],
+      "categories": [
+        "data-display"
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Small count or status indicator, typically displayed on other elements.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn"
+      ],
+      "categories": [
+        "data-display"
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Navigation aid showing the current page location within a hierarchy.",
+      "dependencies": [
+        "react-router-dom"
+      ],
+      "registryDependencies": [
+        "cn",
+        "validation"
+      ],
+      "categories": [
+        "navigation"
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Trigger for actions and events.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn"
+      ],
+      "categories": [
+        "actions"
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Flexible container for grouping related content and actions.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn",
+        "keyboard",
+        "string",
+        "validation"
+      ],
+      "categories": [
+        "layout",
+        "data-display"
+      ]
+    },
+    {
+      "name": "card-list",
+      "type": "registry:ui",
+      "title": "CardList",
+      "description": "Responsive list of selectable cards with keyboard navigation.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn"
+      ],
+      "categories": [
+        "layout",
+        "data-display"
+      ]
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "Slideshow component for cycling through content.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn"
+      ],
+      "categories": [
+        "data-display"
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Toggle control for boolean selections.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn",
+        "misc"
+      ],
+      "categories": [
+        "forms"
+      ]
+    },
+    {
+      "name": "checkbox-group",
+      "type": "registry:ui",
+      "title": "CheckboxGroup",
+      "description": "Managed group of checkboxes with shared state.",
+      "dependencies": [
+        "select all"
+      ],
+      "registryDependencies": [
+        "cn"
+      ],
+      "categories": [
+        "forms"
+      ]
+    },
+    {
+      "name": "dropdown",
+      "type": "registry:ui",
+      "title": "Dropdown",
+      "description": "Toggleable overlay menu for displaying a list of actions.",
+      "dependencies": [
+        "@floating-ui/react"
+      ],
+      "registryDependencies": [
+        "cn",
+        "misc",
+        "validation"
+      ],
+      "categories": [
+        "navigation",
+        "actions"
+      ]
+    },
+    {
+      "name": "icon",
+      "type": "registry:ui",
+      "title": "Icon",
+      "description": "Scalable vector icon component with accessibility support.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "data-display"
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Text input field with validation and formatting support.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn",
+        "misc"
+      ],
+      "categories": [
+        "forms"
+      ]
+    },
+    {
+      "name": "list-group",
+      "type": "registry:ui",
+      "title": "ListGroup",
+      "description": "Flexible component for displaying a series of items.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn",
+        "keyboard",
+        "merge-refs",
+        "use-controllable-state",
+        "use-roving-focus",
+        "validation"
+      ],
+      "categories": [
+        "data-display",
+        "navigation"
+      ]
+    },
+    {
+      "name": "modal",
+      "type": "registry:ui",
+      "title": "Modal",
+      "description": "Dialog overlay for focused content and user interactions.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn",
+        "keyboard",
+        "use-focus-trap",
+        "use-scroll-lock"
+      ],
+      "categories": [
+        "feedback",
+        "disclosure"
+      ]
+    },
+    {
+      "name": "navbar",
+      "type": "registry:ui",
+      "title": "Navbar",
+      "description": "Responsive navigation header with branding and links.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn",
+        "keyboard",
+        "validation"
+      ],
+      "categories": [
+        "navigation"
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Navigation controls for paged content.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn",
+        "use-controllable-state"
+      ],
+      "categories": [
+        "navigation"
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Floating content panel anchored to a trigger element.",
+      "dependencies": [
+        "@floating-ui/react"
+      ],
+      "registryDependencies": [
+        "cn",
+        "misc"
+      ],
+      "categories": [
+        "disclosure"
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Visual indicator of task completion.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn"
+      ],
+      "categories": [
+        "feedback"
+      ]
+    },
+    {
+      "name": "radio",
+      "type": "registry:ui",
+      "title": "Radio",
+      "description": "Single-select control within a group of options.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn"
+      ],
+      "categories": [
+        "forms"
+      ]
+    },
+    {
+      "name": "scrollspy",
+      "type": "registry:ui",
+      "title": "Scrollspy",
+      "description": "Automatically highlights navigation links based on scroll position.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn",
+        "keyboard"
+      ],
+      "categories": [
+        "navigation"
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Dropdown selector for choosing from a list of options.",
+      "dependencies": [
+        "@floating-ui/react"
+      ],
+      "registryDependencies": [
+        "cn",
+        "keyboard",
+        "misc"
+      ],
+      "categories": [
+        "forms"
+      ]
+    },
+    {
+      "name": "selectable-card",
+      "type": "registry:ui",
+      "title": "SelectableCard",
+      "description": "Card variant that acts as a selectable option.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn"
+      ],
+      "categories": [
+        "forms",
+        "data-display"
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Sliding panel overlay from screen edges.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn",
+        "keyboard",
+        "use-focus-trap",
+        "use-reduced-motion",
+        "use-scroll-lock"
+      ],
+      "categories": [
+        "disclosure",
+        "layout"
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "Loading indicator for asynchronous operations.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn"
+      ],
+      "categories": [
+        "feedback"
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Toggle control for binary on/off states.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn",
+        "keyboard"
+      ],
+      "categories": [
+        "forms"
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Data table with sorting, selection, and responsive layout.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn",
+        "keyboard"
+      ],
+      "categories": [
+        "data-display"
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Tabbed interface for switching between content panels.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn",
+        "use-controllable-state"
+      ],
+      "categories": [
+        "navigation",
+        "layout"
+      ]
+    },
+    {
+      "name": "tabs-pro",
+      "type": "registry:ui",
+      "title": "TabsPro",
+      "description": "Advanced tabbed interface with closable, sortable, and overflow support.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "navigation",
+        "layout"
+      ]
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "Brief notification messages that auto-dismiss.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn",
+        "keyboard",
+        "string"
+      ],
+      "categories": [
+        "feedback"
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Informational popup displayed on hover or focus.",
+      "dependencies": [
+        "@floating-ui/react"
+      ],
+      "registryDependencies": [
+        "cn",
+        "misc"
+      ],
+      "categories": [
+        "data-display"
+      ]
+    },
+    {
+      "name": "typography",
+      "type": "registry:ui",
+      "title": "Typography",
+      "description": "Text rendering primitives with semantic variants.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn"
+      ],
+      "categories": [
+        "data-display"
+      ]
+    },
+    {
+      "name": "use-async",
+      "type": "registry:hook",
+      "title": "useAsync",
+      "description": "Manages async operation lifecycle (loading, error, data states).",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "state"
+      ]
+    },
+    {
+      "name": "use-callback-ref",
+      "type": "registry:hook",
+      "title": "useCallbackRef",
+      "description": "Stable callback reference that always points to the latest function.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "refs"
+      ]
+    },
+    {
+      "name": "use-click-outside",
+      "type": "registry:hook",
+      "title": "useClickOutside",
+      "description": "Detects clicks outside of a target element.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn"
+      ],
+      "categories": [
+        "dom"
+      ]
+    },
+    {
+      "name": "use-controllable-state",
+      "type": "registry:hook",
+      "title": "useControllableState",
+      "description": "Manages state that can be either controlled or uncontrolled.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "state"
+      ]
+    },
+    {
+      "name": "use-dark-mode",
+      "type": "registry:hook",
+      "title": "useDarkMode",
+      "description": "Detects and toggles dark mode preference.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "theme"
+      ]
+    },
+    {
+      "name": "use-debounce",
+      "type": "registry:hook",
+      "title": "useDebounce",
+      "description": "Debounces a value or callback over a specified delay.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "timing"
+      ]
+    },
+    {
+      "name": "use-field",
+      "type": "registry:hook",
+      "title": "useField",
+      "description": "Form field state management with validation.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "forms"
+      ]
+    },
+    {
+      "name": "use-focus-trap",
+      "type": "registry:hook",
+      "title": "useFocusTrap",
+      "description": "Traps keyboard focus within a container for modal-like experiences.",
+      "dependencies": [],
+      "registryDependencies": [
+        "keyboard"
+      ],
+      "categories": [
+        "a11y"
+      ]
+    },
+    {
+      "name": "use-form",
+      "type": "registry:hook",
+      "title": "useForm",
+      "description": "Comprehensive form state management with validation.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "forms"
+      ]
+    },
+    {
+      "name": "use-hover",
+      "type": "registry:hook",
+      "title": "useHover",
+      "description": "Tracks hover state of an element with enter/leave delays.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "dom"
+      ]
+    },
+    {
+      "name": "use-id",
+      "type": "registry:hook",
+      "title": "useId",
+      "description": "Generates stable unique identifiers for accessibility attributes.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "a11y"
+      ]
+    },
+    {
+      "name": "use-intersection-observer",
+      "type": "registry:hook",
+      "title": "useIntersectionObserver",
+      "description": "Observes element visibility within the viewport.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "dom"
+      ]
+    },
+    {
+      "name": "use-key-press",
+      "type": "registry:hook",
+      "title": "useKeyPress",
+      "description": "Listens for specific keyboard key presses.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "dom"
+      ]
+    },
+    {
+      "name": "use-local-storage",
+      "type": "registry:hook",
+      "title": "useLocalStorage",
+      "description": "Persists state to localStorage with serialization.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "state",
+        "storage"
+      ]
+    },
+    {
+      "name": "use-media-query",
+      "type": "registry:hook",
+      "title": "useMediaQuery",
+      "description": "Matches CSS media queries and provides responsive breakpoint helpers.",
+      "dependencies": [],
+      "registryDependencies": [
+        "cn"
+      ],
+      "categories": [
+        "responsive"
+      ]
+    },
+    {
+      "name": "use-mounted",
+      "type": "registry:hook",
+      "title": "useMounted",
+      "description": "Tracks whether the component is currently mounted.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "lifecycle"
+      ]
+    },
+    {
+      "name": "use-previous",
+      "type": "registry:hook",
+      "title": "usePrevious",
+      "description": "Returns the previous value of a variable across renders.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "state"
+      ]
+    },
+    {
+      "name": "use-reduced-motion",
+      "type": "registry:hook",
+      "title": "useReducedMotion",
+      "description": "Detects user preference for reduced motion.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "a11y"
+      ]
+    },
+    {
+      "name": "use-resize-observer",
+      "type": "registry:hook",
+      "title": "useResizeObserver",
+      "description": "Observes element size changes via ResizeObserver.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "dom"
+      ]
+    },
+    {
+      "name": "use-roving-focus",
+      "type": "registry:hook",
+      "title": "useRovingFocus",
+      "description": "Implements roving tabindex pattern for composite widgets.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "a11y"
+      ]
+    },
+    {
+      "name": "use-scroll-lock",
+      "type": "registry:hook",
+      "title": "useScrollLock",
+      "description": "Prevents body scrolling while active (for modals/overlays).",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "dom"
+      ]
+    },
+    {
+      "name": "use-session-storage",
+      "type": "registry:hook",
+      "title": "useSessionStorage",
+      "description": "Persists state to sessionStorage with serialization.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "state",
+        "storage"
+      ]
+    },
+    {
+      "name": "use-throttle",
+      "type": "registry:hook",
+      "title": "useThrottle",
+      "description": "Throttles a value or callback to fire at most once per interval.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "timing"
+      ]
+    },
+    {
+      "name": "cn",
+      "type": "registry:util",
+      "title": "cn",
+      "description": "Conditional class name composition utility.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "styling"
+      ]
+    },
+    {
+      "name": "a11y",
+      "type": "registry:util",
+      "title": "a11y",
+      "description": "Accessibility utilities including screen reader announcements and ARIA helpers.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "a11y"
+      ]
+    },
+    {
+      "name": "async",
+      "type": "registry:util",
+      "title": "async",
+      "description": "Async operation utilities: abortable tasks, queues, exponential backoff.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "async"
+      ]
+    },
+    {
+      "name": "browser",
+      "type": "registry:util",
+      "title": "browser",
+      "description": "Browser environment detection and feature checks.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "platform"
+      ]
+    },
+    {
+      "name": "collections",
+      "type": "registry:util",
+      "title": "collections",
+      "description": "Collection utilities: chunk, paginate, memoize, selectors.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "data"
+      ]
+    },
+    {
+      "name": "color",
+      "type": "registry:util",
+      "title": "color",
+      "description": "Color manipulation utilities: contrast, luminance, hex/rgb conversion.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "styling"
+      ]
+    },
+    {
+      "name": "date",
+      "type": "registry:util",
+      "title": "date",
+      "description": "Date formatting and relative time utilities.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "formatting"
+      ]
+    },
+    {
+      "name": "merge-refs",
+      "type": "registry:util",
+      "title": "mergeRefs",
+      "description": "Merges multiple React refs into a single callback ref.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "refs"
+      ]
+    },
+    {
+      "name": "dx",
+      "type": "registry:util",
+      "title": "dx",
+      "description": "Developer experience helpers: component creation, context factories, polymorphic patterns.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "dx"
+      ]
+    },
+    {
+      "name": "forms",
+      "type": "registry:util",
+      "title": "forms",
+      "description": "Form utilities: validators, field error extraction, dirty checking.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "forms"
+      ]
+    },
+    {
+      "name": "keyboard",
+      "type": "registry:util",
+      "title": "keyboard",
+      "description": "Keyboard event helpers for detecting specific keys.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "dom"
+      ]
+    },
+    {
+      "name": "layout",
+      "type": "registry:util",
+      "title": "layout",
+      "description": "Layout measurement utilities: element bounds, viewport size, resize observation.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "dom"
+      ]
+    },
+    {
+      "name": "misc",
+      "type": "registry:util",
+      "title": "misc",
+      "description": "Miscellaneous utilities: clear icon, safe input props, event helpers.",
+      "dependencies": [
+        "@floating-ui/react"
+      ],
+      "registryDependencies": [
+        "icon"
+      ],
+      "categories": [
+        "misc"
+      ]
+    },
+    {
+      "name": "motion",
+      "type": "registry:util",
+      "title": "motion",
+      "description": "Animation utilities: spring physics, easing functions, distance calculations.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "animation"
+      ]
+    },
+    {
+      "name": "number",
+      "type": "registry:util",
+      "title": "number",
+      "description": "Number formatting and clamping utilities.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "formatting"
+      ]
+    },
+    {
+      "name": "object",
+      "type": "registry:util",
+      "title": "object",
+      "description": "Object manipulation utilities: deep merge, pick, omit.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "data"
+      ]
+    },
+    {
+      "name": "platform",
+      "type": "registry:util",
+      "title": "platform",
+      "description": "Platform detection utilities: browser, OS, device pixel ratio, text direction.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "platform"
+      ]
+    },
+    {
+      "name": "responsive",
+      "type": "registry:util",
+      "title": "responsive",
+      "description": "Responsive design utilities.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "responsive"
+      ]
+    },
+    {
+      "name": "safety",
+      "type": "registry:util",
+      "title": "safety",
+      "description": "Security utilities: clipboard access, crypto ID generation, token generation.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "security"
+      ]
+    },
+    {
+      "name": "string",
+      "type": "registry:util",
+      "title": "string",
+      "description": "String manipulation utilities: capitalize, slugify, variant classes.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "formatting"
+      ]
+    },
+    {
+      "name": "telemetry",
+      "type": "registry:util",
+      "title": "telemetry",
+      "description": "Telemetry utilities: error catching, performance measurement, timing.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "observability"
+      ]
+    },
+    {
+      "name": "timing",
+      "type": "registry:util",
+      "title": "timing",
+      "description": "Timing utilities: debounce and throttle functions.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "timing"
+      ]
+    },
+    {
+      "name": "types",
+      "type": "registry:util",
+      "title": "types",
+      "description": "Shared type guards and type utilities.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "types"
+      ]
+    },
+    {
+      "name": "validation",
+      "type": "registry:util",
+      "title": "validation",
+      "description": "Input validation utilities: email, URL, href safety checks.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "validation"
+      ]
+    }
+  ]
+}

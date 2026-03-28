@@ -1,0 +1,29 @@
+{
+  "name": "browser",
+  "type": "registry:util",
+  "title": "browser",
+  "description": "Browser environment detection and feature checks.",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "browser/index.ts",
+      "type": "registry:util",
+      "content": "export { isBrowser } from './isBrowser';\r\nexport { prefersReducedMotion } from './prefersReducedMotion';\r\n"
+    },
+    {
+      "path": "browser/isBrowser.ts",
+      "type": "registry:util",
+      "content": "/**\r\n * isBrowser - Guards code paths that require DOM APIs.\r\n *\r\n * Checks for both window and document objects to ensure full DOM availability.\r\n * More strict than window-only check for SSR safety.\r\n *\r\n * @returns true if running in a browser, false otherwise (e.g., Node.js, SSR)\r\n *\r\n * @example\r\n * ```tsx\r\n * if (isBrowser()) {\r\n *   document.addEventListener('click', handler);\r\n * }\r\n * ```\r\n */\r\nexport function isBrowser(): boolean {\r\n  return typeof window !== 'undefined' && typeof document !== 'undefined';\r\n}\r\n\r\nexport default isBrowser;\r\n"
+    },
+    {
+      "path": "browser/prefersReducedMotion.ts",
+      "type": "registry:util",
+      "content": "import { isBrowser } from './isBrowser';\r\n\r\n/**\r\n * Options for prefersReducedMotion utility\r\n */\r\nexport interface PrefersReducedMotionOptions {\r\n  /**\r\n   * Default value to return when detection is unavailable (SSR, missing matchMedia).\r\n   * Use `true` for a conservative default that respects potential motion sensitivity.\r\n   * @default false\r\n   */\r\n  defaultValue?: boolean;\r\n  /**\r\n   * Custom matchMedia function for testing or specialized environments.\r\n   * If not provided, uses `window.matchMedia`.\r\n   */\r\n  matchMedia?: (query: string) => MediaQueryList | null;\r\n  /**\r\n   * Custom media query string.\r\n   * @default '(prefers-reduced-motion: reduce)'\r\n   */\r\n  query?: string;\r\n}\r\n\r\n/**\r\n * prefersReducedMotion - Detects user preference for reduced motion.\r\n *\r\n * Safe for SSR; returns the configured default when matchMedia is unavailable or throws.\r\n * Use this to gate animations, transitions, and auto-playing content.\r\n *\r\n * @param options - Configuration options\r\n * @returns `true` if user prefers reduced motion, `false` otherwise (or the default value)\r\n *\r\n * @remarks\r\n * - Returns `defaultValue` (default: `false`) when detection is unavailable.\r\n * - For critical accessibility flows, consider `defaultValue: true` to err on the side of caution.\r\n * - Pair with `useReducedMotion` hook for reactive component behavior.\r\n *\r\n * @example\r\n * ```tsx\r\n * // Basic usage - gate animations\r\n * const shouldAnimate = !prefersReducedMotion();\r\n *\r\n * // Conservative default for critical flows\r\n * const shouldAnimate = !prefersReducedMotion({ defaultValue: true });\r\n *\r\n * // In a component with animation\r\n * function AnimatedComponent() {\r\n *   const reduceMotion = useReducedMotion();\r\n *   return (\r\n *     <motion.div\r\n *       animate={{ opacity: 1 }}\r\n *       transition={{ duration: reduceMotion ? 0 : 0.3 }}\r\n *     />\r\n *   );\r\n * }\r\n * ```\r\n */\r\nexport function prefersReducedMotion(options: PrefersReducedMotionOptions = {}): boolean {\r\n  const {\r\n    defaultValue = false,\r\n    matchMedia: customMatchMedia,\r\n    query = '(prefers-reduced-motion: reduce)',\r\n  } = options;\r\n\r\n  // SSR safety: return default when not in browser\r\n  if (!isBrowser()) {\r\n    return defaultValue;\r\n  }\r\n\r\n  // Resolve matchMedia function\r\n  const matchMediaFn = customMatchMedia ?? window.matchMedia?.bind(window);\r\n\r\n  if (typeof matchMediaFn !== 'function') {\r\n    return defaultValue;\r\n  }\r\n\r\n  try {\r\n    const result = matchMediaFn(query);\r\n    if (result && 'matches' in result) {\r\n      return result.matches;\r\n    }\r\n    return defaultValue;\r\n  } catch (error) {\r\n    // matchMedia may throw in some environments\r\n    // Guard process access for non-Node, non-bundled runtimes\r\n    if (typeof process !== 'undefined' && process?.env?.['NODE_ENV'] !== 'production') {\r\n      console.warn('[prefersReducedMotion] matchMedia threw an error:', error);\r\n    }\r\n    return defaultValue;\r\n  }\r\n}\r\n\r\nexport default prefersReducedMotion;\r\n"
+    }
+  ],
+  "categories": [
+    "platform"
+  ]
+}

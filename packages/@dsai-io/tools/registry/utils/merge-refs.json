@@ -1,0 +1,24 @@
+{
+  "name": "merge-refs",
+  "type": "registry:util",
+  "title": "mergeRefs",
+  "description": "Merges multiple React refs into a single callback ref.",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "dom/index.ts",
+      "type": "registry:util",
+      "content": "export { mergeRefs } from './mergeRefs';\r\n"
+    },
+    {
+      "path": "dom/mergeRefs.ts",
+      "type": "registry:util",
+      "content": "/**\r\n * mergeRefs - Safely composes multiple React refs into a single callback.\r\n *\r\n * Supports both function refs and mutable object refs. Handles null/undefined\r\n * refs gracefully. In development mode, warns when ref assignment fails.\r\n *\r\n * Supports both array and variadic signatures for maximum flexibility:\r\n * - mergeRefs(ref1, ref2, ref3) - variadic\r\n * - mergeRefs([ref1, ref2, ref3]) - array\r\n *\r\n * @param refs - Variable number of refs to merge, or a single array of refs\r\n * @returns A callback ref that updates all provided refs\r\n *\r\n * @example\r\n * ```tsx\r\n * // Variadic signature\r\n * const Component = forwardRef((props, ref) => {\r\n *   const localRef = useRef();\r\n *   return <div ref={mergeRefs(ref, localRef)} />;\r\n * });\r\n *\r\n * // Array signature\r\n * const merged = mergeRefs([ref1, ref2, ref3]);\r\n * ```\r\n */\r\nimport type { MutableRefObject, Ref, RefCallback } from 'react';\r\n\r\nexport function mergeRefs<T>(\r\n  ...refs: (Ref<T> | undefined)[] | [Array<Ref<T> | undefined>]\r\n): RefCallback<T> {\r\n  // Support both array and variadic signatures\r\n  const refList = Array.isArray(refs[0]) && refs.length === 1 ? refs[0] : refs;\r\n\r\n  return (value: T) => {\r\n    refList.forEach((ref) => {\r\n      if (!ref) {\r\n        return;\r\n      }\r\n\r\n      if (typeof ref === 'function') {\r\n        ref(value);\r\n      } else {\r\n        try {\r\n          (ref as MutableRefObject<T | null>).current = value;\r\n        } catch (error) {\r\n          // Warn in development when ref assignment fails\r\n          if (process.env['NODE_ENV'] !== 'production') {\r\n            console.warn('[mergeRefs] Failed to assign ref:', error);\r\n          }\r\n        }\r\n      }\r\n    });\r\n  };\r\n}\r\n\r\nexport default mergeRefs;\r\n"
+    }
+  ],
+  "categories": [
+    "refs"
+  ]
+}

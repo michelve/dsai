@@ -19,6 +19,9 @@ export * from './tokens/index.js';
 // Icon tooling
 export * from './icons/index.js';
 
+// Registry (component distribution)
+export * from './registry/index.js';
+
 // Utilities
 export * from './utils/index.js';
 

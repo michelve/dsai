@@ -1,0 +1,24 @@
+{
+  "name": "use-callback-ref",
+  "type": "registry:hook",
+  "title": "useCallbackRef",
+  "description": "Stable callback reference that always points to the latest function.",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "index.ts",
+      "type": "registry:hook",
+      "content": "export { useCallbackRef } from './useCallbackRef';\r\n"
+    },
+    {
+      "path": "useCallbackRef.ts",
+      "type": "registry:hook",
+      "content": "import { useCallback, useEffect, useRef } from 'react';\r\n\r\n/**\r\n * Creates a stable callback ref that always calls the latest version of the callback.\r\n *\r\n * This hook solves the problem of stale closures in callbacks while maintaining\r\n * a stable reference that won't cause unnecessary re-renders when passed as a\r\n * dependency or prop.\r\n *\r\n * **Key Features**:\r\n * - Stable callback reference (same across renders)\r\n * - Always calls latest callback version\r\n * - Prevents unnecessary re-renders\r\n * - Type-safe with full inference\r\n * - SSR-safe\r\n *\r\n * **Use Cases**:\r\n * - Event handlers in useEffect\r\n * - Callbacks passed to memoized children\r\n * - setInterval/setTimeout callbacks\r\n * - Avoiding exhaustive-deps warnings\r\n *\r\n * @template T - The callback function type\r\n * @param callback - The callback function to stabilize\r\n * @returns Stable callback reference\r\n *\r\n * @example\r\n * ```tsx\r\n * function Counter() {\r\n *   const [count, setCount] = useState(0);\r\n *   const [multiplier, setMultiplier] = useState(2);\r\n *\r\n *   // This callback always uses latest multiplier value\r\n *   const increment = useCallbackRef(() => {\r\n *     setCount(c => c + multiplier);\r\n *   });\r\n *\r\n *   useEffect(() => {\r\n *     // increment is stable, won't recreate interval on multiplier change\r\n *     const id = setInterval(increment, 1000);\r\n *     return () => clearInterval(id);\r\n *   }, [increment]); // Safe to include, won't cause re-subscription\r\n *\r\n *   return (\r\n *     <div>\r\n *       <p>Count: {count}</p>\r\n *       <input\r\n *         type=\"number\"\r\n *         value={multiplier}\r\n *         onChange={e => setMultiplier(Number(e.target.value))}\r\n *       />\r\n *     </div>\r\n *   );\r\n * }\r\n * ```\r\n *\r\n * @example\r\n * ```tsx\r\n * // Preventing unnecessary memo invalidation\r\n * function ParentComponent() {\r\n *   const [value, setValue] = useState('');\r\n *   const [other, setOther] = useState(0);\r\n *\r\n *   // Stable reference even when 'other' changes\r\n *   const handleChange = useCallbackRef((newValue: string) => {\r\n *     console.log('Other value:', other);\r\n *     setValue(newValue);\r\n *   });\r\n *\r\n *   return (\r\n *     <div>\r\n *       <MemoizedChild onChange={handleChange} />\r\n *       <button onClick={() => setOther(o => o + 1)}>\r\n *         Change other: {other}\r\n *       </button>\r\n *     </div>\r\n *   );\r\n * }\r\n *\r\n * const MemoizedChild = memo(({ onChange }: { onChange: (v: string) => void }) => {\r\n *   console.log('Child render'); // Won't log when 'other' changes\r\n *   return <input onChange={e => onChange(e.target.value)} />;\r\n * });\r\n * ```\r\n */\r\nexport function useCallbackRef<T extends (...args: never[]) => unknown>(callback: T): T {\r\n  const callbackRef = useRef(callback);\r\n\r\n  // Update ref in effect to avoid ref updates during render\r\n  useEffect(() => {\r\n    callbackRef.current = callback;\r\n  });\r\n\r\n  // Return stable callback that invokes the current ref\r\n  const stableCallback = useCallback((...args: Parameters<T>) => {\r\n    return callbackRef.current(...args);\r\n  }, []);\r\n\r\n  return stableCallback as T;\r\n}\r\n"
+    }
+  ],
+  "categories": [
+    "refs"
+  ]
+}
