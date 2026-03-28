@@ -1,0 +1,39 @@
+{
+  "name": "validation",
+  "type": "registry:util",
+  "title": "validation",
+  "description": "Input validation utilities: email, URL, href safety checks.",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "validation/index.ts",
+      "type": "registry:util",
+      "content": "/**\r\n * validation utilities\r\n *\r\n * @module utils/validation\r\n */\r\n\r\nexport { isSafeHref } from './isSafeHref';\r\nexport { isValidEmail } from './isValidEmail';\r\nexport { isValidHref } from './isValidHref';\r\nexport { isValidUrl } from './isValidUrl';\r\n"
+    },
+    {
+      "path": "validation/isSafeHref.ts",
+      "type": "registry:util",
+      "content": "/**\r\n * isSafeHref - Validates that a URL href is safe to use\r\n *\r\n * Blocks dangerous protocols like javascript:, data:, vbscript:, and file:\r\n * to prevent XSS attacks through malicious URLs.\r\n *\r\n * @module utils/validation/isSafeHref\r\n *\r\n * Consolidated from:\r\n * - packages/@dsai-io/react/src/components/Alert/Alert.tsx\r\n * - packages/@dsai-io/react/src/components/Breadcrumb/Breadcrumb.tsx\r\n * - packages/@dsai-io/react/src/components/Card/Card.tsx\r\n * - packages/@dsai-io/react/src/components/ListGroup/ListGroup.tsx\r\n */\r\n\r\n/** Dangerous URL protocols that should be blocked */\r\nconst BLOCKED_PROTOCOLS = [\r\n  'javascript:',\r\n  'data:',\r\n  'vbscript:',\r\n  'file:',\r\n  'about:blank',\r\n  'text/html',\r\n];\r\n\r\n/** Normalizes href for protocol checks and detects encoded payloads */\r\nfunction normalizeHrefForCheck(href: string): string {\r\n  const trimmed = href.trim().toLowerCase().replace(/\\s+/g, '');\r\n  try {\r\n    return decodeURIComponent(trimmed);\r\n  } catch {\r\n    return trimmed;\r\n  }\r\n}\r\n\r\nexport interface IsSafeHrefOptions {\r\n  /**\r\n   * How to treat undefined/empty href values.\r\n   * - 'safe': Returns true for undefined/empty (default for most components)\r\n   * - 'unsafe': Returns false for undefined/empty (stricter validation)\r\n   *\r\n   * @default 'safe'\r\n   */\r\n  undefinedBehavior?: 'safe' | 'unsafe';\r\n}\r\n\r\n/**\r\n * Checks if a URL href is safe to use in href attributes.\r\n *\r\n * @param href - The URL to validate\r\n * @param options - Configuration options\r\n * @returns true if the URL is safe, false if it contains a blocked protocol\r\n *\r\n * @example\r\n * // Basic usage - undefined is safe by default\r\n * isSafeHref(undefined);                    // true\r\n * isSafeHref('https://example.com');        // true\r\n * isSafeHref('javascript:alert(1)');        // false\r\n *\r\n * @example\r\n * // Strict mode - undefined is unsafe\r\n * isSafeHref(undefined, { undefinedBehavior: 'unsafe' }); // false\r\n * isSafeHref('', { undefinedBehavior: 'unsafe' });        // false\r\n *\r\n * @example\r\n * // All blocked protocols\r\n * isSafeHref('javascript:void(0)');  // false\r\n * isSafeHref('data:text/html,...');  // false\r\n * isSafeHref('vbscript:msgbox(1)');  // false\r\n * isSafeHref('file:///etc/passwd');  // false\r\n */\r\nexport function isSafeHref(href: string | undefined, options: IsSafeHrefOptions = {}): boolean {\r\n  const { undefinedBehavior = 'safe' } = options;\r\n\r\n  if (!href || typeof href !== 'string') {\r\n    return undefinedBehavior === 'safe';\r\n  }\r\n\r\n  const normalized = normalizeHrefForCheck(href);\r\n  return !BLOCKED_PROTOCOLS.some((protocol) => normalized.startsWith(protocol));\r\n}\r\n\r\nexport default isSafeHref;\r\n"
+    },
+    {
+      "path": "validation/isValidEmail.ts",
+      "type": "registry:util",
+      "content": "/**\r\n * isValidEmail - Lightweight email validation.\r\n *\r\n * Uses a pragmatic pattern (RFC-lite) suitable for UI validation without\r\n * over-restricting valid addresses.\r\n */\r\nexport function isValidEmail(value: string | undefined | null): boolean {\r\n  if (!value || typeof value !== 'string') {\r\n    return false;\r\n  }\r\n  const email = value.trim();\r\n  if (!email || email.length > 254) {\r\n    return false;\r\n  }\r\n\r\n  const [localPart, domain] = email.split('@');\r\n  if (!localPart || !domain || localPart.length > 64) {\r\n    return false;\r\n  }\r\n\r\n  // Reject obvious invalid characters early\r\n  if (/[<>\\s]/.test(localPart) || /[<>\\s]/.test(domain)) {\r\n    return false;\r\n  }\r\n\r\n  const labels = domain.split('.');\r\n  if (labels.length < 2) {\r\n    return false;\r\n  }\r\n\r\n  return labels.every((label) => {\r\n    if (!label || label.length > 63) {\r\n      return false;\r\n    }\r\n    if (label.startsWith('-') || label.endsWith('-')) {\r\n      return false;\r\n    }\r\n    return /^[A-Za-z0-9-]+$/.test(label);\r\n  });\r\n}\r\n\r\nexport default isValidEmail;\r\n"
+    },
+    {
+      "path": "validation/isValidHref.ts",
+      "type": "registry:util",
+      "content": "/**\r\n * isValidHref - Validates that a href is safe to use\r\n *\r\n * Re-exported from isSafeHref for backwards compatibility.\r\n * Both functions are identical - use isSafeHref as the canonical name.\r\n *\r\n * @deprecated Use isSafeHref instead\r\n * @see {@link ./isSafeHref.ts}\r\n */\r\nexport {\r\n  isSafeHref as isValidHref,\r\n  type IsSafeHrefOptions as IsValidHrefOptions,\r\n} from './isSafeHref';\r\n\r\nimport { isSafeHref as _isValidHref } from './isSafeHref';\r\nexport default _isValidHref;\r\n"
+    },
+    {
+      "path": "validation/isValidUrl.ts",
+      "type": "registry:util",
+      "content": "/**\r\n * isValidUrl - Validates that a URL is well-formed and uses allowed protocols.\r\n *\r\n * By default allows http/https. Configure allowedSchemes to expand.\r\n */\r\nexport interface IsValidUrlOptions {\r\n  allowedSchemes?: string[];\r\n  allowHostnames?: string[];\r\n  blockHostnames?: string[];\r\n}\r\n\r\nexport function isValidUrl(\r\n  href: string | undefined | null,\r\n  options: IsValidUrlOptions = {}\r\n): boolean {\r\n  if (!href || typeof href !== 'string') {\r\n    return false;\r\n  }\r\n  const { allowedSchemes = ['http', 'https'], allowHostnames, blockHostnames } = options;\r\n\r\n  try {\r\n    const url = new URL(href.trim());\r\n    const scheme = url.protocol.replace(':', '');\r\n    if (!allowedSchemes.includes(scheme)) {\r\n      return false;\r\n    }\r\n    const hostname = url.hostname.toLowerCase();\r\n    if (allowHostnames && allowHostnames.length > 0 && !allowHostnames.includes(hostname)) {\r\n      return false;\r\n    }\r\n    if (blockHostnames && blockHostnames.length > 0 && blockHostnames.includes(hostname)) {\r\n      return false;\r\n    }\r\n    return true;\r\n  } catch {\r\n    return false;\r\n  }\r\n}\r\n\r\nexport default isValidUrl;\r\n"
+    }
+  ],
+  "categories": [
+    "validation"
+  ]
+}

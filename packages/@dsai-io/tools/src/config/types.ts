@@ -18,6 +18,12 @@ export interface DsaiConfig {
   /** Icon generation configuration */
   icons?: IconsConfig;
 
+  /** Path aliases for component installation */
+  aliases?: AliasesConfig;
+
+  /** Component distribution configuration */
+  components?: ComponentsConfig;
+
   /** Global settings */
   global?: GlobalConfig;
 }
@@ -807,6 +813,47 @@ export interface IconsConfig {
 }
 
 // ============================================================================
+// Aliases Configuration
+// ============================================================================
+
+/**
+ * Path aliases for component installation.
+ * Controls where `dsai add` writes files in the consumer's project.
+ */
+export interface AliasesConfig {
+  /** Import alias prefix used in tsconfig paths (e.g., "@/", "~/", "@dsai/") @default '@/' */
+  importAlias?: string;
+  /** Where UI components are installed @default 'src/components/ui' */
+  ui?: string;
+  /** Where shared hooks are installed @default 'src/hooks' */
+  hooks?: string;
+  /** Where utility functions are installed @default 'src/lib/utils' */
+  utils?: string;
+  /** Where higher-level composed components go @default 'src/components' */
+  components?: string;
+  /** Where lib files go @default 'src/lib' */
+  lib?: string;
+}
+
+// ============================================================================
+// Components Configuration
+// ============================================================================
+
+/**
+ * Configuration for component distribution (shadcn-style).
+ */
+export interface ComponentsConfig {
+  /** Enable component distribution features @default true */
+  enabled?: boolean;
+  /** Registry URL or local path @default 'https://registry.dsai.dev' */
+  registryUrl?: string;
+  /** Whether to use TypeScript (.tsx) or JavaScript (.jsx) @default true */
+  tsx?: boolean;
+  /** Overwrite existing files when adding components @default false */
+  overwrite?: boolean;
+}
+
+// ============================================================================
 // Resolved Configuration (with all defaults applied)
 // ============================================================================
 
@@ -908,6 +955,28 @@ export interface ResolvedIconsConfig {
 }
 
 /**
+ * Resolved aliases config with all defaults applied
+ */
+export interface ResolvedAliasesConfig {
+  importAlias: string;
+  ui: string;
+  hooks: string;
+  utils: string;
+  components: string;
+  lib: string;
+}
+
+/**
+ * Resolved components config with all defaults applied
+ */
+export interface ResolvedComponentsConfig {
+  enabled: boolean;
+  registryUrl: string;
+  tsx: boolean;
+  overwrite: boolean;
+}
+
+/**
  * Resolved global config with all defaults applied
  */
 export interface ResolvedGlobalConfig {
@@ -922,6 +991,8 @@ export interface ResolvedGlobalConfig {
 export interface ResolvedConfig {
   tokens: ResolvedTokensConfig;
   icons: ResolvedIconsConfig;
+  aliases: ResolvedAliasesConfig;
+  components: ResolvedComponentsConfig;
   global: ResolvedGlobalConfig;
 
   /** Absolute path to config file (if loaded from file) */

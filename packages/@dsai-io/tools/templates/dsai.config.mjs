@@ -200,6 +200,66 @@ export default defineConfig({
   },
 
   // =========================================================================
+  // Path Aliases Configuration
+  // =========================================================================
+  aliases: {
+    /**
+     * Import alias prefix used in tsconfig paths (e.g., "@/", "~/", "@dsai/")
+     */
+    importAlias: '@/',
+
+    /**
+     * Where UI components are installed by `dsai add`
+     */
+    ui: 'src/components/ui',
+
+    /**
+     * Where shared hooks are installed
+     */
+    hooks: 'src/hooks',
+
+    /**
+     * Where utility functions are installed
+     */
+    utils: 'src/lib/utils',
+
+    /**
+     * Where higher-level composed components go
+     */
+    components: 'src/components',
+
+    /**
+     * Where lib files go
+     */
+    lib: 'src/lib',
+  },
+
+  // =========================================================================
+  // Component Distribution Configuration
+  // =========================================================================
+  components: {
+    /**
+     * Enable component distribution features (shadcn-style `dsai add`)
+     */
+    enabled: true,
+
+    /**
+     * Registry URL or local path for component resolution
+     */
+    registryUrl: 'https://registry.dsai.dev',
+
+    /**
+     * Whether to use TypeScript (.tsx) or JavaScript (.jsx)
+     */
+    tsx: true,
+
+    /**
+     * Overwrite existing files when adding components
+     */
+    overwrite: false,
+  },
+
+  // =========================================================================
   // Global Settings
   // =========================================================================
   global: {

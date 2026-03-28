@@ -548,6 +548,70 @@
         }
       },
       "additionalProperties": false
+    },
+    "aliases": {
+      "type": "object",
+      "description": "Path aliases for component installation. Controls where `dsai add` writes files.",
+      "properties": {
+        "importAlias": {
+          "type": "string",
+          "default": "@/",
+          "description": "Import alias prefix used in tsconfig paths (e.g., \"@/\", \"~/\", \"@dsai/\")"
+        },
+        "ui": {
+          "type": "string",
+          "default": "src/components/ui",
+          "description": "Where UI components are installed"
+        },
+        "hooks": {
+          "type": "string",
+          "default": "src/hooks",
+          "description": "Where shared hooks are installed"
+        },
+        "utils": {
+          "type": "string",
+          "default": "src/lib/utils",
+          "description": "Where utility functions are installed"
+        },
+        "components": {
+          "type": "string",
+          "default": "src/components",
+          "description": "Where higher-level composed components go"
+        },
+        "lib": {
+          "type": "string",
+          "default": "src/lib",
+          "description": "Where lib files go"
+        }
+      },
+      "additionalProperties": false
+    },
+    "components": {
+      "type": "object",
+      "description": "Configuration for component distribution (shadcn-style).",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable component distribution features"
+        },
+        "registryUrl": {
+          "type": "string",
+          "default": "https://registry.dsai.dev",
+          "description": "Registry URL or local path for component resolution"
+        },
+        "tsx": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to use TypeScript (.tsx) or JavaScript (.jsx)"
+        },
+        "overwrite": {
+          "type": "boolean",
+          "default": false,
+          "description": "Overwrite existing files when adding components"
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false

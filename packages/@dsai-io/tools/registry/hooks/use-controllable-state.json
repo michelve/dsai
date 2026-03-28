@@ -1,0 +1,29 @@
+{
+  "name": "use-controllable-state",
+  "type": "registry:hook",
+  "title": "useControllableState",
+  "description": "Manages state that can be either controlled or uncontrolled.",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "index.ts",
+      "type": "registry:hook",
+      "content": "export { useControllableState } from './useControllableState';\r\nexport type {\r\n  UseControllableStateOptions,\r\n  UseControllableStateReturn,\r\n} from './useControllableState.types';\r\n"
+    },
+    {
+      "path": "useControllableState.ts",
+      "type": "registry:hook",
+      "content": "import { useCallback, useEffect, useRef, useState } from 'react';\r\n\r\nimport type {\r\n  UseControllableStateOptions,\r\n  UseControllableStateReturn,\r\n} from './useControllableState.types';\r\n\r\n/**\r\n * Manages state that can be either controlled or uncontrolled.\r\n *\r\n * This hook enables components to work in both controlled and uncontrolled modes,\r\n * following the React controlled component pattern. It's the foundation for\r\n * form components and other stateful UI elements.\r\n *\r\n * **Key Features**:\r\n * - Automatic controlled/uncontrolled detection\r\n * - Development warnings for mode switches\r\n * - Stable callback references\r\n * - Full TypeScript type inference\r\n * - SSR-safe\r\n *\r\n * @template T - The type of the state value\r\n * @param options - Configuration options\r\n * @returns A tuple of [value, setValue] similar to useState\r\n *\r\n * @example\r\n * ```tsx\r\n * // Uncontrolled mode (internal state)\r\n * function Counter() {\r\n *   const [count, setCount] = useControllableState({\r\n *     defaultValue: 0,\r\n *     onChange: (value) => console.log('Count changed:', value)\r\n *   });\r\n *\r\n *   return <button onClick={() => setCount(c => c + 1)}>{count}</button>;\r\n * }\r\n * ```\r\n *\r\n * @example\r\n * ```tsx\r\n * // Controlled mode (parent manages state)\r\n * function ControlledCounter({ value, onChange }: { value: number; onChange: (v: number) => void }) {\r\n *   const [count, setCount] = useControllableState({\r\n *     value,\r\n *     onChange\r\n *   });\r\n *\r\n *   return <button onClick={() => setCount(c => c + 1)}>{count}</button>;\r\n * }\r\n * ```\r\n *\r\n * @example\r\n * ```tsx\r\n * // Flexible component supporting both modes\r\n * interface Props {\r\n *   value?: number;\r\n *   defaultValue?: number;\r\n *   onChange?: (value: number) => void;\r\n * }\r\n *\r\n * function FlexibleCounter({ value, defaultValue = 0, onChange }: Props) {\r\n *   const [count, setCount] = useControllableState({\r\n *     value,\r\n *     defaultValue,\r\n *     onChange\r\n *   });\r\n *\r\n *   return <button onClick={() => setCount(c => c + 1)}>{count}</button>;\r\n * }\r\n * ```\r\n */\r\nexport function useControllableState<T>({\r\n  value: valueProp,\r\n  defaultValue,\r\n  onChange,\r\n}: UseControllableStateOptions<T>): UseControllableStateReturn<T> {\r\n  const [internalValue, setInternalValue] = useState<T>(defaultValue as T);\r\n\r\n  // Determine if component is controlled\r\n  const isControlled = valueProp !== undefined;\r\n  const wasControlledRef = useRef<boolean>(isControlled);\r\n\r\n  // Warn if component switches between controlled and uncontrolled (in effect, not during render)\r\n  useEffect(() => {\r\n    if (process.env['NODE_ENV'] !== 'production') {\r\n      if (wasControlledRef.current !== isControlled) {\r\n        console.warn(\r\n          `useControllableState: A component changed from ${\r\n            wasControlledRef.current ? 'controlled' : 'uncontrolled'\r\n          } to ${\r\n            isControlled ? 'controlled' : 'uncontrolled'\r\n          }. This is likely caused by the value changing from a defined to undefined value or vice versa. ` +\r\n            `Decide between using a controlled or uncontrolled component for the lifetime of the component.`\r\n        );\r\n      }\r\n\r\n      wasControlledRef.current = isControlled;\r\n    }\r\n  }, [isControlled]);\r\n\r\n  // Use controlled value if provided, otherwise use internal state\r\n  const value = isControlled ? (valueProp as T) : internalValue;\r\n\r\n  // Stable setValue function\r\n  const setValue = useCallback(\r\n    (nextValue: T | ((prev: T) => T), event?: unknown) => {\r\n      const resolvedValue =\r\n        typeof nextValue === 'function' ? (nextValue as (prev: T) => T)(value) : nextValue;\r\n\r\n      // Update internal state if uncontrolled\r\n      if (!isControlled) {\r\n        setInternalValue(resolvedValue);\r\n      }\r\n\r\n      // Always call onChange if provided\r\n      if (event === undefined) {\r\n        onChange?.(resolvedValue);\r\n      } else {\r\n        onChange?.(resolvedValue, event);\r\n      }\r\n    },\r\n    [value, onChange, isControlled]\r\n  );\r\n\r\n  return [value, setValue];\r\n}\r\n"
+    },
+    {
+      "path": "useControllableState.types.ts",
+      "type": "registry:hook",
+      "content": "/**\r\n * Options for useControllableState hook\r\n */\r\nexport interface UseControllableStateOptions<T> {\r\n  /**\r\n   * Controlled value from parent component.\r\n   * When provided, the component operates in controlled mode.\r\n   */\r\n  value?: T;\r\n\r\n  /**\r\n   * Default value for uncontrolled mode.\r\n   * Only used when `value` is undefined.\r\n   */\r\n  defaultValue?: T;\r\n\r\n  /**\r\n   * Callback invoked when the value changes.\r\n   * Called in both controlled and uncontrolled modes.\r\n   */\r\n  onChange?: (value: T, event?: unknown) => void;\r\n}\r\n\r\n/**\r\n * Return type for useControllableState hook\r\n */\r\nexport type UseControllableStateReturn<T> = [\r\n  value: T,\r\n  setValue: (value: T | ((prev: T) => T), event?: unknown) => void,\r\n];\r\n"
+    }
+  ],
+  "categories": [
+    "state"
+  ]
+}

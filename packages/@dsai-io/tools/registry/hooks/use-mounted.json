@@ -1,0 +1,24 @@
+{
+  "name": "use-mounted",
+  "type": "registry:hook",
+  "title": "useMounted",
+  "description": "Tracks whether the component is currently mounted.",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "index.ts",
+      "type": "registry:hook",
+      "content": "export { useMounted } from './useMounted';\r\n"
+    },
+    {
+      "path": "useMounted.ts",
+      "type": "registry:hook",
+      "content": "import { useEffect, useRef } from 'react';\r\n\r\nimport { isBrowser } from '../../utils/browser/isBrowser';\r\n\r\n/**\r\n * Tracks whether the component is currently mounted.\r\n *\r\n * This hook is essential for preventing state updates on unmounted components,\r\n * a common source of React warnings and memory leaks. Use it to gate async\r\n * operations that may complete after the component unmounts.\r\n *\r\n * **Key Features**:\r\n * - Returns stable ref (doesn't cause re-renders)\r\n * - Automatically updates on mount/unmount\r\n * - SSR-safe (returns false on server)\r\n * - Zero dependencies\r\n *\r\n * **Use Cases**:\r\n * - Gating setState in async callbacks\r\n * - Conditional API calls\r\n * - Cleanup logic decisions\r\n * - Memory leak prevention\r\n *\r\n * @returns Ref object with current mounted state\r\n *\r\n * @example\r\n * ```tsx\r\n * function AsyncComponent() {\r\n *   const [data, setData] = useState(null);\r\n *   const isMounted = useMounted();\r\n *\r\n *   useEffect(() => {\r\n *     fetchData().then(result => {\r\n *       // Only update state if still mounted\r\n *       if (isMounted.current) {\r\n *         setData(result);\r\n *       }\r\n *     });\r\n *   }, []);\r\n *\r\n *   return <div>{data?.content}</div>;\r\n * }\r\n * ```\r\n *\r\n * @example\r\n * ```tsx\r\n * // With abort controller\r\n * function SearchComponent() {\r\n *   const [results, setResults] = useState([]);\r\n *   const isMounted = useMounted();\r\n *\r\n *   const search = async (query: string) => {\r\n *     const controller = new AbortController();\r\n *\r\n *     try {\r\n *       const data = await fetch(\\`/api/search?q=\\${query}\\`, {\r\n *         signal: controller.signal\r\n *       });\r\n *\r\n *       if (isMounted.current) {\r\n *         setResults(await data.json());\r\n *       }\r\n *     } catch (error) {\r\n *       if (isMounted.current && error.name !== 'AbortError') {\r\n *         console.error(error);\r\n *       }\r\n *     }\r\n *   };\r\n *\r\n *   return <SearchInput onSearch={search} />;\r\n * }\r\n * ```\r\n */\r\nexport function useMounted(): React.RefObject<boolean> {\r\n  const mountedRef = useRef(false);\r\n\r\n  useEffect(() => {\r\n    if (!isBrowser()) {\r\n      return;\r\n    }\r\n\r\n    const markMounted = (): void => {\r\n      mountedRef.current = true;\r\n    };\r\n\r\n    if (typeof queueMicrotask === 'function') {\r\n      queueMicrotask(markMounted);\r\n    } else {\r\n      setTimeout(markMounted, 0);\r\n    }\r\n\r\n    return () => {\r\n      mountedRef.current = false;\r\n    };\r\n  }, []);\r\n\r\n  return mountedRef;\r\n}\r\n"
+    }
+  ],
+  "categories": [
+    "lifecycle"
+  ]
+}

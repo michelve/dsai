@@ -10,6 +10,8 @@
 import path from 'node:path';
 
 import {
+  defaultAliasesConfig,
+  defaultComponentsConfig,
   defaultConfig,
   defaultGlobalConfig,
   defaultIconsConfig,
@@ -20,10 +22,14 @@ import {
 } from './defaults.js';
 
 import type {
+  AliasesConfig,
+  ComponentsConfig,
   DsaiConfig,
   GlobalConfig,
   IconsConfig,
   OutputFormat,
+  ResolvedAliasesConfig,
+  ResolvedComponentsConfig,
   ResolvedConfig,
   ResolvedGlobalConfig,
   ResolvedIconsConfig,
@@ -269,6 +275,36 @@ function resolveTokensConfig(
   };
 }
 
+/**
+ * Resolve aliases configuration section
+ */
+function resolveAliasesConfig(config: AliasesConfig | undefined): ResolvedAliasesConfig {
+  const base = defaultAliasesConfig;
+
+  return {
+    importAlias: config?.importAlias ?? base.importAlias,
+    ui: config?.ui ?? base.ui,
+    hooks: config?.hooks ?? base.hooks,
+    utils: config?.utils ?? base.utils,
+    components: config?.components ?? base.components,
+    lib: config?.lib ?? base.lib,
+  };
+}
+
+/**
+ * Resolve components configuration section
+ */
+function resolveComponentsConfig(config: ComponentsConfig | undefined): ResolvedComponentsConfig {
+  const base = defaultComponentsConfig;
+
+  return {
+    enabled: config?.enabled ?? base.enabled,
+    registryUrl: config?.registryUrl ?? base.registryUrl,
+    tsx: config?.tsx ?? base.tsx,
+    overwrite: config?.overwrite ?? base.overwrite,
+  };
+}
+
 // ============================================================================
 // Main Resolver
 // ============================================================================
@@ -280,6 +316,10 @@ function applyOverrides(config: DsaiConfig, overrides: Partial<DsaiConfig>): Dsa
   return {
     tokens: overrides.tokens ? { ...config.tokens, ...overrides.tokens } : config.tokens,
     icons: overrides.icons ? { ...config.icons, ...overrides.icons } : config.icons,
+    aliases: overrides.aliases ? { ...config.aliases, ...overrides.aliases } : config.aliases,
+    components: overrides.components
+      ? { ...config.components, ...overrides.components }
+      : config.components,
     global: overrides.global ? { ...config.global, ...overrides.global } : config.global,
   };
 }
@@ -320,6 +360,8 @@ export function resolveConfig(
     global: resolveGlobalConfig(mergedConfig.global, options),
     tokens: resolveTokensConfig(mergedConfig.tokens, options),
     icons: resolveIconsConfig(mergedConfig.icons, options),
+    aliases: resolveAliasesConfig(mergedConfig.aliases),
+    components: resolveComponentsConfig(mergedConfig.components),
     configDir,
   };
 }
@@ -362,6 +404,8 @@ export function createResolvedConfig(partial: Partial<ResolvedConfig> = {}): Res
     global: partial.global ?? defaultConfig.global,
     tokens: partial.tokens ?? defaultConfig.tokens,
     icons: partial.icons ?? defaultConfig.icons,
+    aliases: partial.aliases ?? defaultConfig.aliases,
+    components: partial.components ?? defaultConfig.components,
     configDir: partial.configDir ?? process.cwd(),
     configPath: partial.configPath,
   };

@@ -1,0 +1,31 @@
+{
+  "name": "spinner",
+  "type": "registry:ui",
+  "title": "Spinner",
+  "description": "Loading indicator for asynchronous operations.",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [
+    "cn"
+  ],
+  "files": [
+    {
+      "path": "index.ts",
+      "type": "registry:ui",
+      "content": "export { Spinner } from './Spinner';\nexport type { SpinnerAnimation, SpinnerProps, SpinnerSize, SpinnerVariant } from './Spinner.types';\n"
+    },
+    {
+      "path": "Spinner.tsx",
+      "type": "registry:ui",
+      "content": "import { forwardRef, memo } from 'react';\n\nimport { cn } from '../../utils';\n\nimport type { SpinnerProps } from './Spinner.types';\n\n/**\n * Size map for custom spinner sizes\n * Bootstrap only provides 'sm', we extend with xs, lg, xl\n */\nconst SIZE_STYLES = {\n  xs: { width: '0.75rem', height: '0.75rem' },\n  // sm uses Bootstrap's native spinner-*-sm class\n  lg: { width: '3rem', height: '3rem' },\n  xl: { width: '4rem', height: '4rem' },\n};\n\nconst resolveCustomSizeStyle = (\n  size?: SpinnerProps['size']\n): { width: string; height: string } | undefined => {\n  switch (size) {\n    case 'xs':\n      return SIZE_STYLES.xs;\n    case 'lg':\n      return SIZE_STYLES.lg;\n    case 'xl':\n      return SIZE_STYLES.xl;\n    default:\n      return undefined;\n  }\n};\n\n/**\n * Spinner Component\n *\n * A Bootstrap 5 spinner component for indicating loading states.\n * Uses native Bootstrap classes for consistent styling with the design system.\n *\n * @see https://getbootstrap.com/docs/5.3/components/spinners/\n *\n * @example\n * ```tsx\n * // Default border spinner\n * <Spinner />\n *\n * // Growing spinner with color\n * <Spinner animation=\"grow\" variant=\"primary\" />\n *\n * // Small spinner for buttons\n * <Spinner size=\"sm\" as=\"span\" />\n *\n * // Extra large spinner\n * <Spinner size=\"xl\" variant=\"primary\" />\n *\n * // Centered spinner\n * <Spinner centered variant=\"primary\" />\n *\n * // In a button\n * <Button disabled>\n *   <Spinner size=\"sm\" as=\"span\" className=\"me-2\" />\n *   Loading...\n * </Button>\n * ```\n *\n * Accessibility Features (WCAG 2.2 AA):\n * - Uses `role=\"status\"` for screen reader announcement\n * - Includes visually hidden text for screen readers\n * - Respects `prefers-reduced-motion` via Bootstrap CSS\n */\nexport const Spinner = memo(\n  forwardRef<HTMLElement, SpinnerProps>(function Spinner(\n    {\n      animation = 'border',\n      size,\n      variant,\n      className = '',\n      style,\n      label = 'Loading...',\n      as: Component = 'div',\n      centered = false,\n      ...rest\n    },\n    ref\n  ) {\n    // Build Bootstrap class names\n    // Bootstrap spinner classes: spinner-border, spinner-grow, spinner-border-sm, text-{color}\n    const bootstrapClasses = cn(\n      `spinner-${animation}`, // spinner-border or spinner-grow\n      size === 'sm' && `spinner-${animation}-sm`, // spinner-border-sm or spinner-grow-sm\n      variant && `text-${variant}`, // text-primary, text-secondary, etc.\n      className\n    );\n\n    // Custom size styles for xs, lg, xl (Bootstrap only has sm)\n    const customSizeStyle = resolveCustomSizeStyle(size);\n\n    const spinner = (\n      <Component\n        ref={ref}\n        className={bootstrapClasses}\n        role=\"status\"\n        style={{ ...customSizeStyle, ...style }}\n        aria-label={label}\n        {...rest}\n      >\n        <span className=\"visually-hidden\">{label}</span>\n      </Component>\n    );\n\n    // Wrap in centering container if centered prop is true\n    if (centered) {\n      return (\n        <div className=\"d-flex justify-content-center align-items-center w-100\">{spinner}</div>\n      );\n    }\n\n    return spinner;\n  })\n);\n\nSpinner.displayName = 'Spinner';\n"
+    },
+    {
+      "path": "Spinner.types.ts",
+      "type": "registry:ui",
+      "content": "import type { ExtendedSize, SemanticColorVariant } from '../../types';\nimport type { CSSProperties, HTMLAttributes } from 'react';\n\n/**\n * Spinner animation type\n * Maps to Bootstrap 5 spinner types\n */\nexport type SpinnerAnimation = 'border' | 'grow';\n\n/**\n * Spinner size\n * - `xs`: Extra small (0.75rem)\n * - `sm`: Small (1rem) - Bootstrap native\n * - `md`: Medium (2rem) - Bootstrap default\n * - `lg`: Large (3rem)\n * - `xl`: Extra large (4rem)\n * Note: Excludes '2xl' as it's too large for spinner use cases\n * @see ExtendedSize\n */\nexport type SpinnerSize = Exclude<ExtendedSize, '2xl'>;\n\n/**\n * Spinner variant (color)\n * Maps to Bootstrap 5 text color utilities\n * @see SemanticColorVariant\n */\nexport type SpinnerVariant = SemanticColorVariant;\n\n/**\n * Spinner component props\n *\n * @see https://getbootstrap.com/docs/5.3/components/spinners/\n *\n * @example\n * ```tsx\n * // Border spinner (default)\n * <Spinner />\n *\n * // Growing spinner\n * <Spinner animation=\"grow\" />\n *\n * // Small spinner\n * <Spinner size=\"sm\" />\n *\n * // Colored spinner\n * <Spinner variant=\"primary\" />\n * ```\n */\nexport interface SpinnerProps extends HTMLAttributes<HTMLElement> {\n  /**\n   * Spinner animation type\n   * - `border`: Rotating border spinner (default)\n   * - `grow`: Growing/pulsing spinner\n   * @default 'border'\n   */\n  animation?: SpinnerAnimation;\n\n  /**\n   * Spinner size\n   * - `xs`: Extra small (0.75rem)\n   * - `sm`: Small (1rem)\n   * - `md`: Medium (2rem) - default\n   * - `lg`: Large (3rem)\n   * - `xl`: Extra large (4rem)\n   * @default 'md'\n   */\n  size?: SpinnerSize;\n\n  /**\n   * Center the spinner in its container\n   * Wraps spinner in a flex container with centering\n   * @default false\n   */\n  centered?: boolean;\n\n  /**\n   * Spinner color variant\n   * Uses Bootstrap text color utilities\n   * @default undefined (inherits color)\n   */\n  variant?: SpinnerVariant;\n\n  /**\n   * Additional CSS class names\n   */\n  className?: string;\n\n  /**\n   * Inline styles\n   */\n  style?: CSSProperties;\n\n  /**\n   * Accessible label for screen readers\n   * @default 'Loading...'\n   */\n  label?: string;\n\n  /**\n   * Element to render as (for inline spinners in buttons)\n   * @default 'div'\n   */\n  as?: 'div' | 'span';\n}\n"
+    }
+  ],
+  "categories": [
+    "feedback"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "use-reduced-motion",
+  "type": "registry:hook",
+  "title": "useReducedMotion",
+  "description": "Detects user preference for reduced motion.",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "index.ts",
+      "type": "registry:hook",
+      "content": "/**\r\n * useReducedMotion Hook\r\n *\r\n * Detects if the user prefers reduced motion based on their system settings.\r\n *\r\n * @module hooks/useReducedMotion\r\n */\r\n\r\nexport { useReducedMotion } from './useReducedMotion';\r\nexport type { UseReducedMotionOptions } from './useReducedMotion.types';\r\n"
+    },
+    {
+      "path": "useReducedMotion.ts",
+      "type": "registry:hook",
+      "content": "/**\r\n * useReducedMotion Hook\r\n *\r\n * Detects if the user prefers reduced motion based on their system settings.\r\n * Respects WCAG 2.1 Success Criterion 2.3.3 (AAA) - Animation from Interactions.\r\n *\r\n * Features:\r\n * - Detects prefers-reduced-motion media query\r\n * - Updates reactively when user changes system preference\r\n * - SSR-safe with configurable default value\r\n * - Automatic cleanup of event listeners\r\n *\r\n * @packageDocumentation\r\n */\r\n\r\nimport { useEffect, useState } from 'react';\r\n\r\nimport { isBrowser } from '../../utils/browser/isBrowser';\r\n\r\nimport type { UseReducedMotionOptions } from './useReducedMotion.types';\r\n\r\n/**\r\n * Media query string for detecting reduced motion preference\r\n */\r\nconst REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';\r\n\r\n/**\r\n * Detects if the user prefers reduced motion based on their system settings.\r\n *\r\n * This hook listens to the `prefers-reduced-motion` media query and returns\r\n * `true` when the user has enabled reduced motion in their system preferences.\r\n *\r\n * Components should use this to conditionally disable or simplify animations\r\n * to respect user preferences and improve accessibility.\r\n *\r\n * @param options - Configuration options\r\n * @returns `true` if the user prefers reduced motion, `false` otherwise\r\n */\r\nexport function useReducedMotion(options: UseReducedMotionOptions = {}): boolean {\r\n  const { defaultValue = false } = options;\r\n\r\n  // Initialize state with current media query match or SSR default\r\n  const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(() => {\r\n    if (!isBrowser() || !window.matchMedia) {\r\n      return defaultValue;\r\n    }\r\n\r\n    return window.matchMedia(REDUCED_MOTION_QUERY).matches;\r\n  });\r\n\r\n  useEffect(() => {\r\n    // Skip if not in browser environment or matchMedia not available\r\n    if (!isBrowser() || !window.matchMedia) {\r\n      return;\r\n    }\r\n\r\n    const mediaQuery = window.matchMedia(REDUCED_MOTION_QUERY);\r\n\r\n    /**\r\n     * Handle media query change events\r\n     */\r\n    const handleChange = (event: MediaQueryListEvent): void => {\r\n      setPrefersReducedMotion(event.matches);\r\n    };\r\n\r\n    // Add event listener for media query changes\r\n    mediaQuery.addEventListener('change', handleChange);\r\n\r\n    // Cleanup: remove event listener on unmount\r\n    return () => {\r\n      mediaQuery.removeEventListener('change', handleChange);\r\n    };\r\n  }, []); // Empty dependency array - only run once on mount\r\n\r\n  return prefersReducedMotion;\r\n}\r\n"
+    },
+    {
+      "path": "useReducedMotion.types.ts",
+      "type": "registry:hook",
+      "content": "/**\r\n * Type definitions for useReducedMotion hook\r\n */\r\n\r\n/**\r\n * Options for the useReducedMotion hook\r\n */\r\nexport interface UseReducedMotionOptions {\r\n  /**\r\n   * Default value to return during server-side rendering (SSR).\r\n   * Since the matchMedia API is not available on the server,\r\n   * this value will be used until the component hydrates on the client.\r\n   *\r\n   * @default false\r\n   *\r\n   * @example\r\n   * ```tsx\r\n   * // Return true during SSR (animations off by default)\r\n   * const prefersReducedMotion = useReducedMotion({ defaultValue: true });\r\n   * ```\r\n   */\r\n  defaultValue?: boolean;\r\n}\r\n"
+    }
+  ],
+  "categories": [
+    "a11y"
+  ]
+}

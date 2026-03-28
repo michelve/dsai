@@ -29,9 +29,11 @@
 import { fileURLToPath } from 'node:url';
 
 import {
+  createAddCommand,
   createConfigCommand,
   createIconsCommand,
   createInitCommand,
+  createRegistryCommand,
   createTokensCommand,
 } from './commands/index.js';
 import { createProgram, setupErrorHandling } from './create-program.js';
@@ -54,10 +56,12 @@ export async function run(args: string[] = process.argv): Promise<void> {
   program = createProgram();
 
   // Add commands
+  program.addCommand(createAddCommand());
   program.addCommand(createTokensCommand());
   program.addCommand(createIconsCommand());
   program.addCommand(createInitCommand());
   program.addCommand(createConfigCommand());
+  program.addCommand(createRegistryCommand());
 
   // Set up error handling for unknown commands
   setupErrorHandling(program);

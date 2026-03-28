@@ -1,0 +1,19 @@
+{
+  "name": "cn",
+  "type": "registry:util",
+  "title": "cn",
+  "description": "Conditional class name composition utility.",
+  "dependencies": [],
+  "devDependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "cn.ts",
+      "type": "registry:util",
+      "content": "/**\r\n * DSAi Utils\r\n *\r\n * Utility functions for common operations.\r\n * These are pure functions with no side effects.\r\n *\r\n * @example\r\n * ```tsx\r\n * import { cn, generateId, isBrowser } from '@dsai-io/react';\r\n * ```\r\n */\r\n\r\n/**\r\n * Combines class names conditionally (similar to clsx/classnames)\r\n *\r\n * @example\r\n * ```tsx\r\n * cn('btn', isActive && 'btn-active', size === 'lg' && 'btn-lg')\r\n * // => 'btn btn-active btn-lg' or 'btn' depending on conditions\r\n * ```\r\n */\r\nexport function cn(...classes: (string | boolean | undefined | null)[]): string {\r\n  return classes.filter(Boolean).join(' ');\r\n}"
+    }
+  ],
+  "categories": [
+    "styling"
+  ]
+}
