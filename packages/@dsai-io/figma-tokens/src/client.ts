@@ -56,6 +56,12 @@ import type {
   FigmaVariableUsageByVariable,
   FigmaAnalyticsActionsOptions,
   FigmaAnalyticsUsagesOptions,
+  FigmaUser,
+  FigmaPublishedComponent,
+  FigmaPublishedComponentSet,
+  FigmaPublishedStyle,
+  FigmaVersionsResponse,
+  FigmaFileMetadata,
 } from './types.js';
 
 // ============================================================================
@@ -991,6 +997,198 @@ export class FigmaClient {
   > {
     const query = this.buildAnalyticsQuery(groupBy, options);
     return this.request(`/analytics/libraries/${libraryFileKey}/variable/usages?${query}`);
+  }
+
+  // ==========================================================================
+  // Published Library Endpoints
+  // ==========================================================================
+
+  /**
+   * Get published components from a file library
+   *
+   * @param fileKey - The Figma file key
+   * @returns Array of published component metadata
+   *
+   * @see https://developers.figma.com/docs/rest-api/component-endpoints/
+   *
+   * @example
+   * ```ts
+   * const components = await client.getPublishedComponents('abc123');
+   * for (const comp of components) {
+   *   console.log(`${comp.name} (${comp.key})`);
+   * }
+   * ```
+   */
+  public async getPublishedComponents(
+    fileKey: string
+  ): Promise<FigmaPublishedComponent[]> {
+    const response = await this.request<{
+      meta: { components: FigmaPublishedComponent[] };
+    }>(`/files/${fileKey}/components`);
+
+    return response.meta.components;
+  }
+
+  /**
+   * Get published component sets (variant groups) from a file library
+   *
+   * @param fileKey - The Figma file key
+   * @returns Array of published component set metadata
+   *
+   * @see https://developers.figma.com/docs/rest-api/component-endpoints/
+   */
+  public async getPublishedComponentSets(
+    fileKey: string
+  ): Promise<FigmaPublishedComponentSet[]> {
+    const response = await this.request<{
+      meta: { component_sets: FigmaPublishedComponentSet[] };
+    }>(`/files/${fileKey}/component_sets`);
+
+    return response.meta.component_sets;
+  }
+
+  /**
+   * Get published styles from a file library
+   *
+   * @param fileKey - The Figma file key
+   * @returns Array of published style metadata
+   *
+   * @see https://developers.figma.com/docs/rest-api/component-endpoints/
+   */
+  public async getPublishedStyles(
+    fileKey: string
+  ): Promise<FigmaPublishedStyle[]> {
+    const response = await this.request<{
+      meta: { styles: FigmaPublishedStyle[] };
+    }>(`/files/${fileKey}/styles`);
+
+    return response.meta.styles;
+  }
+
+  // ==========================================================================
+  // Single Component/Style Lookups
+  // ==========================================================================
+
+  /**
+   * Get metadata for a specific component by key
+   *
+   * @param componentKey - The component key
+   * @returns Component metadata
+   *
+   * @see https://developers.figma.com/docs/rest-api/component-endpoints/
+   */
+  public async getComponent(
+    componentKey: string
+  ): Promise<FigmaPublishedComponent> {
+    const response = await this.request<{
+      meta: FigmaPublishedComponent;
+    }>(`/components/${componentKey}`);
+
+    return response.meta;
+  }
+
+  /**
+   * Get metadata for a specific component set by key
+   *
+   * @param componentSetKey - The component set key
+   * @returns Component set metadata
+   *
+   * @see https://developers.figma.com/docs/rest-api/component-endpoints/
+   */
+  public async getComponentSet(
+    componentSetKey: string
+  ): Promise<FigmaPublishedComponentSet> {
+    const response = await this.request<{
+      meta: FigmaPublishedComponentSet;
+    }>(`/component_sets/${componentSetKey}`);
+
+    return response.meta;
+  }
+
+  /**
+   * Get metadata for a specific style by key
+   *
+   * @param styleKey - The style key
+   * @returns Style metadata
+   *
+   * @see https://developers.figma.com/docs/rest-api/component-endpoints/
+   */
+  public async getStyle(
+    styleKey: string
+  ): Promise<FigmaPublishedStyle> {
+    const response = await this.request<{
+      meta: FigmaPublishedStyle;
+    }>(`/styles/${styleKey}`);
+
+    return response.meta;
+  }
+
+  // ==========================================================================
+  // Version History
+  // ==========================================================================
+
+  /**
+   * Get version history for a file
+   *
+   * @param fileKey - The Figma file key (or branch key)
+   * @returns Versions array with URL-based pagination
+   *
+   * @see https://developers.figma.com/docs/rest-api/version-history-endpoints/
+   *
+   * @example
+   * ```ts
+   * const history = await client.getVersionHistory('abc123');
+   * for (const version of history.versions) {
+   *   console.log(`${version.label || 'Untitled'} by ${version.user.handle}`);
+   * }
+   * ```
+   */
+  public async getVersionHistory(
+    fileKey: string
+  ): Promise<FigmaVersionsResponse> {
+    return this.request<FigmaVersionsResponse>(`/files/${fileKey}/versions`);
+  }
+
+  // ==========================================================================
+  // File Metadata
+  // ==========================================================================
+
+  /**
+   * Get lightweight metadata for a file
+   *
+   * Cheaper than getFile() — returns creator, last modified, access info
+   * without the full document tree.
+   *
+   * @param fileKey - The Figma file key
+   * @returns File metadata
+   *
+   * @see https://developers.figma.com/docs/rest-api/file-endpoints/
+   */
+  public async getFileMetadata(
+    fileKey: string
+  ): Promise<FigmaFileMetadata> {
+    const response = await this.request<{
+      file: FigmaFileMetadata;
+    }>(`/files/${fileKey}/meta`);
+
+    return response.file;
+  }
+
+  // ==========================================================================
+  // Authenticated User
+  // ==========================================================================
+
+  /**
+   * Get the authenticated user's info
+   *
+   * @returns User object including email
+   *
+   * @remarks Requires `current_user:read` scope
+   *
+   * @see https://developers.figma.com/docs/rest-api/users-endpoints/
+   */
+  public async getMe(): Promise<FigmaUser> {
+    return this.request<FigmaUser>('/me');
   }
 
   // ==========================================================================
