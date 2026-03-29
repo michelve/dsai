@@ -90,7 +90,7 @@
     "@floating-ui/react": "^0.27.16"
   },
   "devDependencies": {
-    "@dsai-io/tools": "workspace:*",
+    "@dsai-io/tools": "workspace:^",
     "@figma/code-connect": "^1.4.2"
   },
   "license": "AGPL-3.0-or-later",

@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",
-    "@dsai-io/tools": "workspace:*",
+    "@dsai-io/tools": "workspace:^",
     "@eslint/js": "^9.39.1",
     "@figma/code-connect": "^1.4.2",
     "@nx/eslint": "22.6.1",

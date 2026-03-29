@@ -14,7 +14,7 @@
     "design-system"
   ],
   "dependencies": {
-    "@dsai-io/react": "workspace:*"
+    "@dsai-io/react": "workspace:^"
   },
   "license": "AGPL-3.0-or-later",
   "publishConfig": {
