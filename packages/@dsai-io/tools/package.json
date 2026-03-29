@@ -1,6 +1,6 @@
 {
   "name": "@dsai-io/tools",
-  "version": "1.2.1",
+  "version": "1.2.5",
   "description": "Build tooling and CLI for DSAi Design System",
   "type": "module",
   "main": "dist/index.cjs",
@@ -45,7 +45,8 @@
   "files": [
     "dist",
     "bin",
-    "templates"
+    "templates",
+    "README.md"
   ],
   "scripts": {
     "build": "tsup",
@@ -63,6 +64,15 @@
     "cli",
     "style-dictionary",
     "build-tools",
+    "dtcg",
+    "token-pipeline",
+    "react",
+    "component-library",
+    "figma",
+    "icon-pipeline",
+    "svg",
+    "accessibility",
+    "wcag",
     "dsai"
   ],
   "license": "MIT",

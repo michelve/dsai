@@ -2,7 +2,7 @@
 
 > Build tooling, component registry, and CLI for the [DSAi Design System](https://github.com/michelve/dsai)
 
-[![npm version](https://badge.fury.io/js/@dsai-io%2Ftools.svg)](https://www.npmjs.com/package/@dsai-io/tools)
+[![npm version](https://img.shields.io/npm/v/@dsai-io/tools)](https://www.npmjs.com/package/@dsai-io/tools)
 
 > **Beta** -- DSAi is currently in active development and not yet generally available. APIs and interfaces may change between releases. For early access or collaboration inquiries, see the [DSAi repository](https://github.com/michelve/dsai).
 
