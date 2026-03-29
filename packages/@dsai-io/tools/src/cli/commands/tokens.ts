@@ -315,6 +315,8 @@ async function runTokensBuild(options: TokensBuildOptions): Promise<void> {
       pipeline: config.tokens.pipeline,
       // Pass formats from config (default: css, scss, json)
       formats: config.tokens.formats,
+      // Pass CSS custom property prefix from config
+      prefix: config.tokens.prefix,
       // Pass output directory from config
       outputDir: config.tokens.outputDir
         ? resolve(configDir, config.tokens.outputDir)

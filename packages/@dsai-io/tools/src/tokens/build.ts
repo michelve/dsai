@@ -41,13 +41,13 @@ import { discoverThemeFiles } from './theme-discovery.js';
 import { transformTokens } from './transform.js';
 import { validateTokens } from './validate.js';
 
-import type { BuildOptions, BuildResult, BuildStep } from './types';
 import type {
   BuildPipelinePaths,
   BuildPipelineStep,
   OutputFormat,
   TokensBuildPipeline,
 } from '../config/types.js';
+import type { BuildOptions, BuildResult, BuildStep } from './types';
 
 // ============================================================================
 // Constants
@@ -219,7 +219,8 @@ function createStepFromName(
   outputDir?: string,
   formats: OutputFormat[] = ['css', 'scss', 'json'],
   cssOutputDir?: string,
-  postprocessConfig?: BuildOptions['postprocessConfig']
+  postprocessConfig?: BuildOptions['postprocessConfig'],
+  prefix?: string
 ): BuildStep {
   const displayName = STEP_DISPLAY_NAMES.get(stepName) ?? `Unknown: ${stepName}`;
 
@@ -479,6 +480,7 @@ function createStepFromName(
             const result = await buildAllThemes({
               config: {
                 formats: formats,
+                prefix: prefix,
                 themes: {
                   definitions: themeDefinitions,
                 },
@@ -636,7 +638,8 @@ function createBuildSteps(
       options.outputDir,
       formats,
       options.cssOutputDir,
-      options.postprocessConfig
+      options.postprocessConfig,
+      options.prefix
     );
 
     // Apply skip flags based on legacy options

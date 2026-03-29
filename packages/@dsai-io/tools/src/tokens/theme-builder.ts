@@ -52,6 +52,9 @@ export interface ThemeBuildConfig {
   /** Output formats to generate */
   formats: OutputFormat[];
 
+  /** CSS custom property prefix (e.g., '--dsai-') */
+  prefix?: string;
+
   /** Theme definitions (used by buildAllThemes to lookup theme metadata) */
   themes?: {
     definitions?: Record<string, ThemeDefinition | ResolvedThemeDefinition>;
@@ -116,6 +119,9 @@ export interface ThemeStyleDictionaryConfig {
 
   /** Platform configurations */
   platforms: Record<string, StyleDictionaryPlatformConfig>;
+
+  /** Preprocessors to apply before building */
+  preprocessors?: string[];
 
   /** Whether tokens use DTCG format ($value, $type, etc.) */
   usesDtcg?: boolean;
@@ -198,7 +204,7 @@ const FORMAT_MAPPING = new Map<OutputFormat, FormatConfig>([
  * We use 'js-custom' for JS/TS to ensure valid JavaScript identifiers with our custom name/js-identifier transform
  */
 const TRANSFORM_GROUPS = new Map<OutputFormat, string>([
-  ['css', 'css'],
+  ['css', 'custom/css'],
   ['scss', 'scss'],
   ['js', 'js-custom'], // Use custom transform group for valid JS identifiers
   ['ts', 'js-custom'], // TypeScript uses same transforms as JS
@@ -238,7 +244,13 @@ export function generateThemeBuildConfig(options: ThemeBuildOptions): ThemeStyle
   const enabledFormats = config.formats;
 
   for (const format of enabledFormats) {
-    const platformConfig = generatePlatformConfig(format, themeDefinition, outputDir, isDefault);
+    const platformConfig = generatePlatformConfig(
+      format,
+      themeDefinition,
+      outputDir,
+      isDefault,
+      config.prefix
+    );
     if (platformConfig) {
       platformsMap.set(format, platformConfig);
     }
@@ -250,6 +262,7 @@ export function generateThemeBuildConfig(options: ThemeBuildOptions): ThemeStyle
   return {
     source: files,
     platforms,
+    preprocessors: ['fix-references'],
     // Enable DTCG format support (tokens with $value, $type, etc.)
     usesDtcg: true,
     // Configure logging to not throw on broken references (they'll be logged but build continues)
@@ -276,7 +289,8 @@ function generatePlatformConfig(
   format: OutputFormat,
   themeDefinition: ResolvedThemeDefinition,
   outputDir: string,
-  isDefault: boolean
+  isDefault: boolean,
+  prefix?: string
 ): StyleDictionaryPlatformConfig | null {
   const formatConfig = FORMAT_MAPPING.get(format);
   if (!formatConfig) {
@@ -299,9 +313,18 @@ function generatePlatformConfig(
     format: sdFormat,
   };
 
+  // Add prefix option for CSS/SCSS formats
+  if (prefix && (format === 'css' || format === 'scss')) {
+    fileConfig.options = {
+      ...fileConfig.options,
+      prefix,
+    };
+  }
+
   // Add selector option for themed CSS
   if (format === 'css' && !isDefault) {
     fileConfig.options = {
+      ...fileConfig.options,
       selector: themeDefinition.selector,
     };
   }
@@ -479,20 +502,22 @@ async function runStyleDictionaryBuild(
   const StyleDictionary = StyleDictionaryModule.default;
 
   // Register custom formats using type assertion for compatibility
-  const { registerFormats: registerCustomFormats } = await import(
-    './style-dictionary/formats/index.js'
-  );
+  const { registerFormats: registerCustomFormats } =
+    await import('./style-dictionary/formats/index.js');
   registerCustomFormats(StyleDictionary as unknown as StyleDictionaryInstance);
 
   // Register custom transforms
-  const { registerTransforms: registerCustomTransforms } = await import(
-    './style-dictionary/transforms/index.js'
-  );
+  const { registerTransforms: registerCustomTransforms } =
+    await import('./style-dictionary/transforms/index.js');
   registerCustomTransforms(StyleDictionary as unknown as StyleDictionaryInstance);
 
   // Register custom transform groups (including js-custom with name/js-identifier)
   const { registerTransformGroups } = await import('./style-dictionary/groups/index.js');
   registerTransformGroups(StyleDictionary as unknown as StyleDictionaryInstance);
+
+  // Register custom preprocessors (fix-references for path mapping)
+  const { registerPreprocessors } = await import('./style-dictionary/preprocessors/index.js');
+  registerPreprocessors(StyleDictionary as unknown as StyleDictionaryInstance);
 
   // Debug: log platforms being built
   if (options.verbose) {

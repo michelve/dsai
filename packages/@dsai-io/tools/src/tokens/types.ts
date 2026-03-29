@@ -333,6 +333,9 @@ export interface BuildOptions {
   /** Output formats to generate (default: ['css', 'scss', 'json']) */
   formats?: Array<'css' | 'scss' | 'js' | 'ts' | 'json' | 'android' | 'ios'>;
 
+  /** CSS custom property prefix (default: '--dsai-') */
+  prefix?: string;
+
   /** Per-format output directories */
   outputDirs?: Partial<Record<string, string>>;
 
