@@ -1,6 +1,6 @@
 {
   "name": "@dsai-io/tools",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Build tooling and CLI for DSAi Design System",
   "type": "module",
   "main": "dist/index.cjs",
@@ -65,7 +65,7 @@
     "build-tools",
     "dsai"
   ],
-  "license": "AGPL-3.0-or-later",
+  "license": "MIT",
   "engines": {
     "node": ">=22.0.0"
   },
