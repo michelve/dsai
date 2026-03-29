@@ -1,8 +1,10 @@
 # @dsai-io/tools
 
-> Build tooling, component registry, and CLI for the DSAi Design System
+> Build tooling, component registry, and CLI for the [DSAi Design System](https://github.com/michelve/dsai)
 
 [![npm version](https://badge.fury.io/js/@dsai-io%2Ftools.svg)](https://www.npmjs.com/package/@dsai-io/tools)
+
+> **Beta** -- DSAi is currently in active development and not yet generally available. APIs and interfaces may change between releases. For early access or collaboration inquiries, see the [DSAi repository](https://github.com/michelve/dsai).
 
 ## Installation
 
@@ -201,6 +203,13 @@ writeRegistryItems(tree, {
 ## Peer Dependencies
 
 - `style-dictionary@^5.0.0` (optional) -- required for token building
+
+## Resources
+
+- [DSAi Design System](https://github.com/michelve/dsai) -- monorepo with components, tools, tokens, and Storybook
+- [DSAi Starter Template](https://github.com/michelve/draft_v0) -- official starter app (React 19, Bootstrap 5, Express, Prisma)
+- [@dsai-io/tools on npm](https://www.npmjs.com/package/@dsai-io/tools)
+- [@dsai-io/figma-tokens on npm](https://www.npmjs.com/package/@dsai-io/figma-tokens)
 
 ## License
 
