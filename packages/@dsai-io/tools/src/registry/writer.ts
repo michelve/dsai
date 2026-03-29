@@ -65,18 +65,23 @@ export function writeRegistryItems(tree: ResolvedTree, options: WriteOptions): W
     const targetBaseDir = getTargetDir(item.type, aliases);
 
     for (const file of item.files) {
-      const fileName = basename(file.path);
       let targetPath: string;
 
       if (file.target) {
+        // Explicit target path override
         targetPath = join(projectDir, file.target);
       } else if (item.type === 'registry:ui' || item.type === 'registry:component') {
-        targetPath = join(projectDir, targetBaseDir, item.name, fileName);
-      } else if (item.type === 'registry:type') {
-        // Types keep their subdirectory structure: components/types/<filename>
+        // UI components: <ui>/<item-name>/<filename>
+        targetPath = join(projectDir, targetBaseDir, item.name, basename(file.path));
+      } else if (item.type === 'registry:hook') {
+        // Hooks: <hooks>/<item-name>/<filename> (prevents index.ts collisions)
+        targetPath = join(projectDir, targetBaseDir, item.name, basename(file.path));
+      } else if (file.path.includes('/')) {
+        // Utils, types, libs with subdirectory structure: preserve file.path
         targetPath = join(projectDir, targetBaseDir, file.path);
       } else {
-        targetPath = join(projectDir, targetBaseDir, fileName);
+        // Flat files (e.g., cn.ts): <targetDir>/<filename>
+        targetPath = join(projectDir, targetBaseDir, basename(file.path));
       }
 
       if (existsSync(targetPath) && !shouldOverwrite) {
