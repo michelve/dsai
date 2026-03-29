@@ -5,9 +5,7 @@
   "description": "Accessibility utilities including screen reader announcements and ARIA helpers.",
   "dependencies": [],
   "devDependencies": [],
-  "registryDependencies": [
-    "dsai-types"
-  ],
+  "registryDependencies": [],
   "files": [
     {
       "path": "a11y/announceToScreenReader.ts",

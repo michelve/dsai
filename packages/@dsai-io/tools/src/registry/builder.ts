@@ -146,7 +146,9 @@ function analyzeImports(files: { content: string }[], knownNpmDeps: string[]): A
       const specifier = m[1] ?? '';
 
       // Shared types imports: ../../types or ../../types/<subpath>
-      const typesPattern = /\.\.\/(?:\.\.\/)?types(?:\/.*)?$/;
+      // Must be exactly TWO levels up (../../types) to target the shared type system.
+      // Single level (../types) is a component-local types file (e.g., Icon/components/ -> Icon/types.ts)
+      const typesPattern = /^\.\.\/\.\.\/types(?:\/.*)?$/;
       if (typesPattern.test(specifier)) {
         registryDeps.add('dsai-types');
         continue;

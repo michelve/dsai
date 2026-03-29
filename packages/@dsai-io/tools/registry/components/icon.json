@@ -5,9 +5,7 @@
   "description": "Scalable vector icon component with accessibility support.",
   "dependencies": [],
   "devDependencies": [],
-  "registryDependencies": [
-    "dsai-types"
-  ],
+  "registryDependencies": [],
   "files": [
     {
       "path": "components\\ActivityIcon.tsx",

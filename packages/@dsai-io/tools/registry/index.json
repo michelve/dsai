@@ -204,9 +204,7 @@
       "title": "Icon",
       "description": "Scalable vector icon component with accessibility support.",
       "dependencies": [],
-      "registryDependencies": [
-        "dsai-types"
-      ],
+      "registryDependencies": [],
       "categories": [
         "data-display"
       ]
@@ -811,9 +809,7 @@
       "title": "a11y",
       "description": "Accessibility utilities including screen reader announcements and ARIA helpers.",
       "dependencies": [],
-      "registryDependencies": [
-        "dsai-types"
-      ],
+      "registryDependencies": [],
       "categories": [
         "a11y"
       ]
@@ -846,9 +842,7 @@
       "title": "collections",
       "description": "Collection utilities: chunk, paginate, memoize, selectors.",
       "dependencies": [],
-      "registryDependencies": [
-        "dsai-types"
-      ],
+      "registryDependencies": [],
       "categories": [
         "data"
       ]
@@ -870,9 +864,7 @@
       "title": "date",
       "description": "Date formatting and relative time utilities.",
       "dependencies": [],
-      "registryDependencies": [
-        "dsai-types"
-      ],
+      "registryDependencies": [],
       "categories": [
         "formatting"
       ]
@@ -964,9 +956,7 @@
       "title": "number",
       "description": "Number formatting and clamping utilities.",
       "dependencies": [],
-      "registryDependencies": [
-        "dsai-types"
-      ],
+      "registryDependencies": [],
       "categories": [
         "formatting"
       ]
@@ -977,9 +967,7 @@
       "title": "object",
       "description": "Object manipulation utilities: deep merge, pick, omit.",
       "dependencies": [],
-      "registryDependencies": [
-        "dsai-types"
-      ],
+      "registryDependencies": [],
       "categories": [
         "data"
       ]
@@ -1025,9 +1013,7 @@
       "title": "string",
       "description": "String manipulation utilities: capitalize, slugify, variant classes.",
       "dependencies": [],
-      "registryDependencies": [
-        "dsai-types"
-      ],
+      "registryDependencies": [],
       "categories": [
         "formatting"
       ]
@@ -1049,9 +1035,7 @@
       "title": "timing",
       "description": "Timing utilities: debounce and throttle functions.",
       "dependencies": [],
-      "registryDependencies": [
-        "dsai-types"
-      ],
+      "registryDependencies": [],
       "categories": [
         "timing"
       ]
