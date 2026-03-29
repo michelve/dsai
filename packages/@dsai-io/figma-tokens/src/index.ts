@@ -185,6 +185,18 @@ export type {
   FigmaVariableUsageByVariable,
   FigmaAnalyticsActionsOptions,
   FigmaAnalyticsUsagesOptions,
+  // Shared API types
+  FigmaUser,
+  FigmaContainingFrame,
+  // Published library types
+  FigmaPublishedComponent,
+  FigmaPublishedComponentSet,
+  FigmaPublishedStyle,
+  // Version history types
+  FigmaVersion,
+  FigmaVersionsResponse,
+  // File metadata types
+  FigmaFileMetadata,
 } from './types.js';
 
 // ============================================================================
