@@ -7,6 +7,7 @@ import {
   mockFigmaFile,
   mockVariablesResponse,
   mockStyleNodes,
+  mockPostVariablesResponse,
   error403Forbidden,
   error404NotFound,
   error429RateLimited,
@@ -85,7 +86,12 @@ function createErrorResponse(
  * Default mock handler that responds with appropriate test data
  */
 export function createDefaultMockFetch(): MockFetchHandler {
-  return (url: string): Promise<MockFetchResponse> => {
+  return (url: string, options?: RequestInit): Promise<MockFetchResponse> => {
+    // POST to variables endpoint
+    if (url.includes('/variables') && options?.method === 'POST') {
+      return Promise.resolve(createSuccessResponse(mockPostVariablesResponse, 'req-post-vars-test'));
+    }
+
     // Match variables endpoint FIRST (more specific)
     if (url.includes('/variables/local')) {
       return Promise.resolve(createSuccessResponse(mockVariablesResponse, 'req-vars-test'));

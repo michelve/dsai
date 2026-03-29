@@ -486,3 +486,44 @@ export const testClientConfig = {
   retries: 1,
   cache: false,
 };
+
+// ============================================================================
+// POST Variables Response Fixtures
+// ============================================================================
+
+/**
+ * Successful POST variables response with temp ID mapping
+ */
+export const mockPostVariablesResponse = {
+  status: 200,
+  error: false,
+  meta: {
+    tempIdToRealId: {
+      'temp-collection-1': 'VariableCollectionId:99:0',
+      'temp-mode-1': '99:1',
+      'temp-var-1': 'VariableID:99:1',
+      'temp-var-2': 'VariableID:99:2',
+    },
+  },
+};
+
+/**
+ * POST variables response with no temp IDs (all real IDs used)
+ */
+export const mockPostVariablesResponseNoTempIds = {
+  status: 200,
+  error: false,
+  meta: {
+    tempIdToRealId: {},
+  },
+};
+
+/**
+ * POST variables 413 error (payload too large)
+ */
+export const error413PayloadTooLarge = {
+  status: 413,
+  err: 'Request entity too large',
+  code: 'PAYLOAD_TOO_LARGE',
+  requestId: 'req-413-test',
+};
