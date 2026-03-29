@@ -4,14 +4,8 @@
  */
 
 import {
-  mockComponentActionsByComponent,
   mockComponentActionsByTeam,
-  mockComponentUsagesByComponent,
   mockComponentUsagesByFile,
-  mockStyleActionsByStyle,
-  mockStyleUsagesByStyle,
-  mockVariableActionsByVariable,
-  mockVariableUsagesByVariable,
   mockActionsByTeam,
   mockUsagesByFile,
   error403Forbidden,
