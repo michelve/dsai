@@ -3,11 +3,11 @@
  * @description Tests the POST /v1/files/:file_key/variables endpoint
  */
 
-import { FigmaClient, createFigmaClient } from '../client.js';
-import type {
-  FigmaPostVariablesRequest,
-  FigmaPostVariablesResponse,
-} from '../types.js';
+import {
+  mockPostVariablesResponseNoTempIds,
+  error403Forbidden,
+  error413PayloadTooLarge,
+} from '../../test/fixtures/figma-api-responses.js';
 import {
   createDefaultMockFetch,
   createCustomMockFetch,
@@ -17,12 +17,10 @@ import {
   setupFetchMock,
   resetFetchMock,
 } from '../../test/mocks/fetch-mock.js';
-import {
-  mockPostVariablesResponse,
-  mockPostVariablesResponseNoTempIds,
-  error403Forbidden,
-  error413PayloadTooLarge,
-} from '../../test/fixtures/figma-api-responses.js';
+import { createFigmaClient } from '../client.js';
+
+import type { FigmaClient } from '../client.js';
+import type { FigmaPostVariablesRequest } from '../types.js';
 
 describe('FigmaClient.postVariables', () => {
   let client: FigmaClient;
