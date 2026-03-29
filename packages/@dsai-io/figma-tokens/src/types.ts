@@ -807,6 +807,242 @@ export interface FigmaAnalyticsUsagesOptions {
 }
 
 // ============================================================================
+// Shared API Types
+// ============================================================================
+
+/**
+ * Figma user object
+ */
+export interface FigmaUser {
+  /** Unique stable user ID */
+  id: string;
+
+  /** User display name */
+  handle: string;
+
+  /** URL to user's profile image */
+  img_url: string;
+
+  /** Email (only present on /v1/me endpoint) */
+  email?: string;
+}
+
+/**
+ * Frame information for component containment
+ */
+export interface FigmaContainingFrame {
+  /** Node ID of the containing frame */
+  nodeId?: string;
+
+  /** Name of the containing frame */
+  name?: string;
+
+  /** Background color of the frame */
+  backgroundColor?: string;
+
+  /** Page ID containing the frame */
+  pageId?: string;
+
+  /** Page name */
+  pageName?: string;
+}
+
+// ============================================================================
+// Published Library Types
+// ============================================================================
+
+/**
+ * Published component metadata from library endpoints
+ */
+export interface FigmaPublishedComponent {
+  /** Component key (unique across files) */
+  key: string;
+
+  /** File key where component lives */
+  file_key: string;
+
+  /** Node ID within the file */
+  node_id: string;
+
+  /** URL to component thumbnail */
+  thumbnail_url: string;
+
+  /** Component name */
+  name: string;
+
+  /** Component description */
+  description: string;
+
+  /** Last updated timestamp (ISO 8601) */
+  updated_at: string;
+
+  /** Created timestamp (ISO 8601) */
+  created_at: string;
+
+  /** User who last updated the component */
+  user: FigmaUser;
+
+  /** Frame containing this component */
+  containing_frame: FigmaContainingFrame;
+}
+
+/**
+ * Published component set metadata (variant groups)
+ */
+export interface FigmaPublishedComponentSet {
+  /** Component set key */
+  key: string;
+
+  /** File key */
+  file_key: string;
+
+  /** Node ID */
+  node_id: string;
+
+  /** Thumbnail URL */
+  thumbnail_url: string;
+
+  /** Component set name */
+  name: string;
+
+  /** Description */
+  description: string;
+
+  /** Last updated (ISO 8601) */
+  updated_at: string;
+
+  /** Created (ISO 8601) */
+  created_at: string;
+
+  /** User who last updated */
+  user: FigmaUser;
+
+  /** Containing frame */
+  containing_frame: FigmaContainingFrame;
+}
+
+/**
+ * Published style metadata from library endpoints
+ */
+export interface FigmaPublishedStyle {
+  /** Style key */
+  key: string;
+
+  /** File key */
+  file_key: string;
+
+  /** Node ID */
+  node_id: string;
+
+  /** Style type */
+  style_type: FigmaStyleType;
+
+  /** Thumbnail URL */
+  thumbnail_url: string;
+
+  /** Style name */
+  name: string;
+
+  /** Description */
+  description: string;
+
+  /** Last updated (ISO 8601) */
+  updated_at: string;
+
+  /** Created (ISO 8601) */
+  created_at: string;
+
+  /** Sort position */
+  sort_position: string;
+
+  /** User who last updated */
+  user: FigmaUser;
+}
+
+// ============================================================================
+// Version History Types
+// ============================================================================
+
+/**
+ * File version from version history
+ */
+export interface FigmaVersion {
+  /** Unique version identifier */
+  id: string;
+
+  /** Created timestamp (UTC ISO 8601) */
+  created_at: string;
+
+  /** Version label (set by user in editor) */
+  label: string;
+
+  /** Version description */
+  description: string;
+
+  /** User who created this version */
+  user: FigmaUser;
+}
+
+/**
+ * Version history response with URL-based pagination
+ */
+export interface FigmaVersionsResponse {
+  /** List of versions */
+  versions: FigmaVersion[];
+
+  /** Pagination cursors */
+  pagination: {
+    /** URL for previous page (empty string if none) */
+    prev_page: string;
+
+    /** URL for next page (empty string if none) */
+    next_page: string;
+  };
+}
+
+// ============================================================================
+// File Metadata Types
+// ============================================================================
+
+/**
+ * Lightweight file metadata (from /v1/files/:key/meta)
+ */
+export interface FigmaFileMetadata {
+  /** File name */
+  name: string;
+
+  /** Folder name */
+  folder_name: string;
+
+  /** Last touched timestamp */
+  last_touched_at: string;
+
+  /** User who created the file */
+  creator: FigmaUser;
+
+  /** User who last touched the file */
+  last_touched_by: FigmaUser;
+
+  /** Thumbnail URL */
+  thumbnail_url: string;
+
+  /** Editor type */
+  editorType: 'figma' | 'figjam';
+
+  /** File version */
+  version: string;
+
+  /** User role */
+  role: string;
+
+  /** Link access level */
+  link_access: string;
+
+  /** Figma URL for the file */
+  url: string;
+}
+
+// ============================================================================
 // Export/Sync Options
 // ============================================================================
 
