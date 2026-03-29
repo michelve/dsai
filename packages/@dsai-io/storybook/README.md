@@ -2,11 +2,14 @@
 
 > Official Storybook documentation for the DSAi Design System
 
-## 📚 Overview
+## Overview
 
-This package contains the Storybook configuration and documentation for all DSAi design tokens, components, and patterns. Built with Storybook 8.6.14 and React 18, it provides an interactive development environment for building, testing, and documenting UI components.
+This package contains the Storybook configuration and documentation for all DSAi design tokens, components, and patterns. Built with **Storybook 10** and **React 19**, it provides an interactive development environment for building, testing, and documenting UI components.
 
-## 🚀 Quick Start
+**Package version:** 1.0.6
+**License:** AGPL-3.0-or-later
+
+## Quick Start
 
 ```bash
 # Start development server
@@ -17,83 +20,148 @@ pnpm build
 
 # Verify setup
 pnpm verify
+
+# Kill running instances
+pnpm kill
 ```
 
 Access at: **<http://localhost:6006>**
 
-## 📖 What's Documented
+## What's Documented
 
 ### Foundation (Design Tokens)
 
-- **Colors** - 121 primitive + 35 semantic color tokens
-- **Typography** - Font scales, weights, line heights
-- **Spacing** - Layout spacing system
-- **Shadows** - Elevation and depth
-- **Border Radius** - Corner rounding scale
+- **Colors** — 121 primitive + 35 semantic color tokens (brand, semantic, component-semantic, neutral, all hues)
+- **Typography** — Font scales, weights, line heights
+- **Spacing** — Layout spacing system
+- **Icons** — Icon set documentation
+- **CSS Variables** — Guide to using `--dsai-` prefixed variables
+- **TypeScript Types** — Type documentation for tokens
 
-### Components (38 planned)
+### Components (33 stories)
 
-- Buttons, Forms, Navigation, Feedback, etc.
-- Usage examples, props, accessibility notes
-- Interactive playground for all variants
+Accordion, Alert, Avatar, Badge, Breadcrumb, Button, Card, CardList, Carousel, Checkbox, CheckboxGroup, Dropdown, Input, ListGroup, Modal, Navbar, Pagination, Popover, Progress, Radio, Scrollspy, Select, SelectableCard, Sheet, Spinner, Switch, Table, Tabs, TabsPro, Toast, Tooltip, Typography
 
-### Patterns
+Each story includes usage examples, props documentation (via autodocs), and interactive playground for all variants.
 
-- Common UI patterns and best practices
-- Accessibility guidelines
-- Dark mode support
+### Guides
 
-## 🏗️ Architecture
+- **Getting Started** — Installation, setup, token usage, TypeScript config, tree shaking, styling, accessibility, dark mode
+- **CLI Tools** — DSAi CLI usage
+- **Utilities** — Helper utilities reference
+
+### Utilities
+
+- **A11y** — Accessibility utility demos
+- **Async** — Async utility demos
+
+## Architecture
 
 ### Configuration Files
 
 ```text
 .storybook/
-├── main.ts           # Main Storybook config with Vite aliases
-├── preview.ts        # Global decorators, parameters, theme
-└── preview.css       # Global styles
+├── main.ts              # Storybook config, addons, Vite aliases
+├── preview.ts           # Global decorators, parameters, theme toggle
+├── preview.css          # Global styles (font smoothing, padding)
+├── preview-head.html    # Dynamic font loader (Google Fonts)
+├── DSAiTheme.ts         # Light and dark Storybook UI themes
+├── manager.ts           # Manager UI config (sidebar, toolbar, panel)
+└── vitest.setup.ts      # Vitest browser testing setup
+```
+
+### Story Files
+
+```text
+docs/
+├── Welcome.mdx                  # Main welcome page
+├── components/                  # 33 component stories
+│   ├── Button.stories.tsx
+│   ├── Card.stories.tsx
+│   └── ...
+├── foundation/                  # Design token documentation
+│   ├── Colors.stories.tsx
+│   ├── Typography.stories.tsx
+│   ├── Spacing.stories.tsx
+│   ├── Icons.stories.tsx
+│   ├── CSSVariables.mdx
+│   └── TypeScriptTypes.mdx
+├── guides/                      # Implementation guides
+│   ├── GettingStarted.mdx
+│   ├── CLITools.mdx
+│   └── Utilities.mdx
+└── utilities/                   # Utility demos
+    ├── A11y.stories.tsx
+    └── Async.stories.tsx
 ```
 
 ### Key Features
 
 #### 1. Vite Alias Resolution
 
-Resolves monorepo packages cleanly:
+Resolves monorepo packages via shared Vite config with caching disabled for fast updates.
 
-```typescript
-// .storybook/main.ts
-viteFinal: async (config) => ({
-  ...config,
-  resolve: {
-    alias: {
-      '@dsai-io/tools': resolve(__dirname, '../../@dsai-io/tools/src'),
-      '@dsai-io/react': resolve(__dirname, '../../@dsai-io/react/src'),
-    },
-  },
-}),
-```
+#### 2. Automatic Token + Style Building
 
-#### 2. Automatic Token Building
-
-Pre-hooks ensure tokens are always fresh:
+Pre-hooks ensure tokens and styles are always fresh before dev or build:
 
 ```json
 {
-  "prestorybook": "pnpm dsai tokens build",
-  "prebuild": "pnpm dsai tokens build"
+  "prestorybook": "pnpm styles:all",
+  "prebuild": "pnpm styles:all"
 }
 ```
 
+`styles:all` runs the full pipeline: token validation, transformation, Style Dictionary build (light + dark), and SCSS compilation.
+
 #### 3. Design Token Integration
 
-CSS variables loaded globally from generated files:
+Multiple CSS files loaded globally in `preview.ts`:
 
-```typescript
-// .storybook/preview.ts
-import './generated/dsai-theme-bs.css';
+- `dsai-theme-bs.css` — Bootstrap theme overrides
+- `tokens.css` — Light mode design tokens
+- `tokens-dark.css` — Dark mode token overrides
+
+#### 4. Light/Dark Theme System
+
+`DSAiTheme.ts` defines both light and dark Storybook UI themes using token-derived colors. The preview includes a theme decorator that applies `data-dsai-theme` and adjusts background/text colors based on toolbar selection.
+
+#### 5. Dynamic Font Loading
+
+`preview-head.html` contains a smart font loader that reads CSS variables and dynamically loads the matching font from Google Fonts. Supports 11 fonts including Inter, Roboto Mono, Poppins, JetBrains Mono, and more.
+
+#### 6. Autodocs
+
+All stories are tagged with `autodocs` for automatic documentation generation with prop tables and code panels.
+
+## Design Token Pipeline
+
+Tokens flow through a multi-stage pipeline:
+
+```text
+src/figma-exports/     →  Raw Figma token exports
+src/collections/       →  Transformed token collections
+src/generated/         →  Built output (CSS, JS, TS, SCSS, JSON)
 ```
 
-## 📝 Writing Stories
+Configuration files:
+
+| File | Purpose |
+|------|---------|
+| `dsai.config.mjs` | DSAi token pipeline settings (source, output, formats) |
+| `sd.config.mjs` | Style Dictionary config — light mode tokens |
+| `sd.config.dark.mjs` | Style Dictionary config — dark mode overrides |
+
+Token commands:
+
+```bash
+pnpm tokens:build      # Validate + transform + Style Dictionary (light + dark)
+pnpm tokens:transform  # Transform only
+pnpm scss:build        # Compile SCSS to CSS
+pnpm styles:all        # Full pipeline (tokens + SCSS)
+```
+
+## Writing Stories
 
 ### Basic Story Structure
 
@@ -146,7 +214,7 @@ Interactive button component with multiple variants.
 <Controls of={ButtonStories.Primary} />
 ```
 
-## 🎨 Using Design Tokens in Stories
+## Using Design Tokens in Stories
 
 ### Method 1: CSS Variables (Recommended)
 
@@ -176,14 +244,30 @@ import { themePrimary, neutralWhite } from './generated/tokens';
 </div>;
 ```
 
-## 🧪 Testing
+## Testing
 
-### Visual Regression Testing
+### Vitest + Playwright (Browser Testing)
 
 ```bash
-# Run test runner
+pnpm test          # Run tests
+pnpm test:watch    # Watch mode
+```
+
+Tests run in a real Chromium browser via `@vitest/browser-playwright` with Storybook portable stories.
+
+### Storybook Test Runner
+
+```bash
 pnpm test-storybook
 ```
+
+### Visual Regression (Chromatic)
+
+```bash
+pnpm chromatic
+```
+
+Configured via `chromatic.config.json` to only run on changed stories with zip compression.
 
 ### Accessibility Testing
 
@@ -194,26 +278,25 @@ All stories automatically checked with `@storybook/addon-a11y`:
 - ARIA attributes
 - Screen reader support
 
-## 📦 Installed Addons
+## Installed Addons
 
-| Addon                           | Purpose                                      |
-| ------------------------------- | -------------------------------------------- |
-| `@storybook/addon-essentials`   | Core functionality (docs, controls, actions) |
-| `@storybook/addon-a11y`         | Accessibility testing and reporting          |
-| `@storybook/addon-interactions` | Component interaction testing                |
-| `@storybook/addon-links`        | Navigate between stories                     |
-| `@storybook/addon-designs`      | Link Figma designs to stories                |
+| Addon | Purpose |
+|-------|---------|
+| `@storybook/addon-docs` | Documentation generation and MDX support |
+| `@storybook/addon-a11y` | Accessibility testing and reporting |
+| `@storybook/addon-links` | Navigate between stories |
+| `@storybook/addon-designs` | Link Figma designs to stories |
+| `@storybook/addon-vitest` | Vitest integration for browser testing |
+| `@chromatic-com/storybook` | Chromatic visual regression testing |
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Error: "Failed to fetch dynamically imported module"
 
 **Cause:** Tokens not built or incorrect import path
 
-**Solution:**
-
 ```bash
-pnpm dsai tokens build
+pnpm styles:all
 pnpm storybook
 ```
 
@@ -221,76 +304,50 @@ pnpm storybook
 
 **Cause:** Accessing token object instead of `.value` property
 
-**Solution:**
-
 ```tsx
-// ❌ Wrong
+// Wrong
 const color = tokens.color.blue['500'];
 
-// ✅ Correct
+// Correct
 const color = tokens.color.blue['500'].value;
 ```
 
 ### Storybook Won't Start
 
-**Solution:**
-
 ```bash
 # Kill any running instances
-pkill -9 -f storybook
+pnpm kill
 
 # Clear caches
 rm -rf node_modules/.vite
 rm -rf .nx/cache
 
 # Rebuild and restart
-pnpm dsai tokens build
+pnpm styles:all
 pnpm storybook
 ```
 
 ### Changes Not Appearing
 
-**Solution:**
-
 1. Hard refresh browser (Cmd+Shift+R / Ctrl+Shift+F5)
 2. Check terminal for build errors
-3. Verify tokens rebuilt: Check your generated CSS files exist
+3. Verify generated CSS files exist in `src/generated/`
 
-## 🔗 Related Packages
+## Related Packages
 
-- `@dsai-io/tools` - Design token build system and CLI
-- `@dsai-io/react` - React component library
-- `@dsai-io/figma-tokens` - Figma integration utilities
+- `@dsai-io/react` — React component library (38+ components)
+- `@dsai-io/tools` — CLI tooling, token pipeline, build utilities
+- `@dsai-io/figma-tokens` — Figma Variables API integration
 
-## 📚 Resources
+## Resources
 
-- [Storybook Documentation](https://storybook.js.org/docs/react/get-started/introduction)
-- [Storybook + Vite](https://storybook.js.org/docs/react/builders/vite)
+- [Storybook Documentation](https://storybook.js.org/docs)
+- [Storybook + Vite](https://storybook.js.org/docs/builders/vite)
 - [Storybook + Nx](https://nx.dev/recipes/storybook)
-- [Design Token Best Practices](https://amzn.github.io/style-dictionary/)
-
-## 📊 Current Status
-
-- ✅ Storybook 8.6.14 configured
-- ✅ Vite aliases working
-- ✅ Design tokens integrated
-- ✅ Color documentation complete
-- ✅ A11y addon enabled
-- ✅ Pre-build hooks functional
-- ⏳ Component documentation (0/38)
-- ⏳ Typography documentation
-- ⏳ Spacing documentation
-
-## 🎯 Next Steps
-
-1. Complete foundation documentation (Typography, Spacing, Shadows)
-2. Create component template with a11y tests
-3. Document first 5 components (Button, Input, Card, Badge, Alert)
-4. Setup visual regression testing
-5. Configure Figma design linking
+- [Style Dictionary](https://amzn.github.io/style-dictionary/)
+- [Chromatic](https://www.chromatic.com/docs/)
 
 ---
 
-**Version:** 8.6.14  
-**Last Updated:** November 21, 2025  
+**Last Updated:** March 29, 2026
 **Maintainers:** DSAi Team
