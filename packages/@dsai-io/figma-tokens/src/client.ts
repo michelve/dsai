@@ -45,6 +45,17 @@ import type {
   TokenCategory,
   FigmaPostVariablesRequest,
   FigmaPostVariablesResponse,
+  FigmaPaginatedResponse,
+  FigmaComponentActionByComponent,
+  FigmaActionByTeam,
+  FigmaComponentUsageByComponent,
+  FigmaUsageByFile,
+  FigmaStyleActionByStyle,
+  FigmaStyleUsageByStyle,
+  FigmaVariableActionByVariable,
+  FigmaVariableUsageByVariable,
+  FigmaAnalyticsActionsOptions,
+  FigmaAnalyticsUsagesOptions,
 } from './types.js';
 
 // ============================================================================
@@ -535,6 +546,29 @@ export class FigmaClient {
   }
 
   /**
+   * Build query string for analytics endpoints
+   */
+  private buildAnalyticsQuery(
+    groupBy: string,
+    options?: FigmaAnalyticsActionsOptions
+  ): string {
+    const params = new URLSearchParams();
+    params.set('group_by', groupBy);
+
+    if (options?.startDate) {
+      params.set('start_date', options.startDate);
+    }
+    if (options?.endDate) {
+      params.set('end_date', options.endDate);
+    }
+    if (options?.cursor) {
+      params.set('cursor', options.cursor);
+    }
+
+    return params.toString();
+  }
+
+  /**
    * Make API request with retry logic, circuit breaker, and rate limiting
    */
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
@@ -792,6 +826,171 @@ export class FigmaClient {
         body: JSON.stringify(request),
       }
     );
+  }
+
+  // ==========================================================================
+  // Library Analytics API
+  // ==========================================================================
+
+  /**
+   * Get component insertion and detachment actions for a library
+   *
+   * @param libraryFileKey - File key of the library
+   * @param groupBy - Group results by `component` or `team`
+   * @param options - Date range and pagination options
+   * @returns Paginated analytics rows
+   *
+   * @remarks
+   * - Requires `library_analytics:read` scope
+   * - Data available for up to one year
+   * - Dates are rounded to week boundaries
+   *
+   * @see https://developers.figma.com/docs/rest-api/library-analytics-endpoints/
+   *
+   * @example
+   * ```ts
+   * const page1 = await client.getComponentActions('lib-key', 'component', {
+   *   startDate: '2026-01-01',
+   *   endDate: '2026-03-29',
+   * });
+   *
+   * for (const row of page1.rows) {
+   *   console.log(`${row.component_name}: ${row.insertions} insertions`);
+   * }
+   *
+   * if (page1.next_page) {
+   *   const page2 = await client.getComponentActions('lib-key', 'component', {
+   *     cursor: page1.cursor,
+   *   });
+   * }
+   * ```
+   */
+  public async getComponentActions<G extends 'component' | 'team'>(
+    libraryFileKey: string,
+    groupBy: G,
+    options?: FigmaAnalyticsActionsOptions
+  ): Promise<
+    FigmaPaginatedResponse<
+      G extends 'component' ? FigmaComponentActionByComponent : FigmaActionByTeam
+    >
+  > {
+    const query = this.buildAnalyticsQuery(groupBy, options);
+    return this.request(`/analytics/libraries/${libraryFileKey}/component/actions?${query}`);
+  }
+
+  /**
+   * Get current component usage counts for a library
+   *
+   * @param libraryFileKey - File key of the library
+   * @param groupBy - Group results by `component` or `file`
+   * @param options - Pagination options
+   * @returns Paginated usage rows
+   *
+   * @see https://developers.figma.com/docs/rest-api/library-analytics-endpoints/
+   */
+  public async getComponentUsages<G extends 'component' | 'file'>(
+    libraryFileKey: string,
+    groupBy: G,
+    options?: FigmaAnalyticsUsagesOptions
+  ): Promise<
+    FigmaPaginatedResponse<
+      G extends 'component' ? FigmaComponentUsageByComponent : FigmaUsageByFile
+    >
+  > {
+    const query = this.buildAnalyticsQuery(groupBy, options);
+    return this.request(`/analytics/libraries/${libraryFileKey}/component/usages?${query}`);
+  }
+
+  /**
+   * Get style insertion and detachment actions for a library
+   *
+   * @param libraryFileKey - File key of the library
+   * @param groupBy - Group results by `style` or `team`
+   * @param options - Date range and pagination options
+   * @returns Paginated analytics rows
+   *
+   * @see https://developers.figma.com/docs/rest-api/library-analytics-endpoints/
+   */
+  public async getStyleActions<G extends 'style' | 'team'>(
+    libraryFileKey: string,
+    groupBy: G,
+    options?: FigmaAnalyticsActionsOptions
+  ): Promise<
+    FigmaPaginatedResponse<
+      G extends 'style' ? FigmaStyleActionByStyle : FigmaActionByTeam
+    >
+  > {
+    const query = this.buildAnalyticsQuery(groupBy, options);
+    return this.request(`/analytics/libraries/${libraryFileKey}/style/actions?${query}`);
+  }
+
+  /**
+   * Get current style usage counts for a library
+   *
+   * @param libraryFileKey - File key of the library
+   * @param groupBy - Group results by `style` or `file`
+   * @param options - Pagination options
+   * @returns Paginated usage rows
+   *
+   * @see https://developers.figma.com/docs/rest-api/library-analytics-endpoints/
+   */
+  public async getStyleUsages<G extends 'style' | 'file'>(
+    libraryFileKey: string,
+    groupBy: G,
+    options?: FigmaAnalyticsUsagesOptions
+  ): Promise<
+    FigmaPaginatedResponse<
+      G extends 'style' ? FigmaStyleUsageByStyle : FigmaUsageByFile
+    >
+  > {
+    const query = this.buildAnalyticsQuery(groupBy, options);
+    return this.request(`/analytics/libraries/${libraryFileKey}/style/usages?${query}`);
+  }
+
+  /**
+   * Get variable insertion and detachment actions for a library
+   *
+   * @param libraryFileKey - File key of the library
+   * @param groupBy - Group results by `variable` or `team`
+   * @param options - Date range and pagination options
+   * @returns Paginated analytics rows
+   *
+   * @see https://developers.figma.com/docs/rest-api/library-analytics-endpoints/
+   */
+  public async getVariableActions<G extends 'variable' | 'team'>(
+    libraryFileKey: string,
+    groupBy: G,
+    options?: FigmaAnalyticsActionsOptions
+  ): Promise<
+    FigmaPaginatedResponse<
+      G extends 'variable' ? FigmaVariableActionByVariable : FigmaActionByTeam
+    >
+  > {
+    const query = this.buildAnalyticsQuery(groupBy, options);
+    return this.request(`/analytics/libraries/${libraryFileKey}/variable/actions?${query}`);
+  }
+
+  /**
+   * Get current variable usage counts for a library
+   *
+   * @param libraryFileKey - File key of the library
+   * @param groupBy - Group results by `variable` or `file`
+   * @param options - Pagination options
+   * @returns Paginated usage rows
+   *
+   * @see https://developers.figma.com/docs/rest-api/library-analytics-endpoints/
+   */
+  public async getVariableUsages<G extends 'variable' | 'file'>(
+    libraryFileKey: string,
+    groupBy: G,
+    options?: FigmaAnalyticsUsagesOptions
+  ): Promise<
+    FigmaPaginatedResponse<
+      G extends 'variable' ? FigmaVariableUsageByVariable : FigmaUsageByFile
+    >
+  > {
+    const query = this.buildAnalyticsQuery(groupBy, options);
+    return this.request(`/analytics/libraries/${libraryFileKey}/variable/usages?${query}`);
   }
 
   // ==========================================================================
