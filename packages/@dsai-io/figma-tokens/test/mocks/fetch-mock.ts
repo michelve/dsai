@@ -14,6 +14,15 @@ import {
   mockStyleUsagesByStyle,
   mockVariableActionsByVariable,
   mockVariableUsagesByVariable,
+  mockPublishedComponentsResponse,
+  mockPublishedComponentSetsResponse,
+  mockPublishedStylesResponse,
+  mockSingleComponentResponse,
+  mockSingleComponentSetResponse,
+  mockSingleStyleResponse,
+  mockVersionsResponse,
+  mockFileMetadataResponse,
+  mockMeResponse,
   error403Forbidden,
   error404NotFound,
   error429RateLimited,
@@ -93,6 +102,43 @@ function createErrorResponse(
  */
 export function createDefaultMockFetch(): MockFetchHandler {
   return (url: string, options?: RequestInit): Promise<MockFetchResponse> => {
+    // User endpoint
+    if (url.includes('/v1/me') || url.endsWith('/me')) {
+      return Promise.resolve(createSuccessResponse(mockMeResponse, 'req-me'));
+    }
+
+    // Single component/component_set/style by key
+    if (url.match(/\/components\/[^/]+$/) && !url.includes('/files/')) {
+      return Promise.resolve(createSuccessResponse(mockSingleComponentResponse, 'req-comp'));
+    }
+    if (url.match(/\/component_sets\/[^/]+$/) && !url.includes('/files/')) {
+      return Promise.resolve(createSuccessResponse(mockSingleComponentSetResponse, 'req-comp-set'));
+    }
+    if (url.match(/\/styles\/[^/]+$/) && !url.includes('/files/')) {
+      return Promise.resolve(createSuccessResponse(mockSingleStyleResponse, 'req-style'));
+    }
+
+    // File-level library endpoints
+    if (url.includes('/components') && !url.includes('/analytics') && !url.includes('/component_sets')) {
+      return Promise.resolve(createSuccessResponse(mockPublishedComponentsResponse, 'req-pub-comps'));
+    }
+    if (url.includes('/component_sets')) {
+      return Promise.resolve(createSuccessResponse(mockPublishedComponentSetsResponse, 'req-pub-sets'));
+    }
+    if (url.includes('/styles') && !url.includes('/analytics')) {
+      return Promise.resolve(createSuccessResponse(mockPublishedStylesResponse, 'req-pub-styles'));
+    }
+
+    // Version history
+    if (url.includes('/versions')) {
+      return Promise.resolve(createSuccessResponse(mockVersionsResponse, 'req-versions'));
+    }
+
+    // File metadata
+    if (url.includes('/meta')) {
+      return Promise.resolve(createSuccessResponse(mockFileMetadataResponse, 'req-meta'));
+    }
+
     // Analytics endpoints
     if (url.includes('/analytics/libraries/')) {
       if (url.includes('/component/actions')) {

@@ -700,3 +700,191 @@ export const mockUsagesByFile = {
   cursor: '',
   next_page: false,
 };
+
+// ============================================================================
+// Shared User Fixture
+// ============================================================================
+
+export const mockUser = {
+  id: 'user-1',
+  handle: 'Jane Designer',
+  img_url: 'https://example.com/avatar.png',
+};
+
+// ============================================================================
+// Published Library Response Fixtures
+// ============================================================================
+
+export const mockPublishedComponentsResponse = {
+  status: 200,
+  error: false,
+  meta: {
+    components: [
+      {
+        key: 'comp-key-1',
+        file_key: 'file-abc',
+        node_id: '1:2',
+        thumbnail_url: 'https://example.com/thumb1.png',
+        name: 'Button',
+        description: 'Primary button component',
+        updated_at: '2026-03-20T10:00:00Z',
+        created_at: '2025-01-01T00:00:00Z',
+        user: mockUser,
+        containing_frame: { nodeId: '0:1', name: 'Components', pageName: 'Library' },
+      },
+    ],
+  },
+};
+
+export const mockPublishedComponentSetsResponse = {
+  status: 200,
+  error: false,
+  meta: {
+    component_sets: [
+      {
+        key: 'set-key-1',
+        file_key: 'file-abc',
+        node_id: '1:10',
+        thumbnail_url: 'https://example.com/set-thumb.png',
+        name: 'Button',
+        description: 'Button variant set',
+        updated_at: '2026-03-20T10:00:00Z',
+        created_at: '2025-01-01T00:00:00Z',
+        user: mockUser,
+        containing_frame: { nodeId: '0:1', name: 'Components', pageName: 'Library' },
+      },
+    ],
+  },
+};
+
+export const mockPublishedStylesResponse = {
+  status: 200,
+  error: false,
+  meta: {
+    styles: [
+      {
+        key: 'style-key-1',
+        file_key: 'file-abc',
+        node_id: '2:1',
+        style_type: 'FILL',
+        thumbnail_url: 'https://example.com/style-thumb.png',
+        name: 'Brand/Primary',
+        description: 'Primary brand color',
+        updated_at: '2026-03-20T10:00:00Z',
+        created_at: '2025-01-01T00:00:00Z',
+        sort_position: 'a',
+        user: mockUser,
+      },
+    ],
+  },
+};
+
+export const mockSingleComponentResponse = {
+  status: 200,
+  error: false,
+  meta: {
+    key: 'comp-key-1',
+    file_key: 'file-abc',
+    node_id: '1:2',
+    thumbnail_url: 'https://example.com/thumb1.png',
+    name: 'Button',
+    description: 'Primary button component',
+    updated_at: '2026-03-20T10:00:00Z',
+    created_at: '2025-01-01T00:00:00Z',
+    user: mockUser,
+    containing_frame: { nodeId: '0:1', name: 'Components', pageName: 'Library' },
+  },
+};
+
+export const mockSingleComponentSetResponse = {
+  status: 200,
+  error: false,
+  meta: {
+    key: 'set-key-1',
+    file_key: 'file-abc',
+    node_id: '1:10',
+    thumbnail_url: 'https://example.com/set-thumb.png',
+    name: 'Button',
+    description: 'Button variant set',
+    updated_at: '2026-03-20T10:00:00Z',
+    created_at: '2025-01-01T00:00:00Z',
+    user: mockUser,
+    containing_frame: { nodeId: '0:1', name: 'Components', pageName: 'Library' },
+  },
+};
+
+export const mockSingleStyleResponse = {
+  status: 200,
+  error: false,
+  meta: {
+    key: 'style-key-1',
+    file_key: 'file-abc',
+    node_id: '2:1',
+    style_type: 'FILL',
+    thumbnail_url: 'https://example.com/style-thumb.png',
+    name: 'Brand/Primary',
+    description: 'Primary brand color',
+    updated_at: '2026-03-20T10:00:00Z',
+    created_at: '2025-01-01T00:00:00Z',
+    sort_position: 'a',
+    user: mockUser,
+  },
+};
+
+// ============================================================================
+// Version History Fixtures
+// ============================================================================
+
+export const mockVersionsResponse = {
+  versions: [
+    {
+      id: 'ver-1',
+      created_at: '2026-03-28T12:00:00Z',
+      label: 'v2.0 Release',
+      description: 'Major update',
+      user: mockUser,
+    },
+    {
+      id: 'ver-2',
+      created_at: '2026-03-20T08:00:00Z',
+      label: '',
+      description: '',
+      user: mockUser,
+    },
+  ],
+  pagination: {
+    prev_page: '',
+    next_page: 'https://api.figma.com/v1/files/abc/versions?after=ver-2',
+  },
+};
+
+// ============================================================================
+// File Metadata Fixtures
+// ============================================================================
+
+export const mockFileMetadataResponse = {
+  file: {
+    name: 'Design System Library',
+    folder_name: 'Libraries',
+    last_touched_at: '2026-03-29T10:00:00Z',
+    creator: mockUser,
+    last_touched_by: mockUser,
+    thumbnail_url: 'https://example.com/file-thumb.png',
+    editorType: 'figma',
+    version: '123456',
+    role: 'editor',
+    link_access: 'org_view',
+    url: 'https://www.figma.com/design/abc/Design-System-Library',
+  },
+};
+
+// ============================================================================
+// User (Me) Fixtures
+// ============================================================================
+
+export const mockMeResponse = {
+  id: 'user-1',
+  handle: 'Jane Designer',
+  img_url: 'https://example.com/avatar.png',
+  email: 'jane@example.com',
+};
