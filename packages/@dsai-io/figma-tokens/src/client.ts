@@ -43,6 +43,8 @@ import type {
   ExtendedExportOptions,
   TokenExtensions,
   TokenCategory,
+  FigmaPostVariablesRequest,
+  FigmaPostVariablesResponse,
 } from './types.js';
 
 // ============================================================================
@@ -709,6 +711,87 @@ export class FigmaClient {
       variables: data.variables ?? {},
       variableCollections: data.variableCollections ?? {},
     };
+  }
+
+  /**
+   * Create, update, and delete variables, collections, modes, and mode values
+   *
+   * This is an atomic operation — if any change fails validation,
+   * the entire request is rolled back.
+   *
+   * Temporary IDs can be used in `id` fields to cross-reference
+   * objects created within the same request. The response maps
+   * temporary IDs to their real Figma IDs.
+   *
+   * @param fileKey - The Figma file key
+   * @param request - The changes to apply
+   * @returns Response with temp-to-real ID mapping
+   *
+   * @remarks
+   * - Requires Figma Enterprise plan
+   * - Requires `file_variables:write` scope on the access token
+   * - Requires edit access to the file
+   * - Request body must be under 4MB
+   *
+   * @see https://developers.figma.com/docs/rest-api/variables-endpoints/
+   *
+   * @example Create a collection with a variable
+   * ```ts
+   * const result = await client.postVariables('abc123', {
+   *   variableCollections: [
+   *     { action: 'CREATE', id: 'temp-coll', name: 'Spacing' },
+   *   ],
+   *   variables: [
+   *     {
+   *       action: 'CREATE',
+   *       id: 'temp-var',
+   *       name: 'spacing/sm',
+   *       variableCollectionId: 'temp-coll',
+   *       resolvedType: 'FLOAT',
+   *     },
+   *   ],
+   *   variableModeValues: [
+   *     { variableId: 'temp-var', modeId: 'temp-coll', value: 8 },
+   *   ],
+   * });
+   *
+   * console.log(result.meta.tempIdToRealId);
+   * // { 'temp-coll': 'VariableCollectionId:5:0', 'temp-var': 'VariableID:5:1' }
+   * ```
+   *
+   * @example Update an existing variable
+   * ```ts
+   * await client.postVariables('abc123', {
+   *   variables: [
+   *     {
+   *       action: 'UPDATE',
+   *       id: 'VariableID:1:1',
+   *       description: 'Updated via REST API',
+   *     },
+   *   ],
+   * });
+   * ```
+   *
+   * @example Delete a variable
+   * ```ts
+   * await client.postVariables('abc123', {
+   *   variables: [
+   *     { action: 'DELETE', id: 'VariableID:1:1' },
+   *   ],
+   * });
+   * ```
+   */
+  public async postVariables(
+    fileKey: string,
+    request: FigmaPostVariablesRequest
+  ): Promise<FigmaPostVariablesResponse> {
+    return this.request<FigmaPostVariablesResponse>(
+      `/files/${fileKey}/variables`,
+      {
+        method: 'POST',
+        body: JSON.stringify(request),
+      }
+    );
   }
 
   // ==========================================================================
