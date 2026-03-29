@@ -32,6 +32,7 @@ import {
   createAddCommand,
   createConfigCommand,
   createIconsCommand,
+  createInfoCommand,
   createInitCommand,
   createRegistryCommand,
   createTokensCommand,
@@ -62,6 +63,7 @@ export async function run(args: string[] = process.argv): Promise<void> {
   program.addCommand(createInitCommand());
   program.addCommand(createConfigCommand());
   program.addCommand(createRegistryCommand());
+  program.addCommand(createInfoCommand());
 
   // Set up error handling for unknown commands
   setupErrorHandling(program);
