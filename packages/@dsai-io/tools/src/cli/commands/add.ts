@@ -30,7 +30,7 @@ import { colors, createLogger, createSpinner } from '../ui/index.js';
 import type { RegistryIndex, RegistryIndexEntry } from '../../registry/types.js';
 
 /** Valid type filter values */
-const VALID_TYPES = ['ui', 'hook', 'util', 'lib', 'type', 'style'] as const;
+const VALID_TYPES = ['ui', 'hook', 'util', 'lib', 'type'] as const;
 
 /**
  * Create the `add` command.
@@ -40,7 +40,7 @@ export function createAddCommand(): Command {
     .description('Add DSAi items (components, hooks, utils) to your project')
     .argument('[items...]', 'Item names to add (e.g., button use-focus-trap cn)')
     .option('--all', 'Add all items of the specified type (default: ui)', false)
-    .option('--type <type>', 'Filter by type: ui, hook, util, lib, type')
+    .option('--type <type>', 'Filter by type: ui, hook, util, type')
     .option('--overwrite', 'Overwrite existing files', false)
     .option('--dry-run', 'Preview changes without writing files', false)
     .option('--registry <path>', 'Path to local registry directory')
@@ -107,7 +107,7 @@ export function createAddCommand(): Command {
           }
 
           // Display order: ui first, then hook, util, lib, type
-          const displayOrder = ['ui', 'hook', 'util', 'lib', 'type', 'style'];
+          const displayOrder = ['ui', 'hook', 'util', 'lib', 'type'];
           for (const type of displayOrder) {
             const typeItems = grouped[type];
             if (!typeItems || typeItems.length === 0) continue;
