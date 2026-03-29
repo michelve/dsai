@@ -5,7 +5,9 @@
   "description": "Responsive design utilities.",
   "dependencies": [],
   "devDependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "dsai-types"
+  ],
   "files": [
     {
       "path": "responsive/index.ts",

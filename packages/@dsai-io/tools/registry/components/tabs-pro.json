@@ -5,7 +5,9 @@
   "description": "Advanced tabbed interface with closable, sortable, and overflow support.",
   "dependencies": [],
   "devDependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "tabs"
+  ],
   "files": [
     {
       "path": "index.ts",

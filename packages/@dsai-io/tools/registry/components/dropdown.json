@@ -9,6 +9,7 @@
   "devDependencies": [],
   "registryDependencies": [
     "cn",
+    "dsai-types",
     "misc",
     "validation"
   ],

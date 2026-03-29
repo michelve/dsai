@@ -6,7 +6,9 @@
   "dependencies": [],
   "devDependencies": [],
   "registryDependencies": [
-    "cn"
+    "card",
+    "cn",
+    "selectable-card"
   ],
   "files": [
     {

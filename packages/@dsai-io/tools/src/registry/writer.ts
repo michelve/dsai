@@ -34,6 +34,8 @@ function getTargetDir(type: string, aliases: ResolvedAliasesConfig): string {
     case 'registry:util': return aliases.utils;
     case 'registry:lib': return aliases.lib;
     case 'registry:component': return aliases.components;
+    case 'registry:type': return aliases.components;
+    case 'registry:style': return aliases.ui;
     default: return aliases.lib;
   }
 }
@@ -70,6 +72,9 @@ export function writeRegistryItems(tree: ResolvedTree, options: WriteOptions): W
         targetPath = join(projectDir, file.target);
       } else if (item.type === 'registry:ui' || item.type === 'registry:component') {
         targetPath = join(projectDir, targetBaseDir, item.name, fileName);
+      } else if (item.type === 'registry:type') {
+        // Types keep their subdirectory structure: components/types/<filename>
+        targetPath = join(projectDir, targetBaseDir, file.path);
       } else {
         targetPath = join(projectDir, targetBaseDir, fileName);
       }

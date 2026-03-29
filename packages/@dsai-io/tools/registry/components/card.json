@@ -7,8 +7,10 @@
   "devDependencies": [],
   "registryDependencies": [
     "cn",
+    "dsai-types",
     "keyboard",
     "string",
+    "types",
     "validation"
   ],
   "files": [

@@ -1,14 +1,14 @@
 {
   "name": "@dsai-io/tools",
-  "version": "1.0.7",
+  "version": "1.1.0",
   "description": "Build tooling and CLI for DSAi Design System",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "dsai": "./bin/dsai-tools.mjs",
-    "dsai-tools": "./bin/dsai-tools.mjs"
+    "dsai": "bin/dsai-tools.mjs",
+    "dsai-tools": "bin/dsai-tools.mjs"
   },
   "exports": {
     ".": {
@@ -97,6 +97,6 @@
     }
   },
   "publishConfig": {
-    "access": "restricted"
+    "access": "public"
   }
 }

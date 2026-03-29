@@ -7,6 +7,8 @@
   "devDependencies": [],
   "registryDependencies": [
     "cn",
+    "dsai-types",
+    "icon",
     "keyboard"
   ],
   "files": [

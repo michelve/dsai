@@ -6,7 +6,8 @@
   "dependencies": [],
   "devDependencies": [],
   "registryDependencies": [
-    "cn"
+    "cn",
+    "dsai-types"
   ],
   "files": [
     {

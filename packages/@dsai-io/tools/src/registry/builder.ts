@@ -43,7 +43,6 @@ const EXCLUDE_PATTERNS: RegExp[] = [
   /\.security\.test\./,
   /\.integration\.test\./,
   /README\.md$/,
-  /\.css$/,
 ];
 
 const REACT_BUILTINS = new Set(['react', 'react-dom', 'react/jsx-runtime', 'react-dom/client']);
@@ -62,7 +61,7 @@ const UTIL_SUBPATH_TO_REGISTRY: Record<string, string> = {
   string: 'string',
   misc: 'misc',
   a11y: 'a11y',
-  types: 'validation',
+  types: 'types',
   async: 'async',
   collections: 'collections',
   color: 'color',
@@ -86,7 +85,7 @@ const UTIL_SUBPATH_TO_REGISTRY: Record<string, string> = {
 
 function shouldIncludeFile(filePath: string): boolean {
   const ext = extname(filePath);
-  if (ext !== '.ts' && ext !== '.tsx') return false;
+  if (!['.ts', '.tsx', '.css'].includes(ext)) return false;
   return !EXCLUDE_PATTERNS.some((pattern) => pattern.test(filePath));
 }
 
@@ -146,6 +145,13 @@ function analyzeImports(files: { content: string }[], knownNpmDeps: string[]): A
     while ((m = importPattern.exec(file.content)) !== null) {
       const specifier = m[1] ?? '';
 
+      // Shared types imports: ../../types or ../../types/<subpath>
+      const typesPattern = /\.\.\/(?:\.\.\/)?types(?:\/.*)?$/;
+      if (typesPattern.test(specifier)) {
+        registryDeps.add('dsai-types');
+        continue;
+      }
+
       // Hook imports: ../../hooks/<hookName> or ../hooks/<hookName>
       const hookPattern = /\.\.\/(?:\.\.\/)?hooks\/(\w+)/;
       const hookMatch = hookPattern.exec(specifier);
@@ -165,11 +171,13 @@ function analyzeImports(files: { content: string }[], knownNpmDeps: string[]): A
         continue;
       }
 
-      // Component cross-imports: ../../components/<ComponentDir> or ../<ComponentDir>
-      const compPattern = /\.\.\/(?:\.\.\/)?components\/(\w+)/;
+      // Component cross-imports: ../../components/<Dir>, ../<PascalCaseDir>, or ../<PascalCaseDir>/<file>
+      // Matches: ../Icon, ../Spinner, ../Card/Card.types, ../../components/Modal
+      const compPattern = /^\.\.\/(\.\.\/)?(?:components\/)?([A-Z]\w+)(?:\/.*)?$/;
       const compMatch = compPattern.exec(specifier);
-      if (compMatch && compMatch[1]) {
-        const regName = directoryToRegistryName[compMatch[1]];
+      if (compMatch && compMatch[2]) {
+        const compDir = compMatch[2];
+        const regName = directoryToRegistryName[compDir];
         if (regName) registryDeps.add(regName);
         continue;
       }
@@ -217,7 +225,7 @@ function buildComponentItem(
 
   const files: RegistryFile[] = sourceFiles.map((f) => ({
     path: f.path,
-    type: 'registry:ui' as RegistryItemType,
+    type: (extname(f.path) === '.css' ? 'registry:style' : meta.type) as RegistryItemType,
     content: f.content,
   }));
 
@@ -255,7 +263,7 @@ function buildHookItem(
 
   const files: RegistryFile[] = sourceFiles.map((f) => ({
     path: f.path,
-    type: 'registry:hook' as RegistryItemType,
+    type: (extname(f.path) === '.css' ? 'registry:style' : meta.type) as RegistryItemType,
     content: f.content,
   }));
 
@@ -301,7 +309,7 @@ function buildUtilItem(
     npmDeps = analyzed.npmDeps;
     files = sourceFiles.map((f) => ({
       path: `dom/${f.path}`,
-      type: 'registry:util' as RegistryItemType,
+      type: (extname(f.path) === '.css' ? 'registry:style' : 'registry:util') as RegistryItemType,
       content: f.content,
     }));
   } else {
@@ -321,7 +329,7 @@ function buildUtilItem(
     npmDeps = analyzed.npmDeps;
     files = sourceFiles.map((f) => ({
       path: `${name}/${f.path}`,
-      type: 'registry:util' as RegistryItemType,
+      type: (extname(f.path) === '.css' ? 'registry:style' : 'registry:util') as RegistryItemType,
       content: f.content,
     }));
   }
@@ -336,6 +344,43 @@ function buildUtilItem(
     registryDependencies: [...registryDeps].sort(),
     files,
     categories: meta.categories,
+  };
+}
+
+function buildTypesItem(
+  reactSrcDir: string,
+  log: (msg: string) => void,
+): RegistryItem | null {
+  const typesDir = join(reactSrcDir, 'types');
+  const sourceFiles = readSourceFiles(typesDir);
+  if (sourceFiles.length === 0) {
+    log('  [WARN] No type files found');
+    return null;
+  }
+
+  // Filter out files that import from utils (responsive.ts re-exports runtime helpers)
+  // and strip those re-export lines
+  const files: RegistryFile[] = sourceFiles.map((f) => {
+    let content = f.content;
+    // Remove re-exports of runtime helpers from utils (they don't belong in types)
+    content = content.replace(/export \{[^}]*\} from ['"]\.\.\/utils\/[^'"]+['"];?\n?/g, '');
+    return {
+      path: `types/${f.path}`,
+      type: 'registry:type' as RegistryItemType,
+      content,
+    };
+  });
+
+  return {
+    name: 'dsai-types',
+    type: 'registry:type',
+    title: 'Shared Types',
+    description: 'Shared type definitions (SafeHTMLAttributes, ComponentSize, PolymorphicComponentProps, etc.)',
+    dependencies: [],
+    devDependencies: [],
+    registryDependencies: [],
+    files,
+    categories: ['types'],
   };
 }
 
@@ -394,11 +439,19 @@ export function buildRegistry(options: BuildRegistryOptions): RegistryIndex {
     if (item) allItems.push(item);
   }
 
+  // --- Shared Types ---
+  log('[registry] Building shared types...');
+  const typesItem = buildTypesItem(reactSrcDir, log);
+  if (typesItem) {
+    allItems.push(typesItem);
+    log(`  Built dsai-types (${typesItem.files.length} files)`);
+  }
+
   // --- Write output ---
   log(`[registry] Writing ${allItems.length} items to ${outputDir}...`);
 
   // Ensure output directories exist
-  for (const sub of ['components', 'hooks', 'utils']) {
+  for (const sub of ['components', 'hooks', 'utils', 'types']) {
     const dir = join(outputDir, sub);
     if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
   }
@@ -409,6 +462,7 @@ export function buildRegistry(options: BuildRegistryOptions): RegistryIndex {
     'registry:hook': 'hooks',
     'registry:util': 'utils',
     'registry:lib': 'utils',
+    'registry:type': 'types',
   };
 
   for (const item of allItems) {

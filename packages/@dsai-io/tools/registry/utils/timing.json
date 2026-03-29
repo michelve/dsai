@@ -5,7 +5,9 @@
   "description": "Timing utilities: debounce and throttle functions.",
   "dependencies": [],
   "devDependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "dsai-types"
+  ],
   "files": [
     {
       "path": "timing/debounce.ts",
