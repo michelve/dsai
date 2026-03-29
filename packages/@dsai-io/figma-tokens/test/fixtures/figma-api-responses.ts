@@ -527,3 +527,176 @@ export const error413PayloadTooLarge = {
   code: 'PAYLOAD_TOO_LARGE',
   requestId: 'req-413-test',
 };
+
+// ============================================================================
+// Library Analytics Response Fixtures
+// ============================================================================
+
+/** Component actions grouped by component */
+export const mockComponentActionsByComponent = {
+  rows: [
+    {
+      component_key: 'comp-key-1',
+      week: '2026-03-23',
+      detachments: 3,
+      insertions: 15,
+      component_name: 'Button',
+      component_set_key: 'set-key-1',
+      component_set_name: 'Button',
+    },
+    {
+      component_key: 'comp-key-2',
+      week: '2026-03-23',
+      detachments: 0,
+      insertions: 8,
+      component_name: 'Card',
+      component_set_key: 'set-key-2',
+      component_set_name: 'Card',
+    },
+  ],
+  cursor: 'cursor-page-2',
+  next_page: true,
+};
+
+/** Component actions grouped by team */
+export const mockComponentActionsByTeam = {
+  rows: [
+    {
+      week: '2026-03-23',
+      detachments: 5,
+      insertions: 42,
+      team_name: 'Design Systems',
+      workspace_name: 'Acme Corp',
+    },
+  ],
+  cursor: '',
+  next_page: false,
+};
+
+/** Component usages grouped by component */
+export const mockComponentUsagesByComponent = {
+  rows: [
+    {
+      component_key: 'comp-key-1',
+      usages: 234,
+      teams_using: 5,
+      files_using: 18,
+      component_name: 'Button',
+      component_set_key: 'set-key-1',
+      component_set_name: 'Button',
+    },
+  ],
+  cursor: '',
+  next_page: false,
+};
+
+/** Component usages grouped by file */
+export const mockComponentUsagesByFile = {
+  rows: [
+    {
+      usages: 42,
+      team_name: 'Design Systems',
+      workspace_name: 'Acme Corp',
+      file_name: 'Web App Designs',
+    },
+  ],
+  cursor: '',
+  next_page: false,
+};
+
+/** Style actions grouped by style */
+export const mockStyleActionsByStyle = {
+  rows: [
+    {
+      style_key: 'style-key-1',
+      week: '2026-03-23',
+      detachments: 1,
+      insertions: 20,
+      style_name: 'Brand/Primary',
+      style_type: 'FILL',
+    },
+  ],
+  cursor: '',
+  next_page: false,
+};
+
+/** Style usages grouped by style */
+export const mockStyleUsagesByStyle = {
+  rows: [
+    {
+      style_key: 'style-key-1',
+      usages: 150,
+      teams_using: 4,
+      files_using: 12,
+      style_name: 'Brand/Primary',
+      style_type: 'FILL',
+    },
+  ],
+  cursor: '',
+  next_page: false,
+};
+
+/** Variable actions grouped by variable */
+export const mockVariableActionsByVariable = {
+  rows: [
+    {
+      variable_key: 'var-key-1',
+      week: '2026-03-23',
+      detachments: 0,
+      insertions: 10,
+      variable_name: 'colors/primary',
+      variable_type: 'COLOR',
+      collection_key: 'coll-key-1',
+      collection_name: 'primitives',
+    },
+  ],
+  cursor: '',
+  next_page: false,
+};
+
+/** Variable usages grouped by variable */
+export const mockVariableUsagesByVariable = {
+  rows: [
+    {
+      variable_key: 'var-key-1',
+      usages: 88,
+      teams_using: 3,
+      files_using: 9,
+      variable_name: 'colors/primary',
+      variable_type: 'COLOR',
+      collection_key: 'coll-key-1',
+      collection_name: 'primitives',
+    },
+  ],
+  cursor: '',
+  next_page: false,
+};
+
+/** Actions grouped by team (shared shape for style and variable actions) */
+export const mockActionsByTeam = {
+  rows: [
+    {
+      week: '2026-03-23',
+      detachments: 2,
+      insertions: 30,
+      team_name: 'Product',
+      workspace_name: 'Acme Corp',
+    },
+  ],
+  cursor: '',
+  next_page: false,
+};
+
+/** Usages grouped by file (shared shape for style and variable usages) */
+export const mockUsagesByFile = {
+  rows: [
+    {
+      usages: 25,
+      team_name: 'Product',
+      workspace_name: 'Acme Corp',
+      file_name: 'Dashboard',
+    },
+  ],
+  cursor: '',
+  next_page: false,
+};

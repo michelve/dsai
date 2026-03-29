@@ -8,6 +8,12 @@ import {
   mockVariablesResponse,
   mockStyleNodes,
   mockPostVariablesResponse,
+  mockComponentActionsByComponent,
+  mockComponentUsagesByComponent,
+  mockStyleActionsByStyle,
+  mockStyleUsagesByStyle,
+  mockVariableActionsByVariable,
+  mockVariableUsagesByVariable,
   error403Forbidden,
   error404NotFound,
   error429RateLimited,
@@ -87,6 +93,28 @@ function createErrorResponse(
  */
 export function createDefaultMockFetch(): MockFetchHandler {
   return (url: string, options?: RequestInit): Promise<MockFetchResponse> => {
+    // Analytics endpoints
+    if (url.includes('/analytics/libraries/')) {
+      if (url.includes('/component/actions')) {
+        return Promise.resolve(createSuccessResponse(mockComponentActionsByComponent, 'req-comp-actions'));
+      }
+      if (url.includes('/component/usages')) {
+        return Promise.resolve(createSuccessResponse(mockComponentUsagesByComponent, 'req-comp-usages'));
+      }
+      if (url.includes('/style/actions')) {
+        return Promise.resolve(createSuccessResponse(mockStyleActionsByStyle, 'req-style-actions'));
+      }
+      if (url.includes('/style/usages')) {
+        return Promise.resolve(createSuccessResponse(mockStyleUsagesByStyle, 'req-style-usages'));
+      }
+      if (url.includes('/variable/actions')) {
+        return Promise.resolve(createSuccessResponse(mockVariableActionsByVariable, 'req-var-actions'));
+      }
+      if (url.includes('/variable/usages')) {
+        return Promise.resolve(createSuccessResponse(mockVariableUsagesByVariable, 'req-var-usages'));
+      }
+    }
+
     // POST to variables endpoint
     if (url.includes('/variables') && options?.method === 'POST') {
       return Promise.resolve(createSuccessResponse(mockPostVariablesResponse, 'req-post-vars-test'));
