@@ -191,6 +191,7 @@ ${colors.bold}Commands:${colors.reset}
   fetch       Fetch variables from Figma and save to figma-exports/
   sync        Sync tokens between Figma and local files
   validate    Validate exported token files
+  info        Show tool inventory, API methods, and endpoint coverage
   help        Show this help message
 
 ${colors.bold}Options:${colors.reset}
@@ -232,6 +233,143 @@ ${colors.bold}Examples:${colors.reset}
 }
 
 /**
+ * Static registry of dsai-figma capabilities
+ */
+const infoRegistry = {
+  package: '@dsai-io/figma-tokens',
+  version: '1.0.5',
+  description: 'Figma REST API client and design token synchronization for DSAi.',
+  documentation: 'https://github.com/michelve/dsai/tree/main/packages/@dsai-io/figma-tokens',
+  cli: {
+    binary: 'dsai-figma',
+    commands: [
+      {
+        name: 'fetch',
+        description: 'Fetch variables from Figma and save to local files',
+        options: ['--file-key <key>', '--output <dir>', '--format <format>', '--collections <list>', '--modes <list>', '--resolve-aliases', '--dry-run', '--verbose'],
+      },
+      {
+        name: 'sync',
+        description: 'Sync tokens between Figma and local files',
+        options: ['--file-key <key>', '--tokens-dir <dir>', '--direction <dir>', '--backup', '--dry-run'],
+      },
+      {
+        name: 'validate',
+        description: 'Validate exported token files',
+        options: ['--output <dir>', '--verbose'],
+      },
+      {
+        name: 'info',
+        description: 'Show tool inventory, API methods, and endpoint coverage',
+        options: ['--json'],
+      },
+    ],
+    environment: [
+      { name: 'FIGMA_TOKEN', description: 'Figma personal access token (required)', required: true },
+      { name: 'FIGMA_FILE_KEY', description: 'Default Figma file key', required: false },
+    ],
+  },
+  api: {
+    client: 'FigmaClient',
+    factory: "createFigmaClient({ accessToken })",
+    methods: [
+      { name: 'getFile', description: 'Get file metadata, components, and styles', endpoint: 'GET /v1/files/:key' },
+      { name: 'getFileNodes', description: 'Get specific nodes by ID', endpoint: 'GET /v1/files/:key/nodes' },
+      { name: 'getFileMetadata', description: 'Get lightweight file metadata', endpoint: 'GET /v1/files/:key/meta' },
+      { name: 'getVersionHistory', description: 'Get file version history', endpoint: 'GET /v1/files/:key/versions' },
+      { name: 'getVariables', description: 'Get local variables and collections', endpoint: 'GET /v1/files/:key/variables/local' },
+      { name: 'getPublishedVariables', description: 'Get published variables', endpoint: 'GET /v1/files/:key/variables/published' },
+      { name: 'postVariables', description: 'Create, update, delete variables (atomic)', endpoint: 'POST /v1/files/:key/variables' },
+      { name: 'getPublishedComponents', description: 'Get published components from library', endpoint: 'GET /v1/files/:key/components' },
+      { name: 'getPublishedComponentSets', description: 'Get published component sets (variants)', endpoint: 'GET /v1/files/:key/component_sets' },
+      { name: 'getPublishedStyles', description: 'Get published styles from library', endpoint: 'GET /v1/files/:key/styles' },
+      { name: 'getComponent', description: 'Get single component by key', endpoint: 'GET /v1/components/:key' },
+      { name: 'getComponentSet', description: 'Get single component set by key', endpoint: 'GET /v1/component_sets/:key' },
+      { name: 'getStyle', description: 'Get single style by key', endpoint: 'GET /v1/styles/:key' },
+      { name: 'getComponentActions', description: 'Component insertion/detachment analytics', endpoint: 'GET /v1/analytics/libraries/:key/component/actions' },
+      { name: 'getComponentUsages', description: 'Component usage counts', endpoint: 'GET /v1/analytics/libraries/:key/component/usages' },
+      { name: 'getStyleActions', description: 'Style insertion/detachment analytics', endpoint: 'GET /v1/analytics/libraries/:key/style/actions' },
+      { name: 'getStyleUsages', description: 'Style usage counts', endpoint: 'GET /v1/analytics/libraries/:key/style/usages' },
+      { name: 'getVariableActions', description: 'Variable insertion/detachment analytics', endpoint: 'GET /v1/analytics/libraries/:key/variable/actions' },
+      { name: 'getVariableUsages', description: 'Variable usage counts', endpoint: 'GET /v1/analytics/libraries/:key/variable/usages' },
+      { name: 'getMe', description: 'Get authenticated user info', endpoint: 'GET /v1/me' },
+      { name: 'exportTokens', description: 'Export tokens to files (DTCG/TokensStudio/SD)', endpoint: 'Composite' },
+      { name: 'syncTokens', description: 'Bidirectional token sync with conflict resolution', endpoint: 'Composite' },
+    ],
+  },
+  coverage: {
+    files: ['GET file', 'GET nodes', 'GET metadata', 'GET versions'],
+    variables: ['GET local', 'GET published', 'POST create/update/delete'],
+    library: ['GET components', 'GET component_sets', 'GET styles', 'GET component by key', 'GET component_set by key', 'GET style by key'],
+    analytics: ['GET component actions', 'GET component usages', 'GET style actions', 'GET style usages', 'GET variable actions', 'GET variable usages'],
+    user: ['GET me'],
+  },
+};
+
+/**
+ * Show info output
+ * @param {boolean} asJson
+ * @returns {void}
+ */
+function showInfo(asJson) {
+  if (asJson) {
+    process.stdout.write(JSON.stringify(infoRegistry, null, 2) + '\n');
+    return;
+  }
+
+  const line = (msg) => process.stdout.write(msg + '\n');
+  const c = colors;
+
+  line('');
+  line(`${c.bold}${infoRegistry.package}${c.reset} v${infoRegistry.version}`);
+  line(`${c.dim}${infoRegistry.description}${c.reset}`);
+  line(`${c.dim}${'\u2500'.repeat(70)}${c.reset}`);
+
+  // CLI Commands
+  line('');
+  line(`${c.bold}CLI Commands${c.reset}`);
+  line('');
+  for (const cmd of infoRegistry.cli.commands) {
+    const opts = cmd.options.length > 0 ? `${c.dim} [${cmd.options.join(', ')}]${c.reset}` : '';
+    line(`  ${c.green}${c.bold}dsai-figma ${cmd.name}${c.reset}${opts}`);
+    line(`    ${c.dim}${cmd.description}${c.reset}`);
+  }
+
+  // Environment
+  line('');
+  line(`${c.bold}Environment Variables${c.reset}`);
+  line('');
+  for (const env of infoRegistry.cli.environment) {
+    const req = env.required ? `${c.red}(required)${c.reset}` : `${c.dim}(optional)${c.reset}`;
+    line(`  ${c.cyan}${env.name}${c.reset}  ${env.description} ${req}`);
+  }
+
+  // API Client Methods
+  line('');
+  line(`${c.bold}API Client: ${c.cyan}FigmaClient${c.reset}`);
+  line(`${c.dim}Import: import { createFigmaClient } from '@dsai-io/figma-tokens'${c.reset}`);
+  line('');
+  for (const method of infoRegistry.api.methods) {
+    line(`  ${c.green}${method.name}()${c.reset}  ${c.dim}${method.description}${c.reset}`);
+    line(`    ${c.cyan}${method.endpoint}${c.reset}`);
+  }
+
+  // Coverage Map
+  line('');
+  line(`${c.bold}Figma REST API Coverage${c.reset}`);
+  line('');
+  for (const [category, endpoints] of Object.entries(infoRegistry.coverage)) {
+    line(`  ${c.yellow}${category}${c.reset}: ${endpoints.join(', ')}`);
+  }
+
+  // Links
+  line('');
+  line(`${c.bold}Documentation${c.reset}`);
+  line(`  ${c.cyan}${c.bold}${infoRegistry.documentation}${c.reset}`);
+  line('');
+}
+
+/**
  * Main CLI entry point
  * @returns {Promise<void>}
  */
@@ -241,6 +379,13 @@ async function main() {
   // Show help if requested
   if (args.includes('--help') || args.includes('-h') || args[0] === 'help') {
     showHelp();
+    process.exit(0);
+  }
+
+  // Show info if requested
+  if (args[0] === 'info') {
+    const asJson = args.includes('--json');
+    showInfo(asJson);
     process.exit(0);
   }
 
