@@ -165,6 +165,14 @@ export type {
   ExportTokensResult,
   SyncFigmaOptions,
   SyncFigmaResult,
+  // POST Variables API types
+  FigmaVariableAction,
+  FigmaVariableCollectionChange,
+  FigmaVariableModeChange,
+  FigmaVariableChange,
+  FigmaVariableModeValue,
+  FigmaPostVariablesRequest,
+  FigmaPostVariablesResponse,
 } from './types.js';
 
 // ============================================================================
