@@ -173,6 +173,18 @@ export type {
   FigmaVariableModeValue,
   FigmaPostVariablesRequest,
   FigmaPostVariablesResponse,
+  // Library Analytics types
+  FigmaPaginatedResponse,
+  FigmaComponentActionByComponent,
+  FigmaActionByTeam,
+  FigmaComponentUsageByComponent,
+  FigmaUsageByFile,
+  FigmaStyleActionByStyle,
+  FigmaStyleUsageByStyle,
+  FigmaVariableActionByVariable,
+  FigmaVariableUsageByVariable,
+  FigmaAnalyticsActionsOptions,
+  FigmaAnalyticsUsagesOptions,
 } from './types.js';
 
 // ============================================================================
