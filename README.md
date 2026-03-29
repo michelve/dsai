@@ -4,11 +4,11 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/068516f0032a4690b46404252021023a)](https://app.codacy.com?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](LICENSE.md)
 
-> **Beta** -- DSAi is currently in active development and not yet generally available. APIs and interfaces may change between releases.
+> **Beta** — DSAi is in active development. APIs may change between releases. [Early access & collaboration →](https://github.com/michelve/dsai)
 
-A production-ready React 19 component library with 38+ accessible components, design token pipeline, Figma integration, and a shadcn-style CLI for copying components directly into your project.
+Build beautiful, accessible interfaces - fast. DSAi gives you production-ready components, a design token pipeline, and a CLI that lets you own your code. No black-box dependencies, just copy, customize, and ship.
 
-Built with TypeScript strict mode, Bootstrap 5 styling, WCAG 2.1 AA accessibility, and an Nx monorepo architecture.
+Accessible by default. Themeable with design tokens. Designed to work the way your team already builds, with Bootstrap styling, Figma integration, and TypeScript you can trust.
 
 ---
 
