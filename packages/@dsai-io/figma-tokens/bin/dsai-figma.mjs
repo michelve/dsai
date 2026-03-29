@@ -237,7 +237,7 @@ ${colors.bold}Examples:${colors.reset}
  */
 const infoRegistry = {
   package: '@dsai-io/figma-tokens',
-  version: '1.0.5',
+  version: '1.1.0',
   description: 'Figma REST API client and design token synchronization for DSAi.',
   documentation: 'https://github.com/michelve/dsai/tree/main/packages/@dsai-io/figma-tokens',
   cli: {

@@ -18,11 +18,14 @@ Requires [`@dsai-io/tools`](https://www.npmjs.com/package/@dsai-io/tools) as a d
 
 ## What This Package Does
 
+- **Figma REST API client** with 21 methods covering variables, published components/styles, library analytics, version history, and file metadata
+- **Write support** -- create, update, and delete variables via `POST /v1/files/:key/variables`
+- **Library analytics** -- query component, style, and variable usage/action data with cursor-based pagination
 - Fetches design token variables from the Figma REST API
 - Validates Figma token exports against the DTCG spec
 - Transforms Figma variable exports into Style Dictionary-compatible collections
 - Syncs tokens between Figma files and your local design system
-- Includes a rate limiter to stay within Figma API limits
+- Built-in rate limiter, circuit breaker, and retry logic
 
 ## CLI
 
@@ -35,6 +38,10 @@ dsai-figma sync
 
 # Validate exported tokens
 dsai-figma validate
+
+# Show all capabilities (for humans and AI agents)
+dsai-figma info
+dsai-figma info --json    # Structured JSON for agent consumption
 ```
 
 ### Environment Variables
@@ -92,11 +99,47 @@ await transformTokens({
 ### Figma API Client
 
 ```typescript
-import { FigmaClient } from '@dsai-io/figma-tokens/client';
+import { createFigmaClient } from '@dsai-io/figma-tokens';
 
-const client = new FigmaClient({ token: process.env.FIGMA_TOKEN });
+const client = createFigmaClient({ accessToken: process.env.FIGMA_TOKEN });
+
+// Variables
 const variables = await client.getVariables(fileKey);
+const published = await client.getPublishedVariables(fileKey);
+
+// Write variables (create/update/delete -- atomic)
+await client.postVariables(fileKey, {
+  variables: [{ action: 'CREATE', id: 'temp-1', name: 'spacing/sm', variableCollectionId: 'coll-id', resolvedType: 'FLOAT' }],
+  variableModeValues: [{ variableId: 'temp-1', modeId: 'mode-id', value: 8 }],
+});
+
+// Published library
+const components = await client.getPublishedComponents(fileKey);
+const styles = await client.getPublishedStyles(fileKey);
+
+// Analytics (cursor-paginated)
+const actions = await client.getComponentActions(fileKey, 'component', {
+  startDate: '2025-01-01',
+  endDate: '2025-12-31',
+});
+
+// File info
+const versions = await client.getVersionHistory(fileKey);
+const metadata = await client.getFileMetadata(fileKey);
+const me = await client.getMe();
 ```
+
+### Figma REST API Coverage
+
+| Category | Endpoints |
+|----------|-----------|
+| Files | `GET file`, `GET nodes`, `GET metadata`, `GET versions` |
+| Variables | `GET local`, `GET published`, `POST create/update/delete` |
+| Library | `GET components`, `GET component_sets`, `GET styles`, `GET by key` |
+| Analytics | `GET component/style/variable actions/usages` (6 endpoints) |
+| User | `GET me` |
+
+Run `dsai-figma info --json` for the full machine-readable inventory.
 
 ## Typical Workflow
 

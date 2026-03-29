@@ -85,6 +85,10 @@ dsai config
 
 # Generate icon components from SVGs
 dsai icons build --format react
+
+# Show full tool inventory (for humans and AI agents)
+dsai info
+dsai info --json    # Structured JSON for agent consumption
 ```
 
 ## Configuration
