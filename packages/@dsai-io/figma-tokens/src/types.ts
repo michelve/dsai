@@ -558,6 +558,255 @@ export interface FigmaPostVariablesResponse {
 }
 
 // ============================================================================
+// Library Analytics API Types
+// ============================================================================
+
+/**
+ * Cursor-based paginated response from Figma Analytics API
+ */
+export interface FigmaPaginatedResponse<T> {
+  /** Rows of analytics data */
+  rows: T[];
+
+  /** Cursor for fetching the next page (pass as `cursor` query param) */
+  cursor: string;
+
+  /** Whether more pages are available */
+  next_page: boolean;
+}
+
+// ---------------------------------------------------------------------------
+// Component Analytics
+// ---------------------------------------------------------------------------
+
+/**
+ * Component action row grouped by component
+ */
+export interface FigmaComponentActionByComponent {
+  /** Component key */
+  component_key: string;
+
+  /** Week the data covers (ISO 8601 date) */
+  week: string;
+
+  /** Number of detachments */
+  detachments: number;
+
+  /** Number of insertions */
+  insertions: number;
+
+  /** Component name */
+  component_name: string;
+
+  /** Parent component set key (for variants) */
+  component_set_key: string;
+
+  /** Parent component set name */
+  component_set_name: string;
+}
+
+/**
+ * Component action row grouped by team
+ */
+export interface FigmaActionByTeam {
+  /** Week the data covers (ISO 8601 date) */
+  week: string;
+
+  /** Number of detachments */
+  detachments: number;
+
+  /** Number of insertions */
+  insertions: number;
+
+  /** Team name */
+  team_name: string;
+
+  /** Workspace name */
+  workspace_name: string;
+}
+
+/**
+ * Component usage row grouped by component
+ */
+export interface FigmaComponentUsageByComponent {
+  /** Component key */
+  component_key: string;
+
+  /** Total number of usages */
+  usages: number;
+
+  /** Number of teams using this component */
+  teams_using: number;
+
+  /** Number of files using this component */
+  files_using: number;
+
+  /** Component name */
+  component_name: string;
+
+  /** Parent component set key */
+  component_set_key: string;
+
+  /** Parent component set name */
+  component_set_name: string;
+}
+
+/**
+ * Usage row grouped by file (shared by component, style, and variable usages)
+ */
+export interface FigmaUsageByFile {
+  /** Total number of usages */
+  usages: number;
+
+  /** Team name */
+  team_name: string;
+
+  /** Workspace name */
+  workspace_name: string;
+
+  /** File name (may be "File not visible" if no access) */
+  file_name: string;
+}
+
+// ---------------------------------------------------------------------------
+// Style Analytics
+// ---------------------------------------------------------------------------
+
+/**
+ * Style action row grouped by style
+ */
+export interface FigmaStyleActionByStyle {
+  /** Style key */
+  style_key: string;
+
+  /** Week the data covers (ISO 8601 date) */
+  week: string;
+
+  /** Number of detachments */
+  detachments: number;
+
+  /** Number of insertions */
+  insertions: number;
+
+  /** Style name */
+  style_name: string;
+
+  /** Style type (FILL, TEXT, EFFECT, GRID) */
+  style_type: string;
+}
+
+/**
+ * Style usage row grouped by style
+ */
+export interface FigmaStyleUsageByStyle {
+  /** Style key */
+  style_key: string;
+
+  /** Total number of usages */
+  usages: number;
+
+  /** Number of teams using this style */
+  teams_using: number;
+
+  /** Number of files using this style */
+  files_using: number;
+
+  /** Style name */
+  style_name: string;
+
+  /** Style type (FILL, TEXT, EFFECT, GRID) */
+  style_type: string;
+}
+
+// ---------------------------------------------------------------------------
+// Variable Analytics
+// ---------------------------------------------------------------------------
+
+/**
+ * Variable action row grouped by variable
+ */
+export interface FigmaVariableActionByVariable {
+  /** Variable key */
+  variable_key: string;
+
+  /** Week the data covers (ISO 8601 date) */
+  week: string;
+
+  /** Number of detachments */
+  detachments: number;
+
+  /** Number of insertions */
+  insertions: number;
+
+  /** Variable name */
+  variable_name: string;
+
+  /** Variable type (BOOLEAN, FLOAT, STRING, COLOR) */
+  variable_type: string;
+
+  /** Collection key */
+  collection_key: string;
+
+  /** Collection name */
+  collection_name: string;
+}
+
+/**
+ * Variable usage row grouped by variable
+ */
+export interface FigmaVariableUsageByVariable {
+  /** Variable key */
+  variable_key: string;
+
+  /** Total number of usages */
+  usages: number;
+
+  /** Number of teams using this variable */
+  teams_using: number;
+
+  /** Number of files using this variable */
+  files_using: number;
+
+  /** Variable name */
+  variable_name: string;
+
+  /** Variable type (BOOLEAN, FLOAT, STRING, COLOR) */
+  variable_type: string;
+
+  /** Collection key */
+  collection_key: string;
+
+  /** Collection name */
+  collection_name: string;
+}
+
+// ---------------------------------------------------------------------------
+// Analytics Query Options
+// ---------------------------------------------------------------------------
+
+/**
+ * Options for action analytics endpoints (component/style/variable actions)
+ */
+export interface FigmaAnalyticsActionsOptions {
+  /** Start date (ISO 8601 YYYY-MM-DD; rounded back to previous week start) */
+  startDate?: string;
+
+  /** End date (ISO 8601 YYYY-MM-DD; rounded forward to week end) */
+  endDate?: string;
+
+  /** Cursor for pagination (from previous response) */
+  cursor?: string;
+}
+
+/**
+ * Options for usage analytics endpoints (component/style/variable usages)
+ */
+export interface FigmaAnalyticsUsagesOptions {
+  /** Cursor for pagination (from previous response) */
+  cursor?: string;
+}
+
+// ============================================================================
 // Export/Sync Options
 // ============================================================================
 
