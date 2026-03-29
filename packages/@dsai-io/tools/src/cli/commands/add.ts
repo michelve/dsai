@@ -1,12 +1,17 @@
 /**
- * Add command — install DSAi components into your project.
+ * Add command — install DSAi items (components, hooks, utils) into your project.
  *
  * Usage:
- *   dsai add button modal tabs
- *   dsai add --all
- *   dsai add --list
- *   dsai add button --overwrite
- *   dsai add button --dry-run
+ *   dsai add button modal tabs          # Add UI components
+ *   dsai add use-focus-trap use-debounce # Add hooks
+ *   dsai add keyboard cn                # Add utilities
+ *   dsai add --all                      # Add all UI components
+ *   dsai add --all --type hook          # Add all hooks
+ *   dsai add --all --type util          # Add all utilities
+ *   dsai add --list                     # List everything available
+ *   dsai add --list --type hook         # List only hooks
+ *   dsai add button --overwrite         # Overwrite existing files
+ *   dsai add button --dry-run           # Preview without writing
  *
  * @module @dsai-io/tools/cli/commands/add
  */
@@ -22,25 +27,26 @@ import { writeRegistryItems } from '../../registry/writer.js';
 import { ExitCode } from '../types.js';
 import { colors, createLogger, createSpinner } from '../ui/index.js';
 
-import type { RegistryIndex } from '../../registry/types.js';
+import type { RegistryIndex, RegistryIndexEntry } from '../../registry/types.js';
+
+/** Valid type filter values */
+const VALID_TYPES = ['ui', 'hook', 'util', 'lib', 'type', 'style'] as const;
 
 /**
  * Create the `add` command.
  */
 export function createAddCommand(): Command {
   const cmd = new Command('add')
-    .description('Add DSAi components to your project')
-    .argument('[components...]', 'Component names to add (e.g., button modal tabs)')
-    .option('--all', 'Add all available components', false)
+    .description('Add DSAi items (components, hooks, utils) to your project')
+    .argument('[items...]', 'Item names to add (e.g., button use-focus-trap cn)')
+    .option('--all', 'Add all items of the specified type (default: ui)', false)
+    .option('--type <type>', 'Filter by type: ui, hook, util, lib, type')
     .option('--overwrite', 'Overwrite existing files', false)
     .option('--dry-run', 'Preview changes without writing files', false)
     .option('--registry <path>', 'Path to local registry directory')
-    .option('--list', 'List all available components', false)
-    .action(async (components: string[], opts, cmd) => {
-      // Merge parent (global) and local options — Commander nests them separately
-      // Local opts default to false; parent captures global flags like --dry-run.
-      // Use OR logic: if either level has it set, respect it.
-      const parentOpts = cmd.parent?.opts() ?? {};
+    .option('--list', 'List all available items', false)
+    .action(async (items: string[], opts, cmdObj) => {
+      const parentOpts = cmdObj.parent?.opts() ?? {};
       const allOpts = {
         ...parentOpts,
         ...opts,
@@ -67,6 +73,21 @@ export function createAddCommand(): Command {
           process.exit(ExitCode.GeneralError);
         }
 
+        // Validate --type if provided
+        const typeFilter = allOpts.type as string | undefined;
+        if (typeFilter && !VALID_TYPES.includes(typeFilter as (typeof VALID_TYPES)[number])) {
+          logger.error(
+            `Invalid type "${typeFilter}". Valid types: ${VALID_TYPES.join(', ')}`
+          );
+          process.exit(ExitCode.GeneralError);
+        }
+
+        // Helper: filter items by type
+        const filterByType = (entries: RegistryIndexEntry[]): RegistryIndexEntry[] => {
+          if (!typeFilter) return entries;
+          return entries.filter((i) => i.type === `registry:${typeFilter}`);
+        };
+
         // List mode
         if (allOpts.list) {
           const indexPath = join(registryDir, 'index.json');
@@ -75,46 +96,68 @@ export function createAddCommand(): Command {
             process.exit(ExitCode.GeneralError);
           }
           const index: RegistryIndex = JSON.parse(readFileSync(indexPath, 'utf-8'));
+          const filtered = filterByType(index.items);
 
-          console.log(`\n${colors.bold('Available components:')}\n`);
-          const grouped: Record<string, typeof index.items> = {};
-          for (const item of index.items) {
+          console.log(`\n${colors.bold('Available items:')}\n`);
+          const grouped: Record<string, typeof filtered> = {};
+          for (const item of filtered) {
             const type = item.type.replace('registry:', '');
             if (!grouped[type]) grouped[type] = [];
             grouped[type].push(item);
           }
-          for (const [type, items] of Object.entries(grouped)) {
-            console.log(`  ${colors.cyan(type)}:`);
-            for (const item of items.sort((a, b) => a.name.localeCompare(b.name))) {
+
+          // Display order: ui first, then hook, util, lib, type
+          const displayOrder = ['ui', 'hook', 'util', 'lib', 'type', 'style'];
+          for (const type of displayOrder) {
+            const typeItems = grouped[type];
+            if (!typeItems || typeItems.length === 0) continue;
+            console.log(`  ${colors.cyan(type)} (${typeItems.length}):`);
+            for (const item of typeItems.sort((a, b) => a.name.localeCompare(b.name))) {
               console.log(
-                `    ${colors.bold(item.name.padEnd(24))} ${colors.muted(item.description)}`
+                `    ${colors.bold(item.name.padEnd(28))} ${colors.muted(item.description)}`
               );
             }
             console.log();
           }
-          console.log(`  ${colors.muted(`${index.count} items available`)}\n`);
+          console.log(`  ${colors.muted(`${filtered.length} items available`)}\n`);
+
+          // Show usage hints
+          console.log(`${colors.muted('Usage:')}`);
+          console.log(`  ${colors.command('dsai add button modal')}         ${colors.muted('Add specific items')}`);
+          console.log(`  ${colors.command('dsai add use-focus-trap cn')}    ${colors.muted('Add hooks and utils')}`);
+          console.log(`  ${colors.command('dsai add --all')}                ${colors.muted('Add all UI components')}`);
+          console.log(`  ${colors.command('dsai add --all --type hook')}    ${colors.muted('Add all hooks')}`);
+          console.log(`  ${colors.command('dsai add --list --type util')}   ${colors.muted('List only utilities')}\n`);
           return;
         }
 
         // Validate input
-        if (!allOpts.all && components.length === 0) {
+        if (!allOpts.all && items.length === 0) {
           logger.error(
-            'No components specified.\n' +
-              `Usage: ${colors.command('dsai add <component...>')}\n` +
-              `       ${colors.command('dsai add --all')}\n` +
+            'No items specified.\n' +
+              `Usage: ${colors.command('dsai add <item...>')}\n` +
+              `       ${colors.command('dsai add --all [--type hook|util]')}\n` +
               `       ${colors.command('dsai add --list')}`
           );
           process.exit(ExitCode.GeneralError);
         }
 
-        // If --all, load all component names from index
-        let componentNames = components;
+        // If --all, load names from index filtered by type
+        let itemNames = items;
         if (allOpts.all) {
           const indexPath = join(registryDir, 'index.json');
           const index: RegistryIndex = JSON.parse(readFileSync(indexPath, 'utf-8'));
-          componentNames = index.items
-            .filter((i) => i.type === 'registry:ui')
+
+          // Default to UI components if no type specified
+          const effectiveType = typeFilter ?? 'ui';
+          itemNames = index.items
+            .filter((i) => i.type === `registry:${effectiveType}`)
             .map((i) => i.name);
+
+          if (itemNames.length === 0) {
+            logger.error(`No items found for type "${effectiveType}".`);
+            process.exit(ExitCode.GeneralError);
+          }
         }
 
         // Resolve dependency tree
@@ -123,7 +166,7 @@ export function createAddCommand(): Command {
 
         let tree;
         try {
-          tree = resolveTree(componentNames, registryDir);
+          tree = resolveTree(itemNames, registryDir);
         } catch (err) {
           spinner.fail('Failed to resolve dependencies');
           logger.error((err as Error).message);
@@ -132,7 +175,7 @@ export function createAddCommand(): Command {
 
         spinner.succeed(
           `Resolved ${tree.items.length} items ` +
-            `(${componentNames.length} requested + ${tree.items.length - componentNames.length} dependencies)`
+            `(${itemNames.length} requested + ${tree.items.length - itemNames.length} dependencies)`
         );
 
         // Show what will be installed
@@ -149,7 +192,7 @@ export function createAddCommand(): Command {
         console.log();
 
         // Write files
-        const writeLabel = allOpts.dryRun ? 'Previewing changes...' : 'Installing components...';
+        const writeLabel = allOpts.dryRun ? 'Previewing changes...' : 'Installing items...';
         const writeSpinner = createSpinner();
         writeSpinner.start(writeLabel);
 
@@ -177,13 +220,34 @@ export function createAddCommand(): Command {
         }
 
         if (!allOpts.dryRun) {
-          console.log(`\n${colors.success('Done!')} Components are ready to use.\n`);
-          const firstName = componentNames[0] ?? 'button';
-          const titleCase = firstName.charAt(0).toUpperCase() + firstName.slice(1);
-          console.log(`${colors.muted('Import example:')}`);
-          console.log(
-            `  ${colors.cyan(`import { ${titleCase} } from '${config.aliases.importAlias}${config.aliases.ui}/${firstName}';`)}\n`
-          );
+          console.log(`\n${colors.success('Done!')} Items are ready to use.\n`);
+
+          // Show contextual import example based on what was installed
+          const firstItem = tree.items.find((i) => itemNames.includes(i.name)) ?? tree.items[0];
+          if (firstItem) {
+            const type = firstItem.type.replace('registry:', '');
+            const name = firstItem.name;
+            const titleCase = name
+              .split('-')
+              .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+              .join('');
+
+            console.log(`${colors.muted('Import example:')}`);
+            if (type === 'ui' || type === 'component') {
+              console.log(
+                `  ${colors.cyan(`import { ${titleCase} } from '${config.aliases.importAlias}${config.aliases.ui}/${name}';`)}`
+              );
+            } else if (type === 'hook') {
+              console.log(
+                `  ${colors.cyan(`import { ${titleCase.replace('Use', 'use')} } from '${config.aliases.importAlias}${config.aliases.hooks}/${titleCase.replace('Use', 'use')}';`)}`
+              );
+            } else if (type === 'util') {
+              console.log(
+                `  ${colors.cyan(`import { ${name} } from '${config.aliases.importAlias}${config.aliases.utils}/${name}';`)}`
+              );
+            }
+            console.log();
+          }
         }
       } catch (err) {
         logger.error(`Unexpected error: ${(err as Error).message}`);

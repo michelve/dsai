@@ -5,7 +5,9 @@
   "description": "Object manipulation utilities: deep merge, pick, omit.",
   "dependencies": [],
   "devDependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "dsai-types"
+  ],
   "files": [
     {
       "path": "object/deepMerge.ts",

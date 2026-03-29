@@ -6,7 +6,9 @@
   "dependencies": [],
   "devDependencies": [],
   "registryDependencies": [
+    "checkbox",
     "cn",
+    "dsai-types",
     "keyboard"
   ],
   "files": [

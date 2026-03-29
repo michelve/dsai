@@ -14,6 +14,32 @@ export function transformImports(content: string, options: TransformOptions): st
   const { aliases } = options;
   let result = content;
 
+  // ../../types or ../../types/<subpath> -> @/components/types (or wherever types land)
+  // Types are placed relative to UI components since components import them as ../../types
+  result = result.replace(
+    /(from\s+['"])(?:\.\.\/)+types(?:\/([^'"]+))?(['"])/g,
+    (_match, prefix, subpath, suffix) => {
+      if (subpath) {
+        return `${prefix}${aliases.importAlias}${aliases.components}/types/${subpath}${suffix}`;
+      }
+      return `${prefix}${aliases.importAlias}${aliases.components}/types${suffix}`;
+    }
+  );
+
+  // ../<PascalCaseDir> or ../<PascalCaseDir>/<file> -> @/components/ui/<dir>/<file>
+  // Handles cross-component imports like ../Spinner, ../Icon, ../Card/Card.types
+  result = result.replace(
+    /(from\s+['"])\.\.\/(([A-Z]\w+)(\/[^'"]+)?)(['"])/g,
+    (_match, prefix, _fullPath, dirName, subPath, suffix) => {
+      // Convert PascalCase dir to kebab-case for the registry name
+      const kebab = dirName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+      if (subPath) {
+        return `${prefix}${aliases.importAlias}${aliases.ui}/${kebab}${subPath}${suffix}`;
+      }
+      return `${prefix}${aliases.importAlias}${aliases.ui}/${kebab}${suffix}`;
+    }
+  );
+
   // ../../hooks/<hookName> -> @/hooks/<hookName>
   result = result.replace(
     /(from\s+['"])(?:\.\.\/)+hooks\/(\w+)(['"])/g,

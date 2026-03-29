@@ -7,9 +7,15 @@
   "devDependencies": [],
   "registryDependencies": [
     "cn",
+    "dsai-types",
     "misc"
   ],
   "files": [
+    {
+      "path": "Checkbox.css",
+      "type": "registry:style",
+      "content": "/* Checkbox Component Styles — namespaced with dsai-checkbox- */\r\n\r\n/* Size: Small */\r\n.dsai-checkbox-sm .form-check-input { width: 0.875rem; height: 0.875rem; margin-top: 0.1875rem; }\r\n.dsai-checkbox-sm .form-check-label { font-size: 0.875rem; }\r\n\r\n/* Size: Large */\r\n.dsai-checkbox-lg .form-check-input { width: 1.5rem; height: 1.5rem; margin-top: 0; }\r\n.dsai-checkbox-lg .form-check-label { font-size: 1.125rem; padding-top: 0.125rem; }\r\n\r\n/* Color Variants */\r\n.dsai-checkbox-primary .form-check-input:checked,\r\n.dsai-checkbox-primary .form-check-input:indeterminate { background-color: var(--bs-primary); border-color: var(--bs-primary); }\r\n.dsai-checkbox-secondary .form-check-input:checked,\r\n.dsai-checkbox-secondary .form-check-input:indeterminate { background-color: var(--bs-secondary); border-color: var(--bs-secondary); }\r\n.dsai-checkbox-success .form-check-input:checked,\r\n.dsai-checkbox-success .form-check-input:indeterminate { background-color: var(--bs-success); border-color: var(--bs-success); }\r\n.dsai-checkbox-danger .form-check-input:checked,\r\n.dsai-checkbox-danger .form-check-input:indeterminate { background-color: var(--bs-danger); border-color: var(--bs-danger); }\r\n.dsai-checkbox-warning .form-check-input:checked,\r\n.dsai-checkbox-warning .form-check-input:indeterminate { background-color: var(--bs-warning); border-color: var(--bs-warning); }\r\n.dsai-checkbox-info .form-check-input:checked,\r\n.dsai-checkbox-info .form-check-input:indeterminate { background-color: var(--bs-info); border-color: var(--bs-info); }\r\n.dsai-checkbox-light .form-check-input:checked,\r\n.dsai-checkbox-light .form-check-input:indeterminate { background-color: var(--bs-light); border-color: var(--bs-light); }\r\n.dsai-checkbox-dark .form-check-input:checked,\r\n.dsai-checkbox-dark .form-check-input:indeterminate { background-color: var(--bs-dark); border-color: var(--bs-dark); }\r\n\r\n/* ReadOnly */\r\n.dsai-checkbox-readonly { cursor: default; }\r\n.dsai-checkbox-readonly .form-check-input { cursor: default; pointer-events: auto; }\r\n\r\n/* Custom Icon */\r\n.dsai-checkbox-icon { display: inline-flex; align-items: center; justify-content: center; min-width: 2.75rem; min-height: 2.75rem; cursor: pointer; }\r\n.dsai-checkbox-icon-fallback { display: inline-block; font-weight: bold; }\r\n.form-check-input.visually-hidden:focus-visible + .dsai-checkbox-icon { outline: 2px solid var(--bs-primary); outline-offset: 2px; border-radius: 0.25rem; }\r\n"
+    },
     {
       "path": "Checkbox.tsx",
       "type": "registry:ui",

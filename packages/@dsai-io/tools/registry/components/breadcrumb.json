@@ -9,6 +9,7 @@
   "devDependencies": [],
   "registryDependencies": [
     "cn",
+    "types",
     "validation"
   ],
   "files": [

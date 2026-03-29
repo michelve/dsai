@@ -6,7 +6,10 @@
   "dependencies": [],
   "devDependencies": [],
   "registryDependencies": [
-    "cn"
+    "card",
+    "checkbox",
+    "cn",
+    "radio"
   ],
   "files": [
     {

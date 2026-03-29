@@ -45,11 +45,14 @@ export function createProgram(): Command {
     'after',
     `
 ${colors.bold('Examples:')}
-  ${colors.muted('# Add components to your project')}
-  $ dsai add button modal tabs
+  ${colors.muted('# Add components, hooks, or utils to your project')}
+  $ dsai add button modal use-focus-trap cn
 
-  ${colors.muted('# List available components')}
+  ${colors.muted('# List everything available')}
   $ dsai add --list
+
+  ${colors.muted('# Add all hooks')}
+  $ dsai add --all --type hook
 
   ${colors.muted('# Initialize configuration')}
   $ dsai init

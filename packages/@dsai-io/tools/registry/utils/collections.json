@@ -5,7 +5,9 @@
   "description": "Collection utilities: chunk, paginate, memoize, selectors.",
   "dependencies": [],
   "devDependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "dsai-types"
+  ],
   "files": [
     {
       "path": "collections/chunk.ts",

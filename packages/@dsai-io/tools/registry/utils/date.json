@@ -5,7 +5,9 @@
   "description": "Date formatting and relative time utilities.",
   "dependencies": [],
   "devDependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "dsai-types"
+  ],
   "files": [
     {
       "path": "date/formatDate.ts",

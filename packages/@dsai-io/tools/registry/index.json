@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "count": 80,
+  "count": 81,
   "items": [
     {
       "name": "accordion",
@@ -10,6 +10,7 @@
       "dependencies": [],
       "registryDependencies": [
         "cn",
+        "dsai-types",
         "merge-refs"
       ],
       "categories": [
@@ -25,6 +26,7 @@
       "dependencies": [],
       "registryDependencies": [
         "cn",
+        "dsai-types",
         "keyboard",
         "use-reduced-motion",
         "validation"
@@ -41,6 +43,8 @@
       "dependencies": [],
       "registryDependencies": [
         "cn",
+        "dsai-types",
+        "icon",
         "keyboard"
       ],
       "categories": [
@@ -54,7 +58,8 @@
       "description": "Small count or status indicator, typically displayed on other elements.",
       "dependencies": [],
       "registryDependencies": [
-        "cn"
+        "cn",
+        "dsai-types"
       ],
       "categories": [
         "data-display"
@@ -70,6 +75,7 @@
       ],
       "registryDependencies": [
         "cn",
+        "types",
         "validation"
       ],
       "categories": [
@@ -83,7 +89,9 @@
       "description": "Trigger for actions and events.",
       "dependencies": [],
       "registryDependencies": [
-        "cn"
+        "cn",
+        "dsai-types",
+        "spinner"
       ],
       "categories": [
         "actions"
@@ -97,8 +105,10 @@
       "dependencies": [],
       "registryDependencies": [
         "cn",
+        "dsai-types",
         "keyboard",
         "string",
+        "types",
         "validation"
       ],
       "categories": [
@@ -113,7 +123,9 @@
       "description": "Responsive list of selectable cards with keyboard navigation.",
       "dependencies": [],
       "registryDependencies": [
-        "cn"
+        "card",
+        "cn",
+        "selectable-card"
       ],
       "categories": [
         "layout",
@@ -127,7 +139,9 @@
       "description": "Slideshow component for cycling through content.",
       "dependencies": [],
       "registryDependencies": [
-        "cn"
+        "cn",
+        "dsai-types",
+        "icon"
       ],
       "categories": [
         "data-display"
@@ -141,6 +155,7 @@
       "dependencies": [],
       "registryDependencies": [
         "cn",
+        "dsai-types",
         "misc"
       ],
       "categories": [
@@ -156,7 +171,9 @@
         "select all"
       ],
       "registryDependencies": [
-        "cn"
+        "checkbox",
+        "cn",
+        "dsai-types"
       ],
       "categories": [
         "forms"
@@ -172,6 +189,7 @@
       ],
       "registryDependencies": [
         "cn",
+        "dsai-types",
         "misc",
         "validation"
       ],
@@ -186,7 +204,9 @@
       "title": "Icon",
       "description": "Scalable vector icon component with accessibility support.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "dsai-types"
+      ],
       "categories": [
         "data-display"
       ]
@@ -199,6 +219,7 @@
       "dependencies": [],
       "registryDependencies": [
         "cn",
+        "dsai-types",
         "misc"
       ],
       "categories": [
@@ -213,8 +234,10 @@
       "dependencies": [],
       "registryDependencies": [
         "cn",
+        "dsai-types",
         "keyboard",
         "merge-refs",
+        "types",
         "use-controllable-state",
         "use-roving-focus",
         "validation"
@@ -232,6 +255,7 @@
       "dependencies": [],
       "registryDependencies": [
         "cn",
+        "dsai-types",
         "keyboard",
         "use-focus-trap",
         "use-scroll-lock"
@@ -249,6 +273,7 @@
       "dependencies": [],
       "registryDependencies": [
         "cn",
+        "dsai-types",
         "keyboard",
         "validation"
       ],
@@ -264,6 +289,8 @@
       "dependencies": [],
       "registryDependencies": [
         "cn",
+        "dsai-types",
+        "icon",
         "use-controllable-state"
       ],
       "categories": [
@@ -280,6 +307,7 @@
       ],
       "registryDependencies": [
         "cn",
+        "dsai-types",
         "misc"
       ],
       "categories": [
@@ -293,7 +321,8 @@
       "description": "Visual indicator of task completion.",
       "dependencies": [],
       "registryDependencies": [
-        "cn"
+        "cn",
+        "dsai-types"
       ],
       "categories": [
         "feedback"
@@ -320,6 +349,7 @@
       "dependencies": [],
       "registryDependencies": [
         "cn",
+        "dsai-types",
         "keyboard"
       ],
       "categories": [
@@ -336,6 +366,7 @@
       ],
       "registryDependencies": [
         "cn",
+        "dsai-types",
         "keyboard",
         "misc"
       ],
@@ -350,7 +381,10 @@
       "description": "Card variant that acts as a selectable option.",
       "dependencies": [],
       "registryDependencies": [
-        "cn"
+        "card",
+        "checkbox",
+        "cn",
+        "radio"
       ],
       "categories": [
         "forms",
@@ -365,7 +399,9 @@
       "dependencies": [],
       "registryDependencies": [
         "cn",
+        "dsai-types",
         "keyboard",
+        "typography",
         "use-focus-trap",
         "use-reduced-motion",
         "use-scroll-lock"
@@ -382,7 +418,8 @@
       "description": "Loading indicator for asynchronous operations.",
       "dependencies": [],
       "registryDependencies": [
-        "cn"
+        "cn",
+        "dsai-types"
       ],
       "categories": [
         "feedback"
@@ -396,6 +433,7 @@
       "dependencies": [],
       "registryDependencies": [
         "cn",
+        "dsai-types",
         "keyboard"
       ],
       "categories": [
@@ -409,7 +447,9 @@
       "description": "Data table with sorting, selection, and responsive layout.",
       "dependencies": [],
       "registryDependencies": [
+        "checkbox",
         "cn",
+        "dsai-types",
         "keyboard"
       ],
       "categories": [
@@ -437,7 +477,9 @@
       "title": "TabsPro",
       "description": "Advanced tabbed interface with closable, sortable, and overflow support.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "tabs"
+      ],
       "categories": [
         "navigation",
         "layout"
@@ -451,6 +493,8 @@
       "dependencies": [],
       "registryDependencies": [
         "cn",
+        "dsai-types",
+        "icon",
         "keyboard",
         "string"
       ],
@@ -468,6 +512,7 @@
       ],
       "registryDependencies": [
         "cn",
+        "dsai-types",
         "misc"
       ],
       "categories": [
@@ -481,7 +526,8 @@
       "description": "Text rendering primitives with semantic variants.",
       "dependencies": [],
       "registryDependencies": [
-        "cn"
+        "cn",
+        "dsai-types"
       ],
       "categories": [
         "data-display"
@@ -765,7 +811,9 @@
       "title": "a11y",
       "description": "Accessibility utilities including screen reader announcements and ARIA helpers.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "dsai-types"
+      ],
       "categories": [
         "a11y"
       ]
@@ -798,7 +846,9 @@
       "title": "collections",
       "description": "Collection utilities: chunk, paginate, memoize, selectors.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "dsai-types"
+      ],
       "categories": [
         "data"
       ]
@@ -820,7 +870,9 @@
       "title": "date",
       "description": "Date formatting and relative time utilities.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "dsai-types"
+      ],
       "categories": [
         "formatting"
       ]
@@ -912,7 +964,9 @@
       "title": "number",
       "description": "Number formatting and clamping utilities.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "dsai-types"
+      ],
       "categories": [
         "formatting"
       ]
@@ -923,7 +977,9 @@
       "title": "object",
       "description": "Object manipulation utilities: deep merge, pick, omit.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "dsai-types"
+      ],
       "categories": [
         "data"
       ]
@@ -945,7 +1001,9 @@
       "title": "responsive",
       "description": "Responsive design utilities.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "dsai-types"
+      ],
       "categories": [
         "responsive"
       ]
@@ -967,7 +1025,9 @@
       "title": "string",
       "description": "String manipulation utilities: capitalize, slugify, variant classes.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "dsai-types"
+      ],
       "categories": [
         "formatting"
       ]
@@ -989,7 +1049,9 @@
       "title": "timing",
       "description": "Timing utilities: debounce and throttle functions.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "dsai-types"
+      ],
       "categories": [
         "timing"
       ]
@@ -1014,6 +1076,17 @@
       "registryDependencies": [],
       "categories": [
         "validation"
+      ]
+    },
+    {
+      "name": "dsai-types",
+      "type": "registry:type",
+      "title": "Shared Types",
+      "description": "Shared type definitions (SafeHTMLAttributes, ComponentSize, PolymorphicComponentProps, etc.)",
+      "dependencies": [],
+      "registryDependencies": [],
+      "categories": [
+        "types"
       ]
     }
   ]

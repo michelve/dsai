@@ -7,8 +7,10 @@
   "devDependencies": [],
   "registryDependencies": [
     "cn",
+    "dsai-types",
     "keyboard",
     "merge-refs",
+    "types",
     "use-controllable-state",
     "use-roving-focus",
     "validation"
