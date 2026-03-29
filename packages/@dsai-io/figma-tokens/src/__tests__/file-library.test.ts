@@ -4,14 +4,12 @@
  */
 
 import {
-  mockVersionsResponse,
   error403Forbidden,
 } from '../../test/fixtures/figma-api-responses.js';
 import {
   createDefaultMockFetch,
   createCustomMockFetch,
   createFetchSpy,
-  createSuccessResponse,
   createErrorResponse,
   setupFetchMock,
   resetFetchMock,
