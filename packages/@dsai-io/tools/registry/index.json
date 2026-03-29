@@ -204,7 +204,9 @@
       "title": "Icon",
       "description": "Scalable vector icon component with accessibility support.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "types"
+      ],
       "categories": [
         "data-display"
       ]
@@ -809,7 +811,9 @@
       "title": "a11y",
       "description": "Accessibility utilities including screen reader announcements and ARIA helpers.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "types"
+      ],
       "categories": [
         "a11y"
       ]
@@ -842,7 +846,9 @@
       "title": "collections",
       "description": "Collection utilities: chunk, paginate, memoize, selectors.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "types"
+      ],
       "categories": [
         "data"
       ]
@@ -864,7 +870,9 @@
       "title": "date",
       "description": "Date formatting and relative time utilities.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "types"
+      ],
       "categories": [
         "formatting"
       ]
@@ -919,7 +927,9 @@
       "title": "layout",
       "description": "Layout measurement utilities: element bounds, viewport size, resize observation.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "browser"
+      ],
       "categories": [
         "dom"
       ]
@@ -956,7 +966,9 @@
       "title": "number",
       "description": "Number formatting and clamping utilities.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "types"
+      ],
       "categories": [
         "formatting"
       ]
@@ -967,7 +979,9 @@
       "title": "object",
       "description": "Object manipulation utilities: deep merge, pick, omit.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "types"
+      ],
       "categories": [
         "data"
       ]
@@ -978,7 +992,9 @@
       "title": "platform",
       "description": "Platform detection utilities: browser, OS, device pixel ratio, text direction.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "browser"
+      ],
       "categories": [
         "platform"
       ]
@@ -1013,7 +1029,9 @@
       "title": "string",
       "description": "String manipulation utilities: capitalize, slugify, variant classes.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "types"
+      ],
       "categories": [
         "formatting"
       ]
@@ -1024,7 +1042,9 @@
       "title": "telemetry",
       "description": "Telemetry utilities: error catching, performance measurement, timing.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "browser"
+      ],
       "categories": [
         "observability"
       ]
@@ -1035,7 +1055,9 @@
       "title": "timing",
       "description": "Timing utilities: debounce and throttle functions.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "types"
+      ],
       "categories": [
         "timing"
       ]

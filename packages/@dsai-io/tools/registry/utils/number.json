@@ -5,7 +5,9 @@
   "description": "Number formatting and clamping utilities.",
   "dependencies": [],
   "devDependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "types"
+  ],
   "files": [
     {
       "path": "number/clamp.ts",

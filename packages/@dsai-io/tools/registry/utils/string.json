@@ -5,7 +5,9 @@
   "description": "String manipulation utilities: capitalize, slugify, variant classes.",
   "dependencies": [],
   "devDependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "types"
+  ],
   "files": [
     {
       "path": "string/capitalize.ts",

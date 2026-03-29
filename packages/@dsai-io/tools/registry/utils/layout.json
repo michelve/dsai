@@ -5,7 +5,9 @@
   "description": "Layout measurement utilities: element bounds, viewport size, resize observation.",
   "dependencies": [],
   "devDependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "browser"
+  ],
   "files": [
     {
       "path": "layout/getElementBounds.ts",

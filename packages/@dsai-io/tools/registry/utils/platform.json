@@ -5,7 +5,9 @@
   "description": "Platform detection utilities: browser, OS, device pixel ratio, text direction.",
   "dependencies": [],
   "devDependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "browser"
+  ],
   "files": [
     {
       "path": "platform/cache.ts",

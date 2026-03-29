@@ -173,6 +173,20 @@ function analyzeImports(files: { content: string }[], knownNpmDeps: string[]): A
         continue;
       }
 
+      // Sibling util directory imports: ../types/shared, ../keyboard/index, etc.
+      // Detects when one util imports from another sibling util directory.
+      // Only matches lowercase directory names (utils are lowercase, components are PascalCase)
+      const siblingUtilPattern = /^\.\.\/([a-z][\w-]*)(?:\/.*)?$/;
+      const siblingUtilMatch = siblingUtilPattern.exec(specifier);
+      if (siblingUtilMatch && siblingUtilMatch[1]) {
+        const siblingDir = siblingUtilMatch[1];
+        const regName = UTIL_SUBPATH_TO_REGISTRY[siblingDir];
+        if (regName) {
+          registryDeps.add(regName);
+          continue;
+        }
+      }
+
       // Component cross-imports: ../../components/<Dir>, ../<PascalCaseDir>, or ../<PascalCaseDir>/<file>
       // Matches: ../Icon, ../Spinner, ../Card/Card.types, ../../components/Modal
       const compPattern = /^\.\.\/(\.\.\/)?(?:components\/)?([A-Z]\w+)(?:\/.*)?$/;

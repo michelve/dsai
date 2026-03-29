@@ -5,7 +5,9 @@
   "description": "Telemetry utilities: error catching, performance measurement, timing.",
   "dependencies": [],
   "devDependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "browser"
+  ],
   "files": [
     {
       "path": "telemetry/catchErrors.ts",
