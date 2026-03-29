@@ -404,6 +404,160 @@ export interface FigmaVariablesResponse {
 }
 
 // ============================================================================
+// POST Variables API Types (Write Endpoint)
+// ============================================================================
+
+/**
+ * Action type for variable mutations
+ */
+export type FigmaVariableAction = 'CREATE' | 'UPDATE' | 'DELETE';
+
+/**
+ * Change to a variable collection
+ */
+export interface FigmaVariableCollectionChange {
+  /** Action to perform */
+  action: FigmaVariableAction;
+
+  /**
+   * Collection ID.
+   * Required for UPDATE/DELETE.
+   * Optional for CREATE — use a temporary ID to reference in the same request.
+   */
+  id?: string;
+
+  /** Collection name (required for CREATE) */
+  name?: string;
+
+  /** Parent collection ID for extended collections */
+  parentVariableCollectionId?: string;
+
+  /**
+   * Temporary ID for the initial mode created with the collection.
+   * Cannot be used with parentVariableCollectionId.
+   */
+  initialModeId?: string;
+
+  /** Maps initial mode temporary IDs to parent mode IDs (for extended collections) */
+  initialModeIdToParentModeIdMapping?: Record<string, string>;
+
+  /** Whether to hide the collection from publishing */
+  hiddenFromPublishing?: boolean;
+}
+
+/**
+ * Change to a variable mode
+ */
+export interface FigmaVariableModeChange {
+  /** Action to perform */
+  action: FigmaVariableAction;
+
+  /**
+   * Mode ID.
+   * Required for UPDATE/DELETE.
+   * Optional for CREATE — use a temporary ID to reference in the same request.
+   */
+  id?: string;
+
+  /** Mode name (required for CREATE; max 40 characters) */
+  name?: string;
+
+  /** Collection this mode belongs to (required; can reference temporary IDs) */
+  variableCollectionId: string;
+}
+
+/**
+ * Change to a variable
+ */
+export interface FigmaVariableChange {
+  /** Action to perform */
+  action: FigmaVariableAction;
+
+  /**
+   * Variable ID.
+   * Required for UPDATE/DELETE.
+   * Optional for CREATE — use a temporary ID to reference in the same request.
+   */
+  id?: string;
+
+  /** Variable name (required for CREATE; must be unique in collection; no `.`, `{`, `}`) */
+  name?: string;
+
+  /** Collection this variable belongs to (required for CREATE; can reference temporary IDs) */
+  variableCollectionId?: string;
+
+  /** Variable type (required for CREATE) */
+  resolvedType?: FigmaVariableType;
+
+  /** Variable description */
+  description?: string;
+
+  /** Whether to hide the variable from publishing */
+  hiddenFromPublishing?: boolean;
+
+  /** Scopes where this variable can be used */
+  scopes?: FigmaVariableScope[];
+
+  /** Code syntax hints per platform */
+  codeSyntax?: FigmaCodeSyntax;
+}
+
+/**
+ * A mode value assignment for a variable
+ */
+export interface FigmaVariableModeValue {
+  /** Variable ID (can be a temporary ID from the same request) */
+  variableId: string;
+
+  /** Mode ID (original format updates root; extended format creates override) */
+  modeId: string;
+
+  /** The value to set. null removes an override in extended collections. */
+  value: FigmaVariableValue | null;
+}
+
+/**
+ * Request body for POST /v1/files/:file_key/variables
+ *
+ * All four arrays are optional. They are applied in order:
+ * variableCollections -> variableModes -> variables -> variableModeValues
+ *
+ * The entire request is atomic — validation failure rolls back all changes.
+ *
+ * @see https://developers.figma.com/docs/rest-api/variables-endpoints/
+ */
+export interface FigmaPostVariablesRequest {
+  /** Collection create/update/delete operations */
+  variableCollections?: FigmaVariableCollectionChange[];
+
+  /** Mode create/update/delete operations */
+  variableModes?: FigmaVariableModeChange[];
+
+  /** Variable create/update/delete operations */
+  variables?: FigmaVariableChange[];
+
+  /** Mode value assignments */
+  variableModeValues?: FigmaVariableModeValue[];
+}
+
+/**
+ * Response from POST /v1/files/:file_key/variables
+ */
+export interface FigmaPostVariablesResponse {
+  /** HTTP status code */
+  status: number;
+
+  /** Whether an error occurred */
+  error: boolean;
+
+  /** Response metadata */
+  meta: {
+    /** Maps temporary IDs from the request to real Figma IDs */
+    tempIdToRealId: Record<string, string>;
+  };
+}
+
+// ============================================================================
 // Export/Sync Options
 // ============================================================================
 
