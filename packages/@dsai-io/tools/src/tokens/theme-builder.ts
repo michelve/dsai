@@ -259,15 +259,22 @@ export function generateThemeBuildConfig(options: ThemeBuildOptions): ThemeStyle
   // Convert Map to object for Style Dictionary compatibility
   const platforms: Record<string, StyleDictionaryPlatformConfig> = Object.fromEntries(platformsMap);
 
+  // Non-default themes (e.g., dark) include the default theme's files as a base,
+  // then override with theme-specific files. Style Dictionary reports these intentional
+  // overrides as "collision" warnings. Disable warnings for non-default themes since
+  // the collisions are the expected multi-theme override mechanism.
+  const warningsLevel = isDefault ? ('warn' as const) : ('disabled' as const);
+
   return {
     source: files,
     platforms,
     preprocessors: ['fix-references'],
     // Enable DTCG format support (tokens with $value, $type, etc.)
     usesDtcg: true,
-    // Configure logging to not throw on broken references (they'll be logged but build continues)
+    // Configure logging: suppress collision warnings for non-default themes,
+    // keep them enabled for default theme to catch genuine issues
     log: {
-      warnings: 'warn' as const,
+      warnings: warningsLevel,
       verbosity: 'default' as const,
       errors: {
         brokenReferences: 'console' as const,
