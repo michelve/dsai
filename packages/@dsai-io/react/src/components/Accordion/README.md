@@ -15,11 +15,20 @@ A fully accessible accordion component using Bootstrap 5 native classes with smo
 
 ## Installation
 
-The Accordion component is part of the `@dsai-io/react` package:
+Add the Accordion component to your project using the DSAi CLI:
 
-```tsx
-import { Accordion } from '@dsai-io/react';
+```bash
+dsai add accordion
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Usage
 

@@ -14,12 +14,20 @@ TabsPro wraps the base `Tabs` component and adds enterprise-grade features:
 
 ## Installation
 
-TabsPro is part of the `@dsai-io/react` package:
+Add the TabsPro component to your project using the DSAi CLI:
 
-```tsx
-import { TabsPro } from '@dsai-io/react';
-import type { TabsProItem } from '@dsai-io/react';
+```bash
+dsai add tabs-pro
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Basic Usage
 

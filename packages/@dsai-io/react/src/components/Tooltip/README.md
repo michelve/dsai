@@ -20,9 +20,20 @@ A fully accessible tooltip component for displaying contextual information on ho
 
 ## Installation
 
-```tsx
-import { Tooltip } from '@dsai-io/react';
+Add the Tooltip component to your project using the DSAi CLI:
+
+```bash
+dsai add tooltip
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Basic Usage
 

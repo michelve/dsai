@@ -19,15 +19,20 @@ A versatile, accessible button component using Bootstrap 5 native classes with D
 
 ## Installation
 
-```bash
-pnpm add @dsai-io/react @dsai-io/tools
-```
-
-Then generate your design tokens:
+Add the Button component to your project using the DSAi CLI:
 
 ```bash
-npx dsai tokens build
+dsai add button
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## FSM Architecture
 

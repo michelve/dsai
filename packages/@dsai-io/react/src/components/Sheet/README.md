@@ -14,9 +14,20 @@ An accessible slide-out panel component for navigation, forms, and secondary con
 
 ## Installation
 
-```tsx
-import { Sheet } from '@dsai-io/react';
+Add the Sheet component to your project using the DSAi CLI:
+
+```bash
+dsai add sheet
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Basic Usage
 

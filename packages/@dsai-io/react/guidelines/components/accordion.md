@@ -34,7 +34,7 @@ Do not use Accordion when:
 
   <Accordion.Item value="item-2">
     <Accordion.Header>How do I install it?</Accordion.Header>
-    <Accordion.Content>Run npm install @dsai-io/react to add it to your project.</Accordion.Content>
+    <Accordion.Content>Run dsai add accordion to add it to your project.</Accordion.Content>
   </Accordion.Item>
 </Accordion>
 ```

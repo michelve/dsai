@@ -72,7 +72,7 @@ See [examples/security-patterns.ts](./examples/security-patterns.ts) for code ex
 ## 📁 Repository Structure
 
 - **Monorepo**: Nx-managed, always use Nx targets over raw CLI commands
-- **Runtime**: Node 22+ (CI checks 20/22), pnpm 8+
+- **Runtime**: Node.js ≥ 22, pnpm ≥ 10
 - **Packages**: `packages/@dsai-io/*` for libraries, `apps/*` for applications
 - **Core packages**: `@dsai-io/react` (components), `@dsai-io/tools` (CLI), `@dsai-io/figma-tokens` (sync)
 

@@ -27,9 +27,20 @@ The Toast component provides a way to display brief, non-blocking notifications 
 
 ## Installation
 
-```tsx
-import { Toast, ToastContainer, ToastProvider, useToast } from '@dsai-io/react';
+Add the Toast component to your project using the DSAi CLI:
+
+```bash
+dsai add toast
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Basic Usage
 

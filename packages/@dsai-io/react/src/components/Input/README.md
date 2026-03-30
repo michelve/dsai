@@ -15,9 +15,20 @@ A flexible text input component built with Bootstrap 5 classes. Supports multipl
 
 ## Installation
 
+Add the Input component to your project using the DSAi CLI:
+
 ```bash
-npm install @dsai-io/react
+dsai add input
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Usage
 

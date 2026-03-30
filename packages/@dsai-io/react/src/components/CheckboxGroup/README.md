@@ -14,15 +14,20 @@ A high-level component managing multiple checkboxes with tri-state selection, op
 
 ## Installation
 
-```bash
-pnpm add @dsai-io/react @dsai-io/tools
-```
-
-Then generate your design tokens:
+Add the CheckboxGroup component to your project using the DSAi CLI:
 
 ```bash
-npx dsai tokens build
+dsai add checkbox-group
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Usage
 

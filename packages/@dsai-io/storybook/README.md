@@ -40,7 +40,7 @@ Access at: **<http://localhost:6006>**
 
 ### Components (33 stories)
 
-Accordion, Alert, Avatar, Badge, Breadcrumb, Button, Card, CardList, Carousel, Checkbox, CheckboxGroup, Dropdown, Input, ListGroup, Modal, Navbar, Pagination, Popover, Progress, Radio, Scrollspy, Select, SelectableCard, Sheet, Spinner, Switch, Table, Tabs, TabsPro, Toast, Tooltip, Typography
+Accordion, Alert, Avatar, Badge, Breadcrumb, Button, Card, CardList, Carousel, Checkbox, CheckboxGroup, Dropdown, Icon, Input, ListGroup, Modal, Navbar, Pagination, Popover, Progress, Radio, Scrollspy, Select, SelectableCard, Sheet, Spinner, Switch, Table, Tabs, TabsPro, Toast, Tooltip, Typography
 
 Each story includes usage examples, props documentation (via autodocs), and interactive playground for all variants.
 
@@ -335,7 +335,7 @@ pnpm storybook
 
 ## Related Packages
 
-- `@dsai-io/react` — React component library (38+ components)
+- `@dsai-io/react` — React component library (33 components, 23 hooks, 23 utilities)
 - `@dsai-io/tools` — CLI tooling, token pipeline, build utilities
 - `@dsai-io/figma-tokens` — Figma Variables API integration
 

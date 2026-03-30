@@ -18,8 +18,8 @@ The CI/CD pipeline automates:
 
 **Triggers**:
 
-- Push to `main` branch
-- Pull requests targeting `main`
+- Push to `main` or `develop` branch
+- Pull requests targeting `main` or `develop`
 
 **Jobs**:
 
@@ -29,22 +29,22 @@ Runs first to catch syntax and type errors quickly.
 
 ```yaml
 - Checkout code with full history (for Nx affected)
-- Install pnpm and Node.js 20
+- Install pnpm and Node.js 22
 - Install dependencies
-- Run `nx affected --target=lint` (only changed packages)
-- Run `nx affected --target=type-check` (only changed packages)
+- Run `pnpm lint` (all packages)
+- Run type-check (all packages)
 ```
 
 **Duration**: ~2-3 minutes
 
 #### Build Packages
 
-Builds all affected packages after lint/type-check passes.
+Builds all packages after lint/type-check passes.
 
 ```yaml
 - Checkout code
 - Install dependencies
-- Build affected packages
+- Build all packages
 - Upload build artifacts for debugging
 ```
 
@@ -52,7 +52,7 @@ Builds all affected packages after lint/type-check passes.
 
 #### Test
 
-Runs tests on affected packages (continues on error until tests implemented).
+Runs tests on all packages (continues on error until tests implemented).
 
 ```yaml
 - Checkout code
@@ -64,11 +64,10 @@ Runs tests on affected packages (continues on error until tests implemented).
 
 #### Node.js Compatibility
 
-Matrix build to ensure compatibility across Node.js versions.
+Builds run on Node.js 22 (LTS required for Style Dictionary v5).
 
 ```yaml
-Strategy: [18.x, 20.x, 22.x]
-- Build all packages on each Node version
+- Build all packages on Node 22
 ```
 
 **Duration**: ~2-3 minutes per version (parallel)

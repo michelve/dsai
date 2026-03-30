@@ -16,11 +16,20 @@ A fully accessible modal dialog component using Bootstrap 5 native classes with 
 
 ## Installation
 
-The Modal component is part of the `@dsai-io/react` package:
+Add the Modal component to your project using the DSAi CLI:
 
-```tsx
-import { Modal, Button } from '@dsai-io/react';
+```bash
+dsai add modal
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Usage
 

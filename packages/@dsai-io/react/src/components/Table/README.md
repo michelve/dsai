@@ -14,10 +14,20 @@ A Bootstrap 5 table component with sorting, row selection, responsive layout, an
 
 ## Installation
 
-```tsx
-import { Table } from '@dsai-io/react';
-import type { TableColumn } from '@dsai-io/react';
+Add the Table component to your project using the DSAi CLI:
+
+```bash
+dsai add table
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Basic Usage
 

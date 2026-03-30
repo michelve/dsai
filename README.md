@@ -16,7 +16,7 @@ Accessible by default. Themeable with design tokens. Designed to work the way yo
 
 | Package | Version | Description |
 |---------|---------|-------------|
-| [`@dsai-io/react`](packages/@dsai-io/react) | 1.0.2 | 38+ React components with Bootstrap 5 styling and WCAG 2.1 AA compliance |
+| [`@dsai-io/react`](packages/@dsai-io/react) | 1.0.2 | 33 React components with Bootstrap 5 styling and WCAG 2.1 AA compliance |
 | [`@dsai-io/tools`](packages/@dsai-io/tools) | [![npm](https://img.shields.io/npm/v/@dsai-io/tools)](https://www.npmjs.com/package/@dsai-io/tools) | CLI, component registry, token pipeline, and build tooling |
 | [`@dsai-io/figma-tokens`](packages/@dsai-io/figma-tokens) | [![npm](https://img.shields.io/npm/v/@dsai-io/figma-tokens)](https://www.npmjs.com/package/@dsai-io/figma-tokens) | Figma Variables API client and token synchronization |
 | [`@dsai-io/storybook`](packages/@dsai-io/storybook) | 1.0.6 | Component documentation and visual testing |
@@ -40,7 +40,7 @@ The [DSAi Starter Template](https://github.com/michelve/draft_v0) comes pre-conf
 # Add specific components, hooks, or utilities
 dsai add button modal tabs use-focus-trap cn
 
-# Browse all 81 available items
+# Browse all 80 available items
 dsai add --list
 
 # Add all hooks
@@ -101,7 +101,7 @@ The pipeline supports multi-theme builds (light + dark), SCSS compilation with B
 ### Prerequisites
 
 - Node.js >= 22
-- pnpm >= 9
+- pnpm >= 10
 
 ### Setup
 
@@ -134,7 +134,7 @@ npx nx affected -t test
 ```
 dsai/
   packages/@dsai-io/
-    react/            38+ React components, hooks, utilities
+    react/            33 React components, 23 hooks, 23 utilities
     tools/            CLI, registry, token pipeline, build tooling
     figma-tokens/     Figma API client and token sync
     storybook/        Component documentation (Storybook 10)

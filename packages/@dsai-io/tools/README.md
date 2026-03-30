@@ -174,11 +174,11 @@ The `aliases` section controls where `dsai add` writes files:
 
 ## Component Registry
 
-The registry contains 81 items:
+The registry contains 80 items:
 
 - **33 UI components** -- Accordion, Alert, Avatar, Badge, Breadcrumb, Button, Card, Carousel, Checkbox, Dropdown, Icon, Input, ListGroup, Modal, Navbar, Pagination, Popover, Progress, Radio, Scrollspy, Select, Sheet, Spinner, Switch, Table, Tabs, Toast, Tooltip, Typography, and more
 - **23 hooks** -- useAsync, useClickOutside, useControllableState, useDarkMode, useDebounce, useFocusTrap, useForm, useHover, useMediaQuery, useReducedMotion, useResizeObserver, useRovingFocus, useScrollLock, useThrottle, and more
-- **24 utilities** -- cn, keyboard helpers, mergeRefs, browser detection, validation, string utils, accessibility helpers, and more
+- **23 utilities** -- cn, keyboard helpers, mergeRefs, browser detection, validation, string utils, accessibility helpers, and more
 - **1 shared type system** -- SafeHTMLAttributes, ComponentSize, SemanticColorVariant, PolymorphicComponentProps
 
 Each item declares its dependencies. When you add a component, all required hooks, utils, types, and npm packages are resolved and installed automatically.

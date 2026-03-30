@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-DSAi is a production-ready React 19 component library (38+ components) built as an Nx monorepo with TypeScript strict mode, Bootstrap 5-compatible styling, WCAG 2.1 AA accessibility, and design token integration.
+DSAi is a production-ready React 19 component library (33 components, 23 hooks, 23 utility modules) built as an Nx monorepo with TypeScript strict mode, Bootstrap 5-compatible styling, WCAG 2.1 AA accessibility, and design token integration.
+
+**Runtime requirements:** Node.js ≥ 22, pnpm ≥ 10.
 
 ## Common Commands
 
@@ -34,6 +36,13 @@ pnpm tokens:build                 # Build + validate tokens
 pnpm tokens:transform             # Transform only
 pnpm tokens:validate              # Validate only
 
+# Add Components (via @dsai-io/tools CLI)
+dsai add button modal tabs          # Add specific components
+dsai add use-focus-trap cn          # Add hooks and utilities
+dsai add --list                     # Browse all available items
+dsai add --all --type hook          # Add all hooks
+dsai add modal --dry-run            # Preview without writing files
+
 # Figma
 pnpm figma:connect                # Set up Figma Code Connect
 pnpm figma:publish:dry            # Dry-run publish
@@ -44,7 +53,7 @@ Always prefer running tasks through `nx` rather than underlying tooling directly
 ## Architecture
 
 **Monorepo layout (Nx):**
-- `packages/@dsai-io/react/` — Component library (38+ components in `src/components/`)
+- `packages/@dsai-io/react/` — Component library (33 components in `src/components/`, 23 hooks in `src/hooks/`, 23 utility modules in `src/utils/`)
 - `packages/@dsai-io/tools/` — CLI tooling, token pipeline, build utilities (CLI: `dsai`)
 - `packages/@dsai-io/figma-tokens/` — Figma Variables API integration
 - `packages/@dsai-io/storybook/` — Storybook 10 documentation
@@ -122,8 +131,8 @@ After editing any file, run `codacy_cli_analyze` (Codacy MCP Server) with:
 
 ## CI/CD
 
-GitHub Actions runs on push to `main` and PRs targeting `main`:
-- Lint & typecheck (affected only)
-- Build (affected only)
-- Test with coverage (affected only)
-- Node.js compatibility matrix: 18.x, 20.x, 22.x
+GitHub Actions runs on push to `main`/`develop` and PRs targeting `main`/`develop`:
+- Lint (all packages)
+- Build @dsai-io/tools, then test with coverage (all packages)
+- Build all packages
+- Node.js 22, pnpm 10

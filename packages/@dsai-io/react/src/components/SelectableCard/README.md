@@ -16,9 +16,20 @@ A card component that behaves like a checkbox or radio option. Click anywhere on
 
 ## Installation
 
+Add the SelectableCard component to your project using the DSAi CLI:
+
 ```bash
-npm install @dsai-io/react
+dsai add selectable-card
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Usage
 

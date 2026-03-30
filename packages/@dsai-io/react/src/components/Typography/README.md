@@ -12,11 +12,20 @@ The Typography system includes three main components:
 
 ## Installation
 
-Typography is part of the `@dsai-io/react` package:
+Add the Typography component to your project using the DSAi CLI:
 
-```tsx
-import { Heading, Display, Text, Typography } from '@dsai-io/react';
+```bash
+dsai add typography
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Components
 

@@ -13,9 +13,20 @@ An accessible table-of-contents style navigation that highlights the section tha
 
 ## Installation
 
-```tsx
-import { Scrollspy } from '@dsai-io/react';
+Add the Scrollspy component to your project using the DSAi CLI:
+
+```bash
+dsai add scrollspy
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Basic usage
 

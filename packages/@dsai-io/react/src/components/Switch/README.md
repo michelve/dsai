@@ -13,9 +13,20 @@ A toggle switch component for binary on/off states. Built with Bootstrap 5 styli
 
 ## Installation
 
+Add the Switch component to your project using the DSAi CLI:
+
 ```bash
-npm install @dsai-io/react
+dsai add switch
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Usage
 

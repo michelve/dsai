@@ -4,13 +4,35 @@ DSAi React - Accessible, themeable React components with WCAG 2.1 AA compliance,
 
 ## Installation
 
+Add components to your project using the DSAi CLI:
+
 ```bash
-npm install @dsai-io/react
-# or
-pnpm add @dsai-io/react
-# or
-yarn add @dsai-io/react
+# Add specific components
+dsai add button modal tabs
+
+# Add hooks and utilities
+dsai add use-focus-trap use-debounce cn keyboard
+
+# Browse all available items
+dsai add --list
+
+# Add all components of a type
+dsai add --all                    # All UI components
+dsai add --all --type hook        # All hooks
+dsai add --all --type util        # All utilities
+
+# Preview without writing files
+dsai add modal --dry-run
 ```
+
+Components are copied as source files into your project. Dependencies (hooks, utils, types, npm packages) are resolved and installed automatically.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Requirements
 
@@ -86,6 +108,7 @@ function App() {
 - `Table`
 - `Avatar`
 - `Carousel`
+- `Icon`
 - `ListGroup`
 - `Typography`
 

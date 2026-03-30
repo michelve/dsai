@@ -17,15 +17,20 @@ Bootstrap 5 radio button components for single-selection inputs.
 
 ## Installation
 
-```bash
-pnpm add @dsai-io/react @dsai-io/tools
-```
-
-Then generate your design tokens:
+Add the Radio component to your project using the DSAi CLI:
 
 ```bash
-npx dsai tokens build
+dsai add radio
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Usage
 

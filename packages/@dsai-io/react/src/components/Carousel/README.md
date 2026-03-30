@@ -18,12 +18,20 @@ A fully accessible carousel component for cycling through images or content. Sup
 
 ## Installation
 
-```tsx
-import { Carousel, CarouselItem, CarouselCaption } from '@dsai-io/react';
+Add the Carousel component to your project using the DSAi CLI:
 
-// Or use the compound component pattern:
-// Carousel.Item, Carousel.Caption, Carousel.Control, etc.
+```bash
+dsai add carousel
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Basic Usage
 

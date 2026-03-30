@@ -1,6 +1,6 @@
 # DSAi Design System Guidelines
 
-This project uses the **DSAi Design System** (`@dsai-io/react`), an enterprise-grade React component library with Bootstrap 5 theming and WCAG 2.2 AA accessibility.
+This project uses the **DSAi Design System** (`@dsai-io/react`), an enterprise-grade React component library with Bootstrap 5 theming and WCAG 2.1 AA accessibility.
 
 > **Version**: 1.0.0 | **Last Updated**: January 2026 | **Figma Library**: DSAi Components
 
@@ -44,12 +44,12 @@ DO NOT write code using a component until you have read its specific guidelines.
 
 | Technology | Value |
 | ---------- | ----- |
-| **Framework** | React 18+ with TypeScript |
+| **Framework** | React 19 with TypeScript |
 | **CSS Framework** | Bootstrap 5.3 |
 | **Component Package** | `@dsai-io/react` |
 | **Token CLI** | `@dsai-io/tools` |
 | **Design Tool** | Figma with Code Connect |
-| **Accessibility** | WCAG 2.2 AA compliant |
+| **Accessibility** | WCAG 2.1 AA compliant |
 | **Token Format** | DTCG (Design Token Community Group) |
 
 ## Package Import Pattern

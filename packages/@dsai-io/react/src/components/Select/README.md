@@ -14,9 +14,20 @@ A flexible dropdown select component built with Bootstrap 5 classes. Supports si
 
 ## Installation
 
+Add the Select component to your project using the DSAi CLI:
+
 ```bash
-npm install @dsai-io/react
+dsai add select
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Usage
 

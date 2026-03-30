@@ -2,6 +2,23 @@
 
 Bootstrap Icons as React components with full accessibility support.
 
+## Installation
+
+Add the Icon component to your project using the DSAi CLI:
+
+```bash
+dsai add icon
+```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
+
 ## Overview
 
 All SVG icon components are auto-generated from Bootstrap Icons SVG files and live in:

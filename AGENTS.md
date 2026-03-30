@@ -4,7 +4,9 @@ This file provides guidance to AI coding agents (GitHub Copilot, Cursor, Claude 
 
 ## Project Overview
 
-DSAi is a production-ready React 19 component library (38+ components) built as an Nx monorepo. Key requirements: TypeScript strict mode, Bootstrap 5-compatible styling, WCAG 2.1 AA accessibility, 90%+ test coverage.
+DSAi is a production-ready React 19 component library (33 components, 23 hooks, 23 utility modules) built as an Nx monorepo. Key requirements: TypeScript strict mode, Bootstrap 5-compatible styling, WCAG 2.1 AA accessibility, 90%+ test coverage.
+
+**Runtime requirements:** Node.js ≥ 22, pnpm ≥ 10.
 
 ## Common Commands
 
@@ -29,6 +31,13 @@ pnpm affected:test
 # Design Tokens
 pnpm tokens:build                  # Build + validate tokens
 
+# Add Components (via @dsai-io/tools CLI)
+dsai add button modal tabs          # Add specific components
+dsai add use-focus-trap cn          # Add hooks and utilities
+dsai add --list                     # Browse all available items
+dsai add --all --type hook          # Add all hooks
+dsai add modal --dry-run            # Preview without writing files
+
 # Figma
 pnpm figma:connect                 # Set up Figma Code Connect
 pnpm figma:publish:dry             # Dry-run publish
@@ -37,7 +46,7 @@ pnpm figma:publish:dry             # Dry-run publish
 ## Architecture
 
 **Packages:**
-- `packages/@dsai-io/react/` — Component library (38+ components in `src/components/`)
+- `packages/@dsai-io/react/` — Component library (33 components in `src/components/`, 23 hooks in `src/hooks/`, 23 utility modules in `src/utils/`)
 - `packages/@dsai-io/tools/` — CLI tooling, token pipeline, build utilities (CLI: `dsai`)
 - `packages/@dsai-io/figma-tokens/` — Figma Variables API integration
 - `packages/@dsai-io/storybook/` — Storybook 10 documentation

@@ -16,11 +16,20 @@ A fully accessible responsive navigation header component using Bootstrap 5 nati
 
 ## Installation
 
-The Navbar component is part of the `@dsai-io/react` package:
+Add the Navbar component to your project using the DSAi CLI:
 
-```tsx
-import { Navbar } from '@dsai-io/react';
+```bash
+dsai add navbar
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Usage
 

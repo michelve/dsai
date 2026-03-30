@@ -14,9 +14,20 @@ A fully accessible popover component for displaying rich interactive content. Us
 
 ## Installation
 
-```tsx
-import { Popover } from '@dsai-io/react';
+Add the Popover component to your project using the DSAi CLI:
+
+```bash
+dsai add popover
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Basic Usage
 
