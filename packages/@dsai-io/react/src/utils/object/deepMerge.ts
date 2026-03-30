@@ -193,10 +193,10 @@ export function deepMerge<T extends Record<string, unknown>>(
           throw new Error(`deepMerge prototype pollution attempt detected: ${key}`);
         }
 
-        const srcValue = (sourceValue as Record<string, unknown>)[key];
-        const tgtValue = merged[key as keyof typeof merged];
+        const srcValue = Reflect.get(sourceValue as object, key) as unknown;
+        const tgtValue = Reflect.get(merged as object, key) as unknown;
 
-        (merged as Record<string, unknown>)[key] = mergeValue(tgtValue, srcValue, currentDepth + 1);
+        Reflect.set(merged as object, key, mergeValue(tgtValue, srcValue, currentDepth + 1));
       }
     }
 
@@ -224,14 +224,14 @@ export function deepMerge<T extends Record<string, unknown>>(
           throw new Error(`deepMerge prototype pollution attempt detected: ${key}`);
         }
 
-        const sourceValue = source[key as keyof typeof source];
-        const targetValue = result[key as keyof T];
+        const sourceValue = Reflect.get(source as object, key) as unknown;
+        const targetValue = Reflect.get(result as object, key) as unknown;
 
-        (result as Record<string, unknown>)[key] = mergeValue(
+        Reflect.set(result as object, key, mergeValue(
           targetValue,
           sourceValue,
           0
-        ) as T[keyof T];
+        ));
       }
     }
   }

@@ -296,20 +296,6 @@ export type CardListProps =
   | CardListSingleModeProps
   | CardListMultipleModeProps;
 
-/**
- * Internal props type for the CardList component implementation.
- * This is more permissive than the public type to allow for easy
- * destructuring in the component implementation.
- *
- * @internal
- */
-interface _CardListPropsInternal extends CardListBaseProps {
-  selectionMode?: CardListSelectionMode;
-  value?: string | string[];
-  defaultValue?: string | string[];
-  onChange?: (value: string | string[] | undefined) => void;
-}
-
 // =============================================================================
 // Re-exports
 // =============================================================================

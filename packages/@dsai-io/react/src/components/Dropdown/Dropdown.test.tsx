@@ -1214,7 +1214,6 @@ describe('Dropdown', () => {
     });
 
     it('only one item has aria-checked="true" at a time', async () => {
-      const user = userEvent.setup();
       render(
         <Dropdown isOpen>
           <Dropdown.Toggle>Options</Dropdown.Toggle>

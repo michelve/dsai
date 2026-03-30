@@ -1,4 +1,4 @@
-import { forwardRef, memo, useMemo } from 'react';
+import React, { forwardRef, memo, useMemo } from 'react';
 
 import { cn } from '../../utils';
 
@@ -94,7 +94,7 @@ function BadgeWrapperComponent(
               };
               // Use cloneElement-free approach: wrap in a positioned span
               return (
-                <span key={index} className="dsai-badge-wrapper-badge" style={childStyle}>
+                <span key={React.isValidElement(child) ? (child.key ?? `badge-overlay`) : 'badge-overlay'} className="dsai-badge-wrapper-badge" style={childStyle}>
                   {child}
                 </span>
               );

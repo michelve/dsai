@@ -564,14 +564,15 @@ const ListGroupInner = forwardRef<HTMLUListElement | HTMLOListElement, ListGroup
     );
 
     // Render nested entries recursively for collapsible items
+    let dividerCounter = 0;
     const renderEntries = (entries: ListGroupEntry[]): React.ReactNode => {
       return entries.map((entry, index) => {
         if (!isListGroupItemData(entry)) {
           if (entry.type === 'divider') {
-            return <ListGroupDivider key={`divider-${index}`} />;
+            return <ListGroupDivider key={`divider-${++dividerCounter}`} />;
           }
           if (entry.type === 'header') {
-            return <ListGroupHeader key={`header-${index}`}>{entry.content}</ListGroupHeader>;
+            return <ListGroupHeader key={`header-${String(entry.content)}`}>{entry.content}</ListGroupHeader>;
           }
           return null;
         }

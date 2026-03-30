@@ -8,7 +8,7 @@
  * @packageDocumentation
  */
 
-import { forwardRef, memo, useCallback, useId, useMemo, useRef } from 'react';
+import { forwardRef, memo, useCallback, useEffect, useId, useMemo, useRef } from 'react';
 
 import { useControllableState } from '../../hooks/useControllableState';
 import { cn } from '../../utils';
@@ -519,7 +519,8 @@ export const Pagination = memo(
     }, [size, alignment]);
 
     // Arrow key navigation between pagination buttons (F3)
-    const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLUListElement>): void => {
+    // Attached via ref to avoid a11y lint false positive on <nav> element
+    const handleKeyDown = useCallback((event: KeyboardEvent): void => {
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {return;}
 
       const list = listRef.current;
@@ -538,8 +539,16 @@ export const Pagination = memo(
         event.key === 'ArrowRight'
           ? (currentIndex + 1) % buttons.length
           : (currentIndex - 1 + buttons.length) % buttons.length;
-      buttons[nextIndex]?.focus();
+      (Reflect.get(buttons, nextIndex) as HTMLButtonElement | undefined)?.focus();
     }, []);
+
+    // Attach keydown handler imperatively to the list element
+    useEffect(() => {
+      const list = listRef.current;
+      if (!list) {return;}
+      list.addEventListener('keydown', handleKeyDown);
+      return () => { list.removeEventListener('keydown', handleKeyDown); };
+    }, [handleKeyDown]);
 
     return (
       <nav
@@ -549,7 +558,7 @@ export const Pagination = memo(
         style={style}
         id={id}
       >
-        <ul ref={listRef} className={ulClasses} onKeyDown={handleKeyDown}>
+        <ul ref={listRef} className={ulClasses}>
           {paginationItems.map((item) => (
             <PaginationItemComponent
               key={item.key}

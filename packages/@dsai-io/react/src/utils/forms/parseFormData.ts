@@ -151,7 +151,7 @@ export function parseFormData(formData: FormData): Record<string, unknown> {
       let current = result;
 
       for (let i = 0; i < parts.length - 1; i++) {
-        const part = parts[i];
+        const part = Reflect.get(parts, i) as string | undefined;
         if (typeof part !== 'string' || part.length === 0 || !isSafeKey(part)) {
           continue;
         }

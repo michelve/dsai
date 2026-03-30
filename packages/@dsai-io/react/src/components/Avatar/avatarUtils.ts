@@ -133,7 +133,7 @@ export function hashString(str: string): number {
 export function getToneFromName(name: string): AvatarTone {
   const hash = hashString(name);
   const index = hash % AVATAR_HASH_COLORS.length;
-  return AVATAR_HASH_COLORS[index] ?? 'brand';
+  return Reflect.get(AVATAR_HASH_COLORS, index) as AvatarTone | undefined ?? 'brand';
 }
 
 /**

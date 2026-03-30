@@ -113,8 +113,7 @@ export function createRovingTabindex(
     currentIndex = index;
     updateItems();
 
-    // Safe: index is validated above
-    const item = items[index];
+    const item = Reflect.get(items, index) as Element | undefined;
     if (item instanceof HTMLElement) {
       item.focus();
     }

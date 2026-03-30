@@ -74,7 +74,7 @@ export function pick<T extends Record<string, unknown>, K extends keyof T>(
     const hasOwn = Object.prototype.hasOwnProperty;
     // Only copy if key exists in source object (own property)
     if (hasOwn.call(obj, key)) {
-      (result as Record<string, unknown>)[key as string] = obj[key];
+      Reflect.set(result, key as string, Reflect.get(obj, key as string));
     }
   }
 

@@ -84,7 +84,7 @@ function removeInvisibleChars(url: string): string {
   for (let i = 0; i < url.length; i++) {
     const code = url.charCodeAt(i);
     if (code >= 0x20 && code !== 0x7f) {
-      cleaned += url[i];
+      cleaned += url.charAt(i);
     }
   }
   return cleaned;

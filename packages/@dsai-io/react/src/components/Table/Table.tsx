@@ -365,7 +365,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
           let nextState: SortingState;
 
           if (existingIndex >= 0) {
-            const existing = sortingState[existingIndex];
+            const existing = Reflect.get(sortingState, existingIndex) as SortingState[number];
             if (existing.direction === 'asc') {
               // Toggle to desc
               nextState = sortingState.map((s, i) =>
@@ -430,7 +430,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     );
 
     const [activeHeaderIndex, setActiveHeaderIndex] = useState<number>(
-      sortableHeaderIndices.length > 0 ? sortableHeaderIndices[0] : -1,
+      sortableHeaderIndices.length > 0 ? sortableHeaderIndices[0]! : -1,
     );
 
     /** Refs for sortable header elements to manage focus */
@@ -468,22 +468,22 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
           case 'ArrowRight':
             e.preventDefault();
             if (currentPosInSortable < sortableHeaderIndices.length - 1) {
-              nextIndex = sortableHeaderIndices[currentPosInSortable + 1];
+              nextIndex = sortableHeaderIndices[currentPosInSortable + 1]!;
             }
             break;
           case 'ArrowLeft':
             e.preventDefault();
             if (currentPosInSortable > 0) {
-              nextIndex = sortableHeaderIndices[currentPosInSortable - 1];
+              nextIndex = sortableHeaderIndices[currentPosInSortable - 1]!;
             }
             break;
           case 'Home':
             e.preventDefault();
-            nextIndex = sortableHeaderIndices[0];
+            nextIndex = sortableHeaderIndices[0]!;
             break;
           case 'End':
             e.preventDefault();
-            nextIndex = sortableHeaderIndices[sortableHeaderIndices.length - 1];
+            nextIndex = sortableHeaderIndices[sortableHeaderIndices.length - 1]!;
             break;
           default:
             return;
@@ -505,7 +505,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     >({
       value: pagination,
       defaultValue: defaultPagination,
-      onChange: onPaginationChange,
+      onChange: onPaginationChange as ((value: PaginationState | undefined, event?: unknown) => void) | undefined,
     });
 
     // ==========================================================================

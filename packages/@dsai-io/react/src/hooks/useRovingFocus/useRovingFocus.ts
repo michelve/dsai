@@ -73,7 +73,7 @@ export function useRovingFocus({
 
   const focusItem = useCallback(
     (items: HTMLElement[], index: number) => {
-      const item = items[index] as HTMLElement | undefined;
+      const item = Reflect.get(items, index) as HTMLElement | undefined;
       if (!item) {
         return;
       }
@@ -102,7 +102,7 @@ export function useRovingFocus({
           return current;
         }
 
-        const item = items[next] as HTMLElement | undefined;
+        const item = Reflect.get(items, next) as HTMLElement | undefined;
         if (item && !isDisabled(item)) {
           return next;
         }

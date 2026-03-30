@@ -183,10 +183,10 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListProps>(
         if (onChange) {
           // For single mode, return single value or undefined
           if (selectionMode === 'single') {
-            onChange(newValues.length > 0 ? newValues[0] : undefined);
+            (onChange as (value: string | undefined) => void)(newValues.length > 0 ? newValues[0] : undefined);
           } else {
             // For multiple mode, return array
-            onChange(newValues);
+            (onChange as (values: string[]) => void)(newValues);
           }
         }
       },

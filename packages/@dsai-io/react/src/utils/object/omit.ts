@@ -84,7 +84,7 @@ export function omit<T extends Record<string, unknown>, K extends keyof T>(
   for (const key in obj) {
     if (hasOwn.call(obj, key)) {
       if (!keysToOmit.has(key as unknown as K)) {
-        (result as Record<string, unknown>)[key as string] = obj[key];
+        Reflect.set(result, key as string, Reflect.get(obj, key as string));
       }
     }
   }

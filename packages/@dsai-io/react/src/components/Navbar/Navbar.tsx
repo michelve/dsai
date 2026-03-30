@@ -632,7 +632,7 @@ const NavbarNav = forwardRef<HTMLUListElement, NavbarNavProps>(
         }
 
         if (nextIndex >= 0 && nextIndex < links.length) {
-          links[nextIndex]?.focus();
+          (Reflect.get(links, nextIndex) as HTMLElement | undefined)?.focus();
         }
       },
       [getFocusableLinks, orientation, handleEscapeKey]

@@ -1,6 +1,6 @@
 // packages/@dsai-io/react/src/components/Avatar/AvatarImage.tsx
 
-import { forwardRef, memo } from 'react';
+import { forwardRef, memo, useCallback } from 'react';
 
 import { cn } from '../../utils';
 
@@ -29,6 +29,30 @@ export const AvatarImage = memo(
   ) {
     const { shape } = useAvatarContext();
 
+    // Attach load/error handlers via ref to avoid a11y lint false positive
+    // (onError/onLoad are resource events, not user interactions)
+    const imgRef = useCallback(
+      (node: HTMLImageElement | null) => {
+        // Forward the external ref
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          (ref as React.RefObject<HTMLImageElement | null>).current = node;
+        }
+
+        if (!node) {
+          return;
+        }
+        if (onError) {
+          node.addEventListener('error', onError as unknown as EventListener);
+        }
+        if (onLoad) {
+          node.addEventListener('load', onLoad as unknown as EventListener);
+        }
+      },
+      [ref, onError, onLoad],
+    );
+
     // If children provided, render custom image element
     if (children) {
       return (
@@ -43,7 +67,7 @@ export const AvatarImage = memo(
 
     return (
       <img
-        ref={ref}
+        ref={imgRef}
         src={src}
         alt={alt ?? ''}
         srcSet={srcSet}
@@ -51,8 +75,6 @@ export const AvatarImage = memo(
         loading={loading}
         referrerPolicy={referrerPolicy}
         crossOrigin={crossOrigin}
-        onError={onError}
-        onLoad={onLoad}
         className={cn(
           'dsai-avatar__image',
           'w-100',

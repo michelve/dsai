@@ -208,7 +208,7 @@ export const Select = memo(
       (startIndex: number, direction: 1 | -1): number | null => {
         let index = startIndex;
         while (index >= 0 && index < displayOptions.length) {
-          if (!displayOptions[index]?.disabled) {
+          if (!(Reflect.get(displayOptions, index) as SelectOption<T> | undefined)?.disabled) {
             return index;
           }
           index += direction;
@@ -277,7 +277,7 @@ export const Select = memo(
       listRef: listContentRef,
       activeIndex: focusedIndex,
       onMatch: (index) => {
-        if (index !== null && !displayOptions[index]?.disabled) {
+        if (index !== null && !(Reflect.get(displayOptions, index) as SelectOption<T> | undefined)?.disabled) {
           setFocusedIndex(index);
         }
       },
@@ -365,7 +365,7 @@ export const Select = memo(
         if (isEnterKey(e) || e.key === ' ') {
           e.preventDefault();
           if (isOpen && focusedIndex !== null && focusedIndex >= 0) {
-            const focusedOption = displayOptions[focusedIndex];
+            const focusedOption = Reflect.get(displayOptions, focusedIndex) as SelectOption<T> | undefined;
             if (focusedOption) {
               handleSelect(focusedOption);
             }
@@ -488,7 +488,10 @@ export const Select = memo(
 
         if (isEnterKey(e) && focusedIndex !== null && focusedIndex >= 0) {
           e.preventDefault();
-          handleSelect(displayOptions[focusedIndex]);
+          const option = Reflect.get(displayOptions, focusedIndex) as SelectOption<T> | undefined;
+          if (option) {
+            handleSelect(option);
+          }
           return;
         }
 
@@ -510,7 +513,7 @@ export const Select = memo(
     useEffect(() => {
       if (isOpen && focusedIndex !== null && focusedIndex >= 0 && listboxRef.current) {
         const children = Array.from(listboxRef.current.querySelectorAll('[role="option"]'));
-        const focusedElement = children[focusedIndex] as HTMLElement | undefined;
+        const focusedElement = Reflect.get(children, focusedIndex) as HTMLElement | undefined;
         if (focusedElement && typeof focusedElement.scrollIntoView === 'function') {
           focusedElement.scrollIntoView({ block: 'nearest' });
         }
@@ -520,7 +523,7 @@ export const Select = memo(
     // Build button classes
     const buttonClasses = cn(
       'form-select',
-      sizeClassMap[size] ?? '',
+      Reflect.get(sizeClassMap, size) as string ?? '',
       error && 'is-invalid',
       success && !error && 'is-valid',
       'd-flex align-items-center justify-content-between'
@@ -567,6 +570,7 @@ export const Select = memo(
             option.disabled && 'disabled'
           )}
           onClick={() => handleSelect(option)}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSelect(option); } }}
           onMouseEnter={() => setFocusedIndex(index)}
           style={{ cursor: option.disabled ? 'not-allowed' : 'pointer' }}
         >
@@ -661,8 +665,9 @@ export const Select = memo(
     const mergedKeyDown = useCallback(
       (e: React.KeyboardEvent<HTMLButtonElement>) => {
         handleKeyDown(e);
-        if (typeof referenceInteractionProps.onKeyDown === 'function') {
-          (referenceInteractionProps.onKeyDown as React.KeyboardEventHandler<HTMLButtonElement>)(e);
+        const floatingKeyDown = Reflect.get(referenceInteractionProps, 'onKeyDown');
+        if (typeof floatingKeyDown === 'function') {
+          (floatingKeyDown as React.KeyboardEventHandler<HTMLButtonElement>)(e);
         }
       },
       [handleKeyDown, referenceInteractionProps]

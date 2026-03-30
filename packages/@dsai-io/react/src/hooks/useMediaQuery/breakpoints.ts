@@ -38,7 +38,7 @@ export type Breakpoint = keyof typeof BREAKPOINTS;
  * @returns CSS media query string for min-width
  */
 export function breakpointUp(breakpoint: Breakpoint): string {
-  return `(min-width: ${BREAKPOINTS[breakpoint]}px)`;
+  return `(min-width: ${Reflect.get(BREAKPOINTS, breakpoint) as number}px)`;
 }
 
 /**
@@ -54,7 +54,7 @@ export function breakpointUp(breakpoint: Breakpoint): string {
  * @returns CSS media query string for max-width
  */
 export function breakpointDown(breakpoint: Breakpoint): string {
-  const value = BREAKPOINTS[breakpoint] - 0.02;
+  const value = (Reflect.get(BREAKPOINTS, breakpoint) as number) - 0.02;
   return `(max-width: ${value}px)`;
 }
 
@@ -81,5 +81,5 @@ export function breakpointBetween(min: Breakpoint, max: Breakpoint): string {
  * @returns The pixel value as a number
  */
 export function getBreakpointValue(breakpoint: Breakpoint): number {
-  return BREAKPOINTS[breakpoint];
+  return Reflect.get(BREAKPOINTS, breakpoint) as number;
 }

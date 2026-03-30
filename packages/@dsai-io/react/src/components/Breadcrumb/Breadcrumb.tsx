@@ -275,7 +275,7 @@ export const Breadcrumb = memo(
         if (useInlineSeparator && index > 0) {
           elements.push(
             <li
-              key={`sep-${index}`}
+              key={`sep-${typeof item === 'string' ? item : (item.href ?? item.label ?? index)}`}
               className="breadcrumb-separator"
               aria-hidden="true"
               role="presentation"

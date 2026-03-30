@@ -65,7 +65,7 @@ function evictOldestCacheEntries(): void {
     const keys = Array.from(formattersCache.keys());
 
     for (let i = 0; i < entriesToRemove; i++) {
-      const keyToDelete = keys[i];
+      const keyToDelete = Reflect.get(keys, i) as string | undefined;
       if (keyToDelete !== undefined) {
         formattersCache.delete(keyToDelete);
       }

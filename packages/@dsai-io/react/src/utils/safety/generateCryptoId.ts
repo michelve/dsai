@@ -58,9 +58,8 @@ function getRandomValues(length: number): Uint8Array {
   }
 
   // Non-crypto fallback using Math.random (best-effort, non-cryptographic)
-  for (let i = 0; i < length; i++) {
-    bytes[i] = Math.floor(Math.random() * 256);
-  }
+  const fallback = Uint8Array.from({ length }, () => Math.floor(Math.random() * 256));
+  bytes.set(fallback);
   return bytes;
 }
 

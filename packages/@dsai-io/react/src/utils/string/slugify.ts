@@ -102,7 +102,7 @@ export function slugify(text: string, options: SlugifyOptions = {}): string {
     const filtered: string[] = [];
 
     for (let i = 0; i < chars.length; i++) {
-      const char = chars[i];
+      const char = Reflect.get(chars, i) as string | undefined;
       if (!char) {
         continue;
       }

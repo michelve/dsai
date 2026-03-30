@@ -96,7 +96,7 @@ export const Spinner = memo(
 
     const spinner = (
       <Component
-        ref={ref}
+        ref={ref as React.Ref<HTMLDivElement>}
         className={bootstrapClasses}
         role="status"
         style={{ ...customSizeStyle, ...style }}

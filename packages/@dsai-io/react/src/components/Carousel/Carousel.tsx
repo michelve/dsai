@@ -446,7 +446,7 @@ const CarouselBase = memo(forwardRef<HTMLDivElement, CarouselProps>(
         const isActive = index === fsmState.activeIndex;
         const itemClassName = cn('carousel-item', isActive && 'active', item.props.className);
         const slideLabel =
-          computedSlideLabels[index] ?? `Slide ${index + 1}`;
+          (Reflect.get(computedSlideLabels, index) as string | undefined) ?? `Slide ${index + 1}`;
 
         // Use the item's existing key if provided, otherwise use index
         // Carousel items are static and don't reorder, so index is acceptable

@@ -257,7 +257,7 @@ export {
 export type { SelectOption, SelectOptionGroup, SelectProps, SelectSize } from './Select';
 // Select
 export { Select } from './Select';
-export type { CardSelectionMode, SelectableCardProps } from './SelectableCard';
+export type { CardSelectionMode, SelectableCardProps, SelectionIndicator } from './SelectableCard';
 // SelectableCard
 export { SelectableCard } from './SelectableCard';
 export type {
@@ -372,6 +372,7 @@ export type {
   HeadingProps,
   TextProps,
   TextVariant,
+  TextWrap,
 } from './Typography';
 // Typography
 export { Display, Heading, Text, Typography } from './Typography';
