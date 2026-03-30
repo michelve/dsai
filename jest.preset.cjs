@@ -81,7 +81,7 @@ module.exports = {
   testMatch: ['**/__tests__/**/*.(test|spec).(ts|tsx|js|jsx)', '**/*.(test|spec).(ts|tsx|js|jsx)'],
 
   // Ignore patterns
-  testPathIgnorePatterns: ['/node_modules/', '/dist/', '/.nx/', '/.worktrees/'],
+  testPathIgnorePatterns: ['/node_modules/', '/dist/', '/.nx/', '/.worktrees/', '/.github/'],
 
   // Watch plugins for better DX
   watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],

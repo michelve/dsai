@@ -30,6 +30,7 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 
+import { useControllableState } from '../../hooks';
 import { cn } from '../../utils';
 import { mapPlacement } from '../../utils/misc';
 import { isValidHref } from '../../utils/validation';
@@ -40,16 +41,24 @@ import {
   getDropdownVisualState,
 } from './Dropdown.fsm';
 
+import './Dropdown.css';
+
 import type {
   DropdownAutoClose,
+  DropdownCheckboxItemProps,
   DropdownContextValue,
   DropdownDividerProps,
+  DropdownGroupProps,
   DropdownHeaderProps,
   DropdownItemProps,
   DropdownItemTextProps,
   DropdownMenuProps,
   DropdownPlacement,
   DropdownProps,
+  DropdownRadioGroupContextValue,
+  DropdownRadioGroupProps,
+  DropdownRadioItemProps,
+  DropdownShortcutProps,
   DropdownToggleProps,
 } from './Dropdown.types';
 import type { FloatingContext } from '@floating-ui/react';
@@ -70,6 +79,11 @@ function useDropdownContext(): DropdownContextValue {
   }
   return context;
 }
+
+/**
+ * RadioGroup context for sharing selection state between radio items
+ */
+const DropdownRadioGroupContext = createContext<DropdownRadioGroupContextValue | null>(null);
 
 function extractTextContent(node: ReactNode): string {
   if (typeof node === 'string' || typeof node === 'number') {
@@ -106,6 +120,28 @@ function extractTextContent(node: ReactNode): string {
   }
 
   return '';
+}
+
+/**
+ * Check indicator SVG for CheckboxItem
+ */
+function CheckIndicator(): React.JSX.Element {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M13.485 2.929a1 1 0 0 1 0 1.414l-7.07 7.071a1 1 0 0 1-1.415 0L2.515 8.929a1 1 0 1 1 1.414-1.414L5.707 9.293l6.364-6.364a1 1 0 0 1 1.414 0z" />
+    </svg>
+  );
+}
+
+/**
+ * Radio indicator SVG for RadioItem
+ */
+function RadioIndicator(): React.JSX.Element {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <circle cx="8" cy="8" r="4" />
+    </svg>
+  );
 }
 
 /**
@@ -154,6 +190,7 @@ const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
       autoClose = true,
       offset: offsetValue = [0, 2],
       disabled = false,
+      loop = true,
       onOpened,
       onClosed,
       className = '',
@@ -238,7 +275,7 @@ const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
       listRef,
       activeIndex,
       onNavigate: setActiveIndex,
-      loop: true,
+      loop,
     });
 
     const typeahead = useTypeahead(context, {
@@ -321,6 +358,9 @@ const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
       return undefined;
     }, [fsmState.visibility, animatedShowClass]);
 
+    // Track mount state to prevent onClosed firing on initial render
+    const hasMountedRef = useRef(false);
+
     // Handle callbacks
     useEffect(() => {
       if (fsmState.visibility === 'open' && onOpened) {
@@ -329,6 +369,10 @@ const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
     }, [fsmState.visibility, onOpened]);
 
     useEffect(() => {
+      if (!hasMountedRef.current) {
+        hasMountedRef.current = true;
+        return;
+      }
       if (fsmState.visibility === 'closed' && onClosed) {
         onClosed();
       }
@@ -384,7 +428,7 @@ const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
       floatingStyles,
       getReferenceProps,
       getFloatingProps,
-      floatingContext: context,
+      floatingContext: context as FloatingContext,
     };
 
     // Compute direction class for Bootstrap
@@ -476,18 +520,20 @@ const DropdownToggle = forwardRef<HTMLButtonElement, DropdownToggleProps>(
       return 'Toggle Dropdown';
     }, [ariaLabel, derivedLabel]);
 
-    // Development warning for split toggles without explicit aria-label (guarded for browser envs)
-    if (
-      typeof process !== 'undefined' &&
-      process.env?.['NODE_ENV'] !== 'production' &&
-      split &&
-      !ariaLabel
-    ) {
-      console.warn(
-        'Dropdown.Toggle: Split toggles should have an explicit aria-label for accessibility. ' +
-          'Falling back to "Toggle Dropdown".'
-      );
-    }
+    // Development warning for split toggles without explicit aria-label
+    useEffect(() => {
+      if (
+        typeof process !== 'undefined' &&
+        process.env?.['NODE_ENV'] !== 'production' &&
+        split &&
+        !ariaLabel
+      ) {
+        console.warn(
+          'Dropdown.Toggle: Split toggles should have an explicit aria-label for accessibility. ' +
+            'Falling back to "Toggle Dropdown".'
+        );
+      }
+    }, [split, ariaLabel]);
 
     // Compute Bootstrap button classes
     const buttonClassName = useMemo(
@@ -542,6 +588,7 @@ const DropdownMenu = forwardRef<HTMLUListElement, DropdownMenuProps>(
       align = 'start',
       portal = true,
       container = typeof document !== 'undefined' ? document.body : null,
+      maxHeight,
       className = '',
       style,
       id,
@@ -562,13 +609,16 @@ const DropdownMenu = forwardRef<HTMLUListElement, DropdownMenuProps>(
 
     const mergedRef = useMergeRefs([ref, refs.setFloating]);
 
-    // Combine floating styles with user styles
+    // Combine floating styles with user styles and maxHeight
     const combinedStyle = useMemo(
       () => ({
         ...floatingStyles,
+        ...(maxHeight !== undefined
+          ? { maxHeight: typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight, overflowY: 'auto' as const }
+          : {}),
         ...style,
       }),
-      [floatingStyles, style]
+      [floatingStyles, maxHeight, style]
     );
 
     if (!isOpen) {
@@ -577,7 +627,7 @@ const DropdownMenu = forwardRef<HTMLUListElement, DropdownMenuProps>(
 
     const menuContent = (
       <FloatingFocusManager
-        context={floatingContext as FloatingContext}
+        context={floatingContext}
         modal={false}
         // @ts-expect-error floating-ui typings may not include inert yet
         inert={false}
@@ -618,6 +668,7 @@ const DropdownItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, DropdownI
       children,
       onClick,
       onKeyDown,
+      onSelect,
       href,
       target,
       rel,
@@ -626,6 +677,8 @@ const DropdownItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, DropdownI
       startIcon,
       endIcon,
       as,
+      closeOnSelect,
+      variant = 'default',
       className = '',
       style,
       id,
@@ -645,8 +698,15 @@ const DropdownItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, DropdownI
 
     // Compute item classes
     const itemClassName = useMemo(
-      () => cn('dropdown-item', active && 'active', disabled && 'disabled', className),
-      [active, disabled, className]
+      () =>
+        cn(
+          'dropdown-item',
+          active && 'active',
+          disabled && 'disabled',
+          variant === 'destructive' && 'text-danger',
+          className
+        ),
+      [active, disabled, variant, className]
     );
 
     // Handle click
@@ -659,12 +719,26 @@ const DropdownItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, DropdownI
 
         onClick?.(event);
 
-        // Auto-close logic
-        if (autoClose === true || autoClose === 'inside') {
-          close();
+        // Fire onSelect and check if default was prevented
+        let defaultPrevented = false;
+        if (onSelect) {
+          const selectEvent = new Event('select', { cancelable: true });
+          onSelect(selectEvent);
+          defaultPrevented = selectEvent.defaultPrevented;
+        }
+
+        // Determine whether to close
+        if (!defaultPrevented) {
+          if (closeOnSelect !== undefined) {
+            if (closeOnSelect) {
+              close();
+            }
+          } else if (autoClose === true || autoClose === 'inside') {
+            close();
+          }
         }
       },
-      [disabled, onClick, autoClose, close]
+      [disabled, onClick, onSelect, closeOnSelect, autoClose, close]
     );
 
     // Compute rel for links
@@ -762,6 +836,369 @@ const DropdownItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, DropdownI
 DropdownItem.displayName = 'Dropdown.Item';
 
 /**
+ * Dropdown.CheckboxItem Component
+ *
+ * A menu item that acts as a checkbox with menuitemcheckbox role.
+ */
+const DropdownCheckboxItem = forwardRef<HTMLButtonElement, DropdownCheckboxItemProps>(
+  (
+    {
+      children,
+      checked: controlledChecked,
+      defaultChecked = false,
+      onCheckedChange,
+      onSelect,
+      closeOnSelect = false,
+      disabled = false,
+      startIcon,
+      endIcon,
+      className = '',
+      style,
+      id,
+      'data-testid': dataTestId,
+      'data-test': dataTest,
+    },
+    ref
+  ) => {
+    const { close, autoClose, getItemProps, activeIndex } = useDropdownContext();
+    const { ref: itemRef, index } = useListItem();
+
+    const [checked, setChecked] = useControllableState({
+      value: controlledChecked,
+      defaultValue: defaultChecked,
+      onChange: onCheckedChange,
+    });
+
+    const itemClassName = useMemo(
+      () => cn('dropdown-item', disabled && 'disabled', className),
+      [disabled, className]
+    );
+
+    const handleClick = useCallback(
+      (event: React.MouseEvent<HTMLButtonElement>) => {
+        if (disabled) {
+          event.preventDefault();
+          return;
+        }
+
+        const newChecked = !checked;
+        setChecked(newChecked);
+
+        let defaultPrevented = false;
+        if (onSelect) {
+          const selectEvent = new Event('select', { cancelable: true });
+          onSelect(selectEvent);
+          defaultPrevented = selectEvent.defaultPrevented;
+        }
+
+        if (!defaultPrevented) {
+          if (closeOnSelect) {
+            close();
+          } else if (closeOnSelect === undefined && (autoClose === true || autoClose === 'inside')) {
+            close();
+          }
+        }
+      },
+      [disabled, checked, setChecked, onSelect, closeOnSelect, autoClose, close]
+    );
+
+    const mergedRef = useMergeRefs([ref, itemRef]);
+    const itemProps = getItemProps({ onClick: handleClick });
+    const isActive = index === activeIndex;
+
+    return (
+      <li role="none">
+        <button
+          ref={mergedRef}
+          type="button"
+          id={id}
+          className={itemClassName}
+          style={style}
+          disabled={disabled}
+          role="menuitemcheckbox"
+          aria-checked={checked}
+          aria-disabled={disabled}
+          tabIndex={isActive ? 0 : -1}
+          data-testid={dataTestId}
+          data-test={dataTest}
+          {...itemProps}
+        >
+          <span className="dropdown-item-indicator me-2">
+            {checked && <CheckIndicator />}
+          </span>
+          {startIcon && (
+            <span className="dropdown-item-icon me-2" aria-hidden="true">
+              {startIcon}
+            </span>
+          )}
+          {children}
+          {endIcon && (
+            <span className="dropdown-item-icon ms-2" aria-hidden="true">
+              {endIcon}
+            </span>
+          )}
+        </button>
+      </li>
+    );
+  }
+);
+
+DropdownCheckboxItem.displayName = 'Dropdown.CheckboxItem';
+
+/**
+ * Dropdown.RadioGroup Component
+ *
+ * Groups radio items and manages single-selection state.
+ */
+const DropdownRadioGroup = forwardRef<HTMLDivElement, DropdownRadioGroupProps>(
+  (
+    {
+      children,
+      value: controlledValue,
+      defaultValue,
+      onValueChange,
+      className = '',
+      style,
+      id,
+      'data-testid': dataTestId,
+      'data-test': dataTest,
+    },
+    ref
+  ) => {
+    const [value, setValue] = useControllableState({
+      value: controlledValue,
+      defaultValue,
+      onChange: onValueChange,
+    });
+
+    const contextValue = useMemo(
+      () => ({ value, onValueChange: setValue }),
+      [value, setValue]
+    );
+
+    return (
+      <DropdownRadioGroupContext.Provider value={contextValue}>
+        <div
+          ref={ref}
+          role="group"
+          id={id}
+          className={className || undefined}
+          style={style}
+          data-testid={dataTestId}
+          data-test={dataTest}
+        >
+          {children}
+        </div>
+      </DropdownRadioGroupContext.Provider>
+    );
+  }
+);
+
+DropdownRadioGroup.displayName = 'Dropdown.RadioGroup';
+
+/**
+ * Dropdown.RadioItem Component
+ *
+ * A menu item that acts as a radio button within a RadioGroup.
+ */
+const DropdownRadioItem = forwardRef<HTMLButtonElement, DropdownRadioItemProps>(
+  (
+    {
+      children,
+      value,
+      onSelect,
+      closeOnSelect = true,
+      disabled = false,
+      startIcon,
+      endIcon,
+      className = '',
+      style,
+      id,
+      'data-testid': dataTestId,
+      'data-test': dataTest,
+    },
+    ref
+  ) => {
+    const { close, autoClose, getItemProps, activeIndex } = useDropdownContext();
+    const radioGroupContext = useContext(DropdownRadioGroupContext);
+    const { ref: itemRef, index } = useListItem();
+
+    if (!radioGroupContext) {
+      throw new Error('Dropdown.RadioItem must be used within a Dropdown.RadioGroup');
+    }
+
+    const checked = radioGroupContext.value === value;
+
+    const itemClassName = useMemo(
+      () => cn('dropdown-item', disabled && 'disabled', className),
+      [disabled, className]
+    );
+
+    const handleClick = useCallback(
+      (event: React.MouseEvent<HTMLButtonElement>) => {
+        if (disabled) {
+          event.preventDefault();
+          return;
+        }
+
+        radioGroupContext.onValueChange(value);
+
+        let defaultPrevented = false;
+        if (onSelect) {
+          const selectEvent = new Event('select', { cancelable: true });
+          onSelect(selectEvent);
+          defaultPrevented = selectEvent.defaultPrevented;
+        }
+
+        if (!defaultPrevented) {
+          if (closeOnSelect !== undefined) {
+            if (closeOnSelect) {
+              close();
+            }
+          } else if (autoClose === true || autoClose === 'inside') {
+            close();
+          }
+        }
+      },
+      [disabled, value, radioGroupContext, onSelect, closeOnSelect, autoClose, close]
+    );
+
+    const mergedRef = useMergeRefs([ref, itemRef]);
+    const itemProps = getItemProps({ onClick: handleClick });
+    const isActive = index === activeIndex;
+
+    return (
+      <li role="none">
+        <button
+          ref={mergedRef}
+          type="button"
+          id={id}
+          className={itemClassName}
+          style={style}
+          disabled={disabled}
+          role="menuitemradio"
+          aria-checked={checked}
+          aria-disabled={disabled}
+          tabIndex={isActive ? 0 : -1}
+          data-testid={dataTestId}
+          data-test={dataTest}
+          {...itemProps}
+        >
+          <span className="dropdown-item-indicator me-2">
+            {checked && <RadioIndicator />}
+          </span>
+          {startIcon && (
+            <span className="dropdown-item-icon me-2" aria-hidden="true">
+              {startIcon}
+            </span>
+          )}
+          {children}
+          {endIcon && (
+            <span className="dropdown-item-icon ms-2" aria-hidden="true">
+              {endIcon}
+            </span>
+          )}
+        </button>
+      </li>
+    );
+  }
+);
+
+DropdownRadioItem.displayName = 'Dropdown.RadioItem';
+
+/**
+ * Dropdown.Group Component
+ *
+ * Semantic grouping wrapper for related menu items.
+ */
+const DropdownGroup = forwardRef<HTMLLIElement, DropdownGroupProps>(
+  (
+    {
+      children,
+      label,
+      className = '',
+      style,
+      id,
+      'data-testid': dataTestId,
+      'data-test': dataTest,
+    },
+    ref
+  ) => {
+    const labelId = useId();
+
+    // Render as a semantic group using role="group" on a list item.
+    // Children are rendered inside a nested <ul> to maintain valid HTML nesting.
+    return (
+      <li
+        ref={ref}
+        role="none"
+        id={id}
+        className={className || undefined}
+        style={style}
+        data-testid={dataTestId}
+        data-test={dataTest}
+      >
+        {label && (
+          <span id={labelId} className="dropdown-header">
+            {label}
+          </span>
+        )}
+        <ul
+          role="group"
+          aria-labelledby={label ? labelId : undefined}
+          style={{ listStyle: 'none', padding: 0, margin: 0 }}
+        >
+          {children}
+        </ul>
+      </li>
+    );
+  }
+);
+
+DropdownGroup.displayName = 'Dropdown.Group';
+
+/**
+ * Dropdown.Shortcut Component
+ *
+ * Displays a keyboard shortcut hint aligned to the right of a menu item.
+ * Purely visual — does not register any actual keyboard shortcuts.
+ */
+const DropdownShortcut = forwardRef<HTMLSpanElement, DropdownShortcutProps>(
+  (
+    {
+      children,
+      className = '',
+      style,
+      id,
+      'data-testid': dataTestId,
+      'data-test': dataTest,
+    },
+    ref
+  ) => {
+    const shortcutClassName = useMemo(
+      () => cn('dropdown-item-shortcut', 'ms-auto', 'text-body-tertiary', className),
+      [className]
+    );
+
+    return (
+      <span
+        ref={ref}
+        id={id}
+        className={shortcutClassName}
+        style={style}
+        aria-hidden="true"
+        data-testid={dataTestId}
+        data-test={dataTest}
+      >
+        {children}
+      </span>
+    );
+  }
+);
+
+DropdownShortcut.displayName = 'Dropdown.Shortcut';
+
+/**
  * Dropdown.Divider Component
  *
  * A horizontal separator between groups of items.
@@ -856,6 +1293,11 @@ export const Dropdown = Object.assign(DropdownRoot, {
   Toggle: DropdownToggle,
   Menu: DropdownMenu,
   Item: DropdownItem,
+  CheckboxItem: DropdownCheckboxItem,
+  RadioGroup: DropdownRadioGroup,
+  RadioItem: DropdownRadioItem,
+  Group: DropdownGroup,
+  Shortcut: DropdownShortcut,
   Divider: DropdownDivider,
   Header: DropdownHeader,
   ItemText: DropdownItemText,
@@ -863,13 +1305,19 @@ export const Dropdown = Object.assign(DropdownRoot, {
 
 export type {
   DropdownAutoClose,
+  DropdownCheckboxItemProps,
   DropdownContextValue,
   DropdownDividerProps,
+  DropdownGroupProps,
   DropdownHeaderProps,
   DropdownItemProps,
   DropdownItemTextProps,
   DropdownMenuProps,
   DropdownPlacement,
   DropdownProps,
+  DropdownRadioGroupContextValue,
+  DropdownRadioGroupProps,
+  DropdownRadioItemProps,
+  DropdownShortcutProps,
   DropdownToggleProps,
 };

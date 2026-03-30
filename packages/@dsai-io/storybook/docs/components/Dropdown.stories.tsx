@@ -12,6 +12,9 @@ import {
   PencilIcon,
   ThreeDotsVerticalIcon,
   TrashIcon,
+  TypeBoldIcon,
+  TypeItalicIcon,
+  TypeUnderlineIcon,
 } from '@dsai-io/react';
 import { useCallback, useRef, useState } from 'react';
 
@@ -760,6 +763,247 @@ export const Callbacks: Story = {
           </ul>
         </div>
       </div>
+    );
+  },
+};
+
+// =============================================================================
+// Checkbox Items
+// =============================================================================
+
+/**
+ * Multi-select menu with checkbox items
+ */
+export const CheckboxItems: Story = {
+  render: function CheckboxItemsDropdown() {
+    const [bold, setBold] = useState(false);
+    const [italic, setItalic] = useState(true);
+    const [underline, setUnderline] = useState(false);
+
+    return (
+      <Dropdown>
+        <Dropdown.Toggle>Text Formatting</Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.CheckboxItem
+            checked={bold}
+            onCheckedChange={setBold}
+            startIcon={<TypeBoldIcon />}
+          >
+            Bold
+          </Dropdown.CheckboxItem>
+          <Dropdown.CheckboxItem
+            checked={italic}
+            onCheckedChange={setItalic}
+            startIcon={<TypeItalicIcon />}
+          >
+            Italic
+          </Dropdown.CheckboxItem>
+          <Dropdown.CheckboxItem
+            checked={underline}
+            onCheckedChange={setUnderline}
+            startIcon={<TypeUnderlineIcon />}
+          >
+            Underline
+          </Dropdown.CheckboxItem>
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  },
+};
+
+// =============================================================================
+// Radio Items
+// =============================================================================
+
+/**
+ * Single-select menu with radio items
+ */
+export const RadioItems: Story = {
+  render: function RadioItemsDropdown() {
+    const [fontSize, setFontSize] = useState('md');
+
+    return (
+      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <Dropdown>
+          <Dropdown.Toggle>Font Size: {fontSize}</Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.RadioGroup value={fontSize} onValueChange={setFontSize}>
+              <Dropdown.RadioItem value="xs">Extra Small</Dropdown.RadioItem>
+              <Dropdown.RadioItem value="sm">Small</Dropdown.RadioItem>
+              <Dropdown.RadioItem value="md">Medium</Dropdown.RadioItem>
+              <Dropdown.RadioItem value="lg">Large</Dropdown.RadioItem>
+              <Dropdown.RadioItem value="xl">Extra Large</Dropdown.RadioItem>
+            </Dropdown.RadioGroup>
+          </Dropdown.Menu>
+        </Dropdown>
+        <span>Selected: {fontSize}</span>
+      </div>
+    );
+  },
+};
+
+// =============================================================================
+// Grouped Menu
+// =============================================================================
+
+/**
+ * Items organized with Group labels
+ */
+export const GroupedMenu: Story = {
+  render: function GroupedDropdown() {
+    return (
+      <Dropdown>
+        <Dropdown.Toggle>Edit</Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Group label="Clipboard">
+            <Dropdown.Item>Cut</Dropdown.Item>
+            <Dropdown.Item>Copy</Dropdown.Item>
+            <Dropdown.Item>Paste</Dropdown.Item>
+          </Dropdown.Group>
+          <Dropdown.Divider />
+          <Dropdown.Group label="Selection">
+            <Dropdown.Item>Select All</Dropdown.Item>
+            <Dropdown.Item>Deselect</Dropdown.Item>
+          </Dropdown.Group>
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  },
+};
+
+// =============================================================================
+// With Shortcuts
+// =============================================================================
+
+/**
+ * Items displaying keyboard shortcut hints
+ */
+export const WithShortcuts: Story = {
+  render: function ShortcutsDropdown() {
+    return (
+      <Dropdown>
+        <Dropdown.Toggle>File</Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item>
+            New File <Dropdown.Shortcut>Ctrl+N</Dropdown.Shortcut>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            Open... <Dropdown.Shortcut>Ctrl+O</Dropdown.Shortcut>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            Save <Dropdown.Shortcut>Ctrl+S</Dropdown.Shortcut>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            Save As... <Dropdown.Shortcut>Ctrl+Shift+S</Dropdown.Shortcut>
+          </Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item>
+            Close <Dropdown.Shortcut>Ctrl+W</Dropdown.Shortcut>
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  },
+};
+
+// =============================================================================
+// Destructive Items
+// =============================================================================
+
+/**
+ * Items with danger variant for destructive actions
+ */
+export const DestructiveItems: Story = {
+  render: function DestructiveDropdown() {
+    return (
+      <Dropdown>
+        <Dropdown.Toggle>Actions</Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item startIcon={<PencilIcon />}>Edit</Dropdown.Item>
+          <Dropdown.Item startIcon={<FilesIcon />}>Duplicate</Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item variant="destructive" startIcon={<TrashIcon />}>
+            Delete
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  },
+};
+
+// =============================================================================
+// Scrollable Menu
+// =============================================================================
+
+/**
+ * Long menu with maxHeight for scrolling
+ */
+export const ScrollableMenu: Story = {
+  render: function ScrollableDropdown() {
+    const items = Array.from({ length: 20 }, (_, i) => `Item ${i + 1}`);
+
+    return (
+      <Dropdown>
+        <Dropdown.Toggle>Long List ({items.length} items)</Dropdown.Toggle>
+        <Dropdown.Menu maxHeight={200}>
+          {items.map((item) => (
+            <Dropdown.Item key={item}>{item}</Dropdown.Item>
+          ))}
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  },
+};
+
+// =============================================================================
+// Kitchen Sink
+// =============================================================================
+
+/**
+ * Complex example combining multiple new features
+ */
+export const KitchenSink: Story = {
+  render: function KitchenSinkDropdown() {
+    const [showGrid, setShowGrid] = useState(true);
+    const [showGuides, setShowGuides] = useState(false);
+    const [zoom, setZoom] = useState('100');
+
+    return (
+      <Dropdown>
+        <Dropdown.Toggle variant="primary">View Options</Dropdown.Toggle>
+        <Dropdown.Menu maxHeight={300}>
+          <Dropdown.Group label="Display">
+            <Dropdown.CheckboxItem checked={showGrid} onCheckedChange={setShowGrid}>
+              Show Grid
+            </Dropdown.CheckboxItem>
+            <Dropdown.CheckboxItem checked={showGuides} onCheckedChange={setShowGuides}>
+              Show Guides
+            </Dropdown.CheckboxItem>
+          </Dropdown.Group>
+          <Dropdown.Divider />
+          <Dropdown.Group label="Zoom Level">
+            <Dropdown.RadioGroup value={zoom} onValueChange={setZoom}>
+              <Dropdown.RadioItem value="50">50%</Dropdown.RadioItem>
+              <Dropdown.RadioItem value="75">75%</Dropdown.RadioItem>
+              <Dropdown.RadioItem value="100">100%</Dropdown.RadioItem>
+              <Dropdown.RadioItem value="150">150%</Dropdown.RadioItem>
+              <Dropdown.RadioItem value="200">200%</Dropdown.RadioItem>
+            </Dropdown.RadioGroup>
+          </Dropdown.Group>
+          <Dropdown.Divider />
+          <Dropdown.Item>
+            Zoom In <Dropdown.Shortcut>Ctrl++</Dropdown.Shortcut>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            Zoom Out <Dropdown.Shortcut>Ctrl+-</Dropdown.Shortcut>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            Fit to Screen <Dropdown.Shortcut>Ctrl+0</Dropdown.Shortcut>
+          </Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item variant="destructive">Reset All Settings</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
     );
   },
 };

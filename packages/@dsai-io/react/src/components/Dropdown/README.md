@@ -9,17 +9,31 @@ A fully accessible dropdown menu component using Bootstrap 5 native classes with
 - **Type-ahead Search**: Jump to items by typing
 - **Focus Management**: Proper focus handling within menu
 - **Portal Rendering**: Renders in `document.body` for z-index isolation
-- **Compound Components**: Dropdown.Toggle, Dropdown.Menu, Dropdown.Item, etc.
+- **Compound Components**: Toggle, Menu, Item, CheckboxItem, RadioGroup, RadioItem, Group, Shortcut, etc.
+- **Checkbox & Radio Items**: Multi-select and single-select menu items with proper ARIA roles
+- **Item Groups**: Semantic grouping with labels and aria-labelledby
+- **Keyboard Shortcuts**: Display shortcut hints alongside menu items
+- **Destructive Items**: Danger-styled items for destructive actions
+- **Scrollable Menus**: maxHeight support for long lists
 - **FSM State Management**: Predictable state transitions for animations
 - **Security**: Safe href validation, no XSS vulnerabilities
 
 ## Installation
 
-The Dropdown component is part of the `@dsai-io/react` package:
+Add the Dropdown component to your project using the DSAi CLI:
 
-```tsx
-import { Dropdown } from '@dsai-io/react';
+```bash
+dsai add dropdown
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Usage
 
@@ -302,6 +316,133 @@ For icon-only toggles, always provide an `aria-label` so the control has a reada
 </Dropdown>
 ```
 
+### Checkbox Items
+
+```tsx
+function TextFormatting() {
+  const [bold, setBold] = useState(false);
+  const [italic, setItalic] = useState(false);
+
+  return (
+    <Dropdown>
+      <Dropdown.Toggle>Format</Dropdown.Toggle>
+      <Dropdown.Menu>
+        <Dropdown.CheckboxItem checked={bold} onCheckedChange={setBold}>
+          Bold
+        </Dropdown.CheckboxItem>
+        <Dropdown.CheckboxItem checked={italic} onCheckedChange={setItalic}>
+          Italic
+        </Dropdown.CheckboxItem>
+      </Dropdown.Menu>
+    </Dropdown>
+  );
+}
+```
+
+### Radio Items
+
+```tsx
+function FontSize() {
+  const [size, setSize] = useState('md');
+
+  return (
+    <Dropdown>
+      <Dropdown.Toggle>Font Size</Dropdown.Toggle>
+      <Dropdown.Menu>
+        <Dropdown.RadioGroup value={size} onValueChange={setSize}>
+          <Dropdown.RadioItem value="sm">Small</Dropdown.RadioItem>
+          <Dropdown.RadioItem value="md">Medium</Dropdown.RadioItem>
+          <Dropdown.RadioItem value="lg">Large</Dropdown.RadioItem>
+        </Dropdown.RadioGroup>
+      </Dropdown.Menu>
+    </Dropdown>
+  );
+}
+```
+
+### Grouped Items
+
+```tsx
+<Dropdown>
+  <Dropdown.Toggle>Edit</Dropdown.Toggle>
+  <Dropdown.Menu>
+    <Dropdown.Group label="Clipboard">
+      <Dropdown.Item>Cut</Dropdown.Item>
+      <Dropdown.Item>Copy</Dropdown.Item>
+      <Dropdown.Item>Paste</Dropdown.Item>
+    </Dropdown.Group>
+    <Dropdown.Divider />
+    <Dropdown.Group label="Selection">
+      <Dropdown.Item>Select All</Dropdown.Item>
+    </Dropdown.Group>
+  </Dropdown.Menu>
+</Dropdown>
+```
+
+### With Keyboard Shortcuts
+
+```tsx
+<Dropdown>
+  <Dropdown.Toggle>File</Dropdown.Toggle>
+  <Dropdown.Menu>
+    <Dropdown.Item>
+      New <Dropdown.Shortcut>Ctrl+N</Dropdown.Shortcut>
+    </Dropdown.Item>
+    <Dropdown.Item>
+      Save <Dropdown.Shortcut>Ctrl+S</Dropdown.Shortcut>
+    </Dropdown.Item>
+    <Dropdown.Divider />
+    <Dropdown.Item>
+      Close <Dropdown.Shortcut>Ctrl+W</Dropdown.Shortcut>
+    </Dropdown.Item>
+  </Dropdown.Menu>
+</Dropdown>
+```
+
+### Destructive Items
+
+```tsx
+<Dropdown>
+  <Dropdown.Toggle>Actions</Dropdown.Toggle>
+  <Dropdown.Menu>
+    <Dropdown.Item>Edit</Dropdown.Item>
+    <Dropdown.Item>Duplicate</Dropdown.Item>
+    <Dropdown.Divider />
+    <Dropdown.Item variant="destructive">Delete</Dropdown.Item>
+  </Dropdown.Menu>
+</Dropdown>
+```
+
+### Scrollable Menu
+
+```tsx
+<Dropdown>
+  <Dropdown.Toggle>Long List</Dropdown.Toggle>
+  <Dropdown.Menu maxHeight={200}>
+    <Dropdown.Item>Item 1</Dropdown.Item>
+    <Dropdown.Item>Item 2</Dropdown.Item>
+    {/* ... many items ... */}
+    <Dropdown.Item>Item 20</Dropdown.Item>
+  </Dropdown.Menu>
+</Dropdown>
+```
+
+### Per-Item Close Control
+
+```tsx
+<Dropdown>
+  <Dropdown.Toggle>Options</Dropdown.Toggle>
+  <Dropdown.Menu>
+    <Dropdown.Item closeOnSelect={false}>
+      Click me (stays open)
+    </Dropdown.Item>
+    <Dropdown.Item closeOnSelect>
+      Click me (closes)
+    </Dropdown.Item>
+  </Dropdown.Menu>
+</Dropdown>
+```
+
 ## API Reference
 
 ### Dropdown Props
@@ -316,6 +457,7 @@ For icon-only toggles, always provide an `aria-label` so the control has a reada
 | `offset`       | `[number, number]`                 | `[0, 2]`         | Menu offset [crossAxis, mainAxis] |
 | `disabled`     | `boolean`                          | `false`          | Disable the dropdown              |
 | `onOpened`     | `() => void`                       | -                | Callback when dropdown opens      |
+| `loop`         | `boolean`                          | `true`           | Wrap keyboard navigation          |
 | `onClosed`     | `() => void`                       | -                | Callback when dropdown closes     |
 | `className`    | `string`                           | -                | Container class name              |
 | `style`        | `CSSProperties`                    | -                | Container inline styles           |
@@ -340,6 +482,7 @@ For icon-only toggles, always provide an `aria-label` so the control has a reada
 | `align`     | `'start' \| 'end'`    | `'start'`       | Menu alignment        |
 | `portal`    | `boolean`             | `true`          | Render in portal      |
 | `container` | `HTMLElement \| null` | `document.body` | Portal container      |
+| `maxHeight` | `number \| string`    | -               | Max height (enables scrolling) |
 | `className` | `string`              | -               | Additional class name |
 
 ### Dropdown.Item Props
@@ -354,8 +497,59 @@ For icon-only toggles, always provide an `aria-label` so the control has a reada
 | `disabled`  | `boolean`           | `false` | Disabled state                |
 | `startIcon` | `ReactNode`         | -       | Icon before text              |
 | `endIcon`   | `ReactNode`         | -       | Icon after text               |
-| `as`        | `'button' \| 'a'`   | -       | Force element type            |
-| `className` | `string`            | -       | Additional class name         |
+| `as`            | `'button' \| 'a'`                    | -           | Force element type                |
+| `onSelect`      | `(event: Event) => void`             | -           | Activation callback               |
+| `closeOnSelect` | `boolean`                            | -           | Override auto-close per item      |
+| `variant`       | `'default' \| 'destructive'`         | `'default'` | Visual variant (danger styling)   |
+| `className`     | `string`                             | -           | Additional class name             |
+
+### Dropdown.CheckboxItem Props
+
+| Prop              | Type                             | Default | Description                    |
+| ----------------- | -------------------------------- | ------- | ------------------------------ |
+| `children`        | `ReactNode`                      | -       | Item content                   |
+| `checked`         | `boolean`                        | -       | Controlled checked state       |
+| `defaultChecked`  | `boolean`                        | `false` | Default checked (uncontrolled) |
+| `onCheckedChange` | `(checked: boolean) => void`     | -       | Checked state change callback  |
+| `onSelect`        | `(event: Event) => void`         | -       | Activation callback            |
+| `closeOnSelect`   | `boolean`                        | `false` | Close menu on toggle           |
+| `disabled`        | `boolean`                        | `false` | Disabled state                 |
+| `startIcon`       | `ReactNode`                      | -       | Icon before indicator          |
+| `endIcon`         | `ReactNode`                      | -       | Icon after text                |
+
+### Dropdown.RadioGroup Props
+
+| Prop            | Type                          | Default | Description                    |
+| --------------- | ----------------------------- | ------- | ------------------------------ |
+| `children`      | `ReactNode`                   | -       | RadioItem children             |
+| `value`         | `string`                      | -       | Controlled selected value      |
+| `defaultValue`  | `string`                      | -       | Default value (uncontrolled)   |
+| `onValueChange` | `(value: string) => void`     | -       | Value change callback          |
+
+### Dropdown.RadioItem Props
+
+| Prop            | Type                         | Default | Description                    |
+| --------------- | ---------------------------- | ------- | ------------------------------ |
+| `children`      | `ReactNode`                  | -       | Item content                   |
+| `value`         | `string`                     | -       | Unique value (required)        |
+| `onSelect`      | `(event: Event) => void`     | -       | Activation callback            |
+| `closeOnSelect` | `boolean`                    | `true`  | Close menu on select           |
+| `disabled`      | `boolean`                    | `false` | Disabled state                 |
+| `startIcon`     | `ReactNode`                  | -       | Icon before indicator          |
+| `endIcon`       | `ReactNode`                  | -       | Icon after text                |
+
+### Dropdown.Group Props
+
+| Prop        | Type        | Default | Description                         |
+| ----------- | ----------- | ------- | ----------------------------------- |
+| `children`  | `ReactNode` | -       | Group content (items)               |
+| `label`     | `ReactNode` | -       | Group label (linked via aria)       |
+
+### Dropdown.Shortcut Props
+
+| Prop        | Type        | Default | Description                 |
+| ----------- | ----------- | ------- | --------------------------- |
+| `children`  | `ReactNode` | -       | Shortcut text (e.g. "Ctrl+S") |
 
 ### Dropdown.Header Props
 
@@ -386,6 +580,10 @@ The Dropdown component follows WAI-ARIA Menu Button pattern:
 - Toggle has `role="button"`, `aria-haspopup="menu"`, and `aria-expanded`
 - Menu has `role="menu"` and `aria-labelledby` pointing to toggle
 - Items have `role="menuitem"`
+- CheckboxItems have `role="menuitemcheckbox"` with `aria-checked`
+- RadioItems have `role="menuitemradio"` with `aria-checked`
+- Groups have `role="group"` with `aria-labelledby`
+- Shortcuts have `aria-hidden="true"` (visual hints only)
 - Disabled items have `aria-disabled="true"`
 - Active items have `aria-current="true"`
 - Full keyboard navigation support

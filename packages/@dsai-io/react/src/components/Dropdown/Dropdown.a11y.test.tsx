@@ -603,4 +603,185 @@ describe('Dropdown Accessibility', () => {
       expect(icon.parentElement).toHaveAttribute('aria-hidden', 'true');
     });
   });
+
+  // ===========================================================================
+  // CheckboxItem Accessibility
+  // ===========================================================================
+  describe('CheckboxItem Accessibility', () => {
+    it('has no accessibility violations with CheckboxItem', async () => {
+      const { container } = render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.CheckboxItem checked>Bold</Dropdown.CheckboxItem>
+            <Dropdown.CheckboxItem>Italic</Dropdown.CheckboxItem>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('CheckboxItem has correct ARIA role and state', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.CheckboxItem checked>Bold</Dropdown.CheckboxItem>
+            <Dropdown.CheckboxItem>Italic</Dropdown.CheckboxItem>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      const boldItem = screen.getByRole('menuitemcheckbox', { name: 'Bold' });
+      expect(boldItem).toHaveAttribute('aria-checked', 'true');
+
+      const italicItem = screen.getByRole('menuitemcheckbox', { name: 'Italic' });
+      expect(italicItem).toHaveAttribute('aria-checked', 'false');
+    });
+
+    it('disabled CheckboxItem has aria-disabled', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.CheckboxItem disabled>Bold</Dropdown.CheckboxItem>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(screen.getByRole('menuitemcheckbox', { name: 'Bold' })).toHaveAttribute(
+        'aria-disabled',
+        'true'
+      );
+    });
+  });
+
+  // ===========================================================================
+  // RadioGroup + RadioItem Accessibility
+  // ===========================================================================
+  describe('RadioGroup + RadioItem Accessibility', () => {
+    it('has no accessibility violations with RadioGroup', async () => {
+      const { container } = render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.RadioGroup value="sm">
+              <Dropdown.RadioItem value="sm">Small</Dropdown.RadioItem>
+              <Dropdown.RadioItem value="md">Medium</Dropdown.RadioItem>
+            </Dropdown.RadioGroup>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('RadioItem has correct ARIA role and state', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.RadioGroup value="md">
+              <Dropdown.RadioItem value="sm">Small</Dropdown.RadioItem>
+              <Dropdown.RadioItem value="md">Medium</Dropdown.RadioItem>
+            </Dropdown.RadioGroup>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(screen.getByRole('menuitemradio', { name: 'Small' })).toHaveAttribute(
+        'aria-checked',
+        'false'
+      );
+      expect(screen.getByRole('menuitemradio', { name: 'Medium' })).toHaveAttribute(
+        'aria-checked',
+        'true'
+      );
+    });
+
+    it('disabled RadioItem has aria-disabled', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.RadioGroup>
+              <Dropdown.RadioItem value="a" disabled>
+                Option A
+              </Dropdown.RadioItem>
+            </Dropdown.RadioGroup>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(screen.getByRole('menuitemradio', { name: 'Option A' })).toHaveAttribute(
+        'aria-disabled',
+        'true'
+      );
+    });
+  });
+
+  // ===========================================================================
+  // Group Accessibility
+  // ===========================================================================
+  describe('Group Accessibility', () => {
+    it('has no accessibility violations with Group', async () => {
+      const { container } = render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.Group label="File">
+              <Dropdown.Item>New</Dropdown.Item>
+              <Dropdown.Item>Open</Dropdown.Item>
+            </Dropdown.Group>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('Group label is linked via aria-labelledby', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.Group label="File" data-testid="group">
+              <Dropdown.Item>New</Dropdown.Item>
+            </Dropdown.Group>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      const group = screen.getByRole('group');
+      const labelId = group.getAttribute('aria-labelledby');
+      expect(labelId).toBeTruthy();
+      const label = document.getElementById(labelId!);
+      expect(label).toHaveTextContent('File');
+    });
+  });
+
+  // ===========================================================================
+  // Shortcut Accessibility
+  // ===========================================================================
+  describe('Shortcut Accessibility', () => {
+    it('Shortcut is hidden from screen readers', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.Item>
+              Save
+              <Dropdown.Shortcut data-testid="shortcut">Ctrl+S</Dropdown.Shortcut>
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(screen.getByTestId('shortcut')).toHaveAttribute('aria-hidden', 'true');
+    });
+  });
 });

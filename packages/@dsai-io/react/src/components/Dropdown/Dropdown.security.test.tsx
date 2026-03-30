@@ -355,4 +355,46 @@ describe('Dropdown - Security (HREF Validation & XSS Prevention)', () => {
       expect(toggle).toHaveAttribute('type', 'button');
     });
   });
+
+  // ===========================================================================
+  // CheckboxItem Security
+  // ===========================================================================
+  describe('CheckboxItem security', () => {
+    it('CheckboxItem renders as button with type="button"', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Menu</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.CheckboxItem>Bold</Dropdown.CheckboxItem>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      const item = screen.getByRole('menuitemcheckbox', { name: 'Bold' });
+      expect(item.tagName).toBe('BUTTON');
+      expect(item).toHaveAttribute('type', 'button');
+    });
+  });
+
+  // ===========================================================================
+  // RadioItem Security
+  // ===========================================================================
+  describe('RadioItem security', () => {
+    it('RadioItem renders as button with type="button"', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Menu</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.RadioGroup>
+              <Dropdown.RadioItem value="a">Option A</Dropdown.RadioItem>
+            </Dropdown.RadioGroup>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      const item = screen.getByRole('menuitemradio', { name: 'Option A' });
+      expect(item.tagName).toBe('BUTTON');
+      expect(item).toHaveAttribute('type', 'button');
+    });
+  });
 });

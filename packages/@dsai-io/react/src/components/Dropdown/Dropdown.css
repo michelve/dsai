@@ -1,0 +1,12 @@
+.dropdown-item-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  flex-shrink: 0;
+}
+
+.dropdown-item-shortcut {
+  font-size: 0.75em;
+  opacity: 0.65;
+}

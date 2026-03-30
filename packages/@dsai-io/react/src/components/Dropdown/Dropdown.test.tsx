@@ -949,5 +949,484 @@ describe('Dropdown', () => {
 
       consoleSpy.mockRestore();
     });
+
+    it('throws error when RadioItem is used outside RadioGroup', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+      expect(() => {
+        render(
+          <Dropdown isOpen>
+            <Dropdown.Toggle>Options</Dropdown.Toggle>
+            <Dropdown.Menu portal={false}>
+              <Dropdown.RadioItem value="a">Option A</Dropdown.RadioItem>
+            </Dropdown.Menu>
+          </Dropdown>
+        );
+      }).toThrow('Dropdown.RadioItem must be used within a Dropdown.RadioGroup');
+
+      consoleSpy.mockRestore();
+    });
+  });
+
+  // ===========================================================================
+  // Group Component
+  // ===========================================================================
+  describe('Group Component', () => {
+    it('renders group with role="group"', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.Group data-testid="group">
+              <Dropdown.Item>Action 1</Dropdown.Item>
+            </Dropdown.Group>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(screen.getByRole('group')).toBeInTheDocument();
+    });
+
+    it('applies aria-labelledby when label is provided', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.Group label="File Operations" data-testid="group">
+              <Dropdown.Item>New</Dropdown.Item>
+            </Dropdown.Group>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      const group = screen.getByRole('group');
+      expect(group).toHaveAttribute('aria-labelledby');
+      expect(screen.getByText('File Operations')).toBeInTheDocument();
+    });
+
+    it('does not apply aria-labelledby when no label', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.Group data-testid="group">
+              <Dropdown.Item>Action</Dropdown.Item>
+            </Dropdown.Group>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      const group = screen.getByRole('group');
+      expect(group).not.toHaveAttribute('aria-labelledby');
+    });
+  });
+
+  // ===========================================================================
+  // Shortcut Component
+  // ===========================================================================
+  describe('Shortcut Component', () => {
+    it('renders shortcut text', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.Item>
+              Save
+              <Dropdown.Shortcut data-testid="shortcut">Ctrl+S</Dropdown.Shortcut>
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(screen.getByTestId('shortcut')).toHaveTextContent('Ctrl+S');
+    });
+
+    it('has aria-hidden="true"', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.Item>
+              Save
+              <Dropdown.Shortcut data-testid="shortcut">Ctrl+S</Dropdown.Shortcut>
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(screen.getByTestId('shortcut')).toHaveAttribute('aria-hidden', 'true');
+    });
+  });
+
+  // ===========================================================================
+  // CheckboxItem Component
+  // ===========================================================================
+  describe('CheckboxItem Component', () => {
+    it('renders with role="menuitemcheckbox"', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.CheckboxItem>Bold</Dropdown.CheckboxItem>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(screen.getByRole('menuitemcheckbox', { name: 'Bold' })).toBeInTheDocument();
+    });
+
+    it('toggles aria-checked on click', async () => {
+      const user = userEvent.setup();
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.CheckboxItem>Bold</Dropdown.CheckboxItem>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      const item = screen.getByRole('menuitemcheckbox', { name: 'Bold' });
+      expect(item).toHaveAttribute('aria-checked', 'false');
+
+      await user.click(item);
+      expect(item).toHaveAttribute('aria-checked', 'true');
+    });
+
+    it('calls onCheckedChange callback', async () => {
+      const handleChange = jest.fn();
+      const user = userEvent.setup();
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.CheckboxItem onCheckedChange={handleChange}>
+              Bold
+            </Dropdown.CheckboxItem>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      await user.click(screen.getByRole('menuitemcheckbox', { name: 'Bold' }));
+      expect(handleChange).toHaveBeenCalledWith(true);
+    });
+
+    it('supports controlled mode', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.CheckboxItem checked={true}>Bold</Dropdown.CheckboxItem>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(screen.getByRole('menuitemcheckbox', { name: 'Bold' })).toHaveAttribute(
+        'aria-checked',
+        'true'
+      );
+    });
+
+    it('supports defaultChecked for uncontrolled mode', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.CheckboxItem defaultChecked>Bold</Dropdown.CheckboxItem>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(screen.getByRole('menuitemcheckbox', { name: 'Bold' })).toHaveAttribute(
+        'aria-checked',
+        'true'
+      );
+    });
+
+    it('does not close menu by default (closeOnSelect=false)', async () => {
+      const user = userEvent.setup();
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.CheckboxItem>Bold</Dropdown.CheckboxItem>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      await user.click(screen.getByRole('menuitemcheckbox', { name: 'Bold' }));
+      // Menu should still be open
+      expect(screen.getByRole('menu')).toBeInTheDocument();
+    });
+
+    it('closes menu when closeOnSelect=true', async () => {
+      const user = userEvent.setup();
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.CheckboxItem closeOnSelect>Bold</Dropdown.CheckboxItem>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      await user.click(screen.getByRole('menuitemcheckbox', { name: 'Bold' }));
+      await waitFor(() => {
+        expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+      });
+    });
+
+    it('renders check indicator when checked', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.CheckboxItem checked>Bold</Dropdown.CheckboxItem>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      const item = screen.getByRole('menuitemcheckbox', { name: 'Bold' });
+      const indicator = item.querySelector('.dropdown-item-indicator');
+      expect(indicator).toBeInTheDocument();
+      expect(indicator?.querySelector('svg')).toBeInTheDocument();
+    });
+  });
+
+  // ===========================================================================
+  // RadioGroup + RadioItem Components
+  // ===========================================================================
+  describe('RadioGroup + RadioItem Components', () => {
+    it('renders items with role="menuitemradio"', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.RadioGroup>
+              <Dropdown.RadioItem value="sm">Small</Dropdown.RadioItem>
+              <Dropdown.RadioItem value="md">Medium</Dropdown.RadioItem>
+            </Dropdown.RadioGroup>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(screen.getAllByRole('menuitemradio')).toHaveLength(2);
+    });
+
+    it('only one item has aria-checked="true" at a time', async () => {
+      const user = userEvent.setup();
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.RadioGroup defaultValue="sm">
+              <Dropdown.RadioItem value="sm">Small</Dropdown.RadioItem>
+              <Dropdown.RadioItem value="md">Medium</Dropdown.RadioItem>
+            </Dropdown.RadioGroup>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      const smallItem = screen.getByRole('menuitemradio', { name: 'Small' });
+      const mediumItem = screen.getByRole('menuitemradio', { name: 'Medium' });
+
+      expect(smallItem).toHaveAttribute('aria-checked', 'true');
+      expect(mediumItem).toHaveAttribute('aria-checked', 'false');
+    });
+
+    it('calls onValueChange on selection', async () => {
+      const handleChange = jest.fn();
+      const user = userEvent.setup();
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.RadioGroup defaultValue="sm" onValueChange={handleChange}>
+              <Dropdown.RadioItem value="sm">Small</Dropdown.RadioItem>
+              <Dropdown.RadioItem value="md">Medium</Dropdown.RadioItem>
+            </Dropdown.RadioGroup>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      await user.click(screen.getByRole('menuitemradio', { name: 'Medium' }));
+      expect(handleChange).toHaveBeenCalledWith('md');
+    });
+
+    it('supports controlled mode', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.RadioGroup value="md">
+              <Dropdown.RadioItem value="sm">Small</Dropdown.RadioItem>
+              <Dropdown.RadioItem value="md">Medium</Dropdown.RadioItem>
+            </Dropdown.RadioGroup>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(screen.getByRole('menuitemradio', { name: 'Small' })).toHaveAttribute(
+        'aria-checked',
+        'false'
+      );
+      expect(screen.getByRole('menuitemradio', { name: 'Medium' })).toHaveAttribute(
+        'aria-checked',
+        'true'
+      );
+    });
+
+    it('renders radio indicator when selected', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.RadioGroup value="sm">
+              <Dropdown.RadioItem value="sm">Small</Dropdown.RadioItem>
+            </Dropdown.RadioGroup>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      const item = screen.getByRole('menuitemradio', { name: 'Small' });
+      const indicator = item.querySelector('.dropdown-item-indicator');
+      expect(indicator).toBeInTheDocument();
+      expect(indicator?.querySelector('svg')).toBeInTheDocument();
+    });
+
+    it('renders RadioGroup with role="group"', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.RadioGroup data-testid="radio-group">
+              <Dropdown.RadioItem value="a">A</Dropdown.RadioItem>
+            </Dropdown.RadioGroup>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(screen.getByTestId('radio-group')).toHaveAttribute('role', 'group');
+    });
+  });
+
+  // ===========================================================================
+  // Item Enhancements
+  // ===========================================================================
+  describe('Item Enhancements', () => {
+    it('applies text-danger class for variant="destructive"', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.Item variant="destructive">Delete</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(screen.getByRole('menuitem', { name: 'Delete' })).toHaveClass('text-danger');
+    });
+
+    it('fires onSelect callback on click', async () => {
+      const handleSelect = jest.fn();
+      const user = userEvent.setup();
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.Item onSelect={handleSelect}>Action</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      await user.click(screen.getByRole('menuitem', { name: 'Action' }));
+      expect(handleSelect).toHaveBeenCalled();
+    });
+
+    it('closeOnSelect=false prevents menu close', async () => {
+      const user = userEvent.setup();
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.Item closeOnSelect={false}>Action</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      await user.click(screen.getByRole('menuitem', { name: 'Action' }));
+      // Menu should still be open
+      expect(screen.getByRole('menu')).toBeInTheDocument();
+    });
+
+    it('closeOnSelect=true forces close', async () => {
+      const user = userEvent.setup();
+      render(
+        <Dropdown isOpen autoClose={false}>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.Item closeOnSelect>Action</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      await user.click(screen.getByRole('menuitem', { name: 'Action' }));
+      await waitFor(() => {
+        expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  // ===========================================================================
+  // Menu Enhancements
+  // ===========================================================================
+  describe('Menu Enhancements', () => {
+    it('applies maxHeight style as number', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false} maxHeight={200} data-testid="menu">
+            <Dropdown.Item>Action</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      const menu = screen.getByTestId('menu');
+      expect(menu.style.maxHeight).toBe('200px');
+      expect(menu.style.overflowY).toBe('auto');
+    });
+
+    it('applies maxHeight style as string', () => {
+      render(
+        <Dropdown isOpen>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false} maxHeight="50vh" data-testid="menu">
+            <Dropdown.Item>Action</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      const menu = screen.getByTestId('menu');
+      expect(menu.style.maxHeight).toBe('50vh');
+    });
+  });
+
+  // ===========================================================================
+  // Bug Fix Verification
+  // ===========================================================================
+  describe('Bug Fixes', () => {
+    it('onClosed does not fire on mount', () => {
+      const handleClosed = jest.fn();
+      render(
+        <Dropdown onClosed={handleClosed}>
+          <Dropdown.Toggle>Options</Dropdown.Toggle>
+          <Dropdown.Menu portal={false}>
+            <Dropdown.Item>Action</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+
+      expect(handleClosed).not.toHaveBeenCalled();
+    });
   });
 });

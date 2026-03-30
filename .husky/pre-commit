@@ -1,1 +1,7 @@
+# Cross-platform: ensure fnm-managed node/pnpm is available in non-interactive shells
+if [ -d "$HOME/.local/share/fnm" ]; then
+  export PATH="$HOME/.local/share/fnm:$PATH"
+  eval "$(fnm env)"
+fi
+
 pnpm test

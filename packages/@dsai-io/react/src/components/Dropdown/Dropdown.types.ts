@@ -1,4 +1,5 @@
 import type { SafeHTMLAttributes } from '../../types';
+import type { FloatingContext } from '@floating-ui/react';
 import type { CSSProperties, KeyboardEvent, MouseEvent, ReactNode } from 'react';
 
 /**
@@ -155,6 +156,12 @@ export interface DropdownProps extends SafeDropdownHTMLAttributes {
    * Callback when dropdown closes (after animation)
    */
   onClosed?: () => void;
+
+  /**
+   * Whether keyboard navigation wraps from last item to first and vice versa
+   * @default true
+   */
+  loop?: boolean;
 }
 
 /**
@@ -279,6 +286,12 @@ export interface DropdownMenuProps extends SafeDropdownHTMLAttributes {
    * @default document.body
    */
   container?: HTMLElement | null;
+
+  /**
+   * Maximum height for the menu, enabling scrolling for long lists
+   * Accepts a number (pixels) or CSS string value
+   */
+  maxHeight?: number | string;
 }
 
 /**
@@ -375,6 +388,28 @@ export interface DropdownItemProps extends SafeDropdownHTMLAttributes {
    * Automatically determined based on href presence
    */
   as?: 'button' | 'a';
+
+  /**
+   * Called when the item is activated (click or keyboard).
+   * Call event.preventDefault() to prevent the menu from closing.
+   */
+  onSelect?: (event: Event) => void;
+
+  /**
+   * Override auto-close behavior for this specific item.
+   * - true: always close the menu on select
+   * - false: never close the menu on select
+   * - undefined: respect the parent Dropdown's autoClose setting
+   */
+  closeOnSelect?: boolean;
+
+  /**
+   * Visual variant of the item
+   * - 'default': standard appearance
+   * - 'destructive': red/danger styling for destructive actions
+   * @default 'default'
+   */
+  variant?: 'default' | 'destructive';
 }
 
 /**
@@ -440,6 +475,227 @@ export interface DropdownItemTextProps extends SafeDropdownHTMLAttributes {
 }
 
 /**
+ * Dropdown.Group component props
+ *
+ * Semantic grouping wrapper for related menu items.
+ *
+ * @example
+ * ```tsx
+ * <Dropdown.Menu>
+ *   <Dropdown.Group label="File Operations">
+ *     <Dropdown.Item>New</Dropdown.Item>
+ *     <Dropdown.Item>Open</Dropdown.Item>
+ *   </Dropdown.Group>
+ *   <Dropdown.Divider />
+ *   <Dropdown.Group label="Edit">
+ *     <Dropdown.Item>Cut</Dropdown.Item>
+ *     <Dropdown.Item>Copy</Dropdown.Item>
+ *   </Dropdown.Group>
+ * </Dropdown.Menu>
+ * ```
+ */
+export interface DropdownGroupProps extends SafeDropdownHTMLAttributes {
+  /**
+   * Group content (typically Dropdown.Item components)
+   */
+  children: ReactNode;
+
+  /**
+   * Optional label for the group, rendered as a header and linked via aria-labelledby
+   */
+  label?: ReactNode;
+}
+
+/**
+ * Dropdown.CheckboxItem component props
+ *
+ * A menu item that acts as a checkbox with menuitemcheckbox role.
+ *
+ * @example
+ * ```tsx
+ * <Dropdown.Menu>
+ *   <Dropdown.CheckboxItem checked={bold} onCheckedChange={setBold}>
+ *     Bold
+ *   </Dropdown.CheckboxItem>
+ *   <Dropdown.CheckboxItem checked={italic} onCheckedChange={setItalic}>
+ *     Italic
+ *   </Dropdown.CheckboxItem>
+ * </Dropdown.Menu>
+ * ```
+ */
+export interface DropdownCheckboxItemProps extends SafeDropdownHTMLAttributes {
+  /**
+   * Item content
+   */
+  children: ReactNode;
+
+  /**
+   * Controlled checked state
+   */
+  checked?: boolean;
+
+  /**
+   * Default checked state for uncontrolled mode
+   * @default false
+   */
+  defaultChecked?: boolean;
+
+  /**
+   * Callback when the checked state changes
+   */
+  onCheckedChange?: (checked: boolean) => void;
+
+  /**
+   * Called when the item is activated (click or keyboard)
+   */
+  onSelect?: (event: Event) => void;
+
+  /**
+   * Whether to close the menu when this item is toggled
+   * @default false
+   */
+  closeOnSelect?: boolean;
+
+  /**
+   * Whether the item is disabled
+   * @default false
+   */
+  disabled?: boolean;
+
+  /**
+   * Icon to display before the check indicator
+   */
+  startIcon?: ReactNode;
+
+  /**
+   * Icon to display after item text
+   */
+  endIcon?: ReactNode;
+}
+
+/**
+ * Dropdown.RadioGroup component props
+ *
+ * Groups radio items together and manages single-selection state.
+ *
+ * @example
+ * ```tsx
+ * <Dropdown.Menu>
+ *   <Dropdown.RadioGroup value={fontSize} onValueChange={setFontSize}>
+ *     <Dropdown.RadioItem value="sm">Small</Dropdown.RadioItem>
+ *     <Dropdown.RadioItem value="md">Medium</Dropdown.RadioItem>
+ *     <Dropdown.RadioItem value="lg">Large</Dropdown.RadioItem>
+ *   </Dropdown.RadioGroup>
+ * </Dropdown.Menu>
+ * ```
+ */
+export interface DropdownRadioGroupProps extends SafeDropdownHTMLAttributes {
+  /**
+   * Radio items
+   */
+  children: ReactNode;
+
+  /**
+   * Controlled selected value
+   */
+  value?: string;
+
+  /**
+   * Default value for uncontrolled mode
+   */
+  defaultValue?: string;
+
+  /**
+   * Callback when the selected value changes
+   */
+  onValueChange?: (value: string) => void;
+}
+
+/**
+ * Dropdown.RadioItem component props
+ *
+ * A menu item that acts as a radio button within a RadioGroup.
+ *
+ * @example
+ * ```tsx
+ * <Dropdown.RadioGroup value={size} onValueChange={setSize}>
+ *   <Dropdown.RadioItem value="sm">Small</Dropdown.RadioItem>
+ *   <Dropdown.RadioItem value="md">Medium</Dropdown.RadioItem>
+ *   <Dropdown.RadioItem value="lg">Large</Dropdown.RadioItem>
+ * </Dropdown.RadioGroup>
+ * ```
+ */
+export interface DropdownRadioItemProps extends SafeDropdownHTMLAttributes {
+  /**
+   * Item content
+   */
+  children: ReactNode;
+
+  /**
+   * Unique value for this radio item (required)
+   */
+  value: string;
+
+  /**
+   * Called when the item is activated (click or keyboard)
+   */
+  onSelect?: (event: Event) => void;
+
+  /**
+   * Whether to close the menu when this item is selected
+   * @default true
+   */
+  closeOnSelect?: boolean;
+
+  /**
+   * Whether the item is disabled
+   * @default false
+   */
+  disabled?: boolean;
+
+  /**
+   * Icon to display before the radio indicator
+   */
+  startIcon?: ReactNode;
+
+  /**
+   * Icon to display after item text
+   */
+  endIcon?: ReactNode;
+}
+
+/**
+ * Dropdown.Shortcut component props
+ *
+ * Displays a keyboard shortcut hint aligned to the right of a menu item.
+ * Purely visual — does not register any keyboard shortcuts.
+ *
+ * @example
+ * ```tsx
+ * <Dropdown.Item>
+ *   Save
+ *   <Dropdown.Shortcut>Ctrl+S</Dropdown.Shortcut>
+ * </Dropdown.Item>
+ * ```
+ */
+export interface DropdownShortcutProps extends SafeDropdownHTMLAttributes {
+  /**
+   * Shortcut text (e.g., "Ctrl+S", "⌘K")
+   */
+  children: ReactNode;
+}
+
+/**
+ * Internal context value for RadioGroup
+ */
+export interface DropdownRadioGroupContextValue {
+  /** Currently selected value */
+  value: string | undefined;
+  /** Callback to change the selected value */
+  onValueChange: (value: string) => void;
+}
+
+/**
  * Dropdown context value for sharing state between components
  */
 export interface DropdownContextValue {
@@ -481,5 +737,5 @@ export interface DropdownContextValue {
   /** Get props for floating element */
   getFloatingProps: (userProps?: React.HTMLProps<HTMLElement>) => Record<string, unknown>;
   /** Floating UI context for focus management */
-  floatingContext: unknown;
+  floatingContext: FloatingContext;
 }
