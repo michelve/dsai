@@ -144,6 +144,21 @@ const meta: Meta<typeof Checkbox> = {
       description: 'Color variant',
       table: { type: { summary: 'SemanticColorVariant' } },
     },
+    loading: {
+      control: 'boolean',
+      description: 'Loading state — shows spinner and disables interaction',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    description: {
+      control: 'text',
+      description: 'Persistent description text displayed below the label',
+      table: { type: { summary: 'ReactNode' } },
+    },
+    onCheckedChange: {
+      action: 'checkedChange',
+      description: 'Convenience callback receiving boolean checked state',
+      table: { type: { summary: '(checked: boolean) => void' } },
+    },
   },
 };
 
@@ -838,6 +853,128 @@ export const PerformanceMemoization: Story = {
             </li>
           </ul>
         </div>
+      </div>
+    );
+  },
+};
+
+// =============================================================================
+// Loading State
+// =============================================================================
+
+/**
+ * Loading state — shows a spinner and disables interaction.
+ * Sets `aria-busy="true"` for assistive technologies.
+ * Useful for async operations like saving preferences.
+ */
+export const Loading: Story = {
+  args: {
+    loading: true,
+    label: 'Saving preference...',
+  },
+};
+
+/**
+ * Loading state with checked checkbox
+ */
+export const LoadingChecked: Story = {
+  args: {
+    loading: true,
+    checked: true,
+    onChange: () => {},
+    label: 'Processing...',
+  },
+};
+
+/**
+ * Loading vs Disabled comparison
+ */
+export const LoadingVsDisabled: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+      <Checkbox loading label="Loading (shows spinner, aria-busy)" />
+      <Checkbox disabled label="Disabled (greyed out, no spinner)" />
+      <Checkbox label="Normal (interactive)" />
+    </div>
+  ),
+};
+
+// =============================================================================
+// Description Prop
+// =============================================================================
+
+/**
+ * Persistent description text displayed below the label.
+ * Unlike `helperText` (used for validation feedback), `description`
+ * provides permanent contextual information.
+ */
+export const WithDescription: Story = {
+  args: {
+    label: 'Enable two-factor authentication',
+    description: 'Adds an extra layer of security to your account using an authenticator app.',
+  },
+};
+
+/**
+ * Description with validation feedback
+ */
+export const DescriptionWithError: Story = {
+  args: {
+    label: 'Accept terms of service',
+    description: 'By checking this box, you agree to our terms and privacy policy.',
+    error: true,
+    helperText: 'You must accept the terms to continue',
+  },
+};
+
+// =============================================================================
+// onCheckedChange Callback
+// =============================================================================
+
+/**
+ * Convenience callback that receives the boolean checked state directly.
+ * Matches the API convention of Radix, Chakra UI, and shadcn/ui.
+ * Can be used alongside or instead of `onChange`.
+ */
+export const OnCheckedChange: Story = {
+  render: function OnCheckedChangeDemo() {
+    const [checked, setChecked] = useState(false);
+    return (
+      <div>
+        <Checkbox
+          checked={checked}
+          onCheckedChange={setChecked}
+          label="Using onCheckedChange (simpler API)"
+        />
+        <p className="mt-2 small text-muted">State: {checked ? 'true' : 'false'}</p>
+      </div>
+    );
+  },
+};
+
+// =============================================================================
+// Data State Attribute
+// =============================================================================
+
+/**
+ * The `data-state` attribute is set on the wrapper div for CSS targeting.
+ * Values: `checked`, `unchecked`, or `indeterminate`.
+ * Matches the Radix UI convention for styling via data attributes.
+ */
+export const DataStateAttribute: Story = {
+  render: function DataStateDemo() {
+    const [checked, setChecked] = useState(false);
+    return (
+      <div>
+        <Checkbox
+          checked={checked}
+          onCheckedChange={setChecked}
+          label="Toggle to see data-state change"
+        />
+        <p className="mt-2 small text-muted">
+          data-state={checked ? '"checked"' : '"unchecked"'}
+        </p>
+        <Checkbox indeterminate label="data-state=&quot;indeterminate&quot;" />
       </div>
     );
   },

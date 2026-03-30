@@ -706,6 +706,244 @@ describe('Checkbox', () => {
     });
   });
 
+  describe('onCheckedChange Callback', () => {
+    it('calls onCheckedChange with true when checked', async () => {
+      const handleCheckedChange = jest.fn();
+      render(
+        <Checkbox
+          checked={false}
+          onChange={() => {}}
+          onCheckedChange={handleCheckedChange}
+          label="Test"
+        />
+      );
+      await userEvent.click(screen.getByRole('checkbox'));
+      expect(handleCheckedChange).toHaveBeenCalledWith(true);
+    });
+
+    it('calls onCheckedChange with false when unchecked', async () => {
+      const handleCheckedChange = jest.fn();
+      render(
+        <Checkbox
+          checked
+          onChange={() => {}}
+          onCheckedChange={handleCheckedChange}
+          label="Test"
+        />
+      );
+      await userEvent.click(screen.getByRole('checkbox'));
+      expect(handleCheckedChange).toHaveBeenCalledWith(false);
+    });
+
+    it('calls both onChange and onCheckedChange', async () => {
+      const handleChange = jest.fn();
+      const handleCheckedChange = jest.fn();
+      render(
+        <Checkbox
+          checked={false}
+          onChange={handleChange}
+          onCheckedChange={handleCheckedChange}
+          label="Test"
+        />
+      );
+      await userEvent.click(screen.getByRole('checkbox'));
+      expect(handleChange).toHaveBeenCalledTimes(1);
+      expect(handleCheckedChange).toHaveBeenCalledTimes(1);
+    });
+
+    it('works without onChange (onCheckedChange only)', async () => {
+      const handleCheckedChange = jest.fn();
+      render(
+        <Checkbox defaultChecked={false} onCheckedChange={handleCheckedChange} label="Test" />
+      );
+      await userEvent.click(screen.getByRole('checkbox'));
+      expect(handleCheckedChange).toHaveBeenCalledWith(true);
+    });
+
+    it('does not call onCheckedChange when readOnly', async () => {
+      const handleCheckedChange = jest.fn();
+      render(
+        <Checkbox
+          readOnly
+          checked={false}
+          onChange={() => {}}
+          onCheckedChange={handleCheckedChange}
+          label="Test"
+        />
+      );
+      await userEvent.click(screen.getByRole('checkbox'));
+      expect(handleCheckedChange).not.toHaveBeenCalled();
+    });
+
+    it('does not call onCheckedChange when loading', async () => {
+      const handleCheckedChange = jest.fn();
+      render(
+        <Checkbox
+          loading
+          checked={false}
+          onChange={() => {}}
+          onCheckedChange={handleCheckedChange}
+          label="Test"
+        />
+      );
+      // Checkbox is disabled when loading, click won't fire change
+      fireEvent.click(screen.getByRole('checkbox'));
+      expect(handleCheckedChange).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Data State Attribute', () => {
+    it('sets data-state="unchecked" by default', () => {
+      const { container } = render(<Checkbox label="Test" />);
+      expect(container.querySelector('.form-check')).toHaveAttribute('data-state', 'unchecked');
+    });
+
+    it('sets data-state="checked" when checked', () => {
+      const { container } = render(<Checkbox checked onChange={() => {}} label="Test" />);
+      expect(container.querySelector('.form-check')).toHaveAttribute('data-state', 'checked');
+    });
+
+    it('sets data-state="indeterminate" when indeterminate', () => {
+      const { container } = render(<Checkbox indeterminate label="Test" />);
+      expect(container.querySelector('.form-check')).toHaveAttribute('data-state', 'indeterminate');
+    });
+
+    it('indeterminate takes priority over checked for data-state', () => {
+      const { container } = render(
+        <Checkbox indeterminate checked onChange={() => {}} label="Test" />
+      );
+      expect(container.querySelector('.form-check')).toHaveAttribute(
+        'data-state',
+        'indeterminate'
+      );
+    });
+  });
+
+  describe('Loading State', () => {
+    it('applies dsai-checkbox-loading class when loading', () => {
+      const { container } = render(<Checkbox loading label="Loading" />);
+      expect(container.querySelector('.form-check')).toHaveClass('dsai-checkbox-loading');
+    });
+
+    it('renders spinner when loading', () => {
+      const { container } = render(<Checkbox loading label="Loading" />);
+      expect(container.querySelector('.spinner-border')).toBeInTheDocument();
+    });
+
+    it('disables input when loading', () => {
+      render(<Checkbox loading label="Loading" />);
+      expect(screen.getByRole('checkbox')).toBeDisabled();
+    });
+
+    it('sets aria-busy when loading', () => {
+      render(<Checkbox loading label="Loading" />);
+      expect(screen.getByRole('checkbox')).toHaveAttribute('aria-busy', 'true');
+    });
+
+    it('does not call onChange when loading', async () => {
+      const handleChange = jest.fn();
+      render(<Checkbox loading onChange={handleChange} label="Loading" />);
+      fireEvent.click(screen.getByRole('checkbox'));
+      expect(handleChange).not.toHaveBeenCalled();
+    });
+
+    it('does not render custom icons when loading', () => {
+      const CheckedIcon = () => <svg data-testid="checked-icon" />;
+      const UncheckedIcon = () => <svg data-testid="unchecked-icon" />;
+      const { container } = render(
+        <Checkbox
+          loading
+          checked={false}
+          onChange={() => {}}
+          checkedIcon={<CheckedIcon />}
+          uncheckedIcon={<UncheckedIcon />}
+          label="Loading"
+        />
+      );
+      expect(screen.queryByTestId('unchecked-icon')).not.toBeInTheDocument();
+      expect(container.querySelector('.spinner-border')).toBeInTheDocument();
+    });
+
+    it('has no a11y violations when loading', async () => {
+      const { container } = render(<Checkbox loading label="Loading checkbox" />);
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('does not apply loading class when not loading', () => {
+      const { container } = render(<Checkbox label="Normal" />);
+      expect(container.querySelector('.form-check')).not.toHaveClass('dsai-checkbox-loading');
+    });
+  });
+
+  describe('Description Prop', () => {
+    it('renders description text', () => {
+      render(<Checkbox description="Extra context" label="Test" />);
+      expect(screen.getByText('Extra context')).toBeInTheDocument();
+    });
+
+    it('renders description as ReactNode', () => {
+      render(
+        <Checkbox
+          description={<span data-testid="rich-desc">Rich description</span>}
+          label="Test"
+        />
+      );
+      expect(screen.getByTestId('rich-desc')).toBeInTheDocument();
+    });
+
+    it('associates description with input via aria-describedby', () => {
+      render(<Checkbox description="Hint text" label="Test" />);
+      const checkbox = screen.getByRole('checkbox');
+      const describedBy = checkbox.getAttribute('aria-describedby');
+      expect(describedBy).toBeTruthy();
+      if (describedBy) {
+        const descElement = document.getElementById(describedBy);
+        expect(descElement).toHaveTextContent('Hint text');
+      }
+    });
+
+    it('chains description and helperText in aria-describedby', () => {
+      render(
+        <Checkbox description="Hint" helperText="Validation message" label="Test" />
+      );
+      const checkbox = screen.getByRole('checkbox');
+      const describedBy = checkbox.getAttribute('aria-describedby');
+      expect(describedBy).toBeTruthy();
+      const ids = describedBy!.split(' ');
+      expect(ids).toHaveLength(2);
+      expect(document.getElementById(ids[0]!)).toHaveTextContent('Hint');
+      expect(document.getElementById(ids[1]!)).toHaveTextContent('Validation message');
+    });
+
+    it('renders description with form-text class', () => {
+      const { container } = render(<Checkbox description="Hint" label="Test" />);
+      const descElements = container.querySelectorAll('.form-text');
+      expect(descElements.length).toBeGreaterThanOrEqual(1);
+    });
+
+    it('has no a11y violations with description', async () => {
+      const { container } = render(
+        <Checkbox description="Additional context" label="Described checkbox" />
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+
+    it('has no a11y violations with description and helperText', async () => {
+      const { container } = render(
+        <Checkbox
+          description="Hint"
+          error
+          helperText="Required"
+          label="Described checkbox"
+        />
+      );
+      const results = await axe(container);
+      expect(results).toHaveNoViolations();
+    });
+  });
+
   describe('Display Name', () => {
     it('has correct displayName', () => {
       expect(Checkbox.displayName).toBe('Checkbox');

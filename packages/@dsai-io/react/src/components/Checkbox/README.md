@@ -9,24 +9,33 @@ A Bootstrap 5 checkbox component for form inputs with full accessibility support
 - **Switch Style**: Toggle switch appearance
 - **Error States**: Validation feedback
 - **Helper Text**: Additional context or error messages
+- **Description**: Persistent contextual hint (separate from validation)
+- **Loading State**: Spinner with `aria-busy` for async operations
 - **Inline Layout**: Multiple checkboxes in a row
 - **Size Variants**: Small, medium (default), large
 - **Color Variants**: Primary, secondary, success, danger, warning, info, light, dark
 - **ReadOnly Mode**: Visible and focusable but non-toggleable
 - **Custom Icons**: Bring-your-own checked/unchecked/indeterminate icons
+- **`onCheckedChange`**: Convenience callback receiving boolean (Radix/Chakra/shadcn convention)
+- **`data-state` Attribute**: CSS targeting via `checked`/`unchecked`/`indeterminate`
 - **Accessible**: WCAG 2.2 AA compliant
 
 ## Installation
 
-```bash
-pnpm add @dsai-io/react @dsai-io/tools
-```
-
-Then generate your design tokens:
+Add the Checkbox component to your project using the DSAi CLI:
 
 ```bash
-npx dsai tokens build
+dsai add checkbox
 ```
+
+This copies the component source files into your project and automatically resolves all dependencies.
+
+> **First time?** Install the CLI and generate your design tokens first:
+>
+> ```bash
+> pnpm add @dsai-io/tools
+> npx dsai tokens build
+> ```
 
 ## Usage
 
@@ -159,6 +168,52 @@ import { CheckIcon, XLgIcon } from '@dsai-io/react';
 />
 ```
 
+### Loading State
+
+Shows a spinner and disables interaction. Sets `aria-busy="true"` for assistive technologies.
+
+```tsx
+<Checkbox loading label="Saving preference..." />
+```
+
+### Description
+
+Persistent contextual information below the label, separate from validation feedback (`helperText`).
+
+```tsx
+<Checkbox
+  label="Enable two-factor authentication"
+  description="Adds an extra layer of security to your account."
+/>
+
+{/* Description + validation */}
+<Checkbox
+  label="Accept terms"
+  description="Read our terms at example.com/terms"
+  error
+  helperText="You must accept the terms"
+/>
+```
+
+### onCheckedChange Callback
+
+Simplified API that receives the boolean checked state directly (matches Radix/Chakra/shadcn convention):
+
+```tsx
+const [checked, setChecked] = useState(false);
+
+{/* Simpler than onChange */}
+<Checkbox checked={checked} onCheckedChange={setChecked} label="Toggle" />
+
+{/* Can be used alongside onChange */}
+<Checkbox
+  checked={checked}
+  onChange={(e) => console.log(e)}
+  onCheckedChange={setChecked}
+  label="Both callbacks"
+/>
+```
+
 ## Props
 
 | Prop             | Type              | Default | Description                          |
@@ -168,9 +223,12 @@ import { CheckIcon, XLgIcon } from '@dsai-io/react';
 | `defaultChecked` | `boolean`         | -       | Initial checked state (uncontrolled) |
 | `indeterminate`  | `boolean`         | `false` | Indeterminate (partial) state        |
 | `onChange`       | `(event) => void` | -       | Change handler                       |
+| `onCheckedChange`| `(checked: boolean) => void` | - | Convenience callback (boolean state) |
 | `disabled`       | `boolean`         | `false` | Disabled state                       |
 | `error`          | `boolean`         | `false` | Error state                          |
 | `helperText`     | `ReactNode`       | -       | Helper or error message              |
+| `description`    | `ReactNode`       | -       | Persistent contextual hint text      |
+| `loading`        | `boolean`         | `false` | Loading state with spinner           |
 | `name`           | `string`          | -       | Form field name                      |
 | `value`          | `string`          | -       | Form field value                     |
 | `inline`         | `boolean`         | `false` | Inline display                       |
@@ -195,7 +253,8 @@ The Checkbox component is built with accessibility in mind:
 - **Native Input**: Uses `<input type="checkbox">` for full keyboard support
 - **Label Association**: `<label>` properly associated via `htmlFor`
 - **Error State**: `aria-invalid="true"` when error
-- **Helper Text**: `aria-describedby` links to helper text
+- **Helper Text**: `aria-describedby` links to helper text and description
+- **Loading State**: `aria-busy="true"` when loading
 - **Keyboard**: Space key toggles checkbox
 - **Touch Target**: Minimum 44×44px via Bootstrap styling
 

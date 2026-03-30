@@ -99,21 +99,24 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
       defaultChecked,
       indeterminate = false,
       onChange,
+      onCheckedChange,
       disabled = false,
       error = false,
       helperText,
+      description,
       name,
       value,
       inline = false,
       reverse = false,
       switch: isSwitch = false,
-      className = '',
+      className,
       style,
       id: providedId,
       required = false,
       size,
       variant,
       readOnly = false,
+      loading = false,
       checkedIcon,
       uncheckedIcon,
       indeterminateIcon,
@@ -126,8 +129,21 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
     const generatedId = useId();
     const id = providedId || generatedId;
 
-    // Memoize helperId calculation
+    // Memoize description and helper IDs
+    const descriptionId = useMemo(
+      () => (description ? `${id}-description` : undefined),
+      [description, id]
+    );
     const helperId = useMemo(() => (helperText ? `${id}-helper` : undefined), [helperText, id]);
+
+    // Combine aria-describedby from description + helper text
+    const ariaDescribedBy = useMemo(
+      () => [descriptionId, helperId].filter(Boolean).join(' ') || undefined,
+      [descriptionId, helperId]
+    );
+
+    // Compute data-state for CSS targeting (matches Radix convention)
+    const dataState = indeterminate ? 'indeterminate' : checked ? 'checked' : 'unchecked';
 
     // Internal ref for indeterminate state
     const internalRef = useRef<HTMLInputElement>(null);
@@ -148,24 +164,25 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
       }
     }, [label, ariaLabel, id]);
 
-    // ReadOnly handlers — HTML readOnly has no effect on checkboxes, so enforce via JS
+    // ReadOnly / loading handlers — HTML readOnly has no effect on checkboxes, so enforce via JS
     const handleClick = useCallback(
       (event: React.MouseEvent<HTMLInputElement>) => {
-        if (readOnly && !disabled) {
+        if ((readOnly || loading) && !disabled) {
           event.preventDefault();
         }
       },
-      [readOnly, disabled]
+      [readOnly, loading, disabled]
     );
 
     const handleChange = useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (readOnly && !disabled) {
+        if ((readOnly || loading) && !disabled) {
           return;
         }
         onChange?.(event);
+        onCheckedChange?.(event.target.checked);
       },
-      [readOnly, disabled, onChange]
+      [readOnly, loading, disabled, onChange, onCheckedChange]
     );
 
     // Custom icon support
@@ -214,9 +231,10 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
           size === 'lg' && 'dsai-checkbox-lg',
           variant && `dsai-checkbox-${variant}`,
           readOnly && !disabled && 'dsai-checkbox-readonly',
+          loading && 'dsai-checkbox-loading',
           className
         ),
-      [isSwitch, inline, reverse, size, variant, readOnly, disabled, className]
+      [isSwitch, inline, reverse, size, variant, readOnly, disabled, loading, className]
     );
 
     // Memoize input classes
@@ -228,14 +246,14 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
     // Label classes (static, no memoization needed)
     const labelClasses = 'form-check-label';
 
-    // Memoize helper text classes
-    const helperClasses = useMemo(() => cn(error ? 'invalid-feedback' : 'form-text'), [error]);
+    // Helper text classes — simple ternary, no memoization needed
+    const helperClasses = error ? 'invalid-feedback' : 'form-text';
 
     // Get safe props (filter out dangerous event handlers)
     const safeProps = getSafeInputProps(rest) as InputHTMLAttributes<HTMLInputElement>;
 
     return (
-      <div className={wrapperClasses} style={style} data-size={size}>
+      <div className={wrapperClasses} style={style} data-size={size} data-state={dataState}>
         <input
           ref={internalRef}
           type="checkbox"
@@ -245,18 +263,26 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
           defaultChecked={defaultChecked}
           onChange={handleChange}
           onClick={handleClick}
-          disabled={disabled}
+          disabled={disabled || loading}
           aria-readonly={readOnly && !disabled ? true : undefined}
+          aria-busy={loading || undefined}
           name={name}
           value={value}
           required={required}
           aria-invalid={error || undefined}
-          aria-describedby={helperId}
+          aria-describedby={ariaDescribedBy}
           aria-label={!label ? ariaLabel : undefined}
           aria-checked={indeterminate ? 'mixed' : undefined}
           {...safeProps}
         />
-        {hasCustomIcons && (
+        {loading && (
+          <span
+            className="spinner-border spinner-border-sm dsai-checkbox-spinner"
+            role="status"
+            aria-hidden="true"
+          />
+        )}
+        {hasCustomIcons && !loading && (
           <label htmlFor={id} className="dsai-checkbox-icon" aria-hidden="true">
             <span aria-hidden="true">{currentIcon}</span>
           </label>
@@ -266,6 +292,11 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
             {label}
             {required && <span className="text-danger ms-1">*</span>}
           </label>
+        )}
+        {description && (
+          <div id={descriptionId} className="form-text">
+            {description}
+          </div>
         )}
         {helperText && (
           <div id={helperId} className={helperClasses}>

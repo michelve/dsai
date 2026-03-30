@@ -286,4 +286,63 @@ describe('Checkbox - Security', () => {
       expect(document.querySelector('img')).not.toBeInTheDocument();
     });
   });
+
+  describe('Loading State Security', () => {
+    it('loading prevents onChange even with direct event dispatch', () => {
+      const handleChange = jest.fn();
+      render(<Checkbox loading checked={false} onChange={handleChange} label="Loading" />);
+      fireEvent.click(screen.getByRole('checkbox'));
+      expect(handleChange).not.toHaveBeenCalled();
+    });
+
+    it('loading prevents onCheckedChange even with direct event dispatch', () => {
+      const handleCheckedChange = jest.fn();
+      render(
+        <Checkbox loading checked={false} onCheckedChange={handleCheckedChange} label="Loading" />
+      );
+      fireEvent.click(screen.getByRole('checkbox'));
+      expect(handleCheckedChange).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('onCheckedChange Security', () => {
+    it('readOnly prevents onCheckedChange', async () => {
+      const handleCheckedChange = jest.fn();
+      render(
+        <Checkbox
+          readOnly
+          checked={false}
+          onChange={() => {}}
+          onCheckedChange={handleCheckedChange}
+          label="ReadOnly"
+        />
+      );
+      await userEvent.click(screen.getByRole('checkbox'));
+      expect(handleCheckedChange).not.toHaveBeenCalled();
+    });
+
+    it('disabled prevents onCheckedChange', async () => {
+      const handleCheckedChange = jest.fn();
+      render(
+        <Checkbox
+          disabled
+          checked={false}
+          onChange={() => {}}
+          onCheckedChange={handleCheckedChange}
+          label="Disabled"
+        />
+      );
+      await userEvent.click(screen.getByRole('checkbox'));
+      expect(handleCheckedChange).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Description Security', () => {
+    it('description content is rendered as react children not innerHTML', () => {
+      const maliciousContent = '<img src=x onerror=alert(1)>';
+      render(<Checkbox description={maliciousContent} label="Test" />);
+      expect(document.querySelector('img')).not.toBeInTheDocument();
+      expect(screen.getByText(maliciousContent)).toBeInTheDocument();
+    });
+  });
 });

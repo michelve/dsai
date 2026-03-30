@@ -63,6 +63,13 @@ export interface CheckboxProps
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 
   /**
+   * Convenience change handler that receives the boolean checked state.
+   * Called after onChange. Can be used alongside or instead of onChange.
+   * Matches Radix/Chakra/shadcn API convention.
+   */
+  onCheckedChange?: (checked: boolean) => void;
+
+  /**
    * Disabled state
    * @default false
    */
@@ -171,4 +178,19 @@ export interface CheckboxProps
    * Accessible label for screen readers (when no visible label)
    */
   'aria-label'?: string;
+
+  /**
+   * Loading state — shows a spinner and disables interaction.
+   * Sets `aria-busy="true"` for assistive technologies.
+   * @default false
+   */
+  loading?: boolean;
+
+  /**
+   * Persistent description text displayed below the label.
+   * Unlike `helperText` (used for validation feedback), `description`
+   * provides permanent contextual information.
+   * Both are linked via `aria-describedby` for accessibility.
+   */
+  description?: ReactNode;
 }

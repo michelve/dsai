@@ -8,27 +8,29 @@
 .dsai-checkbox-lg .form-check-input { width: 1.5rem; height: 1.5rem; margin-top: 0; }
 .dsai-checkbox-lg .form-check-label { font-size: 1.125rem; padding-top: 0.125rem; }
 
-/* Color Variants */
-.dsai-checkbox-primary .form-check-input:checked,
-.dsai-checkbox-primary .form-check-input:indeterminate { background-color: var(--bs-primary); border-color: var(--bs-primary); }
-.dsai-checkbox-secondary .form-check-input:checked,
-.dsai-checkbox-secondary .form-check-input:indeterminate { background-color: var(--bs-secondary); border-color: var(--bs-secondary); }
-.dsai-checkbox-success .form-check-input:checked,
-.dsai-checkbox-success .form-check-input:indeterminate { background-color: var(--bs-success); border-color: var(--bs-success); }
-.dsai-checkbox-danger .form-check-input:checked,
-.dsai-checkbox-danger .form-check-input:indeterminate { background-color: var(--bs-danger); border-color: var(--bs-danger); }
-.dsai-checkbox-warning .form-check-input:checked,
-.dsai-checkbox-warning .form-check-input:indeterminate { background-color: var(--bs-warning); border-color: var(--bs-warning); }
-.dsai-checkbox-info .form-check-input:checked,
-.dsai-checkbox-info .form-check-input:indeterminate { background-color: var(--bs-info); border-color: var(--bs-info); }
-.dsai-checkbox-light .form-check-input:checked,
-.dsai-checkbox-light .form-check-input:indeterminate { background-color: var(--bs-light); border-color: var(--bs-light); }
-.dsai-checkbox-dark .form-check-input:checked,
-.dsai-checkbox-dark .form-check-input:indeterminate { background-color: var(--bs-dark); border-color: var(--bs-dark); }
+/* Color Variants — DRY via CSS custom property */
+.dsai-checkbox-primary { --dsai-checkbox-color: var(--bs-primary); }
+.dsai-checkbox-secondary { --dsai-checkbox-color: var(--bs-secondary); }
+.dsai-checkbox-success { --dsai-checkbox-color: var(--bs-success); }
+.dsai-checkbox-danger { --dsai-checkbox-color: var(--bs-danger); }
+.dsai-checkbox-warning { --dsai-checkbox-color: var(--bs-warning); }
+.dsai-checkbox-info { --dsai-checkbox-color: var(--bs-info); }
+.dsai-checkbox-light { --dsai-checkbox-color: var(--bs-light); }
+.dsai-checkbox-dark { --dsai-checkbox-color: var(--bs-dark); }
+
+[class*="dsai-checkbox-"] .form-check-input:checked,
+[class*="dsai-checkbox-"] .form-check-input:indeterminate {
+  background-color: var(--dsai-checkbox-color);
+  border-color: var(--dsai-checkbox-color);
+}
 
 /* ReadOnly */
 .dsai-checkbox-readonly { cursor: default; }
 .dsai-checkbox-readonly .form-check-input { cursor: default; pointer-events: auto; }
+
+/* Loading */
+.dsai-checkbox-loading { position: relative; pointer-events: none; opacity: 0.65; }
+.dsai-checkbox-spinner { margin-left: 0.25rem; vertical-align: middle; }
 
 /* Custom Icon */
 .dsai-checkbox-icon { display: inline-flex; align-items: center; justify-content: center; min-width: 2.75rem; min-height: 2.75rem; cursor: pointer; }
