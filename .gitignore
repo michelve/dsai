@@ -105,3 +105,4 @@ coverage/
 /coverage/lcov-report
 pnpm-lock.yaml
 /docs/superpowers
+.claude/settings.local.json

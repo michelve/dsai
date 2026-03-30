@@ -124,7 +124,16 @@
       "Bash(sudo apt-get:*)",
       "Bash(python3:*)",
       "Bash(ls:*)",
-      "Bash(/mnt/e/GitHub/dsai/.husky/pre-commit:*)"
+      "Bash(/mnt/e/GitHub/dsai/.husky/pre-commit:*)",
+      "Bash(pnpm build:*)",
+      "Bash(sed 's/,$//')",
+      "Bash(find packages/@dsai-io/react/src/components -name \"index.ts\" -exec grep -l \"export\" {})",
+      "Bash(find /mnt/e/GitHub/dsai -name *.log -o -name *error* -type f)",
+      "Bash(echo \"PATH=$PATH\")",
+      "Bash(export PATH=\"/home/mvelis/.local/share/fnm/node-versions/v22.22.2/installation/bin:$PATH\")",
+      "Bash(git status:*)",
+      "Bash(jest --testPathPattern=\"loader.test\")",
+      "Bash(git push:*)"
     ]
   }
 }
