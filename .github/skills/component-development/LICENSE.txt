@@ -1,6 +1,0 @@
-AGPL-3.0-or-later
-
-Copyright (c) 2024-2026 DSAi.
-
-This skill is licensed under the GNU Affero General Public License v3.0 or later.
-See the LICENSE.md file in the project root for full terms.
