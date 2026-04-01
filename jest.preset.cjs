@@ -3,11 +3,11 @@ const { pathsToModuleNameMapper } = require('ts-jest');
 // Manual path mapping from tsconfig.base.json
 const pathMapping = {
   '@dsai-io/react': ['packages/@dsai-io/react/src'],
-  '@dsai-io/react/(.*)': ['packages/@dsai-io/react/src/$1'],
+  '@dsai-io/react/*': ['packages/@dsai-io/react/src/*'],
   '@dsai-io/figma-tokens': ['packages/@dsai-io/figma-tokens/src'],
-  '@dsai-io/figma-tokens/(.*)': ['packages/@dsai-io/figma-tokens/src/$1'],
+  '@dsai-io/figma-tokens/*': ['packages/@dsai-io/figma-tokens/src/*'],
   '@dsai-io/tools': ['packages/@dsai-io/tools/src'],
-  '@dsai-io/tools/(.*)': ['packages/@dsai-io/tools/src/$1'],
+  '@dsai-io/tools/*': ['packages/@dsai-io/tools/src/*'],
 };
 
 /** @type {import('jest').Config} */
