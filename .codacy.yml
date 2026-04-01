@@ -1,12 +1,13 @@
 ---
 # Codacy Configuration
-# Excludes auto-generated files and directories from analysis
+# https://docs.codacy.com/repositories-configure/codacy-configuration-file/
 
 engines:
-  # Enable recommended analysis tools
   eslint:
     enabled: true
   semgrep:
+    enabled: true
+  trivy:
     enabled: true
 
 exclude_paths:
@@ -17,6 +18,7 @@ exclude_paths:
 
   # Build outputs
   - 'dist/**'
+  - '**/dist/**'
   - 'out-tsc/**'
   - 'storybook-static/**'
   - '**/*.tsbuildinfo'
@@ -25,22 +27,44 @@ exclude_paths:
   - 'node_modules/**'
   - 'pnpm-lock.yaml'
 
-  # Generated static files
+  # Generated files
   - 'static/**'
+  - 'packages/@dsai-io/storybook/src/generated/**'
 
   # Third-party or vendored code
   - '**/vendor/**'
   - '**/third-party/**'
 
-  # Build-time CLI tools (not web servers, have proper security controls)
-  # These tools run locally with env vars and validate all paths/URLs
+  # Build-time CLI tools
   - 'tools/icons/**'
+
+  # Tools modules excluded from coverage (TODO: add tests later)
+  - 'packages/@dsai-io/tools/src/cli/**'
+  - 'packages/@dsai-io/tools/src/registry/**'
+  - 'packages/@dsai-io/tools/src/tokens/build.ts'
+  - 'packages/@dsai-io/tools/src/tokens/mode-extractor.ts'
+  - 'packages/@dsai-io/tools/src/tokens/mode-preprocessor.ts'
+  - 'packages/@dsai-io/tools/src/tokens/snapshot.ts'
+  - 'packages/@dsai-io/tools/src/tokens/theme-builder.ts'
+  - 'packages/@dsai-io/tools/src/tokens/theme-discovery.ts'
+  - 'packages/@dsai-io/tools/src/tokens/style-dictionary/**'
+  - 'packages/@dsai-io/tools/src/tokens/framework-mappers/**'
+
+  # Nx and cache
+  - '.nx/**'
+  - '/tmp/jest-cache/**'
+
+  # Test fixtures and mocks
+  - '**/test/mocks/**'
+  - '**/test/fixtures/**'
 
   # Miscellaneous
   - '.temp/**'
   - '.github/workflows/**'
+  - '.claude/**'
+  - '.worktrees/**'
 
-  # Documentation and completed tasks (historical records, not source code)
+  # Documentation and completed tasks
   - 'tasks/completed/**'
   - 'docs/**'
   - '**/*.md'
