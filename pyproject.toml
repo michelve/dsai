@@ -1,0 +1,26 @@
+[project]
+name = "dsai"
+version = "1.1.0"
+description = "DSAi - AI-powered design system tooling with LangChain, LangGraph, and Claude Agent SDK"
+readme = "README.md"
+requires-python = ">=3.12.13"
+license = "MIT"
+authors = [
+    { name = "Michel Velis", email = "mvelis90@gmail.com" },
+]
+keywords = ["design-system", "ai", "langchain", "langgraph", "claude", "agent"]
+dependencies = [
+    "chromadb>=1.5.5",
+    "claude-agent-sdk>=0.1.53",
+    "langchain>=1.2.14",
+    "langchain-mcp-adapters>=0.2.2",
+    "langgraph>=1.1.4",
+    "sentence-transformers>=5.3.0",
+]
+
+[dependency-groups]
+dev = [
+    "coverage>=7.13.5",
+    "pytest>=9.0.2",
+    "pytest-cov>=7.1.0",
+]

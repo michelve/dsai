@@ -1,3 +1,2 @@
 tools:
-    - trivy@0.66.0
-0
+    - trivy@0.69.3

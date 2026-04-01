@@ -133,7 +133,14 @@
       "Bash(export PATH=\"/home/mvelis/.local/share/fnm/node-versions/v22.22.2/installation/bin:$PATH\")",
       "Bash(git status:*)",
       "Bash(jest --testPathPattern=\"loader.test\")",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(gh release:*)",
+      "Bash(gh auth:*)",
+      "Bash(npm whoami:*)",
+      "Bash(npm publish:*)",
+      "Bash(NPM_TOKEN=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 npm publish --access public --registry https://registry.npmjs.org/)",
+      "Bash(pnpm why:*)",
+      "Bash(uv run:*)"
     ]
   }
 }
