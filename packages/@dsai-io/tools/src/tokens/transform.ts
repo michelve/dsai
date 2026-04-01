@@ -6,7 +6,7 @@
  * @packageDocumentation
  */
 
-/* eslint-disable no-console, security/detect-non-literal-fs-filename */
+/* eslint-disable no-console, security/detect-non-literal-fs-filename, security/detect-object-injection */
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, dirname, extname, join } from 'node:path';

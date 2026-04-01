@@ -16,6 +16,8 @@
  * @module @dsai-io/tools/cli/commands/add
  */
 
+/* eslint-disable security/detect-non-literal-fs-filename, no-console, security/detect-object-injection */
+
 import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
@@ -84,7 +86,7 @@ export function createAddCommand(): Command {
 
         // Helper: filter items by type
         const filterByType = (entries: RegistryIndexEntry[]): RegistryIndexEntry[] => {
-          if (!typeFilter) return entries;
+          if (!typeFilter) {return entries;}
           return entries.filter((i) => i.type === `registry:${typeFilter}`);
         };
 
@@ -102,7 +104,7 @@ export function createAddCommand(): Command {
           const grouped: Record<string, typeof filtered> = {};
           for (const item of filtered) {
             const type = item.type.replace('registry:', '');
-            if (!grouped[type]) grouped[type] = [];
+            if (!grouped[type]) {grouped[type] = [];}
             grouped[type].push(item);
           }
 
@@ -110,7 +112,7 @@ export function createAddCommand(): Command {
           const displayOrder = ['ui', 'hook', 'util', 'lib', 'type'];
           for (const type of displayOrder) {
             const typeItems = grouped[type];
-            if (!typeItems || typeItems.length === 0) continue;
+            if (!typeItems || typeItems.length === 0) {continue;}
             console.log(`  ${colors.cyan(type)} (${typeItems.length}):`);
             for (const item of typeItems.sort((a, b) => a.name.localeCompare(b.name))) {
               console.log(

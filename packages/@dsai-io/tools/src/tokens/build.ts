@@ -41,13 +41,13 @@ import { discoverThemeFiles } from './theme-discovery.js';
 import { transformTokens } from './transform.js';
 import { validateTokens } from './validate.js';
 
+import type { BuildOptions, BuildResult, BuildStep } from './types';
 import type {
   BuildPipelinePaths,
   BuildPipelineStep,
   OutputFormat,
   TokensBuildPipeline,
 } from '../config/types.js';
-import type { BuildOptions, BuildResult, BuildStep } from './types';
 
 // ============================================================================
 // Constants

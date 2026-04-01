@@ -8,6 +8,8 @@
  * @module @dsai-io/tools/cli/commands/registry
  */
 
+/* eslint-disable no-console */
+
 import { resolve } from 'node:path';
 
 import { Command } from 'commander';

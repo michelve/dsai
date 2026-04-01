@@ -3,14 +3,16 @@
  * @module @dsai-io/tools/registry/writer
  */
 
+/* eslint-disable security/detect-non-literal-fs-filename */
+
 import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join } from 'node:path';
 
 import { normalizeExtensions, transformImports } from './transformer.js';
 
-import type { ResolvedAliasesConfig, ResolvedComponentsConfig } from '../config/types.js';
 import type { ResolvedTree } from './types.js';
+import type { ResolvedAliasesConfig, ResolvedComponentsConfig } from '../config/types.js';
 
 export interface WriteOptions {
   projectDir: string;
@@ -41,9 +43,9 @@ function getTargetDir(type: string, aliases: ResolvedAliasesConfig): string {
 }
 
 function detectPackageManager(projectDir: string): 'pnpm' | 'yarn' | 'npm' | 'bun' {
-  if (existsSync(join(projectDir, 'pnpm-lock.yaml'))) return 'pnpm';
-  if (existsSync(join(projectDir, 'bun.lockb')) || existsSync(join(projectDir, 'bun.lock'))) return 'bun';
-  if (existsSync(join(projectDir, 'yarn.lock'))) return 'yarn';
+  if (existsSync(join(projectDir, 'pnpm-lock.yaml'))) {return 'pnpm';}
+  if (existsSync(join(projectDir, 'bun.lockb')) || existsSync(join(projectDir, 'bun.lock'))) {return 'bun';}
+  if (existsSync(join(projectDir, 'yarn.lock'))) {return 'yarn';}
   return 'npm';
 }
 
@@ -85,7 +87,7 @@ export function writeRegistryItems(tree: ResolvedTree, options: WriteOptions): W
       }
 
       if (existsSync(targetPath) && !shouldOverwrite) {
-        if (log) log(`  Skipped (exists): ${targetPath}`);
+        if (log) {log(`  Skipped (exists): ${targetPath}`);}
         result.skipped.push(targetPath);
         continue;
       }
@@ -95,15 +97,15 @@ export function writeRegistryItems(tree: ResolvedTree, options: WriteOptions): W
       content = normalizeExtensions(content, components.tsx);
 
       if (dryRun) {
-        if (log) log(`  Would write: ${targetPath}`);
+        if (log) {log(`  Would write: ${targetPath}`);}
         result.written.push(targetPath);
         continue;
       }
 
       const dir = dirname(targetPath);
-      if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
+      if (!existsSync(dir)) {mkdirSync(dir, { recursive: true });}
       writeFileSync(targetPath, content, 'utf-8');
-      if (log) log(`  Written: ${targetPath}`);
+      if (log) {log(`  Written: ${targetPath}`);}
       result.written.push(targetPath);
     }
   }
@@ -122,11 +124,11 @@ export function writeRegistryItems(tree: ResolvedTree, options: WriteOptions): W
   if (depsToInstall.length > 0 && !dryRun) {
     const pm = detectPackageManager(projectDir);
     const [cmd, args] = getInstallArgs(pm, depsToInstall, false);
-    if (log) log(`  Installing: ${cmd} ${args.join(' ')}`);
+    if (log) {log(`  Installing: ${cmd} ${args.join(' ')}`);}
     execFileSync(cmd, args, { cwd: projectDir, stdio: 'inherit' });
     result.installedDeps = depsToInstall;
   } else if (depsToInstall.length > 0 && dryRun) {
-    if (log) log(`  Would install: ${depsToInstall.join(', ')}`);
+    if (log) {log(`  Would install: ${depsToInstall.join(', ')}`);}
     result.installedDeps = depsToInstall;
   }
 

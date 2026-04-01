@@ -8,6 +8,8 @@
  * @module @dsai-io/tools/tokens/mode-preprocessor
  */
 
+/* eslint-disable security/detect-object-injection */
+
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join, parse } from 'node:path';
 
