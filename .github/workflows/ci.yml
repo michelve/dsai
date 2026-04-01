@@ -236,6 +236,8 @@ jobs:
 
       - name: Build all packages
         run: pnpm build
+        env:
+          NODE_OPTIONS: '--max-old-space-size=4096'
 
       - name: Verify build outputs
         run: |
