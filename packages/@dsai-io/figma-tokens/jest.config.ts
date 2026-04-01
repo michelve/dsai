@@ -1,10 +1,25 @@
 /** @type {import('jest').Config} */
 export default {
-  preset: '../../../jest.preset.cjs',
+  preset: './jest.preset.cjs',
   displayName: '@dsai-io/figma-tokens',
   rootDir: '../../../',
   roots: ['<rootDir>/packages/@dsai-io/figma-tokens'],
   testEnvironment: 'node',
+  transform: {
+    '^.+\\.(ts|tsx|js|jsx)$': [
+      'ts-jest',
+      {
+        diagnostics: false,
+        useESM: true,
+        tsconfig: {
+          jsx: 'react-jsx',
+          esModuleInterop: true,
+          allowSyntheticDefaultImports: true,
+          isolatedModules: true,
+        },
+      },
+    ],
+  },
   extensionsToTreatAsEsm: ['.ts'],
   coverageDirectory: '<rootDir>/coverage/packages/@dsai-io/figma-tokens',
   collectCoverageFrom: [

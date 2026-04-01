@@ -1,5 +1,5 @@
 export default {
-  preset: '../../../jest.preset.cjs',
+  preset: './jest.preset.cjs',
   displayName: '@dsai-io/storybook',
   rootDir: '../../../',
   roots: ['<rootDir>/packages/@dsai-io/storybook'],

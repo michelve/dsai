@@ -3,6 +3,21 @@ module.exports = {
   preset: '../../../jest.preset.cjs',
   displayName: 'tools',
   testEnvironment: 'node',
+  transform: {
+    '^.+\\.(ts|tsx|js|jsx)$': [
+      'ts-jest',
+      {
+        diagnostics: false,
+        useESM: true,
+        tsconfig: {
+          jsx: 'react-jsx',
+          esModuleInterop: true,
+          allowSyntheticDefaultImports: true,
+          isolatedModules: true,
+        },
+      },
+    ],
+  },
   coverageDirectory: '../../../coverage/packages/@dsai-io/tools',
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
