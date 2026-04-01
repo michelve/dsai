@@ -6,7 +6,7 @@
  * and avatarUtils.
  */
 
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, render, renderHook, screen } from '@testing-library/react';
 import { createRef } from 'react';
 
 import { Avatar } from '../Avatar';
@@ -450,35 +450,29 @@ describe('AvatarContext', () => {
       imageStatus: 'loaded',
     };
 
-    let receivedContext: AvatarContextValue | null = null;
-    const TestConsumer = () => {
-      receivedContext = useAvatarContext();
-      return null;
-    };
-
-    render(
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
       <AvatarContext.Provider value={customContext}>
-        <TestConsumer />
+        {children}
       </AvatarContext.Provider>
     );
 
-    expect(receivedContext).toEqual(customContext);
+    const { result } = renderHook(() => useAvatarContext(), { wrapper });
+
+    expect(result.current).toEqual(customContext);
   });
 
   it('returns updated values when provider value changes', () => {
-    let receivedContext: AvatarContextValue | null = null;
-    const TestConsumer = () => {
-      receivedContext = useAvatarContext();
-      return null;
-    };
+    let contextValue = defaultContextValue;
 
-    const { rerender } = render(
-      <AvatarContext.Provider value={defaultContextValue}>
-        <TestConsumer />
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <AvatarContext.Provider value={contextValue}>
+        {children}
       </AvatarContext.Provider>
     );
 
-    expect(receivedContext).toEqual(defaultContextValue);
+    const { result, rerender } = renderHook(() => useAvatarContext(), { wrapper });
+
+    expect(result.current).toEqual(defaultContextValue);
 
     const updated: AvatarContextValue = {
       size: 'xl',
@@ -487,13 +481,10 @@ describe('AvatarContext', () => {
       imageStatus: 'error',
     };
 
-    rerender(
-      <AvatarContext.Provider value={updated}>
-        <TestConsumer />
-      </AvatarContext.Provider>
-    );
+    contextValue = updated;
+    rerender();
 
-    expect(receivedContext).toEqual(updated);
+    expect(result.current).toEqual(updated);
   });
 });
 
@@ -653,9 +644,9 @@ describe('avatarUtils', () => {
     });
 
     it('returns empty for non-string input', () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       
       expect(getInitialsFromName(null as any)).toBe('');
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       
       expect(getInitialsFromName(undefined as any)).toBe('');
     });
   });

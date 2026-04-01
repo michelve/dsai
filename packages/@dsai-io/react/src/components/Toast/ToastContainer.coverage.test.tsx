@@ -5,9 +5,9 @@
  * ref forwarding, className/style merging, and default branch.
  */
 
+import { render, screen } from '@testing-library/react';
 import { createRef } from 'react';
 
-import { render, screen } from '@testing-library/react';
 
 import { ToastContainer } from './ToastContainer';
 
