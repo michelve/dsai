@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/michelve/dsai/actions/workflows/ci.yml/badge.svg)](https://github.com/michelve/dsai/actions/workflows/ci.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/068516f0032a4690b46404252021023a)](https://app.codacy.com?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Codacy Coverage](https://app.codacy.com/project/badge/Coverage/068516f0032a4690b46404252021023a)](https://app.codacy.com?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](LICENSE.md)
 
 > **Beta** — DSAi is in active development. APIs may change between releases. [Early access & collaboration →](https://github.com/michelve/dsai)
