@@ -41,6 +41,15 @@ jobs:
         run: |
           bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
             -r coverage/lcov.info \
+            --commit-uuid ${{ github.sha }} \
+            --partial
+
+      - name: Finalize Codacy coverage
+        if: success()
+        env:
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        run: |
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) final \
             --commit-uuid ${{ github.sha }}
 
       - name: Upload coverage artifacts

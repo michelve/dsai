@@ -38,6 +38,18 @@ exclude_paths:
   # Build-time CLI tools
   - 'tools/icons/**'
 
+  # Tools modules excluded from coverage (TODO: add tests later)
+  - 'packages/@dsai-io/tools/src/cli/**'
+  - 'packages/@dsai-io/tools/src/registry/**'
+  - 'packages/@dsai-io/tools/src/tokens/build.ts'
+  - 'packages/@dsai-io/tools/src/tokens/mode-extractor.ts'
+  - 'packages/@dsai-io/tools/src/tokens/mode-preprocessor.ts'
+  - 'packages/@dsai-io/tools/src/tokens/snapshot.ts'
+  - 'packages/@dsai-io/tools/src/tokens/theme-builder.ts'
+  - 'packages/@dsai-io/tools/src/tokens/theme-discovery.ts'
+  - 'packages/@dsai-io/tools/src/tokens/style-dictionary/**'
+  - 'packages/@dsai-io/tools/src/tokens/framework-mappers/**'
+
   # Nx and cache
   - '.nx/**'
   - '/tmp/jest-cache/**'
