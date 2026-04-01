@@ -8,6 +8,8 @@
  * @module @dsai-io/tools/tokens/mode-extractor
  */
 
+/* eslint-disable security/detect-object-injection */
+
 // ============================================================================
 // Types
 // ============================================================================

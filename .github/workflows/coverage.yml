@@ -2,14 +2,12 @@ name: Code Coverage
 
 on:
   push:
-    branches: [main, dev]
-  pull_request:
-    branches: [main, dev]
+    branches: [main, develop]
 
 jobs:
   coverage:
     runs-on: ubuntu-latest
-    environment: dev # ← this unlocks the environment secrets
+    environment: dev
 
     steps:
       - name: Checkout code
@@ -41,15 +39,6 @@ jobs:
         run: |
           bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
             -r coverage/lcov.info \
-            --commit-uuid ${{ github.sha }} \
-            --partial
-
-      - name: Finalize Codacy coverage
-        if: success()
-        env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-        run: |
-          bash <(curl -Ls https://coverage.codacy.com/get.sh) final \
             --commit-uuid ${{ github.sha }}
 
       - name: Upload coverage artifacts

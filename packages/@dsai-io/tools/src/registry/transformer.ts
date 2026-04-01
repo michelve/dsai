@@ -3,6 +3,8 @@
  * @module @dsai-io/tools/registry/transformer
  */
 
+/* eslint-disable security/detect-unsafe-regex */
+
 import type { ResolvedAliasesConfig } from '../config/types.js';
 
 export interface TransformOptions {

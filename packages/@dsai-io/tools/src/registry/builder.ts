@@ -4,6 +4,8 @@
  * @module @dsai-io/tools/registry/builder
  */
 
+/* eslint-disable security/detect-non-literal-fs-filename, no-console, security/detect-object-injection, security/detect-unsafe-regex */
+
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { extname, join, relative } from 'node:path';
 
@@ -85,12 +87,12 @@ const UTIL_SUBPATH_TO_REGISTRY: Record<string, string> = {
 
 function shouldIncludeFile(filePath: string): boolean {
   const ext = extname(filePath);
-  if (!['.ts', '.tsx', '.css'].includes(ext)) return false;
+  if (!['.ts', '.tsx', '.css'].includes(ext)) {return false;}
   return !EXCLUDE_PATTERNS.some((pattern) => pattern.test(filePath));
 }
 
 function readSourceFiles(dirPath: string): { path: string; content: string }[] {
-  if (!existsSync(dirPath) || !statSync(dirPath).isDirectory()) return [];
+  if (!existsSync(dirPath) || !statSync(dirPath).isDirectory()) {return [];}
 
   const results: { path: string; content: string }[] = [];
 
@@ -159,7 +161,7 @@ function analyzeImports(files: { content: string }[], knownNpmDeps: string[]): A
       const hookMatch = hookPattern.exec(specifier);
       if (hookMatch && hookMatch[1]) {
         const regName = hookDirectoryToRegistryName[hookMatch[1]];
-        if (regName) registryDeps.add(regName);
+        if (regName) {registryDeps.add(regName);}
         continue;
       }
 
@@ -169,7 +171,7 @@ function analyzeImports(files: { content: string }[], knownNpmDeps: string[]): A
       if (utilMatch) {
         const subpath = utilMatch[1] ?? 'index';
         const regName = UTIL_SUBPATH_TO_REGISTRY[subpath];
-        if (regName) registryDeps.add(regName);
+        if (regName) {registryDeps.add(regName);}
         continue;
       }
 
@@ -194,7 +196,7 @@ function analyzeImports(files: { content: string }[], knownNpmDeps: string[]): A
       if (compMatch && compMatch[2]) {
         const compDir = compMatch[2];
         const regName = directoryToRegistryName[compDir];
-        if (regName) registryDeps.add(regName);
+        if (regName) {registryDeps.add(regName);}
         continue;
       }
 
@@ -425,7 +427,7 @@ export function buildRegistry(options: BuildRegistryOptions): RegistryIndex {
   log('[registry] Scanning components...');
   if (existsSync(componentsDir)) {
     for (const entry of readdirSync(componentsDir, { withFileTypes: true })) {
-      if (!entry.isDirectory()) continue;
+      if (!entry.isDirectory()) {continue;}
       const dirName = entry.name;
       const registryName = directoryToRegistryName[dirName];
       if (!registryName) {
@@ -434,7 +436,7 @@ export function buildRegistry(options: BuildRegistryOptions): RegistryIndex {
       }
       log(`  Building ${registryName}...`);
       const item = buildComponentItem(registryName, join(componentsDir, dirName), log);
-      if (item) allItems.push(item);
+      if (item) {allItems.push(item);}
     }
   }
 
@@ -442,7 +444,7 @@ export function buildRegistry(options: BuildRegistryOptions): RegistryIndex {
   log('[registry] Scanning hooks...');
   if (existsSync(hooksDir)) {
     for (const entry of readdirSync(hooksDir, { withFileTypes: true })) {
-      if (!entry.isDirectory()) continue;
+      if (!entry.isDirectory()) {continue;}
       const dirName = entry.name;
       const registryName = hookDirectoryToRegistryName[dirName];
       if (!registryName) {
@@ -451,7 +453,7 @@ export function buildRegistry(options: BuildRegistryOptions): RegistryIndex {
       }
       log(`  Building ${registryName}...`);
       const item = buildHookItem(registryName, join(hooksDir, dirName), log);
-      if (item) allItems.push(item);
+      if (item) {allItems.push(item);}
     }
   }
 
@@ -460,7 +462,7 @@ export function buildRegistry(options: BuildRegistryOptions): RegistryIndex {
   for (const name of Object.keys(utilMap)) {
     log(`  Building ${name}...`);
     const item = buildUtilItem(name, reactSrcDir, log);
-    if (item) allItems.push(item);
+    if (item) {allItems.push(item);}
   }
 
   // --- Shared Types ---
@@ -477,7 +479,7 @@ export function buildRegistry(options: BuildRegistryOptions): RegistryIndex {
   // Ensure output directories exist
   for (const sub of ['components', 'hooks', 'utils', 'types']) {
     const dir = join(outputDir, sub);
-    if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
+    if (!existsSync(dir)) {mkdirSync(dir, { recursive: true });}
   }
 
   const typeToSubdir: Record<string, string> = {

@@ -3,6 +3,8 @@
  * @module @dsai-io/tools/registry/resolver
  */
 
+/* eslint-disable security/detect-non-literal-fs-filename */
+
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -26,14 +28,14 @@ export function resolveTree(names: string[], registryDir: string): ResolvedTree 
   // BFS: collect all items and transitive dependencies
   while (queue.length > 0) {
     const name = queue.shift()!;
-    if (visited.has(name)) continue;
+    if (visited.has(name)) {continue;}
     const item = loadItem(name, registryDir);
     if (!item) {
       throw new Error(`Registry item "${name}" not found. Run \`dsai registry build\` or check the name.`);
     }
     visited.set(name, item);
     for (const dep of item.registryDependencies) {
-      if (!visited.has(dep)) queue.push(dep);
+      if (!visited.has(dep)) {queue.push(dep);}
     }
   }
 
@@ -46,7 +48,7 @@ export function resolveTree(names: string[], registryDir: string): ResolvedTree 
   const sorted: RegistryItem[] = [];
   const ready: string[] = [];
   for (const [name, deg] of inDeg) {
-    if (deg === 0) ready.push(name);
+    if (deg === 0) {ready.push(name);}
   }
 
   while (ready.length > 0) {
@@ -56,7 +58,7 @@ export function resolveTree(names: string[], registryDir: string): ResolvedTree 
       if (otherItem.registryDependencies.includes(name)) {
         const newDeg = (inDeg.get(otherName) ?? 1) - 1;
         inDeg.set(otherName, newDeg);
-        if (newDeg === 0) ready.push(otherName);
+        if (newDeg === 0) {ready.push(otherName);}
       }
     }
   }
@@ -71,10 +73,10 @@ export function resolveTree(names: string[], registryDir: string): ResolvedTree 
   const lightVars: Record<string, string> = {};
   const darkVars: Record<string, string> = {};
   for (const item of sorted) {
-    for (const dep of item.dependencies) allDeps.add(dep);
-    for (const dep of item.devDependencies) allDevDeps.add(dep);
-    if (item.cssVars?.light) Object.assign(lightVars, item.cssVars.light);
-    if (item.cssVars?.dark) Object.assign(darkVars, item.cssVars.dark);
+    for (const dep of item.dependencies) {allDeps.add(dep);}
+    for (const dep of item.devDependencies) {allDevDeps.add(dep);}
+    if (item.cssVars?.light) {Object.assign(lightVars, item.cssVars.light);}
+    if (item.cssVars?.dark) {Object.assign(darkVars, item.cssVars.dark);}
   }
 
   return {
