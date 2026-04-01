@@ -54,7 +54,10 @@
     "test": {
       "inputs": ["testInputs"],
       "cache": true,
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "options": {
+        "maxWorkers": 8
+      }
     },
     "storybook": {
       "inputs": ["default"],

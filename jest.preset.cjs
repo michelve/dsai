@@ -20,6 +20,7 @@ module.exports = {
     '^.+\\.(ts|tsx|js|jsx)$': [
       'ts-jest',
       {
+        diagnostics: false,
         tsconfig: {
           jsx: 'react-jsx',
           esModuleInterop: true,
@@ -87,7 +88,10 @@ module.exports = {
   watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
 
   // Performance
-  maxWorkers: '50%', // Use half of available CPU cores
+  maxWorkers: '75%',
+  workerIdleMemoryLimit: '512MB',
+  cache: true,
+  cacheDirectory: '/tmp/jest-cache',
 
   // === Quality & Isolation Settings ===
 

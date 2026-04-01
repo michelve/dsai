@@ -1,18 +1,8 @@
 /** @type {import('jest').Config} */
 module.exports = {
-  displayName: 'tools',
   preset: '../../../jest.preset.cjs',
+  displayName: 'tools',
   testEnvironment: 'node',
-  transform: {
-    '^.+\\.[tj]sx?$': [
-      'ts-jest',
-      {
-        tsconfig: '<rootDir>/tsconfig.json',
-        useESM: true,
-      },
-    ],
-  },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   coverageDirectory: '../../../coverage/packages/@dsai-io/tools',
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
@@ -29,7 +19,4 @@ module.exports = {
     },
   },
   extensionsToTreatAsEsm: ['.ts'],
-  moduleNameMapper: {
-    '^(\\.{1,2}/.*)\\.js$': '$1',
-  },
 };

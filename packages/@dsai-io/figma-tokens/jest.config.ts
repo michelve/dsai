@@ -1,23 +1,11 @@
 /** @type {import('jest').Config} */
 export default {
+  preset: '../../../jest.preset.cjs',
   displayName: '@dsai-io/figma-tokens',
   rootDir: '../../../',
   roots: ['<rootDir>/packages/@dsai-io/figma-tokens'],
   testEnvironment: 'node',
-  transform: {
-    '^.+\\.[tj]sx?$': [
-      'ts-jest',
-      {
-        tsconfig: '<rootDir>/packages/@dsai-io/figma-tokens/tsconfig.json',
-        useESM: true,
-      },
-    ],
-  },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   extensionsToTreatAsEsm: ['.ts'],
-  moduleNameMapper: {
-    '^(\\.{1,2}/.*)\\.js$': '$1',
-  },
   coverageDirectory: '<rootDir>/coverage/packages/@dsai-io/figma-tokens',
   collectCoverageFrom: [
     'packages/@dsai-io/figma-tokens/src/**/*.{ts,tsx}',
