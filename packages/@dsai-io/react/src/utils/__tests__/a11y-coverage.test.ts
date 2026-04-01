@@ -21,20 +21,20 @@ describe('shouldAnimate (additional coverage)', () => {
   // We use jest.resetModules() + require() so each test gets a fresh module
   // with its own cachedMediaQuery. We mock matchMedia via jest.spyOn.
 
-  it('should return false when matchMedia is unavailable', () => {
+  it('should return false when matchMedia is unavailable', async () => {
     jest.resetModules();
     const origMM = window.matchMedia;
     // Set matchMedia to undefined (writable: true from custom env)
     (window as any).matchMedia = undefined;
 
-    const mod = require('../a11y/shouldAnimate');
+    const mod = await import('../a11y/shouldAnimate');
     expect(mod.shouldAnimate()).toBe(false);
 
     // Restore
     (window as any).matchMedia = origMM;
   });
 
-  it('should return true when reduced motion is NOT preferred', () => {
+  it('should return true when reduced motion is NOT preferred', async () => {
     jest.resetModules();
     const spy = jest.spyOn(window, 'matchMedia').mockReturnValue({
       matches: false,
@@ -47,12 +47,12 @@ describe('shouldAnimate (additional coverage)', () => {
       dispatchEvent: jest.fn(),
     });
 
-    const mod = require('../a11y/shouldAnimate');
+    const mod = await import('../a11y/shouldAnimate');
     expect(mod.shouldAnimate()).toBe(true);
     spy.mockRestore();
   });
 
-  it('should return false when reduced motion IS preferred', () => {
+  it('should return false when reduced motion IS preferred', async () => {
     jest.resetModules();
     const spy = jest.spyOn(window, 'matchMedia').mockReturnValue({
       matches: true,
@@ -65,12 +65,12 @@ describe('shouldAnimate (additional coverage)', () => {
       dispatchEvent: jest.fn(),
     });
 
-    const mod = require('../a11y/shouldAnimate');
+    const mod = await import('../a11y/shouldAnimate');
     expect(mod.shouldAnimate()).toBe(false);
     spy.mockRestore();
   });
 
-  it('should cache the media query and reuse it', () => {
+  it('should cache the media query and reuse it', async () => {
     jest.resetModules();
     const mockMatchMedia = jest.fn().mockReturnValue({
       matches: false,
@@ -84,7 +84,7 @@ describe('shouldAnimate (additional coverage)', () => {
     });
     const spy = jest.spyOn(window, 'matchMedia').mockImplementation(mockMatchMedia);
 
-    const mod = require('../a11y/shouldAnimate');
+    const mod = await import('../a11y/shouldAnimate');
     mod.shouldAnimate();
     mod.shouldAnimate();
     // matchMedia should be called only once due to caching
@@ -94,12 +94,12 @@ describe('shouldAnimate (additional coverage)', () => {
 });
 
 describe('onAnimationPreferenceChange (additional coverage)', () => {
-  it('should return noop when matchMedia is unavailable', () => {
+  it('should return noop when matchMedia is unavailable', async () => {
     jest.resetModules();
     const origMM = window.matchMedia;
     (window as any).matchMedia = undefined;
 
-    const mod = require('../a11y/shouldAnimate');
+    const mod = await import('../a11y/shouldAnimate');
     const cleanup = mod.onAnimationPreferenceChange(jest.fn());
     expect(typeof cleanup).toBe('function');
     cleanup(); // should not throw
@@ -107,7 +107,7 @@ describe('onAnimationPreferenceChange (additional coverage)', () => {
     (window as any).matchMedia = origMM;
   });
 
-  it('should add and remove event listener', () => {
+  it('should add and remove event listener', async () => {
     jest.resetModules();
     const addListener = jest.fn();
     const removeListener = jest.fn();
@@ -122,7 +122,7 @@ describe('onAnimationPreferenceChange (additional coverage)', () => {
       dispatchEvent: jest.fn(),
     });
 
-    const mod = require('../a11y/shouldAnimate');
+    const mod = await import('../a11y/shouldAnimate');
     const callback = jest.fn();
     const cleanup = mod.onAnimationPreferenceChange(callback);
 
@@ -133,7 +133,7 @@ describe('onAnimationPreferenceChange (additional coverage)', () => {
     spy.mockRestore();
   });
 
-  it('should call callback with inverted matches value on change', () => {
+  it('should call callback with inverted matches value on change', async () => {
     jest.resetModules();
     let changeHandler: ((event: MediaQueryListEvent) => void) | null = null;
     const spy = jest.spyOn(window, 'matchMedia').mockReturnValue({
@@ -149,7 +149,7 @@ describe('onAnimationPreferenceChange (additional coverage)', () => {
       dispatchEvent: jest.fn(),
     });
 
-    const mod = require('../a11y/shouldAnimate');
+    const mod = await import('../a11y/shouldAnimate');
     const callback = jest.fn();
     mod.onAnimationPreferenceChange(callback);
 

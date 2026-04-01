@@ -8,10 +8,10 @@
  * - formatRelativeTime.ts (fallback formatter, cache eviction, edge cases)
  */
 
-import { formatCurrency } from '../number/formatCurrency';
-import { formatNumber } from '../number/formatNumber';
 import { formatDate } from '../date/formatDate';
 import { formatRelativeTime } from '../date/formatRelativeTime';
+import { formatCurrency } from '../number/formatCurrency';
+import { formatNumber } from '../number/formatNumber';
 
 // ---------------------------------------------------------------------------
 // formatCurrency
@@ -68,7 +68,7 @@ describe('formatCurrency coverage', () => {
       let count = 0;
       for (const currency of currencies) {
         for (let minFd = 0; minFd <= 10; minFd++) {
-          if (count >= 100) break;
+          if (count >= 100) {break;}
           formatCurrency(100, {
             locale: 'en-US',
             currency,
@@ -518,7 +518,7 @@ describe('formatDate coverage', () => {
       for (const locale of locales) {
         for (const dateStyle of styles) {
           for (const timeStyle of styles) {
-            if (count >= 105) break;
+            if (count >= 105) {break;}
             formatDate(testDate, { locale, dateStyle, timeStyle });
             count++;
           }
@@ -760,7 +760,7 @@ describe('formatRelativeTime coverage', () => {
       for (const locale of locales) {
         for (const numeric of numericOpts) {
           for (const style of styleOpts) {
-            if (count >= 55) break;
+            if (count >= 55) {break;}
             formatRelativeTime(date, { baseDate, locale, numeric, style });
             count++;
           }

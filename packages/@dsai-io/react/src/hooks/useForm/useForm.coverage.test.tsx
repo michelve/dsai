@@ -6,7 +6,7 @@
  * onSubmit error handling, and field handlers.
  */
 
-import { act, renderHook, waitFor } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 
 import { useForm } from './useForm';
 
