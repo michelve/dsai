@@ -28,8 +28,6 @@ import {
 
 import type { DsaiConfig } from '../../../src/config/types.js';
 
-// We'll use jest.spyOn on the cosmiconfig module in specific test blocks
-
 // ============================================================================
 // Test Setup
 // ============================================================================

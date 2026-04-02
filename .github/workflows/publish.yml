@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       package:
-        description: 'Package to publish (all, tools, react, figma-tokens, storybook, docs)'
+        description: 'Package to publish (all, tools, react, figma-tokens, storybook)'
         required: true
         default: 'all'
         type: choice
@@ -17,7 +17,6 @@ on:
           - react
           - figma-tokens
           - storybook
-          - docs
 
 permissions:
   id-token: write # Required for npm OIDC trusted publishing
@@ -53,7 +52,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_READ_TOKEN }}
 
       - name: Build publishable packages
-        run: pnpm nx run-many --target=build --projects=@dsai-io/tools,@dsai-io/figma-tokens,@dsai-io/react,@dsai-io/storybook,@dsai-io/docs
+        run: pnpm nx run-many --target=build --projects=@dsai-io/tools,@dsai-io/figma-tokens,@dsai-io/react,@dsai-io/storybook
 
       # Replace workspace:* with actual versions for publishing
       - name: Prepare packages for publishing
@@ -75,9 +74,6 @@ jobs:
           sed -i 's/"@dsai-io\/tools": "workspace:\*"/"@dsai-io\/tools": "^'"$TOOLS_VERSION"'"/' packages/@dsai-io/storybook/package.json
           sed -i 's/"@dsai-io\/react": "workspace:\*"/"@dsai-io\/react": "^'"$REACT_VERSION"'"/' packages/@dsai-io/storybook/package.json
           sed -i 's/"@dsai-io\/figma-tokens": "workspace:\*"/"@dsai-io\/figma-tokens": "^'"$FIGMA_VERSION"'"/' packages/@dsai-io/storybook/package.json
-
-          # Update docs
-          sed -i 's/"@dsai-io\/react": "workspace:\*"/"@dsai-io\/react": "^'"$REACT_VERSION"'"/' packages/@dsai-io/docs/package.json
 
           echo "Package.json files updated"
 
@@ -113,10 +109,3 @@ jobs:
           npm publish
         continue-on-error: false
 
-      # Publish @dsai-io/docs
-      - name: Publish @dsai-io/docs
-        if: github.event_name == 'push' || github.event.inputs.package == 'all' || github.event.inputs.package == 'docs'
-        run: |
-          cd packages/@dsai-io/docs
-          npm publish
-        continue-on-error: false
