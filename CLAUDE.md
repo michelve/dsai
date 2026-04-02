@@ -123,12 +123,6 @@ Before any PR, verify:
 4. jest-axe passes, keyboard navigation works
 5. No hard-coded colors/spacing — use CSS custom properties (design tokens)
 
-## Codacy Integration
-
-After editing any file, run `codacy_cli_analyze` (Codacy MCP Server) with:
-- `provider`: `gh`, `organization`: `michelve`, `repository`: `dsai`
-- After dependency changes, also run with `tool`: `trivy`
-
 ## CI/CD
 
 GitHub Actions runs on push to `main`/`develop` and PRs targeting `main`/`develop`:

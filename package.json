@@ -10,7 +10,7 @@
     "test:watch": "jest --watch --onlyChanged",
     "test:coverage": "jest --coverage",
     "test:ci": "jest --ci --coverage --maxWorkers=75%",
-    "coverage:upload": "dotenv -e .env -- sh -c 'curl -Ls https://coverage.codacy.com/get.sh | bash -s report -r coverage/lcov.info --commit-uuid $(git rev-parse HEAD)'",
+    "coverage:upload": "dotenv -e .env -- sh -c 'curl -Ls https://uploader.codecov.io/latest/linux/codecov -o codecov && chmod +x codecov && ./codecov -t $CODECOV_TOKEN -f coverage/lcov.info --sha $(git rev-parse HEAD)'",
     "test:changed": "nx affected --target=test --parallel=8",
     "test:nx": "nx run-many --target=test --all --parallel=8",
     "lint": "nx run-many --target=lint --all",

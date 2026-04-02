@@ -27,10 +27,7 @@
     "github.copilot-chat",
 
     // Figma
-    "figma.figma-vscode-extension",
-
-    // Codacy (Code Quality)
-    "codacy.codacy"
+    "figma.figma-vscode-extension"
   ],
   "unwantedRecommendations": ["hookyqr.beautify", "ms-vscode.vscode-typescript-tslint-plugin"]
 }
