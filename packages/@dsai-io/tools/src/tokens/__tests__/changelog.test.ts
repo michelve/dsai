@@ -7,6 +7,7 @@ import { join } from 'node:path';
 
 import { generateChangelog, generateAndWriteChangelog, writeChangelog } from '../changelog.js';
 
+import type * as ChangelogModule from '../changelog.js';
 import type { TokenDiff } from '../diff.js';
 
 const TEST_OUTPUT_DIR = join(process.cwd(), '.test-output');
@@ -591,7 +592,7 @@ describe('escapeMarkdown', () => {
 // ============================================================================
 
 describe('generateChangelogCLI', () => {
-  let generateChangelogCLI: (oldTokensPath: string, newTokensPath: string, outputPath?: string, version?: string) => Promise<boolean>;
+  let generateChangelogCLI: ChangelogModule['generateChangelogCLI'];
   let consoleSpy: jest.SpyInstance;
   let errorSpy: jest.SpyInstance;
 

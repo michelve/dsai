@@ -16,8 +16,9 @@ import { join } from 'node:path';
 
 import { validateFigmaExports, validateFigmaFile } from '../../../src/tokens/validate-figma.js';
 
-import type { FigmaExport } from '../../../src/tokens/types.js';
-import type { ValidateFigmaOptions } from '../../../src/tokens/validate-figma.js';
+import type * as ValidateFigmaModule from '../../../src/tokens/validate-figma.js';
+
+type ValidateFigmaOptions = ValidateFigmaModule['ValidateFigmaOptions'];
 
 // ============================================================================
 // Test Setup
@@ -630,7 +631,7 @@ describe('validate-figma', () => {
   // ==========================================================================
 
   describe('detectModes', () => {
-    let detectModesFn: (data: FigmaExport, collectionName?: string) => string[];
+    let detectModesFn: ValidateFigmaModule['detectModes'];
 
     beforeAll(async () => {
       const mod = await import('../../../src/tokens/validate-figma.js');
@@ -749,7 +750,7 @@ describe('validate-figma', () => {
     let consoleSpy: jest.SpyInstance;
     let warnSpy: jest.SpyInstance;
     let errorSpy: jest.SpyInstance;
-    let validateFigmaCLIFn: (exportsDir: string, options?: Omit<ValidateFigmaOptions, 'exportsDir'>) => boolean;
+    let validateFigmaCLIFn: ValidateFigmaModule['validateFigmaCLI'];
 
     beforeAll(async () => {
       const mod = await import('../../../src/tokens/validate-figma.js');
