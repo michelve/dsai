@@ -11,6 +11,10 @@
  * - Special cases (circle, pill, unitless values)
  */
 
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+
 import {
   transformValue,
   transformType,
@@ -729,7 +733,7 @@ describe('detectModes', () => {
 });
 
 // Import FigmaExport type for detectModes tests
-import type { FigmaExport, TransformOptions } from '../../../src/tokens/types.js';
+import type { FigmaExport } from '../../../src/tokens/types.js';
 
 // ============================================================================
 // Opacity Conversion Tests
@@ -894,9 +898,6 @@ describe('transformValue row-columns unitless', () => {
 // ============================================================================
 
 describe('transformTokens', () => {
-  const fs = require('node:fs');
-  const path = require('node:path');
-  const os = require('node:os');
 
   let testDir: string;
   let sourceDir: string;
@@ -1149,9 +1150,6 @@ describe('transformTokens', () => {
 });
 
 describe('transformTokensCLI', () => {
-  const fs = require('node:fs');
-  const path = require('node:path');
-  const os = require('node:os');
 
   let testDir: string;
 

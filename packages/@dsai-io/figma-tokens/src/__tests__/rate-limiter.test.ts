@@ -5,8 +5,6 @@
 
 import { RateLimiter } from '../rate-limiter.js';
 
-import type { RateLimitInfo } from '../rate-limiter.js';
-
 describe('RateLimiter', () => {
   // ==========================================================================
   // Constructor

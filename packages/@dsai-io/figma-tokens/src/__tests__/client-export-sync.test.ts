@@ -7,7 +7,6 @@
 import {
   mockFigmaFile,
   mockVariablesResponse,
-  mockStyleNodes,
   mockColors,
   emptyVariablesResponse,
   error403Forbidden,
