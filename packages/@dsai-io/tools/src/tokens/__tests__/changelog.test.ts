@@ -591,7 +591,7 @@ describe('escapeMarkdown', () => {
 // ============================================================================
 
 describe('generateChangelogCLI', () => {
-  let generateChangelogCLI: typeof import('../changelog.js').generateChangelogCLI;
+  let generateChangelogCLI: (oldTokensPath: string, newTokensPath: string, outputPath?: string, version?: string) => Promise<boolean>;
   let consoleSpy: jest.SpyInstance;
   let errorSpy: jest.SpyInstance;
 

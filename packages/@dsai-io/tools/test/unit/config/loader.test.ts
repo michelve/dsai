@@ -14,6 +14,8 @@
 import { existsSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 
+import * as cosmiconfigModule from 'cosmiconfig';
+
 import {
   loadConfig,
   loadConfigSync,
@@ -25,9 +27,6 @@ import {
 } from '../../../src/config/loader.js';
 
 import type { DsaiConfig } from '../../../src/config/types.js';
-
-// We'll use jest.spyOn on the cosmiconfig module in specific test blocks
-import * as cosmiconfigModule from 'cosmiconfig';
 
 // ============================================================================
 // Test Setup

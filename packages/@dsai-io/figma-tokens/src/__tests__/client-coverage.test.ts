@@ -6,7 +6,6 @@
 
 import {
   mockVariablesResponse,
-  mockStyleNodes,
   mockFigmaFile,
   error403Forbidden,
 } from '../../test/fixtures/figma-api-responses.js';

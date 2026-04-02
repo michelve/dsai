@@ -14,7 +14,7 @@ import { resolve } from 'node:path';
 
 import { resolveConfig, mergeConfigs, createResolvedConfig } from '../../../src/config/resolver.js';
 
-import type { DsaiConfig } from '../../../src/config/types.js';
+import type { DsaiConfig, ThemeDefinition } from '../../../src/config/types.js';
 
 // ============================================================================
 // Test Data
@@ -661,7 +661,7 @@ describe('resolveConfig — themes resolution', () => {
             light: {
               isDefault: true,
               // No selector provided — should use selectorPattern.default (:root)
-            } as import('../../../src/config/types.js').ThemeDefinition,
+            } as ThemeDefinition,
           },
         },
       },
@@ -677,7 +677,7 @@ describe('resolveConfig — themes resolution', () => {
           definitions: {
             midnight: {
               // No selector — should be generated from pattern
-            } as import('../../../src/config/types.js').ThemeDefinition,
+            } as ThemeDefinition,
           },
         },
       },
