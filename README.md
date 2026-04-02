@@ -1,7 +1,7 @@
 # DSAi Design System
 
 [![CI](https://github.com/michelve/dsai/actions/workflows/ci.yml/badge.svg)](https://github.com/michelve/dsai/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/michelve/dsai/graph/badge.svg)](https://codecov.io/gh/michelve/dsai)
+[![codecov](https://codecov.io/github/michelve/dsai/graph/badge.svg?token=VF7ZM3A9L1)](https://codecov.io/github/michelve/dsai)
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](LICENSE.md)
 
 > **Beta** — DSAi is in active development. APIs may change between releases. [Early access & collaboration →](https://github.com/michelve/dsai)
