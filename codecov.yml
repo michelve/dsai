@@ -1,0 +1,60 @@
+codecov:
+  require_ci_to_pass: true
+
+coverage:
+  precision: 2
+  round: down
+  range: "70...90"
+
+  status:
+    project:
+      default:
+        target: 80%
+        threshold: 2%
+    patch:
+      default:
+        target: 80%
+        threshold: 5%
+
+comment:
+  layout: "reach,diff,flags,files"
+  behavior: default
+  require_changes: false
+  require_base: false
+  require_head: true
+
+ignore:
+  - "**/*.test.ts"
+  - "**/*.test.tsx"
+  - "**/*.spec.ts"
+  - "**/*.spec.tsx"
+  - "**/*.stories.ts"
+  - "**/*.stories.tsx"
+  - "**/*.figma.tsx"
+  - "**/index.ts"
+  - "**/Icon/**"
+  - "packages/@dsai-io/tools/src/cli/**"
+  - "packages/@dsai-io/tools/src/registry/**"
+  - "packages/@dsai-io/tools/src/tokens/build.ts"
+  - "packages/@dsai-io/tools/src/tokens/mode-extractor.ts"
+  - "packages/@dsai-io/tools/src/tokens/mode-preprocessor.ts"
+  - "packages/@dsai-io/tools/src/tokens/snapshot.ts"
+  - "packages/@dsai-io/tools/src/tokens/theme-builder.ts"
+  - "packages/@dsai-io/tools/src/tokens/theme-discovery.ts"
+  - "packages/@dsai-io/tools/src/tokens/style-dictionary/**"
+  - "packages/@dsai-io/tools/src/tokens/framework-mappers/**"
+  - "packages/@dsai-io/storybook/src/generated/**"
+
+flags:
+  react:
+    paths:
+      - packages/@dsai-io/react/src/
+    carryforward: true
+  tools:
+    paths:
+      - packages/@dsai-io/tools/src/
+    carryforward: true
+  figma-tokens:
+    paths:
+      - packages/@dsai-io/figma-tokens/src/
+    carryforward: true
