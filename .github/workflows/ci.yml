@@ -178,7 +178,7 @@ jobs:
           echo "Build artifacts verified"
 
       - name: Run tests with coverage
-        run: pnpm test:ci
+        run: JEST_JUNIT_CLASSNAME="{filepath}" pnpm test:ci --reporters=default --reporters=jest-junit
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
@@ -187,6 +187,12 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage/lcov.info
           fail_ci_if_error: false
+
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   # ============================================================================
   # Build
