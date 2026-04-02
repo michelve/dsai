@@ -512,5 +512,297 @@ describe('validate-figma', () => {
       // Should still find the valid token
       expect(result.tokenCount).toBe(1);
     });
+
+    it('should handle collection without modes (general validation)', () => {
+      const filePath = join(testDir, 'no-modes.json');
+      const tokens = {
+        Simple: {
+          token: { $type: 'color', $value: '#ff0' },
+        },
+      };
+      writeFileSync(filePath, JSON.stringify(tokens), 'utf8');
+
+      const result = validateFigmaFile(filePath);
+
+      expect(result.valid).toBe(true);
+      expect(result.tokenCount).toBe(1);
+    });
+
+    it('should detect modes from general validation without expected collection', () => {
+      const filePath = join(testDir, 'auto-modes.json');
+      const tokens = {
+        Collection: {
+          modes: {
+            ModeA: { token: { $type: 'color', $value: '#aaa' } },
+            ModeB: { token: { $type: 'color', $value: '#bbb' } },
+          },
+        },
+      };
+      writeFileSync(filePath, JSON.stringify(tokens), 'utf8');
+
+      const result = validateFigmaFile(filePath);
+
+      expect(result.detectedModes.has('ModeA')).toBe(true);
+      expect(result.detectedModes.has('ModeB')).toBe(true);
+    });
+
+    it('should error when expected collection not found in data', () => {
+      const filePath = join(testDir, 'wrong-collection.json');
+      writeFileSync(
+        filePath,
+        JSON.stringify({ WrongName: { modes: { Base: {} } } }),
+        'utf8'
+      );
+
+      const result = validateFigmaFile(filePath, {
+        input: 'wrong-collection.json',
+        modeAware: true,
+        modes: ['Base'],
+      });
+
+      // The expected collection name derived from filename is "Wrong-collection"
+      // which won't match "WrongName"
+      expect(result.errors.some((e) => e.message.includes('not found in export'))).toBe(true);
+    });
+
+    it('should validate tokens within modes of expected collection', () => {
+      const filePath = join(testDir, 'foundation.json');
+      const tokens = {
+        Foundation: {
+          modes: {
+            Light: {
+              primary: { $type: 'color', $value: '#fff' },
+              nullToken: { $type: 'color', $value: null },
+            },
+          },
+        },
+      };
+      writeFileSync(filePath, JSON.stringify(tokens), 'utf8');
+
+      const result = validateFigmaFile(filePath, {
+        input: 'foundation.json',
+        modeAware: true,
+        modes: ['Light'],
+      });
+
+      expect(result.errors.some((e) => e.message.includes('undefined or null'))).toBe(true);
+    });
+
+    it('should validate collection without modes structure when expected', () => {
+      const filePath = join(testDir, 'flat.json');
+      const tokens = {
+        Flat: {
+          token: { $type: 'color', $value: '#000' },
+        },
+      };
+      writeFileSync(filePath, JSON.stringify(tokens), 'utf8');
+
+      const result = validateFigmaFile(filePath, {
+        input: 'flat.json',
+        modeAware: false,
+      });
+
+      // Should validate tokens at collection level
+      expect(result.tokenCount).toBeGreaterThan(0);
+    });
+
+    it('should handle legacy tokens with null value', () => {
+      const filePath = join(testDir, 'legacy-null.json');
+      const tokens = {
+        Legacy: {
+          broken: {
+            value: null,
+            type: 'color',
+          },
+        },
+      };
+      writeFileSync(filePath, JSON.stringify(tokens), 'utf8');
+
+      const result = validateFigmaFile(filePath);
+
+      expect(result.errors.some((e) => e.message.includes('undefined or null'))).toBe(true);
+    });
+  });
+
+  // ==========================================================================
+  // detectModes
+  // ==========================================================================
+
+  describe('detectModes', () => {
+    let detectModesFn: typeof import('../../../src/tokens/validate-figma.js').detectModes;
+
+    beforeAll(async () => {
+      const mod = await import('../../../src/tokens/validate-figma.js');
+      detectModesFn = mod.detectModes;
+    });
+
+    it('should return Base for null data', () => {
+      expect(detectModesFn(null as any)).toEqual(['Base']);
+    });
+
+    it('should return Base for non-object data', () => {
+      expect(detectModesFn('string' as any)).toEqual(['Base']);
+    });
+
+    it('should detect modes from collection name (case-insensitive)', () => {
+      const data = {
+        Foundation: {
+          modes: { Light: {}, Dark: {} },
+        },
+      };
+      expect(detectModesFn(data as any, 'foundation')).toEqual(['Light', 'Dark']);
+    });
+
+    it('should return Base when named collection has no modes', () => {
+      const data = {
+        Simple: { tokens: {} },
+      };
+      expect(detectModesFn(data as any, 'simple')).toEqual(['Base']);
+    });
+
+    it('should detect modes from any collection when no name specified', () => {
+      const data = {
+        AnyCollection: {
+          modes: { Desktop: {}, Mobile: {} },
+        },
+      };
+      expect(detectModesFn(data as any)).toEqual(['Desktop', 'Mobile']);
+    });
+
+    it('should return Base when no modes found in any collection', () => {
+      const data = {
+        Flat: { token: { $value: '#fff' } },
+      };
+      expect(detectModesFn(data as any)).toEqual(['Base']);
+    });
+  });
+
+  // ==========================================================================
+  // validateFigmaExports - additional coverage
+  // ==========================================================================
+
+  describe('validateFigmaExports - strict mode', () => {
+    it('should treat warnings as errors in strict mode', () => {
+      const exportsDir = join(testDir, 'exports');
+      mkdirSync(exportsDir, { recursive: true });
+
+      writeFileSync(
+        join(exportsDir, 'colors.json'),
+        JSON.stringify({
+          Colors: {
+            modes: {
+              Light: {
+                primary: { value: '#fff', type: 'color' }, // Legacy format
+              },
+            },
+          },
+        }),
+        'utf8'
+      );
+
+      const result = validateFigmaExports({
+        exportsDir,
+        collections: {
+          colors: { input: 'colors.json', modeAware: true, modes: ['Light'] },
+        },
+        strict: true,
+      });
+
+      // Legacy format warnings should cause strict mode to fail
+      expect(result.valid).toBe(false);
+    });
+  });
+
+  describe('validateFigmaExports - unexpected files warning', () => {
+    it('should warn about unexpected JSON files in exports directory', () => {
+      const exportsDir = join(testDir, 'exports');
+      mkdirSync(exportsDir, { recursive: true });
+
+      writeFileSync(
+        join(exportsDir, 'expected.json'),
+        JSON.stringify({ Expected: { token: { $type: 'color', $value: '#fff' } } }),
+        'utf8'
+      );
+      writeFileSync(
+        join(exportsDir, 'unexpected.json'),
+        JSON.stringify({ Unexpected: {} }),
+        'utf8'
+      );
+
+      const result = validateFigmaExports({
+        exportsDir,
+        collections: {
+          expected: { input: 'expected.json', modeAware: false },
+        },
+      });
+
+      expect(result.warnings.some((w) => w.message.includes('Unexpected file'))).toBe(true);
+    });
+  });
+
+  // ==========================================================================
+  // validateFigmaCLI
+  // ==========================================================================
+
+  describe('validateFigmaCLI', () => {
+    let consoleSpy: jest.SpyInstance;
+    let warnSpy: jest.SpyInstance;
+    let errorSpy: jest.SpyInstance;
+    let validateFigmaCLIFn: typeof import('../../../src/tokens/validate-figma.js').validateFigmaCLI;
+
+    beforeAll(async () => {
+      const mod = await import('../../../src/tokens/validate-figma.js');
+      validateFigmaCLIFn = mod.validateFigmaCLI;
+    });
+
+    beforeEach(() => {
+      consoleSpy = jest.spyOn(console, 'info').mockImplementation();
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+      errorSpy = jest.spyOn(console, 'error').mockImplementation();
+    });
+
+    afterEach(() => {
+      consoleSpy.mockRestore();
+      warnSpy.mockRestore();
+      errorSpy.mockRestore();
+    });
+
+    it('should return true for valid exports', () => {
+      const exportsDir = join(testDir, 'cli-exports');
+      mkdirSync(exportsDir, { recursive: true });
+
+      writeFileSync(
+        join(exportsDir, 'test.json'),
+        JSON.stringify({ Test: { token: { $type: 'color', $value: '#fff' } } }),
+        'utf8'
+      );
+
+      const success = validateFigmaCLIFn(exportsDir, {
+        collections: {
+          test: { input: 'test.json', modeAware: false },
+        },
+      });
+
+      expect(success).toBe(true);
+      expect(consoleSpy).toHaveBeenCalled();
+    });
+
+    it('should return false for missing directory', () => {
+      const success = validateFigmaCLIFn(join(testDir, 'nonexistent'), {});
+      expect(success).toBe(false);
+    });
+
+    it('should report missing files', () => {
+      const exportsDir = join(testDir, 'cli-exports-missing');
+      mkdirSync(exportsDir, { recursive: true });
+
+      validateFigmaCLIFn(exportsDir, {
+        collections: {
+          missing: { input: 'missing.json', modeAware: false },
+        },
+      });
+
+      expect(warnSpy).toHaveBeenCalled();
+    });
   });
 });

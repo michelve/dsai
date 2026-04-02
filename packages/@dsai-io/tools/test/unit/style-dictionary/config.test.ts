@@ -166,4 +166,119 @@ describe('createStyleDictionaryConfig', () => {
       }
     });
   });
+
+  describe('registerAll', () => {
+    it('should register transforms on a mock SD instance', async () => {
+      const { registerAll } = await import('../../../src/tokens/style-dictionary/config.js');
+
+      const mockSD: any = {
+        registerTransform: jest.fn(),
+        registerTransformGroup: jest.fn(),
+        registerFormat: jest.fn(),
+        registerPreprocessor: jest.fn(),
+      };
+
+      registerAll(mockSD);
+
+      expect(mockSD.registerTransform).toHaveBeenCalled();
+      expect(mockSD.registerTransformGroup).toHaveBeenCalled();
+      expect(mockSD.registerFormat).toHaveBeenCalled();
+      expect(mockSD.registerPreprocessor).toHaveBeenCalled();
+    });
+
+    it('should register custom transforms, formats, and preprocessors', async () => {
+      const { registerAll } = await import('../../../src/tokens/style-dictionary/config.js');
+
+      const mockSD: any = {
+        registerTransform: jest.fn(),
+        registerTransformGroup: jest.fn(),
+        registerFormat: jest.fn(),
+        registerPreprocessor: jest.fn(),
+      };
+
+      const customTransform = { name: 'custom/transform', type: 'value', transform: () => '' };
+      const customFormat = { name: 'custom/format', format: () => '' };
+      const customPreprocessor = { name: 'custom/preprocess', preprocessor: (dict: any) => dict };
+
+      registerAll(mockSD, {
+        customTransforms: [customTransform],
+        customFormats: [customFormat],
+        customPreprocessors: [customPreprocessor],
+      });
+
+      // Should have been called with custom ones included
+      expect(mockSD.registerTransform).toHaveBeenCalled();
+      expect(mockSD.registerFormat).toHaveBeenCalled();
+    });
+  });
+
+  describe('setupStyleDictionary', () => {
+    it('should register and create config in one step', async () => {
+      const { setupStyleDictionary } = await import(
+        '../../../src/tokens/style-dictionary/config.js'
+      );
+
+      const mockSD: any = {
+        registerTransform: jest.fn(),
+        registerTransformGroup: jest.fn(),
+        registerFormat: jest.fn(),
+        registerPreprocessor: jest.fn(),
+      };
+
+      const dsaiConfig = getTestConfig();
+      const config = setupStyleDictionary(mockSD, dsaiConfig);
+
+      expect(config).toBeDefined();
+      expect(config.source).toBeDefined();
+      expect(config.platforms).toBeDefined();
+      expect(mockSD.registerTransform).toHaveBeenCalled();
+    });
+  });
+
+  describe('verbose and buildPath options', () => {
+    it('should set verbose log when verbose is true', () => {
+      const dsaiConfig = getTestConfig();
+      const config = createStyleDictionaryConfig(dsaiConfig, { verbose: true });
+
+      expect(config.log?.verbosity).toBe('verbose');
+    });
+
+    it('should set default log when verbose is false', () => {
+      const dsaiConfig = getTestConfig();
+      const config = createStyleDictionaryConfig(dsaiConfig, { verbose: false });
+
+      expect(config.log?.verbosity).toBe('default');
+    });
+
+    it('should normalize buildPath without trailing slash', () => {
+      const dsaiConfig = getTestConfig();
+      const config = createStyleDictionaryConfig(dsaiConfig, { buildPath: 'my-output' });
+
+      // All platform build paths should include the normalized path
+      expect(config.platforms?.css?.buildPath).toContain('my-output/');
+    });
+
+    it('should handle buildPath that already has trailing slash', () => {
+      const dsaiConfig = getTestConfig();
+      const config = createStyleDictionaryConfig(dsaiConfig, { buildPath: 'my-output/' });
+
+      // Should not double the slash
+      expect(config.platforms?.css?.buildPath).not.toContain('my-output//');
+    });
+
+    it('should include scss-dist platform', () => {
+      const dsaiConfig = getTestConfig();
+      const config = createStyleDictionaryConfig(dsaiConfig);
+
+      expect(config.platforms).toHaveProperty('scss-dist');
+    });
+
+    it('should include preprocessors', () => {
+      const dsaiConfig = getTestConfig();
+      const config = createStyleDictionaryConfig(dsaiConfig);
+
+      expect(config.preprocessors).toBeDefined();
+      expect(Array.isArray(config.preprocessors)).toBe(true);
+    });
+  });
 });

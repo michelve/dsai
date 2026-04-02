@@ -190,9 +190,10 @@ jobs:
 
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@v1
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          report_type: test_results
 
   # ============================================================================
   # Build
@@ -247,7 +248,7 @@ jobs:
       - name: Verify build outputs
         run: |
           echo "Checking @dsai/react outputs..."
-          ls -lh packages/@dsai/react/dist/ || echo "React package build outputs pending"
+          ls -lh packages/@dsai-io/react/dist/ || echo "React package build outputs pending"
           echo "✅ Build verification complete"
 
       - name: Upload build artifacts
@@ -255,8 +256,8 @@ jobs:
         with:
           name: build-artifacts
           path: |
-            packages/@dsai/react/dist/
-            packages/@dsai/storybook/storybook-static/
+            packages/@dsai-io/react/dist/
+            packages/@dsai-io/storybook/storybook-static/
           retention-days: 7
 
   # ============================================================================
@@ -304,13 +305,13 @@ jobs:
 
       - name: Build Storybook
         run: pnpm build
-        working-directory: packages/@dsai/storybook
+        working-directory: packages/@dsai-io/storybook
 
       - name: Upload Storybook static files
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: storybook-static
-          path: packages/@dsai/storybook/storybook-static
+          path: packages/@dsai-io/storybook/storybook-static
           retention-days: 30
 
   # ============================================================================
@@ -318,7 +319,7 @@ jobs:
   # ============================================================================
   ci-summary:
     name: CI Summary
-    needs: [build, build-storybook]
+    needs: [setup, lint, test, build, build-storybook]
     runs-on: ubuntu-latest
     if: always()
 

@@ -436,3 +436,148 @@ describe('Performance', () => {
     expect(duration).toBeLessThan(100); // Should complete in < 100ms
   });
 });
+
+// ============================================================================
+// Additional Coverage for Validation Functions
+// ============================================================================
+
+describe('validateDTCGTokens - error handling', () => {
+  it('should handle non-Zod errors gracefully', () => {
+    // Pass a value that causes a non-Zod error
+    const result = validateDTCGTokens(undefined);
+    // Should still return a result
+    expect(result).toBeDefined();
+    expect(typeof result.valid).toBe('boolean');
+  });
+});
+
+describe('validateDTCGFile - error handling', () => {
+  it('should reject non-object input', () => {
+    const result = validateDTCGFile('not an object');
+    expect(result.valid).toBe(false);
+    expect(result.errors).toBeDefined();
+  });
+
+  it('should reject null input', () => {
+    const result = validateDTCGFile(null);
+    expect(result.valid).toBe(false);
+  });
+});
+
+describe('validateFigmaExport - error handling', () => {
+  it('should reject non-object input', () => {
+    const result = validateFigmaExport(42);
+    expect(result.valid).toBe(false);
+    expect(result.errors).toBeDefined();
+  });
+
+  it('should reject null input', () => {
+    const result = validateFigmaExport(null);
+    expect(result.valid).toBe(false);
+  });
+
+  it('should reject array input', () => {
+    const result = validateFigmaExport([1, 2, 3]);
+    expect(result.valid).toBe(false);
+  });
+});
+
+describe('validateFigmaExportWithMetadata - edge cases', () => {
+  it('should handle export without optional metadata fields', () => {
+    const export_ = {
+      colors: {
+        primary: '#fff',
+      },
+    };
+
+    const result = validateFigmaExportWithMetadata(export_);
+    expect(result.valid).toBe(true);
+  });
+
+  it('should reject non-object input', () => {
+    const result = validateFigmaExportWithMetadata('not an object');
+    expect(result.valid).toBe(false);
+    expect(result.errors).toBeDefined();
+  });
+});
+
+describe('validateFigmaVariablesResponse - edge cases', () => {
+  it('should reject null input', () => {
+    const result = validateFigmaVariablesResponse(null);
+    expect(result.valid).toBe(false);
+  });
+
+  it('should reject empty meta object', () => {
+    const result = validateFigmaVariablesResponse({ meta: {} });
+    expect(result.valid).toBe(false);
+  });
+});
+
+describe('validateStyleDictionaryInput - edge cases', () => {
+  it('should reject non-object input', () => {
+    const result = validateStyleDictionaryInput('string');
+    expect(result.valid).toBe(false);
+    expect(result.errors).toBeDefined();
+  });
+
+  it('should reject null input', () => {
+    const result = validateStyleDictionaryInput(null);
+    expect(result.valid).toBe(false);
+  });
+});
+
+describe('validateStyleDictionaryTokens - edge cases', () => {
+  it('should validate deeply nested tokens', () => {
+    const tokens = {
+      level1: {
+        level2: {
+          level3: {
+            value: 'deep',
+            type: 'string',
+          },
+        },
+      },
+    };
+
+    const result = validateStyleDictionaryTokens(tokens);
+    expect(result.valid).toBe(true);
+  });
+
+  it('should reject non-object input', () => {
+    const result = validateStyleDictionaryTokens(123);
+    expect(result.valid).toBe(false);
+    expect(result.errors).toBeDefined();
+  });
+
+  it('should reject null input', () => {
+    const result = validateStyleDictionaryTokens(null);
+    expect(result.valid).toBe(false);
+  });
+});
+
+describe('Validation Error Format', () => {
+  it('should include code field from Zod errors', () => {
+    const result = validateFigmaVariablesResponse({ meta: 'not-object' });
+    expect(result.valid).toBe(false);
+    expect(result.errors?.some((e) => e.code !== undefined)).toBe(true);
+  });
+
+  it('should format path as dot-separated string', () => {
+    const result = validateFigmaVariablesResponse({
+      meta: {
+        variables: {},
+        variableCollections: {
+          'col-1': {
+            id: 'col-1',
+            name: 'Test',
+            // Missing required fields
+          },
+        },
+      },
+    });
+
+    expect(result.valid).toBe(false);
+    // Errors should have path
+    expect(result.errors?.some((e) => e.path.length > 0)).toBe(true);
+  });
+});
