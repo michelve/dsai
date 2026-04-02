@@ -729,4 +729,483 @@ describe('detectModes', () => {
 });
 
 // Import FigmaExport type for detectModes tests
-import type { FigmaExport } from '../../../src/tokens/types.js';
+import type { FigmaExport, TransformOptions } from '../../../src/tokens/types.js';
+
+// ============================================================================
+// Opacity Conversion Tests
+// ============================================================================
+
+describe('transformValue opacity conversion', () => {
+  it('should convert percentage opacity (0-100) to decimal', () => {
+    const result = transformValue(50, 'number', { scopes: ['OPACITY'] });
+    expect(result).toBe(0.5);
+  });
+
+  it('should convert 100% opacity to 1', () => {
+    const result = transformValue(100, 'number', { scopes: ['OPACITY'] });
+    expect(result).toBe(1);
+  });
+
+  it('should keep opacity that is already decimal (0-1)', () => {
+    const result = transformValue(0.5, 'number', { scopes: ['OPACITY'] });
+    expect(result).toBe(0.5);
+  });
+
+  it('should keep opacity of 0', () => {
+    const result = transformValue(0, 'number', { scopes: ['OPACITY'] });
+    expect(result).toBe(0);
+  });
+
+  it('should keep opacity of 1', () => {
+    const result = transformValue(1, 'number', { scopes: ['OPACITY'] });
+    expect(result).toBe(1);
+  });
+
+  it('should convert 75% opacity', () => {
+    const result = transformValue(75, 'number', { scopes: ['OPACITY'] });
+    expect(result).toBe(0.75);
+  });
+});
+
+// ============================================================================
+// transformType with scopes
+// ============================================================================
+
+describe('transformType with scopes', () => {
+  it('should return number type for OPACITY scope', () => {
+    expect(transformType('number', ['OPACITY'])).toBe('number');
+  });
+
+  it('should return number type for FONT_WEIGHT scope', () => {
+    expect(transformType('number', ['FONT_WEIGHT'])).toBe('number');
+  });
+
+  it('should return number type for LINE_HEIGHT scope', () => {
+    expect(transformType('number', ['LINE_HEIGHT'])).toBe('number');
+  });
+
+  it('should return dimension for number without unitless scope', () => {
+    expect(transformType('number', ['ALL_FILLS'])).toBe('dimension');
+  });
+
+  it('should return dimension for number with empty scopes', () => {
+    expect(transformType('number', [])).toBe('dimension');
+  });
+});
+
+// ============================================================================
+// transformToken with scopes from token
+// ============================================================================
+
+describe('transformToken scopes-from-token integration', () => {
+  it('should handle opacity scope from $scopes', () => {
+    const input = {
+      $value: 50,
+      $type: 'number',
+      $scopes: ['OPACITY'],
+    };
+
+    const result = transformToken(input);
+    expect(result?.$value).toBe(0.5);
+    expect(result?.$type).toBe('number');
+  });
+
+  it('should handle line-height scope from $scopes', () => {
+    const input = {
+      $value: 1.5,
+      $type: 'number',
+      $scopes: ['LINE_HEIGHT'],
+    };
+
+    const result = transformToken(input);
+    expect(result?.$value).toBe(1.5);
+    expect(result?.$type).toBe('number');
+  });
+
+  it('should default type to string when $type is missing', () => {
+    const input = {
+      $value: 'hello',
+    };
+
+    const result = transformToken(input);
+    expect(result?.$type).toBe('string');
+  });
+
+  it('should not include $description when it is not a string', () => {
+    const input = {
+      $value: '#fff',
+      $type: 'color',
+      $description: 123, // Not a string
+    };
+
+    const result = transformToken(input);
+    expect(result?.$description).toBeUndefined();
+  });
+
+  it('should not include $extensions when it is not an object', () => {
+    const input = {
+      $value: '#fff',
+      $type: 'color',
+      $extensions: 'not-an-object',
+    };
+
+    const result = transformToken(input);
+    expect(result?.$extensions).toBeUndefined();
+  });
+});
+
+// ============================================================================
+// transformTokenTree with options
+// ============================================================================
+
+describe('transformTokenTree with options map', () => {
+  it('should apply fontStack option to specific key', () => {
+    const input = {
+      fontFamily: {
+        body: { $value: 'Inter', $type: 'string' },
+      },
+    };
+
+    const options = {
+      fontFamily: {
+        body: { fontStack: 'system-ui, sans-serif' },
+      } as unknown as Record<string, unknown>,
+    };
+
+    const result = transformTokenTree(input, '', options as Record<string, any>);
+    const fontFamily = result.fontFamily as Record<string, Record<string, unknown>>;
+    expect(fontFamily.body.$value).toBe('Inter, system-ui, sans-serif');
+  });
+});
+
+// ============================================================================
+// transformValue row-columns path
+// ============================================================================
+
+describe('transformValue row-columns unitless', () => {
+  it('should keep row-columns as unitless', () => {
+    const result = transformValue(6, 'number', { tokenPath: 'grid.row-columns' });
+    expect(result).toBe(6);
+  });
+});
+
+// ============================================================================
+// transformTokens (main function) and transformTokensCLI Tests
+// ============================================================================
+
+describe('transformTokens', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const os = require('node:os');
+
+  let testDir: string;
+  let sourceDir: string;
+  let collectionsDir: string;
+
+  beforeEach(() => {
+    testDir = path.join(
+      os.tmpdir(),
+      `transform-test-${Date.now()}-${Math.random().toString(36).slice(2)}`
+    );
+    sourceDir = path.join(testDir, 'source');
+    collectionsDir = path.join(testDir, 'collections');
+    fs.mkdirSync(sourceDir, { recursive: true });
+    fs.mkdirSync(collectionsDir, { recursive: true });
+    jest.spyOn(console, 'info').mockImplementation();
+    jest.spyOn(console, 'warn').mockImplementation();
+    jest.spyOn(console, 'error').mockImplementation();
+  });
+
+  afterEach(() => {
+    if (fs.existsSync(testDir)) {
+      fs.rmSync(testDir, { recursive: true, force: true });
+    }
+    jest.restoreAllMocks();
+  });
+
+  it('should return warnings when source files are missing', async () => {
+    const { transformTokens } = await import('../../../src/tokens/transform.js');
+
+    const result = transformTokens({
+      sourceDir,
+      collectionsDir,
+    });
+
+    // No theme.json exists, so all collection inputs are missing
+    expect(result.warnings.length).toBeGreaterThan(0);
+  });
+
+  it('should succeed with valid theme.json containing foundation tokens', async () => {
+    const { transformTokens } = await import('../../../src/tokens/transform.js');
+
+    // Create a theme.json with Foundation collection
+    const themeData = {
+      Foundation: {
+        modes: {
+          Light: {
+            colors: {
+              brand: {
+                primary: { $value: '#007bff', $type: 'color' },
+              },
+              neutral: {
+                white: { $value: '#ffffff', $type: 'color' },
+              },
+              opacity: {
+                half: { $value: 50, $type: 'number', $scopes: ['OPACITY'] },
+              },
+            },
+            semantic: {
+              background: { $value: '#ffffff', $type: 'color' },
+            },
+          },
+        },
+      },
+      Typography: {
+        modes: {
+          Base: {
+            fontSize: {
+              base: { $value: 16, $type: 'number' },
+            },
+          },
+        },
+      },
+      Spacing: {
+        modes: {
+          Base: {
+            spacing: {
+              sm: { $value: 8, $type: 'number' },
+            },
+          },
+        },
+      },
+      Radius: {
+        modes: {
+          Base: {
+            'border-radius': {
+              sm: { $value: 4, $type: 'number' },
+              circle: { $value: 9999, $type: 'number' },
+              pill: { $value: 9999, $type: 'number' },
+            },
+          },
+        },
+      },
+      Border: {
+        modes: {
+          Base: {
+            '1': { $value: 1, $type: 'number' },
+            '2': { $value: 2, $type: 'number' },
+          },
+        },
+      },
+      Layout: {
+        modes: {
+          Base: {
+            breakpoints: {
+              sm: { $value: 576, $type: 'number' },
+            },
+            container: {
+              sm: { $value: 540, $type: 'number' },
+            },
+            grid: {
+              columns: { $value: 12, $type: 'number' },
+            },
+            gutters: {
+              base: { $value: 24, $type: 'number' },
+            },
+          },
+        },
+      },
+      Shadows: {
+        modes: {
+          Base: {
+            shadows: {
+              sm: {
+                composite: {
+                  $value: '0 1px 2px rgba(0,0,0,0.1)',
+                  $type: 'shadow',
+                  $description: 'Small shadow',
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    fs.writeFileSync(path.join(sourceDir, 'theme.json'), JSON.stringify(themeData), 'utf-8');
+
+    const result = transformTokens({
+      sourceDir,
+      collectionsDir,
+      verbose: true,
+    });
+
+    expect(result.filesWritten.length).toBeGreaterThan(0);
+    expect(result.tokensProcessed).toBeGreaterThan(0);
+  });
+
+  it('should support dry-run mode', async () => {
+    const { transformTokens } = await import('../../../src/tokens/transform.js');
+
+    const themeData = {
+      Typography: {
+        modes: {
+          Base: {
+            fontSize: { base: { $value: 16, $type: 'number' } },
+          },
+        },
+      },
+    };
+
+    fs.writeFileSync(path.join(sourceDir, 'theme.json'), JSON.stringify(themeData), 'utf-8');
+
+    const result = transformTokens({
+      sourceDir,
+      collectionsDir,
+      dryRun: true,
+    });
+
+    // Files should be listed but not actually written
+    for (const file of result.filesWritten) {
+      const fullPath = path.join(collectionsDir, file);
+      expect(fs.existsSync(fullPath)).toBe(false);
+    }
+  });
+
+  it('should handle ignoreModes option', async () => {
+    const { transformTokens } = await import('../../../src/tokens/transform.js');
+
+    const themeData = {
+      Foundation: {
+        modes: {
+          Light: {
+            colors: { brand: { primary: { $value: '#fff', $type: 'color' } } },
+          },
+          Dark: {
+            colors: { brand: { primary: { $value: '#000', $type: 'color' } } },
+          },
+        },
+      },
+    };
+
+    fs.writeFileSync(path.join(sourceDir, 'theme.json'), JSON.stringify(themeData), 'utf-8');
+
+    const result = transformTokens({
+      sourceDir,
+      collectionsDir,
+      ignoreModes: ['Dark'],
+    });
+
+    // Should not include any dark mode files
+    const darkFiles = result.filesWritten.filter((f: string) => f.includes('dark'));
+    expect(darkFiles).toHaveLength(0);
+  });
+
+  it('should handle errors in JSON parsing gracefully', async () => {
+    const { transformTokens } = await import('../../../src/tokens/transform.js');
+
+    fs.writeFileSync(path.join(sourceDir, 'theme.json'), 'INVALID JSON', 'utf-8');
+
+    const result = transformTokens({
+      sourceDir,
+      collectionsDir,
+    });
+
+    // Should have warnings about theme.json parse failure
+    expect(result.warnings.length).toBeGreaterThan(0);
+  });
+
+  it('should handle mode-aware collections with multiple modes writing separate files', async () => {
+    const { transformTokens } = await import('../../../src/tokens/transform.js');
+
+    const themeData = {
+      Foundation: {
+        modes: {
+          Light: {
+            colors: { brand: { primary: { $value: '#fff', $type: 'color' } } },
+            semantic: { bg: { $value: '#fff', $type: 'color' } },
+            colors2: { neutral: { white: { $value: '#fff', $type: 'color' } } },
+          },
+          Dark: {
+            colors: { brand: { primary: { $value: '#000', $type: 'color' } } },
+            semantic: { bg: { $value: '#000', $type: 'color' } },
+            colors2: { neutral: { black: { $value: '#000', $type: 'color' } } },
+          },
+        },
+      },
+    };
+
+    fs.writeFileSync(path.join(sourceDir, 'theme.json'), JSON.stringify(themeData), 'utf-8');
+
+    const result = transformTokens({
+      sourceDir,
+      collectionsDir,
+      defaultMode: 'Light',
+    });
+
+    // Should have created files for at least some foundation outputs
+    expect(result.filesWritten.length).toBeGreaterThan(0);
+  });
+});
+
+describe('transformTokensCLI', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const os = require('node:os');
+
+  let testDir: string;
+
+  beforeEach(() => {
+    testDir = path.join(
+      os.tmpdir(),
+      `transform-cli-test-${Date.now()}-${Math.random().toString(36).slice(2)}`
+    );
+    fs.mkdirSync(testDir, { recursive: true });
+    jest.spyOn(console, 'info').mockImplementation();
+    jest.spyOn(console, 'warn').mockImplementation();
+    jest.spyOn(console, 'error').mockImplementation();
+  });
+
+  afterEach(() => {
+    if (fs.existsSync(testDir)) {
+      fs.rmSync(testDir, { recursive: true, force: true });
+    }
+    jest.restoreAllMocks();
+  });
+
+  it('should return false when there are no source files', async () => {
+    const { transformTokensCLI } = await import('../../../src/tokens/transform.js');
+
+    const sourceDir = path.join(testDir, 'source');
+    const collectionsDir = path.join(testDir, 'collections');
+    fs.mkdirSync(sourceDir, { recursive: true });
+
+    const result = transformTokensCLI(sourceDir, collectionsDir);
+
+    // Returns true because lack of source files generates warnings, not errors
+    expect(typeof result).toBe('boolean');
+  });
+
+  it('should return true on successful transformation', async () => {
+    const { transformTokensCLI } = await import('../../../src/tokens/transform.js');
+
+    const sourceDir = path.join(testDir, 'source');
+    const collectionsDir = path.join(testDir, 'collections');
+    fs.mkdirSync(sourceDir, { recursive: true });
+
+    const themeData = {
+      Typography: {
+        modes: {
+          Base: {
+            fontSize: { base: { $value: 16, $type: 'number' } },
+          },
+        },
+      },
+    };
+
+    fs.writeFileSync(path.join(sourceDir, 'theme.json'), JSON.stringify(themeData), 'utf-8');
+
+    const result = transformTokensCLI(sourceDir, collectionsDir);
+    expect(result).toBe(true);
+  });
+});

@@ -572,4 +572,281 @@ describe('validateTokens', () => {
       expect(result.errors.some((e) => e.message.includes('Failed to parse file'))).toBe(true);
     });
   });
+
+  describe('verbose mode', () => {
+    let consoleSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      consoleSpy = jest.spyOn(console, 'info').mockImplementation();
+      jest.spyOn(console, 'warn').mockImplementation();
+      jest.spyOn(console, 'error').mockImplementation();
+    });
+
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+
+    it('should log info in verbose mode', async () => {
+      const testDir = join(tempDir, 'verbose-test');
+      writeTokenFile(testDir, 'tokens.json', {
+        $type: 'color',
+        primary: { $value: '#fff' },
+      });
+
+      const config = createTestConfig(testDir);
+      await validateTokens(config, { verbose: true });
+
+      expect(consoleSpy).toHaveBeenCalled();
+    });
+
+    it('should log validation success with warnings', async () => {
+      const testDir = join(tempDir, 'verbose-warn');
+      writeTokenFile(testDir, 'tokens.json', {
+        primary: { $value: '#fff' }, // Missing type
+      });
+
+      const config = createTestConfig(testDir);
+      await validateTokens(config, { verbose: false, quiet: false });
+
+      // Should log success with warnings
+      expect(consoleSpy).toHaveBeenCalled();
+    });
+
+    it('should log error count on failed validation', async () => {
+      const testDir = join(tempDir, 'verbose-error');
+      writeTokenFile(testDir, 'tokens.json', {
+        bad: { $type: 'color', $value: 'not-a-color' },
+      });
+
+      const config = createTestConfig(testDir);
+      const errorSpy = jest.spyOn(console, 'error').mockImplementation();
+      await validateTokens(config, { verbose: false, quiet: false });
+
+      expect(errorSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('dimension validation edge cases', () => {
+    it('should validate negative dimensions', async () => {
+      const testDir = join(tempDir, 'neg-dimensions');
+      writeTokenFile(testDir, 'dims.json', {
+        $type: 'dimension',
+        neg: { $value: '-16px' },
+      });
+
+      const config = createTestConfig(testDir);
+      const result = await validateTokens(config, { quiet: true });
+
+      expect(result.valid).toBe(true);
+    });
+
+    it('should validate positive sign dimensions', async () => {
+      const testDir = join(tempDir, 'pos-dimensions');
+      writeTokenFile(testDir, 'dims.json', {
+        $type: 'dimension',
+        pos: { $value: '+16px' },
+      });
+
+      const config = createTestConfig(testDir);
+      const result = await validateTokens(config, { quiet: true });
+
+      expect(result.valid).toBe(true);
+    });
+
+    it('should validate decimal dimensions', async () => {
+      const testDir = join(tempDir, 'decimal-dims');
+      writeTokenFile(testDir, 'dims.json', {
+        $type: 'dimension',
+        half: { $value: '0.5rem' },
+      });
+
+      const config = createTestConfig(testDir);
+      const result = await validateTokens(config, { quiet: true });
+
+      expect(result.valid).toBe(true);
+    });
+
+    it('should reject empty string dimension', async () => {
+      const testDir = join(tempDir, 'empty-dim');
+      writeTokenFile(testDir, 'dims.json', {
+        $type: 'dimension',
+        empty: { $value: '' },
+      });
+
+      const config = createTestConfig(testDir);
+      const result = await validateTokens(config, { quiet: true });
+
+      // Empty is a warning, not a dimension error
+      expect(result.warnings.some((w) => w.message.includes('empty string'))).toBe(true);
+    });
+
+    it('should reject dimension with invalid unit', async () => {
+      const testDir = join(tempDir, 'bad-unit');
+      writeTokenFile(testDir, 'dims.json', {
+        bad: { $type: 'dimension', $value: '16xyz' },
+      });
+
+      const config = createTestConfig(testDir);
+      const result = await validateTokens(config, { quiet: true });
+
+      expect(result.valid).toBe(false);
+      expect(result.errors.some((e) => e.message.includes('Invalid dimension'))).toBe(true);
+    });
+
+    it('should validate unitless number as dimension (e.g., line-height)', async () => {
+      const testDir = join(tempDir, 'unitless-dim');
+      writeTokenFile(testDir, 'dims.json', {
+        lineHeight: { $type: 'dimension', $value: '1.5' },
+      });
+
+      const config = createTestConfig(testDir);
+      const result = await validateTokens(config, { quiet: true });
+
+      expect(result.valid).toBe(true);
+    });
+
+    it('should validate additional CSS units (pt, cm, mm, in, ch, ex, vmin, vmax)', async () => {
+      const testDir = join(tempDir, 'extra-units');
+      writeTokenFile(testDir, 'dims.json', {
+        $type: 'dimension',
+        pt: { $value: '12pt' },
+        cm: { $value: '2cm' },
+        mm: { $value: '10mm' },
+        inch: { $value: '1in' },
+        ch: { $value: '2ch' },
+        ex: { $value: '1.5ex' },
+        vmin: { $value: '50vmin' },
+        vmax: { $value: '80vmax' },
+      });
+
+      const config = createTestConfig(testDir);
+      const result = await validateTokens(config, { quiet: true });
+
+      expect(result.valid).toBe(true);
+    });
+  });
+
+  describe('font weight validation edge cases', () => {
+    it('should validate font weight keyword "lighter"', async () => {
+      const testDir = join(tempDir, 'fw-lighter');
+      writeTokenFile(testDir, 'fw.json', {
+        lighter: { $type: 'fontWeight', $value: 'lighter' },
+      });
+
+      const config = createTestConfig(testDir);
+      const result = await validateTokens(config, { quiet: true });
+
+      expect(result.valid).toBe(true);
+    });
+
+    it('should validate font weight keyword "bolder"', async () => {
+      const testDir = join(tempDir, 'fw-bolder');
+      writeTokenFile(testDir, 'fw.json', {
+        bolder: { $type: 'fontWeight', $value: 'bolder' },
+      });
+
+      const config = createTestConfig(testDir);
+      const result = await validateTokens(config, { quiet: true });
+
+      expect(result.valid).toBe(true);
+    });
+
+    it('should validate font weight reference', async () => {
+      const testDir = join(tempDir, 'fw-ref');
+      writeTokenFile(testDir, 'fw.json', {
+        ref: { $type: 'fontWeight', $value: '{fontWeight.regular}' },
+      });
+
+      const config = createTestConfig(testDir);
+      const result = await validateTokens(config, { quiet: true });
+
+      expect(result.valid).toBe(true);
+    });
+
+    it('should reject invalid font weight string', async () => {
+      const testDir = join(tempDir, 'fw-invalid');
+      writeTokenFile(testDir, 'fw.json', {
+        bad: { $type: 'fontWeight', $value: 'super-heavy' },
+      });
+
+      const config = createTestConfig(testDir);
+      const result = await validateTokens(config, { quiet: true });
+
+      expect(result.valid).toBe(false);
+    });
+
+    it('should validate boundary font weights (1 and 1000)', async () => {
+      const testDir = join(tempDir, 'fw-boundary');
+      writeTokenFile(testDir, 'fw.json', {
+        $type: 'fontWeight',
+        min: { $value: '1' },
+        max: { $value: '1000' },
+      });
+
+      const config = createTestConfig(testDir);
+      const result = await validateTokens(config, { quiet: true });
+
+      expect(result.valid).toBe(true);
+    });
+  });
+
+  describe('color validation edge cases', () => {
+    it('should validate named color "currentcolor"', async () => {
+      const testDir = join(tempDir, 'named-current');
+      writeTokenFile(testDir, 'colors.json', {
+        $type: 'color',
+        current: { $value: 'currentcolor' },
+      });
+
+      const config = createTestConfig(testDir);
+      const result = await validateTokens(config, { quiet: true });
+
+      expect(result.valid).toBe(true);
+    });
+
+    it('should validate named color "inherit"', async () => {
+      const testDir = join(tempDir, 'named-inherit');
+      writeTokenFile(testDir, 'colors.json', {
+        $type: 'color',
+        inherit: { $value: 'inherit' },
+      });
+
+      const config = createTestConfig(testDir);
+      const result = await validateTokens(config, { quiet: true });
+
+      expect(result.valid).toBe(true);
+    });
+
+    it('should validate color reference', async () => {
+      const testDir = join(tempDir, 'color-ref');
+      writeTokenFile(testDir, 'colors.json', {
+        $type: 'color',
+        ref: { $value: '{colors.primary}' },
+      });
+
+      const config = createTestConfig(testDir);
+      const result = await validateTokens(config, { quiet: true });
+
+      expect(result.valid).toBe(true);
+    });
+  });
+
+  describe('nested collection validation', () => {
+    it('should skip metadata keys starting with $', async () => {
+      const testDir = join(tempDir, 'skip-meta');
+      writeTokenFile(testDir, 'tokens.json', {
+        $schema: 'https://example.com/schema',
+        $description: 'Top-level description',
+        color: {
+          primary: { $value: '#fff', $type: 'color' },
+        },
+      });
+
+      const config = createTestConfig(testDir);
+      const result = await validateTokens(config, { quiet: true });
+
+      expect(result.valid).toBe(true);
+      expect(result.tokenCount).toBe(1); // Only the token, not $ metadata
+    });
+  });
 });

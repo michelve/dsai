@@ -415,3 +415,317 @@ describe('generateAndWriteChangelog', () => {
     expect(result.written).toBe(false);
   });
 });
+
+// ============================================================================
+// Additional Coverage Tests
+// ============================================================================
+
+describe('generateChangelog - flat list mode (groupByType: false)', () => {
+  it('should render all changes as flat list', () => {
+    const diff: TokenDiff = {
+      added: [{ path: 'token.new', type: 'added', breaking: false }],
+      removed: [{ path: 'token.old', type: 'removed', breaking: true }],
+      modified: [
+        {
+          path: 'token.changed',
+          type: 'modified',
+          breaking: false,
+          valueChange: { oldValue: 'old', newValue: 'new' },
+        },
+      ],
+      typeChanged: [],
+      deprecated: [],
+      totalChanges: 3,
+      hasBreaking: true,
+    };
+
+    const result = generateChangelog(diff, { groupByType: false });
+
+    // Should NOT have section headers
+    expect(result.content).not.toContain('### Added');
+    expect(result.content).not.toContain('### Breaking Changes');
+    // Should have the token paths
+    expect(result.content).toContain('`token.new`');
+    expect(result.content).toContain('`token.old`');
+    expect(result.content).toContain('`token.changed`');
+    expect(result.entryCount).toBe(3);
+  });
+
+  it('should include value changes in flat mode', () => {
+    const diff: TokenDiff = {
+      added: [],
+      removed: [],
+      modified: [
+        {
+          path: 'color.primary',
+          type: 'modified',
+          breaking: false,
+          valueChange: { oldValue: '#000', newValue: '#111' },
+        },
+      ],
+      typeChanged: [],
+      deprecated: [],
+      totalChanges: 1,
+      hasBreaking: false,
+    };
+
+    const result = generateChangelog(diff, { groupByType: false, includeValues: true });
+    expect(result.content).toContain('Before:');
+    expect(result.content).toContain('After:');
+  });
+});
+
+describe('formatValue edge cases', () => {
+  it('should truncate very long non-string values', () => {
+    const diff: TokenDiff = {
+      added: [],
+      removed: [],
+      modified: [
+        {
+          path: 'token',
+          type: 'modified',
+          breaking: false,
+          valueChange: {
+            oldValue: { deeply: { nested: { value: 'x'.repeat(200) } } },
+            newValue: 'short',
+          },
+        },
+      ],
+      typeChanged: [],
+      deprecated: [],
+      totalChanges: 1,
+      hasBreaking: false,
+    };
+
+    const result = generateChangelog(diff, { maxValueLength: 30, includeValues: true });
+    expect(result.content).toContain('...');
+  });
+
+  it('should display short values without truncation', () => {
+    const diff: TokenDiff = {
+      added: [],
+      removed: [],
+      modified: [
+        {
+          path: 'token',
+          type: 'modified',
+          breaking: false,
+          valueChange: { oldValue: 'a', newValue: 'b' },
+        },
+      ],
+      typeChanged: [],
+      deprecated: [],
+      totalChanges: 1,
+      hasBreaking: false,
+    };
+
+    const result = generateChangelog(diff, { includeValues: true });
+    expect(result.content).not.toContain('...');
+    expect(result.content).toContain('Before: `a`');
+    expect(result.content).toContain('After: `b`');
+  });
+});
+
+describe('formatDate', () => {
+  it('should format date correctly with zero-padded month/day', () => {
+    const date = new Date(Date.UTC(2024, 0, 5)); // Jan 5
+    const diff: TokenDiff = {
+      added: [{ path: 'x', type: 'added', breaking: false }],
+      removed: [],
+      modified: [],
+      typeChanged: [],
+      deprecated: [],
+      totalChanges: 1,
+      hasBreaking: false,
+    };
+
+    const result = generateChangelog(diff, { date });
+    expect(result.content).toContain('2024-01-05');
+  });
+});
+
+describe('writeChangelog - prepend to file without header', () => {
+  beforeEach(async () => {
+    await mkdir(TEST_OUTPUT_DIR, { recursive: true });
+  });
+
+  afterEach(async () => {
+    await rm(TEST_OUTPUT_DIR, { recursive: true, force: true });
+  });
+
+  it('should prepend content when file has no # header', async () => {
+    const filePath = join(TEST_OUTPUT_DIR, 'PLAIN-CHANGELOG.md');
+
+    // Create file starting without # (plain text)
+    const { writeFile: fsWriteFile } = await import('node:fs/promises');
+    await fsWriteFile(filePath, 'Some old content\nwithout header\n', 'utf-8');
+
+    const newContent = '## [2.0.0] - 2024-06-01\n\nNew stuff.\n';
+    await writeChangelog(newContent, filePath);
+
+    const written = await readFile(filePath, 'utf-8');
+    // New content should come before old content
+    expect(written.indexOf('[2.0.0]')).toBeLessThan(written.indexOf('Some old content'));
+  });
+});
+
+describe('escapeMarkdown', () => {
+  it('should escape backtick characters in token paths', () => {
+    const diff: TokenDiff = {
+      added: [{ path: 'token`with`backticks', type: 'added', breaking: false }],
+      removed: [],
+      modified: [],
+      typeChanged: [],
+      deprecated: [],
+      totalChanges: 1,
+      hasBreaking: false,
+    };
+
+    const result = generateChangelog(diff);
+    expect(result.content).toContain('token\\`with\\`backticks');
+  });
+});
+
+// ============================================================================
+// generateChangelogCLI Tests
+// ============================================================================
+
+describe('generateChangelogCLI', () => {
+  let generateChangelogCLI: typeof import('../changelog.js').generateChangelogCLI;
+  let consoleSpy: jest.SpyInstance;
+  let errorSpy: jest.SpyInstance;
+
+  beforeAll(async () => {
+    const mod = await import('../changelog.js');
+    generateChangelogCLI = mod.generateChangelogCLI;
+  });
+
+  beforeEach(async () => {
+    await mkdir(TEST_OUTPUT_DIR, { recursive: true });
+    consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+    errorSpy = jest.spyOn(console, 'error').mockImplementation();
+  });
+
+  afterEach(async () => {
+    await rm(TEST_OUTPUT_DIR, { recursive: true, force: true });
+    consoleSpy.mockRestore();
+    errorSpy.mockRestore();
+  });
+
+  it('should generate changelog from two token files', async () => {
+    const { writeFile: fsWriteFile } = await import('node:fs/promises');
+
+    const oldFile = join(TEST_OUTPUT_DIR, 'old-tokens.json');
+    const newFile = join(TEST_OUTPUT_DIR, 'new-tokens.json');
+    const outputFile = join(TEST_OUTPUT_DIR, 'CLI-CHANGELOG.md');
+
+    const oldTokens = {
+      color: {
+        primary: { $value: '#000', $type: 'color' },
+        removed: { $value: '#fff', $type: 'color' },
+      },
+    };
+
+    const newTokens = {
+      color: {
+        primary: { $value: '#111', $type: 'color' },
+        added: { $value: '#222', $type: 'color' },
+      },
+    };
+
+    await fsWriteFile(oldFile, JSON.stringify(oldTokens), 'utf-8');
+    await fsWriteFile(newFile, JSON.stringify(newTokens), 'utf-8');
+
+    const success = await generateChangelogCLI(oldFile, newFile, outputFile, '1.0.0');
+
+    expect(success).toBe(true);
+    expect(consoleSpy).toHaveBeenCalled();
+  });
+
+  it('should return true when no changes detected', async () => {
+    const { writeFile: fsWriteFile } = await import('node:fs/promises');
+
+    const oldFile = join(TEST_OUTPUT_DIR, 'same-old.json');
+    const newFile = join(TEST_OUTPUT_DIR, 'same-new.json');
+
+    const tokens = {
+      color: { primary: { $value: '#000', $type: 'color' } },
+    };
+
+    await fsWriteFile(oldFile, JSON.stringify(tokens), 'utf-8');
+    await fsWriteFile(newFile, JSON.stringify(tokens), 'utf-8');
+
+    const success = await generateChangelogCLI(oldFile, newFile);
+    expect(success).toBe(true);
+  });
+
+  it('should return false when old file does not exist', async () => {
+    const oldFile = join(TEST_OUTPUT_DIR, 'nonexistent.json');
+    const newFile = join(TEST_OUTPUT_DIR, 'new.json');
+
+    const { writeFile: fsWriteFile } = await import('node:fs/promises');
+    await fsWriteFile(newFile, '{}', 'utf-8');
+
+    const success = await generateChangelogCLI(oldFile, newFile);
+    expect(success).toBe(false);
+    expect(errorSpy).toHaveBeenCalled();
+  });
+
+  it('should return false for invalid JSON in token files', async () => {
+    const { writeFile: fsWriteFile } = await import('node:fs/promises');
+
+    const oldFile = join(TEST_OUTPUT_DIR, 'bad-old.json');
+    const newFile = join(TEST_OUTPUT_DIR, 'bad-new.json');
+
+    await fsWriteFile(oldFile, 'NOT JSON', 'utf-8');
+    await fsWriteFile(newFile, '{}', 'utf-8');
+
+    const success = await generateChangelogCLI(oldFile, newFile);
+    expect(success).toBe(false);
+  });
+});
+
+// ============================================================================
+// formatSection edge case (empty changes)
+// ============================================================================
+
+describe('formatSection with empty changes via generateChangelog', () => {
+  it('should not render section for empty removed list', () => {
+    const diff: TokenDiff = {
+      added: [{ path: 'x', type: 'added', breaking: false }],
+      removed: [],
+      modified: [],
+      typeChanged: [],
+      deprecated: [],
+      totalChanges: 1,
+      hasBreaking: false,
+    };
+
+    const result = generateChangelog(diff);
+    expect(result.content).not.toContain('### Breaking Changes');
+    expect(result.content).toContain('### Added');
+  });
+
+  it('should not render deprecated section when empty', () => {
+    const diff: TokenDiff = {
+      added: [],
+      removed: [],
+      modified: [
+        {
+          path: 'token',
+          type: 'modified',
+          breaking: false,
+          valueChange: { oldValue: 'a', newValue: 'b' },
+        },
+      ],
+      typeChanged: [],
+      deprecated: [],
+      totalChanges: 1,
+      hasBreaking: false,
+    };
+
+    const result = generateChangelog(diff);
+    expect(result.content).not.toContain('### Deprecated');
+    expect(result.content).toContain('### Changed');
+  });
+});

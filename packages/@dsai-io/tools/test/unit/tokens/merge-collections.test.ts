@@ -503,4 +503,230 @@ describe('tokens/merge', () => {
       expect(modes.Dark?.fg).toBeDefined();
     });
   });
+
+  // ==========================================================================
+  // Reference Normalization
+  // ==========================================================================
+
+  describe('Reference Normalization', () => {
+    it('should normalize token references to lowercase', () => {
+      const file1 = createCollectionFile('a.json', 'Colors', {
+        modes: {
+          Light: {
+            colors: {
+              brand: {
+                primary: { $type: 'color', $value: '#007bff' },
+              },
+            },
+          },
+        },
+      });
+      const file2 = createCollectionFile('b.json', 'Colors', {
+        modes: {
+          Light: {
+            semantic: {
+              bg: { $type: 'color', $value: '{Colors.colors.brand.primary}' },
+            },
+          },
+        },
+      });
+
+      const outputFile = join(testDir, 'output.json');
+
+      mergeCollections({
+        sourceFiles: [file1, file2],
+        outputFile,
+      });
+
+      const content = JSON.parse(readFileSync(outputFile, 'utf8')) as unknown[];
+      const colors = (content[0] as Record<string, unknown>).Colors as Record<string, unknown>;
+      const modes = colors.modes as Record<string, Record<string, unknown>>;
+      const semantic = modes.Light?.semantic as Record<string, Record<string, unknown>>;
+
+      // Reference should be normalized to lowercase
+      expect(typeof semantic?.bg?.$value).toBe('string');
+      const refValue = semantic?.bg?.$value as string;
+      expect(refValue.startsWith('{colors.')).toBe(true);
+    });
+
+    it('should add $collectionName to aliased tokens', () => {
+      const file1 = createCollectionFile('a.json', 'Colors', {
+        primary: { $type: 'color', $value: '#007bff' },
+      });
+      const file2 = createCollectionFile('b.json', 'Colors', {
+        alias: { $type: 'color', $value: '{Colors.primary}' },
+      });
+
+      const outputFile = join(testDir, 'output.json');
+
+      mergeCollections({
+        sourceFiles: [file1, file2],
+        outputFile,
+      });
+
+      const content = JSON.parse(readFileSync(outputFile, 'utf8')) as unknown[];
+      const colors = (content[0] as Record<string, unknown>).Colors as Record<string, unknown>;
+      const alias = colors.alias as Record<string, unknown>;
+
+      expect(alias.$collectionName).toBeDefined();
+    });
+  });
+
+  // ==========================================================================
+  // Deep Merge - Conflict Resolution
+  // ==========================================================================
+
+  describe('Deep Merge - Conflict Resolution', () => {
+    it('should prefer children structure over single token when target has children', () => {
+      const file1 = createCollectionFile('a.json', 'Colors', {
+        brand: {
+          primary: { $type: 'color', $value: '#007bff' },
+          secondary: { $type: 'color', $value: '#6c757d' },
+        },
+      });
+      const file2 = createCollectionFile('b.json', 'Colors', {
+        brand: { $type: 'color', $value: '#single' },
+      });
+
+      const outputFile = join(testDir, 'output.json');
+
+      mergeCollections({
+        sourceFiles: [file1, file2],
+        outputFile,
+        verbose: true,
+      });
+
+      const content = JSON.parse(readFileSync(outputFile, 'utf8')) as unknown[];
+      const colors = (content[0] as Record<string, unknown>).Colors as Record<string, unknown>;
+      const brand = colors.brand as Record<string, unknown>;
+
+      // Should keep children structure from file1, not single token from file2
+      expect(brand.primary).toBeDefined();
+    });
+
+    it('should replace single token with children structure', () => {
+      const file1 = createCollectionFile('a.json', 'Colors', {
+        brand: { $type: 'color', $value: '#single' },
+      });
+      const file2 = createCollectionFile('b.json', 'Colors', {
+        brand: {
+          primary: { $type: 'color', $value: '#007bff' },
+          secondary: { $type: 'color', $value: '#6c757d' },
+        },
+      });
+
+      const outputFile = join(testDir, 'output.json');
+
+      mergeCollections({
+        sourceFiles: [file1, file2],
+        outputFile,
+        verbose: true,
+      });
+
+      const content = JSON.parse(readFileSync(outputFile, 'utf8')) as unknown[];
+      const colors = (content[0] as Record<string, unknown>).Colors as Record<string, unknown>;
+      const brand = colors.brand as Record<string, unknown>;
+
+      // Should have children from file2
+      expect(brand.primary).toBeDefined();
+      expect(brand.secondary).toBeDefined();
+    });
+  });
+
+  // ==========================================================================
+  // Duplicate Section Removal
+  // ==========================================================================
+
+  describe('Duplicate Section Removal', () => {
+    it('should remove sections that are purely reference aliases', () => {
+      // Create a section with > 10 references (threshold for duplicate detection)
+      const aliasSection: Record<string, unknown> = {};
+      for (let i = 0; i < 12; i++) {
+        aliasSection[`color${i}`] = { $value: `{colors.brand.color${i}}`, $type: 'color' };
+      }
+
+      const file1 = createCollectionFile('a.json', 'Colors', {
+        modes: {
+          Light: {
+            colors: {
+              brand: {
+                color0: { $value: '#000', $type: 'color' },
+                color1: { $value: '#111', $type: 'color' },
+              },
+              hue: aliasSection, // This is a duplicate section (all references)
+            },
+          },
+        },
+      });
+      const file2 = createCollectionFile('b.json', 'Colors', {
+        modes: {
+          Light: {
+            colors: {
+              extra: { $value: '#fff', $type: 'color' },
+            },
+          },
+        },
+      });
+
+      const outputFile = join(testDir, 'output.json');
+
+      mergeCollections({
+        sourceFiles: [file1, file2],
+        outputFile,
+        verbose: true,
+      });
+
+      const content = JSON.parse(readFileSync(outputFile, 'utf8')) as unknown[];
+      const colors = (content[0] as Record<string, unknown>).Colors as Record<string, unknown>;
+      const modes = colors.modes as Record<string, Record<string, unknown>>;
+      const light = modes.Light as Record<string, unknown>;
+      const lightColors = light.colors as Record<string, unknown>;
+
+      // The "hue" section should have been removed as duplicate
+      expect(lightColors.hue).toBeUndefined();
+    });
+  });
+
+  // ==========================================================================
+  // Edge Cases
+  // ==========================================================================
+
+  describe('Edge Cases', () => {
+    it('should handle empty array collection file', () => {
+      const file1 = join(testDir, 'empty-array.json');
+      writeFileSync(file1, JSON.stringify([]), 'utf8');
+
+      const file2 = createCollectionFile('b.json', 'Colors', {
+        primary: { $type: 'color', $value: '#fff' },
+      });
+
+      const result = mergeCollections({
+        sourceFiles: [file1, file2],
+        outputFile: join(testDir, 'output.json'),
+      });
+
+      // Empty array has no first element, so invalid structure
+      expect(result.success).toBe(false);
+      expect(result.errors?.some((e) => e.includes('Invalid collection structure'))).toBe(true);
+    });
+
+    it('should handle undefined source values in deep merge', () => {
+      const file1 = createCollectionFile('a.json', 'Colors', {
+        primary: { $type: 'color', $value: '#fff' },
+      });
+      const file2 = createCollectionFile('b.json', 'Colors', {
+        primary: { $type: 'color', $value: '#000' },
+        extra: null,
+      });
+
+      const outputFile = join(testDir, 'output.json');
+
+      const result = mergeCollections({
+        sourceFiles: [file1, file2],
+        outputFile,
+      });
+
+      expect(result.success).toBe(true);
+    });
+  });
 });

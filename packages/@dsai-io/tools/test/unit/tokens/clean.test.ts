@@ -483,3 +483,257 @@ describe('cleanTokensCLI', () => {
     expect(consoleSpy).toHaveBeenCalled();
   });
 });
+
+// ============================================================================
+// Additional Coverage Tests
+// ============================================================================
+
+describe('cleanTokenOutputs - verbose output', () => {
+  let testDir: string;
+  let consoleSpy: jest.SpyInstance;
+  let errorSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    testDir = createTestDir();
+    consoleSpy = jest.spyOn(console, 'info').mockImplementation();
+    errorSpy = jest.spyOn(console, 'error').mockImplementation();
+  });
+
+  afterEach(() => {
+    cleanupTestDir(testDir);
+    consoleSpy.mockRestore();
+    errorSpy.mockRestore();
+  });
+
+  it('should log verbose output when cleaning existing directory', () => {
+    createFileStructure(testDir, {
+      'dist/tokens.css': 'css',
+    });
+
+    cleanTokenOutputs({
+      baseDir: testDir,
+      directories: ['dist'],
+      verbose: true,
+    });
+
+    expect(consoleSpy).toHaveBeenCalled();
+  });
+
+  it('should log verbose output for non-existent directory', () => {
+    cleanTokenOutputs({
+      baseDir: testDir,
+      directories: ['nonexistent'],
+      verbose: true,
+    });
+
+    expect(consoleSpy).toHaveBeenCalled();
+  });
+
+  it('should log verbose dry-run output', () => {
+    createFileStructure(testDir, {
+      'dist/tokens.css': 'css',
+      'dist/subdir/more.css': 'more',
+    });
+
+    cleanTokenOutputs({
+      baseDir: testDir,
+      directories: ['dist'],
+      verbose: true,
+      dryRun: true,
+    });
+
+    expect(consoleSpy).toHaveBeenCalled();
+  });
+
+  it('should log verbose error output for protected directories', () => {
+    mkdirSync(join(testDir, 'src'), { recursive: true });
+
+    cleanTokenOutputs({
+      baseDir: testDir,
+      directories: ['src'],
+      verbose: true,
+    });
+
+    expect(errorSpy).toHaveBeenCalled();
+  });
+
+  it('should log preserved file info in verbose mode', () => {
+    createFileStructure(testDir, {
+      'dist/.gitkeep': '',
+      'dist/tokens.css': 'css',
+    });
+
+    cleanTokenOutputs({
+      baseDir: testDir,
+      directories: ['dist'],
+      verbose: true,
+      preserve: [],
+    });
+
+    // Should log about preserving .gitkeep
+    const calls = consoleSpy.mock.calls.flat().join(' ');
+    expect(calls).toContain('Preserving');
+  });
+});
+
+describe('cleanTokenOutputs - glob pattern matching', () => {
+  let testDir: string;
+
+  beforeEach(() => {
+    testDir = createTestDir();
+  });
+
+  afterEach(() => {
+    cleanupTestDir(testDir);
+  });
+
+  it('should match prefix patterns (e.g., "file*")', () => {
+    createFileStructure(testDir, {
+      'dist/file-a.css': 'a',
+      'dist/file-b.css': 'b',
+      'dist/other.css': 'other',
+    });
+
+    const result = cleanTokenOutputs({
+      baseDir: testDir,
+      directories: ['dist'],
+      preserve: ['file*'],
+      verbose: false,
+    });
+
+    expect(result.success).toBe(true);
+    expect(existsSync(join(testDir, 'dist/file-a.css'))).toBe(true);
+    expect(existsSync(join(testDir, 'dist/file-b.css'))).toBe(true);
+    expect(existsSync(join(testDir, 'dist/other.css'))).toBe(false);
+  });
+
+  it('should match complex glob with ? wildcard', () => {
+    createFileStructure(testDir, {
+      'dist/file1.css': 'a',
+      'dist/file2.css': 'b',
+      'dist/file10.css': 'c',
+    });
+
+    const result = cleanTokenOutputs({
+      baseDir: testDir,
+      directories: ['dist'],
+      preserve: ['file?.css'],
+      verbose: false,
+    });
+
+    expect(result.success).toBe(true);
+    // file1 and file2 match file?.css
+    expect(existsSync(join(testDir, 'dist/file1.css'))).toBe(true);
+    expect(existsSync(join(testDir, 'dist/file2.css'))).toBe(true);
+    // file10 does NOT match file?.css (? matches single char)
+    expect(existsSync(join(testDir, 'dist/file10.css'))).toBe(false);
+  });
+
+  it('should match exact pattern without wildcards', () => {
+    createFileStructure(testDir, {
+      'dist/keep-me.txt': 'keep',
+      'dist/remove-me.txt': 'remove',
+    });
+
+    const result = cleanTokenOutputs({
+      baseDir: testDir,
+      directories: ['dist'],
+      preserve: ['keep-me.txt'],
+      verbose: false,
+    });
+
+    expect(result.success).toBe(true);
+    expect(existsSync(join(testDir, 'dist/keep-me.txt'))).toBe(true);
+    expect(existsSync(join(testDir, 'dist/remove-me.txt'))).toBe(false);
+  });
+});
+
+describe('cleanTokenOutputs - protected directories', () => {
+  let testDir: string;
+
+  beforeEach(() => {
+    testDir = createTestDir();
+  });
+
+  afterEach(() => {
+    cleanupTestDir(testDir);
+  });
+
+  it('should prevent cleaning test directory', () => {
+    mkdirSync(join(testDir, 'test'), { recursive: true });
+
+    const result = cleanTokenOutputs({
+      baseDir: testDir,
+      directories: ['test'],
+      verbose: false,
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors[0]).toContain('protected');
+  });
+
+  it('should prevent cleaning tests directory', () => {
+    mkdirSync(join(testDir, 'tests'), { recursive: true });
+
+    const result = cleanTokenOutputs({
+      baseDir: testDir,
+      directories: ['tests'],
+      verbose: false,
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors[0]).toContain('protected');
+  });
+
+  it('should prevent cleaning __tests__ directory', () => {
+    mkdirSync(join(testDir, '__tests__'), { recursive: true });
+
+    const result = cleanTokenOutputs({
+      baseDir: testDir,
+      directories: ['__tests__'],
+      verbose: false,
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors[0]).toContain('protected');
+  });
+
+  it('should prevent cleaning docs directory', () => {
+    mkdirSync(join(testDir, 'docs'), { recursive: true });
+
+    const result = cleanTokenOutputs({
+      baseDir: testDir,
+      directories: ['docs'],
+      verbose: false,
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors[0]).toContain('protected');
+  });
+
+  it('should prevent cleaning config directory', () => {
+    mkdirSync(join(testDir, 'config'), { recursive: true });
+
+    const result = cleanTokenOutputs({
+      baseDir: testDir,
+      directories: ['config'],
+      verbose: false,
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors[0]).toContain('protected');
+  });
+
+  it('should prevent cleaning .github directory', () => {
+    mkdirSync(join(testDir, '.github'), { recursive: true });
+
+    const result = cleanTokenOutputs({
+      baseDir: testDir,
+      directories: ['.github'],
+      verbose: false,
+    });
+
+    expect(result.success).toBe(false);
+    expect(result.errors[0]).toContain('protected');
+  });
+});
