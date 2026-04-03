@@ -1,0 +1,28 @@
+Storybook Vercel Deployment Setup
+==================================
+
+1. Create Vercel Project
+   - Go to https://vercel.com → Add New Project
+   - Import michelve/dsai repo
+   - Framework Preset: Other
+   - Root Directory: packages/@dsai-io/storybook
+   - Build Command: cd ../.. && pnpm install && pnpm nx run @dsai-io/storybook:build
+   - Output Directory: storybook-static
+   - Install Command: (leave blank)
+
+2. Get Vercel Tokens
+   - Go to https://vercel.com/account/tokens → Create Token
+   - Save as VERCEL_TOKEN
+   - Get Org ID: vercel.com → Settings → General → "Your ID"
+   - Get Project ID: vercel.com → your project → Settings → General → "Project ID"
+
+3. Add GitHub Secrets
+   - VERCEL_TOKEN: your vercel token
+   - VERCEL_ORG_ID: your org/user ID
+   - VERCEL_PROJECT_ID: your project ID
+
+4. Add Custom Domain
+   - Vercel project → Settings → Domains → Add dsai.velismichel.com
+   - DNS: Add CNAME record: dsai → cname.vercel-dns.com
+
+5. CI workflow handles deployment automatically on push to main
