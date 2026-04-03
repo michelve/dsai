@@ -4,6 +4,10 @@
  * CircuitBreaker integration, and Error classes
  */
 
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+
 import {
   mockFigmaFile,
   mockVariablesResponse,
@@ -28,6 +32,62 @@ import { createFigmaClient, FigmaClient, FigmaClientError, FigmaConfigError } fr
 // ============================================================================
 
 /**
+ * Build a single-variable mock response for exportTokens tests.
+ * Reduces boilerplate when testing specific variable types/names.
+ */
+function buildSingleVariableResponse(opts: {
+  id: string;
+  name: string;
+  resolvedType: string;
+  value: unknown;
+  collectionName?: string;
+  description?: string;
+  scopes?: string[];
+}) {
+  const collectionId = `VariableCollectionId:${opts.id}:0`;
+  const variableId = `VariableID:${opts.id}:1`;
+  const modeId = `${opts.id}:0`;
+
+  return {
+    variableCollections: {
+      [collectionId]: {
+        id: collectionId,
+        name: opts.collectionName ?? opts.name,
+        key: `${opts.id}-key`,
+        modes: [{ modeId, name: 'default' }],
+        defaultModeId: modeId,
+        remote: false,
+        hiddenFromPublishing: false,
+        variableIds: [variableId],
+      },
+    },
+    variables: {
+      [variableId]: {
+        id: variableId,
+        name: opts.name,
+        key: `${opts.id}-var-key`,
+        variableCollectionId: collectionId,
+        resolvedType: opts.resolvedType,
+        description: opts.description ?? '',
+        hiddenFromPublishing: false,
+        valuesByMode: { [modeId]: opts.value },
+        scopes: opts.scopes ?? [],
+      },
+    },
+  };
+}
+
+/**
+ * Set up a mock fetch that returns a single-variable response for /variables/local
+ */
+function setupSingleVariableMock(opts: Parameters<typeof buildSingleVariableResponse>[0]) {
+  const response = buildSingleVariableResponse(opts);
+  setupCustomMock({
+      '/variables/local': createSuccessResponse(response),
+    });
+}
+
+/**
  * Build a mock file with specific style types for style export tests
  */
 function buildMockFileWithStyles(
@@ -48,9 +108,51 @@ function buildMockNodesResponse(
   return { nodes };
 }
 
+/**
+ * Set up a custom mock fetch with endpoint-specific handlers.
+ * Wraps createCustomMockFetch with the required type cast.
+ */
+function setupCustomMock(handlers: Record<string, unknown>) {
+  setupFetchMock(createCustomMockFetch(handlers) as unknown as typeof fetch);
+}
+
+/**
+ * Test that rate limiter warnings are logged when remaining quota is low.
+ */
+async function testRateLimiterWarning(client: FigmaClient, remaining: string, expectedPattern: RegExp) {
+  const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+  const rateLimiter = (client as any).rateLimiter;
+  rateLimiter.updateFromHeaders(
+    new Headers({
+      'x-ratelimit-remaining': remaining,
+      'x-ratelimit-limit': '1000',
+      'x-ratelimit-reset': String(Math.floor(Date.now() / 1000) + 60),
+    })
+  );
+  await client.getVariables('file-key');
+  expect(warnSpy).toHaveBeenCalled();
+  expect(
+    warnSpy.mock.calls.some((call) =>
+      call.some((arg) => typeof arg === 'string' && expectedPattern.test(arg))
+    )
+  ).toBe(true);
+  warnSpy.mockRestore();
+}
+
 // ============================================================================
 // Tests
 // ============================================================================
+
+// Create a secure temp directory for the entire test suite
+const testTmpDir = mkdtempSync(join(tmpdir(), 'dsai-test-'));
+
+afterAll(() => {
+  try {
+    rmSync(testTmpDir, { recursive: true, force: true });
+  } catch {
+    // ignore cleanup errors
+  }
+});
 
 describe('FigmaClient Export, Sync & Internals', () => {
   let client: FigmaClient;
@@ -195,11 +297,9 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
     it('returns empty objects when file has no styles', async () => {
       const emptyFile = { ...mockFigmaFile, styles: {} };
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/files/': createSuccessResponse(emptyFile),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const result = await client.exportStyles('file-key');
 
@@ -315,12 +415,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(blurNodes),
           '/files/': createSuccessResponse(fileWithBlur),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getEffectStyles('file-key');
       const blurToken = (tokens['blurs'] as Record<string, unknown>)?.['background'] as Record<string, unknown>;
@@ -348,12 +446,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(emptyNodes),
           '/files/': createSuccessResponse(fileWithEffect),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getEffectStyles('file-key');
       const effToken = (tokens['effects'] as Record<string, unknown>)?.['empty'] as Record<string, unknown>;
@@ -388,12 +484,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(innerNodes),
           '/files/': createSuccessResponse(fileWithInner),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getEffectStyles('file-key');
       const shadow = (tokens['shadows'] as Record<string, unknown>)?.['inset'] as Record<string, unknown>;
@@ -435,12 +529,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(gradientNodes),
           '/files/': createSuccessResponse(fileWithGradient),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getPaintStyles('file-key');
       const gradToken = (tokens['gradients'] as Record<string, unknown>)?.['brand'] as Record<string, unknown>;
@@ -466,12 +558,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(emptyNodes),
           '/files/': createSuccessResponse(fileWithPaint),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getPaintStyles('file-key');
       const token = (tokens['colors'] as Record<string, unknown>)?.['missing'] as Record<string, unknown>;
@@ -505,12 +595,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(opacityNodes),
           '/files/': createSuccessResponse(fileWithOpacity),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getPaintStyles('file-key');
       const token = (tokens['colors'] as Record<string, unknown>)?.['faded'] as Record<string, unknown>;
@@ -550,12 +638,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(textNodes),
           '/files/': createSuccessResponse(fileWithText),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getTextStyles('file-key');
       const textToken = (tokens['text'] as Record<string, unknown>)?.['body'] as Record<string, unknown>;
@@ -586,12 +672,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(emptyNodes),
           '/files/': createSuccessResponse(fileWithText),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getTextStyles('file-key');
       const token = (tokens['text'] as Record<string, unknown>)?.['empty'] as Record<string, unknown>;
@@ -619,12 +703,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(autoNodes),
           '/files/': createSuccessResponse(fileWithText),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getTextStyles('file-key');
       const token = (tokens['text'] as Record<string, unknown>)?.['auto'] as Record<string, unknown>;
@@ -641,7 +723,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('exports tokens from variables with separate output structure', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         format: 'dtcg',
       });
 
@@ -653,15 +735,13 @@ describe('FigmaClient Export, Sync & Internals', () => {
     });
 
     it('returns warnings when no collections found', async () => {
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/variables/local': createSuccessResponse(emptyVariablesResponse),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
       });
 
       expect(result.success).toBe(true);
@@ -673,7 +753,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('filters by collection name', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         collections: ['primitives'],
       });
 
@@ -687,7 +767,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('filters by mode name', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         modes: ['light'],
       });
 
@@ -703,7 +783,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('handles alias references without resolving', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         resolveAliases: false,
       });
 
@@ -713,7 +793,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('handles alias references with resolving', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         resolveAliases: true,
       });
 
@@ -723,7 +803,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('exports in tokens-studio format', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         format: 'tokens-studio',
       });
 
@@ -734,7 +814,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('exports in style-dictionary format', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         format: 'style-dictionary',
       });
 
@@ -743,15 +823,13 @@ describe('FigmaClient Export, Sync & Internals', () => {
     });
 
     it('returns failure result on API error', async () => {
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/variables/local': createErrorResponse(403, error403Forbidden),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
       });
 
       expect(result.success).toBe(false);
@@ -761,7 +839,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('exports with combined output structure', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         outputStructure: 'combined',
       } as any);
 
@@ -775,7 +853,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('includes descriptions when includeDescriptions is true', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         includeDescriptions: true,
       });
 
@@ -785,7 +863,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('exports effect/paint/text styles when requested', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         includeEffects: true,
         includePaints: true,
         includeTextStyles: true,
@@ -820,7 +898,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         includeEffects: true,
       } as any);
 
@@ -857,15 +935,13 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       };
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/variables/local': createSuccessResponse(remoteResponse),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
       });
 
       expect(result.success).toBe(true);
@@ -882,7 +958,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('pulls remote tokens and detects new tokens', async () => {
       const result = await client.syncTokens({
         fileKey: 'file-key',
-        tokensDir: '/tmp/dsai-sync-test-empty',
+        tokensDir: join(testTmpDir, 'sync-empty'),
         direction: 'pull',
       });
 
@@ -895,7 +971,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('returns error for push direction (not fully supported)', async () => {
       const result = await client.syncTokens({
         fileKey: 'file-key',
-        tokensDir: '/tmp/dsai-sync-test',
+        tokensDir: join(testTmpDir, 'sync-push'),
         direction: 'push',
       });
 
@@ -906,7 +982,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('performs dry run without writing', async () => {
       const result = await client.syncTokens({
         fileKey: 'file-key',
-        tokensDir: '/tmp/dsai-sync-test-dry',
+        tokensDir: join(testTmpDir, 'sync-dry'),
         direction: 'pull',
         dryRun: true,
       });
@@ -919,7 +995,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('handles backup option', async () => {
       const result = await client.syncTokens({
         fileKey: 'file-key',
-        tokensDir: '/tmp/dsai-sync-test-backup',
+        tokensDir: join(testTmpDir, 'sync-backup'),
         direction: 'pull',
         backup: true,
       });
@@ -931,7 +1007,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('handles both direction', async () => {
       const result = await client.syncTokens({
         fileKey: 'file-key',
-        tokensDir: '/tmp/dsai-sync-test-both',
+        tokensDir: join(testTmpDir, 'sync-both'),
         direction: 'both',
       });
 
@@ -942,7 +1018,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('handles manual conflict resolution', async () => {
       const result = await client.syncTokens({
         fileKey: 'file-key',
-        tokensDir: '/tmp/dsai-sync-test-conflict',
+        tokensDir: join(testTmpDir, 'sync-conflict'),
         direction: 'pull',
         conflictResolution: 'manual',
       });
@@ -951,15 +1027,13 @@ describe('FigmaClient Export, Sync & Internals', () => {
     });
 
     it('returns failure result on API error during sync', async () => {
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/variables/local': createErrorResponse(403, error403Forbidden),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const result = await client.syncTokens({
         fileKey: 'file-key',
-        tokensDir: '/tmp/dsai-sync-fail',
+        tokensDir: join(testTmpDir, 'sync-fail'),
         direction: 'pull',
       });
 
@@ -973,7 +1047,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
       await expect(
         unconfigured.syncTokens({
           fileKey: 'file-key',
-          tokensDir: '/tmp/dsai-sync-noconfig',
+          tokensDir: join(testTmpDir, 'sync-noconfig'),
           direction: 'pull',
         })
       ).rejects.toThrow(FigmaConfigError);
@@ -1089,11 +1163,9 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
   describe('getVariables', () => {
     it('handles meta-wrapped response format', async () => {
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/variables/local': createSuccessResponse({ meta: mockVariablesResponse }),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const result = await client.getVariables('file-key');
       expect(Object.keys(result.variables).length).toBeGreaterThan(0);
@@ -1150,7 +1222,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
       // typography/fontSize/base (FLOAT + /fontSize/) -> dimension
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-types',
+        outputDir: join(testTmpDir, 'types'),
         format: 'dtcg',
         collections: ['typography'],
       });
@@ -1161,96 +1233,21 @@ describe('FigmaClient Export, Sync & Internals', () => {
   });
 
   // ========================================================================
-  // Variable value conversion edge cases
+  // Variable value conversion & token type detection (parameterized)
   // ========================================================================
 
-  describe('Variable value conversion', () => {
-    it('handles boolean variables', async () => {
-      const boolResponse = {
-        variableCollections: {
-          'VariableCollectionId:B:0': {
-            id: 'VariableCollectionId:B:0',
-            name: 'flags',
-            key: 'flags-key',
-            modes: [{ modeId: 'B:0', name: 'default' }],
-            defaultModeId: 'B:0',
-            remote: false,
-            hiddenFromPublishing: false,
-            variableIds: ['VariableID:B:1'],
-          },
-        },
-        variables: {
-          'VariableID:B:1': {
-            id: 'VariableID:B:1',
-            name: 'feature/darkMode',
-            key: 'dark-mode-key',
-            variableCollectionId: 'VariableCollectionId:B:0',
-            resolvedType: 'BOOLEAN',
-            description: '',
-            hiddenFromPublishing: false,
-            valuesByMode: { 'B:0': true },
-            scopes: [],
-          },
-        },
-      };
-
-      setupFetchMock(
-        createCustomMockFetch({
-          '/variables/local': createSuccessResponse(boolResponse),
-        }) as unknown as typeof fetch
-      );
-
+  describe('Variable value conversion and type detection', () => {
+    it.each([
+      { label: 'boolean variables', id: 'B', name: 'feature/darkMode', resolvedType: 'BOOLEAN', value: true, collectionName: 'flags' },
+      { label: 'color with alpha channel', id: 'A', name: 'colors/overlay', resolvedType: 'COLOR', value: { r: 0, g: 0, b: 0, a: 0.5 }, collectionName: 'alpha-colors', scopes: ['ALL_FILLS'] },
+      { label: 'lineHeight FLOAT', id: 'LH', name: 'typography/lineHeight/base', resolvedType: 'FLOAT', value: 1.5, collectionName: 'line-heights' },
+      { label: 'letterSpacing FLOAT', id: 'LS', name: 'typography/letterSpacing/tight', resolvedType: 'FLOAT', value: -0.5, collectionName: 'letter-spacing' },
+      { label: 'STRING variables', id: 'STR', name: 'content/placeholder', resolvedType: 'STRING', value: 'Enter text...', collectionName: 'strings' },
+    ])('exports $label correctly', async ({ id, name, resolvedType, value, collectionName, scopes }) => {
+      setupSingleVariableMock({ id, name, resolvedType, value, collectionName, scopes });
       const result = await client.exportTokens({
-        fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-bool',
-        format: 'dtcg',
+        fileKey: 'file-key', outputDir: join(testTmpDir, id.toLowerCase()), format: 'dtcg',
       });
-
-      expect(result.success).toBe(true);
-      expect(result.tokenCount).toBe(1);
-    });
-
-    it('handles color with alpha channel', async () => {
-      const alphaResponse = {
-        variableCollections: {
-          'VariableCollectionId:A:0': {
-            id: 'VariableCollectionId:A:0',
-            name: 'alpha-colors',
-            key: 'alpha-key',
-            modes: [{ modeId: 'A:0', name: 'default' }],
-            defaultModeId: 'A:0',
-            remote: false,
-            hiddenFromPublishing: false,
-            variableIds: ['VariableID:A:1'],
-          },
-        },
-        variables: {
-          'VariableID:A:1': {
-            id: 'VariableID:A:1',
-            name: 'colors/overlay',
-            key: 'overlay-key',
-            variableCollectionId: 'VariableCollectionId:A:0',
-            resolvedType: 'COLOR',
-            description: '',
-            hiddenFromPublishing: false,
-            valuesByMode: { 'A:0': { r: 0, g: 0, b: 0, a: 0.5 } },
-            scopes: ['ALL_FILLS'],
-          },
-        },
-      };
-
-      setupFetchMock(
-        createCustomMockFetch({
-          '/variables/local': createSuccessResponse(alphaResponse),
-        }) as unknown as typeof fetch
-      );
-
-      const result = await client.exportTokens({
-        fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-alpha',
-        format: 'dtcg',
-      });
-
       expect(result.success).toBe(true);
       expect(result.tokenCount).toBe(1);
     });
@@ -1262,17 +1259,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
   describe('Description metadata parsing', () => {
     it('extracts structured metadata from variable descriptions', async () => {
-      // Variable 2:2 in mock has metadata in description:
-      // "Primary text color\n\nDocs.Reference: https://... • Docs.Section: Text Colors"
       const result = await client.exportTokens({
-        fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-meta',
-        format: 'dtcg',
-        includeDescriptions: true,
-        collections: ['semantic'],
-        modes: ['light'],
+        fileKey: 'file-key', outputDir: join(testTmpDir, 'meta'), format: 'dtcg',
+        includeDescriptions: true, collections: ['semantic'], modes: ['light'],
       });
-
       expect(result.success).toBe(true);
     });
   });
@@ -1284,20 +1274,146 @@ describe('FigmaClient Export, Sync & Internals', () => {
   describe('Multi-mode file naming', () => {
     it('generates separate files per mode when collection has multiple modes', async () => {
       const result = await client.exportTokens({
-        fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-modes',
-        format: 'dtcg',
+        fileKey: 'file-key', outputDir: join(testTmpDir, 'modes'), format: 'dtcg',
         collections: ['semantic'],
       });
 
       expect(result.success).toBe(true);
-      // Semantic collection has light and dark modes
       const semanticFiles = result.files.filter((f) => f.collection === 'semantic');
       expect(semanticFiles.length).toBe(2);
-      // File paths should include mode names
       const paths = semanticFiles.map((f) => f.path);
       expect(paths.some((p) => p.includes('light'))).toBe(true);
       expect(paths.some((p) => p.includes('dark'))).toBe(true);
+    });
+  });
+
+  // ========================================================================
+  // Inline metadata parsing (parameterized)
+  // ========================================================================
+
+  describe('Inline metadata parsing', () => {
+    it.each([
+      {
+        label: 'extracts inline metadata pattern',
+        id: 'M', name: 'colors/brand', resolvedType: 'COLOR',
+        value: { r: 1, g: 0, b: 0, a: 1 }, collectionName: 'meta-test',
+        description: 'Brand color Docs.Reference: https://design.dsai.io • Docs.Section: Brand',
+        scopes: ['ALL_FILLS'],
+      },
+      {
+        label: 'returns full description when no structured metadata found',
+        id: 'NM', name: 'spacing/lg', resolvedType: 'FLOAT',
+        value: 32, collectionName: 'no-meta',
+        description: 'Large spacing value\n\nUsed for major section gaps',
+      },
+    ])('$label', async ({ id, name, resolvedType, value, collectionName, description, scopes }) => {
+      setupSingleVariableMock({ id, name, resolvedType, value, collectionName, description, scopes });
+      const result = await client.exportTokens({
+        fileKey: 'file-key', outputDir: join(testTmpDir, id.toLowerCase()), format: 'dtcg',
+        includeDescriptions: true,
+      });
+      expect(result.success).toBe(true);
+    });
+  });
+
+  // ========================================================================
+  // syncTokens with existing local tokens
+  // ========================================================================
+
+  describe('syncTokens conflict resolution with existing local tokens', () => {
+    let syncDir: string;
+
+    beforeEach(async () => {
+      const fs = await import('node:fs');
+      const path = await import('node:path');
+
+      syncDir = mkdtempSync(join(testTmpDir, 'sync-conflict-'));
+
+      const localTokens = {
+        colors: {
+          blue: { '500': { $value: 'rgba(0, 0, 255, 1)', $type: 'color' } },
+          gray: { '100': { $value: 'rgba(200, 200, 200, 1)', $type: 'color' } },
+        },
+        spacing: { base: { $value: '4px', $type: 'dimension' } },
+      };
+      fs.writeFileSync(path.join(syncDir, 'primitives.json'), JSON.stringify(localTokens, null, 2));
+    });
+
+    afterEach(async () => {
+      const fs = await import('node:fs');
+      try { fs.rmSync(syncDir, { recursive: true, force: true }); } catch { /* ignore */ }
+    });
+
+    it.each([
+      { label: 'detects updated tokens', resolution: undefined, expectUpdates: true, expectConflicts: false },
+      { label: 'reports conflicts with manual resolution', resolution: 'manual' as const, expectUpdates: false, expectConflicts: true },
+      { label: 'overwrites with remote resolution', resolution: 'remote' as const, expectUpdates: true, expectConflicts: false },
+    ])('$label', async ({ resolution, expectUpdates, expectConflicts }) => {
+      const result = await client.syncTokens({
+        fileKey: 'file-key', tokensDir: syncDir, direction: 'pull',
+        ...(resolution && { conflictResolution: resolution }),
+      });
+
+      expect(result.success).toBe(true);
+      expect(result.direction).toBe('pull');
+      if (expectConflicts) {
+        expect(result.conflicts.length).toBeGreaterThan(0);
+        expect(result.conflicts[0]).toHaveProperty('path');
+        expect(result.conflicts[0]).toHaveProperty('localValue');
+        expect(result.conflicts[0]).toHaveProperty('remoteValue');
+      } else {
+        expect(result.conflicts.length).toBe(0);
+      }
+      if (expectUpdates) {
+        expect(result.updated.length + result.added.length).toBeGreaterThan(0);
+      }
+    });
+
+    it('detects removed tokens that exist locally but not remotely', async () => {
+      const fs = await import('node:fs');
+      const path = await import('node:path');
+      fs.writeFileSync(
+        path.join(syncDir, 'custom.json'),
+        JSON.stringify({ custom: { 'deprecated-token': { $value: '#ff0000', $type: 'color' } } }, null, 2)
+      );
+
+      const result = await client.syncTokens({
+        fileKey: 'file-key', tokensDir: syncDir, direction: 'pull',
+      });
+      expect(result.success).toBe(true);
+      expect(result.removed.length).toBeGreaterThan(0);
+    });
+  });
+
+  // ========================================================================
+  // exportTokens mode filtering
+  // ========================================================================
+
+  describe('exportTokens mode filtering', () => {
+    it('skips modes not in the modes filter', async () => {
+      const result = await client.exportTokens({
+        fileKey: 'file-key', outputDir: join(testTmpDir, 'mode-filter'), format: 'dtcg',
+        collections: ['semantic'], modes: ['light'],
+      });
+
+      expect(result.success).toBe(true);
+      const semanticFiles = result.files.filter((f) => f.collection === 'semantic');
+      expect(semanticFiles.length).toBe(1);
+      expect(semanticFiles[0].mode).toBe('light');
+    });
+  });
+
+  // ========================================================================
+  // Rate limiter warning paths
+  // ========================================================================
+
+  describe('Rate limiter warning paths', () => {
+    it('logs critical rate limit warning when rate limit is critical', async () => {
+      await testRateLimiterWarning(client, '5', /rate limit critically low/i);
+    });
+
+    it('logs throttle warning when rate limit is low but not critical', async () => {
+      await testRateLimiterWarning(client, '150', /throttl/i);
     });
   });
 });
