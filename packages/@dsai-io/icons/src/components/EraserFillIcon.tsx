@@ -21,7 +21,7 @@
  * <EraserFillIcon aria-label="Eraser fill" />
  * ```
  */
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useId, useMemo } from 'react';
 
 import type { IconProps } from '../types';
 
@@ -62,6 +62,8 @@ export const EraserFillIcon = forwardRef<SVGSVGElement, IconProps>(
       computedAriaHidden = undefined;
     }
 
+    const titleId = useId();
+
     const style = useMemo(
       () => ({
         width: typeof size === 'number' ? `${size}px` : size,
@@ -88,10 +90,11 @@ export const EraserFillIcon = forwardRef<SVGSVGElement, IconProps>(
         style={style}
         aria-hidden={computedAriaHidden}
         aria-label={ariaLabel}
+        aria-labelledby={!ariaLabel && title ? titleId : undefined}
         focusable="false"
         {...allowedProps}
       >
-        <title>{title || ariaLabel}</title>
+        {(title || ariaLabel) && <title id={titleId}>{title || ariaLabel}</title>}
         <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293z" />
       </svg>
     );

@@ -21,7 +21,7 @@
  * <SignTurnRightIcon aria-label="Sign turn right" />
  * ```
  */
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useId, useMemo } from 'react';
 
 import type { IconProps } from '../types';
 
@@ -62,6 +62,8 @@ export const SignTurnRightIcon = forwardRef<SVGSVGElement, IconProps>(
       computedAriaHidden = undefined;
     }
 
+    const titleId = useId();
+
     const style = useMemo(
       () => ({
         width: typeof size === 'number' ? `${size}px` : size,
@@ -88,10 +90,11 @@ export const SignTurnRightIcon = forwardRef<SVGSVGElement, IconProps>(
         style={style}
         aria-hidden={computedAriaHidden}
         aria-label={ariaLabel}
+        aria-labelledby={!ariaLabel && title ? titleId : undefined}
         focusable="false"
         {...allowedProps}
       >
-        <title>{title || ariaLabel}</title>
+        {(title || ariaLabel) && <title id={titleId}>{title || ariaLabel}</title>}
         <path d="M5 8.5A2.5 2.5 0 0 1 7.5 6H9V4.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L9.41 8.658A.25.25 0 0 1 9 8.466V7H7.5A1.5 1.5 0 0 0 6 8.5V11H5z" />
         <path
           fillRule="evenodd"

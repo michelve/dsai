@@ -21,7 +21,7 @@
  * <BackspaceIcon aria-label="Backspace" />
  * ```
  */
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useId, useMemo } from 'react';
 
 import type { IconProps } from '../types';
 
@@ -62,6 +62,8 @@ export const BackspaceIcon = forwardRef<SVGSVGElement, IconProps>(
       computedAriaHidden = undefined;
     }
 
+    const titleId = useId();
+
     const style = useMemo(
       () => ({
         width: typeof size === 'number' ? `${size}px` : size,
@@ -88,10 +90,11 @@ export const BackspaceIcon = forwardRef<SVGSVGElement, IconProps>(
         style={style}
         aria-hidden={computedAriaHidden}
         aria-label={ariaLabel}
+        aria-labelledby={!ariaLabel && title ? titleId : undefined}
         focusable="false"
         {...allowedProps}
       >
-        <title>{title || ariaLabel}</title>
+        {(title || ariaLabel) && <title id={titleId}>{title || ariaLabel}</title>}
         <path d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708l2.147-2.147 2.146 2.147a.5.5 0 0 0 .707-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.536 5.146a.5.5 0 0 0-.707 0z" />
         <path d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z" />
       </svg>

@@ -21,7 +21,7 @@
  * <ArrowDownUpIcon aria-label="Arrow down-up" />
  * ```
  */
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useId, useMemo } from 'react';
 
 import type { IconProps } from '../types';
 
@@ -62,6 +62,8 @@ export const ArrowDownUpIcon = forwardRef<SVGSVGElement, IconProps>(
       computedAriaHidden = undefined;
     }
 
+    const titleId = useId();
+
     const style = useMemo(
       () => ({
         width: typeof size === 'number' ? `${size}px` : size,
@@ -88,10 +90,11 @@ export const ArrowDownUpIcon = forwardRef<SVGSVGElement, IconProps>(
         style={style}
         aria-hidden={computedAriaHidden}
         aria-label={ariaLabel}
+        aria-labelledby={!ariaLabel && title ? titleId : undefined}
         focusable="false"
         {...allowedProps}
       >
-        <title>{title || ariaLabel}</title>
+        {(title || ariaLabel) && <title id={titleId}>{title || ariaLabel}</title>}
         <path
           fillRule="evenodd"
           d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5m-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5"

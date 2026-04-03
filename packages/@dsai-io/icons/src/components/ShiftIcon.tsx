@@ -21,7 +21,7 @@
  * <ShiftIcon aria-label="Shift" />
  * ```
  */
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useId, useMemo } from 'react';
 
 import type { IconProps } from '../types';
 
@@ -62,6 +62,8 @@ export const ShiftIcon = forwardRef<SVGSVGElement, IconProps>(
       computedAriaHidden = undefined;
     }
 
+    const titleId = useId();
+
     const style = useMemo(
       () => ({
         width: typeof size === 'number' ? `${size}px` : size,
@@ -88,10 +90,11 @@ export const ShiftIcon = forwardRef<SVGSVGElement, IconProps>(
         style={style}
         aria-hidden={computedAriaHidden}
         aria-label={ariaLabel}
+        aria-labelledby={!ariaLabel && title ? titleId : undefined}
         focusable="false"
         {...allowedProps}
       >
-        <title>{title || ariaLabel}</title>
+        {(title || ariaLabel) && <title id={titleId}>{title || ariaLabel}</title>}
         <path d="M7.27 2.047a1 1 0 0 1 1.46 0l6.345 6.77c.6.638.146 1.683-.73 1.683H11.5v3a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-3H1.654C.78 10.5.326 9.455.924 8.816zM14.346 9.5 8 2.731 1.654 9.5H4.5a1 1 0 0 1 1 1v3h5v-3a1 1 0 0 1 1-1z" />
       </svg>
     );

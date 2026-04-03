@@ -21,7 +21,7 @@
  * <HypnotizeIcon aria-label="Hypnotize" />
  * ```
  */
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useId, useMemo } from 'react';
 
 import type { IconProps } from '../types';
 
@@ -62,6 +62,8 @@ export const HypnotizeIcon = forwardRef<SVGSVGElement, IconProps>(
       computedAriaHidden = undefined;
     }
 
+    const titleId = useId();
+
     const style = useMemo(
       () => ({
         width: typeof size === 'number' ? `${size}px` : size,
@@ -88,10 +90,11 @@ export const HypnotizeIcon = forwardRef<SVGSVGElement, IconProps>(
         style={style}
         aria-hidden={computedAriaHidden}
         aria-label={ariaLabel}
+        aria-labelledby={!ariaLabel && title ? titleId : undefined}
         focusable="false"
         {...allowedProps}
       >
-        <title>{title || ariaLabel}</title>
+        {(title || ariaLabel) && <title id={titleId}>{title || ariaLabel}</title>}
         <path d="m7.949 7.998.006-.003.003.009zm.025-.028v-.03l.018.01zm0 .015.04-.022.01.006v.04l-.029.016-.021-.012zm.049.057v-.014l-.008.01zm-.05-.008h.006l-.006.004z" />
         <path
           fillRule="evenodd"

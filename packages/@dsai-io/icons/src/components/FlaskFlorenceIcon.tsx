@@ -21,7 +21,7 @@
  * <FlaskFlorenceIcon aria-label="Flask florence" />
  * ```
  */
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useId, useMemo } from 'react';
 
 import type { IconProps } from '../types';
 
@@ -62,6 +62,8 @@ export const FlaskFlorenceIcon = forwardRef<SVGSVGElement, IconProps>(
       computedAriaHidden = undefined;
     }
 
+    const titleId = useId();
+
     const style = useMemo(
       () => ({
         width: typeof size === 'number' ? `${size}px` : size,
@@ -88,10 +90,11 @@ export const FlaskFlorenceIcon = forwardRef<SVGSVGElement, IconProps>(
         style={style}
         aria-hidden={computedAriaHidden}
         aria-label={ariaLabel}
+        aria-labelledby={!ariaLabel && title ? titleId : undefined}
         focusable="false"
         {...allowedProps}
       >
-        <title>{title || ariaLabel}</title>
+        {(title || ariaLabel) && <title id={titleId}>{title || ariaLabel}</title>}
         <path d="M5.5 0a.5.5 0 0 0 0 1H6v5.416a5 5 0 1 0 4 0V1h.5a.5.5 0 0 0 0-1zM9 2h-.5a.5.5 0 0 0 0 1H9v1h-.5a.5.5 0 0 0 0 1H9v1h-.5a.5.5 0 0 0 0 1h.564a.5.5 0 0 0 .27.227A4.002 4.002 0 0 1 8 15a4 4 0 0 1-1.333-7.773.5.5 0 0 0 .333-.47V1h2z" />
       </svg>
     );

@@ -22,7 +22,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && tsc -p tsconfig.build.json --emitDeclarationOnly --outDir dist",
     "build:watch": "tsup --watch",
     "dev": "tsup --watch",
     "lint": "eslint src --ext .ts,.tsx",
