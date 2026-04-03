@@ -1385,7 +1385,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
   // ========================================================================
 
   describe('Rate limiter warning paths', () => {
-    async function testRateLimiterWarning(remaining: string) {
+    async function testRateLimiterWarning(remaining: string, expectedPattern: RegExp) {
       const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
       const rateLimiter = (client as any).rateLimiter;
       rateLimiter.updateFromHeaders(
@@ -1396,16 +1396,21 @@ describe('FigmaClient Export, Sync & Internals', () => {
         })
       );
       await client.getVariables('file-key');
-      expect(warnSpy).toBeDefined();
+      expect(warnSpy).toHaveBeenCalled();
+      expect(
+        warnSpy.mock.calls.some((call) =>
+          call.some((arg) => typeof arg === 'string' && expectedPattern.test(arg))
+        )
+      ).toBe(true);
       warnSpy.mockRestore();
     }
 
     it('logs critical rate limit warning when rate limit is critical', async () => {
-      await testRateLimiterWarning('5');
+      await testRateLimiterWarning('5', /rate limit critically low/i);
     });
 
     it('logs throttle warning when rate limit is low but not critical', async () => {
-      await testRateLimiterWarning('150');
+      await testRateLimiterWarning('150', /throttl/i);
     });
   });
 });
