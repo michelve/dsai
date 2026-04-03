@@ -180,7 +180,7 @@ jobs:
         run: JEST_JUNIT_CLASSNAME="{filepath}" pnpm test:ci --reporters=default --reporters=jest-junit
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@75cd11691c0faa626561e295848008c8a7dddffe # v5
         if: always()
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -188,10 +188,11 @@ jobs:
           fail_ci_if_error: false
 
       - name: Upload test results to Codecov
+        uses: codecov/codecov-action@75cd11691c0faa626561e295848008c8a7dddffe # v5
         if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          report_type: test_results
 
   # ============================================================================
   # SonarCloud Analysis
