@@ -1,0 +1,104 @@
+/**
+ * SunglassesIcon
+ *
+ * Bootstrap Icons - Sunglasses
+ * @category Real world
+ * @tags shades
+ * @see https://icons.getbootstrap.com/icons/sunglasses/
+ *
+ * @accessibility
+ * - Decorative (default): No aria-label or title → aria-hidden="true"
+ * - Semantic: Pass aria-label for screen reader announcement
+ * - With title: Renders <title> element inside SVG
+ *
+ * @example Decorative (inside Button)
+ * ```tsx
+ * <Button startIcon={<SunglassesIcon />}>Click me</Button>
+ * ```
+ *
+ * @example Semantic (standalone)
+ * ```tsx
+ * <SunglassesIcon aria-label="Sunglasses" />
+ * ```
+ */
+import { forwardRef, useId, useMemo } from 'react';
+
+import type { IconProps } from '../types';
+
+const ALLOWED_PROPS = [
+  'id',
+  'data-testid',
+  'data-icon',
+  'focusable',
+  'preserveAspectRatio',
+  'transform',
+  'opacity',
+] as const;
+
+export const SunglassesIcon = forwardRef<SVGSVGElement, IconProps>(
+  (
+    {
+      size = 16,
+      color = 'currentColor',
+      className,
+      title,
+      style: propStyle,
+      'aria-label': ariaLabel,
+      'aria-hidden': ariaHidden,
+      ...rest
+    },
+    ref
+  ) => {
+    const isDecorative = !ariaLabel && !title;
+
+    // Improved A11y: Prevent contradictory aria-hidden when labelled
+    // - Decorative → always hidden
+    // - With aria-label → never hidden (ignore user's aria-hidden)
+    // - With title only → respect user's aria-hidden
+    let computedAriaHidden: boolean | undefined = ariaHidden;
+    if (isDecorative) {
+      computedAriaHidden = true;
+    } else if (ariaLabel) {
+      computedAriaHidden = undefined;
+    }
+
+    const titleId = useId();
+
+    const style = useMemo(
+      () => ({
+        width: typeof size === 'number' ? `${size}px` : size,
+        height: typeof size === 'number' ? `${size}px` : size,
+        ...propStyle,
+      }),
+      [size, propStyle]
+    );
+
+    const allowedProps: Record<string, unknown> = {};
+    for (const key of ALLOWED_PROPS) {
+      if (key in rest) {
+        allowedProps[key] = rest[key as keyof typeof rest];
+      }
+    }
+
+    return (
+      <svg
+        ref={ref}
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 16 16"
+        fill={color}
+        className={className}
+        style={style}
+        aria-hidden={computedAriaHidden}
+        aria-label={ariaLabel}
+        aria-labelledby={!ariaLabel && title ? titleId : undefined}
+        focusable="false"
+        {...allowedProps}
+      >
+        {(title || ariaLabel) && <title id={titleId}>{title || ariaLabel}</title>}
+        <path d="M3 5a2 2 0 0 0-2 2v.5H.5a.5.5 0 0 0 0 1H1V9a2 2 0 0 0 2 2h1a3 3 0 0 0 3-3 1 1 0 1 1 2 0 3 3 0 0 0 3 3h1a2 2 0 0 0 2-2v-.5h.5a.5.5 0 0 0 0-1H15V7a2 2 0 0 0-2-2h-2a2 2 0 0 0-1.888 1.338A2 2 0 0 0 8 6a2 2 0 0 0-1.112.338A2 2 0 0 0 5 5zm0 1h.941c.264 0 .348.356.112.474l-.457.228a2 2 0 0 0-.894.894l-.228.457C2.356 8.289 2 8.205 2 7.94V7a1 1 0 0 1 1-1" />
+      </svg>
+    );
+  }
+);
+
+SunglassesIcon.displayName = 'SunglassesIcon';

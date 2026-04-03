@@ -10,7 +10,7 @@
       "outputs": ["{projectRoot}/dist"],
       "options": {
         "cwd": "packages/@dsai-io/react",
-        "command": "tsup && tsc --emitDeclarationOnly --outDir dist"
+        "command": "tsup && tsc -p tsconfig.build.json --emitDeclarationOnly --outDir dist"
       }
     },
     "test": {
