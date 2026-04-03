@@ -1,13 +1,16 @@
 name: Deploy Storybook
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'packages/@dsai-io/storybook/**'
-      - 'packages/@dsai-io/react/src/**'
-      - 'packages/@dsai-io/icons/src/**'
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - preview
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -16,10 +19,13 @@ env:
   PNPM_VERSION: '10'
 
 jobs:
-  deploy:
-    name: Deploy to Vercel
+  # ============================================================================
+  # Lint Storybook & Dependencies
+  # ============================================================================
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
 
     steps:
       - name: Checkout code
@@ -37,18 +43,111 @@ jobs:
         with:
           version: ${{ env.PNPM_VERSION }}
 
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint packages
+        run: pnpm nx run-many --target=lint --projects=@dsai-io/react,@dsai-io/icons,@dsai-io/storybook
+
+  # ============================================================================
+  # Build & Verify
+  # ============================================================================
+  build:
+    name: Build & Verify
+    needs: lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build dependencies
+        run: pnpm nx run-many --target=build --projects=@dsai-io/tools,@dsai-io/icons,@dsai-io/figma-tokens,@dsai-io/react
+        env:
+          NODE_OPTIONS: '--max-old-space-size=4096'
+
+      - name: Build Storybook
+        run: pnpm nx run @dsai-io/storybook:build
+        env:
+          NODE_OPTIONS: '--max-old-space-size=4096'
+
+      - name: Verify build output
+        run: |
+          if [ ! -d "packages/@dsai-io/storybook/storybook-static" ]; then
+            echo "::error::Storybook build failed — storybook-static directory not found"
+            exit 1
+          fi
+          FILE_COUNT=$(find packages/@dsai-io/storybook/storybook-static -type f | wc -l)
+          echo "Storybook build verified: $FILE_COUNT files"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: storybook-static
+          path: packages/@dsai-io/storybook/storybook-static
+          retention-days: 1
+
+  # ============================================================================
+  # Deploy to Vercel
+  # ============================================================================
+  deploy:
+    name: Deploy to Vercel
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
       - name: Install Vercel CLI
         run: pnpm add -g vercel
 
-      - name: Pull Vercel environment
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: storybook-static
+          path: packages/@dsai-io/storybook/storybook-static
 
-      - name: Build Storybook
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Pull Vercel environment
+        run: vercel pull --yes --environment=${{ inputs.environment }} --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy to Vercel
         id: deploy
         run: |
-          URL=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          PROD_FLAG=""
+          if [ "${{ inputs.environment }}" = "production" ]; then
+            PROD_FLAG="--prod"
+          fi
+          URL=$(vercel deploy $PROD_FLAG --token=${{ secrets.VERCEL_TOKEN }})
           echo "url=$URL" >> "$GITHUB_OUTPUT"
-          echo "Deployed to: $URL"
+          echo "## Storybook Deployed" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Environment: ${{ inputs.environment }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- URL: $URL" >> "$GITHUB_STEP_SUMMARY"
