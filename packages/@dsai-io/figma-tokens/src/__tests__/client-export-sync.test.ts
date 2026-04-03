@@ -1210,35 +1210,21 @@ describe('FigmaClient Export, Sync & Internals', () => {
   });
 
   // ========================================================================
-  // Variable value conversion edge cases
+  // Variable value conversion & token type detection (parameterized)
   // ========================================================================
 
-  describe('Variable value conversion', () => {
-    it('handles boolean variables', async () => {
-      setupSingleVariableMock({
-        id: 'B', name: 'feature/darkMode', resolvedType: 'BOOLEAN',
-        value: true, collectionName: 'flags',
-      });
-
+  describe('Variable value conversion and type detection', () => {
+    it.each([
+      { label: 'boolean variables', id: 'B', name: 'feature/darkMode', resolvedType: 'BOOLEAN', value: true, collectionName: 'flags' },
+      { label: 'color with alpha channel', id: 'A', name: 'colors/overlay', resolvedType: 'COLOR', value: { r: 0, g: 0, b: 0, a: 0.5 }, collectionName: 'alpha-colors', scopes: ['ALL_FILLS'] },
+      { label: 'lineHeight FLOAT', id: 'LH', name: 'typography/lineHeight/base', resolvedType: 'FLOAT', value: 1.5, collectionName: 'line-heights' },
+      { label: 'letterSpacing FLOAT', id: 'LS', name: 'typography/letterSpacing/tight', resolvedType: 'FLOAT', value: -0.5, collectionName: 'letter-spacing' },
+      { label: 'STRING variables', id: 'STR', name: 'content/placeholder', resolvedType: 'STRING', value: 'Enter text...', collectionName: 'strings' },
+    ])('exports $label correctly', async ({ id, name, resolvedType, value, collectionName, scopes }) => {
+      setupSingleVariableMock({ id, name, resolvedType, value, collectionName, scopes });
       const result = await client.exportTokens({
-        fileKey: 'file-key', outputDir: join(testTmpDir, 'bool'), format: 'dtcg',
+        fileKey: 'file-key', outputDir: join(testTmpDir, id.toLowerCase()), format: 'dtcg',
       });
-
-      expect(result.success).toBe(true);
-      expect(result.tokenCount).toBe(1);
-    });
-
-    it('handles color with alpha channel', async () => {
-      setupSingleVariableMock({
-        id: 'A', name: 'colors/overlay', resolvedType: 'COLOR',
-        value: { r: 0, g: 0, b: 0, a: 0.5 }, collectionName: 'alpha-colors',
-        scopes: ['ALL_FILLS'],
-      });
-
-      const result = await client.exportTokens({
-        fileKey: 'file-key', outputDir: join(testTmpDir, 'alpha'), format: 'dtcg',
-      });
-
       expect(result.success).toBe(true);
       expect(result.tokenCount).toBe(1);
     });
@@ -1250,17 +1236,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
   describe('Description metadata parsing', () => {
     it('extracts structured metadata from variable descriptions', async () => {
-      // Variable 2:2 in mock has metadata in description:
-      // "Primary text color\n\nDocs.Reference: https://... • Docs.Section: Text Colors"
       const result = await client.exportTokens({
-        fileKey: 'file-key',
-        outputDir: join(testTmpDir, 'meta'),
-        format: 'dtcg',
-        includeDescriptions: true,
-        collections: ['semantic'],
-        modes: ['light'],
+        fileKey: 'file-key', outputDir: join(testTmpDir, 'meta'), format: 'dtcg',
+        includeDescriptions: true, collections: ['semantic'], modes: ['light'],
       });
-
       expect(result.success).toBe(true);
     });
   });
@@ -1272,17 +1251,13 @@ describe('FigmaClient Export, Sync & Internals', () => {
   describe('Multi-mode file naming', () => {
     it('generates separate files per mode when collection has multiple modes', async () => {
       const result = await client.exportTokens({
-        fileKey: 'file-key',
-        outputDir: join(testTmpDir, 'modes'),
-        format: 'dtcg',
+        fileKey: 'file-key', outputDir: join(testTmpDir, 'modes'), format: 'dtcg',
         collections: ['semantic'],
       });
 
       expect(result.success).toBe(true);
-      // Semantic collection has light and dark modes
       const semanticFiles = result.files.filter((f) => f.collection === 'semantic');
       expect(semanticFiles.length).toBe(2);
-      // File paths should include mode names
       const paths = semanticFiles.map((f) => f.path);
       expect(paths.some((p) => p.includes('light'))).toBe(true);
       expect(paths.some((p) => p.includes('dark'))).toBe(true);
@@ -1290,93 +1265,36 @@ describe('FigmaClient Export, Sync & Internals', () => {
   });
 
   // ========================================================================
-  // Token type detection edge cases (lines 247, 252, 262, 266)
+  // Inline metadata parsing (parameterized)
   // ========================================================================
 
-  describe('Token type detection edge cases', () => {
-    it('detects lineHeight type for FLOAT variables with lineHeight in name', async () => {
-      setupSingleVariableMock({
-        id: 'LH', name: 'typography/lineHeight/base', resolvedType: 'FLOAT',
-        value: 1.5, collectionName: 'line-heights',
-      });
-
-      const result = await client.exportTokens({
-        fileKey: 'file-key', outputDir: join(testTmpDir, 'lh'), format: 'dtcg',
-      });
-
-      expect(result.success).toBe(true);
-      expect(result.tokenCount).toBe(1);
-    });
-
-    it('detects letterSpacing type for FLOAT variables with letterSpacing in name', async () => {
-      setupSingleVariableMock({
-        id: 'LS', name: 'typography/letterSpacing/tight', resolvedType: 'FLOAT',
-        value: -0.5, collectionName: 'letter-spacing',
-      });
-
-      const result = await client.exportTokens({
-        fileKey: 'file-key', outputDir: join(testTmpDir, 'ls'), format: 'dtcg',
-      });
-
-      expect(result.success).toBe(true);
-      expect(result.tokenCount).toBe(1);
-    });
-
-    it('detects STRING type for string variables', async () => {
-      setupSingleVariableMock({
-        id: 'STR', name: 'content/placeholder', resolvedType: 'STRING',
-        value: 'Enter text...', collectionName: 'strings',
-      });
-
-      const result = await client.exportTokens({
-        fileKey: 'file-key', outputDir: join(testTmpDir, 'str'), format: 'dtcg',
-      });
-
-      expect(result.success).toBe(true);
-      expect(result.tokenCount).toBe(1);
-    });
-  });
-
-  // ========================================================================
-  // Inline metadata parsing (lines 147-152, 175)
-  // ========================================================================
-
-  describe('Inline metadata parsing (single-line format)', () => {
-    it('extracts metadata from description with inline metadata pattern', async () => {
-      setupSingleVariableMock({
+  describe('Inline metadata parsing', () => {
+    it.each([
+      {
+        label: 'extracts inline metadata pattern',
         id: 'M', name: 'colors/brand', resolvedType: 'COLOR',
         value: { r: 1, g: 0, b: 0, a: 1 }, collectionName: 'meta-test',
         description: 'Brand color Docs.Reference: https://design.dsai.io • Docs.Section: Brand',
         scopes: ['ALL_FILLS'],
-      });
-
-      const result = await client.exportTokens({
-        fileKey: 'file-key', outputDir: join(testTmpDir, 'inline-meta'),
-        format: 'dtcg', includeDescriptions: true,
-      });
-
-      expect(result.success).toBe(true);
-      expect(result.tokenCount).toBe(1);
-    });
-
-    it('returns full description when no structured metadata is found after split', async () => {
-      setupSingleVariableMock({
+      },
+      {
+        label: 'returns full description when no structured metadata found',
         id: 'NM', name: 'spacing/lg', resolvedType: 'FLOAT',
         value: 32, collectionName: 'no-meta',
         description: 'Large spacing value\n\nUsed for major section gaps',
-      });
-
+      },
+    ])('$label', async ({ id, name, resolvedType, value, collectionName, description, scopes }) => {
+      setupSingleVariableMock({ id, name, resolvedType, value, collectionName, description, scopes });
       const result = await client.exportTokens({
-        fileKey: 'file-key', outputDir: join(testTmpDir, 'no-meta'),
-        format: 'dtcg', includeDescriptions: true,
+        fileKey: 'file-key', outputDir: join(testTmpDir, id.toLowerCase()), format: 'dtcg',
+        includeDescriptions: true,
       });
-
       expect(result.success).toBe(true);
     });
   });
 
   // ========================================================================
-  // syncTokens with existing local tokens (lines 2266-2277, 2370-2418, 2462-2471)
+  // syncTokens with existing local tokens
   // ========================================================================
 
   describe('syncTokens conflict resolution with existing local tokens', () => {
@@ -1386,135 +1304,76 @@ describe('FigmaClient Export, Sync & Internals', () => {
       const fs = await import('node:fs');
       const path = await import('node:path');
 
-      // Create a secure temp dir with existing token files that differ from remote
       syncDir = mkdtempSync(join(testTmpDir, 'sync-conflict-'));
 
-      // Write local tokens that differ from what the mock API returns
       const localTokens = {
         colors: {
-          blue: {
-            '500': {
-              $value: 'rgba(0, 0, 255, 1)',
-              $type: 'color',
-            },
-          },
-          gray: {
-            '100': {
-              $value: 'rgba(200, 200, 200, 1)',
-              $type: 'color',
-            },
-          },
+          blue: { '500': { $value: 'rgba(0, 0, 255, 1)', $type: 'color' } },
+          gray: { '100': { $value: 'rgba(200, 200, 200, 1)', $type: 'color' } },
         },
-        spacing: {
-          base: {
-            $value: '4px',
-            $type: 'dimension',
-          },
-        },
+        spacing: { base: { $value: '4px', $type: 'dimension' } },
       };
-      fs.writeFileSync(
-        path.join(syncDir, 'primitives.json'),
-        JSON.stringify(localTokens, null, 2)
-      );
+      fs.writeFileSync(path.join(syncDir, 'primitives.json'), JSON.stringify(localTokens, null, 2));
     });
 
     afterEach(async () => {
       const fs = await import('node:fs');
-      try {
-        fs.rmSync(syncDir, { recursive: true, force: true });
-      } catch {
-        // ignore cleanup errors
-      }
+      try { fs.rmSync(syncDir, { recursive: true, force: true }); } catch { /* ignore */ }
     });
 
-    it('detects updated tokens when local and remote values differ', async () => {
+    it.each([
+      { label: 'detects updated tokens', resolution: undefined, expectUpdates: true, expectConflicts: false },
+      { label: 'reports conflicts with manual resolution', resolution: 'manual' as const, expectUpdates: false, expectConflicts: true },
+      { label: 'overwrites with remote resolution', resolution: 'remote' as const, expectUpdates: true, expectConflicts: false },
+    ])('$label', async ({ resolution, expectUpdates, expectConflicts }) => {
       const result = await client.syncTokens({
-        fileKey: 'file-key',
-        tokensDir: syncDir,
-        direction: 'pull',
+        fileKey: 'file-key', tokensDir: syncDir, direction: 'pull',
+        ...(resolution && { conflictResolution: resolution }),
       });
 
       expect(result.success).toBe(true);
       expect(result.direction).toBe('pull');
-      // Some tokens should be detected as updated (values differ)
-      expect(result.updated.length + result.added.length).toBeGreaterThan(0);
-    });
-
-    it('reports conflicts with manual conflict resolution', async () => {
-      const result = await client.syncTokens({
-        fileKey: 'file-key',
-        tokensDir: syncDir,
-        direction: 'pull',
-        conflictResolution: 'manual',
-      });
-
-      expect(result.success).toBe(true);
-      // Tokens that differ should be reported as conflicts
-      expect(result.conflicts.length).toBeGreaterThan(0);
-      expect(result.conflicts[0]).toHaveProperty('path');
-      expect(result.conflicts[0]).toHaveProperty('localValue');
-      expect(result.conflicts[0]).toHaveProperty('remoteValue');
-    });
-
-    it('overwrites local tokens with remote conflict resolution', async () => {
-      const result = await client.syncTokens({
-        fileKey: 'file-key',
-        tokensDir: syncDir,
-        direction: 'pull',
-        conflictResolution: 'remote',
-      });
-
-      expect(result.success).toBe(true);
-      expect(result.updated.length).toBeGreaterThan(0);
-      // No conflicts should be reported with 'remote' resolution
-      expect(result.conflicts.length).toBe(0);
+      if (expectConflicts) {
+        expect(result.conflicts.length).toBeGreaterThan(0);
+        expect(result.conflicts[0]).toHaveProperty('path');
+        expect(result.conflicts[0]).toHaveProperty('localValue');
+        expect(result.conflicts[0]).toHaveProperty('remoteValue');
+      } else {
+        expect(result.conflicts.length).toBe(0);
+      }
+      if (expectUpdates) {
+        expect(result.updated.length + result.added.length).toBeGreaterThan(0);
+      }
     });
 
     it('detects removed tokens that exist locally but not remotely', async () => {
-      // Add a token locally that doesn't exist in the remote mock
       const fs = await import('node:fs');
       const path = await import('node:path');
-
-      const extraTokens = {
-        custom: {
-          'deprecated-token': {
-            $value: '#ff0000',
-            $type: 'color',
-          },
-        },
-      };
       fs.writeFileSync(
         path.join(syncDir, 'custom.json'),
-        JSON.stringify(extraTokens, null, 2)
+        JSON.stringify({ custom: { 'deprecated-token': { $value: '#ff0000', $type: 'color' } } }, null, 2)
       );
 
       const result = await client.syncTokens({
-        fileKey: 'file-key',
-        tokensDir: syncDir,
-        direction: 'pull',
+        fileKey: 'file-key', tokensDir: syncDir, direction: 'pull',
       });
-
       expect(result.success).toBe(true);
       expect(result.removed.length).toBeGreaterThan(0);
     });
   });
 
   // ========================================================================
-  // exportTokens mode filtering (lines 1848-1849)
+  // exportTokens mode filtering
   // ========================================================================
 
   describe('exportTokens mode filtering', () => {
     it('skips modes not in the modes filter', async () => {
       const result = await client.exportTokens({
-        fileKey: 'file-key',
-        outputDir: join(testTmpDir, 'mode-filter'),
-        format: 'dtcg',
-        collections: ['semantic'],
-        modes: ['light'],
+        fileKey: 'file-key', outputDir: join(testTmpDir, 'mode-filter'), format: 'dtcg',
+        collections: ['semantic'], modes: ['light'],
       });
 
       expect(result.success).toBe(true);
-      // Only light mode should be exported
       const semanticFiles = result.files.filter((f) => f.collection === 'semantic');
       expect(semanticFiles.length).toBe(1);
       expect(semanticFiles[0].mode).toBe('light');
@@ -1522,51 +1381,31 @@ describe('FigmaClient Export, Sync & Internals', () => {
   });
 
   // ========================================================================
-  // Rate limiter warning paths (lines 590-596, 599, 650)
+  // Rate limiter warning paths
   // ========================================================================
 
   describe('Rate limiter warning paths', () => {
-    it('logs critical rate limit warning when rate limit is critical', async () => {
+    async function testRateLimiterWarning(remaining: string) {
       const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
-
-      // Access the internal rate limiter and force critical state
       const rateLimiter = (client as any).rateLimiter;
-      // Simulate critical rate limit by updating with low remaining count
       rateLimiter.updateFromHeaders(
         new Headers({
-          'x-ratelimit-remaining': '5',
+          'x-ratelimit-remaining': remaining,
           'x-ratelimit-limit': '1000',
           'x-ratelimit-reset': String(Math.floor(Date.now() / 1000) + 60),
         })
       );
-
       await client.getVariables('file-key');
-
-      // May or may not trigger depending on threshold — just ensure no errors
       expect(warnSpy).toBeDefined();
-
       warnSpy.mockRestore();
+    }
+
+    it('logs critical rate limit warning when rate limit is critical', async () => {
+      await testRateLimiterWarning('5');
     });
 
     it('logs throttle warning when rate limit is low but not critical', async () => {
-      const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
-
-      const rateLimiter = (client as any).rateLimiter;
-      // Simulate throttle state (low but not critical)
-      rateLimiter.updateFromHeaders(
-        new Headers({
-          'x-ratelimit-remaining': '150',
-          'x-ratelimit-limit': '1000',
-          'x-ratelimit-reset': String(Math.floor(Date.now() / 1000) + 60),
-        })
-      );
-
-      await client.getVariables('file-key');
-
-      // Verify no errors thrown during request with throttle state
-      expect(warnSpy).toBeDefined();
-
-      warnSpy.mockRestore();
+      await testRateLimiterWarning('150');
     });
   });
 });
