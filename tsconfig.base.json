@@ -8,7 +8,6 @@
     "strictBindCallApply": true,
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
-    "alwaysStrict": true,
 
     // Additional Checks
     "noUnusedLocals": true,
@@ -23,8 +22,6 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
 
     // Emit
@@ -33,7 +30,6 @@
     "sourceMap": true,
     "removeComments": false,
     "importHelpers": true,
-    "downlevelIteration": true,
 
     // JavaScript Support
     "allowJs": false,
@@ -47,17 +43,20 @@
     "target": "ES2020",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
-    "useDefineForClassFields": true,
+
+    // Types (TS 6 no longer auto-discovers @types packages)
+    "types": ["node", "jest", "jest-axe"],
 
     // Path Mappings (for monorepo packages)
-    "baseUrl": ".",
     "paths": {
-      "@dsai-io/react": ["packages/@dsai-io/react/src"],
-      "@dsai-io/react/*": ["packages/@dsai-io/react/src/*"],
-      "@dsai-io/figma-tokens": ["packages/@dsai-io/figma-tokens/src"],
-      "@dsai-io/figma-tokens/*": ["packages/@dsai-io/figma-tokens/src/*"],
-      "@dsai-io/tools": ["packages/@dsai-io/tools/src"],
-      "@dsai-io/tools/*": ["packages/@dsai-io/tools/src/*"]
+      "@dsai-io/icons": ["./packages/@dsai-io/icons/src"],
+      "@dsai-io/icons/*": ["./packages/@dsai-io/icons/src/*"],
+      "@dsai-io/react": ["./packages/@dsai-io/react/src"],
+      "@dsai-io/react/*": ["./packages/@dsai-io/react/src/*"],
+      "@dsai-io/figma-tokens": ["./packages/@dsai-io/figma-tokens/src"],
+      "@dsai-io/figma-tokens/*": ["./packages/@dsai-io/figma-tokens/src/*"],
+      "@dsai-io/tools": ["./packages/@dsai-io/tools/src"],
+      "@dsai-io/tools/*": ["./packages/@dsai-io/tools/src/*"]
     }
   },
   "exclude": [
