@@ -123,6 +123,10 @@ Before any PR, verify:
 4. jest-axe passes, keyboard navigation works
 5. No hard-coded colors/spacing — use CSS custom properties (design tokens)
 
+## Git Commits
+
+Do not add `Co-Authored-By` trailers to commit messages.
+
 ## CI/CD
 
 GitHub Actions runs on push to `main`/`develop` and PRs targeting `main`/`develop`:

@@ -82,11 +82,9 @@ function buildSingleVariableResponse(opts: {
  */
 function setupSingleVariableMock(opts: Parameters<typeof buildSingleVariableResponse>[0]) {
   const response = buildSingleVariableResponse(opts);
-  setupFetchMock(
-    createCustomMockFetch({
+  setupCustomMock({
       '/variables/local': createSuccessResponse(response),
-    }) as unknown as typeof fetch
-  );
+    });
 }
 
 /**
@@ -108,6 +106,14 @@ function buildMockNodesResponse(
   nodes: Record<string, { document: Record<string, unknown> }>
 ) {
   return { nodes };
+}
+
+/**
+ * Set up a custom mock fetch with endpoint-specific handlers.
+ * Wraps createCustomMockFetch with the required type cast.
+ */
+function setupCustomMock(handlers: Record<string, unknown>) {
+  setupFetchMock(createCustomMockFetch(handlers) as unknown as typeof fetch);
 }
 
 // ============================================================================
@@ -268,11 +274,9 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
     it('returns empty objects when file has no styles', async () => {
       const emptyFile = { ...mockFigmaFile, styles: {} };
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/files/': createSuccessResponse(emptyFile),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const result = await client.exportStyles('file-key');
 
@@ -388,12 +392,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(blurNodes),
           '/files/': createSuccessResponse(fileWithBlur),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getEffectStyles('file-key');
       const blurToken = (tokens['blurs'] as Record<string, unknown>)?.['background'] as Record<string, unknown>;
@@ -421,12 +423,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(emptyNodes),
           '/files/': createSuccessResponse(fileWithEffect),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getEffectStyles('file-key');
       const effToken = (tokens['effects'] as Record<string, unknown>)?.['empty'] as Record<string, unknown>;
@@ -461,12 +461,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(innerNodes),
           '/files/': createSuccessResponse(fileWithInner),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getEffectStyles('file-key');
       const shadow = (tokens['shadows'] as Record<string, unknown>)?.['inset'] as Record<string, unknown>;
@@ -508,12 +506,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(gradientNodes),
           '/files/': createSuccessResponse(fileWithGradient),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getPaintStyles('file-key');
       const gradToken = (tokens['gradients'] as Record<string, unknown>)?.['brand'] as Record<string, unknown>;
@@ -539,12 +535,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(emptyNodes),
           '/files/': createSuccessResponse(fileWithPaint),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getPaintStyles('file-key');
       const token = (tokens['colors'] as Record<string, unknown>)?.['missing'] as Record<string, unknown>;
@@ -578,12 +572,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(opacityNodes),
           '/files/': createSuccessResponse(fileWithOpacity),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getPaintStyles('file-key');
       const token = (tokens['colors'] as Record<string, unknown>)?.['faded'] as Record<string, unknown>;
@@ -623,12 +615,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(textNodes),
           '/files/': createSuccessResponse(fileWithText),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getTextStyles('file-key');
       const textToken = (tokens['text'] as Record<string, unknown>)?.['body'] as Record<string, unknown>;
@@ -659,12 +649,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(emptyNodes),
           '/files/': createSuccessResponse(fileWithText),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getTextStyles('file-key');
       const token = (tokens['text'] as Record<string, unknown>)?.['empty'] as Record<string, unknown>;
@@ -692,12 +680,10 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       });
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/nodes': createSuccessResponse(autoNodes),
           '/files/': createSuccessResponse(fileWithText),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const tokens = await client.getTextStyles('file-key');
       const token = (tokens['text'] as Record<string, unknown>)?.['auto'] as Record<string, unknown>;
@@ -726,11 +712,9 @@ describe('FigmaClient Export, Sync & Internals', () => {
     });
 
     it('returns warnings when no collections found', async () => {
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/variables/local': createSuccessResponse(emptyVariablesResponse),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
@@ -816,11 +800,9 @@ describe('FigmaClient Export, Sync & Internals', () => {
     });
 
     it('returns failure result on API error', async () => {
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/variables/local': createErrorResponse(403, error403Forbidden),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
@@ -930,11 +912,9 @@ describe('FigmaClient Export, Sync & Internals', () => {
         },
       };
 
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/variables/local': createSuccessResponse(remoteResponse),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
@@ -1024,11 +1004,9 @@ describe('FigmaClient Export, Sync & Internals', () => {
     });
 
     it('returns failure result on API error during sync', async () => {
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/variables/local': createErrorResponse(403, error403Forbidden),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const result = await client.syncTokens({
         fileKey: 'file-key',
@@ -1162,11 +1140,9 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
   describe('getVariables', () => {
     it('handles meta-wrapped response format', async () => {
-      setupFetchMock(
-        createCustomMockFetch({
+      setupCustomMock({
           '/variables/local': createSuccessResponse({ meta: mockVariablesResponse }),
-        }) as unknown as typeof fetch
-      );
+        });
 
       const result = await client.getVariables('file-key');
       expect(Object.keys(result.variables).length).toBeGreaterThan(0);
