@@ -24,7 +24,7 @@ let Octokit;
 try {
   const octokitModule = require('@octokit/rest');
   Octokit = octokitModule.Octokit;
-} catch (_error) {
+} catch {
   console.error('❌ @octokit/rest not installed');
   console.error('Run: npm install @octokit/rest csv-parse');
   process.exit(1);
