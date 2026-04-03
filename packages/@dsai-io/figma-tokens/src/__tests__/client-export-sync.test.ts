@@ -32,6 +32,64 @@ import { createFigmaClient, FigmaClient, FigmaClientError, FigmaConfigError } fr
 // ============================================================================
 
 /**
+ * Build a single-variable mock response for exportTokens tests.
+ * Reduces boilerplate when testing specific variable types/names.
+ */
+function buildSingleVariableResponse(opts: {
+  id: string;
+  name: string;
+  resolvedType: string;
+  value: unknown;
+  collectionName?: string;
+  description?: string;
+  scopes?: string[];
+}) {
+  const collectionId = `VariableCollectionId:${opts.id}:0`;
+  const variableId = `VariableID:${opts.id}:1`;
+  const modeId = `${opts.id}:0`;
+
+  return {
+    variableCollections: {
+      [collectionId]: {
+        id: collectionId,
+        name: opts.collectionName ?? opts.name,
+        key: `${opts.id}-key`,
+        modes: [{ modeId, name: 'default' }],
+        defaultModeId: modeId,
+        remote: false,
+        hiddenFromPublishing: false,
+        variableIds: [variableId],
+      },
+    },
+    variables: {
+      [variableId]: {
+        id: variableId,
+        name: opts.name,
+        key: `${opts.id}-var-key`,
+        variableCollectionId: collectionId,
+        resolvedType: opts.resolvedType,
+        description: opts.description ?? '',
+        hiddenFromPublishing: false,
+        valuesByMode: { [modeId]: opts.value },
+        scopes: opts.scopes ?? [],
+      },
+    },
+  };
+}
+
+/**
+ * Set up a mock fetch that returns a single-variable response for /variables/local
+ */
+function setupSingleVariableMock(opts: Parameters<typeof buildSingleVariableResponse>[0]) {
+  const response = buildSingleVariableResponse(opts);
+  setupFetchMock(
+    createCustomMockFetch({
+      '/variables/local': createSuccessResponse(response),
+    }) as unknown as typeof fetch
+  );
+}
+
+/**
  * Build a mock file with specific style types for style export tests
  */
 function buildMockFileWithStyles(
@@ -1181,44 +1239,13 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
   describe('Variable value conversion', () => {
     it('handles boolean variables', async () => {
-      const boolResponse = {
-        variableCollections: {
-          'VariableCollectionId:B:0': {
-            id: 'VariableCollectionId:B:0',
-            name: 'flags',
-            key: 'flags-key',
-            modes: [{ modeId: 'B:0', name: 'default' }],
-            defaultModeId: 'B:0',
-            remote: false,
-            hiddenFromPublishing: false,
-            variableIds: ['VariableID:B:1'],
-          },
-        },
-        variables: {
-          'VariableID:B:1': {
-            id: 'VariableID:B:1',
-            name: 'feature/darkMode',
-            key: 'dark-mode-key',
-            variableCollectionId: 'VariableCollectionId:B:0',
-            resolvedType: 'BOOLEAN',
-            description: '',
-            hiddenFromPublishing: false,
-            valuesByMode: { 'B:0': true },
-            scopes: [],
-          },
-        },
-      };
-
-      setupFetchMock(
-        createCustomMockFetch({
-          '/variables/local': createSuccessResponse(boolResponse),
-        }) as unknown as typeof fetch
-      );
+      setupSingleVariableMock({
+        id: 'B', name: 'feature/darkMode', resolvedType: 'BOOLEAN',
+        value: true, collectionName: 'flags',
+      });
 
       const result = await client.exportTokens({
-        fileKey: 'file-key',
-        outputDir: join(testTmpDir, 'bool'),
-        format: 'dtcg',
+        fileKey: 'file-key', outputDir: join(testTmpDir, 'bool'), format: 'dtcg',
       });
 
       expect(result.success).toBe(true);
@@ -1226,44 +1253,14 @@ describe('FigmaClient Export, Sync & Internals', () => {
     });
 
     it('handles color with alpha channel', async () => {
-      const alphaResponse = {
-        variableCollections: {
-          'VariableCollectionId:A:0': {
-            id: 'VariableCollectionId:A:0',
-            name: 'alpha-colors',
-            key: 'alpha-key',
-            modes: [{ modeId: 'A:0', name: 'default' }],
-            defaultModeId: 'A:0',
-            remote: false,
-            hiddenFromPublishing: false,
-            variableIds: ['VariableID:A:1'],
-          },
-        },
-        variables: {
-          'VariableID:A:1': {
-            id: 'VariableID:A:1',
-            name: 'colors/overlay',
-            key: 'overlay-key',
-            variableCollectionId: 'VariableCollectionId:A:0',
-            resolvedType: 'COLOR',
-            description: '',
-            hiddenFromPublishing: false,
-            valuesByMode: { 'A:0': { r: 0, g: 0, b: 0, a: 0.5 } },
-            scopes: ['ALL_FILLS'],
-          },
-        },
-      };
-
-      setupFetchMock(
-        createCustomMockFetch({
-          '/variables/local': createSuccessResponse(alphaResponse),
-        }) as unknown as typeof fetch
-      );
+      setupSingleVariableMock({
+        id: 'A', name: 'colors/overlay', resolvedType: 'COLOR',
+        value: { r: 0, g: 0, b: 0, a: 0.5 }, collectionName: 'alpha-colors',
+        scopes: ['ALL_FILLS'],
+      });
 
       const result = await client.exportTokens({
-        fileKey: 'file-key',
-        outputDir: join(testTmpDir, 'alpha'),
-        format: 'dtcg',
+        fileKey: 'file-key', outputDir: join(testTmpDir, 'alpha'), format: 'dtcg',
       });
 
       expect(result.success).toBe(true);
@@ -1322,44 +1319,13 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
   describe('Token type detection edge cases', () => {
     it('detects lineHeight type for FLOAT variables with lineHeight in name', async () => {
-      const response = {
-        variableCollections: {
-          'VariableCollectionId:LH:0': {
-            id: 'VariableCollectionId:LH:0',
-            name: 'line-heights',
-            key: 'lh-key',
-            modes: [{ modeId: 'LH:0', name: 'default' }],
-            defaultModeId: 'LH:0',
-            remote: false,
-            hiddenFromPublishing: false,
-            variableIds: ['VariableID:LH:1'],
-          },
-        },
-        variables: {
-          'VariableID:LH:1': {
-            id: 'VariableID:LH:1',
-            name: 'typography/lineHeight/base',
-            key: 'lh-base-key',
-            variableCollectionId: 'VariableCollectionId:LH:0',
-            resolvedType: 'FLOAT',
-            description: '',
-            hiddenFromPublishing: false,
-            valuesByMode: { 'LH:0': 1.5 },
-            scopes: [],
-          },
-        },
-      };
-
-      setupFetchMock(
-        createCustomMockFetch({
-          '/variables/local': createSuccessResponse(response),
-        }) as unknown as typeof fetch
-      );
+      setupSingleVariableMock({
+        id: 'LH', name: 'typography/lineHeight/base', resolvedType: 'FLOAT',
+        value: 1.5, collectionName: 'line-heights',
+      });
 
       const result = await client.exportTokens({
-        fileKey: 'file-key',
-        outputDir: join(testTmpDir, 'lh'),
-        format: 'dtcg',
+        fileKey: 'file-key', outputDir: join(testTmpDir, 'lh'), format: 'dtcg',
       });
 
       expect(result.success).toBe(true);
@@ -1367,44 +1333,13 @@ describe('FigmaClient Export, Sync & Internals', () => {
     });
 
     it('detects letterSpacing type for FLOAT variables with letterSpacing in name', async () => {
-      const response = {
-        variableCollections: {
-          'VariableCollectionId:LS:0': {
-            id: 'VariableCollectionId:LS:0',
-            name: 'letter-spacing',
-            key: 'ls-key',
-            modes: [{ modeId: 'LS:0', name: 'default' }],
-            defaultModeId: 'LS:0',
-            remote: false,
-            hiddenFromPublishing: false,
-            variableIds: ['VariableID:LS:1'],
-          },
-        },
-        variables: {
-          'VariableID:LS:1': {
-            id: 'VariableID:LS:1',
-            name: 'typography/letterSpacing/tight',
-            key: 'ls-tight-key',
-            variableCollectionId: 'VariableCollectionId:LS:0',
-            resolvedType: 'FLOAT',
-            description: '',
-            hiddenFromPublishing: false,
-            valuesByMode: { 'LS:0': -0.5 },
-            scopes: [],
-          },
-        },
-      };
-
-      setupFetchMock(
-        createCustomMockFetch({
-          '/variables/local': createSuccessResponse(response),
-        }) as unknown as typeof fetch
-      );
+      setupSingleVariableMock({
+        id: 'LS', name: 'typography/letterSpacing/tight', resolvedType: 'FLOAT',
+        value: -0.5, collectionName: 'letter-spacing',
+      });
 
       const result = await client.exportTokens({
-        fileKey: 'file-key',
-        outputDir: join(testTmpDir, 'ls'),
-        format: 'dtcg',
+        fileKey: 'file-key', outputDir: join(testTmpDir, 'ls'), format: 'dtcg',
       });
 
       expect(result.success).toBe(true);
@@ -1412,44 +1347,13 @@ describe('FigmaClient Export, Sync & Internals', () => {
     });
 
     it('detects STRING type for string variables', async () => {
-      const response = {
-        variableCollections: {
-          'VariableCollectionId:STR:0': {
-            id: 'VariableCollectionId:STR:0',
-            name: 'strings',
-            key: 'str-key',
-            modes: [{ modeId: 'STR:0', name: 'default' }],
-            defaultModeId: 'STR:0',
-            remote: false,
-            hiddenFromPublishing: false,
-            variableIds: ['VariableID:STR:1'],
-          },
-        },
-        variables: {
-          'VariableID:STR:1': {
-            id: 'VariableID:STR:1',
-            name: 'content/placeholder',
-            key: 'str-placeholder-key',
-            variableCollectionId: 'VariableCollectionId:STR:0',
-            resolvedType: 'STRING',
-            description: '',
-            hiddenFromPublishing: false,
-            valuesByMode: { 'STR:0': 'Enter text...' },
-            scopes: [],
-          },
-        },
-      };
-
-      setupFetchMock(
-        createCustomMockFetch({
-          '/variables/local': createSuccessResponse(response),
-        }) as unknown as typeof fetch
-      );
+      setupSingleVariableMock({
+        id: 'STR', name: 'content/placeholder', resolvedType: 'STRING',
+        value: 'Enter text...', collectionName: 'strings',
+      });
 
       const result = await client.exportTokens({
-        fileKey: 'file-key',
-        outputDir: join(testTmpDir, 'str'),
-        format: 'dtcg',
+        fileKey: 'file-key', outputDir: join(testTmpDir, 'str'), format: 'dtcg',
       });
 
       expect(result.success).toBe(true);
@@ -1463,45 +1367,16 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
   describe('Inline metadata parsing (single-line format)', () => {
     it('extracts metadata from description with inline metadata pattern', async () => {
-      const response = {
-        variableCollections: {
-          'VariableCollectionId:M:0': {
-            id: 'VariableCollectionId:M:0',
-            name: 'meta-test',
-            key: 'meta-key',
-            modes: [{ modeId: 'M:0', name: 'default' }],
-            defaultModeId: 'M:0',
-            remote: false,
-            hiddenFromPublishing: false,
-            variableIds: ['VariableID:M:1'],
-          },
-        },
-        variables: {
-          'VariableID:M:1': {
-            id: 'VariableID:M:1',
-            name: 'colors/brand',
-            key: 'brand-key',
-            variableCollectionId: 'VariableCollectionId:M:0',
-            resolvedType: 'COLOR',
-            description: 'Brand color Docs.Reference: https://design.dsai.io • Docs.Section: Brand',
-            hiddenFromPublishing: false,
-            valuesByMode: { 'M:0': { r: 1, g: 0, b: 0, a: 1 } },
-            scopes: ['ALL_FILLS'],
-          },
-        },
-      };
-
-      setupFetchMock(
-        createCustomMockFetch({
-          '/variables/local': createSuccessResponse(response),
-        }) as unknown as typeof fetch
-      );
+      setupSingleVariableMock({
+        id: 'M', name: 'colors/brand', resolvedType: 'COLOR',
+        value: { r: 1, g: 0, b: 0, a: 1 }, collectionName: 'meta-test',
+        description: 'Brand color Docs.Reference: https://design.dsai.io • Docs.Section: Brand',
+        scopes: ['ALL_FILLS'],
+      });
 
       const result = await client.exportTokens({
-        fileKey: 'file-key',
-        outputDir: join(testTmpDir, 'inline-meta'),
-        format: 'dtcg',
-        includeDescriptions: true,
+        fileKey: 'file-key', outputDir: join(testTmpDir, 'inline-meta'),
+        format: 'dtcg', includeDescriptions: true,
       });
 
       expect(result.success).toBe(true);
@@ -1509,45 +1384,15 @@ describe('FigmaClient Export, Sync & Internals', () => {
     });
 
     it('returns full description when no structured metadata is found after split', async () => {
-      const response = {
-        variableCollections: {
-          'VariableCollectionId:NM:0': {
-            id: 'VariableCollectionId:NM:0',
-            name: 'no-meta',
-            key: 'no-meta-key',
-            modes: [{ modeId: 'NM:0', name: 'default' }],
-            defaultModeId: 'NM:0',
-            remote: false,
-            hiddenFromPublishing: false,
-            variableIds: ['VariableID:NM:1'],
-          },
-        },
-        variables: {
-          'VariableID:NM:1': {
-            id: 'VariableID:NM:1',
-            name: 'spacing/lg',
-            key: 'spacing-lg-key',
-            variableCollectionId: 'VariableCollectionId:NM:0',
-            resolvedType: 'FLOAT',
-            description: 'Large spacing value\n\nUsed for major section gaps',
-            hiddenFromPublishing: false,
-            valuesByMode: { 'NM:0': 32 },
-            scopes: [],
-          },
-        },
-      };
-
-      setupFetchMock(
-        createCustomMockFetch({
-          '/variables/local': createSuccessResponse(response),
-        }) as unknown as typeof fetch
-      );
+      setupSingleVariableMock({
+        id: 'NM', name: 'spacing/lg', resolvedType: 'FLOAT',
+        value: 32, collectionName: 'no-meta',
+        description: 'Large spacing value\n\nUsed for major section gaps',
+      });
 
       const result = await client.exportTokens({
-        fileKey: 'file-key',
-        outputDir: join(testTmpDir, 'no-meta'),
-        format: 'dtcg',
-        includeDescriptions: true,
+        fileKey: 'file-key', outputDir: join(testTmpDir, 'no-meta'),
+        format: 'dtcg', includeDescriptions: true,
       });
 
       expect(result.success).toBe(true);
