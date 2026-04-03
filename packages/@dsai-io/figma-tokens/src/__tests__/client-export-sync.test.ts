@@ -4,6 +4,10 @@
  * CircuitBreaker integration, and Error classes
  */
 
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+
 import {
   mockFigmaFile,
   mockVariablesResponse,
@@ -51,6 +55,17 @@ function buildMockNodesResponse(
 // ============================================================================
 // Tests
 // ============================================================================
+
+// Create a secure temp directory for the entire test suite
+const testTmpDir = mkdtempSync(join(tmpdir(), 'dsai-test-'));
+
+afterAll(() => {
+  try {
+    rmSync(testTmpDir, { recursive: true, force: true });
+  } catch {
+    // ignore cleanup errors
+  }
+});
 
 describe('FigmaClient Export, Sync & Internals', () => {
   let client: FigmaClient;
@@ -641,7 +656,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('exports tokens from variables with separate output structure', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         format: 'dtcg',
       });
 
@@ -661,7 +676,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
       });
 
       expect(result.success).toBe(true);
@@ -673,7 +688,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('filters by collection name', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         collections: ['primitives'],
       });
 
@@ -687,7 +702,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('filters by mode name', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         modes: ['light'],
       });
 
@@ -703,7 +718,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('handles alias references without resolving', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         resolveAliases: false,
       });
 
@@ -713,7 +728,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('handles alias references with resolving', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         resolveAliases: true,
       });
 
@@ -723,7 +738,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('exports in tokens-studio format', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         format: 'tokens-studio',
       });
 
@@ -734,7 +749,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('exports in style-dictionary format', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         format: 'style-dictionary',
       });
 
@@ -751,7 +766,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
       });
 
       expect(result.success).toBe(false);
@@ -761,7 +776,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('exports with combined output structure', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         outputStructure: 'combined',
       } as any);
 
@@ -775,7 +790,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('includes descriptions when includeDescriptions is true', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         includeDescriptions: true,
       });
 
@@ -785,7 +800,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('exports effect/paint/text styles when requested', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         includeEffects: true,
         includePaints: true,
         includeTextStyles: true,
@@ -820,7 +835,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
         includeEffects: true,
       } as any);
 
@@ -865,7 +880,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-tokens',
+        outputDir: join(testTmpDir, 'tokens'),
       });
 
       expect(result.success).toBe(true);
@@ -882,7 +897,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('pulls remote tokens and detects new tokens', async () => {
       const result = await client.syncTokens({
         fileKey: 'file-key',
-        tokensDir: '/tmp/dsai-sync-test-empty',
+        tokensDir: join(testTmpDir, 'sync-empty'),
         direction: 'pull',
       });
 
@@ -895,7 +910,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('returns error for push direction (not fully supported)', async () => {
       const result = await client.syncTokens({
         fileKey: 'file-key',
-        tokensDir: '/tmp/dsai-sync-test',
+        tokensDir: join(testTmpDir, 'sync-push'),
         direction: 'push',
       });
 
@@ -906,7 +921,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('performs dry run without writing', async () => {
       const result = await client.syncTokens({
         fileKey: 'file-key',
-        tokensDir: '/tmp/dsai-sync-test-dry',
+        tokensDir: join(testTmpDir, 'sync-dry'),
         direction: 'pull',
         dryRun: true,
       });
@@ -919,7 +934,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('handles backup option', async () => {
       const result = await client.syncTokens({
         fileKey: 'file-key',
-        tokensDir: '/tmp/dsai-sync-test-backup',
+        tokensDir: join(testTmpDir, 'sync-backup'),
         direction: 'pull',
         backup: true,
       });
@@ -931,7 +946,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('handles both direction', async () => {
       const result = await client.syncTokens({
         fileKey: 'file-key',
-        tokensDir: '/tmp/dsai-sync-test-both',
+        tokensDir: join(testTmpDir, 'sync-both'),
         direction: 'both',
       });
 
@@ -942,7 +957,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('handles manual conflict resolution', async () => {
       const result = await client.syncTokens({
         fileKey: 'file-key',
-        tokensDir: '/tmp/dsai-sync-test-conflict',
+        tokensDir: join(testTmpDir, 'sync-conflict'),
         direction: 'pull',
         conflictResolution: 'manual',
       });
@@ -959,7 +974,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
       const result = await client.syncTokens({
         fileKey: 'file-key',
-        tokensDir: '/tmp/dsai-sync-fail',
+        tokensDir: join(testTmpDir, 'sync-fail'),
         direction: 'pull',
       });
 
@@ -973,7 +988,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
       await expect(
         unconfigured.syncTokens({
           fileKey: 'file-key',
-          tokensDir: '/tmp/dsai-sync-noconfig',
+          tokensDir: join(testTmpDir, 'sync-noconfig'),
           direction: 'pull',
         })
       ).rejects.toThrow(FigmaConfigError);
@@ -1150,7 +1165,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
       // typography/fontSize/base (FLOAT + /fontSize/) -> dimension
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-types',
+        outputDir: join(testTmpDir, 'types'),
         format: 'dtcg',
         collections: ['typography'],
       });
@@ -1202,7 +1217,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-bool',
+        outputDir: join(testTmpDir, 'bool'),
         format: 'dtcg',
       });
 
@@ -1247,7 +1262,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-alpha',
+        outputDir: join(testTmpDir, 'alpha'),
         format: 'dtcg',
       });
 
@@ -1266,7 +1281,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
       // "Primary text color\n\nDocs.Reference: https://... • Docs.Section: Text Colors"
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-meta',
+        outputDir: join(testTmpDir, 'meta'),
         format: 'dtcg',
         includeDescriptions: true,
         collections: ['semantic'],
@@ -1285,7 +1300,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('generates separate files per mode when collection has multiple modes', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-modes',
+        outputDir: join(testTmpDir, 'modes'),
         format: 'dtcg',
         collections: ['semantic'],
       });
@@ -1343,7 +1358,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-lh',
+        outputDir: join(testTmpDir, 'lh'),
         format: 'dtcg',
       });
 
@@ -1388,7 +1403,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-ls',
+        outputDir: join(testTmpDir, 'ls'),
         format: 'dtcg',
       });
 
@@ -1433,7 +1448,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-str',
+        outputDir: join(testTmpDir, 'str'),
         format: 'dtcg',
       });
 
@@ -1484,7 +1499,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-inline-meta',
+        outputDir: join(testTmpDir, 'inline-meta'),
         format: 'dtcg',
         includeDescriptions: true,
       });
@@ -1530,7 +1545,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-no-meta',
+        outputDir: join(testTmpDir, 'no-meta'),
         format: 'dtcg',
         includeDescriptions: true,
       });
@@ -1549,14 +1564,9 @@ describe('FigmaClient Export, Sync & Internals', () => {
     beforeEach(async () => {
       const fs = await import('node:fs');
       const path = await import('node:path');
-      const os = await import('node:os');
 
-      // Create a temp dir with existing token files that differ from remote
-      syncDir = path.join(
-        os.tmpdir(),
-        `dsai-sync-conflict-${Date.now()}-${Math.random().toString(36).slice(2)}`
-      );
-      fs.mkdirSync(syncDir, { recursive: true });
+      // Create a secure temp dir with existing token files that differ from remote
+      syncDir = mkdtempSync(join(testTmpDir, 'sync-conflict-'));
 
       // Write local tokens that differ from what the mock API returns
       const localTokens = {
@@ -1676,7 +1686,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     it('skips modes not in the modes filter', async () => {
       const result = await client.exportTokens({
         fileKey: 'file-key',
-        outputDir: '/tmp/dsai-test-mode-filter',
+        outputDir: join(testTmpDir, 'mode-filter'),
         format: 'dtcg',
         collections: ['semantic'],
         modes: ['light'],
