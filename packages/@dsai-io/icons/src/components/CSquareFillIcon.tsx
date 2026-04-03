@@ -1,0 +1,101 @@
+/**
+ * CSquareFillIcon
+ *
+ * Bootstrap Icons - C square fill
+ * @category Shapes
+ * @tags copyright
+ * @see https://icons.getbootstrap.com/icons/c-square-fill/
+ *
+ * @accessibility
+ * - Decorative (default): No aria-label or title → aria-hidden="true"
+ * - Semantic: Pass aria-label for screen reader announcement
+ * - With title: Renders <title> element inside SVG
+ *
+ * @example Decorative (inside Button)
+ * ```tsx
+ * <Button startIcon={<CSquareFillIcon />}>Click me</Button>
+ * ```
+ *
+ * @example Semantic (standalone)
+ * ```tsx
+ * <CSquareFillIcon aria-label="C square fill" />
+ * ```
+ */
+import { forwardRef, useMemo } from 'react';
+
+import type { IconProps } from '../types';
+
+const ALLOWED_PROPS = [
+  'id',
+  'data-testid',
+  'data-icon',
+  'focusable',
+  'preserveAspectRatio',
+  'transform',
+  'opacity',
+] as const;
+
+export const CSquareFillIcon = forwardRef<SVGSVGElement, IconProps>(
+  (
+    {
+      size = 16,
+      color = 'currentColor',
+      className,
+      title,
+      style: propStyle,
+      'aria-label': ariaLabel,
+      'aria-hidden': ariaHidden,
+      ...rest
+    },
+    ref
+  ) => {
+    const isDecorative = !ariaLabel && !title;
+
+    // Improved A11y: Prevent contradictory aria-hidden when labelled
+    // - Decorative → always hidden
+    // - With aria-label → never hidden (ignore user's aria-hidden)
+    // - With title only → respect user's aria-hidden
+    let computedAriaHidden: boolean | undefined = ariaHidden;
+    if (isDecorative) {
+      computedAriaHidden = true;
+    } else if (ariaLabel) {
+      computedAriaHidden = undefined;
+    }
+
+    const style = useMemo(
+      () => ({
+        width: typeof size === 'number' ? `${size}px` : size,
+        height: typeof size === 'number' ? `${size}px` : size,
+        ...propStyle,
+      }),
+      [size, propStyle]
+    );
+
+    const allowedProps: Record<string, unknown> = {};
+    for (const key of ALLOWED_PROPS) {
+      if (key in rest) {
+        allowedProps[key] = rest[key as keyof typeof rest];
+      }
+    }
+
+    return (
+      <svg
+        ref={ref}
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 16 16"
+        fill={color}
+        className={className}
+        style={style}
+        aria-hidden={computedAriaHidden}
+        aria-label={ariaLabel}
+        focusable="false"
+        {...allowedProps}
+      >
+        <title>{title || ariaLabel}</title>
+        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.146 4.992c-1.212 0-1.927.92-1.927 2.502v1.06c0 1.571.703 2.462 1.927 2.462.979 0 1.641-.586 1.729-1.418h1.295v.093c-.1 1.448-1.354 2.467-3.03 2.467-2.091 0-3.269-1.336-3.269-3.603V7.482c0-2.261 1.201-3.638 3.27-3.638 1.681 0 2.935 1.054 3.029 2.572v.088H9.875c-.088-.879-.768-1.512-1.729-1.512" />
+      </svg>
+    );
+  }
+);
+
+CSquareFillIcon.displayName = 'CSquareFillIcon';

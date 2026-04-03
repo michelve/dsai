@@ -55,7 +55,7 @@ export const ${icon.componentName} = React.forwardRef<SVGSVGElement, ${icon.comp
       width={size}
       height={size}
       fill="currentColor"
-      role={title ? 'img' : 'presentation'}
+      aria-hidden={!title}
       aria-label={title}
       {...props}
     >
