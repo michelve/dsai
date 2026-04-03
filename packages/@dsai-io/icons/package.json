@@ -1,0 +1,65 @@
+{
+  "name": "@dsai-io/icons",
+  "version": "1.0.3",
+  "description": "DSAi Icons, accessible React icon components based on Bootstrap Icons",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js",
+      "require": "./dist/types.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "build:watch": "tsup --watch",
+    "dev": "tsup --watch",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "typecheck": "tsc --noEmit",
+    "icons:generate": "dsai icons build --format react",
+    "icons:figma": "node scripts/generate-figma-code-connect.cjs"
+  },
+  "keywords": [
+    "icons",
+    "react-icons",
+    "bootstrap-icons",
+    "design-system",
+    "dsai",
+    "accessible",
+    "svg-icons",
+    "icon-components"
+  ],
+  "sideEffects": false,
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "typescript": ">=5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@dsai-io/tools": "workspace:^",
+    "@figma/code-connect": "^1.4.2"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -296,7 +296,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build packages
-        run: pnpm nx run-many --target=build --projects=@dsai-io/tools,@dsai-io/figma-tokens,@dsai-io/react,@dsai-io/storybook
+        run: pnpm nx run-many --target=build --projects=@dsai-io/tools,@dsai-io/icons,@dsai-io/figma-tokens,@dsai-io/react,@dsai-io/storybook
         env:
           NODE_OPTIONS: '--max-old-space-size=4096'
 
