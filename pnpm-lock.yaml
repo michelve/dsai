@@ -251,6 +251,9 @@ importers:
       react:
         specifier: '>=18.0.0'
         version: 19.2.0
+      typescript:
+        specifier: '>=5.0.0'
+        version: 6.0.2
     devDependencies:
       '@dsai-io/tools':
         specifier: workspace:^
