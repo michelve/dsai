@@ -116,6 +116,29 @@ function setupCustomMock(handlers: Record<string, unknown>) {
   setupFetchMock(createCustomMockFetch(handlers) as unknown as typeof fetch);
 }
 
+/**
+ * Test that rate limiter warnings are logged when remaining quota is low.
+ */
+async function testRateLimiterWarning(client: FigmaClient, remaining: string, expectedPattern: RegExp) {
+  const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
+  const rateLimiter = (client as any).rateLimiter;
+  rateLimiter.updateFromHeaders(
+    new Headers({
+      'x-ratelimit-remaining': remaining,
+      'x-ratelimit-limit': '1000',
+      'x-ratelimit-reset': String(Math.floor(Date.now() / 1000) + 60),
+    })
+  );
+  await client.getVariables('file-key');
+  expect(warnSpy).toHaveBeenCalled();
+  expect(
+    warnSpy.mock.calls.some((call) =>
+      call.some((arg) => typeof arg === 'string' && expectedPattern.test(arg))
+    )
+  ).toBe(true);
+  warnSpy.mockRestore();
+}
+
 // ============================================================================
 // Tests
 // ============================================================================
@@ -1385,32 +1408,12 @@ describe('FigmaClient Export, Sync & Internals', () => {
   // ========================================================================
 
   describe('Rate limiter warning paths', () => {
-    async function testRateLimiterWarning(remaining: string, expectedPattern: RegExp) {
-      const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
-      const rateLimiter = (client as any).rateLimiter;
-      rateLimiter.updateFromHeaders(
-        new Headers({
-          'x-ratelimit-remaining': remaining,
-          'x-ratelimit-limit': '1000',
-          'x-ratelimit-reset': String(Math.floor(Date.now() / 1000) + 60),
-        })
-      );
-      await client.getVariables('file-key');
-      expect(warnSpy).toHaveBeenCalled();
-      expect(
-        warnSpy.mock.calls.some((call) =>
-          call.some((arg) => typeof arg === 'string' && expectedPattern.test(arg))
-        )
-      ).toBe(true);
-      warnSpy.mockRestore();
-    }
-
     it('logs critical rate limit warning when rate limit is critical', async () => {
-      await testRateLimiterWarning('5', /rate limit critically low/i);
+      await testRateLimiterWarning(client, '5', /rate limit critically low/i);
     });
 
     it('logs throttle warning when rate limit is low but not critical', async () => {
-      await testRateLimiterWarning('150', /throttl/i);
+      await testRateLimiterWarning(client, '150', /throttl/i);
     });
   });
 });
