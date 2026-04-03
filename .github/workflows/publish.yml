@@ -7,13 +7,14 @@ on:
   workflow_dispatch:
     inputs:
       package:
-        description: 'Package to publish (all, tools, react, figma-tokens, storybook)'
+        description: 'Package to publish (all, tools, icons, react, figma-tokens, storybook)'
         required: true
         default: 'all'
         type: choice
         options:
           - all
           - tools
+          - icons
           - react
           - figma-tokens
           - storybook
@@ -52,28 +53,30 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_READ_TOKEN }}
 
       - name: Build publishable packages
-        run: pnpm nx run-many --target=build --projects=@dsai-io/tools,@dsai-io/figma-tokens,@dsai-io/react,@dsai-io/storybook
+        run: pnpm nx run-many --target=build --projects=@dsai-io/tools,@dsai-io/icons,@dsai-io/figma-tokens,@dsai-io/react,@dsai-io/storybook
 
       # Replace workspace:* with actual versions for publishing
       - name: Prepare packages for publishing
         run: |
           # Get versions from package.json files
           TOOLS_VERSION=$(node -p "require('./packages/@dsai-io/tools/package.json').version")
+          ICONS_VERSION=$(node -p "require('./packages/@dsai-io/icons/package.json').version")
           REACT_VERSION=$(node -p "require('./packages/@dsai-io/react/package.json').version")
           FIGMA_VERSION=$(node -p "require('./packages/@dsai-io/figma-tokens/package.json').version")
 
-          echo "Versions: tools=$TOOLS_VERSION, react=$REACT_VERSION, figma=$FIGMA_VERSION"
+          echo "Versions: tools=$TOOLS_VERSION, icons=$ICONS_VERSION, react=$REACT_VERSION, figma=$FIGMA_VERSION"
 
           # Update figma-tokens
-          sed -i 's/"@dsai-io\/tools": "workspace:\*"/"@dsai-io\/tools": "^'"$TOOLS_VERSION"'"/' packages/@dsai-io/figma-tokens/package.json
+          sed -i 's/"@dsai-io\/tools": "workspace:\^"/"@dsai-io\/tools": "^'"$TOOLS_VERSION"'"/' packages/@dsai-io/figma-tokens/package.json
 
           # Update react
-          sed -i 's/"@dsai-io\/tools": "workspace:\*"/"@dsai-io\/tools": "^'"$TOOLS_VERSION"'"/' packages/@dsai-io/react/package.json
+          sed -i 's/"@dsai-io\/tools": "workspace:\^"/"@dsai-io\/tools": "^'"$TOOLS_VERSION"'"/' packages/@dsai-io/react/package.json
+          sed -i 's/"@dsai-io\/icons": "workspace:\^"/"@dsai-io\/icons": "^'"$ICONS_VERSION"'"/' packages/@dsai-io/react/package.json
 
           # Update storybook
-          sed -i 's/"@dsai-io\/tools": "workspace:\*"/"@dsai-io\/tools": "^'"$TOOLS_VERSION"'"/' packages/@dsai-io/storybook/package.json
-          sed -i 's/"@dsai-io\/react": "workspace:\*"/"@dsai-io\/react": "^'"$REACT_VERSION"'"/' packages/@dsai-io/storybook/package.json
-          sed -i 's/"@dsai-io\/figma-tokens": "workspace:\*"/"@dsai-io\/figma-tokens": "^'"$FIGMA_VERSION"'"/' packages/@dsai-io/storybook/package.json
+          sed -i 's/"@dsai-io\/tools": "workspace:\^"/"@dsai-io\/tools": "^'"$TOOLS_VERSION"'"/' packages/@dsai-io/storybook/package.json
+          sed -i 's/"@dsai-io\/react": "workspace:\^"/"@dsai-io\/react": "^'"$REACT_VERSION"'"/' packages/@dsai-io/storybook/package.json
+          sed -i 's/"@dsai-io\/figma-tokens": "workspace:\^"/"@dsai-io\/figma-tokens": "^'"$FIGMA_VERSION"'"/' packages/@dsai-io/storybook/package.json
 
           echo "Package.json files updated"
 
@@ -82,6 +85,14 @@ jobs:
         if: github.event_name == 'push' || github.event.inputs.package == 'all' || github.event.inputs.package == 'tools'
         run: |
           cd packages/@dsai-io/tools
+          npm publish
+        continue-on-error: false
+
+      # Publish @dsai-io/icons (no workspace dependencies)
+      - name: Publish @dsai-io/icons
+        if: github.event_name == 'push' || github.event.inputs.package == 'all' || github.event.inputs.package == 'icons'
+        run: |
+          cd packages/@dsai-io/icons
           npm publish
         continue-on-error: false
 

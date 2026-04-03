@@ -89,7 +89,7 @@ function parseFrontmatter(content) {
   }
 
   // Parse categories - look for categories: followed by list items until next field or end
-  const categoriesMatch = yaml.match(/^categories:\s*\n((?:\s+-\s+.+\n?)+)/m);
+  const categoriesMatch = yaml.match(/^categories:\s*\n([\s\S]*?)(?=^\w|\Z)/m);
   if (categoriesMatch) {
     result.categories = categoriesMatch[1]
       .split('\n')
@@ -98,7 +98,7 @@ function parseFrontmatter(content) {
   }
 
   // Parse tags - look for tags: followed by list items until next field or end
-  const tagsMatch = yaml.match(/^tags:\s*\n((?:\s+-\s+.+\n?)+)/m);
+  const tagsMatch = yaml.match(/^tags:\s*\n([\s\S]*?)(?=^\w|\Z)/m);
   if (tagsMatch) {
     result.tags = tagsMatch[1]
       .split('\n')

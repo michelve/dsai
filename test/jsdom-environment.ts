@@ -3,6 +3,7 @@
  * This ensures matchMedia is available before any test code runs
  */
 import { TestEnvironment } from 'jest-environment-jsdom';
+
 import type { EnvironmentContext, JestEnvironmentConfig } from '@jest/environment';
 
 export default class JsdomWithMatchMediaEnvironment extends TestEnvironment {

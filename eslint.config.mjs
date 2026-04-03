@@ -58,8 +58,16 @@ export default [
       // Test snapshots
       '**/*.snap',
 
+      // Generated declaration files
+      '**/*.d.ts',
+      '**/*.d.cts',
+      '**/*.d.mts',
+
       // CLI executables (have different requirements)
       '**/bin/**',
+
+      // Virtual environments
+      '**/.venv/**',
 
       // Editor/OS
       '.DS_Store',
@@ -282,7 +290,7 @@ export default [
   // Icon components – dynamic prop filtering
   // =========================
   {
-    files: ['packages/@dsai-io/react/src/components/Icon/components/**/*.tsx'],
+    files: ['packages/@dsai-io/icons/src/components/**/*.tsx'],
     rules: {
       'security/detect-object-injection': 'off',
     },
