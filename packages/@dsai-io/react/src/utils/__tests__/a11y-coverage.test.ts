@@ -432,8 +432,8 @@ describe('generateId (branch coverage)', () => {
   it('should increment counter for each call', () => {
     const id1 = generateId('test');
     const id2 = generateId('test');
-    const num1 = parseInt(id1.split('-')[1], 10);
-    const num2 = parseInt(id2.split('-')[1], 10);
+    const num1 = Number.parseInt(id1.split('-')[1], 10);
+    const num2 = Number.parseInt(id2.split('-')[1], 10);
     expect(num2).toBe(num1 + 1);
   });
 

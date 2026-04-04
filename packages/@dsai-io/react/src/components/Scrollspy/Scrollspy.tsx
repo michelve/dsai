@@ -92,8 +92,8 @@ function sanitizeTarget(target: string): string {
   }
 
   const sanitized = target
-    .replace(/<script[\s\S]*?<\/script>/gi, '')
-    .replace(/<[^>]*>/g, '')
+    .replaceAll(/<script[\s\S]*?<\/script>/gi, '')
+    .replaceAll(/<[^>]*>/g, '')
     .trim();
 
   return sanitized;
@@ -139,7 +139,7 @@ function scrollElementIntoView(
   }
 
   // Fallback to window scroll
-  const topOffset = typeof stickyTop === 'number' ? stickyTop : parseInt(stickyTop, 10) || 0;
+  const topOffset = typeof stickyTop === 'number' ? stickyTop : Number.parseInt(stickyTop, 10) || 0;
   const elementPosition = element.getBoundingClientRect().top;
   const offsetPosition = elementPosition + window.scrollY - offset - topOffset;
 

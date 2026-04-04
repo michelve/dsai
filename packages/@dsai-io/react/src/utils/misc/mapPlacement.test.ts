@@ -248,7 +248,7 @@ describe('mapPlacement', () => {
     });
 
     it('should handle bulk operations efficiently', () => {
-      const placements: ComponentPlacement[] = Array(1000).fill('bottom-start');
+      const placements: ComponentPlacement[] = new Array(1000).fill('bottom-start');
 
       const start = performance.now();
       placements.forEach(mapPlacement);

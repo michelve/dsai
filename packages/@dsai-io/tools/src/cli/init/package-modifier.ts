@@ -140,7 +140,7 @@ export function backupPackageJson(cwd: string): string | undefined {
     return undefined;
   }
 
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const timestamp = new Date().toISOString().replaceAll(/[:.]/g, '-');
   const backupDir = resolve(cwd, '.dsai-backups');
   const backupPath = resolve(backupDir, `package.json.${timestamp}.backup`);
 
@@ -608,12 +608,12 @@ export interface OutdatedDependency {
  */
 function getMajorVersion(version: string): number | null {
   // Remove ^ or ~ prefix and extract major version
-  const cleanVersion = version.replace(/^[\^~]/, '');
+  const cleanVersion = version.replaceAll(/^[\^~]/g, '');
   const match = cleanVersion.match(/^(\d+)/);
   if (!match || !match[1]) {
     return null;
   }
-  return parseInt(match[1], 10);
+  return Number.parseInt(match[1], 10);
 }
 
 /**

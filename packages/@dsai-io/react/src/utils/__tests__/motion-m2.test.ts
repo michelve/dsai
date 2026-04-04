@@ -580,7 +580,7 @@ describe('M2.12 Motion Utilities', () => {
 
     describe('NaN and Infinity handling', () => {
       it('should throw for NaN value in interpolate', () => {
-        expect(() => interpolate(NaN, [0, 100], [0, 1])).toThrow('Value must be a finite number');
+        expect(() => interpolate(Number.NaN, [0, 100], [0, 1])).toThrow('Value must be a finite number');
       });
 
       it('should throw for Infinity value in interpolate', () => {
@@ -593,10 +593,10 @@ describe('M2.12 Motion Utilities', () => {
       });
 
       it('should throw for NaN coordinates in distance', () => {
-        expect(() => distance({ x: NaN, y: 0 }, { x: 1, y: 1 })).toThrow(
+        expect(() => distance({ x: Number.NaN, y: 0 }, { x: 1, y: 1 })).toThrow(
           'Point coordinates must be finite numbers'
         );
-        expect(() => distance({ x: 0, y: 0 }, { x: 1, y: NaN })).toThrow(
+        expect(() => distance({ x: 0, y: 0 }, { x: 1, y: Number.NaN })).toThrow(
           'Point coordinates must be finite numbers'
         );
       });
@@ -608,10 +608,10 @@ describe('M2.12 Motion Utilities', () => {
       });
 
       it('should throw for NaN coordinates in angle', () => {
-        expect(() => angle({ x: NaN, y: 0 }, { x: 1, y: 1 })).toThrow(
+        expect(() => angle({ x: Number.NaN, y: 0 }, { x: 1, y: 1 })).toThrow(
           'Point coordinates must be finite numbers'
         );
-        expect(() => angle({ x: 0, y: 0 }, { x: NaN, y: 1 })).toThrow(
+        expect(() => angle({ x: 0, y: 0 }, { x: Number.NaN, y: 1 })).toThrow(
           'Point coordinates must be finite numbers'
         );
       });
@@ -623,7 +623,7 @@ describe('M2.12 Motion Utilities', () => {
       });
 
       it('should throw for NaN velocity in clampVelocity', () => {
-        expect(() => clampVelocity({ x: NaN, y: 10 }, 100)).toThrow(
+        expect(() => clampVelocity({ x: Number.NaN, y: 10 }, 100)).toThrow(
           'Velocity coordinates must be finite numbers'
         );
       });

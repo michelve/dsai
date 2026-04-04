@@ -111,7 +111,7 @@ describe('formatCurrency coverage', () => {
 
     it('falls back with NaN', () => {
       disableIntlNumberFormat();
-      expect(formatCurrency(NaN)).toBe('NaN');
+      expect(formatCurrency(Number.NaN)).toBe('NaN');
     });
 
     it('falls back with positive Infinity', () => {
@@ -267,7 +267,7 @@ describe('formatNumber coverage', () => {
 
     it('falls back for NaN', () => {
       disableIntlNumberFormat();
-      expect(formatNumber(NaN)).toBe('NaN');
+      expect(formatNumber(Number.NaN)).toBe('NaN');
     });
 
     it('falls back for positive Infinity', () => {
@@ -545,7 +545,7 @@ describe('formatDate coverage', () => {
     });
 
     it('throws TypeError for NaN timestamp', () => {
-      expect(() => formatDate(NaN)).toThrow(TypeError);
+      expect(() => formatDate(Number.NaN)).toThrow(TypeError);
     });
   });
 
@@ -780,7 +780,7 @@ describe('formatRelativeTime coverage', () => {
 
     it('skips baseDate validation when baseDate is NaN (falsy)', () => {
       // NaN is falsy so `if (options.baseDate)` is false, defaults to new Date()
-      const result = formatRelativeTime(new Date(), { baseDate: NaN });
+      const result = formatRelativeTime(new Date(), { baseDate: Number.NaN });
       // Should not throw, uses current time as base
       expect(typeof result).toBe('string');
     });

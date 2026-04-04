@@ -612,7 +612,7 @@ describe('ToastProvider and useToast', () => {
     });
 
     // Should only have max toasts
-    const count = parseInt(screen.getByTestId('toast-count').textContent || '0', 10);
+    const count = Number.parseInt(screen.getByTestId('toast-count').textContent || '0', 10);
     expect(count).toBeLessThanOrEqual(3); // Due to async nature
   });
 

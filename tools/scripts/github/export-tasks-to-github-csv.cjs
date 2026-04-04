@@ -199,7 +199,7 @@ function parseTaskFile(filePath, directory, filename) {
   }
 
   // Components
-  const taskNum = parseInt(task.taskId.replace('TASK-', ''), 10);
+  const taskNum = Number.parseInt(task.taskId.replace('TASK-', ''), 10);
   if (
     (taskNum >= 21 && taskNum <= 45) ||
     task.title.match(/button|badge|alert|modal|input|select/i)
@@ -358,8 +358,8 @@ function main() {
 
   // Sort by task ID
   tasks.sort((a, b) => {
-    const idA = parseInt(a.taskId.replace('TASK-', ''), 10);
-    const idB = parseInt(b.taskId.replace('TASK-', ''), 10);
+    const idA = Number.parseInt(a.taskId.replace('TASK-', ''), 10);
+    const idB = Number.parseInt(b.taskId.replace('TASK-', ''), 10);
     return idA - idB;
   });
 

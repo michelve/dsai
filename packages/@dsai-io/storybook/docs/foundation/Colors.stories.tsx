@@ -144,7 +144,7 @@ export const BrandColors: Story = {
               value={color.value}
               cssVariable={color.cssVar}
               tokenPath={color.token}
-              textColor={parseInt(color.name, 10) >= 500 ? 'var(--bs-white)' : 'var(--bs-dark)'}
+              textColor={Number.parseInt(color.name, 10) >= 500 ? 'var(--bs-white)' : 'var(--bs-dark)'}
             />
           ))}
         </div>
@@ -319,7 +319,7 @@ export const NeutralColors: Story = {
               value={color.value}
               cssVariable={color.cssVar}
               tokenPath={color.token}
-              textColor={parseInt(color.name, 10) >= 500 ? 'var(--bs-white)' : 'var(--bs-dark)'}
+              textColor={Number.parseInt(color.name, 10) >= 500 ? 'var(--bs-white)' : 'var(--bs-dark)'}
             />
           ))}
         </div>
@@ -365,7 +365,7 @@ export const AllColorHues: Story = {
                   const value = t?.value;
                   const cssVar = t?.cssVar;
                   const tokenPath = `color.${hue}.${step}`;
-                  const stepNum = parseInt(step, 10);
+                  const stepNum = Number.parseInt(step, 10);
                   return (
                     <ColorSwatch
                       key={`${hue}-${step}`}

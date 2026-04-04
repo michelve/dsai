@@ -250,7 +250,7 @@ describe('normalizeTriggers', () => {
     });
 
     it('should handle bulk operations efficiently', () => {
-      const singleValues: FloatingTrigger[] = Array(100).fill('hover');
+      const singleValues: FloatingTrigger[] = new Array(100).fill('hover');
 
       const start = performance.now();
       singleValues.forEach((value) => {

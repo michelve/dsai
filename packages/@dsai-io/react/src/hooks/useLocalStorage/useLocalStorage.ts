@@ -130,7 +130,7 @@ export function useLocalStorage<T>(
       }
 
       try {
-        const newValue = value instanceof Function ? value(storedValue) : value;
+        const newValue = typeof value === 'function' ? value(storedValue) : value;
 
         window.localStorage.setItem(key, serializer(newValue));
         setStoredValue(newValue);

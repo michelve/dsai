@@ -126,7 +126,7 @@ describe('stableSort', () => {
     });
 
     it('should handle NaN values', () => {
-      const result = stableSort([3, NaN, 1, NaN]);
+      const result = stableSort([3, Number.NaN, 1, Number.NaN]);
       expect(result[0]).toBe(1);
       expect(result[1]).toBe(3);
       expect(Number.isNaN(result[2])).toBe(true);

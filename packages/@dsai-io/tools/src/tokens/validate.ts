@@ -292,7 +292,7 @@ function validateTypedValue(
  */
 function isValidFontWeight(value: string): boolean {
   // Numeric weights
-  const numeric = parseInt(value, 10);
+  const numeric = Number.parseInt(value, 10);
   if (!Number.isNaN(numeric) && numeric >= 1 && numeric <= 1000) {
     return true;
   }

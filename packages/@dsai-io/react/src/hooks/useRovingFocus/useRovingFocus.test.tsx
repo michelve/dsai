@@ -25,20 +25,20 @@ function TestList({
   });
 
   return (
-    <ul ref={ref} role="listbox" {...containerProps}>
-      <li role="option" aria-selected={false} tabIndex={0}>
+    <div ref={ref} role="listbox" {...containerProps}>
+      <div role="option" aria-selected={false} tabIndex={0}>
         Item 1
-      </li>
-      <li role="option" aria-selected={false} tabIndex={-1}>
+      </div>
+      <div role="option" aria-selected={false} tabIndex={-1}>
         Item 2
-      </li>
-      <li role="option" aria-selected={false} tabIndex={-1}>
+      </div>
+      <div role="option" aria-selected={false} tabIndex={-1}>
         Item 3
-      </li>
-      <li role="option" aria-selected={false} tabIndex={-1} aria-disabled="true">
+      </div>
+      <div role="option" aria-selected={false} tabIndex={-1} aria-disabled="true">
         Disabled
-      </li>
-    </ul>
+      </div>
+    </div>
   );
 }
 
@@ -156,11 +156,11 @@ describe('useRovingFocus', () => {
         });
 
         return (
-          <ul ref={ref} role="listbox" {...containerProps}>
-            <li role="option" aria-selected={false} tabIndex={0}>Item 1</li>
-            <li role="option" aria-selected={false} tabIndex={-1}>Item 2</li>
-            <li role="option" aria-selected={false} tabIndex={-1}>Item 3</li>
-          </ul>
+          <div ref={ref} role="listbox" {...containerProps}>
+            <div role="option" aria-selected={false} tabIndex={0}>Item 1</div>
+            <div role="option" aria-selected={false} tabIndex={-1}>Item 2</div>
+            <div role="option" aria-selected={false} tabIndex={-1}>Item 3</div>
+          </div>
         );
       }
 
@@ -206,11 +206,11 @@ describe('useRovingFocus', () => {
 
         return (
           <>
-            <ul ref={ref} role="listbox" {...containerProps}>
-              <li role="option" aria-selected={false} tabIndex={0}>Item 1</li>
-              <li role="option" aria-selected={false} tabIndex={-1}>Item 2</li>
-              <li role="option" aria-selected={false} tabIndex={-1}>Item 3</li>
-            </ul>
+            <div ref={ref} role="listbox" {...containerProps}>
+              <div role="option" aria-selected={false} tabIndex={0}>Item 1</div>
+              <div role="option" aria-selected={false} tabIndex={-1}>Item 2</div>
+              <div role="option" aria-selected={false} tabIndex={-1}>Item 3</div>
+            </div>
             <button onClick={() => setFocusedIndex(2)}>Focus Third</button>
             <span data-testid="index">{focusedIndex}</span>
           </>

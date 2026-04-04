@@ -218,7 +218,7 @@ describe('Pagination - Security Tests', () => {
     });
 
     it('handles NaN count gracefully', () => {
-      const { container } = render(<Pagination count={NaN} />);
+      const { container } = render(<Pagination count={Number.NaN} />);
       expect(container.querySelector('nav')).toBeInTheDocument();
     });
 

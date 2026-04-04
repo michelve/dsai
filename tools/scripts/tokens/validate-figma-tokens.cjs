@@ -837,7 +837,7 @@ function validateTransformationCompleteness() {
   const matchRate = (((sourceMap.size - missingTokens.length) / sourceMap.size) * 100).toFixed(2);
   console.log(`\n  📊 Transformation match rate: ${matchRate}%`);
 
-  if (parseFloat(matchRate) < 95) {
+  if (Number.parseFloat(matchRate) < 95) {
     results.errors.push({
       type: 'LOW_MATCH_RATE',
       message: `Transformation match rate is ${matchRate}% (below 95% threshold)`,

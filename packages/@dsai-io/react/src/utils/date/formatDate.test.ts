@@ -248,7 +248,7 @@ describe('formatDate', () => {
     });
 
     it('throws on invalid timestamp', () => {
-      expect(() => formatDate(NaN)).toThrow(TypeError);
+      expect(() => formatDate(Number.NaN)).toThrow(TypeError);
     });
 
     it('throws on invalid ISO string', () => {
