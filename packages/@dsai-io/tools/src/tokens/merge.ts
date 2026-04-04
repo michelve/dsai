@@ -175,8 +175,8 @@ function updateReferences(
   newName: string,
   collectionName: string
 ): void {
-  const normalizedOld = oldName.toLowerCase().replace(/\s+/g, '');
-  const normalizedNew = newName.toLowerCase().replace(/\s+/g, '');
+  const normalizedOld = oldName.toLowerCase().replaceAll(/\s+/g, '');
+  const normalizedNew = newName.toLowerCase().replaceAll(/\s+/g, '');
 
   // Build patterns to match (case-insensitive)
   const patternsLower = [`{${oldName.toLowerCase()}.`, `{${normalizedOld}.`];
@@ -487,7 +487,7 @@ export function mergeCollections(options: MergeOptions): MergeResult {
 
   // Normalize references
   if (verbose) {
-    const normalized = unifiedName.toLowerCase().replace(/\s+/g, '');
+    const normalized = unifiedName.toLowerCase().replaceAll(/\s+/g, '');
     console.info(`🔗 Normalizing references to lowercase "{${normalized}." format...`);
   }
   for (const coll of collections) {

@@ -769,7 +769,7 @@ export function getRecommendedConfig(info: ProjectInfo): {
 
   // Determine prefix based on project name
   const prefix = info.projectName
-    ? `--${info.projectName.replace(/[@/]/g, '').replace(/[^a-z0-9-]/gi, '-')}-`
+    ? `--${info.projectName.replaceAll(/[@/]/g, '').replaceAll(/[^a-z0-9-]/gi, '-')}-`
     : '--dsai-';
 
   // Determine output directory

@@ -73,7 +73,7 @@ function bytesToBase64(bytes: Uint8Array): string {
 
   // Browser fallback using btoa
   const binary = Array.from(bytes)
-    .map((b) => String.fromCharCode(b))
+    .map((b) => String.fromCodePoint(b))
     .join('');
   return btoa(binary);
 }
@@ -82,7 +82,7 @@ function bytesToBase64(bytes: Uint8Array): string {
  * Convert bytes to URL-safe base64 string
  */
 function bytesToBase64Url(bytes: Uint8Array): string {
-  return bytesToBase64(bytes).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+  return bytesToBase64(bytes).replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '');
 }
 
 /**

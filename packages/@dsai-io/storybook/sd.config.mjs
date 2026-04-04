@@ -28,7 +28,7 @@ registerAll(StyleDictionary);
 // Exclude dark mode files from light mode build to prevent value collisions
 const lightModeFiles = globSync('src/collections/**/*.json', {
   ignore: ['src/collections/**/*-dark.json'],
-}).map((f) => f.replace(/\\/g, '/'));
+}).map((f) => f.replaceAll(/\\/g, '/'));
 
 export default {
   log: {

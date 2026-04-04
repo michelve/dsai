@@ -262,7 +262,7 @@ describe('Property-Based Tests: Number Utilities', () => {
             // Count decimal places
             const parts = result.split('.');
             if (parts.length > 1) {
-              const decimals = parts[1].replace(/[^\d]/g, ''); // Remove non-digits
+              const decimals = parts[1].replaceAll(/[^\d]/g, ''); // Remove non-digits
               expect(decimals.length).toBeLessThanOrEqual(2);
             }
           }
@@ -348,7 +348,7 @@ describe('Property-Based Tests: Number Utilities', () => {
       fc.assert(
         fc.property(fc.integer({ min: -1000000, max: 1000000 }), (num: number) => {
           const formatted = formatNumber(num);
-          const parsed = Number.parseFloat(formatted.replace(/[,\s]/g, ''));
+          const parsed = Number.parseFloat(formatted.replaceAll(/[,\s]/g, ''));
 
           // Should be close to original (accounting for formatting)
           if (!Number.isNaN(parsed)) {

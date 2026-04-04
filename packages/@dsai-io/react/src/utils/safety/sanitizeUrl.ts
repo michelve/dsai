@@ -82,7 +82,7 @@ function removeInvisibleChars(url: string): string {
   // Filter out ASCII control characters (0x00-0x1f) and DEL (0x7f) without regex
   let cleaned = '';
   for (let i = 0; i < url.length; i++) {
-    const code = url.charCodeAt(i);
+    const code = url.codePointAt(i) ?? 0;
     if (code >= 0x20 && code !== 0x7f) {
       cleaned += url.charAt(i);
     }
@@ -204,7 +204,7 @@ export function sanitizeUrl(url: string, options: SanitizeUrlOptions = {}): stri
   const decoded = decodeRecursively(cleaned);
 
   // Remove whitespace from decoded version for protocol check
-  const noWhitespace = decoded.replace(/\s/g, '').toLowerCase();
+  const noWhitespace = decoded.replaceAll(/\s/g, '').toLowerCase();
 
   // Check for dangerous protocols (after decoding to catch encoded attacks)
   if (DANGEROUS_PROTOCOLS.test(noWhitespace)) {

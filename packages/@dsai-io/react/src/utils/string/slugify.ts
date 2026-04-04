@@ -75,19 +75,19 @@ export function slugify(text: string, options: SlugifyOptions = {}): string {
 
   // Remove diacritical marks (accents)
   // \u0300-\u036f is the Unicode range for combining diacritical marks
-  slug = slug.replace(/[\u0300-\u036f]/g, '');
+  slug = slug.replaceAll(/[\u0300-\u036f]/g, '');
 
   // Convert special characters to their ASCII equivalents
   slug = slug
-    .replace(/æ/g, 'ae')
-    .replace(/Æ/g, 'AE')
-    .replace(/œ/g, 'oe')
-    .replace(/Œ/g, 'OE')
-    .replace(/ß/g, 'ss')
-    .replace(/ø/g, 'o')
-    .replace(/Ø/g, 'O')
-    .replace(/&/g, ' and ')
-    .replace(/@/g, ' at ');
+    .replaceAll(/æ/g, 'ae')
+    .replaceAll(/Æ/g, 'AE')
+    .replaceAll(/œ/g, 'oe')
+    .replaceAll(/Œ/g, 'OE')
+    .replaceAll(/ß/g, 'ss')
+    .replaceAll(/ø/g, 'o')
+    .replaceAll(/Ø/g, 'O')
+    .replaceAll(/&/g, ' and ')
+    .replaceAll(/@/g, ' at ');
 
   // Convert to lowercase if requested
   if (lowercase) {
@@ -120,8 +120,8 @@ export function slugify(text: string, options: SlugifyOptions = {}): string {
     slug = filtered.join('');
   } else {
     // Normal mode: replace whitespace and common punctuation with separator
-    slug = slug.replace(/[\s_]+/g, separator);
-    slug = slug.replace(/[^\w-]+/g, separator);
+    slug = slug.replaceAll(/[\s_]+/g, separator);
+    slug = slug.replaceAll(/[^\w-]+/g, separator);
   }
 
   // Remove multiple consecutive separators using safe string operations

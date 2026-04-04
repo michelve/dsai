@@ -221,7 +221,7 @@ async function runInit(options: InitOptions): Promise<void> {
   }
 
   // Apply substitutions
-  content = content.replace(/\{\{PREFIX\}\}/g, prefix).replace(/\{\{OUTPUT_DIR\}\}/g, outputDir);
+  content = content.replaceAll(/\{\{PREFIX\}\}/g, prefix).replaceAll(/\{\{OUTPUT_DIR\}\}/g, outputDir);
 
   // Write config file
   const configPath = join(cwd, 'dsai.config.mjs');

@@ -285,9 +285,9 @@ export class CacheService {
     // Convert glob pattern to regex for complex patterns
     /* eslint-disable security/detect-non-literal-regexp */
     const regexPattern = pattern
-      .replace(/\*\*/g, '.*')
-      .replace(/\*/g, '[^/]*')
-      .replace(/\./g, '\\.');
+      .replaceAll(/\*\*/g, '.*')
+      .replaceAll(/\*/g, '[^/]*')
+      .replaceAll(/\./g, '\\.');
 
     const regex = new RegExp(`^${regexPattern}$`);
     return regex.test(filename);

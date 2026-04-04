@@ -79,7 +79,7 @@ function formatValue(value: unknown, maxLength = 100): string {
  * Escape Markdown special characters
  */
 function escapeMarkdown(text: string): string {
-  return text.replace(/[*_`[\]]/g, '\\$&');
+  return text.replaceAll(/[*_`[\]]/g, '\\$&');
 }
 
 /**

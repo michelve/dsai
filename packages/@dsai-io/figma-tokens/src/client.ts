@@ -2343,7 +2343,7 @@ export class FigmaClient {
       const fs = await import('node:fs/promises');
       const path = await import('node:path');
 
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const timestamp = new Date().toISOString().replaceAll(/[:.]/g, '-');
       const backupDir = path.join(
         path.dirname(tokensDir),
         `${path.basename(tokensDir)}-backup-${timestamp}`

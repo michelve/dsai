@@ -155,7 +155,7 @@ function escapeHtml(text: string): string {
     ['"', '&quot;'],
     ["'", '&#x27;'],
   ]);
-  return text.replace(/[&<>"']/g, (char) => escapeMap.get(char) ?? char);
+  return text.replaceAll(/[&<>"']/g, (char) => escapeMap.get(char) ?? char);
 }
 
 /**
@@ -368,9 +368,9 @@ export function sanitizeHtml(html: string, options: SanitizeHtmlOptions = {}): s
   // Strip all tags mode - return text only
   if (stripAllTags) {
     return input
-      .replace(/<[^>]*>/g, '') // Remove all tags
-      .replace(/&nbsp;/gi, ' ') // Convert nbsp
-      .replace(/\s+/g, ' ') // Normalize whitespace
+      .replaceAll(/<[^>]*>/g, '') // Remove all tags
+      .replaceAll(/&nbsp;/gi, ' ') // Convert nbsp
+      .replaceAll(/\s+/g, ' ') // Normalize whitespace
       .trim();
   }
 

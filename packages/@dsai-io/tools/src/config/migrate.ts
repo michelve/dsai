@@ -279,6 +279,6 @@ export function generateMigrationScript(_oldConfig: unknown, newConfig: DsaiConf
  */
 import { defineConfig } from '@dsai-io/tools';
 
-export default defineConfig(${configJson.replace(/"([^"]+)":/g, '$1:')});
+export default defineConfig(${configJson.replaceAll(/"([^"]+)":/g, '$1:')});
 `;
 }

@@ -25,7 +25,7 @@ const BLOCKED_PROTOCOLS = [
 
 /** Normalizes href for protocol checks and detects encoded payloads */
 function normalizeHrefForCheck(href: string): string {
-  const trimmed = href.trim().toLowerCase().replace(/\s+/g, '');
+  const trimmed = href.trim().toLowerCase().replaceAll(/\s+/g, '');
   try {
     return decodeURIComponent(trimmed);
   } catch {

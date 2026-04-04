@@ -40,8 +40,8 @@ export function parseSVG(raw: RawSVGData): ParsedSVG {
   // Extract viewBox (or construct from width/height)
   let viewBox = attributes['viewBox'] ?? '';
   if (!viewBox) {
-    const width = attributes['width']?.replace(/[^\d.]/g, '') ?? '24';
-    const height = attributes['height']?.replace(/[^\d.]/g, '') ?? '24';
+    const width = attributes['width']?.replaceAll(/[^\d.]/g, '') ?? '24';
+    const height = attributes['height']?.replaceAll(/[^\d.]/g, '') ?? '24';
     viewBox = `0 0 ${width} ${height}`;
   }
 
@@ -103,14 +103,14 @@ export function cleanSVGForReact(svg: string): string {
         (_, p1, p2) => p1 + p2.toUpperCase()
       )
       // Convert specific attributes
-      .replace(/class="/g, 'className="')
-      .replace(/xlink:href/g, 'xlinkHref')
-      .replace(/xmlns:xlink/g, 'xmlnsXlink')
+      .replaceAll(/class="/g, 'className="')
+      .replaceAll(/xlink:href/g, 'xlinkHref')
+      .replaceAll(/xmlns:xlink/g, 'xmlnsXlink')
       // Use currentColor for strokes and fills (inherits from CSS)
-      .replace(/stroke="#[^"]+"/g, 'stroke="currentColor"')
-      .replace(/fill="#[^"]+"/g, 'fill="currentColor"')
+      .replaceAll(/stroke="#[^"]+"/g, 'stroke="currentColor"')
+      .replaceAll(/fill="#[^"]+"/g, 'fill="currentColor"')
       // Handle fill="none" (keep as-is, common for stroke-only icons)
-      .replace(/fill="currentColor"([^>]*stroke)/g, 'fill="none"$1')
+      .replaceAll(/fill="currentColor"([^>]*stroke)/g, 'fill="none"$1')
   );
 }
 

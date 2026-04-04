@@ -629,7 +629,7 @@ export const Select = memo(
               }
 
               const groupLabelId = `${selectId}-group-${group.label
-                .replace(/\s+/g, '-')
+                .replaceAll(/\s+/g, '-')
                 .toLowerCase()}`;
 
               return (

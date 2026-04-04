@@ -23,7 +23,7 @@ import type { BundleConfig, BundleResult, StyleScannedFile, StyleMergeResult } f
  * Remove source comments from content
  */
 function removeSourceComments(content: string): string {
-  return content.replace(/\/\* ========== Source: .+ ========== \*\/\n?/g, '');
+  return content.replaceAll(/\/\* ========== Source: .+ ========== \*\/\n?/g, '');
 }
 
 /**
@@ -34,15 +34,15 @@ function minifyContent(content: string): string {
   return (
     content
       // Remove comments (but keep /*! ... */ license comments)
-      .replace(/\/\*(?!!)[^*]*\*+([^/*][^*]*\*+)*\//g, '')
+      .replaceAll(/\/\*(?!!)[^*]*\*+([^/*][^*]*\*+)*\//g, '')
       // Remove whitespace
-      .replace(/\s+/g, ' ')
+      .replaceAll(/\s+/g, ' ')
       // Remove space around special characters
-      .replace(/\s*([{}:;,>+~])\s*/g, '$1')
+      .replaceAll(/\s*([{}:;,>+~])\s*/g, '$1')
       // Remove trailing semicolons before closing braces
-      .replace(/;}/g, '}')
+      .replaceAll(/;}/g, '}')
       // Remove empty rules
-      .replace(/[^{}]+\{\s*\}/g, '')
+      .replaceAll(/[^{}]+\{\s*\}/g, '')
       .trim()
   );
 }

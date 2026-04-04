@@ -54,7 +54,7 @@ export function transformImports(content: string, options: TransformOptions): st
   result = result.replace(
     /(from\s+['"])\.\.\/(([A-Z]\w+)(\/[^'"]+)?)(['"])/g,
     (_match, prefix, _fullPath, dirName, subPath, suffix) => {
-      const kebab = dirName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+      const kebab = dirName.replaceAll(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
       if (subPath) {
         return `${prefix}${aliases.importAlias}${aliases.ui}/${kebab}${subPath}${suffix}`;
       }
@@ -68,8 +68,8 @@ export function transformImports(content: string, options: TransformOptions): st
 export function normalizeExtensions(content: string, tsx: boolean): string {
   if (!tsx) {
     return content
-      .replace(/(from\s+['"][^'"]+)\.tsx(['"])/g, '$1.jsx$2')
-      .replace(/(from\s+['"][^'"]+)\.ts(['"])/g, '$1.js$2');
+      .replaceAll(/(from\s+['"][^'"]+)\.tsx(['"])/g, '$1.jsx$2')
+      .replaceAll(/(from\s+['"][^'"]+)\.ts(['"])/g, '$1.js$2');
   }
   return content;
 }

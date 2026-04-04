@@ -30,23 +30,23 @@ const OUTPUT_FILE = path.join(__dirname, '../src/Icon.figma.tsx');
  */
 function toKebabCase(componentName) {
   // Remove "Icon" suffix
-  const baseName = componentName.replace(/Icon$/, '');
+  const baseName = componentName.replaceAll(/Icon$/g, '');
 
   // Handle special cases with numbers at start (Icon0Circle -> 0-circle)
   if (baseName.startsWith('Icon') && /^\d/.test(baseName.charAt(4))) {
     const withoutPrefix = baseName.slice(4);
     return withoutPrefix
-      .replace(/([A-Z])/g, '-$1')
+      .replaceAll(/([A-Z])/g, '-$1')
       .toLowerCase()
-      .replace(/^-/, '');
+      .replaceAll(/^-/g, '');
   }
 
   // Convert PascalCase to kebab-case
   return baseName
-    .replace(/([A-Z])/g, '-$1')
+    .replaceAll(/([A-Z])/g, '-$1')
     .toLowerCase()
-    .replace(/^-/, '')
-    .replace(/--/g, '-'); // Handle consecutive capitals
+    .replaceAll(/^-/g, '')
+    .replaceAll(/--/g, '-'); // Handle consecutive capitals
 }
 
 /**

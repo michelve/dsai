@@ -166,7 +166,7 @@ function fallbackFormat(
       // Safe regex: matches non-boundary followed by groups of exactly 3 digits
       const integerPart = parts[0];
       const reversed = integerPart.split('').reverse().join('');
-      const grouped = reversed.replace(/(\d{3})(?=\d)/g, '$1,');
+      const grouped = reversed.replaceAll(/(\d{3})(?=\d)/g, '$1,');
       parts[0] = grouped.split('').reverse().join('');
     }
     formattedValue = parts.join('.');

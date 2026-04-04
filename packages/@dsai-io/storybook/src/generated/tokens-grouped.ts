@@ -76,7 +76,7 @@ function toKebabCase(name: string): string {
     name.charAt(0).toLowerCase() +
     name
       .slice(1)
-      .replace(/([A-Z])/g, '-$1')
+      .replaceAll(/([A-Z])/g, '-$1')
       .toLowerCase()
   );
 }
