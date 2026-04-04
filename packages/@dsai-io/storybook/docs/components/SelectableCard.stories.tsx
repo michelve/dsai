@@ -531,7 +531,7 @@ export const Variants: Story = {
  * Selected color variants applied when card is checked.
  */
 export const SelectedColors: Story = {
-  render: () => {
+  render: function Render() {
     const colors = ['primary', 'secondary', 'success', 'danger', 'warning', 'info'] as const;
 
     return (
@@ -1484,7 +1484,7 @@ export const DescriptionTruncation: Story = {
  * Selected color affects both background and border.
  */
 export const SelectedColorBorder: Story = {
-  render: () => {
+  render: function Render() {
     const colors = ['primary', 'success', 'danger', 'warning', 'info'] as const;
 
     return (

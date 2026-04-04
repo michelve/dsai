@@ -280,7 +280,7 @@ export const GenerateId: Story = {
  * **Returns:** Cleanup function to immediately clear the announcement
  */
 export const AnnounceToScreenReader: Story = {
-  render: (): JSX.Element => {
+  render: function Render(): JSX.Element {
     const [lastMessage, setLastMessage] = useState<string>('');
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
@@ -485,7 +485,7 @@ function Component() {
  * **Returns:** Cleanup function to release the focus trap
  */
 export const TrapFocus: Story = {
-  render: (): JSX.Element => {
+  render: function Render(): JSX.Element {
     const [isOpen, setIsOpen] = useState(false);
     const modalRef = useRef<HTMLDivElement>(null);
     const triggerRef = useRef<HTMLButtonElement>(null);
@@ -726,7 +726,7 @@ function Modal({ isOpen, onClose }) {
  * - `'standard'` - 300ms (or 0ms if reduced motion)
  */
 export const AnimationPreferences: Story = {
-  render: (): JSX.Element => {
+  render: function Render(): JSX.Element {
     const [animate, setAnimate] = useState(shouldAnimate());
     const [isAnimating, setIsAnimating] = useState(false);
 

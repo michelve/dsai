@@ -408,7 +408,7 @@ export const Disabled: Story = {
             type="checkbox"
             checked={disabled}
             onChange={(e) => setDisabled(e.target.checked)}
-          />
+          />{' '}
           Tooltip disabled
         </label>
 

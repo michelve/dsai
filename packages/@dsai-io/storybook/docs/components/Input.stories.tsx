@@ -330,7 +330,7 @@ export const WithPrefixAndSuffix: Story = {
  * Input with icon prefix
  */
 export const WithIconPrefix: Story = {
-  render: () => {
+  render: function Render() {
     return (
       <Input
         label="Search"

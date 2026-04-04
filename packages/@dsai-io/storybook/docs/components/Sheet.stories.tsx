@@ -880,7 +880,7 @@ export const SettingsPanel: Story = {
                   type="checkbox"
                   checked={darkMode}
                   onChange={(e) => setDarkMode(e.target.checked)}
-                />
+                />{' '}
                 Dark Mode
               </label>
             </div>
@@ -890,7 +890,7 @@ export const SettingsPanel: Story = {
                   type="checkbox"
                   checked={notifications}
                   onChange={(e) => setNotifications(e.target.checked)}
-                />
+                />{' '}
                 Enable Notifications
               </label>
             </div>

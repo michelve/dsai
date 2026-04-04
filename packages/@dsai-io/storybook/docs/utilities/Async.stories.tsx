@@ -127,7 +127,7 @@ const simulateFetch = (
  * ```
  */
 export const CreateAbortable: Story = {
-  render: (): JSX.Element => {
+  render: function Render(): JSX.Element {
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'aborted' | 'error'>(
       'idle'
     );
@@ -309,7 +309,7 @@ export const CreateAbortable: Story = {
  */
 export const WithTimeoutDemo: Story = {
   name: 'withTimeout',
-  render: (): JSX.Element => {
+  render: function Render(): JSX.Element {
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'timeout' | 'error'>(
       'idle'
     );
@@ -520,7 +520,7 @@ export const WithTimeoutDemo: Story = {
  */
 export const RetryWithBackoffDemo: Story = {
   name: 'retryWithBackoff',
-  render: (): JSX.Element => {
+  render: function Render(): JSX.Element {
     const [status, setStatus] = useState<'idle' | 'running' | 'success' | 'failed'>('idle');
     const [logs, setLogs] = useState<string[]>([]);
     const [result, setResult] = useState<{
@@ -754,7 +754,7 @@ export const RetryWithBackoffDemo: Story = {
  */
 export const ExponentialBackoffDemo: Story = {
   name: 'exponentialBackoff',
-  render: (): JSX.Element => {
+  render: function Render(): JSX.Element {
     const [baseDelay, setBaseDelay] = useState(1000);
     const [multiplier, setMultiplier] = useState(2);
     const [maxDelay, setMaxDelay] = useState(30000);
@@ -989,7 +989,7 @@ export const ExponentialBackoffDemo: Story = {
  */
 export const CreateTaskQueueDemo: Story = {
   name: 'createTaskQueue',
-  render: (): JSX.Element => {
+  render: function Render(): JSX.Element {
     const [concurrency, setConcurrency] = useState(1);
     const [logs, setLogs] = useState<string[]>([]);
     const [state, setState] = useState({ pending: 0, running: 0, paused: false });
@@ -1195,7 +1195,7 @@ export const CreateTaskQueueDemo: Story = {
  */
 export const QueueTaskDemo: Story = {
   name: 'queueTask',
-  render: (): JSX.Element => {
+  render: function Render(): JSX.Element {
     const [logs, setLogs] = useState<string[]>([]);
     const handlesRef = useRef<Array<{ cancel: () => void }>>([]);
 
@@ -1427,7 +1427,7 @@ export const QueueTaskDemo: Story = {
  * Complete API documentation for all async utilities.
  */
 export const APIReference: Story = {
-  render: (): JSX.Element => {
+  render: function Render(): JSX.Element {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxWidth: '900px' }}>
         <div>

@@ -431,7 +431,7 @@ export const IconEnd: Story = {
 
 /** Badges with dismiss buttons — great for tag/chip patterns */
 export const Dismissible: Story = {
-  render: () => {
+  render: function Render() {
     const DismissDemo = (): JSX.Element => {
       const [tags, setTags] = useState(['React', 'TypeScript', 'Bootstrap']);
       return (
@@ -479,7 +479,7 @@ export const MaxCount: Story = {
 
 /** Invisible badge and showZero behavior */
 export const Visibility: Story = {
-  render: () => {
+  render: function Render() {
     const VisibilityDemo = (): JSX.Element => {
       const [count, setCount] = useState(0);
       return (
@@ -555,7 +555,7 @@ export const Wrapper: Story = {
 
 /** Animated badge with content change pulse */
 export const Animated: Story = {
-  render: () => {
+  render: function Render() {
     const AnimatedDemo = (): JSX.Element => {
       const [count, setCount] = useState(1);
       return (

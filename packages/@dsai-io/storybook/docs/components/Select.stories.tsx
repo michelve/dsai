@@ -339,7 +339,7 @@ export const GroupedOptions: Story = {
  * Select with disabled options
  */
 export const DisabledOptions: Story = {
-  render: () => {
+  render: function Render() {
     const optionsWithDisabled: SelectOption[] = [
       { value: 'available1', label: 'Available Option 1' },
       { value: 'available2', label: 'Available Option 2' },
@@ -430,7 +430,7 @@ export const WithHelperText: Story = {
  * Custom option rendering
  */
 export const CustomOptionRendering: Story = {
-  render: () => {
+  render: function Render() {
     const colorOptions: SelectOption[] = [
       { value: 'var(--bs-danger)', label: 'Red' },
       { value: 'var(--bs-success)', label: 'Green' },

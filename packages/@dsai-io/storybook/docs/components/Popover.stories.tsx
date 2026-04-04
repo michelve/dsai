@@ -329,8 +329,7 @@ export const RichContent: Story = {
           This popover contains <strong>formatted text</strong>, <em>emphasis</em>, and even{' '}
           <a href="#links" onClick={(e) => e.preventDefault()}>
             links
-          </a>
-          .
+          </a>{' '}.
         </p>
         <ul style={{ margin: 0, paddingLeft: '20px' }}>
           <li>Item one</li>
@@ -787,7 +786,7 @@ export const NotificationCenter: Story = {
       trapFocus
     >
       <Button variant="outline-secondary" style={{ position: 'relative' }}>
-        🔔 Notifications
+        🔔 Notifications{' '}
         <span
           style={{
             position: 'absolute',

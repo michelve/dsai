@@ -875,7 +875,7 @@ export const PaginatedTable: Story = {
  * Table with expandable rows showing detail content.
  */
 export const ExpandableRows: Story = {
-  render: () => {
+  render: function Render() {
     const data = [
       { id: 1, name: 'Alice', role: 'Engineer' },
       { id: 2, name: 'Bob', role: 'Designer' },
@@ -914,7 +914,7 @@ export const ExpandableRows: Story = {
  * Table with resizable columns. Drag column borders to resize.
  */
 export const ResizableColumns: Story = {
-  render: () => {
+  render: function Render() {
     const data = [
       { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'Senior Engineer' },
       { id: 2, name: 'Bob Smith', email: 'bob@example.com', role: 'Lead Designer' },

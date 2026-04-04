@@ -390,7 +390,7 @@ export const WithIcons: Story = {
  * Breadcrumb with click handlers
  */
 export const WithClickHandlers: Story = {
-  render: () => {
+  render: function Render() {
     const handleClick = (page: string) => (): void => {
       alert(`Navigating to ${page}`);
     };
@@ -749,7 +749,7 @@ export const ReactNodeSeparator: Story = {
  * Configurable expand text for collapsed breadcrumbs
  */
 export const CustomExpandText: Story = {
-  render: () => {
+  render: function Render() {
     const items = [
       { id: '1', label: 'Root', href: '#' },
       { id: '2', label: 'Level 1', href: '#' },
@@ -816,7 +816,7 @@ export const LabelTruncation: Story = {
  * Custom collapsed items rendering via renderCollapsedItems prop
  */
 export const CollapsedItemsDropdown: Story = {
-  render: () => {
+  render: function Render() {
     const items = [
       { id: '1', label: 'Home', href: '#' },
       { id: '2', label: 'Products', href: '#products' },
