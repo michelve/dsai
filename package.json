@@ -11,6 +11,8 @@
     "test:coverage": "jest --coverage",
     "test:ci": "jest --ci --coverage --maxWorkers=75%",
     "coverage:upload": "npx codecov -t $CODECOV_TOKEN -f coverage/lcov.info",
+    "sonar:local": "sonar -Dsonar.host.url=http://192.168.5.242:9000 -Dsonar.token=$SONAR_LOCAL_TOKEN -Dsonar.projectKey=dsai",
+    "sonar:deps": "npx @owasp/dependency-check --project dsai --scan . --format JSON --out . --exclude '**/node_modules/**' --exclude '**/dist/**' && pnpm sonar:local",
     "test:changed": "nx affected --target=test --parallel=8",
     "test:nx": "nx run-many --target=test --all --parallel=8",
     "lint": "nx run-many --target=lint --all",
