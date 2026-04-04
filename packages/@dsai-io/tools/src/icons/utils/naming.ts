@@ -55,13 +55,13 @@ export function toIconName(input: string): string {
   return (
     input
       // Insert hyphen before uppercase letters
-      .replace(/([A-Z])/g, '-$1')
+      .replaceAll(/([A-Z])/g, '-$1')
       // Insert hyphen before number sequences
-      .replace(/(\d+)/g, '-$1')
+      .replaceAll(/(\d+)/g, '-$1')
       // Clean up multiple hyphens
-      .replace(/-+/g, '-')
+      .replaceAll(/-+/g, '-')
       // Remove leading hyphen
-      .replace(/^-/, '')
+      .replaceAll(/^-/g, '')
       // Lowercase
       .toLowerCase()
   );
@@ -95,7 +95,7 @@ export function isValidIconName(name: string): boolean {
  */
 export function normalizeIconName(fileName: string): string {
   return fileName
-    .replace(/[^a-zA-Z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
+    .replaceAll(/[^a-zA-Z0-9]+/g, '-')
+    .replaceAll(/(^-+)|(-+$)/g, '')
     .toLowerCase();
 }

@@ -55,9 +55,11 @@ import type { RovingTabindexManager, RovingTabindexOptions } from '../types/shar
  * }, []);
  * ```
  */
+const DEFAULT_ROVING_OPTIONS: RovingTabindexOptions = { itemSelector: '[data-roving-item]' };
+
 export function createRovingTabindex(
   target: Element | Element[],
-  options: RovingTabindexOptions = { itemSelector: '[data-roving-item]' }
+  options: RovingTabindexOptions = DEFAULT_ROVING_OPTIONS
 ): RovingTabindexManager {
   const isElementArray = Array.isArray(target);
   const container = isElementArray ? (target[0]?.parentElement ?? document.body) : target;

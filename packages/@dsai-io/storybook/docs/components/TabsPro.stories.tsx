@@ -114,8 +114,8 @@ const failAfterDelay = (ms: number, message: string): Promise<never> =>
 const metricValueFromName = (name: string): number => {
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
-    hash = (hash << 5) - hash + name.charCodeAt(i);
-    hash |= 0;
+    hash = (hash << 5) - hash + (name.codePointAt(i) ?? 0);
+    hash = Math.trunc(hash);
   }
   const value = Math.abs(hash % 900);
   return 100 + value; // 100-999
@@ -182,7 +182,7 @@ export const Default: Story = {
  * Content is loaded when the tab is first activated, showing a loading spinner.
  */
 export const AsyncLoading: Story = {
-  render: () => {
+  render: function Render() {
     const items: TabsProItem[] = [
       {
         id: 'dashboard',
@@ -315,7 +315,7 @@ export const AsyncLoading: Story = {
  * Custom loading indicator
  */
 export const CustomLoadingIndicator: Story = {
-  render: () => {
+  render: function Render() {
     const customLoader = (
       <div className="p-4 text-center">
         <Spinner
@@ -480,7 +480,7 @@ export const PermissionGating: Story = {
  * Custom blocked fallback
  */
 export const CustomBlockedFallback: Story = {
-  render: () => {
+  render: function Render() {
     const items: TabsProItem[] = [
       {
         id: 'free',
@@ -597,7 +597,7 @@ export const ErrorHandling: Story = {
  * Custom error fallback
  */
 export const CustomErrorFallback: Story = {
-  render: () => {
+  render: function Render() {
     const items: TabsProItem[] = [
       {
         id: 'working',
@@ -751,7 +751,7 @@ export const DirtyStateHandling: Story = {
  * Check the browser console to see analytics events.
  */
 export const AnalyticsHooks: Story = {
-  render: () => {
+  render: function Render() {
     const items: TabsProItem[] = [
       {
         id: 'overview',
@@ -800,7 +800,7 @@ export const AnalyticsHooks: Story = {
  * Different visual variants
  */
 export const Variants: Story = {
-  render: () => {
+  render: function Render() {
     const items: TabsProItem[] = [
       { id: 'home', label: 'Home', content: <div className="p-3">Home content</div> },
       { id: 'profile', label: 'Profile', content: <div className="p-3">Profile content</div> },
@@ -836,7 +836,7 @@ export const Variants: Story = {
  * Vertical orientation
  */
 export const VerticalOrientation: Story = {
-  render: () => {
+  render: function Render() {
     const items: TabsProItem[] = [
       {
         id: 'dashboard',

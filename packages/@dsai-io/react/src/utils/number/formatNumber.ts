@@ -31,7 +31,7 @@ function getCacheKey(locale: string, options?: Intl.NumberFormatOptions): string
   }
 
   // Sort keys for consistent cache keys
-  const sortedKeys = Object.keys(options).sort();
+  const sortedKeys = Object.keys(options).sort((a, b) => a.localeCompare(b));
   const optionsStr = sortedKeys
     .map((key) => `${key}:${JSON.stringify(options[key as keyof Intl.NumberFormatOptions])}`)
     .join('|');
@@ -125,7 +125,7 @@ function fallbackFormat(value: number, options?: Intl.NumberFormatOptions): stri
       // Safe regex: matches non-boundary followed by groups of exactly 3 digits
       const integerPart = parts[0];
       const reversed = integerPart.split('').reverse().join('');
-      const grouped = reversed.replace(/(\d{3})(?=\d)/g, '$1,');
+      const grouped = reversed.replaceAll(/(\d{3})(?=\d)/g, '$1,');
       parts[0] = grouped.split('').reverse().join('');
     }
     result = parts.join('.');

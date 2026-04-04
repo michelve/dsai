@@ -252,9 +252,9 @@ function buildComponentItem(
     type: meta.type,
     title: meta.title,
     description: meta.description,
-    dependencies: [...npmDeps].sort(),
+    dependencies: [...npmDeps].sort((a, b) => a.localeCompare(b)),
     devDependencies: [],
-    registryDependencies: [...registryDeps].sort(),
+    registryDependencies: [...registryDeps].sort((a, b) => a.localeCompare(b)),
     files,
     categories: meta.categories,
   };
@@ -290,9 +290,9 @@ function buildHookItem(
     type: meta.type,
     title: meta.title,
     description: meta.description,
-    dependencies: [...npmDeps].sort(),
+    dependencies: [...npmDeps].sort((a, b) => a.localeCompare(b)),
     devDependencies: [],
-    registryDependencies: [...registryDeps].sort(),
+    registryDependencies: [...registryDeps].sort((a, b) => a.localeCompare(b)),
     files,
     categories: meta.categories,
   };
@@ -357,9 +357,9 @@ function buildUtilItem(
     type: meta.type,
     title: meta.title,
     description: meta.description,
-    dependencies: [...npmDeps].sort(),
+    dependencies: [...npmDeps].sort((a, b) => a.localeCompare(b)),
     devDependencies: [],
-    registryDependencies: [...registryDeps].sort(),
+    registryDependencies: [...registryDeps].sort((a, b) => a.localeCompare(b)),
     files,
     categories: meta.categories,
   };
@@ -382,14 +382,14 @@ function buildTypesItem(
   const files: RegistryFile[] = sourceFiles.map((f) => {
     let content = f.content;
     // Remove re-exports of runtime helpers from utils (e.g., in responsive.ts)
-    content = content.replace(/export \{[^}]*\} from ['"]\.\.\/utils\/[^'"]+['"];?\n?/g, '');
+    content = content.replaceAll(/export \{[^}]*\} from ['"]\.\.\/utils\/[^'"]+['"];?\n?/g, '');
     // Remove non-type re-exports of runtime helpers from local modules (e.g., in index.ts)
     // Matches: export { getResponsiveValue, isResponsiveValue } from './responsive';
     // Does NOT match: export type { ... } from './responsive';
     // The negative lookahead (?!type) ensures we only strip value exports, not type exports
-    content = content.replace(/export\s+(?!type)\{[^}]*\}\s+from\s+['"]\.\/[^'"]+['"];?\n?/g, '');
+    content = content.replaceAll(/export\s+(?!type)\{[^}]*\}\s+from\s+['"]\.\/[^'"]+['"];?\n?/g, '');
     // Remove @deprecated JSDoc blocks that precede the removed exports
-    content = content.replace(/\/\*\*\s*\n\s*\*\s*@deprecated[^*]*\*\/\s*\n/g, '');
+    content = content.replaceAll(/\/\*\*\s*\n\s*\*\s*@deprecated[^*]*\*\/\s*\n/g, '');
     return {
       path: `types/${f.path}`,
       type: 'registry:type' as RegistryItemType,

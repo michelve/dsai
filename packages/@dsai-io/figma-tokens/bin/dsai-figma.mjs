@@ -160,7 +160,7 @@ function parseArgs(args) {
         const nextArg = args[i + 1];
         if (nextArg && !nextArg.startsWith('--') && !nextArg.startsWith('-')) {
           result.options.set(key, nextArg);
-          i++;
+          i += 1; // Skip consumed value argument
         } else {
           result.options.set(key, true);
         }

@@ -598,9 +598,7 @@ function createBuildSteps(
   // Get the tokens package root directory
   // tokensDir is typically the collections dir (e.g., packages/@dsai-io/tokens/collections)
   // We need the package root for running commands
-  const tokensPackageDir = tokensDir.endsWith('/collections')
-    ? dirname(tokensDir)
-    : dirname(tokensDir);
+  const tokensPackageDir = dirname(tokensDir);
 
   // Path to figma-exports source directory
   // Use sourceDir from options if provided, otherwise use sibling directory

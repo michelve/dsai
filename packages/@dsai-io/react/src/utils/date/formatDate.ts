@@ -48,7 +48,7 @@ function getDefaultLocale(): string {
 function getCacheKey(locale: string, options: Intl.DateTimeFormatOptions): string {
   // Sort keys for consistent cache keys
   const sortedOptions = Object.keys(options)
-    .sort()
+    .sort((a, b) => a.localeCompare(b))
     .map((key) => `${key}:${JSON.stringify(options[key as keyof Intl.DateTimeFormatOptions])}`)
     .join('|');
 

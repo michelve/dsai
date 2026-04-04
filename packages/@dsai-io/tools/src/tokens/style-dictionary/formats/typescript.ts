@@ -172,7 +172,7 @@ export const typescriptDeclarations: FormatDefinition = {
 
     // Generate category types
     let literalTypes = '';
-    for (const category of Object.keys(categories).sort()) {
+    for (const category of Object.keys(categories).sort((a, b) => a.localeCompare(b))) {
       const categoryTokens = categories[category];
       if (!categoryTokens) {
         continue;
