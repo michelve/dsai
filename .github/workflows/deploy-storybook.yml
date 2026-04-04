@@ -140,6 +140,8 @@ jobs:
 
       - name: Deploy to Vercel
         id: deploy
+        env:
+          NODE_OPTIONS: '--max-old-space-size=4096'
         run: |
           PROD_FLAG=""
           if [ "${{ inputs.environment }}" = "production" ]; then

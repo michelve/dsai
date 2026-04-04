@@ -140,7 +140,11 @@
       "Bash(npm publish:*)",
       "Bash(NPM_TOKEN=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 npm publish --access public --registry https://registry.npmjs.org/)",
       "Bash(pnpm why:*)",
-      "Bash(uv run:*)"
+      "Bash(uv run:*)",
+      "Bash(git -C /home/mvelis/GitHub/dsai gc --prune=now)",
+      "Bash(git -C /home/mvelis/GitHub/dsai fetch origin main)",
+      "Bash(git -C /home/mvelis/GitHub/dsai pull)",
+      "Bash(git:*)"
     ]
   }
 }

@@ -25,6 +25,26 @@
       }
     },
 
+    // ========= BUILD (alias for build-storybook) =========
+    "build": {
+      "executor": "@nx/storybook:build",
+      "dependsOn": ["^build"],
+      "outputs": ["{projectRoot}/storybook-static", "{projectRoot}/node_modules/.vite"],
+      "options": {
+        "configDir": "packages/@dsai-io/storybook/.storybook",
+        "outputDir": "packages/@dsai-io/storybook/storybook-static"
+      }
+    },
+
+    // ========= LINT =========
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/@dsai-io/storybook/.storybook/**/*.{ts,tsx}", "packages/@dsai-io/storybook/docs/**/*.{ts,tsx}", "packages/@dsai-io/storybook/src/**/*.{ts,tsx}"]
+      }
+    },
+
     // ========= TEST =========
     "test": {
       "executor": "@nx/jest:jest",

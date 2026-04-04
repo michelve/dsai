@@ -1,4 +1,3 @@
-/* eslint-disable no-console, @typescript-eslint/explicit-function-return-type */
 /**
  * Figma Integration Configuration for Playground App
  *

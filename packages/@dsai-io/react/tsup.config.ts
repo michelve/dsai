@@ -7,7 +7,7 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   minify: true,
-  external: ['react', 'react-dom'],
+  external: ['react', 'react-dom', '@dsai-io/icons'],
   injectStyle: false,
   tsconfig: './tsconfig.build.json',
   splitting: false,
