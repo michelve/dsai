@@ -175,6 +175,104 @@ function isStringSeparator(separator: React.ReactNode): separator is string {
 }
 
 // =============================================================================
+// Extracted helpers (reduce cognitive complexity of Breadcrumb)
+// =============================================================================
+
+/** Build the collapsed display items with ellipsis placeholder */
+function collapseItems(
+  items: BreadcrumbItemData[],
+  itemsBeforeCollapse: number,
+  itemsAfterCollapse: number
+): {
+  displayItems: (BreadcrumbItemData | 'ellipsis')[];
+  hiddenItems: BreadcrumbItemData[];
+} {
+  const beforeItems = items.slice(0, itemsBeforeCollapse);
+  const afterItems = items.slice(items.length - itemsAfterCollapse);
+  const hiddenItems = items.slice(itemsBeforeCollapse, items.length - itemsAfterCollapse);
+  return {
+    displayItems: [...beforeItems, 'ellipsis', ...afterItems],
+    hiddenItems,
+  };
+}
+
+/** Render an inline separator element */
+function renderInlineSeparator(
+  item: BreadcrumbItemData | 'ellipsis',
+  index: number,
+  separator: React.ReactNode
+): React.ReactNode {
+  const key =
+    typeof item === 'string' ? item : (item.href ?? item.label ?? index);
+  return (
+    <li
+      key={`sep-${key}`}
+      className="breadcrumb-separator"
+      aria-hidden="true"
+      role="presentation"
+    >
+      {separator}
+    </li>
+  );
+}
+
+/** Render the ellipsis item (collapsed breadcrumbs) */
+function renderEllipsisItem(
+  hiddenItems: BreadcrumbItemData[],
+  renderCollapsedItems: ((items: BreadcrumbItemData[]) => React.ReactNode) | undefined,
+  handleEllipsisClick: () => void,
+  expandText: string,
+  isExpanded: boolean
+): React.ReactNode {
+  const ellipsisContent = renderCollapsedItems ? (
+    renderCollapsedItems(hiddenItems)
+  ) : (
+    <button
+      type="button"
+      className="btn btn-link p-0 border-0 text-decoration-none"
+      onClick={handleEllipsisClick}
+      aria-label={expandText}
+      aria-expanded={isExpanded}
+    >
+      …
+    </button>
+  );
+
+  return (
+    <li key="ellipsis" className="breadcrumb-item">
+      {ellipsisContent}
+    </li>
+  );
+}
+
+/** Render a single breadcrumb page item */
+function renderPageItem(
+  item: BreadcrumbItemData,
+  index: number,
+  isLast: boolean,
+  linkAs: BreadcrumbProps['linkAs'],
+  maxLabelWidth: BreadcrumbProps['maxLabelWidth']
+): React.ReactNode {
+  const isActive = item.active ?? isLast;
+  const validatedItemHref = item.href != null && isSafeHref(item.href) ? item.href : '#';
+  const safeItemHref = item.href != null ? validatedItemHref : undefined;
+
+  return (
+    <BreadcrumbItem
+      key={item.id ?? index}
+      href={safeItemHref}
+      icon={item.icon}
+      active={isActive}
+      onClick={item.onClick}
+      linkAs={linkAs}
+      maxLabelWidth={maxLabelWidth}
+    >
+      {item.label}
+    </BreadcrumbItem>
+  );
+}
+
+// =============================================================================
 // Breadcrumb Component
 // =============================================================================
 
@@ -254,70 +352,25 @@ export const Breadcrumb = memo(
       let hiddenItems: BreadcrumbItemData[] = [];
 
       if (shouldCollapse) {
-        const beforeItems = items.slice(0, itemsBeforeCollapse);
-        const afterItems = items.slice(items.length - itemsAfterCollapse);
-        hiddenItems = items.slice(itemsBeforeCollapse, items.length - itemsAfterCollapse);
-        displayItems = [...beforeItems, 'ellipsis', ...afterItems];
+        ({ displayItems, hiddenItems } = collapseItems(items, itemsBeforeCollapse, itemsAfterCollapse));
       }
 
       const elements: React.ReactNode[] = [];
 
       for (const [index, item] of displayItems.entries()) {
-        // Insert inline separator before every item except the first
         if (useInlineSeparator && index > 0) {
-          elements.push(
-            <li
-              key={`sep-${typeof item === 'string' ? item : (item.href ?? item.label ?? index)}`}
-              className="breadcrumb-separator"
-              aria-hidden="true"
-              role="presentation"
-            >
-              {separator}
-            </li>
-          );
+          elements.push(renderInlineSeparator(item, index, separator));
         }
 
         if (item === 'ellipsis') {
-          const ellipsisContent = renderCollapsedItems ? (
-            renderCollapsedItems(hiddenItems)
-          ) : (
-            <button
-              type="button"
-              className="btn btn-link p-0 border-0 text-decoration-none"
-              onClick={handleEllipsisClick}
-              aria-label={expandText}
-              aria-expanded={isExpanded}
-            >
-              …
-            </button>
-          );
-
           elements.push(
-            <li key="ellipsis" className="breadcrumb-item">
-              {ellipsisContent}
-            </li>
+            renderEllipsisItem(hiddenItems, renderCollapsedItems, handleEllipsisClick, expandText, isExpanded)
           );
           continue;
         }
 
         const isLast = index === displayItems.length - 1;
-        const isActive = item.active ?? isLast;
-        const validatedItemHref = item.href != null && isSafeHref(item.href) ? item.href : '#';
-        const safeItemHref = item.href != null ? validatedItemHref : undefined;
-
-        elements.push(
-          <BreadcrumbItem
-            key={item.id ?? index}
-            href={safeItemHref}
-            icon={item.icon}
-            active={isActive}
-            onClick={item.onClick}
-            linkAs={linkAs}
-            maxLabelWidth={maxLabelWidth}
-          >
-            {item.label}
-          </BreadcrumbItem>
-        );
+        elements.push(renderPageItem(item, index, isLast, linkAs, maxLabelWidth));
       }
 
       return (

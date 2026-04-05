@@ -85,9 +85,10 @@ export type AvatarTone =
  */
 const TEXT_WHITE = 'text-white';
 const TEXT_DARK = 'text-dark';
+const BG_SECONDARY = 'bg-secondary';
 
 export const AVATAR_TONE_MAP: Record<AvatarTone, { bg: string; text: string }> = {
-  neutral: { bg: 'bg-secondary', text: TEXT_WHITE },
+  neutral: { bg: BG_SECONDARY, text: TEXT_WHITE },
   brand: { bg: 'bg-primary', text: TEXT_WHITE },
   accent: { bg: 'bg-info', text: TEXT_WHITE },
   success: { bg: 'bg-success', text: TEXT_WHITE },
@@ -119,9 +120,9 @@ export const AVATAR_STATUS_COLOR_MAP: Record<AvatarStatus, string> = {
   online: 'bg-success',
   busy: 'bg-danger',
   away: 'bg-warning',
-  offline: 'bg-secondary',
+  offline: BG_SECONDARY,
   dnd: 'bg-danger',
-  unknown: 'bg-secondary',
+  unknown: BG_SECONDARY,
 };
 
 /**

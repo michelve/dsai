@@ -588,6 +588,24 @@ function createStepFromName(options: CreateStepOptions): BuildStep {
   }
 }
 
+/** Steps that run even when onlyTheme is true */
+const THEME_ONLY_ALLOWED_STEPS = new Set<BuildPipelineStep>([
+  'validate', 'sass-theme', 'sass-theme-minified', 'postprocess',
+]);
+
+/**
+ * Determine whether a pipeline step should be skipped based on CLI flags
+ */
+function shouldSkipStep(
+  stepName: BuildPipelineStep,
+  flags: { skipValidate?: boolean; skipTransform?: boolean; onlyTheme?: boolean }
+): boolean {
+  if (stepName === 'validate' && flags.skipValidate) {return true;}
+  if (stepName === 'transform' && (flags.skipTransform || flags.onlyTheme)) {return true;}
+  if (flags.onlyTheme && !THEME_ONLY_ALLOWED_STEPS.has(stepName)) {return true;}
+  return false;
+}
+
 /**
  * Create build steps based on options and pipeline configuration
  */
@@ -644,20 +662,7 @@ function createBuildSteps(
       prefix: options.prefix,
     });
 
-    // Apply skip flags based on legacy options
-    if (stepName === 'validate' && skipValidate) {
-      step.skip = true;
-    }
-    if (stepName === 'transform' && (skipTransform || onlyTheme)) {
-      step.skip = true;
-    }
-    if (onlyTheme && !['sass-theme', 'sass-theme-minified', 'postprocess'].includes(stepName)) {
-      // Only run theme-related steps when onlyTheme is true
-      if (!['validate'].includes(stepName)) {
-        step.skip = true;
-      }
-    }
-
+    step.skip = shouldSkipStep(stepName, { skipValidate, skipTransform, onlyTheme });
     steps.push(step);
   }
 
@@ -770,6 +775,130 @@ function cleanupPreprocessedFiles(verbose: boolean): void {
  * });
  * ```
  */
+/**
+ * Initialize incremental build analysis, returning early result if no changes detected.
+ */
+async function initIncrementalBuild(
+  tokensDir: string,
+  force: boolean,
+  cacheDir: string | undefined,
+  verbose: boolean,
+  startTime: number
+): Promise<{
+  cacheService: CacheService;
+  analysis: Awaited<ReturnType<typeof analyzeChanges>>;
+  earlyResult?: BuildResult;
+}> {
+  const cacheService = new CacheService({
+    cacheDir: cacheDir || `${tokensDir}/.dsai-cache`,
+    enabled: true,
+  });
+
+  const figmaExportsDir = `${tokensDir}/figma-exports`;
+  const incrementalOptions: IncrementalOptions = {
+    enabled: true,
+    force,
+    cacheService,
+    verbose,
+  };
+
+  const analysis = await analyzeChanges(figmaExportsDir, incrementalOptions);
+
+  if (!analysis.needsFullBuild && analysis.changedFiles.length === 0) {
+    if (verbose) {
+      console.info(generateIncrementalReport(analysis, startTime, 0, 0));
+    }
+    return {
+      cacheService,
+      analysis,
+      earlyResult: {
+        success: true,
+        stepsCompleted: ['Cache Check'],
+        stepsFailed: [],
+        duration: Date.now() - startTime,
+        errors: [],
+        warnings: ['No changes detected - build skipped'],
+      },
+    };
+  }
+
+  return { cacheService, analysis };
+}
+
+/**
+ * Execute all build steps in sequence, stopping on first failure.
+ */
+async function executeSteps(
+  steps: BuildStep[],
+  verbose: boolean
+): Promise<{ stepsCompleted: string[]; stepsFailed: string[]; errors: string[] }> {
+  const stepsCompleted: string[] = [];
+  const stepsFailed: string[] = [];
+  const errors: string[] = [];
+
+  for (let i = 0; i < steps.length; i++) {
+    const step = steps[i]!;
+    const success = await runStep(step, i, steps.length, verbose);
+
+    if (success) {
+      if (!step.skip) {
+        stepsCompleted.push(step.name);
+      }
+      continue;
+    }
+
+    stepsFailed.push(step.name);
+    errors.push(`Build failed at step: ${step.name}`);
+    if (verbose) {
+      console.error(`\n💥 Build failed at step: ${step.name}`);
+    }
+    break;
+  }
+
+  return { stepsCompleted, stepsFailed, errors };
+}
+
+/**
+ * Finalize a successful incremental build: update cache and print report.
+ */
+async function finalizeIncrementalBuild(
+  cacheService: CacheService,
+  analysis: Awaited<ReturnType<typeof analyzeChanges>>,
+  tokensDir: string,
+  startTime: number,
+  stepsCompleted: number,
+  totalSteps: number,
+  verbose: boolean
+): Promise<void> {
+  const figmaExportsDir = `${tokensDir}/figma-exports`;
+  const collectionsDir = `${tokensDir}/collections`;
+
+  await updateCacheAfterBuild(
+    cacheService,
+    analysis.changedFiles,
+    [],
+    figmaExportsDir,
+    collectionsDir,
+    verbose
+  );
+
+  if (verbose) {
+    console.info(generateIncrementalReport(analysis, startTime, stepsCompleted, totalSteps));
+  }
+}
+
+/**
+ * Print the build completion footer
+ */
+function printBuildFooter(stepsCompleted: number, durationSec: string): void {
+  console.info('\n╔════════════════════════════════════════════════════════════╗');
+  console.info('║  ✅ Build Complete                                         ║');
+  console.info(
+    `║  📊 ${stepsCompleted} steps passed in ${durationSec}s                              ║`
+  );
+  console.info('╚════════════════════════════════════════════════════════════╝');
+}
+
 export async function buildTokens(
   tokensDir: string,
   toolsDir: string,
@@ -785,170 +914,63 @@ export async function buildTokens(
     cacheDir,
   } = options;
 
-  // Use config values from options (already passed from CLI)
-  // No need to reload config here - CLI already loaded it
-  const cssOutputDir = options.cssOutputDir;
-  const postprocessConfig = options.postprocessConfig;
-
-  // Pass config to options so createBuildSteps can access it
-  const optionsWithConfig: BuildOptions = {
-    ...options,
-    cssOutputDir,
-    postprocessConfig,
-  };
-
+  const showOutput = verbose && !quiet;
   const startTime = Date.now();
-  const stepsCompleted: string[] = [];
-  const stepsFailed: string[] = [];
-  const errors: string[] = [];
-  const warnings: string[] = [];
 
   // Verify directories exist
   const dirError = verifyBuildDirectories(tokensDir, toolsDir);
   if (dirError) {
     return {
-      success: false,
-      stepsCompleted,
-      stepsFailed: ['Directory Check'],
-      duration: Date.now() - startTime,
-      errors: [dirError],
-      warnings,
+      success: false, stepsCompleted: [], stepsFailed: ['Directory Check'],
+      duration: Date.now() - startTime, errors: [dirError], warnings: [],
     };
   }
 
-  // Print header
-  if (verbose && !quiet) {
+  if (showOutput) {
     printBuildHeader({ skipValidate, onlyTheme, incremental, force });
   }
 
-  // Initialize cache service for incremental builds
+  // Incremental build initialization
   let cacheService: CacheService | undefined;
   let incrementalAnalysis: Awaited<ReturnType<typeof analyzeChanges>> | undefined;
 
   if (incremental) {
-    cacheService = new CacheService({
-      cacheDir: cacheDir || `${tokensDir}/.dsai-cache`,
-      enabled: true,
-    });
-
-    // Analyze what needs to be rebuilt
-    const figmaExportsDir = `${tokensDir}/figma-exports`;
-    const incrementalOptions: IncrementalOptions = {
-      enabled: true,
-      force,
-      cacheService,
-      verbose: verbose && !quiet,
-    };
-
-    incrementalAnalysis = await analyzeChanges(figmaExportsDir, incrementalOptions);
-
-    // If no changes detected, skip build
-    if (!incrementalAnalysis.needsFullBuild && incrementalAnalysis.changedFiles.length === 0) {
-      const duration = Date.now() - startTime;
-
-      if (verbose && !quiet) {
-        console.info(generateIncrementalReport(incrementalAnalysis, startTime, 0, 0));
-      }
-
-      return {
-        success: true,
-        stepsCompleted: ['Cache Check'],
-        stepsFailed: [],
-        duration,
-        errors: [],
-        warnings: ['No changes detected - build skipped'],
-      };
-    }
+    const init = await initIncrementalBuild(tokensDir, force, cacheDir, showOutput, startTime);
+    if (init.earlyResult) {return init.earlyResult;}
+    cacheService = init.cacheService;
+    incrementalAnalysis = init.analysis;
   }
 
   // Create and run build steps
-  const steps = createBuildSteps(
-    tokensDir,
-    toolsDir,
-    optionsWithConfig,
-    optionsWithConfig.pipeline
-  );
+  const steps = createBuildSteps(tokensDir, toolsDir, options, options.pipeline);
+  const { stepsCompleted, stepsFailed, errors } = await executeSteps(steps, showOutput);
 
-  for (const step of steps) {
-    const stepIndex = steps.indexOf(step);
-    const success = await runStep(step, stepIndex, steps.length, verbose && !quiet);
-
-    if (success) {
-      if (!step.skip) {
-        stepsCompleted.push(step.name);
-      }
-    } else {
-      stepsFailed.push(step.name);
-      errors.push(`Build failed at step: ${step.name}`);
-
-      // Stop on first failure
-      const failDuration = Date.now() - startTime;
-
-      if (verbose && !quiet) {
-        console.error(`\n💥 Build failed at step: ${step.name}`);
-      }
-
-      return {
-        success: false,
-        stepsCompleted,
-        stepsFailed,
-        duration: failDuration,
-        errors,
-        warnings,
-      };
-    }
+  if (stepsFailed.length > 0) {
+    return {
+      success: false, stepsCompleted, stepsFailed,
+      duration: Date.now() - startTime, errors, warnings: [],
+    };
   }
 
   const duration = Date.now() - startTime;
-  const durationSec = (duration / 1000).toFixed(2);
 
-  // Update cache after successful build
+  // Update cache after successful incremental build
   if (incremental && cacheService && incrementalAnalysis) {
-    const figmaExportsDir = `${tokensDir}/figma-exports`;
-    const collectionsDir = `${tokensDir}/collections`;
-
-    await updateCacheAfterBuild(
-      cacheService,
-      incrementalAnalysis.changedFiles,
-      [], // Output files - would need to track from transform step
-      figmaExportsDir,
-      collectionsDir,
-      verbose && !quiet
+    await finalizeIncrementalBuild(
+      cacheService, incrementalAnalysis, tokensDir, startTime,
+      stepsCompleted.length, steps.length, showOutput
     );
-
-    // Show incremental build report
-    if (verbose && !quiet) {
-      console.info(
-        generateIncrementalReport(
-          incrementalAnalysis,
-          startTime,
-          stepsCompleted.length,
-          steps.length
-        )
-      );
-    }
   }
 
-  // Cleanup preprocessed files if they exist
-  cleanupPreprocessedFiles(verbose && !quiet);
+  cleanupPreprocessedFiles(showOutput);
 
-  // Print footer
-  if (verbose && !quiet) {
-    console.info('\n╔════════════════════════════════════════════════════════════╗');
-    console.info('║  ✅ Build Complete                                         ║');
-    console.info(
-      `║  📊 ${stepsCompleted.length} steps passed in ${durationSec}s                              ║`
-    );
-    console.info('╚════════════════════════════════════════════════════════════╝');
+  if (showOutput) {
+    printBuildFooter(stepsCompleted.length, (duration / 1000).toFixed(2));
   }
 
   return {
-    success: true,
-    stepsCompleted,
-    stepsFailed,
-    duration,
-    errors,
-    warnings,
+    success: true, stepsCompleted, stepsFailed,
+    duration, errors, warnings: [],
   };
 }
 

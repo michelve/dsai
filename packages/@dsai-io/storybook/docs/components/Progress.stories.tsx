@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+const CSS_LABEL = 'small text-muted mb-1';
+
 /**
  * Progress bar component for showing progress or loading states.
  * Built with Bootstrap 5 design tokens and full WCAG 2.2 AA compliance.
@@ -162,15 +164,15 @@ export const Sizes: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <p className="small text-muted mb-1">Small (8px)</p>
+        <p className={CSS_LABEL}>Small (8px)</p>
         <Progress value={50} size="sm" aria-label="Small progress" />
       </div>
       <div>
-        <p className="small text-muted mb-1">Medium (16px) - Default</p>
+        <p className={CSS_LABEL}>Medium (16px) - Default</p>
         <Progress value={50} size="md" aria-label="Medium progress" />
       </div>
       <div>
-        <p className="small text-muted mb-1">Large (24px)</p>
+        <p className={CSS_LABEL}>Large (24px)</p>
         <Progress value={50} size="lg" aria-label="Large progress" />
       </div>
     </div>
@@ -527,7 +529,7 @@ export const BufferMode: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <p className="small text-muted mb-1">Video buffering (30% played, 60% buffered)</p>
+        <p className={CSS_LABEL}>Video buffering (30% played, 60% buffered)</p>
         <Progress
           value={30}
           bufferValue={60}
@@ -537,7 +539,7 @@ export const BufferMode: Story = {
         />
       </div>
       <div>
-        <p className="small text-muted mb-1">
+        <p className={CSS_LABEL}>
           Download with pre-fetch (50% downloaded, 80% fetched)
         </p>
         <Progress
@@ -564,15 +566,15 @@ export const Steps: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <p className="small text-muted mb-1">3 of 5 steps complete (60%)</p>
+        <p className={CSS_LABEL}>3 of 5 steps complete (60%)</p>
         <Progress value={60} steps={5} variant="primary" aria-label="Onboarding steps" />
       </div>
       <div>
-        <p className="small text-muted mb-1">8 of 10 steps (80%)</p>
+        <p className={CSS_LABEL}>8 of 10 steps (80%)</p>
         <Progress value={80} steps={10} variant="success" aria-label="Tutorial steps" />
       </div>
       <div>
-        <p className="small text-muted mb-1">1 of 3 steps (33%)</p>
+        <p className={CSS_LABEL}>1 of 3 steps (33%)</p>
         <Progress value={33} steps={3} variant="info" size="lg" aria-label="Checkout steps" />
       </div>
     </div>
@@ -591,7 +593,7 @@ export const GradientFill: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       <div>
-        <p className="small text-muted mb-1">Primary to success gradient</p>
+        <p className={CSS_LABEL}>Primary to success gradient</p>
         <Progress
           value={75}
           gradient={{ from: 'var(--bs-primary)', to: 'var(--bs-success)' }}
@@ -599,7 +601,7 @@ export const GradientFill: Story = {
         />
       </div>
       <div>
-        <p className="small text-muted mb-1">Info to primary gradient</p>
+        <p className={CSS_LABEL}>Info to primary gradient</p>
         <Progress
           value={60}
           gradient={{ from: 'var(--bs-info)', to: 'var(--bs-primary)' }}
@@ -608,7 +610,7 @@ export const GradientFill: Story = {
         />
       </div>
       <div>
-        <p className="small text-muted mb-1">Gradient with steps</p>
+        <p className={CSS_LABEL}>Gradient with steps</p>
         <Progress
           value={80}
           steps={8}

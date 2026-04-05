@@ -36,6 +36,17 @@ function warnMissingAccessibleName(componentId: string, componentName: string): 
   }
 }
 
+/** Compute the data-state attribute value for CSS targeting */
+function getCheckboxDataState(
+  indeterminate: boolean,
+  checked: boolean | undefined
+): 'indeterminate' | 'checked' | 'unchecked' {
+  if (indeterminate) {
+    return 'indeterminate';
+  }
+  return checked ? 'checked' : 'unchecked';
+}
+
 /**
  * Checkbox Component
  *
@@ -143,12 +154,7 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
     );
 
     // Compute data-state for CSS targeting (matches Radix convention)
-    let dataState: 'indeterminate' | 'checked' | 'unchecked';
-    if (indeterminate) {
-      dataState = 'indeterminate';
-    } else {
-      dataState = checked ? 'checked' : 'unchecked';
-    }
+    const dataState = getCheckboxDataState(indeterminate, checked);
 
     // Internal ref for indeterminate state
     const internalRef = useRef<HTMLInputElement>(null);

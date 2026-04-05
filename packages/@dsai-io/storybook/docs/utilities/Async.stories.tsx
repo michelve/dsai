@@ -208,10 +208,12 @@ export const CreateAbortable: Story = {
           </div>
 
           {status !== 'idle' && (() => {
-            const variantMap = { success: 'success', aborted: 'warning', error: 'danger' } as const;
-            const alertVariant = variantMap[status as keyof typeof variantMap] ?? 'info';
+            let alertVariant: 'success' | 'warning' | 'danger' | 'info' = 'info';
+            if (status === 'success') { alertVariant = 'success'; }
+            else if (status === 'aborted') { alertVariant = 'warning'; }
+            else if (status === 'error') { alertVariant = 'danger'; }
             return (
-            <Alert variant={alertVariant as 'success' | 'warning' | 'danger' | 'info'}>
+            <Alert variant={alertVariant}>
 
               <strong>Status:</strong> {status}
               {result && (
@@ -430,16 +432,16 @@ export const WithTimeoutDemo: Story = {
             {status === 'loading' ? 'Running...' : 'Run Request'}
           </Button>
 
-          {status !== 'idle' && status !== 'loading' && (
-            <Alert
-              variant={
-                ({ success: 'success', timeout: 'warning' } as Record<string, 'success' | 'warning' | 'danger'>)[status] ?? 'danger'
-              }
-              style={{ marginTop: '1rem' }}
-            >
-              <strong>Result:</strong> {result}
-            </Alert>
-          )}
+          {status !== 'idle' && status !== 'loading' && (() => {
+            let variant: 'success' | 'warning' | 'danger' = 'danger';
+            if (status === 'success') { variant = 'success'; }
+            else if (status === 'timeout') { variant = 'warning'; }
+            return (
+              <Alert variant={variant} style={{ marginTop: '1rem' }}>
+                <strong>Result:</strong> {result}
+              </Alert>
+            );
+          })()}
         </div>
 
         <div

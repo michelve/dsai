@@ -28,6 +28,61 @@ export interface UseTabsKeyboardOptions {
   focusedTab?: string | null;
 }
 
+/**
+ * Resolve the navigation direction keys based on orientation.
+ */
+function getDirectionKeys(orientation: TabsOrientation): { prevKey: string; nextKey: string } {
+  const isHorizontal = orientation === 'horizontal';
+  return {
+    prevKey: isHorizontal ? 'ArrowLeft' : 'ArrowUp',
+    nextKey: isHorizontal ? 'ArrowRight' : 'ArrowDown',
+  };
+}
+
+/**
+ * Map a key press to a new tab index, or return null if the key is not handled.
+ */
+function resolveNewIndex(
+  key: string,
+  prevKey: string,
+  nextKey: string,
+  currentIndex: number,
+  tabsLength: number
+): number | null {
+  switch (key) {
+    case prevKey:
+      return currentIndex > 0 ? currentIndex - 1 : tabsLength - 1;
+    case nextKey:
+      return currentIndex < tabsLength - 1 ? currentIndex + 1 : 0;
+    case 'Home':
+      return 0;
+    case 'End':
+      return tabsLength - 1;
+    default:
+      return null;
+  }
+}
+
+/**
+ * Apply the tab change: activate or focus the new tab and move DOM focus.
+ */
+function applyTabNavigation(
+  newTabId: string,
+  activationMode: TabsActivationMode,
+  setActiveTab: (id: string) => void,
+  setFocusedTab: (id: string | null) => void,
+  baseId: string
+): void {
+  if (activationMode === 'manual') {
+    setFocusedTab(newTabId);
+  } else {
+    setActiveTab(newTabId);
+  }
+
+  const tabButton = document.getElementById(`${baseId}-tab-${newTabId}`);
+  tabButton?.focus();
+}
+
 export function useTabsKeyboard({
   tabs,
   activeTab,
@@ -50,42 +105,17 @@ export function useTabsKeyboard({
         return;
       }
 
-      const isHorizontal = orientation === 'horizontal';
-      const prevKey = isHorizontal ? 'ArrowLeft' : 'ArrowUp';
-      const nextKey = isHorizontal ? 'ArrowRight' : 'ArrowDown';
-
-      let newIndex: number;
-      let handled = false;
-
-      switch (e.key) {
-        case prevKey:
-          newIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
-          handled = true;
-          break;
-        case nextKey:
-          newIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
-          handled = true;
-          break;
-        case 'Home':
-          newIndex = 0;
-          handled = true;
-          break;
-        case 'End':
-          newIndex = tabs.length - 1;
-          handled = true;
-          break;
-        case 'Enter':
-        case ' ':
-          if (activationMode === 'manual' && focusedTab) {
-            e.preventDefault();
-            setActiveTab(focusedTab);
-          }
-          return;
-        default:
-          return;
+      // Handle Enter/Space for manual activation
+      if ((e.key === 'Enter' || e.key === ' ') && activationMode === 'manual' && focusedTab) {
+        e.preventDefault();
+        setActiveTab(focusedTab);
+        return;
       }
 
-      if (!handled) {
+      const { prevKey, nextKey } = getDirectionKeys(orientation);
+      const newIndex = resolveNewIndex(e.key, prevKey, nextKey, currentIndex, tabs.length);
+
+      if (newIndex === null) {
         return;
       }
 
@@ -96,15 +126,7 @@ export function useTabsKeyboard({
         return;
       }
 
-      if (activationMode === 'manual') {
-        setFocusedTab(newTabId);
-      } else {
-        setActiveTab(newTabId);
-      }
-
-      // Focus the target tab button
-      const tabButton = document.getElementById(`${baseId}-tab-${newTabId}`);
-      tabButton?.focus();
+      applyTabNavigation(newTabId, activationMode, setActiveTab, setFocusedTab, baseId);
     },
     [tabs, activeTab, orientation, activationMode, setActiveTab, setFocusedTab, baseId, focusedTab]
   );

@@ -201,126 +201,81 @@ export function createInitialTableFSMState(
  * @param event - Event to process
  * @returns New FSM state
  */
+/**
+ * Build state from selected rows and total enabled count
+ */
+function buildState(selectedRows: RowId[], totalEnabled: number): TableFSMState {
+  return {
+    selectedRows,
+    visualState: deriveVisualState(selectedRows, totalEnabled),
+  };
+}
+
+/** Handle RESET_FROM_PROPS — re-derive state from controlled props */
+function handleResetFromProps(event: ResetFromPropsEvent): TableFSMState {
+  return createInitialTableFSMState(event.rowIds, event.mode, event.totalEnabled);
+}
+
+/** Handle SELECT_ROW — radio-button behavior for single mode */
+function handleSelectRow(state: TableFSMState, event: SelectRowEvent): TableFSMState {
+  if (state.selectedRows.includes(event.rowId)) {
+    return state;
+  }
+  return buildState([event.rowId], event.totalEnabled);
+}
+
+/** Handle TOGGLE_ROW — checkbox behavior for multiple mode */
+function handleToggleRow(state: TableFSMState, event: ToggleRowEvent): TableFSMState {
+  const selected = new Set(state.selectedRows);
+  if (selected.has(event.rowId)) {
+    selected.delete(event.rowId);
+  } else {
+    selected.add(event.rowId);
+  }
+  return buildState(Array.from(selected), event.totalEnabled);
+}
+
+/** Handle TOGGLE_ALL — select all if not all selected, else clear */
+function handleToggleAll(state: TableFSMState, event: ToggleAllEvent): TableFSMState {
+  if (state.visualState === 'all') {
+    return { selectedRows: [], visualState: 'none' };
+  }
+  return buildState([...event.enabledRowIds], event.totalEnabled);
+}
+
+/** Handle SELECT_RANGE — add a range of rows to the existing selection */
+function handleSelectRange(state: TableFSMState, event: SelectRangeEvent): TableFSMState {
+  const selected = new Set(state.selectedRows);
+  for (const id of event.rowIds) {
+    selected.add(id);
+  }
+  return buildState(Array.from(selected), event.totalEnabled);
+}
+
 export function tableFSMReducer(state: TableFSMState, event: TableFSMEvent): TableFSMState {
   switch (event.type) {
-    case 'RESET_FROM_PROPS': {
-      const { rowIds, mode, totalEnabled } = event;
+    case 'RESET_FROM_PROPS':
+      return handleResetFromProps(event);
 
-      // For 'none' mode, always empty
-      if (mode === 'none') {
-        return {
-          selectedRows: [],
-          visualState: 'none',
-        };
-      }
+    case 'SELECT_ROW':
+      return handleSelectRow(state, event);
 
-      // For 'single' mode, only keep first value
-      if (mode === 'single') {
-        const firstValue = rowIds[0];
-        const selectedRows = firstValue !== undefined ? [firstValue] : [];
-        return {
-          selectedRows,
-          visualState: deriveVisualState(selectedRows, totalEnabled),
-        };
-      }
+    case 'TOGGLE_ROW':
+      return handleToggleRow(state, event);
 
-      // For 'multiple' mode, deduplicate
-      const selectedRows = [...new Set(rowIds)];
-      return {
-        selectedRows,
-        visualState: deriveVisualState(selectedRows, totalEnabled),
-      };
-    }
+    case 'CLEAR_ALL':
+      return { selectedRows: [], visualState: 'none' };
 
-    case 'SELECT_ROW': {
-      const { rowId, totalEnabled } = event;
+    case 'SELECT_ALL':
+      return buildState([...event.enabledRowIds], event.totalEnabled);
 
-      // Single selection - replace current selection
-      // Note: Do not deselect if clicking the already selected row
-      // (radio button behavior - can't unselect by clicking)
-      if (state.selectedRows.includes(rowId)) {
-        // Already selected, no change
-        return state;
-      }
+    case 'TOGGLE_ALL':
+      return handleToggleAll(state, event);
 
-      const selectedRows = [rowId];
-      return {
-        selectedRows,
-        visualState: deriveVisualState(selectedRows, totalEnabled),
-      };
-    }
-
-    case 'TOGGLE_ROW': {
-      const { rowId, totalEnabled } = event;
-      const selected = new Set(state.selectedRows);
-
-      // Toggle the row
-      if (selected.has(rowId)) {
-        selected.delete(rowId);
-      } else {
-        selected.add(rowId);
-      }
-
-      const selectedRows = Array.from(selected);
-      return {
-        selectedRows,
-        visualState: deriveVisualState(selectedRows, totalEnabled),
-      };
-    }
-
-    case 'CLEAR_ALL': {
-      return {
-        selectedRows: [],
-        visualState: 'none',
-      };
-    }
-
-    case 'SELECT_ALL': {
-      const { enabledRowIds, totalEnabled } = event;
-      const selectedRows = [...enabledRowIds];
-
-      return {
-        selectedRows,
-        visualState: deriveVisualState(selectedRows, totalEnabled),
-      };
-    }
-
-    case 'TOGGLE_ALL': {
-      const { enabledRowIds, totalEnabled } = event;
-
-      // If all are selected, deselect all; otherwise select all
-      if (state.visualState === 'all') {
-        return {
-          selectedRows: [],
-          visualState: 'none',
-        };
-      }
-
-      const selectedRows = [...enabledRowIds];
-      return {
-        selectedRows,
-        visualState: deriveVisualState(selectedRows, totalEnabled),
-      };
-    }
-
-    case 'SELECT_RANGE': {
-      const { rowIds, totalEnabled } = event;
-
-      // Add all range row IDs to the existing selection (union)
-      const selected = new Set(state.selectedRows);
-      for (const id of rowIds) {
-        selected.add(id);
-      }
-
-      const selectedRows = Array.from(selected);
-      return {
-        selectedRows,
-        visualState: deriveVisualState(selectedRows, totalEnabled),
-      };
-    }
+    case 'SELECT_RANGE':
+      return handleSelectRange(state, event);
 
     default: {
-      // TypeScript exhaustiveness check
       const _exhaustive: never = event;
       return _exhaustive;
     }

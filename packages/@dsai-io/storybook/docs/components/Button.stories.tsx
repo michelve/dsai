@@ -24,6 +24,8 @@ import type { JSX } from 'react';
 const LABEL_SAVE_CHANGES = 'Save Changes';
 const LABEL_PROCESSING = 'Processing...';
 const FONT_SIZE_SM = '0.875rem';
+const FONT_SIZE_XS = '0.75rem';
+const COLOR_SECONDARY = 'var(--bs-secondary)';
 const FONT_WEIGHT_BOLD = 'var(--dsai-typography-font-weight-bold)';
 
 /**
@@ -124,7 +126,7 @@ const AnnouncementDemo = (): JSX.Element => {
       >
         {isLoading ? 'Saving...' : LABEL_SAVE_CHANGES}
       </Button>
-      <p style={{ fontSize: FONT_SIZE_SM, color: 'var(--bs-secondary)' }}>
+      <p style={{ fontSize: FONT_SIZE_SM, color: COLOR_SECONDARY }}>
         Click the button and watch the screen reader announcement region
       </p>
     </div>
@@ -805,7 +807,7 @@ const ErrorWithRecoveryExample = (): JSX.Element => {
       <Button variant="primary" error={hasError} onClick={handleClick} disabled={hasError}>
         {hasError ? 'Error - Retry' : 'Click Me'}
       </Button>
-      <p style={{ fontSize: FONT_SIZE_SM, color: 'var(--bs-secondary)' }}>
+      <p style={{ fontSize: FONT_SIZE_SM, color: COLOR_SECONDARY }}>
         Click the button to trigger error state. After 2 seconds, error clears automatically.
       </p>
     </div>
@@ -853,7 +855,7 @@ export const FSMStatePriority: Story = {
         <Button variant="primary" loading>
           Loading...
         </Button>
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: COLOR_SECONDARY, marginTop: '0.5rem' }}>
           Loading overrides interactive states. FSM ignores hover/press/focus events.
         </p>
       </div>
@@ -872,7 +874,7 @@ export const FSMStatePriority: Story = {
         <Button variant="danger" error>
           Error Occurred
         </Button>
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: COLOR_SECONDARY, marginTop: '0.5rem' }}>
           Error state visually indicates a problem. FSM prevents interaction.
         </p>
       </div>
@@ -891,7 +893,7 @@ export const FSMStatePriority: Story = {
         <Button variant="primary" disabled>
           Disabled State
         </Button>
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: COLOR_SECONDARY, marginTop: '0.5rem' }}>
           Disabled takes precedence over all other states. No interaction possible.
         </p>
       </div>
@@ -910,7 +912,7 @@ export const FSMStatePriority: Story = {
         <Button variant="primary" disabled loading>
           Disabled & Loading
         </Button>
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: COLOR_SECONDARY, marginTop: '0.5rem' }}>
           When both disabled and loading, disabled takes precedence (FSM priority rule).
         </p>
       </div>
@@ -939,13 +941,13 @@ export const FSMInteractiveStates: Story = {
         >
           Interactive States Demo
         </Heading>
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginBottom: '1rem' }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: COLOR_SECONDARY, marginBottom: '1rem' }}>
           Try these interactions and observe the button behavior:
         </p>
         <ul
           style={{
-            fontSize: '0.75rem',
-            color: 'var(--bs-secondary)',
+            fontSize: FONT_SIZE_XS,
+            color: COLOR_SECONDARY,
             marginBottom: '1rem',
             paddingLeft: '1.5rem',
           }}
@@ -965,7 +967,7 @@ export const FSMInteractiveStates: Story = {
       </div>
 
       <div>
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '1rem' }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: COLOR_SECONDARY, marginTop: '1rem' }}>
           <strong>FSM State Tracking:</strong> The button element includes a{' '}
           <code>data-visual-state</code> attribute that changes as you interact with it. Open
           browser DevTools Inspector to see the attribute updates in real-time.
@@ -1083,13 +1085,13 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
           borderRadius: 'var(--dsai-border-radius-sm)',
         }}
       >
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', margin: 0 }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: COLOR_SECONDARY, margin: 0 }}>
           <strong>FSM Transition Flow:</strong>
         </p>
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', margin: '0.5rem 0 0 0' }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: COLOR_SECONDARY, margin: '0.5rem 0 0 0' }}>
           idle → loading → (success: idle) or (error: error state)
         </p>
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', margin: '0.5rem 0 0 0' }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: COLOR_SECONDARY, margin: '0.5rem 0 0 0' }}>
           Each button manages its own FSM state independently.
         </p>
       </div>
@@ -1146,7 +1148,7 @@ export const AccessibleIconOnlyButton: Story = {
             {''}
           </Button>
         </div>
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: COLOR_SECONDARY, marginTop: '0.5rem' }}>
           Each icon-only button has an <code>aria-label</code> for screen readers.
         </p>
       </div>
@@ -1173,7 +1175,7 @@ export const AccessibleIconOnlyButton: Story = {
             Next
           </Button>
         </div>
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: COLOR_SECONDARY, marginTop: '0.5rem' }}>
           Buttons with visible text content automatically have accessible names.
         </p>
       </div>
@@ -1204,7 +1206,7 @@ export const KeyboardNavigationDemo: Story = {
         >
           Keyboard Navigation Test
         </Heading>
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginBottom: '1rem' }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: COLOR_SECONDARY, marginBottom: '1rem' }}>
           Use Tab to navigate between buttons. Press Enter or Space to activate.
         </p>
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
@@ -1225,13 +1227,13 @@ export const KeyboardNavigationDemo: Story = {
           border: '1px solid var(--bs-info-border-subtle)',
         }}
       >
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-info-text-emphasis)', margin: 0 }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: 'var(--bs-info-text-emphasis)', margin: 0 }}>
           <strong>Test Coverage:</strong> The Button.a11y.test.tsx file includes 6 keyboard
           interaction tests verifying:
         </p>
         <ul
           style={{
-            fontSize: '0.75rem',
+            fontSize: FONT_SIZE_XS,
             color: 'var(--bs-info-text-emphasis)',
             marginTop: '0.5rem',
             paddingLeft: '1rem',
@@ -1275,7 +1277,7 @@ const ARIAAttributesDemoExample = (): JSX.Element => {
             <Dropdown.Item aria-label="Select third option">Menu item 3</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: COLOR_SECONDARY, marginTop: '0.5rem' }}>
           <strong>ARIA attributes used:</strong>
           <br />• <code>aria-expanded</code> - automatically managed by Dropdown.Toggle
           <br />• <code>aria-controls=&quot;demo-dropdown-menu&quot;</code> - links toggle to menu
@@ -1296,7 +1298,7 @@ const ARIAAttributesDemoExample = (): JSX.Element => {
         >
           {isPressed ? 'On' : 'Off'}
         </Button>
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: COLOR_SECONDARY, marginTop: '0.5rem' }}>
           <strong>ARIA attributes used:</strong>
           <br />• <code>aria-pressed=&quot;{String(isPressed)}&quot;</code> - indicates toggle state
           <br />• <code>aria-label</code> - describes action based on current state
@@ -1314,11 +1316,11 @@ const ARIAAttributesDemoExample = (): JSX.Element => {
           >
             Delete Account
           </Button>
-          <span id="delete-description" style={{ fontSize: '0.75rem', color: 'var(--bs-danger)' }}>
+          <span id="delete-description" style={{ fontSize: FONT_SIZE_XS, color: 'var(--bs-danger)' }}>
             This action cannot be undone.
           </span>
         </div>
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: COLOR_SECONDARY, marginTop: '0.5rem' }}>
           <strong>ARIA attributes used:</strong>
           <br />• <code>aria-describedby=&quot;delete-description&quot;</code> - links to warning
           text
@@ -1331,7 +1333,7 @@ const ARIAAttributesDemoExample = (): JSX.Element => {
         <Button variant="primary" loading aria-busy="true" aria-label="Saving changes, please wait">
           Saving...
         </Button>
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.5rem' }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: COLOR_SECONDARY, marginTop: '0.5rem' }}>
           <strong>ARIA attributes used:</strong>
           <br />• <code>aria-busy=&quot;true&quot;</code> - indicates ongoing operation
           <br />• <code>aria-disabled=&quot;true&quot;</code> - prevents interaction while loading

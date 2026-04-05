@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { JSX } from 'react';
 
 const FONT_SIZE_SM = '0.875rem';
+const COLOR_SECONDARY = 'var(--bs-secondary)';
 
 /**
  * Avatar component for displaying user profile images, initials, or icons.
@@ -547,7 +548,7 @@ const CompoundComponentsExample = (): JSX.Element => (
         <Avatar name="Mixed User" status="online" size="lg">
           <Avatar.Badge count={3} />
         </Avatar>
-        <span style={{ fontSize: FONT_SIZE_SM, color: 'var(--bs-secondary)' }}>
+        <span style={{ fontSize: FONT_SIZE_SM, color: COLOR_SECONDARY }}>
           Status from flat prop, badge from compound
         </span>
       </div>
@@ -889,7 +890,7 @@ const AccessibilityExample = (): JSX.Element => (
       </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar name="John Doe" status="online" />
-        <span style={{ fontSize: FONT_SIZE_SM, color: 'var(--bs-secondary)' }}>
+        <span style={{ fontSize: FONT_SIZE_SM, color: COLOR_SECONDARY }}>
           Announces: &quot;John Doe, Online&quot;
         </span>
       </div>
@@ -901,7 +902,7 @@ const AccessibilityExample = (): JSX.Element => (
       </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar name="Jane Smith" aria-label="Jane Smith, Team Lead, Available" />
-        <span style={{ fontSize: FONT_SIZE_SM, color: 'var(--bs-secondary)' }}>Custom label overrides default</span>
+        <span style={{ fontSize: FONT_SIZE_SM, color: COLOR_SECONDARY }}>Custom label overrides default</span>
       </div>
     </div>
 
@@ -911,7 +912,7 @@ const AccessibilityExample = (): JSX.Element => (
       </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar name="Hidden from SR" decorative />
-        <span style={{ fontSize: FONT_SIZE_SM, color: 'var(--bs-secondary)' }}>
+        <span style={{ fontSize: FONT_SIZE_SM, color: COLOR_SECONDARY }}>
           Hidden from screen readers (aria-hidden=true)
         </span>
       </div>
@@ -923,7 +924,7 @@ const AccessibilityExample = (): JSX.Element => (
       </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar name="Interactive User" interactive onClick={() => alert('Clicked!')} />
-        <span style={{ fontSize: FONT_SIZE_SM, color: 'var(--bs-secondary)' }}>
+        <span style={{ fontSize: FONT_SIZE_SM, color: COLOR_SECONDARY }}>
           Focusable, activates with Enter/Space
         </span>
       </div>
@@ -939,7 +940,7 @@ const AccessibilityExample = (): JSX.Element => (
           <Avatar name="Bob" />
           <Avatar name="Charlie" />
         </AvatarGroup>
-        <span style={{ fontSize: FONT_SIZE_SM, color: 'var(--bs-secondary)' }}>
+        <span style={{ fontSize: FONT_SIZE_SM, color: COLOR_SECONDARY }}>
           Group with role=&quot;group&quot; and aria-label
         </span>
       </div>
