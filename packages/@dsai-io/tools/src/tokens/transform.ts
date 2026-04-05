@@ -815,6 +815,26 @@ function logTransformConfig(ctx: TransformContext): void {
   console.info('');
 }
 
+/** Detect modes for a single collection and record them in the map and context */
+function detectCollectionModes(
+  name: string,
+  collectionConfig: CollectionConfig,
+  themeData: FigmaExport,
+  detectedModesMap: Map<string, string[]>,
+  ctx: TransformContext,
+): void {
+  if (!collectionConfig.modeAware) { return; }
+
+  const collectionPath = name.charAt(0).toUpperCase() + name.slice(1);
+  const modes = detectModes(themeData, collectionPath);
+  if (modes.length === 0) { return; }
+
+  detectedModesMap.set(collectionPath, modes);
+  for (const mode of modes) {
+    ctx.allModesDetected.add(mode);
+  }
+}
+
 /** Detect modes from theme.json and populate the map */
 function detectModesFromTheme(
   ctx: TransformContext,
@@ -829,17 +849,9 @@ function detectModesFromTheme(
     const themeData = JSON.parse(content) as FigmaExport;
 
     for (const [name, collectionConfig] of Object.entries(DEFAULT_COLLECTIONS)) {
-      const typedConfig = collectionConfig as CollectionConfig;
-      if (!typedConfig.modeAware) { continue; }
-
-      const collectionPath = name.charAt(0).toUpperCase() + name.slice(1);
-      const modes = detectModes(themeData, collectionPath);
-      if (modes.length > 0) {
-        detectedModesMap.set(collectionPath, modes);
-        for (const mode of modes) {
-          ctx.allModesDetected.add(mode);
-        }
-      }
+      detectCollectionModes(
+        name, collectionConfig as CollectionConfig, themeData, detectedModesMap, ctx,
+      );
     }
   } catch (error) {
     ctx.warnings.push(

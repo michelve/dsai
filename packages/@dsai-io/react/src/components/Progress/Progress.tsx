@@ -291,6 +291,56 @@ function renderBufferBar(
   );
 }
 
+/** Build ARIA attributes for the progress container (non-stacked mode) */
+function buildProgressAriaProps(
+  ariaLabel: string | undefined,
+  ariaLabelledBy: string | undefined,
+  indeterminate: boolean,
+  percentage: number,
+  min: number,
+  max: number,
+  computedValueText: string,
+): Record<string, unknown> {
+  return {
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
+    'aria-valuenow': indeterminate ? undefined : percentage,
+    'aria-valuemin': min,
+    'aria-valuemax': max,
+    'aria-valuetext': computedValueText,
+    'aria-busy': indeterminate,
+  };
+}
+
+/** Render the inner bar content (default single-bar mode) */
+function renderDefaultBar(
+  barClasses: string,
+  barStyle: React.CSSProperties,
+  bufferPercentage: number | undefined,
+  variant: string,
+  gradient: ProgressProps['gradient'],
+  showValue: boolean,
+  indeterminate: boolean,
+  label: React.ReactNode | undefined,
+  displayValue: React.ReactNode,
+  dataTestId: string | undefined,
+): React.JSX.Element {
+  return (
+    <>
+      {bufferPercentage != null && renderBufferBar(bufferPercentage, variant, gradient, dataTestId)}
+      <div
+        className={barClasses}
+        style={{
+          ...barStyle,
+          ...(bufferPercentage != null && { position: 'relative' as const, zIndex: 1 }),
+        }}
+      >
+        {showValue && !indeterminate && !label && displayValue}
+      </div>
+    </>
+  );
+}
+
 function ProgressBase({
   value,
   variant = 'primary',
@@ -348,33 +398,14 @@ function ProgressBase({
         role={hasChildren ? 'group' : 'progressbar'}
         data-testid={dataTestId}
         data-test={dataTest}
-        {...(!hasChildren && {
-          'aria-label': ariaLabel,
-          'aria-labelledby': ariaLabelledBy,
-          'aria-valuenow': indeterminate ? undefined : percentage,
-          'aria-valuemin': min,
-          'aria-valuemax': max,
-          'aria-valuetext': computedValueText,
-          'aria-busy': indeterminate,
-        })}
+        {...(!hasChildren && buildProgressAriaProps(ariaLabel, ariaLabelledBy, indeterminate, percentage, min, max, computedValueText))}
       >
         {hasChildren ? (
           children
         ) : steps != null && steps > 0 ? (
           renderSteps(steps, percentage, barClasses, barStyle, gradient)
         ) : (
-          <>
-            {bufferPercentage != null && renderBufferBar(bufferPercentage, variant, gradient, dataTestId)}
-            <div
-              className={barClasses}
-              style={{
-                ...barStyle,
-                ...(bufferPercentage != null && { position: 'relative' as const, zIndex: 1 }),
-              }}
-            >
-              {showValue && !indeterminate && !label && displayValue}
-            </div>
-          </>
+          renderDefaultBar(barClasses, barStyle, bufferPercentage, variant, gradient, showValue, indeterminate, label, displayValue, dataTestId)
         )}
       </div>
     </div>

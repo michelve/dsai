@@ -1966,47 +1966,69 @@ export class FigmaClient {
     return { path: filePath, collection: collectionName, mode: 'default', tokenCount };
   }
 
-  private async exportStyleTokens(
-    options: ExportTokensOptions,
-    warnings: string[]
-  ): Promise<{ files: ExportedFile[]; tokenCount: number }> {
+  private parseStyleFlags(options: ExportTokensOptions): {
+    includeEffects: boolean;
+    includePaints: boolean;
+    includeTextStyles: boolean;
+    hasAny: boolean;
+  } {
     const extendedOptions = options as ExtendedExportOptions;
     const includeEffects = extendedOptions.includeEffects ?? false;
     const includePaints = extendedOptions.includePaints ?? false;
     const includeTextStyles = extendedOptions.includeTextStyles ?? false;
+    return {
+      includeEffects,
+      includePaints,
+      includeTextStyles,
+      hasAny: includeEffects || includePaints || includeTextStyles,
+    };
+  }
 
-    if (!includeEffects && !includePaints && !includeTextStyles) {
+  private async writeIncludedStyleFiles(
+    outputDir: string,
+    styleEntries: Array<[boolean, string, string, Record<string, unknown>]>
+  ): Promise<{ files: ExportedFile[]; tokenCount: number }> {
+    const files: ExportedFile[] = [];
+    let tokenCount = 0;
+
+    for (const [included, fileName, collectionName, styleTokens] of styleEntries) {
+      if (!included) {
+        continue;
+      }
+      const file = await this.writeStyleFile(outputDir, fileName, collectionName, styleTokens);
+      if (file) {
+        files.push(file);
+        tokenCount += file.tokenCount;
+      }
+    }
+
+    return { files, tokenCount };
+  }
+
+  private async exportStyleTokens(
+    options: ExportTokensOptions,
+    warnings: string[]
+  ): Promise<{ files: ExportedFile[]; tokenCount: number }> {
+    const flags = this.parseStyleFlags(options);
+
+    if (!flags.hasAny) {
       return { files: [], tokenCount: 0 };
     }
 
     try {
       const styles = await this.exportStyles(options.fileKey, {
-        includeEffects,
-        includePaints,
-        includeTextStyles,
+        includeEffects: flags.includeEffects,
+        includePaints: flags.includePaints,
+        includeTextStyles: flags.includeTextStyles,
       });
 
-      const files: ExportedFile[] = [];
-      let tokenCount = 0;
-
       const styleEntries: Array<[boolean, string, string, Record<string, unknown>]> = [
-        [includeEffects, 'effects.json', 'Effects', styles.effects as Record<string, unknown>],
-        [includePaints, 'paints.json', 'Paints', styles.paints as Record<string, unknown>],
-        [includeTextStyles, 'text-styles.json', 'TextStyles', styles.textStyles as Record<string, unknown>],
+        [flags.includeEffects, 'effects.json', 'Effects', styles.effects as Record<string, unknown>],
+        [flags.includePaints, 'paints.json', 'Paints', styles.paints as Record<string, unknown>],
+        [flags.includeTextStyles, 'text-styles.json', 'TextStyles', styles.textStyles as Record<string, unknown>],
       ];
 
-      for (const [included, fileName, collectionName, styleTokens] of styleEntries) {
-        if (!included) {
-          continue;
-        }
-        const file = await this.writeStyleFile(options.outputDir, fileName, collectionName, styleTokens);
-        if (file) {
-          files.push(file);
-          tokenCount += file.tokenCount;
-        }
-      }
-
-      return { files, tokenCount };
+      return this.writeIncludedStyleFiles(options.outputDir, styleEntries);
     } catch (styleError) {
       warnings.push(
         `Could not export styles: ${styleError instanceof Error ? styleError.message : String(styleError)}`
@@ -2245,6 +2267,40 @@ export class FigmaClient {
     return remoteTokens;
   }
 
+  private handleNewToken(
+    path: string,
+    remoteValue: unknown,
+    localTokens: Map<string, unknown>,
+    dryRun: boolean,
+    added: string[]
+  ): void {
+    added.push(path);
+    if (!dryRun) {
+      localTokens.set(path, remoteValue);
+    }
+  }
+
+  private handleChangedToken(
+    path: string,
+    localValue: unknown,
+    remoteValue: unknown,
+    localTokens: Map<string, unknown>,
+    options: SyncFigmaOptions,
+    updated: string[],
+    conflicts: SyncConflict[]
+  ): void {
+    if (options.conflictResolution === 'manual') {
+      conflicts.push({ path, localValue, remoteValue });
+      return;
+    }
+    if (options.conflictResolution === 'remote' || options.direction === 'pull') {
+      updated.push(path);
+      if (!options.dryRun) {
+        localTokens.set(path, remoteValue);
+      }
+    }
+  }
+
   private pullTokens(
     remoteTokens: Map<string, unknown>,
     localTokens: Map<string, unknown>,
@@ -2258,24 +2314,12 @@ export class FigmaClient {
       const localValue = localTokens.get(path);
 
       if (localValue === undefined) {
-        added.push(path);
-        if (!options.dryRun) {
-          localTokens.set(path, remoteValue);
-        }
+        this.handleNewToken(path, remoteValue, localTokens, options.dryRun ?? false, added);
         continue;
       }
 
-      if (this.valuesEqual(localValue, remoteValue)) {
-        continue;
-      }
-
-      if (options.conflictResolution === 'manual') {
-        conflicts.push({ path, localValue, remoteValue });
-      } else if (options.conflictResolution === 'remote' || options.direction === 'pull') {
-        updated.push(path);
-        if (!options.dryRun) {
-          localTokens.set(path, remoteValue);
-        }
+      if (!this.valuesEqual(localValue, remoteValue)) {
+        this.handleChangedToken(path, localValue, remoteValue, localTokens, options, updated, conflicts);
       }
     }
 

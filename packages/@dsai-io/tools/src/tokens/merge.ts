@@ -449,6 +449,18 @@ function applyMergeStrategy(
   return merged;
 }
 
+/** Remove duplicate color sections from a single mode's colors object */
+function purgeDuplicateColorSections(colors: TokenObject, verbose: boolean): void {
+  for (const sectionName of Object.keys(colors)) {
+    if (isDuplicateSection(colors[sectionName])) {
+      if (verbose) {
+        console.info(`  ⚠️  Removing duplicate section: ${sectionName}`);
+      }
+      delete colors[sectionName];
+    }
+  }
+}
+
 /** Remove duplicate/alias sections from merged modes */
 function removeDuplicateSections(merged: TokenObject, verbose: boolean): void {
   if (verbose) {
@@ -463,14 +475,7 @@ function removeDuplicateSections(merged: TokenObject, verbose: boolean): void {
     const colors = mode?.['colors'] as TokenObject | undefined;
     if (!colors) { continue; }
 
-    for (const sectionName of Object.keys(colors)) {
-      if (isDuplicateSection(colors[sectionName])) {
-        if (verbose) {
-          console.info(`  ⚠️  Removing duplicate section: ${sectionName}`);
-        }
-        delete colors[sectionName];
-      }
-    }
+    purgeDuplicateColorSections(colors, verbose);
   }
 }
 

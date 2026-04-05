@@ -153,7 +153,8 @@
       "Bash(printenv)",
       "Bash(printenv SONAR_LOCAL_TOKEN)",
       "Bash(env)",
-      "mcp__sonarqube__get_component_measures"
+      "mcp__sonarqube__get_component_measures",
+      "Bash(xargs -I{} bash -c 'echo \"Last modified: $\\(date -d @{}\\) \\($\\(\\( $\\(date +%s\\) - {} \\)\\) seconds ago\\)\"')"
     ]
   }
 }

@@ -169,60 +169,84 @@ interface AnalyzedDeps {
   npmDeps: Set<string>;
 }
 
+/** Try to classify specifier as a shared types import */
+function tryClassifyTypesImport(specifier: string, registryDeps: Set<string>): boolean {
+  if (/^\.\.\/\.\.\/types(?:\/.*)?$/.test(specifier)) {
+    registryDeps.add('dsai-types');
+    return true;
+  }
+  return false;
+}
+
+/** Try to classify specifier as a hook import */
+function tryClassifyHookImport(specifier: string, registryDeps: Set<string>): boolean {
+  const hookMatch = /\.\.\/(?:\.\.\/)?hooks\/(\w+)/.exec(specifier);
+  if (hookMatch?.[1]) {
+    const regName = hookDirectoryToRegistryName[hookMatch[1]];
+    if (regName) { registryDeps.add(regName); }
+    return true;
+  }
+  return false;
+}
+
+/** Try to classify specifier as a util import */
+function tryClassifyUtilImport(specifier: string, registryDeps: Set<string>): boolean {
+  const utilMatch = /\.\.\/(?:\.\.\/)?utils(?:\/(.+))?$/.exec(specifier);
+  if (utilMatch) {
+    const regName = UTIL_SUBPATH_TO_REGISTRY[utilMatch[1] ?? 'index'];
+    if (regName) { registryDeps.add(regName); }
+    return true;
+  }
+  return false;
+}
+
+/** Try to classify specifier as a sibling util directory import */
+function tryClassifySiblingUtilImport(specifier: string, registryDeps: Set<string>): boolean {
+  const siblingMatch = /^\.\.\/([a-z][\w-]*)(?:\/.*)?$/.exec(specifier);
+  if (siblingMatch?.[1]) {
+    const regName = UTIL_SUBPATH_TO_REGISTRY[siblingMatch[1]];
+    if (regName) { registryDeps.add(regName); return true; }
+  }
+  return false;
+}
+
+/** Try to classify specifier as a component cross-import */
+function tryClassifyComponentImport(specifier: string, registryDeps: Set<string>): boolean {
+  const compMatch = /^\.\.\/(\.\.\/)?(?:components\/)?([A-Z]\w+)(?:\/.*)?$/.exec(specifier);
+  if (compMatch?.[2]) {
+    const regName = directoryToRegistryName[compMatch[2]];
+    if (regName) { registryDeps.add(regName); }
+    return true;
+  }
+  return false;
+}
+
+/** Try to classify specifier as an external npm package */
+function tryClassifyNpmImport(specifier: string, npmDeps: Set<string>): void {
+  if (specifier.startsWith('.') || specifier.startsWith('/')) { return; }
+
+  const parts = specifier.split('/');
+  const pkgName = specifier.startsWith('@') && parts.length >= 2
+    ? `${parts[0]}/${parts[1]}`
+    : (parts[0] ?? specifier);
+
+  if (pkgName && !REACT_BUILTINS.has(pkgName) && !pkgName.startsWith('@dsai-io/')) {
+    npmDeps.add(pkgName);
+  }
+}
+
 /** Classify a single import specifier and add to the appropriate dep set */
 function classifyImport(
   specifier: string,
   registryDeps: Set<string>,
   npmDeps: Set<string>,
 ): void {
-  // Shared types imports (exactly two levels up)
-  if (/^\.\.\/\.\.\/types(?:\/.*)?$/.test(specifier)) {
-    registryDeps.add('dsai-types');
-    return;
-  }
-
-  // Hook imports: ../../hooks/<hookName> or ../hooks/<hookName>
-  const hookMatch = /\.\.\/(?:\.\.\/)?hooks\/(\w+)/.exec(specifier);
-  if (hookMatch?.[1]) {
-    const regName = hookDirectoryToRegistryName[hookMatch[1]];
-    if (regName) { registryDeps.add(regName); }
-    return;
-  }
-
-  // Util imports: ../../utils or ../../utils/<subpath>
-  const utilMatch = /\.\.\/(?:\.\.\/)?utils(?:\/(.+))?$/.exec(specifier);
-  if (utilMatch) {
-    const regName = UTIL_SUBPATH_TO_REGISTRY[utilMatch[1] ?? 'index'];
-    if (regName) { registryDeps.add(regName); }
-    return;
-  }
-
-  // Sibling util directory imports (lowercase dirs)
-  const siblingMatch = /^\.\.\/([a-z][\w-]*)(?:\/.*)?$/.exec(specifier);
-  if (siblingMatch?.[1]) {
-    const regName = UTIL_SUBPATH_TO_REGISTRY[siblingMatch[1]];
-    if (regName) { registryDeps.add(regName); return; }
-  }
-
-  // Component cross-imports
-  const compMatch = /^\.\.\/(\.\.\/)?(?:components\/)?([A-Z]\w+)(?:\/.*)?$/.exec(specifier);
-  if (compMatch?.[2]) {
-    const regName = directoryToRegistryName[compMatch[2]];
-    if (regName) { registryDeps.add(regName); }
-    return;
-  }
-
-  // External npm packages (not relative, not react builtins)
-  if (!specifier.startsWith('.') && !specifier.startsWith('/')) {
-    const parts = specifier.split('/');
-    const pkgName = specifier.startsWith('@') && parts.length >= 2
-      ? `${parts[0]}/${parts[1]}`
-      : (parts[0] ?? specifier);
-
-    if (pkgName && !REACT_BUILTINS.has(pkgName) && !pkgName.startsWith('@dsai-io/')) {
-      npmDeps.add(pkgName);
-    }
-  }
+  if (tryClassifyTypesImport(specifier, registryDeps)) { return; }
+  if (tryClassifyHookImport(specifier, registryDeps)) { return; }
+  if (tryClassifyUtilImport(specifier, registryDeps)) { return; }
+  if (tryClassifySiblingUtilImport(specifier, registryDeps)) { return; }
+  if (tryClassifyComponentImport(specifier, registryDeps)) { return; }
+  tryClassifyNpmImport(specifier, npmDeps);
 }
 
 function analyzeImports(files: { content: string }[], knownNpmDeps: string[]): AnalyzedDeps {

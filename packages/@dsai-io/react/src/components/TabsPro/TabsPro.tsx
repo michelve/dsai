@@ -245,6 +245,76 @@ const LeaveConfirmModal = memo(function LeaveConfirmModal({
 LeaveConfirmModal.displayName = 'LeaveConfirmModal';
 
 // =============================================================================
+// Guard & Load helpers (extracted to reduce component cyclomatic complexity)
+// =============================================================================
+
+/**
+ * Execute the guard function for a tab item. Returns true if loading should proceed.
+ */
+async function executeGuard(
+  item: TabsProItem,
+  tabId: string,
+  dispatch: React.Dispatch<ReturnType<typeof guardFailEvent> | ReturnType<typeof guardOkEvent>>,
+): Promise<boolean> {
+  if (!item.guard) {
+    dispatch(guardOkEvent(tabId));
+    return true;
+  }
+
+  try {
+    const result = await Promise.resolve(item.guard());
+    if (!result.allowed) {
+      dispatch(guardFailEvent(tabId, result));
+      item.onGuardFail?.({ id: tabId, reason: result.reason });
+      return false;
+    }
+    dispatch(guardOkEvent(tabId));
+    return true;
+  } catch {
+    const guardResult: GuardResult = { allowed: false, reason: 'guard-error' };
+    dispatch(guardFailEvent(tabId, guardResult));
+    item.onGuardFail?.({ id: tabId, reason: 'guard-error' });
+    return false;
+  }
+}
+
+/**
+ * Load content for a tab item after its guard has passed.
+ */
+function executeLoad(
+  item: TabsProItem,
+  tabId: string,
+  dispatch: React.Dispatch<ReturnType<typeof loadSuccessEvent> | ReturnType<typeof loadErrorEvent>>,
+  loadingPromises: React.MutableRefObject<Map<string, Promise<void>>>,
+): void {
+  const loader = item.loadContent;
+  if (!loader) {
+    dispatch(loadSuccessEvent(tabId, item.content ?? null));
+    item.onViewed?.();
+    return;
+  }
+
+  if (loadingPromises.current.has(tabId)) {
+    return;
+  }
+
+  const loadPromise = (async () => {
+    try {
+      const content = await loader();
+      dispatch(loadSuccessEvent(tabId, content));
+      item.onViewed?.();
+    } catch (error) {
+      dispatch(loadErrorEvent(tabId, error));
+      item.onError?.(error);
+    } finally {
+      loadingPromises.current.delete(tabId);
+    }
+  })();
+
+  loadingPromises.current.set(tabId, loadPromise);
+}
+
+// =============================================================================
 // TabsPro Component
 // =============================================================================
 
@@ -364,59 +434,9 @@ export const TabsPro = memo(
           return;
         }
 
-        // Check guard
-        if (item.guard) {
-          try {
-            const result = await Promise.resolve(item.guard());
-
-            if (!result.allowed) {
-              dispatch(guardFailEvent(tabId, result));
-              item.onGuardFail?.({ id: tabId, reason: result.reason });
-              return;
-            }
-
-            dispatch(guardOkEvent(tabId));
-          } catch {
-            // Guard threw an error - treat as blocked
-            const guardResult: GuardResult = {
-              allowed: false,
-              reason: 'guard-error',
-            };
-            dispatch(guardFailEvent(tabId, guardResult));
-            item.onGuardFail?.({ id: tabId, reason: 'guard-error' });
-            return;
-          }
-        } else {
-          // No guard - proceed directly
-          dispatch(guardOkEvent(tabId));
-        }
-
-        // Load content
-        const loader = item.loadContent;
-        if (loader) {
-          // Check if already loading
-          if (loadingPromises.current.has(tabId)) {
-            return;
-          }
-
-          const loadPromise = (async () => {
-            try {
-              const content = await loader();
-              dispatch(loadSuccessEvent(tabId, content));
-              item.onViewed?.();
-            } catch (error) {
-              dispatch(loadErrorEvent(tabId, error));
-              item.onError?.(error);
-            } finally {
-              loadingPromises.current.delete(tabId);
-            }
-          })();
-
-          loadingPromises.current.set(tabId, loadPromise);
-        } else {
-          // No async loader - use static content, mark as ready
-          dispatch(loadSuccessEvent(tabId, item.content ?? null));
-          item.onViewed?.();
+        const guardPassed = await executeGuard(item, tabId, dispatch);
+        if (guardPassed) {
+          executeLoad(item, tabId, dispatch, loadingPromises);
         }
       },
       [itemsMap]

@@ -519,6 +519,30 @@ const AvatarRoot = memo(
       );
     };
 
+    // Render the <img> element for the avatar
+    const renderImageElement = (): React.ReactNode => (
+      <img
+        ref={imageRef}
+        src={src}
+        alt={decorative ? '' : (alt ?? name ?? undefined)}
+        srcSet={srcSet}
+        sizes={sizes}
+        loading={loading}
+        referrerPolicy={referrerPolicy}
+        crossOrigin={crossOrigin}
+        className={cn(
+          'dsai-avatar__image',
+          'w-100',
+          'h-100',
+          'object-fit-cover',
+          getShapeClass(shape),
+          !imageLoaded && 'opacity-0'
+        )}
+        aria-hidden={decorative ? true : undefined}
+        data-testid="avatar-image"
+      />
+    );
+
     // Render main avatar content (image, fallback, or skeleton)
     const renderMainContent = (): React.ReactNode => {
       if (isLoading) {
@@ -528,28 +552,7 @@ const AvatarRoot = memo(
         return compoundImage;
       }
       if (showImage) {
-        return (
-          <img
-            ref={imageRef}
-            src={src}
-            alt={decorative ? '' : (alt ?? name ?? undefined)}
-            srcSet={srcSet}
-            sizes={sizes}
-            loading={loading}
-            referrerPolicy={referrerPolicy}
-            crossOrigin={crossOrigin}
-            className={cn(
-              'dsai-avatar__image',
-              'w-100',
-              'h-100',
-              'object-fit-cover',
-              getShapeClass(shape),
-              !imageLoaded && 'opacity-0'
-            )}
-            aria-hidden={decorative ? true : undefined}
-            data-testid="avatar-image"
-          />
-        );
+        return renderImageElement();
       }
       if (compoundFallback) {
         return compoundFallback;

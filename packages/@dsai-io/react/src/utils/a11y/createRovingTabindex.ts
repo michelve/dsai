@@ -57,6 +57,23 @@ import type { RovingTabindexManager, RovingTabindexOptions } from '../types/shar
  */
 const DEFAULT_ROVING_OPTIONS: RovingTabindexOptions = { itemSelector: '[data-roving-item]' };
 
+/** Resolve navigation direction from arrow key based on orientation. */
+function resolveArrowDirection(
+  key: string,
+  orientation: string,
+): 'prev' | 'next' | null {
+  const isHorizontal = orientation === 'horizontal' || orientation === 'both';
+  const isVertical = orientation === 'vertical' || orientation === 'both';
+
+  if ((isHorizontal && key === 'ArrowLeft') || (isVertical && key === 'ArrowUp')) {
+    return 'prev';
+  }
+  if ((isHorizontal && key === 'ArrowRight') || (isVertical && key === 'ArrowDown')) {
+    return 'next';
+  }
+  return null;
+}
+
 export function createRovingTabindex(
   target: Element | Element[],
   options: RovingTabindexOptions = DEFAULT_ROVING_OPTIONS
@@ -168,26 +185,6 @@ export function createRovingTabindex(
     return currentIndex;
   }
 
-  /**
-   * Resolve navigation direction from arrow key.
-   * Returns 'prev', 'next', or null if the key is unrelated.
-   */
-  function resolveArrowDirection(key: string): 'prev' | 'next' | null {
-    const isHorizontal = orientation === 'horizontal' || orientation === 'both';
-    const isVertical = orientation === 'vertical' || orientation === 'both';
-
-    if ((isHorizontal && key === 'ArrowLeft') || (isVertical && key === 'ArrowUp')) {
-      return 'prev';
-    }
-    if ((isHorizontal && key === 'ArrowRight') || (isVertical && key === 'ArrowDown')) {
-      return 'next';
-    }
-    return null;
-  }
-
-  /**
-   * Handle keyboard events
-   */
   function handleKeyDown(event: KeyboardEvent): void {
     const { key } = event;
 
@@ -203,7 +200,7 @@ export function createRovingTabindex(
       return;
     }
 
-    const direction = resolveArrowDirection(key);
+    const direction = resolveArrowDirection(key, orientation);
     if (direction) {
       event.preventDefault();
       if (direction === 'prev') {

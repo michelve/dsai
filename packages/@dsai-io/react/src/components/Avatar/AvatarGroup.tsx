@@ -46,6 +46,21 @@ interface AvatarEnhanceOptions {
   ariaLabel?: string;
 }
 
+/** Build stacking-aware style overrides for an avatar child */
+function buildStackedStyle(
+  childStyle: React.CSSProperties | undefined,
+  index: number,
+  opts: AvatarEnhanceOptions,
+): React.CSSProperties {
+  const isStacked = opts.layout === 'stacked';
+  return {
+    ...childStyle,
+    marginLeft: isStacked && opts.stackingOrder === 'lastOnTop' && index > 0 ? opts.marginLeft : undefined,
+    marginRight: isStacked && opts.stackingOrder === 'firstOnTop' && index > 0 ? opts.marginLeft : undefined,
+    zIndex: isStacked ? opts.visibleCount - index : undefined,
+  };
+}
+
 function enhanceAvatarChild(
   child: React.ReactElement,
   index: number,
@@ -65,12 +80,7 @@ function enhanceAvatarChild(
     size: childProps.size ?? opts.size,
     shape: childProps.shape ?? opts.shape,
     tone: childProps.tone ?? opts.tone,
-    style: {
-      ...childProps.style,
-      marginLeft: isStacked && opts.stackingOrder === 'lastOnTop' && index > 0 ? opts.marginLeft : undefined,
-      marginRight: isStacked && opts.stackingOrder === 'firstOnTop' && index > 0 ? opts.marginLeft : undefined,
-      zIndex: isStacked ? opts.visibleCount - index : undefined,
-    },
+    style: buildStackedStyle(childProps.style, index, opts),
     className: cn(childProps.className, isStacked && 'border border-2 border-white'),
     decorative: childProps.decorative ?? (index > 0 || !opts.ariaLabel),
   };

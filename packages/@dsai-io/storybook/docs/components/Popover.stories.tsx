@@ -3,8 +3,11 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+const SPACING_1 = 'var(--dsai-spacing-1)';
 const SPACING_2 = 'var(--dsai-spacing-2)';
 const FONT_WEIGHT_BOLD = 'var(--dsai-typography-font-weight-bold)';
+const FULL_WIDTH = '100%';
+const BORDER_DEFAULT = BORDER_DEFAULT;
 
 /**
  * Popover component for displaying richer interactive content.
@@ -149,10 +152,6 @@ type Story = StoryObj<typeof Popover>;
 // =============================================================================
 
 /** Shared style constants to avoid duplicated literals (S1192) */
-const SPACING_2 = 'var(--dsai-spacing-2)';
-const SPACING_1 = 'var(--dsai-spacing-1)';
-const FONT_WEIGHT_BOLD = 'var(--dsai-typography-font-weight-bold)';
-const FULL_WIDTH = '100%';
 
 /**
  * Basic popover with header and content.
@@ -374,7 +373,7 @@ export const InteractiveContent: Story = {
           </label>
           <select
             id="popover-email"
-            style={{ width: FULL_WIDTH, padding: SPACING_1, borderRadius: 'var(--dsai-border-radius-sm)', border: '1px solid var(--bs-border-color)' }}
+            style={{ width: FULL_WIDTH, padding: SPACING_1, borderRadius: 'var(--dsai-border-radius-sm)', border: BORDER_DEFAULT }}
           >
             <option>All emails</option>
             <option>Important only</option>
@@ -638,7 +637,7 @@ export const FormFieldHelp: Story = {
         <input
           type="password"
           id="password"
-          style={{ width: FULL_WIDTH, padding: SPACING_2, borderRadius: 'var(--dsai-border-radius-sm)', border: '1px solid var(--bs-border-color)' }}
+          style={{ width: FULL_WIDTH, padding: SPACING_2, borderRadius: 'var(--dsai-border-radius-sm)', border: BORDER_DEFAULT }}
         />
       </div>
     </div>
@@ -777,7 +776,7 @@ export const NotificationCenter: Story = {
               key={i}
               style={{
                 padding: SPACING_2,
-                borderBottom: i < 5 ? '1px solid var(--bs-border-color)' : 'none',
+                borderBottom: i < 5 ? BORDER_DEFAULT : 'none',
                 cursor: 'pointer',
               }}
             >

@@ -40,6 +40,16 @@ const HTTP_TOO_MANY_REQUESTS = 429;
 const HTTP_SERVER_ERROR = 500;
 
 // ============================================================================
+// URL Path Constants (S1192)
+// ============================================================================
+
+const PATH_ANALYTICS_LIBRARIES = PATH_ANALYTICS_LIBRARIES;
+const PATH_COMPONENTS = PATH_COMPONENTS;
+const PATH_COMPONENT_SETS = PATH_COMPONENT_SETS;
+const PATH_VARIABLES = PATH_VARIABLES;
+const PATH_VARIABLES_LOCAL = PATH_VARIABLES_LOCAL;
+
+// ============================================================================
 // Types
 // ============================================================================
 
@@ -135,10 +145,10 @@ function handleSingleResourceRoute(url: string): MockFetchResponse | null {
 
 /** Handle file-level library endpoints (components, component_sets, styles) */
 function handleLibraryRoute(url: string): MockFetchResponse | null {
-  if (url.includes('/components') && !url.includes('/analytics') && !url.includes('/component_sets')) {
+  if (url.includes(PATH_COMPONENTS) && !url.includes('/analytics') && !url.includes(PATH_COMPONENT_SETS)) {
     return createSuccessResponse(mockPublishedComponentsResponse, 'req-pub-comps');
   }
-  if (url.includes('/component_sets')) {
+  if (url.includes(PATH_COMPONENT_SETS)) {
     return createSuccessResponse(mockPublishedComponentSetsResponse, 'req-pub-sets');
   }
   if (url.includes('/styles') && !url.includes('/analytics')) {
@@ -160,7 +170,7 @@ function handleFileMetaRoute(url: string): MockFetchResponse | null {
 
 /** Handle analytics library endpoints */
 function handleAnalyticsRoute(url: string): MockFetchResponse | null {
-  if (!url.includes('/analytics/libraries/')) {return null;}
+  if (!url.includes(PATH_ANALYTICS_LIBRARIES)) {return null;}
 
   const analyticsRoutes: Array<[string, unknown, string]> = [
     ['/component/actions', mockComponentActionsByComponent, 'req-comp-actions'],
@@ -181,10 +191,10 @@ function handleAnalyticsRoute(url: string): MockFetchResponse | null {
 
 /** Handle variables, nodes, and general file endpoints */
 function handleDataRoute(url: string, options?: RequestInit): MockFetchResponse | null {
-  if (url.includes('/variables') && options?.method === 'POST') {
+  if (url.includes(PATH_VARIABLES) && options?.method === 'POST') {
     return createSuccessResponse(mockPostVariablesResponse, 'req-post-vars-test');
   }
-  if (url.includes('/variables/local')) {
+  if (url.includes(PATH_VARIABLES_LOCAL)) {
     return createSuccessResponse(mockVariablesResponse, 'req-vars-test');
   }
   if (url.includes('/nodes')) {
@@ -226,16 +236,16 @@ const defaultRoutes: MockRoute[] = [
   { match: (url) => isSingleResourceUrl(url, 'styles'), data: mockSingleStyleResponse, requestId: 'req-style' },
 
   // Analytics endpoints (must be before generic library endpoints)
-  { match: (url) => url.includes('/analytics/libraries/') && url.includes('/component/actions'), data: mockComponentActionsByComponent, requestId: 'req-comp-actions' },
-  { match: (url) => url.includes('/analytics/libraries/') && url.includes('/component/usages'), data: mockComponentUsagesByComponent, requestId: 'req-comp-usages' },
-  { match: (url) => url.includes('/analytics/libraries/') && url.includes('/style/actions'), data: mockStyleActionsByStyle, requestId: 'req-style-actions' },
-  { match: (url) => url.includes('/analytics/libraries/') && url.includes('/style/usages'), data: mockStyleUsagesByStyle, requestId: 'req-style-usages' },
-  { match: (url) => url.includes('/analytics/libraries/') && url.includes('/variable/actions'), data: mockVariableActionsByVariable, requestId: 'req-var-actions' },
-  { match: (url) => url.includes('/analytics/libraries/') && url.includes('/variable/usages'), data: mockVariableUsagesByVariable, requestId: 'req-var-usages' },
+  { match: (url) => url.includes(PATH_ANALYTICS_LIBRARIES) && url.includes('/component/actions'), data: mockComponentActionsByComponent, requestId: 'req-comp-actions' },
+  { match: (url) => url.includes(PATH_ANALYTICS_LIBRARIES) && url.includes('/component/usages'), data: mockComponentUsagesByComponent, requestId: 'req-comp-usages' },
+  { match: (url) => url.includes(PATH_ANALYTICS_LIBRARIES) && url.includes('/style/actions'), data: mockStyleActionsByStyle, requestId: 'req-style-actions' },
+  { match: (url) => url.includes(PATH_ANALYTICS_LIBRARIES) && url.includes('/style/usages'), data: mockStyleUsagesByStyle, requestId: 'req-style-usages' },
+  { match: (url) => url.includes(PATH_ANALYTICS_LIBRARIES) && url.includes('/variable/actions'), data: mockVariableActionsByVariable, requestId: 'req-var-actions' },
+  { match: (url) => url.includes(PATH_ANALYTICS_LIBRARIES) && url.includes('/variable/usages'), data: mockVariableUsagesByVariable, requestId: 'req-var-usages' },
 
   // File-level library endpoints
-  { match: (url) => url.includes('/components') && !url.includes('/analytics') && !url.includes('/component_sets'), data: mockPublishedComponentsResponse, requestId: 'req-pub-comps' },
-  { match: (url) => url.includes('/component_sets'), data: mockPublishedComponentSetsResponse, requestId: 'req-pub-sets' },
+  { match: (url) => url.includes(PATH_COMPONENTS) && !url.includes('/analytics') && !url.includes(PATH_COMPONENT_SETS), data: mockPublishedComponentsResponse, requestId: 'req-pub-comps' },
+  { match: (url) => url.includes(PATH_COMPONENT_SETS), data: mockPublishedComponentSetsResponse, requestId: 'req-pub-sets' },
   { match: (url) => url.includes('/styles') && !url.includes('/analytics'), data: mockPublishedStylesResponse, requestId: 'req-pub-styles' },
 
   // Version history
@@ -245,10 +255,10 @@ const defaultRoutes: MockRoute[] = [
   { match: (url) => url.includes('/meta'), data: mockFileMetadataResponse, requestId: 'req-meta' },
 
   // POST to variables endpoint
-  { match: (url, options) => url.includes('/variables') && options?.method === 'POST', data: mockPostVariablesResponse, requestId: 'req-post-vars-test' },
+  { match: (url, options) => url.includes(PATH_VARIABLES) && options?.method === 'POST', data: mockPostVariablesResponse, requestId: 'req-post-vars-test' },
 
   // Variables endpoint (more specific, before /files/)
-  { match: (url) => url.includes('/variables/local'), data: mockVariablesResponse, requestId: 'req-vars-test' },
+  { match: (url) => url.includes(PATH_VARIABLES_LOCAL), data: mockVariablesResponse, requestId: 'req-vars-test' },
 
   // Nodes endpoint (for styles)
   { match: (url) => url.includes('/nodes'), data: mockStyleNodes, requestId: 'req-nodes-test' },
@@ -286,7 +296,7 @@ export function createDefaultMockFetch(): MockFetchHandler {
  */
 export function createEnterpriseMockFetch(): MockFetchHandler {
   return (url: string): Promise<MockFetchResponse> => {
-    if (url.includes('/variables/local')) {
+    if (url.includes(PATH_VARIABLES_LOCAL)) {
       return Promise.resolve(
         createErrorResponse(HTTP_FORBIDDEN, error403Forbidden, error403Forbidden.requestId)
       );
