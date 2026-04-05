@@ -93,7 +93,7 @@ export const fontWeightUnitless: TransformDefinition = {
       }
 
       // Handle named weights
-      const normalized = value.toLowerCase().replace(/[^a-z]/g, '');
+      const normalized = value.toLowerCase().replaceAll(/[^a-z]/g, '');
       if (Object.hasOwn(NAMED_WEIGHTS, normalized)) {
         // eslint-disable-next-line security/detect-object-injection
         const namedWeight = NAMED_WEIGHTS[normalized];

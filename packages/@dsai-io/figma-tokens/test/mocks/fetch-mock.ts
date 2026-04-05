@@ -40,14 +40,17 @@ const HTTP_TOO_MANY_REQUESTS = 429;
 const HTTP_SERVER_ERROR = 500;
 
 // ============================================================================
-// URL Path Constants (S1192)
+// URL Path Constants
 // ============================================================================
 
-const PATH_ANALYTICS_LIBRARIES = PATH_ANALYTICS_LIBRARIES;
-const PATH_COMPONENTS = PATH_COMPONENTS;
-const PATH_COMPONENT_SETS = PATH_COMPONENT_SETS;
-const PATH_VARIABLES = PATH_VARIABLES;
-const PATH_VARIABLES_LOCAL = PATH_VARIABLES_LOCAL;
+const PATH_ANALYTICS_LIBRARIES = '/analytics/libraries/';
+const PATH_COMPONENTS = '/components';
+const PATH_COMPONENT_SETS = '/component_sets';
+const PATH_VARIABLES = '/variables';
+const PATH_VARIABLES_LOCAL = '/variables/local';
+const PATH_FILES = '/files/';
+const PATH_ANALYTICS = '/analytics';
+const PATH_STYLES = '/styles';
 
 // ============================================================================
 // Types
@@ -131,13 +134,13 @@ function handleUserRoute(url: string): MockFetchResponse | null {
 
 /** Handle single component/component_set/style by key (not file-level) */
 function handleSingleResourceRoute(url: string): MockFetchResponse | null {
-  if (/\/components\/[^/]+$/.exec(url) && !url.includes('/files/')) {
+  if (/\/components\/[^/]+$/.exec(url) && !url.includes(PATH_FILES)) {
     return createSuccessResponse(mockSingleComponentResponse, 'req-comp');
   }
-  if (/\/component_sets\/[^/]+$/.exec(url) && !url.includes('/files/')) {
+  if (/\/component_sets\/[^/]+$/.exec(url) && !url.includes(PATH_FILES)) {
     return createSuccessResponse(mockSingleComponentSetResponse, 'req-comp-set');
   }
-  if (/\/styles\/[^/]+$/.exec(url) && !url.includes('/files/')) {
+  if (/\/styles\/[^/]+$/.exec(url) && !url.includes(PATH_FILES)) {
     return createSuccessResponse(mockSingleStyleResponse, 'req-style');
   }
   return null;
@@ -145,13 +148,13 @@ function handleSingleResourceRoute(url: string): MockFetchResponse | null {
 
 /** Handle file-level library endpoints (components, component_sets, styles) */
 function handleLibraryRoute(url: string): MockFetchResponse | null {
-  if (url.includes(PATH_COMPONENTS) && !url.includes('/analytics') && !url.includes(PATH_COMPONENT_SETS)) {
+  if (url.includes(PATH_COMPONENTS) && !url.includes(PATH_ANALYTICS) && !url.includes(PATH_COMPONENT_SETS)) {
     return createSuccessResponse(mockPublishedComponentsResponse, 'req-pub-comps');
   }
   if (url.includes(PATH_COMPONENT_SETS)) {
     return createSuccessResponse(mockPublishedComponentSetsResponse, 'req-pub-sets');
   }
-  if (url.includes('/styles') && !url.includes('/analytics')) {
+  if (url.includes(PATH_STYLES) && !url.includes(PATH_ANALYTICS)) {
     return createSuccessResponse(mockPublishedStylesResponse, 'req-pub-styles');
   }
   return null;
@@ -200,7 +203,7 @@ function handleDataRoute(url: string, options?: RequestInit): MockFetchResponse 
   if (url.includes('/nodes')) {
     return createSuccessResponse(mockStyleNodes, 'req-nodes-test');
   }
-  if (url.includes('/files/')) {
+  if (url.includes(PATH_FILES)) {
     return createSuccessResponse(mockFigmaFile, 'req-file-test');
   }
   return null;
@@ -219,7 +222,7 @@ interface MockRoute {
  * Check if URL matches a single-resource endpoint pattern (e.g. /components/:key)
  */
 function isSingleResourceUrl(url: string, resource: string): boolean {
-  return new RegExp(`\\/${resource}\\/[^/]+$`).test(url) && !url.includes('/files/');
+  return new RegExp(`\\/${resource}\\/[^/]+$`).test(url) && !url.includes(PATH_FILES);
 }
 
 /**
@@ -244,9 +247,9 @@ const defaultRoutes: MockRoute[] = [
   { match: (url) => url.includes(PATH_ANALYTICS_LIBRARIES) && url.includes('/variable/usages'), data: mockVariableUsagesByVariable, requestId: 'req-var-usages' },
 
   // File-level library endpoints
-  { match: (url) => url.includes(PATH_COMPONENTS) && !url.includes('/analytics') && !url.includes(PATH_COMPONENT_SETS), data: mockPublishedComponentsResponse, requestId: 'req-pub-comps' },
+  { match: (url) => url.includes(PATH_COMPONENTS) && !url.includes(PATH_ANALYTICS) && !url.includes(PATH_COMPONENT_SETS), data: mockPublishedComponentsResponse, requestId: 'req-pub-comps' },
   { match: (url) => url.includes(PATH_COMPONENT_SETS), data: mockPublishedComponentSetsResponse, requestId: 'req-pub-sets' },
-  { match: (url) => url.includes('/styles') && !url.includes('/analytics'), data: mockPublishedStylesResponse, requestId: 'req-pub-styles' },
+  { match: (url) => url.includes(PATH_STYLES) && !url.includes(PATH_ANALYTICS), data: mockPublishedStylesResponse, requestId: 'req-pub-styles' },
 
   // Version history
   { match: (url) => url.includes('/versions'), data: mockVersionsResponse, requestId: 'req-versions' },
@@ -264,7 +267,7 @@ const defaultRoutes: MockRoute[] = [
   { match: (url) => url.includes('/nodes'), data: mockStyleNodes, requestId: 'req-nodes-test' },
 
   // File endpoint (general, last)
-  { match: (url) => url.includes('/files/'), data: mockFigmaFile, requestId: 'req-file-test' },
+  { match: (url) => url.includes(PATH_FILES), data: mockFigmaFile, requestId: 'req-file-test' },
 ];
 
 /**

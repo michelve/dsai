@@ -224,7 +224,7 @@ export const ${componentName} = forwardRef<SVGSVGElement, IconProps>(
         {...allowedProps}
       >
         {titleContent && <title id={titleId}>{titleContent}</title>}
-        ${innerContent.replace(/fill="currentColor"/g, '').replace(/class="[^"]*"/g, '')}
+        ${innerContent.replaceAll('fill="currentColor"', '').replaceAll(/class="[^"]*"/g, '')}
       </svg>
     );
   }

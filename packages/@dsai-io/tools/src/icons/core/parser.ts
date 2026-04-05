@@ -116,7 +116,7 @@ export function cleanSVGForReact(svg: string): string {
   return (
     svg
       // Convert kebab-case attributes to camelCase for React
-      .replace(
+      .replaceAll(
         SVG_KEBAB_ATTR_PATTERN,
         (_, p1, p2) => p1 + p2.toUpperCase()
       )

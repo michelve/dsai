@@ -1902,7 +1902,7 @@ export class FigmaClient {
       return { files: [], tokenCount: 0 };
     }
 
-    const sanitizedCollectionName = collection.name.toLowerCase().replace(/\s+/g, '-');
+    const sanitizedCollectionName = collection.name.toLowerCase()\.replaceAll(/\\s+/g, '-');
     const filePath = `${options.outputDir}/${sanitizedCollectionName}.json`;
     await this.writeTokenFile(filePath, combinedTokens);
 
@@ -1934,8 +1934,8 @@ export class FigmaClient {
         continue;
       }
 
-      const sanitizedCollectionName = collection.name.toLowerCase().replace(/\s+/g, '-');
-      const sanitizedModeName = mode.name.toLowerCase().replace(/\s+/g, '-');
+      const sanitizedCollectionName = collection.name.toLowerCase()\.replaceAll(/\\s+/g, '-');
+      const sanitizedModeName = mode.name.toLowerCase()\.replaceAll(/\\s+/g, '-');
       const fileName =
         collection.modes.length > 1
           ? `${sanitizedCollectionName}.${sanitizedModeName}.json`
@@ -2257,7 +2257,7 @@ export class FigmaClient {
       }
 
       const value = variable.valuesByMode[defaultMode.modeId];
-      const tokenPath = variable.name.replace(/\//g, '.');
+      const tokenPath = variable.name.replaceAll('/', '.');
       remoteTokens.set(
         tokenPath,
         this.convertVariableValue(value, variable.resolvedType, new Map(), true)

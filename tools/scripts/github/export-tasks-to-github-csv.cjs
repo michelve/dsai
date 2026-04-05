@@ -288,7 +288,7 @@ function escapeCsv(value) {
 
   // Escape quotes and wrap in quotes if contains comma, newline, or quote
   if (value.includes(',') || value.includes('\n') || value.includes('"')) {
-    return `"${value.replace(/"/g, '""')}"`;
+    return `"${value.replaceAll('"', '""')}"`;
   }
 
   return value;

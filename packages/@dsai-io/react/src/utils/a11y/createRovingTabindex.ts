@@ -74,6 +74,64 @@ function resolveArrowDirection(
   return null;
 }
 
+/** Navigation callbacks for keyboard handler. */
+interface NavigationActions {
+  focusFirst: () => void;
+  focusLast: () => void;
+  focusPrevious: () => void;
+  focusNext: () => void;
+}
+
+/** Create a keyboard handler for roving tabindex navigation. */
+function createKeyDownHandler(
+  orientation: string,
+  actions: NavigationActions,
+): (event: KeyboardEvent) => void {
+  return (event: KeyboardEvent): void => {
+    const { key } = event;
+
+    if (key === 'Home') {
+      event.preventDefault();
+      actions.focusFirst();
+      return;
+    }
+
+    if (key === 'End') {
+      event.preventDefault();
+      actions.focusLast();
+      return;
+    }
+
+    const direction = resolveArrowDirection(key, orientation);
+    if (direction) {
+      event.preventDefault();
+      if (direction === 'prev') {
+        actions.focusPrevious();
+      } else {
+        actions.focusNext();
+      }
+    }
+  };
+}
+
+/** Collect focusable items from either an element array or a container query. */
+function collectItems(
+  isElementArray: boolean,
+  target: Element | Element[],
+  container: Element,
+  itemSelector: string | undefined,
+): Element[] {
+  if (isElementArray) {
+    return [...(target as Element[])];
+  }
+
+  if (!itemSelector) {
+    throw new TypeError('createRovingTabindex requires itemSelector when container is used');
+  }
+
+  return Array.from(container.querySelectorAll(itemSelector));
+}
+
 export function createRovingTabindex(
   target: Element | Element[],
   options: RovingTabindexOptions = DEFAULT_ROVING_OPTIONS
@@ -92,25 +150,10 @@ export function createRovingTabindex(
   let items: Element[] = [];
 
   /**
-   * Get all focusable items
-   */
-  function getItems(): Element[] {
-    if (isElementArray) {
-      return [...(target as Element[])];
-    }
-
-    if (!itemSelector) {
-      throw new TypeError('createRovingTabindex requires itemSelector when container is used');
-    }
-
-    return Array.from(container.querySelectorAll(itemSelector));
-  }
-
-  /**
    * Update items and tabindex attributes
    */
   function updateItems(): void {
-    items = getItems();
+    items = collectItems(isElementArray, target, container, itemSelector);
 
     items.forEach((item, index) => {
       if (index === currentIndex) {
@@ -185,31 +228,12 @@ export function createRovingTabindex(
     return currentIndex;
   }
 
-  function handleKeyDown(event: KeyboardEvent): void {
-    const { key } = event;
-
-    if (key === 'Home') {
-      event.preventDefault();
-      focusFirst();
-      return;
-    }
-
-    if (key === 'End') {
-      event.preventDefault();
-      focusLast();
-      return;
-    }
-
-    const direction = resolveArrowDirection(key, orientation);
-    if (direction) {
-      event.preventDefault();
-      if (direction === 'prev') {
-        focusPrevious();
-      } else {
-        focusNext();
-      }
-    }
-  }
+  const handleKeyDown = createKeyDownHandler(orientation, {
+    focusFirst,
+    focusLast,
+    focusPrevious,
+    focusNext,
+  });
 
   // Initialize
   updateItems();

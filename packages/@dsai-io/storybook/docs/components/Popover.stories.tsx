@@ -7,7 +7,8 @@ const SPACING_1 = 'var(--dsai-spacing-1)';
 const SPACING_2 = 'var(--dsai-spacing-2)';
 const FONT_WEIGHT_BOLD = 'var(--dsai-typography-font-weight-bold)';
 const FULL_WIDTH = '100%';
-const BORDER_DEFAULT = BORDER_DEFAULT;
+const BORDER_DEFAULT = '1px solid var(--bs-border-color)';
+const FONT_SIZE_SM = '14px';
 
 /**
  * Popover component for displaying richer interactive content.
@@ -150,8 +151,6 @@ type Story = StoryObj<typeof Popover>;
 // =============================================================================
 // Basic Examples
 // =============================================================================
-
-/** Shared style constants to avoid duplicated literals (S1192) */
 
 /**
  * Basic popover with header and content.
@@ -367,7 +366,7 @@ export const InteractiveContent: Story = {
         <div>
           <label
             htmlFor="popover-email"
-            style={{ display: 'block', marginBottom: '4px', fontSize: '14px' }}
+            style={{ display: 'block', marginBottom: '4px', fontSize: FONT_SIZE_SM }}
           >
             Email notifications
           </label>
@@ -382,7 +381,7 @@ export const InteractiveContent: Story = {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: SPACING_2 }}>
           <input type="checkbox" id="popover-dark" />
-          <label htmlFor="popover-dark" style={{ fontSize: '14px' }}>
+          <label htmlFor="popover-dark" style={{ fontSize: FONT_SIZE_SM }}>
             Dark mode
           </label>
         </div>
@@ -618,7 +617,7 @@ export const FormFieldHelp: Story = {
           <Popover
             header="Password Requirements"
             content={
-              <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '14px' }}>
+              <ul style={{ margin: 0, paddingLeft: '20px', fontSize: FONT_SIZE_SM }}>
                 <li>At least 8 characters</li>
                 <li>One uppercase letter</li>
                 <li>One lowercase letter</li>
@@ -670,7 +669,7 @@ export const UserProfileCard: Story = {
           </div>
           <div>
             <div style={{ fontWeight: FONT_WEIGHT_BOLD, marginBottom: '4px' }}>John Doe</div>
-            <div style={{ fontSize: '14px', color: 'var(--bs-secondary)', marginBottom: '8px' }}>
+            <div style={{ fontSize: FONT_SIZE_SM, color: 'var(--bs-secondary)', marginBottom: '8px' }}>
               Software Engineer
             </div>
             <div style={{ display: 'flex', gap: SPACING_2 }}>
@@ -780,7 +779,7 @@ export const NotificationCenter: Story = {
                 cursor: 'pointer',
               }}
             >
-              <div style={{ fontWeight: FONT_WEIGHT_BOLD, fontSize: '14px' }}>New message from User {i}</div>
+              <div style={{ fontWeight: FONT_WEIGHT_BOLD, fontSize: FONT_SIZE_SM }}>New message from User {i}</div>
               <div style={{ fontSize: '12px', color: 'var(--bs-secondary)' }}>
                 {i} hour{i > 1 ? 's' : ''} ago
               </div>

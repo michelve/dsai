@@ -119,15 +119,15 @@ export function slugify(text: string, options: SlugifyOptions = {}): string {
 
   // Convert special characters to their ASCII equivalents
   slug = slug
-    .replaceAll(/æ/g, 'ae')
-    .replaceAll(/Æ/g, 'AE')
-    .replaceAll(/œ/g, 'oe')
-    .replaceAll(/Œ/g, 'OE')
-    .replaceAll(/ß/g, 'ss')
-    .replaceAll(/ø/g, 'o')
-    .replaceAll(/Ø/g, 'O')
-    .replaceAll(/&/g, ' and ')
-    .replaceAll(/@/g, ' at ');
+    .replaceAll('æ', 'ae')
+    .replaceAll('Æ', 'AE')
+    .replaceAll('œ', 'oe')
+    .replaceAll('Œ', 'OE')
+    .replaceAll('ß', 'ss')
+    .replaceAll('ø', 'o')
+    .replaceAll('Ø', 'O')
+    .replaceAll('&', ' and ')
+    .replaceAll('@', ' at ');
 
   // Convert to lowercase if requested
   if (lowercase) {

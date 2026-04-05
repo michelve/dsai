@@ -27,6 +27,6 @@ export const nameKebab: TransformDefinition = {
   name: 'name/kebab',
   type: 'name',
   transform: (token) => {
-    return token.path.join('-').replace(/_/g, '-').toLowerCase();
+    return token.path.join('-').replaceAll('_', '-').toLowerCase();
   },
 };

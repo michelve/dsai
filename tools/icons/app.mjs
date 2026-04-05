@@ -225,12 +225,12 @@ function cleanSvgContent(svg) {
       .replace(/<svg[^>]*>/, '')
       .replace(/<\/svg>/, '')
       // Use currentColor for strokes and fills (inherits from CSS)
-      .replace(/stroke="#[^"]+"/g, 'stroke="currentColor"')
-      .replace(/fill="#[^"]+"/g, 'fill="currentColor"')
+      .replaceAll(/stroke="#[^"]+"/g, 'stroke="currentColor"')
+      .replaceAll(/fill="#[^"]+"/g, 'fill="currentColor"')
       // Handle fill="none" (keep as-is, common for stroke-only icons)
-      .replace(/fill="currentColor"([^>]*stroke)/g, 'fill="none"$1')
+      .replaceAll(/fill="currentColor"([^>]*stroke)/g, 'fill="none"$1')
       // Remove newlines for cleaner output
-      .replace(/\n/g, '')
+      .replaceAll('\n', '')
       // Trim whitespace
       .trim()
   );
@@ -297,7 +297,7 @@ async function run() {
   for (const icon of iconData) {
     const { name, componentCode, codeConnect } = icon;
     // Sanitize filename to prevent path traversal (alphanumeric + Icon suffix only)
-    const safeName = name.replace(/[^a-zA-Z0-9]/g, '');
+    const safeName = name.replaceAll(/[^a-zA-Z0-9]/g, '');
     if (!safeName.endsWith('Icon')) {
       console.warn(`Skipping invalid icon name: ${name}`);
       continue;

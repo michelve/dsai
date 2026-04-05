@@ -42,17 +42,17 @@ function toKebabCase(componentName) {
   if (baseName.startsWith('Icon') && /^\d/.test(baseName.charAt(4))) {
     const withoutPrefix = baseName.slice(4);
     return withoutPrefix
-      .replace(/([A-Z])/g, '-$1')
+      .replaceAll(/([A-Z])/g, '-$1')
       .toLowerCase()
       .replace(/^-/, '');
   }
 
   // Convert PascalCase to kebab-case
   return baseName
-    .replace(/([A-Z])/g, '-$1')
+    .replaceAll(/([A-Z])/g, '-$1')
     .toLowerCase()
     .replace(/^-/, '')
-    .replace(/--/g, '-'); // Handle consecutive capitals
+    .replaceAll('--', '-'); // Handle consecutive capitals
 }
 
 /**

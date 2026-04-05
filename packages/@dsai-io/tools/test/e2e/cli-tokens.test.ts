@@ -109,7 +109,7 @@ function runCLI(args: string[], cwd: string): CLIResult {
 function createMinimalConfig(dir: string, collectionsDir: string): string {
   const configPath = join(dir, 'dsai.config.mjs');
   // Normalize backslashes to forward slashes for cross-platform JS config
-  const normalizedDir = collectionsDir.replace(/\\/g, '/');
+  const normalizedDir = collectionsDir.replaceAll('\\', '/');
   const configContent = `
 export default {
   tokens: {

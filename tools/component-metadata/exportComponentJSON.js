@@ -16,7 +16,7 @@ figma.root.children.reduce((into, page) => {
         id: item.id,
         page: pageName,
         name,
-        constant: `<FIGMA_${pageName.replace(/ /g, '_')}_${name.replace(/ /g, '_')}>`.toUpperCase(),
+        constant: `<FIGMA_${pageName\.replaceAll(' ', '_')}_${name\.replaceAll(' ', '_')}>`.toUpperCase(),
         description: item.description ? item.description.split(/\n\n+/) : undefined,
       };
     });
