@@ -315,6 +315,24 @@ Display.displayName = 'Display';
 // =============================================================================
 
 /**
+ * Renders the figcaption for a blockquote citation
+ */
+function renderCiteFooter(
+  citeAuthor: string | undefined,
+  cite: string | undefined
+): React.ReactNode {
+  if (!citeAuthor) {
+    return null;
+  }
+  return (
+    <figcaption className="blockquote-footer">
+      {citeAuthor}
+      {cite && <cite title={cite} />}
+    </figcaption>
+  );
+}
+
+/**
  * Maps text variant to default HTML element
  */
 function getElementForVariant(variant: TextVariant): React.ElementType {
@@ -333,7 +351,7 @@ function getElementForVariant(variant: TextVariant): React.ElementType {
     kbd: 'kbd',
     pre: 'pre',
   };
-  return (Reflect.get(elementMap, variant) as React.ElementType) ?? 'p';
+  return Reflect.get(elementMap, variant) ?? 'p';
 }
 
 /**
@@ -472,12 +490,7 @@ export const Text = memo(
           >
             {children}
           </blockquote>
-          {citeAuthor && (
-            <figcaption className="blockquote-footer">
-              {citeAuthor}
-              {cite && <cite title={cite} />}
-            </figcaption>
-          )}
+          {renderCiteFooter(citeAuthor, cite)}
         </figure>
       );
     }

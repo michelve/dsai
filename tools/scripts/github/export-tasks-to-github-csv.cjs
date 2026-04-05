@@ -17,6 +17,86 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 /**
+ * Extract simple metadata fields from lines
+ */
+function extractMetadataFields(lines, task) {
+  const fieldMap = {
+    '**Task ID:**': (val) => { task.taskId = val; },
+    '**Title:**': (val) => { task.title = val; },
+    '**Priority:**': (val) => { task.priority = val; task.labels.push(val.toLowerCase()); },
+    '**Estimated Time:**': (val) => { task.estimate = val; },
+    '**Phase:**': (val) => { task.phase = val; task.milestone = val.split(' - ')[0]; },
+  };
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    for (const [prefix, handler] of Object.entries(fieldMap)) {
+      if (trimmed.startsWith(prefix)) {
+        handler(trimmed.replace(prefix, '').trim());
+      }
+    }
+    if (trimmed.startsWith('**Assigned To:**')) {
+      const assignee = trimmed.replace('**Assigned To:**', '').trim();
+      if (assignee.includes('Developer')) {
+        task.assignees = 'michelve';
+      } else if (assignee.includes('Designer')) {
+        task.labels.push('designer');
+      }
+    }
+  }
+}
+
+/**
+ * Extract dependencies and description sections from lines
+ */
+function extractSections(lines, task) {
+  const descriptionLines = [];
+  let inDescription = false;
+  let inDependencies = false;
+  let inRequires = false;
+  let inBlocks = false;
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+
+    if (line === '## Dependencies' || line === '## 🔗 Dependencies') {
+      inDependencies = true;
+      continue;
+    }
+    if (line === '## 📋 Task Description' || line === '## Description') {
+      inDescription = true;
+      continue;
+    }
+
+    if (inDependencies) {
+      if (line.startsWith('## ') && !line.includes('Dependencies')) {
+        inDependencies = false; inRequires = false; inBlocks = false;
+        continue;
+      }
+      if (line === '### Requires:' || line === '### Prerequisites') { inRequires = true; inBlocks = false; continue; }
+      if (line === '### Blocks:') { inBlocks = true; inRequires = false; continue; }
+
+      if ((inRequires || inBlocks) && line.startsWith('-')) {
+        const taskIdMatch = line.match(/TASK-\d+/);
+        if (taskIdMatch) {
+          (inRequires ? task.requires : task.blocks).push(taskIdMatch[0]);
+        }
+      }
+    }
+
+    if (inDescription) {
+      if (line.startsWith('## ') && !line.includes('Task Description')) {
+        inDescription = false;
+      } else {
+        descriptionLines.push(line);
+      }
+    }
+  }
+
+  task.description = descriptionLines.join('\n').trim();
+}
+
+/**
  * Parse markdown task file
  */
 function parseTaskFile(filePath, directory, filename) {
@@ -39,248 +119,163 @@ function parseTaskFile(filePath, directory, filename) {
     blocks: [], // Tasks this blocks
   };
 
-  // Extract metadata
-  const descriptionLines = [];
-  let inDescription = false;
-  let inDependencies = false;
-  let inRequires = false;
-  let inBlocks = false;
+  // Extract metadata fields
+  extractMetadataFields(lines, task);
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
-
-    // Extract Task ID
-    if (line.startsWith('**Task ID:**')) {
-      task.taskId = line.replace('**Task ID:**', '').trim();
-    }
-
-    // Extract Title
-    if (line.startsWith('**Title:**')) {
-      task.title = line.replace('**Title:**', '').trim();
-    }
-
-    // Extract Priority
-    if (line.startsWith('**Priority:**')) {
-      const priority = line.replace('**Priority:**', '').trim();
-      task.priority = priority;
-      // Add priority as label
-      task.labels.push(priority.toLowerCase());
-    }
-
-    // Extract Assignee
-    if (line.startsWith('**Assigned To:**')) {
-      const assignee = line.replace('**Assigned To:**', '').trim();
-      // Map to GitHub username (customize this)
-      if (assignee.includes('Developer')) {
-        task.assignees = 'michelve'; // Change to your GitHub username
-      } else if (assignee.includes('Designer')) {
-        task.labels.push('designer');
-      }
-    }
-
-    // Extract Estimate
-    if (line.startsWith('**Estimated Time:**')) {
-      task.estimate = line.replace('**Estimated Time:**', '').trim();
-    }
-
-    // Extract Phase
-    if (line.startsWith('**Phase:**')) {
-      const phase = line.replace('**Phase:**', '').trim();
-      task.phase = phase;
-      task.milestone = phase.split(' - ')[0]; // e.g., "Phase 0"
-    }
-
-    // Extract Dependencies
-    if (line === '## Dependencies' || line === '## 🔗 Dependencies') {
-      inDependencies = true;
-      continue;
-    }
-
-    if (inDependencies) {
-      // End of dependencies section
-      if (line.startsWith('## ') && !line.includes('Dependencies')) {
-        inDependencies = false;
-        inRequires = false;
-        inBlocks = false;
-      }
-
-      // Start of Requires section
-      if (line === '### Requires:' || line === '### Prerequisites') {
-        inRequires = true;
-        inBlocks = false;
-        continue;
-      }
-
-      // Start of Blocks section
-      if (line === '### Blocks:') {
-        inBlocks = true;
-        inRequires = false;
-        continue;
-      }
-
-      // Extract task IDs from dependency lines
-      if ((inRequires || inBlocks) && line.startsWith('-')) {
-        const taskIdMatch = line.match(/TASK-\d+/);
-        if (taskIdMatch) {
-          const depTaskId = taskIdMatch[0];
-          if (inRequires) {
-            task.requires.push(depTaskId);
-          } else if (inBlocks) {
-            task.blocks.push(depTaskId);
-          }
-        }
-      }
-    }
-
-    // Extract full description
-    if (line === '## 📋 Task Description' || line === '## Description') {
-      inDescription = true;
-      continue;
-    }
-
-    if (inDescription) {
-      if (line.startsWith('## ') && !line.includes('Task Description')) {
-        inDescription = false;
-      } else {
-        descriptionLines.push(line);
-      }
-    }
-  }
-
-  // Build full description from file
-  task.description = descriptionLines.join('\n').trim();
+  // Extract dependencies and description
+  extractSections(lines, task);
 
   // Clear previous labels and build proper label set
   task.labels = [];
+  assignLabels(task, directory);
 
-  // 1. ROLE-BASED LABELS
+  return task;
+}
+
+/**
+ * Add a label if the title matches a pattern
+ */
+function addLabelIfMatch(labels, title, pattern, label) {
+  if (pattern.test(title)) {
+    labels.push(label);
+  }
+}
+
+/**
+ * Assign role-based label (designer vs developer)
+ */
+function assignRoleLabel(task) {
+  const titleLower = task.title.toLowerCase();
   if (
-    task.title.toLowerCase().includes('designer') ||
-    (task.assignees === '' && task.title.match(/color|typography|figma|audit/i))
+    titleLower.includes('designer') ||
+    (task.assignees === '' && /color|typography|figma|audit/i.test(task.title))
   ) {
     task.labels.push('👨‍🎨 designer');
   } else if (task.assignees && task.assignees !== '') {
     task.labels.push('👨‍💻 developer');
   }
+}
 
-  // 2. WORK TYPE LABELS
-  // Design work
-  if (task.title.match(/figma|design|color|palette|typography|audit|variable/i)) {
-    task.labels.push('🎨 design');
+/**
+ * Assign work-type labels based on title keywords
+ */
+function assignWorkTypeLabels(task) {
+  const title = task.title;
+  const workTypeRules = [
+    [/figma|design|color|palette|typography|audit|variable/i, '🎨 design'],
+    [/setup|configure|pipeline|storybook|dictionary|ci\/cd|build/i, '🔧 infrastructure'],
+    [/document|guide|readme/i, '📚 documentation'],
+    [/test|coverage|audit/i, '🧪 testing'],
+  ];
+  for (const [pattern, label] of workTypeRules) {
+    addLabelIfMatch(task.labels, title, pattern, label);
   }
 
-  // Code/Implementation
   if (
-    task.title.match(/setup|configure|create|build|implement|component/i) &&
-    !task.title.match(/designer|figma variable/i)
+    /setup|configure|create|build|implement|component/i.test(title) &&
+    !/designer|figma variable/i.test(title)
   ) {
     task.labels.push('💻 code');
   }
+}
 
-  // Infrastructure/Tooling
-  if (task.title.match(/setup|configure|pipeline|storybook|dictionary|ci\/cd|build/i)) {
-    task.labels.push('🔧 infrastructure');
-  }
+/**
+ * Assign domain and component-complexity labels
+ */
+function assignDomainLabels(task) {
+  const title = task.title;
+  addLabelIfMatch(task.labels, title, /token|color|palette|typography|spacing|shadow|border|semantic/i, '🎨 design-tokens');
+  addLabelIfMatch(task.labels, title, /figma|code connect/i, '🎨 figma');
+  addLabelIfMatch(task.labels, title, /storybook/i, '📖 storybook');
 
-  // Documentation
-  if (task.title.match(/document|guide|readme/i)) {
-    task.labels.push('📚 documentation');
-  }
-
-  // Testing
-  if (task.title.match(/test|coverage|audit/i)) {
-    task.labels.push('🧪 testing');
-  }
-
-  // 3. DOMAIN LABELS
-  // Design tokens
-  if (task.title.match(/token|color|palette|typography|spacing|shadow|border|semantic/i)) {
-    task.labels.push('🎨 design-tokens');
-  }
-
-  // Components
   const taskNum = Number.parseInt(task.taskId.replace('TASK-', ''), 10);
-  if (
-    (taskNum >= 21 && taskNum <= 45) ||
-    task.title.match(/button|badge|alert|modal|input|select/i)
-  ) {
+  const isComponentByTitle = /button|badge|alert|modal|input|select/i.test(title);
+  if ((taskNum >= 21 && taskNum <= 45) || isComponentByTitle) {
     task.labels.push('🧩 component');
+    assignComponentComplexity(task.labels, taskNum);
+  }
+}
 
-    // Component complexity
-    if (taskNum >= 21 && taskNum <= 27) {
-      task.labels.push('simple');
-    } else if (taskNum >= 28 && taskNum <= 36) {
-      task.labels.push('medium');
-    } else if (taskNum >= 37 && taskNum <= 45) {
-      task.labels.push('complex');
+/**
+ * Assign component complexity label based on task number range
+ */
+function assignComponentComplexity(labels, taskNum) {
+  const ranges = [
+    [21, 27, 'simple'],
+    [28, 36, 'medium'],
+    [37, 45, 'complex'],
+  ];
+  for (const [min, max, label] of ranges) {
+    if (taskNum >= min && taskNum <= max) {
+      labels.push(label);
+      return;
     }
   }
+}
 
-  // Figma integration
-  if (task.title.match(/figma|code connect/i)) {
-    task.labels.push('🎨 figma');
+/**
+ * Assign priority label from task.priority
+ */
+function assignPriorityLabel(task) {
+  const priorityMap = { Critical: '🔴 critical', High: '🟠 high-priority', Medium: '🟡 medium-priority' };
+  if (priorityMap[task.priority]) {
+    task.labels.push(priorityMap[task.priority]);
   }
+}
 
-  // Storybook
-  if (task.title.match(/storybook/i)) {
-    task.labels.push('📖 storybook');
-  }
-
-  // 4. PRIORITY LABELS
-  if (task.priority === 'Critical') {
-    task.labels.push('🔴 critical');
-  } else if (task.priority === 'High') {
-    task.labels.push('🟠 high-priority');
-  } else if (task.priority === 'Medium') {
-    task.labels.push('🟡 medium-priority');
-  }
-
-  // 5. PHASE LABELS
-  if (task.phase?.includes('Phase 0')) {
-    task.labels.push('📍 phase-0');
-  } else if (task.phase?.includes('Phase 1')) {
-    task.labels.push('📍 phase-1');
-  } else if (task.phase?.includes('Phase 2A')) {
-    task.labels.push('📍 phase-2a');
-  } else if (task.phase?.includes('Phase 2B')) {
-    task.labels.push('📍 phase-2b');
-  } else if (task.phase?.includes('Phase 2C')) {
-    task.labels.push('📍 phase-2c');
-  } else if (task.phase?.includes('Phase 3')) {
-    task.labels.push('📍 phase-3');
-  } else if (task.phase?.includes('Phase 4')) {
-    task.labels.push('📍 phase-4');
-  }
-
-  // 6. STATUS LABELS
-  if (directory === 'completed') {
-    task.labels.push('✅ completed');
-  } else {
-    task.labels.push('📋 todo');
-  }
-
-  // Add blocked label if has unmet dependencies
+/**
+ * Assign status and dependency labels
+ */
+function assignStatusLabels(task, directory) {
+  task.labels.push(directory === 'completed' ? '✅ completed' : '📋 todo');
   if (task.requires.length > 0) {
     task.labels.push('🚧 has-dependencies');
   }
+}
 
-  // 7. SPECIAL CATEGORIES
-  // Accessibility
-  if (task.title.match(/accessibility|a11y|wcag|aria/i)) {
-    task.labels.push('♿ accessibility');
+/**
+ * Assign special category labels (a11y, performance, security)
+ */
+function assignSpecialLabels(task) {
+  const title = task.title;
+  addLabelIfMatch(task.labels, title, /accessibility|a11y|wcag|aria/i, '♿ accessibility');
+  addLabelIfMatch(task.labels, title, /performance|optimization|bundle/i, '⚡ performance');
+  addLabelIfMatch(task.labels, title, /security|audit/i, '🔒 security');
+}
+
+/**
+ * Assign all labels to a task based on its properties
+ */
+function assignLabels(task, directory) {
+  assignRoleLabel(task);
+  assignWorkTypeLabels(task);
+  assignDomainLabels(task);
+  assignPriorityLabel(task);
+  assignPhaseLabel(task);
+  assignStatusLabels(task, directory);
+  assignSpecialLabels(task);
+}
+
+/**
+ * Assign phase label from task.phase
+ */
+function assignPhaseLabel(task) {
+  if (!task.phase) { return; }
+  const phasePatterns = [
+    ['Phase 0', '📍 phase-0'],
+    ['Phase 1', '📍 phase-1'],
+    ['Phase 2A', '📍 phase-2a'],
+    ['Phase 2B', '📍 phase-2b'],
+    ['Phase 2C', '📍 phase-2c'],
+    ['Phase 3', '📍 phase-3'],
+    ['Phase 4', '📍 phase-4'],
+  ];
+  for (const [pattern, label] of phasePatterns) {
+    if (task.phase.includes(pattern)) {
+      task.labels.push(label);
+      return;
+    }
   }
-
-  // Performance
-  if (task.title.match(/performance|optimization|bundle/i)) {
-    task.labels.push('⚡ performance');
-  }
-
-  // Security
-  if (task.title.match(/security|audit/i)) {
-    task.labels.push('🔒 security');
-  }
-
-  return task;
 }
 
 /**

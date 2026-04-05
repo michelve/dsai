@@ -3,6 +3,9 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+const SPACING_2 = 'var(--dsai-spacing-2)';
+const FONT_WEIGHT_BOLD = 'var(--dsai-typography-font-weight-bold)';
+
 /**
  * Popover component for displaying richer interactive content.
  * Uses Floating UI for intelligent positioning and supports various triggers.

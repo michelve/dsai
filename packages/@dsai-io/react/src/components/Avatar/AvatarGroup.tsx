@@ -236,7 +236,7 @@ export const AvatarGroup = memo(
     const totalCount = total ?? childArray.length;
 
     // Calculate visible and hidden counts
-    const visibleCount = maxVisible !== undefined ? Math.min(maxVisible, childArray.length) : childArray.length;
+    const visibleCount = maxVisible === undefined ? childArray.length : Math.min(maxVisible, childArray.length);
     const hiddenCount = totalCount - visibleCount;
     const hasOverflow = hiddenCount > 0;
 
@@ -294,6 +294,23 @@ export const AvatarGroup = memo(
     );
 
     const visibleChildren = useMemo(() => {
+      // Compute stacking style for a child avatar at the given index
+      const getStackedStyle = (
+        childStyle: React.CSSProperties | undefined,
+        index: number
+      ): React.CSSProperties => ({
+        ...childStyle,
+        marginLeft:
+          layout === 'stacked' && stackingOrder === 'lastOnTop' && index > 0
+            ? marginLeft
+            : undefined,
+        marginRight:
+          layout === 'stacked' && stackingOrder === 'firstOnTop' && index > 0
+            ? marginLeft
+            : undefined,
+        zIndex: layout === 'stacked' ? visibleCount - index : undefined,
+      });
+
       return childArray.slice(0, visibleCount).map((child, index) => {
         if (!isValidElement(child)) {
           return child;

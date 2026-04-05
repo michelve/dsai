@@ -4,6 +4,8 @@ import { useState } from 'react';
 import type { CheckboxGroupOption } from '@dsai-io/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+const LABEL_NOTIFICATION_PREFS = 'Notification Preferences';
+
 /**
  * CheckboxGroup is a high-level component that manages a group of Checkbox components
  * with tri-state (none/some/all) selection logic and optional "select all" functionality.
@@ -188,7 +190,7 @@ const permissionOptions: CheckboxGroupOption[] = [
  */
 export const Default: Story = {
   args: {
-    label: 'Notification Preferences',
+    label: LABEL_NOTIFICATION_PREFS,
     options: defaultOptions,
   },
 };
@@ -198,7 +200,7 @@ export const Default: Story = {
  */
 export const WithDefaultValues: Story = {
   args: {
-    label: 'Notification Preferences',
+    label: LABEL_NOTIFICATION_PREFS,
     options: defaultOptions,
     defaultValue: ['email', 'push'],
   },
@@ -209,7 +211,7 @@ export const WithDefaultValues: Story = {
  */
 export const WithHelperText: Story = {
   args: {
-    label: 'Notification Preferences',
+    label: LABEL_NOTIFICATION_PREFS,
     options: defaultOptions,
     helperText: 'Choose how you want to receive updates',
   },
@@ -345,7 +347,7 @@ export const Controlled: Story = {
  */
 export const Disabled: Story = {
   args: {
-    label: 'Notification Preferences',
+    label: LABEL_NOTIFICATION_PREFS,
     options: defaultOptions,
     defaultValue: ['email'],
     disabled: true,

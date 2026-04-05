@@ -88,72 +88,62 @@ interface DependencyGraph {
 /**
  * Analyze files to determine what needs to be rebuilt
  */
+/** Create a full-build analysis result */
+function fullBuildAnalysis(reason: string, extra?: Partial<IncrementalAnalysis>): IncrementalAnalysis {
+  return {
+    needsFullBuild: true,
+    changedFiles: [],
+    unchangedFiles: [],
+    fullBuildReason: reason,
+    totalFiles: 0,
+    ...extra,
+  };
+}
+
 export async function analyzeChanges(
   sourceDir: string,
   options: IncrementalOptions
 ): Promise<IncrementalAnalysis> {
   const { enabled, force, cacheService, verbose } = options;
 
-  // If not enabled or force build, do full build
   if (!enabled || force) {
-    return {
-      needsFullBuild: true,
-      changedFiles: [],
-      unchangedFiles: [],
-      fullBuildReason: force ? 'Force rebuild requested' : 'Incremental mode disabled',
-      totalFiles: 0,
-    };
+    return fullBuildAnalysis(force ? 'Force rebuild requested' : 'Incremental mode disabled');
   }
 
-  // If no cache service, do full build
   if (!cacheService) {
-    return {
-      needsFullBuild: true,
-      changedFiles: [],
-      unchangedFiles: [],
-      fullBuildReason: 'No cache service available',
-      totalFiles: 0,
-    };
+    return fullBuildAnalysis('No cache service available');
   }
 
-  // Load cache
-  const cache = await cacheService.loadCache();
-
-  // If no cache exists, do full build
+  const cache = cacheService.loadCache();
   if (!cache || Object.keys(cache.files).length === 0) {
     if (verbose) {
       console.info('  ℹ️  No cache found, performing full build');
     }
-    return {
-      needsFullBuild: true,
-      changedFiles: [],
-      unchangedFiles: [],
-      fullBuildReason: 'No cache available',
-      totalFiles: 0,
-    };
+    return fullBuildAnalysis('No cache available');
   }
 
-  // Get all source files
   const sourceFiles = await getSourceFiles(sourceDir);
-
   if (sourceFiles.length === 0) {
-    return {
-      needsFullBuild: true,
-      changedFiles: [],
-      unchangedFiles: [],
-      fullBuildReason: 'No source files found',
-      totalFiles: 0,
-    };
+    return fullBuildAnalysis('No source files found');
   }
 
-  // Check which files have changed
+  return classifyFileChanges(sourceFiles, cacheService, sourceDir, verbose);
+}
+
+/**
+ * Classify source files into changed/unchanged and decide build strategy
+ */
+function classifyFileChanges(
+  sourceFiles: string[],
+  cacheService: CacheService,
+  sourceDir: string,
+  verbose?: boolean
+): IncrementalAnalysis {
   const changedFiles: string[] = [];
   const unchangedFiles: string[] = [];
 
   for (const file of sourceFiles) {
-    const hasChanged = cacheService.hasFileChanged(file, sourceDir);
-
-    if (hasChanged) {
+    if (cacheService.hasFileChanged(file, sourceDir)) {
       changedFiles.push(file);
     } else {
       unchangedFiles.push(file);
@@ -169,42 +159,21 @@ export async function analyzeChanges(
     );
   }
 
-  // If more than 50% of files changed, do full build
-  // This is more efficient than selective processing
   if (changePercentage > FULL_BUILD_THRESHOLD_PERCENT) {
     if (verbose) {
       console.info('  ℹ️  >50% files changed, performing full build for efficiency');
     }
-    return {
-      needsFullBuild: true,
-      changedFiles,
-      unchangedFiles,
-      fullBuildReason: 'Too many files changed (>50%)',
-      totalFiles,
-    };
+    return { needsFullBuild: true, changedFiles, unchangedFiles, fullBuildReason: 'Too many files changed (>50%)', totalFiles };
   }
 
-  // If no files changed, skip build entirely
   if (changedFiles.length === 0) {
     if (verbose) {
       console.info('  ✅ No changes detected, skipping build');
     }
-    return {
-      needsFullBuild: false,
-      changedFiles: [],
-      unchangedFiles,
-      fullBuildReason: undefined,
-      totalFiles,
-    };
+    return { needsFullBuild: false, changedFiles: [], unchangedFiles, totalFiles };
   }
 
-  // Incremental build is possible
-  return {
-    needsFullBuild: false,
-    changedFiles,
-    unchangedFiles,
-    totalFiles,
-  };
+  return { needsFullBuild: false, changedFiles, unchangedFiles, totalFiles };
 }
 
 /**
@@ -415,7 +384,7 @@ export async function updateCacheAfterBuild(
   }
 
   // Batch update cache
-  await cacheService.updateCacheEntries(
+  cacheService.updateCacheEntries(
     updates.map((u) => ({
       filePath: u.filePath,
       outputs: u.outputs,
@@ -440,26 +409,28 @@ export function generateIncrementalReport(
   const duration = Date.now() - startTime;
   const lines: string[] = [];
 
-  lines.push('\n📊 Incremental Build Report');
-  lines.push('─'.repeat(REPORT_SEPARATOR_WIDTH));
+  lines.push('\n📊 Incremental Build Report', '─'.repeat(REPORT_SEPARATOR_WIDTH));
 
   if (analysis.needsFullBuild) {
-    lines.push(`Reason: ${analysis.fullBuildReason}`);
-    lines.push(`Duration: ${duration}ms`);
+    lines.push(`Reason: ${analysis.fullBuildReason}`, `Duration: ${duration}ms`);
   } else if (analysis.changedFiles.length === 0) {
-    lines.push('Result: No changes detected');
-    lines.push(`Duration: ${duration}ms`);
-    lines.push(`Time saved: ~${duration}ms (100%)`);
+    lines.push(
+      'Result: No changes detected',
+      `Duration: ${duration}ms`,
+      `Time saved: ~${duration}ms (100%)`
+    );
   } else {
     const savedCollections = totalCollections - collectionsProcessed;
     const savedPercentage = ((savedCollections / totalCollections) * 100).toFixed(1);
 
-    lines.push(`Files analyzed: ${analysis.totalFiles}`);
-    lines.push(`Files changed: ${analysis.changedFiles.length}`);
-    lines.push(`Files unchanged: ${analysis.unchangedFiles.length}`);
-    lines.push(`Collections processed: ${collectionsProcessed}/${totalCollections}`);
-    lines.push(`Collections skipped: ${savedCollections} (${savedPercentage}%)`);
-    lines.push(`Duration: ${duration}ms`);
+    lines.push(
+      `Files analyzed: ${analysis.totalFiles}`,
+      `Files changed: ${analysis.changedFiles.length}`,
+      `Files unchanged: ${analysis.unchangedFiles.length}`,
+      `Collections processed: ${collectionsProcessed}/${totalCollections}`,
+      `Collections skipped: ${savedCollections} (${savedPercentage}%)`,
+      `Duration: ${duration}ms`
+    );
   }
 
   lines.push('─'.repeat(REPORT_SEPARATOR_WIDTH));

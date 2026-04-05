@@ -217,9 +217,7 @@ export function discoverThemeFiles(
 
   for (const [themeName, files] of themeFilesMap.entries()) {
     // Safe access using Map lookup since we control the keys
-    const definition = definitions[themeName as keyof typeof definitions] as
-      | ResolvedThemeDefinition
-      | undefined;
+    const definition = definitions[themeName as keyof typeof definitions];
 
     if (!definition) {
       continue;

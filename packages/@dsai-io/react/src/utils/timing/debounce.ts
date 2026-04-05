@@ -215,25 +215,10 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
   /**
    * Debounced function
    */
-  function debounced(this: unknown, ...args: unknown[]): unknown {
-    const time = Date.now();
-    const isInvoking = shouldInvokeLeading(time);
-
-    pendingCall = { thisArg: this, args };
-    lastCallTime = time;
-
-    // Leading edge
-    if (isInvoking && leading) {
-      if (timeoutId === undefined) {
-        lastInvokeTime = time;
-        result = func.apply(this as ThisParameterType<T>, args as Parameters<T>);
-      }
-    }
-
-    // Cancel only the trailing timer (keep maxWait timer running)
-    cancelTrailingTimer();
-
-    // Start new timer for trailing edge (but avoid colliding with maxWait)
+  /**
+   * Schedule the trailing timer if appropriate.
+   */
+  function scheduleTrailingTimer(time: number): void {
     const timeToWait = remainingWait(time);
     const maxWaitRemaining =
       maxWait !== undefined ? maxWait - (time - (lastInvokeTime ?? time)) : undefined;
@@ -244,15 +229,41 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
     if (shouldScheduleTrailing) {
       timeoutId = startTimer(timerExpired, Math.max(0, timeToWait));
     }
+  }
 
-    // Start maxWait timer if configured (only on first call or after invoke)
-    if (maxWait !== undefined && maxWaitTimeoutId === undefined) {
-      const timeSinceLastInvoke = time - (lastInvokeTime ?? time);
-      const maxTimeToWait = maxWait - timeSinceLastInvoke;
-      if (maxTimeToWait > 0) {
-        maxWaitTimeoutId = startTimer(maxWaitExpired, maxTimeToWait);
-      }
+  /**
+   * Schedule the maxWait timer if configured and not already running.
+   */
+  function scheduleMaxWaitTimer(time: number): void {
+    if (maxWait === undefined || maxWaitTimeoutId !== undefined) {
+      return;
     }
+    const timeSinceLastInvoke = time - (lastInvokeTime ?? time);
+    const maxTimeToWait = maxWait - timeSinceLastInvoke;
+    if (maxTimeToWait > 0) {
+      maxWaitTimeoutId = startTimer(maxWaitExpired, maxTimeToWait);
+    }
+  }
+
+  /**
+   * Debounced function
+   */
+  function debounced(this: unknown, ...args: unknown[]): unknown {
+    const time = Date.now();
+    const isInvoking = shouldInvokeLeading(time);
+
+    pendingCall = { thisArg: this, args };
+    lastCallTime = time;
+
+    // Leading edge
+    if (isInvoking && leading && timeoutId === undefined) {
+      lastInvokeTime = time;
+      result = func.apply(this as ThisParameterType<T>, args as Parameters<T>);
+    }
+
+    cancelTrailingTimer();
+    scheduleTrailingTimer(time);
+    scheduleMaxWaitTimer(time);
 
     return result;
   }

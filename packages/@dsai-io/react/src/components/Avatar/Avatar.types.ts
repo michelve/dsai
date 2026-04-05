@@ -119,9 +119,9 @@ export const AVATAR_STATUS_COLOR_MAP: Record<AvatarStatus, string> = {
   online: 'bg-success',
   busy: 'bg-danger',
   away: 'bg-warning',
-  offline: 'bg-secondary',
+  offline: BG_SECONDARY,
   dnd: 'bg-danger',
-  unknown: 'bg-secondary',
+  unknown: BG_SECONDARY,
 };
 
 /**

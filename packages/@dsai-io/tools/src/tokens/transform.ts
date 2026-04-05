@@ -315,7 +315,7 @@ export function transformTokenTree(
     // Try to transform as a token
     const keyOptions = optionsMap.get(key);
     const tokenOptions: TokenTransformOptions = {
-      ...(keyOptions ?? {}),
+      ...keyOptions,
       tokenPath: currentPath,
     };
     const transformed = transformToken(value, tokenOptions);
@@ -967,6 +967,173 @@ function processOutputMode(
 // ============================================================================
 // Main Transformation
 // ============================================================================
+
+/** Context object for accumulating transform results */
+interface TransformContext {
+  errors: string[];
+  warnings: string[];
+  filesWritten: string[];
+  allModesDetected: Set<string>;
+  tokensProcessed: number;
+}
+
+/**
+ * Detect modes from theme.json for mode-aware collections
+ */
+function detectModesFromThemeFile(
+  sourceDir: string,
+  ctx: TransformContext
+): Map<string, string[]> {
+  const detectedModesMap = new Map<string, string[]>();
+  const themeFile = join(sourceDir, 'theme.json');
+
+  if (!existsSync(themeFile)) {
+    return detectedModesMap;
+  }
+
+  try {
+    const content = readFileSync(themeFile, 'utf-8');
+    const themeData = JSON.parse(content) as FigmaExport;
+
+    for (const [name, collectionConfig] of Object.entries(DEFAULT_COLLECTIONS)) {
+      const typedConfig = collectionConfig as CollectionConfig;
+      if (!typedConfig.modeAware) {continue;}
+
+      const collectionPath = name.charAt(0).toUpperCase() + name.slice(1);
+      const modes = detectModes(themeData, collectionPath);
+      if (modes.length > 0) {
+        detectedModesMap.set(collectionPath, modes);
+        for (const mode of modes) {
+          ctx.allModesDetected.add(mode);
+        }
+      }
+    }
+  } catch (error) {
+    ctx.warnings.push(
+      `Failed to read theme.json for mode detection: ${error instanceof Error ? error.message : 'Unknown error'}`
+    );
+  }
+
+  return detectedModesMap;
+}
+
+/**
+ * Read and optionally validate a collection input file
+ */
+function readCollectionInput(
+  inputPath: string,
+  strict: boolean | undefined,
+  ctx: TransformContext,
+  verbose: boolean
+): FigmaExport | null {
+  try {
+    const content = readFileSync(inputPath, 'utf-8');
+    const data = JSON.parse(content) as FigmaExport;
+
+    if (strict) {
+      const validation = validateFigmaExport(data);
+      if (!validation.valid) {
+        const errorMessages = validation.errors?.map((e) => `${e.path}: ${e.message}`) || [];
+        ctx.errors.push(`Schema validation failed for ${inputPath}:\n${errorMessages.join('\n')}`);
+        return null;
+      }
+      if (verbose) {
+        console.info(`   ✓ Schema validation passed`);
+      }
+    }
+    return data;
+  } catch (error) {
+    ctx.errors.push(
+      `Failed to read ${inputPath}: ${error instanceof Error ? error.message : 'Unknown error'}`
+    );
+    return null;
+  }
+}
+
+/**
+ * Determine modes to process for a collection
+ */
+function resolveModesToProcess(
+  typedConfig: CollectionConfig,
+  collectionName: string,
+  data: FigmaExport,
+  detectedModesMap: Map<string, string[]>,
+  defaultMode: string,
+  ignoreModes: string[]
+): string[] {
+  if (!typedConfig.modeAware) {
+    return [defaultMode];
+  }
+
+  const collectionPath = collectionName.charAt(0).toUpperCase() + collectionName.slice(1);
+  const detectedForCollection = detectedModesMap.get(collectionPath);
+
+  if (detectedForCollection) {
+    return detectedForCollection.filter((m) => !ignoreModes.includes(m));
+  }
+
+  const modes = detectModes(data, collectionPath);
+  if (modes.length > 1 || !modes.includes('Base')) {
+    return modes.filter((m) => !ignoreModes.includes(m));
+  }
+
+  return [defaultMode];
+}
+
+/**
+ * Process a single output for a single mode
+ */
+function processOutputMode(
+  output: CollectionOutput,
+  mode: string,
+  typedConfig: CollectionConfig,
+  modesToProcess: string[],
+  data: FigmaExport,
+  collectionsDir: string,
+  dryRun: boolean,
+  defaultMode: string,
+  verbose: boolean,
+  ctx: TransformContext
+): void {
+  let outputFile = output.file;
+  if (typedConfig.modeAware && modesToProcess.length > 1 && mode !== defaultMode) {
+    const ext = extname(output.file);
+    const base = basename(output.file, ext);
+    const dir = dirname(output.file);
+    outputFile = join(dir, `${base}-${mode.toLowerCase()}${ext}`);
+  }
+
+  const outputPath = join(collectionsDir, outputFile);
+
+  try {
+    const tokens = typedConfig.modeAware ? output.extractor(data, mode) : output.extractor(data);
+    const tokenCount = Object.keys(tokens).length;
+
+    if (tokenCount === 0) {
+      ctx.warnings.push(`No tokens extracted for ${outputFile} (${mode} mode)`);
+      return;
+    }
+
+    ctx.tokensProcessed += tokenCount;
+
+    if (!dryRun) {
+      ensureDir(outputPath);
+      writeFileSync(outputPath, `${JSON.stringify(tokens, null, 2)}\n`, 'utf-8');
+    }
+
+    ctx.filesWritten.push(outputFile);
+
+    if (verbose) {
+      const dryRunLabel = dryRun ? ' (dry run)' : '';
+      console.info(
+        `  ✅ Created ${outputFile}${modesToProcess.length > 1 ? ` (${mode})` : ''}${dryRunLabel}`
+      );
+    }
+  } catch (error) {
+    const errMsg = error instanceof Error ? error.message : 'Unknown error';
+    ctx.errors.push(`Error processing ${outputFile}: ${errMsg}`);
+  }
+}
 
 /**
  * Transform Figma tokens to Style Dictionary format

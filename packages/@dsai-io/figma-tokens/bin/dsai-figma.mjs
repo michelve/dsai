@@ -82,7 +82,7 @@ function logWarning(message) {
 }
 
 // Allowed config filenames for security
-const ALLOWED_CONFIG_FILES = ['figma.config.mjs', 'dsai.config.mjs'];
+const ALLOWED_CONFIG_FILES = new Set(['figma.config.mjs', 'dsai.config.mjs']);
 
 /**
  * Safely check if a config file exists
@@ -91,7 +91,7 @@ const ALLOWED_CONFIG_FILES = ['figma.config.mjs', 'dsai.config.mjs'];
  * @returns {string|null} - The full path if file exists, null otherwise
  */
 function findConfigFile(basePath, filename) {
-  if (!ALLOWED_CONFIG_FILES.includes(filename)) {
+  if (!ALLOWED_CONFIG_FILES.has(filename)) {
     return null;
   }
   const fullPath = resolve(basePath, filename);
@@ -194,13 +194,15 @@ function parseArgs(args) {
     options: new Map(),
   };
 
-  for (let i = 1; i < args.length; i++) {
+  let i = 1;
+  while (i < args.length) {
     const arg = args[i];
     if (arg.startsWith('--')) {
       i += parseLongOption(args, i, result.options);
     } else if (arg.startsWith('-')) {
       parseShortOption(arg, result.options);
     }
+    i += 1;
   }
 
   return result;

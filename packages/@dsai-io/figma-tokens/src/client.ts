@@ -72,13 +72,29 @@ import type {
 const DEFAULT_BASE_URL = 'https://api.figma.com';
 
 /** Default request timeout (30 seconds) */
-const DEFAULT_TIMEOUT = 30000;
+const DEFAULT_TIMEOUT = 30_000;
 
 /** Default retry count */
 const DEFAULT_RETRIES = 3;
 
 /** API version */
 const API_VERSION = 'v1';
+
+/** Maximum value for 8-bit unsigned integer */
+const MAX_UINT8 = 255;
+
+/** HTTP 403 Forbidden */
+const HTTP_FORBIDDEN = 403;
+
+/** HTTP 404 Not Found */
+const HTTP_NOT_FOUND = 404;
+
+/** HTTP 429 Too Many Requests */
+const HTTP_TOO_MANY_REQUESTS = 429;
+
+/** HTTP 500+ Server Error threshold */
+const HTTP_SERVER_ERROR_THRESHOLD = 500;
+
 
 // ============================================================================
 // Font Detection Patterns (inspired by Figma SDS)
@@ -256,7 +272,7 @@ function detectTokenType(
  */
 function figmaColorToHex(color: FigmaColor): string {
   const toHex = (value: number): string => {
-    const hex = Math.round(value * 255).toString(16);
+    const hex = Math.round(value * MAX_UINT8).toString(16);
     return hex.length === 1 ? `0${hex}` : hex;
   };
 
@@ -387,7 +403,7 @@ export class FigmaClientError extends Error {
     let hint: string | undefined;
 
     // Add helpful hints based on error status and endpoint
-    if (error.status === 403) {
+    if (error.status === HTTP_FORBIDDEN) {
       if (endpoint?.includes('/variables')) {
         hint =
           '⚠️  The Variables API requires a Figma Enterprise plan.\n' +
@@ -403,12 +419,12 @@ export class FigmaClientError extends Error {
           '   • Your token has the required scopes (file_content:read, etc.)\n' +
           '   • You have access to this file in Figma';
       }
-    } else if (error.status === 404) {
+    } else if (error.status === HTTP_NOT_FOUND) {
       hint =
         '⚠️  File not found. Check that:\n' +
         '   • The file key is correct (from the Figma URL)\n' +
         '   • The file has not been deleted or moved';
-    } else if (error.status === 429) {
+    } else if (error.status === HTTP_TOO_MANY_REQUESTS) {
       hint = '⚠️  Rate limited. Wait a moment and try again.';
     }
 
@@ -680,7 +696,8 @@ export class FigmaClient {
     }
 
     const query = params.toString();
-    const endpoint = `/files/${fileKey}${query ? `?${query}` : ''}`;
+    const queryString = query ? '?' + query : '';
+    const endpoint = `/files/${fileKey}${queryString}`;
 
     return this.request<FigmaFile>(endpoint);
   }
@@ -1197,9 +1214,9 @@ export class FigmaClient {
    * Convert Figma color with opacity to CSS rgba
    */
   private figmaColorToRgba(color: FigmaColor, opacity = 1): string {
-    const r = Math.round(color.r * 255);
-    const g = Math.round(color.g * 255);
-    const b = Math.round(color.b * 255);
+    const r = Math.round(color.r * MAX_UINT8);
+    const g = Math.round(color.g * MAX_UINT8);
+    const b = Math.round(color.b * MAX_UINT8);
     const a = color.a !== undefined ? color.a * opacity : opacity;
 
     if (a === 1) {
@@ -1372,7 +1389,7 @@ export class FigmaClient {
   ): void {
     const path = styleName
       .split('/')
-      .map((p) => p.trim().toLowerCase().replace(/\s+/g, '-'))
+      .map((p) => p.trim().toLowerCase().replaceAll(/\s+/g, '-'))
       .filter(Boolean);
 
     if (path.length === 0) {
@@ -2029,7 +2046,7 @@ export class FigmaClient {
       // Return as reference
       const referencedVariable = variableById.get(value.id);
       if (referencedVariable) {
-        const refPath = referencedVariable.name.replace(/\//g, '.');
+        const refPath = referencedVariable.name.replaceAll('/', '.');
         return `{${refPath}}`;
       }
       return null;

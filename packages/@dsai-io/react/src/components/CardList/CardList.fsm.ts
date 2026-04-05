@@ -201,6 +201,63 @@ export function createInitialCardListFSMState(
  * @param event - Event to process
  * @returns New FSM state
  */
+/**
+ * Handle RESET_FROM_PROPS event — sync state with controlled props
+ */
+function handleCardListResetFromProps(event: ResetFromPropsEvent): CardListFSMState {
+  const { values, mode, totalEnabled } = event;
+
+  if (mode === 'none') {
+    return { selectedValues: [], visualState: 'none' };
+  }
+
+  if (mode === 'single') {
+    const firstValue = values[0];
+    const selectedValues = firstValue !== undefined ? [firstValue] : [];
+    return { selectedValues, visualState: deriveVisualState(selectedValues, totalEnabled) };
+  }
+
+  const selectedValues = [...new Set(values)];
+  return { selectedValues, visualState: deriveVisualState(selectedValues, totalEnabled) };
+}
+
+/**
+ * Handle SELECT_ITEM event — single selection mode
+ */
+function handleCardListSelectItem(
+  state: CardListFSMState,
+  event: SelectItemEvent
+): CardListFSMState {
+  const { value, totalEnabled } = event;
+
+  if (state.selectedValues.includes(value)) {
+    return state;
+  }
+
+  const selectedValues = [value];
+  return { selectedValues, visualState: deriveVisualState(selectedValues, totalEnabled) };
+}
+
+/**
+ * Handle TOGGLE_ITEM event — multiple selection mode
+ */
+function handleCardListToggleItem(
+  state: CardListFSMState,
+  event: ToggleItemEvent
+): CardListFSMState {
+  const { value, totalEnabled } = event;
+  const selected = new Set(state.selectedValues);
+
+  if (selected.has(value)) {
+    selected.delete(value);
+  } else {
+    selected.add(value);
+  }
+
+  const selectedValues = Array.from(selected);
+  return { selectedValues, visualState: deriveVisualState(selectedValues, totalEnabled) };
+}
+
 export function cardListFSMReducer(
   state: CardListFSMState,
   event: CardListFSMEvent
@@ -253,17 +310,10 @@ export function cardListFSMReducer(
     }
 
     case 'SELECT_ALL': {
-      const { enabledValues, totalEnabled } = event;
-      const selectedValues = [...enabledValues];
-
-      return {
-        selectedValues,
-        visualState: deriveVisualState(selectedValues, totalEnabled),
-      };
+      const selectedValues = [...event.enabledValues];
+      return { selectedValues, visualState: deriveVisualState(selectedValues, event.totalEnabled) };
     }
-
     default: {
-      // TypeScript exhaustiveness check
       const _exhaustive: never = event;
       return _exhaustive;
     }

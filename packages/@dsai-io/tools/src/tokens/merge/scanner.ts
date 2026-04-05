@@ -39,10 +39,10 @@ const DEFAULT_IGNORE_PATTERNS = [
 function globToRegex(pattern: string): RegExp {
   const regex = pattern
     .replaceAll(/[.+^${}()|[\]\\]/g, '\\$&') // Escape special regex chars (except * and ?)
-    .replaceAll(/\*\*/g, '<<<GLOBSTAR>>>') // Temporarily replace **
-    .replaceAll(/\*/g, '[^/]*') // * matches anything except /
-    .replaceAll(/\?/g, '.') // ? matches single char
-    .replaceAll(/<<<GLOBSTAR>>>/g, '.*'); // ** matches anything including /
+    .replaceAll('**', '<<<GLOBSTAR>>>') // Temporarily replace **
+    .replaceAll('*', '[^/]*') // * matches anything except /
+    .replaceAll('?', '.') // ? matches single char
+    .replaceAll('<<<GLOBSTAR>>>', '.*'); // ** matches anything including /
   return new RegExp(`^${regex}$`);
 }
 

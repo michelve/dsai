@@ -186,7 +186,8 @@ async function runInit(options: InitOptions): Promise<void> {
 
   console.log();
   console.log(colors.bold('DSAI Tools Setup'));
-  console.log(colors.muted('─'.repeat(30)));
+  const SEPARATOR_WIDTH = 30;
+  console.log(colors.muted('─'.repeat(SEPARATOR_WIDTH)));
   console.log();
 
   // Check for existing config
@@ -228,7 +229,7 @@ async function runInit(options: InitOptions): Promise<void> {
   }
 
   // Apply substitutions
-  content = content.replaceAll(/\{\{PREFIX\}\}/g, prefix).replaceAll(/\{\{OUTPUT_DIR\}\}/g, outputDir);
+  content = content.replaceAll('{{PREFIX}}', prefix).replaceAll('{{OUTPUT_DIR}}', outputDir);
 
   // Write config file
   const configPath = join(cwd, CONFIG_FILENAME);

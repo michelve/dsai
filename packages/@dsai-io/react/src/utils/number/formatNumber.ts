@@ -22,6 +22,9 @@ import type { NumberFormatterOptions } from '../types/shared';
 const formattersCache = new Map<string, Intl.NumberFormat>();
 const MAX_CACHE_SIZE = 100;
 
+/** Fraction of cache to evict when at capacity */
+const CACHE_EVICTION_RATIO = 0.2;
+
 /**
  * Generate a stable cache key from locale and options
  */
@@ -43,7 +46,7 @@ function getCacheKey(locale: string, options?: Intl.NumberFormatOptions): string
  * Evict oldest entries from cache when it grows too large (LRU-style)
  */
 function evictOldestEntries(): void {
-  const entriesToRemove = Math.floor(MAX_CACHE_SIZE * 0.2); // Remove 20%
+  const entriesToRemove = Math.floor(MAX_CACHE_SIZE * CACHE_EVICTION_RATIO);
   const iterator = formattersCache.keys();
 
   for (let i = 0; i < entriesToRemove; i++) {
@@ -80,6 +83,43 @@ function getOrCreateFormatter(
  * Fallback number formatter for environments without Intl support
  * Provides basic number formatting using native methods
  */
+/**
+ * Format a compact number with appropriate suffix (K, M, B, T).
+ */
+function formatCompact(value: number): string {
+  const absValue = Math.abs(value);
+  const sign = value < 0 ? '-' : '';
+
+  if (absValue >= 1e12) {
+    return `${sign}${(absValue / 1e12).toFixed(1)}T`;
+  }
+  if (absValue >= 1e9) {
+    return `${sign}${(absValue / 1e9).toFixed(1)}B`;
+  }
+  if (absValue >= 1e6) {
+    return `${sign}${(absValue / 1e6).toFixed(1)}M`;
+  }
+  if (absValue >= 1e3) {
+    return `${sign}${(absValue / 1e3).toFixed(1)}K`;
+  }
+  return String(value);
+}
+
+/**
+ * Add thousand separators to a formatted number string.
+ */
+function addThousandSeparators(formatted: string): string {
+  const parts = formatted.split('.');
+  if (parts[0]) {
+    // Safe regex: matches non-boundary followed by groups of exactly 3 digits
+    const integerPart = parts[0];
+    const reversed = integerPart.split('').reverse().join('');
+    const grouped = reversed.replaceAll(/(\d{3})(?=\d)/g, '$1,');
+    parts[0] = grouped.split('').reverse().join('');
+  }
+  return parts.join('.');
+}
+
 function fallbackFormat(value: number, options?: Intl.NumberFormatOptions): string {
   // Handle special values
   if (Number.isNaN(value)) {
@@ -97,38 +137,16 @@ function fallbackFormat(value: number, options?: Intl.NumberFormatOptions): stri
 
   // Handle compact notation (basic approximation)
   if (options?.notation === 'compact') {
-    const absValue = Math.abs(value);
-    const sign = value < 0 ? '-' : '';
-
-    if (absValue >= 1e12) {
-      return `${sign}${(absValue / 1e12).toFixed(1)}T`;
-    }
-    if (absValue >= 1e9) {
-      return `${sign}${(absValue / 1e9).toFixed(1)}B`;
-    }
-    if (absValue >= 1e6) {
-      return `${sign}${(absValue / 1e6).toFixed(1)}M`;
-    }
-    if (absValue >= 1e3) {
-      return `${sign}${(absValue / 1e3).toFixed(1)}K`;
-    }
+    return formatCompact(value);
   }
 
   // Basic number formatting with fraction digits
   const fractionDigits = options?.maximumFractionDigits ?? options?.minimumFractionDigits ?? 0;
-  let result = value.toFixed(fractionDigits);
+  const result = value.toFixed(fractionDigits);
 
   // Add thousand separators (basic, assumes comma separators)
   if (options?.useGrouping !== false) {
-    const parts = result.split('.');
-    if (parts[0]) {
-      // Safe regex: matches non-boundary followed by groups of exactly 3 digits
-      const integerPart = parts[0];
-      const reversed = integerPart.split('').reverse().join('');
-      const grouped = reversed.replaceAll(/(\d{3})(?=\d)/g, '$1,');
-      parts[0] = grouped.split('').reverse().join('');
-    }
-    result = parts.join('.');
+    return addThousandSeparators(result);
   }
 
   return result;

@@ -46,7 +46,7 @@ export interface ModeExtractionResult {
  * Deep clone an object
  */
 function deepClone<T>(obj: T): T {
-  return JSON.parse(JSON.stringify(obj));
+  return structuredClone(obj);
 }
 
 /**

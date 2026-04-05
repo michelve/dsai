@@ -402,14 +402,14 @@ function buildTypesItem(
     content = content.replaceAll(/\/\*\*\s*\n\s*\*\s*@deprecated[^*]*\*\/\s*\n/g, '');
     return {
       path: `types/${f.path}`,
-      type: 'registry:type' as RegistryItemType,
+      type: TYPE_TYPE,
       content,
     };
   });
 
   return {
     name: 'dsai-types',
-    type: 'registry:type',
+    type: TYPE_TYPE,
     title: 'Shared Types',
     description: 'Shared type definitions (SafeHTMLAttributes, ComponentSize, PolymorphicComponentProps, etc.)',
     dependencies: [],
@@ -445,6 +445,8 @@ function scanDirectoryItems(
     const item = builder(registryName, join(dir, entry.name), log);
     if (item) { items.push(item); }
   }
+  return items;
+}
 
   return items;
 }
@@ -462,17 +464,8 @@ function writeRegistryOutput(
     if (!existsSync(dir)) { mkdirSync(dir, { recursive: true }); }
   }
 
-  const typeToSubdir: Record<string, string> = {
-    'registry:ui': 'components',
-    'registry:component': 'components',
-    'registry:hook': 'hooks',
-    'registry:util': 'utils',
-    'registry:lib': 'utils',
-    'registry:type': 'types',
-  };
-
   for (const item of allItems) {
-    const subdir = typeToSubdir[item.type] ?? 'utils';
+    const subdir = TYPE_TO_SUBDIR[item.type] ?? 'utils';
     const filePath = join(outputDir, subdir, `${item.name}.json`);
     writeFileSync(filePath, JSON.stringify(item, null, 2) + '\n', FILE_ENCODING);
     log(`  Wrote ${relative(outputDir, filePath)}`);

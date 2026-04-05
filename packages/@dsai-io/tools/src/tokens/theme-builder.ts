@@ -284,6 +284,31 @@ export function generateThemeBuildConfig(options: ThemeBuildOptions): ThemeStyle
 }
 
 /**
+ * Build format-specific options for a file config (prefix, selector, mediaQuery)
+ */
+function buildFormatOptions(
+  format: OutputFormat,
+  themeDefinition: ResolvedThemeDefinition,
+  isDefault: boolean,
+  prefix?: string
+): Record<string, unknown> | undefined {
+  const optionsMap = new Map<string, unknown>();
+
+  if (prefix && (format === 'css' || format === 'scss')) {
+    optionsMap.set('prefix', prefix);
+  }
+
+  if (format === 'css' && !isDefault) {
+    optionsMap.set('selector', themeDefinition.selector);
+    if (themeDefinition.mediaQuery) {
+      optionsMap.set('mediaQuery', themeDefinition.mediaQuery);
+    }
+  }
+
+  return optionsMap.size > 0 ? Object.fromEntries(optionsMap) : undefined;
+}
+
+/**
  * Generate platform configuration for a specific output format
  *
  * @param format - Output format (css, scss, js, etc.)
@@ -307,43 +332,17 @@ function generatePlatformConfig(
 
   const sdFormat = isDefault ? formatConfig.default : formatConfig.themed;
 
-  // Use Map for safe access to outputFiles
   const outputFilesMap = new Map(Object.entries(themeDefinition.outputFiles));
   const outputFile = outputFilesMap.get(format) ?? `tokens.${format}`;
 
-  // Determine subdirectory based on format
   const subDir = getFormatSubdirectory(format);
   const buildPath = subDir ? join(outputDir, subDir) + '/' : outputDir + '/';
 
   const fileConfig: StyleDictionaryFileConfig = {
     destination: outputFile,
     format: sdFormat,
+    options: buildFormatOptions(format, themeDefinition, isDefault, prefix),
   };
-
-  // Add prefix option for CSS/SCSS formats
-  if (prefix && (format === 'css' || format === 'scss')) {
-    fileConfig.options = {
-      ...fileConfig.options,
-      prefix,
-    };
-  }
-
-  // Add selector option for themed CSS
-  if (format === 'css' && !isDefault) {
-    fileConfig.options = {
-      ...fileConfig.options,
-      selector: themeDefinition.selector,
-    };
-  }
-
-  // Add media query if defined
-  if (themeDefinition.mediaQuery && format === 'css' && !isDefault) {
-    const existingOptions = fileConfig.options ?? {};
-    fileConfig.options = {
-      ...existingOptions,
-      mediaQuery: themeDefinition.mediaQuery,
-    };
-  }
 
   const transformGroup = TRANSFORM_GROUPS.get(format) ?? format;
 
@@ -628,6 +627,98 @@ export interface MultiThemeBuildResult {
 }
 
 /**
+ * Resolve output file name for a format, with defaults based on theme name
+ */
+function resolveThemeOutputFile(
+  baseOutputFiles: Record<string, string | undefined>,
+  format: string,
+  themeName: string,
+  isDefault: boolean
+): string {
+  const existing = baseOutputFiles[format];
+  if (existing) {return existing;}
+
+  const defaultFilenames: Record<string, [string, string]> = {
+    css: ['tokens.css', `tokens-${themeName}.css`],
+    scss: ['_variables.scss', `_variables-${themeName}.scss`],
+    js: ['tokens.js', `tokens-${themeName}.js`],
+    ts: ['tokens.d.ts', `tokens-${themeName}.d.ts`],
+    json: ['tokens.json', `tokens-${themeName}.json`],
+    android: ['tokens.xml', `tokens-${themeName}.xml`],
+    ios: ['tokens.h', `tokens-${themeName}.h`],
+  };
+
+  const pair = defaultFilenames[format];
+  return pair ? (isDefault ? pair[0] : pair[1]) : `tokens-${themeName}.${format}`;
+}
+
+/** Create a failed ThemeBuildResult for early returns */
+function failedThemeResult(themeName: string, error: string): ThemeBuildResult {
+  return { success: false, themeName, outputs: {}, error, duration: 0, fromCache: false };
+}
+
+/** Resolve all output file names for a theme across all formats */
+function resolveAllOutputFiles(
+  baseOutputFiles: Record<string, string | undefined>,
+  themeName: string,
+  isDefault: boolean
+): Record<string, string> {
+  const allFormats = ['css', 'scss', 'js', 'ts', 'json', 'android', 'ios'];
+  const outputFiles: Record<string, string> = {};
+  for (const fmt of allFormats) {
+    outputFiles[fmt] = resolveThemeOutputFile(baseOutputFiles, fmt, themeName, isDefault);
+  }
+  return outputFiles;
+}
+
+/** Resolve a raw theme definition to a fully resolved one */
+function resolveDefinition(
+  raw: ThemeDefinition | ResolvedThemeDefinition,
+  themeName: string
+): ResolvedThemeDefinition {
+  const isDefault = raw.isDefault ?? false;
+  const baseOutputFiles = (raw.outputFiles ?? {}) as Record<string, string | undefined>;
+  return {
+    isDefault,
+    suffix: raw.suffix ?? (isDefault ? null : `-${themeName}`),
+    selector: raw.selector ?? (isDefault ? ':root' : `[data-dsai-theme="${themeName}"]`),
+    mediaQuery: raw.mediaQuery,
+    dataAttribute: raw.dataAttribute ?? `data-dsai-theme="${themeName}"`,
+    outputFiles: resolveAllOutputFiles(baseOutputFiles, themeName, isDefault) as ResolvedThemeDefinition['outputFiles'],
+  };
+}
+
+/**
+ * Build a single theme within a batch build, handling validation and definition resolution
+ */
+async function buildSingleThemeInBatch(
+  themeName: string,
+  definitionsMap: Map<string, ThemeDefinition | ResolvedThemeDefinition>,
+  themeFiles: Map<string, string[]>,
+  defaultThemeFiles: string[],
+  outputDir: string,
+  config: ThemeBuildConfig,
+  verbose?: boolean,
+  skipCache?: boolean
+): Promise<ThemeBuildResult> {
+  const rawThemeDefinition = definitionsMap.get(themeName);
+  if (!rawThemeDefinition) {
+    return failedThemeResult(themeName, `No theme definition found for "${themeName}"`);
+  }
+
+  const themeSpecificFiles = themeFiles.get(themeName);
+  if (!themeSpecificFiles || themeSpecificFiles.length === 0) {
+    return failedThemeResult(themeName, `No files found for theme "${themeName}"`);
+  }
+
+  const isDefault = rawThemeDefinition.isDefault ?? false;
+  const files = isDefault ? themeSpecificFiles : [...defaultThemeFiles, ...themeSpecificFiles];
+  const themeDefinition = resolveDefinition(rawThemeDefinition, themeName);
+
+  return buildTheme({ themeName, themeDefinition, files, outputDir, config, verbose, skipCache });
+}
+
+/**
  * Build multiple themes in sequence
  *
  * This function iterates through all configured themes and builds each one
@@ -678,76 +769,11 @@ export async function buildAllThemes(
 
   // Build each theme
   for (const themeName of themesToBuild) {
-    const rawThemeDefinition = definitionsMap.get(themeName);
-    const themeSpecificFiles = themeFiles.get(themeName);
-
-    if (!rawThemeDefinition) {
-      results.push({
-        success: false,
-        themeName,
-        outputs: {},
-        error: `No theme definition found for "${themeName}"`,
-        duration: 0,
-        fromCache: false,
-      });
-      continue;
-    }
-
-    if (!themeSpecificFiles || themeSpecificFiles.length === 0) {
-      results.push({
-        success: false,
-        themeName,
-        outputs: {},
-        error: `No files found for theme "${themeName}"`,
-        duration: 0,
-        fromCache: false,
-      });
-      continue;
-    }
-
-    // For non-default themes, include default theme files first, then theme-specific files
-    // This allows references to be resolved and theme-specific values to override defaults
-    const isDefault = rawThemeDefinition.isDefault ?? false;
-    let files: string[];
-    if (isDefault) {
-      files = themeSpecificFiles;
-    } else {
-      // Include default files first, then theme-specific files (which override)
-      files = [...defaultThemeFiles, ...themeSpecificFiles];
-    }
-
-    // Resolve the theme definition to ensure all required fields are present
-    const baseOutputFiles = rawThemeDefinition.outputFiles ?? {};
-    const themeDefinition: ResolvedThemeDefinition = {
-      isDefault,
-      suffix: rawThemeDefinition.suffix ?? (isDefault ? null : `-${themeName}`),
-      selector:
-        rawThemeDefinition.selector ?? (isDefault ? ':root' : `[data-dsai-theme="${themeName}"]`),
-      mediaQuery: rawThemeDefinition.mediaQuery,
-      dataAttribute: rawThemeDefinition.dataAttribute ?? `data-dsai-theme="${themeName}"`,
-      outputFiles: {
-        css: baseOutputFiles.css ?? (isDefault ? 'tokens.css' : `tokens-${themeName}.css`),
-        scss:
-          baseOutputFiles.scss ?? (isDefault ? '_variables.scss' : `_variables-${themeName}.scss`),
-        js: baseOutputFiles.js ?? (isDefault ? 'tokens.js' : `tokens-${themeName}.js`),
-        ts: baseOutputFiles.ts ?? (isDefault ? 'tokens.d.ts' : `tokens-${themeName}.d.ts`),
-        json: baseOutputFiles.json ?? (isDefault ? 'tokens.json' : `tokens-${themeName}.json`),
-        android: baseOutputFiles.android ?? (isDefault ? 'tokens.xml' : `tokens-${themeName}.xml`),
-        ios: baseOutputFiles.ios ?? (isDefault ? 'tokens.h' : `tokens-${themeName}.h`),
-      },
-    };
-
-    const result = await buildTheme({
-      themeName,
-      themeDefinition,
-      files,
-      outputDir,
-      config,
-      verbose,
-      skipCache: options.skipCache,
-    });
-
-    results.push(result);
+    const themeResult = await buildSingleThemeInBatch(
+      themeName, definitionsMap, themeFiles, defaultThemeFiles,
+      outputDir, config, verbose, options.skipCache
+    );
+    results.push(themeResult);
   }
 
   // Calculate totals
@@ -825,7 +851,6 @@ export function validateThemeDefinitions(
   let defaultTheme = '';
 
   for (const [name, def] of definitions) {
-    // Check for multiple defaults
     if (def.isDefault) {
       defaultCount++;
       if (defaultCount > 1) {
@@ -834,30 +859,33 @@ export function validateThemeDefinitions(
       defaultTheme = name;
     }
 
-    // Check for duplicate selectors
-    const existingSelector = selectors.get(def.selector);
-    if (existingSelector) {
-      errors.push(
-        `Duplicate selector "${def.selector}" used by themes "${existingSelector}" and "${name}"`
-      );
-    } else {
-      selectors.set(def.selector, name);
-    }
+    checkDuplicate(selectors, def.selector, name, 'selector', errors);
 
-    // Check for duplicate suffixes
     const suffix = def.suffix ?? '';
-    const existingSuffix = suffixes.get(suffix);
-    if (existingSuffix && suffix !== '') {
-      errors.push(`Duplicate suffix "${suffix}" used by themes "${existingSuffix}" and "${name}"`);
-    } else if (suffix !== '') {
-      suffixes.set(suffix, name);
+    if (suffix !== '') {
+      checkDuplicate(suffixes, suffix, name, 'suffix', errors);
     }
   }
 
-  // Ensure at least one default
   if (defaultCount === 0 && definitions.size > 0) {
     errors.push('No default theme defined. One theme must have isDefault: true');
   }
 
   return errors;
+}
+
+/** Check for duplicate entries in a tracking map */
+function checkDuplicate(
+  map: Map<string, string>,
+  key: string,
+  name: string,
+  label: string,
+  errors: string[]
+): void {
+  const existing = map.get(key);
+  if (existing) {
+    errors.push(`Duplicate ${label} "${key}" used by themes "${existing}" and "${name}"`);
+  } else {
+    map.set(key, name);
+  }
 }

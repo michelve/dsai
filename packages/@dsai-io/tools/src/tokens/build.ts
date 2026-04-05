@@ -46,6 +46,7 @@ import type {
   BuildPipelinePaths,
   BuildPipelineStep,
   OutputFormat,
+  ResolvedThemeDefinition,
   TokensBuildPipeline,
 } from '../config/types.js';
 
@@ -236,6 +237,205 @@ const STEP_DISPLAY_NAMES = new Map<BuildPipelineStep, string>([
   [STEP_BUNDLE, 'Bundle with tsup'],
 ]);
 
+/** Default output file name pairs [defaultTheme, nonDefaultTheme] by format */
+const FORMAT_OUTPUT_DEFAULTS: Record<string, [string, string]> = {
+  css: ['tokens.css', 'tokens-{name}.css'],
+  scss: ['_variables.scss', '_variables-{name}.scss'],
+  js: ['tokens.js', 'tokens-{name}.js'],
+  ts: ['tokens.d.ts', 'tokens-{name}.d.ts'],
+  json: ['tokens.json', 'tokens-{name}.json'],
+  android: ['tokens.xml', 'tokens-{name}.xml'],
+  ios: ['tokens.h', 'tokens-{name}.h'],
+};
+
+/**
+ * Resolve default output file for a format based on theme name
+ */
+function resolveThemeOutputFile(
+  outputFiles: Partial<Record<string, string>> | undefined,
+  name: string,
+  format: string,
+  isDefault: boolean
+): string {
+  const existing = outputFiles?.[format];
+  if (existing) {return existing;}
+  const pair = FORMAT_OUTPUT_DEFAULTS[format];
+  if (!pair) {return `tokens-${name}.${format}`;}
+  const template = isDefault ? pair[0] : pair[1];
+  return template.replace('{name}', name);
+}
+
+/**
+ * Build a resolved definition entry for theme discovery
+ */
+function resolveThemeDefForDiscovery(
+  name: string,
+  def: { isDefault?: boolean; suffix?: string | null; selector: string; mediaQuery?: string; dataAttribute?: string; outputFiles?: Partial<Record<string, string>> }
+): Record<string, unknown> {
+  const isDefault = def.isDefault ?? name === 'light';
+  const allFormats = ['css', 'scss', 'js', 'ts', 'json', 'android', 'ios'];
+  const outputFiles: Record<string, string> = {};
+  for (const fmt of allFormats) {
+    outputFiles[fmt] = resolveThemeOutputFile(def.outputFiles, name, fmt, isDefault);
+  }
+  return {
+    isDefault,
+    suffix: def.suffix ?? (isDefault ? null : `-${name}`),
+    selector: def.selector,
+    mediaQuery: def.mediaQuery,
+    dataAttribute: def.dataAttribute ?? `data-dsai-theme="${name}"`,
+    outputFiles,
+  };
+}
+
+/**
+ * Convert theme definitions to the format expected by buildAllThemes
+ */
+function convertThemeDefinitions(
+  definitions: Map<string, { isDefault?: boolean; suffix?: string | null; selector: string; mediaQuery?: string; dataAttribute?: string; outputFiles?: Partial<Record<string, string>> }>
+): Record<string, { isDefault: boolean; suffix: string | null; selector: string; mediaQuery?: string; dataAttribute: string; outputFiles?: Partial<Record<string, string>> }> {
+  return Object.fromEntries(
+    Array.from(definitions.entries()).map(([name, def]) => [
+      name,
+      {
+        isDefault: def.isDefault ?? name === 'light',
+        suffix: def.suffix ?? (def.isDefault ? null : `-${name}`),
+        selector: def.selector,
+        mediaQuery: def.mediaQuery,
+        dataAttribute: def.dataAttribute ?? `data-dsai-theme="${name}"`,
+        outputFiles: def.outputFiles,
+      },
+    ])
+  );
+}
+
+/**
+ * Execute the multi-theme build step
+ */
+async function executeMultiThemeBuild(
+  themesConfig: NonNullable<BuildOptions['themesConfig']>,
+  tokensDir: string,
+  tokensPackageDir: string,
+  outputDir: string | undefined,
+  formats: OutputFormat[],
+  prefix: string | undefined
+): Promise<boolean> {
+  const definitions = new Map(Object.entries(themesConfig.definitions!));
+
+  // Discover theme files - build resolved definitions for discovery
+  const discoveryDefs: Record<string, ResolvedThemeDefinition> = {};
+  for (const [name, def] of definitions.entries()) {
+    const resolved = resolveThemeDefForDiscovery(name, def);
+    Object.defineProperty(discoveryDefs, name, { value: resolved, writable: true, enumerable: true, configurable: true });
+  }
+
+  const discoveryResult = discoverThemeFiles(
+    {
+      enabled: true,
+      default: 'light',
+      autoDetect: true,
+      ignoreModes: [],
+      selectorPattern: { default: ':root', others: '[data-dsai-theme="{mode}"]' },
+      definitions: discoveryDefs,
+    },
+    { sourceDir: join(tokensDir, 'collections'), verbose: true }
+  );
+
+  if (discoveryResult.emptyThemes.length > 0) {
+    console.warn(`    ⚠️  Empty themes (no files): ${discoveryResult.emptyThemes.join(', ')}`);
+  }
+  console.info(
+    `    📂 Found ${discoveryResult.totalFiles} files across ${discoveryResult.themes.size} themes`
+  );
+
+  const themeDefinitions = convertThemeDefinitions(definitions);
+
+  const result = await buildAllThemes({
+    config: { formats, prefix, themes: { definitions: themeDefinitions } },
+    themeFiles: discoveryResult.themes,
+    outputDir: outputDir ?? `${tokensPackageDir}/dist`,
+    verbose: true,
+  });
+
+  if (!result.success) {
+    console.error(`    ❌ Multi-theme build failed: ${result.failCount} theme(s) failed`);
+    for (const themeResult of result.results.filter((r) => !r.success)) {
+      console.error(`       - ${themeResult.themeName}: ${themeResult.error}`);
+    }
+    return false;
+  }
+
+  console.info(`    ✅ Built ${result.successCount} themes in ${result.duration}ms`);
+  return true;
+}
+
+/**
+ * Execute the preprocess step
+ */
+function executePreprocessStep(figmaExportsDir: string): boolean {
+  const ppOutputDir = join(figmaExportsDir, '.preprocessed');
+  console.info(`    📂 Source: ${figmaExportsDir}`);
+  console.info(`    📂 Output: ${ppOutputDir}`);
+
+  const jsonFiles = readdirSync(figmaExportsDir).filter((f) => f.endsWith('.json'));
+  if (jsonFiles.length === 0) {
+    console.warn(`    ⚠️  No JSON files found in ${figmaExportsDir}`);
+    return true;
+  }
+
+  const result = preprocessTokenFiles({
+    sourceDir: figmaExportsDir,
+    outputDir: ppOutputDir,
+    files: jsonFiles,
+    modesPath: ['Foundation', 'modes'],
+    verbose: true,
+  });
+
+  const failedFiles = result.files.filter((f) => !f.success && f.error !== 'No modes detected');
+  if (failedFiles.length > 0) {
+    console.error(`    ❌ Preprocessing failed for ${failedFiles.length} file(s)`);
+    for (const failed of failedFiles) {
+      console.error(`       - ${failed.sourceFile}: ${failed.error ?? UNKNOWN_ERROR_MSG}`);
+    }
+    return false;
+  }
+
+  const successFiles = result.files.filter((f) => f.success);
+  const skippedFiles = result.files.filter((f) => f.error === 'No modes detected');
+  console.info(`    ✅ Preprocessed ${successFiles.length} file(s)`);
+  if (skippedFiles.length > 0) {
+    console.info(`    ⏭️  Skipped ${skippedFiles.length} file(s) (no modes)`);
+  }
+
+  const totalModes = result.files.reduce(
+    (sum: number, file: FilePreprocessingResult) => sum + file.modes.length,
+    0
+  );
+  console.info(`    📊 Total modes extracted: ${totalModes}`);
+  preprocessCleanup = result.cleanup;
+  return true;
+}
+
+/**
+ * Options for creating a build step from a step name
+ */
+interface CreateStepOptions {
+  stepName: BuildPipelineStep;
+  tokensPackageDir: string;
+  figmaExportsDir: string;
+  tokensDir: string;
+  paths: Required<BuildPipelinePaths>;
+  sdConfigFile: string;
+  strict: boolean;
+  snapshotService?: SnapshotService;
+  themesConfig?: BuildOptions['themesConfig'];
+  outputDir?: string;
+  formats?: OutputFormat[];
+  cssOutputDir?: string;
+  postprocessConfig?: BuildOptions['postprocessConfig'];
+  prefix?: string;
+}
+
 /**
  * Configuration for creating build steps from step names.
  */
@@ -281,19 +481,10 @@ function createStepFromName(stepName: BuildPipelineStep, ctx: StepCreationContex
       return {
         name: displayName,
         fn: async () => {
-          // Create minimal config for validation
           const config = {
-            tokens: {
-              collectionsDir: tokensDir,
-              sourceDir: figmaExportsDir,
-            },
+            tokens: { collectionsDir: tokensDir, sourceDir: figmaExportsDir },
           } as Parameters<typeof validateTokens>[0];
-
-          const result = await validateTokens(config, {
-            verbose: true,
-            strict,
-          });
-
+          const result = await validateTokens(config, { verbose: true, strict });
           if (!result.valid) {
             for (const error of result.errors) {
               console.error(`❌ ${error.message}`);
@@ -312,20 +503,16 @@ function createStepFromName(stepName: BuildPipelineStep, ctx: StepCreationContex
             return true;
           }
           try {
-            // tokensDir is collectionsDir from config (e.g., ./src)
-            // actual collections are in tokensDir/collections
             const collectionsPath = join(tokensDir, 'collections');
             console.info(`    📂 Snapshot path: ${collectionsPath}`);
             const result = snapshotService.createSnapshot(
               collectionsPath,
               `Pre-transform backup - ${new Date().toISOString()}`
             );
-
             if (!result.success || !result.snapshot) {
               console.error(`    ❌ Snapshot failed: ${result.error || UNKNOWN_ERROR_MSG}`);
               return false;
             }
-
             console.info(`    📸 Snapshot created: ${result.snapshot.id}`);
             console.info(`       Files: ${result.snapshot.files.length}`);
             return true;
@@ -408,20 +595,12 @@ function createStepFromName(stepName: BuildPipelineStep, ctx: StepCreationContex
       return {
         name: displayName,
         fn: () => {
-          // Check if preprocessed directory exists and use it instead
           const preprocessedDir = join(figmaExportsDir, '.preprocessed');
           const sourceDir = existsSync(preprocessedDir) ? preprocessedDir : figmaExportsDir;
-
           if (sourceDir === preprocessedDir) {
             console.info(`    📂 Using preprocessed directory: ${preprocessedDir}`);
           }
-
-          const result = transformTokens({
-            sourceDir,
-            collectionsDir: tokensDir,
-            verbose: true,
-            strict,
-          });
+          const result = transformTokens({ sourceDir, collectionsDir: tokensDir, verbose: true, strict });
           if (!result.success) {
             for (const error of result.errors) {
               console.error(`❌ ${error}`);
@@ -443,118 +622,15 @@ function createStepFromName(stepName: BuildPipelineStep, ctx: StepCreationContex
       return {
         name: displayName,
         fn: async () => {
-          // Check if themes config is provided and enabled
           if (!themesConfig?.enabled || !themesConfig?.definitions) {
             console.warn('    ⚠️  Multi-theme build requires themes config with enabled: true');
             console.warn('    ℹ️  Falling back to single-theme build via style-dictionary');
-            return true; // Skip but don't fail
-          }
-
-          try {
-            // Build minimal resolved config for theme builder
-            const definitions = new Map(Object.entries(themesConfig.definitions));
-
-            // Discover theme files
-            const discoveryResult = discoverThemeFiles(
-              {
-                enabled: true,
-                default: 'light',
-                autoDetect: true,
-                ignoreModes: [],
-                selectorPattern: {
-                  default: ':root',
-                  others: '[data-dsai-theme="{mode}"]',
-                },
-                definitions: Object.fromEntries(
-                  Array.from(definitions.entries()).map(([name, def]) => [
-                    name,
-                    {
-                      isDefault: def.isDefault ?? name === 'light',
-                      suffix: def.suffix ?? (def.isDefault ? null : `-${name}`),
-                      selector: def.selector,
-                      mediaQuery: def.mediaQuery,
-                      dataAttribute: def.dataAttribute ?? `data-dsai-theme="${name}"`,
-                      outputFiles: {
-                        css:
-                          def.outputFiles?.['css'] ??
-                          (def.isDefault ? 'tokens.css' : `tokens-${name}.css`),
-                        scss:
-                          def.outputFiles?.['scss'] ??
-                          (def.isDefault ? '_variables.scss' : `_variables-${name}.scss`),
-                        js:
-                          def.outputFiles?.['js'] ??
-                          (def.isDefault ? 'tokens.js' : `tokens-${name}.js`),
-                        ts:
-                          def.outputFiles?.['ts'] ??
-                          (def.isDefault ? 'tokens.d.ts' : `tokens-${name}.d.ts`),
-                        json:
-                          def.outputFiles?.['json'] ??
-                          (def.isDefault ? 'tokens.json' : `tokens-${name}.json`),
-                        android:
-                          def.outputFiles?.['android'] ??
-                          (def.isDefault ? 'tokens.xml' : `tokens-${name}.xml`),
-                        ios:
-                          def.outputFiles?.['ios'] ??
-                          (def.isDefault ? 'tokens.h' : `tokens-${name}.h`),
-                      },
-                    },
-                  ])
-                ),
-              },
-              { sourceDir: join(tokensDir, 'collections'), verbose: true }
-            );
-
-            if (discoveryResult.emptyThemes.length > 0) {
-              console.warn(
-                `    ⚠️  Empty themes (no files): ${discoveryResult.emptyThemes.join(', ')}`
-              );
-            }
-
-            console.info(
-              `    📂 Found ${discoveryResult.totalFiles} files across ${discoveryResult.themes.size} themes`
-            );
-
-            // Build all themes
-            const themeFiles = discoveryResult.themes;
-
-            // Convert definitions to the format buildAllThemes expects
-            const themeDefinitions = Object.fromEntries(
-              Array.from(definitions.entries()).map(([name, def]) => [
-                name,
-                {
-                  isDefault: def.isDefault ?? name === 'light',
-                  suffix: def.suffix ?? (def.isDefault ? null : `-${name}`),
-                  selector: def.selector,
-                  mediaQuery: def.mediaQuery,
-                  dataAttribute: def.dataAttribute ?? `data-dsai-theme="${name}"`,
-                  outputFiles: def.outputFiles,
-                },
-              ])
-            );
-
-            const result = await buildAllThemes({
-              config: {
-                formats: formats,
-                prefix: prefix,
-                themes: {
-                  definitions: themeDefinitions,
-                },
-              },
-              themeFiles,
-              outputDir: outputDir ?? `${tokensPackageDir}/dist`,
-              verbose: true,
-            });
-
-            if (!result.success) {
-              console.error(`    ❌ Multi-theme build failed: ${result.failCount} theme(s) failed`);
-              for (const themeResult of result.results.filter((r) => !r.success)) {
-                console.error(`       - ${themeResult.themeName}: ${themeResult.error}`);
-              }
-              return false;
-            }
-
-            console.info(`    ✅ Built ${result.successCount} themes in ${result.duration}ms`);
             return true;
+          }
+          try {
+            return await executeMultiThemeBuild(
+              themesConfig, tokensDir, tokensPackageDir, outputDir, formats, prefix
+            );
           } catch (error) {
             console.error(
               `    ❌ Multi-theme build error: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
@@ -567,11 +643,7 @@ function createStepFromName(stepName: BuildPipelineStep, ctx: StepCreationContex
     case STEP_SYNC:
       return {
         name: displayName,
-        fn: () =>
-          syncTokensCLI(tokensPackageDir, {
-            syncSource: paths.syncSource,
-            syncTarget: paths.syncTarget,
-          }),
+        fn: () => syncTokensCLI(tokensPackageDir, { syncSource: paths.syncSource, syncTarget: paths.syncTarget }),
       };
 
     case STEP_SASS_THEME:
@@ -599,16 +671,9 @@ function createStepFromName(stepName: BuildPipelineStep, ctx: StepCreationContex
       return {
         name: displayName,
         fn: () => {
-          // Use cssOutputDir or postprocessConfig.cssDir if provided (now absolute paths from CLI)
-          // Fall back to tokensPackageDir + 'dist/css' if neither is set
-          const cssDir =
-            cssOutputDir ?? postprocessConfig?.cssDir ?? join(tokensPackageDir, 'dist/css');
-
+          const cssDir = cssOutputDir ?? postprocessConfig?.cssDir ?? join(tokensPackageDir, 'dist/css');
           const result = postprocessCssFiles({
-            cssDir,
-            files: postprocessConfig?.files,
-            replacements: postprocessConfig?.replacements,
-            verbose: true,
+            cssDir, files: postprocessConfig?.files, replacements: postprocessConfig?.replacements, verbose: true,
           });
           return result.success;
         },
@@ -646,12 +711,27 @@ function createStepFromName(stepName: BuildPipelineStep, ctx: StepCreationContex
     default:
       return {
         name: `Unknown step: ${stepName}`,
-        fn: () => {
-          console.warn(`⚠️ Unknown pipeline step: ${stepName}`);
-          return true;
-        },
+        fn: () => { console.warn(`⚠️ Unknown pipeline step: ${stepName}`); return true; },
       };
   }
+}
+
+/** Steps that run even when onlyTheme is true */
+const THEME_ONLY_ALLOWED_STEPS = new Set<BuildPipelineStep>([
+  'validate', 'sass-theme', 'sass-theme-minified', 'postprocess',
+]);
+
+/**
+ * Determine whether a pipeline step should be skipped based on CLI flags
+ */
+function shouldSkipStep(
+  stepName: BuildPipelineStep,
+  flags: { skipValidate?: boolean; skipTransform?: boolean; onlyTheme?: boolean }
+): boolean {
+  if (stepName === 'validate' && flags.skipValidate) {return true;}
+  if (stepName === 'transform' && (flags.skipTransform || flags.onlyTheme)) {return true;}
+  if (flags.onlyTheme && !THEME_ONLY_ALLOWED_STEPS.has(stepName)) {return true;}
+  return false;
 }
 
 /**
@@ -728,10 +808,87 @@ function createBuildSteps(
       }
     }
 
+    step.skip = shouldSkipStep(stepName, { skipValidate, skipTransform, onlyTheme });
     steps.push(step);
   }
 
   return steps;
+}
+
+// ============================================================================
+// Build Helpers
+// ============================================================================
+
+/**
+ * Verify that required build directories exist.
+ * Returns an error message if a directory is missing, or null if all exist.
+ */
+function verifyBuildDirectories(tokensDir: string, toolsDir: string): string | null {
+  try {
+    if (!existsSync(tokensDir)) {
+      return `Tokens directory not found: ${tokensDir}`;
+    }
+  } catch {
+    return `Failed to check tokens directory: ${tokensDir}`;
+  }
+
+  try {
+    if (!existsSync(toolsDir)) {
+      return `Tools directory not found: ${toolsDir}`;
+    }
+  } catch {
+    return `Failed to check tools directory: ${toolsDir}`;
+  }
+
+  return null;
+}
+
+/**
+ * Print the build header banner
+ */
+function printBuildHeader(flags: {
+  skipValidate?: boolean;
+  onlyTheme?: boolean;
+  incremental?: boolean;
+  force?: boolean;
+}): void {
+  console.info('╔════════════════════════════════════════════════════════════╗');
+  console.info('║           DSAi Tokens - Complete Build                     ║');
+  console.info('╚════════════════════════════════════════════════════════════╝');
+
+  if (flags.skipValidate) {
+    console.info('⚠️  Skipping validation (--skip-validate)');
+  }
+  if (flags.onlyTheme) {
+    console.info('⚠️  Building only theme CSS (--only-theme)');
+  }
+  if (flags.incremental) {
+    console.info('🔄 Incremental build enabled');
+    if (flags.force) {
+      console.info('⚡ Force rebuild - ignoring cache');
+    }
+  }
+}
+
+/**
+ * Safely run the preprocessed files cleanup
+ */
+function cleanupPreprocessedFiles(verbose: boolean): void {
+  if (!preprocessCleanup) {return;}
+  try {
+    preprocessCleanup();
+    if (verbose) {
+      console.info('🧹 Cleaned up preprocessed files');
+    }
+  } catch (error) {
+    if (verbose) {
+      console.warn(
+        `⚠️  Failed to cleanup preprocessed files: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
+      );
+    }
+  } finally {
+    preprocessCleanup = null;
+  }
 }
 
 // ============================================================================
@@ -1041,9 +1198,8 @@ export async function buildTokens(
 
   const { stepsCompleted } = stepResult;
   const duration = Date.now() - startTime;
-  const durationSec = (duration / 1000).toFixed(2);
 
-  // Update cache after successful build
+  // Update cache after successful incremental build
   if (incremental && cacheService && incrementalAnalysis) {
     await finalizeIncrementalBuild(
       tokensDir,

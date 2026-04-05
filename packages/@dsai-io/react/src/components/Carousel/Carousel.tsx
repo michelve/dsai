@@ -45,18 +45,18 @@ const DEFAULT_SWIPE_THRESHOLD = 50;
  */
 function useReducedMotion(): boolean {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
-    if (typeof window === 'undefined') {
+    if (typeof globalThis.window === 'undefined') {
       return false;
     }
-    return window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
+    return globalThis.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
   });
 
   useEffect(() => {
-    if (typeof window === 'undefined') {
+    if (typeof globalThis.window === 'undefined') {
       return undefined;
     }
 
-    const mediaQuery = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+    const mediaQuery = globalThis.matchMedia?.('(prefers-reduced-motion: reduce)');
     if (!mediaQuery) {
       return undefined;
     }
@@ -219,30 +219,39 @@ const CarouselBase = memo(forwardRef<HTMLDivElement, CarouselProps>(
       }
     }, [autoPlay, fsmState.isPlaying]);
 
+    // Compute the next or previous index based on wrap mode
+    const computeAdjacentIndex = useCallback(
+      (direction: 'next' | 'prev'): number => {
+        if (direction === 'next') {
+          return wrap
+            ? (fsmState.activeIndex + 1) % slideCount
+            : Math.min(fsmState.activeIndex + 1, slideCount - 1);
+        }
+        return wrap
+          ? (fsmState.activeIndex - 1 + slideCount) % slideCount
+          : Math.max(fsmState.activeIndex - 1, 0);
+      },
+      [fsmState.activeIndex, slideCount, wrap]
+    );
+
     // Navigation handlers
     const handleNext = useCallback((): void => {
-      const nextIndex = wrap
-        ? (fsmState.activeIndex + 1) % slideCount
-        : Math.min(fsmState.activeIndex + 1, slideCount - 1);
-
+      const nextIndex = computeAdjacentIndex('next');
       if (nextIndex !== fsmState.activeIndex) {
         dispatch({ type: 'NEXT' });
         onSelect?.(nextIndex);
         onSlideChanged?.(nextIndex, 'next');
       }
-    }, [fsmState.activeIndex, slideCount, wrap, onSelect, onSlideChanged]);
+    }, [fsmState.activeIndex, computeAdjacentIndex, onSelect, onSlideChanged]);
 
     const handlePrev = useCallback((): void => {
-      const prevIndex = wrap
-        ? (fsmState.activeIndex - 1 + slideCount) % slideCount
-        : Math.max(fsmState.activeIndex - 1, 0);
-
+      const prevIndex = computeAdjacentIndex('prev');
       if (prevIndex !== fsmState.activeIndex) {
         dispatch({ type: 'PREV' });
         onSelect?.(prevIndex);
         onSlideChanged?.(prevIndex, 'prev');
       }
-    }, [fsmState.activeIndex, slideCount, wrap, onSelect, onSlideChanged]);
+    }, [fsmState.activeIndex, computeAdjacentIndex, onSelect, onSlideChanged]);
 
     const handleSelect = useCallback(
       (index: number): void => {

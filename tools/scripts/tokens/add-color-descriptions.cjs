@@ -167,67 +167,67 @@ const colorDescriptions = {
   },
 };
 
+/**
+ * Apply descriptions to a group of color tokens from a descriptions map
+ */
+function applyGroupDescriptions(colorGroup, descriptions) {
+  if (!colorGroup || !descriptions) { return; }
+  Object.keys(colorGroup).forEach((shade) => {
+    const token = colorGroup[shade];
+    if (token && token.$type === 'color' && !token.$description) {
+      token.$description = descriptions[shade] || descriptions.base;
+    }
+  });
+}
+
+/**
+ * Apply descriptions to neutral color tokens
+ */
+function applyNeutralDescriptions(neutral) {
+  if (!neutral) { return; }
+
+  if (neutral.white && !neutral.white.$description) {
+    neutral.white.$description = colorDescriptions.neutral.white;
+  }
+  if (neutral.black && !neutral.black.$description) {
+    neutral.black.$description = colorDescriptions.neutral.black;
+  }
+  if (neutral.gray) {
+    applyGroupDescriptions(neutral.gray, colorDescriptions.neutral.gray);
+  }
+}
+
+/**
+ * Process a single mode's colors
+ */
+function processMode(mode) {
+  if (!mode.colors) { return; }
+
+  // Brand colors
+  if (mode.colors.brand) {
+    Object.keys(mode.colors.brand).forEach((colorName) => {
+      applyGroupDescriptions(mode.colors.brand[colorName], colorDescriptions.brand[colorName]);
+    });
+  }
+
+  // Neutral colors
+  applyNeutralDescriptions(mode.colors.neutral);
+
+  // Theme colors
+  if (mode.colors.theme) {
+    applyGroupDescriptions(mode.colors.theme, colorDescriptions.theme);
+  }
+}
+
 function addDescriptions(data) {
   const collections = Array.isArray(data) ? data : [data];
 
   collections.forEach((collection) => {
     const colors = collection.Colors;
-    if (!colors || !colors.modes) {return;}
+    if (!colors || !colors.modes) { return; }
 
-    // Process both Light and Dark modes
     Object.keys(colors.modes).forEach((modeName) => {
-      const mode = colors.modes[modeName];
-      if (!mode.colors) {return;}
-
-      // Process brand colors
-      if (mode.colors.brand) {
-        Object.keys(mode.colors.brand).forEach((colorName) => {
-          const colorGroup = mode.colors.brand[colorName];
-          const descriptions = colorDescriptions.brand[colorName];
-
-          if (!descriptions) {return;}
-
-          Object.keys(colorGroup).forEach((shade) => {
-            const token = colorGroup[shade];
-            if (token && token.$type === 'color' && !token.$description) {
-              token.$description = descriptions[shade] || descriptions.base;
-            }
-          });
-        });
-      }
-
-      // Process neutral colors
-      if (mode.colors.neutral) {
-        // White
-        if (mode.colors.neutral.white && !mode.colors.neutral.white.$description) {
-          mode.colors.neutral.white.$description = colorDescriptions.neutral.white;
-        }
-
-        // Black
-        if (mode.colors.neutral.black && !mode.colors.neutral.black.$description) {
-          mode.colors.neutral.black.$description = colorDescriptions.neutral.black;
-        }
-
-        // Gray aliases
-        if (mode.colors.neutral.gray) {
-          Object.keys(mode.colors.neutral.gray).forEach((shade) => {
-            const token = mode.colors.neutral.gray[shade];
-            if (token && token.$type === 'color' && !token.$description) {
-              token.$description = colorDescriptions.neutral.gray[shade];
-            }
-          });
-        }
-      }
-
-      // Process theme colors
-      if (mode.colors.theme) {
-        Object.keys(mode.colors.theme).forEach((themeName) => {
-          const token = mode.colors.theme[themeName];
-          if (token && token.$type === 'color' && !token.$description) {
-            token.$description = colorDescriptions.theme[themeName];
-          }
-        });
-      }
+      processMode(colors.modes[modeName]);
     });
   });
 

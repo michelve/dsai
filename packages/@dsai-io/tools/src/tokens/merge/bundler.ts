@@ -40,7 +40,7 @@ function minifyContent(content: string): string {
       // Remove space around special characters
       .replaceAll(/\s*([{}:;,>+~])\s*/g, '$1')
       // Remove trailing semicolons before closing braces
-      .replaceAll(/;}/g, '}')
+      .replaceAll(';}', '}')
       // Remove empty rules
       .replaceAll(/[^{}]+\{\s*\}/g, '')
       .trim()

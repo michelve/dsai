@@ -79,7 +79,8 @@ function checkFrameworkSupport(projectInfo: ProjectInfo): boolean {
   const message = getFrameworkSupportMessage(projectInfo.framework);
   console.log();
   console.log(pc.yellow('⚠ Framework Support Notice'));
-  console.log(pc.gray('─'.repeat(40)));
+  const SEPARATOR_WIDTH = 40;
+  console.log(pc.gray('─'.repeat(SEPARATOR_WIDTH)));
   console.log();
   console.log(`  Detected framework: ${pc.cyan(projectInfo.framework)}`);
   console.log(`  ${message}`);
@@ -332,11 +333,11 @@ function generateSetupConfigs(
   s.start('Generating configuration');
   const configContent = generateConfigContent({
     projectInfo,
-    prefix: config.prefix as string,
-    outputDir: config.outputDir as string,
-    sourceDir: config.sourceDir as string,
-    formats: config.formats as string[],
-    template: config.template as 'minimal' | 'full' | 'enterprise',
+    prefix: config.prefix,
+    outputDir: config.outputDir,
+    sourceDir: config.sourceDir,
+    formats: config.formats,
+    template: config.template,
     configFormat: recommendations.configFormat,
   });
   writeFileSync(join(cwd, configFileName), configContent, FILE_ENCODING);
@@ -345,7 +346,7 @@ function generateSetupConfigs(
   if (config.includeFigmaSync) {
     s.start('Generating Figma configuration');
     const figmaConfigContent = generateFigmaConfig({
-      outputDir: config.sourceDir as string,
+      outputDir: config.sourceDir,
       tokensDir: 'collections',
       format: 'dtcg',
     });
@@ -357,16 +358,16 @@ function generateSetupConfigs(
     s.start('Generating Style Dictionary configuration');
     const sdConfigContent = generateStyleDictionaryConfig({
       sourceDir: 'collections',
-      outputDir: config.outputDir as string,
-      prefix: config.prefix as string,
+      outputDir: config.outputDir,
+      prefix: config.prefix,
       outputReferences: true,
     });
     writeFileSync(join(cwd, 'sd.config.mjs'), sdConfigContent, FILE_ENCODING);
 
     const buildScriptContent = generateBuildTokensScript({
       sourceDir: 'collections',
-      outputDir: config.outputDir as string,
-      prefix: config.prefix as string,
+      outputDir: config.outputDir,
+      prefix: config.prefix,
       themes: ['light', 'dark'],
     });
     writeFileSync(join(cwd, 'build-tokens.mjs'), buildScriptContent, FILE_ENCODING);
@@ -380,10 +381,10 @@ async function handleOutdatedDeps(
   config: Record<string, unknown>,
 ): Promise<boolean> {
   const targetDeps = getAllDsaiDependencies({
-    includeFigmaTokens: config.includeFigmaSync as boolean,
+    includeFigmaTokens: config.includeFigmaSync,
     includeStyleDictionary: true,
-    includeScssIntegration: config.includeScssIntegration as boolean,
-    includeBootstrap: config.includeBootstrap as boolean,
+    includeScssIntegration: config.includeScssIntegration,
+    includeBootstrap: config.includeBootstrap,
   });
 
   const outdatedDeps = detectOutdatedDependencies(cwd, targetDeps);
@@ -562,7 +563,8 @@ async function runQuickInit(
 
   console.log();
   console.log(pc.bold('DSAI Tools Quick Setup'));
-  console.log(pc.gray('─'.repeat(30)));
+  const QUICK_SEPARATOR_WIDTH = 30;
+  console.log(pc.gray('─'.repeat(QUICK_SEPARATOR_WIDTH)));
   console.log();
 
   // Show detected project
@@ -659,7 +661,8 @@ FIGMA_FILE_KEY=your-figma-file-key
   if (result.success) {
     console.log(`${pc.green('✓')} Updated ${pc.cyan('package.json')}`);
     if (result.backupPath) {
-      console.log(`  ${pc.gray(`Backup: ${result.backupPath}`)}`);
+      const backupMsg = 'Backup: ' + result.backupPath;
+      console.log(`  ${pc.gray(backupMsg)}`);
     }
   }
 
@@ -671,8 +674,9 @@ FIGMA_FILE_KEY=your-figma-file-key
     `  ${pc.gray('1.')} Edit ${pc.cyan(templateResult.configFileName)} to customize settings`
   );
   console.log(`  ${pc.gray('2.')} Add your Figma export to ${pc.cyan(recommendations.sourceDir)}/`);
+  const buildCmd = (projectInfo.packageManager === 'npm' ? 'npm run' : projectInfo.packageManager) + ' tokens:build';
   console.log(
-    `  ${pc.gray('3.')} Run ${pc.cyan(`${projectInfo.packageManager === 'npm' ? 'npm run' : projectInfo.packageManager} tokens:build`)} to generate tokens`
+    `  ${pc.gray('3.')} Run ${pc.cyan(buildCmd)} to generate tokens`
   );
   console.log();
 

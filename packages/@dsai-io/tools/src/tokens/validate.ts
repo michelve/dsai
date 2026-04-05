@@ -31,6 +31,9 @@ import type {
 } from './types.js';
 import type { ResolvedConfig } from '../config/types.js';
 
+/** Number of token types to show in suggestion messages */
+const SUGGESTION_TYPE_COUNT = 5;
+
 // ============================================================================
 // Color Validation
 // ============================================================================
@@ -216,7 +219,7 @@ function validateSingleToken(
       path,
       message: 'Token has no type specified',
       severity: 'warning',
-      suggestion: `Add $type property with one of: ${VALID_TOKEN_TYPES.slice(0, 5).join(', ')}...`,
+      suggestion: `Add $type property with one of: ${VALID_TOKEN_TYPES.slice(0, SUGGESTION_TYPE_COUNT).join(', ')}...`,
     });
   } else if (!isValidTokenType(type)) {
     warnings.push({

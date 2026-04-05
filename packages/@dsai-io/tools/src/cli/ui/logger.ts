@@ -44,7 +44,8 @@ export interface LoggerOptions {
 export function createLogger(options: LoggerOptions = {}): Logger {
   const { quiet = false, debug = false, prefix = '' } = options;
 
-  const prefixStr = prefix ? `${colors.muted(`[${prefix}]`)} ` : '';
+  const prefixLabel = prefix ? colors.muted('[' + prefix + ']') : '';
+  const prefixStr = prefixLabel ? `${prefixLabel} ` : '';
 
   return {
     /**
@@ -99,6 +100,19 @@ export function createLogger(options: LoggerOptions = {}): Logger {
 }
 
 // ============================================================================
+// Formatting Constants
+// ============================================================================
+
+/** Milliseconds per second */
+const MS_PER_SECOND = 1000;
+
+/** Milliseconds per minute */
+const MS_PER_MINUTE = 60_000;
+
+/** Maximum number of size unit tiers (B, KB, MB, GB) */
+const MAX_SIZE_TIER = 3;
+
+// ============================================================================
 // Formatting Utilities
 // ============================================================================
 
@@ -116,14 +130,14 @@ export function createLogger(options: LoggerOptions = {}): Logger {
  * ```
  */
 export function formatDuration(ms: number): string {
-  if (ms < 1000) {
+  if (ms < MS_PER_SECOND) {
     return `${ms}ms`;
   }
-  if (ms < 60000) {
-    return `${(ms / 1000).toFixed(2)}s`;
+  if (ms < MS_PER_MINUTE) {
+    return `${(ms / MS_PER_SECOND).toFixed(2)}s`;
   }
-  const minutes = Math.floor(ms / 60000);
-  const seconds = ((ms % 60000) / 1000).toFixed(0);
+  const minutes = Math.floor(ms / MS_PER_MINUTE);
+  const seconds = ((ms % MS_PER_MINUTE) / MS_PER_SECOND).toFixed(0);
   return `${minutes}m ${seconds}s`;
 }
 
@@ -146,7 +160,7 @@ export function formatBytes(bytes: number): string {
   }
   const k = 1024;
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  const sizeIndex = Math.min(i, 3); // Clamp to valid index (0-3)
+  const sizeIndex = Math.min(i, MAX_SIZE_TIER); // Clamp to valid index (0-3)
 
   let sizeLabel: string;
   switch (sizeIndex) {

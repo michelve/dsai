@@ -254,9 +254,7 @@ export function modifyPackageJson(cwd: string, options: ModifyOptions): Modifica
 
   // Process scripts
   if (options.scripts && options.scripts.length > 0) {
-    if (!pkg.scripts) {
-      pkg.scripts = {};
-    }
+    pkg.scripts ??= {};
 
     for (const script of options.scripts) {
       const exists = pkg.scripts[script.name] !== undefined;
@@ -320,7 +318,9 @@ export function modifyPackageJson(cwd: string, options: ModifyOptions): Modifica
   }
 
   // Write changes
-  if (!options.dryRun) {
+  if (options.dryRun) {
+    result.success = true;
+  } else {
     try {
       writePackageJson(cwd, pkg);
       result.success = true;
@@ -328,8 +328,6 @@ export function modifyPackageJson(cwd: string, options: ModifyOptions): Modifica
       result.error = error instanceof Error ? error.message : 'Failed to write package.json';
       return result;
     }
-  } else {
-    result.success = true;
   }
 
   return result;
@@ -592,9 +590,9 @@ export interface OutdatedDependency {
  */
 function getMajorVersion(version: string): number | null {
   // Remove ^ or ~ prefix and extract major version
-  const cleanVersion = version.replaceAll(/^[\^~]/g, '');
-  const match = cleanVersion.match(/^(\d+)/);
-  if (!match || !match[1]) {
+  const cleanVersion = version.replace(/^[\^~]/, '');
+  const match = /^(\d+)/.exec(cleanVersion);
+  if (!match?.[1]) {
     return null;
   }
   return Number.parseInt(match[1], 10);
@@ -662,7 +660,7 @@ export function detectOutdatedDependencies(
 
   for (const targetDep of targetDependencies) {
     const section = targetDep.type;
-    const depsSection = pkg[section] as Record<string, string> | undefined;
+    const depsSection = pkg[section];
 
     if (!depsSection) {
       continue;

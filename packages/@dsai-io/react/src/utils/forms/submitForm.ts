@@ -108,21 +108,13 @@ export async function submitForm<T extends Record<string, unknown>>(
       const validation = await validateForm(data, schema);
 
       if (!validation.valid) {
-        if (onError) {
-          onError(validation);
-        }
-        return {
-          success: false,
-          validation,
-        };
+        onError?.(validation);
+        return { success: false, validation };
       }
     }
 
     // Transform data if transform provided
-    let finalData = data;
-    if (transform) {
-      finalData = await transform(data);
-    }
+    const finalData = transform ? await transform(data) : data;
 
     // Call success callback
     if (onSuccess) {

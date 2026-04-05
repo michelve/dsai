@@ -18,7 +18,6 @@ import type {
   CardSubtitleProps,
   CardTextProps,
   CardTitleProps,
-  CardVariant,
 } from './Card.types';
 
 // =============================================================================
@@ -438,4 +437,4 @@ export type {
   CardTextProps,
   CardTitleProps,
   CardVariant,
-};
+} from './Card.types';

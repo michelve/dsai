@@ -79,7 +79,7 @@ function formatValue(value: unknown, maxLength = 100): string {
  * Escape Markdown special characters
  */
 function escapeMarkdown(text: string): string {
-  return text.replaceAll(/[*_`[\]]/g, '\\$&');
+  return text.replaceAll(/[*_`[\]]/g, String.raw`\$&`);
 }
 
 /**
@@ -109,8 +109,10 @@ function formatChange(change: TokenChange, options: ChangelogOptions): string {
     const newFormatted = formatValue(newValue, options.maxValueLength);
 
     if (change.type === 'modified' || change.type === 'type-changed') {
-      lines.push(`  - Before: \`${escapeMarkdown(oldFormatted)}\``);
-      lines.push(`  - After: \`${escapeMarkdown(newFormatted)}\``);
+      lines.push(
+        `  - Before: \`${escapeMarkdown(oldFormatted)}\``,
+        `  - After: \`${escapeMarkdown(newFormatted)}\``
+      );
     }
   }
 
@@ -126,8 +128,7 @@ function formatSection(title: string, changes: TokenChange[], options: Changelog
   }
 
   const lines: string[] = [];
-  lines.push(`### ${title}`);
-  lines.push('');
+  lines.push(`### ${title}`, '');
 
   for (const change of changes) {
     lines.push(formatChange(change, options));
@@ -176,8 +177,7 @@ export function generateChangelog(
 
   // Summary
   if (diff.totalChanges === 0) {
-    lines.push('No changes.');
-    lines.push('');
+    lines.push('No changes.', '');
     return {
       content: lines.join('\n'),
       entryCount: 0,
@@ -186,81 +186,32 @@ export function generateChangelog(
   }
 
   if (diff.hasBreaking) {
-    lines.push('⚠️  **This release contains breaking changes**');
-    lines.push('');
+    lines.push('⚠️  **This release contains breaking changes**', '');
   }
 
-  lines.push(`**Total changes:** ${diff.totalChanges}`);
-  lines.push('');
+  lines.push(`**Total changes:** ${diff.totalChanges}`, '');
 
-  // Group changes by type
+  const sectionOpts = { ...options, includeDescriptions, includeValues, maxValueLength };
+
   if (groupByType) {
-    // Breaking changes first
-    if (diff.removed.length > 0 || diff.typeChanged.length > 0) {
-      lines.push(
-        formatSection('Breaking Changes', [...diff.removed, ...diff.typeChanged], {
-          ...options,
-          includeDescriptions,
-          includeValues,
-          maxValueLength,
-        })
-      );
-    }
-
-    // Added tokens
-    if (diff.added.length > 0) {
-      lines.push(
-        formatSection('Added', diff.added, {
-          ...options,
-          includeDescriptions,
-          includeValues: false, // No before/after for additions
-          maxValueLength,
-        })
-      );
-    }
-
-    // Modified tokens
-    if (diff.modified.length > 0) {
-      lines.push(
-        formatSection('Changed', diff.modified, {
-          ...options,
-          includeDescriptions,
-          includeValues,
-          maxValueLength,
-        })
-      );
-    }
-
-    // Deprecated tokens
-    if (diff.deprecated.length > 0) {
-      lines.push(
-        formatSection('Deprecated', diff.deprecated, {
-          ...options,
-          includeDescriptions,
-          includeValues: false,
-          maxValueLength,
-        })
-      );
+    const sections: Array<[string, TokenChange[], Partial<ChangelogOptions>]> = [
+      ['Breaking Changes', [...diff.removed, ...diff.typeChanged], sectionOpts],
+      ['Added', diff.added, { ...sectionOpts, includeValues: false }],
+      ['Changed', diff.modified, sectionOpts],
+      ['Deprecated', diff.deprecated, { ...sectionOpts, includeValues: false }],
+    ];
+    for (const [title, changes, opts] of sections) {
+      if (changes.length > 0) {
+        lines.push(formatSection(title, changes, opts));
+      }
     }
   } else {
-    // Flat list of all changes
     const allChanges = [
-      ...diff.removed,
-      ...diff.typeChanged,
-      ...diff.added,
-      ...diff.modified,
-      ...diff.deprecated,
+      ...diff.removed, ...diff.typeChanged, ...diff.added,
+      ...diff.modified, ...diff.deprecated,
     ];
-
     for (const change of allChanges) {
-      lines.push(
-        formatChange(change, {
-          ...options,
-          includeDescriptions,
-          includeValues,
-          maxValueLength,
-        })
-      );
+      lines.push(formatChange(change, sectionOpts));
     }
     lines.push('');
   }

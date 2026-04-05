@@ -29,6 +29,30 @@ import type {
 import './Tabs.scroll.css';
 
 // =============================================================================
+// Extracted helpers (reduce cognitive complexity)
+// =============================================================================
+
+/** Determine whether a TabPanel should render its content */
+function shouldRenderPanel(
+  isActive: boolean,
+  keepMounted: boolean,
+  unmountOnExit: boolean,
+  lazyMount: boolean,
+  hasBeenMounted: boolean
+): boolean {
+  if (isActive || keepMounted) {
+    return true;
+  }
+  if (unmountOnExit) {
+    return false;
+  }
+  if (lazyMount && !hasBeenMounted) {
+    return false;
+  }
+  return true;
+}
+
+// =============================================================================
 // Helpers
 // =============================================================================
 
@@ -41,12 +65,12 @@ function isExtraSlots(value: unknown): value is { left?: ReactNode; right?: Reac
     return false;
   }
   // React elements have $$typeof — those are simple ReactNode extra content
-  if (Reflect.get(value as object, '$$typeof') !== undefined) {
+  if (Reflect.get(value, '$$typeof') !== undefined) {
     return false;
   }
   return (
-    Reflect.get(value as object, 'left') !== undefined ||
-    Reflect.get(value as object, 'right') !== undefined
+    Reflect.get(value, 'left') !== undefined ||
+    Reflect.get(value, 'right') !== undefined
   );
 }
 
@@ -108,7 +132,7 @@ export const TabList = memo(
     const extraSlots = isExtraSlots(extra) ? extra : undefined;
     const leftExtra = extraSlots?.left;
     const rightExtra = extraSlots?.right;
-    const simpleExtra = !extraSlots ? (extra as ReactNode) : undefined;
+    const simpleExtra = extraSlots ? undefined : (extra as ReactNode);
 
     // Keyboard events bubble from focused tab buttons — tablist itself doesn't need tabIndex
     const tabListContent = (
@@ -322,24 +346,7 @@ export const TabPanel = memo(
     const tabId = `${baseId}-tab-${id}`;
     const panelId = `${baseId}-panel-${id}`;
 
-    // Determine whether to render
-    const shouldRender = (() => {
-      if (isActive) {
-        return true;
-      }
-      if (keepMounted) {
-        return true;
-      }
-      if (unmountOnExit) {
-        return false;
-      }
-      if (lazyMount && !hasBeenMounted) {
-        return false;
-      }
-      return true;
-    })();
-
-    if (!shouldRender) {
+    if (!shouldRenderPanel(isActive, keepMounted, unmountOnExit, lazyMount, hasBeenMounted)) {
       return null;
     }
 

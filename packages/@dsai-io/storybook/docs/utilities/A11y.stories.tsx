@@ -296,24 +296,28 @@ export const AnnounceToScreenReader: Story = {
       setStatus('loading');
       announce('Saving your changes...');
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const OPERATION_DELAY_MS = 2000;
+      const STATUS_RESET_DELAY_MS = 3000;
+      await new Promise((resolve) => setTimeout(resolve, OPERATION_DELAY_MS));
 
       setStatus('success');
       announce('Changes saved successfully!');
 
-      setTimeout(() => setStatus('idle'), 3000);
+      setTimeout(() => setStatus('idle'), STATUS_RESET_DELAY_MS);
     };
 
     const handleError = async (): Promise<void> => {
       setStatus('loading');
       announce('Processing your request...');
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const OPERATION_DELAY_MS = 2000;
+      const STATUS_RESET_DELAY_MS = 3000;
+      await new Promise((resolve) => setTimeout(resolve, OPERATION_DELAY_MS));
 
       setStatus('error');
       announce('Error: Operation failed. Please try again.', true); // Assertive
 
-      setTimeout(() => setStatus('idle'), 3000);
+      setTimeout(() => setStatus('idle'), STATUS_RESET_DELAY_MS);
     };
 
     return (
@@ -356,24 +360,30 @@ export const AnnounceToScreenReader: Story = {
             </Button>
           </div>
 
-          {lastMessage && (
+          {lastMessage && (() => {
+            let alertVariant: 'success' | 'danger' | 'info';
+            let alertIcon: JSX.Element;
+            if (status === 'success') {
+              alertVariant = 'success';
+              alertIcon = <CheckCircleFillIcon />;
+            } else if (status === 'error') {
+              alertVariant = 'danger';
+              alertIcon = <XCircleFillIcon />;
+            } else {
+              alertVariant = 'info';
+              alertIcon = <InfoCircleFillIcon />;
+            }
+            return (
             <Alert
-              variant={status === 'success' ? 'success' : status === 'error' ? 'danger' : 'info'}
-              icon={
-                status === 'success' ? (
-                  <CheckCircleFillIcon />
-                ) : status === 'error' ? (
-                  <XCircleFillIcon />
-                ) : (
-                  <InfoCircleFillIcon />
-                )
-              }
+              variant={alertVariant}
+              icon={alertIcon}
               style={{ marginTop: '1rem' }}
               dismissible={false}
             >
               <strong>Last Announcement:</strong> {lastMessage}
             </Alert>
-          )}
+            );
+          })()}
         </div>
 
         <div

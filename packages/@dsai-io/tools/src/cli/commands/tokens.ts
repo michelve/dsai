@@ -23,6 +23,8 @@ import { SnapshotService } from '../../tokens/snapshot.js';
 import { ExitCode } from '../types.js';
 import { colors, createLogger, createSpinner, formatDuration } from '../ui/index.js';
 
+const LOADING_CONFIGURATION_MSG = 'Loading configuration...';
+
 import type { BuildResult, SyncResult, ValidationResult } from '../../tokens/types.js';
 import type {
   TokensBuildOptions,
@@ -327,10 +329,7 @@ function resolveBuildOptions(
  */
 async function runTokensBuild(options: TokensBuildOptions): Promise<void> {
   const startTime = Date.now();
-  const logger = createLogger({
-    quiet: options.quiet,
-    debug: options.debug,
-  });
+  const logger = createLogger({ quiet: options.quiet, debug: options.debug });
   const spinner = createSpinner(options.quiet);
 
   try {
@@ -340,7 +339,6 @@ async function runTokensBuild(options: TokensBuildOptions): Promise<void> {
       configPath: options.config,
     });
     spinner.succeed(`Loaded config from ${colors.path(configPath ?? 'defaults')}`);
-
     logger.debug(`Config: ${JSON.stringify(config, null, 2)}`);
 
     if (options.listThemes) {
@@ -350,7 +348,6 @@ async function runTokensBuild(options: TokensBuildOptions): Promise<void> {
 
     const configDir = dirname(configPath ?? process.cwd());
     const tokensDir = resolve(configDir, config.tokens.collectionsDir);
-    const sourceDir = resolve(configDir, config.tokens.sourceDir);
     const toolsDir = resolve(configDir, config.tokens.sourceDir);
 
     handleClean(options, configPath, config, spinner, logger);
@@ -372,29 +369,24 @@ async function runTokensBuild(options: TokensBuildOptions): Promise<void> {
         }
         logger.log('');
       }
-
       process.exit(ExitCode.Success);
-    } else {
-      spinner.fail('Build failed');
-
-      if (result.errors && Array.isArray(result.errors)) {
-        for (const error of result.errors) {
-          logger.error(error);
-        }
-      }
-
-      process.exit(ExitCode.BuildError);
     }
+
+    spinner.fail('Build failed');
+    if (result.errors && Array.isArray(result.errors)) {
+      for (const error of result.errors) {
+        logger.error(error);
+      }
+    }
+    process.exit(ExitCode.BuildError);
   } catch (error) {
     spinner.fail('Build failed');
-
     if (error instanceof Error) {
       logger.error(error.message);
       if (options.debug) {
         console.error(error.stack);
       }
     }
-
     process.exit(ExitCode.GeneralError);
   }
 }

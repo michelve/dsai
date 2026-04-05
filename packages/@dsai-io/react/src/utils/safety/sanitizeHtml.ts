@@ -207,6 +207,84 @@ function isDangerousValue(value: string): boolean {
 /**
  * Parse attribute string and return safe attributes
  */
+/**
+ * Skip whitespace characters starting at pos, return new position.
+ */
+function skipWhitespace(str: string, pos: number): number {
+  let p = pos;
+  while (p < str.length && /\s/.test(str.charAt(p))) {
+    p++;
+  }
+  return p;
+}
+
+/**
+ * Read an attribute name from the string starting at pos.
+ * Returns the name and the new position.
+ */
+function readAttrName(str: string, pos: number): { name: string; pos: number } {
+  let name = '';
+  let p = pos;
+  while (p < str.length && /[\w-]/.test(str.charAt(p))) {
+    name += str.charAt(p);
+    p++;
+  }
+  return { name, pos: p };
+}
+
+/**
+ * Read an attribute value from the string starting at pos (after '=').
+ * Returns the value and the new position.
+ */
+function readAttrValue(str: string, pos: number): { value: string; pos: number } {
+  let value = '';
+  let p = pos;
+  const quote = str.charAt(p);
+  if (quote === '"' || quote === "'") {
+    p++; // skip opening quote
+    while (p < str.length && str.charAt(p) !== quote) {
+      value += str.charAt(p);
+      p++;
+    }
+    p++; // skip closing quote
+  } else {
+    // Unquoted value
+    while (p < str.length && !/[\s>]/.test(str.charAt(p))) {
+      value += str.charAt(p);
+      p++;
+    }
+  }
+  return { value, pos: p };
+}
+
+/**
+ * Check if a parsed attribute should be allowed.
+ */
+function isAttributeAllowed(
+  nameLower: string,
+  value: string,
+  allowedSet: Set<string>,
+  allowedProtocols: readonly string[],
+  allowDataUrls: boolean
+): boolean {
+  if (!allowedSet.has(nameLower)) {
+    return false;
+  }
+  if (nameLower.startsWith('on')) {
+    return false;
+  }
+  if (isDangerousValue(value)) {
+    return false;
+  }
+  if ((nameLower === 'href' || nameLower === 'src') && !isSafeUrl(value, allowedProtocols, allowDataUrls)) {
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Parse attribute string and return safe attributes
+ */
 function parseAttributes(
   attrString: string,
   allowedSet: Set<string>,
@@ -218,73 +296,33 @@ function parseAttributes(
   const str = attrString.trim();
 
   while (pos < str.length) {
-    // Skip whitespace
-    while (pos < str.length && /\s/.test(str.charAt(pos))) {
-      pos++;
-    }
+    pos = skipWhitespace(str, pos);
     if (pos >= str.length) {
       break;
     }
 
-    // Read attribute name
-    let name = '';
-    while (pos < str.length && /[\w-]/.test(str.charAt(pos))) {
-      name += str.charAt(pos);
-      pos++;
-    }
-    if (!name) {
+    const nameResult = readAttrName(str, pos);
+    pos = nameResult.pos;
+    if (!nameResult.name) {
       pos++;
       continue;
     }
 
-    const nameLower = name.toLowerCase();
+    const nameLower = nameResult.name.toLowerCase();
 
-    // Skip whitespace around =
-    while (pos < str.length && /\s/.test(str.charAt(pos))) {
-      pos++;
-    }
+    pos = skipWhitespace(str, pos);
 
     let value = '';
     if (pos < str.length && str.charAt(pos) === '=') {
       pos++; // skip =
-      while (pos < str.length && /\s/.test(str.charAt(pos))) {
-        pos++;
-      }
-
-      // Read value
-      const quote = str.charAt(pos);
-      if (quote === '"' || quote === "'") {
-        pos++; // skip opening quote
-        while (pos < str.length && str.charAt(pos) !== quote) {
-          value += str.charAt(pos);
-          pos++;
-        }
-        pos++; // skip closing quote
-      } else {
-        // Unquoted value
-        while (pos < str.length && !/[\s>]/.test(str.charAt(pos))) {
-          value += str.charAt(pos);
-          pos++;
-        }
-      }
+      pos = skipWhitespace(str, pos);
+      const valueResult = readAttrValue(str, pos);
+      value = valueResult.value;
+      pos = valueResult.pos;
     }
 
-    // Filter attribute
-    if (!allowedSet.has(nameLower)) {
+    if (!isAttributeAllowed(nameLower, value, allowedSet, allowedProtocols, allowDataUrls)) {
       continue;
-    }
-    if (nameLower.startsWith('on')) {
-      continue;
-    }
-    if (isDangerousValue(value)) {
-      continue;
-    }
-
-    // Validate URL attributes
-    if (nameLower === 'href' || nameLower === 'src') {
-      if (!isSafeUrl(value, allowedProtocols, allowDataUrls)) {
-        continue;
-      }
     }
 
     // Add safe attribute
@@ -293,6 +331,135 @@ function parseAttributes(
     } else {
       result.push(nameLower);
     }
+  }
+
+  return result;
+}
+
+/**
+ * Safely look up allowed attributes for a given key from the attributes config.
+ */
+function getAllowedForKey(
+  attrs: Readonly<Record<string, readonly string[]>>,
+  key: string
+): readonly string[] {
+  const hasOwn = Object.prototype.hasOwnProperty;
+  if (hasOwn.call(attrs, key)) {
+    const entries = Object.entries(attrs);
+    for (const [k, v] of entries) {
+      if (k === key) {
+        return v;
+      }
+    }
+  }
+  return [];
+}
+
+/**
+ * Skip past a dangerous tag and its content, returning the new position.
+ */
+function skipDangerousTag(input: string, tagName: string, tagEnd: number): number {
+  const closingTag = `</${tagName}`;
+  const closingPos = input.toLowerCase().indexOf(closingTag, tagEnd);
+  if (closingPos === -1) {
+    return input.length;
+  }
+  const closingEnd = input.indexOf('>', closingPos);
+  return closingEnd !== -1 ? closingEnd + 1 : input.length;
+}
+
+/**
+ * Build a sanitized opening tag string with filtered attributes.
+ */
+function buildSanitizedTag(
+  tagName: string,
+  tagContent: string,
+  tagPart: string,
+  allowedAttributes: Readonly<Record<string, readonly string[]>>,
+  allowedProtocols: readonly string[],
+  allowDataUrls: boolean
+): string {
+  const isSelfClosing = tagContent.endsWith('/');
+  const attrString = tagPart.slice(tagName.length);
+
+  const tagAllowed = getAllowedForKey(allowedAttributes, tagName);
+  const globalAllowed = getAllowedForKey(allowedAttributes, '*');
+  const allAllowed = new Set([
+    ...(tagAllowed ?? []).map((a) => a.toLowerCase()),
+    ...(globalAllowed ?? []).map((a) => a.toLowerCase()),
+  ]);
+
+  const safeAttrs = parseAttributes(attrString, allAllowed, allowedProtocols, allowDataUrls);
+  const attrsStr = safeAttrs.length > 0 ? ` ${safeAttrs.join(' ')}` : '';
+  const closeSlash = isSelfClosing ? ' /' : '';
+  return `<${tagName}${attrsStr}${closeSlash}>`;
+}
+
+/**
+ * Process HTML tags, filtering dangerous and disallowed content.
+ */
+function processHtmlTags(
+  input: string,
+  allowedTagSet: Set<string>,
+  allowedAttributes: Readonly<Record<string, readonly string[]>>,
+  allowedProtocols: readonly string[],
+  allowDataUrls: boolean
+): string {
+  let result = '';
+  let i = 0;
+
+  while (i < input.length) {
+    if (input.charAt(i) !== '<') {
+      result += input.charAt(i);
+      i++;
+      continue;
+    }
+
+    const tagEnd = findTagEnd(input, i);
+    if (tagEnd === -1) {
+      result += escapeHtml(input.slice(i));
+      break;
+    }
+
+    const tagContent = input.slice(i + 1, tagEnd);
+
+    // Skip comments
+    if (tagContent.startsWith('!--')) {
+      const commentEnd = input.indexOf('-->', i);
+      if (commentEnd === -1) {
+        break;
+      }
+      i = commentEnd + 3;
+      continue;
+    }
+
+    const isClosing = tagContent.startsWith('/');
+    const tagPart = isClosing ? tagContent.slice(1) : tagContent;
+    const tagNameMatch = tagPart.match(/^(\w+)/);
+    if (!tagNameMatch || !tagNameMatch[1]) {
+      i = tagEnd + 1;
+      continue;
+    }
+
+    const tagName = tagNameMatch[1].toLowerCase();
+
+    if (DANGEROUS_TAGS.has(tagName) && !isClosing) {
+      i = skipDangerousTag(input, tagName, tagEnd);
+      continue;
+    }
+
+    if (!allowedTagSet.has(tagName)) {
+      i = tagEnd + 1;
+      continue;
+    }
+
+    if (isClosing) {
+      result += `</${tagName}>`;
+    } else {
+      result += buildSanitizedTag(tagName, tagContent, tagPart, allowedAttributes, allowedProtocols, allowDataUrls);
+    }
+
+    i = tagEnd + 1;
   }
 
   return result;
@@ -375,119 +542,7 @@ export function sanitizeHtml(html: string, options: SanitizeHtmlOptions = {}): s
   }
 
   // Process HTML
-  let result = '';
-  let i = 0;
-
-  while (i < input.length) {
-    const currentChar = input.charAt(i);
-
-    if (currentChar === '<') {
-      // Find tag end, respecting quoted attribute values
-      const tagEnd = findTagEnd(input, i);
-      if (tagEnd === -1) {
-        // Malformed tag - escape and stop
-        result += escapeHtml(input.slice(i));
-        break;
-      }
-
-      const tagContent = input.slice(i + 1, tagEnd);
-
-      // Skip comments
-      if (tagContent.startsWith('!--')) {
-        const commentEnd = input.indexOf('-->', i);
-        if (commentEnd === -1) {
-          break;
-        }
-        i = commentEnd + 3;
-        continue;
-      }
-
-      // Check for closing tag
-      const isClosing = tagContent.startsWith('/');
-      const tagPart = isClosing ? tagContent.slice(1) : tagContent;
-
-      // Extract tag name
-      const tagNameMatch = tagPart.match(/^(\w+)/);
-      if (!tagNameMatch || !tagNameMatch[1]) {
-        i = tagEnd + 1;
-        continue;
-      }
-
-      const tagName = tagNameMatch[1].toLowerCase();
-
-      // Skip dangerous tags AND their content entirely
-      if (DANGEROUS_TAGS.has(tagName) && !isClosing) {
-        // Find the closing tag for this dangerous element
-        const closingTag = `</${tagName}`;
-        const closingPos = input.toLowerCase().indexOf(closingTag, tagEnd);
-        if (closingPos !== -1) {
-          // Skip to after the closing tag
-          const closingEnd = input.indexOf('>', closingPos);
-          i = closingEnd !== -1 ? closingEnd + 1 : input.length;
-        } else {
-          // No closing tag - skip to end
-          i = input.length;
-        }
-        continue;
-      }
-
-      // Check if tag is allowed
-      if (!allowedTagSet.has(tagName)) {
-        i = tagEnd + 1;
-        continue;
-      }
-
-      // Process closing tag
-      if (isClosing) {
-        result += `</${tagName}>`;
-        i = tagEnd + 1;
-        continue;
-      }
-
-      // Process opening tag with attributes
-      const isSelfClosing = tagContent.endsWith('/');
-      const attrString = tagPart.slice(tagName.length);
-
-      // Get allowed attributes for this tag
-      const getAllowedForKey = (
-        attrs: Readonly<Record<string, readonly string[]>>,
-        key: string
-      ): readonly string[] => {
-        const hasOwn = Object.prototype.hasOwnProperty;
-        if (hasOwn.call(attrs, key)) {
-          const entries = Object.entries(attrs);
-          for (const [k, v] of entries) {
-            if (k === key) {
-              return v;
-            }
-          }
-        }
-        return [];
-      };
-      const tagAllowed = getAllowedForKey(allowedAttributes, tagName);
-      const globalAllowed = getAllowedForKey(allowedAttributes, '*');
-      const allAllowed = new Set([
-        ...(tagAllowed ?? []).map((a) => a.toLowerCase()),
-        ...(globalAllowed ?? []).map((a) => a.toLowerCase()),
-      ]);
-
-      // Parse and filter attributes
-      const safeAttrs = parseAttributes(attrString, allAllowed, allowedProtocols, allowDataUrls);
-
-      // Build sanitized tag
-      const attrsStr = safeAttrs.length > 0 ? ` ${safeAttrs.join(' ')}` : '';
-      const closeSlash = isSelfClosing ? ' /' : '';
-      result += `<${tagName}${attrsStr}${closeSlash}>`;
-
-      i = tagEnd + 1;
-    } else {
-      // Regular character - add to result
-      result += currentChar;
-      i++;
-    }
-  }
-
-  return result;
+  return processHtmlTags(input, allowedTagSet, allowedAttributes, allowedProtocols, allowDataUrls);
 }
 
 // Export defaults for customization

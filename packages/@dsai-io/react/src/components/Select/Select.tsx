@@ -225,20 +225,10 @@ export const Select = memo(
         if (disabled || loading) {
           return;
         }
-        setIsOpen(open);
         if (open) {
-          onOpen?.();
-          const firstEnabled = findNextEnabledIndex(0, 1);
-          setFocusedIndex(firstEnabled);
-          if (searchable) {
-            requestAnimationFrame(() => {
-              searchInputRef.current?.focus();
-            });
-          }
+          openDropdown();
         } else {
-          onClose?.();
-          setSearchValue('');
-          setFocusedIndex(null);
+          closeDropdown();
           // Return focus to trigger
           queueMicrotask(() => {
             triggerRef.current?.focus();
@@ -325,12 +315,12 @@ export const Select = memo(
         if (multiple) {
           const currentArray = Array.isArray(currentValue) ? currentValue : [];
           if (currentArray.includes(option.value)) {
-            setCurrentValue(currentArray.filter((v) => v !== option.value) as T[]);
+            setCurrentValue(currentArray.filter((v) => v !== option.value));
           } else {
-            setCurrentValue([...currentArray, option.value] as T[]);
+            setCurrentValue([...currentArray, option.value]);
           }
         } else {
-          setCurrentValue(option.value as T | T[] | undefined);
+          setCurrentValue(option.value);
           setIsOpen(false);
           onClose?.();
           setSearchValue('');
@@ -456,48 +446,64 @@ export const Select = memo(
       [onSearchChange]
     );
 
+    // Move focus in the search dropdown by direction
+    const moveFocusInSearch = useCallback(
+      (direction: 'down' | 'up') => {
+        if (direction === 'down') {
+          const next = findNextEnabledIndex((focusedIndex ?? -1) + 1, 1);
+          if (next !== null) {
+            setFocusedIndex(next);
+          }
+        } else {
+          const prev = findNextEnabledIndex((focusedIndex ?? displayOptions.length) - 1, -1);
+          if (prev !== null) {
+            setFocusedIndex(prev);
+          }
+        }
+      },
+      [focusedIndex, displayOptions.length, findNextEnabledIndex]
+    );
+
+    // Select the currently focused option in search
+    const selectFocusedOption = useCallback(() => {
+      if (focusedIndex !== null && focusedIndex >= 0) {
+        const option = Reflect.get(displayOptions, focusedIndex) as SelectOption<T> | undefined;
+        if (option) {
+          handleSelect(option);
+        }
+      }
+    }, [focusedIndex, displayOptions, handleSelect]);
+
     // Handle search input keyboard navigation
     const handleSearchKeyDown = useCallback(
       (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'ArrowDown') {
           e.preventDefault();
-          const next = findNextEnabledIndex((focusedIndex ?? -1) + 1, 1);
-          if (next !== null) {
-            setFocusedIndex(next);
-          }
+          moveFocusInSearch('down');
           return;
         }
 
         if (e.key === 'ArrowUp') {
           e.preventDefault();
-          const prev = findNextEnabledIndex((focusedIndex ?? displayOptions.length) - 1, -1);
-          if (prev !== null) {
-            setFocusedIndex(prev);
-          }
+          moveFocusInSearch('up');
           return;
         }
 
-        if (isEnterKey(e) && focusedIndex !== null && focusedIndex >= 0) {
+        if (isEnterKey(e)) {
           e.preventDefault();
-          const option = Reflect.get(displayOptions, focusedIndex) as SelectOption<T> | undefined;
-          if (option) {
-            handleSelect(option);
-          }
+          selectFocusedOption();
           return;
         }
 
         if (isEscapeKey(e)) {
           e.preventDefault();
-          setIsOpen(false);
-          onClose?.();
-          setSearchValue('');
-          setFocusedIndex(null);
+          closeDropdown();
           queueMicrotask(() => {
             triggerRef.current?.focus();
           });
         }
       },
-      [focusedIndex, displayOptions, handleSelect, onClose, findNextEnabledIndex]
+      [moveFocusInSearch, selectFocusedOption, closeDropdown]
     );
 
     // Scroll focused option into view
@@ -514,7 +520,7 @@ export const Select = memo(
     // Build button classes
     const buttonClasses = cn(
       'form-select',
-      Reflect.get(sizeClassMap, size) as string ?? '',
+      (Reflect.get(sizeClassMap, size) as string) ?? '',
       error && 'is-invalid',
       success && !error && 'is-valid',
       'd-flex align-items-center justify-content-between'
@@ -585,9 +591,9 @@ export const Select = memo(
     // Build flat index map for grouped rendering
     const flatIndexMap = useMemo(() => {
       const map = new Map<T, number>();
-      displayOptions.forEach((opt, i) => {
+      for (const [i, opt] of displayOptions.entries()) {
         map.set(opt.value, i);
-      });
+      }
       return map;
     }, [displayOptions]);
 

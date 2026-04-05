@@ -23,6 +23,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { JSX } from 'react';
 
+const FONT_WEIGHT_MEDIUM = 'var(--dsai-typography-font-weight-medium)';
+
 /**
  * Async & Control Flow Utilities
  *
@@ -145,7 +147,8 @@ export const CreateAbortable: Story = {
       setResult(null);
 
       const abortable = createAbortable(async (signal) => {
-        return simulateFetch(3000, false, signal);
+        const REQUEST_DURATION_MS = 3000;
+      return simulateFetch(REQUEST_DURATION_MS, false, signal);
       });
 
       abortableRef.current = abortable;
@@ -207,18 +210,14 @@ export const CreateAbortable: Story = {
             </Button>
           </div>
 
-          {status !== 'idle' && (
-            <Alert
-              variant={
-                status === 'success'
-                  ? 'success'
-                  : status === 'aborted'
-                    ? 'warning'
-                    : status === 'error'
-                      ? 'danger'
-                      : 'info'
-              }
-            >
+          {status !== 'idle' && (() => {
+            let alertVariant: 'success' | 'warning' | 'danger' | 'info' = 'info';
+            if (status === 'success') { alertVariant = 'success'; }
+            else if (status === 'aborted') { alertVariant = 'warning'; }
+            else if (status === 'error') { alertVariant = 'danger'; }
+            return (
+            <Alert variant={alertVariant}>
+
               <strong>Status:</strong> {status}
               {result && (
                 <pre
@@ -233,7 +232,8 @@ export const CreateAbortable: Story = {
                 </pre>
               )}
             </Alert>
-          )}
+            );
+          })()}
         </div>
 
         <div
@@ -317,8 +317,10 @@ export const WithTimeoutDemo: Story = {
       'idle'
     );
     const [result, setResult] = useState<string | null>(null);
-    const [timeoutMs, setTimeoutMs] = useState(2000);
-    const [requestDuration, setRequestDuration] = useState(3000);
+    const DEFAULT_TIMEOUT_MS = 2000;
+    const DEFAULT_REQUEST_DURATION_MS = 3000;
+    const [timeoutMs, setTimeoutMs] = useState(DEFAULT_TIMEOUT_MS);
+    const [requestDuration, setRequestDuration] = useState(DEFAULT_REQUEST_DURATION_MS);
 
     const handleRun = async (): Promise<void> => {
       setStatus('loading');
@@ -441,16 +443,16 @@ export const WithTimeoutDemo: Story = {
             {status === 'loading' ? 'Running...' : 'Run Request'}
           </Button>
 
-          {status !== 'idle' && status !== 'loading' && (
-            <Alert
-              variant={
-                status === 'success' ? 'success' : status === 'timeout' ? 'warning' : 'danger'
-              }
-              style={{ marginTop: '1rem' }}
-            >
-              <strong>Result:</strong> {result}
-            </Alert>
-          )}
+          {status !== 'idle' && status !== 'loading' && (() => {
+            let variant: 'success' | 'warning' | 'danger' = 'danger';
+            if (status === 'success') { variant = 'success'; }
+            else if (status === 'timeout') { variant = 'warning'; }
+            return (
+              <Alert variant={variant} style={{ marginTop: '1rem' }}>
+                <strong>Result:</strong> {result}
+              </Alert>
+            );
+          })()}
         </div>
 
         <div
@@ -540,7 +542,8 @@ export const RetryWithBackoffDemo: Story = {
       totalTime: number;
     } | null>(null);
     const [failCount, setFailCount] = useState(2);
-    const [maxAttempts, setMaxAttempts] = useState(3);
+    const DEFAULT_MAX_ATTEMPTS = 3;
+    const [maxAttempts, setMaxAttempts] = useState(DEFAULT_MAX_ATTEMPTS);
     const controllerRef = useRef<AbortController | null>(null);
 
     const addLog = (message: string): void => {
@@ -566,7 +569,8 @@ export const RetryWithBackoffDemo: Story = {
           addLog(`Attempt ${attempts}...`);
 
           // Simulate delay
-          await new Promise((resolve) => setTimeout(resolve, 500));
+          const ATTEMPT_DELAY_MS = 500;
+          await new Promise((resolve) => setTimeout(resolve, ATTEMPT_DELAY_MS));
 
           if (attempts <= failUntil) {
             throw new Error(`Simulated failure on attempt ${attempts}`);
@@ -776,7 +780,8 @@ export const ExponentialBackoffDemo: Story = {
   render: function Render(): JSX.Element {
     const [baseDelay, setBaseDelay] = useState(1000);
     const [multiplier, setMultiplier] = useState(2);
-    const [maxDelay, setMaxDelay] = useState(30000);
+    const DEFAULT_MAX_DELAY_MS = 30_000;
+    const [maxDelay, setMaxDelay] = useState(DEFAULT_MAX_DELAY_MS);
     const [jitter, setJitter] = useState(true);
     const [delays, setDelays] = useState<number[]>([]);
 
@@ -1039,7 +1044,8 @@ export const CreateTaskQueueDemo: Story = {
     const queueRef = useRef<ReturnType<typeof createTaskQueue> | null>(null);
 
     const addLog = useCallback((message: string): void => {
-      setLogs((prev) => [...prev.slice(-19), `[${new Date().toLocaleTimeString()}] ${message}`]);
+      const MAX_LOG_ENTRIES = 20;
+      setLogs((prev) => [...prev.slice(-(MAX_LOG_ENTRIES - 1)), `[${new Date().toLocaleTimeString()}] ${message}`]);
     }, []);
 
     const updateState = useCallback((): void => {
@@ -1066,7 +1072,7 @@ export const CreateTaskQueueDemo: Story = {
       queueRef.current?.enqueue(async () => {
         addLog(`Task ${taskId} started`);
         updateState();
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        await new Promise((resolve) => setTimeout(resolve, TASK_DURATION_MS));
         addLog(`Task ${taskId} completed`);
         updateState();
       }, priority);

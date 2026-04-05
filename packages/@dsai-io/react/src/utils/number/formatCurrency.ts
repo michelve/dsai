@@ -133,6 +133,35 @@ function getOrCreateFormatter(
  * Fallback currency formatter for environments without Intl support
  * Provides basic currency formatting using native methods and common symbols
  */
+/**
+ * Add thousand separators to a formatted number string.
+ */
+function addThousandSeparators(formatted: string): string {
+  const parts = formatted.split('.');
+  if (parts[0]) {
+    // Safe regex: matches non-boundary followed by groups of exactly 3 digits
+    const integerPart = parts[0];
+    const reversed = integerPart.split('').reverse().join('');
+    const grouped = reversed.replaceAll(/(\d{3})(?=\d)/g, '$1,');
+    parts[0] = grouped.split('').reverse().join('');
+  }
+  return parts.join('.');
+}
+
+/**
+ * Resolve the display value for a currency based on display mode.
+ */
+function resolveCurrencyDisplay(
+  currency: string,
+  options?: Omit<Intl.NumberFormatOptions, 'style' | 'currency'>
+): string {
+  const symbol = CURRENCY_SYMBOLS[currency.toUpperCase()] ?? currency.toUpperCase();
+  const currencyDisplay = options?.currencyDisplay ?? 'symbol';
+  return currencyDisplay === 'code' || currencyDisplay === 'name'
+    ? currency.toUpperCase()
+    : symbol;
+}
+
 function fallbackFormat(
   value: number,
   currency: string,
@@ -147,13 +176,7 @@ function fallbackFormat(
     return value > 0 ? 'Infinity' : '-Infinity';
   }
 
-  // Get currency symbol (fallback to currency code)
-  const symbol = CURRENCY_SYMBOLS[currency.toUpperCase()] ?? currency.toUpperCase();
-
-  // Determine display mode
-  const currencyDisplay = options?.currencyDisplay ?? 'symbol';
-  const displayValue =
-    currencyDisplay === 'code' || currencyDisplay === 'name' ? currency.toUpperCase() : symbol;
+  const displayValue = resolveCurrencyDisplay(currency, options);
 
   // Format number with fraction digits (default to 2 for most currencies, 0 for JPY/KRW)
   const defaultFractionDigits = ['JPY', 'KRW'].includes(currency.toUpperCase()) ? 0 : 2;
@@ -164,23 +187,14 @@ function fallbackFormat(
 
   // Add thousand separators
   if (options?.useGrouping !== false) {
-    const parts = formattedValue.split('.');
-    if (parts[0]) {
-      // Safe regex: matches non-boundary followed by groups of exactly 3 digits
-      const integerPart = parts[0];
-      const reversed = integerPart.split('').reverse().join('');
-      const grouped = reversed.replaceAll(/(\d{3})(?=\d)/g, '$1,');
-      parts[0] = grouped.split('').reverse().join('');
-    }
-    formattedValue = parts.join('.');
+    formattedValue = addThousandSeparators(formattedValue);
   }
 
   // Handle sign
   const sign = value < 0 ? '-' : '';
 
   // Format with currency (symbol before for most locales, after for some)
-  // This is a simplified approach - Intl does this properly per locale
-  if (currencyDisplay === 'name') {
+  if (options?.currencyDisplay === 'name') {
     return `${sign}${formattedValue} ${displayValue}`;
   }
 

@@ -21,6 +21,13 @@ import { BackgroundWhite, ThemeLight, ThemeDark } from '../../src/generated/toke
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { JSX } from 'react';
 
+const LABEL_SAVE_CHANGES = 'Save Changes';
+const LABEL_PROCESSING = 'Processing...';
+const FONT_SIZE_SM = '0.875rem';
+const FONT_SIZE_XS = '0.75rem';
+const COLOR_SECONDARY = 'var(--bs-secondary)';
+const FONT_WEIGHT_BOLD = 'var(--dsai-typography-font-weight-bold)';
+
 /**
  * Button component provides a versatile, accessible button with multiple variants and sizes.
  * Built with Bootstrap 5 design tokens and full WCAG 2.2 AA compliance with security hardening.
@@ -123,7 +130,7 @@ const AnnouncementDemo = (): JSX.Element => {
         onClick={handleClick}
         disabled={isLoading}
       >
-        {isLoading ? 'Saving...' : 'Save Changes'}
+        {isLoading ? 'Saving...' : LABEL_SAVE_CHANGES}
       </Button>
       <p style={{ fontSize: '0.875rem', color: BS_SECONDARY }}>
         Click the button and watch the screen reader announcement region
@@ -581,7 +588,7 @@ export const WithIconLeft: Story = {
   args: {
     variant: 'primary',
     startIcon: <CheckIcon />,
-    children: 'Save Changes',
+    children: LABEL_SAVE_CHANGES,
   },
 };
 
@@ -683,7 +690,7 @@ export const Loading: Story = {
 export const LoadingWithText: Story = {
   args: {
     variant: 'primary',
-    children: 'Save Changes',
+    children: LABEL_SAVE_CHANGES,
     loading: true,
     loadingText: 'Saving your changes...',
   },
@@ -1027,7 +1034,7 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
           loading={states.success.isLoading}
           onClick={() => handleAsyncOperation('success', false)}
         >
-          {states.success.isLoading ? 'Processing...' : 'Save Successfully'}
+          {states.success.isLoading ? LABEL_PROCESSING : 'Save Successfully'}
         </Button>
       </div>
 
@@ -1049,7 +1056,7 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
           onClick={() => handleAsyncOperation('failure', true)}
         >
           {states.failure.isLoading
-            ? 'Processing...'
+            ? LABEL_PROCESSING
             : states.failure.isError
               ? 'Failed - Retry'
               : 'Delete Item'}
@@ -1073,7 +1080,7 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
           error={states.mixed.isError}
           onClick={() => handleAsyncOperation('mixed', false)}
         >
-          {states.mixed.isLoading ? 'Processing...' : 'Confirm Action'}
+          {states.mixed.isLoading ? LABEL_PROCESSING : 'Confirm Action'}
         </Button>
       </div>
 
@@ -1226,13 +1233,13 @@ export const KeyboardNavigationDemo: Story = {
           border: '1px solid var(--bs-info-border-subtle)',
         }}
       >
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-info-text-emphasis)', margin: 0 }}>
+        <p style={{ fontSize: FONT_SIZE_XS, color: 'var(--bs-info-text-emphasis)', margin: 0 }}>
           <strong>Test Coverage:</strong> The Button.a11y.test.tsx file includes 6 keyboard
           interaction tests verifying:
         </p>
         <ul
           style={{
-            fontSize: '0.75rem',
+            fontSize: FONT_SIZE_XS,
             color: 'var(--bs-info-text-emphasis)',
             marginTop: '0.5rem',
             paddingLeft: '1rem',
@@ -1315,7 +1322,7 @@ const ARIAAttributesDemoExample = (): JSX.Element => {
           >
             Delete Account
           </Button>
-          <span id="delete-description" style={{ fontSize: '0.75rem', color: 'var(--bs-danger)' }}>
+          <span id="delete-description" style={{ fontSize: FONT_SIZE_XS, color: 'var(--bs-danger)' }}>
             This action cannot be undone.
           </span>
         </div>

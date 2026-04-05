@@ -13,6 +13,18 @@ import { shouldAnimate } from './shouldAnimate';
 
 import type { AnimationDuration } from '../types/shared';
 
+/** Fast animation duration in milliseconds */
+const DURATION_FAST = 150;
+
+/** Normal animation duration in milliseconds */
+const DURATION_NORMAL = 200;
+
+/** Standard animation duration in milliseconds */
+const DURATION_STANDARD = 300;
+
+/** Slow animation duration in milliseconds */
+const DURATION_SLOW = 500;
+
 /**
  * Get animation duration in milliseconds, respecting user's motion preferences
  *
@@ -63,22 +75,22 @@ export const ANIMATION_DURATION = {
   /**
    * Fast animations (150ms)
    */
-  FAST: 150 as const,
+  FAST: DURATION_FAST as 150,
 
   /**
    * Normal animations (200ms)
    */
-  NORMAL: 200 as const,
+  NORMAL: DURATION_NORMAL as 200,
 
   /**
    * Standard animations (300ms)
    */
-  STANDARD: 300 as const,
+  STANDARD: DURATION_STANDARD as 300,
 
   /**
    * Slow animations (500ms)
    */
-  SLOW: 500 as const,
+  SLOW: DURATION_SLOW as 500,
 } as const;
 
 /**

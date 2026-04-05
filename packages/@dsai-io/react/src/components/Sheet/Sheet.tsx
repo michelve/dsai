@@ -459,10 +459,11 @@ const SheetBase = forwardRef<HTMLDivElement, SheetProps>(
       if (staticBackdrop) {
         // Bootstrap Modal uses 'modal-static' for the shake effect
         // Offcanvas doesn't have this built-in, but consuming apps can style it
+        const STATIC_SHAKE_DURATION_MS = 300;
         sheetRef.current?.classList.add('offcanvas-static');
         setTimeout(() => {
           sheetRef.current?.classList.remove('offcanvas-static');
-        }, 300);
+        }, STATIC_SHAKE_DURATION_MS);
         return;
       }
 

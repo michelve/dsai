@@ -17,15 +17,7 @@ function isValidDomain(domain: string): boolean {
     return false;
   }
 
-  return labels.every((label) => {
-    if (!label || label.length > 63) {
-      return false;
-    }
-    if (label.startsWith('-') || label.endsWith('-')) {
-      return false;
-    }
-    return /^[A-Za-z0-9-]+$/.test(label);
-  });
+  return labels.every(isValidDomainLabel);
 }
 
 export function isValidEmail(value: string | undefined | null): boolean {

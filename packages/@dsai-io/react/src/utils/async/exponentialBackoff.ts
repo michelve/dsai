@@ -19,7 +19,8 @@ function getSecureRandomFraction(): number {
     const buffer = new Uint32Array(1);
     cryptoObj.getRandomValues(buffer);
     const value = buffer[0];
-    return (value ?? 0) / 0xffffffff;
+    const MAX_UINT32 = 0xffff_ffff;
+    return (value ?? 0) / MAX_UINT32;
   }
 
   const timeSlice = Date.now() % 1000;

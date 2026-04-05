@@ -28,12 +28,12 @@ export const AvatarFallback = memo(
         return undefined;
       }
 
-      const timer = window.setTimeout(() => {
+      const timer = globalThis.setTimeout(() => {
         setDelayElapsed(true);
       }, delayMs);
 
       return () => {
-        window.clearTimeout(timer);
+        globalThis.clearTimeout(timer);
       };
     }, [delayMs]);
 

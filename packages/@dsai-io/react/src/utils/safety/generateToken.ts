@@ -33,6 +33,13 @@ export interface GenerateTokenOptions {
  */
 const DEFAULT_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
 
+/** Bytes-per-hex-char ratio: 2 hex chars = 1 byte */
+const HEX_CHARS_PER_BYTE = 2;
+
+/** Base64 encoding ratio: 4 chars encode 3 bytes */
+const BASE64_CHARS_RATIO = 4;
+const BASE64_BYTES_RATIO = 3;
+
 /**
  * Get cryptographic random values
  */
@@ -161,6 +168,41 @@ function bytesToAlphabet(bytes: Uint8Array, alphabet: string): string {
  * }
  * ```
  */
+/**
+ * Calculate the number of random bytes needed for the given encoding and length.
+ */
+function calculateBytesNeeded(length: number, encoding: string): number {
+  switch (encoding) {
+    case 'hex':
+      return Math.ceil(length / HEX_CHARS_PER_BYTE);
+    case 'base64':
+    case 'base64url':
+      return Math.ceil((length * BASE64_BYTES_RATIO) / BASE64_CHARS_RATIO);
+    case 'alphanumeric':
+      return length;
+    default:
+      return length;
+  }
+}
+
+/**
+ * Encode random bytes into a string using the specified encoding.
+ */
+function encodeBytes(bytes: Uint8Array, encoding: string, alphabet: string): string {
+  switch (encoding) {
+    case 'hex':
+      return bytesToHex(bytes);
+    case 'base64':
+      return bytesToBase64(bytes);
+    case 'base64url':
+      return bytesToBase64Url(bytes);
+    case 'alphanumeric':
+      return bytesToAlphabet(bytes, alphabet);
+    default:
+      return bytesToHex(bytes);
+  }
+}
+
 export function generateToken(options: GenerateTokenOptions = {}): string {
   const { length = 32, encoding = 'hex', alphabet = DEFAULT_ALPHABET, prefix = '' } = options;
 
@@ -173,47 +215,9 @@ export function generateToken(options: GenerateTokenOptions = {}): string {
     throw new Error('Token length must not exceed 1024');
   }
 
-  // Calculate bytes needed based on encoding
-  let bytesNeeded: number;
-  switch (encoding) {
-    case 'hex':
-      // 2 hex chars per byte
-      bytesNeeded = Math.ceil(length / 2);
-      break;
-    case 'base64':
-    case 'base64url':
-      // ~1.33 chars per byte
-      bytesNeeded = Math.ceil((length * 3) / 4);
-      break;
-    case 'alphanumeric':
-      // 1 char per byte with modulo
-      bytesNeeded = length;
-      break;
-    default:
-      bytesNeeded = length;
-  }
-
-  // Generate random bytes
+  const bytesNeeded = calculateBytesNeeded(length, encoding);
   const bytes = getRandomValues(bytesNeeded);
-
-  // Convert to requested format
-  let token: string;
-  switch (encoding) {
-    case 'hex':
-      token = bytesToHex(bytes);
-      break;
-    case 'base64':
-      token = bytesToBase64(bytes);
-      break;
-    case 'base64url':
-      token = bytesToBase64Url(bytes);
-      break;
-    case 'alphanumeric':
-      token = bytesToAlphabet(bytes, alphabet);
-      break;
-    default:
-      token = bytesToHex(bytes);
-  }
+  const token = encodeBytes(bytes, encoding, alphabet);
 
   // Trim to exact length and add prefix
   return prefix + token.slice(0, length);

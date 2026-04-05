@@ -12,6 +12,9 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { JSX } from 'react';
 
+const FONT_SIZE_SM = '0.875rem';
+const COLOR_SECONDARY = 'var(--bs-secondary)';
+
 /**
  * Alert component for displaying important messages to users.
  * Built with Bootstrap 5 design tokens and full WCAG 2.2 AA compliance.

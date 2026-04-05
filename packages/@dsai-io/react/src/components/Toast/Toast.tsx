@@ -296,7 +296,8 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       progressEl.style.width = '0%';
 
       // Trigger reflow to ensure transition starts
-      void progressEl.offsetWidth;
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions -- force reflow
+      progressEl.offsetWidth;
 
       return () => {
         progressEl.style.transition = '';
@@ -310,37 +311,43 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
         return undefined;
       }
 
+      const pauseTimer = (): void => {
+        clearTimer();
+        if (startTimeRef.current !== null) {
+          const elapsed = Date.now() - startTimeRef.current;
+          remainingRef.current = Math.max(
+            0,
+            (remainingRef.current ?? effectiveDuration) - elapsed
+          );
+        }
+        if (progressRef.current) {
+          const computedWidth = getComputedStyle(progressRef.current).width;
+          progressRef.current.style.transition = 'none';
+          progressRef.current.style.width = computedWidth;
+        }
+      };
+
+      const resumeTimer = (): void => {
+        const remaining = remainingRef.current ?? effectiveDuration;
+        if (remaining <= 0) {
+          handleDismiss();
+          return;
+        }
+        startTimeRef.current = Date.now();
+        timerRef.current = setTimeout(() => {
+          handleDismiss();
+        }, remaining);
+        if (progressRef.current) {
+          progressRef.current.style.transition = `width ${remaining}ms linear`;
+          progressRef.current.style.width = '0%';
+        }
+      };
+
       const handleVisibilityChange = (): void => {
         if (document.hidden) {
-          // Pause — clear timer and record remaining time
-          clearTimer();
-          if (startTimeRef.current !== null) {
-            const elapsed = Date.now() - startTimeRef.current;
-            remainingRef.current = Math.max(
-              0,
-              (remainingRef.current ?? effectiveDuration) - elapsed
-            );
-          }
-          if (progressRef.current) {
-            const computedWidth = getComputedStyle(progressRef.current).width;
-            progressRef.current.style.transition = 'none';
-            progressRef.current.style.width = computedWidth;
-          }
+          pauseTimer();
         } else if (fsmState.visibility === 'visible') {
-          // Resume — restart timer with remaining time
-          const remaining = remainingRef.current ?? effectiveDuration;
-          if (remaining <= 0) {
-            handleDismiss();
-            return;
-          }
-          startTimeRef.current = Date.now();
-          timerRef.current = setTimeout(() => {
-            handleDismiss();
-          }, remaining);
-          if (progressRef.current) {
-            progressRef.current.style.transition = `width ${remaining}ms linear`;
-            progressRef.current.style.width = '0%';
-          }
+          resumeTimer();
         }
       };
 

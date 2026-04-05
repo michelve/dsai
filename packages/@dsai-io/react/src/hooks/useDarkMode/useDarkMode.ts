@@ -113,8 +113,14 @@ export function useDarkMode(options: UseDarkModeOptions = {}): UseDarkModeReturn
   const [storedValue, setStoredValue] = useLocalStorage<boolean | null>(storageKey, null);
 
   // Derive isDarkMode from stored value, system preference, or default
-  const isDarkMode =
-    storedValue !== null ? storedValue : syncWithSystem ? systemPrefersDark : defaultValue;
+  let isDarkMode: boolean;
+  if (storedValue !== null) {
+    isDarkMode = storedValue;
+  } else if (syncWithSystem) {
+    isDarkMode = systemPrefersDark;
+  } else {
+    isDarkMode = defaultValue;
+  }
 
   // Call onChange callback when dark mode changes
   useEffect(() => {

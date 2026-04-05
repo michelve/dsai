@@ -112,6 +112,32 @@ function getRowId<T>(row: T, index: number, rowIdAccessor?: RowIdAccessor<T>): R
 /**
  * Default sort function for columns
  */
+/**
+ * Compare two nullable values, returning a sort result if either is nullish,
+ * or null if both are non-nullish (comparison should continue).
+ */
+function compareNullish(
+  aVal: unknown,
+  bVal: unknown,
+  direction: SortDirection
+): number | null {
+  const aNull = aVal === null || aVal === undefined;
+  const bNull = bVal === null || bVal === undefined;
+  if (aNull && bNull) {
+    return 0;
+  }
+  if (aNull) {
+    return direction === 'asc' ? -1 : 1;
+  }
+  if (bNull) {
+    return direction === 'asc' ? 1 : -1;
+  }
+  return null;
+}
+
+/**
+ * Default sort function for columns
+ */
 function defaultSortFn<T>(
   a: T,
   b: T,
@@ -121,15 +147,9 @@ function defaultSortFn<T>(
   const aVal = getValue(a, accessor);
   const bVal = getValue(b, accessor);
 
-  // Handle null/undefined
-  if (aVal === null || aVal === undefined) {
-    if (bVal === null || bVal === undefined) {
-      return 0;
-    }
-    return direction === 'asc' ? -1 : 1;
-  }
-  if (bVal === null || bVal === undefined) {
-    return direction === 'asc' ? 1 : -1;
+  const nullResult = compareNullish(aVal, bVal, direction);
+  if (nullResult !== null) {
+    return nullResult;
   }
 
   // Compare based on type
@@ -138,9 +158,7 @@ function defaultSortFn<T>(
   }
 
   // String comparison
-  const aStr = String(aVal);
-  const bStr = String(bVal);
-  const comparison = aStr.localeCompare(bStr);
+  const comparison = String(aVal).localeCompare(String(bVal));
   return direction === 'asc' ? comparison : -comparison;
 }
 
@@ -206,6 +224,90 @@ function normalizeSortState(
     return config;
   }
   return [config];
+}
+
+// =============================================================================
+// Header Style & ARIA Helpers
+// =============================================================================
+
+/**
+ * Derive the aria-sort attribute value for a column header
+ */
+function getAriaSortValue(
+  isSorted: boolean,
+  sortDirection: SortDirection | undefined,
+  sortable?: boolean
+): 'ascending' | 'descending' | 'none' | undefined {
+  if (isSorted) {
+    return sortDirection === 'asc' ? 'ascending' : 'descending';
+  }
+  if (sortable) {
+    return 'none';
+  }
+  return undefined;
+}
+
+/**
+ * Build inline styles for a column header cell
+ */
+function buildHeaderStyle<T>(
+  column: TableColumn<T>,
+  columnWidths: Record<string, number>,
+  stickyHeader: boolean
+): React.CSSProperties {
+  const headerStyle: React.CSSProperties = {};
+
+  if (column.width) {
+    headerStyle.width = column.width;
+  }
+  if (column.minWidth) {
+    headerStyle.minWidth = column.minWidth;
+  }
+  if (column.maxWidth) {
+    headerStyle.maxWidth = column.maxWidth;
+  }
+
+  // Override with resized width
+  const resizedWidth = Reflect.get(columnWidths, column.id) as number | undefined;
+  if (resizedWidth !== undefined) {
+    headerStyle.width = `${resizedWidth}px`;
+  }
+
+  // Sticky columns (left/right) work independently
+  if (column.sticky) {
+    headerStyle.position = 'sticky';
+    headerStyle[column.sticky] = 0;
+    headerStyle.zIndex = stickyHeader ? 3 : 2;
+    headerStyle.backgroundColor = 'var(--bs-table-bg, #fff)';
+  }
+
+  // Resizable columns need relative positioning for the handle
+  if (column.resizable && !column.sticky) {
+    headerStyle.position = 'relative';
+  }
+
+  return headerStyle;
+}
+
+/**
+ * Build inline styles for a sticky data cell
+ */
+function buildStickyCellStyle(
+  isSticky: boolean,
+  stickyDirection: 'left' | 'right' | undefined,
+  isSelected: boolean
+): React.CSSProperties {
+  if (!isSticky || !stickyDirection) {
+    return {};
+  }
+  return {
+    position: 'sticky',
+    [stickyDirection]: 0,
+    zIndex: 1,
+    backgroundColor: isSelected
+      ? 'var(--bs-table-active-bg, rgba(0, 0, 0, 0.075))'
+      : 'var(--bs-table-bg, var(--bs-body-bg, #fff))',
+  };
 }
 
 // =============================================================================
@@ -465,7 +567,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     >({
       value: sortConfig,
       defaultValue: defaultSortConfig,
-      onChange: onSortChange as ((value: SortConfig | SortingState | undefined) => void) | undefined,
+      onChange: onSortChange,
     });
 
     /** Normalized sort state — always an array internally */
@@ -475,66 +577,70 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     );
 
     /**
+     * Compute the next multi-sort state when Shift+clicking a column.
+     * Cycles: add asc -> toggle to desc -> remove.
+     */
+    const computeMultiSortState = useCallback(
+      (columnId: string): SortingState | undefined => {
+        const existingIndex = sortingState.findIndex((s) => s.columnId === columnId);
+
+        let nextState: SortingState;
+
+        if (existingIndex >= 0) {
+          const existing = Reflect.get(sortingState, existingIndex) as SortingState[number];
+          if (existing.direction === 'asc') {
+            nextState = sortingState.map((s, i) =>
+              i === existingIndex ? { ...s, direction: 'desc' as SortDirection } : s,
+            );
+          } else {
+            nextState = sortingState.filter((_, i) => i !== existingIndex);
+          }
+        } else if (sortingState.length >= maxSortColumns) {
+          nextState = [
+            ...sortingState.slice(0, -1),
+            { columnId, direction: 'asc' as SortDirection },
+          ];
+        } else {
+          nextState = [...sortingState, { columnId, direction: 'asc' as SortDirection }];
+        }
+
+        return nextState.length === 0 ? undefined : nextState;
+      },
+      [sortingState, maxSortColumns],
+    );
+
+    /**
+     * Compute the next single-sort config when clicking a column.
+     * Cycles: none -> asc -> desc -> none.
+     */
+    const computeSingleSortConfig = useCallback(
+      (columnId: string): SortConfig | undefined => {
+        const current = sortingState.find((s) => s.columnId === columnId);
+
+        if (!current) {
+          return { columnId, direction: 'asc' };
+        }
+        if (current.direction === 'asc') {
+          return { columnId, direction: 'desc' };
+        }
+        return undefined;
+      },
+      [sortingState],
+    );
+
+    /**
      * Handle a sort click on a column header.
      * Plain click: single-column cycle (asc -> desc -> none).
      * Shift+click: multi-column toggle (add/remove/cycle column in array).
      */
     const handleSortClick = useCallback(
       (columnId: string, shiftKey = false) => {
-        if (shiftKey) {
-          // Multi-column sort via Shift+Click
-          const existingIndex = sortingState.findIndex((s) => s.columnId === columnId);
-
-          let nextState: SortingState;
-
-          if (existingIndex >= 0) {
-            const existing = Reflect.get(sortingState, existingIndex) as SortingState[number];
-            if (existing.direction === 'asc') {
-              // Toggle to desc
-              nextState = sortingState.map((s, i) =>
-                i === existingIndex ? { ...s, direction: 'desc' as SortDirection } : s,
-              );
-            } else {
-              // Remove from multi-sort
-              nextState = sortingState.filter((_, i) => i !== existingIndex);
-            }
-          } else {
-            // Add new column
-            if (sortingState.length >= maxSortColumns) {
-              // Replace the last column
-              nextState = [
-                ...sortingState.slice(0, -1),
-                { columnId, direction: 'asc' as SortDirection },
-              ];
-            } else {
-              nextState = [...sortingState, { columnId, direction: 'asc' as SortDirection }];
-            }
-          }
-
-          const result = nextState.length === 0 ? undefined : nextState;
-          setCurrentSort(result);
-        } else {
-          // Single-column sort (plain click resets to single column)
-          const current = sortingState.find((s) => s.columnId === columnId);
-
-          let newConfig: SortConfig | undefined;
-
-          if (current) {
-            if (current.direction === 'asc') {
-              newConfig = { columnId, direction: 'desc' };
-            } else {
-              // Clear sort
-              newConfig = undefined;
-            }
-          } else {
-            // New column, start with ascending
-            newConfig = { columnId, direction: 'asc' };
-          }
-
-          setCurrentSort(newConfig);
-        }
+        const nextSort = shiftKey
+          ? computeMultiSortState(columnId)
+          : computeSingleSortConfig(columnId);
+        setCurrentSort(nextSort);
       },
-      [sortingState, maxSortColumns, setCurrentSort],
+      [computeMultiSortState, computeSingleSortConfig, setCurrentSort],
     );
 
     // ==========================================================================
@@ -703,7 +809,8 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
           // Find column constraints
           const col = columns.find((c) => c.id === columnId);
           if (col) {
-            const minW = typeof col.minWidth === 'number' ? col.minWidth : 50;
+            const DEFAULT_MIN_COLUMN_WIDTH = 50;
+            const minW = typeof col.minWidth === 'number' ? col.minWidth : DEFAULT_MIN_COLUMN_WIDTH;
             const maxW = typeof col.maxWidth === 'number' ? col.maxWidth : Infinity;
             newWidth = Math.max(minW, Math.min(maxW, newWidth));
           }
@@ -1267,41 +1374,8 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
                 sortingState.length > 1
                   ? sortingState.findIndex((s) => s.columnId === column.id) + 1
                   : 0;
-              const ariaSortValue = isSorted
-                ? sortDirection === 'asc'
-                  ? 'ascending'
-                  : 'descending'
-                : column.sortable
-                  ? 'none'
-                  : undefined;
 
-              const headerStyle: React.CSSProperties = {};
-              if (column.width) {
-                headerStyle.width = column.width;
-              }
-              if (column.minWidth) {
-                headerStyle.minWidth = column.minWidth;
-              }
-              if (column.maxWidth) {
-                headerStyle.maxWidth = column.maxWidth;
-              }
-              // Override with resized width
-              const resizedWidth = Reflect.get(columnWidths, column.id) as number | undefined;
-              if (resizedWidth !== undefined) {
-                headerStyle.width = `${resizedWidth}px`;
-              }
-              // Sticky columns (left/right) work independently
-              if (column.sticky) {
-                headerStyle.position = 'sticky';
-                headerStyle[column.sticky] = 0;
-                headerStyle.zIndex = stickyHeader ? 3 : 2; // Higher z-index if also sticky header
-                headerStyle.backgroundColor = 'var(--bs-table-bg, #fff)';
-              }
-              // Resizable columns need relative positioning for the handle
-              if (column.resizable && !column.sticky) {
-                headerStyle.position = 'relative';
-              }
-
+              const headerStyle = buildHeaderStyle(column, columnWidths, stickyHeader);
               const alignClass = getAlignClass(column.align);
               const headerCellClasses = cn(
                 alignClass,
@@ -1311,11 +1385,8 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
               );
 
               // Roving tabindex: active sortable header gets 0, others get -1
-              const isActiveHeader = column.sortable && columnIndex === activeHeaderIndex;
               const headerTabIndex = column.sortable
-                ? isActiveHeader
-                  ? 0
-                  : -1
+                ? (columnIndex === activeHeaderIndex ? 0 : -1)
                 : undefined;
 
               return (
@@ -1325,7 +1396,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
                   scope="col"
                   className={headerCellClasses || undefined}
                   style={headerStyle}
-                  aria-sort={ariaSortValue}
+                  aria-sort={getAriaSortValue(isSorted, sortDirection, column.sortable)}
                   onClick={
                     column.sortable
                       ? (e) => handleSortClick(column.id, e.shiftKey)

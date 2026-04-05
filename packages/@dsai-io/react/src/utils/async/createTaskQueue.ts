@@ -191,7 +191,7 @@ export function createTaskQueue(options: TaskQueueOptions = {}): TaskQueue {
       });
 
       const task: QueuedTask<T> = {
-        id: `task-${++taskIdCounter}`,
+        id: `task-${(taskIdCounter += 1)}`,
         fn,
         priority,
         promise,

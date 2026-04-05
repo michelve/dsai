@@ -853,6 +853,23 @@ function validateTransformationCompleteness() {
 /**
  * Print comprehensive validation report
  */
+/**
+ * Print a group of errors with severity label, limited to maxDisplay
+ */
+function printErrorGroup(label, emoji, errors, maxDisplay) {
+  if (errors.length === 0) { return; }
+  console.log(`\n  ${emoji} ${label} (${errors.length}):`);
+  errors.slice(0, maxDisplay).forEach((error) => {
+    console.log(`    ${error.file || error.type || 'General'}: ${error.message}`);
+    if (error.path) {
+      console.log(`      Path: ${error.path}`);
+    }
+  });
+  if (errors.length > maxDisplay) {
+    console.log(`    ... and ${errors.length - maxDisplay} more`);
+  }
+}
+
 function printReport() {
   console.log(`\n${'='.repeat(80)}`);
   console.log('FIGMA TOKEN VALIDATION REPORT');
@@ -872,41 +889,9 @@ function printReport() {
     const highErrors = results.errors.filter((e) => e.severity === 'HIGH');
     const normalErrors = results.errors.filter((e) => !e.severity);
 
-    if (criticalErrors.length > 0) {
-      console.log(`\n  🔴 CRITICAL (${criticalErrors.length}):`);
-      criticalErrors.forEach((error) => {
-        console.log(`    ${error.file || error.type || 'General'}: ${error.message}`);
-        if (error.path) {
-          console.log(`      Path: ${error.path}`);
-        }
-      });
-    }
-
-    if (highErrors.length > 0) {
-      console.log(`\n  🟠 HIGH (${highErrors.length}):`);
-      highErrors.slice(0, 10).forEach((error) => {
-        console.log(`    ${error.file || error.type || 'General'}: ${error.message}`);
-        if (error.path) {
-          console.log(`      Path: ${error.path}`);
-        }
-      });
-      if (highErrors.length > 10) {
-        console.log(`    ... and ${highErrors.length - 10} more`);
-      }
-    }
-
-    if (normalErrors.length > 0) {
-      console.log(`\n  ⚠️  NORMAL (${normalErrors.length}):`);
-      normalErrors.slice(0, 5).forEach((error) => {
-        console.log(`    ${error.file || 'General'}: ${error.message}`);
-        if (error.path) {
-          console.log(`      Path: ${error.path}`);
-        }
-      });
-      if (normalErrors.length > 5) {
-        console.log(`    ... and ${normalErrors.length - 5} more`);
-      }
-    }
+    printErrorGroup('CRITICAL', '🔴', criticalErrors, criticalErrors.length);
+    printErrorGroup('HIGH', '🟠', highErrors, 10);
+    printErrorGroup('NORMAL', '⚠️ ', normalErrors, 5);
   }
 
   // Warnings

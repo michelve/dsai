@@ -720,9 +720,11 @@ export function getProjectSummary(info: ProjectInfo): string[] {
     summary.push(`Build Tool: ${info.metaFramework}`);
   }
 
-  summary.push(`Package Manager: ${info.packageManager}`);
-  summary.push(`TypeScript: ${info.typescript ? 'Yes' : 'No'}`);
-  summary.push(`Module System: ${info.esm ? 'ESM' : 'CommonJS'}`);
+  summary.push(
+    `Package Manager: ${info.packageManager}`,
+    `TypeScript: ${info.typescript ? 'Yes' : 'No'}`,
+    `Module System: ${info.esm ? 'ESM' : 'CommonJS'}`
+  );
 
   if (info.styling !== 'unknown') {
     summary.push(`Styling: ${info.styling}`);

@@ -129,6 +129,82 @@ export function createInitialAccordionFSMState(
  * @param event - Event triggering the transition
  * @returns New FSM state
  */
+/**
+ * Handle TOGGLE event — expand or collapse a single item
+ */
+function handleAccordionToggle(state: AccordionFSMState, eventKey: string): AccordionFSMState {
+  const isCurrentlyActive = state.activeKeys.has(eventKey);
+
+  if (isCurrentlyActive) {
+    const newKeys = new Set(state.activeKeys);
+    newKeys.delete(eventKey);
+    return { ...state, activeKeys: newKeys };
+  }
+
+  if (state.selectionMode === 'single') {
+    return { ...state, activeKeys: new Set([eventKey]) };
+  }
+
+  const newKeys = new Set(state.activeKeys);
+  newKeys.add(eventKey);
+  return { ...state, activeKeys: newKeys };
+}
+
+/**
+ * Handle EXPAND event — force expand a single item
+ */
+function handleAccordionExpand(state: AccordionFSMState, eventKey: string): AccordionFSMState {
+  if (state.activeKeys.has(eventKey)) {
+    return state;
+  }
+
+  if (state.selectionMode === 'single') {
+    return { ...state, activeKeys: new Set([eventKey]) };
+  }
+
+  const newKeys = new Set(state.activeKeys);
+  newKeys.add(eventKey);
+  return { ...state, activeKeys: newKeys };
+}
+
+/**
+ * Handle COLLAPSE event — force collapse a single item
+ */
+function handleAccordionCollapse(state: AccordionFSMState, eventKey: string): AccordionFSMState {
+  if (!state.activeKeys.has(eventKey)) {
+    return state;
+  }
+
+  const newKeys = new Set(state.activeKeys);
+  newKeys.delete(eventKey);
+  return { ...state, activeKeys: newKeys };
+}
+
+/**
+ * Handle RESET_FROM_PROPS event — sync with controlled props
+ */
+function handleAccordionResetFromProps(
+  state: AccordionFSMState,
+  activeKeys: readonly string[]
+): AccordionFSMState {
+  const firstKey = activeKeys[0];
+  const validKeys: string[] =
+    state.selectionMode === 'single' && activeKeys.length > 1 && firstKey !== undefined
+      ? [firstKey]
+      : [...activeKeys];
+
+  const newKeysSet = new Set<string>(validKeys);
+
+  if (
+    newKeysSet.size === state.activeKeys.size &&
+    [...newKeysSet].every((key) => state.activeKeys.has(key))
+  ) {
+    return state;
+  }
+
+  return { ...state, activeKeys: newKeysSet };
+}
+
 export function accordionFSMReducer(
   state: AccordionFSMState,
   event: AccordionFSMEvent

@@ -119,6 +119,10 @@ import { useId, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+const BORDER_RADIUS_LG = 'var(--dsai-border-radius-lg)';
+const BORDER_RADIUS_SM = 'var(--dsai-border-radius-sm)';
+const SPACING_2 = 'var(--dsai-spacing-2)';
+
 const meta: Meta = {
   title: 'Foundation/Icons',
   parameters: {

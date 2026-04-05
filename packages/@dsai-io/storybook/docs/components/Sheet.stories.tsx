@@ -1034,7 +1034,7 @@ export const AllSizes: Story = {
             <Sheet
               isOpen={openSize === key}
               onClose={() => setOpenSize(null)}
-              size={key as 'sm' | 'md' | 'lg' | 'xl' | 'full'}
+              size={key}
             >
               <Sheet.Header>{label} Sheet</Sheet.Header>
               <Sheet.Body>

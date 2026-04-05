@@ -309,10 +309,7 @@ export const Breadcrumb = memo(
       let hiddenItems: BreadcrumbItemData[] = [];
 
       if (shouldCollapse) {
-        const beforeItems = items.slice(0, itemsBeforeCollapse);
-        const afterItems = items.slice(items.length - itemsAfterCollapse);
-        hiddenItems = items.slice(itemsBeforeCollapse, items.length - itemsAfterCollapse);
-        displayItems = [...beforeItems, 'ellipsis', ...afterItems];
+        ({ displayItems, hiddenItems } = collapseItems(items, itemsBeforeCollapse, itemsAfterCollapse));
       }
 
       const renderOpts = {
@@ -328,16 +325,7 @@ export const Breadcrumb = memo(
 
       displayItems.forEach((item, index) => {
         if (useInlineSeparator && index > 0) {
-          elements.push(
-            <li
-              key={`sep-${typeof item === 'string' ? item : (item.href ?? item.label ?? index)}`}
-              className="breadcrumb-separator"
-              aria-hidden="true"
-              role="presentation"
-            >
-              {separator}
-            </li>
-          );
+          elements.push(renderInlineSeparator(item, index, separator));
         }
         elements.push(renderDisplayItem(item, index, displayItems, hiddenItems, renderOpts));
       });

@@ -107,6 +107,95 @@ function createErrorResponse(
 // Preset Mock Handlers
 // ============================================================================
 
+// ============================================================================
+// Per-Route Handlers
+// ============================================================================
+
+/** Handle /v1/me user endpoint */
+function handleUserRoute(url: string): MockFetchResponse | null {
+  if (url.includes('/v1/me') || url.endsWith('/me')) {
+    return createSuccessResponse(mockMeResponse, 'req-me');
+  }
+  return null;
+}
+
+/** Handle single component/component_set/style by key (not file-level) */
+function handleSingleResourceRoute(url: string): MockFetchResponse | null {
+  if (/\/components\/[^/]+$/.exec(url) && !url.includes('/files/')) {
+    return createSuccessResponse(mockSingleComponentResponse, 'req-comp');
+  }
+  if (/\/component_sets\/[^/]+$/.exec(url) && !url.includes('/files/')) {
+    return createSuccessResponse(mockSingleComponentSetResponse, 'req-comp-set');
+  }
+  if (/\/styles\/[^/]+$/.exec(url) && !url.includes('/files/')) {
+    return createSuccessResponse(mockSingleStyleResponse, 'req-style');
+  }
+  return null;
+}
+
+/** Handle file-level library endpoints (components, component_sets, styles) */
+function handleLibraryRoute(url: string): MockFetchResponse | null {
+  if (url.includes('/components') && !url.includes('/analytics') && !url.includes('/component_sets')) {
+    return createSuccessResponse(mockPublishedComponentsResponse, 'req-pub-comps');
+  }
+  if (url.includes('/component_sets')) {
+    return createSuccessResponse(mockPublishedComponentSetsResponse, 'req-pub-sets');
+  }
+  if (url.includes('/styles') && !url.includes('/analytics')) {
+    return createSuccessResponse(mockPublishedStylesResponse, 'req-pub-styles');
+  }
+  return null;
+}
+
+/** Handle version history and file metadata */
+function handleFileMetaRoute(url: string): MockFetchResponse | null {
+  if (url.includes('/versions')) {
+    return createSuccessResponse(mockVersionsResponse, 'req-versions');
+  }
+  if (url.includes('/meta')) {
+    return createSuccessResponse(mockFileMetadataResponse, 'req-meta');
+  }
+  return null;
+}
+
+/** Handle analytics library endpoints */
+function handleAnalyticsRoute(url: string): MockFetchResponse | null {
+  if (!url.includes('/analytics/libraries/')) {return null;}
+
+  const analyticsRoutes: Array<[string, unknown, string]> = [
+    ['/component/actions', mockComponentActionsByComponent, 'req-comp-actions'],
+    ['/component/usages', mockComponentUsagesByComponent, 'req-comp-usages'],
+    ['/style/actions', mockStyleActionsByStyle, 'req-style-actions'],
+    ['/style/usages', mockStyleUsagesByStyle, 'req-style-usages'],
+    ['/variable/actions', mockVariableActionsByVariable, 'req-var-actions'],
+    ['/variable/usages', mockVariableUsagesByVariable, 'req-var-usages'],
+  ];
+
+  for (const [path, data, requestId] of analyticsRoutes) {
+    if (url.includes(path)) {
+      return createSuccessResponse(data, requestId);
+    }
+  }
+  return null;
+}
+
+/** Handle variables, nodes, and general file endpoints */
+function handleDataRoute(url: string, options?: RequestInit): MockFetchResponse | null {
+  if (url.includes('/variables') && options?.method === 'POST') {
+    return createSuccessResponse(mockPostVariablesResponse, 'req-post-vars-test');
+  }
+  if (url.includes('/variables/local')) {
+    return createSuccessResponse(mockVariablesResponse, 'req-vars-test');
+  }
+  if (url.includes('/nodes')) {
+    return createSuccessResponse(mockStyleNodes, 'req-nodes-test');
+  }
+  if (url.includes('/files/')) {
+    return createSuccessResponse(mockFigmaFile, 'req-file-test');
+  }
+  return null;
+}
+
 /**
  * Route matcher for mock fetch handler
  */
@@ -172,6 +261,15 @@ const defaultRoutes: MockRoute[] = [
  * Default mock handler that responds with appropriate test data
  */
 export function createDefaultMockFetch(): MockFetchHandler {
+  const routeHandlers: Array<(url: string, options?: RequestInit) => MockFetchResponse | null> = [
+    handleUserRoute,
+    handleSingleResourceRoute,
+    handleLibraryRoute,
+    handleFileMetaRoute,
+    handleAnalyticsRoute,
+    handleDataRoute,
+  ];
+
   return (url: string, options?: RequestInit): Promise<MockFetchResponse> => {
     const route = defaultRoutes.find((r) => r.match(url, options));
     if (route) {

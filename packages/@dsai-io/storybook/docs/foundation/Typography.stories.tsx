@@ -57,7 +57,7 @@ export const FontFamilies: Story = {
         >
           The quick brown fox jumps over the lazy dog. 0123456789
         </Text>
-        <Text variant="code" style={{ color: 'var(--bs-secondary)' }}>
+        <Text variant="code" style={{ color: COLOR_SECONDARY }}>
           var(--dsai-typography-font-family-base)
         </Text>
       </div>
@@ -75,7 +75,7 @@ export const FontFamilies: Story = {
         >
           {`const greeting = "Hello, World!"; // Code example`}
         </Text>
-        <Text variant="code" style={{ color: 'var(--bs-secondary)' }}>
+        <Text variant="code" style={{ color: COLOR_SECONDARY }}>
           var(--dsai-typography-font-family-monospace)
         </Text>
       </div>
@@ -190,7 +190,7 @@ export const DisplayTypography: Story = {
                 <Text as="span" weight="semibold">
                   {name}
                 </Text>
-                <Text variant="code" style={{ color: 'var(--bs-secondary)' }}>
+                <Text variant="code" style={{ color: COLOR_SECONDARY }}>
                   {sizeStr}
                 </Text>
                 <Text as="span" color="muted" size="sm">
@@ -219,7 +219,7 @@ export const DisplayTypography: Story = {
         <div
           style={{
             backgroundColor: 'var(--bs-info-bg-subtle)',
-            padding: 'var(--dsai-spacing-3)',
+            padding: SPACING_3,
             borderRadius: 'var(--dsai-border-radius-lg)',
             borderLeft: '4px solid var(--bs-info)',
             marginTop: '24px',
@@ -329,7 +329,7 @@ export const LineHeights: Story = {
               <Text as="span" weight="bold">
                 {name}
               </Text>
-              <Text variant="code" style={{ color: 'var(--bs-secondary)' }}>
+              <Text variant="code" style={{ color: COLOR_SECONDARY }}>
                 {value}
               </Text>
               <Text as="span" color="muted">
@@ -341,7 +341,7 @@ export const LineHeights: Story = {
               style={{
                 lineHeight: value,
                 backgroundColor: 'var(--bs-gray-100)',
-                padding: 'var(--dsai-spacing-3)',
+                padding: SPACING_3,
                 borderRadius: 'var(--dsai-border-radius-lg)',
               }}
             >

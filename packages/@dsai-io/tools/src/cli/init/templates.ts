@@ -1408,8 +1408,7 @@ export function generateTemplate(options: TemplateOptions): GeneratedTemplate {
 
   // Enterprise template gets additional directories
   if (template === 'enterprise') {
-    directories.push('collections');
-    directories.push('assets/icons');
+    directories.push('collections', 'assets/icons');
   }
 
   return {

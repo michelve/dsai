@@ -280,8 +280,8 @@ const AvatarRoot = memo(
       if (effectiveDelayMs === undefined || effectiveDelayMs === 0) {
         return undefined;
       }
-      const timer = window.setTimeout(() => setDelayElapsed(true), effectiveDelayMs);
-      return () => window.clearTimeout(timer);
+      const timer = globalThis.setTimeout(() => setDelayElapsed(true), effectiveDelayMs);
+      return () => globalThis.clearTimeout(timer);
     }, [effectiveDelayMs]);
 
     // Memoize container styles
@@ -347,28 +347,19 @@ const AvatarRoot = memo(
     const isLink = as === 'a' && href;
 
     // Build accessibility attributes
-    const accessibilityProps = useMemo(() => {
-      const props: Record<string, unknown> = {};
-
-      if (decorative || ariaHidden === true || ariaHidden === 'true') {
-        props['aria-hidden'] = true;
-      } else {
-        if (computedAriaLabel) {
-          props['aria-label'] = computedAriaLabel;
-        }
-        if (ariaDescribedBy) {
-          props['aria-describedby'] = ariaDescribedBy;
-        }
-        if (isButton && selected) {
-          props['aria-pressed'] = selected;
-        }
-        if (isLoading) {
-          props['aria-busy'] = true;
-        }
-      }
-
-      return props;
-    }, [decorative, ariaHidden, computedAriaLabel, ariaDescribedBy, isButton, selected, isLoading]);
+    const accessibilityProps = useMemo(
+      () =>
+        buildAccessibilityProps({
+          decorative,
+          ariaHidden,
+          computedAriaLabel,
+          ariaDescribedBy,
+          isButton,
+          selected,
+          isLoading,
+        }),
+      [decorative, ariaHidden, computedAriaLabel, ariaDescribedBy, isButton, selected, isLoading]
+    );
 
     // Determine fallback content to render
     const renderFallbackContent = (): React.ReactNode => {
@@ -592,6 +583,44 @@ const AvatarRoot = memo(
       'data-size': size,
       'data-shape': shape,
       ...accessibilityProps,
+    };
+
+    // Render the main avatar content based on state
+    const renderAvatarContent = (): React.ReactNode => {
+      if (isLoading) {
+        return renderSkeleton();
+      }
+      if (compoundImage) {
+        return compoundImage;
+      }
+      if (showImage) {
+        return (
+          <img
+            ref={imageRef}
+            src={src}
+            alt={decorative ? '' : (alt ?? name ?? undefined)}
+            srcSet={srcSet}
+            sizes={sizes}
+            loading={loading}
+            referrerPolicy={referrerPolicy}
+            crossOrigin={crossOrigin}
+            className={cn(
+              'dsai-avatar__image',
+              'w-100',
+              'h-100',
+              'object-fit-cover',
+              getShapeClass(shape),
+              !imageLoaded && 'opacity-0'
+            )}
+            aria-hidden={decorative ? true : undefined}
+            data-testid="avatar-image"
+          />
+        );
+      }
+      if (compoundFallback) {
+        return compoundFallback;
+      }
+      return delayElapsed && renderFallbackContent();
     };
 
     const interactiveProps = interactive

@@ -14,6 +14,9 @@ import { useState } from 'react';
 
 import type { ToastPosition } from '@dsai-io/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+
+const FONT_SIZE_SM = '0.875rem';
+const COLOR_SECONDARY = 'var(--bs-secondary)';
 import type { JSX } from 'react';
 
 /**
@@ -216,7 +219,8 @@ function PromiseToastDemo(): JSX.Element {
 
   const handleSave = (): void => {
     const saveOperation = new Promise<string>((resolve) => {
-      setTimeout(() => resolve('Data saved'), 2000);
+      const SAVE_DELAY_MS = 2000;
+      setTimeout(() => resolve('Data saved'), SAVE_DELAY_MS);
     });
 
     toast.promise(saveOperation, {
@@ -228,7 +232,8 @@ function PromiseToastDemo(): JSX.Element {
 
   const handleDelete = (): void => {
     const deleteOperation = new Promise<void>((_, reject) => {
-      setTimeout(() => reject(new Error('Network error')), 2000);
+      const DELETE_DELAY_MS = 2000;
+      setTimeout(() => reject(new Error('Network error')), DELETE_DELAY_MS);
     });
 
     toast.promise(deleteOperation, {

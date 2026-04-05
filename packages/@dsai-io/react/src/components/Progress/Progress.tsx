@@ -1,6 +1,17 @@
+import { useMemo } from 'react';
+
 import { cn } from '../../utils';
 
-import type { ProgressBarProps, ProgressCircleProps, ProgressProps } from './Progress.types';
+import type {
+  ProgressBarProps,
+  ProgressCircleProps,
+  ProgressGradient,
+  ProgressProps,
+} from './Progress.types';
+
+const PROGRESS_BAR_CLASS = 'progress-bar';
+const PROGRESS_BAR_STRIPED_CLASS = 'progress-bar-striped';
+const PROGRESS_BAR_ANIMATED_CLASS = 'progress-bar-animated';
 
 /** CSS class for the progress bar element */
 const PROGRESS_BAR_CLASS = 'progress-bar';
@@ -14,6 +25,68 @@ const resolveHeightForSize = (size: ProgressProps['size'] = 'md'): string => {
   }
   return '1rem';
 };
+
+// =============================================================================
+// Shared helpers (extracted to reduce per-component complexity)
+// =============================================================================
+
+/** Clamp a value to [0, 100] */
+function clampPercentage(value: number): number {
+  return Math.min(100, Math.max(0, value));
+}
+
+/** Build CSS gradient background string */
+function buildGradientBackground(gradient: ProgressGradient): string {
+  return `linear-gradient(${gradient.direction || 'to right'}, ${gradient.from}, ${gradient.to})`;
+}
+
+/** Build bar CSS classes shared by ProgressBar and ProgressBase */
+function buildBarClasses(
+  variant: string,
+  gradient: ProgressGradient | undefined,
+  striped: boolean,
+  animated: boolean,
+  extra?: string,
+): string {
+  const isWarning = variant === 'warning';
+  return cn(
+    PROGRESS_BAR_CLASS,
+    !gradient && `bg-${variant}`,
+    isWarning && !gradient && 'text-dark',
+    striped && PROGRESS_BAR_STRIPED_CLASS,
+    animated && PROGRESS_BAR_ANIMATED_CLASS,
+    extra,
+  );
+}
+
+/** Build bar inline style with optional gradient */
+function buildBarStyle(
+  widthPercent: string,
+  gradient: ProgressGradient | undefined,
+): React.CSSProperties {
+  return {
+    width: widthPercent,
+    ...(gradient && { background: buildGradientBackground(gradient) }),
+  };
+}
+
+/** Compute display value: formatValue > valueText > default percentage string */
+function resolveDisplayValue(
+  percentage: number,
+  max: number,
+  formatValue?: (value: number, max: number) => React.ReactNode,
+  valueText?: string,
+): React.ReactNode {
+  if (formatValue) {
+    return formatValue(percentage, max);
+  }
+  return valueText ?? `${percentage}%`;
+}
+
+
+// =============================================================================
+// ProgressBar Component
+// =============================================================================
 
 /**
  * Progress Bar - individual bar for stacked progress
@@ -369,6 +442,11 @@ ProgressBase.displayName = 'Progress';
 
 let circleGradientId = 0;
 
+function getNextGradientId(): number {
+  circleGradientId += 1;
+  return circleGradientId;
+}
+
 /**
  * Circular Progress indicator (MUI/Ant Design-style)
  *
@@ -405,17 +483,21 @@ function ProgressCircle({
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
   // Compute display value
-  const displayValue = formatValue ? formatValue(percentage, max) : valueText || `${percentage}%`;
+  const displayValue = formatValue ? formatValue(percentage, max) : valueText ?? `${percentage}%`;
 
   // Compute aria-valuetext (must be string)
-  const computedValueText = indeterminate
-    ? 'Loading'
-    : typeof displayValue === 'string'
-      ? displayValue
-      : valueText || `${percentage}%`;
+  let computedValueText: string;
+  if (indeterminate) {
+    computedValueText = 'Loading';
+  } else if (typeof displayValue === 'string') {
+    computedValueText = displayValue;
+  } else {
+    computedValueText = valueText ?? `${percentage}%`;
+  }
 
-  // Unique gradient ID per instance
-  const gradientIdRef = `dsai-circle-gradient-${++circleGradientId}`;
+  // Unique gradient ID per instance — stable per component mount
+   
+  const gradientIdRef = useMemo(() => `dsai-circle-gradient-${getNextGradientId()}`, []);
 
   // Use Bootstrap 5 CSS custom properties for variant colors (no hardcoded hex)
   const strokeColor = gradient ? `url(#${gradientIdRef})` : `var(--bs-${variant})`;

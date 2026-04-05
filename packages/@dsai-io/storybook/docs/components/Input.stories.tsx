@@ -4,6 +4,8 @@ import { userEvent, within } from 'storybook/test';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+const LABEL_EMAIL_ADDRESS = 'Email address';
+
 /**
  * Input component for text entry.
  * Built with Bootstrap 5 design tokens and WCAG 2.2 AA compliance.
@@ -162,13 +164,13 @@ type Story = StoryObj<typeof meta>;
  */
 export const Default: Story = {
   args: {
-    label: 'Email address',
+    label: LABEL_EMAIL_ADDRESS,
     type: 'email',
     placeholder: 'Enter your email',
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const input = canvas.getByLabelText('Email address');
+    const input = canvas.getByLabelText(LABEL_EMAIL_ADDRESS);
     await userEvent.type(input, 'user@example.com');
   },
 };
@@ -422,7 +424,7 @@ export const CharacterCounterWithValue: Story = {
  */
 export const FloatingLabel: Story = {
   args: {
-    label: 'Email address',
+    label: LABEL_EMAIL_ADDRESS,
     floating: true,
     placeholder: 'name@example.com',
     type: 'email',

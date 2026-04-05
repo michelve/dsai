@@ -205,6 +205,45 @@ function isEqual(a: unknown, b: unknown): boolean {
 }
 
 // ============================================================================
+// Token Classification
+// ============================================================================
+
+/**
+ * Classify the change between an old and new token at a given path
+ */
+function classifyTokenChange(
+  path: string,
+  oldData: { value: unknown; type?: string; description?: string; token: unknown } | undefined,
+  newData: { value: unknown; type?: string; description?: string; token: unknown }
+): TokenChange | null {
+  if (!oldData) {
+    return { path, type: 'added', description: newData.description, breaking: false };
+  }
+
+  if (oldData.type && newData.type && oldData.type !== newData.type) {
+    return {
+      path, type: 'type-changed',
+      valueChange: { oldValue: oldData.value, newValue: newData.value, oldType: oldData.type, newType: newData.type },
+      description: newData.description, breaking: true,
+    };
+  }
+
+  if (!isEqual(oldData.value, newData.value)) {
+    return {
+      path, type: 'modified',
+      valueChange: { oldValue: oldData.value, newValue: newData.value, oldType: oldData.type, newType: newData.type },
+      description: newData.description, breaking: false,
+    };
+  }
+
+  if (isDeprecated(newData.token) && !isDeprecated(oldData.token)) {
+    return { path, type: 'deprecated', description: newData.description, breaking: false };
+  }
+
+  return null;
+}
+
+// ============================================================================
 // Main Diff Function
 // ============================================================================
 
@@ -228,50 +267,10 @@ export function diffTokens(oldTokens: TokenCollection, newTokens: TokenCollectio
   // Find added and modified tokens
   for (const [path, newData] of newFlat) {
     const oldData = oldFlat.get(path);
-
-    if (!oldData) {
-      // Token was added
-      added.push({
-        path,
-        type: 'added',
-        description: newData.description,
-        breaking: false,
-      });
-    } else if (oldData.type && newData.type && oldData.type !== newData.type) {
-      typeChanged.push({
-        path,
-        type: 'type-changed',
-        valueChange: {
-          oldValue: oldData.value,
-          newValue: newData.value,
-          oldType: oldData.type,
-          newType: newData.type,
-        },
-        description: newData.description,
-        breaking: true,
-      });
-    } else if (!isEqual(oldData.value, newData.value)) {
-      // Check for value change
-      modified.push({
-        path,
-        type: 'modified',
-        valueChange: {
-          oldValue: oldData.value,
-          newValue: newData.value,
-          oldType: oldData.type,
-          newType: newData.type,
-        },
-        description: newData.description,
-        breaking: false,
-      });
-    } else if (isDeprecated(newData.token) && !isDeprecated(oldData.token)) {
-      // Check for deprecation
-      deprecated.push({
-        path,
-        type: 'deprecated',
-        description: newData.description,
-        breaking: false,
-      });
+    const change = classifyTokenChange(path, oldData, newData);
+    if (change) {
+      const target = { added, 'type-changed': typeChanged, modified, deprecated };
+      Reflect.get(target, change.type)?.push(change);
     }
   }
 

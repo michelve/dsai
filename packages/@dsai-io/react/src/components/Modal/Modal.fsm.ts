@@ -123,99 +123,111 @@ export function createInitialModalFSMState(isOpen: boolean): ModalFSMState {
  * @param event - Event triggering the transition
  * @returns New FSM state
  */
+/** Shared state constants */
+const MODAL_OPENING: ModalFSMState = {
+  visibility: 'opening',
+  shouldRender: true,
+  shouldShow: false,
+  focusTrapActive: false,
+  scrollLockActive: true,
+};
+
+const MODAL_CLOSING: ModalFSMState = {
+  visibility: 'closing',
+  shouldRender: true,
+  shouldShow: false,
+  focusTrapActive: false,
+  scrollLockActive: true,
+};
+
+const MODAL_OPEN: ModalFSMState = {
+  visibility: 'open',
+  shouldRender: true,
+  shouldShow: true,
+  focusTrapActive: true,
+  scrollLockActive: true,
+};
+
+const MODAL_CLOSED: ModalFSMState = {
+  visibility: 'closed',
+  shouldRender: false,
+  shouldShow: false,
+  focusTrapActive: false,
+  scrollLockActive: false,
+};
+
+/**
+ * Handle events when modal is in 'closed' state
+ */
+function handleModalClosedEvent(state: ModalFSMState, event: ModalFSMEvent): ModalFSMState {
+  switch (event.type) {
+    case 'OPEN':
+      return MODAL_OPENING;
+    case 'CLOSE':
+    case 'ANIMATION_END':
+      return state;
+    default:
+      return state;
+  }
+}
+
+/**
+ * Handle events when modal is in 'opening' state
+ */
+function handleModalOpeningEvent(state: ModalFSMState, event: ModalFSMEvent): ModalFSMState {
+  switch (event.type) {
+    case 'OPEN':
+      return state;
+    case 'CLOSE':
+      return MODAL_CLOSING;
+    case 'ANIMATION_END':
+      return MODAL_OPEN;
+    default:
+      return state;
+  }
+}
+
+/**
+ * Handle events when modal is in 'open' state
+ */
+function handleModalOpenEvent(state: ModalFSMState, event: ModalFSMEvent): ModalFSMState {
+  switch (event.type) {
+    case 'OPEN':
+    case 'ANIMATION_END':
+      return state;
+    case 'CLOSE':
+      return MODAL_CLOSING;
+    default:
+      return state;
+  }
+}
+
+/**
+ * Handle events when modal is in 'closing' state
+ */
+function handleModalClosingEvent(state: ModalFSMState, event: ModalFSMEvent): ModalFSMState {
+  switch (event.type) {
+    case 'OPEN':
+      return MODAL_OPENING;
+    case 'CLOSE':
+      return state;
+    case 'ANIMATION_END':
+      return MODAL_CLOSED;
+    default:
+      return state;
+  }
+}
+
 export function modalFSMReducer(state: ModalFSMState, event: ModalFSMEvent): ModalFSMState {
   switch (state.visibility) {
     case 'closed':
-      switch (event.type) {
-        case 'OPEN':
-          return {
-            visibility: 'opening',
-            shouldRender: true,
-            shouldShow: false,
-            focusTrapActive: false,
-            scrollLockActive: true,
-          };
-        case 'CLOSE':
-        case 'ANIMATION_END':
-          // Already closed, stay closed (idempotent)
-          return state;
-        default:
-          return state;
-      }
-
+      return handleModalClosedEvent(state, event);
     case 'opening':
-      switch (event.type) {
-        case 'OPEN':
-          // Already opening, stay opening (idempotent)
-          return state;
-        case 'CLOSE':
-          // User requested close during opening, go to closing
-          return {
-            visibility: 'closing',
-            shouldRender: true,
-            shouldShow: false,
-            focusTrapActive: false,
-            scrollLockActive: true,
-          };
-        case 'ANIMATION_END':
-          // Opening animation finished, now fully open
-          return {
-            visibility: 'open',
-            shouldRender: true,
-            shouldShow: true,
-            focusTrapActive: true,
-            scrollLockActive: true,
-          };
-        default:
-          return state;
-      }
-
+      return handleModalOpeningEvent(state, event);
     case 'open':
-      switch (event.type) {
-        case 'OPEN':
-        case 'ANIMATION_END':
-          // Already open, stay open (idempotent)
-          return state;
-        case 'CLOSE':
-          // User requested close
-          return {
-            visibility: 'closing',
-            shouldRender: true,
-            shouldShow: false,
-            focusTrapActive: false,
-            scrollLockActive: true,
-          };
-        default:
-          return state;
-      }
-
+      return handleModalOpenEvent(state, event);
     case 'closing':
-      switch (event.type) {
-        case 'OPEN':
-          // User requested open during closing, go back to opening
-          return {
-            visibility: 'opening',
-            shouldRender: true,
-            shouldShow: false,
-            focusTrapActive: false,
-            scrollLockActive: true,
-          };
-        case 'CLOSE':
-          // Already closing, stay closing (idempotent)
-          return state;
-        case 'ANIMATION_END':
-          // Closing animation finished, now fully closed
-          return {
-            visibility: 'closed',
-            shouldRender: false,
-            shouldShow: false,
-            focusTrapActive: false,
-            scrollLockActive: false,
-          };
-        default:
-          return state;
-      }
-
+      return handleModalClosingEvent(state, event);
     default:
       return state;
   }

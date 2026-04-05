@@ -21,11 +21,14 @@ function loadItem(name: string, registryDir: string): RegistryItem | null {
   return null;
 }
 
-export function resolveTree(names: string[], registryDir: string): ResolvedTree {
+/** BFS: collect all items and their transitive dependencies. */
+function collectTransitiveDeps(
+  names: string[],
+  registryDir: string,
+): Map<string, RegistryItem> {
   const visited = new Map<string, RegistryItem>();
   const queue = [...names];
 
-  // BFS: collect all items and transitive dependencies
   while (queue.length > 0) {
     const name = queue.shift()!;
     if (visited.has(name)) {continue;}
@@ -39,7 +42,11 @@ export function resolveTree(names: string[], registryDir: string): ResolvedTree 
     }
   }
 
-  // Topological sort (Kahn's algorithm)
+  return visited;
+}
+
+/** Topological sort (Kahn's algorithm) on visited items. */
+function topologicalSort(visited: Map<string, RegistryItem>): RegistryItem[] {
   const inDeg = new Map<string, number>();
   for (const [name, item] of visited) {
     inDeg.set(name, item.registryDependencies.filter((d) => visited.has(d)).length);
@@ -68,10 +75,20 @@ export function resolveTree(names: string[], registryDir: string): ResolvedTree 
     throw new Error(`Circular dependency detected involving: ${missing.join(', ')}`);
   }
 
+  return sorted;
+}
+
+/** Aggregate npm deps, dev deps, and CSS vars from sorted items. */
+function aggregateDependencies(sorted: RegistryItem[]): {
+  dependencies: string[];
+  devDependencies: string[];
+  cssVars: { light: Record<string, string>; dark: Record<string, string> };
+} {
   const allDeps = new Set<string>();
   const allDevDeps = new Set<string>();
   const lightVars: Record<string, string> = {};
   const darkVars: Record<string, string> = {};
+
   for (const item of sorted) {
     for (const dep of item.dependencies) {allDeps.add(dep);}
     for (const dep of item.devDependencies) {allDevDeps.add(dep);}
@@ -80,9 +97,16 @@ export function resolveTree(names: string[], registryDir: string): ResolvedTree 
   }
 
   return {
-    items: sorted,
     dependencies: [...allDeps],
     devDependencies: [...allDevDeps],
     cssVars: { light: lightVars, dark: darkVars },
   };
+}
+
+export function resolveTree(names: string[], registryDir: string): ResolvedTree {
+  const visited = collectTransitiveDeps(names, registryDir);
+  const sorted = topologicalSort(visited);
+  const { dependencies, devDependencies, cssVars } = aggregateDependencies(sorted);
+
+  return { items: sorted, dependencies, devDependencies, cssVars };
 }

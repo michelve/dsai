@@ -77,6 +77,23 @@ export const mockColors = {
 } as const;
 
 // ============================================================================
+// Mock IDs
+// ============================================================================
+
+const COLLECTION_PRIMITIVES_ID = 'VariableCollectionId:1:0';
+const COLLECTION_SEMANTIC_ID = 'VariableCollectionId:2:0';
+const COLLECTION_TYPOGRAPHY_ID = 'VariableCollectionId:3:0';
+
+const VAR_BLUE_500_ID = 'VariableID:1:1';
+const VAR_GRAY_100_ID = 'VariableID:1:2';
+const VAR_SPACING_BASE_ID = 'VariableID:1:3';
+const VAR_BG_PRIMARY_ID = 'VariableID:2:1';
+const VAR_TEXT_PRIMARY_ID = 'VariableID:2:2';
+const VAR_FONT_FAMILY_ID = 'VariableID:3:1';
+const VAR_FONT_SIZE_ID = 'VariableID:3:2';
+const VAR_LINE_HEIGHT_ID = 'VariableID:3:3';
+
+// ============================================================================
 // Mock Variable Collections
 // ============================================================================
 
@@ -89,7 +106,7 @@ export const mockVariableCollections: Record<string, FigmaVariableCollection> = 
     defaultModeId: MODE_ID_1,
     remote: false,
     hiddenFromPublishing: false,
-    variableIds: ['VariableID:1:1', 'VariableID:1:2', 'VariableID:1:3'],
+    variableIds: [VAR_BLUE_500_ID, VAR_GRAY_100_ID, VAR_SPACING_BASE_ID],
   },
   [VAR_COLLECTION_ID_2]: {
     id: VAR_COLLECTION_ID_2,
@@ -102,7 +119,7 @@ export const mockVariableCollections: Record<string, FigmaVariableCollection> = 
     defaultModeId: '2:0',
     remote: false,
     hiddenFromPublishing: false,
-    variableIds: ['VariableID:2:1', 'VariableID:2:2'],
+    variableIds: [VAR_BG_PRIMARY_ID, VAR_TEXT_PRIMARY_ID],
   },
   [VAR_COLLECTION_ID_3]: {
     id: VAR_COLLECTION_ID_3,
@@ -112,7 +129,7 @@ export const mockVariableCollections: Record<string, FigmaVariableCollection> = 
     defaultModeId: '3:0',
     remote: false,
     hiddenFromPublishing: false,
-    variableIds: ['VariableID:3:1', 'VariableID:3:2', 'VariableID:3:3'],
+    variableIds: [VAR_FONT_FAMILY_ID, VAR_FONT_SIZE_ID, VAR_LINE_HEIGHT_ID],
   },
 };
 
@@ -122,8 +139,8 @@ export const mockVariableCollections: Record<string, FigmaVariableCollection> = 
 
 export const mockVariables: Record<string, FigmaVariable> = {
   // Primitive color variables
-  'VariableID:1:1': {
-    id: 'VariableID:1:1',
+  [VAR_BLUE_500_ID]: {
+    id: VAR_BLUE_500_ID,
     name: 'colors/blue/500',
     key: 'blue-500-key',
     variableCollectionId: VAR_COLLECTION_ID_1,
@@ -135,8 +152,8 @@ export const mockVariables: Record<string, FigmaVariable> = {
     },
     scopes: [SCOPE_ALL_FILLS],
   },
-  'VariableID:1:2': {
-    id: 'VariableID:1:2',
+  [VAR_GRAY_100_ID]: {
+    id: VAR_GRAY_100_ID,
     name: 'colors/gray/100',
     key: 'gray-100-key',
     variableCollectionId: VAR_COLLECTION_ID_1,
@@ -148,8 +165,8 @@ export const mockVariables: Record<string, FigmaVariable> = {
     },
     scopes: [SCOPE_ALL_FILLS],
   },
-  'VariableID:1:3': {
-    id: 'VariableID:1:3',
+  [VAR_SPACING_BASE_ID]: {
+    id: VAR_SPACING_BASE_ID,
     name: 'spacing/base',
     key: 'spacing-base-key',
     variableCollectionId: VAR_COLLECTION_ID_1,
@@ -163,8 +180,8 @@ export const mockVariables: Record<string, FigmaVariable> = {
   },
 
   // Semantic variables with aliases
-  'VariableID:2:1': {
-    id: 'VariableID:2:1',
+  [VAR_BG_PRIMARY_ID]: {
+    id: VAR_BG_PRIMARY_ID,
     name: 'colors/background/primary',
     key: 'bg-primary-key',
     variableCollectionId: VAR_COLLECTION_ID_2,
@@ -177,8 +194,8 @@ export const mockVariables: Record<string, FigmaVariable> = {
     },
     scopes: ['FRAME_FILL'],
   },
-  'VariableID:2:2': {
-    id: 'VariableID:2:2',
+  [VAR_TEXT_PRIMARY_ID]: {
+    id: VAR_TEXT_PRIMARY_ID,
     name: 'colors/text/primary',
     key: 'text-primary-key',
     variableCollectionId: VAR_COLLECTION_ID_2,
@@ -187,15 +204,15 @@ export const mockVariables: Record<string, FigmaVariable> = {
       'Primary text color\n\nDocs.Reference: https://design.dsai.io/colors • Docs.Section: Text Colors',
     hiddenFromPublishing: false,
     valuesByMode: {
-      '2:0': { type: 'VARIABLE_ALIAS', id: 'VariableID:1:1' }, // alias to blue/500 in light
+      '2:0': { type: 'VARIABLE_ALIAS', id: VAR_BLUE_500_ID }, // alias to blue/500 in light
       '2:1': mockColors.white, // white in dark
     },
     scopes: ['TEXT_FILL'],
   },
 
   // Typography variables
-  'VariableID:3:1': {
-    id: 'VariableID:3:1',
+  [VAR_FONT_FAMILY_ID]: {
+    id: VAR_FONT_FAMILY_ID,
     name: 'typography/font/family',
     key: 'font-family-key',
     variableCollectionId: VAR_COLLECTION_ID_3,
@@ -207,8 +224,8 @@ export const mockVariables: Record<string, FigmaVariable> = {
     },
     scopes: ['FONT_FAMILY'],
   },
-  'VariableID:3:2': {
-    id: 'VariableID:3:2',
+  [VAR_FONT_SIZE_ID]: {
+    id: VAR_FONT_SIZE_ID,
     name: 'typography/font/weight',
     key: 'font-weight-key',
     variableCollectionId: VAR_COLLECTION_ID_3,
@@ -220,8 +237,8 @@ export const mockVariables: Record<string, FigmaVariable> = {
     },
     scopes: ['FONT_WEIGHT'],
   },
-  'VariableID:3:3': {
-    id: 'VariableID:3:3',
+  [VAR_LINE_HEIGHT_ID]: {
+    id: VAR_LINE_HEIGHT_ID,
     name: 'typography/fontSize/base',
     key: 'font-size-key',
     variableCollectionId: VAR_COLLECTION_ID_3,

@@ -157,6 +157,27 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
   // Build aria-describedby
   const describedByIds = cn(helperText && helperId, ariaDescribedBy);
 
+  // Resolve track class names
+  const trackClasses = cn(
+    'position-relative d-inline-flex align-items-center rounded-pill',
+    isChecked ? 'bg-primary' : 'bg-secondary',
+    (disabled || loading) && 'opacity-50',
+    error && 'border border-danger'
+  );
+
+  // Resolve button style
+  const buttonStyle: React.CSSProperties = {
+    minHeight: '44px', // WCAG touch target
+    cursor: disabled || loading ? 'not-allowed' : 'pointer',
+    border: error ? undefined : 'none',
+    padding: `${thumbOffset}px`,
+    transition: 'background-color 0.15s ease-in-out',
+    background: 'transparent',
+  };
+
+  // Resolve on/off text font size
+  const onOffFontSize = size === 'sm' ? '8px' : size === 'lg' ? '11px' : '9px';
+
   // Render loading spinner (purely visual; aria-busy on button signals loading state)
   const renderSpinner = (): React.JSX.Element => (
     <span
@@ -229,7 +250,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
         >
           {/* Track (visual container) */}
           <span
-            className={`position-relative d-inline-flex align-items-center rounded-pill ${isChecked ? 'bg-primary' : 'bg-secondary'} ${disabled || loading ? 'opacity-50' : ''} ${error ? 'border border-danger' : ''}`}
+            className={trackClasses}
             style={{
               width: `${trackWidth}px`,
               height: `${trackHeight}px`,

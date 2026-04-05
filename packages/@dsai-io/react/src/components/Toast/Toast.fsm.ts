@@ -43,56 +43,62 @@ export function createInitialToastFSMState(initialShow: boolean): ToastFSMState 
  * @param event - Event to process
  * @returns New FSM state
  */
+/**
+ * Handle events when toast is in 'hidden' state
+ */
+function handleToastHiddenEvent(state: ToastFSMState, event: ToastFSMEvent): ToastFSMState {
+  if (event.type === 'SHOW') {
+    return { visibility: 'entering', shouldRender: true };
+  }
+  return state;
+}
+
+/**
+ * Handle events when toast is in 'entering' state
+ */
+function handleToastEnteringEvent(state: ToastFSMState, event: ToastFSMEvent): ToastFSMState {
+  if (event.type === 'ANIMATION_END') {
+    return { visibility: 'visible', shouldRender: true };
+  }
+  if (event.type === 'HIDE' || event.type === 'DISMISS') {
+    return { visibility: 'exiting', shouldRender: true };
+  }
+  return state;
+}
+
+/**
+ * Handle events when toast is in 'visible' state
+ */
+function handleToastVisibleEvent(state: ToastFSMState, event: ToastFSMEvent): ToastFSMState {
+  if (event.type === 'HIDE' || event.type === 'DISMISS') {
+    return { visibility: 'exiting', shouldRender: true };
+  }
+  return state;
+}
+
+/**
+ * Handle events when toast is in 'exiting' state
+ */
+function handleToastExitingEvent(state: ToastFSMState, event: ToastFSMEvent): ToastFSMState {
+  if (event.type === 'ANIMATION_END') {
+    return { visibility: 'hidden', shouldRender: false };
+  }
+  if (event.type === 'SHOW') {
+    return { visibility: 'entering', shouldRender: true };
+  }
+  return state;
+}
+
 export function toastFSMReducer(state: ToastFSMState, event: ToastFSMEvent): ToastFSMState {
   switch (state.visibility) {
     case 'hidden':
-      if (event.type === 'SHOW') {
-        return {
-          visibility: 'entering',
-          shouldRender: true,
-        };
-      }
-      return state;
-
+      return handleToastHiddenEvent(state, event);
     case 'entering':
-      if (event.type === 'ANIMATION_END') {
-        return {
-          visibility: 'visible',
-          shouldRender: true,
-        };
-      }
-      if (event.type === 'HIDE' || event.type === 'DISMISS') {
-        return {
-          visibility: 'exiting',
-          shouldRender: true,
-        };
-      }
-      return state;
-
+      return handleToastEnteringEvent(state, event);
     case 'visible':
-      if (event.type === 'HIDE' || event.type === 'DISMISS') {
-        return {
-          visibility: 'exiting',
-          shouldRender: true,
-        };
-      }
-      return state;
-
+      return handleToastVisibleEvent(state, event);
     case 'exiting':
-      if (event.type === 'ANIMATION_END') {
-        return {
-          visibility: 'hidden',
-          shouldRender: false,
-        };
-      }
-      if (event.type === 'SHOW') {
-        return {
-          visibility: 'entering',
-          shouldRender: true,
-        };
-      }
-      return state;
-
+      return handleToastExitingEvent(state, event);
     default:
       return state;
   }

@@ -6,6 +6,41 @@
 
 import type { RegistryItemType } from './types.js';
 
+// ---------------------------------------------------------------------------
+// Registry type constants (S1192)
+// ---------------------------------------------------------------------------
+
+const TYPE_UI: RegistryItemType = 'registry:ui';
+const TYPE_HOOK: RegistryItemType = 'registry:hook';
+const TYPE_UTIL: RegistryItemType = 'registry:util';
+
+// ---------------------------------------------------------------------------
+// Category constants (S1192)
+// ---------------------------------------------------------------------------
+
+const CAT_DATA_DISPLAY = 'data-display';
+const CAT_NAVIGATION = 'navigation';
+const CAT_FORMS = 'forms';
+const CAT_FEEDBACK = 'feedback';
+const CAT_DISCLOSURE = 'disclosure';
+const CAT_LAYOUT = 'layout';
+const CAT_ACTIONS = 'actions';
+const CAT_DOM = 'dom';
+const CAT_STATE = 'state';
+const CAT_A11Y = 'a11y';
+const CAT_TIMING = 'timing';
+const CAT_STORAGE = 'storage';
+const CAT_PLATFORM = 'platform';
+const CAT_FORMATTING = 'formatting';
+const CAT_STYLING = 'styling';
+const CAT_DATA = 'data';
+
+// ---------------------------------------------------------------------------
+// NPM dependency constants (S1192)
+// ---------------------------------------------------------------------------
+
+const DEP_FLOATING_UI = '@floating-ui/react';
+
 export interface ComponentMeta {
   type: RegistryItemType;
   title: string;
@@ -33,13 +68,13 @@ export const componentMap: Record<string, ComponentMeta> = {
     type: TYPE_UI,
     title: 'Accordion',
     description: 'Collapsible content panels for presenting information in a limited space.',
-    categories: ['disclosure', 'layout'],
+    categories: [CAT_DISCLOSURE, CAT_LAYOUT],
   },
   alert: {
     type: TYPE_UI,
     title: 'Alert',
     description: 'Contextual feedback messages for user actions.',
-    categories: ['feedback'],
+    categories: [CAT_FEEDBACK],
   },
   avatar: {
     type: TYPE_UI,
@@ -57,13 +92,13 @@ export const componentMap: Record<string, ComponentMeta> = {
     type: TYPE_UI,
     title: 'Breadcrumb',
     description: 'Navigation aid showing the current page location within a hierarchy.',
-    categories: ['navigation'],
+    categories: [CAT_NAVIGATION],
   },
   button: {
     type: TYPE_UI,
     title: 'Button',
     description: 'Trigger for actions and events.',
-    categories: ['actions'],
+    categories: [CAT_ACTIONS],
   },
   card: {
     type: TYPE_UI,
@@ -87,13 +122,13 @@ export const componentMap: Record<string, ComponentMeta> = {
     type: TYPE_UI,
     title: 'Checkbox',
     description: 'Toggle control for boolean selections.',
-    categories: ['forms'],
+    categories: [CAT_FORMS],
   },
   'checkbox-group': {
     type: TYPE_UI,
     title: 'CheckboxGroup',
     description: 'Managed group of checkboxes with shared state.',
-    categories: ['forms'],
+    categories: [CAT_FORMS],
   },
   dropdown: {
     type: TYPE_UI,
@@ -112,7 +147,7 @@ export const componentMap: Record<string, ComponentMeta> = {
     type: TYPE_UI,
     title: 'Input',
     description: 'Text input field with validation and formatting support.',
-    categories: ['forms'],
+    categories: [CAT_FORMS],
   },
   'list-group': {
     type: TYPE_UI,
@@ -124,19 +159,19 @@ export const componentMap: Record<string, ComponentMeta> = {
     type: TYPE_UI,
     title: 'Modal',
     description: 'Dialog overlay for focused content and user interactions.',
-    categories: ['feedback', 'disclosure'],
+    categories: [CAT_FEEDBACK, CAT_DISCLOSURE],
   },
   navbar: {
     type: TYPE_UI,
     title: 'Navbar',
     description: 'Responsive navigation header with branding and links.',
-    categories: ['navigation'],
+    categories: [CAT_NAVIGATION],
   },
   pagination: {
     type: TYPE_UI,
     title: 'Pagination',
     description: 'Navigation controls for paged content.',
-    categories: ['navigation'],
+    categories: [CAT_NAVIGATION],
   },
   popover: {
     type: TYPE_UI,
@@ -149,19 +184,19 @@ export const componentMap: Record<string, ComponentMeta> = {
     type: TYPE_UI,
     title: 'Progress',
     description: 'Visual indicator of task completion.',
-    categories: ['feedback'],
+    categories: [CAT_FEEDBACK],
   },
   radio: {
     type: TYPE_UI,
     title: 'Radio',
     description: 'Single-select control within a group of options.',
-    categories: ['forms'],
+    categories: [CAT_FORMS],
   },
   scrollspy: {
     type: TYPE_UI,
     title: 'Scrollspy',
     description: 'Automatically highlights navigation links based on scroll position.',
-    categories: ['navigation'],
+    categories: [CAT_NAVIGATION],
   },
   select: {
     type: TYPE_UI,
@@ -180,19 +215,19 @@ export const componentMap: Record<string, ComponentMeta> = {
     type: TYPE_UI,
     title: 'Sheet',
     description: 'Sliding panel overlay from screen edges.',
-    categories: ['disclosure', 'layout'],
+    categories: [CAT_DISCLOSURE, CAT_LAYOUT],
   },
   spinner: {
     type: TYPE_UI,
     title: 'Spinner',
     description: 'Loading indicator for asynchronous operations.',
-    categories: ['feedback'],
+    categories: [CAT_FEEDBACK],
   },
   switch: {
     type: TYPE_UI,
     title: 'Switch',
     description: 'Toggle control for binary on/off states.',
-    categories: ['forms'],
+    categories: [CAT_FORMS],
   },
   table: {
     type: TYPE_UI,
@@ -204,19 +239,19 @@ export const componentMap: Record<string, ComponentMeta> = {
     type: TYPE_UI,
     title: 'Tabs',
     description: 'Tabbed interface for switching between content panels.',
-    categories: ['navigation', 'layout'],
+    categories: [CAT_NAVIGATION, CAT_LAYOUT],
   },
   'tabs-pro': {
     type: TYPE_UI,
     title: 'TabsPro',
     description: 'Advanced tabbed interface with closable, sortable, and overflow support.',
-    categories: ['navigation', 'layout'],
+    categories: [CAT_NAVIGATION, CAT_LAYOUT],
   },
   toast: {
     type: TYPE_UI,
     title: 'Toast',
     description: 'Brief notification messages that auto-dismiss.',
-    categories: ['feedback'],
+    categories: [CAT_FEEDBACK],
   },
   tooltip: {
     type: TYPE_UI,
@@ -242,7 +277,7 @@ export const hookMap: Record<string, ComponentMeta> = {
     type: TYPE_HOOK,
     title: 'useAsync',
     description: 'Manages async operation lifecycle (loading, error, data states).',
-    categories: ['state'],
+    categories: [CAT_STATE],
   },
   'use-callback-ref': {
     type: TYPE_HOOK,
@@ -254,13 +289,13 @@ export const hookMap: Record<string, ComponentMeta> = {
     type: TYPE_HOOK,
     title: 'useClickOutside',
     description: 'Detects clicks outside of a target element.',
-    categories: ['dom'],
+    categories: [CAT_DOM],
   },
   'use-controllable-state': {
     type: TYPE_HOOK,
     title: 'useControllableState',
     description: 'Manages state that can be either controlled or uncontrolled.',
-    categories: ['state'],
+    categories: [CAT_STATE],
   },
   'use-dark-mode': {
     type: TYPE_HOOK,
@@ -272,55 +307,55 @@ export const hookMap: Record<string, ComponentMeta> = {
     type: TYPE_HOOK,
     title: 'useDebounce',
     description: 'Debounces a value or callback over a specified delay.',
-    categories: ['timing'],
+    categories: [CAT_TIMING],
   },
   'use-field': {
     type: TYPE_HOOK,
     title: 'useField',
     description: 'Form field state management with validation.',
-    categories: ['forms'],
+    categories: [CAT_FORMS],
   },
   'use-focus-trap': {
     type: TYPE_HOOK,
     title: 'useFocusTrap',
     description: 'Traps keyboard focus within a container for modal-like experiences.',
-    categories: ['a11y'],
+    categories: [CAT_A11Y],
   },
   'use-form': {
     type: TYPE_HOOK,
     title: 'useForm',
     description: 'Comprehensive form state management with validation.',
-    categories: ['forms'],
+    categories: [CAT_FORMS],
   },
   'use-hover': {
     type: TYPE_HOOK,
     title: 'useHover',
     description: 'Tracks hover state of an element with enter/leave delays.',
-    categories: ['dom'],
+    categories: [CAT_DOM],
   },
   'use-id': {
     type: TYPE_HOOK,
     title: 'useId',
     description: 'Generates stable unique identifiers for accessibility attributes.',
-    categories: ['a11y'],
+    categories: [CAT_A11Y],
   },
   'use-intersection-observer': {
     type: TYPE_HOOK,
     title: 'useIntersectionObserver',
     description: 'Observes element visibility within the viewport.',
-    categories: ['dom'],
+    categories: [CAT_DOM],
   },
   'use-key-press': {
     type: TYPE_HOOK,
     title: 'useKeyPress',
     description: 'Listens for specific keyboard key presses.',
-    categories: ['dom'],
+    categories: [CAT_DOM],
   },
   'use-local-storage': {
     type: TYPE_HOOK,
     title: 'useLocalStorage',
     description: 'Persists state to localStorage with serialization.',
-    categories: ['state', 'storage'],
+    categories: [CAT_STATE, CAT_STORAGE],
   },
   'use-media-query': {
     type: TYPE_HOOK,
@@ -338,43 +373,43 @@ export const hookMap: Record<string, ComponentMeta> = {
     type: TYPE_HOOK,
     title: 'usePrevious',
     description: 'Returns the previous value of a variable across renders.',
-    categories: ['state'],
+    categories: [CAT_STATE],
   },
   'use-reduced-motion': {
     type: TYPE_HOOK,
     title: 'useReducedMotion',
     description: 'Detects user preference for reduced motion.',
-    categories: ['a11y'],
+    categories: [CAT_A11Y],
   },
   'use-resize-observer': {
     type: TYPE_HOOK,
     title: 'useResizeObserver',
     description: 'Observes element size changes via ResizeObserver.',
-    categories: ['dom'],
+    categories: [CAT_DOM],
   },
   'use-roving-focus': {
     type: TYPE_HOOK,
     title: 'useRovingFocus',
     description: 'Implements roving tabindex pattern for composite widgets.',
-    categories: ['a11y'],
+    categories: [CAT_A11Y],
   },
   'use-scroll-lock': {
     type: TYPE_HOOK,
     title: 'useScrollLock',
     description: 'Prevents body scrolling while active (for modals/overlays).',
-    categories: ['dom'],
+    categories: [CAT_DOM],
   },
   'use-session-storage': {
     type: TYPE_HOOK,
     title: 'useSessionStorage',
     description: 'Persists state to sessionStorage with serialization.',
-    categories: ['state', 'storage'],
+    categories: [CAT_STATE, CAT_STORAGE],
   },
   'use-throttle': {
     type: TYPE_HOOK,
     title: 'useThrottle',
     description: 'Throttles a value or callback to fire at most once per interval.',
-    categories: ['timing'],
+    categories: [CAT_TIMING],
   },
 };
 
@@ -387,13 +422,13 @@ export const utilMap: Record<string, ComponentMeta> = {
     type: TYPE_UTIL,
     title: 'cn',
     description: 'Conditional class name composition utility.',
-    categories: ['styling'],
+    categories: [CAT_STYLING],
   },
   a11y: {
     type: TYPE_UTIL,
     title: 'a11y',
     description: 'Accessibility utilities including screen reader announcements and ARIA helpers.',
-    categories: ['a11y'],
+    categories: [CAT_A11Y],
   },
   async: {
     type: TYPE_UTIL,
@@ -405,25 +440,25 @@ export const utilMap: Record<string, ComponentMeta> = {
     type: TYPE_UTIL,
     title: 'browser',
     description: 'Browser environment detection and feature checks.',
-    categories: ['platform'],
+    categories: [CAT_PLATFORM],
   },
   collections: {
     type: TYPE_UTIL,
     title: 'collections',
     description: 'Collection utilities: chunk, paginate, memoize, selectors.',
-    categories: ['data'],
+    categories: [CAT_DATA],
   },
   color: {
     type: TYPE_UTIL,
     title: 'color',
     description: 'Color manipulation utilities: contrast, luminance, hex/rgb conversion.',
-    categories: ['styling'],
+    categories: [CAT_STYLING],
   },
   date: {
     type: TYPE_UTIL,
     title: 'date',
     description: 'Date formatting and relative time utilities.',
-    categories: ['formatting'],
+    categories: [CAT_FORMATTING],
   },
   'merge-refs': {
     type: TYPE_UTIL,
@@ -441,19 +476,19 @@ export const utilMap: Record<string, ComponentMeta> = {
     type: TYPE_UTIL,
     title: 'forms',
     description: 'Form utilities: validators, field error extraction, dirty checking.',
-    categories: ['forms'],
+    categories: [CAT_FORMS],
   },
   keyboard: {
     type: TYPE_UTIL,
     title: 'keyboard',
     description: 'Keyboard event helpers for detecting specific keys.',
-    categories: ['dom'],
+    categories: [CAT_DOM],
   },
   layout: {
     type: TYPE_UTIL,
     title: 'layout',
     description: 'Layout measurement utilities: element bounds, viewport size, resize observation.',
-    categories: ['dom'],
+    categories: [CAT_DOM],
   },
   misc: {
     type: TYPE_UTIL,
@@ -471,19 +506,19 @@ export const utilMap: Record<string, ComponentMeta> = {
     type: TYPE_UTIL,
     title: 'number',
     description: 'Number formatting and clamping utilities.',
-    categories: ['formatting'],
+    categories: [CAT_FORMATTING],
   },
   object: {
     type: TYPE_UTIL,
     title: 'object',
     description: 'Object manipulation utilities: deep merge, pick, omit.',
-    categories: ['data'],
+    categories: [CAT_DATA],
   },
   platform: {
     type: TYPE_UTIL,
     title: 'platform',
     description: 'Platform detection utilities: browser, OS, device pixel ratio, text direction.',
-    categories: ['platform'],
+    categories: [CAT_PLATFORM],
   },
   responsive: {
     type: TYPE_UTIL,
@@ -501,7 +536,7 @@ export const utilMap: Record<string, ComponentMeta> = {
     type: TYPE_UTIL,
     title: 'string',
     description: 'String manipulation utilities: capitalize, slugify, variant classes.',
-    categories: ['formatting'],
+    categories: [CAT_FORMATTING],
   },
   telemetry: {
     type: TYPE_UTIL,
@@ -513,7 +548,7 @@ export const utilMap: Record<string, ComponentMeta> = {
     type: TYPE_UTIL,
     title: 'timing',
     description: 'Timing utilities: debounce and throttle functions.',
-    categories: ['timing'],
+    categories: [CAT_TIMING],
   },
   types: {
     type: TYPE_UTIL,

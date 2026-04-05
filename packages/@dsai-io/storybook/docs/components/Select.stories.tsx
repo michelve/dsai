@@ -583,9 +583,11 @@ export const TypeAhead: Story = {
  */
 export const LargeOptionList: Story = {
   render: function LargeList() {
+    const VARIANT_NAMES = ['Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon'];
+    const VARIANT_COUNT = VARIANT_NAMES.length;
     const largeOptions: SelectOption[] = Array.from({ length: 500 }, (_, i) => ({
       value: `item-${i}`,
-      label: `Item ${i + 1} — ${['Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon'][i % 5]}`,
+      label: `Item ${i + 1} — ${VARIANT_NAMES[i % VARIANT_COUNT]}`,
     }));
 
     return (
@@ -633,13 +635,14 @@ export const AsyncPattern: Story = {
 
       setIsLoading(true);
       // Simulate API delay
+      const SIMULATED_API_DELAY_MS = 500;
       setTimeout(() => {
         const filtered = allOptions.filter((opt) =>
           opt.label.toLowerCase().includes(search.toLowerCase())
         );
         setAsyncOptions(filtered);
         setIsLoading(false);
-      }, 500);
+      }, SIMULATED_API_DELAY_MS);
     };
 
     return (

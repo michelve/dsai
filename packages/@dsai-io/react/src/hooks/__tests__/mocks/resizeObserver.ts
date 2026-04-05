@@ -31,7 +31,7 @@ const observedElements = new Map<Element, ResizeObserverCallback>();
  * Mock implementation of ResizeObserver
  */
 export class MockResizeObserver implements ResizeObserver {
-  private callback: ResizeObserverCallback;
+  private readonly callback: ResizeObserverCallback;
 
   constructor(callback: ResizeObserverCallback) {
     this.callback = callback;

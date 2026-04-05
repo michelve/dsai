@@ -37,7 +37,7 @@ export const AvatarImage = memo(
         if (typeof ref === 'function') {
           ref(node);
         } else if (ref) {
-          (ref as React.RefObject<HTMLImageElement | null>).current = node;
+          ref.current = node;
         }
 
         if (!node) {
