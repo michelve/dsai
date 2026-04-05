@@ -158,13 +158,13 @@ function cleanSvgContent(svg) {
   return (
     svg
       // Convert kebab-case attributes to camelCase for React
-      .replace(
+      .replaceAll(
         /(stroke|fill|line|clip|stop|color|font|text|letter|word|alignment|dominant|glyph|horiz|overline|paint|pointer|shape|strikethrough|stroke|underline|unicode|units|v|vert|writing|x)-(.)/g,
         (_, p1, p2) => p1 + p2.toUpperCase()
       )
       // Remove outer SVG tags (we wrap in our own)
-      .replace(/<svg[^>]*>/, '')
-      .replace(/<\/svg>/, '')
+      .replaceAll(/<svg[^>]*>/g, '')
+      .replaceAll(/<\/svg>/g, '')
       // Use currentColor for strokes and fills (inherits from CSS)
       .replaceAll(/stroke="#[^"]+"/g, 'stroke="currentColor"')
       .replaceAll(/fill="#[^"]+"/g, 'fill="currentColor"')
