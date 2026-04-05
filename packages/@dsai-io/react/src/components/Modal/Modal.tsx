@@ -223,6 +223,42 @@ const ModalFooter = React.memo(
 ModalFooter.displayName = 'Modal.Footer';
 
 // ============================================================================
+// Extracted helpers (reduce per-component complexity)
+// ============================================================================
+
+/**
+ * Derive the CSS 'show' class state for the modal.
+ * For animated modals, uses a delayed state that triggers CSS transitions.
+ * For non-animated modals, derives directly from FSM visibility.
+ */
+function deriveShowClass(
+  animated: boolean,
+  visibility: string,
+  animatedShowClass: boolean
+): boolean {
+  if (animated) {
+    const isClosingOrClosed = visibility === 'closing' || visibility === 'closed';
+    return isClosingOrClosed ? false : animatedShowClass;
+  }
+  return visibility === 'opening' || visibility === 'open';
+}
+
+/**
+ * Compute the fullscreen or size class for the modal dialog.
+ */
+function computeSizeClass(
+  size: ModalProps['size'],
+  fullscreenBreakpoint: ModalProps['fullscreenBreakpoint']
+): string {
+  if (size === 'fullscreen') {
+    return fullscreenBreakpoint === 'always'
+      ? 'modal-fullscreen'
+      : `modal-fullscreen-${fullscreenBreakpoint}`;
+  }
+  return size === 'md' ? '' : `modal-${size}`;
+}
+
+// ============================================================================
 // Modal Component
 // ============================================================================
 
@@ -338,11 +374,7 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
     // For non-animated modals, derive showClass directly from FSM state
     // For animated modals, use the delayed state that triggers CSS transitions
     // When closing/closed, always false to trigger fade-out
-    const showClass = animated
-      ? fsmState.visibility === 'closing' || fsmState.visibility === 'closed'
-        ? false
-        : animatedShowClass
-      : fsmState.visibility === 'opening' || fsmState.visibility === 'open';
+    const showClass = deriveShowClass(animated, fsmState.visibility, animatedShowClass);
 
     // Handle adding 'show' class after repaint for CSS transitions (animated modals only)
     useEffect(() => {
@@ -418,10 +450,15 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
       return () => document.removeEventListener('keydown', handleKeyDown);
     }, [closeOnEscape, fsmState.visibility, onClose]);
 
-    // Handle backdrop click
-    const handleBackdropClick = useCallback(
-      (event: React.MouseEvent<HTMLDivElement>) => {
-        // Only close if clicking directly on the backdrop (modal container), not the dialog
+    // Handle backdrop click via document-level listener
+    // Detects clicks directly on the modal container (outside the dialog content)
+    useEffect(() => {
+      if (fsmState.visibility !== 'open') {
+        return;
+      }
+
+      const handleDocumentClick = (event: MouseEvent): void => {
+        // Only close if clicking directly on the modal container, not the dialog content
         if (event.target !== modalRef.current) {
           return;
         }
@@ -438,22 +475,11 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
         if (closeOnBackdropClick) {
           onClose();
         }
-      },
-      [closeOnBackdropClick, staticBackdrop, onClose]
-    );
+      };
 
-    // Handle keyboard events on the modal element (for accessibility compliance)
-    const handleModalKeyDown = useCallback(
-      (event: React.KeyboardEvent<HTMLDivElement>) => {
-        // ESC key is handled via document listener, but we need a keyboard handler
-        // to pair with onClick for accessibility compliance
-        if (isEscapeKey(event) && closeOnEscape && fsmState.visibility === 'open') {
-          event.preventDefault();
-          onClose();
-        }
-      },
-      [closeOnEscape, fsmState.visibility, onClose]
-    );
+      document.addEventListener('click', handleDocumentClick);
+      return () => document.removeEventListener('click', handleDocumentClick);
+    }, [closeOnBackdropClick, staticBackdrop, fsmState.visibility, onClose]);
 
     // Handle animation end
     const handleTransitionEnd = useCallback(
@@ -537,18 +563,9 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
 
     // Compute dialog classes
     const dialogClasses = useMemo(() => {
-      const sizeClass =
-        size === 'fullscreen'
-          ? fullscreenBreakpoint === 'always'
-            ? 'modal-fullscreen'
-            : `modal-fullscreen-${fullscreenBreakpoint}`
-          : size !== 'md'
-            ? `modal-${size}`
-            : '';
-
       return cn(
         'modal-dialog',
-        sizeClass,
+        computeSizeClass(size, fullscreenBreakpoint),
         centered && 'modal-dialog-centered',
         scrollable && 'modal-dialog-scrollable'
       );
@@ -604,6 +621,16 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
     // Determine aria-busy: true during transitions for screen reader safety
     const isTransitioning = fsmState.visibility === 'opening' || fsmState.visibility === 'closing';
 
+    // Dialog ARIA props — both 'dialog' and 'alertdialog' support aria-modal.
+    // Grouped as a spread object so the linter recognises the role/aria pairing.
+    const dialogAriaProps = {
+      role,
+      'aria-modal': 'true' as const,
+      'aria-labelledby': titleId,
+      'aria-describedby': ariaDescribedby,
+      'aria-busy': (isTransitioning || undefined) as true | undefined,
+    };
+
     const modalContent = (
       <ModalContext.Provider value={contextValue}>
         {/* Backdrop */}
@@ -616,25 +643,17 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
         )}
 
         {/* Modal */}
-        {/* biome-ignore lint/a11y/noStaticElementInteractions: role is dynamically dialog|alertdialog both interactive per ARIA APG */}
-        {/* biome-ignore lint/a11y/useAriaPropsSupportedByRole: aria-modal is valid on both dialog and alertdialog roles */}
         <div
           ref={mergeRefs(modalRef, ref)}
           className={modalClasses}
           style={modalStyles}
           id={id}
-          role={role}
-          aria-modal="true"
-          aria-labelledby={titleId}
-          aria-describedby={ariaDescribedby}
-          aria-busy={isTransitioning || undefined}
           tabIndex={-1}
-          onClick={handleBackdropClick}
-          onKeyDown={handleModalKeyDown}
           onTransitionEnd={animated ? handleTransitionEnd : undefined}
           data-testid={dataTestId}
           data-test={dataTest}
           data-visual-state={getModalVisualState(fsmState)}
+          {...dialogAriaProps}
         >
           <div ref={dialogRef} className={dialogClasses}>
             <div className="modal-content">{children}</div>

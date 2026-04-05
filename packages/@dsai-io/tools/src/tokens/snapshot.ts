@@ -5,12 +5,9 @@
 
 /* eslint-disable security/detect-non-literal-fs-filename */
 
-import { createHash } from 'node:crypto';
+import { createHash, randomBytes } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join } from 'node:path';
-
-/** Length of the random suffix in snapshot IDs (characters after base-36 prefix "0.") */
-const SNAPSHOT_RANDOM_SUFFIX_LENGTH = 9;
 
 // Length of the recursive glob prefix "**/"
 const RECURSIVE_GLOB_PREFIX_LENGTH = 3;
@@ -313,7 +310,7 @@ export class SnapshotService {
    */
   private generateSnapshotId(): string {
     const timestamp = Date.now();
-    const random = Math.random().toString(36).substring(2, SNAPSHOT_RANDOM_SUFFIX_LENGTH);
+    const random = randomBytes(4).toString('hex');
     return `snapshot-${timestamp}-${random}`;
   }
 

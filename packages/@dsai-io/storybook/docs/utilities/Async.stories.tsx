@@ -368,7 +368,11 @@ export const WithTimeoutDemo: Story = {
             <div>
               <label
                 htmlFor="timeout-slider"
-                style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'var(--dsai-typography-font-weight-medium)' }}
+                style={{
+                  display: 'block',
+                  marginBottom: '0.5rem',
+                  fontWeight: 'var(--dsai-typography-font-weight-medium)',
+                }}
               >
                 Timeout: {timeoutMs}ms
               </label>
@@ -386,7 +390,11 @@ export const WithTimeoutDemo: Story = {
             <div>
               <label
                 htmlFor="duration-slider"
-                style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'var(--dsai-typography-font-weight-medium)' }}
+                style={{
+                  display: 'block',
+                  marginBottom: '0.5rem',
+                  fontWeight: 'var(--dsai-typography-font-weight-medium)',
+                }}
               >
                 Request Duration: {requestDuration}ms
               </label>
@@ -626,7 +634,11 @@ export const RetryWithBackoffDemo: Story = {
             <div>
               <label
                 htmlFor="fail-count"
-                style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'var(--dsai-typography-font-weight-medium)' }}
+                style={{
+                  display: 'block',
+                  marginBottom: '0.5rem',
+                  fontWeight: 'var(--dsai-typography-font-weight-medium)',
+                }}
               >
                 Failures before success: {failCount}
               </label>
@@ -643,7 +655,11 @@ export const RetryWithBackoffDemo: Story = {
             <div>
               <label
                 htmlFor="max-attempts"
-                style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'var(--dsai-typography-font-weight-medium)' }}
+                style={{
+                  display: 'block',
+                  marginBottom: '0.5rem',
+                  fontWeight: 'var(--dsai-typography-font-weight-medium)',
+                }}
               >
                 Max attempts: {maxAttempts}
               </label>
@@ -807,7 +823,12 @@ export const ExponentialBackoffDemo: Story = {
             }}
           >
             <div>
-              <label style={{ display: 'block', fontWeight: 'var(--dsai-typography-font-weight-medium)' }}>
+              <label
+                style={{
+                  display: 'block',
+                  fontWeight: 'var(--dsai-typography-font-weight-medium)',
+                }}
+              >
                 <span style={{ display: 'block', marginBottom: '0.5rem' }}>
                   Base Delay: {baseDelay}ms
                 </span>
@@ -823,7 +844,12 @@ export const ExponentialBackoffDemo: Story = {
               </label>
             </div>
             <div>
-              <label style={{ display: 'block', fontWeight: 'var(--dsai-typography-font-weight-medium)' }}>
+              <label
+                style={{
+                  display: 'block',
+                  fontWeight: 'var(--dsai-typography-font-weight-medium)',
+                }}
+              >
                 <span style={{ display: 'block', marginBottom: '0.5rem' }}>
                   Multiplier: {multiplier}x
                 </span>
@@ -839,7 +865,12 @@ export const ExponentialBackoffDemo: Story = {
               </label>
             </div>
             <div>
-              <label style={{ display: 'block', fontWeight: 'var(--dsai-typography-font-weight-medium)' }}>
+              <label
+                style={{
+                  display: 'block',
+                  fontWeight: 'var(--dsai-typography-font-weight-medium)',
+                }}
+              >
                 <span style={{ display: 'block', marginBottom: '0.5rem' }}>
                   Max Delay: {maxDelay}ms
                 </span>
@@ -861,7 +892,9 @@ export const ExponentialBackoffDemo: Story = {
                   checked={jitter}
                   onChange={(e) => setJitter(e.target.checked)}
                 />
-                <span style={{ fontWeight: 'var(--dsai-typography-font-weight-medium)' }}>Enable Jitter (±25%)</span>
+                <span style={{ fontWeight: 'var(--dsai-typography-font-weight-medium)' }}>
+                  Enable Jitter (±25%)
+                </span>
               </label>
               <p
                 style={{ color: 'var(--bs-secondary)', fontSize: '0.75rem', marginTop: '0.25rem' }}
@@ -901,7 +934,14 @@ export const ExponentialBackoffDemo: Story = {
                     marginBottom: '0.5rem',
                   }}
                 >
-                  <span style={{ width: '80px', fontWeight: 'var(--dsai-typography-font-weight-medium)' }}>Attempt {attempt + 1}</span>
+                  <span
+                    style={{
+                      width: '80px',
+                      fontWeight: 'var(--dsai-typography-font-weight-medium)',
+                    }}
+                  >
+                    Attempt {attempt + 1}
+                  </span>
                   <div
                     style={{
                       flex: 1,
@@ -1017,7 +1057,7 @@ export const CreateTaskQueueDemo: Story = {
     }, [initQueue]);
 
     const addTask = (priority = 0): void => {
-      const taskId = Math.random().toString(36).slice(2, 6).toUpperCase();
+      const taskId = crypto.randomUUID().slice(0, 4).toUpperCase();
       addLog(`Task ${taskId} queued (priority: ${priority})`);
 
       queueRef.current?.enqueue(async () => {
@@ -1069,7 +1109,9 @@ export const CreateTaskQueueDemo: Story = {
           <Heading level={4}>Configuration</Heading>
 
           <div style={{ marginBottom: '1rem' }}>
-            <label style={{ display: 'block', fontWeight: 'var(--dsai-typography-font-weight-medium)' }}>
+            <label
+              style={{ display: 'block', fontWeight: 'var(--dsai-typography-font-weight-medium)' }}
+            >
               <span style={{ display: 'block', marginBottom: '0.5rem' }}>
                 Concurrency: {concurrency} task{concurrency > 1 ? 's' : ''} at a time
               </span>

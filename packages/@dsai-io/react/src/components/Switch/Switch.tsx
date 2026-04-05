@@ -19,6 +19,43 @@ const sizeDimensions: Record<
 };
 
 /**
+ * Resolve size dimensions from the size prop, falling back to 'md'.
+ */
+function resolveDimensions(size: SwitchSize): { trackWidth: number; trackHeight: number; thumbSize: number } {
+  return size in sizeDimensions
+    ? sizeDimensions[size as keyof typeof sizeDimensions]
+    : sizeDimensions.md;
+}
+
+/**
+ * Resolve on/off text font size based on switch size.
+ */
+function resolveOnOffFontSize(size: SwitchSize): string {
+  if (size === 'sm') { return '8px'; }
+  if (size === 'lg') { return '11px'; }
+  return '9px';
+}
+
+/**
+ * Build button style for the switch control.
+ */
+function buildButtonStyle(
+  disabled: boolean,
+  loading: boolean,
+  error: boolean,
+  thumbOffset: number,
+): React.CSSProperties {
+  return {
+    minHeight: '44px', // WCAG touch target
+    cursor: disabled || loading ? 'not-allowed' : 'pointer',
+    border: error ? undefined : 'none',
+    padding: `${thumbOffset}px`,
+    transition: 'background-color 0.15s ease-in-out',
+    background: 'transparent',
+  };
+}
+
+/**
  * Switch component for binary on/off states
  *
  * A toggle switch component built with Bootstrap 5 styling.
@@ -105,11 +142,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
   };
 
   // Get size dimensions
-  const dimensions =
-    size in sizeDimensions
-      ? sizeDimensions[size as keyof typeof sizeDimensions]
-      : sizeDimensions.md;
-  const { trackWidth, trackHeight, thumbSize } = dimensions;
+  const { trackWidth, trackHeight, thumbSize } = resolveDimensions(size);
 
   // Calculate thumb position
   const thumbOffset = 2; // padding inside track
@@ -192,14 +225,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
           onClick={handleToggle}
           onKeyDown={handleKeyDown}
           className={`${buttonClasses} ${labelPosition === 'start' ? 'flex-row-reverse' : ''}`}
-          style={{
-            minHeight: '44px', // WCAG touch target
-            cursor: disabled || loading ? 'not-allowed' : 'pointer',
-            border: error ? undefined : 'none', // Allow border-danger when error
-            padding: `${thumbOffset}px`,
-            transition: 'background-color 0.15s ease-in-out',
-            background: 'transparent',
-          }}
+          style={buildButtonStyle(disabled, loading, error, thumbOffset)}
         >
           {/* Track (visual container) */}
           <span
@@ -219,7 +245,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
                 style={{
                   left: isChecked ? `${thumbOffset + 4}px` : 'auto',
                   right: isChecked ? 'auto' : `${thumbOffset + 4}px`,
-                  fontSize: size === 'sm' ? '8px' : size === 'lg' ? '11px' : '9px',
+                  fontSize: resolveOnOffFontSize(size),
                   userSelect: 'none',
                   lineHeight: 1,
                 }}

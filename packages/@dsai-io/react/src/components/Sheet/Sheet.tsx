@@ -50,6 +50,25 @@ function useSheetContext(): SheetContextValue {
 }
 
 // ============================================================================
+// Extracted helpers (reduce per-component complexity)
+// ============================================================================
+
+/**
+ * Derive the CSS 'show' class state for the sheet.
+ */
+function deriveSheetShowClass(
+  shouldAnimate: boolean,
+  visibility: string,
+  animatedShowClass: boolean,
+): boolean {
+  if (shouldAnimate) {
+    const isClosingOrClosed = visibility === 'closing' || visibility === 'closed';
+    return isClosingOrClosed ? false : animatedShowClass;
+  }
+  return visibility === 'opening' || visibility === 'open';
+}
+
+// ============================================================================
 // Sheet.Title Component
 // ============================================================================
 
@@ -364,11 +383,7 @@ const SheetBase = forwardRef<HTMLDivElement, SheetProps>(
     const [animatedShowClass, setAnimatedShowClass] = useState(() => isOpen && shouldAnimate);
 
     // For non-animated sheets, derive showClass directly from FSM state
-    const showClass = shouldAnimate
-      ? fsmState.visibility === 'closing' || fsmState.visibility === 'closed'
-        ? false
-        : animatedShowClass
-      : fsmState.visibility === 'opening' || fsmState.visibility === 'open';
+    const showClass = deriveSheetShowClass(shouldAnimate, fsmState.visibility, animatedShowClass);
 
     // Handle adding 'show' class after repaint for CSS transitions
     useEffect(() => {

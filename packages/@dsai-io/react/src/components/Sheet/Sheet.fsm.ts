@@ -126,99 +126,70 @@ export function createInitialSheetFSMState(isOpen: boolean): SheetFSMState {
  * @param event - Event triggering the transition
  * @returns New FSM state
  */
+// --- Per-state handlers (extracted to reduce cyclomatic complexity) ---
+
+const SHEET_STATE_OPENING: SheetFSMState = {
+  visibility: 'opening',
+  shouldRender: true,
+  shouldShow: false,
+  focusTrapActive: false,
+  scrollLockActive: true,
+};
+
+const SHEET_STATE_CLOSING: SheetFSMState = {
+  visibility: 'closing',
+  shouldRender: true,
+  shouldShow: false,
+  focusTrapActive: false,
+  scrollLockActive: true,
+};
+
+const SHEET_STATE_OPEN: SheetFSMState = {
+  visibility: 'open',
+  shouldRender: true,
+  shouldShow: true,
+  focusTrapActive: true,
+  scrollLockActive: true,
+};
+
+const SHEET_STATE_CLOSED: SheetFSMState = {
+  visibility: 'closed',
+  shouldRender: false,
+  shouldShow: false,
+  focusTrapActive: false,
+  scrollLockActive: false,
+};
+
+function handleClosedState(state: SheetFSMState, event: SheetFSMEvent): SheetFSMState {
+  return event.type === 'OPEN' ? SHEET_STATE_OPENING : state;
+}
+
+function handleOpeningState(state: SheetFSMState, event: SheetFSMEvent): SheetFSMState {
+  if (event.type === 'CLOSE') { return SHEET_STATE_CLOSING; }
+  if (event.type === 'ANIMATION_END') { return SHEET_STATE_OPEN; }
+  return state;
+}
+
+function handleOpenState(state: SheetFSMState, event: SheetFSMEvent): SheetFSMState {
+  return event.type === 'CLOSE' ? SHEET_STATE_CLOSING : state;
+}
+
+function handleClosingState(state: SheetFSMState, event: SheetFSMEvent): SheetFSMState {
+  if (event.type === 'OPEN') { return SHEET_STATE_OPENING; }
+  if (event.type === 'ANIMATION_END') { return SHEET_STATE_CLOSED; }
+  return state;
+}
+
 export function sheetFSMReducer(state: SheetFSMState, event: SheetFSMEvent): SheetFSMState {
   switch (state.visibility) {
     case 'closed':
-      switch (event.type) {
-        case 'OPEN':
-          return {
-            visibility: 'opening',
-            shouldRender: true,
-            shouldShow: false,
-            focusTrapActive: false,
-            scrollLockActive: true,
-          };
-        case 'CLOSE':
-        case 'ANIMATION_END':
-          // Already closed, stay closed (idempotent)
-          return state;
-        default:
-          return state;
-      }
-
+      return handleClosedState(state, event);
     case 'opening':
-      switch (event.type) {
-        case 'OPEN':
-          // Already opening, stay opening (idempotent)
-          return state;
-        case 'CLOSE':
-          // User requested close during opening, go to closing
-          return {
-            visibility: 'closing',
-            shouldRender: true,
-            shouldShow: false,
-            focusTrapActive: false,
-            scrollLockActive: true,
-          };
-        case 'ANIMATION_END':
-          // Opening animation finished, now fully open
-          return {
-            visibility: 'open',
-            shouldRender: true,
-            shouldShow: true,
-            focusTrapActive: true,
-            scrollLockActive: true,
-          };
-        default:
-          return state;
-      }
-
+      return handleOpeningState(state, event);
     case 'open':
-      switch (event.type) {
-        case 'OPEN':
-        case 'ANIMATION_END':
-          // Already open, stay open (idempotent)
-          return state;
-        case 'CLOSE':
-          // User requested close
-          return {
-            visibility: 'closing',
-            shouldRender: true,
-            shouldShow: false,
-            focusTrapActive: false,
-            scrollLockActive: true,
-          };
-        default:
-          return state;
-      }
-
+      return handleOpenState(state, event);
     case 'closing':
-      switch (event.type) {
-        case 'OPEN':
-          // User requested open during closing, go back to opening
-          return {
-            visibility: 'opening',
-            shouldRender: true,
-            shouldShow: false,
-            focusTrapActive: false,
-            scrollLockActive: true,
-          };
-        case 'CLOSE':
-          // Already closing, stay closing (idempotent)
-          return state;
-        case 'ANIMATION_END':
-          // Closing animation finished, now fully closed
-          return {
-            visibility: 'closed',
-            shouldRender: false,
-            shouldShow: false,
-            focusTrapActive: false,
-            scrollLockActive: false,
-          };
-        default:
-          return state;
-      }
-
+      return handleClosingState(state, event);
     default:
       return state;
   }

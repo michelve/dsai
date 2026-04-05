@@ -12,6 +12,13 @@ import * as path from 'node:path';
 import type { MergeConfig, MergeContent, StyleMergeResult } from './types.js';
 
 // ============================================================================
+// Constants
+// ============================================================================
+
+/** Source label for generated token output */
+const GENERATED_TOKENS_SOURCE = '<generated-tokens>';
+
+// ============================================================================
 // Content Generation
 // ============================================================================
 
@@ -110,7 +117,7 @@ export async function mergeContent(
   const { mergeOrder = 'after' } = config;
 
   const parts: string[] = [];
-  const sources: string[] = ['<generated-tokens>'];
+  const sources: string[] = [GENERATED_TOKENS_SOURCE];
   const warnings: string[] = [];
 
   // Add header comment
@@ -125,11 +132,11 @@ export async function mergeContent(
       sources.push(content.source);
     }
     // Then token styles
-    parts.push(generateSourceComment('<generated-tokens>', tokenContent.format));
+    parts.push(generateSourceComment(GENERATED_TOKENS_SOURCE, tokenContent.format));
     parts.push(tokenContent.content);
   } else {
     // Token styles first
-    parts.push(generateSourceComment('<generated-tokens>', tokenContent.format));
+    parts.push(generateSourceComment(GENERATED_TOKENS_SOURCE, tokenContent.format));
     parts.push(tokenContent.content);
     // Then user styles
     for (const content of userContent) {

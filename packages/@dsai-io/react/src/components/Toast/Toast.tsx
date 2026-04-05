@@ -80,6 +80,38 @@ function getDefaultIcon(variant: ToastVariant): ReactNode {
 }
 
 /**
+ * Resolve ARIA labeling props for the toast container.
+ */
+function resolveLabelingProps(
+  title: React.ReactNode | undefined,
+  titleId: string,
+  ariaLabel: string | undefined,
+): Record<string, string> {
+  if (title && titleId) {
+    return { 'aria-labelledby': titleId };
+  }
+  if (ariaLabel) {
+    return { 'aria-label': ariaLabel };
+  }
+  return {};
+}
+
+/**
+ * Resolve toast opacity from visibility state.
+ */
+function resolveToastOpacity(
+  visibility: 'hidden' | 'entering' | 'visible' | 'exiting'
+): number {
+  if (visibility === 'entering' || visibility === 'visible') {
+    return 1;
+  }
+  return 0;
+}
+
+/**
+ */
+
+/**
  * Toast Component
  *
  * A lightweight, accessible notification component that mimics push notifications.
@@ -338,13 +370,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
         transition: `opacity var(--dsai-toast-animation-duration) ease-in-out`,
       } as React.CSSProperties;
 
-      if (fsmState.visibility === 'entering' || fsmState.visibility === 'exiting') {
-        baseStyles.opacity = fsmState.visibility === 'entering' ? 1 : 0;
-      } else if (fsmState.visibility === 'visible') {
-        baseStyles.opacity = 1;
-      } else {
-        baseStyles.opacity = 0;
-      }
+      baseStyles.opacity = resolveToastOpacity(fsmState.visibility);
 
       return baseStyles;
     }, [style, animationDuration, fsmState.visibility]);
@@ -365,12 +391,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
       return null;
     }
 
-    const labelingProps =
-      title && titleId
-        ? { 'aria-labelledby': titleId }
-        : ariaLabel
-          ? { 'aria-label': ariaLabel }
-          : {};
+    const labelingProps = resolveLabelingProps(title, titleId, ariaLabel);
 
     // Render toast with header if title exists
     if (title) {

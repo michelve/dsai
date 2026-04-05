@@ -114,27 +114,12 @@ export function useRovingFocus({
     [wrap, isDisabled],
   );
 
-  const handleKeyDown = useCallback(
-    (event: KeyboardEvent<HTMLElement>) => {
-      if (!enabled || typeof document === 'undefined') {
-        return;
-      }
-
-      const items = getFocusableItems();
-      if (items.length === 0) {
-        return;
-      }
-
-      // Find current focused index from DOM
-      const currentIndex = items.findIndex(
-        (el) =>
-          el === document.activeElement ||
-          el.contains(document.activeElement),
-      );
-      if (currentIndex === -1) {
-        return;
-      }
-
+  /**
+   * Resolve the target index for a roving focus key press.
+   * Returns -1 if the key is not a roving focus navigation key.
+   */
+  const resolveKeyTarget = useCallback(
+    (key: string, items: HTMLElement[], currentIdx: number): number => {
       let prevKeys: string[];
       let nextKeys: string[];
 
@@ -149,25 +134,50 @@ export function useRovingFocus({
         nextKeys = ['ArrowDown'];
       }
 
-      if (nextKeys.includes(event.key)) {
+      if (nextKeys.includes(key)) {
+        return findNextIndex(items, currentIdx, 1);
+      }
+      if (prevKeys.includes(key)) {
+        return findNextIndex(items, currentIdx, -1);
+      }
+      if (homeEnd && key === 'Home') {
+        return findNextIndex(items, -1, 1);
+      }
+      if (homeEnd && key === 'End') {
+        return findNextIndex(items, items.length, -1);
+      }
+      return -1;
+    },
+    [orientation, findNextIndex, homeEnd],
+  );
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLElement>) => {
+      if (!enabled || typeof document === 'undefined') {
+        return;
+      }
+
+      const items = getFocusableItems();
+      if (items.length === 0) {
+        return;
+      }
+
+      const currentIndex = items.findIndex(
+        (el) =>
+          el === document.activeElement ||
+          el.contains(document.activeElement),
+      );
+      if (currentIndex === -1) {
+        return;
+      }
+
+      const targetIndex = resolveKeyTarget(event.key, items, currentIndex);
+      if (targetIndex !== -1) {
         event.preventDefault();
-        const next = findNextIndex(items, currentIndex, 1);
-        focusItem(items, next);
-      } else if (prevKeys.includes(event.key)) {
-        event.preventDefault();
-        const next = findNextIndex(items, currentIndex, -1);
-        focusItem(items, next);
-      } else if (homeEnd && event.key === 'Home') {
-        event.preventDefault();
-        const first = findNextIndex(items, -1, 1);
-        focusItem(items, first);
-      } else if (homeEnd && event.key === 'End') {
-        event.preventDefault();
-        const last = findNextIndex(items, items.length, -1);
-        focusItem(items, last);
+        focusItem(items, targetIndex);
       }
     },
-    [enabled, getFocusableItems, orientation, findNextIndex, focusItem, homeEnd],
+    [enabled, getFocusableItems, resolveKeyTarget, focusItem],
   );
 
   const setFocusedIndex = useCallback(

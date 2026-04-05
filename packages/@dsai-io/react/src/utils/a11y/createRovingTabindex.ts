@@ -169,12 +169,28 @@ export function createRovingTabindex(
   }
 
   /**
+   * Resolve navigation direction from arrow key.
+   * Returns 'prev', 'next', or null if the key is unrelated.
+   */
+  function resolveArrowDirection(key: string): 'prev' | 'next' | null {
+    const isHorizontal = orientation === 'horizontal' || orientation === 'both';
+    const isVertical = orientation === 'vertical' || orientation === 'both';
+
+    if ((isHorizontal && key === 'ArrowLeft') || (isVertical && key === 'ArrowUp')) {
+      return 'prev';
+    }
+    if ((isHorizontal && key === 'ArrowRight') || (isVertical && key === 'ArrowDown')) {
+      return 'next';
+    }
+    return null;
+  }
+
+  /**
    * Handle keyboard events
    */
   function handleKeyDown(event: KeyboardEvent): void {
     const { key } = event;
 
-    // Handle Home/End
     if (key === 'Home') {
       event.preventDefault();
       focusFirst();
@@ -187,28 +203,14 @@ export function createRovingTabindex(
       return;
     }
 
-    // Handle arrow keys based on orientation
-    const isHorizontal = orientation === 'horizontal' || orientation === 'both';
-    const isVertical = orientation === 'vertical' || orientation === 'both';
-
-    if (isHorizontal && (key === 'ArrowLeft' || key === 'ArrowRight')) {
+    const direction = resolveArrowDirection(key);
+    if (direction) {
       event.preventDefault();
-      if (key === 'ArrowLeft') {
+      if (direction === 'prev') {
         focusPrevious();
       } else {
         focusNext();
       }
-      return;
-    }
-
-    if (isVertical && (key === 'ArrowUp' || key === 'ArrowDown')) {
-      event.preventDefault();
-      if (key === 'ArrowUp') {
-        focusPrevious();
-      } else {
-        focusNext();
-      }
-      return;
     }
   }
 

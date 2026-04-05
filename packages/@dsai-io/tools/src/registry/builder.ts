@@ -36,6 +36,9 @@ export interface BuildRegistryOptions {
 // Constants
 // ---------------------------------------------------------------------------
 
+/** File encoding for all read/write operations */
+const FILE_ENCODING = 'utf-8' as const;
+
 const EXCLUDE_PATTERNS: RegExp[] = [
   /\.test\.(tsx?|jsx?)$/,
   /\.spec\.(tsx?|jsx?)$/,
@@ -104,12 +107,12 @@ function readSourceFiles(dirPath: string): { path: string; content: string }[] {
         if (sub.isFile()) {
           const subPath = join(fullPath, sub.name);
           if (shouldIncludeFile(subPath)) {
-            results.push({ path: relative(dirPath, subPath), content: readFileSync(subPath, 'utf-8') });
+            results.push({ path: relative(dirPath, subPath), content: readFileSync(subPath, FILE_ENCODING) });
           }
         }
       }
     } else if (entry.isFile() && shouldIncludeFile(fullPath)) {
-      results.push({ path: entry.name, content: readFileSync(fullPath, 'utf-8') });
+      results.push({ path: entry.name, content: readFileSync(fullPath, FILE_ENCODING) });
     }
   }
 
@@ -118,7 +121,7 @@ function readSourceFiles(dirPath: string): { path: string; content: string }[] {
 
 /** Extract the cn function from the utils index as a standalone file. */
 function extractCnSource(utilsIndexPath: string): string {
-  const content = readFileSync(utilsIndexPath, 'utf-8');
+  const content = readFileSync(utilsIndexPath, FILE_ENCODING);
   const cnPattern = /(\/\*\*[\s\S]*?\*\/\s*)?export function cn\b[\s\S]*?\n\}/;
   const match = cnPattern.exec(content);
   return match
@@ -494,7 +497,7 @@ export function buildRegistry(options: BuildRegistryOptions): RegistryIndex {
   for (const item of allItems) {
     const subdir = typeToSubdir[item.type] ?? 'utils';
     const filePath = join(outputDir, subdir, `${item.name}.json`);
-    writeFileSync(filePath, JSON.stringify(item, null, 2) + '\n', 'utf-8');
+    writeFileSync(filePath, JSON.stringify(item, null, 2) + '\n', FILE_ENCODING);
     log(`  Wrote ${relative(outputDir, filePath)}`);
   }
 
@@ -515,7 +518,7 @@ export function buildRegistry(options: BuildRegistryOptions): RegistryIndex {
     items: indexEntries,
   };
 
-  writeFileSync(join(outputDir, 'index.json'), JSON.stringify(registryIndex, null, 2) + '\n', 'utf-8');
+  writeFileSync(join(outputDir, 'index.json'), JSON.stringify(registryIndex, null, 2) + '\n', FILE_ENCODING);
   log(`[registry] Wrote index.json (${registryIndex.count} items)`);
 
   return registryIndex;

@@ -280,26 +280,26 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
       );
     }, [ariaLabel, title, subtitle, description, value, selectionMode]);
 
+    // Build shared hidden input props for non-control indicators
+    const hiddenInputProps = useMemo(() => ({
+      ref: inputRef,
+      id: inputId,
+      checked: isChecked,
+      onChange: handleInputChange,
+      disabled,
+      required,
+      name,
+      value: value || '',
+      'aria-label': controlAriaLabel,
+      type: selectionMode === 'radio' ? 'radio' as const : 'checkbox' as const,
+      className: 'visually-hidden',
+    }), [inputRef, inputId, isChecked, handleInputChange, disabled, required, name, value, controlAriaLabel, selectionMode]);
+
     // Render the selection control
     const renderControl = (): React.ReactNode => {
       if (selectionMode === 'none') {
         return null;
       }
-
-      // Hidden input for form participation when indicator hides the control
-      const hiddenInputProps = {
-        ref: inputRef,
-        id: inputId,
-        checked: isChecked,
-        onChange: handleInputChange,
-        disabled,
-        required,
-        name,
-        value: value || '',
-        'aria-label': controlAriaLabel,
-        type: selectionMode === 'radio' ? 'radio' : 'checkbox',
-        className: 'visually-hidden',
-      } as const;
 
       // border-only and none indicators: render a screen-reader-only input
       if (selectionIndicator === 'border-only' || selectionIndicator === 'none') {
@@ -351,11 +351,9 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
         className: 'selectable-card__control',
       };
 
-      if (selectionMode === 'checkbox') {
-        return <Checkbox {...controlProps} />;
-      }
-
-      return <Radio {...controlProps} />;
+      return selectionMode === 'checkbox'
+        ? <Checkbox {...controlProps} />
+        : <Radio {...controlProps} />;
     };
 
     // Render card content

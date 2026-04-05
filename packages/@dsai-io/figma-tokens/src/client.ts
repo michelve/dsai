@@ -187,7 +187,7 @@ function parseMetadataLine(line: string): Record<string, Record<string, string>>
 
   for (const pair of pairs) {
     // Match Key.SubKey: value format
-    const match = pair.match(/^([A-Z][a-z]+)\.([A-Z][a-zA-Z]+):\s*(.+)$/);
+    const match = pair.match(/^([A-Z][a-z]+)\.([A-Z][a-zA-Z]+):\s*(\S.*)$/);
     if (match?.[1] && match[2] && match[3]) {
       const category = match[1].toLowerCase();
       // Convert PascalCase to camelCase for the key
@@ -554,10 +554,7 @@ export class FigmaClient {
   /**
    * Build query string for analytics endpoints
    */
-  private buildAnalyticsQuery(
-    groupBy: string,
-    options?: FigmaAnalyticsActionsOptions
-  ): string {
+  private buildAnalyticsQuery(groupBy: string, options?: FigmaAnalyticsActionsOptions): string {
     const params = new URLSearchParams();
     params.set('group_by', groupBy);
 
@@ -825,13 +822,10 @@ export class FigmaClient {
     fileKey: string,
     request: FigmaPostVariablesRequest
   ): Promise<FigmaPostVariablesResponse> {
-    return this.request<FigmaPostVariablesResponse>(
-      `/files/${fileKey}/variables`,
-      {
-        method: 'POST',
-        body: JSON.stringify(request),
-      }
-    );
+    return this.request<FigmaPostVariablesResponse>(`/files/${fileKey}/variables`, {
+      method: 'POST',
+      body: JSON.stringify(request),
+    });
   }
 
   // ==========================================================================
@@ -922,9 +916,7 @@ export class FigmaClient {
     groupBy: G,
     options?: FigmaAnalyticsActionsOptions
   ): Promise<
-    FigmaPaginatedResponse<
-      G extends 'style' ? FigmaStyleActionByStyle : FigmaActionByTeam
-    >
+    FigmaPaginatedResponse<G extends 'style' ? FigmaStyleActionByStyle : FigmaActionByTeam>
   > {
     const query = this.buildAnalyticsQuery(groupBy, options);
     return this.request(`/analytics/libraries/${libraryFileKey}/style/actions?${query}`);
@@ -945,9 +937,7 @@ export class FigmaClient {
     groupBy: G,
     options?: FigmaAnalyticsUsagesOptions
   ): Promise<
-    FigmaPaginatedResponse<
-      G extends 'style' ? FigmaStyleUsageByStyle : FigmaUsageByFile
-    >
+    FigmaPaginatedResponse<G extends 'style' ? FigmaStyleUsageByStyle : FigmaUsageByFile>
   > {
     const query = this.buildAnalyticsQuery(groupBy, options);
     return this.request(`/analytics/libraries/${libraryFileKey}/style/usages?${query}`);
@@ -968,9 +958,7 @@ export class FigmaClient {
     groupBy: G,
     options?: FigmaAnalyticsActionsOptions
   ): Promise<
-    FigmaPaginatedResponse<
-      G extends 'variable' ? FigmaVariableActionByVariable : FigmaActionByTeam
-    >
+    FigmaPaginatedResponse<G extends 'variable' ? FigmaVariableActionByVariable : FigmaActionByTeam>
   > {
     const query = this.buildAnalyticsQuery(groupBy, options);
     return this.request(`/analytics/libraries/${libraryFileKey}/variable/actions?${query}`);
@@ -991,9 +979,7 @@ export class FigmaClient {
     groupBy: G,
     options?: FigmaAnalyticsUsagesOptions
   ): Promise<
-    FigmaPaginatedResponse<
-      G extends 'variable' ? FigmaVariableUsageByVariable : FigmaUsageByFile
-    >
+    FigmaPaginatedResponse<G extends 'variable' ? FigmaVariableUsageByVariable : FigmaUsageByFile>
   > {
     const query = this.buildAnalyticsQuery(groupBy, options);
     return this.request(`/analytics/libraries/${libraryFileKey}/variable/usages?${query}`);
@@ -1019,9 +1005,7 @@ export class FigmaClient {
    * }
    * ```
    */
-  public async getPublishedComponents(
-    fileKey: string
-  ): Promise<FigmaPublishedComponent[]> {
+  public async getPublishedComponents(fileKey: string): Promise<FigmaPublishedComponent[]> {
     const response = await this.request<{
       meta: { components: FigmaPublishedComponent[] };
     }>(`/files/${fileKey}/components`);
@@ -1037,9 +1021,7 @@ export class FigmaClient {
    *
    * @see https://developers.figma.com/docs/rest-api/component-endpoints/
    */
-  public async getPublishedComponentSets(
-    fileKey: string
-  ): Promise<FigmaPublishedComponentSet[]> {
+  public async getPublishedComponentSets(fileKey: string): Promise<FigmaPublishedComponentSet[]> {
     const response = await this.request<{
       meta: { component_sets: FigmaPublishedComponentSet[] };
     }>(`/files/${fileKey}/component_sets`);
@@ -1055,9 +1037,7 @@ export class FigmaClient {
    *
    * @see https://developers.figma.com/docs/rest-api/component-endpoints/
    */
-  public async getPublishedStyles(
-    fileKey: string
-  ): Promise<FigmaPublishedStyle[]> {
+  public async getPublishedStyles(fileKey: string): Promise<FigmaPublishedStyle[]> {
     const response = await this.request<{
       meta: { styles: FigmaPublishedStyle[] };
     }>(`/files/${fileKey}/styles`);
@@ -1077,9 +1057,7 @@ export class FigmaClient {
    *
    * @see https://developers.figma.com/docs/rest-api/component-endpoints/
    */
-  public async getComponent(
-    componentKey: string
-  ): Promise<FigmaPublishedComponent> {
+  public async getComponent(componentKey: string): Promise<FigmaPublishedComponent> {
     const response = await this.request<{
       meta: FigmaPublishedComponent;
     }>(`/components/${componentKey}`);
@@ -1095,9 +1073,7 @@ export class FigmaClient {
    *
    * @see https://developers.figma.com/docs/rest-api/component-endpoints/
    */
-  public async getComponentSet(
-    componentSetKey: string
-  ): Promise<FigmaPublishedComponentSet> {
+  public async getComponentSet(componentSetKey: string): Promise<FigmaPublishedComponentSet> {
     const response = await this.request<{
       meta: FigmaPublishedComponentSet;
     }>(`/component_sets/${componentSetKey}`);
@@ -1113,9 +1089,7 @@ export class FigmaClient {
    *
    * @see https://developers.figma.com/docs/rest-api/component-endpoints/
    */
-  public async getStyle(
-    styleKey: string
-  ): Promise<FigmaPublishedStyle> {
+  public async getStyle(styleKey: string): Promise<FigmaPublishedStyle> {
     const response = await this.request<{
       meta: FigmaPublishedStyle;
     }>(`/styles/${styleKey}`);
@@ -1143,9 +1117,7 @@ export class FigmaClient {
    * }
    * ```
    */
-  public async getVersionHistory(
-    fileKey: string
-  ): Promise<FigmaVersionsResponse> {
+  public async getVersionHistory(fileKey: string): Promise<FigmaVersionsResponse> {
     return this.request<FigmaVersionsResponse>(`/files/${fileKey}/versions`);
   }
 
@@ -1164,9 +1136,7 @@ export class FigmaClient {
    *
    * @see https://developers.figma.com/docs/rest-api/file-endpoints/
    */
-  public async getFileMetadata(
-    fileKey: string
-  ): Promise<FigmaFileMetadata> {
+  public async getFileMetadata(fileKey: string): Promise<FigmaFileMetadata> {
     const response = await this.request<{
       file: FigmaFileMetadata;
     }>(`/files/${fileKey}/meta`);

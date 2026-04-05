@@ -274,8 +274,11 @@ export interface BuildStep {
   /** Step name for display */
   name: string;
 
-  /** Shell command to run (if external) */
+  /** Executable to run (if external) — used with execFileSync to avoid shell injection */
   command?: string;
+
+  /** Arguments for the command (used with execFileSync) */
+  args?: string[];
 
   /** Function to execute (if internal). Returns boolean for success/failure, or undefined */
   fn?: () => boolean | undefined | Promise<boolean | undefined>;

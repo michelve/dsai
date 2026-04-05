@@ -442,6 +442,28 @@ export const DSAI_OPTIONAL_SCRIPTS: Record<string, ScriptEntry> = {
 };
 
 /**
+ * Push an optional dependency by key if it exists
+ */
+function pushOptionalDep(dependencies: DependencyEntry[], depKey: string): void {
+  const dep = DSAI_OPTIONAL_DEPENDENCIES[depKey];
+  if (dep) {
+    dependencies.push(dep);
+  }
+}
+
+/**
+ * Push optional scripts by keys if they exist
+ */
+function pushOptionalScripts(scripts: ScriptEntry[], scriptKeys: string[]): void {
+  for (const key of scriptKeys) {
+    const script = DSAI_OPTIONAL_SCRIPTS[key];
+    if (script) {
+      scripts.push(script);
+    }
+  }
+}
+
+/**
  * Add DSAI configuration to package.json
  *
  * @param cwd - Working directory
@@ -463,66 +485,28 @@ export function addDsaiToPackageJson(
   const dependencies = [...DSAI_DEPENDENCIES];
   const scripts = [...DSAI_SCRIPTS];
 
-  // Add optional dependencies
   if (options.includeFigmaTokens) {
-    const figmaTokensDep = DSAI_OPTIONAL_DEPENDENCIES['figma-tokens'];
-    if (figmaTokensDep) {
-      dependencies.push(figmaTokensDep);
-    }
-    // Add all Figma-related scripts
-    const figmaScripts = [
-      'figma-fetch',
-      'figma-sync',
-      'figma-info',
-      'tokens-transform',
-      'tokens-full',
-    ];
-    for (const scriptKey of figmaScripts) {
-      const script = DSAI_OPTIONAL_SCRIPTS[scriptKey];
-      if (script) {
-        scripts.push(script);
-      }
-    }
+    pushOptionalDep(dependencies, 'figma-tokens');
+    pushOptionalScripts(scripts, [
+      'figma-fetch', 'figma-sync', 'figma-info', 'tokens-transform', 'tokens-full',
+    ]);
   }
 
   if (options.includeStyleDictionary) {
-    const styleDictDep = DSAI_OPTIONAL_DEPENDENCIES['style-dictionary'];
-    if (styleDictDep) {
-      dependencies.push(styleDictDep);
-    }
+    pushOptionalDep(dependencies, 'style-dictionary');
   }
 
-  // Add optional scripts
   if (options.includeIconsBuild) {
-    const iconsBuildScript = DSAI_OPTIONAL_SCRIPTS['icons-build'];
-    if (iconsBuildScript) {
-      scripts.push(iconsBuildScript);
-    }
+    pushOptionalScripts(scripts, ['icons-build']);
   }
 
-  // Add SCSS/Bootstrap integration scripts
   if (options.includeScssIntegration) {
-    const scssScripts = ['scss-build', 'scss-watch', 'styles-all'];
-    for (const scriptKey of scssScripts) {
-      const script = DSAI_OPTIONAL_SCRIPTS[scriptKey];
-      if (script) {
-        scripts.push(script);
-      }
-    }
-
-    // Add sass dependency for SCSS compilation
-    const sassDep = DSAI_OPTIONAL_DEPENDENCIES['sass'];
-    if (sassDep) {
-      dependencies.push(sassDep);
-    }
+    pushOptionalScripts(scripts, ['scss-build', 'scss-watch', 'styles-all']);
+    pushOptionalDep(dependencies, 'sass');
   }
 
-  // Add Bootstrap dependency if requested
   if (options.includeBootstrap) {
-    const bootstrapDep = DSAI_OPTIONAL_DEPENDENCIES['bootstrap'];
-    if (bootstrapDep) {
-      dependencies.push(bootstrapDep);
-    }
+    pushOptionalDep(dependencies, 'bootstrap');
   }
 
   return modifyPackageJson(cwd, {

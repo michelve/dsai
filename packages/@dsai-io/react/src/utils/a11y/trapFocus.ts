@@ -53,18 +53,47 @@ function isElementVisible(el: HTMLElement): boolean {
   return true;
 }
 
-export function trapFocus(container: HTMLElement, options: TrapFocusOptions = {}): () => void {
-  // SSR safety: bail early if no window/document
-  if (typeof window === 'undefined' || typeof document === 'undefined') {
-    return () => {};
+/** No-op cleanup function for early returns. */
+const noopCleanup = (): void => {};
+
+/**
+ * Handle Tab key wrapping between first and last focusable elements.
+ */
+function handleTabWrap(
+  event: KeyboardEvent,
+  firstEl: HTMLElement,
+  lastEl: HTMLElement,
+  focusableCount: number,
+  onWrap?: () => void
+): void {
+  if (focusableCount === 1) {
+    event.preventDefault();
+    firstEl.focus();
+    onWrap?.();
+    return;
   }
 
-  // Input validation: ensure container is a valid element
+  if (event.shiftKey && document.activeElement === firstEl) {
+    event.preventDefault();
+    lastEl.focus();
+    onWrap?.();
+  } else if (!event.shiftKey && document.activeElement === lastEl) {
+    event.preventDefault();
+    firstEl.focus();
+    onWrap?.();
+  }
+}
+
+export function trapFocus(container: HTMLElement, options: TrapFocusOptions = {}): () => void {
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    return noopCleanup;
+  }
+
   if (!container || !(container instanceof HTMLElement)) {
     if (process.env['NODE_ENV'] !== 'production') {
       console.warn('[trapFocus] Invalid container element provided');
     }
-    return () => {};
+    return noopCleanup;
   }
 
   const selectors = options.focusableSelectors ?? DEFAULT_SELECTORS;
@@ -76,47 +105,28 @@ export function trapFocus(container: HTMLElement, options: TrapFocusOptions = {}
     if (process.env['NODE_ENV'] !== 'production') {
       console.warn('[trapFocus] No focusable elements found in container');
     }
-    return () => {};
+    return noopCleanup;
   }
 
-  // Safe to access since we checked length > 0
   const firstEl = focusable[0] as HTMLElement;
   const lastEl = focusable[focusable.length - 1] as HTMLElement;
   if (!firstEl || !lastEl) {
-    return () => {};
+    return noopCleanup;
   }
 
-  // Initial focus if requested
   if (options.initialFocus) {
     firstEl.focus();
   }
 
   function handleKeyDown(event: KeyboardEvent): void {
-    // Escape key handling
     if (event.key === 'Escape' && options.onEscape) {
       event.preventDefault();
       options.onEscape();
       return;
     }
 
-    if (event.key !== 'Tab') {
-      return;
-    }
-    if (focusable.length === 1) {
-      event.preventDefault();
-      firstEl.focus();
-      options.onWrap?.();
-      return;
-    }
-
-    if (event.shiftKey && document.activeElement === firstEl) {
-      event.preventDefault();
-      lastEl.focus();
-      options.onWrap?.();
-    } else if (!event.shiftKey && document.activeElement === lastEl) {
-      event.preventDefault();
-      firstEl.focus();
-      options.onWrap?.();
+    if (event.key === 'Tab') {
+      handleTabWrap(event, firstEl, lastEl, focusable.length, options.onWrap);
     }
   }
 

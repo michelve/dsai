@@ -55,6 +55,16 @@ export type ConfigFormat =
   | 'unknown';
 
 // ============================================================================
+// Constants
+// ============================================================================
+
+/** Legacy tokens.config.json format identifier */
+const FORMAT_LEGACY_TOKENS: ConfigFormat = 'legacy-tokens';
+
+/** Legacy config filename */
+const LEGACY_CONFIG_FILENAME = 'tokens.config.json';
+
+// ============================================================================
 // Migration Detection
 // ============================================================================
 
@@ -78,13 +88,13 @@ export function checkMigrationNeeded(config: unknown, filename?: string): Migrat
   const suggestions: string[] = [];
 
   // Check filename for legacy format
-  if (filename?.includes('tokens.config.json')) {
-    warnings.push('tokens.config.json is deprecated. Please migrate to dsai.config.mjs.');
+  if (filename?.includes(LEGACY_CONFIG_FILENAME)) {
+    warnings.push(`${LEGACY_CONFIG_FILENAME} is deprecated. Please migrate to dsai.config.mjs.`);
     suggestions.push('Run: npx @dsai-io/tools migrate to automatically migrate your config.');
 
     return {
       needsMigration: true,
-      detectedFormat: 'legacy-tokens',
+      detectedFormat: FORMAT_LEGACY_TOKENS,
       warnings,
       suggestions,
     };
@@ -97,7 +107,7 @@ export function checkMigrationNeeded(config: unknown, filename?: string): Migrat
 
     return {
       needsMigration: true,
-      detectedFormat: 'legacy-tokens',
+      detectedFormat: FORMAT_LEGACY_TOKENS,
       warnings,
       suggestions,
     };
@@ -211,7 +221,7 @@ export function migrateConfig(
   }
 
   switch (check.detectedFormat) {
-    case 'legacy-tokens':
+    case FORMAT_LEGACY_TOKENS:
       return {
         config: migrateLegacyTokensConfig(config as LegacyTokensConfig),
         warnings: check.warnings,

@@ -82,6 +82,9 @@ interface TokenTransformOptions {
 /** Keys that could cause prototype pollution */
 const UNSAFE_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 
+/** Fallback message for non-Error exceptions */
+const UNKNOWN_ERROR_MSG = 'Unknown error';
+
 /** Check if a key is safe from prototype pollution */
 function isSafeKey(key: string): boolean {
   return !UNSAFE_KEYS.has(key);
@@ -839,7 +842,7 @@ export function transformTokens(options: TransformOptions): TransformResult {
       }
     } catch (error) {
       warnings.push(
-        `Failed to read theme.json for mode detection: ${error instanceof Error ? error.message : 'Unknown error'}`
+        `Failed to read theme.json for mode detection: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
       );
     }
   }
@@ -880,7 +883,7 @@ export function transformTokens(options: TransformOptions): TransformResult {
       }
     } catch (error) {
       errors.push(
-        `Failed to read ${inputPath}: ${error instanceof Error ? error.message : 'Unknown error'}`
+        `Failed to read ${inputPath}: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
       );
       continue;
     }
@@ -949,7 +952,7 @@ export function transformTokens(options: TransformOptions): TransformResult {
           }
         } catch (error) {
           errors.push(
-            `Error processing ${outputFile}: ${error instanceof Error ? error.message : 'Unknown error'}`
+            `Error processing ${outputFile}: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
           );
         }
       }

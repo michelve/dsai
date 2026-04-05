@@ -4,22 +4,11 @@
  * Uses a pragmatic pattern (RFC-lite) suitable for UI validation without
  * over-restricting valid addresses.
  */
-export function isValidEmail(value: string | undefined | null): boolean {
-  if (!value || typeof value !== 'string') {
-    return false;
-  }
-  const email = value.trim();
-  if (!email || email.length > 254) {
-    return false;
-  }
-
-  const [localPart, domain] = email.split('@');
-  if (!localPart || !domain || localPart.length > 64) {
-    return false;
-  }
-
-  // Reject obvious invalid characters early
-  if (/[<>\s]/.test(localPart) || /[<>\s]/.test(domain)) {
+/**
+ * Validate the domain part of an email address.
+ */
+function isValidDomain(domain: string): boolean {
+  if (/[<>\s]/.test(domain)) {
     return false;
   }
 
@@ -37,6 +26,27 @@ export function isValidEmail(value: string | undefined | null): boolean {
     }
     return /^[A-Za-z0-9-]+$/.test(label);
   });
+}
+
+export function isValidEmail(value: string | undefined | null): boolean {
+  if (!value || typeof value !== 'string') {
+    return false;
+  }
+  const email = value.trim();
+  if (!email || email.length > 254) {
+    return false;
+  }
+
+  const [localPart, domain] = email.split('@');
+  if (!localPart || !domain) {
+    return false;
+  }
+
+  if (localPart.length > 64 || /[<>\s]/.test(localPart)) {
+    return false;
+  }
+
+  return isValidDomain(domain);
 }
 
 export default isValidEmail;

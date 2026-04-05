@@ -43,7 +43,7 @@ import {
   tabsProFSMReducer,
 } from './TabsPro.fsm';
 
-import type { GuardResult } from './TabsPro.fsm';
+import type { GuardResult , TabProFSMState } from './TabsPro.fsm';
 import type {
   DefaultBlockedProps,
   DefaultErrorProps,
@@ -53,6 +53,42 @@ import type {
   TabsProProps,
 } from './TabsPro.types';
 import type { TabItem } from '../Tabs/Tabs.types';
+
+// =============================================================================
+// Content resolution helper (extracted to reduce component complexity)
+// =============================================================================
+
+
+/**
+ * Resolve the content for a single tab based on its FSM status.
+ */
+function resolveTabContent(
+  item: TabsProItem,
+  tabState: TabProFSMState | undefined,
+  activeTabId: string | null,
+  resolveLoading: (item: TabsProItem) => React.ReactNode,
+  resolveBlocked: (item: TabsProItem, guardResult: GuardResult | undefined) => React.ReactNode,
+  resolveError: (item: TabsProItem, error: unknown, retry: () => void) => React.ReactNode,
+  retry: () => void,
+): React.ReactNode {
+  const status = tabState?.status ?? 'idle';
+
+  switch (status) {
+    case 'blocked':
+      return resolveBlocked(item, tabState?.guardResult ?? undefined);
+    case 'loading':
+    case 'checkingGuard':
+      return resolveLoading(item);
+    case 'error':
+      return resolveError(item, tabState?.error, retry);
+    case 'ready':
+      return tabState?.loadedContent ?? item.content ?? null;
+    default:
+      return activeTabId === item.id
+        ? resolveLoading(item)
+        : (item.content ?? null);
+  }
+}
 
 // =============================================================================
 // Default Fallback Components
@@ -505,87 +541,54 @@ export const TabsPro = memo(
     // =========================================================================
 
     const resolvedItems = useMemo<ResolvedTabItem[]>(() => {
+      // Resolve loading content with fallback chain
+      const resolveLoadingContent = (item: TabsProItem): React.ReactNode =>
+        item.loadingFallback ?? defaultLoadingFallback ?? <DefaultLoading message="Loading..." />;
+
+      // Resolve blocked content with fallback chain
+      const resolveBlockedContent = (
+        item: TabsProItem,
+        guardResult: GuardResult | undefined
+      ): React.ReactNode => {
+        if (item.blockedFallback) { return item.blockedFallback; }
+        if (defaultBlockedFallback) { return defaultBlockedFallback; }
+        return (
+          <DefaultBlocked
+            title="Access Restricted"
+            description={guardResult?.reason ?? 'You do not have permission to view this content.'}
+            actionLabel={guardResult?.actionLabel}
+            onAction={guardResult?.onAction}
+          />
+        );
+      };
+
+      // Resolve error content with fallback chain
+      const resolveErrorContent = (
+        item: TabsProItem,
+        error: unknown,
+        retry: () => void
+      ): React.ReactNode => {
+        if (item.errorFallback) { return item.errorFallback(error, retry); }
+        if (defaultErrorFallback) { return defaultErrorFallback(error, retry); }
+        return (
+          <DefaultError
+            message={error instanceof Error ? error.message : 'Failed to load content.'}
+            onRetry={retry}
+          />
+        );
+      };
+
       return items.map((item) => {
-        // Safe access using Map
         const tabState = tabsStateMap.get(item.id);
-        const status = tabState?.status ?? 'idle';
-
-        let content: React.ReactNode;
-
-        switch (status) {
-          case 'blocked': {
-            const guardResult = tabState?.guardResult;
-            if (item.blockedFallback) {
-              content = item.blockedFallback;
-            } else if (defaultBlockedFallback) {
-              content = defaultBlockedFallback;
-            } else {
-              content = (
-                <DefaultBlocked
-                  title="Access Restricted"
-                  description={
-                    guardResult?.reason ?? 'You do not have permission to view this content.'
-                  }
-                  actionLabel={guardResult?.actionLabel}
-                  onAction={guardResult?.onAction}
-                />
-              );
-            }
-            break;
-          }
-
-          case 'loading':
-          case 'checkingGuard': {
-            if (item.loadingFallback) {
-              content = item.loadingFallback;
-            } else if (defaultLoadingFallback) {
-              content = defaultLoadingFallback;
-            } else {
-              content = <DefaultLoading message="Loading..." />;
-            }
-            break;
-          }
-
-          case 'error': {
-            const error = tabState?.error;
-            const retry = (): void => handleRetry(item.id);
-
-            if (item.errorFallback) {
-              content = item.errorFallback(error, retry);
-            } else if (defaultErrorFallback) {
-              content = defaultErrorFallback(error, retry);
-            } else {
-              content = (
-                <DefaultError
-                  message={error instanceof Error ? error.message : 'Failed to load content.'}
-                  onRetry={retry}
-                />
-              );
-            }
-            break;
-          }
-
-          case 'ready': {
-            content = tabState?.loadedContent ?? item.content ?? null;
-            break;
-          }
-          default: {
-            // Show loading for idle tabs when active (will trigger load)
-            if (fsmState.activeTabId === item.id) {
-              if (item.loadingFallback) {
-                content = item.loadingFallback;
-              } else if (defaultLoadingFallback) {
-                content = defaultLoadingFallback;
-              } else {
-                content = <DefaultLoading message="Loading..." />;
-              }
-            } else {
-              // Not active - show nothing or static content
-              content = item.content ?? null;
-            }
-            break;
-          }
-        }
+        const content = resolveTabContent(
+          item,
+          tabState,
+          fsmState.activeTabId,
+          resolveLoadingContent,
+          resolveBlockedContent,
+          resolveErrorContent,
+          () => handleRetry(item.id),
+        );
 
         return {
           id: item.id,

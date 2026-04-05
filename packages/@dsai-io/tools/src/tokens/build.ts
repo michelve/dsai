@@ -21,7 +21,7 @@
 /* eslint-disable no-console */
 /* eslint-disable security/detect-non-literal-fs-filename */
 
-import { execSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import { existsSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
@@ -56,31 +56,53 @@ import type {
 /** Global cleanup function for preprocessed files */
 let preprocessCleanup: (() => void) | null = null;
 
+/** Fallback message for non-Error exceptions */
+const UNKNOWN_ERROR_MSG = 'Unknown error';
+
+/** Common SASS flags shared between full and minimal configurations */
+const SASS_FLAG_QUIET_DEPS = '--quiet-deps';
+const SASS_FLAG_SILENCE_IMPORT = '--silence-deprecation=import';
+
 /** Default SASS deprecation silencing flags */
 const SASS_FLAGS = [
-  '--quiet-deps',
-  '--silence-deprecation=import',
+  SASS_FLAG_QUIET_DEPS,
+  SASS_FLAG_SILENCE_IMPORT,
   '--silence-deprecation=global-builtin',
   '--silence-deprecation=color-functions',
-].join(' ');
+];
 
 /** Minimal SASS flags (no color functions deprecation) */
-const SASS_FLAGS_MINIMAL = ['--quiet-deps', '--silence-deprecation=import'].join(' ');
+const SASS_FLAGS_MINIMAL = [SASS_FLAG_QUIET_DEPS, SASS_FLAG_SILENCE_IMPORT];
+
+/** Pipeline step name constants to avoid string duplication (S1192) */
+const STEP_VALIDATE: BuildPipelineStep = 'validate';
+const STEP_SNAPSHOT: BuildPipelineStep = 'snapshot';
+const STEP_PREPROCESS: BuildPipelineStep = 'preprocess';
+const STEP_TRANSFORM: BuildPipelineStep = 'transform';
+const STEP_STYLE_DICTIONARY: BuildPipelineStep = 'style-dictionary';
+const STEP_MULTI_THEME: BuildPipelineStep = 'multi-theme';
+const STEP_SYNC: BuildPipelineStep = 'sync';
+const STEP_SASS_THEME: BuildPipelineStep = 'sass-theme';
+const STEP_SASS_THEME_MINIFIED: BuildPipelineStep = 'sass-theme-minified';
+const STEP_POSTPROCESS: BuildPipelineStep = 'postprocess';
+const STEP_SASS_UTILITIES: BuildPipelineStep = 'sass-utilities';
+const STEP_SASS_UTILITIES_MINIFIED: BuildPipelineStep = 'sass-utilities-minified';
+const STEP_BUNDLE: BuildPipelineStep = 'bundle';
 
 /** Default build pipeline steps (full @dsai-io/tokens build) */
 const DEFAULT_PIPELINE_STEPS: BuildPipelineStep[] = [
-  'validate',
-  'snapshot', // Create backup before transform
-  'preprocess', // Extract modes from nested Figma structure
-  'transform',
-  'style-dictionary',
-  'sync',
-  'sass-theme',
-  'sass-theme-minified',
-  'postprocess',
-  'sass-utilities',
-  'sass-utilities-minified',
-  'bundle',
+  STEP_VALIDATE,
+  STEP_SNAPSHOT, // Create backup before transform
+  STEP_PREPROCESS, // Extract modes from nested Figma structure
+  STEP_TRANSFORM,
+  STEP_STYLE_DICTIONARY,
+  STEP_SYNC,
+  STEP_SASS_THEME,
+  STEP_SASS_THEME_MINIFIED,
+  STEP_POSTPROCESS,
+  STEP_SASS_UTILITIES,
+  STEP_SASS_UTILITIES_MINIFIED,
+  STEP_BUNDLE,
 ];
 
 /** Default pipeline paths */
@@ -98,6 +120,53 @@ const DEFAULT_PIPELINE_PATHS: Required<BuildPipelinePaths> = {
 // ============================================================================
 // Build Step Runner
 // ============================================================================
+
+/**
+ * Execute a step's function, returning success/failure.
+ */
+async function runStepFn(fn: NonNullable<BuildStep['fn']>, verbose: boolean): Promise<boolean> {
+  try {
+    const result = await fn();
+    if (result === false) {
+      console.error(`    ❌ Failed: Step returned false`);
+      return false;
+    }
+    if (verbose) {
+      console.info('    ✅ Done');
+    }
+    return true;
+  } catch (error) {
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    console.error(`    ❌ Failed: ${errorMsg}`);
+    return false;
+  }
+}
+
+/**
+ * Execute a step's shell command via execFileSync, returning success/failure.
+ */
+function runStepCommand(command: string, step: BuildStep, verbose: boolean): boolean {
+  const args = step.args ?? [];
+  if (verbose) {
+    const shortCmd = [command, ...args].slice(0, 4).join(' ');
+    console.info(`    $ ${shortCmd}...`);
+  }
+
+  try {
+    execFileSync(command, args, {
+      cwd: step.cwd ?? process.cwd(),
+      stdio: verbose ? 'inherit' : 'pipe',
+      env: { ...process.env, FORCE_COLOR: '1' },
+    });
+    if (verbose) {
+      console.info('    ✅ Done');
+    }
+    return true;
+  } catch (error) {
+    console.error(`    ❌ Failed: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`);
+    return false;
+  }
+}
 
 /**
  * Run a single build step
@@ -121,48 +190,12 @@ async function runStep(
     console.info(`\n${stepNum} 🔧 ${step.name}`);
   }
 
-  // If step has a function, run it
   if (step.fn) {
-    try {
-      // Run function and await if it returns a promise
-      const result = await step.fn();
-      // Check if function returned false (failure)
-      if (result === false) {
-        console.error(`    ❌ Failed: Step returned false`);
-        return false;
-      }
-      if (verbose) {
-        console.info('    ✅ Done');
-      }
-      return true;
-    } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : String(error);
-      console.error(`    ❌ Failed: ${errorMsg}`);
-      return false;
-    }
+    return runStepFn(step.fn, verbose);
   }
 
-  // Otherwise run command
   if (step.command) {
-    if (verbose) {
-      const shortCmd = step.command.split(' ').slice(0, 4).join(' ');
-      console.info(`    $ ${shortCmd}...`);
-    }
-
-    try {
-      execSync(step.command, {
-        cwd: step.cwd ?? process.cwd(),
-        stdio: verbose ? 'inherit' : 'pipe',
-        env: { ...process.env, FORCE_COLOR: '1' },
-      });
-      if (verbose) {
-        console.info('    ✅ Done');
-      }
-      return true;
-    } catch (error) {
-      console.error(`    ❌ Failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
-      return false;
-    }
+    return runStepCommand(step.command, step, verbose);
   }
 
   console.warn(`    ⚠️  Step ${step.name} has no command or function`);
@@ -188,44 +221,63 @@ function getPipelinePaths(customPaths?: BuildPipelinePaths): Required<BuildPipel
  * Using Map for safe access (avoids Object Injection Sink)
  */
 const STEP_DISPLAY_NAMES = new Map<BuildPipelineStep, string>([
-  ['validate', 'Validate Tokens'],
-  ['snapshot', 'Create Snapshot Backup'],
-  ['preprocess', 'Preprocess Mode Files'],
-  ['transform', 'Transform Figma Tokens'],
-  ['style-dictionary', 'Build Style Dictionary'],
-  ['multi-theme', 'Build Multi-Theme Tokens'],
-  ['sync', 'Sync tokens-flat.ts'],
-  ['sass-theme', 'Compile Bootstrap Theme (unminified)'],
-  ['sass-theme-minified', 'Compile Bootstrap Theme (minified)'],
-  ['postprocess', 'Post-process Theme CSS'],
-  ['sass-utilities', 'Compile DSAi Utilities (unminified)'],
-  ['sass-utilities-minified', 'Compile DSAi Utilities (minified)'],
-  ['bundle', 'Bundle with tsup'],
+  [STEP_VALIDATE, 'Validate Tokens'],
+  [STEP_SNAPSHOT, 'Create Snapshot Backup'],
+  [STEP_PREPROCESS, 'Preprocess Mode Files'],
+  [STEP_TRANSFORM, 'Transform Figma Tokens'],
+  [STEP_STYLE_DICTIONARY, 'Build Style Dictionary'],
+  [STEP_MULTI_THEME, 'Build Multi-Theme Tokens'],
+  [STEP_SYNC, 'Sync tokens-flat.ts'],
+  [STEP_SASS_THEME, 'Compile Bootstrap Theme (unminified)'],
+  [STEP_SASS_THEME_MINIFIED, 'Compile Bootstrap Theme (minified)'],
+  [STEP_POSTPROCESS, 'Post-process Theme CSS'],
+  [STEP_SASS_UTILITIES, 'Compile DSAi Utilities (unminified)'],
+  [STEP_SASS_UTILITIES_MINIFIED, 'Compile DSAi Utilities (minified)'],
+  [STEP_BUNDLE, 'Bundle with tsup'],
 ]);
+
+/**
+ * Configuration for creating build steps from step names.
+ */
+interface StepCreationContext {
+  tokensPackageDir: string;
+  figmaExportsDir: string;
+  tokensDir: string;
+  paths: Required<BuildPipelinePaths>;
+  sdConfigFile: string;
+  strict: boolean;
+  snapshotService?: SnapshotService;
+  themesConfig?: BuildOptions['themesConfig'];
+  outputDir?: string;
+  formats: OutputFormat[];
+  cssOutputDir?: string;
+  postprocessConfig?: BuildOptions['postprocessConfig'];
+  prefix?: string;
+}
 
 /**
  * Create a single build step from step name
  */
-function createStepFromName(
-  stepName: BuildPipelineStep,
-  tokensPackageDir: string,
-  figmaExportsDir: string,
-  tokensDir: string,
-  paths: Required<BuildPipelinePaths>,
-  sdConfigFile: string,
-  strict: boolean,
-  snapshotService?: SnapshotService,
-  themesConfig?: BuildOptions['themesConfig'],
-  outputDir?: string,
-  formats: OutputFormat[] = ['css', 'scss', 'json'],
-  cssOutputDir?: string,
-  postprocessConfig?: BuildOptions['postprocessConfig'],
-  prefix?: string
-): BuildStep {
+function createStepFromName(stepName: BuildPipelineStep, ctx: StepCreationContext): BuildStep {
   const displayName = STEP_DISPLAY_NAMES.get(stepName) ?? `Unknown: ${stepName}`;
+  const {
+    tokensPackageDir,
+    figmaExportsDir,
+    tokensDir,
+    paths,
+    sdConfigFile,
+    strict,
+    snapshotService,
+    themesConfig,
+    outputDir,
+    formats,
+    cssOutputDir,
+    postprocessConfig,
+    prefix,
+  } = ctx;
 
   switch (stepName) {
-    case 'validate':
+    case STEP_VALIDATE:
       return {
         name: displayName,
         fn: async () => {
@@ -251,7 +303,7 @@ function createStepFromName(
         },
       };
 
-    case 'snapshot':
+    case STEP_SNAPSHOT:
       return {
         name: displayName,
         fn: () => {
@@ -270,7 +322,7 @@ function createStepFromName(
             );
 
             if (!result.success || !result.snapshot) {
-              console.error(`    ❌ Snapshot failed: ${result.error || 'Unknown error'}`);
+              console.error(`    ❌ Snapshot failed: ${result.error || UNKNOWN_ERROR_MSG}`);
               return false;
             }
 
@@ -279,14 +331,14 @@ function createStepFromName(
             return true;
           } catch (error) {
             console.error(
-              `    ❌ Snapshot failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+              `    ❌ Snapshot failed: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
             );
             return false;
           }
         },
       };
 
-    case 'preprocess':
+    case STEP_PREPROCESS:
       return {
         name: displayName,
         fn: async () => {
@@ -318,7 +370,9 @@ function createStepFromName(
             if (failedFiles.length > 0) {
               console.error(`    ❌ Preprocessing failed for ${failedFiles.length} file(s)`);
               for (const failed of failedFiles) {
-                console.error(`       - ${failed.sourceFile}: ${failed.error ?? 'Unknown error'}`);
+                console.error(
+                  `       - ${failed.sourceFile}: ${failed.error ?? UNKNOWN_ERROR_MSG}`
+                );
               }
               return false;
             }
@@ -343,14 +397,14 @@ function createStepFromName(
             return true;
           } catch (error) {
             console.error(
-              `    ❌ Preprocessing failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+              `    ❌ Preprocessing failed: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
             );
             return false;
           }
         },
       };
 
-    case 'transform':
+    case STEP_TRANSFORM:
       return {
         name: displayName,
         fn: () => {
@@ -377,14 +431,15 @@ function createStepFromName(
         },
       };
 
-    case 'style-dictionary':
+    case STEP_STYLE_DICTIONARY:
       return {
         name: displayName,
-        command: `style-dictionary build --config ${sdConfigFile}`,
+        command: 'style-dictionary',
+        args: ['build', '--config', sdConfigFile],
         cwd: tokensPackageDir,
       };
 
-    case 'multi-theme':
+    case STEP_MULTI_THEME:
       return {
         name: displayName,
         fn: async () => {
@@ -502,14 +557,14 @@ function createStepFromName(
             return true;
           } catch (error) {
             console.error(
-              `    ❌ Multi-theme build error: ${error instanceof Error ? error.message : 'Unknown error'}`
+              `    ❌ Multi-theme build error: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
             );
             return false;
           }
         },
       };
 
-    case 'sync':
+    case STEP_SYNC:
       return {
         name: displayName,
         fn: () =>
@@ -519,21 +574,28 @@ function createStepFromName(
           }),
       };
 
-    case 'sass-theme':
+    case STEP_SASS_THEME:
       return {
         name: displayName,
-        command: `sass ${SASS_FLAGS} ${paths.sassThemeInput} ${paths.sassThemeOutput}`,
+        command: 'sass',
+        args: [...SASS_FLAGS, paths.sassThemeInput, paths.sassThemeOutput],
         cwd: tokensPackageDir,
       };
 
-    case 'sass-theme-minified':
+    case STEP_SASS_THEME_MINIFIED:
       return {
         name: displayName,
-        command: `sass ${SASS_FLAGS} ${paths.sassThemeInput} ${paths.sassThemeMinifiedOutput} --style=compressed`,
+        command: 'sass',
+        args: [
+          ...SASS_FLAGS,
+          paths.sassThemeInput,
+          paths.sassThemeMinifiedOutput,
+          '--style=compressed',
+        ],
         cwd: tokensPackageDir,
       };
 
-    case 'postprocess':
+    case STEP_POSTPROCESS:
       return {
         name: displayName,
         fn: () => {
@@ -552,24 +614,32 @@ function createStepFromName(
         },
       };
 
-    case 'sass-utilities':
+    case STEP_SASS_UTILITIES:
       return {
         name: displayName,
-        command: `sass ${SASS_FLAGS_MINIMAL} ${paths.sassUtilitiesInput} ${paths.sassUtilitiesOutput}`,
+        command: 'sass',
+        args: [...SASS_FLAGS_MINIMAL, paths.sassUtilitiesInput, paths.sassUtilitiesOutput],
         cwd: tokensPackageDir,
       };
 
-    case 'sass-utilities-minified':
+    case STEP_SASS_UTILITIES_MINIFIED:
       return {
         name: displayName,
-        command: `sass ${SASS_FLAGS_MINIMAL} ${paths.sassUtilitiesInput} ${paths.sassUtilitiesMinifiedOutput} --style=compressed`,
+        command: 'sass',
+        args: [
+          ...SASS_FLAGS_MINIMAL,
+          paths.sassUtilitiesInput,
+          paths.sassUtilitiesMinifiedOutput,
+          '--style=compressed',
+        ],
         cwd: tokensPackageDir,
       };
 
-    case 'bundle':
+    case STEP_BUNDLE:
       return {
         name: displayName,
         command: 'tsup',
+        args: [],
         cwd: tokensPackageDir,
       };
 
@@ -622,34 +692,38 @@ function createBuildSteps(
   // Build steps based on pipeline configuration
   const steps: BuildStep[] = [];
 
+  const stepContext: StepCreationContext = {
+    tokensPackageDir,
+    figmaExportsDir,
+    tokensDir,
+    paths,
+    sdConfigFile,
+    strict,
+    snapshotService,
+    themesConfig: options.themesConfig,
+    outputDir: options.outputDir,
+    formats,
+    cssOutputDir: options.cssOutputDir,
+    postprocessConfig: options.postprocessConfig,
+    prefix: options.prefix,
+  };
+
   for (const stepName of pipelineSteps) {
-    const step = createStepFromName(
-      stepName,
-      tokensPackageDir,
-      figmaExportsDir,
-      tokensDir,
-      paths,
-      sdConfigFile,
-      strict,
-      snapshotService,
-      options.themesConfig,
-      options.outputDir,
-      formats,
-      options.cssOutputDir,
-      options.postprocessConfig,
-      options.prefix
-    );
+    const step = createStepFromName(stepName, stepContext);
 
     // Apply skip flags based on legacy options
-    if (stepName === 'validate' && skipValidate) {
+    if (stepName === STEP_VALIDATE && skipValidate) {
       step.skip = true;
     }
-    if (stepName === 'transform' && (skipTransform || onlyTheme)) {
+    if (stepName === STEP_TRANSFORM && (skipTransform || onlyTheme)) {
       step.skip = true;
     }
-    if (onlyTheme && !['sass-theme', 'sass-theme-minified', 'postprocess'].includes(stepName)) {
+    if (
+      onlyTheme &&
+      ![STEP_SASS_THEME, STEP_SASS_THEME_MINIFIED, STEP_POSTPROCESS].includes(stepName)
+    ) {
       // Only run theme-related steps when onlyTheme is true
-      if (!['validate'].includes(stepName)) {
+      if (stepName !== STEP_VALIDATE) {
         step.skip = true;
       }
     }
@@ -690,141 +764,264 @@ function createBuildSteps(
  * });
  * ```
  */
-export async function buildTokens(
+/**
+ * Create a failed BuildResult for directory check errors.
+ */
+function directoryCheckFailure(startTime: number, errorMsg: string): BuildResult {
+  return {
+    success: false,
+    stepsCompleted: [],
+    stepsFailed: ['Directory Check'],
+    duration: Date.now() - startTime,
+    errors: [errorMsg],
+    warnings: [],
+  };
+}
+
+/**
+ * Verify that required build directories exist.
+ * Returns a BuildResult on failure, or undefined on success.
+ */
+function verifyBuildDirectories(
   tokensDir: string,
   toolsDir: string,
-  options: BuildOptions = {}
-): Promise<BuildResult> {
-  const {
-    skipValidate,
-    onlyTheme,
-    verbose = true,
-    quiet = false,
-    incremental = false,
-    force = false,
-    cacheDir,
-  } = options;
-
-  // Use config values from options (already passed from CLI)
-  // No need to reload config here - CLI already loaded it
-  const cssOutputDir = options.cssOutputDir;
-  const postprocessConfig = options.postprocessConfig;
-
-  // Pass config to options so createBuildSteps can access it
-  const optionsWithConfig: BuildOptions = {
-    ...options,
-    cssOutputDir,
-    postprocessConfig,
-  };
-
-  const startTime = Date.now();
-  const stepsCompleted: string[] = [];
-  const stepsFailed: string[] = [];
-  const errors: string[] = [];
-  const warnings: string[] = [];
-
-  // Verify directories exist
+  startTime: number
+): BuildResult | undefined {
   try {
     if (!existsSync(tokensDir)) {
-      return {
-        success: false,
-        stepsCompleted,
-        stepsFailed: ['Directory Check'],
-        duration: Date.now() - startTime,
-        errors: [`Tokens directory not found: ${tokensDir}`],
-        warnings,
-      };
+      return directoryCheckFailure(startTime, `Tokens directory not found: ${tokensDir}`);
     }
   } catch {
-    return {
-      success: false,
-      stepsCompleted,
-      stepsFailed: ['Directory Check'],
-      duration: Date.now() - startTime,
-      errors: [`Failed to check tokens directory: ${tokensDir}`],
-      warnings,
-    };
+    return directoryCheckFailure(startTime, `Failed to check tokens directory: ${tokensDir}`);
   }
 
   try {
     if (!existsSync(toolsDir)) {
-      return {
-        success: false,
-        stepsCompleted,
-        stepsFailed: ['Directory Check'],
-        duration: Date.now() - startTime,
-        errors: [`Tools directory not found: ${toolsDir}`],
-        warnings,
-      };
+      return directoryCheckFailure(startTime, `Tools directory not found: ${toolsDir}`);
     }
   } catch {
+    return directoryCheckFailure(startTime, `Failed to check tools directory: ${toolsDir}`);
+  }
+
+  return undefined;
+}
+
+/**
+ * Log the build header banner and option flags.
+ */
+function logBuildHeader(options: BuildOptions): void {
+  console.info('╔════════════════════════════════════════════════════════════╗');
+  console.info('║           DSAi Tokens - Complete Build                     ║');
+  console.info('╚════════════════════════════════════════════════════════════╝');
+
+  if (options.skipValidate) {
+    console.info('⚠️  Skipping validation (--skip-validate)');
+  }
+  if (options.onlyTheme) {
+    console.info('⚠️  Building only theme CSS (--only-theme)');
+  }
+  if (options.incremental) {
+    console.info('🔄 Incremental build enabled');
+    if (options.force) {
+      console.info('⚡ Force rebuild - ignoring cache');
+    }
+  }
+}
+
+/**
+ * Perform incremental change analysis. Returns a skip result if no changes detected.
+ */
+async function performIncrementalAnalysis(
+  tokensDir: string,
+  options: { force: boolean; cacheDir?: string; verbose: boolean },
+  startTime: number
+): Promise<{
+  cacheService: CacheService;
+  analysis: Awaited<ReturnType<typeof analyzeChanges>>;
+  skipResult?: BuildResult;
+}> {
+  const cacheService = new CacheService({
+    cacheDir: options.cacheDir || `${tokensDir}/.dsai-cache`,
+    enabled: true,
+  });
+
+  const figmaExportsDir = `${tokensDir}/figma-exports`;
+  const incrementalOptions: IncrementalOptions = {
+    enabled: true,
+    force: options.force,
+    cacheService,
+    verbose: options.verbose,
+  };
+
+  const analysis = await analyzeChanges(figmaExportsDir, incrementalOptions);
+
+  if (!analysis.needsFullBuild && analysis.changedFiles.length === 0) {
+    const duration = Date.now() - startTime;
+
+    if (options.verbose) {
+      console.info(generateIncrementalReport(analysis, startTime, 0, 0));
+    }
+
     return {
-      success: false,
-      stepsCompleted,
-      stepsFailed: ['Directory Check'],
-      duration: Date.now() - startTime,
-      errors: [`Failed to check tools directory: ${toolsDir}`],
-      warnings,
-    };
-  }
-
-  // Print header
-  if (verbose && !quiet) {
-    console.info('╔════════════════════════════════════════════════════════════╗');
-    console.info('║           DSAi Tokens - Complete Build                     ║');
-    console.info('╚════════════════════════════════════════════════════════════╝');
-
-    if (skipValidate) {
-      console.info('⚠️  Skipping validation (--skip-validate)');
-    }
-    if (onlyTheme) {
-      console.info('⚠️  Building only theme CSS (--only-theme)');
-    }
-    if (incremental) {
-      console.info('🔄 Incremental build enabled');
-      if (force) {
-        console.info('⚡ Force rebuild - ignoring cache');
-      }
-    }
-  }
-
-  // Initialize cache service for incremental builds
-  let cacheService: CacheService | undefined;
-  let incrementalAnalysis: Awaited<ReturnType<typeof analyzeChanges>> | undefined;
-
-  if (incremental) {
-    cacheService = new CacheService({
-      cacheDir: cacheDir || `${tokensDir}/.dsai-cache`,
-      enabled: true,
-    });
-
-    // Analyze what needs to be rebuilt
-    const figmaExportsDir = `${tokensDir}/figma-exports`;
-    const incrementalOptions: IncrementalOptions = {
-      enabled: true,
-      force,
       cacheService,
-      verbose: verbose && !quiet,
-    };
-
-    incrementalAnalysis = await analyzeChanges(figmaExportsDir, incrementalOptions);
-
-    // If no changes detected, skip build
-    if (!incrementalAnalysis.needsFullBuild && incrementalAnalysis.changedFiles.length === 0) {
-      const duration = Date.now() - startTime;
-
-      if (verbose && !quiet) {
-        console.info(generateIncrementalReport(incrementalAnalysis, startTime, 0, 0));
-      }
-
-      return {
+      analysis,
+      skipResult: {
         success: true,
         stepsCompleted: ['Cache Check'],
         stepsFailed: [],
         duration,
         errors: [],
         warnings: ['No changes detected - build skipped'],
-      };
+      },
+    };
+  }
+
+  return { cacheService, analysis };
+}
+
+/**
+ * Execute all build steps in sequence. Returns on first failure.
+ */
+async function executeBuildSteps(
+  steps: BuildStep[],
+  verbose: boolean,
+  startTime: number
+): Promise<BuildResult | { stepsCompleted: string[] }> {
+  const stepsCompleted: string[] = [];
+
+  for (const [i, step] of steps.entries()) {
+    const success = await runStep(step, i, steps.length, verbose);
+
+    if (success) {
+      if (!step.skip) {
+        stepsCompleted.push(step.name);
+      }
+      continue;
+    }
+
+    if (verbose) {
+      console.error(`\n💥 Build failed at step: ${step.name}`);
+    }
+
+    return {
+      success: false,
+      stepsCompleted,
+      stepsFailed: [step.name],
+      duration: Date.now() - startTime,
+      errors: [`Build failed at step: ${step.name}`],
+      warnings: [],
+    };
+  }
+
+  return { stepsCompleted };
+}
+
+/**
+ * Update incremental cache and log report after a successful build.
+ */
+async function finalizeIncrementalBuild(
+  tokensDir: string,
+  cacheService: CacheService,
+  analysis: Awaited<ReturnType<typeof analyzeChanges>>,
+  stepsCompleted: number,
+  totalSteps: number,
+  startTime: number,
+  verbose: boolean
+): Promise<void> {
+  const figmaExportsDir = `${tokensDir}/figma-exports`;
+  const collectionsDir = `${tokensDir}/collections`;
+
+  await updateCacheAfterBuild(
+    cacheService,
+    analysis.changedFiles,
+    [],
+    figmaExportsDir,
+    collectionsDir,
+    verbose
+  );
+
+  if (verbose) {
+    console.info(generateIncrementalReport(analysis, startTime, stepsCompleted, totalSteps));
+  }
+}
+
+/**
+ * Clean up any preprocessed temp files created during the build.
+ */
+function cleanupPreprocessedFiles(verbose: boolean): void {
+  if (!preprocessCleanup) {
+    return;
+  }
+
+  try {
+    preprocessCleanup();
+    if (verbose) {
+      console.info('🧹 Cleaned up preprocessed files');
+    }
+  } catch (error) {
+    if (verbose) {
+      console.warn(
+        `⚠️  Failed to cleanup preprocessed files: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
+      );
+    }
+  } finally {
+    preprocessCleanup = null;
+  }
+}
+
+/**
+ * Log the build completion footer.
+ */
+function logBuildFooter(stepsCompleted: number, durationSec: string): void {
+  console.info('\n╔════════════════════════════════════════════════════════════╗');
+  console.info('║  ✅ Build Complete                                         ║');
+  console.info(
+    `║  📊 ${stepsCompleted} steps passed in ${durationSec}s                              ║`
+  );
+  console.info('╚════════════════════════════════════════════════════════════╝');
+}
+
+export async function buildTokens(
+  tokensDir: string,
+  toolsDir: string,
+  options: BuildOptions = {}
+): Promise<BuildResult> {
+  const { verbose = true, quiet = false, incremental = false, force = false, cacheDir } = options;
+  const shouldLog = verbose && !quiet;
+
+  const optionsWithConfig: BuildOptions = {
+    ...options,
+    cssOutputDir: options.cssOutputDir,
+    postprocessConfig: options.postprocessConfig,
+  };
+
+  const startTime = Date.now();
+
+  // Verify directories exist
+  const dirError = verifyBuildDirectories(tokensDir, toolsDir, startTime);
+  if (dirError) {
+    return dirError;
+  }
+
+  // Print header
+  if (shouldLog) {
+    logBuildHeader(options);
+  }
+
+  // Incremental build analysis
+  let cacheService: CacheService | undefined;
+  let incrementalAnalysis: Awaited<ReturnType<typeof analyzeChanges>> | undefined;
+
+  if (incremental) {
+    const result = await performIncrementalAnalysis(
+      tokensDir,
+      { force, cacheDir, verbose: shouldLog },
+      startTime
+    );
+    cacheService = result.cacheService;
+    incrementalAnalysis = result.analysis;
+    if (result.skipResult) {
+      return result.skipResult;
     }
   }
 
@@ -835,102 +1032,45 @@ export async function buildTokens(
     optionsWithConfig,
     optionsWithConfig.pipeline
   );
+  const stepResult = await executeBuildSteps(steps, shouldLog, startTime);
 
-  for (const step of steps) {
-    const stepIndex = steps.indexOf(step);
-    const success = await runStep(step, stepIndex, steps.length, verbose && !quiet);
-
-    if (success) {
-      if (!step.skip) {
-        stepsCompleted.push(step.name);
-      }
-    } else {
-      stepsFailed.push(step.name);
-      errors.push(`Build failed at step: ${step.name}`);
-
-      // Stop on first failure
-      const failDuration = Date.now() - startTime;
-
-      if (verbose && !quiet) {
-        console.error(`\n💥 Build failed at step: ${step.name}`);
-      }
-
-      return {
-        success: false,
-        stepsCompleted,
-        stepsFailed,
-        duration: failDuration,
-        errors,
-        warnings,
-      };
-    }
+  // If executeBuildSteps returned a full BuildResult, it failed
+  if ('success' in stepResult) {
+    return stepResult;
   }
 
+  const { stepsCompleted } = stepResult;
   const duration = Date.now() - startTime;
   const durationSec = (duration / 1000).toFixed(2);
 
   // Update cache after successful build
   if (incremental && cacheService && incrementalAnalysis) {
-    const figmaExportsDir = `${tokensDir}/figma-exports`;
-    const collectionsDir = `${tokensDir}/collections`;
-
-    await updateCacheAfterBuild(
+    await finalizeIncrementalBuild(
+      tokensDir,
       cacheService,
-      incrementalAnalysis.changedFiles,
-      [], // Output files - would need to track from transform step
-      figmaExportsDir,
-      collectionsDir,
-      verbose && !quiet
+      incrementalAnalysis,
+      stepsCompleted.length,
+      steps.length,
+      startTime,
+      shouldLog
     );
-
-    // Show incremental build report
-    if (verbose && !quiet) {
-      console.info(
-        generateIncrementalReport(
-          incrementalAnalysis,
-          startTime,
-          stepsCompleted.length,
-          steps.length
-        )
-      );
-    }
   }
 
-  // Cleanup preprocessed files if they exist
-  if (preprocessCleanup) {
-    try {
-      preprocessCleanup();
-      if (verbose && !quiet) {
-        console.info('🧹 Cleaned up preprocessed files');
-      }
-    } catch (error) {
-      if (verbose && !quiet) {
-        console.warn(
-          `⚠️  Failed to cleanup preprocessed files: ${error instanceof Error ? error.message : 'Unknown error'}`
-        );
-      }
-    } finally {
-      preprocessCleanup = null;
-    }
-  }
+  // Cleanup preprocessed files
+  cleanupPreprocessedFiles(shouldLog);
 
   // Print footer
-  if (verbose && !quiet) {
-    console.info('\n╔════════════════════════════════════════════════════════════╗');
-    console.info('║  ✅ Build Complete                                         ║');
-    console.info(
-      `║  📊 ${stepsCompleted.length} steps passed in ${durationSec}s                              ║`
-    );
-    console.info('╚════════════════════════════════════════════════════════════╝');
+  if (shouldLog) {
+    logBuildFooter(stepsCompleted.length, durationSec);
   }
 
   return {
     success: true,
     stepsCompleted,
-    stepsFailed,
+    stepsFailed: [],
     duration,
-    errors,
-    warnings,
+    errors: [],
+    warnings: [],
   };
 }
 

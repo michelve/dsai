@@ -537,6 +537,46 @@ const NavbarCollapse = forwardRef<HTMLDivElement, NavbarCollapseProps>(
 NavbarCollapse.displayName = 'Navbar.Collapse';
 
 // =============================================================================
+// Navbar.Nav keyboard helpers
+// =============================================================================
+
+/**
+ * Resolve the target focus index from a keyboard event within nav links.
+ * Returns -1 when the key is not a navigation key.
+ */
+function resolveNavKeyIndex(
+  event: React.KeyboardEvent<HTMLElement> | KeyboardEvent,
+  links: HTMLAnchorElement[],
+  orientation: 'horizontal' | 'vertical',
+): number {
+  const activeElement = document.activeElement;
+  const currentIndex =
+    activeElement instanceof HTMLAnchorElement ? links.indexOf(activeElement) : -1;
+
+  const isVertical = orientation === 'vertical';
+  const nextKeys = isVertical ? ['ArrowDown'] : ['ArrowRight'];
+  const prevKeys = isVertical ? ['ArrowUp'] : ['ArrowLeft'];
+
+  if (nextKeys.includes(event.key)) {
+    event.preventDefault();
+    return currentIndex < links.length - 1 ? currentIndex + 1 : 0;
+  }
+  if (prevKeys.includes(event.key)) {
+    event.preventDefault();
+    return currentIndex > 0 ? currentIndex - 1 : links.length - 1;
+  }
+  if (event.key === 'Home') {
+    event.preventDefault();
+    return 0;
+  }
+  if (event.key === 'End') {
+    event.preventDefault();
+    return links.length - 1;
+  }
+  return -1;
+}
+
+// =============================================================================
 // Navbar.Nav Component
 // =============================================================================
 
@@ -605,32 +645,7 @@ const NavbarNav = forwardRef<HTMLUListElement, NavbarNavProps>(
           return;
         }
 
-        const activeElement = document.activeElement;
-        const currentIndex =
-          activeElement instanceof HTMLAnchorElement ? links.indexOf(activeElement) : -1;
-        let nextIndex = -1;
-
-        // Determine navigation keys based on orientation
-        // Horizontal: ArrowLeft/ArrowRight per WAI-ARIA navigation patterns
-        // Vertical: ArrowUp/ArrowDown
-        const isVertical = orientation === 'vertical';
-        const nextKeys = isVertical ? ['ArrowDown'] : ['ArrowRight'];
-        const prevKeys = isVertical ? ['ArrowUp'] : ['ArrowLeft'];
-
-        if (nextKeys.includes(event.key)) {
-          event.preventDefault();
-          nextIndex = currentIndex < links.length - 1 ? currentIndex + 1 : 0;
-        } else if (prevKeys.includes(event.key)) {
-          event.preventDefault();
-          nextIndex = currentIndex > 0 ? currentIndex - 1 : links.length - 1;
-        } else if (event.key === 'Home') {
-          event.preventDefault();
-          nextIndex = 0;
-        } else if (event.key === 'End') {
-          event.preventDefault();
-          nextIndex = links.length - 1;
-        }
-
+        const nextIndex = resolveNavKeyIndex(event, links, orientation);
         if (nextIndex >= 0 && nextIndex < links.length) {
           (Reflect.get(links, nextIndex) as HTMLElement | undefined)?.focus();
         }

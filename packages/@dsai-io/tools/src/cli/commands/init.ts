@@ -21,6 +21,13 @@ import { colors, createLogger } from '../ui/index.js';
 import type { InitOptions } from '../types.js';
 
 // ============================================================================
+// Constants
+// ============================================================================
+
+/** Default config filename */
+const CONFIG_FILENAME = 'dsai.config.mjs';
+
+// ============================================================================
 // Config Templates
 // ============================================================================
 
@@ -184,7 +191,7 @@ async function runInit(options: InitOptions): Promise<void> {
 
   // Check for existing config
   const configFiles = [
-    'dsai.config.mjs',
+    CONFIG_FILENAME,
     'dsai.config.js',
     'dsai.config.json',
     '.dsairc.json',

@@ -48,6 +48,19 @@ import type { ProjectInfo } from '../init/detector.js';
 import type { InitOptions } from '../types.js';
 
 // ============================================================================
+// Constants
+// ============================================================================
+
+/** Message shown when user cancels the setup wizard */
+const MSG_SETUP_CANCELLED = 'Setup cancelled.';
+
+/** File encoding for all read/write operations */
+const FILE_ENCODING = 'utf-8' as const;
+
+/** Figma configuration filename */
+const FIGMA_CONFIG_FILENAME = 'figma.config.mjs';
+
+// ============================================================================
 // Framework Support Check
 // ============================================================================
 
@@ -147,7 +160,7 @@ async function runInteractiveInit(cwd: string, projectInfo: ProjectInfo): Promis
     });
 
     if (p.isCancel(overwrite)) {
-      p.cancel('Setup cancelled.');
+      p.cancel(MSG_SETUP_CANCELLED);
       process.exit(0);
     }
 
@@ -259,7 +272,7 @@ async function runInteractiveInit(cwd: string, projectInfo: ProjectInfo): Promis
     },
     {
       onCancel: () => {
-        p.cancel('Setup cancelled.');
+        p.cancel(MSG_SETUP_CANCELLED);
         process.exit(0);
       },
     }
@@ -293,7 +306,7 @@ async function runInteractiveInit(cwd: string, projectInfo: ProjectInfo): Promis
     configFormat: recommendations.configFormat,
   });
 
-  writeFileSync(join(cwd, configFileName), configContent, 'utf-8');
+  writeFileSync(join(cwd, configFileName), configContent, FILE_ENCODING);
   s.stop(`Created ${configFileName}`);
 
   // 2b. Generate Figma config if requested
@@ -304,8 +317,8 @@ async function runInteractiveInit(cwd: string, projectInfo: ProjectInfo): Promis
       tokensDir: 'collections',
       format: 'dtcg',
     });
-    writeFileSync(join(cwd, 'figma.config.mjs'), figmaConfigContent, 'utf-8');
-    s.stop('Created figma.config.mjs');
+    writeFileSync(join(cwd, FIGMA_CONFIG_FILENAME), figmaConfigContent, FILE_ENCODING);
+    s.stop(`Created ${FIGMA_CONFIG_FILENAME}`);
   }
 
   // 2c. Generate Style Dictionary config for enterprise template
@@ -317,7 +330,7 @@ async function runInteractiveInit(cwd: string, projectInfo: ProjectInfo): Promis
       prefix: config.prefix as string,
       outputReferences: true,
     });
-    writeFileSync(join(cwd, 'sd.config.mjs'), sdConfigContent, 'utf-8');
+    writeFileSync(join(cwd, 'sd.config.mjs'), sdConfigContent, FILE_ENCODING);
 
     const buildScriptContent = generateBuildTokensScript({
       sourceDir: 'collections',
@@ -325,7 +338,7 @@ async function runInteractiveInit(cwd: string, projectInfo: ProjectInfo): Promis
       prefix: config.prefix as string,
       themes: ['light', 'dark'],
     });
-    writeFileSync(join(cwd, 'build-tokens.mjs'), buildScriptContent, 'utf-8');
+    writeFileSync(join(cwd, 'build-tokens.mjs'), buildScriptContent, FILE_ENCODING);
     s.stop('Created sd.config.mjs and build-tokens.mjs');
   }
 
@@ -374,7 +387,7 @@ async function runInteractiveInit(cwd: string, projectInfo: ProjectInfo): Promis
     });
 
     if (p.isCancel(upgradeChoice)) {
-      p.cancel('Setup cancelled.');
+      p.cancel(MSG_SETUP_CANCELLED);
       process.exit(0);
     }
 
@@ -461,7 +474,7 @@ ${projectInfo.packageManager === 'npm' ? 'npm run' : projectInfo.packageManager}
 
 For more information, visit https://github.com/michelve/dsai
 `;
-    writeFileSync(sampleTokensPath, sampleContent, 'utf-8');
+    writeFileSync(sampleTokensPath, sampleContent, FILE_ENCODING);
   }
   s.stop('Sample files created');
 
@@ -538,7 +551,11 @@ async function runQuickInit(
   }
 
   // Write configuration file
-  writeFileSync(join(cwd, templateResult.configFileName), templateResult.configContent, 'utf-8');
+  writeFileSync(
+    join(cwd, templateResult.configFileName),
+    templateResult.configContent,
+    FILE_ENCODING
+  );
   console.log(`${pc.green('✓')} Created ${pc.cyan(templateResult.configFileName)}`);
 
   // Create additional files (README, type stubs, etc.)
@@ -549,7 +566,7 @@ async function runQuickInit(
       mkdirSync(dirPath, { recursive: true });
     }
     if (!existsSync(fullPath)) {
-      writeFileSync(fullPath, file.content, 'utf-8');
+      writeFileSync(fullPath, file.content, FILE_ENCODING);
       console.log(`${pc.green('✓')} Created ${pc.cyan(file.path)}`);
     }
   }
@@ -562,8 +579,8 @@ async function runQuickInit(
       tokensDir: 'collections',
       format: 'dtcg',
     });
-    writeFileSync(join(cwd, 'figma.config.mjs'), figmaConfigContent, 'utf-8');
-    console.log(`${pc.green('✓')} Created ${pc.cyan('figma.config.mjs')}`);
+    writeFileSync(join(cwd, FIGMA_CONFIG_FILENAME), figmaConfigContent, FILE_ENCODING);
+    console.log(`${pc.green('✓')} Created ${pc.cyan(FIGMA_CONFIG_FILENAME)}`);
 
     // Generate .env.example for Figma token
     const envExampleContent = `# Figma API Configuration
@@ -572,7 +589,7 @@ async function runQuickInit(
 FIGMA_TOKEN=your-figma-personal-access-token
 FIGMA_FILE_KEY=your-figma-file-key
 `;
-    writeFileSync(join(cwd, '.env.example'), envExampleContent, 'utf-8');
+    writeFileSync(join(cwd, '.env.example'), envExampleContent, FILE_ENCODING);
     console.log(`${pc.green('✓')} Created ${pc.cyan('.env.example')}`);
   }
 

@@ -658,6 +658,31 @@ const DropdownMenu = forwardRef<HTMLUListElement, DropdownMenuProps>(
 DropdownMenu.displayName = 'Dropdown.Menu';
 
 /**
+ * Render dropdown item content with optional start/end icons.
+ */
+function renderDropdownItemContent(
+  children: React.ReactNode,
+  startIcon: React.ReactNode | undefined,
+  endIcon: React.ReactNode | undefined,
+): React.JSX.Element {
+  return (
+    <>
+      {startIcon && (
+        <span className="dropdown-item-icon me-2" aria-hidden="true">
+          {startIcon}
+        </span>
+      )}
+      {children}
+      {endIcon && (
+        <span className="dropdown-item-icon ms-2" aria-hidden="true">
+          {endIcon}
+        </span>
+      )}
+    </>
+  );
+}
+
+/**
  * Dropdown.Item Component
  *
  * A clickable item within the dropdown menu.
@@ -764,6 +789,8 @@ const DropdownItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, DropdownI
 
     const isActive = index === activeIndex;
 
+    const itemContent = renderDropdownItemContent(children, startIcon, endIcon);
+
     if (ElementType === 'a') {
       return (
         <li role="none">
@@ -783,17 +810,7 @@ const DropdownItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, DropdownI
             data-test={dataTest}
             {...itemProps}
           >
-            {startIcon && (
-              <span className="dropdown-item-icon me-2" aria-hidden="true">
-                {startIcon}
-              </span>
-            )}
-            {children}
-            {endIcon && (
-              <span className="dropdown-item-icon ms-2" aria-hidden="true">
-                {endIcon}
-              </span>
-            )}
+            {itemContent}
           </a>
         </li>
       );
@@ -816,17 +833,7 @@ const DropdownItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, DropdownI
           data-test={dataTest}
           {...itemProps}
         >
-          {startIcon && (
-            <span className="dropdown-item-icon me-2" aria-hidden="true">
-              {startIcon}
-            </span>
-          )}
-          {children}
-          {endIcon && (
-            <span className="dropdown-item-icon ms-2" aria-hidden="true">
-              {endIcon}
-            </span>
-          )}
+          {itemContent}
         </button>
       </li>
     );

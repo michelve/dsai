@@ -81,6 +81,41 @@ function getFocusableElements(container: HTMLElement): HTMLElement[] {
 }
 
 /**
+ * Store the previously active element when activating the trap.
+ * @internal
+ */
+function storePreviousFocus(
+  restoreFocus: boolean,
+  previousActiveElement: { current: HTMLElement | null }
+): void {
+  if (restoreFocus && isBrowser() && !previousActiveElement.current) {
+    previousActiveElement.current = document.activeElement as HTMLElement;
+  }
+}
+
+/**
+ * Cleanup existing trap and restore focus to the appropriate element.
+ * @internal
+ */
+function cleanupAndRestoreFocus(
+  cleanupRef: { current: (() => void) | null },
+  finalFocusRef: { current: HTMLElement | null } | undefined,
+  previousActiveElement: { current: HTMLElement | null }
+): void {
+  if (cleanupRef.current) {
+    cleanupRef.current();
+    cleanupRef.current = null;
+  }
+  if (isBrowser()) {
+    const elementToFocus = finalFocusRef?.current || previousActiveElement.current;
+    if (elementToFocus && typeof elementToFocus.focus === 'function') {
+      elementToFocus.focus();
+    }
+    previousActiveElement.current = null;
+  }
+}
+
+/**
  * useFocusTrap - Traps keyboard focus within a container element.
  *
  * This hook is essential for accessible modal dialogs, sheets, drawers,
@@ -217,28 +252,13 @@ export function useFocusTrap<T extends HTMLElement = HTMLElement>(
 
   // Sync isActive with enabled prop - using refs to avoid effect cascade
   useEffect(() => {
-    // Only update if the state doesn't match the enabled prop
     setIsActive((current) => {
       if (enabled && !current) {
-        // Store previously focused element when activating
-        if (restoreFocus && isBrowser() && !previousActiveElement.current) {
-          previousActiveElement.current = document.activeElement as HTMLElement;
-        }
+        storePreviousFocus(restoreFocus, previousActiveElement);
         return true;
       }
       if (!enabled && current) {
-        // Cleanup and restore focus when deactivating
-        if (cleanupRef.current) {
-          cleanupRef.current();
-          cleanupRef.current = null;
-        }
-        if (isBrowser()) {
-          const elementToFocus = finalFocusRef?.current || previousActiveElement.current;
-          if (elementToFocus && typeof elementToFocus.focus === 'function') {
-            elementToFocus.focus();
-          }
-          previousActiveElement.current = null;
-        }
+        cleanupAndRestoreFocus(cleanupRef, finalFocusRef, previousActiveElement);
         return false;
       }
       return current;

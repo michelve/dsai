@@ -241,6 +241,129 @@ const SortIcon = memo(function SortIcon({ direction, sortable, priority }: SortI
 SortIcon.displayName = 'SortIcon';
 
 // =============================================================================
+// Cell style helpers
+// =============================================================================
+
+/**
+ * Build inline styles for a sticky data cell
+ */
+function buildStickyCellStyle(
+  isSticky: boolean,
+  stickyDirection: 'left' | 'right' | undefined,
+  isSelected: boolean
+): React.CSSProperties {
+  if (!isSticky || !stickyDirection) {
+    return {};
+  }
+  return {
+    position: 'sticky',
+    [stickyDirection]: 0,
+    zIndex: 1,
+    backgroundColor: isSelected
+      ? 'var(--bs-table-active-bg, rgba(0, 0, 0, 0.075))'
+      : 'var(--bs-table-bg, var(--bs-body-bg, #fff))',
+  };
+}
+
+// =============================================================================
+// Extracted render helpers (reduce per-component cyclomatic complexity)
+// =============================================================================
+
+/**
+ * Render the expand/collapse toggle button for an expandable row.
+ */
+function renderExpandCell(
+  isExpanded: boolean,
+  rowIndex: number,
+  handleToggleExpand: () => void,
+): React.JSX.Element {
+  return (
+    <td className="table-expand-cell">
+      <button
+        className="btn btn-sm btn-link p-0"
+        onClick={(e) => {
+          e.stopPropagation();
+          handleToggleExpand();
+        }}
+        onKeyDown={(e) => {
+          if (isEnterKey(e) || e.key === ' ') {
+            e.preventDefault();
+            e.stopPropagation();
+            handleToggleExpand();
+          }
+        }}
+        aria-expanded={isExpanded}
+        aria-label={`${isExpanded ? 'Collapse' : 'Expand'} row ${rowIndex + 1}`}
+        type="button"
+      >
+        {isExpanded ? '\u25BC' : '\u25B6'}
+      </button>
+    </td>
+  );
+}
+
+/**
+ * Render the selection checkbox cell for a data row.
+ */
+function renderSelectionCell(
+  isSelected: boolean,
+  isDisabled: boolean,
+  rowIndex: number,
+  handleChange: () => void,
+): React.JSX.Element {
+  return (
+    <td className="table-select-cell">
+      <Checkbox
+        checked={isSelected}
+        onChange={handleChange}
+        aria-label={`Select row ${rowIndex + 1}`}
+        disabled={isDisabled}
+        onClick={(e) => e.stopPropagation()}
+      />
+    </td>
+  );
+}
+
+/**
+ * Render a single data cell.
+ */
+function renderDataCell<T>(
+  column: TableColumn<T>,
+  row: T,
+  rowIndex: number,
+  isSelected: boolean,
+): React.JSX.Element {
+  const cellValue = getValue(row, column.accessor);
+  const alignClass = getAlignClass(column.align);
+  const cellStyle = buildStickyCellStyle(!!column.sticky, column.sticky, isSelected);
+  const cellClasses = cn(alignClass, column.cellClassName);
+
+  return (
+    <td key={column.id} className={cellClasses || undefined} style={cellStyle}>
+      {column.cell
+        ? column.cell(cellValue, row as Record<string, unknown>, rowIndex)
+        : (cellValue as React.ReactNode)}
+    </td>
+  );
+}
+
+/**
+ * Resolve pagination position flags.
+ */
+function resolvePaginationFlags(
+  paginationElement: React.ReactNode,
+  paginationPosition: 'top' | 'bottom' | 'both',
+): { showTop: boolean; showBottom: boolean } {
+  if (!paginationElement) {
+    return { showTop: false, showBottom: false };
+  }
+  return {
+    showTop: paginationPosition === 'top' || paginationPosition === 'both',
+    showBottom: paginationPosition === 'bottom' || paginationPosition === 'both',
+  };
+}
+
+// =============================================================================
 // Table Component
 // =============================================================================
 
@@ -1291,80 +1414,14 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
                     role={selectionMode !== 'none' ? 'row' : undefined}
                   >
                     {/* Expand cell */}
-                    {hasExpandColumn && (
-                      <td className="table-expand-cell">
-                        <button
-                          className="btn btn-sm btn-link p-0"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleToggleExpand(rowIdValue);
-                          }}
-                          onKeyDown={(e) => {
-                            if (isEnterKey(e) || e.key === ' ') {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              handleToggleExpand(rowIdValue);
-                            }
-                          }}
-                          aria-expanded={isExpanded}
-                          aria-label={`${isExpanded ? 'Collapse' : 'Expand'} row ${rowIndex + 1}`}
-                          type="button"
-                        >
-                          {isExpanded ? '\u25BC' : '\u25B6'}
-                        </button>
-                      </td>
-                    )}
+                    {hasExpandColumn && renderExpandCell(isExpanded, rowIndex, () => handleToggleExpand(rowIdValue))}
 
                     {/* Selection cell */}
-                    {selectionMode === 'multiple' && (
-                      <td className="table-select-cell">
-                        <Checkbox
-                          checked={isSelected}
-                          onChange={() => handleToggleRow(rowIdValue)}
-                          aria-label={`Select row ${rowIndex + 1}`}
-                          disabled={isDisabled}
-                          onClick={(e) => e.stopPropagation()}
-                        />
-                      </td>
-                    )}
-                    {selectionMode === 'single' && (
-                      <td className="table-select-cell">
-                        <Checkbox
-                          checked={isSelected}
-                          onChange={() => handleSelectRow(rowIdValue)}
-                          aria-label={`Select row ${rowIndex + 1}`}
-                          disabled={isDisabled}
-                          onClick={(e) => e.stopPropagation()}
-                        />
-                      </td>
-                    )}
+                    {selectionMode === 'multiple' && renderSelectionCell(isSelected, isDisabled, rowIndex, () => handleToggleRow(rowIdValue))}
+                    {selectionMode === 'single' && renderSelectionCell(isSelected, isDisabled, rowIndex, () => handleSelectRow(rowIdValue))}
 
                     {/* Data cells */}
-                    {visibleColumns.map((column) => {
-                      const cellValue = getValue(row, column.accessor);
-                      const alignClass = getAlignClass(column.align);
-
-                      const cellStyle: React.CSSProperties = {};
-                      if (column.sticky) {
-                        cellStyle.position = 'sticky';
-                        cellStyle[column.sticky] = 0;
-                        cellStyle.zIndex = 1;
-                        // Use solid background to prevent content showing through
-                        cellStyle.backgroundColor = isSelected
-                          ? 'var(--bs-table-active-bg, rgba(0, 0, 0, 0.075))'
-                          : 'var(--bs-table-bg, var(--bs-body-bg, #fff))';
-                      }
-
-                      const cellClasses = cn(alignClass, column.cellClassName);
-
-                      return (
-                        <td key={column.id} className={cellClasses || undefined} style={cellStyle}>
-                          {column.cell
-                            ? column.cell(cellValue, row, rowIndex)
-                            : (cellValue as React.ReactNode)}
-                        </td>
-                      );
-                    })}
+                    {visibleColumns.map((column) => renderDataCell(column, row, rowIndex, isSelected))}
                   </tr>
 
                   {/* Expanded row content */}
@@ -1393,10 +1450,8 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     );
 
     // Build final output with pagination
-    const showTopPagination =
-      paginationElement && (paginationPosition === 'top' || paginationPosition === 'both');
-    const showBottomPagination =
-      paginationElement && (paginationPosition === 'bottom' || paginationPosition === 'both');
+    const { showTop: showTopPagination, showBottom: showBottomPagination } =
+      resolvePaginationFlags(paginationElement, paginationPosition);
 
     const content = (
       <>

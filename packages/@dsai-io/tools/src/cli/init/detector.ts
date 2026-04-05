@@ -209,45 +209,46 @@ function safeReadFile(basePath: string, ...relativePath: string[]): string | und
 // Detection Functions
 // ============================================================================
 
+/** Lock file-to-package manager mapping (checked in order) */
+const LOCK_FILE_PM_MAP: [string | string[], PackageManager][] = [
+  [['bun.lockb', 'bun.lock'], 'bun'],
+  ['pnpm-lock.yaml', 'pnpm'],
+  ['yarn.lock', 'yarn'],
+  ['package-lock.json', 'npm'],
+];
+
+/** packageManager field prefix-to-PM mapping */
+const PM_PREFIX_MAP: [string, PackageManager][] = [
+  ['pnpm', 'pnpm'],
+  ['yarn', 'yarn'],
+  ['bun', 'bun'],
+  ['npm', 'npm'],
+];
+
 /**
  * Detect package manager from lock files
  */
 export function detectPackageManager(cwd: string): PackageManager {
   const basePath = resolve(cwd);
 
-  if (safeExists(basePath, 'bun.lockb') || safeExists(basePath, 'bun.lock')) {
-    return 'bun';
-  }
-  if (safeExists(basePath, 'pnpm-lock.yaml')) {
-    return 'pnpm';
-  }
-  if (safeExists(basePath, 'yarn.lock')) {
-    return 'yarn';
-  }
-  if (safeExists(basePath, 'package-lock.json')) {
-    return 'npm';
+  // Check lock files
+  for (const [files, pm] of LOCK_FILE_PM_MAP) {
+    const fileList = Array.isArray(files) ? files : [files];
+    if (fileList.some((f) => safeExists(basePath, f))) {
+      return pm;
+    }
   }
 
-  // Check for specific package manager fields in package.json
+  // Check packageManager field in package.json (corepack)
   const content = safeReadFile(basePath, 'package.json');
   if (content) {
     try {
       const pkg = JSON.parse(content) as PackageJsonData;
-
-      // Check packageManager field (corepack)
       if (typeof pkg.packageManager === 'string') {
-        const pm = pkg.packageManager;
-        if (pm.startsWith('pnpm')) {
-          return 'pnpm';
-        }
-        if (pm.startsWith('yarn')) {
-          return 'yarn';
-        }
-        if (pm.startsWith('bun')) {
-          return 'bun';
-        }
-        if (pm.startsWith('npm')) {
-          return 'npm';
+        for (const [prefix, pm] of PM_PREFIX_MAP) {
+          if (pkg.packageManager.startsWith(prefix)) {
+            return pm;
+          }
         }
       }
     } catch {
@@ -294,6 +295,29 @@ export function detectFramework(pkg: PackageJsonData): Framework {
   return 'vanilla';
 }
 
+/** Dependency-to-meta-framework mapping (checked in specificity order) */
+const DEP_META_FRAMEWORK_MAP: [string | string[], MetaFramework][] = [
+  ['next', 'next'],
+  ['nuxt', 'nuxt'],
+  [['@remix-run/react', 'remix'], 'remix'],
+  ['astro', 'astro'],
+  ['gatsby', 'gatsby'],
+  ['vite', 'vite'],
+  ['turbo', 'turbopack'],
+  [['webpack', 'webpack-cli'], 'webpack'],
+  ['parcel', 'parcel'],
+  ['rollup', 'rollup'],
+  ['esbuild', 'esbuild'],
+];
+
+/** Config file-to-meta-framework mapping */
+const CONFIG_FILE_META_FRAMEWORK_MAP: [string[], MetaFramework][] = [
+  [['vite.config.ts', 'vite.config.js'], 'vite'],
+  [['next.config.js', 'next.config.mjs'], 'next'],
+  [['webpack.config.js'], 'webpack'],
+  [['rollup.config.js', 'rollup.config.mjs'], 'rollup'],
+];
+
 /**
  * Detect meta-framework or build tool
  */
@@ -304,58 +328,77 @@ export function detectMetaFramework(pkg: PackageJsonData, cwd: string): MetaFram
     ...pkg.devDependencies,
   };
 
-  // Check for meta-frameworks first (more specific)
-  if (allDeps['next']) {
-    return 'next';
-  }
-  if (allDeps['nuxt']) {
-    return 'nuxt';
-  }
-  if (allDeps['@remix-run/react'] || allDeps['remix']) {
-    return 'remix';
-  }
-  if (allDeps['astro']) {
-    return 'astro';
-  }
-  if (allDeps['gatsby']) {
-    return 'gatsby';
+  // Check dependencies in order of specificity
+  for (const [deps, framework] of DEP_META_FRAMEWORK_MAP) {
+    const depList = Array.isArray(deps) ? deps : [deps];
+    if (depList.some((d) => allDeps[d])) {
+      return framework;
+    }
   }
 
-  // Check for build tools
-  if (allDeps['vite']) {
-    return 'vite';
-  }
-  if (allDeps['turbo']) {
-    return 'turbopack';
-  }
-  if (allDeps['webpack'] || allDeps['webpack-cli']) {
-    return 'webpack';
-  }
-  if (allDeps['parcel']) {
-    return 'parcel';
-  }
-  if (allDeps['rollup']) {
-    return 'rollup';
-  }
-  if (allDeps['esbuild']) {
-    return 'esbuild';
-  }
-
-  // Check for config files
-  if (safeExists(basePath, 'vite.config.ts') || safeExists(basePath, 'vite.config.js')) {
-    return 'vite';
-  }
-  if (safeExists(basePath, 'next.config.js') || safeExists(basePath, 'next.config.mjs')) {
-    return 'next';
-  }
-  if (safeExists(basePath, 'webpack.config.js')) {
-    return 'webpack';
-  }
-  if (safeExists(basePath, 'rollup.config.js') || safeExists(basePath, 'rollup.config.mjs')) {
-    return 'rollup';
+  // Check config files
+  for (const [files, framework] of CONFIG_FILE_META_FRAMEWORK_MAP) {
+    if (files.some((f) => safeExists(basePath, f))) {
+      return framework;
+    }
   }
 
   return 'none';
+}
+
+/** Dependency-to-styling mapping */
+const DEP_STYLING_MAP: [string | string[], StylingApproach][] = [
+  ['tailwindcss', 'tailwind'],
+  ['styled-components', 'styled-components'],
+  [['@emotion/react', '@emotion/styled'], 'emotion'],
+  ['@vanilla-extract/css', 'vanilla-extract'],
+  [['sass', 'node-sass'], 'scss'],
+  ['less', 'less'],
+];
+
+/**
+ * Detect styling approaches from dependencies
+ */
+function detectStylingFromDeps(allDeps: Record<string, string>): StylingApproach[] {
+  const approaches: StylingApproach[] = [];
+
+  for (const [deps, approach] of DEP_STYLING_MAP) {
+    const depList = Array.isArray(deps) ? deps : [deps];
+    if (depList.some((d) => allDeps[d])) {
+      approaches.push(approach);
+    }
+  }
+
+  return approaches;
+}
+
+/**
+ * Detect styling from filesystem (style directories and SCSS files)
+ */
+function detectStylingFromFiles(basePath: string): StylingApproach {
+  const styleLocations = [
+    'src/styles',
+    'src/css',
+    'styles',
+    'css',
+    'src/assets/styles',
+    'assets/styles',
+  ];
+
+  for (const loc of styleLocations) {
+    if (safeExists(basePath, loc)) {
+      if (
+        safeExists(basePath, loc, 'main.scss') ||
+        safeExists(basePath, loc, 'index.scss') ||
+        safeExists(basePath, loc, 'global.scss')
+      ) {
+        return 'scss';
+      }
+      return 'css';
+    }
+  }
+
+  return 'unknown';
 }
 
 /**
@@ -368,33 +411,14 @@ export function detectStyling(pkg: PackageJsonData, cwd: string): StylingApproac
     ...pkg.devDependencies,
   };
 
-  const approaches: StylingApproach[] = [];
+  const approaches = detectStylingFromDeps(allDeps);
 
-  // Check dependencies
-  if (allDeps['tailwindcss']) {
+  // Check for Tailwind config files
+  if (
+    !approaches.includes('tailwind') &&
+    (safeExists(basePath, 'tailwind.config.js') || safeExists(basePath, 'tailwind.config.ts'))
+  ) {
     approaches.push('tailwind');
-  }
-  if (allDeps['styled-components']) {
-    approaches.push('styled-components');
-  }
-  if (allDeps['@emotion/react'] || allDeps['@emotion/styled']) {
-    approaches.push('emotion');
-  }
-  if (allDeps['@vanilla-extract/css']) {
-    approaches.push('vanilla-extract');
-  }
-  if (allDeps['sass'] || allDeps['node-sass']) {
-    approaches.push('scss');
-  }
-  if (allDeps['less']) {
-    approaches.push('less');
-  }
-
-  // Check for config files
-  if (safeExists(basePath, 'tailwind.config.js') || safeExists(basePath, 'tailwind.config.ts')) {
-    if (!approaches.includes('tailwind')) {
-      approaches.push('tailwind');
-    }
   }
 
   if (approaches.length > 1) {
@@ -408,31 +432,7 @@ export function detectStyling(pkg: PackageJsonData, cwd: string): StylingApproac
     }
   }
 
-  // Check for CSS/SCSS files in common locations
-  const styleLocations = [
-    'src/styles',
-    'src/css',
-    'styles',
-    'css',
-    'src/assets/styles',
-    'assets/styles',
-  ];
-
-  for (const loc of styleLocations) {
-    if (safeExists(basePath, loc)) {
-      // Check if scss files exist
-      if (
-        safeExists(basePath, loc, 'main.scss') ||
-        safeExists(basePath, loc, 'index.scss') ||
-        safeExists(basePath, loc, 'global.scss')
-      ) {
-        return 'scss';
-      }
-      return 'css';
-    }
-  }
-
-  return 'unknown';
+  return detectStylingFromFiles(basePath);
 }
 
 /**

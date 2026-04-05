@@ -13,10 +13,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
-const ICONS_DIR = path.join(
-  __dirname,
-  '../../../packages/@dsai-io/icons/src/components'
-);
+const ICONS_DIR = path.join(__dirname, '../../../packages/@dsai-io/icons/src/components');
 
 function transformIcon(content, filename) {
   const componentName = filename.replace('.tsx', '');
@@ -29,12 +26,6 @@ function transformIcon(content, filename) {
   const viewBoxMatch = content.match(/viewBox="([^"]+)"/);
   const viewBox = viewBoxMatch ? viewBoxMatch[1] : '0 0 16 16';
 
-  // Extract the SVG inner content (paths, circles, etc.)
-  // Find everything between the closing > of the <svg> tag and </svg>
-  const _svgInnerMatch = content.match(
-    /\{titleContent && <title id=\{titleId\}>\{titleContent\}<\/title>\}[\s\S]*?(?=\s*<\/svg>)/
-  );
-
   // If already transformed, skip
   if (content.includes('useIconProps')) {
     return null;
@@ -43,7 +34,7 @@ function transformIcon(content, filename) {
   // Extract SVG children (everything between focusable="false" line and </svg>)
   // Look for the content after the title line or after {...allowedProps}
   const childrenMatch = content.match(
-    /\{(?:\(title \|\| ariaLabel\)|titleContent) && <title[^>]*>[^<]*<\/title>\}\n([\s\S]*?)\s*<\/svg>/
+    /\{(?:\(title \|\| ariaLabel\)|titleContent) && <title[^>]*>[^<]*<\/title>\}\n([\s\S]*?)<\/svg>/
   );
 
   let svgChildren = '';
@@ -52,7 +43,7 @@ function transformIcon(content, filename) {
   } else {
     // Try alternate pattern: content between > and </svg> after allowedProps
     const altMatch = content.match(
-      /\{\.\.\.(allowedProps|filteredProps)\}\s*\n\s*>\n([\s\S]*?)\s*<\/svg>/
+      /\{\.\.\.(allowedProps|filteredProps)\}\s*\n\s*>\n([\s\S]*?)<\/svg>/
     );
     if (altMatch) {
       svgChildren = altMatch[2].trim();
@@ -121,9 +112,7 @@ ${componentName}.displayName = '${componentName}';
 async function main() {
   console.log('🔧 Reducing icon component complexity...\n');
 
-  const files = fs
-    .readdirSync(ICONS_DIR)
-    .filter((f) => f.endsWith('.tsx'));
+  const files = fs.readdirSync(ICONS_DIR).filter((f) => f.endsWith('.tsx'));
 
   console.log(`📁 Found ${files.length} icon components\n`);
 
