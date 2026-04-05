@@ -122,6 +122,311 @@ const metricValueFromName = (name: string): number => {
 };
 
 // =============================================================================
+// Extracted Tab Item Definitions (outside render for S6478 compliance)
+// =============================================================================
+
+const asyncLoadingItems: TabsProItem[] = [
+  {
+    id: 'dashboard',
+    label: 'Dashboard',
+    loadContent: async () => {
+      await delay(1500);
+      return (
+        <div className="p-3">
+          <Heading level={5} className="mb-1">
+            Dashboard
+          </Heading>
+          <Text as="p">Dashboard content loaded asynchronously after 1.5 seconds.</Text>
+          <div className="row">
+            <div className="col-md-4">
+              <div className="card">
+                <div className="card-body">
+                  <Heading level={6} className="card-title">
+                    Users
+                  </Heading>
+                  <Heading level={3} className="card-text display-6" visualSize="h4">
+                    1,234
+                  </Heading>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="card">
+                <div className="card-body">
+                  <Heading level={6} className="card-title">
+                    Revenue
+                  </Heading>
+                  <Heading level={3} className="card-text display-6" visualSize="h4">
+                    $45K
+                  </Heading>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div className="card">
+                <div className="card-body">
+                  <Heading level={6} className="card-title">
+                    Orders
+                  </Heading>
+                  <Heading level={3} className="card-text display-6" visualSize="h4">
+                    567
+                  </Heading>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    },
+    onViewed: () => console.warn('[Analytics] Dashboard viewed'),
+  },
+  {
+    id: 'reports',
+    label: 'Reports',
+    loadContent: async () => {
+      await delay(2000);
+      return (
+        <div className="p-3">
+          <Heading level={5} className="mb-1">
+            Reports
+          </Heading>
+          <Text as="p">Reports loaded after 2 seconds.</Text>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Report</th>
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Monthly Sales</td>
+                <td>Nov 2025</td>
+                <td>
+                  <span className="badge bg-success">Complete</span>
+                </td>
+              </tr>
+              <tr>
+                <td>User Analytics</td>
+                <td>Nov 2025</td>
+                <td>
+                  <span className="badge bg-warning">Pending</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      );
+    },
+    onViewed: () => console.warn('[Analytics] Reports viewed'),
+  },
+  {
+    id: 'analytics',
+    label: 'Analytics',
+    loadContent: async () => {
+      await delay(1000);
+      return (
+        <div className="p-3">
+          <Heading level={5} className="mb-1">
+            Analytics
+          </Heading>
+          <Text as="p">Analytics content loaded after 1 second.</Text>
+          <div className="progress mb-3">
+            <div className="progress-bar" style={{ width: '75%' }}>
+              75%
+            </div>
+          </div>
+          <div className="progress">
+            <div className="progress-bar bg-success" style={{ width: '50%' }}>
+              50%
+            </div>
+          </div>
+        </div>
+      );
+    },
+    onViewed: () => console.warn('[Analytics] Analytics tab viewed'),
+  },
+];
+
+const customLoadingFallback = (
+  <div className="p-4 text-center">
+    <Spinner
+      animation="grow"
+      variant="primary"
+      className="me-2"
+      as="span"
+      label="Loading dashboards"
+    />
+    <Spinner
+      animation="grow"
+      variant="secondary"
+      className="me-2"
+      as="span"
+      label="Loading reports"
+    />
+    <Spinner animation="grow" variant="success" as="span" label="Loading analytics" />
+    <Text as="p" size="sm" color="muted" className="mt-3">
+      Fetching data from server...
+    </Text>
+  </div>
+);
+
+const customLoadingItems: TabsProItem[] = [
+  {
+    id: 'data',
+    label: 'Data',
+    loadingFallback: customLoadingFallback,
+    loadContent: async () => {
+      await delay(3000);
+      return (
+        <div className="p-3">
+          <Heading level={5} className="mb-1">
+            Data Loaded!
+          </Heading>
+          <Text as="p">Custom loading indicator was shown for 3 seconds.</Text>
+        </div>
+      );
+    },
+  },
+  {
+    id: 'static',
+    label: 'Static',
+    content: <div className="p-3">This tab has static content with no loading.</div>,
+  },
+];
+
+const customBlockedFallbackItems: TabsProItem[] = [
+  {
+    id: 'free',
+    label: 'Free Tier',
+    content: (
+      <div className="p-3">
+        <Heading level={5} className="mb-1">
+          Free Features
+        </Heading>
+        <Text as="p">Basic features available to all users.</Text>
+      </div>
+    ),
+  },
+  {
+    id: 'enterprise',
+    label: 'Enterprise',
+    guard: async () => ({ allowed: false, reason: 'enterprise-only' }),
+    blockedFallback: (
+      <div className="p-4 text-center">
+        <div className="mb-3">
+          <BuildingFillIcon size={64} className="text-primary" aria-hidden />
+        </div>
+        <Heading level={4} className="text-primary">
+          Enterprise Feature
+        </Heading>
+        <Text as="p" color="muted" className="mb-4">
+          This feature requires an Enterprise subscription.
+          <br />
+          Contact our sales team to learn more.
+        </Text>
+        <Button variant="primary" className="me-2">
+          Contact Sales
+        </Button>
+        <Button variant="outline-secondary">View Plans</Button>
+      </div>
+    ),
+  },
+];
+
+const customErrorFallbackItems: TabsProItem[] = [
+  {
+    id: 'working',
+    label: 'Working',
+    content: <div className="p-3">This tab works fine.</div>,
+  },
+  {
+    id: 'broken',
+    label: 'Broken',
+    loadContent: () => failAfterDelay(1000, 'Database connection failed'),
+    errorFallback: (error, retry) => (
+      <div className="p-4">
+        <div className="alert alert-danger">
+          <Heading level={5} className="alert-heading">
+            <ExclamationTriangleFillIcon size={20} className="me-2" aria-hidden />
+            Connection Error
+          </Heading>
+          <Text as="p">
+            {error instanceof Error ? error.message : 'An unknown error occurred'}
+          </Text>
+        </div>
+        <div className="d-flex gap-2">
+          <Button variant="danger" onClick={retry}>
+            Retry Connection
+          </Button>
+          <Button variant="outline-secondary">Report Issue</Button>
+        </div>
+      </div>
+    ),
+  },
+];
+
+const analyticsHookItems: TabsProItem[] = [
+  {
+    id: 'overview',
+    label: 'Overview',
+    content: <div className="p-3">Overview content</div>,
+    onActivate: () => console.warn('[Analytics] Tab activation started: overview'),
+    onViewed: () => console.warn('[Analytics] Tab viewed: overview'),
+  },
+  {
+    id: 'metrics',
+    label: 'Metrics',
+    loadContent: async () => {
+      await delay(1000);
+      return <div className="p-3">Metrics data loaded</div>;
+    },
+    onActivate: () => console.warn('[Analytics] Tab activation started: metrics'),
+    onViewed: () => console.warn('[Analytics] Tab viewed after load: metrics'),
+    onError: (error) => console.warn('[Analytics] Tab error: metrics', error),
+  },
+  {
+    id: 'restricted',
+    label: 'Restricted',
+    guard: async () => ({ allowed: false, reason: 'subscription-required' }),
+    content: <div className="p-3">Restricted content</div>,
+    onActivate: () => console.warn('[Analytics] Tab activation started: restricted'),
+    onGuardFail: ({ reason }) => console.warn(`[Analytics] Guard failed: ${reason}`),
+  },
+];
+
+const variantItems: TabsProItem[] = [
+  { id: 'home', label: 'Home', content: <div className="p-3">Home content</div> },
+  { id: 'profile', label: 'Profile', content: <div className="p-3">Profile content</div> },
+  { id: 'settings', label: 'Settings', content: <div className="p-3">Settings content</div> },
+];
+
+const verticalItems: TabsProItem[] = [
+  {
+    id: 'dashboard',
+    label: 'Dashboard',
+    loadContent: async () => {
+      await delay(1000);
+      return <div className="p-3">Dashboard loaded</div>;
+    },
+  },
+  {
+    id: 'users',
+    label: 'Users',
+    loadContent: async () => {
+      await delay(800);
+      return <div className="p-3">Users loaded</div>;
+    },
+  },
+  {
+    id: 'settings',
+    label: 'Settings',
+    content: <div className="p-3">Settings (static)</div>,
+  },
+];
+
+// =============================================================================
 // Basic Examples
 // =============================================================================
 
@@ -182,189 +487,14 @@ export const Default: Story = {
  * Content is loaded when the tab is first activated, showing a loading spinner.
  */
 export const AsyncLoading: Story = {
-  render: function Render() {
-    const items: TabsProItem[] = [
-      {
-        id: 'dashboard',
-        label: 'Dashboard',
-        loadContent: async () => {
-          await delay(1500);
-          return (
-            <div className="p-3">
-              <Heading level={5} className="mb-1">
-                Dashboard
-              </Heading>
-              <Text as="p">Dashboard content loaded asynchronously after 1.5 seconds.</Text>
-              <div className="row">
-                <div className="col-md-4">
-                  <div className="card">
-                    <div className="card-body">
-                      <Heading level={6} className="card-title">
-                        Users
-                      </Heading>
-                      <Heading level={3} className="card-text display-6" visualSize="h4">
-                        1,234
-                      </Heading>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="card">
-                    <div className="card-body">
-                      <Heading level={6} className="card-title">
-                        Revenue
-                      </Heading>
-                      <Heading level={3} className="card-text display-6" visualSize="h4">
-                        $45K
-                      </Heading>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="card">
-                    <div className="card-body">
-                      <Heading level={6} className="card-title">
-                        Orders
-                      </Heading>
-                      <Heading level={3} className="card-text display-6" visualSize="h4">
-                        567
-                      </Heading>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        },
-        onViewed: () => console.warn('[Analytics] Dashboard viewed'),
-      },
-      {
-        id: 'reports',
-        label: 'Reports',
-        loadContent: async () => {
-          await delay(2000);
-          return (
-            <div className="p-3">
-              <Heading level={5} className="mb-1">
-                Reports
-              </Heading>
-              <Text as="p">Reports loaded after 2 seconds.</Text>
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Report</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Monthly Sales</td>
-                    <td>Nov 2025</td>
-                    <td>
-                      <span className="badge bg-success">Complete</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>User Analytics</td>
-                    <td>Nov 2025</td>
-                    <td>
-                      <span className="badge bg-warning">Pending</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          );
-        },
-        onViewed: () => console.warn('[Analytics] Reports viewed'),
-      },
-      {
-        id: 'analytics',
-        label: 'Analytics',
-        loadContent: async () => {
-          await delay(1000);
-          return (
-            <div className="p-3">
-              <Heading level={5} className="mb-1">
-                Analytics
-              </Heading>
-              <Text as="p">Analytics content loaded after 1 second.</Text>
-              <div className="progress mb-3">
-                <div className="progress-bar" style={{ width: '75%' }}>
-                  75%
-                </div>
-              </div>
-              <div className="progress">
-                <div className="progress-bar bg-success" style={{ width: '50%' }}>
-                  50%
-                </div>
-              </div>
-            </div>
-          );
-        },
-        onViewed: () => console.warn('[Analytics] Analytics tab viewed'),
-      },
-    ];
-
-    return <TabsPro items={items} />;
-  },
+  render: () => <TabsPro items={asyncLoadingItems} />,
 };
 
 /**
  * Custom loading indicator
  */
 export const CustomLoadingIndicator: Story = {
-  render: function Render() {
-    const customLoader = (
-      <div className="p-4 text-center">
-        <Spinner
-          animation="grow"
-          variant="primary"
-          className="me-2"
-          as="span"
-          label="Loading dashboards"
-        />
-        <Spinner
-          animation="grow"
-          variant="secondary"
-          className="me-2"
-          as="span"
-          label="Loading reports"
-        />
-        <Spinner animation="grow" variant="success" as="span" label="Loading analytics" />
-        <Text as="p" size="sm" color="muted" className="mt-3">
-          Fetching data from server...
-        </Text>
-      </div>
-    );
-
-    const items: TabsProItem[] = [
-      {
-        id: 'data',
-        label: 'Data',
-        loadingFallback: customLoader,
-        loadContent: async () => {
-          await delay(3000);
-          return (
-            <div className="p-3">
-              <Heading level={5} className="mb-1">
-                Data Loaded!
-              </Heading>
-              <Text as="p">Custom loading indicator was shown for 3 seconds.</Text>
-            </div>
-          );
-        },
-      },
-      {
-        id: 'static',
-        label: 'Static',
-        content: <div className="p-3">This tab has static content with no loading.</div>,
-      },
-    ];
-
-    return <TabsPro items={items} />;
-  },
+  render: () => <TabsPro items={customLoadingItems} />,
 };
 
 // =============================================================================
@@ -480,48 +610,7 @@ export const PermissionGating: Story = {
  * Custom blocked fallback
  */
 export const CustomBlockedFallback: Story = {
-  render: function Render() {
-    const items: TabsProItem[] = [
-      {
-        id: 'free',
-        label: 'Free Tier',
-        content: (
-          <div className="p-3">
-            <Heading level={5} className="mb-1">
-              Free Features
-            </Heading>
-            <Text as="p">Basic features available to all users.</Text>
-          </div>
-        ),
-      },
-      {
-        id: 'enterprise',
-        label: 'Enterprise',
-        guard: async () => ({ allowed: false, reason: 'enterprise-only' }),
-        blockedFallback: (
-          <div className="p-4 text-center">
-            <div className="mb-3">
-              <BuildingFillIcon size={64} className="text-primary" aria-hidden />
-            </div>
-            <Heading level={4} className="text-primary">
-              Enterprise Feature
-            </Heading>
-            <Text as="p" color="muted" className="mb-4">
-              This feature requires an Enterprise subscription.
-              <br />
-              Contact our sales team to learn more.
-            </Text>
-            <Button variant="primary" className="me-2">
-              Contact Sales
-            </Button>
-            <Button variant="outline-secondary">View Plans</Button>
-          </div>
-        ),
-      },
-    ];
-
-    return <TabsPro items={items} />;
-  },
+  render: () => <TabsPro items={customBlockedFallbackItems} />,
 };
 
 // =============================================================================
@@ -597,41 +686,7 @@ export const ErrorHandling: Story = {
  * Custom error fallback
  */
 export const CustomErrorFallback: Story = {
-  render: function Render() {
-    const items: TabsProItem[] = [
-      {
-        id: 'working',
-        label: 'Working',
-        content: <div className="p-3">This tab works fine.</div>,
-      },
-      {
-        id: 'broken',
-        label: 'Broken',
-        loadContent: () => failAfterDelay(1000, 'Database connection failed'),
-        errorFallback: (error, retry) => (
-          <div className="p-4">
-            <div className="alert alert-danger">
-              <Heading level={5} className="alert-heading">
-                <ExclamationTriangleFillIcon size={20} className="me-2" aria-hidden />
-                Connection Error
-              </Heading>
-              <Text as="p">
-                {error instanceof Error ? error.message : 'An unknown error occurred'}
-              </Text>
-            </div>
-            <div className="d-flex gap-2">
-              <Button variant="danger" onClick={retry}>
-                Retry Connection
-              </Button>
-              <Button variant="outline-secondary">Report Issue</Button>
-            </div>
-          </div>
-        ),
-      },
-    ];
-
-    return <TabsPro items={items} />;
-  },
+  render: () => <TabsPro items={customErrorFallbackItems} />,
 };
 
 // =============================================================================
@@ -751,45 +806,14 @@ export const DirtyStateHandling: Story = {
  * Check the browser console to see analytics events.
  */
 export const AnalyticsHooks: Story = {
-  render: function Render() {
-    const items: TabsProItem[] = [
-      {
-        id: 'overview',
-        label: 'Overview',
-        content: <div className="p-3">Overview content</div>,
-        onActivate: () => console.warn('[Analytics] Tab activation started: overview'),
-        onViewed: () => console.warn('[Analytics] Tab viewed: overview'),
-      },
-      {
-        id: 'metrics',
-        label: 'Metrics',
-        loadContent: async () => {
-          await delay(1000);
-          return <div className="p-3">Metrics data loaded</div>;
-        },
-        onActivate: () => console.warn('[Analytics] Tab activation started: metrics'),
-        onViewed: () => console.warn('[Analytics] Tab viewed after load: metrics'),
-        onError: (error) => console.warn('[Analytics] Tab error: metrics', error),
-      },
-      {
-        id: 'restricted',
-        label: 'Restricted',
-        guard: async () => ({ allowed: false, reason: 'subscription-required' }),
-        content: <div className="p-3">Restricted content</div>,
-        onActivate: () => console.warn('[Analytics] Tab activation started: restricted'),
-        onGuardFail: ({ reason }) => console.warn(`[Analytics] Guard failed: ${reason}`),
-      },
-    ];
-
-    return (
-      <div>
-        <div className="alert alert-info mb-3">
-          <strong>Open browser console</strong> to see analytics events being logged.
-        </div>
-        <TabsPro items={items} />
+  render: () => (
+    <div>
+      <div className="alert alert-info mb-3">
+        <strong>Open browser console</strong> to see analytics events being logged.
       </div>
-    );
-  },
+      <TabsPro items={analyticsHookItems} />
+    </div>
+  ),
 };
 
 // =============================================================================
@@ -800,69 +824,35 @@ export const AnalyticsHooks: Story = {
  * Different visual variants
  */
 export const Variants: Story = {
-  render: function Render() {
-    const items: TabsProItem[] = [
-      { id: 'home', label: 'Home', content: <div className="p-3">Home content</div> },
-      { id: 'profile', label: 'Profile', content: <div className="p-3">Profile content</div> },
-      { id: 'settings', label: 'Settings', content: <div className="p-3">Settings content</div> },
-    ];
-
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-        <div>
-          <Heading level={6} className="mb-2">
-            Tabs (default)
-          </Heading>
-          <TabsPro variant="tabs" items={items} />
-        </div>
-        <div>
-          <Heading level={6} className="mb-2">
-            Pills
-          </Heading>
-          <TabsPro variant="pills" items={items} />
-        </div>
-        <div>
-          <Heading level={6} className="mb-2">
-            Underline
-          </Heading>
-          <TabsPro variant="underline" items={items} />
-        </div>
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <div>
+        <Heading level={6} className="mb-2">
+          Tabs (default)
+        </Heading>
+        <TabsPro variant="tabs" items={variantItems} />
       </div>
-    );
-  },
+      <div>
+        <Heading level={6} className="mb-2">
+          Pills
+        </Heading>
+        <TabsPro variant="pills" items={variantItems} />
+      </div>
+      <div>
+        <Heading level={6} className="mb-2">
+          Underline
+        </Heading>
+        <TabsPro variant="underline" items={variantItems} />
+      </div>
+    </div>
+  ),
 };
 
 /**
  * Vertical orientation
  */
 export const VerticalOrientation: Story = {
-  render: function Render() {
-    const items: TabsProItem[] = [
-      {
-        id: 'dashboard',
-        label: 'Dashboard',
-        loadContent: async () => {
-          await delay(1000);
-          return <div className="p-3">Dashboard loaded</div>;
-        },
-      },
-      {
-        id: 'users',
-        label: 'Users',
-        loadContent: async () => {
-          await delay(800);
-          return <div className="p-3">Users loaded</div>;
-        },
-      },
-      {
-        id: 'settings',
-        label: 'Settings',
-        content: <div className="p-3">Settings (static)</div>,
-      },
-    ];
-
-    return <TabsPro items={items} orientation="vertical" variant="pills" />;
-  },
+  render: () => <TabsPro items={verticalItems} orientation="vertical" variant="pills" />,
 };
 
 // =============================================================================

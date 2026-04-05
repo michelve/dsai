@@ -75,7 +75,7 @@ export function useTouchInteraction({
 
       const dx = touch.clientX - startPosRef.current.x;
       const dy = touch.clientY - startPosRef.current.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
+      const distance = Math.hypot(dx, dy);
 
       if (distance > MOVE_THRESHOLD_PX) {
         clearTimers();

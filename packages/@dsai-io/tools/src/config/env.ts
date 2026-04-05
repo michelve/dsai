@@ -131,7 +131,8 @@ function setNestedValue(obj: Record<string, unknown>, path: string, value: unkno
     return;
   }
 
-  if (parts.length === 3) {
+  const MAX_NESTING_DEPTH = 3;
+  if (parts.length === MAX_NESTING_DEPTH) {
     const [first, second, third] = parts;
     if (first !== undefined && second !== undefined && third !== undefined) {
       if (!(first in obj)) {
@@ -200,7 +201,7 @@ export function getConfigFromEnv(options: EnvParseOptions = {}): Partial<DsaiCon
       continue;
     }
 
-    const envValue = Reflect.get(env, envKey) as string | undefined;
+    const envValue = Reflect.get(env, envKey);
     if (envValue === undefined) {
       continue;
     }

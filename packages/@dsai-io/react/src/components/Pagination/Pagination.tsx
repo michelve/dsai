@@ -55,7 +55,7 @@ const BLOCKED_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 function safeLookup<T>(map: Readonly<Record<string, T>>, key: string, fallback: T): T {
   if (BLOCKED_KEYS.has(key)) {return fallback;}
   const value = Reflect.get(map, key) as T | undefined;
-  return value !== undefined ? value : fallback;
+  return value ?? fallback;
 }
 
 // Default icon content hoisted to avoid recreating JSX on each render

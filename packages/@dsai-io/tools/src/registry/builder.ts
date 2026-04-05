@@ -243,7 +243,7 @@ function buildComponentItem(
 
   const files: RegistryFile[] = sourceFiles.map((f) => ({
     path: f.path,
-    type: (extname(f.path) === '.css' ? 'registry:style' : meta.type) as RegistryItemType,
+    type: extname(f.path) === '.css' ? 'registry:style' : meta.type,
     content: f.content,
   }));
 
@@ -281,7 +281,7 @@ function buildHookItem(
 
   const files: RegistryFile[] = sourceFiles.map((f) => ({
     path: f.path,
-    type: (extname(f.path) === '.css' ? 'registry:style' : meta.type) as RegistryItemType,
+    type: extname(f.path) === '.css' ? 'registry:style' : meta.type,
     content: f.content,
   }));
 

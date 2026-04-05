@@ -45,18 +45,18 @@ const DEFAULT_SWIPE_THRESHOLD = 50;
  */
 function useReducedMotion(): boolean {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
-    if (typeof window === 'undefined') {
+    if (typeof globalThis.window === 'undefined') {
       return false;
     }
-    return window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
+    return globalThis.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
   });
 
   useEffect(() => {
-    if (typeof window === 'undefined') {
+    if (typeof globalThis.window === 'undefined') {
       return undefined;
     }
 
-    const mediaQuery = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+    const mediaQuery = globalThis.matchMedia?.('(prefers-reduced-motion: reduce)');
     if (!mediaQuery) {
       return undefined;
     }

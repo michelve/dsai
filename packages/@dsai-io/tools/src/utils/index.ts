@@ -157,14 +157,16 @@ export const logger = {
  * @returns Formatted duration string
  */
 export function formatDuration(ms: number): string {
-  if (ms < 1000) {
+  const MS_PER_SECOND = 1000;
+  const MS_PER_MINUTE = 60_000;
+  if (ms < MS_PER_SECOND) {
     return `${ms}ms`;
   }
-  if (ms < 60000) {
-    return `${(ms / 1000).toFixed(2)}s`;
+  if (ms < MS_PER_MINUTE) {
+    return `${(ms / MS_PER_SECOND).toFixed(2)}s`;
   }
-  const minutes = Math.floor(ms / 60000);
-  const seconds = ((ms % 60000) / 1000).toFixed(0);
+  const minutes = Math.floor(ms / MS_PER_MINUTE);
+  const seconds = ((ms % MS_PER_MINUTE) / MS_PER_SECOND).toFixed(0);
   return `${minutes}m ${seconds}s`;
 }
 

@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { cn } from '../../utils';
 
 import type { ProgressBarProps, ProgressCircleProps, ProgressProps } from './Progress.types';
@@ -56,7 +58,7 @@ function ProgressBar({
   );
 
   // Compute display value using formatValue (takes precedence) or valueText or default
-  const displayValue = formatValue ? formatValue(percentage, 100) : valueText || `${percentage}%`;
+  const displayValue = formatValue ? formatValue(percentage, 100) : valueText ?? `${percentage}%`;
 
   // Build bar style (gradient overrides variant bg)
   const barStyle: React.CSSProperties = {
@@ -231,14 +233,17 @@ function ProgressBase({
   );
 
   // Compute display value using formatValue > valueText > default percentage
-  const displayValue = formatValue ? formatValue(percentage, max) : valueText || `${percentage}%`;
+  const displayValue = formatValue ? formatValue(percentage, max) : valueText ?? `${percentage}%`;
 
   // Calculate aria-valuetext (must be string for accessibility)
-  const computedValueText = indeterminate
-    ? 'Loading'
-    : typeof displayValue === 'string'
-      ? displayValue
-      : valueText || `${percentage}%`;
+  let computedValueText: string;
+  if (indeterminate) {
+    computedValueText = 'Loading';
+  } else if (typeof displayValue === 'string') {
+    computedValueText = displayValue;
+  } else {
+    computedValueText = valueText ?? `${percentage}%`;
+  }
 
   // Buffer bar percentage
   const bufferPercentage =
@@ -289,14 +294,11 @@ function ProgressBase({
           'aria-busy': indeterminate,
         })}
       >
-        {hasChildren ? (
-          // Stacked progress bars
-          children
-        ) : steps != null && steps > 0 ? (
-          // Steps/segments mode (similar to Ant Design)
+        {hasChildren && children}
+        {!hasChildren && steps != null && steps > 0 &&
           renderSteps(steps, percentage, barClasses, barStyle, gradient)
-        ) : (
-          // Single/buffer progress bar
+        }
+        {!hasChildren && (steps == null || steps <= 0) && (
           <>
             {/* Buffer bar (MUI-style) — lighter background behind main bar */}
             {bufferPercentage != null && (
@@ -338,6 +340,11 @@ ProgressBase.displayName = 'Progress';
 
 let circleGradientId = 0;
 
+function getNextGradientId(): number {
+  circleGradientId += 1;
+  return circleGradientId;
+}
+
 /**
  * Circular Progress indicator (MUI/Ant Design-style)
  *
@@ -374,17 +381,21 @@ function ProgressCircle({
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
   // Compute display value
-  const displayValue = formatValue ? formatValue(percentage, max) : valueText || `${percentage}%`;
+  const displayValue = formatValue ? formatValue(percentage, max) : valueText ?? `${percentage}%`;
 
   // Compute aria-valuetext (must be string)
-  const computedValueText = indeterminate
-    ? 'Loading'
-    : typeof displayValue === 'string'
-      ? displayValue
-      : valueText || `${percentage}%`;
+  let computedValueText: string;
+  if (indeterminate) {
+    computedValueText = 'Loading';
+  } else if (typeof displayValue === 'string') {
+    computedValueText = displayValue;
+  } else {
+    computedValueText = valueText ?? `${percentage}%`;
+  }
 
-  // Unique gradient ID per instance
-  const gradientIdRef = `dsai-circle-gradient-${++circleGradientId}`;
+  // Unique gradient ID per instance — stable per component mount
+   
+  const gradientIdRef = useMemo(() => `dsai-circle-gradient-${getNextGradientId()}`, []);
 
   // Use Bootstrap 5 CSS custom properties for variant colors (no hardcoded hex)
   const strokeColor = gradient ? `url(#${gradientIdRef})` : `var(--bs-${variant})`;

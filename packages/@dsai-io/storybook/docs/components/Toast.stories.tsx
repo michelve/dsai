@@ -213,7 +213,8 @@ function PromiseToastDemo(): JSX.Element {
 
   const handleSave = (): void => {
     const saveOperation = new Promise<string>((resolve) => {
-      setTimeout(() => resolve('Data saved'), 2000);
+      const SAVE_DELAY_MS = 2000;
+      setTimeout(() => resolve('Data saved'), SAVE_DELAY_MS);
     });
 
     toast.promise(saveOperation, {
@@ -225,7 +226,8 @@ function PromiseToastDemo(): JSX.Element {
 
   const handleDelete = (): void => {
     const deleteOperation = new Promise<void>((_, reject) => {
-      setTimeout(() => reject(new Error('Network error')), 2000);
+      const DELETE_DELAY_MS = 2000;
+      setTimeout(() => reject(new Error('Network error')), DELETE_DELAY_MS);
     });
 
     toast.promise(deleteOperation, {

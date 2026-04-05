@@ -14,6 +14,9 @@ import type { SDToken, TransformDefinition } from '../types.js';
 /** Default base font size for conversion */
 const DEFAULT_BASE_FONT_SIZE = 16;
 
+/** Maximum value for unitless line-height (values above this are treated as px) */
+const MAX_UNITLESS_LINE_HEIGHT = 3;
+
 /**
  * Check if token is a line height
  */
@@ -68,7 +71,7 @@ export const lineHeightUnitless: TransformDefinition = {
     // Already a number
     if (typeof value === 'number') {
       // If <= 3, already a multiplier (1, 1.5, 2)
-      if (value <= 3) {
+      if (value <= MAX_UNITLESS_LINE_HEIGHT) {
         return value;
       }
       // If > 3, likely px from Figma - convert to unitless
@@ -84,7 +87,7 @@ export const lineHeightUnitless: TransformDefinition = {
     if (typeof value === 'string') {
       const numValue = Number.parseFloat(value);
       if (!Number.isNaN(numValue)) {
-        if (numValue <= 3) {
+        if (numValue <= MAX_UNITLESS_LINE_HEIGHT) {
           return numValue;
         }
         return numValue / DEFAULT_BASE_FONT_SIZE;

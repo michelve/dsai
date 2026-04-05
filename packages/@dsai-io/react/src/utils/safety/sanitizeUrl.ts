@@ -78,12 +78,18 @@ function decodeRecursively(url: string, maxIterations = 10): string {
 /**
  * Remove null bytes and other dangerous invisible characters
  */
+/** First printable ASCII character (space) */
+const ASCII_SPACE = 0x20;
+
+/** ASCII DEL character */
+const ASCII_DEL = 0x7f;
+
 function removeInvisibleChars(url: string): string {
   // Filter out ASCII control characters (0x00-0x1f) and DEL (0x7f) without regex
   let cleaned = '';
   for (let i = 0; i < url.length; i++) {
     const code = url.codePointAt(i) ?? 0;
-    if (code >= 0x20 && code !== 0x7f) {
+    if (code >= ASCII_SPACE && code !== ASCII_DEL) {
       cleaned += url.charAt(i);
     }
   }

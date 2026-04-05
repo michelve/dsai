@@ -29,6 +29,23 @@ export interface GenerateCryptoIdOptions {
   separator?: string;
 }
 
+/** Base for alphanumeric (0-9a-z) string encoding */
+const BASE_36 = 36;
+
+/** Bitmask for 6-bit indexing into 64-char alphabet */
+const NANOID_BITMASK = 63;
+
+/** Number of UUID version/variant byte positions */
+const UUID_VERSION_BYTE = 6;
+const UUID_VARIANT_BYTE = 8;
+
+/** Minimum random suffix length for prefixed/timestamp IDs */
+const MIN_RANDOM_SUFFIX_LENGTH = 4;
+const MIN_PREFIXED_RANDOM_LENGTH = 8;
+
+/** UUID hex segment lengths */
+const UUID_SEGMENT_OFFSETS = [0, 8, 12, 16, 20, 32] as const;
+
 /**
  * URL-safe alphabet for nanoid-style IDs
  * 64 characters = 6 bits per character
@@ -70,18 +87,18 @@ function generateUuidV4(): string {
   const bytes = getRandomValues(16);
 
   // Set version (4) and variant (10xx) bits
-  const byte6 = bytes[6];
-  const byte8 = bytes[8];
+  const byte6 = bytes[UUID_VERSION_BYTE];
+  const byte8 = bytes[UUID_VARIANT_BYTE];
 
   if (byte6 === undefined || byte8 === undefined) {
     throw new Error('Failed to generate random bytes');
   }
 
   // Version 4: set high nibble of byte 6 to 0100
-  bytes.set([(byte6 & 0x0f) | 0x40], 6);
+  bytes.set([(byte6 & 0x0f) | 0x40], UUID_VERSION_BYTE);
 
   // Variant: set high bits of byte 8 to 10xx
-  bytes.set([(byte8 & 0x3f) | 0x80], 8);
+  bytes.set([(byte8 & 0x3f) | 0x80], UUID_VARIANT_BYTE);
 
   // Convert to hex with dashes
   const hex = Array.from(bytes)
@@ -89,11 +106,11 @@ function generateUuidV4(): string {
     .join('');
 
   return [
-    hex.slice(0, 8),
-    hex.slice(8, 12),
-    hex.slice(12, 16),
-    hex.slice(16, 20),
-    hex.slice(20, 32),
+    hex.slice(UUID_SEGMENT_OFFSETS[0], UUID_SEGMENT_OFFSETS[1]),
+    hex.slice(UUID_SEGMENT_OFFSETS[1], UUID_SEGMENT_OFFSETS[2]),
+    hex.slice(UUID_SEGMENT_OFFSETS[2], UUID_SEGMENT_OFFSETS[3]),
+    hex.slice(UUID_SEGMENT_OFFSETS[3], UUID_SEGMENT_OFFSETS[4]),
+    hex.slice(UUID_SEGMENT_OFFSETS[4], UUID_SEGMENT_OFFSETS[5]),
   ].join('-');
 }
 
@@ -106,7 +123,7 @@ function generateNanoid(length: number): string {
 
   Array.from(bytes).forEach((byte) => {
     // Use 6 bits (& 63) to index into 64-char alphabet
-    result += NANOID_ALPHABET.charAt(byte & 63);
+    result += NANOID_ALPHABET.charAt(byte & NANOID_BITMASK);
   });
 
   return result;
@@ -121,7 +138,7 @@ function generateAlphanumeric(length: number): string {
 
   Array.from(bytes).forEach((byte) => {
     // Use 5 bits (& 31) + adjustment to index into 36-char alphabet
-    result += ALPHANUMERIC_ALPHABET.charAt(byte % 36);
+    result += ALPHANUMERIC_ALPHABET.charAt(byte % BASE_36);
   });
 
   return result;
@@ -138,10 +155,10 @@ function generateTimestampId(length: number): string {
       : Date.now();
 
   // Convert to base36 for compactness (uses 0-9a-z)
-  const timeStr = timestamp.toString(36);
+  const timeStr = timestamp.toString(BASE_36);
 
   // Add random suffix for uniqueness (alphanumeric only)
-  const randomLength = Math.max(4, length - timeStr.length);
+  const randomLength = Math.max(MIN_RANDOM_SUFFIX_LENGTH, length - timeStr.length);
   const randomSuffix = generateAlphanumeric(randomLength);
 
   return timeStr + randomSuffix;
@@ -231,7 +248,7 @@ export function generateCryptoId(options: GenerateCryptoIdOptions = {}): string 
       return generateNanoid(length);
 
     case 'prefixed': {
-      const randomPart = generateNanoid(Math.max(8, length - prefix.length - 1));
+      const randomPart = generateNanoid(Math.max(MIN_PREFIXED_RANDOM_LENGTH, length - prefix.length - 1));
       return `${prefix}${separator}${randomPart}`;
     }
 

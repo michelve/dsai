@@ -9,6 +9,9 @@ import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join } from 'node:path';
 
+/** Base for alphanumeric (0-9a-z) string encoding */
+const BASE_36 = 36;
+
 /** Length of the random suffix in snapshot IDs (characters after base-36 prefix "0.") */
 const SNAPSHOT_RANDOM_SUFFIX_LENGTH = 9;
 
@@ -313,7 +316,7 @@ export class SnapshotService {
    */
   private generateSnapshotId(): string {
     const timestamp = Date.now();
-    const random = Math.random().toString(36).substring(2, SNAPSHOT_RANDOM_SUFFIX_LENGTH);
+    const random = Math.random().toString(BASE_36).substring(2, SNAPSHOT_RANDOM_SUFFIX_LENGTH);
     return `snapshot-${timestamp}-${random}`;
   }
 

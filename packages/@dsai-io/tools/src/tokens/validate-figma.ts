@@ -563,7 +563,8 @@ export function validateFigmaCLI(
   }
 
   // Summary
-  console.info(`\n${'─'.repeat(50)}`);
+  const SEPARATOR_WIDTH = 50;
+  console.info(`\n${'─'.repeat(SEPARATOR_WIDTH)}`);
   if (result.valid) {
     console.info('✅ All Figma exports are valid');
   } else {

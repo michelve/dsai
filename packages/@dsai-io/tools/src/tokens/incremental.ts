@@ -409,26 +409,28 @@ export function generateIncrementalReport(
   const duration = Date.now() - startTime;
   const lines: string[] = [];
 
-  lines.push('\n📊 Incremental Build Report');
-  lines.push('─'.repeat(REPORT_SEPARATOR_WIDTH));
+  lines.push('\n📊 Incremental Build Report', '─'.repeat(REPORT_SEPARATOR_WIDTH));
 
   if (analysis.needsFullBuild) {
-    lines.push(`Reason: ${analysis.fullBuildReason}`);
-    lines.push(`Duration: ${duration}ms`);
+    lines.push(`Reason: ${analysis.fullBuildReason}`, `Duration: ${duration}ms`);
   } else if (analysis.changedFiles.length === 0) {
-    lines.push('Result: No changes detected');
-    lines.push(`Duration: ${duration}ms`);
-    lines.push(`Time saved: ~${duration}ms (100%)`);
+    lines.push(
+      'Result: No changes detected',
+      `Duration: ${duration}ms`,
+      `Time saved: ~${duration}ms (100%)`
+    );
   } else {
     const savedCollections = totalCollections - collectionsProcessed;
     const savedPercentage = ((savedCollections / totalCollections) * 100).toFixed(1);
 
-    lines.push(`Files analyzed: ${analysis.totalFiles}`);
-    lines.push(`Files changed: ${analysis.changedFiles.length}`);
-    lines.push(`Files unchanged: ${analysis.unchangedFiles.length}`);
-    lines.push(`Collections processed: ${collectionsProcessed}/${totalCollections}`);
-    lines.push(`Collections skipped: ${savedCollections} (${savedPercentage}%)`);
-    lines.push(`Duration: ${duration}ms`);
+    lines.push(
+      `Files analyzed: ${analysis.totalFiles}`,
+      `Files changed: ${analysis.changedFiles.length}`,
+      `Files unchanged: ${analysis.unchangedFiles.length}`,
+      `Collections processed: ${collectionsProcessed}/${totalCollections}`,
+      `Collections skipped: ${savedCollections} (${savedPercentage}%)`,
+      `Duration: ${duration}ms`
+    );
   }
 
   lines.push('─'.repeat(REPORT_SEPARATOR_WIDTH));

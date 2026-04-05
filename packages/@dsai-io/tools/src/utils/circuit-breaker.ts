@@ -3,6 +3,12 @@
  * Prevents cascade failures by tracking error rates and temporarily blocking requests
  */
 
+/** Default failure threshold before opening circuit */
+const DEFAULT_FAILURE_THRESHOLD = 5;
+
+/** Default cooldown time before attempting reset (30 seconds) */
+const DEFAULT_COOLDOWN_MS = 30_000;
+
 /**
  * Circuit breaker states
  */
@@ -81,9 +87,9 @@ export class CircuitBreaker {
   private readonly name: string;
 
   constructor(config: CircuitBreakerConfig = {}) {
-    this.failureThreshold = config.failureThreshold ?? 5;
-    this.cooldownMs = config.cooldownMs ?? 30000; // 30 seconds
-    this.timeout = config.timeout ?? 10000; // 10 seconds
+    this.failureThreshold = config.failureThreshold ?? DEFAULT_FAILURE_THRESHOLD;
+    this.cooldownMs = config.cooldownMs ?? DEFAULT_COOLDOWN_MS;
+    this.timeout = config.timeout ?? 10_000; // 10 seconds
     this.name = config.name ?? 'CircuitBreaker';
   }
 
@@ -159,11 +165,8 @@ export class CircuitBreaker {
     this.failures++;
     this.lastError = error instanceof Error ? error.message : String(error);
 
-    if (this.state === CircuitState.HALF_OPEN) {
-      // Failure in HALF_OPEN state immediately reopens circuit
-      this.openCircuit();
-    } else if (this.failures >= this.failureThreshold) {
-      // Threshold reached, open circuit
+    if (this.state === CircuitState.HALF_OPEN || this.failures >= this.failureThreshold) {
+      // Failure in HALF_OPEN state or threshold reached — open circuit
       this.openCircuit();
     }
   }

@@ -93,7 +93,7 @@ function fallbackCopy(text: string): boolean {
     return false;
   } finally {
     // Clean up
-    document.body.removeChild(textarea);
+    textarea.remove();
   }
 }
 

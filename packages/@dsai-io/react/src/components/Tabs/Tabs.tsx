@@ -41,12 +41,12 @@ function isExtraSlots(value: unknown): value is { left?: ReactNode; right?: Reac
     return false;
   }
   // React elements have $$typeof — those are simple ReactNode extra content
-  if (Reflect.get(value as object, '$$typeof') !== undefined) {
+  if (Reflect.get(value, '$$typeof') !== undefined) {
     return false;
   }
   return (
-    Reflect.get(value as object, 'left') !== undefined ||
-    Reflect.get(value as object, 'right') !== undefined
+    Reflect.get(value, 'left') !== undefined ||
+    Reflect.get(value, 'right') !== undefined
   );
 }
 
@@ -108,7 +108,7 @@ export const TabList = memo(
     const extraSlots = isExtraSlots(extra) ? extra : undefined;
     const leftExtra = extraSlots?.left;
     const rightExtra = extraSlots?.right;
-    const simpleExtra = !extraSlots ? (extra as ReactNode) : undefined;
+    const simpleExtra = extraSlots ? undefined : (extra as ReactNode);
 
     // Keyboard events bubble from focused tab buttons — tablist itself doesn't need tabIndex
     const tabListContent = (

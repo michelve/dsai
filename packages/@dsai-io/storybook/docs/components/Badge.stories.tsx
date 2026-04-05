@@ -432,29 +432,26 @@ export const IconEnd: Story = {
 /** Badges with dismiss buttons — great for tag/chip patterns */
 export const Dismissible: Story = {
   render: function Render() {
-    const DismissDemo = (): JSX.Element => {
-      const [tags, setTags] = useState(['React', 'TypeScript', 'Bootstrap']);
-      return (
-        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-          {tags.map((tag) => (
-            <Badge
-              key={tag}
-              variant="primary"
-              pill
-              onDismiss={() => setTags((t) => t.filter((x) => x !== tag))}
-            >
-              {tag}
-            </Badge>
-          ))}
-          {tags.length === 0 && (
-            <Button variant="outline-secondary" size="sm" onClick={() => setTags(['React', 'TypeScript', 'Bootstrap'])}>
-              Reset tags
-            </Button>
-          )}
-        </div>
-      );
-    };
-    return <DismissDemo />;
+    const [tags, setTags] = useState(['React', 'TypeScript', 'Bootstrap']);
+    return (
+      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+        {tags.map((tag) => (
+          <Badge
+            key={tag}
+            variant="primary"
+            pill
+            onDismiss={() => setTags((t) => t.filter((x) => x !== tag))}
+          >
+            {tag}
+          </Badge>
+        ))}
+        {tags.length === 0 && (
+          <Button variant="outline-secondary" size="sm" onClick={() => setTags(['React', 'TypeScript', 'Bootstrap'])}>
+            Reset tags
+          </Button>
+        )}
+      </div>
+    );
   },
 };
 
@@ -480,30 +477,27 @@ export const MaxCount: Story = {
 /** Invisible badge and showZero behavior */
 export const Visibility: Story = {
   render: function Render() {
-    const VisibilityDemo = (): JSX.Element => {
-      const [count, setCount] = useState(0);
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <Button variant="outline-primary" onClick={() => setCount((c) => c + 1)}>
-              Add ({count})
-            </Button>
-            <Button variant="outline-secondary" onClick={() => setCount(0)}>
-              Reset
-            </Button>
-          </div>
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <span>showZero=true:</span>
-            <Badge variant="danger">{count}</Badge>
-            <span>showZero=false:</span>
-            <Badge variant="danger" showZero={false}>{count}</Badge>
-            <span>invisible when 0:</span>
-            <Badge variant="danger" invisible={count === 0}>{count}</Badge>
-          </div>
+    const [count, setCount] = useState(0);
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <Button variant="outline-primary" onClick={() => setCount((c) => c + 1)}>
+            Add ({count})
+          </Button>
+          <Button variant="outline-secondary" onClick={() => setCount(0)}>
+            Reset
+          </Button>
         </div>
-      );
-    };
-    return <VisibilityDemo />;
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <span>showZero=true:</span>
+          <Badge variant="danger">{count}</Badge>
+          <span>showZero=false:</span>
+          <Badge variant="danger" showZero={false}>{count}</Badge>
+          <span>invisible when 0:</span>
+          <Badge variant="danger" invisible={count === 0}>{count}</Badge>
+        </div>
+      </div>
+    );
   },
   parameters: { layout: 'padded' },
 };
@@ -556,20 +550,17 @@ export const Wrapper: Story = {
 /** Animated badge with content change pulse */
 export const Animated: Story = {
   render: function Render() {
-    const AnimatedDemo = (): JSX.Element => {
-      const [count, setCount] = useState(1);
-      return (
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <Button variant="outline-primary" onClick={() => setCount((c) => c + 1)}>
-            Increment
-          </Button>
-          <Badge variant="danger" pill animated>
-            {count}
-          </Badge>
-        </div>
-      );
-    };
-    return <AnimatedDemo />;
+    const [count, setCount] = useState(1);
+    return (
+      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <Button variant="outline-primary" onClick={() => setCount((c) => c + 1)}>
+          Increment
+        </Button>
+        <Badge variant="danger" pill animated>
+          {count}
+        </Badge>
+      </div>
+    );
   },
 };
 

@@ -1300,7 +1300,7 @@ export const VisualStateCallback: Story = {
           items={pricingPlans}
           selectionMode="multiple"
           value={selected}
-          onChange={(val) => setSelected(val as string[])}
+          onChange={(val) => setSelected(val)}
           onVisualStateChange={(vs) => setState(vs)}
         />
       </div>
@@ -1352,7 +1352,7 @@ export const CustomRenderItem: Story = {
         items={pricingPlans}
         selectionMode="single"
         value={selected}
-        onChange={(val) => setSelected(val as string | undefined)}
+        onChange={(val) => setSelected(val)}
         renderItem={(item, { checked }) => (
           <div className="d-flex align-items-center gap-3">
             <div

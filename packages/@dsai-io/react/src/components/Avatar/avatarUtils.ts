@@ -48,7 +48,7 @@ export function safeLookup<T>(
     return fallback;
   }
   const value = Reflect.get(map, key) as T | undefined;
-  return value !== undefined ? value : fallback;
+  return value ?? fallback;
 }
 
 // =============================================================================

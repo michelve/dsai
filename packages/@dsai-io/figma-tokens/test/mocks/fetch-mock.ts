@@ -118,13 +118,13 @@ export function createDefaultMockFetch(): MockFetchHandler {
     }
 
     // Single component/component_set/style by key
-    if (url.match(/\/components\/[^/]+$/) && !url.includes('/files/')) {
+    if (/\/components\/[^/]+$/.exec(url) && !url.includes('/files/')) {
       return Promise.resolve(createSuccessResponse(mockSingleComponentResponse, 'req-comp'));
     }
-    if (url.match(/\/component_sets\/[^/]+$/) && !url.includes('/files/')) {
+    if (/\/component_sets\/[^/]+$/.exec(url) && !url.includes('/files/')) {
       return Promise.resolve(createSuccessResponse(mockSingleComponentSetResponse, 'req-comp-set'));
     }
-    if (url.match(/\/styles\/[^/]+$/) && !url.includes('/files/')) {
+    if (/\/styles\/[^/]+$/.exec(url) && !url.includes('/files/')) {
       return Promise.resolve(createSuccessResponse(mockSingleStyleResponse, 'req-style'));
     }
 

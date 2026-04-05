@@ -17,10 +17,10 @@ function countTokens(obj) {
   let count = 0;
   for (const value of Object.values(obj)) {
     if (value && typeof value === 'object') {
-      if (value.$value !== undefined) {
-        count++;
-      } else {
+      if (value.$value === undefined) {
         count += countTokens(value);
+      } else {
+        count++;
       }
     }
   }

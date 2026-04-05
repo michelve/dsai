@@ -75,7 +75,8 @@ export function isMobile(): boolean | null {
     (userAgent.includes('android') && !userAgent.includes('mobile'));
 
   // Use screen width as fallback (mobile typically < 768px)
-  const isMobileWidth = window.innerWidth < 768;
+  const MOBILE_BREAKPOINT = 768;
+  const isMobileWidth = window.innerWidth < MOBILE_BREAKPOINT;
 
   const result = !isTabletUA && (isMobileUA || isMobileWidth);
 

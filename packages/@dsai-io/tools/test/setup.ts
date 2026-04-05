@@ -101,14 +101,15 @@ expect.extend({
 // ============================================================================
 
 // Default test timeout (30 seconds for async operations)
-jest.setTimeout(30000);
+const TEST_TIMEOUT_MS = 30_000;
+jest.setTimeout(TEST_TIMEOUT_MS);
 
 // Suppress console output during tests unless DEBUG is set
 if (!process.env.DEBUG && !process.env.VERBOSE) {
   const originalConsole = { ...console };
 
   beforeAll(() => {
-    global.console = {
+    globalThis.console = {
       ...originalConsole,
       log: jest.fn(),
       debug: jest.fn(),
@@ -120,7 +121,7 @@ if (!process.env.DEBUG && !process.env.VERBOSE) {
   });
 
   afterAll(() => {
-    global.console = originalConsole;
+    globalThis.console = originalConsole;
   });
 }
 

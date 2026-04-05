@@ -360,7 +360,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     >({
       value: sortConfig,
       defaultValue: defaultSortConfig,
-      onChange: onSortChange as ((value: SortConfig | SortingState | undefined) => void) | undefined,
+      onChange: onSortChange,
     });
 
     /** Normalized sort state — always an array internally */
@@ -393,17 +393,14 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
               // Remove from multi-sort
               nextState = sortingState.filter((_, i) => i !== existingIndex);
             }
+          } else if (sortingState.length >= maxSortColumns) {
+            // Replace the last column
+            nextState = [
+              ...sortingState.slice(0, -1),
+              { columnId, direction: 'asc' as SortDirection },
+            ];
           } else {
-            // Add new column
-            if (sortingState.length >= maxSortColumns) {
-              // Replace the last column
-              nextState = [
-                ...sortingState.slice(0, -1),
-                { columnId, direction: 'asc' as SortDirection },
-              ];
-            } else {
-              nextState = [...sortingState, { columnId, direction: 'asc' as SortDirection }];
-            }
+            nextState = [...sortingState, { columnId, direction: 'asc' as SortDirection }];
           }
 
           const result = nextState.length === 0 ? undefined : nextState;
@@ -414,16 +411,14 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
 
           let newConfig: SortConfig | undefined;
 
-          if (current) {
-            if (current.direction === 'asc') {
-              newConfig = { columnId, direction: 'desc' };
-            } else {
-              // Clear sort
-              newConfig = undefined;
-            }
-          } else {
+          if (!current) {
             // New column, start with ascending
             newConfig = { columnId, direction: 'asc' };
+          } else if (current.direction === 'asc') {
+            newConfig = { columnId, direction: 'desc' };
+          } else {
+            // Clear sort
+            newConfig = undefined;
           }
 
           setCurrentSort(newConfig);
@@ -598,7 +593,8 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
           // Find column constraints
           const col = columns.find((c) => c.id === columnId);
           if (col) {
-            const minW = typeof col.minWidth === 'number' ? col.minWidth : 50;
+            const DEFAULT_MIN_COLUMN_WIDTH = 50;
+            const minW = typeof col.minWidth === 'number' ? col.minWidth : DEFAULT_MIN_COLUMN_WIDTH;
             const maxW = typeof col.maxWidth === 'number' ? col.maxWidth : Infinity;
             newWidth = Math.max(minW, Math.min(maxW, newWidth));
           }
@@ -1207,11 +1203,12 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
 
               // Roving tabindex: active sortable header gets 0, others get -1
               const isActiveHeader = column.sortable && columnIndex === activeHeaderIndex;
-              const headerTabIndex = column.sortable
-                ? isActiveHeader
-                  ? 0
-                  : -1
-                : undefined;
+              let headerTabIndex: number | undefined;
+              if (!column.sortable) {
+                headerTabIndex = undefined;
+              } else {
+                headerTabIndex = isActiveHeader ? 0 : -1;
+              }
 
               return (
                 <th

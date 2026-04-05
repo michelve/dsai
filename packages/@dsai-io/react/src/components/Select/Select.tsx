@@ -325,12 +325,12 @@ export const Select = memo(
         if (multiple) {
           const currentArray = Array.isArray(currentValue) ? currentValue : [];
           if (currentArray.includes(option.value)) {
-            setCurrentValue(currentArray.filter((v) => v !== option.value) as T[]);
+            setCurrentValue(currentArray.filter((v) => v !== option.value));
           } else {
-            setCurrentValue([...currentArray, option.value] as T[]);
+            setCurrentValue([...currentArray, option.value]);
           }
         } else {
-          setCurrentValue(option.value as T | T[] | undefined);
+          setCurrentValue(option.value);
           setIsOpen(false);
           onClose?.();
           setSearchValue('');
@@ -523,7 +523,7 @@ export const Select = memo(
     // Build button classes
     const buttonClasses = cn(
       'form-select',
-      Reflect.get(sizeClassMap, size) as string ?? '',
+      (Reflect.get(sizeClassMap, size) as string) ?? '',
       error && 'is-invalid',
       success && !error && 'is-valid',
       'd-flex align-items-center justify-content-between'
@@ -594,9 +594,9 @@ export const Select = memo(
     // Build flat index map for grouped rendering
     const flatIndexMap = useMemo(() => {
       const map = new Map<T, number>();
-      displayOptions.forEach((opt, i) => {
+      for (const [i, opt] of displayOptions.entries()) {
         map.set(opt.value, i);
-      });
+      }
       return map;
     }, [displayOptions]);
 

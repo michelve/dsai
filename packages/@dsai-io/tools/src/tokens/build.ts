@@ -398,24 +398,45 @@ function executePreprocessStep(figmaExportsDir: string): boolean {
 }
 
 /**
+ * Options for creating a build step from a step name
+ */
+interface CreateStepOptions {
+  stepName: BuildPipelineStep;
+  tokensPackageDir: string;
+  figmaExportsDir: string;
+  tokensDir: string;
+  paths: Required<BuildPipelinePaths>;
+  sdConfigFile: string;
+  strict: boolean;
+  snapshotService?: SnapshotService;
+  themesConfig?: BuildOptions['themesConfig'];
+  outputDir?: string;
+  formats?: OutputFormat[];
+  cssOutputDir?: string;
+  postprocessConfig?: BuildOptions['postprocessConfig'];
+  prefix?: string;
+}
+
+/**
  * Create a single build step from step name
  */
-function createStepFromName(
-  stepName: BuildPipelineStep,
-  tokensPackageDir: string,
-  figmaExportsDir: string,
-  tokensDir: string,
-  paths: Required<BuildPipelinePaths>,
-  sdConfigFile: string,
-  strict: boolean,
-  snapshotService?: SnapshotService,
-  themesConfig?: BuildOptions['themesConfig'],
-  outputDir?: string,
-  formats: OutputFormat[] = ['css', 'scss', 'json'],
-  cssOutputDir?: string,
-  postprocessConfig?: BuildOptions['postprocessConfig'],
-  prefix?: string
-): BuildStep {
+function createStepFromName(options: CreateStepOptions): BuildStep {
+  const {
+    stepName,
+    tokensPackageDir,
+    figmaExportsDir,
+    tokensDir,
+    paths,
+    sdConfigFile,
+    strict,
+    snapshotService,
+    themesConfig,
+    outputDir,
+    formats = ['css', 'scss', 'json'],
+    cssOutputDir,
+    postprocessConfig,
+    prefix,
+  } = options;
   const displayName = STEP_DISPLAY_NAMES.get(stepName) ?? `Unknown: ${stepName}`;
 
   switch (stepName) {
@@ -606,7 +627,7 @@ function createBuildSteps(
   const steps: BuildStep[] = [];
 
   for (const stepName of pipelineSteps) {
-    const step = createStepFromName(
+    const step = createStepFromName({
       stepName,
       tokensPackageDir,
       figmaExportsDir,
@@ -615,13 +636,13 @@ function createBuildSteps(
       sdConfigFile,
       strict,
       snapshotService,
-      options.themesConfig,
-      options.outputDir,
+      themesConfig: options.themesConfig,
+      outputDir: options.outputDir,
       formats,
-      options.cssOutputDir,
-      options.postprocessConfig,
-      options.prefix
-    );
+      cssOutputDir: options.cssOutputDir,
+      postprocessConfig: options.postprocessConfig,
+      prefix: options.prefix,
+    });
 
     // Apply skip flags based on legacy options
     if (stepName === 'validate' && skipValidate) {

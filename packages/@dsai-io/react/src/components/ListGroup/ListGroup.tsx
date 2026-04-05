@@ -29,9 +29,7 @@ import { ListGroupDivider } from './ListGroupDivider';
 import { ListGroupHeader } from './ListGroupHeader';
 
 import type {
-  ListGroupDividerEntry,
   ListGroupEntry,
-  ListGroupHeaderEntry,
   ListGroupItemData,
   ListGroupItemProps,
   ListGroupProps,
@@ -140,12 +138,14 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
   // - Explicit active prop (when not undefined) always wins
   // - Otherwise derive from context if eventKey exists
   // - Otherwise fall back to false
-  const active: boolean =
-    activeProp !== undefined
-      ? activeProp
-      : eventKey !== undefined && context !== null
-        ? context.activeKeys.has(eventKey)
-        : false;
+  let active: boolean;
+  if (activeProp !== undefined) {
+    active = activeProp;
+  } else if (eventKey !== undefined && context !== null) {
+    active = context.activeKeys.has(eventKey);
+  } else {
+    active = false;
+  }
 
   // Whether this item participates in listbox semantics
   const isListboxItem = context?.onSelect !== undefined && eventKey !== undefined;
@@ -505,7 +505,7 @@ const ListGroupInner = forwardRef<HTMLUListElement | HTMLOListElement, ListGroup
     const contextValue = useMemo(
       () => ({
         activeKeys: fsmState.activeKeys,
-        onSelect: onSelect !== undefined ? handleSelect : undefined,
+        onSelect: onSelect === undefined ? undefined : handleSelect,
         selectionMode,
       }),
       [fsmState.activeKeys, onSelect, handleSelect, selectionMode]
@@ -536,12 +536,12 @@ const ListGroupInner = forwardRef<HTMLUListElement | HTMLOListElement, ListGroup
 
     // Additional ARIA props when acting as listbox
     const listboxProps =
-      onSelect !== undefined
-        ? {
+      onSelect === undefined
+        ? {}
+        : {
             role: 'listbox' as const,
             'aria-multiselectable': selectionMode === 'multiple' ? (true as const) : undefined,
-          }
-        : {};
+          };
 
     // Roving focus for arrow-key navigation in listbox mode
     const listRef = useRef<HTMLElement>(null);
@@ -640,7 +640,7 @@ const ListGroupInner = forwardRef<HTMLUListElement | HTMLOListElement, ListGroup
 
     // Empty state rendered when items array is empty and emptyContent is provided
     const emptyState =
-      emptyContent && items && items.length === 0 ? (
+      emptyContent && items?.length === 0 ? (
         <li className="list-group-item text-center text-body-secondary border-0">{emptyContent}</li>
       ) : null;
 
@@ -681,4 +681,4 @@ export type {
   ListGroupItemData,
   ListGroupItemProps,
   ListGroupProps,
-};
+} from './ListGroup.types';

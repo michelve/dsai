@@ -313,7 +313,7 @@ export function transformTokenTree(
     // Try to transform as a token
     const keyOptions = optionsMap.get(key);
     const tokenOptions: TokenTransformOptions = {
-      ...(keyOptions ?? {}),
+      ...keyOptions,
       tokenPath: currentPath,
     };
     const transformed = transformToken(value, tokenOptions);
@@ -942,9 +942,8 @@ function processOutputMode(
       );
     }
   } catch (error) {
-    ctx.errors.push(
-      `Error processing ${outputFile}: ${error instanceof Error ? error.message : 'Unknown error'}`
-    );
+    const errMsg = error instanceof Error ? error.message : 'Unknown error';
+    ctx.errors.push(`Error processing ${outputFile}: ${errMsg}`);
   }
 }
 
