@@ -1359,7 +1359,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
     });
 
     it.each([
-      { label: 'detects updated tokens', resolution: undefined, expectUpdates: true, expectConflicts: false },
+      { label: 'detects updated tokens', resolution: null, expectUpdates: true, expectConflicts: false },
       { label: 'reports conflicts with manual resolution', resolution: 'manual' as const, expectUpdates: false, expectConflicts: true },
       { label: 'overwrites with remote resolution', resolution: 'remote' as const, expectUpdates: true, expectConflicts: false },
     ])('$label', async ({ resolution, expectUpdates, expectConflicts }) => {

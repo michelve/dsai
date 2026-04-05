@@ -203,7 +203,7 @@ function parseMetadataLine(line: string): Record<string, Record<string, string>>
 
   for (const pair of pairs) {
     // Match Key.SubKey: value format
-    const match = pair.match(/^([A-Z][a-z]+)\.([A-Z][a-zA-Z]+):\s*(\S.*)$/);
+    const match = /^([A-Z][a-z]+)\.([A-Z][a-zA-Z]+):\s*(\S.*)$/.exec(pair);
     if (match?.[1] && match[2] && match[3]) {
       const category = match[1].toLowerCase();
       // Convert PascalCase to camelCase for the key
@@ -1217,7 +1217,7 @@ export class FigmaClient {
     const r = Math.round(color.r * MAX_UINT8);
     const g = Math.round(color.g * MAX_UINT8);
     const b = Math.round(color.b * MAX_UINT8);
-    const a = color.a !== undefined ? color.a * opacity : opacity;
+    const a = color.a === undefined ? opacity : color.a * opacity;
 
     if (a === 1) {
       return `rgb(${r}, ${g}, ${b})`;
