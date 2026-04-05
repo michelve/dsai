@@ -51,10 +51,74 @@ import {
   getToneFromName,
 } from './avatarUtils';
 
-import type { AvatarContextValue, AvatarImageStatus, AvatarProps } from './Avatar.types';
+import type { AvatarContextValue, AvatarImageStatus, AvatarProps, AvatarStatus as AvatarStatusType } from './Avatar.types';
 import type React from 'react';
 
 type AvatarElement = HTMLSpanElement | HTMLDivElement | HTMLButtonElement | HTMLAnchorElement;
+
+// =============================================================================
+// Helpers to reduce component cognitive complexity
+// =============================================================================
+
+interface CompoundChildren {
+  image: React.ReactNode | undefined;
+  fallback: React.ReactNode | undefined;
+  badge: React.ReactNode | undefined;
+  status: React.ReactNode | undefined;
+}
+
+function findCompoundChild(
+  childArray: ReturnType<typeof Children.toArray>,
+  displayName: string
+): React.ReactNode | undefined {
+  return childArray.find(
+    (child) =>
+      isValidElement(child) &&
+      (child.type as { displayName?: string }).displayName === displayName
+  );
+}
+
+function scanCompoundChildren(children: React.ReactNode): CompoundChildren {
+  const childArray = children ? Children.toArray(children) : [];
+  return {
+    image: findCompoundChild(childArray, 'Avatar.Image'),
+    fallback: findCompoundChild(childArray, 'Avatar.Fallback'),
+    badge: findCompoundChild(childArray, 'Avatar.Badge'),
+    status: findCompoundChild(childArray, 'Avatar.Status'),
+  };
+}
+
+function buildAriaLabel(
+  decorative: boolean,
+  ariaLabel: string | undefined,
+  name: string | undefined,
+  alt: string | undefined,
+  status: AvatarStatusType | undefined,
+  badgeCount: number | undefined,
+  badgeDot: boolean,
+): string | undefined {
+  if (decorative) {
+    return undefined;
+  }
+  if (ariaLabel) {
+    return ariaLabel;
+  }
+  const parts: string[] = [];
+  if (name) {
+    parts.push(name);
+  } else if (alt) {
+    parts.push(alt);
+  }
+  if (status) {
+    parts.push(getStatusLabel(status));
+  }
+  if (badgeCount !== undefined) {
+    parts.push(`${badgeCount} notifications`);
+  } else if (badgeDot) {
+    parts.push('notification');
+  }
+  return parts.length > 0 ? parts.join(', ') : undefined;
+}
 
 // =============================================================================
 // Avatar Component
@@ -136,27 +200,7 @@ const AvatarRoot = memo(
     ref
   ) {
     // Scan children for compound sub-components (per-slot override)
-    const childArray = children ? Children.toArray(children) : [];
-    const compoundImage = childArray.find(
-      (child) =>
-        isValidElement(child) &&
-        (child.type as { displayName?: string }).displayName === 'Avatar.Image'
-    );
-    const compoundFallback = childArray.find(
-      (child) =>
-        isValidElement(child) &&
-        (child.type as { displayName?: string }).displayName === 'Avatar.Fallback'
-    );
-    const compoundBadge = childArray.find(
-      (child) =>
-        isValidElement(child) &&
-        (child.type as { displayName?: string }).displayName === 'Avatar.Badge'
-    );
-    const compoundStatus = childArray.find(
-      (child) =>
-        isValidElement(child) &&
-        (child.type as { displayName?: string }).displayName === 'Avatar.Status'
-    );
+    const { image: compoundImage, fallback: compoundFallback, badge: compoundBadge, status: compoundStatus } = scanCompoundChildren(children);
 
     // Track image loading status
     const [imageStatus, setImageStatus] = useState<AvatarImageStatus>(() =>
@@ -292,29 +336,10 @@ const AvatarRoot = memo(
     );
 
     // Build aria-label for accessibility
-    const computedAriaLabel = useMemo(() => {
-      if (decorative) {
-        return undefined;
-      }
-      if (ariaLabel) {
-        return ariaLabel;
-      }
-      const parts: string[] = [];
-      if (name) {
-        parts.push(name);
-      } else if (alt) {
-        parts.push(alt);
-      }
-      if (status) {
-        parts.push(getStatusLabel(status));
-      }
-      if (badgeCount !== undefined) {
-        parts.push(`${badgeCount} notifications`);
-      } else if (badgeDot) {
-        parts.push('notification');
-      }
-      return parts.length > 0 ? parts.join(', ') : undefined;
-    }, [decorative, ariaLabel, name, alt, status, badgeCount, badgeDot]);
+    const computedAriaLabel = useMemo(
+      () => buildAriaLabel(decorative, ariaLabel, name, alt, status, badgeCount, badgeDot),
+      [decorative, ariaLabel, name, alt, status, badgeCount, badgeDot]
+    );
 
     // Determine element type
     const Component = as as React.ElementType;
@@ -464,6 +489,44 @@ const AvatarRoot = memo(
       );
     };
 
+    // Render main avatar content (image, fallback, or skeleton)
+    const renderMainContent = (): React.ReactNode => {
+      if (isLoading) {
+        return renderSkeleton();
+      }
+      if (compoundImage) {
+        return compoundImage;
+      }
+      if (showImage) {
+        return (
+          <img
+            ref={imageRef}
+            src={src}
+            alt={decorative ? '' : (alt ?? name ?? undefined)}
+            srcSet={srcSet}
+            sizes={sizes}
+            loading={loading}
+            referrerPolicy={referrerPolicy}
+            crossOrigin={crossOrigin}
+            className={cn(
+              'dsai-avatar__image',
+              'w-100',
+              'h-100',
+              'object-fit-cover',
+              getShapeClass(shape),
+              !imageLoaded && 'opacity-0'
+            )}
+            aria-hidden={decorative ? true : undefined}
+            data-testid="avatar-image"
+          />
+        );
+      }
+      if (compoundFallback) {
+        return compoundFallback;
+      }
+      return delayElapsed && renderFallbackContent();
+    };
+
     // Render loading skeleton
     const renderSkeleton = (): React.ReactNode => {
       return (
@@ -558,42 +621,7 @@ const AvatarRoot = memo(
         {...(interactiveProps as Record<string, unknown>)}
       >
         <AvatarContext.Provider value={contextValue}>
-          {(() => {
-            if (isLoading) {
-              return renderSkeleton();
-            }
-            if (compoundImage) {
-              return compoundImage;
-            }
-            if (showImage) {
-              return (
-                <img
-                  ref={imageRef}
-                  src={src}
-                  alt={decorative ? '' : (alt ?? name ?? undefined)}
-                  srcSet={srcSet}
-                  sizes={sizes}
-                  loading={loading}
-                  referrerPolicy={referrerPolicy}
-                  crossOrigin={crossOrigin}
-                  className={cn(
-                    'dsai-avatar__image',
-                    'w-100',
-                    'h-100',
-                    'object-fit-cover',
-                    getShapeClass(shape),
-                    !imageLoaded && 'opacity-0'
-                  )}
-                  aria-hidden={decorative ? true : undefined}
-                  data-testid="avatar-image"
-                />
-              );
-            }
-            if (compoundFallback) {
-              return compoundFallback;
-            }
-            return delayElapsed && renderFallbackContent();
-          })()}
+          {renderMainContent()}
 
           {compoundStatus ?? renderStatus()}
           {compoundBadge ?? renderBadge()}

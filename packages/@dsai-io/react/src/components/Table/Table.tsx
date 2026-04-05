@@ -341,7 +341,7 @@ function renderDataCell<T>(
   return (
     <td key={column.id} className={cellClasses || undefined} style={cellStyle}>
       {column.cell
-        ? column.cell(cellValue, row as Record<string, unknown>, rowIndex)
+        ? column.cell(cellValue, row, rowIndex)
         : (cellValue as React.ReactNode)}
     </td>
   );

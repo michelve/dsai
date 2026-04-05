@@ -383,37 +383,18 @@ export const Card = memo(
 
     // Render as link
     if (safeHref) {
-      if (LinkComponent) {
-        return (
-          <LinkComponent
-            ref={ref}
-            href={safeHref}
-            {...rest}
-            className={cardClasses}
-            style={{ ...mergedStyle, textDecoration: 'none', color: 'inherit' }}
-            rel={relAttribute}
-          >
-            {children}
-          </LinkComponent>
-        );
-      }
+      const linkStyle = { ...mergedStyle, textDecoration: 'none' as const, color: 'inherit' as const };
+      const linkProps = { ...rest, className: cardClasses, style: linkStyle, rel: relAttribute };
 
-      return (
-        <a
-          ref={ref as React.Ref<HTMLAnchorElement>}
-          href={safeHref}
-          {...rest}
-          className={cardClasses}
-          style={{ ...mergedStyle, textDecoration: 'none', color: 'inherit' }}
-          rel={relAttribute}
-        >
-          {children}
-        </a>
+      return LinkComponent ? (
+        <LinkComponent ref={ref} href={safeHref} {...linkProps}>{children}</LinkComponent>
+      ) : (
+        <a ref={ref as React.Ref<HTMLAnchorElement>} href={safeHref} {...linkProps}>{children}</a>
       );
     }
 
     // Render as button (interactive without href)
-    if (onClick && !safeHref) {
+    if (onClick) {
       return (
         <button
           ref={ref as React.Ref<HTMLButtonElement>}

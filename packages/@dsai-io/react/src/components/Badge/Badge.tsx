@@ -33,6 +33,95 @@ function safeLookup<T>(map: Readonly<Record<string, T>>, key: string, fallback: 
 }
 
 // =============================================================================
+// Badge Content Helper
+// =============================================================================
+
+const DISMISS_BUTTON_STYLE: React.CSSProperties = {
+  background: 'none',
+  border: 'none',
+  color: 'inherit',
+  padding: '0 0 0 0.35em',
+  cursor: 'pointer',
+  fontSize: 'inherit',
+  lineHeight: 1,
+  opacity: 0.7,
+  display: 'inline-flex',
+  alignItems: 'center',
+};
+
+/**
+ * Resolves the display content with proper spacing when an icon is present.
+ */
+function resolveDisplayWithIcon(
+  hasIcon: boolean,
+  iconPosition: string,
+  displayContent: React.ReactNode,
+): React.ReactNode {
+  if (!hasIcon || !displayContent) {
+    return displayContent;
+  }
+  const margin = iconPosition === 'start' ? { marginLeft: '0.25em' } : { marginRight: '0.25em' };
+  return <span style={margin}>{displayContent}</span>;
+}
+
+function BadgeContent({
+  dot,
+  icon,
+  iconPosition,
+  displayContent,
+  hasVisibleContent,
+  onDismiss,
+  dismissLabel,
+}: {
+  dot: boolean;
+  icon: React.ReactNode;
+  iconPosition: string;
+  displayContent: React.ReactNode;
+  hasVisibleContent: boolean;
+  onDismiss?: () => void;
+  dismissLabel: string;
+}): React.JSX.Element {
+  const iconElement = icon ? (
+    <span className="d-inline-flex align-items-center" aria-hidden="true">
+      {icon}
+    </span>
+  ) : null;
+
+  const dotElement = dot ? (
+    <span
+      className="d-inline-block rounded-circle"
+      style={{
+        width: '0.5em',
+        height: '0.5em',
+        backgroundColor: 'currentColor',
+        ...(hasVisibleContent ? { marginRight: '0.25em' } : {}),
+      }}
+      aria-hidden={hasVisibleContent ? 'true' : undefined}
+    />
+  ) : null;
+
+  return (
+    <>
+      {dotElement}
+      {iconPosition === 'start' && iconElement}
+      {resolveDisplayWithIcon(!!icon, iconPosition, displayContent)}
+      {iconPosition === 'end' && iconElement}
+      {onDismiss && (
+        <button
+          type="button"
+          className="dsai-badge-dismiss"
+          aria-label={dismissLabel}
+          onClick={onDismiss}
+          style={DISMISS_BUTTON_STYLE}
+        >
+          ×
+        </button>
+      )}
+    </>
+  );
+}
+
+// =============================================================================
 // Badge Component
 // =============================================================================
 
@@ -198,64 +287,16 @@ function BadgeComponent(
   // ---------------------------------------------------------------------------
   // Badge content assembly
   // ---------------------------------------------------------------------------
-  const iconElement = icon ? (
-    <span className="d-inline-flex align-items-center" aria-hidden="true">
-      {icon}
-    </span>
-  ) : null;
-
-  const dotElement = dot ? (
-    <span
-      className="d-inline-block rounded-circle"
-      style={{
-        width: '0.5em',
-        height: '0.5em',
-        backgroundColor: 'currentColor',
-        ...(hasVisibleContent ? { marginRight: '0.25em' } : {}),
-      }}
-      aria-hidden={hasVisibleContent ? 'true' : undefined}
-    />
-  ) : null;
-
-  const dismissElement = onDismiss ? (
-    <button
-      type="button"
-      className="dsai-badge-dismiss"
-      aria-label={dismissLabel}
-      onClick={onDismiss}
-      style={{
-        background: 'none',
-        border: 'none',
-        color: 'inherit',
-        padding: '0 0 0 0.35em',
-        cursor: 'pointer',
-        fontSize: 'inherit',
-        lineHeight: 1,
-        opacity: 0.7,
-        display: 'inline-flex',
-        alignItems: 'center',
-      }}
-    >
-      ×
-    </button>
-  ) : null;
-
   const badgeContent = (
-    <>
-      {dotElement}
-      {iconPosition === 'start' && iconElement}
-      {(() => {
-        if (iconElement && iconPosition === 'start' && displayContent) {
-          return <span style={{ marginLeft: '0.25em' }}>{displayContent}</span>;
-        }
-        if (iconElement && iconPosition === 'end' && displayContent) {
-          return <span style={{ marginRight: '0.25em' }}>{displayContent}</span>;
-        }
-        return displayContent;
-      })()}
-      {iconPosition === 'end' && iconElement}
-      {dismissElement}
-    </>
+    <BadgeContent
+      dot={dot}
+      icon={icon}
+      iconPosition={iconPosition}
+      displayContent={displayContent}
+      hasVisibleContent={hasVisibleContent}
+      onDismiss={onDismiss}
+      dismissLabel={dismissLabel}
+    />
   );
 
   // ---------------------------------------------------------------------------

@@ -15,13 +15,68 @@
  * @packageDocumentation
  */
 
-import { Children, cloneElement, forwardRef, isValidElement, memo, useEffect, useMemo } from 'react';
+import {
+  Children,
+  cloneElement,
+  forwardRef,
+  isValidElement,
+  memo,
+  useEffect,
+  useMemo,
+} from 'react';
 
 import { cn } from '../../utils';
 
 import { getSizeValue, resolveOverlap, resolveInlineGap } from './avatarUtils';
 
 import type { AvatarGroupProps, AvatarSize } from './Avatar.types';
+
+// =============================================================================
+// Helper: Enhance a single avatar child with inherited props
+// =============================================================================
+
+interface AvatarEnhanceOptions {
+  size: AvatarSize;
+  shape: string;
+  tone?: string;
+  layout: string;
+  stackingOrder: string;
+  marginLeft: string;
+  visibleCount: number;
+  ariaLabel?: string;
+}
+
+function enhanceAvatarChild(
+  child: React.ReactElement,
+  index: number,
+  opts: AvatarEnhanceOptions,
+): React.ReactElement {
+  const childProps = child.props as {
+    size?: AvatarSize;
+    shape?: string;
+    tone?: string;
+    className?: string;
+    style?: React.CSSProperties;
+    decorative?: boolean;
+  };
+
+  const isStacked = opts.layout === 'stacked';
+  const enhancedProps = {
+    size: childProps.size ?? opts.size,
+    shape: childProps.shape ?? opts.shape,
+    tone: childProps.tone ?? opts.tone,
+    style: {
+      ...childProps.style,
+      marginLeft: isStacked && opts.stackingOrder === 'lastOnTop' && index > 0 ? opts.marginLeft : undefined,
+      marginRight: isStacked && opts.stackingOrder === 'firstOnTop' && index > 0 ? opts.marginLeft : undefined,
+      zIndex: isStacked ? opts.visibleCount - index : undefined,
+    },
+    className: cn(childProps.className, isStacked && 'border border-2 border-white'),
+    decorative: childProps.decorative ?? (index > 0 || !opts.ariaLabel),
+  };
+
+  return cloneElement(child, enhancedProps);
+}
 
 // =============================================================================
 // Utility Functions
@@ -48,6 +103,69 @@ function getHiddenAvatarNames(children: React.ReactNode, startIndex: number): st
   }
 
   return names;
+}
+
+// =============================================================================
+// OverflowChipButton — extracted to reduce AvatarGroup complexity
+// =============================================================================
+
+function OverflowChipButton({
+  shape,
+  layout,
+  stackingOrder,
+  avatarSize,
+  marginLeft,
+  hiddenCount,
+  computedOverflowLabel,
+  showOverflowTooltip,
+  onOverflowClick,
+}: {
+  shape: string;
+  layout: string;
+  stackingOrder: string;
+  avatarSize: string;
+  marginLeft: string;
+  hiddenCount: number;
+  computedOverflowLabel: string;
+  showOverflowTooltip: boolean;
+  onOverflowClick?: (event: React.MouseEvent) => void;
+}): React.JSX.Element {
+  const isStacked = layout === 'stacked';
+  const chipClasses = cn(
+    'dsai-avatar-group__overflow',
+    'd-inline-flex',
+    'align-items-center',
+    'justify-content-center',
+    'bg-secondary',
+    'text-white',
+    'fw-semibold',
+    shape === 'circle' && 'rounded-circle',
+    shape === 'rounded' && 'rounded-3',
+    isStacked && 'border border-2 border-white',
+  );
+
+  const chipStyle: React.CSSProperties = {
+    width: avatarSize,
+    height: avatarSize,
+    fontSize: `calc(${avatarSize} * 0.35)`,
+    marginLeft: isStacked && stackingOrder === 'lastOnTop' ? marginLeft : undefined,
+    marginRight: isStacked && stackingOrder === 'firstOnTop' ? marginLeft : undefined,
+    zIndex: 0,
+  };
+
+  return (
+    <button
+      type="button"
+      className={cn(chipClasses, 'border-0', 'p-0')}
+      style={chipStyle}
+      aria-label={computedOverflowLabel}
+      title={showOverflowTooltip ? computedOverflowLabel : undefined}
+      onClick={onOverflowClick}
+      data-testid="avatar-group-overflow"
+    >
+      +{hiddenCount}
+    </button>
+  );
 }
 
 // =============================================================================
@@ -170,103 +288,42 @@ export const AvatarGroup = memo(
     );
 
     // Clone and enhance visible children
+    const enhanceOpts: AvatarEnhanceOptions = useMemo(
+      () => ({ size, shape, tone, layout, stackingOrder, marginLeft, visibleCount, ariaLabel }),
+      [size, shape, tone, layout, stackingOrder, marginLeft, visibleCount, ariaLabel],
+    );
+
     const visibleChildren = useMemo(() => {
       return childArray.slice(0, visibleCount).map((child, index) => {
         if (!isValidElement(child)) {
           return child;
         }
-
-        // Type assertion for avatar props
-        const childProps = child.props as {
-          size?: AvatarSize;
-          shape?: string;
-          tone?: string;
-          className?: string;
-          style?: React.CSSProperties;
-          decorative?: boolean;
-        };
-
-        // Apply inherited props if not explicitly set
-        const enhancedProps = {
-          size: childProps.size ?? size,
-          shape: childProps.shape ?? shape,
-          tone: childProps.tone ?? tone,
-          // Add margin for stacked layout (except first in reversed order)
-          style: {
-            ...childProps.style,
-            marginLeft:
-              layout === 'stacked' && stackingOrder === 'lastOnTop' && index > 0
-                ? marginLeft
-                : undefined,
-            marginRight:
-              layout === 'stacked' && stackingOrder === 'firstOnTop' && index > 0
-                ? marginLeft
-                : undefined,
-            // Add z-index for stacking order
-            zIndex: layout === 'stacked' ? visibleCount - index : undefined,
-          },
-          className: cn(
-            childProps.className,
-            layout === 'stacked' && 'border border-2 border-white'
-          ),
-          // Mark as decorative for group unless specifically semantic
-          decorative: childProps.decorative ?? (index > 0 || !ariaLabel),
-        };
-
-        return cloneElement(child, enhancedProps);
+        return enhanceAvatarChild(child, index, enhanceOpts);
       });
-    }, [childArray, visibleCount, size, shape, tone, layout, stackingOrder, marginLeft, ariaLabel]);
+    }, [childArray, visibleCount, enhanceOpts]);
 
     // Render overflow chip
-    const renderOverflowChip = (): React.ReactNode => {
+    const overflowChip = useMemo((): React.ReactNode => {
       if (!hasOverflow) {
         return null;
       }
-
-      // Custom render — consumer handles everything
       if (renderSurplus) {
         return renderSurplus(hiddenCount);
       }
-
-      // Default chip
-      const chipClasses = cn(
-        'dsai-avatar-group__overflow',
-        'd-inline-flex',
-        'align-items-center',
-        'justify-content-center',
-        'bg-secondary',
-        'text-white',
-        'fw-semibold',
-        shape === 'circle' && 'rounded-circle',
-        shape === 'rounded' && 'rounded-3',
-        layout === 'stacked' && 'border border-2 border-white'
-      );
-
-      const chipStyle: React.CSSProperties = {
-        width: avatarSize,
-        height: avatarSize,
-        fontSize: `calc(${avatarSize} * 0.35)`,
-        marginLeft:
-          layout === 'stacked' && stackingOrder === 'lastOnTop' ? marginLeft : undefined,
-        marginRight:
-          layout === 'stacked' && stackingOrder === 'firstOnTop' ? marginLeft : undefined,
-        zIndex: 0,
-      };
-
       return (
-        <button
-          type="button"
-          className={cn(chipClasses, 'border-0', 'p-0')}
-          style={chipStyle}
-          aria-label={computedOverflowLabel}
-          title={showOverflowTooltip ? computedOverflowLabel : undefined}
-          onClick={onOverflowClick}
-          data-testid="avatar-group-overflow"
-        >
-          +{hiddenCount}
-        </button>
+        <OverflowChipButton
+          shape={shape}
+          layout={layout}
+          stackingOrder={stackingOrder}
+          avatarSize={avatarSize}
+          marginLeft={marginLeft}
+          hiddenCount={hiddenCount}
+          computedOverflowLabel={computedOverflowLabel}
+          showOverflowTooltip={showOverflowTooltip}
+          onOverflowClick={onOverflowClick}
+        />
       );
-    };
+    }, [hasOverflow, renderSurplus, hiddenCount, shape, layout, stackingOrder, avatarSize, marginLeft, computedOverflowLabel, showOverflowTooltip, onOverflowClick]);
 
     // Build group aria-label
     const groupAriaLabel = useMemo(() => {
@@ -300,13 +357,13 @@ export const AvatarGroup = memo(
         <span className="visually-hidden">{groupAriaLabel}</span>
 
         {/* Render overflow chip first for stacked (reversed) layout */}
-        {layout === 'stacked' && renderOverflowChip()}
+        {layout === 'stacked' && overflowChip}
 
         {/* Render visible avatars */}
         {visibleChildren}
 
         {/* Render overflow chip last for inline layout */}
-        {layout === 'inline' && renderOverflowChip()}
+        {layout === 'inline' && overflowChip}
       </div>
     );
   })

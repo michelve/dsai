@@ -98,182 +98,127 @@ function resolveInteractiveState(state: ButtonFSMState): ButtonVisualState {
 }
 
 /**
+ * Guard: returns true when the button is in a non-interactive override state.
+ */
+function isOverridden(state: ButtonFSMState): boolean {
+  return state.isDisabled || state.isLoading || state.isError;
+}
+
+function handleDisable(state: ButtonFSMState): ButtonFSMState {
+  return {
+    visualState: 'disabled',
+    isPressed: false,
+    isHovered: false,
+    isFocused: false,
+    isDisabled: true,
+    isLoading: state.isLoading,
+    isError: state.isError,
+  };
+}
+
+function handleEnable(state: ButtonFSMState): ButtonFSMState {
+  const visualState: ButtonVisualState = state.isLoading
+    ? 'loading'
+    : state.isError
+      ? 'error'
+      : 'idle';
+
+  return {
+    visualState,
+    isPressed: false,
+    isHovered: false,
+    isFocused: false,
+    isDisabled: false,
+    isLoading: state.isLoading,
+    isError: state.isError,
+  };
+}
+
+/**
+ * Shared handler for LOADING and ERROR toggle events.
+ * Both follow the same pattern: disabled keeps override; toggling on/off
+ * switches visual state accordingly.
+ */
+function handleToggleOverride(
+  state: ButtonFSMState,
+  payload: boolean,
+  flagKey: 'isLoading' | 'isError',
+  activeVisual: ButtonVisualState,
+): ButtonFSMState {
+  const currentFlag = state[flagKey];
+
+  // If disabled, just update the flag without changing visual state
+  if (state.isDisabled) {
+    return { ...state, [flagKey]: payload };
+  }
+  // Transitioning ON
+  if (payload && !currentFlag) {
+    return { ...state, visualState: activeVisual, [flagKey]: true };
+  }
+  // Transitioning OFF — restore interactive state
+  if (!payload && currentFlag) {
+    return { ...state, visualState: resolveInteractiveState(state), [flagKey]: false };
+  }
+  // No change
+  return state;
+}
+
+function handleBlur(state: ButtonFSMState): ButtonFSMState {
+  if (state.isDisabled || state.isLoading) {
+    return state;
+  }
+  // During error: focused blur clears to idle; otherwise just clear interaction flags
+  if (state.isError) {
+    return state.isFocused
+      ? { ...state, isHovered: false, isPressed: false, isFocused: false, visualState: 'idle' }
+      : { ...state, isHovered: false, isPressed: false };
+  }
+  return { ...state, isHovered: false, isPressed: false, isFocused: false, visualState: 'idle' };
+}
+
+/**
  * Pure reducer function for Button FSM
  *
  * @param state current FSM state
  * @param event event to process
  * @returns new FSM state
- *
- * @example
- * ```tsx
- * const [fsmState, dispatch] = useReducer(buttonFSMReducer, initialState);
- *
- * const handleMouseEnter = () => dispatch({ type: 'HOVER' });
- * const handleMouseLeave = () => dispatch({ type: 'BLUR' });
- * const handleFocus = () => dispatch({ type: 'FOCUS' });
- * const handleMouseDown = () => dispatch({ type: 'PRESS' });
- * const handleMouseUp = () => dispatch({ type: 'RELEASE' });
- * ```
  */
 export function buttonFSMReducer(state: ButtonFSMState, event: ButtonFSMEvent): ButtonFSMState {
   switch (event.type) {
-    // Override states: these take precedence over all others
     case 'DISABLE':
-      return {
-        visualState: 'disabled',
-        isPressed: false,
-        isHovered: false,
-        isFocused: false,
-        isDisabled: true,
-        isLoading: state.isLoading,
-        isError: state.isError,
-      };
+      return handleDisable(state);
 
-    case 'ENABLE': {
-      // If we're coming out of disabled, reset to idle (or previous state if loading/error)
-      let enabledVisualState: ButtonVisualState = 'idle';
-      if (state.isLoading) {
-        enabledVisualState = 'loading';
-      } else if (state.isError) {
-        enabledVisualState = 'error';
-      }
-      return {
-        visualState: enabledVisualState,
-        isPressed: false,
-        isHovered: false,
-        isFocused: false,
-        isDisabled: false,
-        isLoading: state.isLoading,
-        isError: state.isError,
-      };
-    }
+    case 'ENABLE':
+      return handleEnable(state);
 
     case 'LOADING':
-      // If disabled, stay disabled even if loading state changes
-      if (state.isDisabled) {
-        return {
-          ...state,
-          isLoading: event.payload,
-        };
-      }
-      // If transitioning TO loading, show loading but preserve interaction flags
-      if (event.payload && !state.isLoading) {
-        return {
-          ...state,
-          visualState: 'loading',
-          isLoading: true,
-        };
-      }
-      // If transitioning FROM loading, restore the previous interactive state
-      if (!event.payload && state.isLoading) {
-        return {
-          ...state,
-          visualState: resolveInteractiveState(state),
-          isLoading: false,
-        };
-      }
-      // Loading state didn't change, return as-is
-      return state;
+      return handleToggleOverride(state, event.payload, 'isLoading', 'loading');
 
     case 'ERROR':
-      // If disabled, stay disabled even if error state changes
-      if (state.isDisabled) {
-        return {
-          ...state,
-          isError: event.payload,
-        };
-      }
-      // If transitioning TO error, show error but preserve interaction flags
-      if (event.payload && !state.isError) {
-        return {
-          ...state,
-          visualState: 'error',
-          isError: true,
-        };
-      }
-      // If transitioning FROM error, restore the previous interactive state
-      if (!event.payload && state.isError) {
-        return {
-          ...state,
-          visualState: resolveInteractiveState(state),
-          isError: false,
-        };
-      }
-      // Error state didn't change, return as-is
-      return state;
+      return handleToggleOverride(state, event.payload, 'isError', 'error');
 
-    // Interactive states: only apply if not disabled, loading, or error
     case 'HOVER':
-      if (state.isDisabled || state.isLoading || state.isError) {
-        return state;
-      }
-      return {
-        ...state,
-        isHovered: true,
-        visualState: resolveInteractiveState({ ...state, isHovered: true }),
-      };
+      return isOverridden(state)
+        ? state
+        : { ...state, isHovered: true, visualState: resolveInteractiveState({ ...state, isHovered: true }) };
 
     case 'BLUR':
-      // Disabled/loading states don't change on blur
-      if (state.isDisabled || state.isLoading) {
-        return state;
-      }
-      // During error state: if was focused, blur clears to idle; otherwise stay error
-      if (state.isError) {
-        if (state.isFocused) {
-          return {
-            ...state,
-            isHovered: false,
-            isPressed: false,
-            isFocused: false,
-            visualState: 'idle',
-          };
-        }
-        // Not focused, just clear hover/press but stay in error
-        return {
-          ...state,
-          isHovered: false,
-          isPressed: false,
-        };
-      }
-      return {
-        ...state,
-        isHovered: false,
-        isPressed: false,
-        isFocused: false,
-        visualState: 'idle',
-      };
+      return handleBlur(state);
 
     case 'FOCUS':
-      if (state.isDisabled || state.isLoading || state.isError) {
-        return state;
-      }
-      return {
-        ...state,
-        isFocused: true,
-        visualState: state.isPressed ? 'pressed' : 'focused',
-      };
+      return isOverridden(state)
+        ? state
+        : { ...state, isFocused: true, visualState: state.isPressed ? 'pressed' : 'focused' };
 
     case 'PRESS':
-      if (state.isDisabled || state.isLoading || state.isError) {
-        return state;
-      }
-      return {
-        ...state,
-        isPressed: true,
-        isHovered: true, // PRESS implies mouse is hovering
-        visualState: 'pressed',
-      };
+      return isOverridden(state)
+        ? state
+        : { ...state, isPressed: true, isHovered: true, visualState: 'pressed' };
 
     case 'RELEASE':
-      if (state.isDisabled || state.isLoading || state.isError) {
-        return state;
-      }
-      return {
-        ...state,
-        isPressed: false,
-        visualState: resolveInteractiveState({ ...state, isPressed: false }),
-      };
+      return isOverridden(state)
+        ? state
+        : { ...state, isPressed: false, visualState: resolveInteractiveState({ ...state, isPressed: false }) };
 
     default:
       return state;

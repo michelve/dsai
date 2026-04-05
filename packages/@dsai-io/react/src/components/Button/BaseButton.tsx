@@ -55,6 +55,61 @@ function parseSubtleVariant(variant: string): string | null {
 }
 
 /**
+ * Renders the button content for center-loading position.
+ */
+function renderCenterLoading(
+  displayText: React.ReactNode,
+  loaderEl: React.ReactNode,
+): React.ReactNode {
+  return (
+    <>
+      <span style={{ visibility: 'hidden' }}>{displayText}</span>
+      <span
+        style={{
+          position: 'absolute',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        aria-hidden="true"
+      >
+        {loaderEl}
+      </span>
+    </>
+  );
+}
+
+/**
+ * Renders the button content for start/end loading or normal state.
+ */
+function renderStandardContent(
+  loading: boolean,
+  loadingPosition: string,
+  loaderEl: React.ReactNode,
+  startIcon: React.ReactNode | undefined,
+  endIcon: React.ReactNode | undefined,
+  displayText: React.ReactNode,
+): React.ReactNode {
+  return (
+    <>
+      {loading && loadingPosition === 'start' && (
+        <span className="me-2" aria-hidden="true">{loaderEl}</span>
+      )}
+      {!loading && startIcon && (
+        <span className="me-2" aria-hidden="true">{startIcon}</span>
+      )}
+      <span>{displayText}</span>
+      {loading && loadingPosition === 'end' && (
+        <span className="ms-2" aria-hidden="true">{loaderEl}</span>
+      )}
+      {!loading && endIcon && (
+        <span className="ms-2" aria-hidden="true">{endIcon}</span>
+      )}
+    </>
+  );
+}
+
+/**
  * BaseButton - Presentational Button Component
  *
  * Receives visual state from the FSM and renders the button with appropriate
@@ -247,11 +302,7 @@ export const BaseButton = forwardRef<
           data-testid={dataTestId}
           data-test={dataTest}
           data-visual-state={fsmState.visualState}
-          data-variant={(() => {
-            if (isGhost) { return 'ghost'; }
-            if (isSubtle) { return `subtle-${subtleColor}`; }
-            return undefined;
-          })()}
+          data-variant={isGhost ? 'ghost' : isSubtle ? `subtle-${subtleColor}` : undefined}
           title={title}
           form={form}
           formAction={formAction}
@@ -260,52 +311,9 @@ export const BaseButton = forwardRef<
           formTarget={formTarget}
           {...autoFocusProps}
         >
-          {isCenterLoading ? (
-            /* Center loading: hide text, show only loader */
-            <>
-              <span style={{ visibility: 'hidden' }}>{displayText}</span>
-              <span
-                style={{
-                  position: 'absolute',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                aria-hidden="true"
-              >
-                {loaderEl}
-              </span>
-            </>
-          ) : (
-            /* Start/end loading or non-loading content */
-            <>
-              {/* Start icon or start-position spinner */}
-              {loading && loadingPosition === 'start' && (
-                <span className="me-2" aria-hidden="true">
-                  {loaderEl}
-                </span>
-              )}
-              {!loading && startIcon && (
-                <span className="me-2" aria-hidden="true">
-                  {startIcon}
-                </span>
-              )}
-
-              <span>{displayText}</span>
-
-              {/* End icon or end-position spinner */}
-              {loading && loadingPosition === 'end' && (
-                <span className="ms-2" aria-hidden="true">
-                  {loaderEl}
-                </span>
-              )}
-              {!loading && endIcon && (
-                <span className="ms-2" aria-hidden="true">
-                  {endIcon}
-                </span>
-              )}
-            </>
-          )}
+          {isCenterLoading
+            ? renderCenterLoading(displayText, loaderEl)
+            : renderStandardContent(loading, loadingPosition, loaderEl, startIcon, endIcon, displayText)}
         </button>
 
         {/* Announce state changes to screen readers */}

@@ -206,34 +206,8 @@ export function cardListFSMReducer(
   event: CardListFSMEvent
 ): CardListFSMState {
   switch (event.type) {
-    case 'RESET_FROM_PROPS': {
-      const { values, mode, totalEnabled } = event;
-
-      // For 'none' mode, always empty
-      if (mode === 'none') {
-        return {
-          selectedValues: [],
-          visualState: 'none',
-        };
-      }
-
-      // For 'single' mode, only keep first value
-      if (mode === 'single') {
-        const firstValue = values[0];
-        const selectedValues = firstValue !== undefined ? [firstValue] : [];
-        return {
-          selectedValues,
-          visualState: deriveVisualState(selectedValues, totalEnabled),
-        };
-      }
-
-      // For 'multiple' mode, deduplicate
-      const selectedValues = [...new Set(values)];
-      return {
-        selectedValues,
-        visualState: deriveVisualState(selectedValues, totalEnabled),
-      };
-    }
+    case 'RESET_FROM_PROPS':
+      return createInitialCardListFSMState(event.values, event.mode, event.totalEnabled);
 
     case 'SELECT_ITEM': {
       const { value, totalEnabled } = event;
