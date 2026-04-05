@@ -222,7 +222,7 @@ interface MockRoute {
  * Check if URL matches a single-resource endpoint pattern (e.g. /components/:key)
  */
 function isSingleResourceUrl(url: string, resource: string): boolean {
-  return new RegExp(`\\/${resource}\\/[^/]+$`).test(url) && !url.includes(PATH_FILES);
+  return new RegExp(String.raw`\/${resource}\/[^/]+$`).test(url) && !url.includes(PATH_FILES);
 }
 
 /**

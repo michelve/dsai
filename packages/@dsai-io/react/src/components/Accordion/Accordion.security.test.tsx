@@ -313,10 +313,10 @@ describe('Accordion - Security (Prop Whitelisting & XSS Prevention)', () => {
       );
 
       const items = container.querySelectorAll('.accordion-item');
-      items.forEach((item) => {
+      for (const item of items) {
         const visualState = item.getAttribute('data-visual-state');
         expect(['collapsed', 'expanded', null]).toContain(visualState);
-      });
+      }
     });
 
     it('does not allow arbitrary data-visual-state injection', () => {

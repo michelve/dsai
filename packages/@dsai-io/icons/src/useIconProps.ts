@@ -51,7 +51,7 @@ export function useIconProps(props: IconProps) {
   if (isDecorative) {
     computedAriaHidden = true;
   } else if (ariaLabel) {
-    computedAriaHidden = undefined;
+    computedAriaHidden = null;
   }
 
   const titleId = useId();

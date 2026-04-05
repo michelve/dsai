@@ -55,9 +55,9 @@ describe('Accordion Accessibility', () => {
 
       // Verify all buttons have aria-expanded="false"
       const buttons = screen.getAllByRole('button');
-      buttons.forEach((button) => {
+      for (const button of buttons) {
         expect(button).toHaveAttribute('aria-expanded', 'false');
-      });
+      }
     });
 
     it('has no accessibility violations with one item expanded', async () => {
@@ -127,9 +127,9 @@ describe('Accordion Accessibility', () => {
     it('buttons have aria-expanded attribute', () => {
       renderAccordion();
       const buttons = screen.getAllByRole('button');
-      buttons.forEach((button) => {
+      for (const button of buttons) {
         expect(button).toHaveAttribute('aria-expanded');
-      });
+      }
     });
 
     it('buttons have correct aria-expanded value when collapsed', () => {
@@ -148,11 +148,11 @@ describe('Accordion Accessibility', () => {
       const { container } = renderAccordion();
       const buttons = screen.getAllByRole('button');
 
-      buttons.forEach((button) => {
+      for (const button of buttons) {
         const controlsId = button.getAttribute('aria-controls');
         expect(controlsId).toBeTruthy();
         expect(container.querySelector(`#${controlsId}`)).toBeInTheDocument();
-      });
+      }
     });
 
     it('panels have role="region"', () => {
@@ -172,11 +172,11 @@ describe('Accordion Accessibility', () => {
       const buttonIdSet = new Set(buttons.map((b) => b.id));
 
       // Verify each panel's aria-labelledby references a valid button ID
-      panels.forEach((panel) => {
+      for (const panel of panels) {
         const labelledBy = panel.getAttribute('aria-labelledby');
         expect(labelledBy).toBeTruthy();
         expect(buttonIdSet.has(labelledBy as string)).toBe(true);
-      });
+      }
     });
 
     it('disabled buttons have disabled attribute', () => {
