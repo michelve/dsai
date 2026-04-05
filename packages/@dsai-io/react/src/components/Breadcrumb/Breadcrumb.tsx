@@ -262,7 +262,7 @@ export const Breadcrumb = memo(
 
       const elements: React.ReactNode[] = [];
 
-      displayItems.forEach((item, index) => {
+      for (const [index, item] of displayItems.entries()) {
         // Insert inline separator before every item except the first
         if (useInlineSeparator && index > 0) {
           elements.push(
@@ -297,7 +297,7 @@ export const Breadcrumb = memo(
               {ellipsisContent}
             </li>
           );
-          return;
+          continue;
         }
 
         const isLast = index === displayItems.length - 1;
@@ -318,7 +318,7 @@ export const Breadcrumb = memo(
             {item.label}
           </BreadcrumbItem>
         );
-      });
+      }
 
       return (
         <ol className="breadcrumb mb-0" style={separatorStyle}>

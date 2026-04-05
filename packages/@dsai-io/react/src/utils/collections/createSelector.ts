@@ -235,7 +235,7 @@ function createSelectorInternal<S, Result>(
     recomputationCount++;
     const result = combiner(...currentInputs);
 
-    if (hasCache && lastResult !== undefined && equalityFn && equalityFn(lastResult, result)) {
+    if (hasCache && lastResult !== undefined && equalityFn?.(lastResult, result)) {
       // Inputs changed but result is considered equal; keep prior result reference
       lastInputs = currentInputs;
       return lastResult;
@@ -491,7 +491,7 @@ export function createSelectorFromArray<S, Results extends unknown[], Result>(
     recomputationCount++;
     const result = combiner(currentInputs);
 
-    if (hasCache && lastResult !== undefined && equalityFn && equalityFn(lastResult, result)) {
+    if (hasCache && lastResult !== undefined && equalityFn?.(lastResult, result)) {
       lastInputs = currentInputs;
       return lastResult;
     }

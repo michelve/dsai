@@ -76,7 +76,8 @@ function defaultComparator<T>(a: T, b: T): number {
 
   // Boolean comparison (false < true)
   if (typeof a === 'boolean' && typeof b === 'boolean') {
-    return a === b ? 0 : a ? 1 : -1;
+    if (a === b) { return 0; }
+    return a ? 1 : -1;
   }
 
   // Fallback: convert to string

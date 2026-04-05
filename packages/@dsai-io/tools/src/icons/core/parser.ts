@@ -94,18 +94,36 @@ export function parseSVGFiles(rawFiles: RawSVGData[]): ParsedSVG[] {
  * @param svg - SVG content string
  * @returns Cleaned SVG content
  */
+/**
+ * SVG attribute prefixes that use kebab-case and need camelCase conversion for React.
+ * Kept as an array for readability; joined into a regex alternation at module load.
+ */
+const SVG_KEBAB_PREFIXES = [
+  'stroke', 'fill', 'line', 'clip', 'stop', 'color', 'font', 'text',
+  'letter', 'word', 'alignment', 'dominant', 'glyph', 'horiz', 'overline',
+  'paint', 'pointer', 'shape', 'strikethrough', 'underline', 'unicode',
+  'units', 'vert', 'writing',
+];
+
+// Pattern is built from a static array — safe to construct dynamically.
+// eslint-disable-next-line security/detect-non-literal-regexp
+const SVG_KEBAB_ATTR_PATTERN = new RegExp(
+  `(${SVG_KEBAB_PREFIXES.join('|')})-([a-z])`,
+  'g'
+);
+
 export function cleanSVGForReact(svg: string): string {
   return (
     svg
       // Convert kebab-case attributes to camelCase for React
       .replace(
-        /(stroke|fill|line|clip|stop|color|font|text|letter|word|alignment|dominant|glyph|horiz|overline|paint|pointer|shape|strikethrough|underline|unicode|units|vert|writing)-([a-z])/g,
+        SVG_KEBAB_ATTR_PATTERN,
         (_, p1, p2) => p1 + p2.toUpperCase()
       )
       // Convert specific attributes
-      .replaceAll(/class="/g, 'className="')
-      .replaceAll(/xlink:href/g, 'xlinkHref')
-      .replaceAll(/xmlns:xlink/g, 'xmlnsXlink')
+      .replaceAll('class="', 'className="')
+      .replaceAll('xlink:href', 'xlinkHref')
+      .replaceAll('xmlns:xlink', 'xmlnsXlink')
       // Use currentColor for strokes and fills (inherits from CSS)
       .replaceAll(/stroke="#[^"]+"/g, 'stroke="currentColor"')
       .replaceAll(/fill="#[^"]+"/g, 'fill="currentColor"')

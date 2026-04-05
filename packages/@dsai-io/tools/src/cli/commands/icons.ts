@@ -106,7 +106,8 @@ async function runIconsBuild(options: IconsBuildOptions & { optimize?: boolean }
     logger.info(`  Files:  ${colors.value(String(result.filesWritten))}`);
 
     if (result.totalSizeReduction > 0) {
-      logger.info(`  Size reduction: ${colors.value(`${result.totalSizeReduction.toFixed(1)}%`)}`);
+      const reductionLabel = result.totalSizeReduction.toFixed(1) + '%';
+      logger.info(`  Size reduction: ${colors.value(reductionLabel)}`);
     }
 
     process.exit(ExitCode.Success);

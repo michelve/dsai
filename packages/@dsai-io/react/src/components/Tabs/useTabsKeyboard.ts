@@ -54,7 +54,7 @@ export function useTabsKeyboard({
       const prevKey = isHorizontal ? 'ArrowLeft' : 'ArrowUp';
       const nextKey = isHorizontal ? 'ArrowRight' : 'ArrowDown';
 
-      let newIndex = currentIndex;
+      let newIndex: number;
       let handled = false;
 
       switch (e.key) {

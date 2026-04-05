@@ -118,7 +118,7 @@ export const AvatarGroup = memo(
     const totalCount = total ?? childArray.length;
 
     // Calculate visible and hidden counts
-    const visibleCount = maxVisible !== undefined ? Math.min(maxVisible, childArray.length) : childArray.length;
+    const visibleCount = maxVisible === undefined ? childArray.length : Math.min(maxVisible, childArray.length);
     const hiddenCount = totalCount - visibleCount;
     const hasOverflow = hiddenCount > 0;
 

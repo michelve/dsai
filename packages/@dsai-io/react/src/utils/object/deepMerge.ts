@@ -68,6 +68,14 @@ import type { DeepMergeOptions } from '../types/shared';
  * ); // Throws Error: Prototype pollution attempt detected
  * ```
  */
+
+/**
+ * Check if a key is a dangerous prototype key
+ */
+function isDangerousKey(key: string): boolean {
+  return key === '__proto__' || key === 'constructor' || key === 'prototype';
+}
+
 export function deepMerge<T extends Record<string, unknown>>(
   target: T,
   ...sources: Array<Partial<T> | DeepMergeOptions>
@@ -103,13 +111,6 @@ export function deepMerge<T extends Record<string, unknown>>(
 
   // Track visited objects for circular reference detection
   const visited = new WeakSet<object>();
-
-  /**
-   * Check if a key is a dangerous prototype key
-   */
-  function isDangerousKey(key: string): boolean {
-    return key === '__proto__' || key === 'constructor' || key === 'prototype';
-  }
 
   /**
    * Merge value into target at key
@@ -193,8 +194,8 @@ export function deepMerge<T extends Record<string, unknown>>(
           throw new Error(`deepMerge prototype pollution attempt detected: ${key}`);
         }
 
-        const srcValue = Reflect.get(sourceValue as object, key) as unknown;
-        const tgtValue = Reflect.get(merged as object, key) as unknown;
+        const srcValue = Reflect.get(sourceValue as object, key);
+        const tgtValue = Reflect.get(merged as object, key);
 
         Reflect.set(merged as object, key, mergeValue(tgtValue, srcValue, currentDepth + 1));
       }

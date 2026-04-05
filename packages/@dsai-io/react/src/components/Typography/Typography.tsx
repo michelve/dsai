@@ -323,7 +323,7 @@ function getElementForVariant(variant: TextVariant): React.ElementType {
     kbd: 'kbd',
     pre: 'pre',
   };
-  return (Reflect.get(elementMap, variant) as React.ElementType) ?? 'p';
+  return Reflect.get(elementMap, variant) ?? 'p';
 }
 
 /**

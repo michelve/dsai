@@ -84,7 +84,7 @@ function toKebabCase(name: string): string {
 /** Route a parsed token to the appropriate category map */
 function routeToken(key: string, token: TokenValue): void {
   if (key.startsWith('Color')) {
-    const match = key.match(/^Color([A-Z][a-z]+)_(\d+)$/);
+    const match = /^Color([A-Z][a-z]+)_(\d+)$/.exec(key);
     if (match?.[1] && match[2]) {
       const hue = match[1].toLowerCase();
       token.cssVar = `--dsai-color-${hue}-${match[2]}`;

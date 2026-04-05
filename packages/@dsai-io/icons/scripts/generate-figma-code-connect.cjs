@@ -45,8 +45,8 @@ function toKebabCase(componentName) {
   return baseName
     .replaceAll(/([A-Z])/g, '-$1')
     .toLowerCase()
-    .replaceAll(/^-/g, '')
-    .replaceAll(/--/g, '-'); // Handle consecutive capitals
+    .replace(/^-/, '')
+    .replaceAll('--', '-'); // Handle consecutive capitals
 }
 
 /**

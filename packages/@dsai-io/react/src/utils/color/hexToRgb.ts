@@ -43,6 +43,9 @@
 /** Length of a shorthand hex color (e.g., "F00") */
 const HEX_SHORT_LENGTH = 3;
 
+/** Length of a full hex color (e.g., "FF5733") */
+const HEX_FULL_LENGTH = 6;
+
 export function hexToRgb(hex: string): readonly [number, number, number] | null {
   // Validate input
   if (typeof hex !== 'string' || hex.trim() === '') {
@@ -73,7 +76,7 @@ export function hexToRgb(hex: string): readonly [number, number, number] | null 
   // Parse RGB values
   const r = Number.parseInt(cleanHex.slice(0, 2), 16);
   const g = Number.parseInt(cleanHex.slice(2, 4), 16);
-  const b = Number.parseInt(cleanHex.slice(4, 6), 16);
+  const b = Number.parseInt(cleanHex.slice(4, HEX_FULL_LENGTH), 16);
 
   // Validate parsed values (should always be valid if regex passed)
   if (Number.isNaN(r) || Number.isNaN(g) || Number.isNaN(b)) {

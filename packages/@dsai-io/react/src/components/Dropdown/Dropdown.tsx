@@ -44,7 +44,6 @@ import {
 import './Dropdown.css';
 
 import type {
-  DropdownAutoClose,
   DropdownCheckboxItemProps,
   DropdownContextValue,
   DropdownDividerProps,
@@ -53,7 +52,6 @@ import type {
   DropdownItemProps,
   DropdownItemTextProps,
   DropdownMenuProps,
-  DropdownPlacement,
   DropdownProps,
   DropdownRadioGroupContextValue,
   DropdownRadioGroupProps,
@@ -613,9 +611,9 @@ const DropdownMenu = forwardRef<HTMLUListElement, DropdownMenuProps>(
     const combinedStyle = useMemo(
       () => ({
         ...floatingStyles,
-        ...(maxHeight !== undefined
-          ? { maxHeight: typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight, overflowY: 'auto' as const }
-          : {}),
+        ...(maxHeight === undefined
+          ? {}
+          : { maxHeight: typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight, overflowY: 'auto' as const }),
         ...style,
       }),
       [floatingStyles, maxHeight, style]
@@ -1321,4 +1319,4 @@ export type {
   DropdownRadioItemProps,
   DropdownShortcutProps,
   DropdownToggleProps,
-};
+} from './Dropdown.types';

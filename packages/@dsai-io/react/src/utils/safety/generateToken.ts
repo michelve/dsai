@@ -33,6 +33,13 @@ export interface GenerateTokenOptions {
  */
 const DEFAULT_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
 
+/** Bytes-per-hex-char ratio: 2 hex chars = 1 byte */
+const HEX_CHARS_PER_BYTE = 2;
+
+/** Base64 encoding ratio: 4 chars encode 3 bytes */
+const BASE64_CHARS_RATIO = 4;
+const BASE64_BYTES_RATIO = 3;
+
 /**
  * Get cryptographic random values
  */
@@ -167,10 +174,10 @@ function bytesToAlphabet(bytes: Uint8Array, alphabet: string): string {
 function calculateBytesNeeded(length: number, encoding: string): number {
   switch (encoding) {
     case 'hex':
-      return Math.ceil(length / 2);
+      return Math.ceil(length / HEX_CHARS_PER_BYTE);
     case 'base64':
     case 'base64url':
-      return Math.ceil((length * 3) / 4);
+      return Math.ceil((length * BASE64_BYTES_RATIO) / BASE64_CHARS_RATIO);
     case 'alphanumeric':
       return length;
     default:

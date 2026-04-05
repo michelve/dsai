@@ -11,6 +11,19 @@
 import { z } from 'zod';
 
 // ============================================================================
+// Schema Default Constants
+// ============================================================================
+
+/** Default cache max age: 24 hours in milliseconds */
+const DEFAULT_CACHE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
+
+/** Default watch debounce in milliseconds */
+const DEFAULT_WATCH_DEBOUNCE_MS = 300;
+
+/** Expected number of version parts (major.minor.patch) */
+const SEMVER_EXPECTED_PARTS = 3;
+
+// ============================================================================
 // Primitive Schemas
 // ============================================================================
 
@@ -60,7 +73,7 @@ export const versionSchema = z.string().refine(
     const version = parts[0] ?? '';
     const preRelease = parts[1];
     const versionParts = version.split('.');
-    if (versionParts.length !== 3) {
+    if (versionParts.length !== SEMVER_EXPECTED_PARTS) {
       return false;
     }
     for (const part of versionParts) {
@@ -289,7 +302,7 @@ export const tokenCacheConfigSchema = z.object({
   enabled: z.boolean().optional().default(true),
   directory: z.string().optional().default('.cache'),
   hashType: hashTypeSchema.optional().default('content'),
-  maxAge: z.number().optional().default(86400000),
+  maxAge: z.number().optional().default(DEFAULT_CACHE_MAX_AGE_MS),
 });
 
 /**
@@ -297,7 +310,7 @@ export const tokenCacheConfigSchema = z.object({
  */
 export const tokenWatchConfigSchema = z.object({
   enabled: z.boolean().optional().default(false),
-  debounce: z.number().optional().default(300),
+  debounce: z.number().optional().default(DEFAULT_WATCH_DEBOUNCE_MS),
   clearScreen: z.boolean().optional().default(true),
   ignorePatterns: z.array(z.string()).optional().default([]),
 });

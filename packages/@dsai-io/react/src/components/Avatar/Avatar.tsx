@@ -236,8 +236,8 @@ const AvatarRoot = memo(
       if (effectiveDelayMs === undefined || effectiveDelayMs === 0) {
         return undefined;
       }
-      const timer = window.setTimeout(() => setDelayElapsed(true), effectiveDelayMs);
-      return () => window.clearTimeout(timer);
+      const timer = globalThis.setTimeout(() => setDelayElapsed(true), effectiveDelayMs);
+      return () => globalThis.clearTimeout(timer);
     }, [effectiveDelayMs]);
 
     // Memoize container styles

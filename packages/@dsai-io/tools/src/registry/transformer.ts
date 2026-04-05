@@ -19,7 +19,7 @@ export function transformImports(content: string, options: TransformOptions): st
   // ../../types or ../../types/<subpath> -> @/components/types
   // Requires exactly ../../ (two levels up) to match only the shared type system.
   // Single-level ../types is a component-local file and must NOT be rewritten.
-  result = result.replace(
+  result = result.replaceAll(
     /(from\s+['"])\.\.\/\.\.\/types(?:\/([^'"]+))?(['"])/g,
     (_match, prefix, subpath, suffix) => {
       if (subpath) {
@@ -31,19 +31,19 @@ export function transformImports(content: string, options: TransformOptions): st
 
   // ../../hooks/<hookName> -> @/hooks/<hookName>
   // Requires ../../ to avoid matching component-local ../hooks imports
-  result = result.replace(
+  result = result.replaceAll(
     /(from\s+['"])\.\.\/\.\.\/hooks\/(\w+)(['"])/g,
     `$1${aliases.importAlias}${aliases.hooks}/$2$3`
   );
 
   // ../../utils/<submodule> -> @/lib/utils/<submodule>
-  result = result.replace(
+  result = result.replaceAll(
     /(from\s+['"])\.\.\/\.\.\/utils\/(\w+(?:\/\w+)?)(['"])/g,
     `$1${aliases.importAlias}${aliases.utils}/$2$3`
   );
 
   // ../../utils (bare) -> @/lib/utils
-  result = result.replace(
+  result = result.replaceAll(
     /(from\s+['"])\.\.\/\.\.\/utils(['"])/g,
     `$1${aliases.importAlias}${aliases.utils}$2`
   );
@@ -51,7 +51,7 @@ export function transformImports(content: string, options: TransformOptions): st
   // ../<PascalCaseDir> or ../<PascalCaseDir>/<file> -> @/components/ui/<dir>/<file>
   // Handles cross-component imports like ../Spinner, ../Icon, ../Card/Card.types
   // Placed AFTER the ../../ rules so those match first (more specific wins)
-  result = result.replace(
+  result = result.replaceAll(
     /(from\s+['"])\.\.\/(([A-Z]\w+)(\/[^'"]+)?)(['"])/g,
     (_match, prefix, _fullPath, dirName, subPath, suffix) => {
       const kebab = dirName.replaceAll(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();

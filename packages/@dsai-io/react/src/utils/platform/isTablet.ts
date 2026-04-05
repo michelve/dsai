@@ -50,7 +50,9 @@ export function isTablet(): boolean | null {
     (userAgent.includes('android') && !userAgent.includes('mobile'));
 
   // Use screen width as fallback (tablet typically 768-1024px)
-  const isTabletWidth = window.innerWidth >= 768 && window.innerWidth <= 1024;
+  const TABLET_MIN_WIDTH = 768;
+  const TABLET_MAX_WIDTH = 1024;
+  const isTabletWidth = window.innerWidth >= TABLET_MIN_WIDTH && window.innerWidth <= TABLET_MAX_WIDTH;
 
   const result =
     isTabletUA ||

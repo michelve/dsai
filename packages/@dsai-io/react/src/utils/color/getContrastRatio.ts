@@ -11,6 +11,12 @@
 
 import { getRelativeLuminance } from './getRelativeLuminance';
 
+/** Expected number of channels in an RGB tuple */
+const RGB_CHANNEL_COUNT = 3;
+
+/** WCAG luminance offset to prevent division by zero */
+const WCAG_LUMINANCE_OFFSET = 0.05;
+
 /**
  * Options for contrast ratio calculation
  */
@@ -61,12 +67,12 @@ export function getContrastRatio(
   const { precision } = options;
 
   // Validate inputs
-  if (!Array.isArray(rgb1) || rgb1.length !== 3) {
+  if (!Array.isArray(rgb1) || rgb1.length !== RGB_CHANNEL_COUNT) {
     console.warn('[getContrastRatio] First color must be [r, g, b] array');
     return 1;
   }
 
-  if (!Array.isArray(rgb2) || rgb2.length !== 3) {
+  if (!Array.isArray(rgb2) || rgb2.length !== RGB_CHANNEL_COUNT) {
     console.warn('[getContrastRatio] Second color must be [r, g, b] array');
     return 1;
   }
@@ -80,7 +86,7 @@ export function getContrastRatio(
   const darker = Math.min(l1, l2);
 
   // Calculate contrast ratio
-  const ratio = (lighter + 0.05) / (darker + 0.05);
+  const ratio = (lighter + WCAG_LUMINANCE_OFFSET) / (darker + WCAG_LUMINANCE_OFFSET);
 
   // Apply precision if specified
   if (typeof precision === 'number' && precision >= 0) {

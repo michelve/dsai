@@ -79,7 +79,7 @@ function formatValue(value: unknown, maxLength = 100): string {
  * Escape Markdown special characters
  */
 function escapeMarkdown(text: string): string {
-  return text.replaceAll(/[*_`[\]]/g, '\\$&');
+  return text.replaceAll(/[*_`[\]]/g, String.raw`\$&`);
 }
 
 /**
@@ -109,8 +109,10 @@ function formatChange(change: TokenChange, options: ChangelogOptions): string {
     const newFormatted = formatValue(newValue, options.maxValueLength);
 
     if (change.type === 'modified' || change.type === 'type-changed') {
-      lines.push(`  - Before: \`${escapeMarkdown(oldFormatted)}\``);
-      lines.push(`  - After: \`${escapeMarkdown(newFormatted)}\``);
+      lines.push(
+        `  - Before: \`${escapeMarkdown(oldFormatted)}\``,
+        `  - After: \`${escapeMarkdown(newFormatted)}\``
+      );
     }
   }
 
@@ -126,8 +128,7 @@ function formatSection(title: string, changes: TokenChange[], options: Changelog
   }
 
   const lines: string[] = [];
-  lines.push(`### ${title}`);
-  lines.push('');
+  lines.push(`### ${title}`, '');
 
   for (const change of changes) {
     lines.push(formatChange(change, options));
@@ -176,8 +177,7 @@ export function generateChangelog(
 
   // Summary
   if (diff.totalChanges === 0) {
-    lines.push('No changes.');
-    lines.push('');
+    lines.push('No changes.', '');
     return {
       content: lines.join('\n'),
       entryCount: 0,
@@ -186,12 +186,10 @@ export function generateChangelog(
   }
 
   if (diff.hasBreaking) {
-    lines.push('⚠️  **This release contains breaking changes**');
-    lines.push('');
+    lines.push('⚠️  **This release contains breaking changes**', '');
   }
 
-  lines.push(`**Total changes:** ${diff.totalChanges}`);
-  lines.push('');
+  lines.push(`**Total changes:** ${diff.totalChanges}`, '');
 
   const sectionOpts = { ...options, includeDescriptions, includeValues, maxValueLength };
 
