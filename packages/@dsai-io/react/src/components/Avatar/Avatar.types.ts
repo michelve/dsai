@@ -83,16 +83,19 @@ export type AvatarTone =
 /**
  * Maps tone to Bootstrap 5 background and text classes
  */
+const TEXT_WHITE = 'text-white';
+const TEXT_DARK = 'text-dark';
+
 export const AVATAR_TONE_MAP: Record<AvatarTone, { bg: string; text: string }> = {
-  neutral: { bg: 'bg-secondary', text: 'text-white' },
-  brand: { bg: 'bg-primary', text: 'text-white' },
-  accent: { bg: 'bg-info', text: 'text-white' },
-  success: { bg: 'bg-success', text: 'text-white' },
-  warning: { bg: 'bg-warning', text: 'text-dark' },
-  danger: { bg: 'bg-danger', text: 'text-white' },
-  info: { bg: 'bg-info', text: 'text-white' },
-  muted: { bg: 'bg-light', text: 'text-dark' },
-  inverse: { bg: 'bg-dark', text: 'text-white' },
+  neutral: { bg: 'bg-secondary', text: TEXT_WHITE },
+  brand: { bg: 'bg-primary', text: TEXT_WHITE },
+  accent: { bg: 'bg-info', text: TEXT_WHITE },
+  success: { bg: 'bg-success', text: TEXT_WHITE },
+  warning: { bg: 'bg-warning', text: TEXT_DARK },
+  danger: { bg: 'bg-danger', text: TEXT_WHITE },
+  info: { bg: 'bg-info', text: TEXT_WHITE },
+  muted: { bg: 'bg-light', text: TEXT_DARK },
+  inverse: { bg: 'bg-dark', text: TEXT_WHITE },
 };
 
 // =============================================================================

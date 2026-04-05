@@ -34,6 +34,9 @@ import type { JSX } from 'react';
  * - Keyboard hotkey (F8): focus the notification region from anywhere
  */
 
+/** Color token for secondary/muted text used across stories */
+const BS_SECONDARY = 'var(--bs-secondary)';
+
 // Helper component for useToast hook example
 function ToastHookDemo(): JSX.Element {
   const toast = useToast();
@@ -54,7 +57,7 @@ function ToastHookDemo(): JSX.Element {
           Info Toast
         </Button>
       </div>
-      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>Active toasts: {toast.toasts.length}</p>
+      <p style={{ fontSize: '0.875rem', color: BS_SECONDARY }}>Active toasts: {toast.toasts.length}</p>
     </div>
   );
 }
@@ -199,7 +202,7 @@ function AccessibilityDemo(): JSX.Element {
           Success (polite)
         </Button>
       </div>
-      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+      <p style={{ fontSize: '0.875rem', color: BS_SECONDARY }}>
         Error toasts use <code>aria-live=&quot;assertive&quot;</code> for immediate announcement.
         Success toasts use <code>aria-live=&quot;polite&quot;</code> to wait for opportune moment.
       </p>
@@ -263,7 +266,7 @@ function PauseOnHoverDemo(): JSX.Element {
       >
         Show Toast (5s with progress)
       </Button>
-      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+      <p style={{ fontSize: '0.875rem', color: BS_SECONDARY }}>
         Hover over the toast to pause auto-dismiss. The progress bar pauses too.
       </p>
     </div>
@@ -283,7 +286,7 @@ function KeyboardHotkeyDemo(): JSX.Element {
       >
         Show Toast
       </Button>
-      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+      <p style={{ fontSize: '0.875rem', color: BS_SECONDARY }}>
         Press <kbd>F8</kbd> to focus the toast notification region. Configurable via the{' '}
         <code>hotkey</code> prop.
       </p>
@@ -596,7 +599,7 @@ export const QueueManagement: Story = {
   render: () => (
     <ToastProvider position="top-end" maxToasts={3}>
       <QueueManagementDemo />
-      <p style={{ marginTop: '1rem', fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+      <p style={{ marginTop: '1rem', fontSize: '0.875rem', color: BS_SECONDARY }}>
         Maximum 3 toasts shown at once. Oldest will be removed when exceeding limit.
       </p>
     </ToastProvider>

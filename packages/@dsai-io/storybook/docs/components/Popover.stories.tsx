@@ -145,6 +145,12 @@ type Story = StoryObj<typeof Popover>;
 // Basic Examples
 // =============================================================================
 
+/** Shared style constants to avoid duplicated literals (S1192) */
+const SPACING_2 = 'var(--dsai-spacing-2)';
+const SPACING_1 = 'var(--dsai-spacing-1)';
+const FONT_WEIGHT_BOLD = 'var(--dsai-typography-font-weight-bold)';
+const FULL_WIDTH = '100%';
+
 /**
  * Basic popover with header and content.
  * Click the button to toggle the popover.
@@ -234,7 +240,7 @@ export const Placements: Story = {
           content={`Placed at ${placement}`}
           placement={placement}
         >
-          <Button variant="outline-secondary" style={{ width: '100%' }}>
+          <Button variant="outline-secondary" style={{ width: FULL_WIDTH }}>
             {placement}
           </Button>
         </Popover>
@@ -355,7 +361,7 @@ export const InteractiveContent: Story = {
   args: {
     header: 'Quick Settings',
     content: (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-2)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING_2 }}>
         <div>
           <label
             htmlFor="popover-email"
@@ -365,14 +371,14 @@ export const InteractiveContent: Story = {
           </label>
           <select
             id="popover-email"
-            style={{ width: '100%', padding: 'var(--dsai-spacing-1)', borderRadius: 'var(--dsai-border-radius-sm)', border: '1px solid var(--bs-border-color)' }}
+            style={{ width: FULL_WIDTH, padding: SPACING_1, borderRadius: 'var(--dsai-border-radius-sm)', border: '1px solid var(--bs-border-color)' }}
           >
             <option>All emails</option>
             <option>Important only</option>
             <option>None</option>
           </select>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--dsai-spacing-2)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: SPACING_2 }}>
           <input type="checkbox" id="popover-dark" />
           <label htmlFor="popover-dark" style={{ fontSize: '14px' }}>
             Dark mode
@@ -408,7 +414,7 @@ export const Controlled: Story = {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--dsai-spacing-3)' }}>
-        <div style={{ display: 'flex', gap: 'var(--dsai-spacing-2)' }}>
+        <div style={{ display: 'flex', gap: SPACING_2 }}>
           <Button variant="success" onClick={() => setIsOpen(true)}>
             Open
           </Button>
@@ -554,10 +560,10 @@ export const FocusTrap: Story = {
   args: {
     header: 'Focus Trapped',
     content: (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-2)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING_2 }}>
         <p style={{ margin: 0 }}>Tab to cycle through focusable elements.</p>
-        <input type="text" placeholder="First input" style={{ padding: 'var(--dsai-spacing-1)' }} />
-        <input type="text" placeholder="Second input" style={{ padding: 'var(--dsai-spacing-1)' }} />
+        <input type="text" placeholder="First input" style={{ padding: SPACING_1 }} />
+        <input type="text" placeholder="Second input" style={{ padding: SPACING_1 }} />
         <Button variant="primary" size="sm">
           Submit
         </Button>
@@ -604,7 +610,7 @@ export const FormFieldHelp: Story = {
       <div style={{ marginBottom: '16px' }}>
         <label
           htmlFor="password"
-          style={{ display: 'flex', alignItems: 'center', gap: 'var(--dsai-spacing-2)', marginBottom: '4px' }}
+          style={{ display: 'flex', alignItems: 'center', gap: SPACING_2, marginBottom: '4px' }}
         >
           Password
           <Popover
@@ -629,7 +635,7 @@ export const FormFieldHelp: Story = {
         <input
           type="password"
           id="password"
-          style={{ width: '100%', padding: 'var(--dsai-spacing-2)', borderRadius: 'var(--dsai-border-radius-sm)', border: '1px solid var(--bs-border-color)' }}
+          style={{ width: FULL_WIDTH, padding: SPACING_2, borderRadius: 'var(--dsai-border-radius-sm)', border: '1px solid var(--bs-border-color)' }}
         />
       </div>
     </div>
@@ -644,7 +650,7 @@ export const UserProfileCard: Story = {
     <Popover
       header={null}
       content={
-        <div style={{ display: 'flex', gap: 'var(--dsai-spacing-2)', alignItems: 'flex-start' }}>
+        <div style={{ display: 'flex', gap: SPACING_2, alignItems: 'flex-start' }}>
           <div
             style={{
               width: '48px',
@@ -655,17 +661,17 @@ export const UserProfileCard: Story = {
               alignItems: 'center',
               justifyContent: 'center',
               color: 'white',
-              fontWeight: 'var(--dsai-typography-font-weight-bold)',
+              fontWeight: FONT_WEIGHT_BOLD,
             }}
           >
             JD
           </div>
           <div>
-            <div style={{ fontWeight: 'var(--dsai-typography-font-weight-bold)', marginBottom: '4px' }}>John Doe</div>
+            <div style={{ fontWeight: FONT_WEIGHT_BOLD, marginBottom: '4px' }}>John Doe</div>
             <div style={{ fontSize: '14px', color: 'var(--bs-secondary)', marginBottom: '8px' }}>
               Software Engineer
             </div>
-            <div style={{ display: 'flex', gap: 'var(--dsai-spacing-2)' }}>
+            <div style={{ display: 'flex', gap: SPACING_2 }}>
               <Button variant="primary" size="sm">
                 Message
               </Button>
@@ -687,7 +693,7 @@ export const UserProfileCard: Story = {
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 'var(--dsai-spacing-2)',
+          gap: SPACING_2,
           padding: '8px 12px',
         }}
       >
@@ -702,7 +708,7 @@ export const UserProfileCard: Story = {
             justifyContent: 'center',
             color: 'white',
             fontSize: '12px',
-            fontWeight: 'var(--dsai-typography-font-weight-bold)',
+            fontWeight: FONT_WEIGHT_BOLD,
           }}
         >
           JD
@@ -733,7 +739,7 @@ export const ConfirmationPopover: Story = {
             <p style={{ margin: '0 0 12px 0' }}>
               Are you sure you want to delete this item? This cannot be undone.
             </p>
-            <div style={{ display: 'flex', gap: 'var(--dsai-spacing-2)', justifyContent: 'flex-end' }}>
+            <div style={{ display: 'flex', gap: SPACING_2, justifyContent: 'flex-end' }}>
               <Button variant="secondary" size="sm" onClick={() => setIsOpen(false)}>
                 Cancel
               </Button>
@@ -767,12 +773,12 @@ export const NotificationCenter: Story = {
             <div
               key={i}
               style={{
-                padding: 'var(--dsai-spacing-2)',
+                padding: SPACING_2,
                 borderBottom: i < 5 ? '1px solid var(--bs-border-color)' : 'none',
                 cursor: 'pointer',
               }}
             >
-              <div style={{ fontWeight: 'var(--dsai-typography-font-weight-bold)', fontSize: '14px' }}>New message from User {i}</div>
+              <div style={{ fontWeight: FONT_WEIGHT_BOLD, fontSize: '14px' }}>New message from User {i}</div>
               <div style={{ fontSize: '12px', color: 'var(--bs-secondary)' }}>
                 {i} hour{i > 1 ? 's' : ''} ago
               </div>

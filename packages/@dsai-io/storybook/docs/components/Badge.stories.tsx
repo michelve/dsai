@@ -37,6 +37,9 @@ import type { JSX } from 'react';
  */
 
 // Helper: Icon badge example
+/** Color token for secondary/muted text */
+const BS_SECONDARY = 'var(--bs-secondary)';
+
 const IconBadgeExample = (): JSX.Element => (
   <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
     <Badge variant="primary" icon={<StarFillIcon size={12} />}>
@@ -91,7 +94,7 @@ const AccessibilityShowcaseExample = (): JSX.Element => (
       <Heading level={4} style={{ marginBottom: '0.5rem' }}>
         Icon Accessibility
       </Heading>
-      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)', marginBottom: '0.5rem' }}>
+      <p style={{ fontSize: '0.875rem', color: BS_SECONDARY, marginBottom: '0.5rem' }}>
         Icons are hidden from screen readers (aria-hidden=&quot;true&quot;), preventing redundant
         announcements:
       </p>
@@ -102,7 +105,7 @@ const AccessibilityShowcaseExample = (): JSX.Element => (
       <Heading level={4} style={{ marginBottom: '0.5rem' }}>
         Dot Indicator Accessibility
       </Heading>
-      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)', marginBottom: '0.5rem' }}>
+      <p style={{ fontSize: '0.875rem', color: BS_SECONDARY, marginBottom: '0.5rem' }}>
         Dots are hidden when badge has content, but visible to screen readers when dot-only:
       </p>
       <DotAccessibilityExample />
@@ -112,7 +115,7 @@ const AccessibilityShowcaseExample = (): JSX.Element => (
       <Heading level={4} style={{ marginBottom: '0.5rem' }}>
         Dev Warning Example
       </Heading>
-      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)', marginBottom: '0.5rem' }}>
+      <p style={{ fontSize: '0.875rem', color: BS_SECONDARY, marginBottom: '0.5rem' }}>
         Check browser console - dot-only without aria-label shows a helpful warning in development:
       </p>
       <Badge variant="danger" dot>
@@ -128,7 +131,7 @@ const PerformanceShowcaseExample = (): JSX.Element => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+      <p style={{ fontSize: '0.875rem', color: BS_SECONDARY }}>
         Badges are wrapped with React.memo and internally memoized for maximum performance.
       </p>
       <div>
@@ -608,7 +611,7 @@ export const ProperDotOnlyUsage: Story = {
             &lt;Badge dot /&gt;
           </code>
         </div>
-        <p style={{ fontSize: '0.75rem', color: 'var(--bs-secondary)', marginTop: '0.25rem' }}>
+        <p style={{ fontSize: '0.75rem', color: BS_SECONDARY, marginTop: '0.25rem' }}>
           <strong>Dev Warning:</strong> Check browser console for accessibility warning
         </p>
       </div>

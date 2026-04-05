@@ -282,20 +282,54 @@ async function runInteractiveInit(cwd: string, projectInfo: ProjectInfo): Promis
   const s = p.spinner();
 
   // 1. Create directories
-  s.start('Creating directories');
-  const dirsToCreate = [config.sourceDir, config.outputDir];
+  createSetupDirectories(cwd, [config.sourceDir as string, config.outputDir as string], s);
 
-  for (const dir of dirsToCreate) {
-    const fullPath = join(cwd, dir as string);
+  // 2. Generate configuration files
+  const configFileName = `dsai.config.${recommendations.configFormat}`;
+  generateSetupConfigs(cwd, config, configFileName, projectInfo, recommendations, s);
+
+  // 3. Handle outdated dependencies
+  const upgradeDependencies = await handleOutdatedDeps(cwd, config);
+
+  // 4. Modify package.json
+  updatePackageJsonIfRequested(cwd, config, upgradeDependencies, s);
+
+  // 5. Suggest install command
+  suggestInstallDeps(config, projectInfo);
+
+  // 6. Create sample files
+  createSampleFiles(cwd, config.sourceDir as string, projectInfo, s);
+
+  // Show next steps
+  showNextSteps(configFileName, config, projectInfo);
+}
+
+/** Create directories during setup */
+function createSetupDirectories(
+  cwd: string,
+  dirs: string[],
+  s: ReturnType<typeof p.spinner>,
+): void {
+  s.start('Creating directories');
+  for (const dir of dirs) {
+    const fullPath = join(cwd, dir);
     if (!existsSync(fullPath)) {
       mkdirSync(fullPath, { recursive: true });
     }
   }
   s.stop('Directories created');
+}
 
-  // 2. Generate configuration file
+/** Generate config files (main, Figma, Style Dictionary) */
+function generateSetupConfigs(
+  cwd: string,
+  config: Record<string, unknown>,
+  configFileName: string,
+  projectInfo: ProjectInfo,
+  recommendations: ReturnType<typeof getRecommendedConfig>,
+  s: ReturnType<typeof p.spinner>,
+): void {
   s.start('Generating configuration');
-  const configFileName = `dsai.config.${recommendations.configFormat}`;
   const configContent = generateConfigContent({
     projectInfo,
     prefix: config.prefix as string,
@@ -305,11 +339,9 @@ async function runInteractiveInit(cwd: string, projectInfo: ProjectInfo): Promis
     template: config.template as 'minimal' | 'full' | 'enterprise',
     configFormat: recommendations.configFormat,
   });
-
   writeFileSync(join(cwd, configFileName), configContent, FILE_ENCODING);
   s.stop(`Created ${configFileName}`);
 
-  // 2b. Generate Figma config if requested
   if (config.includeFigmaSync) {
     s.start('Generating Figma configuration');
     const figmaConfigContent = generateFigmaConfig({
@@ -321,7 +353,6 @@ async function runInteractiveInit(cwd: string, projectInfo: ProjectInfo): Promis
     s.stop(`Created ${FIGMA_CONFIG_FILENAME}`);
   }
 
-  // 2c. Generate Style Dictionary config for enterprise template
   if (config.template === 'enterprise') {
     s.start('Generating Style Dictionary configuration');
     const sdConfigContent = generateStyleDictionaryConfig({
@@ -341,8 +372,13 @@ async function runInteractiveInit(cwd: string, projectInfo: ProjectInfo): Promis
     writeFileSync(join(cwd, 'build-tokens.mjs'), buildScriptContent, FILE_ENCODING);
     s.stop('Created sd.config.mjs and build-tokens.mjs');
   }
+}
 
-  // 3. Check for outdated dependencies and prompt for upgrade
+/** Display outdated deps and prompt for upgrade */
+async function handleOutdatedDeps(
+  cwd: string,
+  config: Record<string, unknown>,
+): Promise<boolean> {
   const targetDeps = getAllDsaiDependencies({
     includeFigmaTokens: config.includeFigmaSync as boolean,
     includeStyleDictionary: true,
@@ -351,104 +387,112 @@ async function runInteractiveInit(cwd: string, projectInfo: ProjectInfo): Promis
   });
 
   const outdatedDeps = detectOutdatedDependencies(cwd, targetDeps);
-  let upgradeDependencies = false;
+  if (outdatedDeps.length === 0) { return false; }
 
-  if (outdatedDeps.length > 0) {
-    // Display outdated dependencies with warnings
-    console.log();
-    console.log(pc.yellow('Outdated dependencies detected:'));
-    console.log();
+  console.log();
+  console.log(pc.yellow('Outdated dependencies detected:'));
+  console.log();
 
-    for (const dep of outdatedDeps) {
-      const majorBadge = dep.isMajorChange ? pc.red(' [MAJOR]') : '';
-      console.log(
-        `  ${pc.cyan(dep.name)}: ${pc.gray(dep.currentVersion)} → ${pc.green(dep.latestVersion)}${majorBadge}`
-      );
-      if (dep.warning) {
-        console.log(`    ${pc.yellow('⚠')} ${dep.warning}`);
-      }
-    }
-
-    console.log();
-
-    // Check if any are major changes
-    const hasMajorChanges = outdatedDeps.some((d) => d.isMajorChange);
-
-    if (hasMajorChanges) {
-      console.log(pc.yellow('⚠ Warning: Some upgrades include major version changes.'));
-      console.log(pc.gray('  Major version changes may include breaking changes that require'));
-      console.log(pc.gray('  code updates. Review changelogs before upgrading.'));
-      console.log();
-    }
-
-    const upgradeChoice = await p.confirm({
-      message: 'Would you like to upgrade these dependencies?',
-      initialValue: !hasMajorChanges, // Default to yes unless there are major changes
-    });
-
-    if (p.isCancel(upgradeChoice)) {
-      p.cancel(MSG_SETUP_CANCELLED);
-      process.exit(0);
-    }
-
-    upgradeDependencies = upgradeChoice;
-  }
-
-  // 4. Modify package.json
-  if (config.modifyPackageJson) {
-    s.start('Updating package.json');
-    const result = addDsaiToPackageJson(cwd, {
-      includeFigmaTokens: config.includeFigmaSync as boolean,
-      includeIconsBuild: config.includeIcons as boolean,
-      includeStyleDictionary: true,
-      includeScssIntegration: config.includeScssIntegration as boolean,
-      includeBootstrap: config.includeBootstrap as boolean,
-      upgradeDependencies,
-      createBackup: true,
-    });
-
-    if (result.success) {
-      const changes = getChangesSummary(result);
-      s.stop('Updated package.json');
-      if (changes.length > 0) {
-        p.log.info(changes.join('\n'));
-      }
-    } else {
-      s.stop('Failed to update package.json');
-      p.log.warn(result.error ?? 'Unknown error');
+  for (const dep of outdatedDeps) {
+    const majorBadge = dep.isMajorChange ? pc.red(' [MAJOR]') : '';
+    console.log(
+      `  ${pc.cyan(dep.name)}: ${pc.gray(dep.currentVersion)} → ${pc.green(dep.latestVersion)}${majorBadge}`,
+    );
+    if (dep.warning) {
+      console.log(`    ${pc.yellow('⚠')} ${dep.warning}`);
     }
   }
+  console.log();
 
-  // 4. Install dependencies
-  if (config.installDeps) {
-    const deps = [...DSAI_DEPENDENCIES];
-    if (config.includeFigmaSync) {
-      const figmaDep = DSAI_OPTIONAL_DEPENDENCIES['figma-tokens'];
-      if (figmaDep) {
-        deps.push(figmaDep);
-      }
-    }
-    if (config.includeScssIntegration) {
-      const sassDep = DSAI_OPTIONAL_DEPENDENCIES['sass'];
-      if (sassDep) {
-        deps.push(sassDep);
-      }
-    }
-    if (config.includeBootstrap) {
-      const bootstrapDep = DSAI_OPTIONAL_DEPENDENCIES['bootstrap'];
-      if (bootstrapDep) {
-        deps.push(bootstrapDep);
-      }
-    }
-
-    const installCmd = getInstallCommand(projectInfo.packageManager, deps);
-    p.log.step(`Run: ${pc.cyan(installCmd)}`);
+  const hasMajorChanges = outdatedDeps.some((d) => d.isMajorChange);
+  if (hasMajorChanges) {
+    console.log(pc.yellow('⚠ Warning: Some upgrades include major version changes.'));
+    console.log(pc.gray('  Major version changes may include breaking changes that require'));
+    console.log(pc.gray('  code updates. Review changelogs before upgrading.'));
+    console.log();
   }
 
-  // 5. Create sample files
+  const upgradeChoice = await p.confirm({
+    message: 'Would you like to upgrade these dependencies?',
+    initialValue: !hasMajorChanges,
+  });
+
+  if (p.isCancel(upgradeChoice)) {
+    p.cancel(MSG_SETUP_CANCELLED);
+    process.exit(0);
+  }
+
+  return upgradeChoice;
+}
+
+/** Update package.json with scripts and deps if requested */
+function updatePackageJsonIfRequested(
+  cwd: string,
+  config: Record<string, unknown>,
+  upgradeDependencies: boolean,
+  s: ReturnType<typeof p.spinner>,
+): void {
+  if (!config.modifyPackageJson) { return; }
+
+  s.start('Updating package.json');
+  const result = addDsaiToPackageJson(cwd, {
+    includeFigmaTokens: config.includeFigmaSync as boolean,
+    includeIconsBuild: config.includeIcons as boolean,
+    includeStyleDictionary: true,
+    includeScssIntegration: config.includeScssIntegration as boolean,
+    includeBootstrap: config.includeBootstrap as boolean,
+    upgradeDependencies,
+    createBackup: true,
+  });
+
+  if (result.success) {
+    const changes = getChangesSummary(result);
+    s.stop('Updated package.json');
+    if (changes.length > 0) {
+      p.log.info(changes.join('\n'));
+    }
+  } else {
+    s.stop('Failed to update package.json');
+    p.log.warn(result.error ?? 'Unknown error');
+  }
+}
+
+/** Collect optional deps and suggest install command */
+function suggestInstallDeps(
+  config: Record<string, unknown>,
+  projectInfo: ProjectInfo,
+): void {
+  if (!config.installDeps) { return; }
+
+  const deps = [...DSAI_DEPENDENCIES];
+  const optionalKeys: { flag: string; key: string }[] = [
+    { flag: 'includeFigmaSync', key: 'figma-tokens' },
+    { flag: 'includeScssIntegration', key: 'sass' },
+    { flag: 'includeBootstrap', key: 'bootstrap' },
+  ];
+
+  for (const { flag, key } of optionalKeys) {
+    if (config[flag]) {
+      const dep = DSAI_OPTIONAL_DEPENDENCIES[key];
+      if (dep) { deps.push(dep); }
+    }
+  }
+
+  const installCmd = getInstallCommand(projectInfo.packageManager, deps);
+  p.log.step(`Run: ${pc.cyan(installCmd)}`);
+}
+
+/** Create sample README in source directory */
+function createSampleFiles(
+  cwd: string,
+  sourceDir: string,
+  projectInfo: ProjectInfo,
+  s: ReturnType<typeof p.spinner>,
+): void {
   s.start('Creating sample files');
-  const sampleTokensPath = join(cwd, config.sourceDir as string, 'README.md');
+  const sampleTokensPath = join(cwd, sourceDir, 'README.md');
   if (!existsSync(sampleTokensPath)) {
+    const runCmd = projectInfo.packageManager === 'npm' ? 'npm run' : projectInfo.packageManager;
     const sampleContent = `# Design Tokens
 
 Place your Figma export files here.
@@ -461,13 +505,13 @@ After exporting from Figma, you should have a \`theme.json\` file with your desi
 
 \`\`\`bash
 # Build tokens
-${projectInfo.packageManager === 'npm' ? 'npm run' : projectInfo.packageManager} tokens:build
+${runCmd} tokens:build
 
 # Validate tokens
-${projectInfo.packageManager === 'npm' ? 'npm run' : projectInfo.packageManager} tokens:validate
+${runCmd} tokens:validate
 
 # Watch for changes
-${projectInfo.packageManager === 'npm' ? 'npm run' : projectInfo.packageManager} tokens:watch
+${runCmd} tokens:watch
 \`\`\`
 
 ## Documentation
@@ -477,12 +521,19 @@ For more information, visit https://github.com/michelve/dsai
     writeFileSync(sampleTokensPath, sampleContent, FILE_ENCODING);
   }
   s.stop('Sample files created');
+}
 
-  // Show next steps
+/** Show final next steps */
+function showNextSteps(
+  configFileName: string,
+  config: Record<string, unknown>,
+  projectInfo: ProjectInfo,
+): void {
+  const runCmd = projectInfo.packageManager === 'npm' ? 'npm run' : projectInfo.packageManager;
   const nextSteps = [
     `Edit ${pc.cyan(configFileName)} to customize settings`,
     `Add your Figma export to ${pc.cyan(config.sourceDir as string)}`,
-    `Run ${pc.cyan(`${projectInfo.packageManager === 'npm' ? 'npm run' : projectInfo.packageManager} tokens:build`)} to generate tokens`,
+    `Run ${pc.cyan(`${runCmd} tokens:build`)} to generate tokens`,
   ];
 
   if (!config.installDeps) {

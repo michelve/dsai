@@ -2,6 +2,9 @@ import { cn } from '../../utils';
 
 import type { ProgressBarProps, ProgressCircleProps, ProgressProps } from './Progress.types';
 
+/** CSS class for the progress bar element */
+const PROGRESS_BAR_CLASS = 'progress-bar';
+
 const resolveHeightForSize = (size: ProgressProps['size'] = 'md'): string => {
   if (size === 'sm') {
     return '0.5rem';
@@ -43,7 +46,7 @@ function ProgressBar({
   const isWarning = variant === 'warning';
 
   const barClasses = cn(
-    'progress-bar',
+    PROGRESS_BAR_CLASS,
     !gradient && `bg-${variant}`,
     isWarning && !gradient && 'text-dark',
     striped && 'progress-bar-striped',
@@ -132,7 +135,7 @@ function renderSteps(
         return (
           <div
             key={i}
-            className={isFilled ? barClasses : 'progress-bar'}
+            className={isFilled ? barClasses : PROGRESS_BAR_CLASS}
             style={segmentStyle}
             aria-hidden="true"
             data-step={i + 1}
@@ -184,6 +187,94 @@ function renderSteps(
  * - `aria-busy="true"` for indeterminate state
  * - `aria-label` support for accessible naming
  */
+/** Build gradient background style */
+function buildGradientStyle(gradient?: { from: string; to: string; direction?: string }): React.CSSProperties {
+  if (!gradient) { return {}; }
+  return {
+    background: `linear-gradient(${gradient.direction || 'to right'}, ${gradient.from}, ${gradient.to})`,
+  };
+}
+
+/** Build bar classes for the progress bar */
+function buildBarClasses(
+  variant: string,
+  gradient: ProgressProps['gradient'],
+  striped: boolean,
+  animated: boolean,
+  indeterminate: boolean,
+): string {
+  const isWarning = variant === 'warning';
+  return cn(
+    PROGRESS_BAR_CLASS,
+    !gradient && `bg-${variant}`,
+    isWarning && !gradient && 'text-dark',
+    striped && 'progress-bar-striped',
+    (animated || indeterminate) && 'progress-bar-animated',
+    indeterminate && 'progress-bar-striped',
+  );
+}
+
+/** Build the main bar style */
+function buildMainBarStyle(
+  percentage: number,
+  indeterminate: boolean,
+  gradient?: ProgressProps['gradient'],
+): React.CSSProperties {
+  return {
+    width: indeterminate ? '100%' : `${percentage}%`,
+    ...(indeterminate && { animation: 'progress-bar-stripes 1s linear infinite' }),
+    ...buildGradientStyle(gradient),
+  };
+}
+
+/** Compute the display value text */
+function computeDisplayValue(
+  percentage: number,
+  max: number,
+  formatValue?: (value: number, max: number) => React.ReactNode,
+  valueText?: string,
+): React.ReactNode {
+  if (formatValue) { return formatValue(percentage, max); }
+  return valueText || `${percentage}%`;
+}
+
+/** Compute aria-valuetext for accessibility */
+function computeAriaValueText(
+  indeterminate: boolean,
+  displayValue: React.ReactNode,
+  valueText?: string,
+  percentage = 0,
+): string {
+  if (indeterminate) { return 'Loading'; }
+  if (typeof displayValue === 'string') { return displayValue; }
+  return valueText || `${percentage}%`;
+}
+
+/** Render the buffer bar (MUI-style lighter background) */
+function renderBufferBar(
+  bufferPercentage: number,
+  variant: string,
+  gradient: ProgressProps['gradient'],
+  dataTestId?: string,
+): React.JSX.Element {
+  return (
+    <div
+      className={cn(PROGRESS_BAR_CLASS, !gradient && `bg-${variant}`)}
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        height: '100%',
+        width: `${bufferPercentage}%`,
+        opacity: 0.3,
+        ...buildGradientStyle(gradient),
+      }}
+      aria-hidden="true"
+      data-testid={dataTestId ? `${dataTestId}-buffer` : undefined}
+    />
+  );
+}
+
 function ProgressBase({
   value,
   variant = 'primary',
@@ -211,49 +302,16 @@ function ProgressBase({
 }: ProgressProps): React.JSX.Element {
   const percentage = indeterminate ? 0 : Math.min(100, Math.max(0, value ?? 0));
   const hasChildren = Boolean(children);
-
-  // Build progress container classes
   const progressClasses = cn('progress', className);
-
-  // Build progress bar classes (for single bar mode)
-  const isWarning = variant === 'warning';
-  const barClasses = cn(
-    'progress-bar',
-    !gradient && `bg-${variant}`,
-    isWarning && !gradient && 'text-dark',
-    striped && 'progress-bar-striped',
-    (animated || indeterminate) && 'progress-bar-animated',
-    indeterminate && 'progress-bar-striped' // Indeterminate uses striped animation
-  );
-
-  // Compute display value using formatValue > valueText > default percentage
-  const displayValue = formatValue ? formatValue(percentage, max) : valueText || `${percentage}%`;
-
-  // Calculate aria-valuetext (must be string for accessibility)
-  const computedValueText = indeterminate
-    ? 'Loading'
-    : typeof displayValue === 'string'
-      ? displayValue
-      : valueText || `${percentage}%`;
-
-  // Buffer bar percentage
+  const barClasses = buildBarClasses(variant, gradient, striped, animated, indeterminate);
+  const displayValue = computeDisplayValue(percentage, max, formatValue, valueText);
+  const computedValueText = computeAriaValueText(indeterminate, displayValue, valueText, percentage);
   const bufferPercentage =
     bufferValue != null ? Math.min(100, Math.max(0, bufferValue)) : undefined;
-
-  // Build bar style (gradient overrides variant bg)
-  const barStyle: React.CSSProperties = {
-    width: indeterminate ? '100%' : `${percentage}%`,
-    ...(indeterminate && {
-      animation: 'progress-bar-stripes 1s linear infinite',
-    }),
-    ...(gradient && {
-      background: `linear-gradient(${gradient.direction || 'to right'}, ${gradient.from}, ${gradient.to})`,
-    }),
-  };
+  const barStyle = buildMainBarStyle(percentage, indeterminate, gradient);
 
   return (
     <div className="d-flex flex-column gap-1">
-      {/* Optional label */}
       {label && (
         <div className="d-flex justify-content-between align-items-center">
           <span className="small text-body-secondary">{label}</span>
@@ -263,7 +321,6 @@ function ProgressBase({
         </div>
       )}
 
-      {/* Progress bar container */}
       <div
         className={progressClasses}
         style={{
@@ -286,34 +343,12 @@ function ProgressBase({
         })}
       >
         {hasChildren ? (
-          // Stacked progress bars
           children
         ) : steps != null && steps > 0 ? (
-          // Steps/segments mode (similar to Ant Design)
           renderSteps(steps, percentage, barClasses, barStyle, gradient)
         ) : (
-          // Single/buffer progress bar
           <>
-            {/* Buffer bar (MUI-style) — lighter background behind main bar */}
-            {bufferPercentage != null && (
-              <div
-                className={cn('progress-bar', !gradient && `bg-${variant}`)}
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  height: '100%',
-                  width: `${bufferPercentage}%`,
-                  opacity: 0.3,
-                  ...(gradient && {
-                    background: `linear-gradient(${gradient.direction || 'to right'}, ${gradient.from}, ${gradient.to})`,
-                  }),
-                }}
-                aria-hidden="true"
-                data-testid={dataTestId ? `${dataTestId}-buffer` : undefined}
-              />
-            )}
-            {/* Main progress bar */}
+            {bufferPercentage != null && renderBufferBar(bufferPercentage, variant, gradient, dataTestId)}
             <div
               className={barClasses}
               style={{

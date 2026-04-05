@@ -231,12 +231,12 @@ async function runInit(options: InitOptions): Promise<void> {
   content = content.replaceAll(/\{\{PREFIX\}\}/g, prefix).replaceAll(/\{\{OUTPUT_DIR\}\}/g, outputDir);
 
   // Write config file
-  const configPath = join(cwd, 'dsai.config.mjs');
+  const configPath = join(cwd, CONFIG_FILENAME);
 
   if (!options.dryRun) {
     try {
       writeFileSync(configPath, content, 'utf-8');
-      logger.success(`Created ${colors.path('dsai.config.mjs')}`);
+      logger.success(`Created ${colors.path(CONFIG_FILENAME)}`);
     } catch (error) {
       logger.error(
         `Failed to write config file: ${error instanceof Error ? error.message : 'Unknown error'}`
@@ -244,7 +244,7 @@ async function runInit(options: InitOptions): Promise<void> {
       process.exit(ExitCode.IOError);
     }
   } else {
-    logger.info(`Would create ${colors.path('dsai.config.mjs')} (dry run)`);
+    logger.info(`Would create ${colors.path(CONFIG_FILENAME)} (dry run)`);
   }
 
   // Create output directory
@@ -263,7 +263,7 @@ async function runInit(options: InitOptions): Promise<void> {
   console.log(colors.bold('Next steps:'));
   console.log();
   console.log(
-    `  ${colors.muted('1.')} Edit ${colors.path('dsai.config.mjs')} to customize settings`
+    `  ${colors.muted('1.')} Edit ${colors.path(CONFIG_FILENAME)} to customize settings`
   );
   console.log(`  ${colors.muted('2.')} Add your tokens to ${colors.path('collections/')}`);
   console.log(

@@ -48,7 +48,9 @@ const XSSPreventionExample = (): JSX.Element => (
   </Alert>
 );
 
-// ── Story constants (S109) ──
+// ── Story constants (S109, S1192) ──
+const SMALL_FONT_SIZE = '0.875rem';
+const BS_SECONDARY = 'var(--bs-secondary)';
 const ASYNC_OPERATION_MS = 1500;
 const AUTO_DISMISS_DELAY_MS = 3000;
 
@@ -84,7 +86,7 @@ const AriaAtomicExample = (): JSX.Element => {
       >
         Save Changes
       </Button>
-      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+      <p style={{ fontSize: SMALL_FONT_SIZE, color: BS_SECONDARY }}>
         With aria-atomic=&quot;true&quot;, screen readers announce the complete alert content on
         updates.
       </p>
@@ -324,7 +326,7 @@ export const Dismissible: Story = {
           <Button variant="primary" onClick={() => setShow(true)}>
             Show Alert
           </Button>
-          <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+          <p style={{ fontSize: SMALL_FONT_SIZE, color: BS_SECONDARY }}>
             Alert dismissed. Click button to show it again.
           </p>
         </div>
@@ -336,7 +338,7 @@ export const Dismissible: Story = {
         <Alert variant="warning" dismissible onClose={() => setShow(false)}>
           <strong>Holy guacamole!</strong> You should check in on some of those fields below.
         </Alert>
-        <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+        <p style={{ fontSize: SMALL_FONT_SIZE, color: BS_SECONDARY }}>
           <strong>Keyboard support:</strong> Press <kbd>Escape</kbd> to dismiss, or click the X
           button.
         </p>
@@ -720,7 +722,7 @@ export const AutoDismiss: Story = {
             Show Auto-Dismiss Alert
           </Button>
         )}
-        <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+        <p style={{ fontSize: SMALL_FONT_SIZE, color: BS_SECONDARY }}>
           The <code>autoDismiss</code> prop accepts a duration in milliseconds. The{' '}
           <code>onClose</code> callback receives a <code>reason</code> parameter:{' '}
           <code>&quot;click&quot;</code>, <code>&quot;escape&quot;</code>, or{' '}

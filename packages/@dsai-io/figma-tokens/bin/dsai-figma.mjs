@@ -142,6 +142,48 @@ const ALLOWED_OPTIONS = new Set([
 ]);
 
 /**
+ * Check if an argument is a value (not a flag)
+ * @param {string | undefined} arg
+ * @returns {boolean}
+ */
+function isArgValue(arg) {
+  return Boolean(arg) && !arg.startsWith('--') && !arg.startsWith('-');
+}
+
+/**
+ * Parse a long option (--key or --key value)
+ * @param {string[]} args
+ * @param {number} index
+ * @param {Map<string, string | boolean>} options
+ * @returns {number} Number of extra args consumed
+ */
+function parseLongOption(args, index, options) {
+  const key = args[index].slice(2);
+  if (!ALLOWED_OPTIONS.has(key)) {
+    return 0;
+  }
+  const nextArg = args[index + 1];
+  if (isArgValue(nextArg)) {
+    options.set(key, nextArg);
+    return 1;
+  }
+  options.set(key, true);
+  return 0;
+}
+
+/**
+ * Parse a short option (-k)
+ * @param {string} arg
+ * @param {Map<string, string | boolean>} options
+ */
+function parseShortOption(arg, options) {
+  const key = arg.slice(1);
+  if (ALLOWED_OPTIONS.has(key)) {
+    options.set(key, true);
+  }
+}
+
+/**
  * Parse command line arguments safely
  * @param {string[]} args
  * @returns {{ command: string, options: Map<string, string | boolean> }}
@@ -155,21 +197,9 @@ function parseArgs(args) {
   for (let i = 1; i < args.length; i++) {
     const arg = args[i];
     if (arg.startsWith('--')) {
-      const key = arg.slice(2);
-      if (ALLOWED_OPTIONS.has(key)) {
-        const nextArg = args[i + 1];
-        if (nextArg && !nextArg.startsWith('--') && !nextArg.startsWith('-')) {
-          result.options.set(key, nextArg);
-          i += 1; // Skip consumed value argument
-        } else {
-          result.options.set(key, true);
-        }
-      }
+      i += parseLongOption(args, i, result.options);
     } else if (arg.startsWith('-')) {
-      const key = arg.slice(1);
-      if (ALLOWED_OPTIONS.has(key)) {
-        result.options.set(key, true);
-      }
+      parseShortOption(arg, result.options);
     }
   }
 
@@ -307,6 +337,76 @@ const infoRegistry = {
 };
 
 /**
+ * Print a line to stdout
+ * @param {string} msg
+ */
+function line(msg) {
+  process.stdout.write(msg + '\n');
+}
+
+/**
+ * Print CLI commands section
+ */
+function printCliCommands() {
+  const c = colors;
+  line('');
+  line(`${c.bold}CLI Commands${c.reset}`);
+  line('');
+  for (const cmd of infoRegistry.cli.commands) {
+    const opts = cmd.options.length > 0 ? `${c.dim} [${cmd.options.join(', ')}]${c.reset}` : '';
+    line(`  ${c.green}${c.bold}dsai-figma ${cmd.name}${c.reset}${opts}`);
+    line(`    ${c.dim}${cmd.description}${c.reset}`);
+  }
+}
+
+/**
+ * Print environment variables section
+ */
+function printEnvironment() {
+  const c = colors;
+  line('');
+  line(`${c.bold}Environment Variables${c.reset}`);
+  line('');
+  for (const env of infoRegistry.cli.environment) {
+    const req = env.required ? `${c.red}(required)${c.reset}` : `${c.dim}(optional)${c.reset}`;
+    line(`  ${c.cyan}${env.name}${c.reset}  ${env.description} ${req}`);
+  }
+}
+
+/**
+ * Print API methods section
+ */
+function printApiMethods() {
+  const c = colors;
+  line('');
+  line(`${c.bold}API Client: ${c.cyan}FigmaClient${c.reset}`);
+  line(`${c.dim}Import: import { createFigmaClient } from '@dsai-io/figma-tokens'${c.reset}`);
+  line('');
+  for (const method of infoRegistry.api.methods) {
+    line(`  ${c.green}${method.name}()${c.reset}  ${c.dim}${method.description}${c.reset}`);
+    line(`    ${c.cyan}${method.endpoint}${c.reset}`);
+  }
+}
+
+/**
+ * Print coverage and documentation sections
+ */
+function printCoverageAndDocs() {
+  const c = colors;
+  line('');
+  line(`${c.bold}Figma REST API Coverage${c.reset}`);
+  line('');
+  for (const [category, endpoints] of Object.entries(infoRegistry.coverage)) {
+    line(`  ${c.yellow}${category}${c.reset}: ${endpoints.join(', ')}`);
+  }
+
+  line('');
+  line(`${c.bold}Documentation${c.reset}`);
+  line(`  ${c.cyan}${c.bold}${infoRegistry.documentation}${c.reset}`);
+  line('');
+}
+
+/**
  * Show info output
  * @param {boolean} asJson
  * @returns {void}
@@ -317,56 +417,83 @@ function showInfo(asJson) {
     return;
   }
 
-  const line = (msg) => process.stdout.write(msg + '\n');
   const c = colors;
-
   line('');
   line(`${c.bold}${infoRegistry.package}${c.reset} v${infoRegistry.version}`);
   line(`${c.dim}${infoRegistry.description}${c.reset}`);
   line(`${c.dim}${'\u2500'.repeat(70)}${c.reset}`);
 
-  // CLI Commands
-  line('');
-  line(`${c.bold}CLI Commands${c.reset}`);
-  line('');
-  for (const cmd of infoRegistry.cli.commands) {
-    const opts = cmd.options.length > 0 ? `${c.dim} [${cmd.options.join(', ')}]${c.reset}` : '';
-    line(`  ${c.green}${c.bold}dsai-figma ${cmd.name}${c.reset}${opts}`);
-    line(`    ${c.dim}${cmd.description}${c.reset}`);
+  printCliCommands();
+  printEnvironment();
+  printApiMethods();
+  printCoverageAndDocs();
+}
+
+/**
+ * Handle early exit commands (help, info)
+ * @param {string[]} args
+ * @returns {boolean} True if handled and should exit
+ */
+function handleEarlyCommands(args) {
+  if (args.includes('--help') || args.includes('-h') || args[0] === 'help') {
+    showHelp();
+    process.exit(0);
   }
 
-  // Environment
-  line('');
-  line(`${c.bold}Environment Variables${c.reset}`);
-  line('');
-  for (const env of infoRegistry.cli.environment) {
-    const req = env.required ? `${c.red}(required)${c.reset}` : `${c.dim}(optional)${c.reset}`;
-    line(`  ${c.cyan}${env.name}${c.reset}  ${env.description} ${req}`);
+  if (args[0] === 'info') {
+    showInfo(args.includes('--json'));
+    process.exit(0);
   }
 
-  // API Client Methods
-  line('');
-  line(`${c.bold}API Client: ${c.cyan}FigmaClient${c.reset}`);
-  line(`${c.dim}Import: import { createFigmaClient } from '@dsai-io/figma-tokens'${c.reset}`);
-  line('');
-  for (const method of infoRegistry.api.methods) {
-    line(`  ${c.green}${method.name}()${c.reset}  ${c.dim}${method.description}${c.reset}`);
-    line(`    ${c.cyan}${method.endpoint}${c.reset}`);
+  return false;
+}
+
+/**
+ * Resolve required environment and config values
+ * @param {Map<string, string | boolean>} options
+ * @param {Record<string, unknown>} config
+ * @param {string} command
+ * @returns {{ figmaToken: string, fileKey: string }}
+ */
+function resolveRequiredValues(options, config, command) {
+  const figmaToken = process.env.FIGMA_TOKEN;
+  if (!figmaToken) {
+    logError('FIGMA_TOKEN environment variable is required');
+    logInfo('Get your token at: https://www.figma.com/developers/api#access-tokens');
+    process.exit(1);
   }
 
-  // Coverage Map
-  line('');
-  line(`${c.bold}Figma REST API Coverage${c.reset}`);
-  line('');
-  for (const [category, endpoints] of Object.entries(infoRegistry.coverage)) {
-    line(`  ${c.yellow}${category}${c.reset}: ${endpoints.join(', ')}`);
+  const rawFileKey = options.get('file-key') || process.env.FIGMA_FILE_KEY || config.fileKey;
+  if (!rawFileKey && command !== 'help') {
+    logError('Figma file key is required');
+    logInfo('Provide via --file-key, FIGMA_FILE_KEY env var, or config file');
+    process.exit(1);
   }
 
-  // Links
-  line('');
-  line(`${c.bold}Documentation${c.reset}`);
-  line(`  ${c.cyan}${c.bold}${infoRegistry.documentation}${c.reset}`);
-  line('');
+  const fileKey = typeof rawFileKey === 'string' ? rawFileKey : String(rawFileKey ?? '');
+  return { figmaToken, fileKey };
+}
+
+/**
+ * Dispatch command to handler
+ * @param {string} command
+ * @param {object} client
+ * @param {Record<string, unknown>} mergedOpts
+ * @returns {Promise<void>}
+ */
+async function dispatchCommand(command, client, mergedOpts) {
+  switch (command) {
+    case 'fetch':
+      return handleFetch(client, mergedOpts);
+    case 'sync':
+      return handleSync(client, mergedOpts);
+    case 'validate':
+      return handleValidate(mergedOpts);
+    default:
+      logError(`Unknown command: ${command}`);
+      showHelp();
+      process.exit(1);
+  }
 }
 
 /**
@@ -375,24 +502,10 @@ function showInfo(asJson) {
  */
 async function main() {
   const args = process.argv.slice(2);
-
-  // Show help if requested
-  if (args.includes('--help') || args.includes('-h') || args[0] === 'help') {
-    showHelp();
-    process.exit(0);
-  }
-
-  // Show info if requested
-  if (args[0] === 'info') {
-    const asJson = args.includes('--json');
-    showInfo(asJson);
-    process.exit(0);
-  }
+  handleEarlyCommands(args);
 
   const { command, options } = parseArgs(args);
   const cwd = process.cwd();
-
-  // Load configuration
   const config = await loadConfig(cwd);
   const verbose = options.get('verbose') || config.verbose || false;
 
@@ -401,49 +514,66 @@ async function main() {
     logInfo(`Command: ${command}`);
   }
 
-  // Get Figma token
-  const figmaToken = process.env.FIGMA_TOKEN;
-  if (!figmaToken) {
-    logError('FIGMA_TOKEN environment variable is required');
-    logInfo('Get your token at: https://www.figma.com/developers/api#access-tokens');
-    process.exit(1);
-  }
+  const { figmaToken, fileKey } = resolveRequiredValues(options, config, command);
 
-  // Get file key
-  const fileKey = options.get('file-key') || process.env.FIGMA_FILE_KEY || config.fileKey;
-  if (!fileKey && command !== 'help') {
-    logError('Figma file key is required');
-    logInfo('Provide via --file-key, FIGMA_FILE_KEY env var, or config file');
-    process.exit(1);
-  }
-
-  // Import the client
   const { FigmaClient } = await import('../dist/client.js');
-
-  const client = new FigmaClient({
-    accessToken: figmaToken,
-  });
-
+  const client = new FigmaClient({ accessToken: figmaToken });
   const opts = Object.fromEntries(options);
-  switch (command) {
-    case 'fetch': {
-      await handleFetch(client, { ...config, ...opts, fileKey, verbose, cwd });
-      break;
+
+  await dispatchCommand(command, client, { ...config, ...opts, fileKey, verbose, cwd });
+}
+
+/**
+ * Log verbose collection details
+ * @param {object} variablesResponse
+ */
+function logCollections(variablesResponse) {
+  log('\nCollections:', colors.dim);
+  for (const collection of Object.values(variablesResponse.variableCollections)) {
+    const modeNames = collection.modes.map((m) => m.name).join(', ');
+    log(`  • ${collection.name} (modes: ${modeNames})`, colors.dim);
+  }
+}
+
+/**
+ * Log export result details
+ * @param {object} result
+ * @param {boolean} verbose
+ */
+function logExportResult(result, verbose) {
+  if (!result.success) {
+    logError('Export failed');
+    for (const error of result.errors) {
+      logError(error);
     }
-    case 'sync': {
-      await handleSync(client, { ...config, ...opts, fileKey, verbose, cwd });
-      break;
-    }
-    case 'validate': {
-      await handleValidate({ ...config, ...opts, verbose, cwd });
-      break;
-    }
-    default: {
-      logError(`Unknown command: ${command}`);
-      showHelp();
-      process.exit(1);
+    process.exit(1);
+  }
+
+  log(`\n${colors.green}${colors.bold}Export complete!${colors.reset}\n`);
+  logSuccess(`Exported ${result.tokenCount} tokens to ${result.files.length} files`);
+
+  if (verbose && result.files.length > 0) {
+    log('\nExported files:', colors.dim);
+    for (const file of result.files) {
+      log(`  • ${file.path} (${file.tokenCount} tokens)`, colors.dim);
     }
   }
+
+  if (result.warnings.length > 0) {
+    log('\nWarnings:', colors.yellow);
+    for (const warning of result.warnings) {
+      logWarning(warning);
+    }
+  }
+}
+
+/**
+ * Parse a comma-separated string into a trimmed array
+ * @param {string | undefined} value
+ * @returns {string[] | undefined}
+ */
+function parseCommaSeparated(value) {
+  return value ? value.split(',').map((s) => s.trim()) : undefined;
 }
 
 /**
@@ -453,18 +583,12 @@ async function main() {
  * @returns {Promise<void>}
  */
 async function handleFetch(client, options) {
-  const fileKey = options.fileKey;
-  const output = options.output;
-  const outputDir = options.outputDir;
+  const { collections, modes, verbose, cwd } = options;
+  const fileKey = typeof options.fileKey === 'string' ? options.fileKey : '';
   const format = options.format || 'dtcg';
-  const collections = options.collections;
-  const modes = options.modes;
   const resolveAliases = options['resolve-aliases'];
   const dryRun = options['dry-run'];
-  const verbose = options.verbose;
-  const cwd = options.cwd;
-
-  const targetDir = resolve(cwd, output || outputDir || './figma-exports');
+  const targetDir = resolve(cwd, options.output || options.outputDir || './figma-exports');
 
   log(`\n${colors.bold}Fetching tokens from Figma...${colors.reset}\n`);
 
@@ -479,11 +603,9 @@ async function handleFetch(client, options) {
   }
 
   try {
-    // First, get file info to show what we're working with
     const fileInfo = await client.getFile(fileKey, { depth: 1 });
     logSuccess(`Connected to: ${fileInfo.name}`);
 
-    // Fetch variables
     const variablesResponse = await client.getVariables(fileKey);
     const collectionCount = Object.keys(variablesResponse.variableCollections).length;
     const variableCount = Object.keys(variablesResponse.variables).length;
@@ -491,58 +613,25 @@ async function handleFetch(client, options) {
     logInfo(`Found ${collectionCount} collections with ${variableCount} variables`);
 
     if (verbose) {
-      log('\nCollections:', colors.dim);
-      for (const collection of Object.values(variablesResponse.variableCollections)) {
-        const modeNames = collection.modes.map((m) => m.name).join(', ');
-        log(`  • ${collection.name} (modes: ${modeNames})`, colors.dim);
-      }
+      logCollections(variablesResponse);
     }
 
     if (dryRun) {
-      log(
-        '\n' +
-          colors.yellow +
-          'Dry run complete. Run without --dry-run to export files.' +
-          colors.reset
-      );
+      log(`\n${colors.yellow}Dry run complete. Run without --dry-run to export files.${colors.reset}`);
       return;
     }
 
-    // Export tokens
     const result = await client.exportTokens({
       fileKey,
       outputDir: targetDir,
       format,
-      collections: collections ? collections.split(',').map((c) => c.trim()) : undefined,
-      modes: modes ? modes.split(',').map((m) => m.trim()) : undefined,
+      collections: parseCommaSeparated(collections),
+      modes: parseCommaSeparated(modes),
       resolveAliases: resolveAliases || false,
       includeDescriptions: true,
     });
 
-    if (result.success) {
-      log(`\n${colors.green}${colors.bold}Export complete!${colors.reset}\n`);
-      logSuccess(`Exported ${result.tokenCount} tokens to ${result.files.length} files`);
-
-      if (verbose && result.files.length > 0) {
-        log('\nExported files:', colors.dim);
-        for (const file of result.files) {
-          log(`  • ${file.path} (${file.tokenCount} tokens)`, colors.dim);
-        }
-      }
-
-      if (result.warnings.length > 0) {
-        log('\nWarnings:', colors.yellow);
-        for (const warning of result.warnings) {
-          logWarning(warning);
-        }
-      }
-    } else {
-      logError('Export failed');
-      for (const error of result.errors) {
-        logError(error);
-      }
-      process.exit(1);
-    }
+    logExportResult(result, verbose);
   } catch (err) {
     logError(`Failed to fetch tokens: ${err.message}`);
     if (verbose && err.stack) {
@@ -553,20 +642,51 @@ async function handleFetch(client, options) {
 }
 
 /**
+ * Log sync result details
+ * @param {object} result
+ */
+function logSyncResult(result) {
+  if (!result.success) {
+    logError('Sync failed');
+    for (const error of result.errors) {
+      logError(error);
+    }
+    process.exit(1);
+  }
+
+  log(`\n${colors.green}${colors.bold}Sync complete!${colors.reset}\n`);
+
+  if (result.added.length > 0) {
+    logSuccess(`Added: ${result.added.length} tokens`);
+  }
+  if (result.updated.length > 0) {
+    logSuccess(`Updated: ${result.updated.length} tokens`);
+  }
+  if (result.removed.length > 0) {
+    logWarning(`Removed: ${result.removed.length} tokens`);
+  }
+
+  if (result.conflicts.length > 0) {
+    log('\nConflicts:', colors.yellow);
+    for (const conflict of result.conflicts) {
+      logWarning(`${conflict.path}: ${conflict.reason}`);
+    }
+  }
+}
+
+/**
  * Handle sync command
  * @param {object} client - FigmaClient instance
  * @param {Record<string, unknown>} options - Command options
  * @returns {Promise<void>}
  */
 async function handleSync(client, options) {
-  const fileKey = options.fileKey;
+  const { verbose, cwd } = options;
+  const fileKey = typeof options.fileKey === 'string' ? options.fileKey : '';
   const tokensDir = options.tokensDir || options['tokens-dir'];
   const direction = options.direction || 'pull';
   const dryRun = options['dry-run'];
   const backup = options.backup !== false;
-  const verbose = options.verbose;
-  const cwd = options.cwd;
-
   const targetDir = resolve(cwd, tokensDir || './src/collections');
 
   log(`\n${colors.bold}Syncing tokens with Figma...${colors.reset}\n`);
@@ -590,32 +710,7 @@ async function handleSync(client, options) {
       backup,
     });
 
-    if (result.success) {
-      log(`\n${colors.green}${colors.bold}Sync complete!${colors.reset}\n`);
-
-      if (result.added.length > 0) {
-        logSuccess(`Added: ${result.added.length} tokens`);
-      }
-      if (result.updated.length > 0) {
-        logSuccess(`Updated: ${result.updated.length} tokens`);
-      }
-      if (result.removed.length > 0) {
-        logWarning(`Removed: ${result.removed.length} tokens`);
-      }
-
-      if (result.conflicts.length > 0) {
-        log('\nConflicts:', colors.yellow);
-        for (const conflict of result.conflicts) {
-          logWarning(`${conflict.path}: ${conflict.reason}`);
-        }
-      }
-    } else {
-      logError('Sync failed');
-      for (const error of result.errors) {
-        logError(error);
-      }
-      process.exit(1);
-    }
+    logSyncResult(result);
   } catch (err) {
     logError(`Failed to sync tokens: ${err.message}`);
     if (verbose && err.stack) {
@@ -626,17 +721,22 @@ async function handleSync(client, options) {
 }
 
 /**
+ * Log a validation issue with appropriate severity
+ * @param {{ severity: string, path: string, message: string }} issue
+ */
+function logValidationIssue(issue) {
+  const logFn = issue.severity === 'error' ? logError : logWarning;
+  logFn(`${issue.path}: ${issue.message}`);
+}
+
+/**
  * Handle validate command
  * @param {Record<string, unknown>} options - Command options
  * @returns {Promise<void>}
  */
 async function handleValidate(options) {
-  const output = options.output;
-  const outputDir = options.outputDir;
-  const verbose = options.verbose;
-  const cwd = options.cwd;
-
-  const targetDir = resolve(cwd, output || outputDir || './figma-exports');
+  const { verbose, cwd } = options;
+  const targetDir = resolve(cwd, options.output || options.outputDir || './figma-exports');
 
   log(`\n${colors.bold}Validating token exports...${colors.reset}\n`);
 
@@ -645,7 +745,6 @@ async function handleValidate(options) {
   }
 
   try {
-    // Import validation from @dsai-io/tools
     const { validateTokens } = await import('@dsai-io/tools/tokens');
 
     const result = await validateTokens({
@@ -656,17 +755,14 @@ async function handleValidate(options) {
     if (result.valid) {
       logSuccess('All tokens are valid!');
       logInfo(`Validated ${result.tokenCount} tokens in ${result.fileCount} files`);
-    } else {
-      logError('Validation failed');
-      for (const issue of result.issues) {
-        if (issue.severity === 'error') {
-          logError(`${issue.path}: ${issue.message}`);
-        } else {
-          logWarning(`${issue.path}: ${issue.message}`);
-        }
-      }
-      process.exit(1);
+      return;
     }
+
+    logError('Validation failed');
+    for (const issue of result.issues) {
+      logValidationIssue(issue);
+    }
+    process.exit(1);
   } catch (err) {
     logError(`Validation failed: ${err.message}`);
     if (verbose && err.stack) {
@@ -677,7 +773,9 @@ async function handleValidate(options) {
 }
 
 // Run CLI
-main().catch((err) => {
+try {
+  await main();
+} catch (err) {
   logError(`Unexpected error: ${err.message}`);
   process.exit(1);
-});
+}

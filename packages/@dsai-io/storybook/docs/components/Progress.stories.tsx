@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+/** Primary color token for gradient progress bars */
+const BS_PRIMARY = 'var(--bs-primary)';
+
 /**
  * Progress bar component for showing progress or loading states.
  * Built with Bootstrap 5 design tokens and full WCAG 2.2 AA compliance.
@@ -594,7 +597,7 @@ export const GradientFill: Story = {
         <p className="small text-muted mb-1">Primary to success gradient</p>
         <Progress
           value={75}
-          gradient={{ from: 'var(--bs-primary)', to: 'var(--bs-success)' }}
+          gradient={{ from: BS_PRIMARY, to: 'var(--bs-success)' }}
           aria-label="Gradient progress"
         />
       </div>
@@ -602,7 +605,7 @@ export const GradientFill: Story = {
         <p className="small text-muted mb-1">Info to primary gradient</p>
         <Progress
           value={60}
-          gradient={{ from: 'var(--bs-info)', to: 'var(--bs-primary)' }}
+          gradient={{ from: 'var(--bs-info)', to: BS_PRIMARY }}
           showValue
           aria-label="Info gradient"
         />
@@ -674,14 +677,14 @@ export const CircularGradient: Story = {
       <Progress.Circle
         value={80}
         showValue
-        gradient={{ from: 'var(--bs-primary)', to: 'var(--bs-success)' }}
+        gradient={{ from: BS_PRIMARY, to: 'var(--bs-success)' }}
         aria-label="Gradient circle"
       />
       <Progress.Circle
         value={65}
         showValue
         size={120}
-        gradient={{ from: 'var(--bs-info)', to: 'var(--bs-primary)' }}
+        gradient={{ from: 'var(--bs-info)', to: BS_PRIMARY }}
         aria-label="Large gradient circle"
       />
     </div>

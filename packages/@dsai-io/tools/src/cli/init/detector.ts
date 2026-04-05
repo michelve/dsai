@@ -225,6 +225,21 @@ const PM_PREFIX_MAP: [string, PackageManager][] = [
   ['npm', 'npm'],
 ];
 
+/** Detect PM from corepack packageManager field */
+function detectPmFromCorepack(content: string): PackageManager | null {
+  try {
+    const pkg = JSON.parse(content) as PackageJsonData;
+    if (typeof pkg.packageManager !== 'string') { return null; }
+
+    for (const [prefix, pm] of PM_PREFIX_MAP) {
+      if (pkg.packageManager.startsWith(prefix)) { return pm; }
+    }
+  } catch {
+    // Ignore parse errors
+  }
+  return null;
+}
+
 /**
  * Detect package manager from lock files
  */
@@ -242,18 +257,8 @@ export function detectPackageManager(cwd: string): PackageManager {
   // Check packageManager field in package.json (corepack)
   const content = safeReadFile(basePath, 'package.json');
   if (content) {
-    try {
-      const pkg = JSON.parse(content) as PackageJsonData;
-      if (typeof pkg.packageManager === 'string') {
-        for (const [prefix, pm] of PM_PREFIX_MAP) {
-          if (pkg.packageManager.startsWith(prefix)) {
-            return pm;
-          }
-        }
-      }
-    } catch {
-      // Ignore parse errors
-    }
+    const detected = detectPmFromCorepack(content);
+    if (detected) { return detected; }
   }
 
   return 'npm'; // Default fallback

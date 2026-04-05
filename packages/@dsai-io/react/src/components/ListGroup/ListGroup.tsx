@@ -101,6 +101,75 @@ function separateChildren(children: ReactNode): {
 }
 
 // =============================================================================
+// ListGroupItem Helpers
+// =============================================================================
+
+/** Resolve the active state from props and context */
+function resolveActiveState(
+  activeProp: boolean | undefined,
+  eventKey: string | undefined,
+  context: ReturnType<typeof useListGroupContext>,
+): boolean {
+  if (activeProp !== undefined) { return activeProp; }
+  if (eventKey !== undefined && context !== null) { return context.activeKeys.has(eventKey); }
+  return false;
+}
+
+/** Determine element type from props */
+function resolveElementType(
+  as: React.ElementType | undefined,
+  href: string | undefined,
+  onClick: unknown,
+  isListboxItem: boolean,
+): React.ElementType {
+  if (as) { return as; }
+  if (href) { return 'a'; }
+  if (onClick || isListboxItem) { return 'button'; }
+  return 'li';
+}
+
+/** Build ARIA props for listbox or list mode */
+function buildListItemAriaProps(
+  isListboxItem: boolean,
+  active: boolean,
+): Record<string, unknown> {
+  if (isListboxItem) {
+    return { role: 'option' as const, 'aria-selected': active };
+  }
+  return { 'aria-current': active ? ('true' as const) : undefined };
+}
+
+/** Build wrapper li props for semantic list structure */
+function buildWrapperLiProps(
+  isListboxItem: boolean,
+  active: boolean,
+): { className: string; role?: 'presentation' } {
+  if (isListboxItem) {
+    return { className: cn('p-0 border-0 bg-transparent', active && 'active'), role: 'presentation' as const };
+  }
+  return { className: 'p-0 border-0 bg-transparent' };
+}
+
+/** Render the inner content (icon + children + description + badge) */
+function renderItemContent(
+  children: ReactNode,
+  icon: ReactNode | undefined,
+  badge: ReactNode | undefined,
+  description: ReactNode | undefined,
+): React.JSX.Element {
+  return (
+    <>
+      {icon && <span className="me-2">{icon}</span>}
+      <span className={badge ? 'flex-grow-1' : undefined}>
+        {children}
+        {description && <small className="text-body-secondary d-block">{description}</small>}
+      </span>
+      {badge && <span>{badge}</span>}
+    </>
+  );
+}
+
+// =============================================================================
 // ListGroupItem Component
 // =============================================================================
 
@@ -131,38 +200,14 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
     onExpandedChange,
     ...rest
   },
-  ref
+  ref,
 ) {
-  // Consume context for managed selection
   const context = useListGroupContext();
-
-  // Determine active state:
-  // - Explicit active prop (when not undefined) always wins
-  // - Otherwise derive from context if eventKey exists
-  // - Otherwise fall back to false
-  const active: boolean =
-    activeProp !== undefined
-      ? activeProp
-      : eventKey !== undefined && context !== null
-        ? context.activeKeys.has(eventKey)
-        : false;
-
-  // Whether this item participates in listbox semantics
+  const active = resolveActiveState(activeProp, eventKey, context);
   const isListboxItem = context?.onSelect !== undefined && eventKey !== undefined;
-
-  // Determine element type
   const isInteractive = Boolean(href || onClick || isListboxItem);
-  let Element: React.ElementType = as ?? 'li';
+  const Element = resolveElementType(as, href, onClick, isListboxItem);
 
-  if (!as) {
-    if (href) {
-      Element = 'a';
-    } else if (onClick || isListboxItem) {
-      Element = 'button';
-    }
-  }
-
-  // Build item classes
   const itemClasses = cn(
     'list-group-item',
     isInteractive && 'list-group-item-action',
@@ -170,26 +215,19 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
     disabled && 'disabled',
     variant && `list-group-item-${variant}`,
     !!badge && 'd-flex justify-content-between align-items-center',
-    className
+    className,
   );
 
-  // Handle click — also fire context onSelect when applicable
   const handleClick = (e: MouseEvent<HTMLElement>): void => {
-    if (disabled) {
-      e.preventDefault();
-      return;
-    }
+    if (disabled) { e.preventDefault(); return; }
     onClick?.(e);
     if (context?.onSelect && eventKey !== undefined) {
       context.onSelect(eventKey, e);
     }
   };
 
-  // Handle keyboard
   const handleKeyDown = (e: KeyboardEvent<HTMLElement>): void => {
-    if (disabled) {
-      return;
-    }
+    if (disabled) { return; }
     if (isEnterKey(e) || e.key === ' ') {
       e.preventDefault();
       if (isListboxItem && context?.onSelect && eventKey !== undefined) {
@@ -211,17 +249,8 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
   const handleToggle = (): void => setIsExpanded(!isExpanded);
   const collapsibleTextId = useId();
 
-  // Collapsible render — always renders as <li> with toggle and collapsible region
+  // Collapsible render
   if (hasNestedContent) {
-    const collapsibleItemClasses = cn(
-      'list-group-item',
-      active && 'active',
-      disabled && 'disabled',
-      variant && `list-group-item-${variant}`,
-      className
-    );
-
-    // Clone nested ListGroup children to add aria-labelledby and ps-3 indent
     const labelledNestedContent = nestedContent.map((child) => {
       if (isValidElement(child)) {
         return cloneElement(child as React.ReactElement<{ 'aria-labelledby'?: string; className?: string }>, {
@@ -231,6 +260,14 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
       }
       return child;
     });
+
+    const collapsibleItemClasses = cn(
+      'list-group-item',
+      active && 'active',
+      disabled && 'disabled',
+      variant && `list-group-item-${variant}`,
+      className,
+    );
 
     return (
       <li
@@ -247,18 +284,13 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
           {icon && <span className="me-2">{icon}</span>}
           <span id={collapsibleTextId} className="flex-grow-1">
             {mainContent}
-            {description && (
-              <small className="text-body-secondary d-block">{description}</small>
-            )}
+            {description && <small className="text-body-secondary d-block">{description}</small>}
           </span>
           {badge && <span className="me-2">{badge}</span>}
           <button
             type="button"
             className="btn btn-sm border-0 p-0 ms-auto"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleToggle();
-            }}
+            onClick={(e) => { e.stopPropagation(); handleToggle(); }}
             aria-expanded={isExpanded}
             aria-label={isExpanded ? 'Collapse' : 'Expand'}
           >
@@ -287,45 +319,15 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
     );
   }
 
-  // Render content
-  const content = (
-    <>
-      {icon && <span className="me-2">{icon}</span>}
-      <span className={badge ? 'flex-grow-1' : undefined}>
-        {children}
-        {description && <small className="text-body-secondary d-block">{description}</small>}
-      </span>
-      {badge && <span>{badge}</span>}
-    </>
-  );
-
-  // ARIA props depend on whether we're in listbox mode
-  const ariaProps = isListboxItem
-    ? { role: 'option' as const, 'aria-selected': active }
-    : { 'aria-current': active ? ('true' as const) : undefined };
-
-  // Common props
-  const commonProps = {
-    ...rest,
-    ...ariaProps,
-    className: itemClasses,
-    style,
-    'aria-disabled': disabled || undefined,
-  };
-
-  // Wrapper li props — when in listbox context, li must have role="presentation"
-  // to satisfy axe (listitem must not be inside a listbox). Also propagate active
-  // class so tests can use closest('li') to check active state.
-  const wrapperLiProps = isListboxItem
-    ? { className: cn('p-0 border-0 bg-transparent', active && 'active'), role: 'presentation' as const }
-    : { className: 'p-0 border-0 bg-transparent' };
+  const content = renderItemContent(children, icon, badge, description);
+  const ariaProps = buildListItemAriaProps(isListboxItem, active);
+  const commonProps = { ...rest, ...ariaProps, className: itemClasses, style, 'aria-disabled': disabled || undefined };
+  const wrapperLiProps = buildWrapperLiProps(isListboxItem, active);
 
   // Render based on element type
-  // Links are wrapped in li for proper list semantics
   if (Element === 'a') {
     const safeHref = isSafeHref(href) ? href : '#';
     const isExternal = isExternalUrl(safeHref);
-
     return (
       <li {...wrapperLiProps}>
         <a
@@ -343,7 +345,6 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
     );
   }
 
-  // Buttons are wrapped in li for proper list semantics
   if (Element === 'button') {
     return (
       <li {...wrapperLiProps}>
@@ -363,7 +364,6 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
     );
   }
 
-  // For div with onClick, use button semantics
   if (isInteractive && as === 'div') {
     return (
       <li {...wrapperLiProps}>
@@ -382,7 +382,6 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
     );
   }
 
-  // Default: non-interactive div
   if (Element === 'div') {
     return (
       <li {...wrapperLiProps}>
@@ -393,7 +392,6 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
     );
   }
 
-  // Default: non-interactive li
   return (
     <li ref={ref as React.Ref<HTMLLIElement>} {...commonProps}>
       {content}

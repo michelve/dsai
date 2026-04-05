@@ -219,52 +219,36 @@ function parseMetadataLine(line: string): Record<string, Record<string, string>>
 // Token Transformation Helpers
 // ============================================================================
 
-/**
- * Detect the semantic type of a variable based on its name and resolved type
- * Inspired by Figma SDS approach
- */
+const FONT_PATTERN_RULES: Array<{
+  resolvedType: string;
+  pattern: RegExp;
+  result: { type: string; category: TokenCategory };
+}> = [
+  { resolvedType: 'FLOAT', pattern: FONT_WEIGHT_PATTERN, result: { type: 'fontWeight', category: 'fontWeight' } },
+  { resolvedType: 'STRING', pattern: FONT_FAMILY_PATTERN, result: { type: 'fontFamily', category: 'fontFamily' } },
+  { resolvedType: 'FLOAT', pattern: FONT_SIZE_PATTERN, result: { type: 'dimension', category: 'fontSize' } },
+  { resolvedType: 'FLOAT', pattern: LINE_HEIGHT_PATTERN, result: { type: 'number', category: 'lineHeight' } },
+  { resolvedType: 'FLOAT', pattern: LETTER_SPACING_PATTERN, result: { type: 'dimension', category: 'letterSpacing' } },
+];
+
+const DEFAULT_TYPE_MAP: Record<string, { type: string; category?: TokenCategory }> = {
+  COLOR: { type: 'color', category: 'color' },
+  FLOAT: { type: 'number' },
+  STRING: { type: 'string' },
+  BOOLEAN: { type: 'boolean' },
+};
+
 function detectTokenType(
   name: string,
   resolvedType: string
 ): { type: string; category?: TokenCategory } {
-  // Font weight detection
-  if (resolvedType === 'FLOAT' && FONT_WEIGHT_PATTERN.test(name)) {
-    return { type: 'fontWeight', category: 'fontWeight' };
+  for (const rule of FONT_PATTERN_RULES) {
+    if (resolvedType === rule.resolvedType && rule.pattern.test(name)) {
+      return rule.result;
+    }
   }
 
-  // Font family detection
-  if (resolvedType === 'STRING' && FONT_FAMILY_PATTERN.test(name)) {
-    return { type: 'fontFamily', category: 'fontFamily' };
-  }
-
-  // Font size detection
-  if (resolvedType === 'FLOAT' && FONT_SIZE_PATTERN.test(name)) {
-    return { type: 'dimension', category: 'fontSize' };
-  }
-
-  // Line height detection
-  if (resolvedType === 'FLOAT' && LINE_HEIGHT_PATTERN.test(name)) {
-    return { type: 'number', category: 'lineHeight' };
-  }
-
-  // Letter spacing detection
-  if (resolvedType === 'FLOAT' && LETTER_SPACING_PATTERN.test(name)) {
-    return { type: 'dimension', category: 'letterSpacing' };
-  }
-
-  // Default type mappings
-  switch (resolvedType) {
-    case 'COLOR':
-      return { type: 'color', category: 'color' };
-    case 'FLOAT':
-      return { type: 'number' };
-    case 'STRING':
-      return { type: 'string' };
-    case 'BOOLEAN':
-      return { type: 'boolean' };
-    default:
-      return { type: 'string' };
-  }
+  return Reflect.get(DEFAULT_TYPE_MAP, resolvedType) ?? { type: 'string' };
 }
 
 /**
@@ -320,13 +304,25 @@ function variableNameToPath(name: string): string[] {
   return name.split('/').map((part) => part.trim());
 }
 
-/**
- * Set a nested value in an object using a path array
- * Uses Object.defineProperty for safe key assignment
- *
- * Note: The object injection warnings are intentional - we are building
- * nested objects from validated Figma variable paths (e.g., "colors/brand/primary")
- */
+const POLLUTION_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
+function isSafeKey(key: string | undefined): key is string {
+  return key !== undefined && !POLLUTION_KEYS.has(key);
+}
+
+function defineEnumerableProperty(
+  target: Record<string, unknown>,
+  key: string,
+  value: unknown
+): void {
+  Object.defineProperty(target, key, {
+    value,
+    writable: true,
+    enumerable: true,
+    configurable: true,
+  });
+}
+
 /* eslint-disable security/detect-object-injection */
 function setNestedValue(obj: Record<string, unknown>, path: string[], value: unknown): void {
   const hasOwn = Object.prototype.hasOwnProperty;
@@ -338,35 +334,19 @@ function setNestedValue(obj: Record<string, unknown>, path: string[], value: unk
   let current = obj;
   for (let i = 0; i < path.length - 1; i++) {
     const key = path[i];
-    if (key === undefined) {
+    if (!isSafeKey(key)) {
       continue;
     }
-    // Guard against prototype pollution
-    if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
-      continue;
-    }
-    // Safe: use hasOwn to only check own properties, not prototype chain
     const existing = hasOwn.call(current, key) ? current[key] : undefined;
     if (typeof existing !== 'object' || existing === null) {
-      Object.defineProperty(current, key, {
-        value: {},
-        writable: true,
-        enumerable: true,
-        configurable: true,
-      });
+      defineEnumerableProperty(current, key, {});
     }
-    // Safe: key is validated and property exists as own property
     current = current[key] as Record<string, unknown>;
   }
 
   const lastKey = path[path.length - 1];
-  if (lastKey !== undefined) {
-    Object.defineProperty(current, lastKey, {
-      value,
-      writable: true,
-      enumerable: true,
-      configurable: true,
-    });
+  if (isSafeKey(lastKey)) {
+    defineEnumerableProperty(current, lastKey, value);
   }
 }
 /* eslint-enable security/detect-object-injection */
@@ -571,83 +551,87 @@ export class FigmaClient {
     return params.toString();
   }
 
-  /**
-   * Make API request with retry logic, circuit breaker, and rate limiting
-   */
+  private logRateLimitWarnings(): void {
+    if (this.rateLimiter.isCritical()) {
+      console.warn(
+        '⚠️  Figma API rate limit critically low (%d%% remaining)',
+        Math.round(this.rateLimiter.getRatio() * 100)
+      );
+      const timeUntilReset = this.rateLimiter.getTimeUntilReset();
+      if (timeUntilReset > 0) {
+        console.warn('   Rate limit resets in %d seconds', Math.round(timeUntilReset / 1000));
+      }
+    } else if (this.rateLimiter.shouldThrottle()) {
+      console.warn(
+        'ℹ️  Throttling Figma API requests (%d%% remaining)',
+        Math.round(this.rateLimiter.getRatio() * 100)
+      );
+    }
+  }
+
+  private isNonRetryableError(error: unknown): boolean {
+    if (error instanceof FigmaClientError && error.status < 500) {
+      return true;
+    }
+    return error instanceof FigmaConfigError;
+  }
+
+  private async attemptRequest<T>(
+    url: string,
+    headers: Record<string, string>,
+    options: RequestInit,
+    endpoint: string
+  ): Promise<T> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
+
+    const response = await fetch(url, {
+      ...options,
+      headers: { ...headers, ...options.headers },
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    this.rateLimiter.updateFromHeaders(response.headers);
+
+    if (!response.ok) {
+      const errorBody = (await response.json()) as FigmaApiError;
+      throw FigmaClientError.fromApiError(
+        {
+          status: response.status,
+          err: errorBody.err ?? response.statusText,
+          code: errorBody.code,
+          requestId: response.headers.get('x-request-id') ?? undefined,
+        },
+        endpoint
+      );
+    }
+
+    return (await response.json()) as T;
+  }
+
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     this.ensureConfigured();
 
-    // Wrap in circuit breaker to prevent cascade failures
     return this.circuitBreaker.execute(async () => {
-      // Apply rate limiting before making request
       await this.rateLimiter.wait();
-
-      // Log warnings if rate limit is critical
-      if (this.rateLimiter.isCritical()) {
-        console.warn(
-          '⚠️  Figma API rate limit critically low (%d%% remaining)',
-          Math.round(this.rateLimiter.getRatio() * 100)
-        );
-        const timeUntilReset = this.rateLimiter.getTimeUntilReset();
-        if (timeUntilReset > 0) {
-          console.warn('   Rate limit resets in %d seconds', Math.round(timeUntilReset / 1000));
-        }
-      } else if (this.rateLimiter.shouldThrottle()) {
-        console.warn(
-          'ℹ️  Throttling Figma API requests (%d%% remaining)',
-          Math.round(this.rateLimiter.getRatio() * 100)
-        );
-      }
+      this.logRateLimitWarnings();
 
       const url = this.buildUrl(endpoint);
       const headers = this.buildHeaders();
-
       let lastError: Error | null = null;
 
       for (let attempt = 0; attempt <= this.config.retries; attempt++) {
         try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
-
-          const response = await fetch(url, {
-            ...options,
-            headers: { ...headers, ...options.headers },
-            signal: controller.signal,
-          });
-
-          clearTimeout(timeoutId);
-
-          // Update rate limiter from response headers
-          this.rateLimiter.updateFromHeaders(response.headers);
-
-          if (!response.ok) {
-            const errorBody = (await response.json()) as FigmaApiError;
-            throw FigmaClientError.fromApiError(
-              {
-                status: response.status,
-                err: errorBody.err ?? response.statusText,
-                code: errorBody.code,
-                requestId: response.headers.get('x-request-id') ?? undefined,
-              },
-              endpoint
-            );
-          }
-
-          return (await response.json()) as T;
+          return await this.attemptRequest<T>(url, headers, options, endpoint);
         } catch (error) {
           lastError = error as Error;
 
-          // Don't retry on client errors (4xx)
-          if (error instanceof FigmaClientError && error.status < 500) {
+          if (this.isNonRetryableError(error)) {
             throw error;
           }
 
-          // Don't retry on config errors
-          if (error instanceof FigmaConfigError) {
-            throw error;
-          }
-
-          // Wait before retrying (exponential backoff)
           if (attempt < this.config.retries) {
             await new Promise((resolve) => setTimeout(resolve, 2 ** attempt * 1000));
           }
@@ -1300,6 +1284,23 @@ export class FigmaClient {
   /**
    * Convert text style node to typography token value object
    */
+  private static convertLineHeight(lineHeight: { unit: string; value?: number }): string {
+    if (lineHeight.value !== undefined) {
+      if (lineHeight.unit === 'PIXELS') {
+        return `${lineHeight.value}px`;
+      }
+      if (lineHeight.unit === 'PERCENT') {
+        return `${lineHeight.value}%`;
+      }
+    }
+    return 'normal';
+  }
+
+  private static convertLetterSpacing(letterSpacing: { unit: string; value: number }): string {
+    const suffix = letterSpacing.unit === 'PIXELS' ? 'px' : '%';
+    return `${letterSpacing.value}${suffix}`;
+  }
+
   private textStyleToTypographyValue(node: {
     fontFamily?: string;
     fontWeight?: number;
@@ -1321,20 +1322,10 @@ export class FigmaClient {
       typography['fontSize'] = `${node.fontSize}px`;
     }
     if (node.lineHeight) {
-      if (node.lineHeight.unit === 'PIXELS' && node.lineHeight.value !== undefined) {
-        typography['lineHeight'] = `${node.lineHeight.value}px`;
-      } else if (node.lineHeight.unit === 'PERCENT' && node.lineHeight.value !== undefined) {
-        typography['lineHeight'] = `${node.lineHeight.value}%`;
-      } else {
-        typography['lineHeight'] = 'normal';
-      }
+      typography['lineHeight'] = FigmaClient.convertLineHeight(node.lineHeight);
     }
     if (node.letterSpacing) {
-      if (node.letterSpacing.unit === 'PIXELS') {
-        typography['letterSpacing'] = `${node.letterSpacing.value}px`;
-      } else {
-        typography['letterSpacing'] = `${node.letterSpacing.value}%`;
-      }
+      typography['letterSpacing'] = FigmaClient.convertLetterSpacing(node.letterSpacing);
     }
     if (node.textCase && node.textCase !== 'ORIGINAL') {
       typography['textTransform'] = node.textCase.toLowerCase();
@@ -1388,46 +1379,80 @@ export class FigmaClient {
       return;
     }
 
-    // Use slice to get all segments except the last one, then iterate safely
     const parentPath = path.slice(0, -1);
     let obj = tokens;
 
     for (const segment of parentPath) {
-      // Guard against prototype pollution
-      if (
-        !segment ||
-        segment === '__proto__' ||
-        segment === 'constructor' ||
-        segment === 'prototype'
-      ) {
+      if (!isSafeKey(segment)) {
         continue;
       }
       if (!(segment in obj)) {
-        Object.defineProperty(obj, segment, {
-          value: {},
-          writable: true,
-          enumerable: true,
-          configurable: true,
-        });
+        defineEnumerableProperty(obj, segment, {});
       }
       const descriptor = Object.getOwnPropertyDescriptor(obj, segment);
       obj = (descriptor?.value ?? {}) as Record<string, unknown>;
     }
 
     const finalKey = path.at(-1);
-    if (
-      finalKey &&
-      finalKey !== '__proto__' &&
-      finalKey !== 'constructor' &&
-      finalKey !== 'prototype'
-    ) {
-      Object.defineProperty(obj, finalKey, {
-        value,
-        writable: true,
-        enumerable: true,
-        configurable: true,
-      });
+    if (isSafeKey(finalKey)) {
+      defineEnumerableProperty(obj, finalKey, value);
     }
+  }
+
+  private buildEffectTokenValue(
+    node:
+      | {
+          effects?: Array<{
+            type: string;
+            visible: boolean;
+            color?: FigmaColor;
+            offset?: { x: number; y: number };
+            radius?: number;
+            spread?: number;
+          }>;
+        }
+      | undefined,
+    style: { key: string; name: string; description?: string }
+  ): Record<string, unknown> {
+    if (!node?.effects || node.effects.length === 0) {
+      return {
+        $value: style.name,
+        $type: 'shadow',
+        $description: style.description || undefined,
+        $extensions: { figmaKey: style.key, styleName: style.name },
+      };
+    }
+
+    const shadowValue = this.effectToShadowValue(node.effects);
+    if (shadowValue) {
+      return {
+        $value: shadowValue,
+        $type: 'shadow',
+        $description: style.description || undefined,
+        $extensions: {
+          figmaKey: style.key,
+          styleName: style.name,
+          category: 'shadow' as TokenCategory,
+          effects: node.effects.map((e) => ({
+            type: e.type,
+            offsetX: e.offset?.x,
+            offsetY: e.offset?.y,
+            blur: e.radius,
+            spread: e.spread,
+          })),
+        },
+      };
+    }
+
+    const blurEffect = node.effects.find(
+      (e) => e.type === 'LAYER_BLUR' || e.type === 'BACKGROUND_BLUR'
+    );
+    return {
+      $value: `blur(${blurEffect?.radius ?? 0}px)`,
+      $type: 'blur',
+      $description: style.description || undefined,
+      $extensions: { figmaKey: style.key, styleName: style.name, blurType: blurEffect?.type },
+    };
   }
 
   /**
@@ -1472,61 +1497,49 @@ export class FigmaClient {
           }
         | undefined;
 
-      let tokenValue: Record<string, unknown>;
-
-      if (node?.effects && node.effects.length > 0) {
-        const shadowValue = this.effectToShadowValue(node.effects);
-        if (shadowValue) {
-          tokenValue = {
-            $value: shadowValue,
-            $type: 'shadow',
-            $description: style.description || undefined,
-            $extensions: {
-              figmaKey: style.key,
-              styleName: style.name,
-              category: 'shadow' as TokenCategory,
-              effects: node.effects.map((e) => ({
-                type: e.type,
-                offsetX: e.offset?.x,
-                offsetY: e.offset?.y,
-                blur: e.radius,
-                spread: e.spread,
-              })),
-            },
-          };
-        } else {
-          // Blur effect (no shadow value)
-          const blurEffect = node.effects.find(
-            (e) => e.type === 'LAYER_BLUR' || e.type === 'BACKGROUND_BLUR'
-          );
-          tokenValue = {
-            $value: `blur(${blurEffect?.radius ?? 0}px)`,
-            $type: 'blur',
-            $description: style.description || undefined,
-            $extensions: {
-              figmaKey: style.key,
-              styleName: style.name,
-              blurType: blurEffect?.type,
-            },
-          };
-        }
-      } else {
-        // Fallback when node data not available
-        tokenValue = {
-          $value: style.name,
-          $type: 'shadow',
-          $description: style.description || undefined,
-          $extensions: {
-            figmaKey: style.key,
-            styleName: style.name,
-          },
-        };
-      }
-
+      const tokenValue = this.buildEffectTokenValue(node, style);
       this.buildTokenPath(tokens, style.name, tokenValue);
     }
 
     return tokens;
+  }
+
+  private buildPaintTokenValue(
+    node:
+      | {
+          fills?: Array<{
+            type: string;
+            visible: boolean;
+            opacity?: number;
+            color?: FigmaColor;
+            gradientStops?: Array<{ position: number; color: FigmaColor }>;
+          }>;
+        }
+      | undefined,
+    style: { key: string; name: string; description?: string }
+  ): Record<string, unknown> {
+    if (!node?.fills || node.fills.length === 0) {
+      return {
+        $value: style.name,
+        $type: 'color',
+        $description: style.description || undefined,
+        $extensions: { figmaKey: style.key, styleName: style.name },
+      };
+    }
+
+    const colorValue = this.paintToColorValue(node.fills);
+    const isGradient = node.fills[0]?.type?.startsWith('GRADIENT_');
+
+    return {
+      $value: colorValue ?? style.name,
+      $type: isGradient ? 'gradient' : 'color',
+      $description: style.description || undefined,
+      $extensions: {
+        figmaKey: style.key,
+        styleName: style.name,
+        category: 'color' as TokenCategory,
+      },
+    };
   }
 
   /**
@@ -1570,35 +1583,7 @@ export class FigmaClient {
           }
         | undefined;
 
-      let tokenValue: Record<string, unknown>;
-
-      if (node?.fills && node.fills.length > 0) {
-        const colorValue = this.paintToColorValue(node.fills);
-        const isGradient = node.fills[0]?.type?.startsWith('GRADIENT_');
-
-        tokenValue = {
-          $value: colorValue ?? style.name,
-          $type: isGradient ? 'gradient' : 'color',
-          $description: style.description || undefined,
-          $extensions: {
-            figmaKey: style.key,
-            styleName: style.name,
-            category: 'color' as TokenCategory,
-          },
-        };
-      } else {
-        // Fallback when node data not available
-        tokenValue = {
-          $value: style.name,
-          $type: 'color',
-          $description: style.description || undefined,
-          $extensions: {
-            figmaKey: style.key,
-            styleName: style.name,
-          },
-        };
-      }
-
+      const tokenValue = this.buildPaintTokenValue(node, style);
       this.buildTokenPath(tokens, style.name, tokenValue);
     }
 
@@ -1755,7 +1740,6 @@ export class FigmaClient {
     let totalTokenCount = 0;
 
     try {
-      // Fetch variables from Figma
       const { variables, variableCollections } = await this.getVariables(options.fileKey);
 
       const collectionEntries = Object.entries(variableCollections);
@@ -1763,247 +1747,42 @@ export class FigmaClient {
 
       if (collectionEntries.length === 0) {
         warnings.push('No variable collections found in the Figma file');
-        return {
-          success: true,
-          files: [],
-          tokenCount: 0,
-          collectionCount: 0,
-          errors,
-          warnings,
-        };
+        return { success: true, files: [], tokenCount: 0, collectionCount: 0, errors, warnings };
       }
 
-      // Build variable lookup map by ID
       const variableById = new Map<string, FigmaVariable>();
       for (const [id, variable] of variableEntries) {
         variableById.set(id, variable);
       }
 
-      // Process each collection
       for (const [collectionId, collection] of collectionEntries) {
-        // Skip remote/library collections - these are from linked libraries
         if (collection.remote) {
           continue;
         }
 
-        // Filter collections if specified
-        if (options.collections && options.collections.length > 0) {
-          if (!options.collections.includes(collection.name)) {
-            continue;
-          }
+        if (options.collections?.length && !options.collections.includes(collection.name)) {
+          continue;
         }
 
-        // Get variables for this collection
         const collectionVariables = variableEntries.filter(
           ([, v]) => v.variableCollectionId === collectionId
         );
 
-        // Check output structure mode
         const extendedOptions = options as ExtendedExportOptions;
         const outputStructure = extendedOptions.outputStructure ?? 'separate';
 
-        if (outputStructure === 'combined') {
-          // Combined structure: Collection > modes > ModeName > tokens
-          const combinedTokens: Record<string, unknown> = {
-            [collection.name]: {
-              modes: {},
-            },
-          };
+        const result =
+          outputStructure === 'combined'
+            ? await this.processCollectionCombined(options, collection, collectionVariables, variableById)
+            : await this.processCollectionSeparate(options, collection, collectionVariables, variableById);
 
-          let collectionTokenCount = 0;
-
-          for (const mode of collection.modes) {
-            // Filter modes if specified
-            if (options.modes && options.modes.length > 0) {
-              if (!options.modes.includes(mode.name)) {
-                continue;
-              }
-            }
-
-            const modeTokens: Record<string, unknown> = {};
-            let modeTokenCount = 0;
-
-            for (const [, variable] of collectionVariables) {
-              const modeValue = variable.valuesByMode[mode.modeId];
-              if (modeValue === undefined) {
-                continue;
-              }
-
-              // Convert variable to token
-              const tokenValue = this.convertVariableValue(
-                modeValue,
-                variable.resolvedType,
-                variableById,
-                options.resolveAliases ?? false
-              );
-
-              // Build token structure based on format
-              const tokenPath = variableNameToPath(variable.name);
-              const token = this.buildToken(
-                tokenValue,
-                variable,
-                options.format ?? 'dtcg',
-                options.includeDescriptions ?? true
-              );
-
-              setNestedValue(modeTokens, tokenPath, token);
-              modeTokenCount++;
-            }
-
-            if (modeTokenCount > 0) {
-              // Add mode tokens to combined structure
-              const collectionObj = combinedTokens[collection.name] as Record<string, unknown>;
-              const modesObj = collectionObj['modes'] as Record<string, unknown>;
-              modesObj[mode.name] = modeTokens;
-              collectionTokenCount += modeTokenCount;
-            }
-          }
-
-          if (collectionTokenCount > 0) {
-            // Write single combined file per collection
-            const sanitizedCollectionName = collection.name.toLowerCase().replace(/\s+/g, '-');
-            const fileName = `${sanitizedCollectionName}.json`;
-            const filePath = `${options.outputDir}/${fileName}`;
-
-            await this.writeTokenFile(filePath, combinedTokens);
-
-            exportedFiles.push({
-              path: filePath,
-              collection: collection.name,
-              mode: 'all',
-              tokenCount: collectionTokenCount,
-            });
-
-            totalTokenCount += collectionTokenCount;
-          }
-        } else {
-          // Separate structure: One file per mode (original behavior)
-          for (const mode of collection.modes) {
-            // Filter modes if specified
-            if (options.modes && options.modes.length > 0) {
-              if (!options.modes.includes(mode.name)) {
-                continue;
-              }
-            }
-
-            const tokens: Record<string, unknown> = {};
-            let modeTokenCount = 0;
-
-            for (const [, variable] of collectionVariables) {
-              const modeValue = variable.valuesByMode[mode.modeId];
-              if (modeValue === undefined) {
-                continue;
-              }
-
-              // Convert variable to token
-              const tokenValue = this.convertVariableValue(
-                modeValue,
-                variable.resolvedType,
-                variableById,
-                options.resolveAliases ?? false
-              );
-
-              // Build token structure based on format
-              const tokenPath = variableNameToPath(variable.name);
-              const token = this.buildToken(
-                tokenValue,
-                variable,
-                options.format ?? 'dtcg',
-                options.includeDescriptions ?? true
-              );
-
-              setNestedValue(tokens, tokenPath, token);
-              modeTokenCount++;
-            }
-
-            if (modeTokenCount > 0) {
-              // Determine output filename
-              const sanitizedCollectionName = collection.name.toLowerCase().replace(/\s+/g, '-');
-              const sanitizedModeName = mode.name.toLowerCase().replace(/\s+/g, '-');
-              const fileName =
-                collection.modes.length > 1
-                  ? `${sanitizedCollectionName}.${sanitizedModeName}.json`
-                  : `${sanitizedCollectionName}.json`;
-
-              const filePath = `${options.outputDir}/${fileName}`;
-
-              await this.writeTokenFile(filePath, tokens);
-
-              exportedFiles.push({
-                path: filePath,
-                collection: collection.name,
-                mode: mode.name,
-                tokenCount: modeTokenCount,
-              });
-
-              totalTokenCount += modeTokenCount;
-            }
-          }
-        }
+        exportedFiles.push(...result.files);
+        totalTokenCount += result.tokenCount;
       }
 
-      // Export styles if requested (effect, paint, text styles)
-      const extendedOptions = options as ExtendedExportOptions;
-      const includeEffects = extendedOptions.includeEffects ?? false;
-      const includePaints = extendedOptions.includePaints ?? false;
-      const includeTextStyles = extendedOptions.includeTextStyles ?? false;
-
-      if (includeEffects || includePaints || includeTextStyles) {
-        try {
-          const styles = await this.exportStyles(options.fileKey, {
-            includeEffects,
-            includePaints,
-            includeTextStyles,
-          });
-
-          // Write effect styles
-          if (includeEffects && Object.keys(styles.effects).length > 0) {
-            const effectsPath = `${options.outputDir}/effects.json`;
-            await this.writeTokenFile(effectsPath, styles.effects);
-            const effectCount = this.countTokens(styles.effects);
-            exportedFiles.push({
-              path: effectsPath,
-              collection: 'Effects',
-              mode: 'default',
-              tokenCount: effectCount,
-            });
-            totalTokenCount += effectCount;
-          }
-
-          // Write paint styles
-          if (includePaints && Object.keys(styles.paints).length > 0) {
-            const paintsPath = `${options.outputDir}/paints.json`;
-            await this.writeTokenFile(paintsPath, styles.paints);
-            const paintCount = this.countTokens(styles.paints);
-            exportedFiles.push({
-              path: paintsPath,
-              collection: 'Paints',
-              mode: 'default',
-              tokenCount: paintCount,
-            });
-            totalTokenCount += paintCount;
-          }
-
-          // Write text styles
-          if (includeTextStyles && Object.keys(styles.textStyles).length > 0) {
-            const textStylesPath = `${options.outputDir}/text-styles.json`;
-            await this.writeTokenFile(textStylesPath, styles.textStyles);
-            const textCount = this.countTokens(styles.textStyles);
-            exportedFiles.push({
-              path: textStylesPath,
-              collection: 'TextStyles',
-              mode: 'default',
-              tokenCount: textCount,
-            });
-            totalTokenCount += textCount;
-          }
-        } catch (styleError) {
-          // Styles export is optional, don't fail the whole export
-          warnings.push(
-            `Could not export styles: ${styleError instanceof Error ? styleError.message : String(styleError)}`
-          );
-        }
-      }
+      const styleResult = await this.exportStyleTokens(options, warnings);
+      exportedFiles.push(...styleResult.files);
+      totalTokenCount += styleResult.tokenCount;
 
       return {
         success: true,
@@ -2014,7 +1793,6 @@ export class FigmaClient {
         warnings,
       };
     } catch (error) {
-      // Use detailed message for FigmaClientError (includes hints about plan requirements)
       const errorMessage =
         error instanceof FigmaClientError
           ? error.toDetailedMessage()
@@ -2031,6 +1809,192 @@ export class FigmaClient {
         errors,
         warnings,
       };
+    }
+  }
+
+  private shouldFilterMode(options: ExportTokensOptions, modeName: string): boolean {
+    return Boolean(options.modes?.length && !options.modes.includes(modeName));
+  }
+
+  private processVariablesForMode(
+    collectionVariables: Array<[string, FigmaVariable]>,
+    modeId: string,
+    variableById: Map<string, FigmaVariable>,
+    options: ExportTokensOptions
+  ): { tokens: Record<string, unknown>; count: number } {
+    const tokens: Record<string, unknown> = {};
+    let count = 0;
+
+    for (const [, variable] of collectionVariables) {
+      const modeValue = Reflect.get(variable.valuesByMode, modeId) as unknown;
+      if (modeValue === undefined) {
+        continue;
+      }
+
+      const tokenValue = this.convertVariableValue(
+        modeValue,
+        variable.resolvedType,
+        variableById,
+        options.resolveAliases ?? false
+      );
+
+      const tokenPath = variableNameToPath(variable.name);
+      const token = this.buildToken(
+        tokenValue,
+        variable,
+        options.format ?? 'dtcg',
+        options.includeDescriptions ?? true
+      );
+
+      setNestedValue(tokens, tokenPath, token);
+      count++;
+    }
+
+    return { tokens, count };
+  }
+
+  private async processCollectionCombined(
+    options: ExportTokensOptions,
+    collection: { name: string; modes: Array<{ modeId: string; name: string }> },
+    collectionVariables: Array<[string, FigmaVariable]>,
+    variableById: Map<string, FigmaVariable>
+  ): Promise<{ files: ExportedFile[]; tokenCount: number }> {
+    const combinedTokens: Record<string, unknown> = {
+      [collection.name]: { modes: {} },
+    };
+    let collectionTokenCount = 0;
+
+    for (const mode of collection.modes) {
+      if (this.shouldFilterMode(options, mode.name)) {
+        continue;
+      }
+
+      const { tokens: modeTokens, count: modeTokenCount } = this.processVariablesForMode(
+        collectionVariables, mode.modeId, variableById, options
+      );
+
+      if (modeTokenCount > 0) {
+        const collectionObj = combinedTokens[collection.name] as Record<string, unknown>;
+        const modesObj = collectionObj['modes'] as Record<string, unknown>;
+        modesObj[mode.name] = modeTokens;
+        collectionTokenCount += modeTokenCount;
+      }
+    }
+
+    if (collectionTokenCount === 0) {
+      return { files: [], tokenCount: 0 };
+    }
+
+    const sanitizedCollectionName = collection.name.toLowerCase().replace(/\s+/g, '-');
+    const filePath = `${options.outputDir}/${sanitizedCollectionName}.json`;
+    await this.writeTokenFile(filePath, combinedTokens);
+
+    return {
+      files: [{ path: filePath, collection: collection.name, mode: 'all', tokenCount: collectionTokenCount }],
+      tokenCount: collectionTokenCount,
+    };
+  }
+
+  private async processCollectionSeparate(
+    options: ExportTokensOptions,
+    collection: { name: string; modes: Array<{ modeId: string; name: string }> },
+    collectionVariables: Array<[string, FigmaVariable]>,
+    variableById: Map<string, FigmaVariable>
+  ): Promise<{ files: ExportedFile[]; tokenCount: number }> {
+    const files: ExportedFile[] = [];
+    let totalCount = 0;
+
+    for (const mode of collection.modes) {
+      if (this.shouldFilterMode(options, mode.name)) {
+        continue;
+      }
+
+      const { tokens, count: modeTokenCount } = this.processVariablesForMode(
+        collectionVariables, mode.modeId, variableById, options
+      );
+
+      if (modeTokenCount === 0) {
+        continue;
+      }
+
+      const sanitizedCollectionName = collection.name.toLowerCase().replace(/\s+/g, '-');
+      const sanitizedModeName = mode.name.toLowerCase().replace(/\s+/g, '-');
+      const fileName =
+        collection.modes.length > 1
+          ? `${sanitizedCollectionName}.${sanitizedModeName}.json`
+          : `${sanitizedCollectionName}.json`;
+
+      const filePath = `${options.outputDir}/${fileName}`;
+      await this.writeTokenFile(filePath, tokens);
+
+      files.push({ path: filePath, collection: collection.name, mode: mode.name, tokenCount: modeTokenCount });
+      totalCount += modeTokenCount;
+    }
+
+    return { files, tokenCount: totalCount };
+  }
+
+  private async writeStyleFile(
+    outputDir: string,
+    fileName: string,
+    collectionName: string,
+    styleTokens: Record<string, unknown>
+  ): Promise<ExportedFile | null> {
+    if (Object.keys(styleTokens).length === 0) {
+      return null;
+    }
+    const filePath = `${outputDir}/${fileName}`;
+    await this.writeTokenFile(filePath, styleTokens);
+    const tokenCount = this.countTokens(styleTokens);
+    return { path: filePath, collection: collectionName, mode: 'default', tokenCount };
+  }
+
+  private async exportStyleTokens(
+    options: ExportTokensOptions,
+    warnings: string[]
+  ): Promise<{ files: ExportedFile[]; tokenCount: number }> {
+    const extendedOptions = options as ExtendedExportOptions;
+    const includeEffects = extendedOptions.includeEffects ?? false;
+    const includePaints = extendedOptions.includePaints ?? false;
+    const includeTextStyles = extendedOptions.includeTextStyles ?? false;
+
+    if (!includeEffects && !includePaints && !includeTextStyles) {
+      return { files: [], tokenCount: 0 };
+    }
+
+    try {
+      const styles = await this.exportStyles(options.fileKey, {
+        includeEffects,
+        includePaints,
+        includeTextStyles,
+      });
+
+      const files: ExportedFile[] = [];
+      let tokenCount = 0;
+
+      const styleEntries: Array<[boolean, string, string, Record<string, unknown>]> = [
+        [includeEffects, 'effects.json', 'Effects', styles.effects as Record<string, unknown>],
+        [includePaints, 'paints.json', 'Paints', styles.paints as Record<string, unknown>],
+        [includeTextStyles, 'text-styles.json', 'TextStyles', styles.textStyles as Record<string, unknown>],
+      ];
+
+      for (const [included, fileName, collectionName, styleTokens] of styleEntries) {
+        if (!included) {
+          continue;
+        }
+        const file = await this.writeStyleFile(options.outputDir, fileName, collectionName, styleTokens);
+        if (file) {
+          files.push(file);
+          tokenCount += file.tokenCount;
+        }
+      }
+
+      return { files, tokenCount };
+    } catch (styleError) {
+      warnings.push(
+        `Could not export styles: ${styleError instanceof Error ? styleError.message : String(styleError)}`
+      );
+      return { files: [], tokenCount: 0 };
     }
   }
 
@@ -2084,34 +2048,37 @@ export class FigmaClient {
    * Build a token object in the specified format
    * Now with smart font detection inspired by Figma SDS
    */
+  private buildTokenMetadata(variable: FigmaVariable): {
+    tokenType: string;
+    parsed: ParsedDescription;
+    extensions: TokenExtensions | undefined;
+    scopes: string[] | undefined;
+    codeSyntax: FigmaVariable['codeSyntax'];
+  } {
+    const { type: tokenType } = detectTokenType(variable.name, variable.resolvedType);
+    const parsed = parseDescription(variable.description);
+    const hasExtensionData = parsed.metadata && Object.keys(parsed.metadata).length > 0;
+    const extensions: TokenExtensions | undefined = hasExtensionData ? parsed.metadata : undefined;
+    const scopes = variable.scopes?.length ? variable.scopes : undefined;
+    const codeSyntax = variable.codeSyntax;
+
+    return { tokenType, parsed, extensions, scopes, codeSyntax };
+  }
+
   private buildToken(
     value: unknown,
     variable: FigmaVariable,
     format: 'dtcg' | 'tokens-studio' | 'style-dictionary',
     includeDescription: boolean
   ): Record<string, unknown> {
-    // Use smart type detection
-    const { type: tokenType } = detectTokenType(variable.name, variable.resolvedType);
-
-    // Parse description to extract metadata
-    const parsed = parseDescription(variable.description);
-
-    // $extensions only contains parsed metadata (docs, platform, etc.) - no Figma internals
-    const hasExtensionData = parsed.metadata && Object.keys(parsed.metadata).length > 0;
-    const extensions: TokenExtensions | undefined = hasExtensionData ? parsed.metadata : undefined;
-
-    // Include scopes if available
-    const scopes = variable.scopes?.length ? variable.scopes : undefined;
-
-    // $codeSyntax at root level (not inside $extensions)
-    const codeSyntax = variable.codeSyntax;
+    const { tokenType, parsed, extensions, scopes, codeSyntax } =
+      this.buildTokenMetadata(variable);
 
     switch (format) {
       case 'dtcg':
         return {
           $value: value,
           $type: tokenType,
-          // Use clean description (without metadata) if available
           ...(includeDescription && parsed.description ? { $description: parsed.description } : {}),
           ...(extensions ? { $extensions: extensions } : {}),
           ...(codeSyntax ? { $codeSyntax: codeSyntax } : {}),
@@ -2188,88 +2155,25 @@ export class FigmaClient {
     const errors: string[] = [];
 
     try {
-      // Create backup if requested
       if (options.backup && !options.dryRun) {
         await this.createBackup(options.tokensDir);
       }
 
-      // Fetch remote tokens from Figma
       const { variables, variableCollections } = await this.getVariables(options.fileKey);
+      const remoteTokens = this.buildRemoteTokenMap(variables, variableCollections);
+      const localTokens = await this.readLocalTokens(options.tokensDir);
 
-      // Build remote token map
-      const remoteTokens = new Map<string, unknown>();
-      for (const [, variable] of Object.entries(variables)) {
-        const collection = variableCollections[variable.variableCollectionId];
-        if (!collection) {
-          continue;
-        }
+      if (options.direction === 'pull' || options.direction === 'both') {
+        this.pullTokens(remoteTokens, localTokens, options, added, updated, removed, conflicts);
+      }
 
-        // Use first mode as default for sync comparison
-        const defaultMode = collection.modes.find((m) => m.modeId === collection.defaultModeId);
-        if (!defaultMode) {
-          continue;
-        }
-
-        const value = variable.valuesByMode[defaultMode.modeId];
-        const tokenPath = variable.name.replace(/\//g, '.');
-        remoteTokens.set(
-          tokenPath,
-          this.convertVariableValue(value, variable.resolvedType, new Map(), true)
+      if (options.direction === 'push') {
+        errors.push(
+          'Push to Figma is not fully supported via REST API. ' +
+            'Use Figma plugin or Tokens Studio for pushing changes to Figma.'
         );
       }
 
-      // Read local tokens
-      const localTokens = await this.readLocalTokens(options.tokensDir);
-
-      // Compare and sync based on direction
-      if (options.direction === 'pull' || options.direction === 'both') {
-        // Pull: Update local with remote changes
-        for (const [path, remoteValue] of remoteTokens) {
-          const localValue = localTokens.get(path);
-
-          if (localValue === undefined) {
-            // New token from Figma
-            added.push(path);
-            if (!options.dryRun) {
-              localTokens.set(path, remoteValue);
-            }
-          } else if (!this.valuesEqual(localValue, remoteValue)) {
-            // Check for conflicts
-            if (options.conflictResolution === 'manual') {
-              conflicts.push({
-                path,
-                localValue,
-                remoteValue,
-              });
-            } else if (options.conflictResolution === 'remote' || options.direction === 'pull') {
-              updated.push(path);
-              if (!options.dryRun) {
-                localTokens.set(path, remoteValue);
-              }
-            }
-          }
-        }
-
-        // Check for removed tokens (in remote but not local)
-        for (const [path] of localTokens) {
-          if (!remoteTokens.has(path)) {
-            removed.push(path);
-          }
-        }
-      }
-
-      if (options.direction === 'push' || options.direction === 'both') {
-        // Push direction is not fully supported as Figma Variables API
-        // has limited write capabilities in REST API v1
-        if (options.direction === 'push') {
-          errors.push(
-            'Push to Figma is not fully supported via REST API. ' +
-              'Use Figma plugin or Tokens Studio for pushing changes to Figma.'
-          );
-        }
-      }
-
-      // Write updated tokens if not dry run
       if (!options.dryRun && (added.length > 0 || updated.length > 0)) {
         await this.writeLocalTokens(options.tokensDir, localTokens);
       }
@@ -2277,14 +2181,9 @@ export class FigmaClient {
       return {
         success: errors.length === 0,
         direction: options.direction,
-        added,
-        updated,
-        removed,
-        conflicts,
-        errors,
+        added, updated, removed, conflicts, errors,
       };
     } catch (error) {
-      // Use detailed message for FigmaClientError (includes hints about plan requirements)
       const errorMessage =
         error instanceof FigmaClientError
           ? error.toDetailedMessage()
@@ -2296,12 +2195,77 @@ export class FigmaClient {
       return {
         success: false,
         direction: options.direction,
-        added,
-        updated,
-        removed,
-        conflicts,
-        errors,
+        added, updated, removed, conflicts, errors,
       };
+    }
+  }
+
+  private buildRemoteTokenMap(
+    variables: Record<string, FigmaVariable>,
+    variableCollections: FigmaVariablesResponse['variableCollections']
+  ): Map<string, unknown> {
+    const remoteTokens = new Map<string, unknown>();
+
+    for (const [, variable] of Object.entries(variables)) {
+      const collection = variableCollections[variable.variableCollectionId];
+      if (!collection) {
+        continue;
+      }
+
+      const defaultMode = collection.modes.find((m) => m.modeId === collection.defaultModeId);
+      if (!defaultMode) {
+        continue;
+      }
+
+      const value = variable.valuesByMode[defaultMode.modeId];
+      const tokenPath = variable.name.replace(/\//g, '.');
+      remoteTokens.set(
+        tokenPath,
+        this.convertVariableValue(value, variable.resolvedType, new Map(), true)
+      );
+    }
+
+    return remoteTokens;
+  }
+
+  private pullTokens(
+    remoteTokens: Map<string, unknown>,
+    localTokens: Map<string, unknown>,
+    options: SyncFigmaOptions,
+    added: string[],
+    updated: string[],
+    removed: string[],
+    conflicts: SyncConflict[]
+  ): void {
+    for (const [path, remoteValue] of remoteTokens) {
+      const localValue = localTokens.get(path);
+
+      if (localValue === undefined) {
+        added.push(path);
+        if (!options.dryRun) {
+          localTokens.set(path, remoteValue);
+        }
+        continue;
+      }
+
+      if (this.valuesEqual(localValue, remoteValue)) {
+        continue;
+      }
+
+      if (options.conflictResolution === 'manual') {
+        conflicts.push({ path, localValue, remoteValue });
+      } else if (options.conflictResolution === 'remote' || options.direction === 'pull') {
+        updated.push(path);
+        if (!options.dryRun) {
+          localTokens.set(path, remoteValue);
+        }
+      }
+    }
+
+    for (const [path] of localTokens) {
+      if (!remoteTokens.has(path)) {
+        removed.push(path);
+      }
     }
   }
 

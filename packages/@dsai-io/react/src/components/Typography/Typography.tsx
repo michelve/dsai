@@ -32,6 +32,16 @@ import type {
 import type React from 'react';
 
 // =============================================================================
+// Constants
+// =============================================================================
+
+/** CSS class for text truncation with ellipsis */
+const TEXT_TRUNCATE_CLASS = 'text-truncate';
+
+/** CSS class for high contrast mode */
+const HIGH_CONTRAST_CLASS = 'dsai-high-contrast';
+
+// =============================================================================
 // Utility Functions
 // =============================================================================
 
@@ -152,9 +162,9 @@ export const Heading = memo(
           // No margin
           noMargin && 'mb-0',
           // Truncate
-          truncate && 'text-truncate',
+          truncate && TEXT_TRUNCATE_CLASS,
           // High contrast
-          highContrast && 'dsai-high-contrast',
+          highContrast && HIGH_CONTRAST_CLASS,
           // Custom classes
           className
         ),
@@ -268,9 +278,9 @@ export const Display = memo(
           // No margin
           noMargin && 'mb-0',
           // Truncate
-          truncate && 'text-truncate',
+          truncate && TEXT_TRUNCATE_CLASS,
           // High contrast
-          highContrast && 'dsai-high-contrast',
+          highContrast && HIGH_CONTRAST_CLASS,
           // Custom classes
           className
         ),
@@ -429,9 +439,9 @@ export const Text = memo(
           // No margin
           noMargin && 'mb-0',
           // Single-line truncate
-          truncate && !lines && 'text-truncate',
+          truncate && !lines && TEXT_TRUNCATE_CLASS,
           // High contrast
-          highContrast && 'dsai-high-contrast',
+          highContrast && HIGH_CONTRAST_CLASS,
           // Custom classes
           className
         ),

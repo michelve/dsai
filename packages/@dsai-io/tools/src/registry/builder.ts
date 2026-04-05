@@ -52,6 +52,15 @@ const EXCLUDE_PATTERNS: RegExp[] = [
 
 const REACT_BUILTINS = new Set(['react', 'react-dom', 'react/jsx-runtime', 'react-dom/client']);
 
+/** Registry item type for CSS style files */
+const REGISTRY_STYLE: RegistryItemType = 'registry:style';
+
+/** Registry item type for utility files */
+const REGISTRY_UTIL: RegistryItemType = 'registry:util';
+
+/** Registry name for the merge-refs utility */
+const MERGE_REFS = 'merge-refs';
+
 /**
  * Maps a util import sub-path (the part after `../../utils/`) to the
  * registry name used in `utilMap`.
@@ -59,8 +68,8 @@ const REACT_BUILTINS = new Set(['react', 'react-dom', 'react/jsx-runtime', 'reac
 const UTIL_SUBPATH_TO_REGISTRY: Record<string, string> = {
   index: 'cn',
   keyboard: 'keyboard',
-  dom: 'merge-refs',
-  'dom/mergeRefs': 'merge-refs',
+  dom: MERGE_REFS,
+  'dom/mergeRefs': MERGE_REFS,
   browser: 'browser',
   validation: 'validation',
   string: 'string',
@@ -94,23 +103,31 @@ function shouldIncludeFile(filePath: string): boolean {
   return !EXCLUDE_PATTERNS.some((pattern) => pattern.test(filePath));
 }
 
+/** Read includable files from a single sub-directory (one level deep) */
+function readSubdirectoryFiles(
+  subDirPath: string,
+  baseDirPath: string,
+): { path: string; content: string }[] {
+  const results: { path: string; content: string }[] = [];
+  for (const sub of readdirSync(subDirPath, { withFileTypes: true })) {
+    if (!sub.isFile()) { continue; }
+    const subPath = join(subDirPath, sub.name);
+    if (shouldIncludeFile(subPath)) {
+      results.push({ path: relative(baseDirPath, subPath), content: readFileSync(subPath, FILE_ENCODING) });
+    }
+  }
+  return results;
+}
+
 function readSourceFiles(dirPath: string): { path: string; content: string }[] {
-  if (!existsSync(dirPath) || !statSync(dirPath).isDirectory()) {return [];}
+  if (!existsSync(dirPath) || !statSync(dirPath).isDirectory()) { return []; }
 
   const results: { path: string; content: string }[] = [];
 
   for (const entry of readdirSync(dirPath, { withFileTypes: true })) {
     const fullPath = join(dirPath, entry.name);
     if (entry.isDirectory()) {
-      // Only go one level deep for sub-directories within a component
-      for (const sub of readdirSync(fullPath, { withFileTypes: true })) {
-        if (sub.isFile()) {
-          const subPath = join(fullPath, sub.name);
-          if (shouldIncludeFile(subPath)) {
-            results.push({ path: relative(dirPath, subPath), content: readFileSync(subPath, FILE_ENCODING) });
-          }
-        }
-      }
+      results.push(...readSubdirectoryFiles(fullPath, dirPath));
     } else if (entry.isFile() && shouldIncludeFile(fullPath)) {
       results.push({ path: entry.name, content: readFileSync(fullPath, FILE_ENCODING) });
     }
@@ -138,6 +155,62 @@ interface AnalyzedDeps {
   npmDeps: Set<string>;
 }
 
+/** Classify a single import specifier and add to the appropriate dep set */
+function classifyImport(
+  specifier: string,
+  registryDeps: Set<string>,
+  npmDeps: Set<string>,
+): void {
+  // Shared types imports (exactly two levels up)
+  if (/^\.\.\/\.\.\/types(?:\/.*)?$/.test(specifier)) {
+    registryDeps.add('dsai-types');
+    return;
+  }
+
+  // Hook imports: ../../hooks/<hookName> or ../hooks/<hookName>
+  const hookMatch = /\.\.\/(?:\.\.\/)?hooks\/(\w+)/.exec(specifier);
+  if (hookMatch?.[1]) {
+    const regName = hookDirectoryToRegistryName[hookMatch[1]];
+    if (regName) { registryDeps.add(regName); }
+    return;
+  }
+
+  // Util imports: ../../utils or ../../utils/<subpath>
+  const utilMatch = /\.\.\/(?:\.\.\/)?utils(?:\/(.+))?$/.exec(specifier);
+  if (utilMatch) {
+    const regName = UTIL_SUBPATH_TO_REGISTRY[utilMatch[1] ?? 'index'];
+    if (regName) { registryDeps.add(regName); }
+    return;
+  }
+
+  // Sibling util directory imports (lowercase dirs)
+  const siblingMatch = /^\.\.\/([a-z][\w-]*)(?:\/.*)?$/.exec(specifier);
+  if (siblingMatch?.[1]) {
+    const regName = UTIL_SUBPATH_TO_REGISTRY[siblingMatch[1]];
+    if (regName) { registryDeps.add(regName); return; }
+  }
+
+  // Component cross-imports
+  const compMatch = /^\.\.\/(\.\.\/)?(?:components\/)?([A-Z]\w+)(?:\/.*)?$/.exec(specifier);
+  if (compMatch?.[2]) {
+    const regName = directoryToRegistryName[compMatch[2]];
+    if (regName) { registryDeps.add(regName); }
+    return;
+  }
+
+  // External npm packages (not relative, not react builtins)
+  if (!specifier.startsWith('.') && !specifier.startsWith('/')) {
+    const parts = specifier.split('/');
+    const pkgName = specifier.startsWith('@') && parts.length >= 2
+      ? `${parts[0]}/${parts[1]}`
+      : (parts[0] ?? specifier);
+
+    if (pkgName && !REACT_BUILTINS.has(pkgName) && !pkgName.startsWith('@dsai-io/')) {
+      npmDeps.add(pkgName);
+    }
+  }
+}
+
 function analyzeImports(files: { content: string }[], knownNpmDeps: string[]): AnalyzedDeps {
   const registryDeps = new Set<string>();
   const npmDeps = new Set<string>(knownNpmDeps);
@@ -148,73 +221,7 @@ function analyzeImports(files: { content: string }[], knownNpmDeps: string[]): A
     let m: RegExpExecArray | null;
     importPattern.lastIndex = 0;
     while ((m = importPattern.exec(file.content)) !== null) {
-      const specifier = m[1] ?? '';
-
-      // Shared types imports: ../../types or ../../types/<subpath>
-      // Must be exactly TWO levels up (../../types) to target the shared type system.
-      // Single level (../types) is a component-local types file (e.g., Icon/components/ -> Icon/types.ts)
-      const typesPattern = /^\.\.\/\.\.\/types(?:\/.*)?$/;
-      if (typesPattern.test(specifier)) {
-        registryDeps.add('dsai-types');
-        continue;
-      }
-
-      // Hook imports: ../../hooks/<hookName> or ../hooks/<hookName>
-      const hookPattern = /\.\.\/(?:\.\.\/)?hooks\/(\w+)/;
-      const hookMatch = hookPattern.exec(specifier);
-      if (hookMatch?.[1]) {
-        const regName = hookDirectoryToRegistryName[hookMatch[1]];
-        if (regName) {registryDeps.add(regName);}
-        continue;
-      }
-
-      // Util imports: ../../utils or ../../utils/<subpath>
-      const utilPattern = /\.\.\/(?:\.\.\/)?utils(?:\/(.+))?$/;
-      const utilMatch = utilPattern.exec(specifier);
-      if (utilMatch) {
-        const subpath = utilMatch[1] ?? 'index';
-        const regName = UTIL_SUBPATH_TO_REGISTRY[subpath];
-        if (regName) {registryDeps.add(regName);}
-        continue;
-      }
-
-      // Sibling util directory imports: ../types/shared, ../keyboard/index, etc.
-      // Detects when one util imports from another sibling util directory.
-      // Only matches lowercase directory names (utils are lowercase, components are PascalCase)
-      const siblingUtilPattern = /^\.\.\/([a-z][\w-]*)(?:\/.*)?$/;
-      const siblingUtilMatch = siblingUtilPattern.exec(specifier);
-      if (siblingUtilMatch?.[1]) {
-        const siblingDir = siblingUtilMatch[1];
-        const regName = UTIL_SUBPATH_TO_REGISTRY[siblingDir];
-        if (regName) {
-          registryDeps.add(regName);
-          continue;
-        }
-      }
-
-      // Component cross-imports: ../../components/<Dir>, ../<PascalCaseDir>, or ../<PascalCaseDir>/<file>
-      // Matches: ../Icon, ../Spinner, ../Card/Card.types, ../../components/Modal
-      const compPattern = /^\.\.\/(\.\.\/)?(?:components\/)?([A-Z]\w+)(?:\/.*)?$/;
-      const compMatch = compPattern.exec(specifier);
-      if (compMatch?.[2]) {
-        const compDir = compMatch[2];
-        const regName = directoryToRegistryName[compDir];
-        if (regName) {registryDeps.add(regName);}
-        continue;
-      }
-
-      // External npm packages (not relative, not react builtins)
-      if (!specifier.startsWith('.') && !specifier.startsWith('/')) {
-        // Get the package name (handle scoped packages)
-        const parts = specifier.split('/');
-        const pkgName = specifier.startsWith('@') && parts.length >= 2
-          ? `${parts[0]}/${parts[1]}`
-          : (parts[0] ?? specifier);
-
-        if (pkgName && !REACT_BUILTINS.has(pkgName) && !pkgName.startsWith('@dsai-io/')) {
-          npmDeps.add(pkgName);
-        }
-      }
+      classifyImport(m[1] ?? '', registryDeps, npmDeps);
     }
   }
 
@@ -246,7 +253,7 @@ function buildComponentItem(
 
   const files: RegistryFile[] = sourceFiles.map((f) => ({
     path: f.path,
-    type: (extname(f.path) === '.css' ? 'registry:style' : meta.type) as RegistryItemType,
+    type: (extname(f.path) === '.css' ? REGISTRY_STYLE : meta.type) as RegistryItemType,
     content: f.content,
   }));
 
@@ -284,7 +291,7 @@ function buildHookItem(
 
   const files: RegistryFile[] = sourceFiles.map((f) => ({
     path: f.path,
-    type: (extname(f.path) === '.css' ? 'registry:style' : meta.type) as RegistryItemType,
+    type: (extname(f.path) === '.css' ? REGISTRY_STYLE : meta.type) as RegistryItemType,
     content: f.content,
   }));
 
@@ -320,8 +327,8 @@ function buildUtilItem(
     // Special case: extract cn from utils/index.ts
     const indexPath = join(reactSrcDir, 'utils', 'index.ts');
     const cnSource = extractCnSource(indexPath);
-    files = [{ path: 'cn.ts', type: 'registry:util', content: cnSource }];
-  } else if (name === 'merge-refs') {
+    files = [{ path: 'cn.ts', type: REGISTRY_UTIL, content: cnSource }];
+  } else if (name === MERGE_REFS) {
     // merge-refs maps to utils/dom
     const dirPath = join(reactSrcDir, 'utils', 'dom');
     const sourceFiles = readSourceFiles(dirPath);
@@ -330,7 +337,7 @@ function buildUtilItem(
     npmDeps = analyzed.npmDeps;
     files = sourceFiles.map((f) => ({
       path: `dom/${f.path}`,
-      type: (extname(f.path) === '.css' ? 'registry:style' : 'registry:util') as RegistryItemType,
+      type: (extname(f.path) === '.css' ? REGISTRY_STYLE : REGISTRY_UTIL) as RegistryItemType,
       content: f.content,
     }));
   } else {
@@ -350,7 +357,7 @@ function buildUtilItem(
     npmDeps = analyzed.npmDeps;
     files = sourceFiles.map((f) => ({
       path: `${name}/${f.path}`,
-      type: (extname(f.path) === '.css' ? 'registry:style' : 'registry:util') as RegistryItemType,
+      type: (extname(f.path) === '.css' ? REGISTRY_STYLE : REGISTRY_UTIL) as RegistryItemType,
       content: f.content,
     }));
   }
@@ -417,72 +424,42 @@ function buildTypesItem(
 // Public API
 // ---------------------------------------------------------------------------
 
-export function buildRegistry(options: BuildRegistryOptions): RegistryIndex {
-  const { reactSrcDir, outputDir, verbose = false } = options;
-  const log = verbose ? (msg: string) => console.log(msg) : (_msg: string) => {};
+/** Scan a directory for items using a name-lookup map and a builder function */
+function scanDirectoryItems(
+  dir: string,
+  nameMap: Record<string, string>,
+  builder: (name: string, dirPath: string, log: (msg: string) => void) => RegistryItem | null,
+  log: (msg: string) => void,
+): RegistryItem[] {
+  const items: RegistryItem[] = [];
+  if (!existsSync(dir)) { return items; }
 
-  const componentsDir = join(reactSrcDir, 'components');
-  const hooksDir = join(reactSrcDir, 'hooks');
-
-  const allItems: RegistryItem[] = [];
-
-  // --- Components ---
-  log('[registry] Scanning components...');
-  if (existsSync(componentsDir)) {
-    for (const entry of readdirSync(componentsDir, { withFileTypes: true })) {
-      if (!entry.isDirectory()) {continue;}
-      const dirName = entry.name;
-      const registryName = directoryToRegistryName[dirName];
-      if (!registryName) {
-        log(`  [SKIP] Unknown component directory: ${dirName}`);
-        continue;
-      }
-      log(`  Building ${registryName}...`);
-      const item = buildComponentItem(registryName, join(componentsDir, dirName), log);
-      if (item) {allItems.push(item);}
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (!entry.isDirectory()) { continue; }
+    const registryName = nameMap[entry.name];
+    if (!registryName) {
+      log(`  [SKIP] Unknown directory: ${entry.name}`);
+      continue;
     }
+    log(`  Building ${registryName}...`);
+    const item = builder(registryName, join(dir, entry.name), log);
+    if (item) { items.push(item); }
   }
 
-  // --- Hooks ---
-  log('[registry] Scanning hooks...');
-  if (existsSync(hooksDir)) {
-    for (const entry of readdirSync(hooksDir, { withFileTypes: true })) {
-      if (!entry.isDirectory()) {continue;}
-      const dirName = entry.name;
-      const registryName = hookDirectoryToRegistryName[dirName];
-      if (!registryName) {
-        log(`  [SKIP] Unknown hook directory: ${dirName}`);
-        continue;
-      }
-      log(`  Building ${registryName}...`);
-      const item = buildHookItem(registryName, join(hooksDir, dirName), log);
-      if (item) {allItems.push(item);}
-    }
-  }
+  return items;
+}
 
-  // --- Utils ---
-  log('[registry] Scanning utils...');
-  for (const name of Object.keys(utilMap)) {
-    log(`  Building ${name}...`);
-    const item = buildUtilItem(name, reactSrcDir, log);
-    if (item) {allItems.push(item);}
-  }
-
-  // --- Shared Types ---
-  log('[registry] Building shared types...');
-  const typesItem = buildTypesItem(reactSrcDir, log);
-  if (typesItem) {
-    allItems.push(typesItem);
-    log(`  Built dsai-types (${typesItem.files.length} files)`);
-  }
-
-  // --- Write output ---
+/** Write registry items to disk and return the index */
+function writeRegistryOutput(
+  allItems: RegistryItem[],
+  outputDir: string,
+  log: (msg: string) => void,
+): RegistryIndex {
   log(`[registry] Writing ${allItems.length} items to ${outputDir}...`);
 
-  // Ensure output directories exist
   for (const sub of ['components', 'hooks', 'utils', 'types']) {
     const dir = join(outputDir, sub);
-    if (!existsSync(dir)) {mkdirSync(dir, { recursive: true });}
+    if (!existsSync(dir)) { mkdirSync(dir, { recursive: true }); }
   }
 
   const typeToSubdir: Record<string, string> = {
@@ -501,7 +478,6 @@ export function buildRegistry(options: BuildRegistryOptions): RegistryIndex {
     log(`  Wrote ${relative(outputDir, filePath)}`);
   }
 
-  // --- Build index ---
   const indexEntries: RegistryIndexEntry[] = allItems.map((item) => ({
     name: item.name,
     type: item.type,
@@ -522,4 +498,41 @@ export function buildRegistry(options: BuildRegistryOptions): RegistryIndex {
   log(`[registry] Wrote index.json (${registryIndex.count} items)`);
 
   return registryIndex;
+}
+
+export function buildRegistry(options: BuildRegistryOptions): RegistryIndex {
+  const { reactSrcDir, outputDir, verbose = false } = options;
+  const log = verbose ? (msg: string) => console.log(msg) : (_msg: string) => {};
+
+  const allItems: RegistryItem[] = [];
+
+  // --- Components ---
+  log('[registry] Scanning components...');
+  allItems.push(
+    ...scanDirectoryItems(join(reactSrcDir, 'components'), directoryToRegistryName, buildComponentItem, log),
+  );
+
+  // --- Hooks ---
+  log('[registry] Scanning hooks...');
+  allItems.push(
+    ...scanDirectoryItems(join(reactSrcDir, 'hooks'), hookDirectoryToRegistryName, buildHookItem, log),
+  );
+
+  // --- Utils ---
+  log('[registry] Scanning utils...');
+  for (const name of Object.keys(utilMap)) {
+    log(`  Building ${name}...`);
+    const item = buildUtilItem(name, reactSrcDir, log);
+    if (item) { allItems.push(item); }
+  }
+
+  // --- Shared Types ---
+  log('[registry] Building shared types...');
+  const typesItem = buildTypesItem(reactSrcDir, log);
+  if (typesItem) {
+    allItems.push(typesItem);
+    log(`  Built dsai-types (${typesItem.files.length} files)`);
+  }
+
+  return writeRegistryOutput(allItems, outputDir, log);
 }

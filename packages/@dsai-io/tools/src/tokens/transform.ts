@@ -156,57 +156,56 @@ function shouldAddUnit(type: string, scopes: string[] = [], tokenPath = ''): boo
   return type === 'number';
 }
 
+/** Transform a font family value by prepending font name to font stack */
+function transformFontFamily(value: string, fontStack: string): string {
+  if (fontStack.toLowerCase().includes(value.toLowerCase())) {
+    return fontStack;
+  }
+  return `${value}, ${fontStack}`;
+}
+
+/** Transform a numeric value, applying unit conversion as needed */
+function transformNumericValue(
+  value: number,
+  type: string,
+  options: TokenTransformOptions,
+): unknown {
+  // Opacity: convert percentage (0-100) to decimal (0-1)
+  if (options.scopes?.includes('OPACITY')) {
+    return value > 1 ? value / 100 : value;
+  }
+
+  // Keep unitless for font-weight, line-height, grid columns, etc.
+  if (shouldKeepUnitless(type, options.scopes, options.tokenPath)) {
+    return value;
+  }
+
+  // Add px unit for dimensions
+  if (shouldAddUnit(type, options.scopes, options.tokenPath)) {
+    if (options.isCircle) { return '50%'; }
+    if (options.isPill) { return '9999px'; }
+    return `${value}px`;
+  }
+
+  return value;
+}
+
 /**
  * Transform value based on type
  */
 export function transformValue(
   value: unknown,
   type: string | undefined,
-  options: TokenTransformOptions = {}
+  options: TokenTransformOptions = {},
 ): unknown {
-  // Handle font family special case - prepend font name to font stack
+  // Handle font family special case
   if (type === 'string' && options.fontStack && typeof value === 'string') {
-    const fontName = value;
-    const stack = options.fontStack;
-
-    // Check if font name is already in the stack (avoid duplicates)
-    if (stack.toLowerCase().includes(fontName.toLowerCase())) {
-      return stack;
-    }
-
-    // Prepend font name to stack
-    return `${fontName}, ${stack}`;
+    return transformFontFamily(value, options.fontStack);
   }
 
-  // Handle opacity: convert percentage (0-100) to decimal (0-1)
-  if (typeof value === 'number' && options.scopes?.includes('OPACITY')) {
-    // If value is > 1, it's a percentage that needs conversion
-    if (value > 1) {
-      return value / 100;
-    }
-    // Value is already a decimal (0-1)
-    return value;
-  }
-
-  // Handle line-height and font-weight: keep as unitless number (CSS best practice)
-  if (
-    typeof value === 'number' &&
-    shouldKeepUnitless(type ?? '', options.scopes, options.tokenPath)
-  ) {
-    return value;
-  }
-
-  // Handle numbers that should be dimensions
-  if (typeof value === 'number' && shouldAddUnit(type ?? '', options.scopes, options.tokenPath)) {
-    // Special case for circle radius (percentage)
-    if (options.isCircle) {
-      return '50%';
-    }
-    // Special case for pill radius
-    if (options.isPill) {
-      return '9999px';
-    }
-    return `${value}px`;
+  // Handle numeric values (opacity, dimensions, unitless)
+  if (typeof value === 'number') {
+    return transformNumericValue(value, type ?? '', options);
   }
 
   // Return value as-is for colors, strings, etc.
@@ -780,6 +779,192 @@ function getInputSource(
 }
 
 // ============================================================================
+// Main Transformation — helpers
+// ============================================================================
+
+/** Accumulator shared across transformation helpers */
+interface TransformContext {
+  sourceDir: string;
+  collectionsDir: string;
+  ignoreModes: string[];
+  defaultMode: string;
+  dryRun: boolean;
+  verbose: boolean;
+  strict?: boolean;
+  errors: string[];
+  warnings: string[];
+  filesWritten: string[];
+  allModesDetected: Set<string>;
+  tokensProcessed: number;
+}
+
+/** Log transform configuration when verbose mode is enabled */
+function logTransformConfig(ctx: TransformContext): void {
+  if (!ctx.verbose) { return; }
+  console.info('🎨 Transforming Figma tokens to Style Dictionary format...\n');
+  console.info('📋 Configuration:');
+  console.info(`   Source directory: ${ctx.sourceDir}`);
+  console.info(`   Output directory: ${ctx.collectionsDir}`);
+  console.info(`   Default mode: ${ctx.defaultMode}`);
+  if (ctx.ignoreModes.length > 0) {
+    console.info(`   Ignored modes: ${ctx.ignoreModes.join(', ')}`);
+  }
+  if (ctx.dryRun) {
+    console.info('   DRY RUN - no files will be written');
+  }
+  console.info('');
+}
+
+/** Detect modes from theme.json and populate the map */
+function detectModesFromTheme(
+  ctx: TransformContext,
+): Map<string, string[]> {
+  const detectedModesMap = new Map<string, string[]>();
+  const themeFile = join(ctx.sourceDir, 'theme.json');
+
+  if (!existsSync(themeFile)) { return detectedModesMap; }
+
+  try {
+    const content = readFileSync(themeFile, 'utf-8');
+    const themeData = JSON.parse(content) as FigmaExport;
+
+    for (const [name, collectionConfig] of Object.entries(DEFAULT_COLLECTIONS)) {
+      const typedConfig = collectionConfig as CollectionConfig;
+      if (!typedConfig.modeAware) { continue; }
+
+      const collectionPath = name.charAt(0).toUpperCase() + name.slice(1);
+      const modes = detectModes(themeData, collectionPath);
+      if (modes.length > 0) {
+        detectedModesMap.set(collectionPath, modes);
+        for (const mode of modes) {
+          ctx.allModesDetected.add(mode);
+        }
+      }
+    }
+  } catch (error) {
+    ctx.warnings.push(
+      `Failed to read theme.json for mode detection: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`,
+    );
+  }
+
+  return detectedModesMap;
+}
+
+/** Read and optionally validate a collection input file. Returns null on failure. */
+function readCollectionInput(
+  inputPath: string,
+  ctx: TransformContext,
+): FigmaExport | null {
+  try {
+    const content = readFileSync(inputPath, 'utf-8');
+    const data = JSON.parse(content) as FigmaExport;
+
+    if (ctx.strict) {
+      const validation = validateFigmaExport(data);
+      if (!validation.valid) {
+        const errorMessages = validation.errors?.map((e) => `${e.path}: ${e.message}`) || [];
+        ctx.errors.push(`Schema validation failed for ${inputPath}:\n${errorMessages.join('\n')}`);
+        return null;
+      }
+      if (ctx.verbose) {
+        console.info(`   ✓ Schema validation passed`);
+      }
+    }
+
+    return data;
+  } catch (error) {
+    ctx.errors.push(
+      `Failed to read ${inputPath}: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`,
+    );
+    return null;
+  }
+}
+
+/** Resolve the modes to process for a given collection */
+function resolveModesToProcess(
+  collectionName: string,
+  typedConfig: CollectionConfig,
+  data: FigmaExport,
+  detectedModesMap: Map<string, string[]>,
+  ctx: TransformContext,
+): string[] {
+  if (!typedConfig.modeAware) { return [ctx.defaultMode]; }
+
+  const collectionPath = collectionName.charAt(0).toUpperCase() + collectionName.slice(1);
+  const detectedForCollection = detectedModesMap.get(collectionPath);
+
+  if (detectedForCollection) {
+    return detectedForCollection.filter((m) => !ctx.ignoreModes.includes(m));
+  }
+
+  const modes = detectModes(data, collectionPath);
+  if (modes.length > 1 || !modes.includes('Base')) {
+    return modes.filter((m) => !ctx.ignoreModes.includes(m));
+  }
+  return [ctx.defaultMode];
+}
+
+/** Resolve output file path, accounting for mode suffixes */
+function resolveOutputFile(
+  output: CollectionOutput,
+  mode: string,
+  modeAware: boolean,
+  modesToProcess: string[],
+  defaultMode: string,
+): string {
+  if (!modeAware || modesToProcess.length <= 1 || mode === defaultMode) {
+    return output.file;
+  }
+  const ext = extname(output.file);
+  const base = basename(output.file, ext);
+  const dir = dirname(output.file);
+  return join(dir, `${base}-${mode.toLowerCase()}${ext}`);
+}
+
+/** Process a single output for a single mode */
+function processOutputMode(
+  output: CollectionOutput,
+  mode: string,
+  data: FigmaExport,
+  modeAware: boolean,
+  modesToProcess: string[],
+  ctx: TransformContext,
+): void {
+  const outputFile = resolveOutputFile(output, mode, modeAware, modesToProcess, ctx.defaultMode);
+  const outputPath = join(ctx.collectionsDir, outputFile);
+
+  try {
+    const tokens = modeAware ? output.extractor(data, mode) : output.extractor(data);
+    const tokenCount = Object.keys(tokens).length;
+
+    if (tokenCount === 0) {
+      ctx.warnings.push(`No tokens extracted for ${outputFile} (${mode} mode)`);
+      return;
+    }
+
+    ctx.tokensProcessed += tokenCount;
+
+    if (!ctx.dryRun) {
+      ensureDir(outputPath);
+      writeFileSync(outputPath, `${JSON.stringify(tokens, null, 2)}\n`, 'utf-8');
+    }
+
+    ctx.filesWritten.push(outputFile);
+
+    if (ctx.verbose) {
+      const dryRunLabel = ctx.dryRun ? ' (dry run)' : '';
+      console.info(
+        `  ✅ Created ${outputFile}${modesToProcess.length > 1 ? ` (${mode})` : ''}${dryRunLabel}`,
+      );
+    }
+  } catch (error) {
+    ctx.errors.push(
+      `Error processing ${outputFile}: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`,
+    );
+  }
+}
+
+// ============================================================================
 // Main Transformation
 // ============================================================================
 
@@ -797,55 +982,24 @@ export function transformTokens(options: TransformOptions): TransformResult {
   } = options;
 
   const startTime = Date.now();
-  const errors: string[] = [];
-  const warnings: string[] = [];
-  const filesWritten: string[] = [];
-  const allModesDetected: Set<string> = new Set();
-  let tokensProcessed = 0;
+  const ctx: TransformContext = {
+    sourceDir,
+    collectionsDir,
+    ignoreModes,
+    defaultMode,
+    dryRun,
+    verbose,
+    strict: options.strict,
+    errors: [],
+    warnings: [],
+    filesWritten: [],
+    allModesDetected: new Set(),
+    tokensProcessed: 0,
+  };
 
-  if (verbose) {
-    console.info('🎨 Transforming Figma tokens to Style Dictionary format...\n');
-    console.info('📋 Configuration:');
-    console.info(`   Source directory: ${sourceDir}`);
-    console.info(`   Output directory: ${collectionsDir}`);
-    console.info(`   Default mode: ${defaultMode}`);
-    if (ignoreModes.length > 0) {
-      console.info(`   Ignored modes: ${ignoreModes.join(', ')}`);
-    }
-    if (dryRun) {
-      console.info('   DRY RUN - no files will be written');
-    }
-    console.info('');
-  }
+  logTransformConfig(ctx);
 
-  // Detect modes from theme.json
-  const detectedModesMap = new Map<string, string[]>();
-  const themeFile = join(sourceDir, 'theme.json');
-  if (existsSync(themeFile)) {
-    try {
-      const content = readFileSync(themeFile, 'utf-8');
-      const themeData = JSON.parse(content) as FigmaExport;
-
-      // Detect modes for each collection
-      for (const [name, collectionConfig] of Object.entries(DEFAULT_COLLECTIONS)) {
-        const typedConfig = collectionConfig as CollectionConfig;
-        if (typedConfig.modeAware) {
-          const collectionPath = name.charAt(0).toUpperCase() + name.slice(1);
-          const modes = detectModes(themeData, collectionPath);
-          if (modes.length > 0) {
-            detectedModesMap.set(collectionPath, modes);
-            for (const mode of modes) {
-              allModesDetected.add(mode);
-            }
-          }
-        }
-      }
-    } catch (error) {
-      warnings.push(
-        `Failed to read theme.json for mode detection: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
-      );
-    }
-  }
+  const detectedModesMap = detectModesFromTheme(ctx);
 
   // Process each collection
   for (const [collectionName, collectionConfig] of Object.entries(DEFAULT_COLLECTIONS)) {
@@ -854,107 +1008,23 @@ export function transformTokens(options: TransformOptions): TransformResult {
       console.info(`Processing ${collectionName} collection...`);
     }
 
-    // Get input path based on configuration
     const inputPath = getInputSource(typedConfig, sourceDir, 'theme');
 
-    // Check if input file exists
     if (!existsSync(inputPath)) {
-      warnings.push(`Input file not found: ${inputPath}`);
+      ctx.warnings.push(`Input file not found: ${inputPath}`);
       continue;
     }
 
-    // Read input file
-    let data: FigmaExport;
-    try {
-      const content = readFileSync(inputPath, 'utf-8');
-      data = JSON.parse(content) as FigmaExport;
+    const data = readCollectionInput(inputPath, ctx);
+    if (!data) { continue; }
 
-      // Validate schema if strict mode is enabled
-      if (options.strict) {
-        const validation = validateFigmaExport(data);
-        if (!validation.valid) {
-          const errorMessages = validation.errors?.map((e) => `${e.path}: ${e.message}`) || [];
-          errors.push(`Schema validation failed for ${inputPath}:\n${errorMessages.join('\n')}`);
-          continue;
-        }
-        if (verbose) {
-          console.info(`   ✓ Schema validation passed`);
-        }
-      }
-    } catch (error) {
-      errors.push(
-        `Failed to read ${inputPath}: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
-      );
-      continue;
-    }
+    const modesToProcess = resolveModesToProcess(
+      collectionName, typedConfig, data, detectedModesMap, ctx,
+    );
 
-    // Determine which modes to process for this collection
-    let modesToProcess = [defaultMode];
-    if (typedConfig.modeAware) {
-      const collectionPath = collectionName.charAt(0).toUpperCase() + collectionName.slice(1);
-      const detectedForCollection = detectedModesMap.get(collectionPath);
-      if (detectedForCollection) {
-        modesToProcess = detectedForCollection.filter((m) => !ignoreModes.includes(m));
-      } else {
-        const modes = detectModes(data, collectionPath);
-        if (modes.length > 1 || !modes.includes('Base')) {
-          modesToProcess = modes.filter((m) => !ignoreModes.includes(m));
-        }
-      }
-    }
-
-    // Process each output
     for (const output of typedConfig.outputs) {
       for (const mode of modesToProcess) {
-        // Generate the output file path
-        let outputFile = output.file;
-        if (typedConfig.modeAware && modesToProcess.length > 1) {
-          const ext = extname(output.file);
-          const base = basename(output.file, ext);
-          const dir = dirname(output.file);
-
-          if (mode !== defaultMode) {
-            outputFile = join(dir, `${base}-${mode.toLowerCase()}${ext}`);
-          }
-        }
-
-        const outputPath = join(collectionsDir, outputFile);
-
-        try {
-          // Extract and transform tokens
-          const tokens = typedConfig.modeAware
-            ? output.extractor(data, mode)
-            : output.extractor(data);
-
-          const tokenCount = Object.keys(tokens).length;
-          if (tokenCount === 0) {
-            warnings.push(`No tokens extracted for ${outputFile} (${mode} mode)`);
-            continue;
-          }
-
-          tokensProcessed += tokenCount;
-
-          if (!dryRun) {
-            // Ensure output directory exists
-            ensureDir(outputPath);
-
-            // Write output file
-            writeFileSync(outputPath, `${JSON.stringify(tokens, null, 2)}\n`, 'utf-8');
-          }
-
-          filesWritten.push(outputFile);
-
-          if (verbose) {
-            const dryRunLabel = dryRun ? ' (dry run)' : '';
-            console.info(
-              `  ✅ Created ${outputFile}${modesToProcess.length > 1 ? ` (${mode})` : ''}${dryRunLabel}`
-            );
-          }
-        } catch (error) {
-          errors.push(
-            `Error processing ${outputFile}: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
-          );
-        }
+        processOutputMode(output, mode, data, typedConfig.modeAware, modesToProcess, ctx);
       }
     }
   }
@@ -968,12 +1038,12 @@ export function transformTokens(options: TransformOptions): TransformResult {
   }
 
   return {
-    success: errors.length === 0,
-    filesWritten,
-    tokensProcessed,
-    modesDetected: Array.from(allModesDetected),
-    errors,
-    warnings,
+    success: ctx.errors.length === 0,
+    filesWritten: ctx.filesWritten,
+    tokensProcessed: ctx.tokensProcessed,
+    modesDetected: Array.from(ctx.allModesDetected),
+    errors: ctx.errors,
+    warnings: ctx.warnings,
     duration,
   };
 }

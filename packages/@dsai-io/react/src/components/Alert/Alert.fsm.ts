@@ -81,54 +81,27 @@ export function createInitialAlertFSMState(show: boolean): AlertFSMState {
  * @param event - Event triggering the transition
  * @returns New FSM state
  */
+/**
+ * Transition map: [currentVisibility][eventType] → next visibility (or undefined = stay)
+ */
+const TRANSITIONS: Record<AlertVisibilityState, Partial<Record<AlertFSMEvent['type'], AlertVisibilityState>>> = {
+  visible: {
+    HIDE: 'hidden',
+    DISMISS_CLICK: 'dismissing',
+    DISMISS_ESCAPE: 'dismissing',
+    AUTO_DISMISS_TIMEOUT: 'dismissing',
+  },
+  dismissing: {
+    ANIMATION_END: 'hidden',
+    SHOW: 'visible',
+    HIDE: 'hidden',
+  },
+  hidden: {
+    SHOW: 'visible',
+  },
+};
+
 export function alertFSMReducer(state: AlertFSMState, event: AlertFSMEvent): AlertFSMState {
-  switch (state.visibility) {
-    case 'visible':
-      switch (event.type) {
-        case 'HIDE':
-          return { visibility: 'hidden' };
-        case 'DISMISS_CLICK':
-        case 'DISMISS_ESCAPE':
-        case 'AUTO_DISMISS_TIMEOUT':
-          return { visibility: 'dismissing' };
-        case 'SHOW':
-        case 'ANIMATION_END':
-          return state;
-        default:
-          return state;
-      }
-
-    case 'dismissing':
-      switch (event.type) {
-        case 'ANIMATION_END':
-          return { visibility: 'hidden' };
-        case 'SHOW':
-          return { visibility: 'visible' };
-        case 'HIDE':
-          return { visibility: 'hidden' };
-        case 'DISMISS_CLICK':
-        case 'DISMISS_ESCAPE':
-        case 'AUTO_DISMISS_TIMEOUT':
-          return state;
-        default:
-          return state;
-      }
-
-    case 'hidden':
-      switch (event.type) {
-        case 'SHOW':
-          return { visibility: 'visible' };
-        case 'HIDE':
-        case 'DISMISS_CLICK':
-        case 'DISMISS_ESCAPE':
-        case 'AUTO_DISMISS_TIMEOUT':
-        case 'ANIMATION_END':
-          return state;
-        default:
-          return state;
-      }
-
-    default:
-      return state;
-  }
+  const nextVisibility = TRANSITIONS[state.visibility]?.[event.type];
+  return nextVisibility ? { visibility: nextVisibility } : state;
 }

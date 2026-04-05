@@ -5,6 +5,11 @@ import tokens from '../../src/generated/tokens-grouped';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+/** Shared style constants to avoid duplicated literals (S1192) */
+const FLEX_COLUMN = 'column' as const;
+const SPACING_3 = 'var(--dsai-spacing-3)';
+const SPACING_4 = 'var(--dsai-spacing-4)';
+
 const meta: Meta = {
   title: 'Foundation/Typography',
   parameters: {
@@ -38,7 +43,7 @@ type Story = StoryObj;
  */
 export const FontFamilies: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-4)' }}>
+    <div style={{ display: 'flex', flexDirection: FLEX_COLUMN, gap: SPACING_4 }}>
       <div>
         <Heading level={3} noMargin>
           Base Font (Inter)
@@ -94,10 +99,10 @@ export const FontSizes: Story = {
     ];
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-3)' }}>
+      <div style={{ display: 'flex', flexDirection: FLEX_COLUMN, gap: SPACING_3 }}>
         <Heading level={2}>Font Size Scale</Heading>
         {sizes.map(({ name, token, size }) => (
-          <div key={token} style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--dsai-spacing-3)' }}>
+          <div key={token} style={{ display: 'flex', alignItems: 'baseline', gap: SPACING_3 }}>
             <Text as="span" color="muted" style={{ minWidth: '120px' }}>
               {name}
             </Text>
@@ -165,7 +170,7 @@ export const DisplayTypography: Story = {
     ];
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-4)' }}>
+      <div style={{ display: 'flex', flexDirection: FLEX_COLUMN, gap: SPACING_4 }}>
         <div>
           <Heading level={2}>Display Typography Scale</Heading>
           <Text color="muted" style={{ marginTop: '8px' }}>
@@ -251,7 +256,7 @@ export const Headings: Story = {
     ];
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-4)' }}>
+      <div style={{ display: 'flex', flexDirection: FLEX_COLUMN, gap: SPACING_4 }}>
         <Heading level={2}>Heading Scale</Heading>
         {headings.map(({ level, size, weight }) => (
           <div key={level}>
@@ -281,10 +286,10 @@ export const FontWeights: Story = {
     ];
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-3)' }}>
+      <div style={{ display: 'flex', flexDirection: FLEX_COLUMN, gap: SPACING_3 }}>
         <Heading level={2}>Font Weights</Heading>
         {weights.map(({ name, value }) => (
-          <div key={value} style={{ display: 'flex', alignItems: 'center', gap: 'var(--dsai-spacing-4)' }}>
+          <div key={value} style={{ display: 'flex', alignItems: 'center', gap: SPACING_4 }}>
             <Text as="span" color="muted" style={{ minWidth: '120px' }}>
               {name}
             </Text>
@@ -314,12 +319,12 @@ export const LineHeights: Story = {
     ];
 
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-4)' }}>
+      <div style={{ display: 'flex', flexDirection: FLEX_COLUMN, gap: SPACING_4 }}>
         <Heading level={2}>Line Height Scale</Heading>
         {lineHeights.map(({ name, value, description }) => (
           <div key={value}>
             <div
-              style={{ display: 'flex', alignItems: 'center', gap: 'var(--dsai-spacing-3)', marginBottom: '8px' }}
+              style={{ display: 'flex', alignItems: 'center', gap: SPACING_3, marginBottom: '8px' }}
             >
               <Text as="span" weight="bold">
                 {name}
@@ -456,7 +461,7 @@ const styles = {
  */
 export const TextWrapExamples: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-4)', maxWidth: '400px' }}>
+    <div style={{ display: 'flex', flexDirection: FLEX_COLUMN, gap: SPACING_4, maxWidth: '400px' }}>
       <Heading level={2}>Text Wrap</Heading>
 
       <div>
@@ -489,13 +494,13 @@ export const TextWrapExamples: Story = {
  */
 export const HighContrastMode: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-4)' }}>
+    <div style={{ display: 'flex', flexDirection: FLEX_COLUMN, gap: SPACING_4 }}>
       <Heading level={2}>High Contrast Mode</Heading>
       <Text color="muted">
         The highContrast prop enhances color contrast for WCAG AAA compliance.
       </Text>
 
-      <div style={{ display: 'flex', gap: 'var(--dsai-spacing-4)' }}>
+      <div style={{ display: 'flex', gap: SPACING_4 }}>
         <div>
           <Text as="span" weight="semibold">Normal</Text>
           <Heading level={3} color="muted">Muted Heading</Heading>

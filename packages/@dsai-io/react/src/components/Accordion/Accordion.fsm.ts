@@ -49,6 +49,40 @@ export type AccordionFSMEvent =
   | { readonly type: 'RESET_FROM_PROPS'; readonly activeKeys: readonly string[] };
 
 /**
+ * Add an eventKey to the active set, respecting selection mode
+ */
+function addKey(state: AccordionFSMState, eventKey: string): AccordionFSMState {
+  if (state.selectionMode === 'single') {
+    return { ...state, activeKeys: new Set([eventKey]) };
+  }
+  const newKeys = new Set(state.activeKeys);
+  newKeys.add(eventKey);
+  return { ...state, activeKeys: newKeys };
+}
+
+/**
+ * Remove an eventKey from the active set
+ */
+function removeKey(state: AccordionFSMState, eventKey: string): AccordionFSMState {
+  const newKeys = new Set(state.activeKeys);
+  newKeys.delete(eventKey);
+  return { ...state, activeKeys: newKeys };
+}
+
+/**
+ * Enforce single-selection mode on a list of keys
+ */
+function enforceSelectionMode(
+  selectionMode: AccordionSelectionMode,
+  keys: readonly string[]
+): string[] {
+  const firstKey = keys[0];
+  return selectionMode === 'single' && keys.length > 1 && firstKey !== undefined
+    ? [firstKey]
+    : [...keys];
+}
+
+/**
  * Creates the initial FSM state
  *
  * @param activeKeys - Initially active eventKeys
@@ -59,15 +93,8 @@ export function createInitialAccordionFSMState(
   activeKeys: readonly string[] = [],
   selectionMode: AccordionSelectionMode = 'single'
 ): AccordionFSMState {
-  // In single mode, only keep the first active key
-  const firstKey = activeKeys[0];
-  const validKeys: string[] =
-    selectionMode === 'single' && activeKeys.length > 1 && firstKey !== undefined
-      ? [firstKey]
-      : [...activeKeys];
-
   return {
-    activeKeys: new Set(validKeys),
+    activeKeys: new Set(enforceSelectionMode(selectionMode, activeKeys)),
     selectionMode,
   };
 }
@@ -107,79 +134,22 @@ export function accordionFSMReducer(
   event: AccordionFSMEvent
 ): AccordionFSMState {
   switch (event.type) {
-    case 'TOGGLE': {
-      const { eventKey } = event;
-      const isCurrentlyActive = state.activeKeys.has(eventKey);
+    case 'TOGGLE':
+      return state.activeKeys.has(event.eventKey)
+        ? removeKey(state, event.eventKey)
+        : addKey(state, event.eventKey);
 
-      if (isCurrentlyActive) {
-        // Collapse this item
-        const newKeys = new Set(state.activeKeys);
-        newKeys.delete(eventKey);
-        return { ...state, activeKeys: newKeys };
-      } else {
-        // Expand this item
-        if (state.selectionMode === 'single') {
-          // In single mode, only this item should be active
-          return { ...state, activeKeys: new Set([eventKey]) };
-        } else {
-          // In multiple mode, add to existing active items
-          const newKeys = new Set(state.activeKeys);
-          newKeys.add(eventKey);
-          return { ...state, activeKeys: newKeys };
-        }
-      }
-    }
+    case 'EXPAND':
+      return state.activeKeys.has(event.eventKey) ? state : addKey(state, event.eventKey);
 
-    case 'EXPAND': {
-      const { eventKey } = event;
+    case 'COLLAPSE':
+      return state.activeKeys.has(event.eventKey) ? removeKey(state, event.eventKey) : state;
 
-      if (state.activeKeys.has(eventKey)) {
-        // Already expanded, no change needed
-        return state;
-      }
-
-      if (state.selectionMode === 'single') {
-        // In single mode, replace all with just this one
-        return { ...state, activeKeys: new Set([eventKey]) };
-      } else {
-        // In multiple mode, add to existing
-        const newKeys = new Set(state.activeKeys);
-        newKeys.add(eventKey);
-        return { ...state, activeKeys: newKeys };
-      }
-    }
-
-    case 'COLLAPSE': {
-      const { eventKey } = event;
-
-      if (!state.activeKeys.has(eventKey)) {
-        // Already collapsed, no change needed
-        return state;
-      }
-
-      const newKeys = new Set(state.activeKeys);
-      newKeys.delete(eventKey);
-      return { ...state, activeKeys: newKeys };
-    }
-
-    case 'COLLAPSE_ALL': {
-      if (state.activeKeys.size === 0) {
-        // Already all collapsed
-        return state;
-      }
-      return { ...state, activeKeys: new Set() };
-    }
+    case 'COLLAPSE_ALL':
+      return state.activeKeys.size === 0 ? state : { ...state, activeKeys: new Set() };
 
     case 'RESET_FROM_PROPS': {
-      const { activeKeys } = event;
-
-      // In single mode, only keep the first key
-      const firstKey = activeKeys[0];
-      const validKeys: string[] =
-        state.selectionMode === 'single' && activeKeys.length > 1 && firstKey !== undefined
-          ? [firstKey]
-          : [...activeKeys];
-
+      const validKeys = enforceSelectionMode(state.selectionMode, event.activeKeys);
       const newKeysSet = new Set<string>(validKeys);
 
       // Check if the sets are equal to avoid unnecessary updates

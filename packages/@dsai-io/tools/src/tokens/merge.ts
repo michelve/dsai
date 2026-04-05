@@ -165,6 +165,34 @@ function countTokens(obj: unknown): number {
 // Reference Normalization
 // ============================================================================
 
+/** Normalize a single token reference string to use the new collection name */
+function normalizeReference(
+  value: string,
+  patternsLower: string[],
+  normalizedNew: string,
+): string {
+  const valueLower = value.toLowerCase();
+
+  for (const pattern of patternsLower) {
+    if (valueLower.startsWith(pattern)) {
+      const suffix = value.slice(pattern.length);
+      return `{${normalizedNew}.${suffix}`;
+    }
+  }
+
+  return value;
+}
+
+/** Ensure aliased token metadata exists */
+function ensureAliasMetadata(obj: TokenObject, collectionName: string): void {
+  if (!('$libraryName' in obj)) {
+    obj['$libraryName'] = '';
+  }
+  if (!('$collectionName' in obj)) {
+    obj['$collectionName'] = collectionName;
+  }
+}
+
 /**
  * Update token references to match new collection name
  * Normalizes to lowercase format: {colors.path} instead of {Colors.path}
@@ -173,40 +201,19 @@ function updateReferences(
   obj: TokenObject,
   oldName: string,
   newName: string,
-  collectionName: string
+  collectionName: string,
 ): void {
   const normalizedOld = oldName.toLowerCase().replaceAll(/\s+/g, '');
   const normalizedNew = newName.toLowerCase().replaceAll(/\s+/g, '');
-
-  // Build patterns to match (case-insensitive)
   const patternsLower = [`{${oldName.toLowerCase()}.`, `{${normalizedOld}.`];
 
   for (const key of Object.keys(obj)) {
     const value = obj[key];
 
     if (typeof value === 'string' && value.startsWith('{') && value.endsWith('}')) {
-      // This is a token reference - normalize to lowercase
-      let newValue = value;
-      const valueLower = value.toLowerCase();
-
-      for (const pattern of patternsLower) {
-        if (valueLower.startsWith(pattern)) {
-          // Replace the prefix with the normalized version
-          const suffix = value.slice(pattern.length);
-          newValue = `{${normalizedNew}.${suffix}`;
-          break;
-        }
-      }
-      obj[key] = newValue;
-
-      // Add metadata for aliased tokens
+      obj[key] = normalizeReference(value, patternsLower, normalizedNew);
       if ((obj[key] as string).startsWith('{')) {
-        if (!('$libraryName' in obj)) {
-          obj['$libraryName'] = '';
-        }
-        if (!('$collectionName' in obj)) {
-          obj['$collectionName'] = collectionName;
-        }
+        ensureAliasMetadata(obj, collectionName);
       }
     } else if (value && typeof value === 'object' && !Array.isArray(value)) {
       updateReferences(value as TokenObject, oldName, newName, collectionName);
@@ -342,56 +349,53 @@ function saveJSON(filePath: string, data: unknown, verbose: boolean): boolean {
   }
 }
 
-/**
- * Merge multiple collection files into one
- *
- * @example
- * ```typescript
- * const result = mergeCollections({
- *   sourceFiles: ['colors-scales.json', 'colors.json'],
- *   outputFile: 'merged-colors.json',
- * });
- * ```
- */
-export function mergeCollections(options: MergeOptions): MergeResult {
-  const { sourceFiles, outputFile, strategy = 'last', dryRun = false, verbose = false } = options;
+// ============================================================================
+// Merge Helpers
+// ============================================================================
 
+/** Parsed collection data */
+interface ParsedCollection {
+  name: string | null;
+  data: TokenObject;
+  tokenCount: number;
+}
+
+/** Create a failed MergeResult */
+function failedMergeResult(
+  outputFile: string,
+  collectionsCount: number,
+  tokensCount: number,
+  errors: string[],
+  conflicts?: string[],
+): MergeResult {
+  return {
+    success: false,
+    collectionsCount,
+    tokensCount,
+    outputFile,
+    errors,
+    conflicts: conflicts && conflicts.length > 0 ? conflicts : undefined,
+  };
+}
+
+/** Validate source files exist and return any errors */
+function validateSourceFiles(sourceFiles: string[]): string[] {
   const errors: string[] = [];
-  const conflicts: string[] = [];
-
-  if (sourceFiles.length < 2) {
-    return {
-      success: false,
-      collectionsCount: 0,
-      tokensCount: 0,
-      outputFile,
-      errors: ['At least two source files are required'],
-    };
-  }
-
-  // Validate files exist
   for (const file of sourceFiles) {
     if (!existsSync(file)) {
       errors.push(`Source file not found: ${file}`);
     }
   }
+  return errors;
+}
 
-  if (errors.length > 0) {
-    return {
-      success: false,
-      collectionsCount: 0,
-      tokensCount: 0,
-      outputFile,
-      errors,
-    };
-  }
-
-  if (verbose) {
-    console.info('🔄 Starting merge process...\n');
-  }
-
-  // Load all source files
-  const collections: { name: string | null; data: TokenObject; tokenCount: number }[] = [];
+/** Load and parse all source collection files */
+function loadCollections(
+  sourceFiles: string[],
+  verbose: boolean,
+  errors: string[],
+): ParsedCollection[] {
+  const collections: ParsedCollection[] = [];
 
   for (const file of sourceFiles) {
     const data = loadJSON(file, verbose);
@@ -413,77 +417,111 @@ export function mergeCollections(options: MergeOptions): MergeResult {
     collections.push({ name, data: collectionData, tokenCount });
   }
 
-  if (collections.length < 2) {
-    return {
-      success: false,
-      collectionsCount: collections.length,
-      tokensCount: 0,
-      outputFile,
-      errors: errors.length > 0 ? errors : ['Not enough valid collections to merge'],
-    };
-  }
+  return collections;
+}
 
-  // Determine unified collection name
+/** Choose the unified collection name from collection names */
+function chooseUnifiedName(collections: ParsedCollection[]): string {
   const collectionNames = collections.map((c) => c.name).filter((n): n is string => n !== null);
   const defaultName = collectionNames[0] ?? 'Tokens';
-  const unifiedName = collectionNames.includes('Colors')
-    ? 'Colors'
-    : collectionNames.reduce((a, b) => (a.length <= b.length ? a : b), defaultName);
+
+  if (collectionNames.includes('Colors')) { return 'Colors'; }
+  return collectionNames.reduce((a, b) => (a.length <= b.length ? a : b), defaultName);
+}
+
+/** Apply merge strategy across collections */
+function applyMergeStrategy(
+  collections: ParsedCollection[],
+  strategy: string,
+  verbose: boolean,
+): TokenObject {
+  const firstCollection = collections[0]!;
+  let merged: TokenObject = firstCollection.data;
+
+  for (let i = 1; i < collections.length; i++) {
+    const source = collections[i];
+    if (!source) { continue; }
+    merged = strategy === 'first'
+      ? deepMerge(source.data, merged, verbose)
+      : deepMerge(merged, source.data, verbose);
+  }
+
+  return merged;
+}
+
+/** Remove duplicate/alias sections from merged modes */
+function removeDuplicateSections(merged: TokenObject, verbose: boolean): void {
+  if (verbose) {
+    console.info('🗑️  Checking for duplicate sections...');
+  }
+
+  const modes = merged['modes'] as TokenObject | undefined;
+  if (!modes) { return; }
+
+  for (const modeName of Object.keys(modes)) {
+    const mode = modes[modeName] as TokenObject | undefined;
+    const colors = mode?.['colors'] as TokenObject | undefined;
+    if (!colors) { continue; }
+
+    for (const sectionName of Object.keys(colors)) {
+      if (isDuplicateSection(colors[sectionName])) {
+        if (verbose) {
+          console.info(`  ⚠️  Removing duplicate section: ${sectionName}`);
+        }
+        delete colors[sectionName];
+      }
+    }
+  }
+}
+
+/**
+ * Merge multiple collection files into one
+ *
+ * @example
+ * ```typescript
+ * const result = mergeCollections({
+ *   sourceFiles: ['colors-scales.json', 'colors.json'],
+ *   outputFile: 'merged-colors.json',
+ * });
+ * ```
+ */
+export function mergeCollections(options: MergeOptions): MergeResult {
+  const { sourceFiles, outputFile, strategy = 'last', dryRun = false, verbose = false } = options;
+
+  const conflicts: string[] = [];
+
+  if (sourceFiles.length < 2) {
+    return failedMergeResult(outputFile, 0, 0, ['At least two source files are required']);
+  }
+
+  const errors = validateSourceFiles(sourceFiles);
+  if (errors.length > 0) {
+    return failedMergeResult(outputFile, 0, 0, errors);
+  }
+
+  if (verbose) { console.info('🔄 Starting merge process...\n'); }
+
+  const collections = loadCollections(sourceFiles, verbose, errors);
+
+  if (collections.length < 2) {
+    return failedMergeResult(
+      outputFile,
+      collections.length,
+      0,
+      errors.length > 0 ? errors : ['Not enough valid collections to merge'],
+    );
+  }
+
+  const unifiedName = chooseUnifiedName(collections);
 
   if (verbose) {
     console.info(`\n🎯 Unified collection name: "${unifiedName}"`);
     console.info('\n🔀 Merging structures...');
   }
 
-  // Merge collections based on strategy
-  const firstCollection = collections[0];
-  if (!firstCollection) {
-    return {
-      success: false,
-      collectionsCount: 0,
-      tokensCount: 0,
-      outputFile,
-      errors: ['No collections to merge'],
-    };
-  }
+  const merged = applyMergeStrategy(collections, strategy, verbose);
 
-  let merged: TokenObject = firstCollection.data;
-  for (let i = 1; i < collections.length; i++) {
-    const source = collections[i];
-    if (!source) {
-      continue;
-    }
-    if (strategy === 'first') {
-      // First wins - merge source into target but target takes precedence
-      merged = deepMerge(source.data, merged, verbose);
-    } else {
-      // Last wins (default) - source overwrites target
-      merged = deepMerge(merged, source.data, verbose);
-    }
-  }
-
-  // Remove duplicate sections
-  if (verbose) {
-    console.info('🗑️  Checking for duplicate sections...');
-  }
-  const modes = merged['modes'] as TokenObject | undefined;
-  if (modes) {
-    for (const modeName of Object.keys(modes)) {
-      const mode = modes[modeName] as TokenObject | undefined;
-      const colors = mode?.['colors'] as TokenObject | undefined;
-
-      if (colors) {
-        for (const sectionName of Object.keys(colors)) {
-          if (isDuplicateSection(colors[sectionName])) {
-            if (verbose) {
-              console.info(`  ⚠️  Removing duplicate section: ${sectionName}`);
-            }
-            delete colors[sectionName];
-          }
-        }
-      }
-    }
-  }
+  removeDuplicateSections(merged, verbose);
 
   // Normalize references
   if (verbose) {
@@ -496,34 +534,18 @@ export function mergeCollections(options: MergeOptions): MergeResult {
     }
   }
 
-  // Sort properties
-  if (verbose) {
-    console.info('📋 Sorting properties alphabetically...');
-  }
+  // Sort and count
+  if (verbose) { console.info('📋 Sorting properties alphabetically...'); }
   const sorted = sortProperties(merged) as TokenObject;
-
-  // Count final tokens
   const tokensCount = countTokens(sorted);
-
-  if (verbose) {
-    console.info(`✨ Merged collection: ${tokensCount} tokens\n`);
-  }
-
-  // Create output structure
-  const output = [{ [unifiedName]: sorted }];
+  if (verbose) { console.info(`✨ Merged collection: ${tokensCount} tokens\n`); }
 
   // Save if not dry run
+  const output = [{ [unifiedName]: sorted }];
   if (!dryRun) {
     if (!saveJSON(outputFile, output, verbose)) {
       errors.push(`Failed to write output file: ${outputFile}`);
-      return {
-        success: false,
-        collectionsCount: collections.length,
-        tokensCount,
-        outputFile,
-        errors,
-        conflicts: conflicts.length > 0 ? conflicts : undefined,
-      };
+      return failedMergeResult(outputFile, collections.length, tokensCount, errors, conflicts);
     }
   }
 

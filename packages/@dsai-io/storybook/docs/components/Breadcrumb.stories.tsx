@@ -40,6 +40,12 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
  * - Ellipsis button has aria-expanded state
  * - Semantic HTML with proper ARIA labels
  */
+/** Label for the active/current breadcrumb item */
+const CURRENT_PAGE_LABEL = 'Current Page';
+
+/** Secondary color token for separator styling */
+const BS_SECONDARY = 'var(--bs-secondary)';
+
 type StoryBreadcrumbProps = ComponentProps<typeof Breadcrumb>;
 
 const StoryBreadcrumb = (props: StoryBreadcrumbProps): JSX.Element => {
@@ -400,7 +406,7 @@ export const WithClickHandlers: Story = {
         items={[
           { id: 'home', label: 'Home', onClick: handleClick('Home') },
           { id: 'products', label: 'Products', onClick: handleClick('Products') },
-          { id: 'current', label: 'Current Page', active: true },
+          { id: 'current', label: CURRENT_PAGE_LABEL, active: true },
         ]}
       />
     );
@@ -522,7 +528,7 @@ export const SecurityExternalLinks: Story = {
           { id: 'home', label: 'Home', href: '#' },
           { id: 'docs', label: 'Documentation', href: 'https://docs.example.com' },
           { id: 'api', label: 'API Reference', href: 'https://api.example.com' },
-          { id: 'current', label: 'Current Page', active: true },
+          { id: 'current', label: CURRENT_PAGE_LABEL, active: true },
         ]}
       />
       <div className="alert alert-info mt-3 mb-0">
@@ -614,7 +620,7 @@ export const PerformanceMemoization: Story = {
           items={[
             { id: 'home', label: 'Home', href: '/' },
             { id: 'products', label: 'Products', href: '/products' },
-            { id: 'current', label: 'Current Page', active: true },
+            { id: 'current', label: CURRENT_PAGE_LABEL, active: true },
           ]}
         />
         <Button
@@ -730,7 +736,7 @@ export const ReactNodeSeparator: Story = {
           { id: 'products', label: 'Products', href: '#' },
           { id: 'current', label: 'Current', active: true },
         ]}
-        separator={<span style={{ color: 'var(--bs-secondary)', margin: '0 0.25rem' }}>›</span>}
+        separator={<span style={{ color: BS_SECONDARY, margin: '0 0.25rem' }}>›</span>}
       />
       <StoryBreadcrumb
         items={[
@@ -738,7 +744,7 @@ export const ReactNodeSeparator: Story = {
           { id: 'products', label: 'Products', href: '#' },
           { id: 'current', label: 'Current', active: true },
         ]}
-        separator={<span style={{ color: 'var(--bs-secondary)', margin: '0 0.25rem' }}>→</span>}
+        separator={<span style={{ color: BS_SECONDARY, margin: '0 0.25rem' }}>→</span>}
       />
     </div>
   ),
@@ -756,7 +762,7 @@ export const CustomExpandText: Story = {
       { id: '3', label: 'Level 2', href: '#' },
       { id: '4', label: 'Level 3', href: '#' },
       { id: '5', label: 'Level 4', href: '#' },
-      { id: '6', label: 'Current Page', active: true as const },
+      { id: '6', label: CURRENT_PAGE_LABEL, active: true as const },
     ];
     return (
       <StoryBreadcrumb
@@ -775,7 +781,7 @@ export const CustomExpandText: Story = {
 export const StructuredData: Story = {
   render: () => (
     <div>
-      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)', marginBottom: '0.5rem' }}>
+      <p style={{ fontSize: '0.875rem', color: BS_SECONDARY, marginBottom: '0.5rem' }}>
         This breadcrumb generates a &lt;script type=&quot;application/ld+json&quot;&gt; tag
         with Schema.org BreadcrumbList data. Inspect the DOM to see it.
       </p>

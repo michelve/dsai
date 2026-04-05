@@ -16,6 +16,37 @@ import type {
 } from '../../src/types.js';
 
 // ============================================================================
+// Shared Fixture Constants (S1192)
+// ============================================================================
+
+const VAR_COLLECTION_ID_1 = 'VariableCollectionId:1:0';
+const VAR_COLLECTION_ID_2 = 'VariableCollectionId:2:0';
+const VAR_COLLECTION_ID_3 = 'VariableCollectionId:3:0';
+const RESOLVED_TYPE_COLOR = 'COLOR';
+const MODE_ID_1 = '1:0';
+const STYLE_KEY_1 = 'style-key-1';
+const COLORS_PRIMARY = 'colors/primary';
+const COMP_KEY_1 = 'comp-key-1';
+const MOCK_WEEK = '2026-03-23';
+const BRAND_PRIMARY = 'Brand/Primary';
+const MOCK_UPDATED_AT = '2026-03-20T10:00:00Z';
+const MOCK_CREATED_AT = '2025-01-01T00:00:00Z';
+const PRIMARY_BUTTON_DESCRIPTION = 'Primary button component';
+const BUTTON_NAME = 'Button';
+const FILE_KEY_ABC = 'file-abc';
+const STYLE_TYPE_FILL = 'FILL';
+const SET_KEY_1 = 'set-key-1';
+const WORKSPACE_ACME = 'Acme Corp';
+const RESOLVED_TYPE_FLOAT = 'FLOAT';
+const SCOPE_ALL_FILLS = 'ALL_FILLS';
+const EDITOR_TYPE_FIGMA = 'figma';
+const VAR_TYPE_COLOR = 'COLOR';
+const COLLECTION_NAME_PRIMITIVES = 'primitives';
+const CONTAINING_FRAME_LIBRARY = { nodeId: '0:1', name: 'Components', pageName: 'Library' };
+const BUTTON_VARIANT_SET_DESC = 'Button variant set';
+const PRIMARY_BRAND_COLOR_DESC = 'Primary brand color';
+
+// ============================================================================
 // Mock Colors
 // ============================================================================
 
@@ -50,18 +81,18 @@ export const mockColors = {
 // ============================================================================
 
 export const mockVariableCollections: Record<string, FigmaVariableCollection> = {
-  'VariableCollectionId:1:0': {
-    id: 'VariableCollectionId:1:0',
-    name: 'primitives',
+  [VAR_COLLECTION_ID_1]: {
+    id: VAR_COLLECTION_ID_1,
+    name: COLLECTION_NAME_PRIMITIVES,
     key: 'primitives-key',
-    modes: [{ modeId: '1:0', name: 'Mode 1' }],
-    defaultModeId: '1:0',
+    modes: [{ modeId: MODE_ID_1, name: 'Mode 1' }],
+    defaultModeId: MODE_ID_1,
     remote: false,
     hiddenFromPublishing: false,
     variableIds: ['VariableID:1:1', 'VariableID:1:2', 'VariableID:1:3'],
   },
-  'VariableCollectionId:2:0': {
-    id: 'VariableCollectionId:2:0',
+  [VAR_COLLECTION_ID_2]: {
+    id: VAR_COLLECTION_ID_2,
     name: 'semantic',
     key: 'semantic-key',
     modes: [
@@ -73,8 +104,8 @@ export const mockVariableCollections: Record<string, FigmaVariableCollection> = 
     hiddenFromPublishing: false,
     variableIds: ['VariableID:2:1', 'VariableID:2:2'],
   },
-  'VariableCollectionId:3:0': {
-    id: 'VariableCollectionId:3:0',
+  [VAR_COLLECTION_ID_3]: {
+    id: VAR_COLLECTION_ID_3,
     name: 'typography',
     key: 'typography-key',
     modes: [{ modeId: '3:0', name: 'default' }],
@@ -95,38 +126,38 @@ export const mockVariables: Record<string, FigmaVariable> = {
     id: 'VariableID:1:1',
     name: 'colors/blue/500',
     key: 'blue-500-key',
-    variableCollectionId: 'VariableCollectionId:1:0',
-    resolvedType: 'COLOR',
+    variableCollectionId: VAR_COLLECTION_ID_1,
+    resolvedType: RESOLVED_TYPE_COLOR,
     description: 'Primary blue color',
     hiddenFromPublishing: false,
     valuesByMode: {
-      '1:0': mockColors.brandPrimary,
+      [MODE_ID_1]: mockColors.brandPrimary,
     },
-    scopes: ['ALL_FILLS'],
+    scopes: [SCOPE_ALL_FILLS],
   },
   'VariableID:1:2': {
     id: 'VariableID:1:2',
     name: 'colors/gray/100',
     key: 'gray-100-key',
-    variableCollectionId: 'VariableCollectionId:1:0',
-    resolvedType: 'COLOR',
+    variableCollectionId: VAR_COLLECTION_ID_1,
+    resolvedType: RESOLVED_TYPE_COLOR,
     description: 'Light gray background',
     hiddenFromPublishing: false,
     valuesByMode: {
-      '1:0': { r: 0.96, g: 0.96, b: 0.96, a: 1 },
+      [MODE_ID_1]: { r: 0.96, g: 0.96, b: 0.96, a: 1 },
     },
-    scopes: ['ALL_FILLS'],
+    scopes: [SCOPE_ALL_FILLS],
   },
   'VariableID:1:3': {
     id: 'VariableID:1:3',
     name: 'spacing/base',
     key: 'spacing-base-key',
-    variableCollectionId: 'VariableCollectionId:1:0',
-    resolvedType: 'FLOAT',
+    variableCollectionId: VAR_COLLECTION_ID_1,
+    resolvedType: RESOLVED_TYPE_FLOAT,
     description: 'Base spacing unit (8px)',
     hiddenFromPublishing: false,
     valuesByMode: {
-      '1:0': 8,
+      [MODE_ID_1]: 8,
     },
     scopes: ['GAP', 'WIDTH_HEIGHT'],
   },
@@ -136,8 +167,8 @@ export const mockVariables: Record<string, FigmaVariable> = {
     id: 'VariableID:2:1',
     name: 'colors/background/primary',
     key: 'bg-primary-key',
-    variableCollectionId: 'VariableCollectionId:2:0',
-    resolvedType: 'COLOR',
+    variableCollectionId: VAR_COLLECTION_ID_2,
+    resolvedType: RESOLVED_TYPE_COLOR,
     description: 'Primary background color',
     hiddenFromPublishing: false,
     valuesByMode: {
@@ -150,8 +181,8 @@ export const mockVariables: Record<string, FigmaVariable> = {
     id: 'VariableID:2:2',
     name: 'colors/text/primary',
     key: 'text-primary-key',
-    variableCollectionId: 'VariableCollectionId:2:0',
-    resolvedType: 'COLOR',
+    variableCollectionId: VAR_COLLECTION_ID_2,
+    resolvedType: RESOLVED_TYPE_COLOR,
     description:
       'Primary text color\n\nDocs.Reference: https://design.dsai.io/colors • Docs.Section: Text Colors',
     hiddenFromPublishing: false,
@@ -167,7 +198,7 @@ export const mockVariables: Record<string, FigmaVariable> = {
     id: 'VariableID:3:1',
     name: 'typography/font/family',
     key: 'font-family-key',
-    variableCollectionId: 'VariableCollectionId:3:0',
+    variableCollectionId: VAR_COLLECTION_ID_3,
     resolvedType: 'STRING',
     description: 'Default font family',
     hiddenFromPublishing: false,
@@ -180,8 +211,8 @@ export const mockVariables: Record<string, FigmaVariable> = {
     id: 'VariableID:3:2',
     name: 'typography/font/weight',
     key: 'font-weight-key',
-    variableCollectionId: 'VariableCollectionId:3:0',
-    resolvedType: 'FLOAT',
+    variableCollectionId: VAR_COLLECTION_ID_3,
+    resolvedType: RESOLVED_TYPE_FLOAT,
     description: 'Default font weight',
     hiddenFromPublishing: false,
     valuesByMode: {
@@ -193,8 +224,8 @@ export const mockVariables: Record<string, FigmaVariable> = {
     id: 'VariableID:3:3',
     name: 'typography/fontSize/base',
     key: 'font-size-key',
-    variableCollectionId: 'VariableCollectionId:3:0',
-    resolvedType: 'FLOAT',
+    variableCollectionId: VAR_COLLECTION_ID_3,
+    resolvedType: RESOLVED_TYPE_FLOAT,
     description: 'Base font size',
     hiddenFromPublishing: false,
     valuesByMode: {
@@ -233,14 +264,14 @@ export const mockFigmaFile: FigmaFile = {
   thumbnailUrl: 'https://example.com/thumbnail.png',
   version: '1234567890',
   role: 'owner',
-  editorType: 'figma',
+  editorType: EDITOR_TYPE_FIGMA,
   document: {
     id: '0:0',
     name: 'Document',
     type: 'DOCUMENT',
     children: [
       {
-        id: '1:0',
+        id: MODE_ID_1,
         name: 'Page 1',
         type: 'CANVAS',
         children: [],
@@ -250,8 +281,8 @@ export const mockFigmaFile: FigmaFile = {
   components: {
     'ComponentID:1:0': {
       key: 'component-key-1',
-      name: 'Button',
-      description: 'Primary button component',
+      name: BUTTON_NAME,
+      description: PRIMARY_BUTTON_DESCRIPTION,
       remote: false,
       documentationLinks: [],
     },
@@ -266,11 +297,11 @@ export const mockFigmaFile: FigmaFile = {
   componentSets: {},
   styles: {
     'StyleID:1:0': {
-      key: 'style-key-1',
-      name: 'colors/primary',
+      key: STYLE_KEY_1,
+      name: COLORS_PRIMARY,
       description: 'Primary color style',
       remote: false,
-      styleType: 'FILL',
+      styleType: STYLE_TYPE_FILL,
     },
     'StyleID:2:0': {
       key: 'style-key-2',
@@ -299,7 +330,7 @@ export const minimalMockFile: FigmaFile = {
   thumbnailUrl: 'https://example.com/test.png',
   version: '1',
   role: 'viewer',
-  editorType: 'figma',
+  editorType: EDITOR_TYPE_FIGMA,
   document: {
     id: '0:0',
     name: 'Document',
@@ -371,7 +402,7 @@ export const mockStyleNodes = {
     'StyleID:1:0': {
       document: {
         id: 'StyleID:1:0',
-        name: 'colors/primary',
+        name: COLORS_PRIMARY,
         type: 'RECTANGLE',
         fills: [
           {
@@ -429,12 +460,12 @@ export function createMockVariable(
 ): FigmaVariable {
   return {
     key: `${overrides.name}-key`,
-    variableCollectionId: 'VariableCollectionId:1:0',
-    resolvedType: 'COLOR',
+    variableCollectionId: VAR_COLLECTION_ID_1,
+    resolvedType: RESOLVED_TYPE_COLOR,
     description: '',
     hiddenFromPublishing: false,
-    valuesByMode: { '1:0': mockColors.blue },
-    scopes: ['ALL_FILLS'],
+    valuesByMode: { [MODE_ID_1]: mockColors.blue },
+    scopes: [SCOPE_ALL_FILLS],
     ...overrides,
   };
 }
@@ -447,8 +478,8 @@ export function createMockCollection(
 ): FigmaVariableCollection {
   return {
     key: `${overrides.name}-key`,
-    modes: [{ modeId: '1:0', name: 'default' }],
-    defaultModeId: '1:0',
+    modes: [{ modeId: MODE_ID_1, name: 'default' }],
+    defaultModeId: MODE_ID_1,
     remote: false,
     hiddenFromPublishing: false,
     variableIds: [],
@@ -536,17 +567,17 @@ export const error413PayloadTooLarge = {
 export const mockComponentActionsByComponent = {
   rows: [
     {
-      component_key: 'comp-key-1',
-      week: '2026-03-23',
+      component_key: COMP_KEY_1,
+      week: MOCK_WEEK,
       detachments: 3,
       insertions: 15,
-      component_name: 'Button',
-      component_set_key: 'set-key-1',
-      component_set_name: 'Button',
+      component_name: BUTTON_NAME,
+      component_set_key: SET_KEY_1,
+      component_set_name: BUTTON_NAME,
     },
     {
       component_key: 'comp-key-2',
-      week: '2026-03-23',
+      week: MOCK_WEEK,
       detachments: 0,
       insertions: 8,
       component_name: 'Card',
@@ -562,11 +593,11 @@ export const mockComponentActionsByComponent = {
 export const mockComponentActionsByTeam = {
   rows: [
     {
-      week: '2026-03-23',
+      week: MOCK_WEEK,
       detachments: 5,
       insertions: 42,
       team_name: 'Design Systems',
-      workspace_name: 'Acme Corp',
+      workspace_name: WORKSPACE_ACME,
     },
   ],
   cursor: '',
@@ -577,13 +608,13 @@ export const mockComponentActionsByTeam = {
 export const mockComponentUsagesByComponent = {
   rows: [
     {
-      component_key: 'comp-key-1',
+      component_key: COMP_KEY_1,
       usages: 234,
       teams_using: 5,
       files_using: 18,
-      component_name: 'Button',
-      component_set_key: 'set-key-1',
-      component_set_name: 'Button',
+      component_name: BUTTON_NAME,
+      component_set_key: SET_KEY_1,
+      component_set_name: BUTTON_NAME,
     },
   ],
   cursor: '',
@@ -596,7 +627,7 @@ export const mockComponentUsagesByFile = {
     {
       usages: 42,
       team_name: 'Design Systems',
-      workspace_name: 'Acme Corp',
+      workspace_name: WORKSPACE_ACME,
       file_name: 'Web App Designs',
     },
   ],
@@ -608,12 +639,12 @@ export const mockComponentUsagesByFile = {
 export const mockStyleActionsByStyle = {
   rows: [
     {
-      style_key: 'style-key-1',
-      week: '2026-03-23',
+      style_key: STYLE_KEY_1,
+      week: MOCK_WEEK,
       detachments: 1,
       insertions: 20,
-      style_name: 'Brand/Primary',
-      style_type: 'FILL',
+      style_name: BRAND_PRIMARY,
+      style_type: STYLE_TYPE_FILL,
     },
   ],
   cursor: '',
@@ -624,12 +655,12 @@ export const mockStyleActionsByStyle = {
 export const mockStyleUsagesByStyle = {
   rows: [
     {
-      style_key: 'style-key-1',
+      style_key: STYLE_KEY_1,
       usages: 150,
       teams_using: 4,
       files_using: 12,
-      style_name: 'Brand/Primary',
-      style_type: 'FILL',
+      style_name: BRAND_PRIMARY,
+      style_type: STYLE_TYPE_FILL,
     },
   ],
   cursor: '',
@@ -641,13 +672,13 @@ export const mockVariableActionsByVariable = {
   rows: [
     {
       variable_key: 'var-key-1',
-      week: '2026-03-23',
+      week: MOCK_WEEK,
       detachments: 0,
       insertions: 10,
-      variable_name: 'colors/primary',
-      variable_type: 'COLOR',
+      variable_name: COLORS_PRIMARY,
+      variable_type: VAR_TYPE_COLOR,
       collection_key: 'coll-key-1',
-      collection_name: 'primitives',
+      collection_name: COLLECTION_NAME_PRIMITIVES,
     },
   ],
   cursor: '',
@@ -662,10 +693,10 @@ export const mockVariableUsagesByVariable = {
       usages: 88,
       teams_using: 3,
       files_using: 9,
-      variable_name: 'colors/primary',
-      variable_type: 'COLOR',
+      variable_name: COLORS_PRIMARY,
+      variable_type: VAR_TYPE_COLOR,
       collection_key: 'coll-key-1',
-      collection_name: 'primitives',
+      collection_name: COLLECTION_NAME_PRIMITIVES,
     },
   ],
   cursor: '',
@@ -676,11 +707,11 @@ export const mockVariableUsagesByVariable = {
 export const mockActionsByTeam = {
   rows: [
     {
-      week: '2026-03-23',
+      week: MOCK_WEEK,
       detachments: 2,
       insertions: 30,
       team_name: 'Product',
-      workspace_name: 'Acme Corp',
+      workspace_name: WORKSPACE_ACME,
     },
   ],
   cursor: '',
@@ -693,7 +724,7 @@ export const mockUsagesByFile = {
     {
       usages: 25,
       team_name: 'Product',
-      workspace_name: 'Acme Corp',
+      workspace_name: WORKSPACE_ACME,
       file_name: 'Dashboard',
     },
   ],
@@ -721,16 +752,16 @@ export const mockPublishedComponentsResponse = {
   meta: {
     components: [
       {
-        key: 'comp-key-1',
-        file_key: 'file-abc',
+        key: COMP_KEY_1,
+        file_key: FILE_KEY_ABC,
         node_id: '1:2',
         thumbnail_url: 'https://example.com/thumb1.png',
-        name: 'Button',
-        description: 'Primary button component',
-        updated_at: '2026-03-20T10:00:00Z',
-        created_at: '2025-01-01T00:00:00Z',
+        name: BUTTON_NAME,
+        description: PRIMARY_BUTTON_DESCRIPTION,
+        updated_at: MOCK_UPDATED_AT,
+        created_at: MOCK_CREATED_AT,
         user: mockUser,
-        containing_frame: { nodeId: '0:1', name: 'Components', pageName: 'Library' },
+        containing_frame: CONTAINING_FRAME_LIBRARY,
       },
     ],
   },
@@ -742,16 +773,16 @@ export const mockPublishedComponentSetsResponse = {
   meta: {
     component_sets: [
       {
-        key: 'set-key-1',
-        file_key: 'file-abc',
+        key: SET_KEY_1,
+        file_key: FILE_KEY_ABC,
         node_id: '1:10',
         thumbnail_url: 'https://example.com/set-thumb.png',
-        name: 'Button',
-        description: 'Button variant set',
-        updated_at: '2026-03-20T10:00:00Z',
-        created_at: '2025-01-01T00:00:00Z',
+        name: BUTTON_NAME,
+        description: BUTTON_VARIANT_SET_DESC,
+        updated_at: MOCK_UPDATED_AT,
+        created_at: MOCK_CREATED_AT,
         user: mockUser,
-        containing_frame: { nodeId: '0:1', name: 'Components', pageName: 'Library' },
+        containing_frame: CONTAINING_FRAME_LIBRARY,
       },
     ],
   },
@@ -763,15 +794,15 @@ export const mockPublishedStylesResponse = {
   meta: {
     styles: [
       {
-        key: 'style-key-1',
-        file_key: 'file-abc',
+        key: STYLE_KEY_1,
+        file_key: FILE_KEY_ABC,
         node_id: '2:1',
-        style_type: 'FILL',
+        style_type: STYLE_TYPE_FILL,
         thumbnail_url: 'https://example.com/style-thumb.png',
-        name: 'Brand/Primary',
-        description: 'Primary brand color',
-        updated_at: '2026-03-20T10:00:00Z',
-        created_at: '2025-01-01T00:00:00Z',
+        name: BRAND_PRIMARY,
+        description: PRIMARY_BRAND_COLOR_DESC,
+        updated_at: MOCK_UPDATED_AT,
+        created_at: MOCK_CREATED_AT,
         sort_position: 'a',
         user: mockUser,
       },
@@ -783,16 +814,16 @@ export const mockSingleComponentResponse = {
   status: 200,
   error: false,
   meta: {
-    key: 'comp-key-1',
-    file_key: 'file-abc',
+    key: COMP_KEY_1,
+    file_key: FILE_KEY_ABC,
     node_id: '1:2',
     thumbnail_url: 'https://example.com/thumb1.png',
-    name: 'Button',
-    description: 'Primary button component',
-    updated_at: '2026-03-20T10:00:00Z',
-    created_at: '2025-01-01T00:00:00Z',
+    name: BUTTON_NAME,
+    description: PRIMARY_BUTTON_DESCRIPTION,
+    updated_at: MOCK_UPDATED_AT,
+    created_at: MOCK_CREATED_AT,
     user: mockUser,
-    containing_frame: { nodeId: '0:1', name: 'Components', pageName: 'Library' },
+    containing_frame: CONTAINING_FRAME_LIBRARY,
   },
 };
 
@@ -800,16 +831,16 @@ export const mockSingleComponentSetResponse = {
   status: 200,
   error: false,
   meta: {
-    key: 'set-key-1',
-    file_key: 'file-abc',
+    key: SET_KEY_1,
+    file_key: FILE_KEY_ABC,
     node_id: '1:10',
     thumbnail_url: 'https://example.com/set-thumb.png',
-    name: 'Button',
-    description: 'Button variant set',
-    updated_at: '2026-03-20T10:00:00Z',
-    created_at: '2025-01-01T00:00:00Z',
+    name: BUTTON_NAME,
+    description: BUTTON_VARIANT_SET_DESC,
+    updated_at: MOCK_UPDATED_AT,
+    created_at: MOCK_CREATED_AT,
     user: mockUser,
-    containing_frame: { nodeId: '0:1', name: 'Components', pageName: 'Library' },
+    containing_frame: CONTAINING_FRAME_LIBRARY,
   },
 };
 
@@ -817,15 +848,15 @@ export const mockSingleStyleResponse = {
   status: 200,
   error: false,
   meta: {
-    key: 'style-key-1',
-    file_key: 'file-abc',
+    key: STYLE_KEY_1,
+    file_key: FILE_KEY_ABC,
     node_id: '2:1',
-    style_type: 'FILL',
+    style_type: STYLE_TYPE_FILL,
     thumbnail_url: 'https://example.com/style-thumb.png',
-    name: 'Brand/Primary',
-    description: 'Primary brand color',
-    updated_at: '2026-03-20T10:00:00Z',
-    created_at: '2025-01-01T00:00:00Z',
+    name: BRAND_PRIMARY,
+    description: PRIMARY_BRAND_COLOR_DESC,
+    updated_at: MOCK_UPDATED_AT,
+    created_at: MOCK_CREATED_AT,
     sort_position: 'a',
     user: mockUser,
   },
@@ -870,7 +901,7 @@ export const mockFileMetadataResponse = {
     creator: mockUser,
     last_touched_by: mockUser,
     thumbnail_url: 'https://example.com/file-thumb.png',
-    editorType: 'figma',
+    editorType: EDITOR_TYPE_FIGMA,
     version: '123456',
     role: 'editor',
     link_access: 'org_view',

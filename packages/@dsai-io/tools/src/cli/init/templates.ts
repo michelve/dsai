@@ -80,11 +80,6 @@ function getThemeSelectorPattern(
       others: '[data-theme="{mode}"]',
     };
   }
-
-  // TODO: Add Vue/Nuxt patterns (coming soon)
-  // TODO: Add Angular patterns (coming soon)
-  // TODO: Add Svelte/SvelteKit patterns (coming soon)
-
   // Default pattern
   return {
     default: ':root',
@@ -109,11 +104,6 @@ export function getFrameworkOutputDir(
   if (metaFramework === 'vite' && framework === 'react') {
     return 'src/tokens';
   }
-
-  // TODO: Add Vue/Nuxt output directories (coming soon)
-  // TODO: Add Angular output directories (coming soon)
-  // TODO: Add Svelte/SvelteKit output directories (coming soon)
-
   // Default based on source directory
   if (sourceDir) {
     return `${sourceDir}/tokens`;
@@ -1392,12 +1382,7 @@ export function generateTemplate(options: TemplateOptions): GeneratedTemplate {
       default:
         configContent = generateReactFullConfig(options);
     }
-  }
-  // TODO: Add Vue templates (coming soon)
-  // TODO: Add Angular templates (coming soon)
-  // TODO: Add Svelte templates (coming soon)
-  // TODO: Add Solid templates (coming soon)
-  else {
+  } else {
     // Vanilla/unknown frameworks
     configContent = generateVanillaConfig(options);
   }
@@ -1439,8 +1424,6 @@ export function generateTemplate(options: TemplateOptions): GeneratedTemplate {
  * Check if a framework is fully supported
  */
 export function isFrameworkSupported(framework: Framework): boolean {
-  // Currently only React and vanilla are fully supported
-  // TODO: Add support for Vue, Angular, Svelte, Solid (coming soon)
   return framework === 'react' || framework === 'vanilla' || framework === 'unknown';
 }
 

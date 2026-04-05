@@ -48,6 +48,9 @@ import type { JSX } from 'react';
  * 5. **Type-Safe** - Full TypeScript support with proper generics
  */
 
+/** Font weight token used across story labels */
+const FONT_WEIGHT_MEDIUM = 'var(--dsai-typography-font-weight-medium)';
+
 const meta: Meta = {
   title: 'Utilities/Async',
   parameters: {
@@ -371,7 +374,7 @@ export const WithTimeoutDemo: Story = {
                 style={{
                   display: 'block',
                   marginBottom: '0.5rem',
-                  fontWeight: 'var(--dsai-typography-font-weight-medium)',
+                  fontWeight: FONT_WEIGHT_MEDIUM,
                 }}
               >
                 Timeout: {timeoutMs}ms
@@ -393,7 +396,7 @@ export const WithTimeoutDemo: Story = {
                 style={{
                   display: 'block',
                   marginBottom: '0.5rem',
-                  fontWeight: 'var(--dsai-typography-font-weight-medium)',
+                  fontWeight: FONT_WEIGHT_MEDIUM,
                 }}
               >
                 Request Duration: {requestDuration}ms
@@ -637,7 +640,7 @@ export const RetryWithBackoffDemo: Story = {
                 style={{
                   display: 'block',
                   marginBottom: '0.5rem',
-                  fontWeight: 'var(--dsai-typography-font-weight-medium)',
+                  fontWeight: FONT_WEIGHT_MEDIUM,
                 }}
               >
                 Failures before success: {failCount}
@@ -658,7 +661,7 @@ export const RetryWithBackoffDemo: Story = {
                 style={{
                   display: 'block',
                   marginBottom: '0.5rem',
-                  fontWeight: 'var(--dsai-typography-font-weight-medium)',
+                  fontWeight: FONT_WEIGHT_MEDIUM,
                 }}
               >
                 Max attempts: {maxAttempts}
@@ -826,7 +829,7 @@ export const ExponentialBackoffDemo: Story = {
               <label
                 style={{
                   display: 'block',
-                  fontWeight: 'var(--dsai-typography-font-weight-medium)',
+                  fontWeight: FONT_WEIGHT_MEDIUM,
                 }}
               >
                 <span style={{ display: 'block', marginBottom: '0.5rem' }}>
@@ -847,7 +850,7 @@ export const ExponentialBackoffDemo: Story = {
               <label
                 style={{
                   display: 'block',
-                  fontWeight: 'var(--dsai-typography-font-weight-medium)',
+                  fontWeight: FONT_WEIGHT_MEDIUM,
                 }}
               >
                 <span style={{ display: 'block', marginBottom: '0.5rem' }}>
@@ -868,7 +871,7 @@ export const ExponentialBackoffDemo: Story = {
               <label
                 style={{
                   display: 'block',
-                  fontWeight: 'var(--dsai-typography-font-weight-medium)',
+                  fontWeight: FONT_WEIGHT_MEDIUM,
                 }}
               >
                 <span style={{ display: 'block', marginBottom: '0.5rem' }}>
@@ -892,7 +895,7 @@ export const ExponentialBackoffDemo: Story = {
                   checked={jitter}
                   onChange={(e) => setJitter(e.target.checked)}
                 />
-                <span style={{ fontWeight: 'var(--dsai-typography-font-weight-medium)' }}>
+                <span style={{ fontWeight: FONT_WEIGHT_MEDIUM }}>
                   Enable Jitter (±25%)
                 </span>
               </label>
@@ -937,7 +940,7 @@ export const ExponentialBackoffDemo: Story = {
                   <span
                     style={{
                       width: '80px',
-                      fontWeight: 'var(--dsai-typography-font-weight-medium)',
+                      fontWeight: FONT_WEIGHT_MEDIUM,
                     }}
                   >
                     Attempt {attempt + 1}
@@ -1110,7 +1113,7 @@ export const CreateTaskQueueDemo: Story = {
 
           <div style={{ marginBottom: '1rem' }}>
             <label
-              style={{ display: 'block', fontWeight: 'var(--dsai-typography-font-weight-medium)' }}
+              style={{ display: 'block', fontWeight: FONT_WEIGHT_MEDIUM }}
             >
               <span style={{ display: 'block', marginBottom: '0.5rem' }}>
                 Concurrency: {concurrency} task{concurrency > 1 ? 's' : ''} at a time

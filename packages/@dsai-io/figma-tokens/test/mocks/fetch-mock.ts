@@ -108,87 +108,74 @@ function createErrorResponse(
 // ============================================================================
 
 /**
+ * Route matcher for mock fetch handler
+ */
+interface MockRoute {
+  match: (url: string, options?: RequestInit) => boolean;
+  data: unknown;
+  requestId: string;
+}
+
+/**
+ * Check if URL matches a single-resource endpoint pattern (e.g. /components/:key)
+ */
+function isSingleResourceUrl(url: string, resource: string): boolean {
+  return new RegExp(`\\/${resource}\\/[^/]+$`).test(url) && !url.includes('/files/');
+}
+
+/**
+ * Ordered list of mock route definitions.
+ * Routes are evaluated top-to-bottom; first match wins.
+ */
+const defaultRoutes: MockRoute[] = [
+  // User endpoint
+  { match: (url) => url.includes('/v1/me') || url.endsWith('/me'), data: mockMeResponse, requestId: 'req-me' },
+
+  // Single resource by key
+  { match: (url) => isSingleResourceUrl(url, 'components'), data: mockSingleComponentResponse, requestId: 'req-comp' },
+  { match: (url) => isSingleResourceUrl(url, 'component_sets'), data: mockSingleComponentSetResponse, requestId: 'req-comp-set' },
+  { match: (url) => isSingleResourceUrl(url, 'styles'), data: mockSingleStyleResponse, requestId: 'req-style' },
+
+  // Analytics endpoints (must be before generic library endpoints)
+  { match: (url) => url.includes('/analytics/libraries/') && url.includes('/component/actions'), data: mockComponentActionsByComponent, requestId: 'req-comp-actions' },
+  { match: (url) => url.includes('/analytics/libraries/') && url.includes('/component/usages'), data: mockComponentUsagesByComponent, requestId: 'req-comp-usages' },
+  { match: (url) => url.includes('/analytics/libraries/') && url.includes('/style/actions'), data: mockStyleActionsByStyle, requestId: 'req-style-actions' },
+  { match: (url) => url.includes('/analytics/libraries/') && url.includes('/style/usages'), data: mockStyleUsagesByStyle, requestId: 'req-style-usages' },
+  { match: (url) => url.includes('/analytics/libraries/') && url.includes('/variable/actions'), data: mockVariableActionsByVariable, requestId: 'req-var-actions' },
+  { match: (url) => url.includes('/analytics/libraries/') && url.includes('/variable/usages'), data: mockVariableUsagesByVariable, requestId: 'req-var-usages' },
+
+  // File-level library endpoints
+  { match: (url) => url.includes('/components') && !url.includes('/analytics') && !url.includes('/component_sets'), data: mockPublishedComponentsResponse, requestId: 'req-pub-comps' },
+  { match: (url) => url.includes('/component_sets'), data: mockPublishedComponentSetsResponse, requestId: 'req-pub-sets' },
+  { match: (url) => url.includes('/styles') && !url.includes('/analytics'), data: mockPublishedStylesResponse, requestId: 'req-pub-styles' },
+
+  // Version history
+  { match: (url) => url.includes('/versions'), data: mockVersionsResponse, requestId: 'req-versions' },
+
+  // File metadata
+  { match: (url) => url.includes('/meta'), data: mockFileMetadataResponse, requestId: 'req-meta' },
+
+  // POST to variables endpoint
+  { match: (url, options) => url.includes('/variables') && options?.method === 'POST', data: mockPostVariablesResponse, requestId: 'req-post-vars-test' },
+
+  // Variables endpoint (more specific, before /files/)
+  { match: (url) => url.includes('/variables/local'), data: mockVariablesResponse, requestId: 'req-vars-test' },
+
+  // Nodes endpoint (for styles)
+  { match: (url) => url.includes('/nodes'), data: mockStyleNodes, requestId: 'req-nodes-test' },
+
+  // File endpoint (general, last)
+  { match: (url) => url.includes('/files/'), data: mockFigmaFile, requestId: 'req-file-test' },
+];
+
+/**
  * Default mock handler that responds with appropriate test data
  */
 export function createDefaultMockFetch(): MockFetchHandler {
   return (url: string, options?: RequestInit): Promise<MockFetchResponse> => {
-    // User endpoint
-    if (url.includes('/v1/me') || url.endsWith('/me')) {
-      return Promise.resolve(createSuccessResponse(mockMeResponse, 'req-me'));
-    }
-
-    // Single component/component_set/style by key
-    if (url.match(/\/components\/[^/]+$/) && !url.includes('/files/')) {
-      return Promise.resolve(createSuccessResponse(mockSingleComponentResponse, 'req-comp'));
-    }
-    if (url.match(/\/component_sets\/[^/]+$/) && !url.includes('/files/')) {
-      return Promise.resolve(createSuccessResponse(mockSingleComponentSetResponse, 'req-comp-set'));
-    }
-    if (url.match(/\/styles\/[^/]+$/) && !url.includes('/files/')) {
-      return Promise.resolve(createSuccessResponse(mockSingleStyleResponse, 'req-style'));
-    }
-
-    // File-level library endpoints
-    if (url.includes('/components') && !url.includes('/analytics') && !url.includes('/component_sets')) {
-      return Promise.resolve(createSuccessResponse(mockPublishedComponentsResponse, 'req-pub-comps'));
-    }
-    if (url.includes('/component_sets')) {
-      return Promise.resolve(createSuccessResponse(mockPublishedComponentSetsResponse, 'req-pub-sets'));
-    }
-    if (url.includes('/styles') && !url.includes('/analytics')) {
-      return Promise.resolve(createSuccessResponse(mockPublishedStylesResponse, 'req-pub-styles'));
-    }
-
-    // Version history
-    if (url.includes('/versions')) {
-      return Promise.resolve(createSuccessResponse(mockVersionsResponse, 'req-versions'));
-    }
-
-    // File metadata
-    if (url.includes('/meta')) {
-      return Promise.resolve(createSuccessResponse(mockFileMetadataResponse, 'req-meta'));
-    }
-
-    // Analytics endpoints
-    if (url.includes('/analytics/libraries/')) {
-      if (url.includes('/component/actions')) {
-        return Promise.resolve(createSuccessResponse(mockComponentActionsByComponent, 'req-comp-actions'));
-      }
-      if (url.includes('/component/usages')) {
-        return Promise.resolve(createSuccessResponse(mockComponentUsagesByComponent, 'req-comp-usages'));
-      }
-      if (url.includes('/style/actions')) {
-        return Promise.resolve(createSuccessResponse(mockStyleActionsByStyle, 'req-style-actions'));
-      }
-      if (url.includes('/style/usages')) {
-        return Promise.resolve(createSuccessResponse(mockStyleUsagesByStyle, 'req-style-usages'));
-      }
-      if (url.includes('/variable/actions')) {
-        return Promise.resolve(createSuccessResponse(mockVariableActionsByVariable, 'req-var-actions'));
-      }
-      if (url.includes('/variable/usages')) {
-        return Promise.resolve(createSuccessResponse(mockVariableUsagesByVariable, 'req-var-usages'));
-      }
-    }
-
-    // POST to variables endpoint
-    if (url.includes('/variables') && options?.method === 'POST') {
-      return Promise.resolve(createSuccessResponse(mockPostVariablesResponse, 'req-post-vars-test'));
-    }
-
-    // Match variables endpoint FIRST (more specific)
-    if (url.includes('/variables/local')) {
-      return Promise.resolve(createSuccessResponse(mockVariablesResponse, 'req-vars-test'));
-    }
-
-    // Match nodes endpoint (for styles)
-    if (url.includes('/nodes')) {
-      return Promise.resolve(createSuccessResponse(mockStyleNodes, 'req-nodes-test'));
-    }
-
-    // Match file endpoint (general)
-    if (url.includes('/files/')) {
-      return Promise.resolve(createSuccessResponse(mockFigmaFile, 'req-file-test'));
+    const route = defaultRoutes.find((r) => r.match(url, options));
+    if (route) {
+      return Promise.resolve(createSuccessResponse(route.data, route.requestId));
     }
 
     // Default: 404

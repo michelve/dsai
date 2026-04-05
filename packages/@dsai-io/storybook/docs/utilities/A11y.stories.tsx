@@ -16,6 +16,9 @@ import { useEffect, useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { JSX } from 'react';
 
+/** Font weight token used across story labels */
+const FONT_WEIGHT_MEDIUM = 'var(--dsai-typography-font-weight-medium)';
+
 // =============================================================================
 // Demo Components - Proper React components for hooks compliance
 // =============================================================================
@@ -131,7 +134,7 @@ function FormField() {
         <div style={{ marginTop: '1rem' }}>
           <label
             htmlFor={emailId}
-            style={{ display: 'block', fontWeight: 'var(--dsai-typography-font-weight-medium)', marginBottom: '0.5rem' }}
+            style={{ display: 'block', fontWeight: FONT_WEIGHT_MEDIUM, marginBottom: '0.5rem' }}
           >
             Email Address
           </label>
@@ -583,7 +586,7 @@ export const TrapFocus: Story = {
                 <div>
                   <label
                     htmlFor="modal-input-1"
-                    style={{ display: 'block', fontWeight: 'var(--dsai-typography-font-weight-medium)', marginBottom: '0.5rem' }}
+                    style={{ display: 'block', fontWeight: FONT_WEIGHT_MEDIUM, marginBottom: '0.5rem' }}
                   >
                     First Input
                   </label>
@@ -602,7 +605,7 @@ export const TrapFocus: Story = {
                 <div>
                   <label
                     htmlFor="modal-input-2"
-                    style={{ display: 'block', fontWeight: 'var(--dsai-typography-font-weight-medium)', marginBottom: '0.5rem' }}
+                    style={{ display: 'block', fontWeight: FONT_WEIGHT_MEDIUM, marginBottom: '0.5rem' }}
                   >
                     Second Input
                   </label>

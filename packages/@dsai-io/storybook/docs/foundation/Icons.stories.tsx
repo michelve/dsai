@@ -157,6 +157,11 @@ import { ArrowLeftIcon, CheckCircleFillIcon } from '@dsai-io/react';
 export default meta;
 type Story = StoryObj;
 
+/** Shared style constants to avoid duplicated literals (S1192) */
+const BORDER_RADIUS_LG = 'var(--dsai-border-radius-lg)';
+const BORDER_RADIUS_SM = 'var(--dsai-border-radius-sm)';
+const SPACING_2 = 'var(--dsai-spacing-2)';
+
 // =============================================================================
 // Helper Components
 // =============================================================================
@@ -174,11 +179,11 @@ const IconDisplay = ({ icon, name, size = 24 }: IconDisplayProps) => (
       flexDirection: 'column',
       alignItems: 'center',
       padding: '16px 8px',
-      borderRadius: 'var(--dsai-border-radius-lg)',
+      borderRadius: BORDER_RADIUS_LG,
       border: '1px solid var(--bs-border-color)',
       backgroundColor: 'var(--bs-gray-100)',
       minWidth: '100px',
-      gap: 'var(--dsai-spacing-2)',
+      gap: SPACING_2,
     }}
   >
     <div style={{ fontSize: size }}>{icon}</div>
@@ -218,7 +223,7 @@ const IconGrid = ({ children, title, description }: IconGridProps) => (
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
-        gap: 'var(--dsai-spacing-2)',
+        gap: SPACING_2,
       }}
     >
       {children}
@@ -504,12 +509,12 @@ export const OutlineVsFill: Story = {
               display: 'flex',
               alignItems: 'center',
               gap: '1rem',
-              padding: 'var(--dsai-spacing-2)',
+              padding: SPACING_2,
               border: '1px solid var(--bs-border-color)',
-              borderRadius: 'var(--dsai-border-radius-lg)',
+              borderRadius: BORDER_RADIUS_LG,
             }}
           >
-            <div style={{ display: 'flex', gap: 'var(--dsai-spacing-2)' }}>
+            <div style={{ display: 'flex', gap: SPACING_2 }}>
               {outline}
               {fill}
             </div>
@@ -538,7 +543,7 @@ export const Accessibility: Story = {
         style={{
           padding: '1rem',
           backgroundColor: 'var(--bs-success-bg-subtle)',
-          borderRadius: 'var(--dsai-border-radius-lg)',
+          borderRadius: BORDER_RADIUS_LG,
           border: '1px solid var(--bs-success-border-subtle)',
         }}
       >
@@ -566,9 +571,9 @@ export const Accessibility: Story = {
         <code
           style={{
             display: 'block',
-            padding: 'var(--dsai-spacing-2)',
+            padding: SPACING_2,
             backgroundColor: 'var(--bs-success-bg-subtle)',
-            borderRadius: 'var(--dsai-border-radius-sm)',
+            borderRadius: BORDER_RADIUS_SM,
             fontSize: '13px',
           }}
         >
@@ -583,7 +588,7 @@ export const Accessibility: Story = {
         style={{
           padding: '1rem',
           backgroundColor: 'var(--bs-info-bg-subtle)',
-          borderRadius: 'var(--dsai-border-radius-lg)',
+          borderRadius: BORDER_RADIUS_LG,
           border: '1px solid var(--bs-info-border-subtle)',
         }}
       >
@@ -611,9 +616,9 @@ export const Accessibility: Story = {
         <code
           style={{
             display: 'block',
-            padding: 'var(--dsai-spacing-2)',
+            padding: SPACING_2,
             backgroundColor: 'var(--bs-info-bg-subtle)',
-            borderRadius: 'var(--dsai-border-radius-sm)',
+            borderRadius: BORDER_RADIUS_SM,
             fontSize: '13px',
           }}
         >
@@ -628,7 +633,7 @@ export const Accessibility: Story = {
         style={{
           padding: '1rem',
           backgroundColor: 'var(--bs-warning-bg-subtle)',
-          borderRadius: 'var(--dsai-border-radius-lg)',
+          borderRadius: BORDER_RADIUS_LG,
           border: '1px solid var(--bs-warning-border-subtle)',
         }}
       >
@@ -655,9 +660,9 @@ export const Accessibility: Story = {
         <code
           style={{
             display: 'block',
-            padding: 'var(--dsai-spacing-2)',
+            padding: SPACING_2,
             backgroundColor: 'var(--bs-warning-bg-subtle)',
-            borderRadius: 'var(--dsai-border-radius-sm)',
+            borderRadius: BORDER_RADIUS_SM,
             fontSize: '13px',
           }}
         >
@@ -835,7 +840,7 @@ export const InteractiveDemo: Story = {
           style={{
             padding: '2rem',
             border: '1px solid var(--bs-border-color)',
-            borderRadius: 'var(--dsai-border-radius-lg)',
+            borderRadius: BORDER_RADIUS_LG,
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -872,7 +877,7 @@ export const InteractiveDemo: Story = {
             >
               Color
             </label>
-            <div style={{ display: 'flex', gap: 'var(--dsai-spacing-2)', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: SPACING_2, alignItems: 'center' }}>
               <input
                 id={colorId}
                 type="color"
@@ -889,7 +894,7 @@ export const InteractiveDemo: Story = {
           style={{
             padding: '1rem',
             backgroundColor: 'var(--bs-gray-100)',
-            borderRadius: 'var(--dsai-border-radius-lg)',
+            borderRadius: BORDER_RADIUS_LG,
             fontFamily: 'monospace',
             fontSize: '14px',
           }}
