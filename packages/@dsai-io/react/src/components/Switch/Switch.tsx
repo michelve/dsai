@@ -165,19 +165,6 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
     error && 'border border-danger'
   );
 
-  // Resolve button style
-  const buttonStyle: React.CSSProperties = {
-    minHeight: '44px', // WCAG touch target
-    cursor: disabled || loading ? 'not-allowed' : 'pointer',
-    border: error ? undefined : 'none',
-    padding: `${thumbOffset}px`,
-    transition: 'background-color 0.15s ease-in-out',
-    background: 'transparent',
-  };
-
-  // Resolve on/off text font size
-  const onOffFontSize = size === 'sm' ? '8px' : size === 'lg' ? '11px' : '9px';
-
   // Render loading spinner (purely visual; aria-busy on button signals loading state)
   const renderSpinner = (): React.JSX.Element => (
     <span

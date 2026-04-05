@@ -294,23 +294,6 @@ export const AvatarGroup = memo(
     );
 
     const visibleChildren = useMemo(() => {
-      // Compute stacking style for a child avatar at the given index
-      const getStackedStyle = (
-        childStyle: React.CSSProperties | undefined,
-        index: number
-      ): React.CSSProperties => ({
-        ...childStyle,
-        marginLeft:
-          layout === 'stacked' && stackingOrder === 'lastOnTop' && index > 0
-            ? marginLeft
-            : undefined,
-        marginRight:
-          layout === 'stacked' && stackingOrder === 'firstOnTop' && index > 0
-            ? marginLeft
-            : undefined,
-        zIndex: layout === 'stacked' ? visibleCount - index : undefined,
-      });
-
       return childArray.slice(0, visibleCount).map((child, index) => {
         if (!isValidElement(child)) {
           return child;

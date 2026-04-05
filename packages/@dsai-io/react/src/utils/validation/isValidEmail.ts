@@ -5,6 +5,19 @@
  * over-restricting valid addresses.
  */
 /**
+ * Validate a single domain label (e.g. "example" in "example.com").
+ */
+function isValidDomainLabel(label: string): boolean {
+  if (!label || label.length > 63) {
+    return false;
+  }
+  if (label.startsWith('-') || label.endsWith('-')) {
+    return false;
+  }
+  return /^[A-Za-z0-9-]+$/.test(label);
+}
+
+/**
  * Validate the domain part of an email address.
  */
 function isValidDomain(domain: string): boolean {

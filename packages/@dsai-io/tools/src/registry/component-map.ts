@@ -50,16 +50,6 @@ export interface ComponentMeta {
 }
 
 // ---------------------------------------------------------------------------
-// Shared Constants (S1192)
-// ---------------------------------------------------------------------------
-
-const TYPE_UI: RegistryItemType = 'registry:ui';
-const TYPE_HOOK: RegistryItemType = 'registry:hook';
-const TYPE_UTIL: RegistryItemType = 'registry:util';
-const FLOATING_UI_REACT = '@floating-ui/react';
-const CAT_DATA_DISPLAY = 'data-display';
-
-// ---------------------------------------------------------------------------
 // Components
 // ---------------------------------------------------------------------------
 
@@ -135,7 +125,7 @@ export const componentMap: Record<string, ComponentMeta> = {
     title: 'Dropdown',
     description: 'Toggleable overlay menu for displaying a list of actions.',
     categories: ['navigation', 'actions'],
-    npmDependencies: [FLOATING_UI_REACT],
+    npmDependencies: [DEP_FLOATING_UI],
   },
   icon: {
     type: TYPE_UI,
@@ -178,7 +168,7 @@ export const componentMap: Record<string, ComponentMeta> = {
     title: 'Popover',
     description: 'Floating content panel anchored to a trigger element.',
     categories: ['disclosure'],
-    npmDependencies: [FLOATING_UI_REACT],
+    npmDependencies: [DEP_FLOATING_UI],
   },
   progress: {
     type: TYPE_UI,
@@ -203,7 +193,7 @@ export const componentMap: Record<string, ComponentMeta> = {
     title: 'Select',
     description: 'Dropdown selector for choosing from a list of options.',
     categories: ['forms'],
-    npmDependencies: [FLOATING_UI_REACT],
+    npmDependencies: [DEP_FLOATING_UI],
   },
   'selectable-card': {
     type: TYPE_UI,
@@ -258,7 +248,7 @@ export const componentMap: Record<string, ComponentMeta> = {
     title: 'Tooltip',
     description: 'Informational popup displayed on hover or focus.',
     categories: [CAT_DATA_DISPLAY],
-    npmDependencies: [FLOATING_UI_REACT],
+    npmDependencies: [DEP_FLOATING_UI],
   },
   typography: {
     type: TYPE_UI,

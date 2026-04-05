@@ -32,7 +32,8 @@ import {
 import { useTooltipContext } from './TooltipContext';
 import { useTouchInteraction } from './useTouchInteraction';
 
-import type { TooltipContextValue , TooltipProps } from './Tooltip.types';
+import type { TooltipProps } from './Tooltip.types';
+import type { TooltipProviderContextValue } from './TooltipContext';
 import type { ReactElement } from 'react';
 
 
@@ -58,7 +59,7 @@ const TOOLTIP_TRANSITION_MS = 150;
  */
 function resolveContextDefaults(
   props: Pick<TooltipProps, 'showDelay' | 'hideDelay' | 'describeChild' | 'touchEnabled' | 'arrow'>,
-  ctx: TooltipContextValue
+  ctx: TooltipProviderContextValue
 ): {
   resolvedShowDelay: number | undefined;
   resolvedHideDelay: number | undefined;
@@ -300,7 +301,7 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
 
     // Touch interaction (long-press)
     const touchInteraction = useTouchInteraction({
-      enabled: resolvedTouchEnabled && !disabled,
+      enabled: !!resolvedTouchEnabled && !disabled,
       onOpen: () => {
         dispatch({ type: 'OPEN' });
         onOpenChange?.(true);

@@ -58,6 +58,20 @@ const REGISTRY_STYLE: RegistryItemType = 'registry:style';
 /** Registry item type for utility files */
 const REGISTRY_UTIL: RegistryItemType = 'registry:util';
 
+/** Registry item type for type-only files */
+const TYPE_TYPE: RegistryItemType = 'registry:type';
+
+/** Maps registry item type to output subdirectory */
+const TYPE_TO_SUBDIR: Record<string, string> = {
+  'registry:ui': 'components',
+  'registry:component': 'components',
+  'registry:hook': 'hooks',
+  'registry:util': 'utils',
+  'registry:lib': 'utils',
+  'registry:type': 'types',
+  'registry:style': 'components',
+};
+
 /** Registry name for the merge-refs utility */
 const MERGE_REFS = 'merge-refs';
 
@@ -445,9 +459,6 @@ function scanDirectoryItems(
     const item = builder(registryName, join(dir, entry.name), log);
     if (item) { items.push(item); }
   }
-  return items;
-}
-
   return items;
 }
 

@@ -54,25 +54,6 @@ function parseSubtleVariant(variant: string): string | null {
   return null;
 }
 
-/** Render a start/end adornment (icon or loading spinner) */
-function renderAdornment(
-  position: 'start' | 'end',
-  loading: boolean,
-  loadingPosition: string,
-  loaderEl: React.ReactNode,
-  iconEl: React.ReactNode
-): React.ReactNode {
-  const spacingClass = position === 'start' ? 'me-2' : 'ms-2';
-
-  if (loading && loadingPosition === position) {
-    return <span className={spacingClass} aria-hidden="true">{loaderEl}</span>;
-  }
-  if (!loading && iconEl) {
-    return <span className={spacingClass} aria-hidden="true">{iconEl}</span>;
-  }
-  return null;
-}
-
 /** Resolve data-variant attribute value */
 function resolveDataVariant(
   isGhost: boolean,
@@ -309,10 +290,6 @@ export const BaseButton = forwardRef<
     // Render loading at center position (hides text, shows only spinner)
     const isCenterLoading = loading && loadingPosition === 'center';
 
-    // Render start/end adornments (icon or spinner)
-    const startAdornment = renderAdornment('start', loading, loadingPosition, loaderEl, startIcon);
-    const endAdornment = renderAdornment('end', loading, loadingPosition, loaderEl, endIcon);
-
     return (
       <>
         <button
@@ -343,7 +320,7 @@ export const BaseButton = forwardRef<
           data-testid={dataTestId}
           data-test={dataTest}
           data-visual-state={fsmState.visualState}
-          data-variant={isGhost ? 'ghost' : isSubtle ? `subtle-${subtleColor}` : undefined}
+          data-variant={dataVariant}
           title={title}
           form={form}
           formAction={formAction}

@@ -370,73 +370,6 @@ async function executeMultiThemeBuild(
 }
 
 /**
- * Execute the preprocess step
- */
-function executePreprocessStep(figmaExportsDir: string): boolean {
-  const ppOutputDir = join(figmaExportsDir, '.preprocessed');
-  console.info(`    📂 Source: ${figmaExportsDir}`);
-  console.info(`    📂 Output: ${ppOutputDir}`);
-
-  const jsonFiles = readdirSync(figmaExportsDir).filter((f) => f.endsWith('.json'));
-  if (jsonFiles.length === 0) {
-    console.warn(`    ⚠️  No JSON files found in ${figmaExportsDir}`);
-    return true;
-  }
-
-  const result = preprocessTokenFiles({
-    sourceDir: figmaExportsDir,
-    outputDir: ppOutputDir,
-    files: jsonFiles,
-    modesPath: ['Foundation', 'modes'],
-    verbose: true,
-  });
-
-  const failedFiles = result.files.filter((f) => !f.success && f.error !== 'No modes detected');
-  if (failedFiles.length > 0) {
-    console.error(`    ❌ Preprocessing failed for ${failedFiles.length} file(s)`);
-    for (const failed of failedFiles) {
-      console.error(`       - ${failed.sourceFile}: ${failed.error ?? UNKNOWN_ERROR_MSG}`);
-    }
-    return false;
-  }
-
-  const successFiles = result.files.filter((f) => f.success);
-  const skippedFiles = result.files.filter((f) => f.error === 'No modes detected');
-  console.info(`    ✅ Preprocessed ${successFiles.length} file(s)`);
-  if (skippedFiles.length > 0) {
-    console.info(`    ⏭️  Skipped ${skippedFiles.length} file(s) (no modes)`);
-  }
-
-  const totalModes = result.files.reduce(
-    (sum: number, file: FilePreprocessingResult) => sum + file.modes.length,
-    0
-  );
-  console.info(`    📊 Total modes extracted: ${totalModes}`);
-  preprocessCleanup = result.cleanup;
-  return true;
-}
-
-/**
- * Options for creating a build step from a step name
- */
-interface CreateStepOptions {
-  stepName: BuildPipelineStep;
-  tokensPackageDir: string;
-  figmaExportsDir: string;
-  tokensDir: string;
-  paths: Required<BuildPipelinePaths>;
-  sdConfigFile: string;
-  strict: boolean;
-  snapshotService?: SnapshotService;
-  themesConfig?: BuildOptions['themesConfig'];
-  outputDir?: string;
-  formats?: OutputFormat[];
-  cssOutputDir?: string;
-  postprocessConfig?: BuildOptions['postprocessConfig'];
-  prefix?: string;
-}
-
-/**
  * Configuration for creating build steps from step names.
  */
 interface StepCreationContext {
@@ -819,78 +752,6 @@ function createBuildSteps(
 // Build Helpers
 // ============================================================================
 
-/**
- * Verify that required build directories exist.
- * Returns an error message if a directory is missing, or null if all exist.
- */
-function verifyBuildDirectories(tokensDir: string, toolsDir: string): string | null {
-  try {
-    if (!existsSync(tokensDir)) {
-      return `Tokens directory not found: ${tokensDir}`;
-    }
-  } catch {
-    return `Failed to check tokens directory: ${tokensDir}`;
-  }
-
-  try {
-    if (!existsSync(toolsDir)) {
-      return `Tools directory not found: ${toolsDir}`;
-    }
-  } catch {
-    return `Failed to check tools directory: ${toolsDir}`;
-  }
-
-  return null;
-}
-
-/**
- * Print the build header banner
- */
-function printBuildHeader(flags: {
-  skipValidate?: boolean;
-  onlyTheme?: boolean;
-  incremental?: boolean;
-  force?: boolean;
-}): void {
-  console.info('╔════════════════════════════════════════════════════════════╗');
-  console.info('║           DSAi Tokens - Complete Build                     ║');
-  console.info('╚════════════════════════════════════════════════════════════╝');
-
-  if (flags.skipValidate) {
-    console.info('⚠️  Skipping validation (--skip-validate)');
-  }
-  if (flags.onlyTheme) {
-    console.info('⚠️  Building only theme CSS (--only-theme)');
-  }
-  if (flags.incremental) {
-    console.info('🔄 Incremental build enabled');
-    if (flags.force) {
-      console.info('⚡ Force rebuild - ignoring cache');
-    }
-  }
-}
-
-/**
- * Safely run the preprocessed files cleanup
- */
-function cleanupPreprocessedFiles(verbose: boolean): void {
-  if (!preprocessCleanup) {return;}
-  try {
-    preprocessCleanup();
-    if (verbose) {
-      console.info('🧹 Cleaned up preprocessed files');
-    }
-  } catch (error) {
-    if (verbose) {
-      console.warn(
-        `⚠️  Failed to cleanup preprocessed files: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
-      );
-    }
-  } finally {
-    preprocessCleanup = null;
-  }
-}
-
 // ============================================================================
 // Main Build Function
 // ============================================================================
@@ -1217,7 +1078,7 @@ export async function buildTokens(
 
   // Print footer
   if (shouldLog) {
-    logBuildFooter(stepsCompleted.length, durationSec);
+    logBuildFooter(stepsCompleted.length, (duration / 1000).toFixed(1));
   }
 
   return {

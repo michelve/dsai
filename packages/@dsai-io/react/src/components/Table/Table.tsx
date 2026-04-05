@@ -343,31 +343,6 @@ const SortIcon = memo(function SortIcon({ direction, sortable, priority }: SortI
 SortIcon.displayName = 'SortIcon';
 
 // =============================================================================
-// Cell style helpers
-// =============================================================================
-
-/**
- * Build inline styles for a sticky data cell
- */
-function buildStickyCellStyle(
-  isSticky: boolean,
-  stickyDirection: 'left' | 'right' | undefined,
-  isSelected: boolean
-): React.CSSProperties {
-  if (!isSticky || !stickyDirection) {
-    return {};
-  }
-  return {
-    position: 'sticky',
-    [stickyDirection]: 0,
-    zIndex: 1,
-    backgroundColor: isSelected
-      ? 'var(--bs-table-active-bg, rgba(0, 0, 0, 0.075))'
-      : 'var(--bs-table-bg, var(--bs-body-bg, #fff))',
-  };
-}
-
-// =============================================================================
 // Extracted render helpers (reduce per-component cyclomatic complexity)
 // =============================================================================
 

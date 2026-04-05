@@ -29,7 +29,9 @@ import { ListGroupDivider } from './ListGroupDivider';
 import { ListGroupHeader } from './ListGroupHeader';
 
 import type {
+  ListGroupDividerEntry,
   ListGroupEntry,
+  ListGroupHeaderEntry,
   ListGroupItemData,
   ListGroupItemProps,
   ListGroupProps,
@@ -411,7 +413,7 @@ ListGroupItem.displayName = 'ListGroupItem';
  * Returns null for unknown entry types.
  */
 function renderNonItemEntry(
-  entry: Exclude<ListGroupEntry, ListGroupItemData>,
+  entry: ListGroupDividerEntry | ListGroupHeaderEntry,
   dividerIndex: number,
 ): React.ReactNode {
   if (entry.type === 'divider') {

@@ -120,6 +120,45 @@ function buildAriaLabel(
   return parts.length > 0 ? parts.join(', ') : undefined;
 }
 
+function buildAccessibilityProps({
+  decorative,
+  ariaHidden,
+  computedAriaLabel,
+  ariaDescribedBy,
+  isButton,
+  selected,
+  isLoading,
+}: {
+  decorative: boolean;
+  ariaHidden: boolean | 'true' | 'false' | undefined;
+  computedAriaLabel: string | undefined;
+  ariaDescribedBy: string | undefined;
+  isButton: boolean;
+  selected: boolean;
+  isLoading: boolean;
+}): Record<string, unknown> {
+  const props: Record<string, unknown> = {};
+
+  if (decorative || ariaHidden === true || ariaHidden === 'true') {
+    props['aria-hidden'] = true;
+    return props;
+  }
+
+  if (computedAriaLabel) {
+    props['aria-label'] = computedAriaLabel;
+  }
+  if (ariaDescribedBy) {
+    props['aria-describedby'] = ariaDescribedBy;
+  }
+  if (isButton && selected) {
+    props['aria-pressed'] = selected;
+  }
+  if (isLoading) {
+    props['aria-busy'] = true;
+  }
+  return props;
+}
+
 // =============================================================================
 // Avatar Component
 // =============================================================================
@@ -583,44 +622,6 @@ const AvatarRoot = memo(
       'data-size': size,
       'data-shape': shape,
       ...accessibilityProps,
-    };
-
-    // Render the main avatar content based on state
-    const renderAvatarContent = (): React.ReactNode => {
-      if (isLoading) {
-        return renderSkeleton();
-      }
-      if (compoundImage) {
-        return compoundImage;
-      }
-      if (showImage) {
-        return (
-          <img
-            ref={imageRef}
-            src={src}
-            alt={decorative ? '' : (alt ?? name ?? undefined)}
-            srcSet={srcSet}
-            sizes={sizes}
-            loading={loading}
-            referrerPolicy={referrerPolicy}
-            crossOrigin={crossOrigin}
-            className={cn(
-              'dsai-avatar__image',
-              'w-100',
-              'h-100',
-              'object-fit-cover',
-              getShapeClass(shape),
-              !imageLoaded && 'opacity-0'
-            )}
-            aria-hidden={decorative ? true : undefined}
-            data-testid="avatar-image"
-          />
-        );
-      }
-      if (compoundFallback) {
-        return compoundFallback;
-      }
-      return delayElapsed && renderFallbackContent();
     };
 
     const interactiveProps = interactive

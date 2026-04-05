@@ -13,9 +13,6 @@ const PROGRESS_BAR_CLASS = 'progress-bar';
 const PROGRESS_BAR_STRIPED_CLASS = 'progress-bar-striped';
 const PROGRESS_BAR_ANIMATED_CLASS = 'progress-bar-animated';
 
-/** CSS class for the progress bar element */
-const PROGRESS_BAR_CLASS = 'progress-bar';
-
 const resolveHeightForSize = (size: ProgressProps['size'] = 'md'): string => {
   if (size === 'sm') {
     return '0.5rem';
@@ -29,16 +26,6 @@ const resolveHeightForSize = (size: ProgressProps['size'] = 'md'): string => {
 // =============================================================================
 // Shared helpers (extracted to reduce per-component complexity)
 // =============================================================================
-
-/** Clamp a value to [0, 100] */
-function clampPercentage(value: number): number {
-  return Math.min(100, Math.max(0, value));
-}
-
-/** Build CSS gradient background string */
-function buildGradientBackground(gradient: ProgressGradient): string {
-  return `linear-gradient(${gradient.direction || 'to right'}, ${gradient.from}, ${gradient.to})`;
-}
 
 /** Build bar CSS classes shared by ProgressBar and ProgressBase */
 function buildBarClasses(
@@ -58,31 +45,6 @@ function buildBarClasses(
     extra,
   );
 }
-
-/** Build bar inline style with optional gradient */
-function buildBarStyle(
-  widthPercent: string,
-  gradient: ProgressGradient | undefined,
-): React.CSSProperties {
-  return {
-    width: widthPercent,
-    ...(gradient && { background: buildGradientBackground(gradient) }),
-  };
-}
-
-/** Compute display value: formatValue > valueText > default percentage string */
-function resolveDisplayValue(
-  percentage: number,
-  max: number,
-  formatValue?: (value: number, max: number) => React.ReactNode,
-  valueText?: string,
-): React.ReactNode {
-  if (formatValue) {
-    return formatValue(percentage, max);
-  }
-  return valueText ?? `${percentage}%`;
-}
-
 
 // =============================================================================
 // ProgressBar Component
@@ -268,25 +230,6 @@ function buildGradientStyle(gradient?: { from: string; to: string; direction?: s
   };
 }
 
-/** Build bar classes for the progress bar */
-function buildBarClasses(
-  variant: string,
-  gradient: ProgressProps['gradient'],
-  striped: boolean,
-  animated: boolean,
-  indeterminate: boolean,
-): string {
-  const isWarning = variant === 'warning';
-  return cn(
-    PROGRESS_BAR_CLASS,
-    !gradient && `bg-${variant}`,
-    isWarning && !gradient && 'text-dark',
-    striped && 'progress-bar-striped',
-    (animated || indeterminate) && 'progress-bar-animated',
-    indeterminate && 'progress-bar-striped',
-  );
-}
-
 /** Build the main bar style */
 function buildMainBarStyle(
   percentage: number,
@@ -376,7 +319,7 @@ function ProgressBase({
   const percentage = indeterminate ? 0 : Math.min(100, Math.max(0, value ?? 0));
   const hasChildren = Boolean(children);
   const progressClasses = cn('progress', className);
-  const barClasses = buildBarClasses(variant, gradient, striped, animated, indeterminate);
+  const barClasses = buildBarClasses(variant, gradient, striped || indeterminate, animated || indeterminate);
   const displayValue = computeDisplayValue(percentage, max, formatValue, valueText);
   const computedValueText = computeAriaValueText(indeterminate, displayValue, valueText, percentage);
   const bufferPercentage =
