@@ -270,6 +270,32 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
     </div>
   );
 
+  // Render input group with addons
+  const renderInputGroup = (): React.JSX.Element => (
+    <div className={className} style={style}>
+      {labelElement}
+      <div className={`input-group ${error ? 'has-validation' : ''}`}>
+        {hasPrefix && <span className="input-group-text">{prefix}</span>}
+        {inputElement}
+        {showClearButton && (
+          <button
+            type="button"
+            className="btn btn-outline-secondary"
+            onClick={handleClear}
+            aria-label="Clear input"
+            disabled={disabled}
+          >
+            <ClearIcon />
+          </button>
+        )}
+        {hasSuffix && <span className="input-group-text">{suffix}</span>}
+        {error && helperElement}
+      </div>
+      {!error && helperElement}
+      {counterElement}
+    </div>
+  );
+
   // Floating label layout
   if (floating) {
     return (
@@ -284,30 +310,7 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
 
   // Input group with addons
   if (hasAddons) {
-    return (
-      <div className={className} style={style}>
-        {labelElement}
-        <div className={`input-group ${error ? 'has-validation' : ''}`}>
-          {hasPrefix && <span className="input-group-text">{prefix}</span>}
-          {inputElement}
-          {showClearButton && (
-            <button
-              type="button"
-              className="btn btn-outline-secondary"
-              onClick={handleClear}
-              aria-label="Clear input"
-              disabled={disabled}
-            >
-              <ClearIcon />
-            </button>
-          )}
-          {hasSuffix && <span className="input-group-text">{suffix}</span>}
-          {error && helperElement}
-        </div>
-        {!error && helperElement}
-        {counterElement}
-      </div>
-    );
+    return renderInputGroup();
   }
 
   // Standard layout

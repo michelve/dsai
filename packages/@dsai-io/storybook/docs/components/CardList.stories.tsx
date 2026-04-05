@@ -4,6 +4,9 @@ import { type ReactElement, useState } from 'react';
 import type { CardListItem } from '@dsai-io/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+const LABEL_SELECT_PLAN = 'Select a Plan';
+const GRID_3_COLS = 'repeat(3, 1fr)';
+
 // Define a simplified props type for Storybook since CardListProps is a discriminated union
 // that doesn't work well with Storybook's type inference
 interface CardListStorybookProps {
@@ -307,7 +310,7 @@ export const Default: Story = {
  */
 export const SingleSelection: Story = {
   args: {
-    label: 'Select a Plan',
+    label: LABEL_SELECT_PLAN,
     items: pricingPlans,
     selectionMode: 'single',
     defaultValue: 'pro',
@@ -331,7 +334,7 @@ export const MultipleSelection: Story = {
  */
 export const WithHelperText: Story = {
   args: {
-    label: 'Select a Plan',
+    label: LABEL_SELECT_PLAN,
     items: pricingPlans,
     selectionMode: 'single',
     helperText: 'Choose the plan that best fits your needs',
@@ -347,7 +350,7 @@ export const WithHelperText: Story = {
  */
 export const SelectionModes: Story = {
   render: () => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: GRID_3_COLS, gap: '2rem' }}>
       <div>
         <Heading level={6} className="mb-2">
           None (Display Only)
@@ -604,7 +607,7 @@ export const CustomGap: Story = {
  */
 export const HorizontalCards: Story = {
   args: {
-    label: 'Select a Plan',
+    label: LABEL_SELECT_PLAN,
     items: pricingPlans,
     selectionMode: 'single',
     horizontal: true,
@@ -621,7 +624,7 @@ export const HorizontalCards: Story = {
  */
 export const Disabled: Story = {
   args: {
-    label: 'Select a Plan',
+    label: LABEL_SELECT_PLAN,
     items: pricingPlans,
     selectionMode: 'single',
     defaultValue: 'pro',
@@ -651,7 +654,7 @@ export const DisabledItems: Story = {
  */
 export const ErrorState: Story = {
   args: {
-    label: 'Select a Plan',
+    label: LABEL_SELECT_PLAN,
     items: pricingPlans,
     selectionMode: 'single',
     error: true,
@@ -664,7 +667,7 @@ export const ErrorState: Story = {
  */
 export const Required: Story = {
   args: {
-    label: 'Select a Plan',
+    label: LABEL_SELECT_PLAN,
     items: pricingPlans,
     selectionMode: 'single',
     required: true,
@@ -1406,7 +1409,7 @@ export const CompleteShowcase: Story = {
         <Heading level={5} className="mb-3">
           Selection Modes
         </Heading>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: GRID_3_COLS, gap: '1rem' }}>
           <CardList label="None" items={showcaseCards.slice(0, 2)} selectionMode="none" />
           <CardList
             label="Single"
@@ -1428,7 +1431,7 @@ export const CompleteShowcase: Story = {
         <Heading level={5} className="mb-3">
           Card Variants
         </Heading>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: GRID_3_COLS, gap: '1rem' }}>
           <CardList
             label="Elevated"
             items={showcaseCards.slice(0, 2)}
@@ -1458,7 +1461,7 @@ export const CompleteShowcase: Story = {
         <Heading level={5} className="mb-3">
           States
         </Heading>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: GRID_3_COLS, gap: '1rem' }}>
           <CardList
             label="Disabled"
             items={showcaseCards.slice(0, 2)}

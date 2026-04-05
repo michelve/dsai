@@ -115,94 +115,104 @@ function resolveInteractiveState(state: ButtonFSMState): ButtonVisualState {
  * const handleMouseUp = () => dispatch({ type: 'RELEASE' });
  * ```
  */
+/**
+ * Handle DISABLE event
+ */
+function handleDisableEvent(state: ButtonFSMState): ButtonFSMState {
+  return {
+    visualState: 'disabled',
+    isPressed: false,
+    isHovered: false,
+    isFocused: false,
+    isDisabled: true,
+    isLoading: state.isLoading,
+    isError: state.isError,
+  };
+}
+
+/**
+ * Handle ENABLE event
+ */
+function handleEnableEvent(state: ButtonFSMState): ButtonFSMState {
+  let enabledVisualState: ButtonVisualState = 'idle';
+  if (state.isLoading) {
+    enabledVisualState = 'loading';
+  } else if (state.isError) {
+    enabledVisualState = 'error';
+  }
+  return {
+    visualState: enabledVisualState,
+    isPressed: false,
+    isHovered: false,
+    isFocused: false,
+    isDisabled: false,
+    isLoading: state.isLoading,
+    isError: state.isError,
+  };
+}
+
+/**
+ * Handle LOADING event
+ */
+function handleLoadingEvent(state: ButtonFSMState, payload: boolean): ButtonFSMState {
+  if (state.isDisabled) {
+    return { ...state, isLoading: payload };
+  }
+  if (payload && !state.isLoading) {
+    return { ...state, visualState: 'loading', isLoading: true };
+  }
+  if (!payload && state.isLoading) {
+    return { ...state, visualState: resolveInteractiveState(state), isLoading: false };
+  }
+  return state;
+}
+
+/**
+ * Handle ERROR event
+ */
+function handleErrorEvent(state: ButtonFSMState, payload: boolean): ButtonFSMState {
+  if (state.isDisabled) {
+    return { ...state, isError: payload };
+  }
+  if (payload && !state.isError) {
+    return { ...state, visualState: 'error', isError: true };
+  }
+  if (!payload && state.isError) {
+    return { ...state, visualState: resolveInteractiveState(state), isError: false };
+  }
+  return state;
+}
+
+/**
+ * Handle BLUR event
+ */
+function handleBlurEvent(state: ButtonFSMState): ButtonFSMState {
+  if (state.isDisabled || state.isLoading) {
+    return state;
+  }
+  if (state.isError) {
+    if (state.isFocused) {
+      return { ...state, isHovered: false, isPressed: false, isFocused: false, visualState: 'idle' };
+    }
+    return { ...state, isHovered: false, isPressed: false };
+  }
+  return { ...state, isHovered: false, isPressed: false, isFocused: false, visualState: 'idle' };
+}
+
 export function buttonFSMReducer(state: ButtonFSMState, event: ButtonFSMEvent): ButtonFSMState {
   switch (event.type) {
-    // Override states: these take precedence over all others
     case 'DISABLE':
-      return {
-        visualState: 'disabled',
-        isPressed: false,
-        isHovered: false,
-        isFocused: false,
-        isDisabled: true,
-        isLoading: state.isLoading,
-        isError: state.isError,
-      };
+      return handleDisableEvent(state);
 
-    case 'ENABLE': {
-      // If we're coming out of disabled, reset to idle (or previous state if loading/error)
-      let enabledVisualState: ButtonVisualState = 'idle';
-      if (state.isLoading) {
-        enabledVisualState = 'loading';
-      } else if (state.isError) {
-        enabledVisualState = 'error';
-      }
-      return {
-        visualState: enabledVisualState,
-        isPressed: false,
-        isHovered: false,
-        isFocused: false,
-        isDisabled: false,
-        isLoading: state.isLoading,
-        isError: state.isError,
-      };
-    }
+    case 'ENABLE':
+      return handleEnableEvent(state);
 
     case 'LOADING':
-      // If disabled, stay disabled even if loading state changes
-      if (state.isDisabled) {
-        return {
-          ...state,
-          isLoading: event.payload,
-        };
-      }
-      // If transitioning TO loading, show loading but preserve interaction flags
-      if (event.payload && !state.isLoading) {
-        return {
-          ...state,
-          visualState: 'loading',
-          isLoading: true,
-        };
-      }
-      // If transitioning FROM loading, restore the previous interactive state
-      if (!event.payload && state.isLoading) {
-        return {
-          ...state,
-          visualState: resolveInteractiveState(state),
-          isLoading: false,
-        };
-      }
-      // Loading state didn't change, return as-is
-      return state;
+      return handleLoadingEvent(state, event.payload);
 
     case 'ERROR':
-      // If disabled, stay disabled even if error state changes
-      if (state.isDisabled) {
-        return {
-          ...state,
-          isError: event.payload,
-        };
-      }
-      // If transitioning TO error, show error but preserve interaction flags
-      if (event.payload && !state.isError) {
-        return {
-          ...state,
-          visualState: 'error',
-          isError: true,
-        };
-      }
-      // If transitioning FROM error, restore the previous interactive state
-      if (!event.payload && state.isError) {
-        return {
-          ...state,
-          visualState: resolveInteractiveState(state),
-          isError: false,
-        };
-      }
-      // Error state didn't change, return as-is
-      return state;
+      return handleErrorEvent(state, event.payload);
 
-    // Interactive states: only apply if not disabled, loading, or error
     case 'HOVER':
       if (state.isDisabled || state.isLoading || state.isError) {
         return state;
@@ -214,35 +224,7 @@ export function buttonFSMReducer(state: ButtonFSMState, event: ButtonFSMEvent): 
       };
 
     case 'BLUR':
-      // Disabled/loading states don't change on blur
-      if (state.isDisabled || state.isLoading) {
-        return state;
-      }
-      // During error state: if was focused, blur clears to idle; otherwise stay error
-      if (state.isError) {
-        if (state.isFocused) {
-          return {
-            ...state,
-            isHovered: false,
-            isPressed: false,
-            isFocused: false,
-            visualState: 'idle',
-          };
-        }
-        // Not focused, just clear hover/press but stay in error
-        return {
-          ...state,
-          isHovered: false,
-          isPressed: false,
-        };
-      }
-      return {
-        ...state,
-        isHovered: false,
-        isPressed: false,
-        isFocused: false,
-        visualState: 'idle',
-      };
+      return handleBlurEvent(state);
 
     case 'FOCUS':
       if (state.isDisabled || state.isLoading || state.isError) {
@@ -261,7 +243,7 @@ export function buttonFSMReducer(state: ButtonFSMState, event: ButtonFSMEvent): 
       return {
         ...state,
         isPressed: true,
-        isHovered: true, // PRESS implies mouse is hovering
+        isHovered: true,
         visualState: 'pressed',
       };
 

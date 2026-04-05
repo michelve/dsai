@@ -130,106 +130,118 @@ export function createInitialDropdownFSMState(isOpen: boolean): DropdownFSMState
  * @param event - Event triggering the transition
  * @returns New FSM state
  */
+/** Shared state constants to reduce object allocation */
+const DROPDOWN_OPENING: DropdownFSMState = {
+  visibility: 'opening',
+  shouldRender: true,
+  shouldShow: false,
+  keyboardNavActive: false,
+  clickOutsideActive: false,
+};
+
+const DROPDOWN_CLOSING: DropdownFSMState = {
+  visibility: 'closing',
+  shouldRender: true,
+  shouldShow: false,
+  keyboardNavActive: false,
+  clickOutsideActive: false,
+};
+
+const DROPDOWN_OPEN: DropdownFSMState = {
+  visibility: 'open',
+  shouldRender: true,
+  shouldShow: true,
+  keyboardNavActive: true,
+  clickOutsideActive: true,
+};
+
+const DROPDOWN_CLOSED: DropdownFSMState = {
+  visibility: 'closed',
+  shouldRender: false,
+  shouldShow: false,
+  keyboardNavActive: false,
+  clickOutsideActive: false,
+};
+
+/**
+ * Handle events when dropdown is in 'closed' state
+ */
+function handleClosedEvent(state: DropdownFSMState, event: DropdownFSMEvent): DropdownFSMState {
+  switch (event.type) {
+    case 'OPEN':
+    case 'TOGGLE':
+      return DROPDOWN_OPENING;
+    case 'CLOSE':
+    case 'ANIMATION_END':
+      return state;
+    default:
+      return state;
+  }
+}
+
+/**
+ * Handle events when dropdown is in 'opening' state
+ */
+function handleOpeningEvent(state: DropdownFSMState, event: DropdownFSMEvent): DropdownFSMState {
+  switch (event.type) {
+    case 'OPEN':
+      return state;
+    case 'CLOSE':
+    case 'TOGGLE':
+      return DROPDOWN_CLOSING;
+    case 'ANIMATION_END':
+      return DROPDOWN_OPEN;
+    default:
+      return state;
+  }
+}
+
+/**
+ * Handle events when dropdown is in 'open' state
+ */
+function handleOpenEvent(state: DropdownFSMState, event: DropdownFSMEvent): DropdownFSMState {
+  switch (event.type) {
+    case 'OPEN':
+    case 'ANIMATION_END':
+      return state;
+    case 'CLOSE':
+    case 'TOGGLE':
+      return DROPDOWN_CLOSING;
+    default:
+      return state;
+  }
+}
+
+/**
+ * Handle events when dropdown is in 'closing' state
+ */
+function handleClosingEvent(state: DropdownFSMState, event: DropdownFSMEvent): DropdownFSMState {
+  switch (event.type) {
+    case 'OPEN':
+    case 'TOGGLE':
+      return DROPDOWN_OPENING;
+    case 'CLOSE':
+      return state;
+    case 'ANIMATION_END':
+      return DROPDOWN_CLOSED;
+    default:
+      return state;
+  }
+}
+
 export function dropdownFSMReducer(
   state: DropdownFSMState,
   event: DropdownFSMEvent
 ): DropdownFSMState {
   switch (state.visibility) {
     case 'closed':
-      switch (event.type) {
-        case 'OPEN':
-        case 'TOGGLE':
-          return {
-            visibility: 'opening',
-            shouldRender: true,
-            shouldShow: false,
-            keyboardNavActive: false,
-            clickOutsideActive: false,
-          };
-        case 'CLOSE':
-        case 'ANIMATION_END':
-          // Already closed, stay closed (idempotent)
-          return state;
-        default:
-          return state;
-      }
-
+      return handleClosedEvent(state, event);
     case 'opening':
-      switch (event.type) {
-        case 'OPEN':
-          // Already opening, stay opening (idempotent)
-          return state;
-        case 'CLOSE':
-        case 'TOGGLE':
-          // User requested close during opening, go to closing
-          return {
-            visibility: 'closing',
-            shouldRender: true,
-            shouldShow: false,
-            keyboardNavActive: false,
-            clickOutsideActive: false,
-          };
-        case 'ANIMATION_END':
-          // Opening animation finished, now fully open
-          return {
-            visibility: 'open',
-            shouldRender: true,
-            shouldShow: true,
-            keyboardNavActive: true,
-            clickOutsideActive: true,
-          };
-        default:
-          return state;
-      }
-
+      return handleOpeningEvent(state, event);
     case 'open':
-      switch (event.type) {
-        case 'OPEN':
-        case 'ANIMATION_END':
-          // Already open, stay open (idempotent)
-          return state;
-        case 'CLOSE':
-        case 'TOGGLE':
-          // User requested close
-          return {
-            visibility: 'closing',
-            shouldRender: true,
-            shouldShow: false,
-            keyboardNavActive: false,
-            clickOutsideActive: false,
-          };
-        default:
-          return state;
-      }
-
+      return handleOpenEvent(state, event);
     case 'closing':
-      switch (event.type) {
-        case 'OPEN':
-        case 'TOGGLE':
-          // User requested open during closing, go back to opening
-          return {
-            visibility: 'opening',
-            shouldRender: true,
-            shouldShow: false,
-            keyboardNavActive: false,
-            clickOutsideActive: false,
-          };
-        case 'CLOSE':
-          // Already closing, stay closing (idempotent)
-          return state;
-        case 'ANIMATION_END':
-          // Closing animation finished, now fully closed
-          return {
-            visibility: 'closed',
-            shouldRender: false,
-            shouldShow: false,
-            keyboardNavActive: false,
-            clickOutsideActive: false,
-          };
-        default:
-          return state;
-      }
-
+      return handleClosingEvent(state, event);
     default:
       return state;
   }

@@ -109,15 +109,7 @@ export const defaultThemeDefinitions: Record<string, ResolvedThemeDefinition> = 
     isDefault: true,
     suffix: null,
     selector: ':root',
-    outputFiles: {
-      css: 'tokens.css',
-      scss: '_tokens.scss',
-      js: 'tokens.js',
-      ts: 'tokens.ts',
-      json: 'tokens.json',
-      android: 'tokens.xml',
-      ios: 'tokens.h',
-    },
+    outputFiles: { ...defaultOutputFileNames },
   },
   dark: {
     isDefault: false,
@@ -339,33 +331,7 @@ export const envArrayKeys: Set<string> = new Set(['DSAI_FORMATS', 'DSAI_IGNORE_M
  * @returns Output file name
  */
 export function getOutputFileName(format: OutputFormat, theme?: string): string {
-  let baseName: string;
-
-  switch (format) {
-    case 'css':
-      baseName = 'tokens.css';
-      break;
-    case 'scss':
-      baseName = '_tokens.scss';
-      break;
-    case 'js':
-      baseName = 'tokens.js';
-      break;
-    case 'ts':
-      baseName = 'tokens.ts';
-      break;
-    case 'json':
-      baseName = 'tokens.json';
-      break;
-    case 'android':
-      baseName = 'tokens.xml';
-      break;
-    case 'ios':
-      baseName = 'tokens.h';
-      break;
-    default:
-      baseName = 'tokens.txt';
-  }
+  const baseName: string = (Reflect.get(defaultOutputFileNames, format) as string | undefined) ?? 'tokens.txt';
 
   if (!theme) {
     return baseName;

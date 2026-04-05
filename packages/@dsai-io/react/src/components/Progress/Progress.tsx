@@ -2,6 +2,10 @@ import { cn } from '../../utils';
 
 import type { ProgressBarProps, ProgressCircleProps, ProgressProps } from './Progress.types';
 
+const PROGRESS_BAR_CLASS = 'progress-bar';
+const PROGRESS_BAR_STRIPED_CLASS = 'progress-bar-striped';
+const PROGRESS_BAR_ANIMATED_CLASS = 'progress-bar-animated';
+
 const resolveHeightForSize = (size: ProgressProps['size'] = 'md'): string => {
   if (size === 'sm') {
     return '0.5rem';
@@ -43,11 +47,11 @@ function ProgressBar({
   const isWarning = variant === 'warning';
 
   const barClasses = cn(
-    'progress-bar',
+    PROGRESS_BAR_CLASS,
     !gradient && `bg-${variant}`,
     isWarning && !gradient && 'text-dark',
-    striped && 'progress-bar-striped',
-    animated && 'progress-bar-animated',
+    striped && PROGRESS_BAR_STRIPED_CLASS,
+    animated && PROGRESS_BAR_ANIMATED_CLASS,
     className
   );
 
@@ -132,7 +136,7 @@ function renderSteps(
         return (
           <div
             key={i}
-            className={isFilled ? barClasses : 'progress-bar'}
+            className={isFilled ? barClasses : PROGRESS_BAR_CLASS}
             style={segmentStyle}
             aria-hidden="true"
             data-step={i + 1}
@@ -218,12 +222,12 @@ function ProgressBase({
   // Build progress bar classes (for single bar mode)
   const isWarning = variant === 'warning';
   const barClasses = cn(
-    'progress-bar',
+    PROGRESS_BAR_CLASS,
     !gradient && `bg-${variant}`,
     isWarning && !gradient && 'text-dark',
-    striped && 'progress-bar-striped',
-    (animated || indeterminate) && 'progress-bar-animated',
-    indeterminate && 'progress-bar-striped' // Indeterminate uses striped animation
+    striped && PROGRESS_BAR_STRIPED_CLASS,
+    (animated || indeterminate) && PROGRESS_BAR_ANIMATED_CLASS,
+    indeterminate && PROGRESS_BAR_STRIPED_CLASS // Indeterminate uses striped animation
   );
 
   // Compute display value using formatValue > valueText > default percentage
@@ -297,7 +301,7 @@ function ProgressBase({
             {/* Buffer bar (MUI-style) — lighter background behind main bar */}
             {bufferPercentage != null && (
               <div
-                className={cn('progress-bar', !gradient && `bg-${variant}`)}
+                className={cn(PROGRESS_BAR_CLASS, !gradient && `bg-${variant}`)}
                 style={{
                   position: 'absolute',
                   top: 0,

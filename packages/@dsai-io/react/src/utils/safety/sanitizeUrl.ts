@@ -175,6 +175,30 @@ function isValidDataUrl(url: string, allowedMimeTypes: readonly string[]): boole
  * }
  * ```
  */
+/**
+ * Check if a protocol is in the allowed list.
+ */
+function isProtocolAllowed(protocol: string, allowedProtocols: readonly string[]): boolean {
+  return allowedProtocols.some((p) => protocol === p.toLowerCase());
+}
+
+/**
+ * Handle protocol-relative URLs (starting with //).
+ */
+function handleProtocolRelative(
+  cleaned: string,
+  allowedProtocols: readonly string[],
+  fallbackUrl: string
+): string {
+  if (!cleaned.startsWith('//')) {
+    return fallbackUrl;
+  }
+  const hasHttp = allowedProtocols.some(
+    (p) => p.toLowerCase() === 'http:' || p.toLowerCase() === 'https:'
+  );
+  return hasHttp ? cleaned : fallbackUrl;
+}
+
 export function sanitizeUrl(url: string, options: SanitizeUrlOptions = {}): string {
   // Handle null/undefined
   if (url === null || url === undefined) {
@@ -189,70 +213,34 @@ export function sanitizeUrl(url: string, options: SanitizeUrlOptions = {}): stri
     allowRelative = true,
   } = options;
 
-  // Convert to string and trim
   const input = String(url).trim();
-
-  // Empty URL returns fallback
   if (!input) {
     return fallbackUrl;
   }
 
-  // Remove null bytes and control characters
   const cleaned = removeInvisibleChars(input);
-
-  // Decode URL-encoded characters recursively to catch bypass attempts
   const decoded = decodeRecursively(cleaned);
-
-  // Remove whitespace from decoded version for protocol check
   const noWhitespace = decoded.replaceAll(/\s/g, '').toLowerCase();
 
-  // Check for dangerous protocols (after decoding to catch encoded attacks)
   if (DANGEROUS_PROTOCOLS.test(noWhitespace)) {
     return fallbackUrl;
   }
 
-  // Check for relative URLs
   if (isRelativeUrl(decoded)) {
-    if (allowRelative) {
-      return cleaned; // Return cleaned version, not decoded
-    }
-    return fallbackUrl;
+    return allowRelative ? cleaned : fallbackUrl;
   }
 
-  // Check for data: URLs
   if (noWhitespace.startsWith('data:')) {
-    if (allowDataUrls && isValidDataUrl(decoded, allowedDataMimeTypes)) {
-      return cleaned;
-    }
-    return fallbackUrl;
+    return allowDataUrls && isValidDataUrl(decoded, allowedDataMimeTypes) ? cleaned : fallbackUrl;
   }
 
-  // Parse and validate protocol
   try {
     const parsed = new URL(decoded);
-    const protocol = parsed.protocol.toLowerCase();
-
-    // Check against allowed protocols
-    const isAllowed = allowedProtocols.some((p) => protocol === p.toLowerCase());
-
-    if (isAllowed) {
-      return cleaned; // Return cleaned version
-    }
-
-    return fallbackUrl;
+    return isProtocolAllowed(parsed.protocol.toLowerCase(), allowedProtocols)
+      ? cleaned
+      : fallbackUrl;
   } catch {
-    // URL parsing failed - might be protocol-relative or malformed
-    if (cleaned.startsWith('//')) {
-      // Protocol-relative URL - allow if http/https are allowed
-      const hasHttp = allowedProtocols.some(
-        (p) => p.toLowerCase() === 'http:' || p.toLowerCase() === 'https:'
-      );
-      if (hasHttp) {
-        return cleaned;
-      }
-    }
-
-    return fallbackUrl;
+    return handleProtocolRelative(cleaned, allowedProtocols, fallbackUrl);
   }
 }
 

@@ -328,123 +328,56 @@ class ButtonUsageAnalyzer {
   }
 
   /**
+   * Get button lint rules as an array of [condition, severity, category, message, fix]
+   */
+  getButtonRules(props, children) {
+    const hasAccessibleName = props['aria-label'] || props['aria-labelledby'] || props.title;
+    const isIconOnly = this.isIconOnlyContent(children, props);
+
+    return [
+      // Rule 1: Icon-only buttons MUST have aria-label
+      [isIconOnly && !hasAccessibleName, Severity.ERROR, Category.ACCESSIBILITY,
+        'Icon-only button missing accessible name',
+        'Add aria-label="Description of action" to provide accessible name for screen readers'],
+      // Rule 2: onClick on disabled buttons
+      [props.disabled && props.onClick, Severity.INFO, Category.BEST_PRACTICE,
+        'onClick handler on disabled button (handler will not fire)',
+        'Consider removing onClick when button is disabled, or use FSM pattern for dynamic disable'],
+      // Rule 3: loading without loadingText
+      [props.loading && !props.loadingText, Severity.INFO, Category.BEST_PRACTICE,
+        'Loading button without loadingText prop',
+        'Consider adding loadingText="Loading..." to improve user feedback'],
+      // Rule 4: error without recovery action
+      [props.error && !props.onClick, Severity.WARNING, Category.FSM_PATTERN,
+        'Error state button without onClick handler (no recovery action)',
+        'Error state buttons should typically have an onClick handler for retry/recovery'],
+      // Rule 5: Both loading and error
+      [props.loading && props.error, Severity.WARNING, Category.FSM_PATTERN,
+        'Button has both loading and error props set simultaneously',
+        'Use either loading OR error state, not both. FSM prioritizes loading over error.'],
+      // Rule 6: Missing children entirely
+      [!children && !props['aria-label'] && !props.startIcon && !props.endIcon, Severity.ERROR, Category.ACCESSIBILITY,
+        'Button has no visible content or accessible name',
+        'Add text content, or aria-label for icon-only buttons'],
+      // Rule 8: aria-expanded without aria-controls
+      [props['aria-expanded'] && !props['aria-controls'], Severity.WARNING, Category.ACCESSIBILITY,
+        'aria-expanded used without aria-controls',
+        'When using aria-expanded, also specify aria-controls to reference the controlled element ID'],
+    ];
+  }
+
+  /**
    * Analyze a single Button usage
    */
   analyzeButtonUsage(usage) {
     const { props: propsString, children, line, filePath, fullMatch } = usage;
     const props = this.parseProps(propsString);
+    const snippet = fullMatch.substring(0, 150);
 
-    // Rule 1: Icon-only buttons MUST have aria-label
-    if (this.isIconOnlyContent(children, props)) {
-      if (!props['aria-label'] && !props['aria-labelledby'] && !props.title) {
-        this.issues.push(
-          new Issue(
-            Severity.ERROR,
-            Category.ACCESSIBILITY,
-            'Icon-only button missing accessible name',
-            filePath,
-            line,
-            fullMatch.substring(0, 150),
-            'Add aria-label="Description of action" to provide accessible name for screen readers'
-          )
-        );
+    for (const [condition, severity, category, message, fix] of this.getButtonRules(props, children)) {
+      if (condition) {
+        this.issues.push(new Issue(severity, category, message, filePath, line, snippet, fix));
       }
-    }
-
-    // Rule 2: Warn about onClick on disabled buttons
-    if (props.disabled && props.onClick) {
-      this.issues.push(
-        new Issue(
-          Severity.INFO,
-          Category.BEST_PRACTICE,
-          'onClick handler on disabled button (handler will not fire)',
-          filePath,
-          line,
-          fullMatch.substring(0, 150),
-          'Consider removing onClick when button is disabled, or use FSM pattern for dynamic disable'
-        )
-      );
-    }
-
-    // Rule 3: Check for loading without loadingText
-    if (props.loading && !props.loadingText) {
-      this.issues.push(
-        new Issue(
-          Severity.INFO,
-          Category.BEST_PRACTICE,
-          'Loading button without loadingText prop',
-          filePath,
-          line,
-          fullMatch.substring(0, 150),
-          'Consider adding loadingText="Loading..." to improve user feedback'
-        )
-      );
-    }
-
-    // Rule 4: Check for error state without recovery action
-    if (props.error && !props.onClick) {
-      this.issues.push(
-        new Issue(
-          Severity.WARNING,
-          Category.FSM_PATTERN,
-          'Error state button without onClick handler (no recovery action)',
-          filePath,
-          line,
-          fullMatch.substring(0, 150),
-          'Error state buttons should typically have an onClick handler for retry/recovery'
-        )
-      );
-    }
-
-    // Rule 5: Both loading and error at same time
-    if (props.loading && props.error) {
-      this.issues.push(
-        new Issue(
-          Severity.WARNING,
-          Category.FSM_PATTERN,
-          'Button has both loading and error props set simultaneously',
-          filePath,
-          line,
-          fullMatch.substring(0, 150),
-          'Use either loading OR error state, not both. FSM prioritizes loading over error.'
-        )
-      );
-    }
-
-    // Rule 6: Missing children entirely
-    if (!children && !props['aria-label'] && !props.startIcon && !props.endIcon) {
-      this.issues.push(
-        new Issue(
-          Severity.ERROR,
-          Category.ACCESSIBILITY,
-          'Button has no visible content or accessible name',
-          filePath,
-          line,
-          fullMatch.substring(0, 150),
-          'Add text content, or aria-label for icon-only buttons'
-        )
-      );
-    }
-
-    // Rule 7: type="submit" without form context (informational)
-    if (props.type === 'submit' && !props.form) {
-      // This is just info - submit buttons are often inside forms
-      // We'll only flag this as info, not a warning
-    }
-
-    // Rule 8: aria-expanded without aria-controls
-    if (props['aria-expanded'] && !props['aria-controls']) {
-      this.issues.push(
-        new Issue(
-          Severity.WARNING,
-          Category.ACCESSIBILITY,
-          'aria-expanded used without aria-controls',
-          filePath,
-          line,
-          fullMatch.substring(0, 150),
-          'When using aria-expanded, also specify aria-controls to reference the controlled element ID'
-        )
-      );
     }
 
     this.buttonsFound++;

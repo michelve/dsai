@@ -127,77 +127,78 @@ function capitalize(str: string): string {
  * export declare const tokens: DesignTokens;
  * ```
  */
+/** Build nested token tree from dictionary tokens */
+function buildTokenTree(tokens: SDToken[]): TokenTreeNode {
+  const tokenTree: TokenTreeNode = {};
+  const hasOwn = Object.prototype.hasOwnProperty;
+  const unsafeKeys = new Set(['__proto__', 'constructor', 'prototype']);
+
+  for (const token of tokens) {
+    let current: TokenTreeNode = tokenTree;
+    for (let i = 0; i < token.path.length - 1; i++) {
+      const key = token.path[i] as string;
+      if (unsafeKeys.has(key)) {continue;}
+      if (!hasOwn.call(current, key) || typeof current[key] !== 'object') {
+        current[key] = {};
+      }
+      current = current[key] as TokenTreeNode;
+    }
+    const lastKey = token.path[token.path.length - 1];
+    if (lastKey) {
+      current[lastKey] = { _isToken: true, _type: getTypeScriptType(token) };
+    }
+  }
+  return tokenTree;
+}
+
+/** Generate string literal types grouped by category */
+function generateLiteralTypes(tokens: SDToken[]): string {
+  const categories: Record<string, string[]> = {};
+  for (const token of tokens) {
+    const category = token.path[0];
+    if (category) {
+      if (!categories[category]) {categories[category] = [];}
+      categories[category].push(token.path.join('.'));
+    }
+  }
+
+  let output = '';
+  for (const category of Object.keys(categories).sort((a, b) => a.localeCompare(b))) {
+    const categoryTokens = categories[category];
+    if (!categoryTokens) {continue;}
+    const typeName = `${capitalize(category)}TokenName`;
+    output += `/**\n * All ${category} token names as string literals\n */\n`;
+    output += `export type ${typeName} =\n`;
+    output += categoryTokens.map((t) => `  | '${t}'`).join('\n');
+    output += ';\n\n';
+  }
+
+  const allTokenNames = tokens.map((t) => t.path.join('.'));
+  output += `/**\n * All token names as string literals\n */\n`;
+  output += `export type TokenName =\n`;
+  output += allTokenNames.map((t) => `  | '${t}'`).join('\n');
+  output += ';\n\n';
+
+  return output;
+}
+
+/** Generate flat const declarations */
+function generateFlatExports(tokens: SDToken[]): string {
+  let output = '/**\n * Flat token exports (camelCase names)\n */\n';
+  for (const token of tokens) {
+    const type = getTypeScriptType(token);
+    const name = toJsIdentifier(token.path);
+    output += `export declare const ${name}: ${type};\n`;
+  }
+  return output;
+}
+
 export const typescriptDeclarations: FormatDefinition = {
   name: 'typescript/declarations',
   format: ({ dictionary }: SDFormatArgs): string => {
-    // Build nested structure with type markers
-    const tokenTree: TokenTreeNode = {};
-
-    const hasOwn = Object.prototype.hasOwnProperty;
-
-    for (const token of dictionary.allTokens) {
-      let current: TokenTreeNode = tokenTree;
-      for (let i = 0; i < token.path.length - 1; i++) {
-        const key = token.path[i] as string;
-        // Guard against prototype pollution
-        if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
-          continue;
-        }
-        if (!hasOwn.call(current, key) || typeof current[key] !== 'object') {
-          current[key] = {};
-        }
-        current = current[key] as TokenTreeNode;
-      }
-
-      const lastKey = token.path[token.path.length - 1];
-      if (lastKey) {
-        current[lastKey] = {
-          _isToken: true,
-          _type: getTypeScriptType(token),
-        };
-      }
-    }
-
-    // Group tokens by category for string literal types
-    const categories: Record<string, string[]> = {};
-    for (const token of dictionary.allTokens) {
-      const category = token.path[0];
-      if (category) {
-        if (!categories[category]) {
-          categories[category] = [];
-        }
-        categories[category].push(token.path.join('.'));
-      }
-    }
-
-    // Generate category types
-    let literalTypes = '';
-    for (const category of Object.keys(categories).sort((a, b) => a.localeCompare(b))) {
-      const categoryTokens = categories[category];
-      if (!categoryTokens) {
-        continue;
-      }
-      const typeName = `${capitalize(category)}TokenName`;
-      literalTypes += `/**\n * All ${category} token names as string literals\n */\n`;
-      literalTypes += `export type ${typeName} =\n`;
-      literalTypes += categoryTokens.map((t) => `  | '${t}'`).join('\n');
-      literalTypes += ';\n\n';
-    }
-
-    // Generate all token names type
-    const allTokenNames = dictionary.allTokens.map((t) => t.path.join('.'));
-    literalTypes += `/**\n * All token names as string literals\n */\n`;
-    literalTypes += `export type TokenName =\n`;
-    literalTypes += allTokenNames.map((t) => `  | '${t}'`).join('\n');
-    literalTypes += ';\n\n';
-
-    // Generate flat token exports
-    let flatExports = '/**\n * Flat token exports (camelCase names)\n */\n';
-    for (const token of dictionary.allTokens) {
-      const type = getTypeScriptType(token);
-      const name = toJsIdentifier(token.path); // Generate valid identifier from path
-      flatExports += `export declare const ${name}: ${type};\n`;
-    }
+    const tokenTree = buildTokenTree(dictionary.allTokens);
+    const literalTypes = generateLiteralTypes(dictionary.allTokens);
+    const flatExports = generateFlatExports(dictionary.allTokens);
 
     return `/**
  * Design Tokens - TypeScript Declarations

@@ -102,97 +102,97 @@ export function createInitialAccordionFSMState(
  * @param event - Event triggering the transition
  * @returns New FSM state
  */
+/**
+ * Handle TOGGLE event — expand or collapse a single item
+ */
+function handleAccordionToggle(state: AccordionFSMState, eventKey: string): AccordionFSMState {
+  const isCurrentlyActive = state.activeKeys.has(eventKey);
+
+  if (isCurrentlyActive) {
+    const newKeys = new Set(state.activeKeys);
+    newKeys.delete(eventKey);
+    return { ...state, activeKeys: newKeys };
+  }
+
+  if (state.selectionMode === 'single') {
+    return { ...state, activeKeys: new Set([eventKey]) };
+  }
+
+  const newKeys = new Set(state.activeKeys);
+  newKeys.add(eventKey);
+  return { ...state, activeKeys: newKeys };
+}
+
+/**
+ * Handle EXPAND event — force expand a single item
+ */
+function handleAccordionExpand(state: AccordionFSMState, eventKey: string): AccordionFSMState {
+  if (state.activeKeys.has(eventKey)) {
+    return state;
+  }
+
+  if (state.selectionMode === 'single') {
+    return { ...state, activeKeys: new Set([eventKey]) };
+  }
+
+  const newKeys = new Set(state.activeKeys);
+  newKeys.add(eventKey);
+  return { ...state, activeKeys: newKeys };
+}
+
+/**
+ * Handle COLLAPSE event — force collapse a single item
+ */
+function handleAccordionCollapse(state: AccordionFSMState, eventKey: string): AccordionFSMState {
+  if (!state.activeKeys.has(eventKey)) {
+    return state;
+  }
+
+  const newKeys = new Set(state.activeKeys);
+  newKeys.delete(eventKey);
+  return { ...state, activeKeys: newKeys };
+}
+
+/**
+ * Handle RESET_FROM_PROPS event — sync with controlled props
+ */
+function handleAccordionResetFromProps(
+  state: AccordionFSMState,
+  activeKeys: readonly string[]
+): AccordionFSMState {
+  const firstKey = activeKeys[0];
+  const validKeys: string[] =
+    state.selectionMode === 'single' && activeKeys.length > 1 && firstKey !== undefined
+      ? [firstKey]
+      : [...activeKeys];
+
+  const newKeysSet = new Set<string>(validKeys);
+
+  if (
+    newKeysSet.size === state.activeKeys.size &&
+    [...newKeysSet].every((key) => state.activeKeys.has(key))
+  ) {
+    return state;
+  }
+
+  return { ...state, activeKeys: newKeysSet };
+}
+
 export function accordionFSMReducer(
   state: AccordionFSMState,
   event: AccordionFSMEvent
 ): AccordionFSMState {
   switch (event.type) {
-    case 'TOGGLE': {
-      const { eventKey } = event;
-      const isCurrentlyActive = state.activeKeys.has(eventKey);
-
-      if (isCurrentlyActive) {
-        // Collapse this item
-        const newKeys = new Set(state.activeKeys);
-        newKeys.delete(eventKey);
-        return { ...state, activeKeys: newKeys };
-      } else {
-        // Expand this item
-        if (state.selectionMode === 'single') {
-          // In single mode, only this item should be active
-          return { ...state, activeKeys: new Set([eventKey]) };
-        } else {
-          // In multiple mode, add to existing active items
-          const newKeys = new Set(state.activeKeys);
-          newKeys.add(eventKey);
-          return { ...state, activeKeys: newKeys };
-        }
-      }
-    }
-
-    case 'EXPAND': {
-      const { eventKey } = event;
-
-      if (state.activeKeys.has(eventKey)) {
-        // Already expanded, no change needed
-        return state;
-      }
-
-      if (state.selectionMode === 'single') {
-        // In single mode, replace all with just this one
-        return { ...state, activeKeys: new Set([eventKey]) };
-      } else {
-        // In multiple mode, add to existing
-        const newKeys = new Set(state.activeKeys);
-        newKeys.add(eventKey);
-        return { ...state, activeKeys: newKeys };
-      }
-    }
-
-    case 'COLLAPSE': {
-      const { eventKey } = event;
-
-      if (!state.activeKeys.has(eventKey)) {
-        // Already collapsed, no change needed
-        return state;
-      }
-
-      const newKeys = new Set(state.activeKeys);
-      newKeys.delete(eventKey);
-      return { ...state, activeKeys: newKeys };
-    }
-
-    case 'COLLAPSE_ALL': {
-      if (state.activeKeys.size === 0) {
-        // Already all collapsed
-        return state;
-      }
-      return { ...state, activeKeys: new Set() };
-    }
-
-    case 'RESET_FROM_PROPS': {
-      const { activeKeys } = event;
-
-      // In single mode, only keep the first key
-      const firstKey = activeKeys[0];
-      const validKeys: string[] =
-        state.selectionMode === 'single' && activeKeys.length > 1 && firstKey !== undefined
-          ? [firstKey]
-          : [...activeKeys];
-
-      const newKeysSet = new Set<string>(validKeys);
-
-      // Check if the sets are equal to avoid unnecessary updates
-      if (
-        newKeysSet.size === state.activeKeys.size &&
-        [...newKeysSet].every((key) => state.activeKeys.has(key))
-      ) {
-        return state;
-      }
-
-      return { ...state, activeKeys: newKeysSet };
-    }
-
+    case 'TOGGLE':
+      return handleAccordionToggle(state, event.eventKey);
+    case 'EXPAND':
+      return handleAccordionExpand(state, event.eventKey);
+    case 'COLLAPSE':
+      return handleAccordionCollapse(state, event.eventKey);
+    case 'COLLAPSE_ALL':
+      return state.activeKeys.size === 0 ? state : { ...state, activeKeys: new Set() };
+    case 'RESET_FROM_PROPS':
+      return handleAccordionResetFromProps(state, event.activeKeys);
     default:
       return state;
   }

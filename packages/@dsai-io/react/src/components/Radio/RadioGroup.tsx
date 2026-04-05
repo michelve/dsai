@@ -87,18 +87,21 @@ export function RadioGroup({
   // Build wrapper classes
   const wrapperClasses = cn(inline && 'd-flex flex-wrap gap-3', className);
 
+  // Enhance a single radio child with group props
+  const enhanceRadioChild = (child: ReactElement<RadioProps>): ReactElement<RadioProps> =>
+    cloneElement(child, {
+      name,
+      checked: child.props.value === currentValue,
+      onChange: handleChange,
+      disabled: disabled || child.props.disabled,
+      error: error || child.props.error,
+      inline,
+    });
+
   // Clone children and inject props
   const enhancedChildren = Children.map(children, (child) => {
     if (isValidElement(child) && child.type === Radio) {
-      const radioChild = child as ReactElement<RadioProps>;
-      return cloneElement(radioChild, {
-        name,
-        checked: radioChild.props.value === currentValue,
-        onChange: handleChange,
-        disabled: disabled || radioChild.props.disabled,
-        error: error || radioChild.props.error,
-        inline,
-      });
+      return enhanceRadioChild(child as ReactElement<RadioProps>);
     }
     return child;
   });

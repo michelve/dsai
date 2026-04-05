@@ -2,6 +2,14 @@ import { Heading } from '@dsai-io/react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+const BORDER_RADIUS_LG = 'var(--dsai-border-radius-lg)';
+const BORDER_RADIUS_SM = 'var(--dsai-border-radius-sm)';
+const SPACING_2 = 'var(--dsai-spacing-2)';
+const SPACING_3 = 'var(--dsai-spacing-3)';
+const SPACING_4 = 'var(--dsai-spacing-4)';
+const FONT_WEIGHT_SEMI_BOLD = 'var(--dsai-typography-font-weight-semi-bold)';
+const BG_GRAY_100 = 'var(--bs-gray-100)';
+
 const meta: Meta = {
   title: 'Foundation/Spacing',
   parameters: {
@@ -51,20 +59,20 @@ export const SpacingScale: Story = {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 'var(--dsai-spacing-4)',
+                gap: SPACING_4,
                 marginBottom: '16px',
-                padding: 'var(--dsai-spacing-2)',
-                backgroundColor: 'var(--bs-gray-100)',
-                borderRadius: 'var(--dsai-border-radius-lg)',
+                padding: SPACING_2,
+                backgroundColor: BG_GRAY_100,
+                borderRadius: BORDER_RADIUS_LG,
               }}
             >
-              <div style={{ minWidth: '80px', fontWeight: 'var(--dsai-typography-font-weight-semi-bold)' }}>spacing-{token}</div>
+              <div style={{ minWidth: '80px', fontWeight: FONT_WEIGHT_SEMI_BOLD }}>spacing-{token}</div>
               <div
                 style={{
                   width: value,
                   height: '32px',
                   backgroundColor: 'var(--bs-info)',
-                  borderRadius: 'var(--dsai-border-radius-sm)',
+                  borderRadius: BORDER_RADIUS_SM,
                   border: '1px solid var(--bs-info-border-subtle)',
                 }}
               />
@@ -78,7 +86,7 @@ export const SpacingScale: Story = {
                   marginLeft: 'auto',
                   backgroundColor: 'var(--bs-white)',
                   padding: '4px 8px',
-                  borderRadius: 'var(--dsai-border-radius-sm)',
+                  borderRadius: BORDER_RADIUS_SM,
                 }}
               >
                 var(--dsai-spacing-{token})
@@ -106,10 +114,10 @@ export const PaddingExamples: Story = {
     return (
       <div>
         <Heading level={2}>Padding Examples</Heading>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-3)', marginTop: '24px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING_3, marginTop: '24px' }}>
           {paddingExamples.map(({ name, token, value }) => (
             <div key={token}>
-              <div style={{ fontSize: '14px', fontWeight: 'var(--dsai-typography-font-weight-semi-bold)', marginBottom: '8px' }}>
+              <div style={{ fontSize: '14px', fontWeight: FONT_WEIGHT_SEMI_BOLD, marginBottom: '8px' }}>
                 {name} (spacing-{token}: {value})
               </div>
               <div
@@ -117,15 +125,15 @@ export const PaddingExamples: Story = {
                   padding: value,
                   backgroundColor: 'var(--bs-info-bg-subtle)',
                   border: '2px dashed var(--bs-info)',
-                  borderRadius: 'var(--dsai-border-radius-lg)',
+                  borderRadius: BORDER_RADIUS_LG,
                 }}
               >
                 <div
                   style={{
                     backgroundColor: 'var(--bs-info)',
                     color: 'white',
-                    padding: 'var(--dsai-spacing-2)',
-                    borderRadius: 'var(--dsai-border-radius-sm)',
+                    padding: SPACING_2,
+                    borderRadius: BORDER_RADIUS_SM,
                     textAlign: 'center',
                   }}
                 >
@@ -151,9 +159,9 @@ export const MarginExamples: Story = {
       <div
         style={{
           marginTop: '24px',
-          padding: 'var(--dsai-spacing-4)',
-          backgroundColor: 'var(--bs-gray-100)',
-          borderRadius: 'var(--dsai-border-radius-lg)',
+          padding: SPACING_4,
+          backgroundColor: BG_GRAY_100,
+          borderRadius: BORDER_RADIUS_LG,
         }}
       >
         <Heading level={3} noMargin>
@@ -166,9 +174,9 @@ export const MarginExamples: Story = {
         <div
           style={{
             marginTop: '16px',
-            padding: 'var(--dsai-spacing-3)',
+            padding: SPACING_3,
             backgroundColor: 'var(--bs-white)',
-            borderRadius: 'var(--dsai-border-radius-lg)',
+            borderRadius: BORDER_RADIUS_LG,
             border: '1px solid var(--bs-border-color)',
           }}
         >
@@ -178,9 +186,9 @@ export const MarginExamples: Story = {
         <div
           style={{
             marginTop: '24px',
-            padding: 'var(--dsai-spacing-3)',
+            padding: SPACING_3,
             backgroundColor: 'var(--bs-white)',
-            borderRadius: 'var(--dsai-border-radius-lg)',
+            borderRadius: BORDER_RADIUS_LG,
             border: '1px solid var(--bs-border-color)',
           }}
         >
@@ -190,9 +198,9 @@ export const MarginExamples: Story = {
         <div
           style={{
             marginTop: '32px',
-            padding: 'var(--dsai-spacing-3)',
+            padding: SPACING_3,
             backgroundColor: 'var(--bs-white)',
-            borderRadius: 'var(--dsai-border-radius-lg)',
+            borderRadius: BORDER_RADIUS_LG,
             border: '1px solid var(--bs-border-color)',
           }}
         >
@@ -211,21 +219,21 @@ export const GapExamples: Story = {
     <div>
       <Heading level={2}>Gap Examples (Flexbox/Grid)</Heading>
       <p>Using spacing tokens for gap in flex and grid layouts.</p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--dsai-spacing-4)', marginTop: '24px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING_4, marginTop: '24px' }}>
         <div>
-          <div style={{ fontSize: '14px', fontWeight: 'var(--dsai-typography-font-weight-semi-bold)', marginBottom: '8px' }}>
+          <div style={{ fontSize: '14px', fontWeight: FONT_WEIGHT_SEMI_BOLD, marginBottom: '8px' }}>
             Gap: spacing-2 (8px)
           </div>
-          <div style={{ display: 'flex', gap: 'var(--dsai-spacing-2)' }}>
+          <div style={{ display: 'flex', gap: SPACING_2 }}>
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
                 style={{
                   flex: 1,
-                  padding: 'var(--dsai-spacing-3)',
+                  padding: SPACING_3,
                   backgroundColor: 'var(--bs-info)',
                   color: 'white',
-                  borderRadius: 'var(--dsai-border-radius-lg)',
+                  borderRadius: BORDER_RADIUS_LG,
                   textAlign: 'center',
                 }}
               >
@@ -236,19 +244,19 @@ export const GapExamples: Story = {
         </div>
 
         <div>
-          <div style={{ fontSize: '14px', fontWeight: 'var(--dsai-typography-font-weight-semi-bold)', marginBottom: '8px' }}>
+          <div style={{ fontSize: '14px', fontWeight: FONT_WEIGHT_SEMI_BOLD, marginBottom: '8px' }}>
             Gap: spacing-4 (24px)
           </div>
-          <div style={{ display: 'flex', gap: 'var(--dsai-spacing-4)' }}>
+          <div style={{ display: 'flex', gap: SPACING_4 }}>
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
                 style={{
                   flex: 1,
-                  padding: 'var(--dsai-spacing-3)',
+                  padding: SPACING_3,
                   backgroundColor: 'var(--bs-success)',
                   color: 'white',
-                  borderRadius: 'var(--dsai-border-radius-lg)',
+                  borderRadius: BORDER_RADIUS_LG,
                   textAlign: 'center',
                 }}
               >
@@ -259,7 +267,7 @@ export const GapExamples: Story = {
         </div>
 
         <div>
-          <div style={{ fontSize: '14px', fontWeight: 'var(--dsai-typography-font-weight-semi-bold)', marginBottom: '8px' }}>
+          <div style={{ fontSize: '14px', fontWeight: FONT_WEIGHT_SEMI_BOLD, marginBottom: '8px' }}>
             Gap: spacing-6 (48px)
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--dsai-spacing-5)' }}>
@@ -267,10 +275,10 @@ export const GapExamples: Story = {
               <div
                 key={i}
                 style={{
-                  padding: 'var(--dsai-spacing-4)',
+                  padding: SPACING_4,
                   backgroundColor: 'var(--bs-primary)',
                   color: 'white',
-                  borderRadius: 'var(--dsai-border-radius-lg)',
+                  borderRadius: BORDER_RADIUS_LG,
                   textAlign: 'center',
                 }}
               >
@@ -295,9 +303,9 @@ export const Usage: Story = {
       <Heading level={3}>CSS Variables</Heading>
       <pre
         style={{
-          backgroundColor: 'var(--bs-gray-100)',
-          padding: 'var(--dsai-spacing-3)',
-          borderRadius: 'var(--dsai-border-radius-lg)',
+          backgroundColor: BG_GRAY_100,
+          padding: SPACING_3,
+          borderRadius: BORDER_RADIUS_LG,
           overflow: 'auto',
         }}
       >
@@ -316,9 +324,9 @@ export const Usage: Story = {
       <Heading level={3}>JavaScript/TypeScript</Heading>
       <pre
         style={{
-          backgroundColor: 'var(--bs-gray-100)',
-          padding: 'var(--dsai-spacing-3)',
-          borderRadius: 'var(--dsai-border-radius-lg)',
+          backgroundColor: BG_GRAY_100,
+          padding: SPACING_3,
+          borderRadius: BORDER_RADIUS_LG,
           overflow: 'auto',
         }}
       >

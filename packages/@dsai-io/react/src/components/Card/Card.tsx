@@ -381,30 +381,34 @@ export const Card = memo(
     const isExternal = isExternalUrl(safeHref);
     const relAttribute = isExternal ? 'noopener noreferrer' : undefined;
 
-    // Render as link
-    if (safeHref) {
-      if (LinkComponent) {
-        return (
-          <LinkComponent
-            ref={ref}
-            href={safeHref}
-            {...rest}
-            className={cardClasses}
-            style={{ ...mergedStyle, textDecoration: 'none', color: 'inherit' }}
-            rel={relAttribute}
-          >
-            {children}
-          </LinkComponent>
-        );
-      }
+    // Shared link style
+    const linkStyle = { ...mergedStyle, textDecoration: 'none', color: 'inherit' };
 
+    // Render as custom link component
+    if (safeHref && LinkComponent) {
+      return (
+        <LinkComponent
+          ref={ref}
+          href={safeHref}
+          {...rest}
+          className={cardClasses}
+          style={linkStyle}
+          rel={relAttribute}
+        >
+          {children}
+        </LinkComponent>
+      );
+    }
+
+    // Render as native link
+    if (safeHref) {
       return (
         <a
           ref={ref as React.Ref<HTMLAnchorElement>}
           href={safeHref}
           {...rest}
           className={cardClasses}
-          style={{ ...mergedStyle, textDecoration: 'none', color: 'inherit' }}
+          style={linkStyle}
           rel={relAttribute}
         >
           {children}
@@ -413,7 +417,7 @@ export const Card = memo(
     }
 
     // Render as button (interactive without href)
-    if (onClick && !safeHref) {
+    if (onClick) {
       return (
         <button
           ref={ref as React.Ref<HTMLButtonElement>}

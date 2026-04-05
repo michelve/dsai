@@ -80,6 +80,43 @@ function getOrCreateFormatter(
  * Fallback number formatter for environments without Intl support
  * Provides basic number formatting using native methods
  */
+/**
+ * Format a compact number with appropriate suffix (K, M, B, T).
+ */
+function formatCompact(value: number): string {
+  const absValue = Math.abs(value);
+  const sign = value < 0 ? '-' : '';
+
+  if (absValue >= 1e12) {
+    return `${sign}${(absValue / 1e12).toFixed(1)}T`;
+  }
+  if (absValue >= 1e9) {
+    return `${sign}${(absValue / 1e9).toFixed(1)}B`;
+  }
+  if (absValue >= 1e6) {
+    return `${sign}${(absValue / 1e6).toFixed(1)}M`;
+  }
+  if (absValue >= 1e3) {
+    return `${sign}${(absValue / 1e3).toFixed(1)}K`;
+  }
+  return String(value);
+}
+
+/**
+ * Add thousand separators to a formatted number string.
+ */
+function addThousandSeparators(formatted: string): string {
+  const parts = formatted.split('.');
+  if (parts[0]) {
+    // Safe regex: matches non-boundary followed by groups of exactly 3 digits
+    const integerPart = parts[0];
+    const reversed = integerPart.split('').reverse().join('');
+    const grouped = reversed.replaceAll(/(\d{3})(?=\d)/g, '$1,');
+    parts[0] = grouped.split('').reverse().join('');
+  }
+  return parts.join('.');
+}
+
 function fallbackFormat(value: number, options?: Intl.NumberFormatOptions): string {
   // Handle special values
   if (Number.isNaN(value)) {
@@ -97,38 +134,16 @@ function fallbackFormat(value: number, options?: Intl.NumberFormatOptions): stri
 
   // Handle compact notation (basic approximation)
   if (options?.notation === 'compact') {
-    const absValue = Math.abs(value);
-    const sign = value < 0 ? '-' : '';
-
-    if (absValue >= 1e12) {
-      return `${sign}${(absValue / 1e12).toFixed(1)}T`;
-    }
-    if (absValue >= 1e9) {
-      return `${sign}${(absValue / 1e9).toFixed(1)}B`;
-    }
-    if (absValue >= 1e6) {
-      return `${sign}${(absValue / 1e6).toFixed(1)}M`;
-    }
-    if (absValue >= 1e3) {
-      return `${sign}${(absValue / 1e3).toFixed(1)}K`;
-    }
+    return formatCompact(value);
   }
 
   // Basic number formatting with fraction digits
   const fractionDigits = options?.maximumFractionDigits ?? options?.minimumFractionDigits ?? 0;
-  let result = value.toFixed(fractionDigits);
+  const result = value.toFixed(fractionDigits);
 
   // Add thousand separators (basic, assumes comma separators)
   if (options?.useGrouping !== false) {
-    const parts = result.split('.');
-    if (parts[0]) {
-      // Safe regex: matches non-boundary followed by groups of exactly 3 digits
-      const integerPart = parts[0];
-      const reversed = integerPart.split('').reverse().join('');
-      const grouped = reversed.replaceAll(/(\d{3})(?=\d)/g, '$1,');
-      parts[0] = grouped.split('').reverse().join('');
-    }
-    result = parts.join('.');
+    return addThousandSeparators(result);
   }
 
   return result;

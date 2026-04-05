@@ -780,6 +780,174 @@ function getInputSource(
 // Main Transformation
 // ============================================================================
 
+/** Context object for accumulating transform results */
+interface TransformContext {
+  errors: string[];
+  warnings: string[];
+  filesWritten: string[];
+  allModesDetected: Set<string>;
+  tokensProcessed: number;
+}
+
+/**
+ * Detect modes from theme.json for mode-aware collections
+ */
+function detectModesFromThemeFile(
+  sourceDir: string,
+  ctx: TransformContext
+): Map<string, string[]> {
+  const detectedModesMap = new Map<string, string[]>();
+  const themeFile = join(sourceDir, 'theme.json');
+
+  if (!existsSync(themeFile)) {
+    return detectedModesMap;
+  }
+
+  try {
+    const content = readFileSync(themeFile, 'utf-8');
+    const themeData = JSON.parse(content) as FigmaExport;
+
+    for (const [name, collectionConfig] of Object.entries(DEFAULT_COLLECTIONS)) {
+      const typedConfig = collectionConfig as CollectionConfig;
+      if (!typedConfig.modeAware) {continue;}
+
+      const collectionPath = name.charAt(0).toUpperCase() + name.slice(1);
+      const modes = detectModes(themeData, collectionPath);
+      if (modes.length > 0) {
+        detectedModesMap.set(collectionPath, modes);
+        for (const mode of modes) {
+          ctx.allModesDetected.add(mode);
+        }
+      }
+    }
+  } catch (error) {
+    ctx.warnings.push(
+      `Failed to read theme.json for mode detection: ${error instanceof Error ? error.message : 'Unknown error'}`
+    );
+  }
+
+  return detectedModesMap;
+}
+
+/**
+ * Read and optionally validate a collection input file
+ */
+function readCollectionInput(
+  inputPath: string,
+  strict: boolean | undefined,
+  ctx: TransformContext,
+  verbose: boolean
+): FigmaExport | null {
+  try {
+    const content = readFileSync(inputPath, 'utf-8');
+    const data = JSON.parse(content) as FigmaExport;
+
+    if (strict) {
+      const validation = validateFigmaExport(data);
+      if (!validation.valid) {
+        const errorMessages = validation.errors?.map((e) => `${e.path}: ${e.message}`) || [];
+        ctx.errors.push(`Schema validation failed for ${inputPath}:\n${errorMessages.join('\n')}`);
+        return null;
+      }
+      if (verbose) {
+        console.info(`   ✓ Schema validation passed`);
+      }
+    }
+    return data;
+  } catch (error) {
+    ctx.errors.push(
+      `Failed to read ${inputPath}: ${error instanceof Error ? error.message : 'Unknown error'}`
+    );
+    return null;
+  }
+}
+
+/**
+ * Determine modes to process for a collection
+ */
+function resolveModesToProcess(
+  typedConfig: CollectionConfig,
+  collectionName: string,
+  data: FigmaExport,
+  detectedModesMap: Map<string, string[]>,
+  defaultMode: string,
+  ignoreModes: string[]
+): string[] {
+  if (!typedConfig.modeAware) {
+    return [defaultMode];
+  }
+
+  const collectionPath = collectionName.charAt(0).toUpperCase() + collectionName.slice(1);
+  const detectedForCollection = detectedModesMap.get(collectionPath);
+
+  if (detectedForCollection) {
+    return detectedForCollection.filter((m) => !ignoreModes.includes(m));
+  }
+
+  const modes = detectModes(data, collectionPath);
+  if (modes.length > 1 || !modes.includes('Base')) {
+    return modes.filter((m) => !ignoreModes.includes(m));
+  }
+
+  return [defaultMode];
+}
+
+/**
+ * Process a single output for a single mode
+ */
+function processOutputMode(
+  output: CollectionOutput,
+  mode: string,
+  typedConfig: CollectionConfig,
+  modesToProcess: string[],
+  data: FigmaExport,
+  collectionsDir: string,
+  dryRun: boolean,
+  defaultMode: string,
+  verbose: boolean,
+  ctx: TransformContext
+): void {
+  let outputFile = output.file;
+  if (typedConfig.modeAware && modesToProcess.length > 1 && mode !== defaultMode) {
+    const ext = extname(output.file);
+    const base = basename(output.file, ext);
+    const dir = dirname(output.file);
+    outputFile = join(dir, `${base}-${mode.toLowerCase()}${ext}`);
+  }
+
+  const outputPath = join(collectionsDir, outputFile);
+
+  try {
+    const tokens = typedConfig.modeAware ? output.extractor(data, mode) : output.extractor(data);
+    const tokenCount = Object.keys(tokens).length;
+
+    if (tokenCount === 0) {
+      ctx.warnings.push(`No tokens extracted for ${outputFile} (${mode} mode)`);
+      return;
+    }
+
+    ctx.tokensProcessed += tokenCount;
+
+    if (!dryRun) {
+      ensureDir(outputPath);
+      writeFileSync(outputPath, `${JSON.stringify(tokens, null, 2)}\n`, 'utf-8');
+    }
+
+    ctx.filesWritten.push(outputFile);
+
+    if (verbose) {
+      const dryRunLabel = dryRun ? ' (dry run)' : '';
+      console.info(
+        `  ✅ Created ${outputFile}${modesToProcess.length > 1 ? ` (${mode})` : ''}${dryRunLabel}`
+      );
+    }
+  } catch (error) {
+    ctx.errors.push(
+      `Error processing ${outputFile}: ${error instanceof Error ? error.message : 'Unknown error'}`
+    );
+  }
+}
+
 /**
  * Transform Figma tokens to Style Dictionary format
  */
@@ -794,11 +962,13 @@ export function transformTokens(options: TransformOptions): TransformResult {
   } = options;
 
   const startTime = Date.now();
-  const errors: string[] = [];
-  const warnings: string[] = [];
-  const filesWritten: string[] = [];
-  const allModesDetected: Set<string> = new Set();
-  let tokensProcessed = 0;
+  const ctx: TransformContext = {
+    errors: [],
+    warnings: [],
+    filesWritten: [],
+    allModesDetected: new Set(),
+    tokensProcessed: 0,
+  };
 
   if (verbose) {
     console.info('🎨 Transforming Figma tokens to Style Dictionary format...\n');
@@ -815,34 +985,7 @@ export function transformTokens(options: TransformOptions): TransformResult {
     console.info('');
   }
 
-  // Detect modes from theme.json
-  const detectedModesMap = new Map<string, string[]>();
-  const themeFile = join(sourceDir, 'theme.json');
-  if (existsSync(themeFile)) {
-    try {
-      const content = readFileSync(themeFile, 'utf-8');
-      const themeData = JSON.parse(content) as FigmaExport;
-
-      // Detect modes for each collection
-      for (const [name, collectionConfig] of Object.entries(DEFAULT_COLLECTIONS)) {
-        const typedConfig = collectionConfig as CollectionConfig;
-        if (typedConfig.modeAware) {
-          const collectionPath = name.charAt(0).toUpperCase() + name.slice(1);
-          const modes = detectModes(themeData, collectionPath);
-          if (modes.length > 0) {
-            detectedModesMap.set(collectionPath, modes);
-            for (const mode of modes) {
-              allModesDetected.add(mode);
-            }
-          }
-        }
-      }
-    } catch (error) {
-      warnings.push(
-        `Failed to read theme.json for mode detection: ${error instanceof Error ? error.message : 'Unknown error'}`
-      );
-    }
-  }
+  const detectedModesMap = detectModesFromThemeFile(sourceDir, ctx);
 
   // Process each collection
   for (const [collectionName, collectionConfig] of Object.entries(DEFAULT_COLLECTIONS)) {
@@ -851,107 +994,25 @@ export function transformTokens(options: TransformOptions): TransformResult {
       console.info(`Processing ${collectionName} collection...`);
     }
 
-    // Get input path based on configuration
     const inputPath = getInputSource(typedConfig, sourceDir, 'theme');
-
-    // Check if input file exists
     if (!existsSync(inputPath)) {
-      warnings.push(`Input file not found: ${inputPath}`);
+      ctx.warnings.push(`Input file not found: ${inputPath}`);
       continue;
     }
 
-    // Read input file
-    let data: FigmaExport;
-    try {
-      const content = readFileSync(inputPath, 'utf-8');
-      data = JSON.parse(content) as FigmaExport;
+    const data = readCollectionInput(inputPath, options.strict, ctx, verbose);
+    if (!data) {continue;}
 
-      // Validate schema if strict mode is enabled
-      if (options.strict) {
-        const validation = validateFigmaExport(data);
-        if (!validation.valid) {
-          const errorMessages = validation.errors?.map((e) => `${e.path}: ${e.message}`) || [];
-          errors.push(`Schema validation failed for ${inputPath}:\n${errorMessages.join('\n')}`);
-          continue;
-        }
-        if (verbose) {
-          console.info(`   ✓ Schema validation passed`);
-        }
-      }
-    } catch (error) {
-      errors.push(
-        `Failed to read ${inputPath}: ${error instanceof Error ? error.message : 'Unknown error'}`
-      );
-      continue;
-    }
+    const modesToProcess = resolveModesToProcess(
+      typedConfig, collectionName, data, detectedModesMap, defaultMode, ignoreModes
+    );
 
-    // Determine which modes to process for this collection
-    let modesToProcess = [defaultMode];
-    if (typedConfig.modeAware) {
-      const collectionPath = collectionName.charAt(0).toUpperCase() + collectionName.slice(1);
-      const detectedForCollection = detectedModesMap.get(collectionPath);
-      if (detectedForCollection) {
-        modesToProcess = detectedForCollection.filter((m) => !ignoreModes.includes(m));
-      } else {
-        const modes = detectModes(data, collectionPath);
-        if (modes.length > 1 || !modes.includes('Base')) {
-          modesToProcess = modes.filter((m) => !ignoreModes.includes(m));
-        }
-      }
-    }
-
-    // Process each output
     for (const output of typedConfig.outputs) {
       for (const mode of modesToProcess) {
-        // Generate the output file path
-        let outputFile = output.file;
-        if (typedConfig.modeAware && modesToProcess.length > 1) {
-          const ext = extname(output.file);
-          const base = basename(output.file, ext);
-          const dir = dirname(output.file);
-
-          if (mode !== defaultMode) {
-            outputFile = join(dir, `${base}-${mode.toLowerCase()}${ext}`);
-          }
-        }
-
-        const outputPath = join(collectionsDir, outputFile);
-
-        try {
-          // Extract and transform tokens
-          const tokens = typedConfig.modeAware
-            ? output.extractor(data, mode)
-            : output.extractor(data);
-
-          const tokenCount = Object.keys(tokens).length;
-          if (tokenCount === 0) {
-            warnings.push(`No tokens extracted for ${outputFile} (${mode} mode)`);
-            continue;
-          }
-
-          tokensProcessed += tokenCount;
-
-          if (!dryRun) {
-            // Ensure output directory exists
-            ensureDir(outputPath);
-
-            // Write output file
-            writeFileSync(outputPath, `${JSON.stringify(tokens, null, 2)}\n`, 'utf-8');
-          }
-
-          filesWritten.push(outputFile);
-
-          if (verbose) {
-            const dryRunLabel = dryRun ? ' (dry run)' : '';
-            console.info(
-              `  ✅ Created ${outputFile}${modesToProcess.length > 1 ? ` (${mode})` : ''}${dryRunLabel}`
-            );
-          }
-        } catch (error) {
-          errors.push(
-            `Error processing ${outputFile}: ${error instanceof Error ? error.message : 'Unknown error'}`
-          );
-        }
+        processOutputMode(
+          output, mode, typedConfig, modesToProcess, data, collectionsDir,
+          dryRun, defaultMode, verbose, ctx
+        );
       }
     }
   }
@@ -965,12 +1026,12 @@ export function transformTokens(options: TransformOptions): TransformResult {
   }
 
   return {
-    success: errors.length === 0,
-    filesWritten,
-    tokensProcessed,
-    modesDetected: Array.from(allModesDetected),
-    errors,
-    warnings,
+    success: ctx.errors.length === 0,
+    filesWritten: ctx.filesWritten,
+    tokensProcessed: ctx.tokensProcessed,
+    modesDetected: Array.from(ctx.allModesDetected),
+    errors: ctx.errors,
+    warnings: ctx.warnings,
     duration,
   };
 }

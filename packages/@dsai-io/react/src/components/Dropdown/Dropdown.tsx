@@ -709,6 +709,14 @@ const DropdownItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, DropdownI
       [active, disabled, variant, className]
     );
 
+    // Determine if the dropdown should close after a click
+    const shouldCloseAfterClick = useCallback((): boolean => {
+      if (closeOnSelect !== undefined) {
+        return closeOnSelect;
+      }
+      return autoClose === true || autoClose === 'inside';
+    }, [closeOnSelect, autoClose]);
+
     // Handle click
     const handleClick = useCallback(
       (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
@@ -720,25 +728,19 @@ const DropdownItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, DropdownI
         onClick?.(event);
 
         // Fire onSelect and check if default was prevented
-        let defaultPrevented = false;
         if (onSelect) {
           const selectEvent = new Event('select', { cancelable: true });
           onSelect(selectEvent);
-          defaultPrevented = selectEvent.defaultPrevented;
-        }
-
-        // Determine whether to close
-        if (!defaultPrevented) {
-          if (closeOnSelect !== undefined) {
-            if (closeOnSelect) {
-              close();
-            }
-          } else if (autoClose === true || autoClose === 'inside') {
-            close();
+          if (selectEvent.defaultPrevented) {
+            return;
           }
         }
+
+        if (shouldCloseAfterClick()) {
+          close();
+        }
       },
-      [disabled, onClick, onSelect, closeOnSelect, autoClose, close]
+      [disabled, onClick, onSelect, shouldCloseAfterClick, close]
     );
 
     // Compute rel for links

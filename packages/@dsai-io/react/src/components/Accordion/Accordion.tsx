@@ -482,6 +482,8 @@ const AccordionButton = forwardRef<HTMLButtonElement, AccordionButtonProps>(
             event.preventDefault();
             navigateToEdge('last');
             break;
+          default:
+            break;
         }
 
         // Enter and Space are handled natively by button

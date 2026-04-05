@@ -201,95 +201,81 @@ export function createInitialCardListFSMState(
  * @param event - Event to process
  * @returns New FSM state
  */
+/**
+ * Handle RESET_FROM_PROPS event — sync state with controlled props
+ */
+function handleCardListResetFromProps(event: ResetFromPropsEvent): CardListFSMState {
+  const { values, mode, totalEnabled } = event;
+
+  if (mode === 'none') {
+    return { selectedValues: [], visualState: 'none' };
+  }
+
+  if (mode === 'single') {
+    const firstValue = values[0];
+    const selectedValues = firstValue !== undefined ? [firstValue] : [];
+    return { selectedValues, visualState: deriveVisualState(selectedValues, totalEnabled) };
+  }
+
+  const selectedValues = [...new Set(values)];
+  return { selectedValues, visualState: deriveVisualState(selectedValues, totalEnabled) };
+}
+
+/**
+ * Handle SELECT_ITEM event — single selection mode
+ */
+function handleCardListSelectItem(
+  state: CardListFSMState,
+  event: SelectItemEvent
+): CardListFSMState {
+  const { value, totalEnabled } = event;
+
+  if (state.selectedValues.includes(value)) {
+    return state;
+  }
+
+  const selectedValues = [value];
+  return { selectedValues, visualState: deriveVisualState(selectedValues, totalEnabled) };
+}
+
+/**
+ * Handle TOGGLE_ITEM event — multiple selection mode
+ */
+function handleCardListToggleItem(
+  state: CardListFSMState,
+  event: ToggleItemEvent
+): CardListFSMState {
+  const { value, totalEnabled } = event;
+  const selected = new Set(state.selectedValues);
+
+  if (selected.has(value)) {
+    selected.delete(value);
+  } else {
+    selected.add(value);
+  }
+
+  const selectedValues = Array.from(selected);
+  return { selectedValues, visualState: deriveVisualState(selectedValues, totalEnabled) };
+}
+
 export function cardListFSMReducer(
   state: CardListFSMState,
   event: CardListFSMEvent
 ): CardListFSMState {
   switch (event.type) {
-    case 'RESET_FROM_PROPS': {
-      const { values, mode, totalEnabled } = event;
-
-      // For 'none' mode, always empty
-      if (mode === 'none') {
-        return {
-          selectedValues: [],
-          visualState: 'none',
-        };
-      }
-
-      // For 'single' mode, only keep first value
-      if (mode === 'single') {
-        const firstValue = values[0];
-        const selectedValues = firstValue !== undefined ? [firstValue] : [];
-        return {
-          selectedValues,
-          visualState: deriveVisualState(selectedValues, totalEnabled),
-        };
-      }
-
-      // For 'multiple' mode, deduplicate
-      const selectedValues = [...new Set(values)];
-      return {
-        selectedValues,
-        visualState: deriveVisualState(selectedValues, totalEnabled),
-      };
-    }
-
-    case 'SELECT_ITEM': {
-      const { value, totalEnabled } = event;
-
-      // Single selection - replace current selection
-      // Note: Do not deselect if clicking the already selected item
-      // (radio button behavior - can't unselect by clicking)
-      if (state.selectedValues.includes(value)) {
-        // Already selected, no change
-        return state;
-      }
-
-      const selectedValues = [value];
-      return {
-        selectedValues,
-        visualState: deriveVisualState(selectedValues, totalEnabled),
-      };
-    }
-
-    case 'TOGGLE_ITEM': {
-      const { value, totalEnabled } = event;
-      const selected = new Set(state.selectedValues);
-
-      // Toggle the item
-      if (selected.has(value)) {
-        selected.delete(value);
-      } else {
-        selected.add(value);
-      }
-
-      const selectedValues = Array.from(selected);
-      return {
-        selectedValues,
-        visualState: deriveVisualState(selectedValues, totalEnabled),
-      };
-    }
-
-    case 'CLEAR_ALL': {
-      return {
-        selectedValues: [],
-        visualState: 'none',
-      };
-    }
-
+    case 'RESET_FROM_PROPS':
+      return handleCardListResetFromProps(event);
+    case 'SELECT_ITEM':
+      return handleCardListSelectItem(state, event);
+    case 'TOGGLE_ITEM':
+      return handleCardListToggleItem(state, event);
+    case 'CLEAR_ALL':
+      return { selectedValues: [], visualState: 'none' };
     case 'SELECT_ALL': {
-      const { enabledValues, totalEnabled } = event;
-      const selectedValues = [...enabledValues];
-
-      return {
-        selectedValues,
-        visualState: deriveVisualState(selectedValues, totalEnabled),
-      };
+      const selectedValues = [...event.enabledValues];
+      return { selectedValues, visualState: deriveVisualState(selectedValues, event.totalEnabled) };
     }
-
     default: {
-      // TypeScript exhaustiveness check
       const _exhaustive: never = event;
       return _exhaustive;
     }
