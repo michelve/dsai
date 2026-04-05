@@ -59,7 +59,7 @@ function displayItemList(filtered: RegistryIndexEntry[]): void {
 
   const grouped: Record<string, RegistryIndexEntry[]> = {};
   for (const item of filtered) {
-    const type = item.type.replace('registry:', '');
+    const type = item.type.replaceAll('registry:', '');
     if (!grouped[type]) {grouped[type] = [];}
     grouped[type].push(item);
   }
@@ -98,7 +98,7 @@ function printImportExample(
   firstItem: { type: string; name: string },
   aliases: { importAlias: string; ui: string; hooks: string; utils: string }
 ): void {
-  const type = firstItem.type.replace('registry:', '');
+  const type = firstItem.type.replaceAll('registry:', '');
   const name = firstItem.name;
   const titleCase = toTitleCase(name);
 
@@ -109,7 +109,7 @@ function printImportExample(
     const importPath = `${aliases.importAlias}${aliases.ui}/${name}`;
     importStr = `import { ${titleCase} } from '${importPath}';`;
   } else if (type === 'hook') {
-    const hookName = titleCase.replace('Use', 'use');
+    const hookName = titleCase.replaceAll('Use', 'use');
     const importPath = `${aliases.importAlias}${aliases.hooks}/${hookName}`;
     importStr = `import { ${hookName} } from '${importPath}';`;
   } else if (type === 'util') {
@@ -302,7 +302,7 @@ function logInstallPlan(
 ): void {
   console.log(`\n${colors.bold('Items to install:')}`);
   for (const item of tree.items) {
-    const type = item.type.replace('registry:', '');
+    const type = item.type.replaceAll('registry:', '');
     console.log(`  ${colors.cyan(type.padEnd(10))} ${item.name}`);
   }
   if (tree.dependencies.length > 0) {

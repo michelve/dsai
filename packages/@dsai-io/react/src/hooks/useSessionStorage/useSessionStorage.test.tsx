@@ -156,7 +156,7 @@ describe('useSessionStorage', () => {
       const { result } = renderHook(() =>
         useSessionStorage('custom-key', 'default', {
           serializer: (value) => `CUSTOM:${value}`,
-          deserializer: (value) => value.replace('CUSTOM:', ''),
+          deserializer: (value) => value.replaceAll('CUSTOM:', ''),
         })
       );
 

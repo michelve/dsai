@@ -385,7 +385,7 @@ export class SnapshotService {
   private shouldExclude(path: string): boolean {
     return this.exclude.some((pattern) => {
       if (pattern.startsWith('**/')) {
-        return path.includes(pattern.substring(RECURSIVE_GLOB_PREFIX_LENGTH).replace('/**', ''));
+        return path.includes(pattern.substring(RECURSIVE_GLOB_PREFIX_LENGTH).replaceAll('/**', ''));
       }
       return path.includes(pattern);
     });

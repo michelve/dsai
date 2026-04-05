@@ -99,7 +99,7 @@ function getDefaultThemeName(
  */
 function matchFileSuffix(filename: string, suffixToTheme: Map<string, string>): string | undefined {
   // Remove .json extension
-  const baseName = filename.replace(/\.json$/i, '');
+  const baseName = filename.replaceAll(/\.json$/gi, '');
 
   // Check each suffix
   for (const [suffix, themeName] of suffixToTheme.entries()) {
@@ -320,7 +320,7 @@ export function getThemeFiles(
     return [];
   }
 
-  const suffixPattern = pattern.replace(/\.json$/i, `${definition.suffix}.json`);
+  const suffixPattern = pattern.replaceAll(/\.json$/gi, `${definition.suffix}.json`);
 
   return fg.sync(path.join(sourceDir, suffixPattern), {
     absolute: true,
@@ -369,7 +369,7 @@ export function autoDetectThemes(
   for (const suffix of foundSuffixes) {
     themes.set(suffix, {
       suffix: `-${suffix}`,
-      selector: selectorPattern.replace('{mode}', suffix),
+      selector: selectorPattern.replaceAll('{mode}', suffix),
     });
   }
 

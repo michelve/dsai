@@ -32,11 +32,11 @@ function extractMetadataFields(lines, task) {
     const trimmed = line.trim();
     for (const [prefix, handler] of Object.entries(fieldMap)) {
       if (trimmed.startsWith(prefix)) {
-        handler(trimmed.replace(prefix, '').trim());
+        handler(trimmed.replaceAll(prefix, '').trim());
       }
     }
     if (trimmed.startsWith('**Assigned To:**')) {
-      const assignee = trimmed.replace('**Assigned To:**', '').trim();
+      const assignee = trimmed.replaceAll('**Assigned To:**', '').trim();
       if (assignee.includes('Developer')) {
         task.assignees = 'michelve';
       } else if (assignee.includes('Designer')) {
@@ -188,7 +188,7 @@ function assignDomainLabels(task) {
   addLabelIfMatch(task.labels, title, /figma|code connect/i, '🎨 figma');
   addLabelIfMatch(task.labels, title, /storybook/i, '📖 storybook');
 
-  const taskNum = Number.parseInt(task.taskId.replace('TASK-', ''), 10);
+  const taskNum = Number.parseInt(task.taskId.replaceAll('TASK-', ''), 10);
   const isComponentByTitle = /button|badge|alert|modal|input|select/i.test(title);
   if ((taskNum >= 21 && taskNum <= 45) || isComponentByTitle) {
     task.labels.push('🧩 component');
@@ -353,8 +353,8 @@ function main() {
 
   // Sort by task ID
   tasks.sort((a, b) => {
-    const idA = Number.parseInt(a.taskId.replace('TASK-', ''), 10);
-    const idB = Number.parseInt(b.taskId.replace('TASK-', ''), 10);
+    const idA = Number.parseInt(a.taskId.replaceAll('TASK-', ''), 10);
+    const idB = Number.parseInt(b.taskId.replaceAll('TASK-', ''), 10);
     return idA - idB;
   });
 

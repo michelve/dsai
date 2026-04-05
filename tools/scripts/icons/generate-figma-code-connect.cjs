@@ -36,7 +36,7 @@ const OUTPUT_FILE = path.join(
  */
 function toKebabCase(componentName) {
   // Remove "Icon" suffix
-  const baseName = componentName.replace(/Icon$/, '');
+  const baseName = componentName.replaceAll(/Icon$/g, '');
 
   // Handle special cases with numbers at start (Icon0Circle -> 0-circle)
   if (baseName.startsWith('Icon') && /^\d/.test(baseName.charAt(4))) {
@@ -44,14 +44,14 @@ function toKebabCase(componentName) {
     return withoutPrefix
       .replaceAll(/([A-Z])/g, '-$1')
       .toLowerCase()
-      .replace(/^-/, '');
+      .replaceAll(/^-/g, '');
   }
 
   // Convert PascalCase to kebab-case
   return baseName
     .replaceAll(/([A-Z])/g, '-$1')
     .toLowerCase()
-    .replace(/^-/, '')
+    .replaceAll(/^-/g, '')
     .replaceAll('--', '-'); // Handle consecutive capitals
 }
 
@@ -64,7 +64,7 @@ function getIconComponents() {
     .filter((f) => f.endsWith('.tsx') && f !== 'index.ts');
 
   return files.map((file) => {
-    const componentName = file.replace('.tsx', '');
+    const componentName = file.replaceAll('.tsx', '');
     const iconName = toKebabCase(componentName);
     return {
       componentName,

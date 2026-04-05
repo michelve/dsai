@@ -18,13 +18,13 @@ function parseMarkdownDescriptions(mdContent) {
 
     // Match path line (e.g., "light.colors.brand.blue.100.$description")
     if (line.endsWith('.$description') && !line.startsWith('description=')) {
-      currentPath = line.replace(/\.\$description$/, '');
+      currentPath = line.replaceAll(/\.\$description$/g, '');
       continue;
     }
 
     // Match description line (e.g., "    description=Some text")
     if (currentPath && line.startsWith('description=')) {
-      const description = line.replace(/^description=/, '').trim();
+      const description = line.replaceAll(/^description=/g, '').trim();
       descriptions[currentPath] = description;
       currentPath = null;
     }
@@ -185,7 +185,7 @@ function processAllCollections() {
   let successCount = 0;
 
   for (const mdFile of mdFiles) {
-    const collectionName = mdFile.replace(/\.md$/, '');
+    const collectionName = mdFile.replaceAll(/\.md$/g, '');
     if (processCollection(collectionName)) {
       successCount++;
     }

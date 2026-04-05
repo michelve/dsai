@@ -45,7 +45,7 @@ function toKebabCase(componentName) {
   return baseName
     .replaceAll(/([A-Z])/g, '-$1')
     .toLowerCase()
-    .replace(/^-/, '')
+    .replaceAll(/^-/g, '')
     .replaceAll('--', '-'); // Handle consecutive capitals
 }
 
@@ -58,7 +58,7 @@ function getIconComponents() {
     .filter((f) => f.endsWith('.tsx') && f !== 'index.ts');
 
   return files.map((file) => {
-    const componentName = file.replace('.tsx', '');
+    const componentName = file.replaceAll('.tsx', '');
     const iconName = toKebabCase(componentName);
     return {
       componentName,

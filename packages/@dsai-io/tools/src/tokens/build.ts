@@ -262,7 +262,7 @@ function resolveThemeOutputFile(
   const pair = FORMAT_OUTPUT_DEFAULTS[format];
   if (!pair) {return `tokens-${name}.${format}`;}
   const template = isDefault ? pair[0] : pair[1];
-  return template.replace('{name}', name);
+  return template.replaceAll('{name}', name);
 }
 
 /**

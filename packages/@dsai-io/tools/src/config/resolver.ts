@@ -109,7 +109,7 @@ function resolveThemeDefinition(
     if (isDefaultTheme) {
       return selectorPattern.default;
     }
-    return selectorPattern.others.replace('{mode}', themeName);
+    return selectorPattern.others.replaceAll('{mode}', themeName);
   };
 
   const defaultOutputFiles = generateOutputFiles();

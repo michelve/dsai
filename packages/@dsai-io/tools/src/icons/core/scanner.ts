@@ -56,7 +56,7 @@ export async function scanSVGFiles(options: ScannerOptions): Promise<RawSVGData[
       const stats = statSync(filePath);
 
       // Extract file name without extension
-      const fileName = basename(filePath).replace(/\.svg$/i, '');
+      const fileName = basename(filePath).replaceAll(/\.svg$/gi, '');
 
       svgFiles.push({
         filePath,
@@ -85,7 +85,7 @@ export function readSVGFile(filePath: string): RawSVGData | null {
   try {
     const content = readFileSync(filePath, 'utf-8');
     const stats = statSync(filePath);
-    const fileName = basename(filePath).replace(/\.svg$/i, '');
+    const fileName = basename(filePath).replaceAll(/\.svg$/gi, '');
 
     return {
       filePath,

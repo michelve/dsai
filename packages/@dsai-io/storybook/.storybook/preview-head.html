@@ -73,7 +73,7 @@
     function extractPrimaryFont(fontStack) {
       if (!fontStack) return null;
       // Split by comma and get first font, trim quotes and whitespace
-      const firstFont = fontStack.split(',')[0].trim().replace(/["']/g, '');
+      const firstFont = fontStack.split(',')[0].trim().replaceAll(/["']/g, '');
       return firstFont;
     }
 
@@ -87,7 +87,7 @@
         return null;
       }
 
-      const encodedName = fontName.replace(/ /g, '+');
+      const encodedName = fontName.replaceAll(/ /g, '+');
       let spec = encodedName;
 
       // Add optical size if supported (Inter has this)

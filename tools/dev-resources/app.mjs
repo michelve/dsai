@@ -29,7 +29,7 @@ for (const key in devResources) {
   if (figmaUrls[key]?.includes(FILE_KEY)) {
     urlKeyToNodeId[key] = new URLSearchParams(figmaUrls[key].split('?')[1])
       .get('node-id')
-      .replace('-', ':');
+      .replaceAll('-', ':');
   } else {
     urlKeyToNodeId[key] = 'UNKNOWN or DIFFERENT_FILE';
   }

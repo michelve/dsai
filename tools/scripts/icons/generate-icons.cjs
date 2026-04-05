@@ -54,7 +54,7 @@ function getIconMetadata(filename, metadata) {
   if (!metadata || !metadata.icons) {
     return null;
   }
-  const iconName = filename.replace('.svg', '');
+  const iconName = filename.replaceAll('.svg', '');
   return metadata.icons[iconName] || null;
 }
 
@@ -78,7 +78,7 @@ function toPascalCase(str) {
  * Generate a valid component name from filename
  */
 function getComponentName(filename) {
-  const baseName = filename.replace('.svg', '');
+  const baseName = filename.replaceAll('.svg', '');
   let pascalName = toPascalCase(baseName);
 
   // If starts with number, prefix with 'Icon'

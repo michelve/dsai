@@ -590,7 +590,7 @@ export interface OutdatedDependency {
  */
 function getMajorVersion(version: string): number | null {
   // Remove ^ or ~ prefix and extract major version
-  const cleanVersion = version.replace(/^[\^~]/, '');
+  const cleanVersion = version.replaceAll(/^[\^~]/g, '');
   const match = /^(\d+)/.exec(cleanVersion);
   if (!match?.[1]) {
     return null;

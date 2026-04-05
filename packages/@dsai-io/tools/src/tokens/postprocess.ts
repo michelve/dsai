@@ -76,7 +76,7 @@ function applyReplacements(
       const matches = result.match(rule.from);
       matchCount = matches ? matches.length : 0;
       if (matchCount > 0) {
-        result = result.replace(rule.from, rule.to);
+        result = result.replaceAll(rule.from, rule.to);
       }
     }
 

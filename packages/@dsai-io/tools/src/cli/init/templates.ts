@@ -214,7 +214,7 @@ export default defineConfig({
         cssVariables: true,
       },
       dark: {
-        selector: '${selectorPattern.others.replace('{mode}', 'dark')}',
+        selector: '${selectorPattern.others.replaceAll('{mode}', 'dark')}',
         cssVariables: true,
       },
     },
@@ -398,7 +398,7 @@ export default defineConfig({
         generateSeparateFiles: false,
       },
       dark: {
-        selector: '${selectorPattern.others.replace('{mode}', 'dark')}',
+        selector: '${selectorPattern.others.replaceAll('{mode}', 'dark')}',
         // Optional: use media query instead of/in addition to selector
         // mediaQuery: '(prefers-color-scheme: dark)',
         cssVariables: true,

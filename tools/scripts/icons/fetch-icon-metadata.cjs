@@ -93,7 +93,7 @@ function parseFrontmatter(content) {
   if (categoriesMatch) {
     result.categories = categoriesMatch[1]
       .split('\n')
-      .map((line) => line.replace(/^\s+-\s+/, '').trim())
+      .map((line) => line.replaceAll(/^\s+-\s+/g, '').trim())
       .filter(Boolean);
   }
 
@@ -102,7 +102,7 @@ function parseFrontmatter(content) {
   if (tagsMatch) {
     result.tags = tagsMatch[1]
       .split('\n')
-      .map((line) => line.replace(/^\s+-\s+/, '').trim())
+      .map((line) => line.replaceAll(/^\s+-\s+/g, '').trim())
       .filter(Boolean);
   }
 

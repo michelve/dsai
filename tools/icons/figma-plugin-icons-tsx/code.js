@@ -315,7 +315,7 @@ export type { IconProps, IconComponent } from './types';
 import figma from '@figma/code-connect';
 
 // Import all icons
-${exports.map((e) => e.replace("from './components/", "from '@dsai-io/react/components/Icon/components/")).join('\n')}
+${exports.map((e) => e.replaceAll("from './components/", "from '@dsai-io/react/components/Icon/components/")).join('\n')}
 
 // Code Connect mappings
 ${codeConnects.join('\n\n')}

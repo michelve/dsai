@@ -608,21 +608,21 @@ function normalizeTokenPath(token) {
   // Spacing.modes.Base.spacing.* -> spacing.* (not spacing.spacing.*)
   // Layout.modes.Base.breakpoints.* -> layout.breakpoints.*
   if (path.match(/^Typography\.modes\.Base\./i)) {
-    path = path.replace(/^Typography\.modes\.Base\./i, 'typography.');
+    path = path.replaceAll(/^Typography\.modes\.Base\./gi, 'typography.');
   } else if (path.match(/^Spacing\.modes\.Base\.spacing\./i)) {
     // Special case: remove both "Spacing.modes.Base." AND "spacing."
-    path = path.replace(/^Spacing\.modes\.Base\.spacing\./i, 'spacing.');
+    path = path.replaceAll(/^Spacing\.modes\.Base\.spacing\./gi, 'spacing.');
   } else if (path.match(/^Radius\.modes\.Base\.radius\./i)) {
     // Special case for radius
-    path = path.replace(/^Radius\.modes\.Base\.radius\./i, 'border.radius.');
+    path = path.replaceAll(/^Radius\.modes\.Base\.radius\./gi, 'border.radius.');
   } else if (path.match(/^Layout\.modes\.Base\./i)) {
-    path = path.replace(/^Layout\.modes\.Base\./i, 'layout.');
+    path = path.replaceAll(/^Layout\.modes\.Base\./gi, 'layout.');
   } else if (path.match(/^Shadows\.modes\.Base\.shadows\./i)) {
-    path = path.replace(/^Shadows\.modes\.Base\.shadows\./i, 'shadow.');
+    path = path.replaceAll(/^Shadows\.modes\.Base\.shadows\./gi, 'shadow.');
   } else {
     path = path
-      .replace(/^Foundation\.modes\.Light\./i, '')
-      .replace(/^Foundation\.modes\.Dark\./i, '');
+      .replaceAll(/^Foundation\.modes\.Light\./gi, '')
+      .replaceAll(/^Foundation\.modes\.Dark\./gi, '');
   }
 
   // Step 2: Normalize Figma naming to match output structure
@@ -631,30 +631,30 @@ function normalizeTokenPath(token) {
   // colors.background.* -> background.*
   // etc.
   path = path
-    .replace(/^colors\.brand\./i, 'color.')
-    .replace(/^colors\.neutral\./i, 'neutral.')
-    .replace(/^colors\.background\./i, 'background.')
-    .replace(/^colors\.opacity\./i, 'opacity.')
-    .replace(/^colors\.theme\./i, 'theme.')
-    .replace(/^borders\.color\./i, 'border.color.')
-    .replace(/^borders\.width\./i, 'border.width.')
-    .replace(/^borders\./i, 'border.')
-    .replace(/^shadows\./i, 'shadow.')
-    .replace(/^fontfamily\./i, 'typography.fontfamily.')
-    .replace(/^fontsize\./i, 'typography.fontsize.')
-    .replace(/^fontweight\./i, 'typography.fontweight.')
-    .replace(/^lineheight\./i, 'typography.lineheight.')
-    .replace(/^breakpoints\./i, 'layout.breakpoints.')
-    .replace(/^container\./i, 'layout.container.')
-    .replace(/^grid\./i, 'layout.grid.')
-    .replace(/^gutters\./i, 'layout.gutters.')
-    .replace(/^radius\./i, 'border.radius.')
-    .replace(/^spacing\./i, 'spacing.');
+    .replaceAll(/^colors\.brand\./gi, 'color.')
+    .replaceAll(/^colors\.neutral\./gi, 'neutral.')
+    .replaceAll(/^colors\.background\./gi, 'background.')
+    .replaceAll(/^colors\.opacity\./gi, 'opacity.')
+    .replaceAll(/^colors\.theme\./gi, 'theme.')
+    .replaceAll(/^borders\.color\./gi, 'border.color.')
+    .replaceAll(/^borders\.width\./gi, 'border.width.')
+    .replaceAll(/^borders\./gi, 'border.')
+    .replaceAll(/^shadows\./gi, 'shadow.')
+    .replaceAll(/^fontfamily\./gi, 'typography.fontfamily.')
+    .replaceAll(/^fontsize\./gi, 'typography.fontsize.')
+    .replaceAll(/^fontweight\./gi, 'typography.fontweight.')
+    .replaceAll(/^lineheight\./gi, 'typography.lineheight.')
+    .replaceAll(/^breakpoints\./gi, 'layout.breakpoints.')
+    .replaceAll(/^container\./gi, 'layout.container.')
+    .replaceAll(/^grid\./gi, 'layout.grid.')
+    .replaceAll(/^gutters\./gi, 'layout.gutters.')
+    .replaceAll(/^radius\./gi, 'border.radius.')
+    .replaceAll(/^spacing\./gi, 'spacing.');
 
   // Step 3: Handle composite shadow tokens
   // Source: shadow.default.composite -> shadow.default
   // Output: shadow.default -> shadow.default
-  path = path.replace(/\.composite$/i, '');
+  path = path.replaceAll(/\.composite$/gi, '');
 
   // Step 4: Output tokens are already in the correct structure
   // No further normalization needed - color.blue.500 stays as is

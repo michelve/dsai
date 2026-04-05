@@ -284,7 +284,7 @@ export function mapToBootstrapName(tokenName: string): string {
   for (const pattern of BOOTSTRAP_PATTERNS) {
     // Pre-compiled regex patterns only - no dynamic construction from untrusted input
     if (pattern.pattern instanceof RegExp && pattern.pattern.test(tokenName)) {
-      return tokenName.replace(pattern.pattern, pattern.replacement);
+      return tokenName.replaceAll(pattern.pattern, pattern.replacement);
     }
   }
 

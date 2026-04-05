@@ -162,7 +162,7 @@ export function createFrameworkMapper(
     // Apply pattern-based mappings
     for (const pattern of mergedPatterns) {
       if (pattern.pattern instanceof RegExp && pattern.pattern.test(tokenName)) {
-        return tokenName.replace(pattern.pattern, pattern.replacement);
+        return tokenName.replaceAll(pattern.pattern, pattern.replacement);
       }
     }
 

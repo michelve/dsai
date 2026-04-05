@@ -20,7 +20,7 @@ export function isValidUrl(
 
   try {
     const url = new URL(href.trim());
-    const scheme = url.protocol.replace(':', '');
+    const scheme = url.protocol.replaceAll(':', '');
     if (!allowedSchemes.includes(scheme)) {
       return false;
     }

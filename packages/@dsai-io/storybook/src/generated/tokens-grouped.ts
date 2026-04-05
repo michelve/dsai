@@ -105,7 +105,7 @@ function routeToken(key: string, token: TokenValue): void {
 
   for (const [prefix, cssCategory, map] of prefixRoutes) {
     if (key.startsWith(prefix)) {
-      const name = key.replace(prefix, '');
+      const name = key.replaceAll(prefix, '');
       const kebab = toKebabCase(name);
       token.cssVar = `--dsai-${cssCategory}-${kebab}`;
       map.set(kebab, token);
@@ -114,15 +114,15 @@ function routeToken(key: string, token: TokenValue): void {
   }
 
   if (key.startsWith('Opacity_')) {
-    const num = key.replace('Opacity_', '');
+    const num = key.replaceAll('Opacity_', '');
     token.cssVar = `--dsai-opacity-${num}`;
     opacityMap.set(num, token);
   } else if (key.startsWith('BorderWidth_')) {
-    const num = key.replace('BorderWidth_', '');
+    const num = key.replaceAll('BorderWidth_', '');
     token.cssVar = `--dsai-border-width-${num}`;
     borderWidthMap.set(num, token);
   } else if (key.startsWith('Spacing')) {
-    const name = key.replace('Spacing_', '');
+    const name = key.replaceAll('Spacing_', '');
     token.cssVar = `--dsai-spacing-${name}`;
     spacingMap.set(name, token);
   }

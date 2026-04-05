@@ -75,37 +75,37 @@ Object.entries(allTokens).forEach(([key, value]) => {
     }
   } else if (key.startsWith('theme')) {
     // themePrimary -> theme.primary
-    const name = key.replace('theme', '');
-    const kebab = name.charAt(0).toLowerCase() + name.slice(1).replace(/([A-Z])/g, '-$1').toLowerCase();
+    const name = key.replaceAll('theme', '');
+    const kebab = name.charAt(0).toLowerCase() + name.slice(1).replaceAll(/([A-Z])/g, '-$1').toLowerCase();
     theme[kebab] = token;
   } else if (key.startsWith('componentSemantic')) {
     // componentSemanticWarningBgSubtle -> component.semantic['warning-bg-subtle']
-    const name = key.replace('componentSemantic', '');
-    const kebab = name.charAt(0).toLowerCase() + name.slice(1).replace(/([A-Z])/g, '-$1').toLowerCase();
+    const name = key.replaceAll('componentSemantic', '');
+    const kebab = name.charAt(0).toLowerCase() + name.slice(1).replaceAll(/([A-Z])/g, '-$1').toLowerCase();
     component.semantic[kebab] = token;
   } else if (key.startsWith('neutral')) {
     // neutralWhite -> neutral.white
-    const name = key.replace('neutral', '');
-    const kebab = name.charAt(0).toLowerCase() + name.slice(1).replace(/([A-Z])/g, '-$1').toLowerCase();
+    const name = key.replaceAll('neutral', '');
+    const kebab = name.charAt(0).toLowerCase() + name.slice(1).replaceAll(/([A-Z])/g, '-$1').toLowerCase();
     neutral[kebab] = token;
   } else if (key.startsWith('background')) {
     // backgroundPrimary -> background.primary
-    const name = key.replace('background', '');
-    const kebab = name.charAt(0).toLowerCase() + name.slice(1).replace(/([A-Z])/g, '-$1').toLowerCase();
+    const name = key.replaceAll('background', '');
+    const kebab = name.charAt(0).toLowerCase() + name.slice(1).replaceAll(/([A-Z])/g, '-$1').toLowerCase();
     background[kebab] = token;
   } else if (key.startsWith('opacity')) {
     // opacity50 -> opacity['50']
-    const num = key.replace('opacity', '');
+    const num = key.replaceAll('opacity', '');
     opacity[num] = token;
   } else if (key.startsWith('borderColor')) {
     // borderColorDefault -> border.color.default
-    const name = key.replace('borderColor', '');
-    const kebab = name.charAt(0).toLowerCase() + name.slice(1).replace(/([A-Z])/g, '-$1').toLowerCase();
+    const name = key.replaceAll('borderColor', '');
+    const kebab = name.charAt(0).toLowerCase() + name.slice(1).replaceAll(/([A-Z])/g, '-$1').toLowerCase();
     border.color[kebab] = token;
   } else if (key.startsWith('borderWidth')) {
     // borderWidthThin -> border.width.thin
-    const name = key.replace('borderWidth', '');
-    const kebab = name.charAt(0).toLowerCase() + name.slice(1).replace(/([A-Z])/g, '-$1').toLowerCase();
+    const name = key.replaceAll('borderWidth', '');
+    const kebab = name.charAt(0).toLowerCase() + name.slice(1).replaceAll(/([A-Z])/g, '-$1').toLowerCase();
     border.width[kebab] = token;
   }
 });

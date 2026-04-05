@@ -156,7 +156,7 @@ describe('useLocalStorage', () => {
       const { result } = renderHook(() =>
         useLocalStorage('custom-key', 'default', {
           serializer: (value) => `CUSTOM:${value}`,
-          deserializer: (value) => value.replace('CUSTOM:', ''),
+          deserializer: (value) => value.replaceAll('CUSTOM:', ''),
         })
       );
 

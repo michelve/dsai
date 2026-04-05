@@ -16,7 +16,7 @@ const path = require('node:path');
 const ICONS_DIR = path.join(__dirname, '../../../packages/@dsai-io/icons/src/components');
 
 function transformIcon(content, filename) {
-  const componentName = filename.replace('.tsx', '');
+  const componentName = filename.replaceAll('.tsx', '');
 
   // Extract the JSDoc header (everything before the first import)
   const jsDocMatch = content.match(/^(\/\*\*[\s\S]*?\*\/)\s*\nimport/);

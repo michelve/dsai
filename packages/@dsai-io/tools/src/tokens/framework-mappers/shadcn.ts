@@ -64,12 +64,12 @@ export const SHADCN_MAPPINGS: Record<string, string> = {
 export const SHADCN_PATTERNS: FrameworkMappingPattern[] = [
   // Accent colors from color scales
   {
-    pattern: /^color-blue-500$/,
+    pattern: /^color-blue-500$/g,
     replacement: 'accent',
     description: 'Primary accent color',
   },
   {
-    pattern: /^color-blue-100$/,
+    pattern: /^color-blue-100$/g,
     replacement: 'accent-foreground',
     description: 'Accent foreground color',
   },
@@ -114,7 +114,7 @@ export function mapToShadcnName(tokenName: string): string {
   // Apply pattern-based mappings
   for (const pattern of SHADCN_PATTERNS) {
     if (pattern.pattern instanceof RegExp && pattern.pattern.test(tokenName)) {
-      return tokenName.replace(pattern.pattern, pattern.replacement);
+      return tokenName.replaceAll(pattern.pattern, pattern.replacement);
     }
   }
 

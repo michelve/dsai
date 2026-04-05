@@ -50,7 +50,7 @@ function loadMetadata() {
  */
 function componentNameToIconName(componentName) {
   // Remove 'Icon' suffix
-  let name = componentName.replace(/Icon$/, '');
+  let name = componentName.replaceAll(/Icon$/g, '');
 
   // Handle numeric prefixes (Icon123 -> 123)
   if (name.startsWith('Icon') && /^\d/.test(name.slice(4))) {
@@ -71,7 +71,7 @@ function componentNameToIconName(componentName) {
  * @returns {string}
  */
 function generateJSDoc(componentName, iconMeta) {
-  const title = iconMeta?.title || componentName.replace(/Icon$/, '');
+  const title = iconMeta?.title || componentName.replaceAll(/Icon$/g, '');
   const url = iconMeta?.url || 'https://icons.getbootstrap.com/';
   const categories = iconMeta?.categories || [];
   const tags = iconMeta?.tags || [];
@@ -120,7 +120,7 @@ function updateComponentJSDoc(filePath, iconMeta) {
     const componentName = path.basename(filePath, '.tsx');
 
     // Match existing JSDoc comment at start of file
-    const jsDocPattern = /^\/\*\*[\s\S]*?\*\//;
+    const jsDocPattern = /^\/\*\*[\s\S]*?\*\//g;
     const match = content.match(jsDocPattern);
 
     if (!match) {
@@ -129,7 +129,7 @@ function updateComponentJSDoc(filePath, iconMeta) {
     }
 
     const newJSDoc = generateJSDoc(componentName, iconMeta);
-    const newContent = content.replace(jsDocPattern, newJSDoc);
+    const newContent = content.replaceAll(jsDocPattern, newJSDoc);
 
     // Only write if content changed
     if (newContent !== content) {
@@ -156,9 +156,9 @@ function resolveIconMeta(iconName, metadata) {
   }
 
   const altNames = [
-    iconName.replace(/-fill$/, ''),
-    `${iconName.replace(/-fill$/, '')}-fill`,
-    iconName.replace(/^icon-?/, ''),
+    iconName.replaceAll(/-fill$/g, ''),
+    `${iconName.replaceAll(/-fill$/g, '')}-fill`,
+    iconName.replaceAll(/^icon-?/g, ''),
   ];
 
   for (const altName of altNames) {
@@ -192,7 +192,7 @@ async function main() {
 
   for (const file of files) {
     const filePath = path.join(ICONS_DIR, file);
-    const componentName = file.replace('.tsx', '');
+    const componentName = file.replaceAll('.tsx', '');
     const iconName = componentNameToIconName(componentName);
     const { meta, hasDirectMatch } = resolveIconMeta(iconName, metadata);
 
