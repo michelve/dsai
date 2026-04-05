@@ -33,52 +33,75 @@ export function createInitialNavbarFSMState(expanded: boolean): NavbarFSMState {
  * @param event - Event to process
  * @returns New FSM state
  */
+/**
+ * Handle TOGGLE event
+ */
+function handleNavbarToggle(state: NavbarFSMState): NavbarFSMState {
+  if (state.visibility === 'collapsed') {
+    return { visibility: 'expanding', shouldRender: true };
+  }
+  if (state.visibility === 'expanded') {
+    return { visibility: 'collapsing', shouldRender: true };
+  }
+  return state;
+}
+
+/**
+ * Handle OPEN event
+ */
+function handleNavbarOpen(state: NavbarFSMState): NavbarFSMState {
+  if (state.visibility === 'collapsed' || state.visibility === 'collapsing') {
+    return { visibility: 'expanding', shouldRender: true };
+  }
+  return state;
+}
+
+/**
+ * Handle CLOSE event
+ */
+function handleNavbarClose(state: NavbarFSMState): NavbarFSMState {
+  if (state.visibility === 'expanded' || state.visibility === 'expanding') {
+    return { visibility: 'collapsing', shouldRender: true };
+  }
+  return state;
+}
+
+/**
+ * Handle ANIMATION_END event
+ */
+function handleNavbarAnimationEnd(state: NavbarFSMState): NavbarFSMState {
+  if (state.visibility === 'expanding') {
+    return { visibility: 'expanded', shouldRender: true };
+  }
+  if (state.visibility === 'collapsing') {
+    return { visibility: 'collapsed', shouldRender: true };
+  }
+  return state;
+}
+
+/**
+ * Handle RESET_FROM_PROPS event
+ */
+function handleNavbarResetFromProps(state: NavbarFSMState, expanded: boolean): NavbarFSMState {
+  const targetVisibility = expanded ? 'expanded' : 'collapsed';
+  if (state.visibility === targetVisibility) {
+    return state;
+  }
+  return { visibility: targetVisibility, shouldRender: true };
+}
+
 export function navbarFSMReducer(state: NavbarFSMState, event: NavbarFSMEvent): NavbarFSMState {
   switch (event.type) {
-    case 'TOGGLE': {
-      if (state.visibility === 'collapsed') {
-        return { visibility: 'expanding', shouldRender: true };
-      }
-      if (state.visibility === 'expanded') {
-        return { visibility: 'collapsing', shouldRender: true };
-      }
-      // Ignore toggle during animations
-      return state;
-    }
-
-    case 'OPEN': {
-      if (state.visibility === 'collapsed' || state.visibility === 'collapsing') {
-        return { visibility: 'expanding', shouldRender: true };
-      }
-      return state;
-    }
-
-    case 'CLOSE': {
-      if (state.visibility === 'expanded' || state.visibility === 'expanding') {
-        return { visibility: 'collapsing', shouldRender: true };
-      }
-      return state;
-    }
-
-    case 'ANIMATION_END': {
-      if (state.visibility === 'expanding') {
-        return { visibility: 'expanded', shouldRender: true };
-      }
-      if (state.visibility === 'collapsing') {
-        return { visibility: 'collapsed', shouldRender: true };
-      }
-      return state;
-    }
-
-    case 'RESET_FROM_PROPS': {
-      const targetVisibility = event.expanded ? 'expanded' : 'collapsed';
-      if (state.visibility === targetVisibility) {
-        return state;
-      }
-      // Skip animation when controlled externally
-      return { visibility: targetVisibility, shouldRender: true };
-    }
-
+    case 'TOGGLE':
+      return handleNavbarToggle(state);
+    case 'OPEN':
+      return handleNavbarOpen(state);
+    case 'CLOSE':
+      return handleNavbarClose(state);
+    case 'ANIMATION_END':
+      return handleNavbarAnimationEnd(state);
+    case 'RESET_FROM_PROPS':
+      return handleNavbarResetFromProps(state, event.expanded);
     default:
       return state;
   }

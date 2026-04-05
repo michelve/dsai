@@ -4,6 +4,8 @@ import { useState } from 'react';
 import type { RowId, SortConfig, TableColumn } from '@dsai-io/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+const VARIANT_OUTLINE_PRIMARY = 'outline-primary' as const;
+
 // =============================================================================
 // Test Data Types
 // =============================================================================
@@ -956,28 +958,28 @@ export const VisualStates: Story = {
         <div className="mb-3 btn-group">
           <Button
             size="sm"
-            variant={state === 'none' ? 'primary' : 'outline-primary'}
+            variant={state === 'none' ? 'primary' : VARIANT_OUTLINE_PRIMARY}
             onClick={() => setState('none')}
           >
             None
           </Button>
           <Button
             size="sm"
-            variant={state === 'one' ? 'primary' : 'outline-primary'}
+            variant={state === 'one' ? 'primary' : VARIANT_OUTLINE_PRIMARY}
             onClick={() => setState('one')}
           >
             One
           </Button>
           <Button
             size="sm"
-            variant={state === 'some' ? 'primary' : 'outline-primary'}
+            variant={state === 'some' ? 'primary' : VARIANT_OUTLINE_PRIMARY}
             onClick={() => setState('some')}
           >
             Some
           </Button>
           <Button
             size="sm"
-            variant={state === 'all' ? 'primary' : 'outline-primary'}
+            variant={state === 'all' ? 'primary' : VARIANT_OUTLINE_PRIMARY}
             onClick={() => setState('all')}
           >
             All

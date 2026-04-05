@@ -171,12 +171,28 @@ export const AvatarGroup = memo(
 
     // Clone and enhance visible children
     const visibleChildren = useMemo(() => {
+      // Compute stacking style for a child avatar at the given index
+      const getStackedStyle = (
+        childStyle: React.CSSProperties | undefined,
+        index: number
+      ): React.CSSProperties => ({
+        ...childStyle,
+        marginLeft:
+          layout === 'stacked' && stackingOrder === 'lastOnTop' && index > 0
+            ? marginLeft
+            : undefined,
+        marginRight:
+          layout === 'stacked' && stackingOrder === 'firstOnTop' && index > 0
+            ? marginLeft
+            : undefined,
+        zIndex: layout === 'stacked' ? visibleCount - index : undefined,
+      });
+
       return childArray.slice(0, visibleCount).map((child, index) => {
         if (!isValidElement(child)) {
           return child;
         }
 
-        // Type assertion for avatar props
         const childProps = child.props as {
           size?: AvatarSize;
           shape?: string;
@@ -186,30 +202,15 @@ export const AvatarGroup = memo(
           decorative?: boolean;
         };
 
-        // Apply inherited props if not explicitly set
         const enhancedProps = {
           size: childProps.size ?? size,
           shape: childProps.shape ?? shape,
           tone: childProps.tone ?? tone,
-          // Add margin for stacked layout (except first in reversed order)
-          style: {
-            ...childProps.style,
-            marginLeft:
-              layout === 'stacked' && stackingOrder === 'lastOnTop' && index > 0
-                ? marginLeft
-                : undefined,
-            marginRight:
-              layout === 'stacked' && stackingOrder === 'firstOnTop' && index > 0
-                ? marginLeft
-                : undefined,
-            // Add z-index for stacking order
-            zIndex: layout === 'stacked' ? visibleCount - index : undefined,
-          },
+          style: getStackedStyle(childProps.style, index),
           className: cn(
             childProps.className,
             layout === 'stacked' && 'border border-2 border-white'
           ),
-          // Mark as decorative for group unless specifically semantic
           decorative: childProps.decorative ?? (index > 0 || !ariaLabel),
         };
 
@@ -223,12 +224,15 @@ export const AvatarGroup = memo(
         return null;
       }
 
-      // Custom render — consumer handles everything
       if (renderSurplus) {
         return renderSurplus(hiddenCount);
       }
 
-      // Default chip
+      return renderDefaultOverflowChip();
+    };
+
+    // Default overflow chip rendering
+    const renderDefaultOverflowChip = (): React.ReactNode => {
       const chipClasses = cn(
         'dsai-avatar-group__overflow',
         'd-inline-flex',

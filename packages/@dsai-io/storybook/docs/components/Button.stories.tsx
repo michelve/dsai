@@ -21,6 +21,11 @@ import { BackgroundWhite, ThemeLight, ThemeDark } from '../../src/generated/toke
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { JSX } from 'react';
 
+const LABEL_SAVE_CHANGES = 'Save Changes';
+const LABEL_PROCESSING = 'Processing...';
+const FONT_SIZE_SM = '0.875rem';
+const FONT_WEIGHT_BOLD = 'var(--dsai-typography-font-weight-bold)';
+
 /**
  * Button component provides a versatile, accessible button with multiple variants and sizes.
  * Built with Bootstrap 5 design tokens and full WCAG 2.2 AA compliance with security hardening.
@@ -117,9 +122,9 @@ const AnnouncementDemo = (): JSX.Element => {
         onClick={handleClick}
         disabled={isLoading}
       >
-        {isLoading ? 'Saving...' : 'Save Changes'}
+        {isLoading ? 'Saving...' : LABEL_SAVE_CHANGES}
       </Button>
-      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+      <p style={{ fontSize: FONT_SIZE_SM, color: 'var(--bs-secondary)' }}>
         Click the button and watch the screen reader announcement region
       </p>
     </div>
@@ -575,7 +580,7 @@ export const WithIconLeft: Story = {
   args: {
     variant: 'primary',
     startIcon: <CheckIcon />,
-    children: 'Save Changes',
+    children: LABEL_SAVE_CHANGES,
   },
 };
 
@@ -677,7 +682,7 @@ export const Loading: Story = {
 export const LoadingWithText: Story = {
   args: {
     variant: 'primary',
-    children: 'Save Changes',
+    children: LABEL_SAVE_CHANGES,
     loading: true,
     loadingText: 'Saving your changes...',
   },
@@ -800,7 +805,7 @@ const ErrorWithRecoveryExample = (): JSX.Element => {
       <Button variant="primary" error={hasError} onClick={handleClick} disabled={hasError}>
         {hasError ? 'Error - Retry' : 'Click Me'}
       </Button>
-      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+      <p style={{ fontSize: FONT_SIZE_SM, color: 'var(--bs-secondary)' }}>
         Click the button to trigger error state. After 2 seconds, error clears automatically.
       </p>
     </div>
@@ -824,8 +829,8 @@ export const FSMStatePriority: Story = {
         <Heading
           level={3}
           style={{
-            fontSize: '0.875rem',
-            fontWeight: 'var(--dsai-typography-font-weight-bold)',
+            fontSize: FONT_SIZE_SM,
+            fontWeight: FONT_WEIGHT_BOLD,
             marginBottom: '0.5rem',
           }}
         >
@@ -838,8 +843,8 @@ export const FSMStatePriority: Story = {
         <Heading
           level={3}
           style={{
-            fontSize: '0.875rem',
-            fontWeight: 'var(--dsai-typography-font-weight-bold)',
+            fontSize: FONT_SIZE_SM,
+            fontWeight: FONT_WEIGHT_BOLD,
             marginBottom: '0.5rem',
           }}
         >
@@ -857,8 +862,8 @@ export const FSMStatePriority: Story = {
         <Heading
           level={3}
           style={{
-            fontSize: '0.875rem',
-            fontWeight: 'var(--dsai-typography-font-weight-bold)',
+            fontSize: FONT_SIZE_SM,
+            fontWeight: FONT_WEIGHT_BOLD,
             marginBottom: '0.5rem',
           }}
         >
@@ -876,8 +881,8 @@ export const FSMStatePriority: Story = {
         <Heading
           level={3}
           style={{
-            fontSize: '0.875rem',
-            fontWeight: 'var(--dsai-typography-font-weight-bold)',
+            fontSize: FONT_SIZE_SM,
+            fontWeight: FONT_WEIGHT_BOLD,
             marginBottom: '0.5rem',
           }}
         >
@@ -895,8 +900,8 @@ export const FSMStatePriority: Story = {
         <Heading
           level={3}
           style={{
-            fontSize: '0.875rem',
-            fontWeight: 'var(--dsai-typography-font-weight-bold)',
+            fontSize: FONT_SIZE_SM,
+            fontWeight: FONT_WEIGHT_BOLD,
             marginBottom: '0.5rem',
           }}
         >
@@ -927,8 +932,8 @@ export const FSMInteractiveStates: Story = {
         <Heading
           level={3}
           style={{
-            fontSize: '0.875rem',
-            fontWeight: 'var(--dsai-typography-font-weight-bold)',
+            fontSize: FONT_SIZE_SM,
+            fontWeight: FONT_WEIGHT_BOLD,
             marginBottom: '0.5rem',
           }}
         >
@@ -1009,8 +1014,8 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
         <Heading
           level={3}
           style={{
-            fontSize: '0.875rem',
-            fontWeight: 'var(--dsai-typography-font-weight-bold)',
+            fontSize: FONT_SIZE_SM,
+            fontWeight: FONT_WEIGHT_BOLD,
             marginBottom: '1rem',
           }}
         >
@@ -1021,7 +1026,7 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
           loading={states.success.isLoading}
           onClick={() => handleAsyncOperation('success', false)}
         >
-          {states.success.isLoading ? 'Processing...' : 'Save Successfully'}
+          {states.success.isLoading ? LABEL_PROCESSING : 'Save Successfully'}
         </Button>
       </div>
 
@@ -1029,8 +1034,8 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
         <Heading
           level={3}
           style={{
-            fontSize: '0.875rem',
-            fontWeight: 'var(--dsai-typography-font-weight-bold)',
+            fontSize: FONT_SIZE_SM,
+            fontWeight: FONT_WEIGHT_BOLD,
             marginBottom: '1rem',
           }}
         >
@@ -1043,7 +1048,7 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
           onClick={() => handleAsyncOperation('failure', true)}
         >
           {states.failure.isLoading
-            ? 'Processing...'
+            ? LABEL_PROCESSING
             : states.failure.isError
               ? 'Failed - Retry'
               : 'Delete Item'}
@@ -1054,8 +1059,8 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
         <Heading
           level={3}
           style={{
-            fontSize: '0.875rem',
-            fontWeight: 'var(--dsai-typography-font-weight-bold)',
+            fontSize: FONT_SIZE_SM,
+            fontWeight: FONT_WEIGHT_BOLD,
             marginBottom: '1rem',
           }}
         >
@@ -1067,7 +1072,7 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
           error={states.mixed.isError}
           onClick={() => handleAsyncOperation('mixed', false)}
         >
-          {states.mixed.isLoading ? 'Processing...' : 'Confirm Action'}
+          {states.mixed.isLoading ? LABEL_PROCESSING : 'Confirm Action'}
         </Button>
       </div>
 
@@ -1120,8 +1125,8 @@ export const AccessibleIconOnlyButton: Story = {
         <Heading
           level={3}
           style={{
-            fontSize: '0.875rem',
-            fontWeight: 'var(--dsai-typography-font-weight-bold)',
+            fontSize: FONT_SIZE_SM,
+            fontWeight: FONT_WEIGHT_BOLD,
             marginBottom: '0.5rem',
           }}
         >
@@ -1150,8 +1155,8 @@ export const AccessibleIconOnlyButton: Story = {
         <Heading
           level={3}
           style={{
-            fontSize: '0.875rem',
-            fontWeight: 'var(--dsai-typography-font-weight-bold)',
+            fontSize: FONT_SIZE_SM,
+            fontWeight: FONT_WEIGHT_BOLD,
             marginBottom: '0.5rem',
           }}
         >
@@ -1192,8 +1197,8 @@ export const KeyboardNavigationDemo: Story = {
         <Heading
           level={3}
           style={{
-            fontSize: '0.875rem',
-            fontWeight: 'var(--dsai-typography-font-weight-bold)',
+            fontSize: FONT_SIZE_SM,
+            fontWeight: FONT_WEIGHT_BOLD,
             marginBottom: '1rem',
           }}
         >

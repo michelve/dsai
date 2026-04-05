@@ -282,15 +282,17 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListProps>(
 
     // Build container classes based on layout
     const containerClasses = useMemo(() => {
-      if (isResponsiveColumns) {
-        const classes = ['card-list-container', 'row'];
-        if (columns.sm) {classes.push(`row-cols-sm-${columns.sm}`);}
-        if (columns.md) {classes.push(`row-cols-md-${columns.md}`);}
-        if (columns.lg) {classes.push(`row-cols-lg-${columns.lg}`);}
-        if (columns.xl) {classes.push(`row-cols-xl-${columns.xl}`);}
-        return classes.join(' ');
+      if (!isResponsiveColumns) {
+        return 'card-list-container';
       }
-      return 'card-list-container';
+      return cn(
+        'card-list-container',
+        'row',
+        columns.sm ? `row-cols-sm-${columns.sm}` : undefined,
+        columns.md ? `row-cols-md-${columns.md}` : undefined,
+        columns.lg ? `row-cols-lg-${columns.lg}` : undefined,
+        columns.xl ? `row-cols-xl-${columns.xl}` : undefined
+      );
     }, [columns, isResponsiveColumns]);
 
     // Build container styles based on layout

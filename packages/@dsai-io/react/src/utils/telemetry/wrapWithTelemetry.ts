@@ -12,6 +12,17 @@ import type { PerformanceMeasurement } from './measurePerformance';
 type TelemetryMeasurement = PerformanceMeasurement & { result?: unknown };
 
 /**
+ * Safely invoke a callback, swallowing any errors (telemetry hooks must never throw).
+ */
+function safeInvoke(callback: () => void): void {
+  try {
+    callback();
+  } catch {
+    // Never throw from telemetry hooks
+  }
+}
+
+/**
  * Telemetry hooks for wrapped functions
  */
 export interface TelemetryHooks {
@@ -121,73 +132,30 @@ export function wrapWithTelemetry<TArgs extends unknown[], TReturn>(
   return function wrappedFunction(...args: TArgs): TReturn {
     const startTime = now();
 
-    // Invoke onStart hook
-    if (onStart) {
-      try {
-        onStart(name, args);
-      } catch {
-        // Never throw from telemetry hooks
-      }
-    }
+    safeInvoke(() => onStart?.(name, args));
 
     try {
       const result = fn(...args);
       const endTime = now();
       const duration = endTime - startTime;
 
-      // Invoke onSuccess hook
-      if (onSuccess) {
-        try {
-          onSuccess({
-            duration,
-            result,
-            name,
-            startTime,
-            endTime,
-          });
-        } catch {
-          // Never throw from hooks
-        }
-      }
-
-      // Invoke onComplete hook
-      if (onComplete) {
-        try {
-          onComplete(duration);
-        } catch {
-          // Never throw
-        }
-      }
+      safeInvoke(() => onSuccess?.({ duration, result, name, startTime, endTime }));
+      safeInvoke(() => onComplete?.(duration));
 
       return result;
     } catch (error) {
       const endTime = now();
       const duration = endTime - startTime;
 
-      // Invoke onError hook
-      if (onError && error instanceof Error) {
-        try {
-          onError(error, duration);
-        } catch {
-          // Never throw from hooks
-        }
+      if (error instanceof Error) {
+        safeInvoke(() => onError?.(error, duration));
       }
+      safeInvoke(() => onComplete?.(duration));
 
-      // Invoke onComplete hook
-      if (onComplete) {
-        try {
-          onComplete(duration);
-        } catch {
-          // Never throw
-        }
-      }
-
-      // Re-throw error if configured
       if (rethrow) {
         throw error;
       }
 
-      // Return undefined if not rethrowing (type system can't express this)
       return undefined as TReturn;
     }
   };
@@ -233,61 +201,25 @@ export function wrapWithTelemetryAsync<TArgs extends unknown[], TReturn>(
   return async function wrappedAsyncFunction(...args: TArgs): Promise<TReturn> {
     const startTime = now();
 
-    if (onStart) {
-      try {
-        onStart(name, args);
-      } catch {
-        // Never throw
-      }
-    }
+    safeInvoke(() => onStart?.(name, args));
 
     try {
       const result = await fn(...args);
       const endTime = now();
       const duration = endTime - startTime;
 
-      if (onSuccess) {
-        try {
-          onSuccess({
-            duration,
-            result,
-            name,
-            startTime,
-            endTime,
-          });
-        } catch {
-          // Never throw
-        }
-      }
-
-      if (onComplete) {
-        try {
-          onComplete(duration);
-        } catch {
-          // Never throw
-        }
-      }
+      safeInvoke(() => onSuccess?.({ duration, result, name, startTime, endTime }));
+      safeInvoke(() => onComplete?.(duration));
 
       return result;
     } catch (error) {
       const endTime = now();
       const duration = endTime - startTime;
 
-      if (onError && error instanceof Error) {
-        try {
-          onError(error, duration);
-        } catch {
-          // Never throw
-        }
+      if (error instanceof Error) {
+        safeInvoke(() => onError?.(error, duration));
       }
-
-      if (onComplete) {
-        try {
-          onComplete(duration);
-        } catch {
-          // Never throw
-        }
-      }
+      safeInvoke(() => onComplete?.(duration));
 
       if (rethrow) {
         throw error;

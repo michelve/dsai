@@ -292,278 +292,252 @@ export function createInitialTabsProFSMState(
  * @param event - Event to process
  * @returns New FSM state
  */
+/**
+ * Handle INITIALIZE_TABS event
+ */
+function handleInitializeTabs(state: TabsProFSMState, event: InitializeTabsEvent): TabsProFSMState {
+  const { tabIds, defaultActiveId } = event;
+  const tabs: TabsProFSMStateMap = {};
+
+  for (const id of tabIds) {
+    const existingState = getSafeTabState(state.tabs, id);
+    assignSafeTabState(tabs, id, existingState ?? createInitialTabState());
+  }
+
+  return {
+    ...state,
+    tabs,
+    activeTabId: defaultActiveId ?? tabIds[0] ?? state.activeTabId,
+  };
+}
+
+/**
+ * Handle ACTIVATE_TAB event
+ */
+function handleActivateTab(state: TabsProFSMState, event: ActivateTabEvent): TabsProFSMState {
+  const { tabId, skipGuard } = event;
+  const tabState = getSafeTabState(state.tabs, tabId);
+
+  if (!tabState) {
+    return state;
+  }
+
+  if (state.pendingLeaveConfirmation) {
+    return { ...state, pendingActivationId: tabId };
+  }
+
+  const newTabs = { ...state.tabs };
+  const now = Date.now();
+
+  assignSafeTabState(newTabs, tabId, {
+    ...tabState,
+    status: skipGuard ? 'loading' : 'checkingGuard',
+    hasBeenActivated: true,
+    lastActivatedAt: now,
+  });
+
+  return {
+    ...state,
+    tabs: newTabs,
+    activeTabId: tabId,
+    previousTabId: state.activeTabId,
+  };
+}
+
+/**
+ * Handle guard result events (GUARD_OK, GUARD_FAIL)
+ */
+function handleGuardResult(
+  state: TabsProFSMState,
+  event: GuardOkEvent | GuardFailEvent
+): TabsProFSMState {
+  const { tabId } = event;
+  const tabState = getSafeTabState(state.tabs, tabId);
+
+  if (!tabState || (tabState.status !== 'checkingGuard' && tabState.status !== 'idle')) {
+    return state;
+  }
+
+  const newTabs = { ...state.tabs };
+
+  if (event.type === 'GUARD_OK') {
+    assignSafeTabState(newTabs, tabId, { ...tabState, status: 'loading', guardResult: null });
+  } else {
+    assignSafeTabState(newTabs, tabId, { ...tabState, status: 'blocked', guardResult: event.result });
+  }
+
+  return { ...state, tabs: newTabs };
+}
+
+/** Valid statuses for load-related transitions */
+const LOAD_VALID_STATUSES: TabProStatus[] = ['idle', 'checkingGuard', 'loading'];
+
+/**
+ * Handle loading lifecycle events (LOAD_START, LOAD_SUCCESS, LOAD_ERROR)
+ */
+function handleLoadLifecycle(
+  state: TabsProFSMState,
+  event: LoadStartEvent | LoadSuccessEvent | LoadErrorEvent
+): TabsProFSMState {
+  const { tabId } = event;
+  const tabState = getSafeTabState(state.tabs, tabId);
+
+  if (!tabState) {
+    return state;
+  }
+
+  if (event.type === 'LOAD_START') {
+    const newTabs = { ...state.tabs };
+    assignSafeTabState(newTabs, tabId, {
+      ...tabState,
+      status: 'loading',
+      loadAttempts: tabState.loadAttempts + 1,
+    });
+    return { ...state, tabs: newTabs };
+  }
+
+  if (!LOAD_VALID_STATUSES.includes(tabState.status)) {
+    return state;
+  }
+
+  const newTabs = { ...state.tabs };
+
+  if (event.type === 'LOAD_SUCCESS') {
+    assignSafeTabState(newTabs, tabId, {
+      ...tabState,
+      status: 'ready',
+      loadedContent: event.content,
+      error: null,
+    });
+  } else {
+    assignSafeTabState(newTabs, tabId, {
+      ...tabState,
+      status: 'error',
+      error: event.error,
+    });
+  }
+
+  return { ...state, tabs: newTabs };
+}
+
+/**
+ * Handle RETRY event
+ */
+function handleRetry(state: TabsProFSMState, tabId: string): TabsProFSMState {
+  const tabState = getSafeTabState(state.tabs, tabId);
+
+  if (!tabState || tabState.status !== 'error') {
+    return state;
+  }
+
+  const newTabs = { ...state.tabs };
+  assignSafeTabState(newTabs, tabId, { ...tabState, status: 'loading', error: null });
+
+  return { ...state, tabs: newTabs };
+}
+
+/**
+ * Handle leave confirmation lifecycle events
+ */
+function handleLeaveLifecycle(
+  state: TabsProFSMState,
+  event: LeaveRequestEvent | LeaveConfirmedEvent | LeaveCancelledEvent
+): TabsProFSMState {
+  if (event.type === 'LEAVE_REQUEST') {
+    return {
+      ...state,
+      pendingLeaveConfirmation: true,
+      pendingActivationId: event.toTabId,
+      previousTabId: event.fromTabId,
+    };
+  }
+
+  if (event.type === 'LEAVE_CANCELLED') {
+    return { ...state, pendingLeaveConfirmation: false, pendingActivationId: null };
+  }
+
+  // LEAVE_CONFIRMED
+  const pendingId = state.pendingActivationId;
+
+  if (!pendingId) {
+    return { ...state, pendingLeaveConfirmation: false, pendingActivationId: null };
+  }
+
+  const tabState = getSafeTabState(state.tabs, pendingId);
+  if (!tabState) {
+    return { ...state, pendingLeaveConfirmation: false, pendingActivationId: null };
+  }
+
+  const newTabs = { ...state.tabs };
+  const now = Date.now();
+
+  assignSafeTabState(newTabs, pendingId, {
+    ...tabState,
+    status: 'checkingGuard',
+    hasBeenActivated: true,
+    lastActivatedAt: now,
+  });
+
+  return {
+    ...state,
+    tabs: newTabs,
+    activeTabId: pendingId,
+    pendingLeaveConfirmation: false,
+    pendingActivationId: null,
+  };
+}
+
+/**
+ * Handle tab management events (RESET_TAB, PRELOAD_TAB)
+ */
+function handleTabManagement(
+  state: TabsProFSMState,
+  event: ResetTabEvent | PreloadTabEvent
+): TabsProFSMState {
+  const { tabId } = event;
+  const tabState = getSafeTabState(state.tabs, tabId);
+
+  if (!tabState) {
+    return state;
+  }
+
+  if (event.type === 'PRELOAD_TAB' && tabState.status !== 'idle') {
+    return state;
+  }
+
+  const newTabs = { ...state.tabs };
+
+  if (event.type === 'RESET_TAB') {
+    assignSafeTabState(newTabs, tabId, createInitialTabState());
+  } else {
+    assignSafeTabState(newTabs, tabId, { ...tabState, status: 'checkingGuard' });
+  }
+
+  return { ...state, tabs: newTabs };
+}
+
 export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent): TabsProFSMState {
   switch (event.type) {
-    case 'INITIALIZE_TABS': {
-      const { tabIds, defaultActiveId } = event;
-      const tabs: TabsProFSMStateMap = {};
-
-      for (const id of tabIds) {
-        // Preserve existing tab state if it exists
-        const existingState = getSafeTabState(state.tabs, id);
-        assignSafeTabState(tabs, id, existingState ?? createInitialTabState());
-      }
-
-      return {
-        ...state,
-        tabs,
-        activeTabId: defaultActiveId ?? tabIds[0] ?? state.activeTabId,
-      };
-    }
-
-    case 'ACTIVATE_TAB': {
-      const { tabId, skipGuard } = event;
-      const tabState = getSafeTabState(state.tabs, tabId);
-
-      // Tab doesn't exist
-      if (!tabState) {
-        return state;
-      }
-
-      // If pending leave confirmation, store the target tab
-      if (state.pendingLeaveConfirmation) {
-        return {
-          ...state,
-          pendingActivationId: tabId,
-        };
-      }
-
-      // Update active tab
-      const newTabs = { ...state.tabs };
-      const now = Date.now();
-
-      // Move to checkingGuard (or loading if skipGuard)
-      assignSafeTabState(newTabs, tabId, {
-        ...tabState,
-        status: skipGuard ? 'loading' : 'checkingGuard',
-        hasBeenActivated: true,
-        lastActivatedAt: now,
-      });
-
-      return {
-        ...state,
-        tabs: newTabs,
-        activeTabId: tabId,
-        previousTabId: state.activeTabId,
-      };
-    }
-
-    case 'GUARD_OK': {
-      const { tabId } = event;
-      const tabState = getSafeTabState(state.tabs, tabId);
-
-      // Accept from idle or checkingGuard (idle happens when executeGuardAndLoad runs before ACTIVATE_TAB)
-      if (!tabState || (tabState.status !== 'checkingGuard' && tabState.status !== 'idle')) {
-        return state;
-      }
-
-      const newTabs = { ...state.tabs };
-      assignSafeTabState(newTabs, tabId, {
-        ...tabState,
-        status: 'loading',
-        guardResult: null,
-      });
-
-      return { ...state, tabs: newTabs };
-    }
-
-    case 'GUARD_FAIL': {
-      const { tabId, result } = event;
-      const tabState = getSafeTabState(state.tabs, tabId);
-
-      // Accept from idle or checkingGuard (idle happens when executeGuardAndLoad runs before ACTIVATE_TAB)
-      if (!tabState || (tabState.status !== 'checkingGuard' && tabState.status !== 'idle')) {
-        return state;
-      }
-
-      const newTabs = { ...state.tabs };
-      assignSafeTabState(newTabs, tabId, {
-        ...tabState,
-        status: 'blocked',
-        guardResult: result,
-      });
-
-      return { ...state, tabs: newTabs };
-    }
-
-    case 'LOAD_START': {
-      const { tabId } = event;
-      const tabState = getSafeTabState(state.tabs, tabId);
-
-      if (!tabState) {
-        return state;
-      }
-
-      const newTabs = { ...state.tabs };
-      assignSafeTabState(newTabs, tabId, {
-        ...tabState,
-        status: 'loading',
-        loadAttempts: tabState.loadAttempts + 1,
-      });
-
-      return { ...state, tabs: newTabs };
-    }
-
-    case 'LOAD_SUCCESS': {
-      const { tabId, content } = event;
-      const tabState = getSafeTabState(state.tabs, tabId);
-
-      // Accept from loading state; also allow from idle/checkingGuard for sync content paths
-      if (!tabState) {
-        return state;
-      }
-
-      // Only process if in a valid loading-related state
-      const validStates: TabProStatus[] = ['idle', 'checkingGuard', 'loading'];
-      if (!validStates.includes(tabState.status)) {
-        return state;
-      }
-
-      const newTabs = { ...state.tabs };
-      assignSafeTabState(newTabs, tabId, {
-        ...tabState,
-        status: 'ready',
-        loadedContent: content,
-        error: null,
-      });
-
-      return { ...state, tabs: newTabs };
-    }
-
-    case 'LOAD_ERROR': {
-      const { tabId, error } = event;
-      const tabState = getSafeTabState(state.tabs, tabId);
-
-      // Accept from loading state; also allow from idle/checkingGuard for edge cases
-      if (!tabState) {
-        return state;
-      }
-
-      // Only process if in a valid loading-related state
-      const validStates: TabProStatus[] = ['idle', 'checkingGuard', 'loading'];
-      if (!validStates.includes(tabState.status)) {
-        return state;
-      }
-
-      const newTabs = { ...state.tabs };
-      assignSafeTabState(newTabs, tabId, {
-        ...tabState,
-        status: 'error',
-        error,
-      });
-
-      return { ...state, tabs: newTabs };
-    }
-
-    case 'RETRY': {
-      const { tabId } = event;
-      const tabState = getSafeTabState(state.tabs, tabId);
-
-      if (!tabState || tabState.status !== 'error') {
-        return state;
-      }
-
-      const newTabs = { ...state.tabs };
-      assignSafeTabState(newTabs, tabId, {
-        ...tabState,
-        status: 'loading',
-        error: null,
-      });
-
-      return { ...state, tabs: newTabs };
-    }
-
-    case 'LEAVE_REQUEST': {
-      const { fromTabId, toTabId } = event;
-
-      return {
-        ...state,
-        pendingLeaveConfirmation: true,
-        pendingActivationId: toTabId,
-        previousTabId: fromTabId,
-      };
-    }
-
-    case 'LEAVE_CONFIRMED': {
-      const pendingId = state.pendingActivationId;
-
-      if (!pendingId) {
-        return {
-          ...state,
-          pendingLeaveConfirmation: false,
-          pendingActivationId: null,
-        };
-      }
-
-      // Activate the pending tab
-      const tabState = pendingId ? getSafeTabState(state.tabs, pendingId) : undefined;
-      if (!tabState) {
-        return {
-          ...state,
-          pendingLeaveConfirmation: false,
-          pendingActivationId: null,
-        };
-      }
-
-      const newTabs = { ...state.tabs };
-      const now = Date.now();
-
-      assignSafeTabState(newTabs, pendingId, {
-        ...tabState,
-        status: 'checkingGuard',
-        hasBeenActivated: true,
-        lastActivatedAt: now,
-      });
-
-      return {
-        ...state,
-        tabs: newTabs,
-        activeTabId: pendingId,
-        pendingLeaveConfirmation: false,
-        pendingActivationId: null,
-      };
-    }
-
-    case 'LEAVE_CANCELLED': {
-      return {
-        ...state,
-        pendingLeaveConfirmation: false,
-        pendingActivationId: null,
-      };
-    }
-
-    case 'RESET_TAB': {
-      const { tabId } = event;
-      const tabState = getSafeTabState(state.tabs, tabId);
-
-      if (!tabState) {
-        return state;
-      }
-
-      const newTabs = { ...state.tabs };
-      assignSafeTabState(newTabs, tabId, createInitialTabState());
-
-      return { ...state, tabs: newTabs };
-    }
-
-    case 'PRELOAD_TAB': {
-      const { tabId } = event;
-      const tabState = getSafeTabState(state.tabs, tabId);
-
-      // Only preload if tab is idle
-      if (!tabState || tabState.status !== 'idle') {
-        return state;
-      }
-
-      const newTabs = { ...state.tabs };
-      assignSafeTabState(newTabs, tabId, {
-        ...tabState,
-        status: 'checkingGuard',
-      });
-
-      return { ...state, tabs: newTabs };
-    }
-
+    case 'INITIALIZE_TABS':
+      return handleInitializeTabs(state, event);
+    case 'ACTIVATE_TAB':
+      return handleActivateTab(state, event);
+    case 'GUARD_OK':
+    case 'GUARD_FAIL':
+      return handleGuardResult(state, event);
+    case 'LOAD_START':
+    case 'LOAD_SUCCESS':
+    case 'LOAD_ERROR':
+      return handleLoadLifecycle(state, event);
+    case 'RETRY':
+      return handleRetry(state, event.tabId);
+    case 'LEAVE_REQUEST':
+    case 'LEAVE_CONFIRMED':
+    case 'LEAVE_CANCELLED':
+      return handleLeaveLifecycle(state, event);
+    case 'RESET_TAB':
+    case 'PRELOAD_TAB':
+      return handleTabManagement(state, event);
     default:
       return state;
   }

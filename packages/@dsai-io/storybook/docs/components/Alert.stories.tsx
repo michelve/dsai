@@ -12,6 +12,9 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { JSX } from 'react';
 
+const FONT_SIZE_SM = '0.875rem';
+const COLOR_SECONDARY = 'var(--bs-secondary)';
+
 /**
  * Alert component for displaying important messages to users.
  * Built with Bootstrap 5 design tokens and full WCAG 2.2 AA compliance.
@@ -84,7 +87,7 @@ const AriaAtomicExample = (): JSX.Element => {
       >
         Save Changes
       </Button>
-      <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+      <p style={{ fontSize: FONT_SIZE_SM, color: COLOR_SECONDARY }}>
         With aria-atomic=&quot;true&quot;, screen readers announce the complete alert content on
         updates.
       </p>
@@ -324,7 +327,7 @@ export const Dismissible: Story = {
           <Button variant="primary" onClick={() => setShow(true)}>
             Show Alert
           </Button>
-          <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+          <p style={{ fontSize: FONT_SIZE_SM, color: COLOR_SECONDARY }}>
             Alert dismissed. Click button to show it again.
           </p>
         </div>
@@ -336,7 +339,7 @@ export const Dismissible: Story = {
         <Alert variant="warning" dismissible onClose={() => setShow(false)}>
           <strong>Holy guacamole!</strong> You should check in on some of those fields below.
         </Alert>
-        <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+        <p style={{ fontSize: FONT_SIZE_SM, color: COLOR_SECONDARY }}>
           <strong>Keyboard support:</strong> Press <kbd>Escape</kbd> to dismiss, or click the X
           button.
         </p>
@@ -720,7 +723,7 @@ export const AutoDismiss: Story = {
             Show Auto-Dismiss Alert
           </Button>
         )}
-        <p style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+        <p style={{ fontSize: FONT_SIZE_SM, color: COLOR_SECONDARY }}>
           The <code>autoDismiss</code> prop accepts a duration in milliseconds. The{' '}
           <code>onClose</code> callback receives a <code>reason</code> parameter:{' '}
           <code>&quot;click&quot;</code>, <code>&quot;escape&quot;</code>, or{' '}

@@ -40,56 +40,68 @@ export function createInitialTooltipFSMState(initialOpen: boolean): TooltipFSMSt
  * @param event - Event to process
  * @returns New FSM state
  */
+/**
+ * Handle events when tooltip is in 'closed' state
+ */
+function handleTooltipClosedEvent(state: TooltipFSMState, event: TooltipFSMEvent): TooltipFSMState {
+  if (event.type === 'OPEN') {
+    return { visibility: 'opening', shouldRender: true };
+  }
+  return state;
+}
+
+/**
+ * Handle events when tooltip is in 'opening' state
+ */
+function handleTooltipOpeningEvent(
+  state: TooltipFSMState,
+  event: TooltipFSMEvent
+): TooltipFSMState {
+  if (event.type === 'ANIMATION_END') {
+    return { visibility: 'open', shouldRender: true };
+  }
+  if (event.type === 'CLOSE') {
+    return { visibility: 'closing', shouldRender: true };
+  }
+  return state;
+}
+
+/**
+ * Handle events when tooltip is in 'open' state
+ */
+function handleTooltipOpenEvent(state: TooltipFSMState, event: TooltipFSMEvent): TooltipFSMState {
+  if (event.type === 'CLOSE') {
+    return { visibility: 'closing', shouldRender: true };
+  }
+  return state;
+}
+
+/**
+ * Handle events when tooltip is in 'closing' state
+ */
+function handleTooltipClosingEvent(
+  state: TooltipFSMState,
+  event: TooltipFSMEvent
+): TooltipFSMState {
+  if (event.type === 'ANIMATION_END') {
+    return { visibility: 'closed', shouldRender: false };
+  }
+  if (event.type === 'OPEN') {
+    return { visibility: 'opening', shouldRender: true };
+  }
+  return state;
+}
+
 export function tooltipFSMReducer(state: TooltipFSMState, event: TooltipFSMEvent): TooltipFSMState {
   switch (state.visibility) {
     case 'closed':
-      if (event.type === 'OPEN') {
-        return {
-          visibility: 'opening',
-          shouldRender: true,
-        };
-      }
-      return state;
-
+      return handleTooltipClosedEvent(state, event);
     case 'opening':
-      if (event.type === 'ANIMATION_END') {
-        return {
-          visibility: 'open',
-          shouldRender: true,
-        };
-      }
-      if (event.type === 'CLOSE') {
-        return {
-          visibility: 'closing',
-          shouldRender: true,
-        };
-      }
-      return state;
-
+      return handleTooltipOpeningEvent(state, event);
     case 'open':
-      if (event.type === 'CLOSE') {
-        return {
-          visibility: 'closing',
-          shouldRender: true,
-        };
-      }
-      return state;
-
+      return handleTooltipOpenEvent(state, event);
     case 'closing':
-      if (event.type === 'ANIMATION_END') {
-        return {
-          visibility: 'closed',
-          shouldRender: false,
-        };
-      }
-      if (event.type === 'OPEN') {
-        return {
-          visibility: 'opening',
-          shouldRender: true,
-        };
-      }
-      return state;
-
+      return handleTooltipClosingEvent(state, event);
     default:
       return state;
   }

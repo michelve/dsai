@@ -3,6 +3,8 @@ import { Avatar, AvatarGroup, Heading, PersonFillIcon } from '@dsai-io/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { JSX } from 'react';
 
+const FONT_SIZE_SM = '0.875rem';
+
 /**
  * Avatar component for displaying user profile images, initials, or icons.
  * Built with Bootstrap 5 design tokens and full WCAG 2.2 AA compliance.
@@ -497,7 +499,7 @@ export const LoadingState: Story = {
 const CompoundComponentsExample = (): JSX.Element => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Compound Badge
       </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
@@ -511,7 +513,7 @@ const CompoundComponentsExample = (): JSX.Element => (
     </div>
 
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Compound Status
       </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
@@ -525,27 +527,27 @@ const CompoundComponentsExample = (): JSX.Element => (
     </div>
 
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Compound Fallback with Delay
       </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar src="https://invalid-url.example/fail.jpg" size="lg">
           <Avatar.Fallback delayMs={300}>
-            <span style={{ fontSize: '0.875rem' }}>FB</span>
+            <span style={{ fontSize: FONT_SIZE_SM }}>FB</span>
           </Avatar.Fallback>
         </Avatar>
       </div>
     </div>
 
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Mixed: Compound + Flat Props
       </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar name="Mixed User" status="online" size="lg">
           <Avatar.Badge count={3} />
         </Avatar>
-        <span style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+        <span style={{ fontSize: FONT_SIZE_SM, color: 'var(--bs-secondary)' }}>
           Status from flat prop, badge from compound
         </span>
       </div>
@@ -575,7 +577,7 @@ export const CompoundComponents: Story = {
 const AvatarGroupExample = (): JSX.Element => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Stacked Layout (Default)
       </Heading>
       <AvatarGroup>
@@ -587,7 +589,7 @@ const AvatarGroupExample = (): JSX.Element => (
     </div>
 
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Inline Layout
       </Heading>
       <AvatarGroup layout="inline">
@@ -623,7 +625,7 @@ export const GroupBasic: Story = {
 const AvatarGroupOverflowExample = (): JSX.Element => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Max 3 Visible
       </Heading>
       <AvatarGroup maxVisible={3}>
@@ -637,7 +639,7 @@ const AvatarGroupOverflowExample = (): JSX.Element => (
     </div>
 
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Max 5 Visible
       </Heading>
       <AvatarGroup maxVisible={5}>
@@ -677,7 +679,7 @@ export const GroupOverflow: Story = {
 const AvatarGroupSpacingExample = (): JSX.Element => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Compact Spacing
       </Heading>
       <AvatarGroup spacing="compact">
@@ -689,7 +691,7 @@ const AvatarGroupSpacingExample = (): JSX.Element => (
     </div>
 
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Normal Spacing (Default)
       </Heading>
       <AvatarGroup spacing="normal">
@@ -701,7 +703,7 @@ const AvatarGroupSpacingExample = (): JSX.Element => (
     </div>
 
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Loose Spacing
       </Heading>
       <AvatarGroup spacing="loose">
@@ -736,7 +738,7 @@ export const GroupSpacing: Story = {
 const AvatarGroupInheritedExample = (): JSX.Element => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Large Size, Rounded Shape
       </Heading>
       <AvatarGroup size="lg" shape="rounded">
@@ -747,7 +749,7 @@ const AvatarGroupInheritedExample = (): JSX.Element => (
     </div>
 
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Small Size, Square Shape
       </Heading>
       <AvatarGroup size="sm" shape="square">
@@ -758,7 +760,7 @@ const AvatarGroupInheritedExample = (): JSX.Element => (
     </div>
 
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Override: Child Props Take Priority
       </Heading>
       <AvatarGroup size="md" shape="circle">
@@ -793,7 +795,7 @@ export const GroupInherited: Story = {
 const GroupNewFeaturesExample = (): JSX.Element => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Server-Side Total (total=50)
       </Heading>
       <AvatarGroup maxVisible={3} total={50}>
@@ -804,7 +806,7 @@ const GroupNewFeaturesExample = (): JSX.Element => (
     </div>
 
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Custom Overflow (renderSurplus)
       </Heading>
       <AvatarGroup
@@ -834,7 +836,7 @@ const GroupNewFeaturesExample = (): JSX.Element => (
     </div>
 
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Stacking Order: First on Top
       </Heading>
       <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
@@ -882,53 +884,53 @@ export const GroupNewFeatures: Story = {
 const AccessibilityExample = (): JSX.Element => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Semantic Labeling
       </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar name="John Doe" status="online" />
-        <span style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+        <span style={{ fontSize: FONT_SIZE_SM, color: 'var(--bs-secondary)' }}>
           Announces: &quot;John Doe, Online&quot;
         </span>
       </div>
     </div>
 
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Custom ARIA Label
       </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar name="Jane Smith" aria-label="Jane Smith, Team Lead, Available" />
-        <span style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>Custom label overrides default</span>
+        <span style={{ fontSize: FONT_SIZE_SM, color: 'var(--bs-secondary)' }}>Custom label overrides default</span>
       </div>
     </div>
 
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Decorative Avatar
       </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar name="Hidden from SR" decorative />
-        <span style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+        <span style={{ fontSize: FONT_SIZE_SM, color: 'var(--bs-secondary)' }}>
           Hidden from screen readers (aria-hidden=true)
         </span>
       </div>
     </div>
 
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Interactive with Button Role
       </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Avatar name="Interactive User" interactive onClick={() => alert('Clicked!')} />
-        <span style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+        <span style={{ fontSize: FONT_SIZE_SM, color: 'var(--bs-secondary)' }}>
           Focusable, activates with Enter/Space
         </span>
       </div>
     </div>
 
     <div>
-      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: '0.875rem' }}>
+      <Heading level={4} style={{ marginBottom: '0.5rem', fontSize: FONT_SIZE_SM }}>
         Group Accessibility
       </Heading>
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
@@ -937,7 +939,7 @@ const AccessibilityExample = (): JSX.Element => (
           <Avatar name="Bob" />
           <Avatar name="Charlie" />
         </AvatarGroup>
-        <span style={{ fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
+        <span style={{ fontSize: FONT_SIZE_SM, color: 'var(--bs-secondary)' }}>
           Group with role=&quot;group&quot; and aria-label
         </span>
       </div>

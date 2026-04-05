@@ -23,6 +23,8 @@ import { SnapshotService } from '../../tokens/snapshot.js';
 import { ExitCode } from '../types.js';
 import { colors, createLogger, createSpinner, formatDuration } from '../ui/index.js';
 
+const LOADING_CONFIGURATION_MSG = 'Loading configuration...';
+
 import type { BuildResult, SyncResult, ValidationResult } from '../../tokens/types.js';
 import type {
   TokensBuildOptions,
@@ -150,7 +152,7 @@ async function runTokensTransform(options: TokensTransformOptions): Promise<void
 
   try {
     // Load configuration
-    spinner.start('Loading configuration...');
+    spinner.start(LOADING_CONFIGURATION_MSG);
     const { config, configPath } = await loadConfig({
       cwd: options.cwd,
       configPath: options.config,
@@ -222,25 +224,78 @@ async function runTokensTransform(options: TokensTransformOptions): Promise<void
 }
 
 /**
+ * Display available themes and exit
+ */
+function displayThemesList(
+  themes: Record<string, { isDefault?: boolean; suffix?: string | null; selector: string; mediaQuery?: string }>,
+  logger: ReturnType<typeof createLogger>
+): void {
+  logger.log('');
+  logger.log(colors.bold('Available Themes:'));
+  logger.log('');
+  for (const [name, def] of Object.entries(themes)) {
+    const isDefault = def.isDefault ? colors.success(' (default)') : '';
+    const suffix = def.suffix ? colors.dim(` suffix: ${def.suffix}`) : '';
+    logger.log(`  ${colors.bold(name)}${isDefault}${suffix}`);
+    logger.log(`    Selector: ${colors.path(def.selector)}`);
+    if (def.mediaQuery) {
+      logger.log(`    Media Query: ${colors.dim(def.mediaQuery)}`);
+    }
+  }
+  logger.log('');
+}
+
+/**
+ * Build the token build options from resolved config
+ */
+function buildTokenBuildOptions(
+  config: Awaited<ReturnType<typeof loadConfig>>['config'],
+  configDir: string,
+  options: TokensBuildOptions
+): Parameters<typeof buildTokens>[2] {
+  const sourceDir = resolve(configDir, config.tokens.sourceDir);
+  const resolvedCssOutputDir = config.tokens.scss?.cssOutputDir
+    ? resolve(configDir, config.tokens.scss.cssOutputDir)
+    : undefined;
+  const resolvedPostprocessCssDir = config.tokens.postprocess?.cssDir
+    ? resolve(configDir, config.tokens.postprocess.cssDir)
+    : undefined;
+
+  return {
+    verbose: !options.quiet,
+    quiet: options.quiet,
+    sourceDir,
+    pipeline: config.tokens.pipeline,
+    formats: config.tokens.formats,
+    prefix: config.tokens.prefix,
+    outputDir: config.tokens.outputDir
+      ? resolve(configDir, config.tokens.outputDir)
+      : resolve(configDir, 'dist'),
+    themesConfig: config.tokens.themes
+      ? { enabled: config.tokens.themes.enabled, definitions: config.tokens.themes.definitions }
+      : undefined,
+    cssOutputDir: resolvedCssOutputDir,
+    postprocessConfig: config.tokens.postprocess
+      ? { ...config.tokens.postprocess, cssDir: resolvedPostprocessCssDir }
+      : undefined,
+  };
+}
+
+/**
  * Run tokens build
  */
 async function runTokensBuild(options: TokensBuildOptions): Promise<void> {
   const startTime = Date.now();
-  const logger = createLogger({
-    quiet: options.quiet,
-    debug: options.debug,
-  });
+  const logger = createLogger({ quiet: options.quiet, debug: options.debug });
   const spinner = createSpinner(options.quiet);
 
   try {
-    // Load configuration
-    spinner.start('Loading configuration...');
+    spinner.start(LOADING_CONFIGURATION_MSG);
     const { config, configPath } = await loadConfig({
       cwd: options.cwd,
       configPath: options.config,
     });
     spinner.succeed(`Loaded config from ${colors.path(configPath ?? 'defaults')}`);
-
     logger.debug(`Config: ${JSON.stringify(config, null, 2)}`);
 
     // Handle --list-themes flag
@@ -251,33 +306,17 @@ async function runTokensBuild(options: TokensBuildOptions): Promise<void> {
         logger.log('Add themes to your dsai.config.mjs under tokens.themes.definitions');
         process.exit(ExitCode.Success);
       }
-
-      logger.log('');
-      logger.log(colors.bold('Available Themes:'));
-      logger.log('');
-      for (const [name, def] of Object.entries(themes)) {
-        const isDefault = def.isDefault ? colors.success(' (default)') : '';
-        const suffix = def.suffix ? colors.dim(` suffix: ${def.suffix}`) : '';
-        logger.log(`  ${colors.bold(name)}${isDefault}${suffix}`);
-        logger.log(`    Selector: ${colors.path(def.selector)}`);
-        if (def.mediaQuery) {
-          logger.log(`    Media Query: ${colors.dim(def.mediaQuery)}`);
-        }
-      }
-      logger.log('');
+      displayThemesList(themes, logger);
       process.exit(ExitCode.Success);
     }
 
-    // Get directories from config - resolve to absolute paths
     const configDir = dirname(configPath ?? process.cwd());
     const tokensDir = resolve(configDir, config.tokens.collectionsDir);
-    const sourceDir = resolve(configDir, config.tokens.sourceDir);
     const toolsDir = resolve(configDir, config.tokens.sourceDir);
 
     // Clean if requested
     if (options.clean) {
       spinner.start('Cleaning output directory...');
-
       const cleanResult = cleanTokenOutputs({
         baseDir: dirname(configPath ?? process.cwd()),
         directories: config.tokens.outputDir ? [config.tokens.outputDir] : ['dist'],
@@ -299,52 +338,14 @@ async function runTokensBuild(options: TokensBuildOptions): Promise<void> {
 
     // Run build
     spinner.start('Building tokens...');
-
-    // Resolve paths for postprocess and scss config
-    const resolvedCssOutputDir = config.tokens.scss?.cssOutputDir
-      ? resolve(configDir, config.tokens.scss.cssOutputDir)
-      : undefined;
-    const resolvedPostprocessCssDir = config.tokens.postprocess?.cssDir
-      ? resolve(configDir, config.tokens.postprocess.cssDir)
-      : undefined;
-
-    const result: BuildResult = await buildTokens(tokensDir, toolsDir, {
-      verbose: !options.quiet,
-      quiet: options.quiet,
-      sourceDir, // Pass source directory for Figma exports
-      pipeline: config.tokens.pipeline,
-      // Pass formats from config (default: css, scss, json)
-      formats: config.tokens.formats,
-      // Pass CSS custom property prefix from config
-      prefix: config.tokens.prefix,
-      // Pass output directory from config
-      outputDir: config.tokens.outputDir
-        ? resolve(configDir, config.tokens.outputDir)
-        : resolve(configDir, 'dist'),
-      // Pass themes config for multi-theme builds
-      themesConfig: config.tokens.themes
-        ? {
-            enabled: config.tokens.themes.enabled,
-            definitions: config.tokens.themes.definitions,
-          }
-        : undefined,
-      // Pass postprocess and scss config
-      cssOutputDir: resolvedCssOutputDir,
-      postprocessConfig: config.tokens.postprocess
-        ? {
-            ...config.tokens.postprocess,
-            cssDir: resolvedPostprocessCssDir,
-          }
-        : undefined,
-    });
+    const buildOpts = buildTokenBuildOptions(config, configDir, options);
+    const result: BuildResult = await buildTokens(tokensDir, toolsDir, buildOpts);
 
     if (result.success) {
       const duration = formatDuration(Date.now() - startTime);
       spinner.succeed(
         `Built ${colors.bold(result.stepsCompleted.length.toString())} steps in ${colors.bold(duration)}`
       );
-
-      // Show output files
       if (!options.quiet && result.outputFiles && result.outputFiles.length > 0) {
         logger.log('');
         for (const file of result.outputFiles) {
@@ -352,29 +353,24 @@ async function runTokensBuild(options: TokensBuildOptions): Promise<void> {
         }
         logger.log('');
       }
-
       process.exit(ExitCode.Success);
-    } else {
-      spinner.fail('Build failed');
-
-      if (result.errors && Array.isArray(result.errors)) {
-        for (const error of result.errors) {
-          logger.error(error);
-        }
-      }
-
-      process.exit(ExitCode.BuildError);
     }
+
+    spinner.fail('Build failed');
+    if (result.errors && Array.isArray(result.errors)) {
+      for (const error of result.errors) {
+        logger.error(error);
+      }
+    }
+    process.exit(ExitCode.BuildError);
   } catch (error) {
     spinner.fail('Build failed');
-
     if (error instanceof Error) {
       logger.error(error.message);
       if (options.debug) {
         console.error(error.stack);
       }
     }
-
     process.exit(ExitCode.GeneralError);
   }
 }
@@ -391,7 +387,7 @@ async function runTokensValidate(options: TokensValidateOptions): Promise<void> 
 
   try {
     // Load configuration
-    spinner.start('Loading configuration...');
+    spinner.start(LOADING_CONFIGURATION_MSG);
     const { config } = await loadConfig({
       cwd: options.cwd,
       configPath: options.config,
@@ -448,7 +444,7 @@ async function runTokensSync(options: TokensSyncOptions): Promise<void> {
 
   try {
     // Load configuration
-    spinner.start('Loading configuration...');
+    spinner.start(LOADING_CONFIGURATION_MSG);
     const { config } = await loadConfig({
       cwd: options.cwd,
       configPath: options.config,
@@ -504,7 +500,7 @@ async function runTokensPostprocess(options: { quiet?: boolean; debug?: boolean 
 
   try {
     // Load configuration
-    spinner.start('Loading configuration...');
+    spinner.start(LOADING_CONFIGURATION_MSG);
     const { config } = await loadConfig({
       cwd: process.cwd(),
     });
@@ -549,7 +545,7 @@ async function runSnapshotsList(options: { quiet?: boolean; debug?: boolean }): 
 
   try {
     // Load configuration
-    spinner.start('Loading configuration...');
+    spinner.start(LOADING_CONFIGURATION_MSG);
     const { config } = await loadConfig({
       cwd: process.cwd(),
     });
@@ -610,7 +606,7 @@ async function runSnapshotsInfo(
 
   try {
     // Load configuration
-    spinner.start('Loading configuration...');
+    spinner.start(LOADING_CONFIGURATION_MSG);
     const { config } = await loadConfig({
       cwd: process.cwd(),
     });
@@ -673,7 +669,7 @@ async function runSnapshotsRollback(
 
   try {
     // Load configuration
-    spinner.start('Loading configuration...');
+    spinner.start(LOADING_CONFIGURATION_MSG);
     const { config } = await loadConfig({
       cwd: process.cwd(),
     });

@@ -49,45 +49,46 @@ export function serializeForm(
   const { arrayFormat = 'indices' } = options;
   const params: string[] = [];
 
+  function formatArrayKey(fullKey: string, index: number): string {
+    if (arrayFormat === 'indices') {
+      return `${fullKey}[${index}]`;
+    }
+    if (arrayFormat === 'brackets') {
+      return `${fullKey}[]`;
+    }
+    return fullKey;
+  }
+
+  function serializeArray(value: unknown[], fullKey: string): void {
+    for (let i = 0; i < value.length; i++) {
+      // eslint-disable-next-line security/detect-object-injection
+      const item = value[i];
+      if (item === null || item === undefined) {
+        continue;
+      }
+      const arrayKey = formatArrayKey(fullKey, i);
+      params.push(`${encodeURIComponent(arrayKey)}=${encodeURIComponent(String(item))}`);
+    }
+  }
+
   function serialize(obj: Record<string, unknown>, prefix = ''): void {
     for (const [key, value] of Object.entries(obj)) {
-      // Skip null/undefined
       if (value === null || value === undefined) {
         continue;
       }
 
       const fullKey = prefix ? `${prefix}.${key}` : key;
 
-      // Handle arrays
       if (Array.isArray(value)) {
-        for (let i = 0; i < value.length; i++) {
-          // eslint-disable-next-line security/detect-object-injection
-          const item = value[i];
-          if (item === null || item === undefined) {
-            continue;
-          }
-
-          let arrayKey: string;
-          if (arrayFormat === 'indices') {
-            arrayKey = `${fullKey}[${i}]`;
-          } else if (arrayFormat === 'brackets') {
-            arrayKey = `${fullKey}[]`;
-          } else {
-            arrayKey = fullKey;
-          }
-
-          params.push(`${encodeURIComponent(arrayKey)}=${encodeURIComponent(String(item))}`);
-        }
+        serializeArray(value, fullKey);
         continue;
       }
 
-      // Handle nested objects
       if (typeof value === 'object' && !(value instanceof File)) {
         serialize(value as Record<string, unknown>, fullKey);
         continue;
       }
 
-      // Handle primitive values
       params.push(`${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`);
     }
   }

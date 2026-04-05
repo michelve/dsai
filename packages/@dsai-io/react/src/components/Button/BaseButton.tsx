@@ -214,8 +214,25 @@ export const BaseButton = forwardRef<
     // Build autoFocus props conditionally to avoid linter warnings
     const autoFocusProps = autoFocus ? { autoFocus: true as const } : {};
 
+    // Resolve data-variant attribute
+    const dataVariant = isGhost ? 'ghost' : isSubtle ? `subtle-${subtleColor}` : undefined;
+
     // Render loading at center position (hides text, shows only spinner)
     const isCenterLoading = loading && loadingPosition === 'center';
+
+    // Render start adornment (icon or spinner)
+    const startAdornment = loading && loadingPosition === 'start'
+      ? <span className="me-2" aria-hidden="true">{loaderEl}</span>
+      : !loading && startIcon
+        ? <span className="me-2" aria-hidden="true">{startIcon}</span>
+        : null;
+
+    // Render end adornment (icon or spinner)
+    const endAdornment = loading && loadingPosition === 'end'
+      ? <span className="ms-2" aria-hidden="true">{loaderEl}</span>
+      : !loading && endIcon
+        ? <span className="ms-2" aria-hidden="true">{endIcon}</span>
+        : null;
 
     return (
       <>
@@ -247,11 +264,7 @@ export const BaseButton = forwardRef<
           data-testid={dataTestId}
           data-test={dataTest}
           data-visual-state={fsmState.visualState}
-          data-variant={(() => {
-            if (isGhost) { return 'ghost'; }
-            if (isSubtle) { return `subtle-${subtleColor}`; }
-            return undefined;
-          })()}
+          data-variant={dataVariant}
           title={title}
           form={form}
           formAction={formAction}
@@ -261,7 +274,6 @@ export const BaseButton = forwardRef<
           {...autoFocusProps}
         >
           {isCenterLoading ? (
-            /* Center loading: hide text, show only loader */
             <>
               <span style={{ visibility: 'hidden' }}>{displayText}</span>
               <span
@@ -277,33 +289,10 @@ export const BaseButton = forwardRef<
               </span>
             </>
           ) : (
-            /* Start/end loading or non-loading content */
             <>
-              {/* Start icon or start-position spinner */}
-              {loading && loadingPosition === 'start' && (
-                <span className="me-2" aria-hidden="true">
-                  {loaderEl}
-                </span>
-              )}
-              {!loading && startIcon && (
-                <span className="me-2" aria-hidden="true">
-                  {startIcon}
-                </span>
-              )}
-
+              {startAdornment}
               <span>{displayText}</span>
-
-              {/* End icon or end-position spinner */}
-              {loading && loadingPosition === 'end' && (
-                <span className="ms-2" aria-hidden="true">
-                  {loaderEl}
-                </span>
-              )}
-              {!loading && endIcon && (
-                <span className="ms-2" aria-hidden="true">
-                  {endIcon}
-                </span>
-              )}
+              {endAdornment}
             </>
           )}
         </button>

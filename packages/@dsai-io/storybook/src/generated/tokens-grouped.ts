@@ -81,67 +81,61 @@ function toKebabCase(name: string): string {
   );
 }
 
+/** Route a parsed token to the appropriate category map */
+function routeToken(key: string, token: TokenValue): void {
+  if (key.startsWith('Color')) {
+    const match = key.match(/^Color([A-Z][a-z]+)_(\d+)$/);
+    if (match?.[1] && match[2]) {
+      const hue = match[1].toLowerCase();
+      token.cssVar = `--dsai-color-${hue}-${match[2]}`;
+      setNestedMapValue(colorMap, hue, match[2], token);
+    }
+    return;
+  }
+
+  // Simple prefix-to-map routing table
+  const prefixRoutes: Array<[string, string, Map<string, TokenValue>]> = [
+    ['Theme', 'theme', themeMap],
+    ['Semantic', 'semantic', semanticMap],
+    ['Neutral', 'neutral', neutralMap],
+    ['Background', 'background', backgroundMap],
+    ['BorderColor', 'border-color', borderColorMap],
+    ['Typography', 'typography', typographyMap],
+  ];
+
+  for (const [prefix, cssCategory, map] of prefixRoutes) {
+    if (key.startsWith(prefix)) {
+      const name = key.replace(prefix, '');
+      const kebab = toKebabCase(name);
+      token.cssVar = `--dsai-${cssCategory}-${kebab}`;
+      map.set(kebab, token);
+      return;
+    }
+  }
+
+  if (key.startsWith('Opacity_')) {
+    const num = key.replace('Opacity_', '');
+    token.cssVar = `--dsai-opacity-${num}`;
+    opacityMap.set(num, token);
+  } else if (key.startsWith('BorderWidth_')) {
+    const num = key.replace('BorderWidth_', '');
+    token.cssVar = `--dsai-border-width-${num}`;
+    borderWidthMap.set(num, token);
+  } else if (key.startsWith('Spacing')) {
+    const name = key.replace('Spacing_', '');
+    token.cssVar = `--dsai-spacing-${name}`;
+    spacingMap.set(name, token);
+  }
+}
+
 // Parse flat tokens into Maps
 // Token keys are PascalCase with underscores for numbers (e.g. ColorBlue_50, ThemePrimary)
 Object.entries(flat).forEach(([key, value]) => {
   if (typeof value !== 'string' && typeof value !== 'number') {
     return;
   }
-
   const token: TokenValue = { value: String(value) };
-
-  if (key.startsWith('Color')) {
-    // ColorBlue_50 -> color.blue['50']
-    const match = key.match(/^Color([A-Z][a-z]+)_(\d+)$/);
-    if (match?.[1] && match[2]) {
-      const hue = match[1].toLowerCase();
-      const step = match[2];
-      token.cssVar = `--dsai-color-${hue}-${step}`;
-      setNestedMapValue(colorMap, hue, step, token);
-    }
-  } else if (key.startsWith('Theme')) {
-    const name = key.replace('Theme', '');
-    const kebab = toKebabCase(name);
-    token.cssVar = `--dsai-theme-${kebab}`;
-    themeMap.set(kebab, token);
-  } else if (key.startsWith('Semantic')) {
-    const name = key.replace('Semantic', '');
-    const kebab = toKebabCase(name);
-    token.cssVar = `--dsai-semantic-${kebab}`;
-    semanticMap.set(kebab, token);
-  } else if (key.startsWith('Neutral')) {
-    const name = key.replace('Neutral', '');
-    const kebab = toKebabCase(name);
-    token.cssVar = `--dsai-neutral-${kebab}`;
-    neutralMap.set(kebab, token);
-  } else if (key.startsWith('Background')) {
-    const name = key.replace('Background', '');
-    const kebab = toKebabCase(name);
-    token.cssVar = `--dsai-background-${kebab}`;
-    backgroundMap.set(kebab, token);
-  } else if (key.startsWith('Opacity_')) {
-    const num = key.replace('Opacity_', '');
-    token.cssVar = `--dsai-opacity-${num}`;
-    opacityMap.set(num, token);
-  } else if (key.startsWith('BorderColor')) {
-    const name = key.replace('BorderColor', '');
-    const kebab = toKebabCase(name);
-    token.cssVar = `--dsai-border-color-${kebab}`;
-    borderColorMap.set(kebab, token);
-  } else if (key.startsWith('BorderWidth_')) {
-    const num = key.replace('BorderWidth_', '');
-    token.cssVar = `--dsai-border-width-${num}`;
-    borderWidthMap.set(num, token);
-  } else if (key.startsWith('Typography')) {
-    const name = key.replace('Typography', '');
-    const kebab = toKebabCase(name);
-    token.cssVar = `--dsai-typography-${kebab}`;
-    typographyMap.set(kebab, token);
-  } else if (key.startsWith('Spacing')) {
-    const name = key.replace('Spacing_', '');
-    token.cssVar = `--dsai-spacing-${name}`;
-    spacingMap.set(name, token);
-  }
+  routeToken(key, token);
 });
 
 // Export grouped structure

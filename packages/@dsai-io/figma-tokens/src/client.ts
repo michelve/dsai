@@ -577,80 +577,98 @@ export class FigmaClient {
   /**
    * Make API request with retry logic, circuit breaker, and rate limiting
    */
+  /**
+   * Log rate limit warnings if thresholds are crossed
+   */
+  private logRateLimitWarnings(): void {
+    if (this.rateLimiter.isCritical()) {
+      console.warn(
+        '⚠️  Figma API rate limit critically low (%d%% remaining)',
+        Math.round(this.rateLimiter.getRatio() * 100)
+      );
+      const timeUntilReset = this.rateLimiter.getTimeUntilReset();
+      if (timeUntilReset > 0) {
+        console.warn('   Rate limit resets in %d seconds', Math.round(timeUntilReset / 1000));
+      }
+    } else if (this.rateLimiter.shouldThrottle()) {
+      console.warn(
+        'ℹ️  Throttling Figma API requests (%d%% remaining)',
+        Math.round(this.rateLimiter.getRatio() * 100)
+      );
+    }
+  }
+
+  /**
+   * Execute a single fetch attempt with timeout and error handling
+   */
+  private async executeRequest<T>(
+    url: string,
+    headers: Record<string, string>,
+    options: RequestInit,
+    endpoint: string
+  ): Promise<T> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
+
+    const response = await fetch(url, {
+      ...options,
+      headers: { ...headers, ...options.headers },
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+    this.rateLimiter.updateFromHeaders(response.headers);
+
+    if (!response.ok) {
+      const errorBody = (await response.json()) as FigmaApiError;
+      throw FigmaClientError.fromApiError(
+        {
+          status: response.status,
+          err: errorBody.err ?? response.statusText,
+          code: errorBody.code,
+          requestId: response.headers.get('x-request-id') ?? undefined,
+        },
+        endpoint
+      );
+    }
+
+    return (await response.json()) as T;
+  }
+
+  /**
+   * Check if an error should not be retried
+   */
+  private isNonRetryableError(error: unknown): boolean {
+    if (error instanceof FigmaClientError && error.status < 500) {
+      return true;
+    }
+    return error instanceof FigmaConfigError;
+  }
+
+  /**
+   * Make API request with retry logic, circuit breaker, and rate limiting
+   */
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     this.ensureConfigured();
 
-    // Wrap in circuit breaker to prevent cascade failures
     return this.circuitBreaker.execute(async () => {
-      // Apply rate limiting before making request
       await this.rateLimiter.wait();
-
-      // Log warnings if rate limit is critical
-      if (this.rateLimiter.isCritical()) {
-        console.warn(
-          '⚠️  Figma API rate limit critically low (%d%% remaining)',
-          Math.round(this.rateLimiter.getRatio() * 100)
-        );
-        const timeUntilReset = this.rateLimiter.getTimeUntilReset();
-        if (timeUntilReset > 0) {
-          console.warn('   Rate limit resets in %d seconds', Math.round(timeUntilReset / 1000));
-        }
-      } else if (this.rateLimiter.shouldThrottle()) {
-        console.warn(
-          'ℹ️  Throttling Figma API requests (%d%% remaining)',
-          Math.round(this.rateLimiter.getRatio() * 100)
-        );
-      }
+      this.logRateLimitWarnings();
 
       const url = this.buildUrl(endpoint);
       const headers = this.buildHeaders();
-
       let lastError: Error | null = null;
 
       for (let attempt = 0; attempt <= this.config.retries; attempt++) {
         try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
-
-          const response = await fetch(url, {
-            ...options,
-            headers: { ...headers, ...options.headers },
-            signal: controller.signal,
-          });
-
-          clearTimeout(timeoutId);
-
-          // Update rate limiter from response headers
-          this.rateLimiter.updateFromHeaders(response.headers);
-
-          if (!response.ok) {
-            const errorBody = (await response.json()) as FigmaApiError;
-            throw FigmaClientError.fromApiError(
-              {
-                status: response.status,
-                err: errorBody.err ?? response.statusText,
-                code: errorBody.code,
-                requestId: response.headers.get('x-request-id') ?? undefined,
-              },
-              endpoint
-            );
-          }
-
-          return (await response.json()) as T;
+          return await this.executeRequest<T>(url, headers, options, endpoint);
         } catch (error) {
           lastError = error as Error;
 
-          // Don't retry on client errors (4xx)
-          if (error instanceof FigmaClientError && error.status < 500) {
+          if (this.isNonRetryableError(error)) {
             throw error;
           }
 
-          // Don't retry on config errors
-          if (error instanceof FigmaConfigError) {
-            throw error;
-          }
-
-          // Wait before retrying (exponential backoff)
           if (attempt < this.config.retries) {
             await new Promise((resolve) => setTimeout(resolve, 2 ** attempt * 1000));
           }

@@ -81,53 +81,71 @@ export function createInitialAlertFSMState(show: boolean): AlertFSMState {
  * @param event - Event triggering the transition
  * @returns New FSM state
  */
+/**
+ * Handle events when alert is in 'visible' state
+ */
+function handleVisibleEvent(state: AlertFSMState, event: AlertFSMEvent): AlertFSMState {
+  switch (event.type) {
+    case 'HIDE':
+      return { visibility: 'hidden' };
+    case 'DISMISS_CLICK':
+    case 'DISMISS_ESCAPE':
+    case 'AUTO_DISMISS_TIMEOUT':
+      return { visibility: 'dismissing' };
+    case 'SHOW':
+    case 'ANIMATION_END':
+      return state;
+    default:
+      return state;
+  }
+}
+
+/**
+ * Handle events when alert is in 'dismissing' state
+ */
+function handleDismissingEvent(state: AlertFSMState, event: AlertFSMEvent): AlertFSMState {
+  switch (event.type) {
+    case 'ANIMATION_END':
+      return { visibility: 'hidden' };
+    case 'SHOW':
+      return { visibility: 'visible' };
+    case 'HIDE':
+      return { visibility: 'hidden' };
+    case 'DISMISS_CLICK':
+    case 'DISMISS_ESCAPE':
+    case 'AUTO_DISMISS_TIMEOUT':
+      return state;
+    default:
+      return state;
+  }
+}
+
+/**
+ * Handle events when alert is in 'hidden' state
+ */
+function handleHiddenEvent(state: AlertFSMState, event: AlertFSMEvent): AlertFSMState {
+  switch (event.type) {
+    case 'SHOW':
+      return { visibility: 'visible' };
+    case 'HIDE':
+    case 'DISMISS_CLICK':
+    case 'DISMISS_ESCAPE':
+    case 'AUTO_DISMISS_TIMEOUT':
+    case 'ANIMATION_END':
+      return state;
+    default:
+      return state;
+  }
+}
+
 export function alertFSMReducer(state: AlertFSMState, event: AlertFSMEvent): AlertFSMState {
   switch (state.visibility) {
     case 'visible':
-      switch (event.type) {
-        case 'HIDE':
-          return { visibility: 'hidden' };
-        case 'DISMISS_CLICK':
-        case 'DISMISS_ESCAPE':
-        case 'AUTO_DISMISS_TIMEOUT':
-          return { visibility: 'dismissing' };
-        case 'SHOW':
-        case 'ANIMATION_END':
-          return state;
-        default:
-          return state;
-      }
-
+      return handleVisibleEvent(state, event);
     case 'dismissing':
-      switch (event.type) {
-        case 'ANIMATION_END':
-          return { visibility: 'hidden' };
-        case 'SHOW':
-          return { visibility: 'visible' };
-        case 'HIDE':
-          return { visibility: 'hidden' };
-        case 'DISMISS_CLICK':
-        case 'DISMISS_ESCAPE':
-        case 'AUTO_DISMISS_TIMEOUT':
-          return state;
-        default:
-          return state;
-      }
-
+      return handleDismissingEvent(state, event);
     case 'hidden':
-      switch (event.type) {
-        case 'SHOW':
-          return { visibility: 'visible' };
-        case 'HIDE':
-        case 'DISMISS_CLICK':
-        case 'DISMISS_ESCAPE':
-        case 'AUTO_DISMISS_TIMEOUT':
-        case 'ANIMATION_END':
-          return state;
-        default:
-          return state;
-      }
-
+      return handleHiddenEvent(state, event);
     default:
       return state;
   }

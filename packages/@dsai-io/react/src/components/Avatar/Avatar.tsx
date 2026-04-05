@@ -531,6 +531,44 @@ const AvatarRoot = memo(
       ...accessibilityProps,
     };
 
+    // Render the main avatar content based on state
+    const renderAvatarContent = (): React.ReactNode => {
+      if (isLoading) {
+        return renderSkeleton();
+      }
+      if (compoundImage) {
+        return compoundImage;
+      }
+      if (showImage) {
+        return (
+          <img
+            ref={imageRef}
+            src={src}
+            alt={decorative ? '' : (alt ?? name ?? undefined)}
+            srcSet={srcSet}
+            sizes={sizes}
+            loading={loading}
+            referrerPolicy={referrerPolicy}
+            crossOrigin={crossOrigin}
+            className={cn(
+              'dsai-avatar__image',
+              'w-100',
+              'h-100',
+              'object-fit-cover',
+              getShapeClass(shape),
+              !imageLoaded && 'opacity-0'
+            )}
+            aria-hidden={decorative ? true : undefined}
+            data-testid="avatar-image"
+          />
+        );
+      }
+      if (compoundFallback) {
+        return compoundFallback;
+      }
+      return delayElapsed && renderFallbackContent();
+    };
+
     const interactiveProps = interactive
       ? {
           onClick,
@@ -558,42 +596,7 @@ const AvatarRoot = memo(
         {...(interactiveProps as Record<string, unknown>)}
       >
         <AvatarContext.Provider value={contextValue}>
-          {(() => {
-            if (isLoading) {
-              return renderSkeleton();
-            }
-            if (compoundImage) {
-              return compoundImage;
-            }
-            if (showImage) {
-              return (
-                <img
-                  ref={imageRef}
-                  src={src}
-                  alt={decorative ? '' : (alt ?? name ?? undefined)}
-                  srcSet={srcSet}
-                  sizes={sizes}
-                  loading={loading}
-                  referrerPolicy={referrerPolicy}
-                  crossOrigin={crossOrigin}
-                  className={cn(
-                    'dsai-avatar__image',
-                    'w-100',
-                    'h-100',
-                    'object-fit-cover',
-                    getShapeClass(shape),
-                    !imageLoaded && 'opacity-0'
-                  )}
-                  aria-hidden={decorative ? true : undefined}
-                  data-testid="avatar-image"
-                />
-              );
-            }
-            if (compoundFallback) {
-              return compoundFallback;
-            }
-            return delayElapsed && renderFallbackContent();
-          })()}
+          {renderAvatarContent()}
 
           {compoundStatus ?? renderStatus()}
           {compoundBadge ?? renderBadge()}

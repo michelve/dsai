@@ -4,6 +4,19 @@
  * Uses a pragmatic pattern (RFC-lite) suitable for UI validation without
  * over-restricting valid addresses.
  */
+/**
+ * Validate a single domain label (e.g. "example" in "example.com").
+ */
+function isValidDomainLabel(label: string): boolean {
+  if (!label || label.length > 63) {
+    return false;
+  }
+  if (label.startsWith('-') || label.endsWith('-')) {
+    return false;
+  }
+  return /^[A-Za-z0-9-]+$/.test(label);
+}
+
 export function isValidEmail(value: string | undefined | null): boolean {
   if (!value || typeof value !== 'string') {
     return false;
@@ -28,15 +41,7 @@ export function isValidEmail(value: string | undefined | null): boolean {
     return false;
   }
 
-  return labels.every((label) => {
-    if (!label || label.length > 63) {
-      return false;
-    }
-    if (label.startsWith('-') || label.endsWith('-')) {
-      return false;
-    }
-    return /^[A-Za-z0-9-]+$/.test(label);
-  });
+  return labels.every(isValidDomainLabel);
 }
 
 export default isValidEmail;

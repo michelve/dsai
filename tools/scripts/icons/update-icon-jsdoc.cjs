@@ -147,11 +147,33 @@ function updateComponentJSDoc(filePath, iconMeta) {
 /**
  * Main function
  */
+/**
+ * Resolve the best metadata for an icon, trying alternative name formats
+ */
+function resolveIconMeta(iconName, metadata) {
+  if (metadata.icons[iconName]) {
+    return { meta: metadata.icons[iconName], hasDirectMatch: true };
+  }
+
+  const altNames = [
+    iconName.replace(/-fill$/, ''),
+    `${iconName.replace(/-fill$/, '')}-fill`,
+    iconName.replace(/^icon-?/, ''),
+  ];
+
+  for (const altName of altNames) {
+    if (metadata.icons[altName]) {
+      return { meta: metadata.icons[altName], hasDirectMatch: false };
+    }
+  }
+
+  return { meta: null, hasDirectMatch: false };
+}
+
 async function main() {
   console.log('🎨 Updating Icon Component JSDoc Comments\n');
   console.log('━'.repeat(50));
 
-  // Load metadata
   console.log('\n📚 Loading metadata...');
   const metadata = loadMetadata();
   if (!metadata) {
@@ -159,51 +181,28 @@ async function main() {
   }
   console.log(`   Found metadata for ${metadata.totalIcons} icons`);
 
-  // Get all component files
   const files = fs.readdirSync(ICONS_DIR).filter((f) => f.endsWith('.tsx'));
   console.log(`\n📁 Found ${files.length} icon components`);
+  console.log('\n📝 Updating JSDoc comments...\n');
 
   let updatedCount = 0;
   let skippedCount = 0;
   let withMetadataCount = 0;
   let noMetadataCount = 0;
 
-  console.log('\n📝 Updating JSDoc comments...\n');
-
   for (const file of files) {
     const filePath = path.join(ICONS_DIR, file);
     const componentName = file.replace('.tsx', '');
     const iconName = componentNameToIconName(componentName);
+    const { meta, hasDirectMatch } = resolveIconMeta(iconName, metadata);
 
-    // Get metadata for this icon
-    const iconMeta = metadata.icons[iconName] || null;
-
-    if (iconMeta) {
+    if (hasDirectMatch) {
       withMetadataCount++;
     } else {
       noMetadataCount++;
-      // Try alternative name formats
-      const altNames = [
-        iconName.replace(/-fill$/, ''),
-        `${iconName.replace(/-fill$/, '')}-fill`,
-        iconName.replace(/^icon-?/, ''),
-      ];
-
-      for (const altName of altNames) {
-        if (metadata.icons[altName]) {
-          // Use the found metadata
-          const updated = updateComponentJSDoc(filePath, metadata.icons[altName]);
-          if (updated) {
-            updatedCount++;
-            process.stdout.write('.');
-          } else {
-            skippedCount++;
-          }
-        }
-      }
     }
 
-    const updated = updateComponentJSDoc(filePath, iconMeta);
+    const updated = updateComponentJSDoc(filePath, meta);
     if (updated) {
       updatedCount++;
       process.stdout.write('.');
@@ -211,13 +210,11 @@ async function main() {
       skippedCount++;
     }
 
-    // Progress indicator every 100 files
     if ((updatedCount + skippedCount) % 100 === 0) {
       process.stdout.write(` ${updatedCount + skippedCount}/${files.length}\n`);
     }
   }
 
-  // Summary
   console.log('\n\n━'.repeat(50));
   console.log('✅ Update complete!\n');
   console.log(`   📦 Total components: ${files.length}`);

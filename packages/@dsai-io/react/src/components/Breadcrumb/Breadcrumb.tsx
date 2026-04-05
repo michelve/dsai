@@ -107,28 +107,19 @@ const BreadcrumbItemComponent = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
         return content;
       }
 
-      // Render link only when there is a valid href or click handler
-      if (safeHref || onClick) {
-        if (LinkComponent) {
-          return (
-            <LinkComponent
-              href={safeHref ?? '#'}
-              onClick={onClick ? handleClick : undefined}
-              rel={relAttribute}
-            >
-              {content}
-            </LinkComponent>
-          );
-        }
-
-        return (
-          <a href={safeHref ?? '#'} onClick={onClick ? handleClick : undefined} rel={relAttribute}>
-            {content}
-          </a>
-        );
+      if (!safeHref && !onClick) {
+        return content;
       }
 
-      return content;
+      const linkHref = safeHref ?? '#';
+      const linkOnClick = onClick ? handleClick : undefined;
+      const LinkEl = LinkComponent ?? 'a';
+
+      return (
+        <LinkEl href={linkHref} onClick={linkOnClick} rel={relAttribute}>
+          {content}
+        </LinkEl>
+      );
     };
 
     return (

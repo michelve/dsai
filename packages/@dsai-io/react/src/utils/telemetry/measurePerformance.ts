@@ -124,6 +124,65 @@ function now(): number {
 /**
  * Measure a synchronous function.
  */
+/**
+ * Check if the Performance API supports marks and measures.
+ */
+function canUsePerformanceMarks(perf: PerformanceLike | null | undefined, useMarks: boolean): perf is PerformanceLike {
+  return (
+    !!perf &&
+    useMarks &&
+    typeof perf.mark === 'function' &&
+    typeof perf.measure === 'function'
+  );
+}
+
+/**
+ * Create a performance mark safely.
+ */
+function safePerformanceMark(perf: PerformanceLike, markName: string): void {
+  try {
+    perf.mark(markName);
+  } catch {
+    // Ignore mark errors (quota exceeded, etc.)
+  }
+}
+
+/**
+ * Create a performance measure and clean up marks.
+ */
+function safePerformanceMeasure(perf: PerformanceLike, name: string, markStart: string, markEnd: string): void {
+  try {
+    perf.mark(markEnd);
+    perf.measure(name, markStart, markEnd);
+    if (typeof perf.clearMarks === 'function') {
+      perf.clearMarks(markStart);
+      perf.clearMarks(markEnd);
+    }
+    if (typeof perf.clearMeasures === 'function') {
+      perf.clearMeasures(name);
+    }
+  } catch {
+    // Ignore measure errors
+  }
+}
+
+/**
+ * Safely invoke the onMeasure callback.
+ */
+function safeOnMeasure<T>(
+  onMeasure: ((m: PerformanceMeasurement & { result: unknown }) => void) | undefined,
+  measurement: PerformanceMeasurement & { result: T }
+): void {
+  if (!onMeasure) {
+    return;
+  }
+  try {
+    onMeasure(measurement);
+  } catch {
+    // Never throw from callbacks
+  }
+}
+
 export function measurePerformance<T>(
   fn: () => T,
   options: MeasurePerformanceOptions = {}
@@ -131,23 +190,12 @@ export function measurePerformance<T>(
   const { name = 'anonymous', onMeasure, useMarks = true } = options;
 
   const perf = getPerformance();
-  const hasPerformance = !!perf;
-  const canUseMarks =
-    hasPerformance &&
-    useMarks &&
-    typeof perf?.mark === 'function' &&
-    typeof perf?.measure === 'function';
-
+  const useMarksApi = canUsePerformanceMarks(perf, useMarks);
   const markStart = `${name}-start`;
   const markEnd = `${name}-end`;
 
-  // Create performance mark if available
-  if (canUseMarks && perf) {
-    try {
-      perf.mark(markStart);
-    } catch {
-      // Ignore mark errors (quota exceeded, etc.)
-    }
+  if (useMarksApi) {
+    safePerformanceMark(perf, markStart);
   }
 
   const startTime = now();
@@ -155,23 +203,8 @@ export function measurePerformance<T>(
   const endTime = now();
   const duration = endTime - startTime;
 
-  // Create performance measure if available
-  if (canUseMarks && perf) {
-    try {
-      perf.mark(markEnd);
-      perf.measure(name, markStart, markEnd);
-
-      // Clean up marks to avoid memory leaks
-      if (typeof perf.clearMarks === 'function') {
-        perf.clearMarks(markStart);
-        perf.clearMarks(markEnd);
-      }
-      if (typeof perf.clearMeasures === 'function') {
-        perf.clearMeasures(name);
-      }
-    } catch {
-      // Ignore measure errors
-    }
+  if (useMarksApi) {
+    safePerformanceMeasure(perf, name, markStart, markEnd);
   }
 
   const measurement: PerformanceMeasurement & { result: T } = {
@@ -182,13 +215,7 @@ export function measurePerformance<T>(
     endTime,
   };
 
-  if (onMeasure) {
-    try {
-      onMeasure(measurement);
-    } catch {
-      // Never throw from callbacks
-    }
-  }
+  safeOnMeasure(onMeasure, measurement);
 
   return measurement;
 }
@@ -203,22 +230,12 @@ export async function measurePerformanceAsync<T>(
   const { name = 'anonymous', onMeasure, useMarks = true } = options;
 
   const perf = getPerformance();
-  const hasPerformance = !!perf;
-  const canUseMarks =
-    hasPerformance &&
-    useMarks &&
-    typeof perf?.mark === 'function' &&
-    typeof perf?.measure === 'function';
-
+  const useMarksApi = canUsePerformanceMarks(perf, useMarks);
   const markStart = `${name}-start`;
   const markEnd = `${name}-end`;
 
-  if (canUseMarks && perf) {
-    try {
-      perf.mark(markStart);
-    } catch {
-      // Ignore
-    }
+  if (useMarksApi) {
+    safePerformanceMark(perf, markStart);
   }
 
   const startTime = now();
@@ -226,20 +243,8 @@ export async function measurePerformanceAsync<T>(
   const endTime = now();
   const duration = endTime - startTime;
 
-  if (canUseMarks && perf) {
-    try {
-      perf.mark(markEnd);
-      perf.measure(name, markStart, markEnd);
-      if (typeof perf.clearMarks === 'function') {
-        perf.clearMarks(markStart);
-        perf.clearMarks(markEnd);
-      }
-      if (typeof perf.clearMeasures === 'function') {
-        perf.clearMeasures(name);
-      }
-    } catch {
-      // Ignore
-    }
+  if (useMarksApi) {
+    safePerformanceMeasure(perf, name, markStart, markEnd);
   }
 
   const measurement: PerformanceMeasurement & { result: T } = {
@@ -250,13 +255,7 @@ export async function measurePerformanceAsync<T>(
     endTime,
   };
 
-  if (onMeasure) {
-    try {
-      onMeasure(measurement);
-    } catch {
-      // Never throw from callbacks
-    }
-  }
+  safeOnMeasure(onMeasure, measurement);
 
   return measurement;
 }

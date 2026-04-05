@@ -112,6 +112,32 @@ function getRowId<T>(row: T, index: number, rowIdAccessor?: RowIdAccessor<T>): R
 /**
  * Default sort function for columns
  */
+/**
+ * Compare two nullable values, returning a sort result if either is nullish,
+ * or null if both are non-nullish (comparison should continue).
+ */
+function compareNullish(
+  aVal: unknown,
+  bVal: unknown,
+  direction: SortDirection
+): number | null {
+  const aNull = aVal === null || aVal === undefined;
+  const bNull = bVal === null || bVal === undefined;
+  if (aNull && bNull) {
+    return 0;
+  }
+  if (aNull) {
+    return direction === 'asc' ? -1 : 1;
+  }
+  if (bNull) {
+    return direction === 'asc' ? 1 : -1;
+  }
+  return null;
+}
+
+/**
+ * Default sort function for columns
+ */
 function defaultSortFn<T>(
   a: T,
   b: T,
@@ -121,15 +147,9 @@ function defaultSortFn<T>(
   const aVal = getValue(a, accessor);
   const bVal = getValue(b, accessor);
 
-  // Handle null/undefined
-  if (aVal === null || aVal === undefined) {
-    if (bVal === null || bVal === undefined) {
-      return 0;
-    }
-    return direction === 'asc' ? -1 : 1;
-  }
-  if (bVal === null || bVal === undefined) {
-    return direction === 'asc' ? 1 : -1;
+  const nullResult = compareNullish(aVal, bVal, direction);
+  if (nullResult !== null) {
+    return nullResult;
   }
 
   // Compare based on type
@@ -138,9 +158,7 @@ function defaultSortFn<T>(
   }
 
   // String comparison
-  const aStr = String(aVal);
-  const bStr = String(bVal);
-  const comparison = aStr.localeCompare(bStr);
+  const comparison = String(aVal).localeCompare(String(bVal));
   return direction === 'asc' ? comparison : -comparison;
 }
 

@@ -21,6 +21,9 @@ export interface ClipboardResult {
   method: 'clipboard-api' | 'exec-command' | 'none';
 }
 
+const METHOD_CLIPBOARD_API = 'clipboard-api' as const;
+const METHOD_EXEC_COMMAND = 'exec-command' as const;
+
 /**
  * Options for clipboard operations
  */
@@ -186,7 +189,7 @@ export async function copyToClipboard(
       onSuccess?.();
       return {
         success: true,
-        method: 'clipboard-api',
+        method: METHOD_CLIPBOARD_API,
       };
     } catch (err) {
       // Clipboard API failed, try fallback
@@ -195,7 +198,7 @@ export async function copyToClipboard(
         onSuccess?.();
         return {
           success: true,
-          method: 'exec-command',
+          method: METHOD_EXEC_COMMAND,
         };
       }
 
@@ -204,7 +207,7 @@ export async function copyToClipboard(
       return {
         success: false,
         error: error.message,
-        method: 'clipboard-api',
+        method: METHOD_CLIPBOARD_API,
       };
     }
   }
@@ -215,7 +218,7 @@ export async function copyToClipboard(
     onSuccess?.();
     return {
       success: true,
-      method: 'exec-command',
+      method: METHOD_EXEC_COMMAND,
     };
   }
 
@@ -224,6 +227,6 @@ export async function copyToClipboard(
   return {
     success: false,
     error: error.message,
-    method: 'exec-command',
+    method: METHOD_EXEC_COMMAND,
   };
 }
