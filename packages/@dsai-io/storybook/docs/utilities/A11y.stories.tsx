@@ -23,8 +23,8 @@ import type { JSX } from 'react';
 /** Demo component for GenerateId story */
 function GenerateIdDemo(): JSX.Element {
   const [ids, setIds] = useState<string[]>([]);
-  const emailId = useRef(generateId('email'));
-  const errorId = useRef(generateId('error'));
+  const [emailId] = useState(() => generateId('email'));
+  const [errorId] = useState(() => generateId('error'));
 
   const handleGenerate = (): void => {
     const newId = generateId('field');
@@ -130,15 +130,15 @@ function FormField() {
         <Heading level={4}>Live Form Example</Heading>
         <div style={{ marginTop: '1rem' }}>
           <label
-            htmlFor={emailId.current}
+            htmlFor={emailId}
             style={{ display: 'block', fontWeight: 'var(--dsai-typography-font-weight-medium)', marginBottom: '0.5rem' }}
           >
             Email Address
           </label>
           <input
-            id={emailId.current}
+            id={emailId}
             type="email"
-            aria-describedby={errorId.current}
+            aria-describedby={errorId}
             placeholder="you@example.com"
             style={{
               width: '100%',
@@ -148,7 +148,7 @@ function FormField() {
             }}
           />
           <small
-            id={errorId.current}
+            id={errorId}
             style={{ display: 'block', marginTop: '0.25rem', color: 'var(--bs-secondary)' }}
           >
             {"We'll never share your email with anyone else."}
@@ -157,9 +157,9 @@ function FormField() {
         <div style={{ marginTop: '1rem', fontSize: '0.875rem', color: 'var(--bs-secondary)' }}>
           <strong>Generated IDs:</strong>
           <br />
-          <code>input: {emailId.current}</code>
+          <code>input: {emailId}</code>
           <br />
-          <code>description: {errorId.current}</code>
+          <code>description: {errorId}</code>
         </div>
       </div>
 

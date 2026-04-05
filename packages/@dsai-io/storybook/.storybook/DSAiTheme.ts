@@ -1,4 +1,6 @@
 // Import tokens from locally generated files
+import { create, type ThemeVars } from 'storybook/theming';
+
 import {
   // Blue colors (primary brand - matches component theme)
   ColorBlue_400,
@@ -23,7 +25,6 @@ import {
   TypographyFontfamilyBase,
   TypographyFontfamilyMonospace,
 } from '../src/generated/tokens.js';
-import { create, type ThemeVars } from 'storybook/theming';
 
 /**
  * DSAi Storybook Theme

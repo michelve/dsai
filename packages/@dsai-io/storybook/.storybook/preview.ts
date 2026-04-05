@@ -1,5 +1,6 @@
-import { BackgroundWhite, ColorGray_50, ThemeDark } from '../src/generated/tokens.js';
 import React from 'react';
+
+import { BackgroundWhite, ColorGray_50, ThemeDark } from '../src/generated/tokens.js';
 
 import { lightTheme } from './DSAiTheme';
 

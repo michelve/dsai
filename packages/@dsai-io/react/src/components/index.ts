@@ -143,7 +143,7 @@ export type {
 // Icons - Bootstrap Icons as React components
 // Re-export all icons and types from the Icon folder
 export * from './Icon';
-export type { IconComponent, IconProps } from './Icon/types';
+export type { IconComponent, IconProps } from '@dsai-io/icons';
 export type { InputProps, InputSize, InputType } from './Input';
 // Input
 export { Input } from './Input';

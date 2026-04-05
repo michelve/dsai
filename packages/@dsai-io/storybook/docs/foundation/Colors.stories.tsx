@@ -1,5 +1,6 @@
 // Import grouped tokens (with .value properties for easy access)
 import { Heading } from '@dsai-io/react';
+
 import { BackgroundWhite, ThemeLight, ThemeDark, ThemePrimary } from '../../src/generated/tokens';
 import tokens from '../../src/generated/tokens-grouped';
 

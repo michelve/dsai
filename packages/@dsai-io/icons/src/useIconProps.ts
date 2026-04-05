@@ -9,9 +9,9 @@
 
 import { useId, useMemo } from 'react';
 
+import type { IconProps } from './types';
 import type { CSSProperties } from 'react';
 
-import type { IconProps } from './types';
 
 const ALLOWED_PROPS = [
   'id',
