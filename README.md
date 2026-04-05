@@ -3,6 +3,16 @@
 [![CI](https://github.com/michelve/dsai/actions/workflows/ci.yml/badge.svg)](https://github.com/michelve/dsai/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/github/michelve/dsai/graph/badge.svg?token=VF7ZM3A9L1)](https://codecov.io/github/michelve/dsai)
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](LICENSE.md)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?logo=bootstrap&logoColor=white)](https://getbootstrap.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Node.js](https://img.shields.io/badge/Node.js-%E2%89%A522-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org)
+[![pnpm](https://img.shields.io/badge/pnpm-%E2%89%A510-F69220?logo=pnpm&logoColor=white)](https://pnpm.io)
+[![Nx](https://img.shields.io/badge/Nx-Monorepo-143055?logo=nx&logoColor=white)](https://nx.dev)
+[![Storybook](https://img.shields.io/badge/Storybook-10-FF4785?logo=storybook&logoColor=white)](https://storybook.js.org)
+[![Jest](https://img.shields.io/badge/Jest-30-C21325?logo=jest&logoColor=white)](https://jestjs.io)
+[![WCAG 2.1 AA](https://img.shields.io/badge/WCAG_2.1-AA-green)](https://www.w3.org/WAI/WCAG21/quickref/)
+[![Figma](https://img.shields.io/badge/Figma-Code_Connect-F24E1E?logo=figma&logoColor=white)](https://www.figma.com)
 
 > **Beta** — DSAi is in active development. APIs may change between releases. [Early access & collaboration →](https://github.com/michelve/dsai)
 
