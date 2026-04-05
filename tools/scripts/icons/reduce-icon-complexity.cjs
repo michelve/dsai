@@ -31,7 +31,7 @@ function transformIcon(content, filename) {
 
   // Extract the SVG inner content (paths, circles, etc.)
   // Find everything between the closing > of the <svg> tag and </svg>
-  const svgInnerMatch = content.match(
+  const _svgInnerMatch = content.match(
     /\{titleContent && <title id=\{titleId\}>\{titleContent\}<\/title>\}[\s\S]*?(?=\s*<\/svg>)/
   );
 

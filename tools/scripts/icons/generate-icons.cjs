@@ -191,8 +191,9 @@ function generateComponent(componentName, svgData, iconMeta = null) {
     return `${jsDoc}
 import { forwardRef } from 'react';
 
-import type { IconProps } from '../types';
 import { useIconProps } from '../useIconProps';
+
+import type { IconProps } from '../types';
 
 export const ${componentName} = forwardRef<SVGSVGElement, IconProps>(
   (props, ref) => {
@@ -244,8 +245,9 @@ ${componentName}.displayName = '${componentName}';
   return `${jsDoc}
 import { forwardRef } from 'react';
 
-import type { IconProps } from '../types';
 import { useIconProps } from '../useIconProps';
+
+import type { IconProps } from '../types';
 
 export const ${componentName} = forwardRef<SVGSVGElement, IconProps>(
   (props, ref) => {

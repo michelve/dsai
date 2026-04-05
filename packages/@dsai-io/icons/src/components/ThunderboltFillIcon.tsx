@@ -23,8 +23,9 @@
  */
 import { forwardRef } from 'react';
 
-import type { IconProps } from '../types';
 import { useIconProps } from '../useIconProps';
+
+import type { IconProps } from '../types';
 
 export const ThunderboltFillIcon = forwardRef<SVGSVGElement, IconProps>(
   (props, ref) => {

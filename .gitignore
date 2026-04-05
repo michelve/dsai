@@ -105,3 +105,6 @@ coverage/
 pnpm-lock.yaml
 /docs/superpowers
 .claude/settings.local.json
+
+.nx/polygraph
+.claude/worktrees
