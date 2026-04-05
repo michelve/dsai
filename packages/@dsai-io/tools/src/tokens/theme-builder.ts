@@ -284,6 +284,31 @@ export function generateThemeBuildConfig(options: ThemeBuildOptions): ThemeStyle
 }
 
 /**
+ * Build format-specific options for a file config (prefix, selector, mediaQuery)
+ */
+function buildFormatOptions(
+  format: OutputFormat,
+  themeDefinition: ResolvedThemeDefinition,
+  isDefault: boolean,
+  prefix?: string
+): Record<string, unknown> | undefined {
+  const optionsMap = new Map<string, unknown>();
+
+  if (prefix && (format === 'css' || format === 'scss')) {
+    optionsMap.set('prefix', prefix);
+  }
+
+  if (format === 'css' && !isDefault) {
+    optionsMap.set('selector', themeDefinition.selector);
+    if (themeDefinition.mediaQuery) {
+      optionsMap.set('mediaQuery', themeDefinition.mediaQuery);
+    }
+  }
+
+  return optionsMap.size > 0 ? Object.fromEntries(optionsMap) : undefined;
+}
+
+/**
  * Generate platform configuration for a specific output format
  *
  * @param format - Output format (css, scss, js, etc.)
@@ -307,43 +332,17 @@ function generatePlatformConfig(
 
   const sdFormat = isDefault ? formatConfig.default : formatConfig.themed;
 
-  // Use Map for safe access to outputFiles
   const outputFilesMap = new Map(Object.entries(themeDefinition.outputFiles));
   const outputFile = outputFilesMap.get(format) ?? `tokens.${format}`;
 
-  // Determine subdirectory based on format
   const subDir = getFormatSubdirectory(format);
   const buildPath = subDir ? join(outputDir, subDir) + '/' : outputDir + '/';
 
   const fileConfig: StyleDictionaryFileConfig = {
     destination: outputFile,
     format: sdFormat,
+    options: buildFormatOptions(format, themeDefinition, isDefault, prefix),
   };
-
-  // Add prefix option for CSS/SCSS formats
-  if (prefix && (format === 'css' || format === 'scss')) {
-    fileConfig.options = {
-      ...fileConfig.options,
-      prefix,
-    };
-  }
-
-  // Add selector option for themed CSS
-  if (format === 'css' && !isDefault) {
-    fileConfig.options = {
-      ...fileConfig.options,
-      selector: themeDefinition.selector,
-    };
-  }
-
-  // Add media query if defined
-  if (themeDefinition.mediaQuery && format === 'css' && !isDefault) {
-    const existingOptions = fileConfig.options ?? {};
-    fileConfig.options = {
-      ...existingOptions,
-      mediaQuery: themeDefinition.mediaQuery,
-    };
-  }
 
   const transformGroup = TRANSFORM_GROUPS.get(format) ?? format;
 
@@ -653,6 +652,42 @@ function resolveThemeOutputFile(
   return pair ? (isDefault ? pair[0] : pair[1]) : `tokens-${themeName}.${format}`;
 }
 
+/** Create a failed ThemeBuildResult for early returns */
+function failedThemeResult(themeName: string, error: string): ThemeBuildResult {
+  return { success: false, themeName, outputs: {}, error, duration: 0, fromCache: false };
+}
+
+/** Resolve all output file names for a theme across all formats */
+function resolveAllOutputFiles(
+  baseOutputFiles: Record<string, string | undefined>,
+  themeName: string,
+  isDefault: boolean
+): Record<string, string> {
+  const allFormats = ['css', 'scss', 'js', 'ts', 'json', 'android', 'ios'];
+  const outputFiles: Record<string, string> = {};
+  for (const fmt of allFormats) {
+    outputFiles[fmt] = resolveThemeOutputFile(baseOutputFiles, fmt, themeName, isDefault);
+  }
+  return outputFiles;
+}
+
+/** Resolve a raw theme definition to a fully resolved one */
+function resolveDefinition(
+  raw: ThemeDefinition | ResolvedThemeDefinition,
+  themeName: string
+): ResolvedThemeDefinition {
+  const isDefault = raw.isDefault ?? false;
+  const baseOutputFiles = (raw.outputFiles ?? {}) as Record<string, string | undefined>;
+  return {
+    isDefault,
+    suffix: raw.suffix ?? (isDefault ? null : `-${themeName}`),
+    selector: raw.selector ?? (isDefault ? ':root' : `[data-dsai-theme="${themeName}"]`),
+    mediaQuery: raw.mediaQuery,
+    dataAttribute: raw.dataAttribute ?? `data-dsai-theme="${themeName}"`,
+    outputFiles: resolveAllOutputFiles(baseOutputFiles, themeName, isDefault) as ResolvedThemeDefinition['outputFiles'],
+  };
+}
+
 /**
  * Build a single theme within a batch build, handling validation and definition resolution
  */
@@ -668,32 +703,17 @@ async function buildSingleThemeInBatch(
 ): Promise<ThemeBuildResult> {
   const rawThemeDefinition = definitionsMap.get(themeName);
   if (!rawThemeDefinition) {
-    return { success: false, themeName, outputs: {}, error: `No theme definition found for "${themeName}"`, duration: 0, fromCache: false };
+    return failedThemeResult(themeName, `No theme definition found for "${themeName}"`);
   }
 
   const themeSpecificFiles = themeFiles.get(themeName);
   if (!themeSpecificFiles || themeSpecificFiles.length === 0) {
-    return { success: false, themeName, outputs: {}, error: `No files found for theme "${themeName}"`, duration: 0, fromCache: false };
+    return failedThemeResult(themeName, `No files found for theme "${themeName}"`);
   }
 
   const isDefault = rawThemeDefinition.isDefault ?? false;
   const files = isDefault ? themeSpecificFiles : [...defaultThemeFiles, ...themeSpecificFiles];
-
-  const baseOutputFiles = (rawThemeDefinition.outputFiles ?? {}) as Record<string, string | undefined>;
-  const allFormats = ['css', 'scss', 'js', 'ts', 'json', 'android', 'ios'];
-  const outputFiles: Record<string, string> = {};
-  for (const fmt of allFormats) {
-    outputFiles[fmt] = resolveThemeOutputFile(baseOutputFiles, fmt, themeName, isDefault);
-  }
-
-  const themeDefinition: ResolvedThemeDefinition = {
-    isDefault,
-    suffix: rawThemeDefinition.suffix ?? (isDefault ? null : `-${themeName}`),
-    selector: rawThemeDefinition.selector ?? (isDefault ? ':root' : `[data-dsai-theme="${themeName}"]`),
-    mediaQuery: rawThemeDefinition.mediaQuery,
-    dataAttribute: rawThemeDefinition.dataAttribute ?? `data-dsai-theme="${themeName}"`,
-    outputFiles: outputFiles as ResolvedThemeDefinition['outputFiles'],
-  };
+  const themeDefinition = resolveDefinition(rawThemeDefinition, themeName);
 
   return buildTheme({ themeName, themeDefinition, files, outputDir, config, verbose, skipCache });
 }

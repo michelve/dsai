@@ -62,6 +62,12 @@ import type {
 import type { FloatingContext } from '@floating-ui/react';
 import type { ReactNode } from 'react';
 
+// ---------------------------------------------------------------------------
+// Shared class name constants (S1192)
+// ---------------------------------------------------------------------------
+
+const CSS_DROPDOWN_ITEM = 'dropdown-item';
+
 /**
  * Dropdown context for sharing state between components
  */
@@ -698,7 +704,7 @@ const DropdownItem = forwardRef<HTMLButtonElement | HTMLAnchorElement, DropdownI
     const itemClassName = useMemo(
       () =>
         cn(
-          'dropdown-item',
+          CSS_DROPDOWN_ITEM,
           active && 'active',
           disabled && 'disabled',
           variant === 'destructive' && 'text-danger',
@@ -870,7 +876,7 @@ const DropdownCheckboxItem = forwardRef<HTMLButtonElement, DropdownCheckboxItemP
     });
 
     const itemClassName = useMemo(
-      () => cn('dropdown-item', disabled && 'disabled', className),
+      () => cn(CSS_DROPDOWN_ITEM, disabled && 'disabled', className),
       [disabled, className]
     );
 
@@ -1029,7 +1035,7 @@ const DropdownRadioItem = forwardRef<HTMLButtonElement, DropdownRadioItemProps>(
     const checked = radioGroupContext.value === value;
 
     const itemClassName = useMemo(
-      () => cn('dropdown-item', disabled && 'disabled', className),
+      () => cn(CSS_DROPDOWN_ITEM, disabled && 'disabled', className),
       [disabled, className]
     );
 

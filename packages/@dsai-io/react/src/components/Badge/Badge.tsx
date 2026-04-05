@@ -33,6 +33,115 @@ function safeLookup<T>(map: Readonly<Record<string, T>>, key: string, fallback: 
 }
 
 // =============================================================================
+// Extracted helpers (reduce cognitive complexity of BadgeComponent)
+// =============================================================================
+
+/** Build ARIA props based on dot/content/label state */
+function buildAriaProps(
+  dot: boolean,
+  hasVisibleContent: boolean,
+  ariaLabel: string | undefined
+): Record<string, unknown> {
+  const role = dot && !hasVisibleContent ? 'status' : undefined;
+  if (role) {
+    return { role, 'aria-label': ariaLabel };
+  }
+  if (ariaLabel) {
+    return { 'aria-label': ariaLabel };
+  }
+  return {};
+}
+
+/** Render the display content with icon spacing */
+function renderDisplayWithIcon(
+  iconPosition: 'start' | 'end',
+  displayContent: React.ReactNode
+): React.ReactNode {
+  if (!displayContent) {
+    return displayContent;
+  }
+  if (iconPosition === 'start') {
+    return <span style={{ marginLeft: '0.25em' }}>{displayContent}</span>;
+  }
+  return <span style={{ marginRight: '0.25em' }}>{displayContent}</span>;
+}
+
+/** Assemble badge inner content (dot, icon, text, dismiss) */
+function renderBadgeContent({
+  icon,
+  iconPosition,
+  dot,
+  hasVisibleContent,
+  displayContent,
+  onDismiss,
+  dismissLabel,
+}: {
+  icon: React.ReactNode;
+  iconPosition: 'start' | 'end';
+  dot: boolean;
+  hasVisibleContent: boolean;
+  displayContent: React.ReactNode;
+  onDismiss: (() => void) | undefined;
+  dismissLabel: string;
+}): React.JSX.Element {
+  const iconElement = icon ? (
+    <span className="d-inline-flex align-items-center" aria-hidden="true">
+      {icon}
+    </span>
+  ) : null;
+
+  const dotElement = dot ? (
+    <span
+      className="d-inline-block rounded-circle"
+      style={{
+        width: '0.5em',
+        height: '0.5em',
+        backgroundColor: 'currentColor',
+        ...(hasVisibleContent ? { marginRight: '0.25em' } : {}),
+      }}
+      aria-hidden={hasVisibleContent ? 'true' : undefined}
+    />
+  ) : null;
+
+  const dismissElement = onDismiss ? (
+    <button
+      type="button"
+      className="dsai-badge-dismiss"
+      aria-label={dismissLabel}
+      onClick={onDismiss}
+      style={{
+        background: 'none',
+        border: 'none',
+        color: 'inherit',
+        padding: '0 0 0 0.35em',
+        cursor: 'pointer',
+        fontSize: 'inherit',
+        lineHeight: 1,
+        opacity: 0.7,
+        display: 'inline-flex',
+        alignItems: 'center',
+      }}
+    >
+      ×
+    </button>
+  ) : null;
+
+  const textContent = iconElement
+    ? renderDisplayWithIcon(iconPosition, displayContent)
+    : displayContent;
+
+  return (
+    <>
+      {dotElement}
+      {iconPosition === 'start' && iconElement}
+      {textContent}
+      {iconPosition === 'end' && iconElement}
+      {dismissElement}
+    </>
+  );
+}
+
+// =============================================================================
 // Badge Component
 // =============================================================================
 
@@ -188,75 +297,15 @@ function BadgeComponent(
   // ---------------------------------------------------------------------------
   // ARIA
   // ---------------------------------------------------------------------------
-  const role = dot && !hasVisibleContent ? 'status' : undefined;
-  const ariaProps = role
-    ? { role, 'aria-label': ariaLabel }
-    : ariaLabel
-      ? { 'aria-label': ariaLabel }
-      : {};
+  const ariaProps = buildAriaProps(dot, hasVisibleContent, ariaLabel);
 
   // ---------------------------------------------------------------------------
   // Badge content assembly
   // ---------------------------------------------------------------------------
-  const iconElement = icon ? (
-    <span className="d-inline-flex align-items-center" aria-hidden="true">
-      {icon}
-    </span>
-  ) : null;
-
-  const dotElement = dot ? (
-    <span
-      className="d-inline-block rounded-circle"
-      style={{
-        width: '0.5em',
-        height: '0.5em',
-        backgroundColor: 'currentColor',
-        ...(hasVisibleContent ? { marginRight: '0.25em' } : {}),
-      }}
-      aria-hidden={hasVisibleContent ? 'true' : undefined}
-    />
-  ) : null;
-
-  const dismissElement = onDismiss ? (
-    <button
-      type="button"
-      className="dsai-badge-dismiss"
-      aria-label={dismissLabel}
-      onClick={onDismiss}
-      style={{
-        background: 'none',
-        border: 'none',
-        color: 'inherit',
-        padding: '0 0 0 0.35em',
-        cursor: 'pointer',
-        fontSize: 'inherit',
-        lineHeight: 1,
-        opacity: 0.7,
-        display: 'inline-flex',
-        alignItems: 'center',
-      }}
-    >
-      ×
-    </button>
-  ) : null;
-
-  const badgeContent = (
-    <>
-      {dotElement}
-      {iconPosition === 'start' && iconElement}
-      {(() => {
-        if (iconElement && iconPosition === 'start' && displayContent) {
-          return <span style={{ marginLeft: '0.25em' }}>{displayContent}</span>;
-        }
-        if (iconElement && iconPosition === 'end' && displayContent) {
-          return <span style={{ marginRight: '0.25em' }}>{displayContent}</span>;
-        }
-        return displayContent;
-      })()}
-      {iconPosition === 'end' && iconElement}
-      {dismissElement}
-    </>
-  );
+  const badgeContent = renderBadgeContent({
+    icon, iconPosition, dot, hasVisibleContent,
+    displayContent, onDismiss, dismissLabel,
+  });
 
   // ---------------------------------------------------------------------------
   // Ref merging (forward ref + internal animation ref)

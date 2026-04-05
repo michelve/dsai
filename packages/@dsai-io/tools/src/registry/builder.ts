@@ -49,6 +49,16 @@ const EXCLUDE_PATTERNS: RegExp[] = [
 
 const REACT_BUILTINS = new Set(['react', 'react-dom', 'react/jsx-runtime', 'react-dom/client']);
 
+/** File type assigned to CSS files in registry items (S1192). */
+const TYPE_STYLE: RegistryItemType = 'registry:style';
+const TYPE_UTIL: RegistryItemType = 'registry:util';
+const TYPE_TYPE: RegistryItemType = 'registry:type' as RegistryItemType;
+
+/** Return `registry:style` for CSS files, otherwise the given fallback type. */
+function fileType(filePath: string, fallback: RegistryItemType): RegistryItemType {
+  return extname(filePath) === '.css' ? TYPE_STYLE : fallback;
+}
+
 /**
  * Maps a util import sub-path (the part after `../../utils/`) to the
  * registry name used in `utilMap`.
@@ -263,7 +273,7 @@ function buildComponentItem(
 
   const files: RegistryFile[] = sourceFiles.map((f) => ({
     path: f.path,
-    type: extname(f.path) === '.css' ? 'registry:style' : meta.type,
+    type: fileType(f.path, meta.type),
     content: f.content,
   }));
 
@@ -301,7 +311,7 @@ function buildHookItem(
 
   const files: RegistryFile[] = sourceFiles.map((f) => ({
     path: f.path,
-    type: extname(f.path) === '.css' ? 'registry:style' : meta.type,
+    type: fileType(f.path, meta.type),
     content: f.content,
   }));
 
@@ -337,7 +347,7 @@ function buildUtilItem(
     // Special case: extract cn from utils/index.ts
     const indexPath = join(reactSrcDir, 'utils', 'index.ts');
     const cnSource = extractCnSource(indexPath);
-    files = [{ path: 'cn.ts', type: 'registry:util', content: cnSource }];
+    files = [{ path: 'cn.ts', type: TYPE_UTIL, content: cnSource }];
   } else if (name === 'merge-refs') {
     // merge-refs maps to utils/dom
     const dirPath = join(reactSrcDir, 'utils', 'dom');
@@ -347,7 +357,7 @@ function buildUtilItem(
     npmDeps = analyzed.npmDeps;
     files = sourceFiles.map((f) => ({
       path: `dom/${f.path}`,
-      type: (extname(f.path) === '.css' ? 'registry:style' : 'registry:util') as RegistryItemType,
+      type: fileType(f.path, TYPE_UTIL),
       content: f.content,
     }));
   } else {
@@ -367,7 +377,7 @@ function buildUtilItem(
     npmDeps = analyzed.npmDeps;
     files = sourceFiles.map((f) => ({
       path: `${name}/${f.path}`,
-      type: (extname(f.path) === '.css' ? 'registry:style' : 'registry:util') as RegistryItemType,
+      type: fileType(f.path, TYPE_UTIL),
       content: f.content,
     }));
   }
@@ -412,14 +422,14 @@ function buildTypesItem(
     content = content.replaceAll(/\/\*\*\s*\n\s*\*\s*@deprecated[^*]*\*\/\s*\n/g, '');
     return {
       path: `types/${f.path}`,
-      type: 'registry:type' as RegistryItemType,
+      type: TYPE_TYPE,
       content,
     };
   });
 
   return {
     name: 'dsai-types',
-    type: 'registry:type',
+    type: TYPE_TYPE,
     title: 'Shared Types',
     description: 'Shared type definitions (SafeHTMLAttributes, ComponentSize, PolymorphicComponentProps, etc.)',
     dependencies: [],
@@ -464,9 +474,9 @@ const TYPE_TO_SUBDIR: Record<string, string> = {
   'registry:ui': 'components',
   'registry:component': 'components',
   'registry:hook': 'hooks',
-  'registry:util': 'utils',
+  [TYPE_UTIL]: 'utils',
   'registry:lib': 'utils',
-  'registry:type': 'types',
+  [TYPE_TYPE]: 'types',
 };
 
 /** Write all registry items as individual JSON files and build an index. */

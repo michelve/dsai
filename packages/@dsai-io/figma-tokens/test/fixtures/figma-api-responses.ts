@@ -16,6 +16,21 @@ import type {
 } from '../../src/types.js';
 
 // ============================================================================
+// Shared Test Constants (S1192)
+// ============================================================================
+
+const MOCK_FILE_KEY = 'file-abc';
+const MOCK_COMP_KEY_1 = 'comp-key-1';
+const MOCK_SET_KEY_1 = 'set-key-1';
+const MOCK_STYLE_KEY_1 = 'style-key-1';
+const MOCK_WEEK = '2026-03-23';
+const MOCK_UPDATED_AT = '2026-03-20T10:00:00Z';
+const MOCK_CREATED_AT = '2025-01-01T00:00:00Z';
+const MOCK_DESC_BUTTON = 'Primary button component';
+const MOCK_NAME_BRAND_PRIMARY = 'Brand/Primary';
+const MOCK_NAME_COLORS_PRIMARY = 'colors/primary';
+
+// ============================================================================
 // Mock Colors
 // ============================================================================
 
@@ -268,7 +283,7 @@ export const mockFigmaFile: FigmaFile = {
     'ComponentID:1:0': {
       key: 'component-key-1',
       name: 'Button',
-      description: 'Primary button component',
+      description: MOCK_DESC_BUTTON,
       remote: false,
       documentationLinks: [],
     },
@@ -283,8 +298,8 @@ export const mockFigmaFile: FigmaFile = {
   componentSets: {},
   styles: {
     'StyleID:1:0': {
-      key: 'style-key-1',
-      name: 'colors/primary',
+      key: MOCK_STYLE_KEY_1,
+      name: MOCK_NAME_COLORS_PRIMARY,
       description: 'Primary color style',
       remote: false,
       styleType: 'FILL',
@@ -388,7 +403,7 @@ export const mockStyleNodes = {
     'StyleID:1:0': {
       document: {
         id: 'StyleID:1:0',
-        name: 'colors/primary',
+        name: MOCK_NAME_COLORS_PRIMARY,
         type: 'RECTANGLE',
         fills: [
           {
@@ -553,17 +568,17 @@ export const error413PayloadTooLarge = {
 export const mockComponentActionsByComponent = {
   rows: [
     {
-      component_key: 'comp-key-1',
-      week: '2026-03-23',
+      component_key: MOCK_COMP_KEY_1,
+      week: MOCK_WEEK,
       detachments: 3,
       insertions: 15,
       component_name: 'Button',
-      component_set_key: 'set-key-1',
+      component_set_key: MOCK_SET_KEY_1,
       component_set_name: 'Button',
     },
     {
       component_key: 'comp-key-2',
-      week: '2026-03-23',
+      week: MOCK_WEEK,
       detachments: 0,
       insertions: 8,
       component_name: 'Card',
@@ -579,7 +594,7 @@ export const mockComponentActionsByComponent = {
 export const mockComponentActionsByTeam = {
   rows: [
     {
-      week: '2026-03-23',
+      week: MOCK_WEEK,
       detachments: 5,
       insertions: 42,
       team_name: 'Design Systems',
@@ -594,12 +609,12 @@ export const mockComponentActionsByTeam = {
 export const mockComponentUsagesByComponent = {
   rows: [
     {
-      component_key: 'comp-key-1',
+      component_key: MOCK_COMP_KEY_1,
       usages: 234,
       teams_using: 5,
       files_using: 18,
       component_name: 'Button',
-      component_set_key: 'set-key-1',
+      component_set_key: MOCK_SET_KEY_1,
       component_set_name: 'Button',
     },
   ],
@@ -625,11 +640,11 @@ export const mockComponentUsagesByFile = {
 export const mockStyleActionsByStyle = {
   rows: [
     {
-      style_key: 'style-key-1',
-      week: '2026-03-23',
+      style_key: MOCK_STYLE_KEY_1,
+      week: MOCK_WEEK,
       detachments: 1,
       insertions: 20,
-      style_name: 'Brand/Primary',
+      style_name: MOCK_NAME_BRAND_PRIMARY,
       style_type: 'FILL',
     },
   ],
@@ -641,11 +656,11 @@ export const mockStyleActionsByStyle = {
 export const mockStyleUsagesByStyle = {
   rows: [
     {
-      style_key: 'style-key-1',
+      style_key: MOCK_STYLE_KEY_1,
       usages: 150,
       teams_using: 4,
       files_using: 12,
-      style_name: 'Brand/Primary',
+      style_name: MOCK_NAME_BRAND_PRIMARY,
       style_type: 'FILL',
     },
   ],
@@ -658,10 +673,10 @@ export const mockVariableActionsByVariable = {
   rows: [
     {
       variable_key: 'var-key-1',
-      week: '2026-03-23',
+      week: MOCK_WEEK,
       detachments: 0,
       insertions: 10,
-      variable_name: 'colors/primary',
+      variable_name: MOCK_NAME_COLORS_PRIMARY,
       variable_type: 'COLOR',
       collection_key: 'coll-key-1',
       collection_name: 'primitives',
@@ -679,7 +694,7 @@ export const mockVariableUsagesByVariable = {
       usages: 88,
       teams_using: 3,
       files_using: 9,
-      variable_name: 'colors/primary',
+      variable_name: MOCK_NAME_COLORS_PRIMARY,
       variable_type: 'COLOR',
       collection_key: 'coll-key-1',
       collection_name: 'primitives',
@@ -693,7 +708,7 @@ export const mockVariableUsagesByVariable = {
 export const mockActionsByTeam = {
   rows: [
     {
-      week: '2026-03-23',
+      week: MOCK_WEEK,
       detachments: 2,
       insertions: 30,
       team_name: 'Product',
@@ -738,14 +753,14 @@ export const mockPublishedComponentsResponse = {
   meta: {
     components: [
       {
-        key: 'comp-key-1',
-        file_key: 'file-abc',
+        key: MOCK_COMP_KEY_1,
+        file_key: MOCK_FILE_KEY,
         node_id: '1:2',
         thumbnail_url: 'https://example.com/thumb1.png',
         name: 'Button',
-        description: 'Primary button component',
-        updated_at: '2026-03-20T10:00:00Z',
-        created_at: '2025-01-01T00:00:00Z',
+        description: MOCK_DESC_BUTTON,
+        updated_at: MOCK_UPDATED_AT,
+        created_at: MOCK_CREATED_AT,
         user: mockUser,
         containing_frame: { nodeId: '0:1', name: 'Components', pageName: 'Library' },
       },
@@ -759,14 +774,14 @@ export const mockPublishedComponentSetsResponse = {
   meta: {
     component_sets: [
       {
-        key: 'set-key-1',
-        file_key: 'file-abc',
+        key: MOCK_SET_KEY_1,
+        file_key: MOCK_FILE_KEY,
         node_id: '1:10',
         thumbnail_url: 'https://example.com/set-thumb.png',
         name: 'Button',
         description: 'Button variant set',
-        updated_at: '2026-03-20T10:00:00Z',
-        created_at: '2025-01-01T00:00:00Z',
+        updated_at: MOCK_UPDATED_AT,
+        created_at: MOCK_CREATED_AT,
         user: mockUser,
         containing_frame: { nodeId: '0:1', name: 'Components', pageName: 'Library' },
       },
@@ -780,15 +795,15 @@ export const mockPublishedStylesResponse = {
   meta: {
     styles: [
       {
-        key: 'style-key-1',
-        file_key: 'file-abc',
+        key: MOCK_STYLE_KEY_1,
+        file_key: MOCK_FILE_KEY,
         node_id: '2:1',
         style_type: 'FILL',
         thumbnail_url: 'https://example.com/style-thumb.png',
-        name: 'Brand/Primary',
+        name: MOCK_NAME_BRAND_PRIMARY,
         description: 'Primary brand color',
-        updated_at: '2026-03-20T10:00:00Z',
-        created_at: '2025-01-01T00:00:00Z',
+        updated_at: MOCK_UPDATED_AT,
+        created_at: MOCK_CREATED_AT,
         sort_position: 'a',
         user: mockUser,
       },
@@ -800,14 +815,14 @@ export const mockSingleComponentResponse = {
   status: 200,
   error: false,
   meta: {
-    key: 'comp-key-1',
-    file_key: 'file-abc',
+    key: MOCK_COMP_KEY_1,
+    file_key: MOCK_FILE_KEY,
     node_id: '1:2',
     thumbnail_url: 'https://example.com/thumb1.png',
     name: 'Button',
-    description: 'Primary button component',
-    updated_at: '2026-03-20T10:00:00Z',
-    created_at: '2025-01-01T00:00:00Z',
+    description: MOCK_DESC_BUTTON,
+    updated_at: MOCK_UPDATED_AT,
+    created_at: MOCK_CREATED_AT,
     user: mockUser,
     containing_frame: { nodeId: '0:1', name: 'Components', pageName: 'Library' },
   },
@@ -817,14 +832,14 @@ export const mockSingleComponentSetResponse = {
   status: 200,
   error: false,
   meta: {
-    key: 'set-key-1',
-    file_key: 'file-abc',
+    key: MOCK_SET_KEY_1,
+    file_key: MOCK_FILE_KEY,
     node_id: '1:10',
     thumbnail_url: 'https://example.com/set-thumb.png',
     name: 'Button',
     description: 'Button variant set',
-    updated_at: '2026-03-20T10:00:00Z',
-    created_at: '2025-01-01T00:00:00Z',
+    updated_at: MOCK_UPDATED_AT,
+    created_at: MOCK_CREATED_AT,
     user: mockUser,
     containing_frame: { nodeId: '0:1', name: 'Components', pageName: 'Library' },
   },
@@ -834,15 +849,15 @@ export const mockSingleStyleResponse = {
   status: 200,
   error: false,
   meta: {
-    key: 'style-key-1',
-    file_key: 'file-abc',
+    key: MOCK_STYLE_KEY_1,
+    file_key: MOCK_FILE_KEY,
     node_id: '2:1',
     style_type: 'FILL',
     thumbnail_url: 'https://example.com/style-thumb.png',
-    name: 'Brand/Primary',
+    name: MOCK_NAME_BRAND_PRIMARY,
     description: 'Primary brand color',
-    updated_at: '2026-03-20T10:00:00Z',
-    created_at: '2025-01-01T00:00:00Z',
+    updated_at: MOCK_UPDATED_AT,
+    created_at: MOCK_CREATED_AT,
     sort_position: 'a',
     user: mockUser,
   },

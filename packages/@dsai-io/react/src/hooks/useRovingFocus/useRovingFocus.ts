@@ -5,6 +5,20 @@ import type {
   UseRovingFocusReturn,
 } from './useRovingFocus.types';
 
+/** Returns the previous/next arrow keys for the given orientation */
+function getDirectionKeys(orientation: 'vertical' | 'horizontal' | 'both'): {
+  prevKeys: string[];
+  nextKeys: string[];
+} {
+  if (orientation === 'both') {
+    return { prevKeys: ['ArrowUp', 'ArrowLeft'], nextKeys: ['ArrowDown', 'ArrowRight'] };
+  }
+  if (orientation === 'horizontal') {
+    return { prevKeys: ['ArrowLeft'], nextKeys: ['ArrowRight'] };
+  }
+  return { prevKeys: ['ArrowUp'], nextKeys: ['ArrowDown'] };
+}
+
 /**
  * Manages roving tabindex focus within a container of interactive items.
  *
@@ -135,19 +149,7 @@ export function useRovingFocus({
         return;
       }
 
-      let prevKeys: string[];
-      let nextKeys: string[];
-
-      if (orientation === 'both') {
-        prevKeys = ['ArrowUp', 'ArrowLeft'];
-        nextKeys = ['ArrowDown', 'ArrowRight'];
-      } else if (orientation === 'horizontal') {
-        prevKeys = ['ArrowLeft'];
-        nextKeys = ['ArrowRight'];
-      } else {
-        prevKeys = ['ArrowUp'];
-        nextKeys = ['ArrowDown'];
-      }
+      const { prevKeys, nextKeys } = getDirectionKeys(orientation);
 
       if (nextKeys.includes(event.key)) {
         event.preventDefault();

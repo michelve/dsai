@@ -58,6 +58,89 @@ function getInstallArgs(pm: string, packages: string[], dev: boolean): [string, 
   }
 }
 
+/** Resolve the target file path for a registry file */
+function resolveTargetPath(
+  file: { path: string; target?: string },
+  itemType: string,
+  itemName: string,
+  projectDir: string,
+  targetBaseDir: string
+): string {
+  if (file.target) {
+    return join(projectDir, file.target);
+  }
+
+  const usesItemSubdir =
+    itemType === 'registry:ui' ||
+    itemType === 'registry:component' ||
+    itemType === 'registry:hook';
+
+  if (usesItemSubdir) {
+    return join(projectDir, targetBaseDir, itemName, basename(file.path));
+  }
+
+  if (file.path.includes('/')) {
+    return join(projectDir, targetBaseDir, file.path);
+  }
+
+  return join(projectDir, targetBaseDir, basename(file.path));
+}
+
+/** Write a single file to disk (or log dry-run), returning 'written' | 'skipped' */
+function writeSingleFile(
+  targetPath: string,
+  content: string,
+  shouldOverwrite: boolean,
+  dryRun: boolean | undefined,
+  log: ((message: string) => void) | undefined
+): 'written' | 'skipped' {
+  if (existsSync(targetPath) && !shouldOverwrite) {
+    if (log) {log(`  Skipped (exists): ${targetPath}`);}
+    return 'skipped';
+  }
+
+  if (dryRun) {
+    if (log) {log(`  Would write: ${targetPath}`);}
+    return 'written';
+  }
+
+  const dir = dirname(targetPath);
+  if (!existsSync(dir)) {mkdirSync(dir, { recursive: true });}
+  writeFileSync(targetPath, content, 'utf-8');
+  if (log) {log(`  Written: ${targetPath}`);}
+  return 'written';
+}
+
+/** Filter out npm dependencies already present in package.json */
+function findMissingDeps(projectDir: string, deps: string[]): string[] {
+  const pkgJsonPath = join(projectDir, 'package.json');
+  if (!existsSync(pkgJsonPath)) {return deps;}
+
+  const pkgJson = JSON.parse(readFileSync(pkgJsonPath, 'utf-8'));
+  const allDeps = { ...pkgJson.dependencies, ...pkgJson.devDependencies };
+  return deps.filter((dep) => !Reflect.get(allDeps, dep));
+}
+
+/** Install missing npm dependencies (or log dry-run) */
+function installDeps(
+  projectDir: string,
+  deps: string[],
+  dryRun: boolean | undefined,
+  log: ((message: string) => void) | undefined
+): void {
+  if (deps.length === 0) {return;}
+
+  if (dryRun) {
+    if (log) {log(`  Would install: ${deps.join(', ')}`);}
+    return;
+  }
+
+  const pm = detectPackageManager(projectDir);
+  const [cmd, args] = getInstallArgs(pm, deps, false);
+  if (log) {log(`  Installing: ${cmd} ${args.join(' ')}`);}
+  execFileSync(cmd, args, { cwd: projectDir, stdio: 'inherit' });
+}
+
 export function writeRegistryItems(tree: ResolvedTree, options: WriteOptions): WriteResult {
   const { projectDir, aliases, components, overwrite, dryRun, log } = options;
   const result: WriteResult = { written: [], skipped: [], installedDeps: [] };
@@ -67,68 +150,20 @@ export function writeRegistryItems(tree: ResolvedTree, options: WriteOptions): W
     const targetBaseDir = getTargetDir(item.type, aliases);
 
     for (const file of item.files) {
-      let targetPath: string;
-
-      if (file.target) {
-        // Explicit target path override
-        targetPath = join(projectDir, file.target);
-      } else if (item.type === 'registry:ui' || item.type === 'registry:component') {
-        // UI components: <ui>/<item-name>/<filename>
-        targetPath = join(projectDir, targetBaseDir, item.name, basename(file.path));
-      } else if (item.type === 'registry:hook') {
-        // Hooks: <hooks>/<item-name>/<filename> (prevents index.ts collisions)
-        targetPath = join(projectDir, targetBaseDir, item.name, basename(file.path));
-      } else if (file.path.includes('/')) {
-        // Utils, types, libs with subdirectory structure: preserve file.path
-        targetPath = join(projectDir, targetBaseDir, file.path);
-      } else {
-        // Flat files (e.g., cn.ts): <targetDir>/<filename>
-        targetPath = join(projectDir, targetBaseDir, basename(file.path));
-      }
-
-      if (existsSync(targetPath) && !shouldOverwrite) {
-        if (log) {log(`  Skipped (exists): ${targetPath}`);}
-        result.skipped.push(targetPath);
-        continue;
-      }
+      const targetPath = resolveTargetPath(file, item.type, item.name, projectDir, targetBaseDir);
 
       let content = file.content;
       content = transformImports(content, { aliases, tsx: components.tsx });
       content = normalizeExtensions(content, components.tsx);
 
-      if (dryRun) {
-        if (log) {log(`  Would write: ${targetPath}`);}
-        result.written.push(targetPath);
-        continue;
-      }
-
-      const dir = dirname(targetPath);
-      if (!existsSync(dir)) {mkdirSync(dir, { recursive: true });}
-      writeFileSync(targetPath, content, 'utf-8');
-      if (log) {log(`  Written: ${targetPath}`);}
-      result.written.push(targetPath);
+      const outcome = writeSingleFile(targetPath, content, shouldOverwrite, dryRun, log);
+      result[outcome === 'written' ? 'written' : 'skipped'].push(targetPath);
     }
   }
 
-  // Install npm dependencies
-  const depsToInstall = tree.dependencies.filter((dep) => {
-    const pkgJsonPath = join(projectDir, 'package.json');
-    if (existsSync(pkgJsonPath)) {
-      const pkgJson = JSON.parse(readFileSync(pkgJsonPath, 'utf-8'));
-      const allDeps = { ...pkgJson.dependencies, ...pkgJson.devDependencies };
-      return !Reflect.get(allDeps, dep);
-    }
-    return true;
-  });
-
-  if (depsToInstall.length > 0 && !dryRun) {
-    const pm = detectPackageManager(projectDir);
-    const [cmd, args] = getInstallArgs(pm, depsToInstall, false);
-    if (log) {log(`  Installing: ${cmd} ${args.join(' ')}`);}
-    execFileSync(cmd, args, { cwd: projectDir, stdio: 'inherit' });
-    result.installedDeps = depsToInstall;
-  } else if (depsToInstall.length > 0 && dryRun) {
-    if (log) {log(`  Would install: ${depsToInstall.join(', ')}`);}
+  const depsToInstall = findMissingDeps(projectDir, tree.dependencies);
+  installDeps(projectDir, depsToInstall, dryRun, log);
+  if (depsToInstall.length > 0) {
     result.installedDeps = depsToInstall;
   }
 

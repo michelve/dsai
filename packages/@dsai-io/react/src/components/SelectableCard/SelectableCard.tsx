@@ -65,6 +65,39 @@ const textFromReactNode = (node: React.ReactNode | undefined): string | undefine
 };
 
 // =============================================================================
+// Extracted helpers (reduce cyclomatic complexity)
+// =============================================================================
+
+/** Render the check-icon indicator overlay */
+function renderCheckIcon(isChecked: boolean): React.ReactNode {
+  if (!isChecked) {
+    return null;
+  }
+  return (
+    <span className="selectable-card__check-icon" aria-hidden="true">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+      >
+        <title>Selected</title>
+        <circle cx="10" cy="10" r="10" fill="var(--bs-primary)" />
+        <path
+          d="M6 10l3 3 5-6"
+          stroke="white"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </span>
+  );
+}
+
+// =============================================================================
 // SelectableCard Component
 // =============================================================================
 
@@ -311,28 +344,7 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
         return (
           <>
             <input {...hiddenInputProps} />
-            {isChecked && (
-              <span className="selectable-card__check-icon" aria-hidden="true">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  role="img"
-                >
-                  <title>Selected</title>
-                  <circle cx="10" cy="10" r="10" fill="var(--bs-primary)" />
-                  <path
-                    d="M6 10l3 3 5-6"
-                    stroke="white"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-            )}
+            {renderCheckIcon(isChecked)}
           </>
         );
       }

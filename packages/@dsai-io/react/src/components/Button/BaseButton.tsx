@@ -54,6 +54,40 @@ function parseSubtleVariant(variant: string): string | null {
   return null;
 }
 
+/** Render a start/end adornment (icon or loading spinner) */
+function renderAdornment(
+  position: 'start' | 'end',
+  loading: boolean,
+  loadingPosition: string,
+  loaderEl: React.ReactNode,
+  iconEl: React.ReactNode
+): React.ReactNode {
+  const spacingClass = position === 'start' ? 'me-2' : 'ms-2';
+
+  if (loading && loadingPosition === position) {
+    return <span className={spacingClass} aria-hidden="true">{loaderEl}</span>;
+  }
+  if (!loading && iconEl) {
+    return <span className={spacingClass} aria-hidden="true">{iconEl}</span>;
+  }
+  return null;
+}
+
+/** Resolve data-variant attribute value */
+function resolveDataVariant(
+  isGhost: boolean,
+  isSubtle: boolean,
+  subtleColor: string | null
+): string | undefined {
+  if (isGhost) {
+    return 'ghost';
+  }
+  if (isSubtle) {
+    return `subtle-${subtleColor}`;
+  }
+  return undefined;
+}
+
 /**
  * BaseButton - Presentational Button Component
  *
@@ -215,24 +249,14 @@ export const BaseButton = forwardRef<
     const autoFocusProps = autoFocus ? { autoFocus: true as const } : {};
 
     // Resolve data-variant attribute
-    const dataVariant = isGhost ? 'ghost' : isSubtle ? `subtle-${subtleColor}` : undefined;
+    const dataVariant = resolveDataVariant(isGhost, isSubtle, subtleColor);
 
     // Render loading at center position (hides text, shows only spinner)
     const isCenterLoading = loading && loadingPosition === 'center';
 
-    // Render start adornment (icon or spinner)
-    const startAdornment = loading && loadingPosition === 'start'
-      ? <span className="me-2" aria-hidden="true">{loaderEl}</span>
-      : !loading && startIcon
-        ? <span className="me-2" aria-hidden="true">{startIcon}</span>
-        : null;
-
-    // Render end adornment (icon or spinner)
-    const endAdornment = loading && loadingPosition === 'end'
-      ? <span className="ms-2" aria-hidden="true">{loaderEl}</span>
-      : !loading && endIcon
-        ? <span className="ms-2" aria-hidden="true">{endIcon}</span>
-        : null;
+    // Render start/end adornments (icon or spinner)
+    const startAdornment = renderAdornment('start', loading, loadingPosition, loaderEl, startIcon);
+    const endAdornment = renderAdornment('end', loading, loadingPosition, loaderEl, endIcon);
 
     return (
       <>

@@ -80,22 +80,164 @@ function range(start: number, end: number): number[] {
 }
 
 /**
+ * Adds navigation buttons (first, previous, next, last) to the items array
+ */
+function addNavigationButtons(
+  items: PaginationItemData[],
+  position: 'start' | 'end',
+  page: number,
+  count: number,
+  showFirstButton: boolean,
+  showLastButton: boolean,
+  hidePrevButton: boolean,
+  hideNextButton: boolean
+): void {
+  if (position === 'start') {
+    if (showFirstButton) {
+      items.push({ type: 'first', page: 1, disabled: page <= 1, key: 'first' });
+    }
+    if (!hidePrevButton) {
+      items.push({ type: 'previous', page: page - 1, disabled: page <= 1, key: 'previous' });
+    }
+  } else {
+    if (!hideNextButton) {
+      items.push({ type: 'next', page: page + 1, disabled: page >= count, key: 'next' });
+    }
+    if (showLastButton) {
+      items.push({ type: 'last', page: count, disabled: page >= count, key: 'last' });
+    }
+  }
+}
+
+/**
+ * Builds the page number sequence with ellipsis markers
+ */
+function buildPageNumbers(
+  page: number,
+  count: number,
+  boundaryCount: number,
+  siblingCount: number
+): (number | 'ellipsis')[] {
+  const startBoundary = range(1, Math.min(boundaryCount, count));
+  const endBoundary = range(Math.max(count - boundaryCount + 1, boundaryCount + 1), count);
+  const firstEndPage = endBoundary[0];
+
+  const siblingStart = Math.max(
+    Math.min(page - siblingCount, count - boundaryCount - siblingCount * 2 - 1),
+    boundaryCount + 2
+  );
+  const siblingEnd = Math.min(
+    Math.max(page + siblingCount, boundaryCount + siblingCount * 2 + 2),
+    firstEndPage !== undefined ? firstEndPage - 2 : count - 1
+  );
+
+  const pageNumbers: (number | 'ellipsis')[] = [];
+  const seen = new Set<number>();
+
+  // Start boundary
+  for (const p of startBoundary) {
+    pageNumbers.push(p);
+    seen.add(p);
+  }
+
+  // Start ellipsis or gap pages
+  addStartGap(pageNumbers, seen, siblingStart, boundaryCount);
+
+  // Sibling pages
+  addSiblingPages(pageNumbers, seen, siblingStart, siblingEnd, boundaryCount, count);
+
+  // End ellipsis or gap pages
+  addEndGap(pageNumbers, seen, siblingEnd, firstEndPage, count);
+
+  // End boundary
+  for (const endPage of endBoundary) {
+    if (!seen.has(endPage)) {
+      pageNumbers.push(endPage);
+      seen.add(endPage);
+    }
+  }
+
+  return pageNumbers;
+}
+
+/** Add start gap (ellipsis or bridging pages) between boundary and siblings */
+function addStartGap(
+  pageNumbers: (number | 'ellipsis')[],
+  seen: Set<number>,
+  siblingStart: number,
+  boundaryCount: number
+): void {
+  if (siblingStart > boundaryCount + 2) {
+    pageNumbers.push('ellipsis');
+  } else if (boundaryCount + 1 < siblingStart) {
+    for (let i = boundaryCount + 1; i < siblingStart; i++) {
+      pageNumbers.push(i);
+      seen.add(i);
+    }
+  }
+}
+
+/** Add sibling pages around the current page */
+function addSiblingPages(
+  pageNumbers: (number | 'ellipsis')[],
+  seen: Set<number>,
+  siblingStart: number,
+  siblingEnd: number,
+  boundaryCount: number,
+  count: number
+): void {
+  for (let i = siblingStart; i <= siblingEnd; i++) {
+    if (!seen.has(i) && i > boundaryCount && i <= count - boundaryCount) {
+      pageNumbers.push(i);
+      seen.add(i);
+    }
+  }
+}
+
+/** Add end gap (ellipsis or bridging pages) between siblings and end boundary */
+function addEndGap(
+  pageNumbers: (number | 'ellipsis')[],
+  seen: Set<number>,
+  siblingEnd: number,
+  firstEndPage: number | undefined,
+  count: number
+): void {
+  const lastPageBeforeEndBoundary = firstEndPage !== undefined ? firstEndPage - 1 : count;
+  const endBoundaryLimit = (firstEndPage ?? count) + 1;
+
+  if (siblingEnd < lastPageBeforeEndBoundary - 1) {
+    pageNumbers.push('ellipsis');
+  } else if (siblingEnd < lastPageBeforeEndBoundary) {
+    for (let i = siblingEnd + 1; i < endBoundaryLimit; i++) {
+      if (!seen.has(i)) {
+        pageNumbers.push(i);
+        seen.add(i);
+      }
+    }
+  }
+}
+
+/** Convert page numbers (with ellipsis markers) to PaginationItemData */
+function pageNumbersToItems(
+  pageNumbers: (number | 'ellipsis')[],
+  currentPage: number
+): PaginationItemData[] {
+  const items: PaginationItemData[] = [];
+  let ellipsisCount = 0;
+
+  for (const pageNum of pageNumbers) {
+    if (pageNum === 'ellipsis') {
+      items.push({ type: 'ellipsis', key: `ellipsis-${ellipsisCount++}`, disabled: true });
+    } else {
+      items.push({ type: 'page', page: pageNum, active: pageNum === currentPage, key: `page-${pageNum}` });
+    }
+  }
+
+  return items;
+}
+
+/**
  * Calculates which page items to display based on current page and configuration
- *
- * Algorithm:
- * 1. Always show boundary pages (first N and last N pages)
- * 2. Show sibling pages around the current page
- * 3. Insert ellipsis where there are gaps
- *
- * @param page - Current page (1-indexed)
- * @param count - Total number of pages
- * @param boundaryCount - Number of pages to show at boundaries
- * @param siblingCount - Number of sibling pages around current
- * @param showFirstButton - Whether first button is shown
- * @param showLastButton - Whether last button is shown
- * @param hidePrevButton - Whether prev button is hidden
- * @param hideNextButton - Whether next button is hidden
- * @returns Array of pagination item data for rendering
  */
 function calculatePaginationItems(
   page: number,
@@ -109,134 +251,15 @@ function calculatePaginationItems(
 ): PaginationItemData[] {
   const items: PaginationItemData[] = [];
 
-  // Add "First" button
-  if (showFirstButton) {
-    items.push({
-      type: 'first',
-      page: 1,
-      disabled: page <= 1,
-      key: 'first',
-    });
-  }
+  // Start navigation buttons
+  addNavigationButtons(items, 'start', page, count, showFirstButton, showLastButton, hidePrevButton, hideNextButton);
 
-  // Add "Previous" button
-  if (!hidePrevButton) {
-    items.push({
-      type: 'previous',
-      page: page - 1,
-      disabled: page <= 1,
-      key: 'previous',
-    });
-  }
+  // Page numbers with ellipsis
+  const pageNumbers = buildPageNumbers(page, count, boundaryCount, siblingCount);
+  items.push(...pageNumbersToItems(pageNumbers, page));
 
-  // Calculate page numbers to show
-  // Start boundary pages: [1, 2, ..., boundaryCount]
-  const startBoundary = range(1, Math.min(boundaryCount, count));
-
-  // End boundary pages: [count - boundaryCount + 1, ..., count]
-  const endBoundary = range(Math.max(count - boundaryCount + 1, boundaryCount + 1), count);
-  const firstEndPage = endBoundary[0];
-
-  // Sibling pages around current: [page - siblingCount, ..., page, ..., page + siblingCount]
-  const siblingStart = Math.max(
-    Math.min(page - siblingCount, count - boundaryCount - siblingCount * 2 - 1),
-    boundaryCount + 2
-  );
-  const siblingEnd = Math.min(
-    Math.max(page + siblingCount, boundaryCount + siblingCount * 2 + 2),
-    firstEndPage !== undefined ? firstEndPage - 2 : count - 1
-  );
-
-  // Build the final page list with ellipsis (use Set for O(1) dedup)
-  const pageNumbers: (number | 'ellipsis')[] = [];
-  const seen = new Set<number>();
-
-  // Add start boundary
-  for (const p of startBoundary) {
-    pageNumbers.push(p);
-    seen.add(p);
-  }
-
-  // Add start ellipsis if needed
-  if (siblingStart > boundaryCount + 2) {
-    pageNumbers.push('ellipsis');
-  } else if (boundaryCount + 1 < siblingStart) {
-    // Add the page between boundary and siblings
-    for (let i = boundaryCount + 1; i < siblingStart; i++) {
-      pageNumbers.push(i);
-      seen.add(i);
-    }
-  }
-
-  // Add sibling pages (including current)
-  for (let i = siblingStart; i <= siblingEnd; i++) {
-    if (!seen.has(i) && i > boundaryCount && i <= count - boundaryCount) {
-      pageNumbers.push(i);
-      seen.add(i);
-    }
-  }
-
-  // Add end ellipsis if needed
-  const lastPageBeforeEndBoundary = firstEndPage !== undefined ? firstEndPage - 1 : count;
-  const endBoundaryLimit = (firstEndPage ?? count) + 1;
-  if (siblingEnd < lastPageBeforeEndBoundary - 1) {
-    pageNumbers.push('ellipsis');
-  } else if (siblingEnd < lastPageBeforeEndBoundary) {
-    // Add the page between siblings and end boundary
-    for (let i = siblingEnd + 1; i < endBoundaryLimit; i++) {
-      if (!seen.has(i)) {
-        pageNumbers.push(i);
-        seen.add(i);
-      }
-    }
-  }
-
-  // Add end boundary
-  for (const endPage of endBoundary) {
-    if (!seen.has(endPage)) {
-      pageNumbers.push(endPage);
-      seen.add(endPage);
-    }
-  }
-
-  // Convert to pagination items
-  let ellipsisCount = 0;
-  for (const pageNum of pageNumbers) {
-    if (pageNum === 'ellipsis') {
-      items.push({
-        type: 'ellipsis',
-        key: `ellipsis-${ellipsisCount++}`,
-        disabled: true,
-      });
-    } else {
-      items.push({
-        type: 'page',
-        page: pageNum,
-        active: pageNum === page,
-        key: `page-${pageNum}`,
-      });
-    }
-  }
-
-  // Add "Next" button
-  if (!hideNextButton) {
-    items.push({
-      type: 'next',
-      page: page + 1,
-      disabled: page >= count,
-      key: 'next',
-    });
-  }
-
-  // Add "Last" button
-  if (showLastButton) {
-    items.push({
-      type: 'last',
-      page: count,
-      disabled: page >= count,
-      key: 'last',
-    });
-  }
+  // End navigation buttons
+  addNavigationButtons(items, 'end', page, count, showFirstButton, showLastButton, hidePrevButton, hideNextButton);
 
   return items;
 }

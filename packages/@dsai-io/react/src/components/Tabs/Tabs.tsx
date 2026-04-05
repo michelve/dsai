@@ -29,6 +29,30 @@ import type {
 import './Tabs.scroll.css';
 
 // =============================================================================
+// Extracted helpers (reduce cognitive complexity)
+// =============================================================================
+
+/** Determine whether a TabPanel should render its content */
+function shouldRenderPanel(
+  isActive: boolean,
+  keepMounted: boolean,
+  unmountOnExit: boolean,
+  lazyMount: boolean,
+  hasBeenMounted: boolean
+): boolean {
+  if (isActive || keepMounted) {
+    return true;
+  }
+  if (unmountOnExit) {
+    return false;
+  }
+  if (lazyMount && !hasBeenMounted) {
+    return false;
+  }
+  return true;
+}
+
+// =============================================================================
 // Helpers
 // =============================================================================
 
@@ -322,24 +346,7 @@ export const TabPanel = memo(
     const tabId = `${baseId}-tab-${id}`;
     const panelId = `${baseId}-panel-${id}`;
 
-    // Determine whether to render
-    const shouldRender = (() => {
-      if (isActive) {
-        return true;
-      }
-      if (keepMounted) {
-        return true;
-      }
-      if (unmountOnExit) {
-        return false;
-      }
-      if (lazyMount && !hasBeenMounted) {
-        return false;
-      }
-      return true;
-    })();
-
-    if (!shouldRender) {
+    if (!shouldRenderPanel(isActive, keepMounted, unmountOnExit, lazyMount, hasBeenMounted)) {
       return null;
     }
 

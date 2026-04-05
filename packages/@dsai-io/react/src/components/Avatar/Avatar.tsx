@@ -51,10 +51,123 @@ import {
   getToneFromName,
 } from './avatarUtils';
 
-import type { AvatarContextValue, AvatarImageStatus, AvatarProps } from './Avatar.types';
+import type { AvatarContextValue, AvatarImageStatus, AvatarProps, AvatarStatus as AvatarStatusType } from './Avatar.types';
 import type React from 'react';
 
 type AvatarElement = HTMLSpanElement | HTMLDivElement | HTMLButtonElement | HTMLAnchorElement;
+
+// =============================================================================
+// Extracted helpers (reduce cognitive complexity of AvatarRoot)
+// =============================================================================
+
+/** Find a compound sub-component by displayName among children */
+function findCompoundChild(
+  childArray: React.ReactNode[],
+  displayName: string
+): React.ReactNode | undefined {
+  return childArray.find(
+    (child) =>
+      isValidElement(child) &&
+      (child.type as { displayName?: string }).displayName === displayName
+  );
+}
+
+/** Scan children for all compound sub-component slots */
+function scanCompoundChildren(children: React.ReactNode | undefined): {
+  compoundImage: React.ReactNode | undefined;
+  compoundFallback: React.ReactNode | undefined;
+  compoundBadge: React.ReactNode | undefined;
+  compoundStatus: React.ReactNode | undefined;
+} {
+  const childArray = children ? Children.toArray(children) : [];
+  return {
+    compoundImage: findCompoundChild(childArray, 'Avatar.Image'),
+    compoundFallback: findCompoundChild(childArray, 'Avatar.Fallback'),
+    compoundBadge: findCompoundChild(childArray, 'Avatar.Badge'),
+    compoundStatus: findCompoundChild(childArray, 'Avatar.Status'),
+  };
+}
+
+/** Build computed aria-label from props */
+function buildAvatarAriaLabel({
+  decorative,
+  ariaLabel,
+  name,
+  alt,
+  status,
+  badgeCount,
+  badgeDot,
+}: {
+  decorative: boolean;
+  ariaLabel: string | undefined;
+  name: string | undefined;
+  alt: string | undefined;
+  status: AvatarStatusType | undefined;
+  badgeCount: number | undefined;
+  badgeDot: boolean;
+}): string | undefined {
+  if (decorative) {
+    return undefined;
+  }
+  if (ariaLabel) {
+    return ariaLabel;
+  }
+  const parts: string[] = [];
+  if (name) {
+    parts.push(name);
+  } else if (alt) {
+    parts.push(alt);
+  }
+  if (status) {
+    parts.push(getStatusLabel(status));
+  }
+  if (badgeCount !== undefined) {
+    parts.push(`${badgeCount} notifications`);
+  } else if (badgeDot) {
+    parts.push('notification');
+  }
+  return parts.length > 0 ? parts.join(', ') : undefined;
+}
+
+/** Build accessibility attribute map */
+function buildAccessibilityProps({
+  decorative,
+  ariaHidden,
+  computedAriaLabel,
+  ariaDescribedBy,
+  isButton,
+  selected,
+  isLoading,
+}: {
+  decorative: boolean;
+  ariaHidden: boolean | 'true' | 'false' | undefined;
+  computedAriaLabel: string | undefined;
+  ariaDescribedBy: string | undefined;
+  isButton: boolean;
+  selected: boolean;
+  isLoading: boolean;
+}): Record<string, unknown> {
+  const props: Record<string, unknown> = {};
+
+  if (decorative || ariaHidden === true || ariaHidden === 'true') {
+    props['aria-hidden'] = true;
+    return props;
+  }
+
+  if (computedAriaLabel) {
+    props['aria-label'] = computedAriaLabel;
+  }
+  if (ariaDescribedBy) {
+    props['aria-describedby'] = ariaDescribedBy;
+  }
+  if (isButton && selected) {
+    props['aria-pressed'] = selected;
+  }
+  if (isLoading) {
+    props['aria-busy'] = true;
+  }
+  return props;
+}
 
 // =============================================================================
 // Avatar Component
@@ -136,27 +249,8 @@ const AvatarRoot = memo(
     ref
   ) {
     // Scan children for compound sub-components (per-slot override)
-    const childArray = children ? Children.toArray(children) : [];
-    const compoundImage = childArray.find(
-      (child) =>
-        isValidElement(child) &&
-        (child.type as { displayName?: string }).displayName === 'Avatar.Image'
-    );
-    const compoundFallback = childArray.find(
-      (child) =>
-        isValidElement(child) &&
-        (child.type as { displayName?: string }).displayName === 'Avatar.Fallback'
-    );
-    const compoundBadge = childArray.find(
-      (child) =>
-        isValidElement(child) &&
-        (child.type as { displayName?: string }).displayName === 'Avatar.Badge'
-    );
-    const compoundStatus = childArray.find(
-      (child) =>
-        isValidElement(child) &&
-        (child.type as { displayName?: string }).displayName === 'Avatar.Status'
-    );
+    const { compoundImage, compoundFallback, compoundBadge, compoundStatus } =
+      scanCompoundChildren(children);
 
     // Track image loading status
     const [imageStatus, setImageStatus] = useState<AvatarImageStatus>(() =>
@@ -292,29 +386,10 @@ const AvatarRoot = memo(
     );
 
     // Build aria-label for accessibility
-    const computedAriaLabel = useMemo(() => {
-      if (decorative) {
-        return undefined;
-      }
-      if (ariaLabel) {
-        return ariaLabel;
-      }
-      const parts: string[] = [];
-      if (name) {
-        parts.push(name);
-      } else if (alt) {
-        parts.push(alt);
-      }
-      if (status) {
-        parts.push(getStatusLabel(status));
-      }
-      if (badgeCount !== undefined) {
-        parts.push(`${badgeCount} notifications`);
-      } else if (badgeDot) {
-        parts.push('notification');
-      }
-      return parts.length > 0 ? parts.join(', ') : undefined;
-    }, [decorative, ariaLabel, name, alt, status, badgeCount, badgeDot]);
+    const computedAriaLabel = useMemo(
+      () => buildAvatarAriaLabel({ decorative, ariaLabel, name, alt, status, badgeCount, badgeDot }),
+      [decorative, ariaLabel, name, alt, status, badgeCount, badgeDot]
+    );
 
     // Determine element type
     const Component = as as React.ElementType;
@@ -322,28 +397,19 @@ const AvatarRoot = memo(
     const isLink = as === 'a' && href;
 
     // Build accessibility attributes
-    const accessibilityProps = useMemo(() => {
-      const props: Record<string, unknown> = {};
-
-      if (decorative || ariaHidden === true || ariaHidden === 'true') {
-        props['aria-hidden'] = true;
-      } else {
-        if (computedAriaLabel) {
-          props['aria-label'] = computedAriaLabel;
-        }
-        if (ariaDescribedBy) {
-          props['aria-describedby'] = ariaDescribedBy;
-        }
-        if (isButton && selected) {
-          props['aria-pressed'] = selected;
-        }
-        if (isLoading) {
-          props['aria-busy'] = true;
-        }
-      }
-
-      return props;
-    }, [decorative, ariaHidden, computedAriaLabel, ariaDescribedBy, isButton, selected, isLoading]);
+    const accessibilityProps = useMemo(
+      () =>
+        buildAccessibilityProps({
+          decorative,
+          ariaHidden,
+          computedAriaLabel,
+          ariaDescribedBy,
+          isButton,
+          selected,
+          isLoading,
+        }),
+      [decorative, ariaHidden, computedAriaLabel, ariaDescribedBy, isButton, selected, isLoading]
+    );
 
     // Determine fallback content to render
     const renderFallbackContent = (): React.ReactNode => {

@@ -142,23 +142,25 @@ function addLabelIfMatch(labels, title, pattern, label) {
 }
 
 /**
- * Assign all labels to a task based on its properties
+ * Assign role-based label (designer vs developer)
  */
-function assignLabels(task, directory) {
-  const title = task.title;
-  const titleLower = title.toLowerCase();
-
-  // 1. ROLE-BASED LABELS
+function assignRoleLabel(task) {
+  const titleLower = task.title.toLowerCase();
   if (
     titleLower.includes('designer') ||
-    (task.assignees === '' && /color|typography|figma|audit/i.test(title))
+    (task.assignees === '' && /color|typography|figma|audit/i.test(task.title))
   ) {
     task.labels.push('👨‍🎨 designer');
   } else if (task.assignees && task.assignees !== '') {
     task.labels.push('👨‍💻 developer');
   }
+}
 
-  // 2. WORK TYPE LABELS
+/**
+ * Assign work-type labels based on title keywords
+ */
+function assignWorkTypeLabels(task) {
+  const title = task.title;
   const workTypeRules = [
     [/figma|design|color|palette|typography|audit|variable/i, '🎨 design'],
     [/setup|configure|pipeline|storybook|dictionary|ci\/cd|build/i, '🔧 infrastructure'],
@@ -169,47 +171,89 @@ function assignLabels(task, directory) {
     addLabelIfMatch(task.labels, title, pattern, label);
   }
 
-  // Code (with exclusion check)
   if (
     /setup|configure|create|build|implement|component/i.test(title) &&
     !/designer|figma variable/i.test(title)
   ) {
     task.labels.push('💻 code');
   }
+}
 
-  // 3. DOMAIN LABELS
+/**
+ * Assign domain and component-complexity labels
+ */
+function assignDomainLabels(task) {
+  const title = task.title;
   addLabelIfMatch(task.labels, title, /token|color|palette|typography|spacing|shadow|border|semantic/i, '🎨 design-tokens');
   addLabelIfMatch(task.labels, title, /figma|code connect/i, '🎨 figma');
   addLabelIfMatch(task.labels, title, /storybook/i, '📖 storybook');
 
-  // Components
   const taskNum = Number.parseInt(task.taskId.replace('TASK-', ''), 10);
-  if ((taskNum >= 21 && taskNum <= 45) || /button|badge|alert|modal|input|select/i.test(title)) {
+  const isComponentByTitle = /button|badge|alert|modal|input|select/i.test(title);
+  if ((taskNum >= 21 && taskNum <= 45) || isComponentByTitle) {
     task.labels.push('🧩 component');
-    if (taskNum >= 21 && taskNum <= 27) { task.labels.push('simple'); }
-    else if (taskNum >= 28 && taskNum <= 36) { task.labels.push('medium'); }
-    else if (taskNum >= 37 && taskNum <= 45) { task.labels.push('complex'); }
+    assignComponentComplexity(task.labels, taskNum);
   }
+}
 
-  // 4. PRIORITY LABELS
+/**
+ * Assign component complexity label based on task number range
+ */
+function assignComponentComplexity(labels, taskNum) {
+  const ranges = [
+    [21, 27, 'simple'],
+    [28, 36, 'medium'],
+    [37, 45, 'complex'],
+  ];
+  for (const [min, max, label] of ranges) {
+    if (taskNum >= min && taskNum <= max) {
+      labels.push(label);
+      return;
+    }
+  }
+}
+
+/**
+ * Assign priority label from task.priority
+ */
+function assignPriorityLabel(task) {
   const priorityMap = { Critical: '🔴 critical', High: '🟠 high-priority', Medium: '🟡 medium-priority' };
   if (priorityMap[task.priority]) {
     task.labels.push(priorityMap[task.priority]);
   }
+}
 
-  // 5. PHASE LABELS
-  assignPhaseLabel(task);
-
-  // 6. STATUS LABELS
+/**
+ * Assign status and dependency labels
+ */
+function assignStatusLabels(task, directory) {
   task.labels.push(directory === 'completed' ? '✅ completed' : '📋 todo');
   if (task.requires.length > 0) {
     task.labels.push('🚧 has-dependencies');
   }
+}
 
-  // 7. SPECIAL CATEGORIES
+/**
+ * Assign special category labels (a11y, performance, security)
+ */
+function assignSpecialLabels(task) {
+  const title = task.title;
   addLabelIfMatch(task.labels, title, /accessibility|a11y|wcag|aria/i, '♿ accessibility');
   addLabelIfMatch(task.labels, title, /performance|optimization|bundle/i, '⚡ performance');
   addLabelIfMatch(task.labels, title, /security|audit/i, '🔒 security');
+}
+
+/**
+ * Assign all labels to a task based on its properties
+ */
+function assignLabels(task, directory) {
+  assignRoleLabel(task);
+  assignWorkTypeLabels(task);
+  assignDomainLabels(task);
+  assignPriorityLabel(task);
+  assignPhaseLabel(task);
+  assignStatusLabels(task, directory);
+  assignSpecialLabels(task);
 }
 
 /**

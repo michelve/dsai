@@ -32,6 +32,13 @@ import type {
 import type React from 'react';
 
 // =============================================================================
+// Shared class name constants (S1192)
+// =============================================================================
+
+const CSS_TEXT_TRUNCATE = 'text-truncate';
+const CSS_HIGH_CONTRAST = 'dsai-high-contrast';
+
+// =============================================================================
 // Utility Functions
 // =============================================================================
 
@@ -152,9 +159,9 @@ export const Heading = memo(
           // No margin
           noMargin && 'mb-0',
           // Truncate
-          truncate && 'text-truncate',
+          truncate && CSS_TEXT_TRUNCATE,
           // High contrast
-          highContrast && 'dsai-high-contrast',
+          highContrast && CSS_HIGH_CONTRAST,
           // Custom classes
           className
         ),
@@ -268,9 +275,9 @@ export const Display = memo(
           // No margin
           noMargin && 'mb-0',
           // Truncate
-          truncate && 'text-truncate',
+          truncate && CSS_TEXT_TRUNCATE,
           // High contrast
-          highContrast && 'dsai-high-contrast',
+          highContrast && CSS_HIGH_CONTRAST,
           // Custom classes
           className
         ),
@@ -303,6 +310,24 @@ Display.displayName = 'Display';
 // =============================================================================
 // Text Component
 // =============================================================================
+
+/**
+ * Renders the figcaption for a blockquote citation
+ */
+function renderCiteFooter(
+  citeAuthor: string | undefined,
+  cite: string | undefined
+): React.ReactNode {
+  if (!citeAuthor) {
+    return null;
+  }
+  return (
+    <figcaption className="blockquote-footer">
+      {citeAuthor}
+      {cite && <cite title={cite} />}
+    </figcaption>
+  );
+}
 
 /**
  * Maps text variant to default HTML element
@@ -429,9 +454,9 @@ export const Text = memo(
           // No margin
           noMargin && 'mb-0',
           // Single-line truncate
-          truncate && !lines && 'text-truncate',
+          truncate && !lines && CSS_TEXT_TRUNCATE,
           // High contrast
-          highContrast && 'dsai-high-contrast',
+          highContrast && CSS_HIGH_CONTRAST,
           // Custom classes
           className
         ),
@@ -462,12 +487,7 @@ export const Text = memo(
           >
             {children}
           </blockquote>
-          {citeAuthor && (
-            <figcaption className="blockquote-footer">
-              {citeAuthor}
-              {cite && <cite title={cite} />}
-            </figcaption>
-          )}
+          {renderCiteFooter(citeAuthor, cite)}
         </figure>
       );
     }
