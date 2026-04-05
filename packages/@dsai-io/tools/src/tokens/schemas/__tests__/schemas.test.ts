@@ -12,6 +12,15 @@ import {
   validateStyleDictionaryTokens,
 } from '../index.js';
 
+/** Hex color string length (6 digits for RGB) */
+const HEX_COLOR_LENGTH = 6;
+/** Arbitrary non-object input for type rejection tests */
+const NON_OBJECT_NUMBER = 42;
+/** Array length for array rejection tests */
+const ARRAY_REJECTION_VALUES = [1, 2, 3];
+/** Arbitrary numeric input for Style Dictionary rejection tests */
+const SD_NON_OBJECT_INPUT = 123;
+
 describe('DTCG Token Schema Validation', () => {
   describe('validateDTCGTokens', () => {
     it('validates valid color tokens', () => {
@@ -423,7 +432,7 @@ describe('Performance', () => {
     const tokens: Record<string, unknown> = {};
     for (let i = 0; i < 1000; i++) {
       tokens[`token${i}`] = {
-        $value: `#${i.toString(16).padStart(6, '0')}`,
+        $value: `#${i.toString(16).padStart(HEX_COLOR_LENGTH, '0')}`,
         $type: 'color',
       };
     }
@@ -466,7 +475,7 @@ describe('validateDTCGFile - error handling', () => {
 
 describe('validateFigmaExport - error handling', () => {
   it('should reject non-object input', () => {
-    const result = validateFigmaExport(42);
+    const result = validateFigmaExport(NON_OBJECT_NUMBER);
     expect(result.valid).toBe(false);
     expect(result.errors).toBeDefined();
   });
@@ -477,7 +486,7 @@ describe('validateFigmaExport - error handling', () => {
   });
 
   it('should reject array input', () => {
-    const result = validateFigmaExport([1, 2, 3]);
+    const result = validateFigmaExport(ARRAY_REJECTION_VALUES);
     expect(result.valid).toBe(false);
   });
 });
@@ -544,7 +553,7 @@ describe('validateStyleDictionaryTokens - edge cases', () => {
   });
 
   it('should reject non-object input', () => {
-    const result = validateStyleDictionaryTokens(123);
+    const result = validateStyleDictionaryTokens(SD_NON_OBJECT_INPUT);
     expect(result.valid).toBe(false);
     expect(result.errors).toBeDefined();
   });

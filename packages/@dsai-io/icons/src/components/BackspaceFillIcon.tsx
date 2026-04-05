@@ -21,64 +21,24 @@
  * <BackspaceFillIcon aria-label="Backspace fill" />
  * ```
  */
-import { forwardRef, useId, useMemo } from 'react';
+import { forwardRef } from 'react';
 
 import type { IconProps } from '../types';
-
-const ALLOWED_PROPS = [
-  'id',
-  'data-testid',
-  'data-icon',
-  'focusable',
-  'preserveAspectRatio',
-  'transform',
-  'opacity',
-] as const;
+import { useIconProps } from '../useIconProps';
 
 export const BackspaceFillIcon = forwardRef<SVGSVGElement, IconProps>(
-  (
-    {
-      size = 16,
-      color = 'currentColor',
+  (props, ref) => {
+    const {
+      color,
       className,
-      title,
-      style: propStyle,
-      'aria-label': ariaLabel,
-      'aria-hidden': ariaHidden,
-      ...rest
-    },
-    ref
-  ) => {
-    const isDecorative = !ariaLabel && !title;
-
-    // Improved A11y: Prevent contradictory aria-hidden when labelled
-    // - Decorative → always hidden
-    // - With aria-label → never hidden (ignore user's aria-hidden)
-    // - With title only → respect user's aria-hidden
-    let computedAriaHidden: boolean | undefined = ariaHidden;
-    if (isDecorative) {
-      computedAriaHidden = true;
-    } else if (ariaLabel) {
-      computedAriaHidden = undefined;
-    }
-
-    const titleId = useId();
-
-    const style = useMemo(
-      () => ({
-        width: typeof size === 'number' ? `${size}px` : size,
-        height: typeof size === 'number' ? `${size}px` : size,
-        ...propStyle,
-      }),
-      [size, propStyle]
-    );
-
-    const allowedProps: Record<string, unknown> = {};
-    for (const key of ALLOWED_PROPS) {
-      if (key in rest) {
-        allowedProps[key] = rest[key as keyof typeof rest];
-      }
-    }
+      style,
+      ariaLabel,
+      computedAriaHidden,
+      titleId,
+      computedLabelledBy,
+      titleContent,
+      allowedProps,
+    } = useIconProps(props);
 
     return (
       <svg
@@ -90,11 +50,11 @@ export const BackspaceFillIcon = forwardRef<SVGSVGElement, IconProps>(
         style={style}
         aria-hidden={computedAriaHidden}
         aria-label={ariaLabel}
-        aria-labelledby={!ariaLabel && title ? titleId : undefined}
+        aria-labelledby={computedLabelledBy}
         focusable="false"
         {...allowedProps}
       >
-        {(title || ariaLabel) && <title id={titleId}>{title || ariaLabel}</title>}
+        {titleContent && <title id={titleId}>{titleContent}</title>}
         <path d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8z" />
       </svg>
     );

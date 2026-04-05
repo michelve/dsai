@@ -21,64 +21,24 @@
  * <NutIcon aria-label="Nut" />
  * ```
  */
-import { forwardRef, useId, useMemo } from 'react';
+import { forwardRef } from 'react';
 
 import type { IconProps } from '../types';
-
-const ALLOWED_PROPS = [
-  'id',
-  'data-testid',
-  'data-icon',
-  'focusable',
-  'preserveAspectRatio',
-  'transform',
-  'opacity',
-] as const;
+import { useIconProps } from '../useIconProps';
 
 export const NutIcon = forwardRef<SVGSVGElement, IconProps>(
-  (
-    {
-      size = 16,
-      color = 'currentColor',
+  (props, ref) => {
+    const {
+      color,
       className,
-      title,
-      style: propStyle,
-      'aria-label': ariaLabel,
-      'aria-hidden': ariaHidden,
-      ...rest
-    },
-    ref
-  ) => {
-    const isDecorative = !ariaLabel && !title;
-
-    // Improved A11y: Prevent contradictory aria-hidden when labelled
-    // - Decorative → always hidden
-    // - With aria-label → never hidden (ignore user's aria-hidden)
-    // - With title only → respect user's aria-hidden
-    let computedAriaHidden: boolean | undefined = ariaHidden;
-    if (isDecorative) {
-      computedAriaHidden = true;
-    } else if (ariaLabel) {
-      computedAriaHidden = undefined;
-    }
-
-    const titleId = useId();
-
-    const style = useMemo(
-      () => ({
-        width: typeof size === 'number' ? `${size}px` : size,
-        height: typeof size === 'number' ? `${size}px` : size,
-        ...propStyle,
-      }),
-      [size, propStyle]
-    );
-
-    const allowedProps: Record<string, unknown> = {};
-    for (const key of ALLOWED_PROPS) {
-      if (key in rest) {
-        allowedProps[key] = rest[key as keyof typeof rest];
-      }
-    }
+      style,
+      ariaLabel,
+      computedAriaHidden,
+      titleId,
+      computedLabelledBy,
+      titleContent,
+      allowedProps,
+    } = useIconProps(props);
 
     return (
       <svg
@@ -90,11 +50,11 @@ export const NutIcon = forwardRef<SVGSVGElement, IconProps>(
         style={style}
         aria-hidden={computedAriaHidden}
         aria-label={ariaLabel}
-        aria-labelledby={!ariaLabel && title ? titleId : undefined}
+        aria-labelledby={computedLabelledBy}
         focusable="false"
         {...allowedProps}
       >
-        {(title || ariaLabel) && <title id={titleId}>{title || ariaLabel}</title>}
+        {titleContent && <title id={titleId}>{titleContent}</title>}
         <path d="m11.42 2 3.428 6-3.428 6H4.58L1.152 8 4.58 2zM4.58 1a1 1 0 0 0-.868.504l-3.428 6a1 1 0 0 0 0 .992l3.428 6A1 1 0 0 0 4.58 15h6.84a1 1 0 0 0 .868-.504l3.429-6a1 1 0 0 0 0-.992l-3.429-6A1 1 0 0 0 11.42 1z" />
         <path d="M6.848 5.933a2.5 2.5 0 1 0 2.5 4.33 2.5 2.5 0 0 0-2.5-4.33m-1.78 3.915a3.5 3.5 0 1 1 6.061-3.5 3.5 3.5 0 0 1-6.062 3.5z" />
       </svg>

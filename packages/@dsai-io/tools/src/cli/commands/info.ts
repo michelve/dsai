@@ -126,7 +126,8 @@ function printInfo(): void {
   log('');
   for (const cmd of registry.cli.commands) {
     const opts = cmd.options.length > 0 ? colors.muted(` [${cmd.options.join(', ')}]`) : '';
-    log(`  ${colors.command(`dsai ${cmd.name}`)}${opts}`);
+    const cmdStr = colors.command(`dsai ${cmd.name}`);
+    log(`  ${cmdStr}${opts}`);
     log(`    ${colors.muted(cmd.description)}`);
   }
 

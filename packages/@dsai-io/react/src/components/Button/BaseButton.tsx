@@ -41,12 +41,15 @@ const GHOST_HOVER_STYLE: React.CSSProperties = {
   backgroundColor: 'var(--bs-tertiary-bg, rgba(0,0,0,0.05))',
 };
 
+/** Prefix for subtle variant names (e.g., "subtle-primary") */
+const SUBTLE_VARIANT_PREFIX = 'subtle-';
+
 /**
  * Determine if a variant is a subtle variant and extract its color.
  */
 function parseSubtleVariant(variant: string): string | null {
-  if (variant.startsWith('subtle-')) {
-    return variant.slice(7);
+  if (variant.startsWith(SUBTLE_VARIANT_PREFIX)) {
+    return variant.slice(SUBTLE_VARIANT_PREFIX.length);
   }
   return null;
 }
@@ -244,7 +247,11 @@ export const BaseButton = forwardRef<
           data-testid={dataTestId}
           data-test={dataTest}
           data-visual-state={fsmState.visualState}
-          data-variant={isGhost ? 'ghost' : isSubtle ? `subtle-${subtleColor}` : undefined}
+          data-variant={(() => {
+            if (isGhost) { return 'ghost'; }
+            if (isSubtle) { return `subtle-${subtleColor}`; }
+            return undefined;
+          })()}
           title={title}
           form={form}
           formAction={formAction}

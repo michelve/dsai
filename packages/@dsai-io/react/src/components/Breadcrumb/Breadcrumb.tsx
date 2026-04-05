@@ -59,7 +59,8 @@ const BreadcrumbItemComponent = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
     // - unsafe protocol → fallback to '#' (blocks XSS, still renders <a>)
     // - safe href → pass through
     const hasHref = href != null;
-    const safeHref = hasHref ? (isSafeHref(href) ? href : '#') : undefined;
+    const validatedHref = hasHref && isSafeHref(href) ? href : '#';
+    const safeHref = hasHref ? validatedHref : undefined;
     const isExternal = safeHref && safeHref !== '#' ? isExternalUrl(safeHref) : false;
     const relAttribute = isExternal ? 'noopener noreferrer' : undefined;
 
@@ -310,9 +311,8 @@ export const Breadcrumb = memo(
 
         const isLast = index === displayItems.length - 1;
         const isActive = item.active ?? isLast;
-        const safeItemHref = item.href != null
-          ? (isSafeHref(item.href) ? item.href : '#')
-          : undefined;
+        const validatedItemHref = item.href != null && isSafeHref(item.href) ? item.href : '#';
+        const safeItemHref = item.href != null ? validatedItemHref : undefined;
 
         elements.push(
           <BreadcrumbItem

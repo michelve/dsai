@@ -171,12 +171,12 @@ describe('createStyleDictionaryConfig', () => {
     it('should register transforms on a mock SD instance', async () => {
       const { registerAll } = await import('../../../src/tokens/style-dictionary/config.js');
 
-      const mockSD: any = {
+      const mockSD = {
         registerTransform: jest.fn(),
         registerTransformGroup: jest.fn(),
         registerFormat: jest.fn(),
         registerPreprocessor: jest.fn(),
-      };
+      } as unknown as Parameters<typeof registerAll>[0];
 
       registerAll(mockSD);
 
@@ -189,16 +189,16 @@ describe('createStyleDictionaryConfig', () => {
     it('should register custom transforms, formats, and preprocessors', async () => {
       const { registerAll } = await import('../../../src/tokens/style-dictionary/config.js');
 
-      const mockSD: any = {
+      const mockSD = {
         registerTransform: jest.fn(),
         registerTransformGroup: jest.fn(),
         registerFormat: jest.fn(),
         registerPreprocessor: jest.fn(),
-      };
+      } as unknown as Parameters<typeof registerAll>[0];
 
       const customTransform = { name: 'custom/transform', type: 'value', transform: () => '' };
       const customFormat = { name: 'custom/format', format: () => '' };
-      const customPreprocessor = { name: 'custom/preprocess', preprocessor: (dict: any) => dict };
+      const customPreprocessor = { name: 'custom/preprocess', preprocessor: (dict: unknown) => dict };
 
       registerAll(mockSD, {
         customTransforms: [customTransform],
@@ -218,12 +218,12 @@ describe('createStyleDictionaryConfig', () => {
         '../../../src/tokens/style-dictionary/config.js'
       );
 
-      const mockSD: any = {
+      const mockSD = {
         registerTransform: jest.fn(),
         registerTransformGroup: jest.fn(),
         registerFormat: jest.fn(),
         registerPreprocessor: jest.fn(),
-      };
+      } as unknown as Parameters<typeof setupStyleDictionary>[0];
 
       const dsaiConfig = getTestConfig();
       const config = setupStyleDictionary(mockSD, dsaiConfig);

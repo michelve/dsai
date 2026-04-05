@@ -8,6 +8,9 @@ import { useAvatarContext } from './AvatarContext';
 
 import type { AvatarBadgeProps } from './Avatar.types';
 
+/** Maximum displayable badge count before showing "99+" */
+const MAX_BADGE_COUNT = 99;
+
 export const AvatarBadge = memo(
   forwardRef<HTMLSpanElement, AvatarBadgeProps>(function AvatarBadge(
     { count, dot = false, className, style },
@@ -40,7 +43,7 @@ export const AvatarBadge = memo(
 
     // Count takes priority over dot
     if (count !== undefined) {
-      const displayCount = count > 99 ? '99+' : count;
+      const displayCount = count > MAX_BADGE_COUNT ? `${MAX_BADGE_COUNT}+` : count;
       return (
         <span
           ref={ref}

@@ -448,7 +448,7 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
       <label
         ref={ref as React.Ref<HTMLLabelElement>}
         htmlFor={inputId}
-        className={`card ${variant === 'outlined' ? 'border' : ''} ${size && size !== 'md' ? `card-${size}` : ''} ${cardClasses}`}
+        className={`card ${variant === 'outlined' ? 'border' : ''} ${size && size !== 'md' ? ('card-' + size) : ''} ${cardClasses}`}
         style={{
           ...cardStyle,
           display: 'block',

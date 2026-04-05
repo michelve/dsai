@@ -237,46 +237,41 @@ export function diffTokens(oldTokens: TokenCollection, newTokens: TokenCollectio
         description: newData.description,
         breaking: false,
       });
-    } else {
-      // Check for type change (breaking)
-      if (oldData.type && newData.type && oldData.type !== newData.type) {
-        typeChanged.push({
-          path,
-          type: 'type-changed',
-          valueChange: {
-            oldValue: oldData.value,
-            newValue: newData.value,
-            oldType: oldData.type,
-            newType: newData.type,
-          },
-          description: newData.description,
-          breaking: true,
-        });
-      }
+    } else if (oldData.type && newData.type && oldData.type !== newData.type) {
+      typeChanged.push({
+        path,
+        type: 'type-changed',
+        valueChange: {
+          oldValue: oldData.value,
+          newValue: newData.value,
+          oldType: oldData.type,
+          newType: newData.type,
+        },
+        description: newData.description,
+        breaking: true,
+      });
+    } else if (!isEqual(oldData.value, newData.value)) {
       // Check for value change
-      else if (!isEqual(oldData.value, newData.value)) {
-        modified.push({
-          path,
-          type: 'modified',
-          valueChange: {
-            oldValue: oldData.value,
-            newValue: newData.value,
-            oldType: oldData.type,
-            newType: newData.type,
-          },
-          description: newData.description,
-          breaking: false,
-        });
-      }
+      modified.push({
+        path,
+        type: 'modified',
+        valueChange: {
+          oldValue: oldData.value,
+          newValue: newData.value,
+          oldType: oldData.type,
+          newType: newData.type,
+        },
+        description: newData.description,
+        breaking: false,
+      });
+    } else if (isDeprecated(newData.token) && !isDeprecated(oldData.token)) {
       // Check for deprecation
-      else if (isDeprecated(newData.token) && !isDeprecated(oldData.token)) {
-        deprecated.push({
-          path,
-          type: 'deprecated',
-          description: newData.description,
-          breaking: false,
-        });
-      }
+      deprecated.push({
+        path,
+        type: 'deprecated',
+        description: newData.description,
+        breaking: false,
+      });
     }
   }
 

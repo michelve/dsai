@@ -16,10 +16,13 @@ import type { EasingFunction } from './types';
  * const end = easeOut(1); // Returns 1
  * ```
  */
+/** Cubic polynomial degree used in easing calculation */
+const CUBIC_EXPONENT = 3;
+
 export const easeOut: EasingFunction = (t: number): number => {
   // Clamp t to [0, 1]
   const clamped = Math.max(0, Math.min(1, t));
 
   // Cubic ease-out
-  return 1 - (1 - clamped) ** 3;
+  return 1 - (1 - clamped) ** CUBIC_EXPONENT;
 };

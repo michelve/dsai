@@ -28,6 +28,18 @@ import {
 import { createFigmaClient, FigmaClient, FigmaClientError, FigmaConfigError } from '../client.js';
 
 // ============================================================================
+// HTTP Status Code Constants
+// ============================================================================
+
+const HTTP_FORBIDDEN = 403;
+const HTTP_NOT_FOUND = 404;
+const HTTP_TOO_MANY_REQUESTS = 429;
+const HTTP_SERVER_ERROR = 500;
+
+/** Font weight for bold/heading text */
+const FONT_WEIGHT_BOLD = 700;
+
+// ============================================================================
 // Helpers
 // ============================================================================
 
@@ -121,7 +133,9 @@ function setupCustomMock(handlers: Record<string, unknown>) {
  */
 async function testRateLimiterWarning(client: FigmaClient, remaining: string, expectedPattern: RegExp) {
   const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
-  const rateLimiter = (client as any).rateLimiter;
+  const rateLimiter = (client as unknown as Record<string, unknown>).rateLimiter as {
+    updateFromHeaders: (headers: Headers) => void;
+  };
   rateLimiter.updateFromHeaders(
     new Headers({
       'x-ratelimit-remaining': remaining,
@@ -174,9 +188,9 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
   describe('FigmaClientError', () => {
     it('constructs with message, status, code, requestId, hint', () => {
-      const err = new FigmaClientError('fail', 403, 'CODE', 'req-1', 'hint text');
+      const err = new FigmaClientError('fail', HTTP_FORBIDDEN, 'CODE', 'req-1', 'hint text');
       expect(err.message).toBe('fail');
-      expect(err.status).toBe(403);
+      expect(err.status).toBe(HTTP_FORBIDDEN);
       expect(err.code).toBe('CODE');
       expect(err.requestId).toBe('req-1');
       expect(err.hint).toBe('hint text');
@@ -184,8 +198,8 @@ describe('FigmaClient Export, Sync & Internals', () => {
     });
 
     it('constructs with only message and status', () => {
-      const err = new FigmaClientError('fail', 500);
-      expect(err.status).toBe(500);
+      const err = new FigmaClientError('fail', HTTP_SERVER_ERROR);
+      expect(err.status).toBe(HTTP_SERVER_ERROR);
       expect(err.code).toBeUndefined();
       expect(err.requestId).toBeUndefined();
       expect(err.hint).toBeUndefined();
@@ -194,16 +208,16 @@ describe('FigmaClient Export, Sync & Internals', () => {
     describe('fromApiError', () => {
       it('adds enterprise hint for 403 on /variables endpoint', () => {
         const err = FigmaClientError.fromApiError(
-          { status: 403, err: 'Forbidden' },
+          { status: HTTP_FORBIDDEN, err: 'Forbidden' },
           '/files/x/variables'
         );
-        expect(err.status).toBe(403);
+        expect(err.status).toBe(HTTP_FORBIDDEN);
         expect(err.hint).toContain('Enterprise plan');
       });
 
       it('adds access-denied hint for 403 on non-variables endpoint', () => {
         const err = FigmaClientError.fromApiError(
-          { status: 403, err: 'Forbidden' },
+          { status: HTTP_FORBIDDEN, err: 'Forbidden' },
           '/files/x/components'
         );
         expect(err.hint).toContain('Access denied');
@@ -211,7 +225,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
       it('adds file-not-found hint for 404', () => {
         const err = FigmaClientError.fromApiError(
-          { status: 404, err: 'Not found' },
+          { status: HTTP_NOT_FOUND, err: 'Not found' },
           '/files/x'
         );
         expect(err.hint).toContain('File not found');
@@ -219,7 +233,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
       it('adds rate-limited hint for 429', () => {
         const err = FigmaClientError.fromApiError(
-          { status: 429, err: 'Rate limited' },
+          { status: HTTP_TOO_MANY_REQUESTS, err: 'Rate limited' },
           '/files/x'
         );
         expect(err.hint).toContain('Rate limited');
@@ -227,7 +241,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
       it('has no hint for generic 500 errors', () => {
         const err = FigmaClientError.fromApiError(
-          { status: 500, err: 'Server error' },
+          { status: HTTP_SERVER_ERROR, err: 'Server error' },
           '/files/x'
         );
         expect(err.hint).toBeUndefined();
@@ -236,17 +250,17 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
     describe('toDetailedMessage', () => {
       it('includes request ID when present', () => {
-        const err = new FigmaClientError('fail', 500, undefined, 'req-42');
+        const err = new FigmaClientError('fail', HTTP_SERVER_ERROR, undefined, 'req-42');
         expect(err.toDetailedMessage()).toContain('Request ID: req-42');
       });
 
       it('includes hint when present', () => {
-        const err = new FigmaClientError('fail', 403, undefined, undefined, 'Try this');
+        const err = new FigmaClientError('fail', HTTP_FORBIDDEN, undefined, undefined, 'Try this');
         expect(err.toDetailedMessage()).toContain('Try this');
       });
 
       it('returns plain message when no requestId/hint', () => {
-        const err = new FigmaClientError('fail', 500);
+        const err = new FigmaClientError('fail', HTTP_SERVER_ERROR);
         expect(err.toDetailedMessage()).toBe('fail');
       });
     });
@@ -367,7 +381,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
         expect(heading['$type']).toBe('typography');
         const val = heading['$value'] as Record<string, unknown>;
         expect(val['fontFamily']).toBe('Inter');
-        expect(val['fontWeight']).toBe(700);
+        expect(val['fontWeight']).toBe(FONT_WEIGHT_BOLD);
       }
     });
 
@@ -824,7 +838,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
     it('returns failure result on API error', async () => {
       setupCustomMock({
-          '/variables/local': createErrorResponse(403, error403Forbidden),
+          '/variables/local': createErrorResponse(HTTP_FORBIDDEN, error403Forbidden),
         });
 
       const result = await client.exportTokens({
@@ -841,7 +855,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
         fileKey: 'file-key',
         outputDir: join(testTmpDir, 'tokens'),
         outputStructure: 'combined',
-      } as any);
+      } as unknown as Parameters<typeof client.exportTokens>[0]);
 
       expect(result.success).toBe(true);
       // Combined structure: files have mode='all'
@@ -867,7 +881,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
         includeEffects: true,
         includePaints: true,
         includeTextStyles: true,
-      } as any);
+      } as unknown as Parameters<typeof client.exportTokens>[0]);
 
       expect(result.success).toBe(true);
       // Should have files for styles in addition to variables
@@ -888,7 +902,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
           callCount++;
           // First call for exportTokens getVariables succeeds, subsequent calls for styles fail
           if (callCount > 1) {
-            return Promise.resolve(createErrorResponse(500, error500ServerError));
+            return Promise.resolve(createErrorResponse(HTTP_SERVER_ERROR, error500ServerError));
           }
           return Promise.resolve(createSuccessResponse(mockFigmaFile));
         }
@@ -900,7 +914,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
         fileKey: 'file-key',
         outputDir: join(testTmpDir, 'tokens'),
         includeEffects: true,
-      } as any);
+      } as unknown as Parameters<typeof client.exportTokens>[0]);
 
       // The export should still succeed (styles are optional)
       expect(result.success).toBe(true);
@@ -1028,7 +1042,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
     it('returns failure result on API error during sync', async () => {
       setupCustomMock({
-          '/variables/local': createErrorResponse(403, error403Forbidden),
+          '/variables/local': createErrorResponse(HTTP_FORBIDDEN, error403Forbidden),
         });
 
       const result = await client.syncTokens({
@@ -1064,7 +1078,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
       const retryHandler = (url: string) => {
         callCount++;
         if (callCount <= 2) {
-          return Promise.resolve(createErrorResponse(500, error500ServerError));
+          return Promise.resolve(createErrorResponse(HTTP_SERVER_ERROR, error500ServerError));
         }
         return createDefaultMockFetch()(url);
       };
@@ -1086,7 +1100,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
       let callCount = 0;
       const handler = () => {
         callCount++;
-        return Promise.resolve(createErrorResponse(403, error403Forbidden));
+        return Promise.resolve(createErrorResponse(HTTP_FORBIDDEN, error403Forbidden));
       };
       setupFetchMock(handler as unknown as typeof fetch);
 
@@ -1102,7 +1116,7 @@ describe('FigmaClient Export, Sync & Internals', () => {
 
     it('throws after exhausting retries on 5xx', async () => {
       const handler = () => {
-        return Promise.resolve(createErrorResponse(500, error500ServerError));
+        return Promise.resolve(createErrorResponse(HTTP_SERVER_ERROR, error500ServerError));
       };
       setupFetchMock(handler as unknown as typeof fetch);
 

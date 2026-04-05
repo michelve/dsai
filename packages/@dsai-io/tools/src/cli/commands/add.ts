@@ -34,6 +34,9 @@ import type { RegistryIndex, RegistryIndexEntry } from '../../registry/types.js'
 /** Valid type filter values */
 const VALID_TYPES = ['ui', 'hook', 'util', 'lib', 'type'] as const;
 
+/** Column width for item name padding in list output */
+const ITEM_NAME_COLUMN_WIDTH = 28;
+
 /**
  * Create the `add` command.
  */
@@ -114,14 +117,15 @@ export function createAddCommand(): Command {
             const typeItems = grouped[type];
             if (!typeItems || typeItems.length === 0) {continue;}
             console.log(`  ${colors.cyan(type)} (${typeItems.length}):`);
-            for (const item of typeItems.sort((a, b) => a.name.localeCompare(b.name))) {
+            for (const item of typeItems.toSorted((a, b) => a.name.localeCompare(b.name))) {
               console.log(
-                `    ${colors.bold(item.name.padEnd(28))} ${colors.muted(item.description)}`
+                `    ${colors.bold(item.name.padEnd(ITEM_NAME_COLUMN_WIDTH))} ${colors.muted(item.description)}`
               );
             }
             console.log();
           }
-          console.log(`  ${colors.muted(`${filtered.length} items available`)}\n`);
+          const itemCountMsg = `${filtered.length} items available`;
+          console.log(`  ${colors.muted(itemCountMsg)}\n`);
 
           // Show usage hints
           console.log(`${colors.muted('Usage:')}`);
@@ -216,9 +220,10 @@ export function createAddCommand(): Command {
         );
 
         if (result.skipped.length > 0) {
-          console.log(
-            `\n${colors.warning(`${result.skipped.length} files skipped (already exist). Use --overwrite to replace.`)}`
+          const skippedMsg = colors.warning(
+            `${result.skipped.length} files skipped (already exist). Use --overwrite to replace.`
           );
+          console.log(`\n${skippedMsg}`);
         }
 
         if (!allOpts.dryRun) {
@@ -236,17 +241,18 @@ export function createAddCommand(): Command {
 
             console.log(`${colors.muted('Import example:')}`);
             if (type === 'ui' || type === 'component') {
-              console.log(
-                `  ${colors.cyan(`import { ${titleCase} } from '${config.aliases.importAlias}${config.aliases.ui}/${name}';`)}`
-              );
+              const importPath = `${config.aliases.importAlias}${config.aliases.ui}/${name}`;
+              const importStr = `import { ${titleCase} } from '${importPath}';`;
+              console.log(`  ${colors.cyan(importStr)}`);
             } else if (type === 'hook') {
-              console.log(
-                `  ${colors.cyan(`import { ${titleCase.replace('Use', 'use')} } from '${config.aliases.importAlias}${config.aliases.hooks}/${titleCase.replace('Use', 'use')}';`)}`
-              );
+              const hookName = titleCase.replace('Use', 'use');
+              const importPath = `${config.aliases.importAlias}${config.aliases.hooks}/${hookName}`;
+              const importStr = `import { ${hookName} } from '${importPath}';`;
+              console.log(`  ${colors.cyan(importStr)}`);
             } else if (type === 'util') {
-              console.log(
-                `  ${colors.cyan(`import { ${name} } from '${config.aliases.importAlias}${config.aliases.utils}/${name}';`)}`
-              );
+              const importPath = `${config.aliases.importAlias}${config.aliases.utils}/${name}`;
+              const importStr = `import { ${name} } from '${importPath}';`;
+              console.log(`  ${colors.cyan(importStr)}`);
             }
             console.log();
           }

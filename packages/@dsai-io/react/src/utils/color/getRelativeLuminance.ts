@@ -34,20 +34,48 @@
  * getRelativeLuminance(0, 0, 255); // ~0.0722
  * ```
  */
+
+/** Maximum value for an 8-bit RGB channel (0-255) */
+const MAX_RGB_VALUE = 255;
+
+/** WCAG sRGB red coefficient for relative luminance */
+const SRGB_RED_COEFFICIENT = 0.2126;
+
+/** WCAG sRGB green coefficient for relative luminance */
+const SRGB_GREEN_COEFFICIENT = 0.7152;
+
+/** WCAG sRGB blue coefficient for relative luminance */
+const SRGB_BLUE_COEFFICIENT = 0.0722;
+
+/** sRGB linearization threshold (below this, use linear mapping) */
+const SRGB_LINEAR_THRESHOLD = 0.03928;
+
+/** sRGB linear divisor for values below the linearization threshold */
+const SRGB_LINEAR_DIVISOR = 12.92;
+
+/** sRGB gamma exponent for values above the linearization threshold */
+const SRGB_GAMMA_EXPONENT = 2.4;
+
+/** sRGB offset added before gamma correction */
+const SRGB_GAMMA_OFFSET = 0.055;
+
+/** sRGB divisor used in gamma correction formula */
+const SRGB_GAMMA_DIVISOR = 1.055;
+
 export function getRelativeLuminance(r: number, g: number, b: number): number {
   // Validate inputs
-  if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
+  if (r < 0 || r > MAX_RGB_VALUE || g < 0 || g > MAX_RGB_VALUE || b < 0 || b > MAX_RGB_VALUE) {
     console.warn('[getRelativeLuminance] RGB values must be in range 0-255');
     // Clamp values
-    r = Math.max(0, Math.min(255, r));
-    g = Math.max(0, Math.min(255, g));
-    b = Math.max(0, Math.min(255, b));
+    r = Math.max(0, Math.min(MAX_RGB_VALUE, r));
+    g = Math.max(0, Math.min(MAX_RGB_VALUE, g));
+    b = Math.max(0, Math.min(MAX_RGB_VALUE, b));
   }
 
   // Convert to 0-1 range
-  const rsRGB = r / 255;
-  const gsRGB = g / 255;
-  const bsRGB = b / 255;
+  const rsRGB = r / MAX_RGB_VALUE;
+  const gsRGB = g / MAX_RGB_VALUE;
+  const bsRGB = b / MAX_RGB_VALUE;
 
   // Linearize sRGB values (gamma correction)
   const rLinear = linearize(rsRGB);
@@ -55,7 +83,7 @@ export function getRelativeLuminance(r: number, g: number, b: number): number {
   const bLinear = linearize(bsRGB);
 
   // Calculate relative luminance using WCAG coefficients
-  return 0.2126 * rLinear + 0.7152 * gLinear + 0.0722 * bLinear;
+  return SRGB_RED_COEFFICIENT * rLinear + SRGB_GREEN_COEFFICIENT * gLinear + SRGB_BLUE_COEFFICIENT * bLinear;
 }
 
 /**
@@ -66,8 +94,8 @@ export function getRelativeLuminance(r: number, g: number, b: number): number {
  */
 function linearize(channel: number): number {
   // WCAG formula for linearization
-  if (channel <= 0.03928) {
-    return channel / 12.92;
+  if (channel <= SRGB_LINEAR_THRESHOLD) {
+    return channel / SRGB_LINEAR_DIVISOR;
   }
-  return ((channel + 0.055) / 1.055) ** 2.4;
+  return ((channel + SRGB_GAMMA_OFFSET) / SRGB_GAMMA_DIVISOR) ** SRGB_GAMMA_EXPONENT;
 }

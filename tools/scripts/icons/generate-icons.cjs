@@ -189,50 +189,24 @@ function generateComponent(componentName, svgData, iconMeta = null) {
     const innerContent = innerMatch ? innerMatch[1].trim() : '';
 
     return `${jsDoc}
-import { forwardRef, useMemo } from 'react';
-import type { IconProps } from '../types';
+import { forwardRef } from 'react';
 
-const ALLOWED_PROPS = ['id', 'data-testid', 'data-icon', 'focusable', 'preserveAspectRatio', 'transform', 'opacity'] as const;
+import type { IconProps } from '../types';
+import { useIconProps } from '../useIconProps';
 
 export const ${componentName} = forwardRef<SVGSVGElement, IconProps>(
-  (
-    {
-      size = 16,
-      color = 'currentColor',
+  (props, ref) => {
+    const {
+      color,
       className,
-      title,
-      style: propStyle,
-      'aria-label': ariaLabel,
-      'aria-hidden': ariaHidden,
-      ...rest
-    },
-    ref
-  ) => {
-    const isDecorative = !ariaLabel && !title;
-
-    // Improved A11y: Prevent contradictory aria-hidden when labelled
-    // - Decorative → always hidden
-    // - With aria-label → never hidden (ignore user's aria-hidden)
-    // - With title only → respect user's aria-hidden
-    const computedAriaHidden = isDecorative ? true : ariaLabel ? undefined : ariaHidden;
-
-    const style = useMemo(
-      () => ({
-        width: typeof size === 'number' ? \`\${size}px\` : size,
-        height: typeof size === 'number' ? \`\${size}px\` : size,
-        ...propStyle,
-      }),
-      [size, propStyle]
-    );
-
-    const allowedProps: Record<string, unknown> = {};
-    for (const key of ALLOWED_PROPS) {
-      if (key in rest) {
-        // Dynamic access is safe here because key comes from ALLOWED_PROPS.
-        // eslint-disable-next-line security/detect-object-injection
-        allowedProps[key] = rest[key as keyof typeof rest];
-      }
-    }
+      style,
+      ariaLabel,
+      computedAriaHidden,
+      titleId,
+      computedLabelledBy,
+      titleContent,
+      allowedProps,
+    } = useIconProps(props);
 
     return (
       <svg
@@ -244,11 +218,11 @@ export const ${componentName} = forwardRef<SVGSVGElement, IconProps>(
         style={style}
         aria-hidden={computedAriaHidden}
         aria-label={ariaLabel}
-        role={ariaLabel ? 'img' : undefined}
+        aria-labelledby={computedLabelledBy}
         focusable="false"
         {...allowedProps}
       >
-        {title && <title>{title}</title>}
+        {titleContent && <title id={titleId}>{titleContent}</title>}
         ${innerContent.replace(/fill="currentColor"/g, '').replace(/class="[^"]*"/g, '')}
       </svg>
     );
@@ -268,50 +242,24 @@ ${componentName}.displayName = '${componentName}';
     .join('\n');
 
   return `${jsDoc}
-import { forwardRef, useMemo } from 'react';
-import type { IconProps } from '../types';
+import { forwardRef } from 'react';
 
-const ALLOWED_PROPS = ['id', 'data-testid', 'data-icon', 'focusable', 'preserveAspectRatio', 'transform', 'opacity'] as const;
+import type { IconProps } from '../types';
+import { useIconProps } from '../useIconProps';
 
 export const ${componentName} = forwardRef<SVGSVGElement, IconProps>(
-  (
-    {
-      size = 16,
-      color = 'currentColor',
+  (props, ref) => {
+    const {
+      color,
       className,
-      title,
-      style: propStyle,
-      'aria-label': ariaLabel,
-      'aria-hidden': ariaHidden,
-      ...rest
-    },
-    ref
-  ) => {
-    const isDecorative = !ariaLabel && !title;
-
-    // Improved A11y: Prevent contradictory aria-hidden when labelled
-    // - Decorative → always hidden
-    // - With aria-label → never hidden (ignore user's aria-hidden)
-    // - With title only → respect user's aria-hidden
-    const computedAriaHidden = isDecorative ? true : ariaLabel ? undefined : ariaHidden;
-
-    const style = useMemo(
-      () => ({
-        width: typeof size === 'number' ? \`\${size}px\` : size,
-        height: typeof size === 'number' ? \`\${size}px\` : size,
-        ...propStyle,
-      }),
-      [size, propStyle]
-    );
-
-    const allowedProps: Record<string, unknown> = {};
-    for (const key of ALLOWED_PROPS) {
-      if (key in rest) {
-        // Dynamic access is safe here because key comes from ALLOWED_PROPS.
-        // eslint-disable-next-line security/detect-object-injection
-        allowedProps[key] = rest[key as keyof typeof rest];
-      }
-    }
+      style,
+      ariaLabel,
+      computedAriaHidden,
+      titleId,
+      computedLabelledBy,
+      titleContent,
+      allowedProps,
+    } = useIconProps(props);
 
     return (
       <svg
@@ -323,11 +271,11 @@ export const ${componentName} = forwardRef<SVGSVGElement, IconProps>(
         style={style}
         aria-hidden={computedAriaHidden}
         aria-label={ariaLabel}
-        role={ariaLabel ? 'img' : undefined}
+        aria-labelledby={computedLabelledBy}
         focusable="false"
         {...allowedProps}
       >
-        {title && <title>{title}</title>}
+        {titleContent && <title id={titleId}>{titleContent}</title>}
 ${pathElements}
       </svg>
     );

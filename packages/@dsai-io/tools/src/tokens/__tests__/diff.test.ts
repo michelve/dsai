@@ -6,6 +6,9 @@ import { diffTokens, getBreakingChanges, filterDiff, summarizeDiff } from '../di
 
 import type { TokenCollection } from '../types.js';
 
+/** Expected count for added/removed token diff results */
+const EXPECTED_DIFF_COUNT = 3;
+
 describe('diffTokens', () => {
   describe('added tokens', () => {
     it('should detect newly added tokens', () => {
@@ -49,8 +52,8 @@ describe('diffTokens', () => {
 
       const diff = diffTokens(oldTokens, newTokens);
 
-      expect(diff.added).toHaveLength(3);
-      expect(diff.totalChanges).toBe(3);
+      expect(diff.added).toHaveLength(EXPECTED_DIFF_COUNT);
+      expect(diff.totalChanges).toBe(EXPECTED_DIFF_COUNT);
     });
 
     it('should handle nested added tokens', () => {
@@ -120,8 +123,8 @@ describe('diffTokens', () => {
 
       const diff = diffTokens(oldTokens, newTokens);
 
-      expect(diff.removed).toHaveLength(3);
-      expect(diff.totalChanges).toBe(3);
+      expect(diff.removed).toHaveLength(EXPECTED_DIFF_COUNT);
+      expect(diff.totalChanges).toBe(EXPECTED_DIFF_COUNT);
       expect(diff.hasBreaking).toBe(true);
     });
   });

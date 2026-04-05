@@ -9,6 +9,9 @@ import { Breadcrumb, BreadcrumbItem } from './Breadcrumb';
 
 expect.extend(toHaveNoViolations);
 
+// Named constants for magic numbers (SonarQube S109)
+const SEPARATOR_COUNT = 3;
+
 // Sample items for testing
 const sampleItems = [
   { id: 'home', label: 'Home', href: '/' },
@@ -446,7 +449,7 @@ describe('Breadcrumb', () => {
 
     it('uses semantic link elements', () => {
       render(<Breadcrumb items={sampleItems} />);
-      expect(screen.getAllByRole('link')).toHaveLength(3); // All except active
+      expect(screen.getAllByRole('link')).toHaveLength(SEPARATOR_COUNT); // All except active
     });
   });
 
@@ -473,8 +476,8 @@ describe('Breadcrumb', () => {
       );
       const separators = container.querySelectorAll('.breadcrumb-separator');
       // 4 items = 3 separators
-      expect(separators.length).toBe(3);
-      expect(screen.getAllByTestId('sep')).toHaveLength(3);
+      expect(separators.length).toBe(SEPARATOR_COUNT);
+      expect(screen.getAllByTestId('sep')).toHaveLength(SEPARATOR_COUNT);
     });
 
     it('hides separators from screen readers', () => {
@@ -666,7 +669,7 @@ describe('Breadcrumb', () => {
       );
       expect(renderSpy).toHaveBeenCalledTimes(1);
       const hiddenItems = renderSpy.mock.calls[0][0];
-      expect(hiddenItems).toHaveLength(3);
+      expect(hiddenItems).toHaveLength(SEPARATOR_COUNT);
       expect(hiddenItems[0].label).toBe('A');
       expect(hiddenItems[2].label).toBe('C');
     });

@@ -159,7 +159,7 @@ function analyzeImports(files: { content: string }[], knownNpmDeps: string[]): A
       // Hook imports: ../../hooks/<hookName> or ../hooks/<hookName>
       const hookPattern = /\.\.\/(?:\.\.\/)?hooks\/(\w+)/;
       const hookMatch = hookPattern.exec(specifier);
-      if (hookMatch && hookMatch[1]) {
+      if (hookMatch?.[1]) {
         const regName = hookDirectoryToRegistryName[hookMatch[1]];
         if (regName) {registryDeps.add(regName);}
         continue;
@@ -180,7 +180,7 @@ function analyzeImports(files: { content: string }[], knownNpmDeps: string[]): A
       // Only matches lowercase directory names (utils are lowercase, components are PascalCase)
       const siblingUtilPattern = /^\.\.\/([a-z][\w-]*)(?:\/.*)?$/;
       const siblingUtilMatch = siblingUtilPattern.exec(specifier);
-      if (siblingUtilMatch && siblingUtilMatch[1]) {
+      if (siblingUtilMatch?.[1]) {
         const siblingDir = siblingUtilMatch[1];
         const regName = UTIL_SUBPATH_TO_REGISTRY[siblingDir];
         if (regName) {
@@ -193,7 +193,7 @@ function analyzeImports(files: { content: string }[], knownNpmDeps: string[]): A
       // Matches: ../Icon, ../Spinner, ../Card/Card.types, ../../components/Modal
       const compPattern = /^\.\.\/(\.\.\/)?(?:components\/)?([A-Z]\w+)(?:\/.*)?$/;
       const compMatch = compPattern.exec(specifier);
-      if (compMatch && compMatch[2]) {
+      if (compMatch?.[2]) {
         const compDir = compMatch[2];
         const regName = directoryToRegistryName[compDir];
         if (regName) {registryDeps.add(regName);}

@@ -19,6 +19,13 @@ import {
 
 import type { TransformOptions } from '../types.js';
 
+/** Number of files to modify in the change ratio test */
+const MODIFIED_FILE_COUNT = 3;
+/** Total collections count used in report generation tests */
+const TOTAL_COLLECTIONS = 5;
+/** Elapsed milliseconds for incremental build report test */
+const ELAPSED_MS = 500;
+
 // ============================================================================
 // Test Setup
 // ============================================================================
@@ -125,7 +132,7 @@ describe('Incremental Build System', () => {
       await new Promise((resolve) => setTimeout(resolve, 10));
 
       // Modify 3 out of 4 files (75%)
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < MODIFIED_FILE_COUNT; i++) {
         writeFileSync(files[i], JSON.stringify({ changed: true }), 'utf-8');
       }
 
@@ -402,7 +409,7 @@ describe('Incremental Build System', () => {
         totalFiles: 0,
       };
 
-      const report = generateIncrementalReport(analysis, Date.now(), 5, 5);
+      const report = generateIncrementalReport(analysis, Date.now(), TOTAL_COLLECTIONS, TOTAL_COLLECTIONS);
 
       expect(report).toContain('Incremental Build Report');
       expect(report).toContain('No cache available');
@@ -416,7 +423,7 @@ describe('Incremental Build System', () => {
         totalFiles: 1,
       };
 
-      const report = generateIncrementalReport(analysis, Date.now() - 100, 0, 5);
+      const report = generateIncrementalReport(analysis, Date.now() - 100, 0, TOTAL_COLLECTIONS);
 
       expect(report).toContain('No changes detected');
       expect(report).toContain('Time saved');
@@ -430,7 +437,7 @@ describe('Incremental Build System', () => {
         totalFiles: 3,
       };
 
-      const report = generateIncrementalReport(analysis, Date.now() - 500, 1, 5);
+      const report = generateIncrementalReport(analysis, Date.now() - ELAPSED_MS, 1, TOTAL_COLLECTIONS);
 
       expect(report).toContain('Files analyzed: 3');
       expect(report).toContain('Files changed: 1');

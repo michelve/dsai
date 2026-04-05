@@ -22,6 +22,9 @@ import type { CurrencyFormatterOptions } from '../types/shared';
 const formattersCache = new Map<string, Intl.NumberFormat>();
 const MAX_CACHE_SIZE = 100;
 
+/** Fraction of cache entries to evict when the cache is full (20%) */
+const CACHE_EVICTION_FRACTION = 0.2;
+
 /**
  * Common currency symbols for fallback formatting
  */
@@ -88,7 +91,7 @@ function getCacheKey(
  * Evict oldest entries from cache when it grows too large (LRU-style)
  */
 function evictOldestEntries(): void {
-  const entriesToRemove = Math.floor(MAX_CACHE_SIZE * 0.2); // Remove 20%
+  const entriesToRemove = Math.floor(MAX_CACHE_SIZE * CACHE_EVICTION_FRACTION); // Remove 20%
   const iterator = formattersCache.keys();
 
   for (let i = 0; i < entriesToRemove; i++) {

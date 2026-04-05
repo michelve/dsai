@@ -7,6 +7,12 @@
 import { isValidEmail } from '../validation/isValidEmail';
 import { isValidUrl } from '../validation/isValidUrl';
 
+// -- Named constants for magic numbers (SonarQube S109) --
+const EMAIL_MAX_LENGTH = 250;
+const LOCAL_PART_MAX_LENGTH = 65;
+const DOMAIN_LABEL_MAX_LENGTH = 64;
+const TEST_NON_STRING_VALUE = 123;
+
 describe('isValidEmail', () => {
   describe('Falsy/Invalid inputs', () => {
     it('returns false for null', () => {
@@ -28,12 +34,12 @@ describe('isValidEmail', () => {
 
   describe('Length limits', () => {
     it('returns false for email exceeding 254 characters', () => {
-      const longEmail = 'a'.repeat(250) + '@b.c';
+      const longEmail = 'a'.repeat(EMAIL_MAX_LENGTH) + '@b.c';
       expect(isValidEmail(longEmail)).toBe(false);
     });
 
     it('returns false for local part exceeding 64 characters', () => {
-      const longLocal = 'a'.repeat(65) + '@example.com';
+      const longLocal = 'a'.repeat(LOCAL_PART_MAX_LENGTH) + '@example.com';
       expect(isValidEmail(longLocal)).toBe(false);
     });
   });
@@ -88,7 +94,7 @@ describe('isValidEmail', () => {
     });
 
     it('returns false for domain label exceeding 63 characters', () => {
-      const longLabel = 'a'.repeat(64);
+      const longLabel = 'a'.repeat(DOMAIN_LABEL_MAX_LENGTH);
       expect(isValidEmail(`user@${longLabel}.com`)).toBe(false);
     });
   });
@@ -131,7 +137,7 @@ describe('isValidUrl', () => {
     });
 
     it('returns false for non-string', () => {
-      expect(isValidUrl(123 as unknown as string)).toBe(false);
+      expect(isValidUrl(TEST_NON_STRING_VALUE as unknown as string)).toBe(false);
     });
   });
 

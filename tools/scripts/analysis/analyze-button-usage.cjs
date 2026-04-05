@@ -213,9 +213,9 @@ class ButtonUsageAnalyzer {
     // Match prop patterns: name="value", name={value}, name (boolean)
     const propPatterns = [
       // String props: name="value" or name='value'
-      /([\w][\w-]*)\s*=\s*["']([^"']*)["']/g,
+      /(\w[\w-]*)\s*=\s*["']([^"']*)["']/g,
       // JSX expression props: name={value}
-      /([\w][\w-]*)\s*=\s*\{([^}]*)\}/g,
+      /(\w[\w-]*)\s*=\s*\{([^}]*)\}/g,
       // Boolean shorthand: name (without value)
       /(?:^|\s)(\w+)(?=\s|$|\/)/g,
     ];

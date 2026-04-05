@@ -30,6 +30,16 @@ import {
 } from '../fixtures/figma-api-responses.js';
 
 // ============================================================================
+// HTTP Status Code Constants
+// ============================================================================
+
+const HTTP_OK = 200;
+const HTTP_FORBIDDEN = 403;
+const HTTP_NOT_FOUND = 404;
+const HTTP_TOO_MANY_REQUESTS = 429;
+const HTTP_SERVER_ERROR = 500;
+
+// ============================================================================
 // Types
 // ============================================================================
 
@@ -58,7 +68,7 @@ function createSuccessResponse(data: unknown, requestId?: string): MockFetchResp
 
   return {
     ok: true,
-    status: 200,
+    status: HTTP_OK,
     statusText: 'OK',
     headers: {
       ...headers,
@@ -182,7 +192,7 @@ export function createDefaultMockFetch(): MockFetchHandler {
     }
 
     // Default: 404
-    return Promise.resolve(createErrorResponse(404, { err: 'Not found' }, 'req-default-404'));
+    return Promise.resolve(createErrorResponse(HTTP_NOT_FOUND, { err: 'Not found' }, 'req-default-404'));
   };
 }
 
@@ -193,7 +203,7 @@ export function createEnterpriseMockFetch(): MockFetchHandler {
   return (url: string): Promise<MockFetchResponse> => {
     if (url.includes('/variables/local')) {
       return Promise.resolve(
-        createErrorResponse(403, error403Forbidden, error403Forbidden.requestId)
+        createErrorResponse(HTTP_FORBIDDEN, error403Forbidden, error403Forbidden.requestId)
       );
     }
 
@@ -207,7 +217,7 @@ export function createEnterpriseMockFetch(): MockFetchHandler {
  */
 export function createNotFoundMockFetch(): MockFetchHandler {
   return (): Promise<MockFetchResponse> => {
-    return Promise.resolve(createErrorResponse(404, error404NotFound, error404NotFound.requestId));
+    return Promise.resolve(createErrorResponse(HTTP_NOT_FOUND, error404NotFound, error404NotFound.requestId));
   };
 }
 
@@ -217,7 +227,7 @@ export function createNotFoundMockFetch(): MockFetchHandler {
 export function createRateLimitedMockFetch(): MockFetchHandler {
   return (): Promise<MockFetchResponse> => {
     return Promise.resolve(
-      createErrorResponse(429, error429RateLimited, error429RateLimited.requestId)
+      createErrorResponse(HTTP_TOO_MANY_REQUESTS, error429RateLimited, error429RateLimited.requestId)
     );
   };
 }
@@ -233,7 +243,7 @@ export function createRetryableMockFetch(failCount = 2): MockFetchHandler {
 
     if (callCount <= failCount) {
       return Promise.resolve(
-        createErrorResponse(500, error500ServerError, `req-retry-${callCount}`)
+        createErrorResponse(HTTP_SERVER_ERROR, error500ServerError, `req-retry-${callCount}`)
       );
     }
 
@@ -271,7 +281,7 @@ export function createCustomMockFetch(
 
     // Default fallback
     return Promise.resolve(
-      createErrorResponse(404, { err: 'No handler for URL' }, 'req-no-handler')
+      createErrorResponse(HTTP_NOT_FOUND, { err: 'No handler for URL' }, 'req-no-handler')
     );
   };
 }

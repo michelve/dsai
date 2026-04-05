@@ -18,6 +18,9 @@ import { join } from 'node:path';
 
 import { mergeCollections, mergeCollectionsCLI } from '../../../src/tokens/merge.js';
 
+/** Number of alias entries for duplicate section detection threshold (> 10) */
+const DUPLICATE_SECTION_ALIAS_COUNT = 12;
+
 // ============================================================================
 // Test Setup
 // ============================================================================
@@ -641,7 +644,7 @@ describe('tokens/merge', () => {
     it('should remove sections that are purely reference aliases', () => {
       // Create a section with > 10 references (threshold for duplicate detection)
       const aliasSection: Record<string, unknown> = {};
-      for (let i = 0; i < 12; i++) {
+      for (let i = 0; i < DUPLICATE_SECTION_ALIAS_COUNT; i++) {
         aliasSection[`color${i}`] = { $value: `{colors.brand.color${i}}`, $type: 'color' };
       }
 

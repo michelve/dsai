@@ -27,15 +27,24 @@ import {
 } from '../client.js';
 
 // ============================================================================
+// HTTP Status Code Constants
+// ============================================================================
+
+const HTTP_FORBIDDEN = 403;
+const HTTP_NOT_FOUND = 404;
+const HTTP_TOO_MANY_REQUESTS = 429;
+const HTTP_SERVER_ERROR = 500;
+
+// ============================================================================
 // Error Classes
 // ============================================================================
 
 describe('FigmaClientError', () => {
   it('constructs with all parameters', () => {
-    const err = new FigmaClientError('Not found', 404, 'NOT_FOUND', 'req-123', 'Check the URL');
+    const err = new FigmaClientError('Not found', HTTP_NOT_FOUND, 'NOT_FOUND', 'req-123', 'Check the URL');
 
     expect(err.message).toBe('Not found');
-    expect(err.status).toBe(404);
+    expect(err.status).toBe(HTTP_NOT_FOUND);
     expect(err.code).toBe('NOT_FOUND');
     expect(err.requestId).toBe('req-123');
     expect(err.hint).toBe('Check the URL');
@@ -44,10 +53,10 @@ describe('FigmaClientError', () => {
   });
 
   it('constructs with only required parameters', () => {
-    const err = new FigmaClientError('Server error', 500);
+    const err = new FigmaClientError('Server error', HTTP_SERVER_ERROR);
 
     expect(err.message).toBe('Server error');
-    expect(err.status).toBe(500);
+    expect(err.status).toBe(HTTP_SERVER_ERROR);
     expect(err.code).toBeUndefined();
     expect(err.requestId).toBeUndefined();
     expect(err.hint).toBeUndefined();
@@ -56,70 +65,70 @@ describe('FigmaClientError', () => {
   describe('fromApiError', () => {
     it('creates error with variables hint for 403 on variables endpoint', () => {
       const err = FigmaClientError.fromApiError(
-        { status: 403, err: 'Forbidden', code: 'ENTERPRISE_ONLY', requestId: 'req-1' },
+        { status: HTTP_FORBIDDEN, err: 'Forbidden', code: 'ENTERPRISE_ONLY', requestId: 'req-1' },
         '/files/abc/variables/local'
       );
 
-      expect(err.status).toBe(403);
+      expect(err.status).toBe(HTTP_FORBIDDEN);
       expect(err.hint).toContain('Enterprise plan');
     });
 
     it('creates error with generic access hint for 403 on non-variables endpoint', () => {
       const err = FigmaClientError.fromApiError(
-        { status: 403, err: 'Forbidden', requestId: 'req-2' },
+        { status: HTTP_FORBIDDEN, err: 'Forbidden', requestId: 'req-2' },
         '/files/abc/components'
       );
 
-      expect(err.status).toBe(403);
+      expect(err.status).toBe(HTTP_FORBIDDEN);
       expect(err.hint).toContain('Access denied');
     });
 
     it('creates error with not found hint for 404', () => {
       const err = FigmaClientError.fromApiError(
-        { status: 404, err: 'Not found', requestId: 'req-3' }
+        { status: HTTP_NOT_FOUND, err: 'Not found', requestId: 'req-3' }
       );
 
-      expect(err.status).toBe(404);
+      expect(err.status).toBe(HTTP_NOT_FOUND);
       expect(err.hint).toContain('File not found');
     });
 
     it('creates error with rate limit hint for 429', () => {
       const err = FigmaClientError.fromApiError(
-        { status: 429, err: 'Rate limited', requestId: 'req-4' }
+        { status: HTTP_TOO_MANY_REQUESTS, err: 'Rate limited', requestId: 'req-4' }
       );
 
-      expect(err.status).toBe(429);
+      expect(err.status).toBe(HTTP_TOO_MANY_REQUESTS);
       expect(err.hint).toContain('Rate limited');
     });
 
     it('creates error without hint for other status codes', () => {
       const err = FigmaClientError.fromApiError(
-        { status: 500, err: 'Server error', requestId: 'req-5' }
+        { status: HTTP_SERVER_ERROR, err: 'Server error', requestId: 'req-5' }
       );
 
-      expect(err.status).toBe(500);
+      expect(err.status).toBe(HTTP_SERVER_ERROR);
       expect(err.hint).toBeUndefined();
     });
   });
 
   describe('toDetailedMessage', () => {
     it('includes request ID when present', () => {
-      const err = new FigmaClientError('Error', 500, undefined, 'req-123');
+      const err = new FigmaClientError('Error', HTTP_SERVER_ERROR, undefined, 'req-123');
       expect(err.toDetailedMessage()).toContain('Request ID: req-123');
     });
 
     it('includes hint when present', () => {
-      const err = new FigmaClientError('Error', 500, undefined, undefined, 'Try again');
+      const err = new FigmaClientError('Error', HTTP_SERVER_ERROR, undefined, undefined, 'Try again');
       expect(err.toDetailedMessage()).toContain('Try again');
     });
 
     it('returns just the message when no extra info', () => {
-      const err = new FigmaClientError('Simple error', 500);
+      const err = new FigmaClientError('Simple error', HTTP_SERVER_ERROR);
       expect(err.toDetailedMessage()).toBe('Simple error');
     });
 
     it('includes both request ID and hint', () => {
-      const err = new FigmaClientError('Error', 403, 'FORBIDDEN', 'req-1', 'Check token');
+      const err = new FigmaClientError('Error', HTTP_FORBIDDEN, 'FORBIDDEN', 'req-1', 'Check token');
       const msg = err.toDetailedMessage();
       expect(msg).toContain('Request ID: req-1');
       expect(msg).toContain('Check token');
@@ -343,7 +352,7 @@ describe('FigmaClient API Methods', () => {
       const spy = createFetchSpy(
         createCustomMockFetch({
           '/variables/published': createSuccessResponse(mockVariablesResponse),
-        }) as unknown as typeof fetch as any
+        }) as unknown as Parameters<typeof createFetchSpy>[0]
       );
       setupFetchMock(spy.fetch as unknown as typeof fetch);
 
@@ -556,7 +565,7 @@ describe('FigmaClient API Methods', () => {
     it('throws on 403 for getVariables', async () => {
       setupFetchMock(
         createCustomMockFetch({
-          '/variables/local': createErrorResponse(403, error403Forbidden),
+          '/variables/local': createErrorResponse(HTTP_FORBIDDEN, error403Forbidden),
         }) as unknown as typeof fetch
       );
 
@@ -566,7 +575,7 @@ describe('FigmaClient API Methods', () => {
     it('throws on 403 for getPublishedVariables', async () => {
       setupFetchMock(
         createCustomMockFetch({
-          '/variables/published': createErrorResponse(403, error403Forbidden),
+          '/variables/published': createErrorResponse(HTTP_FORBIDDEN, error403Forbidden),
         }) as unknown as typeof fetch
       );
 

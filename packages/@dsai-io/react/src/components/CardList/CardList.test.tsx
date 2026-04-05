@@ -13,6 +13,9 @@ import type { CardListItem } from './CardList.types';
 
 expect.extend(toHaveNoViolations);
 
+// Named constants for magic numbers (SonarQube S109)
+const DEFAULT_ITEM_COUNT = 3;
+
 // Test data
 const defaultItems: CardListItem[] = [
   { value: 'basic', title: 'Basic Plan', description: '$9/month' },
@@ -170,7 +173,7 @@ describe('CardList', () => {
         <CardList label="Plans" items={defaultItems} selectionMode="none" />
       );
 
-      expect(container.querySelectorAll('article.card')).toHaveLength(3);
+      expect(container.querySelectorAll('article.card')).toHaveLength(DEFAULT_ITEM_COUNT);
     });
   });
 
@@ -184,7 +187,7 @@ describe('CardList', () => {
         <CardList label="Plans" items={defaultItems} selectionMode="single" />
       );
 
-      expect(container.querySelectorAll('input[type="radio"]')).toHaveLength(3);
+      expect(container.querySelectorAll('input[type="radio"]')).toHaveLength(DEFAULT_ITEM_COUNT);
     });
 
     it('allows selecting a single item', async () => {
@@ -256,7 +259,7 @@ describe('CardList', () => {
         <CardList label="Features" items={defaultItems} selectionMode="multiple" />
       );
 
-      expect(container.querySelectorAll('input[type="checkbox"]')).toHaveLength(3);
+      expect(container.querySelectorAll('input[type="checkbox"]')).toHaveLength(DEFAULT_ITEM_COUNT);
     });
 
     it('allows selecting multiple items', async () => {
@@ -678,7 +681,7 @@ describe('CardList', () => {
         <CardList label="Plans" items={defaultItems} columns={{ md: 2 }} />
       );
       const cols = container.querySelectorAll('.col');
-      expect(cols).toHaveLength(3);
+      expect(cols).toHaveLength(DEFAULT_ITEM_COUNT);
     });
 
     it('still uses grid for numeric columns', () => {
@@ -899,7 +902,7 @@ describe('CardList', () => {
         />
       );
       expect(screen.getByTestId('custom-basic')).toBeInTheDocument();
-      expect(screen.getAllByRole('radio')).toHaveLength(3);
+      expect(screen.getAllByRole('radio')).toHaveLength(DEFAULT_ITEM_COUNT);
     });
 
     it('renderItem receives correct checked state', () => {

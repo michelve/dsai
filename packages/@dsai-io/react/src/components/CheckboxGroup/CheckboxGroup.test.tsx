@@ -13,6 +13,9 @@ import type { CheckboxGroupOption } from './CheckboxGroup.types';
 
 expect.extend(toHaveNoViolations);
 
+// Named constants for magic numbers (SonarQube S109)
+const OPTION_COUNT_WITH_SELECT_ALL = 3;
+
 // Test data
 const defaultOptions: CheckboxGroupOption[] = [
   { value: 'email', label: 'Email' },
@@ -645,7 +648,7 @@ describe('CheckboxGroup', () => {
     });
     it('passes size to select-all checkbox', () => {
       const { container } = render(<CheckboxGroup label="Group" options={options} size="sm" showSelectAll />);
-      expect(container.querySelectorAll('.dsai-checkbox-sm').length).toBe(3);
+      expect(container.querySelectorAll('.dsai-checkbox-sm').length).toBe(OPTION_COUNT_WITH_SELECT_ALL);
     });
   });
 
@@ -664,7 +667,7 @@ describe('CheckboxGroup', () => {
     });
     it('passes variant to select-all checkbox', () => {
       const { container } = render(<CheckboxGroup label="Group" options={options} variant="danger" showSelectAll />);
-      expect(container.querySelectorAll('.dsai-checkbox-danger').length).toBe(3);
+      expect(container.querySelectorAll('.dsai-checkbox-danger').length).toBe(OPTION_COUNT_WITH_SELECT_ALL);
     });
   });
 

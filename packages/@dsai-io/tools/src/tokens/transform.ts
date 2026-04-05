@@ -225,8 +225,8 @@ export function transformType(
 
   // Keep 'number' type for unitless values (opacity, font-weight, line-height)
   if (figmaType === 'number') {
-    const unitlessScopes = ['OPACITY', 'FONT_WEIGHT', 'LINE_HEIGHT'];
-    if (scopes.some((scope) => unitlessScopes.includes(scope))) {
+    const unitlessScopes = new Set(['OPACITY', 'FONT_WEIGHT', 'LINE_HEIGHT']);
+    if (scopes.some((scope) => unitlessScopes.has(scope))) {
       return 'number' as TokenType;
     }
     // Default: convert number to dimension

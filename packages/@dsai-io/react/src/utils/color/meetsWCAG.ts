@@ -98,10 +98,22 @@ export function meetsWCAG(
  * @param textSize - Text size
  * @returns Required contrast ratio
  */
+/** WCAG AA minimum contrast ratio for normal text */
+const WCAG_AA_NORMAL_RATIO = 4.5;
+
+/** WCAG AA minimum contrast ratio for large text */
+const WCAG_AA_LARGE_RATIO = 3;
+
+/** WCAG AAA minimum contrast ratio for normal text */
+const WCAG_AAA_NORMAL_RATIO = 7;
+
+/** WCAG AAA minimum contrast ratio for large text (same as AA normal) */
+const WCAG_AAA_LARGE_RATIO = WCAG_AA_NORMAL_RATIO;
+
 function getRequiredRatio(level: WCAGLevel, textSize: TextSize): number {
   if (level === 'AAA') {
-    return textSize === 'large' ? 4.5 : 7;
+    return textSize === 'large' ? WCAG_AAA_LARGE_RATIO : WCAG_AAA_NORMAL_RATIO;
   }
   // AA
-  return textSize === 'large' ? 3 : 4.5;
+  return textSize === 'large' ? WCAG_AA_LARGE_RATIO : WCAG_AA_NORMAL_RATIO;
 }

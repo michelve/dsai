@@ -21,6 +21,9 @@ import type {
   StyleDictionaryInstance,
 } from '../../../src/tokens/style-dictionary/types.js';
 
+/** Expected number of built-in Style Dictionary formats */
+const EXPECTED_BUILT_IN_FORMAT_COUNT = 7;
+
 // ============================================================================
 // Helper Functions
 // ============================================================================
@@ -69,7 +72,7 @@ function createFormatArgs(
 
 describe('builtInFormats', () => {
   it('should include all standard formats', () => {
-    expect(builtInFormats).toHaveLength(7);
+    expect(builtInFormats).toHaveLength(EXPECTED_BUILT_IN_FORMAT_COUNT);
 
     const names = builtInFormats.map((f) => f.name);
     expect(names).toContain('css/variables-dark-mode');
@@ -304,7 +307,7 @@ describe('registerFormats', () => {
 
     registerFormats(mockSD);
 
-    expect(mockSD.registerFormat).toHaveBeenCalledTimes(7);
+    expect(mockSD.registerFormat).toHaveBeenCalledTimes(EXPECTED_BUILT_IN_FORMAT_COUNT);
     expect(registered).toContain('css/variables-dark-mode');
     expect(registered).toContain('css/variables-with-comments');
     expect(registered).toContain('typescript/declarations');

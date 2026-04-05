@@ -31,6 +31,18 @@ export interface RateLimiterConfig {
   criticalThreshold?: number;
 }
 
+/** Default percentage of remaining requests before throttling (20%) */
+const DEFAULT_THROTTLE_THRESHOLD = 0.2;
+
+/** Default delay in ms when below throttle threshold */
+const DEFAULT_THROTTLE_DELAY_MS = 2000;
+
+/** Default delay in ms when critically low */
+const DEFAULT_CRITICAL_DELAY_MS = 5000;
+
+/** Default critical threshold percentage (10%) */
+const DEFAULT_CRITICAL_THRESHOLD = 0.1;
+
 /**
  * Rate limiter for Figma API
  * Tracks rate limit state and applies proactive delays
@@ -43,10 +55,10 @@ export class RateLimiter {
   private readonly criticalThreshold: number;
 
   constructor(config: RateLimiterConfig = {}) {
-    this.throttleThreshold = config.throttleThreshold ?? 0.2; // 20%
-    this.throttleDelay = config.throttleDelay ?? 2000; // 2s
-    this.criticalDelay = config.criticalDelay ?? 5000; // 5s
-    this.criticalThreshold = config.criticalThreshold ?? 0.1; // 10%
+    this.throttleThreshold = config.throttleThreshold ?? DEFAULT_THROTTLE_THRESHOLD;
+    this.throttleDelay = config.throttleDelay ?? DEFAULT_THROTTLE_DELAY_MS;
+    this.criticalDelay = config.criticalDelay ?? DEFAULT_CRITICAL_DELAY_MS;
+    this.criticalThreshold = config.criticalThreshold ?? DEFAULT_CRITICAL_THRESHOLD;
   }
 
   /**

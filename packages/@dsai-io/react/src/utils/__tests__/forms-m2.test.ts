@@ -784,7 +784,7 @@ describe('M2.11 Form Utilities', () => {
       const rules = [
         {
           validate: () => {
-            throw 'string error'; // Non-Error throw
+            throw new Error('string error');
           },
           message: 'Validation error',
         },

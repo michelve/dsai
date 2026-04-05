@@ -17,6 +17,10 @@ import {
 
 import type { TelemetryClient } from '../telemetry/config';
 
+// -- Named constants for magic numbers (SonarQube S109) --
+const SAMPLE_RATE_ABOVE_MAX = 1.5;
+const SAMPLE_RATE_BELOW_MIN = -0.5;
+
 describe('Telemetry Config', () => {
   afterEach(() => {
     resetTelemetryConfig();
@@ -81,11 +85,11 @@ describe('Telemetry Config', () => {
     });
 
     it('clamps rate above 1 to always sample', () => {
-      expect(shouldSample(1.5)).toBe(true);
+      expect(shouldSample(SAMPLE_RATE_ABOVE_MAX)).toBe(true);
     });
 
     it('clamps rate below 0 to never sample', () => {
-      expect(shouldSample(-0.5)).toBe(false);
+      expect(shouldSample(SAMPLE_RATE_BELOW_MIN)).toBe(false);
     });
 
     it('uses global default sample rate when undefined', () => {

@@ -7,6 +7,11 @@
 
 import { createAbortable } from '../async/createAbortable';
 
+// -- Named constants for magic numbers (SonarQube S109) --
+const TEST_DELAY_MS = 500;
+const TEST_SHORT_DELAY_MS = 10;
+const TEST_RESULT_VALUE = 42;
+
 const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
 describe('createAbortable (additional coverage)', () => {
@@ -33,7 +38,7 @@ describe('createAbortable (additional coverage)', () => {
 
   it('should reject with AbortError when aborted during execution', async () => {
     const { promise, abort } = createAbortable(async () => {
-      await delay(500);
+      await delay(TEST_DELAY_MS);
       return 'should not get here';
     });
 
@@ -50,7 +55,7 @@ describe('createAbortable (additional coverage)', () => {
 
   it('should track aborted state correctly', async () => {
     const abortable = createAbortable(async () => {
-      await delay(500);
+      await delay(TEST_DELAY_MS);
       return 'value';
     });
 
@@ -77,7 +82,7 @@ describe('createAbortable (additional coverage)', () => {
 
   it('should reject when function rejects (non-abort error)', async () => {
     const { promise } = createAbortable(async () => {
-      await delay(10);
+      await delay(TEST_SHORT_DELAY_MS);
       throw new TypeError('type mismatch');
     });
 
@@ -86,7 +91,7 @@ describe('createAbortable (additional coverage)', () => {
 
   it('should clean up abort listener after successful completion', async () => {
     const { promise, controller } = createAbortable(async () => {
-      return 42;
+      return TEST_RESULT_VALUE;
     });
 
     await promise;
@@ -109,7 +114,7 @@ describe('createAbortable (additional coverage)', () => {
 
   it('should handle abort called multiple times', async () => {
     const { promise, abort } = createAbortable(async () => {
-      await delay(500);
+      await delay(TEST_DELAY_MS);
       return 'value';
     });
 

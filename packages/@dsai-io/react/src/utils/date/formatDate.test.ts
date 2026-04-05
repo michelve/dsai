@@ -16,6 +16,21 @@
 import { formatDate } from './formatDate';
 import { formatRelativeTime } from './formatRelativeTime';
 
+// ── Test constants (S109) ──
+const TEST_DAYS_3 = 3;
+const TEST_DAYS_5 = 5;
+const TEST_DAYS_14 = 14;
+const TEST_DAYS_15 = 15;
+const TEST_DAYS_30 = 30;
+const TEST_DAYS_90 = 90;
+const TEST_DAYS_365 = 365;
+const TEST_DAYS_730 = 730;
+const TEST_YEARS_10 = 10;
+const MS_PER_SECOND = 1000;
+const MS_PER_MINUTE = 60 * MS_PER_SECOND;
+const MS_PER_HOUR = 60 * MS_PER_MINUTE;
+const MS_PER_DAY = 24 * MS_PER_HOUR;
+
 describe('formatDate', () => {
   const testDate = new Date('2025-12-08T15:45:30.000Z');
 
@@ -238,8 +253,8 @@ describe('formatDate', () => {
 
   describe('error handling', () => {
     it('throws on invalid date type', () => {
-      expect(() => formatDate({} as any)).toThrow(TypeError);
-      expect(() => formatDate({} as any)).toThrow(/Invalid date argument/);
+      expect(() => formatDate({} as unknown as Date)).toThrow(TypeError);
+      expect(() => formatDate({} as unknown as Date)).toThrow(/Invalid date argument/);
     });
 
     it('throws on invalid Date object', () => {
@@ -285,7 +300,7 @@ describe('formatRelativeTime', () => {
 
   describe('basic functionality', () => {
     it('formats past time (2 hours ago)', () => {
-      const twoHoursAgo = new Date(baseDate.getTime() - 2 * 60 * 60 * 1000);
+      const twoHoursAgo = new Date(baseDate.getTime() - 2 * MS_PER_HOUR);
       const result = formatRelativeTime(twoHoursAgo, {
         baseDate,
         locale: 'en-US',
@@ -295,7 +310,7 @@ describe('formatRelativeTime', () => {
     });
 
     it('formats future time (in 3 days)', () => {
-      const threeDaysLater = new Date(baseDate.getTime() + 3 * 24 * 60 * 60 * 1000);
+      const threeDaysLater = new Date(baseDate.getTime() + TEST_DAYS_3 * MS_PER_DAY);
       const result = formatRelativeTime(threeDaysLater, {
         baseDate,
         locale: 'en-US',
@@ -305,7 +320,7 @@ describe('formatRelativeTime', () => {
     });
 
     it('formats seconds (30 seconds ago)', () => {
-      const thirtySecondsAgo = new Date(baseDate.getTime() - 30 * 1000);
+      const thirtySecondsAgo = new Date(baseDate.getTime() - TEST_DAYS_30 * MS_PER_SECOND);
       const result = formatRelativeTime(thirtySecondsAgo, {
         baseDate,
         locale: 'en-US',
@@ -315,7 +330,7 @@ describe('formatRelativeTime', () => {
     });
 
     it('formats minutes (15 minutes ago)', () => {
-      const fifteenMinutesAgo = new Date(baseDate.getTime() - 15 * 60 * 1000);
+      const fifteenMinutesAgo = new Date(baseDate.getTime() - TEST_DAYS_15 * MS_PER_MINUTE);
       const result = formatRelativeTime(fifteenMinutesAgo, {
         baseDate,
         locale: 'en-US',
@@ -325,7 +340,7 @@ describe('formatRelativeTime', () => {
     });
 
     it('formats weeks (2 weeks ago)', () => {
-      const twoWeeksAgo = new Date(baseDate.getTime() - 14 * 24 * 60 * 60 * 1000);
+      const twoWeeksAgo = new Date(baseDate.getTime() - TEST_DAYS_14 * MS_PER_DAY);
       const result = formatRelativeTime(twoWeeksAgo, {
         baseDate,
         locale: 'en-US',
@@ -335,7 +350,7 @@ describe('formatRelativeTime', () => {
     });
 
     it('formats months (3 months ago)', () => {
-      const threeMonthsAgo = new Date(baseDate.getTime() - 90 * 24 * 60 * 60 * 1000);
+      const threeMonthsAgo = new Date(baseDate.getTime() - TEST_DAYS_90 * MS_PER_DAY);
       const result = formatRelativeTime(threeMonthsAgo, {
         baseDate,
         locale: 'en-US',
@@ -345,7 +360,7 @@ describe('formatRelativeTime', () => {
     });
 
     it('formats years (2 years ago)', () => {
-      const twoYearsAgo = new Date(baseDate.getTime() - 730 * 24 * 60 * 60 * 1000);
+      const twoYearsAgo = new Date(baseDate.getTime() - TEST_DAYS_730 * MS_PER_DAY);
       const result = formatRelativeTime(twoYearsAgo, {
         baseDate,
         locale: 'en-US',
@@ -357,7 +372,7 @@ describe('formatRelativeTime', () => {
 
   describe('numeric options', () => {
     it('uses numeric: "always" for explicit values', () => {
-      const oneDayAgo = new Date(baseDate.getTime() - 24 * 60 * 60 * 1000);
+      const oneDayAgo = new Date(baseDate.getTime() - MS_PER_DAY);
       const result = formatRelativeTime(oneDayAgo, {
         baseDate,
         locale: 'en-US',
@@ -367,7 +382,7 @@ describe('formatRelativeTime', () => {
     });
 
     it('uses numeric: "auto" for text (default)', () => {
-      const oneDayAgo = new Date(baseDate.getTime() - 24 * 60 * 60 * 1000);
+      const oneDayAgo = new Date(baseDate.getTime() - MS_PER_DAY);
       const result = formatRelativeTime(oneDayAgo, {
         baseDate,
         locale: 'en-US',
@@ -379,7 +394,7 @@ describe('formatRelativeTime', () => {
   });
 
   describe('style options', () => {
-    const twoHoursAgo = new Date(baseDate.getTime() - 2 * 60 * 60 * 1000);
+    const twoHoursAgo = new Date(baseDate.getTime() - 2 * MS_PER_HOUR);
 
     it('formats with style: "long" (default)', () => {
       const result = formatRelativeTime(twoHoursAgo, {
@@ -413,7 +428,7 @@ describe('formatRelativeTime', () => {
   });
 
   describe('input types', () => {
-    const twoHoursAgo = new Date(baseDate.getTime() - 2 * 60 * 60 * 1000);
+    const twoHoursAgo = new Date(baseDate.getTime() - 2 * MS_PER_HOUR);
 
     it('accepts Date object', () => {
       const result = formatRelativeTime(twoHoursAgo, { baseDate, locale: 'en-US' });
@@ -462,7 +477,7 @@ describe('formatRelativeTime', () => {
   });
 
   describe('locale variations', () => {
-    const twoHoursAgo = new Date(baseDate.getTime() - 2 * 60 * 60 * 1000);
+    const twoHoursAgo = new Date(baseDate.getTime() - 2 * MS_PER_HOUR);
 
     it('formats with en-US locale', () => {
       const result = formatRelativeTime(twoHoursAgo, {
@@ -493,7 +508,7 @@ describe('formatRelativeTime', () => {
   });
 
   describe('caching behavior', () => {
-    const twoHoursAgo = new Date(baseDate.getTime() - 2 * 60 * 60 * 1000);
+    const twoHoursAgo = new Date(baseDate.getTime() - 2 * MS_PER_HOUR);
 
     it('caches formatters', () => {
       expect(formatRelativeTime.getCacheSize()).toBe(0);
@@ -536,8 +551,8 @@ describe('formatRelativeTime', () => {
 
   describe('error handling', () => {
     it('throws on invalid date type', () => {
-      expect(() => formatRelativeTime({} as any, { baseDate })).toThrow(TypeError);
-      expect(() => formatRelativeTime({} as any, { baseDate })).toThrow(/Invalid date argument/);
+      expect(() => formatRelativeTime({} as unknown as Date, { baseDate })).toThrow(TypeError);
+      expect(() => formatRelativeTime({} as unknown as Date, { baseDate })).toThrow(/Invalid date argument/);
     });
 
     it('throws on invalid Date object', () => {
@@ -549,10 +564,10 @@ describe('formatRelativeTime', () => {
 
     it('throws on invalid baseDate', () => {
       const validDate = new Date();
-      expect(() => formatRelativeTime(validDate, { baseDate: 'invalid' as any })).toThrow(
+      expect(() => formatRelativeTime(validDate, { baseDate: 'invalid' as unknown as Date })).toThrow(
         TypeError
       );
-      expect(() => formatRelativeTime(validDate, { baseDate: 'invalid' as any })).toThrow(
+      expect(() => formatRelativeTime(validDate, { baseDate: 'invalid' as unknown as Date })).toThrow(
         /Invalid baseDate value/
       );
     });
@@ -566,7 +581,7 @@ describe('formatRelativeTime', () => {
     });
 
     it('formats exactly 1 unit (singular)', () => {
-      const oneHourAgo = new Date(baseDate.getTime() - 60 * 60 * 1000);
+      const oneHourAgo = new Date(baseDate.getTime() - MS_PER_HOUR);
       const result = formatRelativeTime(oneHourAgo, {
         baseDate,
         locale: 'en-US',
@@ -576,7 +591,7 @@ describe('formatRelativeTime', () => {
     });
 
     it('handles far past dates', () => {
-      const tenYearsAgo = new Date(baseDate.getTime() - 10 * 365 * 24 * 60 * 60 * 1000);
+      const tenYearsAgo = new Date(baseDate.getTime() - TEST_YEARS_10 * TEST_DAYS_365 * MS_PER_DAY);
       const result = formatRelativeTime(tenYearsAgo, {
         baseDate,
         locale: 'en-US',
@@ -586,7 +601,7 @@ describe('formatRelativeTime', () => {
     });
 
     it('handles far future dates', () => {
-      const tenYearsLater = new Date(baseDate.getTime() + 10 * 365 * 24 * 60 * 60 * 1000);
+      const tenYearsLater = new Date(baseDate.getTime() + TEST_YEARS_10 * TEST_DAYS_365 * MS_PER_DAY);
       const result = formatRelativeTime(tenYearsLater, {
         baseDate,
         locale: 'en-US',
@@ -598,7 +613,7 @@ describe('formatRelativeTime', () => {
 
   describe('default baseDate (now)', () => {
     it('uses current time when baseDate is not provided', () => {
-      const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+      const fiveMinutesAgo = new Date(Date.now() - TEST_DAYS_5 * MS_PER_MINUTE);
       const result = formatRelativeTime(fiveMinutesAgo, {
         locale: 'en-US',
         numeric: 'always',

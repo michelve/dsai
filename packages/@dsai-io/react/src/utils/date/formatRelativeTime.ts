@@ -48,6 +48,9 @@ const formattersCache = new Map<string, Intl.RelativeTimeFormat>();
  */
 const MAX_CACHE_SIZE = 50;
 
+/** Fraction of cache entries to evict when the cache is full (20%) */
+const CACHE_EVICTION_FRACTION = 0.2;
+
 /**
  * Get default locale from navigator or fallback
  *
@@ -81,7 +84,7 @@ function getCacheKey(
  */
 function evictOldestCacheEntries(): void {
   if (formattersCache.size >= MAX_CACHE_SIZE) {
-    const entriesToRemove = Math.floor(MAX_CACHE_SIZE * 0.2);
+    const entriesToRemove = Math.floor(MAX_CACHE_SIZE * CACHE_EVICTION_FRACTION);
     const keys = Array.from(formattersCache.keys());
 
     for (let i = 0; i < entriesToRemove; i++) {

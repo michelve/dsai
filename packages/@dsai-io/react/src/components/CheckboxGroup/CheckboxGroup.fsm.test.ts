@@ -17,6 +17,11 @@ import {
 
 import type { CheckboxGroupFSMState } from './CheckboxGroup.fsm';
 
+// Named constants for magic numbers (SonarQube S109)
+const TOTAL_ENABLED_DEFAULT = 3;
+const TOTAL_ENABLED_LARGE = 5;
+const TOTAL_ENABLED_FOUR = 4;
+
 describe('CheckboxGroup FSM', () => {
   // =============================================================================
   // deriveSelectionState
@@ -24,7 +29,7 @@ describe('CheckboxGroup FSM', () => {
 
   describe('deriveSelectionState', () => {
     it('returns "none" when no items are selected', () => {
-      expect(deriveSelectionState([], 3)).toBe('none');
+      expect(deriveSelectionState([], TOTAL_ENABLED_DEFAULT)).toBe('none');
     });
 
     it('returns "none" when selectedValues is empty and totalEnabled is 0', () => {
@@ -32,17 +37,17 @@ describe('CheckboxGroup FSM', () => {
     });
 
     it('returns "all" when all enabled items are selected', () => {
-      expect(deriveSelectionState(['a', 'b', 'c'], 3)).toBe('all');
+      expect(deriveSelectionState(['a', 'b', 'c'], TOTAL_ENABLED_DEFAULT)).toBe('all');
     });
 
     it('returns "all" when more items are selected than enabled (edge case)', () => {
       // This can happen if some items become disabled after selection
-      expect(deriveSelectionState(['a', 'b', 'c', 'd'], 3)).toBe('all');
+      expect(deriveSelectionState(['a', 'b', 'c', 'd'], TOTAL_ENABLED_DEFAULT)).toBe('all');
     });
 
     it('returns "some" when some but not all items are selected', () => {
-      expect(deriveSelectionState(['a'], 3)).toBe('some');
-      expect(deriveSelectionState(['a', 'b'], 3)).toBe('some');
+      expect(deriveSelectionState(['a'], TOTAL_ENABLED_DEFAULT)).toBe('some');
+      expect(deriveSelectionState(['a', 'b'], TOTAL_ENABLED_DEFAULT)).toBe('some');
     });
 
     it('returns "some" with 1 of 2 selected', () => {
@@ -56,25 +61,25 @@ describe('CheckboxGroup FSM', () => {
 
   describe('createInitialCheckboxGroupFSMState', () => {
     it('creates initial state with empty selection', () => {
-      const state = createInitialCheckboxGroupFSMState([], 3);
+      const state = createInitialCheckboxGroupFSMState([], TOTAL_ENABLED_DEFAULT);
       expect(state.selectedValues).toEqual([]);
       expect(state.selectionState).toBe('none');
     });
 
     it('creates initial state with some selections', () => {
-      const state = createInitialCheckboxGroupFSMState(['a', 'b'], 5);
+      const state = createInitialCheckboxGroupFSMState(['a', 'b'], TOTAL_ENABLED_LARGE);
       expect(state.selectedValues).toEqual(['a', 'b']);
       expect(state.selectionState).toBe('some');
     });
 
     it('creates initial state with all selections', () => {
-      const state = createInitialCheckboxGroupFSMState(['a', 'b', 'c'], 3);
+      const state = createInitialCheckboxGroupFSMState(['a', 'b', 'c'], TOTAL_ENABLED_DEFAULT);
       expect(state.selectedValues).toEqual(['a', 'b', 'c']);
       expect(state.selectionState).toBe('all');
     });
 
     it('deduplicates initial values', () => {
-      const state = createInitialCheckboxGroupFSMState(['a', 'a', 'b', 'b'], 3);
+      const state = createInitialCheckboxGroupFSMState(['a', 'a', 'b', 'b'], TOTAL_ENABLED_DEFAULT);
       expect(state.selectedValues).toEqual(['a', 'b']);
       expect(state.selectionState).toBe('some');
     });
@@ -91,7 +96,7 @@ describe('CheckboxGroup FSM', () => {
         selectionState: 'some',
       };
 
-      const nextState = checkboxGroupFSMReducer(initialState, resetFromPropsEvent(['b', 'c'], 3));
+      const nextState = checkboxGroupFSMReducer(initialState, resetFromPropsEvent(['b', 'c'], TOTAL_ENABLED_DEFAULT));
 
       expect(nextState.selectedValues).toEqual(['b', 'c']);
       expect(nextState.selectionState).toBe('some');
@@ -103,7 +108,7 @@ describe('CheckboxGroup FSM', () => {
         selectionState: 'some',
       };
 
-      const nextState = checkboxGroupFSMReducer(initialState, resetFromPropsEvent([], 3));
+      const nextState = checkboxGroupFSMReducer(initialState, resetFromPropsEvent([], TOTAL_ENABLED_DEFAULT));
 
       expect(nextState.selectedValues).toEqual([]);
       expect(nextState.selectionState).toBe('none');
@@ -117,7 +122,7 @@ describe('CheckboxGroup FSM', () => {
 
       const nextState = checkboxGroupFSMReducer(
         initialState,
-        resetFromPropsEvent(['a', 'b', 'c'], 3)
+        resetFromPropsEvent(['a', 'b', 'c'], TOTAL_ENABLED_DEFAULT)
       );
 
       expect(nextState.selectedValues).toEqual(['a', 'b', 'c']);
@@ -132,7 +137,7 @@ describe('CheckboxGroup FSM', () => {
 
       const nextState = checkboxGroupFSMReducer(
         initialState,
-        resetFromPropsEvent(['a', 'a', 'b'], 3)
+        resetFromPropsEvent(['a', 'a', 'b'], TOTAL_ENABLED_DEFAULT)
       );
 
       expect(nextState.selectedValues).toEqual(['a', 'b']);
@@ -162,7 +167,7 @@ describe('CheckboxGroup FSM', () => {
         selectionState: 'none',
       };
 
-      const nextState = checkboxGroupFSMReducer(initialState, toggleItemEvent('a', 3));
+      const nextState = checkboxGroupFSMReducer(initialState, toggleItemEvent('a', TOTAL_ENABLED_DEFAULT));
 
       expect(nextState.selectedValues).toContain('a');
       expect(nextState.selectionState).toBe('some');
@@ -174,7 +179,7 @@ describe('CheckboxGroup FSM', () => {
         selectionState: 'some',
       };
 
-      const nextState = checkboxGroupFSMReducer(initialState, toggleItemEvent('a', 3));
+      const nextState = checkboxGroupFSMReducer(initialState, toggleItemEvent('a', TOTAL_ENABLED_DEFAULT));
 
       expect(nextState.selectedValues).not.toContain('a');
       expect(nextState.selectionState).toBe('none');
@@ -186,7 +191,7 @@ describe('CheckboxGroup FSM', () => {
         selectionState: 'some',
       };
 
-      const nextState = checkboxGroupFSMReducer(initialState, toggleItemEvent('c', 3));
+      const nextState = checkboxGroupFSMReducer(initialState, toggleItemEvent('c', TOTAL_ENABLED_DEFAULT));
 
       expect(nextState.selectedValues).toContain('c');
       expect(nextState.selectionState).toBe('all');
@@ -198,7 +203,7 @@ describe('CheckboxGroup FSM', () => {
         selectionState: 'all',
       };
 
-      const nextState = checkboxGroupFSMReducer(initialState, toggleItemEvent('b', 3));
+      const nextState = checkboxGroupFSMReducer(initialState, toggleItemEvent('b', TOTAL_ENABLED_DEFAULT));
 
       expect(nextState.selectedValues).not.toContain('b');
       expect(nextState.selectedValues).toEqual(['a', 'c']);
@@ -211,7 +216,7 @@ describe('CheckboxGroup FSM', () => {
         selectionState: 'some',
       };
 
-      const nextState = checkboxGroupFSMReducer(initialState, toggleItemEvent('b', 4));
+      const nextState = checkboxGroupFSMReducer(initialState, toggleItemEvent('b', TOTAL_ENABLED_FOUR));
 
       expect(nextState.selectedValues).toEqual(['a', 'c', 'b']);
     });
@@ -235,7 +240,7 @@ describe('CheckboxGroup FSM', () => {
 
   describe('TOGGLE_ALL event', () => {
     const enabledValues = ['a', 'b', 'c'];
-    const totalEnabled = 3;
+    const totalEnabled = TOTAL_ENABLED_DEFAULT;
 
     it('selects all when none are selected (none → all)', () => {
       const initialState: CheckboxGroupFSMState = {
@@ -314,20 +319,20 @@ describe('CheckboxGroup FSM', () => {
 
   describe('Event Creators', () => {
     it('resetFromPropsEvent creates correct event', () => {
-      const event = resetFromPropsEvent(['a', 'b'], 3);
+      const event = resetFromPropsEvent(['a', 'b'], TOTAL_ENABLED_DEFAULT);
       expect(event).toEqual({
         type: 'RESET_FROM_PROPS',
         values: ['a', 'b'],
-        totalEnabled: 3,
+        totalEnabled: TOTAL_ENABLED_DEFAULT,
       });
     });
 
     it('toggleItemEvent creates correct event', () => {
-      const event = toggleItemEvent('test', 5);
+      const event = toggleItemEvent('test', TOTAL_ENABLED_LARGE);
       expect(event).toEqual({
         type: 'TOGGLE_ITEM',
         value: 'test',
-        totalEnabled: 5,
+        totalEnabled: TOTAL_ENABLED_LARGE,
       });
     });
 
@@ -448,47 +453,47 @@ describe('CheckboxGroup FSM', () => {
 
   describe('Complex Scenarios', () => {
     it('full workflow: none → some → all → none', () => {
-      let state = createInitialCheckboxGroupFSMState([], 3);
+      let state = createInitialCheckboxGroupFSMState([], TOTAL_ENABLED_DEFAULT);
       expect(state.selectionState).toBe('none');
 
       // Toggle first item: none → some
-      state = checkboxGroupFSMReducer(state, toggleItemEvent('a', 3));
+      state = checkboxGroupFSMReducer(state, toggleItemEvent('a', TOTAL_ENABLED_DEFAULT));
       expect(state.selectionState).toBe('some');
       expect(state.selectedValues).toEqual(['a']);
 
       // Toggle second item: some → some
-      state = checkboxGroupFSMReducer(state, toggleItemEvent('b', 3));
+      state = checkboxGroupFSMReducer(state, toggleItemEvent('b', TOTAL_ENABLED_DEFAULT));
       expect(state.selectionState).toBe('some');
       expect(state.selectedValues).toEqual(['a', 'b']);
 
       // Toggle third item: some → all
-      state = checkboxGroupFSMReducer(state, toggleItemEvent('c', 3));
+      state = checkboxGroupFSMReducer(state, toggleItemEvent('c', TOTAL_ENABLED_DEFAULT));
       expect(state.selectionState).toBe('all');
       expect(state.selectedValues).toEqual(['a', 'b', 'c']);
 
       // Toggle all: all → none
-      state = checkboxGroupFSMReducer(state, toggleAllEvent(['a', 'b', 'c'], 3));
+      state = checkboxGroupFSMReducer(state, toggleAllEvent(['a', 'b', 'c'], TOTAL_ENABLED_DEFAULT));
       expect(state.selectionState).toBe('none');
       expect(state.selectedValues).toEqual([]);
     });
 
     it('controlled mode sync with RESET_FROM_PROPS', () => {
-      let state = createInitialCheckboxGroupFSMState(['a'], 3);
+      let state = createInitialCheckboxGroupFSMState(['a'], TOTAL_ENABLED_DEFAULT);
       expect(state.selectionState).toBe('some');
 
       // External change: parent sets new value
-      state = checkboxGroupFSMReducer(state, resetFromPropsEvent(['a', 'b', 'c'], 3));
+      state = checkboxGroupFSMReducer(state, resetFromPropsEvent(['a', 'b', 'c'], TOTAL_ENABLED_DEFAULT));
       expect(state.selectionState).toBe('all');
 
       // External change: parent clears selection
-      state = checkboxGroupFSMReducer(state, resetFromPropsEvent([], 3));
+      state = checkboxGroupFSMReducer(state, resetFromPropsEvent([], TOTAL_ENABLED_DEFAULT));
       expect(state.selectionState).toBe('none');
     });
 
     it('handles disabled items correctly in toggle all', () => {
       // 4 total items, but only 3 are enabled
       const enabledValues = ['a', 'b', 'c'];
-      const totalEnabled = 3;
+      const totalEnabled = TOTAL_ENABLED_DEFAULT;
 
       let state = createInitialCheckboxGroupFSMState([], totalEnabled);
 
@@ -507,7 +512,7 @@ describe('CheckboxGroup FSM', () => {
         selectionState: 'some',
       };
 
-      const nextState = checkboxGroupFSMReducer(initialState, toggleItemEvent('b', 3));
+      const nextState = checkboxGroupFSMReducer(initialState, toggleItemEvent('b', TOTAL_ENABLED_DEFAULT));
 
       // Original state should be unchanged
       expect(initialState.selectedValues).toEqual(['a']);

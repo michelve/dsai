@@ -281,7 +281,7 @@ export function generateChangelog(
  */
 export async function writeChangelog(content: string, filePath: string): Promise<boolean> {
   try {
-    let finalContent = content;
+    let finalContent: string;
 
     // If file exists, prepend new content
     // eslint-disable-next-line security/detect-non-literal-fs-filename

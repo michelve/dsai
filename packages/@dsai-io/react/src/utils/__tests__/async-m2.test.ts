@@ -23,6 +23,19 @@ import {
   withTimeout,
 } from '../async';
 
+// ── Test constants (S109) ──
+const TEST_SHORT_DELAY_MS = 10;
+const TEST_MEDIUM_DELAY_MS = 20;
+const TEST_TASK_DELAY_MS = 50;
+const TEST_BACKOFF_DELAY_MS = 100;
+const TEST_IDLE_TIMEOUT_MS = 150;
+const TEST_BACKOFF_WAIT_MS = 200;
+const TEST_TIMEOUT_MS = 1000;
+const TEST_MAX_DELAY_MS = 5000;
+const TEST_RETRY_COUNT_3 = 3;
+const TEST_RETRY_COUNT_5 = 5;
+const TEST_RETRY_COUNT_10 = 10;
+
 // Helper to create a delayed promise
 const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -47,8 +60,8 @@ describe('M2.3 Async & Control Flow Utilities', () => {
     });
 
     it('should respect maxDelay cap', () => {
-      const result = exponentialBackoff(10, { jitter: false, maxDelay: 5000 });
-      expect(result).toBe(5000);
+      const result = exponentialBackoff(10, { jitter: false, maxDelay: TEST_MAX_DELAY_MS });
+      expect(result).toBe(TEST_MAX_DELAY_MS);
     });
 
     it('should use custom baseDelay', () => {
@@ -126,15 +139,15 @@ describe('M2.3 Async & Control Flow Utilities', () => {
         .mockResolvedValue('success');
 
       const result = await retryWithBackoff(fn, {
-        maxAttempts: 3,
-        baseDelay: 10,
+        maxAttempts: TEST_RETRY_COUNT_3,
+        baseDelay: TEST_SHORT_DELAY_MS,
         jitter: false,
       });
 
       expect(result.success).toBe(true);
       expect(result.data).toBe('success');
-      expect(result.attempts).toBe(3);
-      expect(fn).toHaveBeenCalledTimes(3);
+      expect(result.attempts).toBe(TEST_RETRY_COUNT_3);
+      expect(fn).toHaveBeenCalledTimes(TEST_RETRY_COUNT_3);
     });
 
     it('should fail after max attempts', async () => {
@@ -142,14 +155,14 @@ describe('M2.3 Async & Control Flow Utilities', () => {
       const fn = jest.fn().mockRejectedValue(error);
 
       const result = await retryWithBackoff(fn, {
-        maxAttempts: 3,
-        baseDelay: 10,
+        maxAttempts: TEST_RETRY_COUNT_3,
+        baseDelay: TEST_SHORT_DELAY_MS,
         jitter: false,
       });
 
       expect(result.success).toBe(false);
       expect(result.error).toBe(error);
-      expect(result.attempts).toBe(3);
+      expect(result.attempts).toBe(TEST_RETRY_COUNT_3);
     });
 
     it('should respect shouldRetry condition', async () => {
@@ -162,8 +175,8 @@ describe('M2.3 Async & Control Flow Utilities', () => {
         .mockRejectedValueOnce(nonRetryableError);
 
       const result = await retryWithBackoff(fn, {
-        maxAttempts: 5,
-        baseDelay: 10,
+        maxAttempts: TEST_RETRY_COUNT_5,
+        baseDelay: TEST_SHORT_DELAY_MS,
         shouldRetry: (error) => (error as Error).message === 'retryable',
       });
 
@@ -177,8 +190,8 @@ describe('M2.3 Async & Control Flow Utilities', () => {
       const fn = jest.fn().mockRejectedValueOnce(new Error('fail')).mockResolvedValue('success');
 
       await retryWithBackoff(fn, {
-        maxAttempts: 3,
-        baseDelay: 10,
+        maxAttempts: TEST_RETRY_COUNT_3,
+        baseDelay: TEST_SHORT_DELAY_MS,
         jitter: false,
         onRetry,
       });
@@ -190,7 +203,7 @@ describe('M2.3 Async & Control Flow Utilities', () => {
     it('should respect abort signal', async () => {
       const controller = new AbortController();
       const fn = jest.fn().mockImplementation(async () => {
-        await delay(100);
+        await delay(TEST_BACKOFF_DELAY_MS);
         return 'success';
       });
 
@@ -234,14 +247,14 @@ describe('M2.3 Async & Control Flow Utilities', () => {
       const fn = jest.fn().mockRejectedValueOnce(new Error('fail1')).mockResolvedValue('success');
 
       const resultPromise = retryWithBackoff(fn, {
-        maxAttempts: 3,
-        baseDelay: 200, // Long enough to abort during wait
+        maxAttempts: TEST_RETRY_COUNT_3,
+        baseDelay: TEST_BACKOFF_WAIT_MS, // Long enough to abort during wait
         jitter: false,
         signal: controller.signal,
       });
 
       // Wait a bit for first attempt to fail and backoff to start
-      await delay(50);
+      await delay(TEST_TASK_DELAY_MS);
       controller.abort();
 
       const result = await resultPromise;
@@ -266,7 +279,7 @@ describe('M2.3 Async & Control Flow Utilities', () => {
     it('should clamp maxAttempts to at least 1 when given negative value', async () => {
       const fn = jest.fn().mockRejectedValue(new Error('fail'));
 
-      const result = await retryWithBackoff(fn, { maxAttempts: -5 });
+      const result = await retryWithBackoff(fn, { maxAttempts: -TEST_RETRY_COUNT_5 });
 
       expect(result.success).toBe(false);
       expect(result.attempts).toBe(1);
@@ -278,8 +291,8 @@ describe('M2.3 Async & Control Flow Utilities', () => {
       const fn = jest.fn().mockRejectedValue(error);
 
       const result = await retryWithBackoff(fn, {
-        maxAttempts: 10,
-        baseDelay: 10,
+        maxAttempts: TEST_RETRY_COUNT_10,
+        baseDelay: TEST_SHORT_DELAY_MS,
         shouldRetry: () => false, // Never retry
       });
 
@@ -297,21 +310,21 @@ describe('M2.3 Async & Control Flow Utilities', () => {
       });
 
       const result = await retryWithBackoff(fn, {
-        maxAttempts: 10,
-        baseDelay: 10,
+        maxAttempts: TEST_RETRY_COUNT_10,
+        baseDelay: TEST_SHORT_DELAY_MS,
         jitter: false,
         shouldRetry: (_error, attempt) => attempt < 2, // Stop after 3 attempts (0, 1, 2)
       });
 
       expect(result.success).toBe(false);
-      expect(result.attempts).toBe(3);
-      expect(fn).toHaveBeenCalledTimes(3);
+      expect(result.attempts).toBe(TEST_RETRY_COUNT_3);
+      expect(fn).toHaveBeenCalledTimes(TEST_RETRY_COUNT_3);
     });
 
     it('should not have aborted flag when failing normally', async () => {
       const fn = jest.fn().mockRejectedValue(new Error('fail'));
 
-      const result = await retryWithBackoff(fn, { maxAttempts: 2, baseDelay: 10 });
+      const result = await retryWithBackoff(fn, { maxAttempts: 2, baseDelay: TEST_SHORT_DELAY_MS });
 
       expect(result.success).toBe(false);
       expect(result.aborted).toBeUndefined();
@@ -323,27 +336,27 @@ describe('M2.3 Async & Control Flow Utilities', () => {
   // ========================================
   describe('withTimeout', () => {
     it('should resolve if promise completes in time', async () => {
-      const result = await withTimeout(Promise.resolve('success'), 1000);
+      const result = await withTimeout(Promise.resolve('success'), TEST_TIMEOUT_MS);
       expect(result).toBe('success');
     });
 
     it('should reject with TimeoutError if timeout exceeded', async () => {
-      await expect(withTimeout(delay(1000), 10)).rejects.toThrow(TimeoutError);
+      await expect(withTimeout(delay(TEST_TIMEOUT_MS), TEST_SHORT_DELAY_MS)).rejects.toThrow(TimeoutError);
     });
 
     it('should include timeout value in error', async () => {
       try {
-        await withTimeout(delay(1000), 50);
+        await withTimeout(delay(TEST_TIMEOUT_MS), TEST_TASK_DELAY_MS);
         fail('Should have thrown');
       } catch (error) {
         expect(error).toBeInstanceOf(TimeoutError);
-        expect((error as TimeoutError).timeout).toBe(50);
+        expect((error as TimeoutError).timeout).toBe(TEST_TASK_DELAY_MS);
       }
     });
 
     it('should use custom error message', async () => {
       try {
-        await withTimeout(delay(1000), 10, { message: 'Custom timeout message' });
+        await withTimeout(delay(TEST_TIMEOUT_MS), TEST_SHORT_DELAY_MS, { message: 'Custom timeout message' });
         fail('Should have thrown');
       } catch (error) {
         expect((error as Error).message).toBe('Custom timeout message');
@@ -354,7 +367,7 @@ describe('M2.3 Async & Control Flow Utilities', () => {
       const controller = new AbortController();
 
       try {
-        await withTimeout(delay(1000), 10, { controller });
+        await withTimeout(delay(TEST_TIMEOUT_MS), TEST_SHORT_DELAY_MS, { controller });
       } catch {
         // Expected
       }
@@ -365,7 +378,7 @@ describe('M2.3 Async & Control Flow Utilities', () => {
     it('should propagate original error', async () => {
       const originalError = new Error('Original error');
 
-      await expect(withTimeout(failingPromise(originalError), 1000)).rejects.toThrow(
+      await expect(withTimeout(failingPromise(originalError), TEST_TIMEOUT_MS)).rejects.toThrow(
         'Original error'
       );
     });
@@ -382,19 +395,19 @@ describe('M2.3 Async & Control Flow Utilities', () => {
 
   describe('TimeoutError', () => {
     it('should be instanceof Error', () => {
-      const error = new TimeoutError('test', 1000);
+      const error = new TimeoutError('test', TEST_TIMEOUT_MS);
       expect(error).toBeInstanceOf(Error);
       expect(error).toBeInstanceOf(TimeoutError);
     });
 
     it('should have correct name', () => {
-      const error = new TimeoutError('test', 1000);
+      const error = new TimeoutError('test', TEST_TIMEOUT_MS);
       expect(error.name).toBe('TimeoutError');
     });
 
     it('should store timeout value', () => {
-      const error = new TimeoutError('test', 5000);
-      expect(error.timeout).toBe(5000);
+      const error = new TimeoutError('test', TEST_MAX_DELAY_MS);
+      expect(error.timeout).toBe(TEST_MAX_DELAY_MS);
     });
   });
 
@@ -410,7 +423,7 @@ describe('M2.3 Async & Control Flow Utilities', () => {
 
     it('should reject when aborted', async () => {
       const { promise, abort } = createAbortable(async () => {
-        await delay(1000);
+        await delay(TEST_TIMEOUT_MS);
         return 'success';
       });
 
@@ -439,7 +452,7 @@ describe('M2.3 Async & Control Flow Utilities', () => {
 
     it('should track aborted state', async () => {
       const abortable = createAbortable(async () => {
-        await delay(1000);
+        await delay(TEST_TIMEOUT_MS);
         return 'success';
       });
 
@@ -465,7 +478,7 @@ describe('M2.3 Async & Control Flow Utilities', () => {
 
       // Create with already-aborted signal by aborting before execution
       const { promise, abort } = createAbortable(async () => {
-        await delay(100);
+        await delay(TEST_BACKOFF_DELAY_MS);
         return 'success';
       });
 
@@ -484,7 +497,7 @@ describe('M2.3 Async & Control Flow Utilities', () => {
       const order: number[] = [];
 
       queue.enqueue(async () => {
-        await delay(20);
+        await delay(TEST_MEDIUM_DELAY_MS);
         order.push(1);
       });
 
@@ -502,12 +515,12 @@ describe('M2.3 Async & Control Flow Utilities', () => {
       const order: number[] = [];
 
       queue.enqueue(async () => {
-        await delay(50);
+        await delay(TEST_TASK_DELAY_MS);
         order.push(1);
       });
 
       queue.enqueue(async () => {
-        await delay(10);
+        await delay(TEST_SHORT_DELAY_MS);
         order.push(2);
       });
 
@@ -542,7 +555,7 @@ describe('M2.3 Async & Control Flow Utilities', () => {
       queue.enqueue(() => results.push(2));
 
       // Wait a bit to ensure task doesn't run
-      await delay(50);
+      await delay(TEST_TASK_DELAY_MS);
       expect(results).toEqual([1]);
 
       queue.resume();
@@ -585,8 +598,8 @@ describe('M2.3 Async & Control Flow Utilities', () => {
     it('should report correct state', async () => {
       const queue = createTaskQueue({ autoStart: false });
 
-      queue.enqueue(() => delay(100));
-      queue.enqueue(() => delay(100));
+      queue.enqueue(() => delay(TEST_BACKOFF_DELAY_MS));
+      queue.enqueue(() => delay(TEST_BACKOFF_DELAY_MS));
 
       let state = queue.getState();
       expect(state.pending).toBe(2);
@@ -597,7 +610,7 @@ describe('M2.3 Async & Control Flow Utilities', () => {
       queue.resume();
 
       // Wait a tick for task to start
-      await delay(10);
+      await delay(TEST_SHORT_DELAY_MS);
 
       state = queue.getState();
       expect(state.running).toBe(1);
@@ -659,7 +672,7 @@ describe('M2.3 Async & Control Flow Utilities', () => {
       );
 
       // Wait for RAF
-      await delay(20);
+      await delay(TEST_MEDIUM_DELAY_MS);
       expect(executed).toBe(true);
     });
 
@@ -670,11 +683,11 @@ describe('M2.3 Async & Control Flow Utilities', () => {
         () => {
           executed = true;
         },
-        { schedule: 'idle', idleTimeout: 100 }
+        { schedule: 'idle', idleTimeout: TEST_BACKOFF_DELAY_MS }
       );
 
       // Wait for idle callback
-      await delay(150);
+      await delay(TEST_IDLE_TIMEOUT_MS);
       expect(executed).toBe(true);
     });
 
@@ -703,7 +716,7 @@ describe('M2.3 Async & Control Flow Utilities', () => {
 
       handle.cancel();
 
-      await delay(10);
+      await delay(TEST_SHORT_DELAY_MS);
       expect(executed).toBe(false);
     });
 
@@ -719,7 +732,7 @@ describe('M2.3 Async & Control Flow Utilities', () => {
 
       handle.cancel();
 
-      await delay(50);
+      await delay(TEST_TASK_DELAY_MS);
       expect(executed).toBe(false);
     });
 

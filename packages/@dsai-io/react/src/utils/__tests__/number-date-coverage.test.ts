@@ -13,6 +13,51 @@ import { formatRelativeTime } from '../date/formatRelativeTime';
 import { formatCurrency } from '../number/formatCurrency';
 import { formatNumber } from '../number/formatNumber';
 
+// -- Named constants for magic numbers (SonarQube S109) --
+const TEST_AMOUNT = 100;
+const TEST_AMOUNT_LARGE = 200;
+const TEST_CURRENCY_VALUE = 1234.56;
+const TEST_JPY_VALUE = 1234;
+const TEST_NEGATIVE_VALUE = -42.5;
+const TEST_KRW_VALUE = 5000;
+const TEST_LARGE_NUMBER = 1234567;
+const TEST_LARGE_DECIMAL = 1234567.89;
+const TEST_FRACTION_VALUE = 1234.5;
+const TEST_COMPACT_THOUSANDS = 1500;
+const TEST_COMPACT_MILLIONS = 2500000;
+const TEST_COMPACT_NEGATIVE_MILLIONS = -2500000;
+const TEST_COMPACT_BILLIONS = 3000000000;
+const TEST_COMPACT_TRILLIONS = 1500000000000;
+const TEST_COMPACT_SMALL = 500;
+const TEST_CACHE_FILL_COUNT = 105;
+const MAX_CACHE_SIZE = 100;
+const EXPECTED_AFTER_EVICTION = 81;
+const CACHE_FILL_MODULO = 21;
+const MIN_FRACTION_DIGITS_4 = 4;
+const MAX_FRACTION_DIGITS_0 = 0;
+const MAX_FRACTION_DIGITS_2 = 2;
+const MAX_FRACTION_DIGITS_5 = 5;
+const MIN_FRACTION_DIGITS_0 = 0;
+const MIN_FRACTION_DIGITS_2 = 2;
+const MIN_FRACTION_DIGITS_3 = 3;
+const CURRENCY_MODULO = 11;
+
+const MS_PER_MINUTE = 60000;
+const MS_PER_HOUR = 3600000;
+const MS_PER_DAY = 86400000;
+const MS_PER_WEEK = 604800000;
+const MS_PER_MONTH = 2592000000;
+const MS_PER_YEAR = 31536000000;
+const MS_TWO_HOURS = 7200000;
+const MS_THIRTY_SECONDS = 30000;
+const TEST_SECONDS_AGO = 5000;
+
+const DAYS_IN_TWO_WEEKS = 14;
+const DAYS_IN_THREE_MONTHS = 90;
+const DAYS_IN_TWO_YEARS = 730;
+
+const RELATIVE_CACHE_FILL = 55;
+
 // ---------------------------------------------------------------------------
 // formatCurrency
 // ---------------------------------------------------------------------------
@@ -23,39 +68,39 @@ describe('formatCurrency coverage', () => {
 
   describe('cache key generation', () => {
     it('generates simple key without options', () => {
-      formatCurrency(100);
+      formatCurrency(TEST_AMOUNT);
       expect(formatCurrency.getCacheSize()).toBe(1);
     });
 
     it('includes currencySign in cache key', () => {
-      formatCurrency(100, { currency: 'USD', currencySign: 'accounting' });
-      formatCurrency(100, { currency: 'USD', currencySign: 'standard' });
+      formatCurrency(TEST_AMOUNT, { currency: 'USD', currencySign: 'accounting' });
+      formatCurrency(TEST_AMOUNT, { currency: 'USD', currencySign: 'standard' });
       expect(formatCurrency.getCacheSize()).toBe(2);
     });
 
     it('includes currencyDisplay in cache key', () => {
-      formatCurrency(100, { currency: 'USD', currencyDisplay: 'symbol' });
-      formatCurrency(100, { currency: 'USD', currencyDisplay: 'code' });
-      formatCurrency(100, { currency: 'USD', currencyDisplay: 'name' });
-      formatCurrency(100, { currency: 'USD', currencyDisplay: 'narrowSymbol' });
+      formatCurrency(TEST_AMOUNT, { currency: 'USD', currencyDisplay: 'symbol' });
+      formatCurrency(TEST_AMOUNT, { currency: 'USD', currencyDisplay: 'code' });
+      formatCurrency(TEST_AMOUNT, { currency: 'USD', currencyDisplay: 'name' });
+      formatCurrency(TEST_AMOUNT, { currency: 'USD', currencyDisplay: 'narrowSymbol' });
       expect(formatCurrency.getCacheSize()).toBe(4);
     });
 
     it('includes fraction digits in cache key', () => {
-      formatCurrency(100, { currency: 'USD', minimumFractionDigits: 0 });
-      formatCurrency(100, { currency: 'USD', maximumFractionDigits: 4 });
+      formatCurrency(TEST_AMOUNT, { currency: 'USD', minimumFractionDigits: MIN_FRACTION_DIGITS_0 });
+      formatCurrency(TEST_AMOUNT, { currency: 'USD', maximumFractionDigits: MIN_FRACTION_DIGITS_4 });
       expect(formatCurrency.getCacheSize()).toBe(2);
     });
 
     it('includes useGrouping in cache key', () => {
-      formatCurrency(100, { currency: 'USD', useGrouping: false });
-      formatCurrency(100, { currency: 'USD', useGrouping: true });
+      formatCurrency(TEST_AMOUNT, { currency: 'USD', useGrouping: false });
+      formatCurrency(TEST_AMOUNT, { currency: 'USD', useGrouping: true });
       expect(formatCurrency.getCacheSize()).toBe(2);
     });
 
     it('produces same key for empty options object', () => {
-      formatCurrency(100, { currency: 'USD' });
-      formatCurrency(200, { currency: 'USD' });
+      formatCurrency(TEST_AMOUNT, { currency: 'USD' });
+      formatCurrency(TEST_AMOUNT_LARGE, { currency: 'USD' });
       expect(formatCurrency.getCacheSize()).toBe(1);
     });
   });
@@ -67,9 +112,9 @@ describe('formatCurrency coverage', () => {
       const currencies = ['USD', 'EUR', 'GBP', 'JPY', 'CNY', 'INR', 'CAD', 'AUD', 'CHF', 'SEK'];
       let count = 0;
       for (const currency of currencies) {
-        for (let minFd = 0; minFd <= 10; minFd++) {
-          if (count >= 100) {break;}
-          formatCurrency(100, {
+        for (let minFd = 0; minFd <= CURRENCY_MODULO - 1; minFd++) {
+          if (count >= MAX_CACHE_SIZE) {break;}
+          formatCurrency(TEST_AMOUNT, {
             locale: 'en-US',
             currency,
             minimumFractionDigits: minFd,
@@ -77,16 +122,16 @@ describe('formatCurrency coverage', () => {
           count++;
         }
       }
-      expect(formatCurrency.getCacheSize()).toBe(100);
+      expect(formatCurrency.getCacheSize()).toBe(MAX_CACHE_SIZE);
 
       // Adding one more triggers eviction of 20 entries, then adds 1
-      formatCurrency(100, {
+      formatCurrency(TEST_AMOUNT, {
         locale: 'en-US',
         currency: 'NZD',
-        minimumFractionDigits: 0,
+        minimumFractionDigits: MIN_FRACTION_DIGITS_0,
       });
       // 100 - 20 + 1 = 81
-      expect(formatCurrency.getCacheSize()).toBe(81);
+      expect(formatCurrency.getCacheSize()).toBe(EXPECTED_AFTER_EVICTION);
     });
   });
 
@@ -104,7 +149,7 @@ describe('formatCurrency coverage', () => {
 
     it('falls back for basic positive value', () => {
       disableIntlNumberFormat();
-      const result = formatCurrency(1234.56);
+      const result = formatCurrency(TEST_CURRENCY_VALUE);
       expect(result).toContain('$');
       expect(result).toContain('1,234.56');
     });
@@ -126,19 +171,19 @@ describe('formatCurrency coverage', () => {
 
     it('falls back with negative value', () => {
       disableIntlNumberFormat();
-      const result = formatCurrency(-42.5);
+      const result = formatCurrency(TEST_NEGATIVE_VALUE);
       expect(result).toMatch(/^-\$/);
     });
 
     it('falls back with code display mode', () => {
       disableIntlNumberFormat();
-      const result = formatCurrency(100, { currency: 'USD', currencyDisplay: 'code' });
+      const result = formatCurrency(TEST_AMOUNT, { currency: 'USD', currencyDisplay: 'code' });
       expect(result).toContain('USD');
     });
 
     it('falls back with name display mode', () => {
       disableIntlNumberFormat();
-      const result = formatCurrency(100, { currency: 'USD', currencyDisplay: 'name' });
+      const result = formatCurrency(TEST_AMOUNT, { currency: 'USD', currencyDisplay: 'name' });
       expect(result).toContain('USD');
       // name mode puts value before currency
       expect(result).toMatch(/100\.00 USD/);
@@ -146,13 +191,13 @@ describe('formatCurrency coverage', () => {
 
     it('falls back with narrowSymbol display (uses symbol)', () => {
       disableIntlNumberFormat();
-      const result = formatCurrency(100, { currency: 'USD', currencyDisplay: 'narrowSymbol' });
+      const result = formatCurrency(TEST_AMOUNT, { currency: 'USD', currencyDisplay: 'narrowSymbol' });
       expect(result).toContain('$');
     });
 
     it('falls back with JPY (0 fraction digits)', () => {
       disableIntlNumberFormat();
-      const result = formatCurrency(1234, { currency: 'JPY' });
+      const result = formatCurrency(TEST_JPY_VALUE, { currency: 'JPY' });
       expect(result).toContain('¥');
       expect(result).toContain('1,234');
       // No decimal point for JPY
@@ -161,40 +206,40 @@ describe('formatCurrency coverage', () => {
 
     it('falls back with KRW (0 fraction digits)', () => {
       disableIntlNumberFormat();
-      const result = formatCurrency(5000, { currency: 'KRW' });
+      const result = formatCurrency(TEST_KRW_VALUE, { currency: 'KRW' });
       expect(result).toContain('₩');
     });
 
     it('falls back with useGrouping: false', () => {
       disableIntlNumberFormat();
-      const result = formatCurrency(1234567.89, { currency: 'USD', useGrouping: false });
+      const result = formatCurrency(TEST_LARGE_DECIMAL, { currency: 'USD', useGrouping: false });
       expect(result).not.toContain(',');
       expect(result).toContain('1234567.89');
     });
 
     it('falls back with unknown currency code', () => {
       disableIntlNumberFormat();
-      const result = formatCurrency(100, { currency: 'XYZ' });
+      const result = formatCurrency(TEST_AMOUNT, { currency: 'XYZ' });
       // Unknown currencies use uppercase code as symbol
       expect(result).toContain('XYZ');
     });
 
     it('falls back with explicit minimumFractionDigits', () => {
       disableIntlNumberFormat();
-      const result = formatCurrency(100, { currency: 'USD', minimumFractionDigits: 4 });
+      const result = formatCurrency(TEST_AMOUNT, { currency: 'USD', minimumFractionDigits: MIN_FRACTION_DIGITS_4 });
       expect(result).toContain('100.0000');
     });
 
     it('falls back with explicit maximumFractionDigits', () => {
       disableIntlNumberFormat();
-      const result = formatCurrency(100, { currency: 'USD', maximumFractionDigits: 0 });
+      const result = formatCurrency(TEST_AMOUNT, { currency: 'USD', maximumFractionDigits: MAX_FRACTION_DIGITS_0 });
       expect(result).toContain('$100');
       expect(result).not.toContain('.');
     });
 
     it('adds thousand separators to large numbers in fallback', () => {
       disableIntlNumberFormat();
-      const result = formatCurrency(1234567.89);
+      const result = formatCurrency(TEST_LARGE_DECIMAL);
       expect(result).toContain('1,234,567.89');
     });
   });
@@ -209,7 +254,7 @@ describe('formatCurrency coverage', () => {
         throw new RangeError('Invalid currency code');
       });
 
-      const result = formatCurrency(100, { currency: 'INVALID' });
+      const result = formatCurrency(TEST_AMOUNT, { currency: 'INVALID' });
       expect(typeof result).toBe('string');
       expect(result.length).toBeGreaterThan(0);
 
@@ -240,15 +285,15 @@ describe('formatNumber coverage', () => {
     it('evicts oldest entries when cache exceeds MAX_CACHE_SIZE (100)', () => {
       const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
       // Use valid unique combos to fill cache
-      for (let i = 0; i < 105; i++) {
-        formatNumber(100, {
+      for (let i = 0; i < TEST_CACHE_FILL_COUNT; i++) {
+        formatNumber(TEST_AMOUNT, {
           locale: 'en-US',
-          minimumFractionDigits: i % 21,
-          maximumFractionDigits: (i % 21) + Math.floor(i / 21),
+          minimumFractionDigits: i % CACHE_FILL_MODULO,
+          maximumFractionDigits: (i % CACHE_FILL_MODULO) + Math.floor(i / CACHE_FILL_MODULO),
         });
       }
       // After eviction, should be manageable
-      expect(formatNumber.getCacheSize()).toBeLessThanOrEqual(105);
+      expect(formatNumber.getCacheSize()).toBeLessThanOrEqual(TEST_CACHE_FILL_COUNT);
       warnSpy.mockRestore();
     });
   });
@@ -282,86 +327,86 @@ describe('formatNumber coverage', () => {
 
     it('falls back for scientific notation', () => {
       disableIntlNumberFormat();
-      const result = formatNumber(1234.56, { notation: 'scientific' });
+      const result = formatNumber(TEST_CURRENCY_VALUE, { notation: 'scientific' });
       expect(result).toMatch(/1\.23.*e\+3/i);
     });
 
     it('falls back for engineering notation', () => {
       disableIntlNumberFormat();
-      const result = formatNumber(1234.56, { notation: 'engineering' });
+      const result = formatNumber(TEST_CURRENCY_VALUE, { notation: 'engineering' });
       expect(result).toMatch(/e\+/i);
     });
 
     it('falls back for scientific with custom maximumFractionDigits', () => {
       disableIntlNumberFormat();
-      const result = formatNumber(1234.56, {
+      const result = formatNumber(TEST_CURRENCY_VALUE, {
         notation: 'scientific',
-        maximumFractionDigits: 5,
+        maximumFractionDigits: MAX_FRACTION_DIGITS_5,
       });
       expect(result).toMatch(/e\+3/i);
     });
 
     it('falls back for compact notation - thousands', () => {
       disableIntlNumberFormat();
-      const result = formatNumber(1500, { notation: 'compact' });
+      const result = formatNumber(TEST_COMPACT_THOUSANDS, { notation: 'compact' });
       expect(result).toBe('1.5K');
     });
 
     it('falls back for compact notation - millions', () => {
       disableIntlNumberFormat();
-      const result = formatNumber(2500000, { notation: 'compact' });
+      const result = formatNumber(TEST_COMPACT_MILLIONS, { notation: 'compact' });
       expect(result).toBe('2.5M');
     });
 
     it('falls back for compact notation - billions', () => {
       disableIntlNumberFormat();
-      const result = formatNumber(3000000000, { notation: 'compact' });
+      const result = formatNumber(TEST_COMPACT_BILLIONS, { notation: 'compact' });
       expect(result).toBe('3.0B');
     });
 
     it('falls back for compact notation - trillions', () => {
       disableIntlNumberFormat();
-      const result = formatNumber(1500000000000, { notation: 'compact' });
+      const result = formatNumber(TEST_COMPACT_TRILLIONS, { notation: 'compact' });
       expect(result).toBe('1.5T');
     });
 
     it('falls back for compact notation - negative values', () => {
       disableIntlNumberFormat();
-      const result = formatNumber(-2500000, { notation: 'compact' });
+      const result = formatNumber(TEST_COMPACT_NEGATIVE_MILLIONS, { notation: 'compact' });
       expect(result).toBe('-2.5M');
     });
 
     it('falls back for compact notation - small values (no suffix)', () => {
       disableIntlNumberFormat();
-      const result = formatNumber(500, { notation: 'compact' });
+      const result = formatNumber(TEST_COMPACT_SMALL, { notation: 'compact' });
       // Below 1000, compact should still format normally
       expect(result).toBe('500');
     });
 
     it('falls back with basic number formatting and grouping', () => {
       disableIntlNumberFormat();
-      const result = formatNumber(1234567, { maximumFractionDigits: 0 });
+      const result = formatNumber(TEST_LARGE_NUMBER, { maximumFractionDigits: MAX_FRACTION_DIGITS_0 });
       expect(result).toBe('1,234,567');
     });
 
     it('falls back with useGrouping: false', () => {
       disableIntlNumberFormat();
-      const result = formatNumber(1234567, {
+      const result = formatNumber(TEST_LARGE_NUMBER, {
         useGrouping: false,
-        maximumFractionDigits: 0,
+        maximumFractionDigits: MAX_FRACTION_DIGITS_0,
       });
       expect(result).toBe('1234567');
     });
 
     it('falls back with minimumFractionDigits', () => {
       disableIntlNumberFormat();
-      const result = formatNumber(1234.5, { minimumFractionDigits: 3 });
+      const result = formatNumber(TEST_FRACTION_VALUE, { minimumFractionDigits: MIN_FRACTION_DIGITS_3 });
       expect(result).toMatch(/1,234\.500/);
     });
 
     it('falls back with no fraction digit options (defaults to 0)', () => {
       disableIntlNumberFormat();
-      const result = formatNumber(1234.56);
+      const result = formatNumber(TEST_CURRENCY_VALUE);
       expect(result).toBe('1,235');
     });
   });
@@ -378,7 +423,7 @@ describe('formatNumber coverage', () => {
       });
 
       formatNumber.clearCache();
-      const result = formatNumber(100, { locale: 'en-US' });
+      const result = formatNumber(TEST_AMOUNT, { locale: 'en-US' });
       expect(typeof result).toBe('string');
       expect(warnSpy).toHaveBeenCalled();
 
@@ -389,14 +434,14 @@ describe('formatNumber coverage', () => {
 
   describe('getCacheKey with empty and various options', () => {
     it('uses locale-only key when no options', () => {
-      formatNumber(100);
-      formatNumber(200);
+      formatNumber(TEST_AMOUNT);
+      formatNumber(TEST_AMOUNT_LARGE);
       expect(formatNumber.getCacheSize()).toBe(1);
     });
 
     it('creates different keys for different options', () => {
-      formatNumber(100, { minimumFractionDigits: 2 });
-      formatNumber(100, { maximumFractionDigits: 2 });
+      formatNumber(TEST_AMOUNT, { minimumFractionDigits: MIN_FRACTION_DIGITS_2 });
+      formatNumber(TEST_AMOUNT, { maximumFractionDigits: MAX_FRACTION_DIGITS_2 });
       expect(formatNumber.getCacheSize()).toBe(2);
     });
   });
@@ -518,14 +563,14 @@ describe('formatDate coverage', () => {
       for (const locale of locales) {
         for (const dateStyle of styles) {
           for (const timeStyle of styles) {
-            if (count >= 105) {break;}
+            if (count >= TEST_CACHE_FILL_COUNT) {break;}
             formatDate(testDate, { locale, dateStyle, timeStyle });
             count++;
           }
         }
       }
       // Verify the cache size is managed
-      expect(formatDate.getCacheSize()).toBeLessThanOrEqual(105);
+      expect(formatDate.getCacheSize()).toBeLessThanOrEqual(TEST_CACHE_FILL_COUNT);
       warnSpy.mockRestore();
     });
   });
@@ -669,21 +714,21 @@ describe('formatRelativeTime coverage', () => {
 
     it('falls back for past time', () => {
       disableIntlRelativeTimeFormat();
-      const twoHoursAgo = new Date(baseDate.getTime() - 2 * 3600000);
+      const twoHoursAgo = new Date(baseDate.getTime() - 2 * MS_PER_HOUR);
       const result = formatRelativeTime(twoHoursAgo, { baseDate, locale: 'en-US' });
       expect(result).toMatch(/2 hours ago/);
     });
 
     it('falls back for future time', () => {
       disableIntlRelativeTimeFormat();
-      const inTwoDays = new Date(baseDate.getTime() + 2 * 86400000);
+      const inTwoDays = new Date(baseDate.getTime() + 2 * MS_PER_DAY);
       const result = formatRelativeTime(inTwoDays, { baseDate, locale: 'en-US' });
       expect(result).toMatch(/in 2 days/);
     });
 
     it('falls back with singular unit', () => {
       disableIntlRelativeTimeFormat();
-      const oneHourAgo = new Date(baseDate.getTime() - 3600000);
+      const oneHourAgo = new Date(baseDate.getTime() - MS_PER_HOUR);
       const result = formatRelativeTime(oneHourAgo, {
         baseDate,
         locale: 'en-US',
@@ -703,42 +748,42 @@ describe('formatRelativeTime coverage', () => {
 
     it('falls back for seconds', () => {
       disableIntlRelativeTimeFormat();
-      const thirtySecsAgo = new Date(baseDate.getTime() - 30000);
+      const thirtySecsAgo = new Date(baseDate.getTime() - MS_THIRTY_SECONDS);
       const result = formatRelativeTime(thirtySecsAgo, { baseDate, locale: 'en-US' });
       expect(result).toMatch(/30 seconds ago/);
     });
 
     it('falls back for minutes', () => {
       disableIntlRelativeTimeFormat();
-      const fiveMinAgo = new Date(baseDate.getTime() - 5 * 60000);
+      const fiveMinAgo = new Date(baseDate.getTime() - 5 * MS_PER_MINUTE);
       const result = formatRelativeTime(fiveMinAgo, { baseDate, locale: 'en-US' });
       expect(result).toMatch(/5 minutes ago/);
     });
 
     it('falls back for weeks', () => {
       disableIntlRelativeTimeFormat();
-      const twoWeeksAgo = new Date(baseDate.getTime() - 14 * 86400000);
+      const twoWeeksAgo = new Date(baseDate.getTime() - DAYS_IN_TWO_WEEKS * MS_PER_DAY);
       const result = formatRelativeTime(twoWeeksAgo, { baseDate, locale: 'en-US' });
       expect(result).toMatch(/2 weeks ago/);
     });
 
     it('falls back for months', () => {
       disableIntlRelativeTimeFormat();
-      const threeMonthsAgo = new Date(baseDate.getTime() - 90 * 86400000);
+      const threeMonthsAgo = new Date(baseDate.getTime() - DAYS_IN_THREE_MONTHS * MS_PER_DAY);
       const result = formatRelativeTime(threeMonthsAgo, { baseDate, locale: 'en-US' });
       expect(result).toMatch(/3 months ago/);
     });
 
     it('falls back for years', () => {
       disableIntlRelativeTimeFormat();
-      const twoYearsAgo = new Date(baseDate.getTime() - 730 * 86400000);
+      const twoYearsAgo = new Date(baseDate.getTime() - DAYS_IN_TWO_YEARS * MS_PER_DAY);
       const result = formatRelativeTime(twoYearsAgo, { baseDate, locale: 'en-US' });
       expect(result).toMatch(/2 years ago/);
     });
 
     it('falls back for future singular', () => {
       disableIntlRelativeTimeFormat();
-      const inOneDay = new Date(baseDate.getTime() + 86400000);
+      const inOneDay = new Date(baseDate.getTime() + MS_PER_DAY);
       const result = formatRelativeTime(inOneDay, { baseDate, locale: 'en-US' });
       expect(result).toMatch(/in 1 day$/);
     });
@@ -756,17 +801,17 @@ describe('formatRelativeTime coverage', () => {
       const numericOpts: Array<'always' | 'auto'> = ['always', 'auto'];
       const styleOpts: Array<'long' | 'short' | 'narrow'> = ['long', 'short', 'narrow'];
       let count = 0;
-      const date = new Date(baseDate.getTime() - 3600000);
+      const date = new Date(baseDate.getTime() - MS_PER_HOUR);
       for (const locale of locales) {
         for (const numeric of numericOpts) {
           for (const style of styleOpts) {
-            if (count >= 55) {break;}
+            if (count >= RELATIVE_CACHE_FILL) {break;}
             formatRelativeTime(date, { baseDate, locale, numeric, style });
             count++;
           }
         }
       }
-      expect(formatRelativeTime.getCacheSize()).toBeLessThanOrEqual(55);
+      expect(formatRelativeTime.getCacheSize()).toBeLessThanOrEqual(RELATIVE_CACHE_FILL);
       warnSpy.mockRestore();
     });
   });
@@ -788,7 +833,7 @@ describe('formatRelativeTime coverage', () => {
 
   describe('numeric auto vs always', () => {
     it('uses auto mode (may produce "yesterday")', () => {
-      const oneDayAgo = new Date(baseDate.getTime() - 86400000);
+      const oneDayAgo = new Date(baseDate.getTime() - MS_PER_DAY);
       const result = formatRelativeTime(oneDayAgo, {
         baseDate,
         locale: 'en-US',
@@ -799,7 +844,7 @@ describe('formatRelativeTime coverage', () => {
     });
 
     it('uses always mode (produces "1 day ago")', () => {
-      const oneDayAgo = new Date(baseDate.getTime() - 86400000);
+      const oneDayAgo = new Date(baseDate.getTime() - MS_PER_DAY);
       const result = formatRelativeTime(oneDayAgo, {
         baseDate,
         locale: 'en-US',
@@ -811,7 +856,7 @@ describe('formatRelativeTime coverage', () => {
 
   describe('all time units', () => {
     it('formats seconds', () => {
-      const date = new Date(baseDate.getTime() - 5000);
+      const date = new Date(baseDate.getTime() - TEST_SECONDS_AGO);
       const result = formatRelativeTime(date, {
         baseDate,
         locale: 'en-US',
@@ -821,7 +866,7 @@ describe('formatRelativeTime coverage', () => {
     });
 
     it('formats minutes', () => {
-      const date = new Date(baseDate.getTime() - 5 * 60000);
+      const date = new Date(baseDate.getTime() - 5 * MS_PER_MINUTE);
       const result = formatRelativeTime(date, {
         baseDate,
         locale: 'en-US',
@@ -831,7 +876,7 @@ describe('formatRelativeTime coverage', () => {
     });
 
     it('formats hours', () => {
-      const date = new Date(baseDate.getTime() - 5 * 3600000);
+      const date = new Date(baseDate.getTime() - 5 * MS_PER_HOUR);
       const result = formatRelativeTime(date, {
         baseDate,
         locale: 'en-US',
@@ -841,7 +886,7 @@ describe('formatRelativeTime coverage', () => {
     });
 
     it('formats days', () => {
-      const date = new Date(baseDate.getTime() - 3 * 86400000);
+      const date = new Date(baseDate.getTime() - 3 * MS_PER_DAY);
       const result = formatRelativeTime(date, {
         baseDate,
         locale: 'en-US',
@@ -851,7 +896,7 @@ describe('formatRelativeTime coverage', () => {
     });
 
     it('formats weeks', () => {
-      const date = new Date(baseDate.getTime() - 2 * 604800000);
+      const date = new Date(baseDate.getTime() - 2 * MS_PER_WEEK);
       const result = formatRelativeTime(date, {
         baseDate,
         locale: 'en-US',
@@ -861,7 +906,7 @@ describe('formatRelativeTime coverage', () => {
     });
 
     it('formats months', () => {
-      const date = new Date(baseDate.getTime() - 3 * 2592000000);
+      const date = new Date(baseDate.getTime() - 3 * MS_PER_MONTH);
       const result = formatRelativeTime(date, {
         baseDate,
         locale: 'en-US',
@@ -871,7 +916,7 @@ describe('formatRelativeTime coverage', () => {
     });
 
     it('formats years', () => {
-      const date = new Date(baseDate.getTime() - 2 * 31536000000);
+      const date = new Date(baseDate.getTime() - 2 * MS_PER_YEAR);
       const result = formatRelativeTime(date, {
         baseDate,
         locale: 'en-US',
@@ -906,7 +951,7 @@ describe('formatRelativeTime coverage', () => {
         throw new Error('Invalid locale');
       });
 
-      const twoHoursAgo = new Date(baseDate.getTime() - 7200000);
+      const twoHoursAgo = new Date(baseDate.getTime() - MS_TWO_HOURS);
       const result = formatRelativeTime(twoHoursAgo, { baseDate, locale: 'en-US' });
       expect(typeof result).toBe('string');
       expect(result).toMatch(/2 hours ago/);
@@ -933,7 +978,7 @@ describe('formatRelativeTime coverage', () => {
         }),
       }));
 
-      const twoHoursAgo = new Date(baseDate.getTime() - 7200000);
+      const twoHoursAgo = new Date(baseDate.getTime() - MS_TWO_HOURS);
       const result = formatRelativeTime(twoHoursAgo, { baseDate, locale: 'en-US' });
       expect(typeof result).toBe('string');
       expect(warnSpy).toHaveBeenCalled();
@@ -950,7 +995,7 @@ describe('formatRelativeTime coverage', () => {
       // @ts-expect-error - mocking for test
       delete globalThis.navigator;
 
-      const twoHoursAgo = new Date(Date.now() - 7200000);
+      const twoHoursAgo = new Date(Date.now() - MS_TWO_HOURS);
       const result = formatRelativeTime(twoHoursAgo);
       expect(typeof result).toBe('string');
 

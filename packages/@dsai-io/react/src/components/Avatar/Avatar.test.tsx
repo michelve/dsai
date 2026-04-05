@@ -20,6 +20,9 @@ import { AvatarGroup } from './AvatarGroup';
 
 expect.extend(toHaveNoViolations);
 
+// Named constants for magic numbers (SonarQube S109)
+const FALLBACK_DELAY_MS = 500;
+
 // =============================================================================
 // Avatar - Basic Rendering
 // =============================================================================
@@ -583,17 +586,17 @@ describe('Avatar', () => {
     });
 
     it('delays fallback rendering', () => {
-      render(<Avatar name="Test" delayMs={500} data-testid="avatar" />);
+      render(<Avatar name="Test" delayMs={FALLBACK_DELAY_MS} data-testid="avatar" />);
       // Fallback should not be visible yet
       expect(screen.queryByText('TE')).not.toBeInTheDocument();
 
       // Advance timer
-      act(() => { jest.advanceTimersByTime(500); });
+      act(() => { jest.advanceTimersByTime(FALLBACK_DELAY_MS); });
       expect(screen.getByText('TE')).toBeInTheDocument();
     });
 
     it('shows image immediately regardless of delayMs', () => {
-      render(<Avatar src="/test.jpg" alt="Test" delayMs={500} data-testid="avatar" />);
+      render(<Avatar src="/test.jpg" alt="Test" delayMs={FALLBACK_DELAY_MS} data-testid="avatar" />);
       expect(screen.getByTestId('avatar-image')).toBeInTheDocument();
     });
   });

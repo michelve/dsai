@@ -378,7 +378,7 @@ const DropdownRoot = forwardRef<HTMLDivElement, DropdownProps>(
       }
     }, [fsmState.visibility, onClosed]);
 
-    // Context actions - let React Compiler handle memoization
+    // Context actions
     const toggle = (): void => {
       if (disabled) {
         return;
@@ -891,12 +891,11 @@ const DropdownCheckboxItem = forwardRef<HTMLButtonElement, DropdownCheckboxItemP
           defaultPrevented = selectEvent.defaultPrevented;
         }
 
-        if (!defaultPrevented) {
-          if (closeOnSelect) {
-            close();
-          } else if (closeOnSelect === undefined && (autoClose === true || autoClose === 'inside')) {
-            close();
-          }
+        if (
+          !defaultPrevented &&
+          (closeOnSelect || (closeOnSelect === undefined && (autoClose === true || autoClose === 'inside')))
+        ) {
+          close();
         }
       },
       [disabled, checked, setChecked, onSelect, closeOnSelect, autoClose, close]

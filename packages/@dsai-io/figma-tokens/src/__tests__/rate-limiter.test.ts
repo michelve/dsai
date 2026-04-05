@@ -5,6 +5,46 @@
 
 import { RateLimiter } from '../rate-limiter.js';
 
+// ==========================================================================
+// Test Constants
+// ==========================================================================
+
+/** Custom throttle threshold for config tests */
+const TEST_THROTTLE_THRESHOLD = 0.3;
+
+/** Custom throttle delay in ms for config tests */
+const TEST_THROTTLE_DELAY_MS = 3000;
+
+/** Custom critical delay in ms for config tests */
+const TEST_CRITICAL_DELAY_MS = 8000;
+
+/** Custom critical threshold for config tests */
+const TEST_CRITICAL_THRESHOLD = 0.05;
+
+/** Default critical threshold used by RateLimiter */
+const DEFAULT_CRITICAL_THRESHOLD = 0.1;
+
+/** Default throttle delay in ms used by RateLimiter */
+const DEFAULT_THROTTLE_DELAY_MS = 2000;
+
+/** Default critical delay in ms used by RateLimiter */
+const DEFAULT_CRITICAL_DELAY_MS = 5000;
+
+/** Future reset offset in seconds for test headers */
+const TEST_RESET_OFFSET_LONG_S = 300;
+
+/** Short reset offset in seconds */
+const TEST_RESET_OFFSET_SHORT_S = 60;
+
+/** Medium reset offset in seconds */
+const TEST_RESET_OFFSET_MEDIUM_S = 120;
+
+/** Milliseconds per second */
+const MS_PER_SECOND = 1000;
+
+/** Tolerance window in ms for time-until-reset assertions */
+const RESET_TIME_TOLERANCE_MS = 119000;
+
 describe('RateLimiter', () => {
   // ==========================================================================
   // Constructor
@@ -22,14 +62,14 @@ describe('RateLimiter', () => {
 
     it('accepts custom config values', () => {
       const limiter = new RateLimiter({
-        throttleThreshold: 0.3,
-        throttleDelay: 3000,
-        criticalDelay: 8000,
-        criticalThreshold: 0.05,
+        throttleThreshold: TEST_THROTTLE_THRESHOLD,
+        throttleDelay: TEST_THROTTLE_DELAY_MS,
+        criticalDelay: TEST_CRITICAL_DELAY_MS,
+        criticalThreshold: TEST_CRITICAL_THRESHOLD,
       });
 
       // Set up headers with a future reset time and ratio at 0.06 (between custom critical 0.05 and custom throttle 0.3)
-      const futureReset = Math.floor(Date.now() / 1000) + 300;
+      const futureReset = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_LONG_S;
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
         'x-ratelimit-remaining': '6',
@@ -39,16 +79,16 @@ describe('RateLimiter', () => {
       // 6/100 = 0.06, which is > criticalThreshold(0.05) but <= throttleThreshold(0.3)
       expect(limiter.shouldThrottle()).toBe(true);
       expect(limiter.isCritical()).toBe(false);
-      expect(limiter.getDelay()).toBe(3000); // throttleDelay
+      expect(limiter.getDelay()).toBe(TEST_THROTTLE_DELAY_MS);
     });
 
     it('applies critical delay when ratio is at or below critical threshold', () => {
       const limiter = new RateLimiter({
-        criticalThreshold: 0.1,
-        criticalDelay: 8000,
+        criticalThreshold: DEFAULT_CRITICAL_THRESHOLD,
+        criticalDelay: TEST_CRITICAL_DELAY_MS,
       });
 
-      const futureReset = Math.floor(Date.now() / 1000) + 300;
+      const futureReset = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_LONG_S;
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
         'x-ratelimit-remaining': '5', // 5/100 = 0.05 <= 0.1
@@ -56,7 +96,7 @@ describe('RateLimiter', () => {
       });
 
       expect(limiter.isCritical()).toBe(true);
-      expect(limiter.getDelay()).toBe(8000);
+      expect(limiter.getDelay()).toBe(TEST_CRITICAL_DELAY_MS);
     });
   });
 
@@ -67,7 +107,7 @@ describe('RateLimiter', () => {
   describe('updateFromHeaders', () => {
     it('parses rate limit headers from a Headers instance', () => {
       const limiter = new RateLimiter();
-      const resetTime = Math.floor(Date.now() / 1000) + 60;
+      const resetTime = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_SHORT_S;
 
       const headers = new Headers();
       headers.set('x-ratelimit-limit', '500');
@@ -81,12 +121,12 @@ describe('RateLimiter', () => {
       expect(info!.limit).toBe(500);
       expect(info!.remaining).toBe(450);
       expect(info!.reset).toBe(resetTime);
-      expect(info!.resetAt).toEqual(new Date(resetTime * 1000));
+      expect(info!.resetAt).toEqual(new Date(resetTime * MS_PER_SECOND));
     });
 
     it('parses rate limit headers from a plain object', () => {
       const limiter = new RateLimiter();
-      const resetTime = Math.floor(Date.now() / 1000) + 120;
+      const resetTime = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_MEDIUM_S;
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
@@ -103,7 +143,7 @@ describe('RateLimiter', () => {
 
     it('handles case-insensitive header lookup in plain objects', () => {
       const limiter = new RateLimiter();
-      const resetTime = Math.floor(Date.now() / 1000) + 60;
+      const resetTime = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_SHORT_S;
 
       limiter.updateFromHeaders({
         'X-RateLimit-Limit': '200',
@@ -155,7 +195,7 @@ describe('RateLimiter', () => {
 
     it('returns 0 when quota is healthy', () => {
       const limiter = new RateLimiter();
-      const futureReset = Math.floor(Date.now() / 1000) + 300;
+      const futureReset = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_LONG_S;
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
@@ -168,7 +208,7 @@ describe('RateLimiter', () => {
 
     it('returns throttle delay when below throttle threshold', () => {
       const limiter = new RateLimiter(); // default thresholds: throttle=0.2, critical=0.1
-      const futureReset = Math.floor(Date.now() / 1000) + 300;
+      const futureReset = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_LONG_S;
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
@@ -176,12 +216,12 @@ describe('RateLimiter', () => {
         'x-ratelimit-reset': String(futureReset),
       });
 
-      expect(limiter.getDelay()).toBe(2000); // default throttle delay
+      expect(limiter.getDelay()).toBe(DEFAULT_THROTTLE_DELAY_MS);
     });
 
     it('returns critical delay when below critical threshold', () => {
       const limiter = new RateLimiter(); // default critical threshold: 0.1
-      const futureReset = Math.floor(Date.now() / 1000) + 300;
+      const futureReset = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_LONG_S;
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
@@ -189,12 +229,12 @@ describe('RateLimiter', () => {
         'x-ratelimit-reset': String(futureReset),
       });
 
-      expect(limiter.getDelay()).toBe(5000); // default critical delay
+      expect(limiter.getDelay()).toBe(DEFAULT_CRITICAL_DELAY_MS);
     });
 
     it('returns critical delay when remaining is 0', () => {
       const limiter = new RateLimiter();
-      const futureReset = Math.floor(Date.now() / 1000) + 300;
+      const futureReset = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_LONG_S;
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
@@ -202,12 +242,12 @@ describe('RateLimiter', () => {
         'x-ratelimit-reset': String(futureReset),
       });
 
-      expect(limiter.getDelay()).toBe(5000);
+      expect(limiter.getDelay()).toBe(DEFAULT_CRITICAL_DELAY_MS);
     });
 
     it('returns 0 when rate limit has already reset (past reset time)', () => {
       const limiter = new RateLimiter();
-      const pastReset = Math.floor(Date.now() / 1000) - 60; // 60 seconds ago
+      const pastReset = Math.floor(Date.now() / MS_PER_SECOND) - TEST_RESET_OFFSET_SHORT_S; // 60 seconds ago
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
@@ -241,7 +281,7 @@ describe('RateLimiter', () => {
 
     it('waits for the throttle delay', async () => {
       const limiter = new RateLimiter();
-      const futureReset = Math.floor(Date.now() / 1000) + 300;
+      const futureReset = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_LONG_S;
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
@@ -250,14 +290,14 @@ describe('RateLimiter', () => {
       });
 
       const waitPromise = limiter.wait();
-      jest.advanceTimersByTime(2000);
+      jest.advanceTimersByTime(DEFAULT_THROTTLE_DELAY_MS);
       await waitPromise;
       // Promise resolved after advancing timers
     });
 
     it('waits for the critical delay', async () => {
       const limiter = new RateLimiter();
-      const futureReset = Math.floor(Date.now() / 1000) + 300;
+      const futureReset = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_LONG_S;
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
@@ -266,7 +306,7 @@ describe('RateLimiter', () => {
       });
 
       const waitPromise = limiter.wait();
-      jest.advanceTimersByTime(5000);
+      jest.advanceTimersByTime(DEFAULT_CRITICAL_DELAY_MS);
       await waitPromise;
     });
   });
@@ -283,7 +323,7 @@ describe('RateLimiter', () => {
 
     it('returns false when ratio is above critical threshold', () => {
       const limiter = new RateLimiter();
-      const futureReset = Math.floor(Date.now() / 1000) + 300;
+      const futureReset = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_LONG_S;
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
@@ -296,7 +336,7 @@ describe('RateLimiter', () => {
 
     it('returns true when ratio is at or below critical threshold', () => {
       const limiter = new RateLimiter(); // critical threshold 0.1
-      const futureReset = Math.floor(Date.now() / 1000) + 300;
+      const futureReset = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_LONG_S;
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
@@ -320,7 +360,7 @@ describe('RateLimiter', () => {
 
     it('returns false when ratio is above throttle threshold', () => {
       const limiter = new RateLimiter();
-      const futureReset = Math.floor(Date.now() / 1000) + 300;
+      const futureReset = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_LONG_S;
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
@@ -333,7 +373,7 @@ describe('RateLimiter', () => {
 
     it('returns true when ratio is at or below throttle threshold', () => {
       const limiter = new RateLimiter(); // throttle threshold 0.2
-      const futureReset = Math.floor(Date.now() / 1000) + 300;
+      const futureReset = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_LONG_S;
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
@@ -346,7 +386,7 @@ describe('RateLimiter', () => {
 
     it('returns true when critical (critical implies throttle)', () => {
       const limiter = new RateLimiter();
-      const futureReset = Math.floor(Date.now() / 1000) + 300;
+      const futureReset = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_LONG_S;
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
@@ -371,7 +411,7 @@ describe('RateLimiter', () => {
 
     it('returns the full rate limit info object after headers are parsed', () => {
       const limiter = new RateLimiter();
-      const resetTime = Math.floor(Date.now() / 1000) + 120;
+      const resetTime = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_MEDIUM_S;
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '500',
@@ -384,7 +424,7 @@ describe('RateLimiter', () => {
         limit: 500,
         remaining: 300,
         reset: resetTime,
-        resetAt: new Date(resetTime * 1000),
+        resetAt: new Date(resetTime * MS_PER_SECOND),
       });
     });
   });
@@ -401,7 +441,7 @@ describe('RateLimiter', () => {
 
     it('returns remaining requests after headers are parsed', () => {
       const limiter = new RateLimiter();
-      const futureReset = Math.floor(Date.now() / 1000) + 300;
+      const futureReset = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_LONG_S;
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
@@ -425,7 +465,7 @@ describe('RateLimiter', () => {
 
     it('returns correct ratio after headers are parsed', () => {
       const limiter = new RateLimiter();
-      const futureReset = Math.floor(Date.now() / 1000) + 300;
+      const futureReset = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_LONG_S;
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '200',
@@ -449,7 +489,7 @@ describe('RateLimiter', () => {
 
     it('returns positive time until reset for a future reset', () => {
       const limiter = new RateLimiter();
-      const futureReset = Math.floor(Date.now() / 1000) + 120; // 2 minutes from now
+      const futureReset = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_MEDIUM_S; // 2 minutes from now
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
@@ -459,13 +499,13 @@ describe('RateLimiter', () => {
 
       const timeUntilReset = limiter.getTimeUntilReset();
       // Should be roughly 120000ms (2 minutes), allowing some tolerance
-      expect(timeUntilReset).toBeGreaterThan(119000);
-      expect(timeUntilReset).toBeLessThanOrEqual(120000);
+      expect(timeUntilReset).toBeGreaterThan(RESET_TIME_TOLERANCE_MS);
+      expect(timeUntilReset).toBeLessThanOrEqual(TEST_RESET_OFFSET_MEDIUM_S * MS_PER_SECOND);
     });
 
     it('returns 0 when reset time is in the past', () => {
       const limiter = new RateLimiter();
-      const pastReset = Math.floor(Date.now() / 1000) - 60;
+      const pastReset = Math.floor(Date.now() / MS_PER_SECOND) - TEST_RESET_OFFSET_SHORT_S;
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',
@@ -484,7 +524,7 @@ describe('RateLimiter', () => {
   describe('reset', () => {
     it('clears all rate limit state', () => {
       const limiter = new RateLimiter();
-      const futureReset = Math.floor(Date.now() / 1000) + 300;
+      const futureReset = Math.floor(Date.now() / MS_PER_SECOND) + TEST_RESET_OFFSET_LONG_S;
 
       limiter.updateFromHeaders({
         'x-ratelimit-limit': '100',

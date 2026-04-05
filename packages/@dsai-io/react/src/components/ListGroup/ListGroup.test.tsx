@@ -11,6 +11,9 @@ import { ListGroupHeader } from './ListGroupHeader';
 
 expect.extend(toHaveNoViolations);
 
+// Named constants for magic numbers (SonarQube S109)
+const SAMPLE_ITEM_COUNT = 3;
+
 // Sample items for testing
 const sampleItems = [
   { id: '1', content: 'Item 1' },
@@ -520,7 +523,7 @@ describe('ListGroup', () => {
     it('uses semantic list structure', () => {
       render(<ListGroup items={sampleItems} />);
       expect(screen.getByRole('list')).toBeInTheDocument();
-      expect(screen.getAllByRole('listitem')).toHaveLength(3);
+      expect(screen.getAllByRole('listitem')).toHaveLength(SAMPLE_ITEM_COUNT);
     });
 
     it('accepts aria-label', () => {

@@ -56,7 +56,7 @@ function clearAllCaches(): void {
     hasHover,
     isTouchDevice,
   ]) {
-    (fn as any)._cached = undefined;
+    (fn as unknown as Record<string, unknown>)._cached = undefined;
   }
 }
 
@@ -147,7 +147,7 @@ describe('isRTL', () => {
     document.dir = 'ltr';
     isRTL(); // populates cache
     // Explicitly verify _cached was set
-    expect((isRTL as any)._cached).toBe(false);
+    expect((isRTL as unknown as Record<string, unknown>)._cached).toBe(false);
     // Second call should hit the typeof cached === 'boolean' branch
     expect(isRTL()).toBe(false);
   });
@@ -357,8 +357,8 @@ describe('isDesktop', () => {
     // Change to mobile UA — cached result should still return true
     setUA('Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X)');
     Object.defineProperty(window, 'innerWidth', { value: 375, configurable: true });
-    (isMobile as any)._cached = undefined;
-    (isTablet as any)._cached = undefined;
+    (isMobile as unknown as Record<string, unknown>)._cached = undefined;
+    (isTablet as unknown as Record<string, unknown>)._cached = undefined;
     // isDesktop cache is still set
     expect(isDesktop()).toBe(true);
   });
@@ -405,7 +405,7 @@ describe('hasHover', () => {
       '(pointer: fine)': false,
       '(hover: hover)': true,
     });
-    (hasHover as any)._cached = undefined;
+    (hasHover as unknown as Record<string, unknown>)._cached = undefined;
     expect(hasHover()).toBe(true);
   });
 
@@ -441,7 +441,7 @@ describe('hasHover', () => {
   });
 
   it('handles missing matchMedia gracefully', () => {
-    (window as any).matchMedia = undefined;
+    (window as unknown as Record<string, unknown>).matchMedia = undefined;
     // With matchMedia undefined, the ?. returns undefined for both checks
     // undefined || undefined is undefined (falsy)
     const result = hasHover();
@@ -460,36 +460,36 @@ describe('isTouchDevice', () => {
   });
 
   it('detects touch via ontouchstart', () => {
-    (window as any).ontouchstart = null; // property exists
+    (window as unknown as Record<string, unknown>).ontouchstart = null; // property exists
     Object.defineProperty(navigator, 'maxTouchPoints', { value: 0, configurable: true });
     mockMatchMedia({ '(pointer: coarse)': false });
     expect(isTouchDevice()).toBe(true);
-    delete (window as any).ontouchstart;
+    delete (window as unknown as Record<string, unknown>).ontouchstart;
   });
 
   it('detects touch via maxTouchPoints', () => {
-    delete (window as any).ontouchstart;
+    delete (window as unknown as Record<string, unknown>).ontouchstart;
     Object.defineProperty(navigator, 'maxTouchPoints', { value: 5, configurable: true });
     mockMatchMedia({ '(pointer: coarse)': false });
     expect(isTouchDevice()).toBe(true);
   });
 
   it('detects touch via pointer: coarse media query', () => {
-    delete (window as any).ontouchstart;
+    delete (window as unknown as Record<string, unknown>).ontouchstart;
     Object.defineProperty(navigator, 'maxTouchPoints', { value: 0, configurable: true });
     mockMatchMedia({ '(pointer: coarse)': true });
     expect(isTouchDevice()).toBe(true);
   });
 
   it('returns false when no touch indicators are present', () => {
-    delete (window as any).ontouchstart;
+    delete (window as unknown as Record<string, unknown>).ontouchstart;
     Object.defineProperty(navigator, 'maxTouchPoints', { value: 0, configurable: true });
     mockMatchMedia({ '(pointer: coarse)': false });
     expect(isTouchDevice()).toBe(false);
   });
 
   it('detects touch via msMaxTouchPoints', () => {
-    delete (window as any).ontouchstart;
+    delete (window as unknown as Record<string, unknown>).ontouchstart;
     Object.defineProperty(navigator, 'maxTouchPoints', { value: 0, configurable: true });
     Object.defineProperty(navigator, 'msMaxTouchPoints', { value: 5, configurable: true });
     mockMatchMedia({ '(pointer: coarse)': false });
@@ -503,18 +503,18 @@ describe('isTouchDevice', () => {
     expect(isTouchDevice()).toBe(true);
 
     // Remove touch — cached result should persist
-    delete (window as any).ontouchstart;
+    delete (window as unknown as Record<string, unknown>).ontouchstart;
     Object.defineProperty(navigator, 'maxTouchPoints', { value: 0, configurable: true });
     mockMatchMedia({ '(pointer: coarse)': false });
     expect(isTouchDevice()).toBe(true);
 
-    delete (window as any).ontouchstart;
+    delete (window as unknown as Record<string, unknown>).ontouchstart;
   });
 
   it('handles missing matchMedia gracefully', () => {
-    delete (window as any).ontouchstart;
+    delete (window as unknown as Record<string, unknown>).ontouchstart;
     Object.defineProperty(navigator, 'maxTouchPoints', { value: 0, configurable: true });
-    (window as any).matchMedia = undefined;
+    (window as unknown as Record<string, unknown>).matchMedia = undefined;
     // With matchMedia undefined, hasCoarsePointer is undefined (falsy)
     // hasTouchEvents is false, so result is false || undefined = undefined (falsy)
     const result = isTouchDevice();

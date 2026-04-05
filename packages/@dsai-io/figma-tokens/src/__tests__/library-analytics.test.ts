@@ -23,6 +23,12 @@ import { createFigmaClient } from '../client.js';
 
 import type { FigmaClient } from '../client.js';
 
+// ============================================================================
+// HTTP Status Code Constants
+// ============================================================================
+
+const HTTP_FORBIDDEN = 403;
+
 describe('FigmaClient Library Analytics', () => {
   let client: FigmaClient;
   let originalFetch: typeof fetch;
@@ -390,7 +396,7 @@ describe('FigmaClient Library Analytics', () => {
     it('throws on 403 for analytics endpoints', async () => {
       setupFetchMock(
         createCustomMockFetch({
-          '/analytics/': createErrorResponse(403, error403Forbidden),
+          '/analytics/': createErrorResponse(HTTP_FORBIDDEN, error403Forbidden),
         }) as unknown as typeof fetch
       );
 

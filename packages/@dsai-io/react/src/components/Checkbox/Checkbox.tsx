@@ -143,7 +143,12 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
     );
 
     // Compute data-state for CSS targeting (matches Radix convention)
-    const dataState = indeterminate ? 'indeterminate' : checked ? 'checked' : 'unchecked';
+    let dataState: 'indeterminate' | 'checked' | 'unchecked';
+    if (indeterminate) {
+      dataState = 'indeterminate';
+    } else {
+      dataState = checked ? 'checked' : 'unchecked';
+    }
 
     // Internal ref for indeterminate state
     const internalRef = useRef<HTMLInputElement>(null);

@@ -15,6 +15,12 @@ import { basename, join, relative } from 'node:path';
 import type { CacheService } from './cache.js';
 import type { TransformOptions } from './types.js';
 
+/** Threshold percentage above which a full build is more efficient than selective processing */
+const FULL_BUILD_THRESHOLD_PERCENT = 50;
+
+/** Width of separator lines in build reports */
+const REPORT_SEPARATOR_WIDTH = 50;
+
 // ============================================================================
 // Types
 // ============================================================================
@@ -165,7 +171,7 @@ export async function analyzeChanges(
 
   // If more than 50% of files changed, do full build
   // This is more efficient than selective processing
-  if (changePercentage > 50) {
+  if (changePercentage > FULL_BUILD_THRESHOLD_PERCENT) {
     if (verbose) {
       console.info('  ℹ️  >50% files changed, performing full build for efficiency');
     }
@@ -435,7 +441,7 @@ export function generateIncrementalReport(
   const lines: string[] = [];
 
   lines.push('\n📊 Incremental Build Report');
-  lines.push('─'.repeat(50));
+  lines.push('─'.repeat(REPORT_SEPARATOR_WIDTH));
 
   if (analysis.needsFullBuild) {
     lines.push(`Reason: ${analysis.fullBuildReason}`);
@@ -456,7 +462,7 @@ export function generateIncrementalReport(
     lines.push(`Duration: ${duration}ms`);
   }
 
-  lines.push('─'.repeat(50));
+  lines.push('─'.repeat(REPORT_SEPARATOR_WIDTH));
 
   return lines.join('\n');
 }

@@ -22,6 +22,14 @@ import { createFigmaClient } from '../client.js';
 import type { FigmaClient } from '../client.js';
 import type { FigmaPostVariablesRequest } from '../types.js';
 
+// ============================================================================
+// HTTP Status Code Constants
+// ============================================================================
+
+const HTTP_OK = 200;
+const HTTP_FORBIDDEN = 403;
+const HTTP_PAYLOAD_TOO_LARGE = 413;
+
 describe('FigmaClient.postVariables', () => {
   let client: FigmaClient;
   let originalFetch: typeof fetch;
@@ -109,7 +117,7 @@ describe('FigmaClient.postVariables', () => {
         ],
       });
 
-      expect(result.status).toBe(200);
+      expect(result.status).toBe(HTTP_OK);
       expect(result.error).toBe(false);
       expect(result.meta.tempIdToRealId).toBeDefined();
       expect(result.meta.tempIdToRealId['temp-var-1']).toBe('VariableID:99:1');
@@ -248,7 +256,7 @@ describe('FigmaClient.postVariables', () => {
     it('throws on 403 with enterprise plan hint', async () => {
       setupFetchMock(
         createCustomMockFetch({
-          '/variables': createErrorResponse(403, error403Forbidden),
+          '/variables': createErrorResponse(HTTP_FORBIDDEN, error403Forbidden),
         }) as unknown as typeof fetch
       );
 
@@ -262,7 +270,7 @@ describe('FigmaClient.postVariables', () => {
     it('throws on 413 payload too large', async () => {
       setupFetchMock(
         createCustomMockFetch({
-          '/variables': createErrorResponse(413, error413PayloadTooLarge),
+          '/variables': createErrorResponse(HTTP_PAYLOAD_TOO_LARGE, error413PayloadTooLarge),
         }) as unknown as typeof fetch
       );
 

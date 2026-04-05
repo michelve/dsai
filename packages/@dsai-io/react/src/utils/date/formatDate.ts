@@ -26,6 +26,12 @@ const formattersCache = new Map<string, Intl.DateTimeFormat>();
  */
 const MAX_CACHE_SIZE = 100;
 
+/** Fraction of cache entries to evict when the cache is full (20%) */
+const CACHE_EVICTION_FRACTION = 0.2;
+
+/** Number of hours used to determine AM/PM boundary */
+const HOURS_IN_HALF_DAY = 12;
+
 /**
  * Get default locale from navigator or fallback
  *
@@ -61,7 +67,7 @@ function getCacheKey(locale: string, options: Intl.DateTimeFormatOptions): strin
 function evictOldestCacheEntries(): void {
   if (formattersCache.size >= MAX_CACHE_SIZE) {
     // Remove oldest 20% of entries
-    const entriesToRemove = Math.floor(MAX_CACHE_SIZE * 0.2);
+    const entriesToRemove = Math.floor(MAX_CACHE_SIZE * CACHE_EVICTION_FRACTION);
     const keys = Array.from(formattersCache.keys());
 
     for (let i = 0; i < entriesToRemove; i++) {
@@ -146,8 +152,8 @@ function fallbackFormat(date: Date, options: Intl.DateTimeFormatOptions): string
       const hours = date.getHours();
       const minutes = date.getMinutes();
       const seconds = date.getSeconds();
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      const displayHours = hours % 12 || 12;
+      const ampm = hours >= HOURS_IN_HALF_DAY ? 'PM' : 'AM';
+      const displayHours = hours % HOURS_IN_HALF_DAY || HOURS_IN_HALF_DAY;
       parts.push(
         `${displayHours}:${minutes.toString().padStart(2, '0')}:${seconds
           .toString()
@@ -157,8 +163,8 @@ function fallbackFormat(date: Date, options: Intl.DateTimeFormatOptions): string
       // short or default
       const hours = date.getHours();
       const minutes = date.getMinutes();
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      const displayHours = hours % 12 || 12;
+      const ampm = hours >= HOURS_IN_HALF_DAY ? 'PM' : 'AM';
+      const displayHours = hours % HOURS_IN_HALF_DAY || HOURS_IN_HALF_DAY;
       parts.push(`${displayHours}:${minutes.toString().padStart(2, '0')} ${ampm}`);
     }
   }

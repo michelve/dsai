@@ -244,13 +244,15 @@ function BadgeComponent(
     <>
       {dotElement}
       {iconPosition === 'start' && iconElement}
-      {iconElement && iconPosition === 'start' && displayContent ? (
-        <span style={{ marginLeft: '0.25em' }}>{displayContent}</span>
-      ) : iconElement && iconPosition === 'end' && displayContent ? (
-        <span style={{ marginRight: '0.25em' }}>{displayContent}</span>
-      ) : (
-        displayContent
-      )}
+      {(() => {
+        if (iconElement && iconPosition === 'start' && displayContent) {
+          return <span style={{ marginLeft: '0.25em' }}>{displayContent}</span>;
+        }
+        if (iconElement && iconPosition === 'end' && displayContent) {
+          return <span style={{ marginRight: '0.25em' }}>{displayContent}</span>;
+        }
+        return displayContent;
+      })()}
       {iconPosition === 'end' && iconElement}
       {dismissElement}
     </>

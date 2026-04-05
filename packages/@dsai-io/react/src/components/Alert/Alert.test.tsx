@@ -11,6 +11,13 @@ import type { AlertProps } from './Alert.types';
 
 expect.extend(toHaveNoViolations);
 
+// Named constants for magic numbers (SonarQube S109)
+const AUTO_DISMISS_DEFAULT_MS = 3000;
+const AUTO_DISMISS_LONG_MS = 5000;
+const AUTO_DISMISS_PARTIAL_MS = 2000;
+const AUTO_DISMISS_ALMOST_MS = 2999;
+const TRANSITION_SAFETY_TIMEOUT_MS = 300;
+
 describe('Alert', () => {
   describe('Rendering', () => {
     it('renders without crashing', () => {
@@ -784,11 +791,11 @@ describe('Alert', () => {
       jest.useFakeTimers();
       const handleClose = jest.fn();
       render(
-        <Alert autoDismiss={3000} onClose={handleClose} transition={false}>
+        <Alert autoDismiss={AUTO_DISMISS_DEFAULT_MS} onClose={handleClose} transition={false}>
           Auto-dismiss
         </Alert>
       );
-      jest.advanceTimersByTime(3000);
+      jest.advanceTimersByTime(AUTO_DISMISS_DEFAULT_MS);
       expect(handleClose).toHaveBeenCalledWith('timeout');
       jest.useRealTimers();
     });
@@ -799,14 +806,14 @@ describe('Alert', () => {
       jest.useFakeTimers();
       const handleClose = jest.fn();
       render(
-        <Alert autoDismiss={5000} onClose={handleClose} transition={false}>
+        <Alert autoDismiss={AUTO_DISMISS_LONG_MS} onClose={handleClose} transition={false}>
           Auto alert
         </Alert>
       );
       expect(screen.getByText('Auto alert')).toBeInTheDocument();
 
       act(() => {
-        jest.advanceTimersByTime(5000);
+        jest.advanceTimersByTime(AUTO_DISMISS_LONG_MS);
       });
       expect(handleClose).toHaveBeenCalledTimes(1);
       expect(screen.queryByText('Auto alert')).not.toBeInTheDocument();
@@ -840,17 +847,17 @@ describe('Alert', () => {
       jest.useFakeTimers();
       const handleClose = jest.fn();
       const { rerender } = render(
-        <Alert autoDismiss={5000} onClose={handleClose} show={true} transition={false}>
+        <Alert autoDismiss={AUTO_DISMISS_LONG_MS} onClose={handleClose} show={true} transition={false}>
           Auto alert
         </Alert>
       );
-      jest.advanceTimersByTime(2000);
+      jest.advanceTimersByTime(AUTO_DISMISS_PARTIAL_MS);
       rerender(
-        <Alert autoDismiss={5000} onClose={handleClose} show={false} transition={false}>
+        <Alert autoDismiss={AUTO_DISMISS_LONG_MS} onClose={handleClose} show={false} transition={false}>
           Auto alert
         </Alert>
       );
-      jest.advanceTimersByTime(5000);
+      jest.advanceTimersByTime(AUTO_DISMISS_LONG_MS);
       expect(handleClose).not.toHaveBeenCalled();
       jest.useRealTimers();
     });
@@ -859,26 +866,26 @@ describe('Alert', () => {
       jest.useFakeTimers();
       const handleClose = jest.fn();
       const { rerender } = render(
-        <Alert autoDismiss={3000} onClose={handleClose} show={true} transition={false}>
+        <Alert autoDismiss={AUTO_DISMISS_DEFAULT_MS} onClose={handleClose} show={true} transition={false}>
           Auto alert
         </Alert>
       );
-      jest.advanceTimersByTime(2000);
+      jest.advanceTimersByTime(AUTO_DISMISS_PARTIAL_MS);
 
       // Hide
       rerender(
-        <Alert autoDismiss={3000} onClose={handleClose} show={false} transition={false}>
+        <Alert autoDismiss={AUTO_DISMISS_DEFAULT_MS} onClose={handleClose} show={false} transition={false}>
           Auto alert
         </Alert>
       );
 
       // Re-show
       rerender(
-        <Alert autoDismiss={3000} onClose={handleClose} show={true} transition={false}>
+        <Alert autoDismiss={AUTO_DISMISS_DEFAULT_MS} onClose={handleClose} show={true} transition={false}>
           Auto alert
         </Alert>
       );
-      jest.advanceTimersByTime(2999);
+      jest.advanceTimersByTime(AUTO_DISMISS_ALMOST_MS);
       expect(handleClose).not.toHaveBeenCalled();
 
       jest.advanceTimersByTime(1);
@@ -922,9 +929,9 @@ describe('Alert', () => {
       fireEvent.click(screen.getByRole('button', { name: /close/i }));
       expect(screen.getByText('Alert')).toBeInTheDocument();
 
-      // Safety timeout fires at 300ms — wrap in act() for state update
+      // Safety timeout fires at TRANSITION_SAFETY_TIMEOUT_MS — wrap in act() for state update
       act(() => {
-        jest.advanceTimersByTime(300);
+        jest.advanceTimersByTime(TRANSITION_SAFETY_TIMEOUT_MS);
       });
       expect(screen.queryByText('Alert')).not.toBeInTheDocument();
       jest.useRealTimers();

@@ -24,16 +24,43 @@ import {
 
 import type { Point2D, SpringConfig } from '../motion/types';
 
+// ── Test constants (S109) ──
+const TEST_SPRING_TARGET = 100;
+const TEST_STIFFNESS = 100;
+const TEST_DAMPING = 10;
+const TEST_HIGH_STIFFNESS = 200;
+const TEST_HIGH_DAMPING = 20;
+const TEST_SNAP_STIFFNESS = 500;
+const TEST_SNAP_DAMPING = 50;
+const TEST_UNDERDAMPED_STIFFNESS = 300;
+const TEST_UNDERDAMPED_DAMPING = 10;
+const TEST_OVERDAMPED_STIFFNESS = 50;
+const TEST_OVERDAMPED_DAMPING = 50;
+const TEST_ULTRA_STIFFNESS = 10000;
+const TEST_ULTRA_DAMPING = 100;
+const TEST_LOW_DAMPING = 1;
+const TEST_SETTLE_TIME = 5;
+const TEST_SETTLE_TIME_SHORT = 3;
+const TEST_DURATION_SHORT = 0.1;
+const TEST_DURATION_MID = 0.5;
+const TEST_DURATION_LONG = 1.0;
+const TEST_TRANSLATION = 150;
+const TEST_NEGATIVE_TRANSLATION = -50;
+const TEST_CLAMP_MAX = 50;
+const TEST_INITIAL_VELOCITY = 50;
+const TEST_LARGE_DISPLACEMENT = 1000;
+const TEST_DISTANCE_EXPECTED = 1414.21;
+
 describe('M2.12 Motion Utilities', () => {
   describe('createSpring', () => {
     it('should create spring calculator function', () => {
-      const spring = createSpring(0, 100);
+      const spring = createSpring(0, TEST_SPRING_TARGET);
 
       expect(typeof spring).toBe('function');
     });
 
     it('should calculate position at time t=0', () => {
-      const spring = createSpring(0, 100);
+      const spring = createSpring(0, TEST_SPRING_TARGET);
       const state = spring(0);
 
       expect(state.position).toBe(0);
@@ -44,44 +71,50 @@ describe('M2.12 Motion Utilities', () => {
     });
 
     it('should animate towards target value', () => {
-      const spring = createSpring(0, 100, { stiffness: 100, damping: 10 });
+      const spring = createSpring(0, TEST_SPRING_TARGET, {
+        stiffness: TEST_STIFFNESS,
+        damping: TEST_DAMPING,
+      });
 
-      const state1 = spring(0.1);
-      const state2 = spring(0.5);
-      const state3 = spring(1.0);
+      const state1 = spring(TEST_DURATION_SHORT);
+      const state2 = spring(TEST_DURATION_MID);
+      const state3 = spring(TEST_DURATION_LONG);
 
       expect(state1.position).toBeGreaterThan(0);
       expect(state2.position).toBeGreaterThan(state1.position);
-      expect(state3.position).toBeCloseTo(100, 0);
+      expect(state3.position).toBeCloseTo(TEST_SPRING_TARGET, 0);
     });
 
     it('should handle custom config', () => {
       const config: SpringConfig = {
         mass: 1,
-        stiffness: 200,
-        damping: 20,
+        stiffness: TEST_HIGH_STIFFNESS,
+        damping: TEST_HIGH_DAMPING,
         velocity: 0,
       };
 
-      const spring = createSpring(0, 100, config);
-      const state = spring(0.5);
+      const spring = createSpring(0, TEST_SPRING_TARGET, config);
+      const state = spring(TEST_DURATION_MID);
 
       expect(state.position).toBeGreaterThan(0);
       // Spring physics may overshoot slightly depending on damping
-      expect(state.position).toBeCloseTo(100, 0);
+      expect(state.position).toBeCloseTo(TEST_SPRING_TARGET, 0);
     });
 
     it('should indicate when spring has settled', () => {
-      const spring = createSpring(0, 100, { stiffness: 500, damping: 50 });
+      const spring = createSpring(0, TEST_SPRING_TARGET, {
+        stiffness: TEST_SNAP_STIFFNESS,
+        damping: TEST_SNAP_DAMPING,
+      });
 
-      const state = spring(5);
+      const state = spring(TEST_SETTLE_TIME);
 
       expect(state.done).toBe(true);
-      expect(state.position).toBeCloseTo(100, 1);
+      expect(state.position).toBeCloseTo(TEST_SPRING_TARGET, 1);
     });
 
     it('should handle negative time by returning initial state', () => {
-      const spring = createSpring(0, 100);
+      const spring = createSpring(0, TEST_SPRING_TARGET);
       const state = spring(-1);
 
       expect(state.position).toBe(0);
@@ -89,24 +122,27 @@ describe('M2.12 Motion Utilities', () => {
     });
 
     it('should throw error for invalid mass', () => {
-      expect(() => createSpring(0, 100, { mass: 0 })).toThrow('Spring mass must be positive');
-      expect(() => createSpring(0, 100, { mass: -1 })).toThrow('Spring mass must be positive');
+      expect(() => createSpring(0, TEST_SPRING_TARGET, { mass: 0 })).toThrow('Spring mass must be positive');
+      expect(() => createSpring(0, TEST_SPRING_TARGET, { mass: -1 })).toThrow('Spring mass must be positive');
     });
 
     it('should throw error for invalid stiffness', () => {
-      expect(() => createSpring(0, 100, { stiffness: -1 })).toThrow(
+      expect(() => createSpring(0, TEST_SPRING_TARGET, { stiffness: -1 })).toThrow(
         'Spring stiffness must be non-negative'
       );
     });
 
     it('should throw error for invalid damping', () => {
-      expect(() => createSpring(0, 100, { damping: -1 })).toThrow(
+      expect(() => createSpring(0, TEST_SPRING_TARGET, { damping: -1 })).toThrow(
         'Spring damping must be non-negative'
       );
     });
 
     it('should handle underdamped spring (oscillation)', () => {
-      const spring = createSpring(0, 100, { stiffness: 300, damping: 10 });
+      const spring = createSpring(0, TEST_SPRING_TARGET, {
+        stiffness: TEST_UNDERDAMPED_STIFFNESS,
+        damping: TEST_UNDERDAMPED_DAMPING,
+      });
 
       const positions: number[] = [];
       for (let t = 0; t <= 2; t += 0.1) {
@@ -115,35 +151,38 @@ describe('M2.12 Motion Utilities', () => {
 
       // Underdamped springs may overshoot
       const maxPosition = Math.max(...positions);
-      expect(maxPosition).toBeGreaterThan(100);
+      expect(maxPosition).toBeGreaterThan(TEST_SPRING_TARGET);
     });
 
     it('should handle critically damped spring', () => {
       const mass = 1;
-      const stiffness = 100;
+      const stiffness = TEST_STIFFNESS;
       const criticalDamping = 2 * Math.sqrt(mass * stiffness);
 
-      const spring = createSpring(0, 100, { mass, stiffness, damping: criticalDamping });
+      const spring = createSpring(0, TEST_SPRING_TARGET, { mass, stiffness, damping: criticalDamping });
 
       const state = spring(1);
       expect(state.position).toBeGreaterThan(0);
-      expect(state.position).toBeLessThanOrEqual(100);
+      expect(state.position).toBeLessThanOrEqual(TEST_SPRING_TARGET);
     });
 
     it('should handle overdamped spring', () => {
-      const spring = createSpring(0, 100, { stiffness: 50, damping: 50 });
+      const spring = createSpring(0, TEST_SPRING_TARGET, {
+        stiffness: TEST_OVERDAMPED_STIFFNESS,
+        damping: TEST_OVERDAMPED_DAMPING,
+      });
 
       const state = spring(1);
       expect(state.position).toBeGreaterThan(0);
-      expect(state.position).toBeLessThan(100);
+      expect(state.position).toBeLessThan(TEST_SPRING_TARGET);
     });
 
     it('should handle initial velocity', () => {
-      const springWithVelocity = createSpring(0, 100, { velocity: 50 });
-      const springWithoutVelocity = createSpring(0, 100, { velocity: 0 });
+      const springWithVelocity = createSpring(0, TEST_SPRING_TARGET, { velocity: TEST_INITIAL_VELOCITY });
+      const springWithoutVelocity = createSpring(0, TEST_SPRING_TARGET, { velocity: 0 });
 
-      const state1 = springWithVelocity(0.1);
-      const state2 = springWithoutVelocity(0.1);
+      const state1 = springWithVelocity(TEST_DURATION_SHORT);
+      const state2 = springWithoutVelocity(TEST_DURATION_SHORT);
 
       expect(state1.position).toBeGreaterThan(state2.position);
     });
@@ -285,8 +324,8 @@ describe('M2.12 Motion Utilities', () => {
     });
 
     it('should handle extrapolation', () => {
-      expect(interpolate(150, [0, 100], [0, 1])).toBe(1.5);
-      expect(interpolate(-50, [0, 100], [0, 1])).toBe(-0.5);
+      expect(interpolate(TEST_TRANSLATION, [0, TEST_SPRING_TARGET], [0, 1])).toBe(1.5);
+      expect(interpolate(TEST_NEGATIVE_TRANSLATION, [0, TEST_SPRING_TARGET], [0, 1])).toBe(-0.5);
     });
 
     it('should handle multi-segment interpolation', () => {
@@ -332,8 +371,8 @@ describe('M2.12 Motion Utilities', () => {
     });
 
     it('should clamp velocity exceeding max', () => {
-      const velocity: Point2D = { x: 100, y: 100 };
-      const maxVelocity = 50;
+      const velocity: Point2D = { x: TEST_SPRING_TARGET, y: TEST_SPRING_TARGET };
+      const maxVelocity = TEST_CLAMP_MAX;
 
       const result = clampVelocity(velocity, maxVelocity);
       const magnitude = Math.sqrt(result.x * result.x + result.y * result.y);
@@ -342,8 +381,8 @@ describe('M2.12 Motion Utilities', () => {
     });
 
     it('should preserve direction when clamping', () => {
-      const velocity: Point2D = { x: 100, y: 100 };
-      const result = clampVelocity(velocity, 50);
+      const velocity: Point2D = { x: TEST_SPRING_TARGET, y: TEST_SPRING_TARGET };
+      const result = clampVelocity(velocity, TEST_CLAMP_MAX);
 
       // Direction should be preserved (45 degrees)
       expect(result.x).toBeCloseTo(result.y, 5);
@@ -359,8 +398,8 @@ describe('M2.12 Motion Utilities', () => {
     });
 
     it('should handle negative velocities', () => {
-      const velocity: Point2D = { x: -100, y: -100 };
-      const result = clampVelocity(velocity, 50);
+      const velocity: Point2D = { x: -TEST_SPRING_TARGET, y: -TEST_SPRING_TARGET };
+      const result = clampVelocity(velocity, TEST_CLAMP_MAX);
       const magnitude = Math.sqrt(result.x * result.x + result.y * result.y);
 
       expect(magnitude).toBeCloseTo(50, 5);
@@ -369,8 +408,8 @@ describe('M2.12 Motion Utilities', () => {
     });
 
     it('should handle mixed sign velocities', () => {
-      const velocity: Point2D = { x: 100, y: -100 };
-      const result = clampVelocity(velocity, 50);
+      const velocity: Point2D = { x: TEST_SPRING_TARGET, y: -TEST_SPRING_TARGET };
+      const result = clampVelocity(velocity, TEST_CLAMP_MAX);
 
       expect(result.x).toBeGreaterThan(0);
       expect(result.y).toBeLessThan(0);
@@ -428,9 +467,9 @@ describe('M2.12 Motion Utilities', () => {
 
     it('should calculate large distances', () => {
       const p1: Point2D = { x: 0, y: 0 };
-      const p2: Point2D = { x: 1000, y: 1000 };
+      const p2: Point2D = { x: TEST_LARGE_DISPLACEMENT, y: TEST_LARGE_DISPLACEMENT };
 
-      expect(distance(p1, p2)).toBeCloseTo(1414.21, 2);
+      expect(distance(p1, p2)).toBeCloseTo(TEST_DISTANCE_EXPECTED, 2);
     });
   });
 
@@ -506,12 +545,12 @@ describe('M2.12 Motion Utilities', () => {
 
       for (let t = 0; t <= 1; t += 0.1) {
         const easedT = easeInOut(t);
-        const value = interpolate(easedT, [0, 1], [0, 100]);
+        const value = interpolate(easedT, [0, 1], [0, TEST_SPRING_TARGET]);
         values.push(value);
       }
 
       expect(values[0]).toBe(0);
-      expect(values[values.length - 1]).toBeCloseTo(100, 0);
+      expect(values[values.length - 1]).toBeCloseTo(TEST_SPRING_TARGET, 0);
     });
 
     it('should calculate velocity direction and magnitude', () => {
@@ -537,17 +576,17 @@ describe('M2.12 Motion Utilities', () => {
     });
 
     it('should create smooth animation with spring and interpolation', () => {
-      const spring = createSpring(0, 1, { stiffness: 100, damping: 10 });
+      const spring = createSpring(0, 1, { stiffness: TEST_STIFFNESS, damping: TEST_DAMPING });
       const positions: number[] = [];
 
       for (let t = 0; t <= 2; t += 0.1) {
         const springState = spring(t);
-        const value = interpolate(springState.position, [0, 1], [0, 100]);
+        const value = interpolate(springState.position, [0, 1], [0, TEST_SPRING_TARGET]);
         positions.push(value);
       }
 
       expect(positions[0]).toBe(0);
-      expect(positions[positions.length - 1]).toBeCloseTo(100, 0);
+      expect(positions[positions.length - 1]).toBeCloseTo(TEST_SPRING_TARGET, 0);
     });
   });
 
@@ -555,26 +594,26 @@ describe('M2.12 Motion Utilities', () => {
     describe('interpolate with clamp option', () => {
       it('should clamp extrapolation when clamp option is true', () => {
         // Without clamp, extrapolates
-        expect(interpolate(150, [0, 100], [0, 1])).toBe(1.5);
-        expect(interpolate(-50, [0, 100], [0, 1])).toBe(-0.5);
+        expect(interpolate(TEST_TRANSLATION, [0, TEST_SPRING_TARGET], [0, 1])).toBe(1.5);
+        expect(interpolate(TEST_NEGATIVE_TRANSLATION, [0, TEST_SPRING_TARGET], [0, 1])).toBe(-0.5);
 
         // With clamp, limits to output range
-        expect(interpolate(150, [0, 100], [0, 1], { clamp: true })).toBe(1);
-        expect(interpolate(-50, [0, 100], [0, 1], { clamp: true })).toBe(0);
+        expect(interpolate(TEST_TRANSLATION, [0, TEST_SPRING_TARGET], [0, 1], { clamp: true })).toBe(1);
+        expect(interpolate(TEST_NEGATIVE_TRANSLATION, [0, TEST_SPRING_TARGET], [0, 1], { clamp: true })).toBe(0);
       });
 
       it('should handle clamping with inverted output range', () => {
         // Output range is [1, 0] (inverted)
-        expect(interpolate(150, [0, 100], [1, 0], { clamp: true })).toBe(0);
-        expect(interpolate(-50, [0, 100], [1, 0], { clamp: true })).toBe(1);
+        expect(interpolate(TEST_TRANSLATION, [0, TEST_SPRING_TARGET], [1, 0], { clamp: true })).toBe(0);
+        expect(interpolate(TEST_NEGATIVE_TRANSLATION, [0, TEST_SPRING_TARGET], [1, 0], { clamp: true })).toBe(1);
       });
 
       it('should not clamp when clamp option is false', () => {
-        expect(interpolate(150, [0, 100], [0, 1], { clamp: false })).toBe(1.5);
+        expect(interpolate(TEST_TRANSLATION, [0, TEST_SPRING_TARGET], [0, 1], { clamp: false })).toBe(1.5);
       });
 
       it('should not clamp by default (undefined options)', () => {
-        expect(interpolate(150, [0, 100], [0, 1])).toBe(1.5);
+        expect(interpolate(TEST_TRANSLATION, [0, TEST_SPRING_TARGET], [0, 1])).toBe(1.5);
       });
     });
 
@@ -635,7 +674,7 @@ describe('M2.12 Motion Utilities', () => {
       });
 
       it('should throw for NaN maxVelocity in clampVelocity', () => {
-        expect(() => clampVelocity({ x: 10, y: 10 }, NaN)).toThrow(
+        expect(() => clampVelocity({ x: 10, y: 10 }, Number.NaN)).toThrow(
           'maxVelocity must be a non-negative finite number'
         );
       });
@@ -647,7 +686,7 @@ describe('M2.12 Motion Utilities', () => {
       });
 
       it('should throw for negative maxVelocity in clampVelocity', () => {
-        expect(() => clampVelocity({ x: 10, y: 10 }, -50)).toThrow(
+        expect(() => clampVelocity({ x: 10, y: 10 }, -TEST_CLAMP_MAX)).toThrow(
           'maxVelocity must be a non-negative finite number'
         );
       });
@@ -655,15 +694,18 @@ describe('M2.12 Motion Utilities', () => {
 
     describe('extreme spring values', () => {
       it('should handle very high stiffness (snap behavior)', () => {
-        const spring = createSpring(0, 1, { stiffness: 10000, damping: 100 });
+        const spring = createSpring(0, 1, {
+          stiffness: TEST_ULTRA_STIFFNESS,
+          damping: TEST_ULTRA_DAMPING,
+        });
 
         // With very high stiffness, should reach target quickly
-        const state = spring(0.1);
+        const state = spring(TEST_DURATION_SHORT);
         expect(state.position).toBeGreaterThan(0.9);
       });
 
       it('should handle very low damping (oscillation)', () => {
-        const spring = createSpring(0, 1, { stiffness: 100, damping: 1 });
+        const spring = createSpring(0, 1, { stiffness: TEST_STIFFNESS, damping: TEST_LOW_DAMPING });
         const positions: number[] = [];
 
         // With low damping, expect oscillation (overshooting)
@@ -677,7 +719,7 @@ describe('M2.12 Motion Utilities', () => {
       });
 
       it('should handle equal stiffness and damping (critically damped)', () => {
-        const spring = createSpring(0, 1, { stiffness: 100, damping: 20 });
+        const spring = createSpring(0, 1, { stiffness: TEST_STIFFNESS, damping: TEST_HIGH_DAMPING });
         const positions: number[] = [];
 
         for (let t = 0; t <= 2; t += 0.1) {
@@ -690,7 +732,7 @@ describe('M2.12 Motion Utilities', () => {
       });
 
       it('should handle negative start/target values', () => {
-        const spring = createSpring(-10, -5, { stiffness: 100, damping: 10 });
+        const spring = createSpring(-10, -5, { stiffness: TEST_STIFFNESS, damping: TEST_DAMPING });
 
         expect(spring(0).position).toBe(-10);
         const finalState = spring(2);
@@ -698,17 +740,17 @@ describe('M2.12 Motion Utilities', () => {
       });
 
       it('should handle large displacement', () => {
-        const spring = createSpring(0, 1000, { stiffness: 100, damping: 10 });
+        const spring = createSpring(0, TEST_LARGE_DISPLACEMENT, { stiffness: TEST_STIFFNESS, damping: TEST_DAMPING });
 
         expect(spring(0).position).toBe(0);
-        const finalState = spring(3);
-        expect(finalState.position).toBeCloseTo(1000, 0);
+        const finalState = spring(TEST_SETTLE_TIME_SHORT);
+        expect(finalState.position).toBeCloseTo(TEST_LARGE_DISPLACEMENT, 0);
       });
     });
 
     describe('clampVelocity edge cases', () => {
       it('should handle zero maxVelocity', () => {
-        const velocity: Point2D = { x: 100, y: 100 };
+        const velocity: Point2D = { x: TEST_SPRING_TARGET, y: TEST_SPRING_TARGET };
         const result = clampVelocity(velocity, 0);
 
         expect(result.x).toBe(0);
@@ -716,7 +758,7 @@ describe('M2.12 Motion Utilities', () => {
       });
 
       it('should handle very small maxVelocity', () => {
-        const velocity: Point2D = { x: 100, y: 100 };
+        const velocity: Point2D = { x: TEST_SPRING_TARGET, y: TEST_SPRING_TARGET };
         const result = clampVelocity(velocity, 0.001);
 
         const magnitude = Math.sqrt(result.x * result.x + result.y * result.y);

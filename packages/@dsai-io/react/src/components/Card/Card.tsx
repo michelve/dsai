@@ -115,11 +115,9 @@ const CardImageComponent = forwardRef<HTMLImageElement, CardImageProps>(function
   ref
 ) {
   const positionClass = useMemo(() => {
-    return position === 'top'
-      ? 'card-img-top'
-      : position === 'bottom'
-        ? 'card-img-bottom'
-        : 'card-img';
+    if (position === 'top') { return 'card-img-top'; }
+    if (position === 'bottom') { return 'card-img-bottom'; }
+    return 'card-img';
   }, [position]);
 
   const classes = useMemo(() => cn(positionClass, className), [positionClass, className]);

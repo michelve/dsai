@@ -17,6 +17,9 @@ import { isSafeHref } from '../../utils/validation';
 
 import { alertFSMReducer, createInitialAlertFSMState } from './Alert.fsm';
 
+/** Safety timeout (ms) for dismiss animation in case transitionend does not fire */
+const DISMISS_ANIMATION_SAFETY_TIMEOUT_MS = 300;
+
 import type { AlertHeadingProps, AlertLinkProps, AlertProps } from './Alert.types';
 
 /**
@@ -286,7 +289,7 @@ const AlertBase = memo(
         // Safety timeout in case transitionend doesn't fire (e.g., display: none)
         const safetyTimer = setTimeout(() => {
           dispatch({ type: 'ANIMATION_END' });
-        }, 300);
+        }, DISMISS_ANIMATION_SAFETY_TIMEOUT_MS);
 
         return () => {
           element.removeEventListener('transitionend', handleTransitionEnd);

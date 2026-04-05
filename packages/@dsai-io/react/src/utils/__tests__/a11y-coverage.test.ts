@@ -13,6 +13,11 @@ import { announceToScreenReader } from '../a11y/announceToScreenReader';
 import { generateId } from '../a11y/generateId';
 import { trapFocus } from '../a11y/trapFocus';
 
+// -- Named constants for magic numbers (SonarQube S109) --
+const ANNOUNCE_TIMEOUT_MS = 1000;
+const ANNOUNCE_CLEAR_ADVANCE_MS = 1500;
+const ANNOUNCE_LONG_TIMEOUT_MS = 5000;
+
 // =============================================================================
 // shouldAnimate & onAnimationPreferenceChange
 // =============================================================================
@@ -25,13 +30,13 @@ describe('shouldAnimate (additional coverage)', () => {
     jest.resetModules();
     const origMM = window.matchMedia;
     // Set matchMedia to undefined (writable: true from custom env)
-    (window as any).matchMedia = undefined;
+    (window as unknown as Record<string, unknown>).matchMedia = undefined;
 
     const mod = await import('../a11y/shouldAnimate');
     expect(mod.shouldAnimate()).toBe(false);
 
     // Restore
-    (window as any).matchMedia = origMM;
+    (window as unknown as Record<string, unknown>).matchMedia = origMM;
   });
 
   it('should return true when reduced motion is NOT preferred', async () => {
@@ -97,14 +102,14 @@ describe('onAnimationPreferenceChange (additional coverage)', () => {
   it('should return noop when matchMedia is unavailable', async () => {
     jest.resetModules();
     const origMM = window.matchMedia;
-    (window as any).matchMedia = undefined;
+    (window as unknown as Record<string, unknown>).matchMedia = undefined;
 
     const mod = await import('../a11y/shouldAnimate');
     const cleanup = mod.onAnimationPreferenceChange(jest.fn());
     expect(typeof cleanup).toBe('function');
     cleanup(); // should not throw
 
-    (window as any).matchMedia = origMM;
+    (window as unknown as Record<string, unknown>).matchMedia = origMM;
   });
 
   it('should add and remove event listener', async () => {
@@ -358,17 +363,17 @@ describe('announceToScreenReader (additional coverage)', () => {
   });
 
   it('should clear message text after timeout', () => {
-    announceToScreenReader('Temporary message', { timeoutMs: 1000 });
+    announceToScreenReader('Temporary message', { timeoutMs: ANNOUNCE_TIMEOUT_MS });
 
     const container = document.getElementById('dsai-live-region');
     expect(container?.textContent).toBe('Temporary message');
 
-    jest.advanceTimersByTime(1500);
+    jest.advanceTimersByTime(ANNOUNCE_CLEAR_ADVANCE_MS);
     expect(container?.textContent).toBe('');
   });
 
   it('should clear message text when cleanup is called before timeout', () => {
-    const cleanup = announceToScreenReader('Cleanup test', { timeoutMs: 5000 });
+    const cleanup = announceToScreenReader('Cleanup test', { timeoutMs: ANNOUNCE_LONG_TIMEOUT_MS });
 
     const container = document.getElementById('dsai-live-region');
     expect(container?.textContent).toBe('Cleanup test');

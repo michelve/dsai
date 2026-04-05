@@ -39,11 +39,33 @@
  * // ['#266ACC', '#66A3E6', '#99C2F0']
  * ```
  */
+
+/** Maximum value for an 8-bit RGB channel */
+const MAX_RGB_VALUE = 255;
+
+/** Full circle in degrees */
+const DEGREES_FULL_CIRCLE = 360;
+
+/** Hue boundary: red-to-yellow transition */
+const HUE_SECTOR_1 = 60;
+
+/** Hue boundary: yellow-to-green transition */
+const HUE_SECTOR_2 = 120;
+
+/** Hue boundary: green-to-cyan transition */
+const HUE_SECTOR_3 = 180;
+
+/** Hue boundary: cyan-to-blue transition */
+const HUE_SECTOR_4 = 240;
+
+/** Hue boundary: blue-to-magenta transition */
+const HUE_SECTOR_5 = 300;
+
 export function hslToHex(h: number, s: number, l: number): string {
   // Validate and clamp inputs
-  if (h < 0 || h > 360) {
+  if (h < 0 || h > DEGREES_FULL_CIRCLE) {
     console.warn('[hslToHex] Hue must be in range 0-360');
-    h = ((h % 360) + 360) % 360; // Wrap around
+    h = ((h % DEGREES_FULL_CIRCLE) + DEGREES_FULL_CIRCLE) % DEGREES_FULL_CIRCLE; // Wrap around
   }
 
   if (s < 0 || s > 100) {
@@ -62,7 +84,7 @@ export function hslToHex(h: number, s: number, l: number): string {
 
   // Calculate chroma
   const c = (1 - Math.abs(2 * lNorm - 1)) * sNorm;
-  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const x = c * (1 - Math.abs(((h / HUE_SECTOR_1) % 2) - 1));
   const m = lNorm - c / 2;
 
   // Determine RGB based on hue
@@ -70,24 +92,24 @@ export function hslToHex(h: number, s: number, l: number): string {
   let g = 0;
   let b = 0;
 
-  if (h >= 0 && h < 60) {
+  if (h >= 0 && h < HUE_SECTOR_1) {
     [r, g, b] = [c, x, 0];
-  } else if (h >= 60 && h < 120) {
+  } else if (h >= HUE_SECTOR_1 && h < HUE_SECTOR_2) {
     [r, g, b] = [x, c, 0];
-  } else if (h >= 120 && h < 180) {
+  } else if (h >= HUE_SECTOR_2 && h < HUE_SECTOR_3) {
     [r, g, b] = [0, c, x];
-  } else if (h >= 180 && h < 240) {
+  } else if (h >= HUE_SECTOR_3 && h < HUE_SECTOR_4) {
     [r, g, b] = [0, x, c];
-  } else if (h >= 240 && h < 300) {
+  } else if (h >= HUE_SECTOR_4 && h < HUE_SECTOR_5) {
     [r, g, b] = [x, 0, c];
   } else {
     [r, g, b] = [c, 0, x];
   }
 
   // Convert to 0-255 range
-  const r255 = Math.round((r + m) * 255);
-  const g255 = Math.round((g + m) * 255);
-  const b255 = Math.round((b + m) * 255);
+  const r255 = Math.round((r + m) * MAX_RGB_VALUE);
+  const g255 = Math.round((g + m) * MAX_RGB_VALUE);
+  const b255 = Math.round((b + m) * MAX_RGB_VALUE);
 
   // Convert to hex
   const rHex = r255.toString(16).padStart(2, '0').toUpperCase();

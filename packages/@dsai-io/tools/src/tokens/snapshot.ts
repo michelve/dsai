@@ -9,6 +9,15 @@ import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join } from 'node:path';
 
+/** Length of the random suffix in snapshot IDs (characters after base-36 prefix "0.") */
+const SNAPSHOT_RANDOM_SUFFIX_LENGTH = 9;
+
+// Length of the recursive glob prefix "**/"
+const RECURSIVE_GLOB_PREFIX_LENGTH = 3;
+
+/** Length of the wildcard glob prefix "*" */
+const WILDCARD_PREFIX_LENGTH = 1;
+
 /**
  * Token snapshot metadata
  */
@@ -304,7 +313,7 @@ export class SnapshotService {
    */
   private generateSnapshotId(): string {
     const timestamp = Date.now();
-    const random = Math.random().toString(36).substring(2, 9);
+    const random = Math.random().toString(36).substring(2, SNAPSHOT_RANDOM_SUFFIX_LENGTH);
     return `snapshot-${timestamp}-${random}`;
   }
 
@@ -358,16 +367,16 @@ export class SnapshotService {
       }
       if (pattern.startsWith('**/')) {
         // **/*.json matches any path ending with .json
-        const suffix = pattern.substring(3); // Remove **/
+        const suffix = pattern.substring(RECURSIVE_GLOB_PREFIX_LENGTH); // Remove **/
         if (suffix.startsWith('*.')) {
           // Pattern like **/*.json - check extension
-          const ext = suffix.substring(1); // .json
+          const ext = suffix.substring(WILDCARD_PREFIX_LENGTH); // .json
           return path.endsWith(ext);
         }
         return path.endsWith(suffix);
       }
       if (pattern.startsWith('*.')) {
-        return path.endsWith(pattern.substring(1));
+        return path.endsWith(pattern.substring(WILDCARD_PREFIX_LENGTH));
       }
       return path === pattern;
     });
@@ -379,7 +388,7 @@ export class SnapshotService {
   private shouldExclude(path: string): boolean {
     return this.exclude.some((pattern) => {
       if (pattern.startsWith('**/')) {
-        return path.includes(pattern.substring(3).replace('/**', ''));
+        return path.includes(pattern.substring(RECURSIVE_GLOB_PREFIX_LENGTH).replace('/**', ''));
       }
       return path.includes(pattern);
     });

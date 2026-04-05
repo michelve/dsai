@@ -12,6 +12,19 @@ import type { TokenDiff } from '../diff.js';
 
 const TEST_OUTPUT_DIR = join(process.cwd(), '.test-output');
 
+/** Test date: January 15, 2024 */
+const TEST_YEAR = 2024;
+/** Day of month for date formatting tests */
+const TEST_DAY = 15;
+/** Number of characters for long value truncation tests */
+const LONG_VALUE_LENGTH = 200;
+/** Expected total entry count for combined changelog sections */
+const EXPECTED_COMBINED_ENTRY_COUNT = 5;
+/** Expected entry count for flat mode output */
+const EXPECTED_FLAT_ENTRY_COUNT = 3;
+/** Day of month for zero-padded date test */
+const TEST_DAY_SINGLE_DIGIT = 5;
+
 describe('generateChangelog', () => {
   describe('basic generation', () => {
     it('should generate changelog for added tokens', () => {
@@ -160,7 +173,7 @@ describe('generateChangelog', () => {
     });
 
     it('should include custom date', () => {
-      const date = new Date(Date.UTC(2024, 0, 15)); // Use UTC to avoid timezone issues
+      const date = new Date(Date.UTC(TEST_YEAR, 0, TEST_DAY)); // Use UTC to avoid timezone issues
       const result = generateChangelog(diff, { date });
       expect(result.content).toContain('2024-01-15');
     });
@@ -217,8 +230,8 @@ describe('generateChangelog', () => {
             type: 'modified',
             breaking: false,
             valueChange: {
-              oldValue: 'x'.repeat(200),
-              newValue: 'y'.repeat(200),
+              oldValue: 'x'.repeat(LONG_VALUE_LENGTH),
+              newValue: 'y'.repeat(LONG_VALUE_LENGTH),
             },
           },
         ],
@@ -283,7 +296,7 @@ describe('generateChangelog', () => {
       expect(result.content).toContain('### Added');
       expect(result.content).toContain('### Changed');
       expect(result.content).toContain('### Deprecated');
-      expect(result.entryCount).toBe(5);
+      expect(result.entryCount).toBe(EXPECTED_COMBINED_ENTRY_COUNT);
       expect(result.hasBreaking).toBe(true);
     });
 
@@ -449,7 +462,7 @@ describe('generateChangelog - flat list mode (groupByType: false)', () => {
     expect(result.content).toContain('`token.new`');
     expect(result.content).toContain('`token.old`');
     expect(result.content).toContain('`token.changed`');
-    expect(result.entryCount).toBe(3);
+    expect(result.entryCount).toBe(EXPECTED_FLAT_ENTRY_COUNT);
   });
 
   it('should include value changes in flat mode', () => {
@@ -487,7 +500,7 @@ describe('formatValue edge cases', () => {
           type: 'modified',
           breaking: false,
           valueChange: {
-            oldValue: { deeply: { nested: { value: 'x'.repeat(200) } } },
+            oldValue: { deeply: { nested: { value: 'x'.repeat(LONG_VALUE_LENGTH) } } },
             newValue: 'short',
           },
         },
@@ -529,7 +542,7 @@ describe('formatValue edge cases', () => {
 
 describe('formatDate', () => {
   it('should format date correctly with zero-padded month/day', () => {
-    const date = new Date(Date.UTC(2024, 0, 5)); // Jan 5
+    const date = new Date(Date.UTC(TEST_YEAR, 0, TEST_DAY_SINGLE_DIGIT)); // Jan 5
     const diff: TokenDiff = {
       added: [{ path: 'x', type: 'added', breaking: false }],
       removed: [],

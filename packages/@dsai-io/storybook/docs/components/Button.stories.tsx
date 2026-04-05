@@ -41,6 +41,11 @@ import type { JSX } from 'react';
  * - Button.integration.test.tsx: Integration tests (6 tests)
  */
 
+// ── Story constants (S109) ──
+const LOADING_TIMEOUT_MS = 2000;
+const ASYNC_OPERATION_MS = 1500;
+const STATUS_RESET_MS = 3000;
+
 type AnnouncementStatus = 'idle' | 'loading' | 'success' | 'error';
 
 const getAnnouncementMessage = (state: AnnouncementStatus): string => {
@@ -98,7 +103,7 @@ const AnnouncementDemo = (): JSX.Element => {
 
   const handleClick = (): void => {
     setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 2000);
+    setTimeout(() => setIsLoading(false), LOADING_TIMEOUT_MS);
   };
 
   return (
@@ -127,16 +132,16 @@ const MultiStateAnnouncementDemo = (): JSX.Element => {
 
   const handleSave = async (): Promise<void> => {
     setStatus('loading');
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await new Promise((resolve) => setTimeout(resolve, ASYNC_OPERATION_MS));
     setStatus('success');
-    setTimeout(() => setStatus('idle'), 3000);
+    setTimeout(() => setStatus('idle'), STATUS_RESET_MS);
   };
 
   const handleDelete = async (): Promise<void> => {
     setStatus('loading');
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await new Promise((resolve) => setTimeout(resolve, ASYNC_OPERATION_MS));
     setStatus('error');
-    setTimeout(() => setStatus('idle'), 3000);
+    setTimeout(() => setStatus('idle'), STATUS_RESET_MS);
   };
 
   const announceMessage = getAnnouncementMessage(status);
@@ -786,7 +791,7 @@ const ErrorWithRecoveryExample = (): JSX.Element => {
 
   const handleClick = async (): Promise<void> => {
     setHasError(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, LOADING_TIMEOUT_MS));
     setHasError(false);
   };
 
@@ -983,7 +988,7 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
       [key]: { isLoading: true, isError: false },
     }));
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, LOADING_TIMEOUT_MS));
 
     setStates((prev) => ({
       ...prev,
@@ -995,7 +1000,7 @@ const FSMAsyncOperationsExample = (): JSX.Element => {
         ...prev,
         [key]: { isLoading: false, isError: false },
       }));
-    }, 2000);
+    }, LOADING_TIMEOUT_MS);
   };
 
   return (

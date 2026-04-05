@@ -5,6 +5,9 @@ import { Carousel } from './Carousel';
 import { CarouselCaption } from './CarouselCaption';
 import { CarouselItem } from './CarouselItem';
 
+// Named constants for magic numbers (SonarQube S109)
+const AUTOPLAY_INTERVAL_MS = 3000;
+
 describe('Carousel', () => {
   // Helper to create slide content
   const renderBasicCarousel = (props = {}) => {
@@ -540,7 +543,7 @@ describe('Carousel', () => {
       renderBasicCarousel({ autoPlay: true, interval: 1000, onSelect });
 
       act(() => {
-        jest.advanceTimersByTime(3000);
+        jest.advanceTimersByTime(AUTOPLAY_INTERVAL_MS);
       });
 
       expect(onSelect).not.toHaveBeenCalled();
@@ -605,12 +608,12 @@ describe('CarouselItem', () => {
 
   it('sets data-bs-interval for custom interval', () => {
     render(
-      <CarouselItem interval={3000} data-testid="item">
+      <CarouselItem interval={AUTOPLAY_INTERVAL_MS} data-testid="item">
         <div>Content</div>
       </CarouselItem>
     );
 
-    expect(screen.getByTestId('item')).toHaveAttribute('data-bs-interval', '3000');
+    expect(screen.getByTestId('item')).toHaveAttribute('data-bs-interval', String(AUTOPLAY_INTERVAL_MS));
   });
 
   it('forwards ref', () => {

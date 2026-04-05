@@ -9,6 +9,19 @@ import { act, renderHook } from '@testing-library/react';
 
 import { useTouchInteraction } from './useTouchInteraction';
 
+// -- Named constants for magic numbers (SonarQube S109) --
+const LONG_PRESS_DELAY_MS = 700;
+const AUTO_HIDE_DELAY_MS = 1500;
+const EARLY_RELEASE_MS = 300;
+const TOUCH_START_X = 100;
+const TOUCH_START_Y = 100;
+const TOUCH_MOVE_BEYOND_X = 115;
+const TOUCH_MOVE_WITHIN_X = 105;
+const TOUCH_MOVE_WITHIN_Y = 103;
+const TOUCH_MOVE_NULL_X = 200;
+const TOUCH_MOVE_NULL_Y = 200;
+const ADVANCE_AFTER_CANCEL_MS = 1000;
+
 jest.useFakeTimers();
 
 function createTouchEvent(clientX: number, clientY: number): React.TouchEvent {
@@ -43,10 +56,10 @@ describe('useTouchInteraction', () => {
       );
 
       act(() => {
-        result.current.onTouchStart(createTouchEvent(100, 100));
+        result.current.onTouchStart(createTouchEvent(TOUCH_START_X, TOUCH_START_Y));
       });
 
-      jest.advanceTimersByTime(1000);
+      jest.advanceTimersByTime(ADVANCE_AFTER_CANCEL_MS);
       expect(onOpen).not.toHaveBeenCalled();
     });
   });
@@ -60,13 +73,13 @@ describe('useTouchInteraction', () => {
       );
 
       act(() => {
-        result.current.onTouchStart(createTouchEvent(100, 100));
+        result.current.onTouchStart(createTouchEvent(TOUCH_START_X, TOUCH_START_Y));
       });
 
       expect(onOpen).not.toHaveBeenCalled();
 
       act(() => {
-        jest.advanceTimersByTime(700);
+        jest.advanceTimersByTime(LONG_PRESS_DELAY_MS);
       });
 
       expect(onOpen).toHaveBeenCalledTimes(1);
@@ -80,18 +93,18 @@ describe('useTouchInteraction', () => {
       );
 
       act(() => {
-        result.current.onTouchStart(createTouchEvent(100, 100));
+        result.current.onTouchStart(createTouchEvent(TOUCH_START_X, TOUCH_START_Y));
       });
 
       act(() => {
-        jest.advanceTimersByTime(700); // open
+        jest.advanceTimersByTime(LONG_PRESS_DELAY_MS); // open
       });
 
       expect(onOpen).toHaveBeenCalledTimes(1);
       expect(onClose).not.toHaveBeenCalled();
 
       act(() => {
-        jest.advanceTimersByTime(1500); // auto-hide
+        jest.advanceTimersByTime(AUTO_HIDE_DELAY_MS); // auto-hide
       });
 
       expect(onClose).toHaveBeenCalledTimes(1);
@@ -105,11 +118,11 @@ describe('useTouchInteraction', () => {
       );
 
       act(() => {
-        result.current.onTouchStart(createTouchEvent(100, 100));
+        result.current.onTouchStart(createTouchEvent(TOUCH_START_X, TOUCH_START_Y));
       });
 
       act(() => {
-        jest.advanceTimersByTime(300); // not yet 700ms
+        jest.advanceTimersByTime(EARLY_RELEASE_MS); // not yet 700ms
       });
 
       act(() => {
@@ -117,7 +130,7 @@ describe('useTouchInteraction', () => {
       });
 
       act(() => {
-        jest.advanceTimersByTime(1000);
+        jest.advanceTimersByTime(ADVANCE_AFTER_CANCEL_MS);
       });
 
       expect(onOpen).not.toHaveBeenCalled();
@@ -131,16 +144,16 @@ describe('useTouchInteraction', () => {
       );
 
       act(() => {
-        result.current.onTouchStart(createTouchEvent(100, 100));
+        result.current.onTouchStart(createTouchEvent(TOUCH_START_X, TOUCH_START_Y));
       });
 
       // Move more than 10px
       act(() => {
-        result.current.onTouchMove(createTouchEvent(115, 100));
+        result.current.onTouchMove(createTouchEvent(TOUCH_MOVE_BEYOND_X, TOUCH_START_Y));
       });
 
       act(() => {
-        jest.advanceTimersByTime(1000);
+        jest.advanceTimersByTime(ADVANCE_AFTER_CANCEL_MS);
       });
 
       expect(onOpen).not.toHaveBeenCalled();
@@ -154,16 +167,16 @@ describe('useTouchInteraction', () => {
       );
 
       act(() => {
-        result.current.onTouchStart(createTouchEvent(100, 100));
+        result.current.onTouchStart(createTouchEvent(TOUCH_START_X, TOUCH_START_Y));
       });
 
       // Move within threshold
       act(() => {
-        result.current.onTouchMove(createTouchEvent(105, 103));
+        result.current.onTouchMove(createTouchEvent(TOUCH_MOVE_WITHIN_X, TOUCH_MOVE_WITHIN_Y));
       });
 
       act(() => {
-        jest.advanceTimersByTime(700);
+        jest.advanceTimersByTime(LONG_PRESS_DELAY_MS);
       });
 
       expect(onOpen).toHaveBeenCalledTimes(1);
@@ -181,7 +194,7 @@ describe('useTouchInteraction', () => {
       });
 
       act(() => {
-        jest.advanceTimersByTime(1000);
+        jest.advanceTimersByTime(ADVANCE_AFTER_CANCEL_MS);
       });
 
       expect(onOpen).not.toHaveBeenCalled();
@@ -195,7 +208,7 @@ describe('useTouchInteraction', () => {
       );
 
       act(() => {
-        result.current.onTouchStart(createTouchEvent(100, 100));
+        result.current.onTouchStart(createTouchEvent(TOUCH_START_X, TOUCH_START_Y));
       });
 
       // Move with empty touches
@@ -205,7 +218,7 @@ describe('useTouchInteraction', () => {
 
       // Should still fire since move did not cancel
       act(() => {
-        jest.advanceTimersByTime(700);
+        jest.advanceTimersByTime(LONG_PRESS_DELAY_MS);
       });
 
       expect(onOpen).toHaveBeenCalledTimes(1);
@@ -220,7 +233,7 @@ describe('useTouchInteraction', () => {
 
       // Move without a prior touchStart - startPos is null
       act(() => {
-        result.current.onTouchMove(createTouchEvent(200, 200));
+        result.current.onTouchMove(createTouchEvent(TOUCH_MOVE_NULL_X, TOUCH_MOVE_NULL_Y));
       });
 
       // Should not throw
@@ -235,11 +248,11 @@ describe('useTouchInteraction', () => {
       );
 
       act(() => {
-        result.current.onTouchStart(createTouchEvent(100, 100));
+        result.current.onTouchStart(createTouchEvent(TOUCH_START_X, TOUCH_START_Y));
       });
 
       act(() => {
-        jest.advanceTimersByTime(700); // long-press fires
+        jest.advanceTimersByTime(LONG_PRESS_DELAY_MS); // long-press fires
       });
 
       expect(onOpen).toHaveBeenCalledTimes(1);
@@ -251,7 +264,7 @@ describe('useTouchInteraction', () => {
 
       // Auto-hide should still fire
       act(() => {
-        jest.advanceTimersByTime(1500);
+        jest.advanceTimersByTime(AUTO_HIDE_DELAY_MS);
       });
 
       expect(onClose).toHaveBeenCalledTimes(1);

@@ -30,6 +30,13 @@ import {
 
 import type { AvatarContextValue } from '../Avatar.types';
 
+// Named constants for magic numbers (SonarQube S109)
+const FALLBACK_DELAY_MS = 300;
+const FALLBACK_DELAY_LONG_MS = 500;
+const BADGE_MAX_COUNT = 99;
+const BADGE_OVERFLOW_COUNT = 100;
+const COMPOUND_FALLBACK_DELAY_MS = 200;
+
 // =============================================================================
 // Test Helpers
 // =============================================================================
@@ -75,11 +82,11 @@ describe('AvatarFallback', () => {
     });
 
     it('delays rendering when delayMs is positive', () => {
-      renderWithContext(<AvatarFallback delayMs={300}>FB</AvatarFallback>);
+      renderWithContext(<AvatarFallback delayMs={FALLBACK_DELAY_MS}>FB</AvatarFallback>);
       expect(screen.queryByTestId('avatar-fallback')).not.toBeInTheDocument();
 
       act(() => {
-        jest.advanceTimersByTime(300);
+        jest.advanceTimersByTime(FALLBACK_DELAY_MS);
       });
 
       expect(screen.getByTestId('avatar-fallback')).toHaveTextContent('FB');
@@ -88,7 +95,7 @@ describe('AvatarFallback', () => {
     it('clears timer on unmount', () => {
       const clearTimeoutSpy = jest.spyOn(window, 'clearTimeout');
       const { unmount } = renderWithContext(
-        <AvatarFallback delayMs={500}>FB</AvatarFallback>
+        <AvatarFallback delayMs={FALLBACK_DELAY_LONG_MS}>FB</AvatarFallback>
       );
 
       unmount();
@@ -99,7 +106,7 @@ describe('AvatarFallback', () => {
     it('resets delay when delayMs prop changes', () => {
       const { rerender } = render(
         <AvatarContext.Provider value={defaultContextValue}>
-          <AvatarFallback delayMs={500}>FB</AvatarFallback>
+          <AvatarFallback delayMs={FALLBACK_DELAY_LONG_MS}>FB</AvatarFallback>
         </AvatarContext.Provider>
       );
 
@@ -119,7 +126,7 @@ describe('AvatarFallback', () => {
     it('resets delay when delayMs changes to 0', () => {
       const { rerender } = render(
         <AvatarContext.Provider value={defaultContextValue}>
-          <AvatarFallback delayMs={500}>FB</AvatarFallback>
+          <AvatarFallback delayMs={FALLBACK_DELAY_LONG_MS}>FB</AvatarFallback>
         </AvatarContext.Provider>
       );
 
@@ -362,8 +369,8 @@ describe('AvatarBadge', () => {
   });
 
   it('renders 99+ when count exceeds 99', () => {
-    renderWithContext(<AvatarBadge count={100} />);
-    expect(screen.getByTestId('avatar-badge-count')).toHaveTextContent('99+');
+    renderWithContext(<AvatarBadge count={BADGE_OVERFLOW_COUNT} />);
+    expect(screen.getByTestId('avatar-badge-count')).toHaveTextContent(`${BADGE_MAX_COUNT}+`);
   });
 
   it('renders count of 0', () => {
@@ -645,9 +652,9 @@ describe('avatarUtils', () => {
 
     it('returns empty for non-string input', () => {
        
-      expect(getInitialsFromName(null as any)).toBe('');
-       
-      expect(getInitialsFromName(undefined as any)).toBe('');
+      expect(getInitialsFromName(null as unknown as string)).toBe('');
+
+      expect(getInitialsFromName(undefined as unknown as string)).toBe('');
     });
   });
 
@@ -794,7 +801,7 @@ describe('Compound components integration', () => {
 
     render(
       <Avatar name="Test" data-testid="avatar">
-        <Avatar.Fallback delayMs={200}>Custom FB</Avatar.Fallback>
+        <Avatar.Fallback delayMs={COMPOUND_FALLBACK_DELAY_MS}>Custom FB</Avatar.Fallback>
       </Avatar>
     );
 
@@ -802,7 +809,7 @@ describe('Compound components integration', () => {
     expect(screen.queryByText('Custom FB')).not.toBeInTheDocument();
 
     act(() => {
-      jest.advanceTimersByTime(200);
+      jest.advanceTimersByTime(COMPOUND_FALLBACK_DELAY_MS);
     });
 
     expect(screen.getByText('Custom FB')).toBeInTheDocument();

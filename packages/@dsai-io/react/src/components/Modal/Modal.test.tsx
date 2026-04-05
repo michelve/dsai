@@ -875,7 +875,7 @@ describe('Modal', () => {
         expect(modal).toBeInTheDocument();
       });
 
-      document.body.removeChild(container);
+      container.remove();
     });
   });
 

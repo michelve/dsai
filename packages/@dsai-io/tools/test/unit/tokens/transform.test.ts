@@ -735,13 +735,26 @@ describe('detectModes', () => {
 // Import FigmaExport type for detectModes tests
 import type { FigmaExport } from '../../../src/tokens/types.js';
 
+/** Percentage opacity value for 50% test */
+const OPACITY_50_PERCENT = 50;
+/** Percentage opacity value for 75% test */
+const OPACITY_75_PERCENT = 75;
+/** Expected decimal result for 75% opacity */
+const OPACITY_75_DECIMAL = 0.75;
+/** Line-height value for scope tests */
+const LINE_HEIGHT_VALUE = 1.5;
+/** Row-columns grid value */
+const ROW_COLUMNS_VALUE = 6;
+/** Radix for base-36 string conversion */
+const BASE_36_RADIX = 36;
+
 // ============================================================================
 // Opacity Conversion Tests
 // ============================================================================
 
 describe('transformValue opacity conversion', () => {
   it('should convert percentage opacity (0-100) to decimal', () => {
-    const result = transformValue(50, 'number', { scopes: ['OPACITY'] });
+    const result = transformValue(OPACITY_50_PERCENT, 'number', { scopes: ['OPACITY'] });
     expect(result).toBe(0.5);
   });
 
@@ -766,8 +779,8 @@ describe('transformValue opacity conversion', () => {
   });
 
   it('should convert 75% opacity', () => {
-    const result = transformValue(75, 'number', { scopes: ['OPACITY'] });
-    expect(result).toBe(0.75);
+    const result = transformValue(OPACITY_75_PERCENT, 'number', { scopes: ['OPACITY'] });
+    expect(result).toBe(OPACITY_75_DECIMAL);
   });
 });
 
@@ -816,13 +829,13 @@ describe('transformToken scopes-from-token integration', () => {
 
   it('should handle line-height scope from $scopes', () => {
     const input = {
-      $value: 1.5,
+      $value: LINE_HEIGHT_VALUE,
       $type: 'number',
       $scopes: ['LINE_HEIGHT'],
     };
 
     const result = transformToken(input);
-    expect(result?.$value).toBe(1.5);
+    expect(result?.$value).toBe(LINE_HEIGHT_VALUE);
     expect(result?.$type).toBe('number');
   });
 
@@ -876,7 +889,7 @@ describe('transformTokenTree with options map', () => {
       } as unknown as Record<string, unknown>,
     };
 
-    const result = transformTokenTree(input, '', options as Record<string, any>);
+    const result = transformTokenTree(input, '', options as Record<string, unknown>);
     const fontFamily = result.fontFamily as Record<string, Record<string, unknown>>;
     expect(fontFamily.body.$value).toBe('Inter, system-ui, sans-serif');
   });
@@ -888,8 +901,8 @@ describe('transformTokenTree with options map', () => {
 
 describe('transformValue row-columns unitless', () => {
   it('should keep row-columns as unitless', () => {
-    const result = transformValue(6, 'number', { tokenPath: 'grid.row-columns' });
-    expect(result).toBe(6);
+    const result = transformValue(ROW_COLUMNS_VALUE, 'number', { tokenPath: 'grid.row-columns' });
+    expect(result).toBe(ROW_COLUMNS_VALUE);
   });
 });
 
@@ -906,7 +919,7 @@ describe('transformTokens', () => {
   beforeEach(() => {
     testDir = path.join(
       os.tmpdir(),
-      `transform-test-${Date.now()}-${Math.random().toString(36).slice(2)}`
+      `transform-test-${Date.now()}-${Math.random().toString(BASE_36_RADIX).slice(2)}`
     );
     sourceDir = path.join(testDir, 'source');
     collectionsDir = path.join(testDir, 'collections');
@@ -1156,7 +1169,7 @@ describe('transformTokensCLI', () => {
   beforeEach(() => {
     testDir = path.join(
       os.tmpdir(),
-      `transform-cli-test-${Date.now()}-${Math.random().toString(36).slice(2)}`
+      `transform-cli-test-${Date.now()}-${Math.random().toString(BASE_36_RADIX).slice(2)}`
     );
     fs.mkdirSync(testDir, { recursive: true });
     jest.spyOn(console, 'info').mockImplementation();

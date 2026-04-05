@@ -48,15 +48,19 @@ const XSSPreventionExample = (): JSX.Element => (
   </Alert>
 );
 
+// ── Story constants (S109) ──
+const ASYNC_OPERATION_MS = 1500;
+const AUTO_DISMISS_DELAY_MS = 3000;
+
 // Helper component for aria-atomic example
 const AriaAtomicExample = (): JSX.Element => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
 
   const handleSave = async (): Promise<void> => {
     setStatus('loading');
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await new Promise((resolve) => setTimeout(resolve, ASYNC_OPERATION_MS));
     setStatus('success');
-    setTimeout(() => setStatus('idle'), 3000);
+    setTimeout(() => setStatus('idle'), AUTO_DISMISS_DELAY_MS);
   };
 
   return (

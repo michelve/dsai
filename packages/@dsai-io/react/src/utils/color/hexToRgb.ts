@@ -39,6 +39,10 @@
  * }
  * ```
  */
+
+/** Length of a shorthand hex color (e.g., "F00") */
+const HEX_SHORT_LENGTH = 3;
+
 export function hexToRgb(hex: string): readonly [number, number, number] | null {
   // Validate input
   if (typeof hex !== 'string' || hex.trim() === '') {
@@ -59,7 +63,7 @@ export function hexToRgb(hex: string): readonly [number, number, number] | null 
   }
 
   // Expand 3-digit hex to 6-digit
-  if (cleanHex.length === 3) {
+  if (cleanHex.length === HEX_SHORT_LENGTH) {
     cleanHex = cleanHex
       .split('')
       .map((char) => char + char)

@@ -25,6 +25,11 @@ import type {
   StyleDictionaryInstance,
 } from '../../../src/tokens/style-dictionary/types.js';
 
+/** Expected number of built-in Style Dictionary transforms */
+const EXPECTED_BUILT_IN_TRANSFORM_COUNT = 5;
+/** Expected call count when registering built-in + 1 custom transform */
+const EXPECTED_TRANSFORM_WITH_CUSTOM_COUNT = 6;
+
 // ============================================================================
 // Helper Functions
 // ============================================================================
@@ -56,7 +61,7 @@ function assertFilter(
 
 describe('builtInTransforms', () => {
   it('should include all standard transforms', () => {
-    expect(builtInTransforms).toHaveLength(5);
+    expect(builtInTransforms).toHaveLength(EXPECTED_BUILT_IN_TRANSFORM_COUNT);
 
     const names = builtInTransforms.map((t) => t.name);
     expect(names).toContain('dimension/rem');
@@ -409,7 +414,7 @@ describe('registerTransforms', () => {
 
     registerTransforms(mockSD);
 
-    expect(mockSD.registerTransform).toHaveBeenCalledTimes(5);
+    expect(mockSD.registerTransform).toHaveBeenCalledTimes(EXPECTED_BUILT_IN_TRANSFORM_COUNT);
     expect(registered).toContain('dimension/rem');
     expect(registered).toContain('fontWeight/unitless');
     expect(registered).toContain('lineHeight/unitless');
@@ -434,7 +439,7 @@ describe('registerTransforms', () => {
 
     registerTransforms(mockSD, [customTransform]);
 
-    expect(mockSD.registerTransform).toHaveBeenCalledTimes(6);
+    expect(mockSD.registerTransform).toHaveBeenCalledTimes(EXPECTED_TRANSFORM_WITH_CUSTOM_COUNT);
     expect(mockSD.registerTransform).toHaveBeenCalledWith(
       expect.objectContaining({ name: 'custom/transform' })
     );

@@ -30,6 +30,18 @@ import {
   uniqueByKey,
 } from '../collections';
 
+// ── Test constants (S109) ──
+const TEST_CHUNK_SIZE = 3;
+const TEST_CHUNK_COUNT = 3;
+const TEST_ARRAY_SIZE = 5;
+const TEST_SINGLE_VALUE = 42;
+const TEST_HALF_VALUE = 2.5;
+const TEST_PAGE_SIZE = 3;
+const TEST_PAGE_SIZE_LARGE = 10;
+const TEST_TTL_MS = 1000;
+const TEST_TTL_EXPIRED_MS = 1500;
+const TEST_MEMOIZE_MAX_SIZE = 2;
+
 // =============================================================================
 // stableSort tests
 // =============================================================================
@@ -58,7 +70,7 @@ describe('stableSort', () => {
     });
 
     it('should handle single-element arrays', () => {
-      expect(stableSort([42])).toEqual([42]);
+      expect(stableSort([TEST_SINGLE_VALUE])).toEqual([TEST_SINGLE_VALUE]);
     });
   });
 
@@ -330,7 +342,7 @@ describe('uniqueByKey', () => {
 describe('chunk', () => {
   describe('basic functionality', () => {
     it('should split array into chunks of specified size', () => {
-      const result = chunk([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3);
+      const result = chunk([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], TEST_CHUNK_SIZE);
       expect(result).toEqual([[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]]);
     });
 
@@ -354,13 +366,13 @@ describe('chunk', () => {
     });
 
     it('should handle chunk size larger than array', () => {
-      expect(chunk([1, 2], 5)).toEqual([[1, 2]]);
+      expect(chunk([1, 2], TEST_ARRAY_SIZE)).toEqual([[1, 2]]);
     });
   });
 
   describe('padding option', () => {
     it('should pad last chunk when specified', () => {
-      const result = chunk([1, 2, 3, 4, 5], 3, { padLastChunk: true });
+      const result = chunk([1, 2, 3, 4, 5], TEST_CHUNK_SIZE, { padLastChunk: true });
       expect(result).toEqual([
         [1, 2, 3],
         [4, 5, undefined],
@@ -368,7 +380,7 @@ describe('chunk', () => {
     });
 
     it('should use custom pad value', () => {
-      const result = chunk([1, 2, 3, 4, 5], 3, {
+      const result = chunk([1, 2, 3, 4, 5], TEST_CHUNK_SIZE, {
         padLastChunk: true,
         padValue: 0,
       });
@@ -392,22 +404,22 @@ describe('chunk', () => {
     });
 
     it('should throw for non-integer size', () => {
-      expect(() => chunk([1, 2, 3], 2.5)).toThrow('chunk: Size must be a positive integer');
+      expect(() => chunk([1, 2, 3], TEST_HALF_VALUE)).toThrow('chunk: Size must be a positive integer');
     });
   });
 });
 
 describe('chunkInto', () => {
   it('should split array into specified number of chunks', () => {
-    const result = chunkInto([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3);
-    expect(result).toHaveLength(3);
+    const result = chunkInto([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], TEST_CHUNK_COUNT);
+    expect(result).toHaveLength(TEST_CHUNK_COUNT);
     expect(result[0]).toHaveLength(4); // First chunk gets extra
-    expect(result[1]).toHaveLength(3);
-    expect(result[2]).toHaveLength(3);
+    expect(result[1]).toHaveLength(TEST_CHUNK_COUNT);
+    expect(result[2]).toHaveLength(TEST_CHUNK_COUNT);
   });
 
   it('should handle even division', () => {
-    const result = chunkInto([1, 2, 3, 4, 5, 6], 3);
+    const result = chunkInto([1, 2, 3, 4, 5, 6], TEST_CHUNK_COUNT);
     expect(result).toEqual([
       [1, 2],
       [3, 4],
@@ -416,12 +428,12 @@ describe('chunkInto', () => {
   });
 
   it('should handle count >= array length', () => {
-    const result = chunkInto([1, 2, 3], 5);
+    const result = chunkInto([1, 2, 3], TEST_ARRAY_SIZE);
     expect(result).toEqual([[1], [2], [3]]);
   });
 
   it('should handle empty arrays', () => {
-    expect(chunkInto([], 3)).toEqual([]);
+    expect(chunkInto([], TEST_CHUNK_COUNT)).toEqual([]);
   });
 
   it('should throw for non-positive count', () => {
@@ -438,7 +450,7 @@ describe('paginate', () => {
 
   describe('basic functionality', () => {
     it('should return paginated result with correct items', () => {
-      const result = paginate(testData, { pageSize: 3, page: 1 });
+      const result = paginate(testData, { pageSize: TEST_PAGE_SIZE, page: 1 });
       expect(result.items).toEqual([1, 2, 3]);
       expect(result.totalItems).toBe(10);
       expect(result.totalPages).toBe(4);
@@ -446,13 +458,13 @@ describe('paginate', () => {
     });
 
     it('should return correct page', () => {
-      const result = paginate(testData, { pageSize: 3, page: 2 });
+      const result = paginate(testData, { pageSize: TEST_PAGE_SIZE, page: 2 });
       expect(result.items).toEqual([4, 5, 6]);
       expect(result.currentPage).toBe(2);
     });
 
     it('should handle last page with fewer items', () => {
-      const result = paginate(testData, { pageSize: 3, page: 4 });
+      const result = paginate(testData, { pageSize: TEST_PAGE_SIZE, page: 4 });
       expect(result.items).toEqual([10]);
       expect(result.isLastPage).toBe(true);
     });
@@ -460,21 +472,21 @@ describe('paginate', () => {
 
   describe('navigation flags', () => {
     it('should set hasNextPage correctly', () => {
-      expect(paginate(testData, { pageSize: 3, page: 1 }).hasNextPage).toBe(true);
-      expect(paginate(testData, { pageSize: 3, page: 4 }).hasNextPage).toBe(false);
+      expect(paginate(testData, { pageSize: TEST_PAGE_SIZE, page: 1 }).hasNextPage).toBe(true);
+      expect(paginate(testData, { pageSize: TEST_PAGE_SIZE, page: 4 }).hasNextPage).toBe(false);
     });
 
     it('should set hasPreviousPage correctly', () => {
-      expect(paginate(testData, { pageSize: 3, page: 1 }).hasPreviousPage).toBe(false);
-      expect(paginate(testData, { pageSize: 3, page: 2 }).hasPreviousPage).toBe(true);
+      expect(paginate(testData, { pageSize: TEST_PAGE_SIZE, page: 1 }).hasPreviousPage).toBe(false);
+      expect(paginate(testData, { pageSize: TEST_PAGE_SIZE, page: 2 }).hasPreviousPage).toBe(true);
     });
 
     it('should set isFirstPage and isLastPage correctly', () => {
-      const first = paginate(testData, { pageSize: 3, page: 1 });
+      const first = paginate(testData, { pageSize: TEST_PAGE_SIZE, page: 1 });
       expect(first.isFirstPage).toBe(true);
       expect(first.isLastPage).toBe(false);
 
-      const last = paginate(testData, { pageSize: 3, page: 4 });
+      const last = paginate(testData, { pageSize: TEST_PAGE_SIZE, page: 4 });
       expect(last.isFirstPage).toBe(false);
       expect(last.isLastPage).toBe(true);
     });
@@ -482,7 +494,7 @@ describe('paginate', () => {
 
   describe('zero-based pagination', () => {
     it('should use 0-based indexing when specified', () => {
-      const result = paginate(testData, { pageSize: 3, page: 0, zeroBased: true });
+      const result = paginate(testData, { pageSize: TEST_PAGE_SIZE, page: 0, zeroBased: true });
       expect(result.items).toEqual([1, 2, 3]);
       expect(result.currentPage).toBe(0);
       expect(result.pageNumbers).toEqual([0, 1, 2, 3]);
@@ -491,17 +503,17 @@ describe('paginate', () => {
 
   describe('page clamping', () => {
     it('should clamp page to valid range', () => {
-      const tooHigh = paginate(testData, { pageSize: 3, page: 100 });
+      const tooHigh = paginate(testData, { pageSize: TEST_PAGE_SIZE, page: 100 });
       expect(tooHigh.currentPage).toBe(4);
 
-      const tooLow = paginate(testData, { pageSize: 3, page: -5 });
+      const tooLow = paginate(testData, { pageSize: TEST_PAGE_SIZE, page: -5 });
       expect(tooLow.currentPage).toBe(1);
     });
   });
 
   describe('indices', () => {
     it('should return correct start and end indices', () => {
-      const result = paginate(testData, { pageSize: 3, page: 2 });
+      const result = paginate(testData, { pageSize: TEST_PAGE_SIZE, page: 2 });
       expect(result.startIndex).toBe(3);
       expect(result.endIndex).toBe(6);
     });
@@ -509,7 +521,7 @@ describe('paginate', () => {
 
   describe('error handling', () => {
     it('should throw for non-array input', () => {
-      expect(() => paginate('not an array' as unknown as unknown[], { pageSize: 10 })).toThrow(
+      expect(() => paginate('not an array' as unknown as unknown[], { pageSize: TEST_PAGE_SIZE_LARGE })).toThrow(
         'paginate: Expected an array'
       );
     });
@@ -523,14 +535,14 @@ describe('paginate', () => {
 
   describe('empty array', () => {
     it('should handle empty arrays gracefully', () => {
-      const result = paginate([], { pageSize: 10, page: 1 });
+      const result = paginate([], { pageSize: TEST_PAGE_SIZE_LARGE, page: 1 });
       expect(result.items).toEqual([]);
       expect(result.totalPages).toBe(1);
       expect(result.hasNextPage).toBe(false);
     });
 
     it('should allow totalPages to be 0 when configured', () => {
-      const result = paginate([], { pageSize: 10, page: 1, allowZeroTotalPages: true });
+      const result = paginate([], { pageSize: TEST_PAGE_SIZE_LARGE, page: 1, allowZeroTotalPages: true });
       expect(result.totalPages).toBe(0);
       expect(result.items).toEqual([]);
       expect(result.pageNumbers).toEqual([]);
@@ -555,10 +567,10 @@ describe('createPaginator', () => {
 
 describe('getPageForIndex', () => {
   it('should return correct page for index (1-based)', () => {
-    expect(getPageForIndex(0, 10)).toBe(1);
-    expect(getPageForIndex(9, 10)).toBe(1);
-    expect(getPageForIndex(10, 10)).toBe(2);
-    expect(getPageForIndex(25, 10)).toBe(3);
+    expect(getPageForIndex(0, TEST_PAGE_SIZE_LARGE)).toBe(1);
+    expect(getPageForIndex(9, TEST_PAGE_SIZE_LARGE)).toBe(1);
+    expect(getPageForIndex(TEST_PAGE_SIZE_LARGE, TEST_PAGE_SIZE_LARGE)).toBe(2);
+    expect(getPageForIndex(25, TEST_PAGE_SIZE_LARGE)).toBe(3);
   });
 
   it('should return correct page for index (0-based)', () => {
@@ -568,12 +580,12 @@ describe('getPageForIndex', () => {
   });
 
   it('should handle negative indices', () => {
-    expect(getPageForIndex(-5, 10)).toBe(1);
+    expect(getPageForIndex(-TEST_ARRAY_SIZE, TEST_PAGE_SIZE_LARGE)).toBe(1);
     expect(getPageForIndex(-5, 10, true)).toBe(0);
   });
 
   it('should throw for invalid pageSize', () => {
-    expect(() => getPageForIndex(5, 0)).toThrow(
+    expect(() => getPageForIndex(TEST_ARRAY_SIZE, 0)).toThrow(
       'getPageForIndex: pageSize must be a positive integer'
     );
   });
@@ -694,7 +706,7 @@ describe('memoize', () => {
 
   describe('maxSize option', () => {
     it('should evict oldest entries when max size reached', () => {
-      const fn = memoize((n: number) => n, { maxSize: 2 });
+      const fn = memoize((n: number) => n, { maxSize: TEST_MEMOIZE_MAX_SIZE });
 
       fn(1);
       fn(2);
@@ -724,7 +736,7 @@ describe('memoize', () => {
           callCount++;
           return n;
         },
-        { ttl: 1000 }
+        { ttl: TEST_TTL_MS }
       );
 
       fn(1);
@@ -733,7 +745,7 @@ describe('memoize', () => {
       fn(1);
       expect(callCount).toBe(1); // Still cached
 
-      jest.advanceTimersByTime(1500);
+      jest.advanceTimersByTime(TEST_TTL_EXPIRED_MS);
 
       fn(1);
       expect(callCount).toBe(2); // Expired, recomputed

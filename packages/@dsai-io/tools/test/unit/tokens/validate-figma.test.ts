@@ -639,11 +639,11 @@ describe('validate-figma', () => {
     });
 
     it('should return Base for null data', () => {
-      expect(detectModesFn(null as any)).toEqual(['Base']);
+      expect(detectModesFn(null as unknown as Parameters<typeof detectModesFn>[0])).toEqual(['Base']);
     });
 
     it('should return Base for non-object data', () => {
-      expect(detectModesFn('string' as any)).toEqual(['Base']);
+      expect(detectModesFn('string' as unknown as Parameters<typeof detectModesFn>[0])).toEqual(['Base']);
     });
 
     it('should detect modes from collection name (case-insensitive)', () => {
@@ -652,14 +652,14 @@ describe('validate-figma', () => {
           modes: { Light: {}, Dark: {} },
         },
       };
-      expect(detectModesFn(data as any, 'foundation')).toEqual(['Light', 'Dark']);
+      expect(detectModesFn(data as unknown as Parameters<typeof detectModesFn>[0], 'foundation')).toEqual(['Light', 'Dark']);
     });
 
     it('should return Base when named collection has no modes', () => {
       const data = {
         Simple: { tokens: {} },
       };
-      expect(detectModesFn(data as any, 'simple')).toEqual(['Base']);
+      expect(detectModesFn(data as unknown as Parameters<typeof detectModesFn>[0], 'simple')).toEqual(['Base']);
     });
 
     it('should detect modes from any collection when no name specified', () => {
@@ -668,14 +668,14 @@ describe('validate-figma', () => {
           modes: { Desktop: {}, Mobile: {} },
         },
       };
-      expect(detectModesFn(data as any)).toEqual(['Desktop', 'Mobile']);
+      expect(detectModesFn(data as unknown as Parameters<typeof detectModesFn>[0])).toEqual(['Desktop', 'Mobile']);
     });
 
     it('should return Base when no modes found in any collection', () => {
       const data = {
         Flat: { token: { $value: '#fff' } },
       };
-      expect(detectModesFn(data as any)).toEqual(['Base']);
+      expect(detectModesFn(data as unknown as Parameters<typeof detectModesFn>[0])).toEqual(['Base']);
     });
   });
 

@@ -569,7 +569,8 @@ const ListGroupInner = forwardRef<HTMLUListElement | HTMLOListElement, ListGroup
       return entries.map((entry, index) => {
         if (!isListGroupItemData(entry)) {
           if (entry.type === 'divider') {
-            return <ListGroupDivider key={`divider-${++dividerCounter}`} />;
+            dividerCounter += 1;
+            return <ListGroupDivider key={`divider-${dividerCounter}`} />;
           }
           if (entry.type === 'header') {
             return <ListGroupHeader key={`header-${String(entry.content)}`}>{entry.content}</ListGroupHeader>;

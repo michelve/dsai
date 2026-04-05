@@ -11,3 +11,5 @@
 export * from './components';
 // Re-export types
 export type { IconComponent, IconProps } from './types';
+// Re-export hook for custom icon components
+export { useIconProps } from './useIconProps';

@@ -18,6 +18,22 @@ import {
   shallowEqual,
 } from '../collections';
 
+// -- Named constants for magic numbers (SonarQube S109) --
+const TEST_VALUE_5 = 5;
+const TEST_MULTIPLIED_10 = 10;
+const TEST_RESULT_42 = 42;
+const TTL_MS = 100;
+const TTL_ADVANCE_MS = 200;
+const MAX_CACHE_SIZE = 2;
+const SELECTOR_A_4 = 4;
+const SELECTOR_RESULT_12 = 12;
+const SELECTOR_B_7 = 7;
+const SELECTOR_SUM_10 = 10;
+const SELECTOR_SUM_6 = 6;
+const SELECTOR_INPUT_10 = 10;
+const SELECTOR_INPUT_20 = 20;
+const SELECTOR_B_999 = 999;
+
 // =============================================================================
 // memoize - additional branch coverage
 // =============================================================================
@@ -43,13 +59,13 @@ describe('memoize (additional coverage)', () => {
         { weakMap: true }
       );
 
-      const objA = { value: 5 };
-      expect(fn(objA)).toBe(10);
-      expect(fn(objA)).toBe(10);
+      const objA = { value: TEST_VALUE_5 };
+      expect(fn(objA)).toBe(TEST_MULTIPLIED_10);
+      expect(fn(objA)).toBe(TEST_MULTIPLIED_10);
       expect(callCount).toBe(1); // cached via WeakMap
 
-      const objB = { value: 5 };
-      expect(fn(objB)).toBe(10);
+      const objB = { value: TEST_VALUE_5 };
+      expect(fn(objB)).toBe(TEST_MULTIPLIED_10);
       expect(callCount).toBe(2); // different reference
     });
 
@@ -63,8 +79,8 @@ describe('memoize (additional coverage)', () => {
         { weakMap: true }
       );
 
-      expect(fn(5)).toBe(10);
-      expect(fn(5)).toBe(10);
+      expect(fn(TEST_VALUE_5)).toBe(TEST_MULTIPLIED_10);
+      expect(fn(TEST_VALUE_5)).toBe(TEST_MULTIPLIED_10);
       expect(callCount).toBe(1); // cached via Map path
     });
 
@@ -127,7 +143,7 @@ describe('memoize (additional coverage)', () => {
           callCount++;
           return obj.id;
         },
-        { weakMap: true, ttl: 100 }
+        { weakMap: true, ttl: TTL_MS }
       );
 
       const obj = { id: 1 };
@@ -137,7 +153,7 @@ describe('memoize (additional coverage)', () => {
       fn(obj);
       expect(callCount).toBe(1); // still cached
 
-      jest.advanceTimersByTime(200);
+      jest.advanceTimersByTime(TTL_ADVANCE_MS);
 
       fn(obj);
       expect(callCount).toBe(2); // expired, recomputed
@@ -146,34 +162,34 @@ describe('memoize (additional coverage)', () => {
     it('should report has() as false for expired WeakMap entries', () => {
       const fn = memoize(
         (obj: { id: number }) => obj.id,
-        { weakMap: true, ttl: 100 }
+        { weakMap: true, ttl: TTL_MS }
       );
 
       const obj = { id: 1 };
       fn(obj);
       expect(fn.has(obj)).toBe(true);
 
-      jest.advanceTimersByTime(200);
+      jest.advanceTimersByTime(TTL_ADVANCE_MS);
       expect(fn.has(obj)).toBe(false);
     });
 
     it('should expire Map entries checked via has()', () => {
       const fn = memoize(
         (n: number) => n,
-        { ttl: 100 }
+        { ttl: TTL_MS }
       );
 
       fn(1);
       expect(fn.has(1)).toBe(true);
 
-      jest.advanceTimersByTime(200);
+      jest.advanceTimersByTime(TTL_ADVANCE_MS);
       expect(fn.has(1)).toBe(false);
     });
   });
 
   describe('cache eviction at maxSize', () => {
     it('should evict oldest entry when maxSize exceeded', () => {
-      const fn = memoize((n: number) => n * 10, { maxSize: 2 });
+      const fn = memoize((n: number) => n * 10, { maxSize: MAX_CACHE_SIZE });
 
       fn(1); // cache: {1}
       fn(2); // cache: {1, 2}
@@ -182,11 +198,11 @@ describe('memoize (additional coverage)', () => {
       expect(fn.has(1)).toBe(false);
       expect(fn.has(2)).toBe(true);
       expect(fn.has(3)).toBe(true);
-      expect(fn.size).toBe(2);
+      expect(fn.size).toBe(MAX_CACHE_SIZE);
     });
 
     it('should update LRU order on cache hit (touchEntry)', () => {
-      const fn = memoize((n: number) => n * 10, { maxSize: 2 });
+      const fn = memoize((n: number) => n * 10, { maxSize: MAX_CACHE_SIZE });
 
       fn(1); // cache: {1}
       fn(2); // cache: {1, 2}
@@ -218,7 +234,7 @@ describe('memoize (additional coverage)', () => {
       let callCount = 0;
       const fn = memoize(() => {
         callCount++;
-        return 42;
+        return TEST_RESULT_42;
       });
 
       fn();
@@ -290,11 +306,11 @@ describe('memoizeMethod', () => {
     const calc1 = new Calculator();
     const calc2 = new Calculator();
 
-    expect(calc1.double(5)).toBe(10);
-    expect(calc1.double(5)).toBe(10);
+    expect(calc1.double(TEST_VALUE_5)).toBe(TEST_MULTIPLIED_10);
+    expect(calc1.double(TEST_VALUE_5)).toBe(TEST_MULTIPLIED_10);
     expect(calc1.callCount).toBe(1);
 
-    expect(calc2.double(5)).toBe(10);
+    expect(calc2.double(TEST_VALUE_5)).toBe(TEST_MULTIPLIED_10);
     expect(calc2.callCount).toBe(1);
   });
 
@@ -327,8 +343,8 @@ describe('createSelector (additional coverage)', () => {
 
     it('should return last inputs after call', () => {
       const sel = createSelector(getA, (a) => a * 2);
-      sel({ a: 5, b: 10 });
-      expect(sel.lastInputs()).toEqual([5]);
+      sel({ a: TEST_VALUE_5, b: SELECTOR_INPUT_10 });
+      expect(sel.lastInputs()).toEqual([TEST_VALUE_5]);
     });
   });
 
@@ -372,7 +388,7 @@ describe('createSelector (additional coverage)', () => {
       );
 
       const first = sel({ a: 1, b: 0 });
-      const second = sel({ a: 1, b: 999 }); // a unchanged but new state ref
+      const second = sel({ a: 1, b: SELECTOR_B_999 }); // a unchanged but new state ref
       expect(second).toBe(first); // same reference due to equalityFn
     });
 
@@ -423,21 +439,21 @@ describe('createSelector (additional coverage)', () => {
     it('should return lastInputs from createSelectorFromArray', () => {
       const sel = createSelectorFromArray([getA, getB], ([a, b]) => a + b);
       expect(sel.lastInputs()).toBeUndefined();
-      sel({ a: 10, b: 20 });
-      expect(sel.lastInputs()).toEqual([10, 20]);
+      sel({ a: SELECTOR_INPUT_10, b: SELECTOR_INPUT_20 });
+      expect(sel.lastInputs()).toEqual([SELECTOR_INPUT_10, SELECTOR_INPUT_20]);
     });
   });
 
   describe('createSelector typed variants', () => {
     it('createSelector1 works with 1 input', () => {
       const sel = createSelector1(getA, (a) => a * 3);
-      expect(sel({ a: 4, b: 0 })).toBe(12);
+      expect(sel({ a: SELECTOR_A_4, b: 0 })).toBe(SELECTOR_RESULT_12);
       expect(sel.recomputations()).toBe(1);
     });
 
     it('createSelector2 works with 2 inputs', () => {
       const sel = createSelector2(getA, getB, (a, b) => a + b);
-      expect(sel({ a: 3, b: 7 })).toBe(10);
+      expect(sel({ a: 3, b: SELECTOR_B_7 })).toBe(SELECTOR_SUM_10);
     });
 
     it('createSelector3 works with 3 inputs', () => {
@@ -448,7 +464,7 @@ describe('createSelector (additional coverage)', () => {
         getC,
         (a, b, c) => a + b + c
       );
-      expect(sel({ a: 1, b: 2, c: 3 })).toBe(6);
+      expect(sel({ a: 1, b: 2, c: 3 })).toBe(SELECTOR_SUM_6);
     });
   });
 
@@ -465,11 +481,11 @@ describe('createSelector (additional coverage)', () => {
         { equalityFn: (prev, next) => prev.doubled === next.doubled }
       );
 
-      const r1 = sel({ a: 5, b: 0 });
+      const r1 = sel({ a: TEST_VALUE_5, b: 0 });
       expect(computeCount).toBe(1);
 
       // Change b only (a stays same) - inputs are same so memoized
-      const r2 = sel({ a: 5, b: 0 });
+      const r2 = sel({ a: TEST_VALUE_5, b: 0 });
       expect(r2).toBe(r1);
 
       // Now force recomputation with different a that yields same doubled
@@ -479,11 +495,11 @@ describe('createSelector (additional coverage)', () => {
       sel.clearCache();
       computeCount = 0;
 
-      const r3 = sel({ a: 5, b: 0 });
+      const r3 = sel({ a: TEST_VALUE_5, b: 0 });
       expect(computeCount).toBe(1);
 
       // Now with different state ref but same inputs
-      const r4 = sel({ a: 5, b: 0 });
+      const r4 = sel({ a: TEST_VALUE_5, b: 0 });
       expect(r4).toBe(r3);
     });
   });

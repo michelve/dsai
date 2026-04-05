@@ -12,6 +12,19 @@ import { observeResize, observeResizeMany } from '../layout/observeResize';
 import { scheduleFrame, scheduleFrameAfter } from '../layout/scheduleFrame';
 import { throttleFrame } from '../layout/throttleFrame';
 
+// -- Named constants for magic numbers (SonarQube S109) --
+const SCHEDULE_FRAME_COUNT = 5;
+const RESIZE_WIDTH = 200;
+const RESIZE_HEIGHT = 100;
+const RESIZE_WIDTH_SMALL = 100;
+const RESIZE_HEIGHT_SMALL = 50;
+const RESIZE_WIDTH_LARGE = 300;
+const RESIZE_HEIGHT_LARGE = 150;
+const DEBOUNCE_MS = 50;
+const DEBOUNCE_ADVANCE_MS = 60;
+const DEBOUNCE_LONG_MS = 100;
+const DEBOUNCE_CLEANUP_ADVANCE_MS = 200;
+
 describe('throttleFrame (additional coverage)', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -164,10 +177,10 @@ describe('scheduleFrame (additional coverage)', () => {
   it('should handle scheduleFrameAfter cancel before any frames', () => {
     jest.useFakeTimers();
     const cb = jest.fn();
-    const cancel = scheduleFrameAfter(cb, 5);
+    const cancel = scheduleFrameAfter(cb, SCHEDULE_FRAME_COUNT);
 
     cancel();
-    jest.advanceTimersByTime(200);
+    jest.advanceTimersByTime(RESIZE_WIDTH);
     expect(cb).not.toHaveBeenCalled();
   });
 
@@ -212,9 +225,9 @@ describe('observeResize (additional coverage)', () => {
   it('should call callback immediately when debounce is 0', () => {
     const observeSpy = jest.fn();
     const disconnectSpy = jest.fn();
-    let observerCallback: ((entries: any[]) => void) | null = null;
+    let observerCallback: ((entries: ResizeObserverEntry[]) => void) | null = null;
 
-    (global as any).ResizeObserver = jest.fn().mockImplementation((cb: any) => {
+    (global as unknown as Record<string, unknown>).ResizeObserver = jest.fn().mockImplementation((cb: (entries: ResizeObserverEntry[]) => void) => {
       observerCallback = cb;
       return { observe: observeSpy, disconnect: disconnectSpy };
     });
@@ -227,7 +240,7 @@ describe('observeResize (additional coverage)', () => {
     observerCallback!([
       {
         target: el,
-        contentRect: { width: 200, height: 100 },
+        contentRect: { width: RESIZE_WIDTH, height: RESIZE_HEIGHT },
         borderBoxSize: undefined,
         contentBoxSize: undefined,
       },
@@ -235,7 +248,7 @@ describe('observeResize (additional coverage)', () => {
 
     expect(callback).toHaveBeenCalledTimes(1);
     expect(callback).toHaveBeenCalledWith(
-      expect.objectContaining({ width: 200, height: 100, target: el })
+      expect.objectContaining({ width: RESIZE_WIDTH, height: RESIZE_HEIGHT, target: el })
     );
 
     cleanup();
@@ -244,34 +257,34 @@ describe('observeResize (additional coverage)', () => {
 
   it('should debounce callback when debounce > 0', () => {
     jest.useFakeTimers();
-    let observerCallback: ((entries: any[]) => void) | null = null;
+    let observerCallback: ((entries: ResizeObserverEntry[]) => void) | null = null;
 
-    (global as any).ResizeObserver = jest.fn().mockImplementation((cb: any) => {
+    (global as unknown as Record<string, unknown>).ResizeObserver = jest.fn().mockImplementation((cb: (entries: ResizeObserverEntry[]) => void) => {
       observerCallback = cb;
       return { observe: jest.fn(), disconnect: jest.fn() };
     });
 
     const callback = jest.fn();
     const el = document.createElement('div');
-    observeResize(el, callback, { debounce: 50 });
+    observeResize(el, callback, { debounce: DEBOUNCE_MS });
 
     // Multiple rapid resize events
     observerCallback!([
-      { target: el, contentRect: { width: 100, height: 50 }, borderBoxSize: undefined, contentBoxSize: undefined },
+      { target: el, contentRect: { width: RESIZE_WIDTH_SMALL, height: RESIZE_HEIGHT_SMALL }, borderBoxSize: undefined, contentBoxSize: undefined },
     ]);
     observerCallback!([
-      { target: el, contentRect: { width: 200, height: 100 }, borderBoxSize: undefined, contentBoxSize: undefined },
+      { target: el, contentRect: { width: RESIZE_WIDTH, height: RESIZE_HEIGHT }, borderBoxSize: undefined, contentBoxSize: undefined },
     ]);
     observerCallback!([
-      { target: el, contentRect: { width: 300, height: 150 }, borderBoxSize: undefined, contentBoxSize: undefined },
+      { target: el, contentRect: { width: RESIZE_WIDTH_LARGE, height: RESIZE_HEIGHT_LARGE }, borderBoxSize: undefined, contentBoxSize: undefined },
     ]);
 
     expect(callback).not.toHaveBeenCalled();
 
-    jest.advanceTimersByTime(60);
+    jest.advanceTimersByTime(DEBOUNCE_ADVANCE_MS);
     expect(callback).toHaveBeenCalledTimes(1);
     // Should use the last entry
-    expect(callback).toHaveBeenCalledWith(expect.objectContaining({ width: 300, height: 150 }));
+    expect(callback).toHaveBeenCalledWith(expect.objectContaining({ width: RESIZE_WIDTH_LARGE, height: RESIZE_HEIGHT_LARGE }));
   });
 
   it('should handle observe with box option failure and retry without box', () => {
@@ -282,7 +295,7 @@ describe('observeResize (additional coverage)', () => {
       })
       .mockImplementation(() => {}); // second call succeeds
 
-    (global as any).ResizeObserver = jest.fn().mockImplementation(() => ({
+    (global as unknown as Record<string, unknown>).ResizeObserver = jest.fn().mockImplementation(() => ({
       observe: observeSpy,
       disconnect: jest.fn(),
     }));
@@ -299,7 +312,7 @@ describe('observeResize (additional coverage)', () => {
       throw new Error('observe failed');
     });
 
-    (global as any).ResizeObserver = jest.fn().mockImplementation(() => ({
+    (global as unknown as Record<string, unknown>).ResizeObserver = jest.fn().mockImplementation(() => ({
       observe: observeSpy,
       disconnect: jest.fn(),
     }));
@@ -312,26 +325,26 @@ describe('observeResize (additional coverage)', () => {
 
   it('should clear debounce timeout on cleanup', () => {
     jest.useFakeTimers();
-    let observerCallback: ((entries: any[]) => void) | null = null;
+    let observerCallback: ((entries: ResizeObserverEntry[]) => void) | null = null;
 
-    (global as any).ResizeObserver = jest.fn().mockImplementation((cb: any) => {
+    (global as unknown as Record<string, unknown>).ResizeObserver = jest.fn().mockImplementation((cb: (entries: ResizeObserverEntry[]) => void) => {
       observerCallback = cb;
       return { observe: jest.fn(), disconnect: jest.fn() };
     });
 
     const callback = jest.fn();
     const el = document.createElement('div');
-    const cleanup = observeResize(el, callback, { debounce: 100 });
+    const cleanup = observeResize(el, callback, { debounce: DEBOUNCE_LONG_MS });
 
     // Trigger resize
     observerCallback!([
-      { target: el, contentRect: { width: 100, height: 50 }, borderBoxSize: undefined, contentBoxSize: undefined },
+      { target: el, contentRect: { width: RESIZE_WIDTH_SMALL, height: RESIZE_HEIGHT_SMALL }, borderBoxSize: undefined, contentBoxSize: undefined },
     ]);
 
     // Cleanup before debounce fires
     cleanup();
 
-    jest.advanceTimersByTime(200);
+    jest.advanceTimersByTime(DEBOUNCE_CLEANUP_ADVANCE_MS);
     expect(callback).not.toHaveBeenCalled();
   });
 
@@ -339,7 +352,7 @@ describe('observeResize (additional coverage)', () => {
     const observeSpy = jest.fn();
     const disconnectSpy = jest.fn();
 
-    (global as any).ResizeObserver = jest.fn().mockImplementation(() => ({
+    (global as unknown as Record<string, unknown>).ResizeObserver = jest.fn().mockImplementation(() => ({
       observe: observeSpy,
       disconnect: disconnectSpy,
     }));

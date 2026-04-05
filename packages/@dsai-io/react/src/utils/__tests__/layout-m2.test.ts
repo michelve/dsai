@@ -16,6 +16,27 @@
  * Target: 100% code coverage for layout utilities
  */
 
+// ── Test constants (S109) ──
+const TEST_WIDTH = 800;
+const TEST_HEIGHT = 600;
+const TEST_VIEWPORT_WIDTH = 1024;
+const TEST_VIEWPORT_HEIGHT = 768;
+const TEST_HD_WIDTH = 1920;
+const TEST_HD_HEIGHT = 1080;
+const TEST_HD_CLIENT_WIDTH = 1900;
+const TEST_HD_CLIENT_HEIGHT = 1060;
+const TEST_SCROLL_Y = 200;
+const TEST_DOC_SCROLL_HEIGHT = 2000;
+const TEST_HALF_SCROLL_Y = 616;
+const TEST_MAX_SCROLL_Y = 1232;
+const TEST_DEBOUNCE_MS = 10;
+const TEST_DEBOUNCE_WAIT = 15;
+const TEST_FRAME_MS = 16;
+const TEST_LONG_WAIT_MS = 50;
+const TEST_EXTENDED_WAIT_MS = 100;
+const TEST_PORTRAIT_WIDTH = 768;
+const TEST_PORTRAIT_HEIGHT = 1024;
+
 import * as browserUtils from '../browser/isBrowser';
 import {
   boundsIntersect,
@@ -74,7 +95,7 @@ describe('Layout utilities', () => {
       expect(bounds?.width).toBe(10);
       expect(bounds?.left).toBe(20);
 
-      document.body.removeChild(el);
+      el.remove();
     });
 
     it('calculates center points correctly', () => {
@@ -96,7 +117,7 @@ describe('Layout utilities', () => {
       expect(bounds?.centerX).toBe(250);
       expect(bounds?.centerY).toBe(150);
 
-      document.body.removeChild(el);
+      el.remove();
     });
 
     it('includes scroll offset by default', () => {
@@ -123,7 +144,7 @@ describe('Layout utilities', () => {
 
       Object.defineProperty(window, 'scrollX', { value: 0, configurable: true });
       Object.defineProperty(window, 'scrollY', { value: 0, configurable: true });
-      document.body.removeChild(el);
+      el.remove();
     });
   });
 
@@ -243,8 +264,8 @@ describe('Layout utilities', () => {
 
   describe('isInViewport', () => {
     beforeEach(() => {
-      Object.defineProperty(window, 'innerWidth', { value: 1024, configurable: true });
-      Object.defineProperty(window, 'innerHeight', { value: 768, configurable: true });
+      Object.defineProperty(window, 'innerWidth', { value: TEST_VIEWPORT_WIDTH, configurable: true });
+      Object.defineProperty(window, 'innerHeight', { value: TEST_VIEWPORT_HEIGHT, configurable: true });
     });
 
     it('returns false when not in browser', () => {
@@ -365,44 +386,44 @@ describe('Layout utilities', () => {
   describe('viewport helpers', () => {
     it('returns defaults in SSR', () => {
       const spy = jest.spyOn(browserUtils, 'isBrowser').mockReturnValue(false);
-      const viewport = getViewportSize({ defaultWidth: 800, defaultHeight: 600 });
-      expect(viewport.width).toBe(800);
-      expect(viewport.height).toBe(600);
+      const viewport = getViewportSize({ defaultWidth: TEST_WIDTH, defaultHeight: TEST_HEIGHT });
+      expect(viewport.width).toBe(TEST_WIDTH);
+      expect(viewport.height).toBe(TEST_HEIGHT);
       expect(getDocumentSize()).toBeNull();
       expect(getScrollProgress()).toBe(0);
       spy.mockRestore();
     });
 
     it('returns viewport dimensions in browser', () => {
-      Object.defineProperty(window, 'innerWidth', { value: 1920, configurable: true });
-      Object.defineProperty(window, 'innerHeight', { value: 1080, configurable: true });
+      Object.defineProperty(window, 'innerWidth', { value: TEST_HD_WIDTH, configurable: true });
+      Object.defineProperty(window, 'innerHeight', { value: TEST_HD_HEIGHT, configurable: true });
       Object.defineProperty(document.documentElement, 'clientWidth', {
-        value: 1900,
+        value: TEST_HD_CLIENT_WIDTH,
         configurable: true,
       });
       Object.defineProperty(document.documentElement, 'clientHeight', {
-        value: 1060,
+        value: TEST_HD_CLIENT_HEIGHT,
         configurable: true,
       });
 
       const viewport = getViewportSize();
-      expect(viewport.width).toBe(1920);
-      expect(viewport.height).toBe(1080);
-      expect(viewport.clientWidth).toBe(1900);
-      expect(viewport.clientHeight).toBe(1060);
+      expect(viewport.width).toBe(TEST_HD_WIDTH);
+      expect(viewport.height).toBe(TEST_HD_HEIGHT);
+      expect(viewport.clientWidth).toBe(TEST_HD_CLIENT_WIDTH);
+      expect(viewport.clientHeight).toBe(TEST_HD_CLIENT_HEIGHT);
     });
 
     it('calculates aspect ratio correctly', () => {
-      Object.defineProperty(window, 'innerWidth', { value: 1920, configurable: true });
-      Object.defineProperty(window, 'innerHeight', { value: 1080, configurable: true });
+      Object.defineProperty(window, 'innerWidth', { value: TEST_HD_WIDTH, configurable: true });
+      Object.defineProperty(window, 'innerHeight', { value: TEST_HD_HEIGHT, configurable: true });
 
       const viewport = getViewportSize();
       expect(viewport.aspectRatio).toBeCloseTo(1.777, 2);
     });
 
     it('detects landscape orientation', () => {
-      Object.defineProperty(window, 'innerWidth', { value: 1920, configurable: true });
-      Object.defineProperty(window, 'innerHeight', { value: 1080, configurable: true });
+      Object.defineProperty(window, 'innerWidth', { value: TEST_HD_WIDTH, configurable: true });
+      Object.defineProperty(window, 'innerHeight', { value: TEST_HD_HEIGHT, configurable: true });
 
       const viewport = getViewportSize();
       expect(viewport.isLandscape).toBe(true);
@@ -410,8 +431,8 @@ describe('Layout utilities', () => {
     });
 
     it('detects portrait orientation', () => {
-      Object.defineProperty(window, 'innerWidth', { value: 768, configurable: true });
-      Object.defineProperty(window, 'innerHeight', { value: 1024, configurable: true });
+      Object.defineProperty(window, 'innerWidth', { value: TEST_PORTRAIT_WIDTH, configurable: true });
+      Object.defineProperty(window, 'innerHeight', { value: TEST_PORTRAIT_HEIGHT, configurable: true });
 
       const viewport = getViewportSize();
       expect(viewport.isLandscape).toBe(false);
@@ -420,16 +441,16 @@ describe('Layout utilities', () => {
 
     it('handles SSR aspect ratio with zero height default', () => {
       const spy = jest.spyOn(browserUtils, 'isBrowser').mockReturnValue(false);
-      const viewport = getViewportSize({ defaultWidth: 800, defaultHeight: 0 });
+      const viewport = getViewportSize({ defaultWidth: TEST_WIDTH, defaultHeight: 0 });
       expect(viewport.aspectRatio).toBe(1);
       spy.mockRestore();
     });
 
     it('returns document size in browser', () => {
-      Object.defineProperty(window, 'innerWidth', { value: 1024, configurable: true });
-      Object.defineProperty(window, 'innerHeight', { value: 768, configurable: true });
+      Object.defineProperty(window, 'innerWidth', { value: TEST_VIEWPORT_WIDTH, configurable: true });
+      Object.defineProperty(window, 'innerHeight', { value: TEST_VIEWPORT_HEIGHT, configurable: true });
       Object.defineProperty(window, 'scrollX', { value: 0, configurable: true });
-      Object.defineProperty(window, 'scrollY', { value: 200, configurable: true });
+      Object.defineProperty(window, 'scrollY', { value: TEST_SCROLL_Y, configurable: true });
       Object.defineProperty(document.documentElement, 'scrollWidth', {
         value: 1024,
         configurable: true,
@@ -454,24 +475,24 @@ describe('Layout utilities', () => {
         value: 768,
         configurable: true,
       });
-      Object.defineProperty(document.body, 'scrollWidth', { value: 1024, configurable: true });
-      Object.defineProperty(document.body, 'scrollHeight', { value: 2000, configurable: true });
-      Object.defineProperty(document.body, 'offsetWidth', { value: 1024, configurable: true });
-      Object.defineProperty(document.body, 'offsetHeight', { value: 2000, configurable: true });
+      Object.defineProperty(document.body, 'scrollWidth', { value: TEST_VIEWPORT_WIDTH, configurable: true });
+      Object.defineProperty(document.body, 'scrollHeight', { value: TEST_DOC_SCROLL_HEIGHT, configurable: true });
+      Object.defineProperty(document.body, 'offsetWidth', { value: TEST_VIEWPORT_WIDTH, configurable: true });
+      Object.defineProperty(document.body, 'offsetHeight', { value: TEST_DOC_SCROLL_HEIGHT, configurable: true });
 
       const docSize = getDocumentSize();
       expect(docSize).not.toBeNull();
-      expect(docSize?.width).toBe(1024);
-      expect(docSize?.height).toBe(2000);
-      expect(docSize?.scrollTop).toBe(200);
-      expect(docSize?.maxScrollY).toBe(1232);
+      expect(docSize?.width).toBe(TEST_VIEWPORT_WIDTH);
+      expect(docSize?.height).toBe(TEST_DOC_SCROLL_HEIGHT);
+      expect(docSize?.scrollTop).toBe(TEST_SCROLL_Y);
+      expect(docSize?.maxScrollY).toBe(TEST_MAX_SCROLL_Y);
     });
 
     it('calculates scroll progress correctly', () => {
-      Object.defineProperty(window, 'innerWidth', { value: 1024, configurable: true });
-      Object.defineProperty(window, 'innerHeight', { value: 768, configurable: true });
+      Object.defineProperty(window, 'innerWidth', { value: TEST_VIEWPORT_WIDTH, configurable: true });
+      Object.defineProperty(window, 'innerHeight', { value: TEST_VIEWPORT_HEIGHT, configurable: true });
       Object.defineProperty(window, 'scrollX', { value: 0, configurable: true });
-      Object.defineProperty(window, 'scrollY', { value: 616, configurable: true });
+      Object.defineProperty(window, 'scrollY', { value: TEST_HALF_SCROLL_Y, configurable: true });
       Object.defineProperty(document.documentElement, 'scrollWidth', {
         value: 1024,
         configurable: true,
@@ -496,18 +517,18 @@ describe('Layout utilities', () => {
         value: 768,
         configurable: true,
       });
-      Object.defineProperty(document.body, 'scrollWidth', { value: 1024, configurable: true });
-      Object.defineProperty(document.body, 'scrollHeight', { value: 2000, configurable: true });
-      Object.defineProperty(document.body, 'offsetWidth', { value: 1024, configurable: true });
-      Object.defineProperty(document.body, 'offsetHeight', { value: 2000, configurable: true });
+      Object.defineProperty(document.body, 'scrollWidth', { value: TEST_VIEWPORT_WIDTH, configurable: true });
+      Object.defineProperty(document.body, 'scrollHeight', { value: TEST_DOC_SCROLL_HEIGHT, configurable: true });
+      Object.defineProperty(document.body, 'offsetWidth', { value: TEST_VIEWPORT_WIDTH, configurable: true });
+      Object.defineProperty(document.body, 'offsetHeight', { value: TEST_DOC_SCROLL_HEIGHT, configurable: true });
 
       const progress = getScrollProgress();
       expect(progress).toBeCloseTo(0.5, 1);
     });
 
     it('returns 0 scroll progress when no scrollable area', () => {
-      Object.defineProperty(window, 'innerWidth', { value: 1024, configurable: true });
-      Object.defineProperty(window, 'innerHeight', { value: 768, configurable: true });
+      Object.defineProperty(window, 'innerWidth', { value: TEST_VIEWPORT_WIDTH, configurable: true });
+      Object.defineProperty(window, 'innerHeight', { value: TEST_VIEWPORT_HEIGHT, configurable: true });
       Object.defineProperty(window, 'scrollX', { value: 0, configurable: true });
       Object.defineProperty(window, 'scrollY', { value: 0, configurable: true });
       Object.defineProperty(document.documentElement, 'scrollWidth', {
@@ -534,10 +555,10 @@ describe('Layout utilities', () => {
         value: 768,
         configurable: true,
       });
-      Object.defineProperty(document.body, 'scrollWidth', { value: 1024, configurable: true });
-      Object.defineProperty(document.body, 'scrollHeight', { value: 768, configurable: true });
-      Object.defineProperty(document.body, 'offsetWidth', { value: 1024, configurable: true });
-      Object.defineProperty(document.body, 'offsetHeight', { value: 768, configurable: true });
+      Object.defineProperty(document.body, 'scrollWidth', { value: TEST_VIEWPORT_WIDTH, configurable: true });
+      Object.defineProperty(document.body, 'scrollHeight', { value: TEST_VIEWPORT_HEIGHT, configurable: true });
+      Object.defineProperty(document.body, 'offsetWidth', { value: TEST_VIEWPORT_WIDTH, configurable: true });
+      Object.defineProperty(document.body, 'offsetHeight', { value: TEST_VIEWPORT_HEIGHT, configurable: true });
 
       const progress = getScrollProgress();
       expect(progress).toBe(0);
@@ -547,19 +568,19 @@ describe('Layout utilities', () => {
   describe('observeResize', () => {
     it('returns noop when ResizeObserver unavailable', () => {
       const spy = jest.spyOn(browserUtils, 'isBrowser').mockReturnValue(true);
-      const original = (global as any).ResizeObserver;
+      const original = (global as unknown as Record<string, unknown>).ResizeObserver;
       // @ts-expect-error - remove for test
-      delete (global as any).ResizeObserver;
-      const cleanup = observeResize(null as any, () => {});
+      delete (global as unknown as Record<string, unknown>).ResizeObserver;
+      const cleanup = observeResize(null as unknown as Element, () => {});
       expect(typeof cleanup).toBe('function');
       cleanup();
-      (global as any).ResizeObserver = original;
+      (global as unknown as Record<string, unknown>).ResizeObserver = original;
       spy.mockRestore();
     });
 
     it('observes element and debounces callback', () => {
       jest.useFakeTimers();
-      const entries: any[] = [];
+      const entries: ResizeObserverEntry[] = [];
       const observeMock = jest.fn();
       const disconnectMock = jest.fn();
       const ro = jest.fn().mockImplementation((cb) => {
@@ -575,12 +596,12 @@ describe('Layout utilities', () => {
         });
         return { observe: observeMock, disconnect: disconnectMock };
       });
-      (global as any).ResizeObserver = ro;
+      (global as unknown as Record<string, unknown>).ResizeObserver = ro;
       const el = document.createElement('div');
-      const cleanup = observeResize(el, (entry) => entries.push(entry), { debounce: 10 });
+      const cleanup = observeResize(el, (entry) => entries.push(entry), { debounce: TEST_DEBOUNCE_MS });
       observeMock(el);
       expect(entries).toHaveLength(0);
-      jest.advanceTimersByTime(15);
+      jest.advanceTimersByTime(TEST_DEBOUNCE_WAIT);
       expect(entries).toHaveLength(1);
       cleanup();
     });
@@ -588,7 +609,7 @@ describe('Layout utilities', () => {
     it('supports multiple elements', () => {
       const observeSpy = jest.fn();
       const disconnectSpy = jest.fn();
-      (global as any).ResizeObserver = jest.fn().mockImplementation(() => ({
+      (global as unknown as Record<string, unknown>).ResizeObserver = jest.fn().mockImplementation(() => ({
         observe: observeSpy,
         disconnect: disconnectSpy,
       }));
@@ -653,14 +674,14 @@ describe('Layout utilities', () => {
         calls++;
         return calls < 2;
       });
-      jest.advanceTimersByTime(50);
+      jest.advanceTimersByTime(TEST_LONG_WAIT_MS);
       stop();
       expect(calls).toBeGreaterThanOrEqual(1);
     });
 
     it('uses requestAnimationFrame when available', () => {
       jest.useFakeTimers();
-      const rafSpy = jest.fn((cb) => setTimeout(() => cb(performance.now()), 16));
+      const rafSpy = jest.fn((cb) => setTimeout(() => cb(performance.now()), TEST_FRAME_MS));
       const originalRaf = window.requestAnimationFrame;
       Object.defineProperty(window, 'requestAnimationFrame', {
         value: rafSpy,
@@ -705,13 +726,13 @@ describe('Layout utilities', () => {
       const cb = jest.fn();
       scheduleFrameAfter(cb, 2);
 
-      jest.advanceTimersByTime(16);
+      jest.advanceTimersByTime(TEST_FRAME_MS);
       expect(cb).not.toHaveBeenCalled();
 
-      jest.advanceTimersByTime(16);
+      jest.advanceTimersByTime(TEST_FRAME_MS);
       expect(cb).not.toHaveBeenCalled();
 
-      jest.advanceTimersByTime(16);
+      jest.advanceTimersByTime(TEST_FRAME_MS);
       expect(cb).toHaveBeenCalled();
     });
 
@@ -719,7 +740,7 @@ describe('Layout utilities', () => {
       jest.useFakeTimers();
       const cb = jest.fn();
       scheduleFrameAfter(cb, 0);
-      jest.advanceTimersByTime(16);
+      jest.advanceTimersByTime(TEST_FRAME_MS);
       expect(cb).toHaveBeenCalled();
     });
 
@@ -727,7 +748,7 @@ describe('Layout utilities', () => {
       jest.useFakeTimers();
       const cb = jest.fn();
       scheduleFrameAfter(cb, -1);
-      jest.advanceTimersByTime(16);
+      jest.advanceTimersByTime(TEST_FRAME_MS);
       expect(cb).toHaveBeenCalled();
     });
 
@@ -736,7 +757,7 @@ describe('Layout utilities', () => {
       const cb = jest.fn();
       const cancel = scheduleFrameAfter(cb, 3);
       cancel();
-      jest.advanceTimersByTime(100);
+      jest.advanceTimersByTime(TEST_EXTENDED_WAIT_MS);
       expect(cb).not.toHaveBeenCalled();
     });
 
@@ -747,7 +768,7 @@ describe('Layout utilities', () => {
         frameInfo = info;
         return false;
       });
-      jest.advanceTimersByTime(16);
+      jest.advanceTimersByTime(TEST_FRAME_MS);
       stop();
 
       expect(frameInfo).not.toBeNull();
@@ -791,7 +812,7 @@ describe('Layout utilities', () => {
 
       expect(fn).toHaveBeenCalledTimes(1);
 
-      jest.advanceTimersByTime(16);
+      jest.advanceTimersByTime(TEST_FRAME_MS);
       expect(fn).toHaveBeenCalledTimes(2);
     });
 
@@ -811,7 +832,7 @@ describe('Layout utilities', () => {
       throttled();
       expect(fn).not.toHaveBeenCalled();
 
-      jest.advanceTimersByTime(16);
+      jest.advanceTimersByTime(TEST_FRAME_MS);
       expect(fn).toHaveBeenCalledTimes(1);
     });
 
@@ -824,7 +845,7 @@ describe('Layout utilities', () => {
       throttled();
 
       expect(fn).toHaveBeenCalledTimes(1);
-      jest.advanceTimersByTime(16);
+      jest.advanceTimersByTime(TEST_FRAME_MS);
       expect(fn).toHaveBeenCalledTimes(2);
     });
 
@@ -837,7 +858,7 @@ describe('Layout utilities', () => {
       throttled();
 
       expect(fn).toHaveBeenCalledTimes(1);
-      jest.advanceTimersByTime(16);
+      jest.advanceTimersByTime(TEST_FRAME_MS);
       expect(fn).toHaveBeenCalledTimes(1);
     });
 
@@ -848,7 +869,7 @@ describe('Layout utilities', () => {
 
       throttled();
       throttled.cancel();
-      jest.advanceTimersByTime(16);
+      jest.advanceTimersByTime(TEST_FRAME_MS);
 
       expect(fn).not.toHaveBeenCalled();
     });
@@ -881,7 +902,7 @@ describe('Layout utilities', () => {
       expect(throttled.pending).toBe(false);
       throttled();
       expect(throttled.pending).toBe(true);
-      jest.advanceTimersByTime(16);
+      jest.advanceTimersByTime(TEST_FRAME_MS);
       expect(throttled.pending).toBe(false);
     });
 
@@ -903,7 +924,7 @@ describe('Layout utilities', () => {
       throttled('third');
 
       expect(fn).toHaveBeenCalledWith('first');
-      jest.advanceTimersByTime(16);
+      jest.advanceTimersByTime(TEST_FRAME_MS);
       expect(fn).toHaveBeenLastCalledWith('third');
     });
   });
@@ -920,7 +941,7 @@ describe('Layout utilities', () => {
 
       expect(fn).not.toHaveBeenCalled();
 
-      jest.advanceTimersByTime(16);
+      jest.advanceTimersByTime(TEST_FRAME_MS);
       expect(fn).toHaveBeenCalledTimes(1);
     });
 
@@ -933,7 +954,7 @@ describe('Layout utilities', () => {
       throttled('b');
       throttled('c');
 
-      jest.advanceTimersByTime(16);
+      jest.advanceTimersByTime(TEST_FRAME_MS);
       expect(fn).toHaveBeenCalledWith('c');
     });
 
@@ -969,11 +990,11 @@ describe('Layout utilities', () => {
       throttled();
       throttled();
 
-      jest.advanceTimersByTime(16);
+      jest.advanceTimersByTime(TEST_FRAME_MS);
       expect(fn).toHaveBeenCalledTimes(1);
 
       throttled();
-      jest.advanceTimersByTime(16);
+      jest.advanceTimersByTime(TEST_FRAME_MS);
       expect(fn).toHaveBeenCalledTimes(2);
     });
   });

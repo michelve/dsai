@@ -16,6 +16,9 @@
  * }} />
  * ```
  */
+/** Legacy keyCode value for the Enter key */
+const ENTER_KEY_CODE = 13;
+
 export function isEnterKey(event: {
   code?: string;
   key?: string;
@@ -38,7 +41,7 @@ export function isEnterKey(event: {
   }
 
   // Legacy: keyCode
-  return event.keyCode === 13;
+  return event.keyCode === ENTER_KEY_CODE;
 }
 
 export default isEnterKey;

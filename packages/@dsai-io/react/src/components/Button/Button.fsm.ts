@@ -87,6 +87,17 @@ export interface ButtonFSMState {
 }
 
 /**
+ * Resolve interactive visual state from current flags.
+ * Precedence: pressed > focused > hovered > idle.
+ */
+function resolveInteractiveState(state: ButtonFSMState): ButtonVisualState {
+  if (state.isPressed) { return 'pressed'; }
+  if (state.isFocused) { return 'focused'; }
+  if (state.isHovered) { return 'hovered'; }
+  return 'idle';
+}
+
+/**
  * Pure reducer function for Button FSM
  *
  * @param state current FSM state
@@ -118,10 +129,16 @@ export function buttonFSMReducer(state: ButtonFSMState, event: ButtonFSMEvent): 
         isError: state.isError,
       };
 
-    case 'ENABLE':
+    case 'ENABLE': {
       // If we're coming out of disabled, reset to idle (or previous state if loading/error)
+      let enabledVisualState: ButtonVisualState = 'idle';
+      if (state.isLoading) {
+        enabledVisualState = 'loading';
+      } else if (state.isError) {
+        enabledVisualState = 'error';
+      }
       return {
-        visualState: state.isLoading ? 'loading' : state.isError ? 'error' : 'idle',
+        visualState: enabledVisualState,
         isPressed: false,
         isHovered: false,
         isFocused: false,
@@ -129,6 +146,7 @@ export function buttonFSMReducer(state: ButtonFSMState, event: ButtonFSMEvent): 
         isLoading: state.isLoading,
         isError: state.isError,
       };
+    }
 
     case 'LOADING':
       // If disabled, stay disabled even if loading state changes
@@ -150,13 +168,7 @@ export function buttonFSMReducer(state: ButtonFSMState, event: ButtonFSMEvent): 
       if (!event.payload && state.isLoading) {
         return {
           ...state,
-          visualState: state.isPressed
-            ? 'pressed'
-            : state.isFocused
-              ? 'focused'
-              : state.isHovered
-                ? 'hovered'
-                : 'idle',
+          visualState: resolveInteractiveState(state),
           isLoading: false,
         };
       }
@@ -183,13 +195,7 @@ export function buttonFSMReducer(state: ButtonFSMState, event: ButtonFSMEvent): 
       if (!event.payload && state.isError) {
         return {
           ...state,
-          visualState: state.isPressed
-            ? 'pressed'
-            : state.isFocused
-              ? 'focused'
-              : state.isHovered
-                ? 'hovered'
-                : 'idle',
+          visualState: resolveInteractiveState(state),
           isError: false,
         };
       }
@@ -204,7 +210,7 @@ export function buttonFSMReducer(state: ButtonFSMState, event: ButtonFSMEvent): 
       return {
         ...state,
         isHovered: true,
-        visualState: state.isPressed ? 'pressed' : state.isFocused ? 'focused' : 'hovered',
+        visualState: resolveInteractiveState({ ...state, isHovered: true }),
       };
 
     case 'BLUR':
@@ -266,7 +272,7 @@ export function buttonFSMReducer(state: ButtonFSMState, event: ButtonFSMEvent): 
       return {
         ...state,
         isPressed: false,
-        visualState: state.isFocused ? 'focused' : state.isHovered ? 'hovered' : 'idle',
+        visualState: resolveInteractiveState({ ...state, isPressed: false }),
       };
 
     default:

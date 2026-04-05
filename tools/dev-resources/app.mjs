@@ -38,7 +38,7 @@ for (const key in devResources) {
 /**
  * Running the process
  */
-run();
+run().catch(console.error);
 
 /**
  * Gets all existing dev resources for the file and loads configuration from devResources.mjs.

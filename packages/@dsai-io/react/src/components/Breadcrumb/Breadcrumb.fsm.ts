@@ -94,7 +94,7 @@ export type BreadcrumbFSMEvent = ExpandEvent | ResetFromPropsEvent;
  * ```
  */
 export function createInitialBreadcrumbFSMState(
-  controlledExpanded: boolean | undefined
+  controlledExpanded: boolean | undefined = undefined
 ): BreadcrumbFSMState {
   const isControlled = controlledExpanded !== undefined;
 
@@ -204,7 +204,7 @@ export function expandEvent(): ExpandEvent {
 /**
  * Create a RESET_FROM_PROPS event
  */
-export function resetFromPropsEvent(controlledExpanded: boolean | undefined): ResetFromPropsEvent {
+export function resetFromPropsEvent(controlledExpanded: boolean | undefined = undefined): ResetFromPropsEvent {
   return {
     type: 'RESET_FROM_PROPS',
     payload: { controlledExpanded },

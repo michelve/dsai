@@ -17,6 +17,9 @@
  * }} />
  * ```
  */
+/** Legacy keyCode value for the Escape key */
+const ESCAPE_KEY_CODE = 27;
+
 export function isEscapeKey(event: {
   code?: string;
   key?: string;
@@ -39,7 +42,7 @@ export function isEscapeKey(event: {
   }
 
   // Legacy: keyCode
-  return event.keyCode === 27;
+  return event.keyCode === ESCAPE_KEY_CODE;
 }
 
 export default isEscapeKey;

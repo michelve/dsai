@@ -4,6 +4,9 @@
 
 import { CircuitBreaker, CircuitBreakerOpenError, CircuitState } from '../circuit-breaker.js';
 
+/** Number of successful calls in the tracking test */
+const EXPECTED_SUCCESS_COUNT = 3;
+
 describe('CircuitBreaker', () => {
   describe('initialization', () => {
     it('starts in CLOSED state', () => {
@@ -47,8 +50,8 @@ describe('CircuitBreaker', () => {
       await breaker.execute(async () => 'result3');
 
       const stats = breaker.getStats();
-      expect(stats.successes).toBe(3);
-      expect(stats.totalCalls).toBe(3);
+      expect(stats.successes).toBe(EXPECTED_SUCCESS_COUNT);
+      expect(stats.totalCalls).toBe(EXPECTED_SUCCESS_COUNT);
       expect(stats.failures).toBe(0);
     });
   });

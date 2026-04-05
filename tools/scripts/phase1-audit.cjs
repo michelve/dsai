@@ -4,8 +4,8 @@
  * Validates the structure and modes in Figma export files
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const EXPORTS_DIR = path.join(__dirname, '../apps/playground/src/figma-exports');
 

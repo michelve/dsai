@@ -43,19 +43,32 @@ export type HSL = readonly [number, number, number];
  * console.log(`Lighter: hsl(${h}, ${s}%, ${lighterL}%)`);
  * ```
  */
+
+/** Maximum value for an 8-bit RGB channel */
+const MAX_RGB_VALUE = 255;
+
+/** Number of hue sectors in the HSL color wheel */
+const HUE_SECTORS = 6;
+
+/** Full circle in degrees */
+const DEGREES_FULL_CIRCLE = 360;
+
+/** Degrees per hue sector (360 / 6 = 60) */
+const DEGREES_PER_SECTOR = 60;
+
 export function rgbToHsl(r: number, g: number, b: number): HSL {
   // Validate and clamp inputs
-  if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
+  if (r < 0 || r > MAX_RGB_VALUE || g < 0 || g > MAX_RGB_VALUE || b < 0 || b > MAX_RGB_VALUE) {
     console.warn('[rgbToHsl] RGB values must be in range 0-255');
-    r = Math.max(0, Math.min(255, r));
-    g = Math.max(0, Math.min(255, g));
-    b = Math.max(0, Math.min(255, b));
+    r = Math.max(0, Math.min(MAX_RGB_VALUE, r));
+    g = Math.max(0, Math.min(MAX_RGB_VALUE, g));
+    b = Math.max(0, Math.min(MAX_RGB_VALUE, b));
   }
 
   // Convert to 0-1 range
-  const rNorm = r / 255;
-  const gNorm = g / 255;
-  const bNorm = b / 255;
+  const rNorm = r / MAX_RGB_VALUE;
+  const gNorm = g / MAX_RGB_VALUE;
+  const bNorm = b / MAX_RGB_VALUE;
 
   // Find min and max channel values
   const max = Math.max(rNorm, gNorm, bNorm);
@@ -75,18 +88,18 @@ export function rgbToHsl(r: number, g: number, b: number): HSL {
   let h = 0;
   if (delta !== 0) {
     if (max === rNorm) {
-      h = ((gNorm - bNorm) / delta) % 6;
+      h = ((gNorm - bNorm) / delta) % HUE_SECTORS;
     } else if (max === gNorm) {
       h = (bNorm - rNorm) / delta + 2;
     } else {
       h = (rNorm - gNorm) / delta + 4;
     }
-    h = h * 60;
+    h = h * DEGREES_PER_SECTOR;
   }
 
   // Normalize hue to 0-360
   if (h < 0) {
-    h += 360;
+    h += DEGREES_FULL_CIRCLE;
   }
 
   // Return full precision values for accurate roundtrip conversions

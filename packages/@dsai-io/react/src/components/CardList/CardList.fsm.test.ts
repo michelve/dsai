@@ -21,6 +21,11 @@ import {
 
 import type { CardListFSMState } from './CardList.fsm';
 
+// Named constants for magic numbers (SonarQube S109)
+const TOTAL_ENABLED_DEFAULT = 3;
+const TOTAL_ENABLED_LARGE = 5;
+const TOTAL_ENABLED_FOUR = 4;
+
 describe('CardList FSM', () => {
   // =============================================================================
   // deriveVisualState
@@ -28,7 +33,7 @@ describe('CardList FSM', () => {
 
   describe('deriveVisualState', () => {
     it('returns "none" when no items are selected', () => {
-      expect(deriveVisualState([], 3)).toBe('none');
+      expect(deriveVisualState([], TOTAL_ENABLED_DEFAULT)).toBe('none');
     });
 
     it('returns "none" when selectedValues is empty and totalEnabled is 0', () => {
@@ -36,20 +41,20 @@ describe('CardList FSM', () => {
     });
 
     it('returns "one" when exactly one item is selected', () => {
-      expect(deriveVisualState(['a'], 3)).toBe('one');
+      expect(deriveVisualState(['a'], TOTAL_ENABLED_DEFAULT)).toBe('one');
     });
 
     it('returns "some" when more than one but not all items are selected', () => {
-      expect(deriveVisualState(['a', 'b'], 3)).toBe('some');
+      expect(deriveVisualState(['a', 'b'], TOTAL_ENABLED_DEFAULT)).toBe('some');
     });
 
     it('returns "all" when all enabled items are selected', () => {
-      expect(deriveVisualState(['a', 'b', 'c'], 3)).toBe('all');
+      expect(deriveVisualState(['a', 'b', 'c'], TOTAL_ENABLED_DEFAULT)).toBe('all');
     });
 
     it('returns "all" when more items are selected than enabled (edge case)', () => {
       // This can happen if some items become disabled after selection
-      expect(deriveVisualState(['a', 'b', 'c', 'd'], 3)).toBe('all');
+      expect(deriveVisualState(['a', 'b', 'c', 'd'], TOTAL_ENABLED_DEFAULT)).toBe('all');
     });
 
     it('returns "one" when one of one is selected', () => {
@@ -63,43 +68,43 @@ describe('CardList FSM', () => {
 
   describe('createInitialCardListFSMState', () => {
     it('creates initial state with empty selection', () => {
-      const state = createInitialCardListFSMState([], 'multiple', 3);
+      const state = createInitialCardListFSMState([], 'multiple', TOTAL_ENABLED_DEFAULT);
       expect(state.selectedValues).toEqual([]);
       expect(state.visualState).toBe('none');
     });
 
     it('creates initial state with single selection', () => {
-      const state = createInitialCardListFSMState(['a'], 'single', 3);
+      const state = createInitialCardListFSMState(['a'], 'single', TOTAL_ENABLED_DEFAULT);
       expect(state.selectedValues).toEqual(['a']);
       expect(state.visualState).toBe('one');
     });
 
     it('creates initial state with multiple selections', () => {
-      const state = createInitialCardListFSMState(['a', 'b'], 'multiple', 5);
+      const state = createInitialCardListFSMState(['a', 'b'], 'multiple', TOTAL_ENABLED_LARGE);
       expect(state.selectedValues).toEqual(['a', 'b']);
       expect(state.visualState).toBe('some');
     });
 
     it('creates initial state with all selections', () => {
-      const state = createInitialCardListFSMState(['a', 'b', 'c'], 'multiple', 3);
+      const state = createInitialCardListFSMState(['a', 'b', 'c'], 'multiple', TOTAL_ENABLED_DEFAULT);
       expect(state.selectedValues).toEqual(['a', 'b', 'c']);
       expect(state.visualState).toBe('all');
     });
 
     it('deduplicates initial values', () => {
-      const state = createInitialCardListFSMState(['a', 'a', 'b', 'b'], 'multiple', 3);
+      const state = createInitialCardListFSMState(['a', 'a', 'b', 'b'], 'multiple', TOTAL_ENABLED_DEFAULT);
       expect(state.selectedValues).toEqual(['a', 'b']);
       expect(state.visualState).toBe('some');
     });
 
     it('limits to one value in single mode', () => {
-      const state = createInitialCardListFSMState(['a', 'b', 'c'], 'single', 3);
+      const state = createInitialCardListFSMState(['a', 'b', 'c'], 'single', TOTAL_ENABLED_DEFAULT);
       expect(state.selectedValues).toEqual(['a']);
       expect(state.visualState).toBe('one');
     });
 
     it('creates state for none mode (display only)', () => {
-      const state = createInitialCardListFSMState(['a'], 'none', 3);
+      const state = createInitialCardListFSMState(['a'], 'none', TOTAL_ENABLED_DEFAULT);
       expect(state.selectedValues).toEqual([]);
       expect(state.visualState).toBe('none');
     });
@@ -118,7 +123,7 @@ describe('CardList FSM', () => {
 
       const nextState = cardListFSMReducer(
         initialState,
-        resetFromPropsEvent(['b', 'c'], 'multiple', 3)
+        resetFromPropsEvent(['b', 'c'], 'multiple', TOTAL_ENABLED_DEFAULT)
       );
 
       expect(nextState.selectedValues).toEqual(['b', 'c']);
@@ -131,7 +136,7 @@ describe('CardList FSM', () => {
         visualState: 'some',
       };
 
-      const nextState = cardListFSMReducer(initialState, resetFromPropsEvent([], 'multiple', 3));
+      const nextState = cardListFSMReducer(initialState, resetFromPropsEvent([], 'multiple', TOTAL_ENABLED_DEFAULT));
 
       expect(nextState.selectedValues).toEqual([]);
       expect(nextState.visualState).toBe('none');
@@ -145,7 +150,7 @@ describe('CardList FSM', () => {
 
       const nextState = cardListFSMReducer(
         initialState,
-        resetFromPropsEvent(['a', 'b', 'c'], 'multiple', 3)
+        resetFromPropsEvent(['a', 'b', 'c'], 'multiple', TOTAL_ENABLED_DEFAULT)
       );
 
       expect(nextState.selectedValues).toEqual(['a', 'b', 'c']);
@@ -160,7 +165,7 @@ describe('CardList FSM', () => {
 
       const nextState = cardListFSMReducer(
         initialState,
-        resetFromPropsEvent(['a', 'a', 'b'], 'multiple', 3)
+        resetFromPropsEvent(['a', 'a', 'b'], 'multiple', TOTAL_ENABLED_DEFAULT)
       );
 
       expect(nextState.selectedValues).toEqual(['a', 'b']);
@@ -174,7 +179,7 @@ describe('CardList FSM', () => {
 
       const nextState = cardListFSMReducer(
         initialState,
-        resetFromPropsEvent(['a', 'b'], 'single', 3)
+        resetFromPropsEvent(['a', 'b'], 'single', TOTAL_ENABLED_DEFAULT)
       );
 
       expect(nextState.selectedValues).toEqual(['a']);
@@ -188,7 +193,7 @@ describe('CardList FSM', () => {
 
       const nextState = cardListFSMReducer(
         initialState,
-        resetFromPropsEvent(['a', 'b'], 'none', 3)
+        resetFromPropsEvent(['a', 'b'], 'none', TOTAL_ENABLED_DEFAULT)
       );
 
       expect(nextState.selectedValues).toEqual([]);
@@ -207,7 +212,7 @@ describe('CardList FSM', () => {
         visualState: 'none',
       };
 
-      const nextState = cardListFSMReducer(initialState, selectItemEvent('a', 3));
+      const nextState = cardListFSMReducer(initialState, selectItemEvent('a', TOTAL_ENABLED_DEFAULT));
 
       expect(nextState.selectedValues).toEqual(['a']);
       expect(nextState.visualState).toBe('one');
@@ -219,7 +224,7 @@ describe('CardList FSM', () => {
         visualState: 'one',
       };
 
-      const nextState = cardListFSMReducer(initialState, selectItemEvent('b', 3));
+      const nextState = cardListFSMReducer(initialState, selectItemEvent('b', TOTAL_ENABLED_DEFAULT));
 
       expect(nextState.selectedValues).toEqual(['b']);
       expect(nextState.visualState).toBe('one');
@@ -231,7 +236,7 @@ describe('CardList FSM', () => {
         visualState: 'one',
       };
 
-      const nextState = cardListFSMReducer(initialState, selectItemEvent('a', 3));
+      const nextState = cardListFSMReducer(initialState, selectItemEvent('a', TOTAL_ENABLED_DEFAULT));
 
       expect(nextState).toBe(initialState);
     });
@@ -248,7 +253,7 @@ describe('CardList FSM', () => {
         visualState: 'none',
       };
 
-      const nextState = cardListFSMReducer(initialState, toggleItemEvent('a', 3));
+      const nextState = cardListFSMReducer(initialState, toggleItemEvent('a', TOTAL_ENABLED_DEFAULT));
 
       expect(nextState.selectedValues).toContain('a');
       expect(nextState.visualState).toBe('one');
@@ -260,7 +265,7 @@ describe('CardList FSM', () => {
         visualState: 'one',
       };
 
-      const nextState = cardListFSMReducer(initialState, toggleItemEvent('a', 3));
+      const nextState = cardListFSMReducer(initialState, toggleItemEvent('a', TOTAL_ENABLED_DEFAULT));
 
       expect(nextState.selectedValues).not.toContain('a');
       expect(nextState.visualState).toBe('none');
@@ -272,7 +277,7 @@ describe('CardList FSM', () => {
         visualState: 'some',
       };
 
-      const nextState = cardListFSMReducer(initialState, toggleItemEvent('c', 3));
+      const nextState = cardListFSMReducer(initialState, toggleItemEvent('c', TOTAL_ENABLED_DEFAULT));
 
       expect(nextState.selectedValues).toContain('c');
       expect(nextState.visualState).toBe('all');
@@ -284,7 +289,7 @@ describe('CardList FSM', () => {
         visualState: 'all',
       };
 
-      const nextState = cardListFSMReducer(initialState, toggleItemEvent('b', 3));
+      const nextState = cardListFSMReducer(initialState, toggleItemEvent('b', TOTAL_ENABLED_DEFAULT));
 
       expect(nextState.selectedValues).not.toContain('b');
       expect(nextState.selectedValues).toEqual(['a', 'c']);
@@ -297,7 +302,7 @@ describe('CardList FSM', () => {
         visualState: 'some',
       };
 
-      const nextState = cardListFSMReducer(initialState, toggleItemEvent('b', 4));
+      const nextState = cardListFSMReducer(initialState, toggleItemEvent('b', TOTAL_ENABLED_FOUR));
 
       expect(nextState.selectedValues).toEqual(['a', 'c', 'b']);
     });
@@ -308,7 +313,7 @@ describe('CardList FSM', () => {
         visualState: 'one',
       };
 
-      const nextState = cardListFSMReducer(initialState, toggleItemEvent('b', 3));
+      const nextState = cardListFSMReducer(initialState, toggleItemEvent('b', TOTAL_ENABLED_DEFAULT));
 
       expect(nextState.selectedValues).toEqual(['a', 'b']);
       expect(nextState.visualState).toBe('some');
@@ -375,7 +380,7 @@ describe('CardList FSM', () => {
 
   describe('SELECT_ALL event', () => {
     const enabledValues = ['a', 'b', 'c'];
-    const totalEnabled = 3;
+    const totalEnabled = TOTAL_ENABLED_DEFAULT;
 
     it('selects all when none are selected (none → all)', () => {
       const initialState: CardListFSMState = {
@@ -429,30 +434,30 @@ describe('CardList FSM', () => {
 
   describe('Event Creators', () => {
     it('resetFromPropsEvent creates correct event', () => {
-      const event = resetFromPropsEvent(['a', 'b'], 'multiple', 3);
+      const event = resetFromPropsEvent(['a', 'b'], 'multiple', TOTAL_ENABLED_DEFAULT);
       expect(event).toEqual({
         type: 'RESET_FROM_PROPS',
         values: ['a', 'b'],
         mode: 'multiple',
-        totalEnabled: 3,
+        totalEnabled: TOTAL_ENABLED_DEFAULT,
       });
     });
 
     it('selectItemEvent creates correct event', () => {
-      const event = selectItemEvent('test', 5);
+      const event = selectItemEvent('test', TOTAL_ENABLED_LARGE);
       expect(event).toEqual({
         type: 'SELECT_ITEM',
         value: 'test',
-        totalEnabled: 5,
+        totalEnabled: TOTAL_ENABLED_LARGE,
       });
     });
 
     it('toggleItemEvent creates correct event', () => {
-      const event = toggleItemEvent('test', 5);
+      const event = toggleItemEvent('test', TOTAL_ENABLED_LARGE);
       expect(event).toEqual({
         type: 'TOGGLE_ITEM',
         value: 'test',
-        totalEnabled: 5,
+        totalEnabled: TOTAL_ENABLED_LARGE,
       });
     });
 
@@ -573,7 +578,7 @@ describe('CardList FSM', () => {
           selectedValues: ['a', 'b', 'c'],
           visualState: 'all',
         };
-        expect(getSelectedCount(state)).toBe(3);
+        expect(getSelectedCount(state)).toBe(TOTAL_ENABLED_DEFAULT);
       });
 
       it('returns 0 for empty selection', () => {
@@ -592,21 +597,21 @@ describe('CardList FSM', () => {
 
   describe('Complex Scenarios', () => {
     it('full workflow in multiple mode: none → one → some → all → none', () => {
-      let state = createInitialCardListFSMState([], 'multiple', 3);
+      let state = createInitialCardListFSMState([], 'multiple', TOTAL_ENABLED_DEFAULT);
       expect(state.visualState).toBe('none');
 
       // Toggle first item: none → one
-      state = cardListFSMReducer(state, toggleItemEvent('a', 3));
+      state = cardListFSMReducer(state, toggleItemEvent('a', TOTAL_ENABLED_DEFAULT));
       expect(state.visualState).toBe('one');
       expect(state.selectedValues).toEqual(['a']);
 
       // Toggle second item: one → some
-      state = cardListFSMReducer(state, toggleItemEvent('b', 3));
+      state = cardListFSMReducer(state, toggleItemEvent('b', TOTAL_ENABLED_DEFAULT));
       expect(state.visualState).toBe('some');
       expect(state.selectedValues).toEqual(['a', 'b']);
 
       // Toggle third item: some → all
-      state = cardListFSMReducer(state, toggleItemEvent('c', 3));
+      state = cardListFSMReducer(state, toggleItemEvent('c', TOTAL_ENABLED_DEFAULT));
       expect(state.visualState).toBe('all');
       expect(state.selectedValues).toEqual(['a', 'b', 'c']);
 
@@ -617,35 +622,35 @@ describe('CardList FSM', () => {
     });
 
     it('single mode workflow: none → one (switching)', () => {
-      let state = createInitialCardListFSMState([], 'single', 3);
+      let state = createInitialCardListFSMState([], 'single', TOTAL_ENABLED_DEFAULT);
       expect(state.visualState).toBe('none');
 
       // Select first item
-      state = cardListFSMReducer(state, selectItemEvent('a', 3));
+      state = cardListFSMReducer(state, selectItemEvent('a', TOTAL_ENABLED_DEFAULT));
       expect(state.visualState).toBe('one');
       expect(state.selectedValues).toEqual(['a']);
 
       // Select different item (replaces)
-      state = cardListFSMReducer(state, selectItemEvent('b', 3));
+      state = cardListFSMReducer(state, selectItemEvent('b', TOTAL_ENABLED_DEFAULT));
       expect(state.visualState).toBe('one');
       expect(state.selectedValues).toEqual(['b']);
 
       // Select same item again (no change)
-      state = cardListFSMReducer(state, selectItemEvent('b', 3));
+      state = cardListFSMReducer(state, selectItemEvent('b', TOTAL_ENABLED_DEFAULT));
       expect(state.visualState).toBe('one');
       expect(state.selectedValues).toEqual(['b']);
     });
 
     it('controlled mode sync with RESET_FROM_PROPS', () => {
-      let state = createInitialCardListFSMState(['a'], 'multiple', 3);
+      let state = createInitialCardListFSMState(['a'], 'multiple', TOTAL_ENABLED_DEFAULT);
       expect(state.visualState).toBe('one');
 
       // External change: parent sets new value
-      state = cardListFSMReducer(state, resetFromPropsEvent(['a', 'b', 'c'], 'multiple', 3));
+      state = cardListFSMReducer(state, resetFromPropsEvent(['a', 'b', 'c'], 'multiple', TOTAL_ENABLED_DEFAULT));
       expect(state.visualState).toBe('all');
 
       // External change: parent clears selection
-      state = cardListFSMReducer(state, resetFromPropsEvent([], 'multiple', 3));
+      state = cardListFSMReducer(state, resetFromPropsEvent([], 'multiple', TOTAL_ENABLED_DEFAULT));
       expect(state.visualState).toBe('none');
     });
 
@@ -655,7 +660,7 @@ describe('CardList FSM', () => {
         visualState: 'one',
       };
 
-      const nextState = cardListFSMReducer(initialState, toggleItemEvent('b', 3));
+      const nextState = cardListFSMReducer(initialState, toggleItemEvent('b', TOTAL_ENABLED_DEFAULT));
 
       // Original state should be unchanged
       expect(initialState.selectedValues).toEqual(['a']);

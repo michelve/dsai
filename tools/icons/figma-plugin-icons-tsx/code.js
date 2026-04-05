@@ -455,4 +455,4 @@ ${skippedInfo}`;
   );
 }
 
-run();
+run().catch(console.error);

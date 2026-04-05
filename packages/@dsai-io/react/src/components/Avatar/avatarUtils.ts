@@ -69,8 +69,11 @@ const AVATAR_SIZE_FALLBACK_NUMBERS: Record<AvatarSize, number> = {
 // Avatar Lookups
 // =============================================================================
 
+/** Default avatar size in pixels (medium) */
+const DEFAULT_AVATAR_SIZE_PX = 40;
+
 export function getNumericSize(size: AvatarSize): number {
-  return safeLookup<number>(AVATAR_SIZE_FALLBACK_NUMBERS, size, 40);
+  return safeLookup<number>(AVATAR_SIZE_FALLBACK_NUMBERS, size, DEFAULT_AVATAR_SIZE_PX);
 }
 
 export function getSizeValue(size: AvatarSize): string {

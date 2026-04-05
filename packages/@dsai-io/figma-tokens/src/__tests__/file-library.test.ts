@@ -18,6 +18,12 @@ import { createFigmaClient } from '../client.js';
 
 import type { FigmaClient } from '../client.js';
 
+// ============================================================================
+// HTTP Status Code Constants
+// ============================================================================
+
+const HTTP_FORBIDDEN = 403;
+
 describe('FigmaClient File & Library', () => {
   let client: FigmaClient;
   let originalFetch: typeof fetch;
@@ -273,7 +279,7 @@ describe('FigmaClient File & Library', () => {
     it('throws on 403 for library endpoints', async () => {
       setupFetchMock(
         createCustomMockFetch({
-          '/components': createErrorResponse(403, error403Forbidden),
+          '/components': createErrorResponse(HTTP_FORBIDDEN, error403Forbidden),
         }) as unknown as typeof fetch
       );
 
@@ -283,7 +289,7 @@ describe('FigmaClient File & Library', () => {
     it('throws on 403 for version history', async () => {
       setupFetchMock(
         createCustomMockFetch({
-          '/versions': createErrorResponse(403, error403Forbidden),
+          '/versions': createErrorResponse(HTTP_FORBIDDEN, error403Forbidden),
         }) as unknown as typeof fetch
       );
 

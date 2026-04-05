@@ -28,6 +28,11 @@ import {
 
 import type { DsaiConfig } from '../../../src/config/types.js';
 
+/** Expected number of config file search places */
+const EXPECTED_CONFIG_FILE_COUNT = 13;
+/** Test base font size for sync override */
+const TEST_BASE_FONT_SIZE = 14;
+
 // ============================================================================
 // Test Setup
 // ============================================================================
@@ -306,7 +311,7 @@ describe('CONFIG_FILE_NAMES', () => {
   });
 
   it('should contain exactly 13 search places', () => {
-    expect(CONFIG_FILE_NAMES).toHaveLength(13);
+    expect(CONFIG_FILE_NAMES).toHaveLength(EXPECTED_CONFIG_FILE_COUNT);
   });
 });
 
@@ -469,7 +474,7 @@ describe('loadConfigSync — branch coverage', () => {
       skipFile: true,
       overrides: {
         global: { debug: true, logLevel: 'debug' },
-        tokens: { prefix: '--sync-override-', baseFontSize: 14 },
+        tokens: { prefix: '--sync-override-', baseFontSize: TEST_BASE_FONT_SIZE },
         icons: { framework: 'vue', optimize: false },
       },
     });
@@ -477,7 +482,7 @@ describe('loadConfigSync — branch coverage', () => {
     expect(result.config.global.debug).toBe(true);
     expect(result.config.global.logLevel).toBe('debug');
     expect(result.config.tokens.prefix).toBe('--sync-override-');
-    expect(result.config.tokens.baseFontSize).toBe(14);
+    expect(result.config.tokens.baseFontSize).toBe(TEST_BASE_FONT_SIZE);
     expect(result.config.icons.framework).toBe('vue');
     expect(result.config.icons.optimize).toBe(false);
   });
@@ -671,7 +676,7 @@ describe('loadConfigSync — branch coverage', () => {
     it('should handle non-Error thrown in sync mode', () => {
       const mockExplorer = {
         load: jest.fn().mockImplementation(() => {
-          throw 'string error';
+          throw new Error('string error');
         }),
         search: jest.fn(),
         clearCaches: jest.fn(),
