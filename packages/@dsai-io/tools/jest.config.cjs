@@ -24,7 +24,6 @@ module.exports = {
     '!src/**/*.d.ts',
     '!src/**/__tests__/**',
     '!src/**/*.test.{ts,tsx}',
-    // TODO: Add test coverage for these modules
     '!src/cli/**',
     '!src/registry/**',
     '!src/tokens/build.ts',

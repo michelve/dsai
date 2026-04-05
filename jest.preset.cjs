@@ -64,7 +64,6 @@ module.exports = {
     '!packages/**/src/**/index.ts', // Barrel exports
     '!packages/**/src/**/Icon/**', // Icon component (auto-generated)
     '!packages/@dsai-io/icons/**', // Icons package (auto-generated, no tests)
-    // TODO: Add test coverage for tools CLI, registry, and token pipeline modules
     '!packages/@dsai-io/tools/src/cli/**',
     '!packages/@dsai-io/tools/src/registry/**',
     '!packages/@dsai-io/tools/src/tokens/build.ts',

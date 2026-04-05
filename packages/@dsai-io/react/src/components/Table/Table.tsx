@@ -1415,7 +1415,6 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
         </thead>
 
         {/* Body */}
-        {/* TODO(virtualization): Integrate @tanstack/react-virtual for 10k+ row support. When virtual={true}, replace this tbody with a virtualized container. */}
         <tbody>
           {paginatedData.length === 0 && showEmpty ? (
             <tr>

@@ -234,8 +234,6 @@ export function buildDependencyGraph(
     graph.buildOrder.push(collection.name);
   }
 
-  // TODO: Add dependency detection logic
-  // For now, collections are processed independently in the order they're defined
 
   return graph;
 }

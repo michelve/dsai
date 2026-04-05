@@ -8,7 +8,6 @@
  *
  * @remarks
  * Currently supports React framework integration.
- * TODO: Add support for Vue, Angular, Svelte, Solid, and other frameworks (coming soon)
  */
 
 export * from './detector.js';

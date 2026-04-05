@@ -9,7 +9,6 @@
  *
  * @remarks
  * Currently supports React framework templates.
- * TODO: Add Vue, Angular, Svelte, Solid templates (coming soon)
  */
 
 import type { Framework, MetaFramework, ProjectInfo } from './detector.js';

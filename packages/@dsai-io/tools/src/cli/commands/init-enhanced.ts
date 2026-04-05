@@ -10,7 +10,6 @@
  *
  * @remarks
  * Currently supports React framework integration.
- * TODO: Add support for Vue, Angular, Svelte, Solid, and other frameworks (coming soon)
  */
 
 /* eslint-disable no-console */
@@ -732,7 +731,6 @@ export function createInitCommand(): Command {
 
       // Check if the detected framework is supported
       // Currently only React and vanilla are supported
-      // TODO: Add Vue, Angular, Svelte, Solid support (coming soon)
       if (!checkFrameworkSupport(projectInfo) && !mergedOpts.force) {
         process.exit(ExitCode.Success);
       }

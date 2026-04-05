@@ -9,7 +9,6 @@
  *
  * @remarks
  * Currently supports React framework integration.
- * TODO: Add support for Vue, Angular, Svelte, Solid, and other frameworks (coming soon)
  */
 
 /* eslint-disable security/detect-non-literal-fs-filename */
@@ -26,7 +25,6 @@ import { join, resolve } from 'node:path';
  *
  * @remarks
  * Currently React is fully supported.
- * TODO: Vue, Angular, Svelte, Solid, Preact, Lit support coming soon
  */
 export type Framework =
   | 'react'
@@ -46,7 +44,6 @@ export const SUPPORTED_FRAMEWORKS: Framework[] = ['react', 'vanilla'];
 
 /**
  * Frameworks coming soon
- * TODO: Implement full support for these frameworks
  */
 export const COMING_SOON_FRAMEWORKS: Framework[] = [
   'vue',
