@@ -407,6 +407,98 @@ export const ListGroupItem = memo(ListGroupItemInner);
 ListGroupItem.displayName = 'ListGroupItem';
 
 // =============================================================================
+// Entry rendering helpers (extracted to reduce complexity)
+// =============================================================================
+
+/**
+ * Render a non-item entry (divider or header).
+ * Returns null for unknown entry types.
+ */
+function renderNonItemEntry(
+  entry: Exclude<ListGroupEntry, ListGroupItemData>,
+  dividerIndex: number,
+): React.ReactNode {
+  if (entry.type === 'divider') {
+    return <ListGroupDivider key={`divider-${dividerIndex}`} />;
+  }
+  if (entry.type === 'header') {
+    return (
+      <ListGroupHeader key={`header-${String(entry.content)}`}>
+        {entry.content}
+      </ListGroupHeader>
+    );
+  }
+  return null;
+}
+
+/**
+ * Render a single ListGroupItemData entry, including nested children when collapsible.
+ */
+function renderItemEntry(
+  entry: ListGroupItemData,
+  index: number,
+  variant: ListGroupProps['variant'],
+  renderEntriesFn: (entries: ListGroupEntry[]) => React.ReactNode,
+): React.ReactNode {
+  const hasChildren = entry.collapsible && entry.children && entry.children.length > 0;
+
+  return (
+    <ListGroupItem
+      key={entry.id ?? index}
+      eventKey={entry.eventKey}
+      variant={entry.variant}
+      active={entry.active}
+      disabled={entry.disabled}
+      badge={entry.badge}
+      icon={entry.icon}
+      href={entry.href}
+      onClick={entry.onClick}
+      description={entry.description}
+      collapsible={entry.collapsible}
+      defaultExpanded={entry.defaultExpanded}
+      expanded={entry.expanded}
+      onExpandedChange={entry.onExpandedChange}
+    >
+      {entry.content}
+      {hasChildren && (
+        <ListGroupInner variant={variant} className="ps-3">
+          {renderEntriesFn(entry.children!)}
+        </ListGroupInner>
+      )}
+    </ListGroupItem>
+  );
+}
+
+/**
+ * Resolve the horizontal layout CSS class.
+ */
+function resolveHorizontalClass(horizontal: ListGroupProps['horizontal']): string {
+  if (!horizontal) {
+    return '';
+  }
+  if (horizontal === true) {
+    return 'list-group-horizontal';
+  }
+  return `list-group-horizontal-${horizontal}`;
+}
+
+/**
+ * Build ARIA props for listbox mode.
+ */
+function buildListboxProps(
+  onSelect: ListGroupProps['onSelect'],
+  selectionMode: ListGroupProps['selectionMode'],
+): Record<string, unknown> {
+  if (onSelect === undefined) {
+    return {};
+  }
+  return {
+    role: 'listbox' as const,
+    'aria-multiselectable': selectionMode === 'multiple' ? (true as const) : undefined,
+  };
+}
+
+// =============================================================================
 // ListGroup Component
 // =============================================================================
 
@@ -514,34 +606,17 @@ const ListGroupInner = forwardRef<HTMLUListElement | HTMLOListElement, ListGroup
     // Determine element type
     const Element = ordered || variant === 'numbered' ? 'ol' : 'ul';
 
-    // Build horizontal class
-    const getHorizontalClass = (): string => {
-      if (!horizontal) {
-        return '';
-      }
-      if (horizontal === true) {
-        return 'list-group-horizontal';
-      }
-      return `list-group-horizontal-${horizontal}`;
-    };
-
     // Build list classes
     const listClasses = cn(
       'list-group',
       variant === 'flush' && 'list-group-flush',
       variant === 'numbered' && 'list-group-numbered',
-      getHorizontalClass(),
+      resolveHorizontalClass(horizontal),
       className
     );
 
     // Additional ARIA props when acting as listbox
-    const listboxProps =
-      onSelect === undefined
-        ? {}
-        : {
-            role: 'listbox' as const,
-            'aria-multiselectable': selectionMode === 'multiple' ? (true as const) : undefined,
-          };
+    const listboxProps = buildListboxProps(onSelect, selectionMode);
 
     // Roving focus for arrow-key navigation in listbox mode
     const listRef = useRef<HTMLElement>(null);
@@ -568,43 +643,10 @@ const ListGroupInner = forwardRef<HTMLUListElement | HTMLOListElement, ListGroup
     const renderEntries = (entries: ListGroupEntry[]): React.ReactNode => {
       return entries.map((entry, index) => {
         if (!isListGroupItemData(entry)) {
-          if (entry.type === 'divider') {
-            dividerCounter += 1;
-            return <ListGroupDivider key={`divider-${dividerCounter}`} />;
-          }
-          if (entry.type === 'header') {
-            return <ListGroupHeader key={`header-${String(entry.content)}`}>{entry.content}</ListGroupHeader>;
-          }
-          return null;
+          dividerCounter += entry.type === 'divider' ? 1 : 0;
+          return renderNonItemEntry(entry, dividerCounter);
         }
-
-        const hasChildren = entry.collapsible && entry.children && entry.children.length > 0;
-
-        return (
-          <ListGroupItem
-            key={entry.id ?? index}
-            eventKey={entry.eventKey}
-            variant={entry.variant}
-            active={entry.active}
-            disabled={entry.disabled}
-            badge={entry.badge}
-            icon={entry.icon}
-            href={entry.href}
-            onClick={entry.onClick}
-            description={entry.description}
-            collapsible={entry.collapsible}
-            defaultExpanded={entry.defaultExpanded}
-            expanded={entry.expanded}
-            onExpandedChange={entry.onExpandedChange}
-          >
-            {entry.content}
-            {hasChildren && (
-              <ListGroupInner variant={variant} className="ps-3">
-                {renderEntries(entry.children!)}
-              </ListGroupInner>
-            )}
-          </ListGroupItem>
-        );
+        return renderItemEntry(entry, index, variant, renderEntries);
       });
     };
 

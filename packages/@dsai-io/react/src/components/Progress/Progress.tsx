@@ -2,7 +2,12 @@ import { useMemo } from 'react';
 
 import { cn } from '../../utils';
 
-import type { ProgressBarProps, ProgressCircleProps, ProgressProps } from './Progress.types';
+import type {
+  ProgressBarProps,
+  ProgressCircleProps,
+  ProgressGradient,
+  ProgressProps,
+} from './Progress.types';
 
 const PROGRESS_BAR_CLASS = 'progress-bar';
 const PROGRESS_BAR_STRIPED_CLASS = 'progress-bar-striped';
@@ -17,6 +22,68 @@ const resolveHeightForSize = (size: ProgressProps['size'] = 'md'): string => {
   }
   return '1rem';
 };
+
+// =============================================================================
+// Shared helpers (extracted to reduce per-component complexity)
+// =============================================================================
+
+/** Clamp a value to [0, 100] */
+function clampPercentage(value: number): number {
+  return Math.min(100, Math.max(0, value));
+}
+
+/** Build CSS gradient background string */
+function buildGradientBackground(gradient: ProgressGradient): string {
+  return `linear-gradient(${gradient.direction || 'to right'}, ${gradient.from}, ${gradient.to})`;
+}
+
+/** Build bar CSS classes shared by ProgressBar and ProgressBase */
+function buildBarClasses(
+  variant: string,
+  gradient: ProgressGradient | undefined,
+  striped: boolean,
+  animated: boolean,
+  extra?: string,
+): string {
+  const isWarning = variant === 'warning';
+  return cn(
+    PROGRESS_BAR_CLASS,
+    !gradient && `bg-${variant}`,
+    isWarning && !gradient && 'text-dark',
+    striped && PROGRESS_BAR_STRIPED_CLASS,
+    animated && PROGRESS_BAR_ANIMATED_CLASS,
+    extra,
+  );
+}
+
+/** Build bar inline style with optional gradient */
+function buildBarStyle(
+  widthPercent: string,
+  gradient: ProgressGradient | undefined,
+): React.CSSProperties {
+  return {
+    width: widthPercent,
+    ...(gradient && { background: buildGradientBackground(gradient) }),
+  };
+}
+
+/** Compute display value: formatValue > valueText > default percentage string */
+function resolveDisplayValue(
+  percentage: number,
+  max: number,
+  formatValue?: (value: number, max: number) => React.ReactNode,
+  valueText?: string,
+): React.ReactNode {
+  if (formatValue) {
+    return formatValue(percentage, max);
+  }
+  return valueText ?? `${percentage}%`;
+}
+
+
+// =============================================================================
+// ProgressBar Component
+// =============================================================================
 
 /**
  * Progress Bar - individual bar for stacked progress
@@ -45,28 +112,10 @@ function ProgressBar({
   'data-testid': dataTestId,
   'data-test': dataTest,
 }: ProgressBarProps): React.JSX.Element {
-  const percentage = Math.min(100, Math.max(0, value));
-  const isWarning = variant === 'warning';
-
-  const barClasses = cn(
-    PROGRESS_BAR_CLASS,
-    !gradient && `bg-${variant}`,
-    isWarning && !gradient && 'text-dark',
-    striped && PROGRESS_BAR_STRIPED_CLASS,
-    animated && PROGRESS_BAR_ANIMATED_CLASS,
-    className
-  );
-
-  // Compute display value using formatValue (takes precedence) or valueText or default
-  const displayValue = formatValue ? formatValue(percentage, 100) : valueText ?? `${percentage}%`;
-
-  // Build bar style (gradient overrides variant bg)
-  const barStyle: React.CSSProperties = {
-    width: `${percentage}%`,
-    ...(gradient && {
-      background: `linear-gradient(${gradient.direction || 'to right'}, ${gradient.from}, ${gradient.to})`,
-    }),
-  };
+  const percentage = clampPercentage(value);
+  const barClasses = buildBarClasses(variant, gradient, striped, animated, className);
+  const displayValue = resolveDisplayValue(percentage, 100, formatValue, valueText);
+  const barStyle = buildBarStyle(`${percentage}%`, gradient);
 
   // Generate default aria-label from variant if not provided (and not hidden)
   const computedAriaLabel = ariaHidden

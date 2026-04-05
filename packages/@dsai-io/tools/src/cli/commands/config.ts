@@ -62,6 +62,7 @@ async function runConfig(options: ConfigOptions): Promise<void> {
       console.log(colors.bold('DSAI Configuration'));
        
       const SEPARATOR_WIDTH = 50;
+      // eslint-disable-next-line no-console
       console.log(colors.muted('─'.repeat(SEPARATOR_WIDTH)));
       // eslint-disable-next-line no-console
       console.log();

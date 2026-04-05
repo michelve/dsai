@@ -225,20 +225,10 @@ export const Select = memo(
         if (disabled || loading) {
           return;
         }
-        setIsOpen(open);
         if (open) {
-          onOpen?.();
-          const firstEnabled = findNextEnabledIndex(0, 1);
-          setFocusedIndex(firstEnabled);
-          if (searchable) {
-            requestAnimationFrame(() => {
-              searchInputRef.current?.focus();
-            });
-          }
+          openDropdown();
         } else {
-          onClose?.();
-          setSearchValue('');
-          setFocusedIndex(null);
+          closeDropdown();
           // Return focus to trigger
           queueMicrotask(() => {
             triggerRef.current?.focus();
@@ -355,6 +345,112 @@ export const Select = memo(
       [multiple, setCurrentValue, onClear]
     );
 
+    // Open the dropdown and focus the first enabled option
+    const openDropdown = useCallback(() => {
+      setIsOpen(true);
+      onOpen?.();
+      const firstEnabled = findNextEnabledIndex(0, 1);
+      setFocusedIndex(firstEnabled);
+      if (searchable) {
+        requestAnimationFrame(() => {
+          searchInputRef.current?.focus();
+        });
+      }
+    }, [findNextEnabledIndex, onOpen, searchable]);
+
+    // Close the dropdown and reset state
+    const closeDropdown = useCallback(() => {
+      setIsOpen(false);
+      onClose?.();
+      setSearchValue('');
+      setFocusedIndex(null);
+    }, [onClose]);
+
+    // Handle Enter/Space key in trigger
+    const handleActivateKey = useCallback(
+      (e: KeyboardEvent): boolean => {
+        if (!(isEnterKey(e) || e.key === ' ')) {
+          return false;
+        }
+        e.preventDefault();
+        if (isOpen && focusedIndex !== null && focusedIndex >= 0) {
+          const focusedOption = Reflect.get(displayOptions, focusedIndex) as SelectOption<T> | undefined;
+          if (focusedOption) {
+            handleSelect(focusedOption);
+          }
+        } else if (!isOpen) {
+          openDropdown();
+        }
+        return true;
+      },
+      [isOpen, focusedIndex, displayOptions, handleSelect, openDropdown]
+    );
+
+    // Handle ArrowDown key in trigger
+    const handleArrowDownKey = useCallback(
+      (e: KeyboardEvent): boolean => {
+        if (e.key !== 'ArrowDown') {
+          return false;
+        }
+        e.preventDefault();
+        if (!isOpen) {
+          openDropdown();
+          return true;
+        }
+        const next = findNextEnabledIndex((focusedIndex ?? -1) + 1, 1);
+        if (next !== null) {
+          setFocusedIndex(next);
+        }
+        return true;
+      },
+      [isOpen, focusedIndex, findNextEnabledIndex, openDropdown]
+    );
+
+    // Handle ArrowUp key in trigger
+    const handleArrowUpKey = useCallback(
+      (e: KeyboardEvent): boolean => {
+        if (e.key !== 'ArrowUp') {
+          return false;
+        }
+        e.preventDefault();
+        if (isOpen) {
+          const prev = findNextEnabledIndex((focusedIndex ?? displayOptions.length) - 1, -1);
+          if (prev !== null) {
+            setFocusedIndex(prev);
+          }
+        }
+        return true;
+      },
+      [isOpen, focusedIndex, displayOptions.length, findNextEnabledIndex]
+    );
+
+    // Handle Home/End keys in trigger
+    const handleHomeEndKey = useCallback(
+      (e: KeyboardEvent): boolean => {
+        if (!isOpen) {
+          return false;
+        }
+        if (e.key === 'Home') {
+          e.preventDefault();
+          const first = findNextEnabledIndex(0, 1);
+          if (first !== null) {
+            setFocusedIndex(first);
+          }
+          return true;
+        }
+        if (e.key === 'End') {
+          e.preventDefault();
+          const last = findNextEnabledIndex(displayOptions.length - 1, -1);
+          if (last !== null) {
+            setFocusedIndex(last);
+          }
+          return true;
+        }
+        return false;
+      },
+      [isOpen, displayOptions.length, findNextEnabledIndex]
+    );
+
     // Handle keyboard on trigger (Enter/Space to select, Home/End, Arrow navigation)
     const handleKeyDown = useCallback(
       (e: KeyboardEvent) => {
@@ -362,95 +458,24 @@ export const Select = memo(
           return;
         }
 
-        if (isEnterKey(e) || e.key === ' ') {
-          e.preventDefault();
-          if (isOpen && focusedIndex !== null && focusedIndex >= 0) {
-            const focusedOption = Reflect.get(displayOptions, focusedIndex) as SelectOption<T> | undefined;
-            if (focusedOption) {
-              handleSelect(focusedOption);
-            }
-          } else if (!isOpen) {
-            setIsOpen(true);
-            onOpen?.();
-            const firstEnabled = findNextEnabledIndex(0, 1);
-            setFocusedIndex(firstEnabled);
-            if (searchable) {
-              requestAnimationFrame(() => {
-                searchInputRef.current?.focus();
-              });
-            }
-          }
-          return;
-        }
-
-        if (e.key === 'ArrowDown') {
-          e.preventDefault();
-          if (!isOpen) {
-            setIsOpen(true);
-            onOpen?.();
-            const firstEnabled = findNextEnabledIndex(0, 1);
-            setFocusedIndex(firstEnabled);
-            if (searchable) {
-              requestAnimationFrame(() => {
-                searchInputRef.current?.focus();
-              });
-            }
-            return;
-          }
-          const next = findNextEnabledIndex((focusedIndex ?? -1) + 1, 1);
-          if (next !== null) {
-            setFocusedIndex(next);
-          }
-          return;
-        }
-
-        if (e.key === 'ArrowUp') {
-          e.preventDefault();
-          if (isOpen) {
-            const prev = findNextEnabledIndex((focusedIndex ?? displayOptions.length) - 1, -1);
-            if (prev !== null) {
-              setFocusedIndex(prev);
-            }
-          }
-          return;
-        }
-
-        if (e.key === 'Home' && isOpen) {
-          e.preventDefault();
-          const first = findNextEnabledIndex(0, 1);
-          if (first !== null) {
-            setFocusedIndex(first);
-          }
-          return;
-        }
-
-        if (e.key === 'End' && isOpen) {
-          e.preventDefault();
-          const last = findNextEnabledIndex(displayOptions.length - 1, -1);
-          if (last !== null) {
-            setFocusedIndex(last);
-          }
-          return;
-        }
+        if (handleActivateKey(e)) { return; }
+        if (handleArrowDownKey(e)) { return; }
+        if (handleArrowUpKey(e)) { return; }
+        if (handleHomeEndKey(e)) { return; }
 
         if (e.key === 'Tab' && isOpen) {
-          setIsOpen(false);
-          onClose?.();
-          setSearchValue('');
-          setFocusedIndex(null);
+          closeDropdown();
         }
       },
       [
         disabled,
         loading,
         isOpen,
-        focusedIndex,
-        displayOptions,
-        handleSelect,
-        findNextEnabledIndex,
-        onOpen,
-        onClose,
-        searchable,
+        handleActivateKey,
+        handleArrowDownKey,
+        handleArrowUpKey,
+        handleHomeEndKey,
+        closeDropdown,
       ]
     );
 
@@ -465,48 +490,64 @@ export const Select = memo(
       [onSearchChange]
     );
 
+    // Move focus in the search dropdown by direction
+    const moveFocusInSearch = useCallback(
+      (direction: 'down' | 'up') => {
+        if (direction === 'down') {
+          const next = findNextEnabledIndex((focusedIndex ?? -1) + 1, 1);
+          if (next !== null) {
+            setFocusedIndex(next);
+          }
+        } else {
+          const prev = findNextEnabledIndex((focusedIndex ?? displayOptions.length) - 1, -1);
+          if (prev !== null) {
+            setFocusedIndex(prev);
+          }
+        }
+      },
+      [focusedIndex, displayOptions.length, findNextEnabledIndex]
+    );
+
+    // Select the currently focused option in search
+    const selectFocusedOption = useCallback(() => {
+      if (focusedIndex !== null && focusedIndex >= 0) {
+        const option = Reflect.get(displayOptions, focusedIndex) as SelectOption<T> | undefined;
+        if (option) {
+          handleSelect(option);
+        }
+      }
+    }, [focusedIndex, displayOptions, handleSelect]);
+
     // Handle search input keyboard navigation
     const handleSearchKeyDown = useCallback(
       (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'ArrowDown') {
           e.preventDefault();
-          const next = findNextEnabledIndex((focusedIndex ?? -1) + 1, 1);
-          if (next !== null) {
-            setFocusedIndex(next);
-          }
+          moveFocusInSearch('down');
           return;
         }
 
         if (e.key === 'ArrowUp') {
           e.preventDefault();
-          const prev = findNextEnabledIndex((focusedIndex ?? displayOptions.length) - 1, -1);
-          if (prev !== null) {
-            setFocusedIndex(prev);
-          }
+          moveFocusInSearch('up');
           return;
         }
 
-        if (isEnterKey(e) && focusedIndex !== null && focusedIndex >= 0) {
+        if (isEnterKey(e)) {
           e.preventDefault();
-          const option = Reflect.get(displayOptions, focusedIndex) as SelectOption<T> | undefined;
-          if (option) {
-            handleSelect(option);
-          }
+          selectFocusedOption();
           return;
         }
 
         if (isEscapeKey(e)) {
           e.preventDefault();
-          setIsOpen(false);
-          onClose?.();
-          setSearchValue('');
-          setFocusedIndex(null);
+          closeDropdown();
           queueMicrotask(() => {
             triggerRef.current?.focus();
           });
         }
       },
-      [focusedIndex, displayOptions, handleSelect, onClose, findNextEnabledIndex]
+      [moveFocusInSearch, selectFocusedOption, closeDropdown]
     );
 
     // Scroll focused option into view

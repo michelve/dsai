@@ -53,15 +53,80 @@ export function createInitialListGroupFSMState(
   activeKeys: readonly string[] = [],
   selectionMode: ListGroupSelectionMode = 'single',
 ): ListGroupFSMState {
-  // In single mode, only keep the first active key
-  const firstKey = activeKeys[0];
-  const validKeys: string[] =
-    selectionMode === 'single' && activeKeys.length > 1 && firstKey !== undefined
-      ? [firstKey]
-      : [...activeKeys];
-
+  const validKeys = clampToSelectionMode(activeKeys, selectionMode);
   return { activeKeys: new Set(validKeys), selectionMode };
 }
+
+// =============================================================================
+// Per-state handlers (extracted to reduce cognitive complexity)
+// =============================================================================
+
+function handleToggle(state: ListGroupFSMState, eventKey: string): ListGroupFSMState {
+  if (state.selectionMode === 'single') {
+    return state.activeKeys.has(eventKey)
+      ? state
+      : { ...state, activeKeys: new Set([eventKey]) };
+  }
+  const newKeys = new Set(state.activeKeys);
+  if (newKeys.has(eventKey)) {
+    newKeys.delete(eventKey);
+  } else {
+    newKeys.add(eventKey);
+  }
+  return { ...state, activeKeys: newKeys };
+}
+
+function handleSelect(state: ListGroupFSMState, eventKey: string): ListGroupFSMState {
+  if (state.activeKeys.has(eventKey)) {
+    return state;
+  }
+  if (state.selectionMode === 'single') {
+    return { ...state, activeKeys: new Set([eventKey]) };
+  }
+  const newKeys = new Set(state.activeKeys);
+  newKeys.add(eventKey);
+  return { ...state, activeKeys: newKeys };
+}
+
+function handleDeselect(state: ListGroupFSMState, eventKey: string): ListGroupFSMState {
+  if (!state.activeKeys.has(eventKey)) {
+    return state;
+  }
+  const newKeys = new Set(state.activeKeys);
+  newKeys.delete(eventKey);
+  return { ...state, activeKeys: newKeys };
+}
+
+function handleResetFromProps(
+  state: ListGroupFSMState,
+  activeKeys: readonly string[],
+): ListGroupFSMState {
+  const validKeys = clampToSelectionMode(activeKeys, state.selectionMode);
+  const newKeysSet = new Set<string>(validKeys);
+  const isUnchanged =
+    newKeysSet.size === state.activeKeys.size &&
+    [...newKeysSet].every((key) => state.activeKeys.has(key));
+  return isUnchanged ? state : { ...state, activeKeys: newKeysSet };
+}
+
+/**
+ * Clamp an array of keys to respect the current selection mode.
+ * In single mode with multiple keys, only the first is kept.
+ */
+function clampToSelectionMode(
+  keys: readonly string[],
+  mode: ListGroupSelectionMode,
+): string[] {
+  const firstKey = keys[0];
+  if (mode === 'single' && keys.length > 1 && firstKey !== undefined) {
+    return [firstKey];
+  }
+  return [...keys];
+}
+
+// =============================================================================
+// Reducer
+// =============================================================================
 
 /**
  * Pure reducer function for the ListGroup FSM
@@ -95,63 +160,14 @@ export function listGroupFSMReducer(
   event: ListGroupFSMEvent,
 ): ListGroupFSMState {
   switch (event.type) {
-    case 'TOGGLE': {
-      const { eventKey } = event;
-      if (state.selectionMode === 'single') {
-        if (state.activeKeys.has(eventKey)) {
-          return state;
-        }
-        return { ...state, activeKeys: new Set([eventKey]) };
-      }
-      const newKeys = new Set(state.activeKeys);
-      if (newKeys.has(eventKey)) {
-        newKeys.delete(eventKey);
-      } else {
-        newKeys.add(eventKey);
-      }
-      return { ...state, activeKeys: newKeys };
-    }
-
-    case 'SELECT': {
-      const { eventKey } = event;
-      if (state.activeKeys.has(eventKey)) {
-        return state;
-      }
-      if (state.selectionMode === 'single') {
-        return { ...state, activeKeys: new Set([eventKey]) };
-      }
-      const newKeys = new Set(state.activeKeys);
-      newKeys.add(eventKey);
-      return { ...state, activeKeys: newKeys };
-    }
-
-    case 'DESELECT': {
-      const { eventKey } = event;
-      if (!state.activeKeys.has(eventKey)) {
-        return state;
-      }
-      const newKeys = new Set(state.activeKeys);
-      newKeys.delete(eventKey);
-      return { ...state, activeKeys: newKeys };
-    }
-
-    case 'RESET_FROM_PROPS': {
-      const { activeKeys } = event;
-      const firstKey = activeKeys[0];
-      const validKeys: string[] =
-        state.selectionMode === 'single' && activeKeys.length > 1 && firstKey !== undefined
-          ? [firstKey]
-          : [...activeKeys];
-      const newKeysSet = new Set<string>(validKeys);
-      if (
-        newKeysSet.size === state.activeKeys.size &&
-        [...newKeysSet].every((key) => state.activeKeys.has(key))
-      ) {
-        return state;
-      }
-      return { ...state, activeKeys: newKeysSet };
-    }
-
+    case 'TOGGLE':
+      return handleToggle(state, event.eventKey);
+    case 'SELECT':
+      return handleSelect(state, event.eventKey);
+    case 'DESELECT':
+      return handleDeselect(state, event.eventKey);
+    case 'RESET_FROM_PROPS':
+      return handleResetFromProps(state, event.activeKeys);
     default:
       return state;
   }

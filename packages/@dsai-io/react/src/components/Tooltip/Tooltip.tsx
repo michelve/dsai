@@ -32,7 +32,7 @@ import {
 import { useTooltipContext } from './TooltipContext';
 import { useTouchInteraction } from './useTouchInteraction';
 
-import type { TooltipProps } from './Tooltip.types';
+import type { TooltipContextValue , TooltipProps } from './Tooltip.types';
 import type { ReactElement } from 'react';
 
 
@@ -48,6 +48,64 @@ const TOOLTIP_TRANSITION_MS = 150;
 /**
  * Normalize trigger prop to array
  */
+
+// =============================================================================
+// Helpers — extracted to reduce component cognitive/cyclomatic complexity
+// =============================================================================
+
+/**
+ * Resolve per-prop values: instance > provider > built-in defaults.
+ */
+function resolveContextDefaults(
+  props: Pick<TooltipProps, 'showDelay' | 'hideDelay' | 'describeChild' | 'touchEnabled' | 'arrow'>,
+  ctx: TooltipContextValue
+): {
+  resolvedShowDelay: number | undefined;
+  resolvedHideDelay: number | undefined;
+  resolvedArrow: boolean | undefined;
+  resolvedDescribeChild: boolean | undefined;
+  resolvedTouchEnabled: boolean | undefined;
+} {
+  return {
+    resolvedShowDelay: props.showDelay ?? ctx.showDelay,
+    resolvedHideDelay: props.hideDelay ?? ctx.hideDelay,
+    resolvedArrow: props.arrow ?? ctx.arrow,
+    resolvedDescribeChild: props.describeChild ?? ctx.describeChild,
+    resolvedTouchEnabled: props.touchEnabled ?? ctx.touchEnabled,
+  };
+}
+
+/**
+ * Compute merged tooltip styles from floating, transition, and user style.
+ */
+function computeTooltipStyles(
+  floatingStyles: React.CSSProperties,
+  transitionStyles: React.CSSProperties,
+  style: React.CSSProperties | undefined,
+  maxWidth: string | number | undefined
+): React.CSSProperties {
+  const { transform: floatingTransform, ...floatingRest } = floatingStyles;
+  const { transform: transitionTransform, ...transitionRest } = transitionStyles;
+
+  const combinedTransform = cn(floatingTransform, transitionTransform);
+
+  const baseStyles: React.CSSProperties = {
+    ...floatingRest,
+    ...transitionRest,
+    ...style,
+    zIndex: 1080,
+  };
+
+  if (combinedTransform) {
+    baseStyles.transform = combinedTransform;
+  }
+
+  if (maxWidth !== undefined) {
+    baseStyles.maxWidth = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
+  }
+
+  return baseStyles;
+}
 
 /**
  * Tooltip Component
@@ -120,11 +178,16 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
     const ctx = useTooltipContext();
 
     // Resolve props: instance > provider > built-in defaults
-    const resolvedShowDelay = showDelay ?? ctx.showDelay;
-    const resolvedHideDelay = hideDelay ?? ctx.hideDelay;
-    const resolvedArrow = showArrow ?? ctx.arrow;
-    const resolvedDescribeChild = describeChild ?? ctx.describeChild;
-    const resolvedTouchEnabled = touchEnabled ?? ctx.touchEnabled;
+    const {
+      resolvedShowDelay,
+      resolvedHideDelay,
+      resolvedArrow,
+      resolvedDescribeChild,
+      resolvedTouchEnabled,
+    } = resolveContextDefaults(
+      { showDelay, hideDelay, describeChild, touchEnabled, arrow: showArrow },
+      ctx
+    );
 
     // Follow-cursor suppresses arrow (moving tooltip + arrow is disorienting)
     const effectiveArrow = followCursor ? false : resolvedArrow;
@@ -349,29 +412,10 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
     ]);
 
     // Compute tooltip styles
-    const tooltipStyles = useMemo(() => {
-      const { transform: floatingTransform, ...floatingRest } = floatingStyles;
-      const { transform: transitionTransform, ...transitionRest } = transitionStyles;
-
-      const combinedTransform = cn(floatingTransform, transitionTransform);
-
-      const baseStyles: React.CSSProperties = {
-        ...floatingRest,
-        ...transitionRest,
-        ...style,
-        zIndex: 1080, // Bootstrap tooltip z-index
-      };
-
-      if (combinedTransform) {
-        baseStyles.transform = combinedTransform;
-      }
-
-      if (maxWidth !== undefined) {
-        baseStyles.maxWidth = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
-      }
-
-      return baseStyles;
-    }, [floatingStyles, transitionStyles, style, maxWidth]);
+    const tooltipStyles = useMemo(
+      () => computeTooltipStyles(floatingStyles, transitionStyles, style, maxWidth),
+      [floatingStyles, transitionStyles, style, maxWidth]
+    );
 
     // Compute tooltip class names
     const tooltipClassName = useMemo(() => {
