@@ -190,6 +190,62 @@ function validateTokenTree(
   }
 }
 
+function findCollection(
+  data: FigmaExport,
+  collectionName: string
+): FigmaCollection | undefined {
+  return Object.entries(data).find(
+    ([key]) => key.toLowerCase() === collectionName.toLowerCase()
+  )?.[1];
+}
+
+function validateExpectedModes(
+  collectionName: string,
+  expectedCollection: ExpectedCollection,
+  modes: string[],
+  warnings: ValidationIssue[]
+): void {
+  if (!expectedCollection.modeAware || !expectedCollection.modes) {
+    return;
+  }
+  for (const expectedMode of expectedCollection.modes) {
+    if (!modes.includes(expectedMode)) {
+      warnings.push({
+        path: `${collectionName}.modes`,
+        message: `Expected mode "${expectedMode}" not found, available modes: ${modes.join(', ')}`,
+        severity: 'warning',
+      });
+    }
+  }
+}
+
+function validateCollectionModes(
+  collection: FigmaCollection,
+  collectionName: string,
+  expectedCollection: ExpectedCollection,
+  errors: ValidationIssue[],
+  warnings: ValidationIssue[],
+  detectedModes: Set<string>
+): void {
+  if (!collection.modes) {
+    validateTokenTree(collection, collectionName, errors, warnings);
+    return;
+  }
+
+  const modes = Object.keys(collection.modes);
+  for (const mode of modes) {
+    detectedModes.add(mode);
+  }
+
+  validateExpectedModes(collectionName, expectedCollection, modes, warnings);
+
+  for (const [modeName, modeData] of Object.entries(collection.modes)) {
+    if (modeData && typeof modeData === 'object') {
+      validateTokenTree(modeData, `${collectionName}.modes.${modeName}`, errors, warnings);
+    }
+  }
+}
+
 /**
  * Validate a Figma collection structure
  */
@@ -202,10 +258,7 @@ function validateCollectionStructure(
 ): Set<string> {
   const detectedModes = new Set<string>();
 
-  // Find the collection in the data
-  const collection = Object.entries(data).find(
-    ([key]) => key.toLowerCase() === collectionName.toLowerCase()
-  )?.[1] as FigmaCollection | undefined;
+  const collection = findCollection(data, collectionName);
 
   if (!collection) {
     errors.push({
@@ -216,37 +269,7 @@ function validateCollectionStructure(
     return detectedModes;
   }
 
-  // Validate modes structure
-  if (collection.modes) {
-    const modes = Object.keys(collection.modes);
-
-    for (const mode of modes) {
-      detectedModes.add(mode);
-    }
-
-    // Check if expected modes are present
-    if (expectedCollection.modeAware && expectedCollection.modes) {
-      for (const expectedMode of expectedCollection.modes) {
-        if (!modes.includes(expectedMode)) {
-          warnings.push({
-            path: `${collectionName}.modes`,
-            message: `Expected mode "${expectedMode}" not found, available modes: ${modes.join(', ')}`,
-            severity: 'warning',
-          });
-        }
-      }
-    }
-
-    // Validate tokens in each mode
-    for (const [modeName, modeData] of Object.entries(collection.modes)) {
-      if (modeData && typeof modeData === 'object') {
-        validateTokenTree(modeData, `${collectionName}.modes.${modeName}`, errors, warnings);
-      }
-    }
-  } else {
-    // No modes structure, validate at collection level
-    validateTokenTree(collection, collectionName, errors, warnings);
-  }
+  validateCollectionModes(collection, collectionName, expectedCollection, errors, warnings, detectedModes);
 
   return detectedModes;
 }
@@ -254,6 +277,59 @@ function validateCollectionStructure(
 // ============================================================================
 // Main Validation Functions
 // ============================================================================
+
+function countTokens(obj: unknown): number {
+  if (obj === null || typeof obj !== 'object') {
+    return 0;
+  }
+  if (isToken(obj)) {
+    return 1;
+  }
+  let count = 0;
+  for (const value of Object.values(obj)) {
+    count += countTokens(value);
+  }
+  return count;
+}
+
+function parsedIsFigmaExport(
+  result: FigmaExport | ValidationIssue
+): result is FigmaExport {
+  return !('severity' in result);
+}
+
+function parseFigmaExport(filePath: string): FigmaExport | ValidationIssue {
+  try {
+    const content = readFileSync(filePath, 'utf-8');
+    return JSON.parse(content) as FigmaExport;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return {
+      path: filePath,
+      message: `Failed to parse JSON: ${message}`,
+      severity: 'error',
+    };
+  }
+}
+
+function collectModesFromEntries(
+  data: FigmaExport,
+  errors: ValidationIssue[],
+  warnings: ValidationIssue[],
+  detectedModes: Set<string>
+): void {
+  for (const [key, collection] of Object.entries(data)) {
+    if (typeof collection !== 'object' || collection === null) {
+      continue;
+    }
+    if (collection.modes) {
+      for (const mode of Object.keys(collection.modes)) {
+        detectedModes.add(mode);
+      }
+    }
+    validateTokenTree(collection, key, errors, warnings);
+  }
+}
 
 /**
  * Validate a single Figma export file
@@ -265,9 +341,7 @@ export function validateFigmaFile(
   const errors: ValidationIssue[] = [];
   const warnings: ValidationIssue[] = [];
   const detectedModes = new Set<string>();
-  let tokenCount = 0;
 
-  // Check file exists
   if (!existsSync(filePath)) {
     errors.push({
       path: filePath,
@@ -277,22 +351,14 @@ export function validateFigmaFile(
     return { valid: false, errors, warnings, detectedModes, tokenCount: 0, fileCount: 0 };
   }
 
-  // Parse JSON
-  let data: FigmaExport;
-  try {
-    const content = readFileSync(filePath, 'utf-8');
-    data = JSON.parse(content) as FigmaExport;
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    errors.push({
-      path: filePath,
-      message: `Failed to parse JSON: ${message}`,
-      severity: 'error',
-    });
+  const parseResult = parseFigmaExport(filePath);
+  if (!parsedIsFigmaExport(parseResult)) {
+    errors.push(parseResult);
     return { valid: false, errors, warnings, detectedModes, tokenCount: 0, fileCount: 1 };
   }
 
-  // Validate basic structure
+  const data = parseResult;
+
   if (data === null || typeof data !== 'object' || Array.isArray(data)) {
     errors.push({
       path: filePath,
@@ -302,26 +368,9 @@ export function validateFigmaFile(
     return { valid: false, errors, warnings, detectedModes, tokenCount: 0, fileCount: 1 };
   }
 
-  // Get collection name from filename
   const fileName = basename(filePath, extname(filePath));
   const collectionName = fileName.charAt(0).toUpperCase() + fileName.slice(1);
 
-  // Count tokens helper
-  const countTokens = (obj: unknown): number => {
-    if (obj === null || typeof obj !== 'object') {
-      return 0;
-    }
-    if (isToken(obj)) {
-      return 1;
-    }
-    let count = 0;
-    for (const value of Object.values(obj)) {
-      count += countTokens(value);
-    }
-    return count;
-  };
-
-  // Validate collection structure if expected collection provided
   if (expectedCollection) {
     const modes = validateCollectionStructure(
       data,
@@ -334,21 +383,10 @@ export function validateFigmaFile(
       detectedModes.add(mode);
     }
   } else {
-    // General validation without expected structure
-    for (const [key, value] of Object.entries(data)) {
-      if (typeof value === 'object' && value !== null) {
-        const collection = value as FigmaCollection;
-        if (collection.modes) {
-          for (const mode of Object.keys(collection.modes)) {
-            detectedModes.add(mode);
-          }
-        }
-        validateTokenTree(value, key, errors, warnings);
-      }
-    }
+    collectModesFromEntries(data, errors, warnings, detectedModes);
   }
 
-  tokenCount = countTokens(data);
+  const tokenCount = countTokens(data);
 
   return {
     valid: errors.length === 0,
@@ -358,6 +396,76 @@ export function validateFigmaFile(
     tokenCount,
     fileCount: 1,
   };
+}
+
+function validateExpectedCollections(
+  targetDir: string,
+  collections: ExpectedCollections,
+  skipMissing: boolean,
+  errors: ValidationIssue[],
+  warnings: ValidationIssue[],
+  files: Map<string, ValidationResult>,
+  detectedModes: Set<string>,
+  missingFiles: string[],
+  totals: { tokenCount: number; fileCount: number }
+): void {
+  for (const [_name, expectedCollection] of Object.entries(collections)) {
+    const filePath = join(targetDir, expectedCollection.input);
+
+    if (!existsSync(filePath)) {
+      missingFiles.push(expectedCollection.input);
+      if (!skipMissing) {
+        errors.push({
+          path: filePath,
+          message: `Expected Figma export "${expectedCollection.input}" not found`,
+          severity: 'error',
+        });
+      }
+      continue;
+    }
+
+    const result = validateFigmaFile(filePath, expectedCollection);
+    files.set(expectedCollection.input, {
+      valid: result.valid,
+      errors: result.errors,
+      warnings: result.warnings,
+      tokenCount: result.tokenCount,
+      fileCount: result.fileCount,
+    });
+
+    errors.push(...result.errors);
+    warnings.push(...result.warnings);
+    totals.tokenCount += result.tokenCount;
+    totals.fileCount += result.fileCount;
+    for (const mode of result.detectedModes) {
+      detectedModes.add(mode);
+    }
+  }
+}
+
+function warnUnexpectedFiles(
+  targetDir: string,
+  collections: ExpectedCollections,
+  warnings: ValidationIssue[]
+): void {
+  try {
+    const existingFiles = readdirSync(targetDir).filter(
+      (f) => f.endsWith('.json') && statSync(join(targetDir, f)).isFile()
+    );
+    const expectedFiles = new Set(Object.values(collections).map((c) => c.input));
+
+    for (const file of existingFiles) {
+      if (!expectedFiles.has(file)) {
+        warnings.push({
+          path: join(targetDir, file),
+          message: `Unexpected file in exports directory: ${file}`,
+          severity: 'warning',
+        });
+      }
+    }
+  } catch {
+    // Ignore read errors
+  }
 }
 
 /**
@@ -376,8 +484,7 @@ export function validateFigmaExports(options: ValidateFigmaOptions = {}): Valida
   const files = new Map<string, ValidationResult>();
   const detectedModes = new Set<string>();
   const missingFiles: string[] = [];
-  let totalTokenCount = 0;
-  let totalFileCount = 0;
+  const totals = { tokenCount: 0, fileCount: 0 };
 
   // Resolve exports directory
   const targetDir = exportsDir ?? options.config?.tokens.sourceDir;
@@ -419,60 +526,12 @@ export function validateFigmaExports(options: ValidateFigmaOptions = {}): Valida
     };
   }
 
-  // Validate each expected collection
-  for (const [_name, expectedCollection] of Object.entries(collections)) {
-    const filePath = join(targetDir, expectedCollection.input);
+  validateExpectedCollections(
+    targetDir, collections, skipMissing, errors, warnings,
+    files, detectedModes, missingFiles, totals
+  );
 
-    if (!existsSync(filePath)) {
-      missingFiles.push(expectedCollection.input);
-      if (!skipMissing) {
-        errors.push({
-          path: filePath,
-          message: `Expected Figma export "${expectedCollection.input}" not found`,
-          severity: 'error',
-        });
-      }
-      continue;
-    }
-
-    const result = validateFigmaFile(filePath, expectedCollection);
-    files.set(expectedCollection.input, {
-      valid: result.valid,
-      errors: result.errors,
-      warnings: result.warnings,
-      tokenCount: result.tokenCount,
-      fileCount: result.fileCount,
-    });
-
-    // Aggregate results
-    errors.push(...result.errors);
-    warnings.push(...result.warnings);
-    totalTokenCount += result.tokenCount;
-    totalFileCount += result.fileCount;
-    for (const mode of result.detectedModes) {
-      detectedModes.add(mode);
-    }
-  }
-
-  // Check for unexpected files in the exports directory
-  try {
-    const existingFiles = readdirSync(targetDir).filter(
-      (f) => f.endsWith('.json') && statSync(join(targetDir, f)).isFile()
-    );
-    const expectedFiles = new Set(Object.values(collections).map((c) => c.input));
-
-    for (const file of existingFiles) {
-      if (!expectedFiles.has(file)) {
-        warnings.push({
-          path: join(targetDir, file),
-          message: `Unexpected file in exports directory: ${file}`,
-          severity: 'warning',
-        });
-      }
-    }
-  } catch {
-    // Ignore read errors
-  }
+  warnUnexpectedFiles(targetDir, collections, warnings);
 
   // In strict mode, treat warnings as errors
   const effectiveErrors = strict ? [...errors, ...warnings] : errors;
@@ -484,8 +543,8 @@ export function validateFigmaExports(options: ValidateFigmaOptions = {}): Valida
     files,
     detectedModes,
     missingFiles,
-    tokenCount: totalTokenCount,
-    fileCount: totalFileCount,
+    tokenCount: totals.tokenCount,
+    fileCount: totals.fileCount,
   };
 }
 
@@ -497,11 +556,8 @@ export function detectModes(data: FigmaExport, collectionName?: string): string[
     return ['Base'];
   }
 
-  // If collection name is specified, look for that collection
   if (collectionName) {
-    const collection = Object.entries(data).find(
-      ([key]) => key.toLowerCase() === collectionName.toLowerCase()
-    )?.[1] as FigmaCollection | undefined;
+    const collection = findCollection(data, collectionName);
 
     if (collection?.modes) {
       return Object.keys(collection.modes);
@@ -509,13 +565,9 @@ export function detectModes(data: FigmaExport, collectionName?: string): string[
     return ['Base'];
   }
 
-  // Otherwise, look for modes in any collection
-  for (const [, value] of Object.entries(data)) {
-    if (typeof value === 'object' && value !== null) {
-      const collection = value as FigmaCollection;
-      if (collection.modes) {
-        return Object.keys(collection.modes);
-      }
+  for (const [, collection] of Object.entries(data)) {
+    if (collection?.modes) {
+      return Object.keys(collection.modes);
     }
   }
 

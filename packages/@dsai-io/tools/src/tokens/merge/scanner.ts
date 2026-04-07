@@ -38,7 +38,7 @@ const DEFAULT_IGNORE_PATTERNS = [
  */
 function globToRegex(pattern: string): RegExp {
   const regex = pattern
-    .replaceAll(/[.+^${}()|[\]\\]/g, '\\$&') // Escape special regex chars (except * and ?)
+    .replaceAll(/[.+^${}()|[\]\\]/g, String.raw`\$&`) // Escape special regex chars (except * and ?)
     .replaceAll('**', '<<<GLOBSTAR>>>') // Temporarily replace **
     .replaceAll('*', '[^/]*') // * matches anything except /
     .replaceAll('?', '.') // ? matches single char

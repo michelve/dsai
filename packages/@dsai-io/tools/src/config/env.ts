@@ -9,7 +9,7 @@
 
 import { envArrayKeys, envBooleanKeys, envMappings, envNumberKeys } from './defaults.js';
 
-import type { DsaiConfig } from './types.js';
+import type { DsaiConfig, LogLevel } from './types.js';
 
 // ============================================================================
 // Types
@@ -87,82 +87,58 @@ function parseArray(value: string | undefined): string[] | undefined {
 }
 
 /**
+ * Define a writable, enumerable, configurable property on an object
+ */
+function safeDefine(obj: Record<string, unknown>, key: string, value: unknown): void {
+  Object.defineProperty(obj, key, {
+    value,
+    writable: true,
+    enumerable: true,
+    configurable: true,
+  });
+}
+
+/**
+ * Ensure a nested object exists at the given key, creating it if needed
+ */
+function ensureNestedObject(obj: Record<string, unknown>, key: string): Record<string, unknown> {
+  if (!(key in obj)) {
+    safeDefine(obj, key, {});
+  }
+  return Reflect.get(obj, key) as Record<string, unknown>;
+}
+
+/**
  * Set a nested value in an object using dot notation path
  *
  * @param obj - Object to modify
  * @param path - Dot notation path (e.g., 'global.logLevel')
  * @param value - Value to set
  */
-function setNestedValue(obj: Record<string, unknown>, path: string, value: unknown): void {
-  const parts = path.split('.');
+function setNestedValue(obj: Record<string, unknown>, dotPath: string, value: unknown): void {
+  const parts = dotPath.split('.');
+  const MAX_SUPPORTED_DEPTH = 3;
 
-  if (parts.length === 1) {
-    const key = parts[0];
-    if (key !== undefined) {
-      Object.defineProperty(obj, key, {
-        value,
-        writable: true,
-        enumerable: true,
-        configurable: true,
-      });
-    }
+  if (parts.length < 1 || parts.length > MAX_SUPPORTED_DEPTH) {
     return;
   }
 
-  if (parts.length === 2) {
-    const [first, second] = parts;
-    if (first !== undefined && second !== undefined) {
-      if (!(first in obj)) {
-        Object.defineProperty(obj, first, {
-          value: {},
-          writable: true,
-          enumerable: true,
-          configurable: true,
-        });
-      }
-      const nested = Reflect.get(obj, first) as Record<string, unknown>;
-      Object.defineProperty(nested, second, {
-        value,
-        writable: true,
-        enumerable: true,
-        configurable: true,
-      });
-    }
+  if (parts.some((p) => p === undefined)) {
     return;
   }
 
-  const MAX_NESTING_DEPTH = 3;
-  if (parts.length === MAX_NESTING_DEPTH) {
-    const [first, second, third] = parts;
-    if (first !== undefined && second !== undefined && third !== undefined) {
-      if (!(first in obj)) {
-        Object.defineProperty(obj, first, {
-          value: {},
-          writable: true,
-          enumerable: true,
-          configurable: true,
-        });
-      }
-      const nested1 = Reflect.get(obj, first) as Record<string, unknown>;
-      if (!(second in nested1)) {
-        Object.defineProperty(nested1, second, {
-          value: {},
-          writable: true,
-          enumerable: true,
-          configurable: true,
-        });
-      }
-      const nested2 = Reflect.get(nested1, second) as Record<string, unknown>;
-      Object.defineProperty(nested2, third, {
-        value,
-        writable: true,
-        enumerable: true,
-        configurable: true,
-      });
-    }
+  const lastKey = parts.at(-1);
+  if (!lastKey) {
+    return;
   }
 
-  // For paths deeper than 3 levels, we don't support them in config
+  const parentParts = parts.slice(0, -1);
+  let target = obj;
+  for (const part of parentParts) {
+    target = ensureNestedObject(target, part);
+  }
+
+  safeDefine(target, lastKey, value);
 }
 
 // ============================================================================
@@ -314,7 +290,7 @@ export function getEnvOverrides(env: NodeJS.ProcessEnv = process.env): Partial<D
   if (logLevel) {
     config.global = {
       ...config.global,
-      logLevel: logLevel as 'silent' | 'error' | 'warn' | 'info' | 'debug',
+      logLevel: logLevel as LogLevel,
     };
   }
 

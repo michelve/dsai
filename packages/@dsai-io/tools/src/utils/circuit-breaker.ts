@@ -48,11 +48,11 @@ export interface CircuitBreakerStats {
   /** Total calls */
   totalCalls: number;
   /** Time circuit opened (if open) */
-  openedAt?: Date;
+  openedAt: Date | null;
   /** Time circuit will attempt to close */
-  resetAt?: Date;
+  resetAt: Date | null;
   /** Last error */
-  lastError?: string;
+  lastError: string | null;
 }
 
 /**
@@ -77,9 +77,9 @@ export class CircuitBreaker {
   private failures = 0;
   private successes = 0;
   private totalCalls = 0;
-  private openedAt?: Date;
-  private resetAt?: Date;
-  private lastError?: string;
+  private openedAt: Date | null = null;
+  private resetAt: Date | null = null;
+  private lastError: string | null = null;
 
   private readonly failureThreshold: number;
   private readonly cooldownMs: number;
@@ -152,9 +152,9 @@ export class CircuitBreaker {
       // Successful call in HALF_OPEN state closes the circuit
       this.state = CircuitState.CLOSED;
       this.failures = 0;
-      this.openedAt = undefined;
-      this.resetAt = undefined;
-      this.lastError = undefined;
+      this.openedAt = null;
+      this.resetAt = null;
+      this.lastError = null;
     }
   }
 
@@ -220,9 +220,9 @@ export class CircuitBreaker {
     this.failures = 0;
     this.successes = 0;
     this.totalCalls = 0;
-    this.openedAt = undefined;
-    this.resetAt = undefined;
-    this.lastError = undefined;
+    this.openedAt = null;
+    this.resetAt = null;
+    this.lastError = null;
   }
 
   /**

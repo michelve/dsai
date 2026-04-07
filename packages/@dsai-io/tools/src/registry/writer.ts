@@ -42,7 +42,9 @@ function getTargetDir(type: string, aliases: ResolvedAliasesConfig): string {
   }
 }
 
-function detectPackageManager(projectDir: string): 'pnpm' | 'yarn' | 'npm' | 'bun' {
+type PackageManager = 'pnpm' | 'yarn' | 'npm' | 'bun';
+
+function detectPackageManager(projectDir: string): PackageManager {
   if (existsSync(join(projectDir, 'pnpm-lock.yaml'))) {return 'pnpm';}
   if (existsSync(join(projectDir, 'bun.lockb')) || existsSync(join(projectDir, 'bun.lock'))) {return 'bun';}
   if (existsSync(join(projectDir, 'yarn.lock'))) {return 'yarn';}
@@ -91,7 +93,7 @@ function writeSingleFile(
   targetPath: string,
   content: string,
   shouldOverwrite: boolean,
-  dryRun: boolean | undefined,
+  dryRun: boolean = false,
   log: ((message: string) => void) | undefined
 ): 'written' | 'skipped' {
   if (existsSync(targetPath) && !shouldOverwrite) {
@@ -125,7 +127,7 @@ function findMissingDeps(projectDir: string, deps: string[]): string[] {
 function installDeps(
   projectDir: string,
   deps: string[],
-  dryRun: boolean | undefined,
+  dryRun: boolean = false,
   log: ((message: string) => void) | undefined
 ): void {
   if (deps.length === 0) {return;}

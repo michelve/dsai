@@ -561,17 +561,17 @@ async function runStyleDictionaryBuild(
 
   const outputs: Partial<Record<OutputFormat, string[]>> = Object.fromEntries(outputsMap);
 
-  if (options.verbose) {
-    const totalFiles = Object.values(outputs).flat().length;
-    console.warn(`   ✅ Generated ${totalFiles} output files`);
-    // Debug: check if files actually exist
-    for (const [format, files] of Object.entries(outputs)) {
-      for (const file of files) {
-        // eslint-disable-next-line security/detect-non-literal-fs-filename
-        const exists = existsSync(file);
-        if (!exists) {
-          console.warn(`   ⚠️  Missing: ${format} -> ${file}`);
-        }
+  if (!options.verbose) {
+    return outputs;
+  }
+
+  const totalFiles = Object.values(outputs).flat().length;
+  console.warn(`   ✅ Generated ${totalFiles} output files`);
+  for (const [format, files] of Object.entries(outputs)) {
+    for (const file of files) {
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
+      if (!existsSync(file)) {
+        console.warn(`   ⚠️  Missing: ${format} -> ${file}`);
       }
     }
   }
@@ -635,7 +635,7 @@ function resolveThemeOutputFile(
   themeName: string,
   isDefault: boolean
 ): string {
-  const existing = baseOutputFiles[format];
+  const existing = Reflect.get(baseOutputFiles, format) as string | undefined;
   if (existing) {return existing;}
 
   const defaultFilenames: Record<string, [string, string]> = {
@@ -648,8 +648,14 @@ function resolveThemeOutputFile(
     ios: ['tokens.h', `tokens-${themeName}.h`],
   };
 
-  const pair = defaultFilenames[format];
-  return pair ? (isDefault ? pair[0] : pair[1]) : `tokens-${themeName}.${format}`;
+  const pair = Reflect.get(defaultFilenames, format) as [string, string] | undefined;
+  if (!pair) {
+    return `tokens-${themeName}.${format}`;
+  }
+  if (isDefault) {
+    return pair[0];
+  }
+  return pair[1];
 }
 
 /** Create a failed ThemeBuildResult for early returns */
@@ -666,7 +672,7 @@ function resolveAllOutputFiles(
   const allFormats = ['css', 'scss', 'js', 'ts', 'json', 'android', 'ios'];
   const outputFiles: Record<string, string> = {};
   for (const fmt of allFormats) {
-    outputFiles[fmt] = resolveThemeOutputFile(baseOutputFiles, fmt, themeName, isDefault);
+    Reflect.set(outputFiles, fmt, resolveThemeOutputFile(baseOutputFiles, fmt, themeName, isDefault));
   }
   return outputFiles;
 }
@@ -688,19 +694,22 @@ function resolveDefinition(
   };
 }
 
-/**
- * Build a single theme within a batch build, handling validation and definition resolution
- */
+interface BuildSingleThemeOptions {
+  definitionsMap: Map<string, ThemeDefinition | ResolvedThemeDefinition>;
+  themeFiles: Map<string, string[]>;
+  defaultThemeFiles: string[];
+  outputDir: string;
+  config: ThemeBuildConfig;
+  verbose: boolean;
+  skipCache: boolean;
+}
+
 async function buildSingleThemeInBatch(
   themeName: string,
-  definitionsMap: Map<string, ThemeDefinition | ResolvedThemeDefinition>,
-  themeFiles: Map<string, string[]>,
-  defaultThemeFiles: string[],
-  outputDir: string,
-  config: ThemeBuildConfig,
-  verbose?: boolean,
-  skipCache?: boolean
+  options: BuildSingleThemeOptions
 ): Promise<ThemeBuildResult> {
+  const { definitionsMap, themeFiles, defaultThemeFiles, outputDir, config, verbose, skipCache } = options;
+
   const rawThemeDefinition = definitionsMap.get(themeName);
   if (!rawThemeDefinition) {
     return failedThemeResult(themeName, `No theme definition found for "${themeName}"`);
@@ -769,10 +778,12 @@ export async function buildAllThemes(
 
   // Build each theme
   for (const themeName of themesToBuild) {
-    const themeResult = await buildSingleThemeInBatch(
-      themeName, definitionsMap, themeFiles, defaultThemeFiles,
-      outputDir, config, verbose, options.skipCache
-    );
+    const themeResult = await buildSingleThemeInBatch(themeName, {
+      definitionsMap, themeFiles, defaultThemeFiles,
+      outputDir, config,
+      verbose: verbose ?? false,
+      skipCache: options.skipCache ?? false,
+    });
     results.push(themeResult);
   }
 

@@ -7,7 +7,9 @@
 
 import { run } from '../dist/cli/index.js';
 
-run().catch((error) => {
+try {
+  await run();
+} catch (error) {
   console.error('Fatal error:', error);
   process.exit(1);
-});
+}

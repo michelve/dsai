@@ -60,7 +60,7 @@ function displayItemList(filtered: RegistryIndexEntry[]): void {
   const grouped: Record<string, RegistryIndexEntry[]> = {};
   for (const item of filtered) {
     const type = item.type.replaceAll('registry:', '');
-    if (!grouped[type]) {grouped[type] = [];}
+    grouped[type] ??= [];
     grouped[type].push(item);
   }
 
@@ -76,7 +76,8 @@ function displayItemList(filtered: RegistryIndexEntry[]): void {
     console.log();
   }
 
-  console.log(`  ${colors.muted(`${filtered.length} items available`)}\n`);
+  const itemCount = `${filtered.length} items available`;
+  console.log(`  ${colors.muted(itemCount)}\n`);
   console.log(`${colors.muted('Usage:')}`);
   console.log(`  ${colors.command('dsai add button modal')}         ${colors.muted('Add specific items')}`);
   console.log(`  ${colors.command('dsai add use-focus-trap cn')}    ${colors.muted('Add hooks and utils')}`);
@@ -173,6 +174,51 @@ interface AddCommandOptions {
   dryRun?: boolean;
 }
 
+/** Resolve registry directory from options and config */
+function resolveRegistryDir(
+  allOpts: AddCommandOptions,
+  configDir: string
+): string {
+  return allOpts.registry
+    ? resolve(allOpts.registry)
+    : join(configDir, 'node_modules', '@dsai-io', 'tools', 'registry');
+}
+
+/** Validate registry exists and type filter is valid */
+function validateAddInputs(
+  registryDir: string,
+  typeFilter: string | undefined,
+  logger: ReturnType<typeof createLogger>
+): void {
+  if (!existsSync(registryDir)) {
+    logger.error(
+      `Registry not found at: ${registryDir}\n` +
+        `Run \`dsai registry build\` or use --registry <path>.`
+    );
+    process.exit(ExitCode.GeneralError);
+  }
+
+  if (typeFilter && !VALID_TYPES.includes(typeFilter as (typeof VALID_TYPES)[number])) {
+    logger.error(`Invalid type "${typeFilter}". Valid types: ${VALID_TYPES.join(', ')}`);
+    process.exit(ExitCode.GeneralError);
+  }
+}
+
+/** Handle --list mode: display items and return true if handled */
+function handleListMode(
+  registryDir: string,
+  typeFilter: string | undefined,
+  logger: ReturnType<typeof createLogger>
+): void {
+  const indexPath = join(registryDir, 'index.json');
+  if (!existsSync(indexPath)) {
+    logger.error('Registry index not found.');
+    process.exit(ExitCode.GeneralError);
+  }
+  const index: RegistryIndex = JSON.parse(readFileSync(indexPath, 'utf-8'));
+  displayItemList(filterByType(index.items, typeFilter));
+}
+
 /**
  * Core logic for the add command, extracted for reduced complexity.
  */
@@ -186,38 +232,15 @@ async function runAddAction(
     configPath: allOpts.config,
   });
 
-  const registryDir = allOpts.registry
-    ? resolve(allOpts.registry)
-    : join(config.configDir, 'node_modules', '@dsai-io', 'tools', 'registry');
-
-  if (!existsSync(registryDir)) {
-    logger.error(
-      `Registry not found at: ${registryDir}\n` +
-        `Run \`dsai registry build\` or use --registry <path>.`
-    );
-    process.exit(ExitCode.GeneralError);
-  }
-
-  // Validate --type if provided
+  const registryDir = resolveRegistryDir(allOpts, config.configDir);
   const typeFilter = allOpts.type;
-  if (typeFilter && !VALID_TYPES.includes(typeFilter as (typeof VALID_TYPES)[number])) {
-    logger.error(`Invalid type "${typeFilter}". Valid types: ${VALID_TYPES.join(', ')}`);
-    process.exit(ExitCode.GeneralError);
-  }
+  validateAddInputs(registryDir, typeFilter, logger);
 
-  // List mode — early return
   if (allOpts.list) {
-    const indexPath = join(registryDir, 'index.json');
-    if (!existsSync(indexPath)) {
-      logger.error('Registry index not found.');
-      process.exit(ExitCode.GeneralError);
-    }
-    const index: RegistryIndex = JSON.parse(readFileSync(indexPath, 'utf-8'));
-    displayItemList(filterByType(index.items, typeFilter));
+    handleListMode(registryDir, typeFilter, logger);
     return;
   }
 
-  // Validate input
   if (!allOpts.all && items.length === 0) {
     logger.error(
       'No items specified.\n' +
@@ -228,18 +251,12 @@ async function runAddAction(
     process.exit(ExitCode.GeneralError);
   }
 
-  // Resolve item names (--all or explicit)
   const itemNames = allOpts.all
     ? resolveAllItemNames(registryDir, typeFilter, logger)
     : items;
 
-  // Resolve dependency tree
   const tree = resolveItemTree(itemNames, registryDir, logger);
-
-  // Show what will be installed
   logInstallPlan(tree, itemNames);
-
-  // Write files
   writeItems(tree, config, allOpts);
 
   if (allOpts.dryRun) {return;}
@@ -339,9 +356,8 @@ function writeItems(
   );
 
   if (result.skipped.length > 0) {
-    console.log(
-      `\n${colors.warning(`${result.skipped.length} files skipped (already exist). Use --overwrite to replace.`)}`
-    );
+    const skipMsg = `${result.skipped.length} files skipped (already exist). Use --overwrite to replace.`;
+    console.log(`\n${colors.warning(skipMsg)}`);
   }
 
   return result;

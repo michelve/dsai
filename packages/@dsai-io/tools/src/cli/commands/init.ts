@@ -174,6 +174,33 @@ export function createInitCommand(): Command {
     });
 }
 
+function getTemplateContent(template: string): string {
+  switch (template) {
+    case 'minimal':
+      return MINIMAL_CONFIG;
+    case 'enterprise':
+      return ENTERPRISE_CONFIG;
+    default:
+      return FULL_CONFIG;
+  }
+}
+
+function writeConfigFile(
+  configPath: string,
+  content: string,
+  logger: ReturnType<typeof createLogger>
+): void {
+  try {
+    writeFileSync(configPath, content, 'utf-8');
+    logger.success(`Created ${colors.path(CONFIG_FILENAME)}`);
+  } catch (error) {
+    logger.error(
+      `Failed to write config file: ${error instanceof Error ? error.message : 'Unknown error'}`
+    );
+    process.exit(ExitCode.IOError);
+  }
+}
+
 /**
  * Run init
  */
@@ -210,42 +237,20 @@ async function runInit(options: InitOptions): Promise<void> {
     process.exit(ExitCode.Success);
   }
 
-  // Use default values (prompts would require @clack/prompts)
   const template = options.template ?? 'full';
   const prefix = '--dsai-';
   const outputDir = 'dist/tokens';
 
-  // Get template content
-  let content: string;
-  switch (template) {
-    case 'minimal':
-      content = MINIMAL_CONFIG;
-      break;
-    case 'enterprise':
-      content = ENTERPRISE_CONFIG;
-      break;
-    default:
-      content = FULL_CONFIG;
-  }
+  const content = getTemplateContent(template)
+    .replaceAll('{{PREFIX}}', prefix)
+    .replaceAll('{{OUTPUT_DIR}}', outputDir);
 
-  // Apply substitutions
-  content = content.replaceAll('{{PREFIX}}', prefix).replaceAll('{{OUTPUT_DIR}}', outputDir);
-
-  // Write config file
   const configPath = join(cwd, CONFIG_FILENAME);
 
-  if (!options.dryRun) {
-    try {
-      writeFileSync(configPath, content, 'utf-8');
-      logger.success(`Created ${colors.path(CONFIG_FILENAME)}`);
-    } catch (error) {
-      logger.error(
-        `Failed to write config file: ${error instanceof Error ? error.message : 'Unknown error'}`
-      );
-      process.exit(ExitCode.IOError);
-    }
-  } else {
+  if (options.dryRun) {
     logger.info(`Would create ${colors.path(CONFIG_FILENAME)} (dry run)`);
+  } else {
+    writeConfigFile(configPath, content, logger);
   }
 
   // Create output directory

@@ -82,7 +82,7 @@ export const versionSchema = z.string().refine(
         return false;
       }
     }
-    if (preRelease !== undefined && preRelease.length === 0) {
+    if (preRelease?.length === 0) {
       return false;
     }
     return true;
@@ -581,7 +581,7 @@ export interface ValidationError {
  * @returns Array of formatted validation errors
  */
 export function formatValidationErrors(zodError: z.ZodError): ValidationError[] {
-  return zodError.issues.map((err: z.ZodIssue) => ({
+  return zodError.issues.map((err: z.core.$ZodIssue) => ({
     path: err.path.join('.') || 'root',
     message: err.message,
     code: err.code,
@@ -714,12 +714,10 @@ export function formatErrorMessage(errors: ValidationError[]): string {
   const lines = ['Configuration validation failed:', ''];
 
   for (const error of errors) {
-    lines.push(`  ✗ ${error.path}`);
-    lines.push(`    ${error.message}`);
+    lines.push(`  ✗ ${error.path}`, `    ${error.message}`);
 
     if (error.expected && error.received) {
-      lines.push(`    Expected: ${error.expected}`);
-      lines.push(`    Received: ${error.received}`);
+      lines.push(`    Expected: ${error.expected}`, `    Received: ${error.received}`);
     }
 
     lines.push('');

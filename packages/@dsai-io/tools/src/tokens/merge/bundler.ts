@@ -51,7 +51,7 @@ function minifyContent(content: string): string {
  * Detect output extension based on content
  */
 function detectExtension(mergeResult: StyleMergeResult): string {
-  const hasScssFeatures = mergeResult.content.match(/@mixin|@include|\$[a-zA-Z]/);
+  const hasScssFeatures = /@mixin|@include|\$[a-zA-Z]/.exec(mergeResult.content);
   return hasScssFeatures ? '.scss' : '.css';
 }
 

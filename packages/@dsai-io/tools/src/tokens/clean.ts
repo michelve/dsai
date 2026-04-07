@@ -307,6 +307,38 @@ function countContents(dirPath: string): { files: number; dirs: number } {
  * @param options - Clean options
  * @returns Cleaned directory info
  */
+/**
+ * Remove directory contents while preserving specified files
+ */
+function removeWithPreservation(
+  dirPath: string,
+  preservePatterns: string[],
+  verbose: boolean
+): void {
+  const entries = readdirSync(dirPath, { withFileTypes: true });
+  const hasPreserved = entries.some((e) => shouldPreserve(e.name, preservePatterns));
+
+  if (!hasPreserved) {
+    rmSync(dirPath, { recursive: true, force: true });
+    return;
+  }
+
+  for (const entry of entries) {
+    if (shouldPreserve(entry.name, preservePatterns)) {
+      if (verbose) {
+        console.info(`  📌 Preserving: ${entry.name}`);
+      }
+      continue;
+    }
+
+    const entryPath = join(dirPath, entry.name);
+    rmSync(entryPath, { recursive: true, force: true });
+  }
+}
+
+/**
+ * Clean a single directory
+ */
 function cleanDirectory(
   dirPath: string,
   options: Required<Pick<CleanOptions, 'dryRun' | 'verbose' | 'preserve'>>
@@ -317,15 +349,9 @@ function cleanDirectory(
     if (options.verbose) {
       console.info(`  ℹ️  Directory does not exist: ${dirPath}`);
     }
-    return {
-      path: dirPath,
-      filesRemoved: 0,
-      directoriesRemoved: 0,
-      existed: false,
-    };
+    return { path: dirPath, filesRemoved: 0, directoriesRemoved: 0, existed: false };
   }
 
-  // Count contents before deletion
   const counts = countContents(dirPath);
 
   if (options.dryRun) {
@@ -334,46 +360,16 @@ function cleanDirectory(
         `  🔍 Would remove: ${dirPath} (${counts.files} files, ${counts.dirs} directories)`
       );
     }
-    return {
-      path: dirPath,
-      filesRemoved: counts.files,
-      directoriesRemoved: counts.dirs,
-      existed: true,
-    };
+    return { path: dirPath, filesRemoved: counts.files, directoriesRemoved: counts.dirs, existed: true };
   }
 
-  // Check for files to preserve
-  const entries = readdirSync(dirPath, { withFileTypes: true });
-  const toPreserve = entries.filter((e) => shouldPreserve(e.name, options.preserve));
-
-  if (toPreserve.length > 0) {
-    // Delete contents except preserved files
-    for (const entry of entries) {
-      if (shouldPreserve(entry.name, options.preserve)) {
-        if (options.verbose) {
-          console.info(`  📌 Preserving: ${entry.name}`);
-        }
-        continue;
-      }
-
-      const entryPath = join(dirPath, entry.name);
-      rmSync(entryPath, { recursive: true, force: true });
-    }
-  } else {
-    // Delete entire directory
-    rmSync(dirPath, { recursive: true, force: true });
-  }
+  removeWithPreservation(dirPath, options.preserve, options.verbose);
 
   if (options.verbose) {
     console.info(`  ✅ Cleaned: ${dirPath} (${counts.files} files, ${counts.dirs} directories)`);
   }
 
-  return {
-    path: dirPath,
-    filesRemoved: counts.files,
-    directoriesRemoved: counts.dirs,
-    existed: true,
-  };
+  return { path: dirPath, filesRemoved: counts.files, directoriesRemoved: counts.dirs, existed: true };
 }
 
 // ============================================================================
@@ -407,10 +403,58 @@ function cleanDirectory(
  *   preserve: ['README.md', '*.d.ts'],
  * });
  */
+/**
+ * Validate and clean a single directory, updating the result
+ */
+function validateAndCleanDirectory(
+  dir: string,
+  baseDir: string,
+  cleanOpts: Required<Pick<CleanOptions, 'dryRun' | 'verbose' | 'preserve'>>,
+  result: CleanResult
+): void {
+  const absolutePath = resolve(baseDir, dir);
+
+  const validation = validateCleanTarget(absolutePath, baseDir);
+  if (!validation.valid && validation.error) {
+    result.errors.push(validation.error);
+    result.success = false;
+    return;
+  }
+
+  try {
+    const cleaned = cleanDirectory(absolutePath, cleanOpts);
+    result.cleaned.push(cleaned);
+    result.totalFilesRemoved += cleaned.filesRemoved;
+    result.totalDirectoriesRemoved += cleaned.directoriesRemoved;
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    result.errors.push(`Failed to clean "${dir}": ${errorMessage}`);
+    result.success = false;
+  }
+}
+
+/**
+ * Log the clean operation summary
+ */
+function logCleanSummary(result: CleanResult, dryRun: boolean): void {
+  console.info('');
+  if (result.success) {
+    const actionStr = dryRun ? 'Would remove' : 'Removed';
+    console.info(
+      `✅ ${actionStr} ${result.totalFilesRemoved} files, ` +
+        `${result.totalDirectoriesRemoved} directories in ${result.duration}ms`
+    );
+  } else {
+    console.error('❌ Clean failed with errors:');
+    for (const error of result.errors) {
+      console.error(`   - ${error}`);
+    }
+  }
+}
+
 export function cleanTokenOutputs(options: CleanOptions = {}): CleanResult {
   const startTime = Date.now();
 
-  // Normalize options with defaults
   const normalizedOptions = {
     baseDir: options.baseDir ?? process.cwd(),
     directories: options.directories ?? [...DEFAULT_CLEAN_DIRECTORIES],
@@ -436,52 +480,20 @@ export function cleanTokenOutputs(options: CleanOptions = {}): CleanResult {
     console.info(`   Base: ${normalizedOptions.baseDir}`);
   }
 
-  // Validate and clean each directory
+  const cleanOpts = {
+    dryRun: normalizedOptions.dryRun,
+    verbose: normalizedOptions.verbose,
+    preserve: normalizedOptions.preserve,
+  };
+
   for (const dir of normalizedOptions.directories) {
-    const absolutePath = resolve(normalizedOptions.baseDir, dir);
-
-    // Validate target
-    const validation = validateCleanTarget(absolutePath, normalizedOptions.baseDir);
-    if (!validation.valid && validation.error) {
-      result.errors.push(validation.error);
-      result.success = false;
-      continue;
-    }
-
-    // Clean directory
-    try {
-      const cleaned = cleanDirectory(absolutePath, {
-        dryRun: normalizedOptions.dryRun,
-        verbose: normalizedOptions.verbose,
-        preserve: normalizedOptions.preserve,
-      });
-
-      result.cleaned.push(cleaned);
-      result.totalFilesRemoved += cleaned.filesRemoved;
-      result.totalDirectoriesRemoved += cleaned.directoriesRemoved;
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      result.errors.push(`Failed to clean "${dir}": ${errorMessage}`);
-      result.success = false;
-    }
+    validateAndCleanDirectory(dir, normalizedOptions.baseDir, cleanOpts, result);
   }
 
   result.duration = Date.now() - startTime;
 
   if (normalizedOptions.verbose) {
-    console.info('');
-    if (result.success) {
-      const actionStr = normalizedOptions.dryRun ? 'Would remove' : 'Removed';
-      console.info(
-        `✅ ${actionStr} ${result.totalFilesRemoved} files, ` +
-          `${result.totalDirectoriesRemoved} directories in ${result.duration}ms`
-      );
-    } else {
-      console.error('❌ Clean failed with errors:');
-      for (const error of result.errors) {
-        console.error(`   - ${error}`);
-      }
-    }
+    logCleanSummary(result, normalizedOptions.dryRun);
   }
 
   return result;

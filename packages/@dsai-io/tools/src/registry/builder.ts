@@ -291,7 +291,7 @@ function buildComponentItem(
 
   const files: RegistryFile[] = sourceFiles.map((f) => ({
     path: f.path,
-    type: (extname(f.path) === '.css' ? REGISTRY_STYLE : meta.type) as RegistryItemType,
+    type: extname(f.path) === '.css' ? REGISTRY_STYLE : meta.type,
     content: f.content,
   }));
 
@@ -329,7 +329,7 @@ function buildHookItem(
 
   const files: RegistryFile[] = sourceFiles.map((f) => ({
     path: f.path,
-    type: (extname(f.path) === '.css' ? REGISTRY_STYLE : meta.type) as RegistryItemType,
+    type: extname(f.path) === '.css' ? REGISTRY_STYLE : meta.type,
     content: f.content,
   }));
 
@@ -375,7 +375,7 @@ function buildUtilItem(
     npmDeps = analyzed.npmDeps;
     files = sourceFiles.map((f) => ({
       path: `dom/${f.path}`,
-      type: (extname(f.path) === '.css' ? REGISTRY_STYLE : REGISTRY_UTIL) as RegistryItemType,
+      type: extname(f.path) === '.css' ? REGISTRY_STYLE : REGISTRY_UTIL,
       content: f.content,
     }));
   } else {
@@ -395,7 +395,7 @@ function buildUtilItem(
     npmDeps = analyzed.npmDeps;
     files = sourceFiles.map((f) => ({
       path: `${name}/${f.path}`,
-      type: (extname(f.path) === '.css' ? REGISTRY_STYLE : REGISTRY_UTIL) as RegistryItemType,
+      type: extname(f.path) === '.css' ? REGISTRY_STYLE : REGISTRY_UTIL,
       content: f.content,
     }));
   }

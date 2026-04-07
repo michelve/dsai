@@ -55,7 +55,7 @@ export type Token = DTCGToken | LegacyToken;
  * Token collection (nested structure of tokens or groups)
  */
 export interface TokenCollection {
-  [key: string]: Token | TokenCollection | unknown;
+  [key: string]: unknown;
 }
 
 /**
@@ -268,6 +268,26 @@ export interface TransformResult {
 // ============================================================================
 
 /**
+ * Supported output format for token builds
+ */
+export type BuildFormat = 'css' | 'scss' | 'js' | 'ts' | 'json' | 'android' | 'ios';
+
+/**
+ * Available build pipeline step names
+ */
+export type PipelineStep =
+  | 'validate'
+  | 'transform'
+  | 'style-dictionary'
+  | 'sync'
+  | 'sass-theme'
+  | 'sass-theme-minified'
+  | 'postprocess'
+  | 'sass-utilities'
+  | 'sass-utilities-minified'
+  | 'bundle';
+
+/**
  * A single build step
  */
 export interface BuildStep {
@@ -334,7 +354,7 @@ export interface BuildOptions {
   outputDir?: string;
 
   /** Output formats to generate (default: ['css', 'scss', 'json']) */
-  formats?: Array<'css' | 'scss' | 'js' | 'ts' | 'json' | 'android' | 'ios'>;
+  formats?: BuildFormat[];
 
   /** CSS custom property prefix (default: '--dsai-') */
   prefix?: string;
@@ -366,18 +386,7 @@ export interface BuildOptions {
   /** Build pipeline configuration */
   pipeline?: {
     /** Steps to include in the build */
-    steps?: Array<
-      | 'validate'
-      | 'transform'
-      | 'style-dictionary'
-      | 'sync'
-      | 'sass-theme'
-      | 'sass-theme-minified'
-      | 'postprocess'
-      | 'sass-utilities'
-      | 'sass-utilities-minified'
-      | 'bundle'
-    >;
+    steps?: PipelineStep[];
     /** Paths configuration for build steps */
     paths?: {
       syncSource?: string;
@@ -668,7 +677,7 @@ export function getTokenType(token: Token): string | undefined {
   if (isDTCGToken(token)) {
     return token.$type;
   }
-  return (token as LegacyToken).type;
+  return token.type;
 }
 
 /**
@@ -678,8 +687,7 @@ export function getTokenDescription(token: Token): string | undefined {
   if (isDTCGToken(token)) {
     return token.$description;
   }
-  const legacy = token as LegacyToken;
-  return legacy.description ?? legacy.comment;
+  return token.description ?? token.comment;
 }
 
 /**

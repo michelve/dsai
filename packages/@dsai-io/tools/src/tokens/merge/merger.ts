@@ -125,23 +125,27 @@ export async function mergeContent(
 
   // Build content based on merge order
   if (mergeOrder === 'before') {
-    // User styles first
     for (const content of userContent) {
-      parts.push(generateSourceComment(content.source, tokenContent.format));
-      parts.push(content.content);
+      parts.push(
+        generateSourceComment(content.source, tokenContent.format),
+        content.content
+      );
       sources.push(content.source);
     }
-    // Then token styles
-    parts.push(generateSourceComment(GENERATED_TOKENS_SOURCE, tokenContent.format));
-    parts.push(tokenContent.content);
+    parts.push(
+      generateSourceComment(GENERATED_TOKENS_SOURCE, tokenContent.format),
+      tokenContent.content
+    );
   } else {
-    // Token styles first
-    parts.push(generateSourceComment(GENERATED_TOKENS_SOURCE, tokenContent.format));
-    parts.push(tokenContent.content);
-    // Then user styles
+    parts.push(
+      generateSourceComment(GENERATED_TOKENS_SOURCE, tokenContent.format),
+      tokenContent.content
+    );
     for (const content of userContent) {
-      parts.push(generateSourceComment(content.source, tokenContent.format));
-      parts.push(content.content);
+      parts.push(
+        generateSourceComment(content.source, tokenContent.format),
+        content.content
+      );
       sources.push(content.source);
     }
   }

@@ -47,6 +47,12 @@ import type { ProjectInfo } from '../init/detector.js';
 import type { InitOptions } from '../types.js';
 
 // ============================================================================
+// Types
+// ============================================================================
+
+type ConfigTemplate = 'minimal' | 'full' | 'enterprise';
+
+// ============================================================================
 // Constants
 // ============================================================================
 
@@ -115,7 +121,7 @@ function generateConfigContent(options: {
   outputDir: string;
   sourceDir: string;
   formats: string[];
-  template: 'minimal' | 'full' | 'enterprise';
+  template: ConfigTemplate;
   configFormat: 'mjs' | 'js' | 'ts';
 }): string {
   const { projectInfo, prefix, outputDir, sourceDir, formats, template, configFormat } = options;
@@ -282,7 +288,7 @@ async function runInteractiveInit(cwd: string, projectInfo: ProjectInfo): Promis
   const s = p.spinner();
 
   // 1. Create directories
-  createSetupDirectories(cwd, [config.sourceDir as string, config.outputDir as string], s);
+  createSetupDirectories(cwd, [config.sourceDir, config.outputDir], s);
 
   // 2. Generate configuration files
   const configFileName = `dsai.config.${recommendations.configFormat}`;
@@ -298,7 +304,7 @@ async function runInteractiveInit(cwd: string, projectInfo: ProjectInfo): Promis
   suggestInstallDeps(config, projectInfo);
 
   // 6. Create sample files
-  createSampleFiles(cwd, config.sourceDir as string, projectInfo, s);
+  createSampleFiles(cwd, config.sourceDir, projectInfo, s);
 
   // Show next steps
   showNextSteps(configFileName, config, projectInfo);
@@ -472,8 +478,8 @@ function suggestInstallDeps(
   ];
 
   for (const { flag, key } of optionalKeys) {
-    if (config[flag]) {
-      const dep = DSAI_OPTIONAL_DEPENDENCIES[key];
+    if (Reflect.get(config, flag)) {
+      const dep = Reflect.get(DSAI_OPTIONAL_DEPENDENCIES, key) as string | undefined;
       if (dep) { deps.push(dep); }
     }
   }
@@ -530,10 +536,11 @@ function showNextSteps(
   projectInfo: ProjectInfo,
 ): void {
   const runCmd = projectInfo.packageManager === 'npm' ? 'npm run' : projectInfo.packageManager;
+  const tokensBuildCmd = `${runCmd} tokens:build`;
   const nextSteps = [
     `Edit ${pc.cyan(configFileName)} to customize settings`,
     `Add your Figma export to ${pc.cyan(config.sourceDir as string)}`,
-    `Run ${pc.cyan(`${runCmd} tokens:build`)} to generate tokens`,
+    `Run ${pc.cyan(tokensBuildCmd)} to generate tokens`,
   ];
 
   if (!config.installDeps) {
@@ -553,10 +560,45 @@ function showNextSteps(
 /**
  * Run quick initialization with defaults
  */
+function checkExistingConfigQuick(projectInfo: ProjectInfo): boolean {
+  if (!projectInfo.existingConfigFile) {
+    return false;
+  }
+
+  console.log(
+    `${pc.yellow('⚠')} Config file ${pc.cyan(projectInfo.existingConfigFile)} already exists.`
+  );
+  console.log(`  Use ${pc.cyan('dsai init')} (without --yes) to overwrite.`);
+  console.log();
+  return true;
+}
+
+function generateEnterpriseFiles(
+  cwd: string,
+  recommendations: ReturnType<typeof getRecommendedConfig>,
+): void {
+  const figmaConfigContent = generateFigmaConfig({
+    outputDir: recommendations.sourceDir,
+    tokensDir: 'collections',
+    format: 'dtcg',
+  });
+  writeFileSync(join(cwd, FIGMA_CONFIG_FILENAME), figmaConfigContent, FILE_ENCODING);
+  console.log(`${pc.green('✓')} Created ${pc.cyan(FIGMA_CONFIG_FILENAME)}`);
+
+  const envExampleContent = `# Figma API Configuration
+# Get your token from: https://www.figma.com/developers/api#access-tokens
+
+FIGMA_TOKEN=your-figma-personal-access-token
+FIGMA_FILE_KEY=your-figma-file-key
+`;
+  writeFileSync(join(cwd, '.env.example'), envExampleContent, FILE_ENCODING);
+  console.log(`${pc.green('✓')} Created ${pc.cyan('.env.example')}`);
+}
+
 async function runQuickInit(
   cwd: string,
   projectInfo: ProjectInfo,
-  template: 'minimal' | 'full' | 'enterprise'
+  template: ConfigTemplate
 ): Promise<void> {
   const recommendations = getRecommendedConfig(projectInfo);
 
@@ -572,13 +614,7 @@ async function runQuickInit(
   }
   console.log();
 
-  // Check for existing config
-  if (projectInfo.existingConfigFile) {
-    console.log(
-      `${pc.yellow('⚠')} Config file ${pc.cyan(projectInfo.existingConfigFile)} already exists.`
-    );
-    console.log(`  Use ${pc.cyan('dsai init')} (without --yes) to overwrite.`);
-    console.log();
+  if (checkExistingConfigQuick(projectInfo)) {
     process.exit(ExitCode.Success);
   }
 
@@ -623,26 +659,8 @@ async function runQuickInit(
     }
   }
 
-  // Enterprise template: generate Figma config and build scripts
   if (template === 'enterprise') {
-    // Generate figma.config.mjs
-    const figmaConfigContent = generateFigmaConfig({
-      outputDir: recommendations.sourceDir,
-      tokensDir: 'collections',
-      format: 'dtcg',
-    });
-    writeFileSync(join(cwd, FIGMA_CONFIG_FILENAME), figmaConfigContent, FILE_ENCODING);
-    console.log(`${pc.green('✓')} Created ${pc.cyan(FIGMA_CONFIG_FILENAME)}`);
-
-    // Generate .env.example for Figma token
-    const envExampleContent = `# Figma API Configuration
-# Get your token from: https://www.figma.com/developers/api#access-tokens
-
-FIGMA_TOKEN=your-figma-personal-access-token
-FIGMA_FILE_KEY=your-figma-file-key
-`;
-    writeFileSync(join(cwd, '.env.example'), envExampleContent, FILE_ENCODING);
-    console.log(`${pc.green('✓')} Created ${pc.cyan('.env.example')}`);
+    generateEnterpriseFiles(cwd, recommendations);
   }
 
   // Modify package.json
@@ -692,6 +710,70 @@ FIGMA_FILE_KEY=your-figma-file-key
 // Command Export
 // ============================================================================
 
+function showNoProjectMessage(): void {
+  console.log();
+  console.log(pc.yellow('⚠ No package.json found in this directory.'));
+  console.log();
+  console.log('To initialize DSAI in a new project, first run:');
+  console.log(`  ${pc.cyan('npm init')} (or pnpm init, yarn init, bun init)`);
+  console.log();
+  console.log('Then run:');
+  console.log(`  ${pc.cyan('dsai init')}`);
+  console.log();
+}
+
+function showAlreadyInstalledMessage(): void {
+  console.log();
+  console.log(pc.yellow('⚠ @dsai-io/tools is already installed in this project.'));
+  console.log();
+  console.log('To reconfigure, run:');
+  console.log(`  ${pc.cyan('dsai init --force')}`);
+  console.log();
+}
+
+async function handleInitAction(
+  options: InitOptions & { force?: boolean },
+  command: Command,
+): Promise<void> {
+  const globalOpts = command.parent?.opts() ?? {};
+  const mergedOpts = { ...globalOpts, ...options };
+
+  const cwd = resolve(mergedOpts.cwd ?? process.cwd());
+  const projectInfo = detectProject(cwd);
+
+  if (projectInfo.existingConfigFile && mergedOpts.force) {
+    projectInfo.existingConfigFile = null;
+  }
+
+  if (!projectInfo.isProject) {
+    showNoProjectMessage();
+    process.exit(ExitCode.ConfigError);
+  }
+
+  if (!checkFrameworkSupport(projectInfo) && !mergedOpts.force) {
+    process.exit(ExitCode.Success);
+  }
+
+  if (isDsaiInstalled(cwd) && !mergedOpts.force && !mergedOpts.yes) {
+    showAlreadyInstalledMessage();
+    process.exit(ExitCode.Success);
+  }
+
+  if (mergedOpts.yes) {
+    await runQuickInit(
+      cwd,
+      projectInfo,
+      (mergedOpts.template as ConfigTemplate) ?? 'full'
+    );
+  } else {
+    console.clear();
+    p.intro(pc.bgCyan(pc.black(' DSAI Tools Setup ')));
+    await runInteractiveInit(cwd, projectInfo);
+  }
+
+  process.exit(ExitCode.Success);
+}
+
 /**
  * Create init command
  *
@@ -703,63 +785,5 @@ export function createInitCommand(): Command {
     .option('-y, --yes', 'Skip prompts, use defaults', false)
     .option('-t, --template <template>', 'Config template (minimal|full|enterprise)', 'full')
     .option('--force', 'Overwrite existing configuration', false)
-    .action(async (options: InitOptions & { force?: boolean }, command: Command) => {
-      const globalOpts = command.parent?.opts() ?? {};
-      const mergedOpts = { ...globalOpts, ...options };
-
-      const cwd = resolve(mergedOpts.cwd ?? process.cwd());
-      const projectInfo = detectProject(cwd);
-
-      // Handle force flag for existing config
-      if (projectInfo.existingConfigFile && mergedOpts.force) {
-        projectInfo.existingConfigFile = undefined;
-      }
-
-      // Check if this is a valid project
-      if (!projectInfo.isProject) {
-        console.log();
-        console.log(pc.yellow('⚠ No package.json found in this directory.'));
-        console.log();
-        console.log('To initialize DSAI in a new project, first run:');
-        console.log(`  ${pc.cyan('npm init')} (or pnpm init, yarn init, bun init)`);
-        console.log();
-        console.log('Then run:');
-        console.log(`  ${pc.cyan('dsai init')}`);
-        console.log();
-        process.exit(ExitCode.ConfigError);
-      }
-
-      // Check if the detected framework is supported
-      // Currently only React and vanilla are supported
-      if (!checkFrameworkSupport(projectInfo) && !mergedOpts.force) {
-        process.exit(ExitCode.Success);
-      }
-
-      // Check if DSAI is already installed
-      if (isDsaiInstalled(cwd) && !mergedOpts.force && !mergedOpts.yes) {
-        console.log();
-        console.log(pc.yellow('⚠ @dsai-io/tools is already installed in this project.'));
-        console.log();
-        console.log('To reconfigure, run:');
-        console.log(`  ${pc.cyan('dsai init --force')}`);
-        console.log();
-        process.exit(ExitCode.Success);
-      }
-
-      // Run appropriate init mode
-      if (mergedOpts.yes) {
-        await runQuickInit(
-          cwd,
-          projectInfo,
-          (mergedOpts.template as 'minimal' | 'full' | 'enterprise') ?? 'full'
-        );
-      } else {
-        // Interactive mode with clack prompts
-        console.clear();
-        p.intro(pc.bgCyan(pc.black(' DSAI Tools Setup ')));
-        await runInteractiveInit(cwd, projectInfo);
-      }
-
-      process.exit(ExitCode.Success);
-    });
+    .action(handleInitAction);
 }

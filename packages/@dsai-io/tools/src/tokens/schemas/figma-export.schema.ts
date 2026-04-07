@@ -106,7 +106,7 @@ export const figmaNodeDocumentSchema = z
     effects: z.array(z.unknown()).optional(),
     style: z.record(z.string(), z.unknown()).optional(),
   })
-  .passthrough();
+  .loose();
 
 /**
  * Figma node (as returned by getFileNodes)
@@ -138,7 +138,7 @@ export const figmaFileSchema = z
     mainFileKey: z.string().optional(),
     branches: z.array(z.unknown()).optional(),
   })
-  .passthrough();
+  .loose();
 
 /**
  * Figma variables API response
@@ -172,7 +172,7 @@ export const figmaExportSchema = z.record(
       .object({
         modes: z.record(z.string(), z.record(z.string(), z.unknown())).optional(),
       })
-      .passthrough(),
+      .loose(),
     z.record(z.string(), z.unknown()),
   ])
 );
@@ -195,7 +195,7 @@ export const figmaExportWithMetadataSchema = z
         .object({
           modes: z.record(z.string(), z.record(z.string(), z.unknown())).optional(),
         })
-        .passthrough(),
+        .loose(),
       z.record(z.string(), z.unknown()),
     ])
   );

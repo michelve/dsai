@@ -155,37 +155,33 @@ function isLegacyTokensConfig(config: unknown): config is LegacyTokensConfig {
  * const newConfig = migrateLegacyTokensConfig(oldConfig);
  * ```
  */
+function migrateStringField(
+  tokens: TokensConfig,
+  key: keyof TokensConfig,
+  value: string | undefined
+): void {
+  if (value !== undefined && value !== null) {
+    Reflect.set(tokens, key, value);
+  }
+}
+
 export function migrateLegacyTokensConfig(legacy: LegacyTokensConfig): DsaiConfig {
   const tokens: TokensConfig = {};
 
-  // Migrate source → sourceDir
-  if (legacy.source !== undefined && legacy.source !== null) {
-    tokens.sourceDir = legacy.source;
-  }
-
-  // Migrate output → outputDir
-  if (legacy.output !== undefined && legacy.output !== null) {
-    tokens.outputDir = legacy.output;
-  }
-
-  // Direct migrations
-  if (legacy.prefix !== undefined && legacy.prefix !== null) {
-    tokens.prefix = legacy.prefix;
-  }
+  migrateStringField(tokens, 'sourceDir', legacy.source);
+  migrateStringField(tokens, 'outputDir', legacy.output);
+  migrateStringField(tokens, 'prefix', legacy.prefix);
 
   if (Array.isArray(legacy.formats)) {
-    // Filter to only valid formats
     const validFormats = ['css', 'scss', 'js', 'ts', 'json', 'android', 'ios'] as const;
     tokens.formats = legacy.formats.filter((f): f is (typeof validFormats)[number] =>
       validFormats.includes(f as (typeof validFormats)[number])
     );
   }
 
-  // Migrate themes
   if (legacy.themes !== undefined && legacy.themes !== null) {
     tokens.themes = {
       default: legacy.themes.default ?? 'Light',
-      // ignoreModes can be derived from modes if needed
     };
   }
 
@@ -220,19 +216,17 @@ export function migrateConfig(
     };
   }
 
-  switch (check.detectedFormat) {
-    case FORMAT_LEGACY_TOKENS:
-      return {
-        config: migrateLegacyTokensConfig(config as LegacyTokensConfig),
-        warnings: check.warnings,
-      };
-
-    default:
-      return {
-        config: config as DsaiConfig,
-        warnings: [...check.warnings, 'Unknown config format - using as-is.'],
-      };
+  if (check.detectedFormat === FORMAT_LEGACY_TOKENS) {
+    return {
+      config: migrateLegacyTokensConfig(config as LegacyTokensConfig),
+      warnings: check.warnings,
+    };
   }
+
+  return {
+    config: config as DsaiConfig,
+    warnings: [...check.warnings, 'Unknown config format - using as-is.'],
+  };
 }
 
 // ============================================================================

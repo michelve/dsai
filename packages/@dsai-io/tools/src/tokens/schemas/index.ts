@@ -7,7 +7,7 @@ export * from './dtcg-token.schema.js';
 export * from './figma-export.schema.js';
 export * from './style-dictionary.schema.js';
 
-import { z, type ZodError, type ZodIssue } from 'zod';
+import { z, type ZodError } from 'zod';
 
 import {
   dtcgFileSchema,
@@ -72,10 +72,10 @@ export interface ValidationOptions {
  * Format Zod errors into readable validation errors
  */
 function formatZodErrors(zodError: ZodError): ValidationError[] {
-  return zodError.issues.map((err: ZodIssue) => ({
+  return zodError.issues.map((err: z.core.$ZodIssue) => ({
     path: err.path.join('.'),
     message: err.message,
-    value: undefined,
+    value: null,
     code: err.code,
   }));
 }

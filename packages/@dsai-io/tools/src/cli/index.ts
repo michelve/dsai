@@ -118,8 +118,10 @@ export {
 
 // Auto-run when executed directly (e.g., via tsx)
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  run().catch((error) => {
+  try {
+    await run();
+  } catch (error) {
     console.error('Fatal error:', error);
     process.exit(1);
-  });
+  }
 }

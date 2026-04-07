@@ -128,6 +128,39 @@ function resolveThemeDefinition(
 }
 
 /**
+ * Resolve theme definitions from user config or defaults
+ */
+function resolveThemeDefinitions(
+  config: ThemesConfig | undefined,
+  defaultThemeName: string,
+  selectorPattern: { default: string; others: string }
+): Record<string, ResolvedThemeDefinition> {
+  if (!config?.definitions || Object.keys(config.definitions).length === 0) {
+    return { ...defaultThemeDefinitions };
+  }
+
+  const definitions: Record<string, ResolvedThemeDefinition> = {};
+  for (const [themeName, definition] of Object.entries(config.definitions)) {
+    const normalizedName = themeName.toLowerCase();
+    const isDefaultTheme = definition.isDefault ?? normalizedName === defaultThemeName;
+    const resolvedDef = resolveThemeDefinition(
+      normalizedName,
+      definition,
+      selectorPattern,
+      defaultOutputFileNames,
+      isDefaultTheme
+    );
+    Object.defineProperty(definitions, normalizedName, {
+      value: resolvedDef,
+      writable: true,
+      enumerable: true,
+      configurable: true,
+    });
+  }
+  return definitions;
+}
+
+/**
  * Resolve themes configuration section
  */
 function resolveThemesConfig(config: ThemesConfig | undefined): ResolvedThemesConfig {
@@ -138,36 +171,8 @@ function resolveThemesConfig(config: ThemesConfig | undefined): ResolvedThemesCo
     others: config?.selectorPattern?.others ?? base.selectorPattern.others,
   };
 
-  // Determine the default theme name
-  const defaultThemeName = config?.default?.toLowerCase() ?? base.default;
-
-  // Resolve definitions
-  let definitions: Record<string, ResolvedThemeDefinition>;
-
-  if (config?.definitions && Object.keys(config.definitions).length > 0) {
-    // User provided explicit definitions
-    definitions = {};
-    for (const [themeName, definition] of Object.entries(config.definitions)) {
-      const normalizedName = themeName.toLowerCase();
-      const isDefaultTheme = definition.isDefault ?? normalizedName === defaultThemeName;
-      const resolvedDef = resolveThemeDefinition(
-        normalizedName,
-        definition,
-        selectorPattern,
-        defaultOutputFileNames,
-        isDefaultTheme
-      );
-      Object.defineProperty(definitions, normalizedName, {
-        value: resolvedDef,
-        writable: true,
-        enumerable: true,
-        configurable: true,
-      });
-    }
-  } else {
-    // Use default definitions (light & dark)
-    definitions = { ...defaultThemeDefinitions };
-  }
+  const configDefault = config ? (Reflect.get(config, 'default') as string | undefined) : undefined;
+  const defaultThemeName = configDefault?.toLowerCase() ?? base.default;
 
   return {
     enabled: config?.enabled ?? base.enabled,
@@ -175,7 +180,7 @@ function resolveThemesConfig(config: ThemesConfig | undefined): ResolvedThemesCo
     default: defaultThemeName,
     ignoreModes: config?.ignoreModes ?? [...base.ignoreModes],
     selectorPattern,
-    definitions,
+    definitions: resolveThemeDefinitions(config, defaultThemeName, selectorPattern),
   };
 }
 
@@ -200,19 +205,13 @@ function resolveIconsConfig(
 }
 
 /**
- * Resolve tokens configuration section
+ * Resolve output directories using Map to avoid object injection
  */
-function resolveTokensConfig(
+function resolveOutputDirs(
   config: TokensConfig | undefined,
-  options: ResolveOptions
-): ResolvedTokensConfig {
-  const base = defaultTokensConfig;
-  const configDir = options.configDir ?? options.cwd ?? process.cwd();
-
-  // Resolve paths relative to config directory
-  const resolveDir = (dir: string): string => path.resolve(configDir, dir);
-
-  // Resolve output directories using Map to avoid object injection
+  base: ResolvedTokensConfig,
+  resolveDir: (dir: string) => string
+): ResolvedTokensConfig['outputDirs'] {
   const outputDirsMap = new Map(Object.entries(base.outputDirs));
   if (config?.outputDirs) {
     for (const [format, dir] of Object.entries(config.outputDirs)) {
@@ -221,37 +220,67 @@ function resolveTokensConfig(
       }
     }
   }
-  const outputDirs = Object.fromEntries(outputDirsMap) as ResolvedTokensConfig['outputDirs'];
+  return Object.fromEntries(outputDirsMap) as ResolvedTokensConfig['outputDirs'];
+}
 
-  // Merge collection mapping with resolved paths using Map
+/**
+ * Resolve collection mapping with resolved paths using Map
+ */
+function resolveCollectionMapping(
+  config: TokensConfig | undefined,
+  resolveDir: (dir: string) => string
+): Record<string, string> {
   const collectionMappingMap = new Map<string, string>();
   if (config?.collectionMapping) {
     for (const [name, filePath] of Object.entries(config.collectionMapping)) {
       collectionMappingMap.set(name, resolveDir(filePath));
     }
   }
-  const collectionMapping = Object.fromEntries(collectionMappingMap);
+  return Object.fromEntries(collectionMappingMap);
+}
 
-  // Resolve additional directories
-  const additionalScssDirectories = (config?.additionalScssDirectories ?? []).map(resolveDir);
-  const additionalCssDirectories = (config?.additionalCssDirectories ?? []).map(resolveDir);
-  const watchDirectories = (config?.watchDirectories ?? []).map(resolveDir);
+/**
+ * Resolve path-related token settings
+ */
+function resolveTokenPaths(
+  config: TokensConfig | undefined,
+  base: ResolvedTokensConfig,
+  resolveDir: (dir: string) => string
+): Pick<
+  ResolvedTokensConfig,
+  'sourceDir' | 'collectionsDir' | 'outputDir' | 'outputDirs' | 'collectionMapping' | 'additionalScssDirectories' | 'additionalCssDirectories' | 'watchDirectories'
+> {
+  return {
+    sourceDir: config?.sourceDir ? resolveDir(config.sourceDir) : base.sourceDir,
+    collectionsDir: config?.collectionsDir ? resolveDir(config.collectionsDir) : base.collectionsDir,
+    outputDir: config?.outputDir ? resolveDir(config.outputDir) : base.outputDir,
+    outputDirs: resolveOutputDirs(config, base, resolveDir),
+    collectionMapping: resolveCollectionMapping(config, resolveDir),
+    additionalScssDirectories: (config?.additionalScssDirectories ?? []).map(resolveDir),
+    additionalCssDirectories: (config?.additionalCssDirectories ?? []).map(resolveDir),
+    watchDirectories: (config?.watchDirectories ?? []).map(resolveDir),
+  };
+}
+
+/**
+ * Resolve tokens configuration section
+ */
+function resolveTokensConfig(
+  config: TokensConfig | undefined,
+  options: ResolveOptions
+): ResolvedTokensConfig {
+  const base = defaultTokensConfig;
+  const configDir = options.configDir ?? options.cwd ?? process.cwd();
+  const resolveDir = (dir: string): string => path.resolve(configDir, dir);
+  const paths = resolveTokenPaths(config, base, resolveDir);
 
   return {
     source: config?.source ?? base.source,
-    sourceDir: config?.sourceDir ? resolveDir(config.sourceDir) : base.sourceDir,
-    collectionsDir: config?.collectionsDir
-      ? resolveDir(config.collectionsDir)
-      : base.collectionsDir,
+    ...paths,
     sourcePatterns: config?.sourcePatterns ?? [...base.sourcePatterns],
-    collectionMapping,
-    outputDir: config?.outputDir ? resolveDir(config.outputDir) : base.outputDir,
-    outputDirs,
     outputFileNames: { ...base.outputFileNames, ...config?.outputFileNames },
     prefix: config?.prefix ?? base.prefix,
     formats: config?.formats ?? [...base.formats],
-    additionalScssDirectories,
-    additionalCssDirectories,
     mergeOrder: config?.mergeOrder ?? base.mergeOrder,
     createBundle: config?.createBundle ?? base.createBundle,
     scssImportHeader: config?.scssImportHeader,
@@ -268,7 +297,6 @@ function resolveTokensConfig(
     baseFontSize: config?.baseFontSize ?? base.baseFontSize,
     separateThemeFiles: config?.separateThemeFiles ?? base.separateThemeFiles,
     watch: config?.watch ?? base.watch,
-    watchDirectories,
     pipeline: config?.pipeline,
     scss: config?.scss,
     postprocess: config?.postprocess,

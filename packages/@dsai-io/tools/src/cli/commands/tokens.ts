@@ -23,8 +23,6 @@ import { SnapshotService } from '../../tokens/snapshot.js';
 import { ExitCode } from '../types.js';
 import { colors, createLogger, createSpinner, formatDuration } from '../ui/index.js';
 
-const LOADING_CONFIGURATION_MSG = 'Loading configuration...';
-
 import type { BuildResult, SyncResult, ValidationResult } from '../../tokens/types.js';
 import type {
   TokensBuildOptions,
@@ -152,7 +150,8 @@ function logList(
   if (items.length === 0) { return; }
   logger.log('');
   for (const item of items) {
-    logger[method](prefix ? `${prefix} ${item}` : item);
+    const logFn = Reflect.get(logger, method) as (msg: string) => void;
+    logFn(prefix ? `${prefix} ${item}` : item);
   }
 }
 
@@ -324,6 +323,37 @@ function resolveBuildOptions(
   };
 }
 
+/** Log output files from a successful build */
+function logOutputFiles(
+  logger: ReturnType<typeof createLogger>,
+  outputFiles: string[] | undefined,
+  quiet?: boolean,
+): void {
+  if (quiet || !outputFiles || outputFiles.length === 0) {
+    return;
+  }
+  logger.log('');
+  for (const file of outputFiles) {
+    logger.log(`  ${colors.success('✔')} ${colors.path(file)}`);
+  }
+  logger.log('');
+}
+
+/** Handle build failure: log errors and exit */
+function handleBuildFailure(
+  result: BuildResult,
+  spinner: ReturnType<typeof createSpinner>,
+  logger: ReturnType<typeof createLogger>,
+): void {
+  spinner.fail('Build failed');
+  if (result.errors && Array.isArray(result.errors)) {
+    for (const error of result.errors) {
+      logger.error(error);
+    }
+  }
+  process.exit(ExitCode.BuildError);
+}
+
 /**
  * Run tokens build
  */
@@ -356,29 +386,17 @@ async function runTokensBuild(options: TokensBuildOptions): Promise<void> {
     const buildOpts = resolveBuildOptions(config, configDir, options, sourceDir);
     const result: BuildResult = await buildTokens(tokensDir, toolsDir, buildOpts);
 
-    if (result.success) {
-      const duration = formatDuration(Date.now() - startTime);
-      spinner.succeed(
-        `Built ${colors.bold(result.stepsCompleted.length.toString())} steps in ${colors.bold(duration)}`,
-      );
-
-      if (!options.quiet && result.outputFiles && result.outputFiles.length > 0) {
-        logger.log('');
-        for (const file of result.outputFiles) {
-          logger.log(`  ${colors.success('✔')} ${colors.path(file)}`);
-        }
-        logger.log('');
-      }
-      process.exit(ExitCode.Success);
+    if (!result.success) {
+      handleBuildFailure(result, spinner, logger);
+      return;
     }
 
-    spinner.fail('Build failed');
-    if (result.errors && Array.isArray(result.errors)) {
-      for (const error of result.errors) {
-        logger.error(error);
-      }
-    }
-    process.exit(ExitCode.BuildError);
+    const duration = formatDuration(Date.now() - startTime);
+    spinner.succeed(
+      `Built ${colors.bold(result.stepsCompleted.length.toString())} steps in ${colors.bold(duration)}`,
+    );
+    logOutputFiles(logger, result.outputFiles, options.quiet);
+    process.exit(ExitCode.Success);
   } catch (error) {
     spinner.fail('Build failed');
     if (error instanceof Error) {
@@ -479,20 +497,18 @@ async function runTokensSync(options: TokensSyncOptions): Promise<void> {
       verbose: !options.quiet,
     });
 
-    if (result.success) {
-      spinner.succeed(
-        `Synced ${colors.bold(result.tokensCount.toString())} tokens${result.changed ? ' (file updated)' : ' (no changes)'}`
-      );
-      process.exit(ExitCode.Success);
-    } else {
+    if (!result.success) {
       spinner.fail('Sync failed');
-      if (result.errors) {
-        for (const error of result.errors) {
-          logger.error(error);
-        }
-      }
+      logList(logger, result.errors ?? [], 'error');
       process.exit(ExitCode.BuildError);
+      return;
     }
+
+    const changeNote = result.changed ? ' (file updated)' : ' (no changes)';
+    spinner.succeed(
+      `Synced ${colors.bold(result.tokensCount.toString())} tokens${changeNote}`
+    );
+    process.exit(ExitCode.Success);
   } catch (error) {
     spinner.fail('Sync failed');
 

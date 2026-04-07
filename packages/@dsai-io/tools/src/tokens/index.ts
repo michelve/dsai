@@ -25,9 +25,11 @@ export type {
   ValidationIssue,
   ValidateOptions,
   // Build types
+  BuildFormat,
   BuildOptions,
   BuildResult,
   BuildStep,
+  PipelineStep,
   // Sync types
   SyncOptions,
   SyncResult,

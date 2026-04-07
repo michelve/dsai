@@ -52,10 +52,12 @@ function getTypeScriptType(token: SDToken): string {
 /**
  * Token tree node for building interfaces
  */
+type TokenTreeNodeValue = TokenTreeNode | boolean | string | undefined;
+
 interface TokenTreeNode {
   _isToken?: boolean;
   _type?: string;
-  [key: string]: TokenTreeNode | boolean | string | undefined;
+  [key: string]: TokenTreeNodeValue;
 }
 
 /**
@@ -79,14 +81,10 @@ function buildTokenInterface(obj: TokenTreeNode, indent = 0): string {
     // Quote keys that need it (contain hyphens or start with numbers)
     const quotedKey = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key) ? key : `"${key}"`;
 
-    const typedValue = value as TokenTreeNode;
-
-    // Check if this is a leaf token (has _isToken marker)
-    if (typedValue._isToken) {
-      output += `${spaces}  ${quotedKey}: ${typedValue._type};\n`;
+    if (value._isToken) {
+      output += `${spaces}  ${quotedKey}: ${value._type};\n`;
     } else {
-      // Nested object
-      output += `${spaces}  ${quotedKey}: ${buildTokenInterface(typedValue, indent + 1)}\n`;
+      output += `${spaces}  ${quotedKey}: ${buildTokenInterface(value, indent + 1)}\n`;
     }
   }
 
@@ -141,7 +139,10 @@ function buildTokenTree(tokens: SDToken[]): TokenTreeNode {
       if (!hasOwn.call(current, key) || typeof current[key] !== 'object') {
         current[key] = {};
       }
-      current = current[key] as TokenTreeNode;
+      const next = current[key];
+      if (next && typeof next === 'object') {
+        current = next;
+      }
     }
     const lastKey = token.path[token.path.length - 1];
     if (lastKey) {
@@ -157,7 +158,7 @@ function generateLiteralTypes(tokens: SDToken[]): string {
   for (const token of tokens) {
     const category = token.path[0];
     if (category) {
-      if (!categories[category]) {categories[category] = [];}
+      categories[category] ??= [];
       categories[category].push(token.path.join('.'));
     }
   }

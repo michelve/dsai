@@ -119,30 +119,16 @@ const VALID_UNITS = new Set([
 /**
  * Check if a value is a valid dimension
  */
-function isValidDimension(value: string): boolean {
-  // Zero without unit
-  if (value === '0') {
-    return true;
-  }
-  // Token reference
-  if (isTokenReference(value)) {
-    return true;
-  }
-  // Parse numeric value and unit manually (safer than regex)
-  const trimmed = value.trim();
-  if (trimmed.length === 0) {
-    return false;
-  }
-  // Find where the numeric part ends
+function parseNumericEnd(str: string): { hasDigits: boolean; endIndex: number } {
   let i = 0;
-  const firstChar = trimmed.charAt(0);
+  const firstChar = str.charAt(0);
   if (firstChar === '-' || firstChar === '+') {
     i = 1;
   }
   let hasDigits = false;
   let hasDot = false;
-  while (i < trimmed.length) {
-    const char = trimmed.charAt(i);
+  while (i < str.length) {
+    const char = str.charAt(i);
     if (char >= '0' && char <= '9') {
       hasDigits = true;
       i++;
@@ -153,17 +139,29 @@ function isValidDimension(value: string): boolean {
       break;
     }
   }
+  return { hasDigits, endIndex: i };
+}
+
+function isValidDimension(value: string): boolean {
+  if (value === '0') {
+    return true;
+  }
+  if (isTokenReference(value)) {
+    return true;
+  }
+
+  const trimmed = value.trim();
+  if (trimmed.length === 0) {
+    return false;
+  }
+
+  const { hasDigits, endIndex } = parseNumericEnd(trimmed);
   if (!hasDigits) {
     return false;
   }
-  // Extract unit part
-  const unit = trimmed.slice(i).toLowerCase();
-  // Pure number (for unitless values like line-height)
-  if (unit === '') {
-    return true;
-  }
-  // Check valid units
-  return VALID_UNITS.has(unit);
+
+  const unit = trimmed.slice(endIndex).toLowerCase();
+  return unit === '' || VALID_UNITS.has(unit);
 }
 
 // ============================================================================
@@ -415,6 +413,23 @@ function findJsonFiles(dir: string, files: string[] = []): string[] {
  * }
  * ```
  */
+function reportValidationResults(
+  valid: boolean,
+  totalTokens: number,
+  fileCount: number,
+  errors: ValidationIssue[],
+  warnings: ValidationIssue[]
+): void {
+  if (valid) {
+    logSuccess(`Validated ${totalTokens} tokens in ${fileCount} files`);
+    if (warnings.length > 0) {
+      logWarn(`${warnings.length} warnings found`);
+    }
+  } else {
+    logError(`Validation failed with ${errors.length} errors`);
+  }
+}
+
 export async function validateTokens(
   config: ResolvedConfig,
   options: ValidateOptions = {}
@@ -472,14 +487,7 @@ export async function validateTokens(
 
   // Report results
   if (!quiet) {
-    if (valid) {
-      logSuccess(`Validated ${totalTokens} tokens in ${fileCount} files`);
-      if (warnings.length > 0) {
-        logWarn(`${warnings.length} warnings found`);
-      }
-    } else {
-      logError(`Validation failed with ${errors.length} errors`);
-    }
+    reportValidationResults(valid, totalTokens, fileCount, errors, warnings);
   }
 
   return {

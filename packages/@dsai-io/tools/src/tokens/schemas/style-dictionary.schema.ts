@@ -16,7 +16,7 @@ export const styleDictionaryAttributesSchema = z
     subitem: z.string().optional(),
     state: z.string().optional(),
   })
-  .passthrough();
+  .loose();
 
 /**
  * Style Dictionary token (legacy format - uses "value" not "$value")
@@ -34,12 +34,12 @@ export const styleDictionaryTokenSchema = z
       .object({
         value: z.unknown(),
       })
-      .passthrough()
+      .loose()
       .optional(),
     filePath: z.string().optional(),
     isSource: z.boolean().optional(),
   })
-  .passthrough();
+  .loose();
 
 /**
  * Style Dictionary token or group (recursive)
@@ -82,12 +82,12 @@ export const styleDictionaryPlatformSchema = z
             filter: z.function().optional(),
             options: z.record(z.string(), z.unknown()).optional(),
           })
-          .passthrough()
+          .loose()
       )
       .optional(),
     actions: z.array(z.string()).optional(),
   })
-  .passthrough();
+  .loose();
 
 /**
  * Style Dictionary config
@@ -121,7 +121,7 @@ export const styleDictionaryConfigSchema = z
       })
       .optional(),
   })
-  .passthrough();
+  .loose();
 
 export type StyleDictionaryConfig = z.infer<typeof styleDictionaryConfigSchema>;
 

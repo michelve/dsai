@@ -44,7 +44,7 @@ export interface LoggerOptions {
 export function createLogger(options: LoggerOptions = {}): Logger {
   const { quiet = false, debug = false, prefix = '' } = options;
 
-  const prefixLabel = prefix ? colors.muted('[' + prefix + ']') : '';
+  const prefixLabel = prefix ? colors.muted(`[${prefix}]`) : '';
   const prefixStr = prefixLabel ? `${prefixLabel} ` : '';
 
   return {

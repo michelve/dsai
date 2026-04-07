@@ -293,6 +293,47 @@ export function transformToken(
   return token;
 }
 
+/** Process a single entry in a token tree and assign it to the result object */
+function processTokenEntry(
+  result: Record<string, unknown>,
+  key: string,
+  value: unknown,
+  parentKey: string,
+  optionsMap: Map<string, TokenTransformOptions>,
+): void {
+  const currentPath = parentKey ? `${parentKey}.${key}` : key;
+
+  const keyOptions = optionsMap.get(key);
+  const tokenOptions: TokenTransformOptions = {
+    ...keyOptions,
+    tokenPath: currentPath,
+  };
+  const transformed = transformToken(value, tokenOptions);
+
+  if (transformed) {
+    Object.defineProperty(result, key, {
+      value: transformed,
+      writable: true,
+      enumerable: true,
+      configurable: true,
+    });
+  } else if (typeof value === 'object' && value !== null) {
+    const nested = transformTokenTree(
+      value,
+      currentPath,
+      (keyOptions as Record<string, TokenTransformOptions>) ?? {}
+    );
+    if (Object.keys(nested).length > 0) {
+      Object.defineProperty(result, key, {
+        value: nested,
+        writable: true,
+        enumerable: true,
+        configurable: true,
+      });
+    }
+  }
+}
+
 /**
  * Recursively transform nested token objects
  */
@@ -309,40 +350,7 @@ export function transformTokenTree(
   }
 
   for (const [key, value] of Object.entries(obj as Record<string, unknown>)) {
-    // Build the full path for this token
-    const currentPath = parentKey ? `${parentKey}.${key}` : key;
-
-    // Try to transform as a token
-    const keyOptions = optionsMap.get(key);
-    const tokenOptions: TokenTransformOptions = {
-      ...keyOptions,
-      tokenPath: currentPath,
-    };
-    const transformed = transformToken(value, tokenOptions);
-
-    if (transformed) {
-      Object.defineProperty(result, key, {
-        value: transformed,
-        writable: true,
-        enumerable: true,
-        configurable: true,
-      });
-    } else if (typeof value === 'object' && value !== null) {
-      // Recursively process nested objects
-      const nested = transformTokenTree(
-        value,
-        currentPath,
-        (keyOptions as Record<string, TokenTransformOptions>) ?? {}
-      );
-      if (Object.keys(nested).length > 0) {
-        Object.defineProperty(result, key, {
-          value: nested,
-          writable: true,
-          enumerable: true,
-          configurable: true,
-        });
-      }
-    }
+    processTokenEntry(result, key, value, parentKey, optionsMap);
   }
 
   return result;
@@ -850,7 +858,7 @@ function detectModesFromTheme(
 
     for (const [name, collectionConfig] of Object.entries(DEFAULT_COLLECTIONS)) {
       detectCollectionModes(
-        name, collectionConfig as CollectionConfig, themeData, detectedModesMap, ctx,
+        name, collectionConfig, themeData, detectedModesMap, ctx,
       );
     }
   } catch (error) {
@@ -965,8 +973,9 @@ function processOutputMode(
 
     if (ctx.verbose) {
       const dryRunLabel = ctx.dryRun ? ' (dry run)' : '';
+      const modeLabel = modesToProcess.length > 1 ? ` (${mode})` : '';
       console.info(
-        `  ✅ Created ${outputFile}${modesToProcess.length > 1 ? ` (${mode})` : ''}${dryRunLabel}`,
+        `  ✅ Created ${outputFile}${modeLabel}${dryRunLabel}`,
       );
     }
   } catch (error) {
@@ -1011,12 +1020,11 @@ export function transformTokens(options: TransformOptions): TransformResult {
 
   // Process each collection
   for (const [collectionName, collectionConfig] of Object.entries(DEFAULT_COLLECTIONS)) {
-    const typedConfig = collectionConfig as CollectionConfig;
     if (verbose) {
       console.info(`Processing ${collectionName} collection...`);
     }
 
-    const inputPath = getInputSource(typedConfig, sourceDir, 'theme');
+    const inputPath = getInputSource(collectionConfig, sourceDir, 'theme');
 
     if (!existsSync(inputPath)) {
       ctx.warnings.push(`Input file not found: ${inputPath}`);
@@ -1027,12 +1035,12 @@ export function transformTokens(options: TransformOptions): TransformResult {
     if (!data) { continue; }
 
     const modesToProcess = resolveModesToProcess(
-      collectionName, typedConfig, data, detectedModesMap, ctx,
+      collectionName, collectionConfig, data, detectedModesMap, ctx,
     );
 
-    for (const output of typedConfig.outputs) {
+    for (const output of collectionConfig.outputs) {
       for (const mode of modesToProcess) {
-        processOutputMode(output, mode, data, typedConfig.modeAware, modesToProcess, ctx);
+        processOutputMode(output, mode, data, collectionConfig.modeAware, modesToProcess, ctx);
       }
     }
   }

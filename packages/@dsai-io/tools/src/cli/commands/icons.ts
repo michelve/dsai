@@ -24,8 +24,7 @@ import type { IconsBuildOptions } from '../types.js';
  */
 export function createIconsCommand(): Command {
   const icons = new Command('icons')
-    .description('Icon generation operations')
-    .addHelpCommand('help [command]', 'Show help for a command');
+    .description('Icon generation operations');
 
   // Build command
   icons
@@ -46,6 +45,41 @@ export function createIconsCommand(): Command {
   return icons;
 }
 
+interface BuildResult {
+  success: boolean;
+  errors: Array<{ icon: string; message: string }>;
+  warnings: Array<{ icon: string; message: string }>;
+  totalIcons: number;
+  totalSizeReduction: number;
+  filesWritten: number;
+  duration: number;
+}
+
+function logBuildSummary(
+  result: BuildResult,
+  format: string,
+  sourceDir: string,
+  outputDir: string,
+  dryRun: boolean | undefined,
+  logger: ReturnType<typeof createLogger>,
+  spinner: ReturnType<typeof createSpinner>
+): void {
+  const prefix = dryRun ? '[DRY RUN] ' : '';
+  spinner.succeed(
+    `${prefix}Generated ${colors.value(String(result.totalIcons))} icons in ${colors.value(formatDuration(result.duration))}`
+  );
+
+  logger.info(`  Source: ${colors.path(sourceDir)}`);
+  logger.info(`  Output: ${colors.path(outputDir)}`);
+  logger.info(`  Format: ${colors.value(format)}`);
+  logger.info(`  Files:  ${colors.value(String(result.filesWritten))}`);
+
+  if (result.totalSizeReduction > 0) {
+    const reductionLabel = result.totalSizeReduction.toFixed(1) + '%';
+    logger.info(`  Size reduction: ${colors.value(reductionLabel)}`);
+  }
+}
+
 /**
  * Run icons build
  */
@@ -57,7 +91,6 @@ async function runIconsBuild(options: IconsBuildOptions & { optimize?: boolean }
   const spinner = createSpinner(options.quiet);
 
   try {
-    // Load configuration
     spinner.start('Loading configuration...');
     const { config, configPath } = await loadConfig({
       cwd: options.cwd,
@@ -67,7 +100,6 @@ async function runIconsBuild(options: IconsBuildOptions & { optimize?: boolean }
 
     logger.debug(`Icons config: ${JSON.stringify(config.icons, null, 2)}`);
 
-    // Build icons
     const format = (options.format ?? 'react') as IconFormat;
     spinner.start(`Generating ${format} icons...`);
 
@@ -84,7 +116,6 @@ async function runIconsBuild(options: IconsBuildOptions & { optimize?: boolean }
       process.exit(ExitCode.BuildError);
     }
 
-    // Report warnings
     for (const warning of result.warnings) {
       logger.warn(`${warning.icon}: ${warning.message}`);
     }
@@ -95,20 +126,7 @@ async function runIconsBuild(options: IconsBuildOptions & { optimize?: boolean }
       process.exit(ExitCode.Success);
     }
 
-    const prefix = options.dryRun ? '[DRY RUN] ' : '';
-    spinner.succeed(
-      `${prefix}Generated ${colors.value(String(result.totalIcons))} icons in ${colors.value(formatDuration(result.duration))}`
-    );
-
-    logger.info(`  Source: ${colors.path(config.icons.sourceDir)}`);
-    logger.info(`  Output: ${colors.path(config.icons.outputDir)}`);
-    logger.info(`  Format: ${colors.value(format)}`);
-    logger.info(`  Files:  ${colors.value(String(result.filesWritten))}`);
-
-    if (result.totalSizeReduction > 0) {
-      const reductionLabel = result.totalSizeReduction.toFixed(1) + '%';
-      logger.info(`  Size reduction: ${colors.value(reductionLabel)}`);
-    }
+    logBuildSummary(result, format, config.icons.sourceDir, config.icons.outputDir, options.dryRun, logger, spinner);
 
     process.exit(ExitCode.Success);
   } catch (error) {
@@ -117,7 +135,7 @@ async function runIconsBuild(options: IconsBuildOptions & { optimize?: boolean }
     if (error instanceof Error) {
       logger.error(error.message);
       if (options.debug) {
-         
+
         console.error(error.stack);
       }
     }

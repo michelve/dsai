@@ -19,6 +19,8 @@ import type {
   IconBuildResult,
   IconFormat,
   OptimizedSVG,
+  ParsedSVG,
+  RawSVGData,
   SVGOConfig,
 } from './types.js';
 import type { ResolvedConfig } from '../config/types.js';
@@ -46,6 +48,33 @@ import type { ResolvedConfig } from '../config/types.js';
  * console.log(\`Generated \${result.totalIcons} icons\`);
  * ```
  */
+async function optimizeOrSkip(
+  config: ResolvedConfig,
+  parsedFiles: ParsedSVG[],
+  filteredFiles: RawSVGData[]
+): Promise<OptimizedSVG[]> {
+  if (config.icons.optimize) {
+    const svgoConfig: SVGOConfig = { multipass: true };
+    return optimizeSVGFiles(parsedFiles, filteredFiles, svgoConfig);
+  }
+  const { skipOptimization } = await import('./core/optimizer.js');
+  return parsedFiles.map((parsed, index) => {
+    const rawFile = filteredFiles.at(index);
+    if (!rawFile) {
+      throw new Error(`Missing raw file for ${parsed.fileName}`);
+    }
+    return skipOptimization(parsed, rawFile);
+  });
+}
+
+function computeAverageReduction(optimizedFiles: OptimizedSVG[]): number {
+  if (optimizedFiles.length === 0) {
+    return 0;
+  }
+  const totalReduction = optimizedFiles.reduce((sum, f) => sum + f.sizeReduction, 0);
+  return totalReduction / optimizedFiles.length;
+}
+
 export async function buildIcons(
   config: ResolvedConfig,
   options: IconBuildOptions = {}
@@ -90,28 +119,8 @@ export async function buildIcons(
     const parsedFiles = parseSVGFiles(filteredFiles);
 
     // Step 3: Optimize SVGs (if enabled)
-    let optimizedFiles: OptimizedSVG[];
-    if (config.icons.optimize) {
-      const svgoConfig: SVGOConfig = {
-        multipass: true,
-      };
-      optimizedFiles = await optimizeSVGFiles(parsedFiles, filteredFiles, svgoConfig);
-
-      // Calculate total size reduction
-      const totalReduction = optimizedFiles.reduce((sum, f) => sum + f.sizeReduction, 0);
-      result.totalSizeReduction =
-        optimizedFiles.length > 0 ? totalReduction / optimizedFiles.length : 0;
-    } else {
-      // Skip optimization - just add size metadata
-      const { skipOptimization } = await import('./core/optimizer.js');
-      optimizedFiles = parsedFiles.map((parsed, index) => {
-        const rawFile = filteredFiles.at(index);
-        if (!rawFile) {
-          throw new Error(`Missing raw file for ${parsed.fileName}`);
-        }
-        return skipOptimization(parsed, rawFile);
-      });
-    }
+    const optimizedFiles = await optimizeOrSkip(config, parsedFiles, filteredFiles);
+    result.totalSizeReduction = computeAverageReduction(optimizedFiles);
 
     result.totalIcons = optimizedFiles.length;
 

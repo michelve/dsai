@@ -134,6 +134,98 @@ function generateIgnorePatterns(
 // ============================================================================
 
 /**
+ * Categorize a single file into the appropriate theme bucket
+ */
+function categorizeFile(
+  file: string,
+  suffixToTheme: Map<string, string>,
+  defaultThemeName: string | undefined,
+  autoDetect: boolean,
+  themeFilesMap: Map<string, string[]>,
+  orphanFiles: string[]
+): void {
+  const filename = path.basename(file);
+  const matchedTheme = matchFileSuffix(filename, suffixToTheme);
+
+  if (matchedTheme) {
+    const files = themeFilesMap.get(matchedTheme);
+    if (files) {
+      files.push(file);
+    } else if (!autoDetect) {
+      orphanFiles.push(file);
+    }
+  } else if (defaultThemeName) {
+    themeFilesMap.get(defaultThemeName)?.push(file);
+  } else {
+    orphanFiles.push(file);
+  }
+}
+
+/**
+ * Build result maps from categorized theme files
+ */
+function buildThemeResults(
+  themeFilesMap: Map<string, string[]>,
+  definitions: Record<string, ResolvedThemeDefinition>,
+  sourceDir: string
+): { themesMap: Map<string, string[]>; definitionsMap: Map<string, ResolvedThemeDefinition>; themeResults: ThemeFilesResult[]; emptyThemes: string[] } {
+  const themesMap = new Map<string, string[]>();
+  const definitionsMap = new Map<string, ResolvedThemeDefinition>();
+  const themeResults: ThemeFilesResult[] = [];
+  const emptyThemes: string[] = [];
+
+  for (const [themeName, files] of themeFilesMap.entries()) {
+    const definition = Reflect.get(definitions, themeName) as ResolvedThemeDefinition | undefined;
+
+    if (!definition) {
+      continue;
+    }
+
+    const fullPaths = files.map((f) => path.join(sourceDir, f));
+
+    if (files.length === 0) {
+      emptyThemes.push(themeName);
+    }
+
+    themesMap.set(themeName, fullPaths);
+    definitionsMap.set(themeName, definition);
+    themeResults.push({ theme: themeName, definition, files: fullPaths });
+  }
+
+  themeResults.sort((a, b) => {
+    if (a.definition.isDefault) {
+      return -1;
+    }
+    if (b.definition.isDefault) {
+      return 1;
+    }
+    return a.theme.localeCompare(b.theme);
+  });
+
+  return { themesMap, definitionsMap, themeResults, emptyThemes };
+}
+
+/**
+ * Log verbose discovery output
+ */
+function logDiscoveryResults(
+  themeResults: ThemeFilesResult[],
+  orphanFiles: string[],
+  emptyThemes: string[]
+): void {
+  for (const { theme, files, definition } of themeResults) {
+    const suffix = definition.suffix ?? '(no suffix)';
+    console.warn(`  🎨 ${theme} [${suffix}]: ${files.length} files`);
+  }
+  if (orphanFiles.length > 0) {
+    console.warn(`  ⚠️  ${orphanFiles.length} orphan files (no matching theme)`);
+  }
+  if (emptyThemes.length > 0) {
+    console.warn(`  ⚠️  Empty themes: ${emptyThemes.join(', ')}`);
+  }
+}
+
+/**
  * Discover token files organized by theme
  *
  * This function scans the source directory for JSON token files and
@@ -163,108 +255,33 @@ export function discoverThemeFiles(
   const { sourceDir, pattern = '**/*.json', verbose = false } = options;
   const { definitions } = themesConfig;
 
-  // Build suffix mapping
   const suffixToTheme = getThemeSuffixes(definitions);
   const defaultThemeName = getDefaultThemeName(definitions);
 
-  // Initialize result containers
   const themeFilesMap = new Map<string, string[]>();
   const orphanFiles: string[] = [];
-  const emptyThemes: string[] = [];
 
-  // Initialize theme file arrays
   for (const themeName of Object.keys(definitions)) {
     themeFilesMap.set(themeName, []);
   }
 
-  // Discover all JSON files
-  const allFiles = fg.sync(pattern, {
-    cwd: sourceDir,
-    absolute: false,
-  });
+  const allFiles = fg.sync(pattern, { cwd: sourceDir, absolute: false });
 
   if (verbose) {
     console.warn(`  📂 Found ${allFiles.length} token files in ${sourceDir}`);
   }
 
-  // Categorize each file
   for (const file of allFiles) {
-    const filename = path.basename(file);
-    const matchedTheme = matchFileSuffix(filename, suffixToTheme);
-
-    if (matchedTheme) {
-      // File matches a non-default theme
-      const files = themeFilesMap.get(matchedTheme);
-      if (files) {
-        files.push(file);
-      } else if (!themesConfig.autoDetect) {
-        // Theme not defined and autoDetect is off
-        orphanFiles.push(file);
-      }
-    } else if (defaultThemeName) {
-      // File has no theme suffix - belongs to default theme
-      themeFilesMap.get(defaultThemeName)?.push(file);
-    } else {
-      // No default theme defined
-      orphanFiles.push(file);
-    }
+    categorizeFile(file, suffixToTheme, defaultThemeName, themesConfig.autoDetect, themeFilesMap, orphanFiles);
   }
 
-  // Build result Maps
-  const themesMap = new Map<string, string[]>();
-  const definitionsMap = new Map<string, ResolvedThemeDefinition>();
-  const themeResults: ThemeFilesResult[] = [];
-
-  for (const [themeName, files] of themeFilesMap.entries()) {
-    // Safe access using Map lookup since we control the keys
-    const definition = definitions[themeName as keyof typeof definitions];
-
-    if (!definition) {
-      continue;
-    }
-
-    const fullPaths = files.map((f) => path.join(sourceDir, f));
-
-    if (files.length === 0) {
-      emptyThemes.push(themeName);
-    }
-
-    // Add to Maps
-    themesMap.set(themeName, fullPaths);
-    definitionsMap.set(themeName, definition);
-
-    // Also keep array format for sorting/iteration
-    themeResults.push({
-      theme: themeName,
-      definition,
-      files: fullPaths,
-    });
-  }
-
-  // Sort themes: default first, then alphabetically
-  themeResults.sort((a, b) => {
-    if (a.definition.isDefault) {
-      return -1;
-    }
-    if (b.definition.isDefault) {
-      return 1;
-    }
-    return a.theme.localeCompare(b.theme);
-  });
+  const { themesMap, definitionsMap, themeResults, emptyThemes } =
+    buildThemeResults(themeFilesMap, definitions, sourceDir);
 
   const totalFiles = themeResults.reduce((sum, t) => sum + t.files.length, 0);
 
   if (verbose) {
-    for (const { theme, files, definition } of themeResults) {
-      const suffix = definition.suffix ?? '(no suffix)';
-      console.warn(`  🎨 ${theme} [${suffix}]: ${files.length} files`);
-    }
-    if (orphanFiles.length > 0) {
-      console.warn(`  ⚠️  ${orphanFiles.length} orphan files (no matching theme)`);
-    }
-    if (emptyThemes.length > 0) {
-      console.warn(`  ⚠️  Empty themes: ${emptyThemes.join(', ')}`);
-    }
+    logDiscoveryResults(themeResults, orphanFiles, emptyThemes);
   }
 
   return {

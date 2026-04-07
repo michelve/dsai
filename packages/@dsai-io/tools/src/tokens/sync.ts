@@ -90,6 +90,90 @@ export function getDefaultSyncPaths(tokensDir: string): { sourceFile: string; ta
 }
 
 // ============================================================================
+// Sync Helpers
+// ============================================================================
+
+function logSyncStart(sourceFile: string, targetFile: string, dryRun: boolean): void {
+  console.info('🔄 Syncing tokens from Style Dictionary output...');
+  console.info(`   Source: ${sourceFile}`);
+  console.info(`   Target: ${targetFile}`);
+  if (dryRun) {
+    console.info('   DRY RUN - no files will be written');
+  }
+}
+
+function failResult(error: string, tokensCount = 0): SyncResult {
+  return { success: false, tokensCount, changed: false, errors: [error] };
+}
+
+function readSource(sourceFile: string): string | SyncResult {
+  if (!existsSync(sourceFile)) {
+    return failResult(`Source file not found: ${sourceFile}`);
+  }
+
+  try {
+    return readFileSync(sourceFile, 'utf-8');
+  } catch (err) {
+    return failResult(
+      `Failed to read source file: ${err instanceof Error ? err.message : 'Unknown error'}`
+    );
+  }
+}
+
+function hasTargetChanged(targetFile: string, tsContent: string): boolean {
+  if (!existsSync(targetFile)) {
+    return true;
+  }
+
+  try {
+    return readFileSync(targetFile, 'utf-8') !== tsContent;
+  } catch {
+    return true;
+  }
+}
+
+function writeTarget(targetFile: string, tsContent: string): string | null {
+  try {
+    const targetDir = dirname(targetFile);
+    if (!existsSync(targetDir)) {
+      mkdirSync(targetDir, { recursive: true });
+    }
+    writeFileSync(targetFile, tsContent, 'utf-8');
+    return null;
+  } catch (err) {
+    return `Failed to write target file: ${err instanceof Error ? err.message : 'Unknown error'}`;
+  }
+}
+
+function logSyncSummary(
+  changed: boolean,
+  tokensCount: number,
+  fontFamilies: { found: string[]; missing: string[] }
+): void {
+  if (changed) {
+    console.info('✅ Successfully synced tokens');
+  }
+  console.info(`   Tokens exported: ${tokensCount}`);
+  if (fontFamilies.found.length > 0) {
+    console.info(`   Font families found: ${fontFamilies.found.join(', ')}`);
+  }
+  if (fontFamilies.missing.length > 0) {
+    console.warn(`   ⚠️  Missing fonts: ${fontFamilies.missing.join(', ')}`);
+  }
+}
+
+function collectFontErrors(fontFamilies: { missing: string[] }): string[] {
+  return fontFamilies.missing.map((font) => `Font family may be missing: ${font}`);
+}
+
+function areAllErrorsFontWarnings(errors: string[]): boolean {
+  if (errors.length === 0) {
+    return true;
+  }
+  return errors.every((e) => e.includes('Font family'));
+}
+
+// ============================================================================
 // Main Functions
 // ============================================================================
 
@@ -112,117 +196,45 @@ export function getDefaultSyncPaths(tokensDir: string): { sourceFile: string; ta
 export function syncTokens(options: SyncOptions): SyncResult {
   const { sourceFile, targetFile, dryRun = false, verbose = false } = options;
 
-  const errors: string[] = [];
-
   if (verbose) {
-    console.info('🔄 Syncing tokens from Style Dictionary output...');
-    console.info(`   Source: ${sourceFile}`);
-    console.info(`   Target: ${targetFile}`);
-    if (dryRun) {
-      console.info('   DRY RUN - no files will be written');
-    }
+    logSyncStart(sourceFile, targetFile, dryRun);
   }
 
-  // Check if source file exists
-  if (!existsSync(sourceFile)) {
-    const error = `Source file not found: ${sourceFile}`;
+  const sourceResult = readSource(sourceFile);
+  if (typeof sourceResult !== 'string') {
     if (verbose) {
-      console.error(`❌ ${error}`);
+      console.error(`❌ ${sourceResult.errors?.[0]}`);
     }
-    return {
-      success: false,
-      tokensCount: 0,
-      changed: false,
-      errors: [error],
-    };
+    return sourceResult;
   }
 
-  // Read source content
-  let sourceContent: string;
-  try {
-    sourceContent = readFileSync(sourceFile, 'utf-8');
-  } catch (err) {
-    const error = `Failed to read source file: ${err instanceof Error ? err.message : 'Unknown error'}`;
-    if (verbose) {
-      console.error(`❌ ${error}`);
-    }
-    return {
-      success: false,
-      tokensCount: 0,
-      changed: false,
-      errors: [error],
-    };
-  }
-
-  // Generate TypeScript content
+  const sourceContent = sourceResult;
   const tsContent = `${TS_HEADER}${sourceContent}`;
-
-  // Verify font families
   const fontFamilies = verifyFontFamilies(sourceContent);
-  if (fontFamilies.missing.length > 0) {
-    for (const font of fontFamilies.missing) {
-      errors.push(`Font family may be missing: ${font}`);
-    }
-  }
-
-  // Count tokens
+  const errors = collectFontErrors(fontFamilies);
   const tokensCount = countTokenExports(sourceContent);
+  const changed = hasTargetChanged(targetFile, tsContent);
 
-  // Check if target already exists and has same content
-  let changed = true;
-  if (existsSync(targetFile)) {
-    try {
-      const existingContent = readFileSync(targetFile, 'utf-8');
-      if (existingContent === tsContent) {
-        changed = false;
-        if (verbose) {
-          console.info('✅ Target file is already up to date');
-        }
-      }
-    } catch {
-      // Ignore read errors, will overwrite
-    }
+  if (!changed && verbose) {
+    console.info('✅ Target file is already up to date');
   }
 
-  // Write target file if changed
   if (changed && !dryRun) {
-    try {
-      // Ensure target directory exists
-      const targetDir = dirname(targetFile);
-      if (!existsSync(targetDir)) {
-        mkdirSync(targetDir, { recursive: true });
-      }
-
-      writeFileSync(targetFile, tsContent, 'utf-8');
-    } catch (err) {
-      const error = `Failed to write target file: ${err instanceof Error ? err.message : 'Unknown error'}`;
+    const writeError = writeTarget(targetFile, tsContent);
+    if (writeError) {
       if (verbose) {
-        console.error(`❌ ${error}`);
+        console.error(`❌ ${writeError}`);
       }
-      return {
-        success: false,
-        tokensCount,
-        changed: false,
-        errors: [error],
-      };
+      return failResult(writeError, tokensCount);
     }
   }
 
   if (verbose) {
-    if (changed) {
-      console.info('✅ Successfully synced tokens');
-    }
-    console.info(`   Tokens exported: ${tokensCount}`);
-    if (fontFamilies.found.length > 0) {
-      console.info(`   Font families found: ${fontFamilies.found.join(', ')}`);
-    }
-    if (fontFamilies.missing.length > 0) {
-      console.warn(`   ⚠️  Missing fonts: ${fontFamilies.missing.join(', ')}`);
-    }
+    logSyncSummary(changed, tokensCount, fontFamilies);
   }
 
   return {
-    success: errors.length === 0 || errors.every((e) => e.includes('Font family')),
+    success: areAllErrorsFontWarnings(errors),
     tokensCount,
     changed,
     errors: errors.length > 0 ? errors : undefined,

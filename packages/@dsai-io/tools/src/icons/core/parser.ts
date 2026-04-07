@@ -22,7 +22,7 @@ export function parseSVG(raw: RawSVGData): ParsedSVG {
   const { content, fileName } = raw;
 
   // Extract SVG opening tag attributes
-  const svgMatch = content.match(/<svg([^>]*)>/i);
+  const svgMatch = /<svg([^>]*)>/i.exec(content);
   const svgAttributes = svgMatch?.[1] ?? '';
 
   // Parse attributes into object
@@ -46,15 +46,15 @@ export function parseSVG(raw: RawSVGData): ParsedSVG {
   }
 
   // Extract inner content (everything between <svg> and </svg>)
-  const innerContentMatch = content.match(/<svg[^>]*>([\s\S]*?)<\/svg>/i);
+  const innerContentMatch = /<svg[^>]*>([\s\S]*?)<\/svg>/i.exec(content);
   const innerContent = innerContentMatch?.[1]?.trim() ?? '';
 
   // Extract title for accessibility
-  const titleMatch = content.match(/<title>([^<]*)<\/title>/i);
+  const titleMatch = /<title>([^<]*)<\/title>/i.exec(content);
   const title = titleMatch?.[1];
 
   // Extract description for accessibility
-  const descMatch = content.match(/<desc>([^<]*)<\/desc>/i);
+  const descMatch = /<desc>([^<]*)<\/desc>/i.exec(content);
   const description = descMatch?.[1];
 
   // Generate normalized name and component name
@@ -139,6 +139,6 @@ export function cleanSVGForReact(svg: string): string {
  * @returns ViewBox string or default
  */
 export function extractViewBox(svg: string): string {
-  const match = svg.match(/viewBox="([^"]+)"/);
+  const match = /viewBox="([^"]+)"/.exec(svg);
   return match?.[1] ?? '0 0 24 24';
 }

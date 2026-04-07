@@ -40,9 +40,47 @@ const DEFAULT_TRANSFORMATIONS: ReplacementRule[] = [
 // Core Functions
 // ============================================================================
 
-/**
- * Apply all replacements to content
- */
+function countStringOccurrences(haystack: string, needle: string): number {
+  let count = 0;
+  let pos = 0;
+  while (pos < haystack.length) {
+    const idx = haystack.indexOf(needle, pos);
+    if (idx === -1) {
+      break;
+    }
+    count++;
+    pos = idx + 1;
+  }
+  return count;
+}
+
+function applyStringRule(
+  content: string,
+  rule: ReplacementRule
+): { result: string; matchCount: number } {
+  const matchCount = countStringOccurrences(content, rule.from as string);
+  if (matchCount === 0) {
+    return { result: content, matchCount: 0 };
+  }
+  return { result: content.split(rule.from as string).join(rule.to), matchCount };
+}
+
+function applyRegexRule(
+  content: string,
+  rule: ReplacementRule
+): { result: string; matchCount: number } {
+  const matches = content.match(rule.from as RegExp);
+  const matchCount = matches ? matches.length : 0;
+  if (matchCount === 0) {
+    return { result: content, matchCount: 0 };
+  }
+  return { result: content.replaceAll(rule.from as RegExp, rule.to), matchCount };
+}
+
+function getRuleDescription(rule: ReplacementRule): string {
+  return rule.description ?? (typeof rule.from === 'string' ? rule.from : String(rule.from));
+}
+
 function applyReplacements(
   content: string,
   replacements: ReplacementRule[],
@@ -52,41 +90,20 @@ function applyReplacements(
   let totalCount = 0;
 
   for (const rule of replacements) {
-    // Count matches first
-    let matchCount = 0;
+    const applied =
+      typeof rule.from === 'string'
+        ? applyStringRule(result, rule)
+        : applyRegexRule(result, rule);
 
-    if (typeof rule.from === 'string') {
-      // For string patterns, count occurrences manually
-      let pos = 0;
-      const searchStr = rule.from;
-      while (pos < result.length) {
-        const idx = result.indexOf(searchStr, pos);
-        if (idx === -1) {
-          break;
-        }
-        matchCount++;
-        pos = idx + 1;
-      }
-      // Replace all occurrences using split/join (safe, no regex)
-      if (matchCount > 0) {
-        result = result.split(rule.from).join(rule.to);
-      }
-    } else {
-      // For regex patterns, use as-is
-      const matches = result.match(rule.from);
-      matchCount = matches ? matches.length : 0;
-      if (matchCount > 0) {
-        result = result.replaceAll(rule.from, rule.to);
-      }
+    result = applied.result;
+
+    if (applied.matchCount === 0) {
+      continue;
     }
 
-    if (matchCount > 0) {
-      totalCount += matchCount;
-      if (verbose) {
-        const desc =
-          rule.description ?? (typeof rule.from === 'string' ? rule.from : String(rule.from));
-        console.info(`   ✓ ${desc}: ${matchCount} replacement(s)`);
-      }
+    totalCount += applied.matchCount;
+    if (verbose) {
+      console.info(`   ✓ ${getRuleDescription(rule)}: ${applied.matchCount} replacement(s)`);
     }
   }
 
@@ -177,6 +194,43 @@ export function postprocessCss(options: PostprocessOptions): PostprocessResult {
  * });
  * ```
  */
+function handleSuccessResult(
+  result: PostprocessResult,
+  verbose: boolean
+): { modified: boolean } {
+  if (result.replacementsMade > 0) {
+    return { modified: true };
+  }
+  if (verbose) {
+    console.info('   (no changes needed)');
+  }
+  return { modified: false };
+}
+
+function handleFailureResult(
+  result: PostprocessResult,
+  errors: string[],
+  verbose: boolean
+): void {
+  if (!result.errors) {
+    return;
+  }
+  errors.push(...result.errors);
+  if (!verbose) {
+    return;
+  }
+  for (const err of result.errors) {
+    console.warn(`   ⚠️  ${err}`);
+  }
+}
+
+function logSummary(filesModified: number, totalReplacements: number): void {
+  console.info(`\n✅ Post-processing complete. ${filesModified} file(s) modified.`);
+  if (totalReplacements > 0) {
+    console.info(`   Total replacements: ${totalReplacements}`);
+  }
+}
+
 export function postprocessCssFiles(options: {
   cssDir: string;
   files?: string[];
@@ -215,27 +269,18 @@ export function postprocessCssFiles(options: {
     });
 
     if (result.success) {
-      if (result.replacementsMade > 0) {
+      const { modified } = handleSuccessResult(result, verbose);
+      if (modified) {
         filesModified++;
         totalReplacements += result.replacementsMade;
-      } else if (verbose) {
-        console.info('   (no changes needed)');
       }
-    } else if (result.errors) {
-      errors.push(...result.errors);
-      if (verbose) {
-        for (const err of result.errors) {
-          console.warn(`   ⚠️  ${err}`);
-        }
-      }
+    } else {
+      handleFailureResult(result, errors, verbose);
     }
   }
 
   if (verbose) {
-    console.info(`\n✅ Post-processing complete. ${filesModified} file(s) modified.`);
-    if (totalReplacements > 0) {
-      console.info(`   Total replacements: ${totalReplacements}`);
-    }
+    logSummary(filesModified, totalReplacements);
   }
 
   return {

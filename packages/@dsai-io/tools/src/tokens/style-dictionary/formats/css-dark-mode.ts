@@ -47,7 +47,7 @@ export const cssDarkModeVariables: FormatDefinition = {
       }
 
       // Get value (DTCG $value or legacy value)
-      const tokenValue = token.$value !== undefined ? token.$value : token.value;
+      const tokenValue = token.$value ?? token.value;
       const value = typeof tokenValue === 'string' ? tokenValue : JSON.stringify(tokenValue);
 
       // Add variable

@@ -77,6 +77,41 @@ function getNestedValue(obj: Record<string, unknown>, path: string[]): unknown {
 // Main Extraction Functions
 // ============================================================================
 
+function buildEmptyResult(
+  modeName: string,
+  tokens: Record<string, unknown>,
+  preserveNonModeTokens: boolean,
+  hasTokens: boolean
+): ModeExtractionResult {
+  return {
+    tokens: preserveNonModeTokens ? tokens : {},
+    modeName,
+    hasTokens,
+  };
+}
+
+function navigateToParent(
+  root: Record<string, unknown>,
+  path: string[]
+): Record<string, unknown> {
+  let current: Record<string, unknown> = root;
+  for (let i = 0; i < path.length - 1; i++) {
+    const key = path[i];
+    if (!key) {
+      continue;
+    }
+
+    if (!(key in current)) {
+      current[key] = {};
+    }
+    const next = current[key];
+    if (next && typeof next === 'object') {
+      current = next as Record<string, unknown>;
+    }
+  }
+  return current;
+}
+
 /**
  * Extract a specific mode from token structure
  *
@@ -108,55 +143,25 @@ export function extractMode(
 ): ModeExtractionResult {
   const { modeName, modesPath = ['Foundation', 'modes'], preserveNonModeTokens = true } = options;
 
-  // Clone to avoid mutations
   const clonedTokens = deepClone(tokens);
-
-  // Get the modes object
   const modesObj = getNestedValue(clonedTokens, modesPath);
 
   if (!modesObj || typeof modesObj !== 'object') {
-    return {
-      tokens: preserveNonModeTokens ? clonedTokens : {},
-      modeName,
-      hasTokens: Object.keys(clonedTokens).length > 0,
-    };
+    return buildEmptyResult(modeName, clonedTokens, preserveNonModeTokens, Object.keys(clonedTokens).length > 0);
   }
 
-  // Get the specific mode
   const modeTokens = (modesObj as Record<string, unknown>)[modeName];
 
   if (!modeTokens || typeof modeTokens !== 'object') {
-    return {
-      tokens: preserveNonModeTokens ? clonedTokens : {},
-      modeName,
-      hasTokens: false,
-    };
+    return buildEmptyResult(modeName, clonedTokens, preserveNonModeTokens, false);
   }
 
-  // Build result: preserve structure but replace mode content
   const result = preserveNonModeTokens ? deepClone(clonedTokens) : {};
+  const parent = navigateToParent(result, modesPath);
 
-  // Navigate to the modes parent and replace with mode-specific tokens
-  let current: Record<string, unknown> = result;
-  for (let i = 0; i < modesPath.length - 1; i++) {
-    const key = modesPath[i];
-    if (!key) {
-      continue;
-    }
-
-    if (!(key in current)) {
-      current[key] = {};
-    }
-    const next = current[key];
-    if (next && typeof next === 'object') {
-      current = next as Record<string, unknown>;
-    }
-  }
-
-  // Replace the modes object with the specific mode content
   const lastKey = modesPath[modesPath.length - 1];
   if (lastKey) {
-    current[lastKey] = modeTokens;
+    parent[lastKey] = modeTokens;
   }
 
   return {

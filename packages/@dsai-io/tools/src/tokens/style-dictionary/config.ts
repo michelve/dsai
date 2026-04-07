@@ -100,9 +100,8 @@ export function createStyleDictionaryConfig(
 
   const platformConfigs = config.platforms ?? {};
 
-  // CSS Platform
-  if (platforms.includes('css')) {
-    platformConfigs['css'] = {
+  const platformBuilders: Record<string, () => SDPlatformConfig> = {
+    css: () => ({
       transformGroup: 'custom/css',
       buildPath: `${normalizedBuildPath}css/`,
       files: [
@@ -111,101 +110,66 @@ export function createStyleDictionaryConfig(
           format: 'css/variables-with-comments',
           options: {
             prefix,
-            // For CSS, we need resolved values, not references
-            // CSS custom properties cannot reference other tokens using {token.path} syntax
-            // They need actual values or var(--other-token) syntax
             outputReferences: false,
           },
         },
       ],
-    };
-  }
-
-  // JavaScript Platform
-  if (platforms.includes('js')) {
-    platformConfigs['js'] = {
+    }),
+    js: () => ({
       transformGroup: 'js-custom',
       buildPath: `${normalizedBuildPath}js/`,
       files: [
-        {
-          destination: 'tokens.js',
-          format: 'javascript/es6',
-          options: { outputReferences },
-        },
-        {
-          destination: 'tokens.cjs',
-          format: 'javascript/module',
-          options: { outputReferences },
-        },
+        { destination: 'tokens.js', format: 'javascript/es6', options: { outputReferences } },
+        { destination: 'tokens.cjs', format: 'javascript/module', options: { outputReferences } },
       ],
-    };
-  }
-
-  // TypeScript Platform
-  if (platforms.includes('ts')) {
-    platformConfigs['ts'] = {
+    }),
+    ts: () => ({
       transformGroup: 'js-custom',
       buildPath: `${normalizedBuildPath}ts/`,
       files: [
-        {
-          destination: 'tokens.ts',
-          format: 'javascript/es6',
-          options: { outputReferences },
-        },
-        {
-          destination: 'tokens.d.ts',
-          format: 'typescript/declarations',
-        },
+        { destination: 'tokens.ts', format: 'javascript/es6', options: { outputReferences } },
+        { destination: 'tokens.d.ts', format: 'typescript/declarations' },
       ],
-    };
-  }
-
-  // SCSS Platform (source - for Bootstrap & DSAi builds)
-  if (platforms.includes('scss')) {
-    platformConfigs['scss'] = {
+    }),
+    scss: () => ({
       transformGroup: 'custom/scss',
       buildPath: 'src/scss/',
       files: [
         {
           destination: '_variables.scss',
           format: 'scss/variables',
-          options: {
-            outputReferences,
-            basePxFontSize: baseFontSize,
-          },
+          options: { outputReferences, basePxFontSize: baseFontSize },
         },
       ],
-    };
-  }
+    }),
+  };
 
-  // SCSS Platform (dist - for npm package consumers)
-  if (platforms.includes('scss-dist')) {
-    platformConfigs['scss-dist'] = {
-      transformGroup: 'custom/scss',
-      buildPath: `${normalizedBuildPath}scss/`,
-      files: [
-        {
-          destination: '_variables.scss',
-          format: 'scss/variables',
-          options: {
-            outputReferences,
-            basePxFontSize: baseFontSize,
-          },
-        },
-      ],
-    };
-  }
+  Reflect.set(platformBuilders, 'scss-dist', () => ({
+    transformGroup: 'custom/scss',
+    buildPath: `${normalizedBuildPath}scss/`,
+    files: [
+      {
+        destination: '_variables.scss',
+        format: 'scss/variables',
+        options: { outputReferences, basePxFontSize: baseFontSize },
+      },
+    ],
+  }));
 
-  // JSON Platform (for documentation)
-  if (platforms.includes('json')) {
-    platformConfigs['json'] = {
-      transformGroup: 'js',
-      buildPath: `${normalizedBuildPath}json/`,
-      files: [
-        { destination: 'tokens.json', format: 'json/flat' },
-        { destination: 'tokens-nested.json', format: 'json/nested' },
-      ],
-    };
+  Reflect.set(platformBuilders, 'json', () => ({
+    transformGroup: 'js',
+    buildPath: `${normalizedBuildPath}json/`,
+    files: [
+      { destination: 'tokens.json', format: 'json/flat' },
+      { destination: 'tokens-nested.json', format: 'json/nested' },
+    ],
+  }));
+
+  for (const platform of platforms) {
+    const builder = Reflect.get(platformBuilders, platform) as (() => unknown) | undefined;
+    if (builder) {
+      Reflect.set(platformConfigs, platform, builder());
+    }
   }
 
   config.platforms = platformConfigs;

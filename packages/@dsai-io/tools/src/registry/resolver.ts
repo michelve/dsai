@@ -45,6 +45,24 @@ function collectTransitiveDeps(
   return visited;
 }
 
+function decrementDependents(
+  name: string,
+  visited: Map<string, RegistryItem>,
+  inDeg: Map<string, number>,
+  ready: string[]
+): void {
+  for (const [otherName, otherItem] of visited) {
+    if (!otherItem.registryDependencies.includes(name)) {
+      continue;
+    }
+    const newDeg = (inDeg.get(otherName) ?? 1) - 1;
+    inDeg.set(otherName, newDeg);
+    if (newDeg === 0) {
+      ready.push(otherName);
+    }
+  }
+}
+
 /** Topological sort (Kahn's algorithm) on visited items. */
 function topologicalSort(visited: Map<string, RegistryItem>): RegistryItem[] {
   const inDeg = new Map<string, number>();
@@ -61,13 +79,7 @@ function topologicalSort(visited: Map<string, RegistryItem>): RegistryItem[] {
   while (ready.length > 0) {
     const name = ready.shift()!;
     sorted.push(visited.get(name)!);
-    for (const [otherName, otherItem] of visited) {
-      if (otherItem.registryDependencies.includes(name)) {
-        const newDeg = (inDeg.get(otherName) ?? 1) - 1;
-        inDeg.set(otherName, newDeg);
-        if (newDeg === 0) {ready.push(otherName);}
-      }
-    }
+    decrementDependents(name, visited, inDeg, ready);
   }
 
   if (sorted.length !== visited.size) {

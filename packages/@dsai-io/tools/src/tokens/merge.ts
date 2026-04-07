@@ -72,6 +72,60 @@ function hasChildTokens(obj: unknown): boolean {
 // Deep Merge
 // ============================================================================
 
+function resolveChildConflict(
+  target: TokenObject | undefined,
+  source: TokenObject,
+  verbose: boolean,
+): TokenObject | null {
+  const result: TokenObject = target ? { ...target } : {};
+  const targetHasChildren = hasChildTokens(target);
+  const sourceHasChildren = hasChildTokens(source);
+
+  if (targetHasChildren && isToken(source)) {
+    if (verbose) {
+      console.info('  ⚠️  Skipping single token in favor of children structure');
+    }
+    return result;
+  }
+
+  if (sourceHasChildren && isToken(target)) {
+    if (verbose) {
+      console.info('  ⚠️  Replacing single token with children structure');
+    }
+    return { ...source };
+  }
+
+  return null;
+}
+
+function mergeKeyValue(
+  result: TokenObject,
+  key: string,
+  sourceValue: TokenValue,
+  verbose: boolean,
+): void {
+  const targetValue = result[key];
+
+  if (sourceValue && typeof sourceValue === 'object' && !Array.isArray(sourceValue)) {
+    result[key] = deepMerge(
+      targetValue as TokenObject | undefined,
+      sourceValue,
+      verbose
+    );
+    return;
+  }
+
+  if (Array.isArray(sourceValue)) {
+    const existingArray = Array.isArray(targetValue) ? targetValue : [];
+    result[key] = [...existingArray, ...sourceValue];
+    return;
+  }
+
+  if (sourceValue !== undefined) {
+    result[key] = sourceValue;
+  }
+}
+
 /**
  * Deep merge two objects, preserving all properties
  * Special handling: If target has child tokens and source is a token,
@@ -82,46 +136,17 @@ function deepMerge(
   source: TokenObject,
   verbose = false
 ): TokenObject {
+  const conflictResult = resolveChildConflict(target, source, verbose);
+  if (conflictResult) {
+    return conflictResult;
+  }
+
   const result: TokenObject = target ? { ...target } : {};
-
-  // Check for conflict: one is a token, the other has child tokens
-  const targetIsToken = isToken(target);
-  const sourceIsToken = isToken(source);
-  const targetHasChildren = hasChildTokens(target);
-  const sourceHasChildren = hasChildTokens(source);
-
-  if (targetHasChildren && sourceIsToken) {
-    if (verbose) {
-      console.info('  ⚠️  Skipping single token in favor of children structure');
-    }
-    return result;
-  }
-
-  if (sourceHasChildren && targetIsToken) {
-    if (verbose) {
-      console.info('  ⚠️  Replacing single token with children structure');
-    }
-    return { ...source };
-  }
 
   for (const key of Object.keys(source)) {
     const sourceValue = source[key];
-    const targetValue = result[key];
-
-    if (sourceValue && typeof sourceValue === 'object' && !Array.isArray(sourceValue)) {
-      // Recursively merge nested objects
-      result[key] = deepMerge(
-        targetValue as TokenObject | undefined,
-        sourceValue as TokenObject,
-        verbose
-      );
-    } else if (Array.isArray(sourceValue)) {
-      // Concatenate arrays
-      const existingArray = Array.isArray(targetValue) ? targetValue : [];
-      result[key] = [...existingArray, ...sourceValue];
-    } else if (sourceValue !== undefined) {
-      // Overwrite primitive values (source takes precedence)
-      result[key] = sourceValue;
+    if (sourceValue !== undefined) {
+      mergeKeyValue(result, key, sourceValue, verbose);
     }
   }
 
@@ -211,12 +236,13 @@ function updateReferences(
     const value = obj[key];
 
     if (typeof value === 'string' && value.startsWith('{') && value.endsWith('}')) {
-      obj[key] = normalizeReference(value, patternsLower, normalizedNew);
-      if ((obj[key] as string).startsWith('{')) {
+      const normalized = normalizeReference(value, patternsLower, normalizedNew);
+      obj[key] = normalized;
+      if (normalized.startsWith('{')) {
         ensureAliasMetadata(obj, collectionName);
       }
     } else if (value && typeof value === 'object' && !Array.isArray(value)) {
-      updateReferences(value as TokenObject, oldName, newName, collectionName);
+      updateReferences(value, oldName, newName, collectionName);
     }
   }
 }
@@ -278,22 +304,23 @@ function isDuplicateSection(obj: unknown): boolean {
       }
 
       const value = item[key];
-      if (value && typeof value === 'object' && !Array.isArray(value)) {
-        const valueRecord = value as Record<string, unknown>;
-        if ('$value' in valueRecord) {
-          referenceCount++;
-          if (
-            typeof valueRecord['$value'] === 'string' &&
-            (valueRecord['$value'] as string).startsWith('{')
-          ) {
-            continue;
-          } else {
-            hasOnlyReferences = false;
-            return;
-          }
-        }
-        checkReferences(valueRecord);
+      if (!value || typeof value !== 'object' || Array.isArray(value)) {
+        continue;
       }
+
+      const valueRecord = value as Record<string, unknown>;
+      if (!('$value' in valueRecord)) {
+        checkReferences(valueRecord);
+        continue;
+      }
+
+      referenceCount++;
+      if (typeof valueRecord['$value'] === 'string' && valueRecord['$value'].startsWith('{')) {
+        continue;
+      }
+
+      hasOnlyReferences = false;
+      return;
     }
   }
 
@@ -479,6 +506,59 @@ function removeDuplicateSections(merged: TokenObject, verbose: boolean): void {
   }
 }
 
+function normalizeCollectionReferences(
+  merged: TokenObject,
+  collections: ParsedCollection[],
+  unifiedName: string,
+  verbose: boolean,
+): void {
+  if (verbose) {
+    const normalized = unifiedName.toLowerCase().replaceAll(/\s+/g, '');
+    console.info(`🔗 Normalizing references to lowercase "{${normalized}." format...`);
+  }
+  for (const coll of collections) {
+    if (coll.name) {
+      updateReferences(merged, coll.name, unifiedName, unifiedName);
+    }
+  }
+}
+
+function sortAndCount(merged: TokenObject, verbose: boolean): { sorted: TokenObject; tokensCount: number } {
+  if (verbose) { console.info('📋 Sorting properties alphabetically...'); }
+  const sorted = sortProperties(merged) as TokenObject;
+  const tokensCount = countTokens(sorted);
+  if (verbose) { console.info(`✨ Merged collection: ${tokensCount} tokens\n`); }
+  return { sorted, tokensCount };
+}
+
+function saveOutput(
+  unifiedName: string,
+  sorted: TokenObject,
+  outputFile: string,
+  dryRun: boolean,
+  verbose: boolean,
+  errors: string[],
+): boolean {
+  if (dryRun) {
+    return true;
+  }
+  const output = [{ [unifiedName]: sorted }];
+  if (!saveJSON(outputFile, output, verbose)) {
+    errors.push(`Failed to write output file: ${outputFile}`);
+    return false;
+  }
+  return true;
+}
+
+function logMergeSummary(collections: ParsedCollection[], tokensCount: number): void {
+  console.info('\n✅ Merge complete!');
+  console.info('📊 Summary:');
+  for (const coll of collections) {
+    console.info(`   Source: ${coll.tokenCount} tokens`);
+  }
+  console.info(`   Merged:   ${tokensCount} tokens`);
+}
+
 /**
  * Merge multiple collection files into one
  *
@@ -525,42 +605,17 @@ export function mergeCollections(options: MergeOptions): MergeResult {
   }
 
   const merged = applyMergeStrategy(collections, strategy, verbose);
-
   removeDuplicateSections(merged, verbose);
+  normalizeCollectionReferences(merged, collections, unifiedName, verbose);
 
-  // Normalize references
-  if (verbose) {
-    const normalized = unifiedName.toLowerCase().replaceAll(/\s+/g, '');
-    console.info(`🔗 Normalizing references to lowercase "{${normalized}." format...`);
-  }
-  for (const coll of collections) {
-    if (coll.name) {
-      updateReferences(merged, coll.name, unifiedName, unifiedName);
-    }
-  }
+  const { sorted, tokensCount } = sortAndCount(merged, verbose);
 
-  // Sort and count
-  if (verbose) { console.info('📋 Sorting properties alphabetically...'); }
-  const sorted = sortProperties(merged) as TokenObject;
-  const tokensCount = countTokens(sorted);
-  if (verbose) { console.info(`✨ Merged collection: ${tokensCount} tokens\n`); }
-
-  // Save if not dry run
-  const output = [{ [unifiedName]: sorted }];
-  if (!dryRun) {
-    if (!saveJSON(outputFile, output, verbose)) {
-      errors.push(`Failed to write output file: ${outputFile}`);
-      return failedMergeResult(outputFile, collections.length, tokensCount, errors, conflicts);
-    }
+  if (!saveOutput(unifiedName, sorted, outputFile, dryRun, verbose, errors)) {
+    return failedMergeResult(outputFile, collections.length, tokensCount, errors, conflicts);
   }
 
   if (verbose) {
-    console.info('\n✅ Merge complete!');
-    console.info('📊 Summary:');
-    for (const coll of collections) {
-      console.info(`   Source: ${coll.tokenCount} tokens`);
-    }
-    console.info(`   Merged:   ${tokensCount} tokens`);
+    logMergeSummary(collections, tokensCount);
   }
 
   return {

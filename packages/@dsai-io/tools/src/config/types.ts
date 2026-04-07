@@ -69,7 +69,7 @@ export interface TokensConfig {
    * - Custom path: Direct path to token files
    * @default 'theme'
    */
-  source?: 'theme' | 'collections' | string;
+  source?: string;
 
   /**
    * Directory containing Figma export files

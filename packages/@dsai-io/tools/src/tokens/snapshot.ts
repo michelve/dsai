@@ -334,16 +334,10 @@ export class SnapshotService {
         const fullPath = join(dir, entry.name);
         const relativePath = fullPath.substring(baseDir.length + 1);
 
-        if (entry.isDirectory()) {
-          // Recursively scan subdirectories
-          if (!this.shouldExclude(relativePath)) {
-            files.push(...this.scanDirectory(fullPath, baseDir));
-          }
-        } else if (entry.isFile()) {
-          // Include files matching patterns
-          if (this.shouldInclude(relativePath)) {
-            files.push(relativePath);
-          }
+        if (entry.isDirectory() && !this.shouldExclude(relativePath)) {
+          files.push(...this.scanDirectory(fullPath, baseDir));
+        } else if (entry.isFile() && this.shouldInclude(relativePath)) {
+          files.push(relativePath);
         }
       }
     } catch {

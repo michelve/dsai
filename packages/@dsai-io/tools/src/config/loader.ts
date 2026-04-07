@@ -82,6 +82,92 @@ function createExplorerSync(options?: { stopDir?: string }): PublicExplorerSync 
 }
 
 // ============================================================================
+// Internal Helpers
+// ============================================================================
+
+interface FileLoadResult {
+  fileConfig: DsaiConfig;
+  resolvedConfigPath: string | undefined;
+  warnings: string[];
+}
+
+function extractConfigFromResult(cosmicResult: CosmiconfigResult): {
+  config: DsaiConfig;
+  filepath: string | undefined;
+} {
+  if (cosmicResult && !cosmicResult.isEmpty) {
+    return { config: cosmicResult.config as DsaiConfig, filepath: cosmicResult.filepath };
+  }
+  return { config: {}, filepath: undefined };
+}
+
+function resolveAbsolutePath(configPath: string, cwd: string): string {
+  return path.isAbsolute(configPath) ? configPath : path.resolve(cwd, configPath);
+}
+
+async function loadFileConfig(
+  cwd: string,
+  configPath: string | undefined
+): Promise<FileLoadResult> {
+  const explorer = createExplorer({ stopDir: path.dirname(cwd) });
+  const warnings: string[] = [];
+
+  try {
+    const cosmicResult = configPath
+      ? await explorer.load(resolveAbsolutePath(configPath, cwd))
+      : await explorer.search(cwd);
+    const { config, filepath } = extractConfigFromResult(cosmicResult);
+    return { fileConfig: config, resolvedConfigPath: filepath, warnings };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    warnings.push(`Failed to load configuration: ${message}`);
+    return { fileConfig: {}, resolvedConfigPath: undefined, warnings };
+  }
+}
+
+function loadFileConfigSync(
+  cwd: string,
+  configPath: string | undefined
+): FileLoadResult {
+  const explorer = createExplorerSync({ stopDir: path.dirname(cwd) });
+  const warnings: string[] = [];
+
+  try {
+    const cosmicResult = configPath
+      ? explorer.load(resolveAbsolutePath(configPath, cwd))
+      : explorer.search(cwd);
+    const { config, filepath } = extractConfigFromResult(cosmicResult);
+    return { fileConfig: config, resolvedConfigPath: filepath, warnings };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    warnings.push(`Failed to load configuration: ${message}`);
+    return { fileConfig: {}, resolvedConfigPath: undefined, warnings };
+  }
+}
+
+function buildConfigResult(
+  fileConfig: DsaiConfig,
+  resolvedConfigPath: string | undefined,
+  warnings: string[],
+  cwd: string,
+  overrides: LoadConfigOptions['overrides']
+): LoadConfigResult {
+  const configDir = resolvedConfigPath ? path.dirname(resolvedConfigPath) : cwd;
+
+  const resolvedConfig = resolveConfig(fileConfig, {
+    cwd,
+    configDir,
+    overrides,
+  });
+
+  return {
+    config: resolvedConfig,
+    configPath: resolvedConfigPath,
+    warnings,
+  };
+}
+
+// ============================================================================
 // Loading Functions
 // ============================================================================
 
@@ -113,52 +199,12 @@ function createExplorerSync(options?: { stopDir?: string }): PublicExplorerSync 
  */
 export async function loadConfig(options: LoadConfigOptions = {}): Promise<LoadConfigResult> {
   const { cwd = process.cwd(), configPath, overrides, skipFile = false } = options;
-  const warnings: string[] = [];
 
-  let fileConfig: DsaiConfig = {};
-  let resolvedConfigPath: string | undefined;
+  const { fileConfig, resolvedConfigPath, warnings } = skipFile
+    ? { fileConfig: {} as DsaiConfig, resolvedConfigPath: undefined, warnings: [] as string[] }
+    : await loadFileConfig(cwd, configPath);
 
-  // Load configuration from file unless skipped
-  if (!skipFile) {
-    const explorer = createExplorer({ stopDir: path.dirname(cwd) });
-    let cosmicResult: CosmiconfigResult;
-
-    try {
-      if (configPath) {
-        // Load from explicit path
-        const absolutePath = path.isAbsolute(configPath)
-          ? configPath
-          : path.resolve(cwd, configPath);
-        cosmicResult = await explorer.load(absolutePath);
-      } else {
-        // Search for config file
-        cosmicResult = await explorer.search(cwd);
-      }
-
-      if (cosmicResult && !cosmicResult.isEmpty) {
-        fileConfig = cosmicResult.config as DsaiConfig;
-        resolvedConfigPath = cosmicResult.filepath;
-      }
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      warnings.push(`Failed to load configuration: ${message}`);
-    }
-  }
-
-  // Resolve configuration with defaults
-  const configDir = resolvedConfigPath ? path.dirname(resolvedConfigPath) : cwd;
-
-  const resolvedConfig = resolveConfig(fileConfig, {
-    cwd,
-    configDir,
-    overrides,
-  });
-
-  return {
-    config: resolvedConfig,
-    configPath: resolvedConfigPath,
-    warnings,
-  };
+  return buildConfigResult(fileConfig, resolvedConfigPath, warnings, cwd, overrides);
 }
 
 /**
@@ -201,56 +247,12 @@ export function clearConfigCache(): void {
  */
 export function loadConfigSync(options: LoadConfigOptions = {}): LoadConfigResult {
   const { cwd = process.cwd(), configPath, overrides, skipFile = false } = options;
-  const warnings: string[] = [];
 
-  let fileConfig: DsaiConfig = {};
-  let resolvedConfigPath: string | undefined;
+  const { fileConfig, resolvedConfigPath, warnings } = skipFile
+    ? { fileConfig: {} as DsaiConfig, resolvedConfigPath: undefined, warnings: [] as string[] }
+    : loadFileConfigSync(cwd, configPath);
 
-  // Load configuration from file unless skipped
-  if (!skipFile) {
-    const explorer = createExplorerSync({ stopDir: path.dirname(cwd) });
-
-    try {
-      if (configPath) {
-        // Load from explicit path
-        const absolutePath = path.isAbsolute(configPath)
-          ? configPath
-          : path.resolve(cwd, configPath);
-        const result = explorer.load(absolutePath);
-
-        if (result && !result.isEmpty) {
-          fileConfig = result.config as DsaiConfig;
-          resolvedConfigPath = result.filepath;
-        }
-      } else {
-        // Search for config file
-        const result = explorer.search(cwd);
-
-        if (result && !result.isEmpty) {
-          fileConfig = result.config as DsaiConfig;
-          resolvedConfigPath = result.filepath;
-        }
-      }
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      warnings.push(`Failed to load configuration: ${message}`);
-    }
-  }
-
-  // Resolve configuration with defaults
-  const configDir = resolvedConfigPath ? path.dirname(resolvedConfigPath) : cwd;
-
-  const resolvedConfig = resolveConfig(fileConfig, {
-    cwd,
-    configDir,
-    overrides,
-  });
-
-  return {
-    config: resolvedConfig,
-    configPath: resolvedConfigPath,
-    warnings,
-  };
+  return buildConfigResult(fileConfig, resolvedConfigPath, warnings, cwd, overrides);
 }
 
 // ============================================================================

@@ -143,10 +143,10 @@ export function validateOutputPaths(paths: Record<string, string>): {
     const normalized = path.normalize(outputPath);
     const existingFormat = pathToFormat[normalized];
 
-    if (existingFormat !== undefined) {
-      conflicts.push([existingFormat, format]);
-    } else {
+    if (existingFormat === undefined) {
       pathToFormat[normalized] = format;
+    } else {
+      conflicts.push([existingFormat, format]);
     }
   }
 

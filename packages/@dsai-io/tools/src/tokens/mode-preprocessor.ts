@@ -138,6 +138,51 @@ function writeJsonFile(filePath: string, data: Record<string, unknown>): boolean
  * @param config - Preprocessor configuration
  * @returns Preprocessing result
  */
+/**
+ * Extract and write a single mode from tokens
+ *
+ * @returns true if the mode was successfully extracted and written
+ */
+function extractAndWriteMode(
+  tokens: Record<string, unknown>,
+  modeName: string,
+  modesPath: string[] | undefined,
+  filename: string,
+  outputDir: string,
+  isDefault: boolean,
+  verbose: boolean,
+  result: FilePreprocessingResult
+): boolean {
+  const extracted = extractMode(tokens, {
+    modeName,
+    modesPath,
+    preserveNonModeTokens: true,
+  });
+
+  if (!extracted.hasTokens) {
+    if (verbose) {
+      console.warn(`  ⚠️  No tokens found for mode "${modeName}" in ${filename}`);
+    }
+    return false;
+  }
+
+  const outputFilename = generateModeFilename(filename, modeName, isDefault);
+  const outputPath = join(outputDir, outputFilename);
+
+  if (!writeJsonFile(outputPath, extracted.tokens)) {
+    if (verbose) {
+      console.error(`  ❌ Failed to write "${modeName}" → ${outputFilename}`);
+    }
+    return false;
+  }
+
+  result.outputFiles.set(modeName, outputPath);
+  if (verbose) {
+    console.warn(`  ✅ Extracted "${modeName}" → ${outputFilename}`);
+  }
+  return true;
+}
+
 export function preprocessFile(
   filePath: string,
   config: PreprocessorConfig
@@ -151,14 +196,12 @@ export function preprocessFile(
     success: false,
   };
 
-  // Read source file
   const tokens = readJsonFile(filePath);
   if (!tokens) {
     result.error = 'Failed to read source file';
     return result;
   }
 
-  // Detect or use configured modes
   const modes = configuredModes ?? detectModes(tokens, modesPath);
   result.modes = modes;
 
@@ -170,7 +213,6 @@ export function preprocessFile(
     return result;
   }
 
-  // Extract each mode to a separate file
   const filename = parse(filePath).base;
   let successCount = 0;
 
@@ -180,36 +222,9 @@ export function preprocessFile(
       continue;
     }
 
-    const isDefault = i === 0; // First mode is default
-
-    // Extract mode
-    const extracted = extractMode(tokens, {
-      modeName,
-      modesPath,
-      preserveNonModeTokens: true,
-    });
-
-    if (!extracted.hasTokens) {
-      if (verbose) {
-        console.warn(`  ⚠️  No tokens found for mode "${modeName}" in ${filename}`);
-      }
-      continue;
-    }
-
-    // Generate output filename
-    const outputFilename = generateModeFilename(filename, modeName, isDefault);
-    const outputPath = join(outputDir, outputFilename);
-
-    // Write preprocessed file
-    if (writeJsonFile(outputPath, extracted.tokens)) {
-      result.outputFiles.set(modeName, outputPath);
+    const isDefault = i === 0;
+    if (extractAndWriteMode(tokens, modeName, modesPath, filename, outputDir, isDefault, verbose ?? false, result)) {
       successCount++;
-
-      if (verbose) {
-        console.warn(`  ✅ Extracted "${modeName}" → ${outputFilename}`);
-      }
-    } else if (verbose) {
-      console.error(`  ❌ Failed to write "${modeName}" → ${outputFilename}`);
     }
   }
 
@@ -239,6 +254,38 @@ export function preprocessFile(
  * result.cleanup();
  * ```
  */
+/**
+ * Process a single token file, returning a missing-file result if not found
+ */
+function processTokenFile(
+  file: string,
+  sourceDir: string,
+  verbose: boolean,
+  config: PreprocessorConfig
+): FilePreprocessingResult {
+  const filePath = join(sourceDir, file);
+
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
+  if (!existsSync(filePath)) {
+    if (verbose) {
+      console.warn(`  ⚠️  File not found: ${file}`);
+    }
+    return {
+      sourceFile: filePath,
+      modes: [],
+      outputFiles: new Map(),
+      success: false,
+      error: 'File not found',
+    };
+  }
+
+  if (verbose) {
+    console.warn(`\n  📄 Processing ${file}...`);
+  }
+
+  return preprocessFile(filePath, config);
+}
+
 export function preprocessTokenFiles(config: PreprocessorConfig): PreprocessingResult {
   const { sourceDir, outputDir, files, clean = true, verbose = false } = config;
 
@@ -270,32 +317,10 @@ export function preprocessTokenFiles(config: PreprocessorConfig): PreprocessingR
   let failureCount = 0;
 
   for (const file of files) {
-    const filePath = join(sourceDir, file);
+    const fileResult = processTokenFile(file, sourceDir, verbose, config);
+    results.push(fileResult);
 
-    // eslint-disable-next-line security/detect-non-literal-fs-filename
-    if (!existsSync(filePath)) {
-      if (verbose) {
-        console.warn(`  ⚠️  File not found: ${file}`);
-      }
-      results.push({
-        sourceFile: filePath,
-        modes: [],
-        outputFiles: new Map(),
-        success: false,
-        error: 'File not found',
-      });
-      failureCount++;
-      continue;
-    }
-
-    if (verbose) {
-      console.warn(`\n  📄 Processing ${file}...`);
-    }
-
-    const result = preprocessFile(filePath, config);
-    results.push(result);
-
-    if (result.success) {
+    if (fileResult.success) {
       successCount++;
     } else {
       failureCount++;

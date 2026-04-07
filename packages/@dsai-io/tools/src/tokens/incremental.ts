@@ -137,7 +137,7 @@ function classifyFileChanges(
   sourceFiles: string[],
   cacheService: CacheService,
   sourceDir: string,
-  verbose?: boolean
+  verbose = false
 ): IncrementalAnalysis {
   const changedFiles: string[] = [];
   const unchangedFiles: string[] = [];
@@ -238,6 +238,20 @@ export function buildDependencyGraph(
   return graph;
 }
 
+function addDependents(
+  collectionName: string,
+  dependencyGraph: DependencyGraph,
+  affected: Set<string>
+): void {
+  const deps = dependencyGraph.collections.get(collectionName);
+  if (!deps) {
+    return;
+  }
+  for (const dependent of deps.dependents) {
+    affected.add(dependent);
+  }
+}
+
 /**
  * Get collections that need to be rebuilt based on changed files
  */
@@ -248,24 +262,18 @@ export function getAffectedCollections(
 ): string[] {
   const affected = new Set<string>();
 
-  // Find directly affected collections
   for (const file of changedFiles) {
     const fileName = basename(file);
 
     for (const collection of collections) {
       const collectionFile = basename(collection.inputFile);
 
-      if (collectionFile === fileName) {
-        affected.add(collection.name);
-
-        // Add dependent collections
-        const deps = dependencyGraph.collections.get(collection.name);
-        if (deps) {
-          for (const dependent of deps.dependents) {
-            affected.add(dependent);
-          }
-        }
+      if (collectionFile !== fileName) {
+        continue;
       }
+
+      affected.add(collection.name);
+      addDependents(collection.name, dependencyGraph, affected);
     }
   }
 

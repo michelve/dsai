@@ -100,6 +100,12 @@ interface PackageJson {
 }
 
 // ============================================================================
+// Constants
+// ============================================================================
+
+const PACKAGE_JSON_FILENAME = 'package.json';
+
+// ============================================================================
 // Utility Functions
 // ============================================================================
 
@@ -107,7 +113,7 @@ interface PackageJson {
  * Read and parse package.json from a directory
  */
 export function readPackageJson(cwd: string): PackageJson | undefined {
-  const packageJsonPath = resolve(cwd, 'package.json');
+  const packageJsonPath = resolve(cwd, PACKAGE_JSON_FILENAME);
 
   if (!existsSync(packageJsonPath)) {
     return undefined;
@@ -125,7 +131,7 @@ export function readPackageJson(cwd: string): PackageJson | undefined {
  * Write package.json to a directory
  */
 export function writePackageJson(cwd: string, pkg: PackageJson): void {
-  const packageJsonPath = resolve(cwd, 'package.json');
+  const packageJsonPath = resolve(cwd, PACKAGE_JSON_FILENAME);
   const content = JSON.stringify(pkg, null, 2) + '\n';
   writeFileSync(packageJsonPath, content, 'utf-8');
 }
@@ -134,7 +140,7 @@ export function writePackageJson(cwd: string, pkg: PackageJson): void {
  * Create a backup of package.json
  */
 export function backupPackageJson(cwd: string): string | undefined {
-  const packageJsonPath = resolve(cwd, 'package.json');
+  const packageJsonPath = resolve(cwd, PACKAGE_JSON_FILENAME);
 
   if (!existsSync(packageJsonPath)) {
     return undefined;
@@ -219,6 +225,76 @@ export function getRunCommand(packageManager: PackageManager, script: string): s
 // Main Modification Function
 // ============================================================================
 
+/** Dangerous keys that could be used for prototype pollution */
+const DANGEROUS_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
+/**
+ * Process script entries into package.json
+ */
+function processScripts(
+  pkg: PackageJson,
+  scripts: ScriptEntry[],
+  changes: ModificationResult['changes']
+): void {
+  pkg.scripts ??= {};
+
+  for (const script of scripts) {
+    const exists = pkg.scripts[script.name] !== undefined;
+
+    if (!exists) {
+      pkg.scripts[script.name] = script.command;
+      changes.scriptsAdded.push(script.name);
+    } else if (script.overwrite) {
+      pkg.scripts[script.name] = script.command;
+      changes.scriptsUpdated.push(script.name);
+    }
+  }
+}
+
+/**
+ * Process a single dependency entry into package.json
+ */
+function processSingleDependency(
+  pkg: PackageJson,
+  dep: DependencyEntry,
+  upgradeDependencies: boolean,
+  changes: ModificationResult['changes']
+): void {
+  if (DANGEROUS_KEYS.has(dep.name)) {
+    return;
+  }
+
+  const section = dep.type;
+
+  if (!pkg[section]) {
+    (pkg as Record<string, Record<string, string>>)[section] = {};
+  }
+
+  const depsSection = pkg[section] as Record<string, string>;
+  const exists = dep.name in depsSection;
+
+  if (!exists) {
+    Object.defineProperty(depsSection, dep.name, {
+      value: dep.version,
+      writable: true,
+      enumerable: true,
+      configurable: true,
+    });
+    changes.dependenciesAdded.push(dep.name);
+    return;
+  }
+
+  if (upgradeDependencies && depsSection[dep.name] !== dep.version) {
+    Object.defineProperty(depsSection, dep.name, {
+      value: dep.version,
+      writable: true,
+      enumerable: true,
+      configurable: true,
+    });
+    changes.dependenciesUpdated.push(dep.name);
+  }
+}
+
 /**
  * Modify package.json with the given options
  *
@@ -237,7 +313,6 @@ export function modifyPackageJson(cwd: string, options: ModifyOptions): Modifica
     },
   };
 
-  // Read current package.json
   const pkg = readPackageJson(cwd);
   if (!pkg) {
     result.error = 'package.json not found';
@@ -252,72 +327,22 @@ export function modifyPackageJson(cwd: string, options: ModifyOptions): Modifica
     }
   }
 
-  // Process scripts
   if (options.scripts && options.scripts.length > 0) {
-    pkg.scripts ??= {};
-
-    for (const script of options.scripts) {
-      const exists = pkg.scripts[script.name] !== undefined;
-
-      if (!exists) {
-        pkg.scripts[script.name] = script.command;
-        result.changes.scriptsAdded.push(script.name);
-      } else if (script.overwrite) {
-        pkg.scripts[script.name] = script.command;
-        result.changes.scriptsUpdated.push(script.name);
-      }
-    }
+    processScripts(pkg, options.scripts, result.changes);
   }
 
-  // Process dependencies
   if (options.dependencies && options.dependencies.length > 0) {
     for (const dep of options.dependencies) {
-      // Guard against prototype pollution
-      if (dep.name === '__proto__' || dep.name === 'constructor' || dep.name === 'prototype') {
-        continue;
-      }
-
-      const section = dep.type;
-
-      if (!pkg[section]) {
-        (pkg as Record<string, Record<string, string>>)[section] = {};
-      }
-
-      const depsSection = pkg[section] as Record<string, string>;
-      const exists = dep.name in depsSection;
-
-      if (!exists) {
-        Object.defineProperty(depsSection, dep.name, {
-          value: dep.version,
-          writable: true,
-          enumerable: true,
-          configurable: true,
-        });
-        result.changes.dependenciesAdded.push(dep.name);
-      } else if (options.upgradeDependencies) {
-        // Only update if upgradeDependencies is true and version is different
-        if (depsSection[dep.name] !== dep.version) {
-          Object.defineProperty(depsSection, dep.name, {
-            value: dep.version,
-            writable: true,
-            enumerable: true,
-            configurable: true,
-          });
-          result.changes.dependenciesUpdated.push(dep.name);
-        }
-      }
-      // If exists and upgradeDependencies is false, skip (preserve existing version)
+      processSingleDependency(pkg, dep, options.upgradeDependencies ?? false, result.changes);
     }
   }
 
-  // Process custom fields
   if (options.customFields) {
     for (const [key, value] of Object.entries(options.customFields)) {
       pkg[key] = value;
     }
   }
 
-  // Write changes
   if (options.dryRun) {
     result.success = true;
   } else {

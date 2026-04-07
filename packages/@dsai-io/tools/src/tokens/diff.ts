@@ -183,20 +183,16 @@ function isEqual(a: unknown, b: unknown): boolean {
   }
 
   if (typeof a === 'object' && a !== null && b !== null) {
-    const aKeys = Object.keys(a as object);
-    const bKeys = Object.keys(b as object);
+    const aKeys = Object.keys(a);
+    const bKeys = Object.keys(b);
 
     if (aKeys.length !== bKeys.length) {
       return false;
     }
 
     return aKeys.every((key) => {
-      const aObj = a as Record<string, unknown>;
-      const bObj = b as Record<string, unknown>;
-      // eslint-disable-next-line security/detect-object-injection
-      const aValue = aObj[key];
-      // eslint-disable-next-line security/detect-object-injection
-      const bValue = bObj[key];
+      const aValue = Reflect.get(a, key);
+      const bValue = Reflect.get(b, key);
       return isEqual(aValue, bValue);
     });
   }

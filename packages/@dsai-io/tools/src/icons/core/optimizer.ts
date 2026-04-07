@@ -79,11 +79,10 @@ export async function optimizeSVG(
     raw.originalSize > 0 ? ((raw.originalSize - optimizedSize) / raw.originalSize) * 100 : 0;
 
   // Re-parse optimized content to get updated inner content
-  const innerContentMatch = optimizedContent.match(/<svg[^>]*>([\s\S]*?)<\/svg>/i);
+  const innerContentMatch = /<svg[^>]*>([\s\S]*?)<\/svg>/i.exec(optimizedContent);
   const innerContent = innerContentMatch?.[1]?.trim() ?? parsed.innerContent;
 
-  // Extract updated viewBox
-  const viewBoxMatch = optimizedContent.match(/viewBox=["']([^"']*)["']/i);
+  const viewBoxMatch = /viewBox=["']([^"']*)["']/i.exec(optimizedContent);
   const viewBox = viewBoxMatch?.[1] ?? parsed.viewBox;
 
   return {

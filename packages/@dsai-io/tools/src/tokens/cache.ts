@@ -287,7 +287,7 @@ export class CacheService {
     const regexPattern = pattern
       .replaceAll('**', '.*')
       .replaceAll('*', '[^/]*')
-      .replaceAll('.', '\\.');
+      .replaceAll('.', String.raw`\.`);
 
     const regex = new RegExp(`^${regexPattern}$`);
     return regex.test(filename);

@@ -21,6 +21,11 @@ import { join, resolve } from 'node:path';
 // ============================================================================
 
 /**
+ * Supported monorepo tools
+ */
+export type MonorepoTool = 'nx' | 'turborepo' | 'lerna' | 'pnpm-workspaces' | 'yarn-workspaces';
+
+/**
  * Supported frontend frameworks
  *
  * @remarks
@@ -102,7 +107,7 @@ export interface ProjectInfo {
   isMonorepo: boolean;
 
   /** Monorepo tool if detected */
-  monorepoTool?: 'nx' | 'turborepo' | 'lerna' | 'pnpm-workspaces' | 'yarn-workspaces';
+  monorepoTool?: MonorepoTool;
 
   /** Main framework used */
   framework: Framework;
@@ -126,7 +131,7 @@ export interface ProjectInfo {
   hasExistingTokens: boolean;
 
   /** Existing DSAI configuration file if present */
-  existingConfigFile?: string;
+  existingConfigFile?: string | null;
 
   /** Project name from package.json */
   projectName?: string;
@@ -206,6 +211,8 @@ function safeReadFile(basePath: string, ...relativePath: string[]): string | und
 // Detection Functions
 // ============================================================================
 
+const PACKAGE_JSON = 'package.json';
+
 /** Lock file-to-package manager mapping (checked in order) */
 const LOCK_FILE_PM_MAP: [string | string[], PackageManager][] = [
   [['bun.lockb', 'bun.lock'], 'bun'],
@@ -252,7 +259,7 @@ export function detectPackageManager(cwd: string): PackageManager {
   }
 
   // Check packageManager field in package.json (corepack)
-  const content = safeReadFile(basePath, 'package.json');
+  const content = safeReadFile(basePath, PACKAGE_JSON);
   if (content) {
     const detected = detectPmFromCorepack(content);
     if (detected) { return detected; }
@@ -333,7 +340,7 @@ export function detectMetaFramework(pkg: PackageJsonData, cwd: string): MetaFram
   // Check dependencies in order of specificity
   for (const [deps, framework] of DEP_META_FRAMEWORK_MAP) {
     const depList = Array.isArray(deps) ? deps : [deps];
-    if (depList.some((d) => allDeps[d])) {
+    if (depList.some((d) => Reflect.get(allDeps, d))) {
       return framework;
     }
   }
@@ -366,7 +373,7 @@ function detectStylingFromDeps(allDeps: Record<string, string>): StylingApproach
 
   for (const [deps, approach] of DEP_STYLING_MAP) {
     const depList = Array.isArray(deps) ? deps : [deps];
-    if (depList.some((d) => allDeps[d])) {
+    if (depList.some((d) => Reflect.get(allDeps, d))) {
       approaches.push(approach);
     }
   }
@@ -616,7 +623,7 @@ export function detectStyleDirectories(cwd: string): string[] {
  */
 export function loadPackageJson(cwd: string): PackageJsonData | undefined {
   const basePath = resolve(cwd);
-  const content = safeReadFile(basePath, 'package.json');
+  const content = safeReadFile(basePath, PACKAGE_JSON);
 
   if (!content) {
     return undefined;
@@ -687,55 +694,59 @@ export function detectProject(cwd: string = process.cwd()): ProjectInfo {
     projectName: packageJson.name,
     sourceDir: detectSourceDir(basePath),
     styleDirectories: detectStyleDirectories(basePath),
-    packageJsonPath: join(basePath, 'package.json'),
+    packageJsonPath: join(basePath, PACKAGE_JSON),
     packageJson,
   };
+}
+
+/**
+ * Build optional summary lines from project info
+ */
+function buildOptionalSummaryLines(info: ProjectInfo): string[] {
+  const lines: string[] = [];
+
+  if (info.projectName) {
+    lines.push(`Project: ${info.projectName}`);
+  }
+  if (info.isMonorepo && info.monorepoTool) {
+    lines.push(`Monorepo: ${info.monorepoTool}`);
+  }
+  if (info.metaFramework !== 'none') {
+    lines.push(`Build Tool: ${info.metaFramework}`);
+  }
+  if (info.styling !== 'unknown') {
+    lines.push(`Styling: ${info.styling}`);
+  }
+  if (info.existingConfigFile) {
+    lines.push(`Existing Config: ${info.existingConfigFile}`);
+  }
+  if (info.hasExistingTokens) {
+    lines.push('Existing Tokens: Detected');
+  }
+  return lines;
 }
 
 /**
  * Get a human-readable summary of the project
  */
 export function getProjectSummary(info: ProjectInfo): string[] {
-  const summary: string[] = [];
-
   if (!info.isProject) {
-    summary.push('No package.json found - this may not be a Node.js project');
-    return summary;
+    return ['No package.json found - this may not be a Node.js project'];
   }
 
-  if (info.projectName) {
-    summary.push(`Project: ${info.projectName}`);
-  }
+  const optional = buildOptionalSummaryLines(info);
+  const beforeFramework = optional.filter((l) => l.startsWith('Project:') || l.startsWith('Monorepo:'));
+  const afterCore = optional.filter((l) => !l.startsWith('Project:') && !l.startsWith('Monorepo:'));
 
-  if (info.isMonorepo && info.monorepoTool) {
-    summary.push(`Monorepo: ${info.monorepoTool}`);
-  }
-
-  summary.push(`Framework: ${info.framework}`);
-
-  if (info.metaFramework !== 'none') {
-    summary.push(`Build Tool: ${info.metaFramework}`);
-  }
-
-  summary.push(
+  return [
+    ...beforeFramework,
+    `Framework: ${info.framework}`,
+    ...optional.filter((l) => l.startsWith('Build Tool:')),
     `Package Manager: ${info.packageManager}`,
     `TypeScript: ${info.typescript ? 'Yes' : 'No'}`,
-    `Module System: ${info.esm ? 'ESM' : 'CommonJS'}`
-  );
-
-  if (info.styling !== 'unknown') {
-    summary.push(`Styling: ${info.styling}`);
-  }
-
-  if (info.existingConfigFile) {
-    summary.push(`Existing Config: ${info.existingConfigFile}`);
-  }
-
-  if (info.hasExistingTokens) {
-    summary.push('Existing Tokens: Detected');
-  }
-
-  return summary;
+    `Module System: ${info.esm ? 'ESM' : 'CommonJS'}`,
+    ...afterCore.filter((l) => !l.startsWith('Build Tool:')),
+  ];
 }
 
 /**

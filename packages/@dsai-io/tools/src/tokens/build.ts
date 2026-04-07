@@ -257,9 +257,9 @@ function resolveThemeOutputFile(
   format: string,
   isDefault: boolean
 ): string {
-  const existing = outputFiles?.[format];
+  const existing = outputFiles ? Reflect.get(outputFiles, format) as string | undefined : undefined;
   if (existing) {return existing;}
-  const pair = FORMAT_OUTPUT_DEFAULTS[format];
+  const pair = Reflect.get(FORMAT_OUTPUT_DEFAULTS, format) as [string, string] | undefined;
   if (!pair) {return `tokens-${name}.${format}`;}
   const template = isDefault ? pair[0] : pair[1];
   return template.replaceAll('{name}', name);
@@ -276,7 +276,7 @@ function resolveThemeDefForDiscovery(
   const allFormats = ['css', 'scss', 'js', 'ts', 'json', 'android', 'ios'];
   const outputFiles: Record<string, string> = {};
   for (const fmt of allFormats) {
-    outputFiles[fmt] = resolveThemeOutputFile(def.outputFiles, name, fmt, isDefault);
+    Reflect.set(outputFiles, fmt, resolveThemeOutputFile(def.outputFiles, name, fmt, isDefault));
   }
   return {
     isDefault,
@@ -388,265 +388,258 @@ interface StepCreationContext {
   prefix?: string;
 }
 
-/**
- * Create a single build step from step name
- */
-function createStepFromName(stepName: BuildPipelineStep, ctx: StepCreationContext): BuildStep {
-  const displayName = STEP_DISPLAY_NAMES.get(stepName) ?? `Unknown: ${stepName}`;
-  const {
-    tokensPackageDir,
-    figmaExportsDir,
-    tokensDir,
-    paths,
-    sdConfigFile,
-    strict,
-    snapshotService,
-    themesConfig,
-    outputDir,
-    formats,
-    cssOutputDir,
-    postprocessConfig,
-    prefix,
-  } = ctx;
+function createValidateStep(ctx: StepCreationContext): BuildStep {
+  return {
+    name: STEP_DISPLAY_NAMES.get(STEP_VALIDATE) ?? STEP_VALIDATE,
+    fn: async () => {
+      const config = {
+        tokens: { collectionsDir: ctx.tokensDir, sourceDir: ctx.figmaExportsDir },
+      } as Parameters<typeof validateTokens>[0];
+      const result = await validateTokens(config, { verbose: true, strict: ctx.strict });
+      if (!result.valid) {
+        for (const error of result.errors) {
+          console.error(`❌ ${error.message}`);
+        }
+      }
+      return result.valid;
+    },
+  };
+}
 
-  switch (stepName) {
-    case STEP_VALIDATE:
-      return {
-        name: displayName,
-        fn: async () => {
-          const config = {
-            tokens: { collectionsDir: tokensDir, sourceDir: figmaExportsDir },
-          } as Parameters<typeof validateTokens>[0];
-          const result = await validateTokens(config, { verbose: true, strict });
-          if (!result.valid) {
-            for (const error of result.errors) {
-              console.error(`❌ ${error.message}`);
-            }
-          }
-          return result.valid;
-        },
-      };
+function createSnapshotStep(ctx: StepCreationContext): BuildStep {
+  return {
+    name: STEP_DISPLAY_NAMES.get(STEP_SNAPSHOT) ?? STEP_SNAPSHOT,
+    fn: () => {
+      if (!ctx.snapshotService) {
+        console.warn('    ⚠️  Snapshot service not available, skipping');
+        return true;
+      }
+      try {
+        const collectionsPath = join(ctx.tokensDir, 'collections');
+        console.info(`    📂 Snapshot path: ${collectionsPath}`);
+        const result = ctx.snapshotService.createSnapshot(
+          collectionsPath,
+          `Pre-transform backup - ${new Date().toISOString()}`
+        );
+        if (!result.success || !result.snapshot) {
+          console.error(`    ❌ Snapshot failed: ${result.error || UNKNOWN_ERROR_MSG}`);
+          return false;
+        }
+        console.info(`    📸 Snapshot created: ${result.snapshot.id}`);
+        console.info(`       Files: ${result.snapshot.files.length}`);
+        return true;
+      } catch (error) {
+        console.error(
+          `    ❌ Snapshot failed: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
+        );
+        return false;
+      }
+    },
+  };
+}
 
-    case STEP_SNAPSHOT:
-      return {
-        name: displayName,
-        fn: () => {
-          if (!snapshotService) {
-            console.warn('    ⚠️  Snapshot service not available, skipping');
-            return true;
-          }
-          try {
-            const collectionsPath = join(tokensDir, 'collections');
-            console.info(`    📂 Snapshot path: ${collectionsPath}`);
-            const result = snapshotService.createSnapshot(
-              collectionsPath,
-              `Pre-transform backup - ${new Date().toISOString()}`
-            );
-            if (!result.success || !result.snapshot) {
-              console.error(`    ❌ Snapshot failed: ${result.error || UNKNOWN_ERROR_MSG}`);
-              return false;
-            }
-            console.info(`    📸 Snapshot created: ${result.snapshot.id}`);
-            console.info(`       Files: ${result.snapshot.files.length}`);
-            return true;
-          } catch (error) {
-            console.error(
-              `    ❌ Snapshot failed: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
-            );
-            return false;
-          }
-        },
-      };
-
-    case STEP_PREPROCESS:
-      return {
-        name: displayName,
-        fn: async () => {
-          try {
-            const outputDir = join(figmaExportsDir, '.preprocessed');
-            console.info(`    📂 Source: ${figmaExportsDir}`);
-            console.info(`    📂 Output: ${outputDir}`);
-
-            // Get all JSON files from the source directory
-            const jsonFiles = readdirSync(figmaExportsDir).filter((f) => f.endsWith('.json'));
-
-            if (jsonFiles.length === 0) {
-              console.warn(`    ⚠️  No JSON files found in ${figmaExportsDir}`);
-              return true; // Not a failure, just skip
-            }
-
-            const result = preprocessTokenFiles({
-              sourceDir: figmaExportsDir,
-              outputDir,
-              files: jsonFiles,
-              modesPath: ['Foundation', 'modes'],
-              verbose: true,
-            });
-
-            // Only fail if actual processing errors occurred (not "no modes detected")
-            const failedFiles = result.files.filter(
-              (f) => !f.success && f.error !== 'No modes detected'
-            );
-            if (failedFiles.length > 0) {
-              console.error(`    ❌ Preprocessing failed for ${failedFiles.length} file(s)`);
-              for (const failed of failedFiles) {
-                console.error(
-                  `       - ${failed.sourceFile}: ${failed.error ?? UNKNOWN_ERROR_MSG}`
-                );
-              }
-              return false;
-            }
-
-            const successFiles = result.files.filter((f) => f.success);
-            const skippedFiles = result.files.filter((f) => f.error === 'No modes detected');
-
-            console.info(`    ✅ Preprocessed ${successFiles.length} file(s)`);
-            if (skippedFiles.length > 0) {
-              console.info(`    ⏭️  Skipped ${skippedFiles.length} file(s) (no modes)`);
-            }
-
-            const totalModes = result.files.reduce(
-              (sum: number, file: FilePreprocessingResult) => sum + file.modes.length,
-              0
-            );
-            console.info(`    📊 Total modes extracted: ${totalModes}`);
-
-            // Store cleanup function for later
-            preprocessCleanup = result.cleanup;
-
-            return true;
-          } catch (error) {
-            console.error(
-              `    ❌ Preprocessing failed: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
-            );
-            return false;
-          }
-        },
-      };
-
-    case STEP_TRANSFORM:
-      return {
-        name: displayName,
-        fn: () => {
-          const preprocessedDir = join(figmaExportsDir, '.preprocessed');
-          const sourceDir = existsSync(preprocessedDir) ? preprocessedDir : figmaExportsDir;
-          if (sourceDir === preprocessedDir) {
-            console.info(`    📂 Using preprocessed directory: ${preprocessedDir}`);
-          }
-          const result = transformTokens({ sourceDir, collectionsDir: tokensDir, verbose: true, strict });
-          if (!result.success) {
-            for (const error of result.errors) {
-              console.error(`❌ ${error}`);
-            }
-          }
-          return result.success;
-        },
-      };
-
-    case STEP_STYLE_DICTIONARY:
-      return {
-        name: displayName,
-        command: 'style-dictionary',
-        args: ['build', '--config', sdConfigFile],
-        cwd: tokensPackageDir,
-      };
-
-    case STEP_MULTI_THEME:
-      return {
-        name: displayName,
-        fn: async () => {
-          if (!themesConfig?.enabled || !themesConfig?.definitions) {
-            console.warn('    ⚠️  Multi-theme build requires themes config with enabled: true');
-            console.warn('    ℹ️  Falling back to single-theme build via style-dictionary');
-            return true;
-          }
-          try {
-            return await executeMultiThemeBuild(
-              themesConfig, tokensDir, tokensPackageDir, outputDir, formats, prefix
-            );
-          } catch (error) {
-            console.error(
-              `    ❌ Multi-theme build error: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
-            );
-            return false;
-          }
-        },
-      };
-
-    case STEP_SYNC:
-      return {
-        name: displayName,
-        fn: () => syncTokensCLI(tokensPackageDir, { syncSource: paths.syncSource, syncTarget: paths.syncTarget }),
-      };
-
-    case STEP_SASS_THEME:
-      return {
-        name: displayName,
-        command: 'sass',
-        args: [...SASS_FLAGS, paths.sassThemeInput, paths.sassThemeOutput],
-        cwd: tokensPackageDir,
-      };
-
-    case STEP_SASS_THEME_MINIFIED:
-      return {
-        name: displayName,
-        command: 'sass',
-        args: [
-          ...SASS_FLAGS,
-          paths.sassThemeInput,
-          paths.sassThemeMinifiedOutput,
-          '--style=compressed',
-        ],
-        cwd: tokensPackageDir,
-      };
-
-    case STEP_POSTPROCESS:
-      return {
-        name: displayName,
-        fn: () => {
-          const cssDir = cssOutputDir ?? postprocessConfig?.cssDir ?? join(tokensPackageDir, 'dist/css');
-          const result = postprocessCssFiles({
-            cssDir, files: postprocessConfig?.files, replacements: postprocessConfig?.replacements, verbose: true,
-          });
-          return result.success;
-        },
-      };
-
-    case STEP_SASS_UTILITIES:
-      return {
-        name: displayName,
-        command: 'sass',
-        args: [...SASS_FLAGS_MINIMAL, paths.sassUtilitiesInput, paths.sassUtilitiesOutput],
-        cwd: tokensPackageDir,
-      };
-
-    case STEP_SASS_UTILITIES_MINIFIED:
-      return {
-        name: displayName,
-        command: 'sass',
-        args: [
-          ...SASS_FLAGS_MINIMAL,
-          paths.sassUtilitiesInput,
-          paths.sassUtilitiesMinifiedOutput,
-          '--style=compressed',
-        ],
-        cwd: tokensPackageDir,
-      };
-
-    case STEP_BUNDLE:
-      return {
-        name: displayName,
-        command: 'tsup',
-        args: [],
-        cwd: tokensPackageDir,
-      };
-
-    default:
-      return {
-        name: `Unknown step: ${stepName}`,
-        fn: () => { console.warn(`⚠️ Unknown pipeline step: ${stepName}`); return true; },
-      };
+function logPreprocessFailures(failedFiles: FilePreprocessingResult[]): void {
+  console.error(`    ❌ Preprocessing failed for ${failedFiles.length} file(s)`);
+  for (const failed of failedFiles) {
+    console.error(
+      `       - ${failed.sourceFile}: ${failed.error ?? UNKNOWN_ERROR_MSG}`
+    );
   }
+}
+
+function createPreprocessStep(ctx: StepCreationContext): BuildStep {
+  return {
+    name: STEP_DISPLAY_NAMES.get(STEP_PREPROCESS) ?? STEP_PREPROCESS,
+    fn: async () => {
+      try {
+        return executePreprocessing(ctx.figmaExportsDir);
+      } catch (error) {
+        console.error(
+          `    ❌ Preprocessing failed: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
+        );
+        return false;
+      }
+    },
+  };
+}
+
+function executePreprocessing(figmaExportsDir: string): boolean {
+  const outputDir = join(figmaExportsDir, '.preprocessed');
+  console.info(`    📂 Source: ${figmaExportsDir}`);
+  console.info(`    📂 Output: ${outputDir}`);
+
+  const jsonFiles = readdirSync(figmaExportsDir).filter((f) => f.endsWith('.json'));
+
+  if (jsonFiles.length === 0) {
+    console.warn(`    ⚠️  No JSON files found in ${figmaExportsDir}`);
+    return true;
+  }
+
+  const result = preprocessTokenFiles({
+    sourceDir: figmaExportsDir,
+    outputDir,
+    files: jsonFiles,
+    modesPath: ['Foundation', 'modes'],
+    verbose: true,
+  });
+
+  const failedFiles = result.files.filter(
+    (f) => !f.success && f.error !== 'No modes detected'
+  );
+  if (failedFiles.length > 0) {
+    logPreprocessFailures(failedFiles);
+    return false;
+  }
+
+  const successFiles = result.files.filter((f) => f.success);
+  const skippedFiles = result.files.filter((f) => f.error === 'No modes detected');
+
+  console.info(`    ✅ Preprocessed ${successFiles.length} file(s)`);
+  if (skippedFiles.length > 0) {
+    console.info(`    ⏭️  Skipped ${skippedFiles.length} file(s) (no modes)`);
+  }
+
+  const totalModes = result.files.reduce(
+    (sum: number, file: FilePreprocessingResult) => sum + file.modes.length,
+    0
+  );
+  console.info(`    📊 Total modes extracted: ${totalModes}`);
+
+  preprocessCleanup = result.cleanup;
+
+  return true;
+}
+
+function createTransformStep(ctx: StepCreationContext): BuildStep {
+  return {
+    name: STEP_DISPLAY_NAMES.get(STEP_TRANSFORM) ?? STEP_TRANSFORM,
+    fn: () => {
+      const preprocessedDir = join(ctx.figmaExportsDir, '.preprocessed');
+      const sourceDir = existsSync(preprocessedDir) ? preprocessedDir : ctx.figmaExportsDir;
+      if (sourceDir === preprocessedDir) {
+        console.info(`    📂 Using preprocessed directory: ${preprocessedDir}`);
+      }
+      const result = transformTokens({ sourceDir, collectionsDir: ctx.tokensDir, verbose: true, strict: ctx.strict });
+      if (!result.success) {
+        for (const error of result.errors) {
+          console.error(`❌ ${error}`);
+        }
+      }
+      return result.success;
+    },
+  };
+}
+
+function createMultiThemeStep(ctx: StepCreationContext): BuildStep {
+  return {
+    name: STEP_DISPLAY_NAMES.get(STEP_MULTI_THEME) ?? STEP_MULTI_THEME,
+    fn: async () => {
+      if (!ctx.themesConfig?.enabled || !ctx.themesConfig?.definitions) {
+        console.warn('    ⚠️  Multi-theme build requires themes config with enabled: true');
+        console.warn('    ℹ️  Falling back to single-theme build via style-dictionary');
+        return true;
+      }
+      try {
+        return await executeMultiThemeBuild(
+          ctx.themesConfig, ctx.tokensDir, ctx.tokensPackageDir, ctx.outputDir, ctx.formats, ctx.prefix
+        );
+      } catch (error) {
+        console.error(
+          `    ❌ Multi-theme build error: ${error instanceof Error ? error.message : UNKNOWN_ERROR_MSG}`
+        );
+        return false;
+      }
+    },
+  };
+}
+
+function createPostprocessStep(ctx: StepCreationContext): BuildStep {
+  return {
+    name: STEP_DISPLAY_NAMES.get(STEP_POSTPROCESS) ?? STEP_POSTPROCESS,
+    fn: () => {
+      const cssDir = ctx.cssOutputDir ?? ctx.postprocessConfig?.cssDir ?? join(ctx.tokensPackageDir, 'dist/css');
+      const result = postprocessCssFiles({
+        cssDir, files: ctx.postprocessConfig?.files, replacements: ctx.postprocessConfig?.replacements, verbose: true,
+      });
+      return result.success;
+    },
+  };
+}
+
+type StepFactory = (ctx: StepCreationContext) => BuildStep;
+
+function buildStepFactoryMap(): Map<BuildPipelineStep, StepFactory> {
+  const map = new Map<BuildPipelineStep, StepFactory>();
+  map.set(STEP_VALIDATE, createValidateStep);
+  map.set(STEP_SNAPSHOT, createSnapshotStep);
+  map.set(STEP_PREPROCESS, createPreprocessStep);
+  map.set(STEP_TRANSFORM, createTransformStep);
+  map.set(STEP_MULTI_THEME, createMultiThemeStep);
+  map.set(STEP_POSTPROCESS, createPostprocessStep);
+  map.set(STEP_STYLE_DICTIONARY, (ctx) => ({
+    name: STEP_DISPLAY_NAMES.get(STEP_STYLE_DICTIONARY) ?? STEP_STYLE_DICTIONARY,
+    command: 'style-dictionary',
+    args: ['build', '--config', ctx.sdConfigFile],
+    cwd: ctx.tokensPackageDir,
+  }));
+  map.set(STEP_SYNC, (ctx) => ({
+    name: STEP_DISPLAY_NAMES.get(STEP_SYNC) ?? STEP_SYNC,
+    fn: () => syncTokensCLI(ctx.tokensPackageDir, { syncSource: ctx.paths.syncSource, syncTarget: ctx.paths.syncTarget }),
+  }));
+  map.set(STEP_SASS_THEME, (ctx) => ({
+    name: STEP_DISPLAY_NAMES.get(STEP_SASS_THEME) ?? STEP_SASS_THEME,
+    command: 'sass',
+    args: [...SASS_FLAGS, ctx.paths.sassThemeInput, ctx.paths.sassThemeOutput],
+    cwd: ctx.tokensPackageDir,
+  }));
+  map.set(STEP_SASS_THEME_MINIFIED, (ctx) => ({
+    name: STEP_DISPLAY_NAMES.get(STEP_SASS_THEME_MINIFIED) ?? STEP_SASS_THEME_MINIFIED,
+    command: 'sass',
+    args: [
+      ...SASS_FLAGS,
+      ctx.paths.sassThemeInput,
+      ctx.paths.sassThemeMinifiedOutput,
+      '--style=compressed',
+    ],
+    cwd: ctx.tokensPackageDir,
+  }));
+  map.set(STEP_SASS_UTILITIES, (ctx) => ({
+    name: STEP_DISPLAY_NAMES.get(STEP_SASS_UTILITIES) ?? STEP_SASS_UTILITIES,
+    command: 'sass',
+    args: [...SASS_FLAGS_MINIMAL, ctx.paths.sassUtilitiesInput, ctx.paths.sassUtilitiesOutput],
+    cwd: ctx.tokensPackageDir,
+  }));
+  map.set(STEP_SASS_UTILITIES_MINIFIED, (ctx) => ({
+    name: STEP_DISPLAY_NAMES.get(STEP_SASS_UTILITIES_MINIFIED) ?? STEP_SASS_UTILITIES_MINIFIED,
+    command: 'sass',
+    args: [
+      ...SASS_FLAGS_MINIMAL,
+      ctx.paths.sassUtilitiesInput,
+      ctx.paths.sassUtilitiesMinifiedOutput,
+      '--style=compressed',
+    ],
+    cwd: ctx.tokensPackageDir,
+  }));
+  map.set(STEP_BUNDLE, (ctx) => ({
+    name: STEP_DISPLAY_NAMES.get(STEP_BUNDLE) ?? STEP_BUNDLE,
+    command: 'tsup',
+    args: [],
+    cwd: ctx.tokensPackageDir,
+  }));
+  return map;
+}
+
+const STEP_FACTORY_MAP = buildStepFactoryMap();
+
+function createStepFromName(stepName: BuildPipelineStep, ctx: StepCreationContext): BuildStep {
+  const factory = STEP_FACTORY_MAP.get(stepName);
+  if (factory) {
+    return factory(ctx);
+  }
+  return {
+    name: `Unknown step: ${stepName}`,
+    fn: () => { console.warn(`⚠️ Unknown pipeline step: ${stepName}`); return true; },
+  };
 }
 
 /** Steps that run even when onlyTheme is true */
@@ -723,24 +716,6 @@ function createBuildSteps(
 
   for (const stepName of pipelineSteps) {
     const step = createStepFromName(stepName, stepContext);
-
-    // Apply skip flags based on legacy options
-    if (stepName === STEP_VALIDATE && skipValidate) {
-      step.skip = true;
-    }
-    if (stepName === STEP_TRANSFORM && (skipTransform || onlyTheme)) {
-      step.skip = true;
-    }
-    if (
-      onlyTheme &&
-      ![STEP_SASS_THEME, STEP_SASS_THEME_MINIFIED, STEP_POSTPROCESS].includes(stepName)
-    ) {
-      // Only run theme-related steps when onlyTheme is true
-      if (stepName !== STEP_VALIDATE) {
-        step.skip = true;
-      }
-    }
-
     step.skip = shouldSkipStep(stepName, { skipValidate, skipTransform, onlyTheme });
     steps.push(step);
   }
@@ -999,6 +974,48 @@ function logBuildFooter(stepsCompleted: number, durationSec: string): void {
   console.info('╚════════════════════════════════════════════════════════════╝');
 }
 
+interface BuildSuccessContext {
+  tokensDir: string;
+  steps: BuildStep[];
+  stepsCompleted: string[];
+  startTime: number;
+  shouldLog: boolean;
+  incremental: boolean;
+  cacheService?: CacheService;
+  incrementalAnalysis?: Awaited<ReturnType<typeof analyzeChanges>>;
+}
+
+async function finalizeBuildSuccess(ctx: BuildSuccessContext): Promise<BuildResult> {
+  const duration = Date.now() - ctx.startTime;
+
+  if (ctx.incremental && ctx.cacheService && ctx.incrementalAnalysis) {
+    await finalizeIncrementalBuild(
+      ctx.tokensDir,
+      ctx.cacheService,
+      ctx.incrementalAnalysis,
+      ctx.stepsCompleted.length,
+      ctx.steps.length,
+      ctx.startTime,
+      ctx.shouldLog
+    );
+  }
+
+  cleanupPreprocessedFiles(ctx.shouldLog);
+
+  if (ctx.shouldLog) {
+    logBuildFooter(ctx.stepsCompleted.length, (duration / 1000).toFixed(1));
+  }
+
+  return {
+    success: true,
+    stepsCompleted: ctx.stepsCompleted,
+    stepsFailed: [],
+    duration,
+    errors: [],
+    warnings: [],
+  };
+}
+
 export async function buildTokens(
   tokensDir: string,
   toolsDir: string,
@@ -1015,18 +1032,15 @@ export async function buildTokens(
 
   const startTime = Date.now();
 
-  // Verify directories exist
   const dirError = verifyBuildDirectories(tokensDir, toolsDir, startTime);
   if (dirError) {
     return dirError;
   }
 
-  // Print header
   if (shouldLog) {
     logBuildHeader(options);
   }
 
-  // Incremental build analysis
   let cacheService: CacheService | undefined;
   let incrementalAnalysis: Awaited<ReturnType<typeof analyzeChanges>> | undefined;
 
@@ -1043,7 +1057,6 @@ export async function buildTokens(
     }
   }
 
-  // Create and run build steps
   const steps = createBuildSteps(
     tokensDir,
     toolsDir,
@@ -1052,43 +1065,20 @@ export async function buildTokens(
   );
   const stepResult = await executeBuildSteps(steps, shouldLog, startTime);
 
-  // If executeBuildSteps returned a full BuildResult, it failed
   if ('success' in stepResult) {
     return stepResult;
   }
 
-  const { stepsCompleted } = stepResult;
-  const duration = Date.now() - startTime;
-
-  // Update cache after successful incremental build
-  if (incremental && cacheService && incrementalAnalysis) {
-    await finalizeIncrementalBuild(
-      tokensDir,
-      cacheService,
-      incrementalAnalysis,
-      stepsCompleted.length,
-      steps.length,
-      startTime,
-      shouldLog
-    );
-  }
-
-  // Cleanup preprocessed files
-  cleanupPreprocessedFiles(shouldLog);
-
-  // Print footer
-  if (shouldLog) {
-    logBuildFooter(stepsCompleted.length, (duration / 1000).toFixed(1));
-  }
-
-  return {
-    success: true,
-    stepsCompleted,
-    stepsFailed: [],
-    duration,
-    errors: [],
-    warnings: [],
-  };
+  return finalizeBuildSuccess({
+    tokensDir,
+    steps,
+    stepsCompleted: stepResult.stepsCompleted,
+    startTime,
+    shouldLog,
+    incremental,
+    cacheService,
+    incrementalAnalysis,
+  });
 }
 
 /**
