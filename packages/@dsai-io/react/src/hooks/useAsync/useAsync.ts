@@ -202,8 +202,8 @@ export function useAsync<T, E = Error>(
       commitState({
         ...prev,
         data,
-        error: data !== null ? null : prev.error,
-        status: data !== null ? 'success' : 'idle',
+        error: data === null ? prev.error : null,
+        status: data === null ? 'idle' : 'success',
         isLoading: false,
         isSuccess: data !== null,
         isError: false,
@@ -223,8 +223,8 @@ export function useAsync<T, E = Error>(
       commitState({
         ...prev,
         error,
-        data: error !== null ? null : prev.data,
-        status: error !== null ? 'error' : 'idle',
+        data: error === null ? prev.data : null,
+        status: error === null ? 'idle' : 'error',
         isLoading: false,
         isSuccess: false,
         isError: error !== null,

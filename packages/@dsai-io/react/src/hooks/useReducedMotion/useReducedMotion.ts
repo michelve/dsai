@@ -41,20 +41,20 @@ export function useReducedMotion(options: UseReducedMotionOptions = {}): boolean
 
   // Initialize state with current media query match or SSR default
   const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(() => {
-    if (!isBrowser() || !window.matchMedia) {
+    if (!isBrowser() || !globalThis.matchMedia) {
       return defaultValue;
     }
 
-    return window.matchMedia(REDUCED_MOTION_QUERY).matches;
+    return globalThis.matchMedia(REDUCED_MOTION_QUERY).matches;
   });
 
   useEffect(() => {
     // Skip if not in browser environment or matchMedia not available
-    if (!isBrowser() || !window.matchMedia) {
+    if (!isBrowser() || !globalThis.matchMedia) {
       return;
     }
 
-    const mediaQuery = window.matchMedia(REDUCED_MOTION_QUERY);
+    const mediaQuery = globalThis.matchMedia(REDUCED_MOTION_QUERY);
 
     /**
      * Handle media query change events

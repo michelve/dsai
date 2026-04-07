@@ -77,7 +77,7 @@ export interface UseMediaQueryOptions {
 export function useMediaQuery(query: string, options: UseMediaQueryOptions = {}): boolean {
   const { defaultValue = false } = options;
   const canUseMatchMedia = (): boolean => {
-    return isBrowser() && typeof window.matchMedia === 'function';
+    return isBrowser() && typeof globalThis.matchMedia === 'function';
   };
   const supportsMatchMedia = canUseMatchMedia();
 
@@ -86,7 +86,7 @@ export function useMediaQuery(query: string, options: UseMediaQueryOptions = {})
       return () => {};
     }
 
-    const mediaQueryList = window.matchMedia(query);
+    const mediaQueryList = globalThis.matchMedia(query);
 
     // Modern browsers use addEventListener
     mediaQueryList.addEventListener('change', callback);
@@ -100,7 +100,7 @@ export function useMediaQuery(query: string, options: UseMediaQueryOptions = {})
     if (!supportsMatchMedia) {
       return defaultValue;
     }
-    return window.matchMedia(query).matches;
+    return globalThis.matchMedia(query).matches;
   };
 
   const getServerSnapshot = (): boolean => {

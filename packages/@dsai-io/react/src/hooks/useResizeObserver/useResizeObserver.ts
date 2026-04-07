@@ -142,7 +142,7 @@ export function useResizeObserver<T extends HTMLElement = HTMLElement>(
     }
 
     // Check if ResizeObserver is supported
-    if (!('ResizeObserver' in window)) {
+    if (!('ResizeObserver' in globalThis)) {
       console.warn('ResizeObserver is not supported in this browser');
       return;
     }

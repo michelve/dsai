@@ -147,7 +147,7 @@ export function useField<T = unknown>({
     }
 
     setValidating(true);
-    let result: { valid: boolean; error?: string } = { valid: true, error: undefined };
+    let result: { valid: boolean; error?: string } = { valid: true };
 
     const runRules = async (): Promise<{ valid: boolean; error?: string }> => {
       for (const rule of validationRules) {

@@ -9,7 +9,7 @@ export interface FieldState<T = unknown> {
   /** Whether the field has been touched (blurred) */
   touched: boolean;
   /** Current validation error message */
-  error?: string;
+  error?: string | null;
   /** Whether the field is currently being validated */
   validating: boolean;
 }
@@ -104,7 +104,7 @@ export interface UseFormReturn<T extends Record<string, unknown>> {
     value: T[K];
     onChange: (value: T[K]) => void;
     onBlur: () => void;
-    error: string | undefined;
+    error: string | null | undefined;
     touched: boolean;
   };
 }

@@ -4,6 +4,8 @@ import { isBrowser } from '../../utils/browser/isBrowser';
 
 import type { UseStorageOptions, UseStorageReturn } from './useLocalStorage.types';
 
+const LOCAL_STORAGE_EVENT = 'local-storage';
+
 /**
  * Persistent state in localStorage with SSR safety and cross-tab synchronization.
  *
@@ -104,7 +106,7 @@ export function useLocalStorage<T>(
     }
 
     try {
-      const item = window.localStorage.getItem(key);
+      const item = globalThis.localStorage.getItem(key);
       return item ? deserializer(item) : defaultValue;
     } catch (error) {
       console.warn(`Error reading localStorage key "${key}":`, error);
@@ -132,11 +134,11 @@ export function useLocalStorage<T>(
       try {
         const newValue = typeof value === 'function' ? (value as (prev: T) => T)(storedValue) : value;
 
-        window.localStorage.setItem(key, serializer(newValue));
+        globalThis.localStorage.setItem(key, serializer(newValue));
         setStoredValue(newValue);
 
         // Dispatch custom event for cross-tab synchronization
-        window.dispatchEvent(new Event('local-storage'));
+        globalThis.dispatchEvent(new Event(LOCAL_STORAGE_EVENT));
       } catch (error) {
         console.warn(`Error setting localStorage key "${key}":`, error);
       }
@@ -154,9 +156,9 @@ export function useLocalStorage<T>(
     }
 
     try {
-      window.localStorage.removeItem(key);
+      globalThis.localStorage.removeItem(key);
       setStoredValue(defaultValue);
-      window.dispatchEvent(new Event('local-storage'));
+      globalThis.dispatchEvent(new Event(LOCAL_STORAGE_EVENT));
     } catch (error) {
       console.warn(`Error removing localStorage key "${key}":`, error);
     }
@@ -178,12 +180,12 @@ export function useLocalStorage<T>(
       setStoredValue(readValue());
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('local-storage', handleStorageChange);
+    globalThis.addEventListener('storage', handleStorageChange);
+    globalThis.addEventListener(LOCAL_STORAGE_EVENT, handleStorageChange);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('local-storage', handleStorageChange);
+      globalThis.removeEventListener('storage', handleStorageChange);
+      globalThis.removeEventListener(LOCAL_STORAGE_EVENT, handleStorageChange);
     };
   }, [key, readValue]);
 

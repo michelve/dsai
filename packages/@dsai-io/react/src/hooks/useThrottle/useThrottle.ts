@@ -98,7 +98,7 @@ export function useThrottle<T>(
 
   const [throttledValue, setThrottledValue] = useState<T>(value);
   const lastInvokeTimeRef = useRef<number>(0);
-  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const pendingValueRef = useRef<T>(value);
 
   useEffect(() => {
@@ -117,7 +117,7 @@ export function useThrottle<T>(
         () => {
           setThrottledValue(pendingValueRef.current);
           lastInvokeTimeRef.current = Date.now();
-          timeoutRef.current = undefined;
+          timeoutRef.current = null;
         },
         Math.max(0, delay)
       );

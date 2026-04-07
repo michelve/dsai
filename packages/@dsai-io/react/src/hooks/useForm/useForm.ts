@@ -148,10 +148,10 @@ export function useForm<T extends Record<string, unknown>>({
   // Compute derived state
   const values = useMemo(() => {
     const vals = {} as T;
-    (Object.keys(fields) as Array<keyof T>).forEach((key) => {
+    for (const key of Object.keys(fields) as Array<keyof T>) {
       const fieldState = getFieldState(fields, key);
       Reflect.set(vals, key, fieldState.value);
-    });
+    }
     return vals;
   }, [fields, getFieldState]);
 
@@ -239,7 +239,7 @@ export function useForm<T extends Record<string, unknown>>({
     const validationPromises = Object.keys(fields).map((key) => validateField(key as keyof T));
 
     const results = await Promise.all(validationPromises);
-    return results.every((result) => result);
+    return results.every(Boolean);
   }, [fields, validateField]);
 
   // Set field value
@@ -305,10 +305,10 @@ export function useForm<T extends Record<string, unknown>>({
     // Mark all fields as touched
     setFields((prev) => {
       const updated = { ...prev };
-      (Object.keys(updated) as Array<keyof T>).forEach((key) => {
+      for (const key of Object.keys(updated) as Array<keyof T>) {
         const current = getFieldState(updated, key);
         setFieldState(updated, key, { ...current, touched: true });
-      });
+      }
       return updated;
     });
 

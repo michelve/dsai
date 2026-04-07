@@ -158,7 +158,7 @@ export function useIntersectionObserver(
     }
 
     // Check if IntersectionObserver is supported
-    if (!('IntersectionObserver' in window)) {
+    if (!('IntersectionObserver' in globalThis)) {
       console.warn('IntersectionObserver is not supported in this browser');
       return;
     }

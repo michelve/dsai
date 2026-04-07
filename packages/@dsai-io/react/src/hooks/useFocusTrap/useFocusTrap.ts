@@ -280,7 +280,7 @@ export function useFocusTrap<T extends HTMLElement = HTMLElement>(
     cleanupRef.current = trapFocus(container);
 
     // Handle initial focus with optional delay
-    const focusTimeoutId = window.setTimeout(() => {
+    const focusTimeoutId = globalThis.setTimeout(() => {
       // Use initialFocusRef if provided
       if (initialFocusRef?.current) {
         initialFocusRef.current.focus();

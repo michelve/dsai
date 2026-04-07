@@ -4,6 +4,8 @@ import { isBrowser } from '../../utils/browser/isBrowser';
 
 import type { UseStorageOptions, UseStorageReturn } from './useSessionStorage.types';
 
+const SESSION_STORAGE_EVENT = 'session-storage';
+
 /**
  * Session state in sessionStorage with SSR safety and cross-tab synchronization.
  *
@@ -108,7 +110,7 @@ export function useSessionStorage<T>(
     }
 
     try {
-      const item = window.sessionStorage.getItem(key);
+      const item = globalThis.sessionStorage.getItem(key);
       return item ? deserializer(item) : defaultValue;
     } catch (error) {
       console.warn(`Error reading sessionStorage key "${key}":`, error);
@@ -136,11 +138,11 @@ export function useSessionStorage<T>(
       try {
         const newValue = typeof value === 'function' ? (value as (prev: T) => T)(storedValue) : value;
 
-        window.sessionStorage.setItem(key, serializer(newValue));
+        globalThis.sessionStorage.setItem(key, serializer(newValue));
         setStoredValue(newValue);
 
         // Dispatch custom event for cross-tab synchronization
-        window.dispatchEvent(new Event('session-storage'));
+        globalThis.dispatchEvent(new Event(SESSION_STORAGE_EVENT));
       } catch (error) {
         console.warn(`Error setting sessionStorage key "${key}":`, error);
       }
@@ -158,9 +160,9 @@ export function useSessionStorage<T>(
     }
 
     try {
-      window.sessionStorage.removeItem(key);
+      globalThis.sessionStorage.removeItem(key);
       setStoredValue(defaultValue);
-      window.dispatchEvent(new Event('session-storage'));
+      globalThis.dispatchEvent(new Event(SESSION_STORAGE_EVENT));
     } catch (error) {
       console.warn(`Error removing sessionStorage key "${key}":`, error);
     }
@@ -182,12 +184,12 @@ export function useSessionStorage<T>(
       setStoredValue(readValue());
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('session-storage', handleStorageChange);
+    globalThis.addEventListener('storage', handleStorageChange);
+    globalThis.addEventListener(SESSION_STORAGE_EVENT, handleStorageChange);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('session-storage', handleStorageChange);
+      globalThis.removeEventListener('storage', handleStorageChange);
+      globalThis.removeEventListener(SESSION_STORAGE_EVENT, handleStorageChange);
     };
   }, [key, readValue]);
 

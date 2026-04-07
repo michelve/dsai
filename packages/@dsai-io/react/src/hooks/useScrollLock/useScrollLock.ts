@@ -160,7 +160,7 @@ export function useScrollLock(options: UseScrollLockOptions = {}): UseScrollLock
 
     // Only apply styles on first lock
     if (lockCount === 1) {
-      const computedStyle = window.getComputedStyle(targetElement);
+      const computedStyle = globalThis.getComputedStyle(targetElement);
       originalOverflow = computedStyle.overflow;
       originalPaddingRight = computedStyle.paddingRight;
 

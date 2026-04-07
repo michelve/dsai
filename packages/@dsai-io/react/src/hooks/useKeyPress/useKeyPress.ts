@@ -152,12 +152,13 @@ export function useKeyPress(
     };
 
     // Determine target element
-    let targetElement: Document | Window | HTMLElement | null = window;
+    type EventTargetElement = Document | Window | HTMLElement | null;
+    let targetElement: EventTargetElement = globalThis as unknown as Window;
     if (target) {
       if ('current' in target) {
         targetElement = target.current;
       } else {
-        targetElement = target as Document | Window;
+        targetElement = target;
       }
     }
 

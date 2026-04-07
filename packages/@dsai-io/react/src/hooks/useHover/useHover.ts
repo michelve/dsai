@@ -105,8 +105,8 @@ export function useHover<T extends HTMLElement = HTMLElement>(
   const ref = useRef<T | null>(null);
   const internalRef = useRef<T | null>(null);
   const attachedElementRef = useRef<T | null>(null);
-  const enterTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const leaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const enterTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const leaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isMounted = useRef(true);
   const optionsRef = useRef({
     enterDelay,
@@ -123,7 +123,7 @@ export function useHover<T extends HTMLElement = HTMLElement>(
       const clearFn =
         typeof globalThis.clearTimeout === 'function' ? globalThis.clearTimeout : clearTimeout;
       clearFn(enterTimeoutRef.current);
-      enterTimeoutRef.current = undefined;
+      enterTimeoutRef.current = null;
     }
   }, []);
 
@@ -132,7 +132,7 @@ export function useHover<T extends HTMLElement = HTMLElement>(
       const clearFn =
         typeof globalThis.clearTimeout === 'function' ? globalThis.clearTimeout : clearTimeout;
       clearFn(leaveTimeoutRef.current);
-      leaveTimeoutRef.current = undefined;
+      leaveTimeoutRef.current = null;
     }
   }, []);
 
