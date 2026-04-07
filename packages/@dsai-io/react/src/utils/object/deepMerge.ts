@@ -76,12 +76,54 @@ function isDangerousKey(key: string): boolean {
   return key === '__proto__' || key === 'constructor' || key === 'prototype';
 }
 
-export function deepMerge<T extends Record<string, unknown>>(
-  target: T,
-  ...sources: Array<Partial<T> | DeepMergeOptions>
-): T {
-  // Separate options from sources
-  const lastArg = sources[sources.length - 1];
+/**
+ * Merge two arrays using the specified strategy
+ */
+function mergeArrays(
+  targetArr: unknown[],
+  sourceArr: unknown[],
+  strategy: string,
+  allowMismatch: boolean
+): unknown[] {
+  if (!allowMismatch && targetArr.length !== sourceArr.length) {
+    throw new Error(
+      `deepMerge array length mismatch (target: ${targetArr.length}, source: ${sourceArr.length})`
+    );
+  }
+
+  switch (strategy) {
+    case 'replace':
+      return [...sourceArr];
+
+    case 'concat':
+      return [...targetArr, ...sourceArr];
+
+    case 'unique': {
+      const combined = [...targetArr, ...sourceArr];
+      const seen = new Set<string>();
+      return combined.filter((item) => {
+        const key = JSON.stringify(item);
+        if (seen.has(key)) {
+          return false;
+        }
+        seen.add(key);
+        return true;
+      });
+    }
+
+    default:
+      return [...sourceArr];
+  }
+}
+
+/**
+ * Separate options from sources in deepMerge arguments
+ */
+function parseDeepMergeArgs<T>(sources: Array<Partial<T> | DeepMergeOptions>): {
+  options: DeepMergeOptions;
+  actualSources: Array<Partial<T>>;
+} {
+  const lastArg = sources.at(-1);
   const hasOptions =
     lastArg !== null &&
     typeof lastArg === 'object' &&
@@ -91,10 +133,40 @@ export function deepMerge<T extends Record<string, unknown>>(
       'allowArrayLengthMismatch' in lastArg);
 
   const options: DeepMergeOptions = hasOptions ? (sources.pop() as DeepMergeOptions) : {};
+  return { options, actualSources: sources as Array<Partial<T>> };
+}
 
-  const actualSources = sources as Array<Partial<T>>;
+/**
+ * Merge properties from a single source object into the result
+ */
+function mergeSingleSource(
+  result: Record<string, unknown>,
+  source: Record<string, unknown>,
+  mergeValueFn: (t: unknown, s: unknown, d: number) => unknown
+): void {
+  const hasOwn = Object.prototype.hasOwnProperty;
+  for (const key in source) {
+    if (!hasOwn.call(source, key)) {
+      continue;
+    }
 
-  // Extract options with defaults
+    if (isDangerousKey(key)) {
+      throw new Error(`deepMerge prototype pollution attempt detected: ${key}`);
+    }
+
+    const sourceValue = Reflect.get(source as object, key) as unknown;
+    const targetValue = Reflect.get(result as object, key) as unknown;
+
+    Reflect.set(result as object, key, mergeValueFn(targetValue, sourceValue, 0));
+  }
+}
+
+export function deepMerge<T extends Record<string, unknown>>(
+  target: T,
+  ...sources: Array<Partial<T> | DeepMergeOptions>
+): T {
+  const { options, actualSources } = parseDeepMergeArgs<T>(sources);
+
   const {
     arrayMergeStrategy = 'replace',
     maxDepth = 10,
@@ -110,105 +182,70 @@ export function deepMerge<T extends Record<string, unknown>>(
   const result = { ...target };
 
   // Track visited objects for circular reference detection
-  const visited = new WeakSet<object>();
+  const visited = new WeakSet();
 
-  /**
-   * Merge value into target at key
-   */
   function mergeValue(targetValue: unknown, sourceValue: unknown, currentDepth: number): unknown {
-    // Check depth limit
     if (currentDepth > maxDepth) {
       throw new Error(`deepMerge maximum depth (${maxDepth}) exceeded`);
     }
 
-    // Handle null/undefined
     if (sourceValue === null || sourceValue === undefined) {
       return targetValue;
     }
 
-    // Handle primitives
     if (typeof sourceValue !== 'object') {
       return sourceValue;
     }
 
-    // Handle circular references
-    if (visited.has(sourceValue as object)) {
+    if (visited.has(sourceValue)) {
       throw new Error('deepMerge circular reference detected');
     }
 
-    // Handle arrays
     if (Array.isArray(sourceValue)) {
       if (!Array.isArray(targetValue)) {
         return [...sourceValue];
       }
-
-      // Check array length mismatch
-      if (!allowArrayLengthMismatch && targetValue.length !== sourceValue.length) {
-        throw new Error(
-          `deepMerge array length mismatch (target: ${targetValue.length}, source: ${sourceValue.length})`
-        );
-      }
-
-      // Apply array merge strategy
-      switch (arrayMergeStrategy) {
-        case 'replace':
-          return [...sourceValue];
-
-        case 'concat':
-          return [...targetValue, ...sourceValue];
-
-        case 'unique': {
-          const combined = [...targetValue, ...sourceValue];
-          const seen = new Set<string>();
-          return combined.filter((item) => {
-            const key = JSON.stringify(item);
-            if (seen.has(key)) {
-              return false;
-            }
-            seen.add(key);
-            return true;
-          });
-        }
-
-        default:
-          return sourceValue;
-      }
+      return mergeArrays(targetValue, sourceValue, arrayMergeStrategy, allowArrayLengthMismatch);
     }
 
-    // Handle objects
+    return mergeObjectValue(targetValue, sourceValue, currentDepth);
+  }
+
+  function mergeObjectValue(
+    targetValue: unknown,
+    sourceValue: object,
+    currentDepth: number
+  ): Record<string, unknown> {
     if (typeof targetValue !== 'object' || targetValue === null || Array.isArray(targetValue)) {
       targetValue = {};
     }
 
-    // Mark as visited
-    visited.add(sourceValue as object);
+    visited.add(sourceValue);
 
-    // Merge object properties
     const merged = { ...(targetValue as Record<string, unknown>) };
 
     const hasOwn = Object.prototype.hasOwnProperty;
     for (const key in sourceValue) {
-      if (hasOwn.call(sourceValue, key)) {
-        // Prevent prototype pollution
-        if (isDangerousKey(key)) {
-          throw new Error(`deepMerge prototype pollution attempt detected: ${key}`);
-        }
-
-        const srcValue = Reflect.get(sourceValue as object, key);
-        const tgtValue = Reflect.get(merged as object, key);
-
-        Reflect.set(merged as object, key, mergeValue(tgtValue, srcValue, currentDepth + 1));
+      if (!hasOwn.call(sourceValue, key)) {
+        continue;
       }
+
+      if (isDangerousKey(key)) {
+        throw new Error(`deepMerge prototype pollution attempt detected: ${key}`);
+      }
+
+      const srcValue = Reflect.get(sourceValue, key);
+      const tgtValue = Reflect.get(merged as object, key);
+
+      Reflect.set(merged as object, key, mergeValue(tgtValue, srcValue, currentDepth + 1));
     }
 
-    // Unmark after processing
-    visited.delete(sourceValue as object);
+    visited.delete(sourceValue);
 
     return merged;
   }
 
   // Merge all sources
-  const hasOwn = Object.prototype.hasOwnProperty;
   for (const source of actualSources) {
     if (source === null || source === undefined) {
       continue;
@@ -218,24 +255,8 @@ export function deepMerge<T extends Record<string, unknown>>(
       throw new TypeError('deepMerge sources must be non-null objects');
     }
 
-    for (const key in source) {
-      if (hasOwn.call(source, key)) {
-        // Prevent prototype pollution
-        if (isDangerousKey(key)) {
-          throw new Error(`deepMerge prototype pollution attempt detected: ${key}`);
-        }
-
-        const sourceValue = Reflect.get(source as object, key) as unknown;
-        const targetValue = Reflect.get(result as object, key) as unknown;
-
-        Reflect.set(result as object, key, mergeValue(
-          targetValue,
-          sourceValue,
-          0
-        ));
-      }
-    }
+    mergeSingleSource(result, source as Record<string, unknown>, mergeValue);
   }
 
-  return result as T;
+  return result;
 }

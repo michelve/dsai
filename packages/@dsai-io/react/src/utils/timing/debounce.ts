@@ -86,11 +86,11 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
   }
 
   // Internal state
-  let timeoutId: ReturnType<typeof setTimeout> | undefined;
-  let maxWaitTimeoutId: ReturnType<typeof setTimeout> | undefined;
-  let lastCallTime: number | undefined;
-  let lastInvokeTime: number | undefined;
-  let pendingCall: { thisArg: unknown; args: unknown[] } | undefined;
+  let timeoutId: ReturnType<typeof setTimeout> | null = null;
+  let maxWaitTimeoutId: ReturnType<typeof setTimeout> | null = null;
+  let lastCallTime: number | null = null;
+  let lastInvokeTime: number | null = null;
+  let pendingCall: { thisArg: unknown; args: unknown[] } | null = null;
   let result: unknown;
 
   /**
@@ -98,7 +98,7 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
    */
   function invokeFunc(time: number): unknown {
     const call = pendingCall;
-    pendingCall = undefined;
+    pendingCall = null;
     lastInvokeTime = time;
     if (call) {
       result = func.apply(call.thisArg as ThisParameterType<T>, call.args as Parameters<T>);
@@ -115,7 +115,7 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
 
     // First call or wait time has passed
     return (
-      lastCallTime === undefined ||
+      lastCallTime === null ||
       timeSinceLastCall >= wait ||
       timeSinceLastCall < 0 || // Handle clock drift
       (maxWait !== undefined && timeSinceLastInvoke >= maxWait)
@@ -133,13 +133,13 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
    * Cancel all timers
    */
   function cancelTimers(): void {
-    if (timeoutId !== undefined) {
+    if (timeoutId !== null) {
       clearTimeout(timeoutId);
-      timeoutId = undefined;
+      timeoutId = null;
     }
-    if (maxWaitTimeoutId !== undefined) {
+    if (maxWaitTimeoutId !== null) {
       clearTimeout(maxWaitTimeoutId);
-      maxWaitTimeoutId = undefined;
+      maxWaitTimeoutId = null;
     }
   }
 
@@ -147,9 +147,9 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
    * Cancel only the trailing timer
    */
   function cancelTrailingTimer(): void {
-    if (timeoutId !== undefined) {
+    if (timeoutId !== null) {
       clearTimeout(timeoutId);
-      timeoutId = undefined;
+      timeoutId = null;
     }
   }
 
@@ -160,19 +160,19 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
     const time = Date.now();
 
     // Clear timer IDs
-    timeoutId = undefined;
-    if (maxWaitTimeoutId !== undefined) {
+    timeoutId = null;
+    if (maxWaitTimeoutId !== null) {
       clearTimeout(maxWaitTimeoutId);
-      maxWaitTimeoutId = undefined;
+      maxWaitTimeoutId = null;
     }
 
     // Only invoke if we have pending call (maxWait might have already cleared it)
-    if (trailing && pendingCall !== undefined) {
+    if (trailing && pendingCall !== null) {
       return invokeFunc(time);
     }
 
     // Clean up
-    pendingCall = undefined;
+    pendingCall = null;
     return result;
   }
 
@@ -183,14 +183,14 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
     const time = Date.now();
 
     // Clear timer IDs
-    maxWaitTimeoutId = undefined;
-    if (timeoutId !== undefined) {
+    maxWaitTimeoutId = null;
+    if (timeoutId !== null) {
       clearTimeout(timeoutId);
-      timeoutId = undefined;
+      timeoutId = null;
     }
 
     // Only invoke if we have pending call
-    if (pendingCall !== undefined) {
+    if (pendingCall !== null) {
       return invokeFunc(time);
     }
 
@@ -221,10 +221,10 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
   function scheduleTrailingTimer(time: number): void {
     const timeToWait = remainingWait(time);
     const maxWaitRemaining =
-      maxWait !== undefined ? maxWait - (time - (lastInvokeTime ?? time)) : undefined;
+      maxWait === undefined ? null : maxWait - (time - (lastInvokeTime ?? time));
 
     const shouldScheduleTrailing =
-      maxWaitRemaining === undefined || maxWaitRemaining <= 0 || timeToWait < maxWaitRemaining;
+      maxWaitRemaining === null || maxWaitRemaining <= 0 || timeToWait < maxWaitRemaining;
 
     if (shouldScheduleTrailing) {
       timeoutId = startTimer(timerExpired, Math.max(0, timeToWait));
@@ -235,7 +235,7 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
    * Schedule the maxWait timer if configured and not already running.
    */
   function scheduleMaxWaitTimer(time: number): void {
-    if (maxWait === undefined || maxWaitTimeoutId !== undefined) {
+    if (maxWait === undefined || maxWaitTimeoutId !== null) {
       return;
     }
     const timeSinceLastInvoke = time - (lastInvokeTime ?? time);
@@ -256,7 +256,7 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
     lastCallTime = time;
 
     // Leading edge
-    if (isInvoking && leading && timeoutId === undefined) {
+    if (isInvoking && leading && timeoutId === null) {
       lastInvokeTime = time;
       result = func.apply(this as ThisParameterType<T>, args as Parameters<T>);
     }
@@ -273,23 +273,23 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
    */
   debounced.cancel = (): void => {
     cancelTimers();
-    lastInvokeTime = undefined;
-    pendingCall = undefined;
-    lastCallTime = undefined;
+    lastInvokeTime = null;
+    pendingCall = null;
+    lastCallTime = null;
   };
 
   /**
    * Immediately invoke pending function
    */
   debounced.flush = (): unknown => {
-    if (timeoutId === undefined && maxWaitTimeoutId === undefined) {
+    if (timeoutId === null && maxWaitTimeoutId === null) {
       return result;
     }
 
     const time = Date.now();
     cancelTimers();
 
-    if (pendingCall !== undefined) {
+    if (pendingCall !== null) {
       return invokeFunc(time);
     }
 
@@ -300,7 +300,7 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
    * Check if there are pending invocations
    */
   debounced.pending = (): boolean => {
-    return timeoutId !== undefined || maxWaitTimeoutId !== undefined;
+    return timeoutId !== null || maxWaitTimeoutId !== null;
   };
 
   return debounced as DebouncedFunction<T>;

@@ -84,10 +84,10 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
   const { leading = true, trailing = true } = options;
 
   // Internal state
-  let timeoutId: ReturnType<typeof setTimeout> | undefined;
-  let lastCallTime: number | undefined;
+  let timeoutId: ReturnType<typeof setTimeout> | null = null;
+  let lastCallTime: number | null = null;
   let lastInvokeTime = 0;
-  let pendingCall: { thisArg: unknown; args: unknown[] } | undefined;
+  let pendingCall: { thisArg: unknown; args: unknown[] } | null = null;
   let result: unknown;
 
   /**
@@ -95,7 +95,7 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
    */
   function invokeFunc(time: number): unknown {
     const call = pendingCall;
-    pendingCall = undefined;
+    pendingCall = null;
     lastInvokeTime = time;
     if (call) {
       result = func.apply(call.thisArg as ThisParameterType<T>, call.args as Parameters<T>);
@@ -112,7 +112,7 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
 
     // First call or wait time has passed
     return (
-      lastCallTime === undefined || timeSinceLastInvoke >= wait || timeSinceLastCall < 0 // Handle clock drift
+      lastCallTime === null || timeSinceLastInvoke >= wait || timeSinceLastCall < 0 // Handle clock drift
     );
   }
 
@@ -121,15 +121,15 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
    */
   function timerExpired(): unknown {
     const time = Date.now();
-    timeoutId = undefined;
+    timeoutId = null;
 
     // If we should invoke on trailing edge and we have pending call
-    if (trailing && pendingCall !== undefined) {
+    if (trailing && pendingCall !== null) {
       return invokeFunc(time);
     }
 
     // Clean up
-    pendingCall = undefined;
+    pendingCall = null;
     return result;
   }
 
@@ -137,9 +137,9 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
    * Cancel the timer
    */
   function cancelTimer(): void {
-    if (timeoutId !== undefined) {
+    if (timeoutId !== null) {
       clearTimeout(timeoutId);
-      timeoutId = undefined;
+      timeoutId = null;
     }
   }
 
@@ -176,7 +176,7 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
         const timeToWait = remainingWait(time);
         timeoutId = setTimeout(timerExpired, Math.max(timeToWait, 0));
       }
-    } else if (trailing && timeoutId === undefined) {
+    } else if (trailing && timeoutId === null) {
       // Not invoking but trailing is enabled and no timer is set
       const timeToWait = remainingWait(time);
       timeoutId = setTimeout(timerExpired, Math.max(timeToWait, 0));
@@ -191,22 +191,22 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
   throttled.cancel = (): void => {
     cancelTimer();
     lastInvokeTime = 0;
-    pendingCall = undefined;
-    lastCallTime = undefined;
+    pendingCall = null;
+    lastCallTime = null;
   };
 
   /**
    * Immediately invoke pending function
    */
   throttled.flush = (): unknown => {
-    if (timeoutId === undefined) {
+    if (timeoutId === null) {
       return result;
     }
 
     const time = Date.now();
     cancelTimer();
 
-    if (pendingCall !== undefined) {
+    if (pendingCall !== null) {
       return invokeFunc(time);
     }
 
@@ -217,7 +217,7 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
    * Check if there are pending invocations
    */
   throttled.pending = (): boolean => {
-    return timeoutId !== undefined;
+    return timeoutId !== null;
   };
 
   return throttled as ThrottledFunction<T>;

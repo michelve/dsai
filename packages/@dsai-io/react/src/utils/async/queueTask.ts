@@ -118,22 +118,18 @@ export function queueTask(fn: () => void, options: QueueTaskOptions = {}): Queue
       break;
 
     case 'animationFrame':
-      // Use requestAnimationFrame for visual updates
-      if (typeof requestAnimationFrame !== 'undefined') {
-        rafId = requestAnimationFrame(wrappedFn);
-      } else {
-        // Fallback for SSR
+      if (typeof requestAnimationFrame === 'undefined') {
         timeoutId = setTimeout(wrappedFn, 16);
+      } else {
+        rafId = requestAnimationFrame(wrappedFn);
       }
       break;
 
     case 'idle':
-      // Use requestIdleCallback for non-critical work
-      if (typeof requestIdleCallback !== 'undefined') {
-        idleId = requestIdleCallback(wrappedFn, { timeout: idleTimeout });
-      } else {
-        // Fallback for browsers without requestIdleCallback
+      if (typeof requestIdleCallback === 'undefined') {
         timeoutId = setTimeout(wrappedFn, 1);
+      } else {
+        idleId = requestIdleCallback(wrappedFn, { timeout: idleTimeout });
       }
       break;
 

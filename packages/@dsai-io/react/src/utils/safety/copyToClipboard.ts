@@ -42,7 +42,7 @@ export interface CopyToClipboardOptions {
 function hasClipboardApi(): boolean {
   return (
     typeof navigator !== 'undefined' &&
-    typeof navigator.clipboard !== 'undefined' &&
+    navigator.clipboard !== undefined &&
     typeof navigator.clipboard.writeText === 'function'
   );
 }
@@ -51,11 +51,11 @@ function hasClipboardApi(): boolean {
  * Check if we're in a secure context (required for Clipboard API)
  */
 function isSecureContext(): boolean {
-  if (typeof window === 'undefined') {
+  if (globalThis.window === undefined) {
     return false;
   }
   // isSecureContext is true for HTTPS and localhost
-  return window.isSecureContext === true;
+  return globalThis.isSecureContext === true;
 }
 
 /**
@@ -165,7 +165,7 @@ export async function copyToClipboard(
   const textStr = String(text);
 
   // Check for SSR
-  if (typeof window === 'undefined' || typeof document === 'undefined') {
+  if (globalThis.window === undefined || globalThis.document === undefined) {
     const error = new Error('Clipboard operations require a browser environment');
     onError?.(error);
     return {

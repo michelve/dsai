@@ -40,25 +40,11 @@ export interface InterpolateOptions {
  * ```
  */
 /* eslint-disable security/detect-object-injection -- Array access via loop index and calculated segment index is safe */
-export function interpolate(
-  value: number,
-  inputRange: number[],
-  outputRange: number[],
-  options?: InterpolateOptions
-): number {
-  // Validate value is a finite number
-  if (!Number.isFinite(value)) {
-    throw new Error('Value must be a finite number');
-  }
-  // Validate ranges
-  if (inputRange.length !== outputRange.length) {
-    throw new Error('Input and output ranges must have the same length');
-  }
-  if (inputRange.length < 2) {
-    throw new Error('Ranges must have at least 2 values');
-  }
 
-  // Find the segment containing the value
+/**
+ * Find the segment index containing the given value within the input range.
+ */
+function findSegmentIndex(value: number, inputRange: number[]): number {
   let segmentIndex = 0;
   for (let i = 1; i < inputRange.length; i++) {
     const prevValue = inputRange[i - 1];
@@ -74,6 +60,38 @@ export function interpolate(
       }
     }
   }
+  return segmentIndex;
+}
+
+/**
+ * Clamp a result to the bounds of the output range.
+ */
+function clampToRange(result: number, outputRange: number[]): number {
+  const minOutput = Math.min(outputRange[0] ?? 0, outputRange.at(-1) ?? 0);
+  const maxOutput = Math.max(outputRange[0] ?? 0, outputRange.at(-1) ?? 0);
+  return Math.max(minOutput, Math.min(maxOutput, result));
+}
+
+export function interpolate(
+  value: number,
+  inputRange: number[],
+  outputRange: number[],
+  options?: InterpolateOptions
+): number {
+  // Validate value is a finite number
+  if (!Number.isFinite(value)) {
+    throw new TypeError('Value must be a finite number');
+  }
+  // Validate ranges
+  if (inputRange.length !== outputRange.length) {
+    throw new TypeError('Input and output ranges must have the same length');
+  }
+  if (inputRange.length < 2) {
+    throw new TypeError('Ranges must have at least 2 values');
+  }
+
+  // Find the segment containing the value
+  const segmentIndex = findSegmentIndex(value, inputRange);
 
   const inputMin = inputRange[segmentIndex];
   const inputMax = inputRange[segmentIndex + 1];
@@ -87,7 +105,7 @@ export function interpolate(
     outputMin === undefined ||
     outputMax === undefined
   ) {
-    throw new Error('Invalid segment index');
+    throw new TypeError('Invalid segment index');
   }
 
   // Handle edge case where input range has no width
@@ -101,9 +119,7 @@ export function interpolate(
 
   // Apply clamping if requested
   if (options?.clamp) {
-    const minOutput = Math.min(outputRange[0] ?? 0, outputRange[outputRange.length - 1] ?? 0);
-    const maxOutput = Math.max(outputRange[0] ?? 0, outputRange[outputRange.length - 1] ?? 0);
-    return Math.max(minOutput, Math.min(maxOutput, result));
+    return clampToRange(result, outputRange);
   }
 
   return result;

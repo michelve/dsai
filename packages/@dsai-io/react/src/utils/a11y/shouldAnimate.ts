@@ -45,14 +45,12 @@ let cachedMediaQuery: MediaQueryList | null = null;
  */
 export function shouldAnimate(): boolean {
   // SSR fallback - default to no animations
-  if (typeof window === 'undefined' || !window.matchMedia) {
+  if (typeof globalThis.window === 'undefined' || !globalThis.matchMedia) {
     return false;
   }
 
   // Cache media query for performance
-  if (!cachedMediaQuery) {
-    cachedMediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  }
+  cachedMediaQuery ??= globalThis.matchMedia('(prefers-reduced-motion: reduce)');
 
   // Return true if reduced motion is NOT preferred
   return !cachedMediaQuery.matches;
@@ -78,13 +76,11 @@ export function onAnimationPreferenceChange(
   callback: (shouldAnimate: boolean) => void
 ): () => void {
   // SSR fallback
-  if (typeof window === 'undefined' || !window.matchMedia) {
+  if (typeof globalThis.window === 'undefined' || !globalThis.matchMedia) {
     return () => {};
   }
 
-  if (!cachedMediaQuery) {
-    cachedMediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  }
+  cachedMediaQuery ??= globalThis.matchMedia('(prefers-reduced-motion: reduce)');
 
   const handler = (event: MediaQueryListEvent): void => {
     callback(!event.matches);

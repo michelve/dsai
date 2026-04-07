@@ -34,21 +34,52 @@ export interface StableSortOptions<T> {
 }
 
 /**
- * Default comparator for natural ordering
- * Uses localeCompare for strings, numeric comparison for numbers
+ * Compare two numbers, handling NaN values.
  */
-function defaultComparator<T>(a: T, b: T): number {
-  // Handle null/undefined
-  if (a === null || a === undefined) {
-    if (b === null || b === undefined) {
-      return 0;
-    }
+function compareNumbers(a: number, b: number): number {
+  if (Number.isNaN(a) && Number.isNaN(b)) {
+    return 0;
+  }
+  if (Number.isNaN(a)) {
+    return 1;
+  }
+  if (Number.isNaN(b)) {
     return -1;
+  }
+  return a - b;
+}
+
+/**
+ * Compare two values that may be null or undefined.
+ * Returns a comparison result or null if neither is nullish.
+ */
+function compareNullish(a: unknown, b: unknown): number | null {
+  if (a === null || a === undefined) {
+    return (b === null || b === undefined) ? 0 : -1;
   }
   if (b === null || b === undefined) {
     return 1;
   }
+  return null;
+}
 
+/**
+ * Default comparator for natural ordering
+ * Uses localeCompare for strings, numeric comparison for numbers
+ */
+function defaultComparator<T>(a: T, b: T): number {
+  const nullishResult = compareNullish(a, b);
+  if (nullishResult !== null) {
+    return nullishResult;
+  }
+
+  return compareValues(a, b);
+}
+
+/**
+ * Compare two non-nullish values by type.
+ */
+function compareValues<T>(a: T, b: T): number {
   // String comparison
   if (typeof a === 'string' && typeof b === 'string') {
     return a.localeCompare(b);
@@ -56,19 +87,16 @@ function defaultComparator<T>(a: T, b: T): number {
 
   // Numeric comparison
   if (typeof a === 'number' && typeof b === 'number') {
-    // Handle NaN
-    if (Number.isNaN(a) && Number.isNaN(b)) {
-      return 0;
-    }
-    if (Number.isNaN(a)) {
-      return 1;
-    }
-    if (Number.isNaN(b)) {
-      return -1;
-    }
-    return a - b;
+    return compareNumbers(a, b);
   }
 
+  return compareNonPrimitiveValues(a, b);
+}
+
+/**
+ * Compare Date, boolean, or other non-primitive values.
+ */
+function compareNonPrimitiveValues<T>(a: T, b: T): number {
   // Date comparison
   if (a instanceof Date && b instanceof Date) {
     return a.getTime() - b.getTime();
@@ -226,4 +254,4 @@ export function composeComparators<T>(comparators: readonly Comparator<T>[]): Co
   };
 }
 
-export type { Comparator };
+export type { Comparator } from '../types/shared';

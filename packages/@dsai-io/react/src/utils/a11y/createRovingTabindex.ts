@@ -57,21 +57,17 @@ import type { RovingTabindexManager, RovingTabindexOptions } from '../types/shar
  */
 const DEFAULT_ROVING_OPTIONS: RovingTabindexOptions = { itemSelector: '[data-roving-item]' };
 
-/** Resolve navigation direction from arrow key based on orientation. */
-function resolveArrowDirection(
-  key: string,
-  orientation: string,
-): 'prev' | 'next' | null {
-  const isHorizontal = orientation === 'horizontal' || orientation === 'both';
-  const isVertical = orientation === 'vertical' || orientation === 'both';
+type ArrowDirection = 'prev' | 'next' | null;
 
-  if ((isHorizontal && key === 'ArrowLeft') || (isVertical && key === 'ArrowUp')) {
-    return 'prev';
-  }
-  if ((isHorizontal && key === 'ArrowRight') || (isVertical && key === 'ArrowDown')) {
-    return 'next';
-  }
-  return null;
+const ARROW_KEY_MAP: Record<string, Record<string, ArrowDirection>> = {
+  horizontal: { ArrowLeft: 'prev', ArrowRight: 'next' },
+  vertical: { ArrowUp: 'prev', ArrowDown: 'next' },
+  both: { ArrowLeft: 'prev', ArrowRight: 'next', ArrowUp: 'prev', ArrowDown: 'next' },
+};
+
+function resolveArrowDirection(key: string, orientation: string): ArrowDirection {
+  const map = Reflect.get(ARROW_KEY_MAP, orientation) as Record<string, ArrowDirection> | undefined;
+  return (map ? Reflect.get(map, key) as ArrowDirection | undefined : null) ?? null;
 }
 
 /** Navigation callbacks for keyboard handler. */
@@ -155,13 +151,9 @@ export function createRovingTabindex(
   function updateItems(): void {
     items = collectItems(isElementArray, target, container, itemSelector);
 
-    items.forEach((item, index) => {
-      if (index === currentIndex) {
-        item.setAttribute('tabindex', '0');
-      } else {
-        item.setAttribute('tabindex', '-1');
-      }
-    });
+    for (const [index, item] of items.entries()) {
+      item.setAttribute('tabindex', index === currentIndex ? '0' : '-1');
+    }
   }
 
   /**

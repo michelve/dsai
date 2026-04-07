@@ -39,27 +39,10 @@ export function getResponsiveValue<T>(
     return value as T;
   }
 
-  // Type assertion - we've verified it's an object with optional breakpoint properties
   const responsiveObj = value as { xs?: T; sm?: T; md?: T; lg?: T; xl?: T; xxl?: T };
 
-  // Get value for specific breakpoint with explicit access, fall back to xs
-  // Using explicit checks instead of dynamic property access for security
-  switch (breakpoint) {
-    case 'xs':
-      return responsiveObj.xs;
-    case 'sm':
-      return responsiveObj.sm ?? responsiveObj.xs;
-    case 'md':
-      return responsiveObj.md ?? responsiveObj.xs;
-    case 'lg':
-      return responsiveObj.lg ?? responsiveObj.xs;
-    case 'xl':
-      return responsiveObj.xl ?? responsiveObj.xs;
-    case 'xxl':
-      return responsiveObj.xxl ?? responsiveObj.xs;
-    default:
-      return responsiveObj.xs;
-  }
+  const breakpointValue = Reflect.get(responsiveObj, breakpoint) as T | undefined;
+  return breakpointValue ?? responsiveObj.xs;
 }
 
 /**

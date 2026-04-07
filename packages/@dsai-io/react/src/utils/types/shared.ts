@@ -8,6 +8,22 @@
  */
 
 // =============================================================================
+// Shared Type Aliases
+// =============================================================================
+
+/** Date/time style preset for Intl formatters */
+export type DateTimeStyle = 'full' | 'long' | 'medium' | 'short';
+
+/** Number notation style for Intl.NumberFormat */
+export type NumberNotation = 'standard' | 'compact' | 'scientific' | 'engineering';
+
+/** Number style for Intl.NumberFormat */
+export type NumberStyle = 'decimal' | 'currency' | 'percent' | 'unit';
+
+/** Currency display style for Intl.NumberFormat */
+export type CurrencyDisplayStyle = 'symbol' | 'narrowSymbol' | 'code' | 'name';
+
+// =============================================================================
 // Formatter Options
 // =============================================================================
 
@@ -29,12 +45,12 @@ export interface DateFormatterOptions extends FormatterOptions {
   /**
    * Date style preset: full, long, medium, short
    */
-  readonly dateStyle?: 'full' | 'long' | 'medium' | 'short';
+  readonly dateStyle?: DateTimeStyle;
 
   /**
    * Time style preset: full, long, medium, short
    */
-  readonly timeStyle?: 'full' | 'long' | 'medium' | 'short';
+  readonly timeStyle?: DateTimeStyle;
 
   /**
    * Time zone identifier (e.g., 'America/New_York', 'UTC')
@@ -80,7 +96,7 @@ export interface NumberFormatterOptions extends FormatterOptions {
    * Compact notation (e.g., 1.2K, 1.2M)
    * @default undefined (standard notation)
    */
-  readonly notation?: 'standard' | 'compact' | 'scientific' | 'engineering';
+  readonly notation?: NumberNotation;
 
   /**
    * Compact display style (only applies when notation is 'compact')
@@ -92,7 +108,7 @@ export interface NumberFormatterOptions extends FormatterOptions {
    * Number style (decimal, currency, percent, unit)
    * @default 'decimal'
    */
-  readonly style?: 'decimal' | 'currency' | 'percent' | 'unit';
+  readonly style?: NumberStyle;
 
   /**
    * Unit to use in unit formatting (e.g., 'megabyte', 'kilometer')
@@ -115,7 +131,7 @@ export interface CurrencyFormatterOptions extends FormatterOptions {
    * Currency display style
    * @default 'symbol'
    */
-  readonly currencyDisplay?: 'symbol' | 'narrowSymbol' | 'code' | 'name';
+  readonly currencyDisplay?: CurrencyDisplayStyle;
 
   /**
    * Minimum fraction digits (overrides currency defaults)

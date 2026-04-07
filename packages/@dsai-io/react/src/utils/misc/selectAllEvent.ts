@@ -39,7 +39,7 @@ export function selectAllEvent(
   enabled: Array<string | number>,
   totalEnabled: number
 ): SelectAllEvent {
-  const enabledValues = enabled.map((v) => String(v));
+  const enabledValues = enabled.map(String);
   const enabledRowIds = enabled.map((v) => v as RowId);
   return { type: 'SELECT_ALL', enabledValues, enabledRowIds, totalEnabled };
 }

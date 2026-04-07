@@ -39,7 +39,7 @@ export function toggleAllEvent(
   enabled: Array<string | number>,
   totalEnabled: number
 ): ToggleAllEvent {
-  const enabledValues = enabled.map((v) => String(v));
+  const enabledValues = enabled.map(String);
   const enabledRowIds = enabled.map((v) => v as RowId);
   return { type: 'TOGGLE_ALL', enabledValues, enabledRowIds, totalEnabled };
 }

@@ -61,6 +61,33 @@ const HUE_SECTOR_4 = 240;
 /** Hue boundary: blue-to-magenta transition */
 const HUE_SECTOR_5 = 300;
 
+function hueSectorToRgb(h: number, c: number, x: number): [number, number, number] {
+  if (h < HUE_SECTOR_1) {
+    return [c, x, 0];
+  }
+  if (h < HUE_SECTOR_2) {
+    return [x, c, 0];
+  }
+  if (h < HUE_SECTOR_3) {
+    return [0, c, x];
+  }
+  if (h < HUE_SECTOR_4) {
+    return [0, x, c];
+  }
+  if (h < HUE_SECTOR_5) {
+    return [x, 0, c];
+  }
+  return [c, 0, x];
+}
+
+function clampAndWarn(label: string, value: number, min: number, max: number): number {
+  if (value < min || value > max) {
+    console.warn(`[hslToHex] ${label} must be in range ${min}-${max}`);
+    return Math.max(min, Math.min(max, value));
+  }
+  return value;
+}
+
 export function hslToHex(h: number, s: number, l: number): string {
   // Validate and clamp inputs
   if (h < 0 || h > DEGREES_FULL_CIRCLE) {
@@ -68,15 +95,8 @@ export function hslToHex(h: number, s: number, l: number): string {
     h = ((h % DEGREES_FULL_CIRCLE) + DEGREES_FULL_CIRCLE) % DEGREES_FULL_CIRCLE; // Wrap around
   }
 
-  if (s < 0 || s > 100) {
-    console.warn('[hslToHex] Saturation must be in range 0-100');
-    s = Math.max(0, Math.min(100, s));
-  }
-
-  if (l < 0 || l > 100) {
-    console.warn('[hslToHex] Lightness must be in range 0-100');
-    l = Math.max(0, Math.min(100, l));
-  }
+  s = clampAndWarn('Saturation', s, 0, 100);
+  l = clampAndWarn('Lightness', l, 0, 100);
 
   // Convert to 0-1 range
   const sNorm = s / 100;
@@ -88,23 +108,7 @@ export function hslToHex(h: number, s: number, l: number): string {
   const m = lNorm - c / 2;
 
   // Determine RGB based on hue
-  let r = 0;
-  let g = 0;
-  let b = 0;
-
-  if (h >= 0 && h < HUE_SECTOR_1) {
-    [r, g, b] = [c, x, 0];
-  } else if (h >= HUE_SECTOR_1 && h < HUE_SECTOR_2) {
-    [r, g, b] = [x, c, 0];
-  } else if (h >= HUE_SECTOR_2 && h < HUE_SECTOR_3) {
-    [r, g, b] = [0, c, x];
-  } else if (h >= HUE_SECTOR_3 && h < HUE_SECTOR_4) {
-    [r, g, b] = [0, x, c];
-  } else if (h >= HUE_SECTOR_4 && h < HUE_SECTOR_5) {
-    [r, g, b] = [x, 0, c];
-  } else {
-    [r, g, b] = [c, 0, x];
-  }
+  const [r, g, b] = hueSectorToRgb(h, c, x);
 
   // Convert to 0-255 range
   const r255 = Math.round((r + m) * MAX_RGB_VALUE);

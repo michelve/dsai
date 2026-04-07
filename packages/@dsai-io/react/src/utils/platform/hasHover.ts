@@ -66,10 +66,9 @@ export function hasHover(): boolean | null {
   }
 
   // Check for fine pointer (hover-capable devices)
-  const hasFinePointer = window.matchMedia?.('(pointer: fine)').matches;
+  const hasFinePointer = globalThis.matchMedia?.('(pointer: fine)').matches;
 
-  // Check for hover capability explicitly
-  const canHover = window.matchMedia?.('(hover: hover)').matches;
+  const canHover = globalThis.matchMedia?.('(hover: hover)').matches;
 
   const result = hasFinePointer || canHover;
 

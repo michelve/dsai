@@ -4,11 +4,15 @@
  * Uses a pragmatic pattern (RFC-lite) suitable for UI validation without
  * over-restricting valid addresses.
  */
+
+const MAX_DOMAIN_LABEL_LENGTH = 63;
+const MAX_EMAIL_LENGTH = 254;
+
 /**
  * Validate a single domain label (e.g. "example" in "example.com").
  */
 function isValidDomainLabel(label: string): boolean {
-  if (!label || label.length > 63) {
+  if (!label || label.length > MAX_DOMAIN_LABEL_LENGTH) {
     return false;
   }
   if (label.startsWith('-') || label.endsWith('-')) {
@@ -38,7 +42,7 @@ export function isValidEmail(value: string | undefined | null): boolean {
     return false;
   }
   const email = value.trim();
-  if (!email || email.length > 254) {
+  if (!email || email.length > MAX_EMAIL_LENGTH) {
     return false;
   }
 

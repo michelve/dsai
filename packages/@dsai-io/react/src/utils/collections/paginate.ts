@@ -129,6 +129,41 @@ export interface ExtendedPaginatedResult<T> extends PaginatedResult<T> {
  * @throws {TypeError} If array is not an array
  * @throws {RangeError} If pageSize is not a positive integer
  */
+/**
+ * Build an empty paginated result for zero-total-pages case.
+ */
+function buildEmptyResult<T>(
+  totalItems: number,
+  pageSize: number,
+  zeroBased: boolean
+): ExtendedPaginatedResult<T> {
+  return {
+    items: [],
+    totalItems,
+    totalPages: 0,
+    currentPage: zeroBased ? 0 : 1,
+    pageSize,
+    hasNextPage: false,
+    hasPreviousPage: false,
+    startIndex: 0,
+    endIndex: 0,
+    isFirstPage: true,
+    isLastPage: true,
+    pageNumbers: [],
+  };
+}
+
+/**
+ * Generate an array of page numbers from minPage to maxPage.
+ */
+function generatePageNumbers(minPage: number, maxPage: number): number[] {
+  const pageNumbers: number[] = [];
+  for (let i = minPage; i <= maxPage; i++) {
+    pageNumbers.push(i);
+  }
+  return pageNumbers;
+}
+
 export function paginate<T>(
   array: readonly T[],
   options: PaginateOptions
@@ -150,20 +185,7 @@ export function paginate<T>(
     : Math.max(1, Math.ceil(totalItems / pageSize));
 
   if (allowZeroTotalPages && totalPages === 0) {
-    return {
-      items: [],
-      totalItems,
-      totalPages,
-      currentPage: zeroBased ? 0 : 1,
-      pageSize,
-      hasNextPage: false,
-      hasPreviousPage: false,
-      startIndex: 0,
-      endIndex: 0,
-      isFirstPage: true,
-      isLastPage: true,
-      pageNumbers: [],
-    };
+    return buildEmptyResult<T>(totalItems, pageSize, zeroBased);
   }
 
   // Normalize page number
@@ -182,10 +204,7 @@ export function paginate<T>(
   const items = array.slice(startIndex, endIndex);
 
   // Generate page numbers array
-  const pageNumbers: number[] = [];
-  for (let i = minPage; i <= maxPage; i++) {
-    pageNumbers.push(i);
-  }
+  const pageNumbers = generatePageNumbers(minPage, maxPage);
 
   // Calculate navigation flags
   const isFirstPage = normalizedPage === minPage;
@@ -261,4 +280,4 @@ export function getPageForIndex(index: number, pageSize: number, zeroBased = fal
   return zeroBased ? page : page + 1;
 }
 
-export type { PaginatedResult, PaginationOptions };
+export type { PaginatedResult, PaginationOptions } from '../types/shared';

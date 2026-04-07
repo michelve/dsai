@@ -157,9 +157,7 @@ function resolveCurrencyDisplay(
 ): string {
   const symbol = CURRENCY_SYMBOLS[currency.toUpperCase()] ?? currency.toUpperCase();
   const currencyDisplay = options?.currencyDisplay ?? 'symbol';
-  return currencyDisplay === 'code' || currencyDisplay === 'name'
-    ? currency.toUpperCase()
-    : symbol;
+  return currencyDisplay === 'code' || currencyDisplay === 'name' ? currency.toUpperCase() : symbol;
 }
 
 function fallbackFormat(
@@ -271,7 +269,7 @@ export function formatCurrency(value: number, options: CurrencyFormatterOptions 
   }
 
   // SSR safety check - if Intl is not available, use fallback
-  if (typeof Intl === 'undefined' || typeof Intl.NumberFormat === 'undefined') {
+  if (typeof Intl === 'undefined' || Intl.NumberFormat === undefined) {
     return fallbackFormat(value, currency, intlOptions);
   }
 

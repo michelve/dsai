@@ -55,7 +55,6 @@ export function getOS(): OperatingSystem | null {
   }
 
   const userAgent = navigator.userAgent.toLowerCase();
-  const platform = navigator.platform?.toLowerCase() || '';
 
   let os: OperatingSystem = 'Unknown';
 
@@ -63,11 +62,11 @@ export function getOS(): OperatingSystem | null {
     os = 'iOS';
   } else if (/android/i.test(userAgent)) {
     os = 'Android';
-  } else if (/win/i.test(platform)) {
+  } else if (/windows/i.test(userAgent)) {
     os = 'Windows';
-  } else if (/mac/i.test(platform)) {
+  } else if (/macintosh|mac os/i.test(userAgent)) {
     os = 'macOS';
-  } else if (/linux/i.test(platform)) {
+  } else if (/linux/i.test(userAgent)) {
     os = 'Linux';
   }
 

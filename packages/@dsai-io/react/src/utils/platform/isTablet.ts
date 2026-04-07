@@ -56,7 +56,7 @@ export function isTablet(): boolean | null {
 
   const result =
     isTabletUA ||
-    (!navigator.userAgent.match(/android|iphone|ipod|blackberry|windows phone/i) && isTabletWidth);
+    (!/android|iphone|ipod|blackberry|windows phone/i.exec(navigator.userAgent) && isTabletWidth);
 
   // Cache the result
   (isTablet as CachedFunction<boolean | null>)._cached = result;

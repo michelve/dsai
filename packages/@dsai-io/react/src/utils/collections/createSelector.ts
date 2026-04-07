@@ -43,6 +43,44 @@ function getArrayElement<T>(arr: readonly T[], index: number): T | undefined {
 }
 
 /**
+ * Compare two arrays element-by-element using shallow equality
+ */
+function areArraysShallowEqual(a: readonly unknown[], b: readonly unknown[]): boolean {
+  if (a.length !== b.length) {
+    return false;
+  }
+  for (const [idx, val] of a.entries()) {
+    if (val !== getArrayElement(b, idx)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Compare two objects using shallow equality of own properties
+ */
+function areObjectsShallowEqual(a: object, b: object): boolean {
+  const keysA = Object.keys(a);
+  const keysB = Object.keys(b);
+
+  if (keysA.length !== keysB.length) {
+    return false;
+  }
+
+  const hasOwn = Object.prototype.hasOwnProperty;
+  for (const key of keysA) {
+    const aVal = Reflect.get(a, key);
+    const bVal = Reflect.get(b, key);
+    if (!hasOwn.call(b, key) || aVal !== bVal) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/**
  * Shallow equality check for objects and arrays
  */
 export function shallowEqual<T>(a: T, b: T): boolean {
@@ -57,23 +95,42 @@ export function shallowEqual<T>(a: T, b: T): boolean {
   }
 
   if (Array.isArray(a) && Array.isArray(b)) {
-    if (a.length !== b.length) {
-      return false;
-    }
-    // Safe iteration with Reflect.get
-    let isEqual = true;
-    a.forEach((val, idx) => {
-      if (val !== getArrayElement(b, idx)) {
-        isEqual = false;
-      }
-    });
-    return isEqual;
+    return areArraysShallowEqual(a, b);
   }
 
   if (Array.isArray(a) || Array.isArray(b)) {
     return false;
   }
 
+  return areObjectsShallowEqual(a as object, b as object);
+}
+
+/**
+ * Strict reference equality
+ */
+export function strictEqual<T>(a: T, b: T): boolean {
+  return a === b;
+}
+
+/**
+ * Compare two arrays using deep equality
+ */
+function areArraysDeepEqual(a: readonly unknown[], b: readonly unknown[]): boolean {
+  if (a.length !== b.length) {
+    return false;
+  }
+  for (const [idx, val] of a.entries()) {
+    if (!deepEqual(val, getArrayElement(b, idx))) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Compare two objects using deep equality of own properties
+ */
+function areObjectsDeepEqual(a: object, b: object): boolean {
   const keysA = Object.keys(a);
   const keysB = Object.keys(b);
 
@@ -83,21 +140,14 @@ export function shallowEqual<T>(a: T, b: T): boolean {
 
   const hasOwn = Object.prototype.hasOwnProperty;
   for (const key of keysA) {
-    const aVal = Reflect.get(a as object, key);
-    const bVal = Reflect.get(b as object, key);
-    if (!hasOwn.call(b, key) || aVal !== bVal) {
+    const aVal = Reflect.get(a, key);
+    const bVal = Reflect.get(b, key);
+    if (!hasOwn.call(b, key) || !deepEqual(aVal, bVal)) {
       return false;
     }
   }
 
   return true;
-}
-
-/**
- * Strict reference equality
- */
-export function strictEqual<T>(a: T, b: T): boolean {
-  return a === b;
 }
 
 /**
@@ -115,50 +165,22 @@ export function deepEqual<T>(a: T, b: T): boolean {
   }
 
   if (Array.isArray(a) && Array.isArray(b)) {
-    if (a.length !== b.length) {
-      return false;
-    }
-    // Safe iteration with Reflect.get
-    let isEqual = true;
-    a.forEach((val, idx) => {
-      if (!deepEqual(val, getArrayElement(b, idx))) {
-        isEqual = false;
-      }
-    });
-    return isEqual;
+    return areArraysDeepEqual(a, b);
   }
 
   if (Array.isArray(a) || Array.isArray(b)) {
     return false;
   }
 
-  // Handle Date
   if (a instanceof Date && b instanceof Date) {
     return a.getTime() === b.getTime();
   }
 
-  // Handle RegExp
   if (a instanceof RegExp && b instanceof RegExp) {
     return a.toString() === b.toString();
   }
 
-  const keysA = Object.keys(a);
-  const keysB = Object.keys(b);
-
-  if (keysA.length !== keysB.length) {
-    return false;
-  }
-
-  const hasOwn = Object.prototype.hasOwnProperty;
-  for (const key of keysA) {
-    const aVal = Reflect.get(a as object, key);
-    const bVal = Reflect.get(b as object, key);
-    if (!hasOwn.call(b, key) || !deepEqual(aVal, bVal)) {
-      return false;
-    }
-  }
-
-  return true;
+  return areObjectsDeepEqual(a as object, b as object);
 }
 
 /**
@@ -187,6 +209,21 @@ export interface MemoizedSelector<S, R> extends Selector<S, R> {
 }
 
 /**
+ * Check if selector inputs have changed by comparing element-by-element
+ */
+function haveInputsChanged(current: readonly unknown[], cached: readonly unknown[]): boolean {
+  if (current.length !== cached.length) {
+    return true;
+  }
+  for (const [idx, val] of current.entries()) {
+    if (val !== getArrayElement(cached, idx)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
  * Internal implementation for creating memoized selectors
  */
 function createSelectorInternal<S, Result>(
@@ -201,8 +238,8 @@ function createSelectorInternal<S, Result>(
   const equalityFn = options?.equalityFn;
 
   // Cache state
-  let lastInputs: unknown[] | undefined;
-  let lastResult: Result | undefined;
+  let lastInputs: unknown[] | null = null;
+  let lastResult: Result | null = null;
   let recomputationCount = 0;
   let hasCache = false;
 
@@ -211,22 +248,8 @@ function createSelectorInternal<S, Result>(
     const currentInputs = selectors.map((s) => s(state));
 
     // Check if inputs changed
-    if (hasCache && lastInputs !== undefined) {
-      let inputsChanged = false;
-
-      if (currentInputs.length !== lastInputs.length) {
-        inputsChanged = true;
-      } else {
-        // Compare arrays element by element - safe Reflect.get access
-        const cachedInputs = lastInputs;
-        currentInputs.forEach((val, idx) => {
-          if (val !== getArrayElement(cachedInputs, idx)) {
-            inputsChanged = true;
-          }
-        });
-      }
-
-      if (!inputsChanged && lastResult !== undefined) {
+    if (hasCache && lastInputs !== null) {
+      if (!haveInputsChanged(currentInputs, lastInputs) && lastResult !== null) {
         return lastResult;
       }
     }
@@ -235,7 +258,7 @@ function createSelectorInternal<S, Result>(
     recomputationCount++;
     const result = combiner(...currentInputs);
 
-    if (hasCache && lastResult !== undefined && equalityFn?.(lastResult, result)) {
+    if (hasCache && lastResult !== null && equalityFn?.(lastResult, result)) {
       // Inputs changed but result is considered equal; keep prior result reference
       lastInputs = currentInputs;
       return lastResult;
@@ -251,8 +274,8 @@ function createSelectorInternal<S, Result>(
 
   // Add control methods
   selector.clearCache = () => {
-    lastInputs = undefined;
-    lastResult = undefined;
+    lastInputs = null;
+    lastResult = null;
     hasCache = false;
   };
 
@@ -262,7 +285,7 @@ function createSelectorInternal<S, Result>(
     recomputationCount = 0;
   };
 
-  selector.lastInputs = () => lastInputs;
+  selector.lastInputs = () => lastInputs ?? undefined;
 
   return selector;
 }
@@ -426,7 +449,7 @@ export function createSelector<S, Selectors extends ReadonlyArray<Selector<S, un
   }
 
   const selectors = funcs.slice(0, -1);
-  const lastFunc = funcs[funcs.length - 1];
+  const lastFunc = funcs.at(-1);
   const combiner = lastFunc as (...inputs: unknown[]) => Result;
 
   return createSelectorInternal<S, Result>(selectors, combiner);
@@ -466,24 +489,19 @@ export function createSelectorFromArray<S, Results extends unknown[], Result>(
 
   const equalityFn = options?.equalityFn;
 
-  let lastInputs: Results | undefined;
-  let lastResult: Result | undefined;
+  let lastInputs: Results | null = null;
+  let lastResult: Result | null = null;
   let recomputationCount = 0;
   let hasCache = false;
 
   const selector = ((state: S): Result => {
     const currentInputs = selectors.map((s) => s(state)) as Results;
 
-    if (hasCache && lastInputs !== undefined) {
-      const cachedInputs = lastInputs;
-      let inputsChanged = false;
-      currentInputs.forEach((val, idx) => {
-        if (val !== getArrayElement(cachedInputs as readonly unknown[], idx)) {
-          inputsChanged = true;
-        }
-      });
-
-      if (!inputsChanged && lastResult !== undefined) {
+    if (hasCache && lastInputs !== null) {
+      if (
+        !haveInputsChanged(currentInputs as unknown[], lastInputs as readonly unknown[]) &&
+        lastResult !== null
+      ) {
         return lastResult;
       }
     }
@@ -491,7 +509,7 @@ export function createSelectorFromArray<S, Results extends unknown[], Result>(
     recomputationCount++;
     const result = combiner(currentInputs);
 
-    if (hasCache && lastResult !== undefined && equalityFn?.(lastResult, result)) {
+    if (hasCache && lastResult !== null && equalityFn?.(lastResult, result)) {
       lastInputs = currentInputs;
       return lastResult;
     }
@@ -504,8 +522,8 @@ export function createSelectorFromArray<S, Results extends unknown[], Result>(
   }) as MemoizedSelector<S, Result>;
 
   selector.clearCache = () => {
-    lastInputs = undefined;
-    lastResult = undefined;
+    lastInputs = null;
+    lastResult = null;
     hasCache = false;
   };
 
@@ -513,7 +531,7 @@ export function createSelectorFromArray<S, Results extends unknown[], Result>(
   selector.resetRecomputations = () => {
     recomputationCount = 0;
   };
-  selector.lastInputs = () => lastInputs as unknown[] | undefined;
+  selector.lastInputs = () => (lastInputs as unknown[] | null) ?? undefined;
 
   return selector;
 }

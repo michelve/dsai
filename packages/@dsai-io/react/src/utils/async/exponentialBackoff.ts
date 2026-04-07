@@ -14,12 +14,12 @@
  * Falls back to a time-based entropy source to avoid Math.random.
  */
 function getSecureRandomFraction(): number {
-  const cryptoObj = typeof globalThis.crypto !== 'undefined' ? globalThis.crypto : undefined;
+  const cryptoObj = globalThis.crypto === undefined ? undefined : globalThis.crypto;
   if (cryptoObj && typeof cryptoObj.getRandomValues === 'function') {
     const buffer = new Uint32Array(1);
     cryptoObj.getRandomValues(buffer);
     const value = buffer[0];
-    const MAX_UINT32 = 0xffff_ffff;
+    const MAX_UINT32 = 0xff_ff_ff_ff;
     return (value ?? 0) / MAX_UINT32;
   }
 

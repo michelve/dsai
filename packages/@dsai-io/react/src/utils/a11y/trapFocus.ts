@@ -39,7 +39,7 @@ const DEFAULT_SELECTORS = [
  */
 function isElementVisible(el: HTMLElement): boolean {
   // SSR safety: if we somehow get here without a window, assume visible
-  if (typeof window === 'undefined') {
+  if (globalThis.window === undefined) {
     return true;
   }
   const style = getComputedStyle(el);
@@ -84,8 +84,17 @@ function handleTabWrap(
   }
 }
 
+/**
+ * Find focusable elements within a container.
+ */
+function getFocusableElements(container: HTMLElement, selectors: readonly string[]): HTMLElement[] {
+  return Array.from(container.querySelectorAll<HTMLElement>(selectors.join(','))).filter(
+    isElementVisible
+  );
+}
+
 export function trapFocus(container: HTMLElement, options: TrapFocusOptions = {}): () => void {
-  if (typeof window === 'undefined' || typeof document === 'undefined') {
+  if (globalThis.window === undefined || typeof document === 'undefined') {
     return noopCleanup;
   }
 
@@ -97,9 +106,7 @@ export function trapFocus(container: HTMLElement, options: TrapFocusOptions = {}
   }
 
   const selectors = options.focusableSelectors ?? DEFAULT_SELECTORS;
-  const focusable = Array.from(container.querySelectorAll<HTMLElement>(selectors.join(','))).filter(
-    isElementVisible
-  );
+  const focusable = getFocusableElements(container, selectors);
 
   if (focusable.length === 0) {
     if (process.env['NODE_ENV'] !== 'production') {

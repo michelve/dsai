@@ -97,8 +97,7 @@ export function scheduleFrame(callback: FrameCallback): FrameCleanup {
   }
 
   // Use rAF if available, otherwise setTimeout
-  // Access through window to ensure testability with mocks
-  const raf = typeof window !== 'undefined' ? window.requestAnimationFrame : undefined;
+  const raf = globalThis.requestAnimationFrame;
   if (typeof raf === 'function') {
     frameId = raf(wrappedCallback);
   } else if (typeof requestAnimationFrame === 'function') {
@@ -112,8 +111,7 @@ export function scheduleFrame(callback: FrameCallback): FrameCleanup {
   return () => {
     cancelled = true;
     if (frameId !== null) {
-      // Access through window to ensure testability with mocks
-      const caf = typeof window !== 'undefined' ? window.cancelAnimationFrame : undefined;
+      const caf = globalThis.cancelAnimationFrame;
       if (typeof caf === 'function' && typeof frameId === 'number') {
         caf(frameId);
       } else if (typeof cancelAnimationFrame === 'function' && typeof frameId === 'number') {
@@ -232,8 +230,7 @@ export function startLoop(callback: LoopCallback): FrameCleanup {
       return;
     }
 
-    // Access through window to ensure testability with mocks
-    const raf = typeof window !== 'undefined' ? window.requestAnimationFrame : undefined;
+    const raf = globalThis.requestAnimationFrame;
     if (typeof raf === 'function') {
       frameId = raf(tick);
     } else if (typeof requestAnimationFrame === 'function') {
@@ -251,8 +248,7 @@ export function startLoop(callback: LoopCallback): FrameCleanup {
   return () => {
     cancelled = true;
     if (frameId !== null) {
-      // Access through window to ensure testability with mocks
-      const caf = typeof window !== 'undefined' ? window.cancelAnimationFrame : undefined;
+      const caf = globalThis.cancelAnimationFrame;
       if (typeof caf === 'function' && typeof frameId === 'number') {
         caf(frameId);
       } else if (typeof cancelAnimationFrame === 'function' && typeof frameId === 'number') {

@@ -115,8 +115,10 @@ function isRelativeUrl(url: string): boolean {
 /**
  * Check if URL has a data: scheme and validate it
  */
+const DATA_URI_PATTERN = /^data:([^;,]+)/i;
+
 function isValidDataUrl(url: string, allowedMimeTypes: readonly string[]): boolean {
-  const dataMatch = url.match(/^data:([^;,]+)/i);
+  const dataMatch = DATA_URI_PATTERN.exec(url);
   if (!dataMatch) {
     return false;
   }
@@ -127,6 +129,19 @@ function isValidDataUrl(url: string, allowedMimeTypes: readonly string[]): boole
   }
 
   return allowedMimeTypes.some((allowed) => mimeType === allowed.toLowerCase());
+}
+
+function resolveDataUrl(
+  decoded: string,
+  cleaned: string,
+  allowDataUrls: boolean,
+  allowedDataMimeTypes: readonly string[],
+  fallbackUrl: string
+): string {
+  if (!allowDataUrls) {
+    return fallbackUrl;
+  }
+  return isValidDataUrl(decoded, allowedDataMimeTypes) ? cleaned : fallbackUrl;
 }
 
 /**
@@ -207,7 +222,7 @@ function handleProtocolRelative(
 
 export function sanitizeUrl(url: string, options: SanitizeUrlOptions = {}): string {
   // Handle null/undefined
-  if (url === null || url === undefined) {
+  if (url == null) {
     return options.fallbackUrl ?? '#';
   }
 
@@ -237,7 +252,7 @@ export function sanitizeUrl(url: string, options: SanitizeUrlOptions = {}): stri
   }
 
   if (noWhitespace.startsWith('data:')) {
-    return allowDataUrls && isValidDataUrl(decoded, allowedDataMimeTypes) ? cleaned : fallbackUrl;
+    return resolveDataUrl(decoded, cleaned, allowDataUrls, allowedDataMimeTypes, fallbackUrl);
   }
 
   try {

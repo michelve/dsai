@@ -62,6 +62,70 @@
  * }
  * ```
  */
+/**
+ * Compare two objects for deep equality (non-null, non-File, non-Array objects).
+ */
+function areObjectsDirty(currentValue: object, initialValue: object): boolean {
+  return isFormDirty(
+    currentValue as Record<string, unknown>,
+    initialValue as Record<string, unknown>
+  );
+}
+
+/**
+ * Check if both values are plain objects suitable for deep comparison.
+ */
+function areBothPlainObjects(a: unknown, b: unknown): boolean {
+  return (
+    a !== null &&
+    b !== null &&
+    typeof a === 'object' &&
+    typeof b === 'object' &&
+    !(a instanceof File) &&
+    !(b instanceof File) &&
+    !Array.isArray(a) &&
+    !Array.isArray(b)
+  );
+}
+
+/**
+ * Compare two arrays element-by-element for shallow equality.
+ */
+function areArraysDirty(currentArr: unknown[], initialArr: unknown[]): boolean {
+  if (currentArr.length !== initialArr.length) {
+    return true;
+  }
+
+  const initialIterator = initialArr[Symbol.iterator]();
+  for (const currentItem of currentArr) {
+    const { value: initialItem, done } = initialIterator.next();
+    if (done || currentItem !== initialItem) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Compare a single field value against its initial value.
+ * Returns true if the values differ.
+ */
+function isFieldDirty(currentValue: unknown, initialValue: unknown): boolean {
+  // Check if both are plain objects
+  if (currentValue && initialValue && areBothPlainObjects(currentValue, initialValue)) {
+    return areObjectsDirty(currentValue as object, initialValue as object);
+  }
+
+  // Check arrays
+  if (Array.isArray(currentValue) && Array.isArray(initialValue)) {
+    return areArraysDirty(currentValue, initialValue);
+  }
+
+  // Primitive comparison
+  return currentValue !== initialValue;
+}
+
 export function isFormDirty(
   current: Record<string, unknown>,
   initial: Record<string, unknown>
@@ -87,46 +151,7 @@ export function isFormDirty(
     }
     const initialValue = initialEntries.get(key);
 
-    // Check if both are objects (but not null, File, or Array)
-    if (
-      currentValue &&
-      initialValue &&
-      typeof currentValue === 'object' &&
-      typeof initialValue === 'object' &&
-      !(currentValue instanceof File) &&
-      !(initialValue instanceof File) &&
-      !Array.isArray(currentValue) &&
-      !Array.isArray(initialValue)
-    ) {
-      if (
-        isFormDirty(
-          currentValue as Record<string, unknown>,
-          initialValue as Record<string, unknown>
-        )
-      ) {
-        return true;
-      }
-      continue;
-    }
-
-    // Check arrays
-    if (Array.isArray(currentValue) && Array.isArray(initialValue)) {
-      if (currentValue.length !== initialValue.length) {
-        return true;
-      }
-
-      const initialIterator = initialValue[Symbol.iterator]();
-      for (const currentItem of currentValue) {
-        const { value: initialItem, done } = initialIterator.next();
-        if (done || currentItem !== initialItem) {
-          return true;
-        }
-      }
-      continue;
-    }
-
-    // Primitive comparison
-    if (currentValue !== initialValue) {
+    if (isFieldDirty(currentValue, initialValue)) {
       return true;
     }
   }

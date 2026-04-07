@@ -96,3 +96,9 @@ export type Alignment = 'start' | 'center' | 'end';
  * ```
  */
 export type Orientation = 'horizontal' | 'vertical';
+
+/**
+ * HTML heading element tag names.
+ * Used for polymorphic heading components.
+ */
+export type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';

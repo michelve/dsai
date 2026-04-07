@@ -48,7 +48,7 @@ function getRandomValues(length: number): Uint8Array {
 
   // Use Web Crypto API when available (browser or Node 19+)
   if (
-    typeof globalThis.crypto !== 'undefined' &&
+    globalThis.crypto !== undefined &&
     typeof globalThis.crypto.getRandomValues === 'function'
   ) {
     globalThis.crypto.getRandomValues(bytes);
@@ -100,13 +100,10 @@ function bytesToAlphabet(bytes: Uint8Array, alphabet: string): string {
   let result = '';
 
   // Use Array.from to avoid Object Injection Sink
-  Array.from(bytes).forEach((byte) => {
-    // Use modulo to map byte to alphabet
-    // Note: This has slight bias for alphabets not dividing 256 evenly
-    // For most use cases (tokens, IDs), this is acceptable
+  for (const byte of Array.from(bytes)) {
     const index = byte % alphabetLength;
     result += alphabet.charAt(index);
-  });
+  }
 
   return result;
 }

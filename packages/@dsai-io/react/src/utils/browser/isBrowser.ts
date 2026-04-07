@@ -14,7 +14,7 @@
  * ```
  */
 export function isBrowser(): boolean {
-  return typeof window !== 'undefined' && typeof document !== 'undefined';
+  return globalThis.window !== undefined && globalThis.document !== undefined;
 }
 
 export default isBrowser;

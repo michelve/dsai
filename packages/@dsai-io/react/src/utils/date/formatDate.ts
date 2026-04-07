@@ -96,7 +96,7 @@ function getOrCreateFormatter(
   if (!formatter) {
     try {
       // Check if Intl is available
-      if (typeof Intl === 'undefined' || typeof Intl.DateTimeFormat === 'undefined') {
+      if (globalThis.Intl === undefined || globalThis.Intl.DateTimeFormat === undefined) {
         return null;
       }
 
@@ -119,54 +119,58 @@ function getOrCreateFormatter(
 }
 
 /**
+ * Format date part for fallback rendering
+ */
+function formatFallbackDate(date: Date, dateStyle?: string): string {
+  if (dateStyle === 'full' || dateStyle === 'long') {
+    return date.toDateString();
+  }
+  if (dateStyle === 'medium') {
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  }
+  // short or default
+  return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear() % 100}`;
+}
+
+/**
+ * Format time part for fallback rendering
+ */
+function formatFallbackTime(date: Date, timeStyle?: string): string {
+  if (timeStyle === 'full' || timeStyle === 'long') {
+    return date.toTimeString();
+  }
+
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const ampm = hours >= HOURS_IN_HALF_DAY ? 'PM' : 'AM';
+  const displayHours = hours % HOURS_IN_HALF_DAY || HOURS_IN_HALF_DAY;
+  const minuteStr = minutes.toString().padStart(2, '0');
+
+  if (timeStyle === 'medium') {
+    const seconds = date.getSeconds();
+    const secondStr = seconds.toString().padStart(2, '0');
+    return `${displayHours}:${minuteStr}:${secondStr} ${ampm}`;
+  }
+
+  // short or default
+  return `${displayHours}:${minuteStr} ${ampm}`;
+}
+
+/**
  * Fallback formatter for when Intl is unavailable
  *
  * Provides basic date formatting using native Date methods
- *
- * @param date - Date to format
- * @param options - Formatter options (only dateStyle and timeStyle are supported)
- * @returns Formatted date string
  */
 function fallbackFormat(date: Date, options: Intl.DateTimeFormatOptions): string {
   const { dateStyle, timeStyle } = options;
-
   const parts: string[] = [];
 
-  // Date part
   if (!timeStyle || dateStyle) {
-    if (dateStyle === 'full' || dateStyle === 'long') {
-      parts.push(date.toDateString());
-    } else if (dateStyle === 'medium') {
-      parts.push(`${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`);
-    } else {
-      // short or default
-      parts.push(`${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear() % 100}`);
-    }
+    parts.push(formatFallbackDate(date, dateStyle));
   }
 
-  // Time part
   if (!dateStyle || timeStyle) {
-    if (timeStyle === 'full' || timeStyle === 'long') {
-      parts.push(date.toTimeString());
-    } else if (timeStyle === 'medium') {
-      const hours = date.getHours();
-      const minutes = date.getMinutes();
-      const seconds = date.getSeconds();
-      const ampm = hours >= HOURS_IN_HALF_DAY ? 'PM' : 'AM';
-      const displayHours = hours % HOURS_IN_HALF_DAY || HOURS_IN_HALF_DAY;
-      parts.push(
-        `${displayHours}:${minutes.toString().padStart(2, '0')}:${seconds
-          .toString()
-          .padStart(2, '0')} ${ampm}`
-      );
-    } else {
-      // short or default
-      const hours = date.getHours();
-      const minutes = date.getMinutes();
-      const ampm = hours >= HOURS_IN_HALF_DAY ? 'PM' : 'AM';
-      const displayHours = hours % HOURS_IN_HALF_DAY || HOURS_IN_HALF_DAY;
-      parts.push(`${displayHours}:${minutes.toString().padStart(2, '0')} ${ampm}`);
-    }
+    parts.push(formatFallbackTime(date, timeStyle));
   }
 
   return parts.join(' ');
@@ -221,55 +225,59 @@ function fallbackFormat(date: Date, options: Intl.DateTimeFormatOptions): string
  *
  * @stable
  */
+/**
+ * Parse date input into a Date object
+ */
+function parseDateInput(date: Date | number | string): Date {
+  if (date instanceof Date) {
+    return date;
+  }
+  if (typeof date === 'number' || typeof date === 'string') {
+    return new Date(date);
+  }
+  throw new TypeError(
+    `formatDate: Invalid date argument. Expected Date, number, or string, got ${typeof date}`
+  );
+}
+
+/**
+ * Build Intl.DateTimeFormatOptions from DateFormatterOptions
+ */
+function buildIntlOptions(options: DateFormatterOptions): Intl.DateTimeFormatOptions {
+  if (options.options) {
+    return { ...options.options };
+  }
+
+  const intlOptions: Intl.DateTimeFormatOptions = {};
+
+  if (options.dateStyle) {
+    intlOptions.dateStyle = options.dateStyle;
+  }
+
+  if (options.timeStyle) {
+    intlOptions.timeStyle = options.timeStyle;
+  }
+
+  // Default to medium date style if no options provided
+  if (!options.dateStyle && !options.timeStyle) {
+    intlOptions.dateStyle = 'medium';
+  }
+
+  return intlOptions;
+}
+
 export function formatDate(
   date: Date | number | string,
   options: DateFormatterOptions = {}
 ): string {
-  // Parse date input
-  let dateObj: Date;
+  const dateObj = parseDateInput(date);
 
-  if (date instanceof Date) {
-    dateObj = date;
-  } else if (typeof date === 'number') {
-    dateObj = new Date(date);
-  } else if (typeof date === 'string') {
-    dateObj = new Date(date);
-  } else {
-    throw new TypeError(
-      `formatDate: Invalid date argument. Expected Date, number, or string, got ${typeof date}`
-    );
-  }
-
-  // Validate date
   if (Number.isNaN(dateObj.getTime())) {
     throw new TypeError(`formatDate: Invalid date value: ${date}`);
   }
 
   const locale = options.locale || getDefaultLocale();
-
-  // Build Intl options
-  let intlOptions: Intl.DateTimeFormatOptions;
-
-  if (options.options) {
-    // Use custom options
-    intlOptions = { ...options.options };
-  } else {
-    // Use date/time style presets
-    intlOptions = {};
-
-    if (options.dateStyle) {
-      intlOptions.dateStyle = options.dateStyle;
-    }
-
-    if (options.timeStyle) {
-      intlOptions.timeStyle = options.timeStyle;
-    }
-
-    // Default to medium date style if no options provided
-    if (!options.dateStyle && !options.timeStyle && !options.options) {
-      intlOptions.dateStyle = 'medium';
-    }
-  }
+  const intlOptions = buildIntlOptions(options);
 
   // Add time zone:
   // - honor explicit timeZone
@@ -279,21 +287,18 @@ export function formatDate(
     intlOptions.timeZone = resolvedTimeZone;
   }
 
-  // Try to get or create formatter
   const formatter = getOrCreateFormatter(locale, intlOptions);
 
   if (formatter) {
     try {
       return formatter.format(dateObj);
     } catch (error) {
-      // Format failed, fall back to basic formatting
       if (process.env['NODE_ENV'] === 'development') {
         console.warn(`[formatDate] Formatter failed, using fallback: ${error}`);
       }
     }
   }
 
-  // Fallback formatting
   return fallbackFormat(dateObj, intlOptions);
 }
 

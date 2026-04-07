@@ -35,7 +35,7 @@ export function clampVelocity(velocity: Point2D, maxVelocity: number): Point2D {
     throw new Error('maxVelocity must be a non-negative finite number');
   }
 
-  const magnitude = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+  const magnitude = Math.hypot(velocity.x, velocity.y);
 
   if (magnitude <= maxVelocity) {
     return velocity;

@@ -41,7 +41,7 @@ export interface ReadFromClipboardOptions {
 function hasClipboardReadApi(): boolean {
   return (
     typeof navigator !== 'undefined' &&
-    typeof navigator.clipboard !== 'undefined' &&
+    navigator.clipboard !== undefined &&
     typeof navigator.clipboard.readText === 'function'
   );
 }
@@ -50,16 +50,18 @@ function hasClipboardReadApi(): boolean {
  * Check if we're in a secure context (required for Clipboard API)
  */
 function isSecureContext(): boolean {
-  if (typeof window === 'undefined') {
+  if (globalThis.window === undefined) {
     return false;
   }
-  return window.isSecureContext === true;
+  return globalThis.isSecureContext === true;
 }
 
 /**
  * Check clipboard-read permission status
  */
-async function checkClipboardPermission(): Promise<'granted' | 'denied' | 'prompt' | 'unknown'> {
+type ClipboardPermissionState = 'granted' | 'denied' | 'prompt' | 'unknown';
+
+async function checkClipboardPermission(): Promise<ClipboardPermissionState> {
   if (typeof navigator === 'undefined' || !navigator.permissions) {
     return 'unknown';
   }
@@ -130,7 +132,7 @@ export async function readFromClipboard(
   const { timeout = 5000, onSuccess, onError } = options;
 
   // Check for SSR
-  if (typeof window === 'undefined' || typeof navigator === 'undefined') {
+  if (globalThis.window === undefined || typeof navigator === 'undefined') {
     const error = new Error('Clipboard operations require a browser environment');
     onError?.(error);
     return {

@@ -150,9 +150,9 @@ export function createTaskQueue(options: TaskQueueOptions = {}): TaskQueue {
     if (paused || running >= concurrency || queue.length === 0) {
       // Check if we should resolve drain promises
       if (running === 0 && queue.length === 0) {
-        drainResolvers.forEach((resolve) => {
+        for (const resolve of drainResolvers) {
           resolve();
-        });
+        }
         drainResolvers = [];
       }
       return;
@@ -190,8 +190,9 @@ export function createTaskQueue(options: TaskQueueOptions = {}): TaskQueue {
         reject = rej;
       });
 
+      taskIdCounter += 1;
       const task: QueuedTask<T> = {
-        id: `task-${(taskIdCounter += 1)}`,
+        id: `task-${String(taskIdCounter)}`,
         fn,
         priority,
         promise,
@@ -223,9 +224,9 @@ export function createTaskQueue(options: TaskQueueOptions = {}): TaskQueue {
 
     clear(): void {
       // Reject all pending tasks
-      queue.forEach((task) => {
+      for (const task of queue) {
         task.reject(new Error('Task queue cleared'));
-      });
+      }
       queue.length = 0;
     },
 

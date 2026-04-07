@@ -75,7 +75,7 @@ export interface VariantClassOptions {
  * getVariantClass('custom', { skipValidation: true });   // 'text-bg-custom' (no warning)
  */
 export function getVariantClass(
-  variant: BootstrapVariant | string,
+  variant: string,
   options: VariantClassOptions = {}
 ): string {
   const { prefix = 'text-bg', map, skipValidation = false } = options;

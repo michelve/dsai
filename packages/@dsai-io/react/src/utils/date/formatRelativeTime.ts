@@ -16,6 +16,9 @@
 
 import type { FormatterOptions } from '../types/shared';
 
+/** Relative time formatting style */
+type RelativeTimeStyle = 'long' | 'short' | 'narrow';
+
 /**
  * Time unit with threshold in milliseconds
  */
@@ -71,11 +74,7 @@ function getDefaultLocale(): string {
  * @param style - Formatting style (long, short, narrow)
  * @returns Cache key string
  */
-function getCacheKey(
-  locale: string,
-  numeric: 'always' | 'auto',
-  style: 'long' | 'short' | 'narrow'
-): string {
+function getCacheKey(locale: string, numeric: 'always' | 'auto', style: RelativeTimeStyle): string {
   return `${locale}|${numeric}|${style}`;
 }
 
@@ -107,7 +106,7 @@ function evictOldestCacheEntries(): void {
 function getOrCreateFormatter(
   locale: string,
   numeric: 'always' | 'auto',
-  style: 'long' | 'short' | 'narrow'
+  style: RelativeTimeStyle
 ): Intl.RelativeTimeFormat | null {
   const cacheKey = getCacheKey(locale, numeric, style);
   let formatter = formattersCache.get(cacheKey);
@@ -115,7 +114,7 @@ function getOrCreateFormatter(
   if (!formatter) {
     try {
       // Check if Intl.RelativeTimeFormat is available
-      if (typeof Intl === 'undefined' || typeof Intl.RelativeTimeFormat === 'undefined') {
+      if (typeof Intl === 'undefined' || Intl.RelativeTimeFormat === undefined) {
         return null;
       }
 
@@ -201,7 +200,32 @@ export interface RelativeTimeOptions extends FormatterOptions {
    * - 'narrow': Very short (e.g., "3h ago")
    * @default 'long'
    */
-  readonly style?: 'long' | 'short' | 'narrow';
+  readonly style?: RelativeTimeStyle;
+}
+
+/**
+ * Parse a date input into a Date object
+ */
+function parseDateInput(input: Date | number | string, label: string): Date {
+  let dateObj: Date;
+
+  if (input instanceof Date) {
+    dateObj = input;
+  } else if (typeof input === 'number') {
+    dateObj = new Date(input);
+  } else if (typeof input === 'string') {
+    dateObj = new Date(input);
+  } else {
+    throw new TypeError(
+      `formatRelativeTime: Invalid ${label} argument. Expected Date, number, or string, got ${typeof input}`
+    );
+  }
+
+  if (Number.isNaN(dateObj.getTime())) {
+    throw new TypeError(`formatRelativeTime: Invalid ${label} value: ${input}`);
+  }
+
+  return dateObj;
 }
 
 /**
@@ -262,44 +286,8 @@ export function formatRelativeTime(
   date: Date | number | string,
   options: RelativeTimeOptions = {}
 ): string {
-  // Parse date input
-  let dateObj: Date;
-
-  if (date instanceof Date) {
-    dateObj = date;
-  } else if (typeof date === 'number') {
-    dateObj = new Date(date);
-  } else if (typeof date === 'string') {
-    dateObj = new Date(date);
-  } else {
-    throw new TypeError(
-      `formatRelativeTime: Invalid date argument. Expected Date, number, or string, got ${typeof date}`
-    );
-  }
-
-  // Validate date
-  if (Number.isNaN(dateObj.getTime())) {
-    throw new TypeError(`formatRelativeTime: Invalid date value: ${date}`);
-  }
-
-  // Parse base date
-  let baseDateObj: Date;
-
-  if (options.baseDate) {
-    if (options.baseDate instanceof Date) {
-      baseDateObj = options.baseDate;
-    } else if (typeof options.baseDate === 'number') {
-      baseDateObj = new Date(options.baseDate);
-    } else {
-      baseDateObj = new Date(options.baseDate);
-    }
-
-    if (Number.isNaN(baseDateObj.getTime())) {
-      throw new TypeError(`formatRelativeTime: Invalid baseDate value: ${options.baseDate}`);
-    }
-  } else {
-    baseDateObj = new Date();
-  }
+  const dateObj = parseDateInput(date, 'date');
+  const baseDateObj = options.baseDate ? parseDateInput(options.baseDate, 'baseDate') : new Date();
 
   const locale = options.locale || getDefaultLocale();
   const numeric = options.numeric || 'auto';

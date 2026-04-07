@@ -193,7 +193,7 @@ export function memoize<T extends (...args: unknown[]) => unknown>(
   const memoized = function (this: unknown, ...args: Parameters<T>): ReturnType<T> {
     // WeakMap path: only when enabled, single object/function first arg, and key function not needed
     if (weakCache && args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
-      const target = args[0] as object;
+      const target = args[0];
       const existing = weakCache.get(target);
       if (existing && !isExpired(existing)) {
         hits++;
@@ -254,7 +254,7 @@ export function memoize<T extends (...args: unknown[]) => unknown>(
 
   memoized.delete = (...args: Parameters<T>): boolean => {
     if (weakCache && args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
-      return weakCache.delete(args[0] as object);
+      return weakCache.delete(args[0]);
     }
     const key = cacheKeyFn(...args);
     return cache.delete(key);
@@ -262,12 +262,12 @@ export function memoize<T extends (...args: unknown[]) => unknown>(
 
   memoized.has = (...args: Parameters<T>): boolean => {
     if (weakCache && args.length === 1 && typeof args[0] === 'object' && args[0] !== null) {
-      const entry = weakCache.get(args[0] as object);
+      const entry = weakCache.get(args[0]);
       if (!entry) {
         return false;
       }
       if (isExpired(entry)) {
-        weakCache.delete(args[0] as object);
+        weakCache.delete(args[0]);
         return false;
       }
       return true;
@@ -339,7 +339,7 @@ function defaultCacheKey(...args: unknown[]): string {
           return 'undefined';
         }
         if (typeof arg === 'object') {
-          return `[object]${Object.keys(arg as object).join(',')}`;
+          return `[object]${Object.keys(arg).join(',')}`;
         }
         return String(arg);
       })

@@ -94,9 +94,9 @@ function getPerformance(): PerformanceLike | undefined {
 
   // In jsdom, window.performance may be separate; prefer global, then window.
   const windowPerf =
-    typeof window !== 'undefined'
-      ? (window as { performance?: PerformanceLike }).performance
-      : undefined;
+    globalThis.window === undefined
+      ? undefined
+      : (globalThis.window as { performance?: PerformanceLike }).performance;
 
   const perf = globalPerf ?? windowPerf;
   return perf ?? undefined;
@@ -127,12 +127,12 @@ function now(): number {
 /**
  * Check if the Performance API supports marks and measures.
  */
-function canUsePerformanceMarks(perf: PerformanceLike | null | undefined, useMarks: boolean): perf is PerformanceLike {
+function canUsePerformanceMarks(
+  perf: PerformanceLike | null | undefined,
+  useMarks: boolean
+): perf is PerformanceLike {
   return (
-    !!perf &&
-    useMarks &&
-    typeof perf.mark === 'function' &&
-    typeof perf.measure === 'function'
+    !!perf && useMarks && typeof perf.mark === 'function' && typeof perf.measure === 'function'
   );
 }
 
@@ -150,7 +150,12 @@ function safePerformanceMark(perf: PerformanceLike, markName: string): void {
 /**
  * Create a performance measure and clean up marks.
  */
-function safePerformanceMeasure(perf: PerformanceLike, name: string, markStart: string, markEnd: string): void {
+function safePerformanceMeasure(
+  perf: PerformanceLike,
+  name: string,
+  markStart: string,
+  markEnd: string
+): void {
   try {
     perf.mark(markEnd);
     perf.measure(name, markStart, markEnd);

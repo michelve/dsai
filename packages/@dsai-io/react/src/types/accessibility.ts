@@ -8,6 +8,16 @@
 
 import type { CSSProperties } from 'react';
 
+type AriaTristate = boolean | 'true' | 'false';
+type AriaMixed = AriaTristate | 'mixed';
+type AriaCurrent = AriaTristate | 'page' | 'step' | 'location' | 'date' | 'time';
+type AriaInvalid = AriaTristate | 'grammar' | 'spelling';
+type AriaRelevant = 'additions' | 'removals' | 'text' | 'all';
+type AriaDropEffect = 'none' | 'copy' | 'move' | 'link' | 'execute' | 'popup';
+type DataAttributeValue = string | number | boolean | undefined;
+type AriaHasPopup = boolean | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
+type AriaLive = 'off' | 'polite' | 'assertive';
+
 /**
  * Safe HTML attributes whitelist
  *
@@ -55,18 +65,18 @@ export interface SafeHTMLAttributes<_T extends HTMLElement = HTMLElement> {
   'aria-describedby'?: string;
 
   // ARIA - State
-  'aria-hidden'?: boolean | 'true' | 'false';
-  'aria-expanded'?: boolean | 'true' | 'false';
-  'aria-selected'?: boolean | 'true' | 'false';
-  'aria-checked'?: boolean | 'true' | 'false' | 'mixed';
-  'aria-disabled'?: boolean | 'true' | 'false';
-  'aria-pressed'?: boolean | 'true' | 'false' | 'mixed';
-  'aria-current'?: boolean | 'true' | 'false' | 'page' | 'step' | 'location' | 'date' | 'time';
-  'aria-busy'?: boolean | 'true' | 'false';
+  'aria-hidden'?: AriaTristate;
+  'aria-expanded'?: AriaTristate;
+  'aria-selected'?: AriaTristate;
+  'aria-checked'?: AriaMixed;
+  'aria-disabled'?: AriaTristate;
+  'aria-pressed'?: AriaMixed;
+  'aria-current'?: AriaCurrent;
+  'aria-busy'?: AriaTristate;
 
   // ARIA - Form validation (WCAG 2.2 AA)
-  'aria-invalid'?: boolean | 'true' | 'false' | 'grammar' | 'spelling';
-  'aria-required'?: boolean | 'true' | 'false';
+  'aria-invalid'?: AriaInvalid;
+  'aria-required'?: AriaTristate;
   'aria-errormessage'?: string;
 
   // ARIA - Relationships
@@ -75,17 +85,17 @@ export interface SafeHTMLAttributes<_T extends HTMLElement = HTMLElement> {
   'aria-activedescendant'?: string;
 
   // ARIA - Live regions
-  'aria-live'?: 'off' | 'polite' | 'assertive';
-  'aria-atomic'?: boolean | 'true' | 'false';
-  'aria-relevant'?: 'additions' | 'removals' | 'text' | 'all';
+  'aria-live'?: AriaLive;
+  'aria-atomic'?: AriaTristate;
+  'aria-relevant'?: AriaRelevant;
 
   // ARIA - Drag and drop
-  'aria-dropeffect'?: 'none' | 'copy' | 'move' | 'link' | 'execute' | 'popup';
-  'aria-grabbed'?: boolean | 'true' | 'false';
+  'aria-dropeffect'?: AriaDropEffect;
+  'aria-grabbed'?: AriaTristate;
 
   // Custom data attributes (allow any data-* attribute)
   // Safe because data attributes cannot execute JavaScript
-  [key: `data-${string}`]: string | number | boolean | undefined;
+  [key: `data-${string}`]: DataAttributeValue;
 }
 
 /**
@@ -108,10 +118,10 @@ export interface ARIAProps {
   'aria-describedby'?: string;
   'aria-expanded'?: boolean;
   'aria-selected'?: boolean;
-  'aria-checked'?: boolean | 'mixed';
+  'aria-checked'?: AriaMixed;
   'aria-disabled'?: boolean;
   'aria-hidden'?: boolean;
   'aria-controls'?: string;
-  'aria-haspopup'?: boolean | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
-  'aria-live'?: 'off' | 'polite' | 'assertive';
+  'aria-haspopup'?: AriaHasPopup;
+  'aria-live'?: AriaLive;
 }

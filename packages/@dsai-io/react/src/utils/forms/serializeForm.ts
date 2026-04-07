@@ -67,7 +67,7 @@ export function serializeForm(
         continue;
       }
       const arrayKey = formatArrayKey(fullKey, i);
-      params.push(`${encodeURIComponent(arrayKey)}=${encodeURIComponent(String(item))}`);
+      params.push(`${encodeURIComponent(arrayKey)}=${encodeURIComponent(typeof item === 'object' ? JSON.stringify(item) : String(item))}`);
     }
   }
 
@@ -89,7 +89,8 @@ export function serializeForm(
         continue;
       }
 
-      params.push(`${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`);
+      const encoded = typeof value === 'object' ? JSON.stringify(value) : String(value);
+      params.push(`${encodeURIComponent(fullKey)}=${encodeURIComponent(encoded)}`);
     }
   }
 

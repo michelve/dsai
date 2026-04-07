@@ -76,7 +76,7 @@ export function isRTL(): boolean | null {
   }
 
   // Check computed style
-  const direction = window.getComputedStyle(document.documentElement).direction;
+  const direction = globalThis.getComputedStyle(document.documentElement).direction;
   const result = direction === 'rtl';
 
   // Cache the result

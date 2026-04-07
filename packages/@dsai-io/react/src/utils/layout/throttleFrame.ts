@@ -91,8 +91,7 @@ export function throttleFrame<T extends (...args: unknown[]) => unknown>(
 
   const cancelFrame = (): void => {
     if (frameId !== null) {
-      // Access through window to ensure testability with mocks
-      const caf = typeof window !== 'undefined' ? window.cancelAnimationFrame : undefined;
+      const caf = globalThis.window === undefined ? undefined : globalThis.cancelAnimationFrame;
       if (isBrowser() && typeof caf === 'function' && typeof frameId === 'number') {
         caf(frameId);
       } else if (
@@ -115,8 +114,7 @@ export function throttleFrame<T extends (...args: unknown[]) => unknown>(
       return;
     }
 
-    // Access through window to ensure testability with mocks
-    const raf = typeof window !== 'undefined' ? window.requestAnimationFrame : undefined;
+    const raf = globalThis.window === undefined ? undefined : globalThis.requestAnimationFrame;
     if (typeof raf === 'function') {
       frameId = raf(callback);
     } else if (typeof requestAnimationFrame === 'function') {
@@ -240,8 +238,7 @@ export function rafThrottle<T extends (...args: unknown[]) => unknown>(
       return;
     }
 
-    // Access through window to ensure testability with mocks
-    const raf = typeof window !== 'undefined' ? window.requestAnimationFrame : undefined;
+    const raf = globalThis.window === undefined ? undefined : globalThis.requestAnimationFrame;
     if (
       !isBrowser() ||
       (typeof raf !== 'function' && typeof requestAnimationFrame !== 'function')

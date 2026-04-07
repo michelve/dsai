@@ -66,11 +66,11 @@ export function isTouchDevice(): boolean | null {
   }
 
   const hasTouchEvents =
-    'ontouchstart' in window ||
+    'ontouchstart' in globalThis ||
     navigator.maxTouchPoints > 0 ||
     ((navigator as NavigatorWithMS).msMaxTouchPoints ?? 0) > 0;
 
-  const hasCoarsePointer = window.matchMedia?.('(pointer: coarse)').matches;
+  const hasCoarsePointer = globalThis.matchMedia?.('(pointer: coarse)').matches;
 
   const result = hasTouchEvents || hasCoarsePointer;
 

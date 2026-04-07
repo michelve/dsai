@@ -69,7 +69,7 @@ export function prefersReducedMotion(options: PrefersReducedMotionOptions = {}):
   }
 
   // Resolve matchMedia function
-  const matchMediaFn = customMatchMedia ?? window.matchMedia?.bind(window);
+  const matchMediaFn = customMatchMedia ?? globalThis.matchMedia?.bind(globalThis);
 
   if (typeof matchMediaFn !== 'function') {
     return defaultValue;

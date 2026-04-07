@@ -23,7 +23,24 @@
  * const merged = mergeRefs([ref1, ref2, ref3]);
  * ```
  */
-import type { MutableRefObject, Ref, RefCallback } from 'react';
+import type { Ref, RefCallback } from 'react';
+
+/**
+ * Assign a value to a single ref (function or object ref).
+ */
+function assignRef<T>(ref: Ref<T>, value: T): void {
+  if (typeof ref === 'function') {
+    ref(value);
+  } else {
+    try {
+      ref.current = value;
+    } catch (error) {
+      if (process.env['NODE_ENV'] !== 'production') {
+        console.warn('[mergeRefs] Failed to assign ref:', error);
+      }
+    }
+  }
+}
 
 export function mergeRefs<T>(
   ...refs: (Ref<T> | undefined)[] | [Array<Ref<T> | undefined>]
@@ -32,24 +49,11 @@ export function mergeRefs<T>(
   const refList = Array.isArray(refs[0]) && refs.length === 1 ? refs[0] : refs;
 
   return (value: T) => {
-    refList.forEach((ref) => {
-      if (!ref) {
-        return;
+    for (const ref of refList) {
+      if (ref) {
+        assignRef(ref, value);
       }
-
-      if (typeof ref === 'function') {
-        ref(value);
-      } else {
-        try {
-          (ref as MutableRefObject<T | null>).current = value;
-        } catch (error) {
-          // Warn in development when ref assignment fails
-          if (process.env['NODE_ENV'] !== 'production') {
-            console.warn('[mergeRefs] Failed to assign ref:', error);
-          }
-        }
-      }
-    });
+    }
   };
 }
 

@@ -56,13 +56,46 @@ const DEGREES_FULL_CIRCLE = 360;
 /** Degrees per hue sector (360 / 6 = 60) */
 const DEGREES_PER_SECTOR = 60;
 
+function clampRgbChannel(value: number): number {
+  return Math.max(0, Math.min(MAX_RGB_VALUE, value));
+}
+
+function isOutOfRange(r: number, g: number, b: number): boolean {
+  return r < 0 || r > MAX_RGB_VALUE || g < 0 || g > MAX_RGB_VALUE || b < 0 || b > MAX_RGB_VALUE;
+}
+
+function calculateHue(
+  rNorm: number,
+  gNorm: number,
+  bNorm: number,
+  max: number,
+  delta: number
+): number {
+  if (delta === 0) {
+    return 0;
+  }
+  let h: number;
+  if (max === rNorm) {
+    h = ((gNorm - bNorm) / delta) % HUE_SECTORS;
+  } else if (max === gNorm) {
+    h = (bNorm - rNorm) / delta + 2;
+  } else {
+    h = (rNorm - gNorm) / delta + 4;
+  }
+  h = h * DEGREES_PER_SECTOR;
+  if (h < 0) {
+    h += DEGREES_FULL_CIRCLE;
+  }
+  return h;
+}
+
 export function rgbToHsl(r: number, g: number, b: number): HSL {
   // Validate and clamp inputs
-  if (r < 0 || r > MAX_RGB_VALUE || g < 0 || g > MAX_RGB_VALUE || b < 0 || b > MAX_RGB_VALUE) {
+  if (isOutOfRange(r, g, b)) {
     console.warn('[rgbToHsl] RGB values must be in range 0-255');
-    r = Math.max(0, Math.min(MAX_RGB_VALUE, r));
-    g = Math.max(0, Math.min(MAX_RGB_VALUE, g));
-    b = Math.max(0, Math.min(MAX_RGB_VALUE, b));
+    r = clampRgbChannel(r);
+    g = clampRgbChannel(g);
+    b = clampRgbChannel(b);
   }
 
   // Convert to 0-1 range
@@ -79,28 +112,10 @@ export function rgbToHsl(r: number, g: number, b: number): HSL {
   const l = (max + min) / 2;
 
   // Calculate saturation
-  let s = 0;
-  if (delta !== 0) {
-    s = delta / (1 - Math.abs(2 * l - 1));
-  }
+  const s = delta === 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
 
   // Calculate hue in degrees
-  let h = 0;
-  if (delta !== 0) {
-    if (max === rNorm) {
-      h = ((gNorm - bNorm) / delta) % HUE_SECTORS;
-    } else if (max === gNorm) {
-      h = (bNorm - rNorm) / delta + 2;
-    } else {
-      h = (rNorm - gNorm) / delta + 4;
-    }
-    h = h * DEGREES_PER_SECTOR;
-  }
-
-  // Normalize hue to 0-360
-  if (h < 0) {
-    h += DEGREES_FULL_CIRCLE;
-  }
+  const h = calculateHue(rNorm, gNorm, bNorm, max, delta);
 
   // Return full precision values for accurate roundtrip conversions
   return [h, s * 100, l * 100] as const;

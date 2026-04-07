@@ -174,4 +174,4 @@ export function uniqueByKey<T extends Record<string, unknown>, K extends keyof T
   );
 }
 
-export type { KeyExtractor };
+export type { KeyExtractor } from '../types/shared';

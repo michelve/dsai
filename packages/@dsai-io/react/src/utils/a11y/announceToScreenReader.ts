@@ -85,7 +85,7 @@ export function announceToScreenReader(message: string, options: AnnounceOptions
     container.style.border = '0';
     container.style.padding = '0';
     container.style.overflow = 'hidden';
-    container.style.clip = 'rect(0 0 0 0)';
+    container.style.clipPath = 'inset(50%)';
     parentElement.appendChild(container);
   }
 
@@ -96,7 +96,7 @@ export function announceToScreenReader(message: string, options: AnnounceOptions
 
   container.textContent = message;
 
-  const timeoutId = window.setTimeout(() => {
+  const timeoutId = globalThis.setTimeout(() => {
     if (container?.parentNode) {
       container.textContent = '';
     }
@@ -105,7 +105,7 @@ export function announceToScreenReader(message: string, options: AnnounceOptions
   // Return cleanup function
   return () => {
     if (timeoutId) {
-      window.clearTimeout(timeoutId);
+      globalThis.clearTimeout(timeoutId);
     }
     if (container?.parentNode) {
       container.textContent = '';

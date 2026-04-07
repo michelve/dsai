@@ -35,6 +35,7 @@ export type {
   ComponentSize,
   ExtendedSize,
   FeedbackVariant,
+  HeadingTag,
   Orientation,
   SemanticColorVariant,
 } from './primitives';

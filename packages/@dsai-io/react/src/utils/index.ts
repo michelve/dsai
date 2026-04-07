@@ -19,7 +19,9 @@
  * // => 'btn btn-active btn-lg' or 'btn' depending on conditions
  * ```
  */
-export function cn(...classes: (string | boolean | undefined | null)[]): string {
+type ClassValue = string | boolean | undefined | null;
+
+export function cn(...classes: ClassValue[]): string {
   return classes.filter(Boolean).join(' ');
 }
 

@@ -38,9 +38,9 @@
  * // => 'id1 id2 id3'
  * ```
  */
-export function combineAriaDescriptions(
-  ...ids: Array<string | readonly string[] | null | undefined>
-): string {
+type AriaIdInput = string | readonly string[] | null | undefined;
+
+export function combineAriaDescriptions(...ids: AriaIdInput[]): string {
   // Flatten all inputs
   const allIds: string[] = [];
 

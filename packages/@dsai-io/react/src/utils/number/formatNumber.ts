@@ -120,31 +120,40 @@ function addThousandSeparators(formatted: string): string {
   return parts.join('.');
 }
 
-function fallbackFormat(value: number, options?: Intl.NumberFormatOptions): string {
-  // Handle special values
+function formatSpecialValue(value: number): string | null {
   if (Number.isNaN(value)) {
     return 'NaN';
   }
-
   if (!Number.isFinite(value)) {
     return value > 0 ? 'Infinity' : '-Infinity';
   }
+  return null;
+}
 
-  // Handle scientific notation
+function formatByNotation(value: number, options?: Intl.NumberFormatOptions): string | null {
   if (options?.notation === 'scientific' || options?.notation === 'engineering') {
     return value.toExponential(options?.maximumFractionDigits ?? 2);
   }
-
-  // Handle compact notation (basic approximation)
   if (options?.notation === 'compact') {
     return formatCompact(value);
   }
+  return null;
+}
 
-  // Basic number formatting with fraction digits
+function fallbackFormat(value: number, options?: Intl.NumberFormatOptions): string {
+  const special = formatSpecialValue(value);
+  if (special !== null) {
+    return special;
+  }
+
+  const notationResult = formatByNotation(value, options);
+  if (notationResult !== null) {
+    return notationResult;
+  }
+
   const fractionDigits = options?.maximumFractionDigits ?? options?.minimumFractionDigits ?? 0;
   const result = value.toFixed(fractionDigits);
 
-  // Add thousand separators (basic, assumes comma separators)
   if (options?.useGrouping !== false) {
     return addThousandSeparators(result);
   }
@@ -214,7 +223,7 @@ export function formatNumber(value: number, options: NumberFormatterOptions = {}
   const normalizedValue = Object.is(value, -0) ? 0 : value;
 
   // SSR safety check - if Intl is not available, use fallback
-  if (typeof Intl === 'undefined' || typeof Intl.NumberFormat === 'undefined') {
+  if (globalThis.Intl === undefined || globalThis.Intl.NumberFormat === undefined) {
     return fallbackFormat(normalizedValue, intlOptions);
   }
 

@@ -44,7 +44,16 @@ const MIN_RANDOM_SUFFIX_LENGTH = 4;
 const MIN_PREFIXED_RANDOM_LENGTH = 8;
 
 /** UUID hex segment lengths */
-const UUID_SEGMENT_OFFSETS = [0, 8, 12, 16, 20, 32] as const;
+const UUID_OFFSET_SEG3 = 12;
+const UUID_OFFSET_SEG5 = 20;
+
+const UUID_SEGMENT_PAIRS: ReadonlyArray<readonly [number, number]> = [
+  [0, 8],
+  [8, UUID_OFFSET_SEG3],
+  [UUID_OFFSET_SEG3, 16],
+  [16, UUID_OFFSET_SEG5],
+  [UUID_OFFSET_SEG5, 32],
+];
 
 /**
  * URL-safe alphabet for nanoid-style IDs
@@ -66,10 +75,7 @@ function getRandomValues(length: number): Uint8Array {
   const bytes = new Uint8Array(length);
 
   // Prefer Web Crypto where available (browsers, Node 19+)
-  if (
-    typeof globalThis.crypto !== 'undefined' &&
-    typeof globalThis.crypto.getRandomValues === 'function'
-  ) {
+  if (globalThis.crypto !== undefined && typeof globalThis.crypto.getRandomValues === 'function') {
     globalThis.crypto.getRandomValues(bytes);
     return bytes;
   }
@@ -87,8 +93,8 @@ function generateUuidV4(): string {
   const bytes = getRandomValues(16);
 
   // Set version (4) and variant (10xx) bits
-  const byte6 = bytes[UUID_VERSION_BYTE];
-  const byte8 = bytes[UUID_VARIANT_BYTE];
+  const byte6 = bytes.at(UUID_VERSION_BYTE);
+  const byte8 = bytes.at(UUID_VARIANT_BYTE);
 
   if (byte6 === undefined || byte8 === undefined) {
     throw new Error('Failed to generate random bytes');
@@ -105,13 +111,11 @@ function generateUuidV4(): string {
     .map((b) => b.toString(16).padStart(2, '0'))
     .join('');
 
-  return [
-    hex.slice(UUID_SEGMENT_OFFSETS[0], UUID_SEGMENT_OFFSETS[1]),
-    hex.slice(UUID_SEGMENT_OFFSETS[1], UUID_SEGMENT_OFFSETS[2]),
-    hex.slice(UUID_SEGMENT_OFFSETS[2], UUID_SEGMENT_OFFSETS[3]),
-    hex.slice(UUID_SEGMENT_OFFSETS[3], UUID_SEGMENT_OFFSETS[4]),
-    hex.slice(UUID_SEGMENT_OFFSETS[4], UUID_SEGMENT_OFFSETS[5]),
-  ].join('-');
+  const segments: string[] = [];
+  for (const [start, end] of UUID_SEGMENT_PAIRS) {
+    segments.push(hex.slice(start, end));
+  }
+  return segments.join('-');
 }
 
 /**
@@ -121,10 +125,9 @@ function generateNanoid(length: number): string {
   const bytes = getRandomValues(length);
   let result = '';
 
-  Array.from(bytes).forEach((byte) => {
-    // Use 6 bits (& 63) to index into 64-char alphabet
+  for (const byte of bytes) {
     result += NANOID_ALPHABET.charAt(byte & NANOID_BITMASK);
-  });
+  }
 
   return result;
 }
@@ -136,10 +139,9 @@ function generateAlphanumeric(length: number): string {
   const bytes = getRandomValues(length);
   let result = '';
 
-  Array.from(bytes).forEach((byte) => {
-    // Use 5 bits (& 31) + adjustment to index into 36-char alphabet
+  for (const byte of bytes) {
     result += ALPHANUMERIC_ALPHABET.charAt(byte % BASE_36);
-  });
+  }
 
   return result;
 }
@@ -248,7 +250,9 @@ export function generateCryptoId(options: GenerateCryptoIdOptions = {}): string 
       return generateNanoid(length);
 
     case 'prefixed': {
-      const randomPart = generateNanoid(Math.max(MIN_PREFIXED_RANDOM_LENGTH, length - prefix.length - 1));
+      const randomPart = generateNanoid(
+        Math.max(MIN_PREFIXED_RANDOM_LENGTH, length - prefix.length - 1)
+      );
       return `${prefix}${separator}${randomPart}`;
     }
 

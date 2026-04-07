@@ -75,22 +75,22 @@ export const ANIMATION_DURATION = {
   /**
    * Fast animations (150ms)
    */
-  FAST: DURATION_FAST as 150,
+  FAST: DURATION_FAST,
 
   /**
    * Normal animations (200ms)
    */
-  NORMAL: DURATION_NORMAL as 200,
+  NORMAL: DURATION_NORMAL,
 
   /**
    * Standard animations (300ms)
    */
-  STANDARD: DURATION_STANDARD as 300,
+  STANDARD: DURATION_STANDARD,
 
   /**
    * Slow animations (500ms)
    */
-  SLOW: DURATION_SLOW as 500,
+  SLOW: DURATION_SLOW,
 } as const;
 
 /**

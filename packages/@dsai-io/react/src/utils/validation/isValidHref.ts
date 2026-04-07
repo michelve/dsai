@@ -12,5 +12,4 @@ export {
   type IsSafeHrefOptions as IsValidHrefOptions,
 } from './isSafeHref';
 
-import { isSafeHref as _isValidHref } from './isSafeHref';
-export default _isValidHref;
+export { isSafeHref as default } from './isSafeHref';

@@ -130,13 +130,10 @@ function findTagEnd(input: string, start: number): number {
       if (char === inQuote) {
         inQuote = null;
       }
-    } else {
-      // Not in a quote
-      if (char === '"' || char === "'") {
-        inQuote = char;
-      } else if (char === '>') {
-        return pos;
-      }
+    } else if (char === '"' || char === "'") {
+      inQuote = char;
+    } else if (char === '>') {
+      return pos;
     }
     pos++;
   }
@@ -276,7 +273,10 @@ function isAttributeAllowed(
   if (isDangerousValue(value)) {
     return false;
   }
-  if ((nameLower === 'href' || nameLower === 'src') && !isSafeUrl(value, allowedProtocols, allowDataUrls)) {
+  if (
+    (nameLower === 'href' || nameLower === 'src') &&
+    !isSafeUrl(value, allowedProtocols, allowDataUrls)
+  ) {
     return false;
   }
   return true;
@@ -365,7 +365,7 @@ function skipDangerousTag(input: string, tagName: string, tagEnd: number): numbe
     return input.length;
   }
   const closingEnd = input.indexOf('>', closingPos);
-  return closingEnd !== -1 ? closingEnd + 1 : input.length;
+  return closingEnd === -1 ? input.length : closingEnd + 1;
 }
 
 /**
@@ -395,6 +395,100 @@ function buildSanitizedTag(
   return `<${tagName}${attrsStr}${closeSlash}>`;
 }
 
+const COMMENT_END_LENGTH = 3;
+
+const TAG_NAME_PATTERN = /^(\w+)/;
+
+/**
+ * Skip past an HTML comment starting at position i, return new position.
+ * Returns -1 if the comment is unterminated (caller should break).
+ */
+function skipComment(input: string, i: number): number {
+  const commentEnd = input.indexOf('-->', i);
+  if (commentEnd === -1) {
+    return -1;
+  }
+  return commentEnd + COMMENT_END_LENGTH;
+}
+
+/**
+ * Extract tag name from tag content.
+ * Returns the lowercase tag name and whether the tag is a closing tag,
+ * or null if the tag name could not be parsed.
+ */
+function extractTagInfo(
+  tagContent: string
+): { tagName: string; isClosing: boolean; tagPart: string } | null {
+  const isClosing = tagContent.startsWith('/');
+  const tagPart = isClosing ? tagContent.slice(1) : tagContent;
+  const tagNameMatch = TAG_NAME_PATTERN.exec(tagPart);
+  if (!tagNameMatch?.[1]) {
+    return null;
+  }
+  return { tagName: tagNameMatch[1].toLowerCase(), isClosing, tagPart };
+}
+
+/**
+ * Process a single tag found at position i.
+ * Returns { output, nextPos } where output is the sanitized text to append
+ * and nextPos is the position to continue from.
+ * Returns null if the main loop should break.
+ */
+function processSingleTag(
+  input: string,
+  i: number,
+  allowedTagSet: Set<string>,
+  allowedAttributes: Readonly<Record<string, readonly string[]>>,
+  allowedProtocols: readonly string[],
+  allowDataUrls: boolean
+): { output: string; nextPos: number } | null {
+  const tagEnd = findTagEnd(input, i);
+  if (tagEnd === -1) {
+    return { output: escapeHtml(input.slice(i)), nextPos: input.length };
+  }
+
+  const tagContent = input.slice(i + 1, tagEnd);
+
+  if (tagContent.startsWith('!--')) {
+    const newPos = skipComment(input, i);
+    if (newPos === -1) {
+      return null;
+    }
+    return { output: '', nextPos: newPos };
+  }
+
+  const tagInfo = extractTagInfo(tagContent);
+  if (!tagInfo) {
+    return { output: '', nextPos: tagEnd + 1 };
+  }
+
+  const { tagName, isClosing, tagPart } = tagInfo;
+
+  if (DANGEROUS_TAGS.has(tagName) && !isClosing) {
+    return { output: '', nextPos: skipDangerousTag(input, tagName, tagEnd) };
+  }
+
+  if (!allowedTagSet.has(tagName)) {
+    return { output: '', nextPos: tagEnd + 1 };
+  }
+
+  if (isClosing) {
+    return { output: `</${tagName}>`, nextPos: tagEnd + 1 };
+  }
+
+  return {
+    output: buildSanitizedTag(
+      tagName,
+      tagContent,
+      tagPart,
+      allowedAttributes,
+      allowedProtocols,
+      allowDataUrls
+    ),
+    nextPos: tagEnd + 1,
+  };
+}
+
 /**
  * Process HTML tags, filtering dangerous and disallowed content.
  */
@@ -415,51 +509,20 @@ function processHtmlTags(
       continue;
     }
 
-    const tagEnd = findTagEnd(input, i);
-    if (tagEnd === -1) {
-      result += escapeHtml(input.slice(i));
+    const tagResult = processSingleTag(
+      input,
+      i,
+      allowedTagSet,
+      allowedAttributes,
+      allowedProtocols,
+      allowDataUrls
+    );
+    if (tagResult === null) {
       break;
     }
 
-    const tagContent = input.slice(i + 1, tagEnd);
-
-    // Skip comments
-    if (tagContent.startsWith('!--')) {
-      const commentEnd = input.indexOf('-->', i);
-      if (commentEnd === -1) {
-        break;
-      }
-      i = commentEnd + 3;
-      continue;
-    }
-
-    const isClosing = tagContent.startsWith('/');
-    const tagPart = isClosing ? tagContent.slice(1) : tagContent;
-    const tagNameMatch = tagPart.match(/^(\w+)/);
-    if (!tagNameMatch || !tagNameMatch[1]) {
-      i = tagEnd + 1;
-      continue;
-    }
-
-    const tagName = tagNameMatch[1].toLowerCase();
-
-    if (DANGEROUS_TAGS.has(tagName) && !isClosing) {
-      i = skipDangerousTag(input, tagName, tagEnd);
-      continue;
-    }
-
-    if (!allowedTagSet.has(tagName)) {
-      i = tagEnd + 1;
-      continue;
-    }
-
-    if (isClosing) {
-      result += `</${tagName}>`;
-    } else {
-      result += buildSanitizedTag(tagName, tagContent, tagPart, allowedAttributes, allowedProtocols, allowDataUrls);
-    }
-
-    i = tagEnd + 1;
+    result += tagResult.output;
+    i = tagResult.nextPos;
   }
 
   return result;
