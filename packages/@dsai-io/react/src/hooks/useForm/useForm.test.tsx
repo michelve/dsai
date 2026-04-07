@@ -66,14 +66,14 @@ describe('useForm', () => {
       expect(result.current.state.fields.email).toEqual({
         value: '',
         touched: false,
-        error: undefined,
+        error: null,
         validating: false,
       });
 
       expect(result.current.state.fields.password).toEqual({
         value: '',
         touched: false,
-        error: undefined,
+        error: null,
         validating: false,
       });
     });
@@ -275,7 +275,7 @@ describe('useForm', () => {
       // Wait to ensure validation doesn't run
       await new Promise((resolve) => setTimeout(resolve, 50));
 
-      expect(result.current.state.fields.email.error).toBeUndefined();
+      expect(result.current.state.fields.email.error).toBeNull();
     });
 
     it('should validate on blur when validateOnBlur is true', async () => {
@@ -302,7 +302,7 @@ describe('useForm', () => {
       // Wait to ensure validation doesn't run
       await new Promise((resolve) => setTimeout(resolve, 50));
 
-      expect(result.current.state.fields.email.error).toBeUndefined();
+      expect(result.current.state.fields.email.error).toBeNull();
     });
 
     it('should set validating state during validation', async () => {
@@ -466,7 +466,7 @@ describe('useForm', () => {
 
       expect(result.current.state.values).toEqual(initialValues);
       expect(result.current.state.fields.email.touched).toBe(false);
-      expect(result.current.state.fields.password.error).toBeUndefined();
+      expect(result.current.state.fields.password.error).toBeNull();
       expect(result.current.state.dirty).toBe(false);
     });
 

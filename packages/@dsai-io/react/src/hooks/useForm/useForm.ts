@@ -129,7 +129,7 @@ export function useForm<T extends Record<string, unknown>>({
         setFieldState(acc, key, {
           value,
           touched: false,
-          error: undefined,
+          error: null,
           validating: false,
         });
         return acc;
