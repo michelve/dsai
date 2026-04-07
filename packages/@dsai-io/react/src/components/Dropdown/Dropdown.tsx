@@ -588,7 +588,7 @@ const DropdownMenu = forwardRef<HTMLUListElement, DropdownMenuProps>(
       children,
       align = 'start',
       portal = true,
-      container = typeof document !== 'undefined' ? document.body : null,
+      container = typeof document === 'undefined' ? null : document.body,
       maxHeight,
       className = '',
       style,
@@ -616,7 +616,10 @@ const DropdownMenu = forwardRef<HTMLUListElement, DropdownMenuProps>(
         ...floatingStyles,
         ...(maxHeight === undefined
           ? {}
-          : { maxHeight: typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight, overflowY: 'auto' as const }),
+          : {
+              maxHeight: typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight,
+              overflowY: 'auto' as const,
+            }),
         ...style,
       }),
       [floatingStyles, maxHeight, style]
@@ -664,7 +667,7 @@ DropdownMenu.displayName = 'Dropdown.Menu';
 function renderDropdownItemContent(
   children: React.ReactNode,
   startIcon: React.ReactNode | undefined,
-  endIcon: React.ReactNode | undefined,
+  endIcon: React.ReactNode | undefined
 ): React.JSX.Element {
   return (
     <>
@@ -903,7 +906,8 @@ const DropdownCheckboxItem = forwardRef<HTMLButtonElement, DropdownCheckboxItemP
 
         if (
           !defaultPrevented &&
-          (closeOnSelect || (closeOnSelect === undefined && (autoClose === true || autoClose === 'inside')))
+          (closeOnSelect ||
+            (closeOnSelect === undefined && (autoClose === true || autoClose === 'inside')))
         ) {
           close();
         }
@@ -932,9 +936,7 @@ const DropdownCheckboxItem = forwardRef<HTMLButtonElement, DropdownCheckboxItemP
           data-test={dataTest}
           {...itemProps}
         >
-          <span className="dropdown-item-indicator me-2">
-            {checked && <CheckIndicator />}
-          </span>
+          <span className="dropdown-item-indicator me-2">{checked && <CheckIndicator />}</span>
           {startIcon && (
             <span className="dropdown-item-icon me-2" aria-hidden="true">
               {startIcon}
@@ -980,10 +982,7 @@ const DropdownRadioGroup = forwardRef<HTMLDivElement, DropdownRadioGroupProps>(
       onChange: onValueChange,
     });
 
-    const contextValue = useMemo(
-      () => ({ value, onValueChange: setValue }),
-      [value, setValue]
-    );
+    const contextValue = useMemo(() => ({ value, onValueChange: setValue }), [value, setValue]);
 
     return (
       <DropdownRadioGroupContext.Provider value={contextValue}>
@@ -1093,9 +1092,7 @@ const DropdownRadioItem = forwardRef<HTMLButtonElement, DropdownRadioItemProps>(
           data-test={dataTest}
           {...itemProps}
         >
-          <span className="dropdown-item-indicator me-2">
-            {checked && <RadioIndicator />}
-          </span>
+          <span className="dropdown-item-indicator me-2">{checked && <RadioIndicator />}</span>
           {startIcon && (
             <span className="dropdown-item-icon me-2" aria-hidden="true">
               {startIcon}
@@ -1174,14 +1171,7 @@ DropdownGroup.displayName = 'Dropdown.Group';
  */
 const DropdownShortcut = forwardRef<HTMLSpanElement, DropdownShortcutProps>(
   (
-    {
-      children,
-      className = '',
-      style,
-      id,
-      'data-testid': dataTestId,
-      'data-test': dataTest,
-    },
+    { children, className = '', style, id, 'data-testid': dataTestId, 'data-test': dataTest },
     ref
   ) => {
     const shortcutClassName = useMemo(

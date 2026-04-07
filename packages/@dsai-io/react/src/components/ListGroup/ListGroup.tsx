@@ -108,10 +108,14 @@ function separateChildren(children: ReactNode): {
 function resolveActiveState(
   activeProp: boolean | undefined,
   eventKey: string | undefined,
-  context: ReturnType<typeof useListGroupContext>,
+  context: ReturnType<typeof useListGroupContext>
 ): boolean {
-  if (activeProp !== undefined) { return activeProp; }
-  if (eventKey !== undefined && context !== null) { return context.activeKeys.has(eventKey); }
+  if (activeProp !== undefined) {
+    return activeProp;
+  }
+  if (eventKey !== undefined && context !== null) {
+    return context.activeKeys.has(eventKey);
+  }
   return false;
 }
 
@@ -120,19 +124,22 @@ function resolveElementType(
   as: React.ElementType | undefined,
   href: string | undefined,
   onClick: unknown,
-  isListboxItem: boolean,
+  isListboxItem: boolean
 ): React.ElementType {
-  if (as) { return as; }
-  if (href) { return 'a'; }
-  if (onClick || isListboxItem) { return 'button'; }
+  if (as) {
+    return as;
+  }
+  if (href) {
+    return 'a';
+  }
+  if (onClick || isListboxItem) {
+    return 'button';
+  }
   return 'li';
 }
 
 /** Build ARIA props for listbox or list mode */
-function buildListItemAriaProps(
-  isListboxItem: boolean,
-  active: boolean,
-): Record<string, unknown> {
+function buildListItemAriaProps(isListboxItem: boolean, active: boolean): Record<string, unknown> {
   if (isListboxItem) {
     return { role: 'option' as const, 'aria-selected': active };
   }
@@ -142,10 +149,13 @@ function buildListItemAriaProps(
 /** Build wrapper li props for semantic list structure */
 function buildWrapperLiProps(
   isListboxItem: boolean,
-  active: boolean,
+  active: boolean
 ): { className: string; role?: 'presentation' } {
   if (isListboxItem) {
-    return { className: cn('p-0 border-0 bg-transparent', active && 'active'), role: 'presentation' as const };
+    return {
+      className: cn('p-0 border-0 bg-transparent', active && 'active'),
+      role: 'presentation' as const,
+    };
   }
   return { className: 'p-0 border-0 bg-transparent' };
 }
@@ -155,7 +165,7 @@ function renderItemContent(
   children: ReactNode,
   icon: ReactNode | undefined,
   badge: ReactNode | undefined,
-  description: ReactNode | undefined,
+  description: ReactNode | undefined
 ): React.JSX.Element {
   return (
     <>
@@ -200,7 +210,7 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
     onExpandedChange,
     ...rest
   },
-  ref,
+  ref
 ) {
   const context = useListGroupContext();
   const active = resolveActiveState(activeProp, eventKey, context);
@@ -215,11 +225,14 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
     disabled && 'disabled',
     variant && `list-group-item-${variant}`,
     !!badge && 'd-flex justify-content-between align-items-center',
-    className,
+    className
   );
 
   const handleClick = (e: MouseEvent<HTMLElement>): void => {
-    if (disabled) { e.preventDefault(); return; }
+    if (disabled) {
+      e.preventDefault();
+      return;
+    }
     onClick?.(e);
     if (context?.onSelect && eventKey !== undefined) {
       context.onSelect(eventKey, e);
@@ -227,7 +240,9 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLElement>): void => {
-    if (disabled) { return; }
+    if (disabled) {
+      return;
+    }
     if (isEnterKey(e) || e.key === ' ') {
       e.preventDefault();
       if (isListboxItem && context?.onSelect && eventKey !== undefined) {
@@ -253,10 +268,13 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
   if (hasNestedContent) {
     const labelledNestedContent = nestedContent.map((child) => {
       if (isValidElement(child)) {
-        return cloneElement(child as React.ReactElement<{ 'aria-labelledby'?: string; className?: string }>, {
-          'aria-labelledby': collapsibleTextId,
-          className: cn((child.props as { className?: string }).className, 'ps-3'),
-        });
+        return cloneElement(
+          child as React.ReactElement<{ 'aria-labelledby'?: string; className?: string }>,
+          {
+            'aria-labelledby': collapsibleTextId,
+            className: cn((child.props as { className?: string }).className, 'ps-3'),
+          }
+        );
       }
       return child;
     });
@@ -266,7 +284,7 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
       active && 'active',
       disabled && 'disabled',
       variant && `list-group-item-${variant}`,
-      className,
+      className
     );
 
     return (
@@ -290,7 +308,10 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
           <button
             type="button"
             className="btn btn-sm border-0 p-0 ms-auto"
-            onClick={(e) => { e.stopPropagation(); handleToggle(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleToggle();
+            }}
             aria-expanded={isExpanded}
             aria-label={isExpanded ? 'Collapse' : 'Expand'}
           >
@@ -321,7 +342,13 @@ const ListGroupItemInner = forwardRef<HTMLElement, ListGroupItemProps>(function 
 
   const content = renderItemContent(children, icon, badge, description);
   const ariaProps = buildListItemAriaProps(isListboxItem, active);
-  const commonProps = { ...rest, ...ariaProps, className: itemClasses, style, 'aria-disabled': disabled || undefined };
+  const commonProps = {
+    ...rest,
+    ...ariaProps,
+    className: itemClasses,
+    style,
+    'aria-disabled': disabled || undefined,
+  };
   const wrapperLiProps = buildWrapperLiProps(isListboxItem, active);
 
   // Render based on element type
@@ -414,14 +441,16 @@ ListGroupItem.displayName = 'ListGroupItem';
  */
 function renderNonItemEntry(
   entry: ListGroupDividerEntry | ListGroupHeaderEntry,
-  dividerIndex: number,
+  dividerIndex: number
 ): React.ReactNode {
   if (entry.type === 'divider') {
     return <ListGroupDivider key={`divider-${dividerIndex}`} />;
   }
   if (entry.type === 'header') {
     return (
-      <ListGroupHeader key={`header-${String(entry.content)}`}>
+      <ListGroupHeader
+        key={`header-${typeof entry.content === 'string' ? entry.content : 'group'}`}
+      >
         {entry.content}
       </ListGroupHeader>
     );
@@ -436,7 +465,7 @@ function renderItemEntry(
   entry: ListGroupItemData,
   index: number,
   variant: ListGroupProps['variant'],
-  renderEntriesFn: (entries: ListGroupEntry[]) => React.ReactNode,
+  renderEntriesFn: (entries: ListGroupEntry[]) => React.ReactNode
 ): React.ReactNode {
   const hasChildren = entry.collapsible && entry.children && entry.children.length > 0;
 
@@ -485,7 +514,7 @@ function resolveHorizontalClass(horizontal: ListGroupProps['horizontal']): strin
  */
 function buildListboxProps(
   onSelect: ListGroupProps['onSelect'],
-  selectionMode: ListGroupProps['selectionMode'],
+  selectionMode: ListGroupProps['selectionMode']
 ): Record<string, unknown> {
   if (onSelect === undefined) {
     return {};
@@ -631,26 +660,26 @@ const ListGroupInner = forwardRef<HTMLUListElement | HTMLOListElement, ListGroup
     });
 
     // Merge the forwarded ref with the local listRef
-    const mergedRef = mergeRefs(
-      ref as React.Ref<HTMLElement>,
-      listRef as React.Ref<HTMLElement>,
-    );
+    const mergedRef = mergeRefs(ref as React.Ref<HTMLElement>, listRef as React.Ref<HTMLElement>);
 
     // Render nested entries recursively for collapsible items
     let dividerCounter = 0;
-    const renderEntries = (entries: ListGroupEntry[]): React.ReactNode => {
-      return entries.map((entry, index) => {
+    const renderEntries = (entries: ListGroupEntry[]): React.ReactNode =>
+      entries.map((entry, index) => {
         if (!isListGroupItemData(entry)) {
-          dividerCounter += entry.type === 'divider' ? 1 : 0;
+          if (entry.type === 'divider') {
+            dividerCounter += 1;
+          }
           return renderNonItemEntry(entry, dividerCounter);
         }
         return renderItemEntry(entry, index, variant, renderEntries);
       });
-    };
 
     // Render using items prop
     const renderWithItems = (): React.ReactNode => {
-      if (!items || items.length === 0) {return null;}
+      if (!items || items.length === 0) {
+        return null;
+      }
       return renderEntries(items);
     };
 
@@ -660,14 +689,11 @@ const ListGroupInner = forwardRef<HTMLUListElement | HTMLOListElement, ListGroup
 
     // Virtualization fallback/warning
     const shouldVirtualize = virtualized && items && items.length > 0;
-    if (shouldVirtualize && !useVirtualizerFn) {
-      if (process.env['NODE_ENV'] !== 'production') {
-        console.warn(
-          'ListGroup: virtualized prop requires @tanstack/react-virtual. ' +
-            'Install it with: npm install @tanstack/react-virtual'
-        );
-      }
-      // Falls through to render all items normally
+    if (shouldVirtualize && !useVirtualizerFn && process.env['NODE_ENV'] !== 'production') {
+      console.warn(
+        'ListGroup: virtualized prop requires @tanstack/react-virtual. ' +
+          'Install it with: npm install @tanstack/react-virtual'
+      );
     }
 
     // Loading spinner rendered as a list item

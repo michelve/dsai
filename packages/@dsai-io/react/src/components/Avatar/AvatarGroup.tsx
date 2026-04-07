@@ -31,6 +31,8 @@ import { getSizeValue, resolveOverlap, resolveInlineGap } from './avatarUtils';
 
 import type { AvatarGroupProps, AvatarSize } from './Avatar.types';
 
+const MAX_LISTED_HIDDEN_NAMES = 5;
+
 // =============================================================================
 // Helper: Enhance a single avatar child with inherited props
 // =============================================================================
@@ -129,7 +131,7 @@ function OverflowChipButton({
   computedOverflowLabel,
   showOverflowTooltip,
   onOverflowClick,
-}: {
+}: Readonly<{
   shape: string;
   layout: string;
   stackingOrder: string;
@@ -139,7 +141,7 @@ function OverflowChipButton({
   computedOverflowLabel: string;
   showOverflowTooltip: boolean;
   onOverflowClick?: (event: React.MouseEvent) => void;
-}): React.JSX.Element {
+}>): React.JSX.Element {
   const isStacked = layout === 'stacked';
   const chipClasses = cn(
     'dsai-avatar-group__overflow',
@@ -263,7 +265,7 @@ export const AvatarGroup = memo(
       if (overflowLabel) {
         return overflowLabel;
       }
-      if (hiddenNames.length > 0 && hiddenNames.length <= 5) {
+      if (hiddenNames.length > 0 && hiddenNames.length <= MAX_LISTED_HIDDEN_NAMES) {
         return `${hiddenNames.join(', ')} and ${hiddenCount} more`;
       }
       return `+${hiddenCount} more`;

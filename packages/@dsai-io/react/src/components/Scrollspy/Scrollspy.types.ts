@@ -19,7 +19,7 @@ import type { ReactNode } from 'react';
  * Security: Explicit whitelist prevents dangerous prop injection.
  * @see {@link SafeHTMLAttributes}
  */
-export type SafeScrollspyHTMLAttributes = SafeHTMLAttributes<HTMLElement>;
+export type SafeScrollspyHTMLAttributes = SafeHTMLAttributes;
 
 // =============================================================================
 // Scrollspy Item Types

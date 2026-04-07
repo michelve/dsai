@@ -6,6 +6,8 @@ import type {
 } from '../../types';
 import type { CSSProperties, MouseEvent, ReactNode } from 'react';
 
+type AriaHasPopup = boolean | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
+
 /**
  * Button component variants
  * Maps to Bootstrap 5 button styles using design tokens
@@ -202,7 +204,7 @@ export interface ButtonOwnProps extends SafeHTMLAttributes {
    * ARIA haspopup - indicates the button opens a popup element
    * Use 'menu' for dropdown menus, 'dialog' for popovers/modals, 'listbox' for select-like popups
    */
-  'aria-haspopup'?: boolean | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
+  'aria-haspopup'?: AriaHasPopup;
 
   /**
    * ID attribute

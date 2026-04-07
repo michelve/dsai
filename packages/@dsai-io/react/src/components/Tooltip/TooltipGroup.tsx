@@ -22,7 +22,7 @@ import type { TooltipGroupProps } from './Tooltip.types';
 export function TooltipGroup({
   children,
   skipDelay,
-}: TooltipGroupProps): React.JSX.Element {
+}: Readonly<TooltipGroupProps>): React.JSX.Element {
   const ctx = useTooltipContext();
   const resolvedSkipDelay = skipDelay ?? ctx.skipDelay;
 

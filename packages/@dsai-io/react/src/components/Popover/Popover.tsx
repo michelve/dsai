@@ -40,7 +40,7 @@ import { PopoverCloseButton } from './PopoverCloseButton';
 import { PopoverHeader } from './PopoverHeader';
 
 import type { PopoverProps } from './Popover.types';
-import type { MutableRefObject, ReactElement, Ref } from 'react';
+import type { ReactElement, Ref } from 'react';
 
 const POPOVER_ARROW_GAP_PX = 8;
 const POPOVER_ARROW_WIDTH_PX = 16;
@@ -57,7 +57,7 @@ function assignNodeToRef<T>(refTarget: Ref<T> | undefined, node: T | null): void
     return;
   }
   if (typeof refTarget === 'object' && refTarget !== null && 'current' in refTarget) {
-    (refTarget as MutableRefObject<T | null>).current = node;
+    refTarget.current = node;
   }
 }
 

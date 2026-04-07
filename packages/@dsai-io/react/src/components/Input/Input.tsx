@@ -125,7 +125,7 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
 
   // Controlled/uncontrolled state management with centralized hook
   const [currentValue, setCurrentValue] = useControllableState<string>({
-    value: value !== undefined ? String(value) : undefined,
+    value: value === undefined ? undefined : String(value),
     defaultValue: String(defaultValue ?? ''),
     onChange: (newValue, event) => {
       if (!onChange) {
@@ -233,7 +233,7 @@ const InputComponent = forwardRef<HTMLInputElement, InputProps>(function Input(
       onChange={handleChange}
       onFocus={handleFocus}
       onBlur={handleBlur}
-      aria-label={!label ? ariaLabel : undefined}
+      aria-label={label ? undefined : ariaLabel}
       aria-invalid={error || undefined}
       aria-describedby={describedByIds || undefined}
       aria-required={required || undefined}

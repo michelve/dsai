@@ -1,5 +1,18 @@
 import type { CarouselFSMEvent, CarouselFSMState, CarouselVisualState } from './Carousel.types';
 
+type CarouselNavigationEvent = Extract<CarouselFSMEvent, { type: 'NEXT' | 'PREV' | 'GO_TO' }>;
+type CarouselPlaybackEvent = Extract<CarouselFSMEvent, { type: 'PLAY' | 'PAUSE' | 'TOGGLE_PAUSE' }>;
+type CarouselTransitionOrDragEvent = Extract<
+  CarouselFSMEvent,
+  { type: 'TRANSITION_START' | 'TRANSITION_END' | 'DRAG_START' | 'DRAG_END' }
+>;
+type CarouselConfigEvent = Extract<CarouselFSMEvent, { type: 'SET_SLIDE_COUNT' | 'RESET_FROM_PROPS' }>;
+
+const NAVIGATION_EVENT_TYPES: ReadonlySet<string> = new Set(['NEXT', 'PREV', 'GO_TO']);
+const PLAYBACK_EVENT_TYPES: ReadonlySet<string> = new Set(['PLAY', 'PAUSE', 'TOGGLE_PAUSE']);
+const TRANSITION_EVENT_TYPES: ReadonlySet<string> = new Set(['TRANSITION_START', 'TRANSITION_END', 'DRAG_START', 'DRAG_END']);
+const CONFIG_EVENT_TYPES: ReadonlySet<string> = new Set(['SET_SLIDE_COUNT', 'RESET_FROM_PROPS']);
+
 /**
  * Creates the initial Carousel FSM state
  *
@@ -104,7 +117,7 @@ function deriveVisualState(state: CarouselFSMState): CarouselVisualState {
  */
 function handleCarouselNavigation(
   state: CarouselFSMState,
-  event: Extract<CarouselFSMEvent, { type: 'NEXT' | 'PREV' | 'GO_TO' }>,
+  event: CarouselNavigationEvent,
   wrap: boolean
 ): CarouselFSMState {
   if (state.isTransitioning) {
@@ -147,7 +160,7 @@ function handleCarouselNavigation(
  */
 function handleCarouselPlayback(
   state: CarouselFSMState,
-  event: Extract<CarouselFSMEvent, { type: 'PLAY' | 'PAUSE' | 'TOGGLE_PAUSE' }>
+  event: CarouselPlaybackEvent
 ): CarouselFSMState {
   let nextState: CarouselFSMState;
 
@@ -172,10 +185,7 @@ function handleCarouselPlayback(
  */
 function handleCarouselTransitionOrDrag(
   state: CarouselFSMState,
-  event: Extract<
-    CarouselFSMEvent,
-    { type: 'TRANSITION_START' | 'TRANSITION_END' | 'DRAG_START' | 'DRAG_END' }
-  >
+  event: CarouselTransitionOrDragEvent
 ): CarouselFSMState {
   let nextState: CarouselFSMState;
 
@@ -211,7 +221,7 @@ function handleCarouselTransitionOrDrag(
  */
 function handleCarouselConfig(
   state: CarouselFSMState,
-  event: Extract<CarouselFSMEvent, { type: 'SET_SLIDE_COUNT' | 'RESET_FROM_PROPS' }>
+  event: CarouselConfigEvent
 ): CarouselFSMState {
   let nextState: CarouselFSMState;
 
@@ -226,7 +236,7 @@ function handleCarouselConfig(
       ...state,
       slideCount,
       activeIndex: clampedIndex,
-      prevIndex: state.activeIndex !== clampedIndex ? state.activeIndex : state.prevIndex,
+      prevIndex: state.activeIndex === clampedIndex ? state.prevIndex : state.activeIndex,
     };
   }
 
@@ -239,30 +249,19 @@ export function carouselFSMReducer(
   event: CarouselFSMEvent,
   wrap = true
 ): CarouselFSMState {
-  switch (event.type) {
-    case 'NEXT':
-    case 'PREV':
-    case 'GO_TO':
-      return handleCarouselNavigation(state, event, wrap);
-
-    case 'PLAY':
-    case 'PAUSE':
-    case 'TOGGLE_PAUSE':
-      return handleCarouselPlayback(state, event);
-
-    case 'TRANSITION_START':
-    case 'TRANSITION_END':
-    case 'DRAG_START':
-    case 'DRAG_END':
-      return handleCarouselTransitionOrDrag(state, event);
-
-    case 'SET_SLIDE_COUNT':
-    case 'RESET_FROM_PROPS':
-      return handleCarouselConfig(state, event);
-
-    default:
-      return state;
+  if (NAVIGATION_EVENT_TYPES.has(event.type)) {
+    return handleCarouselNavigation(state, event as CarouselNavigationEvent, wrap);
   }
+  if (PLAYBACK_EVENT_TYPES.has(event.type)) {
+    return handleCarouselPlayback(state, event as CarouselPlaybackEvent);
+  }
+  if (TRANSITION_EVENT_TYPES.has(event.type)) {
+    return handleCarouselTransitionOrDrag(state, event as CarouselTransitionOrDragEvent);
+  }
+  if (CONFIG_EVENT_TYPES.has(event.type)) {
+    return handleCarouselConfig(state, event as CarouselConfigEvent);
+  }
+  return state;
 }
 
 /**

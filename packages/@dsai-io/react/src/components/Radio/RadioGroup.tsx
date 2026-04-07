@@ -61,7 +61,7 @@ export function RadioGroup({
   style,
   required = false,
   id: providedId,
-}: RadioGroupProps): React.JSX.Element {
+}: Readonly<RadioGroupProps>): React.JSX.Element {
   // Generate unique IDs
   const generatedId = useId();
   const groupId = providedId || generatedId;

@@ -2,6 +2,16 @@ import type { SafeHTMLAttributes, SemanticColorVariant } from '../../types';
 import type { ReactNode } from 'react';
 
 /**
+ * Standard HTML link target values.
+ */
+export type AlertLinkTarget = '_blank' | '_self' | '_parent' | '_top';
+
+/**
+ * Allowed heading levels for Alert headings.
+ */
+export type AlertHeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
+/**
  * Alert component variants
  * Maps to Bootstrap 5 alert contextual classes
  *
@@ -164,7 +174,7 @@ export interface AlertLinkProps extends SafeAlertLinkHTMLAttributes {
    * External links should use '_blank' with rel="noopener noreferrer"
    * @default '_self'
    */
-  target?: '_blank' | '_self' | '_parent' | '_top';
+  target?: AlertLinkTarget;
 
   /**
    * Relationship attribute for external links
@@ -186,7 +196,7 @@ export interface AlertHeadingProps {
    * Heading level
    * @default 'h4'
    */
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  as?: AlertHeadingLevel;
 
   /**
    * Additional CSS class names

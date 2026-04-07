@@ -49,7 +49,9 @@ function warnMissingListLabel(listId: string): void {
   ) {
     if (warnedLists.size >= WARN_CACHE_LIMIT) {
       const first = warnedLists.values().next().value;
-      if (first !== undefined) {warnedLists.delete(first);}
+      if (first !== undefined) {
+        warnedLists.delete(first);
+      }
     }
     warnedLists.add(listId);
     console.warn(
@@ -166,7 +168,7 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListProps>(
     }, []);
 
     const normalizedValue = useMemo(
-      () => (value !== undefined ? normalizeValue(value) : undefined),
+      () => (value === undefined ? undefined : normalizeValue(value)),
       [value, normalizeValue]
     );
 
@@ -183,7 +185,9 @@ const CardListComponent = forwardRef<HTMLFieldSetElement, CardListProps>(
         if (onChange) {
           // For single mode, return single value or undefined
           if (selectionMode === 'single') {
-            (onChange as (value: string | undefined) => void)(newValues.length > 0 ? newValues[0] : undefined);
+            (onChange as (value: string | undefined) => void)(
+              newValues.length > 0 ? newValues[0] : undefined
+            );
           } else {
             // For multiple mode, return array
             (onChange as (values: string[]) => void)(newValues);

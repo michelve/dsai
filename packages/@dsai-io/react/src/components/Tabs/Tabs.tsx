@@ -18,7 +18,6 @@ import { useTabsKeyboard } from './useTabsKeyboard';
 import { useTabsScroll } from './useTabsScroll';
 
 import type {
-  TabItem,
   TabListProps,
   TabPanelProps,
   TabProps,
@@ -68,15 +67,78 @@ function isExtraSlots(value: unknown): value is { left?: ReactNode; right?: Reac
   if (Reflect.get(value, '$$typeof') !== undefined) {
     return false;
   }
-  return (
-    Reflect.get(value, 'left') !== undefined ||
-    Reflect.get(value, 'right') !== undefined
-  );
+  return Reflect.get(value, 'left') !== undefined || Reflect.get(value, 'right') !== undefined;
 }
 
 // =============================================================================
 // TabList Component
 // =============================================================================
+
+interface ScrollableTabListOptions {
+  tabListContent: React.ReactNode;
+  leftExtra: React.ReactNode | undefined;
+  rightExtra: React.ReactNode | undefined;
+  simpleExtra: React.ReactNode | undefined;
+  scrollToStart: () => void;
+  scrollToEnd: () => void;
+  canScrollStart: boolean;
+  canScrollEnd: boolean;
+}
+
+function renderScrollableTabList(options: ScrollableTabListOptions): React.JSX.Element {
+  const {
+    tabListContent,
+    leftExtra,
+    rightExtra,
+    simpleExtra,
+    scrollToStart,
+    scrollToEnd,
+    canScrollStart,
+    canScrollEnd,
+  } = options;
+  return (
+    <>
+      {leftExtra && <div className="dsai-tabs-extra-left">{leftExtra}</div>}
+      <button
+        type="button"
+        className="dsai-tabs-scroll-btn dsai-tabs-scroll-btn-start"
+        onClick={scrollToStart}
+        disabled={!canScrollStart}
+        aria-label="Scroll tabs back"
+        tabIndex={-1}
+      />
+      {tabListContent}
+      <button
+        type="button"
+        className="dsai-tabs-scroll-btn dsai-tabs-scroll-btn-end"
+        onClick={scrollToEnd}
+        disabled={!canScrollEnd}
+        aria-label="Scroll tabs forward"
+        tabIndex={-1}
+      />
+      {(rightExtra || simpleExtra) && (
+        <div className="dsai-tabs-extra-right">{rightExtra ?? simpleExtra}</div>
+      )}
+    </>
+  );
+}
+
+function renderExtraTabList(
+  tabListContent: React.ReactNode,
+  leftExtra: React.ReactNode | undefined,
+  rightExtra: React.ReactNode | undefined,
+  simpleExtra: React.ReactNode | undefined
+): React.JSX.Element {
+  return (
+    <>
+      {leftExtra && <div className="dsai-tabs-extra-left">{leftExtra}</div>}
+      {tabListContent}
+      {(rightExtra || simpleExtra) && (
+        <div className="dsai-tabs-extra-right ms-auto">{rightExtra ?? simpleExtra}</div>
+      )}
+    </>
+  );
+}
 
 /**
  * TabList component - container for Tab buttons
@@ -164,27 +226,16 @@ export const TabList = memo(
     if (scrollable) {
       return (
         <div ref={ref} className="dsai-tabs-scroll-container d-flex align-items-center">
-          {leftExtra && <div className="dsai-tabs-extra-left">{leftExtra}</div>}
-          <button
-            type="button"
-            className="dsai-tabs-scroll-btn dsai-tabs-scroll-btn-start"
-            onClick={scrollToStart}
-            disabled={!canScrollStart}
-            aria-label="Scroll tabs back"
-            tabIndex={-1}
-          />
-          {tabListContent}
-          <button
-            type="button"
-            className="dsai-tabs-scroll-btn dsai-tabs-scroll-btn-end"
-            onClick={scrollToEnd}
-            disabled={!canScrollEnd}
-            aria-label="Scroll tabs forward"
-            tabIndex={-1}
-          />
-          {(rightExtra || simpleExtra) && (
-            <div className="dsai-tabs-extra-right">{rightExtra ?? simpleExtra}</div>
-          )}
+          {renderScrollableTabList({
+            tabListContent,
+            leftExtra,
+            rightExtra,
+            simpleExtra,
+            scrollToStart,
+            scrollToEnd,
+            canScrollStart,
+            canScrollEnd,
+          })}
         </div>
       );
     }
@@ -192,11 +243,7 @@ export const TabList = memo(
     if (extra) {
       return (
         <div ref={ref} className="d-flex align-items-center">
-          {leftExtra && <div className="dsai-tabs-extra-left">{leftExtra}</div>}
-          {tabListContent}
-          {(rightExtra || simpleExtra) && (
-            <div className="dsai-tabs-extra-right ms-auto">{rightExtra ?? simpleExtra}</div>
-          )}
+          {renderExtraTabList(tabListContent, leftExtra, rightExtra, simpleExtra)}
         </div>
       );
     }
@@ -210,6 +257,49 @@ TabList.displayName = 'TabList';
 // =============================================================================
 // Tab Component
 // =============================================================================
+
+interface TabButtonProps {
+  tabId: string;
+  panelId: string;
+  isActive: boolean;
+  isFocused: boolean;
+  disabled: boolean;
+  activationMode: string;
+  buttonClasses: string;
+  style: React.CSSProperties | undefined;
+  icon: React.ReactNode;
+  children: React.ReactNode;
+  onClick: () => void;
+}
+
+function renderTabButtonProps(props: Readonly<TabButtonProps>): Record<string, unknown> {
+  return {
+    type: 'button' as const,
+    role: 'tab' as const,
+    id: props.tabId,
+    'aria-selected': props.isActive,
+    'aria-controls': props.panelId,
+    'aria-disabled': props.disabled || undefined,
+    tabIndex: props.isActive || (props.activationMode === 'manual' && props.isFocused) ? 0 : -1,
+    disabled: props.disabled,
+    className: props.buttonClasses,
+    style: props.style,
+    'data-state': props.isActive ? 'active' : 'inactive',
+    onClick: props.onClick,
+  };
+}
+
+function renderTabButtonContent(
+  icon: React.ReactNode,
+  children: React.ReactNode
+): React.JSX.Element {
+  return (
+    <>
+      {icon && <span className="me-2">{icon}</span>}
+      {children}
+    </>
+  );
+}
 
 /**
  * Tab component - individual tab button
@@ -268,25 +358,23 @@ export const Tab = memo(
     // When closable with onTabClose, wrap in a div to avoid nesting
     // interactive elements (invalid HTML: button inside button)
     if (closable && onTabClose) {
+      const tabBtnProps = renderTabButtonProps({
+        tabId,
+        panelId,
+        isActive,
+        isFocused,
+        disabled,
+        activationMode,
+        buttonClasses,
+        style,
+        icon,
+        children,
+        onClick: handleClick,
+      });
       return (
         <div className={cn('nav-item', 'd-inline-flex', 'align-items-center')}>
-          <button
-            ref={ref}
-            type="button"
-            role="tab"
-            id={tabId}
-            aria-selected={isActive}
-            aria-controls={panelId}
-            aria-disabled={disabled || undefined}
-            tabIndex={isActive || (activationMode === 'manual' && isFocused) ? 0 : -1}
-            disabled={disabled}
-            className={buttonClasses}
-            style={style}
-            data-state={isActive ? 'active' : 'inactive'}
-            onClick={handleClick}
-          >
-            {icon && <span className="me-2">{icon}</span>}
-            {children}
+          <button ref={ref} {...tabBtnProps}>
+            {renderTabButtonContent(icon, children)}
           </button>
           <button
             type="button"
@@ -300,24 +388,22 @@ export const Tab = memo(
     }
 
     // Non-closable tabs — no wrapper needed
+    const tabBtnProps = renderTabButtonProps({
+      tabId,
+      panelId,
+      isActive,
+      isFocused,
+      disabled,
+      activationMode,
+      buttonClasses,
+      style,
+      icon,
+      children,
+      onClick: handleClick,
+    });
     return (
-      <button
-        ref={ref}
-        type="button"
-        role="tab"
-        id={tabId}
-        aria-selected={isActive}
-        aria-controls={panelId}
-        aria-disabled={disabled || undefined}
-        tabIndex={isActive || (activationMode === 'manual' && isFocused) ? 0 : -1}
-        disabled={disabled}
-        className={buttonClasses}
-        style={style}
-        data-state={isActive ? 'active' : 'inactive'}
-        onClick={handleClick}
-      >
-        {icon && <span className="me-2">{icon}</span>}
-        {children}
+      <button ref={ref} {...tabBtnProps}>
+        {renderTabButtonContent(icon, children)}
       </button>
     );
   })
@@ -553,4 +639,4 @@ Tabs.displayName = 'Tabs';
 // Exports
 // =============================================================================
 
-export type { TabItem, TabListProps, TabPanelProps, TabProps, TabsProps };
+export type { TabItem, TabListProps, TabPanelProps, TabProps, TabsProps } from './Tabs.types';

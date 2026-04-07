@@ -107,7 +107,7 @@ function handleScrollspyObservation(
     case 'START_OBSERVING':
       return state.isObserving ? state : { ...state, isObserving: true };
     case 'STOP_OBSERVING':
-      return !state.isObserving ? state : { ...state, isObserving: false, visibleIds: [] };
+      return state.isObserving ? { ...state, isObserving: false, visibleIds: [] } : state;
     case 'RESET':
       return createInitialScrollspyFSMState();
   }

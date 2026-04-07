@@ -77,7 +77,7 @@ export interface TabProFSMState {
   /** Loaded content (when status is 'ready') */
   loadedContent: ReactNode | null;
   /** Error information (when status is 'error') */
-  error: unknown | null;
+  error: unknown;
   /** Guard result (when status is 'blocked') */
   guardResult: GuardResult | null;
   /** Number of load attempts (for retry logic) */
@@ -363,14 +363,22 @@ function handleGuardResult(
   if (event.type === 'GUARD_OK') {
     assignSafeTabState(newTabs, tabId, { ...tabState, status: 'loading', guardResult: null });
   } else {
-    assignSafeTabState(newTabs, tabId, { ...tabState, status: 'blocked', guardResult: event.result });
+    assignSafeTabState(newTabs, tabId, {
+      ...tabState,
+      status: 'blocked',
+      guardResult: event.result,
+    });
   }
 
   return { ...state, tabs: newTabs };
 }
 
 /** Valid statuses for load-related transitions */
-const LOAD_VALID_STATUSES: TabProStatus[] = ['idle', 'checkingGuard', 'loading'];
+const LOAD_VALID_STATUSES: ReadonlySet<TabProStatus> = new Set([
+  'idle',
+  'checkingGuard',
+  'loading',
+]);
 
 /**
  * Handle loading lifecycle events (LOAD_START, LOAD_SUCCESS, LOAD_ERROR)
@@ -396,7 +404,7 @@ function handleLoadLifecycle(
     return { ...state, tabs: newTabs };
   }
 
-  if (!LOAD_VALID_STATUSES.includes(tabState.status)) {
+  if (!LOAD_VALID_STATUSES.has(tabState.status)) {
     return state;
   }
 
@@ -426,7 +434,7 @@ function handleLoadLifecycle(
 function handleRetry(state: TabsProFSMState, tabId: string): TabsProFSMState {
   const tabState = getSafeTabState(state.tabs, tabId);
 
-  if (!tabState || tabState.status !== 'error') {
+  if (tabState?.status !== 'error') {
     return state;
   }
 
@@ -516,12 +524,11 @@ function handleTabManagement(
   return { ...state, tabs: newTabs };
 }
 
-export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent): TabsProFSMState {
+function dispatchGuardOrLoadEvent(
+  state: TabsProFSMState,
+  event: TabsProFSMEvent
+): TabsProFSMState | null {
   switch (event.type) {
-    case 'INITIALIZE_TABS':
-      return handleInitializeTabs(state, event);
-    case 'ACTIVATE_TAB':
-      return handleActivateTab(state, event);
     case 'GUARD_OK':
     case 'GUARD_FAIL':
       return handleGuardResult(state, event);
@@ -531,6 +538,16 @@ export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent
       return handleLoadLifecycle(state, event);
     case 'RETRY':
       return handleRetry(state, event.tabId);
+    default:
+      return null;
+  }
+}
+
+function dispatchLeaveOrManagementEvent(
+  state: TabsProFSMState,
+  event: TabsProFSMEvent
+): TabsProFSMState | null {
+  switch (event.type) {
     case 'LEAVE_REQUEST':
     case 'LEAVE_CONFIRMED':
     case 'LEAVE_CANCELLED':
@@ -539,7 +556,22 @@ export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent
     case 'PRELOAD_TAB':
       return handleTabManagement(state, event);
     default:
-      return state;
+      return null;
+  }
+}
+
+export function tabsProFSMReducer(state: TabsProFSMState, event: TabsProFSMEvent): TabsProFSMState {
+  switch (event.type) {
+    case 'INITIALIZE_TABS':
+      return handleInitializeTabs(state, event);
+    case 'ACTIVATE_TAB':
+      return handleActivateTab(state, event);
+    default:
+      return (
+        dispatchGuardOrLoadEvent(state, event) ??
+        dispatchLeaveOrManagementEvent(state, event) ??
+        state
+      );
   }
 }
 
@@ -724,7 +756,7 @@ export function getTabContent(state: TabsProFSMState, tabId: string): ReactNode 
 /**
  * Get the error for a tab
  */
-export function getTabError(state: TabsProFSMState, tabId: string): unknown | null {
+export function getTabError(state: TabsProFSMState, tabId: string): unknown {
   return getSafeTabState(state.tabs, tabId)?.error ?? null;
 }
 

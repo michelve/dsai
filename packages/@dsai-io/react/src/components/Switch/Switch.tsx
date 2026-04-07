@@ -23,7 +23,7 @@ const sizeDimensions: Record<
  */
 function resolveDimensions(size: SwitchSize): { trackWidth: number; trackHeight: number; thumbSize: number } {
   return size in sizeDimensions
-    ? sizeDimensions[size as keyof typeof sizeDimensions]
+    ? (Reflect.get(sizeDimensions, size) as { trackWidth: number; trackHeight: number; thumbSize: number })
     : sizeDimensions.md;
 }
 

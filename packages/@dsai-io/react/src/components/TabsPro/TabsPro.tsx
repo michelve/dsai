@@ -43,7 +43,7 @@ import {
   tabsProFSMReducer,
 } from './TabsPro.fsm';
 
-import type { GuardResult , TabProFSMState } from './TabsPro.fsm';
+import type { GuardResult, TabProFSMState } from './TabsPro.fsm';
 import type {
   DefaultBlockedProps,
   DefaultErrorProps,
@@ -58,6 +58,19 @@ import type { TabItem } from '../Tabs/Tabs.types';
 // Content resolution helper (extracted to reduce component complexity)
 // =============================================================================
 
+/**
+ * Resolve content for an idle/unknown status tab.
+ */
+function resolveIdleContent(
+  item: TabsProItem,
+  activeTabId: string | null,
+  resolveLoading: (item: TabsProItem) => React.ReactNode
+): React.ReactNode {
+  if (activeTabId === item.id) {
+    return resolveLoading(item);
+  }
+  return item.content ?? null;
+}
 
 /**
  * Resolve the content for a single tab based on its FSM status.
@@ -69,13 +82,13 @@ function resolveTabContent(
   resolveLoading: (item: TabsProItem) => React.ReactNode,
   resolveBlocked: (item: TabsProItem, guardResult: GuardResult | undefined) => React.ReactNode,
   resolveError: (item: TabsProItem, error: unknown, retry: () => void) => React.ReactNode,
-  retry: () => void,
+  retry: () => void
 ): React.ReactNode {
   const status = tabState?.status ?? 'idle';
 
   switch (status) {
     case 'blocked':
-      return resolveBlocked(item, tabState?.guardResult ?? undefined);
+      return resolveBlocked(item, tabState?.guardResult);
     case 'loading':
     case 'checkingGuard':
       return resolveLoading(item);
@@ -84,9 +97,7 @@ function resolveTabContent(
     case 'ready':
       return tabState?.loadedContent ?? item.content ?? null;
     default:
-      return activeTabId === item.id
-        ? resolveLoading(item)
-        : (item.content ?? null);
+      return resolveIdleContent(item, activeTabId, resolveLoading);
   }
 }
 
@@ -102,7 +113,8 @@ const DefaultLoading = memo(function DefaultLoading({
 }: DefaultLoadingProps) {
   return (
     <output
-      className="d-flex flex-column align-items-center justify-content-center p-4"
+      className="d-flex align-items-center justify-content-center p-4"
+      style={{ flexDirection: 'column' }}
       aria-live="polite"
     >
       <div className="spinner-border text-primary mb-2" aria-hidden="true">
@@ -254,7 +266,7 @@ LeaveConfirmModal.displayName = 'LeaveConfirmModal';
 async function executeGuard(
   item: TabsProItem,
   tabId: string,
-  dispatch: React.Dispatch<ReturnType<typeof guardFailEvent> | ReturnType<typeof guardOkEvent>>,
+  dispatch: React.Dispatch<ReturnType<typeof guardFailEvent> | ReturnType<typeof guardOkEvent>>
 ): Promise<boolean> {
   if (!item.guard) {
     dispatch(guardOkEvent(tabId));
@@ -285,7 +297,7 @@ function executeLoad(
   item: TabsProItem,
   tabId: string,
   dispatch: React.Dispatch<ReturnType<typeof loadSuccessEvent> | ReturnType<typeof loadErrorEvent>>,
-  loadingPromises: React.MutableRefObject<Map<string, Promise<void>>>,
+  loadingPromises: Map<string, Promise<void>>
 ): void {
   const loader = item.loadContent;
   if (!loader) {
@@ -294,7 +306,7 @@ function executeLoad(
     return;
   }
 
-  if (loadingPromises.current.has(tabId)) {
+  if (loadingPromises.has(tabId)) {
     return;
   }
 
@@ -307,11 +319,11 @@ function executeLoad(
       dispatch(loadErrorEvent(tabId, error));
       item.onError?.(error);
     } finally {
-      loadingPromises.current.delete(tabId);
+      loadingPromises.delete(tabId);
     }
   })();
 
-  loadingPromises.current.set(tabId, loadPromise);
+  loadingPromises.set(tabId, loadPromise);
 }
 
 // =============================================================================
@@ -409,8 +421,8 @@ export const TabsPro = memo(
     const [internalActiveId, setInternalActiveId] = useState(initialActiveId);
     const activeId = isControlled ? controlledActiveId : internalActiveId;
 
-    // Ref to track loading promises to avoid race conditions
-    const loadingPromises = useRef<Map<string, Promise<void>>>(new Map());
+    // Stable Map to track loading promises to avoid race conditions
+    const loadingPromises = useMemo(() => new Map<string, Promise<void>>(), []);
 
     // Generate unique ID for modal title
     const leaveConfirmTitleId = useId();
@@ -439,7 +451,7 @@ export const TabsPro = memo(
           executeLoad(item, tabId, dispatch, loadingPromises);
         }
       },
-      [itemsMap]
+      [itemsMap, loadingPromises]
     );
 
     // Create a Map for safe tab state lookup
@@ -529,14 +541,6 @@ export const TabsPro = memo(
     // Retry Handler
     // =========================================================================
 
-    const handleRetry = useCallback(
-      (tabId: string) => {
-        dispatch(retryEvent(tabId));
-        executeGuardAndLoad(tabId);
-      },
-      [executeGuardAndLoad]
-    );
-
     // =========================================================================
     // Initial Load Effect - Run once after mount
     // =========================================================================
@@ -570,8 +574,12 @@ export const TabsPro = memo(
         item: TabsProItem,
         guardResult: GuardResult | undefined
       ): React.ReactNode => {
-        if (item.blockedFallback) { return item.blockedFallback; }
-        if (defaultBlockedFallback) { return defaultBlockedFallback; }
+        if (item.blockedFallback) {
+          return item.blockedFallback;
+        }
+        if (defaultBlockedFallback) {
+          return defaultBlockedFallback;
+        }
         return (
           <DefaultBlocked
             title="Access Restricted"
@@ -588,8 +596,12 @@ export const TabsPro = memo(
         error: unknown,
         retry: () => void
       ): React.ReactNode => {
-        if (item.errorFallback) { return item.errorFallback(error, retry); }
-        if (defaultErrorFallback) { return defaultErrorFallback(error, retry); }
+        if (item.errorFallback) {
+          return item.errorFallback(error, retry);
+        }
+        if (defaultErrorFallback) {
+          return defaultErrorFallback(error, retry);
+        }
         return (
           <DefaultError
             message={error instanceof Error ? error.message : 'Failed to load content.'}
@@ -607,7 +619,10 @@ export const TabsPro = memo(
           resolveLoadingContent,
           resolveBlockedContent,
           resolveErrorContent,
-          () => handleRetry(item.id),
+          () => {
+            dispatch(retryEvent(item.id));
+            executeGuardAndLoad(item.id);
+          }
         );
 
         return {
@@ -622,7 +637,7 @@ export const TabsPro = memo(
       items,
       tabsStateMap,
       fsmState,
-      handleRetry,
+      executeGuardAndLoad,
       defaultLoadingFallback,
       defaultBlockedFallback,
       defaultErrorFallback,

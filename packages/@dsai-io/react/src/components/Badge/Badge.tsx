@@ -4,6 +4,8 @@ import { cn } from '../../utils';
 
 import type { BadgeProps } from './Badge.types';
 
+type BadgeRefElement = HTMLSpanElement | HTMLDivElement | null;
+
 // =============================================================================
 // Lookup maps — keyed by BadgeSize
 // =============================================================================
@@ -92,7 +94,7 @@ function BadgeContent({
   hasVisibleContent,
   onDismiss,
   dismissLabel,
-}: {
+}: Readonly<{
   dot: boolean;
   icon: React.ReactNode;
   iconPosition: string;
@@ -100,7 +102,7 @@ function BadgeContent({
   hasVisibleContent: boolean;
   onDismiss?: () => void;
   dismissLabel: string;
-}): React.JSX.Element {
+}>): React.JSX.Element {
   const iconElement = icon ? (
     <span className="d-inline-flex align-items-center" aria-hidden="true">
       {icon}
@@ -272,7 +274,7 @@ function BadgeComponent(
   // ---------------------------------------------------------------------------
   // Animation: scale pulse on content change
   // ---------------------------------------------------------------------------
-  const badgeRef = useRef<HTMLSpanElement | HTMLDivElement | null>(null);
+  const badgeRef = useRef<BadgeRefElement>(null);
   const prevContentRef = useRef<React.ReactNode>(displayContent);
 
   useEffect(() => {
@@ -317,12 +319,12 @@ function BadgeComponent(
   // ---------------------------------------------------------------------------
   // Ref merging (forward ref + internal animation ref)
   // ---------------------------------------------------------------------------
-  const setRefs = (node: HTMLSpanElement | HTMLDivElement | null): void => {
+  const setRefs = (node: BadgeRefElement): void => {
     badgeRef.current = node;
     if (typeof ref === 'function') {
       ref(node);
     } else if (ref) {
-      (ref as React.MutableRefObject<HTMLSpanElement | HTMLDivElement | null>).current = node;
+      (ref as React.RefObject<BadgeRefElement>).current = node;
     }
   };
 

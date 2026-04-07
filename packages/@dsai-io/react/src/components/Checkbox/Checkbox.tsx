@@ -39,7 +39,7 @@ function warnMissingAccessibleName(componentId: string, componentName: string): 
 /** Compute the data-state attribute value for CSS targeting */
 function getCheckboxDataState(
   indeterminate: boolean,
-  checked: boolean | undefined
+  checked = false
 ): 'indeterminate' | 'checked' | 'unchecked' {
   if (indeterminate) {
     return 'indeterminate';
@@ -282,7 +282,7 @@ const CheckboxComponent = forwardRef<HTMLInputElement, CheckboxProps>(
           required={required}
           aria-invalid={error || undefined}
           aria-describedby={ariaDescribedBy}
-          aria-label={!label ? ariaLabel : undefined}
+          aria-label={label ? undefined : ariaLabel}
           aria-checked={indeterminate ? 'mixed' : undefined}
           {...safeProps}
         />

@@ -1,6 +1,8 @@
 import type { ComponentSize, SemanticColorVariant } from '../../types';
 import type { CSSProperties, InputHTMLAttributes, ReactNode } from 'react';
 
+type OmittedCheckboxInputProps = 'type' | 'onChange' | 'readOnly' | 'size';
+
 /**
  * Checkbox component props
  *
@@ -34,7 +36,7 @@ import type { CSSProperties, InputHTMLAttributes, ReactNode } from 'react';
  * ```
  */
 export interface CheckboxProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange' | 'readOnly' | 'size'> {
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, OmittedCheckboxInputProps> {
   /**
    * Checkbox label text or element
    */

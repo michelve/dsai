@@ -1,4 +1,4 @@
-import type { SafeHTMLAttributes } from '../../types';
+import type { HeadingTag, SafeHTMLAttributes } from '../../types';
 import type { CSSProperties, ReactNode } from 'react';
 
 /**
@@ -171,7 +171,7 @@ export interface CarouselCaptionProps extends SafeCarouselHTMLAttributes {
    * Choose a level that maintains proper heading hierarchy in your page.
    * @default 'h5'
    */
-  headingLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  headingLevel?: HeadingTag;
 
   /**
    * Additional CSS class names

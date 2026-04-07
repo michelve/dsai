@@ -37,6 +37,33 @@ export type DropdownAutoClose = boolean | 'inside' | 'outside';
 export type SafeDropdownHTMLAttributes = SafeHTMLAttributes<HTMLDivElement>;
 
 /**
+ * Button variants available for Dropdown.Toggle
+ */
+export type DropdownToggleVariant =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'danger'
+  | 'warning'
+  | 'info'
+  | 'light'
+  | 'dark'
+  | 'outline-primary'
+  | 'outline-secondary'
+  | 'outline-success'
+  | 'outline-danger'
+  | 'outline-warning'
+  | 'outline-info'
+  | 'outline-light'
+  | 'outline-dark'
+  | 'link';
+
+/**
+ * Link target attribute values for dropdown items
+ */
+export type DropdownLinkTarget = '_blank' | '_self' | '_parent' | '_top';
+
+/**
  * Dropdown component props
  *
  * The main container component that manages dropdown state, positioning,
@@ -194,24 +221,7 @@ export interface DropdownToggleProps extends SafeDropdownHTMLAttributes {
    * Button variant (matches Button component)
    * @default 'secondary'
    */
-  variant?:
-    | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'danger'
-    | 'warning'
-    | 'info'
-    | 'light'
-    | 'dark'
-    | 'outline-primary'
-    | 'outline-secondary'
-    | 'outline-success'
-    | 'outline-danger'
-    | 'outline-warning'
-    | 'outline-info'
-    | 'outline-light'
-    | 'outline-dark'
-    | 'link';
+  variant?: DropdownToggleVariant;
 
   /**
    * Button size
@@ -353,7 +363,7 @@ export interface DropdownItemProps extends SafeDropdownHTMLAttributes {
   /**
    * Link target (only when href is provided)
    */
-  target?: '_blank' | '_self' | '_parent' | '_top';
+  target?: DropdownLinkTarget;
 
   /**
    * Link rel attribute (only when href is provided)
@@ -722,7 +732,7 @@ export interface DropdownContextValue {
   /** Set the active item index */
   setActiveIndex: (index: number | null) => void;
   /** List of item refs for focus management */
-  listRef: React.MutableRefObject<(HTMLElement | null)[]>;
+  listRef: React.RefObject<(HTMLElement | null)[]>;
   /** Get props for dropdown items */
   getItemProps: (userProps?: React.HTMLProps<HTMLElement>) => Record<string, unknown>;
   /** Floating UI refs */

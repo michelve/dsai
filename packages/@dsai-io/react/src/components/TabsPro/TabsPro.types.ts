@@ -102,7 +102,7 @@ export interface TabsProItem {
    * Content is loaded when tab is first activated.
    * If not provided, uses static `content` prop.
    */
-  loadContent?: AsyncLoader<ReactNode>;
+  loadContent?: AsyncLoader;
 
   /**
    * Whether to preload content on hover intent.

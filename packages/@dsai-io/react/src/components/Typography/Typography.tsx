@@ -198,6 +198,8 @@ Heading.displayName = 'Heading';
 // Display Component
 // =============================================================================
 
+const DISPLAY_SIZE_THRESHOLD = 3;
+
 /**
  * Maps display size to default semantic heading level
  */
@@ -206,10 +208,10 @@ function getDefaultLevelForDisplay(size: DisplaySize): HeadingLevel {
   if (size === 1) {
     return 1;
   }
-  if (size <= 3) {
+  if (size <= DISPLAY_SIZE_THRESHOLD) {
     return 2;
   }
-  return 3;
+  return DISPLAY_SIZE_THRESHOLD;
 }
 
 /**

@@ -36,6 +36,28 @@ import {
 
 import type { CheckboxGroupProps } from './CheckboxGroup.types';
 
+/** Compute the aria-describedby attribute value */
+function computeGroupDescribedBy(
+  ariaDescribedby: string | undefined,
+  helperText: string | undefined,
+  helperId: string,
+  error: boolean,
+  errorMessage: string | undefined,
+  errorId: string
+): string | undefined {
+  const parts: string[] = [];
+  if (ariaDescribedby) {
+    parts.push(ariaDescribedby);
+  }
+  if (helperText) {
+    parts.push(helperId);
+  }
+  if (error && errorMessage) {
+    parts.push(errorId);
+  }
+  return parts.length > 0 ? parts.join(' ') : undefined;
+}
+
 // Development warning for accessibility
 const warnedGroups = new Set<string>();
 
@@ -195,19 +217,18 @@ const CheckboxGroupComponent = forwardRef<HTMLFieldSetElement, CheckboxGroupProp
     );
 
     // Compute describedby
-    const computedDescribedby = useMemo(() => {
-      const parts: string[] = [];
-      if (ariaDescribedby) {
-        parts.push(ariaDescribedby);
-      }
-      if (helperText) {
-        parts.push(helperId);
-      }
-      if (error && errorMessage) {
-        parts.push(errorId);
-      }
-      return parts.length > 0 ? parts.join(' ') : undefined;
-    }, [ariaDescribedby, helperText, helperId, error, errorMessage, errorId]);
+    const computedDescribedby = useMemo(
+      () =>
+        computeGroupDescribedBy(
+          ariaDescribedby,
+          helperText,
+          helperId,
+          error,
+          errorMessage,
+          errorId
+        ),
+      [ariaDescribedby, helperText, helperId, error, errorMessage, errorId]
+    );
 
     // Content inside fieldset
     const content = (

@@ -53,7 +53,9 @@ const BLOCKED_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 
 /** Safe lookup with prototype pollution guard */
 function safeLookup<T>(map: Readonly<Record<string, T>>, key: string, fallback: T): T {
-  if (BLOCKED_KEYS.has(key)) {return fallback;}
+  if (BLOCKED_KEYS.has(key)) {
+    return fallback;
+  }
   const value = Reflect.get(map, key) as T | undefined;
   return value ?? fallback;
 }
@@ -82,16 +84,28 @@ function range(start: number, end: number): number[] {
 /**
  * Adds navigation buttons (first, previous, next, last) to the items array
  */
-function addNavigationButtons(
-  items: PaginationItemData[],
-  position: 'start' | 'end',
-  page: number,
-  count: number,
-  showFirstButton: boolean,
-  showLastButton: boolean,
-  hidePrevButton: boolean,
-  hideNextButton: boolean
-): void {
+interface NavigationButtonsOptions {
+  items: PaginationItemData[];
+  position: 'start' | 'end';
+  page: number;
+  count: number;
+  showFirstButton: boolean;
+  showLastButton: boolean;
+  hidePrevButton: boolean;
+  hideNextButton: boolean;
+}
+
+function addNavigationButtons(options: NavigationButtonsOptions): void {
+  const {
+    items,
+    position,
+    page,
+    count,
+    showFirstButton,
+    showLastButton,
+    hidePrevButton,
+    hideNextButton,
+  } = options;
   if (position === 'start') {
     if (showFirstButton) {
       items.push({ type: 'first', page: 1, disabled: page <= 1, key: 'first' });
@@ -128,7 +142,7 @@ function buildPageNumbers(
   );
   const siblingEnd = Math.min(
     Math.max(page + siblingCount, boundaryCount + siblingCount * 2 + 2),
-    firstEndPage !== undefined ? firstEndPage - 2 : count - 1
+    firstEndPage === undefined ? count - 1 : firstEndPage - 2
   );
 
   const pageNumbers: (number | 'ellipsis')[] = [];
@@ -202,7 +216,7 @@ function addEndGap(
   firstEndPage: number | undefined,
   count: number
 ): void {
-  const lastPageBeforeEndBoundary = firstEndPage !== undefined ? firstEndPage - 1 : count;
+  const lastPageBeforeEndBoundary = firstEndPage === undefined ? count : firstEndPage - 1;
   const endBoundaryLimit = (firstEndPage ?? count) + 1;
 
   if (siblingEnd < lastPageBeforeEndBoundary - 1) {
@@ -227,9 +241,16 @@ function pageNumbersToItems(
 
   for (const pageNum of pageNumbers) {
     if (pageNum === 'ellipsis') {
-      items.push({ type: 'ellipsis', key: `ellipsis-${ellipsisCount++}`, disabled: true });
+      const key = `ellipsis-${ellipsisCount}`;
+      ellipsisCount += 1;
+      items.push({ type: 'ellipsis', key, disabled: true });
     } else {
-      items.push({ type: 'page', page: pageNum, active: pageNum === currentPage, key: `page-${pageNum}` });
+      items.push({
+        type: 'page',
+        page: pageNum,
+        active: pageNum === currentPage,
+        key: `page-${pageNum}`,
+      });
     }
   }
 
@@ -239,27 +260,54 @@ function pageNumbersToItems(
 /**
  * Calculates which page items to display based on current page and configuration
  */
-function calculatePaginationItems(
-  page: number,
-  count: number,
-  boundaryCount: number,
-  siblingCount: number,
-  showFirstButton: boolean,
-  showLastButton: boolean,
-  hidePrevButton: boolean,
-  hideNextButton: boolean
-): PaginationItemData[] {
+interface CalculatePaginationOptions {
+  page: number;
+  count: number;
+  boundaryCount: number;
+  siblingCount: number;
+  showFirstButton: boolean;
+  showLastButton: boolean;
+  hidePrevButton: boolean;
+  hideNextButton: boolean;
+}
+
+function calculatePaginationItems(options: CalculatePaginationOptions): PaginationItemData[] {
+  const {
+    page,
+    count,
+    boundaryCount,
+    siblingCount,
+    showFirstButton,
+    showLastButton,
+    hidePrevButton,
+    hideNextButton,
+  } = options;
   const items: PaginationItemData[] = [];
 
-  // Start navigation buttons
-  addNavigationButtons(items, 'start', page, count, showFirstButton, showLastButton, hidePrevButton, hideNextButton);
+  addNavigationButtons({
+    items,
+    position: 'start',
+    page,
+    count,
+    showFirstButton,
+    showLastButton,
+    hidePrevButton,
+    hideNextButton,
+  });
 
-  // Page numbers with ellipsis
   const pageNumbers = buildPageNumbers(page, count, boundaryCount, siblingCount);
   items.push(...pageNumbersToItems(pageNumbers, page));
 
-  // End navigation buttons
-  addNavigationButtons(items, 'end', page, count, showFirstButton, showLastButton, hidePrevButton, hideNextButton);
+  addNavigationButtons({
+    items,
+    position: 'end',
+    page,
+    count,
+    showFirstButton,
+    showLastButton,
+    hidePrevButton,
+    hideNextButton,
+  });
 
   return items;
 }
@@ -512,16 +560,16 @@ export const Pagination = memo(
     // Calculate pagination items with memoization
     const paginationItems = useMemo(
       () =>
-        calculatePaginationItems(
-          clampedPage,
+        calculatePaginationItems({
+          page: clampedPage,
           count,
           boundaryCount,
           siblingCount,
           showFirstButton,
           showLastButton,
           hidePrevButton,
-          hideNextButton
-        ),
+          hideNextButton,
+        }),
       [
         clampedPage,
         count,
@@ -544,18 +592,26 @@ export const Pagination = memo(
     // Arrow key navigation between pagination buttons (F3)
     // Attached via ref to avoid a11y lint false positive on <nav> element
     const handleKeyDown = useCallback((event: KeyboardEvent): void => {
-      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {return;}
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+        return;
+      }
 
       const list = listRef.current;
-      if (!list) {return;}
+      if (!list) {
+        return;
+      }
 
       const buttons = Array.from(
         list.querySelectorAll<HTMLButtonElement>('button.page-link:not([disabled])')
       );
-      if (buttons.length === 0) {return;}
+      if (buttons.length === 0) {
+        return;
+      }
 
       const currentIndex = buttons.indexOf(event.target as HTMLButtonElement);
-      if (currentIndex === -1) {return;}
+      if (currentIndex === -1) {
+        return;
+      }
 
       event.preventDefault();
       const nextIndex =
@@ -568,9 +624,13 @@ export const Pagination = memo(
     // Attach keydown handler imperatively to the list element
     useEffect(() => {
       const list = listRef.current;
-      if (!list) {return;}
+      if (!list) {
+        return;
+      }
       list.addEventListener('keydown', handleKeyDown);
-      return () => { list.removeEventListener('keydown', handleKeyDown); };
+      return () => {
+        list.removeEventListener('keydown', handleKeyDown);
+      };
     }, [handleKeyDown]);
 
     return (

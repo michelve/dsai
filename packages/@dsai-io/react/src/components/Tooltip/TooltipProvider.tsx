@@ -1,9 +1,9 @@
-import {
-  TooltipProviderContext,
-  useTooltipContext,
-} from './TooltipContext';
+import { useMemo } from 'react';
+
+import { TooltipProviderContext, useTooltipContext } from './TooltipContext';
 
 import type { TooltipProviderProps } from './Tooltip.types';
+import type { TooltipProviderContextValue } from './TooltipContext';
 
 /**
  * TooltipProvider — sets global defaults for all descendant Tooltips.
@@ -25,22 +25,23 @@ export function TooltipProvider({
   arrow,
   touchEnabled,
   describeChild,
-}: TooltipProviderProps): React.JSX.Element {
+}: Readonly<TooltipProviderProps>): React.JSX.Element {
   const parent = useTooltipContext();
 
-  const value = {
-    showDelay: showDelay ?? parent.showDelay,
-    hideDelay: hideDelay ?? parent.hideDelay,
-    skipDelay: skipDelay ?? parent.skipDelay,
-    arrow: arrow ?? parent.arrow,
-    touchEnabled: touchEnabled ?? parent.touchEnabled,
-    describeChild: describeChild ?? parent.describeChild,
-  };
+  const value = useMemo<TooltipProviderContextValue>(
+    () => ({
+      showDelay: showDelay ?? parent.showDelay,
+      hideDelay: hideDelay ?? parent.hideDelay,
+      skipDelay: skipDelay ?? parent.skipDelay,
+      arrow: arrow ?? parent.arrow,
+      touchEnabled: touchEnabled ?? parent.touchEnabled,
+      describeChild: describeChild ?? parent.describeChild,
+    }),
+    [showDelay, hideDelay, skipDelay, arrow, touchEnabled, describeChild, parent]
+  );
 
   return (
-    <TooltipProviderContext.Provider value={value}>
-      {children}
-    </TooltipProviderContext.Provider>
+    <TooltipProviderContext.Provider value={value}>{children}</TooltipProviderContext.Provider>
   );
 }
 

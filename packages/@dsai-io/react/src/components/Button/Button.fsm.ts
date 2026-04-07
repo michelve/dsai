@@ -91,9 +91,15 @@ export interface ButtonFSMState {
  * Precedence: pressed > focused > hovered > idle.
  */
 function resolveInteractiveState(state: ButtonFSMState): ButtonVisualState {
-  if (state.isPressed) { return 'pressed'; }
-  if (state.isFocused) { return 'focused'; }
-  if (state.isHovered) { return 'hovered'; }
+  if (state.isPressed) {
+    return 'pressed';
+  }
+  if (state.isFocused) {
+    return 'focused';
+  }
+  if (state.isHovered) {
+    return 'hovered';
+  }
   return 'idle';
 }
 
@@ -117,11 +123,14 @@ function handleDisable(state: ButtonFSMState): ButtonFSMState {
 }
 
 function handleEnable(state: ButtonFSMState): ButtonFSMState {
-  const visualState: ButtonVisualState = state.isLoading
-    ? 'loading'
-    : state.isError
-      ? 'error'
-      : 'idle';
+  let visualState: ButtonVisualState;
+  if (state.isLoading) {
+    visualState = 'loading';
+  } else if (state.isError) {
+    visualState = 'error';
+  } else {
+    visualState = 'idle';
+  }
 
   return {
     visualState,
@@ -143,9 +152,9 @@ function handleToggleOverride(
   state: ButtonFSMState,
   payload: boolean,
   flagKey: 'isLoading' | 'isError',
-  activeVisual: ButtonVisualState,
+  activeVisual: ButtonVisualState
 ): ButtonFSMState {
-  const currentFlag = state[flagKey];
+  const currentFlag = Reflect.get(state, flagKey) as boolean;
 
   // If disabled, just update the flag without changing visual state
   if (state.isDisabled) {
@@ -176,6 +185,42 @@ function handleBlur(state: ButtonFSMState): ButtonFSMState {
   return { ...state, isHovered: false, isPressed: false, isFocused: false, visualState: 'idle' };
 }
 
+function handleHover(state: ButtonFSMState): ButtonFSMState {
+  if (isOverridden(state)) {
+    return state;
+  }
+  return {
+    ...state,
+    isHovered: true,
+    visualState: resolveInteractiveState({ ...state, isHovered: true }),
+  };
+}
+
+function handleFocus(state: ButtonFSMState): ButtonFSMState {
+  if (isOverridden(state)) {
+    return state;
+  }
+  return { ...state, isFocused: true, visualState: state.isPressed ? 'pressed' : 'focused' };
+}
+
+function handlePress(state: ButtonFSMState): ButtonFSMState {
+  if (isOverridden(state)) {
+    return state;
+  }
+  return { ...state, isPressed: true, isHovered: true, visualState: 'pressed' };
+}
+
+function handleRelease(state: ButtonFSMState): ButtonFSMState {
+  if (isOverridden(state)) {
+    return state;
+  }
+  return {
+    ...state,
+    isPressed: false,
+    visualState: resolveInteractiveState({ ...state, isPressed: false }),
+  };
+}
+
 /**
  * Pure reducer function for Button FSM
  *
@@ -198,27 +243,19 @@ export function buttonFSMReducer(state: ButtonFSMState, event: ButtonFSMEvent): 
       return handleToggleOverride(state, event.payload, 'isError', 'error');
 
     case 'HOVER':
-      return isOverridden(state)
-        ? state
-        : { ...state, isHovered: true, visualState: resolveInteractiveState({ ...state, isHovered: true }) };
+      return handleHover(state);
 
     case 'BLUR':
       return handleBlur(state);
 
     case 'FOCUS':
-      return isOverridden(state)
-        ? state
-        : { ...state, isFocused: true, visualState: state.isPressed ? 'pressed' : 'focused' };
+      return handleFocus(state);
 
     case 'PRESS':
-      return isOverridden(state)
-        ? state
-        : { ...state, isPressed: true, isHovered: true, visualState: 'pressed' };
+      return handlePress(state);
 
     case 'RELEASE':
-      return isOverridden(state)
-        ? state
-        : { ...state, isPressed: false, visualState: resolveInteractiveState({ ...state, isPressed: false }) };
+      return handleRelease(state);
 
     default:
       return state;

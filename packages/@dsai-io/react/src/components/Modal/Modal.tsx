@@ -258,6 +258,34 @@ function computeSizeClass(
   return size === 'md' ? '' : `modal-${size}`;
 }
 
+const STATIC_BACKDROP_PULSE_MS = 300;
+
+function resolvePortalContainer(container: Element | null | undefined): Element | null {
+  if (container) {
+    return container;
+  }
+  return isBrowser() ? document.body : null;
+}
+
+function buildModalAriaProps(
+  role: string,
+  titleId: string,
+  hasDescription: boolean,
+  descriptionId: string,
+  bodyId: string,
+  visibility: string,
+): Record<string, unknown> {
+  const ariaDescribedby = hasDescription ? descriptionId : bodyId;
+  const isTransitioning = visibility === 'opening' || visibility === 'closing';
+  return {
+    role,
+    'aria-modal': 'true' as const,
+    'aria-labelledby': titleId,
+    'aria-describedby': ariaDescribedby,
+    'aria-busy': isTransitioning ? true : undefined,
+  };
+}
+
 // ============================================================================
 // Modal Component
 // ============================================================================
@@ -468,7 +496,7 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
           dialogRef.current?.classList.add('modal-static');
           setTimeout(() => {
             dialogRef.current?.classList.remove('modal-static');
-          }, 300);
+          }, STATIC_BACKDROP_PULSE_MS);
           return;
         }
 
@@ -609,27 +637,22 @@ const ModalBase = forwardRef<HTMLDivElement, ModalProps>(
     }
 
     // Get portal container
-    const portalContainer = container || (isBrowser() ? document.body : null);
+    const portalContainer = resolvePortalContainer(container);
 
     if (!portalContainer) {
       return null;
     }
 
-    // Determine aria-describedby: prefer Description when present, fall back to Body
-    const ariaDescribedby = hasDescription ? descriptionId : bodyId;
-
-    // Determine aria-busy: true during transitions for screen reader safety
-    const isTransitioning = fsmState.visibility === 'opening' || fsmState.visibility === 'closing';
-
     // Dialog ARIA props — both 'dialog' and 'alertdialog' support aria-modal.
     // Grouped as a spread object so the linter recognises the role/aria pairing.
-    const dialogAriaProps = {
+    const dialogAriaProps = buildModalAriaProps(
       role,
-      'aria-modal': 'true' as const,
-      'aria-labelledby': titleId,
-      'aria-describedby': ariaDescribedby,
-      'aria-busy': (isTransitioning || undefined) as true | undefined,
-    };
+      titleId,
+      hasDescription,
+      descriptionId,
+      bodyId,
+      fsmState.visibility,
+    );
 
     const modalContent = (
       <ModalContext.Provider value={contextValue}>

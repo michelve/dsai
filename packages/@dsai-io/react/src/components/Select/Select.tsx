@@ -31,6 +31,8 @@ import { ClearIcon } from '../../utils/misc';
 
 import type { SelectOption, SelectOptionGroup, SelectProps, SelectSize } from './Select.types';
 
+type SelectValue<T> = T | T[] | undefined;
+
 /**
  * Map select sizes to Bootstrap classes
  */
@@ -39,6 +41,21 @@ const sizeClassMap: Record<SelectSize, string> = {
   md: '',
   lg: 'form-select-lg',
 };
+
+function getSizeClass(size: SelectSize): string {
+  return (Reflect.get(sizeClassMap, size) as string) ?? '';
+}
+
+function computeAriaLabelAttrs(
+  label: ReactNode,
+  labelId: string,
+  ariaLabel?: string
+): Record<string, string | undefined> {
+  if (label) {
+    return { 'aria-labelledby': labelId };
+  }
+  return { 'aria-label': ariaLabel };
+}
 
 /**
  * Check if options are grouped
@@ -81,7 +98,255 @@ function CheckIcon(): React.JSX.Element {
  * Spinner icon for loading state
  */
 function SpinnerIcon(): React.JSX.Element {
-  return <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />;
+  return <output className="spinner-border spinner-border-sm" aria-hidden="true" />;
+}
+
+function assignRef<T>(ref: React.ForwardedRef<T>, node: T | null): void {
+  if (typeof ref === 'function') {
+    ref(node);
+  } else if (ref) {
+    ref.current = node;
+  }
+}
+
+function filterSelectOptions<T>(
+  flatOptions: SelectOption<T>[],
+  searchValue: string,
+  filterOption?: (option: SelectOption<T>, searchValue: string) => boolean
+): SelectOption<T>[] {
+  const searchLower = searchValue.toLowerCase();
+  return flatOptions.filter((option) => {
+    if (filterOption) {
+      return filterOption(option, searchValue);
+    }
+    return option.label.toLowerCase().includes(searchLower);
+  });
+}
+
+function renderGroupedOptions<T>(
+  options: SelectOptionGroup<T>[],
+  displayOptions: SelectOption<T>[],
+  flatIndexMap: Map<T, number>,
+  selectId: string,
+  renderOptionItem: (option: SelectOption<T>, index: number) => React.JSX.Element
+): React.JSX.Element {
+  const displayValueSet = new Set(displayOptions.map((opt) => opt.value));
+  return (
+    <>
+      {options.map((group) => {
+        const visibleGroupOptions = group.options.filter((opt) => displayValueSet.has(opt.value));
+        if (visibleGroupOptions.length === 0) {
+          return null;
+        }
+
+        const groupLabelId = `${selectId}-group-${group.label
+          .replaceAll(/\s+/g, '-')
+          .toLowerCase()}`;
+
+        return (
+          <div key={group.label} role="group" aria-labelledby={groupLabelId}>
+            <div role="presentation" id={groupLabelId} className="dropdown-header">
+              {group.label}
+            </div>
+            {visibleGroupOptions.map((opt) => {
+              const flatIndex = flatIndexMap.get(opt.value) ?? 0;
+              return renderOptionItem(opt, flatIndex);
+            })}
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
+function computeNextSelectValue<T>(
+  option: SelectOption<T>,
+  multiple: boolean,
+  currentValue: SelectValue<T>
+): SelectValue<T> {
+  if (multiple) {
+    const currentArray = Array.isArray(currentValue) ? currentValue : [];
+    if (currentArray.includes(option.value)) {
+      return currentArray.filter((v) => v !== option.value);
+    }
+    return [...currentArray, option.value];
+  }
+  return option.value;
+}
+
+function findNextEnabled<T>(
+  displayOptions: SelectOption<T>[],
+  startIndex: number,
+  direction: 1 | -1
+): number | null {
+  let index = startIndex;
+  while (index >= 0 && index < displayOptions.length) {
+    if (!(Reflect.get(displayOptions, index) as SelectOption<T> | undefined)?.disabled) {
+      return index;
+    }
+    index += direction;
+  }
+  return null;
+}
+
+function processOpenChange(
+  open: boolean,
+  disabled: boolean,
+  loading: boolean,
+  openDropdown: () => void,
+  closeDropdown: () => void,
+  triggerRef: React.RefObject<HTMLButtonElement | null>
+): void {
+  if (disabled || loading) {
+    return;
+  }
+  if (open) {
+    openDropdown();
+  } else {
+    closeDropdown();
+    queueMicrotask(() => {
+      triggerRef.current?.focus();
+    });
+  }
+}
+
+function processActivateKey<T>(
+  e: KeyboardEvent,
+  isOpen: boolean,
+  focusedIndex: number | null,
+  displayOptions: SelectOption<T>[],
+  handleSelect: (option: SelectOption<T> | undefined) => void,
+  openDropdown: () => void
+): void {
+  e.preventDefault();
+  if (isOpen && focusedIndex !== null && focusedIndex >= 0) {
+    const focusedOption = Reflect.get(displayOptions, focusedIndex) as SelectOption<T> | undefined;
+    if (focusedOption) {
+      handleSelect(focusedOption);
+    }
+  } else if (!isOpen) {
+    openDropdown();
+  }
+}
+
+interface ArrowNavigationOptions {
+  isOpen: boolean;
+  focusedIndex: number | null;
+  displayOptionsLength: number;
+  findNextEnabledIndex: (start: number, dir: 1 | -1) => number | null;
+  setFocusedIndex: (index: number) => void;
+  openDropdown: () => void;
+}
+
+function processArrowNavigation(
+  e: KeyboardEvent,
+  direction: 1 | -1,
+  options: ArrowNavigationOptions
+): void {
+  e.preventDefault();
+  if (!options.isOpen && direction === 1) {
+    options.openDropdown();
+    return;
+  }
+  if (!options.isOpen) {
+    return;
+  }
+  const startIndex =
+    direction === 1
+      ? (options.focusedIndex ?? -1) + 1
+      : (options.focusedIndex ?? options.displayOptionsLength) - 1;
+  const next = options.findNextEnabledIndex(startIndex, direction);
+  if (next !== null) {
+    options.setFocusedIndex(next);
+  }
+}
+
+function processSearchFocus(
+  direction: 'down' | 'up',
+  focusedIndex: number | null,
+  displayOptionsLength: number,
+  findNextEnabledIndex: (start: number, dir: 1 | -1) => number | null,
+  setFocusedIndex: (index: number) => void
+): void {
+  if (direction === 'down') {
+    const next = findNextEnabledIndex((focusedIndex ?? -1) + 1, 1);
+    if (next !== null) {
+      setFocusedIndex(next);
+    }
+  } else {
+    const prev = findNextEnabledIndex((focusedIndex ?? displayOptionsLength) - 1, -1);
+    if (prev !== null) {
+      setFocusedIndex(prev);
+    }
+  }
+}
+
+function processSelectFocused<T>(
+  focusedIndex: number | null,
+  displayOptions: SelectOption<T>[],
+  handleSelect: (option: SelectOption<T> | undefined) => void
+): void {
+  if (focusedIndex !== null && focusedIndex >= 0) {
+    const option = Reflect.get(displayOptions, focusedIndex) as SelectOption<T> | undefined;
+    if (option) {
+      handleSelect(option);
+    }
+  }
+}
+
+function isValueSelected<T>(optionValue: T, currentValue: SelectValue<T>): boolean {
+  if (currentValue === undefined) {
+    return false;
+  }
+  if (Array.isArray(currentValue)) {
+    return currentValue.includes(optionValue);
+  }
+  return currentValue === optionValue;
+}
+
+function getSelectedOptions<T>(
+  currentValue: SelectValue<T>,
+  flatOptions: SelectOption<T>[]
+): SelectOption<T>[] {
+  if (currentValue === undefined) {
+    return [];
+  }
+  const values = Array.isArray(currentValue) ? currentValue : [currentValue];
+  return flatOptions.filter((opt) => values.includes(opt.value));
+}
+
+function renderSelectDisplayValue<T>(
+  selectedOptions: SelectOption<T>[],
+  placeholder: string,
+  multiple: boolean,
+  renderValue?: (selected: SelectOption<T> | SelectOption<T>[]) => ReactNode
+): ReactNode {
+  if (selectedOptions.length === 0) {
+    return <span className="text-body-secondary">{placeholder}</span>;
+  }
+  if (renderValue) {
+    const valueToRender = multiple ? selectedOptions : selectedOptions[0];
+    if (valueToRender) {
+      return renderValue(valueToRender);
+    }
+  }
+  if (multiple) {
+    return selectedOptions.map((opt) => opt.label).join(', ');
+  }
+  return selectedOptions[0]?.label ?? '';
+}
+
+function computeHiddenSelectValue<T>(
+  currentValue: SelectValue<T>,
+  multiple: boolean
+): string | string[] {
+  if (multiple) {
+    return (Array.isArray(currentValue) ? currentValue : []).map(String);
+  }
+  if (currentValue === undefined) {
+    return '';
+  }
+  return String(currentValue);
 }
 
 /**
@@ -157,21 +422,17 @@ export const Select = memo(
     const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
     // Controllable value state
-    const [currentValue, setCurrentValue] = useControllableState<T | T[] | undefined>({
+    const [currentValue, setCurrentValue] = useControllableState<SelectValue<T>>({
       value,
       defaultValue,
-      onChange: onChange as (value: T | T[] | undefined) => void,
+      onChange: onChange as (value: SelectValue<T>) => void,
     });
 
     // Merge refs for the trigger button
     const setTriggerRef = useCallback(
       (node: HTMLButtonElement | null) => {
         triggerRef.current = node;
-        if (typeof ref === 'function') {
-          ref(node);
-        } else if (ref) {
-          (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
-        }
+        assignRef(ref, node);
       },
       [ref]
     );
@@ -184,14 +445,7 @@ export const Select = memo(
       if (!searchable || !searchValue) {
         return flatOptions;
       }
-
-      const searchLower = searchValue.toLowerCase();
-      return flatOptions.filter((option) => {
-        if (filterOption) {
-          return filterOption(option, searchValue);
-        }
-        return option.label.toLowerCase().includes(searchLower);
-      });
+      return filterSelectOptions(flatOptions, searchValue, filterOption);
     }, [flatOptions, searchable, searchValue, filterOption]);
 
     // Apply limit
@@ -205,36 +459,42 @@ export const Select = memo(
 
     // Helper: find next non-disabled index
     const findNextEnabledIndex = useCallback(
-      (startIndex: number, direction: 1 | -1): number | null => {
-        let index = startIndex;
-        while (index >= 0 && index < displayOptions.length) {
-          if (!(Reflect.get(displayOptions, index) as SelectOption<T> | undefined)?.disabled) {
-            return index;
-          }
-          index += direction;
-        }
-        return null;
-      },
+      (startIndex: number, direction: 1 | -1): number | null =>
+        findNextEnabled(displayOptions, startIndex, direction),
       [displayOptions]
+    );
+
+    // Open the dropdown and focus the first enabled option
+    const openDropdown = useCallback(() => {
+      setIsOpen(true);
+      onOpen?.();
+      const firstEnabled = findNextEnabledIndex(0, 1);
+      setFocusedIndex(firstEnabled);
+      if (searchable) {
+        requestAnimationFrame(() => {
+          searchInputRef.current?.focus();
+        });
+      }
+    }, [onOpen, findNextEnabledIndex, searchable]);
+
+    // Close the dropdown and reset search state
+    const closeDropdown = useCallback(() => {
+      setIsOpen(false);
+      onClose?.();
+      setSearchValue('');
+      setFocusedIndex(null);
+    }, [onClose]);
+
+    const handleOpenChange = useCallback(
+      (open: boolean) =>
+        processOpenChange(open, disabled, loading, openDropdown, closeDropdown, triggerRef),
+      [disabled, loading, openDropdown, closeDropdown]
     );
 
     // Floating UI setup
     const { refs, floatingStyles, context } = useFloating({
       open: isOpen,
-      onOpenChange: (open) => {
-        if (disabled || loading) {
-          return;
-        }
-        if (open) {
-          openDropdown();
-        } else {
-          closeDropdown();
-          // Return focus to trigger
-          queueMicrotask(() => {
-            triggerRef.current?.focus();
-          });
-        }
-      },
+      onOpenChange: handleOpenChange,
       placement: 'bottom-start',
       middleware: [
         offset(4),
@@ -267,7 +527,10 @@ export const Select = memo(
       listRef: listContentRef,
       activeIndex: focusedIndex,
       onMatch: (index) => {
-        if (index !== null && !(Reflect.get(displayOptions, index) as SelectOption<T> | undefined)?.disabled) {
+        if (
+          index !== null &&
+          !(Reflect.get(displayOptions, index) as SelectOption<T> | undefined)?.disabled
+        ) {
           setFocusedIndex(index);
         }
       },
@@ -277,25 +540,14 @@ export const Select = memo(
     const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss, typeahead]);
 
     // Get selected options
-    const selectedOptions = useMemo(() => {
-      if (currentValue === undefined) {
-        return [];
-      }
-      const values = Array.isArray(currentValue) ? currentValue : [currentValue];
-      return flatOptions.filter((opt) => values.includes(opt.value));
-    }, [currentValue, flatOptions]);
+    const selectedOptions = useMemo(
+      () => getSelectedOptions(currentValue, flatOptions),
+      [currentValue, flatOptions]
+    );
 
     // Check if a value is selected
     const isSelected = useCallback(
-      (optionValue: T): boolean => {
-        if (currentValue === undefined) {
-          return false;
-        }
-        if (Array.isArray(currentValue)) {
-          return currentValue.includes(optionValue);
-        }
-        return currentValue === optionValue;
-      },
+      (optionValue: T): boolean => isValueSelected(optionValue, currentValue),
       [currentValue]
     );
 
@@ -312,20 +564,14 @@ export const Select = memo(
           return;
         }
 
-        if (multiple) {
-          const currentArray = Array.isArray(currentValue) ? currentValue : [];
-          if (currentArray.includes(option.value)) {
-            setCurrentValue(currentArray.filter((v) => v !== option.value));
-          } else {
-            setCurrentValue([...currentArray, option.value]);
-          }
-        } else {
-          setCurrentValue(option.value);
+        const nextValue = computeNextSelectValue(option, multiple, currentValue);
+        setCurrentValue(nextValue);
+
+        if (!multiple) {
           setIsOpen(false);
           onClose?.();
           setSearchValue('');
           setFocusedIndex(null);
-          // Return focus to trigger after single selection
           queueMicrotask(() => {
             triggerRef.current?.focus();
           });
@@ -338,101 +584,102 @@ export const Select = memo(
     const handleClear = useCallback(
       (e: MouseEvent) => {
         e.stopPropagation();
-        const newValue = multiple ? ([] as unknown as T | T[] | undefined) : undefined;
+        const newValue: SelectValue<T> = multiple ? ([] as unknown as SelectValue<T>) : undefined;
         setCurrentValue(newValue);
         onClear?.();
       },
       [multiple, setCurrentValue, onClear]
     );
 
-    // Open the dropdown and focus the first enabled option
-    const openDropdown = useCallback(() => {
-      setIsOpen(true);
-      onOpen?.();
-      const firstEnabled = findNextEnabledIndex(0, 1);
-      setFocusedIndex(firstEnabled);
-      if (searchable) {
-        requestAnimationFrame(() => {
-          searchInputRef.current?.focus();
-        });
-      }
-    }, [onOpen, findNextEnabledIndex, searchable]);
-
-    // Close the dropdown and reset search state
-    const closeDropdown = useCallback(() => {
-      setIsOpen(false);
-      onClose?.();
-      setSearchValue('');
-      setFocusedIndex(null);
-    }, [onClose]);
-
     // Handle Enter/Space key
     const handleActivateKey = useCallback(
-      (e: KeyboardEvent) => {
-        e.preventDefault();
-        if (isOpen && focusedIndex !== null && focusedIndex >= 0) {
-          const focusedOption = Reflect.get(displayOptions, focusedIndex) as SelectOption<T> | undefined;
-          if (focusedOption) { handleSelect(focusedOption); }
-        } else if (!isOpen) {
-          openDropdown();
-        }
-      },
-      [isOpen, focusedIndex, displayOptions, handleSelect, openDropdown],
+      (e: KeyboardEvent) =>
+        processActivateKey(e, isOpen, focusedIndex, displayOptions, handleSelect, openDropdown),
+      [isOpen, focusedIndex, displayOptions, handleSelect, openDropdown]
     );
 
-    // Handle arrow key navigation
     const handleArrowNavigation = useCallback(
-      (e: KeyboardEvent, direction: 1 | -1) => {
-        e.preventDefault();
-        if (!isOpen && direction === 1) {
-          openDropdown();
+      (e: KeyboardEvent, direction: 1 | -1) =>
+        processArrowNavigation(e, direction, {
+          isOpen,
+          focusedIndex,
+          displayOptionsLength: displayOptions.length,
+          findNextEnabledIndex,
+          setFocusedIndex,
+          openDropdown,
+        }),
+      [isOpen, focusedIndex, displayOptions.length, findNextEnabledIndex, openDropdown]
+    );
+
+    const handleHomeKey = useCallback(
+      (e: KeyboardEvent) => {
+        if (!isOpen) {
           return;
         }
-        if (!isOpen) { return; }
-        const startIndex = direction === 1
-          ? (focusedIndex ?? -1) + 1
-          : (focusedIndex ?? displayOptions.length) - 1;
-        const next = findNextEnabledIndex(startIndex, direction);
-        if (next !== null) { setFocusedIndex(next); }
+        e.preventDefault();
+        const first = findNextEnabledIndex(0, 1);
+        if (first !== null) {
+          setFocusedIndex(first);
+        }
       },
-      [isOpen, focusedIndex, displayOptions.length, findNextEnabledIndex, openDropdown],
+      [isOpen, findNextEnabledIndex]
+    );
+
+    const handleEndKey = useCallback(
+      (e: KeyboardEvent) => {
+        if (!isOpen) {
+          return;
+        }
+        e.preventDefault();
+        const last = findNextEnabledIndex(displayOptions.length - 1, -1);
+        if (last !== null) {
+          setFocusedIndex(last);
+        }
+      },
+      [isOpen, findNextEnabledIndex, displayOptions.length]
     );
 
     // Handle keyboard on trigger (Enter/Space to select, Home/End, Arrow navigation)
     const handleKeyDown = useCallback(
       (e: KeyboardEvent) => {
-        if (disabled || loading) { return; }
-
-        if (isEnterKey(e) || e.key === ' ') { handleActivateKey(e); return; }
-        if (e.key === 'ArrowDown') { handleArrowNavigation(e, 1); return; }
-        if (e.key === 'ArrowUp') { handleArrowNavigation(e, -1); return; }
-
-        if (e.key === 'Home' && isOpen) {
-          e.preventDefault();
-          const first = findNextEnabledIndex(0, 1);
-          if (first !== null) { setFocusedIndex(first); }
+        if (disabled || loading) {
           return;
         }
 
-        if (e.key === 'End' && isOpen) {
-          e.preventDefault();
-          const last = findNextEnabledIndex(displayOptions.length - 1, -1);
-          if (last !== null) { setFocusedIndex(last); }
+        if (isEnterKey(e) || e.key === ' ') {
+          handleActivateKey(e);
           return;
         }
-
-        if (e.key === 'Tab' && isOpen) { closeDropdown(); }
+        if (e.key === 'ArrowDown') {
+          handleArrowNavigation(e, 1);
+          return;
+        }
+        if (e.key === 'ArrowUp') {
+          handleArrowNavigation(e, -1);
+          return;
+        }
+        if (e.key === 'Home') {
+          handleHomeKey(e);
+          return;
+        }
+        if (e.key === 'End') {
+          handleEndKey(e);
+          return;
+        }
+        if (e.key === 'Tab' && isOpen) {
+          closeDropdown();
+        }
       },
       [
         disabled,
         loading,
         isOpen,
-        displayOptions,
         handleActivateKey,
         handleArrowNavigation,
-        findNextEnabledIndex,
+        handleHomeKey,
+        handleEndKey,
         closeDropdown,
-      ],
+      ]
     );
 
     // Handle search input change
@@ -448,31 +695,22 @@ export const Select = memo(
 
     // Move focus in the search dropdown by direction
     const moveFocusInSearch = useCallback(
-      (direction: 'down' | 'up') => {
-        if (direction === 'down') {
-          const next = findNextEnabledIndex((focusedIndex ?? -1) + 1, 1);
-          if (next !== null) {
-            setFocusedIndex(next);
-          }
-        } else {
-          const prev = findNextEnabledIndex((focusedIndex ?? displayOptions.length) - 1, -1);
-          if (prev !== null) {
-            setFocusedIndex(prev);
-          }
-        }
-      },
+      (direction: 'down' | 'up') =>
+        processSearchFocus(
+          direction,
+          focusedIndex,
+          displayOptions.length,
+          findNextEnabledIndex,
+          setFocusedIndex
+        ),
       [focusedIndex, displayOptions.length, findNextEnabledIndex]
     );
 
     // Select the currently focused option in search
-    const selectFocusedOption = useCallback(() => {
-      if (focusedIndex !== null && focusedIndex >= 0) {
-        const option = Reflect.get(displayOptions, focusedIndex) as SelectOption<T> | undefined;
-        if (option) {
-          handleSelect(option);
-        }
-      }
-    }, [focusedIndex, displayOptions, handleSelect]);
+    const selectFocusedOption = useCallback(
+      () => processSelectFocused(focusedIndex, displayOptions, handleSelect),
+      [focusedIndex, displayOptions, handleSelect]
+    );
 
     // Handle search input keyboard navigation
     const handleSearchKeyDown = useCallback(
@@ -520,31 +758,25 @@ export const Select = memo(
     // Build button classes
     const buttonClasses = cn(
       'form-select',
-      (Reflect.get(sizeClassMap, size) as string) ?? '',
+      getSizeClass(size),
       error && 'is-invalid',
       success && !error && 'is-valid',
       'd-flex align-items-center justify-content-between'
     );
 
-    // Render display value
-    const renderDisplayValue = (): ReactNode => {
-      if (selectedOptions.length === 0) {
-        return <span className="text-body-secondary">{placeholder}</span>;
-      }
+    const activeDescendant =
+      focusedIndex !== null && focusedIndex >= 0 ? getOptionId(focusedIndex) : undefined;
 
-      if (renderValue) {
-        const valueToRender = multiple ? selectedOptions : selectedOptions[0];
-        if (valueToRender) {
-          return renderValue(valueToRender);
-        }
-      }
+    const ariaControls = isOpen ? listboxId : undefined;
 
-      if (multiple) {
-        return selectedOptions.map((opt) => opt.label).join(', ');
-      }
+    const ariaLabelAttrs = computeAriaLabelAttrs(label, labelId, ariaLabel);
 
-      return selectedOptions[0]?.label ?? '';
-    };
+    const displayValue = renderSelectDisplayValue(
+      selectedOptions,
+      placeholder,
+      multiple,
+      renderValue
+    );
 
     // Render option item
     const renderOptionItem = (option: SelectOption<T>, index: number): React.JSX.Element => {
@@ -567,7 +799,12 @@ export const Select = memo(
             option.disabled && 'disabled'
           )}
           onClick={() => handleSelect(option)}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSelect(option); } }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleSelect(option);
+            }
+          }}
           onMouseEnter={() => setFocusedIndex(index)}
           style={{ cursor: option.disabled ? 'not-allowed' : 'pointer' }}
         >
@@ -613,35 +850,12 @@ export const Select = memo(
       }
 
       if (isGroupedOptions(options)) {
-        const displayValueSet = new Set(displayOptions.map((opt) => opt.value));
-
-        return (
-          <>
-            {options.map((group) => {
-              const visibleGroupOptions = group.options.filter((opt) =>
-                displayValueSet.has(opt.value)
-              );
-              if (visibleGroupOptions.length === 0) {
-                return null;
-              }
-
-              const groupLabelId = `${selectId}-group-${group.label
-                .replaceAll(/\s+/g, '-')
-                .toLowerCase()}`;
-
-              return (
-                <div key={group.label} role="group" aria-labelledby={groupLabelId}>
-                  <div role="presentation" id={groupLabelId} className="dropdown-header">
-                    {group.label}
-                  </div>
-                  {visibleGroupOptions.map((opt) => {
-                    const flatIndex = flatIndexMap.get(opt.value) ?? 0;
-                    return renderOptionItem(opt, flatIndex);
-                  })}
-                </div>
-              );
-            })}
-          </>
+        return renderGroupedOptions(
+          options,
+          displayOptions,
+          flatIndexMap,
+          selectId,
+          renderOptionItem
         );
       }
 
@@ -654,6 +868,8 @@ export const Select = memo(
     // Has value for clear button
     const hasValue = selectedOptions.length > 0;
     const showClearButton = clearable && hasValue && !disabled && !loading;
+
+    const hiddenSelectValue = computeHiddenSelectValue(currentValue, multiple);
 
     // Pre-compute floating-ui interaction props to avoid ref access in JSX
     const referenceInteractionProps = getReferenceProps();
@@ -689,13 +905,7 @@ export const Select = memo(
           <select
             name={name}
             multiple={multiple}
-            value={
-              multiple
-                ? (Array.isArray(currentValue) ? currentValue : []).map(String)
-                : currentValue !== undefined
-                  ? String(currentValue)
-                  : ''
-            }
+            value={hiddenSelectValue}
             onChange={() => {}}
             style={{ display: 'none' }}
             aria-hidden="true"
@@ -712,7 +922,6 @@ export const Select = memo(
 
         {/* Custom select trigger */}
         <div className="position-relative">
-          {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props -- Button acts as form select trigger, aria-required/invalid are semantically appropriate */}
           <button
             ref={(node) => {
               setTriggerRef(node);
@@ -724,15 +933,14 @@ export const Select = memo(
             disabled={disabled}
             aria-haspopup="listbox"
             aria-expanded={isOpen}
-            aria-labelledby={label ? labelId : undefined}
-            aria-label={!label ? ariaLabel : undefined}
+            {...ariaLabelAttrs}
             aria-describedby={describedByIds}
-            aria-controls={isOpen ? listboxId : undefined}
+            aria-controls={ariaControls}
             aria-required={required || undefined}
             aria-invalid={error || undefined}
             aria-busy={loading || undefined}
             data-state={isOpen ? 'open' : 'closed'}
-            tabIndex={disabled ? -1 : (tabIndex ?? 0)}
+            tabIndex={disabled ? -1 : tabIndex}
             style={{
               textAlign: 'left',
               paddingRight: showClearButton ? '4rem' : undefined,
@@ -740,7 +948,7 @@ export const Select = memo(
             {...referenceInteractionProps}
             onKeyDown={mergedKeyDown}
           >
-            <span className="flex-grow-1 text-truncate">{renderDisplayValue()}</span>
+            <span className="flex-grow-1 text-truncate">{displayValue}</span>
           </button>
 
           {/* Clear button */}
@@ -791,11 +999,7 @@ export const Select = memo(
                     aria-label="Search options"
                     aria-autocomplete="list"
                     aria-controls={listboxId}
-                    aria-activedescendant={
-                      focusedIndex !== null && focusedIndex >= 0
-                        ? getOptionId(focusedIndex)
-                        : undefined
-                    }
+                    aria-activedescendant={activeDescendant}
                     aria-expanded
                     onKeyDown={handleSearchKeyDown}
                   />
@@ -810,9 +1014,7 @@ export const Select = memo(
                 tabIndex={-1}
                 aria-multiselectable={multiple || undefined}
                 aria-labelledby={label ? labelId : undefined}
-                aria-activedescendant={
-                  focusedIndex !== null && focusedIndex >= 0 ? getOptionId(focusedIndex) : undefined
-                }
+                aria-activedescendant={activeDescendant}
                 className="list-unstyled mb-0"
               >
                 {renderOptions()}

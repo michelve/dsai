@@ -257,12 +257,14 @@ export interface TooltipContextValue {
   placement: TooltipPlacement;
 }
 
+type TooltipVisibility = 'closed' | 'opening' | 'open' | 'closing';
+
 /**
  * Internal FSM state for tooltip visibility
  */
 export interface TooltipFSMState {
   /** Current visibility state */
-  visibility: 'closed' | 'opening' | 'open' | 'closing';
+  visibility: TooltipVisibility;
   /** Whether the tooltip should be rendered in DOM */
   shouldRender: boolean;
 }

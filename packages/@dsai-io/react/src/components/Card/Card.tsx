@@ -114,8 +114,12 @@ const CardImageComponent = forwardRef<HTMLImageElement, CardImageProps>(function
   ref
 ) {
   const positionClass = useMemo(() => {
-    if (position === 'top') { return 'card-img-top'; }
-    if (position === 'bottom') { return 'card-img-bottom'; }
+    if (position === 'top') {
+      return 'card-img-top';
+    }
+    if (position === 'bottom') {
+      return 'card-img-bottom';
+    }
     return 'card-img';
   }, [position]);
 
@@ -154,7 +158,14 @@ CardImage.displayName = 'CardImage';
  * CardTitle component - card title heading
  */
 const CardTitleComponent = forwardRef<HTMLHeadingElement, CardTitleProps>(function CardTitle(
-  { children, as: Component = 'h5', className = '', style, dangerouslySetInnerHTML: _dSIH, ...rest },
+  {
+    children,
+    as: Component = 'h5',
+    className = '',
+    style,
+    dangerouslySetInnerHTML: _dSIH,
+    ...rest
+  },
   ref
 ) {
   const classes = useMemo(() => cn('card-title', className), [className]);
@@ -179,7 +190,15 @@ CardTitle.displayName = 'CardTitle';
  */
 const CardSubtitleComponent = forwardRef<HTMLHeadingElement, CardSubtitleProps>(
   function CardSubtitle(
-    { children, as: Component = 'h6', muted = true, className = '', style, dangerouslySetInnerHTML: _dSIH, ...rest },
+    {
+      children,
+      as: Component = 'h6',
+      muted = true,
+      className = '',
+      style,
+      dangerouslySetInnerHTML: _dSIH,
+      ...rest
+    },
     ref
   ) {
     const classes = useMemo(
@@ -206,7 +225,15 @@ CardSubtitle.displayName = 'CardSubtitle';
  * CardText component - card text paragraph
  */
 const CardTextComponent = forwardRef<HTMLElement, CardTextProps>(function CardText(
-  { children, muted = false, as: Component = 'p', className = '', style, dangerouslySetInnerHTML: _dSIH, ...rest },
+  {
+    children,
+    muted = false,
+    as: Component = 'p',
+    className = '',
+    style,
+    dangerouslySetInnerHTML: _dSIH,
+    ...rest
+  },
   ref
 ) {
   const classes = useMemo(
@@ -238,11 +265,20 @@ const CardLinkComponent = forwardRef<HTMLAnchorElement, CardLinkProps>(function 
 ) {
   const safeHref = isSafeHref(href) ? href : '#';
   const isExternal = isExternalUrl(safeHref);
-  const computedRel = rel ?? (isExternal || target === '_blank' ? 'noopener noreferrer' : undefined);
+  const computedRel =
+    rel ?? (isExternal || target === '_blank' ? 'noopener noreferrer' : undefined);
   const classes = useMemo(() => cn('card-link', className), [className]);
 
   return (
-    <a ref={ref} {...rest} href={safeHref} className={classes} style={style} target={target} rel={computedRel}>
+    <a
+      ref={ref}
+      {...rest}
+      href={safeHref}
+      className={classes}
+      style={style}
+      target={target}
+      rel={computedRel}
+    >
       {children}
     </a>
   );
@@ -308,6 +344,7 @@ const getColorClass = (color: CardColor): string => {
  * </Card>
  * ```
  */
+
 export const Card = memo(
   forwardRef<HTMLElement, CardProps>(function Card(
     {
@@ -333,7 +370,7 @@ export const Card = memo(
       if (interactive && !href && !onClick) {
         console.warn(
           'Card: `interactive` prop has no effect without `href` or `onClick`. ' +
-          'Pass `href` or `onClick` to make the card interactive.'
+            'Pass `href` or `onClick` to make the card interactive.'
         );
       }
     }
@@ -382,13 +419,29 @@ export const Card = memo(
 
     // Render as link
     if (safeHref) {
-      const linkStyle = { ...mergedStyle, textDecoration: 'none' as const, color: 'inherit' as const };
-      const linkProps = { ...rest, className: cardClasses, style: linkStyle, rel: relAttribute };
+      const linkStyle = {
+        ...mergedStyle,
+        textDecoration: 'none' as const,
+        color: 'inherit' as const,
+      };
+      const linkProps = {
+        ...rest,
+        className: cardClasses,
+        style: linkStyle,
+        rel: relAttribute,
+      };
 
-      return LinkComponent ? (
-        <LinkComponent ref={ref} href={safeHref} {...linkProps}>{children}</LinkComponent>
-      ) : (
-        <a ref={ref as React.Ref<HTMLAnchorElement>} href={safeHref} {...linkProps}>{children}</a>
+      if (LinkComponent) {
+        return (
+          <LinkComponent ref={ref} href={safeHref} {...linkProps}>
+            {children}
+          </LinkComponent>
+        );
+      }
+      return (
+        <a ref={ref as React.Ref<HTMLAnchorElement>} href={safeHref} {...linkProps}>
+          {children}
+        </a>
       );
     }
 
@@ -411,7 +464,12 @@ export const Card = memo(
 
     // Render as article (default)
     return (
-      <article ref={ref as React.Ref<HTMLElement>} {...rest} className={cardClasses} style={mergedStyle}>
+      <article
+        ref={ref as React.Ref<HTMLElement>}
+        {...rest}
+        className={cardClasses}
+        style={mergedStyle}
+      >
         {children}
       </article>
     );

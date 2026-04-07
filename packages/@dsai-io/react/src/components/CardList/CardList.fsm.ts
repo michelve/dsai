@@ -168,7 +168,7 @@ export function createInitialCardListFSMState(
   // For 'single' mode, only allow at most one value
   if (mode === 'single') {
     const firstValue = values[0];
-    const selectedValues = firstValue !== undefined ? [firstValue] : [];
+    const selectedValues = firstValue === undefined ? [] : [firstValue];
     return {
       selectedValues,
       visualState: deriveVisualState(selectedValues, totalEnabled),

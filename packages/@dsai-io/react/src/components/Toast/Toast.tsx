@@ -12,7 +12,7 @@ import {
 
 import { createInitialToastFSMState, getToastVisualState, toastFSMReducer } from './Toast.fsm';
 
-import type { ToastProps, ToastVariant } from './Toast.types';
+import type { ToastProps, ToastVariant, ToastVisibility } from './Toast.types';
 import type { ReactNode } from 'react';
 
 /**
@@ -85,7 +85,7 @@ function getDefaultIcon(variant: ToastVariant): ReactNode {
 function resolveLabelingProps(
   title: React.ReactNode | undefined,
   titleId: string,
-  ariaLabel: string | undefined,
+  ariaLabel: string | undefined
 ): Record<string, string> {
   if (title && titleId) {
     return { 'aria-labelledby': titleId };
@@ -99,9 +99,7 @@ function resolveLabelingProps(
 /**
  * Resolve toast opacity from visibility state.
  */
-function resolveToastOpacity(
-  visibility: 'hidden' | 'entering' | 'visible' | 'exiting'
-): number {
+function resolveToastOpacity(visibility: ToastVisibility): number {
   if (visibility === 'entering' || visibility === 'visible') {
     return 1;
   }
@@ -110,6 +108,39 @@ function resolveToastOpacity(
 
 /**
  */
+
+function renderToastProgressBar(
+  progressRef: React.RefObject<HTMLDivElement | null>,
+  showProgress: boolean,
+  effectiveDuration: number | null
+): React.ReactNode {
+  if (!showProgress || effectiveDuration === null) {
+    return null;
+  }
+  return (
+    <div
+      className="progress"
+      style={
+        {
+          '--dsai-toast-progress-height': '3px',
+          height: 'var(--dsai-toast-progress-height)',
+          borderRadius: 0,
+        } as React.CSSProperties
+      }
+    >
+      <div
+        ref={progressRef}
+        className="progress-bar"
+        role="progressbar"
+        aria-label="Time remaining"
+        aria-valuenow={100}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        style={{ width: '100%' }}
+      />
+    </div>
+  );
+}
 
 /**
  * Toast Component
@@ -315,10 +346,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
         clearTimer();
         if (startTimeRef.current !== null) {
           const elapsed = Date.now() - startTimeRef.current;
-          remainingRef.current = Math.max(
-            0,
-            (remainingRef.current ?? effectiveDuration) - elapsed
-          );
+          remainingRef.current = Math.max(0, (remainingRef.current ?? effectiveDuration) - elapsed);
         }
         if (progressRef.current) {
           const computedWidth = getComputedStyle(progressRef.current).width;
@@ -438,20 +466,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
           <div className="toast-body" id={bodyId}>
             {message}
           </div>
-          {showProgress && effectiveDuration !== null && (
-            <div className="progress" style={{ '--dsai-toast-progress-height': '3px', height: 'var(--dsai-toast-progress-height)', borderRadius: 0 } as React.CSSProperties}>
-              <div
-                ref={progressRef}
-                className="progress-bar"
-                role="progressbar"
-                aria-label="Time remaining"
-                aria-valuenow={100}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                style={{ width: '100%' }}
-              />
-            </div>
-          )}
+          {renderToastProgressBar(progressRef, showProgress, effectiveDuration)}
         </div>
       );
     }
@@ -490,20 +505,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
             />
           )}
         </div>
-        {showProgress && effectiveDuration !== null && (
-          <div className="progress" style={{ '--dsai-toast-progress-height': '3px', height: 'var(--dsai-toast-progress-height)', borderRadius: 0 } as React.CSSProperties}>
-            <div
-              ref={progressRef}
-              className="progress-bar"
-              role="progressbar"
-              aria-label="Time remaining"
-              aria-valuenow={100}
-              aria-valuemin={0}
-              aria-valuemax={100}
-              style={{ width: '100%' }}
-            />
-          </div>
-        )}
+        {renderToastProgressBar(progressRef, showProgress, effectiveDuration)}
       </div>
     );
   }

@@ -9,7 +9,6 @@ import {
   useClick,
   useClientPoint,
   useDelayGroup,
-  useDelayGroupContext,
   useDismiss,
   useFloating,
   useFocus,
@@ -35,7 +34,6 @@ import { useTouchInteraction } from './useTouchInteraction';
 import type { TooltipProps } from './Tooltip.types';
 import type { TooltipProviderContextValue } from './TooltipContext';
 import type { ReactElement } from 'react';
-
 
 const TOOLTIP_ARROW_GAP_PX = 6;
 const TOOLTIP_ARROW_WIDTH_PX = 12;
@@ -258,13 +256,7 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
     });
 
     // Participate in delay groups (if wrapped in TooltipGroup)
-    useDelayGroup(context, { id: tooltipId });
-
-    // Read group context for skip-delay behavior.
-    // When no FloatingDelayGroup is present the default context returns { delay: 0 }.
-    // We must not let that zero override the resolved show/hide delays, so we only
-    // use groupDelay when it is truthy (a non-zero number or a delay object).
-    const { delay: groupDelay } = useDelayGroupContext();
+    const { delay: groupDelay } = useDelayGroup(context, { id: tooltipId });
 
     // Interaction hooks
     const hover = useHover(context, {
@@ -296,7 +288,7 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
 
     const clientPoint = useClientPoint(context, {
       enabled: !!followCursor && !disabled,
-      axis: followCursor === true ? 'both' : (followCursor || 'both'),
+      axis: followCursor === true ? 'both' : followCursor || 'both',
     });
 
     // Touch interaction (long-press)
@@ -408,8 +400,15 @@ export const Tooltip = forwardRef<HTMLElement, TooltipProps>(
         })
       );
     }, [
-      children, child, getReferenceProps, mergedRef, isOpen, tooltipId,
-      resolvedDescribeChild, resolvedTouchEnabled, touchInteraction,
+      children,
+      child,
+      getReferenceProps,
+      mergedRef,
+      isOpen,
+      tooltipId,
+      resolvedDescribeChild,
+      resolvedTouchEnabled,
+      touchInteraction,
     ]);
 
     // Compute tooltip styles

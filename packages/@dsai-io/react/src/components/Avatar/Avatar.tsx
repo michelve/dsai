@@ -51,7 +51,12 @@ import {
   getToneFromName,
 } from './avatarUtils';
 
-import type { AvatarContextValue, AvatarImageStatus, AvatarProps, AvatarStatus as AvatarStatusType } from './Avatar.types';
+import type {
+  AvatarContextValue,
+  AvatarImageStatus,
+  AvatarProps,
+  AvatarStatus as AvatarStatusType,
+} from './Avatar.types';
 import type React from 'react';
 
 type AvatarElement = HTMLSpanElement | HTMLDivElement | HTMLButtonElement | HTMLAnchorElement;
@@ -73,8 +78,7 @@ function findCompoundChild(
 ): React.ReactNode | undefined {
   return childArray.find(
     (child) =>
-      isValidElement(child) &&
-      (child.type as { displayName?: string }).displayName === displayName
+      isValidElement(child) && (child.type as { displayName?: string }).displayName === displayName
   );
 }
 
@@ -95,7 +99,7 @@ function buildAriaLabel(
   alt: string | undefined,
   status: AvatarStatusType | undefined,
   badgeCount: number | undefined,
-  badgeDot: boolean,
+  badgeDot: boolean
 ): string | undefined {
   if (decorative) {
     return undefined;
@@ -120,6 +124,8 @@ function buildAriaLabel(
   return parts.length > 0 ? parts.join(', ') : undefined;
 }
 
+type AriaHiddenValue = boolean | 'true' | 'false' | undefined;
+
 function buildAccessibilityProps({
   decorative,
   ariaHidden,
@@ -130,7 +136,7 @@ function buildAccessibilityProps({
   isLoading,
 }: {
   decorative: boolean;
-  ariaHidden: boolean | 'true' | 'false' | undefined;
+  ariaHidden: AriaHiddenValue;
   computedAriaLabel: string | undefined;
   ariaDescribedBy: string | undefined;
   isButton: boolean;
@@ -239,7 +245,12 @@ const AvatarRoot = memo(
     ref
   ) {
     // Scan children for compound sub-components (per-slot override)
-    const { image: compoundImage, fallback: compoundFallback, badge: compoundBadge, status: compoundStatus } = scanCompoundChildren(children);
+    const {
+      image: compoundImage,
+      fallback: compoundFallback,
+      badge: compoundBadge,
+      status: compoundStatus,
+    } = scanCompoundChildren(children);
 
     // Track image loading status
     const [imageStatus, setImageStatus] = useState<AvatarImageStatus>(() =>
@@ -487,9 +498,11 @@ const AvatarRoot = memo(
         transform: 'translate(25%, -25%)',
       };
 
+      const MAX_BADGE_COUNT = 99;
+
       // Count takes priority over dot
       if (badgeCount !== undefined) {
-        const displayCount = badgeCount > 99 ? '99+' : badgeCount;
+        const displayCount = badgeCount > MAX_BADGE_COUNT ? `${MAX_BADGE_COUNT}+` : badgeCount;
 
         return (
           <span

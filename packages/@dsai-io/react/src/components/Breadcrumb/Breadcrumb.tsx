@@ -23,6 +23,38 @@ import {
 import type { BreadcrumbItemData, BreadcrumbItemProps, BreadcrumbProps } from './Breadcrumb.types';
 
 // =============================================================================
+// Shared helpers (extracted to reduce per-component complexity)
+// =============================================================================
+
+/** Validate and sanitize a breadcrumb href */
+function validateHref(href: string | undefined): {
+  safeHref: string | undefined;
+  relAttribute: string | undefined;
+} {
+  const hasHref = href != null;
+  const validatedHref = hasHref && isSafeHref(href) ? href : '#';
+  const safeHref = hasHref ? validatedHref : undefined;
+  const isExternal = safeHref && safeHref !== '#' ? isExternalUrl(safeHref) : false;
+  const relAttribute = isExternal ? 'noopener noreferrer' : undefined;
+  return { safeHref, relAttribute };
+}
+
+/** Build truncation styles for long labels */
+function buildTruncateStyle(maxLabelWidth?: string): React.CSSProperties | undefined {
+  if (!maxLabelWidth) {
+    return undefined;
+  }
+  return {
+    display: 'inline-block',
+    maxWidth: maxLabelWidth,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    verticalAlign: 'bottom',
+  } as React.CSSProperties;
+}
+
+// =============================================================================
 // BreadcrumbItem Component
 // =============================================================================
 
@@ -54,15 +86,8 @@ const BreadcrumbItemComponent = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
       [active, className]
     );
 
-    // Validate href:
-    // - undefined/null → no link (text-only item)
-    // - unsafe protocol → fallback to '#' (blocks XSS, still renders <a>)
-    // - safe href → pass through
-    const hasHref = href != null;
-    const validatedHref = hasHref && isSafeHref(href) ? href : '#';
-    const safeHref = hasHref ? validatedHref : undefined;
-    const isExternal = safeHref && safeHref !== '#' ? isExternalUrl(safeHref) : false;
-    const relAttribute = isExternal ? 'noopener noreferrer' : undefined;
+    const { safeHref, relAttribute } = validateHref(href);
+    const truncateStyle = buildTruncateStyle(maxLabelWidth);
 
     const handleClick = (e: MouseEvent<HTMLAnchorElement>): void => {
       if (onClick) {
@@ -70,18 +95,6 @@ const BreadcrumbItemComponent = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
         onClick();
       }
     };
-
-    // Truncation styles for long labels
-    const truncateStyle = maxLabelWidth
-      ? ({
-          display: 'inline-block',
-          maxWidth: maxLabelWidth,
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-          verticalAlign: 'bottom',
-        } as React.CSSProperties)
-      : undefined;
 
     const labelContent = truncateStyle ? (
       <span style={truncateStyle} title={typeof children === 'string' ? children : undefined}>
@@ -113,9 +126,11 @@ const BreadcrumbItemComponent = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
         rel: relAttribute,
       };
 
-      return LinkComponent
-        ? <LinkComponent {...linkProps}>{content}</LinkComponent>
-        : <a {...linkProps}>{content}</a>;
+      return LinkComponent ? (
+        <LinkComponent {...linkProps}>{content}</LinkComponent>
+      ) : (
+        <a {...linkProps}>{content}</a>
+      );
     };
 
     return (
@@ -186,7 +201,7 @@ function renderDisplayItem(
     expandText: string;
     isExpanded: boolean;
     renderCollapsedItems?: (items: BreadcrumbItemData[]) => React.ReactNode;
-  },
+  }
 ): React.ReactNode {
   if (item === 'ellipsis') {
     const ellipsisContent = opts.renderCollapsedItems ? (
@@ -212,7 +227,7 @@ function renderDisplayItem(
   const isLast = index === displayItems.length - 1;
   const isActive = item.active ?? isLast;
   const validatedItemHref = item.href != null && isSafeHref(item.href) ? item.href : '#';
-  const safeItemHref = item.href != null ? validatedItemHref : undefined;
+  const safeItemHref = item.href == null ? undefined : validatedItemHref;
 
   return (
     <BreadcrumbItem
@@ -280,9 +295,15 @@ export const Breadcrumb = memo(
 
     // Accessible label with fallback chain
     const navAriaLabel = useMemo(() => {
-      if (ariaLabelledBy) {return undefined;}
-      if (ariaLabel) {return ariaLabel;}
-      if (id) {return `Breadcrumb ${id}`;}
+      if (ariaLabelledBy) {
+        return undefined;
+      }
+      if (ariaLabel) {
+        return ariaLabel;
+      }
+      if (id) {
+        return `Breadcrumb ${id}`;
+      }
       return 'Breadcrumb';
     }, [ariaLabel, ariaLabelledBy, id]);
 
@@ -294,14 +315,16 @@ export const Breadcrumb = memo(
         // Hide the CSS-generated separator when using inline ReactNode separators
         return { '--bs-breadcrumb-divider': "''" } as React.CSSProperties;
       }
-      return separator !== '/'
-        ? ({ '--bs-breadcrumb-divider': `'${separator}'` } as React.CSSProperties)
-        : undefined;
+      return separator === '/'
+        ? undefined
+        : ({ '--bs-breadcrumb-divider': `'${separator}'` } as React.CSSProperties);
     }, [separator, useInlineSeparator]);
 
     // Render items (data-driven mode)
     const renderedItems = useMemo(() => {
-      if (!items || items.length === 0) {return null;}
+      if (!items || items.length === 0) {
+        return null;
+      }
 
       const shouldCollapse = maxItems != null && items.length > maxItems && !isExpanded;
 
@@ -326,17 +349,22 @@ export const Breadcrumb = memo(
 
       const elements: React.ReactNode[] = [];
 
-      displayItems.forEach((item, index) => {
+      for (const [index, item] of displayItems.entries()) {
         if (useInlineSeparator && index > 0) {
-          const key = typeof item === 'string' ? item : (item.href ?? item.label ?? index);
+          const key = typeof item === 'string' ? item : (item.href ?? String(index));
           elements.push(
-            <li key={`sep-${key}`} className="breadcrumb-separator" aria-hidden="true" role="presentation">
+            <li
+              key={`sep-${key}`}
+              className="breadcrumb-separator"
+              aria-hidden="true"
+              role="presentation"
+            >
               {separator}
             </li>
           );
         }
         elements.push(renderDisplayItem(item, index, displayItems, hiddenItems, renderOpts));
-      });
+      }
 
       return (
         <ol className="breadcrumb mb-0" style={separatorStyle}>
@@ -361,7 +389,9 @@ export const Breadcrumb = memo(
 
     // Render children (compound component mode)
     const renderedChildren = useMemo(() => {
-      if (!children) {return null;}
+      if (!children) {
+        return null;
+      }
 
       // For inline separators in compound mode, we can't auto-insert between children
       // because we don't control the children structure — use CSS variable approach
@@ -373,17 +403,13 @@ export const Breadcrumb = memo(
     }, [children, separatorStyle]);
 
     // Schema.org JSON-LD
-    const jsonLd = structuredData && items && items.length > 0
-      ? generateStructuredData(items)
-      : null;
+    const jsonLd =
+      structuredData && items && items.length > 0 ? generateStructuredData(items) : null;
 
     return (
       <>
         {jsonLd && (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: jsonLd }}
-          />
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd }} />
         )}
         <nav
           ref={ref}
@@ -409,4 +435,4 @@ Breadcrumb.displayName = 'Breadcrumb';
 // Exports
 // =============================================================================
 
-export type { BreadcrumbItemData, BreadcrumbItemProps, BreadcrumbProps };
+export type { BreadcrumbItemData, BreadcrumbItemProps, BreadcrumbProps } from './Breadcrumb.types';

@@ -33,7 +33,7 @@ function buildBarClasses(
   gradient: ProgressGradient | undefined,
   striped: boolean,
   animated: boolean,
-  extra?: string,
+  extra?: string
 ): string {
   const isWarning = variant === 'warning';
   return cn(
@@ -42,8 +42,21 @@ function buildBarClasses(
     isWarning && !gradient && 'text-dark',
     striped && PROGRESS_BAR_STRIPED_CLASS,
     animated && PROGRESS_BAR_ANIMATED_CLASS,
-    extra,
+    extra
   );
+}
+
+/** Compute aria-label for a progress bar segment */
+function computeBarAriaLabel(
+  ariaHidden: boolean,
+  ariaLabel: string | undefined,
+  variant: string,
+  percentage: number
+): string | undefined {
+  if (ariaHidden) {
+    return undefined;
+  }
+  return ariaLabel || `${variant} progress: ${percentage}%`;
 }
 
 // =============================================================================
@@ -76,34 +89,15 @@ function ProgressBar({
   'aria-hidden': ariaHidden = false,
   'data-testid': dataTestId,
   'data-test': dataTest,
-}: ProgressBarProps): React.JSX.Element {
+}: Readonly<ProgressBarProps>): React.JSX.Element {
   const percentage = Math.min(100, Math.max(0, value));
-  const isWarning = variant === 'warning';
-
-  const barClasses = cn(
-    PROGRESS_BAR_CLASS,
-    !gradient && `bg-${variant}`,
-    isWarning && !gradient && 'text-dark',
-    striped && 'progress-bar-striped',
-    animated && 'progress-bar-animated',
-    className
-  );
-
-  // Compute display value using formatValue (takes precedence) or valueText or default
-  const displayValue = formatValue ? formatValue(percentage, 100) : valueText || `${percentage}%`;
-
-  // Build bar style (gradient overrides variant bg)
+  const barClasses = buildBarClasses(variant, gradient, striped, animated, className);
+  const displayValue = computeDisplayValue(percentage, 100, formatValue, valueText);
   const barStyle: React.CSSProperties = {
     width: `${percentage}%`,
-    ...(gradient && {
-      background: `linear-gradient(${gradient.direction || 'to right'}, ${gradient.from}, ${gradient.to})`,
-    }),
+    ...buildGradientStyle(gradient),
   };
-
-  // Generate default aria-label from variant if not provided (and not hidden)
-  const computedAriaLabel = ariaHidden
-    ? undefined
-    : ariaLabel || `${variant} progress: ${percentage}%`;
+  const computedAriaLabel = computeBarAriaLabel(ariaHidden, ariaLabel, variant, percentage);
 
   // If aria-hidden, render as purely decorative (no ARIA attributes)
   if (ariaHidden) {
@@ -223,8 +217,14 @@ function renderSteps(
  * - `aria-label` support for accessible naming
  */
 /** Build gradient background style */
-function buildGradientStyle(gradient?: { from: string; to: string; direction?: string }): React.CSSProperties {
-  if (!gradient) { return {}; }
+function buildGradientStyle(gradient?: {
+  from: string;
+  to: string;
+  direction?: string;
+}): React.CSSProperties {
+  if (!gradient) {
+    return {};
+  }
   return {
     background: `linear-gradient(${gradient.direction || 'to right'}, ${gradient.from}, ${gradient.to})`,
   };
@@ -234,7 +234,7 @@ function buildGradientStyle(gradient?: { from: string; to: string; direction?: s
 function buildMainBarStyle(
   percentage: number,
   indeterminate: boolean,
-  gradient?: ProgressProps['gradient'],
+  gradient?: ProgressProps['gradient']
 ): React.CSSProperties {
   return {
     width: indeterminate ? '100%' : `${percentage}%`,
@@ -248,9 +248,11 @@ function computeDisplayValue(
   percentage: number,
   max: number,
   formatValue?: (value: number, max: number) => React.ReactNode,
-  valueText?: string,
+  valueText?: string
 ): React.ReactNode {
-  if (formatValue) { return formatValue(percentage, max); }
+  if (formatValue) {
+    return formatValue(percentage, max);
+  }
   return valueText || `${percentage}%`;
 }
 
@@ -259,10 +261,14 @@ function computeAriaValueText(
   indeterminate: boolean,
   displayValue: React.ReactNode,
   valueText?: string,
-  percentage = 0,
+  percentage = 0
 ): string {
-  if (indeterminate) { return 'Loading'; }
-  if (typeof displayValue === 'string') { return displayValue; }
+  if (indeterminate) {
+    return 'Loading';
+  }
+  if (typeof displayValue === 'string') {
+    return displayValue;
+  }
   return valueText || `${percentage}%`;
 }
 
@@ -271,7 +277,7 @@ function renderBufferBar(
   bufferPercentage: number,
   variant: string,
   gradient: ProgressProps['gradient'],
-  dataTestId?: string,
+  dataTestId?: string
 ): React.JSX.Element {
   return (
     <div
@@ -299,7 +305,7 @@ function buildProgressAriaProps(
   percentage: number,
   min: number,
   max: number,
-  computedValueText: string,
+  computedValueText: string
 ): Record<string, unknown> {
   return {
     'aria-label': ariaLabel,
@@ -312,33 +318,80 @@ function buildProgressAriaProps(
   };
 }
 
+/** Options for renderDefaultBar */
+interface DefaultBarOptions {
+  barClasses: string;
+  barStyle: React.CSSProperties;
+  bufferPercentage: number | undefined;
+  variant: string;
+  gradient: ProgressProps['gradient'];
+  showValue: boolean;
+  indeterminate: boolean;
+  label: React.ReactNode | undefined;
+  displayValue: React.ReactNode;
+  dataTestId: string | undefined;
+}
+
 /** Render the inner bar content (default single-bar mode) */
-function renderDefaultBar(
-  barClasses: string,
-  barStyle: React.CSSProperties,
-  bufferPercentage: number | undefined,
-  variant: string,
-  gradient: ProgressProps['gradient'],
-  showValue: boolean,
-  indeterminate: boolean,
-  label: React.ReactNode | undefined,
-  displayValue: React.ReactNode,
-  dataTestId: string | undefined,
-): React.JSX.Element {
+function renderDefaultBar(opts: DefaultBarOptions): React.JSX.Element {
   return (
     <>
-      {bufferPercentage != null && renderBufferBar(bufferPercentage, variant, gradient, dataTestId)}
+      {opts.bufferPercentage != null &&
+        renderBufferBar(opts.bufferPercentage, opts.variant, opts.gradient, opts.dataTestId)}
       <div
-        className={barClasses}
+        className={opts.barClasses}
         style={{
-          ...barStyle,
-          ...(bufferPercentage != null && { position: 'relative' as const, zIndex: 1 }),
+          ...opts.barStyle,
+          ...(opts.bufferPercentage != null && { position: 'relative' as const, zIndex: 1 }),
         }}
       >
-        {showValue && !indeterminate && !label && displayValue}
+        {opts.showValue && !opts.indeterminate && !opts.label && opts.displayValue}
       </div>
     </>
   );
+}
+
+/** Render the label row above the progress bar */
+function renderProgressLabel(
+  label: React.ReactNode | undefined,
+  showValue: boolean,
+  indeterminate: boolean,
+  hasChildren: boolean,
+  displayValue: React.ReactNode
+): React.ReactNode {
+  if (!label) {
+    return null;
+  }
+  return (
+    <div className="d-flex justify-content-between align-items-center">
+      <span className="small text-body-secondary">{label}</span>
+      {showValue && !indeterminate && !hasChildren && (
+        <span className="small fw-medium">{displayValue}</span>
+      )}
+    </div>
+  );
+}
+
+/** Determine the inner content of the progress bar container */
+function resolveProgressContent(
+  hasChildren: boolean,
+  children: React.ReactNode,
+  steps: number | undefined,
+  opts: {
+    percentage: number;
+    barClasses: string;
+    barStyle: React.CSSProperties;
+    gradient: ProgressProps['gradient'];
+    defaultBarOpts: DefaultBarOptions;
+  }
+): React.ReactNode {
+  if (hasChildren) {
+    return children;
+  }
+  if (steps != null && steps > 0) {
+    return renderSteps(steps, opts.percentage, opts.barClasses, opts.barStyle, opts.gradient);
+  }
+  return renderDefaultBar(opts.defaultBarOpts);
 }
 
 function ProgressBase({
@@ -365,27 +418,51 @@ function ProgressBase({
   'aria-labelledby': ariaLabelledBy,
   'data-testid': dataTestId,
   'data-test': dataTest,
-}: ProgressProps): React.JSX.Element {
+}: Readonly<ProgressProps>): React.JSX.Element {
   const percentage = indeterminate ? 0 : Math.min(100, Math.max(0, value ?? 0));
   const hasChildren = Boolean(children);
   const progressClasses = cn('progress', className);
-  const barClasses = buildBarClasses(variant, gradient, striped || indeterminate, animated || indeterminate);
+  const barClasses = buildBarClasses(
+    variant,
+    gradient,
+    striped || indeterminate,
+    animated || indeterminate
+  );
   const displayValue = computeDisplayValue(percentage, max, formatValue, valueText);
-  const computedValueText = computeAriaValueText(indeterminate, displayValue, valueText, percentage);
+  const computedValueText = computeAriaValueText(
+    indeterminate,
+    displayValue,
+    valueText,
+    percentage
+  );
   const bufferPercentage =
-    bufferValue != null ? Math.min(100, Math.max(0, bufferValue)) : undefined;
+    bufferValue == null ? undefined : Math.min(100, Math.max(0, bufferValue));
   const barStyle = buildMainBarStyle(percentage, indeterminate, gradient);
+
+  const defaultBarOpts: DefaultBarOptions = {
+    barClasses,
+    barStyle,
+    bufferPercentage,
+    variant,
+    gradient,
+    showValue,
+    indeterminate,
+    label,
+    displayValue,
+    dataTestId,
+  };
+
+  const content = resolveProgressContent(hasChildren, children, steps, {
+    percentage,
+    barClasses,
+    barStyle,
+    gradient,
+    defaultBarOpts: defaultBarOpts,
+  });
 
   return (
     <div className="d-flex flex-column gap-1">
-      {label && (
-        <div className="d-flex justify-content-between align-items-center">
-          <span className="small text-body-secondary">{label}</span>
-          {showValue && !indeterminate && !hasChildren && (
-            <span className="small fw-medium">{displayValue}</span>
-          )}
-        </div>
-      )}
+      {renderProgressLabel(label, showValue, indeterminate, hasChildren, displayValue)}
 
       <div
         className={progressClasses}
@@ -398,15 +475,18 @@ function ProgressBase({
         role={hasChildren ? 'group' : 'progressbar'}
         data-testid={dataTestId}
         data-test={dataTest}
-        {...(!hasChildren && buildProgressAriaProps(ariaLabel, ariaLabelledBy, indeterminate, percentage, min, max, computedValueText))}
+        {...(!hasChildren &&
+          buildProgressAriaProps(
+            ariaLabel,
+            ariaLabelledBy,
+            indeterminate,
+            percentage,
+            min,
+            max,
+            computedValueText
+          ))}
       >
-        {hasChildren ? (
-          children
-        ) : steps != null && steps > 0 ? (
-          renderSteps(steps, percentage, barClasses, barStyle, gradient)
-        ) : (
-          renderDefaultBar(barClasses, barStyle, bufferPercentage, variant, gradient, showValue, indeterminate, label, displayValue, dataTestId)
-        )}
+        {content}
       </div>
     </div>
   );
@@ -419,6 +499,85 @@ let circleGradientId = 0;
 function getNextGradientId(): number {
   circleGradientId += 1;
   return circleGradientId;
+}
+
+/** Compute SVG circle geometry */
+function computeCircleGeometry(
+  size: number,
+  strokeWidth: number,
+  percentage: number
+): { radius: number; circumference: number; strokeDashoffset: number } {
+  const radius = (size - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (percentage / 100) * circumference;
+  return { radius, circumference, strokeDashoffset };
+}
+
+/** Resolve stroke color from gradient or variant */
+function resolveStrokeColor(
+  gradient: ProgressGradient | undefined,
+  gradientId: string,
+  variant: string
+): string {
+  return gradient ? `url(#${gradientId})` : `var(--bs-${variant})`;
+}
+
+/** Render the SVG ring for circular progress */
+function renderCircleSvg(
+  geo: { radius: number; circumference: number; strokeDashoffset: number },
+  opts: {
+    size: number;
+    strokeWidth: number;
+    strokeColor: string;
+    gradient?: ProgressGradient;
+    gradientId: string;
+    indeterminate: boolean;
+  }
+): React.JSX.Element {
+  return (
+    <svg
+      width={opts.size}
+      height={opts.size}
+      viewBox={`0 0 ${opts.size} ${opts.size}`}
+      aria-hidden="true"
+      style={{
+        transform: 'rotate(-90deg)',
+        ...(opts.indeterminate && {
+          animation: 'dsai-circle-spin 1.4s linear infinite',
+        }),
+      }}
+    >
+      {opts.gradient && (
+        <defs>
+          <linearGradient id={opts.gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor={opts.gradient.from} />
+            <stop offset="100%" stopColor={opts.gradient.to} />
+          </linearGradient>
+        </defs>
+      )}
+      <circle
+        cx={opts.size / 2}
+        cy={opts.size / 2}
+        r={geo.radius}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={opts.strokeWidth}
+        opacity={0.15}
+      />
+      <circle
+        cx={opts.size / 2}
+        cy={opts.size / 2}
+        r={geo.radius}
+        fill="none"
+        stroke={opts.strokeColor}
+        strokeWidth={opts.strokeWidth}
+        strokeDasharray={geo.circumference}
+        strokeDashoffset={opts.indeterminate ? geo.circumference * 0.75 : geo.strokeDashoffset}
+        strokeLinecap="round"
+        style={{ transition: opts.indeterminate ? 'none' : 'stroke-dashoffset 0.3s ease' }}
+      />
+    </svg>
+  );
 }
 
 /**
@@ -450,31 +609,22 @@ function ProgressCircle({
   'aria-label': ariaLabel,
   'data-testid': dataTestId,
   'data-test': dataTest,
-}: ProgressCircleProps): React.JSX.Element {
+}: Readonly<ProgressCircleProps>): React.JSX.Element {
   const percentage = indeterminate ? 0 : Math.min(100, Math.max(0, value ?? 0));
-  const radius = (size - strokeWidth) / 2;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (percentage / 100) * circumference;
-
-  // Compute display value
-  const displayValue = formatValue ? formatValue(percentage, max) : valueText ?? `${percentage}%`;
-
-  // Compute aria-valuetext (must be string)
-  let computedValueText: string;
-  if (indeterminate) {
-    computedValueText = 'Loading';
-  } else if (typeof displayValue === 'string') {
-    computedValueText = displayValue;
-  } else {
-    computedValueText = valueText ?? `${percentage}%`;
-  }
+  const geo = computeCircleGeometry(size, strokeWidth, percentage);
+  const displayValue = computeDisplayValue(percentage, max, formatValue, valueText);
+  const computedValueText = computeAriaValueText(
+    indeterminate,
+    displayValue,
+    valueText,
+    percentage
+  );
 
   // Unique gradient ID per instance — stable per component mount
-   
+
   const gradientIdRef = useMemo(() => `dsai-circle-gradient-${getNextGradientId()}`, []);
 
-  // Use Bootstrap 5 CSS custom properties for variant colors (no hardcoded hex)
-  const strokeColor = gradient ? `url(#${gradientIdRef})` : `var(--bs-${variant})`;
+  const strokeColor = resolveStrokeColor(gradient, gradientIdRef, variant);
 
   return (
     <div
@@ -499,55 +649,15 @@ function ProgressCircle({
       data-testid={dataTestId}
       data-test={dataTest}
     >
-      <svg
-        width={size}
-        height={size}
-        viewBox={`0 0 ${size} ${size}`}
-        aria-hidden="true"
-        style={{
-          transform: 'rotate(-90deg)',
-          ...(indeterminate && {
-            animation: 'dsai-circle-spin 1.4s linear infinite',
-          }),
-        }}
-      >
-        {/* Gradient definition */}
-        {gradient && (
-          <defs>
-            <linearGradient id={gradientIdRef} x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor={gradient.from} />
-              <stop offset="100%" stopColor={gradient.to} />
-            </linearGradient>
-          </defs>
-        )}
+      {renderCircleSvg(geo, {
+        size,
+        strokeWidth,
+        strokeColor,
+        gradient,
+        gradientId: gradientIdRef,
+        indeterminate,
+      })}
 
-        {/* Background track */}
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={strokeWidth}
-          opacity={0.15}
-        />
-
-        {/* Progress arc */}
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius}
-          fill="none"
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-          strokeDasharray={circumference}
-          strokeDashoffset={indeterminate ? circumference * 0.75 : strokeDashoffset}
-          strokeLinecap="round"
-          style={{ transition: indeterminate ? 'none' : 'stroke-dashoffset 0.3s ease' }}
-        />
-      </svg>
-
-      {/* Center value display */}
       {showValue && !indeterminate && (
         <span
           style={{
@@ -561,7 +671,6 @@ function ProgressCircle({
         </span>
       )}
 
-      {/* Indeterminate animation styles (injected once) */}
       {indeterminate && (
         <style>{`
           @keyframes dsai-circle-spin {

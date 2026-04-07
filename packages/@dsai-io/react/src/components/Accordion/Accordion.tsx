@@ -230,20 +230,20 @@ const AccordionRoot = forwardRef<HTMLDivElement, AccordionProps>(
       const currentKeys = fsmState.activeKeys;
 
       // Find newly expanded items
-      currentKeys.forEach((key) => {
+      for (const key of currentKeys) {
         if (!prevKeys.has(key)) {
           onItemExpand?.(key);
           onItemToggle?.(key, { expanded: true });
         }
-      });
+      }
 
       // Find newly collapsed items
-      prevKeys.forEach((key) => {
+      for (const key of prevKeys) {
         if (!currentKeys.has(key)) {
           onItemCollapse?.(key);
           onItemToggle?.(key, { expanded: false });
         }
-      });
+      }
 
       prevActiveKeysRef.current = new Set(currentKeys);
     }, [fsmState.activeKeys, onItemExpand, onItemCollapse, onItemToggle]);
@@ -258,12 +258,10 @@ const AccordionRoot = forwardRef<HTMLDivElement, AccordionProps>(
 
           if (wasExpanded) {
             newKeys = getActiveKeysArray(fsmState).filter((k) => k !== eventKey);
+          } else if (selectionMode === 'single') {
+            newKeys = [eventKey];
           } else {
-            if (selectionMode === 'single') {
-              newKeys = [eventKey];
-            } else {
-              newKeys = [...getActiveKeysArray(fsmState), eventKey];
-            }
+            newKeys = [...getActiveKeysArray(fsmState), eventKey];
           }
 
           onActiveKeysChange?.(newKeys);

@@ -83,7 +83,7 @@ const DANGEROUS_PROTOCOLS = /^(javascript|data|vbscript|file):/i;
  * @returns Sanitized target string
  */
 function sanitizeTarget(target: string): string {
-  if (!target || !target.trim()) {
+  if (!target?.trim()) {
     return '';
   }
 
@@ -106,7 +106,7 @@ function getScrollableContainer(element: HTMLElement): HTMLElement | null {
 
   let node: HTMLElement | null = element.parentElement;
   while (node) {
-    const style = window.getComputedStyle(node);
+    const style = globalThis.getComputedStyle(node);
     const overflowY = style.overflowY;
     const isScrollable =
       (overflowY === 'auto' || overflowY === 'scroll') && node.scrollHeight > node.clientHeight;
@@ -646,7 +646,7 @@ export function ScrollspyProvider({
   smoothScroll = true,
   offset = 0,
   children,
-}: ScrollspyProviderProps): React.ReactElement {
+}: Readonly<ScrollspyProviderProps>): React.ReactElement {
   const { contextValue } = useScrollspyEngine({
     items,
     activeId: controlledActiveId,

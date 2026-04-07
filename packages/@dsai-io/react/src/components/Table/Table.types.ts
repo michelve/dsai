@@ -121,6 +121,11 @@ export type TableVisualState = 'none' | 'one' | 'some' | 'all';
 export type CellAlign = 'left' | 'center' | 'right';
 
 /**
+ * Scope attribute for header cells
+ */
+export type HeaderCellScope = 'col' | 'row' | 'colgroup' | 'rowgroup';
+
+/**
  * Column definition for the Table
  *
  * @typeParam T - The type of row data
@@ -801,7 +806,7 @@ export interface TableHeaderCellProps extends TableCellProps {
    * Scope of the header cell
    * @default 'col'
    */
-  scope?: 'col' | 'row' | 'colgroup' | 'rowgroup';
+  scope?: HeaderCellScope;
   /**
    * Whether this column is sortable
    */

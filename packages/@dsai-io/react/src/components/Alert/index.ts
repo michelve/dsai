@@ -5,8 +5,10 @@ export type { AlertFSMEvent, AlertFSMState, AlertVisibilityState } from './Alert
 export { alertFSMReducer, createInitialAlertFSMState } from './Alert.fsm';
 export type {
   AlertDismissReason,
+  AlertHeadingLevel,
   AlertHeadingProps,
   AlertLinkProps,
+  AlertLinkTarget,
   AlertProps,
   AlertVariant,
 } from './Alert.types';

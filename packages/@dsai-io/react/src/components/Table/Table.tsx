@@ -81,6 +81,17 @@ import type {
 } from './Table.types';
 
 // =============================================================================
+// Type Aliases
+// =============================================================================
+
+type SortInput = SortConfig | SortingState | undefined;
+
+type AriaSortValue = 'ascending' | 'descending' | 'none' | undefined;
+
+const STICKY_COLUMN_Z_INDEX = 3;
+const NON_STICKY_COLUMN_Z_INDEX = 2;
+
+// =============================================================================
 // Utilities
 // =============================================================================
 
@@ -204,7 +215,7 @@ function getVisiblePages(currentPage: number, totalPages: number, maxVisible = 5
 /**
  * Check if a value is a SortingState (array of SortConfig)
  */
-function isSortingState(value: SortConfig | SortingState | undefined): value is SortingState {
+function isSortingState(value: SortInput): value is SortingState {
   return Array.isArray(value);
 }
 
@@ -215,7 +226,7 @@ function isSortingState(value: SortConfig | SortingState | undefined): value is 
  * - SortingState -> SortingState
  */
 function normalizeSortState(
-  config: SortConfig | SortingState | undefined
+  config: SortInput
 ): SortingState {
   if (!config) {
     return [];
@@ -236,8 +247,8 @@ function normalizeSortState(
 function getAriaSortValue(
   isSorted: boolean,
   sortDirection: SortDirection | undefined,
-  sortable?: boolean
-): 'ascending' | 'descending' | 'none' | undefined {
+  sortable = false
+): AriaSortValue {
   if (isSorted) {
     return sortDirection === 'asc' ? 'ascending' : 'descending';
   }
@@ -277,7 +288,7 @@ function buildHeaderStyle<T>(
   if (column.sticky) {
     headerStyle.position = 'sticky';
     headerStyle[column.sticky] = 0;
-    headerStyle.zIndex = stickyHeader ? 3 : 2;
+    headerStyle.zIndex = stickyHeader ? STICKY_COLUMN_Z_INDEX : NON_STICKY_COLUMN_Z_INDEX;
     headerStyle.backgroundColor = 'var(--bs-table-bg, #fff)';
   }
 
@@ -444,7 +455,7 @@ function resolvePaginationFlags(
 // Table Component
 // =============================================================================
 
-const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<string, unknown>>>(
+const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal>(
   (
     {
       columns,
@@ -537,9 +548,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     // ==========================================================================
     // Sorting State (useControllableState for controlled/uncontrolled)
     // ==========================================================================
-    const [currentSort, setCurrentSort] = useControllableState<
-      SortConfig | SortingState | undefined
-    >({
+    const [currentSort, setCurrentSort] = useControllableState<SortInput>({
       value: sortConfig,
       defaultValue: defaultSortConfig,
       onChange: onSortChange,
@@ -562,7 +571,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
         let nextState: SortingState;
 
         if (existingIndex >= 0) {
-          const existing = Reflect.get(sortingState, existingIndex) as SortingState[number];
+          const existing: SortConfig = Reflect.get(sortingState, existingIndex);
           if (existing.direction === 'asc') {
             nextState = sortingState.map((s, i) =>
               i === existingIndex ? { ...s, direction: 'desc' as SortDirection } : s,
@@ -652,6 +661,29 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
       [],
     );
 
+    /** Resolve next header index from a navigation key */
+    const resolveNextHeaderIndex = useCallback(
+      (key: string, currentPos: number): number => {
+        const NAV_KEY_MAP: Record<string, (pos: number, indices: number[]) => number> = {
+          ArrowRight: (pos, indices) =>
+            pos < indices.length - 1 ? indices[pos + 1]! : -1,
+          ArrowLeft: (pos, indices) =>
+            pos > 0 ? indices[pos - 1]! : -1,
+          Home: (_pos, indices) => indices[0]!,
+          End: (_pos, indices) => indices[indices.length - 1]!,
+        };
+
+        const resolver = Reflect.get(NAV_KEY_MAP, key) as
+          | ((pos: number, indices: number[]) => number)
+          | undefined;
+        if (!resolver) {
+          return -1;
+        }
+        return resolver(currentPos, sortableHeaderIndices);
+      },
+      [sortableHeaderIndices],
+    );
+
     /** Handle arrow key navigation on sortable headers */
     const handleHeaderKeyDown = useCallback(
       (e: React.KeyboardEvent, columnId: string, columnIndex: number) => {
@@ -666,39 +698,16 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
           return;
         }
 
-        let nextIndex = -1;
-
-        switch (e.key) {
-          case 'ArrowRight':
-            e.preventDefault();
-            if (currentPosInSortable < sortableHeaderIndices.length - 1) {
-              nextIndex = sortableHeaderIndices[currentPosInSortable + 1]!;
-            }
-            break;
-          case 'ArrowLeft':
-            e.preventDefault();
-            if (currentPosInSortable > 0) {
-              nextIndex = sortableHeaderIndices[currentPosInSortable - 1]!;
-            }
-            break;
-          case 'Home':
-            e.preventDefault();
-            nextIndex = sortableHeaderIndices[0]!;
-            break;
-          case 'End':
-            e.preventDefault();
-            nextIndex = sortableHeaderIndices[sortableHeaderIndices.length - 1]!;
-            break;
-          default:
-            return;
+        const nextIndex = resolveNextHeaderIndex(e.key, currentPosInSortable);
+        if (nextIndex < 0) {
+          return;
         }
 
-        if (nextIndex >= 0) {
-          setActiveHeaderIndex(nextIndex);
-          headerRefs.current.get(nextIndex)?.focus();
-        }
+        e.preventDefault();
+        setActiveHeaderIndex(nextIndex);
+        headerRefs.current.get(nextIndex)?.focus();
       },
-      [sortableHeaderIndices, handleSortClick],
+      [sortableHeaderIndices, handleSortClick, resolveNextHeaderIndex],
     );
 
     // ==========================================================================
@@ -1023,7 +1032,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
           const col = columns.find((c) => c.id === sc.columnId);
           return col ? { column: col, direction: sc.direction } : null;
         })
-        .filter(Boolean) as { column: TableColumn<Record<string, unknown>>; direction: SortDirection }[];
+        .filter(Boolean) as { column: TableColumn; direction: SortDirection }[];
 
       if (sortColumns.length === 0) {
         return data;
@@ -1265,6 +1274,143 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
     ) : null;
 
     // ==========================================================================
+    // Extracted Render Helpers (closures to reduce cyclomatic complexity)
+    // ==========================================================================
+
+    function getHeaderTabIndex(sortable: boolean | undefined, columnIndex: number): number | undefined {
+      if (!sortable) {
+        return undefined;
+      }
+      return columnIndex === activeHeaderIndex ? 0 : -1;
+    }
+
+    function renderColumnHeader(
+      column: TableColumn<Record<string, unknown>>,
+      columnIndex: number,
+    ): React.JSX.Element {
+      const sortEntry = sortingState.find((s) => s.columnId === column.id);
+      const isSorted = !!sortEntry;
+      const sortDirection = isSorted ? sortEntry.direction : undefined;
+      const sortPriority =
+        sortingState.length > 1
+          ? sortingState.findIndex((s) => s.columnId === column.id) + 1
+          : 0;
+
+      const headerStyle = buildHeaderStyle(column, columnWidths, stickyHeader);
+      const alignClass = getAlignClass(column.align);
+      const headerCellClasses = cn(
+        alignClass,
+        column.headerClassName,
+        column.sortable && 'table-sortable-header',
+        isSorted && 'table-sorted'
+      );
+
+      const headerTabIndex = getHeaderTabIndex(column.sortable, columnIndex);
+
+      return (
+        <th
+          key={column.id}
+          ref={column.sortable ? (el) => setHeaderRef(columnIndex, el) : undefined}
+          scope="col"
+          className={headerCellClasses || undefined}
+          style={headerStyle}
+          aria-sort={getAriaSortValue(isSorted, sortDirection, column.sortable)}
+          onClick={
+            column.sortable
+              ? (e) => handleSortClick(column.id, e.shiftKey)
+              : undefined
+          }
+          onKeyDown={
+            column.sortable
+              ? (e) => handleHeaderKeyDown(e, column.id, columnIndex)
+              : undefined
+          }
+          tabIndex={headerTabIndex}
+          data-focusable={column.sortable ? '' : undefined}
+        >
+          {column.header}
+          <SortIcon
+            sortable={column.sortable}
+            direction={sortDirection}
+            priority={sortPriority}
+          />
+          {column.resizable && (
+            <div
+              className="table-resize-handle"
+              style={{
+                position: 'absolute',
+                right: 0,
+                top: 0,
+                bottom: 0,
+                width: '4px',
+                cursor: 'col-resize',
+              }}
+              onPointerDown={(e) => handleResizeStart(e, column.id)}
+              role="separator"
+              aria-orientation="vertical"
+              aria-label={`Resize column ${typeof column.header === 'string' ? column.header : column.id}`}
+            />
+          )}
+        </th>
+      );
+    }
+
+    function renderRow(
+      row: Record<string, unknown>,
+      rowIndex: number,
+    ): React.JSX.Element {
+      const rowIdValue = getRowId(row, rowIndex, rowIdAccessor);
+      const isSelected = isRowSelected(fsmState, rowIdValue);
+      const isDisabled = disabledRowSet.has(rowIdValue);
+      const isInteractive = selectionMode !== 'none' || onRowClick;
+      const isExpanded = expandedRowSet.has(rowIdValue);
+
+      const rowClasses = cn(isSelected && 'table-active', isDisabled && 'table-disabled');
+
+      return (
+        <React.Fragment key={rowIdValue}>
+          <tr
+            className={rowClasses || undefined}
+            aria-selected={selectionMode === 'none' ? undefined : isSelected}
+            aria-disabled={isDisabled || undefined}
+            onClick={(e) => {
+              onRowClick?.(row, rowIndex);
+              if (selectionMode !== 'none' && !isDisabled) {
+                handleRowSelectionClick(
+                  rowIdValue,
+                  isDisabled,
+                  e.shiftKey,
+                  allDisplayedRowIds
+                );
+              }
+            }}
+            onKeyDown={
+              isInteractive
+                ? (e) =>
+                    handleRowKeyDown(e, rowIdValue, isDisabled, allDisplayedRowIds)
+                : undefined
+            }
+            tabIndex={isInteractive && !isDisabled ? 0 : undefined}
+            role={selectionMode === 'none' ? undefined : 'row'}
+          >
+            {hasExpandColumn && renderExpandCell(isExpanded, rowIndex, () => handleToggleExpand(rowIdValue))}
+            {selectionMode === 'multiple' && renderSelectionCell(isSelected, isDisabled, rowIndex, () => handleToggleRow(rowIdValue))}
+            {selectionMode === 'single' && renderSelectionCell(isSelected, isDisabled, rowIndex, () => handleSelectRow(rowIdValue))}
+            {visibleColumns.map((column) => renderDataCell(column, row, rowIndex, isSelected))}
+          </tr>
+
+          {hasExpandColumn && isExpanded && expandable && (
+            <tr className="table-expanded-row">
+              <td colSpan={totalColumns}>
+                {expandable.render(row, rowIndex)}
+              </td>
+            </tr>
+          )}
+        </React.Fragment>
+      );
+    }
+
+    // ==========================================================================
     // Render
     // ==========================================================================
 
@@ -1291,7 +1437,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
             return (
               <col
                 key={column.id}
-                style={w !== undefined ? { width: `${w}px` } : undefined}
+                style={w === undefined ? undefined : { width: `${w}px` }}
               />
             );
           })}
@@ -1341,76 +1487,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
             )}
 
             {/* Column headers */}
-            {visibleColumns.map((column, columnIndex) => {
-              const sortEntry = sortingState.find((s) => s.columnId === column.id);
-              const isSorted = !!sortEntry;
-              const sortDirection = isSorted ? sortEntry.direction : undefined;
-              const sortPriority =
-                sortingState.length > 1
-                  ? sortingState.findIndex((s) => s.columnId === column.id) + 1
-                  : 0;
-
-              const headerStyle = buildHeaderStyle(column, columnWidths, stickyHeader);
-              const alignClass = getAlignClass(column.align);
-              const headerCellClasses = cn(
-                alignClass,
-                column.headerClassName,
-                column.sortable && 'table-sortable-header',
-                isSorted && 'table-sorted'
-              );
-
-              // Roving tabindex: active sortable header gets 0, others get -1
-              const headerTabIndex = column.sortable
-                ? (columnIndex === activeHeaderIndex ? 0 : -1)
-                : undefined;
-
-              return (
-                <th
-                  key={column.id}
-                  ref={column.sortable ? (el) => setHeaderRef(columnIndex, el) : undefined}
-                  scope="col"
-                  className={headerCellClasses || undefined}
-                  style={headerStyle}
-                  aria-sort={getAriaSortValue(isSorted, sortDirection, column.sortable)}
-                  onClick={
-                    column.sortable
-                      ? (e) => handleSortClick(column.id, e.shiftKey)
-                      : undefined
-                  }
-                  onKeyDown={
-                    column.sortable
-                      ? (e) => handleHeaderKeyDown(e, column.id, columnIndex)
-                      : undefined
-                  }
-                  tabIndex={headerTabIndex}
-                  data-focusable={column.sortable ? '' : undefined}
-                >
-                  {column.header}
-                  <SortIcon
-                    sortable={column.sortable}
-                    direction={sortDirection}
-                    priority={sortPriority}
-                  />
-                  {column.resizable && (
-                    <div
-                      className="table-resize-handle"
-                      style={{
-                        position: 'absolute',
-                        right: 0,
-                        top: 0,
-                        bottom: 0,
-                        width: '4px',
-                        cursor: 'col-resize',
-                      }}
-                      onPointerDown={(e) => handleResizeStart(e, column.id)}
-                      role="separator"
-                      aria-orientation="vertical"
-                      aria-label={`Resize column ${typeof column.header === 'string' ? column.header : column.id}`}
-                    />
-                  )}
-                </th>
-              );
-            })}
+            {visibleColumns.map(renderColumnHeader)}
           </tr>
         </thead>
 
@@ -1423,63 +1500,7 @@ const TableComponent = forwardRef<HTMLTableElement, TablePropsInternal<Record<st
               </td>
             </tr>
           ) : (
-            paginatedData.map((row, rowIndex) => {
-              const rowIdValue = getRowId(row, rowIndex, rowIdAccessor);
-              const isSelected = isRowSelected(fsmState, rowIdValue);
-              const isDisabled = disabledRowSet.has(rowIdValue);
-              const isInteractive = selectionMode !== 'none' || onRowClick;
-              const isExpanded = expandedRowSet.has(rowIdValue);
-
-              const rowClasses = cn(isSelected && 'table-active', isDisabled && 'table-disabled');
-
-              return (
-                <React.Fragment key={rowIdValue}>
-                  <tr
-                    className={rowClasses || undefined}
-                    aria-selected={selectionMode !== 'none' ? isSelected : undefined}
-                    aria-disabled={isDisabled || undefined}
-                    onClick={(e) => {
-                      onRowClick?.(row, rowIndex);
-                      if (selectionMode !== 'none' && !isDisabled) {
-                        handleRowSelectionClick(
-                          rowIdValue,
-                          isDisabled,
-                          e.shiftKey,
-                          allDisplayedRowIds
-                        );
-                      }
-                    }}
-                    onKeyDown={
-                      isInteractive
-                        ? (e) =>
-                            handleRowKeyDown(e, rowIdValue, isDisabled, allDisplayedRowIds)
-                        : undefined
-                    }
-                    tabIndex={isInteractive && !isDisabled ? 0 : undefined}
-                    role={selectionMode !== 'none' ? 'row' : undefined}
-                  >
-                    {/* Expand cell */}
-                    {hasExpandColumn && renderExpandCell(isExpanded, rowIndex, () => handleToggleExpand(rowIdValue))}
-
-                    {/* Selection cell */}
-                    {selectionMode === 'multiple' && renderSelectionCell(isSelected, isDisabled, rowIndex, () => handleToggleRow(rowIdValue))}
-                    {selectionMode === 'single' && renderSelectionCell(isSelected, isDisabled, rowIndex, () => handleSelectRow(rowIdValue))}
-
-                    {/* Data cells */}
-                    {visibleColumns.map((column) => renderDataCell(column, row, rowIndex, isSelected))}
-                  </tr>
-
-                  {/* Expanded row content */}
-                  {hasExpandColumn && isExpanded && expandable && (
-                    <tr className="table-expanded-row">
-                      <td colSpan={totalColumns}>
-                        {expandable.render(row, rowIndex)}
-                      </td>
-                    </tr>
-                  )}
-                </React.Fragment>
-              );
-            })
+            paginatedData.map(renderRow)
           )}
         </tbody>
 

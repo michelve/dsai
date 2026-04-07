@@ -18,6 +18,16 @@ export type ListGroupVariant = 'default' | 'flush' | 'numbered';
 export type ListGroupItemVariant = SemanticColorVariant;
 
 /**
+ * Allowed element types for ListGroupItem `as` prop
+ */
+export type ListGroupItemElement = 'li' | 'a' | 'button' | 'div';
+
+/**
+ * Horizontal layout breakpoints for ListGroup
+ */
+export type ListGroupHorizontal = boolean | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+
+/**
  * ListGroupItem data for items prop
  */
 export interface ListGroupItemData {
@@ -127,7 +137,7 @@ export type ListGroupEntry = ListGroupItemData | ListGroupDividerEntry | ListGro
 /**
  * ListGroupItem component props
  */
-export interface ListGroupItemProps extends SafeHTMLAttributes<HTMLElement> {
+export interface ListGroupItemProps extends SafeHTMLAttributes {
   /**
    * Item content
    */
@@ -182,7 +192,7 @@ export interface ListGroupItemProps extends SafeHTMLAttributes<HTMLElement> {
    * for accessibility, regardless of this prop's value.
    * @default 'li' (or 'a' if href, 'button' if onClick)
    */
-  as?: 'li' | 'a' | 'button' | 'div';
+  as?: ListGroupItemElement;
 
   /**
    * Selection key used for managed selection (context-driven active state)
@@ -213,7 +223,7 @@ export interface ListGroupItemProps extends SafeHTMLAttributes<HTMLElement> {
 /**
  * ListGroup container props
  */
-export interface ListGroupProps extends SafeHTMLAttributes<HTMLElement> {
+export interface ListGroupProps extends SafeHTMLAttributes {
   /**
    * List items to render (supports items, dividers, and headers)
    */
@@ -234,7 +244,7 @@ export interface ListGroupProps extends SafeHTMLAttributes<HTMLElement> {
    * Horizontal layout
    * @default false
    */
-  horizontal?: boolean | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+  horizontal?: ListGroupHorizontal;
 
   /**
    * Render as ordered list (ol) instead of unordered (ul)
@@ -257,7 +267,7 @@ export interface ListGroupProps extends SafeHTMLAttributes<HTMLElement> {
    */
   onSelect?: (
     eventKey: string,
-    event: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>,
+    event: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>
   ) => void;
 
   /**

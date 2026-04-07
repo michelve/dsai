@@ -167,7 +167,7 @@ export function createInitialTableFSMState(
   // For 'single' mode, only allow at most one value
   if (mode === 'single') {
     const firstValue = rowIds[0];
-    const selectedRows = firstValue !== undefined ? [firstValue] : [];
+    const selectedRows = firstValue === undefined ? [] : [firstValue];
     return {
       selectedRows,
       visualState: deriveVisualState(selectedRows, totalEnabled),

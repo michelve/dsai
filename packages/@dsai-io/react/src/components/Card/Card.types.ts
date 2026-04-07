@@ -129,6 +129,16 @@ export interface CardImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageEl
 }
 
 /**
+ * Allowed heading levels for Card sub-components.
+ */
+export type CardHeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
+/**
+ * Allowed element types for CardText.
+ */
+export type CardTextElement = 'p' | 'span' | 'small' | 'div';
+
+/**
  * CardTitle props
  */
 export interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
@@ -141,7 +151,7 @@ export interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement>
    * Heading level
    * @default 'h5'
    */
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  as?: CardHeadingLevel;
 }
 
 /**
@@ -157,7 +167,7 @@ export interface CardSubtitleProps extends React.HTMLAttributes<HTMLHeadingEleme
    * Heading level
    * @default 'h6'
    */
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  as?: CardHeadingLevel;
 
   /**
    * Muted text style
@@ -185,7 +195,7 @@ export interface CardTextProps extends React.HTMLAttributes<HTMLElement> {
    * Element type to render as
    * @default 'p'
    */
-  as?: 'p' | 'span' | 'small' | 'div';
+  as?: CardTextElement;
 }
 
 /**

@@ -74,7 +74,7 @@ function resolveDataVariant(
  */
 function renderCenterLoading(
   displayText: React.ReactNode,
-  loaderEl: React.ReactNode,
+  loaderEl: React.ReactNode
 ): React.ReactNode {
   return (
     <>
@@ -103,25 +103,78 @@ function renderStandardContent(
   loaderEl: React.ReactNode,
   startIcon: React.ReactNode | undefined,
   endIcon: React.ReactNode | undefined,
-  displayText: React.ReactNode,
+  displayText: React.ReactNode
 ): React.ReactNode {
   return (
     <>
       {loading && loadingPosition === 'start' && (
-        <span className="me-2" aria-hidden="true">{loaderEl}</span>
+        <span className="me-2" aria-hidden="true">
+          {loaderEl}
+        </span>
       )}
       {!loading && startIcon && (
-        <span className="me-2" aria-hidden="true">{startIcon}</span>
+        <span className="me-2" aria-hidden="true">
+          {startIcon}
+        </span>
       )}
       <span>{displayText}</span>
       {loading && loadingPosition === 'end' && (
-        <span className="ms-2" aria-hidden="true">{loaderEl}</span>
+        <span className="ms-2" aria-hidden="true">
+          {loaderEl}
+        </span>
       )}
       {!loading && endIcon && (
-        <span className="ms-2" aria-hidden="true">{endIcon}</span>
+        <span className="ms-2" aria-hidden="true">
+          {endIcon}
+        </span>
       )}
     </>
   );
+}
+
+/**
+ * Compute the Bootstrap variant class string for a button
+ */
+function computeVariantClass(
+  isGhost: boolean,
+  isSubtle: boolean,
+  subtleColor: string | null,
+  variant: string
+): string {
+  if (isGhost) {
+    return '';
+  }
+  if (isSubtle) {
+    return `bg-${subtleColor}-subtle text-${subtleColor}-emphasis`;
+  }
+  return `btn-${variant}`;
+}
+
+/**
+ * Compute variant-specific runtime styles (ghost hover, icon sizing)
+ */
+function computeButtonStyle(
+  isGhost: boolean,
+  fsmVisualState: string,
+  size: string,
+  style: React.CSSProperties | undefined
+): React.CSSProperties | undefined {
+  const baseStyle: React.CSSProperties = {};
+
+  if (isGhost) {
+    const isInteractive =
+      fsmVisualState === 'hovered' || fsmVisualState === 'pressed' || fsmVisualState === 'focused';
+    Object.assign(baseStyle, isInteractive ? GHOST_HOVER_STYLE : GHOST_BASE_STYLE);
+  }
+
+  if (size === 'icon') {
+    Object.assign(baseStyle, ICON_SIZE_STYLE);
+  }
+
+  if (style || Object.keys(baseStyle).length > 0) {
+    return { ...baseStyle, ...style };
+  }
+  return style;
 }
 
 /**
@@ -204,18 +257,7 @@ export const BaseButton = forwardRef<
 
     // Build Bootstrap class names - memoized to prevent unnecessary recalculation
     const bootstrapClasses = useMemo(() => {
-      // Determine the variant class
-      let variantClass: string;
-      if (isGhost) {
-        // Ghost: use btn base only, styles applied via style prop
-        variantClass = '';
-      } else if (isSubtle) {
-        // Subtle: use Bootstrap subtle background utilities
-        variantClass = `bg-${subtleColor}-subtle text-${subtleColor}-emphasis`;
-      } else {
-        // Standard Bootstrap variant
-        variantClass = `btn-${variant}`;
-      }
+      const variantClass = computeVariantClass(isGhost, isSubtle, subtleColor, variant);
 
       return cn(
         'btn',
@@ -223,7 +265,7 @@ export const BaseButton = forwardRef<
         isSubtle && 'border-0',
         size === 'sm' && 'btn-sm',
         size === 'lg' && 'btn-lg',
-        size === 'icon' && 'btn-sm', // Base sizing, exact dimensions via style
+        size === 'icon' && 'btn-sm',
         fullWidth && 'w-100',
         error && 'btn-error',
         className
@@ -231,29 +273,10 @@ export const BaseButton = forwardRef<
     }, [variant, size, fullWidth, error, className, isGhost, isSubtle, subtleColor]);
 
     // Compute variant-specific styles (ghost uses FSM state for hover feedback)
-    const computedStyle = useMemo<React.CSSProperties | undefined>(() => {
-      const baseStyle: React.CSSProperties = {};
-
-      // Ghost variant: dynamic background based on FSM hover/pressed state
-      if (isGhost) {
-        const isInteractive =
-          fsmState.visualState === 'hovered' ||
-          fsmState.visualState === 'pressed' ||
-          fsmState.visualState === 'focused';
-        Object.assign(baseStyle, isInteractive ? GHOST_HOVER_STYLE : GHOST_BASE_STYLE);
-      }
-
-      // Icon size: square dimensions
-      if (size === 'icon') {
-        Object.assign(baseStyle, ICON_SIZE_STYLE);
-      }
-
-      // Merge with user-provided style
-      if (style || Object.keys(baseStyle).length > 0) {
-        return { ...baseStyle, ...style };
-      }
-      return style;
-    }, [isGhost, size, fsmState.visualState, style]);
+    const computedStyle = useMemo<React.CSSProperties | undefined>(
+      () => computeButtonStyle(isGhost, fsmState.visualState, size, style),
+      [isGhost, size, fsmState.visualState, style]
+    );
 
     // Determine what content to show
     const showLoadingText = loading && loadingText;
@@ -261,7 +284,7 @@ export const BaseButton = forwardRef<
 
     // Build the loading indicator element
     const loaderEl = loading
-      ? loadingIndicator ?? (
+      ? (loadingIndicator ?? (
           <Spinner
             size="sm"
             style={{
@@ -269,7 +292,7 @@ export const BaseButton = forwardRef<
             }}
             aria-hidden="true"
           />
-        )
+        ))
       : null;
 
     // Handle click - prevent if disabled or loading
@@ -331,7 +354,14 @@ export const BaseButton = forwardRef<
         >
           {isCenterLoading
             ? renderCenterLoading(displayText, loaderEl)
-            : renderStandardContent(loading, loadingPosition, loaderEl, startIcon, endIcon, displayText)}
+            : renderStandardContent(
+                loading,
+                loadingPosition,
+                loaderEl,
+                startIcon,
+                endIcon,
+                displayText
+              )}
         </button>
 
         {/* Announce state changes to screen readers */}

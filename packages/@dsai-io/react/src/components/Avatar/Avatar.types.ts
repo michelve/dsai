@@ -81,18 +81,25 @@ export type AvatarTone =
   | 'inverse';
 
 /**
+ * Element type for Avatar rendering
+ */
+export type AvatarElement = 'span' | 'div' | 'button' | 'a';
+
+/**
  * Maps tone to Bootstrap 5 background and text classes
  */
 const TEXT_WHITE = 'text-white';
 const TEXT_DARK = 'text-dark';
+const BG_SECONDARY = 'bg-secondary';
+const BG_DANGER = 'bg-danger';
 
 export const AVATAR_TONE_MAP: Record<AvatarTone, { bg: string; text: string }> = {
-  neutral: { bg: 'bg-secondary', text: TEXT_WHITE },
+  neutral: { bg: BG_SECONDARY, text: TEXT_WHITE },
   brand: { bg: 'bg-primary', text: TEXT_WHITE },
   accent: { bg: 'bg-info', text: TEXT_WHITE },
   success: { bg: 'bg-success', text: TEXT_WHITE },
   warning: { bg: 'bg-warning', text: TEXT_DARK },
-  danger: { bg: 'bg-danger', text: TEXT_WHITE },
+  danger: { bg: BG_DANGER, text: TEXT_WHITE },
   info: { bg: 'bg-info', text: TEXT_WHITE },
   muted: { bg: 'bg-light', text: TEXT_DARK },
   inverse: { bg: 'bg-dark', text: TEXT_WHITE },
@@ -117,11 +124,11 @@ export type AvatarStatusPosition = 'bottom-right' | 'bottom-left';
  */
 export const AVATAR_STATUS_COLOR_MAP: Record<AvatarStatus, string> = {
   online: 'bg-success',
-  busy: 'bg-danger',
+  busy: BG_DANGER,
   away: 'bg-warning',
-  offline: 'bg-secondary',
-  dnd: 'bg-danger',
-  unknown: 'bg-secondary',
+  offline: BG_SECONDARY,
+  dnd: BG_DANGER,
+  unknown: BG_SECONDARY,
 };
 
 /**
@@ -296,7 +303,7 @@ export interface AvatarProps extends SafeAvatarHTMLAttributes {
    * Element to render as
    * @default 'span'
    */
-  as?: 'span' | 'div' | 'button' | 'a';
+  as?: AvatarElement;
 
   /**
    * Link href (when as="a")

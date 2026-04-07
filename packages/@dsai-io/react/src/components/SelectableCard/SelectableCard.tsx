@@ -309,24 +309,38 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
         textFromReactNode(subtitle) ??
         textFromReactNode(description) ??
         value ??
-        (selectionMode !== 'none' ? 'Selectable option' : undefined)
+        (selectionMode === 'none' ? undefined : 'Selectable option')
       );
     }, [ariaLabel, title, subtitle, description, value, selectionMode]);
 
     // Build shared hidden input props for non-control indicators
-    const hiddenInputProps = useMemo(() => ({
-      ref: inputRef,
-      id: inputId,
-      checked: isChecked,
-      onChange: handleInputChange,
-      disabled,
-      required,
-      name,
-      value: value || '',
-      'aria-label': controlAriaLabel,
-      type: selectionMode === 'radio' ? 'radio' as const : 'checkbox' as const,
-      className: 'visually-hidden',
-    }), [inputRef, inputId, isChecked, handleInputChange, disabled, required, name, value, controlAriaLabel, selectionMode]);
+    const hiddenInputProps = useMemo(
+      () => ({
+        ref: inputRef,
+        id: inputId,
+        checked: isChecked,
+        onChange: handleInputChange,
+        disabled,
+        required,
+        name,
+        value: value || '',
+        'aria-label': controlAriaLabel,
+        type: selectionMode === 'radio' ? ('radio' as const) : ('checkbox' as const),
+        className: 'visually-hidden',
+      }),
+      [
+        inputRef,
+        inputId,
+        isChecked,
+        handleInputChange,
+        disabled,
+        required,
+        name,
+        value,
+        controlAriaLabel,
+        selectionMode,
+      ]
+    );
 
     // Render the selection control
     const renderControl = (): React.ReactNode => {
@@ -363,9 +377,11 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
         className: 'selectable-card__control',
       };
 
-      return selectionMode === 'checkbox'
-        ? <Checkbox {...controlProps} />
-        : <Radio {...controlProps} />;
+      return selectionMode === 'checkbox' ? (
+        <Checkbox {...controlProps} />
+      ) : (
+        <Radio {...controlProps} />
+      );
     };
 
     // Render card content
@@ -443,7 +459,7 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
           interactive={false}
           className={cardClasses}
           style={cardStyle}
-          aria-label={!title ? ariaLabel : undefined}
+          aria-label={title ? undefined : ariaLabel}
           aria-labelledby={computedLabelledby}
         >
           <div aria-describedby={computedDescribedby}>{renderContent()}</div>
@@ -458,14 +474,14 @@ const SelectableCardComponent = forwardRef<HTMLElement, SelectableCardProps>(
       <label
         ref={ref as React.Ref<HTMLLabelElement>}
         htmlFor={inputId}
-        className={`card ${variant === 'outlined' ? 'border' : ''} ${size && size !== 'md' ? ('card-' + size) : ''} ${cardClasses}`}
+        className={`card ${variant === 'outlined' ? 'border' : ''} ${size && size !== 'md' ? 'card-' + size : ''} ${cardClasses}`}
         style={{
           ...cardStyle,
           display: 'block',
           transition: 'transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out',
         }}
         id={id}
-        aria-label={!title ? ariaLabel : undefined}
+        aria-label={title ? undefined : ariaLabel}
         aria-labelledby={computedLabelledby}
         aria-describedby={computedDescribedby}
       >

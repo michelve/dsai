@@ -19,6 +19,7 @@ export {
 export type {
   AvatarBadgeProps,
   AvatarContextValue,
+  AvatarElement,
   AvatarFallbackProps,
   AvatarGroupLayout,
   AvatarGroupProps,

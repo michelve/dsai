@@ -301,12 +301,14 @@ export interface PopoverContextValue {
   placement: PopoverPlacement;
 }
 
+type PopoverVisibility = 'closed' | 'opening' | 'open' | 'closing';
+
 /**
  * Internal FSM state for popover visibility
  */
 export interface PopoverFSMState {
   /** Current visibility state */
-  visibility: 'closed' | 'opening' | 'open' | 'closing';
+  visibility: PopoverVisibility;
   /** Whether the popover should be rendered in DOM */
   shouldRender: boolean;
 }

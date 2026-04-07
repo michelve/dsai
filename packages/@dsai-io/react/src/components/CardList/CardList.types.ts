@@ -24,7 +24,7 @@
  * @module CardList/Types
  */
 
-import type { CardListSelectionMode, CardListVisualState } from './CardList.fsm';
+import type { CardListVisualState } from './CardList.fsm';
 import type { CardColor, CardSize, CardVariant } from '../Card/Card.types';
 import type { FieldsetHTMLAttributes, ReactNode } from 'react';
 
@@ -300,4 +300,4 @@ export type CardListProps =
 // Re-exports
 // =============================================================================
 
-export type { CardListSelectionMode, CardListVisualState };
+export type { CardListSelectionMode, CardListVisualState } from './CardList.fsm';

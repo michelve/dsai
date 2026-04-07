@@ -1,4 +1,12 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useRef } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+} from 'react';
 
 import { Toast } from './Toast';
 import { ToastContainer } from './ToastContainer';
@@ -29,7 +37,7 @@ const DEFAULT_DURATION_MS = 5000;
 let toastCounter = 0;
 function generateToastId(): string {
   const cryptoUUID =
-    typeof globalThis.crypto !== 'undefined' && typeof globalThis.crypto.randomUUID === 'function'
+    globalThis.crypto !== undefined && typeof globalThis.crypto.randomUUID === 'function'
       ? globalThis.crypto.randomUUID()
       : null;
 
@@ -142,7 +150,7 @@ export function ToastProvider({
   pauseOnHover = true,
   pauseOnFocusLoss = true,
   hotkey = 'F8',
-}: ToastProviderProps): React.JSX.Element {
+}: Readonly<ToastProviderProps>): React.JSX.Element {
   const [state, dispatch] = useReducer(toastQueueReducer, { toasts: [] });
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -294,7 +302,18 @@ export function ToastProvider({
       promise: promiseToast,
       toasts: state.toasts,
     }),
-    [addToast, success, error, warning, info, dismiss, dismissAll, update, promiseToast, state.toasts]
+    [
+      addToast,
+      success,
+      error,
+      warning,
+      info,
+      dismiss,
+      dismissAll,
+      update,
+      promiseToast,
+      state.toasts,
+    ]
   );
 
   // Keyboard hotkey to focus toast region

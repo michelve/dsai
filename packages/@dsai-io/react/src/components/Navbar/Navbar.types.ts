@@ -19,7 +19,7 @@ import type { ReactNode } from 'react';
  * Security: Explicit whitelist prevents dangerous prop injection.
  * @see {@link SafeHTMLAttributes}
  */
-export type SafeNavbarHTMLAttributes = SafeHTMLAttributes<HTMLElement>;
+export type SafeNavbarHTMLAttributes = SafeHTMLAttributes;
 
 // =============================================================================
 // Navbar Expand Breakpoints
@@ -58,6 +58,16 @@ export type NavbarPlacement =
  * - 'vertical': Sidebar-style navigation
  */
 export type NavbarOrientation = 'horizontal' | 'vertical';
+
+/**
+ * Container breakpoint options
+ */
+export type NavbarContainerBreakpoint = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+
+/**
+ * Link target attribute values
+ */
+export type NavbarLinkTarget = '_self' | '_blank' | '_parent' | '_top';
 
 /**
  * Navbar background colors (Bootstrap background utilities)
@@ -152,7 +162,7 @@ export interface NavbarProps extends SafeNavbarHTMLAttributes {
    * Container breakpoint (when fluid is false)
    * @default undefined (uses default .container)
    */
-  container?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+  container?: NavbarContainerBreakpoint;
 
   /**
    * Controlled expanded state
@@ -207,7 +217,7 @@ export interface NavbarBrandProps extends SafeNavbarHTMLAttributes {
   /**
    * Link target attribute
    */
-  target?: '_self' | '_blank' | '_parent' | '_top';
+  target?: NavbarLinkTarget;
 
   /**
    * Link rel attribute (defaults to 'noopener noreferrer' for _blank)
@@ -295,7 +305,7 @@ export interface NavbarLinkProps extends SafeNavbarHTMLAttributes {
   /**
    * Link target attribute
    */
-  target?: '_self' | '_blank' | '_parent' | '_top';
+  target?: NavbarLinkTarget;
 
   /**
    * Link rel attribute

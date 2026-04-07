@@ -83,6 +83,30 @@ function enforceSelectionMode(
 }
 
 /**
+ * Check if two sets of strings are equal
+ */
+function areSetsEqual(a: ReadonlySet<string>, b: ReadonlySet<string>): boolean {
+  return a.size === b.size && [...b].every((key) => a.has(key));
+}
+
+/**
+ * Handle RESET_FROM_PROPS: replace activeKeys with provided values
+ */
+function handleResetFromProps(
+  state: AccordionFSMState,
+  activeKeys: readonly string[]
+): AccordionFSMState {
+  const validKeys = enforceSelectionMode(state.selectionMode, activeKeys);
+  const newKeysSet = new Set<string>(validKeys);
+
+  if (areSetsEqual(state.activeKeys, newKeysSet)) {
+    return state;
+  }
+
+  return { ...state, activeKeys: newKeysSet };
+}
+
+/**
  * Creates the initial FSM state
  *
  * @param activeKeys - Initially active eventKeys
@@ -148,20 +172,8 @@ export function accordionFSMReducer(
     case 'COLLAPSE_ALL':
       return state.activeKeys.size === 0 ? state : { ...state, activeKeys: new Set() };
 
-    case 'RESET_FROM_PROPS': {
-      const validKeys = enforceSelectionMode(state.selectionMode, event.activeKeys);
-      const newKeysSet = new Set<string>(validKeys);
-
-      // Check if the sets are equal to avoid unnecessary updates
-      if (
-        newKeysSet.size === state.activeKeys.size &&
-        [...newKeysSet].every((key) => state.activeKeys.has(key))
-      ) {
-        return state;
-      }
-
-      return { ...state, activeKeys: newKeysSet };
-    }
+    case 'RESET_FROM_PROPS':
+      return handleResetFromProps(state, event.activeKeys);
 
     default:
       return state;

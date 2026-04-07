@@ -32,6 +32,7 @@ export {
 export type {
   CellAlign,
   ExpandableConfig,
+  HeaderCellScope,
   PaginationPosition,
   PaginationState,
   RowId,

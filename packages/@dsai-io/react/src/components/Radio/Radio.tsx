@@ -80,7 +80,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
           disabled={disabled}
           name={name}
           required={required}
-          aria-label={!label ? ariaLabel : undefined}
+          aria-label={label ? undefined : ariaLabel}
           {...rest}
         />
         {label && (
