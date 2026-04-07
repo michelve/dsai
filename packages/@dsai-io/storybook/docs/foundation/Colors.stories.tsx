@@ -131,7 +131,7 @@ export const BrandColors: Story = {
   render: () => {
     const steps = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
     const brandColors = steps.map((step) => {
-      const t = tokens.color?.blue?.[step];
+      const t = Reflect.get(tokens.color?.blue ?? {}, step) as typeof tokens.color.blue['50'];
       return {
         name: step,
         value: t?.value,
@@ -174,7 +174,7 @@ export const SemanticColors: Story = {
       { name: 'Warning', key: 'warning', description: 'Warning states', textColor: BS_DARK },
       { name: 'Info', key: 'info', description: 'Informational', textColor: BS_WHITE },
     ].map(({ key, ...rest }) => {
-      const t = tokens.theme?.[key];
+      const t = Reflect.get(tokens.theme ?? {}, key) as typeof tokens.theme['primary'];
       return {
         ...rest,
         value: t?.value,
@@ -215,7 +215,7 @@ export const ComponentSemanticColors: Story = {
   render: () => {
     /** Helper to build a semantic color entry from the grouped tokens */
     const sem = (name: string, key: string, description: string, textColor = BS_DARK) => {
-      const t = tokens.semantic?.[key];
+      const t = Reflect.get(tokens.semantic ?? {}, key) as typeof tokens.semantic['body-color'];
       return { name, value: t?.value, cssVar: t?.cssVar, token: `semantic.${key}`, description, textColor };
     };
 
@@ -306,7 +306,7 @@ export const NeutralColors: Story = {
   render: () => {
     const steps = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
     const neutralColors = steps.map((step) => {
-      const t = tokens.color?.gray?.[step];
+      const t = Reflect.get(tokens.color?.gray ?? {}, step) as typeof tokens.color.gray['50'];
       return {
         name: step,
         value: t?.value,

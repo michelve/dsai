@@ -47,9 +47,9 @@ function nestedMapToRecord(
   map: Map<string, Map<string, TokenValue>>
 ): Record<string, Record<string, TokenValue>> {
   const entries: [string, Record<string, TokenValue>][] = [];
-  map.forEach((innerMap, key) => {
+  for (const [key, innerMap] of map) {
     entries.push([key, mapToRecord(innerMap)]);
-  });
+  }
   return Object.fromEntries(entries);
 }
 
@@ -130,13 +130,13 @@ function routeToken(key: string, token: TokenValue): void {
 
 // Parse flat tokens into Maps
 // Token keys are PascalCase with underscores for numbers (e.g. ColorBlue_50, ThemePrimary)
-Object.entries(flat).forEach(([key, value]) => {
+for (const [key, value] of Object.entries(flat)) {
   if (typeof value !== 'string' && typeof value !== 'number') {
-    return;
+    continue;
   }
   const token: TokenValue = { value: String(value) };
   routeToken(key, token);
-});
+}
 
 // Export grouped structure
 export const tokens = {

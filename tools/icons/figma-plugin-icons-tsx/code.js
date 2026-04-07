@@ -154,25 +154,28 @@ function generateCodeConnect(iconName, nodeId) {
 /**
  * Clean SVG content for React compatibility
  */
+const SVG_CAMEL_CASE_PREFIXES = new Set([
+  'stroke', 'fill', 'line', 'clip', 'stop', 'color', 'font', 'text',
+  'letter', 'word', 'alignment', 'dominant', 'glyph', 'horiz', 'overline',
+  'paint', 'pointer', 'shape', 'strikethrough', 'underline', 'unicode',
+  'units', 'v', 'vert', 'writing', 'x',
+]);
+
 function cleanSvgContent(svg) {
   return (
     svg
-      // Convert kebab-case attributes to camelCase for React
-      .replaceAll(
-        /(stroke|fill|line|clip|stop|color|font|text|letter|word|alignment|dominant|glyph|horiz|overline|paint|pointer|shape|strikethrough|stroke|underline|unicode|units|v|vert|writing|x)-(.)/g,
-        (_, p1, p2) => p1 + p2.toUpperCase()
-      )
-      // Remove outer SVG tags (we wrap in our own)
+      .replaceAll(/([a-z]+)-(.)/g, (match, p1, p2) => {
+        if (SVG_CAMEL_CASE_PREFIXES.has(p1)) {
+          return p1 + p2.toUpperCase();
+        }
+        return match;
+      })
       .replaceAll(/<svg[^>]*>/g, '')
-      .replaceAll(/<\/svg>/g, '')
-      // Use currentColor for strokes and fills (inherits from CSS)
+      .replaceAll('</svg>', '')
       .replaceAll(/stroke="#[^"]+"/g, 'stroke="currentColor"')
       .replaceAll(/fill="#[^"]+"/g, 'fill="currentColor"')
-      // Handle fill="none" (keep as-is, common for stroke-only icons)
       .replaceAll(/fill="currentColor"([^>]*stroke)/g, 'fill="none"$1')
-      // Remove newlines for cleaner output
       .replaceAll('\n', '')
-      // Trim whitespace
       .trim()
   );
 }
@@ -455,4 +458,10 @@ ${skippedInfo}`;
   );
 }
 
-run().catch(console.error);
+(async () => {
+  try {
+    await run();
+  } catch (error) {
+    console.error(error);
+  }
+})();

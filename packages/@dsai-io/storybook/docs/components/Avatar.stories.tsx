@@ -4,7 +4,6 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { JSX } from 'react';
 
 const FONT_SIZE_SM = '0.875rem';
-const COLOR_SECONDARY = 'var(--bs-secondary)';
 
 /**
  * Avatar component for displaying user profile images, initials, or icons.

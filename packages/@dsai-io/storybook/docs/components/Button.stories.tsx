@@ -23,9 +23,7 @@ import type { JSX } from 'react';
 
 const LABEL_SAVE_CHANGES = 'Save Changes';
 const LABEL_PROCESSING = 'Processing...';
-const FONT_SIZE_SM = '0.875rem';
 const FONT_SIZE_XS = '0.75rem';
-const COLOR_SECONDARY = 'var(--bs-secondary)';
 const FONT_WEIGHT_BOLD = 'var(--dsai-typography-font-weight-bold)';
 
 /**
@@ -67,9 +65,6 @@ const getAnnouncementMessage = (state: AnnouncementStatus): string => {
       return '';
   }
 };
-
-/** Font weight token used across story section headings */
-const FONT_WEIGHT_BOLD = 'var(--dsai-typography-font-weight-bold)';
 
 /** Color token for secondary/muted text */
 const BS_SECONDARY = 'var(--bs-secondary)';

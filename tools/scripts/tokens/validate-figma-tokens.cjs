@@ -276,18 +276,68 @@ function validateExportFilesExist() {
   for (const exportFile of EXPECTED_EXPORTS) {
     const filePath = path.join(FIGMA_EXPORTS_DIR, exportFile);
 
-    if (!fileExists(filePath)) {
+    if (fileExists(filePath)) {
+      results.info.push({
+        file: exportFile,
+        message: 'Source file exists ✓',
+      });
+    } else {
       results.errors.push({
         file: exportFile,
         message: 'Figma export file missing (SOURCE OF TRUTH)',
         severity: 'CRITICAL',
       });
-    } else {
-      results.info.push({
-        file: exportFile,
-        message: 'Source file exists ✓',
-      });
     }
+  }
+}
+
+function getTokenValueKey(token, validationType) {
+  if (validationType === 'figma') {
+    return '$value';
+  }
+  return Object.hasOwn(token, '$value') ? '$value' : 'value';
+}
+
+function getTokenTypeKey(token, validationType) {
+  if (validationType === 'figma') {
+    return '$type';
+  }
+  return Object.hasOwn(token, '$type') ? '$type' : 'type';
+}
+
+function validateTokenProperties(token, valueKey, typeKey, parentFile, pathString) {
+  if (token[valueKey] === null || token[valueKey] === undefined || token[valueKey] === '') {
+    results.errors.push({
+      file: parentFile,
+      path: pathString,
+      message: `Token has empty ${valueKey}`,
+    });
+  }
+
+  if (!token[typeKey]) {
+    results.errors.push({
+      file: parentFile,
+      path: pathString,
+      message: `Token missing ${typeKey} property`,
+    });
+  }
+}
+
+function validateFigmaSpecificProperties(token, parentFile, pathString) {
+  if (!token.$description) {
+    results.warnings.push({
+      file: parentFile,
+      path: pathString,
+      message: 'Token missing $description (recommended for documentation)',
+    });
+  }
+
+  if (!token.$extensions?.platform?.scssVariableName) {
+    results.warnings.push({
+      file: parentFile,
+      path: pathString,
+      message: 'Token missing SCSS variable name in $extensions.platform',
+    });
   }
 }
 
@@ -298,22 +348,6 @@ function validateExportFilesExist() {
 function validateTokenTree(obj, pathArray = [], parentFile = '', validationType = 'figma') {
   const tokenCheck = validationType === 'figma' ? isFigmaToken : isStyleDictionaryToken;
 
-  // For Figma tokens, always use $ prefix
-  // For output tokens, check for DTCG ($value) first, then legacy (value)
-  const getValueKey = (token) => {
-    if (validationType === 'figma') {
-      return '$value';
-    }
-    return Object.hasOwn(token, '$value') ? '$value' : 'value';
-  };
-
-  const getTypeKey = (token) => {
-    if (validationType === 'figma') {
-      return '$type';
-    }
-    return Object.hasOwn(token, '$type') ? '$type' : 'type';
-  };
-
   let tokenCount = 0;
   const tokens = [];
 
@@ -322,58 +356,23 @@ function validateTokenTree(obj, pathArray = [], parentFile = '', validationType 
     const pathString = generatePath(currentPath);
 
     if (tokenCheck(value)) {
-      // This is a token - validate it
       tokenCount++;
 
-      const valueKey = getValueKey(value);
-      const typeKey = getTypeKey(value);
+      const valueKey = getTokenValueKey(value, validationType);
+      const typeKey = getTokenTypeKey(value, validationType);
 
-      // Validate required properties
-      if (value[valueKey] === null || value[valueKey] === undefined || value[valueKey] === '') {
-        results.errors.push({
-          file: parentFile,
-          path: pathString,
-          message: `Token has empty ${valueKey}`,
-        });
-      }
+      validateTokenProperties(value, valueKey, typeKey, parentFile, pathString);
 
-      if (!value[typeKey]) {
-        results.errors.push({
-          file: parentFile,
-          path: pathString,
-          message: `Token missing ${typeKey} property`,
-        });
-      }
-
-      // Store token info for comparison
       tokens.push({
         path: pathString,
         value: value[valueKey],
         type: value[typeKey],
       });
 
-      // Validate Figma-specific properties
       if (validationType === 'figma') {
-        // Check for description (warning only - not required but recommended)
-        if (!value.$description) {
-          results.warnings.push({
-            file: parentFile,
-            path: pathString,
-            message: 'Token missing $description (recommended for documentation)',
-          });
-        }
-
-        // Check for SCSS variable name in extensions
-        if (!value.$extensions?.platform?.scssVariableName) {
-          results.warnings.push({
-            file: parentFile,
-            path: pathString,
-            message: 'Token missing SCSS variable name in $extensions.platform',
-          });
-        }
+        validateFigmaSpecificProperties(value, parentFile, pathString);
       }
     } else if (value && typeof value === 'object' && !Array.isArray(value)) {
-      // Recursively validate nested objects
       const nestedResult = validateTokenTree(value, currentPath, parentFile, validationType);
       tokenCount += nestedResult.count;
       tokens.push(...nestedResult.tokens);
@@ -519,15 +518,15 @@ function validateOutputFilesExist() {
   for (const outputFile of EXPECTED_OUTPUTS) {
     const filePath = path.join(TOKENS_DIR, outputFile);
 
-    if (!fileExists(filePath)) {
-      results.warnings.push({
-        file: outputFile,
-        message: 'Output file missing (run pnpm build:tokens to generate)',
-      });
-    } else {
+    if (fileExists(filePath)) {
       results.info.push({
         file: outputFile,
         message: 'Output file exists ✓',
+      });
+    } else {
+      results.warnings.push({
+        file: outputFile,
+        message: 'Output file missing (run pnpm build:tokens to generate)',
       });
     }
   }
@@ -663,6 +662,71 @@ function normalizeTokenPath(token) {
   return path.toLowerCase();
 }
 
+const SHADOW_SUB_SUFFIXES = new Set(['.color', '.offsetx', '.offsety', '.blur', '.spread']);
+
+function isShadowSubProperty(tokenPath) {
+  const lowerPath = tokenPath.toLowerCase();
+  if (!lowerPath.includes('.shadows.')) {
+    return false;
+  }
+  for (const suffix of SHADOW_SUB_SUFFIXES) {
+    if (lowerPath.endsWith(suffix)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function buildTokenMap(tokenList) {
+  const map = new Map();
+  for (const token of tokenList) {
+    const normalizedPath = normalizeTokenPath(token);
+    map.set(normalizedPath, token);
+  }
+  return map;
+}
+
+function reportMissingTokens(missingTokens) {
+  if (missingTokens.length === 0) {
+    return;
+  }
+  console.log(`\n  ⚠️  ${missingTokens.length} tokens found in source but MISSING in output:`);
+  for (const token of missingTokens.slice(0, 10)) {
+    results.errors.push({
+      type: 'MISSING_TOKEN',
+      message: `Token in ${token.sourceFile} not found in output`,
+      path: token.path,
+      sourceFile: token.sourceFile,
+      severity: 'HIGH',
+    });
+    console.log(`    - ${token.path} (from ${token.sourceFile})`);
+  }
+  if (missingTokens.length > 10) {
+    console.log(`    ... and ${missingTokens.length - 10} more`);
+  }
+}
+
+function reportExtraTokens(extraTokens) {
+  if (extraTokens.length === 0) {
+    return;
+  }
+  console.log(
+    `\n  ℹ️  ${extraTokens.length} tokens in output but not in source (may be computed):`
+  );
+  for (const token of extraTokens.slice(0, 5)) {
+    results.warnings.push({
+      type: 'EXTRA_TOKEN',
+      message: `Token in output not found in source (may be computed)`,
+      path: token.path,
+      outputFile: token.outputFile,
+    });
+    console.log(`    - ${token.path} (in ${token.outputFile})`);
+  }
+  if (extraTokens.length > 5) {
+    console.log(`    ... and ${extraTokens.length - 5} more`);
+  }
+}
+
 /**
  * Compare source tokens with output tokens to find discrepancies
  */
@@ -677,30 +741,25 @@ function validateTransformationCompleteness() {
     return;
   }
 
-  // Group tokens by mode for per-mode validation
   const tokensByMode = {};
   const allModes = [...results.stats.modesFound];
 
-  results.stats.sourceTokens.forEach((token) => {
+  for (const token of results.stats.sourceTokens) {
     const mode = token.mode || 'Unknown';
     if (!tokensByMode[mode]) {
       tokensByMode[mode] = [];
     }
     tokensByMode[mode].push(token);
-  });
+  }
 
   results.stats.tokensByMode = tokensByMode;
 
-  // Report token counts per mode
   console.log('  📊 Tokens by mode:');
   for (const [mode, tokens] of Object.entries(tokensByMode)) {
     console.log(`     ${mode}: ${tokens.length} tokens`);
   }
   console.log();
 
-  // Determine which modes to validate based on available output
-  // Default modes (Light/Base) are validated against main output files
-  // Other modes (Dark/Pro/etc.) would be validated against mode-specific output files
   const defaultModes = ['Light', 'Base', 'Default'];
   const defaultModeTokens = results.stats.sourceTokens.filter((token) =>
     defaultModes.includes(token.mode)
@@ -720,24 +779,11 @@ function validateTransformationCompleteness() {
     });
   }
 
-  // For now, validate default mode tokens against main output
-  const lightModeTokens = defaultModeTokens;
+  const tokensWithoutShadowProps = defaultModeTokens.filter(
+    (token) => !isShadowSubProperty(token.path)
+  );
 
-  // Filter out shadow sub-properties (color, offsetX, offsetY, blur, spread)
-  // These are intentionally combined into composite shadow values
-  const tokensWithoutShadowProps = lightModeTokens.filter((token) => {
-    const path = token.path.toLowerCase();
-    const isShadowSubProperty =
-      path.includes('.shadows.') &&
-      (path.endsWith('.color') ||
-        path.endsWith('.offsetx') ||
-        path.endsWith('.offsety') ||
-        path.endsWith('.blur') ||
-        path.endsWith('.spread'));
-    return !isShadowSubProperty;
-  });
-
-  const shadowPropsCount = lightModeTokens.length - tokensWithoutShadowProps.length;
+  const shadowPropsCount = defaultModeTokens.length - tokensWithoutShadowProps.length;
   if (shadowPropsCount > 0) {
     console.log(
       `  ℹ️  Excluding ${shadowPropsCount} shadow sub-properties (combined into composite values)`
@@ -748,32 +794,18 @@ function validateTransformationCompleteness() {
     });
   }
 
-  // Create maps for easier comparison
-  const sourceMap = new Map();
-  const outputMap = new Map();
-
-  // Build source map (excluding Dark mode and shadow sub-properties)
-  tokensWithoutShadowProps.forEach((token) => {
-    const normalizedPath = normalizeTokenPath(token);
-    sourceMap.set(normalizedPath, token);
-  });
-
-  // Build output map
-  results.stats.outputTokens.forEach((token) => {
-    const normalizedPath = normalizeTokenPath(token);
-    outputMap.set(normalizedPath, token);
-  });
+  const sourceMap = buildTokenMap(tokensWithoutShadowProps);
+  const outputMap = buildTokenMap(results.stats.outputTokens);
 
   console.log(`  Source tokens (default modes: ${defaultModes.join('/')}): ${sourceMap.size}`);
   console.log(`  Output tokens (normalized): ${outputMap.size}`);
 
-  // Find missing tokens (in source but not in output)
   const missingTokens = [];
-  for (const [path, token] of sourceMap.entries()) {
-    if (!outputMap.has(path)) {
+  for (const [tokenPath, token] of sourceMap.entries()) {
+    if (!outputMap.has(tokenPath)) {
       missingTokens.push({
         path: token.path,
-        normalizedPath: path,
+        normalizedPath: tokenPath,
         sourceFile: token.sourceFile,
         collection: token.collection,
         mode: token.mode,
@@ -781,13 +813,12 @@ function validateTransformationCompleteness() {
     }
   }
 
-  // Find extra tokens (in output but not in source)
   const extraTokens = [];
-  for (const [path, token] of outputMap.entries()) {
-    if (!sourceMap.has(path)) {
+  for (const [tokenPath, token] of outputMap.entries()) {
+    if (!sourceMap.has(tokenPath)) {
       extraTokens.push({
         path: token.path,
-        normalizedPath: path,
+        normalizedPath: tokenPath,
         outputFile: token.outputFile,
       });
     }
@@ -796,44 +827,9 @@ function validateTransformationCompleteness() {
   results.stats.missingTokens = missingTokens;
   results.stats.extraTokens = extraTokens;
 
-  // Report missing tokens
-  if (missingTokens.length > 0) {
-    console.log(`\n  ⚠️  ${missingTokens.length} tokens found in source but MISSING in output:`);
-    missingTokens.slice(0, 10).forEach((token) => {
-      results.errors.push({
-        type: 'MISSING_TOKEN',
-        message: `Token in ${token.sourceFile} not found in output`,
-        path: token.path,
-        sourceFile: token.sourceFile,
-        severity: 'HIGH',
-      });
-      console.log(`    - ${token.path} (from ${token.sourceFile})`);
-    });
-    if (missingTokens.length > 10) {
-      console.log(`    ... and ${missingTokens.length - 10} more`);
-    }
-  }
+  reportMissingTokens(missingTokens);
+  reportExtraTokens(extraTokens);
 
-  // Report extra tokens (usually not an error, might be computed tokens)
-  if (extraTokens.length > 0) {
-    console.log(
-      `\n  ℹ️  ${extraTokens.length} tokens in output but not in source (may be computed):`
-    );
-    extraTokens.slice(0, 5).forEach((token) => {
-      results.warnings.push({
-        type: 'EXTRA_TOKEN',
-        message: `Token in output not found in source (may be computed)`,
-        path: token.path,
-        outputFile: token.outputFile,
-      });
-      console.log(`    - ${token.path} (in ${token.outputFile})`);
-    });
-    if (extraTokens.length > 5) {
-      console.log(`    ... and ${extraTokens.length - 5} more`);
-    }
-  }
-
-  // Calculate match rate
   const matchRate = (((sourceMap.size - missingTokens.length) / sourceMap.size) * 100).toFixed(2);
   console.log(`\n  📊 Transformation match rate: ${matchRate}%`);
 

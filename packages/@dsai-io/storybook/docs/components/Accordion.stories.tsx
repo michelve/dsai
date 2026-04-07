@@ -487,7 +487,7 @@ export const WithCallbacks: Story = {
             {events.length === 0 ? (
               <li style={{ color: 'var(--bs-secondary)' }}>No events yet...</li>
             ) : (
-              events.map((event, i) => <li key={`event-${i}-${event}`}>{event}</li>)
+              events.map((event) => <li key={event}>{event}</li>)
             )}
           </ul>
         </div>

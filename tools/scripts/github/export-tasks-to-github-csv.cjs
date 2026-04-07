@@ -47,46 +47,85 @@ function extractMetadataFields(lines, task) {
 }
 
 /**
+ * Check if a line is a dependency section header
+ */
+function isDependencySectionHeader(line) {
+  return line === '## Dependencies' || line === '## 🔗 Dependencies';
+}
+
+/**
+ * Check if a line is a description section header
+ */
+function isDescriptionSectionHeader(line) {
+  return line === '## 📋 Task Description' || line === '## Description';
+}
+
+/**
+ * Parse a dependency line and push the task ID to the appropriate list
+ */
+function parseDependencyLine(line, state, task) {
+  if (!state.inRequires && !state.inBlocks) {
+    return;
+  }
+  if (!line.startsWith('-')) {
+    return;
+  }
+  const taskIdMatch = /TASK-\d+/.exec(line);
+  if (taskIdMatch) {
+    const target = state.inRequires ? task.requires : task.blocks;
+    target.push(taskIdMatch[0]);
+  }
+}
+
+/**
+ * Process a line within the dependencies section
+ */
+function processDependencyLine(line, state, task) {
+  if (line.startsWith('## ') && !line.includes('Dependencies')) {
+    state.inDependencies = false;
+    state.inRequires = false;
+    state.inBlocks = false;
+    return;
+  }
+  if (line === '### Requires:' || line === '### Prerequisites') {
+    state.inRequires = true;
+    state.inBlocks = false;
+    return;
+  }
+  if (line === '### Blocks:') {
+    state.inBlocks = true;
+    state.inRequires = false;
+    return;
+  }
+  parseDependencyLine(line, state, task);
+}
+
+/**
  * Extract dependencies and description sections from lines
  */
 function extractSections(lines, task) {
   const descriptionLines = [];
-  let inDescription = false;
-  let inDependencies = false;
-  let inRequires = false;
-  let inBlocks = false;
+  const state = { inDescription: false, inDependencies: false, inRequires: false, inBlocks: false };
 
   for (const rawLine of lines) {
     const line = rawLine.trim();
 
-    if (line === '## Dependencies' || line === '## 🔗 Dependencies') {
-      inDependencies = true;
+    if (isDependencySectionHeader(line)) {
+      state.inDependencies = true;
       continue;
     }
-    if (line === '## 📋 Task Description' || line === '## Description') {
-      inDescription = true;
+    if (isDescriptionSectionHeader(line)) {
+      state.inDescription = true;
       continue;
     }
 
-    if (inDependencies) {
-      if (line.startsWith('## ') && !line.includes('Dependencies')) {
-        inDependencies = false; inRequires = false; inBlocks = false;
-        continue;
-      }
-      if (line === '### Requires:' || line === '### Prerequisites') { inRequires = true; inBlocks = false; continue; }
-      if (line === '### Blocks:') { inBlocks = true; inRequires = false; continue; }
-
-      if ((inRequires || inBlocks) && line.startsWith('-')) {
-        const taskIdMatch = line.match(/TASK-\d+/);
-        if (taskIdMatch) {
-          (inRequires ? task.requires : task.blocks).push(taskIdMatch[0]);
-        }
-      }
+    if (state.inDependencies) {
+      processDependencyLine(line, state, task);
     }
 
-    if (inDescription) {
+    if (state.inDescription) {
       if (line.startsWith('## ') && !line.includes('Task Description')) {
-        inDescription = false;
+        state.inDescription = false;
       } else {
         descriptionLines.push(line);
       }

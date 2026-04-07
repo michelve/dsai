@@ -13,8 +13,8 @@ function parseMarkdownDescriptions(mdContent) {
 
   let currentPath = null;
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
 
     // Match path line (e.g., "light.colors.brand.blue.100.$description")
     if (line.endsWith('.$description') && !line.startsWith('description=')) {

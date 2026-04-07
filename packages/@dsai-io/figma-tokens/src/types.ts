@@ -1185,12 +1185,14 @@ export interface SyncConflict {
 // Code Connect Types
 // ============================================================================
 
+type CodeConnectParser = 'react' | 'html' | 'swift' | 'compose';
+
 /**
  * Code Connect configuration
  */
 export interface CodeConnectConfig {
   /** Parser to use */
-  parser: 'react' | 'html' | 'swift' | 'compose';
+  parser: CodeConnectParser;
 
   /** Include patterns */
   include: string[];
@@ -1219,6 +1221,8 @@ export interface CodeConnectComponent {
   example?: string;
 }
 
+type CodeConnectPropType = 'boolean' | 'enum' | 'string' | 'instance';
+
 /**
  * Code Connect prop mapping
  */
@@ -1227,7 +1231,7 @@ export interface CodeConnectProp {
   figma: string;
 
   /** Prop type */
-  type?: 'boolean' | 'enum' | 'string' | 'instance';
+  type?: CodeConnectPropType;
 
   /** Enum value mappings */
   values?: Record<string, unknown>;
@@ -1257,12 +1261,14 @@ export interface FigmaEffectStyle {
   effects: FigmaEffect[];
 }
 
+type FigmaEffectType = 'DROP_SHADOW' | 'INNER_SHADOW' | 'LAYER_BLUR' | 'BACKGROUND_BLUR';
+
 /**
  * Figma effect (shadow, blur, etc.)
  */
 export interface FigmaEffect {
   /** Effect type */
-  type: 'DROP_SHADOW' | 'INNER_SHADOW' | 'LAYER_BLUR' | 'BACKGROUND_BLUR';
+  type: FigmaEffectType;
 
   /** Whether the effect is visible */
   visible: boolean;
@@ -1306,19 +1312,21 @@ export interface FigmaPaintStyle {
   paints: FigmaPaint[];
 }
 
+type FigmaPaintType =
+  | 'SOLID'
+  | 'GRADIENT_LINEAR'
+  | 'GRADIENT_RADIAL'
+  | 'GRADIENT_ANGULAR'
+  | 'GRADIENT_DIAMOND'
+  | 'IMAGE'
+  | 'EMOJI';
+
 /**
  * Figma paint (solid, gradient, image)
  */
 export interface FigmaPaint {
   /** Paint type */
-  type:
-    | 'SOLID'
-    | 'GRADIENT_LINEAR'
-    | 'GRADIENT_RADIAL'
-    | 'GRADIENT_ANGULAR'
-    | 'GRADIENT_DIAMOND'
-    | 'IMAGE'
-    | 'EMOJI';
+  type: FigmaPaintType;
 
   /** Whether the paint is visible */
   visible: boolean;
@@ -1346,6 +1354,8 @@ export interface FigmaGradientStop {
   /** Color at this stop */
   color: FigmaColor;
 }
+
+type FigmaTextCase = 'ORIGINAL' | 'UPPER' | 'LOWER' | 'TITLE';
 
 /**
  * Figma text style
@@ -1379,7 +1389,7 @@ export interface FigmaTextStyle {
   letterSpacing: FigmaLetterSpacing;
 
   /** Text case */
-  textCase?: 'ORIGINAL' | 'UPPER' | 'LOWER' | 'TITLE';
+  textCase?: FigmaTextCase;
 
   /** Text decoration */
   textDecoration?: 'NONE' | 'UNDERLINE' | 'STRIKETHROUGH';

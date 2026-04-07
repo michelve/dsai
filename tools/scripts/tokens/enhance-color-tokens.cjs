@@ -176,11 +176,14 @@ const colorScopes = [
  */
 function generateCodeSyntax(colorName, shade = null) {
   const varName = shade ? `${colorName}-${shade}` : colorName;
+  const androidSuffix = shade ? `.${shade}` : '';
+  const capitalizedName = colorName.charAt(0).toUpperCase() + colorName.slice(1);
+  const iosSuffix = shade ? `.shade${shade}` : '';
 
   return {
     WEB: `var(--bs-${varName})`,
-    ANDROID: `color.${colorName}${shade ? `.${shade}` : ''}`,
-    iOS: `Color.${colorName.charAt(0).toUpperCase() + colorName.slice(1)}${shade ? `.shade${shade}` : ''}`,
+    ANDROID: `color.${colorName}${androidSuffix}`,
+    iOS: `Color.${capitalizedName}${iosSuffix}`,
   };
 }
 

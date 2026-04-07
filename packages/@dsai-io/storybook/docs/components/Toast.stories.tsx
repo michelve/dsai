@@ -14,9 +14,6 @@ import { useState } from 'react';
 
 import type { ToastPosition } from '@dsai-io/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-
-const FONT_SIZE_SM = '0.875rem';
-const COLOR_SECONDARY = 'var(--bs-secondary)';
 import type { JSX } from 'react';
 
 /**

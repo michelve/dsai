@@ -701,7 +701,7 @@ function Modal({ isOpen, onClose }) {
             <li>Return focus to the trigger element when closing</li>
             <li>Include at least one focusable element (preferably a close button)</li>
             <li>
-              Use <code>aria-modal="true"</code> and <code>role="dialog"</code>
+              Use <code>aria-modal=&quot;true&quot;</code> and <code>role=&quot;dialog&quot;</code>
             </li>
           </ul>
         </Alert>
@@ -767,7 +767,7 @@ export const AnimationPreferences: Story = {
         <div>
           <Heading level={3}>Motion Preferences</Heading>
           <p style={{ color: 'var(--bs-secondary)', marginTop: '0.5rem', marginBottom: 0 }}>
-            Automatically respect user's <code>prefers-reduced-motion</code> setting. Enable it in
+            Automatically respect user&apos;s <code>prefers-reduced-motion</code> setting. Enable it in
             your OS accessibility settings to test.
           </p>
         </div>
@@ -873,7 +873,7 @@ const styles = {
         </div>
 
         <Alert variant="info" dismissible={false}>
-          <strong>Testing:</strong> Enable "Reduce motion" in your OS accessibility settings:
+          <strong>Testing:</strong> Enable &quot;Reduce motion&quot; in your OS accessibility settings:
           <ul style={{ marginTop: '0.5rem', marginBottom: 0, paddingLeft: '1.5rem' }}>
             <li>
               <strong>macOS:</strong> System Settings → Accessibility → Display → Reduce motion
@@ -988,7 +988,7 @@ export const APIReference: Story = {
                 <code>string</code>
               </td>
               <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
-                <code>'id'</code>
+                <code>&apos;id&apos;</code>
               </td>
               <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 Optional prefix for the generated ID
@@ -1101,10 +1101,10 @@ function announceToScreenReader(
                 <code>options.politeness</code>
               </td>
               <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
-                <code>'polite' | 'assertive'</code>
+                <code>&apos;polite&apos; | &apos;assertive&apos;</code>
               </td>
               <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
-                <code>'polite'</code>
+                <code>&apos;polite&apos;</code>
               </td>
               <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 Announcement priority
@@ -1118,7 +1118,7 @@ function announceToScreenReader(
                 <code>string</code>
               </td>
               <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
-                <code>'dsai-live-region'</code>
+                <code>&apos;dsai-live-region&apos;</code>
               </td>
               <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 Custom live region ID
@@ -1334,7 +1334,7 @@ function trapFocus(
           <code style={{ fontSize: '1.25rem' }}>getAnimationDuration</code>
         </Heading>
         <p style={{ marginTop: '0.5rem', color: 'var(--bs-secondary)' }}>
-          Get animation duration respecting user's motion preferences.
+          Get animation duration respecting user&apos;s motion preferences.
         </p>
 
         <pre
@@ -1395,7 +1395,7 @@ function getAnimationDuration(type: AnimationDuration): number`}
           <tbody>
             <tr>
               <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
-                <code>'fast'</code>
+                <code>&apos;fast&apos;</code>
               </td>
               <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 150ms
@@ -1406,7 +1406,7 @@ function getAnimationDuration(type: AnimationDuration): number`}
             </tr>
             <tr>
               <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
-                <code>'normal'</code>
+                <code>&apos;normal&apos;</code>
               </td>
               <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 300ms
@@ -1417,7 +1417,7 @@ function getAnimationDuration(type: AnimationDuration): number`}
             </tr>
             <tr>
               <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
-                <code>'slow'</code>
+                <code>&apos;slow&apos;</code>
               </td>
               <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 500ms
@@ -1428,7 +1428,7 @@ function getAnimationDuration(type: AnimationDuration): number`}
             </tr>
             <tr>
               <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
-                <code>'standard'</code>
+                <code>&apos;standard&apos;</code>
               </td>
               <td style={{ padding: '0.75rem', border: '1px solid var(--bs-border-color)' }}>
                 300ms

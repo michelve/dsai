@@ -35,10 +35,11 @@ for (const key in devResources) {
   }
 }
 
-/**
- * Running the process
- */
-run().catch(console.error);
+try {
+  await run();
+} catch (error) {
+  console.error(error);
+}
 
 /**
  * Gets all existing dev resources for the file and loads configuration from devResources.mjs.
@@ -99,8 +100,6 @@ async function run() {
   await createDevResources(creates);
   // Log the report
   console.log(`Possible: ${possibleCreateCount} • New: ${createCount} • Deleted: ${deleteCount}`);
-  // We're done!
-  return;
 }
 
 /**

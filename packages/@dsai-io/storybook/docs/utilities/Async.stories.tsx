@@ -50,9 +50,6 @@ const FONT_WEIGHT_MEDIUM = 'var(--dsai-typography-font-weight-medium)';
  * 5. **Type-Safe** - Full TypeScript support with proper generics
  */
 
-/** Font weight token used across story labels */
-const FONT_WEIGHT_MEDIUM = 'var(--dsai-typography-font-weight-medium)';
-
 const meta: Meta = {
   title: 'Utilities/Async',
   parameters: {
@@ -934,7 +931,7 @@ export const ExponentialBackoffDemo: Story = {
 
               return (
                 <div
-                  key={`attempt-${attempt}-${delay}`}
+                  key={`attempt-${delay}-${theoretical}`}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -1437,7 +1434,7 @@ export const QueueTaskDemo: Story = {
               <CircleFillIcon size="sm" aria-hidden /> Macrotask
             </strong>
             <p style={{ fontSize: '0.875rem', marginTop: '0.5rem', marginBottom: 0 }}>
-              After rendering. Use for non-urgent work that shouldn't block UI.
+              After rendering. Use for non-urgent work that shouldn&apos;t block UI.
             </p>
           </div>
           <div

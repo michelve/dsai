@@ -161,10 +161,6 @@ import { ArrowLeftIcon, CheckCircleFillIcon } from '@dsai-io/react';
 export default meta;
 type Story = StoryObj;
 
-/** Shared style constants to avoid duplicated literals (S1192) */
-const BORDER_RADIUS_LG = 'var(--dsai-border-radius-lg)';
-const BORDER_RADIUS_SM = 'var(--dsai-border-radius-sm)';
-const SPACING_2 = 'var(--dsai-spacing-2)';
 
 // =============================================================================
 // Helper Components

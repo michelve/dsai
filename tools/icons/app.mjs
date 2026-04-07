@@ -213,25 +213,28 @@ function generateCodeConnect(iconName, componentSetId) {
 /**
  * Clean SVG content for React compatibility
  */
+const SVG_CAMEL_CASE_PREFIXES = new Set([
+  'stroke', 'fill', 'line', 'clip', 'stop', 'color', 'font', 'text',
+  'letter', 'word', 'alignment', 'dominant', 'glyph', 'horiz', 'overline',
+  'paint', 'pointer', 'shape', 'strikethrough', 'underline', 'unicode',
+  'units', 'v', 'vert', 'writing', 'x',
+]);
+
 function cleanSvgContent(svg) {
   return (
     svg
-      // Convert kebab-case attributes to camelCase for React
-      .replaceAll(
-        /(stroke|fill|line|clip|stop|color|font|text|letter|word|alignment|dominant|glyph|horiz|overline|paint|pointer|shape|strikethrough|stroke|underline|unicode|units|v|vert|writing|x)-(.)/g,
-        (_, p1, p2) => p1 + p2.toUpperCase()
-      )
-      // Remove outer SVG tags (we wrap in our own)
+      .replaceAll(/([a-z]+)-(.)/g, (match, p1, p2) => {
+        if (SVG_CAMEL_CASE_PREFIXES.has(p1)) {
+          return p1 + p2.toUpperCase();
+        }
+        return match;
+      })
       .replaceAll(/<svg[^>]*>/g, '')
-      .replaceAll(/<\/svg>/g, '')
-      // Use currentColor for strokes and fills (inherits from CSS)
+      .replaceAll('</svg>', '')
       .replaceAll(/stroke="#[^"]+"/g, 'stroke="currentColor"')
       .replaceAll(/fill="#[^"]+"/g, 'fill="currentColor"')
-      // Handle fill="none" (keep as-is, common for stroke-only icons)
       .replaceAll(/fill="currentColor"([^>]*stroke)/g, 'fill="none"$1')
-      // Remove newlines for cleaner output
       .replaceAll('\n', '')
-      // Trim whitespace
       .trim()
   );
 }
@@ -262,12 +265,13 @@ async function run() {
   console.log('===================\n');
 
   // Fetch from Figma API or use cached data
-  if (!SKIP_REST_API) {
+  if (SKIP_REST_API) {
+    console.log('Using cached icons.json (--skip-rest-api flag detected)\n');
+  } else {
     console.log('Fetching icon data from Figma API...');
     const data = await getIconComponents();
     const names = data.map((a) => a.name).sort();
 
-    // Write intermediate files for debugging/caching
     fs.writeFileSync(
       './Icons.figma.txt',
       `import figma from '@figma/code-connect';\nimport { ${names.join(', ')} } from '@dsai-io/react/components/Icon';\n`
@@ -278,8 +282,6 @@ async function run() {
     );
     fs.writeFileSync('./icons.json', JSON.stringify(data, null, 2));
     console.log(`Cached ${data.length} icons to icons.json\n`);
-  } else {
-    console.log('Using cached icons.json (--skip-rest-api flag detected)\n');
   }
 
   // Parse the cached icon data
@@ -397,19 +399,19 @@ async function processFileResponse(response) {
 
   // Collect icon nodes
   const iconNodes = {};
-  parentNode.children.forEach((component) => {
-    const icon =
-      component.type === 'COMPONENT_SET'
-        ? component.children.find((child) => child.name === ICON_VARIANT_NAME)
-        : component.type === 'COMPONENT'
-          ? component
-          : null;
+  for (const component of parentNode.children) {
+    let icon = null;
+    if (component.type === 'COMPONENT_SET') {
+      icon = component.children.find((child) => child.name === ICON_VARIANT_NAME);
+    } else if (component.type === 'COMPONENT') {
+      icon = component;
+    }
 
     if (icon) {
       const iconName = toIconName(component.name);
       iconNodes[icon.id] = { name: iconName, componentSetId: component.id };
     }
-  });
+  }
 
   const nodeIds = Object.keys(iconNodes);
   console.log(`Found ${nodeIds.length} icons to process`);
@@ -518,4 +520,8 @@ async function processIconNode(nodeId, iconNodes, images) {
   };
 }
 
-run();
+try {
+  await run();
+} catch (error) {
+  console.error(error);
+}

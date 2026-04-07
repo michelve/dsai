@@ -70,12 +70,14 @@ class Issue {
   }
 
   toString() {
-    const severityColor =
-      this.severity === Severity.ERROR
-        ? colors.red
-        : this.severity === Severity.WARNING
-          ? colors.yellow
-          : colors.blue;
+    let severityColor;
+    if (this.severity === Severity.ERROR) {
+      severityColor = colors.red;
+    } else if (this.severity === Severity.WARNING) {
+      severityColor = colors.yellow;
+    } else {
+      severityColor = colors.blue;
+    }
     const categoryBadge = `[${this.category}]`;
 
     let output = `${severityColor}${this.severity.toUpperCase()}${colors.reset} ${colors.dim}${categoryBadge}${colors.reset}\n`;

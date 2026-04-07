@@ -95,7 +95,6 @@ const HTTP_TOO_MANY_REQUESTS = 429;
 /** HTTP 500+ Server Error threshold */
 const HTTP_SERVER_ERROR_THRESHOLD = 500;
 
-
 // ============================================================================
 // Font Detection Patterns (inspired by Figma SDS)
 // ============================================================================
@@ -586,7 +585,7 @@ export class FigmaClient {
   }
 
   private isNonRetryableError(error: unknown): boolean {
-    if (error instanceof FigmaClientError && error.status < 500) {
+    if (error instanceof FigmaClientError && error.status < HTTP_SERVER_ERROR_THRESHOLD) {
       return true;
     }
     return error instanceof FigmaConfigError;
@@ -1902,7 +1901,7 @@ export class FigmaClient {
       return { files: [], tokenCount: 0 };
     }
 
-    const sanitizedCollectionName = collection.name.toLowerCase()\.replaceAll(/\\s+/g, '-');
+    const sanitizedCollectionName = collection.name.toLowerCase().replaceAll(/\s+/g, '-');
     const filePath = `${options.outputDir}/${sanitizedCollectionName}.json`;
     await this.writeTokenFile(filePath, combinedTokens);
 
@@ -1934,8 +1933,8 @@ export class FigmaClient {
         continue;
       }
 
-      const sanitizedCollectionName = collection.name.toLowerCase()\.replaceAll(/\\s+/g, '-');
-      const sanitizedModeName = mode.name.toLowerCase()\.replaceAll(/\\s+/g, '-');
+      const sanitizedCollectionName = collection.name.toLowerCase().replaceAll(/\s+/g, '-');
+      const sanitizedModeName = mode.name.toLowerCase().replaceAll(/\s+/g, '-');
       const fileName =
         collection.modes.length > 1
           ? `${sanitizedCollectionName}.${sanitizedModeName}.json`

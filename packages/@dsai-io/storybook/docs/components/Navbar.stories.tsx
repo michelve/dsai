@@ -989,7 +989,7 @@ export const WithCallback: Story = {
             {events.length === 0 ? (
               <li style={{ color: 'var(--bs-secondary)' }}>Toggle the menu to see events...</li>
             ) : (
-              events.map((event, i) => <li key={`event-${i}-${event}`}>{event}</li>)
+              events.map((event) => <li key={event}>{event}</li>)
             )}
           </ul>
         </div>
