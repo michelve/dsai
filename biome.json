@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**/*", "!static", "!coverage", "!dist", "!**/test/fixtures/**/invalid"]
+    "includes": ["**/*", "!static", "!coverage", "!dist", "!**/test/fixtures/**/invalid", "!sonar-issues"]
   },
   "formatter": {
     "enabled": true,

@@ -71,6 +71,9 @@ export default [
 
       // Editor/OS
       '.DS_Store',
+
+      // SonarQube issue reports
+      'sonar-issues/**',
     ],
   },
 

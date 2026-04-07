@@ -185,5 +185,9 @@
   // ============================
   // Sass Compiler (disabled – build uses pnpm)
   // ============================
-  "liveSassCompile.settings.autoCompile": false
+  "liveSassCompile.settings.autoCompile": false,
+  "sonarlint.connectedMode.project": {
+    "connectionId": "http-192-168-5-242-9000-",
+    "projectKey": "dsai"
+  }
 }

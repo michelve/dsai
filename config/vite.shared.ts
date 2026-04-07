@@ -1,7 +1,7 @@
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import type { UserConfig } from 'vite';
+import type { UserConfig } from 'vite'; // NOSONAR S4328 — vite is a devDependency of consuming packages (storybook, playground)
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
